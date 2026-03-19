@@ -1,294 +1,165 @@
-Return-Path: <linux-media+bounces-56330-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56331-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6M+iCbrju2njpQIAu9opvQ
-	(envelope-from <linux-media+bounces-56330-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 12:53:30 +0100
+	id eIYhEsnlu2njpQIAu9opvQ
+	(envelope-from <linux-media+bounces-56331-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 13:02:17 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883D92CAA95
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 12:53:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E80E2CACEC
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 13:02:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C2898307811D
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 11:51:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3D19C323B083
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 11:57:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD57C379EFD;
-	Thu, 19 Mar 2026 11:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WVf4TMDs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE1683CE496;
+	Thu, 19 Mar 2026 11:56:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798F73CB2CC
-	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 11:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBC83CE48C;
+	Thu, 19 Mar 2026 11:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773921025; cv=none; b=LR6dFSAFf9M8Der7sWJNiw5sjuvGKWtpsdVonCcL7JHaaGU/HmonOYCSZgPbxj/PDlW414aLKuXywTbK5dk2mANclZGUZrwTyaSsmrz2gkwVkfiRavxS6n40sFm1hXtB2lEfoayxJ/3GXmsjmxN/QoMqJICN50VjIxte6a0C+l8=
+	t=1773921362; cv=none; b=eJdOoClSQyiujyw85FHl8u0MrDHBTRdzOql/dgXdcCXLj+hWMdwYeZMczjXrI0qCEhuN5D5x9iPm/+lsQf/v9g3HVoVCc2+vXZAjK3o+kZisYvM33BpEweFNOh3kTEgGojrb6j12Fr2ocnSLbic+N/AgzE9GNxGilrOhEhbeY5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773921025; c=relaxed/simple;
-	bh=4No9jHcLucZz5Y6qhxF2VscVMp1VC+yGU8FIp2/cXpY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sKZv620Opez4tfYxGACdTGs8OBwKgme4NuJlbFRTl1/vyl/19HH+ivuVWop/kYEgHZPZBp7Yd3fATR2bNr1s+8/FXl98DJBiMh8buI/hQB/yVIFSjLFbCdlbPDsqwPoho9A4RgZLrNR4LXM+XtUYPU+m2VopJz9ASYlaXr5ofzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WVf4TMDs; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773921022; x=1805457022;
-  h=date:from:to:cc:subject:message-id;
-  bh=4No9jHcLucZz5Y6qhxF2VscVMp1VC+yGU8FIp2/cXpY=;
-  b=WVf4TMDsBGy6SSeNREViJiwHVw+AUNjhnoijKcWRhvSlVHGWJ1cIVOWz
-   hbPlJJF7u0u+tE8OGSN/yTIGjXYLnuHa9eQzHpAS6Qd3gX/SQ455PEU7k
-   7XIbsWx3fVeKIHx6xZVLK7fUWCjzSEdrzW3K9oX+CbmK4tZIA0t1NLFfA
-   5Jw4U7YdCgpwPHRv01/ak+tr+7uSz9EqU14TDKt4oq6Z6RyVDuWyVOpBB
-   Ty5OnaVt44wQusppBvoHKE6xGoHaBivd5YhN7RD+qoPEuBvei+lSOZe27
-   6tfbQl7YN7IoiIBIZcIyLC1COqklhv9RhDJh9HPi3vxV/t8LJIek2MIuo
-   g==;
-X-CSE-ConnectionGUID: 7tvkgqIwRrS/cfmuGdTjAQ==
-X-CSE-MsgGUID: mP874W4QRzOrio6BOL+TuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="92371450"
-X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="92371450"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 04:50:22 -0700
-X-CSE-ConnectionGUID: CoHcZ188T6+yOo2nTMsxYw==
-X-CSE-MsgGUID: oDFVC08bRtueSRU/GCy0tg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="227880320"
-Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 19 Mar 2026 04:50:21 -0700
-Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w3BtK-000000000uB-01kL;
-	Thu, 19 Mar 2026 11:50:18 +0000
-Date: Thu, 19 Mar 2026 19:47:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@kernel.org>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-pending:fixes] BUILD SUCCESS
- e8d97c270cb46a2a88739019d0f8547adc7d97da
-Message-ID: <202603191931.pss86iFP-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1773921362; c=relaxed/simple;
+	bh=dAVUH9mB3teH6dDCtop5iHuqb/WwubXRW7awteRoxNA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=b56upgmMOEpG4mn9Zbv9KMQJwfL9HOq8loKtiB7eP7fp6XEPVroLiMB7enzoNK3H3WMohaCrXM/BtnAnfTUynDvFao6IGfMO2tmmqNf6ouWU5iKFVQ3+8q4do/zfdeZqzv3X2P0q0UWD8jTNHEYsVDBXxyUUNYeh0P89m1Mpgok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from [192.168.2.4] (51b68cef.dsl.pool.telekom.hu [::ffff:81.182.140.239])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 00000000000C70AD.0000000069BBE316.0007D3DF; Thu, 19 Mar 2026 12:50:46 +0100
+Message-ID: <3f4d7dc75346339dd8dfc89c473587ce0f140958.camel@irl.hu>
+Subject: Re: [PATCH v3 4/4] media: uvcvideo: RFC: Convert
+ allow_privacy_override into Kconfig
+From: Gergo Koteles <soyer@irl.hu>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+  Hans de Goede <hansg@kernel.org>,
+  Mauro Carvalho Chehab <mchehab@kernel.org>,
+  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+  linux-usb@vger.kernel.org
+Date: Thu, 19 Mar 2026 12:50:46 +0100
+In-Reply-To: <CANiDSCvJnwGix2fZU7KygM8zC1sizkgrW-BVyESnMcmXhGE+zw@mail.gmail.com>
+References: <20260316-uvcdynctrl-v3-0-19cd4657e1f3@chromium.org>
+	 <20260316-uvcdynctrl-v3-4-19cd4657e1f3@chromium.org>
+	 <2026031852-unplowed-ocelot-142a@gregkh>
+	 <CANiDSCvJnwGix2fZU7KygM8zC1sizkgrW-BVyESnMcmXhGE+zw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+MIME-Version: 1.0
+X-Spamd-Result: default: False [-1.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[irl.hu : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56330-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56331-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.936];
 	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-0.991];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[soyer@irl.hu,linux-media@vger.kernel.org];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	R_DKIM_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:dkim,intel.com:mid,linuxtv.org:url]
-X-Rspamd-Queue-Id: 883D92CAA95
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,reddit.com:url,irl.hu:mid]
+X-Rspamd-Queue-Id: 7E80E2CACEC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree/branch: https://git.linuxtv.org/media-ci/media-pending.git fixes
-branch HEAD: e8d97c270cb46a2a88739019d0f8547adc7d97da  media: verisilicon: Fix kernel panic due to __initconst misuse
+Hi Ricardo,
 
-elapsed time: 1130m
+On Wed, 2026-03-18 at 15:57 +0100, Ricardo Ribalda wrote:
+> Hi Greg
+>=20
+> On Wed, 18 Mar 2026 at 15:17, Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >=20
+> > On Mon, Mar 16, 2026 at 01:34:47PM +0000, Ricardo Ribalda wrote:
+> > > This patch is just shared for discussion purposes! Do not land.
+> > >=20
+> > > In a perfect world, after a deprecation process, we will be able to
+> > > remove allow_privacy_override and block all privacy related controls.
+> >=20
+> > Why add something you are only going to remove in the future?  What has
+> > changed to require this now, and will change in the future to make it
+> > not needed?
+>=20
+> Currently, any application with camera access can manipulate the
+> privacy LED. I believe this is a security flaw; ideally, the kernel
+> should block all such controls by default.
+>=20
+> However, blocking these controls immediately might be seen as a
+> regression for certain users. I added allow_privacy_override to:
+> - Prevent breaking existing workflows immediately upon a kernel update.
+> - Give users time to report why they still need manual LED control.
+>=20
+> The goal is to gather these use cases over the next 1=E2=80=932 years. On=
+ce we
+> understand the legitimate needs, we can either implement a proper
+> specialized mechanism for them or move the toggle to a Kconfig option
+> for those who explicitly need to opt-in to the old behavior or simply
+> remove the toggle altogether.
+>=20
+> For the record, identified use cases so far:
+> - Old hardware with red LEDs that reflect on glasses. (Likely a dying nic=
+he).
 
-configs tested: 169
-configs skipped: 2
+Older Logitech cameras, like the c920, have fairly large LEDs that can
+be reflective, and it's hard to cover them up aesthetically. Laurent
+wrote [1] that's why Logitech added this functionality a long time ago.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+You can find old Logitech software for Windows that still allows you to
+turn off the LEDs [2]. I tried it in a Win10 VM and it really works.
 
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-arc                              allmodconfig    clang-16
-arc                              allmodconfig    gcc-15.2.0
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    clang-23
-arc                   randconfig-001-20260319    gcc-11.5.0
-arc                   randconfig-002-20260319    gcc-11.5.0
-arm                               allnoconfig    clang-23
-arm                               allnoconfig    gcc-15.2.0
-arm                              allyesconfig    clang-16
-arm                              allyesconfig    gcc-15.2.0
-arm                   randconfig-001-20260319    gcc-11.5.0
-arm                   randconfig-002-20260319    gcc-11.5.0
-arm                   randconfig-003-20260319    gcc-11.5.0
-arm                   randconfig-004-20260319    gcc-11.5.0
-arm64                            allmodconfig    clang-23
-arm64                             allnoconfig    gcc-15.2.0
-arm64                 randconfig-001-20260319    gcc-15.2.0
-arm64                 randconfig-002-20260319    gcc-15.2.0
-arm64                 randconfig-003-20260319    gcc-15.2.0
-arm64                 randconfig-004-20260319    gcc-15.2.0
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                  randconfig-001-20260319    gcc-15.2.0
-csky                  randconfig-002-20260319    gcc-15.2.0
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    gcc-15.2.0
-hexagon                           allnoconfig    clang-23
-hexagon                           allnoconfig    gcc-15.2.0
-hexagon               randconfig-001-20260319    gcc-11.5.0
-hexagon               randconfig-002-20260319    gcc-11.5.0
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    gcc-14
-i386                              allnoconfig    gcc-15.2.0
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20260319    gcc-14
-i386        buildonly-randconfig-002-20260319    gcc-14
-i386        buildonly-randconfig-003-20260319    gcc-14
-i386        buildonly-randconfig-004-20260319    gcc-14
-i386        buildonly-randconfig-005-20260319    gcc-14
-i386        buildonly-randconfig-006-20260319    gcc-14
-i386                  randconfig-001-20260319    gcc-14
-i386                  randconfig-002-20260319    gcc-14
-i386                  randconfig-003-20260319    gcc-14
-i386                  randconfig-004-20260319    gcc-14
-i386                  randconfig-005-20260319    gcc-14
-i386                  randconfig-006-20260319    gcc-14
-i386                  randconfig-007-20260319    gcc-14
-loongarch                        allmodconfig    clang-23
-loongarch                         allnoconfig    clang-23
-loongarch                         allnoconfig    gcc-15.2.0
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20260319    gcc-11.5.0
-loongarch             randconfig-002-20260319    gcc-11.5.0
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    clang-16
-m68k                             allyesconfig    gcc-15.2.0
-m68k                                defconfig    clang-19
-m68k                          sun3x_defconfig    gcc-15.2.0
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-microblaze                          defconfig    clang-19
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-nios2                            allmodconfig    clang-23
-nios2                             allnoconfig    clang-23
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    clang-19
-nios2                 randconfig-001-20260319    gcc-11.5.0
-nios2                 randconfig-002-20260319    gcc-11.5.0
-openrisc                         allmodconfig    clang-23
-openrisc                          allnoconfig    clang-23
-openrisc                          allnoconfig    gcc-15.2.0
-openrisc                            defconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    clang-23
-parisc                            allnoconfig    gcc-15.2.0
-parisc                           allyesconfig    clang-19
-parisc                           allyesconfig    gcc-15.2.0
-parisc                              defconfig    gcc-15.2.0
-parisc                randconfig-001-20260319    clang-19
-parisc                randconfig-002-20260319    clang-19
-parisc64                            defconfig    clang-19
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    clang-23
-powerpc                           allnoconfig    gcc-15.2.0
-powerpc               randconfig-001-20260319    clang-19
-powerpc               randconfig-002-20260319    clang-19
-powerpc64             randconfig-001-20260319    clang-19
-powerpc64             randconfig-002-20260319    clang-19
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    clang-23
-riscv                             allnoconfig    gcc-15.2.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    gcc-15.2.0
-s390                             allmodconfig    clang-18
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-15.2.0
-s390                                defconfig    gcc-15.2.0
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    clang-23
-sh                                allnoconfig    gcc-15.2.0
-sh                               allyesconfig    clang-19
-sh                               allyesconfig    gcc-15.2.0
-sh                                  defconfig    gcc-14
-sparc                             allnoconfig    clang-23
-sparc                             allnoconfig    gcc-15.2.0
-sparc                               defconfig    gcc-15.2.0
-sparc                 randconfig-001-20260319    gcc-8.5.0
-sparc                 randconfig-002-20260319    gcc-8.5.0
-sparc64                          allmodconfig    clang-23
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260319    gcc-8.5.0
-sparc64               randconfig-002-20260319    gcc-8.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-14
-um                               allyesconfig    gcc-15.2.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260319    gcc-8.5.0
-um                    randconfig-002-20260319    gcc-8.5.0
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-20
-x86_64                            allnoconfig    clang-23
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20260319    clang-20
-x86_64      buildonly-randconfig-002-20260319    clang-20
-x86_64      buildonly-randconfig-003-20260319    clang-20
-x86_64      buildonly-randconfig-004-20260319    clang-20
-x86_64      buildonly-randconfig-005-20260319    clang-20
-x86_64      buildonly-randconfig-006-20260319    clang-20
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20260319    gcc-14
-x86_64                randconfig-002-20260319    gcc-14
-x86_64                randconfig-003-20260319    gcc-14
-x86_64                randconfig-004-20260319    gcc-14
-x86_64                randconfig-005-20260319    gcc-14
-x86_64                randconfig-006-20260319    gcc-14
-x86_64                randconfig-011-20260319    gcc-13
-x86_64                randconfig-012-20260319    gcc-13
-x86_64                randconfig-013-20260319    gcc-13
-x86_64                randconfig-014-20260319    gcc-13
-x86_64                randconfig-015-20260319    gcc-13
-x86_64                randconfig-016-20260319    gcc-13
-x86_64                randconfig-071-20260319    clang-20
-x86_64                randconfig-072-20260319    clang-20
-x86_64                randconfig-073-20260319    clang-20
-x86_64                randconfig-074-20260319    clang-20
-x86_64                randconfig-075-20260319    clang-20
-x86_64                randconfig-076-20260319    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    clang-23
-xtensa                            allnoconfig    gcc-15.2.0
-xtensa                           allyesconfig    clang-23
-xtensa                randconfig-001-20260319    gcc-8.5.0
-xtensa                randconfig-002-20260319    gcc-8.5.0
+The c920 is a very popular camera, still available in stores today.
+Amazon says it sells 12k of them per month [3].
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+1:
+https://lore.kernel.org/all/20251119041907.GH10711@pendragon.ideasonboard.c=
+om/
+
+2: https://www.reddit.com/r/logitech/comments/v641x6/comment/nr22zo7/
+
+3: https://www.amazon.com/s?k=3Dlogitech+c920
+
+> - Using cameras as baby monitors where the LED disturbs sleep.
+
+And pet cameras and surveillance cameras don't need LEDs either.
+
+> (Arguably solvable with a piece of tape on the LED, but still a
+> reported use case).
+>=20
+
+Furthermore, if we filter these two Logitech XUs, we could then add the
+similar XUs of the camera modules in laptops and this could be an ever-
+growing list.
+
+>=20
+Best regards,
+Gergo Koteles
 
