@@ -1,173 +1,208 @@
-Return-Path: <linux-media+bounces-56302-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56303-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YE4HGP2nu2mnmQIAu9opvQ
-	(envelope-from <linux-media+bounces-56302-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 08:38:37 +0100
+	id mJXmJ/+tu2k8mgIAu9opvQ
+	(envelope-from <linux-media+bounces-56303-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 09:04:15 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6132C75E3
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 08:38:36 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D962C79FC
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 09:04:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3379E3084618
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 07:37:20 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 94D713016AD4
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 08:04:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81F5B3A1692;
-	Thu, 19 Mar 2026 07:37:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 005683A6F09;
+	Thu, 19 Mar 2026 08:04:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DlBNNf+c"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="a8OcSNGB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2183A0B11
-	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 07:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B344358362;
+	Thu, 19 Mar 2026 08:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773905838; cv=none; b=KO84oHyw30Vevgenvfdt7uFrojoteR07YUmQKPydi7mzUs3+gx08ScdG7bpz3E2Z0UCL9pxEuskbT9USOjT8q0NTEUCNgmua4QQBEQL9mgZVrV2wxhv5RfOqNDGzRDw7t2LcoW8FfqT5gXK5BwGHPDuBGUNG8ZpmnbtmBvqnkc0=
+	t=1773907451; cv=none; b=UGZTOSIEdhlVx/+OWfiR4NsN0cpJrMNlR3zscaZ8HwlE5cXT3wcVF3QaM7+iHkda+B0ST+D7qac6WLQPygY9YXq5sNTPEncFy2/IxYWzh+feDLIQDENb0EjkMXPYq063EzYWI1T9+n/v9O79xZxyd54FM7vXXLUspkmAc+eeNeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773905838; c=relaxed/simple;
-	bh=5GlKQPm6S7BT7ZpyaFyITs7NatqZk5qI94iTbqaqVys=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rax2WbPBTIT5KbPnYnd8F8coX8lkxZFPy93QgtX2IhUt7LWMFBNnkmWqjRjgZrYCcp3Z2TxVGU4cy2wttcmDjhwLSloOKuoh/zEdWf9HIFtfgACNtr27AEUYG+2Rx64NUGPH7Wm8K4j0WoC5L0M4AJeIhux6lKV+/JVoq2C4Ghg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DlBNNf+c; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773905837; x=1805441837;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5GlKQPm6S7BT7ZpyaFyITs7NatqZk5qI94iTbqaqVys=;
-  b=DlBNNf+cxTobim9+KTslwDeQ4Y2eNVfuRJ/fSCXZZA7XL7HSnPnpMUdc
-   nMOGag0ZweDR/9RCkObRADOoyxfd4g8Xtaftcn6xahAdqxKn1LidGzucN
-   yciYE8IkW9rDjWT9viZNX30o9IVT/Z2suB9a15MjHV9QRL+h0RpUHDrgl
-   1KOcENQ5LxMMiQ/WBr+SdR5aioEAHLeImOqTMV78Z43/vsjvFZkfWmMS7
-   ua46DrUjsGN1tIEtuoKPsqEAqnoKMZqMVl96GC8SP434UHGzq4Y4PmqVj
-   K6I2XttfXEBAEn+8HMckTS2q/HT7vLUeFx3aXIoXzUTnbIMz8TZL0i9Dc
-   g==;
-X-CSE-ConnectionGUID: SCsHuGdoTHSYuaz4biDA3w==
-X-CSE-MsgGUID: hdzOkmA6Q6Ory5eSXWP7mQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="85289464"
-X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="85289464"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 00:37:17 -0700
-X-CSE-ConnectionGUID: hTXmQQTHQe6ldpGx1GmUjA==
-X-CSE-MsgGUID: pn68SoZEROG3KTRdJgQFzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="260779971"
-Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 19 Mar 2026 00:37:13 -0700
-Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w37vQ-000000000Ur-1qmr;
-	Thu, 19 Mar 2026 07:36:43 +0000
-Date: Thu, 19 Mar 2026 15:34:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bradford Love <brad@nextdimension.cc>, linux-media@vger.kernel.org,
-	hverkuil+cisco@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Bradford Love <brad@nextdimension.cc>
-Subject: Re: [PATCH v2] media: au0828: Fix green screen in analog
-Message-ID: <202603191517.dqbfX1as-lkp@intel.com>
-References: <20260317172820.2959499-1-brad@nextdimension.cc>
+	s=arc-20240116; t=1773907451; c=relaxed/simple;
+	bh=oddScRKYzaeDQ9pGWNCQ6oWoxk9xdprHLqYG2eBVmlQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dYDOshDJt3CCTY2OBLQeEOuF/7QnRMXMXEmg/PaXe3BXiL3fh40n4dlzwbSUGni6ya5lHVnA1TSmexDwwCMti7LIZz7RjH2P/auaBhJ9RPkdkeYgUchJm9j8gp4wL+5p0gAFypVMXbyrHy9YaWAXs3hwAeXlUDw15Lr/1kedjPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=a8OcSNGB; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1773907448;
+	bh=oddScRKYzaeDQ9pGWNCQ6oWoxk9xdprHLqYG2eBVmlQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=a8OcSNGBcqdOsgpeikZ6TXswpBrTS9I3QHnKk4mNa0ibBWD068edwm47HjayT4h9W
+	 kxWXUEBdKKC3YD7ccz827IEJHKzS+rNgyqGqeYACcKdFDPNLbot5QEmfSaYqxiNZef
+	 Z7Me4f46esE/NOqrpk5CnbXQb6wR7RTn8E0qZq7mq9DoIfsAk01VzTJo2FSBq8ZZGc
+	 LsHtwOI8bBu5RjlzRVl7IoJAvLTZ2O4HTJyXlwwqo8OT6fexWio6egKG2laLdeJ0RM
+	 cfmnbWJPA03dE3djLFFy3BHb+pBsujxk8g5X/ZGCXG90x3S3PipBHzGxjnmySWmJEG
+	 PGL7qpyblQgng==
+Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 79FE417E0EB4;
+	Thu, 19 Mar 2026 09:04:07 +0100 (CET)
+Message-ID: <d9a9be92-7439-4899-8be2-adf7f0490790@collabora.com>
+Date: Thu, 19 Mar 2026 09:04:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260317172820.2959499-1-brad@nextdimension.cc>
-X-Spamd-Result: default: False [0.34 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/9] media: dt-bindings: add rockchip rk3588 vicap
+To: Conor Dooley <conor@kernel.org>
+Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Kever Yang <kever.yang@rock-chips.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ =?UTF-8?B?0JrRg9C30L3QtdGG0L7QsiDQnNC40YXQsNC40Ls=?=
+ <mai.kuznetsov.misha@gmail.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Collabora Kernel Team <kernel@collabora.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20250430-rk3588-vicap-v2-0-77de5ee9048e@collabora.com>
+ <20250430-rk3588-vicap-v2-2-77de5ee9048e@collabora.com>
+ <20260318-mumbo-lumber-b550932a5423@spud>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <20260318-mumbo-lumber-b550932a5423@spud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56302-lists,linux-media=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-56303-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,ideasonboard.com,kernel.org,sntech.de,rock-chips.com,amarulasolutions.com,gmail.com,collabora.com,vger.kernel.org,lists.infradead.org];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.991];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-0.977];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,01.org:url]
-X-Rspamd-Queue-Id: CA6132C75E3
+	FROM_NEQ_ENVFROM(0.00)[michael.riesch@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:mid]
+X-Rspamd-Queue-Id: 40D962C79FC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Bradford,
+Hi Conor,
 
-kernel test robot noticed the following build warnings:
+On 3/18/26 18:52, Conor Dooley wrote:
+> [...]
+>>  
+>>    resets:
+>> -    items:
+>> -      - description: ARST
+>> -      - description: HRST
+>> -      - description: DRST
+>> -      - description: PRST
+>> -      - description: IRST
+>> +    minItems: 5
+>> +    maxItems: 9
+>>  
+>>    reset-names:
+>> -    items:
+>> -      - const: arst
+>> -      - const: hrst
+>> -      - const: drst
+>> -      - const: prst
+>> -      - const: irst
+>> +    minItems: 5
+>> +    maxItems: 9
+> 
+>> +allOf:
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            const: rockchip,rk3568-vicap
+>> +    then:
+>> +      properties:
+>> +        clocks:
+>> +          minItems: 4
+>> +          maxItems: 4
+> 
+> Anything here that repeats the outermost constraint should be dropped,
+> so no minItems here..
 
+I already took a look at similar VICAPs (e.g., R3576) that will have
+more clocks. This is way I left this one in here.
 
+But I guess I will remove it and add it again when e.g. RK3576 VICAP
+support is added.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20260318-180458/Bradford-Love/si2157-Analog-format-fixes/20260314-162352
-base:   the 5th patch of https://lore.kernel.org/r/20260312213532.2907276-6-brad%40nextdimension.cc
-patch link:    https://lore.kernel.org/r/20260317172820.2959499-1-brad%40nextdimension.cc
-patch subject: [PATCH v2] media: au0828: Fix green screen in analog
-config: hexagon-randconfig-001-20260319 (https://download.01.org/0day-ci/archive/20260319/202603191517.dqbfX1as-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 4abb927bacf37f18f6359a41639a6d1b3bffffb5)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260319/202603191517.dqbfX1as-lkp@intel.com/reproduce)
+>> [...]
+> 
+>> +
+>> +        reset-names:
+>> +          items:
+>> +            - const: arst
+>> +            - const: hrst
+>> +            - const: drst
+>> +            - const: irst0
+> 
+> Were you willing to reuse "irst" for the 0th irst, all the repetition
+> wouldn't be needed. I assume it represents the reset for the port at
+> address 0, so it wouldn't even be a different meaning on each device.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603191517.dqbfX1as-lkp@intel.com/
+Not quite I think. "{a,h,d}rst" are the same on all variants, then there
+is "prst" and "irst" on RK3568 and "irst{0-5}" on RK3588. So I thought
+that writing it out explicitly for each variant is more readable (even
+though it may need a few characters more).
 
-All warnings (new ones prefixed by >>):
+OK?
 
->> drivers/media/usb/au0828/au0828-video.c:1676:23: warning: unused variable 'vdev' [-Wunused-variable]
-    1676 |         struct video_device *vdev = video_devdata(file);
-         |                              ^~~~
-   1 warning generated.
+I'll try to send out a new version later today.
 
+Best regards,
+Michael
 
-vim +/vdev +1676 drivers/media/usb/au0828/au0828-video.c
+> 
+>> +            - const: irst1
+>> +            - const: irst2
+>> +            - const: irst3
+>> +            - const: irst4
+>> +            - const: irst5
+>> +
+>>  additionalProperties: false
+>>  
+>>  examples:
+>>
+>> -- 
+>> 2.39.5
+>>
+>>
 
-  1673	
-  1674	static int vidioc_dqbuf(struct file *file, void *priv, struct v4l2_buffer *b)
-  1675	{
-> 1676		struct video_device *vdev = video_devdata(file);
-  1677		struct au0828_dev *dev = video_drvdata(file);
-  1678		int rc;
-  1679	
-  1680		rc = check_dev(dev);
-  1681		if (rc < 0)
-  1682			return rc;
-  1683	
-  1684		/* Workaround for a bug in the au0828 hardware design that
-  1685		 * sometimes results in the colorspace being inverted
-  1686		 */
-  1687		if (dev->greenscreen_detected == 1) {
-  1688			dprintk(1, "Detected green frame.  Resetting stream...\n");
-  1689			au0828_analog_stream_reset(dev);
-  1690			dev->greenscreen_detected = 0;
-  1691		}
-  1692	
-  1693		return vb2_ioctl_dqbuf(file, priv, b);
-  1694	}
-  1695	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
