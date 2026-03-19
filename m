@@ -1,575 +1,202 @@
-Return-Path: <linux-media+bounces-56337-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56338-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +IdFJtX5u2llqwIAu9opvQ
-	(envelope-from <linux-media+bounces-56337-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 14:27:49 +0100
+	id IHlaFtQCvGmurAIAu9opvQ
+	(envelope-from <linux-media+bounces-56338-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 15:06:12 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A23E2CBF8A
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 14:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CB072CC60A
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 15:06:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C681F301C6EE
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 13:27:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6B93A3017269
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 14:05:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 572C33D47B0;
-	Thu, 19 Mar 2026 13:27:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 242913093C6;
+	Thu, 19 Mar 2026 14:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Kw7tC1sX"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zOQ2VIIK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012025.outbound.protection.outlook.com [40.107.200.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31513B19D9
-	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 13:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773926852; cv=fail; b=fFcWh7wo9iATL2sqzLgthobpvT+h9glDYj7QQ4ojC4tFmQl0hjxB/kiH+PWUTga71mOVkp99ufjTz2/Y2kQxnWiPdYF9aj4QC12zclIoGztBJg9TqJolrJj3HTuCqBVkTe+NQwPRRwlX4uleg8Ar6rojMDAnwZMvIlNGSkMRPc8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773926852; c=relaxed/simple;
-	bh=NRduZxVR0BQli1VmLd2Z6F9qFQrFiDxyZ9dmK5o/ZdQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=qwLJ5zxTA8TQj0XYAu1zyCP7ciJXvpfaG8fN34hRnm3+OCTvryWBLS2GUlexE882/yr3MEN+RhHmdAs08eR5HwoNsVfTztgDEEzHW66axg2n/KjBCV//ZIFJDyyDVoo9oVM5RO4PacgWNthBMOwxog5IMKZOyW27ckjJD9pDYBM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Kw7tC1sX; arc=fail smtp.client-ip=40.107.200.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D++aePUBIan5EieyPMWoOIKdLDZA/zOSp03Ej+KBm/dTL8tkh5QIrFyjcDnXNnM0ZZnc/ZIDg8yfSqdqScIKEWe0iuLwY7jLHIxKaMm2ZgfwwKkvCza7Eo9fPSzzq7DTR8rJWxR14viFKgOui+s7aVPRWHkoX2TK+a/XmRqhnsb2atrAdhLE41GD6pywgLqcFTwN5Piu7vhMibMwcb2pfi0IkEAsJ+vKdjFnwoqLAH+5/DBMBAE/sMqAfH/1Ce6er3dIjM/yhV4rPqgC/o2VcHFVEmaS7LFOvGn9rmZQHys4m9FVrTtB5pNzsyUR6FoxER+CNk6RvkWCJhdjxGxODA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X4XJ0+ZbTiwtwbNzXxTL9BKE1ZwdG/Cg3FQ25MnlBZo=;
- b=IZ6sX12ibDnuIqAVzDlbgTtWCSk+j6QxKDRLHrxTrH9fAE6j4/W1nOdexdMGxflirt2a2OhoHSJ6gNVfDVOPQdKv/7+dsApgqNmXCSyZPvPVLk/nUOpl3SnqOQ6vKUxt03Bbgxp6TFCDVEWVxd1PUq9CNw+jfOH0MkrBt08dMMY2gubOApM6vIfhkcch0lSbV/FQRoggl48oTSYLLOO0RlIeXxB/5v72giuhgEHuYAsoECzvZ4Dkg4bl7SUwq3pxxaPvTE6HC2H1zsRDiLLQPyTXoyyrEDcIN1JdQ8z5/JkHtQqkaoa8nT/FRz9lfNhgd5xr3iePLIcEvdzfxLNm8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X4XJ0+ZbTiwtwbNzXxTL9BKE1ZwdG/Cg3FQ25MnlBZo=;
- b=Kw7tC1sXnV4jOmfFMFgVr1BzN7+MAdmrTJY/qKIs71Pjb4Ip7iIhenLOYSpe2+Djes/LRXlzR/Wchdcx9STTpoGpGduVKGwVb6VKc+noWdPE63jfIZpGPjTte/P8dYpTa7w25AnnfQC4UmyKn8ndD+fIA8gu7bLyrH5OijMTm2w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH8PR12MB7159.namprd12.prod.outlook.com (2603:10b6:510:229::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.9; Thu, 19 Mar
- 2026 13:27:25 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9745.007; Thu, 19 Mar 2026
- 13:27:25 +0000
-Message-ID: <46d74746-f89f-4218-8600-7acd3b8e6367@amd.com>
-Date: Thu, 19 Mar 2026 14:27:18 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf/dma_fence_array: remove unused functionality
-To: Tvrtko Ursulin <tursulin@ursulin.net>, sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20260317145039.2418-1-christian.koenig@amd.com>
- <dd55b402-5322-4590-becf-caa3b4242ec2@ursulin.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <dd55b402-5322-4590-becf-caa3b4242ec2@ursulin.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BLAPR03CA0151.namprd03.prod.outlook.com
- (2603:10b6:208:32f::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082833033E1
+	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 14:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773929113; cv=none; b=cozNFGxI3TQr4hq6wCruFCo87vxSVFTp4cUn0I6n695HeuB8qGDfvQe/ptzaRVMWD8BUFaYnhbFsyEU2Kk4QDaR9CAM3ctuI+d7B7foFr3KxVWjPiO56m/6pASY/PfreSXju4QbZ1JhkvPkh/oqq9qvs6JrfbtF98TsQPmC0fII=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773929113; c=relaxed/simple;
+	bh=4L1Xe+B2zH5DjfgyXfNDDLqJOWMQ1gtfk0F2HLvrxgA=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=gCOAWrkJ+UmVBO7VqkG9Xjo6n/j+AOKnZ0LGx7Kl4d6UB+tHGy+wYZwzMxjtIyAYezzA8LoHhPDgX1U7Byyfk8TESMC6plhV7Qbd84OsQta47RwiAmI1map/fiDfrmGqTvwOi+dII8AC1qI4cmvnUZZ5JgluANg1kagqhqgYcuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zOQ2VIIK; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439cd6b09f8so709472f8f.3
+        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 07:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773929110; x=1774533910; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9e2+lA0DIZE3y9aERv7AEJRfbRg9zhF3NxdBRQrILoQ=;
+        b=zOQ2VIIKvVaDKa7Zz+cCop0jfUgHohpRW06iprse2byA2kf3ujMIXJTKJDCJW29GD6
+         Bj5w6SCP1ItVX67k9JCtW1GE81xZLmMHy/9nDDEh1OOgiCunJZ0gq6qLkJEQtw1y5dL3
+         8r/X7A5EQcTIm6ec1H0TDSuHgox19SKu9Z9ZEWG1P/U9GKOEw56N4nHEcnuGWOhTMdG6
+         JIHUEynb4JvWlLRE+m+FxiDsrZHnJo+0xQTm+JL6aetmToDv8CZkHMb9G620T19WNbJs
+         EnwVtQ1BY7c6oN57x84pgmzA9MBeIYBjw7AyYcqLDuNAaRgVkiVWQj+gH91kbDjBJR0k
+         DheA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773929110; x=1774533910;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9e2+lA0DIZE3y9aERv7AEJRfbRg9zhF3NxdBRQrILoQ=;
+        b=DhER8fubf8xG7rEWALt+b4bc/KZvuFDv/A9AC3CCJ7MEgqvBc9aYORZvZff2RSXRyz
+         SJ7gwtrSAWs9j7H1inFEef2kW2vHBRK/dbJn+ZX4nk5UuiwBMkCEqkGOQq1+dgV3vEJb
+         mMkTMhEM4WL7X+6gml0nV58GtfxJP/2bNe2GEXWdfBR1JQWbHZ6I6Zp2I/WkQzfLzOmB
+         ywuCpEHrcD6+IFpQAN7rqqEibpX3oyj274tW2/NugDSkJBg4PnbIyBEAo9H193jOdx/H
+         OgDyg7xBmOf1tOYrCNwWZ8ZhSy5whuU8WOY8ac+DZg3dYx7sA2V1+R6I2kNjElBQ4A5w
+         8eMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXYpHcglVX08duF/05bPDBJY8Q41WAmq2xdp805CFuhQRlCadE7WjMoUzvN8rjZtGhMseeG2+0WjOMVaw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YySiyUKsHhIVe0uWZk7ctDfDD+e4XBsQGlCq/vr72WFAMXRX0sr
+	xtcqA6BoW61bomNyB4yDxJseP0YfTfxmQArrZPB5A+Q8vGBYJ8YdIySZDuzs82aftk0=
+X-Gm-Gg: ATEYQzxOofRC6tGyA1EM/GBltmNgGqv4rcAgOYNYHlOL5/Gp38odBYe/68r1XXzahqa
+	HjCqPbayUiYhrmJMTjOOT3SwO/tse3gR0CejsB/r5dBheLKdNS8v398u1+J5YkL5no+PxPvb/K/
+	IH9q268cd0+zRcAkJQjNJzLPxWpv3AmwFR8f/NKGUOeMifp7xdKHjZ9ZF9NooPYCt/cvqyOBtWv
+	ies9ct4kB1vkATwsWyGIVZGEm+ZHvAAprQ/mYSYE+0MZJrDpXdmy1439h4RWzqG5VO+85k++cAW
+	DDfUoa1ZA1XKJIZOnfeoCO0GMLasUj7qjeroXsG+uzsgMa4SEEAOvBMBylOJA+rODRK6XfF9STa
+	d3LZaHvewLqzEiQTfrhwL0/Zm3GB7Krl5NLTP02db9aqvR8EMyuwb7zPC4pNg8Lecn6d2jIrmdv
+	ylb9CuoFS8WKCX6Yo4pd0doo8XZktTra/Eb89wXXMXHIPLge7lPW70j1k7tehzYaG5F/VDgshkQ
+	3Rxsqk=
+X-Received: by 2002:a05:6000:1865:b0:439:beba:300 with SMTP id ffacd0b85a97d-43b5279df60mr13775850f8f.1.1773929110168;
+        Thu, 19 Mar 2026 07:05:10 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:106d:1080:8e54:fbaf:8cb6:e9f7? ([2a01:e0a:106d:1080:8e54:fbaf:8cb6:e9f7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b5184957bsm17767759f8f.5.2026.03.19.07.05.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Mar 2026 07:05:09 -0700 (PDT)
+Message-ID: <4d376a1b-37d7-4d37-8579-a0053f7b91f2@linaro.org>
+Date: Thu, 19 Mar 2026 15:05:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB7159:EE_
-X-MS-Office365-Filtering-Correlation-Id: abea55b3-5c4b-424b-b1d3-08de85bb40ec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|366016|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	U9GXskvHBPvhzwI2bUonbhCDe2/maJw/I779GxClY5N+36wPDs2XecP8PXCFSXotGKqSQ13i+/sPEk6Y9sr9fZTSgvVWJd/pTLuP7hAYywtWqrfK4vhIBrO5QkwM7qqJdTgFb2kDcKY5e7CUo7xFmd3ZiY1FFfjEI76oigc/ryTeg37jA30ah+ns+m1h1HC4GB6jSwlKRKBaCvqCXAx06ZvS5aNJjSN2+9/WTaFTfkOO7JzaCe6+JikN7jmm6XcCQFHQwpJgQr10iWaLnfPS03t+6BHyC57kyb1+oxlUEWayQ0GSCmxuKS+pL9zWjk4c8M0LMC51b7Q8SU4iNF+uK2FtvcJ599B9c9Th3HfTSPW9fHlT+x3T0WKHL90wVCKo+RnOefleCu+IfTNfQO7r0vFQwCzkVwOigjIzBs6tVNgtYSp16310XEmioGV4P/f6aZkJbk5kRlPrKxWy5e9at1TqkIc2UXHL3hsTlxzMVGNIIQxsux1uf6wOn7oRxUWY7xxca9cWmg3ZZQyPLL+W25du56/mvGfy0tFyPJAUaBvsytqWt30iROMgEd+C+sxkiMyBQmnpd6G5ZzXwiabht2cd2Wzhj9q1hJu8Xp91HEDaEXyxp3j6uXZtjMLsvmzaQ4kUpaAigpKPLRu6KLyuXAzRFXb7zW+wiv0XjA0DVZy6keDnmJYWNe6Z2NfiUQn6W8GpTX8IjFsDK3JSOh48tvMI0KZVxjpsyJd6nW8rPHw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UUNxcmd0VDlLTndTejYwUVN2OSsySzZuZk1SakNhL2RTTERSaHB0YXZ3MTlJ?=
- =?utf-8?B?VU4xOGNGVWc1TExrcEdwa0pEOUE4U2s1TWwxeHgxUUdEaXVCeEZaWDZxK2FW?=
- =?utf-8?B?c242U1Fib2tnMzdQSnNxWnlEdDlNRnZOd2pKRE9TK29WQyttR2F0Qyt2SHpx?=
- =?utf-8?B?a1BQUmhXaGtpNElLWHNFYkFmU0JTSE9IYmNlTzlxVENCcTFnblZnQTJWd3dp?=
- =?utf-8?B?NkgxaHJJZU1Ia0dlK1pQYVlWakc5bGludGRZdVVEb3RkcjRWWWh2VTd5RkZ6?=
- =?utf-8?B?ZVVDYWRlbXhhb0ZhQytZcjVaVHVKVVdXUlp5NWVPdmcya1RJc3lEckQrL2hO?=
- =?utf-8?B?SlhjbWhZZUYvNUlHNTF4VHpsWFRuRXkwVnBMNXlOK3RLSkMxZXdSd3FIQkVU?=
- =?utf-8?B?enRxSExBdTUxOEREOG5FK3RqM3VTUkpIVTVBZWlCejFMdFAwajlFcFFQTWNG?=
- =?utf-8?B?azIwclVta3VUUFhEVlk1YldtbjVqaXJBVjZnTjh4b3NCWlhaYjk3UzVRKzhT?=
- =?utf-8?B?VU9oVytoaldNcVI5UmMvS2hmWXBWR0g2TW5QN0NLbjhlTmt1WnBpaFRVYXFy?=
- =?utf-8?B?MmVKdXc3S29BaktWU2RRNTFETVJYNlBWaWJLaGxCN1ZKQ1NUTXVTcEZ6cmx4?=
- =?utf-8?B?MUJEYWdtR1RXbzhVMmdkazQrdVFLd1FaZFBEQmM0dUxEMlNySVhJamp2L0xu?=
- =?utf-8?B?VWZXVmFiM2RUaGlOdVl3V0lpUmJsQXA4QXp1QTQyS0dEanozS0EweXc4VVlY?=
- =?utf-8?B?cmg4Wk55RnFvQTBKSzZVVzE0ekg2Zi9vM2RBaVF0a2FQN0V4blE0RFIrcHN0?=
- =?utf-8?B?akNmK1FCcWhsc3VzSDBNQWVid0RlZUtZZURmOVZIMkZ2WUFzUFozWW9WYTBT?=
- =?utf-8?B?cVNabERldGxlblRmZ3BCemJ6SGVoUXh1bVlpSTJYeDVwU1dvbFoyQXpscFJv?=
- =?utf-8?B?amZYZFpRb29ZbGpHOWd1bEp5ZnVlV3JVd0R6blV4VkdYSlN2ZCsxZTlOVEJu?=
- =?utf-8?B?ejUvMFJpT25oM3RkR2t4Mmk2cUNaSXFYV202RFFXeGI1ckZnemNMOWdUL2Nw?=
- =?utf-8?B?TW9JcUZnMWxSNGJRQ1ZWN0NTRUNqd3BuTkhYVXEyQU80S2VBV1ZqOWp2cEsr?=
- =?utf-8?B?U3BmNzkvQ1NCSmdCSW5mT0VacjNYYTdVcEVjdUJlTXlqNGZBOVdKUmdwVlpB?=
- =?utf-8?B?RXE0VWVTOWFZTW9SR0hsbkk5ek51T3pPK0p4Z0xkR1RtN1BrQUVPWVFLbUVo?=
- =?utf-8?B?VzQ4Q21jSFI3dUZlNjVZanJFYjRXa0tiWHVvMEY5cTl0UTZmNGRYWWNDNTNQ?=
- =?utf-8?B?dmNYZ2dOQTZqL0hmOHFRUDNkL1hqQkhaejZtSkJtUDJDQ0loUElYTEpleTlJ?=
- =?utf-8?B?dWw3bDdVZGtaMXAwekRReGtrT1hGT2l5bGhmSXcvaGNYUjI5aVpvczdtZFJw?=
- =?utf-8?B?MTZYRXVYeVBLNjR6S2haczUwZVphSTVlbHNWellFRTl4TURsSmI1QnUvaEVH?=
- =?utf-8?B?cEpJcXllRUp0QjM1eWdYOWI5a3dxMndEK0psbzdjdFFMdG05dWZBYndCK3gr?=
- =?utf-8?B?dXVQUmZ3YWhaeVJ6cmJ0UDJiSWRFR2NZdXN3L3RrNEZEYmtyWHBiT29CTUYv?=
- =?utf-8?B?ejQrYTFqM202dGZVVGE3TGxQYmZMZ1hXSk5YMFM2Y3dZeWY1KytYYzFSUzdE?=
- =?utf-8?B?cHZYUUMvcDVCZUZBbWU0WEVqQUhkTHlYSnVCV3R2SnZ1VjI5ZUVtQ25URkla?=
- =?utf-8?B?MHhUMTI3QURnWWpURXBwQmh6ZyszRkhhd1hrQkNOK29xZzV2eEp3MzFBVE43?=
- =?utf-8?B?bTdXM1VwRHJGY0pnbEZPK0k1WFRFQ2NYeEJSUSs4aDl5cXVvQnE3ZmJabmlG?=
- =?utf-8?B?UE9CT3ZFazZGUXpiRG5oUUpVcWhySDFLWUdnM3pYZnVuRW5LdVEzMUhCTXNE?=
- =?utf-8?B?ckdrVVBMUmE2cnhhN3NsamZvdUVHRjh2c1E4VzNGV2xmSXA4T1o0N2U5bW1T?=
- =?utf-8?B?bG54TzVIMEtDQ3UyMWY1R0dHZ0p5OUY5NUlPVzNZYmNRV09QTkJnSEoxVDE3?=
- =?utf-8?B?OU5aR0s3bzZjK1dWTCszS0ltSytLcEp1a1dEYTFsZzFTWjM0Tlc2c2ZyYUZN?=
- =?utf-8?B?anZwZ2JEeFhVSkFrbjRrU0VuSzZhczVLbXhvbVIxTldudFpueFI1c2d2ek1v?=
- =?utf-8?B?TWdlMmJUNnBvVE1sZ0gyZjkrYWZBdFpzZWVrQnVoSk41R3hGaUZQbTVlRHQ4?=
- =?utf-8?B?ZHFaRGljb0Qyd3JCMkZLWXgrL0I0L2lHajlLWWZlbmhMRlVZMmVFREpYZ0ZP?=
- =?utf-8?Q?K2hCsaCSTugP++LI9o?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: abea55b3-5c4b-424b-b1d3-08de85bb40ec
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 13:27:24.9094
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HNiTivs519/mvBrtlh567Ed/p2ErexRrMRe8GKBZJYY43zeye1bOQTXHbJtRt+h+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7159
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v4 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
+To: Bryan O'Donoghue <bod@kernel.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260315-x1e-csi2-phy-v4-0-90c09203888d@linaro.org>
+ <20260315-x1e-csi2-phy-v4-2-90c09203888d@linaro.org>
+ <3f11de22-b729-4d06-b6c8-18e649e1979c@linaro.org>
+ <80ddc2b4-d6f8-4e8d-a45e-69c05d100aa2@linaro.org>
+ <16b10f17-ecd3-4cdd-ac3f-f64127d60ace@linaro.org>
+ <ulenfus552ggobis4gmi7eh27tikdaxbgm2oj63b5l2vemlfxc@ib5f2xaqurj6>
+ <26XTdUyQTB41Oc4D5HnMtSm_QpZRjlkljQRJVw-u1Zp3Ltn9s4LVU-LQkP6drdl3Z3GGssLCCbsVYPFEqssHcQ==@protonmail.internalid>
+ <65e06b2e-eeb9-45af-97ac-4ae60f652361@linaro.org>
+ <9578400d-30ac-4d8c-9295-ee4ec8af3b2c@kernel.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <9578400d-30ac-4d8c-9295-ee4ec8af3b2c@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56337-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	TAGGED_FROM(0.00)[bounces-56338-lists,linux-media=lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_COUNT_FIVE(0.00)[5];
 	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 2A23E2CBF8A
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	REPLYTO_EQ_FROM(0.00)[]
+X-Rspamd-Queue-Id: 0CB072CC60A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/18/26 10:51, Tvrtko Ursulin wrote:
-> 
-> On 17/03/2026 14:50, Christian König wrote:
->> Amdgpu was the only user of the signal on any feature and we dropped
->> that use case recently, so we can remove that functionality again.
+On 3/19/26 14:17, Bryan O'Donoghue wrote:
+> On 19/03/2026 13:08, Vladimir Zapolskiy wrote:
+>>> Why do you want a media driver? Isn't PHY driver enough?
+>>>
+>> As for today CAMSS CSIPHY are already media devices, and a user applies media
+>> specific properties to them, for instance media bus format, resolution etc.
+>> Technically this might be removed from CAMSS, but if so, then it should be
+>> done before this new PHY driver model is applied.
 >>
->> This allows to simplfy the dma_fence_array code a lot and saves us from
+>> -- 
+>> Best wishes,
 > 
-> simplify
+> There's no reason to remove that from CAMSS - it would be an ABI break in user-space anyway.
 > 
->> the need to install a callback on all fences at the same time.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->>   drivers/dma-buf/dma-fence-array.c             | 133 +++++++-----------
->>   drivers/dma-buf/dma-fence-unwrap.c            |   3 +-
->>   drivers/dma-buf/dma-resv.c                    |   3 +-
->>   drivers/dma-buf/st-dma-fence-unwrap.c         |   2 +-
->>   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   3 +-
->>   drivers/gpu/drm/xe/xe_sync.c                  |   2 +-
->>   drivers/gpu/drm/xe/xe_vm.c                    |   4 +-
->>   include/linux/dma-fence-array.h               |  28 +---
->>   8 files changed, 63 insertions(+), 115 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
->> index 089f69469524..0d54bf2e47ba 100644
->> --- a/drivers/dma-buf/dma-fence-array.c
->> +++ b/drivers/dma-buf/dma-fence-array.c
->> @@ -42,97 +42,71 @@ static void dma_fence_array_clear_pending_error(struct dma_fence_array *array)
->>       cmpxchg(&array->base.error, PENDING_ERROR, 0);
->>   }
->>   -static void irq_dma_fence_array_work(struct irq_work *wrk)
->> +static void dma_fence_array_cb_func(struct dma_fence *f,
->> +                    struct dma_fence_cb *cb)
->>   {
->> -    struct dma_fence_array *array = container_of(wrk, typeof(*array), work);
->> +    struct dma_fence_array *array =
->> +        container_of(cb, struct dma_fence_array, callback);
->>   -    dma_fence_array_clear_pending_error(array);
->> -
->> -    dma_fence_signal(&array->base);
->> -    dma_fence_put(&array->base);
->> +    irq_work_queue(&array->work);
->>   }
->>   -static void dma_fence_array_cb_func(struct dma_fence *f,
->> -                    struct dma_fence_cb *cb)
->> +static void irq_dma_fence_array_work(struct irq_work *wrk)
->>   {
->> -    struct dma_fence_array_cb *array_cb =
->> -        container_of(cb, struct dma_fence_array_cb, cb);
->> -    struct dma_fence_array *array = array_cb->array;
->> +    struct dma_fence_array *array = container_of(wrk, typeof(*array), work);
->>   -    dma_fence_array_set_pending_error(array, f->error);
->> +    while (array->num_pending--) {
->> +        struct dma_fence *f = array->fences[array->num_pending];
->>   -    if (atomic_dec_and_test(&array->num_pending))
->> -        irq_work_queue(&array->work);
->> -    else
->> -        dma_fence_put(&array->base);
->> +        if (!dma_fence_add_callback(f, &array->callback,
->> +                        dma_fence_array_cb_func))
->> +            return;
->> +
->> +        dma_fence_array_set_pending_error(array, f->error);
->> +    }
->> +
->> +    dma_fence_signal(&array->base);
->> +    dma_fence_put(&array->base);
->>   }
->>     static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
->>   {
->>       struct dma_fence_array *array = to_dma_fence_array(fence);
->> -    struct dma_fence_array_cb *cb = array->callbacks;
->> -    unsigned i;
->> -
->> -    for (i = 0; i < array->num_fences; ++i) {
->> -        cb[i].array = array;
->> -        /*
->> -         * As we may report that the fence is signaled before all
->> -         * callbacks are complete, we need to take an additional
->> -         * reference count on the array so that we do not free it too
->> -         * early. The core fence handling will only hold the reference
->> -         * until we signal the array as complete (but that is now
->> -         * insufficient).
->> -         */
->> -        dma_fence_get(&array->base);
->> -        if (dma_fence_add_callback(array->fences[i], &cb[i].cb,
->> -                       dma_fence_array_cb_func)) {
->> -            int error = array->fences[i]->error;
->> -
->> -            dma_fence_array_set_pending_error(array, error);
->> -            dma_fence_put(&array->base);
->> -            if (atomic_dec_and_test(&array->num_pending)) {
->> -                dma_fence_array_clear_pending_error(array);
->> -                return false;
->> -            }
->> -        }
->> -    }
->>   +    /*
->> +     * As we may report that the fence is signaled before all
->> +     * callbacks are complete, we need to take an additional
->> +     * reference count on the array so that we do not free it too
->> +     * early. The core fence handling will only hold the reference
->> +     * until we signal the array as complete (but that is now
->> +     * insufficient).
->> +     */
->> +    dma_fence_get(&array->base);
->> +    irq_dma_fence_array_work(&array->work);
->>       return true;
->>   }
->>     static bool dma_fence_array_signaled(struct dma_fence *fence)
->>   {
->>       struct dma_fence_array *array = to_dma_fence_array(fence);
->> -    int num_pending;
->> +    int num_pending, error = 0;
->>       unsigned int i;
->>         /*
->> -     * We need to read num_pending before checking the enable_signal bit
->> -     * to avoid racing with the enable_signaling() implementation, which
->> -     * might decrement the counter, and cause a partial check.
->> -     * atomic_read_acquire() pairs with atomic_dec_and_test() in
->> -     * dma_fence_array_enable_signaling()
->> -     *
->> -     * The !--num_pending check is here to account for the any_signaled case
->> -     * if we race with enable_signaling(), that means the !num_pending check
->> -     * in the is_signalling_enabled branch might be outdated (num_pending (
->> -     * might have been decremented), but that's fine. The user will get the
->> -     * right value when testing again later.
->> +     * Reading num_pending is just an optimization, it is perfectly
->> +     * acceptable to have a stale value for it.
-> 
-> Bear with me please. I decided to look at this in the morning and maybe it is too early after all. At first I thought "is this true". Because for example:
-> 
-> num_fences = 2
-> num_pending = 1
-> 
-> fences = [ signaled, unsignaled ]
-> 
-> Below loop exits and function returns array signaled status.
-> 
-> Then I realised array->num_pending is not the number of unsignaled fences. Instead it seems to be number of fences on which callbacks have not been installed, regardless of the signaled status. Or from a different angle, the next fence index to install the callback on after the current one signals.
-> 
-> But still the false positive seems possible. After installing the callback on the 2nd fence num_pending will be 1, so the signaled check at a point where the first fence has been signaled, but the second one still has not will return true. Dma_fence_array_signaled() cannot know since it doesn't look at the second fence.
+> The media entity in CAMSS msm_csiphyX handles format negotiation and pipeline routing. The PHY driver handles electrical configuration. They don't conflict and there multiple cited examples of this upstream already.
 
-Good point, I will rework the handling to take that into account.
+If csiphy component was only handling  electrical configuration, the only code handling csiphy would be phy API calls, not be part of the pipeline configuration. Today, it's a media element
 
-Thanks for the review,
-Christian.
+The whole CAMSS architecture is wrong, it should be modular, each hardware module should be an independent driver and all be connected via port/endpoint and configured with the media controller API.
+
+If you _really_ want to move the "electrical configuration" part of the CSPIPHY out of camss frankendriver, fine, then first just create an internal PHY device as an aux device, then continue migrating _all_ CAMSS components into independent driver modules, then in the end re-architecture the whole DT description by adding a node per component with a proper port/endpoint representation to be configured via the media controller API.
+
+Neil
 
 > 
-> Regards,
-> 
-> Tvrtko
-> 
->>        */
->> -    num_pending = atomic_read_acquire(&array->num_pending);
->> -    if (test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &array->base.flags)) {
->> -        if (num_pending <= 0)
->> -            goto signal;
->> -        return false;
->> -    }
->> +    num_pending = READ_ONCE(array->num_pending);
->> +    for (i = 0; i < num_pending; ++i) {
->> +        struct dma_fence *f = array->fences[i];
->>   -    for (i = 0; i < array->num_fences; ++i) {
->> -        if (dma_fence_is_signaled(array->fences[i]) && !--num_pending)
->> -            goto signal;
->> -    }
->> -    return false;
->> +        if (!dma_fence_is_signaled(f))
->> +            return false;
->>   -signal:
->> +        if (!error)
->> +            error = f->error;
->> +    }
->> +    dma_fence_array_set_pending_error(array, error);
->>       dma_fence_array_clear_pending_error(array);
->>       return true;
->>   }
->> @@ -171,15 +145,12 @@ EXPORT_SYMBOL(dma_fence_array_ops);
->>     /**
->>    * dma_fence_array_alloc - Allocate a custom fence array
->> - * @num_fences:        [in]    number of fences to add in the array
->>    *
->>    * Return dma fence array on success, NULL on failure
->>    */
->> -struct dma_fence_array *dma_fence_array_alloc(int num_fences)
->> +struct dma_fence_array *dma_fence_array_alloc(void)
->>   {
->> -    struct dma_fence_array *array;
->> -
->> -    return kzalloc_flex(*array, callbacks, num_fences);
->> +    return kzalloc_obj(struct dma_fence_array);
->>   }
->>   EXPORT_SYMBOL(dma_fence_array_alloc);
->>   @@ -190,21 +161,22 @@ EXPORT_SYMBOL(dma_fence_array_alloc);
->>    * @fences:        [in]    array containing the fences
->>    * @context:        [in]    fence context to use
->>    * @seqno:        [in]    sequence number to use
->> - * @signal_on_any:    [in]    signal on any fence in the array
->>    *
->>    * Implementation of @dma_fence_array_create without allocation. Useful to init
->>    * a preallocated dma fence array in the path of reclaim or dma fence signaling.
->>    */
->>   void dma_fence_array_init(struct dma_fence_array *array,
->>                 int num_fences, struct dma_fence **fences,
->> -              u64 context, unsigned seqno,
->> -              bool signal_on_any)
->> +              u64 context, unsigned seqno)
->>   {
->>       static struct lock_class_key dma_fence_array_lock_key;
->>         WARN_ON(!num_fences || !fences);
->>         array->num_fences = num_fences;
->> +    array->num_pending = num_fences;
->> +    array->fences = fences;
->> +    array->base.error = PENDING_ERROR;
->>         dma_fence_init(&array->base, &dma_fence_array_ops, NULL, context,
->>                  seqno);
->> @@ -222,11 +194,6 @@ void dma_fence_array_init(struct dma_fence_array *array,
->>        */
->>       lockdep_set_class(&array->base.inline_lock, &dma_fence_array_lock_key);
->>   -    atomic_set(&array->num_pending, signal_on_any ? 1 : num_fences);
->> -    array->fences = fences;
->> -
->> -    array->base.error = PENDING_ERROR;
->> -
->>       /*
->>        * dma_fence_array objects should never contain any other fence
->>        * containers or otherwise we run into recursion and potential kernel
->> @@ -249,7 +216,6 @@ EXPORT_SYMBOL(dma_fence_array_init);
->>    * @fences:        [in]    array containing the fences
->>    * @context:        [in]    fence context to use
->>    * @seqno:        [in]    sequence number to use
->> - * @signal_on_any:    [in]    signal on any fence in the array
->>    *
->>    * Allocate a dma_fence_array object and initialize the base fence with
->>    * dma_fence_init().
->> @@ -264,17 +230,16 @@ EXPORT_SYMBOL(dma_fence_array_init);
->>    */
->>   struct dma_fence_array *dma_fence_array_create(int num_fences,
->>                              struct dma_fence **fences,
->> -                           u64 context, unsigned seqno,
->> -                           bool signal_on_any)
->> +                           u64 context, unsigned seqno)
->>   {
->>       struct dma_fence_array *array;
->>   -    array = dma_fence_array_alloc(num_fences);
->> +    array = dma_fence_array_alloc();
->>       if (!array)
->>           return NULL;
->>         dma_fence_array_init(array, num_fences, fences,
->> -                 context, seqno, signal_on_any);
->> +                 context, seqno);
->>         return array;
->>   }
->> diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
->> index 07fe9bf45aea..53bb40e70b27 100644
->> --- a/drivers/dma-buf/dma-fence-unwrap.c
->> +++ b/drivers/dma-buf/dma-fence-unwrap.c
->> @@ -180,8 +180,7 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
->>         if (count > 1) {
->>           result = dma_fence_array_create(count, array,
->> -                        dma_fence_context_alloc(1),
->> -                        1, false);
->> +                        dma_fence_context_alloc(1), 1);
->>           if (!result) {
->>               for (i = 0; i < count; i++)
->>                   dma_fence_put(array[i]);
->> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
->> index ce9e6c04897f..39a92d9f2413 100644
->> --- a/drivers/dma-buf/dma-resv.c
->> +++ b/drivers/dma-buf/dma-resv.c
->> @@ -648,8 +648,7 @@ int dma_resv_get_singleton(struct dma_resv *obj, enum dma_resv_usage usage,
->>       }
->>         array = dma_fence_array_create(count, fences,
->> -                       dma_fence_context_alloc(1),
->> -                       1, false);
->> +                       dma_fence_context_alloc(1), 1);
->>       if (!array) {
->>           while (count--)
->>               dma_fence_put(fences[count]);
->> diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
->> index 9c74195f47fd..45413666970e 100644
->> --- a/drivers/dma-buf/st-dma-fence-unwrap.c
->> +++ b/drivers/dma-buf/st-dma-fence-unwrap.c
->> @@ -65,7 +65,7 @@ static struct dma_fence *mock_array(unsigned int num_fences, ...)
->>         array = dma_fence_array_create(num_fences, fences,
->>                          dma_fence_context_alloc(1),
->> -                       1, false);
->> +                       1);
->>       if (!array)
->>           goto error_free;
->>       return &array->base;
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->> index e7918f896a26..1ac91a46d87f 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->> @@ -3203,8 +3203,7 @@ eb_composite_fence_create(struct i915_execbuffer *eb, int out_fence_fd)
->>       fence_array = dma_fence_array_create(eb->num_batches,
->>                            fences,
->>                            eb->context->parallel.fence_context,
->> -                         eb->context->parallel.seqno++,
->> -                         false);
->> +                         eb->context->parallel.seqno++);
->>       if (!fence_array) {
->>           kfree(fences);
->>           return ERR_PTR(-ENOMEM);
->> diff --git a/drivers/gpu/drm/xe/xe_sync.c b/drivers/gpu/drm/xe/xe_sync.c
->> index 24d6d9af20d6..37866768d64c 100644
->> --- a/drivers/gpu/drm/xe/xe_sync.c
->> +++ b/drivers/gpu/drm/xe/xe_sync.c
->> @@ -376,7 +376,7 @@ xe_sync_in_fence_get(struct xe_sync_entry *sync, int num_sync,
->>           xe_assert(vm->xe, current_fence == num_fence);
->>           cf = dma_fence_array_create(num_fence, fences,
->>                           dma_fence_context_alloc(1),
->> -                        1, false);
->> +                        1);
->>           if (!cf)
->>               goto err_out;
->>   diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
->> index 548b0769b3ef..b916a9d90104 100644
->> --- a/drivers/gpu/drm/xe/xe_vm.c
->> +++ b/drivers/gpu/drm/xe/xe_vm.c
->> @@ -3196,7 +3196,7 @@ static struct dma_fence *ops_execute(struct xe_vm *vm,
->>           goto err_trace;
->>       }
->>   -    cf = dma_fence_array_alloc(n_fence);
->> +    cf = dma_fence_array_alloc();
->>       if (!cf) {
->>           fence = ERR_PTR(-ENOMEM);
->>           goto err_out;
->> @@ -3240,7 +3240,7 @@ static struct dma_fence *ops_execute(struct xe_vm *vm,
->>         xe_assert(vm->xe, current_fence == n_fence);
->>       dma_fence_array_init(cf, n_fence, fences, dma_fence_context_alloc(1),
->> -                 1, false);
->> +                 1);
->>       fence = &cf->base;
->>         for_each_tile(tile, vm->xe, id) {
->> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
->> index 370b3d2bba37..3ee55c0e2fa4 100644
->> --- a/include/linux/dma-fence-array.h
->> +++ b/include/linux/dma-fence-array.h
->> @@ -15,16 +15,6 @@
->>   #include <linux/dma-fence.h>
->>   #include <linux/irq_work.h>
->>   -/**
->> - * struct dma_fence_array_cb - callback helper for fence array
->> - * @cb: fence callback structure for signaling
->> - * @array: reference to the parent fence array object
->> - */
->> -struct dma_fence_array_cb {
->> -    struct dma_fence_cb cb;
->> -    struct dma_fence_array *array;
->> -};
->> -
->>   /**
->>    * struct dma_fence_array - fence to represent an array of fences
->>    * @base: fence base class
->> @@ -33,18 +23,17 @@ struct dma_fence_array_cb {
->>    * @num_pending: fences in the array still pending
->>    * @fences: array of the fences
->>    * @work: internal irq_work function
->> - * @callbacks: array of callback helpers
->> + * @callback: callback structure for signaling
->>    */
->>   struct dma_fence_array {
->>       struct dma_fence base;
->>   -    unsigned num_fences;
->> -    atomic_t num_pending;
->> +    unsigned int num_fences;
->> +    unsigned int num_pending;
->>       struct dma_fence **fences;
->>         struct irq_work work;
->> -
->> -    struct dma_fence_array_cb callbacks[] __counted_by(num_fences);
->> +    struct dma_fence_cb callback;
->>   };
->>     /**
->> @@ -78,16 +67,13 @@ to_dma_fence_array(struct dma_fence *fence)
->>       for (index = 0, fence = dma_fence_array_first(head); fence;    \
->>            ++(index), fence = dma_fence_array_next(head, index))
->>   -struct dma_fence_array *dma_fence_array_alloc(int num_fences);
->> +struct dma_fence_array *dma_fence_array_alloc(void);
->>   void dma_fence_array_init(struct dma_fence_array *array,
->>                 int num_fences, struct dma_fence **fences,
->> -              u64 context, unsigned seqno,
->> -              bool signal_on_any);
->> -
->> +              u64 context, unsigned seqno);
->>   struct dma_fence_array *dma_fence_array_create(int num_fences,
->>                              struct dma_fence **fences,
->> -                           u64 context, unsigned seqno,
->> -                           bool signal_on_any);
->> +                           u64 context, unsigned seqno);
->>     bool dma_fence_match_context(struct dma_fence *fence, u64 context);
->>   
-> 
+> -- 
+> bod
 
 
