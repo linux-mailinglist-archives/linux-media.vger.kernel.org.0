@@ -1,246 +1,252 @@
-Return-Path: <linux-media+bounces-56332-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56333-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wM4XO9Xou2kKqQIAu9opvQ
-	(envelope-from <linux-media+bounces-56332-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 13:15:17 +0100
+	id UAOzJgTtu2liqQIAu9opvQ
+	(envelope-from <linux-media+bounces-56333-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 13:33:08 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C2F92CB06E
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 13:15:17 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3CD72CB300
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 13:33:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4D56C32E0A6F
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 12:06:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E3DB0305D1DA
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 12:33:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CFAF3D3002;
-	Thu, 19 Mar 2026 12:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D87C3CCFA6;
+	Thu, 19 Mar 2026 12:33:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ApcP0W9X"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QoCL4z0y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211743CCFAA
-	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 12:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3832F1397;
+	Thu, 19 Mar 2026 12:32:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773921987; cv=none; b=b7nyPw4yHEjPUI6pb0+Jz0U9eZ7bmuYHBOsSSKi33/zVPf1nFvhJN3xbsvNUvMw8u78tphW6EGQnVmvmM/0dcOkBzcSD4sc4CIbABnwfIqdUccsHOp1SoOPYjZzwRjZumatLlvwvERFr9M5eljqX3faULx07fBjjIRedtcjuC/Y=
+	t=1773923579; cv=none; b=gy5NfvMj/kSSyuLGfyhnlb7DLKZDWvomy9gfW2Bu9y9fTBRlnknciOKxJXZmeL5Mbnx69bp1c7Z0lQZjpT/aZb2hl3GZSp8tF1XEVzFL930n4xb94Ipz5ewvr7ocmDP6OKC/qN3y2jrORiruc3EJeEZeYKa/L45sopVU7Lh39Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773921987; c=relaxed/simple;
-	bh=evGJACCQ92qfXRJxUJBm1HcUDUM5bR60yuJe8p+XIQE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AF8hlUI1t2VM1dawL95qdzOmdcB7nmhxmY8kaA7mf74i+JLVSxI/8Cs3svQdj4LYeGu2Lbx0Km09wIPyUwncIGdKi/dBFYzu71RWuGp61x82eYFFLmkbm7vcvLy7BWJuwgOrikOKHQBle9zcVLXASom7qiDYL2+7hqf768flxMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ApcP0W9X; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-65c0891f4e9so1749940a12.1
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 05:06:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1773921984; x=1774526784; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+QAg7rnrXpBm0pGKAmLADPah3EOw8ViNCZqYfAAvVAI=;
-        b=ApcP0W9XBZmhSJswAC0kkjSjrlbghlqGGAFJuRqzR3V1FtHCNN5e4O73zEppnyvhbx
-         bBDsaxeNiXq9OL9B07bhaDnmaT4v1gQR7S3KReQfTgp1WTKKzR4TaGxecShl8P20URbF
-         c+VdwW7aC7CNM4FHP6eyUxBaw760CeyoulXWg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773921984; x=1774526784;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+QAg7rnrXpBm0pGKAmLADPah3EOw8ViNCZqYfAAvVAI=;
-        b=tNe0YtBp8OUmzA+2c9QJL7A596LBorBcKNXRol6/ukj+JS++lNKgWKpAFX9qjDZ8pW
-         6t5M4Wx9fmt+BUtLo4SOyMOHaWlbHP8brP3QwEaOlZBuv3VRelocqTmIbFlw+mpdyCHv
-         fBPALygFqwprEaNk4KbxgWEiIL3vwWgSpDN0mrbEXsCb97H6z9AhkW9mP/hBrltl1YKl
-         5vNgTpo6X8Cfwi/NqfdlumBn0MEq/wucplN4fZ9e+bonD1mkxbclzvCYx+bbJ4ku/b0h
-         k1ACOrahO8XYJ7SPFpdlXQa+5ZTLcGlvODEsjFKMqPEXuFFZpW2UuknSNnkiVs3DKS+X
-         EmZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW7as1VK32kGnic5yQZq1Zg/T72sdmFfjymXqumIHXFaqLiKPrzoKpy+WBEeSkv+bHSJXKzNGGTr7bUdA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZCG7sAgJS9tN8+UwAYcuMIKqkzAKO7zTVEMxYkFxLM9MLPyXz
-	YjF6Kqb/gS13+DlrRzTJCBzQWgrR+G9E/PfYiEO3NSH4KYQOzoboonplYxM1f/+d5uPU0zqnW/i
-	Q9OcAyqHY
-X-Gm-Gg: ATEYQzyQXf/9rYrFKRLRYfqo8VSRHsTgO69vCDWUWhlc6GOWwtji6qZemB0UpEDMaKr
-	nEAK6HW748aqO5VuHjWq+TBOGTsNvkPkFtV6NkQapRQpjk768WOD6s3wPZE20HemqCd2DhsyM9I
-	Ri9/vZ+vyuvbtp59mINVhKG+DbH6Z2ENmEvpmoROIDJin6YwsknwY2+LK2YeniWpT+Grdt69c79
-	cGUeeriATSClZ9RM6X2AG0eqb2FNhZXCS9XL28MRoGitIBZ1opYvofRp5bQwDJOvZg/nUDRWOEc
-	FQ9plXpTl24TC1t91pOb2oItsEG0i2Op0H8jZ8jjiFAoqiedKDtm9wBBOFUtxAJ38EsQ04fHyrR
-	7MAHMatnJLF1uB39jI1yMJMGh0gpzXB/nh6lYiaJ8ibwd19X6MLb1FrYLLssoSefoY5mNcKUAaG
-	TuMFzn5ihk1f6EnHSrlzvynW2ajG/BhSKMnY0tq/nyxV/Rk6BIXW/H9600yjaOKFA2m+9tERs=
-X-Received: by 2002:a05:6402:4410:b0:662:8cf0:5da9 with SMTP id 4fb4d7f45d1cf-667b23423fbmr4411982a12.8.1773921984065;
-        Thu, 19 Mar 2026 05:06:24 -0700 (PDT)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-667aecbcd3dsm3694704a12.2.2026.03.19.05.06.22
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Mar 2026 05:06:22 -0700 (PDT)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b9382e59c0eso132619166b.0
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 05:06:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVS3zP+m/vrP9qkjb43g6h3AhMyXmeHv0weJTZxyVGC0AjiC/2H7lcPwAhqtv4AXgd9mJlzcn2nnQN6DA==@vger.kernel.org
-X-Received: by 2002:a17:907:3cc1:b0:b97:a459:b66a with SMTP id
- a640c23a62f3a-b97f49248e8mr451884366b.25.1773921981709; Thu, 19 Mar 2026
- 05:06:21 -0700 (PDT)
+	s=arc-20240116; t=1773923579; c=relaxed/simple;
+	bh=eDNe8DMtHON7ak7c378WBsEAXFnxN6eiPNeeHOZKDQo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tICRqgnns52kijIZmrhCOpK6je1xFJb1huyBBVdZ9REQlaerQtuCB+Tg/TUKto6xU5MA8YMrEiyh4wH6oqTGNi4a9jBoWD9oFMtTFTSQ+b6I4OdlBVkMbfiCD9uqMFPgwtvPO5tcYSPySPP9s0kpi0psy8zSq6asoWMr4sd44q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QoCL4z0y; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1773923576;
+	bh=eDNe8DMtHON7ak7c378WBsEAXFnxN6eiPNeeHOZKDQo=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=QoCL4z0y/qwGTCmdjO3lzsxFwR1zYjC/tXxvpkEQ0AcjYipIUPYYEoIDhmjVPx8lc
+	 pIPZm1h2es96jRzV3mPKuSd3lVsab2VvzTiTcDgbZ97zpnczAteFBGNKmGsegrofZR
+	 1B0xaGKdUt1lfrUrgjGRgsjVOdikv1Hu/mli/PVLl136wPs3aMnTPabQSsL/M9Who2
+	 jfb9eZjfOG0ghu0VJAJgh2ODMfykMV5/bZNZEBNm5XSHETTq8qiLMbP2nS9v6tEVxa
+	 m9mBTrCYQnG6uiz7AXttq+9hbRAKExV2w4QEC+68W2SEH4ZOOcoZfONyaTdGfXfC42
+	 5Bxhs1JUhZMqg==
+Received: from [IPv6:2606:6d00:11:b76d::5ac] (unknown [IPv6:2606:6d00:11:b76d::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id C217717E04DC;
+	Thu, 19 Mar 2026 13:32:54 +0100 (CET)
+Message-ID: <5d1cf57fcfa10d224b05f6f1fe5bb33979dce750.camel@collabora.com>
+Subject: Re: [PATCH v0 2/3] media: chips-media: wave5: Support CBP profile
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: "Jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org, 
+	hverkuil-cisco@xs4all.nl, bob.beckett@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	lafley.kim@chipsnmedia.com, b-brnich@ti.com, hverkuil@xs4all.nl, 
+	nas.chung@chipsnmedia.com
+Date: Thu, 19 Mar 2026 08:32:52 -0400
+In-Reply-To: <20260319053210.90-3-jackson.lee@chipsnmedia.com>
+References: <20260319053210.90-1-jackson.lee@chipsnmedia.com>
+	 <20260319053210.90-3-jackson.lee@chipsnmedia.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-0jNKDQdiunoNhOQz30Qg"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260316-uvcdynctrl-v3-0-19cd4657e1f3@chromium.org>
- <20260316-uvcdynctrl-v3-4-19cd4657e1f3@chromium.org> <2026031852-unplowed-ocelot-142a@gregkh>
- <CANiDSCvJnwGix2fZU7KygM8zC1sizkgrW-BVyESnMcmXhGE+zw@mail.gmail.com> <3f4d7dc75346339dd8dfc89c473587ce0f140958.camel@irl.hu>
-In-Reply-To: <3f4d7dc75346339dd8dfc89c473587ce0f140958.camel@irl.hu>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 19 Mar 2026 13:06:09 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuOseqH0RxYA-=jxq7o9pRgZNMBKNrKBY5UfUmQOarP9w@mail.gmail.com>
-X-Gm-Features: AaiRm52NwdEyu_N17bsmFy6dTQI0yiaj67qnvkj987TEjYahmGItUjZAGUPR7LU
-Message-ID: <CANiDSCuOseqH0RxYA-=jxq7o9pRgZNMBKNrKBY5UfUmQOarP9w@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] media: uvcvideo: RFC: Convert allow_privacy_override
- into Kconfig
-To: Gergo Koteles <soyer@irl.hu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-4.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56333-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56332-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[chipsnmedia.com,kernel.org,xs4all.nl,collabora.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,chipsnmedia.com,ti.com,xs4all.nl];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	HAS_ORG_HEADER(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.996];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,irl.hu:email,mail.gmail.com:mid,reddit.com:url,chromium.org:dkim]
-X-Rspamd-Queue-Id: 5C2F92CB06E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:mid]
+X-Rspamd-Queue-Id: F3CD72CB300
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Gergo
 
-On Thu, 19 Mar 2026 at 12:50, Gergo Koteles <soyer@irl.hu> wrote:
->
-> Hi Ricardo,
->
-> On Wed, 2026-03-18 at 15:57 +0100, Ricardo Ribalda wrote:
-> > Hi Greg
-> >
-> > On Wed, 18 Mar 2026 at 15:17, Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Mon, Mar 16, 2026 at 01:34:47PM +0000, Ricardo Ribalda wrote:
-> > > > This patch is just shared for discussion purposes! Do not land.
-> > > >
-> > > > In a perfect world, after a deprecation process, we will be able to
-> > > > remove allow_privacy_override and block all privacy related control=
-s.
-> > >
-> > > Why add something you are only going to remove in the future?  What h=
-as
-> > > changed to require this now, and will change in the future to make it
-> > > not needed?
-> >
-> > Currently, any application with camera access can manipulate the
-> > privacy LED. I believe this is a security flaw; ideally, the kernel
-> > should block all such controls by default.
-> >
-> > However, blocking these controls immediately might be seen as a
-> > regression for certain users. I added allow_privacy_override to:
-> > - Prevent breaking existing workflows immediately upon a kernel update.
-> > - Give users time to report why they still need manual LED control.
-> >
-> > The goal is to gather these use cases over the next 1=E2=80=932 years. =
-Once we
-> > understand the legitimate needs, we can either implement a proper
-> > specialized mechanism for them or move the toggle to a Kconfig option
-> > for those who explicitly need to opt-in to the old behavior or simply
-> > remove the toggle altogether.
-> >
-> > For the record, identified use cases so far:
-> > - Old hardware with red LEDs that reflect on glasses. (Likely a dying n=
-iche).
->
-> Older Logitech cameras, like the c920, have fairly large LEDs that can
-> be reflective, and it's hard to cover them up aesthetically. Laurent
-> wrote [1] that's why Logitech added this functionality a long time ago.
->
-> You can find old Logitech software for Windows that still allows you to
-> turn off the LEDs [2]. I tried it in a Win10 VM and it really works.
+--=-0jNKDQdiunoNhOQz30Qg
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In the same link you will find that Logitech has removed that option
-in newer version of the Logitech software and a "Official Logitech
-Representative" says that:
+Hi Jackson,
 
-```Please be informed that there is no way to disable the blue led
-light on the webcam as that is the indicator that the webcam is active
-and its mainly for security purpose.```
+Le jeudi 19 mars 2026 =C3=A0 14:32 +0900, Jackson.lee a =C3=A9crit=C2=A0:
+> From: Jackson Lee <jackson.lee@chipsnmedia.com>
+>=20
+> Constrained Baseline Profile (CBP) and Baseline Profile (BP) have been
+> treated as the same.
+> Introduce the ability to differentiate between the two.
+>=20
+> Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
+> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
 
-Other users say that
-```I would not buy a webcam with an led that can be switched off and
-that can watch me without any chance noticing it.```
+Should we consider this one has a bug fix ? I suspect previously
+constraint_set1_flag was never set in the bitstream, and now it is set
+accordingly to the selected profile, which fixes a miss-match of user
+expectation vs bitstream values. If you agree with this, a Fixes: tag would=
+ be
+nice.
 
-This is definitely a requested feature by the users and it seems even
-the vendor has realized that the security risk of a "stealth" camera
-outweighs the benefit of turning off the LED.
+> ---
+> =C2=A0drivers/media/platform/chips-media/wave5/wave5-hw.c=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 3 +++
+> =C2=A0.../media/platform/chips-media/wave5/wave5-vpu-enc.c=C2=A0=C2=A0 | =
+10 +++++++---
+> =C2=A0.../media/platform/chips-media/wave5/wave5-vpuapi.h=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 1 +
+> =C2=A03 files changed, 11 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c b/driver=
+s/media/platform/chips-media/wave5/wave5-hw.c
+> index c516d125f553..2392bce8d840 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> @@ -1763,6 +1763,9 @@ int wave5_vpu_enc_init_seq(struct vpu_instance *ins=
+t)
+> =C2=A0			(p_param->skip_intra_trans << 25) |
+> =C2=A0			(p_param->strong_intra_smooth_enable << 27) |
+> =C2=A0			(p_param->en_still_picture << 30);
+> +	else if (inst->std =3D=3D W_AVC_ENC)
+> +		reg_val |=3D (p_param->constraint_set1_flag << 29);
+> +
+> =C2=A0	vpu_write_reg(inst->dev, W5_CMD_ENC_SEQ_SPS_PARAM, reg_val);
+> =C2=A0
+> =C2=A0	reg_val =3D (p_param->lossless_enable) |
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/d=
+rivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> index 6fe01217233f..f315ed7243a7 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> @@ -939,6 +939,8 @@ static int wave5_vpu_enc_s_ctrl(struct v4l2_ctrl *ctr=
+l)
+> =C2=A0		case V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE:
+> =C2=A0			inst->enc_param.profile =3D H264_PROFILE_BP;
+> =C2=A0			inst->bit_depth =3D 8;
+> +			if (ctrl->val =3D=3D V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELIN=
+E)
+> +				inst->enc_param.constraint_set1_flag =3D 1;
+> =C2=A0			break;
+> =C2=A0		case V4L2_MPEG_VIDEO_H264_PROFILE_MAIN:
+> =C2=A0			inst->enc_param.profile =3D H264_PROFILE_MP;
+> @@ -1214,9 +1216,11 @@ static int wave5_set_enc_openparam(struct enc_open=
+_param *open_param,
+> =C2=A0			open_param->wave_param.decoding_refresh_type =3D DEC_REFRESH_TYP=
+E_IDR;
+> =C2=A0			open_param->wave_param.intra_period =3D input.avc_idr_period;
+> =C2=A0		}
+> -	} else {
+> +	} else if (inst->std =3D=3D W_AVC_ENC)
+> +		open_param->wave_param.constraint_set1_flag =3D input.constraint_set1_=
+flag;
+> +	else
+> =C2=A0		open_param->wave_param.avc_idr_period =3D input.avc_idr_period;
+> -	}
 
->
-> The c920 is a very popular camera, still available in stores today.
-> Amazon says it sells 12k of them per month [3].
->
-> 1:
-> https://lore.kernel.org/all/20251119041907.GH10711@pendragon.ideasonboard=
-.com/
->
-> 2: https://www.reddit.com/r/logitech/comments/v641x6/comment/nr22zo7/
->
-> 3: https://www.amazon.com/s?k=3Dlogitech+c920
->
-> > - Using cameras as baby monitors where the LED disturbs sleep.
->
-> And pet cameras and surveillance cameras don't need LEDs either.
+nit: Just keep the bracket, so that all branches have brackets.
 
-Agree. All surveillance cameras.
+cheers,
+Nicolas
 
-All those special cases can use the allow_privacy_override parameter
-until we find a good way to handle their use case.
+> +
+> =C2=A0	open_param->wave_param.entropy_coding_mode =3D input.entropy_codin=
+g_mode;
+> =C2=A0	open_param->wave_param.lossless_enable =3D input.lossless_enable;
+> =C2=A0	open_param->wave_param.const_intra_pred_flag =3D input.const_intra=
+_pred_flag;
+> @@ -1687,7 +1691,7 @@ static int wave5_vpu_open_enc(struct file *filp)
+> =C2=A0			=C2=A0 -6, 6, 1, 0);
+> =C2=A0	v4l2_ctrl_new_std(v4l2_ctrl_hdl, &wave5_vpu_enc_ctrl_ops,
+> =C2=A0			=C2=A0 V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM,
+> -			=C2=A0 0, 1, 1, 1);
+> +			=C2=A0 0, 1, 1, 0);
+> =C2=A0	v4l2_ctrl_new_std(v4l2_ctrl_hdl, &wave5_vpu_enc_ctrl_ops,
+> =C2=A0			=C2=A0 V4L2_CID_MPEG_VIDEO_H264_CONSTRAINED_INTRA_PREDICTION,
+> =C2=A0			=C2=A0 0, 1, 1, 0);
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h b/dr=
+ivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> index dc31689e0d27..7b08fef58217 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> @@ -570,6 +570,7 @@ struct enc_wave_param {
+> =C2=A0	u32 transform8x8_enable: 1; /* enable 8x8 intra prediction and 8x8=
+ transform */
+> =C2=A0	u32 mb_level_rc_enable: 1; /* enable MB-level rate control */
+> =C2=A0	u32 forced_idr_header_enable: 1; /* enable header encoding before =
+IDR frame */
+> +	u32 constraint_set1_flag: 1; /* enable CBP */
+> =C2=A0	u32 bg_detection: 1; /* enable background detection */
+> =C2=A0};
+> =C2=A0
 
->
-> > (Arguably solvable with a piece of tape on the LED, but still a
-> > reported use case).
-> >
->
-> Furthermore, if we filter these two Logitech XUs, we could then add the
-> similar XUs of the camera modules in laptops and this could be an ever-
-> growing list.
+--=-0jNKDQdiunoNhOQz30Qg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-That is the goal, to have a list as comprehensive as possible.
+-----BEGIN PGP SIGNATURE-----
 
->
-> >
-> Best regards,
-> Gergo Koteles
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCabvs9AAKCRDZQZRRKWBy
+9GrCAP9DTIUQfnOGo/09sY7gw2LeRxLBnRkdvdnbpjPy5w0uyAD/RZCtW7xFSpl8
+UDBoC206cQcJkocxeuREV4RhGeczBwg=
+=ZEPG
+-----END PGP SIGNATURE-----
 
-
-
---=20
-Ricardo Ribalda
+--=-0jNKDQdiunoNhOQz30Qg--
 
