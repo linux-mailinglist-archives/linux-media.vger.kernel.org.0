@@ -1,61 +1,65 @@
-Return-Path: <linux-media+bounces-56421-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56422-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gBECNeN8vGk1zQIAu9opvQ
-	(envelope-from <linux-media+bounces-56421-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 23:46:59 +0100
+	id wHpVMx1/vGnfzQIAu9opvQ
+	(envelope-from <linux-media+bounces-56422-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 23:56:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF1F2D3B09
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 23:46:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 504ED2D3E1B
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 23:56:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D8C123013727
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 22:46:51 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 37665300D918
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 22:56:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0EC936EAA7;
-	Thu, 19 Mar 2026 22:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29A1C39903C;
+	Thu, 19 Mar 2026 22:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wz5bGk2G"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="udQZ99eX"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6ED22C11E8;
-	Thu, 19 Mar 2026 22:46:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2D93803F7;
+	Thu, 19 Mar 2026 22:56:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773960406; cv=none; b=qwc2za7cVhX7DzA4CCRLAxVlAH8GCYL309o4pWuiA8+W7wNnbLA0L+bowoyBdd4lkCF52idk/kO7vGcDR6rjpxYMyplBEPvXWBMog+cWfwqk1fOJDHuQQPRm82vJx0yEORfVZwsgxgEGMt0rUuTekcZ3qS+QA9WAVsun1eO4LDg=
+	t=1773960986; cv=none; b=Gma750QOXZiU+2MA+uOWm+b6Y5JJXnFiwluz21LVfha1tmh/EK3BrtzhlUeW7nMKSyIPnTtQ8Q8smwD70c4tgq9jOHOpvqHXmNOAPrEUumj6PYy6whlSj0qg63krlfXcxGLpLnbVxTYD+K4Alt6/CcfdhVJpGPy4HCyjMGmp7BI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773960406; c=relaxed/simple;
-	bh=Xfywi3fgWbqBrWKuajaqSico7PqZr8JIWrVp/6bVJ0g=;
+	s=arc-20240116; t=1773960986; c=relaxed/simple;
+	bh=D5ufjY0DYZjx0CTcTWqnAIWmi7GZIgok8ABXpcBXL70=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y2099c7d7mzgAnLhg32+vAa68wwfhTRUcj2OVzOqr2wGfKk0WertVONkIz8+NZhUcdWa3jw7wHPIK73uzj84NO1NXopaOf5LOY1v/c/HURskr3SJwRhDnL3lviammzHE4tpA7e6dgHnxct3tnrPHKvyJlG0PmXzyS8m/1zSIpeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Wz5bGk2G; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=eKmYMEOT4s723UtI8vR2LLNB/GknIpAeNlkGCFXqbVKOD3RBGrd6Z82vuK6Gmw+6FY/ZZe49E+6r6Wq5Ky/Cccweq2VXWixU+QVsh+q4VyThOWhJE3XjdCEZmvCz5EChIlcdzu9qFukahQolX7Ij5fGsMnTjjob7TzvA4xBQwXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=udQZ99eX; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D38B19A6;
-	Thu, 19 Mar 2026 23:45:28 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 822549A6;
+	Thu, 19 Mar 2026 23:55:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773960329;
-	bh=Xfywi3fgWbqBrWKuajaqSico7PqZr8JIWrVp/6bVJ0g=;
+	s=mail; t=1773960909;
+	bh=D5ufjY0DYZjx0CTcTWqnAIWmi7GZIgok8ABXpcBXL70=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wz5bGk2GWRbax6c0hubk86YRNQdfNZDVXHiKo6mYp5oV/DitSke9wvbFR5FJXO630
-	 0tzJooGE5nYnuTMML4pbD5pUGMO0rl0qQppuaqq5tvgts7cQv/guQTKjPPpjxh1rkQ
-	 kMTlQD453raIN0bPv/yNRvy7q3nYgw4R/MJIaIm0=
-Date: Fri, 20 Mar 2026 00:46:41 +0200
+	b=udQZ99eXAI1H7UjMC1rrzc1pCVU+FKzPliulvPmdmwNYiyNnBJ7jdjr77J1VgNH0r
+	 ZpyiAuI1kNhyfAUKy4njZ/mrr23r38lapBRL5mD/ASxj5JIDQOUv2VwKm3XNKXWyvt
+	 mZoo233lIbuUxi0mxzDZtA6MactEDBcAwHHG23YU=
+Date: Fri, 20 Mar 2026 00:56:21 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Guoniu Zhou <guoniu.zhou@nxp.com>
-Subject: Re: [PATCH v2] media: nxp: imx8-isi: Add virtual channel support
-Message-ID: <20260319224641.GA962817@killaraus.ideasonboard.com>
-References: <20260310-isi_vc-v2-1-acbf77db8e6f@nxp.com>
+To: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: rkisp1: Set format defaults based on
+ requested color space
+Message-ID: <20260319225621.GA950244@killaraus.ideasonboard.com>
+References: <20250227114558.3097101-1-stefan.klug@ideasonboard.com>
+ <20250227114558.3097101-2-stefan.klug@ideasonboard.com>
+ <20250301010252.GI7342@pendragon.ideasonboard.com>
+ <20250301143453.GJ7342@pendragon.ideasonboard.com>
+ <177202208017.2000438.5208896949701142402@localhost>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,8 +68,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260310-isi_vc-v2-1-acbf77db8e6f@nxp.com>
+In-Reply-To: <177202208017.2000438.5208896949701142402@localhost>
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
@@ -74,8 +77,8 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,nxp.com,pengutronix.de,gmail.com,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	TAGGED_FROM(0.00)[bounces-56421-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,fastmail.com,kernel.org,sntech.de,lists.infradead.org];
+	TAGGED_FROM(0.00)[bounces-56422-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
@@ -84,205 +87,239 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.986];
+	NEURAL_HAM(-0.00)[-0.988];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nxp.com:email,killaraus.ideasonboard.com:mid]
-X-Rspamd-Queue-Id: 3CF1F2D3B09
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,killaraus.ideasonboard.com:mid]
+X-Rspamd-Queue-Id: 504ED2D3E1B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Guoniu,
-
-Thank you for the patch.
-
-On Tue, Mar 10, 2026 at 02:53:10PM +0800, Guoniu Zhou wrote:
-> From: Guoniu Zhou <guoniu.zhou@nxp.com>
+On Wed, Feb 25, 2026 at 01:21:20PM +0100, Stefan Klug wrote:
+> Hi Laurent,
 > 
-> Add virtual channel support for ISI driver.
-
-You can drop this line, it duplicates the subject line.
-
-> The ISI supports different numbers of virtual channels depending on the
-> platform. i.MX95 supports 8 virtual channels, and i.MX8QXP/QM support 4
-> virtual channels. They are used in multiple camera use cases, such as
-> surround view. Other platforms (such as i.MX8MN/8MP/8ULP/93/91) don't
-> support virtual channels, and the VC_ID bits are marked as read-only.
+> Thank you for the (loong ago) review. I finally came around to wrap my
+> head around that again.
 > 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
-> ---
-> Changes in v2:
-> - Add Rb tag from Frank Li
-> - Fix typo in comment(s/support/supports/)
-> - Update commit log to include more details about ISI virtual channel support
->   on different platform
-> - Include bitfield.h file to fix following build error
->   drivers/media/platform/nxp/imx8-isi/imx8-isi-regs.h:23:65: error: implicit declaration of function ‘FIELD_PREP’ [-Wimplicit-function-declaration]
-> - Link to v1: https://lore.kernel.org/r/20260309-isi_vc-v1-1-fd0b8035d1cd@nxp.com
+> Quoting Laurent Pinchart (2025-03-01 15:34:53)
+> > On Sat, Mar 01, 2025 at 03:02:54AM +0200, Laurent Pinchart wrote:
+> > > On Thu, Feb 27, 2025 at 12:44:59PM +0100, Stefan Klug wrote:
+> > > > When color space JPEG is requested, the ISP sets the quantization
+> > > > incorrectly to limited range. To fix that, set the xfer_func, ycbcr_enc
+> > > > and quantization to the defaults for the requested color space if they
+> > > > are not specified explicitly.
+> > > 
+> > > The commit message fails to explain why you're addressing xfer_func and
+> > > ycbcr_enc to fix the quantization issue.
+> > > 
+> > > > Do this only in case we are converting
+> > > > from RAW to YUV.
+> > > 
+> > > And this should explain why.
+> > > 
+> > > > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+> > > > ---
+> > > >  .../media/platform/rockchip/rkisp1/rkisp1-isp.c   | 15 ++++++++++++++-
+> > > >  1 file changed, 14 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > > > index d94917211828..468f5a7d03c7 100644
+> > > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > > > @@ -680,10 +680,23 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_isp *isp,
+> > > 
+> > > Adding a bit more context:
+> > > 
+> > >       set_csc = format->flags & V4L2_MBUS_FRAMEFMT_SET_CSC;
+> > > 
+> > >       if (set_csc && src_info->pixel_enc == V4L2_PIXEL_ENC_YUV) {
+> > > 
+> > > If V4L2_MBUS_FRAMEFMT_SET_CSC isn't set, the colorspace fields on the
+> > > source pad will be copied from the sink pad, which doesn't seem right.
+> > 
+> > Thinking some more about it, it's not wrong either. The colorspace and
+> > xfer_func fields are not used by the driver, as the related ISP
+> > processing blocks are configured through ISP parameters. Without
+> > userspace providing the value of the fields on the source pad, the
+> > driver can't know what colorspace and xfer_func is produced. Copying the
+> > values from the sink pad is as good of a guess as we can make.
+> > 
+> > The ycbcr_enc and quantization fields are different, as they are taken
+> > into account by the driver to configure the ISP. Copying ycbcr_enc from
+> > the sink pad means that it will be set to V4L2_YCBCR_ENC_601 when the
+> > sink format is bayer and the source format is YUV. As the sink
+> > colorspace is most likely going to be V4L2_COLORSPACE_RAW in that case,
+> > that's a fine default, and is identical to what we would get from
+> > V4L2_MAP_YCBCR_ENC_DEFAULT(). Setting the quantization to
+> > V4L2_QUANTIZATION_LIM_RANGE also seems fine as a default, and it what
+> > V4L2_MAP_QUANTIZATION_DEFAULT() would give us.
+> > 
+> > TL;DR: there's probably no need to change the current behaviour when
+> > V4L2_MBUS_FRAMEFMT_SET_CSC isn't set.
 > 
-> Changes in v1:
-> - Depends on https://lore.kernel.org/linux-media/20251105-isi_imx95-v3-2-3987533cca1c@nxp.com/
-> ---
->  .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |  3 ++
->  drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c  |  4 +-
->  .../media/platform/nxp/imx8-isi/imx8-isi-pipe.c    | 43 ++++++++++++++++++++++
->  .../media/platform/nxp/imx8-isi/imx8-isi-regs.h    |  6 +--
->  4 files changed, 52 insertions(+), 4 deletions(-)
+> I partially agree. Basically we don't care about colorspace and
+> xfer_func because we know that it is not used by the driver. But
+> src_fmt->colorspace is now V4L2_COLORSPACE_RAW and that could also be
+> queried by the user if I'm not mistaken. Wouldn't it be better (and
+> clearer code wise) to explicitly set the defaults in case we are
+> converting from RAW to YUV? Something like
 > 
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> index 3cbd35305af0f8026c4f76b5eb5d0864f8e36dc3..11a5e395792f11752c44d73818c825f2f175aa1d 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> @@ -256,6 +256,9 @@ struct mxc_isi_pipe {
->  	u8				acquired_res;
->  	u8				chained_res;
->  	bool				chained;
-> +
-> +	/* Virtual channel ID for the ISI channel */
-> +	u8				vc;
->  };
->  
->  struct mxc_isi_m2m {
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
-> index 0187d4ab97e8e28fca9013f6864a094e08f2c570..2babb8573227de9e1aa36d9a39be41b286cf0c57 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
-> @@ -338,7 +338,9 @@ static void mxc_isi_channel_set_control(struct mxc_isi_pipe *pipe,
->  	} else {
->  		val |= CHNL_CTRL_SRC_TYPE(CHNL_CTRL_SRC_TYPE_DEVICE);
->  		val |= CHNL_CTRL_SRC_INPUT(input);
-> -		val |= CHNL_CTRL_MIPI_VC_ID(0); /* FIXME: For CSI-2 only */
-> +		val |= CHNL_CTRL_MIPI_VC_ID(pipe->vc);
-
-You're not addressing the FIXME comment, so it should be kept (or
-ideally addressed :-)).
-
-> +		/* Platform like i.MX95, ISI supports 8 virtual channels */
-> +		val |= CHNL_CTRL_VC_ID_1(pipe->vc >> 2);
-
-This should be done for i.MX95 only. You also need to clear the bit
-above in the function just after reading CHNL_CTRL (for i.MX95 only as
-well), otherwise switching between different virtual channels won't
-work.
-
->  	}
->  
->  	mxc_isi_write(pipe, CHNL_CTRL, val);
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
-> index a41c51dd9ce0f2eeb779e9aa2461593b0d635f41..cc4348ea6006ee19243aae3abceb235d00beea4d 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
-> @@ -232,6 +232,45 @@ static inline struct mxc_isi_pipe *to_isi_pipe(struct v4l2_subdev *sd)
->  	return container_of(sd, struct mxc_isi_pipe, sd);
->  }
->  
-> +static int mxc_isi_get_vc(struct mxc_isi_pipe *pipe)
-> +{
-> +	struct mxc_isi_crossbar *xbar = &pipe->isi->crossbar;
-> +	struct device *dev = pipe->isi->dev;
-> +	struct v4l2_mbus_frame_desc source_fd;
-> +	struct v4l2_mbus_frame_desc_entry *entry = NULL;
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	ret = v4l2_subdev_call(&xbar->sd, pad, get_frame_desc,
-> +			       xbar->num_sinks + pipe->id, &source_fd);
-
-I don't see the xbar implementing get_frame_desc(). Am I missing a
-dependency ?
-
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to get source frame desc from pad %u\n",
-> +			xbar->num_sinks + pipe->id);
-> +		return ret;
-> +	}
-> +
-> +	for (i = 0; i < source_fd.num_entries; i++) {
-> +		if (source_fd.entry[i].stream == 0) {
-> +			entry = &source_fd.entry[i];
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (!entry) {
-> +		dev_err(dev, "Failed to find stream from source frame desc\n");
-> +		return -EPIPE;
-> +	}
-> +
-> +	if (entry->bus.csi2.vc >= pipe->isi->pdata->num_channels) {
-> +		dev_err(dev, "Virtual channel(%d) out of range\n",
-> +			entry->bus.csi2.vc);
-> +		return -EINVAL;
-> +	}
-> +
-> +	pipe->vc = entry->bus.csi2.vc;
-> +	return 0;
-> +}
-> +
->  int mxc_isi_pipe_enable(struct mxc_isi_pipe *pipe)
->  {
->  	struct mxc_isi_crossbar *xbar = &pipe->isi->crossbar;
-> @@ -280,6 +319,10 @@ int mxc_isi_pipe_enable(struct mxc_isi_pipe *pipe)
->  
->  	v4l2_subdev_unlock_state(state);
->  
-> +	ret = mxc_isi_get_vc(pipe);
-> +	if (ret)
-> +		return ret;
-> +
->  	/* Configure the ISI channel. */
->  	mxc_isi_channel_config(pipe, input, &in_size, &scale, &crop,
->  			       sink_info->encoding, src_info->encoding);
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-regs.h b/drivers/media/platform/nxp/imx8-isi/imx8-isi-regs.h
-> index 1b65eccdf0da4bbc3a77c91e06fccc35d6c7e022..a4036da72f0057265e991087f21bc079bd6c6573 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-regs.h
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-regs.h
-> @@ -6,6 +6,7 @@
->  #ifndef __IMX8_ISI_REGS_H__
->  #define __IMX8_ISI_REGS_H__
->  
-> +#include <linux/bitfield.h>
->  #include <linux/bits.h>
->  
->  /* ISI Registers Define  */
-> @@ -19,9 +20,8 @@
->  #define CHNL_CTRL_CHAIN_BUF_NO_CHAIN				0
->  #define CHNL_CTRL_CHAIN_BUF_2_CHAIN				1
->  #define CHNL_CTRL_SW_RST					BIT(24)
-> -#define CHNL_CTRL_BLANK_PXL(n)					((n) << 16)
-
-I'm tempted to keep this, in case we'll need to set it later. We can add
-a comment to indicate the field is only valid on i.MX8QM and i.MX8QXP:
-
-#define CHNL_CTRL_BLANK_PXL(n)					((n) << 16)	/* i.MX8{QM,QXP} */
-
-or
-
-#define CHNL_CTRL_BLANK_PXL(n)					FIELD_PREP(GENMASK(23, 16), (n))	/* i.MX8{QM,QXP} */
-
-> -#define CHNL_CTRL_BLANK_PXL_MASK				GENMASK(23, 16)
-> -#define CHNL_CTRL_MIPI_VC_ID(n)					((n) << 6)
-> +#define CHNL_CTRL_VC_ID_1(n)					FIELD_PREP(BIT(16), (n))
-
-Please also add a comment to indicate the field is valid on i.MX95 only.
-
-#define CHNL_CTRL_VC_ID_1(n)					FIELD_PREP(BIT(16), (n))	/* i.MX95 */
-
-> +#define CHNL_CTRL_MIPI_VC_ID(n)					FIELD_PREP(GENMASK(7, 6), (n))
->  #define CHNL_CTRL_MIPI_VC_ID_MASK				GENMASK(7, 6)
->  #define CHNL_CTRL_SRC_TYPE(n)					((n) << 4)
->  #define CHNL_CTRL_SRC_TYPE_MASK					BIT(4)
+> 	/*
+> 	 * Copy the color space for the sink pad. When converting from Bayer to
+> 	 * YUV, set proper defaults.
+> 	 */
+> 	if (sink_info->pixel_enc == V4L2_PIXEL_ENC_BAYER &&
+> 	    src_info->pixel_enc == V4L2_PIXEL_ENC_YUV) {
+> 		src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> 		src_fmt->xfer_func = V4L2_XFER_FUNC_SRGB;
+> 		src_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
+> 		src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
+> 	} else {
+> 		src_fmt->colorspace = sink_fmt->colorspace;
+> 		src_fmt->xfer_func = sink_fmt->xfer_func;
+> 		src_fmt->ycbcr_enc = sink_fmt->ycbcr_enc;
+> 		src_fmt->quantization = sink_fmt->quantization;
+> 	}
 > 
-> ---
-> base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-> change-id: 20260309-isi_vc-285fd815140e
-> prerequisite-patch-id: 6f139a1d54fa3e0632db9b8a736ae27037c5f45a
+> Functionality wise it is the same, but it makes the following code easier
+> to understand without the need to remember that we can safely copy
+> colorspace as it won't be used anyways.
+> 
+> > > It's a separate issue, but fixing both together may lead to better code.
+> > > 
+> > > >             if (sink_info->pixel_enc == V4L2_PIXEL_ENC_BAYER) {
+> > > >                     if (format->colorspace != V4L2_COLORSPACE_DEFAULT)
+> > > >                             src_fmt->colorspace = format->colorspace;
+> > > > -                   if (format->xfer_func != V4L2_XFER_FUNC_DEFAULT)
+> > > > +
+> > > > +                   if (format->xfer_func == V4L2_XFER_FUNC_DEFAULT)
+> > > 
+> > > Are you sure the condition should be inverted ?
+> 
+> That really looks quite wrong.
+> 
+> > > >                             src_fmt->xfer_func = format->xfer_func;
+> > > > +                   else
+> > > > +                           src_fmt->xfer_func =
+> > > > +                                   V4L2_MAP_XFER_FUNC_DEFAULT(format->colorspace);
+> > > > +
+> > > >                     if (format->ycbcr_enc != V4L2_YCBCR_ENC_DEFAULT)
+> > > >                             src_fmt->ycbcr_enc = format->ycbcr_enc;
+> > > > +                   else
+> > > > +                           src_fmt->ycbcr_enc =
+> > > > +                                   V4L2_MAP_YCBCR_ENC_DEFAULT(format->colorspace);
+> > > > +
+> > > > +                   if (format->quantization == V4L2_QUANTIZATION_DEFAULT)
+> > > > +                           src_fmt->quantization =
+> > > > +                                   V4L2_MAP_QUANTIZATION_DEFAULT(false,
+> > > > +                                           format->colorspace, format->ycbcr_enc);
+> > > 
+> > > Shouldn't this use src_fmt instead of format ?
+> 
+> The outcome is the same. It felt more symmetrical to base the default
+> value on format->... as we do for the other fields.
+
+If format->colorspace is V4L2_COLORSPACE_DEFAULT then I think it won't
+be the same. the V4L2_MAP_*_DEFAULT macros don't expect their argument
+to be a *_DEFAULT value.
+
+> > > I think quantization handling could be moved below.
+> > > 
+> > > >             }
+> > > >  
+> > > >             if (format->quantization != V4L2_QUANTIZATION_DEFAULT)
+> > 
+> > Now I'm wondering if this is right. As far as I can tell, the
+> > quantization isn't taken into account by the driver when the ISP is
+> > bypassed (capturing raw bayer data, or capturing YUV data from a YUV
+> > sensor).
+> 
+> Are you sure about the YUV to YUV case? We pass src_fmt->quatization
+> into rkisp1_params_pre_configure() which is then used to initializ the
+> remaining blocks. Iam however unsure if *any* of these blocks is active
+> in YUV to YUV mode.
+
+That's a good question. It should be tested. Isaac may have checked when
+working on YUV passthrough mode.
+
+> > How about something like this ?
+> > 
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > index d94917211828..9c215c9bb30f 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > @@ -659,11 +659,10 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_isp *isp,
+> >                 src_fmt->quantization = sink_fmt->quantization;
+> > 
+> >         /*
+> > -        * Allow setting the source color space fields when the SET_CSC flag is
+> > -        * set and the source format is YUV. If the sink format is YUV, don't
+> > -        * set the color primaries, transfer function or YCbCr encoding as the
+> > -        * ISP is bypassed in that case and passes YUV data through without
+> > -        * modifications.
+> > +        * Allow setting the source color space fields when the SET_CSC flag.
+> > +        * This is restricted to the case where the sink format is raw and the
+> > +        * source format is YUV, as in other cases the ISP is bypassed and the
+> > +        * input data is passed through without modifications.
+> 
+> Yes, that seems legit and makes the logic easier to follow. Only concern
+> is the YUV to YUV mode.
+> 
+> >          *
+> >          * The color primaries and transfer function are configured through the
+> >          * cross-talk matrix and tone curve respectively. Settings for those
+> > @@ -676,18 +675,30 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_isp *isp,
+> >          */
+> >         set_csc = format->flags & V4L2_MBUS_FRAMEFMT_SET_CSC;
+> > 
+> > -       if (set_csc && src_info->pixel_enc == V4L2_PIXEL_ENC_YUV) {
+> > -               if (sink_info->pixel_enc == V4L2_PIXEL_ENC_BAYER) {
+> > -                       if (format->colorspace != V4L2_COLORSPACE_DEFAULT)
+> > -                               src_fmt->colorspace = format->colorspace;
+> > -                       if (format->xfer_func != V4L2_XFER_FUNC_DEFAULT)
+> > -                               src_fmt->xfer_func = format->xfer_func;
+> > -                       if (format->ycbcr_enc != V4L2_YCBCR_ENC_DEFAULT)
+> > -                               src_fmt->ycbcr_enc = format->ycbcr_enc;
+> > -               }
+> > +       if (set_csc && sink_info->pixel_enc == V4L2_PIXEL_ENC_BAYER &&
+> > +           src_info->pixel_enc == V4L2_PIXEL_ENC_YUV) {
+> > +               if (format->colorspace != V4L2_COLORSPACE_DEFAULT)
+> > +                       src_fmt->colorspace = format->colorspace;
+> > +
+> > +               if (format->xfer_func != V4L2_XFER_FUNC_DEFAULT)
+> > +                       src_fmt->xfer_func = format->xfer_func;
+> > +               else
+> > +                       src_fmt->xfer_func =
+> > +                               V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->colorspace);
+> > +
+> > +               if (format->ycbcr_enc != V4L2_YCBCR_ENC_DEFAULT)
+> > +                       src_fmt->ycbcr_enc = format->ycbcr_enc;
+> > +               else
+> > +                       src_fmt->ycbcr_enc =
+> > +                               V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->colorspace);
+> > 
+> >                 if (format->quantization != V4L2_QUANTIZATION_DEFAULT)
+> >                         src_fmt->quantization = format->quantization;
+> > +               else
+> > +                       src_fmt->quantization =
+> > +                               V4L2_MAP_QUANTIZATION_DEFAULT(false,
+> > +                                                             src_fmt->colorspace,
+> > +                                                             src_fmt->ycbcr_enc);
+> >         }
+> > 
+> >         *format = *src_fmt;
+> > 
+> > Can I let you write a commit message ? :-)
+> 
+> I try to get bak to it :-)
+
+I'd like to send a pull request tomorrow. It's a bit of a short notice,
+we can also merge this for v7.2.
 
 -- 
 Regards,
