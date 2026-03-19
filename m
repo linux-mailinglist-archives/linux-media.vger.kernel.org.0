@@ -1,201 +1,257 @@
-Return-Path: <linux-media+bounces-56423-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56424-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +DObGh6DvGkyzwIAu9opvQ
-	(envelope-from <linux-media+bounces-56423-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 00:13:34 +0100
+	id 4BtwG2aFvGkC0AIAu9opvQ
+	(envelope-from <linux-media+bounces-56424-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 00:23:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5BA32D3FE7
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 00:13:33 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13FE32D4080
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 00:23:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6595C300F1AA
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 23:13:32 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 693C8300C31A
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 23:23:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 049673B27D8;
-	Thu, 19 Mar 2026 23:13:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48DD53F87E7;
+	Thu, 19 Mar 2026 23:23:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="YlENVGjr"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JwUnumPq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B4837997C
-	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 23:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773962007; cv=pass; b=Nj7C8moFVFD76wesn+OSRrz4r0K7EpUBK+878EZIgObOcBuGq7oDV/gLdYsCDGHd9v2GhmZjf3GDx43jUNia0FEDu36Uz9qvqW7urrYaMF+p/cvXzg0fFX7rgqCVJjgfw+2Zatbsw6ynHqd5hJ3Oc/HKcAfy9J+889bMOGvr+RY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773962007; c=relaxed/simple;
-	bh=f+wZnflVHlVOqwPTXqrMn3fGA9wC/W5ujUbko7Tn0B0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S6C7asbbc20diMKb8oslUNeaMKknKjzw8yV4uz8wHagtFQWNeJ2FgRTZ8R6NJ0rckli6kiXY/cBsZeBZ/tPWXrZ7t/iy5NgpwrAyvBZMQxoZ6PDHcwnmyFM72SKoGSPSEncZS0AuJYA4NEwjsJA9uN1Q0wikAORMzqHeXnv7m+g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=YlENVGjr; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (n18ws8cotq5gnfn8-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:938c:d2f4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4fcM1j64NDz49PtM;
-	Fri, 20 Mar 2026 01:13:13 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1773961994;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=PghvP2zerZXhvzCjZfpWvWvDmhY9m6eCx8zX9CC/Ixs=;
-	b=YlENVGjr8MpKxVN0wRjSp2RIxxG8XW+q3RbqptiTFHE3esUNXjWvydi8rdvHJvx0hEiBrV
-	MjJoRtNTfnzjy280gMvMaP/rPziV382o3epi8eZ3Qu5MHGpzjG+QI3m5iUyBv1S/LMSh/z
-	+dsCJDo0suLNsURLYLJVo3I6papIbk7lfsbEP8evbDHiPcfrEMCGAlOoNMkylfA/Z7svoZ
-	WEs+XY0eXhTtu2bNpGj5lJ4za2uDJZUwAEr4ZNmqtKDGePWjkfJNvsXJi+COcbzCEAi1Tk
-	z0lUo0+u06N6IDwwwVazf1ZMjpgyn/e4jYFmuFnlKwA0LdCnmjAQCJOGAUjXpg==
-ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=lahtoruutu; cv=none; t=1773961994;
-	b=LLtVWeip0sYLmimRf4GHUmJB6AWL8A+jGwRTx8dZvoZVubnN3gjBo3lb46giFmX7uJlYKc
-	xMvWvomd5YB6YF6Bv2jWqdyq69jIre1EXvn9Nvl6SmcHsvCOfUtILTCyPePLnmxhva6Pci
-	+RYPT2G/WPjLCCpRMfxhNxRCUECIvL81237g23ZYBryuFmXG9jwcYMkorY2ll3kxG2VQ78
-	CtBfHHNEvykQCKErS1r8Th26j5aaq/QOfQrvdktmknBAZlZ9EHvB76mmcbKLcZxeA7Gx+X
-	EdeIKvYrKIf96v6BOVEKA4HJnfGBRMyDlYuw2K3S3s6bRBmg7bmOVMVzdk9Kcw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1773961994;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=PghvP2zerZXhvzCjZfpWvWvDmhY9m6eCx8zX9CC/Ixs=;
-	b=nB7G4Ggh8hhgP4O8EOXQyv/L7+8RZ6mtIQCu9ClK5ME3OBNKnX3rM2oJ217tLzcCvLqJFC
-	Jcy9tFaOBfataZC0iyo0YfNNj6WKT1M5yK/k3/FSNAIN7Kh8ShQGXFO0Dlu9TYxW6SKEEd
-	vf39DAKuO/xVKpiNPPqdaeXZK9B1UmVP4ZxIauHX1+zeo3kV+lzx2JUrFj2/kmo+I28+6R
-	RVHVYSYwqcpADmQgW/1Lr1jp1WcQPxlaIxY9yigYUDABm5slwp0UGnhL546slWkRaVsjf+
-	+DOU/AFb5wsSH+4Iq/H8Wh4R+75K2uEU7WOShcR7vq/sTm/SXQVOHIxrmPu5WQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 15944634C4E;
-	Fri, 20 Mar 2026 01:13:12 +0200 (EET)
-Date: Fri, 20 Mar 2026 01:13:11 +0200
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: linux-media@vger.kernel.org
-Cc: hans@jjverkuil.nl
-Subject: [GIT PULL FOR ]
-Message-ID: <abyDB4YJniaNVxo4@valkosipuli.retiisi.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D14237268E;
+	Thu, 19 Mar 2026 23:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773962590; cv=none; b=sgXTGklJX/DvkcPKTTkpXzIFalXy4w98nVnb6lmAy5MJmbKoD1JqnNVK3DGfY/kY5tDmJ9C2tdn2bJIzlZhZlvNd0V0BsjtxdQIjIF99UMwUF8KW7ZCkIK2tbmlHhehDeQzLeUlCb+OSa9peRd4ONO+cxXRokPQNrjAX1+Z2h74=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773962590; c=relaxed/simple;
+	bh=O1yGe/x9bPDoJuw8MAlkhNqRUV1/8GInglDR04iBELc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FGA3FjAd6wSXfu7g/hL3mCelAfhNAfYOJJcUp4bnZYAEK8+fhnqPSeI2ezuYQHWUCqD8Yr/Ublhirk5TZ/nMmtW92nAft2EOgeW18N1i5Spl1+XwGgFckUInErtb2YtyybJ9qo7T5whVbItMNY5nIdc1XQTvYURontu+tBmtWHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JwUnumPq; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5CFEA2D5;
+	Fri, 20 Mar 2026 00:21:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1773962513;
+	bh=O1yGe/x9bPDoJuw8MAlkhNqRUV1/8GInglDR04iBELc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JwUnumPqh3rA/7TrbDGF0mIB6W4NUe9XMLh8sb4leVTJaEzcWsPh5EaM00kmUEdc2
+	 yDVcaD1p9XUpHYjMyruS7uybEUSlGMIrL1EPKqd9dGVruqpoxCadzJRRc94zVqWAMt
+	 XoRZ8qlmuFMuCkU8reiNa8vtF3LBpS7sM4xwS/NY=
+Date: Fri, 20 Mar 2026 01:23:05 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 2/5] media: imx8mq-mipi-csi2: Use
+ devm_clk_bulk_get_all() to fetch clocks
+Message-ID: <20260319232305.GA967713@killaraus.ideasonboard.com>
+References: <20251205-csi2_imx8ulp-v10-0-190cdadb20a3@nxp.com>
+ <20251205-csi2_imx8ulp-v10-2-190cdadb20a3@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Spamd-Result: default: False [-0.54 / 15.00];
-	SUBJ_ALL_CAPS(1.13)[15];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[iki.fi:s=lahtoruutu];
+In-Reply-To: <20251205-csi2_imx8ulp-v10-2-190cdadb20a3@nxp.com>
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[iki.fi:+];
-	DMARC_NA(0.00)[iki.fi];
-	TAGGED_FROM(0.00)[bounces-56423-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56424-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,posteo.de,puri.sm,kernel.org,pengutronix.de,nxp.com,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.958];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@iki.fi,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TO_DN_NONE(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,valkosipuli.retiisi.eu:mid]
-X-Rspamd-Queue-Id: C5BA32D3FE7
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 13FE32D4080
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Hans, Mauro,
+Hi Guoniu,
 
-Please pull.
+Thank you for the patch.
 
+On Fri, Dec 05, 2025 at 05:07:44PM +0800, Guoniu Zhou wrote:
+> From: Guoniu Zhou <guoniu.zhou@nxp.com>
+> 
+> Use devm_clk_bulk_get_all() helper to simplify clock handle code.
+> 
+> No functional changes intended.
+> 
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+> ---
+>  drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 55 ++++++++++-----------------
+>  1 file changed, 20 insertions(+), 35 deletions(-)
+> 
+> diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> index 371b4e81328c107269f89da23818ab0abd0179da..0e3a41cd35edfefc51b5631e2c36fd76e3e14d83 100644
+> --- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> +++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> @@ -71,21 +71,6 @@ enum {
+>  	ST_SUSPENDED	= 4,
+>  };
+>  
+> -enum imx8mq_mipi_csi_clk {
+> -	CSI2_CLK_CORE,
+> -	CSI2_CLK_ESC,
+> -	CSI2_CLK_UI,
+> -	CSI2_NUM_CLKS,
+> -};
+> -
+> -static const char * const imx8mq_mipi_csi_clk_id[CSI2_NUM_CLKS] = {
+> -	[CSI2_CLK_CORE] = "core",
+> -	[CSI2_CLK_ESC] = "esc",
+> -	[CSI2_CLK_UI] = "ui",
+> -};
+> -
+> -#define CSI2_NUM_CLKS	ARRAY_SIZE(imx8mq_mipi_csi_clk_id)
+> -
+>  struct imx8mq_plat_data {
+>  	int (*enable)(struct csi_state *state, u32 hs_settle);
+>  	void (*disable)(struct csi_state *state);
+> @@ -111,7 +96,9 @@ struct csi_state {
+>  	struct device *dev;
+>  	const struct imx8mq_plat_data *pdata;
+>  	void __iomem *regs;
+> -	struct clk_bulk_data clks[CSI2_NUM_CLKS];
+> +	struct clk_bulk_data *clks;
+> +	struct clk *esc_clk;
+> +	u32 num_clks;
+>  	struct reset_control *rst;
+>  	struct regulator *mipi_phy_regulator;
+>  
+> @@ -384,24 +371,16 @@ static void imx8mq_mipi_csi_set_params(struct csi_state *state)
+>  			      CSI2RX_SEND_LEVEL);
+>  }
+>  
+> -static int imx8mq_mipi_csi_clk_enable(struct csi_state *state)
+> -{
+> -	return clk_bulk_prepare_enable(CSI2_NUM_CLKS, state->clks);
+> -}
+> -
+> -static void imx8mq_mipi_csi_clk_disable(struct csi_state *state)
+> -{
+> -	clk_bulk_disable_unprepare(CSI2_NUM_CLKS, state->clks);
+> -}
+> -
+> -static int imx8mq_mipi_csi_clk_get(struct csi_state *state)
+> +static struct clk *find_esc_clk(struct csi_state *state)
 
-The following changes since commit 0e2c4117c3512cf6b8f54c2c3d37564bfa3ccd67:
+imx8mq_mipi_csi_find_esc_clk().
 
-  staging: media: tegra-video: add CSI support for Tegra20 and Tegra30 (2026-03-19 08:18:36 +0100)
+>  {
+>  	unsigned int i;
+>  
+> -	for (i = 0; i < CSI2_NUM_CLKS; i++)
+> -		state->clks[i].id = imx8mq_mipi_csi_clk_id[i];
+> +	for (i = 0; i < state->num_clks; i++) {
+> +		if (!strcmp(state->clks[i].id, "esc"))
+> +			return state->clks[i].clk;
+> +	}
+>  
+> -	return devm_clk_bulk_get(state->dev, CSI2_NUM_CLKS, state->clks);
+> +	return ERR_PTR(-ENODEV);
+>  }
+>  
+>  static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state,
+> @@ -456,7 +435,7 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state,
+>  	 * documentation recommends picking a value away from the boundaries.
+>  	 * Let's pick the average.
+>  	 */
+> -	esc_clk_rate = clk_get_rate(state->clks[CSI2_CLK_ESC].clk);
+> +	esc_clk_rate = clk_get_rate(state->esc_clk);
+>  	if (!esc_clk_rate) {
+>  		dev_err(state->dev, "Could not get esc clock rate.\n");
+>  		return -EINVAL;
+> @@ -783,7 +762,7 @@ static void imx8mq_mipi_csi_pm_suspend(struct device *dev)
+>  
+>  	if (state->state & ST_POWERED) {
+>  		imx8mq_mipi_csi_stop_stream(state);
+> -		imx8mq_mipi_csi_clk_disable(state);
+> +		clk_bulk_disable_unprepare(state->num_clks, state->clks);
+>  		state->state &= ~ST_POWERED;
+>  	}
+>  
+> @@ -801,7 +780,7 @@ static int imx8mq_mipi_csi_pm_resume(struct device *dev)
+>  
+>  	if (!(state->state & ST_POWERED)) {
+>  		state->state |= ST_POWERED;
+> -		ret = imx8mq_mipi_csi_clk_enable(state);
+> +		ret = clk_bulk_prepare_enable(state->num_clks, state->clks);
+>  	}
+>  	if (state->state & ST_STREAMING) {
+>  		sd_state = v4l2_subdev_lock_and_get_active_state(sd);
+> @@ -1027,9 +1006,15 @@ static int imx8mq_mipi_csi_probe(struct platform_device *pdev)
+>  	if (IS_ERR(state->regs))
+>  		return PTR_ERR(state->regs);
+>  
+> -	ret = imx8mq_mipi_csi_clk_get(state);
+> +	ret = devm_clk_bulk_get_all(dev, &state->clks);
+>  	if (ret < 0)
+> -		return ret;
+> +		return dev_err_probe(dev, ret, "Failed to get clocks\n");
+> +
+> +	state->num_clks = ret;
+> +
+> +	state->esc_clk = find_esc_clk(state);
+> +	if (IS_ERR(state->esc_clk))
+> +		return dev_err_probe(dev, PTR_ERR(state->esc_clk), "Couldn't find esc clock\n");
 
-are available in the Git repository at:
+This could be line-wrapped.
 
-  git://linuxtv.org/sailus/media_tree.git tags/for-7.1-2-signed
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-for you to fetch changes up to 7eaa096e1c92b25ae6b41234e6723be710cf08d8:
+I can make those small changes when applying if there's no other need to
+submit a new version.
 
-  media: ov02a10, dw9768: Remove Dongchung's e-mail (2026-03-20 01:07:20 +0200)
-
-----------------------------------------------------------------
-V4L2 patches for 7.1:
-- Return -EPROBE_DEFER on NULL endpoints in firmware graph endpoint
-  parsing,
-- Renesas vsp1 and vin fixes,
-- Clarify RGB colour component order on serial buses,
-- Clean and fix error checking in and improve documentation of
-  v4l2_subdev_get_frame_desc_passthrough(),
-- Fixes and improvements for imx355, ov8856 drivers,
-- Drop Dongchung's stale e-mail addresses.
-
-----------------------------------------------------------------
-Alain Volmat (1):
-      dt-bindings: media: st,stm32-dcmi: add 'power-domains' property
-
-Alexander Koskovich (3):
-      media: i2c: ov8856: free control handler on error in ov8856_init_controls()
-      media: dt-bindings: ovti,ov8856: Allow orientation & rotation props
-      media: i2c: ov8856: parse and register V4L2 device tree properties
-
-Chen Ni (1):
-      media: v4l2-subdev: Fix error check in v4l2_subdev_get_frame_desc_passthrough()
-
-Maxime Ripard (2):
-      media: uapi: Clarify MBUS color component order for serial buses
-      media: bcm2835-unicam: Fix RGB format / mbus code association
-
-Richard Acayan (1):
-      media: i2c: imx355: Restrict data lanes to 4
-
-Sakari Ailus (2):
-      media: v4l2-fwnode: Return -EPROBE_DEFER on parsing NULL endpoints
-      media: ov02a10, dw9768: Remove Dongchung's e-mail
-
-Tomi Valkeinen (5):
-      media: renesas: vsp1: Fix NULL pointer deref on module unload
-      media: renesas: vin: Fix RAW8 (again)
-      media: subdev: Improve v4l2_subdev_get_frame_desc_passthrough() kdoc
-      media: subdev: Minor v4l2_subdev_get_frame_desc_passthrough() cleanups
-      media: subdev: Split v4l2_subdev_get_frame_desc_passthrough() into locked and unlocked
-
- .../devicetree/bindings/media/i2c/ovti,ov8856.yaml |  6 +++
- .../devicetree/bindings/media/st,stm32-dcmi.yaml   |  3 ++
- .../userspace-api/media/v4l/subdev-formats.rst     | 20 +++++---
- drivers/media/i2c/dw9768.c                         |  2 +-
- drivers/media/i2c/imx355.c                         |  6 +++
- drivers/media/i2c/ov02a10.c                        |  2 +-
- drivers/media/i2c/ov8856.c                         | 23 +++++++--
- drivers/media/platform/broadcom/bcm2835-unicam.c   | 41 +++++++++++----
- drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 22 ++++++++
- .../media/platform/renesas/rcar-vin/rcar-v4l2.c    | 12 +++++
- drivers/media/platform/renesas/vsp1/vsp1_drv.c     |  8 ++-
- drivers/media/v4l2-core/v4l2-fwnode.c              |  9 +++-
- drivers/media/v4l2-core/v4l2-subdev.c              | 60 ++++++++++++----------
- include/media/v4l2-fwnode.h                        |  6 ++-
- include/media/v4l2-subdev.h                        | 50 +++++++++++++++---
- 15 files changed, 208 insertions(+), 62 deletions(-)
+>  
+>  	platform_set_drvdata(pdev, &state->sd);
+>  
+> 
 
 -- 
-Sakari Ailus
+Regards,
+
+Laurent Pinchart
 
