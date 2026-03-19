@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-56378-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56379-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aMIYMHpdvGnLxgIAu9opvQ
-	(envelope-from <linux-media+bounces-56378-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 21:32:58 +0100
+	id MDO2IoFevGlxxQIAu9opvQ
+	(envelope-from <linux-media+bounces-56379-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 21:37:21 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3840A2D2331
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 21:32:58 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4402D23F4
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 21:37:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1C447305EBBA
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 20:28:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2AA853277E2D
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 20:31:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DA523FFAC6;
-	Thu, 19 Mar 2026 20:26:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B803B3F99C1;
+	Thu, 19 Mar 2026 20:28:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="haieW3A6"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="rADXOK22"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF793F99C3
-	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 20:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C803F87EA
+	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 20:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773951963; cv=none; b=GdtXo2lFl0vZ4zK6FiAB20J4xAsVsIXp86007Q5PfeQ4CwE6e5p92cIVeEk4oioqZzuREUy4YgZtDQgOJ2W+l3NbnZfVw55LeklDWXw1TN0fDg8I/ZQ+TZcECsHBq/t85VP4t6GDKawXSiIa/bkkuCbCZep9UZFE6OV/0IyojtY=
+	t=1773952080; cv=none; b=nDgugd71cu8JCKfyq+XK9CS1sryQhysU1WVtSADjSHHpwkp329J5vYznLkoxfaoz77GR3wbunMgVajAENVQxlvlbpnD6dKGtvbsme1ndEy2W3/P20MkmfhBlM2UqsR5KNG57iB5i0Edk3XaLzKnrnl3bHxCIEvEWywmjfUF+v7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773951963; c=relaxed/simple;
-	bh=0EG1mGn2kxG0H8cSWyUCSFvDfHZ0uJ0D9oamMM5Wir8=;
+	s=arc-20240116; t=1773952080; c=relaxed/simple;
+	bh=ieXBhtwQioe8uOOGkxVAKRyCV34NjX4e7tdgyCREHoQ=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rDM4spFYSshITm4soGYyBz9jZMzbskXOn7LdbD2OdWsGCWKli9wqWzrShMQ/+ISUmWOY59g49yPqTrgg+qLN/mOocVjCCm/KFBHlwENwm4Doymo+vLr2zyqEvYacRLK7CKs+g2HzqUBTieLnvTvffSZQFQh/I/xP0foV0K+dHGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=haieW3A6; arc=none smtp.client-ip=209.85.222.169
+	 Content-Type:MIME-Version; b=IZbe9apAsseNCq4s9rGWn8Sh5xEE+vQdzmQ1GmIO/hgGZecTHwHoD/vVWYysOX8JEpAy7b7Cdll2Xv23D0aR+GNsLUFD4dJQNhJRjTwyEvleML7xTr/Nr8rznGbt8nFLBb+Z/U7y930w8wFcPyCG8aHUfLvlTuIwV848xomjdvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=rADXOK22; arc=none smtp.client-ip=209.85.222.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8cfc3ca1922so71296885a.1
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 13:25:56 -0700 (PDT)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8cd90401034so135677085a.0
+        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 13:27:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1773951955; x=1774556755; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1773952077; x=1774556877; darn=vger.kernel.org;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=0EG1mGn2kxG0H8cSWyUCSFvDfHZ0uJ0D9oamMM5Wir8=;
-        b=haieW3A6AzE86jDkjVlHsxzVOwDExBlNdTEOpniZArjuK7dQNVuAnsgnCbeHvP7HQU
-         jYVT6rJbBEs3Efse2e+Snzeim+JpeZL7xu9VB7zf4qsSwURU9uVPF0ImO8XGuqAfop48
-         iFrOD3Kawi2xRk0biYILkNWwjLqpZFbFABVb4zyaU+dZbgSafc8LxSS29ckd11sK6XlV
-         EI9PzxQCoc3HNtd8Qmd5waEyfJ5skdvZV9bHDpDeF+OFo1zhcNzouNtRVVqenP9aUWqZ
-         3NpZ6aMZLQO2GCEDsGNdGTmZFPORxA8VKC0G4G/CDnncw+ScA8/ZPdcFS0DVisiDEhdX
-         qWmQ==
+        bh=ieXBhtwQioe8uOOGkxVAKRyCV34NjX4e7tdgyCREHoQ=;
+        b=rADXOK225XCC5tdmAxetvDpLPfT2wmZbM3c2fJV2Zw2EXFBaIsXRofwkpUdo6QlAQd
+         BQZOabP6gqunyWy7gwaqN3pYgBhUueiE+2DfdOgwYt1grd3zelJIBuMQtMhJ3Ca9kk8w
+         KD0CXoWbuRiXwBbBCPpl7vQ0VxB0AJH7e15J60UIivw+TH0U9+EjCc7wLXqEkwq9rZSP
+         c9v7MOiWiwqTZ5yseBPx6IqCWOZGxTd6A/Yf1+aFd8CaWXLXCz5vvRVCowLIyK70BOZn
+         d65vnZHcuim+NJUDy9bGyg9tDk3javRT5LFvBT/FQsC0H79ASE3U38Db5OsvtA9SeiGh
+         wxxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773951955; x=1774556755;
+        d=1e100.net; s=20251104; t=1773952077; x=1774556877;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0EG1mGn2kxG0H8cSWyUCSFvDfHZ0uJ0D9oamMM5Wir8=;
-        b=cKUNZXAMClQn9AIa5FQevvwiwDLGAHM12Ev0LNo735Av0Oi+0938Wzy50vqw4cPMX7
-         ZTjv+FlEmRdVT2QLmbhKNdUeRGvgmf0ddNzPQl4X42NTZFFG/78e883k1IHjNkSDdCNW
-         Mb4TGUAJRKxkc4eW6GXpbtLgovOvFWdBL/BvNL8CmTM+KH6xW0OzwhjNuHu9UnzouvUq
-         3/+AuC+JkFBC/P7qCNHPEsGJUIvTMaDpbkhBMl3mUQxkIUs0E8dIUySWnGZ6VpCFg/em
-         1qFkp6wp56vJfscGMEzvYjGunPtMGhsrzHUg+rsr63TngnnF757mB2fHGTlrSqhEOwTI
-         w95g==
-X-Forwarded-Encrypted: i=1; AJvYcCUPSm89rY4KCbXE3QM7HlBWcZUnHZ8B7cUUoLpJ0QBp3rrJ0wcYV7QWvw1wEy/jgo7aUjatK0pbYxW3jw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjcKbTaFyzYpqnLbU1WY1wnCDaj0SdG0tfIDrS42b6N0AGqIQu
-	AYr9t8/hp/gELAUcnJpD+IUBubNyPFsm/5rnWBiAc3HF0RGW2GD0X9fe1ebVDiOAYnA=
-X-Gm-Gg: ATEYQzwSweXGnMZnIAMbsBAs8vKu0BX6XBk4pQbzKhzyZDP1R3sysUg/EFJ9w6D9MHf
-	BA/L6vtpL2Q69ZYcLlMuCaT1N42BgLrgNi4UZmZJbrjoaoI5fFaFTW7yT+8gHismrmBsSCYia63
-	3EBYxMI0enpMWPu6hctPCw5MDJ0jmSF9QGMrFBs67NrgXUZBZXmb7152fFWTog7CJZTzFOuR+XC
-	+Zv+qY32LEKCKn+euUKv8mY6X5uwm8K8sf2SHvxpEQJZfQQRp1XfBrBYD4555akhUY2NHYnOXzI
-	Aht5UNf0Oh+YJDQgL8WumeXunzLeurZc2MszYRB1QzkRNuMHKFJY1iNzpz8iMYqGMwhLrOzO9qh
-	7qGgofBAAm69hz7byEXAIz2Sa2AAnSfD2i9tHlkEKjsZtjndaJFCqSqjK5/sQlpzMu9uYXfURg6
-	Knnhvfj5bxMS1waBzIXFCMS7EGvJNQ
-X-Received: by 2002:a05:620a:25cb:b0:8cd:9142:ed6c with SMTP id af79cd13be357-8cfc795a3aemr110705385a.1.1773951955162;
-        Thu, 19 Mar 2026 13:25:55 -0700 (PDT)
+        bh=ieXBhtwQioe8uOOGkxVAKRyCV34NjX4e7tdgyCREHoQ=;
+        b=rp8UYAt7xinGwed8bZi50Zb/mf8I4LKeOJhTsWx8DF6mcV3ZmKBPRjpqa7GsL5Jzcd
+         qMy4o4M2IHcSfHSE3jVF1bxRnDHDgeL8q2JBhn6dJY+talodw6IzO6FQrpi5B6cBaVny
+         oh413VUW17WnyX9pQ7ol4pTTNcNgj98w8/LGQJeBerpJYl82l3QrccxbjN6Uz4NDm6US
+         Nb4TQry+D1ak7LWtRNXWv7olSewwULmvdpDr17TBElQ87gtWDwvOnM9dxo8afmmr3LQS
+         IFaAsd8eNBFY9ASTdLlcSlCYq3mDdUKeetcPDbSrmmwUdwjSOSPLVEcavIh7/rzlGAzC
+         hp1g==
+X-Forwarded-Encrypted: i=1; AJvYcCX5xYh03qQ1VFHcrD2nuSJlkr1mPlcX3Zj2P8v6rpmdiDJcuA8or7YOLdkhO3DDnEHn4+um0Sifcil4mg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8QV2f9k7fnaRbge9NIja5N1/L25DbHlcA5QGML7rH/B5/oN7b
+	Fi23Yo5zAhzBtKBAJGgdwqUBJbzHLCOIeAQ4xVmaTm2gnn2jIVRvbMP18f+h5w9PZl4=
+X-Gm-Gg: ATEYQzwx8YJDS1dZWTjai+NZEf8uzwUSjaGkBoPrjENZMNfjBf6MeoSoV7uylROKEvs
+	z3uvUqUjthlaLcTKV3807A9jYO9F84QlDjjj4t12c6mQ91JurSYiDJCP4QWEaUeyfl0jUXQYiux
+	Pd3/tHm/XcRB10vIy1Ii2WEpx7/bgKH0TjG6VZYC9T+dOxs2OGVl2MLnHjygoG2gemELRfc+wNJ
+	38cXYkzM/zgFY67F6HGCTyyHdNcH9Hf4IJmb23F92oM78R4br6MpziviHS+PtS2DR7QJfzAwpuo
+	v+plYXOVGnUjkBT//O2ThJOFSKRqBd5++OA298XX6c2tZCwskCHNh8Xy2+neJK7n2gBDDR3lRxn
+	2VA2je3vAp2uCsTBdMTu+9kRY89X/4k4Z3lHIji4xml0pToGEeFUq2RBPT284T95/EvfpDDo35P
+	OhtcSFqSm/O1aurKaWIgFl2O3RZNDK
+X-Received: by 2002:a05:620a:4489:b0:8cd:a801:cb1f with SMTP id af79cd13be357-8cfc7f48d36mr97810985a.35.1773952077194;
+        Thu, 19 Mar 2026 13:27:57 -0700 (PDT)
 Received: from ?IPv6:2606:6d00:11:b76d::5ac? ([2606:6d00:11:b76d::5ac])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cfc8fbe4edsm11003185a.20.2026.03.19.13.25.53
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cfc8fb9c10sm12702585a.19.2026.03.19.13.27.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 13:25:54 -0700 (PDT)
-Message-ID: <9816ad4b43c67b3e4dd779b44f5ee0d7d09d5ecd.camel@ndufresne.ca>
+        Thu, 19 Mar 2026 13:27:56 -0700 (PDT)
+Message-ID: <b6b9e336662fece0fc9e2aa132b7cbe02de38885.camel@ndufresne.ca>
 Subject: Re: [PATCH] media: mtk-jpeg: fix use-after-free in release path due
  to uncancelled work
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
@@ -84,7 +84,7 @@ To: Fan Wu <fanwu01@zju.edu.cn>, bin.liu@mediatek.com, mchehab@kernel.org,
 Cc: irui.wang@mediatek.com, kyrie.wu@mediatek.com, hverkuil@kernel.org, 
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Date: Thu, 19 Mar 2026 16:25:52 -0400
+Date: Thu, 19 Mar 2026 16:27:54 -0400
 In-Reply-To: <20260304031934.147483-1-fanwu01@zju.edu.cn>
 References: <20260304031934.147483-1-fanwu01@zju.edu.cn>
 Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
@@ -101,7 +101,7 @@ Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-Fr5ososJn9zdO55z0gpD"
+	protocol="application/pgp-signature"; boundary="=-lxOLEeh3tHLuJ4rdm5bO"
 User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -113,7 +113,7 @@ X-Spamd-Result: default: False [-2.06 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
@@ -123,11 +123,11 @@ X-Spamd-Result: default: False [-2.06 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[zju.edu.cn,mediatek.com,kernel.org,gmail.com,collabora.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56378-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56379-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
@@ -138,13 +138,13 @@ X-Spamd-Result: default: False [-2.06 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:email,ndufresne-ca.20230601.gappssmtp.com:dkim,ndufresne.ca:mid,zju.edu.cn:email]
-X-Rspamd-Queue-Id: 3840A2D2331
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:email,ndufresne.ca:mid,zju.edu.cn:email,ndufresne-ca.20230601.gappssmtp.com:dkim]
+X-Rspamd-Queue-Id: EC4402D23F4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---=-Fr5ososJn9zdO55z0gpD
+--=-lxOLEeh3tHLuJ4rdm5bO
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: base64
 
@@ -196,17 +196,17 @@ IMKgCXY0bDJfbTJtX2N0eF9yZWxlYXNlKGN0eC0+ZmgubTJtX2N0eCk7Cj4gwqAJdjRsMl9jdHJs
 X2hhbmRsZXJfZnJlZSgmY3R4LT5jdHJsX2hkbCk7Cg==
 
 
---=-Fr5ososJn9zdO55z0gpD
+--=-lxOLEeh3tHLuJ4rdm5bO
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCabxb0QAKCRDZQZRRKWBy
-9MsFAQCQeJjdR5w3hB/AAU/cM8jUtrK2jP1cB1pJtx3YrdQDZgD+NwcbZU9Z0Exl
-7VAkWg98FEyqc9733fs0ajNBFsNqMgM=
-=Rhr7
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCabxcSwAKCRDZQZRRKWBy
+9Kv5AP4qHemcfNFtM1PoQcuuolb7kFnIioH+wVCWJdCrdmbLIAD+LYg4aFIcaLL2
+Nr2+VTGkn6ryMeS4088D/Kp/7VyN4wQ=
+=EhsS
 -----END PGP SIGNATURE-----
 
---=-Fr5ososJn9zdO55z0gpD--
+--=-lxOLEeh3tHLuJ4rdm5bO--
 
