@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-56387-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56388-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iJbBMxBovGlQyQIAu9opvQ
-	(envelope-from <linux-media+bounces-56387-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 22:18:08 +0100
+	id sME9LaRovGlQyQIAu9opvQ
+	(envelope-from <linux-media+bounces-56388-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 22:20:36 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36ECA2D297C
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 22:18:08 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6952D29B0
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 22:20:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 19C9A3010525
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 21:18:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7256F316C493
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 21:19:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC9A4326D51;
-	Thu, 19 Mar 2026 21:17:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD89C3AF673;
+	Thu, 19 Mar 2026 21:19:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Hf757IYm"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="o3xTMww0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9D323D2A1;
-	Thu, 19 Mar 2026 21:17:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3ABC3AEF5F;
+	Thu, 19 Mar 2026 21:19:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773955078; cv=none; b=NmblGFSimtaY6HUTjBgFfnnlGsufrm7o/onk6c4KuLudGNH4RzhVEaiFkra55x0L097IeTCkG1ZudLv6+jo1a7rp9opPzYXtxxh8HWfhA7NxYdElTn9mJOoddUtWT76XtgOHCKE376zXFKZY3TL/4yJVidhQ2KHtBFRQ4VNTMzc=
+	t=1773955144; cv=none; b=NprJVi6EBEVo++aBFFkepMQd39K13W6I36WwTTV7jarK2fmczEMkQAH5PdhZ/BYZbFLJ4hIOjmx0D65ndaFtbSBQqyU3sSO8bVO2d/rZi/LM2bYi2s2SqM/rznXP8OKsJ0M6BGimma1NogWlV7bKAHC5cCqcBaeykHFFfXVO9ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773955078; c=relaxed/simple;
-	bh=7JyptTP6FFzefbiTDJSEQ7BxEUT6G+ZVczYYtcld+9U=;
+	s=arc-20240116; t=1773955144; c=relaxed/simple;
+	bh=hJgFRt/WPwZDJe3OaMRuks0sjPNx8HcH0bxKQhXQzVw=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YIKZ+GmbbrJZv4qtp9q8fWe5mltxKUNUdp3+i3QFvOL1X5PL15cbCJgCxlzkwizA8cGAbqX+MHrdaDI3mGd1g+EnLqxFAlqlm12LiqWZ/wRAar/WWvnR/86anJq5hAZS7IWnVSEXM+BtaqApMa50JdYdcce3zUWhu6/rXx0Geas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Hf757IYm; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=s70tTAvIJpiXBeVbWqqY9eiMNaaGUz1z1XUu5HlGNRQLUyVw0fQS3fl4PE5AFoRI0SJV308Rv6qIvaSH/vlO+au0uVqmpWfaDsD7p9nugBn+9p+ytlykUQJO8WXz5x2DtjRvy0yzIJcGmz26AyWzE0vjjAaFhlT39dBVm686feI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=o3xTMww0; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1773955074;
-	bh=7JyptTP6FFzefbiTDJSEQ7BxEUT6G+ZVczYYtcld+9U=;
+	s=mail; t=1773955140;
+	bh=hJgFRt/WPwZDJe3OaMRuks0sjPNx8HcH0bxKQhXQzVw=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Hf757IYmM23rrjFFi2A1ZRDWUeZxDQWY8IumZdvtW8JJez2dBaQJ4J7sG+w6/nYSk
-	 i9AyglWbSo6m8q/NdbqWBg5GSdQ8SK05Suzhd+q43gbXlA3IFBvTwGPiELHg7WEy9n
-	 O35aXUgyLl86iYFHEipSYhKS9Cymwmcd87XB1G2io878xCJwtAjY2nh9FweLsHtFIE
-	 gn9Ctu9n+cSkv4TGnoT0a7qvL+rMz2QRjGjx8NoUr61vlbBQ9wbc7S9WvQq54dqOEV
-	 /wZBHakml+mgTjH0XMayAhGBKWpslwBppaZrnhfenLmFopE2h2kyj4njCrcjAW1uS4
-	 yOu9PDDNcCDVQ==
+	b=o3xTMww0CtEGlHd2BF8eqmw/U1ua7kx0ESy5nsZsiifAKmaZEfICt4/arMrHi+ysD
+	 /OvhP2hbDkJJaENwU8ZKT/KY2IVyXIJbeUOy8TYPyOdqyhR3ZBVB+lDPN6uxwkJSAC
+	 mWtU1N8+6//4li5YPh0hwPYejaOdht9zUVcQfbN4usuF27PiG5jfJmSDlr3G49zfwR
+	 SSi5OMffBlnzjsUZIzZV+Il5B5DvY06gDIzESNsKjSyst0c8S9n807FwCm4pc1b/7w
+	 WllkRFY+zVBQxShKIWq/BAfRTBt5oZwyZ+HVc+cD1ovMzfoye3bU41+gwuWdFYfEj9
+	 5cr1jbtEoBLng==
 Received: from [IPv6:2606:6d00:11:b76d::5ac] (unknown [IPv6:2606:6d00:11:b76d::5ac])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id A908F17E0ECE;
-	Thu, 19 Mar 2026 22:17:53 +0100 (CET)
-Message-ID: <c6ddf8a7cc7224921b62f74b87d1c8e5c9c4a120.camel@collabora.com>
-Subject: Re: [PATCH v0 1/3] media: chips-media: wave5: Add Support for
- Background Detection
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D02D717E0ECE;
+	Thu, 19 Mar 2026 22:18:58 +0100 (CET)
+Message-ID: <153125d1c7021e84b6d165a799b5c0e628a7a774.camel@collabora.com>
+Subject: Re: [PATCH v0 3/3] media: chips-media: wave5: Add Support for
+ Packed YUV422 Formats
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: "Jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org, 
 	hverkuil-cisco@xs4all.nl, bob.beckett@collabora.com
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	lafley.kim@chipsnmedia.com, b-brnich@ti.com, hverkuil@xs4all.nl, 
 	nas.chung@chipsnmedia.com
-Date: Thu, 19 Mar 2026 17:17:51 -0400
-In-Reply-To: <20260319053210.90-2-jackson.lee@chipsnmedia.com>
+Date: Thu, 19 Mar 2026 17:18:57 -0400
+In-Reply-To: <20260319053210.90-4-jackson.lee@chipsnmedia.com>
 References: <20260319053210.90-1-jackson.lee@chipsnmedia.com>
-	 <20260319053210.90-2-jackson.lee@chipsnmedia.com>
+	 <20260319053210.90-4-jackson.lee@chipsnmedia.com>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -79,7 +79,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-USDCyQC8w9oWBCuQWsrV"
+	protocol="application/pgp-signature"; boundary="=-JJpfnELRynE3oz/s3lrq"
 User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -92,11 +92,11 @@ X-Spamd-Result: default: False [-4.26 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56387-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56388-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[chipsnmedia.com,kernel.org,xs4all.nl,collabora.com];
 	FREEMAIL_CC(0.00)[vger.kernel.org,chipsnmedia.com,ti.com,xs4all.nl];
@@ -105,7 +105,7 @@ X-Spamd-Result: default: False [-4.26 / 15.00];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	HAS_ORG_HEADER(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
@@ -116,234 +116,114 @@ X-Spamd-Result: default: False [-4.26 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 36ECA2D297C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:email,collabora.com:mid]
+X-Rspamd-Queue-Id: 1D6952D29B0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---=-USDCyQC8w9oWBCuQWsrV
+--=-JJpfnELRynE3oz/s3lrq
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Le jeudi 19 mars 2026 =C3=A0 14:32 +0900, Jackson.lee a =C3=A9crit=C2=A0:
 > From: Jackson Lee <jackson.lee@chipsnmedia.com>
 >=20
-> Wave5 encoder can be configured to detect a background region in a frame.
-> If a background region is detected, it will use less bits or skip mode to
-> encode that region. This can assist in lowering the video bitrate for a
-> given stream.
-
-Since you are adding a generic control (and I think the feature is pretty c=
-lear
-an generic), you should make this clear in the text. So start saying you ar=
-e
-adding a generic control for the background detection feature and then quot=
-e
-that this will be implemented by wave5. Its just a nit on wording, I have n=
-o
-doubt this option would also exist on other IP and be compatible through th=
-e
-provided description.
-
+> Wave5 encoder is capable of reading in numerous raw pixel formats.
+> Expose these formats and properly configure encoder if selected.
 >=20
 > Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
 > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
 > ---
-> =C2=A0Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 +++++
-> =C2=A0drivers/media/platform/chips-media/wave5/wave5-hw.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 4 +++-
-> =C2=A0drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c=C2=A0 | 7 =
-+++++++
-> =C2=A0drivers/media/platform/chips-media/wave5/wave5-vpuapi.h=C2=A0=C2=A0=
- | 1 +
-> =C2=A0drivers/media/v4l2-core/v4l2-ctrls-defs.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | =
-2 ++
-> =C2=A0include/uapi/linux/v4l2-controls.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 ++
-> =C2=A06 files changed, 20 insertions(+), 1 deletion(-)
+> =C2=A0.../platform/chips-media/wave5/wave5-helper.h |=C2=A0 2 +-
+> =C2=A0.../chips-media/wave5/wave5-vpu-enc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 32 +++++++++++++++++++
+> =C2=A02 files changed, 33 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index c8890cb5e00a..b992a0d5c7bf 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -605,6 +605,11 @@ enum v4l2_mpeg_video_frame_skip_mode -
-> =C2=A0=C2=A0=C2=A0=C2=A0 chosen data limit then the frame will be skipped=
-. Possible values
-> =C2=A0=C2=A0=C2=A0=C2=A0 are:
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.h b/dr=
+ivers/media/platform/chips-media/wave5/wave5-helper.h
+> index d61fdbda359d..e6f241012c3b 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-helper.h
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-helper.h
+> @@ -11,7 +11,7 @@
+> =C2=A0#include "wave5-vpu.h"
 > =C2=A0
-> +``V4L2_CID_MPEG_VIDEO_BACKGROUND_DETECTION (boolean)``
-> +=C2=A0=C2=A0=C2=A0 If enabled then, the encoder detect a background regi=
-on in frame and
-
-drop then
-
-> +=C2=A0=C2=A0=C2=A0 use low bits or skip mode to encode the background re=
-gion.
-> +=C2=A0=C2=A0=C2=A0 If a lot of scenes are stationary or background, It m=
-ay help to
-> +=C2=A0=C2=A0=C2=A0 reduce the video bitrate. Applicable to the encoder.
+> =C2=A0#define FMT_TYPES	2
+> -#define MAX_FMTS	12
+> +#define MAX_FMTS	16
 > =C2=A0
-> =C2=A0.. tabularcolumns:: |p{8.2cm}|p{9.3cm}|
-> =C2=A0
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c
-> b/drivers/media/platform/chips-media/wave5/wave5-hw.c
-> index 687ce6ccf3ae..c516d125f553 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
-
-Please, split the API addition from the driver changes.
-
-> @@ -49,6 +49,7 @@
-> =C2=A0
-> =C2=A0#define FASTIO_ADDRESS_MASK		GENMASK(15, 0)
-> =C2=A0#define SEQ_PARAM_PROFILE_MASK		GENMASK(30, 24)
-> +#define SEQ_BG_PARAM_REG_DATA		0x3800410
-> =C2=A0
-> =C2=A0static void _wave5_print_reg_err(struct vpu_device *vpu_dev, u32
-> reg_fail_reason,
-> =C2=A0				 const char *func);
-> @@ -1838,7 +1839,8 @@ int wave5_vpu_enc_init_seq(struct vpu_instance *ins=
-t)
-> =C2=A0	vpu_write_reg(inst->dev, W5_CMD_ENC_SEQ_RC_BIT_RATIO_LAYER_4_7, 0)=
-;
-> =C2=A0	vpu_write_reg(inst->dev, W5_CMD_ENC_SEQ_ROT_PARAM, rot_mir_mode);
-> =C2=A0
-> -	vpu_write_reg(inst->dev, W5_CMD_ENC_SEQ_BG_PARAM, 0);
-> +	vpu_write_reg(inst->dev, W5_CMD_ENC_SEQ_BG_PARAM,
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SEQ_BG_PARAM_REG_DATA | p_param->bg_det=
-ection);
-> =C2=A0	vpu_write_reg(inst->dev, W5_CMD_ENC_SEQ_CUSTOM_LAMBDA_ADDR, 0);
-> =C2=A0	vpu_write_reg(inst->dev, W5_CMD_ENC_SEQ_CONF_WIN_TOP_BOT,
-> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p_param->conf_win_bot << 16 | p_pa=
-ram->conf_win_top);
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> index 7613fcdbafed..6fe01217233f 100644
+> =C2=A0const char *state_to_str(enum vpu_instance_state state);
+> =C2=A0void wave5_cleanup_instance(struct vpu_instance *inst, struct file =
+*filp);
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/d=
+rivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> index f315ed7243a7..b24c65f174ea 100644
 > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
 > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> @@ -780,6 +780,9 @@ static int wave5_vpu_enc_s_ctrl(struct v4l2_ctrl *ctr=
-l)
-> =C2=A0	case V4L2_CID_MPEG_VIDEO_BITRATE:
-> =C2=A0		inst->bit_rate =3D ctrl->val;
-> =C2=A0		break;
-> +	case V4L2_CID_MPEG_VIDEO_BACKGROUND_DETECTION:
-> +		inst->enc_param.bg_detection =3D ctrl->val;
+> @@ -90,6 +90,22 @@ static const struct vpu_format enc_fmt_list[FMT_TYPES]=
+[MAX_FMTS] =3D {
+> =C2=A0			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV61M,
+> =C2=A0			.v4l2_frmsize =3D &enc_frmsize[VPU_FMT_TYPE_RAW],
+> =C2=A0		},
+> +		{
+> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_YUYV,
+> +			.v4l2_frmsize =3D &enc_frmsize[VPU_FMT_TYPE_RAW],
+> +		},
+> +		{
+> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_YVYU,
+> +			.v4l2_frmsize =3D &enc_frmsize[VPU_FMT_TYPE_RAW],
+> +		},
+> +		{
+> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_UYVY,
+> +			.v4l2_frmsize =3D &enc_frmsize[VPU_FMT_TYPE_RAW],
+> +		},
+> +		{
+> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_VYUY,
+> +			.v4l2_frmsize =3D &enc_frmsize[VPU_FMT_TYPE_RAW],
+> +		},
+> =C2=A0	}
+> =C2=A0};
+> =C2=A0
+> @@ -1161,6 +1177,22 @@ static int wave5_set_enc_openparam(struct enc_open=
+_param *open_param,
+> =C2=A0	else
+> =C2=A0		open_param->src_format =3D FORMAT_420;
+> =C2=A0
+> +	switch (info->format) {
+> +	case V4L2_PIX_FMT_YUYV:
+> +		open_param->packed_format =3D PACKED_YUYV;
 > +		break;
-> =C2=A0	case V4L2_CID_MPEG_VIDEO_GOP_SIZE:
-> =C2=A0		inst->enc_param.avc_idr_period =3D ctrl->val;
-> =C2=A0		break;
-> @@ -1205,6 +1208,7 @@ static int wave5_set_enc_openparam(struct enc_open_=
-param
-> *open_param,
-> =C2=A0	open_param->wave_param.beta_offset_div2 =3D input.beta_offset_div2=
-;
-> =C2=A0	open_param->wave_param.decoding_refresh_type =3D
-> input.decoding_refresh_type;
-> =C2=A0	open_param->wave_param.intra_period =3D input.intra_period;
-> +	open_param->wave_param.bg_detection =3D input.bg_detection;
-> =C2=A0	if (inst->std =3D=3D W_HEVC_ENC) {
-> =C2=A0		if (input.intra_period =3D=3D 0) {
-> =C2=A0			open_param->wave_param.decoding_refresh_type =3D
-> DEC_REFRESH_TYPE_IDR;
-> @@ -1700,6 +1704,9 @@ static int wave5_vpu_open_enc(struct file *filp)
-> =C2=A0	v4l2_ctrl_new_std(v4l2_ctrl_hdl, &wave5_vpu_enc_ctrl_ops,
-> =C2=A0			=C2=A0 V4L2_CID_MPEG_VIDEO_AU_DELIMITER,
-> =C2=A0			=C2=A0 0, 1, 1, 1);
-> +	v4l2_ctrl_new_std(v4l2_ctrl_hdl, &wave5_vpu_enc_ctrl_ops,
-> +			=C2=A0 V4L2_CID_MPEG_VIDEO_BACKGROUND_DETECTION,
-> +			=C2=A0 0, 1, 1, 0);
+> +	case V4L2_PIX_FMT_YVYU:
+> +		open_param->packed_format =3D PACKED_YVYU;
+> +		break;
+> +	case V4L2_PIX_FMT_UYVY:
+> +		open_param->packed_format =3D PACKED_UYVY;
+> +		break;
+> +	case V4L2_PIX_FMT_VYUY:
+> +		open_param->packed_format =3D PACKED_VYUY;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> =C2=A0	open_param->wave_param.gop_preset_idx =3D PRESET_IDX_IPP_SINGLE;
+> =C2=A0	open_param->wave_param.hvs_qp_scale =3D 2;
+> =C2=A0	open_param->wave_param.hvs_max_delta_qp =3D 10;
 
-The hard question, last parameter here is def, so I read this is disabled b=
-y
-default. What's the side effect of having this enabled by default ? Did you
-already considered that option ?
-
-regards,
-Nicolas
-
-> =C2=A0	v4l2_ctrl_new_std(v4l2_ctrl_hdl, &wave5_vpu_enc_ctrl_ops,
-> =C2=A0			=C2=A0 V4L2_CID_HFLIP,
-> =C2=A0			=C2=A0 0, 1, 1, 0);
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
-> b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
-> index c64135769869..dc31689e0d27 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
-> @@ -570,6 +570,7 @@ struct enc_wave_param {
-> =C2=A0	u32 transform8x8_enable: 1; /* enable 8x8 intra prediction and 8x8
-> transform */
-> =C2=A0	u32 mb_level_rc_enable: 1; /* enable MB-level rate control */
-> =C2=A0	u32 forced_idr_header_enable: 1; /* enable header encoding before =
-IDR
-> frame */
-> +	u32 bg_detection: 1; /* enable background detection */
-> =C2=A0};
-> =C2=A0
-> =C2=A0struct enc_open_param {
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4=
-l2-
-> core/v4l2-ctrls-defs.c
-> index 551426c4cd01..e062f2088490 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -889,6 +889,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> =C2=A0	case V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY:		return
-> "Display Delay";
-> =C2=A0	case V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE:	return
-> "Display Delay Enable";
-> =C2=A0	case V4L2_CID_MPEG_VIDEO_AU_DELIMITER:			return
-> "Generate Access Unit Delimiters";
-> +	case V4L2_CID_MPEG_VIDEO_BACKGROUND_DETECTION:		return
-> "Background Detection";
-> =C2=A0	case V4L2_CID_MPEG_VIDEO_H263_I_FRAME_QP:		return "H263
-> I-Frame QP Value";
-> =C2=A0	case V4L2_CID_MPEG_VIDEO_H263_P_FRAME_QP:		return "H263
-> P-Frame QP Value";
-> =C2=A0	case V4L2_CID_MPEG_VIDEO_H263_B_FRAME_QP:		return "H263
-> B-Frame QP Value";
-> @@ -1296,6 +1297,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
-> v4l2_ctrl_type *type,
-> =C2=A0	case V4L2_CID_MPEG_VIDEO_MPEG4_QPEL:
-> =C2=A0	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:
-> =C2=A0	case V4L2_CID_MPEG_VIDEO_AU_DELIMITER:
-> +	case V4L2_CID_MPEG_VIDEO_BACKGROUND_DETECTION:
-> =C2=A0	case V4L2_CID_WIDE_DYNAMIC_RANGE:
-> =C2=A0	case V4L2_CID_IMAGE_STABILIZATION:
-> =C2=A0	case V4L2_CID_RDS_RECEPTION:
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2=
--
-> controls.h
-> index 68dd0c4e47b2..939f796261c0 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -464,6 +464,8 @@ enum v4l2_mpeg_video_intra_refresh_period_type {
-> =C2=A0	V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_CYCLIC	=3D 1,
-> =C2=A0};
-> =C2=A0
-> +#define
-> V4L2_CID_MPEG_VIDEO_BACKGROUND_DETECTION	(V4L2_CID_CODEC_BASE+238)
-> +
-> =C2=A0/* CIDs for the MPEG-2 Part 2 (H.262) codec */
-> =C2=A0#define
-> V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
-> =C2=A0enum v4l2_mpeg_video_mpeg2_level {
-
---=-USDCyQC8w9oWBCuQWsrV
+--=-JJpfnELRynE3oz/s3lrq
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCabxn/wAKCRDZQZRRKWBy
-9LD/AQCS1rDEjXwUoahytHRC/EB1pghlQrbyFWpfB25j6/AGswEApDd149gRHYTQ
-RDrj7oOaIyDHCE4hQqCYe0ckVUNHhAI=
-=EYVd
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCabxoQQAKCRDZQZRRKWBy
+9PLyAP96JSXGKiZxZaxvJE0BoY0rQHrQvofX2yWuY5rUWUO9QQEA8nkC6Rt+Hs68
++saAVjHQ8imq3lZPDQC8UK7Xyt5lTwI=
+=G9Tt
 -----END PGP SIGNATURE-----
 
---=-USDCyQC8w9oWBCuQWsrV--
+--=-JJpfnELRynE3oz/s3lrq--
 
