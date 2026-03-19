@@ -1,434 +1,326 @@
-Return-Path: <linux-media+bounces-56265-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56266-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CAzsJ/tAu2l6hgIAu9opvQ
-	(envelope-from <linux-media+bounces-56265-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 01:19:07 +0100
+	id GF1YAD9Fu2miiAIAu9opvQ
+	(envelope-from <linux-media+bounces-56266-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 01:37:19 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC562C4124
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 01:19:06 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC9432C4221
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 01:37:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 81B1830CD43D
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 00:18:26 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B6699301F380
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 00:37:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A9A91EE033;
-	Thu, 19 Mar 2026 00:18:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D122323B62C;
+	Thu, 19 Mar 2026 00:37:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="GXSW+aHD";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PfCtjg6O"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ObEqNqPB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4E11F03D9
-	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 00:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8526A40DFA9
+	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 00:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773879505; cv=none; b=Xm6//S3I4NWZ6ewOGDzSqKGElIi7MS9D3dewbBmSW1pdPDH7Mfq3idNUAmlqZMxbe0G4oDdOBNrQuPHbw1ZzvHNnGrzYpyuT6gqedkfv1KIVxgE/g0GjU+3TEXBWx47ivHOwKvlJVEMymOMHFigP9Njqrs+QkH6LCASeTzbCkm8=
+	t=1773880629; cv=none; b=WgUCnVsjlyzoOeGQe+rIvaNHThDzBhQ0a/2Rvg1M8DfU3ZR+9xjZVFbsSV+HquvwGvywk/Xy1P1i5nuNDCqfZAH8vuNMVF2mRws3jCBVx0ZxL7n60eZ73FcnxEuLvxHXvvgX6m+etsJGdJLmeVaraTe6tor+nE2ppCNsNmgvciY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773879505; c=relaxed/simple;
-	bh=rb7ieTPUZHZbljaJeXs7Ic0fLgCqnmmt7lqEIjsK1hA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KGkTsT5MUfd5FRgxilaDa2rE8PutlJwJ8DL0XLGyIsb4wi/2pChdtX4Gf4afP/D/2/c/Q+rDR+v/zs/f0xgE/dtMGSmPUZxJwUKE0GRWlSzuGzpQDu7Y8NaTRZ4CZEx7kGs9Gm6pJcVeU3zJ366SiE+EGJZgLbdCSIjh7wtXpEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invisiblethingslab.com; spf=pass smtp.mailfrom=invisiblethingslab.com; dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b=GXSW+aHD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PfCtjg6O; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invisiblethingslab.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=invisiblethingslab.com
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id DF96D7A0132;
-	Wed, 18 Mar 2026 20:18:21 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Wed, 18 Mar 2026 20:18:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	invisiblethingslab.com; h=cc:cc:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1773879501; x=1773965901; bh=vo
-	gDOcaouUKjSOrkTjKXRc3v47J5s1RdsAeBUjwoEug=; b=GXSW+aHDSiE7c6VIxh
-	wNuWLKtGtfaE9sjV8xTfpgLlpcPxqtCV+fAnGdqEphe6/dOe049S9N4TW1iA4zib
-	nnLnM0T1jvB2+Ad3uCXBEykXPv5z7mWSM+sGLuQnH68jlTnxsFE7A7UGExZvL5Yt
-	Iu5g2OMN1Uv0W7fztKy5eo1XFszqmqA7Y93OTCSq7Gailf+Xj5QQPsgf6C/7FdP4
-	8NZkO+gAl1hQRJ4eY8xb0A5llqDoqXDTsItwdw8qb4qF/psRogn+xY8s3sEO81Jp
-	vt0wyiq/OP669tBSUit4YoniaL5hZzHdnIiCeOy458Me+2lP9M2aNuSp2fX/Y9Fl
-	a+Xg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773879501; x=
-	1773965901; bh=vogDOcaouUKjSOrkTjKXRc3v47J5s1RdsAeBUjwoEug=; b=P
-	fCtjg6OB8V36//4vSwZDfxGdPUNJ91uzZMXP24ra2alVdtr0oPnv+/4CcvZlgPza
-	EpcgOPho93VZt84x8b6f54qDufCbfwy/BI6Cg0lZQXg62+T8OMF4cpdqnN60JlA2
-	K+9BYtIVm9BzuX/Zh1QuhVZ440HkmoP5ol5h+KI1nLfKH5rV6jlXUcubWX1t+nc5
-	NusGPEwpHeiBd4gJEJx4CePhnWeYqn0a0fkheIVJbA2Mq96jesV4SifW3FX0SlBn
-	us/Bmyas9+6fGoKW5yb/eaco1Z+wRT29qTJUdlAEnamcK0/DF/vNJ3TlO4jEqdfL
-	cZrgighYV0oExmIzryGIw==
-X-ME-Sender: <xms:zUC7aUih41nhw1keHEHTdNjcCRQ1lkMOkzDRwyu4ZEM5eVqK2QNQTA>
-    <xme:zUC7aUAcYUohXmGR1M5nWQwFIUFRtYSx_q9KyRPDaqi0ecCYvOqekqHatBysosJg1
-    TIVTqY01LuL77C9JV01dnFNzvLg6Xl1Q51B7XOuwf_jJWVCt5o>
-X-ME-Received: <xmr:zUC7aRGVpOMweOMTwwcvvkKXmg9xzn23TbcB6X6CD-NY5Pw8iYQRmrFiLK57YCtfvLczHe525MaAajNhmZ3P6LAZ6WDZ9W3767M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftdehheehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkgggtugesghdtreertddtjeenucfhrhhomhepofgrrhgvkhcuofgr
-    rhgtiiihkhhofihskhhiqdfikphrvggtkhhiuceomhgrrhhmrghrvghksehinhhvihhsih
-    gslhgvthhhihhnghhslhgrsgdrtghomheqnecuggftrfgrthhtvghrnhephfetuefhiefg
-    tddtlefggffggeevhedtvdefffeugfeiieeiheefteefgefggeejnecuffhomhgrihhnpe
-    hgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
-    ihhlfhhrohhmpehmrghrmhgrrhgvkhesihhnvhhishhisghlvghthhhinhhgshhlrggsrd
-    gtohhmpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
-    pehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpd
-    hrtghpthhtohephhgrnhhsgheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhu
-    gidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuh
-    igqdhmmheskhhvrggtkhdrohhrgh
-X-ME-Proxy: <xmx:zUC7aULMzM0ksn_VXfyPXkkJEz8YL6Ms5DtUnomxF5ZLWjjdFcapZw>
-    <xmx:zUC7adl5z9X-hGxPCxfZSrLbozRicsrxAuLVrMwqfCriyf4AEMC0qA>
-    <xmx:zUC7aUQlckFFyvyYs4emDwh9W-R2aiSRfjSwyaXYAmsajDJourG8KQ>
-    <xmx:zUC7aXIJsEUMCmMvOpoEIBTikaoEyGIMWEGzLHO8hv5tWXhHijK-bw>
-    <xmx:zUC7aZSO6wyJwWrfuvWjgDq0vZ3GykHrd9PYvLPnzppE8rJYdkQxDZZ4>
-Feedback-ID: i1568416f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Mar 2026 20:18:20 -0400 (EDT)
-Date: Thu, 19 Mar 2026 01:18:18 +0100
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-mm@kvack.org
-Subject: Linux 7.0-rc4: v4l2src0:src: page allocation failure - increased
- memory usage in 7.0?
-Message-ID: <abtAylIlW3I8s1T-@mail-itl>
+	s=arc-20240116; t=1773880629; c=relaxed/simple;
+	bh=uJNAyle4zAzMsIs0lVM+zK/JQ69dXo4Co0vASBFr0wo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kCG/TMVbj8hw0zixaTag2PHdcjUdsiCvh8v+zL7eFjvn9k3d5Vi9cDD9UbtsLjKIaMkN277PPDxvMLhedZWq+LSMmkS8yM8N7bT9LVvdpqemwsp7OoHxscTeAU7vQUAX8lbslHmyGe/VBUhln7mcbVXTyQSdKuMcCaxDPqHkcoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ObEqNqPB; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38bd3c6c502so2911331fa.1
+        for <linux-media@vger.kernel.org>; Wed, 18 Mar 2026 17:37:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773880625; x=1774485425; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SP0hOZ1M81RHmvuBjKc1wEu3kqZ8izLnurhKEm9dt2s=;
+        b=ObEqNqPBztXFbpqKYXDtTPZXckMz3ly2pi0ChAdHCgZXqCbmSXBL9yC34GFLfrbxPD
+         PAmGbBctP7wUu57r+pylJBKiqwhzWxZW74Usk/QUWkJ5JNhivnCfCDGtvZ+T38myS8FP
+         oMDzU/GVdkC1vFqHLByXwausLb+oEfvHS23qT6yD6YUsOyx9T1F7mEhVvWcVkIG9krGf
+         C0Su3SmYMDxQaaokETPLWzaXBVh7T1dJkII3iuiJxckbY3tuK6orAy/0cIsp8boNcNyk
+         Vcl25qtz9fzpSfaMKDcclU7f6gb9lQ8fU55uuz1v4NZAiXFv7GYDv3XjMpv3j7qjIcH/
+         G7YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773880625; x=1774485425;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SP0hOZ1M81RHmvuBjKc1wEu3kqZ8izLnurhKEm9dt2s=;
+        b=L3OuGiJHvNXcm4Or6r1vkgxiDy/d/Yk2UzpOmTP8+kBVQ8YS2tXh9dceinV8gvElKa
+         Uii/zwhkffdEJfRFoGCa6/rlkDUoYIV9ONiV9br1EeKrrTElqa/wE9fYlquh9OKuu8Le
+         wHinPgKNlcnHZRbmuV5hPoX0pmFo7OPxz2pXtIA8t9CQ7WfNNxtT5JebI7WEL2rHstCs
+         2BXCirHFlq/PCcNMS5jhfCKVXxmX7pYKQPPMBX8jkDEc9sIKDGe1G36IdCTUEcAkPybN
+         ulYdrtWakzfSfa1UpaZTQlb3lQoalBCl8WTkYP9sS2gWV3GpsOE6uMmzzOrzZRRxa4Wl
+         fnPA==
+X-Forwarded-Encrypted: i=1; AJvYcCWyifsdsCvBcMmxVcxc2+kQIwcu/gQKW7I+K++lu6g8xJKQJ1Yh16Z4PYRSTIG4/nYc+GyS4HUCdOGosQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YziI91AotjMJNU4Mipp5obEZVLJFApSD1rGdIOYW0JFcvzjVi9j
+	8GZWERVycbB3NspQ6lYdfOk8orh/XXNH8ku3aDO7oMkrZRkXMSln+UslScm+0Q==
+X-Gm-Gg: ATEYQzy3SUt6NoGJ6ZDlNhaYJ4qKF+zC8XBPHA3T7XSDWFCzO7Qao/OEYAWD805fiWL
+	DENq2c23k7bomtj4krZ+IyB/3Y2FWjIGINgs4OVV4dPfmOIcnu9AqstPN8R3y2zXZv4WQubIm1S
+	Axpd0DZeSHaplTAR8O5pK2G+mvesK5I6xiF7I4SvDLgb+GpVVFU8mB6DMNuy5ErMRLEr2xPEduQ
+	H56H1fBmeLA0Up96SCNdppx1aqY2YX4HiEo/4dNY5ZC6ocaN60cOWZGOE6Tb2UBhklAIMnAEJJl
+	ArQWv/2egzi1IMEcO/SpbaW4bthOkO9x1fW6osfr9J4VvN4azXCvyDVicE5zxZ1IB8vkxnVXINN
+	5EsybdVdOMa1HrOxs/23WDgJi76txK0be0F+K/KE+5HkePlnyRZZucvGS8Bv7KEg1isjwMHcMUM
+	IHFve7axRfj8S9O4rL9RpinylfD+AxOlvQ70YTEE0psxlUhg==
+X-Received: by 2002:a05:651c:106b:b0:38a:2eb6:cd26 with SMTP id 38308e7fff4ca-38bd578b7a4mr15901651fa.6.1773880624425;
+        Wed, 18 Mar 2026 17:37:04 -0700 (PDT)
+Received: from foxbook (bfk214.neoplus.adsl.tpnet.pl. [83.28.48.214])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38bd517c609sm9001871fa.13.2026.03.18.17.37.01
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 18 Mar 2026 17:37:03 -0700 (PDT)
+Date: Thu, 19 Mar 2026 01:36:57 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede
+ <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] media: uvcvideo: Introduce
+ allow_privacy_override module parameter
+Message-ID: <20260319013657.155efeb0.michal.pecio@gmail.com>
+In-Reply-To: <20260316-uvcdynctrl-v3-3-19cd4657e1f3@chromium.org>
+References: <20260316-uvcdynctrl-v3-0-19cd4657e1f3@chromium.org>
+	<20260316-uvcdynctrl-v3-3-19cd4657e1f3@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="3KD19i2MxeWtKiZr"
-Content-Disposition: inline
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUBJECT_ENDS_QUESTION(1.00)[];
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[invisiblethingslab.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[invisiblethingslab.com:s=fm1,messagingengine.com:s=fm1];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56265-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-56266-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[invisiblethingslab.com:+,messagingengine.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[marmarek@invisiblethingslab.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.989];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[michalpecio@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.966];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: DCC562C4124
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: DC9432C4221
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On Mon, 16 Mar 2026 13:34:46 +0000, Ricardo Ribalda wrote:
+> Some camera modules have XU controls that can configure the behaviour of
+> the privacy LED.
+> 
+> Block mapping of those controls, unless the module is configured with
+> a new parameter: allow_privacy_override.
+> 
+> This is just an interim solution. Based on the users feedback, we will
+> either put the privacy controls behind a CONFIG option, or completely
+> block them.
 
---3KD19i2MxeWtKiZr
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Mar 2026 01:18:18 +0100
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-mm@kvack.org
-Subject: Linux 7.0-rc4: v4l2src0:src: page allocation failure - increased
- memory usage in 7.0?
+What feedback do you expect to get?
 
-Hello,
+Users will one day see their setup broken.
+They will curse you and jump through the hoops you set up.
+Next year they will see their setup broken completely.
+They will curse again and wish you all pain, but *after* the fact.
 
-When testing 7.0-rc4 (and also got it with 7.0-rc1), I got page
-allocation failure in uvcvideo when using v4l2 camera in a VM. The setup
-is rather memory constrained - it's a HVM with just 300MB of memory
-running on Xen, with PCI passthrough of USB controllers (to which an USB
-camera is connected). But the very same setup works just fine with older
-kernel (last known good is 6.19.5, built with the same config).
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c   | 38 ++++++++++++++++++++++++++++++++++++++
+>  drivers/media/usb/uvc/uvc_driver.c | 20 ++++++++++++++++++++
+>  drivers/media/usb/uvc/uvc_v4l2.c   |  7 +++++++
+>  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
+>  include/linux/usb/uvc.h            |  4 ++++
+>  5 files changed, 71 insertions(+)
 
-I'm not exactly sure if uvcvideo is really to blame here, or is it just
-a victim of something else using more memory. Any advice how to check
-for that?
+This doesn't seem to cover libusb, VM guests and such.
 
-The specific error is:
+What's even the attack vector? It has to be full remote code execution.
+And it's just an LED, when you see it turn on somebody already has your
+mugshot, if you notice at all. And the mugshot isn't your worst worry.
 
-    [  739.040844] systemd-journald[251]: Under memory pressure, flushing c=
-aches.
-    [  739.193589] v4l2src0:src: page allocation failure: order:5, mode:0xc=
-c4(GFP_KERNEL|GFP_DMA32), nodemask=3D(null),cpuset=3D/,mems_allowed=3D0
-    [  739.193645] CPU: 0 UID: 1000 PID: 1305 Comm: v4l2src0:src Not tainte=
-d 7.0.0-0.rc4.1.qubes.1001.fc41.x86_64 #1 PREEMPT(full)=20
-    [  739.193648] Hardware name: Xen HVM domU, BIOS 4.19.4 03/17/2026
-    [  739.193649] Call Trace:
-    [  739.193652]  <TASK>
-    [  739.193656]  dump_stack_lvl+0x5d/0x80
-    [  739.193661]  warn_alloc+0x162/0x190
-    [  739.193665]  ? __alloc_pages_direct_compact+0x1bc/0x220
-    [  739.193669]  __alloc_pages_slowpath.constprop.0+0x4ea/0xb30
-    [  739.193672]  ? kernfs_activate+0x4c/0x60
-    [  739.193676]  __alloc_frozen_pages_noprof+0x2ff/0x340
-    [  739.193679]  __alloc_pages_noprof+0xe/0x20
-    [  739.193682]  __dma_direct_alloc_pages.isra.0+0x183/0x310
-    [  739.193688]  dma_direct_alloc_pages+0x3f/0x190
-    [  739.193693]  dma_alloc_noncontiguous+0xdd/0x290
-    [  739.193698]  ? usb_create_ep_devs+0xab/0x100
-    [  739.193701]  usb_alloc_noncoherent+0x45/0xa0
-    [  739.193709]  uvc_alloc_urb_buffers.part.0+0x93/0x130 [uvcvideo]
-    [  739.193722]  uvc_video_start_transfer+0x19d/0x4e0 [uvcvideo]
-    [  739.193735]  uvc_video_start_streaming+0xab/0x100 [uvcvideo]
-    [  739.193744]  uvc_start_streaming_video+0xec/0x110 [uvcvideo]
-    [  739.193752]  vb2_start_streaming+0x63/0x130 [videobuf2_common]
-    [  739.193761]  vb2_core_streamon+0x98/0xf0 [videobuf2_common]
-    [  739.193767]  ? vb2_ioctl_streamon+0x15/0x60 [videobuf2_v4l2]
-    [  739.193773]  __video_do_ioctl+0x419/0x540 [videodev]
-    [  739.193799]  video_usercopy+0x23b/0x630 [videodev]
-    [  739.193819]  ? __pfx___video_do_ioctl+0x10/0x10 [videodev]
-    [  739.193836]  v4l2_ioctl+0x6b/0xa0 [videodev]
-    [  739.193851]  __x64_sys_ioctl+0x96/0xe0
-    [  739.193855]  do_syscall_64+0x120/0x6c0
-    [  739.193859]  ? do_read_fault+0xf5/0x220
-    [  739.193863]  ? do_fault+0x148/0x270
-    [  739.193865]  ? __handle_mm_fault+0x470/0x6c0
-    [  739.193868]  ? count_memcg_events+0xeb/0x1b0
-    [  739.193871]  ? handle_mm_fault+0x220/0x340
-    [  739.193873]  ? do_user_addr_fault+0x1e5/0x7f0
-    [  739.193876]  ? arch_exit_to_user_mode_prepare.isra.0+0x9f/0xe0
-    [  739.193880]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-    [  739.193883] RIP: 0033:0x738e787000ed
-    [  739.193886] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7=
- 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05=
- <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
-    [  739.193888] RSP: 002b:0000738e730e6a00 EFLAGS: 00000246 ORIG_RAX: 00=
-00000000000010
-    [  739.193890] RAX: ffffffffffffffda RBX: 0000738e64008850 RCX: 0000738=
-e787000ed
-    [  739.193892] RDX: 000059d3df721cf0 RSI: 0000000040045612 RDI: 0000000=
-000000010
-    [  739.193893] RBP: 0000738e730e6a50 R08: 0000738e6400ae40 R09: 0000000=
-000000000
-    [  739.193894] R10: 0000738e6400ae30 R11: 0000000000000246 R12: 0000000=
-000000000
-    [  739.193895] R13: 0000738e640012d0 R14: 0000738e64008850 R15: 0000000=
-000000002
-    [  739.193897]  </TASK>
-    [  739.193907] Mem-Info:
-    [  739.194897] active_anon:362 inactive_anon:3172 isolated_anon:0
-    [  739.194897]  active_file:2498 inactive_file:11687 isolated_file:1
-    [  739.194897]  unevictable:0 dirty:0 writeback:4
-    [  739.194897]  slab_reclaimable:3707 slab_unreclaimable:10022
-    [  739.194897]  mapped:4710 shmem:9 pagetables:1021
-    [  739.194897]  sec_pagetables:0 bounce:0
-    [  739.194897]  kernel_misc_reclaimable:0
-    [  739.194897]  free:3452 free_pcp:1 free_cma:0
-    [  739.195008] Node 0 active_anon:1448kB inactive_anon:12688kB active_f=
-ile:9992kB inactive_file:46748kB unevictable:0kB isolated(anon):0kB isolate=
-d(file):4kB mapped:18840kB dirty:0kB writeback:16kB shmem:36kB shmem_thp:0k=
-B shmem_pmdmapped:0kB anon_thp:0kB kernel_stack:2416kB pagetables:4084kB se=
-c_pagetables:0kB all_unreclaimable? no Balloon:16384kB
-    [  739.195097] Node 0 DMA free:2828kB boost:0kB min:132kB low:164kB hig=
-h:196kB reserved_highatomic:0KB free_highatomic:0KB active_anon:224kB inact=
-ive_anon:940kB active_file:1360kB inactive_file:2408kB unevictable:0kB writ=
-epending:0kB zspages:0kB present:15992kB managed:15360kB mlocked:0kB bounce=
-:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB
-    [  739.195186] lowmem_reserve[]: 0 195 195 195 195
-    [  739.196280] Node 0 DMA32 free:14880kB boost:3856kB min:5572kB low:60=
-00kB high:6428kB reserved_highatomic:0KB free_highatomic:0KB active_anon:12=
-24kB inactive_anon:11728kB active_file:8632kB inactive_file:40024kB unevict=
-able:0kB writepending:16kB zspages:0kB present:274348kB managed:200080kB ml=
-ocked:0kB bounce:0kB free_pcp:316kB local_pcp:236kB free_cma:0kB
-    [  739.196372] lowmem_reserve[]: 0 0 0 0 0
-    [  739.196388] Node 0 DMA: 193*4kB (UM) 213*8kB (UM) 22*16kB (UM) 0*32k=
-B 0*64kB 0*128kB 0*256kB 0*512kB 0*1024kB 0*2048kB 0*4096kB =3D 2828kB
-    [  739.196433] Node 0 DMA32: 1631*4kB (UME) 764*8kB (UME) 138*16kB (UME=
-) 8*32kB (UM) 3*64kB (M) 1*128kB (M) 0*256kB 0*512kB 0*1024kB 0*2048kB 0*40=
-96kB =3D 15420kB
-    [  739.196487] Node 0 hugepages_total=3D0 hugepages_free=3D0 hugepages_=
-surp=3D0 hugepages_size=3D2048kB
-    [  739.196514] 14914 total pagecache pages
-    [  739.196527] 2073 pages in swap cache
-    [  739.196539] Free swap  =3D 961672kB
-    [  739.196551] Total swap =3D 1048572kB
-    [  739.196563] 72585 pages RAM
-    [  739.196572] 0 pages HighMem/MovableOnly
-    [  739.196584] 18725 pages reserved
-    [  739.196596] 0 pages cma reserved
-    [  739.196608] 0 pages hwpoisoned
-    [  739.196620] Memory cgroup min protection 0kB -- low protection 0kB
-    [  739.196627] ------------[ cut here ]------------
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index b6e020b41671..3ca108b83f1d 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -3001,6 +3001,35 @@ static int uvc_ctrl_init_xu_ctrl(struct uvc_device *dev,
+>  	return ret;
+>  }
+>  
+> +bool uvc_ctrl_is_privacy_control(u8 entity[16], u8 selector)
+> +{
+> +	/*
+> +	 * This list is not exhaustive, it is a best effort to block access to
+> +	 * non documented controls that can affect user's privacy.
+> +	 */
 
-Additionally, this failure isn't handled gracefully, it's followed with:
+So it's not removal of some controversial feature, but 3KB of extra
+code in everybody's kernel (I just applied this patch) and a forever
+game of whack-a-mole with HW vendors? They will win...
 
-    [  739.196672] UBSAN: shift-out-of-bounds in /builddir/build/BUILD/kern=
-el-latest-7.0-build/kernel-latest-7.0/linux-7.0-rc4/mm/page_alloc.c:1403:22
-    [  739.196710] shift exponent 52 is too large for 32-bit type 'int'
-    [  739.196730] CPU: 1 UID: 1000 PID: 1305 Comm: v4l2src0:src Not tainte=
-d 7.0.0-0.rc4.1.qubes.1001.fc41.x86_64 #1 PREEMPT(full)=20
-    [  739.196733] Hardware name: Xen HVM domU, BIOS 4.19.4 03/17/2026
-    [  739.196734] Call Trace:
-    [  739.196737]  <TASK>
-    [  739.196739]  dump_stack_lvl+0x5d/0x80
-    [  739.196744]  ubsan_epilogue+0x5/0x2b
-    [  739.196746]  __ubsan_handle_shift_out_of_bounds.cold+0x61/0xe6
-    [  739.196749]  __free_pages_ok.cold+0x13/0xa8
-    [  739.196753]  dma_free_noncontiguous+0xbf/0xe0
-    [  739.196756]  ? usb_free_noncoherent+0x3a/0x60
-    [  739.196761]  uvc_free_urb_buffers+0x38/0x90 [uvcvideo]
-    [  739.196773]  uvc_alloc_urb_buffers.part.0+0xe6/0x130 [uvcvideo]
-    [  739.196781]  uvc_video_start_transfer+0x19d/0x4e0 [uvcvideo]
-    [  739.196789]  uvc_video_start_streaming+0xab/0x100 [uvcvideo]
-    [  739.196797]  uvc_start_streaming_video+0xec/0x110 [uvcvideo]
-    [  739.196806]  vb2_start_streaming+0x63/0x130 [videobuf2_common]
-    [  739.196813]  vb2_core_streamon+0x98/0xf0 [videobuf2_common]
-    [  739.196819]  ? vb2_ioctl_streamon+0x15/0x60 [videobuf2_v4l2]
-    [  739.196824]  __video_do_ioctl+0x419/0x540 [videodev]
-    [  739.196847]  video_usercopy+0x23b/0x630 [videodev]
-    [  739.196863]  ? __pfx___video_do_ioctl+0x10/0x10 [videodev]
-    [  739.196880]  v4l2_ioctl+0x6b/0xa0 [videodev]
-    [  739.196895]  __x64_sys_ioctl+0x96/0xe0
-    [  739.196898]  do_syscall_64+0x120/0x6c0
-    [  739.196902]  ? do_read_fault+0xf5/0x220
-    [  739.196906]  ? do_fault+0x148/0x270
-    [  739.196908]  ? __handle_mm_fault+0x470/0x6c0
-    [  739.196911]  ? count_memcg_events+0xeb/0x1b0
-    [  739.196914]  ? handle_mm_fault+0x220/0x340
-    [  739.196916]  ? do_user_addr_fault+0x1e5/0x7f0
-    [  739.196920]  ? arch_exit_to_user_mode_prepare.isra.0+0x9f/0xe0
-    [  739.196924]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-    [  739.196926] RIP: 0033:0x738e787000ed
-    [  739.196929] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7=
- 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05=
- <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
-    [  739.196930] RSP: 002b:0000738e730e6a00 EFLAGS: 00000246 ORIG_RAX: 00=
-00000000000010
-    [  739.196933] RAX: ffffffffffffffda RBX: 0000738e64008850 RCX: 0000738=
-e787000ed
-    [  739.196934] RDX: 000059d3df721cf0 RSI: 0000000040045612 RDI: 0000000=
-000000010
-    [  739.196935] RBP: 0000738e730e6a50 R08: 0000738e6400ae40 R09: 0000000=
-000000000
-    [  739.196936] R10: 0000738e6400ae30 R11: 0000000000000246 R12: 0000000=
-000000000
-    [  739.196937] R13: 0000738e640012d0 R14: 0000738e64008850 R15: 0000000=
-000000002
-    [  739.196939]  </TASK>
-    [  739.196940] ---[ end trace ]---
-    [  739.197835] BUG: Bad page state in process v4l2src0:src  pfn:009a0
-    [  739.198028] page: refcount:0 mapcount:0 mapping:0000000000000000 ind=
-ex:0x2a pfn:0x9a0
-    [  739.198054] flags: 0x7ffffc0000000(node=3D0|zone=3D0|lastcpupid=3D0x=
-1fffff)
-    [  739.198074] page_type: f0(buddy)
-    [  739.198088] raw: 0007ffffc0000000 fffffac1c0026a08 fffffac1c0025e08 =
-0000000000000000
-    [  739.198111] raw: 000000000000002a 0000000000000002 00000000f0000000 =
-0000000000000000
-    [  739.198133] page dumped because: nonzero mapcount
-    [  739.198149] Modules linked in: nft_reject_ipv6 nf_reject_ipv6 nft_re=
-ject_ipv4 nf_reject_ipv4 nft_reject nft_ct nft_masq nft_chain_nat nf_nat nf=
-_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables uvcvideo ath3k btusb btm=
-tk uvc videobuf2_vmalloc btrtl videobuf2_memops videobuf2_v4l2 cdc_mbim btb=
-cm cdc_ncm videobuf2_common btintel cdc_ether usbnet videodev bluetooth mii=
- cdc_wdm mc rfkill cdc_acm joydev intel_rapl_msr intel_rapl_common ghash_cl=
-mulni_intel xhci_pci xhci_hcd ehci_pci ehci_hcd pcspkr i2c_piix4 ata_generi=
-c pata_acpi i2c_smbus serio_raw xen_scsiback target_core_mod xen_netback xe=
-n_privcmd xen_gntdev xen_gntalloc xen_blkback xen_evtchn i2c_dev fuse loop =
-nfnetlink overlay xen_blkfront
-    [  739.198472] CPU: 1 UID: 1000 PID: 1305 Comm: v4l2src0:src Not tainte=
-d 7.0.0-0.rc4.1.qubes.1001.fc41.x86_64 #1 PREEMPT(full)=20
-    [  739.198475] Hardware name: Xen HVM domU, BIOS 4.19.4 03/17/2026
-    [  739.198477] Call Trace:
-    [  739.198479]  <TASK>
-    [  739.198480]  dump_stack_lvl+0x5d/0x80
-    [  739.198485]  bad_page.cold+0x7a/0x91
-    [  739.198488]  __free_pages_ok+0x481/0x680
-    [  739.198491]  dma_free_noncontiguous+0xbf/0xe0
-    [  739.198494]  ? usb_free_noncoherent+0x3a/0x60
-    [  739.198497]  uvc_free_urb_buffers+0x38/0x90 [uvcvideo]
-    [  739.198507]  uvc_alloc_urb_buffers.part.0+0xe6/0x130 [uvcvideo]
-    [  739.198515]  uvc_video_start_transfer+0x19d/0x4e0 [uvcvideo]
-    [  739.198523]  uvc_video_start_streaming+0xab/0x100 [uvcvideo]
-    [  739.198531]  uvc_start_streaming_video+0xec/0x110 [uvcvideo]
-    [  739.198539]  vb2_start_streaming+0x63/0x130 [videobuf2_common]
-    [  739.198546]  vb2_core_streamon+0x98/0xf0 [videobuf2_common]
-    [  739.198551]  ? vb2_ioctl_streamon+0x15/0x60 [videobuf2_v4l2]
-    [  739.198555]  __video_do_ioctl+0x419/0x540 [videodev]
-    [  739.198574]  video_usercopy+0x23b/0x630 [videodev]
-    [  739.198590]  ? __pfx___video_do_ioctl+0x10/0x10 [videodev]
-    [  739.198607]  v4l2_ioctl+0x6b/0xa0 [videodev]
-    [  739.198622]  __x64_sys_ioctl+0x96/0xe0
-    [  739.198625]  do_syscall_64+0x120/0x6c0
-    [  739.198629]  ? do_read_fault+0xf5/0x220
-    [  739.198632]  ? do_fault+0x148/0x270
-    [  739.198635]  ? __handle_mm_fault+0x470/0x6c0
-    [  739.198637]  ? count_memcg_events+0xeb/0x1b0
-    [  739.198640]  ? handle_mm_fault+0x220/0x340
-    [  739.198642]  ? do_user_addr_fault+0x1e5/0x7f0
-    [  739.198645]  ? arch_exit_to_user_mode_prepare.isra.0+0x9f/0xe0
-    [  739.198648]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-    [  739.198651] RIP: 0033:0x738e787000ed
-    [  739.198653] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7=
- 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05=
- <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
-    [  739.198654] RSP: 002b:0000738e730e6a00 EFLAGS: 00000246 ORIG_RAX: 00=
-00000000000010
-    [  739.198656] RAX: ffffffffffffffda RBX: 0000738e64008850 RCX: 0000738=
-e787000ed
-    [  739.198657] RDX: 000059d3df721cf0 RSI: 0000000040045612 RDI: 0000000=
-000000010
-    [  739.198658] RBP: 0000738e730e6a50 R08: 0000738e6400ae40 R09: 0000000=
-000000000
-    [  739.198659] R10: 0000738e6400ae30 R11: 0000000000000246 R12: 0000000=
-000000000
-    [  739.198660] R13: 0000738e640012d0 R14: 0000738e64008850 R15: 0000000=
-000000002
-    [  739.198662]  </TASK>
-    [  739.198663] Disabling lock debugging due to kernel taint
+You will blacklist features found by legitimate users and shared on
+public forums, while hackers will keep their findings to themselves.
+Assuming that there are any who even care.
 
-And eventually kernel panic:
-
-    [  740.464422] BUG: unable to handle page fault for address: fffffac1c0=
-800000
-    [  740.464454] #PF: supervisor read access in kernel mode
-    [  740.464471] #PF: error_code(0x0000) - not-present page
-    [  740.464488] PGD 11be0067 P4D 11be0067 PUD 1148f067 PMD 0=20
-
-Full console log is at: https://gist.github.com/marmarek/5d839f419b1d56e71a=
-48e74ae66f0e7a
-
---=20
-Best Regards,
-Marek Marczykowski-G=C3=B3recki
-Invisible Things Lab
-
---3KD19i2MxeWtKiZr
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAmm7QMoACgkQ24/THMrX
-1yyGugf9Eob8mrb+VDgR0aA6r1OOAMCP2unTnLXJ+UJNUXb5iIEw9DugG+1c4y5u
-zLmGOtn1QP6wFlReCGWfszB08uKxPH6WeeiLOE0ddHFlFw4bF87UONf0cJrxA7Zq
-UirTNlt8ZSJzlh0/DTBNGNw1nU2OMO+sDfeymS+uTyNxT6fNGZAbO53pq3PDZOfj
-9czrE0hBD15UqMvbjSuER/1zFHILqxmAORYAuceC0rha2AEXasc6ZFkia5o2Ykp1
-DpYd+gWF5pQRlDQcOrWAdJPG0Slt8qsJsmzgVefLMwRoP04qAvSExQaqGQrj1Fna
-pWl3qbTNtm9/Pa2oNCrcvZJR85ONng==
-=kLK/
------END PGP SIGNATURE-----
-
---3KD19i2MxeWtKiZr--
+> +	struct privacy_control {
+> +		u8 entity[16];
+> +		u8 selector;
+> +	} privacy_control[] = {
+> +		{
+> +			.entity = UVC_GUID_LOGITECH_USER_HW_CONTROL_V1,
+> +			.selector = 1,
+> +		},
+> +		{
+> +			.entity = UVC_GUID_LOGITECH_PERIPHERAL,
+> +			.selector = 9,
+> +		},
+> +	};
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(privacy_control); i++)
+> +		if (!memcmp(entity, privacy_control[i].entity, 16) &&
+> +		    selector == privacy_control[i].selector)
+> +			return true;
+> +
+> +	return false;
+> +}
+> +
+>  int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+>  	struct uvc_xu_control_query *xqry)
+>  {
+> @@ -3045,6 +3074,15 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+>  		return -ENOENT;
+>  	}
+>  
+> +	if (uvc_ctrl_is_privacy_control(entity->guid, xqry->selector) &&
+> +	    !uvc_allow_privacy_override_param) {
+> +		dev_warn_once(&chain->dev->intf->dev,
+> +			      "Privacy related controls can only be accessed if module parameter allow_privacy_override is true\n");
+> +		uvc_dbg(chain->dev, CONTROL, "Blocking access to privacy related Control %pUl/%u\n",
+> +			entity->guid, xqry->selector);
+> +		return -EACCES;
+> +	}
+> +
+>  	if (mutex_lock_interruptible(&chain->ctrl_mutex))
+>  		return -ERESTARTSYS;
+>  
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index b0ca81d924b6..74c9dea29d36 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -36,6 +36,7 @@ unsigned int uvc_no_drop_param = 1;
+>  static unsigned int uvc_quirks_param = -1;
+>  unsigned int uvc_dbg_param;
+>  unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
+> +bool uvc_allow_privacy_override_param;
+>  
+>  static struct usb_driver uvc_driver;
+>  
+> @@ -2505,6 +2506,25 @@ MODULE_PARM_DESC(trace, "Trace level bitmask");
+>  module_param_named(timeout, uvc_timeout_param, uint, 0644);
+>  MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
+>  
+> +static int param_set_privacy(const char *val, const struct kernel_param *kp)
+> +{
+> +	pr_warn_once("uvcvideo: " DEPRECATED
+> +		     "allow_privacy_override parameter will be eventually removed.\n");
+> +	return param_set_bool(val, kp);
+> +}
+> +
+> +static const struct kernel_param_ops param_ops_privacy = {
+> +	.set = param_set_privacy,
+> +	.get = param_get_bool,
+> +};
+> +
+> +param_check_bool(allow_privacy_override, &uvc_allow_privacy_override_param);
+> +module_param_cb(allow_privacy_override, &param_ops_privacy,
+> +		&uvc_allow_privacy_override_param, 0644);
+> +__MODULE_PARM_TYPE(allow_privacy_override, "bool");
+> +MODULE_PARM_DESC(allow_privacy_override,
+> +		 "Allow access to privacy related controls");
+> +
+>  /* ------------------------------------------------------------------------
+>   * Driver initialization and cleanup
+>   */
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index f9049e9c0d3a..6d4f027c8402 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -133,6 +133,13 @@ static int uvc_ioctl_xu_ctrl_map(struct uvc_video_chain *chain,
+>  		return -EINVAL;
+>  	}
+>  
+> +	if (uvc_ctrl_is_privacy_control(xmap->entity, xmap->selector) &&
+> +	    !uvc_allow_privacy_override_param) {
+> +		dev_warn_once(&chain->dev->intf->dev,
+> +			      "Privacy related controls can only be mapped if module parameter allow_privacy_override is true\n");
+> +		return -EACCES;
+> +	}
+> +
+>  	map = kzalloc_obj(*map);
+>  	if (map == NULL)
+>  		return -ENOMEM;
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 8480d65ecb85..362110d58ca3 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -664,6 +664,7 @@ extern unsigned int uvc_no_drop_param;
+>  extern unsigned int uvc_dbg_param;
+>  extern unsigned int uvc_timeout_param;
+>  extern unsigned int uvc_hw_timestamps_param;
+> +extern bool uvc_allow_privacy_override_param;
+>  
+>  #define uvc_dbg(_dev, flag, fmt, ...)					\
+>  do {									\
+> @@ -794,6 +795,7 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+>  		      struct uvc_xu_control_query *xqry);
+>  
+>  void uvc_ctrl_cleanup_fh(struct uvc_fh *handle);
+> +bool uvc_ctrl_is_privacy_control(u8 entity[16], u8 selector);
+>  
+>  /* Utility functions */
+>  struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
+> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
+> index dea23aabbad4..70c2a7d25236 100644
+> --- a/include/linux/usb/uvc.h
+> +++ b/include/linux/usb/uvc.h
+> @@ -49,6 +49,10 @@
+>  #define UVC_GUID_LOGITECH_PERIPHERAL \
+>  	{0x21, 0x2d, 0xe5, 0xff, 0x30, 0x80, 0x2c, 0x4e, \
+>  	 0x82, 0xd9, 0xf5, 0x87, 0xd0, 0x05, 0x40, 0xbd }
+> +#define UVC_GUID_LOGITECH_USER_HW_CONTROL_V1 \
+> +	{0x82, 0x06, 0x61, 0x63, 0x70, 0x50, 0xab, 0x49, \
+> +	 0xb8, 0xcc, 0xb3, 0x85, 0x5e, 0x8d, 0x22, 0x1f }
+> +
+>  
+>  /* https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/uvc-extensions-1-5#222-extension-unit-controls */
+>  #define UVC_MSXU_CONTROL_FOCUS			0x01
+> 
+> -- 
+> 2.53.0.851.ga537e3e6e9-goog
+> 
 
