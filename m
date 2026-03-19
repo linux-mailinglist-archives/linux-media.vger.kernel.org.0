@@ -1,261 +1,291 @@
-Return-Path: <linux-media+bounces-56420-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56421-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KEEkDpx+vGnfzQIAu9opvQ
-	(envelope-from <linux-media+bounces-56420-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 23:54:20 +0100
+	id gBECNeN8vGk1zQIAu9opvQ
+	(envelope-from <linux-media+bounces-56421-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 23:46:59 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FD32D3DBC
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 23:54:19 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF1F2D3B09
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 23:46:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 336CF3214B16
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 22:42:21 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D8C123013727
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 22:46:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6774743D4E6;
-	Thu, 19 Mar 2026 22:33:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0EC936EAA7;
+	Thu, 19 Mar 2026 22:46:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="XR37Amug"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wz5bGk2G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011009.outbound.protection.outlook.com [52.101.70.9])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7339E43C059;
-	Thu, 19 Mar 2026 22:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773959630; cv=fail; b=ZkONCv9vqbSxUDeNulARTDXr/u/QElUl++BAhN6nWbO9zxubyW+IkMejNHUA3evAjExQLP2X/T6ii1wUySW/VhQUfXjsBVg5XmHAQ3yV+rL8MFVMzQgrGz5riUe6uNNxvV9eXe5OPMRT2NL5v8e3vA7Sp+Hjbl6iRg7yGmJ7S7U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773959630; c=relaxed/simple;
-	bh=HTyUfTulqVq0RDztEicQ2jQX626WgoFiGnMbc1Rx85Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bNqun2yifAzi2pXj5lOTavsM9Uc8TiF9E9cl+xMvsg4H/LbTO/7tyP+tFZmrdQky4wZtMDihAff2byQ9+bCTljbSUd7IUY7W+jqHA0IuO+17hZkUHE6SbGzVAbgqc0UxvJJ5aTwKC822Ifv9u/fg5w6RhbfxxUVVNLludNiyipE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=XR37Amug; arc=fail smtp.client-ip=52.101.70.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cIdjFHDsL/47QAmjqErULxqRFrl1iUTpaJKDoor8L8OFSLN3Bn1+WgCtSX+VP2ZzIwk1KnwrpoLxzrQtVcR4lqZaerFesihKrOQVVlSHs7Sjz0/mGuy1EbsZ/ru7nzYKHH/US2fh7vXp5LyYHRbJMCwBGMRjFwzgsOJyXlExZl3tg7xZl++5yt/GCxB/8gb+bwfqDpIrmxVgYnn2Y818v2R4e9MlhLPfHdzQJyHDFy9iaj3+fD4DfFZqtPYBndK7EwadGa7btJ0tKKMlyL6Sbsz36AugI8lnI3QXo16k4yvAkDEMLeEl36XCUy7t77djORloZLTjBJpjEvHtKLhslw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tpcMpOj7EkX9LGxVXmbfajSEtxU0/+RWcEpKRZTsXRM=;
- b=v3mTn7XrNbHbVWFn7HQyZCPKiIGC+BYCoOx6zsZYiqr6pZTiH0YGF/VjIEACwkg8nENRAdsVRUf7gnQxU/bagK/HEmxOdv5hAYrxW8elH/SgDGU2uYCbtLo0qp1cIDY7kNxcuCkc7zJZRGVOhiXGfaBVRkpSHQjTUc41FYfhEy7QE0OtqfLW7jbN/jsHKAIKRLT1OfLV+YqigyqILhzE8D5bEKdSsk+yMIZvhiZQ4tdcQjKkC4i+drgF4ARDq4508LU4MMC74BMI9vN8en7flM0m92oXhCUeDgWin0o81wXcM6kmxkv6UHY6cZ7tGkgiKInsAGVuU3tLuARNATGv4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tpcMpOj7EkX9LGxVXmbfajSEtxU0/+RWcEpKRZTsXRM=;
- b=XR37Amug1oBl7LRouxRGD4KTPSHo9KXfZShSAtusBNIPsCz2u2Lfw4QqSsumqP8kSGIJC0+9aJDZmMtKFS2hJE34FSmdyWWM5pKT4GX/AmwvWTPYNrypnAmsWv0v78T4Aej6dmcWmPVS02IVUYCjho4/7ugzqaA/D+auuIjSQnQcj8UzYPeM00PpaSPdW0wY7tylJBaEnwWeBEKrkq2R6vWW/sJlfp8XFTHnZly1OrPVljQfCrOSPoaKVIIKCxMCyRoBLusQJHa7g292NWDN2BQ0d+QB8dY6mziXt15D9G+IRJuGY+tAigJUj3JEViaZMNAdohPIarNcdkZpVkl+ZA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
- by PAXPR04MB8079.eurprd04.prod.outlook.com (2603:10a6:102:1cc::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Thu, 19 Mar
- 2026 22:33:40 +0000
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9723.018; Thu, 19 Mar 2026
- 22:33:35 +0000
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	spacemit@lists.linux.dev,
-	UNGLinuxDriver@microchip.com,
-	Joe Perches <joe@perches.com>
-Subject: [PATCH v5 phy-next 27/27] MAINTAINERS: add regexes for linux-phy
-Date: Fri, 20 Mar 2026 00:32:41 +0200
-Message-ID: <20260319223241.1351137-28-vladimir.oltean@nxp.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
-References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VI1PR0502CA0015.eurprd05.prod.outlook.com
- (2603:10a6:803:1::28) To AM9PR04MB8585.eurprd04.prod.outlook.com
- (2603:10a6:20b:438::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6ED22C11E8;
+	Thu, 19 Mar 2026 22:46:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773960406; cv=none; b=qwc2za7cVhX7DzA4CCRLAxVlAH8GCYL309o4pWuiA8+W7wNnbLA0L+bowoyBdd4lkCF52idk/kO7vGcDR6rjpxYMyplBEPvXWBMog+cWfwqk1fOJDHuQQPRm82vJx0yEORfVZwsgxgEGMt0rUuTekcZ3qS+QA9WAVsun1eO4LDg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773960406; c=relaxed/simple;
+	bh=Xfywi3fgWbqBrWKuajaqSico7PqZr8JIWrVp/6bVJ0g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y2099c7d7mzgAnLhg32+vAa68wwfhTRUcj2OVzOqr2wGfKk0WertVONkIz8+NZhUcdWa3jw7wHPIK73uzj84NO1NXopaOf5LOY1v/c/HURskr3SJwRhDnL3lviammzHE4tpA7e6dgHnxct3tnrPHKvyJlG0PmXzyS8m/1zSIpeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Wz5bGk2G; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D38B19A6;
+	Thu, 19 Mar 2026 23:45:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1773960329;
+	bh=Xfywi3fgWbqBrWKuajaqSico7PqZr8JIWrVp/6bVJ0g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Wz5bGk2GWRbax6c0hubk86YRNQdfNZDVXHiKo6mYp5oV/DitSke9wvbFR5FJXO630
+	 0tzJooGE5nYnuTMML4pbD5pUGMO0rl0qQppuaqq5tvgts7cQv/guQTKjPPpjxh1rkQ
+	 kMTlQD453raIN0bPv/yNRvy7q3nYgw4R/MJIaIm0=
+Date: Fri, 20 Mar 2026 00:46:41 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Guoniu Zhou <guoniu.zhou@nxp.com>
+Subject: Re: [PATCH v2] media: nxp: imx8-isi: Add virtual channel support
+Message-ID: <20260319224641.GA962817@killaraus.ideasonboard.com>
+References: <20260310-isi_vc-v2-1-acbf77db8e6f@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|PAXPR04MB8079:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f155316-cf66-48a7-2bfe-08de86078eb6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|19092799006|10070799003|1800799024|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	+upsZRuFux+K3Za4MDzyFPN1x5rH+PJrh420M2R5VGJDNHHr/TdCnsGLKHLyEtWu85S6TIRNB6dP965mPlJti5Ot5gC0tUieELO7VcwWoono3n4M8gWs71YxBwrPDyyocXXoL5B4CzkjwD8aqFeE/BCda42h3uu6Zfi1YKiomCMG2pC9t8gsPj3y4obYVXTbCUaybzIgsfQrwTrH3qk6hRcW+TRFxHRY9Jy/IAoVFjbAC5m9hBe2o33XVCvwiz+bxZk0wEq1rNl5b8UQfytQKsUKfXoy8ym0WeTvskCooZCjmpNEWG8P/mdEVNec+rmUN1i8RK79yU8nbWhNrnWk2aeCHyCq/g6W+Vxqqua7W2IZo56ybJTlEaoch1M4g11WEJVMcbunuDQnGU+FMvq30q8ZyQ5YP7/+HoNSIQkdU9W7HVJLMY/RLfOmVQ2upoYN5v/hmXpKszgaOlc/9m6FRNOY1xLLnBuwyuV0SVcuXlDiFv8Mqi9QxeRQUbIyoKhV6YZSziEwXwS602yoFLjhBRzrzm6pGV+sqp9rSApQ3VlAGgCqSoNnhwZjlkoZCJqv0JIEbxxmoX/f7FCtR9vxL7MLMC6wVqsEfTX1Sd3Y1Eo0/5Up2e7LFTwHSt5HlkmnIOqM3sObvp4e3lQmpcI0+pkTRcuSZ1BAnumXwDD47bA/Efxp5YR+vToivywgPPVyGqJh6bXNVXBtjaQw9xkYgCkq38t+bd5wIK0e9ZI/O6c=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(19092799006)(10070799003)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?BUVxklfbXaPgcEUOwJHmNzwgNVpQMJ3Tqzg/1ywEUGc3bclL5aimK7VkU3g3?=
- =?us-ascii?Q?4QPDOoFP9yx+GXcqI+fOLgWazng47f3Q0TDxNltke0/a0Pf8ACsrLfjxI3p0?=
- =?us-ascii?Q?4aCY9QVWpaH5dpUpBms6GwLQ/cktcQwnsMJKnN140zviitd+axivyual8q0a?=
- =?us-ascii?Q?iHUT2sk7+t9429mwAnx12CSzhnS2fIVnYJ5G+ixY/AuRSFoL8wyBuFTjiEkP?=
- =?us-ascii?Q?nwcY11OxLEjLgmMi811PZRc0ZKQFUVfVpJ5h8E0jCPCmQ8JsVoxXyHo7scI1?=
- =?us-ascii?Q?w/qJUq1FIxBuUva6riTzu77upXzaX4cOUWF+iHdasK+kpaULK55rguJTx7xC?=
- =?us-ascii?Q?6D7HKw3slmoABvFXg24+4QCOFMhMFwzSADBvDmTHpKuq15MPaJ5XFCWO+vNk?=
- =?us-ascii?Q?o8Wlnqv9xC893TsXZgYq5iqIRWwQWAUmxiZs0XACRL6AN2I9dJpMObF7vqTh?=
- =?us-ascii?Q?FMqPvBXse6L8uSncgjcEHaw8cq0aoWWA/gdkfYhvSGWEVnozF/vswl/Jt/7t?=
- =?us-ascii?Q?cn1BVIDhyitpYxxaRP162DYBPBrf5h1EtR+tkcaNxPpDkDMtJSj1cUDCOATL?=
- =?us-ascii?Q?GT4mWUpVygfPxCNncu6uhglg0LeQ0w4FxLNShUUThiqFn4fuSSM66VVztDtD?=
- =?us-ascii?Q?lOFKCurqZjx6wkfVF2VvAQ7YJ64QJ/wXmcF2h7xESFf/Zzhv/DdYgAqWwgiF?=
- =?us-ascii?Q?w+0K5E7LhEvmhc59XDMZboa1PvADHW+Dg4u+O1U1d5qRzlNmj7fOlyC4YNA0?=
- =?us-ascii?Q?vydq0OV/a4wZsdbrpmPpdNfeXxASJqnYHs7vX9yrE5AXcty8zOYTQ7qVyccN?=
- =?us-ascii?Q?yQCa7SBCdbrUr4NGsIoHlD7Db/u4jOunyxOVh/cWSojmp677WoLb6f+0nRiO?=
- =?us-ascii?Q?i4mnSI+vTABesd562KICBi7Jzm7ruwpWF/0NVZCFcg1dha4yVHkbMcdggYOj?=
- =?us-ascii?Q?Eh9NoiE0t0GYazL39Uw/Pz/ovZOAipQTRwZoeMPHhsAopVbSqTL1NVbZk1Q/?=
- =?us-ascii?Q?U99tBcj33n54ILo19pHdguESni1xCugMi7Eo5PW0rIyG4B/GIdwPzop+m6T3?=
- =?us-ascii?Q?ZT2gtILwCBbgKxHXS+RrhHtiwGUHFfj49FesomuEOC4d0jNFEwlgy1xZ9Dut?=
- =?us-ascii?Q?iT7mPlkNuyQh2dJ7pNDt3b2qXs3tkA5ESIjXxMq0ZC2HHCr6LIe7/soUnp/i?=
- =?us-ascii?Q?ZDFvaDxDbB5pgKyavHq+RL59moCp5Deb3L2iKUJdx8phW/4I4f1k29v4mAYN?=
- =?us-ascii?Q?ipE6bL2DlT4YoneKFLwJVohBEPZQTIgW+pQnb6fKUvI71eseCzKzbx4HsB74?=
- =?us-ascii?Q?9JfiKeRhxfr3tQrlHqhysihL3x0tAC3GEjnHWBzcEshfugwj1LiFqEkF9Yxn?=
- =?us-ascii?Q?sqnASDUel/SaL1rhVpdeyja0kuODHZKDIUPBThNrYwVfww7I47n7ff/mZr+o?=
- =?us-ascii?Q?wZI7EliTSWTGVcmAQIVCunkD4gNkqK4I2w6cURu1bH820QjeOU+fjDMaefnM?=
- =?us-ascii?Q?M4HdmGKkvcrDOUXRInNmeurSmTyUvKbVUoMSyYrC3MwEL72YW2LCfmoRQVu9?=
- =?us-ascii?Q?H0uxt9DxQ/2OAKqZwO0bRwY7FsIi85avDAMuU1QI2nBMEssW98iM2k68J4lS?=
- =?us-ascii?Q?qJUlkJwceOYz74dpNHV8HUELMT0dO1R9Z4urfPkOcLNxQ3vyL7PbcwP4jwPO?=
- =?us-ascii?Q?zD94jdZwFxDyzHuji38Dh/ojguNjTzRDpGB6n9cW7yfkC6IFChJy1dgGPLRc?=
- =?us-ascii?Q?OyIrsYaSTtWQ9sU24iD7QqwkVmDpwiVX6M3HEt1fCwoy/yNNJYdrWkC9dvDk?=
-X-MS-Exchange-AntiSpam-MessageData-1: wMK5jLXYNFIEB3Caef+8LcEsblTw55zklXQ=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f155316-cf66-48a7-2bfe-08de86078eb6
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 22:33:35.1356
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9Ya2j59DNYhEX2w7Y1AEtqKr/jDEBKWp8+4i4QMDCW8wm9ElNvrA4nVUDpopY9cW1EJhnjWjZAYNw+lsw2zAEA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8079
-X-Spamd-Result: default: False [1.34 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260310-isi_vc-v2-1-acbf77db8e6f@nxp.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
+	FREEMAIL_CC(0.00)[kernel.org,nxp.com,pengutronix.de,gmail.com,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	TAGGED_FROM(0.00)[bounces-56421-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56420-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.986];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.oltean@nxp.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.988];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:email,nxp.com:dkim,nxp.com:email,nxp.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,perches.com:email]
-X-Rspamd-Queue-Id: 94FD32D3DBC
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nxp.com:email,killaraus.ideasonboard.com:mid]
+X-Rspamd-Queue-Id: 3CF1F2D3B09
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Some pragmatic shortcuts are being taken by PHY consumer driver authors,
-which put a burden on the framework. A lot of these can be caught during
-review.
+Hi Guoniu,
 
-Make sure the linux-phy list is copied on as many keywords that regexes
-can reasonably catch.
+Thank you for the patch.
 
-Some considerations that led to this solution and not a simpler one:
-- Consumers may be located anywhere, and their file naming provides no
-  indication whatsoever that they are PHY API consumers.
-- The network PHY API has similarly sounding API: phy_start(),
-  phy_connect(), etc. Similarly, matching on "phy" would hit
-  phys_addr_t, "cryptography", etc.
-- The header files themselves need attention to avoid matching on
-  include/linux/phy.h (network PHY), include/linux/usb/phy.h,
-  drivers/net/vendor/device/phy.h, etc.
-- At least for a transitional period, I suppose developers will still
-  try to add PHY providers outside the subsystem (which is discouraged).
+On Tue, Mar 10, 2026 at 02:53:10PM +0800, Guoniu Zhou wrote:
+> From: Guoniu Zhou <guoniu.zhou@nxp.com>
+> 
+> Add virtual channel support for ISI driver.
 
-So I used \b to try to match on actual word boundaries and I went for
-listing all markers of PHY API use as they may appear in patch contexts.
+You can drop this line, it duplicates the subject line.
 
-Bit rot is a valid concern. I will add a test to the build automation
-that newly introduced struct and function names in include/linux/phy.h,
-include/linux/phy-props.h and drivers/phy/phy-provider.h are matched by
-the MAINTAINERS entry K: patterns.
+> The ISI supports different numbers of virtual channels depending on the
+> platform. i.MX95 supports 8 virtual channels, and i.MX8QXP/QM support 4
+> virtual channels. They are used in multiple camera use cases, such as
+> surround view. Other platforms (such as i.MX8MN/8MP/8ULP/93/91) don't
+> support virtual channels, and the VC_ID bits are marked as read-only.
+> 
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+> ---
+> Changes in v2:
+> - Add Rb tag from Frank Li
+> - Fix typo in comment(s/support/supports/)
+> - Update commit log to include more details about ISI virtual channel support
+>   on different platform
+> - Include bitfield.h file to fix following build error
+>   drivers/media/platform/nxp/imx8-isi/imx8-isi-regs.h:23:65: error: implicit declaration of function ‘FIELD_PREP’ [-Wimplicit-function-declaration]
+> - Link to v1: https://lore.kernel.org/r/20260309-isi_vc-v1-1-fd0b8035d1cd@nxp.com
+> 
+> Changes in v1:
+> - Depends on https://lore.kernel.org/linux-media/20251105-isi_imx95-v3-2-3987533cca1c@nxp.com/
+> ---
+>  .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |  3 ++
+>  drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c  |  4 +-
+>  .../media/platform/nxp/imx8-isi/imx8-isi-pipe.c    | 43 ++++++++++++++++++++++
+>  .../media/platform/nxp/imx8-isi/imx8-isi-regs.h    |  6 +--
+>  4 files changed, 52 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> index 3cbd35305af0f8026c4f76b5eb5d0864f8e36dc3..11a5e395792f11752c44d73818c825f2f175aa1d 100644
+> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> @@ -256,6 +256,9 @@ struct mxc_isi_pipe {
+>  	u8				acquired_res;
+>  	u8				chained_res;
+>  	bool				chained;
+> +
+> +	/* Virtual channel ID for the ISI channel */
+> +	u8				vc;
+>  };
+>  
+>  struct mxc_isi_m2m {
+> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
+> index 0187d4ab97e8e28fca9013f6864a094e08f2c570..2babb8573227de9e1aa36d9a39be41b286cf0c57 100644
+> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
+> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
+> @@ -338,7 +338,9 @@ static void mxc_isi_channel_set_control(struct mxc_isi_pipe *pipe,
+>  	} else {
+>  		val |= CHNL_CTRL_SRC_TYPE(CHNL_CTRL_SRC_TYPE_DEVICE);
+>  		val |= CHNL_CTRL_SRC_INPUT(input);
+> -		val |= CHNL_CTRL_MIPI_VC_ID(0); /* FIXME: For CSI-2 only */
+> +		val |= CHNL_CTRL_MIPI_VC_ID(pipe->vc);
 
-The keyword patterns were written with great help from Joe Perches
-<joe@perches.com>.
+You're not addressing the FIXME comment, so it should be kept (or
+ideally addressed :-)).
 
-Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
----
-Cc: Joe Perches <joe@perches.com>
+> +		/* Platform like i.MX95, ISI supports 8 virtual channels */
+> +		val |= CHNL_CTRL_VC_ID_1(pipe->vc >> 2);
 
-v3->v5: none
-v2->v3:
-- escape forward slash in linux/phy/phy.h in regex pattern:
-  https://lore.kernel.org/linux-phy/9fd14d166e860f26febfbc9061a6dcae6a166961.camel@perches.com/
-v1->v2:
-- split into multiple regex patterns
-- use matching-only (insted of capturing) regex patterns
-- adjust commit message to reflect the Q&A from v1
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+This should be done for i.MX95 only. You also need to clear the bit
+above in the function just after reading CHNL_CTRL (for i.MX95 only as
+well), otherwise switching between different virtual channels won't
+work.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 55af015174a5..cd920f14abde 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10713,6 +10713,17 @@ F:	Documentation/devicetree/bindings/phy/
- F:	drivers/phy/
- F:	include/dt-bindings/phy/
- F:	include/linux/phy/
-+K:	(?:linux\/phy\/phy\.h|phy-props\.h|phy-provider\.h)
-+K:	\b(?:__)?(?:devm_)?(?:of_)?phy_(?:create|destroy|provider_(?:un)?register)\b
-+K:	\bphy_(?:create|remove)_lookup\b
-+K:	\bphy_(?:get|set)_drvdata\b
-+K:	\b(?:devm_)?(?:of_)?phy_(?:optional_)?(?:get|put)(?:_by_index)?\b
-+K:	\bphy_pm_runtime_(?:get|put)(?:_sync)?\b
-+K:	\bphy_(?:init|exit|power_(?:on|off))\b
-+K:	\bphy_(?:get|set)_(?:mode(?:_ext)?|media|speed|bus_width|max_link_rate)\b
-+K:	\bphy_(?:reset|configure|validate|calibrate)\b
-+K:	\bphy_notify_(?:connect|disconnect|state)\b
-+K:	\bstruct\s+phy(?:_ops|_attrs|_lookup|_provider)?\b
- 
- GENERIC PINCTRL I2C DEMULTIPLEXER DRIVER
- M:	Wolfram Sang <wsa+renesas@sang-engineering.com>
+>  	}
+>  
+>  	mxc_isi_write(pipe, CHNL_CTRL, val);
+> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
+> index a41c51dd9ce0f2eeb779e9aa2461593b0d635f41..cc4348ea6006ee19243aae3abceb235d00beea4d 100644
+> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
+> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
+> @@ -232,6 +232,45 @@ static inline struct mxc_isi_pipe *to_isi_pipe(struct v4l2_subdev *sd)
+>  	return container_of(sd, struct mxc_isi_pipe, sd);
+>  }
+>  
+> +static int mxc_isi_get_vc(struct mxc_isi_pipe *pipe)
+> +{
+> +	struct mxc_isi_crossbar *xbar = &pipe->isi->crossbar;
+> +	struct device *dev = pipe->isi->dev;
+> +	struct v4l2_mbus_frame_desc source_fd;
+> +	struct v4l2_mbus_frame_desc_entry *entry = NULL;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	ret = v4l2_subdev_call(&xbar->sd, pad, get_frame_desc,
+> +			       xbar->num_sinks + pipe->id, &source_fd);
+
+I don't see the xbar implementing get_frame_desc(). Am I missing a
+dependency ?
+
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to get source frame desc from pad %u\n",
+> +			xbar->num_sinks + pipe->id);
+> +		return ret;
+> +	}
+> +
+> +	for (i = 0; i < source_fd.num_entries; i++) {
+> +		if (source_fd.entry[i].stream == 0) {
+> +			entry = &source_fd.entry[i];
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!entry) {
+> +		dev_err(dev, "Failed to find stream from source frame desc\n");
+> +		return -EPIPE;
+> +	}
+> +
+> +	if (entry->bus.csi2.vc >= pipe->isi->pdata->num_channels) {
+> +		dev_err(dev, "Virtual channel(%d) out of range\n",
+> +			entry->bus.csi2.vc);
+> +		return -EINVAL;
+> +	}
+> +
+> +	pipe->vc = entry->bus.csi2.vc;
+> +	return 0;
+> +}
+> +
+>  int mxc_isi_pipe_enable(struct mxc_isi_pipe *pipe)
+>  {
+>  	struct mxc_isi_crossbar *xbar = &pipe->isi->crossbar;
+> @@ -280,6 +319,10 @@ int mxc_isi_pipe_enable(struct mxc_isi_pipe *pipe)
+>  
+>  	v4l2_subdev_unlock_state(state);
+>  
+> +	ret = mxc_isi_get_vc(pipe);
+> +	if (ret)
+> +		return ret;
+> +
+>  	/* Configure the ISI channel. */
+>  	mxc_isi_channel_config(pipe, input, &in_size, &scale, &crop,
+>  			       sink_info->encoding, src_info->encoding);
+> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-regs.h b/drivers/media/platform/nxp/imx8-isi/imx8-isi-regs.h
+> index 1b65eccdf0da4bbc3a77c91e06fccc35d6c7e022..a4036da72f0057265e991087f21bc079bd6c6573 100644
+> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-regs.h
+> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-regs.h
+> @@ -6,6 +6,7 @@
+>  #ifndef __IMX8_ISI_REGS_H__
+>  #define __IMX8_ISI_REGS_H__
+>  
+> +#include <linux/bitfield.h>
+>  #include <linux/bits.h>
+>  
+>  /* ISI Registers Define  */
+> @@ -19,9 +20,8 @@
+>  #define CHNL_CTRL_CHAIN_BUF_NO_CHAIN				0
+>  #define CHNL_CTRL_CHAIN_BUF_2_CHAIN				1
+>  #define CHNL_CTRL_SW_RST					BIT(24)
+> -#define CHNL_CTRL_BLANK_PXL(n)					((n) << 16)
+
+I'm tempted to keep this, in case we'll need to set it later. We can add
+a comment to indicate the field is only valid on i.MX8QM and i.MX8QXP:
+
+#define CHNL_CTRL_BLANK_PXL(n)					((n) << 16)	/* i.MX8{QM,QXP} */
+
+or
+
+#define CHNL_CTRL_BLANK_PXL(n)					FIELD_PREP(GENMASK(23, 16), (n))	/* i.MX8{QM,QXP} */
+
+> -#define CHNL_CTRL_BLANK_PXL_MASK				GENMASK(23, 16)
+> -#define CHNL_CTRL_MIPI_VC_ID(n)					((n) << 6)
+> +#define CHNL_CTRL_VC_ID_1(n)					FIELD_PREP(BIT(16), (n))
+
+Please also add a comment to indicate the field is valid on i.MX95 only.
+
+#define CHNL_CTRL_VC_ID_1(n)					FIELD_PREP(BIT(16), (n))	/* i.MX95 */
+
+> +#define CHNL_CTRL_MIPI_VC_ID(n)					FIELD_PREP(GENMASK(7, 6), (n))
+>  #define CHNL_CTRL_MIPI_VC_ID_MASK				GENMASK(7, 6)
+>  #define CHNL_CTRL_SRC_TYPE(n)					((n) << 4)
+>  #define CHNL_CTRL_SRC_TYPE_MASK					BIT(4)
+> 
+> ---
+> base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+> change-id: 20260309-isi_vc-285fd815140e
+> prerequisite-patch-id: 6f139a1d54fa3e0632db9b8a736ae27037c5f45a
+
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
 
