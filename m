@@ -1,206 +1,190 @@
-Return-Path: <linux-media+bounces-56432-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56433-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id dw1pHbySvGkY0wIAu9opvQ
-	(envelope-from <linux-media+bounces-56432-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:20:12 +0100
+	id 7jD1NFmWvGnE0wIAu9opvQ
+	(envelope-from <linux-media+bounces-56433-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:35:37 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CA82D46E2
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:20:11 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF6322D477E
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:35:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5DA70300BC89
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 00:20:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A597B30743CE
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 00:35:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0B241E25F9;
-	Fri, 20 Mar 2026 00:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 571B021256C;
+	Fri, 20 Mar 2026 00:35:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gu2njmvg"
+	dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="o9iRXE22";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aHcOmJ7z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB49A1D5CFB
-	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 00:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A551C84A0
+	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 00:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773966005; cv=none; b=NxjAtI2Y8glyzdxHMpWZPEN7R62rNd9o5ZXy4BM7soGWUtLD2TVK4D9wfM/Nr0hum57l1zDA9UD3SyXByi+lXjJx8HmaBAvdBekqhgAr04/l3GZBgbwRXOIXw1UMFoZGSRGIMmXSNL/94itNmuHz0B7W7AG4Wqj/Dv/BbE/P4ZI=
+	t=1773966930; cv=none; b=K4meFz783BIQ2gXgicd8pdHJv3OUPTMcqlOpkQStL9pvL0q0IVgz7d1C6WkeuuWVB9KMsb0mdlRvhA15JKhSMBFC5XOHuvhQfKUkRS1eq/rV3OSSgfj8Swf2ZMockl/xn5RTbjD8DQFhO8ILS2kXjb4eBIYRaz7ONdvBG4lLFWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773966005; c=relaxed/simple;
-	bh=gLQNx9glXF6hqM2kMDc3j1Sg/zalWdjszUK7zPegkZc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iZpopMsVp6iEALZ7DL5CsxGZO2kwsY8Ab+ts6dd7rDRfviIIHZXmoyBzuwHMwbNex5yZ7jWXcmcOCgBATkCTkUd6MCqsGu0lwE1zcALF/hiJVUIJ4prVnogLltaV+X6vMA31Gq35XZ9MReDzFh2PpK4f94e0DrXvWcrw/EZLR9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gu2njmvg; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-79a2ee65171so1462557b3.2
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 17:20:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773966002; x=1774570802; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MzlIIY7b66i4fIFyZ2+UWe+HudSTmQ+Ey/SWxXk4aRw=;
-        b=gu2njmvgEsAawV6zbSZQTBlFW9Tn6B+EoIuPg+GFRNWx2lXiMTugyFJ98WLueKRYOq
-         U1t3uhqrov/9fC7J/dKJBuDulMppWLDfJSBfruli01pk4MlsMCEh3BLAjhRvSY9ebMQp
-         1aAv17P1CuQV9ScWyVc7vC++djFBmzoR9Vn7nSvIpDtQYchbgOAMnsTVbx1nNkkJ45Km
-         rviGOxnj9kR6nn4y8DK+l2kpgP81hiQRINugvGqOH3+r9wfuxhyTT6of+94m6ajmZ47s
-         4fSwiAN8pjda7X9NW2zR4zRKJVo0hY+pN+UbPPYRnr9nhgEEdYpabGbauLeLPuAbQiqq
-         K5Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773966002; x=1774570802;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MzlIIY7b66i4fIFyZ2+UWe+HudSTmQ+Ey/SWxXk4aRw=;
-        b=FU+5npjSkjnAeXw2cp9WNV5ALTbI9zEXUcc6ZSe1+apuQOUZWSdKljjiF8n1poPoof
-         C7uUjI7UKlwMMbNDtreovj66VUlMaoFRs8z6cNDU1/UX+bLu0yTNYCsg3HZSp0qckAmk
-         bVVjrG9pkvP+6UrIt5W8DI9npUVvgzxHAJYBnE/PeLMhYt8o16BgW9ViDHMRIBSmZ6OC
-         u9wkJs8ObNd/Bv+wCn7M7iBjrM9INGx8fgJKNTtaOKxTMUqRupTUEBj5lM9zKrShdoFi
-         40ev1QEyFKRrzq/LUdlRhKyZCb+Pg8Hz/SQl4X9lmhvZxH0zVmCbUNJFTSly18yjbPFN
-         nDbQ==
-X-Gm-Message-State: AOJu0YyuQkrL2RSd2yZfyGtLKzgWpX5TIwHMeBc8xLi/7OK3tM2emHDe
-	Xl9Lnc/NiqJLecy9QdEsTEijf+Q0HTLry4/iURpYRrMXzCJFCh9z/Oa7IkREc7X4
-X-Gm-Gg: ATEYQzzbKf0tr5fNPQX1EeUKln/JBq6dWc710Bmj88EqU1OZENPTKkuN2KnuO/6pGPD
-	Q2OWL/u65hy/Xma9EMG7R3A/+oAGCnOWId13SMckD++w5bmxDLx+v3CSbpHWNOm4G6ReNE52hXr
-	rJRkQU4fdNtySaPKIy5a0yQcGqH3rfCFGCeklLThSUb7N7nytyQ+bskYDGtnw7RvBUJgO3cx+MN
-	YommMY5qpZdsDvQiQLCGSsZjr1aH+qrYBXA4Uz5pyf580mOVnAHeCQ44Jl7veJqeHSAlni+uEt+
-	OM4jK7g09aLsAqQ4G6DqdsjXdo+ZpdnP6IsGH2edBRr1+OBDF0axMEhN9AVy+KUjm/XPCYUm2rT
-	szexYnDYK4DfwnUZCJYNm92kPrTZUFJEDgYd2k9kzDn56UPSjWQ+IY1WED0QVHCA++pvHHepQ3p
-	olHhc0GbZtgWIJhPlPWx6rjLHaoiXAU4SssDpsjIa7PB4CArX/VtB4mi4=
-X-Received: by 2002:a05:690c:e3c6:b0:79a:65af:7f4d with SMTP id 00721157ae682-79a90aaea1dmr13698267b3.1.1773966002555;
-        Thu, 19 Mar 2026 17:20:02 -0700 (PDT)
-Received: from ryzen ([2601:644:8000:5b5d::8bd])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a903a294fsm6866627b3.8.2026.03.19.17.20.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 17:20:01 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-media@vger.kernel.org
+	s=arc-20240116; t=1773966930; c=relaxed/simple;
+	bh=j7QjpZQhiVE57gCK0RTyHucoH872U8FmVMG0ksAnbk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AyomRsYYHFqmZoFl8YvHOms3IDZgJkP1i9rNc1aNQRidsYHDyAoiHbXm28WYlhFDisUzY4tV+LplLBU113Fa2Nv1Lnn3zEzczV/+dTAEdcAbkCM+sXajijRGEwSsfO2BXceNlAyYB5WvhCe2G8BfOnV9f1pvrO1DZt0/T3ie6BY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invisiblethingslab.com; spf=pass smtp.mailfrom=invisiblethingslab.com; dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b=o9iRXE22; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aHcOmJ7z; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invisiblethingslab.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=invisiblethingslab.com
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 3405DEC01DD;
+	Thu, 19 Mar 2026 20:35:27 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Thu, 19 Mar 2026 20:35:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	invisiblethingslab.com; h=cc:cc:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1773966927;
+	 x=1774053327; bh=JcONGwatR7I2a2nbnBcn4nDdjiD848qctkczcd/135I=; b=
+	o9iRXE22s4v3SibxaC9hpc6A6uyuS+CaFY0enqTN+htegyVqj9n4jY5e5KjzSG/5
+	G8AKSWMNKCAY2RX93lNRZl+5LG571pYpQVGaJpFkAu3ySjaw0bz/DuyeMqW25II5
+	+JnoI+tVg1jrLTQsvPaejhxeMcfOzZ1bU7Ei6PSyUBv7zWHaxDEK3MBadIjBCaYc
+	YmIhF8FFm7OqTwiGsZtKQiwekGCxX+Z+BkSC10ATaHxLlHVKz9BNevbCGHWld8cI
+	yM9hx1+U0Nxpg9Z92ADffOiOWsl5EVyYODmLjpIAAxht/kFB8afE+QUHCIBAnOe5
+	SqCQy42dAKMPD5dPXJSzPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1773966927; x=1774053327; bh=JcONGwatR7I2a2nbnBcn4nDdjiD848qctkc
+	zcd/135I=; b=aHcOmJ7z78hfcHqG88kU0UoJ7OiJ9gSWCciMgCIW9Oe1aj12F/w
+	sz4BhUijpJi+6Mg9B1QwFNMMzEKP2cVL2kbQj5Pq4tKtN8FM1Cu5v92XtOTg3JNa
+	tWKrdTWaNuqBOz+SCl1u3UUQKUAPUfD35ZL/39vqFJgWyW/heuXiy6TRPAVqP6K8
+	x7W66zvshvDLNJS4acOdSpgnBFzYrf4jBv+j2BT1gRRA+eMZDs3+KDYrdw87hG9V
+	OjUbXXwg/rVUvx53/ZYdfeKBPoK3CkRKbuOjTgqAubXzd9dO/18dquC0xtHXn02k
+	7rxxDr234hGp/90mGkDCgWrmwRLgsZAcvfg==
+X-ME-Sender: <xms:Tpa8abB1Mh9xKU831dYLGOf9C6-gOg3F4gGiSC4ZzPJNsq8ASPu5qA>
+    <xme:Tpa8aYYipdefJhwZUgg9VnTbVPWFfnPSk6QjTER9tU9__Mq2UEftTwVH_7J_UgB3f
+    PJqfs-Ta6za4abhtRdeCEahiaKWzty_68_7KWMSCQPdFHo2ADQ>
+X-ME-Received: <xmr:Tpa8ae6p7thI7tVHbo1jUP2kbaB1sUfFzAOQy_SIsWpkmyeIxlZyTilAutZTMnAGKVg33a5wSwW7bdXNe9I5M6V0vhKr0Ycitbw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftdekgeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrrhgvkhcu
+    ofgrrhgtiiihkhhofihskhhiqdfikphrvggtkhhiuceomhgrrhhmrghrvghksehinhhvih
+    hsihgslhgvthhhihhnghhslhgrsgdrtghomheqnecuggftrfgrthhtvghrnhepgfduleet
+    feevhfefheeiteeliefhjefhleduveetteekveettddvgeeuteefjedunecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrrhhmrghrvghksehi
+    nhhvihhsihgslhgvthhhihhnghhslhgrsgdrtghomhdpnhgspghrtghpthhtohephedpmh
+    houggvpehsmhhtphhouhhtpdhrtghpthhtoheprhhisggrlhgurgestghhrhhomhhiuhhm
+    rdhorhhgpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsoh
+    hnsghorghrugdrtghomhdprhgtphhtthhopehhrghnshhgsehkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtoheplhhinhhugidqmhhmsehkvhgrtghkrdhorhhg
+X-ME-Proxy: <xmx:Tpa8aZZYU1sq9eJFrSdXRSVwLvv9Ra_1e_pgcZJaGC8RxTbeXsJ04w>
+    <xmx:Tpa8adg4cbdZ8QxKyglo3HzlpH5EOEdSMvXAnAihPwcPjYQJw_bFtQ>
+    <xmx:Tpa8aa-dY4_QFgHrmps0ESRVoKKZUWVqM_oaffD2gPFbo3vYCPqwAA>
+    <xmx:Tpa8aYqlogKH7xeGqaaxibNI2Ay9Wa3qsF9MWY-piWy6YG2cSpx8Uw>
+    <xmx:T5a8aaK5f7tdsb7Fqw207TKEnVi7mG-7YR-leIYSvDsFGigO3TratenH>
+Feedback-ID: i1568416f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 19 Mar 2026 20:35:25 -0400 (EDT)
+Date: Fri, 20 Mar 2026 01:35:24 +0100
+From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Guoniu Zhou <guoniu.zhou@nxp.com>,
-	Stefan Riedmueller <s.riedmueller@phytec.de>,
-	imx@lists.linux.dev (open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCHv2] media: nxp: imx8-isi: remove kzalloc_objs
-Date: Thu, 19 Mar 2026 17:19:43 -0700
-Message-ID: <20260320001943.19443-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	Hans de Goede <hansg@kernel.org>, linux-media@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: Linux 7.0-rc4: v4l2src0:src: page allocation failure - increased
+ memory usage in 7.0?
+Message-ID: <abyWTGIlD_rncMds@mail-itl>
+References: <abtAylIlW3I8s1T-@mail-itl>
+ <CANiDSCvqt574XbMAz0qUunu7xDY=oScL+sx533X6ke=fcEdr+g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3Wmh7zzAptM1+3iD"
+Content-Disposition: inline
+In-Reply-To: <CANiDSCvqt574XbMAz0qUunu7xDY=oScL+sx533X6ke=fcEdr+g@mail.gmail.com>
+X-Spamd-Result: default: False [-2.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUBJECT_ENDS_QUESTION(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[invisiblethingslab.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[invisiblethingslab.com:s=fm1,messagingengine.com:s=fm1];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,nxp.com,pengutronix.de,gmail.com,jmondi.org,phytec.de,lists.linux.dev,lists.infradead.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-56432-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rosenp@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.940];
+	TAGGED_FROM(0.00)[bounces-56433-lists,linux-media=lfdr.de];
 	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[invisiblethingslab.com:+,messagingengine.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[marmarek@invisiblethingslab.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.995];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 49CA82D46E2
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,messagingengine.com:dkim]
+X-Rspamd-Queue-Id: EF6322D477E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Use a flexible array member to combine allocations.
 
-It looks like pipes never gets freed anywhere. Meaning this effectively
-fixes a memory leak.
+--3Wmh7zzAptM1+3iD
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Mar 2026 01:35:24 +0100
+From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>, linux-media@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: Linux 7.0-rc4: v4l2src0:src: page allocation failure - increased
+ memory usage in 7.0?
 
-Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- v2: add fixes tag, fix typo, and move pdata assignment to original
- place.
- drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c | 10 ++++------
- drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h |  3 ++-
- 2 files changed, 6 insertions(+), 7 deletions(-)
+On Thu, Mar 19, 2026 at 11:19:38AM +0100, Ricardo Ribalda wrote:
+> On Thu, 19 Mar 2026 at 01:18, Marek Marczykowski-G=C3=B3recki
+> > Additionally, this failure isn't handled gracefully, it's followed with:
+>=20
+> That should not happen.... Could you check if this fixes it:
 
-diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-index 16392420903a..8d8ee1b3076b 100644
---- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-+++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-@@ -459,24 +459,22 @@ static const struct dev_pm_ops mxc_isi_pm_ops = {
+Yes, while the page allocation failure still happens, it doesn't result
+in follow up errors anymore.
 
- static int mxc_isi_probe(struct platform_device *pdev)
- {
-+	const struct mxc_isi_plat_data *pdata;
- 	struct device *dev = &pdev->dev;
- 	struct mxc_isi_dev *isi;
- 	unsigned int dma_size;
- 	unsigned int i;
- 	int ret = 0;
+--=20
+Best Regards,
+Marek Marczykowski-G=C3=B3recki
+Invisible Things Lab
 
--	isi = devm_kzalloc(dev, sizeof(*isi), GFP_KERNEL);
-+	pdata = of_device_get_match_data(dev);
-+	isi = devm_kzalloc(dev, struct_size(isi, pipes, pdata->num_channels), GFP_KERNEL);
- 	if (!isi)
- 		return -ENOMEM;
+--3Wmh7zzAptM1+3iD
+Content-Type: application/pgp-signature; name=signature.asc
 
- 	isi->dev = dev;
- 	platform_set_drvdata(pdev, isi);
+-----BEGIN PGP SIGNATURE-----
 
--	isi->pdata = of_device_get_match_data(dev);
--
--	isi->pipes = kzalloc_objs(isi->pipes[0], isi->pdata->num_channels);
--	if (!isi->pipes)
--		return -ENOMEM;
-+	isi->pdata = pdata;
+iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAmm8lkwACgkQ24/THMrX
+1yzZqgf6A1X1/vuRf+H4NNzBAsVYrRbNQzGgQKlEkx/IG/lvr3pV3QaNCxsgpHyi
+rMbm1sd7/PSW5kmL4TcqeozhJcH+RSE26nGL2PfTsGu9vG+u1C3J3x4EszM86Via
+7P8rj9uc4bESWCDsIvPevH5o6f7YRN2idp4YpOfm2e5iVMDFclSN/N3PAT/TZEmM
+Jir4SEiuu1C1tXlrsB5FTzipvS2oJUpOTD+A0f6PEhqzKVaCbnFYvSz38IVmk1Kz
+voPL8FtD1fopAWdFIuDCF1Y+oJLSPbz4AAxVt818xMmcIzXi35NgdGX8th+9Tv0G
+9gBAr80v3xSVPv7peCA742lU1bUsww==
+=uE5Z
+-----END PGP SIGNATURE-----
 
- 	isi->num_clks = devm_clk_bulk_get_all(dev, &isi->clks);
- 	if (isi->num_clks < 0)
-diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-index 3cbd35305af0..99532efa4e41 100644
---- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-+++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-@@ -286,7 +286,6 @@ struct mxc_isi_dev {
- 	struct regmap			*gasket;
-
- 	struct mxc_isi_crossbar		crossbar;
--	struct mxc_isi_pipe		*pipes;
- 	struct mxc_isi_m2m		m2m;
-
- 	struct media_device		media_dev;
-@@ -294,6 +293,8 @@ struct mxc_isi_dev {
- 	struct v4l2_async_notifier	notifier;
-
- 	struct dentry			*debugfs_root;
-+
-+	struct mxc_isi_pipe		pipes[];
- };
-
- extern const struct mxc_gasket_ops mxc_imx8_gasket_ops;
---
-2.53.0
-
+--3Wmh7zzAptM1+3iD--
 
