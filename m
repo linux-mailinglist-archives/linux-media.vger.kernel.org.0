@@ -1,203 +1,201 @@
-Return-Path: <linux-media+bounces-56552-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56553-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eM++HGmCvWk4+gIAu9opvQ
-	(envelope-from <linux-media+bounces-56552-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 18:22:49 +0100
+	id OG3LNBaDvWk4+gIAu9opvQ
+	(envelope-from <linux-media+bounces-56553-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 18:25:42 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE64E2DE877
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 18:22:48 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51EA72DE951
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 18:25:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0E712305B282
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 17:17:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6378F308CC46
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 17:18:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 307143A5425;
-	Fri, 20 Mar 2026 17:17:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41DB53D3D16;
+	Fri, 20 Mar 2026 17:17:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ocitt93n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NeNNq5AU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D21372692
-	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 17:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774027040; cv=pass; b=mLdX9QJ8ge75t8Yr3vZA2bCfeZenM3Qg1DrdHgGm2Fl1StU1c/PMU3DVeN6gVJxuZ6llB+wOBJ7NkEljh59wV5TNMN/kDWllt42iU/Kp6/d8UxnvSprnK3umXH5tY+TI5X1vnapHJfpFnKQOfHRMxDoow+jROxG8sTI7/QiSaY0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774027040; c=relaxed/simple;
-	bh=iNhZ2wMLyGc08p9SXAlItmThExJu1Q8bjF+bH96yuFY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CqgwibQfiC7Gk/U4yAYgODBMY4yHuXXpxYgwM9jA5bBrYP3yre4c5U4OmQ9qLjV58ay4jc2zW+kL9vwnc50cdT/rtsj5qerW9rI81IhSiF9VOSnXXzC4M70u/5+xmHKM22LrMEqcJV6VPmour8Dkqa0OjyOn0FchWCpDZpxkBIg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ocitt93n; arc=pass smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-486fe2024a9so4976395e9.0
-        for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 10:17:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774027038; cv=none;
-        d=google.com; s=arc-20240605;
-        b=B37SbAB5zmTkcSQ6pz+jrdUsaFRhYKAlHWcM6uTeimDva0ImIfNw6yccox3cyIBPKk
-         4XeSs5lbjDFmhYrH8tzPjlg9AJRPMKD2x1c9+lcb+EvEqP1lPJiOrkx54c2dxT8VQ+eC
-         IHmpIBsJs1Xv4ihymDfDEzmqecz2SuYaAAYwk6aqGfHXKkwIOHMy7cnOohshgcwjEPQc
-         1AK//qZMy9pKWiFumpMa3XDHPlngrvWuSg59VqhyNmEnjvOQFKyDX5WwG+NaqYN/VFC0
-         Elm+G6kRV6Ba4Zj3A84K01YbnsNOFIrNq0B7uBjckQFXbWiq7kpDmCewMgy9h9t7xbhb
-         ZAvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=QhFtNfGXo+sAGRLOrajRrqZfKQSgiwD114zY0m+OvzU=;
-        fh=8poZqukSxTNpKfhFM4PduxMa9jPCsFNH0WMo0DXI3bM=;
-        b=Emu7zHQooOm8SQUUME35RbTSyiX6nEL1bRtkXaEmbgagfX54tB2jN62+nYcEiY5xTm
-         +uq7mbsCw0HWRvRjhjOhlY1366R628aSl/h5kO/xP3+aamulYTdeCrp5/ILp+pP+p6vF
-         LTSFgtAM2ea8Hbtjpe4sRRG0TrYby5mN54kdV3hDDhkS5UYGZmYOFBOvD+0+g5FM5hnr
-         Pa4Sk+Qlc2qiSxcrD7Jp+yeWIvHeZ5U0pG1PvBIGRTTA8yEz+A09A+/N8P1e4Rr09NKw
-         WPNiSU/A4Gn7xZzRuF4HSxYzMw1XE9NlMCC5416DN51r/w5mH5Ii32q63UoQR6wSgBHd
-         +7lQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774027038; x=1774631838; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QhFtNfGXo+sAGRLOrajRrqZfKQSgiwD114zY0m+OvzU=;
-        b=Ocitt93nTekwtDlqSu9wGP7rLIndoAGKkmWfTlOFMTHPGG45iJv52WPscJc56gggMY
-         z67W2IXR0E5sM3BI+WBhqawHnAc0BeQ8fxx7jGmDv+5RVWbmVj/Zi2aGGhumlRqPRWIp
-         4vJpn/u7lcmmlUZX3UBC/B8sIdBia3VCRCtrjsEdPNqgBarletLb6ApclowK26mhspnM
-         xEZi1fPQSStcbrY4NkFtmlj24IiT6mbQ4a+54d9gEKnhXCnJk5QCNHe8tRly+Drvyl46
-         f9pXLS8me+QoMhbxBxp3DcHGSNnah6/dJdOgM9V6ogvQWaW04QzapuCbtw1GsC593nMB
-         DxJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774027038; x=1774631838;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QhFtNfGXo+sAGRLOrajRrqZfKQSgiwD114zY0m+OvzU=;
-        b=Uc3fRU+fnbjPRV7avk2kHT37r5KcRjsZM+vVqDfB7l8cqW3+YMB2ILycmSCn1iNmh/
-         DZL+Z4ZS9T1eZt9r+bb1ChIR9QXwv6JaSm9BxyWbccvkv4NxOH1kN5RzemdyxXB6eG8j
-         rkp5cet9qlP6mTHSgJ6QKJFhkvQndO0mTNYfd/9XigF7M+QjlcgfiZ4SSNQNtpX9+ox4
-         iJfosaaWbx/h+sCiMyZJL8Hla/By9wbiYA/Ax02bwq1yo+F3s7pqRMbZPcKDZNEaAiLf
-         B1BZk7wbnxMkwLkvuwgzuVmZb2w28tOhs47LXSkhWJ+/07fhzTctsgbbAxU3FSLEm20z
-         nwnA==
-X-Forwarded-Encrypted: i=1; AJvYcCWUau/TouI2BnoPDX1nId93W7kc/ry9CxDyLm1xryuKcHEjwUSjQ7dtfAo7SaC0kumZb1UEmaQmUTK/Bw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzclhnEAL82UVjI+IdBKCauciMebBYNv0ejMiGALMrHzD7cjRNo
-	NL46NWoT/gKtxPK3dSANJI/K18/q877XCaeaAnTVsH5QCh/wvAOj+wPELWY1V2lZpHJ+i20K7WH
-	AUBCc9Wa2TziC01hyGv4D/BoHhPB6ba0=
-X-Gm-Gg: ATEYQzx0cvMb1U+Sh009RYOeXEOwvaQ33gI0RfEx/5ma7JzVn23GE4KBAOvMS1uj4fd
-	FSyBFLwRLixLB+EufYKs7fL+4rdwin7DCGdHOm8A3PRUbptRdjfphi1cLIfK7BdYg//7TfSnUo3
-	icHRbMKqfRY4Kn5VEHGEz4tigbicVlp3ta3UNJ3FoCl0AWDqKurys7eKy2vhA1omI8AKdXODbuZ
-	DRsOkE5N/U9zuW4LnNyZJKtiJS3PzFhi1wA2Uy0PodR2XzuPacDbPY6dWPb+hmbukwFWAj4S7Fc
-	YROclBicMaA5+emOgvJtyAyUXJPPjWV9k3D+ZSNpaMpVkIrikHXHthbVKTz1AxZ6LBZN7g==
-X-Received: by 2002:a05:600c:8583:b0:485:3f1c:d8a1 with SMTP id
- 5b1f17b1804b1-486fedb9631mr50339565e9.9.1774027037490; Fri, 20 Mar 2026
- 10:17:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90123D0905
+	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 17:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774027075; cv=none; b=MlCs3cTlu9VYhoxlgkSK+fiuMPx4OmQD++bPP58rpOVnRy7gNhS/x78NOTW0mlqzuBQwLoQGjd/tFdwt6++coF3qT+gZp7GF9DOQU9LqSX83LvsZT4pr/uglgvkQ0o8+0rHaJXTVLgSLRUHdnuArIBU1tiMB28728HIneXDMwVc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774027075; c=relaxed/simple;
+	bh=WwvDgx84PNHuu2EcpeBh9tSCZ2nsFWbUnlQVXk5Lvhc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RkFz81X1iLoYFUD8WrlWpc/gxIMwC4cmfATVaGpEdC+LACg522Gh75oKLeODu1k1eidc+bIrsEfI7hZye0fF38fWKaKnk+tqwuIJlRLmKYXdMhXSdNLpiXZ8U/yBmWNMwf8aHSSfhuAeHu0JftfXjCX7jC/O7wmzV14tB5XhWM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NeNNq5AU; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774027074; x=1805563074;
+  h=date:from:to:cc:subject:message-id;
+  bh=WwvDgx84PNHuu2EcpeBh9tSCZ2nsFWbUnlQVXk5Lvhc=;
+  b=NeNNq5AU3UralATveDnFbHBgRBW0sk20RgJHBsk48Nd+9h1Z+06X+rxH
+   rVchHWsxC7InwHwXjMb5xdsStgiB6lnOnpdT7QQ7eFBtS+7I1TEJN0Wyo
+   iB085VGXD0g4aGIiGJ/g2vsWtaFrqex+hVlAlTGo8Bahd4pylO+oPILZI
+   9jT2O3N3giZWj3xKGvu6D1iHWI8mJjB7PYRvpo8vDIySSzWaGJgBjuiut
+   6lRgZ9WTDM8AD/9SrRQYJYSfAfku6G/R119Y1yaKyfpu3pA3ebRhPLlRu
+   bKwS0vLpXY8/9etsiIF9qq4H50hnyf1+b14k1nT0ujRxYaCzpxEvACOTT
+   A==;
+X-CSE-ConnectionGUID: hU5WqiBdRP+aF9wrdRecQw==
+X-CSE-MsgGUID: z0qSEpyMQ3askcrdZEEsPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="85432065"
+X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
+   d="scan'208";a="85432065"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 10:17:54 -0700
+X-CSE-ConnectionGUID: 2yVkBmu/S5Gp2UwZq2oNTg==
+X-CSE-MsgGUID: UG+uqgdRRkeMqAGvl2wIIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
+   d="scan'208";a="246375757"
+Received: from lkp-server01.sh.intel.com (HELO ba623fe84fe1) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 20 Mar 2026 10:17:52 -0700
+Received: from kbuild by ba623fe84fe1 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w3dTp-000000000D3-28Qd;
+	Fri, 20 Mar 2026 17:17:49 +0000
+Date: Sat, 21 Mar 2026 01:17:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 99/106]
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.c:561:14: warning: unused
+ variable 'has_pipeline'
+Message-ID: <202603210104.4hUqxqYU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260313-mali-ivc-fixes-v7-0-v1-0-cb0714cd1279@ideasonboard.com>
-In-Reply-To: <20260313-mali-ivc-fixes-v7-0-v1-0-cb0714cd1279@ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 20 Mar 2026 17:16:51 +0000
-X-Gm-Features: AaiRm50l-VieBOYlOBaF8d8MPJDUaDBpjbsbBE5CsWPetMD5LTkW9QNd0OxiFpg
-Message-ID: <CA+V-a8t0pskENYNhBiYCk=NtU7w9J1wr3TMtH2GQm_bz_-8thw@mail.gmail.com>
-Subject: Re: [PATCH 0/7] media: renesas: rzv2h-ivc: Fix concurrent job scheduling
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>, 
-	=?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <barnabas.pocze@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>, stable@vger.kernel.org, 
-	=?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <barnabas.pocze+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-56552-lists,linux-media=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.945];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56553-lists,linux-media=lfdr.de];
+	RCPT_COUNT_THREE(0.00)[3];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,mail.gmail.com:mid,ideasonboard.com:email]
-X-Rspamd-Queue-Id: CE64E2DE877
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	NEURAL_HAM(-0.00)[-0.993];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:dkim,intel.com:email,intel.com:mid,01.org:url]
+X-Rspamd-Queue-Id: 51EA72DE951
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Jacopo,
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   7a108073e0c1f6e9035329a152d5835f9d4f9507
+commit: 526d9c2d124199ae12d8c48148ca47b2f1ad676f [99/106] media: ipu6: Bridge the gap between streams in V4L2 and IPU6 firmware
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260321/202603210104.4hUqxqYU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603210104.4hUqxqYU-lkp@intel.com/reproduce)
 
-Thank you for the patches.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603210104.4hUqxqYU-lkp@intel.com/
 
-On Fri, Mar 13, 2026 at 11:14=E2=80=AFAM Jacopo Mondi
-<jacopo.mondi@ideasonboard.com> wrote:
->
-> We have been exercizing the RZ/V2H(P) IVC block quite intensly these
-> last two months.
->
-> Here it is a collection of fixes and improvements to the driver.
->
-> The first 4 patches in the series address a few registers writes that
-> do not respect the documentation.
->
-> The 5th and 6th patches fixes concurrent access to the list of queued
-> buffers and fix a WARN() visible under heavy system load conditions
-> caused by concurrent buffer transfers.
->
-> The last patch is actually up for discussion. It is my opinion that the
-> trouble of setting up a workqueue item is not justified by the
-> relatively small amount of work that has to be carried out in interrupt
-> context. In any case, there shouldn't be any functional change
-> introduced by this patch.
->
-> Patch #7 makes patch #6 reduntant: if we use direct function
-> calls, then the issue of concurrently running workqueue items cannot
-> happen. However, I actually think patch #6 has value regardless as it
-> makes the code more robust.
->
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> ---
-> Barnab=C3=A1s P=C5=91cze (4):
->       media: rzv2h-ivc: Fix AXIRX_VBLANK register write
->       media: rzv2h-ivc: Write AXIRX_PIXFMT once
->       media: rzv2h-ivc: Fix FM_STOP register write
->       media: rzv2h-ivc: Fix concurrent buffer list access
->
-> Daniel Scally (1):
->       media: rzv2h-ivc: Revise default VBLANK formula
->
-> Jacopo Mondi (2):
->       media: rzv2h-ivc: Avoid double job scheduling
->       media: rzv2h-ivc: Replace workqueue with direct function call
->
-Tested the patches on RZ/V2H EVK with IMX708 sensor on next-20260319.
+All warnings (new ones prefixed by >>):
 
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> #
-On RZ/V2H EVK
+   drivers/media/pci/intel/ipu6/ipu6-isys-queue.c: In function 'start_streaming':
+>> drivers/media/pci/intel/ipu6/ipu6-isys-queue.c:561:14: warning: unused variable 'has_pipeline' [-Wunused-variable]
+     561 |         bool has_pipeline = (bool)video_device_pipeline(&av->vdev);
+         |              ^~~~~~~~~~~~
 
-Cheers,
-Prabhakar
+
+vim +/has_pipeline +561 drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+
+   532	
+   533	static int start_streaming(struct vb2_queue *q, unsigned int count)
+   534	{
+   535		struct ipu6_isys_queue *aq = vb2_queue_to_isys_queue(q);
+   536		struct ipu6_isys_video *av = ipu6_isys_queue_to_video(aq);
+   537		struct device *dev = &av->isys->adev->auxdev.dev;
+   538		const struct ipu6_isys_pixelformat *pfmt =
+   539			ipu6_isys_get_isys_format(ipu6_isys_get_format(av), 0);
+   540		struct media_pad *source_pad, *remote_pad;
+   541		int ret;
+   542	
+   543		dev_dbg(dev, "stream: %s: width %u, height %u, css pixelformat %u\n",
+   544			av->vdev.name, ipu6_isys_get_frame_width(av),
+   545			ipu6_isys_get_frame_height(av), pfmt->css_pixelformat);
+   546	
+   547		remote_pad = media_pad_remote_pad_unique(&av->pad);
+   548		if (IS_ERR(remote_pad)) {
+   549			dev_dbg(dev, "failed to get remote pad\n");
+   550			ret = PTR_ERR(remote_pad);
+   551			goto out_return_buffers;
+   552		}
+   553	
+   554		source_pad = media_pad_remote_pad_unique(&remote_pad->entity->pads[0]);
+   555		if (IS_ERR(source_pad)) {
+   556			dev_dbg(dev, "No external source entity\n");
+   557			ret = PTR_ERR(source_pad);
+   558			goto out_return_buffers;
+   559		}
+   560	
+ > 561		bool has_pipeline = (bool)video_device_pipeline(&av->vdev);
+   562	
+   563		ret = video_device_pipeline_alloc_start(&av->vdev);
+   564		if (ret < 0)
+   565			goto out_return_buffers;
+   566	
+   567		ret = ipu6_isys_link_fmt_validate(aq);
+   568		if (ret) {
+   569			dev_dbg(dev,
+   570				"%s: link format validation failed (%d)\n",
+   571				av->vdev.name, ret);
+   572			goto out_pipeline_stop;
+   573		}
+   574	
+   575		ret = ipu6_isys_fw_open(av->isys);
+   576		if (ret)
+   577			goto out_pipeline_stop;
+   578	
+   579		ret = ipu6_isys_stream_start(av);
+   580		if (ret)
+   581			goto out_fw_close;
+   582	
+   583		return 0;
+   584	
+   585	out_fw_close:
+   586		ipu6_isys_fw_close(av->isys);
+   587	
+   588	out_pipeline_stop:
+   589		ipu6_isys_stream_cleanup(av);
+   590	
+   591	out_return_buffers:
+   592		return_buffers(aq, VB2_BUF_STATE_QUEUED);
+   593	
+   594		return ret;
+   595	}
+   596	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
