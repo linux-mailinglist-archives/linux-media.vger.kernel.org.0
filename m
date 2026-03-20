@@ -1,168 +1,227 @@
-Return-Path: <linux-media+bounces-56572-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56573-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cDbHGYilvWm4/wIAu9opvQ
-	(envelope-from <linux-media+bounces-56572-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 20:52:40 +0100
+	id wAhpHrCuvWnIAQMAu9opvQ
+	(envelope-from <linux-media+bounces-56573-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 21:31:44 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC1E2E084E
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 20:52:40 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D315A2E0DBE
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 21:31:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B570F3041276
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 19:48:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5781E30870EF
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 20:30:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BA9F3563F6;
-	Fri, 20 Mar 2026 19:48:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0D4A34DCDF;
+	Fri, 20 Mar 2026 20:30:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="HI36ZShg"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="l5NhhSRt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.155.198.111])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C15B346FCA;
-	Fri, 20 Mar 2026 19:48:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.155.198.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10368346AE5
+	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 20:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774036114; cv=none; b=SYiClRDrzr1jIpT+pPYv/G0VaUKrh5Duvr8vjeVEoMh4nA5yfYax1dDBkMAs1kJj2xh+CCNcJ0OCYwfkmaC3dUh0DgCnsnuJlnRCJLTP6xrBE6UL+RdcOJotEP2ghuODJIxvExodrYWUTa+/sV9cO3thVKxlRo/b/90H2xtRhXU=
+	t=1774038657; cv=none; b=aPxuzcUV6iIQz44K58/gdV++oGI7xEalFQlfS3L/r32jyE9qlsL6j90CxZ/0PFI0l2FFVEHZX20YRkxSj3GXvxzLxvm1iN130+gDGrhvT0urGm3v1NRf2D7IwKXpqp0nmRph6N3pL2fY+U0rW6yBZEP12+x75h/Nb6SJsRvs00E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774036114; c=relaxed/simple;
-	bh=7ytz/z5ALk+SscFAnn7t/xKn1lxJTNR51Ag/WSCQ48k=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kzTeEmMm2J1XAVpna+LrqS/63elO9t//LCe5pycwEp7c2XgXGi1esA64dDZIFvsdm/o6qGIYkfCKTPaBiCkT0ZzZA8Rw5vgIMjT9vCfUEcGAcqfQCWGxt+ehMGQwUs274AM9PiLQg0n1O8IJVxYNCFtHGi/hCCd08Kn+0JgV99k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=HI36ZShg; arc=none smtp.client-ip=35.155.198.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1774036113; x=1805572113;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Q4TiEgfIAvMzCqc4KEMYNYNKQ830eOmdK/ypgIVMnB0=;
-  b=HI36ZShguwu6FWGH6onECBlfEw14c0gwZSxv9TnrUSdb8S/xvg35xfxW
-   i7Qml2b7qrBey99oFZynuLZljs3iXvR+67zQFOiECBdF3A8KX/gZTCjqb
-   jWaLRxVHgtSuFQodJhusyBS59Kz76dWjRIRZnmj/1jbCVeL+eotudoNPc
-   VX9T7FViwgMWQJ4MjBLu9ScoG60SC8/yIPl0qGpkVok/tR6CUJ910d70+
-   gtA+5Bnil3eme1WvprALx6fSlGNbe55/p55FL1D0g5WaOpQ3YRr+TTc5+
-   OXoUEunuueExjbj25X2cl9u8OtnH0/FWoIMm996DY7BMpl7OxChtUW7ih
-   A==;
-X-CSE-ConnectionGUID: eQzROiltQkKsAskOTuVL+A==
-X-CSE-MsgGUID: EKPiCysSRaKnStZUN8gGPQ==
-X-IronPort-AV: E=Sophos;i="6.23,130,1770595200"; 
-   d="scan'208";a="15374064"
-Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 19:48:32 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.178:5335]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.60.23:2525] with esmtp (Farcaster)
- id cf03d1ac-a93d-4cd4-8130-2bf2729af980; Fri, 20 Mar 2026 19:48:32 +0000 (UTC)
-X-Farcaster-Flow-ID: cf03d1ac-a93d-4cd4-8130-2bf2729af980
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Fri, 20 Mar 2026 19:48:32 +0000
-Received: from localhost (10.187.171.32) by EX19D001UWA001.ant.amazon.com
- (10.13.138.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37; Fri, 20 Mar 2026
- 19:48:31 +0000
-Date: Fri, 20 Mar 2026 12:48:29 -0700
-From: Cory Keitz <ckeitz@amazon.com>
-To: <david@ixit.cz>
-CC: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, "Bryan
- O'Donoghue" <bryan.odonoghue@linaro.org>, Vladimir Zapolskiy
-	<vladimir.zapolskiy@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Luca Weiss <luca.weiss@fairphone.com>, Petr Hodina <phodina@protonmail.com>,
-	Casey Connolly <casey.connolly@linaro.org>, "Dr. Git" <drgitx@gmail.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Joel Selvaraj
-	<foss@joelselvaraj.com>, Kieran Bingham <kbingham@kernel.org>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>, <linux-media@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<phone-devel@vger.kernel.org>
-Subject: Re: [PATCH WIP v4 9/9] media: qcom: camss: Account for C-PHY when
- calculating link frequency
-Message-ID: <ab2kjbN0Igbkp6sw@bcd074ae11bb>
-References: <20260301-qcom-cphy-v4-0-e53316d2cc65@ixit.cz>
- <20260301-qcom-cphy-v4-9-e53316d2cc65@ixit.cz>
+	s=arc-20240116; t=1774038657; c=relaxed/simple;
+	bh=w7cU4jVnutXMzxVYwQT18xtZpb1wAmTQujc/XIAICN0=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=pI2TfO+M43gOZukGqIHr3XOfZ6Ds/pmA/s6w7/3MSGyIWdJ6NTzqbTg2Lnf4c/MhrIFtF8BGwL/nKIb1WakBGU4ETw2N+hCy3rRUDb9xgvfIKWc6J6hHpnVnKy/vGE/8g4UuOUE3WQB90JRsHnJKYDzSsWkTx7v0IBpGUgpZKJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=l5NhhSRt; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1774038654;
+	bh=w7cU4jVnutXMzxVYwQT18xtZpb1wAmTQujc/XIAICN0=;
+	h=Subject:From:To:Cc:Date:From;
+	b=l5NhhSRtb2joG5ixzr3FGiiuK7Y7GvWaEgfndODsdvlYeJqY3hjMJT/3QirNFqHbI
+	 5Qv3ksjlYmPmllN/vuPfmk81NhkaUHJO2dtu56NMt8TMzOS+LLt++dIy+Jajvm2mwq
+	 Fe0166J3xU46m01itYFQnv13gURbnxJUCfr9uSwtJ1R4ENyO2yEJ7f0KVurryg7MHy
+	 s2QXvtDszd/nLeONFJt1JoFX5gy453ldjSf4F8ogZ7/Rp4wi+rZFWOEr8l/kEmvijI
+	 fADxWhs5Jqive/lYEJnvg8CgjYIlJEeHir1U4bWTvTkrMm1dKVbrmYDTZwqWyr25ZH
+	 90NL5LTSTqsKw==
+Received: from [IPv6:2606:6d00:11:b76d::c41] (unknown [IPv6:2606:6d00:11:b76d::c41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D3F0B17E0EB4;
+	Fri, 20 Mar 2026 21:30:53 +0100 (CET)
+Message-ID: <882e638ba642d166cf143ad619e180023887ae7d.camel@collabora.com>
+Subject: [GIT PULL FOR 7.1] Media codec for 7.1 2026-03-20
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: linux-media@vger.kernel.org
+Cc: Heiko Stuebner <heiko@sntech.de>, Cristian Ciocaltea
+	 <cristian.ciocaltea@collabora.com>
+Date: Fri, 20 Mar 2026 16:30:52 -0400
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-R2tgDxX6AGv6cdiUEHLT"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <20260301-qcom-cphy-v4-9-e53316d2cc65@ixit.cz>
-X-ClientProxiedBy: EX19D031UWA004.ant.amazon.com (10.13.139.19) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-X-Spamd-Result: default: False [-7.16 / 15.00];
-	WHITELIST_DMARC(-7.00)[amazon.com:D:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-4.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[amazon.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[amazon.com:s=amazoncorp2];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56572-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56573-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,fairphone.com,protonmail.com,oss.qualcomm.com,joelselvaraj.com,linux.intel.com,vger.kernel.org];
+	HAS_ORG_HEADER(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ckeitz@amazon.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[amazon.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_THREE(0.00)[3];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 0AC1E2E084E
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: D315A2E0DBE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, Mar 01, 2026 at 01:51:28AM +0100, David Heidelberg via B4 Relay wrote:
-> -static int csid_set_clock_rates(struct csid_device *csid)
-> +static int csid_set_clock_rates(struct v4l2_subdev *sd, struct csid_device *csid)
->  {
->  	struct device *dev = csid->camss->dev;
-> +	struct csiphy_device *csiphy = v4l2_get_subdevdata(sd);
-> +	struct csiphy_lanes_cfg *lane_cfg = &csiphy->cfg.csi2->lane_cfg;
 
-I believe there's a regression here from v3. I've been testing v4 of
-this series on SA8775P (kernel 6.18) with a GMSL2 camera pipeline and
-hit an invalid pointer dereference in csid_set_clock_rates() during
-pipeline power-up:
+--=-R2tgDxX6AGv6cdiUEHLT
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  pc : camss_get_link_freq+0x1c/0xc4 [qcom_camss]
-  lr : csid_set_power+0xc8/0x404 [qcom_camss]
-  Code: 910003fd a90153f3 aa0003f4 a9025bf5 (b9400040)
+Hi Mauro, Hans,
 
-The sd passed here from csid_set_power() is the csid subdev, so the
-subdevdata is a csid_device rather than a csiphy_device. The csid_device
-stores its linked csiphy_id during csid_link_setup(), so the fix is to
-look it up through the camss device array:
+This contains several fixes and improvement in Mediatek, IMX, Amphion and
+Chips&Media drivers. Additionally, it includes changes to the RK35xx which
+include an DT ABI break. This break was needed since the binding, unfortuna=
+tely
+picked a bit early, did not position register ranges in the physical order =
+(not
+visible from a DT Binding text) and did not require names for these registe=
+r
+ranges (my bad). There was no proper way to fix it without either DT warnin=
+g or
+rendering the range name useless. I've added Heiko in CC, who needs to know=
+ when
+its ok for him to include the related DTS changes.
 
-    static int csid_set_clock_rates(struct csid_device *csid)
-    {
-        struct csiphy_device *csiphy = &csid->camss->csiphy[csid->phy.csiphy_id];
-        struct csiphy_lanes_cfg *lane_cfg = &csiphy->cfg.csi2->lane_cfg;
+cheers,
+Nicolas
 
-This also lets us drop the v4l2_subdev parameter entirely since it's
-no longer needed. With the above change my pipeline powers on and
-streams correctly.
+The following changes since commit 0e2c4117c3512cf6b8f54c2c3d37564bfa3ccd67=
+:
 
-Tested-by: Cory Keitz <ckeitz@amazon.com>
+  staging: media: tegra-video: add CSI support for Tegra20 and Tegra30 (202=
+6-03-19 08:18:36 +0100)
 
----
+are available in the Git repository at:
 
-Regards,
-Cory
+  https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-7=
+.1-media-codecs-2026-03-20
+
+for you to fetch changes up to 4eeec1a8b0c5ce5f1df29eb59b25d5e19c3022b0:
+
+  media: amphion: Fix race between m2m job_abort and device_run (2026-03-20=
+ 16:07:35 -0400)
+
+----------------------------------------------------------------
+Various codec fix and DT binding ABI break
+
+----------------------------------------------------------------
+Cristian Ciocaltea (2):
+      media: dt-bindings: rockchip,vdec: Mark reg-names required for RK35{7=
+6,88}
+      media: dt-bindings: rockchip,vdec: Add alternative reg-names order fo=
+r RK35{76,88}
+
+Fan Wu (2):
+      media: mtk-jpeg: fix use-after-free in release path due to uncancelle=
+d work
+      media: mediatek: vcodec: fix use-after-free in encoder release path
+
+Haoxiang Li (1):
+      media: chips-media: wave5: fix a potential memory leak in wave5_vdi_i=
+nit()
+
+Ming Qian (5):
+      media: imx-jpeg: Simplify descriptor initialization with memset
+      media: imx-jpeg: Use devm_pm_runtime_enable() helper
+      media: imx-jpeg: Add encoder ops layer for hardware abstraction
+      media: imx-jpeg: Add support for encoder v1 descriptor configuration
+      media: amphion: Fix race between m2m job_abort and device_run
+
+Ziyi Guo (2):
+      media: chips-media: wave5: add missing spinlock protection for send_e=
+os_event()
+      media: chips-media: wave5: add missing spinlock protection for handle=
+_dynamic_resolution_change()
+
+ Documentation/devicetree/bindings/media/rockchip,vdec.yaml          |  22 =
+++++++++++++++--------
+ drivers/media/platform/amphion/vpu_v4l2.c                           |   9 =
++++------
+ drivers/media/platform/chips-media/wave5/wave5-vdi.c                |   1 =
++
+ drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c            |  14 =
++++++++++++++-
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c                |   1 =
++
+ drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c |   9 =
++++++++++
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h                   |   3 =
++++
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c                      | 117 =
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++++++++++++++++++++++-----------------
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h                      |  22 =
+++++++++++++++++++++++
+ 9 files changed, 166 insertions(+), 32 deletions(-)
+
+
+--=20
+Nicolas Dufresne
+Principal Engineer at Collabora
+
+--=-R2tgDxX6AGv6cdiUEHLT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCab2ufAAKCRDZQZRRKWBy
+9JxcAP45OZBczoFziAhVS29OpW7dlNINkOkWMR9RVEJPkpc8NQD/Ur+o9zYQ2Hj7
+Lsn5C5M6mgUB5BqQcWsJN2axGJE8yAk=
+=dZyS
+-----END PGP SIGNATURE-----
+
+--=-R2tgDxX6AGv6cdiUEHLT--
 
