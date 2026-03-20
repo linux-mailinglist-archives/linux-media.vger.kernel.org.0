@@ -1,165 +1,181 @@
-Return-Path: <linux-media+bounces-56549-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56550-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KHwvDsJ6vWmt9wIAu9opvQ
-	(envelope-from <linux-media+bounces-56549-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 17:50:10 +0100
+	id UNb/EPZ/vWnH+QIAu9opvQ
+	(envelope-from <linux-media+bounces-56550-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 18:12:22 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD9A2DE006
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 17:50:09 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60CA32DE5C8
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 18:12:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4060531AC3F7
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 16:40:39 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A62E23039EFD
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 17:01:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47C38378823;
-	Fri, 20 Mar 2026 16:40:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E1553CCFBD;
+	Fri, 20 Mar 2026 17:01:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kcore.it header.i=@kcore.it header.b="fDEKdNA0"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jKasniiS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from spark.kcore.it (spark.kcore.it [49.13.27.68])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9608A2F1FEA;
-	Fri, 20 Mar 2026 16:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.13.27.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2253D3C13E8;
+	Fri, 20 Mar 2026 17:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774024836; cv=none; b=DGYm0J/YPLKvylJMoNh9yCC4989irl2KSKikjzp+I+Ket2SOtgpxAfr3s9+prJJf+DVS4Dky+tUEPcfVK9vgprhjsqLQkcl4eZs5WItQO/VEvo/niRPSIk5/uokhxsSddDxXrv/5B3X6dnufNKNFp/Mbz3exckFJojGDugvqrTs=
+	t=1774026092; cv=none; b=UZCwnW7CQKMeRLbxOUq1IBEPXZTUDCOm6cYe+bzxgGyRfbjbbM+WnSFZyUiMFdIkCcTdjTtZk5CVfBnPWSSGPbCxuOCSanBoBrVU8gGxYmhsrdu3f1A44jUj6+y2W1KBKN1ShBF0W3HEOZXQwq40f+n6NQHLPaWNurYxFavTo/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774024836; c=relaxed/simple;
-	bh=IME0MhiQXFv+R8yMDRM8Fj7uga8c/v8yfypPOpkFq9Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LDm1Oeuv4Mj/FFvchMQEZBOhFJ7dufXtuwhZ/wTdD+eKbvDswJBNmYDzrgnNd7CAvR+ZgGvY1YVXUItXTWepqD2wR+vDtvQP2eWp1yWcfFHlvPs4NbRJ/FuKHTYBmWjxE8hJqwvo2hI7E0WVAy4NFuV04GEL630wNhkYjlsPjvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kcore.it; spf=pass smtp.mailfrom=kcore.it; dkim=pass (1024-bit key) header.d=kcore.it header.i=@kcore.it header.b=fDEKdNA0; arc=none smtp.client-ip=49.13.27.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kcore.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kcore.it
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kcore.it;
-	s=spark; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=5I73QcgEi3HQaGkSCZdhuHI6uZSoJRxBkj3ZvdMTeGw=; b=fDEKdNA0Co0dLkDl4AbThJkIJ4
-	aufwy54hDuA9Q+lHXNSlo0y2YeVoQ7LNEn6wGKmMilFpEfJTAFA1NPm4RUtV+N3V4+8q/kMxHBcID
-	yCvamSU8+gbh/MK0A49n7obglySuQXD868iAIH6ZofDaTvv7k0NEJU9KwNIyCBmvwtvY=;
-Received: from mnencia by spark.kcore.it with local (Exim 4.96)
-	(envelope-from <mnencia@kcore.it>)
-	id 1w3ctb-005amb-2U;
-	Fri, 20 Mar 2026 17:40:23 +0100
-Date: Fri, 20 Mar 2026 17:40:23 +0100
-From: Marco Nenciarini <mnencia@kcore.it>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org,
-	hao.yao@intel.com, sakari.ailus@linux.intel.com, andy@kernel.org
-Subject: Re: [PATCH] platform/x86: int3472: Add GPIO type 0x02 (strobe)
- mapping
-Message-ID: <ab14d0M9TkC_yV9D@spark.kcore.it>
-References: <ab0UvRdDpvZBiNsC@spark.kcore.it>
- <CAHp75VeiNd2Ptj9aoZcmSO-c+-RQG-R7kxpzyk3edKU2Ur05Gg@mail.gmail.com>
+	s=arc-20240116; t=1774026092; c=relaxed/simple;
+	bh=hEYUcHp2UzjNb2FhAXRp3xfwYkQiS3s+QoOPB89ejDg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nHC2mPVifzT7RuWeQ8h7i8UKAAa5+oNgLb/fLI8ZBp/xW75zzKjAtAR0qHhvGVnLYXbByIDnS9900xMpRXkt9eTuoYeRwDE57BtyP1Vo8OJMYwzC0CPaYKsDs6wo/dZDUm7An7KI253VOGzno5n1TUeJamnI7JyFXB+rJ+hSRoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jKasniiS; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1774026016;
+	bh=hEYUcHp2UzjNb2FhAXRp3xfwYkQiS3s+QoOPB89ejDg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=jKasniiSRvOBhPqe9ZiRmk3CeyRlY8JssRD/0ShxYskySx3hV6FH9tx2ZimItOMgl
+	 0HhJpuMOalrxYlO56TOSKsvixAbAc2XxgLBa1Br6GKRcYICbIJuBDT76YLUWdoLG+z
+	 cOSLJxU3HZWoeEQhAKoPtjBa7Rv1F9XBIETEV+34PzDbLegxOOFDa/t0py9RgxXIQM
+	 u0GiLD3m80vfpxdgGzkHwyf3Pi/M+DIJZFFKeoEpD61xAT349JPZeI9c8rr3UnwdGi
+	 DyESjfClRSKaDYs6fGTr+t7ockmCOo3nY7Dg0R/IBLVo69yY+64VmwSXF2tdJSc6J0
+	 s/tmDXuO+Avwg==
+Received: from [IPv6:2606:6d00:11:b76d::5ac] (unknown [IPv6:2606:6d00:11:b76d::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 34E0E17E05B5;
+	Fri, 20 Mar 2026 18:00:15 +0100 (CET)
+Message-ID: <86a603a4bebd12ac854d201627d47d0eedacebe0.camel@collabora.com>
+Subject: Re: [PATCH v0 1/3] media: chips-media: wave5: Add Support for
+ Background Detection
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org"	
+ <mchehab@kernel.org>, "hverkuil-cisco@xs4all.nl"
+ <hverkuil-cisco@xs4all.nl>,  "bob.beckett@collabora.com"	
+ <bob.beckett@collabora.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>,
+ "lafley.kim" <lafley.kim@chipsnmedia.com>,  "b-brnich@ti.com"	
+ <b-brnich@ti.com>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, Nas Chung	
+ <nas.chung@chipsnmedia.com>
+Date: Fri, 20 Mar 2026 13:00:12 -0400
+In-Reply-To: <PU4P216MB1149B5B5B7BABB4176BF5C87ED4CA@PU4P216MB1149.KORP216.PROD.OUTLOOK.COM>
+References: <20260319053210.90-1-jackson.lee@chipsnmedia.com>
+		 <20260319053210.90-2-jackson.lee@chipsnmedia.com>
+	 <c6ddf8a7cc7224921b62f74b87d1c8e5c9c4a120.camel@collabora.com>
+	 <PU4P216MB1149B5B5B7BABB4176BF5C87ED4CA@PU4P216MB1149.KORP216.PROD.OUTLOOK.COM>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-YeU73vwfCghjUcKVMzXC"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="+oLkcqzjPi4FndOw"
-Content-Disposition: inline
-In-Reply-To: <CAHp75VeiNd2Ptj9aoZcmSO-c+-RQG-R7kxpzyk3edKU2Ur05Gg@mail.gmail.com>
-X-Spamd-Result: default: False [-1.06 / 15.00];
+X-Spamd-Result: default: False [-4.26 / 15.00];
 	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[kcore.it:s=spark];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56549-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[kcore.it];
+	FREEMAIL_CC(0.00)[vger.kernel.org,chipsnmedia.com,ti.com,xs4all.nl];
+	TAGGED_FROM(0.00)[bounces-56550-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[chipsnmedia.com,kernel.org,xs4all.nl,collabora.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	NEURAL_SPAM(0.00)[0.725];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mnencia@kcore.it,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[kcore.it:-];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kcore.it:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9FD9A2DE006
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:mid]
+X-Rspamd-Queue-Id: 60CA32DE5C8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---+oLkcqzjPi4FndOw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--=-YeU73vwfCghjUcKVMzXC
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Andy,
+Le vendredi 20 mars 2026 =C3=A0 01:34 +0000, jackson.lee a =C3=A9crit=C2=A0=
+:
+> Hi Nicolas
+> > >=20
+[...]
 
-First, apologies for the triple submission. It was a sending error
-on my side (mutt submitted three separate copies), not three patch
-versions. Please disregard the duplicates.
+> > >=20
+> >=20
+> > The hard question, last parameter here is def, so I read this is disabl=
+ed
+> > by default. What's the side effect of having this enabled by default ? =
+Did
+> > you already considered that option ?
+> >=20
+>=20
+> Background detection is disabled by default because not all use cases ben=
+efit
+> from this feature.
+> When enabled, detected background regions are encoded with fewer bits or =
+skip
+> mode,
+> which reduces bitrate but may not be desirable in every scenario.
+> We chose to let the user explicitly opt-in rather than enable it by defau=
+lt.
 
-Regarding your feedback:
+Ack
 
-> Link tag, Closes tags, Cc placement
+>=20
+> Thanks for your review.
+> Jackson
 
-Noted, thank you for the clear guidance. I will apply these if I
-send an updated version.
-
-> get_maintainer.pl
-
-Thank you for the pointer and for sharing your ge2maintainer.sh
-script.
-
-> strobe / privacy-led mapping
-
-Hans pointed out that GPIO type 0x02 is actually for an IR flood
-LED, not a privacy LED. After digging into the ACPI tables on my
-machine, I confirmed he is correct. The GPIO belongs to an INT3472
-controlling an empty IR sensor slot, not the active OV08F4 camera.
-I have replied to Hans with the full analysis. The mapping in this
-patch is semantically wrong, so it may not be needed at all, or it
-would need the refactoring Hans suggested.
-
-Thanks,
-Marco
-
---=20
-Marco Nenciarini - mnencia@kcore.it
-7C23 B804 3E65 D298 0A21  B6E2 589F 03F0 1BA5 5038
-
---+oLkcqzjPi4FndOw
+--=-YeU73vwfCghjUcKVMzXC
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEfCO4BD5l0pgKIbbiWJ8D8BulUDgFAmm9eHYACgkQWJ8D8Bul
-UDhUsg//X51sFA4AnB9IQ7ZobIwh7exCjtSgAmCquS24VxjAqTh8II2/K6FEIDQQ
-7yZrjmN5k+rpX+4ESMFpXPkNYhrydZbHFqAUnN6MsuivU3toJEoUjgNBmlytsdrs
-Z3GJTpKCuBZx6UrxvUih5xGInf/9yMRVUj7/fAjPtrKt25K8HyVn8AI+sv5q1jJd
-FW0aEia97J6PUvs1tZrqusDDiqNvQlL29C+KCZc0SBTlCMOnzZFhVKWyvXGvDPJA
-JHi5q2uSQfPNcfcUJHwtQPc9spPFV/cShCo6uuTIXojPC4RdPBnw7uTon53R6XXC
-F9qCVJqxkNlLxfshXwBG37uX8zhTUVj0fzFdgerfbvShOHNoM4pZVkgZLfhcQuVk
-xSpd/02JKfy14A0Gw61Jv4Tc8cgVO6G7eNQyta/JTyv3vddrmVqa2q+cOv+hnI+f
-WcHx3Bts3WLbVja5XFyAyETTR9BiD7rw5yNIQua5nYBe3/25J4NPi9TJKN4uC6Ni
-i+sgJ9S6PQ+N7IbvUHy4e5C4iRpUK2lmoVilddLapVSVZGSa/hdhgsZLcWHPc8EM
-bO4ZBdzRhT1rTnlXjLjJreNm69BTmbVe04jeBBfHy/A6S/2V2P9BsryYLPFF5259
-g3j2mCPZWbwVN2ckiKcwOYkroh1N58DT9r3LdZdhGEI8zngCs+o=
-=2TBm
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCab19HAAKCRDZQZRRKWBy
+9NRLAQDQ4T/PPuVofR2Wn9g0U8rD2BOC9EdvTR4aHifM/dheDQD5AWry1ZXWC+MS
+hSba1L4IzMzuVOZGopWSUVceTAs4NgA=
+=WhGp
 -----END PGP SIGNATURE-----
 
---+oLkcqzjPi4FndOw--
+--=-YeU73vwfCghjUcKVMzXC--
 
