@@ -1,195 +1,203 @@
-Return-Path: <linux-media+bounces-56506-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56507-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aI7yG3YVvWnG6QIAu9opvQ
-	(envelope-from <linux-media+bounces-56506-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:37:58 +0100
+	id QF01LU0avWnG6QIAu9opvQ
+	(envelope-from <linux-media+bounces-56507-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:58:37 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F4D2D820B
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:37:57 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 564812D8608
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:58:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7D7AF3053762
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:37:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1CE80304139A
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:56:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC27A385535;
-	Fri, 20 Mar 2026 09:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5E4538B15E;
+	Fri, 20 Mar 2026 09:56:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mLI4IOsN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uyHPrjR3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CB538657E
-	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 09:37:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBB9383C6B;
+	Fri, 20 Mar 2026 09:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773999454; cv=none; b=ixrrniR4bNO7+/9B7vSxglLbBXcUn7Vv8sAui+R4THX65mOv1AYPWlziXWnAh8Vj6HNl6JzF1MQPmM36kJPh//EkveVGQZ2+XHoSyobMht+aR614A8z2cgVrTX7xl5oGLh4VnXItpKj/Pwn9xlivilqBkziejIadnljxzC/5bSE=
+	t=1774000606; cv=none; b=W7lanbxKW757+HF0tErp1G5yD6kD80vxYXuEgjQNJ+XqfjZnBuyQifYFlYIPh4fWKCv1HmmW803rg5DlUy/jWbd3zgM8Vu9mCphxBQAsZfbLgolNNcVYDxOE1by6XyuMPMn2smFuh8Sj9faQhWvZ8DPfkaMM1GcuoL3wNxU0wyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773999454; c=relaxed/simple;
-	bh=/RroFt/aDThaig1a7ciA5DMyFlmPG1G0vZnwb7/wNb0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o0xIDoYXjn6mV0zkGQTMBOvuKp59hUns8A4KSkNW0JEFLAf+nBLPjUTlcPNPFKB72Ufgm+TGBKOVOPX203ozhX78uenm5H0VlZIA5eaakYbiGA0uvoIRSffCFY/A9e6/mxMEutkTTnov28CqfFEK/musr+BBgKMHkpywcBOPlAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mLI4IOsN; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48540d21f7dso4476445e9.0
-        for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 02:37:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773999448; x=1774604248; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eD4dBMvjtmZ/uGxmRy1So/8YVPy0MK5aKa2M09OXdww=;
-        b=mLI4IOsNodpyfdYPs/3nAj3/qLlMYjxybpdfUFRWNXrxvvxK/uU7FOd7jO+SLzEdeX
-         x9ryKe+SJkhW5gzAz/d/YNEiXfKBgafuUevD51gnAI4N3pnst87cQhUMsHWropHiH0Xi
-         J4JrNQyWlXDjJzWYibHd+2zTtHJC9Xj9BfADpbARMaFAcvAhAGYpDvdvRheR9u3fnZly
-         Fqxsi7uEoCNiCgTSJDwxQYa/3QY2wlP6Z6ttssdBp+pio968FIw3+HgXHPScguXoeS6J
-         0PQvj3djI/c7VgZCQgo7mj0Dqw8RPeW2jyXUxqIFxS/m5Fx+QkyoVv71Af6aFfu1kHCd
-         wAuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773999448; x=1774604248;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eD4dBMvjtmZ/uGxmRy1So/8YVPy0MK5aKa2M09OXdww=;
-        b=Vvxfyc88rutLcwjtBhbUO5t6bd1lsk3Gy/p/6rTppMmkLpVt4j72SHz4gpBtXhn17r
-         xZCOWax4kOnGPXKfOUGeOSrqyAFt9Z4nhpp0FTHxtqeWDq1d/iJ+5QuqyEWDFwEd+lih
-         AuE4bMX1WzMNNEeGgvXrchJivRWxRtplIAGpPZVS60xCXmRe+uQ5MU7MR3QKBO25tk90
-         +gfUv0Y2mgZaqfDcNE9d4y0FLVWoSeroAIfSo0cqZJIOzo83V3oSvpUbVP/GsMB46MOL
-         QvTOd87MqGl5JswMstN3REOLMQaYM7/iCRy6o8jMOlU2dbcTDFcUm+rAFCi+jgFtg6zB
-         6z+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVWPqLcotl+Y/SBmrEQ+F6ZY4ZFxRXcB3/4dDMh9ijyUC70FX/KWuuhhPhBZGsQ6I/Q32l5XKnP5L6Gqw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgM8vrHv8gndVQawJVyO6jF/S3o8BUaioCmyEYtnveZ1SiXxsk
-	1Yc6AhpzxzdJtSv6ZKvUG6R9XhggaKU9iMCFcl8bcvR5SSVyIF6oIvmg1C0jOdz1YD4=
-X-Gm-Gg: ATEYQzzqiNH/UJ4lRV95Odi16OLQUq5/wXPBiRw5nKqh6gWYGbfqxijnu39BVE5CzjI
-	DLf3BYKva8Cf61bEySaBny65JXo2QIjs/8BqRNfekYRxWs3/m4T34FICcTu3fiEI6BlaDK2l596
-	DYLC1rn6hnYC5m2yIUtF9CIXIuAjCA4yr+UtUVrT139SrDSGFUmsnnphkWGgsUNDu0ySHQvtzIm
-	b/gD5zmK0pPj4EfVvw9sRUur/laSHX/oLZOnEDH35XDsUXVb4kXOvdWq0t9aJjOZX5Nt2seh6N7
-	v4iIrnQE8tlwebm3yASVyT/3cKw0Cnv0hg4SoyamifEMMKDNriX3o5gsRc5JubRKaJgLPvqFPp3
-	NxjZyuFpJsdFeGA0ocA29A5shS2FXQ4GqLyGh06O2HYoj12VpO08zc8RiLIwprZZJLgzZ3rfLvg
-	F/eUB2x4Kdx36RUTptaqg881qvy4Xk
-X-Received: by 2002:a05:600c:17d8:b0:483:703e:4ad9 with SMTP id 5b1f17b1804b1-486ff0291d7mr19670865e9.19.1773999447715;
-        Fri, 20 Mar 2026 02:37:27 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae048sm5267437f8f.1.2026.03.20.02.37.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 02:37:27 -0700 (PDT)
-Date: Fri, 20 Mar 2026 12:37:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Tomasz Unger <tomasz.unger@yahoo.pl>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: av7110: remove print_time() dead code
-Message-ID: <ab0VVFimveEhibR6@stanley.mountain>
-References: <20260320-av7110-remove-print-time-v1-1-05402287078a.ref@yahoo.pl>
- <20260320-av7110-remove-print-time-v1-1-05402287078a@yahoo.pl>
+	s=arc-20240116; t=1774000606; c=relaxed/simple;
+	bh=SzI5t4N0FZ4IAeW8BhjweNtPA/RkXoLwNTDxzHATD1w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rb99M5QwMzFuHS158er7KteQjocqE9HMkAoTuN8xh5Lipez1xYBHo6ExL9hssvP/SJUU/5rhnpMZBg9CVb1jwFkHOgb6pZaRGQjqREZFQNYca3oKp8m2DmEi1u+CK2AQB4X2vY43IitI1NMN+i9f5cumkSAL3utJ2s074NZP6BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uyHPrjR3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 693F6C2BC9E;
+	Fri, 20 Mar 2026 09:56:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774000605;
+	bh=SzI5t4N0FZ4IAeW8BhjweNtPA/RkXoLwNTDxzHATD1w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=uyHPrjR3+YS3hIv+Vg1KVooBJPWYvxp1ylXz+0wufQwK1BQVCzZIbAJICGq8c8aLU
+	 ujGVye+HQSFndavhlxf5a+Wy4kZbDcYd6SKofNhSlbj7ZfR+jmncjmjcjVvntwSm+V
+	 38V7PmAe03PHEmnctKKezxxClyuk3hzAbr0ueemSrb5dJIiyc5dogFS8tGvd9h/5A9
+	 u99QwDSwRY3H0p2hn0dNwnoyTw7tU73QZxLgjADKjirEJ3B3Z3IvjEbx3OjHC54V3K
+	 WWlfyOdfp2lyf3WxQuJgF7sArvhva/cDiq4NhlH0RR/2/J0LffmgfO0BEFIbVI9OcS
+	 z0PkN5gGfKqNg==
+Message-ID: <369229e0-06fd-4a22-b6d8-6dfebb5ca3b2@kernel.org>
+Date: Fri, 20 Mar 2026 09:56:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260320-av7110-remove-print-time-v1-1-05402287078a@yahoo.pl>
-X-Spamd-Result: default: False [-2.16 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
+ <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260315-x1e-csi2-phy-v4-0-90c09203888d@linaro.org>
+ <20260315-x1e-csi2-phy-v4-2-90c09203888d@linaro.org>
+ <3f11de22-b729-4d06-b6c8-18e649e1979c@linaro.org>
+ <80ddc2b4-d6f8-4e8d-a45e-69c05d100aa2@linaro.org>
+ <16b10f17-ecd3-4cdd-ac3f-f64127d60ace@linaro.org>
+ <ulenfus552ggobis4gmi7eh27tikdaxbgm2oj63b5l2vemlfxc@ib5f2xaqurj6>
+ <26XTdUyQTB41Oc4D5HnMtSm_QpZRjlkljQRJVw-u1Zp3Ltn9s4LVU-LQkP6drdl3Z3GGssLCCbsVYPFEqssHcQ==@protonmail.internalid>
+ <65e06b2e-eeb9-45af-97ac-4ae60f652361@linaro.org>
+ <9578400d-30ac-4d8c-9295-ee4ec8af3b2c@kernel.org>
+ <d6616fc0-75fb-47e2-96cd-ae81fa1a8e82@linaro.org>
+ <f3c62284-ac78-42c6-a4f0-cd984b7124cd@linaro.org>
+ <oULvLfFEPeTlWNrZF9lVwMEK-bN53nncdYFGaOgjvBQAtxaUS_SrfFhorc49TcxiPQK3CIOk46vbnkXZQ24Nfg==@protonmail.internalid>
+ <5b23408d-c996-4785-8294-233d79168a1b@linaro.org>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+In-Reply-To: <5b23408d-c996-4785-8294-233d79168a1b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56506-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_TO(0.00)[yahoo.pl];
+	TAGGED_FROM(0.00)[bounces-56507-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dan.carpenter@linaro.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.997];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:dkim,stanley.mountain:mid]
-X-Rspamd-Queue-Id: D5F4D2D820B
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 564812D8608
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 20, 2026 at 09:46:15AM +0100, Tomasz Unger wrote:
-> The DEBUG_TIMING macro is commented out and can never be defined,
-> making the print_time() function body always empty. Remove the
-> commented-out macro, the unused function definition and all its
-> call sites as they serve no purpose.
+On 20/03/2026 00:37, Vladimir Zapolskiy wrote:
+> On 3/19/26 17:18, Bryan O'Donoghue wrote:
+>> On 19/03/2026 14:56, Vladimir Zapolskiy wrote:
+>>>> There's no reason to remove that from CAMSS - it would be an ABI break
+>>>> in user-space anyway.
+>>> If technically CAMSS CSIPHY could be excluded from the list of CAMSS media
+>>> subdevices, then for the sake of simplification it should be done for all
+>>> supported platforms in advance, such a change will be independent from this
+>>> particular phy series, and vice versa, this CAMSS only driver change will
+>>> prepare a ground for media-less CAMSS CSIPHY device drivers, hence it shall
+>>> precede this particular CAMSS CSIPHY series.
+>>>
+>>> For backward compatibility with userspace a noop stub will be good enough,
+>>> it's not an issue at all.
+>> The standalone PHY driver doesn't require removing the CSIPHY media
+>> entity from CAMSS. They serve different purposes and coexist - its
+>> important to have a NOP from user-space perspective for legacy and
+>> indeed for new implementations.
+>>
+> There should be no two CAMSS CSIPHY device (or subdevice) drivers, where
+> one chop of CAMSS CSIPHY device driver remains to sit under media, and
+> another one is under phy subsystem, since it's a further degradation from
+> the current already pretty awful state of the CAMSS driver, but at least
+> CSIPHY is not scattered over different subsystems today.
 > 
-> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
-> ---
-> Checked with scripts/checkpatch.pl - no errors, no warnings.
-> Compiled and verified by loading the module in QEMU.
-> ---
->  drivers/staging/media/av7110/av7110.c | 14 --------------
->  1 file changed, 14 deletions(-)
-> 
-> diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-> index 607992100baf..9f4ed1e24b17 100644
-> --- a/drivers/staging/media/av7110/av7110.c
-> +++ b/drivers/staging/media/av7110/av7110.c
-> @@ -314,17 +314,6 @@ static int DvbDmxFilterCallback(u8 *buffer1, size_t buffer1_len,
->  	}
->  }
->  
-> -//#define DEBUG_TIMING
-> -static inline void print_time(char *s)
-> -{
-> -#ifdef DEBUG_TIMING
-> -	struct timespec64 ts;
-> -
-> -	ktime_get_real_ts64(&ts);
-> -	pr_info("%s(): %ptSp\n", s, &ts);
-> -#endif
-> -}
-> -
->  #define DEBI_READ 0
->  #define DEBI_WRITE 1
->  static inline void start_debi_dma(struct av7110 *av7110, int dir,
-> @@ -353,7 +342,6 @@ static void debiirq(struct tasklet_struct *t)
->  	int handle = (type >> 8) & 0x1f;
->  	unsigned int xfer = 0;
->  
-> -	print_time("debi");
->  	dprintk(4, "type 0x%04x\n", type);
->  
->  	if (type == -1) {
-> @@ -473,7 +461,6 @@ static void gpioirq(struct tasklet_struct *t)
->  	txbuf = irdebi(av7110, DEBINOSWAP, TX_BUFF, 0, 2);
->  	len = (av7110->debilen + 3) & ~3;
->  
-> -	print_time("gpio");
->  	dprintk(8, "GPIO0 irq 0x%04x %d\n", av7110->debitype, av7110->debilen);
->  
->  	switch (av7110->debitype & 0xff) {
-> @@ -2785,7 +2772,6 @@ static void av7110_irq(struct saa7146_dev *dev, u32 *isr)
->  {
->  	struct av7110 *av7110 = dev->ext_priv;
->  
-> -	//print_time("av7110_irq");
->  
->  	/* Note: Don't try to handle the DEBI error irq (MASK_18), in
+> It might be fine to move device driver parts related to CAMSS CSIPHY
+> driver from media subsystem to phy subsystem, however if only a partial
+> transition is planned, and CSIPHY device support is split into two device
+> (sub-)drivers, then it merely exposes a quite severe design flaw.
 
-Delete the extra blank line as well.
+It's not two drivers for the same device. It's two layers:
 
-regards,
-dan carpenter
+- The media entity in CAMSS is a pipeline routing abstraction.
+   It validates formats and connects pads. It does not program
+   CSIPHY hardware directly.
 
+- The PHY driver programs the hardware — registers, clocks,
+   regulators, power domains.
+
+This is the same layering as rkisp1 (media pipeline) +
+phy-rockchip-inno-csidphy (electrical config). The ISP's media
+entities and the standalone PHY coexist in different subsystems
+without conflict.
+
+No CSIPHY functionality is duplicated across subsystems. This segmenting 
+of concepts and functionality isn't even unique. We see this constantly 
+with USB (where the MAC lives in drivers/usb/ and the electricals in 
+drivers/phy/) and Display/DSI.
+
+
+> It looks like it's still undecided, if CAMSS CSIPHY IP is a phy or media
+> device, it can not be both at the same time.
+
+We are maintaining the existing user-space setup which presents a 
+msm_csiphyX v4l2-media device, whilst moving the PHY component out into 
+drivers/phy where it belongs - completely transparently to user-space. 
+So we already have a dependency in user-space which needs to be maintained.
+
+The concrete hardware benefits, as I alluded to Neil, are:
+
+- Per-PHY voltage rails
+- Per-PHY power domains
+- Per-PHY operating points (OPPs)
+
+Those are real-world hardware fixes which "just work" as a result of 
+dedicated device nodes and a driver specifically written to relieve the 
+technical debt we've been accruing with the existing model, for years.
+
+Having been educated - brought to the realisation on OPPS, Power-domains 
+and yes voltage rails it is amazing to me this whole legacy system 
+hasn't exploded before now but, its certainly way past time to fix it.
+
+We should proceed with moving init sequences, voltages, PDs and OPPs to 
+drivers/phy.
+
+I'm happy to have a debate about the status of the PHY media device 
+after, however I have to say I'm skeptical about removing the media 
+device - something we could do whether the init sequences live in 
+drivers/media/qcom/camss or in drivers/phy BTW - I'm skeptical about 
+removing that v4l2 node specifically because we've had it in user-space 
+for a long time and I do therefore think that constitutes an ABI.
+
+As I've said already though `rm -rf /dev/v4l2-subdev::msm_csiphy*" is 
+basically an entirely separate debate.
+
+---
+bod
 
