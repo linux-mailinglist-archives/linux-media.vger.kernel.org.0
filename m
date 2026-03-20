@@ -1,218 +1,213 @@
-Return-Path: <linux-media+bounces-56474-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56475-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0AsPLhrvvGme4gIAu9opvQ
-	(envelope-from <linux-media+bounces-56474-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 07:54:18 +0100
+	id AJRwBV3vvGme4gIAu9opvQ
+	(envelope-from <linux-media+bounces-56475-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 07:55:25 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB6F2D65A9
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 07:54:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EFA72D65D0
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 07:55:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 37316307A6C6
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 06:54:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C3362307838A
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 06:55:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F3C1358369;
-	Fri, 20 Mar 2026 06:54:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FCEA358363;
+	Fri, 20 Mar 2026 06:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="GQ3Kkff6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TFDQjIhW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F38355F59;
-	Fri, 20 Mar 2026 06:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8569F2FC89C
+	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 06:55:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773989648; cv=none; b=bBu2X3YUO6mQ0+NwKIPnXROmtuk80VpPug1N/x8+kQ2dh/g2lfUp15mAOEbO1GUseY01dmnfxKABDaKaBRDvM19IiMI3uPeIKf4idWRshQS3VfZ8r8sZ5ZUlQBjnYGtJ1sILth3+Vc7o+HACHI54l1s8eWAWEF2EecCCBcqf3YA=
+	t=1773989706; cv=none; b=HN3EDrzwplpd9hK4SWUYqg1Xg+n+h9hhtF9w4jCTULcviILu8V0L1ePlmZHJ+CZvPPRrF3XmVoHyZ+XVNv009gGq3rf9Oobgq3FlDP8LvcBTF9mK03jpeCarzPVMlR2tNhJk3EUDqjaqlXmFj6fI56fZ0/OV1O0Ygu2BwlVH1Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773989648; c=relaxed/simple;
-	bh=p1iE5SQ1Nr0RQM/ILZCHIvFH0zad5/yHugaR6iWeXq0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=ZXOEQEhSLEi0n30TXhCdHj8Y/tZVxCp3XuDPsuArH/wA83RIF7InBto0bLgOpnXbSsvWKfmWm73gNUea7v/l0+2lG4SLj08vG+hcL+bQgNwF3LCMnVOZJxdJM95T3fkAsIxKGisripvUaDtppG5siKq/XXY5SacK1a6WVYyUsFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=GQ3Kkff6; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=p1iE5SQ1Nr0RQM/ILZCHIvFH0zad5/yHugaR6iWeXq0=; b=G
-	Q3Kkff6Z7FEBIEDhUPEscyxf9tG+wXu/Gj9DWW9TtiMCG2XciGUSFSYeeMkgXDxq
-	Fmb2yL+gsLyodhVkSOQpjGHDnGJj6CrlP+XasjkzEmEtIjHeIqHJsipkKDPc43x2
-	KKN5Gq655+9uWEhXJAu34PJ6rH6ZqvhD6VgU837U7w=
-Received: from luo.liu.linux$163.com ( [112.64.125.122] ) by
- ajax-webmail-wmsvr-40-107 (Coremail) ; Fri, 20 Mar 2026 14:52:50 +0800
- (CST)
-Date: Fri, 20 Mar 2026 14:52:50 +0800 (CST)
-From: "luo.liu.linux" <luo.liu.linux@163.com>
-To: "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
-	"Sakari Ailus" <sakari.ailus@linux.intel.com>
-Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re:Re: Re: Re: Re: Re: [PATCH] media:v4l2-async:debugfs for
- registered subdevices
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20251222(83accb85) Copyright (c) 2002-2026 www.mailtech.cn 163com
-In-Reply-To: <20260319203037.GF860715@killaraus.ideasonboard.com>
-References: <20260313075824.2818713-1-luo.liu.linux@163.com>
- <abPm3VGGRAIsY1eQ@kekkonen.localdomain>
- <5e63e8aa.943f.19ce6ee4ad5.Coremail.luo.liu.linux@163.com>
- <abP4Mr_s8JRpQH0B@kekkonen.localdomain>
- <384d2274.9b3e.19ce776ec2c.Coremail.luo.liu.linux@163.com>
- <abg0R5zerwCM_1mK@kekkonen.localdomain>
- <186862ed.3836.19cf9df139c.Coremail.luo.liu.linux@163.com>
- <abkPC3sHVUdGuww1@kekkonen.localdomain>
- <4155da3e.9361.19cfb815615.Coremail.luo.liu.linux@163.com>
- <20260319203037.GF860715@killaraus.ideasonboard.com>
-X-NTES-SC: AL_Qu2cAfWTtk0s5iWQZOkWn0sSh+Y3WcC2uP0u2IYbRuUevC3z+y0jZ3BzElXu0fqFFiGgqiGMYDF89OBIW7KTjMzVfJfJ0LUBR9jl1qAl
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	s=arc-20240116; t=1773989706; c=relaxed/simple;
+	bh=uXLfWBJDoPAqsAKPllt+3NeX9xk1Fg8r36x1efbvFUA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KoUasR8gnJBuULH7KkFTAjYTIUde5cEhHdtXQDza+/4amM3DZTzgwB5/mQYIl38rcqZJe3peQIEtwrR3bz4/lvPMy2U8djiQC4r7dUhNQwa/XC2FULs18cNLzZMCKPGumzhGsUituuABSlIoGMzEYZgiTrlXt/fOVmqp1izRdPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TFDQjIhW; arc=none smtp.client-ip=209.85.216.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f67.google.com with SMTP id 98e67ed59e1d1-359fea895b5so1195063a91.0
+        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 23:55:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773989705; x=1774594505; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JE3e8Ok253WLuIQMkkF5cVdS7DBSHkCSg6Us16Jdk5o=;
+        b=TFDQjIhW3yXKtQ1VVaT9EXzNYfkuPwlJL2vkmspHJbHnLzedZH6pDL+ChAjAJxMtyM
+         9lkzz5I19clCnlaE1FvfduZre6kK2ypvUcsijyECXYnb1bHBgsVOJYO0X6UUuEUKAenc
+         jUyi3DGc34RgbYo6+vCObxdc8dXYpk+v3G2e7duQDKOYXCisGkdPJRa/xDXbFrnI67iu
+         EgT/PLRP8noM/k/HgNmP4g9fQMeFFWcGZDZwzyGmaJ/+KW0GZysTONyCB6V+/IuiXW21
+         e5BvJccYMIRaWhhxV21/3FvolbfppUPs907GcdckUqZdNW65piqZSEkBPxtwfIiuyFFj
+         3NHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773989705; x=1774594505;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JE3e8Ok253WLuIQMkkF5cVdS7DBSHkCSg6Us16Jdk5o=;
+        b=iYYlwEhj4aBV50n0fjaood71INlRluPw1jo7Yn9YRzcwsrGHpjkucttgmEq2hrepNu
+         aBAy/ayAfwPoIMjZsT0t4VLTnNLCHc2p5ZqBA2qAuH1PZ8tr4SzV5WhqOsyWXZr1XNKQ
+         2cFLLK3UUYnYpJSQJBIbD59ltyNoKblkl9frgnJU07cM9tVfbF469zgjPdYgv2Q0ui+z
+         HZMHXdGhwnFlCdTa6ru17q3+CmT5yXisM3YoiAHp5wcPb3qR5BF1W7Y3MR99+Qu922O1
+         rqFgoxQDi7PgY5pFLYcTAp17u/ldl5G8C1cbFU1w368U1v/zr6lQ8L5Q39KJQX5JjIa5
+         ORUw==
+X-Gm-Message-State: AOJu0Yw8Jr6jKqPGgXI3qVpHaKkOutlWt4zranRLTjgmz6TS+QmQTff+
+	34TdP3/rE10/IDHfXORFgP5BNKDxtMhVR1Kf5bM25qdm51T0AJ5aQbiqbtpvPbIKIHyzHDzn
+X-Gm-Gg: ATEYQzyxlwuT1XSCbNx9p0IaOBvmayHr0OMCpf6a5G4/QB/1YUnHGo2ggri43prEqpz
+	YQXOx1eEWWLaZ7sDl1FmoF4GqCfu7ENcOVp4N98x7L7gpdGjgN69x/NTh380O5WZ1vltzSOu+gu
+	wf4RpaquttvnC56B+t0eOAY76Z9Gv59kcrvH1BCCIwBr4VbbSYX8Zz+VU/82OAecSkp0P8ADwb4
+	XGX4e+kMM+B75utLyx5lCD0y5ptwUe/zZ5uBScbYKlsF7EJoqNoB+TMbmwonH41spkNR9QI0x4O
+	cUAsBCUIwCvp62QRjcLPpNtN8Zi9IwOvQd9OYU6jVWx25015P96RJn2E0akiWMylvNmuwGUCGfz
+	qpTiHB1huOzFD/K6KCrd15opW6OZ210BIhrRauHO/RIJDkTYcj5AeJQclc4oha8p91TWzqlzS3b
+	a02KRJzqMrXZNEh6z6wDMGJZT5uuDwlbOb7jBkMikFiriFiUChEEDK77YHqBvwmWW5eBLCmrqao
+	0JncsmGHv7cQvNPop30MARJOcleYd3xOe4faIcA
+X-Received: by 2002:a17:90b:3952:b0:35b:a7be:ae68 with SMTP id 98e67ed59e1d1-35bd2d34560mr1430310a91.30.1773989704739;
+        Thu, 19 Mar 2026 23:55:04 -0700 (PDT)
+Received: from CN4GKQDX76.bytedance.net ([61.213.176.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bc60eca2dsm4518420a91.11.2026.03.19.23.55.02
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 19 Mar 2026 23:55:04 -0700 (PDT)
+From: Zile Xiong <xiongzile99@gmail.com>
+To: Tomasz Figa <tfiga@chromium.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zile Xiong <xiongzile99@gmail.com>
+Subject: [RFC PATCH] media: vb2: use ssize_t for vb2_read/vb2_write
+Date: Fri, 20 Mar 2026 14:54:45 +0800
+Message-ID: <20260320065445.75351-1-xiongzile99@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <4de2b255.55d8.19d0a04a81e.Coremail.luo.liu.linux@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:aygvCgD3d+DC7rxpvSp9AA--.55821W
-X-CM-SenderInfo: hoxrhztlxozxxqx0qiywtou0bp/xtbC6wJ15mm87sI43QAA3m
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-X-Spamd-Result: default: False [-1.06 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
-	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-56475-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[163.com];
-	TAGGED_FROM(0.00)[bounces-56474-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-0.983];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luo.liu.linux@163.com,linux-media@vger.kernel.org];
-	HAS_X_PRIO_THREE(0.00)[3];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DKIM_TRACE(0.00)[163.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1BB6F2D65A9
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[xiongzile99@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-0.901];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 8EFA72D65D0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-CgpIaSBMYXVyZW50IO+8jFNha2FyaSwgCgox77yMQ3VycmVudCBkZWJ1Z2dpbmcgdG9vbHMgKEtB
-U0FOLCBDT05GSUdfREVCVUdfTElTVCkgb3BlcmF0ZSBvbiBhIHBhc3NpdmUgZGVmZW5zZSBtb2Rl
-bDoKCiAgICAgdGhleSBvbmx5IGFsZXJ0IHdoZW4gZXhwbGljaXQgZXJyb3JzIG9jY3VyLCBzdWNo
-IGFzIGNvcnJ1cHRlZCBwb2ludGVycyBvciBpbGxlZ2FsIG1lbW9yeSBhY2Nlc3MuIFRoZXkgYXJl
-IGZ1bmRhbWVudGFsbHkgYmxpbmQgdG8gImxvZ2ljYWwgb21pc3Npb25zIuKAlHN0YXRlcyB3aGVy
-ZSBkYXRhIHNob3VsZCBoYXZlIGJlZW4gcmVtb3ZlZCBidXQgd2Fzbid0LgpDb25zaWRlciB0aGUg
-c2NlbmFyaW8gd2hlcmUgYSBkcml2ZXIgZm9yZ2V0cyB0byBjYWxswqB2NGwyX2FzeW5jX3VucmVn
-aXN0ZXJfc3ViZGV2KCk6CgpMaXN0IERlYnVnIHJlbWFpbnMgc2lsZW50OsKgU2luY2Ugbm/CoGxp
-c3RfZGVsKCnCoGlzIGV4ZWN1dGVkLCB0aGXCoHNkLT5hc3luY19saXN0wqBub2RlIHJlbWFpbnMg
-c3RydWN0dXJhbGx5IGludGFjdCB3aXRoaW7CoHN1YmRldl9saXN0LCB3aXRoIHZhbGlkwqBwcmV2
-wqBhbmTCoG5leHTCoGxpbmtzLgoKS0FTQU4gcmVtYWlucyBzaWxlbnQ6wqBJdCBkZXRlY3RzwqBh
-Y2Nlc3PCoHRvIGZyZWVkIG1lbW9yeSwgbm90IHRoZcKgZXhpc3RlbmNlwqBvZiBkYW5nbGluZyBw
-b2ludGVycy4gSWYgdGhlIG9ycGhhbmVkIG5vZGUgaXMgbmV2ZXIgdHJhdmVyc2VkIGFmdGVyIHRo
-ZSBkcml2ZXIgZnJlZXMgaXRzIG1lbW9yeSwgbm8gVXNlLUFmdGVyLUZyZWUgaXMgdHJpZ2dlcmVk
-LgoKCkluIHRoZSBzY2VuYXJpbyBJIGRlc2NyaWJlZCBpbiBteSBwcmV2aW91cyBlbWFpbO+8jHRo
-ZSBidWcgcmVtYWlucyBkb3JtYW50IGFuZCBpbnZpc2libGUgZHVyaW5nIG5vcm1hbCBvcGVyYXRp
-b24uIFRoZSBkcml2ZXIgY291bGQgcnVuIGZsYXdsZXNzbHkgZm9yIHllYXJzLCBvbmx5IHJldmVh
-bGluZyB0aGUgaXNzdWUgdW5kZXIgc3BlY2lmaWMgc3RyZXNzIGNvbmRpdGlvbnMKCgoy77yMSSBu
-b3RpY2VkIHRoYXQgdGhlIGltcGxlbWVudGF0aW9uIG9mIHY0bDJfYXN5bmNfdW5yZWdpc3Rlcl9z
-dWJkZXYoKSByZXZlYWxzIGEgY3JpdGljYWwgc3RhdGUgZGVwZW5kZW5jeToKCnZvaWQgdjRsMl9h
-c3luY191bnJlZ2lzdGVyX3N1YmRldihzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkKQp7CiAgICAvLyAu
-Li4KICAgIGlmICghc2QtPmFzeW5jX2xpc3QubmV4dCkKICAgICAgICByZXR1cm47IC8vIEd1YXJk
-IGNoZWNrIGltcGxpZXMgdGhlIG5vZGUgbXVzdCBiZSBsaW5rZWQgdG8gcHJvY2VlZAogICAgLy8g
-Li4uCn0KClRoaXMgZ3VhcmQgY2hlY2sgKGlmICghc2QtPmFzeW5jX2xpc3QubmV4dCkpIGhpZ2hs
-aWdodHMgdGhlIGZyYWdpbGl0eSBvZiB0aGUgc3RhdGUgbWFjaGluZS4gSWYgYSBkcml2ZXIgbWlz
-bWFuYWdlcyBpdHMgbGlmZWN5Y2xlIG9yIHNpbXBseSBvbWl0cyB0aGlzIGNhbGwsIHRoZSBzdWJk
-ZXYgcmVtYWlucyBwZXJtYW5lbnRseSBzdHJhbmRlZCBpbiBzdWJkZXZfbGlzdC4gVGhpcyBpcyBh
-IGxvZ2ljYWwgY29uc2lzdGVuY3kgZXJyb3LigJR0aGUgZGF0YSBzdHJ1Y3R1cmUgaXMgdmFsaWQg
-YnV0IHNlbWFudGljYWxseSBpbmNvcnJlY3TigJRyYXRoZXIgdGhhbiBhIG1lbW9yeSBjb3JydXB0
-aW9uIGlzc3VlCgoKM++8jFRvZ2V0aGVyIHdpdGggcGVuZGluZ19zdWJkZXZzX3Nob3csIHRoaXMg
-aW50ZXJmYWNlIHByb3ZpZGVzIGEgaG9saXN0aWMgdmlldyBvZiB0aGUgc3Vic3lzdGVtJ3MgaGVh
-bHRoLiBJdCBlbmFibGVzIHRlYW1zIHRvIHByb2FjdGl2ZWx5IGlkZW50aWZ5IGxvZ2ljYWwgZmxh
-d3MgZHVyaW5nIHRoZSBkZXZlbG9wbWVudCBjeWNsZSwgZWxpbWluYXRpbmcgdGhlIHJlbGlhbmNl
-IG9uIGx1Y2sgb3Igc3RyZXNzIHRlc3RzIHRvIHVuY292ZXIgdGhlc2UgZGVlcC1zZWF0ZWQgc3Rh
-dGUgbWFuYWdlbWVudCBidWdzCgpSZWdhcmRzLAoKTHVvCgoKCgpBdCAyMDI2LTAzLTIwIDA0OjMw
-OjM3LCAiTGF1cmVudCBQaW5jaGFydCIgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNv
-bT4gd3JvdGU6Cj5PbiBUdWUsIE1hciAxNywgMjAyNiBhdCAwNzoxNDo0M1BNICswODAwLCBsdW8u
-bGl1LmxpbnV4IHdyb3RlOgo+PiAKPj4gSGkgU2FrYXJpLAo+PiAKPj4gVGhlIGV4aXN0aW5nwqBw
-ZW5kaW5nX2FzeW5jX3N1YmRldmljZXPCoGludGVyZmFjZSBwcm92aWRlcyBleGNlbGxlbnQKPj4g
-dmlzaWJpbGl0eSBpbnRvIHRoZcKgbm90aWZpZXJfbGlzdMKgKHRoZSAnd2FpdGVyJyBzaWRlKS4K
-Pj4KPj4gVG8gYWNoaWV2ZSBmdWxsIHN5bW1ldHJ5IGFuZCBjb21wbGV0ZSBkZWJ1Z2dhYmlsaXR5
-LCB3ZSBzaG91bGQgYWxzbwo+PiBleHBvc2UgdGhlwqBzdWJkZXZfbGlzdMKgKHRoZSAncHJvdmlk
-ZXInIHNpZGUpLlRoZXNlIHR3byB2aWV3cyBzb2x2ZQo+PiBkaWZmZXJlbnQgcHJvYmxlbXM6Cj4+
-IAo+PiAxIE5vdGlmaWVyIExpc3Q6IERpYWdub3NlcyB3aHkgYmluZGluZyBpc8Kgc3RhbGxlZMKg
-KG1pc3Npbmcgc3ViLWRldmljZXMpLgo+PiAKPj4gMiBTdWJkZXYgTGlzdDogRGlhZ25vc2VzwqBz
-dGF0ZSBpbmNvbnNpc3RlbmNpZXPCoChlLmcuLCBzdWItZGV2aWNlcwo+PiBwcmVzZW50IGJ1dCB1
-bm1hdGNoZWQpIGFuZCB2ZXJpZmllc8KgcmVzb3VyY2UgY2xlYW51cMKgdXBvbiB1bmJpbmQuCj4+
-IAo+PiBGcm9tIHByYWN0aWNhbCBleHBlcmllbmNlLCBsYWNraW5nIHZpc2liaWxpdHkgaW50b8Kg
-c3ViZGV2X2xpc3TCoG1ha2VzCj4+IGl0IGRpZmZpY3VsdCB0byBkaXN0aW5ndWlzaCBiZXR3ZWVu
-IGEgc3ViLWRldmljZSBwcm9iZSBmYWlsdXJlIGFuZCBhbgo+PiBhc3luYyBtYXRjaGluZyBmYWls
-dXJlLiAKPj4KPj4gQWRkaW5nIHRoaXMgaW50ZXJmYWNlIHdvdWxkIHByb3ZpZGUgYSBob2xpc3Rp
-YyB2aWV3IG9mIHRoZSBhc3luYwo+PiBlbmdpbmUncyBzdGF0ZSwgd2hpY2ggaGFzIHByb3ZlbiBl
-c3NlbnRpYWwgZm9yIHJhcGlkIGlzc3VlCj4+IGxvY2FsaXphdGlvbiBpbiBjb21wbGV4IGRyaXZl
-ciBzdGFja3MuCj4KPkkgYWdyZWUgd2l0aCBTYWthcmkgaGVyZS4gVGhlcmUgYXJlIHBsZW50eSBv
-ZiBvdGhlciBkZWJ1Z2dpbmcgdG9vbHMgaW4KPnRoZSBrZXJuZWwgdGhhdCBjYW4gYmUgdXNlZCB0
-byBkaWFnbm9zZSB0aGUga2luZCBvZiBpc3N1ZXMgeW91J3ZlCj5kZXNjcmliZWQuIEkgdGhpbmsg
-dGhpcyBwYXRjaCBhZGRzIG1vcmUgbm9pc2UgdGhhbiB2YWx1ZS4KPgoKPi0tIAo+UmVnYXJkcywK
-PgoKPkxhdXJlbnQgUGluY2hhcnQKCgoKT24gRnJpLCBNYXIgMTMsIDIwMjYgYXQgMDk6NTA6NTZQ
-TSArMDgwMCwgbHVvLmxpdS5saW51eCB3cm90ZToKPiAKPiBIaSBTYWthcmksCj4gCj4gICAgIEFw
-b2xvZ2llcyBpZiBteSBwcmV2aW91cyBleHBsYW5hdGlvbiB3YXNuJ3QgY2xlYXIgZW5vdWdoLiAK
-PiAKPiAgICAgVG8gY2xhcmlmeSwgdGhlIHByaW1hcnkgZ29hbCBvZiB0aGlzIGludGVyZmFjZSBp
-cyBub3QgbWVyZWx5IHRvIHZlcmlmeSBpZiBpbnNtb2Qvcm1tb2Qgc3VjY2VlZHMsIAo+IGJ1dCB0
-byB2YWxpZGF0ZSB0aGUgY29ycmVjdG5lc3Mgb2YgdGhlIGFzeW5jaHJvbm91cyBzdWJkZXZpY2Ug
-cmVnaXN0cmF0aW9uIGFuZCB1bnJlZ2lzdHJhdGlvbiBwYXRocywKPiBzcGVjaWZpY2FsbHkgZW5z
-dXJpbmcgdGhhdCByZXNvdXJjZSBhbGxvY2F0aW9uIGFuZCByZWNsYW1hdGlvbiBhcmUgaGFuZGxl
-ZCBwcm9wZXJseS4KPiAKPiAgICBJIHdvdWxkIGxpa2UgdG8gc2hhcmUgYSByZWFsLXdvcmxkIHNj
-ZW5hcmlvIHRoYXQgbW90aXZhdGVkIHRoaXMgcGF0Y2g6Cj4gCj4gICAgV2UgaGFkIGEgY2FtZXJh
-IHN1YnN5c3RlbSBwaXBlbGluZSBsaWtlIHNlbnNvciAtPiBkcGh5IC0+IG1pcGktY3NpMiAtPiBp
-c3AKPiBzdWJkZXZpY2UgZHJpdmVyIHRoYXQgYXBwZWFyZWQgdG8gZnVuY3Rpb24gcGVyZmVjdGx5
-IGZvciBzaXggbW9udGhzLiBpbnNtb2QgYW5kIHJtbW9kIGNvbXBsZXRlZCB3aXRob3V0IGFueSBl
-cnJvcnMsCj4gYW5kIHRoZSBzeXN0ZW0gc2VlbWVkIHN0YWJsZSBkdXJpbmcgbm9ybWFsIG9wZXJh
-dGlvbi4gSG93ZXZlciwganVzdCBiZWZvcmUgYSBtYWpvciByZWxlYXNlLCBhIFFBIGVuZ2luZWVy
-IHBlcmZvcm1lZCAKPiBzdHJlc3MgdGVzdGluZyBpbnZvbHZpbmcgcmFwaWQsIHJlcGVhdGVkIGN5
-Y2xlcyBvZiBpbnNtb2QgYW5kIHJtbW9kLCB3aGljaCBldmVudHVhbGx5IHRyaWdnZXJlZCBhIGtl
-cm5lbCBjcmFzaC4KPiAKPiBEdXJpbmcgdGhlIGRlYnVnZ2luZyBwcm9jZXNzLCBJIGluc3BlY3Rl
-ZCB0aGUgaW50ZXJuYWwgZ2xvYmFsIGxpc3RzOgo+IAo+IHN0YXRpYyBMSVNUX0hFQUQoc3ViZGV2
-X2xpc3QpOwo+IHN0YXRpYyBMSVNUX0hFQUQobm90aWZpZXJfbGlzdCk7Cj4gCj4gQnkgZHVtcGlu
-ZyB0aGUgc3ViZGV2X2xpc3QgdmlhIHRoaXMgZGVidWdmcyBpbnRlcmZhY2UsIEkgZGlzY292ZXJl
-ZCB0aGF0IGEgRC1QSFkgc3ViZGV2aWNlIGVudHJ5IHJlbWFpbmVkIGluIHRoZSBsaXN0IGV2ZW4g
-Cj4gYWZ0ZXIgaXRzIGRyaXZlciB3YXMgdW5sb2FkZWQuIENydWNpYWxseSwgdGhlIG91dHB1dCBl
-eHBsaWNpdGx5IHNob3dlZCB0aGUgZGV2aWNlIG5hbWUsIGFsbG93aW5nIG1lIHRvIGltbWVkaWF0
-ZWx5IHBpbnBvaW50Cj4gdGhlIEQtUEhZIGRyaXZlciBhcyB0aGUgY3VscHJpdCwgcmF0aGVyIHRo
-YW4gYmxpbmRseSB0cm91Ymxlc2hvb3Rpbmcgb3RoZXIgY29tcG9uZW50cyBpbiB0aGUgcGlwZWxp
-bmUgKHN1Y2ggYXMgdGhlIHNlbnNvciBvciBJU1ApLgo+IAo+IFRoaXMgd2FzIHRoZSBjcml0aWNh
-bCBjbHVlIHRoYXQgbGVkIG1lIHRvIHRoZSByb290IGNhdXNlOiAKPiAKPiBUaGUgRC1QSFkgc3Vi
-ZHJpdmVyJ3MgcmVtb3ZlIGZ1bmN0aW9uIHdhcyBtaXNzaW5nIGEgY2FsbCB0byB2NGwyX2FzeW5j
-X2NsZWFudXAoc2QpLiBDb25zZXF1ZW50bHksIHRoZSBzdWJkZXZpY2Ugd2FzIG5ldmVyIHByb3Bl
-cmx5IAo+IHVucmVnaXN0ZXJlZCBmcm9tIHRoZSBhc3luYyBmcmFtZXdvcmssIGxlYWRpbmcgdG8g
-YSB1c2UtYWZ0ZXItZnJlZSBvciBzdGFsZSBwb2ludGVyIGlzc3VlIGR1cmluZyB0aGUgc3RyZXNz
-IHRlc3QuCj4gCj4gV2l0aG91dCB0aGlzIGRlYnVnZnMgaW50ZXJmYWNlLCBkZXRlY3Rpbmcgc3Vj
-aCAic2lsZW50IiByZWdpc3RyYXRpb24gbGVha3MgaXMgZXh0cmVtZWx5IGRpZmZpY3VsdC4gCj4g
-VGhlIGRyaXZlciBsb2FkcyBhbmQgdW5sb2FkcyB3aXRob3V0IHJlcG9ydGluZyBlcnJvcnMsIGFu
-ZCBzdGFuZGFyZCBsb2dzIChkbWVzZykgb2Z0ZW4gcHJvdmlkZQo+IG5vIGluZGljYXRpb24gdGhh
-dCBhbiBlbnRyeSB3YXMgbGVmdCBiZWhpbmQgaW4gdGhlIGNvcmUgZnJhbWV3b3JrJ3MgbGlzdCB1
-bnRpbCBhIGNyYXNoIG9jY3VycyB1bmRlciBzcGVjaWZpYyB0aW1pbmcgY29uZGl0aW9ucy4KPiAK
-PiAKPiBHaXZlbiB0aGlzIGV4cGVyaWVuY2UsIEkgYmVsaWV2ZSB0aGlzIGludGVyZmFjZSBwcm92
-aWRlcyBhIHZpdGFsIHZpc2liaWxpdHkgcG9pbnQgZm9yIGVuZ2luZWVycyB0bzoKPiAKPiAxLFZl
-cmlmeSB0aGF0IHN1YmRldmljZXMgYXJlIGNvcnJlY3RseSByZW1vdmVkIGZyb20gdGhlIGdsb2Jh
-bCBsaXN0IHVwb24gZHJpdmVyIHVubG9hZC4KPiAyLENhdGNoIG1pc3NpbmcgY2xlYW51cCBjYWxs
-cyAobGlrZSB2NGwyX2FzeW5jX2NsZWFudXApIGVhcmx5IGluIHRoZSBkZXZlbG9wbWVudCBjeWNs
-ZSwgcmF0aGVyIHRoYW4gZGlzY292ZXJpbmcgdGhlbSB0aHJvdWdoIHJhbmRvbSBjcmFzaGVzIGlu
-IHN0cmVzcyB0ZXN0aW5nLgoKSSBndWVzcyB5b3UnZCBoYXZlIGZvdW5kIHRoaXMgd2l0aCBlaXRo
-ZXIgS0FTQU4gb3IgbGlua2VkIGxpc3QgZGVidWdnaW5nPwoKLS0gClNha2FyaSBBaWx1cwoKCgoK
-CgoK
+vb2_read() and vb2_write() return size_t, but propagate
+negative errno values from __vb2_perform_fileio().
+
+This relies on implicit signed/unsigned conversions in callers
+(e.g. vb2_fop_read()) to recover error codes:
+
+    __vb2_perform_fileio() -> -EINVAL
+    vb2_read()             -> (size_t)-EINVAL
+    vb2_fop_read()         -> -EINVAL
+
+This relies on implicit conversions that are not obvious.
+
+These helpers are exported (EXPORT_SYMBOL_GPL) and part of the
+vb2 API, so changing their return type may affect existing users.
+
+However, they conceptually follow read/write semantics, where
+ssize_t is typically used to return either a byte count or a
+negative error code.
+
+Switch vb2_read() and vb2_write() to ssize_t, and update
+__vb2_perform_fileio() accordingly.
+
+This is an RFC to gather feedback.
+
+Signed-off-by: Zile Xiong <xiongzile99@gmail.com>
+---
+ drivers/media/common/videobuf2/videobuf2-core.c | 6 +++---
+ include/media/videobuf2-core.h                  | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index adf668b213c2..8a2b8156e9da 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -2990,7 +2990,7 @@ static int __vb2_cleanup_fileio(struct vb2_queue *q)
+  * @nonblock:	mode selector (1 means blocking calls, 0 means nonblocking)
+  * @read:	access mode selector (1 means read, 0 means write)
+  */
+-static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_t count,
++static ssize_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_t count,
+ 		loff_t *ppos, int nonblock, int read)
+ {
+ 	struct vb2_fileio_data *fileio;
+@@ -3154,14 +3154,14 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+ 	return ret;
+ }
+ 
+-size_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
++ssize_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
+ 		loff_t *ppos, int nonblocking)
+ {
+ 	return __vb2_perform_fileio(q, data, count, ppos, nonblocking, 1);
+ }
+ EXPORT_SYMBOL_GPL(vb2_read);
+ 
+-size_t vb2_write(struct vb2_queue *q, const char __user *data, size_t count,
++ssize_t vb2_write(struct vb2_queue *q, const char __user *data, size_t count,
+ 		loff_t *ppos, int nonblocking)
+ {
+ 	return __vb2_perform_fileio(q, (char __user *) data, count,
+diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+index 4424d481d7f7..bf20bcb1d366 100644
+--- a/include/media/videobuf2-core.h
++++ b/include/media/videobuf2-core.h
+@@ -1093,7 +1093,7 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
+  * @ppos:	file handle position tracking pointer
+  * @nonblock:	mode selector (1 means blocking calls, 0 means nonblocking)
+  */
+-size_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
++ssize_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
+ 		loff_t *ppos, int nonblock);
+ /**
+  * vb2_write() - implements write() syscall logic.
+@@ -1103,7 +1103,7 @@ size_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
+  * @ppos:	file handle position tracking pointer
+  * @nonblock:	mode selector (1 means blocking calls, 0 means nonblocking)
+  */
+-size_t vb2_write(struct vb2_queue *q, const char __user *data, size_t count,
++ssize_t vb2_write(struct vb2_queue *q, const char __user *data, size_t count,
+ 		loff_t *ppos, int nonblock);
+ 
+ /**
+-- 
+2.39.5
+
 
