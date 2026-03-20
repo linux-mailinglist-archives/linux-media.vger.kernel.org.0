@@ -1,190 +1,195 @@
-Return-Path: <linux-media+bounces-56433-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56434-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 7jD1NFmWvGnE0wIAu9opvQ
-	(envelope-from <linux-media+bounces-56433-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:35:37 +0100
+	id SPGEHuCWvGni0wIAu9opvQ
+	(envelope-from <linux-media+bounces-56434-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:37:52 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6322D477E
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:35:36 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E4A2D478F
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:37:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A597B30743CE
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 00:35:32 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4B48F300AD41
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 00:37:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 571B021256C;
-	Fri, 20 Mar 2026 00:35:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2488E211A09;
+	Fri, 20 Mar 2026 00:37:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="o9iRXE22";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aHcOmJ7z"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TX4SIBhg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A551C84A0
-	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 00:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA2E2139C9
+	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 00:37:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773966930; cv=none; b=K4meFz783BIQ2gXgicd8pdHJv3OUPTMcqlOpkQStL9pvL0q0IVgz7d1C6WkeuuWVB9KMsb0mdlRvhA15JKhSMBFC5XOHuvhQfKUkRS1eq/rV3OSSgfj8Swf2ZMockl/xn5RTbjD8DQFhO8ILS2kXjb4eBIYRaz7ONdvBG4lLFWY=
+	t=1773967065; cv=none; b=EKZbSTDYahhHgIeGq68mpV9HJk0I2iJHNB6H4culV66Ys0V5mcvdG2m2hh2r1+27Mv2RcOcOKOZ7cxke0HHUSxYg0H/s1GR9WUxhK/jqUtGI+R0dzZoqbOmwMOG+Hnmx1ttSCD40OR3VkWd36b3lj3f4cclVqduX0rqLktFJn8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773966930; c=relaxed/simple;
-	bh=j7QjpZQhiVE57gCK0RTyHucoH872U8FmVMG0ksAnbk4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AyomRsYYHFqmZoFl8YvHOms3IDZgJkP1i9rNc1aNQRidsYHDyAoiHbXm28WYlhFDisUzY4tV+LplLBU113Fa2Nv1Lnn3zEzczV/+dTAEdcAbkCM+sXajijRGEwSsfO2BXceNlAyYB5WvhCe2G8BfOnV9f1pvrO1DZt0/T3ie6BY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invisiblethingslab.com; spf=pass smtp.mailfrom=invisiblethingslab.com; dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b=o9iRXE22; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aHcOmJ7z; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invisiblethingslab.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=invisiblethingslab.com
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 3405DEC01DD;
-	Thu, 19 Mar 2026 20:35:27 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Thu, 19 Mar 2026 20:35:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	invisiblethingslab.com; h=cc:cc:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1773966927;
-	 x=1774053327; bh=JcONGwatR7I2a2nbnBcn4nDdjiD848qctkczcd/135I=; b=
-	o9iRXE22s4v3SibxaC9hpc6A6uyuS+CaFY0enqTN+htegyVqj9n4jY5e5KjzSG/5
-	G8AKSWMNKCAY2RX93lNRZl+5LG571pYpQVGaJpFkAu3ySjaw0bz/DuyeMqW25II5
-	+JnoI+tVg1jrLTQsvPaejhxeMcfOzZ1bU7Ei6PSyUBv7zWHaxDEK3MBadIjBCaYc
-	YmIhF8FFm7OqTwiGsZtKQiwekGCxX+Z+BkSC10ATaHxLlHVKz9BNevbCGHWld8cI
-	yM9hx1+U0Nxpg9Z92ADffOiOWsl5EVyYODmLjpIAAxht/kFB8afE+QUHCIBAnOe5
-	SqCQy42dAKMPD5dPXJSzPg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1773966927; x=1774053327; bh=JcONGwatR7I2a2nbnBcn4nDdjiD848qctkc
-	zcd/135I=; b=aHcOmJ7z78hfcHqG88kU0UoJ7OiJ9gSWCciMgCIW9Oe1aj12F/w
-	sz4BhUijpJi+6Mg9B1QwFNMMzEKP2cVL2kbQj5Pq4tKtN8FM1Cu5v92XtOTg3JNa
-	tWKrdTWaNuqBOz+SCl1u3UUQKUAPUfD35ZL/39vqFJgWyW/heuXiy6TRPAVqP6K8
-	x7W66zvshvDLNJS4acOdSpgnBFzYrf4jBv+j2BT1gRRA+eMZDs3+KDYrdw87hG9V
-	OjUbXXwg/rVUvx53/ZYdfeKBPoK3CkRKbuOjTgqAubXzd9dO/18dquC0xtHXn02k
-	7rxxDr234hGp/90mGkDCgWrmwRLgsZAcvfg==
-X-ME-Sender: <xms:Tpa8abB1Mh9xKU831dYLGOf9C6-gOg3F4gGiSC4ZzPJNsq8ASPu5qA>
-    <xme:Tpa8aYYipdefJhwZUgg9VnTbVPWFfnPSk6QjTER9tU9__Mq2UEftTwVH_7J_UgB3f
-    PJqfs-Ta6za4abhtRdeCEahiaKWzty_68_7KWMSCQPdFHo2ADQ>
-X-ME-Received: <xmr:Tpa8ae6p7thI7tVHbo1jUP2kbaB1sUfFzAOQy_SIsWpkmyeIxlZyTilAutZTMnAGKVg33a5wSwW7bdXNe9I5M6V0vhKr0Ycitbw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftdekgeeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrrhgvkhcu
-    ofgrrhgtiiihkhhofihskhhiqdfikphrvggtkhhiuceomhgrrhhmrghrvghksehinhhvih
-    hsihgslhgvthhhihhnghhslhgrsgdrtghomheqnecuggftrfgrthhtvghrnhepgfduleet
-    feevhfefheeiteeliefhjefhleduveetteekveettddvgeeuteefjedunecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrrhhmrghrvghksehi
-    nhhvihhsihgslhgvthhhihhnghhslhgrsgdrtghomhdpnhgspghrtghpthhtohephedpmh
-    houggvpehsmhhtphhouhhtpdhrtghpthhtoheprhhisggrlhgurgestghhrhhomhhiuhhm
-    rdhorhhgpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsoh
-    hnsghorghrugdrtghomhdprhgtphhtthhopehhrghnshhgsehkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtoheplhhinhhugidqmhhmsehkvhgrtghkrdhorhhg
-X-ME-Proxy: <xmx:Tpa8aZZYU1sq9eJFrSdXRSVwLvv9Ra_1e_pgcZJaGC8RxTbeXsJ04w>
-    <xmx:Tpa8adg4cbdZ8QxKyglo3HzlpH5EOEdSMvXAnAihPwcPjYQJw_bFtQ>
-    <xmx:Tpa8aa-dY4_QFgHrmps0ESRVoKKZUWVqM_oaffD2gPFbo3vYCPqwAA>
-    <xmx:Tpa8aYqlogKH7xeGqaaxibNI2Ay9Wa3qsF9MWY-piWy6YG2cSpx8Uw>
-    <xmx:T5a8aaK5f7tdsb7Fqw207TKEnVi7mG-7YR-leIYSvDsFGigO3TratenH>
-Feedback-ID: i1568416f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Mar 2026 20:35:25 -0400 (EDT)
-Date: Fri, 20 Mar 2026 01:35:24 +0100
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>, linux-media@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: Linux 7.0-rc4: v4l2src0:src: page allocation failure - increased
- memory usage in 7.0?
-Message-ID: <abyWTGIlD_rncMds@mail-itl>
-References: <abtAylIlW3I8s1T-@mail-itl>
- <CANiDSCvqt574XbMAz0qUunu7xDY=oScL+sx533X6ke=fcEdr+g@mail.gmail.com>
+	s=arc-20240116; t=1773967065; c=relaxed/simple;
+	bh=F+lvgD2ubQQWQe9EW0DdQluM6ova1XjKWBNtVNvRmFQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X53V5ZuEiF/Jx/JbUCT5knbtwOLB5YZqsffvsJi/PJOFNHnaKdqIkNj1KXNwNuhLhzOBD/Pma85NBRB1zoxXh1bndM6UxdmjY8ORS/iYw6dGLaDRRYF1hpuExrXnHqaHmri4cmv3KrmDcwaMjXjblNFmcTbt0qUAv3wEpREcRsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TX4SIBhg; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-38be12cee51so1212041fa.3
+        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 17:37:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773967062; x=1774571862; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pemwfzPMjVzwk3ZmFBYOgrrlysIkLu8Wo12oBjLmwB4=;
+        b=TX4SIBhgrSeh4lDHY49XS8EcA0mTu+ILqAmfo2xbP2z/o+NsshDdRSdMIY7f1J3NHP
+         gupqU1jtuUF6sNLJZTuSUlCJINGuLYQHckHmIt2o5eVa6qYXRKJyK/dPl+WFXM5OEtcy
+         hf+T+kdKQ+dHJPy0u7Yx0EeOq4PZu7i/VrM5DV2xIHXmJ2566nl9xMDNXGWg1HkbDmpV
+         jCunkDWoVtj5q1KMR7trCV5oODDc0maxXfKRgt4E5IazrSIA/brY0BV7ts4dU8aZY18f
+         rMXmZ5XKg4ARONA/LCaI7nJLzCkcjdYyq7OWlEoy7QiYlMpoBlx2LW7i36Cla4xq2Mq4
+         6Bug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773967062; x=1774571862;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pemwfzPMjVzwk3ZmFBYOgrrlysIkLu8Wo12oBjLmwB4=;
+        b=VK8J08KDQN2dCHCBXNdzMK8yKKIxCZl6WI8VqXkCCcKilyySfXBZfg98xNw4bKul12
+         noY8+PurzLONWmDa38kbgOIBQuFenl2LcP5q5WqLeZvaqGe0C8RIZXLs/cXO4E3+foao
+         sipPC6yp1ig3/DFHVGzvZjEX9iogPSu+G0QRAGXd69YdRlADxBRHbQJubkDLnoi5ZbUK
+         knYy7TaHlusfioo2AFKS3B1YdzjYc4IxgiS0K5osHE2JEbJ4bgTLu4Ut9+q++NyDEA3T
+         95VSnToj940lHdq4YCC5IWCchsh4BMLHXot2+obyAgJP2eLJCbGLo+uSYZFJ9yg4m6dl
+         z4/g==
+X-Forwarded-Encrypted: i=1; AJvYcCVh5wbE8w5NvmvgDzMLkTH77xhEklXvHwud3qeMZUFcKJGkgieW+sIh2iu8sU4dlTmYFaV4xjllEtAfmg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoA/9p5XnL+vmQpI4LfGLTfpjPCBW8lDkomfO/+cgrErS5Gdge
+	lQYoKdyUkuMZrF8lRkkABCibWKvOXvsZhP2WUzc+4nQP7zqxdN3DtWTsXl5FT5HV7pA=
+X-Gm-Gg: ATEYQzwlS/IoqeN8mhGg5b5JrD1BHlSo+oP1PY6JG2H0/oyqQ4+qhykJrwWHOXmx4+H
+	cdb8yuD9NVkLz+oVujyT6KfOAEPhJN6OwoVb7PNVgo2d7767PNCpaDoxu92M6g3SEqlsBT4YNm1
+	f0iGl+Ncp8OR8amRdbRD3cUXqqCNR9loI9ZyNlIN+zxEo9PSmkaSbqoNh8JdzgIF7GMXaopqPnQ
+	9/jUHMeu4/4M1Hy2SQ78+Cbo7upKyhkBm2dw5DGSIWNErcu3pT0rYEurlbBmgRA2gUFlx8czrBC
+	QzWY/xZcXIVftlM7icKWyMi55/eHRG+vOJiZeAsDpohPi4N7WIkz1UfUNEi5g5gUqYBowDIw23d
+	DCjGDTX8FQQFVdnkbJFyTprJtsaGgDb31Wjy4D+RCGMGkF9N9a1/eR9FdvtS9VtNg+E/fi0a9yO
+	ILcnovLqHKuXRl8DCFGRhfzVzaowR6PqeN51WHvEdZYP9H2DVjS07NK10FcdMbybhzio6WDbh16
+	GKmIw==
+X-Received: by 2002:a05:6512:1290:b0:5a1:3e50:423a with SMTP id 2adb3069b0e04-5a285b4fc27mr205134e87.4.1773967061957;
+        Thu, 19 Mar 2026 17:37:41 -0700 (PDT)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2851ae39dsm212218e87.36.2026.03.19.17.37.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Mar 2026 17:37:41 -0700 (PDT)
+Message-ID: <5b23408d-c996-4785-8294-233d79168a1b@linaro.org>
+Date: Fri, 20 Mar 2026 02:37:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="3Wmh7zzAptM1+3iD"
-Content-Disposition: inline
-In-Reply-To: <CANiDSCvqt574XbMAz0qUunu7xDY=oScL+sx533X6ke=fcEdr+g@mail.gmail.com>
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUBJECT_ENDS_QUESTION(1.00)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Bryan O'Donoghue <bod@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
+ <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260315-x1e-csi2-phy-v4-0-90c09203888d@linaro.org>
+ <20260315-x1e-csi2-phy-v4-2-90c09203888d@linaro.org>
+ <3f11de22-b729-4d06-b6c8-18e649e1979c@linaro.org>
+ <80ddc2b4-d6f8-4e8d-a45e-69c05d100aa2@linaro.org>
+ <16b10f17-ecd3-4cdd-ac3f-f64127d60ace@linaro.org>
+ <ulenfus552ggobis4gmi7eh27tikdaxbgm2oj63b5l2vemlfxc@ib5f2xaqurj6>
+ <26XTdUyQTB41Oc4D5HnMtSm_QpZRjlkljQRJVw-u1Zp3Ltn9s4LVU-LQkP6drdl3Z3GGssLCCbsVYPFEqssHcQ==@protonmail.internalid>
+ <65e06b2e-eeb9-45af-97ac-4ae60f652361@linaro.org>
+ <9578400d-30ac-4d8c-9295-ee4ec8af3b2c@kernel.org>
+ <d6616fc0-75fb-47e2-96cd-ae81fa1a8e82@linaro.org>
+ <f3c62284-ac78-42c6-a4f0-cd984b7124cd@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <f3c62284-ac78-42c6-a4f0-cd984b7124cd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[invisiblethingslab.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[invisiblethingslab.com:s=fm1,messagingengine.com:s=fm1];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56433-lists,linux-media=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[invisiblethingslab.com:+,messagingengine.com:+];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56434-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[marmarek@invisiblethingslab.com,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-0.995];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,messagingengine.com:dkim]
-X-Rspamd-Queue-Id: EF6322D477E
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 70E4A2D478F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On 3/19/26 17:18, Bryan O'Donoghue wrote:
+> On 19/03/2026 14:56, Vladimir Zapolskiy wrote:
+>>> There's no reason to remove that from CAMSS - it would be an ABI break
+>>> in user-space anyway.
+>>
+>> If technically CAMSS CSIPHY could be excluded from the list of CAMSS media
+>> subdevices, then for the sake of simplification it should be done for all
+>> supported platforms in advance, such a change will be independent from this
+>> particular phy series, and vice versa, this CAMSS only driver change will
+>> prepare a ground for media-less CAMSS CSIPHY device drivers, hence it shall
+>> precede this particular CAMSS CSIPHY series.
+>>
+>> For backward compatibility with userspace a noop stub will be good enough,
+>> it's not an issue at all.
+> 
+> The standalone PHY driver doesn't require removing the CSIPHY media
+> entity from CAMSS. They serve different purposes and coexist - its
+> important to have a NOP from user-space perspective for legacy and
+> indeed for new implementations.
+> 
 
---3Wmh7zzAptM1+3iD
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Mar 2026 01:35:24 +0100
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>, linux-media@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: Linux 7.0-rc4: v4l2src0:src: page allocation failure - increased
- memory usage in 7.0?
+There should be no two CAMSS CSIPHY device (or subdevice) drivers, where
+one chop of CAMSS CSIPHY device driver remains to sit under media, and
+another one is under phy subsystem, since it's a further degradation from
+the current already pretty awful state of the CAMSS driver, but at least
+CSIPHY is not scattered over different subsystems today.
 
-On Thu, Mar 19, 2026 at 11:19:38AM +0100, Ricardo Ribalda wrote:
-> On Thu, 19 Mar 2026 at 01:18, Marek Marczykowski-G=C3=B3recki
-> > Additionally, this failure isn't handled gracefully, it's followed with:
->=20
-> That should not happen.... Could you check if this fixes it:
+It might be fine to move device driver parts related to CAMSS CSIPHY
+driver from media subsystem to phy subsystem, however if only a partial
+transition is planned, and CSIPHY device support is split into two device
+(sub-)drivers, then it merely exposes a quite severe design flaw.
 
-Yes, while the page allocation failure still happens, it doesn't result
-in follow up errors anymore.
+It looks like it's still undecided, if CAMSS CSIPHY IP is a phy or media
+device, it can not be both at the same time.
 
---=20
-Best Regards,
-Marek Marczykowski-G=C3=B3recki
-Invisible Things Lab
+> How the PHY gets represented in the kernel is of zero interest to
+> user-sapce.
+> 
+> That said, stubbing out the media entity is independent work that can
+> happen in any order and IMO is a separate debate. Whether or not CSIPHY
+> init sequences live inside of a monolithic CAMSS driver or live inside
+> off a discrete csiphy driver is not related to the media graph.
+> 
+> Happy to have that debate - and if indicated, carefully apply patches
+> separately.
+> 
 
---3Wmh7zzAptM1+3iD
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAmm8lkwACgkQ24/THMrX
-1yzZqgf6A1X1/vuRf+H4NNzBAsVYrRbNQzGgQKlEkx/IG/lvr3pV3QaNCxsgpHyi
-rMbm1sd7/PSW5kmL4TcqeozhJcH+RSE26nGL2PfTsGu9vG+u1C3J3x4EszM86Via
-7P8rj9uc4bESWCDsIvPevH5o6f7YRN2idp4YpOfm2e5iVMDFclSN/N3PAT/TZEmM
-Jir4SEiuu1C1tXlrsB5FTzipvS2oJUpOTD+A0f6PEhqzKVaCbnFYvSz38IVmk1Kz
-voPL8FtD1fopAWdFIuDCF1Y+oJLSPbz4AAxVt818xMmcIzXi35NgdGX8th+9Tv0G
-9gBAr80v3xSVPv7peCA742lU1bUsww==
-=uE5Z
------END PGP SIGNATURE-----
-
---3Wmh7zzAptM1+3iD--
+-- 
+Best wishes,
+Vladimir
 
