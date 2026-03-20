@@ -1,95 +1,82 @@
-Return-Path: <linux-media+bounces-56512-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56513-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +LtEAiQwvWmI7QIAu9opvQ
-	(envelope-from <linux-media+bounces-56512-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 12:31:48 +0100
+	id eMmzHq4zvWmI7QIAu9opvQ
+	(envelope-from <linux-media+bounces-56513-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 12:46:54 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF762D99CE
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 12:31:47 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A5692D9C92
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 12:46:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B06A83000FD3
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 11:31:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EC03730838FD
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 11:46:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60ECA3AC0DC;
-	Fri, 20 Mar 2026 11:31:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBE0A3AA50C;
+	Fri, 20 Mar 2026 11:46:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MWFmlISx"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="VhggPG9f"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-155.mail.qq.com (out203-205-221-155.mail.qq.com [203.205.221.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A883AA4F1
-	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 11:30:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191BF314B73;
+	Fri, 20 Mar 2026 11:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774006265; cv=none; b=ITvKsigPvnTPjMhbBDSyoXOV8cAW0TLtPVhuAyzCDFnF4uGH8mAB+UZJwlQL1R/wSk/6NBQmVfiHhSO3J5o0EG0KcEGnvIazTdeRLsN6gT6EqeMwoeohyd7BZ9o6vyrzUOQY8HVtqk2+SvFElkQt0hAztmCIvU6rOOrRkunxzEs=
+	t=1774007175; cv=none; b=CO8MMHwk6jialJSBAHW8RVS7MlAhdHLYEoqqIkeVyl8RR5vvQnLvXb2+sYVtpamj/+j3JZfTJPL/q6V72U8ZvvDBVJGQcEAWJ9GE0O1mgWFEMk5VIC8JbN0Z9nV+UlKzv1sHbROTiYCL0pL/E9qdgxFUcTE2zQumIyf691K75ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774006265; c=relaxed/simple;
-	bh=1tOeyqZYtOVZMgL6rtfBgjI0Fs7mG95dZldD/yZ0cZg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=E+r7xTqJ9EHUWx0a2frOltNw36+oXfm0oYp9NCXHqRMVF0yajyJSz9q2lH0Th0JS/AUtxEaqtlyJ28VMkdzdv/A50PuN/f9Iugz/ii8nnklKUmMOdc4gRuJO2b6iL+Npy2coMuMn2QkcryNsRXv0CAVC7R+EItOnHQ2HK52dHa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MWFmlISx; arc=none smtp.client-ip=209.85.216.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f67.google.com with SMTP id 98e67ed59e1d1-35b9fb3f57eso878048a91.2
-        for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 04:30:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774006259; x=1774611059; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jEVxMvU1gGa8q35I1aiel0gWVBZz6xlYQzbFkoU47LE=;
-        b=MWFmlISxhOJHPszS9t4aMT+L0p+970mJnJ9piTFnCxkzBicsTK+9ASL38MIWo/2MIZ
-         sw8Pj0G7Dv0gC6ekr9NS953JYqwiqMoUmwVa1+l/szkMbjw1I0gZg7DAokVmkdCgzvfn
-         MiMdO38D1UhD6BfgF8P4cI7kopUHJaPQ1/s5XIMuxBjlW2bYxmf7b/kGhVNjTK1vplFx
-         5xeDXLIo96yA+M2v0u/8ILqU1Uz2adPOW7urbL7z/KbkxO1pKRfrUoMgCsioFe0fmUtU
-         GOaBR/j8aB5Kr/8OeTEzTcA+OmR+Qu1zTZJCMEj/iYZk/35v6XiPMpKSGMpqi9uOf/yN
-         tGXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774006259; x=1774611059;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jEVxMvU1gGa8q35I1aiel0gWVBZz6xlYQzbFkoU47LE=;
-        b=B0xdpvXEYfTed6Mu2+Aei/biomtZGJBFKhBQNqsBmt24F9tNN/rXzuWQp6W/2la9eS
-         4D5A/5jlR3bkvoYJuGqtadXMSDtFNyQNzAR84BLfJf3+z95ebVryWIXUgJ3/pRSZtfk1
-         fHTJsXX/VaQ6JHgxK3X8T+y1muXGdhRuStXEmR49jMcYmu4zCiOWRVmdAOPyA1zdfT++
-         zQ8kTs/6RQ7UCBnMorZ/b22hnQTTtvormuzXpOmawcngA4lkx9yxkRppG1u/WrizS5Hh
-         at7ZRD56/H+v73qpaTCDB1V8eVl1/oUydHC7Wcr+OHlNzBPcmWPoQJVPJXM1UjnXZKT0
-         3lAA==
-X-Gm-Message-State: AOJu0YwIk9FWih0zjhjw6NSHZ2sZa77F+iSinHgzV4X7I5mfz2sHGuEr
-	E2ZwLEWNYs7P5HMBUmJfKsD9srgLnc6DTS2Ew1jHLJzmtC3Fd1Q8xfT+
-X-Gm-Gg: ATEYQzyx36+QbNxuO9B7WH56ZebKsk6SIpFcgm8IhA+y/zoX937KlemptgbU2VVM5vI
-	FWVwbVr8TKQ91/SzSpfWu5wg8BitRz9Ys/WnqVWwdCrKKTGs6UsdPGEebGRWb0DVPmPmcZSYd5a
-	XrLY6dCwIIc0G1ehiQD4F2La3MX9s5YcCx6YVWh90jBNe0OawlTdSj6qG6ubErjSejxPDArH7Ww
-	NlpNyeP6KNTU+pY1uEzz4JX9qOy4AH/ehrUxUK2ahNVQjV8RUJqNYeHfNannt/WgIm8x5wU5top
-	43SW59v0xh9esO3NTYYQHI+UAU07Nh6p37hcRW1fqiAdED70+JnkMs0dLGLfLPl2/QPBBa3cvIP
-	xtl5eCXZDG+QFntF207FuL8s3Mx85P9FPlvMpsJm+QaCGh6uJmBzGGcGf2xZGnG5wGu5L8E2uSC
-	Net3hlVmI2u4riSg3m3EzDh5irrSICbzotZkeKs9NcL1geNZWJAFhO2Uq6D2MoxKfXr5BOo9I07
-	rK5K7Jdq79lWkE4cEXtki627fZSNFCx38A=
-X-Received: by 2002:a17:90b:5584:b0:359:fd50:e733 with SMTP id 98e67ed59e1d1-35bd2d34ae3mr1942896a91.31.1774006259038;
-        Fri, 20 Mar 2026 04:30:59 -0700 (PDT)
-Received: from CN4GKQDX76.bytedance.net ([61.213.176.57])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bd356d29esm1052261a91.4.2026.03.20.04.30.56
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 20 Mar 2026 04:30:58 -0700 (PDT)
-From: Zile Xiong <xiongzile99@gmail.com>
-To: Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org,
+	s=arc-20240116; t=1774007175; c=relaxed/simple;
+	bh=Igglm0stxI6KqAWiOheScSmhIwG5cR+sjtvAwjnvCVM=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=syMfnwAxFdFAS6N5tK35Rl9y2GV6QavjA6BmI8f2fTWq7Kbw8dTU5GgdoDlagD81FemkbY1dC8EiEJCd84PE3wkG+OXb80oLy10dxQkWggbDRPB3I4KXyJ/5vMegq8QBwiYeKxXWLZhPlDWG84IPIdwWMFDK4v+wZ6wu1rhSdEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=VhggPG9f; arc=none smtp.client-ip=203.205.221.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1774007162; bh=k1zH6nrW3k6/mXqwRYvQLM88+m9KK//xr7jANnRKmMQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=VhggPG9fd5OAnF0tvE28hkm1BCiqNGH/y5Rah679I2E6juTo/shlFdF4MLiAdu2qL
+	 cof36BeWGrAIUntL1on5qmAZA55BryP0WXHdd07kgaTVoGr9AuGU4uWSWW54DOlWh/
+	 1gToaDTosWpAxWKra7xDWnjeWh6m1C5cH7vsRWCM=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
+	id B7AAECD1; Fri, 20 Mar 2026 19:45:58 +0800
+X-QQ-mid: xmsmtpt1774007158tzpmdzq61
+Message-ID: <tencent_4A4977EF66743D0537DE960A36E84B4C7509@qq.com>
+X-QQ-XMAILINFO: MRMtjO3A6C9XsF6vvQCk04sonwVwOjpsGaFykgk9aFq9/D8hEIM+Ey5ozkp0XV
+	 7UPEEr6MzZ6mFaa7f7t0yT0e7yBIGT63ZOcweHOfCaAp9RBj3+xnmiph9mJhrEA7op6KuJB0MlKA
+	 0JFkiNQfy6EH94T17bVDqb24RFV7PBjyMGBIEqoowob/xLSEQvT1pVNirl+dTc3Z8oXA0rLzx45Z
+	 5Mcoc3rmd/R/NiG7l3Gz1A3ak4u+8Q96AEN0kBYEHSoA9aXoe1bkuuOV9JAVwjrAFXZnPEGyrks4
+	 5oxXvzaqF/gYM6TmNj6ILkx31rMoSHfPKpRZ23x/94VT4cuYow0v6XAyGe4AYUajBNqU/9+KfJWK
+	 saS6MJ9pECBrFlRtzQV6qrOXDX1tRM9K76ioDEME78UnETnVsVTKHmr/w20FvialnkxE6PMPavP2
+	 7zYNLFnRzDmqbaBxkNPWBCV7eOSUlcPsubd8S1Dr+m1MwX3aW/0Y5CF1PtO3dk+z03CW29MeJhSm
+	 zQFn+kM9ITLGU0ZKRmCSHOZl7G1qk1QQaLRVDs8Zj/ZjD/RU9E8HX0C0MOCIEAvtyv+YjFPxyk5D
+	 wgaded10dIdub8m2KIe5cm72Fq9+e+Z+rjjQ7Dic0o3BSAFf9nDnQnbkPSr8Fo38PIq+PHFwZnRI
+	 SPi5eS8OoV06LVyYPjtv04yZh7mIhtdAwb5foH8lmcIc9w3IFI6CRUGbaiZ73R1/q7sMeGnKRgNH
+	 pwmImOWlnvjKcy/d5j4RX/1cyjCJvFMTt95nu7Gh2bBMYgXezbjHQk7uGpCt2hwo7vaOocPkntf2
+	 y8aS/L/j7eNkFI3d5T4fuh4vi+ZH9GTpNtaDfD7r8+tac7pfK7RI42El0eSbOfMBLxFyyz7r2x3f
+	 uhTkN19om7VqpZb15ZfjYmCdM69x/xtTQaCbVcG8FNfVfz8UiFhoHlY+OfIYR/1d3vZ7fkVKnIOC
+	 gUDbCvLl+Eecqy5M91Q+MFPAjxkfr7V08+eDXJwORUPzafezVjG2FztpJLBrf4e+9HhDDxW6mxbE
+	 QXApUnXd01JFcjyg0JWIugWU8CQ8A49nFMTJUGDw==
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
+From: Edward Adam Davis <eadavis@qq.com>
+To: hverkuil+cisco@kernel.org
+Cc: eadavis@qq.com,
+	laurent.pinchart@ideasonboard.com,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Zile Xiong <xiongzile99@gmail.com>
-Subject: [PATCH v3] media: vb2: use ssize_t for vb2_read/vb2_write
-Date: Fri, 20 Mar 2026 19:30:52 +0800
-Message-ID: <20260320113052.46989-1-xiongzile99@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260320081545.4624-1-xiongzile99@gmail.com>
-References: <20260320081545.4624-1-xiongzile99@gmail.com>
+	linux-media@vger.kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	syzbot+16062f26c6480975e5ed@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH 1/2] media: em28xx-video: add the unregister of video/VBI entity
+Date: Fri, 20 Mar 2026 19:45:59 +0800
+X-OQ-MSGID: <20260320114558.325064-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <1124bc73-d9d7-4719-b3c2-f05639d05294@kernel.org>
+References: <1124bc73-d9d7-4719-b3c2-f05639d05294@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -97,130 +84,116 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[qq.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[qq.com:s=s201512];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	FREEMAIL_CC(0.00)[qq.com,ideasonboard.com,vger.kernel.org,kernel.org,linux.intel.com,syzkaller.appspotmail.com,googlegroups.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56512-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_FROM(0.00)[bounces-56513-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[qq.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[qq.com];
+	TO_DN_NONE(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[xiongzile99@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[eadavis@qq.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.961];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-0.686];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco,16062f26c6480975e5ed];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: BEF762D99CE
+X-Rspamd-Queue-Id: 9A5692D9C92
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-vb2_read() and vb2_write() return size_t, but propagate
-negative errno values from __vb2_perform_fileio() via
-implicit signed/unsigned conversions in callers
-(e.g. vb2_fop_read()), which is not obvious.
+On Mon, 16 Mar 2026 15:03:23 +0100, Hans Verkuil wrote:
+> On 11/01/2026 06:29, Edward Adam Davis wrote:
+> > When creating a media graph, a failure occurred due to the lack of
+> > a corresponding decoder. During the subsequent media device release
+> > process, the video and VBI devices were not properly unregistered,
+> > leading to a use-after-free vulnerability reported by syzbot [1].
+> >
+> > The fix involves adding the necessary unregister operations.
+> >
+> > [1]
+> > BUG: KASAN: slab-use-after-free in media_device_unregister+0x141/0x430 drivers/media/mc/mc-device.c:804
+> > Read of size 8 at addr ffff88807c114210 by task kworker/1:9/6093
+> > Call Trace:
+> >  media_device_unregister+0x141/0x430 drivers/media/mc/mc-device.c:804
+> >  em28xx_unregister_media_device drivers/media/usb/em28xx/em28xx-cards.c:3511 [inline]
+> >  em28xx_release_resources+0xac/0x240 drivers/media/usb/em28xx/em28xx-cards.c:3532
+> >  em28xx_usb_disconnect+0x19f/0x2f0 drivers/media/usb/em28xx/em28xx-cards.c:4201
+> >  usb_unbind_interface+0x26e/0x910 drivers/usb/core/driver.c:458
+> >
+> > Allocated by task 5932:
+> >  em28xx_v4l2_init+0x10b/0x2e70 drivers/media/usb/em28xx/em28xx-video.c:2532
+> >  em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1117
+> >
+> > Freed by task 5932:
+> >  em28xx_free_v4l2 drivers/media/usb/em28xx/em28xx-video.c:2118 [inline]
+> >  kref_put include/linux/kref.h:65 [inline]
+> >  em28xx_v4l2_init+0x1683/0x2e70 drivers/media/usb/em28xx/em28xx-video.c:2901
+> >
+> > Reported-by: syzbot+16062f26c6480975e5ed@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=16062f26c6480975e5ed
+> > Tested-by: syzbot+16062f26c6480975e5ed@syzkaller.appspotmail.com
+> > Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> > ---
+> >  drivers/media/usb/em28xx/em28xx-video.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
+> > index 2dfa3242a7ab..45b68ebf2e9c 100644
+> > --- a/drivers/media/usb/em28xx/em28xx-video.c
+> > +++ b/drivers/media/usb/em28xx/em28xx-video.c
+> > @@ -882,9 +882,12 @@ static void em28xx_v4l2_media_release(struct em28xx *dev)
+> >
+> >  	for (i = 0; i < MAX_EM28XX_INPUT; i++) {
+> >  		if (!INPUT(i)->type)
+> > -			return;
+> > +			break;
+> >  		media_device_unregister_entity(&dev->input_ent[i]);
+> >  	}
+> > +	media_device_unregister_entity(&dev->v4l2->vdev.entity);
+> > +	if (em28xx_vbi_supported(dev))
+> > +		media_device_unregister_entity(&dev->v4l2->vbi_dev.entity);
+> 
+> This is definitely wrong: these are registered and unregistered in v4l2-dev.c,
+> so it makes no sense to unregister them here.
+You are only half right. Under normal circumstances, these devices
+would indeed be unregistered via media_device_unregister() in v4l2-dev.c.
+However, did you notice that if em28xx_v4l2_init() fails to create
+the media graph, it will release the corresponding v4l2, including
+its members vdev and vbi_dev, before media_device_unregister() is called?
 
-vb2_fop_read() and vb2_fop_write() already return ssize_t, so
-using size_t for vb2_read(), vb2_write(), and
-__vb2_perform_fileio() is inconsistent.
+Furthermore, both vdev and vbi_dev are instances of struct video_device.
+Since they are inserted into the media framework as entities, they are,
+in essence, the corresponding video_device instances themselves (as the
+first member of struct video_device is, in fact, the entity instance).
 
-Switch these helpers to ssize_t so they can return either a byte
-count or a negative error code.
+Therefore, the UAF vulnerability described in [1] is ultimately triggered
+when media_device_unregister() attempts to remove the entity from the
+mdev instance at a em28xx usb disconnect.
 
-Fixes: b25748fe6126 ("[media] v4l: videobuf2: add read() and write() emulator")
-Cc: stable@vger.kernel.org
-Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Signed-off-by: Zile Xiong <xiongzile99@gmail.com>
----
-v3:
-- add Cc: stable@vger.kernel.org
-- fix function argument alignment
+Why is the execution of media_device_unregister() delayed in this context?
+There is a high probability that the open syscall acquires em28xx->lock
+*before* the unregistration path for media devices can proceed. This
+scenario is identical to the one described in patch [2]; consequently,
+this issue can also be resolved by applying the fix provided in [2].
 
-v2:
-- add Fixes tag
-- clarify type consistency with vb2_fop_read/write
----
- drivers/media/common/videobuf2/videobuf2-core.c | 13 +++++++------
- include/media/videobuf2-core.h                  |  8 ++++----
- 2 files changed, 11 insertions(+), 10 deletions(-)
+[2] https://lore.kernel.org/all/tencent_5DCCB375C3694964A3A5A44677775777E605@qq.com
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index adf668b213c2..d5c3d4d939aa 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -2990,8 +2990,9 @@ static int __vb2_cleanup_fileio(struct vb2_queue *q)
-  * @nonblock:	mode selector (1 means blocking calls, 0 means nonblocking)
-  * @read:	access mode selector (1 means read, 0 means write)
-  */
--static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_t count,
--		loff_t *ppos, int nonblock, int read)
-+static ssize_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data,
-+				    size_t count, loff_t *ppos,
-+				    int nonblock, int read)
- {
- 	struct vb2_fileio_data *fileio;
- 	struct vb2_fileio_buf *buf;
-@@ -3154,15 +3155,15 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
- 	return ret;
- }
- 
--size_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
--		loff_t *ppos, int nonblocking)
-+ssize_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
-+		 loff_t *ppos, int nonblocking)
- {
- 	return __vb2_perform_fileio(q, data, count, ppos, nonblocking, 1);
- }
- EXPORT_SYMBOL_GPL(vb2_read);
- 
--size_t vb2_write(struct vb2_queue *q, const char __user *data, size_t count,
--		loff_t *ppos, int nonblocking)
-+ssize_t vb2_write(struct vb2_queue *q, const char __user *data, size_t count,
-+		  loff_t *ppos, int nonblocking)
- {
- 	return __vb2_perform_fileio(q, (char __user *) data, count,
- 							ppos, nonblocking, 0);
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 4424d481d7f7..4b4f4c15c53a 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -1093,8 +1093,8 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
-  * @ppos:	file handle position tracking pointer
-  * @nonblock:	mode selector (1 means blocking calls, 0 means nonblocking)
-  */
--size_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
--		loff_t *ppos, int nonblock);
-+ssize_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
-+		 loff_t *ppos, int nonblock);
- /**
-  * vb2_write() - implements write() syscall logic.
-  * @q:		pointer to &struct vb2_queue with videobuf2 queue.
-@@ -1103,8 +1103,8 @@ size_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
-  * @ppos:	file handle position tracking pointer
-  * @nonblock:	mode selector (1 means blocking calls, 0 means nonblocking)
-  */
--size_t vb2_write(struct vb2_queue *q, const char __user *data, size_t count,
--		loff_t *ppos, int nonblock);
-+ssize_t vb2_write(struct vb2_queue *q, const char __user *data, size_t count,
-+		  loff_t *ppos, int nonblock);
- 
- /**
-  * typedef vb2_thread_fnc - callback function for use with vb2_thread.
--- 
-2.39.5
+BR,
+Edward
 
 
