@@ -1,290 +1,204 @@
-Return-Path: <linux-media+bounces-56491-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56492-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iAhSBNEIvWkO5gIAu9opvQ
-	(envelope-from <linux-media+bounces-56491-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:44:01 +0100
+	id WPZzBnAJvWkO5gIAu9opvQ
+	(envelope-from <linux-media+bounces-56492-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:46:40 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140162D75C0
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:43:59 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C3A2D76BC
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:46:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 0576630216EE
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 08:43:07 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 44119300699F
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 08:46:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19B47377006;
-	Fri, 20 Mar 2026 08:42:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94035375ABA;
+	Fri, 20 Mar 2026 08:46:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="yzswZ84K"
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="D9guehR0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010064.outbound.protection.outlook.com [52.101.46.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic308-17.consmr.mail.ir2.yahoo.com (sonic308-17.consmr.mail.ir2.yahoo.com [77.238.178.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0201F370D4C;
-	Fri, 20 Mar 2026 08:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773996173; cv=fail; b=KUsdm1LMaBbAq/K0AbWSUW6+goGxPhAgHLWJfCSaUO2aBs6OElDj9lgGJCg2KD15mqjFlzVGi+poKbceTNyl2ArstRZO6fr6Z+m8rFb2b73nK2BJjRFGAFpj/5j/v9+JIVFMdrjqh735gFIZwlmTq0+m6i805veTjHUfn74fLGc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773996173; c=relaxed/simple;
-	bh=xwgKZFdpr+jaMs0Y4nwKnrxJqftNRXRvF+CQWOqzXLU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BO6pnLrfcqelH0V5F8ELcxpDItlCiR2uoNbbRo7+7Mc1s/xvCGTaFtgTj/x8i/vuqr5ytftJfjMU7ry4SRBiknuwjE8KpDGachOM2JBATf6mFJq1Lz2jD2cjOAQQ0r7bxpiNbm4zwRJIxGag/z/XiMQ24/ELp3c3VfPo9NSt0qM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=yzswZ84K; arc=fail smtp.client-ip=52.101.46.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ee80ZWoR1llm1Io1iWE8ijpOGQhs/f2r+sTXyI0YbafQUoVvwbtyoz+vTMNZz88V4c6HoQLNLUx6aLs9twidLZ03TrQy7vrTGqosGgauQlt6xgysF6s2TADUufDYqta6BsxdM2nRb+1hJPUpq43N7YTnGDxKsRx6NiCit8e6MWSnrpZ1OQYT445xn5XOIufruMX01x+AuZ7z5zAEiVBc7YBzRoXkGU58r61KzcK9J4u89rtZqLF+WzzdQ/wCQzSMmBrpF/SU1YaUk1SMATV2pobMTuI3NwWDdZa9LCDKRJJJ2udBIKibJ4GQ1f1hLr8ujY53qK4HBn5lHyTgnxUvbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F5ogj7hnRG/y3u1dBiP0w0qbFL+MYKPda6ns+ucEj4A=;
- b=S4W9jRcpfocLcV+A6z3uwq5N7i3QpEfWs7gx4hjH2Wxf4VOpP2p+Z7pGrTesD+2pWoYK5BEHpY4uFlqMKi10xqdMaAh1qcNy5u7HgeM5qHNQNkkqDWb/o/Hh7JBCGAzDJZ3O7jyPeXN1jwfzgI8J0J/+XCaWZF7CpRDKbVw+1k8tAetZ1kJbbZH4OXu0XMKSJIpr45PQXv1Mk7LKz+3jEI3eUMkr6Xu+UR4DDvDorZaXnrNYRW308Z2TE8l82ji5HPzCKjJGUftA2cepI8M2HE+Y2jKgUXD+TdM11YDuV1RF3sTLgCPL6aQ0yBLopaC1Nv5l361rw1auAL0fHGJfQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F5ogj7hnRG/y3u1dBiP0w0qbFL+MYKPda6ns+ucEj4A=;
- b=yzswZ84KMRFRyneyvxw66L+wbJFZMs/LsJn5R9KCPJQb0lYoA/lHTI8z61JRphNTzxov8CPww96wCBIq/PpxZholfacihLLKvTAMOGA8yHhGZw0RqPaSo1kiGJ4hEVnWopmm6FUEiEkN4gFgOynBOw3xpJIs56lOxwzAYPQyjlI=
-Received: from MW4PR03CA0219.namprd03.prod.outlook.com (2603:10b6:303:b9::14)
- by IA1PR12MB7710.namprd12.prod.outlook.com (2603:10b6:208:422::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.13; Fri, 20 Mar
- 2026 08:42:46 +0000
-Received: from MWH0EPF000C6192.namprd02.prod.outlook.com
- (2603:10b6:303:b9:cafe::fd) by MW4PR03CA0219.outlook.office365.com
- (2603:10b6:303:b9::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.19 via Frontend Transport; Fri,
- 20 Mar 2026 08:42:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- MWH0EPF000C6192.mail.protection.outlook.com (10.167.249.102) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9723.19 via Frontend Transport; Fri, 20 Mar 2026 08:42:45 +0000
-Received: from 555e2b870847.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 20 Mar
- 2026 03:42:39 -0500
-From: Bin Du <Bin.Du@amd.com>
-To: <mchehab@kernel.org>, <hverkuil@xs4all.nl>,
-	<laurent.pinchart+renesas@ideasonboard.com>, <bryan.odonoghue@linaro.org>,
-	<sakari.ailus@linux.intel.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<sultan@kerneltoast.com>
-CC: <pratap.nirujogi@amd.com>, <benjamin.chan@amd.com>, <king.li@amd.com>,
-	<gjorgji.rosikopulos@amd.com>, <Phil.Jawich@amd.com>,
-	<Dominic.Antony@amd.com>, <mario.limonciello@amd.com>,
-	<richard.gong@amd.com>, <anson.tsao@amd.com>, <bin.du@amd.com>, Bin Du
-	<Bin.Du@amd.com>, Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>, "Mario
- Limonciello (AMD)" <superm1@kernel.org>, Alexey Zagorodnikov
-	<xglooom@gmail.com>, Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH v10 7/7] Documentation: add documentation of AMD isp 4 driver
-Date: Fri, 20 Mar 2026 16:41:46 +0800
-Message-ID: <20260320084146.200988-8-Bin.Du@amd.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260320084146.200988-1-Bin.Du@amd.com>
-References: <20260320084146.200988-1-Bin.Du@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF155366067
+	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 08:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.178.145
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773996386; cv=none; b=R5cUsJPx0AEb5WuR2Sn/NEo9Dy4YekD/aIkthIN9j3Yhd2jUcvo1GfSoQO57O7aobsHSKjU5/BUxT0wNM/6xYlHN8syQvCpg6FnAN5s3Nfw2Hi81xseHnj2SEqndfAoZXk0fZHCHzoNRMfVyObtrUwl9EcjiXKkjeUyv23MuZSA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773996386; c=relaxed/simple;
+	bh=AEDr6x8wS6elYp/8e5HcGKCCkTNoWKNeqaOU19CE9Qw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=iYfbg2BrhOaO7LQeRmJcMTqNfWsn2A8/2I8w+dWcpJJpAo/XAS+o0HgbMdMnEl/BqHc5AL1gG+/8ut2rcHlK8FF/MfRfl2NyVakcrl40HvF8m6lL9S+2UmEoAJEnF4ZpBH6q4NJCs2Qgmpv9/JANIP4z+IIzJLRls9R9uCQypN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=D9guehR0; arc=none smtp.client-ip=77.238.178.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773996382; bh=KDQBv1OgJnwRXGofX4SlUwxc7v9l7Aa5GLL94fSlqCI=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=D9guehR0lVatwg4NTfkqCwi/uMdUfj58FZ1nH1wQxqfmoXqoSnZl85hP2mfp6WoD+4KWd6qKnFGhPPRoRp9D8YK+O7fKEtM44DQRQ3EqpQtkSHnmm9cTcifCF9hyLo4niUmCE3oUGfvp2PLUCE0Fgr2hIo4q+85KcnFv2FWaQcpYDJWCU/chjCrzlM31QVTYq4TNYBmsqrJPcvZCW4hqn3pLBvTYXKijzVL3aw5sbL6gn5O3+UtdRaDUM1D3cjebNS1YFImOqLuWunLxwWJOpHCETSyj+TidBwp07LGkHcef4Wtz7U4IR8fgKTEm/kWTmGvZqiyJaV7zeMOm0gi85A==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773996382; bh=DUZGO8/Wpzi8dygheLxSefqKwZv49IqyVuRnKsfmnkP=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=mM7wWlHx2GU2h52KvxTaQIY8IKPhNb7gU6DUKLlKK5p396CMXaWFguBYIFQFhC/HKEx8zRHY/uBovQATeMTtdhmvfPi3Jiu/hsbWtHy1FwyZf0UMfhGShoD+zdd/MBldKk7ffESdsQO6BrHLAlifn3BCPsl9v/9uVbJXMerka9gPYQsjGDDbs3eq7rgFGUmBFEvt90yQ+pw4wE7NPTDT26iwByGJrCOECjGOknKOZb8Jcy/Yd9f0rDpqgE3WXyAlKbXPJRDVEiQW7irVBRr59Q94XeJ0Fk3Pd5esGkfNEEmndQMIafKCklk5OJ+fDigbXnvG+S1WLYEvIxLLhQevlg==
+X-YMail-OSG: SrCgK18VM1mNc34eibXfQ1xaAba2SbNKQxY1JsYKfYBHJZMl9abCyNDOb9OT8LG
+ OmJ.MkbIpgKJ2k0t1rzjeL7UxoahUv.pEat9jsLB6RXbLQVSVCPt21bm3BDY.MiAwsN4l6GLLAwM
+ Sry3T65kNCMWdvf.2LckfYoEAW8NYjkvNtW.Gzv1CHXpEktoInHV21w6qk4bdNd57d8jYmpXQ3Lz
+ 2p8nH1AWCOSAgPRDxLStlIMWOVvMiAUMvB6LihBSCPuC1B5shZdO28wtrivXVcxTwnKJGVli5QIh
+ al_ELorqTWTguXsFXx7v8Fuwl_lK4Q6cjG2PiuOh36Ht4Ed.y9MBZmj6R9YGwXzq8KIngTSu4li7
+ mqhYW2N9vY55CZqhJ2U2OdGpm1Ii_BwU..MMGhHOfHG9kqb9Rhpa37a2fusckhTvtGK9kpsUErOn
+ 2TtQhfmahOMlz9a0Y5KHOVJjgkRFcQw_HjsLcyUt6Sv7Z_AHgRIKOUUcSZoNfD3a1VhELWlyLAEp
+ TH5WRJ8v5oxz0JTQ9cEqRpvd..e6XazZ0ffAepl488ZW49sh_naTM3Dj692XWggcPWtFvAQo06q1
+ 0NEAr9bjXHOomVWY.nHpaqB3oZAencsoKHoFwVVOCw4tyxTLkgq5GQgVwJp34AG9NMpSb0Phy92H
+ f0GP3ySLIXNXOVUm_H59QZ1IM_XOjBFaHIo_SJWr4j144cLaZvGmO6XSueisTomIwxYXMjqKjc.o
+ dI29FWw_GXZ1yc84dF0fS_zn44g25svc_zrSL1.6DAdY4sc_nwjIutrxTySp7rO5FxmP9chT31KU
+ CkH5kMA5bS44FCjGI8efdEEWBIHuV8YKN24_tm5we.adU8DQsMumW0vOPCt7Nj3ZWTOK7xF.Wv.t
+ YEYRIG.uPRX7_QP8dHjW6H5LRi8mOKiEHkTO5sTlxWIv9IPt954dB7K9OXuhzpPezTCfQFClLKQs
+ jrotBPKSppPlrXBoueqPGTd0mAhHrtnQI1iAzgJZwCGBLFKpMikOt4xk06cwhRkSaNa868pqqNW7
+ wJa5zcgRAOoi_SE87brYEFSAhlYZ4tQeY6jUBMX9Wz9.PuUFizsl6qQMCr9.PKNtU6N4Mc7wb5Z.
+ Vm.TO.6tyQGKXKYTAP1SAFE.QOXf6nYv3dIIZvgGvgCJAiEA1VPdK4QfOkhZ9p.6cfUbCeUbSceJ
+ dR5UjCdqUD_VkzuIUgsjYhATnzdGn9vd2tzc1FOdrUVMZJ3twKM0DGd.T70jljCwp.LiR9IMWlr4
+ vUDMXyZm_eyu10JgY.ylAlMxEMNJzjO71OC0BPP5lB9Zsdhkie5JtiBw1JPb91Ubxij1Iz1vsXid
+ T5crqEB0SiJu7tquBz3Fl2eTe..tDffZTST1PBz2RWqGVoTGz6dsDRG.r.ktriJ0uUsSj45Dm5sf
+ t2L2kxnRHxXM4JGpXgoLyhrEYGEZuW3AYxGq_5DxAwjW3cjhW5ulZzcdvO9pxWhw.6dW9c2IfidP
+ t1O0THZhAjknO2i7nMNWEyBWuXh44EgnQ50ylcXcudRMJChyttyZt7zmyYeg8ncvKXjZeYZX12Ff
+ ZbDSVoMnEU0dnNjSTiwt8U5HrAx7v6U6S7inT7_.1IgAaQ7vRcDXi7hY_4sjiWLfWXkoZ2kPt7kd
+ 4cQAINxK4gKGxyGAjzz.1hxdbSuzkr6o3VKwvBiycHwp26pE0I01rqHilGL.w.lgGqeF46EuRqee
+ GMDM9WOnmCWVAsOgQA6naOuublXt7ooQh_l3TkLMYohm_0t.g2gvqdM7zUpIsLo6ZXI3FS7X7kVu
+ 5YapIGEHglygAIiCONbi_Li9F5cSCPCoPOGKy7.RG2ev3Ze1yQ6E6eelH5NNTtk5IhJQneXqh84t
+ yw6hu1yNhsZWXIsx8WTuUcsNy_mcS55E11j7BHWdXZ8wSFUAL0.Oxu1hJP82XcOagN.B.uzhOc1A
+ LDRpEo9BjvnksDNBChicLHLhY3aJASGk1DqOnTzuZ42oNMOpvYI9mofePMkFl54DotytiSHMeHvB
+ 45T2HSJupgiM.Zecx1fmAvioP8EZcNo55k0c7W4DDlPpwKMEYxVubCq8QQ09y8iMm7F86UpRIRRK
+ s0Kh46pXfK1OHHYg86_8EyR7XdFU7Xx8tiQkyTciJfI7jbb_KECUbcTIVK7eJpZuXb_aSk18WIOn
+ P4kAAuwxQBL250HE1e6PoxyNF3R4bz1_Af_GtFPRWS71jQ9RngewHvmfsRbfYdsc67chL7aoizkR
+ EGFc3iJAViendyIXDLomfRuGNPl_KHm01WhgbFNSo5vkZIIR8B8UWiwFDeNy7pVkcFzShW.F5i4c
+ 0jGlcowstsmACvLaEsmLoy5TYQIWdnrc1
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: 7b452fcd-60f2-4a9d-b898-92516046ed2f
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ir2.yahoo.com with HTTP; Fri, 20 Mar 2026 08:46:22 +0000
+Received: by hermes--production-ir2-bbcfb4457-jfg7j (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 2275d1e3f7f33fd0beb088b70e87ed8a;
+          Fri, 20 Mar 2026 08:46:17 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Fri, 20 Mar 2026 09:46:15 +0100
+Subject: [PATCH] staging: media: av7110: remove print_time() dead code
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000C6192:EE_|IA1PR12MB7710:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2137bbf6-dce6-4661-6725-08de865ca8da
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700016|7416014|376014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	ZBj6ulxHN8pegWG+V6bw2piRfGK/oNFyRPPGoyhR2Luc7zJlmj8VmvSCiyG4h6IaXx430JSyDg+oY0ngiZLQmw5/eJymi1bQyY8IO/ZITJ0U0JTrsrTE7w4+JkvjVjHm5UT/hQjTNFaRKkIrk4OIjgjfpYp/Fvqhayy3l/FYRIXzhmsyf7Tf7CDc1f9hIM2qAV7IZ31JBl2E89EUSDkwith8rZzaBOz83Hty5W8ttUb+NEiwD/qSA8JH+l0H5umwSixPmdpo0jebazwsun6At81vGZqCpZ/CFivLAmb2RoFNTXoOwhtfwXyy/oIrrryqMe7vFaVqlNgj7VE/UL6EcfJ5xutnqNFH0+EucmxcBO0J4GvNOdFcp3JmLrqTDbvjZFh3uo19bMONxifvQq2Rze1ZHXRg/2HRqL/bHCCV+ALVarv3NrnIBHGMOR3J1z5cobQ/zFfsneu7hf+mFN0HDiv9LwJL0Tx195Q68JEl2qjTjeO4lfBeBftvU4x5/1W2ubmTzwUyLo6qDhfZBUhJsTG5RHV9WPQTvITfvX0/BJvtMWCgEmdIzPHkG4ax0qMwKrRsXVZyNJEQjnqvtgEeIWONHo+BafmVonvLzJBK0taH+Aq1KXkUKwW9gdVjSHy4qLv+zqfuk5dgjdT2DTbqjx/Ulyb29TwcLotrCUuy98Gods27uLZvrC8/uOZUz8PJgOk0Kc31pdCauVBY2ZcoCutQO3r4vfXGwz200G+seAV5ttY1olQp1RQb2j5NGgJbpUOvXdsKD+recNp83B5Dyw==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700016)(7416014)(376014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	CFUDOBj8ZL1B/y1iVsHCuL2IIIOx/YO3syeTJ1C7QxQSqsyc16dcReuonfNHj9zx9JLvGUvRoTFr8PCPwtUF6UenmRrzUzllM2CVVizWTNHlxMdlbQ8XBwKvSL7ynydweUOcKXX4NtJd9gc9npJ7Jh73wu/QEbvA4WyuCkt2/buzWbK/xoZydo3F9WxSPcHU2x9ejS7UPH59uEJaTvD8e/d936vtt6HT9vw6JUSkz9WkbUidOdt5hxg8/7i1cRXaL67tmvlkfM+3ECmRT0h3c8Nz2KnMtCBoSh2T4XWPRCm20uTRrKufPHnKe132AQqRCrniPzM2GjPOzwTu+0pv1Q8BBtg8R/t/WLkaEwz5YZZ355cMzl8EFUDEX/6OYv9W+ts8DD/Kzmnjd8220uf/4hJTGTqwfSLrdNrEYqyyoU8PScjkJvfQ2Sf8hWECD96/
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2026 08:42:45.9845
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2137bbf6-dce6-4661-6725-08de865ca8da
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000C6192.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7710
-X-Spamd-Result: default: False [2.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260320-av7110-remove-print-time-v1-1-05402287078a@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqDMBBG4avIrB3IJBDFq5QuJP1tZ2GUiQRBv
+ Luhy2/x3kUFpig0dRcZqhbdcoP0HaXfnL9g/TSTdz664B3PdRBxbFi3Ct5N88GHruBxCEGQkiw
+ xUst3w6Lnf/163/cDOhKKD2oAAAA=
+X-Change-ID: 20260320-av7110-remove-print-time-87331ecc1f66
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773996376; l=2132;
+ i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
+ bh=AEDr6x8wS6elYp/8e5HcGKCCkTNoWKNeqaOU19CE9Qw=;
+ b=y/+Ikz0nk01OK7mYDosKDE2o4xHxPwahk9pj2wy71zzh6Yg2IXKLGmqrEEpA3YaFQjBrKs/C8
+ BsmBJtIAQFdA2A4T3eJSVRN7VQyc/MByoYeK3rQqxBLN3iOhevI6G0T
+X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
+ pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
+References: <20260320-av7110-remove-print-time-v1-1-05402287078a.ref@yahoo.pl>
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[yahoo.pl,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[yahoo.pl:s=s2048];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56491-lists,linux-media=lfdr.de];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,yahoo.pl];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-56492-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[kernel.org,xs4all.nl,ideasonboard.com,linaro.org,linux.intel.com,bp.renesas.com,vger.kernel.org,kerneltoast.com];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,kernel.org,gmail.com,redhat.com];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	NEURAL_HAM(-0.00)[-0.904];
-	FROM_NEQ_ENVFROM(0.00)[Bin.Du@amd.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DKIM_TRACE(0.00)[amd.com:+];
+	DKIM_TRACE(0.00)[yahoo.pl:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 140162D75C0
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[yahoo.pl];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tomasz.unger@yahoo.pl,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.992];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6]
+X-Rspamd-Queue-Id: 59C3A2D76BC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add documentation for AMD ISP 4 and describe the main components
+The DEBUG_TIMING macro is commented out and can never be defined,
+making the print_time() function body always empty. Remove the
+commented-out macro, the unused function definition and all its
+call sites as they serve no purpose.
 
-Co-developed-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-Signed-off-by: Bin Du <Bin.Du@amd.com>
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-Reviewed-by: Sultan Alsawaf <sultan@kerneltoast.com>
-Tested-by: Alexey Zagorodnikov <xglooom@gmail.com>
-Tested-by: Kate Hsuan <hpa@redhat.com>
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
- Documentation/admin-guide/media/amdisp4-1.rst | 63 +++++++++++++++++++
- Documentation/admin-guide/media/amdisp4.dot   |  6 ++
- .../admin-guide/media/v4l-drivers.rst         |  1 +
- MAINTAINERS                                   |  2 +
- 4 files changed, 72 insertions(+)
- create mode 100644 Documentation/admin-guide/media/amdisp4-1.rst
- create mode 100644 Documentation/admin-guide/media/amdisp4.dot
+Checked with scripts/checkpatch.pl - no errors, no warnings.
+Compiled and verified by loading the module in QEMU.
+---
+ drivers/staging/media/av7110/av7110.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/Documentation/admin-guide/media/amdisp4-1.rst b/Documentation/admin-guide/media/amdisp4-1.rst
-new file mode 100644
-index 000000000000..878141154f96
---- /dev/null
-+++ b/Documentation/admin-guide/media/amdisp4-1.rst
-@@ -0,0 +1,63 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: <isonum.txt>
-+
-+====================================
-+AMD Image Signal Processor (amdisp4)
-+====================================
-+
-+Introduction
-+============
-+
-+This file documents the driver for the AMD ISP4 that is part of
-+AMD Ryzen AI Max 300 Series.
-+
-+The driver is located under drivers/media/platform/amd/isp4 and uses
-+the Media-Controller API.
-+
-+The driver exposes one video capture device to userspace and provide
-+web camera like interface. Internally the video device is connected
-+to the isp4 sub-device responsible for communication with the CCPU FW.
-+
-+Topology
-+========
-+
-+.. _amdisp4_topology_graph:
-+
-+.. kernel-figure:: amdisp4.dot
-+     :alt:   Diagram of the media pipeline topology
-+     :align: center
-+
-+
-+
-+The driver has 1 sub-device: Representing isp4 image signal processor.
-+The driver has 1 video device: Capture device for retrieving images.
-+
-+- ISP4 Image Signal Processing Subdevice Node
-+
-+---------------------------------------------
-+
-+The isp4 is represented as a single V4L2 subdev, the sub-device does not
-+provide interface to the user space. The sub-device is connected to one video node
-+(isp4_capture) with immutable active link. The sub-device represents ISP with
-+connected sensor similar to smart cameras (sensors with integrated ISP).
-+sub-device has only one link to the video device for capturing the frames.
-+The sub-device communicates with CCPU FW for streaming configuration and
-+buffer management.
-+
-+
-+- isp4_capture - Frames Capture Video Node
-+
-+------------------------------------------
-+
-+Isp4_capture is a capture device to capture frames to memory.
-+The entity is connected to isp4 sub-device. The video device
-+provides web camera like interface to userspace. It supports
-+mmap and dma buf types of memory.
-+
-+Capturing Video Frames Example
-+==============================
-+
-+.. code-block:: bash
-+
-+         v4l2-ctl "-d" "/dev/video0" "--set-fmt-video=width=1920,height=1080,pixelformat=NV12" "--stream-mmap" "--stream-count=10"
-diff --git a/Documentation/admin-guide/media/amdisp4.dot b/Documentation/admin-guide/media/amdisp4.dot
-new file mode 100644
-index 000000000000..978f30c1a31a
---- /dev/null
-+++ b/Documentation/admin-guide/media/amdisp4.dot
-@@ -0,0 +1,6 @@
-+digraph board {
-+	rankdir=TB
-+	n00000001 [label="{{} | amd isp4\n | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port0 -> n00000003 [style=bold]
-+	n00000003 [label="Preview\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+}
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index 393f83e8dc4d..0fb88449fffd 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -9,6 +9,7 @@ Video4Linux (V4L) driver-specific documentation
- .. toctree::
- 	:maxdepth: 2
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+index 607992100baf..9f4ed1e24b17 100644
+--- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -314,17 +314,6 @@ static int DvbDmxFilterCallback(u8 *buffer1, size_t buffer1_len,
+ 	}
+ }
  
-+	amdisp4-1
- 	bttv
- 	c3-isp
- 	cafe_ccic
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ec0a4d49f4d8..080c7cfcaf46 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1168,6 +1168,8 @@ M:	Nirujogi Pratap <pratap.nirujogi@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-+F:	Documentation/admin-guide/media/amdisp4-1.rst
-+F:	Documentation/admin-guide/media/amdisp4.dot
- F:	drivers/media/platform/amd/Kconfig
- F:	drivers/media/platform/amd/Makefile
- F:	drivers/media/platform/amd/isp4/Kconfig
+-//#define DEBUG_TIMING
+-static inline void print_time(char *s)
+-{
+-#ifdef DEBUG_TIMING
+-	struct timespec64 ts;
+-
+-	ktime_get_real_ts64(&ts);
+-	pr_info("%s(): %ptSp\n", s, &ts);
+-#endif
+-}
+-
+ #define DEBI_READ 0
+ #define DEBI_WRITE 1
+ static inline void start_debi_dma(struct av7110 *av7110, int dir,
+@@ -353,7 +342,6 @@ static void debiirq(struct tasklet_struct *t)
+ 	int handle = (type >> 8) & 0x1f;
+ 	unsigned int xfer = 0;
+ 
+-	print_time("debi");
+ 	dprintk(4, "type 0x%04x\n", type);
+ 
+ 	if (type == -1) {
+@@ -473,7 +461,6 @@ static void gpioirq(struct tasklet_struct *t)
+ 	txbuf = irdebi(av7110, DEBINOSWAP, TX_BUFF, 0, 2);
+ 	len = (av7110->debilen + 3) & ~3;
+ 
+-	print_time("gpio");
+ 	dprintk(8, "GPIO0 irq 0x%04x %d\n", av7110->debitype, av7110->debilen);
+ 
+ 	switch (av7110->debitype & 0xff) {
+@@ -2785,7 +2772,6 @@ static void av7110_irq(struct saa7146_dev *dev, u32 *isr)
+ {
+ 	struct av7110 *av7110 = dev->ext_priv;
+ 
+-	//print_time("av7110_irq");
+ 
+ 	/* Note: Don't try to handle the DEBI error irq (MASK_18), in
+ 	 * intel mode the timeout is asserted all the time...
+
+---
+base-commit: 82e1c68ac206efe42854296c462aa83f541ea22c
+change-id: 20260320-av7110-remove-print-time-87331ecc1f66
+
+Best regards,
 -- 
-2.53.0
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
 
