@@ -1,353 +1,258 @@
-Return-Path: <linux-media+bounces-56468-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56469-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IPG+Ah7qvGnQ4QIAu9opvQ
-	(envelope-from <linux-media+bounces-56468-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 07:33:02 +0100
+	id UPZfDlzqvGnQ4QIAu9opvQ
+	(envelope-from <linux-media+bounces-56469-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 07:34:04 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59FB82D6402
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 07:33:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 891292D6427
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 07:34:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1519F304CA41
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 06:32:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E014D304C0B2
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 06:33:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0165C301460;
-	Fri, 20 Mar 2026 06:32:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC4D8318EF6;
+	Fri, 20 Mar 2026 06:33:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bVGanlVy";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LNm57/+S"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="g1L+TU/U"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013018.outbound.protection.outlook.com [52.101.72.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABEE41C62
-	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 06:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773988375; cv=none; b=l1cWWw0VwtQLjt3n3Tamsuea04yaTSafvgFYTW0Sapq/ILbycekbsJg6rPQ1tD+SwJ8SQUN8bTUCj69yiEXJGJEE8PcM84cXu/Nh9us4AZ+QMz3iod6Hxf4QNG9opdOl7f49n97vfwAUm9PQKupRfhu+fR+RK4TsIP3hhNIpm88=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773988375; c=relaxed/simple;
-	bh=JDWybbQZFLzT0yqWz2yTi4vljDUY6qfxjSR/o3TSXHo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OW9gOKphNdf6EhGiVgEM2C9ztKNX6gZGviJeIvOQeSE2tW8X1qR4NgWgRR/5tmn7zOw7eYSkcmjphMCYhmssiaT+nZ9fw/LD8iHiK2Dcw8pKYvPPJnySevHfug06dkM+3nVw+wZRCeKoFngpD00hGRmx98TxnIeZTRNl845ZthQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bVGanlVy; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=LNm57/+S; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62K2XhbY539229
-	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 06:32:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	S3XDmZ6DZpsSMr45TYJTcuxR2oKUiRkyGpJn2zik/2c=; b=bVGanlVyrrugaFBp
-	n89/r0+rOxjBzcZbdMepVpVDlI8yAWuJSHbaPDT+7nXvm4uyAJknH0cPELqa0741
-	S+iiHTtxFN8ZUNTncImt0lkRv0y/+JIE+SPborKXbGQ2ibnY4lvXbriQkLTs+8cS
-	WL76sRUwZS4DqKINJYiKXmeGb3QH2zqwIgIDpAL81KshP9chzUrCV1k/I7dj1wFa
-	l3X3gbfnuhUklCLwJwAOqoobvGqpph2QrnOzjZ3c2WAbAp1u/HNFhCjT/0h8NhGe
-	KPcpCTA21em6VGuvhUBSG/0c2ZMkLX2TAoYTDyyZeuFFlQu6VnzguC2beeK20eoW
-	ErxDLQ==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d0sm6h2w8-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 06:32:53 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-35b901d542bso11672962a91.3
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 23:32:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773988372; x=1774593172; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=S3XDmZ6DZpsSMr45TYJTcuxR2oKUiRkyGpJn2zik/2c=;
-        b=LNm57/+SVHAUUikdf+Xgs24nqEuFDISY4/WRJzBMRMjFMx2Y+l6V6w2KLYlJBJ21+s
-         6TNlatfgLWpZM9A16qmKO4I+QE25V/Wu2XQGpNs7IDGkVnunvGwcEyBfngZKMEFbk9hq
-         iguiE9HaZaXp9D3+6jtvtMcl7rW/6oM1IVMBWzj/AMsFFHHCsnsS52div/iWrbQ3lSmB
-         x6NKPqGHYlZeEdrUOthCj4fcwG0dxBz8FDVajm/4Ezvny/zbBB2uZGNJ7arEbPJP+OEp
-         1xiix1TYB0ApOar33fTsPhoNbvRdq+h8OTdZqQ/R5p/sKT1/lf7l/y8eSueW1d3WalHR
-         tcRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773988372; x=1774593172;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S3XDmZ6DZpsSMr45TYJTcuxR2oKUiRkyGpJn2zik/2c=;
-        b=TE8Z31YfagzDWXxk0QsVnUonTKfLnfGSnVwLyoLOrPJpU392F91KP9opSoaWPlEmTq
-         18q4Qt1IZv6xXxAkckj6pZyKaMODEkXz5oSBiryPzDqev0/LYOo8bA7WphY3B6yvdnmt
-         heqOKLarNZtA27XMB+sp3u4Y8zEMB3joDeGw6A+Yz0LqeN05nsPGwrCs0g9q2Oz/AFEy
-         p4+3fUpIpr8jVzWStDGSbVENZG+JWxY7zRCtV7fFTP8tY+fyKct4ATmiXlz80HMbNMDM
-         wiH7hVoQLUXn6wg6PUucwx60ialfiHWKVUIr7Rq0bZiccyDC8GR7tjtqSB9N4/szEcSk
-         nmaQ==
-X-Gm-Message-State: AOJu0YxgvxM0NzNkaHDKpzPKXEGyhMKa65c0Y4JW243znV161aT5LNMO
-	arnlFH9AARfE8iWEkMn85yUN52lhhcVIhNF+v79F6EDdrVQfx+kHJdfyOPd8MV/Y7ROxDokxthG
-	uQy6+1glVXHCGVcgscDjgnCgvA4yoxyjz92eA75Lw1ywssPaUo8sn7ghgSmDUYNgFJQ==
-X-Gm-Gg: ATEYQzz3aK3ZxLp9oeycAcqFO8QY1OLjUEpQtL8nW+Fu69X+WJorPC1Utv7QxAmH5G9
-	fHCYBjGtK0SgK6rh8Sxi+J/LcMiNPHHxBqbZjnk8/35vokVThY5P7z6oQR1P1+xPZcugWRsKYgw
-	db64dCufBz0OrMr3nvuwK8lwqOZjp8DaZshHoB4fDQ9rKFhMYzUgzcSmv6Du5IrVO3PESF2dXtX
-	EE5v9Cr5FBzpp7UV46pixScQD+2nz4L66cjSiUGwaL+a58E+gJx/UlGabLdUBJaCuhjmHtuD/4q
-	4ERVP1alq5zJ+7dXug+vnSu/vNNDfwbeGNvu9WXeJ5qStGnRCq30YuoD4bgn6UFbPwol6GAVTtX
-	6exsZw5h1RxgjX/pCvmKZMC+3U+1ICWNiGrl4en2JHQq3cMmwSwttSkJY
-X-Received: by 2002:a17:90b:4c8e:b0:34c:fe57:2793 with SMTP id 98e67ed59e1d1-35bd2cec778mr1453011a91.20.1773988372443;
-        Thu, 19 Mar 2026 23:32:52 -0700 (PDT)
-X-Received: by 2002:a17:90b:4c8e:b0:34c:fe57:2793 with SMTP id 98e67ed59e1d1-35bd2cec778mr1453000a91.20.1773988371900;
-        Thu, 19 Mar 2026 23:32:51 -0700 (PDT)
-Received: from [10.100.155.18] ([223.228.117.104])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bc6017492sm4536207a91.5.2026.03.19.23.32.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Mar 2026 23:32:51 -0700 (PDT)
-Message-ID: <9c5da48f-4003-b46f-cfb9-0ad5f5062d69@oss.qualcomm.com>
-Date: Fri, 20 Mar 2026 12:02:43 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56DF2F7ADE;
+	Fri, 20 Mar 2026 06:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773988406; cv=fail; b=Gnfg079SwgUVBVvA6BzViSecBYGEMGTBuEV1POtrzFsBrvOqSwvDD7DzyVPPKtaRx7QXJsPdtSWlo8VCx/LEq0Y+12M5TjUuue8xZCvZ/3kKkoHDeONOPSaL+10ks5IGa5R2qMwGhX7LyXXsEVQMtBTqwjmy+dG2QJHv/A3ibDM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773988406; c=relaxed/simple;
+	bh=sx1GxGNWMYapt6AA4kSZFMoDwQb9Sg9A2Ys6yFsDq8w=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=HDJdc5dETOT47uTx6d4Qyvc9jkDhg9R0wlbI7LuVoTob+uE2BYopwzfzlsHIKjo4icOYtl3vBKlqgb5gFx0Y8/yE8JR/WnFDBE4O0ICcIm3bq4eFt4UFPsmE3XJzsG1e28KWLya2Pw5mRn4AN5xKSkI2iW/DpiruYpyRITYAC1c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=g1L+TU/U; arc=fail smtp.client-ip=52.101.72.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IsfduOs+2wqJS2HWuIMQIIn3VcG6hjlM3ltYlDkTvBUyBYQj4XuA5GXnytlC02ZqLcYP4RhaIEDprTz9zksaS0GKSx4egArs9YHaTt+Z72Q4RtLQ3x19IsBDawdq8FrdMXPuIPAXOKQNvTFDPf7D3c9VohdAEkx0cHv/Z0FWRj3XTxrUZm3vL9aBea/U69BNMh/+zlF/+uymmEiFqIRKzvsjE3rbz8Fr4lbnxOCpDUiGD+xFPiVjyaxl8IYI96qNaeEXCt6VRR3eFmbRjQeQ3L/s8Aei4HR98EyYwt6h+26NrSLgePAWi6ibCa4oIZkqJHu1ad/Kl/zuLiDBCBcODA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sx1GxGNWMYapt6AA4kSZFMoDwQb9Sg9A2Ys6yFsDq8w=;
+ b=h6Knqxv2HRfnQqcjCReBf3hlr0/wOfgNKCNSTd49DH/P7EBBB93fdNgsGS/lXfeI31/SW7isgMTJP44Hr2ax9UUPWcUc/KrSSDDTK79/LVTzDEZwekQ5LHelw9mXum6FXG30U1ah1KoecPLocl6xbomuHttlJZjDwGaynjkUvGJ1jxrCjtpbiwevXt1mqBnEFhg23jQ/nkMkU5+WfTb3E0LZD6f+1N07Brc5ZhyVBfoCtpSuGWT3WXkJjKKN9O/8uy0MxkEnOaiHPYcs+xXPZUpktjZ4MZBj2Y04oK8wOLLJhcwGdZG5oxU4H9Sq3bAGnPeIC4Qyoy+2g0UKt0xTjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sx1GxGNWMYapt6AA4kSZFMoDwQb9Sg9A2Ys6yFsDq8w=;
+ b=g1L+TU/UfaxOROajhNUA6D8kSD1V/DgUVRknJx2n40JrUY1+UPHM/j0PBOdH2GC0DfHoWaCHDUvsK7uz3bcJA9Xh9216oKb+oCVXdAn3zHuJfE8MZvmReTquFEK4nyhc6zxQ3LnKbQ3o6OAA5fwFaH8JeXn++lQtCjw+NwJmp9I73R58iGxl7LT0USNDh2ccIErMDbMPRJ/fxFnJsMEAKaBcj+0KsQZ/wm6IB8tUsglHLUe1He4uERuo+gQNanWYtxYzKUgPl3HEO+gRi7hmgKdboCK1Jb7WyqoBf1IUIHmD1ZOyuM6vVUPn1hOQ77FLs+munyLu+5gcLZIVhpvgVA==
+Received: from AS8PR04MB9080.eurprd04.prod.outlook.com (2603:10a6:20b:447::16)
+ by PA4PR04MB7551.eurprd04.prod.outlook.com (2603:10a6:102:e9::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Fri, 20 Mar
+ 2026 06:33:06 +0000
+Received: from AS8PR04MB9080.eurprd04.prod.outlook.com
+ ([fe80::92c2:2e03:bf99:68eb]) by AS8PR04MB9080.eurprd04.prod.outlook.com
+ ([fe80::92c2:2e03:bf99:68eb%6]) with mapi id 15.20.9723.018; Fri, 20 Mar 2026
+ 06:33:18 +0000
+From: "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, "G.N. Zhou (OSS)"
+	<guoniu.zhou@oss.nxp.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Frank Li <frank.li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+	<kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+	=?utf-8?B?U3RlZmFuIFJpZWRtw7xsbGVy?= <s.riedmueller@phytec.de>, Jacopo Mondi
+	<jacopo@jmondi.org>, "c.hemp@phytec.de" <C.Hemp@phytec.de>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Alexi Birlinger <alexi.birlinger@nxp.com>,
+	Aisheng Dong <aisheng.dong@nxp.com>, "G.N. Zhou" <guoniu.zhou@nxp.com>
+Subject: RE: [PATCH v2 2/2] media: nxp: imx8-isi: Prioritize pending buffers
+ over discard buffers
+Thread-Topic: [PATCH v2 2/2] media: nxp: imx8-isi: Prioritize pending buffers
+ over discard buffers
+Thread-Index: AQHcuDNw9fijj/0EAEK3m0SSpwAfww==
+Date: Fri, 20 Mar 2026 06:33:18 +0000
+Message-ID:
+ <AS8PR04MB90803AEA374817F48BCD61EFFA4CA@AS8PR04MB9080.eurprd04.prod.outlook.com>
+References: <20260312-isi_min_buffers-v2-0-d5ea1c79ad81@nxp.com>
+ <20260312-isi_min_buffers-v2-2-d5ea1c79ad81@nxp.com>
+ <20260319215921.GC950375@killaraus.ideasonboard.com>
+In-Reply-To: <20260319215921.GC950375@killaraus.ideasonboard.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR04MB9080:EE_|PA4PR04MB7551:EE_
+x-ms-office365-filtering-correlation-id: 3823ba76-8c05-4749-b056-08de864a9311
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|7416014|376014|366016|19092799006|38070700021|18002099003|22082099003|56012099003;
+x-microsoft-antispam-message-info:
+ Ow1uNpQcjRnH7igK0t3BpTdbSXq1X6m4Ig+8moUV7lj4yiZvBkLETBLofTjCoc1e3JoYy2uy/h431lpri6ANm7CczerpSAE33IrOy9CB5IkmwMYLmDc6RKPTuVosz7Exi/+y2IUoQ2oRJkdXyGiPFUBuWrb+EHyneDHgywWtl14UgN0AzrW//K7/JpwP1hk9RQkolz7W+3H4U2DkMfPzN+OTySnRfN1jLOcXiw7SL7whkSaRLACLf3aAyWkgBmOGr4kn9ExW3wpX9SFvTwmOHI8dWQkLso6LYQHWJE6GxNeif4UPTGgcozhXz746o6UR9eMe6VgFCp4E9y6vBkI+b8JB+MZlvt3rjc2ARQM61TntnWDLpmpmphJh0uBdAOUJSsbUmWyZf2yp1Hn9ttf43GR5TEURA57eI+q6M6KaaMPGDsgZ2a2Yq85IgsDNAKiXid5tKikMaVZ+M5ZmKlOxz7/cCgEVi2h7sBWBxyzEmvVTNmjJ7PFWEUriZ5GwFEnziZKbZmsvN7NVjA+eDtO4NhEk2FsKvbtb1+a4kKB8HiBOM6BueuRJeanUH+KD2HzTrIBZzRs1PBaTsABR/6D9kR1/7CXVHJzTpxiS+U4tjwb++fxL96Ysc7fZWJ25o0g5/PAvz4ETTAEvl5sqiG3pbbspwuFizQRDUHvc02W0JfCKqiEMTE+6hHfz2Arc3jsdK/4hmL0jcocpfHMRcTqGBO2Ff9jqMeqISfUc3PPMoWT1VO1YU4+hLxnZC4TZ4+0Y
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB9080.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(19092799006)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?R0FTTnpyQ2lTMEErNit1NmZOUy9oMVJpMXg4dEJ4cGZkcnY5ZTloTFE0RFdW?=
+ =?utf-8?B?TElDb2JGRk5xUzRheU5HdFk2NGdNTjE3amY0M3ZyNFJmRWJwOXBtRnN5QXRS?=
+ =?utf-8?B?YmVpaTZpYWUwaTNPT3N4bTJiYzNoTWVaWnBrZDNsclpNeUsxblNsVW5WNGtE?=
+ =?utf-8?B?L1RBQlA3cEtLM09HbllHWTdrLzNiaUZ5SlFzeEZoSWc3eWtsZ0JNeWczbjdO?=
+ =?utf-8?B?WkxSNTZUQlBFdVY0anVkUG5rN1JlWkZyUUw3M3NPZEJpQStzcUVWRWZEakgz?=
+ =?utf-8?B?VGdwa00xRkRtSXZ4VXBZK2E0UzRLbms3allXNkk3cGVvZ3Y3eExQTnZpZk10?=
+ =?utf-8?B?WmMyaExja1JQeWFlVGVZVWt6cVJvWjdBcnNPK3hLOXk1QXhYem51bW0wOEtt?=
+ =?utf-8?B?c3RIcy9wTUFrR1hhaHhFNE9oMTlYYzVOL3lEUHgyY0FoZ1laTG04c0pCSTdj?=
+ =?utf-8?B?eHdoeGd4WUtZVGZMbVVjTE9VM1NvMUpaUlpsSm43eVlCQk42ZXNiMlM4ZUNU?=
+ =?utf-8?B?ZkNlTDNVY1JCZFR0dHh6dW9IaHlacGwyUFBwV1B5dGFIVHI3cVYweDFmeEtE?=
+ =?utf-8?B?YVhnUDRHZFk2NENteFpZNXhneXNHR2tESnNQRGF0R1dJUnVJd01Rd2l0QWh3?=
+ =?utf-8?B?ci81LytmRmdZWTJkOGJXY1Y0cHAwTUdLcSs0M3dDRkNkQm1QcUN1WXFYaitX?=
+ =?utf-8?B?cWdLb3JXREZtcVo1c3Foa1FKRGJ4VE5IQno3bEUwTjNTckhjckhTcVBVTVpU?=
+ =?utf-8?B?dTZIZDNSd1QwM2VRVmVoSVNRN000MFN3VHgvdGVyUGU4VzY2RnZKOUVoM3l6?=
+ =?utf-8?B?bVFqczJuY1JUODhVRHdvQzE4bGM2eTMvRWsxOFVhY3hvaGRvOEVNZFVkT0VD?=
+ =?utf-8?B?RDJ1R3J5T0NtZDlJRXhkblZsV2pYdFJIcGxaU0FubzFsb1YyRURHQTY2Tm5m?=
+ =?utf-8?B?T2l5TGhMK1haSjFJd045d2U5cUdBbzZhZnVLdjFIZzFFUXN4WWdpdEpPN2VH?=
+ =?utf-8?B?SmJSZEhjU1d3REpiSDhvYUMvY0g5QnRMaU52S3I4ZllkRng3Y2tUUXRZM25w?=
+ =?utf-8?B?Z0xoSnY5a3NRdnRlNXVsaFovaGE3VGJHL3ZxVVFhYzBKeDcrMzBuV3pJbFdI?=
+ =?utf-8?B?SzYxUFl6RUduUE9adFBhTkdMejV4THZlYWZQZ1czNGFNRVFiR0dTVEdJclJs?=
+ =?utf-8?B?RUh5Um92dG0wMnRPeEJWL0NDM1dsTHN0cjRIZ2pCZTZBeVA5UnhBMm5LNmxR?=
+ =?utf-8?B?R3dPcytsR0NKSjhnanE1K0crMVlpWWtQVktUS3luQ1FKU2ZYYlpDOEFpcTZh?=
+ =?utf-8?B?RW80MDdqdXUxMTVGMExVYk9IMGpIYjU5NXo5cDhYMmRRUWplZjdKeW40QjZt?=
+ =?utf-8?B?MnhUaGhENWtONGpCOXFwaGRreVFGS3d0cUZPSTFWMm1ITWNOME9NUGNrTXEr?=
+ =?utf-8?B?QUp1WnNMNlVPYjRCalV5dzhmUEo2VloyeXBBa01TVjVrVExsd2VOU09GZjhn?=
+ =?utf-8?B?dEgwTERuOUR5S1NjMHJZa2tkMFNtaFdMWVVwMTNiQ2c1QXRqeGM4OXNpZ3I3?=
+ =?utf-8?B?Wm9ZZjEzMXZ2UzIxd0wxZkM0eWhKSi9mMkxFdVJQKzEwYktERG5QczJBNzAx?=
+ =?utf-8?B?L05wbUZ1UWN5NlFPV3dWTDRoUm0yNUsrUUMvZGZzeDJtOTNKa1NWRURqclFm?=
+ =?utf-8?B?U0loOUVDUmllK09OTXhkTnNrVTZjS2xoYVNLN3BXdzBSb0lGMDNHbVdEYUpW?=
+ =?utf-8?B?a0NNaXVLQWtOaFdWUUtyTjVqWjhMRzdvRzdPbTc5T0wzT0JtUGIrY3dGUkRH?=
+ =?utf-8?B?aFdOTERGNHFhU0VucktpVTNKdU5CdDdsY1dqNFpHWXpzV3VaTHZIZFRUNFRw?=
+ =?utf-8?B?dTBBdFVrK1gxdVJWR09ielFzdDE5QkFQL0RxZmUwenVNSFJDQjhpRWZFa1ZE?=
+ =?utf-8?B?TEJYb3pZSHg0eFV2VWt1aTdiQzBtdlRaY2QrRzM2QWJOWmpORnZSTjRtMHVn?=
+ =?utf-8?B?N2h5TzdxQ25Za1dmUER5N3FvUWhLeWhxbk9lbytyWWNpYVNoU09UU2VwSGFN?=
+ =?utf-8?B?WUNhMU56ZG9xUUpDbGtXdkhZNFVvVVJ3WldXME4rYysrWmNrSnowb2xXdVp3?=
+ =?utf-8?B?Z1FSZXAzMzlLalVyRVl1Q0NweWlTWVp3c0I0dTBkdmFBNFpJcUUwamZZNHBO?=
+ =?utf-8?B?VUxCR2lZOTFxdmg4QnV0bU9oQXJSWjkxOGppM2Q2V1lKK2FZaUhXeW9SZDNk?=
+ =?utf-8?B?VTVKR1pjakUzdHpiQ3piRXJ5TWYwdmFWa0szb1IzaEFERzFaQ3lkVjJZMVBY?=
+ =?utf-8?Q?H00W7PG4WrZ4FZcR0Y?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] media: iris: add FPS calculation and VPP FW overhead
- in frequency formula
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20260305-update_fps_calculation-v2-1-e3b5cccb1246@oss.qualcomm.com>
- <19e9afa8-b0fa-43e1-8758-b58e6c7a095c@oss.qualcomm.com>
-Content-Language: en-US
-From: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-In-Reply-To: <19e9afa8-b0fa-43e1-8758-b58e6c7a095c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 8jwiV_Rl5LWUntmJHNhJWp1dHEM2Cn5Q
-X-Authority-Analysis: v=2.4 cv=Rv/I7SmK c=1 sm=1 tr=0 ts=69bcea15 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=7c+JdVm+58SBmuR1ZE9k/Q==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=yceorTwUWq3GjdelvQMA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIwMDA0NyBTYWx0ZWRfXzTNlowiN/Odj
- N0ILwp7AlcqU2h1Nr/TKFGox2N2VwQ601gGNJLighVahVGe4Xt5KGoKwLKW1oMmqbHm93FVwLf2
- OLPQDZGdPNJY7tFWqZ2tNG4g4uMh3A0F0n2dsOsS2AIj8ldVfmv8yyzRJRgSZQ3bnlejnfd4927
- PTWNPXJBOZHhITfV3jB2vEl3wKaE2AEXVeINXjknAjxepKzl/nXNySoTSmVTLyIxK+BhlhH8CD/
- zuFh4XyuJGl3udQ3CQygEeKiwhq/li/S7u2pj7y6pJKtqQLJz6GE5PYyfPRvCmbea+JiOBu6bNQ
- FNHCGIAlW8WzCrCeeV0mdsb6BgyizE4PAHwob0ci9kiNDX+K5hwmUIS+TfjOuKaZeWUAwYM/2g9
- 6uHPomGzAeqjtnX4K+Zy9e0K5WK8QklyHWzwQ3cqcMJAWY1EcUcE03X8qWFmKFW8Zc/mSBQcbA8
- QMxw/3KOxiAHlbItd4g==
-X-Proofpoint-ORIG-GUID: 8jwiV_Rl5LWUntmJHNhJWp1dHEM2Cn5Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-19_04,2026-03-19_05,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 spamscore=0 phishscore=0 bulkscore=0
- impostorscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603200047
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB9080.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3823ba76-8c05-4749-b056-08de864a9311
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Mar 2026 06:33:18.5719
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: OSos/AFMESsKis/il6DR4NMGPeu6FQ4hB/0iEbYhARPrVPVueBVW8R8qvOOCZSdXK6WAWHQdfmqiB9n+4YiqBQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7551
+X-Spamd-Result: default: False [0.54 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:dkim,qualcomm.com:email];
+	TAGGED_FROM(0.00)[bounces-56469-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56468-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	FROM_NEQ_ENVFROM(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_CC(0.00)[kernel.org,nxp.com,pengutronix.de,gmail.com,phytec.de,jmondi.org,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 59FB82D6402
+	FROM_NEQ_ENVFROM(0.00)[guoniu.zhou@oss.nxp.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-0.935];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 891292D6427
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-
-On 3/13/2026 12:54 PM, Vikash Garodia wrote:
->
-> On 3/5/2026 7:00 PM, Vishnu Reddy wrote:
->> The driver was using a fixed default FPS value when calculating the VPU
->> frequency. This caused wrong frequency requests for high‑frame‑rate
->> streams, for example 4K at 240 FPS. Because of this, the hardware was
->> running at a lower frequency than needed.
->>
->> Add the FPS measurement based on the decoder input buffer arrival rate.
->> The measured FPS is stored per instance and used in frequency 
->> calculation
->> instead of the fixed default FPS. The value is clamped so that it does
->> not exceed platform limits. Add a VPP firmware overhead when running in
->> STAGE_2.
->>
->> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
->> ---
->> Changes in v2:
->> - Replaced div_u64 with mult_frac
->> - Link to v1: 
->> https://lore.kernel.org/r/20260304-update_fps_calculation-v1-1-4eeac373a504@oss.qualcomm.com
->> ---
->>   drivers/media/platform/qcom/iris/iris_instance.h   |  2 ++
->>   drivers/media/platform/qcom/iris/iris_vdec.c       | 21 
->> +++++++++++++++++++++
->>   drivers/media/platform/qcom/iris/iris_vpu_common.c |  6 +++++-
->>   3 files changed, 28 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/platform/qcom/iris/iris_instance.h 
->> b/drivers/media/platform/qcom/iris/iris_instance.h
->> index 16965150f427..180cba36a7f2 100644
->> --- a/drivers/media/platform/qcom/iris/iris_instance.h
->> +++ b/drivers/media/platform/qcom/iris/iris_instance.h
->> @@ -109,6 +109,8 @@ struct iris_inst {
->>       u32                metadata_idx;
->>       u32                codec;
->>       bool                last_buffer_dequeued;
->> +    u64                last_buf_recv_time_ns;
->> +    u32                frame_count;
->>       u32                frame_rate;
->>       u32                operating_rate;
->>       u32                hfi_rc_type;
->> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c 
->> b/drivers/media/platform/qcom/iris/iris_vdec.c
->> index 719217399a30..88820060e22a 100644
->> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
->> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
->> @@ -369,6 +369,8 @@ int iris_vdec_streamon_input(struct iris_inst *inst)
->>       if (ret)
->>           return ret;
->>   +    inst->frame_count = 0;
->> +
->>       return iris_process_streamon_input(inst);
->>   }
->>   @@ -411,6 +413,7 @@ int iris_vdec_qbuf(struct iris_inst *inst, 
->> struct vb2_v4l2_buffer *vbuf)
->>   {
->>       struct iris_buffer *buf = to_iris_buffer(vbuf);
->>       struct vb2_buffer *vb2 = &vbuf->vb2_buf;
->> +    u64 cur_buf_recv_time_ns, time_delta_ns;
->>       struct vb2_queue *q;
->>       int ret;
->>   @@ -427,6 +430,24 @@ int iris_vdec_qbuf(struct iris_inst *inst, 
->> struct vb2_v4l2_buffer *vbuf)
->>           return 0;
->>       }
->>   +    if (buf->type == BUF_INPUT) {
->> +        cur_buf_recv_time_ns = ktime_get_ns();
->> +
->> +        if (inst->frame_count == 0) {
->> +            inst->last_buf_recv_time_ns = cur_buf_recv_time_ns;
->> +            inst->frame_rate = MAXIMUM_FPS;
->> +        }
->> +        time_delta_ns = cur_buf_recv_time_ns - 
->> inst->last_buf_recv_time_ns;
->> +
->> +        if (time_delta_ns >= NSEC_PER_SEC) {
->> +            inst->frame_rate = clamp_t(u32, inst->frame_count, 
->> DEFAULT_FPS,
->> +                           MAXIMUM_FPS);
->> +            inst->last_buf_recv_time_ns = cur_buf_recv_time_ns;
->> +            inst->frame_count = 0;
->> +        }
->> +        inst->frame_count++;
->> +    }
->> +
->
-> simplifying it ?
->
->     u64 now_ns, delta_ns;
->
->     if (buf->type == BUF_INPUT) {
->         now_ns = ktime_get_ns();
->
->         if (!inst->input_frame_count)
->             inst->buf_fps_start_ts = now_ns;
-
-Here, the actual required FPS will be found after 1 second. until that,
-the initial FPS need to set for max.
-
->
->     inst->input_frame_count++;
-If we increment the frame_count here, once frame_count becomes zero 
-(after 1 sec),
-In next buffer queue, again the above if condition will be true and FPS 
-will be set to max.
-I can add the code like below, Let me know your opinion.
-
-if (buf->type == BUF_INPUT) {
-     now_ns = ktime_get_ns();
-
-     if (!inst->frame_count) {
-         inst->last_buf_recv_time_ns = now_ns;
-         inst->frame_rate = MAXIMUM_FPS;
-     }
-     delta_ns = now_ns - inst->buf_fps_start_ts;
-
-     if (delta_ns >= NSEC_PER_SEC) {
-         inst->frame_rate = clamp_t(u32, inst->frame_count, DEFAULT_FPS, 
-MAXIMUM_FPS);
-         inst->buf_fps_start_ts = now_ns;
-         inst->frame_count = 0;
-     }
-     inst->frame_count++;
-}
-
-Regards,
-Vishnu Reddy
-
-> delta_ns = now_ns - inst->buf_fps_start_ts;
->         if (delta_ns < NSEC_PER_SEC)
->             //skip the further logic;
->
->         inst->frame_rate = clamp_t(u32, input_frame_count, 
-> DEFAULT_FPS, MAXIMUM_FPS);
->        inst->input_frame_count = 0;
->     }
-> }
->
->>       iris_scale_power(inst);
->>         return iris_queue_buffer(inst, buf);
->> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.c 
->> b/drivers/media/platform/qcom/iris/iris_vpu_common.c
->> index 548e5f1727fd..d621ccffa868 100644
->> --- a/drivers/media/platform/qcom/iris/iris_vpu_common.c
->> +++ b/drivers/media/platform/qcom/iris/iris_vpu_common.c
->> @@ -416,7 +416,7 @@ u64 iris_vpu3x_vpu4x_calculate_frequency(struct 
->> iris_inst *inst, size_t data_siz
->>       u32 height, width, mbs_per_second, mbpf;
->>       u64 fw_cycles, fw_vpp_cycles;
->>       u64 vsp_cycles, vpp_cycles;
->> -    u32 fps = DEFAULT_FPS;
->> +    u32 fps = inst->frame_rate;
->>         width = max(inp_f->fmt.pix_mp.width, inst->crop.width);
->>       height = max(inp_f->fmt.pix_mp.height, inst->crop.height);
->> @@ -435,6 +435,10 @@ u64 iris_vpu3x_vpu4x_calculate_frequency(struct 
->> iris_inst *inst, size_t data_siz
->>       if (inst->fw_caps[PIPE].value > 1)
->>           vpp_cycles += div_u64(vpp_cycles * 59, 1000);
->>   +    /* 1.05 is VPP FW overhead */
->> +    if (inst->fw_caps[STAGE].value == STAGE_2)
->> +        vpp_cycles += mult_frac(vpp_cycles, 5, 100);
->> +
->>       vsp_cycles = fps * data_size * 8;
->>       vsp_cycles = div_u64(vsp_cycles, 2);
->>       /* VSP FW overhead 1.05 */
->>
->> ---
->> base-commit: f505e978d1a0442adbbde48aed38c084ddea6d6e
->> change-id: 20260304-update_fps_calculation-98ee7f7507b1
->>
->> Best regards,
->
+SGkgTGF1cmVudCwNCg0KVGhhbmtzIGZvciB5b3VyIHJldmlldy4NCg0KPiAtLS0tLU9yaWdpbmFs
+IE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0
+QGlkZWFzb25ib2FyZC5jb20+DQo+IFNlbnQ6IEZyaWRheSwgTWFyY2ggMjAsIDIwMjYgNTo1OSBB
+TQ0KPiBUbzogRy5OLiBaaG91IChPU1MpIDxndW9uaXUuemhvdUBvc3MubnhwLmNvbT4NCj4gQ2M6
+IE1hdXJvIENhcnZhbGhvIENoZWhhYiA8bWNoZWhhYkBrZXJuZWwub3JnPjsgRnJhbmsgTGkNCj4g
+PGZyYW5rLmxpQG54cC5jb20+OyBTYXNjaGEgSGF1ZXIgPHMuaGF1ZXJAcGVuZ3V0cm9uaXguZGU+
+OyBQZW5ndXRyb25peA0KPiBLZXJuZWwgVGVhbSA8a2VybmVsQHBlbmd1dHJvbml4LmRlPjsgRmFi
+aW8gRXN0ZXZhbQ0KPiA8ZmVzdGV2YW1AZ21haWwuY29tPjsgU3RlZmFuIFJpZWRtw7xsbGVyIDxz
+LnJpZWRtdWVsbGVyQHBoeXRlYy5kZT47DQo+IEphY29wbyBNb25kaSA8amFjb3BvQGptb25kaS5v
+cmc+OyBjLmhlbXBAcGh5dGVjLmRlOyBsaW51eC0NCj4gbWVkaWFAdmdlci5rZXJuZWwub3JnOyBp
+bXhAbGlzdHMubGludXguZGV2OyBsaW51eC1hcm0tDQo+IGtlcm5lbEBsaXN0cy5pbmZyYWRlYWQu
+b3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBBbGV4aSBCaXJsaW5nZXINCj4gPGFs
+ZXhpLmJpcmxpbmdlckBueHAuY29tPjsgQWlzaGVuZyBEb25nIDxhaXNoZW5nLmRvbmdAbnhwLmNv
+bT47IEcuTi4NCj4gWmhvdSA8Z3Vvbml1Lnpob3VAbnhwLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQ
+QVRDSCB2MiAyLzJdIG1lZGlhOiBueHA6IGlteDgtaXNpOiBQcmlvcml0aXplIHBlbmRpbmcgYnVm
+ZmVycyBvdmVyDQo+IGRpc2NhcmQgYnVmZmVycw0KPiANCj4gSGkgR3Vvbml1LA0KPiANCj4gVGhh
+bmsgeW91IGZvciB0aGUgcGF0Y2guDQo+IA0KPiBPbiBUaHUsIE1hciAxMiwgMjAyNiBhdCAxMTox
+MjozNUFNICswODAwLCBHdW9uaXUgWmhvdSB3cm90ZToNCj4gPiBGcm9tOiBHdW9uaXUgWmhvdSA8
+Z3Vvbml1Lnpob3VAbnhwLmNvbT4NCj4gPg0KPiA+IENoYW5nZSB0aGUgYnVmZmVyIHNlbGVjdGlv
+biBsb2dpYyB0byB1c2UgcGVuZGluZyBidWZmZXJzIGZpcnN0ICh1cCB0bw0KPiA+IHRoZSBudW1i
+ZXIgYXZhaWxhYmxlKSwgYW5kIG9ubHkgdXNlIGRpc2NhcmQgYnVmZmVycyB0byBmaWxsIHJlbWFp
+bmluZw0KPiA+IHNsb3RzIHdoZW4gaW5zdWZmaWNpZW50IHBlbmRpbmcgYnVmZmVycyBhcmUgcXVl
+dWVkLiBFbnN1cmUgdXNlcg0KPiA+IGJ1ZmZlcnMgYXJlIHV0aWxpemVkIGFzIHNvb24gYXMgcG9z
+c2libGUsIGltcHJvdmluZyBlZmZpY2llbmN5IGFuZA0KPiA+IHJlZHVjaW5nIHRoZSBudW1iZXIg
+b2YgZGlzY2FyZGVkIGZyYW1lcyBhdCBzdHJlYW0gc3RhcnQuDQo+IA0KPiBUaGUgY29tbWl0IG1l
+c3NhZ2Ugc2hvdWxkIGV4cGxhaW4gKndoeSogdGhlIGNoYW5nZSBpcyBnb29kLiBIb3cgZG9lcyB0
+aGlzDQo+IGltcHJvdmUgdGhlIGJlaGF2aW91ciA/DQoNCldpbGwgYWRkIHRoZSBpbmZvIGluIG5l
+eHQgdmVyc2lvbi4NCg0KPiANCj4gSSdsbCBxdWV1ZSAxLzIgaW4gbXkgdHJlZSBhbHJlYWR5Lg0K
+PiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBHdW9uaXUgWmhvdSA8Z3Vvbml1Lnpob3VAbnhwLmNvbT4N
+Cj4gPiAtLS0NCj4gPiBDaGFuZ2VzIGluIHYyOg0KPiA+IC0gUmVwbGFjZSAiVGhpcyBlbnN1cmVz
+IiB3aXRoICJlbnN1cmUiDQo+ID4gLSBQdXQgZXhhbXBsZSBmcm9tIGNvbW1pdCBtZXNzYWdlIHRv
+IGNvbW1lbnQgaW4gZHJpdmVyIHN1Z2dlc3RlZCBieSBGcmFuaw0KPiA+DQo+ID4gaHR0cHM6Ly9s
+b3JlLmtlcm5lbC5vcmcvbGludXgtbWVkaWEvMjAyNjAzMTEtaXNpX21pbl9idWZmZXJzLXYxLTAt
+YzkyOQ0KPiA+IDlkNmU4YWU2QG54cC5jb20vVC8jbTI3NzQ5MTJlZDMxNTUzZWYxZmRjYzg0MGJk
+NmVhZTUzYTAzZWNjY2QNCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9ueHAv
+aW14OC1pc2kvaW14OC1pc2ktdmlkZW8uYyB8IDkgKysrKysrKystDQo+ID4gIDEgZmlsZSBjaGFu
+Z2VkLCA4IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXg4LWlzaS9pbXg4LWlzaS12aWRlby5jDQo+
+ID4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXg4LWlzaS9pbXg4LWlzaS12aWRlby5j
+DQo+ID4gaW5kZXgNCj4gPg0KPiAxYmUzYTcyOGYzMmY4OTMzOGE3NWRkY2M0ZTk2ZTc1MDFlZDk1
+NGUxLi43N2ViZmYwMzMyM2FjZTUwZmYwMzljODMzDQo+IDNkMg0KPiA+IDVhOWMzZGQ0NDg4MCAx
+MDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXg4LWlzaS9pbXg4
+LWlzaS12aWRlby5jDQo+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14OC1p
+c2kvaW14OC1pc2ktdmlkZW8uYw0KPiA+IEBAIC03OTIsNyArNzkyLDE0IEBAIHN0YXRpYyB2b2lk
+DQo+IG14Y19pc2lfdmlkZW9fcXVldWVfZmlyc3RfYnVmZmVycyhzdHJ1Y3QgbXhjX2lzaV92aWRl
+byAqdmlkZW8pDQo+ID4gIAkJc3RydWN0IG14Y19pc2lfYnVmZmVyICpidWY7DQo+ID4gIAkJc3Ry
+dWN0IGxpc3RfaGVhZCAqbGlzdDsNCj4gPg0KPiA+IC0JCWxpc3QgPSBpIDwgZGlzY2FyZCA/ICZ2
+aWRlby0+b3V0X2Rpc2NhcmQgOiAmdmlkZW8tPm91dF9wZW5kaW5nOw0KPiA+ICsJCS8qDQo+ID4g
+KwkJICogUXVldWUgYnVmZmVyczogcHJpb3JpdGl6ZSBwZW5kaW5nIGJ1ZmZlcnMsIHRoZW4gZGlz
+Y2FyZA0KPiBidWZmZXJzDQo+ID4gKwkJICogRm9yIGV4YW1wbGU6DQo+ID4gKwkJICogLSAyIHBl
+bmRpbmcgYnVmZmVyczogYm90aCBzbG90cyB1c2UgcGVuZGluZyBidWZmZXJzDQo+ID4gKwkJICog
+LSAxIHBlbmRpbmcgYnVmZmVyOiBmaXJzdCBzbG90IHVzZXMgcGVuZGluZywgc2Vjb25kIHVzZXMN
+Cj4gZGlzY2FyZA0KPiA+ICsJCSAqIC0gMCBwZW5kaW5nIGJ1ZmZlcnM6IGJvdGggc2xvdHMgdXNl
+IGRpc2NhcmQgYnVmZmVycw0KPiA+ICsJCSAqLw0KPiA+ICsJCWxpc3QgPSAoaSA8IDIgLSBkaXNj
+YXJkKSA/ICZ2aWRlby0+b3V0X3BlbmRpbmcgOg0KPiA+ICsmdmlkZW8tPm91dF9kaXNjYXJkOw0K
+PiA+ICAJCWJ1ZiA9IGxpc3RfZmlyc3RfZW50cnkobGlzdCwgc3RydWN0IG14Y19pc2lfYnVmZmVy
+LCBsaXN0KTsNCj4gPg0KPiA+ICAJCW14Y19pc2lfY2hhbm5lbF9zZXRfb3V0YnVmKHZpZGVvLT5w
+aXBlLCBidWYtPmRtYV9hZGRycywNCj4gYnVmX2lkKTsNCj4gPg0KPiANCj4gLS0NCj4gUmVnYXJk
+cywNCj4gDQo+IExhdXJlbnQgUGluY2hhcnQNCg==
 
