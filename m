@@ -1,57 +1,57 @@
-Return-Path: <linux-media+bounces-56499-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56500-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yKF+HO8SvWnV6QIAu9opvQ
-	(envelope-from <linux-media+bounces-56499-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:27:11 +0100
+	id KEqhLQgTvWnV6QIAu9opvQ
+	(envelope-from <linux-media+bounces-56500-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:27:36 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B212D7FE6
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:27:10 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5582D800C
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:27:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 87D3430634CD
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:25:39 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 96935300DEC8
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:27:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92545361674;
-	Fri, 20 Mar 2026 09:25:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79746361DB4;
+	Fri, 20 Mar 2026 09:27:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="adcD8EiV"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="nFDQk0lD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-24430.protonmail.ch (mail-24430.protonmail.ch [109.224.244.30])
+Received: from mail-24424.protonmail.ch (mail-24424.protonmail.ch [109.224.244.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9C535E941;
-	Fri, 20 Mar 2026 09:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C85C35AC1A
+	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 09:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773998731; cv=none; b=uEHoq4D/kzB11re3yUOtu3lGdThBX2rhUWzJYbR6xwhoFFqtIS/4c5A3Jt7e0+k4Sds6DMpVj8ZNq8VppRyY88X/zbKBhRCG+JFa3/4dpU00myrEEagshj74fjZe7AY0Y3dSh9nnne+iUdU00eSkDg8+9eH3Rwzmn8kiyMUXNEo=
+	t=1773998851; cv=none; b=L3L5pSheck0l3aX0m+SmvgBt+XPp2D833kv0An8FKss/ZL+Xe3IA490cVCI6KbpFk5RVA1KRK8+2i48FhYHH7KKg6Sch0+mVXDZkYs+5JP/1I8S+1zHtrKDBWazaIPsLAIU2uv96ypuVr7NDkBtodeDyGc7/LWxbtffaueKrKyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773998731; c=relaxed/simple;
-	bh=NfngxJA9D9bU0i2vB6BQcMLdvL4uRHMzDyxlZAb0MVg=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Rbqd/uxDH67FlY+j0+BSqwP/apGTpPf3m8jFWKJVbZsSac6sAiACjIlrF7QrIGv2HZYjgvrr120r5tGkLMFE39GqFZB0xkhkOuHP1iGgkk2FchoEW6hYnIsg6FelEE+e9Rjh8EecHY/zm5X6uPO69sSMLzR0fEWWF2U5j5Z/owI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=adcD8EiV; arc=none smtp.client-ip=109.224.244.30
+	s=arc-20240116; t=1773998851; c=relaxed/simple;
+	bh=BTu10YAWqoUNfjpxxThzV+1+nVFXkDNJdtXBf46Mt8o=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=SuDpuro1bxWQnxc280o2wXNikx1QfwEWFBElVj+QGCoUe3SEg4HXNQBQEbHq/M3YxWB5e55LD287Xn39aoqr/o+4/W/SyK2Nb6zs/bsDZQSu7QhOhHPNISghYK0g8b8TCjnLyKI1Rx3w/vS6Z8h1O/vrlLdq0UYS8JqF0Q0eDjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=nFDQk0lD; arc=none smtp.client-ip=109.224.244.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1773998726; x=1774257926;
-	bh=mxEEVofyZ6y20gloAVg/kuS3VSQW/xiIW0o/7rP6pUY=;
+	s=7qry3kos5raz5g53f7lzjqonzi.protonmail; t=1773998841; x=1774258041;
+	bh=5HYBnmKaWYU8S4dJyk1uQ7F+BiJeHb1m106NqEiuGaQ=;
 	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
 	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=adcD8EiVtnrkxefB83IZBOEe0JrI9lnHBQdunP3PEmu8oNG7XAyrTmTip4LDYiEix
-	 XPo+wesqAOhLossOSXWFp2mRRpes0g284aeYJ3CFHSkCEZrXfJ10WGHn2/or5cZ5k9
-	 xqfELOnpfdm8pyphgFjjQiir73fsRIwyScKYPF2OFO53HTuJNRhN9uQnkO1F6yKm7P
-	 qdcMRtBiADekoernx326JRfEABRsmYlBuIQ3aE7yYnCTAinWgkS0Ym2oKva9LI7HcG
-	 O7nmadDiyaLURko9rtXw2Hyx21yjBIrpGJa6e23nz/fPXy/IalkTF10VvByEQmvKJ5
-	 l4JOCMxQcmNmw==
-Date: Fri, 20 Mar 2026 09:25:21 +0000
+	b=nFDQk0lDXnfZNrjwRLdGnucPx+NENZUEG1or9dCEld1jq91CJfH/zagxOHZq9aOOY
+	 6sc59gughqGL7yn/UdqTe0sxQtu/kovR0J/QwjGLLHlsQ2RCub+9CYqdyyzHdromth
+	 NljKVXrBS1zvNrrQXynXsXa4oBOxvhXJgiSq917h6hXeBdo0deBlk4f/hIUF9tgWjx
+	 Cpznm3wTQoT4LhCS7VamgaXRQ4ZIqeVKujmbEU3DzQwJMi5XEEbPCS5CEZGQApCXkv
+	 7Q1RolHDryW4bZ1VZlY2AArFBivbHQGGM/nQU06cbEyHUVefYiE6y2ctQm7idmwNu3
+	 gswgGzrarP7AA==
+Date: Fri, 20 Mar 2026 09:27:18 +0000
 To: Arec Kao <arec.kao@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 From: Antoine Bernard <zalnir@proton.me>
 Cc: "~postmarketos/upstreaming@lists.sr.ht" <~postmarketos/upstreaming@lists.sr.ht>
-Subject: [PATCH 1/3] media: i2c: ov13b10: Add dvdd, dovdd and device tree support
-Message-ID: <WDExF9Cf1ELo55IwClyLBJqXeLe2-Kb2m3QYg7ex6qREa3HBG52CdMovctxuZ7W_ixhvHyjk9L73NDMCJi2ndkuDJcpzHSDs7Z5pEAgET60=@proton.me>
+Subject: [PATCH 2/3] media: dt-bindings: Add OmniVision OV13B10
+Message-ID: <cTZxBKdzN37cy_eGcCK3hocAgzwzdfBnsqWXpJnNYFZb6Odl4FspR5333ZBJIJG5dRunnVBB3fWiRJL_pq3SmykhDKxaGPRl_T5_BShJIng=@proton.me>
 Feedback-ID: 152853527:user:proton
-X-Pm-Message-ID: eb33b12766f7ae80229dff7f57ddd6c492d72068
+X-Pm-Message-ID: 54ac38e0603605383db2949ac48107564e1860ae
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,13 +64,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[proton.me,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[proton.me:s=protonmail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[proton.me:s=7qry3kos5raz5g53f7lzjqonzi.protonmail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56499-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56500-lists,linux-media=lfdr.de];
 	FREEMAIL_TO(0.00)[intel.com,kernel.org,linux.intel.com,gmail.com,vger.kernel.org];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
@@ -83,130 +83,134 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[zalnir@proton.me,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[proton.me:+];
-	NEURAL_HAM(-0.00)[-0.977];
+	NEURAL_HAM(-0.00)[-0.960];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,proton.me:dkim,proton.me:email,proton.me:mid]
-X-Rspamd-Queue-Id: E6B212D7FE6
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[proton.me:dkim,proton.me:email,proton.me:mid,intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,devicetree.org:url,0.0.0.36:email]
+X-Rspamd-Queue-Id: 4A5582D800C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Antoine Bernard <zalnir@proton.me>
 
-The Xiaomi Pad 6 tablet uses the OV13B10 sensor with a device tree
-match and dvdd/dovdd voltage supply specified.
-
-Add support for optional dvdd and dovdd voltage supply, and add
-a device tree match so that the rear camera can work on such tablets
-without an ACPI.
+Document the device tree bindings for OmniVision OV13B10 image
+sensor.
 
 Signed-off-by: Antoine Bernard <zalnir@proton.me>
 ---
- drivers/media/i2c/ov13b10.c | 53 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ .../bindings/media/i2c/ovti,ov13b10.yaml      | 99 +++++++++++++++++++
+ 1 file changed, 99 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov13b1=
+0.yaml
 
-diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
-index 5421874732bc..47eced60542c 100644
---- a/drivers/media/i2c/ov13b10.c
-+++ b/drivers/media/i2c/ov13b10.c
-@@ -708,7 +708,11 @@ struct ov13b10 {
- =09struct v4l2_ctrl_handler ctrl_handler;
-=20
- =09struct clk *img_clk;
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov13b10.yaml =
+b/Documentation/devicetree/bindings/media/i2c/ovti,ov13b10.yaml
+new file mode 100644
+index 000000000000..4d6432488b79
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov13b10.yaml
+@@ -0,0 +1,99 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/ovti,ov13b10.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- =09struct regulator *avdd;
-+=09struct regulator *dvdd;
-+=09struct regulator *dovdd;
++title: Omnivision ov13b10 image sensor
 +
- =09struct gpio_desc *reset;
-=20
- =09/* V4L2 Controls */
-@@ -1197,6 +1201,10 @@ static int ov13b10_power_off(struct device *dev)
-=20
- =09if (ov13b10->avdd)
- =09=09regulator_disable(ov13b10->avdd);
-+=09if (ov13b10->dvdd)
-+=09=09regulator_disable(ov13b10->dvdd);
-+=09if (ov13b10->dovdd)
-+=09=09regulator_disable(ov13b10->dovdd);
-=20
- =09clk_disable_unprepare(ov13b10->img_clk);
-=20
-@@ -1224,6 +1232,24 @@ static int ov13b10_power_on(struct device *dev)
- =09=09}
- =09}
-=20
-+=09if (ov13b10->dvdd) {
-+=09=09ret =3D regulator_enable(ov13b10->dvdd);
-+=09=09if (ret < 0) {
-+=09=09=09dev_err(dev, "failed to enable dvdd: %d", ret);
-+=09=09=09clk_disable_unprepare(ov13b10->img_clk);
-+=09=09=09return ret;
-+=09=09}
-+=09}
++maintainers:
++  - Arec Kao <arec.kao@intel.com>
 +
-+=09if (ov13b10->dovdd) {
-+=09=09ret =3D regulator_enable(ov13b10->dovdd);
-+=09=09if (ret < 0) {
-+=09=09=09dev_err(dev, "failed to enable dovdd: %d", ret);
-+=09=09=09clk_disable_unprepare(ov13b10->img_clk);
-+=09=09=09return ret;
-+=09=09}
-+=09}
++allOf:
++  - $ref: /schemas/media/video-interface-devices.yaml#
 +
- =09gpiod_set_value_cansleep(ov13b10->reset, 0);
- =09/* 5ms to wait ready after XSHUTDN assert */
- =09usleep_range(5000, 5500);
-@@ -1500,6 +1526,24 @@ static int ov13b10_get_pm_resources(struct ov13b10 *=
-ov13b)
- =09=09=09=09=09     "failed to get avdd regulator\n");
- =09}
-=20
-+=09ov13b->dvdd =3D devm_regulator_get_optional(ov13b->dev, "dvdd");
-+=09if (IS_ERR(ov13b->dvdd)) {
-+=09=09ret =3D PTR_ERR(ov13b->dvdd);
-+=09=09ov13b->dvdd =3D NULL;
-+=09=09if (ret !=3D -ENODEV)
-+=09=09=09return dev_err_probe(ov13b->dev, ret,
-+=09=09=09=09=09     "failed to get dvdd regulator\n");
-+=09}
++properties:
++  compatible:
++    const: ovti,ov13b10
 +
-+=09ov13b->dovdd =3D devm_regulator_get_optional(ov13b->dev, "dovdd");
-+=09if (IS_ERR(ov13b->dovdd)) {
-+=09=09ret =3D PTR_ERR(ov13b->dovdd);
-+=09=09ov13b->dovdd =3D NULL;
-+=09=09if (ret !=3D -ENODEV)
-+=09=09=09return dev_err_probe(ov13b->dev, ret,
-+=09=09=09=09=09     "failed to get dovdd regulator\n");
-+=09}
++  reg:
++    maxItems: 1
 +
- =09return 0;
- }
-=20
-@@ -1700,11 +1744,20 @@ static const struct acpi_device_id ov13b10_acpi_ids=
-[] =3D {
- MODULE_DEVICE_TABLE(acpi, ov13b10_acpi_ids);
- #endif
-=20
-+#ifdef CONFIG_OF
-+static const struct of_device_id ov13b10_of_match[] =3D {
-+=09{.compatible =3D "ovti,ov13b10"},
-+=09{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ov13b10_of_match);
-+#endif
++  clocks:
++    description: System clock.
++    maxItems: 1
 +
- static struct i2c_driver ov13b10_i2c_driver =3D {
- =09.driver =3D {
- =09=09.name =3D "ov13b10",
- =09=09.pm =3D pm_ptr(&ov13b10_pm_ops),
- =09=09.acpi_match_table =3D ACPI_PTR(ov13b10_acpi_ids),
-+=09=09.of_match_table =3D of_match_ptr(ov13b10_of_match),
- =09},
- =09.probe =3D ov13b10_probe,
- =09.remove =3D ov13b10_remove,
++  reset-gpios:
++    description: GPIO connected to the XSHUTDOWN pin. Active low.
++    maxItems: 1
++
++  avdd-supply:
++    description: Analog circuit voltage supply.
++
++  dvdd-supply:
++    description: Digital circuit voltage supply.
++
++  dovdd-supply:
++    description: Digital I/O circuit voltage supply.
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        additionalProperties: false
++
++        properties:
++          data-lanes:
++            minItems: 1
++            maxItems: 4
++            items:
++              enum: [1, 2, 3, 4]
++
++          link-frequencies: true
++          remote-endpoint: true
++
++        required:
++          - data-lanes
++          - link-frequencies
++          - remote-endpoint
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells =3D <1>;
++        #size-cells =3D <0>;
++
++        ov13b10: camera@36 {
++            compatible =3D "ovti,ov13b10";
++            reg =3D <0x36>;
++
++            clocks =3D <&sensor_xclk>;
++            reset-gpios =3D <&gpio 117 GPIO_ACTIVE_LOW>;
++
++            avdd-supply =3D <&ov13b10_avdd>;
++            dvdd-supply =3D <&ov13b10_dvdd>;
++            dovdd-supply =3D <&ov13b10_dovdd>;
++
++            port {
++                ov13b10_ep: endpoint {
++                    data-lanes =3D <1 2 3 4>;
++                    link-frequencies =3D /bits/ 64 <560000000>;
++                    remote-endpoint =3D <&csiphy_ep>;
++                };
++            };
++        };
++    };
++...
 --=20
 2.52.0
 
