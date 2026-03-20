@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-56505-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56504-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QAUDHB4VvWnG6QIAu9opvQ
-	(envelope-from <linux-media+bounces-56505-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:36:30 +0100
+	id MFgLOhYVvWnG6QIAu9opvQ
+	(envelope-from <linux-media+bounces-56504-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:36:22 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB9D12D81DD
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:36:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C46C2D81D5
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:36:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 415FE304B02B
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:36:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6A98C30416F9
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:36:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27EB4314D1A;
-	Fri, 20 Mar 2026 09:36:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF6DC376477;
+	Fri, 20 Mar 2026 09:36:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kcore.it header.i=@kcore.it header.b="Lga/W2Lo"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kcore.it header.i=@kcore.it header.b="G9RuwDxk"
 X-Original-To: linux-media@vger.kernel.org
 Received: from spark.kcore.it (spark.kcore.it [49.13.27.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4842EC0A1;
-	Fri, 20 Mar 2026 09:36:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91923612EC;
+	Fri, 20 Mar 2026 09:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.13.27.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773999378; cv=none; b=UMpICaerMWAvFOI7YLPKPsBijQv4MJ8h7oeoFoR+MN9TdpMF1HhgfinfXDngx/1fhGXON2qUR21xAX8QGLJRZ6OGciSa9a87EE/QO0AYHTpQJfD+S3tXxuTgQPjUrE68Uf9bZv0FsTERFOMyVX81114n7Mz3T5ZrwCi333nVFG8=
+	t=1773999375; cv=none; b=r5B+GxBtafD83zRYTxHayaL6hgGvMJy9+Kh144Wa8myMHOS7cHpXxYv99PmZ8wp0fbOofJOqo1lJkIv30wWeNEGsJo28fnqKM6MxHjhzIaf5UHTonN4dNuqReW5Z42cUySbDAcPq038i7cXGP7fCJ71MSaklr3Lbt9zOKN+Mpgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773999378; c=relaxed/simple;
+	s=arc-20240116; t=1773999375; c=relaxed/simple;
 	bh=dZJOCTFtJZUHOSWu4g1IyyCntjRf3+ekzG1jr2dP3Xc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hdChdMqase0iuZF+U7MWtwRxagDjnwBnV0uakN4rmM/d0dlmNqu+HK/uIo9k2Cdp9r9TDDkophzxkaHNvLAR7zcI/le6svdSMBX+mSXF7UAnePuxJ+7auG4uMc3LbQ3Bo1jCY3G0o2lSFTYqWy/B8fW45SnVdLlBbfxR/6FgBIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kcore.it; spf=pass smtp.mailfrom=kcore.it; dkim=pass (1024-bit key) header.d=kcore.it header.i=@kcore.it header.b=Lga/W2Lo; arc=none smtp.client-ip=49.13.27.68
+	 Content-Disposition; b=N6A/HQpT1iPUp33bzNq4TwpmNdrbiOh27IgKxBWHTOos8mP888UdVoyrw440lo6ebTVQbencGq1dyjomz7pMzYuqZmw26edjGeZ6I/oaYE4XEn2NUUDQhUFdOBzDxl8pxXg1ccTHjaRhU9xpulKWq63+9jIhm7JnU4/atecVv4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kcore.it; spf=pass smtp.mailfrom=kcore.it; dkim=pass (1024-bit key) header.d=kcore.it header.i=@kcore.it header.b=G9RuwDxk; arc=none smtp.client-ip=49.13.27.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kcore.it
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kcore.it
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kcore.it;
@@ -40,20 +40,20 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kcore.it;
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=lIp77/TP6ytXFAvgPrHJFSRHfrvMY13Xe/mGpLjDEFE=; b=Lga/W2LoJNljlC/Xwi4ZJabD8D
-	dEN4aBODcakNOXKBDK1zZQEtpSd5Z4MlUfVTBYh5s9/SfFGYzG+FvYpBF+uhJu6rEZ75eQuyXPksV
-	PSL2mbg1qjTY3HkqGlktNoiKLpq189tNonfSyrU3F9tDarNNQF1s0Ye5ZpxSoMxQU85k=;
+	bh=lIp77/TP6ytXFAvgPrHJFSRHfrvMY13Xe/mGpLjDEFE=; b=G9RuwDxkZqVb16y2CRVEla69DP
+	Mj/k/H7uBCmQNgJk7807x/qL2lWN8m5ZAPJmWk0qbN3pcJgG83xfBL6SO+B4hKAH3ym3g9+j0yrjE
+	r/NAK/3S2cKfZcrKIhks1OKCCtsSN6cVmloJaA5stPPHeEInRZX+5RJBb6SnZlAoHu/Y=;
 Received: from mnencia by spark.kcore.it with local (Exim 4.96)
 	(envelope-from <mnencia@kcore.it>)
-	id 1w3WDs-005Yt2-36;
-	Fri, 20 Mar 2026 10:32:52 +0100
-Date: Fri, 20 Mar 2026 10:32:52 +0100
+	id 1w3WE4-005Yta-00;
+	Fri, 20 Mar 2026 10:33:04 +0100
+Date: Fri, 20 Mar 2026 10:33:03 +0100
 From: Marco Nenciarini <mnencia@kcore.it>
 To: platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
 Cc: hao.yao@intel.com, hdegoede@redhat.com, sakari.ailus@linux.intel.com,
 	andy@kernel.org
 Subject: [PATCH] platform/x86: int3472: Add GPIO type 0x02 (strobe) mapping
-Message-ID: <ab0URIrzZPsYjWrM@spark.kcore.it>
+Message-ID: <ab0UT-6yR4_hpGSV@spark.kcore.it>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,12 +65,12 @@ Content-Disposition: inline
 X-Spamd-Result: default: False [-0.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_DKIM_REJECT(1.00)[kcore.it:s=spark];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56505-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56504-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[kcore.it];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -82,13 +82,13 @@ X-Spamd-Result: default: False [-0.46 / 15.00];
 	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_NEQ_ENVFROM(0.00)[mnencia@kcore.it,linux-media@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	NEURAL_SPAM(0.00)[0.142];
+	NEURAL_SPAM(0.00)[0.143];
 	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kcore.it:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,launchpad.net:url,intel.com:email,spark.kcore.it:mid]
-X-Rspamd-Queue-Id: DB9D12D81DD
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kcore.it:email,launchpad.net:url,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4C46C2D81D5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -163,6 +163,5 @@ index b1b8375..85adeb0 100644
  #define INT3472_GPIO_TYPE_PRIVACY_LED				0x0d
 -- 
 2.47.3
-
 
 
