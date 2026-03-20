@@ -1,210 +1,157 @@
-Return-Path: <linux-media+bounces-56481-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56482-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qO34NOADvWkO5gIAu9opvQ
-	(envelope-from <linux-media+bounces-56481-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:22:56 +0100
+	id uHphDKgDvWkO5gIAu9opvQ
+	(envelope-from <linux-media+bounces-56482-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:22:00 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6DF82D7259
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:22:55 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B79C2D721D
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:21:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 84BA13040A96
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 08:16:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0D9A530F2FBC
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 08:18:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBF50371895;
-	Fri, 20 Mar 2026 08:16:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3A2337188D;
+	Fri, 20 Mar 2026 08:18:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bnt56wvu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yplt6jjQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723AC371862
-	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 08:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0043596E1;
+	Fri, 20 Mar 2026 08:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773994560; cv=none; b=ZrJ1yYe3UuhJ00duhlBW9VaKvjeoHVo2Pb66WGRJzkXTlCb8xcWawgSKoIrTSu21GefX3bAdhjW4xd54vZ7nkJYI91y73Xhvcc/HlvJZbkObB5A+dXxUvSkdqRgpBjYt4LfOP2Mm2JINckbSRw+7i1HcEi5u7F9AcB+s/l+E3v4=
+	t=1773994691; cv=none; b=S+7M/jXTiUtWm5X9MbJUCPXmkUvwU8BFk76wztuuhZgX324oG6f7sbX+BNyrnAmIXOYYIrLk2VwJsO0A4LA4V3x76MzoDDTenvgGybmOo5h6CsZXXCR+DLYGiuyk4UO/ndIO8OcpeMLb+oR2H1tHYCDA0U0iyew56Z/uchrbfP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773994560; c=relaxed/simple;
-	bh=Ht8Ca3bvCpwea0dISBMHeU5SIbAdHxxBCs6iEdJ+oc4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZyOlc3HK+nvWNS/BsSVUKUa9euSwyBNTIwH8LvuGdr36p+8ZgMvskdGVyEVeGFAQMb4B2HmVjvQnB5lvdCNSWfLiu+KZ/bDhOz2tk/FJ7Ad9zftmmQXIR8/80d4REacDPzpgUL2lihCSWJqUBmen5dn/6frXixUsiTgkcPhbDek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bnt56wvu; arc=none smtp.client-ip=209.85.210.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-82a67ce6969so1294673b3a.1
-        for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 01:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773994558; x=1774599358; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FymbYBabUVFHOjTwlZbzKKh/jGsvG1YlqLzH42ljfg0=;
-        b=bnt56wvuTBcnu6k3vyGuaXrqAWVzKc0ys4RtMOuGtBNIE7xFL+I8JuKRUsO7trLfed
-         3BfY4zaYDn+1UtLK+GNcYTvul/m5Fx2qwOqNfm3I4RhHI2MeB6SGJ24JKO2uR9nWHfvd
-         Afn/UNymi60LQatnRIXaMd8/cyGVnzCXyl22OcDrrszWuvjaZR8gdgskSXYM1J9eG4fJ
-         3ZpOcrRfMPRLYyrYu2zyDaEir0rVReWSbc0lsHGZXOWBMtzj+EJTFGiujvoVV9aHMo1j
-         Iz1hyI5gS+ZscmdAPV+foniAJVGWXtKFpU6sHDdBwLUgLOsPSKwGBmh7ZYL08eUZNk4h
-         fREA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773994558; x=1774599358;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FymbYBabUVFHOjTwlZbzKKh/jGsvG1YlqLzH42ljfg0=;
-        b=IKmJvCv51aJAxHbfvZKJMkyeYPIdFAwJrg9pZiaIIX3oTTuIhhuWvlo87Kmr5Ejawb
-         IYF3Qvwhh6JMAkTIsP/jCy0KRz/PkgwxeQ1hB/qzgtEaB6o4bnYT1ZwYIDCum67HMs1a
-         LWqkY7/OYYMDqhUsLdg6zDoaYxc+CKrLPLxwcOrxSatdupHGtw0peqqe6NNWZdatlGUB
-         pScS937+O2dsET4McchPJ37qGQD4JRavpkHGxmlfkDBK2e8udR9oz3fK8Y70RcGATm7T
-         0s0k5YkR0x3Yspou2En6PR8Nu4FbDaz7hbuT4dGx+fAIU7uFHoFzHywbGCGb3PDmMOsR
-         MLDw==
-X-Gm-Message-State: AOJu0YxmuM/5aRYCnMUynmqSZWeGm4+glhXmgNcMAMjf5QQjTAfQJpSv
-	MVvWfAMtxVZoZNE2XQUGgYpmLlAZL1N1uMo5oiChpHup47ImnT2B4vHF+gqa+fgX4OrJdcXs
-X-Gm-Gg: ATEYQzx1zxOrUu9ed2lQAnh/CUQij/6MtujRU/JybCQsnjIVRdLmoU0SUR8arlguNXY
-	tT2ZwMnidlUepY0cgWT9AsVHjTF996zaWwlS8F6BpCJ4iKOG2ooIdDp/uxDqsfK7FAY1iv4sHoE
-	l87RobTgg4O8/EqLAL9JZYpUWTGXRSLoFmu5MsLh2/4/rfUfz/La/8jl/SZI6Y9dqPPkdYEvYQC
-	uMfAUD1oc3jZXM2O93/OvZ6mAGt0nx6DCslM71wmA5WQyUhuF0l/t8jvu4Opsn863nUPOZ2K/uV
-	9bf8+TqYiRXTUwEO+gXH6Ww1+7b9hIqzWjoSPndjijI8eEUh8idV8YV1llhcKG3oFgo8H5r+jUg
-	C8eZLVkOUj9jP2F9i4+Jj7fzN9RFmcM4Mi6NZFMjgyuP7ZoRxBUK5CZMe7FM4Ghs65IQBGFgm8L
-	U9iE2xiIcWCi6GATeCgg4lMbNh3nGDYgn/twocbHoaT4i96AZToChE5wajefpxY/Y1T5PqqsQHa
-	cgzi2HixOLU7XQqh9p0aZo66WjkR045PVz10CP3
-X-Received: by 2002:a05:6a00:2309:b0:82a:79b8:2049 with SMTP id d2e1a72fcca58-82a8c2389c7mr2018173b3a.25.1773994557680;
-        Fri, 20 Mar 2026 01:15:57 -0700 (PDT)
-Received: from CN4GKQDX76.bytedance.net ([61.213.176.57])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b03bbebb2sm1524048b3a.14.2026.03.20.01.15.55
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 20 Mar 2026 01:15:56 -0700 (PDT)
-From: Zile Xiong <xiongzile99@gmail.com>
-To: Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zile Xiong <xiongzile99@gmail.com>
-Subject: [PATCH v2] media: vb2: use ssize_t for vb2_read/vb2_write
-Date: Fri, 20 Mar 2026 16:15:45 +0800
-Message-ID: <20260320081545.4624-1-xiongzile99@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260320065445.75351-1-xiongzile99@gmail.com>
-References: <20260320065445.75351-1-xiongzile99@gmail.com>
+	s=arc-20240116; t=1773994691; c=relaxed/simple;
+	bh=Cbs6fDbIVm4cxqy5zfwG+B9ee7arLRyURHKCIhe1zUM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f1oSnjnoC8IL9lN7eBVuwsbvDheVMTxLuCCMJHND5qe0ZtzmuwgdtTPm3FrhQ0+gYwvb1+Hpi55ilWVp7J14anjcO5dxOdHdNRscq5AYUaQvP3K6zU0c33O5aEKZ8WSo0C5U8w6t+IblKCmYdTEjynj2L6HugJxIGbdMoxNkP6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yplt6jjQ; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773994690; x=1805530690;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Cbs6fDbIVm4cxqy5zfwG+B9ee7arLRyURHKCIhe1zUM=;
+  b=Yplt6jjQzLwqH/r4ijPlb0TH42bOOXMzylaL/iipsr9gp+4v3bqEFHrs
+   ikHNSrY3IQS9zwv9s1D3LGXctktyZbpMdv4z7sEhPsg+VFpjpHNnPWOgL
+   583W2US24yXyyy+eg9clTcWvZY/Y8XX53PwL9ZVBM/uqdFIYW8mpKDQwU
+   EE9rQkdeYGROlRXI63Z8lK+ojgW76uLBp1PFUC3xuQImE/Fh1eyfV1MVc
+   Ov6IAZiDEi41bfZxHjnOPs0yKFF2+GUAT2Xz2fITrcwXJMoOgmzR3q92z
+   d+BD40Mwlc+XB51uCN59gAo0BTd8nHlKtEnnlcoTwMC+GNYNNTSuCUC29
+   g==;
+X-CSE-ConnectionGUID: 5DtVXCi+Rfm5Q3q0GzZeGQ==
+X-CSE-MsgGUID: gFOoKvyBSZ+bVrT4q3aQ2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="92650479"
+X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
+   d="scan'208";a="92650479"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 01:18:09 -0700
+X-CSE-ConnectionGUID: CEB5EzedQiSCpRlmKKLplA==
+X-CSE-MsgGUID: sIrSlVdjSeqRxIkQ2bU8yw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
+   d="scan'208";a="222313546"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.40])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 01:18:06 -0700
+Date: Fri, 20 Mar 2026 10:18:03 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: "Choi, Yuho" <yqc5929@psu.edu>
+Cc: "hansg@kernel.org" <hansg@kernel.org>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"andy@kernel.org" <andy@kernel.org>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: atomisp: fix UAF and memory leak in gc2335
+Message-ID: <ab0Cu8NnIt-m7pQc@ashevche-desk.local>
+References: <54321DD5-808B-441A-8F68-B812A3D72E5E@psu.edu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <54321DD5-808B-441A-8F68-B812A3D72E5E@psu.edu>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-56481-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[xiongzile99@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_FROM(0.00)[bounces-56482-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.951];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,samsung.com:email]
-X-Rspamd-Queue-Id: D6DF82D7259
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,psu.edu:email]
+X-Rspamd-Queue-Id: 9B79C2D721D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-vb2_read() and vb2_write() return size_t, but propagate
-negative errno values from __vb2_perform_fileio() via
-implicit signed/unsigned conversions in callers
-(e.g. vb2_fop_read()), which is not obvious.
+On Thu, Mar 19, 2026 at 07:30:10PM +0000, Choi, Yuho wrote:
+> From: Yuho Choi <yqc5929@psu.edu>
+> Date: Wed, 18 Mar 2026 17:08:57 -0400
+> Subject: [PATCH] media: atomisp: gc2335: fix UAF and memory leak
 
-vb2_fop_read() and vb2_fop_write() already return ssize_t, so
-using size_t for vb2_read(), vb2_write(), and
-__vb2_perform_fileio() is inconsistent.
+Make sure you understand the tools and how properly to send patches
 
-Switch these helpers to ssize_t so they can return either a byte
-count or a negative error code.
+Also note, your patch is mangled and may not be applied.
 
-Fixes: b25748fe6126 ("[media] v4l: videobuf2: add read() and write() emulator")
-Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Signed-off-by: Zile Xiong <xiongzile99@gmail.com>
+> This commit addresses two potential resource management vulnerabilities
 
-v2:
-- add Fixes tag (suggested by Marek Szyprowski)
----
- drivers/media/common/videobuf2/videobuf2-core.c | 6 +++---
- include/media/videobuf2-core.h                  | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+Please, take your time to study Submitting Patches documentation,
+in particular on how to use imperative mode.
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index adf668b213c2..8a2b8156e9da 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -2990,7 +2990,7 @@ static int __vb2_cleanup_fileio(struct vb2_queue *q)
-  * @nonblock:	mode selector (1 means blocking calls, 0 means nonblocking)
-  * @read:	access mode selector (1 means read, 0 means write)
-  */
--static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_t count,
-+static ssize_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_t count,
- 		loff_t *ppos, int nonblock, int read)
- {
- 	struct vb2_fileio_data *fileio;
-@@ -3154,14 +3154,14 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
- 	return ret;
- }
- 
--size_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
-+ssize_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
- 		loff_t *ppos, int nonblocking)
- {
- 	return __vb2_perform_fileio(q, data, count, ppos, nonblocking, 1);
- }
- EXPORT_SYMBOL_GPL(vb2_read);
- 
--size_t vb2_write(struct vb2_queue *q, const char __user *data, size_t count,
-+ssize_t vb2_write(struct vb2_queue *q, const char __user *data, size_t count,
- 		loff_t *ppos, int nonblocking)
- {
- 	return __vb2_perform_fileio(q, (char __user *) data, count,
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 4424d481d7f7..bf20bcb1d366 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -1093,7 +1093,7 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
-  * @ppos:	file handle position tracking pointer
-  * @nonblock:	mode selector (1 means blocking calls, 0 means nonblocking)
-  */
--size_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
-+ssize_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
- 		loff_t *ppos, int nonblock);
- /**
-  * vb2_write() - implements write() syscall logic.
-@@ -1103,7 +1103,7 @@ size_t vb2_read(struct vb2_queue *q, char __user *data, size_t count,
-  * @ppos:	file handle position tracking pointer
-  * @nonblock:	mode selector (1 means blocking calls, 0 means nonblocking)
-  */
--size_t vb2_write(struct vb2_queue *q, const char __user *data, size_t count,
-+ssize_t vb2_write(struct vb2_queue *q, const char __user *data, size_t count,
- 		loff_t *ppos, int nonblock);
- 
- /**
+> within the gc2235_probe function's error handling paths.
+
+As below refer to the function as func():
+
+gc2235_probe()
+
+> 1.  UAF: If media_entity_pads_init fails, the driver
+>     invokes gc2235_remove(), which frees the 'dev' object.
+>     The execution flow then inadvertently fails through to
+>     atomis_register_i2c_module(), dereferencing the freed 'dev' pointer.
+> 2.  Memory Leak: If atomisp_register_i2c_module() fails, the function
+>     returns the error code immediately without executing any teardown
+>     routines. This leavs the 'dev' structure, v4l2 control handler,
+>     and media entity permanently orphaned.
+> 
+> This fix follows a standard goto-based teadown routines to ensure all
+> allocated resources are freed in reverse order.
+
 -- 
-2.39.5
+With Best Regards,
+Andy Shevchenko
+
 
 
