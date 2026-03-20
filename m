@@ -1,203 +1,208 @@
-Return-Path: <linux-media+bounces-56507-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56508-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QF01LU0avWnG6QIAu9opvQ
-	(envelope-from <linux-media+bounces-56507-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:58:37 +0100
+	id yNsKC38dvWnG6QIAu9opvQ
+	(envelope-from <linux-media+bounces-56508-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 11:12:15 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564812D8608
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:58:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C342D8860
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 11:12:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1CE80304139A
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 09:56:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5A19C30C3D96
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 10:07:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5E4538B15E;
-	Fri, 20 Mar 2026 09:56:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2827355F3E;
+	Fri, 20 Mar 2026 10:07:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uyHPrjR3"
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="EiyBKix0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic310-57.consmr.mail.ir2.yahoo.com (sonic310-57.consmr.mail.ir2.yahoo.com [77.238.177.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBB9383C6B;
-	Fri, 20 Mar 2026 09:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C114B36165D
+	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 10:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.177.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774000606; cv=none; b=W7lanbxKW757+HF0tErp1G5yD6kD80vxYXuEgjQNJ+XqfjZnBuyQifYFlYIPh4fWKCv1HmmW803rg5DlUy/jWbd3zgM8Vu9mCphxBQAsZfbLgolNNcVYDxOE1by6XyuMPMn2smFuh8Sj9faQhWvZ8DPfkaMM1GcuoL3wNxU0wyU=
+	t=1774001267; cv=none; b=qvgRyYmumjf2jyTOs18uy8TElHh3Bj1bSuqlLd5L+0mt9xrCwiUakzuEVEjHKJYUxks27g9so481sL9V2kvgpOhHfSRi7Jl35zp4bHuh+gkKaxxF9siPce1T1SyxDxfs+ZkdIxjmd/uUBRTPtCot9D6HmBxxSUWq8NNEFrCzH4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774000606; c=relaxed/simple;
-	bh=SzI5t4N0FZ4IAeW8BhjweNtPA/RkXoLwNTDxzHATD1w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rb99M5QwMzFuHS158er7KteQjocqE9HMkAoTuN8xh5Lipez1xYBHo6ExL9hssvP/SJUU/5rhnpMZBg9CVb1jwFkHOgb6pZaRGQjqREZFQNYca3oKp8m2DmEi1u+CK2AQB4X2vY43IitI1NMN+i9f5cumkSAL3utJ2s074NZP6BU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uyHPrjR3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 693F6C2BC9E;
-	Fri, 20 Mar 2026 09:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774000605;
-	bh=SzI5t4N0FZ4IAeW8BhjweNtPA/RkXoLwNTDxzHATD1w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uyHPrjR3+YS3hIv+Vg1KVooBJPWYvxp1ylXz+0wufQwK1BQVCzZIbAJICGq8c8aLU
-	 ujGVye+HQSFndavhlxf5a+Wy4kZbDcYd6SKofNhSlbj7ZfR+jmncjmjcjVvntwSm+V
-	 38V7PmAe03PHEmnctKKezxxClyuk3hzAbr0ueemSrb5dJIiyc5dogFS8tGvd9h/5A9
-	 u99QwDSwRY3H0p2hn0dNwnoyTw7tU73QZxLgjADKjirEJ3B3Z3IvjEbx3OjHC54V3K
-	 WWlfyOdfp2lyf3WxQuJgF7sArvhva/cDiq4NhlH0RR/2/J0LffmgfO0BEFIbVI9OcS
-	 z0PkN5gGfKqNg==
-Message-ID: <369229e0-06fd-4a22-b6d8-6dfebb5ca3b2@kernel.org>
-Date: Fri, 20 Mar 2026 09:56:40 +0000
+	s=arc-20240116; t=1774001267; c=relaxed/simple;
+	bh=ROVMc5JAIuwNqc0jKHs2FtstWuWT4dPv5nT1PlG1vp8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=QRYF8c51M7MarNOX+cnQ3t2eAzzB778hSxxJFubIOvfZ/UbpCT07gbd+Ux+vGAbIkHTw7Tr824hq9ar5qNGWHjo3VTpKFLRydyY+nO3fFQUUysSmppomhZcuulNg12WR86FkIB20ODQGzG8ujaSQiSe6F5QofknL1kwLVd0iNmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=EiyBKix0; arc=none smtp.client-ip=77.238.177.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1774001264; bh=COJZclBbWDNE4y0eAt1HnlQYYriESXV9hI25lEsi8ik=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=EiyBKix0wJnrRdHKUMdb7H/yJmhVs0X+3PoGk5IbCrzZyhOZVP2pTxpyGrJNTJDuex2Noz5t7xJ2DyUhGDVoeQcevIqDmjRj5ODWuFIvRIjWRODhhadgS3evgS4xhusS03kdtapHdNcTdW2dv6IcXoI29nw8kdY4M8nC5UT+nyYvDZec1kiI+LieIhY4eN7d1XEN2oeAZ+fSR+gAbR6Nus6IGwf0a54Y8CwE/fFXrXfSGiKHPRVr1bDgE6THEpjX7OLUI2lTmqbdq06W9pg9EjKigEtmCgUCXs5PybKFTV6P14V7goXVGaVFLEcvOQMohihjS2I6CWmO5iAZHGUGAw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1774001264; bh=nH1mP4xc+h66EjdQR2GbFXMB4vvLOeHi61Y5hj6sNL1=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=g2i0t8aOc3TxCaqquPgVVIXUrU3O0MxlxZz4ZHySj2J3zCOFnZjklOycL7agzrQgnp0ohZeakvHsnvwbVPHO1I3SSiT1O4udta2ZnfqoAeH3WYYleDeA2+Ma6dnHCnFWW6vFjNPLPkKOzJba0IF8hJ5BYpf2tppfmibQL55ffVKiApQSIcq5t5mDOFmfHP9UaXoB5niw1vqnvFVL4/j+LB0DaFf+dUon792TWkBfk/wbLvHizG3IadrJVkBRAjdd6TZpcoGE8UU3yTdfMeM5Q5HqNGK6LNzB+1Q9SMT3MQ6GnHQpcrpxCZdThsekSRjHN5ewt8Wj+9WEz7lTMIkYqA==
+X-YMail-OSG: DIzhNagVM1m6DlZc0RAk9oAgh4CTDx8t4vkAzAKLdZGRthqOiXLKOZJVIaCXF53
+ GKrJ5m_nuoKk4YR10okuy78AlpskyH0wbBGJJRACb.01SaoCBAW9ysM5inwbOKaDOf_DiIHmETEX
+ BQLiHAkqBzaXBAEGJIrafZH.gGNswKK4ZFuYqFEdA4ABVaU6Q6FXNhaWg5bij74zeTlOVSK9fnC7
+ 8Q4j0ycK6s_HCGhiFaoTigHw9sTVn.eyy1YXo4tuuOqd9cQ7OjnOrTxRuBinDOLCH9eKzvCdLQmT
+ qOIFpEwoX_r9EfivEdS88HRK6EWNAt.iC4BLmQXh4RkNDDyWQwSPzhHx7EoX85u20gE9Twu7BQYx
+ 7Lfme.B8Vk84WodLZ96uN6KCQOLZgZbGoDdGidDyc2Hbl__v2vuqJfQooRfP6YPRcsbGadlOYU75
+ djQNZrj22g8ISAA1_2nAXk3.HaxK2CF4294RfrE6MALxpUor7qee9qgh0B0_yJck36XZGMBXqvW1
+ qqHzSpTMqMWavfFxljlr1GY16QXBV_BfKsD_PDi4Wt_29O7R_p0ddH0wO2WQlDLCO8_dXwXtbMyR
+ urgwQJTF1VEMXq1s3ONn5ZKsLYgWMVAOJFheM4LM3tMDUPi971fAdinkkSXJR6CLQrZgb_0JWUrb
+ HwAD6tnIjUNtPoQPESRwBtj_5S3XJiQkOQyvpVpX1sS4PhpfpMREVrIMCNM8ZxEQZqgRNCLj_Ly0
+ .4A3zKCR92wurYyKGoUgi5bBeDet6P6vFJ6zG.8W4.6.eWnVKCvnBEp8jYGvFirx7DwplVk93YCZ
+ SKRlI7TDT3d1m.n4x1yafuHxenxybsUD.775xo2IH.XR7dJOXGBGhmo1U5ot7WHkmDiO0estmEM2
+ Z7mfo0EuThuBXLqGyLmqMMI_qCz5PLrcVM77K_2zvX_2z947FMawudJBVT5bCMtWxC0JBODqZSbf
+ NdG6UsDytosB3Z4IuK9eihSoDW9.mDT9_bsysVFz80re1PGkEgVz43trExh4oQU5t0sVYGZcEe2_
+ aamTasrozRtWkzT2XZZAbdSkWgcMHQnolc.8KR6gZg3S4Evjoks0_i.xCaRJVw0BgDVAWfqE74Tz
+ 6jT1rrR2V2rre5nGWuoUm6oeFoIE2yPN9KmcankarC54AQc879rTgstsn3vhX9DoA7djUPPNTiIU
+ 2JSoQsAa5CAbBe.pfIDRCCiudtfdfOmipdu5b9beQtOqs.D6gnYbbNwP1LKS_EZSW89LdshS6SSt
+ tLlfOKrlEqa3zsb4esU6_PBAcEB_GefKauVTw16O_BzvXBnPZyw3YgaoO7HckqmjGvpQ94dOaBey
+ ubaC2V1UfbnZ_RMzITpgwVx_Vl_oE7QRehElAGTemOVxSM0Gc3nznZcFPHYlQxQFPVBovd_U5k9i
+ MFCyPR3dK08L_1_Iu4Mh83Yxi8_QDyn.mOkpRNfS9IRmS2Mwhp0ryorLkckycLKrbKrOHyPP8.xQ
+ 4tr7ZPFWpxjwrDDeCe2.G2R3vhgdYJtpO8wPQKxOP0qaO7Q3Tbl0J9xvaMzlW9_eEZNcR4GFPWoE
+ v6fvRTFLHDmKHyoAxf_e5YPdmFROo04noeBARXuqxX6qgbgurAqdLKhRj.qb5.ie77pKvlvQFdbI
+ zFMH5dIdnKEM.Qo5OTHlyEuGVis0LutoEBgylrbfSwnT0sE.7BBeZ0rQttBnAm2prlv7vPIJOTvl
+ 7xx2uwr91mflktSMhoJLYv3y_uHsTfJA.AR.XI.GM7zSkb.jDeN4RK5DKMWSUz4_SB6BOVCFGJ8M
+ MwQCpZ6QaBgUwkiTq98p0IepczV2MIbseHdQtU0bDEljF6d0P4_.ZSXSadwEOgRjvay3zbeyxXmX
+ oT9ELtB1kAFD8W7r4VmlteBe9VbSWb8fr_DK0gD2UoobJreMs723gn04AJV73Q3BIlkf5eC.5.j1
+ .ZLLHZpm6HDfKAmrv1QtWKd8w63BAQkCrxABaFC_X78ZgvP5VK3zk2KNBDf5fQcJOLQ1mOZPRPU2
+ gc9bx1R4ZGOWL6r6OiXvQk8iZ1w27EWn14jDxrwP3G55EAohYy6qsa6Zukyqg46NtOZs9uSgu9dI
+ H0Dng.0lm97UmIqWMJc3rd5ebZWVBVeJqiI3A9.q0wjHiRPPUEt6uIUNnMXT2wj2jOwGTHLpbN_j
+ O97V2Z5rDL3SH6ic_dzhUunDTK3v2X0tAEbzkgMQO5uYsIBVXmTL51qichF1ihLtWHLAG85mGFwH
+ DgTMIqtmkWWIAQl9BDi_sEG9NdVX3pCf822B65WdRsGa3i7tZnr3Ht15nTToAMfIOh4i4PbGHfU6
+ K0tLbvk4VQ1sKALp07PXM_9IbRFRR_5Zm_QKO
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: 7e22caf9-8a70-44d1-8f9b-0f54ff548b6d
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.ir2.yahoo.com with HTTP; Fri, 20 Mar 2026 10:07:44 +0000
+Received: by hermes--production-ir2-bbcfb4457-64r94 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID e61386a833cc93dd4a6266e626ebee5b;
+          Fri, 20 Mar 2026 10:07:40 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Fri, 20 Mar 2026 11:07:37 +0100
+Subject: [PATCH v2] staging: media: av7110: remove print_time() dead code
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260315-x1e-csi2-phy-v4-0-90c09203888d@linaro.org>
- <20260315-x1e-csi2-phy-v4-2-90c09203888d@linaro.org>
- <3f11de22-b729-4d06-b6c8-18e649e1979c@linaro.org>
- <80ddc2b4-d6f8-4e8d-a45e-69c05d100aa2@linaro.org>
- <16b10f17-ecd3-4cdd-ac3f-f64127d60ace@linaro.org>
- <ulenfus552ggobis4gmi7eh27tikdaxbgm2oj63b5l2vemlfxc@ib5f2xaqurj6>
- <26XTdUyQTB41Oc4D5HnMtSm_QpZRjlkljQRJVw-u1Zp3Ltn9s4LVU-LQkP6drdl3Z3GGssLCCbsVYPFEqssHcQ==@protonmail.internalid>
- <65e06b2e-eeb9-45af-97ac-4ae60f652361@linaro.org>
- <9578400d-30ac-4d8c-9295-ee4ec8af3b2c@kernel.org>
- <d6616fc0-75fb-47e2-96cd-ae81fa1a8e82@linaro.org>
- <f3c62284-ac78-42c6-a4f0-cd984b7124cd@linaro.org>
- <oULvLfFEPeTlWNrZF9lVwMEK-bN53nncdYFGaOgjvBQAtxaUS_SrfFhorc49TcxiPQK3CIOk46vbnkXZQ24Nfg==@protonmail.internalid>
- <5b23408d-c996-4785-8294-233d79168a1b@linaro.org>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-In-Reply-To: <5b23408d-c996-4785-8294-233d79168a1b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260320-av7110-remove-print-time-v2-1-e22377a07bdc@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQ6CMBBFr0Jm7ZiZopS48h6GRYODTCKUtE0jI
+ dzdyglcvpf89zeIElQi3KoNgmSN6ucC5lRBP7r5JajPwmDINFQbQpctM2GQyWfBJeicMOkk2Nq
+ 6Zul7HpoGynwJMujnSD+6wqPG5MN6PGX+2T+imZGRrhcyprVkW3df3ej9eXlDt+/7Fxp5yzi/A
+ AAA
+X-Change-ID: 20260320-av7110-remove-print-time-87331ecc1f66
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774001259; l=2217;
+ i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
+ bh=ROVMc5JAIuwNqc0jKHs2FtstWuWT4dPv5nT1PlG1vp8=;
+ b=tfJwB3weaEBA1PkVWQgILpnNeXE5Y3fIujPY5UAdgvm96p6aqh7A/ECWNoBqPR/O90x+4MqxG
+ fWyDRm0kBepAUZaumvhOuO7in2iZ8fHj0HLnpV92SSMkBqs7Bc0rVGq
+X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
+ pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
+References: <20260320-av7110-remove-print-time-v2-1-e22377a07bdc.ref@yahoo.pl>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[yahoo.pl,reject];
+	R_DKIM_ALLOW(-0.20)[yahoo.pl:s=s2048];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56507-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,yahoo.pl];
+	TAGGED_FROM(0.00)[bounces-56508-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_FROM(0.00)[yahoo.pl];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[yahoo.pl:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[tomasz.unger@yahoo.pl,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.983];
+	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 564812D8608
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,yahoo.pl:dkim,yahoo.pl:email,yahoo.pl:mid]
+X-Rspamd-Queue-Id: 97C342D8860
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 20/03/2026 00:37, Vladimir Zapolskiy wrote:
-> On 3/19/26 17:18, Bryan O'Donoghue wrote:
->> On 19/03/2026 14:56, Vladimir Zapolskiy wrote:
->>>> There's no reason to remove that from CAMSS - it would be an ABI break
->>>> in user-space anyway.
->>> If technically CAMSS CSIPHY could be excluded from the list of CAMSS media
->>> subdevices, then for the sake of simplification it should be done for all
->>> supported platforms in advance, such a change will be independent from this
->>> particular phy series, and vice versa, this CAMSS only driver change will
->>> prepare a ground for media-less CAMSS CSIPHY device drivers, hence it shall
->>> precede this particular CAMSS CSIPHY series.
->>>
->>> For backward compatibility with userspace a noop stub will be good enough,
->>> it's not an issue at all.
->> The standalone PHY driver doesn't require removing the CSIPHY media
->> entity from CAMSS. They serve different purposes and coexist - its
->> important to have a NOP from user-space perspective for legacy and
->> indeed for new implementations.
->>
-> There should be no two CAMSS CSIPHY device (or subdevice) drivers, where
-> one chop of CAMSS CSIPHY device driver remains to sit under media, and
-> another one is under phy subsystem, since it's a further degradation from
-> the current already pretty awful state of the CAMSS driver, but at least
-> CSIPHY is not scattered over different subsystems today.
-> 
-> It might be fine to move device driver parts related to CAMSS CSIPHY
-> driver from media subsystem to phy subsystem, however if only a partial
-> transition is planned, and CSIPHY device support is split into two device
-> (sub-)drivers, then it merely exposes a quite severe design flaw.
+The DEBUG_TIMING macro is commented out and can never be defined,
+making the print_time() function body always empty. Remove the
+commented-out macro, the unused function definition and all its
+call sites as they serve no purpose.
 
-It's not two drivers for the same device. It's two layers:
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+---
+Changes in v2:
+- Remove extra blank line after deleted print_time() call (Dan Carpenter)
+- Link to v1: https://lore.kernel.org/r/20260320-av7110-remove-print-time-v1-1-05402287078a@yahoo.pl
+---
+ drivers/staging/media/av7110/av7110.c | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-- The media entity in CAMSS is a pipeline routing abstraction.
-   It validates formats and connects pads. It does not program
-   CSIPHY hardware directly.
-
-- The PHY driver programs the hardware — registers, clocks,
-   regulators, power domains.
-
-This is the same layering as rkisp1 (media pipeline) +
-phy-rockchip-inno-csidphy (electrical config). The ISP's media
-entities and the standalone PHY coexist in different subsystems
-without conflict.
-
-No CSIPHY functionality is duplicated across subsystems. This segmenting 
-of concepts and functionality isn't even unique. We see this constantly 
-with USB (where the MAC lives in drivers/usb/ and the electricals in 
-drivers/phy/) and Display/DSI.
-
-
-> It looks like it's still undecided, if CAMSS CSIPHY IP is a phy or media
-> device, it can not be both at the same time.
-
-We are maintaining the existing user-space setup which presents a 
-msm_csiphyX v4l2-media device, whilst moving the PHY component out into 
-drivers/phy where it belongs - completely transparently to user-space. 
-So we already have a dependency in user-space which needs to be maintained.
-
-The concrete hardware benefits, as I alluded to Neil, are:
-
-- Per-PHY voltage rails
-- Per-PHY power domains
-- Per-PHY operating points (OPPs)
-
-Those are real-world hardware fixes which "just work" as a result of 
-dedicated device nodes and a driver specifically written to relieve the 
-technical debt we've been accruing with the existing model, for years.
-
-Having been educated - brought to the realisation on OPPS, Power-domains 
-and yes voltage rails it is amazing to me this whole legacy system 
-hasn't exploded before now but, its certainly way past time to fix it.
-
-We should proceed with moving init sequences, voltages, PDs and OPPs to 
-drivers/phy.
-
-I'm happy to have a debate about the status of the PHY media device 
-after, however I have to say I'm skeptical about removing the media 
-device - something we could do whether the init sequences live in 
-drivers/media/qcom/camss or in drivers/phy BTW - I'm skeptical about 
-removing that v4l2 node specifically because we've had it in user-space 
-for a long time and I do therefore think that constitutes an ABI.
-
-As I've said already though `rm -rf /dev/v4l2-subdev::msm_csiphy*" is 
-basically an entirely separate debate.
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+index 607992100baf..0648bce4bf84 100644
+--- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -314,17 +314,6 @@ static int DvbDmxFilterCallback(u8 *buffer1, size_t buffer1_len,
+ 	}
+ }
+ 
+-//#define DEBUG_TIMING
+-static inline void print_time(char *s)
+-{
+-#ifdef DEBUG_TIMING
+-	struct timespec64 ts;
+-
+-	ktime_get_real_ts64(&ts);
+-	pr_info("%s(): %ptSp\n", s, &ts);
+-#endif
+-}
+-
+ #define DEBI_READ 0
+ #define DEBI_WRITE 1
+ static inline void start_debi_dma(struct av7110 *av7110, int dir,
+@@ -353,7 +342,6 @@ static void debiirq(struct tasklet_struct *t)
+ 	int handle = (type >> 8) & 0x1f;
+ 	unsigned int xfer = 0;
+ 
+-	print_time("debi");
+ 	dprintk(4, "type 0x%04x\n", type);
+ 
+ 	if (type == -1) {
+@@ -473,7 +461,6 @@ static void gpioirq(struct tasklet_struct *t)
+ 	txbuf = irdebi(av7110, DEBINOSWAP, TX_BUFF, 0, 2);
+ 	len = (av7110->debilen + 3) & ~3;
+ 
+-	print_time("gpio");
+ 	dprintk(8, "GPIO0 irq 0x%04x %d\n", av7110->debitype, av7110->debilen);
+ 
+ 	switch (av7110->debitype & 0xff) {
+@@ -2785,8 +2772,6 @@ static void av7110_irq(struct saa7146_dev *dev, u32 *isr)
+ {
+ 	struct av7110 *av7110 = dev->ext_priv;
+ 
+-	//print_time("av7110_irq");
+-
+ 	/* Note: Don't try to handle the DEBI error irq (MASK_18), in
+ 	 * intel mode the timeout is asserted all the time...
+ 	 */
 
 ---
-bod
+base-commit: 82e1c68ac206efe42854296c462aa83f541ea22c
+change-id: 20260320-av7110-remove-print-time-87331ecc1f66
+
+Best regards,
+-- 
+Tomasz Unger <tomasz.unger@yahoo.pl>
+
 
