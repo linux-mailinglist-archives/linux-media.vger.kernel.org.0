@@ -1,365 +1,283 @@
-Return-Path: <linux-media+bounces-56439-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56440-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aFITLeydvGke1gIAu9opvQ
-	(envelope-from <linux-media+bounces-56439-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 02:07:56 +0100
+	id eOENOZOhvGnZ1gIAu9opvQ
+	(envelope-from <linux-media+bounces-56440-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 02:23:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BC22D4930
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 02:07:56 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC922D4A11
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 02:23:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D354C30242A5
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:07:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CA86C30BBEBA
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:23:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0AF8274FFD;
-	Fri, 20 Mar 2026 01:07:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60E0F2BEFE8;
+	Fri, 20 Mar 2026 01:23:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XVo8sKy2"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="Ha7vWcj7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from SEVP216CU002.outbound.protection.outlook.com (mail-koreacentralazon11022130.outbound.protection.outlook.com [40.107.43.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB5840DFC2
-	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 01:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773968873; cv=none; b=WNsO/7vwT6SNPzTP480DijFWwQv6TVDMlZM9N3gH7WXZR764GjNZHnIaL36purY8WELI2MQ3ugTrC88f3AovdpFSh80AmTfo6ATbLpS4xXe5LBj40Tq6cSxFuZ7e7yvAzM7frHiwqD5Gjpufl5kg8h7li7CNRFlFwGt87lU9A2s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773968873; c=relaxed/simple;
-	bh=Tf1fEQNVoBVEm1CPl6hBtY3oOd/nH2dauORRE2aTPoo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vfvjz7Yf5VGuq+imugmNLwaNNJq/MiocVQhVTdIc3G2Ky+wsQjG4qFKh0q/8Agm43e7eFyVSd+f4Rtr5uyy3cbQPHhdB11xvOJfHI13rkhAjY4l12Ks7/k4p1Y5QEWpIPPxq0s77sjTlje/XZtuMkDLfrtnbdWquWGDe3CeMcM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XVo8sKy2; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8E4E08D4;
-	Fri, 20 Mar 2026 02:06:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773968795;
-	bh=Tf1fEQNVoBVEm1CPl6hBtY3oOd/nH2dauORRE2aTPoo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XVo8sKy2F61ZFHhloef19wCtPesp6PbxQLWVDU9LI9Rj2n93RSYGA7eGcWlEuUF7Y
-	 f6PbtbucavyLBWhlyQDhFT2XgR+ZZsDIp0G5g7sqNCnPUh4BVCS0MmbSZSk1akKcDE
-	 3ORq2IVJd2ypsX2Qvp7niCkmQTlDs+0mjenY8MNE=
-Date: Fri, 20 Mar 2026 03:07:47 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
-	Hans de Goede <hansg@kernel.org>, linux-media@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: Linux 7.0-rc4: v4l2src0:src: page allocation failure - increased
- memory usage in 7.0?
-Message-ID: <20260320010747.GF950244@killaraus.ideasonboard.com>
-References: <abtAylIlW3I8s1T-@mail-itl>
- <CANiDSCvqt574XbMAz0qUunu7xDY=oScL+sx533X6ke=fcEdr+g@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317BB2BE034;
+	Fri, 20 Mar 2026 01:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.43.130
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773969796; cv=fail; b=DJNRlLNLJKJvqgkNtX166rH6aHlNTrrj1lfp/6JHiOk4PZ0MobGr1prIlEvymgu5nuhnTtpyNod/tEDnkKq2VHX8eVrM8+FB8ApV3nc0/ruxGiUktNE4X/dt0+iDykj83VO4mT6id4SNsAR1R5aYlH8VqtwTKrpHjoRB4NIG8fw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773969796; c=relaxed/simple;
+	bh=2x5xiBMKWGnBo3yzmvkQg48IC8x2Ttbi8GjtxaQ74GE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=o2bXqs3TsYaWJO3uTT8F1UpQfrsxk+9Tq8eq13c1QZYMGzcCc9MZpClbDkkdVRhvMlzLiSUpP1hC9VRQzZCaWShiNrVC4M5tLlJUEuf/By1sUafJwwbrAthhrzs5oDq22gNNm0ICNq2rUjcDUY6RHhVsb40SYzexkRKiiJoHfZQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=Ha7vWcj7; arc=fail smtp.client-ip=40.107.43.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MCTbYDYyKX+D88CrcWjs78HeOmFEa/AYxbobyIQSReOvs6CEeqSvyaz1GfGmPUWTz1l58bKOL606/I8UoaQQ3IB30SZU5Lp12mzu/H4pHFEBnXYI83EwAUZH1qXo7/hzLtIL9wELIdnDPHyccSHFF60npVFbr+EY0jKX9W7Zdmx8jIWlYC0iPIRrdM5bo7XlQ6hPRZenk5yGaGTRFrbeW+L0wdL2RuVzfplBbCdX+Q5pfMLtZIL2dbZt4/aBcLpAujvnkDlTgW4nVd5jbPxV9vaYkrwAWz/vwCWbN26w4Ki5/T+jKGu2dqJlmI/5yDXLOFxXPGiI5++BTA01sFMjPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2x5xiBMKWGnBo3yzmvkQg48IC8x2Ttbi8GjtxaQ74GE=;
+ b=tilh7UxtWL6WT60VB3Vy9FxoKQEyAfWgTbXDhkbnE9rjs79feC3J/BmmPVRtJ7IOYM4xs9Mi4SZCE3ip7HbatSr4fgzOwq/CUmllqdH4Z3Ynro/molrF0oH6HE5/zrT0SY9uHWBZzhpRPXowuo4zLZXbjPAt70odgx4WC6NxF2sRP+BpJR81lwc15g821xoAsEw/voYPIeIhydkEB/eEHxhZfRZfdkPeMpSY3ruMBz4Y7OD+/quCdQeYrok4JJzuAvF84PyhcfB0EUWhh2Akszxxi0tIoR5XwC3MHQRIA/O8a1u1A5IpMmCfOxpgeZP1q90I7VOIVffNDK8fpI/zcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2x5xiBMKWGnBo3yzmvkQg48IC8x2Ttbi8GjtxaQ74GE=;
+ b=Ha7vWcj78nTSQ1mx0/3g2G2aImFfXrY9j+ayxtDrtp36a/6o6ygeNQNKFo9VbXvkjO1KK9ycNY1PGZUZKOUYVcTRfuW2H473LHo576ph6MOJYX1TogbhXStalxyonMWM/hbw3kgeacSSd48J0guYgvmKSXWQv5du7uCdfF4plgE=
+Received: from PU4P216MB1149.KORP216.PROD.OUTLOOK.COM (2603:1096:301:72::14)
+ by PU4P216MB2290.KORP216.PROD.OUTLOOK.COM (2603:1096:301:131::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.22; Fri, 20 Mar
+ 2026 01:23:10 +0000
+Received: from PU4P216MB1149.KORP216.PROD.OUTLOOK.COM
+ ([fe80::31e3:e5:b0a4:2f2f]) by PU4P216MB1149.KORP216.PROD.OUTLOOK.COM
+ ([fe80::31e3:e5:b0a4:2f2f%4]) with mapi id 15.20.9723.018; Fri, 20 Mar 2026
+ 01:23:09 +0000
+From: jackson.lee <jackson.lee@chipsnmedia.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>, "mchehab@kernel.org"
+	<mchehab@kernel.org>, "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+	"bob.beckett@collabora.com" <bob.beckett@collabora.com>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, lafley.kim
+	<lafley.kim@chipsnmedia.com>, "b-brnich@ti.com" <b-brnich@ti.com>,
+	"hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, Nas Chung
+	<nas.chung@chipsnmedia.com>
+Subject: RE: [PATCH v0 2/3] media: chips-media: wave5: Support CBP profile
+Thread-Topic: [PATCH v0 2/3] media: chips-media: wave5: Support CBP profile
+Thread-Index: AQHct2HB8OoboXpSEUad+EELARE8Y7W1yj4AgADXAtA=
+Date: Fri, 20 Mar 2026 01:23:09 +0000
+Message-ID:
+ <PU4P216MB11491F8F792A075D77749805ED4CA@PU4P216MB1149.KORP216.PROD.OUTLOOK.COM>
+References: <20260319053210.90-1-jackson.lee@chipsnmedia.com>
+	 <20260319053210.90-3-jackson.lee@chipsnmedia.com>
+ <5d1cf57fcfa10d224b05f6f1fe5bb33979dce750.camel@collabora.com>
+In-Reply-To: <5d1cf57fcfa10d224b05f6f1fe5bb33979dce750.camel@collabora.com>
+Accept-Language: ko-KR, en-US
+Content-Language: ko-KR
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PU4P216MB1149:EE_|PU4P216MB2290:EE_
+x-ms-office365-filtering-correlation-id: acf62ede-c784-458e-e3ac-08de861f3f37
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|1800799024|38070700021|18002099003|22082099003|56012099003;
+x-microsoft-antispam-message-info:
+ cyLFuTi8GlC8LlhL63H6iiie5Vpmxf48NBqMnc6kGwWVgw8Y/kp/tkVzZ0pjzGBiLGY6zhMphmrKNGVuS6dxpSrdzZ6e0+aXdyTsQIAghn71LGP+63qNh4iwN/MvD5Urjfmw+LZwYPRpBRAtXxsqZrKbw7QSAgbuZz9XtBTF/3Ol6vjjUhTIlF8Tv9hroZWQOAsrZCQaPRN2QlhcMvFfk+T+R6FYbl/F+GCMqx8Rn00G9yWGqQIiFgE+Dx66F/sK10z+HWlwxlD+/oL4RJXs8XSyFuKgTWcjGMm0XSSmLqBY0ODp/h3BJcZX6IYoRn1BSBDhFt/9RgYRP4WXedrVgm6ffC7pEtcsG6/uIvfz0RGTcmMNuCN4dQ+Smuad4MHPfd90bQEYvlVHn4PlgFEnpgU4M6BNkn/LDOnjHBkoXAIL+OYdfcelOe3FILsE/CnP63QczFmviHxzkMYm5jsVFNJn4grUtymkaWlO7ylDklUhuFBpYzym6UNqQQej6Ou2HYnoQMq9yBaWJjbniEC9i9RDhCs6sqpCwoIhpbPFpluvBBvne7GxWrL8jyb2YKisBbQJ1hHAdYw3ecbZx3Va8MMPlIoNZCfh+EbuUCMV3F/ArDUA9UZXpQPi4nYjAF0FDN/J0gjrjTtS7hM3f3PO66JI6i5JLcCdMuyr6n1skVG62bE//cEKPCHTMSCUIDJlmyw6B5L1yn/LirE3LpiH1t4chYN1wMcgfJNwHzCnE7I7+pUmE44/o04pOBUOP6/qrL9ohakd5+Py1Q0QKcQ71bjOUNwjxe7o0kWlW9vEvWE=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:ko;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PU4P216MB1149.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?MEtPN002VGdhZ0lJVC9oTkJGbXh3NHYvNE0vT0ZyN2M3ZlVHQXJSNjNqelVz?=
+ =?utf-8?B?L3luVmFUNUJMSWVndjVQMWZ2bFNXUE1Yckl1RjFQd2ZKUW5yVGdpT1NhL3VQ?=
+ =?utf-8?B?c0xualRFbmxQdnFib3R1TDQ1ODFWakU1S1lIWHVTUWtBUHRaUDVWcDI1SlZG?=
+ =?utf-8?B?aXAzamhPSXRpWkdnb0V3c083RFJHajhYakJmck1FZlFiRTFsNHhGNjd0TWNV?=
+ =?utf-8?B?bHZWQktBKzlyUm5Od2N3R2hlVGl3cnV2TzZPMHFQWmhtajBWdmZaSyt3dTZX?=
+ =?utf-8?B?L1ZDNjJuL3JSWmpNRVpWdnZCR1VURE90UVU1RWpMVW5CeWk1VXlFZXorNlV1?=
+ =?utf-8?B?MUd6UVJqNVpqSko5K0RnKzNCT3pIL2lyUTNsZklwNFBHRnJJQ2ZPQVQrcmdx?=
+ =?utf-8?B?cDBGMnpxSEtJWDlGdE5TV2FJODZOZDVBbExhOTZseHZZMnZwQThJclFvdG80?=
+ =?utf-8?B?ejBGc1IvRGJ0N2QrQ2IyS1I4T3pvNk13Y0k4TVBSb1locWJZZFErd2xjVkpj?=
+ =?utf-8?B?Y1dOSEhBVjhXY2w2MGRDM2U0aU9WdEZqblF1UGhlV29vMHhiRi8rK3Bqb0t2?=
+ =?utf-8?B?V00vQU04ejJwUmhRL1Q1eU5PMzR6OU9pMDFFbXhUZjBTaVVISFNUc1YyLzZX?=
+ =?utf-8?B?aW9PcThocCtncysrT01hanFmNHNmaWlEU0tuemhSVEdqczVNZ3hHSlVDS1ZH?=
+ =?utf-8?B?M3N6bW94a3VxYjFSZHNMbFN6N1lHQUppMnhzS2h3YVlBSXBocGlFVDJncGVq?=
+ =?utf-8?B?K3ZhYTNQQ2dXR0lBaHg5MDQ5YlI5eWgwMUZkSmY5a1F6aGc3TTkvbWFrNCtw?=
+ =?utf-8?B?RTRsVWtzWThHVTM3NU5OUnc2Tmh5RHE4bi9ocHNaMkRsck13eEREREhUZW5H?=
+ =?utf-8?B?K1ZGTFN0bEhvR0hyUzYrVlUwcDIrZHJLNW1La1c0QmxSQTkxY3F0ai9FS2Nq?=
+ =?utf-8?B?bHYxaGwzQ1FPcDZNTDR0UVFWM1VuOEdMazFyd0dGYm5LMWVvbGxMd2wwUkxY?=
+ =?utf-8?B?bTdFajBOK2lRVXVmbWJrOVI4NHJ0YU9pZithbmpLVDNvVFZTNVR0T2RtS3Br?=
+ =?utf-8?B?YlhPRzFBVWp2WmJzbEpUdmF1MHhtQTVtRW16K29uVFlzRng4c0RXYVpLb2pG?=
+ =?utf-8?B?RGc0Zk50cnR0ZUhOWncvUUUvVnkrazkvdFlnMmk1L0ZhQjZNVk5KU1VPbVZx?=
+ =?utf-8?B?V3FQY01OMFFidzJWeGZtT0JtSENWdnlZTGkxUzlhN1YzN1lGRE1iRXBnbVds?=
+ =?utf-8?B?b25CS3NUai9scWRCeWIxMUZ5ZUdoZDN5Sm9DeU5sd2ZscWJLczNHK1J2K2ti?=
+ =?utf-8?B?aG50b1lsMG8zZERQejhXWVlOTk1PdHBURDFHbHowaVYxdWl6aUQ0d0lXQ0xt?=
+ =?utf-8?B?WVRZdWFpN3cwbm5zSHdhVXJBeXdES3g0TXkxK3ZIbGViUjVFRUd0emlyR2VC?=
+ =?utf-8?B?cjdnVDBGelM5V2QvN1NJNWFrc1NTOWhZTURJYWJWc1hnVjRPbDhWWE1NYy90?=
+ =?utf-8?B?bWdRSlBiUzBFZlRsSWNYR2p1WmRxUXozWHZpRExRRmhsN1dMWTBwQ3V6V2s4?=
+ =?utf-8?B?b1ZrcUtWbzFJRHg4Qmp5NXpjY2Z5dDRueWVsTWJlTWhrTFlVVTE5eWdXcmxB?=
+ =?utf-8?B?MHR5VjhQK29tdXF5Rm92VVAveURCWVo1QkJrdHdLcEVKelcrcWpiUWNaYVFq?=
+ =?utf-8?B?UEpKa1FQOUZQR1BFUHJrREtEdVV0bzluQjFuVWxaVWRFeERRakIweGhERFRY?=
+ =?utf-8?B?aFV4OU9tWDh6NFRzOS9QdnU3WThCcGRhdzlSZUx4NUVDTytLSFhTbDJoZFIw?=
+ =?utf-8?B?RUE1OUZ0V2FDa1diQ2RkaGpGUm1OdFQrMHpwbG9qUXB1MTFGM2xvYmRPS2JF?=
+ =?utf-8?B?dnEzVjJkdmpkb0cwbENCeCtadGVsMkFPeW1XNWloU29JNnZyYzIxMXNPNy8r?=
+ =?utf-8?B?bnp0ZnhkQ3l3c1FCMUl3T2xFN1Z5YVl5Q0ZiSUF3QnRjQmphN3JtbUg3ZGI4?=
+ =?utf-8?B?NVR4dHAyTFdKMDZDUGkxamxLSGxCRDJaeUhtMXEvMFoxaFoxSzVIWTZDZEk5?=
+ =?utf-8?B?YllCMXlTS3VYUmRWbm5ESGtuM3pWcjNydmhVN0ZmUUtROWl1emJMRXQzaXNX?=
+ =?utf-8?B?UXErMVpnc2N2OWlTYjdnbUQ5TnBoMDBoWjdNMEdxRmxoV3VzcmxoUDdNVzBx?=
+ =?utf-8?B?TDVMUVRyLzRKYW5aaS8rRzBxVWFOdWFiaExpckh6SzJ4OTVtc2JXNzlHemlw?=
+ =?utf-8?B?N0JLdE4wek1pVnNyaVdlTUUrRDBtWU9yZG82aXlGd0kyWHhPOWN2eXdzT0xk?=
+ =?utf-8?B?ejg1cG1SakoxY0pWcjBQaFJlYjRWV1ZFeTEwQ2JGZXluaklhUzZLZz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiDSCvqt574XbMAz0qUunu7xDY=oScL+sx533X6ke=fcEdr+g@mail.gmail.com>
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PU4P216MB1149.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: acf62ede-c784-458e-e3ac-08de861f3f37
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Mar 2026 01:23:09.5738
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: i8e7bQslWnnlj1eojMLcQdjVpmQDalIdRjLAfGHd0nZzba5f9AO6z1AkP6JH96RdnIf0yUfs+vrfPgtiXRk6s+XqnU4MImYcephX/9wk1u4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU4P216MB2290
+X-Spamd-Result: default: False [0.44 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[chipsnmedia.com:s=selector1];
 	MAILLIST(-0.15)[generic];
+	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-56440-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56439-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[collabora.com,kernel.org,xs4all.nl];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DMARC_NA(0.00)[chipsnmedia.com];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,chipsnmedia.com,ti.com,xs4all.nl];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.993];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jackson.lee@chipsnmedia.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[chipsnmedia.com:+];
+	NEURAL_HAM(-0.00)[-0.927];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[killaraus.ideasonboard.com:mid,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 30BC22D4930
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[xs4all.nl:email,lafley.kim:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ti.com:email,collabora.com:email]
+X-Rspamd-Queue-Id: 4AC922D4A11
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Ricardo,
-
-On Thu, Mar 19, 2026 at 11:19:38AM +0100, Ricardo Ribalda wrote:
-> On Thu, 19 Mar 2026 at 01:18, Marek Marczykowski-Górecki wrote:
-> > Hello,
-> >
-> > When testing 7.0-rc4 (and also got it with 7.0-rc1), I got page
-> > allocation failure in uvcvideo when using v4l2 camera in a VM. The setup
-> > is rather memory constrained - it's a HVM with just 300MB of memory
-> > running on Xen, with PCI passthrough of USB controllers (to which an USB
-> > camera is connected). But the very same setup works just fine with older
-> > kernel (last known good is 6.19.5, built with the same config).
-> >
-> > I'm not exactly sure if uvcvideo is really to blame here, or is it just
-> > a victim of something else using more memory. Any advice how to check
-> > for that?
-> 
-> I have looked at at:
-> git diff v6.19..linus/master drivers/media/usb/uvc/
-> 
-> And I have not found anything that indicate me that we allocate more
-> memory or we allocate it differently.
-> 
-> > The specific error is:
-> >
-> >     [  739.040844] systemd-journald[251]: Under memory pressure, flushing caches.
-> >     [  739.193589] v4l2src0:src: page allocation failure: order:5, mode:0xcc4(GFP_KERNEL|GFP_DMA32), nodemask=(null),cpuset=/,mems_allowed=0
-> >     [  739.193645] CPU: 0 UID: 1000 PID: 1305 Comm: v4l2src0:src Not tainted 7.0.0-0.rc4.1.qubes.1001.fc41.x86_64 #1 PREEMPT(full)
-> >     [  739.193648] Hardware name: Xen HVM domU, BIOS 4.19.4 03/17/2026
-> >     [  739.193649] Call Trace:
-> >     [  739.193652]  <TASK>
-> >     [  739.193656]  dump_stack_lvl+0x5d/0x80
-> >     [  739.193661]  warn_alloc+0x162/0x190
-> >     [  739.193665]  ? __alloc_pages_direct_compact+0x1bc/0x220
-> >     [  739.193669]  __alloc_pages_slowpath.constprop.0+0x4ea/0xb30
-> >     [  739.193672]  ? kernfs_activate+0x4c/0x60
-> >     [  739.193676]  __alloc_frozen_pages_noprof+0x2ff/0x340
-> >     [  739.193679]  __alloc_pages_noprof+0xe/0x20
-> >     [  739.193682]  __dma_direct_alloc_pages.isra.0+0x183/0x310
-> >     [  739.193688]  dma_direct_alloc_pages+0x3f/0x190
-> >     [  739.193693]  dma_alloc_noncontiguous+0xdd/0x290
-> >     [  739.193698]  ? usb_create_ep_devs+0xab/0x100
-> >     [  739.193701]  usb_alloc_noncoherent+0x45/0xa0
-> >     [  739.193709]  uvc_alloc_urb_buffers.part.0+0x93/0x130 [uvcvideo]
-> >     [  739.193722]  uvc_video_start_transfer+0x19d/0x4e0 [uvcvideo]
-> >     [  739.193735]  uvc_video_start_streaming+0xab/0x100 [uvcvideo]
-> >     [  739.193744]  uvc_start_streaming_video+0xec/0x110 [uvcvideo]
-> >     [  739.193752]  vb2_start_streaming+0x63/0x130 [videobuf2_common]
-> >     [  739.193761]  vb2_core_streamon+0x98/0xf0 [videobuf2_common]
-> >     [  739.193767]  ? vb2_ioctl_streamon+0x15/0x60 [videobuf2_v4l2]
-> >     [  739.193773]  __video_do_ioctl+0x419/0x540 [videodev]
-> >     [  739.193799]  video_usercopy+0x23b/0x630 [videodev]
-> >     [  739.193819]  ? __pfx___video_do_ioctl+0x10/0x10 [videodev]
-> >     [  739.193836]  v4l2_ioctl+0x6b/0xa0 [videodev]
-> >     [  739.193851]  __x64_sys_ioctl+0x96/0xe0
-> >     [  739.193855]  do_syscall_64+0x120/0x6c0
-> >     [  739.193859]  ? do_read_fault+0xf5/0x220
-> >     [  739.193863]  ? do_fault+0x148/0x270
-> >     [  739.193865]  ? __handle_mm_fault+0x470/0x6c0
-> >     [  739.193868]  ? count_memcg_events+0xeb/0x1b0
-> >     [  739.193871]  ? handle_mm_fault+0x220/0x340
-> >     [  739.193873]  ? do_user_addr_fault+0x1e5/0x7f0
-> >     [  739.193876]  ? arch_exit_to_user_mode_prepare.isra.0+0x9f/0xe0
-> >     [  739.193880]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> >     [  739.193883] RIP: 0033:0x738e787000ed
-> >     [  739.193886] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
-> >     [  739.193888] RSP: 002b:0000738e730e6a00 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> >     [  739.193890] RAX: ffffffffffffffda RBX: 0000738e64008850 RCX: 0000738e787000ed
-> >     [  739.193892] RDX: 000059d3df721cf0 RSI: 0000000040045612 RDI: 0000000000000010
-> >     [  739.193893] RBP: 0000738e730e6a50 R08: 0000738e6400ae40 R09: 0000000000000000
-> >     [  739.193894] R10: 0000738e6400ae30 R11: 0000000000000246 R12: 0000000000000000
-> >     [  739.193895] R13: 0000738e640012d0 R14: 0000738e64008850 R15: 0000000000000002
-> >     [  739.193897]  </TASK>
-> >     [  739.193907] Mem-Info:
-> >     [  739.194897] active_anon:362 inactive_anon:3172 isolated_anon:0
-> >     [  739.194897]  active_file:2498 inactive_file:11687 isolated_file:1
-> >     [  739.194897]  unevictable:0 dirty:0 writeback:4
-> >     [  739.194897]  slab_reclaimable:3707 slab_unreclaimable:10022
-> >     [  739.194897]  mapped:4710 shmem:9 pagetables:1021
-> >     [  739.194897]  sec_pagetables:0 bounce:0
-> >     [  739.194897]  kernel_misc_reclaimable:0
-> >     [  739.194897]  free:3452 free_pcp:1 free_cma:0
-> >     [  739.195008] Node 0 active_anon:1448kB inactive_anon:12688kB active_file:9992kB inactive_file:46748kB unevictable:0kB isolated(anon):0kB isolated(file):4kB mapped:18840kB dirty:0kB writeback:16kB shmem:36kB shmem_thp:0kB shmem_pmdmapped:0kB anon_thp:0kB kernel_stack:2416kB pagetables:4084kB sec_pagetables:0kB all_unreclaimable? no Balloon:16384kB
-> >     [  739.195097] Node 0 DMA free:2828kB boost:0kB min:132kB low:164kB high:196kB reserved_highatomic:0KB free_highatomic:0KB active_anon:224kB inactive_anon:940kB active_file:1360kB inactive_file:2408kB unevictable:0kB writepending:0kB zspages:0kB present:15992kB managed:15360kB mlocked:0kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB
-> >     [  739.195186] lowmem_reserve[]: 0 195 195 195 195
-> >     [  739.196280] Node 0 DMA32 free:14880kB boost:3856kB min:5572kB low:6000kB high:6428kB reserved_highatomic:0KB free_highatomic:0KB active_anon:1224kB inactive_anon:11728kB active_file:8632kB inactive_file:40024kB unevictable:0kB writepending:16kB zspages:0kB present:274348kB managed:200080kB mlocked:0kB bounce:0kB free_pcp:316kB local_pcp:236kB free_cma:0kB
-> >     [  739.196372] lowmem_reserve[]: 0 0 0 0 0
-> >     [  739.196388] Node 0 DMA: 193*4kB (UM) 213*8kB (UM) 22*16kB (UM) 0*32kB 0*64kB 0*128kB 0*256kB 0*512kB 0*1024kB 0*2048kB 0*4096kB = 2828kB
-> >     [  739.196433] Node 0 DMA32: 1631*4kB (UME) 764*8kB (UME) 138*16kB (UME) 8*32kB (UM) 3*64kB (M) 1*128kB (M) 0*256kB 0*512kB 0*1024kB 0*2048kB 0*4096kB = 15420kB
-> >     [  739.196487] Node 0 hugepages_total=0 hugepages_free=0 hugepages_surp=0 hugepages_size=2048kB
-> >     [  739.196514] 14914 total pagecache pages
-> >     [  739.196527] 2073 pages in swap cache
-> >     [  739.196539] Free swap  = 961672kB
-> >     [  739.196551] Total swap = 1048572kB
-> >     [  739.196563] 72585 pages RAM
-> >     [  739.196572] 0 pages HighMem/MovableOnly
-> >     [  739.196584] 18725 pages reserved
-> >     [  739.196596] 0 pages cma reserved
-> >     [  739.196608] 0 pages hwpoisoned
-> >     [  739.196620] Memory cgroup min protection 0kB -- low protection 0kB
-> >     [  739.196627] ------------[ cut here ]------------
-> >
-> > Additionally, this failure isn't handled gracefully, it's followed with:
-> 
-> That should not happen.... Could you check if this fixes it:
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c
-> b/drivers/media/usb/uvc/uvc_video.c
-> index 40c76c051da2..f6c8e3223796 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -1751,7 +1751,8 @@ static void uvc_video_complete(struct urb *urb)
->  /*
->   * Free transfer buffers.
->   */
-> -static void uvc_free_urb_buffers(struct uvc_streaming *stream)
-> +static void uvc_free_urb_buffers(struct uvc_streaming *stream,
-> +                                unsigned int size)
->  {
->         struct usb_device *udev = stream->dev->udev;
->         struct uvc_urb *uvc_urb;
-> @@ -1760,7 +1761,7 @@ static void uvc_free_urb_buffers(struct
-> uvc_streaming *stream)
->                 if (!uvc_urb->buffer)
->                         continue;
-> 
-> -               usb_free_noncoherent(udev, stream->urb_size, uvc_urb->buffer,
-> +               usb_free_noncoherent(udev, size, uvc_urb->buffer,
->                                      uvc_stream_dir(stream), uvc_urb->sgt);
->                 uvc_urb->buffer = NULL;
->                 uvc_urb->sgt = NULL;
-> @@ -1820,7 +1821,7 @@ static int uvc_alloc_urb_buffers(struct
-> uvc_streaming *stream,
-> 
->                         if (!uvc_alloc_urb_buffer(stream, uvc_urb, urb_size,
->                                                   gfp_flags)) {
-> -                               uvc_free_urb_buffers(stream);
-> +                               uvc_free_urb_buffers(stream, urb_size);
->                                 break;
->                         }
-> 
-> @@ -1868,7 +1869,7 @@ static void uvc_video_stop_transfer(struct
-> uvc_streaming *stream,
->         }
-> 
->         if (free_buffers)
-> -               uvc_free_urb_buffers(stream);
-> +               uvc_free_urb_buffers(stream, stream->urb_size);
->  }
-> 
->  /*
-
-I'm tempted to revert commit c824345288d1 ("media: uvcvideo: Pass
-allocation size directly to uvc_alloc_urb_buffer") instead. It was
-supposeed to be a pure refactoring without any functional change, and
-adding this on top makes me feel the code is getting more complex as a
-result.
-
-> >
-> >     [  739.196672] UBSAN: shift-out-of-bounds in /builddir/build/BUILD/kernel-latest-7.0-build/kernel-latest-7.0/linux-7.0-rc4/mm/page_alloc.c:1403:22
-> >     [  739.196710] shift exponent 52 is too large for 32-bit type 'int'
-> >     [  739.196730] CPU: 1 UID: 1000 PID: 1305 Comm: v4l2src0:src Not tainted 7.0.0-0.rc4.1.qubes.1001.fc41.x86_64 #1 PREEMPT(full)
-> >     [  739.196733] Hardware name: Xen HVM domU, BIOS 4.19.4 03/17/2026
-> >     [  739.196734] Call Trace:
-> >     [  739.196737]  <TASK>
-> >     [  739.196739]  dump_stack_lvl+0x5d/0x80
-> >     [  739.196744]  ubsan_epilogue+0x5/0x2b
-> >     [  739.196746]  __ubsan_handle_shift_out_of_bounds.cold+0x61/0xe6
-> >     [  739.196749]  __free_pages_ok.cold+0x13/0xa8
-> >     [  739.196753]  dma_free_noncontiguous+0xbf/0xe0
-> >     [  739.196756]  ? usb_free_noncoherent+0x3a/0x60
-> >     [  739.196761]  uvc_free_urb_buffers+0x38/0x90 [uvcvideo]
-> >     [  739.196773]  uvc_alloc_urb_buffers.part.0+0xe6/0x130 [uvcvideo]
-> >     [  739.196781]  uvc_video_start_transfer+0x19d/0x4e0 [uvcvideo]
-> >     [  739.196789]  uvc_video_start_streaming+0xab/0x100 [uvcvideo]
-> >     [  739.196797]  uvc_start_streaming_video+0xec/0x110 [uvcvideo]
-> >     [  739.196806]  vb2_start_streaming+0x63/0x130 [videobuf2_common]
-> >     [  739.196813]  vb2_core_streamon+0x98/0xf0 [videobuf2_common]
-> >     [  739.196819]  ? vb2_ioctl_streamon+0x15/0x60 [videobuf2_v4l2]
-> >     [  739.196824]  __video_do_ioctl+0x419/0x540 [videodev]
-> >     [  739.196847]  video_usercopy+0x23b/0x630 [videodev]
-> >     [  739.196863]  ? __pfx___video_do_ioctl+0x10/0x10 [videodev]
-> >     [  739.196880]  v4l2_ioctl+0x6b/0xa0 [videodev]
-> >     [  739.196895]  __x64_sys_ioctl+0x96/0xe0
-> >     [  739.196898]  do_syscall_64+0x120/0x6c0
-> >     [  739.196902]  ? do_read_fault+0xf5/0x220
-> >     [  739.196906]  ? do_fault+0x148/0x270
-> >     [  739.196908]  ? __handle_mm_fault+0x470/0x6c0
-> >     [  739.196911]  ? count_memcg_events+0xeb/0x1b0
-> >     [  739.196914]  ? handle_mm_fault+0x220/0x340
-> >     [  739.196916]  ? do_user_addr_fault+0x1e5/0x7f0
-> >     [  739.196920]  ? arch_exit_to_user_mode_prepare.isra.0+0x9f/0xe0
-> >     [  739.196924]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> >     [  739.196926] RIP: 0033:0x738e787000ed
-> >     [  739.196929] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
-> >     [  739.196930] RSP: 002b:0000738e730e6a00 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> >     [  739.196933] RAX: ffffffffffffffda RBX: 0000738e64008850 RCX: 0000738e787000ed
-> >     [  739.196934] RDX: 000059d3df721cf0 RSI: 0000000040045612 RDI: 0000000000000010
-> >     [  739.196935] RBP: 0000738e730e6a50 R08: 0000738e6400ae40 R09: 0000000000000000
-> >     [  739.196936] R10: 0000738e6400ae30 R11: 0000000000000246 R12: 0000000000000000
-> >     [  739.196937] R13: 0000738e640012d0 R14: 0000738e64008850 R15: 0000000000000002
-> >     [  739.196939]  </TASK>
-> >     [  739.196940] ---[ end trace ]---
-> >     [  739.197835] BUG: Bad page state in process v4l2src0:src  pfn:009a0
-> >     [  739.198028] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x2a pfn:0x9a0
-> >     [  739.198054] flags: 0x7ffffc0000000(node=0|zone=0|lastcpupid=0x1fffff)
-> >     [  739.198074] page_type: f0(buddy)
-> >     [  739.198088] raw: 0007ffffc0000000 fffffac1c0026a08 fffffac1c0025e08 0000000000000000
-> >     [  739.198111] raw: 000000000000002a 0000000000000002 00000000f0000000 0000000000000000
-> >     [  739.198133] page dumped because: nonzero mapcount
-> >     [  739.198149] Modules linked in: nft_reject_ipv6 nf_reject_ipv6 nft_reject_ipv4 nf_reject_ipv4 nft_reject nft_ct nft_masq nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables uvcvideo ath3k btusb btmtk uvc videobuf2_vmalloc btrtl videobuf2_memops videobuf2_v4l2 cdc_mbim btbcm cdc_ncm videobuf2_common btintel cdc_ether usbnet videodev bluetooth mii cdc_wdm mc rfkill cdc_acm joydev intel_rapl_msr intel_rapl_common ghash_clmulni_intel xhci_pci xhci_hcd ehci_pci ehci_hcd pcspkr i2c_piix4 ata_generic pata_acpi i2c_smbus serio_raw xen_scsiback target_core_mod xen_netback xen_privcmd xen_gntdev xen_gntalloc xen_blkback xen_evtchn i2c_dev fuse loop nfnetlink overlay xen_blkfront
-> >     [  739.198472] CPU: 1 UID: 1000 PID: 1305 Comm: v4l2src0:src Not tainted 7.0.0-0.rc4.1.qubes.1001.fc41.x86_64 #1 PREEMPT(full)
-> >     [  739.198475] Hardware name: Xen HVM domU, BIOS 4.19.4 03/17/2026
-> >     [  739.198477] Call Trace:
-> >     [  739.198479]  <TASK>
-> >     [  739.198480]  dump_stack_lvl+0x5d/0x80
-> >     [  739.198485]  bad_page.cold+0x7a/0x91
-> >     [  739.198488]  __free_pages_ok+0x481/0x680
-> >     [  739.198491]  dma_free_noncontiguous+0xbf/0xe0
-> >     [  739.198494]  ? usb_free_noncoherent+0x3a/0x60
-> >     [  739.198497]  uvc_free_urb_buffers+0x38/0x90 [uvcvideo]
-> >     [  739.198507]  uvc_alloc_urb_buffers.part.0+0xe6/0x130 [uvcvideo]
-> >     [  739.198515]  uvc_video_start_transfer+0x19d/0x4e0 [uvcvideo]
-> >     [  739.198523]  uvc_video_start_streaming+0xab/0x100 [uvcvideo]
-> >     [  739.198531]  uvc_start_streaming_video+0xec/0x110 [uvcvideo]
-> >     [  739.198539]  vb2_start_streaming+0x63/0x130 [videobuf2_common]
-> >     [  739.198546]  vb2_core_streamon+0x98/0xf0 [videobuf2_common]
-> >     [  739.198551]  ? vb2_ioctl_streamon+0x15/0x60 [videobuf2_v4l2]
-> >     [  739.198555]  __video_do_ioctl+0x419/0x540 [videodev]
-> >     [  739.198574]  video_usercopy+0x23b/0x630 [videodev]
-> >     [  739.198590]  ? __pfx___video_do_ioctl+0x10/0x10 [videodev]
-> >     [  739.198607]  v4l2_ioctl+0x6b/0xa0 [videodev]
-> >     [  739.198622]  __x64_sys_ioctl+0x96/0xe0
-> >     [  739.198625]  do_syscall_64+0x120/0x6c0
-> >     [  739.198629]  ? do_read_fault+0xf5/0x220
-> >     [  739.198632]  ? do_fault+0x148/0x270
-> >     [  739.198635]  ? __handle_mm_fault+0x470/0x6c0
-> >     [  739.198637]  ? count_memcg_events+0xeb/0x1b0
-> >     [  739.198640]  ? handle_mm_fault+0x220/0x340
-> >     [  739.198642]  ? do_user_addr_fault+0x1e5/0x7f0
-> >     [  739.198645]  ? arch_exit_to_user_mode_prepare.isra.0+0x9f/0xe0
-> >     [  739.198648]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> >     [  739.198651] RIP: 0033:0x738e787000ed
-> >     [  739.198653] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
-> >     [  739.198654] RSP: 002b:0000738e730e6a00 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> >     [  739.198656] RAX: ffffffffffffffda RBX: 0000738e64008850 RCX: 0000738e787000ed
-> >     [  739.198657] RDX: 000059d3df721cf0 RSI: 0000000040045612 RDI: 0000000000000010
-> >     [  739.198658] RBP: 0000738e730e6a50 R08: 0000738e6400ae40 R09: 0000000000000000
-> >     [  739.198659] R10: 0000738e6400ae30 R11: 0000000000000246 R12: 0000000000000000
-> >     [  739.198660] R13: 0000738e640012d0 R14: 0000738e64008850 R15: 0000000000000002
-> >     [  739.198662]  </TASK>
-> >     [  739.198663] Disabling lock debugging due to kernel taint
-> >
-> > And eventually kernel panic:
-> >
-> >     [  740.464422] BUG: unable to handle page fault for address: fffffac1c0800000
-> >     [  740.464454] #PF: supervisor read access in kernel mode
-> >     [  740.464471] #PF: error_code(0x0000) - not-present page
-> >     [  740.464488] PGD 11be0067 P4D 11be0067 PUD 1148f067 PMD 0
-> >
-> > Full console log is at: https://gist.github.com/marmarek/5d839f419b1d56e71a48e74ae66f0e7a
-
--- 
-Regards,
-
-Laurent Pinchart
+SGkgTmljb2xhcw0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IE5pY29s
+YXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAY29sbGFib3JhLmNvbT4NCj4gU2VudDogVGh1
+cnNkYXksIE1hcmNoIDE5LCAyMDI2IDk6MzMgUE0NCj4gVG86IGphY2tzb24ubGVlIDxqYWNrc29u
+LmxlZUBjaGlwc25tZWRpYS5jb20+OyBtY2hlaGFiQGtlcm5lbC5vcmc7DQo+IGh2ZXJrdWlsLWNp
+c2NvQHhzNGFsbC5ubDsgYm9iLmJlY2tldHRAY29sbGFib3JhLmNvbQ0KPiBDYzogbGludXgtbWVk
+aWFAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBsYWZsZXku
+a2ltDQo+IDxsYWZsZXkua2ltQGNoaXBzbm1lZGlhLmNvbT47IGItYnJuaWNoQHRpLmNvbTsgaHZl
+cmt1aWxAeHM0YWxsLm5sOyBOYXMNCj4gQ2h1bmcgPG5hcy5jaHVuZ0BjaGlwc25tZWRpYS5jb20+
+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjAgMi8zXSBtZWRpYTogY2hpcHMtbWVkaWE6IHdhdmU1
+OiBTdXBwb3J0IENCUCBwcm9maWxlDQo+IA0KPiBIaSBKYWNrc29uLA0KPiANCj4gTGUgamV1ZGkg
+MTkgbWFycyAyMDI2IMOgIDE0OjMyICswOTAwLCBKYWNrc29uLmxlZSBhIMOpY3JpdMKgOg0KPiA+
+IEZyb206IEphY2tzb24gTGVlIDxqYWNrc29uLmxlZUBjaGlwc25tZWRpYS5jb20+DQo+ID4NCj4g
+PiBDb25zdHJhaW5lZCBCYXNlbGluZSBQcm9maWxlIChDQlApIGFuZCBCYXNlbGluZSBQcm9maWxl
+IChCUCkgaGF2ZSBiZWVuDQo+ID4gdHJlYXRlZCBhcyB0aGUgc2FtZS4NCj4gPiBJbnRyb2R1Y2Ug
+dGhlIGFiaWxpdHkgdG8gZGlmZmVyZW50aWF0ZSBiZXR3ZWVuIHRoZSB0d28uDQo+ID4NCj4gPiBT
+aWduZWQtb2ZmLWJ5OiBKYWNrc29uIExlZSA8amFja3Nvbi5sZWVAY2hpcHNubWVkaWEuY29tPg0K
+PiA+IFNpZ25lZC1vZmYtYnk6IE5hcyBDaHVuZyA8bmFzLmNodW5nQGNoaXBzbm1lZGlhLmNvbT4N
+Cj4gDQo+IFNob3VsZCB3ZSBjb25zaWRlciB0aGlzIG9uZSBoYXMgYSBidWcgZml4ID8gSSBzdXNw
+ZWN0IHByZXZpb3VzbHkNCj4gY29uc3RyYWludF9zZXQxX2ZsYWcgd2FzIG5ldmVyIHNldCBpbiB0
+aGUgYml0c3RyZWFtLCBhbmQgbm93IGl0IGlzIHNldA0KPiBhY2NvcmRpbmdseSB0byB0aGUgc2Vs
+ZWN0ZWQgcHJvZmlsZSwgd2hpY2ggZml4ZXMgYSBtaXNzLW1hdGNoIG9mIHVzZXINCj4gZXhwZWN0
+YXRpb24gdnMgYml0c3RyZWFtIHZhbHVlcy4gSWYgeW91IGFncmVlIHdpdGggdGhpcywgYSBGaXhl
+czogdGFnDQo+IHdvdWxkIGJlIG5pY2UuDQo+IA0KDQoNCkkgd2lsbCBhZGQgdGhlICJGaXhlcyIg
+dGFnLg0KDQpUaGFua3MgZm9yIHlvdXIgcmV2aWV3Lg0KSmFja3Nvbg0KDQoNCj4gPiAtLS0NCj4g
+PiDCoGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY2hpcHMtbWVkaWEvd2F2ZTUvd2F2ZTUtaHcuY8Kg
+wqDCoCB8wqAgMyArKysNCj4gPiDCoC4uLi9tZWRpYS9wbGF0Zm9ybS9jaGlwcy1tZWRpYS93YXZl
+NS93YXZlNS12cHUtZW5jLmPCoMKgIHwgMTANCj4gPiArKysrKysrLS0tDQo+ID4gwqAuLi4vbWVk
+aWEvcGxhdGZvcm0vY2hpcHMtbWVkaWEvd2F2ZTUvd2F2ZTUtdnB1YXBpLmjCoMKgwqAgfMKgIDEg
+Kw0KPiA+IMKgMyBmaWxlcyBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygt
+KQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY2hpcHMtbWVk
+aWEvd2F2ZTUvd2F2ZTUtaHcuYw0KPiA+IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9jaGlwcy1t
+ZWRpYS93YXZlNS93YXZlNS1ody5jDQo+ID4gaW5kZXggYzUxNmQxMjVmNTUzLi4yMzkyYmNlOGQ4
+NDAgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9jaGlwcy1tZWRpYS93
+YXZlNS93YXZlNS1ody5jDQo+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9jaGlwcy1t
+ZWRpYS93YXZlNS93YXZlNS1ody5jDQo+ID4gQEAgLTE3NjMsNiArMTc2Myw5IEBAIGludCB3YXZl
+NV92cHVfZW5jX2luaXRfc2VxKHN0cnVjdCB2cHVfaW5zdGFuY2UNCj4gKmluc3QpDQo+ID4gwqAJ
+CQkocF9wYXJhbS0+c2tpcF9pbnRyYV90cmFucyA8PCAyNSkgfA0KPiA+IMKgCQkJKHBfcGFyYW0t
+PnN0cm9uZ19pbnRyYV9zbW9vdGhfZW5hYmxlIDw8IDI3KSB8DQo+ID4gwqAJCQkocF9wYXJhbS0+
+ZW5fc3RpbGxfcGljdHVyZSA8PCAzMCk7DQo+ID4gKwllbHNlIGlmIChpbnN0LT5zdGQgPT0gV19B
+VkNfRU5DKQ0KPiA+ICsJCXJlZ192YWwgfD0gKHBfcGFyYW0tPmNvbnN0cmFpbnRfc2V0MV9mbGFn
+IDw8IDI5KTsNCj4gPiArDQo+ID4gwqAJdnB1X3dyaXRlX3JlZyhpbnN0LT5kZXYsIFc1X0NNRF9F
+TkNfU0VRX1NQU19QQVJBTSwgcmVnX3ZhbCk7DQo+ID4NCj4gPiDCoAlyZWdfdmFsID0gKHBfcGFy
+YW0tPmxvc3NsZXNzX2VuYWJsZSkgfCBkaWZmIC0tZ2l0DQo+ID4gYS9kcml2ZXJzL21lZGlhL3Bs
+YXRmb3JtL2NoaXBzLW1lZGlhL3dhdmU1L3dhdmU1LXZwdS1lbmMuYw0KPiA+IGIvZHJpdmVycy9t
+ZWRpYS9wbGF0Zm9ybS9jaGlwcy1tZWRpYS93YXZlNS93YXZlNS12cHUtZW5jLmMNCj4gPiBpbmRl
+eCA2ZmUwMTIxNzIzM2YuLmYzMTVlZDcyNDNhNyAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL21l
+ZGlhL3BsYXRmb3JtL2NoaXBzLW1lZGlhL3dhdmU1L3dhdmU1LXZwdS1lbmMuYw0KPiA+ICsrKyBi
+L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY2hpcHMtbWVkaWEvd2F2ZTUvd2F2ZTUtdnB1LWVuYy5j
+DQo+ID4gQEAgLTkzOSw2ICs5MzksOCBAQCBzdGF0aWMgaW50IHdhdmU1X3ZwdV9lbmNfc19jdHJs
+KHN0cnVjdCB2NGwyX2N0cmwNCj4gKmN0cmwpDQo+ID4gwqAJCWNhc2UgVjRMMl9NUEVHX1ZJREVP
+X0gyNjRfUFJPRklMRV9DT05TVFJBSU5FRF9CQVNFTElORToNCj4gPiDCoAkJCWluc3QtPmVuY19w
+YXJhbS5wcm9maWxlID0gSDI2NF9QUk9GSUxFX0JQOw0KPiA+IMKgCQkJaW5zdC0+Yml0X2RlcHRo
+ID0gODsNCj4gPiArCQkJaWYgKGN0cmwtPnZhbCA9PQ0KPiBWNEwyX01QRUdfVklERU9fSDI2NF9Q
+Uk9GSUxFX0NPTlNUUkFJTkVEX0JBU0VMSU5FKQ0KPiA+ICsJCQkJaW5zdC0+ZW5jX3BhcmFtLmNv
+bnN0cmFpbnRfc2V0MV9mbGFnID0gMTsNCj4gPiDCoAkJCWJyZWFrOw0KPiA+IMKgCQljYXNlIFY0
+TDJfTVBFR19WSURFT19IMjY0X1BST0ZJTEVfTUFJTjoNCj4gPiDCoAkJCWluc3QtPmVuY19wYXJh
+bS5wcm9maWxlID0gSDI2NF9QUk9GSUxFX01QOyBAQCAtMTIxNCw5DQo+ICsxMjE2LDExIEBADQo+
+ID4gc3RhdGljIGludCB3YXZlNV9zZXRfZW5jX29wZW5wYXJhbShzdHJ1Y3QgZW5jX29wZW5fcGFy
+YW0gKm9wZW5fcGFyYW0sDQo+ID4gwqAJCQlvcGVuX3BhcmFtLT53YXZlX3BhcmFtLmRlY29kaW5n
+X3JlZnJlc2hfdHlwZSA9DQo+IERFQ19SRUZSRVNIX1RZUEVfSURSOw0KPiA+IMKgCQkJb3Blbl9w
+YXJhbS0+d2F2ZV9wYXJhbS5pbnRyYV9wZXJpb2QgPQ0KPiBpbnB1dC5hdmNfaWRyX3BlcmlvZDsN
+Cj4gPiDCoAkJfQ0KPiA+IC0JfSBlbHNlIHsNCj4gPiArCX0gZWxzZSBpZiAoaW5zdC0+c3RkID09
+IFdfQVZDX0VOQykNCj4gPiArCQlvcGVuX3BhcmFtLT53YXZlX3BhcmFtLmNvbnN0cmFpbnRfc2V0
+MV9mbGFnID0NCj4gaW5wdXQuY29uc3RyYWludF9zZXQxX2ZsYWc7DQo+ID4gKwllbHNlDQo+ID4g
+wqAJCW9wZW5fcGFyYW0tPndhdmVfcGFyYW0uYXZjX2lkcl9wZXJpb2QgPSBpbnB1dC5hdmNfaWRy
+X3BlcmlvZDsNCj4gPiAtCX0NCj4gDQo+IG5pdDogSnVzdCBrZWVwIHRoZSBicmFja2V0LCBzbyB0
+aGF0IGFsbCBicmFuY2hlcyBoYXZlIGJyYWNrZXRzLg0KPiANCj4gY2hlZXJzLA0KPiBOaWNvbGFz
+DQo+IA0KPiA+ICsNCj4gPiDCoAlvcGVuX3BhcmFtLT53YXZlX3BhcmFtLmVudHJvcHlfY29kaW5n
+X21vZGUgPQ0KPiBpbnB1dC5lbnRyb3B5X2NvZGluZ19tb2RlOw0KPiA+IMKgCW9wZW5fcGFyYW0t
+PndhdmVfcGFyYW0ubG9zc2xlc3NfZW5hYmxlID0gaW5wdXQubG9zc2xlc3NfZW5hYmxlOw0KPiA+
+IMKgCW9wZW5fcGFyYW0tPndhdmVfcGFyYW0uY29uc3RfaW50cmFfcHJlZF9mbGFnID0NCj4gPiBp
+bnB1dC5jb25zdF9pbnRyYV9wcmVkX2ZsYWc7IEBAIC0xNjg3LDcgKzE2OTEsNyBAQCBzdGF0aWMg
+aW50DQo+IHdhdmU1X3ZwdV9vcGVuX2VuYyhzdHJ1Y3QgZmlsZSAqZmlscCkNCj4gPiDCoAkJCcKg
+IC02LCA2LCAxLCAwKTsNCj4gPiDCoAl2NGwyX2N0cmxfbmV3X3N0ZCh2NGwyX2N0cmxfaGRsLCAm
+d2F2ZTVfdnB1X2VuY19jdHJsX29wcywNCj4gPiDCoAkJCcKgIFY0TDJfQ0lEX01QRUdfVklERU9f
+SDI2NF84WDhfVFJBTlNGT1JNLA0KPiA+IC0JCQnCoCAwLCAxLCAxLCAxKTsNCj4gPiArCQkJwqAg
+MCwgMSwgMSwgMCk7DQo+ID4gwqAJdjRsMl9jdHJsX25ld19zdGQodjRsMl9jdHJsX2hkbCwgJndh
+dmU1X3ZwdV9lbmNfY3RybF9vcHMsDQo+ID4NCj4gCcKgIFY0TDJfQ0lEX01QRUdfVklERU9fSDI2
+NF9DT05TVFJBSU5FRF9JTlRSQV9QUkVESUNUSU9OLA0KPiA+IMKgCQkJwqAgMCwgMSwgMSwgMCk7
+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY2hpcHMtbWVkaWEvd2F2
+ZTUvd2F2ZTUtdnB1YXBpLmgNCj4gPiBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY2hpcHMtbWVk
+aWEvd2F2ZTUvd2F2ZTUtdnB1YXBpLmgNCj4gPiBpbmRleCBkYzMxNjg5ZTBkMjcuLjdiMDhmZWY1
+ODIxNyAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2NoaXBzLW1lZGlh
+L3dhdmU1L3dhdmU1LXZwdWFwaS5oDQo+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9j
+aGlwcy1tZWRpYS93YXZlNS93YXZlNS12cHVhcGkuaA0KPiA+IEBAIC01NzAsNiArNTcwLDcgQEAg
+c3RydWN0IGVuY193YXZlX3BhcmFtIHsNCj4gPiDCoAl1MzIgdHJhbnNmb3JtOHg4X2VuYWJsZTog
+MTsgLyogZW5hYmxlIDh4OCBpbnRyYSBwcmVkaWN0aW9uIGFuZCA4eDgNCj4gdHJhbnNmb3JtICov
+DQo+ID4gwqAJdTMyIG1iX2xldmVsX3JjX2VuYWJsZTogMTsgLyogZW5hYmxlIE1CLWxldmVsIHJh
+dGUgY29udHJvbCAqLw0KPiA+IMKgCXUzMiBmb3JjZWRfaWRyX2hlYWRlcl9lbmFibGU6IDE7IC8q
+IGVuYWJsZSBoZWFkZXIgZW5jb2RpbmcgYmVmb3JlDQo+ID4gSURSIGZyYW1lICovDQo+ID4gKwl1
+MzIgY29uc3RyYWludF9zZXQxX2ZsYWc6IDE7IC8qIGVuYWJsZSBDQlAgKi8NCj4gPiDCoAl1MzIg
+YmdfZGV0ZWN0aW9uOiAxOyAvKiBlbmFibGUgYmFja2dyb3VuZCBkZXRlY3Rpb24gKi8NCj4gPiDC
+oH07DQo+ID4NCg==
 
