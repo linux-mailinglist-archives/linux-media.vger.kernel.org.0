@@ -1,165 +1,196 @@
-Return-Path: <linux-media+bounces-56526-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56527-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mNAzHSVHvWlr8gIAu9opvQ
-	(envelope-from <linux-media+bounces-56526-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 14:09:57 +0100
+	id KAqJF+ZHvWlr8gIAu9opvQ
+	(envelope-from <linux-media+bounces-56527-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 14:13:10 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4FE72DABA4
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 14:09:56 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C48C62DAC5F
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 14:13:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 259EA301E7DF
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 13:09:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 44119313CD7C
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 13:10:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 865573B8BDA;
-	Fri, 20 Mar 2026 13:09:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62D073B8BD5;
+	Fri, 20 Mar 2026 13:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UhusO7Ir"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NYXT4OKD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94953A6404;
-	Fri, 20 Mar 2026 13:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924443A4F35;
+	Fri, 20 Mar 2026 13:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774012192; cv=none; b=FAYrmME50ocZzwM6cp0zu/SQjbHAboGWvvc/bRQ0p4rFL6aA1hrACs03YAbD2tXcSFdBu5G5dPkV6H+SKRKce3EY0LJlHCrMTht9thHeaU8UE6giGaGAkC1ew6xzESPxoUG++ZS0/MYC0kICD7WNJBtlf6+yLFnhXIwQ5+HPBp4=
+	t=1774012226; cv=none; b=kVpryiflam+8YRT3ohYggFLDSn6y2cu22F7+lI2vBaF6H1P7HG0Cqo1Bk0MGrkThTR7XTICfxju6Tx6ZE5BJAyhg4oY+Iw6DTHgUEZ+nCsiRdnxy+sw2O9+ol5kZsDqqWtO/TDpGfwh/ZEMNw1XaLcuJHJmmiPSr5IiHarYeLsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774012192; c=relaxed/simple;
-	bh=KtyqkgdW2N+tGuiRRGwfaJSw9/wwP3BDlPbzeD6Tf8s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KCljg46eEZ4StPv7EOpWVHr9WOW5aEtEguYepMZdseRFsJ2vZEddGV+PP2bdt3IKt0hjK9zOBszodzI0bfEhw8FrZbG9eKxDnTkPdiAwQxM+KMJNiBjgSiJHmkKiIqQMli/x3jDDSl8sc3GxoR80J0QuHExYod8/3fNz6yUE7Us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UhusO7Ir; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3263CC4CEF7;
-	Fri, 20 Mar 2026 13:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774012191;
-	bh=KtyqkgdW2N+tGuiRRGwfaJSw9/wwP3BDlPbzeD6Tf8s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UhusO7Ir2EBydsGHlZyj5vew5uqx3LL62vko5Nvx7uYqnN8LXpvVu0HBg4Jb3rN11
-	 6S73M9ojHqYjBNhrbqF5Hh7jyCfzHErGHu3L1R6mUu7iSqAUdNpYycA6t0Y2JGCu7I
-	 azCPpzorM0ShT1moymtT/RU9iLPZHEFywsckNnX3po4/g+RkOux39sHfuVFqfrhI0x
-	 6K5iBG0kBNAiB0VJi3u6qKegr8Nd04DhRa7oBU/Df5hCAnlurweBz5L4KTZSQstN+h
-	 7+aKbBVLQnUQbRckkQHUOiKXHr8jcSwXklaf2DF4sTPlOxHzV7mqlaSl370vp3i1VV
-	 OQBJzASK6ggNg==
-Date: Fri, 20 Mar 2026 14:09:48 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Albert Esteve <aesteve@redhat.com>, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-mm@kvack.org
-Subject: Re: [PATCH v3 0/8] dma-buf: heaps: Turn heaps into modules
-Message-ID: <20260320-cryptic-industrious-otter-5b696a@houat>
-References: <CGME20260303101320eucas1p2eb4fea499364ef20825d0d73585a2555@eucas1p2.samsung.com>
- <20260303-dma-buf-heaps-as-modules-v3-0-24344812c707@kernel.org>
- <c60a3f30-6fc3-41ab-835a-2fdd887e18fd@samsung.com>
+	s=arc-20240116; t=1774012226; c=relaxed/simple;
+	bh=ifATUcW7DWuBHecdArq6aT4AJccdVJ7KXJNjJs6AB/M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tJg3FCUJm8oHA5aiY9KVW/jYaB7E+EpViQdUCbd7rmekVG7a+k/oaIJtu8YV25JoFNaPUOUuvwwGugidKucYXAOuHLhj0yoG7ffas6MWb1/JIMOJNbFhJ4NU+VmYSlQf8PuiTnvLb/0GR18Yb0xqSJqC/5qiqwkRbb3ksk/S2bE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NYXT4OKD; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1774012223;
+	bh=ifATUcW7DWuBHecdArq6aT4AJccdVJ7KXJNjJs6AB/M=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=NYXT4OKDxR71XnYfyMTBSqcjqtlVrKQU/gxxxeVDFU/pOAT797efWm2A3UmvCHbyy
+	 oitbB5r1aRUey51OdrvwfhhGIoNgB/QaOT5ThKHY/Bo1aXjkUePb0PpnO0RZHqWFa8
+	 j5krSyz9N0rogyqUsguBnwFLHi+1ZnuDoplaxAtCNs8+M+01G+7ULGMcEmJhycoaur
+	 Nsh/Vr34voZFlJjpl7UmlU70cDJMOq6/X8Al1VNQ24k0glZCTcn5Y+tJarMf0PmHlf
+	 UOG/NXTAZQH721kEtgRWZXk8Hv3xdRzYWhxrk0pH7Eoix3f5WGxaYS1gnbS4Koihsx
+	 DNbAQyW+8Mn0Q==
+Received: from [IPv6:2606:6d00:11:b76d::5ac] (unknown [IPv6:2606:6d00:11:b76d::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 38B0117E0280;
+	Fri, 20 Mar 2026 14:10:20 +0100 (CET)
+Message-ID: <38e0241fe56f9d3af2de57b6380368fdcf5acc64.camel@collabora.com>
+Subject: Re: [PATCH v8 0/9] Enable video decoder & encoder for MT8189
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Kyrie Wu <kyrie.wu@mediatek.com>, Yunfei Dong
+ <yunfei.dong@mediatek.com>,  Irui Wang <irui.wang@mediatek.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Andrzej Pietrasiewicz	
+ <andrzejtp2010@gmail.com>, Yilong Zhou <yilong.zhou@mediatek.com>, Tiffany
+ Lin	 <tiffany.lin@mediatek.com>, Andrew-CT Chen
+ <andrew-ct.chen@mediatek.com>,  Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger	
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
+ <angelogioacchino.delregno@collabora.com>, Hans Verkuil
+ <hverkuil@xs4all.nl>,  Nathan Hebert <nhebert@chromium.org>, Arnd Bergmann
+ <arnd@arndb.de>, George Sun <george.sun@mediatek.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel	
+ <linux-kernel@vger.kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
+Date: Fri, 20 Mar 2026 09:10:17 -0400
+In-Reply-To: <20260320055940.15961-1-kyrie.wu@mediatek.com>
+References: <20260320055940.15961-1-kyrie.wu@mediatek.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-67RujEEiCsWXeIp1gjT6"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="zs66qpw74bbg7irl"
-Content-Disposition: inline
-In-Reply-To: <c60a3f30-6fc3-41ab-835a-2fdd887e18fd@samsung.com>
-X-Spamd-Result: default: False [-3.76 / 15.00];
+X-Spamd-Result: default: False [-2.76 / 15.00];
 	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56526-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.978];
+	FREEMAIL_CC(0.00)[linaro.org,gmail.com,mediatek.com,kernel.org,collabora.com,xs4all.nl,chromium.org,arndb.de,vger.kernel.org,lists.infradead.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56527-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.995];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E4FE72DABA4
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: C48C62DAC5F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---zs66qpw74bbg7irl
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
+--=-67RujEEiCsWXeIp1gjT6
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 0/8] dma-buf: heaps: Turn heaps into modules
-MIME-Version: 1.0
 
-Hi Marek,
+Kyrie, Yunfei, Irui,
 
-On Fri, Mar 20, 2026 at 01:24:18PM +0100, Marek Szyprowski wrote:
-> On 03.03.2026 11:13, Maxime Ripard wrote:
-> > The recent introduction of heaps in the optee driver [1] made possible
-> > the creation of heaps as modules.
-> >
-> > It's generally a good idea if possible, including for the already
-> > existing system and CMA heaps.
-> >
-> > The system one is pretty trivial, the CMA one is a bit more involved,
-> > especially since we have a call from kernel/dma/contiguous.c to the CMA
-> > heap code. This was solved by turning the logic around and making the
-> > CMA heap call into the contiguous DMA code.
-> >
-> > Let me know what you think,
-> > Maxime
-> >
-> > 1: https://lore.kernel.org/dri-devel/20250911135007.1275833-4-jens.wikl=
-ander@linaro.org/
-> >
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Le vendredi 20 mars 2026 =C3=A0 13:59 +0800, Kyrie Wu a =C3=A9crit=C2=A0:
 >=20
-> I'm okay with the kernel/dma/contiguous.c changes. I only wonder how to=
-=20
-> properly merge them. There are other pending changes to=20
-> kernel/dma/contiguous.c file [1] and if they finally get reviewed, I=20
-> would like to merge=A0both via dma-mapping-for-next tree. Then I can=20
-> provide a stable branch for merging the remaining dma-buf pathes. Is it=
-=20
-> okay for You?
+[...]
+> This series patches dependent on:
+> [1]
+> https://patchwork.linuxtv.org/project/linux-media/patch/20260211054149.27=
+249-2-yunfei.dong@mediatek.com/
+> [2]
+> https://patchwork.linuxtv.org/project/linux-media/patch/20260302035244.89=
+94-2-irui.wang@mediatek.com/
 
-That sounds reasonable to media
-Thanks!
-Maxime
+While this one is now ready, it still can't be merge, because the other ser=
+ies
+it depends one have not been updated to use the pdata properly. In fact, it=
+s
+quite likely that some of the patches in this serie must be moved up the ch=
+ain.
+This type of linked submission is making my life extremely difficult, and c=
+auses
+massive delays.
 
---zs66qpw74bbg7irl
+Basically, in a chain of 3 series (and probably 4 since the first one does =
+not
+apply), the refactoring that causes all the series to not be accepted is
+happening in the third one. Angelo and I have been clear for weeks, if you =
+need
+a constant value for a platform, it goes in the platform data. Don't do swi=
+tch
+of strcmp at runtime, these are constants and we already did string matchin=
+g to
+in the probe to find this pdata. Once the missing data is added, simply mak=
+e a
+final patch adding the pdata structure for the platform. Use this v8 of the
+MT8189 support as reference, it is as I said ready, but it does not apply d=
+ue to
+broken dependencies.
+
+I can't easily fix this, so please work together, synchronize your submissi=
+ons
+so that we can get the MT8196 and MT8189 support finally merged.
+
+regards,
+Nicolas
+
+--=-67RujEEiCsWXeIp1gjT6
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCab1HHAAKCRAnX84Zoj2+
-dtHjAYCni65LYJfONrHzX1+dmTg8jR62Up22RXPxSlYyod1hB1tdIw9izCD0G6Yd
-tTFaIwEBgJvjLz3SwBA1sbRbznr8PQjslZc5ZJNJzdGupJIT8b7KJryJWaeGjrY9
-oc+2U5qZsA==
-=0xTf
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCab1HOQAKCRDZQZRRKWBy
+9FzIAP4oohtwocrtFhnn2WfKDHxvJ5uVcuOyFDF7hFnej0jx7wEAy97yTrE8Oj2B
+qJZbPwpS2fk4KcvWecW4UPbX07ZLIAE=
+=sleb
 -----END PGP SIGNATURE-----
 
---zs66qpw74bbg7irl--
+--=-67RujEEiCsWXeIp1gjT6--
 
