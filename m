@@ -1,195 +1,217 @@
-Return-Path: <linux-media+bounces-56434-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56435-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SPGEHuCWvGni0wIAu9opvQ
-	(envelope-from <linux-media+bounces-56434-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:37:52 +0100
+	id CCP4E5ObvGlS1QIAu9opvQ
+	(envelope-from <linux-media+bounces-56435-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:57:55 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E4A2D478F
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:37:51 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBE92D4882
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 01:57:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4B48F300AD41
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 00:37:48 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D9AC3302E0CA
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 00:57:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2488E211A09;
-	Fri, 20 Mar 2026 00:37:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6067A2609DC;
+	Fri, 20 Mar 2026 00:57:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TX4SIBhg"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dr0YK3Ch"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA2E2139C9
-	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 00:37:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA4B1D5ADE;
+	Fri, 20 Mar 2026 00:57:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773967065; cv=none; b=EKZbSTDYahhHgIeGq68mpV9HJk0I2iJHNB6H4culV66Ys0V5mcvdG2m2hh2r1+27Mv2RcOcOKOZ7cxke0HHUSxYg0H/s1GR9WUxhK/jqUtGI+R0dzZoqbOmwMOG+Hnmx1ttSCD40OR3VkWd36b3lj3f4cclVqduX0rqLktFJn8M=
+	t=1773968262; cv=none; b=LNcycVBdElQzJ47q0Yk8Kzoq/1GO0Y/Uvy2bkQp0qJHVN9yX+6F83uD+8ZeAlsu2ozeVmxrt7C+EzVNmdW7NC0J+ORHko8rXFfftYKnEVqILoX2x0UpVS781fLXcEu0hcKzPB76qnH7G6i11aAvPzmz7Ck3MlVnA2UVcDAVkVY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773967065; c=relaxed/simple;
-	bh=F+lvgD2ubQQWQe9EW0DdQluM6ova1XjKWBNtVNvRmFQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X53V5ZuEiF/Jx/JbUCT5knbtwOLB5YZqsffvsJi/PJOFNHnaKdqIkNj1KXNwNuhLhzOBD/Pma85NBRB1zoxXh1bndM6UxdmjY8ORS/iYw6dGLaDRRYF1hpuExrXnHqaHmri4cmv3KrmDcwaMjXjblNFmcTbt0qUAv3wEpREcRsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TX4SIBhg; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-38be12cee51so1212041fa.3
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 17:37:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773967062; x=1774571862; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pemwfzPMjVzwk3ZmFBYOgrrlysIkLu8Wo12oBjLmwB4=;
-        b=TX4SIBhgrSeh4lDHY49XS8EcA0mTu+ILqAmfo2xbP2z/o+NsshDdRSdMIY7f1J3NHP
-         gupqU1jtuUF6sNLJZTuSUlCJINGuLYQHckHmIt2o5eVa6qYXRKJyK/dPl+WFXM5OEtcy
-         hf+T+kdKQ+dHJPy0u7Yx0EeOq4PZu7i/VrM5DV2xIHXmJ2566nl9xMDNXGWg1HkbDmpV
-         jCunkDWoVtj5q1KMR7trCV5oODDc0maxXfKRgt4E5IazrSIA/brY0BV7ts4dU8aZY18f
-         rMXmZ5XKg4ARONA/LCaI7nJLzCkcjdYyq7OWlEoy7QiYlMpoBlx2LW7i36Cla4xq2Mq4
-         6Bug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773967062; x=1774571862;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pemwfzPMjVzwk3ZmFBYOgrrlysIkLu8Wo12oBjLmwB4=;
-        b=VK8J08KDQN2dCHCBXNdzMK8yKKIxCZl6WI8VqXkCCcKilyySfXBZfg98xNw4bKul12
-         noY8+PurzLONWmDa38kbgOIBQuFenl2LcP5q5WqLeZvaqGe0C8RIZXLs/cXO4E3+foao
-         sipPC6yp1ig3/DFHVGzvZjEX9iogPSu+G0QRAGXd69YdRlADxBRHbQJubkDLnoi5ZbUK
-         knYy7TaHlusfioo2AFKS3B1YdzjYc4IxgiS0K5osHE2JEbJ4bgTLu4Ut9+q++NyDEA3T
-         95VSnToj940lHdq4YCC5IWCchsh4BMLHXot2+obyAgJP2eLJCbGLo+uSYZFJ9yg4m6dl
-         z4/g==
-X-Forwarded-Encrypted: i=1; AJvYcCVh5wbE8w5NvmvgDzMLkTH77xhEklXvHwud3qeMZUFcKJGkgieW+sIh2iu8sU4dlTmYFaV4xjllEtAfmg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoA/9p5XnL+vmQpI4LfGLTfpjPCBW8lDkomfO/+cgrErS5Gdge
-	lQYoKdyUkuMZrF8lRkkABCibWKvOXvsZhP2WUzc+4nQP7zqxdN3DtWTsXl5FT5HV7pA=
-X-Gm-Gg: ATEYQzwlS/IoqeN8mhGg5b5JrD1BHlSo+oP1PY6JG2H0/oyqQ4+qhykJrwWHOXmx4+H
-	cdb8yuD9NVkLz+oVujyT6KfOAEPhJN6OwoVb7PNVgo2d7767PNCpaDoxu92M6g3SEqlsBT4YNm1
-	f0iGl+Ncp8OR8amRdbRD3cUXqqCNR9loI9ZyNlIN+zxEo9PSmkaSbqoNh8JdzgIF7GMXaopqPnQ
-	9/jUHMeu4/4M1Hy2SQ78+Cbo7upKyhkBm2dw5DGSIWNErcu3pT0rYEurlbBmgRA2gUFlx8czrBC
-	QzWY/xZcXIVftlM7icKWyMi55/eHRG+vOJiZeAsDpohPi4N7WIkz1UfUNEi5g5gUqYBowDIw23d
-	DCjGDTX8FQQFVdnkbJFyTprJtsaGgDb31Wjy4D+RCGMGkF9N9a1/eR9FdvtS9VtNg+E/fi0a9yO
-	ILcnovLqHKuXRl8DCFGRhfzVzaowR6PqeN51WHvEdZYP9H2DVjS07NK10FcdMbybhzio6WDbh16
-	GKmIw==
-X-Received: by 2002:a05:6512:1290:b0:5a1:3e50:423a with SMTP id 2adb3069b0e04-5a285b4fc27mr205134e87.4.1773967061957;
-        Thu, 19 Mar 2026 17:37:41 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2851ae39dsm212218e87.36.2026.03.19.17.37.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Mar 2026 17:37:41 -0700 (PDT)
-Message-ID: <5b23408d-c996-4785-8294-233d79168a1b@linaro.org>
-Date: Fri, 20 Mar 2026 02:37:40 +0200
+	s=arc-20240116; t=1773968262; c=relaxed/simple;
+	bh=DhRreVzDDL6zUZ/XfczFGuyPFoaL3ycKNfl/GFeR3Fg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CZ+0QEVNN9J7QHvjSO+hPIx5zh1EMtsQcf4qPfSI6NBWR3Shc2vcZ4Kc7HQaw+GQf1VlciIFs4/h82tRkueEjRp2SMcsLgp5CWbAmdkxiNbCiZws8EO8djsfxa6tG6HpB4oISUzQFDF3wFzXSggc4tp1eMcIMZ2QV5rVU1PA2DE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dr0YK3Ch; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 6DD0E225;
+	Fri, 20 Mar 2026 01:56:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1773968185;
+	bh=DhRreVzDDL6zUZ/XfczFGuyPFoaL3ycKNfl/GFeR3Fg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dr0YK3ChQpuDUcfBzzB8f0DhyEhuELuztpfMjKc8Q9esI+ZiYBJJSnY7mdzyVhZt5
+	 CzoF7Tsk9+7GSfrOrTT8pJAwycxXoOtC127Y9Qb/lZZQF4luYoQNze/XzDnMj8msWc
+	 9LWthG/qstJzFI0UMuq0eoWIZTzNVspaKrgXf0C4=
+Date: Fri, 20 Mar 2026 02:57:37 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-hardening@vger.kernel.org,
+	gustavoars@kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
+	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: nxp: imx8-isi: remove kzalloc_objs
+Message-ID: <20260320005737.GE950244@killaraus.ideasonboard.com>
+References: <20260306044536.149204-1-rosenp@gmail.com>
+ <20260319220901.GD950375@killaraus.ideasonboard.com>
+ <CAKxU2N856yYXURRf3td-_RCpe9hyX=zAy3qtD3ki23RjgO+a4Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bryan O'Donoghue <bod@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260315-x1e-csi2-phy-v4-0-90c09203888d@linaro.org>
- <20260315-x1e-csi2-phy-v4-2-90c09203888d@linaro.org>
- <3f11de22-b729-4d06-b6c8-18e649e1979c@linaro.org>
- <80ddc2b4-d6f8-4e8d-a45e-69c05d100aa2@linaro.org>
- <16b10f17-ecd3-4cdd-ac3f-f64127d60ace@linaro.org>
- <ulenfus552ggobis4gmi7eh27tikdaxbgm2oj63b5l2vemlfxc@ib5f2xaqurj6>
- <26XTdUyQTB41Oc4D5HnMtSm_QpZRjlkljQRJVw-u1Zp3Ltn9s4LVU-LQkP6drdl3Z3GGssLCCbsVYPFEqssHcQ==@protonmail.internalid>
- <65e06b2e-eeb9-45af-97ac-4ae60f652361@linaro.org>
- <9578400d-30ac-4d8c-9295-ee4ec8af3b2c@kernel.org>
- <d6616fc0-75fb-47e2-96cd-ae81fa1a8e82@linaro.org>
- <f3c62284-ac78-42c6-a4f0-cd984b7124cd@linaro.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <f3c62284-ac78-42c6-a4f0-cd984b7124cd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKxU2N856yYXURRf3td-_RCpe9hyX=zAy3qtD3ki23RjgO+a4Q@mail.gmail.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[linaro.org:+];
+	TAGGED_FROM(0.00)[bounces-56435-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56434-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,nxp.com,pengutronix.de,gmail.com,lists.linux.dev,lists.infradead.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.990];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.995];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 70E4A2D478F
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[killaraus.ideasonboard.com:mid]
+X-Rspamd-Queue-Id: AEBE92D4882
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/19/26 17:18, Bryan O'Donoghue wrote:
-> On 19/03/2026 14:56, Vladimir Zapolskiy wrote:
->>> There's no reason to remove that from CAMSS - it would be an ABI break
->>> in user-space anyway.
->>
->> If technically CAMSS CSIPHY could be excluded from the list of CAMSS media
->> subdevices, then for the sake of simplification it should be done for all
->> supported platforms in advance, such a change will be independent from this
->> particular phy series, and vice versa, this CAMSS only driver change will
->> prepare a ground for media-less CAMSS CSIPHY device drivers, hence it shall
->> precede this particular CAMSS CSIPHY series.
->>
->> For backward compatibility with userspace a noop stub will be good enough,
->> it's not an issue at all.
+On Thu, Mar 19, 2026 at 05:11:22PM -0700, Rosen Penev wrote:
+> On Thu, Mar 19, 2026 at 3:09 PM Laurent Pinchart wrote:
+> > On Thu, Mar 05, 2026 at 08:45:36PM -0800, Rosen Penev wrote:
+> > > Use a flexible arraay member to combine allocations.
+> > >
+> > > It looks like pipes never gets freed anywhere. Meaning this effectively
+> > > fixes a memory leak.
+> > >
+> > > Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> > > ---
+> > >  drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c | 11 ++++-------
+> > >  drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h |  3 ++-
+> > >  2 files changed, 6 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+> > > index 16392420903a..657ffecc4d7e 100644
+> > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+> > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+> > > @@ -459,25 +459,21 @@ static const struct dev_pm_ops mxc_isi_pm_ops = {
+> > >
+> > >  static int mxc_isi_probe(struct platform_device *pdev)
+> > >  {
+> > > +     const struct mxc_isi_plat_data *pdata;
+> > >       struct device *dev = &pdev->dev;
+> > >       struct mxc_isi_dev *isi;
+> > >       unsigned int dma_size;
+> > >       unsigned int i;
+> > >       int ret = 0;
+> > >
+> > > -     isi = devm_kzalloc(dev, sizeof(*isi), GFP_KERNEL);
+> > > +     pdata = of_device_get_match_data(dev);
+> > > +     isi = devm_kzalloc(dev, struct_size(isi, pipes, pdata->num_channels), GFP_KERNEL);
+> > >       if (!isi)
+> > >               return -ENOMEM;
+> > >
+> > >       isi->dev = dev;
+> > >       platform_set_drvdata(pdev, isi);
+> > >
+> > > -     isi->pdata = of_device_get_match_data(dev);
+> >
+> > I'd keep
+> >
+> >         isi->pdata = pdata;
+> >
+> > here and not below.
 > 
-> The standalone PHY driver doesn't require removing the CSIPHY media
-> entity from CAMSS. They serve different purposes and coexist - its
-> important to have a NOP from user-space perspective for legacy and
-> indeed for new implementations.
+> Sure
 > 
+> > > -
+> > > -     isi->pipes = kzalloc_objs(isi->pipes[0], isi->pdata->num_channels);
+> >
+> > Wouldn't it be simpler to just replace this with devm_kcalloc() ?
+> 
+> That would only make sense if pipes remained a pointer. A flex array
+> member allows combining allocations since it doesn't take up extra
+> space.
 
-There should be no two CAMSS CSIPHY device (or subdevice) drivers, where
-one chop of CAMSS CSIPHY device driver remains to sit under media, and
-another one is under phy subsystem, since it's a further degradation from
-the current already pretty awful state of the CAMSS driver, but at least
-CSIPHY is not scattered over different subsystems today.
+Yes, I understand that. My point was that with devm_kzalloc() here you
+won't need to change the mxc_isi_dev structure. The leak fix will be a
+one-liner patch.
 
-It might be fine to move device driver parts related to CAMSS CSIPHY
-driver from media subsystem to phy subsystem, however if only a partial
-transition is planned, and CSIPHY device support is split into two device
-(sub-)drivers, then it merely exposes a quite severe design flaw.
-
-It looks like it's still undecided, if CAMSS CSIPHY IP is a phy or media
-device, it can not be both at the same time.
-
-> How the PHY gets represented in the kernel is of zero interest to
-> user-sapce.
+> Technically kzalloc_flex is simpler but I assume a devm version of
+> that will be handled in another treewide commit.
+> >
+> >         isi->pipes = devm_kcalloc(dev, isi->pdata->num_channels,
+> >                                   sizeof(isi->pipes[0]), GFP_KERNEL);
+> >
+> > No other change would be needed.
 > 
-> That said, stubbing out the media entity is independent work that can
-> happen in any order and IMO is a separate debate. Whether or not CSIPHY
-> init sequences live inside of a monolithic CAMSS driver or live inside
-> off a discrete csiphy driver is not related to the media graph.
+> With a flex array member, that's a compile time error, which I use as
+> a hint to complete the conversion.
 > 
-> Happy to have that debate - and if indicated, carefully apply patches
-> separately.
-> 
+> > > -     if (!isi->pipes)
+> > > -             return -ENOMEM;
+> > > -
+> > >       isi->num_clks = devm_clk_bulk_get_all(dev, &isi->clks);
+> > >       if (isi->num_clks < 0)
+> > >               return dev_err_probe(dev, isi->num_clks, "Failed to get clocks\n");
+> > > @@ -487,6 +483,7 @@ static int mxc_isi_probe(struct platform_device *pdev)
+> > >               return dev_err_probe(dev, PTR_ERR(isi->regs),
+> > >                                    "Failed to get ISI register map\n");
+> > >
+> > > +     isi->pdata = pdata;
+> > >       if (isi->pdata->gasket_ops) {
+> > >               isi->gasket = syscon_regmap_lookup_by_phandle(dev->of_node,
+> > >                                                             "fsl,blk-ctrl");
+> > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> > > index 3cbd35305af0..99532efa4e41 100644
+> > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> > > @@ -286,7 +286,6 @@ struct mxc_isi_dev {
+> > >       struct regmap                   *gasket;
+> > >
+> > >       struct mxc_isi_crossbar         crossbar;
+> > > -     struct mxc_isi_pipe             *pipes;
+> > >       struct mxc_isi_m2m              m2m;
+> > >
+> > >       struct media_device             media_dev;
+> > > @@ -294,6 +293,8 @@ struct mxc_isi_dev {
+> > >       struct v4l2_async_notifier      notifier;
+> > >
+> > >       struct dentry                   *debugfs_root;
+> > > +
+> > > +     struct mxc_isi_pipe             pipes[];
+> > >  };
+> > >
+> > >  extern const struct mxc_gasket_ops mxc_imx8_gasket_ops;
 
 -- 
-Best wishes,
-Vladimir
+Regards,
+
+Laurent Pinchart
 
