@@ -1,313 +1,165 @@
-Return-Path: <linux-media+bounces-56524-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56526-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IH1+AmlEvWkR8gIAu9opvQ
-	(envelope-from <linux-media+bounces-56524-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 13:58:17 +0100
+	id mNAzHSVHvWlr8gIAu9opvQ
+	(envelope-from <linux-media+bounces-56526-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 14:09:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A69832DA974
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 13:58:16 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4FE72DABA4
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 14:09:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 62E22302EEA4
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 12:56:19 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 259EA301E7DF
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2026 13:09:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B11833B6BF1;
-	Fri, 20 Mar 2026 12:56:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 865573B8BDA;
+	Fri, 20 Mar 2026 13:09:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nSFfy+bD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UhusO7Ir"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB8D28469A
-	for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 12:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774011378; cv=pass; b=py28oUn2x4/DLmm4NYc2M7K/vhkmfYqAWcXPMcp4AsDBwnkntk/8Qkgdth3c9LmDsHSjCrr+mZHS83uNJbrZlGnekW27gTo2egj+p/JasuAIc4t+s+cGOZ3qFWE5vOZbSzJKD3OL4wbakdDstRd+EnWfjwnk5jdnOgMtg/lSgoA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774011378; c=relaxed/simple;
-	bh=l0dCVtf1Q2nJWHvZVpWox+4B/72E5cLdI83NC6XCIVU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BulaZnuP4LpKF80QlvZkAcRqxGe4oCHAPoSODlDdKuq1efzgWi+g0STwEEfkXPfDUQD43tVTKXboBEu7fWNZxnXvm9rAmkPVvwrTLCJIUE/jRyl8bJ7HgE+pbDs3l2Dm4V9FhjefKlv4xc0LaBQwfYwCaBK+dDcWQdy1jqxyjtY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nSFfy+bD; arc=pass smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso16675885e9.1
-        for <linux-media@vger.kernel.org>; Fri, 20 Mar 2026 05:56:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774011375; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gFVv5hfUMenuuCXeHVarv9Xgb9rmuKq0j/2D4DZo6u5nTQHNRlI/JodC0u5GdQX234
-         B3KMqHtczRbgZ/cc2b7i0M4Ze62U3W9m7/GPcxSZCMe6M5+sF2C0mxSvKZOUX1RtA/nZ
-         JMsThmvDmiP1zbl5RhusHBZFyJ4s9rFLoupPkW1E5TXsziBQwYZkLspkWwkQFRj/+8n5
-         0m8iJvf+DrmIi6gC7us4Wu0No5sVCqE70gUOl34Dnlwzcw24xOKZ9M3wb/QNbg1GsIEb
-         CwSQut89NLM4lUA7TXNIJ44iScyczRbOXMY5DlXL4jWh8mf7MQctbPymeIlimHWbvtCh
-         VP6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8gjt6likqvkrmvVmxAGeCEmY5nIAAim1slhNrHJIdj0=;
-        fh=0NFDm7EQRRtVMVCgYG4YBmHKbhfykp6nE94rkJ9V2y0=;
-        b=FRpNmBL0DmsxuNg8aqM9z/ce54FDqwLg9H0Y32OgXSwRkgXsrY2KWGPDnvfnvL6odU
-         cm+1ye6G4yNHQ0YVN53kf2uGiP6CHVpx0jFaWDUR/BUWvsKzIrnHDc5ET+Pl2QyZxeAt
-         E7KIA18NorIVPv+g4e1O7AOlFssS+ZLtLzk8E68vzSNMgPxsq8mrpu2HMpi+oxd/afDy
-         LYq2hhaOU9lmBsJfbdwEoc2kVQOaduFG5o8VHTlweq7pVLl4oEOcHFUPsWRupdJdaFQA
-         2RbeC2fr7m3IcoOjzlGsldgOHz9c3p0kW2Rg+MBt/Dl3R6eiXCZ4W4O0zyY7jp0HU/6R
-         EXWA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774011375; x=1774616175; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8gjt6likqvkrmvVmxAGeCEmY5nIAAim1slhNrHJIdj0=;
-        b=nSFfy+bDfdOMH3ZkiNIKy1gN2LYmR3fO0gzySZAmXsb6FL8J+kfXOaWPcYulE0dlGx
-         4PU+I5ja9GR0g+rSOSlhWTe+uFGViPlH/klQ3wqlQQwv6bcpGX8PB4KppOaImNg4is6R
-         B3706z7++SIWFk3OlMD2x+gZMG0W39DkKFQXc9BEAeNTvazWWFKxLF7tMn9SFBlAdC2V
-         s/Y1CXqMYuZ01iJBxWV+W1h1SBO3H1rWCECebiRiZqejBb8u/t+3OIZwREOLPyQDdI3b
-         rVW9+125jNlLulBv+IdAiWT3rg9sGLmnNEk0FzKJew3vfuNknDWdDj4gNEx5tsTxyt6D
-         Kr7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774011375; x=1774616175;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8gjt6likqvkrmvVmxAGeCEmY5nIAAim1slhNrHJIdj0=;
-        b=JsMk/cu21CIS15v3DtpChpu5IALeVkNleGSkZD75JYqSvNhy1fw7qme28wnl3WRYi4
-         m6X2iIdjYbTfua2gq/eB7AxwLmSlTtStHg6JSu4Nz+BA7EtvLxQkUtKVkXulIZuj1qlh
-         08WVlLXGYsTs3oIBdrMWtLjMeGi1ah+Qbko1PEz1a+d1LhFstbFKXDBiXifBzSwQYGB0
-         ws8MQZ0aK1HhZg59UFuz4PphRrp4mj092SYuREfL5jUQHWJlnpSIHxKlx2U15FuGzgIX
-         sPW4++X1KdO4OmrEaM2Ghw48mHXusUbWeFxx3Fm+0RUBNEdvyw2O8r94jkl1/tU132fo
-         1g8g==
-X-Gm-Message-State: AOJu0YzLauNXiCXu1MdZzkUwvdMPeuhJ/ofvia9NZOzeWaZ9o6Ze/5T4
-	82d36LwvxD6cJs8LFZy0Oab9xaI8DLec1K7QAqLN2rWPCHwd3VS8TaR1AbngXbVp9zwy4L8nuny
-	AC9UEbjalkNSvVY6rt/z++eI90id5BGpLn9pNxFN4kw==
-X-Gm-Gg: ATEYQzw9dBjH3IJ5aasvgMo15pjH+mYdVudAdy+uY7LaxYxf4x0NYtTjRswwaaKI4sW
-	vRT20WmIWGxEuQkT0zu5WYImjQdMcKcKN8TlEOtVPerlp87BjrCzn00nTj8earPOebvWvd+1XdV
-	UIiM0ysOhMtpqvB3EyzXmDoa+aigQDZgUk4kQeILoe1iK8wHNX1xj+Yh8nvkIyAAvc4ZSzTGVyj
-	HGoKxGuT/mO+KjoRgi5OJ+2eyvS3fPR2YN54DgsE3em+Sra+0H/KUp2fPoFCUUwTf++N2ASRsbk
-	RW7JxjLgMCMnvf/jgcD+2i4ilC/EPG1H4HJwFLaFP58ISbw2o0n0N9okbXhuXiFq5huDf8E=
-X-Received: by 2002:a05:600c:a69d:b0:487:288:1198 with SMTP id
- 5b1f17b1804b1-487028812b5mr9531915e9.22.1774011374519; Fri, 20 Mar 2026
- 05:56:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94953A6404;
+	Fri, 20 Mar 2026 13:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774012192; cv=none; b=FAYrmME50ocZzwM6cp0zu/SQjbHAboGWvvc/bRQ0p4rFL6aA1hrACs03YAbD2tXcSFdBu5G5dPkV6H+SKRKce3EY0LJlHCrMTht9thHeaU8UE6giGaGAkC1ew6xzESPxoUG++ZS0/MYC0kICD7WNJBtlf6+yLFnhXIwQ5+HPBp4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774012192; c=relaxed/simple;
+	bh=KtyqkgdW2N+tGuiRRGwfaJSw9/wwP3BDlPbzeD6Tf8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KCljg46eEZ4StPv7EOpWVHr9WOW5aEtEguYepMZdseRFsJ2vZEddGV+PP2bdt3IKt0hjK9zOBszodzI0bfEhw8FrZbG9eKxDnTkPdiAwQxM+KMJNiBjgSiJHmkKiIqQMli/x3jDDSl8sc3GxoR80J0QuHExYod8/3fNz6yUE7Us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UhusO7Ir; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3263CC4CEF7;
+	Fri, 20 Mar 2026 13:09:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774012191;
+	bh=KtyqkgdW2N+tGuiRRGwfaJSw9/wwP3BDlPbzeD6Tf8s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UhusO7Ir2EBydsGHlZyj5vew5uqx3LL62vko5Nvx7uYqnN8LXpvVu0HBg4Jb3rN11
+	 6S73M9ojHqYjBNhrbqF5Hh7jyCfzHErGHu3L1R6mUu7iSqAUdNpYycA6t0Y2JGCu7I
+	 azCPpzorM0ShT1moymtT/RU9iLPZHEFywsckNnX3po4/g+RkOux39sHfuVFqfrhI0x
+	 6K5iBG0kBNAiB0VJi3u6qKegr8Nd04DhRa7oBU/Df5hCAnlurweBz5L4KTZSQstN+h
+	 7+aKbBVLQnUQbRckkQHUOiKXHr8jcSwXklaf2DF4sTPlOxHzV7mqlaSl370vp3i1VV
+	 OQBJzASK6ggNg==
+Date: Fri, 20 Mar 2026 14:09:48 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Albert Esteve <aesteve@redhat.com>, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-mm@kvack.org
+Subject: Re: [PATCH v3 0/8] dma-buf: heaps: Turn heaps into modules
+Message-ID: <20260320-cryptic-industrious-otter-5b696a@houat>
+References: <CGME20260303101320eucas1p2eb4fea499364ef20825d0d73585a2555@eucas1p2.samsung.com>
+ <20260303-dma-buf-heaps-as-modules-v3-0-24344812c707@kernel.org>
+ <c60a3f30-6fc3-41ab-835a-2fdd887e18fd@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260318235907.831556-1-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20260318235907.831556-1-laurent.pinchart+renesas@ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 20 Mar 2026 12:55:48 +0000
-X-Gm-Features: AaiRm5196O41GsHvTw47r0rJt0gHdI7DBMkpX7v-9SeQrKwzHXlL18JV49mX2bo
-Message-ID: <CA+V-a8u833zheYTFC768pvJjbnidbNpQ70=GDg+_n2tmA8efhw@mail.gmail.com>
-Subject: Re: [PATCH v4 00/13] media: renesas: vsp1: Fix v4l2-compliance failures
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="zs66qpw74bbg7irl"
+Content-Disposition: inline
+In-Reply-To: <c60a3f30-6fc3-41ab-835a-2fdd887e18fd@samsung.com>
+X-Spamd-Result: default: False [-3.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56524-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-56526-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	NEURAL_HAM(-0.00)[-0.909];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.978];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,buildroot:email,mail.gmail.com:mid,ideasonboard.com:email]
-X-Rspamd-Queue-Id: A69832DA974
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E4FE72DABA4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Laurent,
 
-Thank you for the patches.
+--zs66qpw74bbg7irl
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 0/8] dma-buf: heaps: Turn heaps into modules
+MIME-Version: 1.0
 
-On Wed, Mar 18, 2026 at 11:59=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
->
-> Hello,
->
-> This series fixes most of the v4l2-compliance failures in the VSP1
-> driver. The v4l2-compliance log is very long, so I've only included the
-> executive summary, if anyone wants the full log, please let me know.
->
-> ----------------------------------------
-> root@buildroot ~ # v4l2-compliance -m /dev/media2
-> v4l2-compliance 1.33.0-5460, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: 91a4a7a9a5b3 2026-03-18 21:55:59
->
-> Compliance test for vsp1 device /dev/media2:
->
-> Media Driver Info:
->         Driver name      : vsp1
->         Model            : VSP2-I
->         Serial           :
->         Bus info         : platform:fe9a0000.vsp
->         Media version    : 7.0.0
->         Hardware revision: 0x01011404 (16847876)
->         Driver version   : 7.0.0
->
-> [...]
->
-> Compliance test for vsp1 device /dev/v4l-subdev14:
->
-> Driver Info:
->         Driver version   : 7.0.0
->         Capabilities     : 0x00000000
->         Client Capabilities: 0x0000000000000002
-> interval-uses-which Media Driver Info:
->         Driver name      : vsp1
->         Model            : VSP2-I
->         Serial           :
->         Bus info         : platform:fe9a0000.vsp
->         Media version    : 7.0.0
->         Hardware revision: 0x01011404 (16847876)
->         Driver version   : 7.0.0
-> Interface Info:
->         ID               : 0x030000ab
->         Type             : V4L Sub-Device
-> Entity Info:
->         ID               : 0x00000014 (20)
->         Name             : fe9a0000.vsp hgo
->         Function         : Video Statistics
->         Pad 0x01000015   : 0: Sink
->           Link 0x0200003b: from remote pad 0x1000013 of entity 'fe9a0000.=
-vsp clu' (Video Look-Up Table): Data
->           Link 0x0200003d: from remote pad 0x100001c of entity 'fe9a0000.=
-vsp hsi' (Video Pixel Encoding Converter): Data
->           Link 0x0200003f: from remote pad 0x100001f of entity 'fe9a0000.=
-vsp hst' (Video Pixel Encoding Converter): Data
->           Link 0x02000041: from remote pad 0x1000022 of entity 'fe9a0000.=
-vsp lut' (Video Look-Up Table): Data
->           Link 0x02000043: from remote pad 0x1000025 of entity 'fe9a0000.=
-vsp rpf.0' (Video Pixel Formatter): Data
->           Link 0x02000045: from remote pad 0x1000028 of entity 'fe9a0000.=
-vsp sru' (Video Scaler): Data
->           Link 0x02000047: from remote pad 0x100002b of entity 'fe9a0000.=
-vsp uds.0' (Video Scaler): Data
->         Pad 0x01000016   : 1: Source
->           Link 0x020000a1: to remote pad 0x1000002 of entity 'fe9a0000.vs=
-p hgo histo' (V4L2 I/O): Data, Enabled, Immutable
->
-> [...]
->
-> Sub-Device ioctls (Source Pad 1):
->         Try Stream 0
->         test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: =
-OK
->                 fail: v4l2-test-subdevs.cpp(369): fmt.width =3D=3D 0 || f=
-mt.width > 65536
->                 fail: v4l2-test-subdevs.cpp(418): checkMBusFrameFmt(node,=
- fmt.format)
->         test Try VIDIOC_SUBDEV_G/S_FMT: FAIL
->         test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
->         Active Stream 0
->         test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVA=
-L: OK
->                 fail: v4l2-test-subdevs.cpp(369): fmt.width =3D=3D 0 || f=
-mt.width > 65536
->                 fail: v4l2-test-subdevs.cpp(418): checkMBusFrameFmt(node,=
- fmt.format)
->         test Active VIDIOC_SUBDEV_G/S_FMT: FAIL
->         test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
->         test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
->
-> [...]
->
-> Grand Total for vsp1 device /dev/media2: 812, Succeeded: 808, Failed: 4, =
-Warnings: 0
-> ----------------------------------------
->
-> The remaining failures are, I believe, bugs in v4l2-compliance. They are
-> caused by the histogram source pad, which uses the
-> MEDIA_BUS_FMT_METADATA_FIXED format, hardcoding the width and height to
-> 0. I believe this is a correct behaviour, as documented in [1]. I will
-> try to send fixes for v4l2-compliance.
->
-> The series has also been tested with the vsp-tests suite, which reported
-> no regression.
->
-> Compared to v3, this version addresses issues in the HSI, HST, HGO and
-> HGT modules that did not appear with the VSP-BD but get reported with
-> the VSP-I.
->
-> [1] https://docs.kernel.org/userspace-api/media/v4l/subdev-formats.html#m=
-etadata-formats
->
-> Laurent Pinchart (13):
->   media: renesas: vsp1: Store supported media bus codes in vsp1_entity
->   media: renesas: vsp1: Store size limits in vsp1_entity
->   media: renesas: vsp1: Fix code checks in frame size enumeration
->   media: renesas: vsp1: rpf: Fix crop left and top clamping
->   media: renesas: vsp1: rpf: Fix crop width and height clamping
->   media: renesas: vsp1: rwpf: Fix media bus code and frame size
->     enumeration
->   media: renesas: vsp1: brx: Fix format propagation
->   media: renesas: vsp1: hsit: Fix size enumeration
->   media: renesas: vsp1: histo: Fix code enumeration
->   media: renesas: vsp1: histo: Fix size enumeration
->   media: renesas: vsp1: histo: Fix format setting
->   media: renesas: vsp1: Implement control events
->   media: renesas: vsp1: Initialize format on all pads
->
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> #
-HiHope RZ/G2M
+Hi Marek,
 
+On Fri, Mar 20, 2026 at 01:24:18PM +0100, Marek Szyprowski wrote:
+> On 03.03.2026 11:13, Maxime Ripard wrote:
+> > The recent introduction of heaps in the optee driver [1] made possible
+> > the creation of heaps as modules.
+> >
+> > It's generally a good idea if possible, including for the already
+> > existing system and CMA heaps.
+> >
+> > The system one is pretty trivial, the CMA one is a bit more involved,
+> > especially since we have a call from kernel/dma/contiguous.c to the CMA
+> > heap code. This was solved by turning the logic around and making the
+> > CMA heap call into the contiguous DMA code.
+> >
+> > Let me know what you think,
+> > Maxime
+> >
+> > 1: https://lore.kernel.org/dri-devel/20250911135007.1275833-4-jens.wikl=
+ander@linaro.org/
+> >
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>=20
+> I'm okay with the kernel/dma/contiguous.c changes. I only wonder how to=
+=20
+> properly merge them. There are other pending changes to=20
+> kernel/dma/contiguous.c file [1] and if they finally get reviewed, I=20
+> would like to merge=A0both via dma-mapping-for-next tree. Then I can=20
+> provide a stable branch for merging the remaining dma-buf pathes. Is it=
+=20
+> okay for You?
 
-Test-logs - https://gist.github.com/prabhakarlad/2b0050eec5d7e2ea41e4687afd=
-ee1f9d
+That sounds reasonable to media
+Thanks!
+Maxime
 
-Cheers,
-Prabhakar
+--zs66qpw74bbg7irl
+Content-Type: application/pgp-signature; name="signature.asc"
 
->  .../media/platform/renesas/vsp1/vsp1_brx.c    |  37 ++---
->  .../media/platform/renesas/vsp1/vsp1_clu.c    |  47 ++-----
->  .../media/platform/renesas/vsp1/vsp1_entity.c | 112 +++++++--------
->  .../media/platform/renesas/vsp1/vsp1_entity.h |  21 +--
->  .../media/platform/renesas/vsp1/vsp1_histo.c  |  97 +++++++++----
->  .../media/platform/renesas/vsp1/vsp1_histo.h  |   2 -
->  .../media/platform/renesas/vsp1/vsp1_hsit.c   |  61 ++++++++-
->  .../media/platform/renesas/vsp1/vsp1_iif.c    |  39 ++----
->  .../media/platform/renesas/vsp1/vsp1_lif.c    |  40 ++----
->  .../media/platform/renesas/vsp1/vsp1_lut.c    |  47 ++-----
->  .../media/platform/renesas/vsp1/vsp1_rpf.c    |   7 +-
->  .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 127 ++++++++++++++----
->  .../media/platform/renesas/vsp1/vsp1_rwpf.h   |   6 +-
->  .../media/platform/renesas/vsp1/vsp1_sru.c    |  63 ++++-----
->  .../media/platform/renesas/vsp1/vsp1_uds.c    |  62 ++++-----
->  .../media/platform/renesas/vsp1/vsp1_uif.c    |  40 ++----
->  .../media/platform/renesas/vsp1/vsp1_wpf.c    |  13 +-
->  17 files changed, 442 insertions(+), 379 deletions(-)
->
->
-> base-commit: a93a51f42ac354425a252210183c4151d991f75d
-> --
-> Regards,
->
-> Laurent Pinchart
->
->
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCab1HHAAKCRAnX84Zoj2+
+dtHjAYCni65LYJfONrHzX1+dmTg8jR62Up22RXPxSlYyod1hB1tdIw9izCD0G6Yd
+tTFaIwEBgJvjLz3SwBA1sbRbznr8PQjslZc5ZJNJzdGupJIT8b7KJryJWaeGjrY9
+oc+2U5qZsA==
+=0xTf
+-----END PGP SIGNATURE-----
+
+--zs66qpw74bbg7irl--
 
