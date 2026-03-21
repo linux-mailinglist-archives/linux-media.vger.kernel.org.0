@@ -1,101 +1,96 @@
-Return-Path: <linux-media+bounces-56607-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56608-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uImRDkbivmlUhgMAu9opvQ
-	(envelope-from <linux-media+bounces-56607-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 19:24:06 +0100
+	id WBQUKtPmvmm2igMAu9opvQ
+	(envelope-from <linux-media+bounces-56608-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 19:43:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D1E2E6C7E
-	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 19:24:05 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3942E6D48
+	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 19:43:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1ED92301950A
-	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 18:23:51 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7FD1830263EE
+	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 18:42:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44CF6346784;
-	Sat, 21 Mar 2026 18:23:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3B19349B0B;
+	Sat, 21 Mar 2026 18:42:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sqq+fKa+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NwUYhUMI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC15314D06
-	for <linux-media@vger.kernel.org>; Sat, 21 Mar 2026 18:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB8134846D
+	for <linux-media@vger.kernel.org>; Sat, 21 Mar 2026 18:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774117428; cv=none; b=pL7u9xLYCyCR9iy568ojCL34m7zC2M1QDgV2UCCssYOvi3a4mYv8IA9aWUbPMzqjrAOT5Qja6j2oTgo3SCXWob8Eqa8X+Bqf0zIcpzUuQYbKx8Yyc83OGaaun1lAibuqjRNq9X9oh1K7VMTXt5dsyxJnyNWDFjLdrJ0l1WpM0Vc=
+	t=1774118569; cv=none; b=Prq2L2plY4x6ZMRq1/kP917eWgU39cOgK7pKAUk07/jU1JcwPaIdN8ztO2rAKsMU85Y+gLb3ozDaVjNEAQvybfMBUvET7evCrTGMNuWiPFQbBkDURGW3/FIOrDUQKtHF0s1qvKXGMdcSsue/qzykltxBZuNJBoiKbfFxCk3yoxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774117428; c=relaxed/simple;
-	bh=M45HBzZi/DPHhiEVVmFrD3PNcMJmCosyRbAWgQNCU4U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PVHM4ISzVgXGfCfcwJ45H6KK+J73l6sw/XvCiTNhJ48JGitih/j4Dz0XEcNVl58fzJtH91DxXtYSA2Io+GWQBeZPWZ2xPdhAlOM32/86xNoDRP78DcL3x+8NpJcV2D7hq2HanQnuH5wxTf+BOEDJa5z7yABiJsM51Lh51xrLzvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sqq+fKa+; arc=none smtp.client-ip=209.85.210.177
+	s=arc-20240116; t=1774118569; c=relaxed/simple;
+	bh=Z031qvX0Lh8Kw5PlpbhT3p3CAkirxht5YbFEJHKb6xw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rtzEMfTAPXAOpMsjbzl/kbELgE1xGGZ6mIq0zsK9uP5gd/31J9CbFdedTyvk0b9cXw+ABfftW9qCqiyzmqeGTHiQwdiaQYEBllG+nzQ38qJnJ0mtcPdcNYEnZHnhOBkUgR3oYPylL9CprekhvDPjV80jUwTdQeuq4g3eH2GhbQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NwUYhUMI; arc=none smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-829b8b6c4d0so2495822b3a.0
-        for <linux-media@vger.kernel.org>; Sat, 21 Mar 2026 11:23:47 -0700 (PDT)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c736261ee8dso1070429a12.1
+        for <linux-media@vger.kernel.org>; Sat, 21 Mar 2026 11:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774117427; x=1774722227; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M45HBzZi/DPHhiEVVmFrD3PNcMJmCosyRbAWgQNCU4U=;
-        b=Sqq+fKa++/4uTs2eayJJ1/HCfr7UWSMuZAexJUKhSBqGYXtF6yvCd8FOeAHSPiKwFS
-         QIFLAA2025019TjmzX5fOrheHz0s/QPluHt+gs06zVsRf16S3Zh/TC7ODfolc/syrcQF
-         2raf7LbNRIXGCvML6JFRw7A0CRwOleIjqRGPM3Q+voNwnVzR1IyKyY+SSdcFdNPoJ0Hx
-         CNnS59+wJJesL7WJ80S6Xoh+Q+vlZ3t2p4VF+FTCicgVfG+EdGQtKKipGPUtjO2NtpSX
-         uTsdPzrN4QsvGYBj0b5wo+tgXpT1ljlnVTB4tIn8OU224MssbTXW+fCW16dnEVD4XlaF
-         Idrw==
+        d=gmail.com; s=20230601; t=1774118567; x=1774723367; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tX5Pt10T82xTjhI6u1k3ryf9SskZVWpfzWj29gwwrMQ=;
+        b=NwUYhUMIbvyVHzaSJA1saduuuu/ol9/4rCnxmcCEJO8cuXily0MzcgCX6+cxP36Zsu
+         YwmuHWC0RUoKpaO/VpqISI5WrOBMV3rwSG7Llpf0dijKCK+dCh1/wcoTkp4/tFBJ4CPL
+         O/klU5cFwwHrZn39J8lkNqs3GAFF2iR5zhaUPD3e/or4bDG7FOrvUKpjBk9P++BcAd2y
+         CoWXNRbwFRHy07jE/wiBVBia4azX8lngWBhdHK58w/Ljxf0f8bcikaL4V9Hd2rCXVepF
+         Ch1km6HzotfbYUxwSyB6jo4EXL1P85fZqcAeNeqJ3iTdXDDpPlOphXeeFP4vtwZ2QvLX
+         1YPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774117427; x=1774722227;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=M45HBzZi/DPHhiEVVmFrD3PNcMJmCosyRbAWgQNCU4U=;
-        b=I6ruS3z/KE61h2MVbKyqKcn3Rz9eirV/7p1WxmsCRnjWBq4aY44Kg8lbqxNu54BSLt
-         b2ubDgvYaJmzCRMS8s7VXh4lb5tqSan2QU63IpYsm4U+UL/JCNvhpggK8PU8Wu4qoZxa
-         DP4Br1KUGUPzhHMHrKHKaRLbD7BR02Gu220sk9iyvEjrwhPgFeAds+7VQO7D4Zt4w8rs
-         tNMicA3xjkp5giH5NjlWRZUhZEnczCSdm32vkqXa0rWq9UkYL8wriLdNIw/R+Pw5SiL5
-         wYdsqprC/gQ8CcjCcJCkAau7zH9qMNTganWMVKUI/BwAL4vi/z1N3T8czFfwFBwd1dZ3
-         kkXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXzUjlyqtoWksS9PNzbQRDV2w6+J0t7vl4fYk2LJc/Eh0nTofkWc9kL+ZjnjYhDnNKG3MwRG7hbUG77VQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywc1lbTgVwiENo05xoD99REfiyRahP17G7BFsGl8TUale+wYYjC
-	KMxUdMXt7bU2JnET1Mdx1XAoxx6JnX2ugmdmHnytdjVYs+d1XT6hV/QT
-X-Gm-Gg: ATEYQzy/tVRRo62RrDJlZN27MSOw0dMrM8NhfA8ad2+TZMNm0hvc/0OJUWJHYaVSgIf
-	Bd2npyjp+JkttiEZKayFZPmCZy+ujQ64gLFrBT2n1t7La25kJlrnoecuOwDCgd26VD1z/GUi5Ny
-	GoBal5DhPdqBlXgzB4H1+UlAyJ8w/th5IEkN7vFiKuqvO78KtjOmFWTGW1Su+WLI0RgIqMejObe
-	FBYgGAJgdvfXvv59UhjnzpZeAIhvdK3iWlg3nVc1Z3OMXoP9SwKav7gk+EBdIle1j6mfVoKkG+C
-	3ZLClYdSjtd/PDeUEx4SpNH6lWFPa+9Zesyaq7PU1SYs1VtAPwvXW8ZBoHeSruIR16VjMA8e72l
-	50+iOQl3kNCIOM7ObXELe2bF+U0NjTerX9e7myDeCXEPjBW09dX7SuH5vxDQhUJg6k1nhEVC4II
-	7zVBJdnuNrUy7ClfWKtvT9mWXUxYcQtsEyT+YTMV9iGTqJazOc46JryUVHkaAVZw==
-X-Received: by 2002:a05:6a00:ad03:b0:823:9c6:1985 with SMTP id d2e1a72fcca58-82a8c22b807mr5751693b3a.16.1774117426892;
-        Sat, 21 Mar 2026 11:23:46 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774118567; x=1774723367;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tX5Pt10T82xTjhI6u1k3ryf9SskZVWpfzWj29gwwrMQ=;
+        b=juP154vapsD3CQyMvfqiQWx5Ntd5auqkM7Dm6LLKx6tZ33dGkNRqNkk3vymH9V02I9
+         Dg9ai9B8sPJOJMelrkdHNVB38QTDULLvf8ou9CD6icJ3cPdKG+VU2Lo/JEQ6S1Yk5p5N
+         nC2sSTTpZKrE33X+/xwyky4IyflxbB6efe2W1MhjLXNb3+/Ch9H2gZgKIA98CjAdnVwf
+         iATeUrPVNdI6S90PL+/0KISmUqPkDcwZzzQKXzFAsSuItgzC4MucD9o6H9lvPR9yVO/+
+         DZQ1jVs4YmOUpet5HWp30f8xi3sCa8s11SaCPheKGQcCyEnsM/4WBIkqtGkXn/Talp0i
+         yuyw==
+X-Forwarded-Encrypted: i=1; AJvYcCXCdD2u5wMuaVKUE/e5CFxELUVCKe2ff8IjCs0A1SQaAbDIzaZPDU4rD2nZXDZXccWu/hx3aoya8RpcoQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywb7lepOrLqANJFUpuZ16RhBaD/Zhgo/9mzk/mMh4cFGqwPgE4i
+	rdW2dVD+QZPy1UEO5aq4NNdXtlYesszHpq8DYRkvGcaaG92QGKVYLh04
+X-Gm-Gg: ATEYQzzXwlmpLzeVcqpJ0A4HQH94sKy4CvvTkckMEn9S835TSa/JyZeif/vnaooaLQt
+	m3yNe3H5CDjh0DuAg48csIt5NF5slXvXoaKkNsq5SxsF2yW/tZdINmCgm4rhNkQSZxp/n+3s96S
+	42NLxkwpqY0OxICpT5yg0Ejpt1Jydc0yOa6YGRwjV+qb4+p5pJVYJZ6bpKcxzME6iK8fngg9lb9
+	cQImTmpaghKZP2LQN+SQS1dqJJCkEhQe+/CABVPfY+CQOO80pTFVMFFlMIZP4uAtDUfyEc53u3o
+	P3vfVbaeEWxlswY04dsuDyHlcSBuHCmCexwo7tg42lVp8HDyB1SmahYU+yMmin7Ehi4VDfez0HZ
+	aI5/0G75MZE5WXwiVUxXmH0LJMDL9D+3IKlqeU5ZBssBz8rcI5ySJZU7j4yB3uVnB7Lle3KblfF
+	ksl/jVfHwkdpORwQqzu2y1Oiw6SEI8hkTQFPUL2fEEWHIAMoASumCDGDapXDKdKg==
+X-Received: by 2002:a17:90b:5103:b0:35b:a418:6990 with SMTP id 98e67ed59e1d1-35bd2985674mr6424847a91.0.1774118567168;
+        Sat, 21 Mar 2026 11:42:47 -0700 (PDT)
 Received: from avinash-INBOOK-Y2-PLUS.bbrouter ([60.243.255.52])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b03aa79a8sm6047357b3a.2.2026.03.21.11.23.42
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bd26cde44sm1898884a91.4.2026.03.21.11.42.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Mar 2026 11:23:46 -0700 (PDT)
+        Sat, 21 Mar 2026 11:42:46 -0700 (PDT)
 From: Abinash Singh <abinashsinghlalotra@gmail.com>
-To: abinashsinghlalotra@gmail.com
-Cc: abinashlalotra@gmail.com,
-	d-gole@ti.com,
-	daniel.baluta@nxp.com,
-	gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	m-chawdhry@ti.com,
+To: hansg@kernel.org,
 	mchehab@kernel.org,
 	sakari.ailus@linux.intel.com,
-	simona.toaca@nxp.com
-Subject: Re: [PATCH] staging: atomisp: u32 over uint32_t
-Date: Sat, 21 Mar 2026 23:53:39 +0530
-Message-ID: <20260321182339.32229-1-abinashsinghlalotra@gmail.com>
+	gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	daniel.baluta@nxp.com,
+	simona.toaca@nxp.com,
+	d-gole@ti.com,
+	m-chawdhry@ti.com,
+	Abinash Singh <abinashsinghlalotra@gmail.com>
+Subject: [PATCH] staging: atomisp: replace uint32_t with u32
+Date: Sun, 22 Mar 2026 00:12:24 +0530
+Message-ID: <20260321184224.36322-1-abinashsinghlalotra@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260321180330.26737-1-abinashsinghlalotra@gmail.com>
-References: <20260321180330.26737-1-abinashsinghlalotra@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -104,41 +99,154 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,nxp.com,ti.com,gmail.com];
+	TAGGED_FROM(0.00)[bounces-56608-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56607-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com,ti.com,nxp.com,linuxfoundation.org,kernel.org,vger.kernel.org,lists.linux.dev,linux.intel.com];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[abinashsinghlalotra@gmail.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[abinashsinghlalotra@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	SINGLE_SHORT_PART(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 92D1E2E6C7E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[checkpatch.pl:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2F3942E6D48
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-please ignore this patch
+Replace usage of uint32_t with u32 to comply with kernel coding
+style guidelines.
 
-Thanks
+Reported by checkpatch.pl.
+CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
+Signed-off-by: Abinash Singh <abinashsinghlalotra@gmail.com>
+---
+Similar cleanup done in:
+d6e1f701c61f ("staging: gpib: tnt4882: u8 over uint8_t")
+
+Note:
+* This patch is part of the GSoC2026 application process for device tree bindings conversions
+* https://github.com/LinuxFoundationGSoC/ProjectIdeas/wiki/GSoC-2026-Device-Tree-Bindings
+
+
+ .../staging/media/atomisp/pci/atomisp_subdev.c | 18 +++++++++---------
+ .../staging/media/atomisp/pci/atomisp_subdev.h | 12 ++++++------
+ 2 files changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+index 3d56ca83ecb7..ff9f08cbf73b 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+@@ -180,8 +180,8 @@ static int isp_subdev_enum_mbus_code(struct v4l2_subdev *sd,
+ 	return 0;
+ }
+ 
+-static int isp_subdev_validate_rect(struct v4l2_subdev *sd, uint32_t pad,
+-				    uint32_t target)
++static int isp_subdev_validate_rect(struct v4l2_subdev *sd, u32 pad,
++				    u32 target)
+ {
+ 	switch (pad) {
+ 	case ATOMISP_SUBDEV_PAD_SINK:
+@@ -203,8 +203,8 @@ static int isp_subdev_validate_rect(struct v4l2_subdev *sd, uint32_t pad,
+ 
+ struct v4l2_rect *atomisp_subdev_get_rect(struct v4l2_subdev *sd,
+ 	struct v4l2_subdev_state *sd_state,
+-	u32 which, uint32_t pad,
+-	uint32_t target)
++	u32 which, u32 pad,
++	u32 target)
+ {
+ 	struct atomisp_sub_device *isp_sd = v4l2_get_subdevdata(sd);
+ 
+@@ -229,8 +229,8 @@ struct v4l2_rect *atomisp_subdev_get_rect(struct v4l2_subdev *sd,
+ 
+ struct v4l2_mbus_framefmt
+ *atomisp_subdev_get_ffmt(struct v4l2_subdev *sd,
+-			 struct v4l2_subdev_state *sd_state, uint32_t which,
+-			 uint32_t pad)
++			 struct v4l2_subdev_state *sd_state, u32 which,
++			 u32 pad)
+ {
+ 	struct atomisp_sub_device *isp_sd = v4l2_get_subdevdata(sd);
+ 
+@@ -242,7 +242,7 @@ struct v4l2_mbus_framefmt
+ 
+ static void isp_get_fmt_rect(struct v4l2_subdev *sd,
+ 			     struct v4l2_subdev_state *sd_state,
+-			     uint32_t which,
++			     u32 which,
+ 			     struct v4l2_mbus_framefmt **ffmt,
+ 			     struct v4l2_rect *crop[ATOMISP_SUBDEV_PADS_NUM],
+ 			     struct v4l2_rect *comp[ATOMISP_SUBDEV_PADS_NUM])
+@@ -291,7 +291,7 @@ static const char *atomisp_pad_str(unsigned int pad)
+ 
+ int atomisp_subdev_set_selection(struct v4l2_subdev *sd,
+ 				 struct v4l2_subdev_state *sd_state,
+-				 u32 which, uint32_t pad, uint32_t target,
++				 u32 which, u32 pad, u32 target,
+ 				 u32 flags, struct v4l2_rect *r)
+ {
+ 	struct atomisp_sub_device *isp_sd = v4l2_get_subdevdata(sd);
+@@ -467,7 +467,7 @@ static int isp_subdev_set_selection(struct v4l2_subdev *sd,
+ 
+ void atomisp_subdev_set_ffmt(struct v4l2_subdev *sd,
+ 			     struct v4l2_subdev_state *sd_state,
+-			     uint32_t which,
++			     u32 which,
+ 			     u32 pad, struct v4l2_mbus_framefmt *ffmt)
+ {
+ 	struct atomisp_sub_device *isp_sd = v4l2_get_subdevdata(sd);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
+index e1d0168cb91d..b12bb65be3f2 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
+@@ -315,20 +315,20 @@ bool atomisp_subdev_format_conversion(struct atomisp_sub_device *asd);
+ /* Get pointer to appropriate format */
+ struct v4l2_mbus_framefmt
+ *atomisp_subdev_get_ffmt(struct v4l2_subdev *sd,
+-			 struct v4l2_subdev_state *sd_state, uint32_t which,
+-			 uint32_t pad);
++			 struct v4l2_subdev_state *sd_state, u32 which,
++			 u32 pad);
+ struct v4l2_rect *atomisp_subdev_get_rect(struct v4l2_subdev *sd,
+ 	struct v4l2_subdev_state *sd_state,
+-	u32 which, uint32_t pad,
+-	uint32_t target);
++	u32 which, u32 pad,
++	u32 target);
+ int atomisp_subdev_set_selection(struct v4l2_subdev *sd,
+ 				 struct v4l2_subdev_state *sd_state,
+-				 u32 which, uint32_t pad, uint32_t target,
++				 u32 which, u32 pad, u32 target,
+ 				 u32 flags, struct v4l2_rect *r);
+ /* Actually set the format */
+ void atomisp_subdev_set_ffmt(struct v4l2_subdev *sd,
+ 			     struct v4l2_subdev_state *sd_state,
+-			     uint32_t which,
++			     u32 which,
+ 			     u32 pad, struct v4l2_mbus_framefmt *ffmt);
+ 
+ void atomisp_subdev_cleanup_pending_events(struct atomisp_sub_device *asd);
+-- 
+2.43.0
+
 
