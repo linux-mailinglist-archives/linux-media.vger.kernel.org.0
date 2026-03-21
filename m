@@ -1,82 +1,84 @@
-Return-Path: <linux-media+bounces-56596-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56597-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mNemG76ZvmlPUAMAu9opvQ
-	(envelope-from <linux-media+bounces-56596-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 14:14:38 +0100
+	id aJUiOu6ZvmlPUAMAu9opvQ
+	(envelope-from <linux-media+bounces-56597-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 14:15:26 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80672E572D
-	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 14:14:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C682E574A
+	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 14:15:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6618F30214E4
-	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 13:13:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A1F37302A500
+	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 13:13:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84F36379EDE;
-	Sat, 21 Mar 2026 13:13:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70C49379EF8;
+	Sat, 21 Mar 2026 13:13:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KXT6LFlc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BdBeeZwk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA87E375F94
-	for <linux-media@vger.kernel.org>; Sat, 21 Mar 2026 13:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C103437C93A
+	for <linux-media@vger.kernel.org>; Sat, 21 Mar 2026 13:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774098785; cv=none; b=N7FyAlQ/d6/oyHsDBpuzqK31vHPowTZOZnnnfeckxWDaDTJuXpU9Z0rZZ/QE9sOGevwIlM+FClzYWX9wflt6O75Ne0M3zeCjZXXlLoBsQIIZhjl7htKaSN8iS9cP3lYeXlOIIRTX5btjVVwXCwqg/0OKZKaGRYC0X5LdDGcRqrE=
+	t=1774098787; cv=none; b=GobjgsEM9shqX3xd9erSdvSbHlnPDg5xeEmPVF5lmECNvzeOf8dKxFenZMAcXC4lcXPyYAMu4Diy/Tl/tEYk103pSr6CqRO98CGgZdHjhQPqxtRHyk8g8+uwOYkXIa4h39zHLGfwUmXKBRNlZ+Hjlb9kKDwf7mAm+Fc0L3N8eeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774098785; c=relaxed/simple;
-	bh=bvVr3J0rF8noNXY5bVymWnJJnbSqhvo10T2YAL6n3Os=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=SjrXqEiT1yxO4G1BPryRT8zGqPjhSmnZ7rNI7cD1nn0r+GdxAOv8SlQ9/fvwj4gefcDDj7r+eJQfHzC4IjbGfISQ7jFqcwktrAqTiGgBy+qKXz0GcZut/atpJ/0JLl5SFVxAqOdRnRvRqcd0QhoYn3ORq32w6wpSFmZ1dHCuSmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KXT6LFlc; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1774098787; c=relaxed/simple;
+	bh=XCNqqyh87Kly70H6sujbdS2tPQXNb5tJjEy3opU1vkU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=G35NuP6zCeW+fYLcKlh4dNA99kPd22+QWgm33LcUOb6BmGtCzPWM5TBlVded5g/i5MHWP8cWoEPLZx3XnIsNurQ3XO06eJDAabITZfT/2PldxnKimnMrsU7asAu5goM7HxoFe/BzbHjt2LOrrQzZPUgG6iQvQl2sX0TSdBrTlbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BdBeeZwk; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8296d553142so1276897b3a.3
-        for <linux-media@vger.kernel.org>; Sat, 21 Mar 2026 06:13:03 -0700 (PDT)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-824c9da9928so2897781b3a.3
+        for <linux-media@vger.kernel.org>; Sat, 21 Mar 2026 06:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774098783; x=1774703583; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=61iuSm+QYiN4Ck/ITYe3NT6Sur9AUMuyY9A5Gs0l5qY=;
-        b=KXT6LFlc3mcBrlZqEZVOqbEjbsG82+iZ7qlnAuxhUk684HL5v01hb2rG5jLsDUKYAx
-         kWiKw8tcsekEAGU6K++Alhbb8d7Y0Vgv+FqZFGINbDdZpRRUBYplOX7lAb1qMD9cIRSl
-         +F7yW1QPGqOZvrg04ZO+JmQ0I+nK/Kb0AMUJVjCnOE10OO0fVpMJu1gxrsHyD6MaZAj4
-         RAHLSmIVMzP7FuT6hJxO6XD3KyKE5xDRDECqNFNjmWRy6fq5Qw0uxyfmwLsfF89ZbURJ
-         EWjuevmfLxUcer6EPb8ldIkgWNMt/7r95VjFKBu38L5sxjuK24bybJVpUk733nhruNaj
-         8JnQ==
+        d=gmail.com; s=20230601; t=1774098786; x=1774703586; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GtCnn+XGQnhaTcOtbdLAx0qlU0NBtVLiSxgKFKna5i4=;
+        b=BdBeeZwkgVPmm8RD9D5AZ/dSa5j+jpqytWpuKaNU40aeGI9Wafzc55zWdNmyloxsTt
+         1+W8+KykukRElTgFs+kK41A6SN/606BhCHzJnXM++ss8rKLU8slEpfRnGRaa+ZC+weuQ
+         N9lBaHae1MWmcq5swYhP5Q/WYAB1xTQsWCLnKo1t1sS/xi2h/Q7fut7RniZiuHqXdiZb
+         zmHLdZGLbfN+gP7Rh1FoHrW5roXJ5BHjZtbIMkbjPf+gwUhk247KMZjN01t4Fj7Fm90k
+         Fb2/MCoVJuYPSJYFf972LWXHVTiZcpp7yvbxcNwSkri0tTjOsIyx04u21TmYS5LVkhAm
+         crKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774098783; x=1774703583;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=61iuSm+QYiN4Ck/ITYe3NT6Sur9AUMuyY9A5Gs0l5qY=;
-        b=Q48qQCJQS6selku7XweIDfQnVIP5Hx3CTqV8Us0zNmP0l3xln95W5ogKyljOwqxTfj
-         7eC1aTbGKjYDuWqklDkyTHuSfPQpLq8ZVKPQ8RWLcEprRW49SHwH9jxbGNy4XrwzkEZE
-         39/IhwmCWtNBQfEe1sYYynAm1Mvw1k3K5Hto8fUZ+q2W0jxjTIzJg12zlJ0FXJq3a13N
-         1BXyqffvNk49c/nB4SmmjO/sSJeKUMkV6r0J5sPVZ9koQk8qcPTzLfUuNR74aXC0WHbq
-         VnBVbMvLbDV+YFrIu5CDij6Snm3ejoNp9PPjhyMvv4zBkhrKkBwKTY9ChDebU//9C2qi
-         CC8Q==
-X-Gm-Message-State: AOJu0Yz4O1f+W/JFb4Ao+coo9UI7gwi2ZX8oStgP8o3Fl44jtx74xCqG
-	mB2UJ9Xs2poGc3GPfAX8FTJanKO4k6cAfhZAwEj8WSwevY1Hd6wuhG+i
-X-Gm-Gg: ATEYQzzJwvWrma4Tc+97GKyN6pjFZgqmWRUzlg6cJJr0sj0ZoBVyqMm6InOEVVMWNTV
-	JY9m1m5Dq2TYme/BoJpReBH1SgBJdSNfBPD5GXsylSE1b9hyTNXtOXSffgtWznLq3J6JfHRSUpB
-	zzLcdiVLYzQ4PJqYtx2+OcIOUPiJ9CkFCY7MnDZSEoVUJTpjWgaXNAHwGrUqK2dhq66oEZ3XbwO
-	mInyk2XBI5GchDHD/hJrCeS6Z9SV15YdFhh6oOiFHcGkUqnNeF1TF49i1QdusTlSDRxd7EcV2+D
-	zUW13cLhb9lJD+diOq4pbndOo9piB+ZIcZHzNV6/gardyMf2vDB03JGcU4BNKz+kvHTOgAvq0rF
-	n57cxdgcRaYirascVj6XPybz8InxMkcZ+yhU4WzWHs/kVFc6Xk6AeIbSZHlytAGcmTrV1xPVOh3
-	SI03hHzAJPqx305SARWMCx0DPlJ9B/E5snCL8U
-X-Received: by 2002:a05:6a00:9a6:b0:81f:1a4b:bf50 with SMTP id d2e1a72fcca58-82a8c35caa2mr5329850b3a.36.1774098783007;
-        Sat, 21 Mar 2026 06:13:03 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774098786; x=1774703586;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GtCnn+XGQnhaTcOtbdLAx0qlU0NBtVLiSxgKFKna5i4=;
+        b=GG0QDNqPpD4iPr7+sXtWe2s3UU8RABCd5P9fi6qyStHHn1Q/WD0BL/SHQav5s/renQ
+         c8bjJvWwYRK0UdPRqI3VnJ41j8TG3YCUtdg/se/dUGGXXWfmJm10avqpFD03tgE5ul43
+         IiWiW2idzJr14EUZiEWlvTDm/DnrC0xofdPBCFjk2WnS1d/wQb9EgQDU9RkhxF3JlB/c
+         UabfRydt+cT5nl5uIqsWrlvrbm/spellHAKsnFRhouwrLWq2CCKAAWcqpNa7hgruRfPe
+         Scs2LtqMLKpnPPcrqVmw5HKxYE2fs6W/fxgVnntalAuLWu3DJKbMADrZFp850mRrdTJs
+         5cUg==
+X-Gm-Message-State: AOJu0YxxrZHWCpSF9Jv0Izy+pb/2yBZ9nypjFXTmOHyk6rlE8dIiutLI
+	Md0wSXstUDYmF0fvFHBc663A9brI1VffN5Lq1uSdPrk7n9rw1qEUoF+X
+X-Gm-Gg: ATEYQzx69+2uZcHX1Bn/il7tjXEbQM7rdXbfx3/KjQMgh8KG+PDJiV/CzX3lVWGYnPI
+	3m3KvPstaaPDFSAzKUsr5iDhi7tUKYDemNYGXpCUNleETaXilJnrXPxnDibRch8TZSZegQEWuIt
+	DP//Klc4WLYKHcVcgOyz01uoxL/SnC57h1KYm1DCrbdjbbwGF3q1OOJVBKd4M0NBiX61DnZoPQS
+	R7SYKTTgY+ImSIjo2X/IuQxboD+q0Q1//8Q2HXtwbC/W8SxCAs6BpX204eQZg3iEJxe7zkwIVtm
+	+YQVqWv83BNDYdTISNQeNpLiw9nl9PjiOEblYKlx/ex5uKWilluKzl7zpX7mZdV7bd8cJKRGSRD
+	3LkeNrBJHencL3mFMcTsMEp72eINA4b8wPFxEma7Ng67Nm3JPpfGqLI4d0NLBLYQwpVmutNiLaZ
+	bjdjGjD6B36gIUW5TOiTFe+TuhC0P078u91ykc
+X-Received: by 2002:a05:6a00:230a:b0:829:8a84:b9fc with SMTP id d2e1a72fcca58-82a8c247dfdmr4710830b3a.8.1774098785986;
+        Sat, 21 Mar 2026 06:13:05 -0700 (PDT)
 Received: from junjungu-PC.localdomain ([223.167.147.240])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b040db767sm5000809b3a.51.2026.03.21.06.13.00
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b040db767sm5000809b3a.51.2026.03.21.06.13.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Mar 2026 06:13:02 -0700 (PDT)
+        Sat, 21 Mar 2026 06:13:05 -0700 (PDT)
 From: Felix Gu <ustc.gu@gmail.com>
-Subject: [PATCH v2 0/3] media: ti: vpe: three small fixes
-Date: Sat, 21 Mar 2026 21:12:53 +0800
-Message-Id: <20260321-vip-v2-0-d502c1954817@gmail.com>
+Date: Sat, 21 Mar 2026 21:12:54 +0800
+Subject: [PATCH v2 1/3] media: ti: vpe: Fix fwnode_handle leak in
+ vip_probe_complete()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,10 +87,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFWZvmkC/zWMywqDMBBFf0Vm3ZRJxFS76n8UF2keOlCNJCVUJ
- P9uGujyXO45B0QbyEa4NwcEmyiSXwuISwN6VutkGZnCIFBIbPmNJdqYEk4iH1pE2UF5bsE6+tb
- Kcyw8U/z4sNdo4r/17/fVT5wh65zR5mWQ92J4TIui91X7Bcac8wk+l2BVlgAAAA==
-X-Change-ID: 20260317-vip-a2f601930065
+Message-Id: <20260321-vip-v2-1-d502c1954817@gmail.com>
+References: <20260321-vip-v2-0-d502c1954817@gmail.com>
+In-Reply-To: <20260321-vip-v2-0-d502c1954817@gmail.com>
 To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Dale Farnsworth <dale@farnsworth.org>, Benoit Parrot <bparrot@ti.com>, 
@@ -97,11 +98,11 @@ To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Felix Gu <ustc.gu@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774098779; l=755;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774098779; l=1901;
  i=ustc.gu@gmail.com; h=from:subject:message-id;
- bh=bvVr3J0rF8noNXY5bVymWnJJnbSqhvo10T2YAL6n3Os=;
- b=I1Pgg9dm1VJQn7MhKLe4xKMcIVJeoKlAXD2fja3ZPf64LITWE/g4Asyd2EpH02c39vhyVmTFB
- Wv+sJQwrLtfDV0HZSEbsQKjOeqpALlhWN+0EVd+IKYxbPrtaFFQFpR2
+ bh=XCNqqyh87Kly70H6sujbdS2tPQXNb5tJjEy3opU1vkU=;
+ b=5g2ESZGMyyViAi1vN4AcflT55JV1iBiyWJpV3haue90raHopH+DJUPw1CAnscAO79jDYSBX7R
+ 25tIMYYB3iAAAfG2Urd3r4arnxuu1n+3v/01X2WMHEKmPgNPG9y7Rix
 X-Developer-Key: i=ustc.gu@gmail.com; a=ed25519;
  pk=fjUXwmjchVN7Ja6KGP55IXOzFeCl9edaHoQIEUA+/hw=
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -118,7 +119,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56596-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56597-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -133,31 +134,65 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C80672E572D
+X-Rspamd-Queue-Id: 71C682E574A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+In vip_probe_complete(), the fwnode_handle reference is not released
+if the loop continues via the default switch case or if alloc_port()
+fails. This results in a reference count leak.
+
+Switch to using the __free(fwnode_handle) cleanup attribute to ensure
+the reference is automatically released when the handle goes out of
+scope.
+
+Fixes: fc2873aa4a21 ("media: ti: vpe: Add the VIP driver")
 Signed-off-by: Felix Gu <ustc.gu@gmail.com>
 ---
-Changes in v2:
-- EDITME: describe what is new in this series revision.
-- EDITME: use bulletpoints and terse descriptions.
-- Link to v1: https://lore.kernel.org/r/20260318-vip-v1-0-5fdcdbd01829@gmail.com
+ drivers/media/platform/ti/vpe/vip.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
----
-Felix Gu (3):
-      media: ti: vpe: Fix fwnode_handle leak in vip_probe_complete()
-      media: ti: vpe: Fix the error code of devm_request_irq()
-      media: ti: vpe: Fix the error code of devm_kzalloc() in vip_probe_slice()
+diff --git a/drivers/media/platform/ti/vpe/vip.c b/drivers/media/platform/ti/vpe/vip.c
+index a4b616a5ece7..4fe9e059313b 100644
+--- a/drivers/media/platform/ti/vpe/vip.c
++++ b/drivers/media/platform/ti/vpe/vip.c
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include <linux/clk.h>
++#include <linux/cleanup.h>
+ #include <linux/delay.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/err.h>
+@@ -3389,7 +3390,6 @@ static int vip_probe_complete(struct platform_device *pdev)
+ 	struct vip_port *port;
+ 	struct vip_dev *dev;
+ 	struct device_node *parent = pdev->dev.of_node;
+-	struct fwnode_handle *ep = NULL;
+ 	unsigned int syscon_args[5];
+ 	int ret, i, slice_id, port_id, p;
+ 
+@@ -3411,8 +3411,8 @@ static int vip_probe_complete(struct platform_device *pdev)
+ 		ctrl->syscon_bit_field[i] = syscon_args[i + 1];
+ 
+ 	for (p = 0; p < (VIP_NUM_PORTS * VIP_NUM_SLICES); p++) {
+-		ep = fwnode_graph_get_next_endpoint_by_regs(of_fwnode_handle(parent),
+-							    p, 0);
++		struct fwnode_handle *ep __free(fwnode_handle) =
++			fwnode_graph_get_next_endpoint_by_regs(of_fwnode_handle(parent), p, 0);
+ 		if (!ep)
+ 			continue;
+ 
+@@ -3447,7 +3447,6 @@ static int vip_probe_complete(struct platform_device *pdev)
+ 		port = dev->ports[port_id];
+ 
+ 		vip_register_subdev_notify(port, ep);
+-		fwnode_handle_put(ep);
+ 	}
+ 	return 0;
+ }
 
- drivers/media/platform/ti/vpe/vip.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
----
-base-commit: 95c541ddfb0815a0ea8477af778bb13bb075079a
-change-id: 20260317-vip-a2f601930065
-
-Best regards,
 -- 
-Felix Gu <ustc.gu@gmail.com>
+2.43.0
 
 
