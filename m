@@ -1,84 +1,84 @@
-Return-Path: <linux-media+bounces-56597-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56598-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aJUiOu6ZvmlPUAMAu9opvQ
-	(envelope-from <linux-media+bounces-56597-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 14:15:26 +0100
+	id 4OjIGCOavmlPUAMAu9opvQ
+	(envelope-from <linux-media+bounces-56598-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 14:16:19 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C682E574A
-	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 14:15:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA282E575B
+	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 14:16:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A1F37302A500
-	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 13:13:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 10147303B7D4
+	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2026 13:13:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70C49379EF8;
-	Sat, 21 Mar 2026 13:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 638EA379EFA;
+	Sat, 21 Mar 2026 13:13:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BdBeeZwk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XwRQDhi/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C103437C93A
-	for <linux-media@vger.kernel.org>; Sat, 21 Mar 2026 13:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AD5378D93
+	for <linux-media@vger.kernel.org>; Sat, 21 Mar 2026 13:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774098787; cv=none; b=GobjgsEM9shqX3xd9erSdvSbHlnPDg5xeEmPVF5lmECNvzeOf8dKxFenZMAcXC4lcXPyYAMu4Diy/Tl/tEYk103pSr6CqRO98CGgZdHjhQPqxtRHyk8g8+uwOYkXIa4h39zHLGfwUmXKBRNlZ+Hjlb9kKDwf7mAm+Fc0L3N8eeU=
+	t=1774098790; cv=none; b=DPc+FplvLoev74gT7Vm7XReM6uTC1B40CMMBvk1V0kzPwFzlwKWnLBR34pkTqC+qsM++/GN40viQOaINIrodyTa258v4CmKmgJh5+RFz9haB95NkFcEpY2GC+dCpY7ZU9k/Pnzf1T04Bz5iiK7nFaLULz17IhAphlqBk3O+xDVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774098787; c=relaxed/simple;
-	bh=XCNqqyh87Kly70H6sujbdS2tPQXNb5tJjEy3opU1vkU=;
+	s=arc-20240116; t=1774098790; c=relaxed/simple;
+	bh=Lf0s0Fcik0dvR4AtpKW3/RTsPV3IsfB65rE+J909tAw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=G35NuP6zCeW+fYLcKlh4dNA99kPd22+QWgm33LcUOb6BmGtCzPWM5TBlVded5g/i5MHWP8cWoEPLZx3XnIsNurQ3XO06eJDAabITZfT/2PldxnKimnMrsU7asAu5goM7HxoFe/BzbHjt2LOrrQzZPUgG6iQvQl2sX0TSdBrTlbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BdBeeZwk; arc=none smtp.client-ip=209.85.210.170
+	 In-Reply-To:To:Cc; b=CAyOwskubmRHdQ8ozYZHNJ5nlTSEUWlGDKbAaVhuj+vcPaxJvBImGoPnhnsoNpOrMjdsJ3NEqSfiWBYUrB3k+OorCP1i1760+BFYqWhQQt10cpDRVi2U80lFNCxCXfmk4/RzmlEvXw6y5vky91wZ4Rje8t5tQNUGi5LSqa3XMcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XwRQDhi/; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-824c9da9928so2897781b3a.3
-        for <linux-media@vger.kernel.org>; Sat, 21 Mar 2026 06:13:06 -0700 (PDT)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-82735a41920so1175190b3a.2
+        for <linux-media@vger.kernel.org>; Sat, 21 Mar 2026 06:13:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774098786; x=1774703586; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1774098789; x=1774703589; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GtCnn+XGQnhaTcOtbdLAx0qlU0NBtVLiSxgKFKna5i4=;
-        b=BdBeeZwkgVPmm8RD9D5AZ/dSa5j+jpqytWpuKaNU40aeGI9Wafzc55zWdNmyloxsTt
-         1+W8+KykukRElTgFs+kK41A6SN/606BhCHzJnXM++ss8rKLU8slEpfRnGRaa+ZC+weuQ
-         N9lBaHae1MWmcq5swYhP5Q/WYAB1xTQsWCLnKo1t1sS/xi2h/Q7fut7RniZiuHqXdiZb
-         zmHLdZGLbfN+gP7Rh1FoHrW5roXJ5BHjZtbIMkbjPf+gwUhk247KMZjN01t4Fj7Fm90k
-         Fb2/MCoVJuYPSJYFf972LWXHVTiZcpp7yvbxcNwSkri0tTjOsIyx04u21TmYS5LVkhAm
-         crKg==
+        bh=6pz23bkdf2LTLBeYwmuaoc4PB3larGLWkHam76/mv9U=;
+        b=XwRQDhi/bdYFR71RTsw2hh//aKW55bOQ00KBRpZR3YvgbQ19kReCWujAe04/1fPtQO
+         DftC9yhN2rCwBpxX17p8ekUPQdxrwmlDxsdvYioyz1jh01bjUpFy8Ju09g705PfKAAqH
+         ukXOJDfP+smSvfkfGvmVvrqVrtFeyKm1OFzYIk/ubfovfSuWvcIYswv6/d2HHCNmzjz3
+         digNzvtT/ONFNgWdCD1rAEekkSWeQWAQ4/nEEiOz7QmzZWm2GagzGvMghdTm5r8QLTan
+         iwM8J85ZTH9xiv2ZO6PD3TtT/uFaJrlcX6Uxx9XP57vCvsAqMcPWQmWmQ4gB1HOjsir5
+         5M/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774098786; x=1774703586;
+        d=1e100.net; s=20251104; t=1774098789; x=1774703589;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=GtCnn+XGQnhaTcOtbdLAx0qlU0NBtVLiSxgKFKna5i4=;
-        b=GG0QDNqPpD4iPr7+sXtWe2s3UU8RABCd5P9fi6qyStHHn1Q/WD0BL/SHQav5s/renQ
-         c8bjJvWwYRK0UdPRqI3VnJ41j8TG3YCUtdg/se/dUGGXXWfmJm10avqpFD03tgE5ul43
-         IiWiW2idzJr14EUZiEWlvTDm/DnrC0xofdPBCFjk2WnS1d/wQb9EgQDU9RkhxF3JlB/c
-         UabfRydt+cT5nl5uIqsWrlvrbm/spellHAKsnFRhouwrLWq2CCKAAWcqpNa7hgruRfPe
-         Scs2LtqMLKpnPPcrqVmw5HKxYE2fs6W/fxgVnntalAuLWu3DJKbMADrZFp850mRrdTJs
-         5cUg==
-X-Gm-Message-State: AOJu0YxxrZHWCpSF9Jv0Izy+pb/2yBZ9nypjFXTmOHyk6rlE8dIiutLI
-	Md0wSXstUDYmF0fvFHBc663A9brI1VffN5Lq1uSdPrk7n9rw1qEUoF+X
-X-Gm-Gg: ATEYQzx69+2uZcHX1Bn/il7tjXEbQM7rdXbfx3/KjQMgh8KG+PDJiV/CzX3lVWGYnPI
-	3m3KvPstaaPDFSAzKUsr5iDhi7tUKYDemNYGXpCUNleETaXilJnrXPxnDibRch8TZSZegQEWuIt
-	DP//Klc4WLYKHcVcgOyz01uoxL/SnC57h1KYm1DCrbdjbbwGF3q1OOJVBKd4M0NBiX61DnZoPQS
-	R7SYKTTgY+ImSIjo2X/IuQxboD+q0Q1//8Q2HXtwbC/W8SxCAs6BpX204eQZg3iEJxe7zkwIVtm
-	+YQVqWv83BNDYdTISNQeNpLiw9nl9PjiOEblYKlx/ex5uKWilluKzl7zpX7mZdV7bd8cJKRGSRD
-	3LkeNrBJHencL3mFMcTsMEp72eINA4b8wPFxEma7Ng67Nm3JPpfGqLI4d0NLBLYQwpVmutNiLaZ
-	bjdjGjD6B36gIUW5TOiTFe+TuhC0P078u91ykc
-X-Received: by 2002:a05:6a00:230a:b0:829:8a84:b9fc with SMTP id d2e1a72fcca58-82a8c247dfdmr4710830b3a.8.1774098785986;
-        Sat, 21 Mar 2026 06:13:05 -0700 (PDT)
+        bh=6pz23bkdf2LTLBeYwmuaoc4PB3larGLWkHam76/mv9U=;
+        b=ULS5oCoaD5CNYAmuPjJjvDC3goXla2vrd9KePUfyizI33YqfWhW/aCU4xqOLYza12f
+         apr/FQNG7OtuHhSIkuZEWV/A5N1LaHoz8SwsanHgl/sXHiMkNvwa3mRcfLacyG6xbza8
+         +ct0XlO+BP+u2HXPe4XSWx7l33XICO8+G0TkuqZzeZCcrzG4vdjTandPV10UCSn9bUsP
+         HQaRgKC8dV4D1KVefRccwf8inbQ4oEnuE7Fo3k5PW2we9tL78gLo2QHtZRCrhe9BKSCh
+         gqRirZlxHoVma4moMYCssm3vrRzqpTcIcGFMkaKt+mO/OhY5ewIZ8Q+4IXyJ7ct0to08
+         tf6w==
+X-Gm-Message-State: AOJu0YxGLdZ4wtWb+hnSSgPyNw9o0Vd+a79UREGNcFqb79n7d6+3NLno
+	1I+6TJrcAIlT64OTT485d7QwKnyr/kpsQ5GyphlZJMY/+12q4EOMIpDFybXgjcj0UMqkpQ==
+X-Gm-Gg: ATEYQzyPqONVTYrdcwJsJuRuioOJV0H6HqTRaR/AJz12hcbg1d9FGPKItXqQcwaV6gz
+	wrA5NNTU8ETbirDPsbmiisqj504/89rlsXTiE8kq9iO3DGS5pI1c9U3lg4bw65aWyaCJRGn/5x3
+	zBHiBIjhieO6zuEyoYWUVW94JbSsbjlkUZ1Jj9JKHu0enPIkBJkk+N/OL9I9zHqyMciJ2h2kEYo
+	Q9o0jbPxpzwWV4oSiwYOgdv5s5w4f+efvcTgpkccBQjCqSXYoE05YmbJeOjXgdfvwTy0h9uRyAZ
+	VYODqdgSQwwlCOg1eHynIbao0+RhJeh9ujdw23Civvbq+aeajiNA+3mlT8YrTcAsZS+DV4BlAbW
+	12DABI+sRzqA0VP1VJ0Qv7xthTURkDcFTvyBAzYClH13tZKUNQZaiZxi7/VQdH6+/xL0tKUCO6x
+	ZBN7MZLRiNhW2e3ibFspE/63LKEv0AJGtL+TKV
+X-Received: by 2002:a05:6a00:ac8f:b0:82a:7471:eb90 with SMTP id d2e1a72fcca58-82a8c35cfb1mr4934444b3a.30.1774098788969;
+        Sat, 21 Mar 2026 06:13:08 -0700 (PDT)
 Received: from junjungu-PC.localdomain ([223.167.147.240])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b040db767sm5000809b3a.51.2026.03.21.06.13.03
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b040db767sm5000809b3a.51.2026.03.21.06.13.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Mar 2026 06:13:05 -0700 (PDT)
+        Sat, 21 Mar 2026 06:13:08 -0700 (PDT)
 From: Felix Gu <ustc.gu@gmail.com>
-Date: Sat, 21 Mar 2026 21:12:54 +0800
-Subject: [PATCH v2 1/3] media: ti: vpe: Fix fwnode_handle leak in
- vip_probe_complete()
+Date: Sat, 21 Mar 2026 21:12:55 +0800
+Subject: [PATCH v2 2/3] media: ti: vpe: Fix the error code of
+ devm_request_irq()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,7 +87,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260321-vip-v2-1-d502c1954817@gmail.com>
+Message-Id: <20260321-vip-v2-2-d502c1954817@gmail.com>
 References: <20260321-vip-v2-0-d502c1954817@gmail.com>
 In-Reply-To: <20260321-vip-v2-0-d502c1954817@gmail.com>
 To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, 
@@ -98,11 +98,11 @@ To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Felix Gu <ustc.gu@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774098779; l=1901;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774098779; l=835;
  i=ustc.gu@gmail.com; h=from:subject:message-id;
- bh=XCNqqyh87Kly70H6sujbdS2tPQXNb5tJjEy3opU1vkU=;
- b=5g2ESZGMyyViAi1vN4AcflT55JV1iBiyWJpV3haue90raHopH+DJUPw1CAnscAO79jDYSBX7R
- 25tIMYYB3iAAAfG2Urd3r4arnxuu1n+3v/01X2WMHEKmPgNPG9y7Rix
+ bh=Lf0s0Fcik0dvR4AtpKW3/RTsPV3IsfB65rE+J909tAw=;
+ b=LNUt3jU+IOmy4tWNsPQ8Q/7s6T67Yjd1MiUD1UBFaujT1/jr6vN+077ILsnmvPHJ0itMmsuFb
+ I5LgrkZ0pL8DRSVrba1HeC1E/8CCzk0EbhTwr1nxAz5g8cNUjSLokUn
 X-Developer-Key: i=ustc.gu@gmail.com; a=ed25519;
  pk=fjUXwmjchVN7Ja6KGP55IXOzFeCl9edaHoQIEUA+/hw=
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -119,7 +119,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56597-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56598-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -134,63 +134,32 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 71C682E574A
+X-Rspamd-Queue-Id: DFA282E575B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-In vip_probe_complete(), the fwnode_handle reference is not released
-if the loop continues via the default switch case or if alloc_port()
-fails. This results in a reference count leak.
-
-Switch to using the __free(fwnode_handle) cleanup attribute to ensure
-the reference is automatically released when the handle goes out of
-scope.
+Return the actual error code from devm_request_irq() instead of
+incorrectly returning -ENOMEM.
 
 Fixes: fc2873aa4a21 ("media: ti: vpe: Add the VIP driver")
 Signed-off-by: Felix Gu <ustc.gu@gmail.com>
 ---
- drivers/media/platform/ti/vpe/vip.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/media/platform/ti/vpe/vip.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/ti/vpe/vip.c b/drivers/media/platform/ti/vpe/vip.c
-index a4b616a5ece7..4fe9e059313b 100644
+index 4fe9e059313b..ea65b7ec9b09 100644
 --- a/drivers/media/platform/ti/vpe/vip.c
 +++ b/drivers/media/platform/ti/vpe/vip.c
-@@ -9,6 +9,7 @@
-  */
+@@ -3471,7 +3471,7 @@ static int vip_probe_slice(struct platform_device *pdev, int slice)
+ 	ret = devm_request_irq(&pdev->dev, dev->irq, vip_irq,
+ 			       0, VIP_MODULE_NAME, dev);
+ 	if (ret < 0)
+-		return -ENOMEM;
++		return ret;
  
- #include <linux/clk.h>
-+#include <linux/cleanup.h>
- #include <linux/delay.h>
- #include <linux/dma-mapping.h>
- #include <linux/err.h>
-@@ -3389,7 +3390,6 @@ static int vip_probe_complete(struct platform_device *pdev)
- 	struct vip_port *port;
- 	struct vip_dev *dev;
- 	struct device_node *parent = pdev->dev.of_node;
--	struct fwnode_handle *ep = NULL;
- 	unsigned int syscon_args[5];
- 	int ret, i, slice_id, port_id, p;
- 
-@@ -3411,8 +3411,8 @@ static int vip_probe_complete(struct platform_device *pdev)
- 		ctrl->syscon_bit_field[i] = syscon_args[i + 1];
- 
- 	for (p = 0; p < (VIP_NUM_PORTS * VIP_NUM_SLICES); p++) {
--		ep = fwnode_graph_get_next_endpoint_by_regs(of_fwnode_handle(parent),
--							    p, 0);
-+		struct fwnode_handle *ep __free(fwnode_handle) =
-+			fwnode_graph_get_next_endpoint_by_regs(of_fwnode_handle(parent), p, 0);
- 		if (!ep)
- 			continue;
- 
-@@ -3447,7 +3447,6 @@ static int vip_probe_complete(struct platform_device *pdev)
- 		port = dev->ports[port_id];
- 
- 		vip_register_subdev_notify(port, ep);
--		fwnode_handle_put(ep);
- 	}
- 	return 0;
- }
+ 	spin_lock_init(&dev->slock);
+ 	mutex_init(&dev->mutex);
 
 -- 
 2.43.0
