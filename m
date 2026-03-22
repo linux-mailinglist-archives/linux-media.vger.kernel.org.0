@@ -1,92 +1,93 @@
-Return-Path: <linux-media+bounces-56630-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56631-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id DCOpEMj1v2moBgQAu9opvQ
-	(envelope-from <linux-media+bounces-56630-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 22 Mar 2026 14:59:36 +0100
+	id WAHGOt36v2lFCQQAu9opvQ
+	(envelope-from <linux-media+bounces-56631-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 22 Mar 2026 15:21:17 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE252E98C4
-	for <lists+linux-media@lfdr.de>; Sun, 22 Mar 2026 14:59:35 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3412E99DD
+	for <lists+linux-media@lfdr.de>; Sun, 22 Mar 2026 15:21:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7B5AC30048E4
-	for <lists+linux-media@lfdr.de>; Sun, 22 Mar 2026 13:59:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 45B00300E3B6
+	for <lists+linux-media@lfdr.de>; Sun, 22 Mar 2026 14:21:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 366E035F603;
-	Sun, 22 Mar 2026 13:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57663363C45;
+	Sun, 22 Mar 2026 14:21:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FW5FO3bt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="My5EvIwH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D005435F199
-	for <linux-media@vger.kernel.org>; Sun, 22 Mar 2026 13:59:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4AA35E947
+	for <linux-media@vger.kernel.org>; Sun, 22 Mar 2026 14:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774187968; cv=none; b=qZv95WWiJJv5GHyCpX0IvX17LXJKMf1BdyX1rdCWHEzWrr3usD4HVrqKYkflh4LhaiS4slQTwfskuvum4VG+XgZp0ued9ESr81TDEFPtsFhK0RU/E9UINq+V5HhzZ9W5aTnNCBZ1/84zInSTknfmZjTjKd8ZhyIakHCiqhtNi38=
+	t=1774189271; cv=none; b=JCq5gxp2U8nBlPQSkixEWLtl0bpZgJFmw+9WXdit4g4PZKZ7SjmJYSry82Qfk/RbAelQ8U1aUvP115DFLC7+99GfuAEy1TSeAxBJmKQdsDT5p2L31No1BwMZHK9by6mWMNmkJNW6Fwz434rpYf0BC7Llvh0q/j79JvK8ZnSONJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774187968; c=relaxed/simple;
-	bh=F6BLcPnvDJ8TlcGGAp6QvU95NRrjcWFjh+v02anCcvM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Nlu83nvIamRmvZUP1KmtEvf0UJgJtfpzmIFR5ugjmDCtZtnYpGAmq2tlzd+QuUcbCOUHMRbk2UxRrjf+flpWb+sHYo2/tktGokhboXCFzTbyTMUAf2zWLDGnWit0hC5sqOj9033Ob/UNFVD/0WRhGRWLf2p0/283GjNV11zwnF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FW5FO3bt; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1774189271; c=relaxed/simple;
+	bh=iqw9joRcspZCH/8gMqnFSFCc4GCnkWYXmP5HtvqP8lg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JRtHOjC9JkhVXFqHEVonOQKkJNhZMFV536MqVjgK4ZXSs31VAGd/aOzYmh4CwIfN5udKmo12tMRReZ8QjPwWp8643Jg1JFF91TTlZgyALerL6xPfs3U0I7aa/8+cpE4WjYT63GGQD/WIZtBGQbZr0OZEYr9DjrtNBNAiEJY3D/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=My5EvIwH; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2b04fc8851cso35991755ad.0
-        for <linux-media@vger.kernel.org>; Sun, 22 Mar 2026 06:59:26 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48558d6ef83so18673565e9.3
+        for <linux-media@vger.kernel.org>; Sun, 22 Mar 2026 07:21:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774187966; x=1774792766; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1774189269; x=1774794069; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7drRmchDDg/N48TpGcKJzYUq/Y3ryPf1jRTgQZqpjK0=;
-        b=FW5FO3btXkQIQX9m9DhUzDT8Vq/q8pjOT5N36jbszHBrq9jTDbPmlai8wfL2jwyGkS
-         VVIpUMRKlayN4XnKOuBSEUfMirvGlDJa2/hcoVJ/h/wfHl2PAJ9lWBDlVreSWwAvqwy2
-         ZQzq/avvQFZFF5hSb6GMdQqQaiHtX4CG7wXYZPUw8MkwXvEotIBQFgr90edo9s3I1en0
-         s3zhFTfUb60POL1Ym+5nauLxCTNIjXR/KKuX1EtPmC8do8F25li+s1b2TFbZ5ECSuQHh
-         yvlwAvbL2V8O7tF3TiDp+Y4M7E24CHFRN8NAGyOcOz8zxiK1olNMHY7rOA+xJOrOsL0p
-         IJVQ==
+        bh=duit6oVlvEzPP5nc9GzgTOHOPo7U9Sp31ZgxaS7C5gQ=;
+        b=My5EvIwHdA8DskPOVi/Sm6Y7NOKecjbZ0YvRoZRCsCEOAm5IOAuqp0mwRD9OI5QolM
+         ReVz2DT0I0s5B8v2e6V756gwTx4gxu3DRt0yqgYvM1N2epl/2D4y2N4cv+lWH4AG4RoK
+         DuX8IUnzx7Nwwsg1H6wr10N6k7BWhDNNpRgsA6dUrHKaKmaZVXlN8s4XdU1J/qb/4zKx
+         hsuXuGUo5st8+Gy8O4ET7DfODv88ddBZQX4e9u0PmGnTuQmxlO0x9m6im8fLao7wEbIJ
+         RLyRfQQ57jhsmPP35r3zKa1dKZYFedq4od7pM9qblT5/8hN7UdPsYIA/BCAvDjjNUi5c
+         hrYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774187966; x=1774792766;
+        d=1e100.net; s=20251104; t=1774189269; x=1774794069;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7drRmchDDg/N48TpGcKJzYUq/Y3ryPf1jRTgQZqpjK0=;
-        b=rtlJz8DbSNhNjzwrIyD3E62DIKyXVX0j327WGd1zsJXAGPgHs82/gXkn6lehvHwiLa
-         FmHoO/wOSsvR3njG8v4CepzYk3L7DUUhECZN0y1hzt56dkco8xGWGET1g8w1sJC+KG+u
-         bNXQkVMQ2JRKGsPt/L5mk7BtNEEkzTBHstj8zjCbehl96rd3H+q/N15+EjOgV2iIZ8lf
-         heDOjgnGRqIfUArjVJeyoGPVtaomhbFHTuedxJE19lNvoM4OXbK+JPTyDdR40i5JgrLV
-         Z8r7aQvI9NawiB0/nWmTyBms2/zht4xjEY+/OngRzdCmbtcMKVkL9pc1gYWOkZxLCuYp
-         /nuA==
-X-Gm-Message-State: AOJu0YzI4ucGP28DULUzMkEVLAfd/sIBARobVeow2tANFLc4I7enX+PT
-	SwG7QqhXSVzz55SQ6jSULEornThvIRDGOqFCnksbHQhJFGTl9HOtGp567Wofhg==
-X-Gm-Gg: ATEYQzzBhwnIqov438x7UkgtS7azqDnC6X6dM+ODvP2oHIpLTgaDCR34AENVcxwNZL0
-	OvtYbeL1CfR7ZIwFJqitBOdLf/blqBnMjJKmQ1VzDb1/uFNbcfvh2FLFDUSDU2cJzHY+g6dS8ER
-	z4eI+FQterkRbK+subVjWjo26asgJUhRknWbRO+p1YWUqUOEXRtcLbOEkFRZGkxPelH9V15gij3
-	YrYzouW2Zwg3+OZgdaL+ykh6k2ti6GMcqSBkrsrOmQbiKhNvGCeQC7wj1nkOMgHzL3mYFT7hspE
-	pJDSRl3Mo9PHDWCgJPkBJVdtG/KmBfK+hajwl7NWG8hY/YefBuYy4y7Hivy0it6cANLj8tWJ8MY
-	aLyfyJJWkThDcZGjFZUWU3M+HAr/hQYouTBdKDR+PX6voAJgWyc1v/8AsBV8VsTy2grL1sMte1x
-	lARs7eDTsqNsLOTRbN31sX/SLyRjc128ME8YxRJDUvdlU3mc1MdERevdLz6PS8YRN0mMRgE4Tws
-	L6ZnY/YC71MBrquOs5NQeWy29tZT5ZNjOELKu0jlFf593gRhLnZwxKXu/v880iemfJWmOUpAQ0r
-	wg==
-X-Received: by 2002:a17:902:ebc2:b0:2ae:a8a8:92f3 with SMTP id d9443c01a7336-2b0827de557mr95617825ad.44.1774187966042;
-        Sun, 22 Mar 2026 06:59:26 -0700 (PDT)
-Received: from suraj-HP-Laptop-15s-fq2xxx.. ([2402:a00:163:3509:5e46:e785:168a:108b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b083656b51sm97723425ad.54.2026.03.22.06.59.22
+        bh=duit6oVlvEzPP5nc9GzgTOHOPo7U9Sp31ZgxaS7C5gQ=;
+        b=rFKnrfrXRpUAmfirXMysLBq9QS7HRUbDLv0/On+j5p6FiXMJMn7OJGeNUiiBAf0CaF
+         QgX173Qjj8Pj+TMlgeCkWD7ZuarTojyDwvwuFot5Z5y2znhRdjo03BB0x+WHMz4fXi1t
+         +apVBB3jv1gjHAgpw4oghJ3Hyt3/3rMcvAdd4jxrVf2kFCyrPcUuAzciQbDoLlL7axkC
+         bU0+V75wmkpAtqMIdgJTa4s/yxeqqCefCdrEiMWmeY9MxcOJd0NouveNrKg5z6YO4xrZ
+         S8bJyl+lOIuximS5jp6eEF+ock/Wy0x80yONnbq8Q2Y0sgMTs73OD/3wr5fq/ZnK/u6R
+         zM3g==
+X-Forwarded-Encrypted: i=1; AJvYcCWhMt5gTll9fVkwdHDmIArLkPYaqaWlgIwzrmE10ruZcDqlH4dXrV+ab6sXVhBTvHNDRdbnuBPRAAM46Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVPPC7DGzQmT3nw3K3q0OiteMVKMq3KPDg2n1Z2N1aSnzAyDJx
+	YOX64j2zlvuu0ALPA74oBeJ5VKu4irIIPofBLHuGooUb3jItKqY+tXE=
+X-Gm-Gg: ATEYQzzlJkZmrOIqX3hAZ4K332Nt2z84IVNMki+MMDzkzNAIZZJn4Yo3tzmzaSaORph
+	Xf2iIAbvKMBo74ha5z0aS1VLovQ6kEP41O4pDx1jrLTA7brQK+FegAAuNlvS05oi1QuTZSdOF2U
+	aR5OiK7B2SiZxqrrWD3RQuUWMdgR9jIAxZCvM99M5kPdCDX93X35hOyMUPHWAQlQoOQKFpS1mje
+	rdV7yiyv3FeVKcr59Gi9pZ+03ZtbnMSuwE6z632q9LLiM9kKEet/SMfhum5yOvci0RPp2gYxBCm
+	SYU1yq3AxBFN7Gf04uq64zZuo5nh4u+1DtDMlU4UcZ/xocuCyYBpLdVobyn7Uix8WBABtP1ZlwH
+	1b2amoHdhWAdSjQ9IFI6w26GtmWlmmqnYSLNWJTzrpTxq6z5znYZ2JZaSa+SL153eVu1Xloz1iL
+	Rm2sqRudlU8AdYjhbuJDAYD5iIxz2krXu2hEYd8xGQE9zvytRK/H9lP1Ug2DRlIJ3YRXYoqEk=
+X-Received: by 2002:a05:600c:8b25:b0:480:6bef:63a0 with SMTP id 5b1f17b1804b1-486fee0d8cdmr138331555e9.21.1774189268766;
+        Sun, 22 Mar 2026 07:21:08 -0700 (PDT)
+Received: from hp-ubuntu.. ([41.249.139.113])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486ff109b95sm141340055e9.1.2026.03.22.07.21.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2026 06:59:25 -0700 (PDT)
-From: Suraj Sonawane <surajsonawane0215@gmail.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org,
+        Sun, 22 Mar 2026 07:21:08 -0700 (PDT)
+From: Mohammed EL Kadiri <med08elkadiri@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: andy@kernel.org,
+	sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Suraj Sonawane <surajsonawane0215@gmail.com>
-Subject: [PATCH] media: i2c: ov5647: handle V4L2_CID_LINK_FREQ in s_ctrl
-Date: Sun, 22 Mar 2026 19:23:48 +0530
-Message-Id: <20260322135348.11339-1-surajsonawane0215@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Mohammed EL Kadiri <med08elkadiri@gmail.com>
+Subject: [PATCH] staging: atomisp: fix spelling mistake
+Date: Sun, 22 Mar 2026 15:21:04 +0100
+Message-ID: <20260322142104.41647-1-med08elkadiri@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -100,69 +101,56 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-56630-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,vger.kernel.org,lists.linux.dev,gmail.com];
+	TAGGED_FROM(0.00)[bounces-56631-lists,linux-media=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[surajsonawane0215@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[med08elkadiri@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: ABE252E98C4
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4F3412E99DD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Handle V4L2_CID_LINK_FREQ in ov5647_s_ctrl().
+Correct the spelling of 'uninteruptible' to 'uninterruptible' in a
+comment within system_global.h. This improves code readability and
+searchability within the atomisp driver.
 
-Currently this control is defined but not handled in s_ctrl(),
-so V4L2 falls back to estimating link frequency from pixel rate
-and prints warning like:
-
-  v4l2_get_link_freq: Link frequency estimated using pixel rate: 
-  result might be inaccurate
-  v4l2_get_link_freq: Consider implementing support for V4L2_CID_LINK_FREQ
-  in the transmitter driver
-
-Handle it as no-op since link frequency is fixed per mode and
-not meant to be changed at runtime.
-
-Avoid these warnings when control is queried.
-
-Signed-off-by: Suraj Sonawane <surajsonawane0215@gmail.com>
+Signed-off-by: Mohammed EL Kadiri <med08elkadiri@gmail.com>
 ---
- drivers/media/i2c/ov5647.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/staging/media/atomisp/pci/system_global.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index 6a46ef723..a5a9cff5a 100644
---- a/drivers/media/i2c/ov5647.c
-+++ b/drivers/media/i2c/ov5647.c
-@@ -999,6 +999,9 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = cci_write(sensor->regmap, OV5647_REG_HTS,
- 				sensor->mode->format.width + ctrl->val, &ret);
- 		break;
-+	case V4L2_CID_LINK_FREQ:
-+		ret = 0;
-+		break;
- 	case V4L2_CID_TEST_PATTERN:
- 		ret = cci_write(sensor->regmap, OV5647_REG_ISPCTRL3D,
- 				ov5647_test_pattern_val[ctrl->val], NULL);
+diff --git a/drivers/staging/media/atomisp/pci/system_global.h b/drivers/staging/media/atomisp/pci/system_global.h
+index e8a29f73d67a..bfa8682ee667 100644
+--- a/drivers/staging/media/atomisp/pci/system_global.h
++++ b/drivers/staging/media/atomisp/pci/system_global.h
+@@ -29,7 +29,7 @@
+ #define DMA_DDR_TO_HMEM_WORKAROUND
+ 
+ /*
+- * The longest allowed (uninteruptible) bus transfer, does not
++ * The longest allowed (uninterruptible) bus transfer, does not
+  * take stalling into account
+  */
+ #define HIVE_ISP_MAX_BURST_LENGTH	1024
 -- 
-2.34.1
+2.43.0
 
 
