@@ -1,189 +1,172 @@
-Return-Path: <linux-media+bounces-56646-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56647-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GAwTLXtywGmDHwQAu9opvQ
-	(envelope-from <linux-media+bounces-56646-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 22 Mar 2026 23:51:39 +0100
+	id WA+5IGV8wGmlIAQAu9opvQ
+	(envelope-from <linux-media+bounces-56647-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 00:33:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521852EB15F
-	for <lists+linux-media@lfdr.de>; Sun, 22 Mar 2026 23:51:39 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E582EB265
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 00:33:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BB308300DDED
-	for <lists+linux-media@lfdr.de>; Sun, 22 Mar 2026 22:50:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 37979300AECD
+	for <lists+linux-media@lfdr.de>; Sun, 22 Mar 2026 23:33:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3350537F010;
-	Sun, 22 Mar 2026 22:50:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DB82346E7D;
+	Sun, 22 Mar 2026 23:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jphein.com header.i=@jphein.com header.b="Caxnpioc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jhvKPZt3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7065937F733
-	for <linux-media@vger.kernel.org>; Sun, 22 Mar 2026 22:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3644136672;
+	Sun, 22 Mar 2026 23:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774219845; cv=none; b=cDYY2/PeObch1QKRI0q111DNi2EQGJEMnE6iBusS4pX4jqnm5uWzHjViOMKm5KJL5h6Dbr5XSxaI+QqXXnPpFO2RYEbR6y2MPS7Wc8jMfjoeqNUH32mt4u8YYfwlzcFNqdxFaqWOsa1BN1nxcuJobelifzToVS03xkUN9b+2uuY=
+	t=1774222424; cv=none; b=M6TlntEjXdUcHpqUrf2Rayu1lrZ22PhzPbyw0Jcgkuzgw5EwCd39sksJRoi22iqDoGoZ3XwfKaPdPFJ5mBYlze+nrVi8k/UOlodQVNO4v7p/6Gf1fkh4+hEQPcS3SdHchGCuVIa+oNHhBrAl9YiVIOwHY6Ka5kaIxo3S7DSZr9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774219845; c=relaxed/simple;
-	bh=I/Eif1ZRTDEQrnMNfjbO5VHLbe1G0lSEoJ2HP69/lqc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Eil+JbOcW66IFnrPkWbYW7v0XjVUU9i0gGXHWcmCfjLK129nf3snPiTu6yTRFVdvFjvBRm0fkSjiG5XtFekoksAkjLEAUbluebxR2Yj7o6NAONQxnOAWP/GM4FzVawPYElo4C5YpJjESLe8fWGuwmF7TV3dLDRMhkvMgtSYWHVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jphein.com; spf=pass smtp.mailfrom=jphein.com; dkim=pass (2048-bit key) header.d=jphein.com header.i=@jphein.com header.b=Caxnpioc; arc=none smtp.client-ip=74.125.82.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jphein.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jphein.com
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2c0bcd8f194so4085222eec.1
-        for <linux-media@vger.kernel.org>; Sun, 22 Mar 2026 15:50:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jphein.com; s=google; t=1774219843; x=1774824643; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EDFymdpKeXfGYj2x1HV3pjSU2EJtPwV7qvFYD8NzPH0=;
-        b=CaxnpiocB0mbj1KFiV/Pp7NWeGAUCpoUg+0HgwWHlVl8GdVvjP/V6kX6cq25kAnoZW
-         VL48JpZo55XQwl5WLh8tP38Zm5Jzofyx50bKh4EZOLXGBgaR0mhDFsDxoOI8HLiQZsDE
-         T2NoBFdYLautL+VXO2wXUImotp0X9HkyPkgbH9RperdcbRtqUlepi3e+c93pjk+5EqRf
-         LNNZzFQX9Zt42QtK1kdDtwDzlILhxJ9bvY8X4pFfPAlZJevNRLfleBZtDhCcMrX//3uA
-         hW9+JHWbTDIOMusrIH8Tic7tOt1ZKb+dDEscRzWP5JNHkx2cB4xzGEuzyMiz9tSOXLqU
-         97Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774219843; x=1774824643;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EDFymdpKeXfGYj2x1HV3pjSU2EJtPwV7qvFYD8NzPH0=;
-        b=Zv2n7iEXLK/gNiLVl74fNarvJGQaLbCdqazkSt+lkyYcPrrciJAeZ9uxAgoZuCb5Vl
-         e9LhrLtaYX04OGmirxj+H3vP59UutYs4OuxRIEVv9HmbeWekrDjKzs1l1B+/5AxOJgiz
-         2bpbals8ZbKCz0LIRtEuRwGS9S1wxD8xLaIi9GqRGD5hK0/GCdOpE35kH5GsgRaZlOjZ
-         X68N0XcTFhlUr1ap8w8vRXQSY9YmWxTyPrN9craOOhvINzhG7KGqi59zeFAKYDgzVhRb
-         8Cord303i6cknlNHXdQB3ue7R7vs5ds3hyP+cohwnrv4Y+mLB5ClWsJWP0smLzUW1Kqa
-         YE0w==
-X-Gm-Message-State: AOJu0Yz5gwLT1ucx66udqYl4ckfXObKmeKZEGuFVEBpx9GGDIYCXxfQ0
-	xewKv+tTMVpat4CGCLTEgjoy/VoWr2I3iCJUAXqWT00YGILr+ubtI/P6yCwzpWBPYA==
-X-Gm-Gg: ATEYQzwTWTrk0OcQJxBs6ymA8kV7VhxLyQhiS2BiEZ8bAXKf4acmBeG5hc/LmZ+fLtc
-	kwy88y7lVKpAhtsodUeur8qdTxS1gG07WJOeePPtuUESNfzEAEGIGLNuFgtclEZKpabpyaWpwAS
-	b03mLp7csfJtZ8Tyq21Xtt/W6ximdfE/gw7HJ09HHLFqBQYKfA1GcHkRyT/c3A/645YTynHelno
-	eb25/0T7nQa2mh17PzKngh4oxKn8iWdBYMYaFob9bVCuw+6PsyuBX+czNo+HQn+6QmnWRF0iyWj
-	yUVAj2+7dsyCLMlhlRMwtiauQt1h7zvR1PDOnALCC88WumAW0W9lLkgj/EXPy1unp8Wkd2MXtrS
-	9JSxpCscNSBVZQVKYO7bklY5hFxZAzESTUxRPAGXGm+YAP48f67LmdXt/b9H2csDwnGkvB3vb6J
-	ucNPtQV4pp
-X-Received: by 2002:a05:7301:1003:b0:2c0:c482:7e4 with SMTP id 5a478bee46e88-2c109563c7fmr4287186eec.3.1774219843360;
-        Sun, 22 Mar 2026 15:50:43 -0700 (PDT)
-Received: from katana.lan ([108.74.4.89])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b31ebd5sm10928052eec.27.2026.03.22.15.50.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2026 15:50:42 -0700 (PDT)
-From: JP Hein <jp@jphein.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	stable@vger.kernel.org,
-	JP Hein <jp@jphein.com>
-Subject: [PATCH v4 3/3] media: uvcvideo: add quirks for Razer Kiyo Pro webcam
-Date: Sun, 22 Mar 2026 15:50:12 -0700
-Message-ID: <20260322225012.1817920-4-jp@jphein.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260322225012.1817920-1-jp@jphein.com>
-References: <20260322225012.1817920-1-jp@jphein.com>
+	s=arc-20240116; t=1774222424; c=relaxed/simple;
+	bh=Iyq/kR8m/ROKeqOrN3lBBgrhZ0QikXX9ty57LXSzHu0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Viy27kS7bz3wjkEDa0ncnGFi8+E0E6S1+2NbOZfD6dphSp/CkPiFhGPgLO7oC/IO5zj8obY0j222R6ezDHqn+WBRgcq6XH7ujBVs4RfRuQZzIGKfs0kCyhoFj2N4NJ47OWSSFvHPq3JKPHVY7qMbrQFxu39vtL+MQBrEc/f0GtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jhvKPZt3; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774222422; x=1805758422;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Iyq/kR8m/ROKeqOrN3lBBgrhZ0QikXX9ty57LXSzHu0=;
+  b=jhvKPZt3TN5WA4MRJ2XBr/+SErkOiNcnBZS8e/cMUxKjmgGFxzMdk4D1
+   aG2JlIgS/8uxLoCZVzxFZCOifUYLOqIqnTMCElDl7BrE2pWkIy7K3GwqI
+   kYl5aTqqS/1f+rzt1Zp1OeECtZA6w+QXtC48F1sQ1k4x87DVbwxJizinp
+   vbXDE4xkeTwfKuhoyDxryOKHEQ7ZppE08Y9E8NOTG/Pll8zTsR5njXXqi
+   QsfyoKKFPhDRptP3G+n5Z+Jy/OBXQa14gDxe3cUaFKxW1Kc9//p25D8Kg
+   C+QTY9xgn3bB4+Jx/emPj7dLTyg0ULmNFBVfDkQfxuPQWoqDtLuOh7+Pz
+   Q==;
+X-CSE-ConnectionGUID: H+3kxTO9SQy8l9eRMQzoYw==
+X-CSE-MsgGUID: JK/qAADcQHKBo+B5JvmcbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75343991"
+X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
+   d="scan'208";a="75343991"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 16:33:41 -0700
+X-CSE-ConnectionGUID: L5lU3e1hSneBMqQipXjSAA==
+X-CSE-MsgGUID: LXf5SMqNRLiXfBtk9LP7DQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
+   d="scan'208";a="261766636"
+Received: from lkp-server02.sh.intel.com (HELO 391eea459618) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 22 Mar 2026 16:32:45 -0700
+Received: from kbuild by 391eea459618 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4SHh-0000000007Z-2kCJ;
+	Sun, 22 Mar 2026 23:32:41 +0000
+Date: Mon, 23 Mar 2026 07:31:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Bryan O'Donoghue <bod@kernel.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
+Message-ID: <202603230713.5uOUC5EI-lkp@intel.com>
+References: <20260315-x1e-csi2-phy-v4-2-90c09203888d@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260315-x1e-csi2-phy-v4-2-90c09203888d@linaro.org>
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[jphein.com,reject];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[jphein.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jp@jphein.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-56647-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56646-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[jphein.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 521852EB15F
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,01.org:url,intel.com:dkim,intel.com:email,intel.com:mid]
+X-Rspamd-Queue-Id: F2E582EB265
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The Razer Kiyo Pro (1532:0e05) is a USB 3.0 webcam whose firmware has
-two failure modes that cascade into full xHCI host controller death,
-disconnecting every USB device on the bus:
+Hi Bryan,
 
-  1. LPM/autosuspend resume: the device fails to reinitialize its UVC
-     endpoints on resume, producing EPIPE on SET_CUR. The stalled
-     endpoint triggers an xHCI stop-endpoint timeout.
+kernel test robot noticed the following build errors:
 
-  2. Rapid control transfers: sustained rapid SET_CUR operations
-     (hundreds over several seconds) overwhelm the firmware.
+[auto build test ERROR on c824345288d11e269ce41b36c105715bc2286050]
 
-Add the device to the UVC driver table with:
+url:    https://github.com/intel-lab-lkp/linux/commits/Bryan-O-Donoghue/dt-bindings-phy-qcom-Add-CSI2-C-PHY-DPHY-schema/20260316-081353
+base:   c824345288d11e269ce41b36c105715bc2286050
+patch link:    https://lore.kernel.org/r/20260315-x1e-csi2-phy-v4-2-90c09203888d%40linaro.org
+patch subject: [PATCH v4 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260323/202603230713.5uOUC5EI-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603230713.5uOUC5EI-lkp@intel.com/reproduce)
 
-  - UVC_QUIRK_CTRL_THROTTLE: rate-limit SET_CUR (50ms interval) and
-    skip error-code queries after EPIPE to prevent crash trigger #2.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603230713.5uOUC5EI-lkp@intel.com/
 
-  - UVC_QUIRK_DISABLE_AUTOSUSPEND: prevent USB autosuspend transitions
-    that trigger crash #1. Same approach as Insta360 Link.
+All errors (new ones prefixed by >>):
 
-  - UVC_QUIRK_NO_RESET_RESUME: avoid the fragile reset-during-resume
-    path. Same approach as Logitech Rally Bar.
+>> drivers/phy/qualcomm/phy-qcom-mipi-csi2-3ph-dphy.c:360:13: error: initializer element is not a compile-time constant
+           .opp_clk = x1e_clks[2],
+                      ^~~~~~~~~~~
+   1 error generated.
 
-Cc: stable@vger.kernel.org
-Link: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2061177
-Signed-off-by: JP Hein <jp@jphein.com>
----
- drivers/media/usb/uvc/uvc_driver.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index b0ca81d92..e8b4de942 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2920,6 +2920,23 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= (kernel_ulong_t)&uvc_quirk_probe_minmax },
-+
-+	/*
-+	 * Razer Kiyo Pro -- firmware crashes under rapid control transfers
-+	 * and on LPM/autosuspend resume, cascading into xHCI controller
-+	 * death that disconnects all USB devices on the bus.
-+	 */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x1532,
-+	  .idProduct		= 0x0e05,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_CTRL_THROTTLE
-+					| UVC_QUIRK_DISABLE_AUTOSUSPEND
-+					| UVC_QUIRK_NO_RESET_RESUME) },
-+
- 	/* Kurokesu C1 PRO */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
+vim +360 drivers/phy/qualcomm/phy-qcom-mipi-csi2-3ph-dphy.c
+
+   347	
+   348	const struct mipi_csi2phy_soc_cfg mipi_csi2_dphy_4nm_x1e = {
+   349		.ops = &phy_qcom_mipi_csi2_ops_3ph_1_0,
+   350		.reg_info = {
+   351			.init_seq = lane_regs_x1e80100,
+   352			.lane_array_size = ARRAY_SIZE(lane_regs_x1e80100),
+   353			.common_regs_offset = 0x1000,
+   354			.generation = GEN2,
+   355		},
+   356		.supply_names = (const char **)x1e_supplies,
+   357		.num_supplies = ARRAY_SIZE(x1e_supplies),
+   358		.clk_names = (const char **)x1e_clks,
+   359		.num_clk = ARRAY_SIZE(x1e_clks),
+ > 360		.opp_clk = x1e_clks[2],
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
