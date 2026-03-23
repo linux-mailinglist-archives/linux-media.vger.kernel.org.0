@@ -1,253 +1,594 @@
-Return-Path: <linux-media+bounces-56769-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56770-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EPK8HdWfwWmFUAQAu9opvQ
-	(envelope-from <linux-media+bounces-56769-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 21:17:25 +0100
+	id wPheLtmkwWknUQQAu9opvQ
+	(envelope-from <linux-media+bounces-56770-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 21:38:49 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE7012FD174
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 21:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9DD2FD5F4
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 21:38:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D8098306C464
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 20:13:48 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B9CD6304EEA9
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 20:37:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 902353E123E;
-	Mon, 23 Mar 2026 20:13:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D61183E025D;
+	Mon, 23 Mar 2026 20:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S/DbV3C+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f78.google.com (mail-oo1-f78.google.com [209.85.161.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DDE3DFC7C
-	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 20:13:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688EA3E0C56;
+	Mon, 23 Mar 2026 20:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774296820; cv=none; b=GYQWdNsyny0CJUYncPyF6dFOa6V4VpynWfIHHyUlVw1q3dYVRMbHE0WjxXza/IXAxxI7q8awVdzPIIagDT4H8Wi5YRBZz5jqlK/yRBAJk4dfONHeT7/GSPecgDTSQejODyPg61WJd21jhvUHkLC8urCLdnGbS0zjQ5wl5L2HfuY=
+	t=1774298224; cv=none; b=gEs49SMWu4DcuABE4tUW7KED8LO/HqHkZAGBxBjbW0f0eKMHIxUU85kHyhcfi5Q4O9AvbLGxiUG1meNhkRo5v3Ojansxo3d/cZD6OvLGG/aZvM8tBmE7wWbDkVXPQA/IzKw+HofOunAvwNz9WfvIhiUHlBmnq2ob5vN5aD0hp1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774296820; c=relaxed/simple;
-	bh=cj8ALMrx35H2DTMyqR4QEKUGwvRYO/9HFJ7GMEZ5JxY=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=lcj100Xli4DYZownhb9h1A7LlI5vBkGy2GrLteh3t0LxDQ05S32DcJaRdGeNB6ZhHGD01BmWcYoRPU4BqI98a1v/XQWZg0SnP9/DZY+1L9FaC4ZB45LZP9EversaYwG3WInx4ophRxnxc80//Vq6XvSJCwQE+99z+p+hgVQudv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f78.google.com with SMTP id 006d021491bc7-67df00643eeso14048836eaf.1
-        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 13:13:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774296817; x=1774901617;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0pEoFV3Z+GhDMvVnTuUQ5HLbi+15yPEKi/PRT6DkVAQ=;
-        b=k/mxMH7Eyb09nXNh2CGNY1rgpZMJDTE+XcAa5sNeikbsdY+0JyiHMI+XeLyv595Foj
-         5gaXW9fPZtHb8g+QgHw98EzVAea0bDwdCto30DYP6KPAl2dGoipb6HyQyczSaUVLxTVR
-         acuD/bMLs7FQCFrGQ15BgwHdo/IsoHoLFjI+GvRiAPxmTkUSLPzG9sl31lz0nCrhwbC9
-         vIJBj8ZRMmRiS2qnz7S1rjL9hXiv33OEzRpa3V6JK16nTzqK19j6Cz3KNdw01tUhXpoi
-         qlZtV0H2jk4bL2iMCAgUFywz9p32dziBKX0AZrucTXJBtUc9UpkESDXx6gJhn6N78Y6t
-         ZERg==
-X-Forwarded-Encrypted: i=1; AJvYcCX+aqRswnvCnFsWJL1P4gcHxvqVGUwuJ7UB1YaiW/0Nfu4Wzi17jJVUrutUK+pN1vfdeavVLB0sOm/7og==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcbNU8Mq5kHlzxoxWKtgbRPPpKrXc6KKI0i7j8Ia8UCqwoB84t
-	yZFdZ4+ieI+6cJmCjez7UQ5aZ33VEQXzZgLy0ncMVvH62pD5kGfnnx5IQ++WyNuZOlNBL8kJSE0
-	6IdA7G+1aeHVt6vtn4GCf968ikGXnWOBsKFZjs6vIPqSD35vjeMQueZE8qYA=
+	s=arc-20240116; t=1774298224; c=relaxed/simple;
+	bh=ST5cl4uufkxlawV++y9/azp3LoDBvn1QizhzqVpQ1yU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R/vWNC4UpTRF7QLJE/Erd+iXWDbMjrg0rpzRDQ/fcpVKioYKYfxFgIyDP6c4xsYlrQivMRiBSH7Nh7UhJK2H+UsX+xlI2Vmgrga8ZaHhgBcbv2sNb1hqzK/WOXkbxh+yezdhbOyH08A6jGhquoUh1O301pBbJvQLq09j/tkFFY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S/DbV3C+; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774298221; x=1805834221;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ST5cl4uufkxlawV++y9/azp3LoDBvn1QizhzqVpQ1yU=;
+  b=S/DbV3C+PcyiQjPwxv93yIUHvLMTMrs0WXEdLt7XxTN9H7awhlYxHMN9
+   wN3Zu1oDHmiQJQvPiUbdyf8JscawJhdUkc9IJIbAK+Fc8feZvrdrD2I+z
+   cqhbl+zoZ6yPTfFZq/CEH+uTsp7uhT0/G7GknyYPjTSI8LjjOnpORhgi7
+   DK8vANMavOCDL6UhiaZBrOotsGZN9Ctmq8cWvF4C+yy5eFmOuvvA5k4y4
+   ayEl8pH2wZiWfSAKFb0XATiI5lSxVlHy4Dteq1pu95U5q4v80x2Wpkc3J
+   G4qFeBiquTQh+YGIyp4COaNBmtKZn4TXvQmuqOQsY5D64UNFQnf9tL1Ak
+   g==;
+X-CSE-ConnectionGUID: lfBsaq/5TmSze2PGdudKWQ==
+X-CSE-MsgGUID: qIZyGDCESYOR9D+Xi9hd0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="100758855"
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="100758855"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 13:37:00 -0700
+X-CSE-ConnectionGUID: tkaXJIdzSgqBLLFiEK8RbQ==
+X-CSE-MsgGUID: 5Fj+022rSjWlQq7pHcuutg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="247840997"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 23 Mar 2026 13:36:58 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4m19-000000003Cj-1niq;
+	Mon, 23 Mar 2026 20:36:55 +0000
+Date: Tue, 24 Mar 2026 04:36:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>, mchehab@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, hverkuil@kernel.org,
+	nicolas.dufresne@collabora.com, sakari.ailus@linux.intel.com,
+	laurent.pinchart@ideasonboard.com, opensource206@gmail.com,
+	jernej.skrabec@gmail.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, pengpeng@iscas.ac.cn
+Subject: Re: [PATCH v2] media: v4l2-ctrls: validate HEVC slice reference lists
+Message-ID: <202603240420.trq8jAvG-lkp@intel.com>
+References: <20260323083031.30941-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:3090:b0:67b:a4cb:293f with SMTP id
- 006d021491bc7-67df5d6a987mr683972eaf.17.1774296816960; Mon, 23 Mar 2026
- 13:13:36 -0700 (PDT)
-Date: Mon, 23 Mar 2026 13:13:36 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69c19ef0.050a0220.3bf4de.00aa.GAE@google.com>
-Subject: [syzbot] [media?] [usb?] KASAN: slab-out-of-bounds Read in ec168_i2c_xfer
-From: syzbot <syzbot+64485d3659c4c07111b4@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mchehab@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-0.36 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323083031.30941-1-pengpeng@iscas.ac.cn>
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=c584910d0d74158d];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_CC(0.00)[lists.linux.dev,kernel.org,collabora.com,linux.intel.com,ideasonboard.com,gmail.com,vger.kernel.org,iscas.ac.cn];
+	TAGGED_FROM(0.00)[bounces-56770-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-56769-lists,linux-media=lfdr.de,64485d3659c4c07111b4];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	SUBJECT_HAS_QUESTION(0.00)[];
-	REDIRECTOR_URL(0.00)[goo.gl];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	TO_DN_NONE(0.00)[];
-	R_DKIM_NA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,storage.googleapis.com:url,appspotmail.com:email,syzkaller.appspot.com:url,goo.gl:url]
-X-Rspamd-Queue-Id: DE7012FD174
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxtv.org:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,git-scm.com:url,01.org:url,intel.com:dkim,intel.com:email,intel.com:mid]
+X-Rspamd-Queue-Id: 3E9DD2FD5F4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hello,
+Hi Pengpeng,
 
-syzbot found the following issue on:
+kernel test robot noticed the following build errors:
 
-HEAD commit:    785f0eb2f85d Add linux-next specific files for 20260320
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=12cc5e02580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c584910d0d74158d
-dashboard link: https://syzkaller.appspot.com/bug?extid=64485d3659c4c07111b4
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1689e06a580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12e22cba580000
+[auto build test ERROR on linuxtv-media-pending/master]
+[also build test ERROR on linus/master v7.0-rc5 next-20260323]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/a1f7fd9c1a63/disk-785f0eb2.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/6c138da87c25/vmlinux-785f0eb2.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/4d1be64e56db/bzImage-785f0eb2.xz
+url:    https://github.com/intel-lab-lkp/linux/commits/Pengpeng-Hou/media-v4l2-ctrls-validate-HEVC-slice-reference-lists/20260323-221415
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20260323083031.30941-1-pengpeng%40iscas.ac.cn
+patch subject: [PATCH v2] media: v4l2-ctrls: validate HEVC slice reference lists
+config: csky-randconfig-r071-20260324 (https://download.01.org/0day-ci/archive/20260324/202603240420.trq8jAvG-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603240420.trq8jAvG-lkp@intel.com/reproduce)
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+64485d3659c4c07111b4@syzkaller.appspotmail.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603240420.trq8jAvG-lkp@intel.com/
 
-==================================================================
-BUG: KASAN: slab-out-of-bounds in ec168_i2c_xfer+0x4cd/0x640 drivers/media/usb/dvb-usb-v2/ec168.c:143
-Read of size 1 at addr ffff888022a8e061 by task syz.0.17/6065
+All errors (new ones prefixed by >>):
 
-CPU: 0 UID: 0 PID: 6065 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- ec168_i2c_xfer+0x4cd/0x640 drivers/media/usb/dvb-usb-v2/ec168.c:143
- __i2c_transfer+0x79a/0x1f70 drivers/i2c/i2c-core-base.c:-1
- i2c_transfer+0x1cc/0x2d0 drivers/i2c/i2c-core-base.c:2317
- i2cdev_ioctl_rdwr+0x460/0x740 drivers/i2c/i2c-dev.c:306
- i2cdev_ioctl+0x6a5/0x880 drivers/i2c/i2c-dev.c:467
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fc935d9c799
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffef6f8b6b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007fc936015fa0 RCX: 00007fc935d9c799
-RDX: 0000200000000140 RSI: 0000000000000707 RDI: 0000000000000004
-RBP: 00007fc935e32c99 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fc936015fac R14: 00007fc936015fa0 R15: 00007fc936015fa0
- </TASK>
-
-Allocated by task 6065:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5292 [inline]
- __kmalloc_node_track_caller_noprof+0x4db/0x7b0 mm/slub.c:5400
- memdup_user+0x2b/0xd0 mm/util.c:221
- i2cdev_ioctl_rdwr+0x1c6/0x740 drivers/i2c/i2c-dev.c:266
- i2cdev_ioctl+0x6a5/0x880 drivers/i2c/i2c-dev.c:467
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The buggy address belongs to the object at ffff888022a8e060
- which belongs to the cache kmalloc-8 of size 8
-The buggy address is located 0 bytes to the right of
- allocated 1-byte region [ffff888022a8e060, ffff888022a8e061)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888022a8e260 pfn:0x22a8e
-flags: 0xfff00000000200(workingset|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000200 ffff88801b041500 ffffea0000a17150 ffffea0000cd6d90
-raw: ffff888022a8e260 000000080080007b 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 3746368734, free_ts 0
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x231/0x280 mm/page_alloc.c:1859
- prep_new_page mm/page_alloc.c:1867 [inline]
- get_page_from_freelist+0x2418/0x24b0 mm/page_alloc.c:3926
- __alloc_frozen_pages_noprof+0x233/0x3d0 mm/page_alloc.c:5213
- alloc_slab_page mm/slub.c:3278 [inline]
- allocate_slab+0x77/0x660 mm/slub.c:3467
- new_slab mm/slub.c:3525 [inline]
- refill_objects+0x339/0x3d0 mm/slub.c:7247
- refill_sheaf mm/slub.c:2816 [inline]
- __pcs_replace_empty_main+0x321/0x720 mm/slub.c:4651
- alloc_from_pcs mm/slub.c:4749 [inline]
- slab_alloc_node mm/slub.c:4883 [inline]
- __do_kmalloc_node mm/slub.c:5291 [inline]
- __kmalloc_noprof+0x474/0x760 mm/slub.c:5304
- kmalloc_noprof include/linux/slab.h:954 [inline]
- kzalloc_noprof include/linux/slab.h:1188 [inline]
- acpi_ns_internalize_name+0x2c9/0x3e0 drivers/acpi/acpica/nsutils.c:331
- acpi_ns_get_node_unlocked+0x186/0x480 drivers/acpi/acpica/nsutils.c:666
- acpi_ns_get_node+0x76/0xc0 drivers/acpi/acpica/nsutils.c:726
- acpi_ns_evaluate+0x283/0x1230 drivers/acpi/acpica/nseval.c:62
- acpi_evaluate_object+0x657/0xd50 drivers/acpi/acpica/nsxfeval.c:354
- acpi_evaluate_dsm drivers/acpi/utils.c:797 [inline]
- acpi_check_dsm+0x1bb/0x6f0 drivers/acpi/utils.c:830
- device_has_acpi_name drivers/pci/pci-label.c:44 [inline]
- acpi_attr_is_visible+0x89/0xe0 drivers/pci/pci-label.c:221
- create_files fs/sysfs/group.c:69 [inline]
- internal_create_group+0x5e5/0x1180 fs/sysfs/group.c:189
- internal_create_groups fs/sysfs/group.c:229 [inline]
- sysfs_create_groups+0x59/0x120 fs/sysfs/group.c:255
-page_owner free stack trace missing
-
-Memory state around the buggy address:
- ffff888022a8df00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888022a8df80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->ffff888022a8e000: fa fc fc fc fa fc fc fc fa fc fc fc 01 fc fc fc
-                                                       ^
- ffff888022a8e080: 00 fc fc fc fa fc fc fc fa fc fc fc 07 fc fc fc
- ffff888022a8e100: 07 fc fc fc 05 fc fc fc fa fc fc fc 06 fc fc fc
-==================================================================
+   drivers/media/v4l2-core/v4l2-ctrls-core.c: In function 'std_validate_compound':
+>> drivers/media/v4l2-core/v4l2-ctrls-core.c:1263:17: error: 'p_hevc_slice_params' undeclared (first use in this function); did you mean 'p_h264_slice_params'?
+    1263 |                 p_hevc_slice_params = p;
+         |                 ^~~~~~~~~~~~~~~~~~~
+         |                 p_h264_slice_params
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:1263:17: note: each undeclared identifier is reported only once for each function it appears in
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+vim +1263 drivers/media/v4l2-core/v4l2-ctrls-core.c
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+   952	
+   953	/*
+   954	 * Compound controls validation requires setting unused fields/flags to zero
+   955	 * in order to properly detect unchanged controls with v4l2_ctrl_type_op_equal's
+   956	 * memcmp.
+   957	 */
+   958	static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+   959					 union v4l2_ctrl_ptr ptr)
+   960	{
+   961		struct v4l2_ctrl_mpeg2_sequence *p_mpeg2_sequence;
+   962		struct v4l2_ctrl_mpeg2_picture *p_mpeg2_picture;
+   963		struct v4l2_ctrl_vp8_frame *p_vp8_frame;
+   964		struct v4l2_ctrl_fwht_params *p_fwht_params;
+   965		struct v4l2_ctrl_h264_sps *p_h264_sps;
+   966		struct v4l2_ctrl_h264_pps *p_h264_pps;
+   967		struct v4l2_ctrl_h264_pred_weights *p_h264_pred_weights;
+   968		struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+   969		struct v4l2_ctrl_h264_decode_params *p_h264_dec_params;
+   970		struct v4l2_ctrl_hevc_ext_sps_lt_rps *p_hevc_lt_rps;
+   971		struct v4l2_ctrl_hevc_ext_sps_st_rps *p_hevc_st_rps;
+   972		struct v4l2_ctrl_hevc_sps *p_hevc_sps;
+   973		struct v4l2_ctrl_hevc_pps *p_hevc_pps;
+   974		struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+   975		struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
+   976		struct v4l2_area *area;
+   977		struct v4l2_rect *rect;
+   978		void *p = ptr.p + idx * ctrl->elem_size;
+   979		unsigned int i;
+   980	
+   981		switch ((u32)ctrl->type) {
+   982		case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
+   983			p_mpeg2_sequence = p;
+   984	
+   985			switch (p_mpeg2_sequence->chroma_format) {
+   986			case 1: /* 4:2:0 */
+   987			case 2: /* 4:2:2 */
+   988			case 3: /* 4:4:4 */
+   989				break;
+   990			default:
+   991				return -EINVAL;
+   992			}
+   993			break;
+   994	
+   995		case V4L2_CTRL_TYPE_MPEG2_PICTURE:
+   996			p_mpeg2_picture = p;
+   997	
+   998			switch (p_mpeg2_picture->intra_dc_precision) {
+   999			case 0: /* 8 bits */
+  1000			case 1: /* 9 bits */
+  1001			case 2: /* 10 bits */
+  1002			case 3: /* 11 bits */
+  1003				break;
+  1004			default:
+  1005				return -EINVAL;
+  1006			}
+  1007	
+  1008			switch (p_mpeg2_picture->picture_structure) {
+  1009			case V4L2_MPEG2_PIC_TOP_FIELD:
+  1010			case V4L2_MPEG2_PIC_BOTTOM_FIELD:
+  1011			case V4L2_MPEG2_PIC_FRAME:
+  1012				break;
+  1013			default:
+  1014				return -EINVAL;
+  1015			}
+  1016	
+  1017			switch (p_mpeg2_picture->picture_coding_type) {
+  1018			case V4L2_MPEG2_PIC_CODING_TYPE_I:
+  1019			case V4L2_MPEG2_PIC_CODING_TYPE_P:
+  1020			case V4L2_MPEG2_PIC_CODING_TYPE_B:
+  1021				break;
+  1022			default:
+  1023				return -EINVAL;
+  1024			}
+  1025			zero_reserved(*p_mpeg2_picture);
+  1026			break;
+  1027	
+  1028		case V4L2_CTRL_TYPE_MPEG2_QUANTISATION:
+  1029			break;
+  1030	
+  1031		case V4L2_CTRL_TYPE_FWHT_PARAMS:
+  1032			p_fwht_params = p;
+  1033			if (p_fwht_params->version < V4L2_FWHT_VERSION)
+  1034				return -EINVAL;
+  1035			if (!p_fwht_params->width || !p_fwht_params->height)
+  1036				return -EINVAL;
+  1037			break;
+  1038	
+  1039		case V4L2_CTRL_TYPE_H264_SPS:
+  1040			p_h264_sps = p;
+  1041	
+  1042			/* Some syntax elements are only conditionally valid */
+  1043			if (p_h264_sps->pic_order_cnt_type != 0) {
+  1044				p_h264_sps->log2_max_pic_order_cnt_lsb_minus4 = 0;
+  1045			} else if (p_h264_sps->pic_order_cnt_type != 1) {
+  1046				p_h264_sps->num_ref_frames_in_pic_order_cnt_cycle = 0;
+  1047				p_h264_sps->offset_for_non_ref_pic = 0;
+  1048				p_h264_sps->offset_for_top_to_bottom_field = 0;
+  1049				memset(&p_h264_sps->offset_for_ref_frame, 0,
+  1050				       sizeof(p_h264_sps->offset_for_ref_frame));
+  1051			}
+  1052	
+  1053			if (!V4L2_H264_SPS_HAS_CHROMA_FORMAT(p_h264_sps)) {
+  1054				p_h264_sps->chroma_format_idc = 1;
+  1055				p_h264_sps->bit_depth_luma_minus8 = 0;
+  1056				p_h264_sps->bit_depth_chroma_minus8 = 0;
+  1057	
+  1058				p_h264_sps->flags &=
+  1059					~V4L2_H264_SPS_FLAG_QPPRIME_Y_ZERO_TRANSFORM_BYPASS;
+  1060			}
+  1061	
+  1062			if (p_h264_sps->chroma_format_idc < 3)
+  1063				p_h264_sps->flags &=
+  1064					~V4L2_H264_SPS_FLAG_SEPARATE_COLOUR_PLANE;
+  1065	
+  1066			if (p_h264_sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY)
+  1067				p_h264_sps->flags &=
+  1068					~V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD;
+  1069	
+  1070			/*
+  1071			 * Chroma 4:2:2 format require at least High 4:2:2 profile.
+  1072			 *
+  1073			 * The H264 specification and well-known parser implementations
+  1074			 * use profile-idc values directly, as that is clearer and
+  1075			 * less ambiguous. We do the same here.
+  1076			 */
+  1077			if (p_h264_sps->profile_idc < 122 &&
+  1078			    p_h264_sps->chroma_format_idc > 1)
+  1079				return -EINVAL;
+  1080			/* Chroma 4:4:4 format require at least High 4:2:2 profile */
+  1081			if (p_h264_sps->profile_idc < 244 &&
+  1082			    p_h264_sps->chroma_format_idc > 2)
+  1083				return -EINVAL;
+  1084			if (p_h264_sps->chroma_format_idc > 3)
+  1085				return -EINVAL;
+  1086	
+  1087			if (p_h264_sps->bit_depth_luma_minus8 > 6)
+  1088				return -EINVAL;
+  1089			if (p_h264_sps->bit_depth_chroma_minus8 > 6)
+  1090				return -EINVAL;
+  1091			if (p_h264_sps->log2_max_frame_num_minus4 > 12)
+  1092				return -EINVAL;
+  1093			if (p_h264_sps->pic_order_cnt_type > 2)
+  1094				return -EINVAL;
+  1095			if (p_h264_sps->log2_max_pic_order_cnt_lsb_minus4 > 12)
+  1096				return -EINVAL;
+  1097			if (p_h264_sps->max_num_ref_frames > V4L2_H264_REF_LIST_LEN)
+  1098				return -EINVAL;
+  1099			break;
+  1100	
+  1101		case V4L2_CTRL_TYPE_H264_PPS:
+  1102			p_h264_pps = p;
+  1103	
+  1104			if (p_h264_pps->num_slice_groups_minus1 > 7)
+  1105				return -EINVAL;
+  1106			if (p_h264_pps->num_ref_idx_l0_default_active_minus1 >
+  1107			    (V4L2_H264_REF_LIST_LEN - 1))
+  1108				return -EINVAL;
+  1109			if (p_h264_pps->num_ref_idx_l1_default_active_minus1 >
+  1110			    (V4L2_H264_REF_LIST_LEN - 1))
+  1111				return -EINVAL;
+  1112			if (p_h264_pps->weighted_bipred_idc > 2)
+  1113				return -EINVAL;
+  1114			/*
+  1115			 * pic_init_qp_minus26 shall be in the range of
+  1116			 * -(26 + QpBdOffset_y) to +25, inclusive,
+  1117			 *  where QpBdOffset_y is 6 * bit_depth_luma_minus8
+  1118			 */
+  1119			if (p_h264_pps->pic_init_qp_minus26 < -62 ||
+  1120			    p_h264_pps->pic_init_qp_minus26 > 25)
+  1121				return -EINVAL;
+  1122			if (p_h264_pps->pic_init_qs_minus26 < -26 ||
+  1123			    p_h264_pps->pic_init_qs_minus26 > 25)
+  1124				return -EINVAL;
+  1125			if (p_h264_pps->chroma_qp_index_offset < -12 ||
+  1126			    p_h264_pps->chroma_qp_index_offset > 12)
+  1127				return -EINVAL;
+  1128			if (p_h264_pps->second_chroma_qp_index_offset < -12 ||
+  1129			    p_h264_pps->second_chroma_qp_index_offset > 12)
+  1130				return -EINVAL;
+  1131			break;
+  1132	
+  1133		case V4L2_CTRL_TYPE_H264_SCALING_MATRIX:
+  1134			break;
+  1135	
+  1136		case V4L2_CTRL_TYPE_H264_PRED_WEIGHTS:
+  1137			p_h264_pred_weights = p;
+  1138	
+  1139			if (p_h264_pred_weights->luma_log2_weight_denom > 7)
+  1140				return -EINVAL;
+  1141			if (p_h264_pred_weights->chroma_log2_weight_denom > 7)
+  1142				return -EINVAL;
+  1143			break;
+  1144	
+  1145		case V4L2_CTRL_TYPE_H264_SLICE_PARAMS:
+  1146			p_h264_slice_params = p;
+  1147	
+  1148			if (p_h264_slice_params->slice_type != V4L2_H264_SLICE_TYPE_B)
+  1149				p_h264_slice_params->flags &=
+  1150					~V4L2_H264_SLICE_FLAG_DIRECT_SPATIAL_MV_PRED;
+  1151	
+  1152			if (p_h264_slice_params->colour_plane_id > 2)
+  1153				return -EINVAL;
+  1154			if (p_h264_slice_params->cabac_init_idc > 2)
+  1155				return -EINVAL;
+  1156			if (p_h264_slice_params->disable_deblocking_filter_idc > 2)
+  1157				return -EINVAL;
+  1158			if (p_h264_slice_params->slice_alpha_c0_offset_div2 < -6 ||
+  1159			    p_h264_slice_params->slice_alpha_c0_offset_div2 > 6)
+  1160				return -EINVAL;
+  1161			if (p_h264_slice_params->slice_beta_offset_div2 < -6 ||
+  1162			    p_h264_slice_params->slice_beta_offset_div2 > 6)
+  1163				return -EINVAL;
+  1164	
+  1165			if (p_h264_slice_params->slice_type == V4L2_H264_SLICE_TYPE_I ||
+  1166			    p_h264_slice_params->slice_type == V4L2_H264_SLICE_TYPE_SI)
+  1167				p_h264_slice_params->num_ref_idx_l0_active_minus1 = 0;
+  1168			if (p_h264_slice_params->slice_type != V4L2_H264_SLICE_TYPE_B)
+  1169				p_h264_slice_params->num_ref_idx_l1_active_minus1 = 0;
+  1170	
+  1171			if (p_h264_slice_params->num_ref_idx_l0_active_minus1 >
+  1172			    (V4L2_H264_REF_LIST_LEN - 1))
+  1173				return -EINVAL;
+  1174			if (p_h264_slice_params->num_ref_idx_l1_active_minus1 >
+  1175			    (V4L2_H264_REF_LIST_LEN - 1))
+  1176				return -EINVAL;
+  1177			zero_reserved(*p_h264_slice_params);
+  1178			break;
+  1179	
+  1180		case V4L2_CTRL_TYPE_H264_DECODE_PARAMS:
+  1181			p_h264_dec_params = p;
+  1182	
+  1183			if (p_h264_dec_params->nal_ref_idc > 3)
+  1184				return -EINVAL;
+  1185			for (i = 0; i < V4L2_H264_NUM_DPB_ENTRIES; i++) {
+  1186				struct v4l2_h264_dpb_entry *dpb_entry =
+  1187					&p_h264_dec_params->dpb[i];
+  1188	
+  1189				zero_reserved(*dpb_entry);
+  1190			}
+  1191			zero_reserved(*p_h264_dec_params);
+  1192			break;
+  1193	
+  1194		case V4L2_CTRL_TYPE_VP8_FRAME:
+  1195			p_vp8_frame = p;
+  1196	
+  1197			switch (p_vp8_frame->num_dct_parts) {
+  1198			case 1:
+  1199			case 2:
+  1200			case 4:
+  1201			case 8:
+  1202				break;
+  1203			default:
+  1204				return -EINVAL;
+  1205			}
+  1206			zero_padding(p_vp8_frame->segment);
+  1207			zero_padding(p_vp8_frame->lf);
+  1208			zero_padding(p_vp8_frame->quant);
+  1209			zero_padding(p_vp8_frame->entropy);
+  1210			zero_padding(p_vp8_frame->coder_state);
+  1211			break;
+  1212	
+  1213		case V4L2_CTRL_TYPE_HEVC_SPS:
+  1214			p_hevc_sps = p;
+  1215	
+  1216			if (!(p_hevc_sps->flags & V4L2_HEVC_SPS_FLAG_PCM_ENABLED)) {
+  1217				p_hevc_sps->pcm_sample_bit_depth_luma_minus1 = 0;
+  1218				p_hevc_sps->pcm_sample_bit_depth_chroma_minus1 = 0;
+  1219				p_hevc_sps->log2_min_pcm_luma_coding_block_size_minus3 = 0;
+  1220				p_hevc_sps->log2_diff_max_min_pcm_luma_coding_block_size = 0;
+  1221			}
+  1222	
+  1223			if (!(p_hevc_sps->flags &
+  1224			      V4L2_HEVC_SPS_FLAG_LONG_TERM_REF_PICS_PRESENT))
+  1225				p_hevc_sps->num_long_term_ref_pics_sps = 0;
+  1226			break;
+  1227	
+  1228		case V4L2_CTRL_TYPE_HEVC_PPS:
+  1229			p_hevc_pps = p;
+  1230	
+  1231			if (!(p_hevc_pps->flags &
+  1232			      V4L2_HEVC_PPS_FLAG_CU_QP_DELTA_ENABLED))
+  1233				p_hevc_pps->diff_cu_qp_delta_depth = 0;
+  1234	
+  1235			if (!(p_hevc_pps->flags & V4L2_HEVC_PPS_FLAG_TILES_ENABLED)) {
+  1236				p_hevc_pps->num_tile_columns_minus1 = 0;
+  1237				p_hevc_pps->num_tile_rows_minus1 = 0;
+  1238				memset(&p_hevc_pps->column_width_minus1, 0,
+  1239				       sizeof(p_hevc_pps->column_width_minus1));
+  1240				memset(&p_hevc_pps->row_height_minus1, 0,
+  1241				       sizeof(p_hevc_pps->row_height_minus1));
+  1242	
+  1243				p_hevc_pps->flags &=
+  1244					~V4L2_HEVC_PPS_FLAG_LOOP_FILTER_ACROSS_TILES_ENABLED;
+  1245			}
+  1246	
+  1247			if (p_hevc_pps->flags &
+  1248			    V4L2_HEVC_PPS_FLAG_PPS_DISABLE_DEBLOCKING_FILTER) {
+  1249				p_hevc_pps->pps_beta_offset_div2 = 0;
+  1250				p_hevc_pps->pps_tc_offset_div2 = 0;
+  1251			}
+  1252			break;
+  1253	
+  1254		case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
+  1255			p_hevc_decode_params = p;
+  1256	
+  1257			if (p_hevc_decode_params->num_active_dpb_entries >
+  1258			    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
+  1259				return -EINVAL;
+  1260			break;
+  1261	
+  1262		case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
+> 1263			p_hevc_slice_params = p;
+  1264	
+  1265			if (p_hevc_slice_params->num_ref_idx_l0_active_minus1 >=
+  1266			    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
+  1267				return -EINVAL;
+  1268	
+  1269			for (i = 0; i <= p_hevc_slice_params->num_ref_idx_l0_active_minus1;
+  1270			     i++)
+  1271				if (p_hevc_slice_params->ref_idx_l0[i] >=
+  1272				    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
+  1273					return -EINVAL;
+  1274	
+  1275			if (p_hevc_slice_params->slice_type != V4L2_HEVC_SLICE_TYPE_B)
+  1276				break;
+  1277	
+  1278			if (p_hevc_slice_params->num_ref_idx_l1_active_minus1 >=
+  1279			    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
+  1280				return -EINVAL;
+  1281	
+  1282			for (i = 0; i <= p_hevc_slice_params->num_ref_idx_l1_active_minus1;
+  1283			     i++)
+  1284				if (p_hevc_slice_params->ref_idx_l1[i] >=
+  1285				    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
+  1286					return -EINVAL;
+  1287			break;
+  1288	
+  1289		case V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS:
+  1290			p_hevc_st_rps = p;
+  1291	
+  1292			if (p_hevc_st_rps->flags & ~V4L2_HEVC_EXT_SPS_ST_RPS_FLAG_INTER_REF_PIC_SET_PRED)
+  1293				return -EINVAL;
+  1294			break;
+  1295	
+  1296		case V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS:
+  1297			p_hevc_lt_rps = p;
+  1298	
+  1299			if (p_hevc_lt_rps->flags & ~V4L2_HEVC_EXT_SPS_LT_RPS_FLAG_USED_LT)
+  1300				return -EINVAL;
+  1301			break;
+  1302	
+  1303		case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
+  1304			break;
+  1305	
+  1306		case V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY:
+  1307			p_hdr10_mastering = p;
+  1308	
+  1309			for (i = 0; i < 3; ++i) {
+  1310				if (p_hdr10_mastering->display_primaries_x[i] <
+  1311					V4L2_HDR10_MASTERING_PRIMARIES_X_LOW ||
+  1312				    p_hdr10_mastering->display_primaries_x[i] >
+  1313					V4L2_HDR10_MASTERING_PRIMARIES_X_HIGH ||
+  1314				    p_hdr10_mastering->display_primaries_y[i] <
+  1315					V4L2_HDR10_MASTERING_PRIMARIES_Y_LOW ||
+  1316				    p_hdr10_mastering->display_primaries_y[i] >
+  1317					V4L2_HDR10_MASTERING_PRIMARIES_Y_HIGH)
+  1318					return -EINVAL;
+  1319			}
+  1320	
+  1321			if (p_hdr10_mastering->white_point_x <
+  1322				V4L2_HDR10_MASTERING_WHITE_POINT_X_LOW ||
+  1323			    p_hdr10_mastering->white_point_x >
+  1324				V4L2_HDR10_MASTERING_WHITE_POINT_X_HIGH ||
+  1325			    p_hdr10_mastering->white_point_y <
+  1326				V4L2_HDR10_MASTERING_WHITE_POINT_Y_LOW ||
+  1327			    p_hdr10_mastering->white_point_y >
+  1328				V4L2_HDR10_MASTERING_WHITE_POINT_Y_HIGH)
+  1329				return -EINVAL;
+  1330	
+  1331			if (p_hdr10_mastering->max_display_mastering_luminance <
+  1332				V4L2_HDR10_MASTERING_MAX_LUMA_LOW ||
+  1333			    p_hdr10_mastering->max_display_mastering_luminance >
+  1334				V4L2_HDR10_MASTERING_MAX_LUMA_HIGH ||
+  1335			    p_hdr10_mastering->min_display_mastering_luminance <
+  1336				V4L2_HDR10_MASTERING_MIN_LUMA_LOW ||
+  1337			    p_hdr10_mastering->min_display_mastering_luminance >
+  1338				V4L2_HDR10_MASTERING_MIN_LUMA_HIGH)
+  1339				return -EINVAL;
+  1340	
+  1341			/* The following restriction comes from ITU-T Rec. H.265 spec */
+  1342			if (p_hdr10_mastering->max_display_mastering_luminance ==
+  1343				V4L2_HDR10_MASTERING_MAX_LUMA_LOW &&
+  1344			    p_hdr10_mastering->min_display_mastering_luminance ==
+  1345				V4L2_HDR10_MASTERING_MIN_LUMA_HIGH)
+  1346				return -EINVAL;
+  1347	
+  1348			break;
+  1349	
+  1350		case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
+  1351			break;
+  1352	
+  1353		case V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR:
+  1354			return validate_vp9_compressed_hdr(p);
+  1355	
+  1356		case V4L2_CTRL_TYPE_VP9_FRAME:
+  1357			return validate_vp9_frame(p);
+  1358		case V4L2_CTRL_TYPE_AV1_FRAME:
+  1359			return validate_av1_frame(p);
+  1360		case V4L2_CTRL_TYPE_AV1_SEQUENCE:
+  1361			return validate_av1_sequence(p);
+  1362		case V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY:
+  1363			break;
+  1364		case V4L2_CTRL_TYPE_AV1_FILM_GRAIN:
+  1365			return validate_av1_film_grain(p);
+  1366	
+  1367		case V4L2_CTRL_TYPE_AREA:
+  1368			area = p;
+  1369			if (!area->width || !area->height)
+  1370				return -EINVAL;
+  1371			break;
+  1372	
+  1373		case V4L2_CTRL_TYPE_RECT:
+  1374			rect = p;
+  1375			if (!rect->width || !rect->height)
+  1376				return -EINVAL;
+  1377			break;
+  1378	
+  1379		default:
+  1380			return -EINVAL;
+  1381		}
+  1382	
+  1383		return 0;
+  1384	}
+  1385	
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
