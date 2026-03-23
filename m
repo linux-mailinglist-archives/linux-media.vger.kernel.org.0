@@ -1,132 +1,152 @@
-Return-Path: <linux-media+bounces-56690-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56691-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KN+NBiQWwWn5QQQAu9opvQ
-	(envelope-from <linux-media+bounces-56690-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:29:56 +0100
+	id iIRIHp8YwWn5QQQAu9opvQ
+	(envelope-from <linux-media+bounces-56691-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:40:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775AE2F0113
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:29:55 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B90D42F0586
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:40:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 71B8730089AD
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 10:29:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9A136300DE0F
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 10:33:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 853C738BF75;
-	Mon, 23 Mar 2026 10:29:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE95A38CFFA;
+	Mon, 23 Mar 2026 10:33:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyberprotect.ru header.i=@cyberprotect.ru header.b="XysKIAOS";
-	dkim=permerror (0-bit key) header.d=cyberprotect.ru header.i=@cyberprotect.ru header.b="hwnjyxiz"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="gbxSue5G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx2.cyberprotect.ru (mx2.cyberprotect.ru [176.10.93.31])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91973890ED;
-	Mon, 23 Mar 2026 10:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.10.93.31
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774261789; cv=none; b=F1+hPl2uYFhTlZRJdvrnZPuXDuWEoKOASm+LwZR0mBVi7ecu34+BH9oII0BIuadZcfT6WxH3rSEwXNhRD7rdnvanxjqn/vw5NsNBblpJMW/gNLfL2teIFZmg1VmhA6GcA2Bwe9/WqlyqFtwDt2pNqZi5fPx+dMg34K37p4eO9J0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774261789; c=relaxed/simple;
-	bh=vChF+djsY2Mkl4Z6W6c2JK5OAK/+jIxyhxkcM40E4nU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sO5bXvBrCVm44FpINs9fjpw4GDOFs5z96gJGp7ZQRZoflahkG1Fx5PZZ7wO+syYHVO5zPX/YiRxd//sKYl59OjHCpZPhpaUJCNNtsU72QoaEblQZHX5SuHNXY91A40Mg/i/iVcjDYfP8vsD55LDUFiAwlA34bZpmCdL3YrsLx3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cyberprotect.ru; spf=pass smtp.mailfrom=cyberprotect.ru; dkim=pass (2048-bit key) header.d=cyberprotect.ru header.i=@cyberprotect.ru header.b=XysKIAOS; dkim=permerror (0-bit key) header.d=cyberprotect.ru header.i=@cyberprotect.ru header.b=hwnjyxiz; arc=none smtp.client-ip=176.10.93.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cyberprotect.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberprotect.ru
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=cyberprotect.ru; s=dkim-r; h=MIME-Version:Date:From:Sender:Reply-To;
-	bh=QcbI5Xku4fL4lXhZomurIoI8W7kAjTeXntNYDbnIz3I=; b=XysKIAOSOYPk5gW7S0b71zF9Li
-	UByknk+MwzDidsKgKUgVxA3JtDO2fBHf/1uEvLnICjA6i+ifY9MlU47AXbt9oA9PLV8L77YaEcL3/
-	cLGx5mdMwM1HN3MmdsZfOrE/BfGXAGqtAp5QCdYe7pK0YCQmb6otNSrIIymWyfiLoWgT0JxgTe/C4
-	75fUKfYdE7M1uzLCLgU7fUlGu4mZUV66LXvMZ944bNowQnrFt7wwsKM1Yrsq17INlQ/2OiFiF81pX
-	h3sGGKgdNoysm7Bwtl4z1fZy3HH5MK9lrhmAA7hCfkJavNHPnfOI45vAyA0a/Ns5krm0k/YrBvlyd
-	H14MhkWA==;
-DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=cyberprotect.ru; s=dkim; h=MIME-Version:Date:From:Sender:Reply-To;
-	bh=QcbI5Xku4fL4lXhZomurIoI8W7kAjTeXntNYDbnIz3I=; b=hwnjyxiz9371raxn6PLZzNScaW
-	AJSuZZfz5912EOXjePSXht8dny98iLOVnDqC4rg3XOt80OYc81DTJ0c6/2Cg==;
-From: Dmitriy Chumachenko <Dmitry.Chumachenko@cyberprotect.ru>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
-	<christian.koenig@amd.com>, Andrew Morton <akpm@osdl.org>, Andreas Oberritter
-	<obi@linuxtv.org>, Johannes Stezenbach <js@linuxtv.org>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-	<lvc-project@linuxtesting.org>
-Subject: [PATCH] media: pluto2: fix potential buffer overflow in pluto_dma_end()
-Date: Mon, 23 Mar 2026 13:29:20 +0300
-Message-ID: <20260323102920.19937-1-Dmitry.Chumachenko@cyberprotect.ru>
-X-Mailer: git-send-email 2.49.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C9C377000
+	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 10:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774262022; cv=pass; b=RUHr1yM2pyzjf2lOvB3EKWrRzIA8ImJQxKfdO3hAiuqQaFoItaHCoJ5Z+2isbtmBuicC1XvUxNkRCgJ7EBMjMSm0BobeH2ipk6BthTByAU4mKFIvdcwrr8Zm87zusHnkxWu6ljog+JPFEVaPHwzxiVdBwPoqASltNNflTw+Dd9s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774262022; c=relaxed/simple;
+	bh=J4NyMkgX2wWF94dC5S06mY+QzPlp6uHxzUQO7UfIxfw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cHm/ST2ZcjUOrI0i0BiOTbHxftDMQltBzjLKdJvf1zOSiEfmoVtQEu2IVUUWqwWmvIzPhD55yj18OjjFOv1QQ7E3jKNul4hA/7kn+mJvomgXvnAHs2FK8SANTI6Xp8eRYUXYUni8IcFG/AQjkKGh1+a4GZTjopVUlvsRmue4Zyo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=gbxSue5G; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (n18ws8cotq5gnfn8-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:938c:d2f4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4ffTzC40M9z49Q4j;
+	Mon, 23 Mar 2026 12:33:27 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1774262007;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=PWJUQw/UOsw4aCqUZCnKkWfXCGYKBWZtsCJUgG514fk=;
+	b=gbxSue5Git9NJjzZ2WI+GoKNrFp12TNxZLWUmOw6NmHeTKQt3nlNQTe6t+vL6PX0vC/CNn
+	6YyRsLXF++A6kh908yJ4nI90fnrqiEAIGNDFT1LrKgDraJQisaVn9h1vL3qbNanDMH39FM
+	N+o1SVjwZhGiqAOSCR5yyJ+T/dQEnkTL1cHKRtDVVAIxHSMs2zqNIpDofRP2Be20+3dc2Y
+	lsj5i0IITFtp5v7SWmZICg47qXSfE2h1KKl8nMDgNDswxaHMNhw3ZqvrD+IFAFUfXjZvjN
+	taWqx/kpYsrczWYmsYmj3w32dithadIJvxa3nf3rSKY/VSFFV11fmQW6NNScdg==
+ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=lahtoruutu; cv=none; t=1774262007;
+	b=n93rtEm9KwsxlIfxir5TFR9DE5cOcR+qpAzLdtzZiMpN3/d1F258gBd9DcNDsPk1QLuhqZ
+	ckzwO8Yq0xV+Y7tIk/tJ42JecWqrE75DKmCPtpKLkVObWqNjzbMz/i0v48umRdnTGPrVo9
+	5jpNK4evEEX9Vhc6zoDd4FcJ5UKTpyb8pWVxRXLznxj8HuYZB9fM7Hm//lpksGmUpWPkVW
+	ysMZP+FyWCGBQdLANQiasVN6C7BFdDpww70CSzge9sS3YCCe6G3gS2L+yhggobo3UO5Qxr
+	4oyQ/eWvPXsbOodECI1MUyqogg3DYTRtyJ6S/d2P1w5Z0sVTkLiRlrUZIOwXNw==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1774262007;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=PWJUQw/UOsw4aCqUZCnKkWfXCGYKBWZtsCJUgG514fk=;
+	b=eWMvjO2VCAGJT3tTqYgOyj2+Nh5wngt/k4ybvCMx/4X1fPFQWiotEWJo3i2thz+mW/hBWG
+	jQ7MdP01Us25QQdlOKpelf9xqns9ZUaZG+1k/mSNxAPOpkOOZjp6BVTzoe5F++8/vSm3JB
+	66r/cy+oa3Oja+aavUYj5+O9NeD64oEdAaBKaWWmstYusu4QsjeeBXESx5Q5Nu6H/50r8U
+	xSXce5nQJhWr0Eak9MPG5RVtfAAFQDLInCTKL8UiCwL7l7DKa8lFZSgfYAcyN57vPcsDyA
+	F0eWePX7F7s5ENbhTl3T2XahbVjCaTqYCetTMNXMqutIi/EFEAr+cz+XavatMQ==
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id A1BE2634C4E;
+	Mon, 23 Mar 2026 12:33:26 +0200 (EET)
+Date: Mon, 23 Mar 2026 12:33:26 +0200
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Cc: hans@jjverkuil.nl
+Subject: [GIT FIXE FOR 7.0] CCS driver deadlock fix
+Message-ID: <acEW9s8ysFi4ppSh@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AIP-EXCH-1.aip.ooo (10.77.28.101) To AIP-EXCH-2.aip.ooo
- (10.77.28.102)
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[cyberprotect.ru,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[cyberprotect.ru:s=dkim-r,cyberprotect.ru:s=dkim];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[iki.fi:s=lahtoruutu];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[iki.fi:+];
+	RCPT_COUNT_TWO(0.00)[2];
+	TAGGED_FROM(0.00)[bounces-56691-lists,linux-media=lfdr.de];
+	DMARC_NA(0.00)[iki.fi];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56690-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[cyberprotect.ru:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Dmitry.Chumachenko@cyberprotect.ru,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@iki.fi,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linuxtesting.org:url]
-X-Rspamd-Queue-Id: 775AE2F0113
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,iki.fi:dkim]
+X-Rspamd-Queue-Id: B90D42F0586
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The while loop in pluto_dma_end() scans the DMA buffer for MPEG-TS sync 
-bytes (0x47) at 188-byte intervals. However, it does not check the buffer 
-boundary. If the buffer contains 0x47 at every 188-byte offset, the loop 
-index will exceed the buffer size, causing an out-of-bounds read.
+Hi Hans, Mauro,
 
-Add a check to ensure the index stays within TS_DMA_BYTES.
+Please pull.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Fixes: c7cadb3a02b5 ("[PATCH] dvb: add Pluto2 driver")
-Signed-off-by: Dmitriy Chumachenko <Dmitry.Chumachenko@cyberprotect.ru>
----
- drivers/media/pci/pluto2/pluto2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
 
-diff --git a/drivers/media/pci/pluto2/pluto2.c b/drivers/media/pci/pluto2/pluto2.c
-index 6ac9b9bd7435..fd7f8d8b85a8 100644
---- a/drivers/media/pci/pluto2/pluto2.c
-+++ b/drivers/media/pci/pluto2/pluto2.c
-@@ -291,7 +291,7 @@ static void pluto_dma_end(struct pluto *pluto, unsigned int nbpackets)
- 	 */
- 	if ((nbpackets == 0) || (nbpackets > TS_DMA_PACKETS)) {
- 		unsigned int i = 0;
--		while (pluto->dma_buf[i] == 0x47)
-+		while (i < TS_DMA_BYTES && pluto->dma_buf[i] == 0x47)
- 			i += 188;
- 		nbpackets = i / 188;
- 		if (i == 0) {
+  Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/fixes-7.0-2.1-signed
+
+for you to fetch changes up to 092f6562541e293d9e325ed94847f92f58c8ad6b:
+
+  media: ccs: Avoid deadlock in ccs_init_state() (2026-03-21 23:31:22 +0200)
+
+----------------------------------------------------------------
+MIPI CCS driver deadlock fix for v7.0
+
+----------------------------------------------------------------
+Sakari Ailus (1):
+      media: ccs: Avoid deadlock in ccs_init_state()
+
+ drivers/media/i2c/ccs/ccs-core.c | 2 --
+ 1 file changed, 2 deletions(-)
+
 -- 
-2.49.0
-
+Sakari Ailus
 
