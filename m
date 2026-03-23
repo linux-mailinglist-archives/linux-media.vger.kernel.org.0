@@ -1,208 +1,263 @@
-Return-Path: <linux-media+bounces-56684-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56685-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IIpgGEoOwWk7QQQAu9opvQ
-	(envelope-from <linux-media+bounces-56684-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 10:56:26 +0100
+	id 4EERDhQPwWk7QQQAu9opvQ
+	(envelope-from <linux-media+bounces-56685-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 10:59:48 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B5A2EF786
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 10:56:26 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3CA92EF85D
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 10:59:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6C52230041F4
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 09:56:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D8D2B302961C
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 09:58:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07FB63876DD;
-	Mon, 23 Mar 2026 09:56:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 108113876A3;
+	Mon, 23 Mar 2026 09:58:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZJE3bvY7"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MKftpxX8";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eHbKLfdH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA973876C0
-	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 09:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E11A38837C
+	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 09:58:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774259781; cv=none; b=iF1Fq5X3nN/ZymzTrO+xaKnQt3CstTRr/asvAUQ+GL3Jkch1nQBPVpS93MHZcc5tbV159SB74J929WknO5h76RtHRY5WvMeXRu0M4UywRaCJkv7Hj3yDqWhbImZ37HvNM63zwGRH8Kkypk4x0ZeBZkt1VC28QUOJQovFdKOT3Y4=
+	t=1774259887; cv=none; b=eoGKdvLzPGHjz6pvX/ozxwgQO3xBQddCerFq3CefA9jmUhpGqSIVW2jBKwNcyEmOPmPSPEcqSlb/ugDOvIotC+qleGnbukoJ8xa7wwfp5jO4d6cnqZItt3x+iMd4vxkpU+JQPsSi+1KVuiZuUisAlniWZ2k3s+zhAx8IFyX6GRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774259781; c=relaxed/simple;
-	bh=3/Rg/BX2DfUy3s37k/M8yXA5dRTcBuREAmBzZiqXRP0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=slL2KC4Umfoi57ufuCtWfOp7Y/PFnhR5UyscVU5DzUqgLzoBU/YighMb75sfMzH+BoHty+6Xqj8LwtA5KIWPFU5f95BAihqKPlOXMR8jMcSHKV4QmGdL9Uniry10r7yxf2CU5arpGeVu3PaI4YWlbmbXfGuT1Qg9m+ZYmQOgfDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZJE3bvY7; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a0fc5e2c59so3942019e87.1
-        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 02:56:19 -0700 (PDT)
+	s=arc-20240116; t=1774259887; c=relaxed/simple;
+	bh=HXNzsj0LVrw02guzdU/nRwSJ6cMnqIl9UkeuSeA9RTc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QqC3debU3sFU8H5FHlZJCdViHwEM9o+jbi20ZQ0QQ0TJb1+OsE2p3we//x8Xx5eIiX5aMMjbrBDOFd7tc8AgLA1K5PGYmZ0kQDWs1rhkhLwg9GDDS63ad4RlyfS/SDvOT5VCZRtj1nHMyYWRjJnms1hKsT15ccLZ+sQ7ygqD/m4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MKftpxX8; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eHbKLfdH; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62N9jQYQ1772502
+	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 09:58:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	OsFad9FOjsEjXLg3S1NAj7Zevr3pMv9IohcMrhz9SCA=; b=MKftpxX8Vxk5cYqF
+	HMtGixe4sB/LljTwgolHqV2BAZzmdKBWY3AMph062firnTZEiM9GCsGJJgRxj9jL
+	u69ZonKpqrpscnS+A3UoIUN1Lta4IVPW5Vk8szka3M2z8LY+BCHulNaZCiFWOp9I
+	pLxaDnmDT7Yg/O44mDSmGLw8mse83RY4L7/HMzYLMeRLO5i3Yu5P0Li9llT/BBh6
+	F+BXn1E+qxxMI/S9jcbB8fCQWpVEF6e+uzgQ0RvSARYl1QBPb6BGjytmXwljS6Bo
+	oLM4g3584xfRcEdl9QU5qnW38yIuWFlafGgRS8EHk53IWh/ZahkzkTibrB8PgVYl
+	o5U7dA==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d1jng4ukx-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 09:58:04 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-509044f54aaso49928951cf.1
+        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 02:58:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1774259778; x=1774864578; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bU5I+1pCOUAYiUlxW8VCH/e+rD3CTOAJqq49cAprQ0w=;
-        b=ZJE3bvY7YrXHM5/1Pn73t62Oo3gY+YSULw66URaW+Z07JcPz1dHX7z7ntYf+REYEVq
-         sGrIueE2k87Os0kOsySq3mZXOMl7M0tTlvScW6wV8jTIQsZjG9Zu4IsVfOjAHzsTeLL4
-         YnQ2nivbITmtmr5vl7GnpdwiSkQ+fZ9kgMU+I=
+        d=oss.qualcomm.com; s=google; t=1774259884; x=1774864684; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OsFad9FOjsEjXLg3S1NAj7Zevr3pMv9IohcMrhz9SCA=;
+        b=eHbKLfdHGn6VcDfkHFJMIPMNTawIsvFHPBchAcYhD80TLc//PgyE54qX0tnu4eVugp
+         HA7h7V97jtIIbutqW3wC+r6oXHzV4KTtRI5TQNQ0C+a1ODdlMcM73welkopUuicjcYlM
+         hGVlofGc83/guSQQY7cj76I1jrEpoBNIth5cS4EhJkgTPTz+NBsaGvGkePYklsw3mrys
+         nQomeWnsvAoUgjI4X/2ArF8C0GqqJg94xmVTTOybrb6J/Z19FfdVWdkwkOg4hesTJFFD
+         3149Mvn7PUGLA3byFrtJna5cZxiUA23aLJNgrpQ/q9qpSdXoVoJNBrf1quSund70YCkG
+         2ujA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774259778; x=1774864578;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bU5I+1pCOUAYiUlxW8VCH/e+rD3CTOAJqq49cAprQ0w=;
-        b=LMKbYBllinKRNSuRo6CIU0tfevYuXAj/UI7RLRS08PBcYncR4QFdOr4k55v8aHnYNl
-         rhmTPIhBJ1QKDc+75P8sHDyvt7fmuwkbhYklFjpwzQhPfUGDLFg4EGBMW9XpE4GryFMv
-         HhyfAJ/MOZD35UO49ezn74+yzyljrSpgeScpRneoLlvq+3goOTQkxxD5wBsDwt0wxtPt
-         D8076xQMueOwvLEtVtx+GYIsz6/iLJnbkhyo2PbpFCQY0KO46P36Rmtm1EHIuQDSPywT
-         Br4XijxtGoTWpYoMK64puZH6Z9/O9fDSdDHL0HPwXpPtISsq7rlSN4TyqmGw3pzSAJqE
-         q2cA==
-X-Forwarded-Encrypted: i=1; AJvYcCWsKbTz3qIvY1Lf1GlsNT2JffrLnF7VtZqQqiqRLqAahpO2m6Ut73HB8RC4oe9uWyN1FEZb4xE3VEvDiA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxX5cGosA4jUhloxxBzqamI2tXLkaC5pc++fZl1RZSl97M4bJwd
-	8KbMiusAv3AqHWsYSiZ3XLXflrZaglhiHh6AfimkV+NmCU/6OeEVueMLbTAxtfAMYWnsmLI4SnO
-	IAb2npw==
-X-Gm-Gg: ATEYQzzL7+JZZoZieqtMbQQRkgDLml/1UtXj4UYknNtvUx5xDLTqd1LhQ1ieoCGR0gC
-	HqpB3Gb45iuEC3toY32oFcCBjQb5NxkL62QxsOlj2WNhftXnqfkejB+RoVx9uO8aPd2cmaa6syh
-	A+pbh3NFNstBlUL2QR1yZtzyPxn0bobnsFLBSVckol+vDxXX825NDCJl7kYubdWt6xNv5jyo7/W
-	nnVdbe4+vd7FaYNz81hmx0aJpnEP2TzG3XLRQ9br7EenqTSE3EKbyf1YA5K+pVjW4/YUp182/6A
-	fqsbOF+0WdCOxoa+x+ckUwFuDjeGa6zg82Dhcp4Q6Ay9fCN/P2TF0iiX3wP4r8CY0kT3rUYJDm9
-	JOXyhayGbBzMO4cz/uYgdZXrYz7Ow39nvZXllZFj9P5nLEcW9f00pznJ8IiS74fkxIsGYWl/JzC
-	Zz9fm1/b74qNx7ZjMA0C29NKB31DeoZWvKBu8HUIFoPT0YI88tSmxYRo9gK0Dy
-X-Received: by 2002:a05:6512:39ce:b0:5a0:c5af:c3ca with SMTP id 2adb3069b0e04-5a285af729emr3613364e87.17.1774259777696;
-        Mon, 23 Mar 2026 02:56:17 -0700 (PDT)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2851ae5c8sm2524511e87.37.2026.03.23.02.56.14
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2026 02:56:16 -0700 (PDT)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b979d16dd0cso576851966b.1
-        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 02:56:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXkEAM/pTI1scIKTM2KWQqRQVpDD0KCcrBX05ETAFI9lUN7hi6T2ZohSMaDrt2F36qMfJM0xAHjonLdxA==@vger.kernel.org
-X-Received: by 2002:a17:906:a895:b0:b97:8503:8313 with SMTP id
- a640c23a62f3a-b982f30378emr724881766b.27.1774259773686; Mon, 23 Mar 2026
- 02:56:13 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774259884; x=1774864684;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OsFad9FOjsEjXLg3S1NAj7Zevr3pMv9IohcMrhz9SCA=;
+        b=eC6pyC24CihSE5k4Je+IoUoOiaWdLr5uIE3pBemLXq+mfRDOcCd/xAfaPdcQ9MYkXp
+         gCSXCey/9+m6PVftAOH74Rqwza/gT3VoLOQCT+KIiymUTmXogGxONsNWloYiwe7+hIet
+         Ic3GzDtmoPNYKAkPffTuWj6tEA1fkXeV9ZvYLIg+asOM2mvATs+UQ8iSScEW67pKnjSQ
+         a/arOBcZF3inVAo0H5oAnXqDPkrrR41KSDjrAfE7x5JYuOWFjv2r+zv04YC07skE0gT7
+         12dsU77afmHJyY6X/Lt3/T9CKLa0kFlwTTy2gh0YSEcUya9BT+gq9UT5Cj5+KCfOYJ5U
+         IZLw==
+X-Forwarded-Encrypted: i=1; AJvYcCWSVuj2ey2MkWdUmtmw6Ps1SNEw5hYCibyoqOKySRvjtYNAe7+mbTzJYuKizPB7D2Syy6ImsxoV2tamQQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfDF4oBZNpc+vUmbG5x0Il0qQu6p4J7awOC2GJQzyI38BTKPnX
+	AouByW3vqP5JPm6ivxwfPxwuggSPBZWzWC9U/LtEcZs42EY4zsUO1l2sOMTAWmjAgT9oioiQbrS
+	h/LkAoX8ZP4CmwV7qd/bFx8ffMA0RdT03MeyPTJfdAio5cyV+ODVwerIKjqjNPix0XQ==
+X-Gm-Gg: ATEYQzyoXyHfT8Meac8f2sbCyX1fHidZXrcnLjrlbq9TbbFF0O6jwtNSqc88og9djK+
+	ggcGxh0bjcJtZKZRfvwz8yq6boQ5LpxEASotEDdpHnK2VbJCMM2qgVVez+2rMJRmmGeMXFX1Kq+
+	4GDDGrm08JewtolcSEWrJ+18r613rWvevg2Ho6PWdFqbfQt+kwx69EwWhVTyCaQNRHeCY93QHos
+	hH+yVDT6ofN09BQLEvkry5A7CleV4376OU+LoirHD3IYEQRDEDXBO56cfWkacrNSlkWZkJ6FaOt
+	nk1AExfb8tdEPlx+1vsUsEtEw7r5h9ElRJOVWOtrUwc+xobyq2f/Kk89vz9kHO1Vko70vu1lT5A
+	/o0tpOUG8SmqYikLKcjfohtin25Ib+DpCSrJklCoOZ7T5NdVi5MBCtNNrR0uDek0hG8rqg5qnbp
+	s3EXGLhpmjc7WS8w0DYUuwgEGEm35jWy+Wxrg=
+X-Received: by 2002:a05:622a:14d:b0:50b:41bf:4ee5 with SMTP id d75a77b69052e-50b41bf660dmr156792531cf.57.1774259884312;
+        Mon, 23 Mar 2026 02:58:04 -0700 (PDT)
+X-Received: by 2002:a05:622a:14d:b0:50b:41bf:4ee5 with SMTP id d75a77b69052e-50b41bf660dmr156792331cf.57.1774259883879;
+        Mon, 23 Mar 2026 02:58:03 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a285207302sm2398937e87.46.2026.03.23.02.58.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 02:58:02 -0700 (PDT)
+Date: Mon, 23 Mar 2026 11:58:00 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 11/11] media: qcom: iris: extract firmware description
+ data
+Message-ID: <av5hvd2qc3g6qddicdobtdprmaexk4b2cisgmq27sdvfvmcnkv@lmr2dwhngljb>
+References: <20260319-iris-platform-data-v8-0-55a9566ebf60@oss.qualcomm.com>
+ <20260319-iris-platform-data-v8-11-55a9566ebf60@oss.qualcomm.com>
+ <14610f07-52c2-465c-d407-fff1974429ea@oss.qualcomm.com>
+ <839d9dc8-30ef-a2ed-42a5-106923b4065a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260321223713.1219297-1-jp@jphein.com>
-In-Reply-To: <20260321223713.1219297-1-jp@jphein.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 23 Mar 2026 10:56:01 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsZf0QWzCQdgFC=hj+V4ChCynwjRNAz6u-F3Y8vzZXXDw@mail.gmail.com>
-X-Gm-Features: AaiRm51pgrzPjR2hqfRCdAFfdxEd-_k1LaQPVJwPrlN7jYDCE9YsC62lPeYFY_o
-Message-ID: <CANiDSCsZf0QWzCQdgFC=hj+V4ChCynwjRNAz6u-F3Y8vzZXXDw@mail.gmail.com>
-Subject: Re: [PATCH 0/3] USB/UVC: Add quirks to prevent Razer Kiyo Pro xHCI
- cascade failure
-To: JP Hein <jp@jphein.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <839d9dc8-30ef-a2ed-42a5-106923b4065a@oss.qualcomm.com>
+X-Proofpoint-GUID: NzOpsV7_ZwU6Pajvr2QRYaYBYMS0VBCv
+X-Authority-Analysis: v=2.4 cv=Q63fIo2a c=1 sm=1 tr=0 ts=69c10ead cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8
+ a=k3VbfXO1dvbp11TfyXsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-ORIG-GUID: NzOpsV7_ZwU6Pajvr2QRYaYBYMS0VBCv
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDA3NiBTYWx0ZWRfX567ROTtS32fv
+ tqdrJXfXvk6jzIJ7U4sFdmPY3zEGDi8QJ5eWwdO/kNIDkAay9IgmeMQ3DJEAUcVcFE+M4lDoZXz
+ zGQGf5B3+t/xWL3cdMFcckwAjn/PLBnJFvtsxqghbLApHffgfg3xISZtthyEO8Jg7bItS0ZkoI6
+ +RGPxFlt3DJy1KmO1FbtVESFqTziAJpSL0Ca5jYQ39UtEJA4O0caNRwDrRwMiTHmyhtI32xOlpo
+ I5OI2ExDuu6iuLofS0Xq/DB/SzGaIk0hByA+1yC6vOMvZ+kSiKUrY1ZTsszOLuQ+j4LcQOjcDE+
+ U+jr/V2jj25yKkYk++ji6ViBbmKhkCZbpr6XaTWe0u2d1ggAaGh61hMGU/qHb1010qvd2Km7xVA
+ BlFlhQheKsbQYsxWDZ/RPIz7gWLapZzrw4aKwM4J2d3Ve36YNUbrKYE0kSnBm6HRhtvECZmi9sO
+ n8zLO+opsj+H0ow477A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-23_03,2026-03-20_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 bulkscore=0 spamscore=0
+ malwarescore=0 adultscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603230076
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56684-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56685-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,qualcomm.com:dkim,qualcomm.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:dkim,mail.gmail.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,jphein.com:email]
-X-Rspamd-Queue-Id: 49B5A2EF786
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: A3CA92EF85D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi JP
+On Mon, Mar 23, 2026 at 01:41:36PM +0530, Dikshita Agarwal wrote:
+> 
+> 
+> On 3/23/2026 12:50 PM, Dikshita Agarwal wrote:
+> > 
+> > 
+> > On 3/19/2026 11:29 AM, Dmitry Baryshkov wrote:
+> >> In preparation to adding support for several firmware revisions to be
+> >> used for a platform, extract the firmware description data. It
+> >> incorporates firmware name, HFI ops and buffer requirements of the
+> >> particular firmware build.
+> >>
+> >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> >> ---
+> >>  drivers/media/platform/qcom/iris/iris_buffer.c     |  2 +-
+> >>  drivers/media/platform/qcom/iris/iris_core.h       |  1 +
+> >>  drivers/media/platform/qcom/iris/iris_firmware.c   |  2 +-
+> >>  .../platform/qcom/iris/iris_hfi_gen1_command.c     |  2 +-
+> >>  .../platform/qcom/iris/iris_platform_common.h      | 15 ++++----
+> >>  .../media/platform/qcom/iris/iris_platform_vpu2.c  | 20 +++++++----
+> >>  .../media/platform/qcom/iris/iris_platform_vpu3x.c | 41 +++++++++++++++-------
+> >>  drivers/media/platform/qcom/iris/iris_probe.c      |  3 +-
+> >>  8 files changed, 57 insertions(+), 29 deletions(-)
+> >>
+> >> diff --git a/drivers/media/platform/qcom/iris/iris_buffer.c b/drivers/media/platform/qcom/iris/iris_buffer.c
+> >> index fbe136360aa1..ef7f6f931557 100644
+> >> --- a/drivers/media/platform/qcom/iris/iris_buffer.c
+> >> +++ b/drivers/media/platform/qcom/iris/iris_buffer.c
+> >> @@ -295,7 +295,7 @@ static void iris_fill_internal_buf_info(struct iris_inst *inst,
+> >>  {
+> >>  	struct iris_buffers *buffers = &inst->buffers[buffer_type];
+> >>  
+> >> -	buffers->size = inst->core->iris_platform_data->get_vpu_buffer_size(inst, buffer_type);
+> >> +	buffers->size = inst->core->iris_firmware_desc->get_vpu_buffer_size(inst, buffer_type);
+> >>  	buffers->min_count = iris_vpu_buf_count(inst, buffer_type);
+> >>  }
+> >>  
+> >> diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
+> >> index e0ca245c8c63..7f36eb65dcbf 100644
+> >> --- a/drivers/media/platform/qcom/iris/iris_core.h
+> >> +++ b/drivers/media/platform/qcom/iris/iris_core.h
+> >> @@ -99,6 +99,7 @@ struct iris_core {
+> >>  	struct reset_control_bulk_data		*controller_resets;
+> >>  	const struct iris_platform_data		*iris_platform_data;
+> >>  	const struct iris_firmware_data		*iris_firmware_data;
+> >> +	const struct iris_firmware_desc		*iris_firmware_desc;
+> > 
+> > Missing documentation.
+> > 
+> >>  	const struct qcom_ubwc_cfg_data		*ubwc_cfg;
+> >>  	enum iris_core_state			state;
+> >>  	dma_addr_t				iface_q_table_daddr;
+> > 
+> > <snip>
+> > 
+> >> index dd87504c2e67..d36f0c0e785b 100644
+> >> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> >> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> >> @@ -251,7 +251,8 @@ static int iris_probe(struct platform_device *pdev)
+> >>  		return core->irq;
+> >>  
+> >>  	core->iris_platform_data = of_device_get_match_data(core->dev);
+> >> -	core->iris_firmware_data = core->iris_platform_data->firmware_data;
+> >> +	core->iris_firmware_desc = core->iris_platform_data->firmware_desc;
+> > 
+> > How will iris_firmware_desc be selected once a SoC supports both Gen1 and
+> > Gen2 firmware?
+> > Today it’s fixed in platform_data, but eventually probe would need to
+> > choose between firmware_desc_gen1 / firmware_desc_gen2 based on the generation.
+> 
+> something like this would be okay?
+> 
+> if (core->iris_platform_data->firmware_desc_gen2)
+>   core->iris_firmware_desc = core->iris_platform_data->firmware_desc_gen2;
+> else
+>   core->iris_firmware_desc = core->iris_platform_data->firmware_desc_gen1;
 
-On Sat, 21 Mar 2026 at 23:38, JP Hein <jp@jphein.com> wrote:
->
-> The Razer Kiyo Pro (1532:0e05) is a USB 3.0 webcam whose firmware has a
-> well-documented failure mode that cascades into complete xHCI host
-> controller death, disconnecting every USB device on the bus =E2=80=94 inc=
-luding
-> keyboards and mice, requiring a hard reboot.
+Yes :-)
 
-Have you tried reaching out to Razer in case they have a new firmware
-that fixes your issues?
-
->
-> The device has two crash triggers:
->
->   1. LPM/autosuspend resume: Device enters LPM or autosuspend, fails to
->      reinitialize on resume, producing EPIPE (-32) on UVC SET_CUR. The
->      stalled endpoint triggers an xHCI stop-endpoint timeout, and the
->      kernel declares the host controller dead.
->
->   2. Rapid control transfers: ~25 rapid consecutive UVC SET_CUR
->      operations overwhelm the firmware. The standard error-code query
->      (GET_CUR on UVC_VC_REQUEST_ERROR_CODE_CONTROL) amplifies the
->      failure by sending a second transfer to the already-stalling device,
->      pushing it into a full lockup and xHCI controller death.
->
-> This has been reported as Ubuntu Launchpad Bug #2061177 and affects
-> multiple kernel versions (tested on 6.5.x through 6.8.x). There are
-> currently no device-specific quirks for this webcam in either the USB
-> core quirks table or the UVC driver device table.
->
-> This series adds three patches:
->
-> Patch 1: USB core =E2=80=94 USB_QUIRK_NO_LPM to prevent Link Power Manage=
-ment
->   transitions that destabilize the device firmware.
->
-> Patch 2: UVC driver =E2=80=94 introduce UVC_QUIRK_CTRL_THROTTLE to rate-l=
-imit
->   SET_CUR control transfers (50ms minimum interval) and skip the
->   error-code query after EPIPE errors on affected devices.
->
-> Patch 3: UVC driver =E2=80=94 add Razer Kiyo Pro device table entry with
->   UVC_QUIRK_CTRL_THROTTLE, UVC_QUIRK_DISABLE_AUTOSUSPEND, and
->   UVC_QUIRK_NO_RESET_RESUME to address both crash triggers.
->
-> Together, these keep the device in a stable active state, prevent rapid
-> control transfer crashes, and avoid the power management transitions
-> that trigger the firmware bug.
->
-> Tested on:
->   - Kernel: 6.8.0-106-generic (Ubuntu 24.04)
->   - Hardware: Intel Cannon Lake PCH xHCI (8086:a36d)
->   - Device: Razer Kiyo Pro (1532:0e05), firmware 8.21
->   - Stress test: 50 rounds of rapid UVC control changes, 0 failures
->
-> JP Hein (3):
->   USB: core: add NO_LPM quirk for Razer Kiyo Pro webcam
->   media: uvcvideo: add UVC_QUIRK_CTRL_THROTTLE for fragile firmware
->   media: uvcvideo: add quirks for Razer Kiyo Pro webcam
->
->  drivers/media/usb/uvc/uvc_driver.c | 16 ++++++++++++++++
->  drivers/media/usb/uvc/uvc_video.c  | 33 ++++++++++++++++++++++++++++++++=
-+
->  drivers/media/usb/uvc/uvcvideo.h   |  3 +++
->  drivers/usb/core/quirks.c          |  2 ++
->  4 files changed, 54 insertions(+)
->
-
-
---=20
-Ricardo Ribalda
+-- 
+With best wishes
+Dmitry
 
