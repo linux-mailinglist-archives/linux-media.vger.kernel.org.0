@@ -1,266 +1,243 @@
-Return-Path: <linux-media+bounces-56651-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56652-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id PklONz+0wGkQKQQAu9opvQ
-	(envelope-from <linux-media+bounces-56651-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 04:32:15 +0100
+	id gOToL4vFwGn+KgQAu9opvQ
+	(envelope-from <linux-media+bounces-56652-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 05:46:03 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776B62EC38C
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 04:32:15 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA192EC87C
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 05:46:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D40D83003D29
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 03:32:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5BD2E3014676
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 04:45:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 219581F5821;
-	Mon, 23 Mar 2026 03:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CE2728BA95;
+	Mon, 23 Mar 2026 04:45:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="rmRVk/NG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QkfZ9gbN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012053.outbound.protection.outlook.com [40.93.195.53])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3238ECA52
-	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 03:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774236730; cv=fail; b=r6+qZQfzSv+s0hjIifrattRHxcpAcOqIeHSPeKqAT6S2/QqrMPBSi30VT6b8DKjDb6UENXwpjlLaqcK1hrid6CBLSdnhiB56OKMfVqqjGAkcPkJB0ee61m2lqGft2mfQSavpCmyri9xXs/Jz7iiDrGX62rVwWVsRbUbC2uxytus=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774236730; c=relaxed/simple;
-	bh=7kus24of4n8QvPi1yB88L3+1Sc9znRCoMoqrx9W5QWo=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=dJ8hbhjCPqM0WcUnpSNKoQpX2caiR6y01B4lD2wiI7fJqT799ASsCgpfeSKP9vEorx5yJ5wZ2AfECfq07PLG+sPpjhofzruQA46fvKvMJNlKwJ5VClwXYDgTigejYUS5lij//9+X4Ai0dNH5NRT3GN60dLxUpJUftd9T50G0Vc0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=rmRVk/NG; arc=fail smtp.client-ip=40.93.195.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AYo02ybyBy1PMoe0HLrUgVl2hPZRSSRdDq0ioC9OphmRlnAcONSbiW2mEjUBQFUxsPcQrtFXRl60I6hCxsit2VRBVEIbwWX8dLwXrnX4H6tjvChxIhHvdA0MIf2fVodaw3Wu/b0/Sd0IzgXxtc/MXSUQHpAqcu3SVt9hfeZGzGDV5EUjGco1Vnp22Ob1IRL2M/aeBzsC3UoNXpFKWy3aigVHN65qFEBVBVa5JePMnF0J7y8+8Mu+QToThOhIqlMHAl+STVS/v0zHngkto9W+JUXb/pAUGYSX+yfxvcIDkzWd0KjV/Y6Wc/ytVQivfftC3ZowiNXyq/TcxVZZUeCZIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pW4Rt62vrMBk4oGALV17ppWYsSLWa1ty9fCXZ0dR57U=;
- b=jcv9OK/wHSxY9HTZwElQohsqqk65g1X1LFC1ub1wt940gWVBeSbX3vvtYyNYMB1Z/SF/oRQR39HBVsvP6QWsihu9A7F1sxc0OE6Gae2WVUDVBqNLuBt3BCQzC0R9eRSuG03YMNvAYl6zRVQFeGbTwGznhPMIbA51i0j9hsaQG0zX5QWR8HYBEVI75gBU1lFscGWpiI7sCt1vDBp8bYUonBML3KoLb8p1VnPd1pdcjvxVAphpCiMcDSLbCVw6xoFuQjDXbT01N4cbTGaiRKC4TK7rXP2v8+C4B0+kIOMuxXU2DKt8lfISNwySGxjWRk7YTtqDWoT1mfloPqyickWZmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pW4Rt62vrMBk4oGALV17ppWYsSLWa1ty9fCXZ0dR57U=;
- b=rmRVk/NGsf3eO1u6dSsWIh80VtNBdNB+APpC24DyBVgarOYcYsSGn0ZOIOEOZaURyldZhRwgIsEyPm7qvQ2KxR4rr55mtbzbKA45xM3PGcZiuIE0ozVBu0O66MqEoItUvOhZVGi9l+74b4AprIPovXDjhL8aJcq3qaCA3uezbf0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from LV9PR12MB9829.namprd12.prod.outlook.com (2603:10b6:408:2eb::9)
- by MN2PR12MB4079.namprd12.prod.outlook.com (2603:10b6:208:1d5::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Mon, 23 Mar
- 2026 03:32:06 +0000
-Received: from LV9PR12MB9829.namprd12.prod.outlook.com
- ([fe80::2bc0:451f:661a:ac32]) by LV9PR12MB9829.namprd12.prod.outlook.com
- ([fe80::2bc0:451f:661a:ac32%3]) with mapi id 15.20.9745.012; Mon, 23 Mar 2026
- 03:32:06 +0000
-Message-ID: <ce3cb00d-7214-4980-823a-955ae4cca62c@amd.com>
-Date: Mon, 23 Mar 2026 11:32:01 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v10,0/7] Add AMD ISP4 driver
-To: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-References: <20260320084146.200988-1-Bin.Du@amd.com>
- <69bd3a57.050a0220.1b4541.789b@mx.google.com>
-Content-Language: en-US
-From: "Du, Bin" <bin.du@amd.com>
-In-Reply-To: <69bd3a57.050a0220.1b4541.789b@mx.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR06CA0209.apcprd06.prod.outlook.com
- (2603:1096:4:68::17) To LV9PR12MB9829.namprd12.prod.outlook.com
- (2603:10b6:408:2eb::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134EB6F2F2
+	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 04:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774241156; cv=none; b=GgwpVIuqLXv9H6qexD3KY8M/m3MQCgI0rFAd4BdQDXphpe4nCaink9TLXNhNjexXF0KVL8lCXTqBsQpFRAGAkmEsA9eHEReVggRv8JZWrr8ZeOK6E7DOTfzZr24JlJzLROi3sdQueAwXdf9taIsSZxvjtHFQP67LLT3mEBswOj8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774241156; c=relaxed/simple;
+	bh=mMWNhNHzevdtgAYdabxVTnPKHePb+cvfQX+mJe9KXqs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G3ejrMWcTRzNr5vZp/2Xh4IXl1F8mOVYRLhWkdNgj4igBLQ4WYVVqDo9sQlrXhklLKQiVN3/RI9yYaCKeV0eM8Xlpuu2QGzddmNUYPCypDPBjcWI8UYKQY0KY0Z1usK1/29sJ9LPpAAC1szs8B7ilfKb4tac9uXJpSJdSn7gRwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QkfZ9gbN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D473C4CEF7;
+	Mon, 23 Mar 2026 04:45:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774241155;
+	bh=mMWNhNHzevdtgAYdabxVTnPKHePb+cvfQX+mJe9KXqs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QkfZ9gbNu+FxInAGdJFtfKAXvrSKb39fBw67qvvZmqm8Roz8h3U1tMfNuKPGulr73
+	 QeQSjmzOH+k8scP+YM5+du/v8zeH6m8gboYnfOzdnc9mnL/RUUdE/HlNC7zDR+LphQ
+	 ZVthCy3wpI4JTTcgyu/QqZHjVrULsA3W8MUGJt32k+8HO2xqym+8ZVcAtep5hmWZGl
+	 E9GDlVP1ePZhe8saxvhmTVRaW+20cPFPPGV09WxsZ0GslFys3ZtVGvUwQNOZN2GzcL
+	 0F7pmctuG5eL/ZgeafqKViffyL+hA9irQLD8tHxX8VkHLQVSIClatDtCvW/sUCWnAY
+	 Rw2qgwqT84z4w==
+Date: Mon, 23 Mar 2026 13:45:53 +0900
+From: Harry Yoo <harry@kernel.org>
+To: Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: Linux 7.0-rc4: v4l2src0:src: page allocation failure - increased
+ memory usage in 7.0?
+Message-ID: <acDFSf04Gqmk8lva@hyeyoo>
+References: <abtAylIlW3I8s1T-@mail-itl>
+ <abycbXzYupZpGkvR@hyeyoo>
+ <ab1Ujqcsv4Eh1vIa@mail-itl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV9PR12MB9829:EE_|MN2PR12MB4079:EE_
-X-MS-Office365-Filtering-Correlation-Id: 226789b3-86f5-4a84-ea83-08de888cc200
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|366016|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	l8/zOGBntSW9DTJ6AA6pKI63a13l8CmERn+BeMrg6PIHWzW2mAuL0yt3k0sFnpxpPRF0d9BLABMmoeMfYSC6d2Q6K0NgFsIbUaE3EFQOGmORpJ5M1Kortyc++yGyn8GwxRYQtcR4Fm9WqXEPU8IM+7rJhYjssaaqX49Kque5A74x9zNiP9Riz65eRMjfW8LLVqMxcB1YkRzJTfLIDCvvXacRN4pgWe/fvuvVb4tNUVTM+MEUR0x4pZvT/AAHJHCcYKnjeP4Oa2ynAOIMZRUI4PevKL0I9m6/Ad56P15iRbreZqXOShPhg7qEUWWu/BxZvog6PT1prnh5WxUdg4lBN2goO9r5t6Q6lTE/MzbiRJRf+2YocQQjRvFBhzmGmOJwCY0Mu88z4bBB7ShYe7O2hU63jTuiKId3a+rV8lYhMIp1PA6iX9xUoc7/VRQlzVAk7Sy/rk1AqdZYop22FH93HWNVOr/TkEE3LPwkXL+u2ZcvOhw2spDNtuVyh+GudE3s5FQAQ1odNgLzrQddlim1Xjx+cNKMWM1McWjmP0ODJuns2AqRZdXgBxOoY1NNDKqpPZQI3/ylv/vum1IDK82Pwi4yJhurBftjL6ZKiLNE6tJaLx80hE1K2f1vO3JuQnqlkW8Dr+jVnKEXCaaLxro9Ev8xMpJdk54pr13ChjjHLxbC0Xhc5LjhaefyinVOqbg2
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV9PR12MB9829.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VkVMOExvN3dnWG4vQ1k4QTc2WnlaWVFZQnFoZU15TmsyY3BSNEVNRXdTQ1h2?=
- =?utf-8?B?OTRKNVkxREF4UGFKUE4vejdnampiV2MwS0pkRjY1TzJMOTBZelN2eVRUV3Ft?=
- =?utf-8?B?Qi9zeWdVWUIvL0FzTVh4NFRSbXhhMStpRStmZm42M1R2ZERwY0tsbzRJUm05?=
- =?utf-8?B?RjNIRHpsSEx4VnJZeXdibGpqWFY4d1FHQ0tXL21oYVpvWFVxRG5nTWM2TkN4?=
- =?utf-8?B?NVZMUk1QSy9idEVGUDJXT0V4dWp6b3BmZWJIdy9kYU9IdmVDOHc1dmM5VDZt?=
- =?utf-8?B?L0hLOXZnOGpNRFh4QVZvL0lXZWQrWlBBRGdvVGVyK202d2ZMQ0FNT1I1SWFr?=
- =?utf-8?B?K1NnVldWdXVydkNwTEhXVkJodG5qaFBQNGFHZDN1SWVLQXczdXZTYytoSHJh?=
- =?utf-8?B?c1pGVnJWenVwQm1KUjBRcXR1bVR1SFRpQ241di8zTXhaMlF3YlV0VWVsaXlk?=
- =?utf-8?B?ZVVENEQ1dExrZVZxWUhDTVU3alhVRURLMGt1M1JNbTE0VmhKaUFnajhpa1Fa?=
- =?utf-8?B?Y2RSZTRGbjNRdzlDWmQyN3ZDcVkrQ1h0elpMVlJ0TG9sZGo2VEs5Y2tyMXdE?=
- =?utf-8?B?VStjWitjaktEVC9oNE1MRm1XdkRyYXNaS1lFWUlMZjN2T3BKU2NmMFpBTlJC?=
- =?utf-8?B?a3hDVTQxYjY1NmtMMXJFeHFGZExTRmMrcWViYUVoWG9xUHcvWGlrbHcxMHBQ?=
- =?utf-8?B?YmJRWFFWYTdnUUU0ZW1WMXhaeDY3Vi8vYTQ4bEc1TUxmR2o4RndTSXNNOUFC?=
- =?utf-8?B?ZmxXampidjdEUnZLZVErNmZEM2NtcTcrZ1MrLzVUZWpCaVdPZ2FxWEhvV0ZE?=
- =?utf-8?B?ZEd0OHJudjhFNlpMR252anVoRDg1cUl3VnpCZEd4OXY0OHlHdzE2Y2hWRlBj?=
- =?utf-8?B?cmZ1RVAwcFlnSWhYQzdNOGtmeHNEMFE0UmVrN0IwcUk3ZVpNcW1qSkFMNHM0?=
- =?utf-8?B?U0hYQ1l3NEtYK3dZYjVFNXNRc0dSU3l5d2ltZDJNV1hXa01HbHIySzBhTEM3?=
- =?utf-8?B?QjhuUXl5UUpBUmlBN3JFQkRnbStGY2ErUkp1NjkxSE5RMysyOXlkcjZMbEFx?=
- =?utf-8?B?OVAxKytwTEVuMituTWdzTGFmMytaaVUzL3BjODdndVJQQXJpNjRKRWVMNTJG?=
- =?utf-8?B?dFk2ZUlqcFlCQUNFWVFmVTRldDJ0c3lHQXVSc0RCYy9mZlp5R01waGpycGFQ?=
- =?utf-8?B?RDFySmZOOUM3V0JDd1FxanZYOVZwR3gwVzV0NlRyZFNkY2VtYWU4d2ZCWVZK?=
- =?utf-8?B?T3pUVm92SFROaDBkcEhwUmRmTjZoa1p1Qy9jMUozalk4VFJmK1QvSXduVVR3?=
- =?utf-8?B?WFdBenkxNGhpems0Y0FSbDFOQjRHSHRZNkNjcGJWekR1UHdmaDJ6NXZLUFNX?=
- =?utf-8?B?dDgrb2RRWW1IU0lDdzFUQnJSU3Z2VU5XVTF6L2VqeFFIbFVmcnBKQi9rVEgx?=
- =?utf-8?B?M1I3R2dLczg3TTliR2lDZmRNdFNseGIwUnlBTDh4aDFEZDFuMTVUVU9XV29w?=
- =?utf-8?B?b0d6Qkc0NzNGRmZpcHlGNVUvcDN3MS9BeS9jSnRsdVFuNlk5eUFLTkhHSnNv?=
- =?utf-8?B?T2JybXhPMEJHaksxcXV1amN0Q1lLMzZqYmZIaFpEd2hIbENvTWVQSklyV3Ez?=
- =?utf-8?B?NWl1d2krdStOdnViaVlWWlJzUm4yZUR3emVZZEtsWWs5eGJOYkN0ZmpIVkpl?=
- =?utf-8?B?MUhyRUQrTHpiS0dtYkhaQ0pvUUxIQlhFTmlCVnNmU1VyKy9OSnp0ajFzNVgr?=
- =?utf-8?B?eHZ0bVc2WjFvM2UySkNXWEZ6Um50aHJOMXFzR01yRlMvOEVjWFFwMXE0NGdi?=
- =?utf-8?B?d1F1R3Nsem83SHdzSk1RWFhLdU5NczhYU0pIbnJtSTREYlRKNkc3bSszWXdC?=
- =?utf-8?B?ckRoeEIyMFd2dkx5TmlqbUUzS0VaTEFxTVcyc2ZhR2djNi92eFJrZEp5REpP?=
- =?utf-8?B?M1Bsbkgvb1dVa2VoNnhKakRIdXh5NmZTSldsRGRiNFVKWGZhQUZydDc2V3ZO?=
- =?utf-8?B?c0gvVUtCejJFNVUxTkZvcHI1dlJYZUZrSDNVVllsWklJQkhDSDdOQnNQYWgr?=
- =?utf-8?B?anIzbElOSHV5NmE0QUlkS2d3REQyenA5andWUVNPL0xEN2l5Z0twTVo0QU83?=
- =?utf-8?B?NzJqSWNSSzRibnRDYVRjaWdDYzAwZUNoT0x3N3pLK0lnSEl0THhZOWlqc3la?=
- =?utf-8?B?U2pNc09aNVZHZkxuOHNmdld0T1NVYVEvbXh1Qk0xbTNTSURiN3o3bUlDTFcr?=
- =?utf-8?B?RHdHamNHd1RYWjFlN2pveE1hZWRrYlEydUVzM21Rc3ovanFqTkxVNkZXZ2Yv?=
- =?utf-8?Q?FUZXc9XTzRQhtiv/T0?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 226789b3-86f5-4a84-ea83-08de888cc200
-X-MS-Exchange-CrossTenant-AuthSource: LV9PR12MB9829.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 03:32:06.7595
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B7nYE9bBukFtcHRm8IPIyiYuXwBhNkt0n/vEgAJZKXC5sQfe5CNtzvGJfIvFffLx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4079
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ab1Ujqcsv4Eh1vIa@mail-itl>
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_EQ_ADDR_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56651-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56652-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	MIME_TRACE(0.00)[0:+];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bin.du@amd.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[harry@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:dkim,amd.com:email,amd.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,gitlab.freedesktop.org:url,pages.freedesktop.org:url]
-X-Rspamd-Queue-Id: 776B62EC38C
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2EA192EC87C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On Fri, Mar 20, 2026 at 03:07:10PM +0100, Marek Marczykowski-Górecki wrote:
+> On Fri, Mar 20, 2026 at 10:01:33AM +0900, Harry Yoo wrote:
+> > On Thu, Mar 19, 2026 at 01:18:18AM +0100, Marek Marczykowski-Górecki wrote:
+> > > Hello,
+> > > 
+> > > When testing 7.0-rc4 (and also got it with 7.0-rc1), I got page
+> > > allocation failure in uvcvideo when using v4l2 camera in a VM. The setup
+> > > is rather memory constrained - it's a HVM with just 300MB of memory
+> > > running on Xen, with PCI passthrough of USB controllers (to which an USB
+> > > camera is connected). But the very same setup works just fine with older
+> > > kernel (last known good is 6.19.5, built with the same config).
+> > 
+> > Could you please share what /proc/meminfo looks like on v6.19, and
+> > also enable memory allocation profiling feature [1] and see
+> > what has changed between v6.19 and v7.0?
+> > 
+> > On v6.19, you should be able to see how much memory is allocated by
+> > reading /proc/allocinfo.
+> > 
+> > On v7.0-rc4, warn_alloc() should let memory allocation profiling
+> > print top users.
+> > 
+> > [1] https://docs.kernel.org/mm/allocation-profiling.html
+> 
+> Thanks, this got me some more info (below). That said, I think I spoke
+> too soon about 6.19.5 - the page allocation failure happens there too,
+> just without follow up crash, and v4l2 generally works afterwards (maybe
+> few initial frames got lost? not sure) - so, I haven't noticed it
+> before. So, it doesn't look like increased memory usage anymore.
 
+Oh ok. So the allocation failure has already been there and the only new
+part is handling of the failure.
 
->-----Original Message-----
->From: Patchwork Integration <patchwork@media-ci.org>
->Sent: Friday, March 20, 2026 8:15 PM
->To: Du, Bin <Bin.Du@amd.com>
->Subject: Re: [v10,0/7] Add AMD ISP4 driver
->
->Dear Du, Bin:
->
->Thanks for your patches! Unfortunately the Media CI robot detected some
->issues:
->
-># Test static:test-smatch
->drivers/media/platform/amd/isp4/isp4_interface.c:462 isp4if_send_fw_cmd()
->warn: '&ele->list' not removed from list
->
+> The message:
+> 
+> [   30.986973] v4l2src0:src: page allocation failure: order:5, mode:0xcc0(GFP_KERNEL), nodemask=(null),cpuset=/,mems_allowed=0
+> [   30.987035] CPU: 1 UID: 1000 PID: 1256 Comm: v4l2src0:src Not tainted 6.19.5-1.qubes.42.fc41.x86_64 #1 PREEMPT(full) 
+> [   30.987038] Hardware name: Xen HVM domU, BIOS 4.19.4 02/20/2026
+> [   30.987039] Call Trace:
+> [   30.987041]  <TASK>
+> [   30.987044]  dump_stack_lvl+0x5d/0x80
+> [   30.987049]  warn_alloc+0x162/0x190
+> [   30.987052]  ? __alloc_pages_direct_compact+0x1bc/0x220
+> [   30.987054]  __alloc_pages_slowpath.constprop.0+0x566/0x9b0
+> [   30.987056]  ? kernfs_next_descendant_post+0x1b/0xe0
+> [   30.987059]  __alloc_frozen_pages_noprof+0x31b/0x330
+> [   30.987062]  __alloc_pages_noprof+0xe/0x20
+> [   30.987063]  __dma_direct_alloc_pages.isra.0+0x1b2/0x3b0
+> [   30.987066]  dma_direct_alloc_pages+0x3f/0x190
+> [   30.987068]  alloc_single_sgt+0x12a/0x200
+> [   30.987071]  dma_alloc_noncontiguous+0x49/0x150
+> [   30.987074]  usb_alloc_noncoherent+0x45/0xa0
+> [   30.987079]  uvc_alloc_urb_buffers.part.0+0x95/0x130 [uvcvideo]
+> [   30.987092]  uvc_video_start_transfer+0x19d/0x4e0 [uvcvideo]
+> [   30.987100]  uvc_video_start_streaming+0x9c/0x140 [uvcvideo]
+> [   30.987107]  uvc_start_streaming_video+0x58/0x100 [uvcvideo]
+> [   30.987116]  vb2_start_streaming+0x63/0x130 [videobuf2_common]
+> [   30.987123]  vb2_core_streamon+0x98/0xf0 [videobuf2_common]
+> [   30.987128]  ? vb2_ioctl_streamon+0x15/0x60 [videobuf2_v4l2]
+> [   30.987133]  __video_do_ioctl+0x419/0x540 [videodev]
+> [   30.987155]  video_usercopy+0x286/0x690 [videodev]
+> [   30.987168]  ? __pfx___video_do_ioctl+0x10/0x10 [videodev]
+> [   30.987181]  v4l2_ioctl+0x6b/0xa0 [videodev]
+> [   30.987194]  __x64_sys_ioctl+0x96/0xe0
+> [   30.987198]  do_syscall_64+0x84/0x6c0
+> [   30.987201]  ? __handle_mm_fault+0x470/0x700
+> [   30.987204]  ? count_memcg_events+0xdd/0x1a0
+> [   30.987207]  ? handle_mm_fault+0x220/0x340
+> [   30.987209]  ? do_user_addr_fault+0x2c3/0x7f0
+> [   30.987212]  ? irqentry_exit+0x7a/0x510
+> [   30.987214]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> [   30.987216] RIP: 0033:0x7953bd8838db
+> [   30.987219] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+> [   30.987220] RSP: 002b:00007953abffea90 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> [   30.987222] RAX: ffffffffffffffda RBX: 00007953a0008620 RCX: 00007953bd8838db
+> [   30.987224] RDX: 000000002f404da0 RSI: 0000000040045612 RDI: 0000000000000013
+> [   30.987225] RBP: 000000002f404d90 R08: 00007953a000a9e0 R09: 0000000000000040
+> [   30.987225] R10: 00007953a000aa10 R11: 0000000000000246 R12: 0000000000000000
+> [   30.987226] R13: 00007953a0008638 R14: 0000000000000004 R15: 00007953a0008620
+> [   30.987228]  </TASK>
+> [   30.987263] Mem-Info:
+> [   30.987939] active_anon:3060 inactive_anon:1925 isolated_anon:0
+> [   30.987939]  active_file:5208 inactive_file:3901 isolated_file:0
+> [   30.987939]  unevictable:0 dirty:8 writeback:0
+> [   30.987939]  slab_reclaimable:2569 slab_unreclaimable:12482
+> [   30.987939]  mapped:5743 shmem:33 pagetables:1341
+> [   30.987939]  sec_pagetables:0 bounce:0
+> [   30.987939]  kernel_misc_reclaimable:0
+> [   30.987939]  free:2402 free_pcp:115 free_cma:0
 
-Based on following code, I believe it's a false negative, by line 462, 
-'ele' is either not added to the queue or has been removed by 
-isp4if_rm_cmd_from_cmdq() called at line 453 or by 
-isp4sd_fw_resp_cmd_done(). This appears to be a smatch limitation due to 
-list operations being split across helper functions.
+From 7.0.0:
+    [  739.193907] Mem-Info:
+    [  739.194897] active_anon:362 inactive_anon:3172 isolated_anon:0
+    [  739.194897]  active_file:2498 inactive_file:11687 isolated_file:1
+    [  739.194897]  unevictable:0 dirty:0 writeback:4
+    [  739.194897]  slab_reclaimable:3707 slab_unreclaimable:10022
+    [  739.194897]  mapped:4710 shmem:9 pagetables:1021
+    [  739.194897]  sec_pagetables:0 bounce:0
+    [  739.194897]  kernel_misc_reclaimable:0
+    [  739.194897]  free:3452 free_pcp:1 free_cma:0
 
-static int isp4if_send_fw_cmd()
-{
-...
-err_dequeue_ele:
-	/*
-	 * Try to remove the command from the queue. If that fails, then it
-	 * means the response thread is currently using the object, and we need
-	 * to use the refcount to avoid a use-after-free by either side.
-	 */
-	if (ele && isp4if_rm_cmd_from_cmdq(ispif, seq_num, cmd_id))
-		goto free_ele;
+6.19.0->7.0.0:
+{active,inactive,isolate}_anon: 4985 -> 3534 pages (- 5,804 KiB)
+{active,inactive,isolated}_file: 9109 -> 13729 pages (+ 18,480 KiB)
+anon+file: 14094 -> 17263 pages (+ 12,676 KiB)
+slab_{reclaimable,unreclaimable}: 15051 -> 13729 pages (- 5,288 KiB)
+free{,_pcp,_cma}: 2517 -> 3453 pages (+ 3,744 KiB)
 
-put_ele_ref:
-	/* Don't free the command if we didn't put the last reference */
-	if (ele && atomic_dec_return(&ele->refcnt))
-		ele = NULL;
+Nothing surprising here.
 
-free_ele:
-	kfree(ele); // smatch gives warning, '&ele->list' not removed from list
+-- 
+Cheers,
+Harry / Hyeonggon
 
-}
-
-># Test checkpatch:./0003-media-platform-amd-Add-isp4-fw-and-hw-
->interface.patch checkpatch
->WARNING: Prefer kmalloc_obj over kmalloc with sizeof
->#522: FILE: drivers/media/platform/amd/isp4/isp4_interface.c:129:
->+mem_info = kmalloc(sizeof(*mem_info), GFP_KERNEL);
->
->WARNING: Prefer kmalloc_obj over kmalloc with sizeof
->#764: FILE: drivers/media/platform/amd/isp4/isp4_interface.c:371:
->+ele = kmalloc(sizeof(*ele), GFP_KERNEL);
->
->WARNING: Prefer kmalloc_obj over kmalloc with sizeof
->#1131: FILE: drivers/media/platform/amd/isp4/isp4_interface.c:738:
->+node = kmalloc(sizeof(*node), GFP_KERNEL);
->
->total: 0 errors, 3 warnings, 0 checks, 1305 lines checked
->
->
-
-The kmalloc_obj function was introduced in version 7.0-rc1. However, 
-since our ISP driver is required to operate under both the 6.x and 7.0 
-kernel versions, it is appropriate to utilize the kmalloc function.
-
->
->Please fix your series, and upload a new version. If you have a patchwork
->account, do not forget to mark the current series as Superseded.
->
->For more details, check the full report at:
->https://linux-media.pages.freedesktop.org/-/users/patchwork/-
->/jobs/95723459/artifacts/report.htm .
->
->
->
->Best regards, and Happy Hacking!
->Media CI robot on behalf of the linux-media community.
->
->---
->Check the latest rules for contributing your patches at:
->https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
->
->If you believe that the CI is wrong, kindly open an issue at
->https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all to this
->message.
-
-Regards,
-Bin
+> [   30.988045] Node 0 active_anon:12240kB inactive_anon:7700kB active_file:20832kB inactive_file:15604kB unevictable:0kB isolated(anon):0kB isolated(file):0kB mapped:22972kB dirty:32kB writeback:0kB shmem:132kB shmem_thp:0kB shmem_pmdmapped:0kB anon_thp:0kB kernel_stack:3392kB pagetables:5364kB sec_pagetables:0kB all_unreclaimable? no Balloon:16384kB
+> [   30.988123] Node 0 DMA free:904kB boost:0kB min:132kB low:164kB high:196kB reserved_highatomic:0KB free_highatomic:0KB active_anon:1408kB inactive_anon:300kB active_file:368kB inactive_file:3664kB unevictable:0kB writepending:0kB zspages:0kB present:15992kB managed:15360kB mlocked:0kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB
+> [   30.988199] lowmem_reserve[]: 0 194 194 194 194
+> [   30.988227] Node 0 DMA32 free:8704kB boost:0kB min:1716kB low:2144kB high:2572kB reserved_highatomic:0KB free_highatomic:0KB active_anon:10832kB inactive_anon:7400kB active_file:20464kB inactive_file:11940kB unevictable:0kB writepending:32kB zspages:0kB present:274148kB managed:199276kB mlocked:0kB bounce:0kB free_pcp:456kB local_pcp:0kB free_cma:0kB
+> [   30.988305] lowmem_reserve[]: 0 0 0 0 0
+> [   30.988319] Node 0 DMA: 4*4kB (UM) 31*8kB (UM) 16*16kB (UM) 4*32kB (UM) 4*64kB (UM) 0*128kB 0*256kB 0*512kB 0*1024kB 0*2048kB 0*4096kB = 904kB
+> [   30.988365] Node 0 DMA32: 604*4kB (UM) 524*8kB (UM) 108*16kB (UM) 10*32kB (UM) 1*64kB (U) 0*128kB 0*256kB 0*512kB 0*1024kB 0*2048kB 0*4096kB = 8720kB
+> [   30.988422] Node 0 hugepages_total=0 hugepages_free=0 hugepages_surp=0 hugepages_size=1048576kB
+> [   30.988448] Node 0 hugepages_total=0 hugepages_free=0 hugepages_surp=0 hugepages_size=2048kB
+> [   30.988472] 11692 total pagecache pages
+> [   30.988483] 2568 pages in swap cache
+> [   30.988494] Free swap  = 891356kB
+> [   30.988505] Total swap = 1048572kB
+> [   30.988516] 72535 pages RAM
+> [   30.988524] 0 pages HighMem/MovableOnly
+> [   30.988535] 18876 pages reserved
+> [   30.988546] 0 pages cma reserved
+> [   30.988557] 0 pages hwpoisoned
+> [   30.988768] Memory allocations (profiling is currently turned on):
+> [   30.988789]     38.4 MiB     5505 mm/slub.c:3075 func:alloc_slab_page
+> [   30.988809]     33.0 MiB     8448 drivers/block/xen-blkfront.c:322 [xen_blkfront] func:fill_grant_buffer
+> [   30.988834]     31.9 MiB     7943 mm/readahead.c:189 func:ractl_alloc_folio
+> [   30.988852]     16.0 MiB     4096 drivers/xen/balloon.c:445 func:decrease_reservation
+> [   30.988873]     15.9 MiB     4064 drivers/media/common/videobuf2/videobuf2-vmalloc.c:47 [videobuf2_vmalloc] func:vb2_vmalloc_alloc
+> [   30.988905]     11.4 MiB     2924 mm/swap_state.c:439 func:__read_swap_cache_async
+> [   30.988926]     10.5 MiB     2904 mm/execmem.c:41 func:execmem_vmalloc
+> [   30.988944]     7.36 MiB      116 security/apparmor/policy_unpack.c:1361 func:compress_zstd
+> [   30.988966]     5.70 MiB      171 security/apparmor/policy_unpack.c:689 func:unpack_perms_table
+> [   30.989002]     5.57 MiB     1427 mm/memory.c:1191 func:folio_prealloc
 
