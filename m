@@ -1,216 +1,189 @@
-Return-Path: <linux-media+bounces-56708-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56751-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oK15H7MzwWm7RQQAu9opvQ
-	(envelope-from <linux-media+bounces-56708-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 13:36:03 +0100
+	id 2AHHBFJnwWliSwQAu9opvQ
+	(envelope-from <linux-media+bounces-56751-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 17:16:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980832F1FDC
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 13:36:02 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F56A2F7D5D
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 17:16:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4EAFA300FEED
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 12:35:43 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A385E30DC5FC
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 15:42:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E07983A9624;
-	Mon, 23 Mar 2026 12:35:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99F633B636A;
+	Mon, 23 Mar 2026 15:38:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QlhB9nVZ"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="mgU9aFrC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2698E3AA182;
-	Mon, 23 Mar 2026 12:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B433B5842
+	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 15:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774269329; cv=none; b=KPYrOOH+mtHRrcvBif28lYBPz/mXc7tNfK7/sQOiBLYZC3F2VQCoBg9+DP8TixQ8x5UsYfuuV53FxPJfEYMvbmU2wFsiLvSXO91Zx8+1ohpOBOA8zYb9KAMKvK158Ac5Rn0zCKIUz7r8OY0wQcOZZjOdiCFeh77mjnfh9nvG2sE=
+	t=1774280287; cv=none; b=hPtBvAyNhA5C0CBx06Ul+dnpflySt7r3y5KA4jpHdI+fuQf3vVp8iO1ja/j3TtrZ6Ylb7nnNizgEcCAR7T30ogPhfi0dLNMaZkF5050Ak+v7rA8fcVlIuWTM2cTqPJzVoyLtJfqvX5WsbjCRTLNKGEAlABqeAaq7ZYTYKNWF2pQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774269329; c=relaxed/simple;
-	bh=XApBBnOOJ5elwtHWxmuUDE0TpYF+/pV3i4s0gOrBn4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R/dIvQQdqm28YGsQBYjDDMNBYD0R9vNObdKmp/cdG46UmHljJd48ppsWdepW5KF3ljc+vziuqSyy+8nixVxp3U5wStE16DvrwDYzjsPukB7RaOYaFcQCIbEONJP8WK40UwLiDVkUneyoHuc6llKzUspEy8GBi57TRuQi0acl4Dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QlhB9nVZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B68E5C4CEF7;
-	Mon, 23 Mar 2026 12:35:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774269328;
-	bh=XApBBnOOJ5elwtHWxmuUDE0TpYF+/pV3i4s0gOrBn4Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QlhB9nVZJCPUurPUHX3n53uyZPTjebWMYxKOBXWmj7h7mKdR6Hw3Ja1TuoOUfAaAV
-	 bdk9LheDCb+crooqJkKtSN1jcx5vyS1YmgbIu80kJKujowxa0JPBEirKu7b+Ij8aoP
-	 UVPtnxT3E/isDy9NhWSnC8zaHLitzT7eKlMPhm6oTl94aqJWVsITJpHJUV3G+SL3DU
-	 b+DY5ous6EJdv7oCGf38atKvYfY8Xfk1UDkxfHLFY+IqlT4gKFgEnyhPXZ2YiQ7o04
-	 jD0Hy9szb3QpCy/nXiWhVc2r1n2GsUt2PIas9ZhDRGVUZn9isX6v1SvxUiH9O5lIo5
-	 85o6XacVa8pUg==
-Date: Mon, 23 Mar 2026 18:05:09 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-media@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org, andersson@kernel.org,
-	konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
-	akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
-	jesszhan0024@gmail.com, marijn.suijten@somainline.org,
-	airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
-	dikshita.agarwal@oss.qualcomm.com, bod@kernel.org,
-	mchehab@kernel.org, elder@kernel.org, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, jjohnson@kernel.org, mathieu.poirier@linaro.org,
-	trilokkumar.soni@oss.qualcomm.com, pavan.kondeti@oss.qualcomm.com,
-	jorge.ramirez@oss.qualcomm.com, tonyh@qti.qualcomm.com,
-	vignesh.viswanathan@oss.qualcomm.com,
-	srinivas.kandagatla@oss.qualcomm.com,
-	amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
-	op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
-	skare@qti.qualcomm.com, linux-kernel@vger.kernel.org,
-	Sumit Garg <sumit.garg@oss.qualcomm.com>
-Subject: Re: [PATCH v2 01/15] arm64: dts: qcom: kodiak: Add EL2 overlay
-Message-ID: <acEzfd8I9UjByadc@sumit-xelite>
-References: <20260312062756.694390-1-sumit.garg@kernel.org>
- <20260312062756.694390-2-sumit.garg@kernel.org>
- <20260313060451.hswg6snnnexchmzs@hu-mojha-hyd.qualcomm.com>
+	s=arc-20240116; t=1774280287; c=relaxed/simple;
+	bh=vToF1UbNvL4l1OkVwlOI7+XcnxHkjKZMzjHswh/EJ+k=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=kzfm7YwHYdrYW2Jzwm+IaAzJNBdjtDLW/PSB5T/BOP98Q3bi/cru4eBnDfV1d5YB18qLkpshVVfF2NAPsReMOyvy9NLl9J7lKRsBrVtWizwdaDE0RSZsk0miy3maflExjQrKZ7jGRLLqEheDDBQpVuZ0EqDsxSlym2sVDX1IPlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=mgU9aFrC; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260323153802epoutp0363cbe07c3ef666adac291ef7320fa14b~fgoRC14VY2035420354epoutp03b
+	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 15:38:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260323153802epoutp0363cbe07c3ef666adac291ef7320fa14b~fgoRC14VY2035420354epoutp03b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1774280282;
+	bh=MYU9K1BczlLtBMfJPDu28QIk9pzoA+hXl3yf17nC2HI=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=mgU9aFrC+5Kx+21CCBQ48vtUtevP0XGV5aHjupTGFTw7s0wbx2FYZ7piHu2gEGNx9
+	 7FiJ9iRzTsn7N6OtZVcQFwqx9+/yRy1FbPgDJReQh76dJWCUi3xQdbS9llr9OgF8ia
+	 3KFTDuksHm5/ZDwJUU6SICm8wW+RY1yai4quNiMM=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20260323153802epcas5p1bb1e979594c5257c037cdf6411e7a177~fgoQZrLX82373723737epcas5p1t;
+	Mon, 23 Mar 2026 15:38:02 +0000 (GMT)
+Received: from epcpadp2new (unknown [182.195.40.142]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4ffckf0KMvz3hhT4; Mon, 23 Mar
+	2026 15:38:02 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260323123542epcas5p349d0e7c45d02ccaa06c84dbdf1777126~feJElRtj12139221392epcas5p34;
+	Mon, 23 Mar 2026 12:35:42 +0000 (GMT)
+Received: from INBRO002756 (unknown [107.122.3.168]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20260323123538epsmtip2099c850de3b514ee4ac3f5a0092dd02a~feJAkDKG92361023610epsmtip2P;
+	Mon, 23 Mar 2026 12:35:38 +0000 (GMT)
+From: "Alim Akhtar" <alim.akhtar@samsung.com>
+To: "'Vladimir Oltean'" <vladimir.oltean@nxp.com>, "'Martin K. Petersen'"
+	<martin.petersen@oracle.com>
+Cc: <linux-phy@lists.infradead.org>, "'Vinod Koul'" <vkoul@kernel.org>,
+	"'Neil	Armstrong'" <neil.armstrong@linaro.org>,
+	<dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-can@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+	<linux-ide@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+	<linux-rockchip@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+	<linux-scsi@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <spacemit@lists.linux.dev>,
+	<UNGLinuxDriver@microchip.com>, "'Bart Van Assche'" <bvanassche@acm.org>,
+	"'Peter Griffin'" <peter.griffin@linaro.org>, "'James E.J. Bottomley'"
+	<James.Bottomley@HansenPartnership.com>, "'Krzysztof	Kozlowski'"
+	<krzk@kernel.org>, "'Chanho Park'" <chanho61.park@samsung.com>
+In-Reply-To: <20260323115848.ghdu4sbk75tvggfb@skbuf>
+Subject: RE: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
+ struct phy guts
+Date: Mon, 23 Mar 2026 18:05:36 +0530
+Message-ID: <1891546521.01774280282025.JavaMail.epsvc@epcpadp2new>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260313060451.hswg6snnnexchmzs@hu-mojha-hyd.qualcomm.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQJoz1sM+EbPjkyDopxrfJVWkMJWdwI9AyWpAaSC6pgB9ZOp/gJXIgBltGJxFXA=
+Content-Language: en-us
+X-CMS-MailID: 20260323123542epcas5p349d0e7c45d02ccaa06c84dbdf1777126
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20260323115859epcas5p10177db12a2e8aee9578271ff1411137b
+References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
+	<20260319223241.1351137-10-vladimir.oltean@nxp.com>
+	<yq1a4w3l04g.fsf@ca-mkp.ca.oracle.com>
+	<CGME20260323115859epcas5p10177db12a2e8aee9578271ff1411137b@epcas5p1.samsung.com>
+	<20260323115848.ghdu4sbk75tvggfb@skbuf>
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
+	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56708-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[49];
+	TAGGED_FROM(0.00)[bounces-56751-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	DKIM_TRACE(0.00)[samsung.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[alim.akhtar@samsung.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,qualcomm.com:email,qualcomm.com:url]
-X-Rspamd-Queue-Id: 980832F1FDC
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: 7F56A2F7D5D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 13, 2026 at 11:34:51AM +0530, Mukesh Ojha wrote:
-> On Thu, Mar 12, 2026 at 11:57:42AM +0530, Sumit Garg wrote:
-> > From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> > 
-> > All the existing variants Kodiak boards are using Gunyah hypervisor
-> > which means that, so far, Linux-based OS could only boot in EL1 on those
-> > devices.  However, it is possible for us to boot Linux at EL2 on these
-> > devices [1].
-> > 
-> > When running under Gunyah, the remote processor firmware IOMMU
-> > streams are controlled by Gunyah. However, without Gunyah, the IOMMU is
-> > managed by the consumer of this DeviceTree. Therefore, describe the
-> > firmware streams for each remote processor.
-> > 
-> > Add a EL2-specific DT overlay and apply it to Kodiak IOT variant
-> > devices to create -el2.dtb for each of them alongside "normal" dtb.
-> > 
-> > [1]
-> > https://docs.qualcomm.com/bundle/publicresource/topics/80-70020-4/boot-developer-touchpoints.html#uefi
-> > 
-> > Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> > [SG: watchdog fixup]
-> > Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> > ---
-> >  arch/arm64/boot/dts/qcom/Makefile        |  2 ++
-> >  arch/arm64/boot/dts/qcom/kodiak-el2.dtso | 35 ++++++++++++++++++++++++
-> >  2 files changed, 37 insertions(+)
-> >  create mode 100644 arch/arm64/boot/dts/qcom/kodiak-el2.dtso
-> > 
-> > diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-> > index f80b5d9cf1e8..09a7f943190e 100644
-> > --- a/arch/arm64/boot/dts/qcom/Makefile
-> > +++ b/arch/arm64/boot/dts/qcom/Makefile
-> > @@ -139,6 +139,8 @@ dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-4000.dtb
-> >  dtb-$(CONFIG_ARCH_QCOM)	+= qcs615-ride.dtb
-> >  dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-radxa-dragon-q6a.dtb
-> >  dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-rb3gen2.dtb
-> > +qcs6490-rb3gen2-el2-dtbs := qcs6490-rb3gen2.dtb kodiak-el2.dtbo
-> > +dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-rb3gen2-el2.dtb
-> 
-> We may need to add for couple of more variants..
+Hi Vladimir
 
-Sure, those can be follow up patches if Bjorn is happy to pick this one
-independently.
-
+> -----Original Message-----
+> From: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Sent: Monday, March 23, 2026 5:29 PM
+> To: Martin K. Petersen <martin.petersen@oracle.com>
+> Cc: linux-phy@lists.infradead.org; Vinod Koul <vkoul@kernel.org>; Neil
+> Armstrong <neil.armstrong@linaro.org>; dri-devel@lists.freedesktop.org;
+> freedreno@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
+> linux-arm-msm@vger.kernel.org; linux-can@vger.kernel.org; linux-
+> gpio@vger.kernel.org; linux-ide@vger.kernel.org; linux-
+> kernel@vger.kernel.org; linux-media@vger.kernel.org; linux-
+> pci@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
+> riscv@lists.infradead.org; linux-rockchip@lists.infradead.org;
+linux-samsung-
+> soc@vger.kernel.org; linux-scsi@vger.kernel.org;
+linux-sunxi@lists.linux.dev;
+> linux-tegra@vger.kernel.org; linux-usb@vger.kernel.org;
+> netdev@vger.kernel.org; spacemit@lists.linux.dev;
+> UNGLinuxDriver@microchip.com; Bart Van Assche <bvanassche@acm.org>;
+> Alim Akhtar <alim.akhtar@samsung.com>; Peter Griffin
+> <peter.griffin@linaro.org>; James E.J. Bottomley
+> <James.Bottomley@HansenPartnership.com>; Krzysztof Kozlowski
+> <krzk@kernel.org>; Chanho Park <chanho61.park@samsung.com>
+> Subject: Re: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
+> struct phy guts
 > 
-> >  
-> >  qcs6490-rb3gen2-vision-mezzanine-dtbs := qcs6490-rb3gen2.dtb qcs6490-rb3gen2-vision-mezzanine.dtbo
-> >  qcs6490-rb3gen2-industrial-mezzanine-dtbs := qcs6490-rb3gen2.dtb qcs6490-rb3gen2-industrial-mezzanine.dtbo
-> > diff --git a/arch/arm64/boot/dts/qcom/kodiak-el2.dtso b/arch/arm64/boot/dts/qcom/kodiak-el2.dtso
-> > new file mode 100644
-> > index 000000000000..0b3a69a0d765
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/qcom/kodiak-el2.dtso
-> > @@ -0,0 +1,35 @@
-> > +// SPDX-License-Identifier: BSD-3-Clause
-> > +/*
-> > + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> > + *
-> > + * Kodiak specific modifications required to boot in EL2.
-> > + */
-> > +
-> > +
-> > +/dts-v1/;
-> > +/plugin/;
-> > +
-> > +&gpu_zap_shader {
-> > +	status = "disabled";
-> > +};
-> > +
-> > +&remoteproc_adsp {
-> > +	iommus = <&apps_smmu 0x1800 0x0>;
-> > +};
-> > +
-> > +&remoteproc_cdsp {
-> > +	iommus = <&apps_smmu 0x11a0 0x0400>;
-> > +};
-> > +
-> > +&remoteproc_wpss {
-> > +	iommus = <&apps_smmu 0x1c03 0x1>,
-> > +		 <&apps_smmu 0x1c83 0x1>;
-> > +};
-> > +
-> > +&venus {
-> > +	status = "disabled";
-> > +};
-> > +
-> > +&watchdog {
-> > +	status = "okay";
-> > +};
+> On Thu, Mar 19, 2026 at 10:15:17PM -0400, Martin K. Petersen wrote:
+> > Vladimir,
+> >
+> > > The Exynos host controller driver is clearly a PHY consumer (gets
+> > > the
+> > > ufs->phy using devm_phy_get()), but pokes into the guts of struct
+> > > ufs->phy
+> > > to get the generic_phy->power_count.
+> >
+> > Ah, newer version. Would still like an ack from Samsung.
+> >
+> > And I hit the wrong key, I did not actually apply this...
 > 
-> 
-> rb3gen2 has modem as well, did we test that as well ?
+> I will have to resend v6 because of an armv7 build error I've caused for
+ufs-
+> qcom.c (which doesn't #include <linux/interrupt.h>, and relies on a
+transitive
+> inclusion from <linux/phy/phy.h>). It would be nice to get the ack from
+> Samsung, but I'll send the next version in the upcoming hours regardless.
+Will review and possibly test on one of the board later tonight
 
-OP-TEE don't have access to modem, it's locked down in XBL-SEC.
 
--Sumit
+
 
