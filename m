@@ -1,154 +1,184 @@
-Return-Path: <linux-media+bounces-56688-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56689-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0BRAMAMUwWnkQQQAu9opvQ
-	(envelope-from <linux-media+bounces-56688-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:20:51 +0100
+	id aCEOCX8UwWn5QQQAu9opvQ
+	(envelope-from <linux-media+bounces-56689-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:22:55 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254F92EFE77
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:20:51 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE712EFF2C
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:22:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AA9DA3036ED5
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 10:11:08 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C1D703020A4F
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 10:21:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A21E386C31;
-	Mon, 23 Mar 2026 10:11:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7260E38B148;
+	Mon, 23 Mar 2026 10:21:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mvtkTBV8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JUUmnCx6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC4C38A707;
-	Mon, 23 Mar 2026 10:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD13138B12B
+	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 10:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774260665; cv=none; b=iuvT6dhPyAF+cxJHC/NsoFxp7KYUOVtL8n571Ox+ldn2MtcMUAyka0c4zt2gRC77DWGJ/sz1zOccDJpKfiSou6tWvpvTmRBbTVdEiEmKM8kgU+jt4i45QfpWWXjVM2L08U+BQoASzU1dHL5i5KupryQUKRkQagi8yl5iV4ARNCU=
+	t=1774261302; cv=none; b=cLpwsIwVhq+rIQ0KqsaApUtuiTelmp3lgANdyTgVwXsVlmT/kLDYflrbboUmxZZn1jQzLCiCgl8GQtLAOj3zwgtfJXp52YHMXQt+fUO3NT8MsauLn6ijlGJix87O28ncO6IFXUjBlzWlzQJnqoXjFKTAvEoaMI4UuezDra6EWwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774260665; c=relaxed/simple;
-	bh=coo3RN686+Cx+cmWDSQnvA02XWcEQdAcxO6zjLoOfdg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hDFiB/hAt6dl0ScaYv4Wtei0GLhXsH9AgPv+tzIjLczFqmY7Eh9YarHTJhtGi/sn6amUL7DpeYnRKQ4lhBqDVLzk/28VSEXYXN0kudL5eA+JSNq1Yp2nqTCrLvKoJU7IBuZySukPNDmGgBW5yseuoEdTNwM8LjodsK6bd3KwIcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mvtkTBV8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D6E3C4CEF7;
-	Mon, 23 Mar 2026 10:11:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774260665;
-	bh=coo3RN686+Cx+cmWDSQnvA02XWcEQdAcxO6zjLoOfdg=;
-	h=Date:From:To:Cc:Subject:From;
-	b=mvtkTBV8QpEy/gKgNyLEenhC5KudAtxGw5Ap6o9OBzXhfOjtJRt8JaTJeuL0jv4Ym
-	 6guq4T2kPj6cROBuyMjB0qVtWfgj1f6z2l3r++Qr7bGxLDh06Rnl3eCKgZbDZxsM/A
-	 lIuAzXTkEwU5/Af9KYUXQzQcWqYqtko9BCCELKsaBgqGAI9dyHv8RWFRG371VGbD3L
-	 jfBkiip1v4w3rROJ0Izd6WpuH2wjRbC1LB+7ARSlE+N4niWLd9O10Vkautw57pKdAy
-	 Ho7Edc7gjAMq3qzJvyt+b7VrcdS75oc1VGPCwFE6M5nbks6VIiHVin3mc55YWPP3Ly
-	 pxlJe9aKvDvJw==
-Date: Mon, 23 Mar 2026 11:11:01 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton
- <akpm@linux-foundation.org>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL for v7.0-rc6] media fixes
-Message-ID: <20260323111101.098ba268@foz.lan>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1774261302; c=relaxed/simple;
+	bh=oyYmDhz2o0YqRLTrMThZ+tgQUswO+2MnVLqzo195x7E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GdYxLRwSiPA06klOWaiqosfGUDDLlG+QauV7A09UmLtJhHOdzaKSZ5kcAYhjufwDAmERyTQugDhsdW8ykKBC7BKZ0NB9U0T4JXuowEokywCjox5A4aNBQpggZqmzIVgZyNu6sG5PPKd5oXWqc2UedK+T5pRI/NysGDa6UfXe/A4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JUUmnCx6; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-82a7ebc729dso3197b3a.3
+        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 03:21:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774261301; x=1774866101; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PBTauTdEu7jFyGoe5VcEyiFFsMZZfriVIFl5j/2ktlU=;
+        b=JUUmnCx6vaKQ2g+tvGu4GPd0EwVuUfehhsJfWHmGwDFyWO20f+B7hArhn6BPExVWOh
+         pj3sM4PfJ+3ruNYwvzYS8+zwJGzgeiOCQ1+dFP+tfb23dHBcz9QgnCwD9Xqh7uyzBXn3
+         oYq+ZeNjJRAXHoYdd1ixEIRcnpKKnZBkmc+6hIs1DDj1bIxBatssriauon9XaKxtKmc3
+         lB8JgawgoT7dmRVxNFijfakjgBnu2l7vxnt9NHUHKTHnVPVMKnliF5EMvgkFaAux5qiV
+         4qfsubgmLHUc8rwaYVAlNEcqWBUklj6+ARdwf9N6rpPZzdiMCCbHsk+RnCl8z/824WbA
+         20FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774261301; x=1774866101;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PBTauTdEu7jFyGoe5VcEyiFFsMZZfriVIFl5j/2ktlU=;
+        b=suOctxQ0Rg1j2NwUILVmLkfpGtJCrR7JR7NtNAlJhgZvsWVIcHFSb6fdSNXQ+Xabgn
+         yLwjiGUGRKfLCzlJX9L+/h3HAetjnjvxGLf3MXtDDHfo4e/pn5yQmDw5k5v+lpF4N7EG
+         zFdyMRTup9q0pa1uvrwg3IyMPy+Mb0IYDnXcTHE+efQeqgsVdGEicX2neB62zSJ0jSGx
+         OkMzQdHaMGxhFJdEeiAeu7nmfXTBRxnGN/8Rz3OzeAJDbUWdY1FcGR1u77JAzOtiZepd
+         76KcIR/54DDZDuHfU6yu73XkQ9jbPQt2Jm3zGq3CUKccoajVHb/45dvwgZ99XsTeKNIM
+         O/yw==
+X-Forwarded-Encrypted: i=1; AJvYcCWpdD1562PaAJlkYNouoZ+k5uaP3wHlu6Zd/eWYx79aMSoA17jRwL9zmUjYrO8AakUDLY7hpA/TMg5IrQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxThpXlV0INzns5WIsJdUJSss5joXiuJPA6Dy6ia5LmvMQ2CUYz
+	x0Bt9S99o3nzcdnCyfp8mw8oZxLmyeCnCjYVAH2cd0WR8vPHnr3XhTgQ
+X-Gm-Gg: ATEYQzxxDiNYKjkvcSOCNj2jv56PhFSRJxIMzARVua7h6uXmQYk/utCI+INA23a1XK/
+	25gUAGx32yA9xMVny8rpg+tN4p3Cpg9fDqOtBAy/8HDNrJyGKyF5Cer7kdrf/TWaOx/WLBcaq/A
+	RF1t1VOo9yhJK0XYgpnHjFyJaNfBsFPk8soEkFb9m3tBLNrBeEUd+OfTiVezCimQ9KTWc1zBRHS
+	SFm3VtZoSAN0QdL+EwxkjrWMMwLzJLE7PT6w6pmYnERMyCBnzNQJw3MGaW6bQoszR2PpRSJLGZe
+	rcLflhrTZQcgeEgc+Fs2xKPg/Zqa/bKh+wWmX/CDSgIa3n8sr8dJRgTEZFJnehoUSRxPBOlBoDL
+	LXF6oN94z4VuVjxn2vIPHFhq2w7xgNl9pZQ8oR/M3jfGSq/CD/ttxeifquZWJHNGhYIpmNHYIWR
+	nvb7yxi2D8gm0To+vif2MNLip/u+0=
+X-Received: by 2002:a05:6a00:2d05:b0:82a:6125:728f with SMTP id d2e1a72fcca58-82a8c22de9emr9575183b3a.10.1774261301159;
+        Mon, 23 Mar 2026 03:21:41 -0700 (PDT)
+Received: from localhost ([2401:4900:797e:96d8:eb0e:7887:769c:9c5f])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b03be31f7sm10172012b3a.26.2026.03.23.03.21.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 03:21:40 -0700 (PDT)
+From: Anushka Badhe <anushkabadhe@gmail.com>
+To: dan.carpenter@linaro.org
+Cc: andy@kernel.org,
+	anushkabadhe@gmail.com,
+	gregkh@linuxfoundation.org,
+	hansg@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com
+Subject: [PATCH v2] staging: atomisp: vf_1.0: fix open brace placement
+Date: Mon, 23 Mar 2026 15:51:04 +0530
+Message-ID: <20260323102104.44021-1-anushkabadhe@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <acENTtTMsD-xca2O@stanley.mountain>
+References: <acENTtTMsD-xca2O@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_ALL(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-56689-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linuxfoundation.org,vger.kernel.org,lists.linux.dev,linux.intel.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56688-lists,linux-media=lfdr.de,huawei];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[anushkabadhe@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_NONE(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[foz.lan:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 254F92EFE77
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,checkpatch.pl:url]
+X-Rspamd-Queue-Id: BCE712EFF2C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Linus,
+Fix open brace placement on function definitions and control statements
+to comply with kernel coding style.
 
-Please pull from:
-
-	git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git media/v7.0-5
-
-For:
-
-- rkvdec: fix stack usage with clang and improve handling missing
-          short/long term RPS;
-- synopsys: fix a Kconfig issue and an out-of-bounds check;
-- verisilicon: Fix kernel panic due to __initconst misuse;
-- media core: serialize REINIT and REQBUFS with req_queue_mutex.
-
-Regards,
-Mauro
-
+Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
 ---
+Changes in v2:
+- Wrapped commit message at 74 characters
+- Verified patch using checkpatch.pl
+ .../atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c   | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-The following changes since commit f338e77383789c0cae23ca3d48adcc5e9e137e3c:
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
+index 3c675063c4a7..940b5767954c 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
+@@ -49,7 +49,8 @@ int
+ sh_css_vf_downscale_log2(
+     const struct ia_css_frame_info *out_info,
+     const struct ia_css_frame_info *vf_info,
+-    unsigned int *downscale_log2) {
++    unsigned int *downscale_log2)
++{
+ 	unsigned int ds_log2 = 0;
+ 	unsigned int out_width;
+ 
+@@ -65,8 +66,7 @@ sh_css_vf_downscale_log2(
+ 	* test for the height since the vmem buffers only put restrictions on
+ 	* the width of a line, not on the number of lines in a frame.
+ 	*/
+-	while (out_width >= vf_info->res.width)
+-	{
++	while (out_width >= vf_info->res.width) {
+ 		ds_log2++;
+ 		out_width /= 2;
+ 	}
+@@ -86,7 +86,8 @@ configure_kernel(
+     const struct ia_css_frame_info *out_info,
+     const struct ia_css_frame_info *vf_info,
+     unsigned int *downscale_log2,
+-    struct ia_css_vf_configuration *config) {
++    struct ia_css_vf_configuration *config)
++{
+ 	int err;
+ 	unsigned int vf_log_ds = 0;
+ 
+-- 
+2.43.0
 
-  Linux 7.0-rc4 (2026-03-15 13:52:05 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git tags/media/v7.0-5
-
-for you to fetch changes up to e8d97c270cb46a2a88739019d0f8547adc7d97da:
-
-  media: verisilicon: Fix kernel panic due to __initconst misuse (2026-03-18 13:17:25 +0100)
-
-----------------------------------------------------------------
-[GIT PULL for v7.0-rc6] media fixes
-
-----------------------------------------------------------------
-Arnd Bergmann (2):
-      media: rkvdec: reduce excessive stack usage in assemble_hw_pps()
-      media: rkvdec: reduce stack usage in rkvdec_init_v4l2_vp9_count_tbl()
-
-Detlev Casanova (1):
-      media: rkvdec: Improve handling missing short/long term RPS
-
-Michael Riesch (2):
-      media: synopsys: csi2rx: fix out-of-bounds check for formats array
-      media: synopsys: csi2rx: add missing kconfig dependency
-
-Ming Qian (1):
-      media: verisilicon: Fix kernel panic due to __initconst misuse
-
-Yuchan Nam (1):
-      media: mc, v4l2: serialize REINIT and REQBUFS with req_queue_mutex
-
- drivers/media/mc/mc-request.c                      |  5 +++
- .../platform/rockchip/rkvdec/rkvdec-hevc-common.c  |  4 ++
- .../platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c | 50 ++++++++++++----------
- .../media/platform/rockchip/rkvdec/rkvdec-vp9.c    |  3 +-
- drivers/media/platform/synopsys/Kconfig            |  1 +
- drivers/media/platform/synopsys/dw-mipi-csi2rx.c   |  2 +-
- drivers/media/platform/verisilicon/imx8m_vpu_hw.c  |  2 +-
- drivers/media/v4l2-core/v4l2-ioctl.c               |  5 ++-
- 8 files changed, 44 insertions(+), 28 deletions(-)
 
