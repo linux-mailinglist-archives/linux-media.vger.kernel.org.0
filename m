@@ -1,409 +1,858 @@
-Return-Path: <linux-media+bounces-56739-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56740-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kKnhJUdMwWlbSAQAu9opvQ
-	(envelope-from <linux-media+bounces-56739-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 15:20:55 +0100
+	id qOHdJARTwWkYSQQAu9opvQ
+	(envelope-from <linux-media+bounces-56740-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 15:49:40 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189B92F43FA
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 15:20:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33722F53F0
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 15:49:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C4E2031D10EE
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 14:06:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A892C30A5833
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 14:13:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69DEC3B7763;
-	Mon, 23 Mar 2026 14:02:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35F593B2FCA;
+	Mon, 23 Mar 2026 14:11:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L4YA7V1g"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OPB6iXQy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90363B19B3;
-	Mon, 23 Mar 2026 14:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18E53B27DD
+	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 14:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774274560; cv=none; b=uShSgWXysgF0mfOnIdV/l+1kl994pJdjDieIc+hdIA6sfRuJHkp93ToODkcimyUVAoil7uLcUD27zp/eOjGuXUxN/Ps4ECk5PbdBzhfupKMRyoYNW7HIxmvdP9D6SuayIb9IXCDfL5Se1PZgtWrVuXlkoDbmBkcG5mj4YAkfDCA=
+	t=1774275116; cv=none; b=ZqumT9/o7KaN1iEexWVzqXP9Hqk7DfHg2pZQpBqkDOajkfTRtkWOOI9oR3Q6ShkYhdrzrmP2ZzU1yG4Tzt0kK8VzKV0H9u1Sk6Qp98IqQtpvnIDpKTvDEvmXq2ryb+6479+fapz8I5b46EQBEy0p6MHRVGNmtEvo2aHYqx7k/BQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774274560; c=relaxed/simple;
-	bh=BfH8lqrkHRMS5sCrm9+Zee84RMtu29VSz0DOXgmKV7Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=P6pB6IeP/6VQAHeVN927MHN/QZWhwf6jbRtjpw90ptSqtEExhH4hsf3Q+b6xcesDd1iRS7DL5v9+QBg/qWD69W5stSUodMJxvzgmyfZuKOIj0u6GU+lMo6q0+n6UwL+QZG/kbxnQk+YhiKGwW1YUVqcnXDdFOCDeM5iYHkrU9Dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=L4YA7V1g; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pb-laptop.local (185.221.143.129.nat.pool.zt.hu [185.221.143.129])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50A441BA;
-	Mon, 23 Mar 2026 15:01:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1774274480;
-	bh=BfH8lqrkHRMS5sCrm9+Zee84RMtu29VSz0DOXgmKV7Y=;
-	h=From:To:Cc:Subject:Date:From;
-	b=L4YA7V1gVEQVhycydPgRpalE6ys4+W4eQ1l++63mcN2uhUe0kxiNXwqTMI63KQ/8M
-	 swcq/Jx+0BLR+TGwpkhueF2LZWrD3xn/XQeYZZ6Qmi1dx/7bn+Cl9zR+t+UpgtRdaZ
-	 NxpT1CJ2UpFpmFEuvtWrOWtnM1uUSf7CuaMGqkn0=
-From: =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <barnabas.pocze@ideasonboard.com>
-To: Dafna Hirschfeld <dafna@fastmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Cc: linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
+	s=arc-20240116; t=1774275116; c=relaxed/simple;
+	bh=U3P/+94aRTtc4rZ97qYaN3QOjImJMYYscsacjzlJRj8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T+AtfzP8N/7pt5wH91TIoaP1AsNSRH0JmsT5RjLHlmy0jAP4KjDEzk9j7R3ezjtIFcS7hnoikH8RF7HxljEvf1Cl95r5c7sAbvwZz2wPpWUWUAz3P2RPYfVAO1p7qA6Tx2Wjbg8vMAodITLHMfjHsjU+d6EbeYhNaBJ1zPXclyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OPB6iXQy; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-486fd3a577eso23004165e9.1
+        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 07:11:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774275112; x=1774879912; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9smgIL4ZEjMYRGhK6ePmiJMcBwDZvLqFN62d9h/oBPI=;
+        b=OPB6iXQyGMZ/4NxMXTY7Qmp2wfcanLIQhCYiFowTiBJj5oM6jSGK5gyiaimPIsTZ17
+         TsAXpQ+hZjwAYLjjTmiigX9GdoZSHhzTiT6Pl0qPoz73FHtuMxMTCifuauuPxyMeS6TY
+         hJIK7ltmzMBpmzZcGhX9tgbnPffLpApShZ+cWei5ZoOQEMTl0aueRhCbW1Ka46lHJ1FC
+         AvvoxoON8YHsHzDmOCSjjR37/RD6Uq4kxbksSpYUR812zQeDxGeD8EDn1vQvOMia0I7Y
+         OroT365MlwC4I7zJA2og9hcFihjKStNSzi/1l2wSj1ANZss/0gFVxuR1KlrRSQyt6FAV
+         ZSdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774275112; x=1774879912;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9smgIL4ZEjMYRGhK6ePmiJMcBwDZvLqFN62d9h/oBPI=;
+        b=Kog08/pwWpcKTBOpc4QLVdQBtw16L7B/5j+sopIcct/bau2KXB7Ypcf6s///QNtlB9
+         lzmA7ZAA53IiEMj4zpsIUilDYNNcijhryVSGVjVtDAFBoC6OTq3IA1bwT9tLtDuzlGNf
+         YyeEde+EGOyb316lLUSKPFsj9MkS/7700qvf8FjCDJv2+CNES+H+sXbbPJlpktApxsjt
+         ibxmPwA7XyBNteZYrd6iD1KQhc8z4It5WnzI22netvyz8OtrwA6MGS8zcZkW1d9ubcW7
+         hAgdzRYHQjqfT7j5ozuTiaapQxasJ8rbXf0KBFUM1mU2/DTvKa8UgE/qP+Qg9DBTi7YN
+         7sTg==
+X-Forwarded-Encrypted: i=1; AJvYcCUnwlHk6Zxhc1cnFV+QrxwVe+uVIuZjd63KbLBX8PMzH0XmmMB0hfW3p5HaUf2cs3S0YGyjl+RieSz+Og==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZ6eQlZTx27IMr/5wa8NdmRjLk2o6MlLkLEuMmRei2Dva/DA5Z
+	JjuKSbIQ3jNeMBGATmqqJjISBdVfz7+7zcNRWSV6gHadDNfREC9yn58=
+X-Gm-Gg: ATEYQzwdlmMlMWKymq8fgiqquUnqBLdRaofWwDer4kZISfpZEcUtCB0lkcSvKJ/SHBp
+	7pv90prZlyckFJjvaGbbFgFC4R6dPrB+epUAlHJAYAhxeJnR9ZNLd9k+Ebpx557Xl5cTrCK4PUH
+	HGKsoY0u4NmBbu9qd/Ks8zzrL5VOMwX/t0kCPiMhjgCjCMhZf/C6teTkiqSpWczugBmphztITSb
+	kOfwkZ9042/b9R8tU0/+rXRkiCoVnitXknfMgC40OZdykVoh1dewAtjyoe8oXw72JxnBda6u4ae
+	8UZWyZwczgYrO/ZANifqfoTpjaxrwj4WmUxzE6kVWiwmdPY0TRj+zE5o+ao7umXDd4tqyC0+JcL
+	Z8P6g76Pj9Nk1ghn8XLa7G2KHo8X6XWaaRiFC7DVOHJEC3LgGHScx521qc+xcNTkA+JZXbBR0ha
+	Rjds7Zp4D4BdOCOVmWuibxRWdninn5zkHVUiJ5EDi/jasIW0fCpkh89luRVkI8+A5WYcGjlcRlk
+	asQGkUU
+X-Received: by 2002:a05:600c:4705:b0:485:3586:1e28 with SMTP id 5b1f17b1804b1-486fee0d88fmr164496335e9.18.1774275111769;
+        Mon, 23 Mar 2026 07:11:51 -0700 (PDT)
+Received: from hp-ubuntu.. ([41.140.206.43])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f8b1fe65sm338025655e9.5.2026.03.23.07.11.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 07:11:51 -0700 (PDT)
+From: Mohammed EL Kadiri <med08elkadiri@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	andy@kernel.org
+Cc: sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <barnabas.pocze@ideasonboard.com>
-Subject: [PATCH v1] media: rkisp1: Add support for CAC
-Date: Mon, 23 Mar 2026 15:02:16 +0100
-Message-ID: <20260323140216.1486161-1-barnabas.pocze@ideasonboard.com>
-X-Mailer: git-send-email 2.53.0
+	med08elkadiri@gmail.com,
+	Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: [PATCH v3] media: atomisp: fix spelling mistake
+Date: Mon, 23 Mar 2026 15:11:43 +0100
+Message-ID: <20260323141143.27280-1-med08elkadiri@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.25 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MIXED_CHARSET(0.91)[subject];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56739-lists,linux-media=lfdr.de];
-	URIBL_MULTI_FAIL(0.00)[ideasonboard.com:server fail,sea.lore.kernel.org:server fail];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[fastmail.com,ideasonboard.com,kernel.org,sntech.de];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,vger.kernel.org,lists.linux.dev,gmail.com,intel.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56740-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[med08elkadiri@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[barnabas.pocze@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
-X-Rspamd-Queue-Id: 189B92F43FA
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: E33722F53F0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The CAC block implements chromatic aberration correction. Expose it to
-userspace using the extensible parameters format. This was tested on the
-i.MX8MP platform, but based on available documentation it is also present
-in the RK3399 variant (V10). Thus presumably also in later versions,
-so no feature flag is introduced.
+Run codespell on the entire atomisp driver and fix various typos to improve
+code readability and searchability.
 
-Signed-off-by: Barnabás Pőcze <barnabas.pocze@ideasonboard.com>
+Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Signed-off-by: Mohammed EL Kadiri <med08elkadiri@gmail.com>
 ---
- .../platform/rockchip/rkisp1/rkisp1-params.c  |  69 ++++++++++++
- .../platform/rockchip/rkisp1/rkisp1-regs.h    |  21 +++-
- include/uapi/linux/rkisp1-config.h            | 106 +++++++++++++++++-
- 3 files changed, 193 insertions(+), 3 deletions(-)
+changes since v2:
+  - Fix various typos on the entire atomisp driver.
+  - Restore false positives and common abbreviations (parm, padd, siz, ot)
+v2:
+  - Changed subject prefix to 'media: atomisp' for Media CI.
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c             | 6 +++---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.h             | 2 +-
+ drivers/staging/media/atomisp/pci/atomisp_compat_css20.c    | 6 +++---
+ drivers/staging/media/atomisp/pci/atomisp_compat_css20.h    | 2 +-
+ drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c     | 2 +-
+ drivers/staging/media/atomisp/pci/atomisp_tables.h          | 4 ++--
+ .../staging/media/atomisp/pci/base/refcount/src/refcount.c  | 2 +-
+ .../pci/css_2401_system/hrt/mipi_backend_common_defs.h      | 2 +-
+ .../media/atomisp/pci/css_receiver_2400_common_defs.h       | 2 +-
+ .../atomisp/pci/hive_isp_css_common/host/input_formatter.c  | 2 +-
+ .../atomisp/pci/hive_isp_css_include/host/debug_public.h    | 2 +-
+ .../pci/hive_isp_css_include/host/isys_stream2mmio_public.h | 2 +-
+ .../atomisp/pci/hive_isp_css_include/host/pixelgen_public.h | 2 +-
+ drivers/staging/media/atomisp/pci/hmm/hmm_bo.c              | 4 ++--
+ drivers/staging/media/atomisp/pci/ia_css_event_public.h     | 2 +-
+ drivers/staging/media/atomisp/pci/ia_css_isp_configs.c      | 2 +-
+ drivers/staging/media/atomisp/pci/ia_css_isp_params.c       | 2 +-
+ drivers/staging/media/atomisp/pci/ia_css_isp_params.h       | 2 +-
+ drivers/staging/media/atomisp/pci/ia_css_isp_states.c       | 2 +-
+ drivers/staging/media/atomisp/pci/ia_css_isp_states.h       | 2 +-
+ drivers/staging/media/atomisp/pci/ia_css_pipe_public.h      | 2 +-
+ drivers/staging/media/atomisp/pci/ia_css_stream_public.h    | 2 +-
+ drivers/staging/media/atomisp/pci/ia_css_types.h            | 2 +-
+ .../pci/isp/kernels/bnr/bnr2_2/ia_css_bnr2_2_types.h        | 2 +-
+ .../atomisp/pci/isp/kernels/ctc/ctc1_5/ia_css_ctc1_5.host.c | 2 +-
+ .../atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2_types.h    | 2 +-
+ .../atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c   | 2 +-
+ .../atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.h   | 3 ++-
+ .../isp/kernels/macc/macc1_5/ia_css_macc1_5_table.host.c    | 2 +-
+ .../pci/isp/kernels/macc/macc1_5/ia_css_macc1_5_types.h     | 4 ++--
+ .../pci/isp/kernels/macc/macc_1.0/ia_css_macc_types.h       | 6 +++---
+ .../atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc_param.h     | 2 +-
+ .../atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c  | 2 +-
+ .../staging/media/atomisp/pci/isp2400_input_system_public.h | 2 +-
+ drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c | 2 +-
+ .../media/atomisp/pci/runtime/inputfifo/src/inputfifo.c     | 2 +-
+ drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c     | 2 +-
+ .../atomisp/pci/runtime/spctrl/interface/ia_css_spctrl.h    | 4 ++--
+ .../staging/media/atomisp/pci/runtime/spctrl/src/spctrl.c   | 2 +-
+ drivers/staging/media/atomisp/pci/sh_css.c                  | 2 +-
+ drivers/staging/media/atomisp/pci/sh_css_defs.h             | 2 +-
+ drivers/staging/media/atomisp/pci/sh_css_mmu.c              | 2 +-
+ drivers/staging/media/atomisp/pci/sh_css_params.c           | 2 +-
+ drivers/staging/media/atomisp/pci/system_global.h           | 6 +++---
+ 44 files changed, 57 insertions(+), 56 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-index 6442436a5e428..b889af9dcee45 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-@@ -64,6 +64,7 @@ union rkisp1_ext_params_config {
- 	struct rkisp1_ext_params_compand_bls_config compand_bls;
- 	struct rkisp1_ext_params_compand_curve_config compand_curve;
- 	struct rkisp1_ext_params_wdr_config wdr;
-+	struct rkisp1_ext_params_cac_config cac;
- };
- 
- enum rkisp1_params_formats {
-@@ -1413,6 +1414,48 @@ static void rkisp1_wdr_config(struct rkisp1_params *params,
- 				     RKISP1_CIF_ISP_WDR_TONE_CURVE_YM_MASK);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index fec369575d88..2f6cec528593 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -811,7 +811,7 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
+ 			/* New global dvs 6axis config should be blocked
+ 			 * here if there's a buffer with per-frame parameters
+ 			 * pending in CSS frame buffer queue.
+-			 * This is to aviod zooming vibration since global
++			 * This is to avoid zooming vibration since global
+ 			 * parameters take effect immediately while
+ 			 * per-frame parameters are taken after previous
+ 			 * buffers in CSS got processed.
+@@ -1575,7 +1575,7 @@ int atomisp_set_dis_vector(struct atomisp_sub_device *asd,
  }
  
-+static void
-+rkisp1_cac_config(struct rkisp1_params *params,
-+		  const struct rkisp1_cif_isp_cac_config *arg)
-+{
-+	u32 regval;
-+
-+	/*
-+	 * The enable bit is in the same register (RKISP1_CIF_ISP_CAC_CTRL),
-+	 * so only set the clipping mode, and do not modify the other bits.
-+	 */
-+	regval = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_CAC_CTRL);
-+	regval &= ~(RKISP1_CIF_ISP_CAC_CTRL_H_CLIP_MODE |
-+		    RKISP1_CIF_ISP_CAC_CTRL_V_CLIP_MODE);
-+	regval |= FIELD_PREP(RKISP1_CIF_ISP_CAC_CTRL_H_CLIP_MODE, arg->h_clip_mode) |
-+		  FIELD_PREP(RKISP1_CIF_ISP_CAC_CTRL_V_CLIP_MODE, arg->v_clip_mode);
-+	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_CTRL, regval);
-+
-+	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_COUNT_START_H_MASK, arg->h_count_start) |
-+		 FIELD_PREP(RKISP1_CIF_ISP_CAC_COUNT_START_V_MASK, arg->v_count_start);
-+	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_COUNT_START, regval);
-+
-+	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_A_RED_MASK, arg->red[0]) |
-+		 FIELD_PREP(RKISP1_CIF_ISP_CAC_A_BLUE_MASK, arg->blue[0]);
-+	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_A, regval);
-+
-+	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_B_RED_MASK, arg->red[1]) |
-+		 FIELD_PREP(RKISP1_CIF_ISP_CAC_B_BLUE_MASK, arg->blue[1]);
-+	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_B, regval);
-+
-+	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_C_RED_MASK, arg->red[2]) |
-+		 FIELD_PREP(RKISP1_CIF_ISP_CAC_C_BLUE_MASK, arg->blue[2]);
-+	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_C, regval);
-+
-+	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_X_NORM_NF_MASK, arg->x_nf) |
-+		 FIELD_PREP(RKISP1_CIF_ISP_CAC_X_NORM_NS_MASK, arg->x_ns);
-+	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_X_NORM, regval);
-+
-+	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_Y_NORM_NF_MASK, arg->y_nf) |
-+		 FIELD_PREP(RKISP1_CIF_ISP_CAC_Y_NORM_NS_MASK, arg->y_ns);
-+	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_Y_NORM, regval);
-+}
-+
- static void
- rkisp1_isp_isr_other_config(struct rkisp1_params *params,
- 			    const struct rkisp1_params_cfg *new_params)
-@@ -2089,6 +2132,25 @@ static void rkisp1_ext_params_wdr(struct rkisp1_params *params,
- 				      RKISP1_CIF_ISP_WDR_CTRL_ENABLE);
- }
- 
-+static void rkisp1_ext_params_cac(struct rkisp1_params *params,
-+				  const union rkisp1_ext_params_config *block)
-+{
-+	const struct rkisp1_ext_params_cac_config *cac = &block->cac;
-+
-+	if (cac->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
-+		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CAC_CTRL,
-+					RKISP1_CIF_ISP_CAC_CTRL_ENABLE);
-+		return;
-+	}
-+
-+	rkisp1_cac_config(params, &cac->config);
-+
-+	if ((cac->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE) &&
-+	    !(params->enabled_blocks & BIT(cac->header.type)))
-+		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CAC_CTRL,
-+				      RKISP1_CIF_ISP_CAC_CTRL_ENABLE);
-+}
-+
- typedef void (*rkisp1_block_handler)(struct rkisp1_params *params,
- 			     const union rkisp1_ext_params_config *config);
- 
-@@ -2185,6 +2247,10 @@ static const struct rkisp1_ext_params_handler {
- 		.handler	= rkisp1_ext_params_wdr,
- 		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
- 	},
-+	[RKISP1_EXT_PARAMS_BLOCK_TYPE_CAC] = {
-+		.handler	= rkisp1_ext_params_cac,
-+		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-+	},
- };
- 
- #define RKISP1_PARAMS_BLOCK_INFO(block, data) \
-@@ -2215,6 +2281,7 @@ rkisp1_ext_params_block_types_info[] = {
- 	RKISP1_PARAMS_BLOCK_INFO(COMPAND_EXPAND, compand_curve),
- 	RKISP1_PARAMS_BLOCK_INFO(COMPAND_COMPRESS, compand_curve),
- 	RKISP1_PARAMS_BLOCK_INFO(WDR, wdr),
-+	RKISP1_PARAMS_BLOCK_INFO(CAC, cac),
- };
- 
- static_assert(ARRAY_SIZE(rkisp1_ext_params_handlers) ==
-@@ -2474,6 +2541,8 @@ void rkisp1_params_disable(struct rkisp1_params *params)
- 	rkisp1_ie_enable(params, false);
- 	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_DPF_MODE,
- 				RKISP1_CIF_ISP_DPF_MODE_EN);
-+	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CAC_CTRL,
-+				RKISP1_CIF_ISP_CAC_CTRL_ENABLE);
- }
- 
- static const struct rkisp1_params_ops rkisp1_v10_params_ops = {
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-index fbeb186cde0d5..8e25537459bbd 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-@@ -724,6 +724,23 @@
- #define RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MASK		GENMASK(20, 16)
- #define RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MAX		16U
- 
-+/* CAC */
-+#define RKISP1_CIF_ISP_CAC_CTRL_ENABLE		BIT(0)
-+#define RKISP1_CIF_ISP_CAC_CTRL_V_CLIP_MODE	GENMASK(2, 1)
-+#define RKISP1_CIF_ISP_CAC_CTRL_H_CLIP_MODE	GENMASK(3, 3)
-+#define RKISP1_CIF_ISP_CAC_COUNT_START_H_MASK	GENMASK(12, 0)
-+#define RKISP1_CIF_ISP_CAC_COUNT_START_V_MASK	GENMASK(28, 16)
-+#define RKISP1_CIF_ISP_CAC_A_RED_MASK		GENMASK(8, 0)
-+#define RKISP1_CIF_ISP_CAC_A_BLUE_MASK		GENMASK(24, 16)
-+#define RKISP1_CIF_ISP_CAC_B_RED_MASK		GENMASK(8, 0)
-+#define RKISP1_CIF_ISP_CAC_B_BLUE_MASK		GENMASK(24, 16)
-+#define RKISP1_CIF_ISP_CAC_C_RED_MASK		GENMASK(8, 0)
-+#define RKISP1_CIF_ISP_CAC_C_BLUE_MASK		GENMASK(24, 16)
-+#define RKISP1_CIF_ISP_CAC_X_NORM_NF_MASK	GENMASK(4, 0)
-+#define RKISP1_CIF_ISP_CAC_X_NORM_NS_MASK	GENMASK(19, 16)
-+#define RKISP1_CIF_ISP_CAC_Y_NORM_NF_MASK	GENMASK(4, 0)
-+#define RKISP1_CIF_ISP_CAC_Y_NORM_NS_MASK	GENMASK(19, 16)
-+
- /* =================================================================== */
- /*                            CIF Registers                            */
- /* =================================================================== */
-@@ -1196,8 +1213,8 @@
- #define RKISP1_CIF_ISP_CAC_A			(RKISP1_CIF_ISP_CAC_BASE + 0x00000008)
- #define RKISP1_CIF_ISP_CAC_B			(RKISP1_CIF_ISP_CAC_BASE + 0x0000000c)
- #define RKISP1_CIF_ISP_CAC_C			(RKISP1_CIF_ISP_CAC_BASE + 0x00000010)
--#define RKISP1_CIF_ISP_X_NORM			(RKISP1_CIF_ISP_CAC_BASE + 0x00000014)
--#define RKISP1_CIF_ISP_Y_NORM			(RKISP1_CIF_ISP_CAC_BASE + 0x00000018)
-+#define RKISP1_CIF_ISP_CAC_X_NORM		(RKISP1_CIF_ISP_CAC_BASE + 0x00000014)
-+#define RKISP1_CIF_ISP_CAC_Y_NORM		(RKISP1_CIF_ISP_CAC_BASE + 0x00000018)
- 
- #define RKISP1_CIF_ISP_EXP_BASE			0x00002600
- #define RKISP1_CIF_ISP_EXP_CTRL			(RKISP1_CIF_ISP_EXP_BASE + 0x00000000)
-diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-index b2d2a71f7baff..d8acccaddd0e9 100644
---- a/include/uapi/linux/rkisp1-config.h
-+++ b/include/uapi/linux/rkisp1-config.h
-@@ -967,6 +967,92 @@ struct rkisp1_cif_isp_wdr_config {
- 	__u8 use_iref;
- };
- 
-+/*
-+ * enum rkisp1_cif_isp_cac_h_clip_mode - horizontal clipping mode
-+ *
-+ * @RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4PX: +/- 4 pixels
-+ * @RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4_5PX: +/- 4/5 pixels depending on bayer position
-+ */
-+enum rkisp1_cif_isp_cac_h_clip_mode {
-+	RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4PX = 0,
-+	RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4_5PX = 1,
-+};
-+
-+/**
-+ * enum rkisp1_cif_isp_cac_v_clip_mode - vertical clipping mode
-+ *
-+ * @RKISP1_CIF_ISP_CAC_V_CLIP_MODE_2PX: +/- 2 pixels
-+ * @RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3PX: +/- 3 pixels
-+ * @RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3_4PX: +/- 3/4 pixels depending on bayer position
-+ */
-+enum rkisp1_cif_isp_cac_v_clip_mode {
-+	RKISP1_CIF_ISP_CAC_V_CLIP_MODE_2PX = 0,
-+	RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3PX = 1,
-+	RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3_4PX = 2,
-+};
-+
-+/**
-+ * struct rkisp1_cif_isp_cac_config - chromatic aberration correction configuration
-+ *
-+ * The correction is carried out by shifting the red and blue pixels relative
-+ * to the green ones, depending on the distance from the optical center:
-+ *
-+ * @h_count_start: horizontal coordinate of the optical center (13-bit unsigned integer; [1,8191])
-+ * @v_count_start: vertical coordinate of the optical center (13-bit unsigned integer; [1,8191])
-+ *
-+ * For each pixel, the x/y distances from the optical center are calculated and
-+ * then transformed into the [0,255] range based on the following formula:
-+ *
-+ *   (((d << 4) >> s) * f) >> 5
-+ *
-+ * where `d` is the distance, `s` and `f` are the normalization parameters:
-+ *
-+ * @x_nf: horizontal normalization scale parameter (5-bit unsigned integer; [0,31])
-+ * @x_ns: horizontal normalization shift parameter (4-bit unsigned integer; [0,15])
-+ *
-+ * @y_nf: vertical normalization scale parameter (5-bit unsigned integer; [0,31])
-+ * @y_ns: vertical normalization shift parameter (4-bit unsigned integer; [0,15])
-+ *
-+ * These parameters should be chosen based on the image resolution, the position
-+ * of the optical center, and the shape of pixels: so that no normalized distance
-+ * is larger than 255. If the pixels have square shape, the two sets of parameters
-+ * should be equal.
-+ *
-+ * The actual amount of correction is calculated with a third degree polynomial:
-+ *
-+ *   c[0] * r + c[1] * r^2 + c[2] * r^3
-+ *
-+ * where `c` is the set of coefficients for the given color, and `r` is distance:
-+ *
-+ * @red: red coefficients (5.4 two's complement; [-16,15.9375])
-+ * @blue: blue coefficients (5.4 two's complement; [-16,15.9375])
-+ *
-+ * Finally, the amount is clipped as requested:
-+ *
-+ * @h_clip_mode: maximum horizontal shift (from enum rkisp1_cif_isp_cac_h_clip_mode)
-+ * @v_clip_mode: maximum vertical shift (from enum rkisp1_cif_isp_cac_v_clip_mode)
-+ *
-+ * A positive result will shift away from the optical center, while a negative
-+ * one will shift towards the optical center. In the latter case, the pixel
-+ * values at the edges are duplicated.
-+ */
-+struct rkisp1_cif_isp_cac_config {
-+	__u8 h_clip_mode;
-+	__u8 v_clip_mode;
-+
-+	__u16 h_count_start;
-+	__u16 v_count_start;
-+
-+	__u16 red[3];
-+	__u16 blue[3];
-+
-+	__u8 x_nf;
-+	__u8 x_ns;
-+
-+	__u8 y_nf;
-+	__u8 y_ns;
-+};
-+
- /*---------- PART2: Measurement Statistics ------------*/
- 
- /**
-@@ -1161,6 +1247,7 @@ enum rkisp1_ext_params_block_type {
- 	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND,
- 	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS,
- 	RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR,
-+	RKISP1_EXT_PARAMS_BLOCK_TYPE_CAC,
- };
- 
- /* For backward compatibility */
-@@ -1507,6 +1594,22 @@ struct rkisp1_ext_params_wdr_config {
- 	struct rkisp1_cif_isp_wdr_config config;
- } __attribute__((aligned(8)));
- 
-+/**
-+ * struct rkisp1_ext_params_cac_config - RkISP1 extensible params CAC config
-+ *
-+ * RkISP1 extensible parameters CAC block.
-+ * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_CAC`.
-+ *
-+ * @header: The RkISP1 extensible parameters header, see
-+ *	    :c:type:`rkisp1_ext_params_block_header`
-+ * @config: CAC configuration, see
-+ *	    :c:type:`rkisp1_cif_isp_cac_config`
-+ */
-+struct rkisp1_ext_params_cac_config {
-+	struct rkisp1_ext_params_block_header header;
-+	struct rkisp1_cif_isp_cac_config config;
-+} __attribute__((aligned(8)));
-+
  /*
-  * The rkisp1_ext_params_compand_curve_config structure is counted twice as it
-  * is used for both the COMPAND_EXPAND and COMPAND_COMPRESS block types.
-@@ -1532,7 +1635,8 @@ struct rkisp1_ext_params_wdr_config {
- 	sizeof(struct rkisp1_ext_params_compand_bls_config)		+\
- 	sizeof(struct rkisp1_ext_params_compand_curve_config)		+\
- 	sizeof(struct rkisp1_ext_params_compand_curve_config)		+\
--	sizeof(struct rkisp1_ext_params_wdr_config))
-+	sizeof(struct rkisp1_ext_params_wdr_config)			+\
-+	sizeof(struct rkisp1_ext_params_cac_config))
+- * Function to set/get image stablization statistics
++ * Function to set/get image stabilization statistics
+  */
+ int atomisp_get_dis_stat(struct atomisp_sub_device *asd,
+ 			 struct atomisp_dis_statistics *stats)
+@@ -3232,7 +3232,7 @@ int atomisp_bad_pixel_param(struct atomisp_sub_device *asd, int flag,
+ }
+ 
+ /*
+- * Function to enable/disable video image stablization
++ * Function to enable/disable video image stabilization
+  */
+ int atomisp_video_stable(struct atomisp_sub_device *asd, int flag,
+ 			 __s32 *value)
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+index 82199dc9284e..d3d1f2574e77 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+@@ -153,7 +153,7 @@ int atomisp_bad_pixel(struct atomisp_sub_device *asd, int flag,
+ int atomisp_bad_pixel_param(struct atomisp_sub_device *asd, int flag,
+ 			    struct atomisp_dp_config *config);
+ 
+-/* Function to enable/disable video image stablization */
++/* Function to enable/disable video image stabilization */
+ int atomisp_video_stable(struct atomisp_sub_device *asd, int flag,
+ 			 __s32 *value);
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index be5f37f4a6fd..87c3417c3774 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -1957,7 +1957,7 @@ static void __configure_capture_pp_input(struct atomisp_sub_device *asd,
+ 
+ /*
+  * For CSS2.1, preview pipe could support bayer downscaling, yuv decimation and
+- * yuv downscaling, which needs addtional configurations.
++ * yuv downscaling, which needs additional configurations.
+  */
+ static void __configure_preview_pp_input(struct atomisp_sub_device *asd,
+ 	unsigned int width, unsigned int height,
+@@ -2085,7 +2085,7 @@ static void __configure_preview_pp_input(struct atomisp_sub_device *asd,
+ 
+ /*
+  * For CSS2.1, offline video pipe could support bayer decimation, and
+- * yuv downscaling, which needs addtional configurations.
++ * yuv downscaling, which needs additional configurations.
+  */
+ static void __configure_video_pp_input(struct atomisp_sub_device *asd,
+ 				       unsigned int width, unsigned int height,
+@@ -3002,7 +3002,7 @@ int atomisp_css_get_zoom_factor(struct atomisp_sub_device *asd,
+ }
+ 
+ /*
+- * Function to set/get image stablization statistics
++ * Function to set/get image stabilization statistics
+  */
+ int atomisp_css_get_dis_stat(struct atomisp_sub_device *asd,
+ 			     struct atomisp_dis_statistics *stats)
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.h b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.h
+index 75781807544a..5188df4f469c 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.h
+@@ -40,7 +40,7 @@ enum atomisp_css_stream_state {
+ };
+ 
+ /*
+- *  Sensor of external ISP can send multiple steams with different mipi data
++ *  Sensor of external ISP can send multiple streams with different mipi data
+  * type in the same virtual channel. This information needs to come from the
+  * sensor or external ISP
+  */
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+index ba61cc28fac1..9f4480bc9854 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+@@ -292,7 +292,7 @@ static int atomisp_csi2_get_port(struct acpi_device *adev, int clock_num)
+ }
+ 
+ /*
+- * Alloc and fill an int3472_discrete_device struct so that we can re-use
++ * Alloc and fill an int3472_discrete_device struct so that we can reuse
+  * the INT3472 sensor GPIO mapping code.
+  *
+  * This gets called from ipu_bridge_init() which runs only once per boot,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_tables.h b/drivers/staging/media/atomisp/pci/atomisp_tables.h
+index 33e6079aa73b..59730ce32eb0 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_tables.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_tables.h
+@@ -93,7 +93,7 @@ static struct ia_css_macc_table skin_high_macc_table = {
+ 	}
+ };
+ 
+-/*Blue enhencement image effect table*/
++/*Blue enhancement image effect table*/
+ static struct ia_css_macc_table blue_macc_table = {
+ 	.data = {
+ 		9728, -3072, 0, 8192,
+@@ -115,7 +115,7 @@ static struct ia_css_macc_table blue_macc_table = {
+ 	}
+ };
+ 
+-/*Green enhencement image effect table*/
++/*Green enhancement image effect table*/
+ static struct ia_css_macc_table green_macc_table = {
+ 	.data = {
+ 		8192, 0, 0, 8192,
+diff --git a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
+index 58e4e3173b40..ea3f29c7e762 100644
+--- a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
++++ b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
+@@ -15,7 +15,7 @@
+ 
+ #include "ia_css_debug.h"
+ 
+-/* TODO: enable for other memory aswell
++/* TODO: enable for other memory as well
+ 	 now only for ia_css_ptr */
+ struct ia_css_refcount_entry {
+ 	u32 count;
+diff --git a/drivers/staging/media/atomisp/pci/css_2401_system/hrt/mipi_backend_common_defs.h b/drivers/staging/media/atomisp/pci/css_2401_system/hrt/mipi_backend_common_defs.h
+index bc7639adcd8d..7659c644dbb0 100644
+--- a/drivers/staging/media/atomisp/pci/css_2401_system/hrt/mipi_backend_common_defs.h
++++ b/drivers/staging/media/atomisp/pci/css_2401_system/hrt/mipi_backend_common_defs.h
+@@ -13,7 +13,7 @@
+ #define _HRT_CSS_RECEIVER_2400_GEN_SHORT_CH_ID_WIDTH     2
+ #define _HRT_CSS_RECEIVER_2400_GEN_SHORT_FMT_TYPE_WIDTH  3
+ #define _HRT_CSS_RECEIVER_2400_GEN_SHORT_STR_REAL_WIDTH (_HRT_CSS_RECEIVER_2400_GEN_SHORT_DATA_WIDTH + _HRT_CSS_RECEIVER_2400_GEN_SHORT_CH_ID_WIDTH + _HRT_CSS_RECEIVER_2400_GEN_SHORT_FMT_TYPE_WIDTH)
+-#define _HRT_CSS_RECEIVER_2400_GEN_SHORT_STR_WIDTH      32 /* use 32 to be compatibel with streaming monitor !, MSB's of interface are tied to '0' */
++#define _HRT_CSS_RECEIVER_2400_GEN_SHORT_STR_WIDTH      32 /* use 32 to be compatible with streaming monitor !, MSB's of interface are tied to '0' */
+ 
+ /* Definition of data format ID at the interface CSS_receiver capture/acquisition units */
+ #define _HRT_CSS_RECEIVER_2400_DATA_FORMAT_ID_YUV420_8          24   /* 01 1000 YUV420 8-bit                                        */
+diff --git a/drivers/staging/media/atomisp/pci/css_receiver_2400_common_defs.h b/drivers/staging/media/atomisp/pci/css_receiver_2400_common_defs.h
+index fc733a72d1e3..93ba823d5b10 100644
+--- a/drivers/staging/media/atomisp/pci/css_receiver_2400_common_defs.h
++++ b/drivers/staging/media/atomisp/pci/css_receiver_2400_common_defs.h
+@@ -13,7 +13,7 @@
+ #define _HRT_CSS_RECEIVER_2400_GEN_SHORT_CH_ID_WIDTH     2
+ #define _HRT_CSS_RECEIVER_2400_GEN_SHORT_FMT_TYPE_WIDTH  3
+ #define _HRT_CSS_RECEIVER_2400_GEN_SHORT_STR_REAL_WIDTH (_HRT_CSS_RECEIVER_2400_GEN_SHORT_DATA_WIDTH + _HRT_CSS_RECEIVER_2400_GEN_SHORT_CH_ID_WIDTH + _HRT_CSS_RECEIVER_2400_GEN_SHORT_FMT_TYPE_WIDTH)
+-#define _HRT_CSS_RECEIVER_2400_GEN_SHORT_STR_WIDTH      32 /* use 32 to be compatibel with streaming monitor !, MSB's of interface are tied to '0' */
++#define _HRT_CSS_RECEIVER_2400_GEN_SHORT_STR_WIDTH      32 /* use 32 to be compatible with streaming monitor !, MSB's of interface are tied to '0' */
+ 
+ /* Definition of data format ID at the interface CSS_receiver capture/acquisition units */
+ #define _HRT_CSS_RECEIVER_2400_DATA_FORMAT_ID_YUV420_8          24   /* 01 1000 YUV420 8-bit                                        */
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
+index 40b3f1e48c56..078131c4effb 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
+@@ -59,7 +59,7 @@ void input_formatter_rst(
+ 	rst = HIVE_IF_SRST_MASK[ID];
+ 
+ 	/* TEMPORARY HACK: THIS RESET BREAKS THE METADATA FEATURE
+-	 * WICH USES THE STREAM2MEMRY BLOCK.
++	 * WHICH USES THE STREAM2MEMRY BLOCK.
+ 	 * MUST BE FIXED PROPERLY
+ 	 */
+ 	if (!HIVE_IF_BIN_COPY[ID]) {
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/debug_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/debug_public.h
+index 947381e5b8a8..e3771111a816 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/debug_public.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/debug_public.h
+@@ -19,7 +19,7 @@
+  * The buffer has a remote and a local store
+  * which contain duplicate data (when in sync).
+  * The buffers are automatically synched when the
+- * user dequeues, or manualy using the synch function
++ * user dequeues, or manually using the synch function
+  *
+  * An alternative (storage efficient) implementation
+  * could manage the buffers to contain unique data
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_stream2mmio_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_stream2mmio_public.h
+index 7ed55d427cf6..b2d03e16cc9c 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_stream2mmio_public.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_stream2mmio_public.h
+@@ -77,7 +77,7 @@ STORAGE_CLASS_STREAM2MMIO_H void stream2mmio_dump_state(
+     stream2mmio_state_t *state);
+ /**
+  * @brief Store a value to the register.
+- * Store a value to the registe of the stream2mmio-controller.
++ * Store a value to the register of the stream2mmio-controller.
+  *
+  * @param[in]	ID		The global unique ID for the stream2mmio-controller instance.
+  * @param[in]	reg		The offset address of the register.
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/pixelgen_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/pixelgen_public.h
+index dc31ce3cd741..778c43f0003f 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/pixelgen_public.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/pixelgen_public.h
+@@ -53,7 +53,7 @@ STORAGE_CLASS_PIXELGEN_H hrt_data pixelgen_ctrl_reg_load(
+     const hrt_address reg);
+ /**
+  * @brief Store a value to the register.
+- * Store a value to the registe of the pixelgen
++ * Store a value to the register of the pixelgen
+  *
+  * @param[in]	ID		The global unique ID for the pixelgen.
+  * @param[in]	reg		The offset address of the register.
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+index 856561e951a5..a6eab5f52b75 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+@@ -434,7 +434,7 @@ void hmm_bo_release(struct hmm_buffer_object *bo)
+ 	/*
+ 	 * FIX ME:
+ 	 *
+-	 * how to destroy the bo when it is stilled MMAPED?
++	 * how to destroy the bo when it is stilled MAPPED?
+ 	 *
+ 	 * ideally, this will not happened as hmm_bo_release
+ 	 * will only be called when kref reaches 0, and in mmap
+@@ -443,7 +443,7 @@ void hmm_bo_release(struct hmm_buffer_object *bo)
+ 	 */
+ 	if (bo->status & HMM_BO_MMAPED) {
+ 		mutex_unlock(&bdev->rbtree_mutex);
+-		dev_dbg(atomisp_dev, "destroy bo which is MMAPED, do nothing\n");
++		dev_dbg(atomisp_dev, "destroy bo which is MAPPED, do nothing\n");
+ 		return;
+ 	}
+ 
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_event_public.h b/drivers/staging/media/atomisp/pci/ia_css_event_public.h
+index f7215dd96739..8eec3b0af65e 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_event_public.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_event_public.h
+@@ -110,7 +110,7 @@ struct ia_css_event {
+ 	     until IA_CSS_MAX_EXPOSURE_ID is reached, after that they wrap
+ 	     around to IA_CSS_MIN_EXPOSURE_ID again.
+ 	     Note that in case frames are dropped, this will not be reflected
+-	     in the exposure IDs. Therefor applications should not use this
++	     in the exposure IDs. Therefore applications should not use this
+ 	     to detect frame drops. */
+ 	u32               fw_handle;
+ 	/** Firmware Handle for ACC_STAGE_COMPLETE event (not valid for other
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
+index 38c9c62366d6..bb603b4eb849 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
++++ b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
+@@ -4,7 +4,7 @@
+  * Copyright (c) 2015, Intel Corporation.
+  */
+ 
+-/* Generated code: do not edit or commmit. */
++/* Generated code: do not edit or commit. */
+ 
+ #define IA_CSS_INCLUDE_CONFIGURATIONS
+ #include "ia_css_pipeline.h"
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_params.c b/drivers/staging/media/atomisp/pci/ia_css_isp_params.c
+index 1cd3322b0da0..9a19472ad64c 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_isp_params.c
++++ b/drivers/staging/media/atomisp/pci/ia_css_isp_params.c
+@@ -48,7 +48,7 @@
+ #include "isp/kernels/eed1_8/ia_css_eed1_8.host.h"
+ #include "isp/kernels/bnlm/ia_css_bnlm.host.h"
+ #include "isp/kernels/conversion/conversion_1.0/ia_css_conversion.host.h"
+-/* Generated code: do not edit or commmit. */
++/* Generated code: do not edit or commit. */
+ 
+ #include "ia_css_pipeline.h"
+ #include "ia_css_isp_params.h"
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_params.h b/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
+index a542f8979905..2f2f200866c4 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
+@@ -4,7 +4,7 @@
+  * Copyright (c) 2015, Intel Corporation.
+  */
+ 
+-/* Generated code: do not edit or commmit. */
++/* Generated code: do not edit or commit. */
+ 
+ #ifndef _IA_CSS_ISP_PARAM_H
+ #define _IA_CSS_ISP_PARAM_H
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_states.c b/drivers/staging/media/atomisp/pci/ia_css_isp_states.c
+index af1765040464..cb3c2af91c51 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_isp_states.c
++++ b/drivers/staging/media/atomisp/pci/ia_css_isp_states.c
+@@ -3,7 +3,7 @@
+  * Support for Intel Camera Imaging ISP subsystem.
+  * Copyright (c) 2015, Intel Corporation.
+  */
+-/* Generated code: do not edit or commmit. */
++/* Generated code: do not edit or commit. */
+ 
+ #include "ia_css_pipeline.h"
+ #include "ia_css_isp_states.h"
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_states.h b/drivers/staging/media/atomisp/pci/ia_css_isp_states.h
+index d637ea1d13f6..75f5b1ef14aa 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_isp_states.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_isp_states.h
+@@ -15,7 +15,7 @@
+ #include "isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.h"
+ #include "isp/kernels/dpc2/ia_css_dpc2.host.h"
+ #include "isp/kernels/eed1_8/ia_css_eed1_8.host.h"
+-/* Generated code: do not edit or commmit. */
++/* Generated code: do not edit or commit. */
+ 
+ #ifndef _IA_CSS_ISP_STATE_H
+ #define _IA_CSS_ISP_STATE_H
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_pipe_public.h b/drivers/staging/media/atomisp/pci/ia_css_pipe_public.h
+index 2bb06b0ff5db..7101f2d9a1cf 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_pipe_public.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_pipe_public.h
+@@ -413,7 +413,7 @@ ia_css_pipe_get_isp_config(struct ia_css_pipe *pipe,
+ /* @brief Set the scaler lut on this pipe. A copy of lut is made in the inuit
+  *         address space. So the LUT can be freed by caller.
+  * @param[in]  pipe        Pipe handle.
+- * @param[in]  lut         Look up tabel
++ * @param[in]  lut         Look up table
+  *
+  * @return
+  * 0			: Success
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_stream_public.h b/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
+index a505f3797962..ad5c697350e7 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
+@@ -225,7 +225,7 @@ ia_css_stream_stop(struct ia_css_stream *stream);
+ bool
+ ia_css_stream_has_stopped(struct ia_css_stream *stream);
+ 
+-/* @brief	destroy a stream according to the stream seed previosly saved in the seed array.
++/* @brief	destroy a stream according to the stream seed previously saved in the seed array.
+  * @param[in]	stream The stream.
+  * @return	0 (no other errors are generated now)
+  *
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_types.h b/drivers/staging/media/atomisp/pci/ia_css_types.h
+index 676d7e20b282..665c68498bc6 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_types.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_types.h
+@@ -390,7 +390,7 @@ struct ia_css_grid_info {
+ 	.vamem_type	= IA_CSS_VAMEM_TYPE_1 \
+ }
+ 
+-/* Morphing table, used for geometric distortion and chromatic abberration
++/* Morphing table, used for geometric distortion and chromatic aberration
+  *  correction (GDCAC, also called GDC).
+  *  This table describes the imperfections introduced by the lens, the
+  *  advanced ISP can correct for these imperfections using this table.
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr2_2/ia_css_bnr2_2_types.h b/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr2_2/ia_css_bnr2_2_types.h
+index 387909c35c1a..8aa964f4ca0e 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr2_2/ia_css_bnr2_2_types.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr2_2/ia_css_bnr2_2_types.h
+@@ -55,7 +55,7 @@ struct ia_css_bnr2_2_config {
+ 	s32 detail_gain_divisor;	/** Gain divisor for low contrast texture control */
+ 	s32 detail_level_offset;	/** Bias value for low contrast texture control */
+ 	s32 d_var_th_min;		/** Minimum clipping value for directional variance*/
+-	s32 d_var_th_max;		/** Maximum clipping value for diretional variance*/
++	s32 d_var_th_max;		/** Maximum clipping value for directional variance*/
+ 	s32 n_var_th_min;		/** Minimum clipping value for non-directional variance*/
+ 	s32 n_var_th_max;		/** Maximum clipping value for non-directional variance*/
+ };
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc1_5/ia_css_ctc1_5.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc1_5/ia_css_ctc1_5.host.c
+index 0089402bc12d..b76b803cd73b 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc1_5/ia_css_ctc1_5.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc1_5/ia_css_ctc1_5.host.c
+@@ -22,7 +22,7 @@ static void ctc_gradient(
+ 	int dydx_int;
+ 	int dydx_frc;
+ 	int sft;
+-	/* max_dydx = the maxinum gradient = the maximum y (gain) */
++	/* max_dydx = the maximum gradient = the maximum y (gain) */
+ 	int max_dydx = (1 << IA_CSS_CTC_COEF_SHIFT) - 1;
+ 
+ 	if (dx == 0) {
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2_types.h b/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2_types.h
+index 187c22f8da51..47d396161b81 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2_types.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2_types.h
+@@ -31,7 +31,7 @@ struct ia_css_ctc2_config {
+ 	s32 y_x2;
+ 	s32 y_x3;
+ 	s32 y_x4;
+-	/* Gains by UV(Chroma) under threholds uv_x0 and uv_x1
++	/* Gains by UV(Chroma) under thresholds uv_x0 and uv_x1
+ 	*   --default/ineffective value: 4096(0.5f)
+ 	*/
+ 	s32 uv_y0;
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
+index e9d6dd0bbfe2..71fb2e71b366 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
+@@ -203,7 +203,7 @@ convert_coords_to_ispparams(
+ 
+ 			// storage format:
+ 			// Y0 Y1 UV0 Y2 Y3 UV1
+-			/* if uv_flag equals true increment with 2 incase x is odd, this to
++			/* if uv_flag equals true increment with 2 in case x is odd, this to
+ 			skip the uv position. */
+ 			if (uv_flag)
+ 				ptr += 3;
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.h
+index 98995c9ed0a1..0d0346804db9 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.h
+@@ -16,7 +16,8 @@
+ #include "ia_css_dvs_param.h"
+ 
+ /* For bilinear interpolation, we need to add +1 to input block height calculation.
+- * For bicubic interpolation, we will need to add +3 instaed */
++ * For bicubic interpolation, we will need to add +3 instead
++ */
+ #define DVS_GDC_BLI_INTERP_ENVELOPE 1
+ #define DVS_GDC_BCI_INTERP_ENVELOPE 3
+ 
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc1_5/ia_css_macc1_5_table.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc1_5/ia_css_macc1_5_table.host.c
+index aea74be18fe9..db9406ee3843 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc1_5/ia_css_macc1_5_table.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc1_5/ia_css_macc1_5_table.host.c
+@@ -10,7 +10,7 @@
+ 
+ /* Multi-Axes Color Correction table for ISP2.
+  *	64values = 2x2matrix for 16area, [s1.12]
+- *	ineffective: 16 of "identity 2x2 matix" {4096,0,0,4096}
++ *	ineffective: 16 of "identity 2x2 matrix" {4096,0,0,4096}
+  */
+ const struct ia_css_macc1_5_table default_macc1_5_table = {
+ 	{
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc1_5/ia_css_macc1_5_types.h b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc1_5/ia_css_macc1_5_types.h
+index b0538808ae56..ce9b2f0ca7b9 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc1_5/ia_css_macc1_5_types.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc1_5/ia_css_macc1_5_types.h
+@@ -46,10 +46,10 @@
+  */
+ struct ia_css_macc1_5_table {
+ 	s16 data[IA_CSS_MACC_NUM_COEFS * IA_CSS_MACC_NUM_AXES];
+-	/** 16 of 2x2 matix
++	/** 16 of 2x2 matrix
+ 	  MACC1_5: s[macc_config.exp].[13-macc_config.exp], [-8192,8191]
+ 	    default/ineffective: (s1.12)
+-		16 of "identity 2x2 matix" {4096,0,0,4096} */
++		16 of "identity 2x2 matrix" {4096,0,0,4096} */
+ };
+ 
+ /* Multi-Axes Color Correction (MACC) configuration.
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_types.h b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_types.h
+index 20e34f53bec2..e6eb485af768 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_types.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_types.h
+@@ -43,13 +43,13 @@
+ 
+ struct ia_css_macc_table {
+ 	s16 data[IA_CSS_MACC_NUM_COEFS * IA_CSS_MACC_NUM_AXES];
+-	/** 16 of 2x2 matix
++	/** 16 of 2x2 matrix
+ 	  MACC1: s2.13, [-65536,65535]
+ 	    default/ineffective:
+-		16 of "identity 2x2 matix" {8192,0,0,8192}
++		16 of "identity 2x2 matrix" {8192,0,0,8192}
+ 	  MACC2: s[macc_config.exp].[13-macc_config.exp], [-8192,8191]
+ 	    default/ineffective: (s1.12)
+-		16 of "identity 2x2 matix" {4096,0,0,4096} */
++		16 of "identity 2x2 matrix" {4096,0,0,4096} */
+ };
+ 
+ #endif /* __IA_CSS_MACC_TYPES_H */
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc_param.h b/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc_param.h
+index b49761ad39ca..330e16f0cb62 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc_param.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc_param.h
+@@ -9,7 +9,7 @@
+ 
+ #include "type_support.h"
+ 
+-/* SC (Shading Corrction) */
++/* SC (Shading Correction) */
+ struct sh_css_isp_sc_params {
+ 	s32 gain_shift;
+ };
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
+index e90dea58215b..71a46f9cbcce 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
+@@ -210,7 +210,7 @@ ia_css_xnr3_vmem_encode(
+ 		assert(x[j] > x[j - 1]);
+ 	}
+ 
+-	/* The implementation of the calulating 1/x is based on the availability
++	/* The implementation of the calculating 1/x is based on the availability
+ 	 * of the OP_vec_shuffle16 operation.
+ 	 * A 64 element vector is split up in 4 blocks of 16 element. Each array is copied to
+ 	 * a vector 4 times, (starting at 0, 16, 32 and 48). All array elements are copied or
+diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
+index 2147929392e1..13ceaf478f0a 100644
+--- a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
++++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
+@@ -216,7 +216,7 @@ input_system_err_t input_system_configuration_commit(void);
+ // User functions:
+ //		(encoded generic function)
+ //    - no checking
+-//    - decoding name and agruments into the generic (channel) configuration
++//    - decoding name and arguments into the generic (channel) configuration
+ //    function.
+ //
+ ///////////////////////////////////////////////////////////////////////////
+diff --git a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
+index 50b0b31d734a..0173919cca39 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
++++ b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
+@@ -460,7 +460,7 @@ static void ifmtr_set_if_blocking_mode(
+ 		block[INPUT_FORMATTER1_ID] = (bool)config_b->block_no_reqs;
+ 
+ 	/* TODO: next could cause issues when streams are started after
+-	 * eachother. */
++	 * each other. */
+ 	/*IF should not be reconfigured/reset from host */
+ 	if (ifmtr_set_if_blocking_mode_reset) {
+ 		ifmtr_set_if_blocking_mode_reset = false;
+diff --git a/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c b/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c
+index 8e1efeb6372c..fcc23cfe9e2c 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c
++++ b/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c
+@@ -340,7 +340,7 @@ inputfifo_send_line(const unsigned short *data,
+  *             (2).
+  *
+  * This function does not do any reordering of pixels, the caller must make
+- * sure the data is in the righ format. Please refer to the CSS receiver
++ * sure the data is in the right format. Please refer to the CSS receiver
+  * documentation for details on the data formats.
+  */
+ 
+diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
+index 9cfb8bc97e24..bd9a21007555 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
++++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
+@@ -589,7 +589,7 @@ void ia_css_isys_rx_configure(const rx_cfg_t *config,
+ 							  HIVE_ISYS_GPREG_MULTICAST_A_IDX
+ 							  + (unsigned int)port,
+ 							  INPUT_SYSTEM_CSI_BACKEND);
+-			/* MW: Like the integration test example we overwite,
++			/* MW: Like the integration test example we overwrite,
+ 			 * the GPREG_MUX register */
+ 			input_system_sub_system_reg_store(INPUT_SYSTEM0_ID,
+ 							  GPREGS_UNIT0_ID,
+diff --git a/drivers/staging/media/atomisp/pci/runtime/spctrl/interface/ia_css_spctrl.h b/drivers/staging/media/atomisp/pci/runtime/spctrl/interface/ia_css_spctrl.h
+index 3cd69284f4b4..8128a0a5203d 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/spctrl/interface/ia_css_spctrl.h
++++ b/drivers/staging/media/atomisp/pci/runtime/spctrl/interface/ia_css_spctrl.h
+@@ -12,7 +12,7 @@
+ #include "ia_css_spctrl_comm.h"
+ 
+ typedef struct {
+-	u32        ddr_data_offset;       /**  posistion of data in DDR */
++	u32        ddr_data_offset;       /**  position of data in DDR */
+ 	u32        dmem_data_addr;        /** data segment address in dmem */
+ 	u32        dmem_bss_addr;         /** bss segment address in dmem  */
+ 	u32        data_size;             /** data segment size            */
+@@ -28,7 +28,7 @@ typedef struct {
+ /* Get the code addr in DDR of SP */
+ ia_css_ptr get_sp_code_addr(sp_ID_t  sp_id);
+ 
+-/* ! Load firmware on to specfied SP
++/* ! Load firmware on to specified SP
+ */
+ int ia_css_spctrl_load_fw(sp_ID_t sp_id,
+ 				      ia_css_spctrl_cfg *spctrl_cfg);
+diff --git a/drivers/staging/media/atomisp/pci/runtime/spctrl/src/spctrl.c b/drivers/staging/media/atomisp/pci/runtime/spctrl/src/spctrl.c
+index 78f00f07baaa..434dfba6feea 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/spctrl/src/spctrl.c
++++ b/drivers/staging/media/atomisp/pci/runtime/spctrl/src/spctrl.c
+@@ -159,7 +159,7 @@ ia_css_spctrl_sp_sw_state ia_css_spctrl_get_state(sp_ID_t sp_id)
+ 		return IA_CSS_SP_SW_TERMINATED;
+ 
+ 	HIVE_ADDR_sp_sw_state = spctrl_cofig_info[sp_id].spctrl_state_dmem_addr;
+-	(void)HIVE_ADDR_sp_sw_state; /* Suppres warnings in CRUN */
++	(void)HIVE_ADDR_sp_sw_state; /* Suppress warnings in CRUN */
+ 	if (sp_id == SP0_ID)
+ 		state = sp_dmem_load_uint32(sp_id, (unsigned int)sp_address_of(sp_sw_state));
+ 	return state;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 6cda5925fa45..097108def806 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -5084,7 +5084,7 @@ static int load_primary_binaries(
+ 	/*
+ 	 * TODO: All this yuv_scaler and capturepp calculation logic
+ 	 * can be shared later. Capture_pp is also a yuv_scale binary
+-	 * with extra XNR funcionality. Therefore, it can be made as the
++	 * with extra XNR functionality. Therefore, it can be made as the
+ 	 * first step of the cascade.
+ 	 */
+ 	capt_pp_out_info = pipe->out_yuv_ds_input_info;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_defs.h b/drivers/staging/media/atomisp/pci/sh_css_defs.h
+index 7bfeeb8cf053..e49048e911ad 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_defs.h
++++ b/drivers/staging/media/atomisp/pci/sh_css_defs.h
+@@ -66,7 +66,7 @@
+ 
+ /* Following macros should match with the type enum ia_css_pipe_version in
+  * ia_css_pipe_public.h. The reason to add these macros is that enum type
+- * will be evaluted to 0 in preprocessing time. */
++ * will be evaluated to 0 in preprocessing time. */
+ #define SH_CSS_ISP_PIPE_VERSION_1	1
+ #define SH_CSS_ISP_PIPE_VERSION_2_2	2
+ #define SH_CSS_ISP_PIPE_VERSION_2_6_1	3
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_mmu.c b/drivers/staging/media/atomisp/pci/sh_css_mmu.c
+index f2a84c1d6e52..f2838e40617a 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_mmu.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_mmu.c
+@@ -25,7 +25,7 @@ ia_css_mmu_invalidate_cache(void)
+ 	if (sh_css_sp_is_running()) {
+ 		HIVE_ADDR_ia_css_dmaproxy_sp_invalidate_tlb = fw->info.sp.invalidate_tlb;
+ 
+-		(void)HIVE_ADDR_ia_css_dmaproxy_sp_invalidate_tlb; /* Suppres warnings in CRUN */
++		(void)HIVE_ADDR_ia_css_dmaproxy_sp_invalidate_tlb; /* Suppress warnings in CRUN */
+ 
+ 		sp_dmem_store_uint32(SP0_ID,
+ 				     (unsigned int)sp_address_of(ia_css_dmaproxy_sp_invalidate_tlb),
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index fcebace11daf..253faa83e5a0 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -752,7 +752,7 @@ sh_css_params_ddr_address_map(void)
+ 
+ /* ****************************************************
+  * Each coefficient is stored as 7bits to fit 2 of them into one
+- * ISP vector element, so we will store 4 coefficents on every
++ * ISP vector element, so we will store 4 coefficients on every
+  * memory word (32bits)
+  *
+  * 0: Coefficient 0 used bits
+diff --git a/drivers/staging/media/atomisp/pci/system_global.h b/drivers/staging/media/atomisp/pci/system_global.h
+index e8a29f73d67a..88ffda21b8e1 100644
+--- a/drivers/staging/media/atomisp/pci/system_global.h
++++ b/drivers/staging/media/atomisp/pci/system_global.h
+@@ -22,14 +22,14 @@
+  * lists (C) or the use of classes (C++), but that is presently not
+  * fully supported
+  *
+- * N.B. the 3 input formatters are of 2 different classess
++ * N.B. the 3 input formatters are of 2 different classes
+  */
+ 
+ #define DMA_DDR_TO_VAMEM_WORKAROUND
+ #define DMA_DDR_TO_HMEM_WORKAROUND
+ 
+ /*
+- * The longest allowed (uninteruptible) bus transfer, does not
++ * The longest allowed (uninterruptible) bus transfer, does not
+  * take stalling into account
+  */
+ #define HIVE_ISP_MAX_BURST_LENGTH	1024
+@@ -294,7 +294,7 @@ typedef enum {
+ /* end of Stream2MMIO */
  
  /**
-  * enum rksip1_ext_param_buffer_version - RkISP1 extensible parameters version
+- * Input System 2401: CSI-MIPI recevier.
++ * Input System 2401: CSI-MIPI receiver.
+  */
+ typedef enum {
+ 	CSI_RX_BACKEND0_ID = 0,	/* map to ISYS2401_MIPI_BE_A */
 -- 
-2.53.0
+2.43.0
 
 
