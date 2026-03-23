@@ -1,174 +1,167 @@
-Return-Path: <linux-media+bounces-56753-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56754-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KBbVCq1twWnDTAQAu9opvQ
-	(envelope-from <linux-media+bounces-56753-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 17:43:25 +0100
+	id eHVhLrxpwWnVSwQAu9opvQ
+	(envelope-from <linux-media+bounces-56754-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 17:26:36 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59692F8AB1
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 17:43:24 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1AF82F816A
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 17:26:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 95D8731D242C
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 16:02:35 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 747E2301D55C
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 16:05:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B88B3B8BDE;
-	Mon, 23 Mar 2026 16:01:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEEAE3BA234;
+	Mon, 23 Mar 2026 16:02:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bitbyteword.org header.i=@bitbyteword.org header.b="pU/+tjGP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qyxXvhUG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C47D3BBA01
-	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 16:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BD83B8BB9
+	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 16:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774281680; cv=none; b=dyxDtyS7bm9KcPdCofNxMux8zOXR1cEz7vuN2GLrmu5ScOs3X8Sza/fHni/XoqWGFZ0eudm9n2CpN8/cCx65DaJYXLcox+jNrJuLuJhBgPZKYw+Ddp9pIaNxrR83nRdJOIyF3L2Oi7IVJghufraFnGa6h7adRQohhATIkLkiEWw=
+	t=1774281722; cv=none; b=fkfLsg1PIaXOaUghehO1SVKlNv+S9y5g49Gsv7oMUHBLzrjCz0k7oHGVti0cULLNbTcrnU7yD7cU97cUE0A5gtZsMEP6QoWmvYycCzt6GB49B06duU3aDhjlnCSthd8Ld4cZri4cdK9kx3vjiUUXAVNAXn0Ekz5V8I2zXfDCgaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774281680; c=relaxed/simple;
-	bh=ZopYVyAeHlBFSz+/anofByoCYoLsO3v78kbbq2MzwYU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cvb1VM7CrmXAqvpOYDQKG4j0nwNf2pC2Vv9J+sCGkwcgBqlJKzqQOmfc+Ar+pNwS51+zXv5eFcJLjpL2ASjBuuFeBbaYBvc2BLQF4St8ahPhTpVoEu4YfzH8TS8QWRIn/vwE4oAe3UNMb1r13JE5Pj4TYMhz8tnJkB3+vrbkLq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bitbyteword.org; spf=pass smtp.mailfrom=bitbyteword.org; dkim=pass (2048-bit key) header.d=bitbyteword.org header.i=@bitbyteword.org header.b=pU/+tjGP; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bitbyteword.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bitbyteword.org
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7d556c1a79eso310873a34.3
-        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 09:01:19 -0700 (PDT)
+	s=arc-20240116; t=1774281722; c=relaxed/simple;
+	bh=Q80F4IDJ1r0n2L0Q9+6XdvwhcZQG8QGMDk49YIXY/m0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EOlEdkXyjOQuxom+MYBjof/OMrubOdNKHTU9kdg9zlHXf08G+RH8K03c7QdF4n19eIhKeBirYhFcZBBjY1vEz+4L04+98n6MlumzkPzF3Osba4THZtw8wBvuyjOdNEFcO4/zhAtC5V9fz0/R36pxOTkHYf/C9Yv3PBz5oS8nE88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qyxXvhUG; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43b48ac2727so276155f8f.3
+        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 09:02:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bitbyteword.org; s=google; t=1774281678; x=1774886478; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rmhohN6RlSLZwmw7GnhmaqXlOUkxWsMUSbvXDFRlGSI=;
-        b=pU/+tjGPC+ggbpYMDiWOMwETOyAKB8Sr8a92OBiViizy11szawSQLlypAkz33N4UxN
-         wERdMGV0cqGAKzseKphcaq812WcchreqTidJnVj3t6a2hFsT+i1Lc/QHomUTCSixX/ph
-         MPkIUwLJNQjiO3YaoapafweLs1LEUt7kU+8Ymtvsz4lfoG/D9ex4zo7feMyoSEnIJFNo
-         xQtZlNye8y21J4J2TTGd8SR6EefqsLz6pkMVGFrei68f3cb6lGs2P9jjsO2r+FEEaWH0
-         58BJIGsZsboHUegz4fiyyfeRiIfFsIfB1bz8QLYBgUFxOdbRhdRkdE9NkwiPXzo2QbL9
-         O4gg==
+        d=linaro.org; s=google; t=1774281719; x=1774886519; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y9r64NEBtm+Yyadr3JGFSt+EeJnvvOthTCQXw/+5HKQ=;
+        b=qyxXvhUG/jopADYRtuGJlpMBbWMJeXYZUjSLKPAIXeafEzc77NvIeaOVyqCvUkzk+i
+         BDxsS6YW2XPCGiqizb+CfCTjeu6aacwgqmoIuMfjf/pX3Gy8XCgQi3IEjPV5LEW9uCLF
+         oSIEnD+3iVefm1siZAZ5mKKh998KqhkILIZvpKRHaPAuv15gBsmvdfhgFCSaAE4mXXn5
+         OfVe6wyYtpJFs6hj68vu/zgKlOBJ9y9h9fBYfSwDABjBEpJLtZGplEzcJ4DQwGLl3gkJ
+         1Eyfmbffqcx/hGv09jh+1wrsd/sjY2i0TKLqEMXEgztmMm2J3e9WRWskrJn6FnNbKBdj
+         oYiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774281678; x=1774886478;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rmhohN6RlSLZwmw7GnhmaqXlOUkxWsMUSbvXDFRlGSI=;
-        b=Xz4cHTEtpioonYhXINSrr2mOL+R6vO2wa14FWZtwkmBgVm0vhD8TvMl8f741jjXHTn
-         ZPXrNthNzPtA7JY2iJVjhd+k0GUtxXM1d28y++EeNdvOtZ9vMOPWLc5x+O5NdY1ukjLu
-         yRzOsYFetYbg09ck0sszJcHIn4favL++d9GFF1lvWRcSQfIlwGpOWTwA9dmSrptlTbLb
-         YWDUZPJ4K1sIrcQEhUkyrZrAW5GCUvY97jA5/UJd3RmoDwT6JSmYKj68DvXw6jVx3+Xg
-         jqOzOAfHbHl9/haDNt2L/uHVeSSUnx9S+a0B0HdvqEZ9/0M896nsBvCo/VP3s279cApx
-         xGYA==
-X-Forwarded-Encrypted: i=1; AJvYcCXZS/yFnKTSL6Akelb1iJKSWrzJEU8/VX567varjJZn3J1TZq9AHJELSs7GIJbhyXeNxUG7A2YVKYq5jw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywq35U1yS1wr5dqfeTI8Je/DWyGOtBVJ3dwFWOtb4hjYFQJk7Jb
-	EhxLhQaU62GI6W8GObil8mhS1wAqoy95pWHMc64Ru67Js+kn97vEr+fsSxaCwwbAs3o=
-X-Gm-Gg: ATEYQzzYwn9vJaeZMzroUqeNWkcM0zmW3EGprrQBGzP7U1D7yy7CTRZszexhm9IMA0I
-	4HZCA9Pa5CvbzwVZwVg3XwDQs8/o3VeGYNyJhHQkIto6GKHt92v7sERoUSWdKoipoY75VVjAA5G
-	f7cTEgax87ns1nq3Gip8oVpiQ+lZhA4dt/2qLfQRDKSWl05Efx9M/pV0NMAEQg93ZbvS8hxBWkz
-	JUn5kmNvPbz6bXvf2XTVohIZVfZmor1/cLnih+4HWamafVm+TKGsuDHudyDJEozevHGDq09iVYT
-	sicYG7R0LJ1NikQTIN0Pa+O1/biJxDdqcQDGN3nRHhMNiKcDIz74N1GlP6oyB+kbiIpX7J293KZ
-	hm0bU56e7cRFjjEvIXpAjbE+G0XIDMyCVdvsWPlFYEh0uzDV0+iV64xLg05Sbk2gF91WQFCeH3P
-	bX+eZ66l7Xj2TQ+iHR5G1jL2n2ytMi2iGlKNCjSCmwqRTl72qTkHWVyu70Jch7Tazf1CuZ6n+ox
-	orl
-X-Received: by 2002:a05:6820:179b:b0:67d:6597:4d1f with SMTP id 006d021491bc7-67d65974f79mr5464593eaf.58.1774281678262;
-        Mon, 23 Mar 2026 09:01:18 -0700 (PDT)
-Received: from vinmini.lan (c-73-143-21-186.hsd1.vt.comcast.net. [73.143.21.186])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cfc9088df1sm843364185a.25.2026.03.23.09.01.17
+        d=1e100.net; s=20251104; t=1774281719; x=1774886519;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y9r64NEBtm+Yyadr3JGFSt+EeJnvvOthTCQXw/+5HKQ=;
+        b=KtKxr3X7qkwPiSh3pf6+qUPgwZVOaByv/KQPI3mfUbLhYcI24wfns7RvecAd3QUIbW
+         SjgdkMf/H9gVBaHg4OwkrRe0dLV3DBrxs9Z6+Q55Gdce6stBrRCRfWpL2QdL5b6JxnMG
+         qFNg3oIC/cxkf9iySAlzq1fEETqbvbnszlRhuW50gZ3hiuzmfoXNwU6HNUAzvSQ6zOCt
+         zJ0CPxAFhqS/ETRLgVT1BaSlfW19uxJeQYuIFfsPiE7lfQYhHm6ihjsX31yj42hzTUq6
+         Xazf9gKOm/xB90RIp9p/LkG6nA8FVFFey+BqVtWK0m1+yJUaVBcJVZnOGGn/PimyCcvc
+         RJtA==
+X-Forwarded-Encrypted: i=1; AJvYcCXWMiTd4I6NHKNchRsAkzxg5kTkR7sqDlGM1MfXSnuut1PuW8uETolADR+UwksOHRiHleZgidLFZPYBGw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwziPYAOoDpeeUUcGuz9UXCh6Q8r+px7XfkuqSOlUuWjpWqDd27
+	1+nPfWZpHThVqo+hdQMGIbwRVSDVyydHhJnwbAfNpaaF0J2eCZPwO/trKwrIypTUkYM=
+X-Gm-Gg: ATEYQzzF0rINpKu2qHyrxyXA/vTheAVXfaqTMcR7+xKxYrsT97H9zR5twl2wrK/gugQ
+	+C8+lZQN+wvp+4ZnklccZk2SyHo/lhbic+S4IFNlY15/1RfwGHu+QfMvun91CSIgDJA2DTrwwzU
+	4coFc2+Ha+nx/822Q/McoxaLuUdxUXclavF/DnqnwkZFASP9VP51zAoczoIuMg5JIv+6gvDNmF7
+	VlezxDT8bAtE+Lx6v+WaTWXOfWDn19YtA2kUSoi3+oYe23bH53BqlS5PFpr6O5EC0BSXWVG6O5t
+	s1JteCH1rUkjssSs+rG23DTfPKv7H4Gh+sQoSbiwP4hLsbkFIB08k0OSvxe9AA1R7b9kgUWqI00
+	vqO9d/ZiDe1xAgIrg6sVwXVoZJeuf3YC6YZjxOGB8hy4czHP1Z+9ms9onvbQHrLDO10FfBd8A2m
+	apLqF2Ae0hZ87xEG+/w6vI8K4xYvbJ
+X-Received: by 2002:a05:6000:290b:b0:439:c67d:9fe8 with SMTP id ffacd0b85a97d-43b6424ef8bmr20394777f8f.22.1774281719032;
+        Mon, 23 Mar 2026 09:01:59 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6425eeb4sm26629531f8f.0.2026.03.23.09.01.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 09:01:17 -0700 (PDT)
-From: "Vineeth Pillai (Google)" <vineeth@bitbyteword.org>
-To: 
-Cc: "Vineeth Pillai (Google)" <vineeth@bitbyteword.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
+        Mon, 23 Mar 2026 09:01:58 -0700 (PDT)
+Date: Mon, 23 Mar 2026 19:01:55 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Mohammed EL Kadiri <med08elkadiri@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	andy@kernel.org, sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Subject: [PATCH v2 08/19] dma-buf: Use trace_call__##name() at guarded tracepoint call sites
-Date: Mon, 23 Mar 2026 12:00:27 -0400
-Message-ID: <20260323160052.17528-9-vineeth@bitbyteword.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260323160052.17528-1-vineeth@bitbyteword.org>
-References: <20260323160052.17528-1-vineeth@bitbyteword.org>
+	Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: Re: [PATCH v3] media: atomisp: fix spelling mistake
+Message-ID: <acFj89pWfmhLKzQ4@stanley.mountain>
+References: <20260323141143.27280-1-med08elkadiri@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323141143.27280-1-med08elkadiri@gmail.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[bitbyteword.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-56754-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56753-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	DMARC_NA(0.00)[bitbyteword.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vineeth@bitbyteword.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[bitbyteword.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	NEURAL_HAM(-0.00)[-1.000];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dan.carpenter@linaro.org,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: B59692F8AB1
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linaro.org:dkim,stanley.mountain:mid]
+X-Rspamd-Queue-Id: C1AF82F816A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Replace trace_foo() with the new trace_call__foo() at sites already
-guarded by trace_foo_enabled(), avoiding a redundant
-static_branch_unlikely() re-evaluation inside the tracepoint.
-trace_call__foo() calls the tracepoint callbacks directly without
-utilizing the static branch again.
+On Mon, Mar 23, 2026 at 03:11:43PM +0100, Mohammed EL Kadiri wrote:
+> diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+> index 856561e951a5..a6eab5f52b75 100644
+> --- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+> +++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+> @@ -434,7 +434,7 @@ void hmm_bo_release(struct hmm_buffer_object *bo)
+>  	/*
+>  	 * FIX ME:
+>  	 *
+> -	 * how to destroy the bo when it is stilled MMAPED?
+> +	 * how to destroy the bo when it is stilled MAPPED?
 
-Suggested-by: Steven Rostedt <rostedt@goodmis.org>
-Suggested-by: Peter Zijlstra <peterz@infradead.org>
-Signed-off-by: Vineeth Pillai (Google) <vineeth@bitbyteword.org>
-Assisted-by: Claude:claude-sonnet-4-6
----
- drivers/dma-buf/dma-fence.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 35afcfcac5910..232e92196da43 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -535,7 +535,7 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
- 
- 	if (trace_dma_fence_wait_start_enabled()) {
- 		rcu_read_lock();
--		trace_dma_fence_wait_start(fence);
-+		trace_call__dma_fence_wait_start(fence);
- 		rcu_read_unlock();
- 	}
- 	if (fence->ops->wait)
-@@ -544,7 +544,7 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
- 		ret = dma_fence_default_wait(fence, intr, timeout);
- 	if (trace_dma_fence_wait_end_enabled()) {
- 		rcu_read_lock();
--		trace_dma_fence_wait_end(fence);
-+		trace_call__dma_fence_wait_end(fence);
- 		rcu_read_unlock();
- 	}
- 	return ret;
--- 
-2.53.0
+MMAPPED was correct.  It means memory mapped.
+
+>  	 *
+>  	 * ideally, this will not happened as hmm_bo_release
+>  	 * will only be called when kref reaches 0, and in mmap
+> @@ -443,7 +443,7 @@ void hmm_bo_release(struct hmm_buffer_object *bo)
+>  	 */
+>  	if (bo->status & HMM_BO_MMAPED) {
+>  		mutex_unlock(&bdev->rbtree_mutex);
+> -		dev_dbg(atomisp_dev, "destroy bo which is MMAPED, do nothing\n");
+> +		dev_dbg(atomisp_dev, "destroy bo which is MAPPED, do nothing\n");
+
+Same.
+
+>  		return;
+>  	}
+>  
+
+(always wait a day between resending a patch in case other people have
+feedback).
+
+regards,
+dan carpenter
 
 
