@@ -1,144 +1,107 @@
-Return-Path: <linux-media+bounces-56737-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56738-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IJVnGgVGwWnpRwQAu9opvQ
-	(envelope-from <linux-media+bounces-56737-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 14:54:13 +0100
+	id 0CnKDuxHwWlGSAQAu9opvQ
+	(envelope-from <linux-media+bounces-56738-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 15:02:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0BEE2F362B
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 14:54:12 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF542F3AD6
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 15:02:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2A2F830A9A85
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 13:44:22 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E8DD7309BEE6
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 13:54:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDF453AE6E2;
-	Mon, 23 Mar 2026 13:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EY0wj28z"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B8283AE1AA;
+	Mon, 23 Mar 2026 13:53:56 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.auroraos.dev (unknown [95.181.193.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B5F3ACA5B;
-	Mon, 23 Mar 2026 13:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E05F3AC0D2
+	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 13:53:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.181.193.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774273443; cv=none; b=GtAZYNaoNAJV4TkLNhlf+ICZJf4j71L5JIpQgfGQdBN3SkOKrlH3ec7aiap+LhJpKr6f399WEYisPmrvx8dnD2kHpny+G3yh+I5He2QnyjOTnU15130n49dT1ASVR/HoXexVw79gypdUHljPS7pyFSljk/8ru5gdw9F87c2c+Bg=
+	t=1774274035; cv=none; b=eHKj5hJAmZYbacqJy94RYh4M4QuIQ6NmL+6JFZbGq+GlQ0OqG3Qes79RUXryCtTbMOSSoCdFa3huM3GIi7EtVaGNIe85sL+DrhQA3/3GD1oKrbx6yIfWDDV7EyMdhLamgQhO3GhA3fKj8WCiHl2Hynw0alrxIo2yRprjuQFlDzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774273443; c=relaxed/simple;
-	bh=ip7Htq1vNhaEH+Jk7q0F3mdlbOg8AtmoB+dA7J6Lmqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t6g9nwxiOVldl50vL8B00PnQVXP/JPOoZGYN1wkVRHlCLo2Rb8fkt+zFIqn4X5BaT41HL5+SsnaIat3EQ9TtKekrzm97qYq4672MzkkIHWJ3HUB8XD4xExFR/rOcxI82bECvYpZBnzePX5D4ZEp80y5gqfvYkLJI+hRDhr7faXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EY0wj28z; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774273442; x=1805809442;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ip7Htq1vNhaEH+Jk7q0F3mdlbOg8AtmoB+dA7J6Lmqw=;
-  b=EY0wj28zt3+uzPSgLRlc9kPlxuDpiAjYHXMwEKGx0NVQ0+aoxP0iWCWR
-   oNM6+SwTyJY69TZaD4sZhydTUoDmwHK7uhVnv5BuUyJX0/XsE09UjToEU
-   IhvwkTRiWuHDFBGKUrceTPiU/BmRbd50SWG0+uahMFNBjRYf8FOzV9MoZ
-   2SsktsmG/h1Rvjnux5p9ab01jc44vLePQekgKsiQ8Uq2SkxrqkTi9i8NB
-   JkwFjz/ByC5pPlnHoBE4mVnSe4PdJdxfvzurb+0/9acHdPVxLQ27iSiA1
-   PbYSnDXC40rUs/eJq9vgsRKiUiUxfU3965leLQiSrM6G+PEAJI1lYIsqO
-   g==;
-X-CSE-ConnectionGUID: bvdgqso6S6m+mcwrZ7PI/g==
-X-CSE-MsgGUID: /Ax3R9HISqK5IQfHOLycjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="92650465"
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="92650465"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 06:44:01 -0700
-X-CSE-ConnectionGUID: YVmgWCYcTsO891jexXs4Gw==
-X-CSE-MsgGUID: Mo9LBC5YQQyhcEua02JLVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="228756667"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.22])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 06:43:59 -0700
-Date: Mon, 23 Mar 2026 15:43:57 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>, andy@kernel.org, hansg@kernel.org,
-	mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: atomisp: ov2722: flush buffered writes before
- they overflow
-Message-ID: <acFDnWZciouvcosa@ashevche-desk.local>
-References: <20260323121730.75257-1-pengpeng@iscas.ac.cn>
- <acE9jOa5wTvFy3GX@stanley.mountain>
+	s=arc-20240116; t=1774274035; c=relaxed/simple;
+	bh=iSrLix/vuPHgnVHsCa02rTzrdMVHv5oC5w/oIPs6zn8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=XzrRYzt5GAnsvhAoNPB7G1ieePmNg8hTiVNEQkD0rU1kel5V62ZsM98IbcL/TEfKv0QLEb+3rZTFU6Z/nX6FI8vw3y1XuqbhrgiyuqWD4mC6ux/UPq97v806vXUQYi4Jcwt10RfLB4nLuXHiy/04mfQSUE9dUJak0ejGPor8vjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev; spf=pass smtp.mailfrom=auroraos.dev; arc=none smtp.client-ip=95.181.193.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=auroraos.dev
+Received: from [192.168.2.104] (213.87.159.37) by exch16.corp.auroraos.dev
+ (10.189.209.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Mon, 23 Mar
+ 2026 16:53:43 +0300
+Message-ID: <5cd44114-30ac-4de4-8a12-8a102ec851d3@auroraos.dev>
+Date: Mon, 23 Mar 2026 16:53:43 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acE9jOa5wTvFy3GX@stanley.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Spamd-Result: default: False [-2.16 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [0/5] LG Electronics LGDT3306A DVB frontend driver cleanups
+To: <linux-media@vger.kernel.org>
+References: <20260321190143.21123-1-s.shtylyov@auroraos.dev>
+ <69bf07c3.050a0220.8edcd.04ce@mx.google.com>
+Content-Language: en-US
+From: Sergey Shtylyov <s.shtylyov@auroraos.dev>
+In-Reply-To: <69bf07c3.050a0220.8edcd.04ce@mx.google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: exch16.corp.auroraos.dev (10.189.209.38) To
+ exch16.corp.auroraos.dev (10.189.209.38)
+X-Spamd-Result: default: False [-1.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[auroraos.dev : SPF not aligned (relaxed), No valid DKIM,quarantine,sampled_out];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56737-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-56738-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_TLS_LAST(0.00)[];
+	RSPAMD_URIBL_FAIL(0.00)[auroraos.dev:query timed out];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	NEURAL_HAM(-0.00)[-1.000];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FROM_HAS_DN(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:email,intel.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ashevche-desk.local:mid]
-X-Rspamd-Queue-Id: D0BEE2F362B
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[s.shtylyov@auroraos.dev,linux-media@vger.kernel.org];
+	RCPT_COUNT_ONE(0.00)[1];
+	TO_DN_NONE(0.00)[];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,gitlab.freedesktop.org:url,auroraos.dev:email,auroraos.dev:mid]
+X-Rspamd-Queue-Id: 0BF542F3AD6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Mar 23, 2026 at 04:18:04PM +0300, Dan Carpenter wrote:
-> On Mon, Mar 23, 2026 at 08:17:30PM +0800, Pengpeng Hou wrote:
-> > __ov2722_buf_reg_array() appends 8-bit or 16-bit values to the buffered
-> > register-write payload and only checks whether it should flush after the
-> > new value has already been written. When ctrl->index points at the last
-> > byte of the fixed 30-byte data buffer and the next register is 16-bit,
-> > the helper writes one byte past the end of the local buffer before the
-> > flush threshold check runs.
-> > 
-> > Check whether the next value fits before writing it. If not, flush the
-> > current buffered write first and then append the new value.
-> > 
-> > Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+On 3/22/26 12:04 AM, Patchwork Integration wrote:
+
+> Thanks for your patches! Unfortunately the Media CI robot has not been
+> able to test them.
 > 
-> The patch is wrong and just adds dead code.
+> Make sure that the whole series 20260321190143.21123-1-s.shtylyov@auroraos.dev is
+> available at lore. And that it can be cherry-picked on top the "next"
+> branch of "https://gitlab.freedesktop.org/linux-media/media-committers.git".
 
-I believe the idea is not to touch sensor drivers in atomisp at all.
-They all should be heavily lifted and updated and moved to generic
-folder for all v4l2 cases. I believe Hans had some plans, not sure
-what is the state with that now (I know he is busy with something
-else).
+   I have explicitly said in the cover letter that this series of cleanups was done
+atop of this fix [0]. I now realize that I should have probably added [RFC] to the
+subjects...
 
--- 
-With Best Regards,
-Andy Shevchenko
+[0] https://lore.kernel.org/all/20260316204455.63426-1-s.shtylyov@auroraos.dev/
 
+[...]
+
+MBR, Sergey
 
 
