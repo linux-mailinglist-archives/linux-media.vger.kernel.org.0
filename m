@@ -1,695 +1,230 @@
-Return-Path: <linux-media+bounces-56765-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56766-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0CQaKPSSwWnuTwQAu9opvQ
-	(envelope-from <linux-media+bounces-56765-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 20:22:28 +0100
+	id WFHvKhWRwWnFTwQAu9opvQ
+	(envelope-from <linux-media+bounces-56766-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 20:14:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9582FC218
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 20:22:27 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0012FC067
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 20:14:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id AFD603089DC3
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 19:10:28 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A4022303F7CD
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 19:11:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DA113358B6;
-	Mon, 23 Mar 2026 19:09:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3954833A014;
+	Mon, 23 Mar 2026 19:11:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iZI9T2hT"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="hcE6xiNd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010035.outbound.protection.outlook.com [52.101.69.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D8732D43C
-	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 19:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774292941; cv=none; b=Wq1/0nOpawNHteR6mRGFk/jevDUx6SOqsvlfLi8gTopkmfw34Qt9ROBaNF/PPIbhU1gmtHlreAbcqtJYuovTYIhe4ZNxk1e6NGdxs9kJQe5fV6dLEXfH/x8kl9P8Nkt5SkcUbiuA9upTyJ1E/1CK3FqjhlBoAZUcyru/Egr3N4Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774292941; c=relaxed/simple;
-	bh=fmRT4EveGTJ6heqogpX78TueSdyQgGIYjahRE9RY4Fg=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=XhUDh2bhA3y4j3ri5T4ksQdaiZNDvRFUIKbuODY4jSRSGOmacySc0ikNHh+Zs4Na8f/I1j7m9s0UwNvjwnUxfc8n4HSi/z1uRF0/LBsa3T8wQ7zIbdmVlSJ/PQAc0e9mHo2KeuNXjsIAtn5D/XDfe3sqwQ6rVxxdcS59qAMTFWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iZI9T2hT; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-829a9d08644so1734838b3a.1
-        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 12:08:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774292938; x=1774897738; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xSDA9zB2bvBRj+Lwg+Aznn/TC9/oEBtpmMDjMAqAzhw=;
-        b=iZI9T2hT5czgSkJU17nr4pHtumgrJGP/mOxJBD9MT51znW8SBrIxtGGIKFmO6ZtVGa
-         67fdKYPXA+tDjhnEmCc/ARNT9QjWB0Ox9xUpnbs4Cu0PnfeZ6J6Vzq/c4DYGWfM42NVA
-         Co6g/G3guCkQ1IN9zB2mFzBng/EX25+BSSTPok3aI3onAlYmzcDCgdQ/0F6TDVRA7yFu
-         IENBTaljE1brbs0v/gHp0ES0zHNAjARrD3s/QbOtuwb6+XgOVZ8spV3Ac+4hQGhz5Nb4
-         znQIvilTalX2lAYyCsdbPvxYs/4qu9eObvUkCNIZS/WHT9qnN7lm87FFOcm5583JQcOu
-         I+rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774292938; x=1774897738;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xSDA9zB2bvBRj+Lwg+Aznn/TC9/oEBtpmMDjMAqAzhw=;
-        b=qqCE2mwnAoMz3kITARLYQ2sUDvJIudPij+5Cr2cKB/ieAIXwu+4eNlMELRV166C5wi
-         u1lf3P8BOV/HksZcUqTzYiivi9sxcDB51ZVPzdWA/LIhBWs1VlVthyWFexhjmOPYrkia
-         mc+lh/PHjZJcOReBfws4mHtAe2OY8rfYwj9HJZ+ECIcXMLlAtQEDSpSEM9Pkw4/msVRo
-         2SpHa9QF1bSsKuu2aolq0Q6ksXQrRaf1ICuAAk8ktHFB1IkuXpeYSxfEG1IOQvmHTI2f
-         vZAmBzPtH0j3qcjuVtMOYnq/dCqUric9zWlwvShmDUW0EAOIp0vYt1mdhJVgj4R6lgoT
-         EGrg==
-X-Forwarded-Encrypted: i=1; AJvYcCVdIWZXBkxF8OkW4LjbN57Z7iKQAPIAPRRqOzVxApNxMCiWQ6+f8kKMQXliNNhbJBJHQSot5rIVE2rcmw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkKxCgYAEB7x9uM2MRIBOfpLksvgqsCX4UewkY0dNF0LKsDeqD
-	eZ7TdDYnWK9JK8eF4FiLtGbRm6URyI3pgiOk0PHyy58saXZc098oKixt
-X-Gm-Gg: ATEYQzzkLBwQnsFWwoFvH//QviJacCHnQcbIaf/Qd4UmneNVPDgoBPt9jA4J0R2SSqZ
-	QGlMmilq5xqGi1iHjZyV9wxzMJ4iN4+SJbzlKK/lHAyclK/AXqr4DCjzB7MFAHzNRxE5cNC6cYL
-	NU4TNc2VsYGRY+4STbnPeoedGoel+EFdYUw+x3VZHFY9p9AQWRyuPXANKF7cohoAoUM5R9dA+YD
-	1KFwtef/SgKlwNJYecS/etOVQNO+cnm+/Q7P2W0QXgqMGNFeYWtgvS6TUmOy4iZ4slWXmqbuUmj
-	YLd5YLkcMQWyC+m/ktGqMHHhv68tX9OXN0e6V6WJBJka0WJElQCZkDE6q8HD/t83kUqjd20uOTl
-	KXrck8WA/1OHnCBV2fwpsKkXtSDbky2/rsLCt4JGLzqrRH64ygAY4SALpSSjC9QcMvu8O3J7nsp
-	EPR2J1dlSN7Bz/PAoHIdTn+zgSBwe6tSrUFRSf
-X-Received: by 2002:a05:6a21:6d94:b0:39b:abdc:4215 with SMTP id adf61e73a8af0-39bce9b4de2mr10585318637.10.1774292938257;
-        Mon, 23 Mar 2026 12:08:58 -0700 (PDT)
-Received: from LIB-LAP-0152.lan ([2409:40f2:149:cb5c:b28b:ad0b:8706:7fa6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b03bbf050sm9682695b3a.16.2026.03.23.12.08.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 12:08:57 -0700 (PDT)
-From: Chethan C <mail.chethanc@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Chethan C <mail.chethanc@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Osama Albahrani <osalbahr@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80B03321D4;
+	Mon, 23 Mar 2026 19:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774293061; cv=fail; b=lwjGLE9/8AKzYWMIK5EKLr3IYUNJP2yyNGo38Fi68EyUpMHKT7qVB+Xtrm2A29hpmYetkfX+r0XqIXlI0ZPZgYQmuiXUWpPOTur5qDnE6EEK81ueclg9dmwJR5HOlGHA+ajF2iDHkE4mxSsDrVXhVXMy0r2kc/KMBio8Zidc274=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774293061; c=relaxed/simple;
+	bh=ZQDaqn4gDMjnmGX7M+kaWr/JwNknEDu1tjqTLnF3zu4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=juGiY+7bC2dGGimX1Sg4suEyf9tNQubwMzrOyJ0Ibw5+x6gIrLjh6vLH5czXOZh1oq6Wapt0CAKHb6F7e1rad8LOOUD/1ue6czwnQAjUS+MHFLqwDk+f2eI9w8JSIuwGQXguEtClk3qw1ZfXIBYoO3y1WBlQtDs3nyRNtUfx5YQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=hcE6xiNd; arc=fail smtp.client-ip=52.101.69.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hyvmgVLrzPPAxWOKEKK7KufO7oMeb82GwS487yUHGNW6U79mAVzUcaD+Qi+mEjBfm0wWkKexEgCOpDFhZwxN2313blq+HZTsMWXoTgvfiO9Y9JWnku5a1VXhEG66px0lony+SmbSphyjC4lBQakfLgZdWTqxrHCjzgDC0NSGv/P6XngW4e2lpb/jAX6PDPe+i9i0abgFBoSr+uE2zkDZOzOl922eQB2Um+nkqSe6j6aMJbqHHxDdESUc+dj5J3xjDtFA048j6xiqTwGINb8+GzM6CMJV9dEcC2M5XwxW7Uz0VSy+/CqsvBm89L0ElzFs5C6tb500sgdc+RHn8Mu25g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=07SDZXFCKqng8eoszyi1QoNcVmTC8ksAU6GAoyt/Ujg=;
+ b=ZCCpTdNjbzTsjk3vJzC8TS9Ep42kORlnCRvhXvIjgPiHeVdNwxuE1iyHLTJq6+iXeCjWuW8y9gAjCf0rmKEOPv1HUc12NEwWl4tab9Y3+g5F3mil0otkIDaf4mBYkOJKxPah/4SpRviW62v7jS8BcA5kwWLpfcfOnPiOI9XnwA99AAmtspZ8/5sHBlW2+NilVQygsDoTh4DA1BPQtgD300DAWVVGzMpaX5GhFATlerAOh2dDl7I9bQNxEGknag7DX2ChY8bTSHkATpmYUwOUXhlNfVhGyc/dODMl2dICaCyPEF3w+2U46xJ+D5R6RkEw9qYYSFrAtDdw+ZM8FaG7QQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=07SDZXFCKqng8eoszyi1QoNcVmTC8ksAU6GAoyt/Ujg=;
+ b=hcE6xiNddACfigavzEEv0YsHa9UG+FoMXqXfHtYJb+h0n9+954yMWFTDY4xx2HrQ2lcV7kPGE926acfoC2v4Vgiq5RMJFNIXSyQKj/ATApSgK6mnG/S77Vrm1LyZ8ZGdN8gyGP37ilQixDpjOAtTJb+L2vHP5bcCFa3rhuqDr/7xiOrFis/b4/T3BXxZMjZ3FAAhiucsrPxkI0KHXVUBrzNlzRr+nlMv9+o53/SvX9sRf/pF2TBnHREOp3KaH0iALvNniuDkkbPwUglPzf2iD8PdtrVT+Qas0LqX7O4bR9W6UHzCSSpMyQ7kCFqHK1Oa1dwCUxAoe7LIMjyDO+V1Gg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by AS8PR04MB7655.eurprd04.prod.outlook.com (2603:10a6:20b:292::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Mon, 23 Mar
+ 2026 19:10:46 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9723.030; Mon, 23 Mar 2026
+ 19:10:46 +0000
+Date: Mon, 23 Mar 2026 15:10:44 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Michael Riesch <michael.riesch@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v5] staging: media: av7110: fix coding style
-Date: Tue, 24 Mar 2026 00:38:19 +0530
-Message-Id: <20260323190835.660111-1-mail.chethanc@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	Guoniu Zhou <guoniu.zhou@oss.nxp.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	imx@lists.linux.dev
+Subject: Re: [PATCH 0/6] media: synopsys: Add imx93 support
+Message-ID: <acGQNIUKqfh8eWNB@lizhi-Precision-Tower-5810>
+References: <20260210-imx93-dw-csi2-v1-0-69667bb86bfa@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260210-imx93-dw-csi2-v1-0-69667bb86bfa@nxp.com>
+X-ClientProxiedBy: PH8PR21CA0021.namprd21.prod.outlook.com
+ (2603:10b6:510:2ce::15) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|AS8PR04MB7655:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5b2a54d2-d9c8-40eb-8276-08de890fe334
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|376014|7416014|1800799024|52116014|366016|19092799006|56012099003|22082099003|18002099003|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ aWKzQwjAoQydVFkIWr/vl9nx8a30HsdzkTRmCS58p2sPSxNsEOU6aOuhxDCLt2wtYk45v1kk+6mXf/JKQZLRStiXCP0rvZNe3F4oyVPnVK5tj9w76lysH6lVxcdNAnL15MkTa0W3dKlh02VLCj5vJMEVN7FLpOd0eMb0A81ADsn/W15qvQaLonlI4vMfQ7bfvqOV8IzyaOReg8G85eO94zhJ+pMWoZWFKIUKp0h5NMyH06Gj9RPZY8hLNSO0Bpb0ch4q/Yi5Pjdr9EHcAdO5LZVMjGw08xq2KKcQZFkGASK+foX+smSIi0ENG2E/5D19bu2Kl/ac4yH31P6QRAdc8Ev/wiIJCvaAplQwGVH4DYhsb/EUTTsRkdqWuYw2ocyQcm+HGm88+DQTOcrqZ6V8mI1XOF0fNvNZ/EdYLsiAMvcXKt4GTLCJPhTGte6InKLhj+rvZKcN+rOm4rl/ysdtRO2hJXbUw/1YZKPlhresVdtEXG/RDVRVWivF4SwzF8zr872xampxB9n3uwg51lN9h1p8YTc8PM9TPBdDrHgKPKKfvBQlYyNWjNJKzIbUyUV2fE4AUM8eJYR5v3DjuDTRh2kyZW+61/zKR3YII/9On4SyQLS2AevbamV/XrEDxmhNyZWGGz3j1/obEdN+cV8NVNerESzynQEyPOTfaYdJDxcAxXiAdhhWKcll8YNi3bogEhNmIoPqLHWMgllfvd+YBEOVrSsYv00XVpnganTu5r55OrQBOXls+KHEnFLAKu0nTmzpizyNMpk8GOgkzA/K3QgKgjkTINniVAt9smzQ+hA=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(52116014)(366016)(19092799006)(56012099003)(22082099003)(18002099003)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?MatWXGa48Rfu/sjHwg8Di4xGs54T6z6beFBYcwM7U0HYhXmNGl0S3S1ssiI/?=
+ =?us-ascii?Q?x8wLg86MRd41iwBH8NVijYwKyOwwLAhwYrZpYjR+7O4tCR7zG+48tJFXKj1+?=
+ =?us-ascii?Q?qiRvH3tjFLOdT1Y/R7MjSc8v5kMkn4+wbYxqMR6WstFEF0vUuJQqkYQmfHCQ?=
+ =?us-ascii?Q?h5jfOIVhhYTiBhujMe1N0HWisTzm5mD4NXm1PprSECrKR36xjRH6J5+38JHm?=
+ =?us-ascii?Q?dEMEeZoGOaLTn94Fh7MPYtHASjmZJBRSjVBD3+0x51Ui7aAh6lZEBZ2M0+4x?=
+ =?us-ascii?Q?d/HQ8/rx/0aQNCS78wKm/RY696V0hUK0SoXJ4A7AsTjHH7orL7nly1eneOp9?=
+ =?us-ascii?Q?wfHN0B+d6yLo9kYI2DbziNJZo/mFI2rLTnT1/OWMK6orBzlRkm6ddY62+lSE?=
+ =?us-ascii?Q?+tOE4eUxssTyk/yS9p3xTNzEKVoeqI0S/5j5TDBFf37eIpFXpvM+Ev1o4qk3?=
+ =?us-ascii?Q?DcV9BUhJ4OWkHyQdEvOVWCs93OmjtfBuq1pe840hcPazNU2SRk6IaGRovf5X?=
+ =?us-ascii?Q?EV1D8Qpf41yF4E/spn9JWztMeTi98/DTzMKcQC2K71vRfKXXIBV3e46FNcPF?=
+ =?us-ascii?Q?+MsXli/GX7NHlPsHAXcN+asyLLSQ2wUdqdtj3Fq49XVrwgRQqvsQJQnB6Z1i?=
+ =?us-ascii?Q?Mm15AjvVZufUQ99SOhxDb9G5HCxHRzqtqXITWTuEz/Hm8GHTPMPMfV5tllnZ?=
+ =?us-ascii?Q?FqxjVPWhJywRBsw0C8+mJ2mNGKuCy2JDNu3sdFktYSvUEX3xseCFFk/XEDZW?=
+ =?us-ascii?Q?YcovuGsb1bbnXASt/zsNlJIyplFyDPxkNaTnH4j9l8glNQfl4B7BRHOAD88Q?=
+ =?us-ascii?Q?+N9Fo6VQECx6aIFNgGZzg0qGjQ6Yl4UiDMePEcTsneTLTZleusCl9xPzDoLG?=
+ =?us-ascii?Q?oqDU31Tw+RX+ff8SBMax1Kn7xtv9BD97x9AZvOkJsdJD78h22C5MJFrzUeyc?=
+ =?us-ascii?Q?30rKOCadl6oomDqRCx81EebwfV6Uh5uVdPJQXo9y9SOM4Wq7JDZhltDcZ6Ro?=
+ =?us-ascii?Q?/lHA7eGHC66l3UBx54FL9+PeT6NQq6h/yySeQ+4qeF36W2I0n26I7PkHsgjo?=
+ =?us-ascii?Q?3NyOaIYXJMrj3wSbRSZyTeAbIaWHUVLVgwnG4rsbGP4f1HhpQBXo243nMfGL?=
+ =?us-ascii?Q?skmSLTePRHMDOZt8uBErxDMESbuMof6sztE4E+tKqArJSLYg/3cIirnIL5jy?=
+ =?us-ascii?Q?sVcShoEOG2H6BjwtBfNun1kbfJr8JSUvlsvf/EcF0EAqHH3BkxmTIaGUSy56?=
+ =?us-ascii?Q?ygOQayCGloJX+QhEDjKjGqeId1lnTLzknRwGFS3NM21Ft0NBsVgRz2pXC+4S?=
+ =?us-ascii?Q?ZJWnRNwhGtJK3l9xvEG9EYn0tCHGvgE3r4tiEcBdnrv/zKG2Vihtb2Sha2T9?=
+ =?us-ascii?Q?/CpzEV4VCUj6fs+1VFNRunpdrAGIw/nYa+E8x64yDHo94m33QevZctIB+thS?=
+ =?us-ascii?Q?4xZVrrtEmgQad8nbcFNryszaWnBpVPz5x1XNQeZF4TAso6uu6ozm03K0Gaby?=
+ =?us-ascii?Q?XBAvJ/s3WH/np7EGJhsvoAGYgYZr8AjMxBzZ7Y4sl27HsFWi6ELIg4kgwy58?=
+ =?us-ascii?Q?pfY9FTcxiXUDmW/kn0Ir1dJWFvAsfE6qvyO1Yzyy3yzLdNSxbVtQJyAe1P5r?=
+ =?us-ascii?Q?JkfdBYCiWV+10Pk+leFy8D4RyEqJVCpfurNkB7W6J4+D91zzDKuZL46ynQlS?=
+ =?us-ascii?Q?SHw/DCh30wQvGvhUj7wGbdYrq7ahRZNiRyjm4waBOXVyhOW85V0ljohnCQxQ?=
+ =?us-ascii?Q?b+szubnH6g=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b2a54d2-d9c8-40eb-8276-08de890fe334
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 19:10:46.4651
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aGWUvLzPkB5xuPg13q2JWOODK/opuSzYKQaaERU+PBgSABNZdKJLDSUuBtSoHevRbR5eSBcyyW35ejCZH6wIEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7655
+X-Spamd-Result: default: False [1.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56765-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56766-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,linuxfoundation.org,gmail.com,suse.com,linux.intel.com,ideasonboard.com,vger.kernel.org,lists.linux.dev];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mailchethanc@gmail.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,checkpatch.pl:url]
-X-Rspamd-Queue-Id: 9E9582FC218
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,nxp.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4E0012FC067
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Fixed Indentation, Alignment issues reported by checkpatch.pl.
+On Tue, Feb 10, 2026 at 12:11:07PM -0500, Frank Li wrote:
+> This 3rd time try to support DW CSI2RX support for imx93.
+>
 
-Rename enum av7110_rec_play_state, av7110_type_rec_play_format and
-av7110_encoder_command to follow the kernel naming style.
+Laurent Pinchart and Sakari Ailus:
 
-Rename wssData to wss_data to avoid CamelCase identifiers.
+	I am not who will take care this patch?
+	original drivers/media/platform/synopsys/dw-mipi-csi2rx.c picked
+by Sakari Ailus
 
-Signed-off-by: Chethan C <mail.chethanc@gmail.com>
----
-v5:
-        - Limit lines to 80 columns
-        - Add trailing commas to enums av7110_rec_play_state,
-          av7110_type_rec_play_format, av7110_encoder_command
-        - Remove unnecessary cast
+Frank
 
-v4:
-        - fixed the coding style issue reported by checkpatch.pl
-
-v3:
-        - fixed the coding style and alignment issues reported
-                by checkpatch.pl
-        - Renamed av7110_pid_command,av7110_type_rec_play_format,
-                av7110_encoder_command to follow kernel naming
-                style
-v2:
-        - fixed indentation issues reported by checkpatch.pl
-        - Rename av7110_rec_play_state to follow kernel naming style
----
- drivers/staging/media/av7110/av7110.c     | 27 ++++---
- drivers/staging/media/av7110/av7110.h     |  2 +-
- drivers/staging/media/av7110/av7110_av.c  | 91 +++++++++++++++--------
- drivers/staging/media/av7110/av7110_ca.c  |  2 +-
- drivers/staging/media/av7110/av7110_hw.h  | 71 +++++++++---------
- drivers/staging/media/av7110/av7110_ir.c  |  2 +-
- drivers/staging/media/av7110/av7110_v4l.c | 13 ++--
- 7 files changed, 124 insertions(+), 84 deletions(-)
-
-diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-index 607992100baf..9a361227ca60 100644
---- a/drivers/staging/media/av7110/av7110.c
-+++ b/drivers/staging/media/av7110/av7110.c
-@@ -121,19 +121,21 @@ static void init_av7110_av(struct av7110 *av7110)
- 	if (ret < 0)
- 		pr_err("cannot set internal volume to maximum:%d\n", ret);
- 
--	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetMonitorType,
--			    1, (u16)av7110->display_ar);
-+	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, AV7110_SET_MONITOR_TYPE,
-+			    1, av7110->display_ar);
- 	if (ret < 0)
- 		pr_err("unable to set aspect ratio\n");
--	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetPanScanType,
-+	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, AV7110_SET_PANSCAN_TYPE,
- 			    1, av7110->display_panscan);
- 	if (ret < 0)
- 		pr_err("unable to set pan scan\n");
- 
--	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetWSSConfig, 2, 2, wss_cfg_4_3);
-+	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, AV7110_SET_WSS_CONFIG,
-+			    2, 2, wss_cfg_4_3);
- 	if (ret < 0)
- 		pr_err("unable to configure 4:3 wss\n");
--	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetWSSConfig, 2, 3, wss_cfg_16_9);
-+	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, AV7110_SET_WSS_CONFIG,
-+			    2, 3, wss_cfg_16_9);
- 	if (ret < 0)
- 		pr_err("unable to configure 16:9 wss\n");
- 
-@@ -717,7 +719,7 @@ static inline int SetPIDs(struct av7110 *av7110, u16 vpid, u16 apid, u16 ttpid,
- 	if (av7110->audiostate.bypass_mode)
- 		aflags |= 0x8000;
- 
--	return av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, MultiPID, 6,
-+	return av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, AV7110_MULTI_PID, 6,
- 			     pcrpid, vpid, apid, ttpid, subpid, aflags);
- }
- 
-@@ -785,7 +787,7 @@ static int StartHWFilter(struct dvb_demux_filter *dvbdmxfilter)
- 		av7110_p2t_init(&av7110->p2t_filter[dvbdmxfilter->index], dvbdmxfeed);
- 	}
- 
--	buf[0] = (COMTYPE_PID_FILTER << 8) + AddPIDFilter;
-+	buf[0] = (COMTYPE_PID_FILTER << 8) + AV7110_ADD_PID_FILTER;
- 	buf[1] = 16;
- 	buf[2] = dvbdmxfeed->pid;
- 	buf[3] = mode;
-@@ -828,7 +830,7 @@ static int StopHWFilter(struct dvb_demux_filter *dvbdmxfilter)
- 
- 	av7110->handle2filter[handle] = NULL;
- 
--	buf[0] = (COMTYPE_PID_FILTER << 8) + DelPIDFilter;
-+	buf[0] = (COMTYPE_PID_FILTER << 8) + AV7110_DEL_PID_FILTER;
- 	buf[1] = 1;
- 	buf[2] = handle;
- 	ret = av7110_fw_request(av7110, buf, 3, answ, 2);
-@@ -873,7 +875,8 @@ static int dvb_feed_start_pid(struct dvb_demux_feed *dvbdmxfeed)
- 
- 	if (dvbdmxfeed->pes_type < 2 && npids[0])
- 		if (av7110->fe_synced) {
--			ret = av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, Scan, 0);
-+			ret = av7110_fw_cmd(av7110, COMTYPE_PIDFILTER,
-+					    AV7110_SCAN, 0);
- 			if (ret)
- 				return ret;
- 		}
-@@ -1911,11 +1914,13 @@ static int av7110_fe_lock_fix(struct av7110 *av7110, enum fe_status status)
- 			av7110->pids[DMX_PES_TELETEXT], 0,
- 			av7110->pids[DMX_PES_PCR]);
- 		if (!ret)
--			ret = av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, Scan, 0);
-+			ret = av7110_fw_cmd(av7110, COMTYPE_PIDFILTER,
-+					    AV7110_SCAN, 0);
- 	} else {
- 		ret = SetPIDs(av7110, 0, 0, 0, 0, 0);
- 		if (!ret) {
--			ret = av7110_fw_cmd(av7110, COMTYPE_PID_FILTER, FlushTSQueue, 0);
-+			ret = av7110_fw_cmd(av7110, COMTYPE_PID_FILTER,
-+					    AV7110_FLUSH_TS_QUEUE, 0);
- 			if (!ret)
- 				ret = av7110_wait_msgstate(av7110, GPMQBusy);
- 		}
-diff --git a/drivers/staging/media/av7110/av7110.h b/drivers/staging/media/av7110/av7110.h
-index b584754f4be0..20776809e2f3 100644
---- a/drivers/staging/media/av7110/av7110.h
-+++ b/drivers/staging/media/av7110/av7110.h
-@@ -244,7 +244,7 @@ struct av7110 {
- 	video_size_t		 video_size;
- 
- 	u16			wssMode;
--	u16			wssData;
-+	u16			wss_data;
- 
- 	struct infrared		ir;
- 
-diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
-index 2993ac43c49c..6fd9ce377ae7 100644
---- a/drivers/staging/media/av7110/av7110_av.c
-+++ b/drivers/staging/media/av7110/av7110_av.c
-@@ -111,7 +111,7 @@ int av7110_av_start_record(struct av7110 *av7110, int av,
- 
- 	if (av7110->playing || (av7110->rec_mode & av))
- 		return -EBUSY;
--	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Stop, 0);
-+	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, AV7110_REC_PLAY_STOP, 0);
- 	dvbdmx->recording = 1;
- 	av7110->rec_mode |= av;
- 
-@@ -121,7 +121,9 @@ int av7110_av_start_record(struct av7110 *av7110, int av,
- 				       dvbdmx->pesfilter[0]->pid,
- 				       dvb_filter_pes2ts_cb,
- 				       (void *)dvbdmx->pesfilter[0]);
--		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, AudioPES, 0);
-+		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+				    AV7110_REC_PLAY_RECORD, 2,
-+				    AV7110_AUDIO_PES, 0);
- 		break;
- 
- 	case RP_VIDEO:
-@@ -129,7 +131,9 @@ int av7110_av_start_record(struct av7110 *av7110, int av,
- 				       dvbdmx->pesfilter[1]->pid,
- 				       dvb_filter_pes2ts_cb,
- 				       (void *)dvbdmx->pesfilter[1]);
--		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, VideoPES, 0);
-+		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+				    AV7110_REC_PLAY_RECORD, 2,
-+				    AV7110_VIDEO_PES, 0);
- 		break;
- 
- 	case RP_AV:
-@@ -141,7 +145,9 @@ int av7110_av_start_record(struct av7110 *av7110, int av,
- 				       dvbdmx->pesfilter[1]->pid,
- 				       dvb_filter_pes2ts_cb,
- 				       (void *)dvbdmx->pesfilter[1]);
--		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, AV_PES, 0);
-+		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+				    AV7110_REC_PLAY_RECORD, 2,
-+				    AV7110_AV_PES, 0);
- 		break;
- 	}
- 	return ret;
-@@ -158,7 +164,7 @@ int av7110_av_start_play(struct av7110 *av7110, int av)
- 	if (av7110->playing & av)
- 		return -EBUSY;
- 
--	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Stop, 0);
-+	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, AV7110_REC_PLAY_STOP, 0);
- 
- 	if (av7110->playing == RP_NONE) {
- 		av7110_ipack_reset(&av7110->ipack[0]);
-@@ -168,15 +174,21 @@ int av7110_av_start_play(struct av7110 *av7110, int av)
- 	av7110->playing |= av;
- 	switch (av7110->playing) {
- 	case RP_AUDIO:
--		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, AudioPES, 0);
-+		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+				    AV7110_REC_PLAY_PLAY, 2,
-+				    AV7110_AUDIO_PES, 0);
- 		break;
- 	case RP_VIDEO:
--		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, VideoPES, 0);
-+		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+				    AV7110_REC_PLAY_PLAY, 2,
-+				    AV7110_VIDEO_PES, 0);
- 		av7110->sinfo = 0;
- 		break;
- 	case RP_AV:
- 		av7110->sinfo = 0;
--		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, AV_PES, 0);
-+		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+				    AV7110_REC_PLAY_PLAY, 2,
-+				    AV7110_AV_PES, 0);
- 		break;
- 	}
- 	return ret;
-@@ -190,15 +202,19 @@ int av7110_av_stop(struct av7110 *av7110, int av)
- 
- 	if (!(av7110->playing & av) && !(av7110->rec_mode & av))
- 		return 0;
--	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Stop, 0);
-+	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, AV7110_REC_PLAY_STOP, 0);
- 	if (av7110->playing) {
- 		av7110->playing &= ~av;
- 		switch (av7110->playing) {
- 		case RP_AUDIO:
--			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, AudioPES, 0);
-+			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+					    AV7110_REC_PLAY_PLAY, 2,
-+					    AV7110_AUDIO_PES, 0);
- 			break;
- 		case RP_VIDEO:
--			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, VideoPES, 0);
-+			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+					    AV7110_REC_PLAY_PLAY, 2,
-+					    AV7110_VIDEO_PES, 0);
- 			break;
- 		case RP_NONE:
- 			ret = av7110_set_vidmode(av7110, av7110->vidmode);
-@@ -208,10 +224,14 @@ int av7110_av_stop(struct av7110 *av7110, int av)
- 		av7110->rec_mode &= ~av;
- 		switch (av7110->rec_mode) {
- 		case RP_AUDIO:
--			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, AudioPES, 0);
-+			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+					    AV7110_REC_PLAY_RECORD, 2,
-+					    AV7110_AUDIO_PES, 0);
- 			break;
- 		case RP_VIDEO:
--			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, VideoPES, 0);
-+			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+					    AV7110_REC_PLAY_RECORD, 2,
-+					    AV7110_VIDEO_PES, 0);
- 			break;
- 		case RP_NONE:
- 			break;
-@@ -325,7 +345,8 @@ int av7110_set_vidmode(struct av7110 *av7110, enum av7110_video_mode mode)
- 
- 	dprintk(2, "av7110:%p\n", av7110);
- 
--	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, LoadVidCode, 1, mode);
-+	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, AV7110_LOAD_VID_CODE,
-+			    1, mode);
- 
- 	if (!ret && !av7110->playing) {
- 		ret = ChangePIDs(av7110, av7110->pids[DMX_PES_VIDEO],
-@@ -333,7 +354,8 @@ int av7110_set_vidmode(struct av7110 *av7110, enum av7110_video_mode mode)
- 			   av7110->pids[DMX_PES_TELETEXT],
- 			   0, av7110->pids[DMX_PES_PCR]);
- 		if (!ret)
--			ret = av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, Scan, 0);
-+			ret = av7110_fw_cmd(av7110, COMTYPE_PIDFILTER,
-+					    AV7110_SCAN, 0);
- 	}
- 	return ret;
- }
-@@ -551,7 +573,7 @@ static ssize_t dvb_aplay(struct av7110 *av7110, const char __user *buf,
- 			if (nonblock)
- 				return count - todo;
- 			if (wait_event_interruptible(av7110->aout.queue,
--						     (dvb_ringbuffer_free(&av7110->aout) >= 20 * 1024)))
-+			(dvb_ringbuffer_free(&av7110->aout) >= 20 * 1024)))
- 				return count - todo;
- 		}
- 		n = todo;
-@@ -1168,7 +1190,8 @@ static int dvb_video_ioctl(struct file *file,
- 		}
- 		if (av7110->videostate.stream_source == VIDEO_SOURCE_MEMORY) {
- 			if (av7110->playing == RP_AV) {
--				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Stop, 0);
-+				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+						    AV7110_REC_PLAY_STOP, 0);
- 				if (ret)
- 					break;
- 				av7110->playing &= ~RP_VIDEO;
-@@ -1184,7 +1207,8 @@ static int dvb_video_ioctl(struct file *file,
- 	case VIDEO_FREEZE:
- 		av7110->videostate.play_state = VIDEO_FREEZED;
- 		if (av7110->playing & RP_VIDEO)
--			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Pause, 0);
-+			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+					    AV7110_REC_PLAY_PAUSE, 0);
- 		else
- 			ret = vidcom(av7110, AV_VIDEO_CMD_FREEZE, 1);
- 		if (!ret)
-@@ -1193,7 +1217,8 @@ static int dvb_video_ioctl(struct file *file,
- 
- 	case VIDEO_CONTINUE:
- 		if (av7110->playing & RP_VIDEO)
--			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Continue, 0);
-+			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+					    AV7110_REC_PLAY_CONTINUE, 0);
- 		if (!ret)
- 			ret = vidcom(av7110, AV_VIDEO_CMD_PLAY, 0);
- 		if (!ret) {
-@@ -1248,8 +1273,9 @@ static int dvb_video_ioctl(struct file *file,
- 		if (ret < 0)
- 			break;
- 		av7110->videostate.display_format = format;
--		ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetPanScanType,
--				    1, av7110->display_panscan);
-+		ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER,
-+				    AV7110_SET_PANSCAN_TYPE, 1,
-+				    av7110->display_panscan);
- 		break;
- 	}
- 
-@@ -1259,8 +1285,8 @@ static int dvb_video_ioctl(struct file *file,
- 			break;
- 		}
- 		av7110->display_ar = arg;
--		ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetMonitorType,
--				    1, (u16)arg);
-+		ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER,
-+				    AV7110_SET_MONITOR_TYPE, 1, arg);
- 		break;
- 
- #ifdef CONFIG_COMPAT
-@@ -1291,7 +1317,8 @@ static int dvb_video_ioctl(struct file *file,
- 		//note: arg is ignored by firmware
- 		if (av7110->playing & RP_VIDEO)
- 			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
--					    __Scan_I, 2, AV_PES, 0);
-+					    AV7110_REC_PLAY_SCAN_I, 2,
-+					    AV7110_AV_PES, 0);
- 		else
- 			ret = vidcom(av7110, AV_VIDEO_CMD_FFWD, arg);
- 		if (!ret) {
-@@ -1303,7 +1330,9 @@ static int dvb_video_ioctl(struct file *file,
- 	case VIDEO_SLOWMOTION:
- 		if (av7110->playing & RP_VIDEO) {
- 			if (av7110->trickmode != TRICK_SLOW)
--				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Slow, 2, 0, 0);
-+				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
-+						    AV7110_REC_PLAY_SLOW, 2,
-+						    0, 0);
- 			if (!ret)
- 				ret = vidcom(av7110, AV_VIDEO_CMD_SLOW, arg);
- 		} else {
-@@ -1329,15 +1358,18 @@ static int dvb_video_ioctl(struct file *file,
- 		av7110_ipack_reset(&av7110->ipack[1]);
- 		if (av7110->playing == RP_AV) {
- 			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
--					    __Play, 2, AV_PES, 0);
-+					    AV7110_REC_PLAY_PLAY, 2,
-+					    AV7110_AV_PES, 0);
- 			if (ret)
- 				break;
- 			if (av7110->trickmode == TRICK_FAST)
- 				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
--						    __Scan_I, 2, AV_PES, 0);
-+						    AV7110_REC_PLAY_SCAN_I, 2,
-+						    AV7110_AV_PES, 0);
- 			if (av7110->trickmode == TRICK_SLOW) {
- 				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
--						    __Slow, 2, 0, 0);
-+						    AV7110_REC_PLAY_SLOW, 2,
-+						    0, 0);
- 				if (!ret)
- 					ret = vidcom(av7110, AV_VIDEO_CMD_SLOW, arg);
- 			}
-@@ -1483,7 +1515,8 @@ static int dvb_audio_ioctl(struct file *file,
- 		av7110_ipack_reset(&av7110->ipack[0]);
- 		if (av7110->playing == RP_AV)
- 			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
--					    __Play, 2, AV_PES, 0);
-+					    AV7110_REC_PLAY_PLAY, 2,
-+					    AV7110_AV_PES, 0);
- 		break;
- 
- 	case AUDIO_SET_ID:
-diff --git a/drivers/staging/media/av7110/av7110_ca.c b/drivers/staging/media/av7110/av7110_ca.c
-index 63d9c97a5190..9413a6a7f387 100644
---- a/drivers/staging/media/av7110/av7110_ca.c
-+++ b/drivers/staging/media/av7110/av7110_ca.c
-@@ -307,7 +307,7 @@ static int dvb_ca_ioctl(struct file *file, unsigned int cmd, void *parg)
- 			mutex_unlock(&av7110->ioctl_mutex);
- 			return -EINVAL;
- 		}
--		av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, SetDescr, 5,
-+		av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, AV7110_SET_DESCR, 5,
- 			      (descr->index << 8) | descr->parity,
- 			      (descr->cw[0] << 8) | descr->cw[1],
- 			      (descr->cw[2] << 8) | descr->cw[3],
-diff --git a/drivers/staging/media/av7110/av7110_hw.h b/drivers/staging/media/av7110/av7110_hw.h
-index d4579f411c56..ade8fb1c8e66 100644
---- a/drivers/staging/media/av7110/av7110_hw.h
-+++ b/drivers/staging/media/av7110/av7110_hw.h
-@@ -21,12 +21,12 @@ enum av7110_bootstate {
- };
- 
- enum av7110_type_rec_play_format {
--	RP_None,
--	AudioPES,
--	AudioMp2,
--	AudioPCM,
--	VideoPES,
--	AV_PES
-+	AV7110_RP_NONE,
-+	AV7110_AUDIO_PES,
-+	AV7110_AUDIO_MP2,
-+	AV7110_AUDIO_PCM,
-+	AV7110_VIDEO_PES,
-+	AV7110_AV_PES,
- };
- 
- enum av7110_osd_palette_type {
-@@ -112,19 +112,19 @@ enum av7110_osd_command {
- };
- 
- enum av7110_pid_command {
--	MultiPID,
--	VideoPID,
--	AudioPID,
--	InitFilt,
--	FiltError,
--	NewVersion,
--	CacheError,
--	AddPIDFilter,
--	DelPIDFilter,
--	Scan,
--	SetDescr,
--	SetIR,
--	FlushTSQueue
-+	AV7110_MULTI_PID,
-+	AV7110_VIDEO_PID,
-+	AV7110_AUDIO_PID,
-+	AV7110_INIT_FILT,
-+	AV7110_FILT_ERROR,
-+	AV7110_NEW_VERSION,
-+	AV7110_CACHE_ERROR,
-+	AV7110_ADD_PID_FILTER,
-+	AV7110_DEL_PID_FILTER,
-+	AV7110_SCAN,
-+	AV7110_SET_DESCR,
-+	AV7110_SET_IR,
-+	AV7110_FLUSH_TS_QUEUE,
- };
- 
- enum av7110_mpeg_command {
-@@ -158,24 +158,24 @@ enum av7110_request_command {
- };
- 
- enum av7110_encoder_command {
--	SetVidMode,
--	SetTestMode,
--	LoadVidCode,
--	SetMonitorType,
--	SetPanScanType,
--	SetFreezeMode,
--	SetWSSConfig
-+	AV7110_SET_VID_MODE,
-+	AV7110_SET_TEST_MODE,
-+	AV7110_LOAD_VID_CODE,
-+	AV7110_SET_MONITOR_TYPE,
-+	AV7110_SET_PANSCAN_TYPE,
-+	AV7110_SET_FREEZE_MODE,
-+	AV7110_SET_WSS_CONFIG,
- };
- 
- enum av7110_rec_play_state {
--	__Record,
--	__Stop,
--	__Play,
--	__Pause,
--	__Slow,
--	__FF_IP,
--	__Scan_I,
--	__Continue
-+	AV7110_REC_PLAY_RECORD,
-+	AV7110_REC_PLAY_STOP,
-+	AV7110_REC_PLAY_PLAY,
-+	AV7110_REC_PLAY_PAUSE,
-+	AV7110_REC_PLAY_SLOW,
-+	AV7110_REC_PLAY_FF_IP,
-+	AV7110_REC_PLAY_SCAN_I,
-+	AV7110_REC_PLAY_CONTINUE,
- };
- 
- enum av7110_fw_cmd_misc {
-@@ -452,7 +452,8 @@ static inline int SendDAC(struct av7110 *av7110, u8 addr, u8 data)
- 
- static inline int av7710_set_video_mode(struct av7110 *av7110, int mode)
- {
--	return av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetVidMode, 1, mode);
-+	return av7110_fw_cmd(av7110, COMTYPE_ENCODER, AV7110_SET_VID_MODE,
-+			     1, mode);
- }
- 
- static inline int vidcom(struct av7110 *av7110, u32 com, u32 arg)
-diff --git a/drivers/staging/media/av7110/av7110_ir.c b/drivers/staging/media/av7110/av7110_ir.c
-index 68b3979ba5f2..16b8ac5ab5a1 100644
---- a/drivers/staging/media/av7110/av7110_ir.c
-+++ b/drivers/staging/media/av7110/av7110_ir.c
-@@ -71,7 +71,7 @@ int av7110_set_ir_config(struct av7110 *av7110)
- {
- 	dprintk(4, "ir config = %08x\n", av7110->ir.ir_config);
- 
--	return av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, SetIR, 1,
-+	return av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, AV7110_SET_IR, 1,
- 			     av7110->ir.ir_config);
- }
- 
-diff --git a/drivers/staging/media/av7110/av7110_v4l.c b/drivers/staging/media/av7110/av7110_v4l.c
-index 200a7a29ea31..b427716f48f4 100644
---- a/drivers/staging/media/av7110/av7110_v4l.c
-+++ b/drivers/staging/media/av7110/av7110_v4l.c
-@@ -597,13 +597,13 @@ static int vidioc_s_fmt_sliced_vbi_out(struct file *file, void *fh,
- 	if (f->fmt.sliced.service_set & V4L2_SLICED_WSS_625) {
- 		/* WSS controlled by userspace */
- 		av7110->wssMode = 1;
--		av7110->wssData = 0;
-+		av7110->wss_data = 0;
- 	} else {
- 		/* WSS controlled by firmware */
- 		av7110->wssMode = 0;
--		av7110->wssData = 0;
-+		av7110->wss_data = 0;
- 		return av7110_fw_cmd(av7110, COMTYPE_ENCODER,
--				     SetWSSConfig, 1, 0);
-+				     AV7110_SET_WSS_CONFIG, 1, 0);
- 	}
- 	return 0;
- }
-@@ -623,10 +623,11 @@ static ssize_t av7110_vbi_write(struct file *file, const char __user *data, size
- 	if ((d.id != 0 && d.id != V4L2_SLICED_WSS_625) || d.field != 0 || d.line != 23)
- 		return -EINVAL;
- 	if (d.id)
--		av7110->wssData = ((d.data[1] << 8) & 0x3f00) | d.data[0];
-+		av7110->wss_data = ((d.data[1] << 8) & 0x3f00) | d.data[0];
- 	else
--		av7110->wssData = 0x8000;
--	rc = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetWSSConfig, 2, 1, av7110->wssData);
-+		av7110->wss_data = 0x8000;
-+	rc = av7110_fw_cmd(av7110, COMTYPE_ENCODER, AV7110_SET_WSS_CONFIG, 2,
-+			   1, av7110->wss_data);
- 	return (rc < 0) ? rc : count;
- }
- 
--- 
-2.25.1
-
+> 1st: Create new dw csi2 driver
+> https://lore.kernel.org/all/20250701-95_cam-v1-5-c5172bab387b@nxp.com/
+>
+> 2nd: Based on legacy imx6's DW CSI2 constroller.
+> https://lore.kernel.org/imx/20250821-95_cam-v3-0-c9286fbb34b9@nxp.com/
+>
+> Now rockchip create a common DW CSI2RX driver at
+> drivers/media/platform/synopsys/dw-mipi-csi2rx.c
+>
+> This time base on rockchip's implement.
+>
+> i.MX93's version is newer than rockchip one. i.MX6's is more similar with
+> rockchips.
+>
+> But i.MX6 is too old. So start at i.MX93 firstly even it has bigger
+> difference.
+>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> Frank Li (6):
+>       media: synopsys: use devm_reset_control_get_optional_exclusive()
+>       media: synopsys: only check errors from devm_clk_bulk_get_all()
+>       media: synopsys: implement .get_frame_desc() callback
+>       media: synopsys: use struct dw_mipi_csi2rx_regs to describe register offsets
+>       media: dt-bindings: add NXP i.MX93 compatible string
+>       media: synopsys: add i.MX93 support
+>
+>  .../bindings/media/rockchip,rk3568-mipi-csi2.yaml  |  47 +++-
+>  drivers/media/platform/synopsys/dw-mipi-csi2rx.c   | 280 ++++++++++++++++++---
+>  2 files changed, 293 insertions(+), 34 deletions(-)
+> ---
+> base-commit: ada3fa02f7a95623b724dfe300fce6f49cc2d75a
+> change-id: 20260128-imx93-dw-csi2-b472ddcb176a
+>
+> Best regards,
+> --
+> Frank Li <Frank.Li@nxp.com>
+>
 
