@@ -1,128 +1,154 @@
-Return-Path: <linux-media+bounces-56687-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56688-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CNY8HFMSwWk7QQQAu9opvQ
-	(envelope-from <linux-media+bounces-56687-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:13:39 +0100
+	id 0BRAMAMUwWnkQQQAu9opvQ
+	(envelope-from <linux-media+bounces-56688-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:20:51 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8012EFCE0
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:13:38 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 254F92EFE77
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:20:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3D59B304A9F5
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 10:07:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AA9DA3036ED5
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 10:11:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D2C1389DE6;
-	Mon, 23 Mar 2026 10:07:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A21E386C31;
+	Mon, 23 Mar 2026 10:11:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xs9cNHzr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mvtkTBV8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B8A389E07;
-	Mon, 23 Mar 2026 10:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC4C38A707;
+	Mon, 23 Mar 2026 10:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774260426; cv=none; b=cu+JRAUaoNQXdi+K56ElV1N5+6On6XD2n14p/I284ZrU2SSEC5Zbm9frESyl6mReFlVjNiCfm+V3SO9SWSEMauXnkXAarM/n7vXaA1CUvKJFoMsQZRjmjM6130xf7pXyy6am6EkajQhSoWPXA4ahwo73EqSdyKCic4JZoXunYk8=
+	t=1774260665; cv=none; b=iuvT6dhPyAF+cxJHC/NsoFxp7KYUOVtL8n571Ox+ldn2MtcMUAyka0c4zt2gRC77DWGJ/sz1zOccDJpKfiSou6tWvpvTmRBbTVdEiEmKM8kgU+jt4i45QfpWWXjVM2L08U+BQoASzU1dHL5i5KupryQUKRkQagi8yl5iV4ARNCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774260426; c=relaxed/simple;
-	bh=yySN1S0XOHfQe1QlWEaf8tJOPFwXkYxkB7plS6mbTPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Shcp8B9GbzQFtfSNh/KFZNjwhR2CJYEVn8PmAyeSEy3MlnHqfDIkoY1Fig1U2bRDmzv5yqAJNVQPSr3ybjAxfnQRR3gTVsl4h5tpR226TKQu5aCL32GIKezTyOi0paeHLmrYpV5rH2VLdDSfVuUM+A9fELyaidLTKSIBqp0KWhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xs9cNHzr; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774260424; x=1805796424;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yySN1S0XOHfQe1QlWEaf8tJOPFwXkYxkB7plS6mbTPQ=;
-  b=Xs9cNHzri64CplqF3M8fIewlE+ebkDpr2dsAKC2Q+0ixJsonNpcIRrgS
-   rji4WMilS+sRE3z0nEJsLzOAEVMJVXEBMSxu5O9x3M/kmkgPCxs1Sewvt
-   /Jkbarv6+f3ZZHPxcDKxF6h8mQrshrEPvzsNCyZptcPVkLPeH+cNGdhxq
-   ZnuqdIVM2q/28oF2tZwJRa+RGGL2eEIBIbtaCXQu3UEx7+qZiWziFHF06
-   pcb8oA31BNknsJm/MmnRqWyTzL8XqmF5zYOrjpPC1ozD4SETdhKHEUYlO
-   At1hElX2oAms3+EVc84hFe10xSxgGdPDRLA+tOpoxHYPt4IgfB68DhKbr
-   Q==;
-X-CSE-ConnectionGUID: oRIquYEeTEaoxHRp3XMoiA==
-X-CSE-MsgGUID: X9pkGNMYSGatdtZfsBm5nA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75320386"
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="75320386"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 03:07:04 -0700
-X-CSE-ConnectionGUID: JqRv0AmJSX2q/+/8WHYtYg==
-X-CSE-MsgGUID: gejzjzQMRDS1jYFJM92o3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="228053416"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.22])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 03:07:01 -0700
-Date: Mon, 23 Mar 2026 12:06:58 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Mohammed EL Kadiri <med08elkadiri@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	andy@kernel.org, sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: atomisp: fix spelling mistake
-Message-ID: <acEQwoiv_IxLrrJc@ashevche-desk.local>
-References: <20260322113222.27488-1-med08elkadiri@gmail.com>
+	s=arc-20240116; t=1774260665; c=relaxed/simple;
+	bh=coo3RN686+Cx+cmWDSQnvA02XWcEQdAcxO6zjLoOfdg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hDFiB/hAt6dl0ScaYv4Wtei0GLhXsH9AgPv+tzIjLczFqmY7Eh9YarHTJhtGi/sn6amUL7DpeYnRKQ4lhBqDVLzk/28VSEXYXN0kudL5eA+JSNq1Yp2nqTCrLvKoJU7IBuZySukPNDmGgBW5yseuoEdTNwM8LjodsK6bd3KwIcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mvtkTBV8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D6E3C4CEF7;
+	Mon, 23 Mar 2026 10:11:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774260665;
+	bh=coo3RN686+Cx+cmWDSQnvA02XWcEQdAcxO6zjLoOfdg=;
+	h=Date:From:To:Cc:Subject:From;
+	b=mvtkTBV8QpEy/gKgNyLEenhC5KudAtxGw5Ap6o9OBzXhfOjtJRt8JaTJeuL0jv4Ym
+	 6guq4T2kPj6cROBuyMjB0qVtWfgj1f6z2l3r++Qr7bGxLDh06Rnl3eCKgZbDZxsM/A
+	 lIuAzXTkEwU5/Af9KYUXQzQcWqYqtko9BCCELKsaBgqGAI9dyHv8RWFRG371VGbD3L
+	 jfBkiip1v4w3rROJ0Izd6WpuH2wjRbC1LB+7ARSlE+N4niWLd9O10Vkautw57pKdAy
+	 Ho7Edc7gjAMq3qzJvyt+b7VrcdS75oc1VGPCwFE6M5nbks6VIiHVin3mc55YWPP3Ly
+	 pxlJe9aKvDvJw==
+Date: Mon, 23 Mar 2026 11:11:01 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL for v7.0-rc6] media fixes
+Message-ID: <20260323111101.098ba268@foz.lan>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260322113222.27488-1-med08elkadiri@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56687-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_DN_ALL(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:dkim,ashevche-desk.local:mid]
-X-Rspamd-Queue-Id: CD8012EFCE0
+	TAGGED_FROM(0.00)[bounces-56688-lists,linux-media=lfdr.de,huawei];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[foz.lan:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 254F92EFE77
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, Mar 22, 2026 at 12:32:22PM +0100, Mohammed EL Kadiri wrote:
-> Correct the spelling of 'uninteruptible' to 'uninterruptible' in a
-> comment within system_global.h. This improves code readability and
-> searchability within the atomisp driver.
+Hi Linus,
 
-Check the whole driver with `codespell`.
+Please pull from:
 
--- 
-With Best Regards,
-Andy Shevchenko
+	git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git media/v7.0-5
 
+For:
 
+- rkvdec: fix stack usage with clang and improve handling missing
+          short/long term RPS;
+- synopsys: fix a Kconfig issue and an out-of-bounds check;
+- verisilicon: Fix kernel panic due to __initconst misuse;
+- media core: serialize REINIT and REQBUFS with req_queue_mutex.
+
+Regards,
+Mauro
+
+---
+
+The following changes since commit f338e77383789c0cae23ca3d48adcc5e9e137e3c:
+
+  Linux 7.0-rc4 (2026-03-15 13:52:05 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git tags/media/v7.0-5
+
+for you to fetch changes up to e8d97c270cb46a2a88739019d0f8547adc7d97da:
+
+  media: verisilicon: Fix kernel panic due to __initconst misuse (2026-03-18 13:17:25 +0100)
+
+----------------------------------------------------------------
+[GIT PULL for v7.0-rc6] media fixes
+
+----------------------------------------------------------------
+Arnd Bergmann (2):
+      media: rkvdec: reduce excessive stack usage in assemble_hw_pps()
+      media: rkvdec: reduce stack usage in rkvdec_init_v4l2_vp9_count_tbl()
+
+Detlev Casanova (1):
+      media: rkvdec: Improve handling missing short/long term RPS
+
+Michael Riesch (2):
+      media: synopsys: csi2rx: fix out-of-bounds check for formats array
+      media: synopsys: csi2rx: add missing kconfig dependency
+
+Ming Qian (1):
+      media: verisilicon: Fix kernel panic due to __initconst misuse
+
+Yuchan Nam (1):
+      media: mc, v4l2: serialize REINIT and REQBUFS with req_queue_mutex
+
+ drivers/media/mc/mc-request.c                      |  5 +++
+ .../platform/rockchip/rkvdec/rkvdec-hevc-common.c  |  4 ++
+ .../platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c | 50 ++++++++++++----------
+ .../media/platform/rockchip/rkvdec/rkvdec-vp9.c    |  3 +-
+ drivers/media/platform/synopsys/Kconfig            |  1 +
+ drivers/media/platform/synopsys/dw-mipi-csi2rx.c   |  2 +-
+ drivers/media/platform/verisilicon/imx8m_vpu_hw.c  |  2 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c               |  5 ++-
+ 8 files changed, 44 insertions(+), 28 deletions(-)
 
