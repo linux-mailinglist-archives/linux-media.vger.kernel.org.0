@@ -1,155 +1,139 @@
-Return-Path: <linux-media+bounces-56697-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56698-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4EDwFmMgwWmTQwQAu9opvQ
-	(envelope-from <linux-media+bounces-56697-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 12:13:39 +0100
+	id OM5mFWQhwWmTQwQAu9opvQ
+	(envelope-from <linux-media+bounces-56698-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 12:17:56 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8C42F0FA5
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 12:13:38 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 007C42F110B
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 12:17:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4247A3019FF9
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:06:22 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3CC21303A0DE
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 11:12:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A73F370D62;
-	Mon, 23 Mar 2026 11:06:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60E0739478A;
+	Mon, 23 Mar 2026 11:09:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Mt+0PV4W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ewHGfzzM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2822935F169
-	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 11:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBBC29AB02
+	for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 11:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774263975; cv=none; b=r/tKIFAM4ghxUeg6NmC0ZIJoo1Noeg5c71Ui+9/3Nvej6hjngEJmW8NBpPlrmLoY4tqzA0uB82f7L047BfYrLsYGncW80EXXPE6Po+ZijGuEopTTYMH7/JSD5c3vp8QZDlFiYeILeC5fLcym0Iyq5ZTk2Snf90sbdJ9C5eyhXv4=
+	t=1774264185; cv=none; b=fJjcaLxPco/rub9iy6H0JTJNb4eL+xC5ZS3wMbwGrxouJMMQbc3dm+/bU62EcrM6zQcFmQyidTBqSTyMHN2K3x0uQoYQk7pVDt2xEItwhn2jUbC4Dd3wtY5EqkMLx94NHeMgoSf2LDoxBYEn7PL+w3xxgMVHetdHOZNU86xuVhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774263975; c=relaxed/simple;
-	bh=IqqGdYt8q45+veHzHvHoMQXSKAG0fmpJDQr8axr0HR8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ow1tsXzL0vMzJNgAVEkp8erlfkJZeZWzXAvSCbHfmZ5WI9thjeBED0SVx8Evs+7mu39tH3AuzxJ3TMgHN5j36/3TVl1HZFwPYTZb60vuWGorhC934nroWY/WpOKQCf9+NaNGTdR/mnSTWISqsjSwbYKB7l41O88lQW+aqtAKhhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Mt+0PV4W; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id EA06F591;
-	Mon, 23 Mar 2026 12:04:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1774263896;
-	bh=IqqGdYt8q45+veHzHvHoMQXSKAG0fmpJDQr8axr0HR8=;
-	h=Date:From:To:Cc:Subject:From;
-	b=Mt+0PV4W0m3y7pH9pSxuCoM/IIdIyPtVO6qkpBhcrtW96DOOXP85gRW1G3L/u0Mms
-	 VDU6TRoNk15U17ZDISBJtWn0XSjxaDapM43yxCGPnR2SfYTJmIJXaPo4Vmz+PQiUtB
-	 5945RQqJQyb9Zrx2ugfEqSYbJUigl4z97rCjq5sg=
-Date: Mon, 23 Mar 2026 13:06:10 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hans@jjverkuil.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Frank Li <Frank.Li@nxp.com>, Guoniu Zhou <guoniu.zhou@nxp.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Tarang Raval <tarang.raval@siliconsignals.io>,
-	linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v7.1] media: NXP drivers changes
-Message-ID: <20260323110610.GA2191129@killaraus.ideasonboard.com>
+	s=arc-20240116; t=1774264185; c=relaxed/simple;
+	bh=QH9a/hsCmnygjoolPL+pJuJHDm7IiP7Ksx6iqImPIlk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MagJ9FJgJZL3XvaPRaABBmEkW41ZTMPxzIggKq3NODDA/myai2mxa6IaCTa7mpe8waUSr7pqgNypCfL6ry+fpUxM4kFnBtJa7aloz74bFIIcPbVe9JlqBluw4VeMqFU7M6hTt4Nj2jrmpnVScOrOJPhXtcaoeDOZc+W9aKkrXm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ewHGfzzM; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774264185; x=1805800185;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QH9a/hsCmnygjoolPL+pJuJHDm7IiP7Ksx6iqImPIlk=;
+  b=ewHGfzzMBH4HoymEAXJSRFd3xgpESfysJfJvAjPz8pLY/c7YseRrKMkf
+   7USPXYX6XKZnYwB/rhFmzVmruk+98qQpcp4oaVpRtEA+nW+WnrdGLIyUN
+   dRwL+yh9W+c5R29h154bdHiXoYo4ULBeJoNm/vxLEL//kCv85rzR6oUaQ
+   AsZ6FcuFEoo4XYI+Bwx9nr7DC+JzF532+CGS3/+aHlmoD40b8gg8bRSkw
+   gHCJX7pmlPgoRnsy6uHu17VjJHqyx2m5yJIy/N9L75RIFOIp95wj94X7v
+   JBP0SDiZdKVjv/uR52INpnScSqQGfklXtU/tdKE9oMgXu5scScLq2A4X6
+   Q==;
+X-CSE-ConnectionGUID: Q7fFLJ9wQ0mkpN2Vz7lmtw==
+X-CSE-MsgGUID: pKHyTaNMT96TqERWC5SHsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="92831015"
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="92831015"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 04:09:44 -0700
+X-CSE-ConnectionGUID: bPdoBAgNQQm2Dd8FMRQsmQ==
+X-CSE-MsgGUID: SPLOtgpmQMyPzdly5MUBCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="254470744"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.22])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 04:09:42 -0700
+Date: Mon, 23 Mar 2026 13:09:39 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Anushka Badhe <anushkabadhe@gmail.com>
+Cc: dan.carpenter@linaro.org, andy@kernel.org, gregkh@linuxfoundation.org,
+	hansg@kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com
+Subject: Re: [PATCH v2] staging: atomisp: vf_1.0: fix open brace placement
+Message-ID: <acEfc4Mzg1TsD92w@ashevche-desk.local>
+References: <acENTtTMsD-xca2O@stanley.mountain>
+ <20260323102104.44021-1-anushkabadhe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260323102104.44021-1-anushkabadhe@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	URIBL_MULTI_FAIL(0.00)[sin.lore.kernel.org:server fail,killaraus.ideasonboard.com:server fail,ideasonboard.com:server fail,gitlab.freedesktop.org:server fail];
-	TAGGED_FROM(0.00)[bounces-56697-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-56698-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,killaraus.ideasonboard.com:mid,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 4E8C42F0FA5
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:dkim,ashevche-desk.local:mid]
+X-Rspamd-Queue-Id: 007C42F110B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Hans, Mauro,
+On Mon, Mar 23, 2026 at 03:51:04PM +0530, Anushka Badhe wrote:
+> Fix open brace placement on function definitions and control statements
+> to comply with kernel coding style.
 
-The following changes since commit 0e2c4117c3512cf6b8f54c2c3d37564bfa3ccd67:
+...
 
-  staging: media: tegra-video: add CSI support for Tegra20 and Tegra30 (2026-03-19 08:18:36 +0100)
+>  sh_css_vf_downscale_log2(
+>      const struct ia_css_frame_info *out_info,
+>      const struct ia_css_frame_info *vf_info,
+> -    unsigned int *downscale_log2) {
+> +    unsigned int *downscale_log2)
+> +{
 
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/linux-media/users/pinchartl.git tags/media-net-nxp-20260323
-
-for you to fetch changes up to d304e9dd3f90a3a2e30dfc3c6e54a1566375e3ee:
-
-  media: imx8mq-mipi-csi2: Add support for i.MX8ULP (2026-03-23 12:44:01 +0200)
-
-----------------------------------------------------------------
-- dw100: Requests support, PREEMPT_RT fix
-- imx8-isi: Reduce minimum number of buffers, i.MX95 support
-- imx8mq-mipi-csi2: i.MX8ULP support
-- rkisp1: V4L2 compliance fix
-
-----------------------------------------------------------------
-Frank Li (1):
-      media: nxp: Add dev_err_probe() to all error paths in *async_register() helpers
-
-Guoniu Zhou (8):
-      media: nxp: imx8-isi: Reduce minimum queued buffers from 2 to 0
-      media: dt-bindings: nxp,imx8-isi: Add i.MX95 ISI compatible string
-      media: nxp: imx8-isi: Keep the default value for BLANK_PXL field
-      media: nxp: imx8-isi: Add ISI support for i.MX95
-      media: dt-bindings: nxp,imx8mq-mipi-csi2: Add i.MX8ULP compatible string
-      media: imx8mq-mipi-csi2: Use devm_clk_bulk_get_all() to fetch clocks
-      media: imx8mq-mipi-csi2: Explicitly release reset
-      media: imx8mq-mipi-csi2: Add support for i.MX8ULP
-
-Stefan Klug (4):
-      media: dw100: Implement V4L2 requests support
-      media: dw100: Implement dynamic vertex map update
-      media: dw100: Fix kernel oops with PREEMPT_RT enabled
-      media: dw100: Merge dw100_device_run and dw100_start
-
-Tarang Raval (1):
-      media: rkisp1: Fix enum_framesizes accepting invalid pixel formats
-
- .../devicetree/bindings/media/nxp,imx8-isi.yaml    |  27 ++++-
- .../bindings/media/nxp,imx8mq-mipi-csi2.yaml       |  49 +++++++-
- drivers/media/platform/nxp/dw100/dw100.c           | 134 ++++++++++++++-------
- drivers/media/platform/nxp/imx-mipi-csis.c         |  31 +++--
- .../media/platform/nxp/imx8-isi/imx8-isi-core.c    |  12 ++
- .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |   1 +
- drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c  |   6 +-
- .../media/platform/nxp/imx8-isi/imx8-isi-video.c   |   2 +-
- drivers/media/platform/nxp/imx8mq-mipi-csi2.c      |  92 +++++++-------
- .../platform/rockchip/rkisp1/rkisp1-capture.c      |   3 +
- 10 files changed, 236 insertions(+), 121 deletions(-)
+The indentation of the entire function is broken and needs to be fixed.
+And IIRC there were already 3+ patches on the same, so please try instead
+helping with reviewing existing stream on AtomISP patches.
 
 -- 
-Regards,
+With Best Regards,
+Andy Shevchenko
 
-Laurent Pinchart
+
 
