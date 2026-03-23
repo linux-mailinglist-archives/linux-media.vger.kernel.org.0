@@ -1,477 +1,226 @@
-Return-Path: <linux-media+bounces-56734-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56735-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yCMRCBJGwWnpRwQAu9opvQ
-	(envelope-from <linux-media+bounces-56734-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 14:54:26 +0100
+	id uHOzAl1FwWnpRwQAu9opvQ
+	(envelope-from <linux-media+bounces-56735-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 14:51:25 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353632F3644
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 14:54:25 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F8F92F358E
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 14:51:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 80EBD30A1EB1
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 13:39:32 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 96578303F57D
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 13:42:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C10963ACF1D;
-	Mon, 23 Mar 2026 13:39:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE73E3AC0E5;
+	Mon, 23 Mar 2026 13:42:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oRBk8eXi"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="V6DvAwJ3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2842856472;
-	Mon, 23 Mar 2026 13:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B513AC0FD;
+	Mon, 23 Mar 2026 13:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774273150; cv=none; b=nlzxEVVbHx5YM5E1aFKvXH02qU4cujKYp3jsdiViKSeinuqheETVMD3df6ttUPyKZekilyNMLSLqSUKb4Yj23SNIDXJC6kGOpheEKFREgPkzyqdoCo9uA7y/Wsqkt1ZLVMwr9Zl38E7dHhGcFLvwR1XbFKgdFnt3rGjEOnBiZlo=
+	t=1774273326; cv=none; b=sMhtuwyCeFJ5t3Be1KOVijiAzcY7s0GuEx6mbsAR7gfqQuDFDPImjieujj85Y8jGYsMoPxjWewHybCQXlfwtCkNkE0ZIHTNKYZec4xqfu8n2gDvur8BmDZ4N09XL/JpSESeFsClO+DMai796BRXpfuTK6Rs+1JJT/McnnLpoWgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774273150; c=relaxed/simple;
-	bh=gPWJH6rDtWUpyVY8+/ms057nqk3vn1iH6qLQB5FBhCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZYMiTd6wF2trYJNtbEvDO+nfRcMJGDp+SJxhjRg7THwuaLgFWcWpneakaQgpSOBdFvO17MGlxtuNmOve4iXOrmj1YM7BFub6iWoQRwOU5iVjC8THGOwMU8umPzFaq/iaSy5IWQXhslqU742RB7zcpvDK6EQHze4QTd8PfmEKu2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oRBk8eXi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FF91C2BCB4;
-	Mon, 23 Mar 2026 13:38:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774273150;
-	bh=gPWJH6rDtWUpyVY8+/ms057nqk3vn1iH6qLQB5FBhCo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oRBk8eXigZhibY0HFWUug2BOlPIlV5LCyvsetVd9O8kSjzC0vyx1CT6hhQNzX8Lpa
-	 gtxpsRyYpi6UfWuT8JJb8Uugtk/0C5PDwk1Bj1RVibpWpF0Qx9RB16y9YlMaX1TPKp
-	 7LFJFj0c0DFlunc4yCl9Soa/jo/5zR5BoYhx84ZXiYzykwX0kC5geK+dKEDW0Pmfqn
-	 hAtYjf//49SwJA3o1ZbRremC8+eybFMEQiBKTbcF/r1LUPyRLeT5wVU0q4FO32+4Nz
-	 xPwOtglAT0t8IQCTe55ApzIGAqPDQIszRW1VQXtndEal0zphH06yBK5DO4cQ0FDe5e
-	 IakkD3F4r/oKw==
-Date: Mon, 23 Mar 2026 19:08:52 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-media@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org, andersson@kernel.org,
-	konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
-	akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
-	jesszhan0024@gmail.com, marijn.suijten@somainline.org,
-	airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
-	dikshita.agarwal@oss.qualcomm.com, bod@kernel.org,
-	mchehab@kernel.org, elder@kernel.org, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, jjohnson@kernel.org, mathieu.poirier@linaro.org,
-	trilokkumar.soni@oss.qualcomm.com, pavan.kondeti@oss.qualcomm.com,
-	jorge.ramirez@oss.qualcomm.com, tonyh@qti.qualcomm.com,
-	vignesh.viswanathan@oss.qualcomm.com,
-	srinivas.kandagatla@oss.qualcomm.com,
-	amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
-	op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
-	skare@qti.qualcomm.com, linux-kernel@vger.kernel.org,
-	Sumit Garg <sumit.garg@oss.qualcomm.com>
-Subject: Re: [PATCH v2 04/15] firmware: qcom: Add a PAS TEE service
-Message-ID: <acFCbLZNOvhrm0Wh@sumit-xelite>
-References: <20260312062756.694390-1-sumit.garg@kernel.org>
- <20260312062756.694390-5-sumit.garg@kernel.org>
- <20260313110747.v5bx2snpbtyja3ur@hu-mojha-hyd.qualcomm.com>
+	s=arc-20240116; t=1774273326; c=relaxed/simple;
+	bh=OqmswK9nIqVz5iZLsbtJR2YKMQstyph9IbHD6MC5h18=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=LZKFtlgNpN2EGUyg2kMCr9luXBA8xO8Zn6IkDDv2bcp+pF5qvQm8Z5lnYwEiTUOqsBF+vunufHYEkVJSNF1PDrxtbkM9AzR4OQJbQO1nvnVLnF7A22LDu8qjLDQoSP+DbXofHibcRHx/El1eOE93i9KZ7Flt7XJNnTHXb41+4Ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=V6DvAwJ3; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1774273322;
+	bh=OqmswK9nIqVz5iZLsbtJR2YKMQstyph9IbHD6MC5h18=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=V6DvAwJ3homSxcyM7kU5kLlmNYrEqFIsHp1Ab371rN5AiVCVsMu1oMEdRE5BXF3UB
+	 Ypv0EUcowfDWv2CDZ6az96aAxyQDOYG6Th6pZ+0Hs1Vh/BvoCU5zFO/2+o+A2+2lrl
+	 Uy6x8jSMVjFjLN3+998SePMHjfopNFhNz4iusbZYaRlEv0GfkOE8ns7O4R9bznDiWf
+	 adNdWx5Zly/uydIxPOdgxzRyUfmfsmLUtmPexTq5K0fHxX/JiITTfShqZancke50Hm
+	 18HbWCGEJxbTQIVbdnmKhnoYxJUpM+DzzGiB2L57dbDBIA9CLbkp+L/BtB85ncqOWJ
+	 rwsT/f5s+aJzA==
+Received: from [IPv6:2606:6d00:15:e06b::5ac] (unknown [IPv6:2606:6d00:15:e06b::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 66A5B17E36C2;
+	Mon, 23 Mar 2026 14:42:01 +0100 (CET)
+Message-ID: <176cfd181e783d2b24fad1a2c7b18425374b4622.camel@collabora.com>
+Subject: Re: [PATCH v2] media: v4l2-ctrls: validate HEVC slice reference
+ lists
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>, mchehab@kernel.org
+Cc: hverkuil@kernel.org, sakari.ailus@linux.intel.com, 
+	laurent.pinchart@ideasonboard.com, opensource206@gmail.com, 
+	jernej.skrabec@gmail.com, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 23 Mar 2026 09:41:58 -0400
+In-Reply-To: <20260323083031.30941-1-pengpeng@iscas.ac.cn>
+References: <20260323083031.30941-1-pengpeng@iscas.ac.cn>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-foqRranGiZytQIsq4ef3"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260313110747.v5bx2snpbtyja3ur@hu-mojha-hyd.qualcomm.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-2.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56734-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56735-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[49];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,ideasonboard.com,gmail.com,vger.kernel.org];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 353632F3644
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:mid,iscas.ac.cn:email]
+X-Rspamd-Queue-Id: 6F8F92F358E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 13, 2026 at 04:37:47PM +0530, Mukesh Ojha wrote:
-> On Thu, Mar 12, 2026 at 11:57:45AM +0530, Sumit Garg wrote:
-> > From: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> > 
-> > Add support for Peripheral Authentication Service (PAS) driver based
-> > on TEE bus with OP-TEE providing the backend PAS service implementation.
-> > 
-> > The TEE PAS service ABI is designed to be extensible with additional API
-> > as PTA_QCOM_PAS_CAPABILITIES. This allows to accommodate any future
-> > extensions of the PAS service needed while still maintaining backwards
-> > compatibility.
-> > 
-> > Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> > ---
-> >  drivers/firmware/qcom/Kconfig        |   9 +
-> >  drivers/firmware/qcom/Makefile       |   1 +
-> >  drivers/firmware/qcom/qcom_pas_tee.c | 477 +++++++++++++++++++++++++++
-> >  3 files changed, 487 insertions(+)
-> >  create mode 100644 drivers/firmware/qcom/qcom_pas_tee.c
-> > 
-> > diff --git a/drivers/firmware/qcom/Kconfig b/drivers/firmware/qcom/Kconfig
-> > index 9a12ae2b639d..fff47abdaafd 100644
-> > --- a/drivers/firmware/qcom/Kconfig
-> > +++ b/drivers/firmware/qcom/Kconfig
-> > @@ -14,6 +14,15 @@ config QCOM_PAS
-> >  	  backends plugged in whether it's an SCM implementation or a proper
-> >  	  TEE bus based PAS service implementation.
-> >  
-> > +config QCOM_PAS_TEE
-> > +	tristate
-> > +	select QCOM_PAS
-> > +	depends on TEE
-> > +	depends on !CPU_BIG_ENDIAN
-> > +	help
-> > +	  Enable the generic Peripheral Authentication Service (PAS) provided
-> > +	  by the firmware TEE implementation as the backend.
-> > +
-> >  config QCOM_SCM
-> >  	select QCOM_PAS
-> >  	select QCOM_TZMEM
-> > diff --git a/drivers/firmware/qcom/Makefile b/drivers/firmware/qcom/Makefile
-> > index dc5ab45f906a..48801d18f37b 100644
-> > --- a/drivers/firmware/qcom/Makefile
-> > +++ b/drivers/firmware/qcom/Makefile
-> > @@ -9,3 +9,4 @@ obj-$(CONFIG_QCOM_TZMEM)	+= qcom_tzmem.o
-> >  obj-$(CONFIG_QCOM_QSEECOM)	+= qcom_qseecom.o
-> >  obj-$(CONFIG_QCOM_QSEECOM_UEFISECAPP) += qcom_qseecom_uefisecapp.o
-> >  obj-$(CONFIG_QCOM_PAS)		+= qcom_pas.o
-> > +obj-$(CONFIG_QCOM_PAS_TEE)	+= qcom_pas_tee.o
-> > diff --git a/drivers/firmware/qcom/qcom_pas_tee.c b/drivers/firmware/qcom/qcom_pas_tee.c
-> > new file mode 100644
-> > index 000000000000..7db9fd736369
-> > --- /dev/null
-> > +++ b/drivers/firmware/qcom/qcom_pas_tee.c
-> > @@ -0,0 +1,477 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> > + */
-> > +
-> > +#include <linux/delay.h>
-> > +#include <linux/of.h>
-> > +#include <linux/firmware/qcom/qcom_pas.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/tee_drv.h>
-> > +#include <linux/uuid.h>
-> > +
-> > +#include "qcom_pas.h"
-> > +
-> > +/*
-> > + * Peripheral Authentication Service (PAS) supported.
-> > + *
-> > + * [in]  params[0].value.a:	Unique 32bit remote processor identifier
-> > + */
-> > +#define PTA_QCOM_PAS_IS_SUPPORTED		1
-> > +
-> > +/*
-> > + * PAS capabilities.
-> > + *
-> > + * [in]  params[0].value.a:	Unique 32bit remote processor identifier
-> > + * [out] params[1].value.a:	PAS capability flags
-> > + */
-> > +#define PTA_QCOM_PAS_CAPABILITIES		2
-> > +
-> > +/*
-> > + * PAS image initialization.
-> > + *
-> > + * [in]  params[0].value.a:	Unique 32bit remote processor identifier
-> > + * [in]  params[1].memref:	Loadable firmware metadata
-> > + */
-> > +#define PTA_QCOM_PAS_INIT_IMAGE			3
-> > +
-> > +/*
-> > + * PAS memory setup.
-> > + *
-> > + * [in]  params[0].value.a:	Unique 32bit remote processor identifier
-> > + * [in]  params[0].value.b:	Relocatable firmware size
-> > + * [in]  params[1].value.a:	32bit LSB relocatable firmware memory address
-> > + * [in]  params[1].value.b:	32bit MSB relocatable firmware memory address
-> > + */
-> > +#define PTA_QCOM_PAS_MEM_SETUP			4
-> > +
-> > +/*
-> > + * PAS get resource table.
-> > + *
-> > + * [in]     params[0].value.a:	Unique 32bit remote processor identifier
-> > + * [inout]  params[1].memref:	Resource table config
-> > + */
-> > +#define PTA_QCOM_PAS_GET_RESOURCE_TABLE		5
-> > +
-> > +/*
-> > + * PAS image authentication and co-processor reset.
-> > + *
-> > + * [in]  params[0].value.a:	Unique 32bit remote processor identifier
-> > + * [in]  params[0].value.b:	Firmware size
-> > + * [in]  params[1].value.a:	32bit LSB firmware memory address
-> > + * [in]  params[1].value.b:	32bit MSB firmware memory address
-> > + * [in]  params[2].memref:	Optional fw memory space shared/lent
-> > + */
-> > +#define PTA_QCOM_PAS_AUTH_AND_RESET		6
-> > +
-> > +/*
-> > + * PAS co-processor set suspend/resume state.
-> > + *
-> > + * [in]  params[0].value.a:	Unique 32bit remote processor identifier
-> > + * [in]  params[0].value.b:	Co-processor state identifier
-> > + */
-> > +#define PTA_QCOM_PAS_SET_REMOTE_STATE		7
-> > +
-> > +/*
-> > + * PAS co-processor shutdown.
-> > + *
-> > + * [in]  params[0].value.a:	Unique 32bit remote processor identifier
-> > + */
-> > +#define PTA_QCOM_PAS_SHUTDOWN			8
-> > +
-> > +#define TEE_NUM_PARAMS				4
-> > +
-> > +/**
-> > + * struct qcom_pas_tee_private - PAS service private data
-> > + * @dev:		PAS service device.
-> > + * @ctx:		TEE context handler.
-> > + * @session_id:		PAS TA session identifier.
-> > + */
-> > +struct qcom_pas_tee_private {
-> > +	struct device *dev;
-> > +	struct tee_context *ctx;
-> > +	u32 session_id;
-> > +};
-> > +
-> > +static bool qcom_pas_tee_supported(struct device *dev, u32 pas_id)
-> > +{
-> > +	struct qcom_pas_tee_private *data = dev_get_drvdata(dev);
-> > +	struct tee_ioctl_invoke_arg inv_arg = {
-> > +		.func = PTA_QCOM_PAS_IS_SUPPORTED,
-> > +		.session = data->session_id,
-> > +		.num_params = TEE_NUM_PARAMS
-> > +	};
-> > +	struct tee_param param[4] = {
-> > +		[0] = {
-> > +			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT,
-> > +			.u.value.a = pas_id
-> > +		}
-> > +	};
-> > +	int ret;
-> > +
-> > +	ret = tee_client_invoke_func(data->ctx, &inv_arg, param);
-> > +	if (ret < 0 || inv_arg.ret != 0) {
-> > +		dev_err(dev, "PAS not supported, pas_id: %d, err: %x\n",
-> > +			pas_id, inv_arg.ret);
-> > +		return false;
-> > +	}
-> > +
-> > +	return true;
-> > +}
-> > +
-> > +static int qcom_pas_tee_init_image(struct device *dev, u32 pas_id,
-> > +				   const void *metadata, size_t size,
-> > +				   struct qcom_pas_context *ctx)
-> > +{
-> > +	struct qcom_pas_tee_private *data = dev_get_drvdata(dev);
-> > +	struct tee_ioctl_invoke_arg inv_arg = {
-> > +		.func = PTA_QCOM_PAS_INIT_IMAGE,
-> > +		.session = data->session_id,
-> > +		.num_params = TEE_NUM_PARAMS
-> > +	};
-> > +	struct tee_param param[4] = {
-> > +		[0] = {
-> > +			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT,
-> > +			.u.value.a = pas_id
-> > +		},
-> > +		[1] = {
-> > +			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT,
-> > +		}
-> > +	};
-> > +	struct tee_shm *mdata_shm;
-> > +	u8 *mdata_buf = NULL;
-> > +	int ret;
-> > +
-> > +	mdata_shm = tee_shm_alloc_kernel_buf(data->ctx, size);
-> > +	if (IS_ERR(mdata_shm)) {
-> > +		dev_err(dev, "mdata_shm allocation failed\n");
-> > +		return PTR_ERR(mdata_shm);
-> > +	}
-> > +
-> > +	mdata_buf = tee_shm_get_va(mdata_shm, 0);
-> > +	if (IS_ERR(mdata_buf)) {
-> > +		dev_err(dev, "mdata_buf get VA failed\n");
-> > +		tee_shm_free(mdata_shm);
-> > +		return PTR_ERR(mdata_buf);
-> > +	}
-> > +	memcpy(mdata_buf, metadata, size);
-> > +
-> > +	param[1].u.memref.shm = mdata_shm;
-> > +	param[1].u.memref.size = size;
-> > +
-> > +	ret = tee_client_invoke_func(data->ctx, &inv_arg, param);
-> > +	if (ret < 0 || inv_arg.ret != 0) {
-> > +		dev_err(dev, "PAS init image failed, pas_id: %d, err: %x\n",
-> > +			pas_id, inv_arg.ret);
-> > +		tee_shm_free(mdata_shm);
-> > +		return -EINVAL;
-> > +	}
-> > +	ctx->ptr = (void *)mdata_shm;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int qcom_pas_tee_mem_setup(struct device *dev, u32 pas_id,
-> > +				  phys_addr_t addr, phys_addr_t size)
-> > +{
-> > +	struct qcom_pas_tee_private *data = dev_get_drvdata(dev);
-> > +	struct tee_ioctl_invoke_arg inv_arg = {
-> > +		.func = PTA_QCOM_PAS_MEM_SETUP,
-> > +		.session = data->session_id,
-> > +		.num_params = TEE_NUM_PARAMS
-> > +	};
-> > +	struct tee_param param[4] = {
-> > +		[0] = {
-> > +			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT,
-> > +			.u.value.a = pas_id,
-> > +			.u.value.b = size,
-> > +		},
-> > +		[1] = {
-> > +			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT,
-> > +			.u.value.a = lower_32_bits(addr),
-> > +			.u.value.b = upper_32_bits(addr),
-> > +		}
-> > +	};
-> > +	int ret;
-> > +
-> > +	ret = tee_client_invoke_func(data->ctx, &inv_arg, param);
-> > +	if (ret < 0 || inv_arg.ret != 0) {
-> > +		dev_err(dev, "PAS mem setup failed, pas_id: %d, err: %x\n",
-> > +			pas_id, inv_arg.ret);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +DEFINE_FREE(shm_free, struct tee_shm *, tee_shm_free(_T))
-> > +
-> > +static void *qcom_pas_tee_get_rsc_table(struct device *dev,
-> > +					struct qcom_pas_context *ctx,
-> > +					void *input_rt, size_t input_rt_size,
-> > +					size_t *output_rt_size)
-> > +{
-> > +	struct qcom_pas_tee_private *data = dev_get_drvdata(dev);
-> > +	struct tee_ioctl_invoke_arg inv_arg = {
-> > +		.func = PTA_QCOM_PAS_GET_RESOURCE_TABLE,
-> > +		.session = data->session_id,
-> > +		.num_params = TEE_NUM_PARAMS
-> > +	};
-> > +	struct tee_param param[4] = {
-> > +		[0] = {
-> > +			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT,
-> > +			.u.value.a = ctx->pas_id,
-> > +		},
-> > +		[1] = {
-> > +			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT,
-> > +			.u.memref.size = input_rt_size,
-> > +		}
-> > +	};
-> > +	void *rt_buf = NULL;
-> > +	int ret;
-> > +
-> > +	ret = tee_client_invoke_func(data->ctx, &inv_arg, param);
-> 
-> What is the purpose of this function ? looks like, this is for, how
-> much Linux need to allocate for output buffer ?
 
-That's right.
+--=-foqRranGiZytQIsq4ef3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> > +	if (ret < 0 || inv_arg.ret != 0) {
-> > +		dev_err(dev, "PAS get RT failed, pas_id: %d, err: %x\n",
-> > +			ctx->pas_id, inv_arg.ret);
-> > +		return ERR_PTR(-EINVAL);
-> > +	}
-> > +
-> > +	if (param[1].u.memref.size) {
-> > +		struct tee_shm *rt_shm __free(shm_free) =
-> > +			tee_shm_alloc_kernel_buf(data->ctx,
-> > +						 param[1].u.memref.size);
-> > +		void *rt_shm_va;
-> > +
-> > +		if (IS_ERR(rt_shm)) {
-> > +			dev_err(dev, "rt_shm allocation failed\n");
-> > +			return rt_shm;
-> > +		}
-> > +
-> > +		rt_shm_va = tee_shm_get_va(rt_shm, 0);
-> > +		if (IS_ERR_OR_NULL(rt_shm_va)) {
-> > +			dev_err(dev, "rt_shm get VA failed\n");
-> > +			return ERR_PTR(-EINVAL);
-> > +		}
-> > +		memcpy(rt_shm_va, input_rt, input_rt_size);
-> > +
-> > +		param[1].u.memref.shm = rt_shm;
-> 
-> Here, you are passing only one buffer for both input and output ?
-> 
-> Like, you are allocating of buffer of size returned from qtee which I
+Le lundi 23 mars 2026 =C3=A0 16:30 +0800, Pengpeng Hou a =C3=A9crit=C2=A0:
+> HEVC slice parameters are shared stateless V4L2 controls, but the common
+> control validation path currently does not verify the active reference
+> counts or the ref_idx_l0/ref_idx_l1 entries before driver-specific code
+> uses them to index fixed 16-entry DPB arrays.
+>=20
+> The original report was triggered by Cedrus, but the missing validation
+> is not Cedrus-specific. Move the bounds checks into the common HEVC slice
+> control validation path so every stateless HEVC driver gets the same
+> basic guarantees as soon as the control is queued.
+>=20
+> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+> ---
+> v2:
+> - move the validation from Cedrus-specific try_ctrl() into
+> =C2=A0 drivers/media/v4l2-core/v4l2-ctrls-core.c
+> - keep the checks limited to HEVC slice reference counts and indices
+>=20
+> =C2=A0drivers/media/v4l2-core/v4l2-ctrls-core.c | 24 ++++++++++++++++++++=
++++
+> =C2=A01 file changed, 24 insertions(+)
+>=20
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4=
+l2-core/v4l2-ctrls-core.c
+> index 6b375720e395..4e7563c8bf4a 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -1260,6 +1260,30 @@ static int std_validate_compound(const struct v4l2=
+_ctrl *ctrl, u32 idx,
+> =C2=A0		break;
+> =C2=A0
+> =C2=A0	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
+> +		p_hevc_slice_params =3D p;
+> +
+> +		if (p_hevc_slice_params->num_ref_idx_l0_active_minus1 >=3D
+> +		=C2=A0=C2=A0=C2=A0 V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
+> +			return -EINVAL;
 
-s/qtee/optee/
+Ack.
 
-> assume includes both input + output rt size and copying the input_rt
-> and calling invoke and in return you will get combine table in return ?
+> +
+> +		for (i =3D 0; i <=3D p_hevc_slice_params->num_ref_idx_l0_active_minus1=
+;
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 i++)
+> +			if (p_hevc_slice_params->ref_idx_l0[i] >=3D
+> +			=C2=A0=C2=A0=C2=A0 V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
+> +				return -EINVAL;
 
-That's right.
+That one is a breaking change since userspace already passes off limit valu=
+es
+such as 0xff when a reference is missing (was lost). See:
 
-> 
-> > +		ret = tee_client_invoke_func(data->ctx, &inv_arg, param);
-> > +		if (ret < 0 || inv_arg.ret != 0) {
-> > +			dev_err(dev, "PAS get RT failed, pas_id: %d, err: %x\n",
-> > +				ctx->pas_id, inv_arg.ret);
-> > +			return ERR_PTR(-EINVAL);
-> > +		}
-> > +
-> > +		if (param[1].u.memref.size) {
-> > +			*output_rt_size = param[1].u.memref.size;
-> > +			rt_buf = kmalloc(param[1].u.memref.size, GFP_KERNEL);
-> > +			if (!rt_buf)
-> > +				return ERR_PTR(-ENOMEM);
-> > +
-> > +			memcpy(rt_buf, rt_shm_va, *output_rt_size);
-> 
-> rt_buf = kmemdup(rt_shm_va, *output_rt_size, GFP_KERNEL);
-> 
-> https://lore.kernel.org/lkml/20260310140255.2520230-1-mukesh.ojha@oss.qualcomm.com/
-> 
+	47825b1646a6a9eca0f90baa3d4f98947c2add96
 
-Sure, I will use that instead.
+The hardware may or may not be capable of doing concealment, but with this
+change, we bring down all drivers to failing the decode completely.
 
--Sumit
+> +
+> +		if (p_hevc_slice_params->slice_type !=3D V4L2_HEVC_SLICE_TYPE_B)
+> +			break;
+> +
+> +		if (p_hevc_slice_params->num_ref_idx_l1_active_minus1 >=3D
+> +		=C2=A0=C2=A0=C2=A0 V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
+> +			return -EINVAL;
+
+Ack.
+
+> +
+> +		for (i =3D 0; i <=3D p_hevc_slice_params->num_ref_idx_l1_active_minus1=
+;
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 i++)
+> +			if (p_hevc_slice_params->ref_idx_l1[i] >=3D
+> +			=C2=A0=C2=A0=C2=A0 V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
+> +				return -EINVAL;
+
+Same.
+
+cheers,
+Nicolas
+
+> =C2=A0		break;
+> =C2=A0
+> =C2=A0	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS:
+
+--=-foqRranGiZytQIsq4ef3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCacFDJwAKCRDZQZRRKWBy
+9JXAAQCms2rvqcuvIHAxB0I9G5VvDbfJAN7tOfkMoYGnXFod2AEA17TBpISGNjZT
+llD8rgquch74tnNaJ+w1v9Mk6lczgQY=
+=ysQk
+-----END PGP SIGNATURE-----
+
+--=-foqRranGiZytQIsq4ef3--
 
