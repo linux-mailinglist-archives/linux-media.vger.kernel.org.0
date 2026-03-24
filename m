@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-56925-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56924-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YG6JOT8Nw2lKnwQAu9opvQ
-	(envelope-from <linux-media+bounces-56925-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 23:16:31 +0100
+	id 4N3YJzwNw2lKnwQAu9opvQ
+	(envelope-from <linux-media+bounces-56924-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 23:16:28 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A9131D384
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 23:16:31 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA1831D37C
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 23:16:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D82B93089DF8
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1FF093087E9A
 	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 22:15:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C88C73C7DFD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA4443C7E0A;
 	Tue, 24 Mar 2026 22:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VKwMqnVV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WoLQvTXe"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7A63A7584;
-	Tue, 24 Mar 2026 22:15:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3BC3148C2;
+	Tue, 24 Mar 2026 22:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774390502; cv=none; b=HmVhcs3mrnsB+lw7m2KO9EQU2QhOWOAjcOhHZsnjEhhaIaGKB6EoKWVw6SuZaczuoWFprxbEoslyKoDR3OCvBQRf7Ya/gIkuC0+DaCWVvL1cPobp5Gv9EV1iWEB92z9DSuPVtcKJWAA/U+Br/qi+qMMPYvXcmTv2yiLI0sWu8DM=
+	t=1774390502; cv=none; b=Z5YJB1RdGafHFpGabfJgAYmEu/EJNEwXy8r9BNkDA14fPalrzlypP9j1hW+LaXft0hkEPLr4U4Y5O3408/jFDFTcp2S2mr/grwlEcvtl0d7al/K39MNLLKNs5iyhgYFANi8Hs/gdYHGEdD6C2hrBXexkCfAfWVHCWFltVRSy0wM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774390502; c=relaxed/simple;
-	bh=6M+XUCcxZWilfRRqN6XK5hJIeS+gRK3D84YRPNc1+qA=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KMWhWm+yNr0Mh2YVzPsGAGdp/AB3whFIOObgMSoiD4auTpz1Z0ATisMfYv4q7uLobzPlX2E8AUhkBJgLENorYCE6dZCdiUv0YNNybrsgxo9NtqYzyTvzcFkCTy3dZnuaba1/KxuvLyayZSVlxDPgdmSb1G5aQvmvXR4EPAXX2fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VKwMqnVV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BDA6DC19424;
+	bh=DsqVPdfD8ISkjXspsLL9oaH8DjYIqEMwGDyaNB/CfEU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=WimH7V+jRtuum9ScffIfq0peDMFAy7b4HRhdmjcswwNKq4nsHpxfUnzRWmQgxEC5TLRTip5YqwoMi9QeYy3fLoihY2Vz4IVVzB6i+KA7I6fYMbL9laXzVoLznQx+ZRc6UclmqEQ3C6BSYGYgIEtBAJKgSzqxYYHgTcNLnTQh0/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WoLQvTXe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E4E7FC2BCB2;
 	Tue, 24 Mar 2026 22:15:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774390501;
-	bh=6M+XUCcxZWilfRRqN6XK5hJIeS+gRK3D84YRPNc1+qA=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=VKwMqnVVHjuFUF2BWRuRx2Pah0UdzUUx5O2DslvPo+YeDZdYvefCv7v2uosRFeK1e
-	 nDocPUpZ251pao9edzT6tK0DZruvcods4HjSln2EFpqzGLCKTzc+Mh9qNiwV6tiFGV
-	 jLlki4djqg6vBnGIS+Z18kyStEaitqn1oFKvBQsbeSXsAigXGQLC9C+OD3pK6BOijw
-	 mUxwPMesokP2vuwz63vhkf2jxr+YneIMPYoetCbI4LDaRfQr6h9xFkplTYUfMbIdBV
-	 j/hwnzxdaI9VY65m0Y+D0bisNCL1G3PCWZr49UArlEhNqFIxQOknVN+3AxEtadU/Jp
-	 qF+IYN9Quq5QQ==
+	s=k20201202; t=1774390502;
+	bh=DsqVPdfD8ISkjXspsLL9oaH8DjYIqEMwGDyaNB/CfEU=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=WoLQvTXef3IjBaRKa1SpTJrKQ8UTqOykFWzk2lv2lmfj3IZmL3l2xWnTpv48Gprh5
+	 J0GuJaV+L6ljkqmC4yA587sY9nVWKTC3eEvIyagbAa3wPHH6p0An4Z2B0YQKjQjcZq
+	 s2fDhMzbbDDqgAPBFsBWCeEnInCUUjc2WM3N8ySxqnbRdi/4aDIxA24iOrlcPFrhLn
+	 0mLTz0nlSxHxoZVJvloxlZnZtxXQkmhFYZCz0Uf6xK6c6OHup5comk+qahmUshIRNi
+	 fj544VcivqyRV14VfzjFm+3iZqBZRC8AEngEf/MKIkFpKqkZBAotlL+DsJhEMv+gkX
+	 gpqD4zdvavYmA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B464DFEC104;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2D67FEC11B;
 	Tue, 24 Mar 2026 22:15:01 +0000 (UTC)
 From: Vasiliy Doylov via B4 Relay <devnull+nekocwd.mainlining.org@kernel.org>
-Subject: [PATCH v4 0/3] media: i2c: lc898217xc: initial driver
-Date: Wed, 25 Mar 2026 01:14:58 +0300
-Message-Id: <20260325-media-i2c-lc898217xc-initial-driver-v4-0-6ad6fd74915e@mainlining.org>
+Date: Wed, 25 Mar 2026 01:14:59 +0300
+Subject: [PATCH v4 1/3] media: dt-bindings: Add LC898217XC documentation
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -58,12 +58,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOMMw2kC/53NTQrCMBCG4atI1o4kk6Y/rryHuIjJpA7UVFIJi
- vTuRgU3uhCX3zA8701MlJgmsV7cRKLME4+xjGq5EO5gY0/AvmyBEo1EbOBIni0wOhhc27Womos
- DjnxmO4BPnCmBb/ZGWqWNIyOKdEoU+PKsbHdlH3g6j+n6jGb1uL58Lauf/KxAAmEIHvcYvKHN0
- XIcylfsV2PqxSOS8Q8YC1zbqtaOgibbfoX1G1Yo1W+wLnBVE+q2a6hD9QHP83wHhm6pk40BAAA
- =
-X-Change-ID: 20250227-media-i2c-lc898217xc-initial-driver-d7b50a135ce5
+Message-Id: <20260325-media-i2c-lc898217xc-initial-driver-v4-1-6ad6fd74915e@mainlining.org>
+References: <20260325-media-i2c-lc898217xc-initial-driver-v4-0-6ad6fd74915e@mainlining.org>
+In-Reply-To: <20260325-media-i2c-lc898217xc-initial-driver-v4-0-6ad6fd74915e@mainlining.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, david@ixit.cz
@@ -73,13 +70,13 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  Antonio Rische <nt8r@protonmail.com>, 
  Vasiliy Doylov <nekocwd@mainlining.org>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2363;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2137;
  i=nekocwd@mainlining.org; h=from:subject:message-id;
- bh=6M+XUCcxZWilfRRqN6XK5hJIeS+gRK3D84YRPNc1+qA=;
- b=owGbwMvMwCVmXFbadLHr1XTG02pJDJmHeZ5YmeZH6l5mzH5gwl+5x+1wp/VpDoWnmxkPpQdz6
- EzemunTUcrCIMbFICumyNL9/vC9B/N4WUvVP/HCzGFlAhnCwMUpABNpMmRkaN+25FKKdOZZaYYG
- oZsBtgu5vzH4JmbYJavfFLWKCbz8neGvRHdOf1LRNMY2bvvHre9nLj16RP9a5vHkorfCE/1nn6x
- nAQA=
+ bh=gAIKVNm3sPMRo8XiyTDHAKl5QbG8+l10pLPUeIPuNNk=;
+ b=owGbwMvMwCVmXFbadLHr1XTG02pJDJmHeZ4UX2nZvrxjc65CuM/zSzPzTz72r3kaoR64rPxB8
+ vcb0txPO0pZGMS4GGTFFFm63x++92AeL2up+idemDmsTCBDGLg4BWAibk8Y/hfUaE9iXiaYVMhs
+ V+hokNef/W1LXM587Sxb/50vnO/wRjH8T2gqV7FxO+yhbuTdxmahy7iow+7d63veGpnibtdXhDb
+ zAgA=
 X-Developer-Key: i=nekocwd@mainlining.org; a=openpgp;
  fpr=8BEFC3DEE09E0D057527F20D33767582D18AEA97
 X-Endpoint-Received: by B4 Relay for nekocwd@mainlining.org/default with
@@ -91,89 +88,113 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-56924-lists,linux-media=lfdr.de,nekocwd.mainlining.org];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56925-lists,linux-media=lfdr.de,nekocwd.mainlining.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,mainlining.org,protonmail.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	HAS_REPLYTO(0.00)[nekocwd@mainlining.org];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	DBL_PROHIBIT(0.00)[0.0.0.74:email];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	HAS_REPLYTO(0.00)[nekocwd@mainlining.org];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mainlining.org:email,mainlining.org:replyto,mainlining.org:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,protonmail.com:email]
-X-Rspamd-Queue-Id: 65A9131D384
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,devicetree.org:url,mainlining.org:email,mainlining.org:replyto,mainlining.org:mid]
+X-Rspamd-Queue-Id: 1BA1831D37C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-LX898217XC is a 11 bit DAC, designed for linear control
-of voice coil motor. This driver creates a V4L2 subdevice
-and provides control to set the desired focus.
+From: Vasiliy Doylov <nekocwd@mainlining.org>
 
-Tested on Oneplus 6 (oneplus-enchilada)
+Add device tree bindings documentation for ON Semiconductor
+LC898217XC voice coil motor.
 
-Co-developed-by: Vitalii Skorkin <nikroks@mainlining.org>
-Signed-off-by: Vitalii Skorkin <nikroks@mainlining.org>
-Co-developed-by: Antonio Rische <nt8r@protonmail.com>
-Signed-off-by: Antonio Rische <nt8r@protonmail.com>
 Signed-off-by: Vasiliy Doylov <nekocwd@mainlining.org>
 ---
-Changes in v4:
-- Removed unused focus ctrl (Dave)
-- Added ctrl state restore on runtime_resume (Dave)
-- Removed subscribe/unsubscribe event handlers (Dave)
-- Removed V4L2_SUBDEV_FL_HAS_EVENTS flag (Dave)
-- Changed supplies from vcc to vdd + vana
-- Fixed free and PM issues on probe fail
-- Fixed typo in devicetree documentation
-- Link to v3: https://lore.kernel.org/r/20251201-media-i2c-lc898217xc-initial-driver-v3-0-46e23897e921@mainlining.org
+ .../bindings/media/i2c/onnn,lc898217xc.yaml        | 59 ++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
-Changes in v3:
-- Fixed MAINTAINERS (Krzysztof)
-- Reordered commits (Krzysztof)
-- Removed blank line from device-tree documentation (Krzysztof)
-- Refactored to use CCI regmap
-- Refactored to use dev_err_probe in probe
-- Link to v2: https://lore.kernel.org/all/20250304-media-i2c-lc898217xc-initial-driver-v2-0-6a463cef3ea8@mainlining.org/
+diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,lc898217xc.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,lc898217xc.yaml
+new file mode 100644
+index 000000000000..3dd137d4c67c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/onnn,lc898217xc.yaml
+@@ -0,0 +1,59 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright 2025 Vasiliy Doylov <nekocwd@mainlining.org>
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/onnn,lc898217xc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ON Semiconductor LC898217XC Voice Coil Motor (VCM) Lens
++
++maintainers:
++  - Vasiliy Doylov <nekocwd@mainlining.org>
++
++description:
++  The LC898217XC is a 11-bit digital-to-analog (DAC) converter.
++  VCM current is controlled with a linear mode driver.The DAC is controlled
++  via a 2-wire (I2C-compatible) serial interface that operates at clock
++  rates up to 1MHz. This chip integrates Advanced Actuator Control (AAC)
++  technology and is intended for driving voice coil lenses in camera modules.
++
++properties:
++  compatible:
++    enum:
++      - onnn,lc898217xc
++
++  reg:
++    maxItems: 1
++
++  vana-supply:
++    description:
++      Definition of the regulator used as motor voltage supply.
++
++  vdd-supply:
++    description:
++      Definition of the regulator used as digital core voltage supply.
++
++required:
++  - compatible
++  - reg
++  - vana-supply
++  - vdd-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        camera-lens@74 {
++            compatible = "onnn,lc898217xc";
++            reg = <0x74>;
++
++            vana-supply = <&mt6358_vaf_reg>;
++            vdd-supply = <&mt6358_vcamio_reg>;
++        };
++    };
++
++...
 
-Changes in v2:
-- PM functions annotated as __maybe_unused.
-- Fixed dt bindings documentation commit message
-- Added v4l2 events (now v4l2-compliance shows no failed tests)
-- Link to v1: https://lore.kernel.org/r/20250304-media-i2c-lc898217xc-initial-driver-v1-0-e2ffd2b2fd5e@mainlining.org
-
----
-Vasiliy Doylov (3):
-      media: dt-bindings: Add LC898217XC documentation
-      media: i2c: Add driver for LC898217XC VCM
-      MAINTAINERS: Add entry for Onsemi LC898217XC lens voice coil driver
-
- .../bindings/media/i2c/onnn,lc898217xc.yaml        |  59 +++++
- MAINTAINERS                                        |   7 +
- drivers/media/i2c/Kconfig                          |   9 +
- drivers/media/i2c/Makefile                         |   1 +
- drivers/media/i2c/lc898217xc.c                     | 289 +++++++++++++++++++++
- 5 files changed, 365 insertions(+)
----
-base-commit: 09c0f7f1bcdbc3c37a5a760cbec76bf18f278406
-change-id: 20250227-media-i2c-lc898217xc-initial-driver-d7b50a135ce5
-
-Best regards,
---  
-Vasiliy Doylov <nekocwd@mainlining.org>
+-- 
+2.50.1
 
 
 
