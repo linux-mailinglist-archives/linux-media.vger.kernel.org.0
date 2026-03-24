@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-56920-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56921-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wJHXNSYGw2lKnwQAu9opvQ
-	(envelope-from <linux-media+bounces-56920-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 22:46:14 +0100
+	id KPsXC0oFw2lKnwQAu9opvQ
+	(envelope-from <linux-media+bounces-56921-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 22:42:34 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB5831CFCA
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 22:46:14 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3211B31CF16
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 22:42:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8DD2D318D930
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 21:42:14 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 677673031D69
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 21:42:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 400A53624A8;
-	Tue, 24 Mar 2026 21:42:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B557F3630A1;
+	Tue, 24 Mar 2026 21:42:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VAO5yOFR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nd9I4P9F"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243CF18027
-	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 21:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955EA362133
+	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 21:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774388533; cv=none; b=TzwTaiM0nWIpgJDOxbPaBd2BcynN0jOIl3uNRG7CTb7Z2BfI9RTpTB2AZAd/aL10g/UJ4otPrP0yzfDmbm4RIfeSU1ic126sZJR8OwtYzWytvUKSHBVLHS3D9luaHimMPNEudPC+P4hQWt6KOsgeQ5lIw9gdJfnxRkqhRx2zAYs=
+	t=1774388536; cv=none; b=SESBa7Lh0RbVEp9ypoyanhlEuJlucYyv+aF1AiA1XZh+iB8LZXOrUClbgtSCzTMmZyZJTwOTL+dTiqCJL/j2b10rrY0zNj42vfjMsxg0ll4WHUa9ekhsmeM8lkU3KoF3zaolIXH8BxNR3666iEfHJhv7owc1l8yMS4c6iFIKx5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774388533; c=relaxed/simple;
-	bh=la0HE0qtz7Pv2g0oEQay0X0IsfysA07UfreUabqV8LM=;
+	s=arc-20240116; t=1774388536; c=relaxed/simple;
+	bh=Ee57EugqJBkqQgM9cOCn5nat+dNqMMp/HGLAUfLk3vU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VXmY9Z30TqhdW0fKv/oOaj0toivkMoSmydLIgR3AM1KQt6eBI4XlWHnJU9yce7q3gYHGXqdCX+GO/eOhkzUzZgIrxvGo15s9IN/BCIT8/kkPCds6SEqySokjQSfckfWtds7dnK/yRUz0YEJBQnRlwQio5Ini0ehffF7MaWjZ1qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VAO5yOFR; arc=none smtp.client-ip=74.125.82.180
+	 MIME-Version; b=dsvH9iogiLgma73AR/C2WpVtxgek0AoOQl7DpLZnnbrkHpzXYgE9LFvoZaPYV711m2vD3ZgvZQCpEzYoVIy27vrtBmd7wokDL47GZiu0GFbUt6vH2dbPADkVezuge5ir72GbY6wQn83RwQPYaeEQOGeRj/CrxCQqd7/3O944624=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nd9I4P9F; arc=none smtp.client-ip=74.125.82.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2c0bb213b16so10433741eec.0
-        for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 14:42:12 -0700 (PDT)
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-126ea4e9694so11147994c88.1
+        for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 14:42:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774388531; x=1774993331; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774388534; x=1774993334; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M/PGeCZ0MB+zM0M8BNi4C8mQnbwNTKvleFT37RyQ3oo=;
-        b=VAO5yOFRivRDWeCqSGcKEoAgQ3wAG7h0HQJ0SGhDmOZQM9GoxQJpp/xdFNaXI1Rkcc
-         symzExbUa4giLYw+SLJfqpvqsum+QFVM6AEz9KUy9GifeZ4KzKCiJ55VVRxsW1VfgIwM
-         BkmH01zAjSJEETIKQlToAAUCt8OPSxIGXA02FWX1AZp0EgbKBVjH7kSxp3n+zCRdbrgy
-         PFP1+OU+q5ITg6dC2IuScY4GJiCTB4L1DhTW3fTqBhh7QYcJQEW5WW6+i0YUGOBAQ+iq
-         pMg7EAGp9a8MEE5yRLNN9l7GeyFcLFu+J1Si0V4kEt2TG9PZK9h/IwWkTtcY4B++fBFH
-         p6nw==
+        bh=gAGnFJM2vdOXc5jzyYPjoXklMCuveWdc+fFF8+tCFwY=;
+        b=nd9I4P9FakUADAj3njyLpzD72wKWLAtUZsVJlbgXJ1TH2usaSpDzCMog6Pd+uwACSE
+         Mqw8IzIMDEaGUXWt3ENIo4q39YmC301HelDfta2VtjuvlKbmaGAxuA8sA1jLdSeAIkV1
+         4Fdw6KfdBIJ4S2oMOS4GbLRSSatz0YwYV6HIzweDzX/li7/szGmKLDdmRgIXirixKjVd
+         u6HTFXHqJBXQFkERTnQ+cfeuVibFsWz+giGgS1HmBRcFUwDMBeiNQoGsIrLUO43ioqXH
+         dlHNTg1Yvf7Cpm+BfvQDxZzSeoDw41FuNJgpTZ5lM0q2qaAgbiRV1JW9ka1ubPmSlBQk
+         27PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774388531; x=1774993331;
+        d=1e100.net; s=20251104; t=1774388534; x=1774993334;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=M/PGeCZ0MB+zM0M8BNi4C8mQnbwNTKvleFT37RyQ3oo=;
-        b=Ya4rCJVQTDPcvgtBjWuVZ81LkJWDE4P5xt+bleBDS7cTZsMfDqs9lH9IbcceUfhtq5
-         wixn6b7OcbTwcdq4iTkUN6xPWYO6Cp56g2qdlQTbIp+2tPY3904uVIhx6hjM/ox9Qn3a
-         NgtLFxx2GhaDPgSLqvT/TUEa+TMOj07GsnEYWWEvSGjzSj6pRJNw9lLUcFw30EtfxWf4
-         dv8McMxTL9G4XjpLHlUsHj/NeybO/qw8r91iEt1jJhwyxCoFCh+SUl/wC4Kp8YlgYfW3
-         h8fFt+v1EJmRNLqymo5k1d3ZQNHoyrneCieSs1R6wQA0M2yiaj+8qx+YfjRDRRSlSOUZ
-         AZqw==
-X-Gm-Message-State: AOJu0YwyYbfC8tqYk6Ivtnitpw4hEGoYzNmx1vSfTEEXKq/yMcmcqNes
-	Zvm4pzhbOUnGG9vk5zqRthA74SvJ8gtZycMIXbOVDXTHkMaJr0VExNWv2gN/+NwDV/4=
-X-Gm-Gg: ATEYQzyM55KVjDxDKaeVwZIcwhQ8XxIlwSui8y4lE7yIXNlWYEueZvACAG1kj2K2bs4
-	hd2iPjNaP14wB1UORsjujJ/iC2+gactgf/rMYaHImUj0Z4mRangCpst748z3Pxb5JvM2j4hk8JP
-	TXWOj5DSG1qPnO2KOgPoOW9OJUVi25lTXMTYljM0rNwzYnLzMMVRV2nvU7X8lJJPqHkDxcReGiU
-	NgTX4/+g1l+jaya6gJ+gqip5M4zBXeNd2nlLs/uxBnp8byDvAm5f8gOohHu3j4pav7NnRCVT2OE
-	hZrk3wEm5baJsB4N8Efmf9AGx/9XAfMxpxabk36dW//We9KekW9JKsui9BnDb7FRlmbjtsExFzZ
-	fZTa8MkEU/IwUqCLMAosyi4DaLrpLYe0GEKV6YOYUzsM2O9Ib53yfVytP1CnWIgkH4GVuEpAQHG
-	CYbepnGWtR558i56n6zsZl2g==
-X-Received: by 2002:a05:7301:d19:b0:2be:2b8d:399b with SMTP id 5a478bee46e88-2c15d2800b5mr570130eec.5.1774388531176;
-        Tue, 24 Mar 2026 14:42:11 -0700 (PDT)
+        bh=gAGnFJM2vdOXc5jzyYPjoXklMCuveWdc+fFF8+tCFwY=;
+        b=nXqrqytDTdD9VTCAcdxBXVJP3zZMTb+w4IWy6MOVQvJUQZ1vRfj85QYrOez20gqVhM
+         k6GCab5SuOrAtbodpkEt91Vf7xR3P4kQsU5fsokJsBzE2tyNYapPkhj2iO4mWwkROlL0
+         jyfFYsnTZiy3acviisPaY2LZeVShcZ7EtHNSDOuAJvRdgZBnTYKpH7g9oUYKJKaT068H
+         wFIFR1RccSPZ/rpn2l0pIQxlunjC7+XKzuQuFh7l0nQSbT9oVSyx22aVq/6qVHVYjOog
+         hy1gvRWaVBLY4t9zKsiZCM8uFEsNxFpAuOsg7OYSNNKLt1QNkjLweWbkK38ivZyuKYUC
+         pqgw==
+X-Gm-Message-State: AOJu0Yzwpfb2kHR1k14EKTPAV5jeBmkqq2R/9oIm1v2MfwawrB+kO2qO
+	SJRuCTqokjhnJEbrFIt31lAriy4Q21c62EFwbtR8MtlEf/fDjIzfyBK5
+X-Gm-Gg: ATEYQzxNT3XSRxvqxhZL7P7xuINpWaOkU1ySmk9IH3soC8C3EosZw5dNZOeKH6Wvbia
+	sRQW8W43HrnCJ6ah7Antg5yoHyebyFT0nlZso3QS9evjmV2s7kBOwXkxIlFfokiApxeKdmy3uak
+	eD6LLU8NB1QT+rGBOm/OwWWNfFk9VJWijXxPTc2fIDDJNOCjSx7IZoavFd5r65U5YYn+CLfw2js
+	o6aeoGpo+iHrLC0tirDilXpz1Os1hk6Yuhsi0UET9BCbtWvW1FMfITCcFBLxAknVDe4CG7zPOqS
+	3AmegGCopHtZ9MLTj6KJqy3YccQxQlK1FUOpJVKXJSMC0fyX+fsUpusGRP295yj+YIKn5VWGE9S
+	E1oFVR/hy0NW020t/EnGFwS4ZLuGJHXOqGdDzUg3rnj6RxStcE5mUrLV5i7qZGXf9/+uDwIxM+M
+	EMBk4MgHT8INt8DH+HU6mrUg==
+X-Received: by 2002:a05:7022:ba5:b0:128:d967:466c with SMTP id a92af1059eb24-12a96ed373bmr527563c88.24.1774388533506;
+        Tue, 24 Mar 2026 14:42:13 -0700 (PDT)
 Received: from TC-LAPTOP.lan ([209.76.64.37])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c1536aa870sm3284180eec.2.2026.03.24.14.42.10
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c1536aa870sm3284180eec.2.2026.03.24.14.42.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 14:42:10 -0700 (PDT)
+        Tue, 24 Mar 2026 14:42:13 -0700 (PDT)
 From: Thierry Chatard <tchatard@gmail.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-media@vger.kernel.org,
@@ -87,11 +87,10 @@ Cc: linux-media@vger.kernel.org,
 	sakari.ailus@linux.intel.com,
 	jacopo.mondi@ideasonboard.com,
 	nicholas@rothemail.net,
-	Thierry Chatard <tchatard@gmail.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v2 2/3] platform/x86: int3472: tps68470: fix GNVS clock fields for Dell Latitude 5285
-Date: Tue, 24 Mar 2026 14:41:26 -0700
-Message-ID: <20260324214129.17300-3-tchatard@gmail.com>
+	Thierry Chatard <tchatard@gmail.com>
+Subject: [PATCH v2 3/3] platform/x86: int3472: tps68470: add board data for Dell Latitude 5285
+Date: Tue, 24 Mar 2026 14:41:27 -0700
+Message-ID: <20260324214129.17300-4-tchatard@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260324214129.17300-1-tchatard@gmail.com>
 References: <20260320000937.9177-1-tchatard@gmail.com>
@@ -108,292 +107,245 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linux.intel.com,ideasonboard.com,rothemail.net,intel.com];
-	TAGGED_FROM(0.00)[bounces-56920-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linux.intel.com,ideasonboard.com,rothemail.net];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	TAGGED_FROM(0.00)[bounces-56921-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[tchatard@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email]
-X-Rspamd-Queue-Id: 3AB5831CFCA
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 3211B31CF16
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The Dell Latitude 5285 BIOS leaves the GNVS fields C0TP, L0CL, and L1CL
-at zero at boot. The TPS68470 clock driver reads L0CL and L1CL to select
-the output frequency; with both fields zero the clock outputs are disabled,
-and neither camera sensor can communicate over I2C.
+The Dell Latitude 5285 2-in-1 has two cameras connected through a TPS68470
+PMIC/clock/GPIO hub:
 
-Additionally, when C0TP=0 the ACPI _DEP method on INT3479 returns PCI0 as
-its dependency instead of CLP0 (the INT3472 device), causing ipu_bridge to
-never create the i2c-INT3479:00 client for the front camera.
+  Front: OV5670 (ACPI INT3479) on I2C4
+  Back:  OV8858 (ACPI INT3477) on I2C2, daisy-chained behind TPS68470
+         S_I2C port (controlled by reg 0x43 S_I2C_CTL)
 
-Add a DMI-gated fixup that runs at TPS68470 probe time and writes 0x02
-(19.2 MHz) into C0TP, L0CL, and L1CL.
+GPIO mapping (TPS68470):
+  INT3479 (OV5670): GPIO3 = reset, GPIO4 = powerdown (both active-low)
+  INT3477 (OV8858): GPIO9 = s_resetn, GPIO7 = s_enable (both active-low)
+    GPIO9 and GPIO7 are the TPS68470 secondary-port GPIOs (SGPO reg 0x22
+    bits 2 and 0), not regular GPDO outputs.
 
-The GNVS physical address is discovered at run time by scanning the raw
-AML of the DSDT (and any SSDTs) for the GNVS SystemMemory OperationRegion
-definition (opcode sequence 0x5B 0x80 "GNVS" 0x00). The parsed address is
-then mapped with acpi_os_map_memory(), which is safe because ACPI NVS
-memory is reserved by the firmware and already mapped by the OS. No
-hard-coded physical addresses are used.
+Regulator mapping:
+  CORE  -> dvdd  / INT3477
+  ANA   -> avdd  / INT3477
+  VIO   -> dovdd / INT3477
+  VSIO  -> avdd  / INT3479 and vsio / INT3477 (always_on: keeps S_I2C_CTL
+           non-zero from boot so OV8858 is reachable on I2C2 at any time)
+  AUX1  -> dvdd  / INT3479
+  AUX2  -> dovdd / INT3479
 
-Field byte offsets within the GNVS region (verified against DSDT
-disassembly on this platform, region size 0x0725 bytes):
-  C0TP: 0x43A   L0CL: 0x4F7   L1CL: 0x549
+Marking VSIO always_on ensures the TPS68470 S_I2C passthrough is active
+from the moment the PMIC driver probes, eliminating a timing dependency
+between TPS68470 and ov8858 probe ordering.
 
 Signed-off-by: Thierry Chatard <tchatard@gmail.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202603211747.Z6xudmNd-lkp@intel.com/
 ---
- drivers/platform/x86/intel/int3472/tps68470.c | 201 ++++++++++++++++++
- 1 file changed, 201 insertions(+)
+ .../x86/intel/int3472/tps68470_board_data.c   | 163 ++++++++++++++++++
+ 1 file changed, 163 insertions(+)
 
-diff --git a/drivers/platform/x86/intel/int3472/tps68470.c b/drivers/platform/x86/intel/int3472/tps68470.c
-index a496075c0..c9686426f 100644
---- a/drivers/platform/x86/intel/int3472/tps68470.c
-+++ b/drivers/platform/x86/intel/int3472/tps68470.c
-@@ -2,8 +2,10 @@
- /* Author: Dan Scally <djrscally@gmail.com> */
+diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+index 71357a036..a5b469dcb 100644
+--- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
++++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+@@ -287,6 +287,162 @@ static const struct int3472_tps68470_board_data dell_7212_tps68470_board_data =
+ 	},
+ };
  
- #include <linux/acpi.h>
-+#include <linux/dmi.h>
- #include <linux/i2c.h>
- #include <linux/kernel.h>
-+#include <linux/unaligned.h>
- #include <linux/mfd/core.h>
- #include <linux/mfd/tps68470.h>
- #include <linux/platform_device.h>
-@@ -140,6 +142,203 @@ skl_int3472_fill_clk_pdata(struct device *dev, struct tps68470_clk_platform_data
- 	return n_consumers;
- }
- 
-+/* Dell Latitude 5285 GNVS fix
-+ *
-+ * The BIOS leaves GNVS fields C0TP, L0CL and L1CL at zero after POST.
-+ * With C0TP=0 the ACPI _DEP on INT3479 resolves to PCI0 instead of CLP0
-+ * (INT3472), so ipu_bridge never creates i2c-INT3479:00 (OV5670 front cam).
-+ * With L0CL=L1CL=0 the TPS68470 clock driver disables all clock outputs,
-+ * making both sensors unreachable over I2C.
-+ *
-+ * Fix: at TPS68470 probe time, locate the GNVS SystemMemory OperationRegion
-+ * by scanning the DSDT/SSDTs for its AML definition, map the region, and
-+ * write 0x02 (19.2 MHz) into C0TP, L0CL and L1CL.
-+ *
-+ * Field byte offsets (verified from DSDT disassembly, GNVS size 0x0725):
-+ *   C0TP: 0x43A   L0CL: 0x4F7   L1CL: 0x549
-+ */
-+#define DELL5285_C0TP_OFF	0x43A
-+#define DELL5285_L0CL_OFF	0x4F7
-+#define DELL5285_L1CL_OFF	0x549
-+/* Minimum GNVS region size: last field (L1CL) is 1 byte at 0x549 */
-+#define DELL5285_GNVS_MIN_SIZE	(DELL5285_L1CL_OFF + 1)
++/* Settings for Dell Latitude 5285 2-in-1 */
 +
-+/* AML integer opcodes (ACPI 6.4, section 20.2.3) */
-+#define AML_ZERO_OP		0x00
-+#define AML_ONE_OP		0x01
-+#define AML_BYTE_PREFIX		0x0A
-+#define AML_WORD_PREFIX		0x0B
-+#define AML_DWORD_PREFIX	0x0C
-+#define AML_QWORD_PREFIX	0x0E
-+
-+/**
-+ * aml_parse_int - Parse one AML integer opcode at @p.
-+ * @p:   Pointer to the current position in the AML byte stream.
-+ * @end: One past the last valid byte of the AML buffer.
-+ * @val: Output: the parsed integer value.
-+ *
-+ * Returns the number of bytes consumed, or 0 on failure.
-+ */
-+static int aml_parse_int(const u8 *p, const u8 *end, u64 *val)
-+{
-+	if (p >= end)
-+		return 0;
-+	switch (*p) {
-+	case AML_ZERO_OP:
-+		*val = 0;
-+		return 1;
-+	case AML_ONE_OP:
-+		*val = 1;
-+		return 1;
-+	case AML_BYTE_PREFIX:
-+		if (p + 2 > end)
-+			return 0;
-+		*val = p[1];
-+		return 2;
-+	case AML_WORD_PREFIX:
-+		if (p + 3 > end)
-+			return 0;
-+		*val = get_unaligned_le16(p + 1);
-+		return 3;
-+	case AML_DWORD_PREFIX:
-+		if (p + 5 > end)
-+			return 0;
-+		*val = get_unaligned_le32(p + 1);
-+		return 5;
-+	case AML_QWORD_PREFIX:
-+		if (p + 9 > end)
-+			return 0;
-+		*val = get_unaligned_le64(p + 1);
-+		return 9;
-+	}
-+	return 0;
-+}
-+
-+/**
-+ * dell5285_gnvs_from_table - Scan one ACPI table for the GNVS OperationRegion.
-+ * @tbl:  ACPI table header; the AML body is scanned for the GNVS signature.
-+ * @addr: Output: physical base address of the GNVS region.
-+ * @size: Output: byte length of the GNVS region.
-+ *
-+ * Searches the AML body of @tbl for the byte sequence:
-+ *   ExtOp(0x5B) OpRegionOp(0x80) NameSeg("GNVS") RegionSpace(SystemMemory=0x00)
-+ * followed by two AML integers (region address and length).
-+ *
-+ * Returns true and fills @addr / @size if found and plausible.
-+ */
-+static bool dell5285_gnvs_from_table(const struct acpi_table_header *tbl,
-+				     phys_addr_t *addr, u32 *size)
-+{
-+	/* AML: ExtOp OpRegionOp NameSeg("GNVS") SystemMemory */
-+	static const u8 sig[] = { 0x5B, 0x80, 'G', 'N', 'V', 'S', 0x00 };
-+	const u8 *aml = (const u8 *)tbl + sizeof(*tbl);
-+	const u8 *end = (const u8 *)tbl + tbl->length;
-+	const u8 *p;
-+
-+	for (p = aml; p + sizeof(sig) < end; p++) {
-+		u64 region_addr, region_size;
-+		int consumed;
-+
-+		if (memcmp(p, sig, sizeof(sig)) != 0)
-+			continue;
-+
-+		p += sizeof(sig);
-+		consumed = aml_parse_int(p, end, &region_addr);
-+		if (!consumed || !region_addr)
-+			continue;
-+
-+		p += consumed;
-+		consumed = aml_parse_int(p, end, &region_size);
-+		if (!consumed || region_size < DELL5285_GNVS_MIN_SIZE)
-+			continue;
-+
-+		*addr = (phys_addr_t)region_addr;
-+		*size = (u32)region_size;
-+		return true;
-+	}
-+	return false;
-+}
-+
-+/**
-+ * dell5285_gnvs_find - Locate the GNVS OperationRegion by scanning DSDT and SSDTs.
-+ * @addr: Output: physical base address of the GNVS region.
-+ * @size: Output: byte length of the GNVS region.
-+ *
-+ * Returns true if the GNVS region was found in any ACPI table.
-+ */
-+static bool dell5285_gnvs_find(phys_addr_t *addr, u32 *size)
-+{
-+	struct acpi_table_header *tbl;
-+	u32 i;
-+
-+	/* DSDT */
-+	if (ACPI_SUCCESS(acpi_get_table(ACPI_SIG_DSDT, 1, &tbl))) {
-+		bool found = dell5285_gnvs_from_table(tbl, addr, size);
-+
-+		acpi_put_table(tbl);
-+		if (found)
-+			return true;
-+	}
-+
-+	/* SSDTs (instance numbers start at 1, stop at first failure) */
-+	for (i = 1; i <= 32; i++) {
-+		bool found;
-+
-+		if (ACPI_FAILURE(acpi_get_table(ACPI_SIG_SSDT, i, &tbl)))
-+			break;
-+		found = dell5285_gnvs_from_table(tbl, addr, size);
-+		acpi_put_table(tbl);
-+		if (found)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static const struct dmi_system_id dell5285_gnvs_dmi[] = {
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Latitude 5285"),
-+		},
-+	},
-+	{ }
++static struct regulator_consumer_supply dell_5285_int3477_ana_consumer_supplies[] = {
++	REGULATOR_SUPPLY("avdd", "i2c-INT3477:00"),
 +};
 +
-+static void dell5285_gnvs_fix(void)
-+{
-+	phys_addr_t gnvs_addr;
-+	u32 gnvs_size;
-+	void *gnvs;
++static struct regulator_consumer_supply dell_5285_int3477_core_consumer_supplies[] = {
++	REGULATOR_SUPPLY("dvdd", "i2c-INT3477:00"),
++};
 +
-+	if (!dmi_check_system(dell5285_gnvs_dmi))
-+		return;
++static struct regulator_consumer_supply dell_5285_int3477_vio_consumer_supplies[] = {
++	REGULATOR_SUPPLY("dovdd", "i2c-INT3477:00"),
++};
 +
-+	if (!dell5285_gnvs_find(&gnvs_addr, &gnvs_size)) {
-+		pr_err("int3472-tps68470: Dell 5285: GNVS OperationRegion not found in DSDT/SSDTs\n");
-+		return;
++static struct regulator_consumer_supply dell_5285_int3479_vsio_consumer_supplies[] = {
++	REGULATOR_SUPPLY("avdd", "i2c-INT3479:00"),
++	/* S_I2C_CTL: must be enabled for OV8858 I2C daisy-chain access */
++	REGULATOR_SUPPLY("vsio", "i2c-INT3477:00"),
++};
++
++static struct regulator_consumer_supply dell_5285_int3479_aux1_consumer_supplies[] = {
++	REGULATOR_SUPPLY("dvdd", "i2c-INT3479:00"),
++};
++
++static struct regulator_consumer_supply dell_5285_int3479_aux2_consumer_supplies[] = {
++	REGULATOR_SUPPLY("dovdd", "i2c-INT3479:00"),
++};
++
++static const struct regulator_init_data dell_5285_tps68470_core_reg_init_data = {
++	.constraints = {
++		.min_uV = 1200000,
++		.max_uV = 1200000,
++		.apply_uV = 1,
++		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
++	},
++	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3477_core_consumer_supplies),
++	.consumer_supplies = dell_5285_int3477_core_consumer_supplies,
++};
++
++static const struct regulator_init_data dell_5285_tps68470_ana_reg_init_data = {
++	.constraints = {
++		.min_uV = 2815200,
++		.max_uV = 2815200,
++		.apply_uV = 1,
++		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
++	},
++	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3477_ana_consumer_supplies),
++	.consumer_supplies = dell_5285_int3477_ana_consumer_supplies,
++};
++
++static const struct regulator_init_data dell_5285_tps68470_vcm_reg_init_data = {
++	.constraints = {
++		.min_uV = 2815200,
++		.max_uV = 2815200,
++		.apply_uV = 1,
++		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
++	},
++	.num_consumer_supplies = 0,
++	.consumer_supplies = NULL,
++};
++
++static const struct regulator_init_data dell_5285_tps68470_vio_reg_init_data = {
++	.constraints = {
++		.min_uV = 1800600,
++		.max_uV = 1800600,
++		.apply_uV = 1,
++		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
++	},
++	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3477_vio_consumer_supplies),
++	.consumer_supplies = dell_5285_int3477_vio_consumer_supplies,
++};
++
++static const struct regulator_init_data dell_5285_tps68470_vsio_reg_init_data = {
++	.constraints = {
++		.min_uV = 1800600,
++		.max_uV = 1800600,
++		.apply_uV = 1,
++		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
++		/*
++		 * Keep S_I2C_CTL enabled from boot so OV8858 I2C daisy-chain
++		 * is accessible before ov8858 driver probes.
++		 */
++		.always_on = 1,
++	},
++	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3479_vsio_consumer_supplies),
++	.consumer_supplies = dell_5285_int3479_vsio_consumer_supplies,
++};
++
++static const struct regulator_init_data dell_5285_tps68470_aux1_reg_init_data = {
++	.constraints = {
++		.min_uV = 1213200,
++		.max_uV = 1213200,
++		.apply_uV = 1,
++		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
++	},
++	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3479_aux1_consumer_supplies),
++	.consumer_supplies = dell_5285_int3479_aux1_consumer_supplies,
++};
++
++static const struct regulator_init_data dell_5285_tps68470_aux2_reg_init_data = {
++	.constraints = {
++		.min_uV = 1800600,
++		.max_uV = 1800600,
++		.apply_uV = 1,
++		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
++	},
++	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3479_aux2_consumer_supplies),
++	.consumer_supplies = dell_5285_int3479_aux2_consumer_supplies,
++};
++
++static const struct tps68470_regulator_platform_data dell_5285_tps68470_pdata = {
++	.reg_init_data = {
++		[TPS68470_CORE] = &dell_5285_tps68470_core_reg_init_data,
++		[TPS68470_ANA]  = &dell_5285_tps68470_ana_reg_init_data,
++		[TPS68470_VCM]  = &dell_5285_tps68470_vcm_reg_init_data,
++		[TPS68470_VIO]  = &dell_5285_tps68470_vio_reg_init_data,
++		[TPS68470_VSIO] = &dell_5285_tps68470_vsio_reg_init_data,
++		[TPS68470_AUX1] = &dell_5285_tps68470_aux1_reg_init_data,
++		[TPS68470_AUX2] = &dell_5285_tps68470_aux2_reg_init_data,
++	},
++};
++
++static struct gpiod_lookup_table dell_5285_int3477_gpios = {
++	.dev_id = "i2c-INT3477:00",
++	.table = {
++		/*
++		 * TPS68470 GPIO9 = s_resetn (secondary camera reset, active-low)
++		 * TPS68470 GPIO7 = s_enable (secondary camera enable/powerdown)
++		 * These logic outputs are specifically designed for secondary
++		 * camera control on the TPS68470. Matches Surface Go pattern.
++		 */
++		GPIO_LOOKUP("tps68470-gpio", 9, "reset", GPIO_ACTIVE_LOW),
++		GPIO_LOOKUP("tps68470-gpio", 7, "powerdown", GPIO_ACTIVE_LOW),
++		{ }
 +	}
++};
 +
-+	gnvs = acpi_os_map_memory(gnvs_addr, gnvs_size);
-+	if (!gnvs) {
-+		pr_err("int3472-tps68470: Dell 5285: failed to map GNVS at %pa\n",
-+		       &gnvs_addr);
-+		return;
++static struct gpiod_lookup_table dell_5285_int3479_gpios = {
++	.dev_id = "i2c-INT3479:00",
++	.table = {
++		GPIO_LOOKUP("tps68470-gpio", 3, "reset", GPIO_ACTIVE_LOW),
++		GPIO_LOOKUP("tps68470-gpio", 4, "powerdown", GPIO_ACTIVE_LOW),
++		{ }
 +	}
++};
 +
-+	pr_info("int3472-tps68470: Dell 5285 GNVS fix at %pa: C0TP=0x%02x L0CL=0x%02x L1CL=0x%02x -> 0x02\n",
-+		&gnvs_addr,
-+		*(u8 *)(gnvs + DELL5285_C0TP_OFF),
-+		*(u8 *)(gnvs + DELL5285_L0CL_OFF),
-+		*(u8 *)(gnvs + DELL5285_L1CL_OFF));
++static const struct int3472_tps68470_board_data dell_5285_tps68470_board_data = {
++	.dev_name = "i2c-INT3472:05",
++	.tps68470_regulator_pdata = &dell_5285_tps68470_pdata,
++	.n_gpiod_lookups = 2,
++	.tps68470_gpio_lookup_tables = {
++		&dell_5285_int3477_gpios,
++		&dell_5285_int3479_gpios,
++	},
++};
 +
-+	*(u8 *)(gnvs + DELL5285_C0TP_OFF) = 0x02;
-+	*(u8 *)(gnvs + DELL5285_L0CL_OFF) = 0x02;
-+	*(u8 *)(gnvs + DELL5285_L1CL_OFF) = 0x02;
-+
-+	acpi_os_unmap_memory(gnvs, gnvs_size);
-+}
-+
- static int skl_int3472_tps68470_probe(struct i2c_client *client)
- {
- 	struct acpi_device *adev = ACPI_COMPANION(&client->dev);
-@@ -155,6 +354,8 @@ static int skl_int3472_tps68470_probe(struct i2c_client *client)
- 	if (!adev)
- 		return -ENODEV;
+ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+ 	{
+ 		.matches = {
+@@ -316,6 +472,13 @@ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+ 		},
+ 		.driver_data = (void *)&dell_7212_tps68470_board_data,
+ 	},
++	{
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR,   "Dell Inc."),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Latitude 5285"),
++		},
++		.driver_data = (void *)&dell_5285_tps68470_board_data,
++	},
+ 	{ }
+ };
  
-+	dell5285_gnvs_fix();
-+
- 	n_consumers = skl_int3472_fill_clk_pdata(&client->dev, &clk_pdata);
- 	if (n_consumers < 0)
- 		return n_consumers;
 -- 
 2.51.0
 
