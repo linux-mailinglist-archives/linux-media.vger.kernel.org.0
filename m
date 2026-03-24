@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-56851-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56852-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gKjiCE5swmmncwQAu9opvQ
-	(envelope-from <linux-media+bounces-56851-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 11:49:50 +0100
+	id aIZIAFJswmmncwQAu9opvQ
+	(envelope-from <linux-media+bounces-56852-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 11:49:54 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74BB8306B8F
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 11:49:49 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA8C306B9D
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 11:49:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5BF3D3161229
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:43:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B70063165A03
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:43:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB16A3ECBF7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F00FA3ED5BE;
 	Tue, 24 Mar 2026 10:42:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="EMKmu0A+"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="WqQZJlTJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1313E6DEA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC39C3E866F;
 	Tue, 24 Mar 2026 10:42:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774348931; cv=none; b=kDNhHheNJrtRzu1VOjSXnKv5cChPz28EzVVD0tCT8dHrT5gV6gTrP/xGJz3RYyy1FIJnREqx43YUNxNf6aGq8Z8vTrrud8QvUOSaeId32Jn1Oyer4d3pE4RelUiYJh2y7b9F6XPsml0W/Lr1xgrIVd4HKlrzAGeQgHr20bBzgQo=
+	t=1774348931; cv=none; b=OX6aZr32zMz6f4WUFUJSRaxXLEghXRht8Vi/+LWDePsp0f/oz41KWKgMZZUWDKsLM/flwVk/oXPZoieRMoU/zacFVMnGbgq9YGd9+0DnZkUBURwwNSCoDeW2JiKW29EaTgzGKnS3M54iNLMUNIxnmpikQQpn5YTobkWSi8u8uII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774348931; c=relaxed/simple;
-	bh=D6jSec0UYmhSDv7PAQQ10n/4xG35K8i0Tn8hpdntRDg=;
+	bh=e85J5rUsoe9Pao8p/89snApfauekIyZ/IJ/pLZ0eD64=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KKlyzKFqMMhPN3pPTgUjJkTubqt6m81lIZXUHrInAYsDWpIDwGEHTmSZQkFOshjDH6XfKaGZ8CBdsfogVlXxMVfvvLX48b7zwZK/UyZf2ucnTceSpAaTxqxnBuZp0MB/Wi6f90i5wT9g2Z4sd1xZUiGZz6rT8LpX3oEJ7lRgU6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=EMKmu0A+; arc=none smtp.client-ip=168.119.41.54
+	 In-Reply-To:To:Cc; b=uW/rHQ2168cnDIgiuDBgaoRMasS+rTyNkGs0uPA5GDP/W6C/axvKfJEoTzo6G0YcQi1SdfX1KIFfq/Ao0W+Dz7/jy7VBunMfmf3aMoPYmtahomQPz7b7bPS2NbvfljMl3V8Rl4NlzICaPeWRkH5msVt9DIwxpWhnRc0AStRf9Mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=WqQZJlTJ; arc=none smtp.client-ip=168.119.41.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
@@ -40,17 +40,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=ewmNQVXRY5b8V85ZELWmZRbLKnkQi274wQL1xk4UrLE=; b=EMKmu0A+DVr6lKFqo1Blu9p2ow
-	TFdy8QgCbDIN5Ut7+M0P7o8xNfLQUR2CeSpbzVz0NchTBaHwfSWdxayss1Wa2dXH9jU6isy8V4hiX
-	UA3X8VeikN94i9en9ijNO0r8PYyKw23FwbERhGexr160Vh2MnXLVIcQkbnd1unOV7oyA=;
+	bh=mTUyUhXXKKVENA+BCW6Oy4v/BPRVcJfR8AUg1u1iA4M=; b=WqQZJlTJ3wLsSGBmiFj/fxlfx+
+	JEsIqUu87HM3BTBCRvGdmrbPVNptTFNNgKX+4UMEJCcYEr4TFBPaJC0I7h4KFmLbTupX1TIyR5iZl
+	eYcaFPBTWXhFPdgsUmlUYnuJvhWhGxta+Livmc/fmNsFflqKMUKyvX1xdj8nTsSgHisY=;
 Received: from 194-208-208-245.tele.net ([194.208.208.245]:55336 helo=[127.0.1.1])
 	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.93)
 	(envelope-from <matthias.fend@emfend.at>)
-	id 1w4zD2-00DIvK-KK; Tue, 24 Mar 2026 11:42:05 +0100
+	id 1w4zD3-00DIvK-JU; Tue, 24 Mar 2026 11:42:06 +0100
 From: Matthias Fend <matthias.fend@emfend.at>
-Date: Tue, 24 Mar 2026 11:41:39 +0100
-Subject: [PATCH v3 5/9] media: i2c: ov08d10: add missing newline to prints
+Date: Tue, 24 Mar 2026 11:41:40 +0100
+Subject: [PATCH v3 6/9] dt-bindings: media: i2c: document Omnivision
+ OV08D10 CMOS image sensor
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,7 +60,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260324-ov08d10-v3-5-1e44069cf91e@emfend.at>
+Message-Id: <20260324-ov08d10-v3-6-1e44069cf91e@emfend.at>
 References: <20260324-ov08d10-v3-0-1e44069cf91e@emfend.at>
 In-Reply-To: <20260324-ov08d10-v3-0-1e44069cf91e@emfend.at>
 To: Jimmy Su <jimmy.su@intel.com>, 
@@ -69,7 +70,8 @@ To: Jimmy Su <jimmy.su@intel.com>,
  Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org, Matthias Fend <matthias.fend@emfend.at>, 
- bsp-development.geo@leica-geosystems.com
+ bsp-development.geo@leica-geosystems.com, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
 X-Spam-Score: -1.0
 X-Spam-Bar: -
@@ -79,10 +81,9 @@ X-Spam-Report: Spam detection software, running on the system "lx20.hoststar.hos
  similar future email.  If you have any questions, see
  the administrator of that system for details.
  
- Content preview:  Fix some spelling errors in comments. Reviewed-by: Philipp
-    Zabel <p.zabel@pengutronix.de> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
-    --- drivers/media/i2c/ov08d10.c | 10 +++++----- 1 file changed, 5 insertions(+),
-    5 deletions( [...] 
+ Content preview:  Add trailing \n to dev_* prints where missing. Signed-off-by:
+    Matthias Fend <matthias.fend@emfend.at> --- drivers/media/i2c/ov08d10.c |
+    34 +++++++++++++++++ 1 file changed, 17 insertions(+), 17 deletions(-) 
  
  Content analysis details:   (-1.0 points, 5.0 required)
  
@@ -98,186 +99,166 @@ X-Spamd-Result: default: False [1.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	R_DKIM_REJECT(1.00)[emfend.at:s=mail];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56852-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56851-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DMARC_NA(0.00)[emfend.at];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.979];
+	DKIM_TRACE(0.00)[emfend.at:-];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	DBL_PROHIBIT(0.00)[0.0.0.36:email];
 	FROM_NEQ_ENVFROM(0.00)[matthias.fend@emfend.at,linux-media@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[emfend.at:-];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.995];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[emfend.at:email,emfend.at:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 74BB8306B8F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,devicetree.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,emfend.at:email,emfend.at:mid,intel.com:email]
+X-Rspamd-Queue-Id: 5DA8C306B9D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add trailing \n to dev_* prints where missing.
+Add bindings for the Omnivision OV08D10 CMOS image sensor.
 
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
 ---
- drivers/media/i2c/ov08d10.c | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ .../bindings/media/i2c/ovti,ov08d10.yaml           | 101 +++++++++++++++++++++
+ MAINTAINERS                                        |   2 +
+ 2 files changed, 103 insertions(+)
 
-diff --git a/drivers/media/i2c/ov08d10.c b/drivers/media/i2c/ov08d10.c
-index fd1e0769eebe99ec2e827e9bfd0d0a7731116669..f2276f49506028c582e49a5b7cab3b07f6ca4e0d 100644
---- a/drivers/media/i2c/ov08d10.c
-+++ b/drivers/media/i2c/ov08d10.c
-@@ -664,7 +664,7 @@ static int ov08d10_write_reg_list(struct ov08d10 *ov08d10,
- 						r_list->regs[i].val);
- 		if (ret) {
- 			dev_err_ratelimited(ov08d10->dev,
--					    "failed to write reg 0x%2.2x. error = %d",
-+					    "failed to write reg 0x%2.2x. error = %d\n",
- 					    r_list->regs[i].address, ret);
- 			return ret;
- 		}
-@@ -1024,32 +1024,32 @@ static int ov08d10_start_streaming(struct ov08d10 *ov08d10)
- 	/* soft reset */
- 	ret = i2c_smbus_write_byte_data(client, OV08D10_REG_PAGE, 0x00);
- 	if (ret < 0) {
--		dev_err(ov08d10->dev, "failed to reset sensor");
-+		dev_err(ov08d10->dev, "failed to reset sensor\n");
- 		return ret;
- 	}
- 	ret = i2c_smbus_write_byte_data(client, 0x20, 0x0e);
- 	if (ret < 0) {
--		dev_err(ov08d10->dev, "failed to reset sensor");
-+		dev_err(ov08d10->dev, "failed to reset sensor\n");
- 		return ret;
- 	}
- 	usleep_range(3000, 4000);
- 	ret = i2c_smbus_write_byte_data(client, 0x20, 0x0b);
- 	if (ret < 0) {
--		dev_err(ov08d10->dev, "failed to reset sensor");
-+		dev_err(ov08d10->dev, "failed to reset sensor\n");
- 		return ret;
- 	}
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..6f2017c7512566d47fc04fbd4c672cb9633ca990
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
+@@ -0,0 +1,101 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/ovti,ov08d10.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Omnivision OV08D10 1/4-Inch 8MP CMOS color image sensor
++
++maintainers:
++  - Matthias Fend <matthias.fend@emfend.at>
++
++description:
++  The Omnivision OV08D10 is a 1/4-Inch 8MP CMOS color image sensor with an
++  active array size of 3280 x 2464. It is programmable through I2C
++  interface. Image data is transmitted via MIPI CSI-2 using 2 lanes.
++
++allOf:
++  - $ref: /schemas/media/video-interface-devices.yaml#
++
++properties:
++  compatible:
++    const: ovti,ov08d10
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    description: MCLK input clock (6 - 27 MHz)
++    maxItems: 1
++
++  reset-gpios:
++    description: Active low XSHUTDN pin
++    maxItems: 1
++
++  dovdd-supply:
++    description: IO power supply (1.8V)
++
++  avdd-supply:
++    description: Analog power supply (2.8V)
++
++  dvdd-supply:
++    description: Core power supply (1.2V)
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        required:
++          - data-lanes
++          - link-frequencies
++
++    required:
++      - endpoint
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/media/video-interfaces.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        sensor@36 {
++            compatible = "ovti,ov08d10";
++            reg = <0x36>;
++
++            clocks = <&ov08d10_clk>;
++
++            dovdd-supply = <&ov08d10_vdddo_1v8>;
++            avdd-supply = <&ov08d10_vdda_2v8>;
++            dvdd-supply = <&ov08d10_vddd_1v2>;
++
++            orientation = <2>;
++            rotation = <0>;
++
++            reset-gpios = <&gpio 1 GPIO_ACTIVE_LOW>;
++
++            port {
++                ov08d10_output: endpoint {
++                    data-lanes = <1 2>;
++                    link-frequencies = /bits/ 64 <360000000 720000000>;
++                    remote-endpoint = <&csi_input>;
++                };
++            };
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 750ac8c4a7b00cc6668d80fff60a2b54838bfa7c..f91dbc3f3ed0e5b303882c2f3893b70d154a5bef 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19502,9 +19502,11 @@ F:	drivers/media/i2c/ov02e10.c
  
- 	/* update sensor setting */
- 	ret = ov08d10_write_reg_list(ov08d10, reg_list);
- 	if (ret) {
--		dev_err(ov08d10->dev, "failed to set plls");
-+		dev_err(ov08d10->dev, "failed to set plls\n");
- 		return ret;
- 	}
+ OMNIVISION OV08D10 SENSOR DRIVER
+ M:	Jimmy Su <jimmy.su@intel.com>
++R:	Matthias Fend <matthias.fend@emfend.at>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
++F:	Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
+ F:	drivers/media/i2c/ov08d10.c
  
- 	reg_list = &ov08d10->cur_mode->reg_list;
- 	ret = ov08d10_write_reg_list(ov08d10, reg_list);
- 	if (ret) {
--		dev_err(ov08d10->dev, "failed to set mode");
-+		dev_err(ov08d10->dev, "failed to set mode\n");
- 		return ret;
- 	}
- 
-@@ -1076,19 +1076,19 @@ static void ov08d10_stop_streaming(struct ov08d10 *ov08d10)
- 
- 	ret = i2c_smbus_write_byte_data(client, OV08D10_REG_PAGE, 0x00);
- 	if (ret < 0) {
--		dev_err(ov08d10->dev, "failed to stop streaming");
-+		dev_err(ov08d10->dev, "failed to stop streaming\n");
- 		return;
- 	}
- 	ret = i2c_smbus_write_byte_data(client, OV08D10_REG_MODE_SELECT,
- 					OV08D10_MODE_STANDBY);
- 	if (ret < 0) {
--		dev_err(ov08d10->dev, "failed to stop streaming");
-+		dev_err(ov08d10->dev, "failed to stop streaming\n");
- 		return;
- 	}
- 
- 	ret = i2c_smbus_write_byte_data(client, OV08D10_REG_PAGE, 0x01);
- 	if (ret < 0) {
--		dev_err(ov08d10->dev, "failed to stop streaming");
-+		dev_err(ov08d10->dev, "failed to stop streaming\n");
- 		return;
- 	}
- }
-@@ -1324,7 +1324,7 @@ static int ov08d10_get_hwcfg(struct ov08d10 *ov08d10)
- 
- 	/* Get number of data lanes */
- 	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 2) {
--		dev_err(dev, "number of CSI2 data lanes %d is not supported",
-+		dev_err(dev, "number of CSI2 data lanes %d is not supported\n",
- 			bus_cfg.bus.mipi_csi2.num_data_lanes);
- 		ret = -EINVAL;
- 		goto check_hwcfg_error;
-@@ -1336,7 +1336,7 @@ static int ov08d10_get_hwcfg(struct ov08d10 *ov08d10)
- 	ov08d10->modes_size = ov08d10_modes_num(ov08d10);
- 
- 	if (!bus_cfg.nr_of_link_frequencies) {
--		dev_err(dev, "no link frequencies defined");
-+		dev_err(dev, "no link frequencies defined\n");
- 		ret = -EINVAL;
- 		goto check_hwcfg_error;
- 	}
-@@ -1349,7 +1349,7 @@ static int ov08d10_get_hwcfg(struct ov08d10 *ov08d10)
- 		}
- 
- 		if (j == bus_cfg.nr_of_link_frequencies) {
--			dev_err(dev, "no link frequency %lld supported",
-+			dev_err(dev, "no link frequency %lld supported\n",
- 				ov08d10->priv_lane->link_freq_menu[i]);
- 			ret = -EINVAL;
- 			goto check_hwcfg_error;
-@@ -1398,7 +1398,7 @@ static int ov08d10_probe(struct i2c_client *client)
- 
- 	ret = ov08d10_get_hwcfg(ov08d10);
- 	if (ret) {
--		dev_err(ov08d10->dev, "failed to get HW configuration: %d",
-+		dev_err(ov08d10->dev, "failed to get HW configuration: %d\n",
- 			ret);
- 		return ret;
- 	}
-@@ -1407,7 +1407,7 @@ static int ov08d10_probe(struct i2c_client *client)
- 
- 	ret = ov08d10_identify_module(ov08d10);
- 	if (ret) {
--		dev_err(ov08d10->dev, "failed to find sensor: %d", ret);
-+		dev_err(ov08d10->dev, "failed to find sensor: %d\n", ret);
- 		return ret;
- 	}
- 
-@@ -1415,7 +1415,7 @@ static int ov08d10_probe(struct i2c_client *client)
- 	ov08d10->cur_mode = &ov08d10->priv_lane->sp_modes[0];
- 	ret = ov08d10_init_controls(ov08d10);
- 	if (ret) {
--		dev_err(ov08d10->dev, "failed to init controls: %d", ret);
-+		dev_err(ov08d10->dev, "failed to init controls: %d\n", ret);
- 		goto probe_error_v4l2_ctrl_handler_free;
- 	}
- 
-@@ -1425,7 +1425,7 @@ static int ov08d10_probe(struct i2c_client *client)
- 	ov08d10->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	ret = media_entity_pads_init(&ov08d10->sd.entity, 1, &ov08d10->pad);
- 	if (ret) {
--		dev_err(ov08d10->dev, "failed to init entity pads: %d", ret);
-+		dev_err(ov08d10->dev, "failed to init entity pads: %d\n", ret);
- 		goto probe_error_v4l2_ctrl_handler_free;
- 	}
- 
-@@ -1434,7 +1434,7 @@ static int ov08d10_probe(struct i2c_client *client)
- 
- 	ret = v4l2_async_register_subdev_sensor(&ov08d10->sd);
- 	if (ret < 0) {
--		dev_err(ov08d10->dev, "failed to register V4L2 subdev: %d",
-+		dev_err(ov08d10->dev, "failed to register V4L2 subdev: %d\n",
- 			ret);
- 		goto probe_error_media_entity_cleanup;
- 	}
+ OMNIVISION OV08X40 SENSOR DRIVER
 
 -- 
 2.34.1
