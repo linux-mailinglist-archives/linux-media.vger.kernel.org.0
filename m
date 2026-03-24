@@ -1,199 +1,207 @@
-Return-Path: <linux-media+bounces-56829-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56830-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kOu6ALVSwmnNbgQAu9opvQ
-	(envelope-from <linux-media+bounces-56829-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:00:37 +0100
+	id UCcYKtJUwmnNbgQAu9opvQ
+	(envelope-from <linux-media+bounces-56830-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:09:38 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9EF630530C
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:00:31 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5533054C7
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:09:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8CCEE304101A
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 08:55:41 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 2EEDC305B30F
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 09:04:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66A883AEF37;
-	Tue, 24 Mar 2026 08:55:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAA7B3DBD66;
+	Tue, 24 Mar 2026 09:04:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KTIT3X4a"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eobWxcRq";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Pdcz4TQ2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12E138AC95
-	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 08:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D60C3DABE3
+	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 09:04:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774342536; cv=none; b=TWWH5dUkvgYxIQ5OjEJcd7NsWeSfHBcOOOwKMlKoJqu47NlO8eEqiCs3dezFjensiT4MHFBJrk3sJ41cL8TQO8DL47NrXtsE1j3a/1+YsXQchuxn5bjW1x64ih0wFrxgfNP5d4c3AHl8vG4y8WE2Hd1aTYGfmStT8hC8+uROxHM=
+	t=1774343074; cv=none; b=EuNZfZRdT4+Q8ay7PGDogDOvvM95x87Ad+v/KFSok6GfcH+saPcfPWxiiMBoR0E8elSPgQmyUex3bHnk6kSaax0cgBuFARsfLXyhK0a7tn08275eYys8ZqaLrN1oHTvnHFP4uIbZripchrzcRz5g3dwfdrOnqAsxCq2Cht3IAv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774342536; c=relaxed/simple;
-	bh=0FsB03PyLBqucgBmNur3XoB6ZROWg++oSpNPK13R5Lw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NXNzdZWjPqdqdr4qN9C/u9IEr1lSZEeC6gOQuOjYKYfLGfv+v4IF8rzVGOnel6t3KdrMrOXJxBLyrMOhDRxL54jwmATNkEzfil87FeOkm17MRfgEbHkWwyEz40ZDWiuS/nlrqnq9/+YmG76Cn8J2hEhu6LJTbn8Aw4nSws6PNF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KTIT3X4a; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774342535; x=1805878535;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0FsB03PyLBqucgBmNur3XoB6ZROWg++oSpNPK13R5Lw=;
-  b=KTIT3X4aOA5t29u8/JP58sPrDvL+amsmB0KlmJ8huESc8f8zVy+4nqN4
-   RDJkbMSziHb3biU783+5sj54HcvVii7a6nCSe4RHi2YtYKumCOzHPcWfF
-   ys5LS98twy0m7qeNV2ncGvfFm5SqelNsvBOCmqXbWOqMMBc+wOMe6ctBL
-   MFzkQ33RudCTHYIZeeIlcKmZOIULxO2CKV57V0nG8sNIQ3ExTQgm+El0+
-   Bd+YXy8LKzxz+fk+J8NI2wivPEcb/Tq+qn10D3LidB1PJsyAp2EimCwIP
-   2J/FytFqhTCQfC33Cj6sb/924ZaVmpxmUbIowMAW8pn+mzeM3AF6AA5r7
-   Q==;
-X-CSE-ConnectionGUID: FwDAOZI2RReAOY8y/FxrZQ==
-X-CSE-MsgGUID: zfhR4B9WSuOlIYV6NOQZqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75376714"
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="75376714"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 01:55:34 -0700
-X-CSE-ConnectionGUID: u/1ZdDjNR46DlFWKO15Kpg==
-X-CSE-MsgGUID: AE9bkBEIQdeAthRVKFbSQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="224296762"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.180])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 01:55:32 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 52C8F121CFF;
-	Tue, 24 Mar 2026 10:55:33 +0200 (EET)
-Date: Tue, 24 Mar 2026 10:55:33 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Marco Nenciarini <mnencia@kcore.it>
-Cc: linux-media@vger.kernel.org, bingbu.cao@intel.com,
-	tian.shu.qiu@intel.com
-Subject: Re: [PATCH] media: intel/ipu6: Fix DWC PHY HSFREQRANGE band
- selection for overlapping ranges
-Message-ID: <acJRhXavodXz63jK@kekkonen.localdomain>
-References: <20260323154037.1404865-1-mnencia@kcore.it>
+	s=arc-20240116; t=1774343074; c=relaxed/simple;
+	bh=jsWgh1Ti4adaFW3/HADaqw2MCIKnBpjGviAHd/Q/Jb4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t21f58F8suuEqU15V+mrdlIbLY84I3Fp9r5ekGAsDVj1ga49UOPmRlGnjSlK2ChwS/4tVQWYPB+FoasPo2y99vtKENp0Bg0iozeWCxkxo1UmD+2FNZr41qGvxEGNAGY0SAFnvjhUJIbU5MWNy47c6KmezSdHvsT8G5jPhrbhE0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eobWxcRq; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Pdcz4TQ2; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62O3tuWG3634337
+	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 09:04:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	WPfigo46/ROFQ4N/tJ88i4ZYjoNiquVe9blKzLVTqFw=; b=eobWxcRqzLnx6L7E
+	Sf1sa9GOx1ymukjiv7nmvyorMZyFEEEIWs5RIwb9MhQ6f2z/otzZBsq8jJkDb1uN
+	rVybLrcZFmWgBaVQEKfGaGdmCjqIkTL/rfzcAy60xjCyyad/DpMXyVq6ZdoG+0Ia
+	wEQMp0mCSpTNigow6FiwQ4SnRpux5RaoBsg3nhVrZjRIxswYoMCF30A9N/gR2UrV
+	nNnicvThy2P2BYx3zvbu6YRcY63WHOOlQBb48RRhCsPT5JbQaRR0lW1OF6ZzCZE5
+	rnqUWAbSs+lrAlApu0Io40IGtc6+u0BehQY9LiRi21gOw2zrXLE0Ym/0KUY5enIi
+	Bxz+2Q==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d34k4m8k5-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 09:04:28 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-5090bc4823cso226873071cf.3
+        for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 02:04:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1774343068; x=1774947868; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WPfigo46/ROFQ4N/tJ88i4ZYjoNiquVe9blKzLVTqFw=;
+        b=Pdcz4TQ2A8JQo+sQADgNLJlPzAqPdNE1x5+fvHArq4z4q3KEqF8naQR+hesVMHlhqg
+         9XU7GmhdSBLMg4ISD7t1slg3D6kGELGeUpoHfC7mGjCEsh72ICQ8u/TGJ7l2gv/MWeLL
+         pTACFBAAZztElujiZIwbztD0phsFJ680zXxULpg9u0xpazpokwbIOusQidvRo3Gj+9GX
+         GMaXJZgDMA7jIHNTx6yJ8U4sufoaYeLhi1GOMegbgq+1MF6evk5e5kQsYw3uJwesmiGd
+         rOjyeMCUn3A2TLPcNR+xqpGNL3qepEXtJrgw9uoQ7wtQp+/mYuzwvJnZnhmrFqiJSidn
+         ovbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774343068; x=1774947868;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WPfigo46/ROFQ4N/tJ88i4ZYjoNiquVe9blKzLVTqFw=;
+        b=LRF+9Uq3c4x5XBcmDtiU/W4O02/h0rhMRSGAGmIsqEUGYUqG654YClEd3cKZHAY+98
+         9mM+Fy6fhJrh+TmRBrbwFzsNf2OsTfYlzBYCjQZRcByqpErKj3HXhJKmfkeg0i2026KS
+         B2sjdCG4m8BEYlHmQ925UhJ/M9YfDqJ/Rn8ddhhikq22Ad9tqV20S9jd0gy1u8BPt+jK
+         846Y+sxUXMBvPDtwwRwCGC9N+9ZLyvBdcKQ8bG1f5tPL1M85hLNzkmAeVv9TuwdJZmlk
+         1ebUQXTpRYJHyEIjYmYRX9zHWizGCH89MBVgaZ8VcPgyRXRSwBee0+pIRAwplSBEc4RI
+         hr+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVZD8gYHAKOC89Vy2dguW808lTOP7WBgKix4evYSClACPSiDFbuQOhNBvB0Q6u1LdCGBBR5Et3C4ij3bA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4T+LCRojBpgL6MXvF8rXucH/37xtQXubamfVgitbYUW70FMnp
+	OFi6LFpmfkCBL9z+6BuiBx19i77jRA29SsOzgFHDRyvEfTNDFRqhd9EXPRJckIJkbA5VaF3IMdd
+	2NzcyPvw+hAiPEQi6jGRM+hripvpg5W4xaNzRCLusTmY4iq1SVewXf6Ze65UcYPaOhA==
+X-Gm-Gg: ATEYQzw0egwx1dcuclEgX+7mOY1n+peaRE3hW04J1CZSeVFHV0IomuwTttrCS52yB7p
+	L5GEdXsuDyW1AxDvEZRNRJHGoSwwE18MznYcJGFUEDL8K6fkGe5ceeVVaBCZYas8bx/fa0dmtzd
+	qJfPIXiQoK+WJ0ub3BsVfACIppZVGcErQzHvdyk5YsoFMJisSmU+Fc4jI9FsAdTebiPORXC1LrV
+	2a63qwzj0CUfFzr2mzS5vdjXvMSPZjkHtQ9C4en8w3iipi7RSSHGhGlSygZ4e/2xSn6fn4JZmLA
+	nWSOF81NOG3n3j+W1vsSPrpNf064fGlq3yrxbKauBDIxDcTbg3Ok53wNTWrPovmLlnjnnzxAkLt
+	vryJtyq2mIF3KTbMW67ssoqPkhLuxCIojx7VmJG/14O6GCwrm58A=
+X-Received: by 2002:a05:622a:154:b0:50b:51e9:2e8b with SMTP id d75a77b69052e-50b51e9310emr133853311cf.11.1774343067836;
+        Tue, 24 Mar 2026 02:04:27 -0700 (PDT)
+X-Received: by 2002:a05:622a:154:b0:50b:51e9:2e8b with SMTP id d75a77b69052e-50b51e9310emr133852721cf.11.1774343067138;
+        Tue, 24 Mar 2026 02:04:27 -0700 (PDT)
+Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:99ae:5c2c:ddf7:d77a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487116c086dsm40007565e9.8.2026.03.24.02.04.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 02:04:26 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Linus Walleij <linusw@kernel.org>,
+        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: brgl@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-pm@vger.kernel.org
+Subject: Re: (subset) [PATCH v2 0/9] gpio: remove uneeded Kconfig dependencies on OF_GPIO
+Date: Tue, 24 Mar 2026 10:04:24 +0100
+Message-ID: <177434305814.8385.4412622204610388581.b4-ty@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260316-gpio-of-kconfig-v2-0-de2f4b00a0e4@oss.qualcomm.com>
+References: <20260316-gpio-of-kconfig-v2-0-de2f4b00a0e4@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323154037.1404865-1-mnencia@kcore.it>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: 5RXlC9n9ybWfqDPKfaJIFH4QDt-CneT_
+X-Proofpoint-ORIG-GUID: 5RXlC9n9ybWfqDPKfaJIFH4QDt-CneT_
+X-Authority-Analysis: v=2.4 cv=c+imgB9l c=1 sm=1 tr=0 ts=69c2539c cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=_HlkyUIfcI8kue4dcD0A:9 a=QEXdDO2ut3YA:10
+ a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI0MDA3MSBTYWx0ZWRfX8WzJvhGbbuWd
+ Fg8yHVghaXU74vohwIC/b9p2uMaVF+6dyRClnoDlSQWVwvYmMM9vBGowzkCnuavgSb2cjOOzZTI
+ +Mx7KCKef2iqVD33oBF6U/V9LuMNKzP+aS6FR9j4eoPqZZqjNcrke2X9yvf6sdXAd8c/jz3rvaG
+ J5vNCT/Pldw6beDHRkzxPAAzvfRde/45XpT7ba+aRKyZklZFDYjCLPUpCiC9yG1YkNHuFrlET0E
+ aaV4L853o+n1w/UzXs+7tj7uBvsHugac4zP+n6ZymNZq4TzuTi5h5WCl3PXcXsyuLylRPeKnlBZ
+ G3sha9hgaLR8L7/fyYk0rL3WXD58anNeolx/fBDLwq+BZdYFhdGq4SnEqL3xXzpcthizObdQdiH
+ YjVrT+xGvohE8YVPygcYivrjeeMo9KBFHE/Tbb4u1DylVKJvx1tLV2B4xhjK+2WBtADFNEnikle
+ Gs6dfpjpsLypL4cT5lg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-24_02,2026-03-23_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 impostorscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 adultscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603240071
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56829-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RSPAMD_URIBL_FAIL(0.00)[kcore.it:query timed out];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56830-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[arm.com,kernel.org,lunn.ch,gmail.com,armlinux.org.uk,davemloft.net,google.com,redhat.com,linux-watchdog.org,roeck-us.net,linuxfoundation.org,oss.qualcomm.com];
 	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
-	RSPAMD_EMAILBL_FAIL(0.00)[mnencia.kcore.it:query timed out,sakari.ailus.linux.intel.com:query timed out];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: C9EF630530C
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bartosz.golaszewski@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 8B5533054C7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Marco,
 
-Thanks for the patch.
-
-On Mon, Mar 23, 2026 at 04:40:37PM +0100, Marco Nenciarini wrote:
-> The get_hsfreq_by_mbps() function searches the freqranges[] table
-> backward (from highest to lowest index). Because adjacent frequency
-> bands overlap, a data rate that falls in the overlap region always
-> lands on the higher-indexed band.
+On Mon, 16 Mar 2026 10:45:20 +0100, Bartosz Golaszewski wrote:
+> NOTE: Each patch in this series can be picked up independently into
+> maintainer trees.
 > 
-> For data rates up to 1500 Mbps (index 42) every band uses
-> osc_freq_target 335. Starting at index 43 (1461-1640 Mbps) the
-> osc_freq_target drops to 208. A sensor running at 1498 Mbps sits in
-> the overlap between index 42 (1414-1588, osc 335) and index 43
-> (1461-1640, osc 208). The backward search picks index 43, programming
-> the lower osc_freq_target of 208 instead of the optimal 335.
+> CONFIG_OF_GPIO is a switch that enables the compilation of the gpiolib-of
+> module. The module itself handles GPIO lookup via the OF-node tree and
+> is automatically enabled on all OF systems. It does not export any
+> public symbols to drivers. There is no reason for them to select or
+> depend on it in Kconfig.
 > 
-> This causes DDL lock instability and CSI-2 CRC errors on affected
-> configurations, such as the OmniVision OV08X40 sensor on Intel Arrow
-> Lake platforms (Dell Pro Max 16).
-> 
-> Add a check after get_hsfreq_by_mbps() that shifts to the previous
-> band when it also covers the requested data rate and provides a higher
-> osc_freq_target, ensuring stable DDL lock at boundary data rates.
-> 
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Bingbu Cao <bingbu.cao@intel.com>
-> Signed-off-by: Marco Nenciarini <mnencia@kcore.it>
-> ---
->  .../media/pci/intel/ipu6/ipu6-isys-dwc-phy.c  | 21 +++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c b/drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c
-> index db28748..450e7a2 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c
-> @@ -317,6 +317,27 @@ static int ipu6_isys_dwc_phy_config(struct ipu6_isys *isys,
->  		return -EINVAL;
->  	}
->  
-> +	/*
-> +	 * The overlapping frequency ranges combined with the backward
-> +	 * search in get_hsfreq_by_mbps() can select a band where the
-> +	 * data rate sits at the lower edge and osc_freq_target drops
-> +	 * (335 -> 208 at index 43). When the previous band also covers
-> +	 * this rate and has a higher osc_freq_target, prefer it for
-> +	 * better DDL lock stability. This fixes CRC errors seen at
-> +	 * 1498 Mbps (e.g. OV08X40 on Arrow Lake).
-> +	 */
-> +	if (index > 0 &&
-> +	    mbps >= freqranges[index - 1].min &&
-> +	    mbps <= freqranges[index - 1].max &&
-> +	    freqranges[index - 1].osc_freq_target >
-> +	    freqranges[index].osc_freq_target) {
-> +		dev_dbg(dev, "Dphy %u: shift band %u->%u for %u mbps (osc %u->%u)",
-> +			phy_id, index, index - 1, mbps,
-> +			freqranges[index].osc_freq_target,
-> +			freqranges[index - 1].osc_freq_target);
-> +		index--;
-> +	}
+> [...]
 
-Instead of adding this workaround, can we change the selection algorithm
-instead? I'm not sure where the table comes from (datasheet somewhere
-maybe?), but it looks like there indeed are many options for most
-frequencies. The current algorithm appears just crude.
+Applied, thanks!
 
-What I might do is to select either the exact (default_mbps) frequency and
-if there's no exact match, then pick the one that has higher
-osc_freq_target (while still satisfying min/max limits) or if the two are
-the same, then the one that has closer default_freq.
+[3/9] gpio: drop unneeded Kconfig dependencies on OF_GPIO
+      https://git.kernel.org/brgl/c/7803501e5754dc4b295ab22b20562e2b965358ba
 
-I can write a patch, too, if you like.
-
-> +
->  	dwc_dphy_write_mask(isys, phy_id, IPU6_DWC_DPHY_HSFREQRANGE,
->  			    freqranges[index].hsfreq, 0, 7);
->  
-
+Best regards,
 -- 
-Kind regards,
-
-Sakari Ailus
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
