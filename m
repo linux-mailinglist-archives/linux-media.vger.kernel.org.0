@@ -1,98 +1,92 @@
-Return-Path: <linux-media+bounces-56901-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56902-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aIouIDDUwmllmgQAu9opvQ
-	(envelope-from <linux-media+bounces-56901-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 19:13:04 +0100
+	id +NIdNXHXwmllmgQAu9opvQ
+	(envelope-from <linux-media+bounces-56902-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 19:26:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D725A31A8DE
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 19:13:03 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 180ED31ACC3
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 19:26:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3B02F3118457
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 18:08:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C51C030107ED
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 18:23:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6754638946B;
-	Tue, 24 Mar 2026 18:08:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4D3039656C;
+	Tue, 24 Mar 2026 18:23:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ioVoX5+O"
+	dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b="jb+oSsCR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4E938236B
-	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 18:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09317399036
+	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 18:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774375734; cv=none; b=eiLPWDoXZ9Ue8sFy6X2qhCnlGBpxJ/NS92Vjt62RV1SiLsK90Du5hMFKQaRuO2rg8BZs6gmvf5mo9WRuN/DQ+/T6vW8T+F3yaGX+VxXPNewrNiv1p8NZNCH+up4Q9UCVUBwn/CqGBHY/VcTC3RGcrrS/bgbEd1UUy9hPUk1z5ME=
+	t=1774376611; cv=none; b=f6yDb9vWj1Sic8YRQgn9l3dc0D20aEZUTGl/9hWQ1oDbVEQxPSEuY4hcKJs5vOB4pbgk276zDEiqnVzPh+SkzBx+7XMqjlncsqST5oxz8d9y50thV2nEKL4WtvF6OSBGon8wsaHdut7jGSCq5+NSZC5QiDkPxkJTLsIDTYiHAEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774375734; c=relaxed/simple;
-	bh=sDOm3ILNrUo/i+Whe0kO6hbAvPjjolJ0LB0vVGmLZVw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DjshOs7HD8fcVqzkCv3Qi21qi4rZ4ktjhLZFUVPWoIK1O1BqlEF3vg4wjaLWy7qSHa3PfBD/aCSES+Rb3jlDMfOCXDW/TxRWbGB40IbwguZUfRCn7EJ9d6T8NbU1KlYwVFJranuHmK2mm1yRQxEyeEMBZG9NyyodrzZMNcgtWDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ioVoX5+O; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2aaf43014d0so38388645ad.2
-        for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 11:08:53 -0700 (PDT)
+	s=arc-20240116; t=1774376611; c=relaxed/simple;
+	bh=AEVjva8P/Xdwmg6zJOX7/T+MU5ZwYaMSOJurUPJg95c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=pjy39/Ys8fMbQlXvqM/uOK514nUC+re8c/GQPLnvJWSUHiUIZ5K/VgODbsGmc/JEnAJlclrgrQH/eeAn7oBw/SsiCgxyUrwcvzLgx9nhHazTD89uHHNYI9N0MSuSwnKxmZHFpN+g6kMExheSZZ2if80STBxUQA8pNmI/RvLPy4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc; spf=pass smtp.mailfrom=nextdimension.cc; dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b=jb+oSsCR; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nextdimension.cc
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-79885f4a8ffso49174247b3.3
+        for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 11:23:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774375732; x=1774980532; darn=vger.kernel.org;
+        d=nextdimension.cc; s=google; t=1774376609; x=1774981409; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fwm/RWezWuWLRKLrKQqL0phbl67VjldslJGOJUeSIj4=;
-        b=ioVoX5+OogtNwbLkTY/Ohph6jKqfW/DjXMcExj2nDZhuTKC3s0TpDgdZ98Nc3xxJf8
-         7m4D43H6AtuSvChcijYwPBKAJnrVfbEHk8+CBvqB85KzhP7RN4QzxfouIDanURAP3qow
-         yFkhtGDdkx3TKcTyaRNOr4UZNWqRV0DJaySxmg+WslYFnT7uIspwbiLOeBvtKaOjodA1
-         /ruAdMJJWHUVXtMuWS15IoasetYS4fMGE/iV5KSa/JW25ZAghsJQYZuNCHeultYgb5Ku
-         OJddcw2EkgcbmzQbwNr17flbzDJF2fhDBHO6n5BAR4PFzJ/qfWIahvSj3JJ5u7X/SUkv
-         aYWA==
+        bh=a650OWPXOzRLT6tqPHlRDvapR23NLdEb0yDg12zExfI=;
+        b=jb+oSsCRhy9RPt8ArPfF3vLQlQ/hvsW9kSYJJH0k0Ond/dYXF9WWZMbaUd/3Ay00aS
+         oVJTbM7MnC6lpLjmRRmnjNwyRCDmtyWHJxBut/sGfIdKSjscAAnxtPqnsKzKqELBB11k
+         MvyVirmQLozyjmIaOPptDZ2NzuO+fAmbIJuo3NR66niIM2/NCxbyLPqd6QhMk/Med8px
+         pR/UQP+x8QgNWJkypIHSWhNAXrSDXGFojWX/ZuQxwxd25l2EmWLF0WakCBfRu72ly29P
+         5yK4ZgIA+SX0Vh8bEVAFYkAzoyqLVPe1cnvZdWQ/vJTl3bud/zj8OZou6a3xRg94EpEa
+         u9mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774375732; x=1774980532;
+        d=1e100.net; s=20251104; t=1774376609; x=1774981409;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=fwm/RWezWuWLRKLrKQqL0phbl67VjldslJGOJUeSIj4=;
-        b=CS6UdYIiBdvat5sfCMu/Q3rYHMS7yJTgKQqsu1PmgjVvNNkz2BdHSba3nwkSJkZiFy
-         E/aPvhC8ZFPeYLqaLK5hS1W8AxYsyFX5BgESw76/AVc64rlPcxXVzf4Phk0VojthGIb8
-         WHOClTbkE8u8OnfDdiyuboH7vpGRE3DbgzKQw7oA7xWjrDGB/B8qaapRvbJylV0iZEhb
-         gSRpj6v0m3SLcEh+8GWsVLcG4HQ6M36V5vHSVZ13+NxFPydcxk9O1wlpraVjhMcJmLP1
-         qPtKI9VfsjD5rC4rYXeCNroCK4AXlqzfc2LgFIeVPd7Izu9GNVyWqv2xMjebt5wmoqgp
-         LLBw==
-X-Forwarded-Encrypted: i=1; AJvYcCUKFaa5beWdJLDT/5vcv12rAN6lmSFOLDKhH4Hhkd5qlVDkuUonVyM9lbuwx/5+oPUFTNtOZyuORx3KOQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyY0phOWSHBaT12ATob+E31qCFTpQxQ1FizF4nC1HPHGjw+EBfa
-	y162WuxXAK3caSMaddOm9zpKGdPnk6upX/8rQsmjevk6S9O3oSIynINp
-X-Gm-Gg: ATEYQzzK2a2M+LV4gMXQubE3mSa6NlBn6rLwL0d5/Dxb6swkytwVpEX6D4odtehIRWR
-	AfYwU4YpcaRdNInjunYSAkgMnfxhFjRiisbo+xgDSszbzLRCkQNhGZhH+hk3XS0fKyJ3OpRkflh
-	UXPOr9DhPIFrPXoLnVsT5JqY6d2vXJipCKyIJA2PV05IumOo6B9G3hwPHQKMA+dZzkEfuxYb4Ec
-	KZS0Xg56plC6TxLIMATEkYKHG8N4t4b/OOGrb6tWjhjTmGVZ/NjRJbiFidvR+/He5IhPzVtqeZ5
-	/S75ISq1iU5GtFiiKv3ZyhhayZqBgPC+CYD5GvRiQd0cfS0uTRAlSF9tab9A4yxnfhM4dObm87z
-	deMBD9iyUG5yqYil7znfLiRAwDqlyxY41sdThri8AwdXgXO8fkQtgh+SCaohWY9aH+22yhdQlkN
-	UhyBpjyQtnkL12FDwKmBvqutw=
-X-Received: by 2002:a17:902:e784:b0:2ae:c529:a13f with SMTP id d9443c01a7336-2b0b0a29cc4mr5838925ad.14.1774375732461;
-        Tue, 24 Mar 2026 11:08:52 -0700 (PDT)
-Received: from localhost ([223.233.85.60])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b083655b5dsm190071645ad.52.2026.03.24.11.08.51
+        bh=a650OWPXOzRLT6tqPHlRDvapR23NLdEb0yDg12zExfI=;
+        b=jUhkovBnc/dZhMI8N0sJY6ugufR4ILJUmyz2VI76d2xDYgbLrjkDxZD5xqfQ5Np/r0
+         p0SlX72B+ZGumadSXe+v2R4UjiRVPXX9/R0DHtjNN3co/LE8a80gfxswc/aGyv9zw4U3
+         ZXi6iH5hW7Sn/EnvuTOj4EUdRG1YXAoBcvJMH1VUrDQXgUj+e7wcKoyMibyqUx9txkZZ
+         kSK9QkGm+9CA3Hu8Iv/4yldXSR9p7jaJfTO5wAtJ9uUnOG9wGQiw1z8rmwxTyviHMWnc
+         khBTXL8sCWR8J7HPFlrK56MDFXSS2DRntbeHAAmXStFqVAuyCL1QtijK3KUR9leHbpj8
+         RS5w==
+X-Gm-Message-State: AOJu0YwrFnuHDBZ8EkQnA9AB0gTlOoXum4tVKJ1TLJ/AbCed8mOwHsJ8
+	ZEWxhY6E90BFPHnQzdeaDuRZIeDvuND9ReWd/7xXh8otf2uF8P24Q/9AaniGsDnu9b7X1gbdaxC
+	UP7YvXzE=
+X-Gm-Gg: ATEYQzxpAwChAqychOl6PRAlO8PW8ZdHFTeclZ/9cbEwYu9SBuoZ/VFb8h1QmKSRzJl
+	5WeXRpTye+HFAe45JkWWh/bBSJzvLHK/9vbC84Y5YudLa96MzU4fxa0ZzWa5dgE9tgEqbYHtwFE
+	z+Vc4coeKiiau/C6yqAOiSFCzUeNJpo/wNn5kQ+gXxuZKcR76a1LSC2mLzTMLdirkATC0pbwlXY
+	8TnWIGkiE+ewzDq08oPGnoxy4EL6pp6qxkoMo7NBY9tC7RT4ieVhPGuSiL3DWwPvi0pKeN7+vkL
+	nHQgwSgwSbJEYYoNd98FxuCIVfzaGNgZ/hyFb7hKPOtabde5HrgtCLgjSnHcWNnpPl/7O+deQ/b
+	uMWgaY7L2MR4HH+gfMDmbpdYTceqT4K7VUpL+21cybEBIZVOo7M9q5bRrnRXWRtV5wVQgyhqRIo
+	L73EolgSV1hFr1MgdgfDMZJ8BhcYAnGWbDebIpVrUF5pw1ef4buvO2h8y5fBuQ1j5LFK2BaKMXD
+	z5Tw29qzJpsMnN5AknJkAnGqRmr9w==
+X-Received: by 2002:a05:690c:ec3:b0:79a:c659:6740 with SMTP id 00721157ae682-79acf3766femr8438157b3.26.1774376608807;
+        Tue, 24 Mar 2026 11:23:28 -0700 (PDT)
+Received: from localhost.localdomain (108-207-243-35.lightspeed.austtx.sbcglobal.net. [108.207.243.35])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a9054da57sm75637787b3.26.2026.03.24.11.23.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 11:08:52 -0700 (PDT)
-From: Anushka Badhe <anushkabadhe@gmail.com>
-To: andriy.shevchenko@intel.com
-Cc: andy@kernel.org,
-	anushkabadhe@gmail.com,
-	gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com
-Subject: [PATCH v2] staging: atomisp: pci: fix block comment style and merge split declaration
-Date: Tue, 24 Mar 2026 23:38:21 +0530
-Message-ID: <20260324180821.42084-1-anushkabadhe@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <acJ6sH4yUyity0gu@ashevche-desk.local>
-References: <acJ6sH4yUyity0gu@ashevche-desk.local>
+        Tue, 24 Mar 2026 11:23:27 -0700 (PDT)
+From: Bradford Love <brad@nextdimension.cc>
+To: linux-media@vger.kernel.org,
+	hverkuil+cisco@kernel.org
+Cc: Bradford Love <brad@nextdimension.cc>
+Subject: [PATCH v2 0/3] si2177 tuner support and new Hauppauge 9x5 devices
+Date: Tue, 24 Mar 2026 13:23:09 -0500
+Message-Id: <20260324182309.3396870-1-brad@nextdimension.cc>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20260317205042.3365469-1-brad@nextdimension.cc>
+References: <20260317205042.3365469-1-brad@nextdimension.cc>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -100,71 +94,99 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[nextdimension.cc:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-56902-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56901-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linuxfoundation.org,vger.kernel.org,lists.linux.dev,linux.intel.com];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[anushkabadhe@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	DMARC_NA(0.00)[nextdimension.cc];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_NEQ_ENVFROM(0.00)[brad@nextdimension.cc,linux-media@vger.kernel.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[nextdimension.cc:+];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D725A31A8DE
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nextdimension.cc:dkim,nextdimension.cc:mid]
+X-Rspamd-Queue-Id: 180ED31ACC3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
+Hauppauge 9x5 devices, such as HVR-935, HVR-955Q, and HVR-975
+have moved from cx231xx usb bridge to Empia em2828x bridge.
+
+This series depends on my previous series:
+
+media: em28xx: Add support for Empia em2828X bridge
+
+
+The following USB device id's are new:
+
+2040:0360 - HVR-935 ISOC transport
+2040:8360 - HVR-935 Bulk transport
+
+2040:0366 - HVR-955 ISOC transport
+2040:8366 - HVR-955 Bulk transport
+
+2040:036a - HVR-975 ISOC transport
+2040:836a - HVR-975 Bulk transport
+
+The new devices have all capabilities as previous generation.
+- 935 - DVB-T/T2/C, analog tv, composite, s-video, stereo audio
+- 955 - QAM/ATSC, analog tv, composite, s-video, stereo audio
+- 975 - DVB-T/T2/C + QAM/ATSC, analog tv, composite, s-video, stereo audio
+
+DVB demod: si2168
+ATSC demod: lgdt3306a
+tuner: si2177
+
+The em28xx driver needed to be expanded slightly to accommodate
+a second i2c client frontend, it already was setup for "old"
+style multi frontend use already.
+
+The si2177 tuner chip puts out decoded CVBS video, and therefore
+requires additional configuration when setting up analog tuning parameters.
+
 ---
-Changes in v2:
-- Fix block comment style (move closing */ to its own line)
-- Merge split GP_TIMER_BASE declaration onto a single line
+Changes since v1:
+- Renamed some variables
+- Fixed some comments
+- Explicitly added USB id's affected
 
-Checked the rest of the file for similar issues; no others found.
 
-Thank you so much for your guidance on improving the patch.
+Regards,
 
- drivers/staging/media/atomisp/pci/system_local.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Bradford
 
-diff --git a/drivers/staging/media/atomisp/pci/system_local.c b/drivers/staging/media/atomisp/pci/system_local.c
-index a8a93760d5b1..1c513ead5300 100644
---- a/drivers/staging/media/atomisp/pci/system_local.c
-+++ b/drivers/staging/media/atomisp/pci/system_local.c
-@@ -85,9 +85,9 @@ const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID] = {
- 
- /*GP TIMER , all timer registers are inter-twined,
-  * so, having multiple base addresses for
-- * different timers does not help*/
--const hrt_address GP_TIMER_BASE =
--    (hrt_address)0x0000000000000600ULL;
-+ * different timers does not help
-+ */
-+const hrt_address GP_TIMER_BASE = (hrt_address)0x0000000000000600ULL;
- 
- /* GPIO */
- const hrt_address GPIO_BASE[N_GPIO_ID] = {
+
+
+Bradford Love (3):
+  em28xx: driver supports two frontends, but not i2c clients
+  si2157: Include support for si2177 chip
+  em28xx: Add Hauppauge em2828X based 9x5 revisions
+
+ drivers/media/tuners/si2157.c           | 208 +++++++++++++----
+ drivers/media/tuners/si2157_priv.h      |   3 +-
+ drivers/media/usb/em28xx/em28xx-cards.c | 157 +++++++++++++
+ drivers/media/usb/em28xx/em28xx-dvb.c   | 284 ++++++++++++++++++++----
+ drivers/media/usb/em28xx/em28xx-video.c |  22 +-
+ drivers/media/usb/em28xx/em28xx.h       |   3 +
+ 6 files changed, 588 insertions(+), 89 deletions(-)
+
 -- 
-2.43.0
+2.35.1
 
 
