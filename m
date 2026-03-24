@@ -1,287 +1,208 @@
-Return-Path: <linux-media+bounces-56833-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56834-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cFV2N+5awmnQbwQAu9opvQ
-	(envelope-from <linux-media+bounces-56833-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:35:42 +0100
+	id OCPdOppcwmlKcAQAu9opvQ
+	(envelope-from <linux-media+bounces-56834-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:42:50 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7975305AB1
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:35:41 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70BDE305C7D
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:42:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 35F4330116A6
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 09:33:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3A19930F2AD6
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 09:35:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1ED83D88FE;
-	Tue, 24 Mar 2026 09:33:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0EAD3DB620;
+	Tue, 24 Mar 2026 09:35:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F50EPJGp"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="1FIEfZDV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7032D5950;
-	Tue, 24 Mar 2026 09:33:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CBB38B154;
+	Tue, 24 Mar 2026 09:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774344794; cv=none; b=iIaRGfVqwrCL/+LH2KfD6xXakXnpFHcWmvsmswHnSAYEpIUfjfsstBWl6uDuaAiiHZWZtYmwKw4tZBGGVLNIxCjnaoP5rpFXJ4sKwtbNzGbT5mRPASW4iQVa9DBy5zcmvb9yMV1F1IyjgPhf8gFhFTAJ9yvugo+ADfzIqHl2dUw=
+	t=1774344933; cv=none; b=O0QSKuVhSj7SxXeuxvlDyxAmk+51ZcknJ5H5avNtgHVnDF0Y/AYY/7VrRVdQKkzYrv1JSY0fTyJNhhT1pIDnIQiG9qImE2hhqqThhkkXbc1MlQXnUKKUA6wvRmHvC94yPRtBHsTh+r2QNsnbSj/vXQ/ubLG/9awThaWsMjML71E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774344794; c=relaxed/simple;
-	bh=uE1lBI5ZjPicogZdxGf7EFOQvDwoUwXTh7JBHZU7qPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q0fpKn4PlI5kzhgx6xDwZc9libtikp0JesI9rj2iUpPUB7dHFNWEXI/Py9eNxjlco2Byqfn+9qHPLguihhNxeoeMwJpzzQBZnbiqIk9iS2REnwFcbDI2LliWVZg5cN9wjhTzp5DNVNUnE77SR5/DEqNp7V3iNeWc3OCUSZ2rLuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F50EPJGp; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774344793; x=1805880793;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uE1lBI5ZjPicogZdxGf7EFOQvDwoUwXTh7JBHZU7qPw=;
-  b=F50EPJGp53OyrMDKlab0ti9avw/86PGBwhbijsgKcgR0XCoTLXSBU5yT
-   67+ZCEruMKZMTDOIKgdsfAmlyuGiVJlZXDZXrOFecAy5ZZF/SKVsfj3Zi
-   TYWMCQMHnqVXXjrjvoD/7c1eAyBzxnE5sQ6zwvD43RyZEs17lcfUDyr8G
-   atDe22Ejj8yWo4iiAe+7SZ18TGmzb02KE+kMV3f9FfmtrRpxnN/dSbehF
-   1U9AL0w13B36mUejEs/rePvx6G0OOMzWyqOxlaNKG1h1jxth5K3h8I226
-   aK519rSt3QyUQ6+G4ctaFW07xQxr0Qi7PUHKOhNAymK69oQYPIuYIVe52
-   Q==;
-X-CSE-ConnectionGUID: yEIUGvCpQhO/BfKjGAF9lg==
-X-CSE-MsgGUID: VaSbeLsZTzmWxIVOyxQq8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="86826292"
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="86826292"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 02:33:13 -0700
-X-CSE-ConnectionGUID: BVEuGjsBRk6HlVLz4kxldw==
-X-CSE-MsgGUID: CL6/ruIcRHKKfflsTpXxBA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="229047194"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.180])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 02:33:10 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 14B4C121CFF;
-	Tue, 24 Mar 2026 11:33:13 +0200 (EET)
-Date: Tue, 24 Mar 2026 11:33:13 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Kate Hsuan <hpa@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH v12] media: Add t4ka3 camera sensor driver
-Message-ID: <acJaWVxXoskFUc8m@kekkonen.localdomain>
-References: <20260323071647.38086-1-hpa@redhat.com>
+	s=arc-20240116; t=1774344933; c=relaxed/simple;
+	bh=wGmk7oSJmYRPVUDNLUSPBuMb8aueBt9wLDFVbCU3iiI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HoQIXp3PuudyTp9Ny/xMLYzJ/8Qmf3zx9XohgkkHykTZL06/WHZ+PD2f2p73ecK943SdNFldgYJ/NjkrZruFCpXCgauwZkb12FPkZa80Oi1VeISDkgHSZY/c3mD86DqCceB9dVqibhFO3s+jZkLhmd0OD4pEqS7VtLpTKUUoIXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=1FIEfZDV; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Received: from [192.168.229.16] (194-212-249-86.customers.tmcz.cz [194.212.249.86])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 34FE65340DB3;
+	Tue, 24 Mar 2026 10:35:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1774344926;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=58050vNC7YLomYs0+BAyYaDY7ZSgNMB8JeP+pTIlmOg=;
+	b=1FIEfZDVKf6kB2K/6XZok+IsVVIBGcFv/EPHlslPcvlHEZor41zDCPX604+tK6j7LkJZxL
+	ifepVXBwnDxH1VOHe/tF8EWlI3xO0mVEpvVdhACDbcoBsku6siXLjSCF2A2i4DfrLirdah
+	PbqdsVnGwbQUQ2e5qOo5nNX6Zk+Qvuo=
+Message-ID: <eff25adf-c5fd-484d-a9ae-ec27c0d9c100@ixit.cz>
+Date: Tue, 24 Mar 2026 10:35:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323071647.38086-1-hpa@redhat.com>
-X-Spamd-Result: default: False [-2.16 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 7/7] arm64: dts: qcom: sdm670-google-sargo: add imx355
+ front camera
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Tianshu Qiu
+ <tian.shu.qiu@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Robert Mader <robert.mader@collabora.com>, phone-devel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20260217002738.133534-1-mailingradian@gmail.com>
+ <20260217002738.133534-8-mailingradian@gmail.com>
+ <1349f725-a20f-4935-a829-208c8e583ad9@ixit.cz> <acHxgIsyPiQTeqCB@rdacayan>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <acHxgIsyPiQTeqCB@rdacayan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ixit.cz,quarantine];
+	R_DKIM_ALLOW(-0.20)[ixit.cz:s=dkim];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56833-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56834-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,intel.com,linux.intel.com,collabora.com,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,kekkonen.localdomain:mid]
-X-Rspamd-Queue-Id: E7975305AB1
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[david@ixit.cz,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ixit.cz:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ixit.cz:dkim,ixit.cz:mid,1a:email]
+X-Rspamd-Queue-Id: 70BDE305C7D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Kate,
 
-Thanks for the update.
 
-On Mon, Mar 23, 2026 at 03:16:47PM +0800, Kate Hsuan wrote:
+On 24/03/2026 03:05, Richard Acayan wrote:
+> On Fri, Mar 13, 2026 at 07:26:47PM +0100, David Heidelberg wrote:
+>> On 17/02/2026 01:27, Richard Acayan wrote:
+>> [...]
+>>
+>>> +&cci_i2c1 {
+>>> +	camera@1a {
+>>> +		compatible = "sony,imx355";
+>>> +		reg = <0x1a>;
+>>> +
+>>> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
+>>> +
+>>> +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+>>> +		assigned-clock-rates = <19200000>;
+>>
+>> Extract from #sdm670-mainline:erebion.eu discussion:
+>> The imx355 can operate on 24 MHz (on both Pixel 3 and 3a), but Linux kernel
+>> driver can operate only with 19.2 MHz.
+>>
+>> I assume it would be worth it mention at least by comment here.
+> 
+> This might set the series back because the devicetree isn't meant to be
+> written for specific software, but it's included in v11 because you
+> already asked twice.
+> 
 
-...
+I would say node with lower clock frequency is still much better than nothing or 
+placeholder saying "i2c camera here". Instead we'll have small placeholder that 
+value can be bumped to 24 MHz. Important is this can be easily improved when at 
+least one consumer of the device-tree gains support.
 
-> +static int t4ka3_set_pad_format(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *sd_state,
-> +				struct v4l2_subdev_format *format)
-> +{
-> +	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
-> +	struct v4l2_mbus_framefmt *try_fmt;
-> +	struct v4l2_mbus_framefmt *fmt = &format->format;
-> +	struct v4l2_rect *crop =
-> +		v4l2_subdev_state_get_crop(sd_state, format->pad);
-> +	unsigned int width, height;
-> +	int min, max, def, ret = 0;
-> +
-> +	/* Limit set_fmt max size to crop width / height */
-> +	width = clamp_val(ALIGN(format->format.width, 2),
-> +			  T4KA3_MIN_CROP_WIDTH, crop->width);
-> +	height = clamp_val(ALIGN(format->format.height, 2),
-> +			   T4KA3_MIN_CROP_HEIGHT, crop->height);
-> +	t4ka3_fill_format(sensor, &format->format, width, height);
-> +
-> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+We have very scarce support of cameras on mobile phones in mainline, thus 
+leaving a comment that HW can do 24 MHz is reasonable compromise IMHO.
 
-You can move this check after the format assignment below and just return
-0.
+I personally got confused why Android sets higher clock, thus it may happen to 
+other people looking at Pixel 3a as an example for their imx363 bring-up.
 
-> +		try_fmt = v4l2_subdev_state_get_format(sd_state, 0);
-> +		*try_fmt = format->format;
-> +		return 0;
-> +	}
-> +
-> +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE && sensor->streaming)
-> +		return -EBUSY;
-> +
-> +	*v4l2_subdev_state_get_format(sd_state, 0) = format->format;
-> +
-> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
-> +		return 0;
-> +
-> +	t4ka3_calc_mode(sensor, fmt, crop);
-> +
-> +	/* vblank range is height dependent adjust and reset to default */
-> +	t4ka3_get_vblank_limits(sensor, sd_state, &min, &max, &def);
-> +	ret = __v4l2_ctrl_modify_range(sensor->ctrls.vblank, min, max, 1, def);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = __v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, def);
-> +	if (ret)
-> +		return ret;
-> +
-> +	def = T4KA3_PIXELS_PER_LINE - fmt->width;
-> +	ret = __v4l2_ctrl_modify_range(sensor->ctrls.hblank, def, def, 1, def);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return  __v4l2_ctrl_s_ctrl(sensor->ctrls.hblank, def);
-> +}
+David
 
-...
-
-> +static int t4ka3_set_mode(struct t4ka3_data *sensor,
-> +			  struct v4l2_subdev_state *state)
-> +{
-> +	struct v4l2_mbus_framefmt *fmt = v4l2_subdev_state_get_format(state, 0);
-> +	int ret = 0;
-> +
-> +	cci_write(sensor->regmap, T4KA3_REG_HORZ_OUTPUT_SIZE, fmt->width, &ret);
-> +	/* Write mode-height - 2 otherwise things don't work, hw-bug ? */
-> +	cci_write(sensor->regmap, T4KA3_REG_VERT_OUTPUT_SIZE,
-> +		  fmt->height - 2, &ret);
-> +	/*
-> +	 * Note overwritten by __v4l2_ctrl_handler_setup() based on
-> +	 * vblank ctrl
-> +	 */
-> +	cci_write(sensor->regmap, T4KA3_REG_FRAME_LENGTH_LINES,
-> +		  T4KA3_LINES_PER_FRAME_30FPS, &ret);
-> +	cci_write(sensor->regmap, T4KA3_REG_PIXELS_PER_LINE,
-> +		  T4KA3_PIXELS_PER_LINE, &ret);
-
-These two appear to be redundant as they're written though
-__v4l2_ctrl_handler_setup() below.
-
-> +	/* Always use the full sensor, using window to crop */
-> +	cci_write(sensor->regmap, T4KA3_REG_HORZ_START, 0, &ret);
-> +	cci_write(sensor->regmap, T4KA3_REG_VERT_START, 0, &ret);
-> +	cci_write(sensor->regmap, T4KA3_REG_HORZ_END,
-> +		  T4KA3_NATIVE_WIDTH - 1, &ret);
-> +	cci_write(sensor->regmap, T4KA3_REG_VERT_END,
-> +		  T4KA3_NATIVE_HEIGHT - 1, &ret);
-> +	/* Set window */
-> +	cci_write(sensor->regmap, T4KA3_REG_WIN_START_X,
-> +		  sensor->mode.win_x, &ret);
-> +	cci_write(sensor->regmap, T4KA3_REG_WIN_START_Y,
-> +		  sensor->mode.win_y, &ret);
-> +	cci_write(sensor->regmap, T4KA3_REG_WIN_WIDTH, fmt->width, &ret);
-> +	cci_write(sensor->regmap, T4KA3_REG_WIN_HEIGHT, fmt->height, &ret);
-> +	/* Write 1 to unknown register 0x0900 */
-> +	cci_write(sensor->regmap, T4KA3_REG_0900, 1, &ret);
-> +	cci_write(sensor->regmap, T4KA3_REG_BINNING,
-> +		  T4KA3_BINNING_VAL(sensor->mode.binning), &ret);
-> +
-> +	return ret;
-> +}
-
-...
-
-> +static int t4ka3_check_hwcfg(struct t4ka3_data *sensor)
-> +{
-> +	struct fwnode_handle *fwnode = dev_fwnode(sensor->dev);
-> +	struct v4l2_fwnode_endpoint bus_cfg = {
-> +		.bus_type = V4L2_MBUS_CSI2_DPHY,
-> +	};
-> +	struct fwnode_handle *endpoint;
-> +	unsigned long link_freq_bitmap;
-> +	int ret;
-> +
-> +	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
-> +
-> +	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &bus_cfg);
-> +	fwnode_handle_put(endpoint);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = v4l2_link_freq_to_bitmap(sensor->dev, bus_cfg.link_frequencies,
-> +				       bus_cfg.nr_of_link_frequencies,
-> +				       link_freq_menu_items,
-> +				       ARRAY_SIZE(link_freq_menu_items),
-> +				       &link_freq_bitmap);
-> +
-> +	if (ret == -ENOENT)
-> +		goto out_free_bus_cfg;
-> +
-> +	if (ret == -ENODATA)
-> +		goto out_free_bus_cfg;
-
-Please check for any non-zero return value instead.
-
-> +
-> +	sensor->link_freq_index = ffs(link_freq_bitmap) - 1;
-> +
-> +	/* 4 MIPI lanes */
-> +	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 4) {
-> +		ret = dev_err_probe(sensor->dev, -EINVAL,
-> +				    "number of CSI2 data lanes %u is not supported\n",
-> +				    bus_cfg.bus.mipi_csi2.num_data_lanes);
-> +		goto out_free_bus_cfg;
-> +	}
-> +
-> +	sensor->mipi_lanes = bus_cfg.bus.mipi_csi2.num_data_lanes;
-> +
-> +out_free_bus_cfg:
-> +	v4l2_fwnode_endpoint_free(&bus_cfg);
-> +
-> +	return ret;
-> +}
-
-I'll take this one now but please submit a patch on top to address the
-above.
+> The frequency could also be stated as having "better software support"
+> in general without mentioning Linux as the reason.
 
 -- 
-Kind regards,
+David Heidelberg
 
-Sakari Ailus
 
