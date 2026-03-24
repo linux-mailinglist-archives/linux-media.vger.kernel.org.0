@@ -1,107 +1,57 @@
-Return-Path: <linux-media+bounces-56791-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56792-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0NKGJknywWkgYAQAu9opvQ
-	(envelope-from <linux-media+bounces-56791-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 03:09:13 +0100
+	id 8OVAG+3ywWlzYQQAu9opvQ
+	(envelope-from <linux-media+bounces-56792-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 03:11:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA93300F72
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 03:09:12 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E70B301015
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 03:11:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2BBC831091D4
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 02:02:19 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3EF2E303C2FB
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 02:05:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED80F37CD4F;
-	Tue, 24 Mar 2026 02:02:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sgHLGHwP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E87C37C931;
+	Tue, 24 Mar 2026 02:05:11 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383A734DB6B
-	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 02:02:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AD137B010;
+	Tue, 24 Mar 2026 02:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774317735; cv=none; b=TYV2aL2drJCEQ6ejAd7lDXUSLCruwkWzQ9GJp9h03mL6LnM5PFL/5eaiSoLkXXSRNpPp2QSB9nJDlgn15lkzMXxoz68gwdDiWYt/RxiWgl8a8TLV7VkMLPu73C/IchrK0urF09Ifkq09yPygpcZ4STNlEsbO6yVOkUlJXP1sjdc=
+	t=1774317909; cv=none; b=NlqiA/4KVCLWKKNrwP7vQG3ulNaLFKag/D0LNzs0yGurpnOGVe1keNb2kMH/EvdX6BpHNAahrJBshRhNEH5AqF0yDLHJjRG83ssR1Bh1s9Yshs4lzmRv3JG3Aj21BREefN6Quibw+Y6K8zOBEmiYQYpsQ8+vhOIDLiSRRbwkdmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774317735; c=relaxed/simple;
-	bh=HFdRTqvrye5U8yos/wdW5qeoGTAkRp5Eezn/1E7LhWE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cC2GHmxFFT+z309mLT89kCW0LJH/Jq5E0GZNjXdQ5mqo2dY5UoR24wJ+EVZ28lgK2Y1PxVG94d8IGy3+RMWPVUPwHiL4YfT+Fl9yhZGop1hgr4L5dBtLNUIwiedGYgU2yP0wESP1FMIM1czimxWyHcWbqIf5X0d/xO+7Z2cbIIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sgHLGHwP; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8ca01dc7d40so75890685a.1
-        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 19:02:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774317733; x=1774922533; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VtPTZPYooQW6GNCdrN+Ye4L+nIxiTmejXf1QJjJdEjQ=;
-        b=sgHLGHwPCu1dAt1McFEBYvZB2iHj+Mi0SxVA+C6T4otBh13OeUgozlNedtRYfdI1HG
-         ZVspuFHZo8WL0epAE1HtjMDpJ1Tef5OvAYvC5FLnOrIpx3r3iiXvWHJg1hLltY+iv8/y
-         4WVvLCnEn8Pypsq4IbXi83i1nKt7T5s6s8gYm6QfBALAP65UcBhL5vHh7znmqKZycwM0
-         UMor702wY2RUb/VE4IXhpobhre6+OOlcOBY/ovnTO7bHx43cYteQTL0WsX49pLEuN7H3
-         sfHSTY99Vef7x+i+UCrYrHXEoUh2JwpMuxDBDNuP2wHzf4Sw2SNJFF3+Aq48rhcQHCvw
-         tbaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774317733; x=1774922533;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VtPTZPYooQW6GNCdrN+Ye4L+nIxiTmejXf1QJjJdEjQ=;
-        b=GYKGl14hBiuFxIV5MsCXyVbqmSKfZqTnOX4klnTPxuVN5YN/ahBZ7wU1IKkqrP7TAh
-         +1nCWYrMlODIvhLD8AD5NS/AlaIh7HUkIGVTICqlUFWaatj3GWpZwd+DJ0rzcyKxKj7L
-         JzR5hh6M8EJK0NbwVOGkZnZo5dU2oxH6wuTVuzF0eVDLZ0kw5QAWHgOTMInUhIZ5Oen2
-         RMu/zfK0DP+UntaCkYd5ccySAO+jFszHyZQyecwti74GLch17OtP8KrtIKElFHnAAd0Q
-         XQIVNMO3GZbdLNz/wbUxSzmkxbdC7Je7MlWyahu87tQaAAVzzdNIwXl+gT93PIJoF4Px
-         Y3YQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX53tGAb/I5hghKStP3JS/6MSfu5gNgAUCtNCAubpOpwUekvpS1iGId/+IjbumHOboznBI2sIuUsL1Ziw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9Zoyfj7Qx7iC++bL1n16Ujb9cWdYfW7kLA0Y25+iH+FshrEOf
-	Zkk+Q80RFb9QtgQyrOFFrJ2/JyxLndPeP2A+cOBtFn7FgbldSn0AiZEh
-X-Gm-Gg: ATEYQzzjdK9+zwYjTQ9PWk8DYLoFqWo/+wsvDrsHwTjofPjJSyG0UQ3Ek+d7Hp89GQM
-	SAQ6UgDTpg7GGZuHIwKdOmvH1ao2nlZLtnhZONoHXEPMDRE/zoANVwwt/Cru5Q56I/+gChiY8DW
-	frCiHg+q7duDfxyFR4SkW7ZTj68zBeIEcS1udalK+4LS8tjibfTQOkmIICMuQx94BsnNWMvWD7v
-	5nmMrKb1pRIOnL0Gvx71YL4pB2+HhDaoZS7OtWC0Ae2GBFogGNx7hQwqs6iM4tXWGq7HoYG0917
-	Yixj54kNSTAse8gOOwbeVc1MgIEZWTt2Mijm1OCYuzT8qUyIdgcbjl8JcmH2NucM8GfPq5d1Wka
-	kMiTFYxMCRRz6fmsRc3/exKHoUI2KUQQAYItGbzi8+V1LDcuL9dkHLJ9vnOq8c5fjztv3G+Aupb
-	nx24KuxXQh0Fu5rY6576srtC6L+g==
-X-Received: by 2002:a05:620a:1723:b0:8cf:da2d:d6d0 with SMTP id af79cd13be357-8cfda2dde34mr1302317385a.47.1774317733093;
-        Mon, 23 Mar 2026 19:02:13 -0700 (PDT)
-Received: from localhost ([184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89c85256c47sm102598506d6.19.2026.03.23.19.02.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 19:02:12 -0700 (PDT)
-From: Richard Acayan <mailingradian@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"Bryan O'Donoghue" <bod@kernel.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Cc: Robert Mader <robert.mader@collabora.com>,
-	David Heidelberg <david@ixit.cz>,
-	phone-devel@vger.kernel.org,
-	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v11 7/7] arm64: dts: qcom: sdm670-google-sargo: add imx355 front camera
-Date: Mon, 23 Mar 2026 22:01:32 -0400
-Message-ID: <20260324020132.8683-8-mailingradian@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260324020132.8683-1-mailingradian@gmail.com>
-References: <20260324020132.8683-1-mailingradian@gmail.com>
+	s=arc-20240116; t=1774317909; c=relaxed/simple;
+	bh=DAwIrXebhENqL23L45uimbqY/43wBEmFqnRddH3bpLg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bv+mc6Yp65nfVCeGWVAT3VFddpzAyarV6YIU4cRBsJ/q6PBS0tqO1FLpHgG8B0Z/bUp7768LDTVq38gcqpH7aLY5jQOM0KrDU+cjBOeCaf5nro5coISAuwRT4eV+99XaLhUejK0a8oMPlcve+0vdQURspBXK4sa0T3p9SqxAT8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.197])
+	by APP-05 (Coremail) with SMTP id zQCowAAXrA8v8cFpkBFKCw--.34865S2;
+	Tue, 24 Mar 2026 10:04:54 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	pengpeng@iscas.ac.cn
+Subject: [PATCH] media: cedrus: validate H.264 reference list indices
+Date: Tue, 24 Mar 2026 10:04:31 +0800
+Message-ID: <20260324020431.1800-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -109,186 +59,107 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-CM-TRANSID:zQCowAAXrA8v8cFpkBFKCw--.34865S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KF48WFykJr4fGrW3ZFyDGFg_yoW8tFyxpF
+	45Cr13ZayUXF43KF43Zr4kXa4a9as3AFsxKrWag3W3X3W3GFy7Xr4rKw1UZrn8Aa15C3ya
+	yrn5J3yUKFyUAaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUGVWUXwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+	zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+	nIWIevJa73UjIFyTuYvjfUO9N3UUUUU
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+X-Spamd-Result: default: False [1.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56791-lists,linux-media=lfdr.de];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-56792-lists,linux-media=lfdr.de];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,intel.com,linux.intel.com,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[collabora.com,ixit.cz,vger.kernel.org,gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FREEMAIL_TO(0.00)[kernel.org,sys-base.io,linuxfoundation.org,gmail.com,sholland.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mailingradian@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	R_DKIM_NA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[1a:email,qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:email,linaro.org:email]
-X-Rspamd-Queue-Id: EFA93300F72
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:email,iscas.ac.cn:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 6E70B301015
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The Sony IMX355 is the front camera on the Pixel 3a, mounted in portrait
-mode. It is connected to CSIPHY1 and CCI I2C1, and uses MCLK2. Add
-support for it.
+Cedrus validates HEVC slice reference lists in cedrus_try_ctrl(), but
+the H.264 path still consumes ref_pic_list0/ref_pic_list1 indices
+straight from the stateless slice control. Those indices are later
+used to index the fixed-size decode_params->dpb[] array in
+_cedrus_write_ref_list().
 
-Co-developed-by: Robert Mader <robert.mader@collabora.com>
-Signed-off-by: Robert Mader <robert.mader@collabora.com>
-Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Reject H.264 slice controls whose active reference counts or
+reference indices exceed V4L2_H264_NUM_DPB_ENTRIES before the driver
+reaches the DPB lookup. This keeps the validation next to the existing
+Cedrus stateless control checks and avoids driver-specific
+out-of-bounds reads from malformed userspace control payloads.
+
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- .../boot/dts/qcom/sdm670-google-sargo.dts     | 97 +++++++++++++++++++
- 1 file changed, 97 insertions(+)
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 23 +++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-index ed55646ca419..8a2ad7f66b41 100644
---- a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-@@ -172,6 +172,34 @@ vreg_s2b_1p05: vreg-s2b-regulator {
- 		regulator-min-microvolt = <1050000>;
- 		regulator-max-microvolt = <1050000>;
- 	};
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index d68da1eaa7aa..905084c097a9 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -42,6 +42,29 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+ 		if (sps->bit_depth_luma_minus8 != 0)
+ 			/* Only 8-bit is supported */
+ 			return -EINVAL;
++	} else if (ctrl->id == V4L2_CID_STATELESS_H264_SLICE_PARAMS) {
++		const struct v4l2_ctrl_h264_slice_params *slice = ctrl->p_new.p_h264_slice_params;
++		unsigned int i;
 +
-+	cam_front_ldo: cam-front-ldo-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "cam_front_ldo";
-+		regulator-min-microvolt = <1352000>;
-+		regulator-max-microvolt = <1352000>;
-+		regulator-enable-ramp-delay = <135>;
++		if (slice->num_ref_idx_l0_active_minus1 >=
++		    V4L2_H264_NUM_DPB_ENTRIES)
++			return -EINVAL;
 +
-+		gpios = <&pm660l_gpios 4 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
++		for (i = 0; i <= slice->num_ref_idx_l0_active_minus1; i++)
++			if (slice->ref_pic_list0[i].index >=
++			    V4L2_H264_NUM_DPB_ENTRIES)
++				return -EINVAL;
 +
-+		pinctrl-0 = <&cam_front_ldo_pin>;
-+		pinctrl-names = "default";
-+	};
++		if (slice->slice_type == V4L2_H264_SLICE_TYPE_B) {
++			if (slice->num_ref_idx_l1_active_minus1 >=
++			    V4L2_H264_NUM_DPB_ENTRIES)
++				return -EINVAL;
 +
-+	cam_vio_ldo: cam-vio-ldo-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "cam_vio_ldo";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-enable-ramp-delay = <233>;
-+
-+		gpios = <&pm660_gpios 13 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-0 = <&cam_vio_pin>;
-+		pinctrl-names = "default";
-+	};
- };
- 
- &apps_rsc {
-@@ -392,6 +420,61 @@ vreg_bob: bob {
- 	};
- };
- 
-+&camss {
-+	vdda-phy-supply = <&vreg_l1a_1p225>;
-+	vdda-pll-supply = <&vreg_s6a_0p87>;
-+
-+	status = "okay";
-+};
-+
-+&camss_port1 {
-+	camss_endpoint1: endpoint {
-+		data-lanes = <0 1 2 3>;
-+		remote-endpoint = <&cam_front_endpoint>;
-+	};
-+};
-+
-+&cci {
-+	pinctrl-0 = <&cci1_default>;
-+	pinctrl-1 = <&cci1_sleep>;
-+	pinctrl-names = "default", "sleep";
-+
-+	status = "okay";
-+};
-+
-+&cci_i2c1 {
-+	camera@1a {
-+		compatible = "sony,imx355";
-+		reg = <0x1a>;
-+
-+		clocks = <&camcc CAM_CC_MCLK2_CLK>;
-+
-+		/* Set 19.2 MHz for compatibility with Linux driver */
-+		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
-+		assigned-clock-rates = <19200000>;
-+
-+		reset-gpios = <&tlmm 9 GPIO_ACTIVE_LOW>;
-+
-+		avdd-supply = <&cam_front_ldo>;
-+		dvdd-supply = <&cam_front_ldo>;
-+		dovdd-supply = <&cam_vio_ldo>;
-+
-+		pinctrl-0 = <&cam_mclk2_default>;
-+		pinctrl-names = "default";
-+
-+		rotation = <270>;
-+		orientation = <0>;
-+
-+		port {
-+			cam_front_endpoint: endpoint {
-+				data-lanes = <1 2 3 4>;
-+				link-frequencies = /bits/ 64 <360000000>;
-+				remote-endpoint = <&camss_endpoint1>;
-+			};
-+		};
-+	};
-+};
-+
- &gcc {
- 	protected-clocks = <GCC_QSPI_CORE_CLK>,
- 			   <GCC_QSPI_CORE_CLK_SRC>,
-@@ -490,6 +573,14 @@ &pm660_charger {
- 	status = "okay";
- };
- 
-+&pm660_gpios {
-+	cam_vio_pin: cam-vio-state {
-+		pins = "gpio13";
-+		function = "normal";
-+		power-source = <0>;
-+	};
-+};
-+
- &pm660_rradc {
- 	status = "okay";
- };
-@@ -508,6 +599,12 @@ led-0 {
- };
- 
- &pm660l_gpios {
-+	cam_front_ldo_pin: cam-front-state {
-+		pins = "gpio4";
-+		function = "normal";
-+		power-source = <0>;
-+	};
-+
- 	vol_up_pin: vol-up-state {
- 		pins = "gpio7";
- 		function = "normal";
++			for (i = 0; i <= slice->num_ref_idx_l1_active_minus1; i++)
++				if (slice->ref_pic_list1[i].index >=
++				    V4L2_H264_NUM_DPB_ENTRIES)
++					return -EINVAL;
++		}
+ 	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS) {
+ 		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
+ 		struct cedrus_ctx *ctx = container_of(ctrl->handler, struct cedrus_ctx, hdl);
 -- 
-2.53.0
+2.50.1 (Apple Git-155)
 
 
