@@ -1,92 +1,103 @@
-Return-Path: <linux-media+bounces-56783-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56784-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KAqtES3vwWkgYAQAu9opvQ
-	(envelope-from <linux-media+bounces-56783-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 02:55:57 +0100
+	id UHtGIDHxwWkgYAQAu9opvQ
+	(envelope-from <linux-media+bounces-56784-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 03:04:33 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A270300C31
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 02:55:56 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE86300E82
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 03:04:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0CC853037F3D
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 01:55:55 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C7AA830443F5
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 02:01:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECC4E37BE7B;
-	Tue, 24 Mar 2026 01:55:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D41A61FC0FC;
+	Tue, 24 Mar 2026 02:01:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j4XLOaHu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s3+OhMXP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B61A37B400
-	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 01:55:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C5528726D
+	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 02:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774317350; cv=none; b=NS82MisAhf81m/9QCk7BlBfpUK5HcDe+07QFktKGSElY63C4PiEMguO433aDeODzsfpgyfLAA7lyiQUdt/bbOt0iT1rsDZkNNLjp+UARp8BgxtMHgmGRXmtrNcYUR3lDZtDgZj58znU2bsAFS0DhmjbL5RkvuFG2HPBtMkSAaXM=
+	t=1774317662; cv=none; b=MaJwP/BHTECHcicUAdcWW6n/eZSk+VHeM8UMoHVkjSlFGk3ErLUqvNRraOCyBGm8CKZs61uIiZRVLDFk5Rnn+H2Y3aQcrucHCp9AmLESY2p/gIfVfcBNf9w5V2UlC2wa15ljswsY4cPHsd8P2J5RKWYz+o+KXX+1CeE4sjN39Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774317350; c=relaxed/simple;
-	bh=JAmtHZt+i8fAEau+uDnuiufAN/CVFZtpCZ5Dsp1wVvE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FWV7bMJJFMwRy0OvtQ3YBpgbt/Tj9hsDGECC4tDLj8hDlSlzKBWODcg7PPpFBMl2r0uQW8FA0ZDsaV5HQPuCbPf86M8+WT3Ra6NiK2U5SUo8dmgQfpCr+y6cGoPEfBp4kaYQaO5bVg8QQVb+HjRKuxKZn3Z4GHiTymo8l9sU1HI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j4XLOaHu; arc=none smtp.client-ip=209.85.215.176
+	s=arc-20240116; t=1774317662; c=relaxed/simple;
+	bh=LWCSFF3ibJpKbfEkVWiUPdlPbxt19zLp4I8sL+m5VJU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ws93dqmjZUycQ+jBhR+mxcuEfsj9bwHy2g0z8SlXcQorYmg97oQQivA5y/k5XOfEgEkKK+Yh+MQsAtzhhWIaMNSdyVnh7McWxYpw+Fu7cC/eiEDfQTMnJmxEJ/v2nLpzqxmmyN0yyO24zRO/ZzFbPe9SY8M+3rH5t7OFEOhzIGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s3+OhMXP; arc=none smtp.client-ip=209.85.219.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c73c990a96dso1390845a12.0
-        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 18:55:47 -0700 (PDT)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-89c4feaaeb4so58575126d6.2
+        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 19:01:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774317346; x=1774922146; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774317660; x=1774922460; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xLM6YKJgxLhPQDfQX2m4g/wult9s4kqFfxzN0AZd8EI=;
-        b=j4XLOaHuhZ2iTswdI9GuXJ9IKVneqnM9QgyaYLvukmWdRwQJTM7uisKuy1sjEs4DlD
-         P2Te6ClQiLOqIaIejfv67VTzB6Qgz018iat3DOljC1DU4QagGm2hq2ZAa65ka3Hrp69u
-         FBh5FcmB4Nt4T18XBZzM2nD2qg7NeZA9qe3sbKS0D2OVlTNm9kEor/ooVr6LSUjeKIx0
-         FBNocZrTwYStQOcKFYcKNCjHRcHddsadljs2mSSV5jfqwb46tCC5ELZNQBZrB1y7c9BV
-         9xLB1N3UhXofCFiAJ0hM/KIvy1S60pGqxqL535mmOy2aIYrLO7Go0ccSFCt5dk0thWMC
-         E9sQ==
+        bh=HLlKM68MyIfZMCivznDvoOYbnC+rCJINrjgA82vfkM4=;
+        b=s3+OhMXPNSq9XNGEz6bzz83RPf1sckbRO4JF16osupMTqX/4aVyBEJfHT+mRDhRXNb
+         Wkix2b/jvs79nMT7nYjmONmLdTwJtgak4TuQLVGEYHcTV+rRbrP8NWNae4cSb+7voCde
+         zFDm9JpKjUmzyB/ApH/qX27xAN6MRl9hGjolcotstJEhsU/7HlcMz6Ek8lLV29s8r+Xv
+         xvg5/Jv6IrQw4rNXNsQUark2BktUE4WgcZwT4QpvLnH/AFUqn+23Ecs6pRoH1XT1A1n5
+         zpUl8yVyJkylBr+9BilloEoSteKvXCdozzq/NprRPSyUNKzvDsc64tQQvHOSRgnsUkjj
+         98jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774317346; x=1774922146;
+        d=1e100.net; s=20251104; t=1774317660; x=1774922460;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xLM6YKJgxLhPQDfQX2m4g/wult9s4kqFfxzN0AZd8EI=;
-        b=NbiyMGrS/cuxOyipyaROU8tE7Rn/Wn/fBuGrRJxKQHt0nlKC4QMJ0+rnoFiFbcG0TG
-         BeXFyij6vq5PiAWdLR4pYP9RSxvmK6FUy1zH118NLGkJgOH9DCYBxG5yu8ZYFRmaXC/M
-         pLiGzE2Sx72FCfjBixYbazEXub2cJvFmKwvIjvuLUCtGRt3ZpoqLUNs4dpy+vLuaZI0f
-         Nm9Uov9I6lB5FBA3+iKCdRRsHEJxqD7nIWkpwUkZP0mkpTu1dn3sY0JJvDWJ2NumPQ6j
-         K2MXYeFBbHC+g2JPPwHSpts05RfAM/DeicJAdTKZ5BBB9u+h/yqGUfDqeLhfHxOC5sXH
-         c4Ig==
-X-Forwarded-Encrypted: i=1; AJvYcCUvpx7/IMP+W38VZhYyl3aKC26vSCjU1Ul0yxSgyNJez0fcC9q5fCGKaLwmlKh2SZsJN5dQwhNWplZJiQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2/4lkWBxpyPSzegw2iIAnE67E1xkYwYVIdto2qfMAQLfDj1aO
-	pcjBvo0iuEZyLA1VyZjiGgivw9jnf0EOmgBZao1cVttB7ISJESXccnA8
-X-Gm-Gg: ATEYQzyMvTOwQ3cpKnb6KP0e6qJBK526KrnT93lzMLIbQzhjqkwALYTFCMj8WCysybO
-	G/dkED4clim/VYAS8445pGwXEaFJtixmt0xiS6pDUnAENA5hcTO/ZD9mEHC3R2KO6lJUCihilod
-	MCIDitMeGi2L8y3McqpzGfV0aUEPkesowYLlAEv5aQA9q8VWGeqBL+bYTcjMWgq3GTb8DBbFioJ
-	gNvw7OKbHOYKLtH1hKXLIi/YENZXWge/+p+FUg5ElYpGTvTyZnWFd9+qkDrkDhD766+wO3oUlWQ
-	V3ufLy4NSqdGVkfHcFlLKsxck5jsAfaxZqzW0CF3VPxEPlGE1AU2XPJVahVXABSw/Y4Fa0hvFnV
-	HJahQk815pHj2FK0jj0GY9sW+xblOzJCWdNm6cFkEXx81YUiUQomoHy9pbWV2Kx9Y/hr0x5znek
-	d3QI6Q5Zx/5Dc5cOvU/GhuIx+lfF4RdpWeqb3nM+tpqEwsOe6mdzVTb9ikV4tP9m6Q7W24rTt5Y
-	d3M9A==
-X-Received: by 2002:a17:903:b0e:b0:2b0:4b3a:9b49 with SMTP id d9443c01a7336-2b082820d55mr126297125ad.51.1774317346318;
-        Mon, 23 Mar 2026 18:55:46 -0700 (PDT)
-Received: from deepanshu-kernel-hacker.. ([2405:201:682f:389d:62d5:79a:7a92:c774])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b083527f90sm121657735ad.19.2026.03.23.18.55.43
+        bh=HLlKM68MyIfZMCivznDvoOYbnC+rCJINrjgA82vfkM4=;
+        b=Sz2eJXexjMlzhNPJtG+iUrwn3kg71cnsP07S4FeuaoKKqWrS0oP+i25CTXgZy4I27S
+         tfbLpMOomrxVd4THUvrJ+Xb9o5DEDtjx4lg7UqTjnROWhATlDVf/cSy/L3YtchdI7lzL
+         FgKjSkaGo+vDuTQLBmJxjONdndp+UFqNkKgCtmMBj8zaS7h/YuoxGPcwxRDwI+154gqH
+         edlB4qOZ31gCcIymK4Ue915NoAhD0wslIHVAYeWVK8UgCis5MsMQoODr2nzfdBmat/zS
+         ZP2QyCNvZfDqc9a3isBOhZdI089Snr4OeVvpKd0BwqtWb4IUmiqSmiNHUsgMQdoeN6Nj
+         ivGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUuHsWVpYijuJfPXaaH4hsqROCzllpvRXn8kago6737hJTjemqYcp2+xw1/xJLctR7+/whbwUUIHu9hXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOGODBo0zS8Hp1q6xRu1lKOriDLV3D9aCLlszzuRltRJX3vjp3
+	R55AIHF8KU6ONcYrJDvLAoTgFtlEe2gWD0drHG88RMvZd6qAtc8/IaYt
+X-Gm-Gg: ATEYQzyEs7hctAIqJTgx1aD0ou3THt+CVJ9EIc/s+GAbkSNpfRSb7t7jWCuFkbRJWix
+	ivZQQuiAjVNZFvBm+D8w/CmhCciz/+6/HEJqz/tXtjUnTYjIe6M6TTt1HHoVZfFRdGLy2C8kOLB
+	SJymp0hkCgwC68IiObH5ePJIAhL8mH8srASpXEXQycDKyWtcoZANeod+fssv0BHG9Eh+kvSJvN3
+	QDe99UfmyR1QVeK3WvMiczAgEhc0WU0jkbqX+WZ6YXBTWtNJPb2k3DRE2KKiV2VAo6vKfffqgxq
+	ppa1UkyxrQeGzpFg13koC/+/a8LZItFDoddLwAdJAgcKbejSLs5PKaRlcXHFD6gf02LJolUXUrH
+	vMxlORQdTX3POXDi5jvfKVSK5nx6eF2XE83xwCOXCy8EOmnltnA3w4XHr6c2knyv3PdAFDFthHL
+	Aim9SLWIqr8FzpmtnCVkQgqnI0uw==
+X-Received: by 2002:a05:6214:5712:b0:89c:610f:fba1 with SMTP id 6a1803df08f44-89c85a7e223mr241573006d6.46.1774317659652;
+        Mon, 23 Mar 2026 19:00:59 -0700 (PDT)
+Received: from localhost ([184.144.58.243])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89c85215210sm103060326d6.2.2026.03.23.19.00.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 18:55:45 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: mchehab@kernel.org
-Cc: harperchen1110@gmail.com,
+        Mon, 23 Mar 2026 19:00:59 -0700 (PDT)
+From: Richard Acayan <mailingradian@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"Bryan O'Donoghue" <bod@kernel.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	stable@vger.kernel.org,
-	syzbot+64485d3659c4c07111b4@syzkaller.appspotmail.com
-Subject: [PATCH v2] media: ec168: fix slab-out-of-bounds in ec168_i2c_xfer
-Date: Tue, 24 Mar 2026 07:25:39 +0530
-Message-ID: <20260324015539.1451660-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Cc: Robert Mader <robert.mader@collabora.com>,
+	David Heidelberg <david@ixit.cz>,
+	phone-devel@vger.kernel.org,
+	Richard Acayan <mailingradian@gmail.com>
+Subject: [PATCH v11 0/7] media: i2c: IMX355 for the Pixel 3a
+Date: Mon, 23 Mar 2026 22:01:25 -0400
+Message-ID: <20260324020132.8683-1-mailingradian@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -94,77 +105,145 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,syzkaller.appspotmail.com];
-	TAGGED_FROM(0.00)[bounces-56783-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_FROM(0.00)[bounces-56784-lists,linux-media=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,intel.com,linux.intel.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kartikey406@gmail.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[collabora.com,ixit.cz,vger.kernel.org,gmail.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_NEQ_ENVFROM(0.00)[mailingradian@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media,64485d3659c4c07111b4];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,syzkaller.appspot.com:url]
-X-Rspamd-Queue-Id: 8A270300C31
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2AE86300E82
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The WRITE_DEMOD path in ec168_i2c_xfer() checks msg[i].len < 1
-before accessing the buffer, but then reads both buf[0] (register)
-and buf[1] (value). If userspace supplies a 1-byte I2C message,
-the read of buf[1] goes out of bounds, triggering a KASAN
-slab-out-of-bounds error.
+This adds support for the IMX355 in devicetree and adds support for the
+Pixel 3a front camera.
 
-Fix by checking msg[i].len < 2 and returning -EOPNOTSUPP if the
-buffer is too short to contain both register and value bytes.
+Changes since v10, 4/7 (https://lore.kernel.org/r/20260311020328.57976-1-mailingradian@gmail.com):
+- add data-lanes to dts (everyone's review retained) (7/7)
 
-Fixes: a6dcefcc08ec ("media: dvb-usb-v2: ec168: fix null-ptr-deref in ec168_i2c_xfer()")
-Cc: stable@vger.kernel.org
-Reported-by: syzbot+64485d3659c4c07111b4@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=64485d3659c4c07111b4
-Tested-by: syzbot+64485d3659c4c07111b4@syzkaller.appspotmail.com
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
----
-Changes in v2:
-  - Fix author email case (Kartikey406 -> kartikey406)
-  - Add Cc: stable@vger.kernel.org as the Fixes tag points
-    to a commit present in the stable tree
----
- drivers/media/usb/dvb-usb-v2/ec168.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes since v9 (https://lore.kernel.org/r/20260217002738.133534-1-mailingradian@gmail.com):
+- reject zero data-lanes (4/7)
 
-diff --git a/drivers/media/usb/dvb-usb-v2/ec168.c b/drivers/media/usb/dvb-usb-v2/ec168.c
-index 973b32356b17..ebfb02826b20 100644
---- a/drivers/media/usb/dvb-usb-v2/ec168.c
-+++ b/drivers/media/usb/dvb-usb-v2/ec168.c
-@@ -135,7 +135,7 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
- 			}
- 		} else {
- 			if (msg[i].addr == ec168_ec100_config.demod_address) {
--				if (msg[i].len < 1) {
-+				if (msg[i].len < 2) {
- 					i = -EOPNOTSUPP;
- 					break;
- 				}
+Changes since v8 (https://lore.kernel.org/r/20260210020207.10246-1-mailingradian@gmail.com):
+- allow clock-lanes, but make it optional (1/7)
+
+Changes since v7 (https://lore.kernel.org/r/20260117040657.27043-1-mailingradian@gmail.com):
+- restrict data-lanes to 4 (4/7)
+- include first patch (1/7)
+- add back optional data-lanes in bindings (2/7)
+- remove assert low on power on again (Bryan's review retained) (3/7)
+- use dev_err_probe in power on (3/7)
+- remove second error on probe power on (3/7)
+- add review tags (2/7, 3/7, 7/7)
+
+Changes since v6 (https://lore.kernel.org/r/20260107043044.92485-1-mailingradian@gmail.com):
+- remove NAK from Krzysztof (3/6)
+- assert reset GPIO on probe (3/6)
+- change delays in reset sequence (3/6)
+- remove __maybe_unused from OF match table (3/6)
+- fix alignment for arguments to devm_regulator_bulk_get_const (3/6)
+- remove front camera pin configuration (6/6)
+- remove clock-lanes from camss endpoint (1/6, 6/6)
+- remove data-lanes from camera sensor endpoint (2/6, 6/6)
+- remove blank line at top of binding (2/6)
+- add review tags (2/6, 3/6, 5/6, 6/6)
+
+Changes since v5 (https://lore.kernel.org/r/20260107042451.92048-1-mailingradian@gmail.com):
+- add Bryan to CC who added a Reviewed-by
+
+Changes since v4 (https://lore.kernel.org/r/20251211014846.16602-1-mailingradian@gmail.com):
+- add NAK from Krzysztof (2/5)
+- label the camss ports (3/5, 5/5)
+- define endpoint properties correctly (1/5)
+- use devm_regulator_bulk_get_const (2/5)
+- remove clock-names (1/5, 5/5)
+- set reset GPIO as active low (1/5, 2/5, 5/5)
+- explicitly drive reset low at start of sequence (2/5)
+- make data-lanes in endpoint optional and start at 1 (1/5, 5/5)
+- add mclk3 pin (4/5)
+- add Reviewed-by's (4/5)
+
+Changes since v3 (https://lore.kernel.org/r/20250905215516.289998-6-mailingradian@gmail.com):
+- separate camera mclk pins and move to different patch (4/5, 5/5)
+- remove polarity from rear camera pin (5/5)
+- remove output-low from front camera pins (5/5)
+- mention effects of dcf6fb89e6f7 ("media: qcom: camss: remove a check for unavailable CAMSS endpoint") (3/5)
+- specify single clock-name without items nesting (1/5)
+- rebase on 49c6ac166cf7 ("media: i2c: imx355: Replace client->dev
+  usage") and eaa7d46d9654 ("media: i2c: imx335: Use V4L2 sensor clock
+  helper") (2/5)
+- do not use of_match_ptr for OF match table (2/5)
+- remove redundant GPIO validity checks (2/5)
+- describe endpoint data-lanes (1/5)
+
+Changes since v2 (https://lore.kernel.org/r/20250714210227.714841-6-mailingradian@gmail.com):
+- use devm_v4l2_sensor_clk_get (2/4)
+- require supplies and clock-names (1/4)
+- move unevaluatedProperties down (1/4)
+- disable clocks as last power-off action (2/4)
+- use 0 in gpio pin power-supply (4/4)
+
+Changes since v1 (https://lore.kernel.org/r/20250630225944.320755-7-mailingradian@gmail.com):
+- too much to have a complete list (1-4/4)
+- squash camera orientation patch (4/4, previously 5/5)
+- squash driver changes (2/4, previously 3/5)
+- remove labelled endpoint node in sdm670.dtsi (3/4, 4/4)
+- change init sequence to match other similar drivers (2/4)
+- retrieve clock frequency from devicetree-defined clock (4/4)
+- remove clock-frequency from dt-bindings (1/4)
+- remove redundant descriptions of child nodes (1/4)
+- switch initial drive of the reset GPIO to low (2/4)
+- set mclk frequency to 19.2 MHz (4/4)
+- add vdda-pll supply for camss (4/4)
+- use common power on and off functions (2/4)
+- use devm_clk_get_optional (2/4)
+- remove extra layer when describing mclk pin (4/4)
+- rename regulators (1/4, 2/4, 4/4)
+
+Richard Acayan (7):
+  dt-bindings: media: qcom,sdm670-camss: Remove clock-lanes requirement
+  dt-bindings: media: i2c: Add Sony IMX355
+  media: i2c: imx355: Support devicetree and power management
+  media: i2c: imx355: Restrict data lanes to 4
+  arm64: dts: qcom: sdm670: label the camss ports instead of endpoints
+  arm64: dts: qcom: sdm670: add camera mclk pins
+  arm64: dts: qcom: sdm670-google-sargo: add imx355 front camera
+
+ .../bindings/media/i2c/sony,imx355.yaml       | 111 +++++++++++++++++
+ .../bindings/media/qcom,sdm670-camss.yaml     |   3 -
+ .../boot/dts/qcom/sdm670-google-sargo.dts     |  97 +++++++++++++++
+ arch/arm64/boot/dts/qcom/sdm670.dtsi          |  46 ++++---
+ drivers/media/i2c/imx355.c                    | 117 ++++++++++++++++--
+ 5 files changed, 348 insertions(+), 26 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx355.yaml
+
 -- 
-2.43.0
+2.53.0
 
 
