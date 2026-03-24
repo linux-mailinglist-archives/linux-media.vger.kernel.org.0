@@ -1,192 +1,238 @@
-Return-Path: <linux-media+bounces-56859-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56860-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CKuaERZwwmmncwQAu9opvQ
-	(envelope-from <linux-media+bounces-56859-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 12:05:58 +0100
+	id +BfJIeFuwmmncwQAu9opvQ
+	(envelope-from <linux-media+bounces-56860-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 12:00:49 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3100306FB7
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 12:05:57 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A588A306ECD
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 12:00:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 767B430D3E4B
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:58:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 8BE34303775C
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 11:00:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5DC33E5EFA;
-	Tue, 24 Mar 2026 10:58:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D20F3E9F67;
+	Tue, 24 Mar 2026 11:00:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MYYLU8j1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IBvF/wsK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0651DFDA1;
-	Tue, 24 Mar 2026 10:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AE63E6DDB;
+	Tue, 24 Mar 2026 11:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774349883; cv=none; b=uowGDN0av8OlMTyXPGDyD/hNVCHM48HCM4DABv0TINYowCscrme0kECdAEZjCpjQ/byQGbz6r+XgYwnTld5FPxKEbRKDadQBOBG+4Mv3OSy6G9fFr1DJ0BE2cgyDquU2bea3IUU2pCVlQoY7dWHha7TYjuBTcrhoei8y9pMeGag=
+	t=1774350026; cv=none; b=HaSTEOskXQuSUT22vRhmry0v9vM/OMSYzsD2wT7HCpunygy7yIxOXB1WJhCFIeuZAV9Mcnyx4xTpFIA3hU9Tc9XLQ5wRxi0SVKxkbOMrXuPCW542xcsrL5KMeXVCWOsjgchpoJQNdNFBLLsBCN4wlzjNHWO0B1zEEs5Nj5dZIKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774349883; c=relaxed/simple;
-	bh=8WjlJNtSutvMbt5nV27U6C+ZXtnMIWF3nhKNVxC6/MM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMjl6GdlUAA54Gp6mWWNa7v3kwR7Os7ckID7Hl4NwP0aHUvMiNv9EJGosowDOUjLeAZR8GRs3VfOsYgRfVHB2bW3n8sYSfCyfTYIe+2cZCUehrWxQu10lV0V9RPrKlqMaFHcsAOskgsgaNjkwVKTnGRuP8Wm7T+XEtQobZgEq9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MYYLU8j1; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774349881; x=1805885881;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8WjlJNtSutvMbt5nV27U6C+ZXtnMIWF3nhKNVxC6/MM=;
-  b=MYYLU8j1cwYfyqP0hDeoe6XUZWbDnZ9MQ/wLE+uXHvZ0Eg7ac1OY/7RN
-   yRa76iCg/cYBNLB+zSDbo0mwJHo14UgGYMcuzq7XlKRda8Oiu76Kyr2ka
-   gZSTjAmjWduPMVZi2DuZQdqcRB1rLqlOP9MSk1zCxaAgxS/SLpPKR1clo
-   hEBEBp2+ujzTg7r/p2kpnEGHdxCxcrjSQl0yNDofQNw9MmL4Y6oNv1rJw
-   +tMkpmxkHd1OWlcyiQLXwg6Plq0HDFnrZrOvAPq4iyEPEtLNsGhO4sgjF
-   SiCgdhqlhIhxIm4yhAQ4qc/z21X93LQ6U6bEs4hPRrRPfKVW5mClowsGJ
-   g==;
-X-CSE-ConnectionGUID: CF6iNlaCTQeGrZdSn6sMrQ==
-X-CSE-MsgGUID: FqX4aq79SB2AFgpPUcjoew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75246615"
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="75246615"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 03:58:01 -0700
-X-CSE-ConnectionGUID: kMuMgcg0QSGNJtzSedmgsw==
-X-CSE-MsgGUID: elRKXxBkQviX/opiSfcydw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="229069864"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.180])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 03:57:57 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id B9317121CFF;
-	Tue, 24 Mar 2026 12:57:59 +0200 (EET)
-Date: Tue, 24 Mar 2026 12:57:59 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: David Heidelberg <david@ixit.cz>
-Cc: Richard Acayan <mailingradian@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Robert Mader <robert.mader@collabora.com>,
-	phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v9 7/7] arm64: dts: qcom: sdm670-google-sargo: add imx355
- front camera
-Message-ID: <acJuN_FRqMTGgl8C@kekkonen.localdomain>
-References: <20260217002738.133534-1-mailingradian@gmail.com>
- <20260217002738.133534-8-mailingradian@gmail.com>
- <1349f725-a20f-4935-a829-208c8e583ad9@ixit.cz>
- <acHxgIsyPiQTeqCB@rdacayan>
- <eff25adf-c5fd-484d-a9ae-ec27c0d9c100@ixit.cz>
+	s=arc-20240116; t=1774350026; c=relaxed/simple;
+	bh=ZmYd5NYG4lIHGzbYxjb65sovO6w7hI/WygWC8hGfIws=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lIIvN8uizuhBr6/k02Xo1uhJdBQ0RKRGU7U7tw1dTpFKo1LfbjQQB3CgPZhJ/bz+R9K2W0FDFOJdI4cvRg5nDBUQ4VshJx9AYnjPG6A0JsRYn33SzTIp1M+dvLnCGd8uraBl/rEMjtFHAkWEb9mn0pmMf703paKrh6dWL7qocRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IBvF/wsK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8FA0C19424;
+	Tue, 24 Mar 2026 11:00:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774350025;
+	bh=ZmYd5NYG4lIHGzbYxjb65sovO6w7hI/WygWC8hGfIws=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=IBvF/wsKOL0V45hkg3Yl/TORRrIy70uW/uxnihu3MJO5sAniRqcCM4T4vUfKp9mOs
+	 GGK6fjrdkU74Du63BmcheWJpLAOPGKh0znOlMm0lPA+yAOR1avQR2Ry9wwx4zZNnOB
+	 wCZV7cPEnvFoTyRyXvgJApTkm4HjsX8N8fqMNcZNYbqfUch9tii2pxf+ZqyajXq0UM
+	 sApUZFC7DeDowdhfAwcFY6WwHhlglnxobO89sovdu/OylVakxOYYrl0n3xkuuJgSne
+	 R6T6QSRfSYxA/GuXWvRNfpA9JSIvBhjzYNQSowCwruuT7GL3ZoB66YffkBpLR3q+tL
+	 0XLulgv39ftFA==
+Message-ID: <12194cc0-0960-486c-be7e-1a22d95de340@kernel.org>
+Date: Tue, 24 Mar 2026 11:00:21 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eff25adf-c5fd-484d-a9ae-ec27c0d9c100@ixit.cz>
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/3] media: qcom: camss: Add CAMSS Offline Processing
+ Engine driver
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: vladimir.zapolskiy@linaro.org, laurent.pinchart@ideasonboard.com,
+ kieran.bingham@ideasonboard.com, robh@kernel.org, krzk+dt@kernel.org,
+ andersson@kernel.org, konradybcio@kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, johannes.goede@oss.qualcomm.com,
+ mchehab@kernel.org
+References: <20260323125824.211615-1-loic.poulain@oss.qualcomm.com>
+ <m61yNNvSrw6AIq7_-g2h7VQLmGJ_5iCLg5JTlfQDcL5LlBq37ifAeXw-K3AlRBck5Mb4uVQq0pzeBNAybQNk4w==@protonmail.internalid>
+ <20260323125824.211615-3-loic.poulain@oss.qualcomm.com>
+ <1ba54ec0-be51-4694-a79b-f272e76303d2@kernel.org>
+ <X-Lw_zi1o015-V1Cv4dY_ik6SfTB8TTcLmn1l-Ta7UviYTJ6gwMBn4B4ulYwjd_Aetul5xUt0T6ln9E-Hl5h4g==@protonmail.internalid>
+ <CAFEp6-3ziXJTYADOFj--rZL5TumroXuW+=SnUQ9XakRxHT-ypg@mail.gmail.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+In-Reply-To: <CAFEp6-3ziXJTYADOFj--rZL5TumroXuW+=SnUQ9XakRxHT-ypg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linaro.org,intel.com,collabora.com,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56859-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-56860-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media,dt];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: B3100306FB7
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A588A306ECD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi David, Richard,
+On 23/03/2026 15:31, Loic Poulain wrote:
+>>> +
+>>> +static void ope_prog_bayer2rgb(struct ope_dev *ope)
+>>> +{
+>>> +     /* Fixed Settings */
+>>> +     ope_write_pp(ope, 0x860, 0x4001);
+>>> +     ope_write_pp(ope, 0x868, 128);
+>>> +     ope_write_pp(ope, 0x86c, 128 << 20);
+>>> +     ope_write_pp(ope, 0x870, 102);
+>> What are the magic numbers about ? Please define bit-fields and offsets.
+> There are some registers I can't disclose today, which have to be
+> configured with working values,
+> Similarly to some sensor configuration in media/i2c.
 
-On Tue, Mar 24, 2026 at 10:35:24AM +0100, David Heidelberg wrote:
-> 
-> 
-> On 24/03/2026 03:05, Richard Acayan wrote:
-> > On Fri, Mar 13, 2026 at 07:26:47PM +0100, David Heidelberg wrote:
-> > > On 17/02/2026 01:27, Richard Acayan wrote:
-> > > [...]
-> > > 
-> > > > +&cci_i2c1 {
-> > > > +	camera@1a {
-> > > > +		compatible = "sony,imx355";
-> > > > +		reg = <0x1a>;
-> > > > +
-> > > > +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
-> > > > +
-> > > > +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
-> > > > +		assigned-clock-rates = <19200000>;
-> > > 
-> > > Extract from #sdm670-mainline:erebion.eu discussion:
-> > > The imx355 can operate on 24 MHz (on both Pixel 3 and 3a), but Linux kernel
-> > > driver can operate only with 19.2 MHz.
-> > > 
-> > > I assume it would be worth it mention at least by comment here.
-> > 
-> > This might set the series back because the devicetree isn't meant to be
-> > written for specific software, but it's included in v11 because you
-> > already asked twice.
-> > 
-> 
-> I would say node with lower clock frequency is still much better than
-> nothing or placeholder saying "i2c camera here". Instead we'll have small
-> placeholder that value can be bumped to 24 MHz. Important is this can be
-> easily improved when at least one consumer of the device-tree gains support.
-> 
-> We have very scarce support of cameras on mobile phones in mainline, thus
-> leaving a comment that HW can do 24 MHz is reasonable compromise IMHO.
+Not really the same thing, all of the offsets in upstream CAMSS and its 
+CLC are documented. Sensor values are typically upstreamed by people who 
+don't control the documentation, that is not the case with Qcom 
+submitting this code upstream now.
 
-The bindings could document the supported frequency range.
+Are you guys doing an upstream implementation or not ?
 
-In DTS it may make sense to set the frequency the vendor uses as it may
-affect the link frequencies (albeit I guess they're the same in this
-case?).
+>> Parameters passed in from user-space/libcamera and then translated to
+>> registers etc.
+> The above fixed settings will not be part of the initial parameters.
+> 
+>>> +}
+>>> +
+>>> +static void ope_prog_wb(struct ope_dev *ope)
+>>> +{
+>>> +     /* Default white balance config */
+>>> +     u32 g_gain = OPE_WB(1, 1);
+>>> +     u32 b_gain = OPE_WB(3, 2);
+>>> +     u32 r_gain = OPE_WB(3, 2);
+>>> +
+>>> +     ope_write_pp(ope, OPE_PP_CLC_WB_GAIN_WB_CFG(0), g_gain);
+>>> +     ope_write_pp(ope, OPE_PP_CLC_WB_GAIN_WB_CFG(1), b_gain);
+>>> +     ope_write_pp(ope, OPE_PP_CLC_WB_GAIN_WB_CFG(2), r_gain);
+>>> +
+>>> +     ope_write_pp(ope, OPE_PP_CLC_WB_GAIN_MODULE_CFG, OPE_PP_CLC_WB_GAIN_MODULE_CFG_EN);
+>>> +}
+>> Fixed gains will have to come from real data.
+> These gains will indeed need to be configurable, most likely via ISP
+> parameters, here, they have been adjusted based on colorbar test
+> pattern from imx219 sensors but also tested with real capture.
+> 
+>>> +
+>>> +static void ope_prog_stripe(struct ope_ctx *ctx, struct ope_stripe *stripe)
+>>> +{
+>>> +     struct ope_dev *ope = ctx->ope;
+>>> +     int i;
+>>> +
+>>> +     dev_dbg(ope->dev, "Context %p - Programming S%u\n", ctx, ope_stripe_index(ctx, stripe));
+>>> +
+>>> +     /* Fetch Engine */
+>>> +     ope_write_rd(ope, OPE_BUS_RD_CLIENT_0_UNPACK_CFG_0, stripe->src.format);
+>>> +     ope_write_rd(ope, OPE_BUS_RD_CLIENT_0_RD_BUFFER_SIZE,
+>>> +                  (stripe->src.width << 16) + stripe->src.height);
+>>> +     ope_write_rd(ope, OPE_BUS_RD_CLIENT_0_ADDR_IMAGE, stripe->src.addr);
+>>> +     ope_write_rd(ope, OPE_BUS_RD_CLIENT_0_RD_STRIDE, stripe->src.stride);
+>>> +     ope_write_rd(ope, OPE_BUS_RD_CLIENT_0_CCIF_META_DATA,
+>>> +                  FIELD_PREP(OPE_BUS_RD_CLIENT_0_CCIF_MD_PIX_PATTERN, stripe->src.pattern));
+>>> +     ope_write_rd(ope, OPE_BUS_RD_CLIENT_0_CORE_CFG, OPE_BUS_RD_CLIENT_0_CORE_CFG_EN);
+>>> +
+>>> +     /* Write Engines */
+>>> +     for (i = 0; i < OPE_WR_CLIENT_MAX; i++) {
+>>> +             if (!stripe->dst[i].enabled) {
+>>> +                     ope_write_wr(ope, OPE_BUS_WR_CLIENT_CFG(i), 0);
+>>> +                     continue;
+>>> +             }
+>>> +
+>>> +             ope_write_wr(ope, OPE_BUS_WR_CLIENT_ADDR_IMAGE(i), stripe->dst[i].addr);
+>>> +             ope_write_wr(ope, OPE_BUS_WR_CLIENT_IMAGE_CFG_0(i),
+>>> +                          (stripe->dst[i].height << 16) + stripe->dst[i].width);
+>>> +             ope_write_wr(ope, OPE_BUS_WR_CLIENT_IMAGE_CFG_1(i), stripe->dst[i].x_init);
+>>> +             ope_write_wr(ope, OPE_BUS_WR_CLIENT_IMAGE_CFG_2(i), stripe->dst[i].stride);
+>>> +             ope_write_wr(ope, OPE_BUS_WR_CLIENT_PACKER_CFG(i), stripe->dst[i].format);
+>>> +             ope_write_wr(ope, OPE_BUS_WR_CLIENT_CFG(i),
+>>> +                          OPE_BUS_WR_CLIENT_CFG_EN + OPE_BUS_WR_CLIENT_CFG_AUTORECOVER);
+>>> +     }
+>>> +
+>>> +     /* Downscalers */
+>>> +     for (i = 0; i < OPE_DS_MAX; i++) {
+>>> +             struct ope_dsc_config *dsc = &stripe->dsc[i];
+>>> +             u32 base = ope_ds_base[i];
+>>> +             u32 cfg = 0;
+>>> +
+>>> +             if (dsc->input_width != dsc->output_width) {
+>>> +                     dsc->phase_step_h |= DS_RESOLUTION(dsc->input_width,
+>>> +                                                        dsc->output_width) << 30;
+>>> +                     cfg |= OPE_PP_CLC_DOWNSCALE_MN_DS_CFG_H_SCALE_EN;
+>>> +             }
+>>> +
+>>> +             if (dsc->input_height != dsc->output_height) {
+>>> +                     dsc->phase_step_v |= DS_RESOLUTION(dsc->input_height,
+>>> +                                                        dsc->output_height) << 30;
+>>> +                     cfg |= OPE_PP_CLC_DOWNSCALE_MN_DS_CFG_V_SCALE_EN;
+>>> +             }
+>>> +
+>>> +             ope_write_pp(ope, OPE_PP_CLC_DOWNSCALE_MN_DS_CFG(base), cfg);
+>>> +             ope_write_pp(ope, OPE_PP_CLC_DOWNSCALE_MN_DS_IMAGE_SIZE_CFG(base),
+>>> +                          ((dsc->input_width - 1) << 16) + dsc->input_height - 1);
+>>> +             ope_write_pp(ope, OPE_PP_CLC_DOWNSCALE_MN_DS_MN_H_CFG(base), dsc->phase_step_h);
+>>> +             ope_write_pp(ope, OPE_PP_CLC_DOWNSCALE_MN_DS_MN_V_CFG(base), dsc->phase_step_v);
+>>> +             ope_write_pp(ope, OPE_PP_CLC_DOWNSCALE_MN_CFG(base),
+>>> +                          cfg ? OPE_PP_CLC_DOWNSCALE_MN_CFG_EN : 0);
+>>> +     }
+>>> +}
+>> So - this is where the CDM should be used - so that you don't have to do
+>> all of these MMIO writes inside of your ISR.
+> Indeed, and that also the reason stripes are computed ahead of time,
+> so that they can be further 'queued' in a CDM.
+> 
+>> Is that and additional step after the RFC ?
+> The current implementation (without CDM) already provides good results
+> and performance, so CDM can be viewed as a future enhancement.
 
-> 
-> I personally got confused why Android sets higher clock, thus it may happen
-> to other people looking at Pixel 3a as an example for their imx363 bring-up.
-> 
-> David
-> 
-> > The frequency could also be stated as having "better software support"
-> > in general without mentioning Linux as the reason.
-> 
+That's true but then the number of MMIO writes per ISR is pretty small 
+right now. You have about 50 writes here.
 
--- 
-Regards,
+> As far as I understand, CDM could also be implemented in a generic way
+> within CAMSS, since other CAMSS blocks make use of CDM as well.
+> This is something we should discuss further.
+My concern is even conservatively if each module adds another 10 ? 
+writes by the time we get to denoising, sharpening, lens shade 
+correction, those writes could easily look more like 100.
 
-Sakari Ailus
+What user-space should submit is well documented data-structures which 
+then get translated into CDM buffers by the OPE and IFE for the various 
+bits of the pipeline.
+
+---
+bod
 
