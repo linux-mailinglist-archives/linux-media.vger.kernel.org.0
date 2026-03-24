@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-56849-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56848-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AB8xMv5rwmmncwQAu9opvQ
-	(envelope-from <linux-media+bounces-56849-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 11:48:30 +0100
+	id kDBZBOBrwmmncwQAu9opvQ
+	(envelope-from <linux-media+bounces-56848-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 11:48:00 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68024306B4C
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 11:48:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E6AB306B17
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 11:47:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 26CC6313B4FB
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:42:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F23CE31361DC
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:42:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A38D3E6381;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40F773E5EC5;
 	Tue, 24 Mar 2026 10:42:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="YmtBCGVr"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="bfy404VI"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4593B3890;
-	Tue, 24 Mar 2026 10:42:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E8B3D3494;
+	Tue, 24 Mar 2026 10:42:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774348928; cv=none; b=tV1KxjKozR9i98IHH7v45N6aChTYPM+TyAHc1aO9xqd8bM2euZmmCVw/Ewep2CIh8S80PDTNjYXax13g4Qo4LfxlrOZndRZrc81iFRCtHJr6sWtyRFoxMJTYcgXD/InwUazZ4EeOEAZnB3dYsnWpvHAHVfVippmpOthJGKxl50M=
+	t=1774348928; cv=none; b=td91mJi3QCF/UJUMg0rqsRsEwV1q6DFXoOaHy4c7CV39EoZbL5ZcWyND3sV9iESn+uT12aBHYh0ZyM6aYiNVDbqzW3h2UTuP13g9GnAGTqqHVVFHcosJ8VDI4CdLOBdw8S+5tsABFxwpwAEwargpO6/qov2dCtvpKWFI/pWnkb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774348928; c=relaxed/simple;
-	bh=Uc6xjJaFE7PobznqEBdDlJgmxrZXf0y3Ig7nqbSGQzY=;
+	bh=Msne2OPU6AC8rANt+KJ9Nfx9HBaFIIS/y7bNrfoHsP4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uIdnAaYUSKh9nXgvOyhUSBiV2QtI2uMpqJ6VpABkFi9ogUg5NE0zN4PYM2qqlgrzFwfdsCGsDqCyTMATxDr1lby0ZuJaxyU5SQzVl3cTFbGvXouwIIwadrMpxk2UINRXxqE7IYYiyF2vIrMZ7DW6fcR8Xow5XALGpw7jmKRetjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=YmtBCGVr; arc=none smtp.client-ip=168.119.41.54
+	 In-Reply-To:To:Cc; b=iTh1tEUtpQcs4Cl/yyuTE3yk+fzmqJsrfCjlXc3XuW5GxuxbZADlme2FuBELe/9XKa1Jx5U4zRUthTrnJcntPRDHpDhxjtgrQSNfJt+ImCJVFvgcdA+Oj0KEFZ5yakzIZhHeeG58zZSImuNlu+m4v9EaFjGKslov0X9Dat2+VP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=bfy404VI; arc=none smtp.client-ip=168.119.41.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
@@ -40,18 +40,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=XfCMILvliDmEG90LbBt8CLqzU1EbXJrdVztecSvsrrA=; b=YmtBCGVraPlzEIKgwiX1ruefs3
-	RNyKZ0hN663cwWsRvIl8ATbLpeN1FHyEXtm98UkKKzuy3vSFguPgOWkO17CaGt2f/a0X4DI4CCy0t
-	IWvBfHG1YXDWiDb4jcmuZwMK3eMEjsx0s8qbXkFMKv/6jifuVm6S4g8u1qcxNlaM24BM=;
+	bh=QhGjIQciuVNZ6DrTWNpHCvmxA9va2rN5Hjh+s//xY04=; b=bfy404VIqFcALQdEmDh+6KupBh
+	A9PPpAUBeP2pNa6KVcyT7NUNuxWKq8r90INgpyLYvrVI4SsuCJfTmpT3EWBoI+b8YqobE0iUgqr9T
+	IGxnTUEjqUz6PPY+BzjgSPFvn+wEVwMJ5DUHh1WDU4syLJ3jUY9F4zqiT1FJQMM8ZqMU=;
 Received: from 194-208-208-245.tele.net ([194.208.208.245]:55336 helo=[127.0.1.1])
 	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.93)
 	(envelope-from <matthias.fend@emfend.at>)
-	id 1w4zCz-00DIvK-Op; Tue, 24 Mar 2026 11:42:02 +0100
+	id 1w4zD0-00DIvK-Gx; Tue, 24 Mar 2026 11:42:02 +0100
 From: Matthias Fend <matthias.fend@emfend.at>
-Date: Tue, 24 Mar 2026 11:41:35 +0100
-Subject: [PATCH v3 1/9] media: i2c: ov08d10: fix runtime PM handling in
- probe
+Date: Tue, 24 Mar 2026 11:41:36 +0100
+Subject: [PATCH v3 2/9] media: i2c: ov08d10: fix image vertical start
+ setting
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260324-ov08d10-v3-1-1e44069cf91e@emfend.at>
+Message-Id: <20260324-ov08d10-v3-2-1e44069cf91e@emfend.at>
 References: <20260324-ov08d10-v3-0-1e44069cf91e@emfend.at>
 In-Reply-To: <20260324-ov08d10-v3-0-1e44069cf91e@emfend.at>
 To: Jimmy Su <jimmy.su@intel.com>, 
@@ -80,10 +80,9 @@ X-Spam-Report: Spam detection software, running on the system "lx20.hoststar.hos
  similar future email.  If you have any questions, see
  the administrator of that system for details.
  
- Content preview:  This series provides basic device tree support and handling
-    for power supplies, an optional reset, and the option to use a 24MHz input
-    clock. In addition to a few minor fixes, a major problem with the configuration
-    of the sensor modes has also been resolved. 
+ Content preview:  Set the device's runtime PM status and enable runtime PM before
+    registering the async sub-device. This is needed to avoid the case where
+   the device is runtime PM resumed while runtime PM has not been [...] 
  
  Content analysis details:   (-1.0 points, 5.0 required)
  
@@ -104,7 +103,7 @@ X-Spamd-Result: default: False [1.04 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56849-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56848-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DMARC_NA(0.00)[emfend.at];
@@ -121,58 +120,67 @@ X-Spamd-Result: default: False [1.04 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[emfend.at:email,emfend.at:mid,pengutronix.de:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 68024306B4C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[emfend.at:email,emfend.at:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 5E6AB306B17
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Set the device's runtime PM status and enable runtime PM before registering
-the async sub-device. This is needed to avoid the case where the device is
-runtime PM resumed while runtime PM has not been enabled yet.
-
-Remove the related, non-driver-specific comment while at it.
+The current settings for the "image vertical start" register appear to be
+incorrect. While this only results in an incorrect start line for native
+modes, this faulty setting causes actual problems in binning mode. At least
+on an i.MX8MP test system, only corrupted frames could be received.
+To correct this, the recommended settings from the reference register sets
+are used for all modes. Since this shifts the start by one line, the Bayer
+pattern also changes, which has also been corrected.
 
 Fixes: 7be91e02ed57 ("media: i2c: Add ov08d10 camera sensor driver")
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
 ---
- drivers/media/i2c/ov08d10.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/media/i2c/ov08d10.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/i2c/ov08d10.c b/drivers/media/i2c/ov08d10.c
-index 43ec2a1f2fcffb7fa11a6268af3c2edc4df129f3..5b02f61e359fa900da9290c1c151aa01b9d70e6e 100644
+index 5b02f61e359fa900da9290c1c151aa01b9d70e6e..5e1b8b58b3d64bcf20a7b1a4e47f547d2fd82998 100644
 --- a/drivers/media/i2c/ov08d10.c
 +++ b/drivers/media/i2c/ov08d10.c
-@@ -1430,6 +1430,9 @@ static int ov08d10_probe(struct i2c_client *client)
- 		goto probe_error_v4l2_ctrl_handler_free;
- 	}
+@@ -217,7 +217,7 @@ static const struct ov08d10_reg lane_2_mode_3280x2460[] = {
+ 	{0x9a, 0x30},
+ 	{0xa8, 0x02},
+ 	{0xfd, 0x02},
+-	{0xa1, 0x01},
++	{0xa1, 0x00},
+ 	{0xa2, 0x09},
+ 	{0xa3, 0x9c},
+ 	{0xa5, 0x00},
+@@ -335,7 +335,7 @@ static const struct ov08d10_reg lane_2_mode_3264x2448[] = {
+ 	{0x9a, 0x30},
+ 	{0xa8, 0x02},
+ 	{0xfd, 0x02},
+-	{0xa1, 0x09},
++	{0xa1, 0x08},
+ 	{0xa2, 0x09},
+ 	{0xa3, 0x90},
+ 	{0xa5, 0x08},
+@@ -467,7 +467,7 @@ static const struct ov08d10_reg lane_2_mode_1632x1224[] = {
+ 	{0xaa, 0xd0},
+ 	{0xab, 0x06},
+ 	{0xac, 0x68},
+-	{0xa1, 0x09},
++	{0xa1, 0x04},
+ 	{0xa2, 0x04},
+ 	{0xa3, 0xc8},
+ 	{0xa5, 0x04},
+@@ -613,8 +613,8 @@ static const struct ov08d10_lane_cfg lane_cfg_2 = {
+ static u32 ov08d10_get_format_code(struct ov08d10 *ov08d10)
+ {
+ 	static const u32 codes[2][2] = {
+-		{ MEDIA_BUS_FMT_SGRBG10_1X10, MEDIA_BUS_FMT_SRGGB10_1X10},
+-		{ MEDIA_BUS_FMT_SBGGR10_1X10, MEDIA_BUS_FMT_SGBRG10_1X10},
++		{ MEDIA_BUS_FMT_SBGGR10_1X10, MEDIA_BUS_FMT_SGBRG10_1X10 },
++		{ MEDIA_BUS_FMT_SGRBG10_1X10, MEDIA_BUS_FMT_SRGGB10_1X10 },
+ 	};
  
-+	pm_runtime_set_active(ov08d10->dev);
-+	pm_runtime_enable(ov08d10->dev);
-+
- 	ret = v4l2_async_register_subdev_sensor(&ov08d10->sd);
- 	if (ret < 0) {
- 		dev_err(ov08d10->dev, "failed to register V4L2 subdev: %d",
-@@ -1437,17 +1440,13 @@ static int ov08d10_probe(struct i2c_client *client)
- 		goto probe_error_media_entity_cleanup;
- 	}
- 
--	/*
--	 * Device is already turned on by i2c-core with ACPI domain PM.
--	 * Enable runtime PM and turn off the device.
--	 */
--	pm_runtime_set_active(ov08d10->dev);
--	pm_runtime_enable(ov08d10->dev);
- 	pm_runtime_idle(ov08d10->dev);
- 
- 	return 0;
- 
- probe_error_media_entity_cleanup:
-+	pm_runtime_disable(ov08d10->dev);
-+	pm_runtime_set_suspended(ov08d10->dev);
- 	media_entity_cleanup(&ov08d10->sd.entity);
- 
- probe_error_v4l2_ctrl_handler_free:
+ 	return codes[ov08d10->vflip->val][ov08d10->hflip->val];
 
 -- 
 2.34.1
