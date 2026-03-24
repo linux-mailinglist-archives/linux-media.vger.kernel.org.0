@@ -1,238 +1,192 @@
-Return-Path: <linux-media+bounces-56860-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56861-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +BfJIeFuwmmncwQAu9opvQ
-	(envelope-from <linux-media+bounces-56860-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 12:00:49 +0100
+	id SNh4OaZywmmncwQAu9opvQ
+	(envelope-from <linux-media+bounces-56861-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 12:16:54 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A588A306ECD
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 12:00:48 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED5A30723A
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 12:16:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8BE34303775C
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 11:00:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 250873045C0D
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 11:16:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D20F3E9F67;
-	Tue, 24 Mar 2026 11:00:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27D1A377ED4;
+	Tue, 24 Mar 2026 11:16:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IBvF/wsK"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="hPWZb9Ek"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AE63E6DDB;
-	Tue, 24 Mar 2026 11:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77FB3E8C68;
+	Tue, 24 Mar 2026 11:16:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774350026; cv=none; b=HaSTEOskXQuSUT22vRhmry0v9vM/OMSYzsD2wT7HCpunygy7yIxOXB1WJhCFIeuZAV9Mcnyx4xTpFIA3hU9Tc9XLQ5wRxi0SVKxkbOMrXuPCW542xcsrL5KMeXVCWOsjgchpoJQNdNFBLLsBCN4wlzjNHWO0B1zEEs5Nj5dZIKA=
+	t=1774350986; cv=none; b=XRNoAEK5iHCuh5Ko2XAhyc5+/8QVTKEf8TqK5uMJZnq//fznuKh/mxiXJ58PrwvS3gA+ff+ChhB32PUPsWF3pExcfFhVZj9oPTGNwfwSG1mb0Rqqo4VkYwBPkbGQmVyOjMZQQBMSl27izM3OLju+F5BBBqecTXhHKgWLwuAyP0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774350026; c=relaxed/simple;
-	bh=ZmYd5NYG4lIHGzbYxjb65sovO6w7hI/WygWC8hGfIws=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lIIvN8uizuhBr6/k02Xo1uhJdBQ0RKRGU7U7tw1dTpFKo1LfbjQQB3CgPZhJ/bz+R9K2W0FDFOJdI4cvRg5nDBUQ4VshJx9AYnjPG6A0JsRYn33SzTIp1M+dvLnCGd8uraBl/rEMjtFHAkWEb9mn0pmMf703paKrh6dWL7qocRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IBvF/wsK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8FA0C19424;
-	Tue, 24 Mar 2026 11:00:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774350025;
-	bh=ZmYd5NYG4lIHGzbYxjb65sovO6w7hI/WygWC8hGfIws=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IBvF/wsKOL0V45hkg3Yl/TORRrIy70uW/uxnihu3MJO5sAniRqcCM4T4vUfKp9mOs
-	 GGK6fjrdkU74Du63BmcheWJpLAOPGKh0znOlMm0lPA+yAOR1avQR2Ry9wwx4zZNnOB
-	 wCZV7cPEnvFoTyRyXvgJApTkm4HjsX8N8fqMNcZNYbqfUch9tii2pxf+ZqyajXq0UM
-	 sApUZFC7DeDowdhfAwcFY6WwHhlglnxobO89sovdu/OylVakxOYYrl0n3xkuuJgSne
-	 R6T6QSRfSYxA/GuXWvRNfpA9JSIvBhjzYNQSowCwruuT7GL3ZoB66YffkBpLR3q+tL
-	 0XLulgv39ftFA==
-Message-ID: <12194cc0-0960-486c-be7e-1a22d95de340@kernel.org>
-Date: Tue, 24 Mar 2026 11:00:21 +0000
+	s=arc-20240116; t=1774350986; c=relaxed/simple;
+	bh=GhqPc6paID1wkXzhbOIY2i0cRPZuvgNy3SFw15fV9SU=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=ayAjB+BWuml60EEGi4RZ4eQ8k9v6OY30diMcbRfzvBt1WSBnfPQSzK2SAmzMEVb9vApQk6dCbooOn9q+LtRpuXuM4nHKg3P788b72eQBn9MczmrsQriVYRWD5yvCAbopJkjg44pVXpgSJkDCXYh2lqB42es/45u13jyVp7ZMaic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=hPWZb9Ek; arc=none smtp.client-ip=162.62.57.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1774350975; bh=68/09ynWVNbhGYWkaH5OMoe2dINPFn4IEM8bmSz7+wA=;
+	h=From:To:Cc:Subject:Date;
+	b=hPWZb9Ekh6dnPLkK+UlF6BH3yycKt3nJ7Hyv+KC+r1K2zpF2gyq4AeZg0B6Tq8x+z
+	 CGfTxQwYOTyMsUod4bd4XwhoPewCt1a8kcK3AeU6eJ8lDVJV1YyCWt9o8Hi0n4dbKP
+	 HfYXTg00I08SrAU7vpxZCW02e4Gd6Ey4AAkTE1gw=
+Received: from LAPTOP-KQCD4QBN.localdomain ([123.121.145.48])
+	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
+	id 40C2CA5C; Tue, 24 Mar 2026 19:16:12 +0800
+X-QQ-mid: xmsmtpt1774350972tl2zn8vyy
+Message-ID: <tencent_B699D7C2A422A968AB3B1CB17695E8C2FA05@qq.com>
+X-QQ-XMAILINFO: MmCmH9jyqHC2KvLX4jzq6urZs5NW35tr1PJWf1HPFKM5Vs4xqsD8kSimVZLGTQ
+	 s6Nd8FuMUPTnH8cDnVAJAY31a9PoY1BslZ0DhklDjYk4LBdK9tzpOElBmjD92wG1MHP2mN5ARSpw
+	 arU5FSzx8ZOzoeOHdomknG7ZBH3Ddg5rZZzwIhzXrLfT6fWDSQWbqdWH2JOfl8XlR0r0UE9Y6kDL
+	 1Y0pmnH2x2zOJSbmBWDUx9TjYeIxhjdy9PHrcdEfFfQilgt3uDrQ42Z5TiKsYuVXnueZp73xtmxg
+	 LsZkRIhYYxMDgPMs1wSqeK+pEp9Sw47iinkRO6q0nw6wpeXix1UW3KCr0xYoPamZMpgqb6wqMLtr
+	 3PZizA2f9ALsp3sdV9oqtlx90n81Jc0mOi7mFoSUe59I8JwLBgytZHY9q4/IGdNTuJ11JHXZsxKD
+	 nnb902Ta+T8oorIAYwRKnGxhYtOIgNzZddqk0wfpaE3JcoYM3PssjBP45g40Vjx5uyORv6tmyvfT
+	 fNPxKR92k8wheTv+ubE79va/Vp9R+BunCB2yZxizyPDPTFRDIHzDRL/oZrf5v7INgTngkbMd+qlY
+	 TRugE+ySFt1NlSIXf33BFtaNr0AfNBS3jiaKU26IpxTge12sl/DY578/UZTNT7Dqfrvvki7x4nlV
+	 OU0dBUbNeLj6n1SqbvatDemEY9H2E0vMKHwbdw3dwBoFyv0FYMNdgm6t6BGsyQq6MZsJUAxINw58
+	 3JT86xnTKvaZKaMh2OdqaltEzjL4/OfbfgS4jFVlNhKbR0zQNLIgGv1OeHIu5osiM1JxAZOoiRYA
+	 cdxlxq1SRGnIUwthIBFFJIOVSTODcbEe18Swb/H+QFyplzjvc9mxmgVygULm2A2RZtwtPdpiIFZU
+	 57RleO3Ylgc75H29F/n9v4PgZTKoL44nJ4WBtF8LBDTZUvvVCLf1j/FvqCF+Mr59ZaDGoZMjVlg5
+	 8MMvPLOnVt0dtBRzHYDATsejQbDjnkEGrUM2okqns58YbJ4RWjItS5JC8zT60MJnteIje5U9vxeu
+	 SkGpnjs53ntSHrfnVU/jkdLxpCOCCSxI4QXB6AfGugC3XDhVj8nX7Ku57z8O6/S5nQ/C1d/JUive
+	 X/xmPYleNLCm7u7mY=
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+From: Wenyuan Li <2063309626@qq.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	gszhai@bjtu.edu.cn,
+	25125332@bjtu.edu.cn,
+	25125283@bjtu.edu.cn,
+	23120469@bjtu.edu.cn,
+	Wenyuan Li <2063309626@qq.com>,
+	Markus <markus@example.com>
+Subject: [PATCH v2] media: tuner: add error handling for I2C transfers in set_type()
+Date: Tue, 24 Mar 2026 19:16:10 +0800
+X-OQ-MSGID: <20260324111611.903-1-2063309626@qq.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/3] media: qcom: camss: Add CAMSS Offline Processing
- Engine driver
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: vladimir.zapolskiy@linaro.org, laurent.pinchart@ideasonboard.com,
- kieran.bingham@ideasonboard.com, robh@kernel.org, krzk+dt@kernel.org,
- andersson@kernel.org, konradybcio@kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, johannes.goede@oss.qualcomm.com,
- mchehab@kernel.org
-References: <20260323125824.211615-1-loic.poulain@oss.qualcomm.com>
- <m61yNNvSrw6AIq7_-g2h7VQLmGJ_5iCLg5JTlfQDcL5LlBq37ifAeXw-K3AlRBck5Mb4uVQq0pzeBNAybQNk4w==@protonmail.internalid>
- <20260323125824.211615-3-loic.poulain@oss.qualcomm.com>
- <1ba54ec0-be51-4694-a79b-f272e76303d2@kernel.org>
- <X-Lw_zi1o015-V1Cv4dY_ik6SfTB8TTcLmn1l-Ta7UviYTJ6gwMBn4B4ulYwjd_Aetul5xUt0T6ln9E-Hl5h4g==@protonmail.internalid>
- <CAFEp6-3ziXJTYADOFj--rZL5TumroXuW+=SnUQ9XakRxHT-ypg@mail.gmail.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-In-Reply-To: <CAFEp6-3ziXJTYADOFj--rZL5TumroXuW+=SnUQ9XakRxHT-ypg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qq.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[qq.com:s=s201512];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56860-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,bjtu.edu.cn,qq.com,example.com];
+	TAGGED_FROM(0.00)[bounces-56861-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qq.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[qq.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[2063309626@qq.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: A588A306ECD
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qq.com:dkim,qq.com:email,qq.com:mid]
+X-Rspamd-Queue-Id: 5ED5A30723A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 23/03/2026 15:31, Loic Poulain wrote:
->>> +
->>> +static void ope_prog_bayer2rgb(struct ope_dev *ope)
->>> +{
->>> +     /* Fixed Settings */
->>> +     ope_write_pp(ope, 0x860, 0x4001);
->>> +     ope_write_pp(ope, 0x868, 128);
->>> +     ope_write_pp(ope, 0x86c, 128 << 20);
->>> +     ope_write_pp(ope, 0x870, 102);
->> What are the magic numbers about ? Please define bit-fields and offsets.
-> There are some registers I can't disclose today, which have to be
-> configured with working values,
-> Similarly to some sensor configuration in media/i2c.
+In set_type(), multiple I2C transfers are performed to initialize
+certain tuners (FMD1216ME, FMD1216MEX, TD1316). However, the return
+values of i2c_master_send() are not checked.
 
-Not really the same thing, all of the offsets in upstream CAMSS and its 
-CLC are documented. Sensor values are typically upstreamed by people who 
-don't control the documentation, that is not the case with Qcom 
-submitting this code upstream now.
+If any of these I2C transfers fail, the tuner initialization may be
+incomplete, leading to incorrect device state or silent failures.
 
-Are you guys doing an upstream implementation or not ?
+Fix this by:
+- Adding a helper function tuner_i2c_send() that checks the return
+  value of i2c_master_send() and logs errors with %pe format
+- Replacing direct i2c_master_send() calls with tuner_i2c_send()
+- Propagating errors to the attach_failed path
 
->> Parameters passed in from user-space/libcamera and then translated to
->> registers etc.
-> The above fixed settings will not be part of the initial parameters.
-> 
->>> +}
->>> +
->>> +static void ope_prog_wb(struct ope_dev *ope)
->>> +{
->>> +     /* Default white balance config */
->>> +     u32 g_gain = OPE_WB(1, 1);
->>> +     u32 b_gain = OPE_WB(3, 2);
->>> +     u32 r_gain = OPE_WB(3, 2);
->>> +
->>> +     ope_write_pp(ope, OPE_PP_CLC_WB_GAIN_WB_CFG(0), g_gain);
->>> +     ope_write_pp(ope, OPE_PP_CLC_WB_GAIN_WB_CFG(1), b_gain);
->>> +     ope_write_pp(ope, OPE_PP_CLC_WB_GAIN_WB_CFG(2), r_gain);
->>> +
->>> +     ope_write_pp(ope, OPE_PP_CLC_WB_GAIN_MODULE_CFG, OPE_PP_CLC_WB_GAIN_MODULE_CFG_EN);
->>> +}
->> Fixed gains will have to come from real data.
-> These gains will indeed need to be configurable, most likely via ISP
-> parameters, here, they have been adjusted based on colorbar test
-> pattern from imx219 sensors but also tested with real capture.
-> 
->>> +
->>> +static void ope_prog_stripe(struct ope_ctx *ctx, struct ope_stripe *stripe)
->>> +{
->>> +     struct ope_dev *ope = ctx->ope;
->>> +     int i;
->>> +
->>> +     dev_dbg(ope->dev, "Context %p - Programming S%u\n", ctx, ope_stripe_index(ctx, stripe));
->>> +
->>> +     /* Fetch Engine */
->>> +     ope_write_rd(ope, OPE_BUS_RD_CLIENT_0_UNPACK_CFG_0, stripe->src.format);
->>> +     ope_write_rd(ope, OPE_BUS_RD_CLIENT_0_RD_BUFFER_SIZE,
->>> +                  (stripe->src.width << 16) + stripe->src.height);
->>> +     ope_write_rd(ope, OPE_BUS_RD_CLIENT_0_ADDR_IMAGE, stripe->src.addr);
->>> +     ope_write_rd(ope, OPE_BUS_RD_CLIENT_0_RD_STRIDE, stripe->src.stride);
->>> +     ope_write_rd(ope, OPE_BUS_RD_CLIENT_0_CCIF_META_DATA,
->>> +                  FIELD_PREP(OPE_BUS_RD_CLIENT_0_CCIF_MD_PIX_PATTERN, stripe->src.pattern));
->>> +     ope_write_rd(ope, OPE_BUS_RD_CLIENT_0_CORE_CFG, OPE_BUS_RD_CLIENT_0_CORE_CFG_EN);
->>> +
->>> +     /* Write Engines */
->>> +     for (i = 0; i < OPE_WR_CLIENT_MAX; i++) {
->>> +             if (!stripe->dst[i].enabled) {
->>> +                     ope_write_wr(ope, OPE_BUS_WR_CLIENT_CFG(i), 0);
->>> +                     continue;
->>> +             }
->>> +
->>> +             ope_write_wr(ope, OPE_BUS_WR_CLIENT_ADDR_IMAGE(i), stripe->dst[i].addr);
->>> +             ope_write_wr(ope, OPE_BUS_WR_CLIENT_IMAGE_CFG_0(i),
->>> +                          (stripe->dst[i].height << 16) + stripe->dst[i].width);
->>> +             ope_write_wr(ope, OPE_BUS_WR_CLIENT_IMAGE_CFG_1(i), stripe->dst[i].x_init);
->>> +             ope_write_wr(ope, OPE_BUS_WR_CLIENT_IMAGE_CFG_2(i), stripe->dst[i].stride);
->>> +             ope_write_wr(ope, OPE_BUS_WR_CLIENT_PACKER_CFG(i), stripe->dst[i].format);
->>> +             ope_write_wr(ope, OPE_BUS_WR_CLIENT_CFG(i),
->>> +                          OPE_BUS_WR_CLIENT_CFG_EN + OPE_BUS_WR_CLIENT_CFG_AUTORECOVER);
->>> +     }
->>> +
->>> +     /* Downscalers */
->>> +     for (i = 0; i < OPE_DS_MAX; i++) {
->>> +             struct ope_dsc_config *dsc = &stripe->dsc[i];
->>> +             u32 base = ope_ds_base[i];
->>> +             u32 cfg = 0;
->>> +
->>> +             if (dsc->input_width != dsc->output_width) {
->>> +                     dsc->phase_step_h |= DS_RESOLUTION(dsc->input_width,
->>> +                                                        dsc->output_width) << 30;
->>> +                     cfg |= OPE_PP_CLC_DOWNSCALE_MN_DS_CFG_H_SCALE_EN;
->>> +             }
->>> +
->>> +             if (dsc->input_height != dsc->output_height) {
->>> +                     dsc->phase_step_v |= DS_RESOLUTION(dsc->input_height,
->>> +                                                        dsc->output_height) << 30;
->>> +                     cfg |= OPE_PP_CLC_DOWNSCALE_MN_DS_CFG_V_SCALE_EN;
->>> +             }
->>> +
->>> +             ope_write_pp(ope, OPE_PP_CLC_DOWNSCALE_MN_DS_CFG(base), cfg);
->>> +             ope_write_pp(ope, OPE_PP_CLC_DOWNSCALE_MN_DS_IMAGE_SIZE_CFG(base),
->>> +                          ((dsc->input_width - 1) << 16) + dsc->input_height - 1);
->>> +             ope_write_pp(ope, OPE_PP_CLC_DOWNSCALE_MN_DS_MN_H_CFG(base), dsc->phase_step_h);
->>> +             ope_write_pp(ope, OPE_PP_CLC_DOWNSCALE_MN_DS_MN_V_CFG(base), dsc->phase_step_v);
->>> +             ope_write_pp(ope, OPE_PP_CLC_DOWNSCALE_MN_CFG(base),
->>> +                          cfg ? OPE_PP_CLC_DOWNSCALE_MN_CFG_EN : 0);
->>> +     }
->>> +}
->> So - this is where the CDM should be used - so that you don't have to do
->> all of these MMIO writes inside of your ISR.
-> Indeed, and that also the reason stripes are computed ahead of time,
-> so that they can be further 'queued' in a CDM.
-> 
->> Is that and additional step after the RFC ?
-> The current implementation (without CDM) already provides good results
-> and performance, so CDM can be viewed as a future enhancement.
+This ensures that I2C communication failures during tuner
+initialization are properly detected and handled.
 
-That's true but then the number of MMIO writes per ISR is pretty small 
-right now. You have about 50 writes here.
-
-> As far as I understand, CDM could also be implemented in a generic way
-> within CAMSS, since other CAMSS blocks make use of CDM as well.
-> This is something we should discuss further.
-My concern is even conservatively if each module adds another 10 ? 
-writes by the time we get to denoising, sharpening, lens shade 
-correction, those writes could easily look more like 100.
-
-What user-space should submit is well documented data-structures which 
-then get translated into CDM buffers by the OPE and IFE for the various 
-bits of the pipeline.
-
+Cc: Markus <markus@example.com>
+Signed-off-by: Wenyuan Li <2063309626@qq.com>
 ---
-bod
+ drivers/media/v4l2-core/tuner-core.c | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/tuner-core.c b/drivers/media/v4l2-core/tuner-core.c
+index 004ec4d7beea..01f28436a1f8 100644
+--- a/drivers/media/v4l2-core/tuner-core.c
++++ b/drivers/media/v4l2-core/tuner-core.c
+@@ -280,6 +280,19 @@ static const struct analog_demod_ops tuner_analog_ops = {
+  * Functions to select between radio and TV and tuner probe/remove functions
+  */
+ 
++static int tuner_i2c_send(struct i2c_client *c, u8 *buf, int len)
++{
++	int ret = i2c_master_send(c, buf, len);
++
++	if (ret != len) {
++		int err = ret < 0 ? ret : -EIO;
++
++		dev_err(&c->dev, "I2C send failed: %pe\n", ERR_PTR(err));
++		return err;
++	}
++	return 0;
++}
++
+ /**
+  * set_type - Sets the tuner type for a given device
+  *
+@@ -351,11 +364,13 @@ static void set_type(struct i2c_client *c, unsigned int type,
+ 		buffer[1] = 0xdc;
+ 		buffer[2] = 0x9c;
+ 		buffer[3] = 0x60;
+-		i2c_master_send(c, buffer, 4);
++		if (tuner_i2c_send(c, buffer, 4))
++			goto attach_failed;
+ 		mdelay(1);
+ 		buffer[2] = 0x86;
+ 		buffer[3] = 0x54;
+-		i2c_master_send(c, buffer, 4);
++		if (tuner_i2c_send(c, buffer, 4))
++			goto attach_failed;
+ 		if (!dvb_attach(simple_tuner_attach, &t->fe,
+ 				t->i2c->adapter, t->i2c->addr, t->type))
+ 			goto attach_failed;
+@@ -365,7 +380,8 @@ static void set_type(struct i2c_client *c, unsigned int type,
+ 		buffer[1] = 0xdc;
+ 		buffer[2] = 0x86;
+ 		buffer[3] = 0xa4;
+-		i2c_master_send(c, buffer, 4);
++		if (tuner_i2c_send(c, buffer, 4))
++			goto attach_failed;
+ 		if (!dvb_attach(simple_tuner_attach, &t->fe,
+ 				t->i2c->adapter, t->i2c->addr, t->type))
+ 			goto attach_failed;
+-- 
+2.43.0
+
 
