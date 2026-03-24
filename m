@@ -1,145 +1,162 @@
-Return-Path: <linux-media+bounces-56781-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56782-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8DMDOBThwWlhXgQAu9opvQ
-	(envelope-from <linux-media+bounces-56781-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 01:55:48 +0100
+	id UHTZIOLuwWkgYAQAu9opvQ
+	(envelope-from <linux-media+bounces-56782-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 02:54:42 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4550A30012D
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 01:55:48 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D04300C05
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 02:54:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A690E30210C5
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 00:55:43 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 87631301CAA7
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 01:52:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02D0833B6FC;
-	Tue, 24 Mar 2026 00:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SglrZmc0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14EDC37BE6E;
+	Tue, 24 Mar 2026 01:52:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5EF33A6EB
-	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 00:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78DE14884C;
+	Tue, 24 Mar 2026 01:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774313742; cv=none; b=ZgFxkNKjWFEo0F2MhR6DZ4ODSatyJKgs1CCht00zdTEmYwXoNX8vRAjaP7fG+LyrkrwORU7DGynTv/Kph4G118mWF7TeZtiqVN8/VIjRMCTczxE86H2mjmJPvAJKPejoE0CoKast2Km5YrwhaeKFbsEf82WqHCaKsQQarp3D1+Q=
+	t=1774317152; cv=none; b=kGJUUXD3GJJU7fb1CtRc2gPKGIY5QMQPn0HbPS6+wkB5MY2Hma6iP3yoXPPGzNFHbRXM7i9ryAuq8AxTlwZIOae18WUqw/JSC21dLUlKDDoluhmEie+XdL80oG0gmqWpWIQsLKxzGA4JwiOUIEsqcx7f+xSv2CPqUm38QGFWpWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774313742; c=relaxed/simple;
-	bh=fOXRVJYkLwRZbioTX2rMq7tzlqCpWU027+pprA6w/9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aDqW2lW+q43Y4oe7rnNufUhZfgB8t/4xVp1HEnIcm+B8EYERLXDJ0heFvdWnZ2iVlfzmZSSEmncfxUgKGca2frZmW3EoznExxdP4Hlbt38EnUBZbbf0FX9dDDf0egO85HBEgd5g13Ly/4DIp/I/HFkRkRmWGO0Os5Jzselsy3og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SglrZmc0; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5DCC2289;
-	Tue, 24 Mar 2026 01:54:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1774313662;
-	bh=fOXRVJYkLwRZbioTX2rMq7tzlqCpWU027+pprA6w/9M=;
-	h=Date:From:To:Cc:Subject:From;
-	b=SglrZmc04GZjLDx9tiCT7oemfzFe3lU5HcyeMRbRXnm4nPIWd0o3tk2h9w8nHhLXw
-	 5Bci7DMJn/1theT+QcG8KvhzfkXMe4CIe18fDakJzfGEJs4+/uJfmhKrueR3ACJMVM
-	 ml5HMTj286yy2jIYRbg5ur5mummwkqGxy24QJCBY=
-Date: Tue, 24 Mar 2026 02:55:37 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hans@jjverkuil.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, Hans de Goede <hansg@kernel.org>,
-	Oliver Collyer <ovcollyer@mac.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Yogev Modlin <yogev.modlin@realsenseai.com>
-Subject: [GIT PULL FOR v7.1] media: uvcvideo changes
-Message-ID: <20260324005537.GA2352505@killaraus.ideasonboard.com>
+	s=arc-20240116; t=1774317152; c=relaxed/simple;
+	bh=RwfF5TUs2hlBjtXsNHHVPGVXCi4yNDlBNm4p8KHlt6U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C4ZXGcHK2Rq1lWdGJuSH0tQ+JwwzcOreGtpn4X7KbvSuJgQFYg97rYdRvM1zRkvtdfNiWUKkcFcXekzMlKES6Lcm2TMzF6UtlU6WI19399+rIYqL2S9ezJ09EVff80Y+8wgjEfKR+rjaPIQPgBvAgn53J1NuKnHgcdaMDv9Rxw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.197])
+	by APP-05 (Coremail) with SMTP id zQCowAD3hAib7MFpzK5JCw--.45024S2;
+	Tue, 24 Mar 2026 09:44:59 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	pengpeng@iscas.ac.cn
+Subject: [PATCH] media: ttusb-dec: reject oversized packet lengths early
+Date: Tue, 24 Mar 2026 09:44:59 +0800
+Message-ID: <20260324014459.93362-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAD3hAib7MFpzK5JCw--.45024S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uFW7Cw43XrWDXFW7Zw1UWrg_yoW8Zw4kpa
+	90g343Kw4jqw4rtry3A3WrW3s5C3yxCa4IqrW7X3yqgws3Xa1akF12gw4F9ayUJFy3AayU
+	G3yDZrWrGr12vrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUym14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vI
+	r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUajgxUUUUU=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+X-Spamd-Result: default: False [0.04 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,mac.com,chromium.org,realsenseai.com];
-	TAGGED_FROM(0.00)[bounces-56781-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-56782-lists,linux-media=lfdr.de];
+	TO_DN_NONE(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,killaraus.ideasonboard.com:mid,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 4550A30012D
+	FROM_NEQ_ENVFROM(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 88D04300C05
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Hans, Mauro,
+ttusb_dec_process_urb_frame() derives packet_payload_length directly
+from bytes in the incoming USB stream and then uses that length to
+append data into dec->packet[]. The driver only rejects oversized PVA
+payloads later in ttusb_dec_process_pva(), after the receive state
+machine has already filled the fixed packet buffer.
 
-The following changes since commit 0e2c4117c3512cf6b8f54c2c3d37564bfa3ccd67:
+Reject packet lengths that cannot fit in dec->packet[] before advancing
+the receive state machine to the bulk copy state.
+---
+ drivers/media/usb/ttusb-dec/ttusb_dec.c | 28 +++++++++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
 
-  staging: media: tegra-video: add CSI support for Tegra20 and Tegra30 (2026-03-19 08:18:36 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/linux-media/users/uvc.git tags/next-media-uvc-20260324
-
-for you to fetch changes up to 1c9c2fe9350e1b92f35bd295bf4bba0d72cfbde2:
-
-  media: uvcvideo: Add support for P010 pixel format (2026-03-24 02:33:54 +0200)
-
-----------------------------------------------------------------
-Improvements to the uvcvideo driver:
-
-- VB2_DMABUF and configurable buffer size support for metadata stream
-- Intel RealSense D436 and D555 cameras support
-- P010 pixel format
-
-----------------------------------------------------------------
-Oliver Collyer (1):
-      media: uvcvideo: Add support for P010 pixel format
-
-Ricardo Ribalda (4):
-      media: uvcvideo: Enable VB2_DMABUF for metadata stream
-      media: uvcvideo: uvc_queue_to_stream(): Support meta queues
-      media: uvcvideo: Allow userspace to increase the meta buffersize
-      media: uvcvideo: Add a stream backpointer in uvc_video_queue
-
-Yogev Modlin (2):
-      media: uvcvideo: Change comment to 'Intel RealSense'
-      media: uvcvideo: Add D436 and D555 cameras metadata support
-
- drivers/media/common/uvc.c           |  4 ++++
- drivers/media/usb/uvc/uvc_driver.c   | 38 ++++++++++++++++++++++++++----------
- drivers/media/usb/uvc/uvc_isight.c   |  2 +-
- drivers/media/usb/uvc/uvc_metadata.c |  9 +++++++--
- drivers/media/usb/uvc/uvc_queue.c    | 23 +++++++++++-----------
- drivers/media/usb/uvc/uvc_v4l2.c     |  3 +++
- drivers/media/usb/uvc/uvcvideo.h     | 13 +++++-------
- include/linux/usb/uvc.h              |  3 +++
- 8 files changed, 62 insertions(+), 33 deletions(-)
-
+diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+index 825a3875989d..072ce5b09683 100644
+--- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
++++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+@@ -703,17 +703,41 @@ static void ttusb_dec_process_urb_frame(struct ttusb_dec *dec, u8 *b,
+ 
+ 			if (dec->packet_type == TTUSB_DEC_PACKET_PVA &&
+ 			    dec->packet_length == 8) {
+-				dec->packet_state++;
++				unsigned int max_payload_length;
++
+ 				dec->packet_payload_length = 8 +
+ 					(dec->packet[6] << 8) +
+ 					dec->packet[7];
++				max_payload_length = sizeof(dec->packet) - 4;
++				if (dec->packet_payload_length >
++				    max_payload_length) {
++					printk("%s: packet too long - discarding\n",
++					       __func__);
++					dec->packet_state = 0;
++					dec->packet_length = 0;
++					break;
++				}
++				dec->packet_state++;
+ 			} else if (dec->packet_type ==
+ 					TTUSB_DEC_PACKET_SECTION &&
+ 				   dec->packet_length == 5) {
+-				dec->packet_state++;
++				unsigned int max_payload_length;
++
+ 				dec->packet_payload_length = 5 +
+ 					((dec->packet[3] & 0x0f) << 8) +
+ 					dec->packet[4];
++				max_payload_length = sizeof(dec->packet) - 4;
++				if (dec->packet_payload_length % 2)
++					max_payload_length--;
++				if (dec->packet_payload_length >
++				    max_payload_length) {
++					printk("%s: packet too long - discarding\n",
++					       __func__);
++					dec->packet_state = 0;
++					dec->packet_length = 0;
++					break;
++				}
++				dec->packet_state++;
+ 			}
+ 
+ 			length--;
 -- 
-Regards,
+2.50.1 (Apple Git-155)
 
-Laurent Pinchart
 
