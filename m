@@ -1,211 +1,146 @@
-Return-Path: <linux-media+bounces-56815-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56816-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sMfGFtdFwmnvbAQAu9opvQ
-	(envelope-from <linux-media+bounces-56815-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 09:05:43 +0100
+	id +MemG/JIwmnvbAQAu9opvQ
+	(envelope-from <linux-media+bounces-56816-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 09:18:58 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3F5304533
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 09:05:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1057C304779
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 09:18:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C247831B345F
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 07:59:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2B9A932729E7
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 08:03:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F94C35AC24;
-	Tue, 24 Mar 2026 07:57:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F79A3D3007;
+	Tue, 24 Mar 2026 08:01:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dpnTVyaj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zk+8MxFK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF8538C43C
-	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 07:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443433CCFBA;
+	Tue, 24 Mar 2026 08:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774339023; cv=none; b=j5z7p9iSdeNCZQaOjoK2+i2u6kXBYRZ1V49tknnKte9Gt5p6kEl2IwO/V2BJ0ufUfO2kPS2x86SJ0d85C9NpbY31nCPDnA9rldDk6+2V6afnjFNrfPSBP3PqzLkprKT/VTMSpvS91mxJA60hXa5RrzQd5N841ctzu73J7wAse40=
+	t=1774339310; cv=none; b=TIghzHYIXTSPxavRlKrV7iqf/oGOMDHE5cGVl8OfYlmuUNRsiBUFMz5TMeBfYsm7Mk9kuVoWgmKbUU/eBa9Nws9XQ1S44ikdWsUs8DZpLZ0fQW7jHf3ThG3GrIhVIrE4Yt2nFQ1PDLW61Bp9J7miT3a6TVavBBQLNo8Go1foC9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774339023; c=relaxed/simple;
-	bh=p70KRl2iyiH98RwY4hlNKdUPjdh2xLhI1lhyiI1eZxQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jxjqH2AOjlR7/eX4FT56U1RWQ8HJBQaX8G8W5bbuclnG0snDA60NcM2p5C7kPhcAgrgtUy9hrdoRj+MzXE2M7MLX1xu6lioM9G5dm02xBxGnTjubfD1jypMfHlMr0ESIJsyC6YdqLNJSHqsdggBi8wNbR20EGFfsOQvktKticR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dpnTVyaj; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4852afd42ceso6913345e9.2
-        for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 00:56:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774339011; x=1774943811; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wFYRVrG/zXzLAZQPA+I4Qd5czvKYpC40unjGxYVlu9I=;
-        b=dpnTVyajGyko46qKfF9oJZ1GoBN61/iuw4gwkAxiw9Ll46ZAqTJVFYZrsldIOyDn74
-         h3p8oVpQkKr0YssyhCg8+qEtDtb/aeLZkrFMYamO/b8E3Y9zBUOTOv/4/C9n2NBkU9To
-         NSmqlYGdp7WaPR+cW8/3yV/ZW/MSbWQGHp9N3nX+ScTT1yarC54UtPoTh+Wr6cMHBLRA
-         zd5w2UvE0LYGytWlgpEWbKlV3NLYp89sBtnWnhQtkuVxEjUERifwzVCg5BuXKAFVP2Hb
-         mU8/mSX7IeKJgZJyfS0v6tBVbjrVxYKuAwjmx30s84SevOVN3DCxF/mm+WNxLeH57HEK
-         1ZJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774339011; x=1774943811;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wFYRVrG/zXzLAZQPA+I4Qd5czvKYpC40unjGxYVlu9I=;
-        b=WkZyzsQIvGowMmyYwwPpiT2r8ZG1OCRRjGw4POKvFW2+itAcfY7AJjfOIi0TxNRkgi
-         zAwhsuevJggMv98UJ9nq9at50vntIW2pGmYIzDCJbvMJzfB66ogLu4BA4KY+KAAxijgd
-         GS09Rg7dKPtfrb1ydbCobrW1Ek4QQarpvrQ2/pfpiO9LnlyEGDbVIMZzVzjNNyfnkYJu
-         vi5ZnRztdkv3obp/YHyoMtSiYFiOK6iZ+KSwFrekTMvlTx4pgHiY2V1i+kElhSbxROzm
-         DplAQta6G6/nu5n6GWdt87uLq5A+hpPkuVF5KxD1+KbRQwDBta4+eGobjfuuKjPwel+W
-         LbWg==
-X-Gm-Message-State: AOJu0YxvB1xcSnDrJD9mgPzZSVvVMWBSm5BVLZj4uJ8n7MiIMVjX/Kj2
-	bGxOZFU4ssoeWoFsAWbAcY/y5iMIl9kGlbQmNlLvH2uLvRsKocJDP3b7
-X-Gm-Gg: ATEYQzwdib0jVHB7AGS4lpT3m9hs6+bDkI3rjoZCNUaCMlo5nri8TvouF+nX6JtwbnT
-	a15mH0wAZYrgx+C7kY2NirPnt36M015guxOoZJ30nY0dLwpjBsbO0vQyrrL8vpo+HWBcDerFcLa
-	cSrsx3G+UMPt4ruM71pBmhRYO7tezvw43xosEn9HtfEqXNPbnxrRzmQIg0frnuzzvsKxeq384K4
-	aANPihnyZYvdVms/HcDLiITL4M9uvZmtSwNRNv8RNk+ErCx3tNXj7VGSrELvmkoGAOByNsA5FBl
-	7GmRoNZK3Slh3Mxxe93mbXmppXcpkKzcKBoYtUM/D9ScS04wWRvRynT0u88cTpgjUQ4N2/CVJFF
-	7wRCv3Dc45X1Qe0CVZ8waulsPLvoLjwawfTREzNUjPRZl9B9ld/EXx9yhLhY/rgSG24YnM28kgj
-	71QDxTs+576+L9ICFY0WwhzbeO57YgrgsIvJFR05VOJsgZ2RCg2K1nPvmV2wH1eDD8Z8PPJQus4
-	4v3Fr/tjFg=
-X-Received: by 2002:a05:600c:4707:b0:480:20f1:7aa6 with SMTP id 5b1f17b1804b1-486fee231cdmr200567305e9.21.1774339011116;
-        Tue, 24 Mar 2026 00:56:51 -0700 (PDT)
-Received: from jernej-laptop.localnet (31.red-83-50-72.dynamicip.rima-tde.net. [83.50.72.31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487110dd718sm12885685e9.29.2026.03.24.00.56.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 00:56:50 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, pengpeng@iscas.ac.cn,
- nicolas.dufresne@collabora.com
-Subject: Re: [PATCH] media: cedrus: validate H.264 reference list indices
-Date: Tue, 24 Mar 2026 08:56:46 +0100
-Message-ID: <5056688.GXAFRqVoOG@jernej-laptop>
-In-Reply-To: <20260324020431.1800-1-pengpeng@iscas.ac.cn>
-References: <20260324020431.1800-1-pengpeng@iscas.ac.cn>
+	s=arc-20240116; t=1774339310; c=relaxed/simple;
+	bh=zrmpDTQR2dcwegoCA09wNc70NnhwuP4l44nvaPXk+bM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hqmI6VsYyUPr4OWIpQ9TC0eoBB3QB6qlwv3EC0zfIVYbmxWpOQeTUa0gecT7rzd43uyYuBkcBf/8Osfa1QQ+yg6CBM3UKmS+WBJWFY5GxQj7dxa5tpLq5Zy73BIYuAmkxj8shP0Wies7UWv5wQastxsxJhl8vv8luSGbELBScFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zk+8MxFK; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774339301; x=1805875301;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zrmpDTQR2dcwegoCA09wNc70NnhwuP4l44nvaPXk+bM=;
+  b=Zk+8MxFKpXksjpdqXyJbvv7pQrmcGLDAtqqiuiqpMxAqGdcrPKxVJgAA
+   4sCOHhSm/eU9puNGXOBB4BDHbpnTnlzIu1OhNYtdgaWp4aZNHbgOXftLl
+   v2H1S0yfw/yv2r/qILXoxlEHuxE+KMIs/jarGJEg2H6Pq8DsI71n9LcIR
+   xJXIDcoK46WYlHvqOmbv255AjfnTx4XCwS3G4TyNBj0QFUucRLBINOnBV
+   oadYaRfFFCmj0jf30onUiXGvMYs6L7cXdg3Cu2pbeeP4SG+RpLSolmXPC
+   0CXM2+q23wP1z6Nrw7VY07DozJmvrK7Jqb02cR4/ot+beVLjwaW9yBoeY
+   g==;
+X-CSE-ConnectionGUID: mN4DXQ0eRbO83ML3F3fINA==
+X-CSE-MsgGUID: /Tx74qmmR7mPga9q4IvppA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="77954384"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="77954384"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 01:01:40 -0700
+X-CSE-ConnectionGUID: wmuqJsnJRY2ZLNSQR4SiyQ==
+X-CSE-MsgGUID: v9d5ioxDTnai6O7Y2ycJMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="219850502"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.180])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 01:01:37 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id A50EE121CFF;
+	Tue, 24 Mar 2026 10:01:39 +0200 (EET)
+Date: Tue, 24 Mar 2026 10:01:39 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Michael Riesch <michael.riesch@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	Guoniu Zhou <guoniu.zhou@oss.nxp.com>, imx@lists.linux.dev
+Subject: Re: [PATCH 0/6] media: synopsys: Add imx93 support
+Message-ID: <acJE43J9to2bP3lv@kekkonen.localdomain>
+References: <20260210-imx93-dw-csi2-v1-0-69667bb86bfa@nxp.com>
+ <acGQNIUKqfh8eWNB@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Spamd-Result: default: False [-0.16 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acGQNIUKqfh8eWNB@lizhi-Precision-Tower-5810>
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56815-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56816-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jernejskrabec@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,iscas.ac.cn:email,bootlin.com:url]
-X-Rspamd-Queue-Id: AB3F5304533
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim]
+X-Rspamd-Queue-Id: 1057C304779
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-CC: Nicolas
+Hi Frank,
 
-Dne torek, 24. marec 2026 ob 03:04:31 Srednjeevropski standardni =C4=8Das j=
-e Pengpeng Hou napisal(a):
-> Cedrus validates HEVC slice reference lists in cedrus_try_ctrl(), but
-> the H.264 path still consumes ref_pic_list0/ref_pic_list1 indices
-> straight from the stateless slice control. Those indices are later
-> used to index the fixed-size decode_params->dpb[] array in
-> _cedrus_write_ref_list().
->=20
-> Reject H.264 slice controls whose active reference counts or
-> reference indices exceed V4L2_H264_NUM_DPB_ENTRIES before the driver
-> reaches the DPB lookup. This keeps the validation next to the existing
-> Cedrus stateless control checks and avoids driver-specific
-> out-of-bounds reads from malformed userspace control payloads.
->=20
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+On Mon, Mar 23, 2026 at 03:10:44PM -0400, Frank Li wrote:
+> On Tue, Feb 10, 2026 at 12:11:07PM -0500, Frank Li wrote:
+> > This 3rd time try to support DW CSI2RX support for imx93.
+> >
+> 
+> Laurent Pinchart and Sakari Ailus:
+> 
+> 	I am not who will take care this patch?
+> 	original drivers/media/platform/synopsys/dw-mipi-csi2rx.c picked
+> by Sakari Ailus
 
-This has same issue as doing it in common code, e.g. it would break
-userspace.
+I'll review them soonish; please cc me in the future.
 
-One improvement would be to skip all indices which have value higher
-or equal to V4L2_H264_NUM_DPB_ENTRIES here:
+Thanks.
 
-https://elixir.bootlin.com/linux/v6.19.9/source/drivers/staging/media/sunxi=
-/cedrus/cedrus_h264.c#L212
-
-Best regards,
-Jernej
-
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c | 23 +++++++++++++++++++++
->  1 file changed, 23 insertions(+)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.c
-> index d68da1eaa7aa..905084c097a9 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -42,6 +42,29 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
->  		if (sps->bit_depth_luma_minus8 !=3D 0)
->  			/* Only 8-bit is supported */
->  			return -EINVAL;
-> +	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_H264_SLICE_PARAMS) {
-> +		const struct v4l2_ctrl_h264_slice_params *slice =3D ctrl->p_new.p_h264=
-_slice_params;
-> +		unsigned int i;
-> +
-> +		if (slice->num_ref_idx_l0_active_minus1 >=3D
-> +		    V4L2_H264_NUM_DPB_ENTRIES)
-> +			return -EINVAL;
-> +
-> +		for (i =3D 0; i <=3D slice->num_ref_idx_l0_active_minus1; i++)
-> +			if (slice->ref_pic_list0[i].index >=3D
-> +			    V4L2_H264_NUM_DPB_ENTRIES)
-> +				return -EINVAL;
-> +
-> +		if (slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_B) {
-> +			if (slice->num_ref_idx_l1_active_minus1 >=3D
-> +			    V4L2_H264_NUM_DPB_ENTRIES)
-> +				return -EINVAL;
-> +
-> +			for (i =3D 0; i <=3D slice->num_ref_idx_l1_active_minus1; i++)
-> +				if (slice->ref_pic_list1[i].index >=3D
-> +				    V4L2_H264_NUM_DPB_ENTRIES)
-> +					return -EINVAL;
-> +		}
->  	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_HEVC_SPS) {
->  		const struct v4l2_ctrl_hevc_sps *sps =3D ctrl->p_new.p_hevc_sps;
->  		struct cedrus_ctx *ctx =3D container_of(ctrl->handler, struct cedrus_c=
-tx, hdl);
->=20
-
-
-
-
+-- 
+Sakari Ailus
 
