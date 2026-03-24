@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-56882-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56883-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yGiLEQKWwmkXfAQAu9opvQ
-	(envelope-from <linux-media+bounces-56882-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 14:47:46 +0100
+	id YF5WO12VwmkXfAQAu9opvQ
+	(envelope-from <linux-media+bounces-56883-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 14:45:01 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A235309B02
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 14:47:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD46309A47
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 14:45:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 2185B30152C5
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 13:36:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E33133041791
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 13:39:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 027503FCB30;
-	Tue, 24 Mar 2026 13:36:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 345BD3FD12B;
+	Tue, 24 Mar 2026 13:38:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="kUW/fOxg"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="dybfMZac"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011020.outbound.protection.outlook.com [52.101.70.20])
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011042.outbound.protection.outlook.com [40.107.130.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46783FBEAA;
-	Tue, 24 Mar 2026 13:36:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F3F3FCB2F;
+	Tue, 24 Mar 2026 13:38:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774359414; cv=fail; b=AgjzndP5nBVA4iLbI1HCoIjq0y0mMukrwWak15ozWpGEF+rPz+DPObmDiWzXVxizTfAvvHKrJcBd4IIV6Qz+9fioVPWxIVSOR4IRXOzpOLYR+E6mTnfm24DM20rkdl1uWtq1K1a2qFdxVPhlEKa9kgHXz6v0psUhyR1KqeH9kmg=
+	t=1774359537; cv=fail; b=BN3YqRWUiMhgPP4x7lSVC4nl2u1ZQuIaMa3ThJ8W5/KEPUmwFaShMk/qrEHNFzROKF0e369Q2KPugggdpzm8w73GzQvKcRjtpTbkhVmERymwel6SRLIJRbi3JkIo4Kbqpf5oC835GHHo0B5eQ52CEr3wKybhVJu4Gyz0vcR7fm8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774359414; c=relaxed/simple;
-	bh=+bcZnczxA88LOOv0yZj6f47eON3IurvbQhoEq5yolIE=;
+	s=arc-20240116; t=1774359537; c=relaxed/simple;
+	bh=/Ug7oh8pfxB9P7ib0yK8FcxOWgYbDgWXvwzsE3H8HqA=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=CxzSa5CyeidvsNMiuoLvXczAahuSHcPOMY4jeLzFz+19RUmRQVxlhV0ctt9enH//mOkVneGtAywpPRGffzZUDz5VnaBklZd5lgfWSsVsKOUu0W8W05CTluZe5AIH2c3ThsIf9kK87tBt2sISgL/vzNKCGBMHLCW3lwvzIez5OI0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=kUW/fOxg; arc=fail smtp.client-ip=52.101.70.20
+	 Content-Type:MIME-Version; b=FhlV9jwOafedEdbw926CEvs93PwMVCtosI/Wogv7xFgTkRDLUxOX7/SxTDQ5jkGneOBULwP8hg0xZ0HEi//MyWVPsJ1J8+lEt1uqQkDNDCWDpQZkZCnhbgT078jGzEXgM7WYMzaXQQHDwcmvgXktTqmGLPfIDJ0tzEsI6KqfOG8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=dybfMZac; arc=fail smtp.client-ip=40.107.130.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UI/hCC1thlhlS8PVm2BSryfE76o6HTPphKa/HDSHVWSWf9VM+QmHYkO/E1Pm3GFAzGnYXiihcmNPCQ/KHdATZCvhpX0hrMor8xNt+O/Mo6cxboe8elH6WLvII6gN85azcghosmd5rf586DSsQRnNryRhAK/p0AGdwoPHNANilqU7MM3sboLnsCtHVffxwFu+L9WTQ5ZWpajVPRFEdKbOA9+W45WAj3aZeIXNg/+4NM5u8YZRdrXyYKnNpJCwROY871PmYRDtFdVraX4yPiLjhRWcnNbpOF+i/ze6qU5JYJmN3MBUpNzt2LHheV/bRh+96+ZtiI1wnM7X80N1iIkP1w==
+ b=Owujy0GBrqyYmOvbhydBCukId2WUiY10Jg5hj4DgDkni2pssuTAC0U4d7YNLTmbP5Mp/vyscD8dM9rDFhwkLiD72h9VwoFHb8yN8+iwHaELIomLaNo8dHTzht7gQDyRuVxcLfRKEOhq/Yja10zfK9bolfuQ+aE0kvHn0Als1BeXJd73NtCaUATRn7DFc9sq8ZY7RiuALc0V2GVJi7b6tsNZ/8U3MwJE63q1Zpkt8R+Qa6hLWybYisbn7xtrQn6j13wlTHu9+F/aInlkxBFnwPSSFuMgCejsIkka+0cuiQOYXsx7XmyyfBw6CX1sSqoqHO+F+2sPbeXkxjYLPPsuEYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xhIQ1SBclHKw+Q8c8AXe0Esq5oz+eGAWfktGJnFBl0Y=;
- b=fplOjtIyrfVmV7pLsX7stBu1moG/B6MQ7+wVbfocuCAzlFRuBxvh9p0Q4P1kESV6jALUAJ0Y3HH8SD/1Q2vMRbaK28zs+UTZEOC7i/KrXoBZ7/RyrJ7yJPMavI27EDH5imeuma/MJt8RhwDlre4Dy3v9oTfvbuW+ziDmU03liixYB7E0R1da2VloPeAYJzSCJg4Q1wTIPP+vUYuaq3RKqldqU/plXvWFZk7fEk++nTRxKKrQGfpfblClLGsVgZlOdHxKCm7BGP3UpVBoUw0+VuwVzF8awgv2FGMlAbDc+BBNhAx+iEGbO1NSxOfqBhYMyzs54Q902yPbd9eVV7kM5A==
+ bh=kRYXTjj+3jPX90p8mHql8nyjSkBSP31fZ6f8r/c/zqs=;
+ b=w+LzZFYltlLnqkh1JLkskyLiF6WKf8uJ+kYWelU09UEJxMZg6QyEZzwPjlEUVqhv95srimic/cvuWvc5ZYLt7qdknR4zpfzEDCg1JmbiBmRByRcHxM82j+cBX0PAakCbSk0pzxIuxsDJ3lOrkSK4gzvyyl86eY3eimwsfeQyVjHRlCSa+Mz05yCoFoEEy7Q4emUao/tjH2Ld/ElApIJR4TGhq7Rsxqx3OQ62uC58QFpl41FAlsC5WeOQ7EMMf0YQM0GV91Gm//CP36fYQol/BI29lhsk+zCE9bjVqSy3wOkXvghCmZtFVkMTyXA+Nou/U+Tep2IAPD4bwEC2kbth0g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xhIQ1SBclHKw+Q8c8AXe0Esq5oz+eGAWfktGJnFBl0Y=;
- b=kUW/fOxg/RaxOU9OcpHHwtA0AaecN5hBtrHo5Ddqm6SXm1JFBzJIGtmlYLPsmiGxsRG1nXtjPfK4P+FcyDrRJJBpplO/V6/3tYmZwo1sNRmgBGqOeVAXaR9eyugjvlkuAa6YYDeqasBFY5GQK1qyUAqYuhpInV99zqp3VCYfxWoQ0t2wmyW2Y7G+nTicpsJUwWm3wQVExhVBRpfzPHCMG37mHbmzTGcQvFPilJcaIUkOJTA5FLWpMQzWnLfT3bNtAPTYFvkJZOEl8oh9oxJEvYpwAk6OpN+GzGPIDoxT03DMIiEhIi717sWFQl+D3kbQqHUgVAHdllhlFEGDx6PZUg==
+ bh=kRYXTjj+3jPX90p8mHql8nyjSkBSP31fZ6f8r/c/zqs=;
+ b=dybfMZac1vy2bxgv4zZOrHGtxHsXwVhEjbfkPouHq4ZYmuE8kJtV+AazPLuEyhRTZ+No2jEZHfGzBNY4enPXwZyOLCmMtyvI/hrmluJD/eWd/VpXeYeMDjRhMROLi8XwZA/F/gylCNNWJ5zJoJ8S9Cq01TOw9i6uMdl3/4Q5FOqMBFGgksXXSoNcSdwvYo15g4VSOFsCyaAkg3D2OsDwQTihpSU5uh8syilTiOvIK8HdpAfjgI7TKRSvpIxNiie1m2lXq8XYpHsOrOK7GfF7SrpJmmIFNuiGdyj/2ZnZCbS8QaXq01FU4bTkTkmys6PhyfHrxhFFeEX+c4Wth7Roig==
 Received: from PAXPR04MB9424.eurprd04.prod.outlook.com (2603:10a6:102:2b2::13)
- by PAWPR04MB9765.eurprd04.prod.outlook.com (2603:10a6:102:389::6) with
+ by PA4PR04MB7615.eurprd04.prod.outlook.com (2603:10a6:102:e6::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Tue, 24 Mar
- 2026 13:36:43 +0000
+ 2026 13:38:51 +0000
 Received: from PAXPR04MB9424.eurprd04.prod.outlook.com
  ([fe80::671d:216f:d493:44ce]) by PAXPR04MB9424.eurprd04.prod.outlook.com
  ([fe80::671d:216f:d493:44ce%4]) with mapi id 15.20.9723.022; Tue, 24 Mar 2026
- 13:36:37 +0000
+ 13:38:41 +0000
 From: Ioana Ciocoi Radulescu <ruxandra.radulescu@nxp.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+To: Frank Li <frank.li@nxp.com>, Oded Gabbay <ogabbay@kernel.org>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
 	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
 	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
 	<sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
 	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
-	<shawnguo@kernel.org>, Frank Li <frank.li@nxp.com>,
-	=?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>
+	<shawnguo@kernel.org>, =?iso-8859-1?Q?Christian_K=F6nig?=
+	<christian.koenig@amd.com>
 CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
@@ -77,16 +77,15 @@ CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
 	<linaro-mm-sig@lists.linaro.org>, Jiwei Fu <jiwei.fu@nxp.com>, Forrest Shi
 	<xuelin.shi@nxp.com>, Alexandru Iulian Taran <alexandru.taran@nxp.com>,
 	Daniel Baluta <daniel.baluta@nxp.com>
-Subject: RE: [PATCH v2 4/9] accel/neutron: Add driver for NXP Neutron NPU
-Thread-Topic: [PATCH v2 4/9] accel/neutron: Add driver for NXP Neutron NPU
-Thread-Index: AQHcrW0UFol7c/rrhUWH45PRn/N4EbWhjjwAgBw7vqA=
-Date: Tue, 24 Mar 2026 13:36:37 +0000
+Subject: RE: [PATCH v2 7/9] accel/neutron: Add job submission IOCTL
+Thread-Topic: [PATCH v2 7/9] accel/neutron: Add job submission IOCTL
+Thread-Index: AQHcrW0YA6y3SKZzMUyWigJjqVStgrWhu08AgBwQhwA=
+Date: Tue, 24 Mar 2026 13:38:41 +0000
 Message-ID:
- <PAXPR04MB9424461788159F730884F9F39448A@PAXPR04MB9424.eurprd04.prod.outlook.com>
-References: <20260306-neutron-v2-0-3019bd8c91ef@nxp.com>
- <20260306-neutron-v2-4-3019bd8c91ef@nxp.com>
- <110dace9-3ff9-4750-813f-93c6827b105c@kernel.org>
-In-Reply-To: <110dace9-3ff9-4750-813f-93c6827b105c@kernel.org>
+ <PAXPR04MB94245DA907F655FDA17C74989448A@PAXPR04MB9424.eurprd04.prod.outlook.com>
+References: <20260306-neutron-v2-7-3019bd8c91ef@nxp.com>
+ <20260306170259.296712-1-Frank.Li@nxp.com>
+In-Reply-To: <20260306170259.296712-1-Frank.Li@nxp.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -94,49 +93,49 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB9424:EE_|PAWPR04MB9765:EE_
-x-ms-office365-filtering-correlation-id: e597c0ac-3b0e-4f5d-6340-08de89aa5fcf
+x-ms-traffictypediagnostic: PAXPR04MB9424:EE_|PA4PR04MB7615:EE_
+x-ms-office365-filtering-correlation-id: ccc4f24a-4324-47df-0c8c-08de89aaa97f
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|1800799024|366016|19092799006|38070700021|921020|18002099003|22082099003|56012099003;
+ BCL:0;ARA:13230040|366016|1800799024|19092799006|376014|7416014|38070700021|921020|22082099003|18002099003|56012099003;
 x-microsoft-antispam-message-info:
- 4/KnLqZUXvPYBH4vN/okmUyXk4OPiEdhPT/NsEzNNnUeEtRCSe7kMYhFz19l8kfw3QYL9oMz7QfCuqnrAZZlyLBa02bwjhG+6w64gSemxrDa11d4r7pElS1UWSWcJqPx+7fVLQggY44IA1P27EvGJfMpeOOcniDlyXo4uhpSjndjhzOQOgWfpo41NScUKVBlk1wr9V/nipRnSon9j9VxoVZlfXdvt5HnhOjzQl96ThzXFw9Mor/I2t9Fkt+mtK2jMG1QiKC4a2z/iKwbSu8QfgPz5d67Jm1QSnbVvxeAGlFZR9d2D8BtGkv5nAB3o7o6qIlw7lLCz3VQpoEP3wqmCvIaX8IfWtxaZNZMyyqIry9E3UQfQOnwabeX+fj8QH0F9ep0ZaNkyfEi9CGdYqA7tzrDUkYKNXsxY0TkPsY/j9AvLK+445ua0C6Yx8KaLrM4vzzpGnj52f3dq7efWksEo1kCIU9j8Bx4wUgriMagt3kfqwrnFbHhVagIoj2EvDbmK3bIrujK0cH+zs0RAAk1LQP+ZTkGi2e+6SKxL4tDtoAeT9vL3pDGdb6Z40LFQj0XqZ13b23NWebU7bC3Lik+l3939vBbz9FOhbUzfcwfohgPufptsJ68yfM2HBlCz2P3lnFBD/3MonSUhLf3JxmNxnDerNSyjAVGNrYT9oRmvXV7v71OHDF7BjZlwNo1dErOgejocN8aClhinbW2Odv5nOqwih3NI4LJ2irUFXdL+hIm+BKVVlmePzwbYvusFqhXtOnhLDOL5gD18gPClGq3Dg==
+ c6vwratmFieNo/ABtarMaf5IjMiIXGbYog1TVv/Fn6d9KgopkZfro2+MqAy9rnYbbYnwjCURvIUT2RjB02+2Bqg4wfytvg0pc3J8SZd0VxAehsdsn9sQA4/DKDivf6VHmYs7zTJ/PgEQkRggD+JGBEr7WNnbRR3la3t3dkd8gXk/FEWWLvbDA0hyQr9NHCcvB6gti2N+CYDbSzNVM744NodlA1LWmh78MLj3MWa1/nZ1VUDnfvkLuNS/BBqh9O2/0330i5pyA2Xrvcz7RtxctsnRCkqZjRCHiJhxYxG+n6XAm16RyIUt4gxJkYFht+Cb+McD5LEXNsk0cP0Sbx0sPFhZijpinh4TpLwukuoHhMcMSTiB1MgEvGeyweNFGM2E8hmuRdyVFwq79qk4UxJ+FkIzPZPHJzA8c1oaX7AorPRDWmGScLeBEuSw5XcokTcTdy8DaWzPKfj5MN9nn3ciVA53i1X4fE4yKp/wNoeKQwxfmVEIQIh/ndRbGpFhwn/JlQqdUX+wIHxEperYPt1VFgf1lEPpXfPTH9bpw7tV8Sl1gGiHqM418lwD7ZOJlFjdgKGBNnbzszoggEmScg15wEPeb3VgauHTRGUhxK5la5r428aiX+lcjLZkQreQ1QJSSAGfIMqvqOJ0ETOZq4BOTXZOir1i/epHFqdFU7IHU91mgRSQQ78TjqjlqeOZLwtKIaq9ACEyEVzcI4KO9UlL9GzYSjFN7iJs6b6iF8rKhl5UKe1w055xu9vQHsVg2nSn7kHC5lYf6WOvJxNdsPXRbcVL/2h//E5/RZVZzuguxOvode7fEkL/7+ZkY6SleFbJ
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9424.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(19092799006)(38070700021)(921020)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9424.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(376014)(7416014)(38070700021)(921020)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?lwyAYR148TNzzl1QT8LGoqpuh5R1Y8Fnxf/cisCflxIqrC+9wPCdAjDqBP?=
- =?iso-8859-1?Q?nVV7ib5QnC/0fMCbsR60iZykLkqDj6f8XHYszh9e3i8fU7LD1vYj9KN+ES?=
- =?iso-8859-1?Q?lB7ONsv8KlhtWWiDiNMFCUX1glbpiCvqpvaSlCZ3t+8zdEtrwWxsiYE4e4?=
- =?iso-8859-1?Q?DKtILmqtKI4FnptguDETTbNorBFU/YXCC5PmWF0iN8cQSEwJx3hGeylERa?=
- =?iso-8859-1?Q?JjEQuZYQ/7WOKXXRe8oucPL/Y/DNK6BnFwssCNk3mcTjYzDF2RNzIczvli?=
- =?iso-8859-1?Q?QTnqdjaQTTyYC+UBxZwf7eYYYymC0gRdBMDGMDtfd/hqBQMSBk2jo58Py2?=
- =?iso-8859-1?Q?Ru03UmJjE8b4pin0Ej6ogTQSiRmDy9dHh2nSpyzO6Eg8HyM2U/E7MUsq/X?=
- =?iso-8859-1?Q?NQ/tAg+MugpfcSABb2fnPC0mmJ/d8SXbhAnddpcSmCODlQm3F5YJ29ZIzG?=
- =?iso-8859-1?Q?uIIDIk2QVol3q1LtJkYhhcVtPILsp4d1PemkjisXd+xeC90HdnH4rrfJC5?=
- =?iso-8859-1?Q?OcBc2paa78f8+BrrhtxbSK3RmeC5ul7FzEiEwnsF1obBLqOqIesfVRmiX+?=
- =?iso-8859-1?Q?nwVxYlbmYcOAMDfa5s5SpLHEoButKb3a+SUfSnRwMKijbyrck5oJkBou4h?=
- =?iso-8859-1?Q?Zb6qAsVF+TbmP4w+9rMiltKtEVvhDnoXV0d70J7RYLKJPOllclQ7hCVAIO?=
- =?iso-8859-1?Q?5pmR6vXw3oDBBnafxGYqWolqX3t+lm33SUPG8hprNXxF/xNFvy5jp5vUtB?=
- =?iso-8859-1?Q?W/u3qHuGx7pBO9RGCUVHMIlVW0qyzlDhPDhUbaJM5Gn501J/iYhKiuOKnH?=
- =?iso-8859-1?Q?Djttynq5+jtbpy+NCNUJjzHIC3/d+X/RKzXur6bCdMfG2dL7hF2dF9zDBK?=
- =?iso-8859-1?Q?Z6d7VjFl22BeETPhAaKqXe7lXA06/b7fhf82rhCVG/QJwhj4W9himfbg84?=
- =?iso-8859-1?Q?lVcZ8fX8ksrYy4OYx6P97ExLILtAuKx2QIhwKyJVvplPNPsD6V/mqeq+kT?=
- =?iso-8859-1?Q?Uh8c+3ra/PUFDp4dMKsBFMiy1LTO09vo6tcW0jDqUUI2SJyIGw65AwTRTO?=
- =?iso-8859-1?Q?Wya2PXcUATbQ1vorTuJM/zwy67AVgGqQIzNYaze4kmPsPtZhs9nimwPnBf?=
- =?iso-8859-1?Q?PJ0MjPWELC3GWJUFdYjjnNHdMqH4ZLcKU486qtLVilXdbUcUXzGeUYNhI6?=
- =?iso-8859-1?Q?KRoUsqN/bvIaSNEIySQoh46xrtgsW9j2g3V9sI9MApbDWANB0AOVwaAtUQ?=
- =?iso-8859-1?Q?z+gdKsOrlIlaPMZQsV8DZ6eQLuX55E2/Pu0AnJRsVBZITkglZ08sY/jnIL?=
- =?iso-8859-1?Q?p9NrapBuXLL2sPlKRALyfTH5CUwp8h2zEYRlRP20zwGcukvHlpbIWRS5Mt?=
- =?iso-8859-1?Q?6RgsTNCip6j4k9/D+Jin/aAERJDt26hWwWgPs0BBqizz1T4qt+uarHPMn6?=
- =?iso-8859-1?Q?AFMSHRZf3fIkBO658ZGvPEGWiF60gYkE9zgQxfatoPrI4Div5/lGhautJx?=
- =?iso-8859-1?Q?ejGZSPtT46Spz8flhf6Zm6ki6KSIZGZzBOssK0Ek35CbVqbYcuTHyc6cPl?=
- =?iso-8859-1?Q?6Bmj76szsDwNG6exCBOPruJ7lUYYdUo7Z7JgOFntcWafCeBrOS7YDlwylW?=
- =?iso-8859-1?Q?uSEcq/shYNeDoHiMmTWffCcF6YSvVvlqpCYBRu6V8GwRjjQKUNT2nQDbOf?=
- =?iso-8859-1?Q?IOocz4u8lIxMPpO80kH1D48xRsVrq3yEKtVvZlBMutI2OZeGFbYsvjMKGT?=
- =?iso-8859-1?Q?zEbYY19h3naUQqm/PquLhw5rWU0dFRDdIW4Ux6umX31GBaHAeS3Z1muVHd?=
- =?iso-8859-1?Q?H6H2Gosh0A=3D=3D?=
+ =?iso-8859-1?Q?wDa4lD8BYAumg1dtIH53faKrFmAz5M8Slw24DogzV+nhphOW0w4WFUGP25?=
+ =?iso-8859-1?Q?w17cpMrGHAin+bO2837F2PJD7cAYCdHOQW8aTwhURdfPU9ZZSIAhWH/Bf4?=
+ =?iso-8859-1?Q?r5+AjaWOVllvLe2Sb7GSir+Kykf3wRtEd8TsMC3GJJu3019SpBVOpWLfI6?=
+ =?iso-8859-1?Q?z6AFmL4VfomDbQGkx7sS/1UUCExIeB6T7zVjizGV7omyixCeVPlWpdHQz5?=
+ =?iso-8859-1?Q?AmxOyPSjnlUTjP2cpcqDYJXKPKasKi8YSHB45++jW5FL/g7eYggSDwk6Dq?=
+ =?iso-8859-1?Q?lm5ObPnvCXkdRJvd6RmJsH9NGx0pWhnkgSoRMpYOzZdnx1B+AdZ1L9/qy5?=
+ =?iso-8859-1?Q?qz4Qfb5W8FaQVLyy4VzQy4fhp6mab144IWrxzzhxZfEGANjeDHTU1omBc2?=
+ =?iso-8859-1?Q?X8/jAzZeI/z2JjsKDk36LtJWN8e8hdjTHQurUXJ4fRkdr/fT/Mzv0nEMNj?=
+ =?iso-8859-1?Q?7a6SFWC8dH89LMrFaosZDSaagZskROtkVnOeFjktoNeZGNa2Ze3hCkm5xf?=
+ =?iso-8859-1?Q?5gqcqdyni6HWo0CtXqpDULgowGQkAIhAC4fbkASSv4nHt2264p3iX9k3H2?=
+ =?iso-8859-1?Q?sDlbTQg0EdgLuQAAAMZjSQCLildP9PXboFXDLnpA8w344SRY7DsHlAZNwz?=
+ =?iso-8859-1?Q?tTOTt4g7DcnvD2XIn+rlAjX1RNKEQHfOI/zPy6dAGV6FTEeQnK8h6HqFau?=
+ =?iso-8859-1?Q?hV6d6ItVW6hrjO7wKFlGa4/8KieWp/09uwwgK1FY9IqayyPw/VpkYmMlZ5?=
+ =?iso-8859-1?Q?f6m9lc9XR8aeT/013IRYfJ+ctI6dfXa/EIs5EBleZ2tgq/oziaD0ljczCa?=
+ =?iso-8859-1?Q?1uSa4rd8Mzj26dvarCpvxjYg1cg0riP0n/L6D+v+6ZisuwRewtMa3qWsa2?=
+ =?iso-8859-1?Q?wHtmfBpyx73SGaTw4gjQ0zf1bCDfsVkOQ3VufaSXC9/H8bnLbcHgxmHzjL?=
+ =?iso-8859-1?Q?rkFGWmhmbDVOyTdyyoOIWDoU/HYNdePvj9Rj2UECGBmp7L2elJQeps3AqJ?=
+ =?iso-8859-1?Q?YKWUnuTJzMjzmB6ZpLuHWC8fR/4Mk6eVQAjA9uGEw5LNiptwi/1VRVQz0q?=
+ =?iso-8859-1?Q?CrXVN92DC7zYxxoSYVAT1e/hzI9f3i1UJiWNxVltvbQZFLyUNDaHe3zwmL?=
+ =?iso-8859-1?Q?5+6M5FnGM4COtsw622TLPgSomcsKX2MDnhSYZpku7BfX//LYH0mWK4krsR?=
+ =?iso-8859-1?Q?fFKuj2AGLIHUGRu01lxg0TGMLrZG1GHuUE+XdVH5u9XiTqmCBl2pYr4R/r?=
+ =?iso-8859-1?Q?88EhsUukSU29lCLcaqP4zIkctXc8VgCtxVmvRLm6vmG/Up2c/Z6p6/y47T?=
+ =?iso-8859-1?Q?UyXhPAcbccyImkUUHs0llvcTdwKidv6lybt0F5a1DJ/nIxX5N6aLfi4wwa?=
+ =?iso-8859-1?Q?899FfvlEg2pAsVUr7Bwi+5U+KY9h0p46h/dpxYpyjYWDiIVDPXepXpMnar?=
+ =?iso-8859-1?Q?Vh+Mbk221RZLQzsjODBlSTap5jywLwkkEw17nqT/Y+Zz/f+KJhndO29I35?=
+ =?iso-8859-1?Q?5zFvVLQdntQ/49J22kQIK2DK5V7boHlzJ+UpS2GQANZ/LJKy2bxJL2sNTQ?=
+ =?iso-8859-1?Q?s0ps8PsQ73/c9MUQ7bQXEsCtUgw8AUuwIGCLZ0VyITgZOrIlZgL/xX9bwh?=
+ =?iso-8859-1?Q?ZPET1GQencNXWKtQ9fyb8EMfR2WzCoKr5RGmNtHE45HvKQJZ2Tj0Z3jFw/?=
+ =?iso-8859-1?Q?8Y96SXGrVUq33Wy75x94IDx631sNSJAOsaBOAH3NLDgbELEKY3wau12YTt?=
+ =?iso-8859-1?Q?LX+tdDxHK77Ms6Oat+c2I7EzHYYWnLCxX653jR6Q7a1WwI1mHr2MEr2vgG?=
+ =?iso-8859-1?Q?6N2IhntCEQ=3D=3D?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -148,29 +147,29 @@ MIME-Version: 1.0
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9424.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e597c0ac-3b0e-4f5d-6340-08de89aa5fcf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2026 13:36:37.7720
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccc4f24a-4324-47df-0c8c-08de89aaa97f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2026 13:38:41.3903
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: A8Z2QEOs0bVPHY8QhX5+CeUgbdunAuougPCvGIpozEE2Xrd/fbRE6H4LmnFl9I6nXfMd8UDzkLxvJ0DwL9RC6vtiFR4QpdP825u6KnJLAK8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB9765
+X-MS-Exchange-CrossTenant-userprincipalname: HO9d+AE++cERBK2NmnPw+eANJZ7qwD89wk1YoJX6Pmhi6ZIr0r6v5v//hsfRwwwROaaX/1PiMctxovwzr6/DIYMI0pCR2WofHy52Ey1S9fE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7615
 X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
 	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56882-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[26];
+	TAGGED_FROM(0.00)[bounces-56883-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,nxp.com,amd.com];
+	FREEMAIL_TO(0.00)[nxp.com,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -182,209 +181,65 @@ X-Spamd-Result: default: False [1.34 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	NEURAL_HAM(-0.00)[-1.000];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,lists.freedesktop.org:email,nxp.com:dkim,nxp.com:email,PAXPR04MB9424.eurprd04.prod.outlook.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 4A235309B02
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,PAXPR04MB9424.eurprd04.prod.outlook.com:mid,nxp.com:dkim]
+X-Rspamd-Queue-Id: 8CD46309A47
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Friday, March 6, 2026 at 4:22 PM, Krzysztof Kozlowski wrote:
-> On 06/03/2026 14:27, Ioana Ciocoi-Radulescu wrote:
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS index
-> > 8a5b27b061da..f7a687eb6b54 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -19191,6 +19191,16 @@ S:	Orphan
-> >  F:	Documentation/devicetree/bindings/net/nfc/nxp,nci.yaml
-> >  F:	drivers/nfc/nxp-nci
-> >
-> > +NXP Neutron NPU DRIVER
+On Friday, March 6, 2026 at 7:03 PM, Frank Li wrote:
+> > +	if (appstatus & APPSTATUS_FAULTCAUSE_MASK) {
+> > +		dev_err(ndev->dev, "Neutron halted due to fault: 0x%lx\n",
+> > +			FIELD_GET(APPSTATUS_FAULTCAUSE_MASK,
+> appstatus));
+> > +		return neutron_job_err_handler(ndev);
 >=20
-> s/Neutron/NEUTRON/ as everything here is in uppercase
+> AI: neutron_job_err_handler() returns void, not int. Remove 'return'.
 
-Ok.
+Ok, will fix.
 
 >=20
-> > +M:	Ioana Ciocoi Radulescu <ruxandra.radulescu@nxp.com>
-> > +M:	Jiwei Fu <jiwei.fu@nxp.com>
-> > +L:	dri-devel@lists.freedesktop.org
-> > +S:	Maintained
-> > +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> > +F:	Documentation/accel/neutron/
-> > +F:	drivers/accel/neutron/
-> > +F:	include/uapi/drm/neutron_accel.h
->=20
->=20
-> >
-> > diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile index
-> > 1d3a7251b950..698136e12cce 100644
-> > --- a/drivers/accel/Makefile
-> > +++ b/drivers/accel/Makefile
-> > @@ -4,5 +4,6 @@ obj-$(CONFIG_DRM_ACCEL_AMDXDNA)		+=3D
-> amdxdna/
-> >  obj-$(CONFIG_DRM_ACCEL_ARM_ETHOSU)	+=3D ethosu/
-> >  obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+=3D habanalabs/
-> >  obj-$(CONFIG_DRM_ACCEL_IVPU)		+=3D ivpu/
-> > +obj-$(CONFIG_DRM_ACCEL_NXP_NEUTRON)	+=3D neutron/
-> >  obj-$(CONFIG_DRM_ACCEL_QAIC)		+=3D qaic/
-> > -obj-$(CONFIG_DRM_ACCEL_ROCKET)		+=3D rocket/
-> > \ No newline at end of file
->=20
-> You still have patch warnings.
-
-Yeah, so the last line of this Makefile lacked the line ending and vim
-fixed that on its own when I edited the file. I can add the neutron line
-and leave the rest untouched, just making sure this is what you're
-requesting?
-
->=20
-> > +obj-$(CONFIG_DRM_ACCEL_ROCKET)		+=3D rocket/
-> > diff --git a/drivers/accel/neutron/Kconfig
-> > b/drivers/accel/neutron/Kconfig new file mode 100644 index
-> > 000000000000..37b8ecb49804
-> > --- /dev/null
-> > +++ b/drivers/accel/neutron/Kconfig
-> > @@ -0,0 +1,16 @@
-> > +# SPDX-License-Identifier: GPL-2.0+
-> > +
-> > +config DRM_ACCEL_NXP_NEUTRON
-> > +	tristate "NXP Neutron NPU"
-> > +	depends on HAS_IOMEM
-> > +	depends on DRM_ACCEL
-> > +	depends on ARCH_MXC
->=20
-> Missing compile test
-
-Will add.
-
->=20
-> > +	select DRM_GEM_DMA_HELPER
-> > +	select DRM_SCHED
-> > +	help
-> > +	  Enables driver for NXP Neutron NPU.
-> > +
-> > +	  Select this if you have an NXP SoC with Neutron, like i.MX95,
-> > +	  and want to run machine learning applications.
-> > +
-> > +	  If built as module, the module is named neutron.
->=20
-> ...
->=20
-> > +
-> > +	ret =3D devm_request_threaded_irq(dev, ndev->irq, NULL,
-> > +					neutron_irq_handler_thread,
-> > +					IRQF_ONESHOT, KBUILD_MODNAME,
-> ndev);
-> > +	if (ret) {
-> > +		dev_err(dev, "Failed to request irq %d\n", ndev->irq);
->=20
-> Drop, not needed.
-
-Ok
-
->=20
-> > +		return ret;
-> > +	}
-> > +
-> > +	ret =3D of_reserved_mem_device_init(&pdev->dev);
-> > +	if (ret) {
-> > +		dev_err(dev, "Failed to initialize reserved memory\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	ret =3D devm_pm_runtime_enable(dev);
+> > +	ret =3D drm_sched_job_init(&job->base, &npriv->sched_entity, 1, NULL,
+> > +				 filp->client_id);
 > > +	if (ret)
-> > +		goto free_reserved;
+> > +		goto out_put_syncobj;
 > > +
-> > +	pm_runtime_set_autosuspend_delay(dev,
-> NEUTRON_SUSPEND_DELAY_MS);
-> > +	pm_runtime_use_autosuspend(dev);
-> > +
-> > +	ret =3D drm_dev_register(&ndev->base, 0);
+> > +	ret =3D neutron_push_job(job, syncobj);
 > > +	if (ret)
-> > +		goto free_reserved;
+> > +		goto out_sched_cleanup;
+> > +
+> > +	neutron_put_job(job);
+> > +	drm_syncobj_put(syncobj);
 > > +
 > > +	return 0;
 > > +
-> > +free_reserved:
-> > +	of_reserved_mem_device_release(&pdev->dev);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static void neutron_remove(struct platform_device *pdev) {
-> > +	struct neutron_device *ndev =3D platform_get_drvdata(pdev);
-> > +
-> > +	drm_dev_unregister(&ndev->base);
-> > +	of_reserved_mem_device_release(&pdev->dev);
-> > +}
-> > +
-> > +static int neutron_runtime_suspend(struct device *dev) {
-> > +	struct neutron_device *ndev =3D dev_get_drvdata(dev);
-> > +
-> > +	neutron_disable_irq(ndev);
-> > +	neutron_shutdown(ndev);
-> > +
-> > +	clk_bulk_disable_unprepare(ndev->num_clks, ndev->clks);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int neutron_runtime_resume(struct device *dev) {
-> > +	struct neutron_device *ndev =3D dev_get_drvdata(dev);
-> > +	int ret;
-> > +
-> > +	ret =3D clk_bulk_prepare_enable(ndev->num_clks, ndev->clks);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret =3D neutron_boot(ndev);
-> > +	if (ret) {
-> > +		clk_bulk_disable_unprepare(ndev->num_clks, ndev->clks);
-> > +		return ret;
-> > +	}
-> > +
-> > +	neutron_enable_irq(ndev);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct dev_pm_ops neutron_pm_ops =3D {
-> > +	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-> pm_runtime_force_resume)
-> > +	RUNTIME_PM_OPS(neutron_runtime_suspend,
-> neutron_runtime_resume,
-> > +NULL) };
-> > +
-> > +static const struct of_device_id neutron_match_table[] =3D {
-> > +	{ .compatible =3D "nxp,imx95-neutron" },
-> > +	{}
-> > +};
-> > +
-> > +MODULE_DEVICE_TABLE(of, neutron_match_table);
-> > +
-> > +static struct platform_driver neutron_driver =3D {
-> > +	.probe	=3D &neutron_probe,
-> > +	.remove	=3D &neutron_remove,
-> > +	.driver	=3D {
-> > +		.name		=3D "neutron",
-> > +		.of_match_table	=3D
-> of_match_ptr(neutron_match_table),
+> > +out_sched_cleanup:
+> > +	drm_sched_job_cleanup(&job->base);
+> > +out_put_syncobj:
+> > +	drm_syncobj_put(syncobj);
+> > +out_put_gem:
+> > +	drm_gem_object_put(job->bo);
 >=20
-> Drop of_match_ptr. You will have (or you have already same as v1) here
-> warning.
+> AI: In the success path, neutron_put_job(job) is called which decrements
+> refcnt. But if neutron_push_job() fails and we hit out_sched_cleanup, the=
+ job
+> refcnt is never decremented. This leaks the job structure.
+> Consider: if neutron_push_job() succeeds, it calls kref_get() inside sche=
+d_lock.
+> If it fails, no kref_get() happens, so don't call
+>=20
+> (Need owner do judgment. Not sure if AI said correctly.)
 
-Will fix. But how do I get to see the warning here? Tried building with
-W=3D1 and OF support disabled but it didn't complain.
+I don't see an issue here, kref_get() is called at a point where
+neutron_push_job() can't fail anymore. And if neutron_push_job() fails
+earlier, error path looks clean, it frees everything in reverse order,
+including the job struct.
 
-Thanks!
+Btw, what agent did you use for review?
+
+Thanks,
 Ioana
 
 >=20
-> > +		.pm		=3D pm_ptr(&neutron_pm_ops),
-> > +	},
-> > +};
-> Best regards,
-> Krzysztof
+> Frank
 
