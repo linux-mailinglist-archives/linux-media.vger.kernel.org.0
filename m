@@ -1,300 +1,168 @@
-Return-Path: <linux-media+bounces-56886-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56887-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +CkOFq2vwmmRkwQAu9opvQ
-	(envelope-from <linux-media+bounces-56886-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 16:37:17 +0100
+	id wLYbOy+zwmmRkwQAu9opvQ
+	(envelope-from <linux-media+bounces-56887-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 16:52:15 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6863182C6
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 16:37:16 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE479318665
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 16:52:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0BFE730D37B9
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 15:29:29 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3631D3083018
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 15:46:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 113EC40626B;
-	Tue, 24 Mar 2026 15:29:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 375CC372EE3;
+	Tue, 24 Mar 2026 15:46:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFBp5EKe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MPJOwUL/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB3A3FF8A4
-	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 15:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7A723E320;
+	Tue, 24 Mar 2026 15:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774366167; cv=none; b=lKAGmGtNlSbTZVSpI5J/rB61yOPM9g1y8I3TA7+i0SjKXkzkXmlRwKtaXZz3797c6QBQtbzY/otJ3zakNs2XakG3NoS4PZdTCDDXDb3DWHkvr+iyP4B/LVphmvnkUz1vDJd/B1fvOd/Q4l6LkL3vezLGeToUB0YVs0rzA+/wPls=
+	t=1774367187; cv=none; b=SVtAeTLyVHbWwUTSdqhhNc22xdOVxuj5FdoCBDe2Hz+u7wHewjMcLNw6wflOY/lH58rO9Zf45Mwzha8ORBR9gZkMy1sO1vDjFpzn5ETURhsumdVmWO0RIvCef2JKdZEYJxk802hfUzl0E6kHY8U5BXFxBYMu48TImgwG+N+PFDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774366167; c=relaxed/simple;
-	bh=rs0wSo5LOatKRVmUWOfaNKCFO1JmIRZELrRsOVkYnhY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=atVDokR/jzrZnOimDkywOgEnDEo2yY6DVPmXiXh7OlYQgm5AFAbUaa2DHobRFgP6qOSeNMzVp8iOH7zQC8mpMH1tLhZ5yGwi+wtgRUXwv8D9fTeFhokKpzqVqJsBwpKGbl/9s3Hzi69oD/S/C7n/dtLWhcsS/vkd4GFhI1/lCq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YFBp5EKe; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774366166; x=1805902166;
-  h=date:from:to:cc:subject:message-id;
-  bh=rs0wSo5LOatKRVmUWOfaNKCFO1JmIRZELrRsOVkYnhY=;
-  b=YFBp5EKecVgt+/e9MX9WriEjz65ox9Vigaog6dlpQoSYkoyUZYtLaiU0
-   72/MJJZVgTn2SYxVEeSLmx+id6k4cIttPWiUnhhaRZiqXkI+oXF4O0kRV
-   aYiVCPRnkjvC7MjXTjSAT75YnLFpo1RDy5AOunb5OgeIKaBtfVEYlDTR9
-   o352TVryn/wessVCa72Yllu2w8trkct1sflWuGEzfdydd2xAHpSaZ+rfW
-   eIXnWL0IIlW3VJgQfaHiWzuw8mbToToKl98BKaCL9qFMeGsNyKOitT1Px
-   FmHzTeRG0vcjxt8kvpD7JNyeNboXBsSinQaxfh6xoVOZwcEHbKGi6OUUr
-   w==;
-X-CSE-ConnectionGUID: lsidjo86QN6oDxVF4qzvnA==
-X-CSE-MsgGUID: L+fKm51jRuiWxnYrc8IwNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="78982977"
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="78982977"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 08:29:25 -0700
-X-CSE-ConnectionGUID: 8AaXpjoBT+SoFEpjYbcOuA==
-X-CSE-MsgGUID: k3s0LFPySrCJxqMJ9gG3gQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="219947207"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Mar 2026 08:29:24 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w53h3-000000004kj-2mjB;
-	Tue, 24 Mar 2026 15:29:21 +0000
-Date: Tue, 24 Mar 2026 23:29:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:fixes] BUILD SUCCESS
- 092f6562541e293d9e325ed94847f92f58c8ad6b
-Message-ID: <202603242312.3AFSF2yU-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1774367187; c=relaxed/simple;
+	bh=FYUbLS4x6Nc+I7HqaW/Crr9Gva6T47bDev7ITRWYHvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dBphmh3JzIXroyOGftSBTLr+lXNqXfdkljPFrZ+dBUePggX17OKUp7vhoHpgl4V4Doiihva1YDHoZcjttht1A/W0pG08+ZAp92XQBhFkwm2fitJzZRmIlDfohgNRV3ncIemBxkANktZqqrmJjU80UI1YsSiX5OSaPduigpJiIYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MPJOwUL/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3123FC19424;
+	Tue, 24 Mar 2026 15:46:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774367187;
+	bh=FYUbLS4x6Nc+I7HqaW/Crr9Gva6T47bDev7ITRWYHvI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MPJOwUL/O2nlpD5r3r3Wgk6C5YAnuJ0uxdQRtF4wYqnSZMGYFF7fC8JL7GG2oWXN0
+	 ehBMJyrWX67MCLCBOBGh4cOw2PyJ8hxoikPIA0zex39PWC/jI6AQq7yjPd8AzlxlwG
+	 TXlLEwA7KiV9vZB7xJ6sCjO60unz078JzHduvzahYYmuSMN1XPJcrVNJdPCYfaa+SB
+	 p+wfDsg1PIM9AmYCdVHbnU5dBTXsoqxqyxAMR7iztZOI3uXGWLTtBO6RSZAXQKM9K1
+	 WtvngY8dmI3P5TtK8lkos5o0xHfsUGO4QuptZ6Or3d1Gy/CTHLFnKOnMB4f4PY25Ig
+	 V6sgthkh5OVIw==
+Date: Tue, 24 Mar 2026 15:46:20 +0000
+From: Will Deacon <will@kernel.org>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: joro@8bytes.org, robin.murphy@arm.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
+	nicolas.dufresne@collabora.com, p.zabel@pengutronix.de,
+	mchehab@kernel.org, iommu@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v13 3/6] iommu: Add verisilicon IOMMU driver
+Message-ID: <acKxzGk1Z541yoZ4@willie-the-truck>
+References: <20260216095144.107356-1-benjamin.gaignard@collabora.com>
+ <20260216095144.107356-4-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260216095144.107356-4-benjamin.gaignard@collabora.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56886-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-56887-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:dkim,intel.com:mid]
-X-Rspamd-Queue-Id: 7C6863182C6
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[will@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,collabora.com:email]
+X-Rspamd-Queue-Id: CE479318665
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git fixes
-branch HEAD: 092f6562541e293d9e325ed94847f92f58c8ad6b  media: ccs: Avoid deadlock in ccs_init_state()
+On Mon, Feb 16, 2026 at 10:51:35AM +0100, Benjamin Gaignard wrote:
+> The Verisilicon IOMMU hardware block can be found in combination
+> with Verisilicon hardware video codecs (encoders or decoders) on
+> different SoCs.
+> Enable it will allow us to use non contiguous memory allocators
+> for Verisilicon video codecs.
+> If both decoder and this iommu driver are compiled has modules
+> there is undefined symboles issues so this iommu driver could
+> only be compiled has built-in.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  MAINTAINERS               |   8 +
+>  drivers/iommu/Kconfig     |  11 +
+>  drivers/iommu/Makefile    |   1 +
+>  drivers/iommu/vsi-iommu.c | 794 ++++++++++++++++++++++++++++++++++++++
+>  include/linux/vsi-iommu.h |  21 +
+>  5 files changed, 835 insertions(+)
+>  create mode 100644 drivers/iommu/vsi-iommu.c
+>  create mode 100644 include/linux/vsi-iommu.h
 
-elapsed time: 1235m
+[...]
 
-configs tested: 175
-configs skipped: 3
+> +static size_t vsi_iommu_unmap(struct iommu_domain *domain, unsigned long _iova,
+> +			      size_t size, size_t count, struct iommu_iotlb_gather *gather)
+> +{
+> +	struct vsi_iommu_domain *vsi_domain = to_vsi_domain(domain);
+> +	dma_addr_t pte_dma, iova = (dma_addr_t)_iova;
+> +	unsigned long flags;
+> +	phys_addr_t pt_phys;
+> +	u32 dte;
+> +	u32 *pte_addr;
+> +	size_t unmap_size = 0;
+> +
+> +	spin_lock_irqsave(&vsi_domain->lock, flags);
+> +
+> +	dte = vsi_domain->dt[vsi_iova_dte_index(iova)];
+> +	/* Just return 0 if iova is unmapped */
+> +	if (!vsi_dte_is_pt_valid(dte))
+> +		goto unlock;
+> +
+> +	pt_phys = vsi_dte_pt_address(dte);
+> +	pte_addr = (u32 *)phys_to_virt(pt_phys) + vsi_iova_pte_index(iova);
+> +	pte_dma = pt_phys + vsi_iova_pte_index(iova) * sizeof(u32);
+> +	unmap_size = vsi_iommu_unmap_iova(vsi_domain, pte_addr, pte_dma, size);
+> +
+> +unlock:
+> +	spin_unlock_irqrestore(&vsi_domain->lock, flags);
+> +
+> +	return unmap_size;
+> +}
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I still think you need TLB invalidation here.
 
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-alpha                               defconfig    gcc-15.2.0
-arc                              allmodconfig    clang-16
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    clang-23
-arc                                 defconfig    gcc-15.2.0
-arc                   randconfig-001-20260324    gcc-8.5.0
-arc                   randconfig-002-20260324    gcc-8.5.0
-arm                               allnoconfig    gcc-15.2.0
-arm                              allyesconfig    clang-16
-arm                                 defconfig    gcc-15.2.0
-arm                   randconfig-001-20260324    gcc-8.5.0
-arm                   randconfig-002-20260324    gcc-8.5.0
-arm                   randconfig-003-20260324    gcc-8.5.0
-arm                   randconfig-004-20260324    gcc-8.5.0
-arm                           u8500_defconfig    gcc-15.2.0
-arm64                            allmodconfig    clang-23
-arm64                             allnoconfig    gcc-15.2.0
-arm64                               defconfig    gcc-15.2.0
-arm64                 randconfig-001-20260324    gcc-13.4.0
-arm64                 randconfig-002-20260324    gcc-13.4.0
-arm64                 randconfig-003-20260324    gcc-13.4.0
-arm64                 randconfig-004-20260324    gcc-13.4.0
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                                defconfig    gcc-15.2.0
-csky                  randconfig-001-20260324    gcc-13.4.0
-csky                  randconfig-002-20260324    gcc-13.4.0
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    gcc-15.2.0
-hexagon                           allnoconfig    gcc-15.2.0
-hexagon                             defconfig    gcc-15.2.0
-hexagon               randconfig-001-20260324    gcc-11.5.0
-hexagon               randconfig-002-20260324    gcc-11.5.0
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    gcc-15.2.0
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20260324    gcc-12
-i386        buildonly-randconfig-002-20260324    gcc-12
-i386        buildonly-randconfig-003-20260324    gcc-12
-i386        buildonly-randconfig-004-20260324    gcc-12
-i386        buildonly-randconfig-005-20260324    gcc-12
-i386        buildonly-randconfig-006-20260324    gcc-12
-i386                                defconfig    gcc-15.2.0
-i386                  randconfig-001-20260324    clang-20
-i386                  randconfig-002-20260324    clang-20
-i386                  randconfig-003-20260324    clang-20
-i386                  randconfig-004-20260324    clang-20
-i386                  randconfig-005-20260324    clang-20
-i386                  randconfig-006-20260324    clang-20
-i386                  randconfig-007-20260324    clang-20
-i386                  randconfig-011-20260324    gcc-13
-i386                  randconfig-012-20260324    gcc-13
-i386                  randconfig-013-20260324    gcc-13
-i386                  randconfig-014-20260324    gcc-13
-i386                  randconfig-015-20260324    gcc-13
-i386                  randconfig-016-20260324    gcc-13
-i386                  randconfig-017-20260324    gcc-13
-loongarch                        allmodconfig    clang-23
-loongarch                         allnoconfig    gcc-15.2.0
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20260324    gcc-11.5.0
-loongarch             randconfig-002-20260324    gcc-11.5.0
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    clang-16
-m68k                                defconfig    clang-19
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-microblaze                          defconfig    clang-19
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-mips                           mtx1_defconfig    clang-23
-mips                          rb532_defconfig    clang-18
-nios2                            allmodconfig    clang-23
-nios2                            allmodconfig    gcc-11.5.0
-nios2                             allnoconfig    clang-23
-nios2                               defconfig    clang-19
-nios2                 randconfig-001-20260324    gcc-11.5.0
-nios2                 randconfig-002-20260324    gcc-11.5.0
-openrisc                         allmodconfig    clang-23
-openrisc                         allmodconfig    gcc-15.2.0
-openrisc                          allnoconfig    clang-23
-openrisc                            defconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    clang-23
-parisc                           allyesconfig    clang-19
-parisc                              defconfig    gcc-15.2.0
-parisc                randconfig-001-20260324    gcc-8.5.0
-parisc                randconfig-002-20260324    gcc-8.5.0
-parisc64                            defconfig    clang-19
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    clang-23
-powerpc               randconfig-001-20260324    gcc-8.5.0
-powerpc               randconfig-002-20260324    gcc-8.5.0
-powerpc                  storcenter_defconfig    gcc-15.2.0
-powerpc64             randconfig-001-20260324    gcc-8.5.0
-powerpc64             randconfig-002-20260324    gcc-8.5.0
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    clang-23
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    gcc-15.2.0
-riscv                 randconfig-001-20260324    clang-23
-riscv                 randconfig-002-20260324    clang-23
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-15.2.0
-s390                                defconfig    gcc-15.2.0
-s390                  randconfig-001-20260324    clang-23
-s390                  randconfig-002-20260324    clang-23
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    clang-23
-sh                               allyesconfig    clang-19
-sh                                  defconfig    gcc-14
-sh                    randconfig-001-20260324    clang-23
-sh                    randconfig-002-20260324    clang-23
-sparc                             allnoconfig    clang-23
-sparc                               defconfig    gcc-15.2.0
-sparc                 randconfig-001-20260324    gcc-14
-sparc                 randconfig-002-20260324    gcc-14
-sparc64                          allmodconfig    clang-23
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260324    gcc-14
-sparc64               randconfig-002-20260324    gcc-14
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-14
-um                               allyesconfig    gcc-15.2.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260324    gcc-14
-um                    randconfig-002-20260324    gcc-14
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-23
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20260324    gcc-14
-x86_64      buildonly-randconfig-002-20260324    gcc-14
-x86_64      buildonly-randconfig-003-20260324    gcc-14
-x86_64      buildonly-randconfig-004-20260324    gcc-14
-x86_64      buildonly-randconfig-005-20260324    gcc-14
-x86_64      buildonly-randconfig-006-20260324    gcc-14
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20260324    clang-20
-x86_64                randconfig-002-20260324    clang-20
-x86_64                randconfig-003-20260324    clang-20
-x86_64                randconfig-004-20260324    clang-20
-x86_64                randconfig-005-20260324    clang-20
-x86_64                randconfig-006-20260324    clang-20
-x86_64                randconfig-011-20260324    gcc-14
-x86_64                randconfig-012-20260324    gcc-14
-x86_64                randconfig-013-20260324    gcc-14
-x86_64                randconfig-014-20260324    gcc-14
-x86_64                randconfig-015-20260324    gcc-14
-x86_64                randconfig-016-20260324    gcc-14
-x86_64                randconfig-071-20260324    gcc-12
-x86_64                randconfig-072-20260324    gcc-12
-x86_64                randconfig-073-20260324    gcc-12
-x86_64                randconfig-074-20260324    gcc-12
-x86_64                randconfig-075-20260324    gcc-12
-x86_64                randconfig-076-20260324    gcc-12
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    clang-23
-xtensa                           allyesconfig    clang-23
-xtensa                randconfig-001-20260324    gcc-14
-xtensa                randconfig-002-20260324    gcc-14
+I looked at the downstream code that you linked to and it litters the
+invalidation in the callers via mpp_iommu_flush_tlb(), which tend to
+invalidate _before_ starting an operation. That's very likely buggy and
+certainly not something we want upstream.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+The unmap routine should do the invalidation so that, when it returns,
+the pages really are unmapped from the device (assuming strict mode).
+
+I know you said that you tried to add invalidation here and it "didn't
+work", but that's not something I can really help you with.
+
+Will
 
