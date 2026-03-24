@@ -1,138 +1,169 @@
-Return-Path: <linux-media+bounces-56836-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56838-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mKGADilfwmmecAQAu9opvQ
-	(envelope-from <linux-media+bounces-56836-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:53:45 +0100
+	id MNKHGz5iwmmecAQAu9opvQ
+	(envelope-from <linux-media+bounces-56838-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 11:06:54 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98651305F7C
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 10:53:44 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D3F30633E
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 11:06:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7B449303B142
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 09:46:58 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 62157306975C
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 09:55:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5DCE37187C;
-	Tue, 24 Mar 2026 09:46:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FEF73DFC84;
+	Tue, 24 Mar 2026 09:55:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="E1EOoVFq"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="CQS24YV8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463EE3DDDAA;
-	Tue, 24 Mar 2026 09:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E643DDDD2;
+	Tue, 24 Mar 2026 09:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774345614; cv=none; b=WxhNarPjs7HFpLV2fFeBlqnWrjczRvxEnTRIQTLTya36R8EQjy6K2EbX8t/sTsJyWcbSIWnJSzA36NcobB2/xQnd+DgDwhS9YTV0hyhoaxuPnPOJGMSm8/4jEMKuZVAa+en+FIOHPQR1qQXwOtSZiCDBcum2Gxf/TQNJKVygmuM=
+	t=1774346138; cv=none; b=nqL7sY1L+hIQqtT74ULbV6mTOAKzE0gYDsyI3YUe+8NrztcqhKgUnWDW6c0ZWMPmJsSVVnne73okPXQJ0fzOsF79/gE2iUCGcQF22jUBVer2uRj+xzovg4DlPd5HvL6bQKnblQCslDBdcu2NBpL+TswZRrBU1wU0k2CCgmaIlUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774345614; c=relaxed/simple;
-	bh=BcODXoQlJ1DFAkNcgiG6uPX6+uutgiyM2xoSaFfQjCc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W/flzk0IvZx7kvWfhKU2efm+7y4UWVE2i4HmeFBba9GqLs6f114+N6i31ur5qPtpHswtLvDORs51cJT+syjegkltlWYz2JG/cisp0ENNUpqw/yCqgaLSaKJH1w5xb4SnLTZL1VYoG4NvpJ6Zuo+sJvRfx/vKqyMaH8pARDKWzuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=E1EOoVFq; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1774345610;
-	bh=BcODXoQlJ1DFAkNcgiG6uPX6+uutgiyM2xoSaFfQjCc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=E1EOoVFqk7hSh/rshO7Pa1QiIU0Du1HE7HQfvvtfsyQ6zzNEPkAy5l7bfcdo69RiD
-	 YtRGgkWq1GMUSoT23DQKLNQzLdTcJC2tUsVkcCAP2XN7C14srnElu06hy/eHjqk2UP
-	 AkECqguGwZUS+BxoPghVSrSg9wTX+M09VbOTF0SP9hiIB6+ykl1iQ8uYBTnkPAF6U3
-	 lU+8Ohxe9KMmIcDs2NwfcsxnS8qd3iHZGExmhR2/PD7FdBITOAGQ1sK12tU7XvFbgV
-	 zUjUHRU6KPTbCS47GA/eWBiw2IbPoLwkE2w+EVdYQKwY/N67rDnnewv4fTfSu33d8a
-	 ilpRq+sMx/IOQ==
-Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E8D1717E4BCD;
-	Tue, 24 Mar 2026 10:46:49 +0100 (CET)
-Message-ID: <08e6b649-61ac-4059-a914-c537b5c4da7e@collabora.com>
-Date: Tue, 24 Mar 2026 10:46:49 +0100
+	s=arc-20240116; t=1774346138; c=relaxed/simple;
+	bh=SvcMeguSRkWrLxMP69EzttgFFrHoKqRHj37zkRnISQc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G0Qjwgtypq0GSeODa+n0IQwzHHc8WJ7b7seuOVcaKYE8Gy7lB968O4l+ksf/c4ifN+O4qsOoMOZoaHBDdIhAoTJyofBn7dsirxXcXABOPXbgl6JEWECrsQkmMERW1Ox7d2js8JKcbNVcysSCYaprJmWIyTLXShPCuVDUZUdbBTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=CQS24YV8; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 97b5824a276711f1a39cd589f645bc18-20260324
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=R+HKfYoQgsNwD7jVdncT8/msTLWuYCDRN7Wa25YoGP0=;
+	b=CQS24YV84Nsc87F4gcqzyVaypGVLURPBDED+DEf3bkpjhtl1+t4VsSSSp2h0LJkbb5d6vRLrid0YZAXJ7mgjvRvWh/gqlqk1uAnKu+ZketPOkjrfUH/qMfB30dv4PJdWnebeSnPvbtuCrLb3IKQys6JPuu3iATz4xDLEZPVd8QM=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:421da3a0-0a25-4387-93d7-bcf45638ccd8,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:50c364e0-cf51-4058-942d-ef4f058f9afa,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102|836|888|898,TC:-5,Content:0|15|5
+	0,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:-1,COL:0,OSI:0,OSA
+	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 97b5824a276711f1a39cd589f645bc18-20260324
+Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw02.mediatek.com
+	(envelope-from <jianhua.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 649656606; Tue, 24 Mar 2026 17:55:30 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Tue, 24 Mar 2026 17:55:28 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.2562.29 via Frontend Transport; Tue, 24 Mar 2026 17:55:27 +0800
+From: Jianhua Lin <jianhua.lin@mediatek.com>
+To: <nicolas@ndufresne.ca>, <mchehab@kernel.org>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <matthias.bgg@gmail.com>,
+	<angelogioacchino.delregno@collabora.com>
+CC: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<sirius.wang@mediatek.com>, <vince-wl.liu@mediatek.com>,
+	<jh.hsu@mediatek.com>, Jianhua Lin <jianhua.lin@mediatek.com>
+Subject: [PATCH v4 0/3] Mediatek MT8189 JPEG support
+Date: Tue, 24 Mar 2026 17:54:52 +0800
+Message-ID: <20260324095455.1437-1-jianhua.lin@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] media: synopsys: Add imx93 support
-To: Sakari Ailus <sakari.ailus@iki.fi>, Frank Li <Frank.li@nxp.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- Guoniu Zhou <guoniu.zhou@oss.nxp.com>, imx@lists.linux.dev
-References: <20260210-imx93-dw-csi2-v1-0-69667bb86bfa@nxp.com>
- <acGQNIUKqfh8eWNB@lizhi-Precision-Tower-5810>
- <acJI3wYnl8_g4WpO@valkosipuli.retiisi.eu>
-Content-Language: en-US
-From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <acJI3wYnl8_g4WpO@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mediatek.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[mediatek.com:s=dk];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56836-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[ndufresne.ca,kernel.org,gmail.com,collabora.com];
 	RCPT_COUNT_TWELVE(0.00)[17];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56838-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[michael.riesch@collabora.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 98651305F7C
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jianhua.lin@mediatek.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[mediatek.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mediatek.com:dkim,mediatek.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 86D3F30633E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi all,
+This series is based on tag: next-20260320, linux-next/master
 
-On 3/24/26 09:18, Sakari Ailus wrote:
-> On Mon, Mar 23, 2026 at 03:10:44PM -0400, Frank Li wrote:
->> On Tue, Feb 10, 2026 at 12:11:07PM -0500, Frank Li wrote:
->>> This 3rd time try to support DW CSI2RX support for imx93.
->>>
->>
->> Laurent Pinchart and Sakari Ailus:
->>
->> 	I am not who will take care this patch?
->> 	original drivers/media/platform/synopsys/dw-mipi-csi2rx.c picked
->> by Sakari Ailus
-> 
-> Michael seems to have questions on the last patch, too.
+Changes compared with v3:
+- The v4 is resending the cover-letter, because the v3 cover-letter was
+  not sent successfully.
 
-I.. don't.. think so. After digging a bit in my memory and lore, I found
-a v3 of that series with my Reviewed-by [0]
+Changes compared with v2:
+- Dropped the dts patch (arm64: dts: mt8188: update JPEG encoder/decoder
+  compatible) as it belongs to a different tree/series.
+- Patches 1/3 (dt-bindings: decoder):
+  - Changed the MT8189 compatible to be a standalone `const` instead of
+    an `enum`.
+  - Added an `allOf` block with conditional checks to enforce the single
+    clock ("jpgdec") requirement for MT8189, while preserving the
+    two-clock requirement for older SoCs.
+  - Updated commit message to reflect the schema structure changes and
+    hardware differences.
+- Patches 2/3 (dt-bindings: encoder):
+  - Changed the MT8189 compatible to be a standalone `const` instead of
+    an `enum` inside the `items` list, as it does not fallback to
+    "mediatek,mtk-jpgenc" due to 34-bit IOVA requirements.
+  - Updated commit message to explain the standalone compatible design.
+- Patches 3/3 (media: mediatek: jpeg):
+  - Refined commit message for better clarity regarding 34-bit IOVA and
+    single clock configuration.
 
-[0]
-https://lore.kernel.org/all/20260216-imx93-dw-csi2-v3-0-aabafee10923@nxp.com/
+Changes compared with v1:
+- Patches 1/4:
+  - Updating commit message
+- Patches 2/4, 3/4: 
+  - Updating commit message
+  - Adjusted property descriptions acorrding to hardware requirements
+  - Improved formatting for better readability and consistency
+- Patches 4/4:
+  - Updating commit message
 
-Best regards,
-Michael
+Jianhua Lin (3):
+  dt-bindings: media: mediatek-jpeg-decoder: add MT8189 compatible
+    string
+  dt-bindings: media: mediatek-jpeg-encoder: add MT8189 compatible
+    string
+  media: mediatek: jpeg: add compatible for MT8189 SoC
+
+ .../bindings/media/mediatek-jpeg-decoder.yaml | 39 +++++++++++++---
+ .../bindings/media/mediatek-jpeg-encoder.yaml | 20 ++++++---
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 44 +++++++++++++++++++
+ 3 files changed, 91 insertions(+), 12 deletions(-)
+
+-- 
+2.46.0
 
 
