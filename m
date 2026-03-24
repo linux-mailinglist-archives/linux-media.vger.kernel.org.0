@@ -1,127 +1,132 @@
-Return-Path: <linux-media+bounces-56797-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56798-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kFYWHBACwmkjYwQAu9opvQ
-	(envelope-from <linux-media+bounces-56797-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 04:16:32 +0100
+	id 2Lm6CMgIwmlBZAQAu9opvQ
+	(envelope-from <linux-media+bounces-56798-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 04:45:12 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8185301A14
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 04:16:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F00301CD9
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 04:45:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B7C3D307F261
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 03:13:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E5E3D3105F25
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 03:42:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C60338A704;
-	Tue, 24 Mar 2026 03:13:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B80963A0E8A;
+	Tue, 24 Mar 2026 03:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F6/5/HZl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAEBE26CE2C;
-	Tue, 24 Mar 2026 03:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163DD39F192;
+	Tue, 24 Mar 2026 03:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774322028; cv=none; b=TEjnINKt02+ItnAni/22MqLe99rvSAquEYO0DlKaqf51R5IbPKFcxdPyD1RfApJfQUmAZHfaYHZaRTwZ0daM+v3Jt/Ex5aFUg8Y+jv4AB13AHcJWjY7TEPd0u1DMXFWn0y3R5WrCO4VkbAdW0eUANZbJpvEZ5iPxf2nK4/UkM0Y=
+	t=1774323737; cv=none; b=kHeETLeDHJmT/3FA5ZVVyh5xwEPOoqHhQ63w/z/KAcyfhOhqxpvxuH6NOjbCWd7MAyoC5ryeqTrlaivTV1JIDpPKMeepQmPULxPPirRaXxneG9Aoo76H78dKIvKDwZg3Ld+tc/xQi+wuZ/YnllnsT+dvZ5HfjlH/FNu1DLxw8HE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774322028; c=relaxed/simple;
-	bh=Dh3a6rkGrtRZBTSKE+L1RCYdXOxa9Sxo5kTh1jN+xbc=;
+	s=arc-20240116; t=1774323737; c=relaxed/simple;
+	bh=1RQSZ/eC9essIbPGdgGsoMnSL85ywRErC/Ci9wpgfeo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dR/61GtSmBZzNeDsO7U2pdesW79IHzJ3k1IQMoBbyrHtmXG6hdP5gL6xeWGr+MLNX08qHRxxxwhMxeqXgs6pwPqbECFmwhWIwnkGAMK9q45iqxEWGl/CRyVEyDDhUl+82mv80YbRenOCDA+Cv3EvkGeo9UEiFnJb0yYKruTKp2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.197])
-	by APP-05 (Coremail) with SMTP id zQCowACHGw9WAcJpC3RLCw--.5007S2;
-	Tue, 24 Mar 2026 11:13:34 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: mchehab@kernel.org
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	hverkuil@kernel.org,
-	nicolas.dufresne@collabora.com,
-	sakari.ailus@linux.intel.com,
-	laurent.pinchart@ideasonboard.com,
-	opensource206@gmail.com,
-	jernej.skrabec@gmail.com,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	llvm@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: v4l2-ctrls: validate HEVC slice reference lists
-Date: Tue, 24 Mar 2026 11:13:26 +0800
-Message-ID: <20260324031326.7275-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260323083031.30941-1-pengpeng@iscas.ac.cn>
-References: <20260323083031.30941-1-pengpeng@iscas.ac.cn>
+	 MIME-Version:Content-Type; b=pbFdQNgNx8P5HWketthV0MOvXeeAQliNJY2coq9HytsBSq5RxWqXc0sdx2GYxhS6i05bLmcFAwv8B8vONZRaXGWUpGihQxy8Djl2Y1AK/DIyCWrCbdhL8fJchvgWJc9Ks3UTNutHxe8dwyfSOSK0WBcGZQSaWz+GmYWcJelTM38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F6/5/HZl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 557C6C2BCB6;
+	Tue, 24 Mar 2026 03:42:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774323736;
+	bh=1RQSZ/eC9essIbPGdgGsoMnSL85ywRErC/Ci9wpgfeo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=F6/5/HZlqAcDmODucJTKiyu5zONy8FXCxPTNZ99h9hRm1qZJsqCldNUye0Aux5+6v
+	 ogSfb3CqXsXN8i3oWsdq+VDQJCyKBK4xH34hZsZON9QMgGH0lwGDLjfvZpi8tutyBy
+	 vNW4+DcebHN2nc4CrD2AQLqDfSJPpVVZ5lkDpelmFT7ftm4lxo1dw9Q4LcF4H8ZyFk
+	 J0oeLYjucKfylc+zDz683eVGuTqlxWph6Rt6Y8tC/iBK7uubol/gXSUF3RKiVnEV87
+	 sgrzdwJ6/goAXmAljVR8wikahw8qIrr9fDG4AofRlsMCFvb3i/XcQIwi9o/ixcXcmf
+	 E0gM0GeMDpIag==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bod@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	cros-qcom-dts-watchers@chromium.org,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Stephan Gerhold <stephan.gerhold@linaro.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH v4 0/5] media: qcom: flip the switch between Venus and Iris drivers
+Date: Mon, 23 Mar 2026 22:42:02 -0500
+Message-ID: <177432372685.35532.7488465406897095432.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260131-venus-iris-flip-switch-v4-0-e10b886771e1@oss.qualcomm.com>
+References: <20260131-venus-iris-flip-switch-v4-0-e10b886771e1@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowACHGw9WAcJpC3RLCw--.5007S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYB7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
-	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
-	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8I
-	cVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2js
-	IEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE
-	5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeV
-	CFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l
-	FIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4c8EcI0Ec7CjxVAaw2AFwI
-	0_Jw0_GFyl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
-	6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
-	vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
-	42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
-	kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUF9a9DUUUU
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
-X-Spamd-Result: default: False [1.54 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56797-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[iscas.ac.cn];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[iscas.ac.cn,kernel.org,collabora.com,linux.intel.com,ideasonboard.com,gmail.com,intel.com,lists.linux.dev,vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-56798-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.996];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,iscas.ac.cn:mid]
-X-Rspamd-Queue-Id: C8185301A14
+	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B7F00301CD9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Nicolas,
 
-Thanks, this makes sense.
+On Sat, 31 Jan 2026 15:58:49 +0200, Dmitry Baryshkov wrote:
+> As the Venus and Iris drivers are close to the "feature parity" for the
+> common platforms (SC7280, SM8250), in order to get more attention to
+> squashing bugs from the Iris driver, flip the switch and default to the
+> Iris driver if both are enabled. The Iris driver has several
+> regressions, but hopefully they can be fixed through the development
+> cycle by the respective team. Also it is better to fail the test than
+> crash the device (which Venus driver does a lot).
+> 
+> [...]
 
-You are right that rejecting ref_idx_l0/ref_idx_l1 values in the common
-validation path would be a breaking change, since existing userspace may
-pass out-of-range sentinel values such as 0xff for missing references.
+Applied, thanks!
 
-I respun this by keeping only the active L0/L1 reference count checks in
-common code. I also fixed the missing `p_hevc_slice_params`
-declaration that caused the build failure reported by lkp.
+[1/5] arm64: dts: qcom: sc7280-chrome-common: disable Venus
+      commit: a9ca757518f35f336c43c5bc3b36856dd8d1ce54
 
 Best regards,
-Pengpeng
-
+-- 
+Bjorn Andersson <andersson@kernel.org>
 
