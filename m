@@ -1,223 +1,165 @@
-Return-Path: <linux-media+bounces-56777-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56778-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ONYACqXSwWk9XAQAu9opvQ
-	(envelope-from <linux-media+bounces-56777-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 00:54:13 +0100
+	id OAgtJLjYwWkaXQQAu9opvQ
+	(envelope-from <linux-media+bounces-56778-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 01:20:08 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C32C2FF173
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 00:54:12 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D922FF8F6
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 01:20:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CADD2305F3D1
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2026 23:52:51 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 96DD3302DE64
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 00:15:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0A80381B06;
-	Mon, 23 Mar 2026 23:52:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83B6D1FC0FC;
+	Tue, 24 Mar 2026 00:15:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="J5A2fJRz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oIODlUvH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEFD2C2374;
-	Mon, 23 Mar 2026 23:52:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C05157487
+	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 00:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774309970; cv=none; b=LxFkXiMaJpqiOa32MCcV+1DmR/azOSy0qnGwS7OABgnXLBIRJmTi7ghMx3f/Q3OgrNSix5ReWcx2MmuBo/ZNO9gSIrMfZ6pKy7lx08ZJM7uGbI7ZjCetM841td8d0hEs4JIHRPCfFixkRxkbENxbheB2M2Jy7CixO8itV7/ZnFw=
+	t=1774311335; cv=none; b=NOwdlqzmRL1XciSYdPSkggjniVttlfuNDjapadaK+oCUKz71DrBZ+8QxqiXwASWe2Oz55+PIbLMqGkeymsUIcuYSLyi4Xp26xn+WPZJO6AAz60bZEnpO78Phre7p5yW7z7DxcUqXCu2jzGjSyHlGdPO7j7LveHcHTjFaEmL8TX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774309970; c=relaxed/simple;
-	bh=8NOTqTm6GBIgnbyNEwFerZ3BM38VpLsHMWVyEESeMCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kP/kScQY8+G1hGG4F2R9VSseUqO+YYz83onscBysvB1hUKzbBut22RPKmMF9IQxAgsXTFN4dyiN5RwG1ubvFBI0+gWo2EEvdhhc4zn0WhS8U4r+KEm6xzRmAJ7KykgK5ca6miqvO76hHYdf8tquz09L3nkyYBJAqNdTyaEJf2iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=J5A2fJRz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id BF436741;
-	Tue, 24 Mar 2026 00:51:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1774309889;
-	bh=8NOTqTm6GBIgnbyNEwFerZ3BM38VpLsHMWVyEESeMCI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J5A2fJRzbzJmX9kWnxnS7mWlTBHodzO5TC4GaB77vQJTPW9J8vtD9XsjrmObjE+IO
-	 ll35RCSljDWVVh9iL8zZdDB1qhmbLrxt0CkHxx4SR0CU+28pES1mLdgMjUpjRkeTPT
-	 bQi9HdUs1Y8Yb6srFearv8IEJGBwV0rQqZRwhgTs=
-Date: Tue, 24 Mar 2026 01:52:45 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sean Anderson <sean.anderson@linux.dev>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
-Subject: Re: [PATCH v2] media: uvcvideo: Fix deadlock if uvc_status_stop is
- called from async_ctrl.work
-Message-ID: <20260323235245.GB2334070@killaraus.ideasonboard.com>
-References: <20260316155823.1855434-1-sean.anderson@linux.dev>
+	s=arc-20240116; t=1774311335; c=relaxed/simple;
+	bh=0XnIeuoBL9/zpFJ9cjYmpYoAHPbJ65gaVNc4WrpxdSs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MNiOpPupyi0Ia+16HSHVdJGl/wIF1249FQMbAcDnstErdov+Krek/qFDRX3ZpHYnTbz67FbIOm+zVYGY3RIjlq3MTenma1Slpc9/gP9e6o5T9uWx1I01DjklQXrdUivlbH+5it5BpADJ+iW/phYfmPeE82n8ViZHBWq4XRnu3c4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oIODlUvH; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2adbfab4501so14366835ad.2
+        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2026 17:15:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774311332; x=1774916132; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Imw73KIsNf6XGciGB5JMzoOm9TnS1SfksK0UHAy+nUY=;
+        b=oIODlUvHPYStJ46zRgCxkaII19XcypUEq8R7q56RKVAJmvw+0AUUWrXClKQtIsgFAN
+         uMy9LQKXIQThuhb2Vc0H9tGzAV3nzTeTQTlYcI4+qUkN4/Ilzv37dXckIxtV7AEF4S/S
+         3dMXjIPyfghiDDba+J6Uj8Jjr/6YCEZ+Frj/mZQj2HkWZ4me9HkW1CGaWyhG+VX6LkmG
+         YISMmAgJflFOY29WPqwU+icat/thCcmbpMm3rvPHmR5HjP23OLLc05gj2EEccNusEu6L
+         74gmNotVk8dBljoM6FZpC5Y7vUYZHFDv6gE0w0aoA8or0jOPeqxxQ/q25LCpbh2YLa4S
+         IK7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774311332; x=1774916132;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Imw73KIsNf6XGciGB5JMzoOm9TnS1SfksK0UHAy+nUY=;
+        b=hjXIdzcFubVIoT82s6x34YtuVOzKxiisD0rdRNpaPPcYFE45bRAA9zU1Pld/j7rIh4
+         clS+RGNDNBvKjpbFCDcTaZzNt2l7y5bWOt3yTSZ4plMebcjSOFyr45KiGgd+o0F32pYa
+         xWzB6q8UMsu6alMU7YVBnzQFz6jtRYjV64WXXkAsYu47+8pg237yQ6bAkR3vBXt34kNj
+         yKt/bg2rNiTYpLWPJm3EY68/duaZ+m8hjjsGCyGjNtRuiHTOUAtaVODAIJ8Bm1BWpA5u
+         qtRb/DI0nvga8y/g4vZDEVm1C0pza4XJRzekS1QcsX2i8q1hzLCxNrVZTiMIO3IpBxyM
+         /7/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXLRUJek4qxm1GhgLshaleZPylsqikCGWQX0LsoIrJb21NFaHv9TI5l8dIyLtxIHNsLQXm5hLs43Hh5QA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBflX+4V04Wt4DxRDE/0yMMgdfeQ9Rb1bFnZ7q1bxhi+gOudLf
+	hPdaLKZB+v6ZEC4BuL/r4/uWjXEDiaijAD37OX3oEkNz8q9Pj7A+ypM7
+X-Gm-Gg: ATEYQzxTNNpGCWUDBNcm/F0ZoP3LvpXOHwnNHQWu3fOE14WhOiRjI6eKTtfFAVJFibU
+	i+9sfdZBb1Sdcx4Q+Y3UpbZBlFmfkpl0ZqEez29UwLBOsX1oLM80TDo3Y6IzFKaYnJewPhfd/LI
+	2jd0CxCAujyuLOkn+pR2NpKThsYvLp6Tn5b+/gICYX0NbS+h6LBE5WMiTrJSJAgUgp2AqM6MSSP
+	VMSaqJDR6W9I0qurfWBp4h9y67vOqr5tAC43cfEAz2z9VBhh85KkCnmFynaB6RsIyNC1Xqk092J
+	yGPFd7Xjijvt15dX9iC8gEPiNwMUHcWDZCM0MyqZ1eoZjLP6KOKmFzrUtCzRcOvNFfYZkCicWY8
+	sZRbKwe3J4Tsq+WWc8iWUh2O1Ts8iHhsOSh6l3fMLfo5YBJlgxRQp3xW5/DSBdgpvsPL54jwhGT
+	BauLf8/d6sPDLdFLjY/452JYYQ2Eh5brnAvR9rAhoGCQSnh0N7LXE2tGgKKgzXEVc7DiKM8AcDd
+	tEjTg==
+X-Received: by 2002:a17:902:cece:b0:2ae:c816:ec5d with SMTP id d9443c01a7336-2b0827a76b6mr146735815ad.32.1774311332075;
+        Mon, 23 Mar 2026 17:15:32 -0700 (PDT)
+Received: from deepanshu-kernel-hacker.. ([2405:201:682f:389d:62d5:79a:7a92:c774])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08353e94asm121799435ad.25.2026.03.23.17.15.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 17:15:31 -0700 (PDT)
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+To: mchehab@kernel.org
+Cc: harperchen1110@gmail.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>,
+	syzbot+64485d3659c4c07111b4@syzkaller.appspotmail.com,
+	Deepanshu Kartikey <Kartikey406@gmail.com>
+Subject: [PATCH] media: ec168: fix slab-out-of-bounds in ec168_i2c_xfer
+Date: Tue, 24 Mar 2026 05:45:23 +0530
+Message-ID: <20260324001523.1446434-1-kartikey406@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260316155823.1855434-1-sean.anderson@linux.dev>
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56777-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,syzkaller.appspotmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-56778-lists,linux-media=lfdr.de];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[kartikey406@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.dev:email,killaraus.ideasonboard.com:mid]
-X-Rspamd-Queue-Id: 7C32C2FF173
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,64485d3659c4c07111b4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,appspotmail.com:email,syzkaller.appspot.com:url]
+X-Rspamd-Queue-Id: 35D922FF8F6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Sean,
+The WRITE_DEMOD path in ec168_i2c_xfer() checks msg[i].len < 1
+before accessing the buffer, but then reads both buf[0] (register)
+and buf[1] (value). If userspace supplies a 1-byte I2C message,
+the read of buf[1] goes out of bounds, triggering a KASAN
+slab-out-of-bounds error.
 
-Thank you for the patch.
+Fix by checking msg[i].len < 2 and returning -EOPNOTSUPP if the
+buffer is too short to contain both register and value bytes.
 
-On Mon, Mar 16, 2026 at 11:58:22AM -0400, Sean Anderson wrote:
-> If a UVC camera has an asynchronous control, uvc_status_stop may be
-> called from async_ctrl.work:
-> 
-> uvc_ctrl_status_event_work()
->     uvc_ctrl_status_event()
->         uvc_ctrl_clear_handle()
-> 	    uvc_pm_put()
-> 	        uvc_status_put()
-> 		    uvc_status_stop()
-> 		        cancel_work_sync()
-> 
-> This will cause a deadlock, since cancel_work_sync will wait for
-> uvc_ctrl_status_event_work to complete before returning.
-> 
-> Fix this by returning early from uvc_status_stop if we are currently in
-> the work function. flush_status now remains false until uvc_status_start
-> is called again, ensuring that uvc_ctrl_status_event_work won't resubmit
-> the URB.
-> 
-> Fixes: a32d9c41bdb8 ("media: uvcvideo: Make power management granular")
-> Closes: https://lore.kernel.org/all/6733bdfb-3e88-479f-8956-ab09c04c433e@linux.dev/
-> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
-> ---
-> 
-> Changes in v2:
-> - Update comments with review feedback
-> - Use flush_work instead of cancel_work_sync since the work should never
->   be rescheduled.
-> 
->  drivers/media/usb/uvc/uvc_status.c | 27 ++++++++++++++++++---------
->  1 file changed, 18 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-> index 231cfee8e7c2c..ea45b11642e59 100644
-> --- a/drivers/media/usb/uvc/uvc_status.c
-> +++ b/drivers/media/usb/uvc/uvc_status.c
-> @@ -316,6 +316,15 @@ static int uvc_status_start(struct uvc_device *dev, gfp_t flags)
->  	if (!dev->int_urb)
->  		return 0;
->  
-> +	/*
-> +	 * If the work called uvc_status_stop it may still be running. Wait for
-> +	 * it to finish before we submit the urb.
-> +	 */
-> +	flush_work(&dev->async_ctrl.work);
+Fixes: a6dcefcc08ec ("media: dvb-usb-v2: ec168: fix null-ptr-deref in ec168_i2c_xfer()")
+Reported-by: syzbot+64485d3659c4c07111b4@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=64485d3659c4c07111b4
+Tested-by: syzbot+64485d3659c4c07111b4@syzkaller.appspotmail.com
+Signed-off-by: Deepanshu Kartikey <Kartikey406@gmail.com>
+---
+ drivers/media/usb/dvb-usb-v2/ec168.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I assume the only way this can happen is for uvc_status_start() to run
-after the uvc_status_put() call in
-
-uvc_ctrl_status_event_work()
-    uvc_ctrl_status_event()
-        uvc_ctrl_clear_handle()
-	    uvc_pm_put()
-	        uvc_status_put()
-
-returns. Is that right ? If so I'd like to capture that better in the
-comment, as I have a feeling we'll need to revisit this code at some
-point.
-
-	/*
-	 * If the previous uvc_status_stop() call was from the async work, the
-	 * work may still be running. Wait for it to finish before we submit the
-	 * urb.
-	 */
-
-And if that's not correct, there's something I don't get and a better
-comment is even more important :-)
-
-If the above change is fine, I can update the comment when applying, and
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-This being said, I wonder if we could have a simpler implementation if
-we always stopped the work and URB when the last userspace user goes
-away, instead of keeping the device active until we get the asynchronous
-control notification.
-
-> +
-> +	/* Clear the flush status if we were previously stopped. */
-> +	smp_store_release(&dev->flush_status, false);
-> +
->  	return usb_submit_urb(dev->int_urb, flags);
->  }
->  
-> @@ -336,6 +345,15 @@ static void uvc_status_stop(struct uvc_device *dev)
->  	 */
->  	smp_store_release(&dev->flush_status, true);
->  
-> +	/*
-> +	 * If we are called from the event work function, the URB is guaranteed
-> +	 * to not be in flight as it has completed and has not been resubmitted.
-> +	 * There's no need to cancel the work (which would deadlock), or to kill
-> +	 * the URB.
-> +	 */
-> +	if (current_work() == &w->work)
-> +		return;
-> +
->  	/*
->  	 * Cancel any pending asynchronous work. If any status event was queued,
->  	 * process it synchronously.
-> @@ -354,15 +372,6 @@ static void uvc_status_stop(struct uvc_device *dev)
->  	 */
->  	if (cancel_work_sync(&w->work))
->  		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
-> -
-> -	/*
-> -	 * From this point, there are no events on the queue and the status URB
-> -	 * is dead. No events will be queued until uvc_status_start() is called.
-> -	 * The barrier is needed to make sure that flush_status is visible to
-> -	 * uvc_ctrl_status_event_work() when uvc_status_start() will be called
-> -	 * again.
-> -	 */
-> -	smp_store_release(&dev->flush_status, false);
->  }
->  
->  int uvc_status_resume(struct uvc_device *dev)
-
+diff --git a/drivers/media/usb/dvb-usb-v2/ec168.c b/drivers/media/usb/dvb-usb-v2/ec168.c
+index 973b32356b17..ebfb02826b20 100644
+--- a/drivers/media/usb/dvb-usb-v2/ec168.c
++++ b/drivers/media/usb/dvb-usb-v2/ec168.c
+@@ -135,7 +135,7 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+ 			}
+ 		} else {
+ 			if (msg[i].addr == ec168_ec100_config.demod_address) {
+-				if (msg[i].len < 1) {
++				if (msg[i].len < 2) {
+ 					i = -EOPNOTSUPP;
+ 					break;
+ 				}
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
 
