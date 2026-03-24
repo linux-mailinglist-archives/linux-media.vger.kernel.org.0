@@ -1,215 +1,226 @@
-Return-Path: <linux-media+bounces-56897-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56898-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EPVqNejLwmkBmQQAu9opvQ
-	(envelope-from <linux-media+bounces-56897-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 18:37:44 +0100
+	id oAsEN+zNwmkBmQQAu9opvQ
+	(envelope-from <linux-media+bounces-56898-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 18:46:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C87031A242
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 18:37:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 180DA31A3DB
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 18:46:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 863C83034335
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 17:36:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B2BED308C5EF
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 17:39:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4658840759E;
-	Tue, 24 Mar 2026 17:36:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0637D407587;
+	Tue, 24 Mar 2026 17:39:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hScnfrxT"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Jv4m2hq1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B8E3EFD3D
-	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 17:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774373797; cv=pass; b=rI4iAWIl4SxDmWwue5au1OpV7fJ+1VXKGiyCg/K3iT1gv+QgFEWKjwSaDg1SCbIlmAF2rK7aYkk7ePfUWkF9y3S5dt8ycK/mSJgih31qifd4X8us9+J279Gio2WBIftC5018OTp90XQFNyVgneiW8N7XHqgxIbPEyxkohU+R0fA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774373797; c=relaxed/simple;
-	bh=QKH3FIlHUJB8Q1byrwVmEses+K6AxcmCpK6mo9PTNmI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Okj0d0uzW+ZRfjK0rcOcpuccAB5kcapJwqiKcfAxSjebTaRyiWUfKBwNc56X/KjZb7oL25MFMQzDtNf4SrB+YbbcxDMg99qldUPj24C/YcNtgBp22TkxQ3uQgaDWPb2W4+v51m5lcMyA76V4dnQ2BkwcOBbOZZX7qbPxWJxLkiY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hScnfrxT; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-509062d829dso40071cf.1
-        for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 10:36:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774373795; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UGkxwvcddKq9u16a1LnEqG9HwPCkBHdWEBLwVkteu/TIWVgwziSuLvZH8wUAX8Z04x
-         4ilX3fcpyfqgGIG/mdRDKhAnDBkFEPqCnE/wCCDLwwg/DiiqSJr3cpFpj7SYxyhbiBB1
-         ABLm21ENdzAGXTTffwFks3HRioRW0xRZmqLfM86VovJ9H2FdYcFdOUe4+kbFPwvcVNTQ
-         J/Sma+B2EZmX6d31IM1dTxyMHueOedxLrlSNtvxuRq71ucEsopXcy1hBgW4HmGuhY+o9
-         rxyclwS2szliS+TxO03M0l2YuKj8GwAfxsqCeT0Hzl6sJMnuUFW9PLMd9bYOX4j9hbLd
-         DnNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=T7cRZZnHlvElmV5E4d+ARimoSvXKMR3JQuoEi7NRgdM=;
-        fh=oPk4t9pHE//8AsevybvppsybTx7wv9UaNXtSSV+Q/jU=;
-        b=KA6qzVDoOg3W/WdflyOEG2GeE0SHgXI43GWlBTH0vc0X4tmH2V1lhVSoInu5Euql0p
-         jgHtZaxj8muxGkRU/ghKvTf1AktTLS3NUVg+4grTFyqSH9t+0Kf6PaJFz5BAcoFre3qu
-         rP7lnDSHCjLMRnI74GgaYKCczJB4Mv2HO3lPtPW8rHxClG5ZiyfHNM6YnchCmY1gbbT3
-         REvvmB9GvdNcjQXD9QTAwqvd8L9rhL9vQTCmOxsg2JaxwJ0bSnPVFoiJh1Md2NYO/ZJC
-         178PkXg+l2siaDnXRZLo5rFsEferldmeCTYw4cAfs2VShlWR6CFTY9ItaaiCHpIjZerf
-         xrOw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774373795; x=1774978595; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T7cRZZnHlvElmV5E4d+ARimoSvXKMR3JQuoEi7NRgdM=;
-        b=hScnfrxT/jb9z1gVu1B21oYuKEyoz09bvLfEgCOUhdcK0s5M8YY4Eg3hphA2+0StuF
-         6wSwDAEKfNYS4U1AJZNL+SE22/Qws2nHtByfTNH9tZSVUe2VJwYsUP1hULWS+uKhHHXy
-         HdCiW+hAbC2n02TaCte6kaY6u2vIyHMtRRoHVA9AriHb3dgANFWT8dO1kqz1pqh9Yreo
-         EgSvUZlTVEnnxdsR/nyxC0vbVN0ACi6Fd8c01CrrmyTQN6vbTPQjYfLQCWR92SwQyJ6H
-         nXoFnPCu+u9u1Y6Ejb/2l4YA5y0iLC4LQFhscPCKEBLfRalog8Urx6wtHVgonk926y81
-         Ifjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774373795; x=1774978595;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=T7cRZZnHlvElmV5E4d+ARimoSvXKMR3JQuoEi7NRgdM=;
-        b=DhPDtDtnwYzsssO1LGJSNBBEKyEA3bWux8wbXqP34OZXstXP9BdHl7ZZPnTnTqMwiz
-         HaU10CgBFHMH9MZFkZl6ZenUNd4jO0evN9eKiokf1IvCOjonPFfaoRG7QU4vVNDtddew
-         vOW5EGj0EvMdJGp7AkJTDN4YBzsCywIKnRZ2IQVc33ha6turufQQL+AqC3TQgF9JQlHQ
-         q1tBV4yy4yA2vjb+ilRgevaXcpCJ3vzGGFjpvRKUE6HwUABUbcUexAovGYWBE/aowg5V
-         aDxXhCXkTdu5ceFRCsHajqsD7NlpQD1c9RvdjiRU469FYSJJZJrYE7g+inXsRrnSLo7K
-         0JiA==
-X-Forwarded-Encrypted: i=1; AJvYcCXDJZB13aIZ0jk6JnSXlCoJXBBQLTCKhIZ8KTtBAeTtH4x11WueMR8G9hqzUGtrhdzma4fIcFPR6wR6zw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeigcKOHeDX6g6KBswzk8xSXV08yn50v5tW/tLF07bu8qO041z
-	ecf2usWH82C/gZYRIXIb2S5UkDDsVZJdpKkvDm4GH5tKN9RX39PwEVnCe3MCYW9Hd/wvAYxA7fX
-	nU0F75Le4d9wzNe7tNTu8a6oiC2g2XIN6AU5C0dhz
-X-Gm-Gg: ATEYQzwNDv90mMUNnJdhfBwZ/6H8RRdPW06vHdxqc18Id4O7tynFf6nAP7QnXMNm/V6
-	WVN18Lh3HBdpVSEfiKtTm66z4s+q6k8JQa4e6NTRpdnGQMmU4DC1LRu6Z8qMipZqntZiMMeGVt8
-	qUx/IOCWl8IM/E3dg3HIN7zFezYVJLHe6QgLljADKizK4GBlffLl99ncTHFcHtp3hJhddOhQO7Y
-	n+1me/JtVUQh1NFbFCQw4A7yAAF4+5bkV+R5aimrvK2fNd4fD1Q//PyV8JFSvTilsOqreafR7yM
-	6ESyEwEM8OVGDylFRKkYAqrFO01eSRFoZKv7gW4=
-X-Received: by 2002:ac8:5a41:0:b0:508:fd42:fd05 with SMTP id
- d75a77b69052e-50b823fa2ddmr354431cf.15.1774373794536; Tue, 24 Mar 2026
- 10:36:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0E8391E55
+	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 17:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774373942; cv=none; b=s4kVmAdEbEFtGF2dX0B9EwswR8NW2r6wCKKzk6vHdwfxzHobcupBkuz89tyMpBy2qC+rHmwvZ3eZWTRUWyDKi+ftO0ka2lliXIPGh3nZx534+GFY5nQo2hwJbqfSoVWmGLeikcxFGYbnjMzHNUtrpEKnXNb62ur8wibCoTR5dBo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774373942; c=relaxed/simple;
+	bh=IcNNDe+XYtEBIp+hho7GUHo3w47rVfDLGspiKGm97yw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G5DNImsXLnyw/msOqpxwEHMdw9OnbRbaWu7NL7POFFJNTLQDlolkn6GU4nuvZJTFY0LkbFbzYYWaoe5WanAnY5QzvNVyuoVAdh6fQPiMJVREbEGlaSRs9NECPZojq0qKv1B0K+WOSPs8m0O8JBaLxvfY11pwLkZJPAFpSRBMzhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Jv4m2hq1; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <6d1ac9cc-a7ff-4a1f-9ed0-000917a2cf8c@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774373928;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l2YiHvoSUKETtWzYTs243lZWQyH4LE6HdwfRDfombfc=;
+	b=Jv4m2hq1QT2Pb//kxdy++mb9mLZeEV1qAPmqphAqQo/wzJtccMiqAKe25CgP2OOuxG2HO6
+	sCHTcb2dPPKT8+qaK1c03Vf5YvUT61JYsG8JRbaAZQ57cED1NTDpR8ftOo3gK1eFQFR7FC
+	HVo89iiLZx8LNZBrIA+0BqiuZ8/5Jfw=
+Date: Tue, 24 Mar 2026 13:38:45 -0400
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260305123641.164164-1-jiri@resnulli.us> <ablV_f_l7wD2m63E@google.com>
- <20260324120057.GC8437@ziepe.ca> <CAFgf54qoFhvVR2yfROGaTJmLcjuLACswVFv=trqgJwGb_DB3zA@mail.gmail.com>
- <20260324122416.GD8437@ziepe.ca>
-In-Reply-To: <20260324122416.GD8437@ziepe.ca>
-From: Mostafa Saleh <smostafa@google.com>
-Date: Tue, 24 Mar 2026 17:36:23 +0000
-X-Gm-Features: AaiRm51PAsNGUjv3vtee5YHklYnd6tfPfqFJtrYrMATN4cWFgoB-kqA4e1zQENQ
-Message-ID: <CAFgf54qwA2D1Xa4rnruJ4Nfp5BsB=T_pB3hzz9HBjh22TL17uA@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 0/2] dma-buf: heaps: system: add an option to
- allocate explicitly decrypted memory
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Jiri Pirko <jiri@resnulli.us>, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev, 
-	linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
-	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, jstultz@google.com, 
-	tjmercier@google.com, christian.koenig@amd.com, m.szyprowski@samsung.com, 
-	robin.murphy@arm.com, leon@kernel.org, sean.anderson@linux.dev, 
-	ptesarik@suse.com, catalin.marinas@arm.com, aneesh.kumar@kernel.org, 
-	suzuki.poulose@arm.com, steven.price@arm.com, thomas.lendacky@amd.com, 
-	john.allen@amd.com, ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2] media: uvcvideo: Fix deadlock if uvc_status_stop is
+ called from async_ctrl.work
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hansg@kernel.org>, Ricardo Ribalda <ribalda@chromium.org>,
+ linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
+References: <20260316155823.1855434-1-sean.anderson@linux.dev>
+ <20260323235245.GB2334070@killaraus.ideasonboard.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <20260323235245.GB2334070@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-56898-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56897-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[linux.dev:+];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[smostafa@google.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 4C87031A242
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sean.anderson@linux.dev,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:dkim,linux.dev:email,linux.dev:mid,ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 180DA31A3DB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 24, 2026 at 12:24=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wro=
-te:
->
-> On Tue, Mar 24, 2026 at 12:14:36PM +0000, Mostafa Saleh wrote:
-> > On Tue, Mar 24, 2026 at 12:01=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca>=
- wrote:
-> > >
-> > > On Tue, Mar 17, 2026 at 01:24:13PM +0000, Mostafa Saleh wrote:
-> > >
-> > > > On the other hand, for restricted-dma, the memory decryption is dee=
-p
-> > > > in the DMA direct memory allocation and the DMA API callers (for ex
-> > > > virtio drivers) are clueless about it and can=E2=80=99t pass any at=
-trs.
-> > > > My proposal was specific to restricted-dma and won=E2=80=99t work f=
-or your case.
-> > >
-> > > How is this any different from CC?
-> > >
-> > > If the device cannot dma to "encrypted" memory, whatever that means
-> > > for you, then the DMA API:
-> > >  - Makes dma alloc coherent return "decrypted" memory, and the built
-> > >    in mapping of coherent memory knows about this
-> > >  - Makes dma_map_xxx use SWIOTLB to bounce to decrypted memory
-> > >
-> > > There is no need for something like virtio drivers to be aware of
-> > > any of this.
-> > >
-> > > On the other hand if the driver deliberately allocates decrypted
-> > > memory without using DMA API alloc coherent then it knows it did it
-> > > and can pass the flag to map it.
-> > >
-> >
-> > The problem is that the DMA API currently gets confused by this; it
-> > can end up double decrypting the memory or using the wrong functions
-> > as mentioned in [1]
->
-> I fully belive there are bugs, but the API design is sound. If you use
-> the coherent allocations from the DMA API then it knows decryption has
-> happened when it generates a dma_addr_t and there should be no issue.
->
-> Now, if drivers are using the DMA API wrong, like trying to double map
-> coherent allocations then they are broken. I also would not be
-> surprised to find cases like this.
->
+On 3/23/26 19:52, Laurent Pinchart wrote:
+> Hi Sean,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Mar 16, 2026 at 11:58:22AM -0400, Sean Anderson wrote:
+>> If a UVC camera has an asynchronous control, uvc_status_stop may be
+>> called from async_ctrl.work:
+>> 
+>> uvc_ctrl_status_event_work()
+>>     uvc_ctrl_status_event()
+>>         uvc_ctrl_clear_handle()
+>> 	    uvc_pm_put()
+>> 	        uvc_status_put()
+>> 		    uvc_status_stop()
+>> 		        cancel_work_sync()
+>> 
+>> This will cause a deadlock, since cancel_work_sync will wait for
+>> uvc_ctrl_status_event_work to complete before returning.
+>> 
+>> Fix this by returning early from uvc_status_stop if we are currently in
+>> the work function. flush_status now remains false until uvc_status_start
+>> is called again, ensuring that uvc_ctrl_status_event_work won't resubmit
+>> the URB.
+>> 
+>> Fixes: a32d9c41bdb8 ("media: uvcvideo: Make power management granular")
+>> Closes: https://lore.kernel.org/all/6733bdfb-3e88-479f-8956-ab09c04c433e@linux.dev/
+>> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+>> ---
+>> 
+>> Changes in v2:
+>> - Update comments with review feedback
+>> - Use flush_work instead of cancel_work_sync since the work should never
+>>   be rescheduled.
+>> 
+>>  drivers/media/usb/uvc/uvc_status.c | 27 ++++++++++++++++++---------
+>>  1 file changed, 18 insertions(+), 9 deletions(-)
+>> 
+>> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+>> index 231cfee8e7c2c..ea45b11642e59 100644
+>> --- a/drivers/media/usb/uvc/uvc_status.c
+>> +++ b/drivers/media/usb/uvc/uvc_status.c
+>> @@ -316,6 +316,15 @@ static int uvc_status_start(struct uvc_device *dev, gfp_t flags)
+>>  	if (!dev->int_urb)
+>>  		return 0;
+>>  
+>> +	/*
+>> +	 * If the work called uvc_status_stop it may still be running. Wait for
+>> +	 * it to finish before we submit the urb.
+>> +	 */
+>> +	flush_work(&dev->async_ctrl.work);
+> 
+> I assume the only way this can happen is for uvc_status_start() to run
+> after the uvc_status_put() call in
+> 
+> uvc_ctrl_status_event_work()
+>     uvc_ctrl_status_event()
+>         uvc_ctrl_clear_handle()
+> 	    uvc_pm_put()
+> 	        uvc_status_put()
+> 
+> returns. Is that right ? If so I'd like to capture that better in the
+> comment, as I have a feeling we'll need to revisit this code at some
+> point.
+> 
+> 	/*
+> 	 * If the previous uvc_status_stop() call was from the async work, the
+> 	 * work may still be running. Wait for it to finish before we submit the
+> 	 * urb.
+> 	 */
+> 
+> And if that's not correct, there's something I don't get and a better
+> comment is even more important :-)
+> 
+> If the above change is fine, I can update the comment when applying, and
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-But it's not about drivers in that case, it's about many places
-(SWIOTLB and DMA-direct) calling set_memory_decrypted() without clear
-ownership so in some cases they step on each other's toes, and I don't
-think that will get simpler with yet another caller in this series
+Fine by me
 
-I am fine with the API design you mentioned, but I believe that it
-needs clear documentation specifying who is responsible for
-decryption. The code should provide wrappers checking for these cases
-instead of having is_swiotlb_for_alloc() and force_dma_unencrypted()
-everywhere in DMA-direct.
+> This being said, I wonder if we could have a simpler implementation if
+> we always stopped the work and URB when the last userspace user goes
+> away, instead of keeping the device active until we get the asynchronous
+> control notification.
+> 
+>> +
+>> +	/* Clear the flush status if we were previously stopped. */
+>> +	smp_store_release(&dev->flush_status, false);
+>> +
+>>  	return usb_submit_urb(dev->int_urb, flags);
+>>  }
+>>  
+>> @@ -336,6 +345,15 @@ static void uvc_status_stop(struct uvc_device *dev)
+>>  	 */
+>>  	smp_store_release(&dev->flush_status, true);
+>>  
+>> +	/*
+>> +	 * If we are called from the event work function, the URB is guaranteed
+>> +	 * to not be in flight as it has completed and has not been resubmitted.
+>> +	 * There's no need to cancel the work (which would deadlock), or to kill
+>> +	 * the URB.
+>> +	 */
+>> +	if (current_work() == &w->work)
+>> +		return;
+>> +
+>>  	/*
+>>  	 * Cancel any pending asynchronous work. If any status event was queued,
+>>  	 * process it synchronously.
+>> @@ -354,15 +372,6 @@ static void uvc_status_stop(struct uvc_device *dev)
+>>  	 */
+>>  	if (cancel_work_sync(&w->work))
+>>  		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+>> -
+>> -	/*
+>> -	 * From this point, there are no events on the queue and the status URB
+>> -	 * is dead. No events will be queued until uvc_status_start() is called.
+>> -	 * The barrier is needed to make sure that flush_status is visible to
+>> -	 * uvc_ctrl_status_event_work() when uvc_status_start() will be called
+>> -	 * again.
+>> -	 */
+>> -	smp_store_release(&dev->flush_status, false);
+>>  }
+>>  
+>>  int uvc_status_resume(struct uvc_device *dev)
+> 
 
-Thanks,
-Mostafa
-
-> Jason
 
