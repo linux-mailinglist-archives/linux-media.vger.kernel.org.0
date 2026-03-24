@@ -1,219 +1,176 @@
-Return-Path: <linux-media+bounces-56911-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56912-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yPArOQvqwmkOnQQAu9opvQ
-	(envelope-from <linux-media+bounces-56911-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 20:46:19 +0100
+	id yLrEIbfpwmkOnQQAu9opvQ
+	(envelope-from <linux-media+bounces-56912-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 20:44:55 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117D631BC4B
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 20:46:18 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C5831BB58
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 20:44:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D6D503056A91
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 19:42:59 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 15695304AD28
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 19:44:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70E8E372EC2;
-	Tue, 24 Mar 2026 19:42:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2FE83845CE;
+	Tue, 24 Mar 2026 19:44:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="p+A6agZx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CyVPsxB1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFAB313E36;
-	Tue, 24 Mar 2026 19:42:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D063A341ACA
+	for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 19:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774381357; cv=none; b=jqWUFPgJIsjy2EA8uUvSmmtfDhA7Zxud3qysJGf01WVZeMWQbh/+9ptEkty6YdhnMR23sGhYJ/ypq+MrkZ+pl6nDo9iBiWmDgcv+zX2PuyH9xek9cU8zxVX0/SxBUNW1H8YLQGBQwc1s/jLgEs4dbQbc7RS9aFV4MqguEMp23Yo=
+	t=1774381452; cv=none; b=usnPB3IOeGjkzOrUJREajzyXtiMLrljGk1kh1w+mx4CCkdJPtX1BHJ8OWDyyzkg3ffh/SNPS6CShXdxKMeRUAOXxesuafZ/dH8ACF0rpdr0u4d6vUt42eTDrrdxLK67JxCqPOR4GXr17ZRcpXmcI1CnNDW4z2KSWwCHHUChYrnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774381357; c=relaxed/simple;
-	bh=U3DeWTAmE2LnB3qU+Q5A0k9c+mYIEcBPU8ZO5YFui3g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YCzzD5f73JVN9Sq+Ccw5DfEfbyH+rr0SXM+KrCjQTsLoicTgPuks2M1MEJOh3f0gktwf0Q5IJOjMH/29KmABGlWmGOhLeH83kGPPm/3KIg7pSLMGFJ5txDqhYxk4zFI3QB+lxLNSn9qXApyTkJhu/iKFzh3QEfpL/GWsAUnoOZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=p+A6agZx; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1774381353;
-	bh=U3DeWTAmE2LnB3qU+Q5A0k9c+mYIEcBPU8ZO5YFui3g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=p+A6agZxyYL7Q1ouQnrsLc5ELvsiJ43qHKdhEqCIojExK2Y9XrTuyEfe6SiORu7oa
-	 sGJg5Wm111CCiVFKWmR2axOia5V7Jv1aKzDxau4RBBlDK9oqoS43BZko5z9dkMr/4o
-	 cGEH+p1Tt7wM3Q9gX76vR15VOcVqRmYjYdwv7op/Qp4HaBsHOvQbdyAN7NbXzJBcEE
-	 A6IyughffAgz/oCNuSU2ymuFd+9XNXB7qb+HqOIGiOfAY31DsxbiVfaSvECDHpEZIP
-	 eOAZGIArt278F/nfjm/1fiSmT6v/8TyMCcSeLNbVV2S9x2Mnn9WoqvNui8BtyhSCBB
-	 GUON6tcMAOy/A==
-Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id AEE7C17E4DEB;
-	Tue, 24 Mar 2026 20:42:32 +0100 (CET)
-Message-ID: <1378ed13-6744-422a-b0b8-02621117238f@collabora.com>
-Date: Tue, 24 Mar 2026 20:42:31 +0100
+	s=arc-20240116; t=1774381452; c=relaxed/simple;
+	bh=Cr1EGRtFDNYN4F0ds66Cj+wQr7wmiUbs4gw2kBIuGys=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NXQahv3u7QKmuo6CbqVLCCO5/OmnCbsozY5jn0l8oAUTikkzfE3j/Y581gOgsCLdqjqJY3w4sXPHTxLoLb7jhNU5OU1Mzr8mJ842S0vOR82213pD2jHYfzJkLBKVJ2no4HNoAh405gVu/6laarQAnNo7aXQeQqOwhUql98GB/kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CyVPsxB1; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a871daa98fso35863255ad.1
+        for <linux-media@vger.kernel.org>; Tue, 24 Mar 2026 12:44:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774381449; x=1774986249; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x91fosFnDqLtUvCrhnAf87G3z2o0B5MR3jt+r9NyeJY=;
+        b=CyVPsxB1GWaZvCfWv0LwOo2fCzvgDF+PZDmptu70MUycdD4pSe5CeQkj+9+vItIRTK
+         OSZMiqyK/9EWfAuSRuKyhB+gRwCWEmbO+hLCRGT4bb03OhB15XxSrVH/6AHlQESo+vas
+         f1TT0PJBFdDzCmVNP0IUvsK0lAyN9rtq4hnVZi0jBkaYLHA607BlK+yehFaFk46HD1N+
+         lS0x3tFdNhAWeXFwvwVmQETiKUgC6nt2g4jxS5wqpfwXQajthh8ZiyLwJvltNl8/buCa
+         IbPwtZv44lXoZlxKa5tsON6HmJY9Dl5pn7FYw8KixLTlscHsG8vpuhC6/wUKV8Gjvy+x
+         N/qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774381449; x=1774986249;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=x91fosFnDqLtUvCrhnAf87G3z2o0B5MR3jt+r9NyeJY=;
+        b=clU3kSVNKLZB6aY7t7hzRy6eCFZm8A/iFfF32KXctvIsbONW8QGykEOQLzGSQOMEoI
+         1Myi90hTBK9zosxoXlZI26zVZ5egGztliJhcwP8gx3HXtDPNBTO3PSkSEJomEmwz0amr
+         D/d1SVvFLQLgJv4ufabHzRW1iEWF1i3+K+PtWdYSmpJmx8H3MfgMU3ellnaVrVSpKLCI
+         pF8FPCBiNzOAp3/AAl4Ga15HZiYKEafT2RHo4YurdjsCGBxAGR6Z9z25MrJ1QRS7UGPD
+         Q1Z/GJz71hFBjX9dgMCjRhXqI7vPnEWdIDKA0zPTMd5o4lIc/fR5YjTKVnYd7Pa+TMlu
+         5eeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW31Y+a+JY0VQmK50xYbuND3m0b+dqTBh6QW4sd1F4QTZ9ysOPx0U4WTd/rHhoiF7/3OyGXmzbMUJNBrQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxu7oeYEzUap8H2goa9XDukcQEd/8MgwIlb0mGl2rIT0ATEQ015
+	RkkQtNso5hbG1qZ2CcxufZNMhh5Y+ry6NdspoEEwc2mwatIWg+7fHoiw
+X-Gm-Gg: ATEYQzwQq0zRgEgh9WfWqrcJhBjw17GhloaK9BHoSsbveKksZy4GMT1B+Zq6eUFTw91
+	YGV/KSxpntEm9iOfIwU+jScOznNnMQm+Mwc2S4FVJgz4WSuEXPllOskY7OvqL66kBGJP+P9P80p
+	G3pHA27b5a+QPOW1h6zqvlEFchsY0AbWgzoQFhLe3MQ8F1YakXxLyhGJwtmHGlw2XpwJRls4aaf
+	P7V0Ep5u3Ym26ymsSu1GweHW5TkzGzD41Cbq3C9aSI1FW91fR8uC80CNEiGkXssz1Q5Bi6M/7GG
+	Cqmr9RHY1nu5NArDYXcimL4mLYMNU2zuZicZzU+TCczlh42Em/OEvN01mPzyf77iA319rBzmHDh
+	WktI0LbuBPbrkH62Xg2Mi6Mc6l9ARVZ2Cq1DvdRjEeZwTOOki5Jwl8NcVFh7alW8kS5hnoMKa3X
+	s8KKcb/n6iOBPo141lQOS71v2XeP0ozAxhzg==
+X-Received: by 2002:a17:903:46cb:b0:2b0:4b37:e9a5 with SMTP id d9443c01a7336-2b0b0b2efd3mr7830885ad.53.1774381449171;
+        Tue, 24 Mar 2026 12:44:09 -0700 (PDT)
+Received: from localhost ([223.233.85.60])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08365535bsm148469605ad.50.2026.03.24.12.44.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 12:44:08 -0700 (PDT)
+From: Anushka Badhe <anushkabadhe@gmail.com>
+To: anushkabadhe@gmail.com
+Cc: andriy.shevchenko@intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	hansg@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com
+Subject: [PATCH v3] staging: media: atomisp: pci: fix block comment style and merge split declaration
+Date: Wed, 25 Mar 2026 01:13:56 +0530
+Message-ID: <20260324194356.49090-1-anushkabadhe@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260324180821.42084-1-anushkabadhe@gmail.com>
+References: <20260324180821.42084-1-anushkabadhe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: imx415: Drop redundant runtime PM callbacks
-To: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
- sakari.ailus@linux.intel.com
-Cc: tarang.raval@siliconsignals.io, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260324124524.135278-1-elgin.perumbilly@siliconsignals.io>
-Content-Language: en-US
-From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <20260324124524.135278-1-elgin.perumbilly@siliconsignals.io>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-56912-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56911-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[michael.riesch@collabora.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[anushkabadhe@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_NONE(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:mid]
-X-Rspamd-Queue-Id: 117D631BC4B
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 69C5831BB58
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Elgin,
+The closing */ of a block comment is on the same line as the comment
+text, violating kernel coding style. GP_TIMER_BASE declaration is also
+unnecessarily split across two lines. Fix both issues.
 
-Thanks for the patch but...
+Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
+---
+Changes in v3:
+- Add commit description
+- Fix subject prefix to staging: media: atomisp:
 
-On 3/24/26 13:45, Elgin Perumbilly wrote:
-> Replace runtime_suspend/resume wrappers by using power helpers
-> directly with DEFINE_RUNTIME_DEV_PM_OPS().
+Changes in v2:
+- Fix block comment style (move closing */ to its own line)
+- Merge split GP_TIMER_BASE declaration onto a single line
 
-...why? What advantage does this refactoring bring?
+Checked the rest of the file for similar issues; no others found.
 
-Best regards,
-Michael
+ drivers/staging/media/atomisp/pci/system_local.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> 
-> Signed-off-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-> ---
->  drivers/media/i2c/imx415.c | 44 +++++++++++++++-----------------------
->  1 file changed, 17 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
-> index 0b424c17e880..b7d44f3e165b 100644
-> --- a/drivers/media/i2c/imx415.c
-> +++ b/drivers/media/i2c/imx415.c
-> @@ -1129,8 +1129,12 @@ static void imx415_subdev_cleanup(struct imx415 *sensor)
->  	v4l2_ctrl_handler_free(&sensor->ctrls);
->  }
-> 
-> -static int imx415_power_on(struct imx415 *sensor)
-> +static int imx415_power_on(struct device *dev)
->  {
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> +	struct imx415 *sensor = to_imx415(subdev);
-> +
->  	int ret;
-> 
->  	ret = regulator_bulk_enable(ARRAY_SIZE(sensor->supplies),
-> @@ -1161,11 +1165,17 @@ static int imx415_power_on(struct imx415 *sensor)
->  	return ret;
->  }
-> 
-> -static void imx415_power_off(struct imx415 *sensor)
-> +static int imx415_power_off(struct device *dev)
->  {
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> +	struct imx415 *sensor = to_imx415(subdev);
-> +
->  	clk_disable_unprepare(sensor->clk);
->  	gpiod_set_value_cansleep(sensor->reset, 1);
->  	regulator_bulk_disable(ARRAY_SIZE(sensor->supplies), sensor->supplies);
-> +
-> +	return 0;
->  }
-> 
->  static int imx415_identify_model(struct imx415 *sensor)
-> @@ -1371,7 +1381,7 @@ static int imx415_probe(struct i2c_client *client)
->  	 * work when runtime PM is disabled in the kernel. To that end, power
->  	 * the sensor on manually here, identify it, and fully initialize it.
->  	 */
-> -	ret = imx415_power_on(sensor);
-> +	ret = imx415_power_on(sensor->dev);
->  	if (ret)
->  		return ret;
-> 
-> @@ -1411,7 +1421,7 @@ static int imx415_probe(struct i2c_client *client)
->  	pm_runtime_put_noidle(sensor->dev);
->  	imx415_subdev_cleanup(sensor);
->  err_power:
-> -	imx415_power_off(sensor);
-> +	imx415_power_off(sensor->dev);
->  	return ret;
->  }
-> 
-> @@ -1430,32 +1440,12 @@ static void imx415_remove(struct i2c_client *client)
->  	 */
->  	pm_runtime_disable(sensor->dev);
->  	if (!pm_runtime_status_suspended(sensor->dev))
-> -		imx415_power_off(sensor);
-> +		imx415_power_off(sensor->dev);
->  	pm_runtime_set_suspended(sensor->dev);
->  }
-> 
-> -static int imx415_runtime_resume(struct device *dev)
-> -{
-> -	struct i2c_client *client = to_i2c_client(dev);
-> -	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> -	struct imx415 *sensor = to_imx415(subdev);
-> -
-> -	return imx415_power_on(sensor);
-> -}
-> -
-> -static int imx415_runtime_suspend(struct device *dev)
-> -{
-> -	struct i2c_client *client = to_i2c_client(dev);
-> -	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> -	struct imx415 *sensor = to_imx415(subdev);
-> -
-> -	imx415_power_off(sensor);
-> -
-> -	return 0;
-> -}
-> -
-> -static DEFINE_RUNTIME_DEV_PM_OPS(imx415_pm_ops, imx415_runtime_suspend,
-> -				 imx415_runtime_resume, NULL);
-> +static DEFINE_RUNTIME_DEV_PM_OPS(imx415_pm_ops, imx415_power_off,
-> +				 imx415_power_on, NULL);
-> 
->  static const struct of_device_id imx415_of_match[] = {
->  	{ .compatible = "sony,imx415" },
-> --
-> 2.34.1
-> 
+diff --git a/drivers/staging/media/atomisp/pci/system_local.c b/drivers/staging/media/atomisp/pci/system_local.c
+index a8a93760d5b1..1c513ead5300 100644
+--- a/drivers/staging/media/atomisp/pci/system_local.c
++++ b/drivers/staging/media/atomisp/pci/system_local.c
+@@ -85,9 +85,9 @@ const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID] = {
+ 
+ /*GP TIMER , all timer registers are inter-twined,
+  * so, having multiple base addresses for
+- * different timers does not help*/
+-const hrt_address GP_TIMER_BASE =
+-    (hrt_address)0x0000000000000600ULL;
++ * different timers does not help
++ */
++const hrt_address GP_TIMER_BASE = (hrt_address)0x0000000000000600ULL;
+ 
+ /* GPIO */
+ const hrt_address GPIO_BASE[N_GPIO_ID] = {
+-- 
+2.43.0
 
 
