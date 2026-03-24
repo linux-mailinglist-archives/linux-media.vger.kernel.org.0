@@ -1,55 +1,56 @@
-Return-Path: <linux-media+bounces-56926-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56927-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OPYpJUINw2lKnwQAu9opvQ
-	(envelope-from <linux-media+bounces-56926-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 23:16:34 +0100
+	id 4FeuD0UNw2lKnwQAu9opvQ
+	(envelope-from <linux-media+bounces-56927-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 23:16:37 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFDA31D39A
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 23:16:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 005D731D3AA
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 23:16:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 713C6308CC55
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 22:15:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 68967309026E
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2026 22:15:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D337B3C8701;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E545F3C8716;
 	Tue, 24 Mar 2026 22:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t88uoiAS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C8Ny/sb7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C8A3C5DB2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BA03C6603;
 	Tue, 24 Mar 2026 22:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774390502; cv=none; b=aiVc8wLL9UDfW/gNBFtrJZQ/R1sBu4CD5PITXS52dUidCPYXNqGHLB6a4f2EMqX+oKLPtZGwFRylItBOq/NSjUx/fBbYtkfiey7wUiUA0p7NsHejGA6JykM8mFWT9vVeIX8u1QXCfcs19yu4tin49F77QVFRrOe35UPkuemtdxQ=
+	t=1774390502; cv=none; b=CKO1gtELySbkdURYbY+pX/Kzf18jfKjyCzT4gsG/lvRvomqHGhvD5WM0gEhCNBV7YwDX4l3m1023EQusLb9B46d0iKk039vNZFCt9DLUDx0i4Va5IAnaJHMoApsr1lddS5FdVh3QihnhCwPwW6NlClHTWQ+bCkY0Vqc65jKBA6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774390502; c=relaxed/simple;
-	bh=xPxae4EdT0x/kF5J+PJSZ6LvI0+W61uNAdRmw9t2Uco=;
+	bh=FvyQegXbgiv0Awwi39Z3VPwCRxqZ+JNc3/oonK4coEw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GWzrwA1/HO78fIqVIsNnCgJD48qkP1F2LlOaI2VjvPwFZ/q2FHdxt8taV4mjXHNpOUvstj2yQIcJWbafIc1l5TwEbTaLUJhlhRnGhzIMtHAE/6aFY9W6EhHyCn4s22dfRmgGR53IH4FfSqUn6cNZQeWr5+oW+hqoyjGNMtqwoQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t88uoiAS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0E916C2BCB4;
+	 In-Reply-To:To:Cc; b=esz2qiDewXxPcKOJnCuBCMj5pDrhKv9z/VAEdgVUvSgRAsY0DNAOopHK1T0WWuKl/cPRq4HWLJADIECWSjbuDhr+/nGdIAtIg/uLuCswK8cwdP4Q9FstDZtvotAH5jSriANyhKW1k06NTz1eMoVGw6WaxTHBC/HhJIx8FNKi9XE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C8Ny/sb7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 229C7C2BCB7;
 	Tue, 24 Mar 2026 22:15:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1774390502;
-	bh=xPxae4EdT0x/kF5J+PJSZ6LvI0+W61uNAdRmw9t2Uco=;
+	bh=FvyQegXbgiv0Awwi39Z3VPwCRxqZ+JNc3/oonK4coEw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=t88uoiASt6yuxkZE4LbH912Fk0B2xcuZgbiCvMBR0L4I14Y39hAp8XketS9lzA5Kk
-	 BnwPjMGJIiOkHPyQ0dMPkDTtjfW+7vXSx3SV6b8KTp7PChKPvwli3pg67x1CdipxIW
-	 pmX9U3kueJyqIXRU0elfMB+BDQqof4T8dhAKTRB1IzWYBfej3YgqrE45nCtwbjFOrc
-	 2Z3YFkfBFXiGKLpJd7c0UC3850NAD/KTO5iS+9/NJPOf4c+yjMiBRVaG9aHK9bKw2U
-	 7wCnrEkVqTu0wkicz1/pbcnufJbj/+3nO1QY8OzIHefNp9zdusg1c2h4sHdeIp7xUx
-	 Yd9nBFLlU3BrA==
+	b=C8Ny/sb7JsYQ9orrO3ydtpoW8Ow7yhV1UcAClinaIFsixYvF/ykkY954nR5/6rLsy
+	 cKby2Vy0J7zKmZ4gdHFDCsFSMax5nixsbRGGCjZaRfYv9WW9oPTI43ozXY0mokYuL7
+	 ynOIuoq4hWBpCrqjZzmXcnq3fwWDvhSxNd0jOcW6hojVBI+BmXxgu8yPk8quCqu3Eg
+	 VLpbrVt3aVGBUvu6/015s9KR1/YWkWkjy8/WOS1JSxfcLvtLi7jMQt0dxCq5A4h+wl
+	 3RI9ZzEe3RE+lYkrmsqPfdASLvSBlKhzSUsqlPgI2nqBd1NlSfJafhpjm37l0NBQX3
+	 bDYQrR4oFU4ig==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F265CFEC11E;
-	Tue, 24 Mar 2026 22:15:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F68FEC11D;
+	Tue, 24 Mar 2026 22:15:02 +0000 (UTC)
 From: Vasiliy Doylov via B4 Relay <devnull+nekocwd.mainlining.org@kernel.org>
-Date: Wed, 25 Mar 2026 01:15:00 +0300
-Subject: [PATCH v4 2/3] media: i2c: Add driver for LC898217XC VCM
+Date: Wed, 25 Mar 2026 01:15:01 +0300
+Subject: [PATCH v4 3/3] MAINTAINERS: Add entry for Onsemi LC898217XC lens
+ voice coil driver
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -58,7 +59,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260325-media-i2c-lc898217xc-initial-driver-v4-2-6ad6fd74915e@mainlining.org>
+Message-Id: <20260325-media-i2c-lc898217xc-initial-driver-v4-3-6ad6fd74915e@mainlining.org>
 References: <20260325-media-i2c-lc898217xc-initial-driver-v4-0-6ad6fd74915e@mainlining.org>
 In-Reply-To: <20260325-media-i2c-lc898217xc-initial-driver-v4-0-6ad6fd74915e@mainlining.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -70,13 +71,13 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  Antonio Rische <nt8r@protonmail.com>, 
  Vasiliy Doylov <nekocwd@mainlining.org>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10078;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=790;
  i=nekocwd@mainlining.org; h=from:subject:message-id;
- bh=TSF2fdmC50QumBOtoiKQxyVKKAuDxiAUNa62Jot5f/4=;
- b=owGbwMvMwCVmXFbadLHr1XTG02pJDJmHeZ44J+64XP5v2olDy+eYvhKfr8bDY5znbF311zQzu
- TSAa+XvjlIWBjEuBlkxRZbu94fvPZjHy1qq/okXZg4rE8gQBi5OAZjI8R0M/5TZNWeHLl5+Vndj
- 2gUDL07N+ivmL46LmioFctnsuH266RzDf9+f06Se7TaViz95vWT1P9+fhX8j/7LxvzkR2Ryy4sv
- imTwA
+ bh=Eo9bvXngPWC2RV/8gKjXFNTG4Tj+h2xSlMxai/WWYLE=;
+ b=owGbwMvMwCVmXFbadLHr1XTG02pJDJmHeZ4ITU5akp/LM9/n+M0dnHXvi+dMkWzYttPa4dB1H
+ t1/Ih9zOkpZGMS4GGTFFFm63x++92AeL2up+idemDmsTCBDGLg4BWAi9U0M/+vSi72OeM2I7HDO
+ deEtF/ndW3p/lf290JSmAq3WleKfDjAyHFwh8vJ6/1HpZ01M+5xP/s/9p1JyLdSSw8SsXiJn0XE
+ uZgA=
 X-Developer-Key: i=nekocwd@mainlining.org; a=openpgp;
  fpr=8BEFC3DEE09E0D057527F20D33767582D18AEA97
 X-Endpoint-Received: by B4 Relay for nekocwd@mainlining.org/default with
@@ -93,7 +94,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56926-lists,linux-media=lfdr.de,nekocwd.mainlining.org];
+	TAGGED_FROM(0.00)[bounces-56927-lists,linux-media=lfdr.de,nekocwd.mainlining.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
@@ -111,353 +112,38 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	HAS_REPLYTO(0.00)[nekocwd@mainlining.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mainlining.org:email,mainlining.org:replyto,mainlining.org:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 4BFDA31D39A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,trustedfirmware.org:email,mainlining.org:email,mainlining.org:replyto,mainlining.org:mid,onsemi.com:url,linaro.org:email]
+X-Rspamd-Queue-Id: 005D731D3AA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Vasiliy Doylov <nekocwd@mainlining.org>
 
-LC898217XC is a 11 bit DAC, designed for linear control
-of voice coil motor. This driver creates a V4L2 subdevice
-and provides control to set the desired focus.
-
-Tested on Oneplus 6 (oneplus-enchilada)
+Add entry for Onsemi LC898217XC lens voice coil driver
 
 Signed-off-by: Vasiliy Doylov <nekocwd@mainlining.org>
 ---
- drivers/media/i2c/Kconfig      |   9 ++
- drivers/media/i2c/Makefile     |   1 +
- drivers/media/i2c/lc898217xc.c | 289 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 299 insertions(+)
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 20482be35f26..c0b52f007802 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -901,6 +901,15 @@ config VIDEO_DW9807_VCM
- 	  capability. This is designed for linear control of
- 	  voice coil motors, controlled via I2C serial interface.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e61b4abb95fc..08ace2642f36 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19817,6 +19817,13 @@ S:	Supported
+ W:	http://www.onsemi.com
+ F:	drivers/net/phy/ncn*
  
-+config VIDEO_LC898217XC
-+	tristate "LC898217XC lens voice coil support"
-+	select V4L2_CCI_I2C
-+	help
-+	  This is a driver for the LC898217XC camera lens voice coil.
-+	  LC898217XC is a 11 bit DAC with 110mA output current sink
-+	  capability. This is designed for linear control of
-+	  voice coil motors, controlled via I2C serial interface.
++ONSEMI LC898217XC LENS VOICE COIL DRIVER
++M:	Vasiliy Doylov <nekocwd@mainlining.org>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/media/i2c/onnn,lc898217xc.yaml
++F:	drivers/media/i2c/lc898217xc.c
 +
- endif
- 
- menu "Flash devices"
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index a3a6396df3c4..7da1a5cc092e 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -64,6 +64,7 @@ obj-$(CONFIG_VIDEO_IMX415) += imx415.o
- obj-$(CONFIG_VIDEO_IR_I2C) += ir-kbd-i2c.o
- obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
- obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
-+obj-$(CONFIG_VIDEO_LC898217XC) += lc898217xc.o
- obj-$(CONFIG_VIDEO_LM3560) += lm3560.o
- obj-$(CONFIG_VIDEO_LM3646) += lm3646.o
- obj-$(CONFIG_VIDEO_LT6911UXE) += lt6911uxe.o
-diff --git a/drivers/media/i2c/lc898217xc.c b/drivers/media/i2c/lc898217xc.c
-new file mode 100644
-index 000000000000..cfac7e7ce3d6
---- /dev/null
-+++ b/drivers/media/i2c/lc898217xc.c
-@@ -0,0 +1,289 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+// Copyright (c) 2025 Vasiliy Doylov <nekocwd@mainlining.org>
-+
-+#include <linux/delay.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <media/v4l2-async.h>
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
-+#include <media/v4l2-subdev.h>
-+#include <media/v4l2-event.h>
-+
-+#define LC898217XC_NAME "lc898217xc"
-+/* Actuator has 11 bit resolution */
-+#define LC898217XC_MAX_FOCUS_POS (2048 - 1)
-+#define LC898217XC_MIN_FOCUS_POS 0
-+#define LC898217XC_FOCUS_STEPS 1
-+#define LC898217XC_DAC_ADDR CCI_REG16(0x84)
-+
-+static const char *const lc898217xc_supply_names[] = {
-+	"vdd",
-+	"vana",
-+};
-+
-+struct lc898217xc {
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(lc898217xc_supply_names)];
-+	struct v4l2_ctrl_handler ctrls;
-+	struct v4l2_subdev sd;
-+	struct regmap *regmap;
-+};
-+
-+static inline struct lc898217xc *sd_to_lc898217xc(struct v4l2_subdev *subdev)
-+{
-+	return container_of(subdev, struct lc898217xc, sd);
-+}
-+
-+static int lc898217xc_set_dac(struct lc898217xc *lc898217xc, u16 val)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&lc898217xc->sd);
-+	int ret;
-+
-+	ret = cci_write(lc898217xc->regmap, LC898217XC_DAC_ADDR, val, NULL);
-+	if (ret)
-+		dev_err(&client->dev, "failed to set DAC: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static int lc898217xc_power_on(struct lc898217xc *lc898217xc)
-+{
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(lc898217xc_supply_names),
-+				    lc898217xc->supplies);
-+	if (ret < 0)
-+		return ret;
-+
-+	usleep_range(8000, 10000);
-+	return 0;
-+}
-+
-+static int lc898217xc_power_off(struct lc898217xc *lc898217xc)
-+{
-+	regulator_bulk_disable(ARRAY_SIZE(lc898217xc_supply_names),
-+			       lc898217xc->supplies);
-+	return 0;
-+}
-+
-+static int __maybe_unused lc898217xc_runtime_suspend(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct lc898217xc *lc898217xc = sd_to_lc898217xc(sd);
-+
-+	lc898217xc_power_off(lc898217xc);
-+	return 0;
-+}
-+
-+static int __maybe_unused lc898217xc_runtime_resume(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct lc898217xc *lc898217xc = sd_to_lc898217xc(sd);
-+	int ret;
-+
-+	ret = lc898217xc_power_on(lc898217xc);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to enable regulators\n");
-+		return ret;
-+	}
-+
-+	__v4l2_ctrl_handler_setup(&lc898217xc->ctrls);
-+
-+	return ret;
-+}
-+
-+static int lc898217xc_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct lc898217xc *lc898217xc = container_of(ctrl->handler,
-+						     struct lc898217xc, ctrls);
-+
-+	if (ctrl->id == V4L2_CID_FOCUS_ABSOLUTE)
-+		return lc898217xc_set_dac(lc898217xc, ctrl->val);
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_ctrl_ops lc898217xc_ctrl_ops = {
-+	.s_ctrl = lc898217xc_set_ctrl,
-+};
-+
-+static int lc898217xc_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-+{
-+	return pm_runtime_resume_and_get(sd->dev);
-+}
-+
-+static int lc898217xc_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-+{
-+	pm_runtime_put_autosuspend(sd->dev);
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_internal_ops lc898217xc_int_ops = {
-+	.open = lc898217xc_open,
-+	.close = lc898217xc_close,
-+};
-+
-+static const struct v4l2_subdev_core_ops lc898217xc_core_ops = {
-+	.log_status = v4l2_ctrl_subdev_log_status,
-+};
-+
-+static const struct v4l2_subdev_ops lc898217xc_ops = {
-+	.core = &lc898217xc_core_ops,
-+};
-+
-+static int lc898217xc_init_controls(struct lc898217xc *lc898217xc)
-+{
-+	struct v4l2_ctrl_handler *hdl = &lc898217xc->ctrls;
-+	const struct v4l2_ctrl_ops *ops = &lc898217xc_ctrl_ops;
-+
-+	v4l2_ctrl_handler_init(hdl, 1);
-+
-+	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_FOCUS_ABSOLUTE,
-+			  LC898217XC_MIN_FOCUS_POS,
-+			  LC898217XC_MAX_FOCUS_POS,
-+			  LC898217XC_FOCUS_STEPS, 0);
-+
-+	if (hdl->error)
-+		return hdl->error;
-+
-+	lc898217xc->sd.ctrl_handler = hdl;
-+
-+	return 0;
-+}
-+
-+static int lc898217xc_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct lc898217xc *lc898217xc;
-+	unsigned int i;
-+	int ret;
-+
-+	lc898217xc = devm_kzalloc(dev, sizeof(*lc898217xc), GFP_KERNEL);
-+	if (!lc898217xc)
-+		return -ENOMEM;
-+
-+	lc898217xc->regmap = devm_cci_regmap_init_i2c(client, 8);
-+	if (IS_ERR(lc898217xc->regmap))
-+		return dev_err_probe(dev, PTR_ERR(lc898217xc->regmap),
-+				     "failed to initialize CCI\n");
-+
-+	/* Initialize subdev */
-+	v4l2_i2c_subdev_init(&lc898217xc->sd, client, &lc898217xc_ops);
-+
-+	for (i = 0; i < ARRAY_SIZE(lc898217xc_supply_names); i++)
-+		lc898217xc->supplies[i].supply = lc898217xc_supply_names[i];
-+
-+	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(lc898217xc_supply_names),
-+				      lc898217xc->supplies);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to get regulators\n");
-+
-+	ret = lc898217xc_power_on(lc898217xc);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to enable regulators\n");
-+
-+	ret = lc898217xc_init_controls(lc898217xc);
-+	if (ret) {
-+		dev_err_probe(dev, ret, "failed to init v4l2 controls\n");
-+		goto err_power_off;
-+	}
-+
-+	/* Initialize subdev */
-+	lc898217xc->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	lc898217xc->sd.internal_ops = &lc898217xc_int_ops;
-+
-+	ret = media_entity_pads_init(&lc898217xc->sd.entity, 0, NULL);
-+	if (ret < 0) {
-+		dev_err_probe(dev, ret, "failed to init media entity pads");
-+		goto err_free_handler;
-+	}
-+
-+	lc898217xc->sd.entity.function = MEDIA_ENT_F_LENS;
-+
-+	/*
-+	 * Enable runtime PM. As the device has been powered manually, mark it
-+	 * as active, and increase the usage count without resuming the device.
-+	 */
-+	pm_runtime_set_active(dev);
-+	pm_runtime_get_noresume(dev);
-+	pm_runtime_enable(dev);
-+
-+	ret = v4l2_async_register_subdev(&lc898217xc->sd);
-+	if (ret < 0) {
-+		dev_err_probe(dev, ret, "failed to register V4L2 subdev\n");
-+		goto err_pm;
-+	}
-+
-+	/*
-+	 * Finally, enable autosuspend and decrease the usage count. The device
-+	 * will get suspended after the autosuspend delay, turning the power
-+	 * off.
-+	 */
-+	pm_runtime_set_autosuspend_delay(dev, 1000);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_put_autosuspend(dev);
-+
-+	return 0;
-+
-+err_pm:
-+	pm_runtime_disable(dev);
-+	pm_runtime_put_noidle(dev);
-+	media_entity_cleanup(&lc898217xc->sd.entity);
-+err_free_handler:
-+	v4l2_ctrl_handler_free(&lc898217xc->ctrls);
-+err_power_off:
-+	lc898217xc_power_off(lc898217xc);
-+	return ret;
-+}
-+
-+static void lc898217xc_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct lc898217xc *lc898217xc = sd_to_lc898217xc(sd);
-+	struct device *dev = &client->dev;
-+
-+	v4l2_async_unregister_subdev(&lc898217xc->sd);
-+	v4l2_ctrl_handler_free(&lc898217xc->ctrls);
-+	media_entity_cleanup(&lc898217xc->sd.entity);
-+
-+	/*
-+	 * Disable runtime PM. In case runtime PM is disabled in the kernel,
-+	 * make sure to turn power off manually.
-+	 */
-+	pm_runtime_disable(dev);
-+	if (!pm_runtime_status_suspended(dev))
-+		lc898217xc_power_off(lc898217xc);
-+	pm_runtime_set_suspended(dev);
-+}
-+
-+static const struct of_device_id lc898217xc_of_table[] = {
-+	{ .compatible = "onnn,lc898217xc" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, lc898217xc_of_table);
-+
-+static const struct dev_pm_ops lc898217xc_pm_ops = {
-+	SET_RUNTIME_PM_OPS(lc898217xc_runtime_suspend,
-+			   lc898217xc_runtime_resume, NULL)
-+};
-+
-+static struct i2c_driver lc898217xc_i2c_driver = {
-+	.driver = {
-+		.name = LC898217XC_NAME,
-+		.pm = &lc898217xc_pm_ops,
-+		.of_match_table = lc898217xc_of_table,
-+	},
-+	.probe = lc898217xc_probe,
-+	.remove = lc898217xc_remove,
-+};
-+module_i2c_driver(lc898217xc_i2c_driver);
-+
-+MODULE_AUTHOR("Vasiliy Doylov <nekocwd@mainlining.org>");
-+MODULE_DESCRIPTION("Onsemi LC898217XC VCM driver");
-+MODULE_LICENSE("GPL");
+ OP-TEE DRIVER
+ M:	Jens Wiklander <jens.wiklander@linaro.org>
+ L:	op-tee@lists.trustedfirmware.org (moderated for non-subscribers)
 
 -- 
 2.50.1
