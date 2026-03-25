@@ -1,206 +1,233 @@
-Return-Path: <linux-media+bounces-57034-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57035-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0BdKD/fZw2lwuQQAu9opvQ
-	(envelope-from <linux-media+bounces-57034-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:49:59 +0100
+	id KKviHFjZw2lwuQQAu9opvQ
+	(envelope-from <linux-media+bounces-57035-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:47:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FFB3252A4
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:49:58 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE313251DF
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:47:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E4D493148CF6
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 12:34:41 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BE9CE30B0CF6
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 12:38:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 518B93D4135;
-	Wed, 25 Mar 2026 12:34:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 656B13D5661;
+	Wed, 25 Mar 2026 12:38:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="lTYH5aFw"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="moyfYVsb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C5C3988E6
-	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 12:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9FA3C5530
+	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 12:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774442076; cv=pass; b=bSk+CWrcvBE+fC0/eKcHbgDtS7Piugs6NxM20kAGqXOAyZPbiQatWuTvY3I7zMJf+CSjyZMi5Fsa1gzrWedTjKqXgUBNDoD1of/xNDoEKC2epDV16X4DY2/zzLQvtY8QSy5ONZ0ZJPib7sORsBfBEX/bFF/nna6qQi/m6jPyscY=
+	t=1774442293; cv=pass; b=e1RXo7K891haciilVwwuvPSKPFd6gNPs3lunYxFs/wJuLislUemNZ3K+1N0mbXV1VWQ4ca95iMHYHnRNRg0Fdh+qROnhlzi3wtYlhgkkmOD5gwXRQSuwFxl6K/VcYnFZ8bn8W9qeNKJhyFDQ1NythXdUwXks/K3QfHF6YMYssVA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774442076; c=relaxed/simple;
-	bh=07JrRyr+25nKu/vUeQsnj3nA5oLzETCwN3DQYNvfy/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fAhz72OHaTX2DvuwapcOMFvtU1g/rN1zjjX2A+fXcWLL/nR260sgyrqDXOA5Qn5BVjqLBCVi7/Mv5EzNOIt1Um03zxxTOyYrAzC84OhB6SYg/nEMp3V5lRCJjWbTB+adOnimTw4tqsb8icz/wtYZKIKCF7p9C2dPpUrVEBntDbg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=lTYH5aFw; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (n18ws8cotq5gnfn8-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:938c:d2f4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4fgmYs6GqRz49PyD;
-	Wed, 25 Mar 2026 14:34:25 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1774442067;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0am2X80AoRPQAoaLag8eporFmoFogQZjYq0UrHRmJC8=;
-	b=lTYH5aFwjQIiWYn9vlat06l/uSF2lWBtNuSY0du2YtiqMgoF91NHCp4qOKW0oZ1c0MW9NK
-	MyDM+7qfufBLgWtZ7Not/oIdSWETmdecSEgKJmUs/QGyUFR63VmV33hkxwB70F3gsZTGLk
-	TTAL7tCwzDWtbZtwIZObT/1wK2Y0SEKsu+68582AqGcOOoPMT70I0GyZ6jj+ZDIPXopB7G
-	vRTH7+cBRBaOa07Mcd7xujFeOsPb3xY7i5HfEakFDNuBdc+cj9aKzqo3RQiB5EteMw3XLZ
-	RQTl3CVMaY1+pdiCofh7MZnlxHTZWxLVk1NSKwyuhNe5K/9YSdpW0/GwgOKgeQ==
-ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=lahtoruutu; cv=none; t=1774442067;
-	b=Xj5TDLgUs0/RfY3gW9NHp1r/0pXto+YKQmWbFvqtf/mI6qznMrZNtUM/D19AgVZiJMQChD
-	HWvNEJRLRIz55nAUXQuZUP1qUTPXUZq0l0dsAP9a9h2+EkKcUU9AJZelij0j4MWdKMwivw
-	WDSdZuhgnEFZHxH5srMtEW+xF+LP375ppDSILjH5NQcWTAQqnWmRdaYsE3VxJKBS8fN84p
-	ncNTT1uUBSdlZ/sbq3Exki3x3OwN+vmFeDfxqXcTuBOyEr9LhkZh2fy9Oeie7u+FwRXkYJ
-	TbP+W7oxoGbOf17Kmbw/p+rwv3Y34HBJ4gFOLzcgqjn8NgdRFSCMyrSc8S31oQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1774442067;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0am2X80AoRPQAoaLag8eporFmoFogQZjYq0UrHRmJC8=;
-	b=eXocunOsRV0S5OXHZIhxHUihnAMCpe/sfyVqaXUGAvxcnPwXXCUPllq5nsYBj0R0qU/FdX
-	dVfEAnH5mUgY/gnZHIBwuu8YXuw0QPPv4pjhx6pc00oENvCrO9j2T9yAx699h8jyOjt1h8
-	rsYK2ZLt1o3MzLfT21L6Lzkzc325ZxwEgugHOpoUGkCIcAYPzvX2Q53gOvKEkYsY7G70eb
-	bIMBt+06Q+srhR0obeh0m3Za78NOwQN9jvEqb8UO7uDL4aR9jSgXKvGey+4p2DV8K9e/LC
-	pS8YdN1FOj4/P6/3+ixBVemEXbraBNBdByCoC3OZrkIpjPUXnDmZxUic06+nhQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5C28C634C4E;
-	Wed, 25 Mar 2026 14:34:24 +0200 (EET)
-Date: Wed, 25 Mar 2026 14:34:24 +0200
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: Re: [PATCH v3 14/14] media: Improve enable_streams and
- disable_streams documentation
-Message-ID: <acPWUCf15tueeEpe@valkosipuli.retiisi.eu>
-References: <20260325105818.1176816-1-sakari.ailus@linux.intel.com>
- <20260325105818.1176816-15-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1774442293; c=relaxed/simple;
+	bh=VXJt3gTVcwpZtvlxwquf349duZGxNLKE/8EMzOYa/vk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uGoYp4mm2QGrW5ocOX3MHZOqzulzZorFxs+/y8x7sSF2//y2OVDE/6GR0HL0Ay2D2t7VKIxZoUmdNeG6XPbYRBjN61XP8UhebpscOQDqpkTupfvfnYPUiLKOfgrTTTrKH26xawsA8N/3fi7PP+5QyHxs2lbAoWVTcXG4rooEgic=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=moyfYVsb; arc=pass smtp.client-ip=74.125.224.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-64acd19e1dfso5399318d50.0
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 05:38:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774442290; cv=none;
+        d=google.com; s=arc-20240605;
+        b=M3cJPa7BydFFPcaXdQqVrti2PjbChN+dC80XeQ/v43goY8wpfCcDbApN+vKz97YxQL
+         uhP++Y7ri7n0qnKAAjgnSkYg6K8HQqaQZfyixnFzieKykAM6EALch7TcHINaK5ZOYiOb
+         nEpXDYOqxZQ2Y7GqHfQvhwG2ZUGK3dhaIkMRCp/qadUFqSby/QzmDT5XilF7A5EGwYK6
+         s5gyM2+Dy0Omxqil8/bMJo6J4SCMFZ68yDOtpCudy5Rr/qVlfMHN7Qi4eOtj0eebYcFj
+         5tyt3wmrMV+gwRQbUZEn+SuCPT5sIX5a1dYnz3Qj0QuUzW+/S3QYN+n8dG9/TAviKYM9
+         3WaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=QN3QGp1gViGwO/gHtftc87uiruvNvw6VwiRV0muZUNk=;
+        fh=5fvgRv0JFQ+qxRjMG7lVpR2l1RbaMPElunm4U+F9zxc=;
+        b=I5jxpwk1XpgllIxi/YOZj6uQ1pmuZSDgd3gkdNhUaVaxVtqRwxvw3KW8BKDahsdV1q
+         Aj8esg7ixQ/Eaec19Ty6kF7YHdxEFKpUAyiSK4i5OzMFJsrPvJNpwHk9PiPExp3Vyl4J
+         TsKXZ++5Sz+oj7k3ZTBX/wfRstlTAKt4aUJQhQPEXdJLzo9v1SdKIMskwbsW0yiKg5Mq
+         DyuOBzqc+Vplh3DUq6kxGAzeJpxWtY9DqRQBepvPP+E0b3rXUX/E+ZcVzhBaC/b/dkuh
+         UeT+Ty843YbwTsNWHZWLQJpa2vikBpBFU9AlmSBgRmFvaj9TfX67iewQjlY6lNftAwtQ
+         6HIg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1774442290; x=1775047090; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=QN3QGp1gViGwO/gHtftc87uiruvNvw6VwiRV0muZUNk=;
+        b=moyfYVsbyhaCcXZ7ciRKgv9jMoWy3cKyMFVc6aKYXWv9yCg/D4NScSLJWDfFIUIYG/
+         fx+MzHhP42yCBpurNhrcOuTyj+T4jgNV2Hniw9hPRK8HCJTsb6egN9EuJer9vHFmCxmV
+         NoN/wBBiOfqhMWTo6hfQUiZ/HOR5Ev1SN1cFTLEWRRHII5nv1rmmAR/fxwPfq5dybRN+
+         CEhZx73PoWInTB1TZO5kNCJ2XNpClxkMf+s4hSejqLACkCemCbX/6nRyolO/qQA+31Ue
+         iFvZndx0U/FRTzkgMjdbdibFpWea3ob8OxxNliUmqwOdkIkhzxZJZw1r95ZDsU8pxUZy
+         P0dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774442290; x=1775047090;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QN3QGp1gViGwO/gHtftc87uiruvNvw6VwiRV0muZUNk=;
+        b=kL5wZC623oI9y82KC0GL4Pl5tJh/4Yfi3dwpwyqq9UAZ5xdVI+dhtSywoUS2ErKdq5
+         V4+KpRF7ZF6wfdhhev2PdmJaViEASWtsdvbmoruvZB/8gIBoTmRtBKaSvGPFHq8QDdyJ
+         Mj+Dv2zmslggrunwlZoc74fzMArXTHz0lj/i46bMfdnlv304bKaATxEpfr7wE5rAaJdx
+         WfEc2+/6nYIPJMNFZILigsrCToWLSA1NxghhJlG30ORLRPl3XlCGz2PsOZqXhAK4XlPm
+         8nOrUfI2tXGZGkXRz8jIn23I6llu1WGxZUUx0BQo0QmjPWhWzB4+SpP4at2bXJ3oAiue
+         rEMw==
+X-Gm-Message-State: AOJu0YwfvmSTQJ+df7bxRR4Hyp5LSE3I5IZCjYQkS/wts2sYmSs3HhSA
+	qk0amv7EKAOqwmV++LWPFvroJs/MlT1fIKjPUWu10PaJiQ/ftAQCCURz/o4dOFr6vxdPIdsFl2Q
+	KuZMXra0fGzdj6r/KzvzaS7L/0HzVPfoaDCrLBig9yw==
+X-Gm-Gg: ATEYQzzTElbxdI0YU1W3pkcQd+sDKJzRvNJZJPg5jXFRguwnfSWSzG5wsAeIR65mn9X
+	UqRA77SxgC/04SXvIPLFBGxfLrgBLCupMujNnbOnd/g+fiR0aqlFt2IYHWMdNigtdY1e6RdQi8O
+	Gl4MQsLmMsjQVYIt6/RkS3VNbCxPdEaMgXIxT1Ol8mfRE1bi+Eb1N2pTAHX1/ZaRs2u0voyXE7t
+	OpBadBQTwu8jy/AxhhQIpt8gyONpgBCQWXdviP/K5XGiEm7qsPpYirGZ3MWulfjSL0MnCqsXFle
+	Uzwaikce5L1XMV0WrfbMkXxzMFGDRctroVunvg==
+X-Received: by 2002:a05:690e:d8a:b0:64c:b242:496e with SMTP id
+ 956f58d0204a3-64ee609d0famr3400955d50.17.1774442290152; Wed, 25 Mar 2026
+ 05:38:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260325105818.1176816-15-sakari.ailus@linux.intel.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
+References: <20260325105818.1176816-1-sakari.ailus@linux.intel.com> <20260325105818.1176816-7-sakari.ailus@linux.intel.com>
+In-Reply-To: <20260325105818.1176816-7-sakari.ailus@linux.intel.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 25 Mar 2026 12:37:54 +0000
+X-Gm-Features: AaiRm52WFb9eWaAveFq1Z3A3ZTla-R0vU30op-qcPxmDK90TMpeltoRvep7nhlg
+Message-ID: <CAPY8ntAmcychf6qCJzpSwPGW8nj116gMjwJk=gGvWMeV0=qEZg@mail.gmail.com>
+Subject: Re: [PATCH v3 06/22] media: imx219: Don't update exposure limits
+ while setting format
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
+	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Kate Hsuan <hpa@redhat.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
+	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
+	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
+	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, 
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>, Jai Luthra <jai.luthra@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_DKIM_ALLOW(-0.20)[iki.fi:s=lahtoruutu];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57034-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57035-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[iki.fi];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[30];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[iki.fi:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@iki.fi,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,foss.st.com,wanadoo.fr,collabora.com,raspberrypi.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[raspberrypi.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nxp.com:email,intel.com:email,iki.fi:dkim,ideasonboard.com:email]
-X-Rspamd-Queue-Id: 95FFB3252A4
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email]
+X-Rspamd-Queue-Id: DEE313251DF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Folks,
+Hi Sakari
 
-Please ignore this patch -- it was somehow left to the directory where I
-sent the set.
+On Wed, 25 Mar 2026 at 10:58, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+>
+> Don't update exposure limits explicitly while setting format. This is
+> already done through the s_ctrl() callback.
 
-On Wed, Mar 25, 2026 at 12:58:10PM +0200, Sakari Ailus wrote:
-> Document that enable_streams may start additional streams and
-> disable_streams may not disable requested streams if other related streams
-> are still enabled.
-> 
+done through the s_ctrl() callback for V4L2_CID_VBLANK.
+
+I believe this change leaves a potential for future failure if any
+modes get added because the ctrl handler framework swallows any s_ctrl
+that doesn't change the value.
+vblank is an offset on top of height. exposure is absolute in the
+number of lines.
+
+As an example, take the current mode of 1920x1080 with fll_def 1763,
+therefore a vblank of 1763-1080 = 683, and max exposure of 1080-4 =
+1076. Add a new mode of 640x480 with fll_def of 1163, therefore vblank
+is 1163-480 = 683, and max exposure is 480-4 = 476. set_pad_format for
+either mode will set vblank to 683. As it's the same value,
+imx219_set_ctrl will not be called to update vblank, leaving the wrong
+max exposure value.
+
+You could add V4L2_CTRL_FLAG_EXECUTE_ON_WRITE to V4L2_CID_VBLANK to
+always call s_ctrl, but that would have a larger downside if userspace
+repeatedly set it to the same value.
+
+It doesn't affect any of the current modes, but it's going to be a
+very ugly one for the unwary. imx219 is often pointed to as a
+reference for those writing new drivers, so this would likely
+propagate.
+
+  Dave
+
+>
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
 > ---
->  include/media/v4l2-subdev.h | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index d256b7ec8f84..4588992b4417 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -814,6 +814,10 @@ struct v4l2_subdev_state {
->   *	V4L2_SUBDEV_CAP_STREAMS sub-device capability flag can ignore the mask
->   *	argument.
->   *
-> + *	Starting the requested streams may require starting additional
-> + *	streams. Streams that are started together due to hardware are called a
-> + *	stream group.
-> + *
->   * @disable_streams: Disable the streams defined in streams_mask on the given
->   *	source pad. Subdevs that implement this operation must use the active
->   *	state management provided by the subdev core (enabled through a call to
-> @@ -823,6 +827,9 @@ struct v4l2_subdev_state {
->   *	Drivers that support only a single stream without setting the
->   *	V4L2_SUBDEV_CAP_STREAMS sub-device capability flag can ignore the mask
->   *	argument.
-> + *
-> + *	A stream group is disabled when one or more streams in the stream
-> + *	group are disabled.
->   */
->  struct v4l2_subdev_pad_ops {
->  	int (*enum_mbus_code)(struct v4l2_subdev *sd,
-> -- 
+>  drivers/media/i2c/imx219.c | 14 --------------
+>  1 file changed, 14 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index a72630ad1561..ca6a5939773d 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -867,8 +867,6 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>         crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
+>
+>         if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> -               int exposure_max;
+> -               int exposure_def;
+>                 int llp_min;
+>                 int pixel_rate;
+>
+> @@ -887,18 +885,6 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>                 if (ret)
+>                         return ret;
+>
+> -               /* Update max exposure while meeting expected vblanking */
+> -               exposure_max = mode->fll_def - IMX219_EXPOSURE_OFFSET;
+> -               exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
+> -                               exposure_max : IMX219_EXPOSURE_DEFAULT;
+> -               ret = __v4l2_ctrl_modify_range(imx219->exposure,
+> -                                              imx219->exposure->minimum,
+> -                                              exposure_max,
+> -                                              imx219->exposure->step,
+> -                                              exposure_def);
+> -               if (ret)
+> -                       return ret;
+> -
+>                 /*
+>                  * With analog binning the default minimum line length of 3448
+>                  * can cause artefacts with RAW10 formats, because the ADC
+> --
 > 2.47.3
-> 
-> 
-
--- 
-Sakari Ailus
+>
 
