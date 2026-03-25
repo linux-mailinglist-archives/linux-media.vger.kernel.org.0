@@ -1,61 +1,62 @@
-Return-Path: <linux-media+bounces-56934-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56936-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CB9uOIBgw2m1qQQAu9opvQ
-	(envelope-from <linux-media+bounces-56934-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 05:11:44 +0100
+	id IJ7aERdgw2m1qQQAu9opvQ
+	(envelope-from <linux-media+bounces-56936-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 05:09:59 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E888B31F81C
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 05:11:43 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AECA331F7E7
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 05:09:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9EB4630682E1
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 03:59:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4E4443152DEF
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 03:59:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48D392ED866;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0DA12FF65F;
 	Wed, 25 Mar 2026 03:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="GtIRqvVj"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="LxXdAA72"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8F12BDC26;
-	Wed, 25 Mar 2026 03:58:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15C12E8882;
+	Wed, 25 Mar 2026 03:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774411132; cv=none; b=L+hHf6skvHtd9HfBzLTz2xPHdYp2VEBxxoPrjeKYUVwOyg8mDrAZXZpHVPMyHNTUqwJvNYA1FQA62mGIwMjDV6178QQ6qlGoprs4jqvfwHLGLRzuvhayMklyaR51A13E8iGpMBxVXWYpoOmd193PFzl/euRl4y0bXT4Tpvkncrs=
+	t=1774411133; cv=none; b=Cg+gAACQFndp6VyH78K4twYRfK1YVNDiYu7k1CTW65IkZ1bul2FOKIhSstGt/9tepitxqhf1hB8LyO8ywR+z6DaBBTAvfuqFEoki9PTyy54G+kbE0OQ6NfvoW7a3xSNoiEsfzOhuz8rZTa+guKzou1YuN+W1coxAk6DurrGXDGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774411132; c=relaxed/simple;
-	bh=9TqhTRm+skzTKYTfcXqaShb1+m+xgRbhssNcAvriwVA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=B7njFeEz97vVcFXc68t6w13pjwn7O3e8K39fcHaA3uE9IanR96QRGrP/425A752+Z3Nizc9EQEVmjIaznJxW5Tbr8IK5bqigzfVnKAWcDLwkw7NUw1ZlwaxqjsNLW2ekxA4NDS25V3G0BaKNNXSeSTIZFSzdFRXojJZwC/6IdWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=GtIRqvVj; arc=none smtp.client-ip=210.61.82.184
+	s=arc-20240116; t=1774411133; c=relaxed/simple;
+	bh=rw8OlK8yBxi9kB6Il3lO8Ck1xXIUBCVjbNdiFtQdeb4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kFW68hUKUDv0iazGhEQ2KEyFQWNpSM9AprmOCVelS8wZNBY7Fl8a+gaxUo6mo/DL0ZTG3nGSojRF2LqCxrHSG/6FaaaUVNt58K78K5hhY2H+iYMCZJpI6dt3UavQNUYrlN8/zap3Vtl64Q8hL1QrlGdm/f/gu9UahUD5JVYI93E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=LxXdAA72; arc=none smtp.client-ip=60.244.123.138
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: eb75812c27fe11f1a39cd589f645bc18-20260325
+X-UUID: eb8d0ffe27fe11f1a02d4725871ece0b-20260325
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=3bOdphtuowCR6PCgjWzhhXsj3t6e4lkXWBO8mqxyGy4=;
-	b=GtIRqvVjd1yxETezQ1LIY/RO36HquPS1TZDY0ggOuwUyb0h+zthK60jaB/xk8VIe4IE2KYQgKgboNOeRKr/gcn0k5LCts+5MeAgWZvvuPw8Tl5BSdR9haGOB/DB08sD9VnOVpKP7wEybLPQRi+uwfd9r2IBYyd6IaQj/RO0hfUA=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=Zi0EsqAj1sYQUEgknJXO80h5SJY/7QS8HqlrDd4HOhk=;
+	b=LxXdAA72Kpd40I9VgSdU25Wq4lEG8Jjaz0aj89FUZLw6Z1IdMPqqX9Jy3ErDdJYmqvSR00xqXefhQnIhltuQcDL7TFiTVps8AfkkVkM7zYwNcDLmvMsdofPZ1cV+JCoFpQZJ24OT32q3ttOfphFJIY6xaHDBFThnoryo4Bjpcdc=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:3a0f7027-3b75-46b2-be7e-f43a6a3a9202,IP:0,U
+X-CID-O-INFO: VERSION:1.3.12,REQID:6f55c087-4dec-44e5-b0fa-bf5050c4ce69,IP:0,U
 	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
 	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:dba42d94-f8ef-4ca8-bea0-143568f9ca1d,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102|836|888|898,TC:-5,Content:0|15|5
-	0,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:-1,COL:0,OSI:0,OSA
-	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:cea42d94-f8ef-4ca8-bea0-143568f9ca1d,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|836|888|898,TC:-5,Content:
+	0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:-1,COL:0,OSI
+	:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: eb75812c27fe11f1a39cd589f645bc18-20260325
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
+X-UUID: eb8d0ffe27fe11f1a02d4725871ece0b-20260325
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
 	(envelope-from <jason-jh.lin@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1044230801; Wed, 25 Mar 2026 11:58:45 +0800
+	with ESMTP id 1111101162; Wed, 25 Mar 2026 11:58:45 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.2562.29; Wed, 25 Mar 2026 11:58:43 +0800
 Received: from mtksitap99.mediatek.inc (10.233.130.16) by
@@ -76,10 +77,12 @@ CC: Matthias Brugger <matthias.bgg@gmail.com>, Jason-JH Lin
 	<linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
 	<linux-mediatek@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-media@vger.kernel.org>
-Subject: [PATCH v2 0/5] Migrate soc, drm-mediatek, mdp3 to new CMDQ APIs (series 2/4)
-Date: Wed, 25 Mar 2026 11:57:37 +0800
-Message-ID: <20260325035836.2110757-1-jason-jh.lin@mediatek.com>
+Subject: [PATCH v2 1/5] soc: mediatek: Use pkt_write function pointer for subsys ID compatibility
+Date: Wed, 25 Mar 2026 11:57:38 +0800
+Message-ID: <20260325035836.2110757-2-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20260325035836.2110757-1-jason-jh.lin@mediatek.com>
+References: <20260325035836.2110757-1-jason-jh.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -96,7 +99,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[mediatek.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[mediatek.com:s=dk];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -105,7 +108,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[21];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56934-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56936-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -116,50 +119,65 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mediatek.com:dkim,mediatek.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E888B31F81C
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mediatek.com:dkim,mediatek.com:email,mediatek.com:mid,collabora.com:email]
+X-Rspamd-Queue-Id: AECA331F7E7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-This series migrates the MediaTek SoC, DRM, and MDP3 drivers to the new
-CMDQ APIs introduced for MT8196.
+Switch to pkt_write and reg_write_mask function pointers for register
+access, enabling compatibility with platforms regardless of subsys ID
+support.
 
-Series application order:
-  1. [Series V2 2/4] Migrate subsystems to new CMDQ APIs (this series)
-  2. [Series V2 3/4] Remove shift_pa from CMDQ jump functions
-  3. [Series V2 4/4] Remove deprecated CMDQ APIs
-
-Please apply this series after the MT8196 GCE support series,
-and before the following series.
-
+Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
+ drivers/soc/mediatek/mtk-mmsys.c | 8 +++++---
+ drivers/soc/mediatek/mtk-mutex.c | 5 +++--
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-Change in v2:
-1. Rebase on linux-next
-2. Fix build error of -EINVAL in patch2.
-
----
-
-Jason-JH Lin (5):
-  soc: mediatek: Use pkt_write function pointer for subsys ID
-    compatibility
-  soc: mediatek: mtk-cmdq: Add cmdq_pkt_jump_rel_temp() for removing
-    shift_pa
-  drm/mediatek:Use reg_write function pointer for subsys ID
-    compatibility
-  media: platform: mtk-mdp3: Refactor CMDQ writes for CMDQ API change
-  media: platform: mtk-mdp3: Change cmdq_pkt_jump_rel() to
-    cmdq_pkt_jump_rel_temp()
-
- drivers/gpu/drm/mediatek/mtk_ddp_comp.c       | 12 +++++-----
- .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    |  6 ++---
- .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |  6 ++---
- drivers/soc/mediatek/mtk-mmsys.c              |  8 ++++---
- drivers/soc/mediatek/mtk-mutex.c              |  5 ++--
- include/linux/soc/mediatek/mtk-cmdq.h         | 24 +++++++++++++++++++
- 6 files changed, 44 insertions(+), 17 deletions(-)
-
+diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+index bb4639ca0b8c..2f3e0778bb17 100644
+--- a/drivers/soc/mediatek/mtk-mmsys.c
++++ b/drivers/soc/mediatek/mtk-mmsys.c
+@@ -167,9 +167,11 @@ static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32 offset, u32 mask,
+ 	u32 tmp;
+ 
+ 	if (mmsys->cmdq_base.size && cmdq_pkt) {
+-		ret = cmdq_pkt_write_mask(cmdq_pkt, mmsys->cmdq_base.subsys,
+-					  mmsys->cmdq_base.offset + offset, val,
+-					  mask);
++		ret = mmsys->cmdq_base.pkt_write_mask(cmdq_pkt,
++						      mmsys->cmdq_base.subsys,
++						      mmsys->cmdq_base.pa_base,
++						      mmsys->cmdq_base.offset + offset,
++						      val, mask);
+ 		if (ret)
+ 			pr_debug("CMDQ unavailable: using CPU write\n");
+ 		else
+diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
+index 38179e8cd98f..eb5d381ff5af 100644
+--- a/drivers/soc/mediatek/mtk-mutex.c
++++ b/drivers/soc/mediatek/mtk-mutex.c
+@@ -990,6 +990,7 @@ int mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex, void *pkt)
+ 	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
+ 						 mutex[mutex->id]);
+ 	struct cmdq_pkt *cmdq_pkt = (struct cmdq_pkt *)pkt;
++	dma_addr_t en_addr = mtx->addr + DISP_REG_MUTEX_EN(mutex->id);
+ 
+ 	WARN_ON(&mtx->mutex[mutex->id] != mutex);
+ 
+@@ -998,8 +999,8 @@ int mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex, void *pkt)
+ 		return -ENODEV;
+ 	}
+ 
+-	cmdq_pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys,
+-		       mtx->addr + DISP_REG_MUTEX_EN(mutex->id), 1);
++	mtx->cmdq_reg.pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, en_addr, 1);
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(mtk_mutex_enable_by_cmdq);
 -- 
 2.43.0
 
