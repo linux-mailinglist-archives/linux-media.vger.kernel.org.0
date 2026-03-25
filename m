@@ -1,330 +1,290 @@
-Return-Path: <linux-media+bounces-56966-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56967-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iDQHMmi2w2litgQAu9opvQ
-	(envelope-from <linux-media+bounces-56966-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:18:16 +0100
+	id ABQaCaO3w2litgQAu9opvQ
+	(envelope-from <linux-media+bounces-56967-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:23:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744FA322BFE
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:18:16 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17213322D90
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:23:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 46F1A3025D0F
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 10:09:23 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C84133012810
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 10:23:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7362919E7F7;
-	Wed, 25 Mar 2026 10:09:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 076A939478D;
+	Wed, 25 Mar 2026 10:23:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mDlIeKN6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I0Xs5toB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129453A9603;
-	Wed, 25 Mar 2026 10:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD2626159E
+	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 10:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774433356; cv=none; b=bJ1inF6n7IErna3cm/hZEeAAE6/cME4gbPQgjfaUSZ1Jo69fcrnED2frQKsWeql1UARHHKRz3SFhxt/0qbTv5kTVCpJKKVsgJE5+2Lw7ZNA4DnpFuF93L40kO2RQl6isN2wOcH4jk3pysDJZCnUZC4n3yonAxR5eCcpoYwJ/u/E=
+	t=1774434202; cv=none; b=RNUUpUVpsGQmouDzO+g1b5tbARVskoR0hnRdu+M0JWE36SLvBOZO2NL3WyHQE0ZaucBRwxg9oFhWlPr1Zf6yJzUgxrH7qV8bFPvtPhfwm146Cxv19aTcO51EeYjayPxsqZmCt5h3vWz2y7zL3i/75oxFNNO14vSpsR7eOvg6XbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774433356; c=relaxed/simple;
-	bh=uk3HnX517Y1eyituBoygn+6rY+vBVjmMla2actSc4t0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hIgelrRhCyEarhUNfyvcmhXouMMoZv1wv1TH9S6Y+jlVyq/muVY/lU0OdKWc/ySwYQ7Xt5YILzBzMwCjKTfAbtQEHfyIx0fxqhn8NVmg9mJPLR1e5gbK0R8U76Ay0TtsAUafNkdqVUp6hwcLmFo1ckqcz2asDaDLbM7y4MaRnLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mDlIeKN6; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC79E1023;
-	Wed, 25 Mar 2026 11:07:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1774433267;
-	bh=uk3HnX517Y1eyituBoygn+6rY+vBVjmMla2actSc4t0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mDlIeKN6DHnsHkSKQeBZeisVW6NuwH6E194bBn/S62pPKYluwT/udpr+U/yvgf8da
-	 /ld1Ib3mX429wVACHk+8miktYzTDG2wCr1+LTBlyulBPITqSKgB5vMcxW9vzBpsg+7
-	 94kLh9OqPBwxfZFE0sGSrI8ql7FGP69zT7XG637c=
-Message-ID: <d7abde5d-0945-45f2-a1a4-b4d3a1d7e4f8@ideasonboard.com>
-Date: Wed, 25 Mar 2026 10:09:02 +0000
+	s=arc-20240116; t=1774434202; c=relaxed/simple;
+	bh=LKnb8RK+qhHPTis5151hTbndN6cCFDUl+nFbWgGDENc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DpruQkmaWw88yC8cjuunFP/rnOL1FP8jp2Zzpq8qibmtDCtx3fyvrz2vII+Tamlr7fClKNiWSKd//hXeSCS7aDgWAYFFqua3NC8jiuXtzeAypyjCoYMYNGGaQJnFZ8lYAPl2meOV3+WkgtCy5h74UADCggTZmK5PlmFKomF/AAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I0Xs5toB; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774434201; x=1805970201;
+  h=date:from:to:cc:subject:message-id;
+  bh=LKnb8RK+qhHPTis5151hTbndN6cCFDUl+nFbWgGDENc=;
+  b=I0Xs5toBHK/3ygojsjilaB94vttYcc3Pg7oKPWkGe/oNl+RqXitGlOHZ
+   mLGDzUfLP6lfUf4E9jI4AkXgQkBQjwvLYhB6H7i+kwGC6WrXd/L4RtqYW
+   SuMYMHjXQu3VJxbcB6K6QRHKiCw3h1AwpZDtZQMnHpyPmLvzS+p1xhHVy
+   U0B3M80hhbShDtCUTVnD2T0eZSufXFX/vWTEEYv23F/Pjl78NbIzC9iNG
+   0BLoWJgjQNVAssiulrxVxjzlD4jLr/SvjItRU3fQtVe1ItRO/9jvXhkuZ
+   LsBvhXGzqfiMHl3SyPQJV2dxEc+Kdq5S/lUFRg+zN7iUZcZl45dbAXV58
+   w==;
+X-CSE-ConnectionGUID: iSv9712MTCePBLPK2GdzGg==
+X-CSE-MsgGUID: cBO0B4y7S3OAHSn3AcC/5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="93044380"
+X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
+   d="scan'208";a="93044380"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 03:23:20 -0700
+X-CSE-ConnectionGUID: L5JRxxrvTHSAbrAyhIL1Ag==
+X-CSE-MsgGUID: URuCFez7ROul4zFbvf+5Rg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
+   d="scan'208";a="220234988"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 25 Mar 2026 03:23:18 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w5LOO-000000006cx-1LE8;
+	Wed, 25 Mar 2026 10:23:16 +0000
+Date: Wed, 25 Mar 2026 18:22:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:devel] BUILD SUCCESS
+ 161a66452cc5e5bfbbb909f7c7ffe4da8ba1a2d9
+Message-ID: <202603251842.f75tws0f-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] platform/x86: int3472: Add TPS68470 board data for
- Intel nvl
-To: Arun T <arun.t@intel.com>, johannes.goede@oss.qualcomm.com
-Cc: sakari.ailus@linux.intel.com, arec.kao@intel.com,
- ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- mehdi.djait@intel.com
-References: <20260306163019.1619490-1-arun.t@intel.com>
- <20260306163019.1619490-2-arun.t@intel.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20260306163019.1619490-2-arun.t@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56966-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56967-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dan.scally@ideasonboard.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 744FA322BFE
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,intel.com:dkim,intel.com:mid]
+X-Rspamd-Queue-Id: 17213322D90
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Arun - sorry for the delay looking at these for you
+tree/branch: git://linuxtv.org/sailus/media_tree.git devel
+branch HEAD: 161a66452cc5e5bfbbb909f7c7ffe4da8ba1a2d9  media: Add t4ka3 camera sensor driver
 
-On 06/03/2026 16:30, Arun T wrote:
-> The Intel NVL platform uses IPU8 is powered by a TPS68470 PMIC,requiring board
-> data to configure the GPIOs and regulators for proper camera sensor operation.
-> 
-> Signed-off-by: Arun T <arun.t@intel.com>
-> ---
->   .../x86/intel/int3472/tps68470_board_data.c   | 150 ++++++++++++++++++
->   1 file changed, 150 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> index 71357a036292..8ae5e01f6660 100644
-> --- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> +++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> @@ -143,6 +143,34 @@ static struct regulator_consumer_supply int3479_aux2_consumer_supplies[] = {
->   	REGULATOR_SUPPLY("dovdd", "i2c-INT3479:00"),
->   };
->   
-> +/* Settings for Intel NVL platform */
-> +
-> +static struct regulator_consumer_supply int3472_core_consumer_supplies[] = {
-> +	REGULATOR_SUPPLY("dvdd", "i2c-OVTI13B1:01"),
-> +};
-> +
-> +static struct regulator_consumer_supply int3472_ana_consumer_supplies[] = {
-> +	REGULATOR_SUPPLY("avdd", "i2c-OVTI13B1:01"),
-> +};
-> +
-> +static struct regulator_consumer_supply int3472_vcm_consumer_supplies[] = {
-> +	REGULATOR_SUPPLY("vdd", "i2c-OVTI13B1:01"),
-> +};
-> +
-> +static struct regulator_consumer_supply int3472_vsio_consumer_supplies[] = {
-> +	REGULATOR_SUPPLY("dovdd", "i2c-OVTI13B1:01"),
-> +	REGULATOR_SUPPLY("vsio", "i2c-OVTI13B1:01"),
-> +	REGULATOR_SUPPLY("vddd", "i2c-OVTI13B1:01"),
-> +};
-> +
-> +static struct regulator_consumer_supply int3472_aux1_consumer_supplies[] = {
-> +	REGULATOR_SUPPLY("vdda", "i2c-OVTI13B1:01"),
-> +};
-> +
-> +static struct regulator_consumer_supply int3472_aux2_consumer_supplies[] = {
-> +	REGULATOR_SUPPLY("vdddo", "i2c-OVTI13B1:01"),
-> +};
+elapsed time: 893m
 
-These settings will assign all 6 regulators to the i2c-OVTI13B1:01 device, in the vsio case with 3 
-different names. The patch for the sensor driver itself is only looking for dovdd, avdd and dvdd - 
-something is not quite right here.
+configs tested: 165
+configs skipped: 2
 
-> +
->   static const struct regulator_init_data dell_7212_tps68470_core_reg_init_data = {
->   	.constraints = {
->   		.min_uV = 1200000,
-> @@ -220,6 +248,82 @@ static const struct regulator_init_data dell_7212_tps68470_aux2_reg_init_data =
->   	.consumer_supplies = int3479_aux2_consumer_supplies,
->   };
->   
-> +static const struct regulator_init_data intel_nvl_tps68470_core_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 1200000,
-> +		.max_uV = 1200000,
-> +		.apply_uV = true,
-> +		.always_on = true,
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I would not expect the regulators to need to be always_on - with the exception of the VSIO one which 
-is a bit special.
+tested configs:
+alpha                             allnoconfig    gcc-15.2.0
+alpha                            allyesconfig    gcc-15.2.0
+alpha                               defconfig    gcc-15.2.0
+arc                              allmodconfig    clang-16
+arc                              allmodconfig    gcc-15.2.0
+arc                               allnoconfig    gcc-15.2.0
+arc                              allyesconfig    clang-23
+arc                                 defconfig    gcc-15.2.0
+arc                   randconfig-001-20260325    gcc-8.5.0
+arc                   randconfig-002-20260325    gcc-8.5.0
+arm                               allnoconfig    clang-23
+arm                               allnoconfig    gcc-15.2.0
+arm                              allyesconfig    clang-16
+arm                              allyesconfig    gcc-15.2.0
+arm                                 defconfig    gcc-15.2.0
+arm                       netwinder_defconfig    gcc-15.2.0
+arm                   randconfig-001-20260325    gcc-8.5.0
+arm                   randconfig-002-20260325    gcc-8.5.0
+arm                   randconfig-003-20260325    gcc-8.5.0
+arm                   randconfig-004-20260325    gcc-8.5.0
+arm64                            allmodconfig    clang-23
+arm64                             allnoconfig    gcc-15.2.0
+arm64                               defconfig    gcc-15.2.0
+arm64                 randconfig-001-20260325    clang-23
+arm64                 randconfig-002-20260325    clang-23
+arm64                 randconfig-003-20260325    clang-23
+arm64                 randconfig-004-20260325    clang-23
+csky                             allmodconfig    gcc-15.2.0
+csky                              allnoconfig    gcc-15.2.0
+csky                                defconfig    gcc-15.2.0
+csky                  randconfig-001-20260325    clang-23
+csky                  randconfig-002-20260325    clang-23
+hexagon                          allmodconfig    gcc-15.2.0
+hexagon                           allnoconfig    clang-23
+hexagon                           allnoconfig    gcc-15.2.0
+hexagon                             defconfig    gcc-15.2.0
+hexagon               randconfig-001-20260325    gcc-11.5.0
+hexagon               randconfig-002-20260325    gcc-11.5.0
+i386                             allmodconfig    clang-20
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                              allnoconfig    gcc-15.2.0
+i386                             allyesconfig    clang-20
+i386        buildonly-randconfig-001-20260325    gcc-14
+i386        buildonly-randconfig-002-20260325    gcc-14
+i386        buildonly-randconfig-003-20260325    gcc-14
+i386        buildonly-randconfig-004-20260325    gcc-14
+i386        buildonly-randconfig-005-20260325    gcc-14
+i386        buildonly-randconfig-006-20260325    gcc-14
+i386                                defconfig    gcc-15.2.0
+i386                  randconfig-001-20260325    clang-20
+i386                  randconfig-002-20260325    clang-20
+i386                  randconfig-003-20260325    clang-20
+i386                  randconfig-004-20260325    clang-20
+i386                  randconfig-005-20260325    clang-20
+i386                  randconfig-006-20260325    clang-20
+i386                  randconfig-007-20260325    clang-20
+i386                  randconfig-011-20260325    clang-20
+i386                  randconfig-012-20260325    clang-20
+i386                  randconfig-013-20260325    clang-20
+i386                  randconfig-014-20260325    clang-20
+i386                  randconfig-015-20260325    clang-20
+i386                  randconfig-016-20260325    clang-20
+i386                  randconfig-017-20260325    clang-20
+loongarch                        allmodconfig    clang-23
+loongarch                         allnoconfig    clang-23
+loongarch                         allnoconfig    gcc-15.2.0
+loongarch                           defconfig    clang-19
+loongarch             randconfig-001-20260325    gcc-11.5.0
+loongarch             randconfig-002-20260325    gcc-11.5.0
+m68k                             allmodconfig    gcc-15.2.0
+m68k                              allnoconfig    gcc-15.2.0
+m68k                             allyesconfig    clang-16
+m68k                             allyesconfig    gcc-15.2.0
+m68k                                defconfig    clang-19
+microblaze                        allnoconfig    gcc-15.2.0
+microblaze                       allyesconfig    gcc-15.2.0
+microblaze                          defconfig    clang-19
+mips                             allmodconfig    gcc-15.2.0
+mips                              allnoconfig    gcc-15.2.0
+mips                             allyesconfig    gcc-15.2.0
+nios2                            allmodconfig    clang-23
+nios2                             allnoconfig    clang-23
+nios2                               defconfig    clang-19
+nios2                 randconfig-001-20260325    gcc-11.5.0
+nios2                 randconfig-002-20260325    gcc-11.5.0
+openrisc                         allmodconfig    clang-23
+openrisc                          allnoconfig    clang-23
+openrisc                            defconfig    gcc-15.2.0
+parisc                           allmodconfig    gcc-15.2.0
+parisc                            allnoconfig    clang-23
+parisc                           allyesconfig    clang-19
+parisc                              defconfig    gcc-15.2.0
+parisc                randconfig-001-20260325    clang-23
+parisc                randconfig-002-20260325    clang-23
+parisc64                            defconfig    clang-19
+powerpc                          allmodconfig    gcc-15.2.0
+powerpc                           allnoconfig    clang-23
+powerpc               randconfig-001-20260325    clang-23
+powerpc               randconfig-002-20260325    clang-23
+powerpc                     taishan_defconfig    clang-17
+powerpc64             randconfig-001-20260325    clang-23
+powerpc64             randconfig-002-20260325    clang-23
+riscv                            allmodconfig    clang-23
+riscv                             allnoconfig    clang-23
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    gcc-15.2.0
+riscv                 randconfig-001-20260325    gcc-8.5.0
+riscv                 randconfig-002-20260325    gcc-8.5.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-23
+s390                             allyesconfig    gcc-15.2.0
+s390                                defconfig    gcc-15.2.0
+s390                  randconfig-001-20260325    gcc-8.5.0
+s390                  randconfig-002-20260325    gcc-8.5.0
+sh                               allmodconfig    gcc-15.2.0
+sh                                allnoconfig    clang-23
+sh                               allyesconfig    clang-19
+sh                                  defconfig    gcc-14
+sh                    randconfig-001-20260325    gcc-8.5.0
+sh                    randconfig-002-20260325    gcc-8.5.0
+sparc                             allnoconfig    clang-23
+sparc                               defconfig    gcc-15.2.0
+sparc                 randconfig-001-20260325    gcc-13
+sparc                 randconfig-002-20260325    gcc-13
+sparc64                          allmodconfig    clang-23
+sparc64                             defconfig    gcc-14
+sparc64               randconfig-001-20260325    gcc-13
+sparc64               randconfig-002-20260325    gcc-13
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-23
+um                               allyesconfig    gcc-15.2.0
+um                                  defconfig    gcc-14
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20260325    gcc-13
+um                    randconfig-002-20260325    gcc-13
+um                           x86_64_defconfig    gcc-14
+x86_64                           allmodconfig    clang-20
+x86_64                            allnoconfig    clang-23
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20260325    gcc-14
+x86_64      buildonly-randconfig-002-20260325    gcc-14
+x86_64      buildonly-randconfig-003-20260325    gcc-14
+x86_64      buildonly-randconfig-004-20260325    gcc-14
+x86_64      buildonly-randconfig-005-20260325    gcc-14
+x86_64      buildonly-randconfig-006-20260325    gcc-14
+x86_64                              defconfig    gcc-14
+x86_64                                  kexec    clang-20
+x86_64                randconfig-011-20260325    clang-20
+x86_64                randconfig-012-20260325    clang-20
+x86_64                randconfig-013-20260325    clang-20
+x86_64                randconfig-014-20260325    clang-20
+x86_64                randconfig-015-20260325    clang-20
+x86_64                randconfig-016-20260325    clang-20
+x86_64                               rhel-9.4    clang-20
+x86_64                           rhel-9.4-bpf    gcc-14
+x86_64                          rhel-9.4-func    clang-20
+x86_64                    rhel-9.4-kselftests    clang-20
+x86_64                         rhel-9.4-kunit    gcc-14
+x86_64                           rhel-9.4-ltp    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    clang-23
+xtensa                           allyesconfig    clang-23
+xtensa                randconfig-001-20260325    gcc-13
+xtensa                randconfig-002-20260325    gcc-13
 
-> +	},
-> +	.num_consumer_supplies = ARRAY_SIZE(int3472_core_consumer_supplies),
-> +	.consumer_supplies = int3472_core_consumer_supplies,
-> +};
-> +
-> +static const struct regulator_init_data intel_nvl_tps68470_ana_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 2815200,
-> +		.max_uV = 2815200,
-> +		.apply_uV = true,
-> +		.always_on = true,
-> +	},
-> +	.num_consumer_supplies = ARRAY_SIZE(int3472_ana_consumer_supplies),
-> +	.consumer_supplies = int3472_ana_consumer_supplies,
-> +};
-> +
-> +static const struct regulator_init_data intel_nvl_tps68470_vcm_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 2815200,
-> +		.max_uV = 2815200,
-> +		.apply_uV = true,
-> +		.always_on = true,
-> +	},
-> +	.num_consumer_supplies = ARRAY_SIZE(int3472_vcm_consumer_supplies),
-> +	.consumer_supplies = int3472_vcm_consumer_supplies,
-> +};
-> +
-> +/* Ensure the always-on VIO regulator has the same voltage as VSIO */
-> +static const struct regulator_init_data intel_nvl_tps68470_vio_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 1800600,
-> +		.max_uV = 1800600,
-> +		.apply_uV = true,
-> +		.always_on = true,
-> +	},
-> +};
-> +
-> +static const struct regulator_init_data intel_nvl_tps68470_vsio_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 1800600,
-> +		.max_uV = 1800600,
-> +		.apply_uV = true,
-> +		.always_on = true,
-> +	},
-> +	.num_consumer_supplies = ARRAY_SIZE(int3472_vsio_consumer_supplies),
-> +	.consumer_supplies = int3472_vsio_consumer_supplies,
-> +};
-> +
-> +static const struct regulator_init_data intel_nvl_tps68470_aux1_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 2815200,
-> +		.max_uV = 2815200,
-> +		.apply_uV = 1,
-> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> +	},
-> +	.num_consumer_supplies = ARRAY_SIZE(int3472_aux1_consumer_supplies),
-> +	.consumer_supplies = int3472_aux1_consumer_supplies,
-> +};
-> +
-> +static const struct regulator_init_data intel_nvl_tps68470_aux2_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 1800600,
-> +		.max_uV = 1800600,
-> +		.apply_uV = 1,
-> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> +	},
-> +	.num_consumer_supplies = ARRAY_SIZE(int3472_aux2_consumer_supplies),
-> +	.consumer_supplies = int3472_aux2_consumer_supplies,
-> +};
-> +
->   static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata = {
->   	.reg_init_data = {
->   		[TPS68470_CORE] = &dell_7212_tps68470_core_reg_init_data,
-> @@ -232,6 +336,18 @@ static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata =
->   	},
->   };
->   
-> +static const struct tps68470_regulator_platform_data intel_nvl_tps68470_pdata = {
-> +	.reg_init_data = {
-> +		[TPS68470_CORE] = &intel_nvl_tps68470_core_reg_init_data,
-> +		[TPS68470_ANA]  = &intel_nvl_tps68470_ana_reg_init_data,
-> +		[TPS68470_VCM]  = &intel_nvl_tps68470_vcm_reg_init_data,
-> +		[TPS68470_VIO] = &intel_nvl_tps68470_vio_reg_init_data,
-> +		[TPS68470_VSIO] = &intel_nvl_tps68470_vsio_reg_init_data,
-> +		[TPS68470_AUX1] = &intel_nvl_tps68470_aux1_reg_init_data,
-> +		[TPS68470_AUX2] = &intel_nvl_tps68470_aux2_reg_init_data,
-> +	},
-> +};
-> +
->   static struct gpiod_lookup_table surface_go_int347a_gpios = {
->   	.dev_id = "i2c-INT347A:00",
->   	.table = {
-> @@ -258,6 +374,23 @@ static struct gpiod_lookup_table dell_7212_int3479_gpios = {
->   	}
->   };
->   
-> +static struct gpiod_lookup_table intel_nvl_int347a_gpios = {
-
-I would call it "intel_nvl_ovti13b1_gpios" to match the _HID.
-
-> +	.dev_id = "i2c-OVTI13B1:01",
-> +	.table = {
-> +		GPIO_LOOKUP("tps68470-gpio", 9, "reset", GPIO_ACTIVE_LOW),
-> +		GPIO_LOOKUP("tps68470-gpio", 8, "s_idle", GPIO_ACTIVE_LOW),
-
-Although the sensor driver does look for a reset GPIO, it doesn't currently try to handle one called 
-s_idle, nor does patch 2 add that...so that entry might be unnecessary too.
-> +		{ }
-> +	}
-> +};
-> +
-> +static struct gpiod_lookup_table intel_nvl_int347e_gpios = {
-> +	.dev_id = "i2c-OVTI13B1:01",
-> +	.table = {
-> +	GPIO_LOOKUP("tps68470-gpio", 7, "s_enable", GPIO_ACTIVE_LOW),
-> +		{ }
-> +	}
-> +};
-
-The dev_id is the same here; you shouldn't need a second lookup table for the same device, and 
-s_enable isn't handled by the sensor driver.
-
-Thanks
-Dan
-
-> +
->   static const struct int3472_tps68470_board_data surface_go_tps68470_board_data = {
->   	.dev_name = "i2c-INT3472:05",
->   	.tps68470_regulator_pdata = &surface_go_tps68470_pdata,
-> @@ -287,6 +420,16 @@ static const struct int3472_tps68470_board_data dell_7212_tps68470_board_data =
->   	},
->   };
->   
-> +static const struct int3472_tps68470_board_data intel_nvl_tps68470_board_data = {
-> +	.dev_name = "i2c-INT3472:04",
-> +	.tps68470_regulator_pdata = &intel_nvl_tps68470_pdata,
-> +	.n_gpiod_lookups = 2,
-> +	.tps68470_gpio_lookup_tables = {
-> +		&intel_nvl_int347a_gpios,
-> +		&intel_nvl_int347e_gpios,
-> +	},
-> +};
-> +
->   static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
->   	{
->   		.matches = {
-> @@ -316,6 +459,13 @@ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
->   		},
->   		.driver_data = (void *)&dell_7212_tps68470_board_data,
->   	},
-> +	{
-> +		.matches = {
-> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Nova Lake Client Platform"),
-> +		},
-> +	       .driver_data = (void *)&intel_nvl_tps68470_board_data,
-> +	},
->   	{ }
->   };
->   
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
