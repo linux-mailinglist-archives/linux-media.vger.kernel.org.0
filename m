@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-57006-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57007-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CLuQLh3Vw2lwuQQAu9opvQ
-	(envelope-from <linux-media+bounces-57006-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:29:17 +0100
+	id GEIuJ43Pw2nuuAQAu9opvQ
+	(envelope-from <linux-media+bounces-57007-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:05:33 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DB5C324E01
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:29:16 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E6803246A1
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:05:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1EA823216C03
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:48:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 5D0AE3008638
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:48:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 281863D0902;
-	Wed, 25 Mar 2026 11:47:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3B383CFF57;
+	Wed, 25 Mar 2026 11:47:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="ieM8iHRl"
+	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="VHTjmnEb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021092.outbound.protection.outlook.com [40.107.57.92])
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021112.outbound.protection.outlook.com [40.107.57.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537D33CF682;
-	Wed, 25 Mar 2026 11:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808513CF682;
+	Wed, 25 Mar 2026 11:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774439255; cv=fail; b=NA+URHebpKRGcVuZau5IJCVQZmJN9hn0HQPC4SfpWynRjvlW72azt1ZSlYijuMKD44SYJUwSvxmuuSYDYbzxzpDu8RKX73SbnXlRp7Gh+GaTUFNbfHg50fiyVZjEXhcs8EkqdvgBfHStgsGbJg5mMlHOm5HkewGtM/+VQrC1cIA=
+	t=1774439265; cv=fail; b=ifgvpQm0Ug0YkuAVKd+4nfJt+wsmT99WfIsYWwtTB7qT180aiZIEKzYBTlh9BVEo37u/qQ4F4P+wU8bUxhzbJKmuGOliGQ74k0jdE2wuSkY0lOQ3/qshEcR4Sb+P5wyr8cn51T9tZRbr3Aj/8s3t62iGJFPWwZULlgc8vP7t6c4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774439255; c=relaxed/simple;
-	bh=P4nTqaZeGMZn/EZdoQSpBk4fReRYtxEIEjhHKF6QBZg=;
+	s=arc-20240116; t=1774439265; c=relaxed/simple;
+	bh=/h4HLe/SeIhtzdAOaXTqjUZiOoRFeiV7uJBGik8VLao=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iMVeWd1c7nvVlf3m5ynIre2St8uFymqrRwRSC+9pGB8pKgmSR8IjpFtIv/MFlKGMJlg3CWbQ0Hdqqumyf/WAndvE7JK+PZVc//vp9JmtV3J+tD5fQ99DY0Enbh11YfLE8FfDyI4HW12vZMeTpT0y/GywOJs46FjWk9fyltdql+g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=ieM8iHRl; arc=fail smtp.client-ip=40.107.57.92
+	 Content-Type:MIME-Version; b=GOCuuDk/eaEB01/xSseU0LgXFy7cAzvbs8XZeidAWl15DlbFQ+Y3rRtCyb6Esr8aOrk1PTwVtHNcrT99Phlczj0LU9wb02Wkw3/ISnI5ygxfJ/2f5E0rqzPZqdT1Y4l6eEVeEXiMKfk43piICiPK5oY3nejVyEEPi8IJ68bbuqc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=VHTjmnEb; arc=fail smtp.client-ip=40.107.57.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x5yutHNIECx6ScZH5+CLmVHfVv4Wne3JnWJkKJpUT4MiWcK+GafVq2Sh3OGI+CjqedLb+4WrXQimob/wZTnW6EI1dZAHReFrMWL3DGpST6ODxrL5AJ+3pawLNcuZxGGTbPm4PF8+00ZbQTl0Cz/fwkXbwrDfsdGp9ltPnhrM9HiYSfxuScBkviMe2akfDApgeph3G3gqmPL9SQxxqpEqsqzHUtx7OjZowN8OGmoR0BHggry1QeCodeIsBrTgfBN9NWRfR7F5On4G37kP08u+nwB+rwA/N1C6P29cu2Mzo9rutnsVt4n4wxQhqUh8t2qTNigXQW4yCBa4zL6IIAKpUg==
+ b=qL5ITMD/0sHu1Jg6JqMgnhtiA64CtI/6ImFYAq+cShYn1mjWkRWFd9uq5i4T9WdTZPULFS/H7JIkjISmHvMUVFuaTMe9f6au5wGX7mcfxwMdGkDIjzmm1ftvX06Gr9YiA+DqwINLR+CSstt+EBsRq2XUJ/ekvJXEWwyLGarwkBnuqjnzGonOJPzV3nErKBCGH2v01w7V8po1h9dkozZDyLPH13l6xpruDBV88UrDaOD4Bj4sgFw8qbO3hfzi7IrxYi2rmodE+7TyEYuyEu/Hi/5Bd6PlQXPFcnOTiYh5yCwptMcW38qUrXXY5S25R0H9r+5+Rv0ZgumADkqoNstTlg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kTvCUHnZzgZN8jdgQ6UucRi7PmbDQL5KSYAiv48Wi/I=;
- b=vpASA1HSxS4e9UbiY/V+yEFSZy1DiaN4/kKviVQBRrLHRXOk5ErmRE7AJxlz5+PJ2PLW5b0CFa4wfYakYUDsqTJFP+YymdqYIdhqoJlJTJG7l7vMGJd155aCM47h119pJDPHPBmB6LsBl2WcCjF9iq0kgmge6KmLyxdC9GpK4o79M6/DXIZh+wNlEbjdXfKwR+dbbOgsdKAze2RzzF32eUb4uyqf6SbHEMw3EvCAvlDYwB/a+eSp7e5uQut53nqsJ7/nMsPLZy1hyoP+LCyv3O7DGn7hL+qtg4VKky/Bu6EikIw8mtYniEK6k8oPspEhXQf5ivTitGHl00swI1ujbA==
+ bh=ZDolXAS5oqHRyeMBLRQ+fO0fXod4B6OneODG49BEcIs=;
+ b=bcgvEljncygdXmqmL0+wEUPU5dASnRiLSxY+SFQNdEINTyRa4aP8asqG/gpadwggF+fbnJ7doWrReqy4e+RDeUXFwluJmR+whZBEixHWxJRnovufrFwo/MRS1D+638dBay0mzeCZ1yum1cBz/8Dm2uRTbtHZnMHYd5B+B/tPSQkf0VH/51G+F019umMN+cogFMUBEz++bLs6r7IDH4E6mI+DYMH7wDusBaqJVA1ET2SQt4ZcOOs0OT/GDtuU2bJ/BwR5w2CBGsAFu3GX+3Rdv+DfedRsFIcUXgoFAbal1ZqValIAgxzDzcugkHs3N7Nc2sOfaV63/yQ2ScI2VEQRGg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
  header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kTvCUHnZzgZN8jdgQ6UucRi7PmbDQL5KSYAiv48Wi/I=;
- b=ieM8iHRlR5nc1g46GlIv/bc9IXJVzIojfZ7n3bXB3lL8ab09C70Dp2WWRsmJSVDz70hS1wAZ9lFi/d/qjbdkV73V0kTSeErkW8oSI5VPSmj8KfRC9B+MxBFX9RHGrVkeqOieaGxe7X//pdxF6dvXBuHjNGGGQfws3d4Ab3AM6hNTffQ0XfzIK8IT/XgbOz2cXRUWc/cXJeZSX4bR3F6MicTR0xmMPRW7mrWBE8UGaaH+c8LHcuSoKFOmMWiNiAF6ubULnqU1ChU6cmv518/EASwnnhZf1ueMbHorP7BLB1YlsvIt9nSkywV0EBieCdXDaOSMHYu6Q2hbisH8jMNFTg==
+ bh=ZDolXAS5oqHRyeMBLRQ+fO0fXod4B6OneODG49BEcIs=;
+ b=VHTjmnEbXwNgTZKAYkYekmgpPMiHnuifrngp+JHC9BjBdQJLbMMyIC2k33ODtR7MA0GSsApfJ/wDPBAHb1EaLTidNDcMqJOsQCYrFSHteHPDQc8QszTgBR+DjjxFJElQN12gDFlWo8khYgs5EpNgV3cIiHV3Lya49ltXcliyYnVS4mSXJldLMGOf8P8MZCiJmdxk6p0v6XFf9ccT9Zq1FV9TqN8GD5PEfKRvuxRY1hUdEl+EFoArKj9MnE2ORQ2Cnmj93FhIHk/pUH22jKKhGN8ZzMb0Y9PlDwsc2xHIs6SNNCAk+LFVF1s7gdcpFxdVgpuSJ4xCGSWCbizfdzgRyw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=siliconsignals.io;
 Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
  by PN4P287MB4294.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:2a2::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Wed, 25 Mar
- 2026 11:47:30 +0000
+ 2026 11:47:39 +0000
 Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
  ([fe80::ce63:5749:b390:508b]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
  ([fe80::ce63:5749:b390:508b%6]) with mapi id 15.20.9745.019; Wed, 25 Mar 2026
- 11:47:30 +0000
+ 11:47:39 +0000
 From: Tarang Raval <tarang.raval@siliconsignals.io>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
 	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
 	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 05/15] media: i2c: os05b10: add V4L2 digital gain control
-Date: Wed, 25 Mar 2026 17:13:51 +0530
-Message-Id: <20260325114404.95188-6-tarang.raval@siliconsignals.io>
+Subject: [PATCH v2 06/15] media: i2c: os05b10: Add H/V flip support
+Date: Wed, 25 Mar 2026 17:13:52 +0530
+Message-Id: <20260325114404.95188-7-tarang.raval@siliconsignals.io>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260325114404.95188-1-tarang.raval@siliconsignals.io>
 References: <20260325114404.95188-1-tarang.raval@siliconsignals.io>
@@ -89,75 +89,74 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PN3P287MB1829:EE_|PN4P287MB4294:EE_
-X-MS-Office365-Filtering-Correlation-Id: 219179c5-50fa-453c-597d-08de8a644b8c
+X-MS-Office365-Filtering-Correlation-Id: 72d1a511-f472-43ca-23c1-08de8a6450ee
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014|56012099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	nDucQDkMS36BrwC/3F3mvPRzsOZyLiUoLZ4fZspJ4fpnPgxnSR8ms966p5Uoyt7/2QX8Rw9AzgQDGbcgbi/Bejoltdws8SGIs6Ewn+SGaPcBSRBFzmcyeR3Q0YF/aEyRr1JLV4TC6po77kemOpiZdVkDuFyPN+sk4urc9v95cjxP0z3pZwtoM5Tj909vkEzQYJ5exhbAKTgFmsVeLp5G/+9H5ANEu18sf/A9gLLo8czcvkowDOGWt0Q33ZgLVjOpCOfhkO3e69TtcaiIBlOyBDz0kOI2K5Ih73JFdU/ckPk27c75lC7NdzKVOt+v+DGC1dTVrgkd0079fEbkl1i1ob3AiVAEtDTRseAAWlbl/nxzVRRpYPHPT92oPxspto0SxG8V9TSQHwk8ntu0te4DAQoB3DDB3CqisMGQpa5eeL4KoHyhhWtlc1BCWTSjB1903K1z3+5pTV12U4uo7kTL8XEzjpSaRQiyCKH1kzL/wg4N1h7Cot1OwJ2YwIgFuXJOHasING3fjeaaiJ79aeTWxlB8O4zuXQxHI6JPRwHWH2mB4G4kXPQ6girBATMRm+6a1xKEG9olo7wOSYjPJxgCz+8vXF9X4izwD5YoyLZQKTFtq1B9h7UF5sCQYUmb1VrdnT+sUAAi9hlmIEg4Pdk1NHJbN8L984zIiDAhl1ATnDjdxSuqFnyD2ykd5CVGf1a2ht8RLG5AvDzUpK+QlCSwb4O9OERleuNHa6lXiBNJa2Opp9GxfmPprgvara7SWpS/2mZ1wG7OmuxVmx7Q7SAa5L3JfEn/d38K7idfHwpMgSA=
+	aUOA78dfY3qcoK/EFjy7mmcy8lj0dV2yG8oqe3pWfW4VAijTmXVqIz0uEE6jsA0zRDFkL0JtnynpWKzQHhZ6UTwR6o/YE2ukcQiwE9lyZ+BAcAj3DihECqWrYWBhA0UM2FwBwaSiBHttWXhcpdyAuyf/unBk9IiTx7Gb8yqHtekgnaYoXLeyDp752qxCWfnl5cf8hBw3pc9Kf2lWO26qkow2xkLHlK49LEiv7nHKgU4csLd5Do7tfCxjYVvEQFrRrS5TPE5hp34fMlW92ePATNgPnKoX0E7KBQuK39cIrPSPL0ySm8XElJuq0F0RzQjZkrJe8HnOlBVcGY4Lmq78O/bBy3C5zKKehcs6rq8z4GeRCAswpRg0duZhm/Z40fTCOQ566ZBIR6riHfelaWjvcvfJpBEANQ309U+8aK8a+ioSowwEbHdjFklhkNhEa8BeRMc6nxSRNJUavahnCTpZoSHcdMxGKA9WvFpzcuqKscw+pmiJGAiomPkBt8DaU93aaiX/nrai2CvuFYWvRHEh0Kv2jjP7wy2SgM/Ay6vtWRefkmSGYE8idYT2l0F50UEpTJwx+JMeeB8W/dFiBG0XlHIsLg5AWoSUdnS0f6p+uyW9aI8ibEjf5tbGWcaNnsyQbnu+ZJjIsB0hj5i95vtN0y+4nQAbdb3uCbazOltAY0Agt+/iQMcECvr5dYgxcoWOLzyDtU2djO1LnJO9SnoXxVXE3JPc3l5QZthcIiLOSfRsdmw778A88M5lK+W4rzDA1mge45OFRma5A1cwdHfEKMfQGU4pJbH0v2Bi0XEYzqo=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?HPshzzn+WG1/XTSexQrpiTrxos+AgfWnUUvf4vzAJn6L24P/977DjfHrCP1T?=
- =?us-ascii?Q?lbs9BVXyExrgieLyLxezdX8U27YmFDzl6tDGojk2Q/Btg+NXTB8JbmUc2spZ?=
- =?us-ascii?Q?KCCO1DDuXYNVcejORhE+qo+R4qUtHDF2togkrqIAJsEaIDVu00+vXBTd+Zb6?=
- =?us-ascii?Q?cSTrtJykEhCNKD+kR7Vzkq/N6B3s9ZjAcvvJyqnh0P7q+zbCnmmwO8v+mlzM?=
- =?us-ascii?Q?e/C2oeJNlpor7XKN9w2guv72Vv+jNeehfTaVbQp6dvfocMnB9XbyApUOLKEs?=
- =?us-ascii?Q?OJA8GieOTKByXjUMOEPzA4S35Ao+kI8gO4t4v/PPxaX1W7DMzXtrMxTz6WXV?=
- =?us-ascii?Q?WXhQHYprVyrabuvEla44Ne98HM92OirVa+znr3WOSswBhVOaFjt26BT8//Hg?=
- =?us-ascii?Q?+jfnmiBin+3QIBf5GG5QM69eldi/8Pk+Id9I7ggt5cCuRUEzQ9AFMGL4Cwsv?=
- =?us-ascii?Q?vBrf1rZXsbqxqjGFUrO4lSzIiFIwFOQNNSe4KbrSjs7/HYkZ+8p66KFjEFWP?=
- =?us-ascii?Q?JairiRawxjZRvJWO2/1Ny+ao90yBVUmOS4kWw+wsbrpN76OTEinoDW9T37qb?=
- =?us-ascii?Q?qnT4R1VugUuFW4dHvxYnyfGqJxkwxxJrpDeUefvtYJ0ztAZLqQfVhFq8eicX?=
- =?us-ascii?Q?KlVeFwS5pXAFE1n7/EuFi/3l84zwUS6CNcxClzhSLKfiIz5/+8RJcqeObSem?=
- =?us-ascii?Q?/qOyRcnSHkimzyY0YlBvFssgCIg+e9QUleOiR2vLrWEtXSFXppl7s8Gf1w9O?=
- =?us-ascii?Q?wvuJcXcvVNqbTw/il+E7mhoTwIykP/YFaILVYsm6ImO6IwtIF353uR8mwOKm?=
- =?us-ascii?Q?B9eM7dBGKTnXOHhTWg6hJ16YpLvy1JdyFvHoWaHgeXGA7MO4NJpZuIs7AkDr?=
- =?us-ascii?Q?S8+3zUECTYvOdPt1CynmD29a2/MyC7UAr/JIkbzlwKK5yvSDK02bZJlVxwrz?=
- =?us-ascii?Q?Mul8RrvApRNIKZloPJiVPp0YyqTjLNg0FRbtIS+VzoBSjORTsZAc3CHZG2sh?=
- =?us-ascii?Q?I20SpQYgHp5NVK+h49odWDwUXwuMquthqHa7HFjzGxCUTdYoGBYBTepi1NUh?=
- =?us-ascii?Q?f76f9dFLyM4xb6bY/lllOZOZf3CrWqhSisqiOiykAIZcEP680uGUbA3N1dhu?=
- =?us-ascii?Q?Y3bSt4uVKA/mgYcAec97T8fIMYeaJ8nn/AY/uwj25Or/MwHGPq1RaOA2A8U7?=
- =?us-ascii?Q?2913nTU+azr8Je70brmBNo8jZVx5Q/WHQb7qQkhPlsRjHyhn9bIH4p/8G3MF?=
- =?us-ascii?Q?pVEwcdHioPbflJpgCd8Yum2ZHBbZrIRptzBuYRxgAtnEO5BBNvKUp1/QnOqi?=
- =?us-ascii?Q?k5HQKmUtl4Q1m/XuqEHji81XNZw32+TO2NjGmC6JWH3QktIrazSLQwA4x/sk?=
- =?us-ascii?Q?qubwBNhP9jd8BQ9h5VVr4VS+Mc7D9k1xEoDT2S2ZDCYXjYEtUPnqf3LLEktI?=
- =?us-ascii?Q?ozzC6WHwGJkmnHmC/8OZILqiGIbmAIEgqhMrvs9Nen5PaYzMfaRWX4OCf4MW?=
- =?us-ascii?Q?V0L7BJDKD0qA0IIVJ4YC48KEuFjIxyTxZ9V9J15EnnxBrF2WBKQn8UGE5xRP?=
- =?us-ascii?Q?p3Nzmhrc7MoMG7Y3JSZSoqe47zmjyjezrHyJCh/gOji7wODUg0ESnlfN0qFn?=
- =?us-ascii?Q?7UdLGAl728bo8NqwEMZnP9a1l9kxgSjllz4u9YOSlE6SA9pXJ4PorNIvRvNf?=
- =?us-ascii?Q?Mz4TNyn3dsDTDJMjX5i63LYWS0E85XypVeoeVXaLRdb6zTMCr4hvKq/iVOdU?=
- =?us-ascii?Q?n4U5T3XXD8QxWGe7VQxzvSLWAHzxFZc=3D?=
+	=?us-ascii?Q?Ig/VR5UHVEBKl7m3k20KtqdtBz9b+rdGlz2hLDtm6LzSx33SqSSIaPIBk9aZ?=
+ =?us-ascii?Q?cOKZrEI9UmGIXuUkW25GtpKZVMn4zocQ+7gsOXWYY5UU29ehfzbN9+4s5o/q?=
+ =?us-ascii?Q?Dl/byAEh2lQHFC2WOv5UtXi0b+Doa3JaxZuRx6aigMZWKwyF9cZDFDQk1Rkb?=
+ =?us-ascii?Q?6wX9JxiXvsclCp/QG0kIkmdpf6hECSUJx1iDrBDyyYAmfeRypf98iP2YMqbA?=
+ =?us-ascii?Q?3Gwh6M54Rl56/hMjDrXZadhmosCgOZGWmNwP1kP1+agMsGrPFYz8PSIInTgA?=
+ =?us-ascii?Q?O0ppWTrIPMnZPwIBV/2ZlShbeymYjDyGu3FnCX+JA01/gDibP4t3NVIc5dRI?=
+ =?us-ascii?Q?P9vuRgc95oIV1GC4v1+DPr+ggDxMH/6aN7mXUHd6hxwcJpCfcEidrFODzmAZ?=
+ =?us-ascii?Q?3QsYVHuLfrWgvhGZIiJl8eG48iob+sTTJ4EX19x7YgbDkq0FVn0SbV12Qt1M?=
+ =?us-ascii?Q?Im2qH4b/XN2E7oBsyYV8Rqs6P4jUUxstmIfcE+tIFXY7iWXP97LW9vNdbiOo?=
+ =?us-ascii?Q?kj+jhGJ3+8JMsmNkZrQcgb0WxPHC8ivUp6DSioWYUq6Gw75UMS+F7RUUtlyX?=
+ =?us-ascii?Q?4+2JaU4PauGxQEkwRe5pKRwHJLSmRHqRLKLBk07Ez2b6JIkTY+/08Ifx+e0d?=
+ =?us-ascii?Q?jQX7imDcG01wcu9wpwgdHPZwFEOZrw/u9YaLfDZyXXOQPdAcDWERvTia+KcX?=
+ =?us-ascii?Q?o5yPlvloy8wg/myU1ypGYJTTSknpColQmgricv81TbrhqaAnsvEc/yL0kYul?=
+ =?us-ascii?Q?rRnaEqCWn5CH4yLABYZj1/Xz2Cc83IZn6OrV0qe4NlN/6mmQPMDGOKvO0eaA?=
+ =?us-ascii?Q?ab+GhW8jm1Q+bSYk3oFRK4ksPql9jXoIG4ZxfMi9AQyFs6Wueb8VOj1hJThS?=
+ =?us-ascii?Q?ZLGLtOpwotJgkj8GFgjG5zfWrH/jvQHyngbw3IhVyNmyx5kZSJuhPgHhy2b0?=
+ =?us-ascii?Q?H6FEU8BHyP7O+ekhasRWjt9Mex016w+XlV2ucFH3MqoQhQfrjO8RNz0q7Epr?=
+ =?us-ascii?Q?9/hetRLUXKNCvwcPTKRzgcnESXSaXTfzSEfYUSgiRy8ZnrJNy06eUC0EqNNX?=
+ =?us-ascii?Q?oinSaHgIAB/P5E5gif9Lpoa4CglDs3WR+3yt1wblsX0EGVMa8ZFvXelW6s/L?=
+ =?us-ascii?Q?MHzjZEh5dWkvnwhmsve5xMVykTMv/8WwUdh44Vgapv7SpXrtOtE2de+nN6BH?=
+ =?us-ascii?Q?QDhxwh9jkSRsHAz2Tyl6syNtaPKnb3+FV80Fj+5xPxHpw5mbg6ldDh9mDXUa?=
+ =?us-ascii?Q?D6bRcFJlL41UKF0+Qnahvg8PCqtlk3D915Tx9uCB9UWaAIMhaIgHuU48I2n9?=
+ =?us-ascii?Q?votQjrPiqG1ecFSQYhR/fY+LNgJL4ZxY/dOJHU5GuMMlthYwdMMs+YcU9bho?=
+ =?us-ascii?Q?RSnGkWajrdLigj+pmJS8C5i5mzUhg9PL+ouVD3uMKzHmYrU4Uy0c7A990OMA?=
+ =?us-ascii?Q?RmKMkEnItrbye8xVhXybKG8wrE4MZcLnk6+uUCToKggNsGSMsE2aA5F9Asjq?=
+ =?us-ascii?Q?+aAgiOIt7cC/xYqPPN+A6HDxmkzNdAeXvZaWvfkm7wxoQP4eKvrEHw3SZmgk?=
+ =?us-ascii?Q?9Vq/YHRsbbfmuwhzeZx7/X0CG8f/wqAuOy4zwkN7dYwDmEY7cO8aSGHfAyM0?=
+ =?us-ascii?Q?8hSE0vg9XDzHDZWpxlxSD3pqU1jjYl3iZypivCCBl6m4vGd+1HTerxlGR5AR?=
+ =?us-ascii?Q?Xze3vc3PA0WxYvI1BWkYUZgqIhDB8b0KsSEYkuZ11iTIX8K2QvIg+einKN3Q?=
+ =?us-ascii?Q?4jXS3EjeVdf2pNaqEVwajJM5qvOsmk8=3D?=
 X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: 219179c5-50fa-453c-597d-08de8a644b8c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72d1a511-f472-43ca-23c1-08de8a6450ee
 X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 11:47:30.3099
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 11:47:39.3398
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h+sEt7pbtDYet+jvpf0LjM8iwNgJf7fEmVySpK+AjVRfESe+OvGJongGzL8dtjoK8rQcfS6KfpLMUXCxIlbrX8w8iwUX13SSYQ5AXDfoeIc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6447qB2SxpOrmmiFxQI0wSMStquBnSxjp78WxHn+lijai1pcDLK+esSHj5AGBzoEIaM38cQALKuQRyJBx4lhfJp02ILaQi5AVURveyq5xi4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN4P287MB4294
-X-Spamd-Result: default: False [2.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
+X-Spamd-Result: default: False [1.34 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[siliconsignals.io,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[siliconsignals.io:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-57006-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57007-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[siliconsignals.io:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[tarang.raval@siliconsignals.io,linux-media@vger.kernel.org];
@@ -167,59 +166,165 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,siliconsignals.io:dkim,siliconsignals.io:email,siliconsignals.io:mid]
-X-Rspamd-Queue-Id: 1DB5C324E01
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,siliconsignals.io:dkim,siliconsignals.io:email,siliconsignals.io:mid]
+X-Rspamd-Queue-Id: 9E6803246A1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Stop programming digital gain in the common register sequence and expose it as
-a V4L2_CID_DIGITAL_GAIN control. Initialize the new control and handle writes
-in the ctrl callback.
+Add HFLIP and VFLIP controls, lock them while streaming,
+and update the reported Bayer format based on the flip state.
 
 Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
 ---
- drivers/media/i2c/os05b10.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/media/i2c/os05b10.c | 59 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 55 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/os05b10.c b/drivers/media/i2c/os05b10.c
-index 9499867ad40e..2f47b02149b7 100644
+index 2f47b02149b7..bf848eb9ba52 100644
 --- a/drivers/media/i2c/os05b10.c
 +++ b/drivers/media/i2c/os05b10.c
-@@ -129,7 +129,6 @@ static const struct cci_reg_sequence os05b10_common_regs[] = {
- 	{ OS05B10_REG_PLL_CTRL_25,		0x3b },
- 	{ OS05B10_REG_MIPI_SC_CTRL,		0x72 },
- 	{ OS05B10_REG_MIPI_SC_CTRL_1,		0x01 },
--	{ OS05B10_REG_DIGITAL_GAIN,		0x0400 },
- 	{ OS05B10_REG_ANALOG_GAIN_SHORT,	0x0080 },
- 	{ OS05B10_REG_DIGITAL_GAIN_SHORT,	0x0400 },
- 	{ OS05B10_REG_EXPOSURE_SHORT,		0x000020 },
-@@ -550,6 +549,10 @@ static int os05b10_set_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = cci_write(os05b10->cci, OS05B10_REG_ANALOG_GAIN,
- 				ctrl->val, NULL);
- 		break;
-+	case V4L2_CID_DIGITAL_GAIN:
-+		ret = cci_write(os05b10->cci, OS05B10_REG_DIGITAL_GAIN,
-+				ctrl->val, NULL);
-+		break;
- 	case V4L2_CID_EXPOSURE:
+@@ -96,6 +96,10 @@
+ #define OS05B10_MIRROR			BIT(3)
+ #define OS05B10_FLIP			GENMASK(5, 4)
+ 
++#define OS05B10_REG_ANALOG_FLIP         CCI_REG8(0x3716)
++#define OS05B10_FLIP_ENABLE             0x04
++#define OS05B10_FLIP_DISABLE            0x24
++
+ #define OS05B10_REG_FORMAT2		CCI_REG8(0x3821)
+ #define OS05B10_HDR_ENABLE		0x04
+ 
+@@ -232,7 +236,6 @@ static const struct cci_reg_sequence os05b10_common_regs[] = {
+ 	{ CCI_REG8(0x370f), 0x1c },
+ 	{ CCI_REG8(0x3710), 0x00 },
+ 	{ CCI_REG8(0x3713), 0x00 },
+-	{ CCI_REG8(0x3716), 0x24 },
+ 	{ CCI_REG8(0x371a), 0x1e },
+ 	{ CCI_REG8(0x3724), 0x09 },
+ 	{ CCI_REG8(0x3725), 0xb2 },
+@@ -466,6 +469,8 @@ struct os05b10 {
+ 	struct v4l2_ctrl *vblank;
+ 	struct v4l2_ctrl *gain;
+ 	struct v4l2_ctrl *exposure;
++	struct v4l2_ctrl *vflip;
++	struct v4l2_ctrl *hflip;
+ 
+ 	u32 link_freq_index;
+ 	u32 data_lanes;
+@@ -514,6 +519,18 @@ static inline struct os05b10 *to_os05b10(struct v4l2_subdev *sd)
+ 	return container_of_const(sd, struct os05b10, sd);
+ };
+ 
++static u32 os05b10_get_format_code(struct os05b10 *os05b10)
++{
++	static const u32 codes[2][2] = {
++		{ MEDIA_BUS_FMT_SBGGR10_1X10, MEDIA_BUS_FMT_SGBRG10_1X10, },
++		{ MEDIA_BUS_FMT_SGRBG10_1X10, MEDIA_BUS_FMT_SRGGB10_1X10, },
++	};
++
++	u32 code = codes[os05b10->vflip->val][os05b10->hflip->val];
++
++	return code;
++}
++
+ static int os05b10_set_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct os05b10 *os05b10 = container_of_const(ctrl->handler,
+@@ -557,6 +574,21 @@ static int os05b10_set_ctrl(struct v4l2_ctrl *ctrl)
  		ret = cci_write(os05b10->cci, OS05B10_REG_EXPOSURE,
  				ctrl->val, NULL);
-@@ -926,7 +929,7 @@ static int os05b10_init_controls(struct os05b10 *os05b10)
+ 		break;
++	case V4L2_CID_HFLIP:
++	case V4L2_CID_VFLIP:
++		ret = cci_update_bits(os05b10->cci, OS05B10_REG_FORMAT1,
++				      GENMASK(5, 3),
++				      (!os05b10->hflip->val) << 3 |
++				      os05b10->vflip->val << 5 |
++				      os05b10->vflip->val << 4, NULL);
++		if (ret)
++			return ret;
++
++		ret = cci_write(os05b10->cci, OS05B10_REG_ANALOG_FLIP,
++				(os05b10->vflip->val == 1) ?
++				OS05B10_FLIP_ENABLE : OS05B10_FLIP_DISABLE,
++				NULL);
++		break;
+ 	default:
+ 		ret = -EINVAL;
+ 		break;
+@@ -571,10 +603,12 @@ static int os05b10_enum_mbus_code(struct v4l2_subdev *sd,
+ 				  struct v4l2_subdev_state *sd_state,
+ 				  struct v4l2_subdev_mbus_code_enum *code)
+ {
++	struct os05b10 *os05b10 = to_os05b10(sd);
++
+ 	if (code->index >= ARRAY_SIZE(os05b10_mbus_codes))
+ 		return -EINVAL;
+ 
+-	code->code = os05b10_mbus_codes[code->index];
++	code->code = os05b10_get_format_code(os05b10);
+ 
+ 	return 0;
+ }
+@@ -713,6 +747,9 @@ static int os05b10_enable_streams(struct v4l2_subdev *sd,
+ 	if (ret)
+ 		goto err_rpm_put;
+ 
++	__v4l2_ctrl_grab(os05b10->vflip, true);
++	__v4l2_ctrl_grab(os05b10->hflip, true);
++
+ 	return 0;
+ 
+ err_rpm_put:
+@@ -733,6 +770,9 @@ static int os05b10_disable_streams(struct v4l2_subdev *sd,
+ 	if (ret)
+ 		dev_err(os05b10->dev, "failed to set stream off\n");
+ 
++	__v4l2_ctrl_grab(os05b10->vflip, false);
++	__v4l2_ctrl_grab(os05b10->hflip, false);
++
+ 	pm_runtime_put(os05b10->dev);
+ 
+ 	return 0;
+@@ -741,6 +781,7 @@ static int os05b10_disable_streams(struct v4l2_subdev *sd,
+ static int os05b10_init_state(struct v4l2_subdev *sd,
+ 			      struct v4l2_subdev_state *state)
+ {
++	struct os05b10 *os05b10 = to_os05b10(sd);
+ 	struct v4l2_mbus_framefmt *format;
+ 	const struct os05b10_mode *mode;
+ 
+@@ -748,7 +789,7 @@ static int os05b10_init_state(struct v4l2_subdev *sd,
+ 	format = v4l2_subdev_state_get_format(state, 0);
+ 
+ 	mode = &supported_modes_10bit[0];
+-	format->code = MEDIA_BUS_FMT_SBGGR10_1X10;
++	format->code = os05b10_get_format_code(os05b10);
+ 
+ 	/* Update image pad formate */
+ 	format->width = mode->width;
+@@ -929,7 +970,7 @@ static int os05b10_init_controls(struct os05b10 *os05b10)
  	int ret;
  
  	ctrl_hdlr = &os05b10->handler;
--	v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-+	v4l2_ctrl_handler_init(ctrl_hdlr, 9);
+-	v4l2_ctrl_handler_init(ctrl_hdlr, 9);
++	v4l2_ctrl_handler_init(ctrl_hdlr, 11);
  
  	pixel_rate = os05b10_pixel_rate(os05b10, mode);
  	v4l2_ctrl_new_std(ctrl_hdlr, &os05b10_ctrl_ops, V4L2_CID_PIXEL_RATE,
-@@ -968,6 +971,10 @@ static int os05b10_init_controls(struct os05b10 *os05b10)
- 					  OS05B10_ANALOG_GAIN_STEP,
- 					  OS05B10_ANALOG_GAIN_DEFAULT);
+@@ -975,6 +1016,16 @@ static int os05b10_init_controls(struct os05b10 *os05b10)
+ 			  OS05B10_DIGITAL_GAIN_MIN, OS05B10_DIGITAL_GAIN_MAX,
+ 			  OS05B10_DIGITAL_GAIN_STEP, OS05B10_DIGITAL_GAIN_DEFAULT);
  
-+	v4l2_ctrl_new_std(ctrl_hdlr, &os05b10_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
-+			  OS05B10_DIGITAL_GAIN_MIN, OS05B10_DIGITAL_GAIN_MAX,
-+			  OS05B10_DIGITAL_GAIN_STEP, OS05B10_DIGITAL_GAIN_DEFAULT);
++	os05b10->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &os05b10_ctrl_ops,
++					   V4L2_CID_HFLIP, 0, 1, 1, 0);
++	if (os05b10->hflip)
++		os05b10->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
++
++	os05b10->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &os05b10_ctrl_ops,
++					   V4L2_CID_VFLIP, 0, 1, 1, 0);
++	if (os05b10->vflip)
++		os05b10->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
 +
  	if (ctrl_hdlr->error) {
  		ret = ctrl_hdlr->error;
