@@ -1,212 +1,183 @@
-Return-Path: <linux-media+bounces-56964-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56965-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WCROElqsw2nAtAQAu9opvQ
-	(envelope-from <linux-media+bounces-56964-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 10:35:22 +0100
+	id yCiCN5+tw2nAtAQAu9opvQ
+	(envelope-from <linux-media+bounces-56965-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 10:40:47 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51EA73224BD
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 10:35:21 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 418873225CD
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 10:40:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 2B5D430346D4
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 09:31:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 17D24308D3D6
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 09:33:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 639C8359A8C;
-	Wed, 25 Mar 2026 09:31:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4962235DA44;
+	Wed, 25 Mar 2026 09:33:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QvawEJ5Z";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YQjwTTI/"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kcore.it header.i=@kcore.it header.b="ckjKooaA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from spark.kcore.it (spark.kcore.it [49.13.27.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E76347535
-	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 09:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEF63590C3;
+	Wed, 25 Mar 2026 09:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.13.27.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774431059; cv=none; b=H46nR7BZ3de6FW8+Oo/JVQTNBUHlQHNCISZBbHnSbuCOsKoYlTjmUBx4dldkRWTjv4Sz+TWrz38yQP6SsViTGdusQN+t4me5VyATMyp6avz5SOGcc+/xyQcocI26uGug4YHecjIselIXL6zCiQCWqIkMUIDFXMkVqoAXrJHPp90=
+	t=1774431186; cv=none; b=Cj5k6h6AoqIuOuEK+4wduHNhe0uLRCO89NC94Y6xJfooZLMLdCvo/GCnOkhiJa3roqLbxKnfPHluILXSsr7huDrdy8LpL44cECkrIDhmoPOfbostdhAA4Se6JG6UfnSU6+M4QklHTv2ldy26mNmGgx/1m4SzL7qWDbpVpZzcgrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774431059; c=relaxed/simple;
-	bh=kl7xPW9zd45V1YnWgHNJd6LjUZUW+y4mNo8sc58jbac=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hNIlNyGxJ/X6V15man8vxw26jqVXTsblS2uSPIOuCCUqkp5qcFLfF2MSJ/GCZV3mEaI4RK+2BzGSnSbbA4NFPNqhRQvr9jnuLBsG0IXIZRtBfp3Ev9MIF3hW2gjpI4juiO/ZLbzUCjlPlPKoXFq1fqUhtemMnSv4VrRmIsMhBJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QvawEJ5Z; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YQjwTTI/; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62P5QhpU1862785
-	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 09:30:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	PK7yYDGVe2d9199JIVWvQ56RE/9bId5CfK806NVhSrk=; b=QvawEJ5Zn8SGlLVx
-	UVsfF9I9TfuxISloti/l+7/Sjk2cCZZwQJV+kNICVjfiwom/+smKpgsXAqJPz0CT
-	Mh2e92XBHQ5e6XDKXjVadsC4nx9RDDb11296UhWSzebX3E0+rFhY+vEmkPI4YQAh
-	N4jln+45PizSbYgRYUM3vhHgQe03w5ab5Z9n4B9xi4mSx5TwLxLDmBOEOGMOijdb
-	l+T4/msnvvF/NJqjMHp0g84DkUoh6VMll4NbkpSPR0cab8P8gsdXOnx1WvzvkzuJ
-	o+Z3awRHo9Jwdj6MI5tKpBoe5w4FRkq04WEaRUQFWXHLN1xfUGC4DscM87kNsbaZ
-	DcNG3w==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d40rategm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 09:30:57 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50b27636835so55662831cf.3
-        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 02:30:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1774431057; x=1775035857; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PK7yYDGVe2d9199JIVWvQ56RE/9bId5CfK806NVhSrk=;
-        b=YQjwTTI/dY55imLRGqVaEl27XJR+IqqLt6d/IbFRvuOuDH8wrYoU3PtJZCb50ZXwzQ
-         N4B3+c1GnC3jrJWxw1Y94Ij5SKEb1Dcrn/xmnOu1EdBnvaEkP+JiFe09Punotjs9P4qT
-         4hQ6ESDFK/MkWWiz2ivdKsETDzbsg0tsorGW3zwZK65fbLj6vlg7Lnp4EjU36AUqB2mu
-         706Ym2RpyviNe26X6LJ+lBCLwWUybHzt0sfhoFKzNRRpkJ64/BTaFlc79dxkTrXvKBo2
-         vNWvVJbxAdY5VB8S31jb43tQNsCL3f3xxzYCP2HOrt0C1DCIPOm1wqlgG70G3dvEq1uV
-         o98g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774431057; x=1775035857;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PK7yYDGVe2d9199JIVWvQ56RE/9bId5CfK806NVhSrk=;
-        b=CqKvxGaOejDxtpT0CbY1bdwqLLWQadenVsRLXhwTV3dnOMJuf+/67ZJhakKJv7W/kO
-         ZBqB+126FP0awLlSXsNhwajg9l9B9tlpHwPw1SnxUmWiB/u44jAKw0S5/M1kP65Jp1X7
-         32e2pbv16tX4+xyosmk498V2H4U3dRC/+Q9n/ioHR/7udm5LFkkSw00oKK51UBuWikQR
-         YvLAfOJAH0maMry7TphkxKaKSqd68XGKO2nky79pBEuU+XyjfzCNtMDxHBpgIsK1oaLk
-         Y4Mvf4cyohGEI3fd3D1T5ysUKcOKfMFQndtSY7FcFj45BPVDhOTqybgg2XJ9gdIF26Ea
-         a0fg==
-X-Forwarded-Encrypted: i=1; AJvYcCW7DoIKlqqlqkM/H3R+GZQgFAfVaZDI0H+v7abVnB7v1nKJi0dZ11F2qtbX4nLnPwrMKG8MzxtrBCyz3g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZTx1qxkXC7NEcZjexFDxdK8ag8etIN7cqyD+k/zaKlmPWERrp
-	3mdfvYbEmJejwjo2tmCZcF9D13Pixse2+uVBvjZYUpGKpgZuQHG8Um5PNl+7TZwhjv9c2pw8egW
-	SyxNUeEoDA1esCkEpuuXo+oNesa5ja0COMESLqMhMMZZMmqoDUJjVN8feFabPmbbp2A==
-X-Gm-Gg: ATEYQzzaLPZviMu6gI8PsewXsrx9eU19HPDW3pOFlf89MUsdi/FsLCIjBFGztnuR2GA
-	Qz6wUxhPpWLH5zsTX1fObqFFGP5eqZ2xcBrlb7Qfc81swlGgV3J8sAk7lFvA2yUQncSdfnnZor0
-	MHVxp8xKzoLrOdrB9dWPFqM/5db1FgWJJqpvVhgCsOX6/qffifSaLDZ6aKdvmOuuf1+fJVfpteG
-	0ueHCUDNlQMFuUQ/mt0GtQcIRoom3+V1/s+QGI5jWMIiVCQFMk0vyG+92gd8wnecMsSDbbCFNBf
-	5F3jAbMimYkiVmeFm9n9rDTIti0moO+cHY50Tf+99GSr7s40lbRSPwdrSN+dOrZjmdTahUjNfcr
-	JacF3n8Y3ZuE5oIFjiz04dWDe4gU33UgQRp5wFVkMEtAoxxmBanZVeYl/dKVSAXez+69YvhCK+z
-	DtSFw=
-X-Received: by 2002:a05:622a:5b06:b0:50b:51eb:c355 with SMTP id d75a77b69052e-50b80e73582mr24824731cf.9.1774431056693;
-        Wed, 25 Mar 2026 02:30:56 -0700 (PDT)
-X-Received: by 2002:a05:622a:5b06:b0:50b:51eb:c355 with SMTP id d75a77b69052e-50b80e73582mr24824321cf.9.1774431056166;
-        Wed, 25 Mar 2026 02:30:56 -0700 (PDT)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9832f43a65sm754692866b.7.2026.03.25.02.30.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Mar 2026 02:30:54 -0700 (PDT)
-Message-ID: <4920d196-9002-47fa-ae92-c6f14e99c958@oss.qualcomm.com>
-Date: Wed, 25 Mar 2026 10:30:52 +0100
+	s=arc-20240116; t=1774431186; c=relaxed/simple;
+	bh=kC1Ee/8VnN9S5oE/AH75RpPrsklx4gIqbp9SMxaG7kc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=aGfwY4Dd/vtjoQINI/KUTrm4rtrBOGD5G3iUasiWh9eC556O2bUvHXrBnWa5FzMCsuGY4eqfGfyldmlSZcXbe6RW/FK61VxJWKC0kc7rVjAP+UXMSiRoJvdIAyDaaTbs1Wx9CWFL4RLhOKiWCCqJzHrXquwyo2dkidWP5BrglI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kcore.it; spf=pass smtp.mailfrom=kcore.it; dkim=pass (1024-bit key) header.d=kcore.it header.i=@kcore.it header.b=ckjKooaA; arc=none smtp.client-ip=49.13.27.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kcore.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kcore.it
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kcore.it;
+	s=spark; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=bpEYG4mAJXl0fC+dB++UtXI2QI9xoOV0w6t35e7WFRA=; b=ckjKooaA0De37EXrO3qsRoCSWa
+	QqOixPFADng4wVytLhI5HJTTy7GPqOR3+Ue4neOmsO3S/f+qugq/zSRu95AZb6e8iGKAo/4ElQVXu
+	aQk35hr/oKNehyBRrhOTJ3Z+kU06PihYaxeTCFGAKClEzHV5S4tD0YS84kFv3LRvou88=;
+Received: from mnencia by spark.kcore.it with local (Exim 4.96)
+	(envelope-from <mnencia@kcore.it>)
+	id 1w5KbR-00630I-0q;
+	Wed, 25 Mar 2026 10:32:41 +0100
+From: Marco Nenciarini <mnencia@kcore.it>
+To: linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	stable@vger.kernel.org,
+	mnencia@kcore.it
+Subject: [PATCH v2] media: intel/ipu6: Improve DWC PHY HSFREQRANGE band selection for overlapping ranges
+Date: Wed, 25 Mar 2026 10:32:41 +0100
+Message-Id: <20260325093241.1441512-1-mnencia@kcore.it>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20260323154037.1404865-1-mnencia@kcore.it>
+References: <20260323154037.1404865-1-mnencia@kcore.it>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/3] media: qcom: camss: Add CAMSS Offline Processing
- Engine driver
-To: Bryan O'Donoghue <bod@kernel.org>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: vladimir.zapolskiy@linaro.org, laurent.pinchart@ideasonboard.com,
-        kieran.bingham@ideasonboard.com, robh@kernel.org, krzk+dt@kernel.org,
-        andersson@kernel.org, konradybcio@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        johannes.goede@oss.qualcomm.com, mchehab@kernel.org
-References: <20260323125824.211615-1-loic.poulain@oss.qualcomm.com>
- <m61yNNvSrw6AIq7_-g2h7VQLmGJ_5iCLg5JTlfQDcL5LlBq37ifAeXw-K3AlRBck5Mb4uVQq0pzeBNAybQNk4w==@protonmail.internalid>
- <20260323125824.211615-3-loic.poulain@oss.qualcomm.com>
- <1ba54ec0-be51-4694-a79b-f272e76303d2@kernel.org>
- <X-Lw_zi1o015-V1Cv4dY_ik6SfTB8TTcLmn1l-Ta7UviYTJ6gwMBn4B4ulYwjd_Aetul5xUt0T6ln9E-Hl5h4g==@protonmail.internalid>
- <CAFEp6-3ziXJTYADOFj--rZL5TumroXuW+=SnUQ9XakRxHT-ypg@mail.gmail.com>
- <12194cc0-0960-486c-be7e-1a22d95de340@kernel.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <12194cc0-0960-486c-be7e-1a22d95de340@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Jvr8bc4C c=1 sm=1 tr=0 ts=69c3ab51 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=MAgzBORBeBVPlHHXK98A:9 a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-ORIG-GUID: 5jlxPCigocCb_0YAWY-7l3SwyAtXak-e
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDA2NyBTYWx0ZWRfX1jtqQfIJasIX
- NMy2PDW4JzV+zYK4D87sfzK8cJLVaRtv4W1iPNKPJLJjV5gCK6BsAxOioZNjjhZSMRow+EIg4U8
- ARieik7vQ2cmLA+Ru6o0FXvj9JjaNxc+HpOYAljVoV7qJanEo8oN05Tj072/QrN/IVtn7rwJ0bD
- dLYr6DOT7VJ7ykn+hoDhol0T3NVjbjJqBuy3ayqV0aTmKO2P1aEeY7G+7I+Qz7BnpmjfBSm1d9O
- 3gt89eOMzrEH1VemOnw9dA1rvklTVKnRJ1F0OUeCZHF2ub1hrmcBwL1EHzELda7tMsw01no7yFU
- hgkYdTfW5SOX4xAwSwQop12JsHul157W+ACqeygsjl6PDGI26jZYNoQe+/fFI+NuxeHYwW6/7ec
- VPtXTAQ29emrUmrORMH6fY3qxjIGvbRKDfqtU8r+D+WHLw18Soq6YwvPVpzuaIchDkKUnCz2RhF
- ezWZSPQzNzYVTgHpOnQ==
-X-Proofpoint-GUID: 5jlxPCigocCb_0YAWY-7l3SwyAtXak-e
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-25_03,2026-03-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 impostorscore=0 suspectscore=0 phishscore=0
- priorityscore=1501 spamscore=0 clxscore=1015 bulkscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603250067
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [1.04 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_DKIM_REJECT(1.00)[kcore.it:s=spark];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	TAGGED_FROM(0.00)[bounces-56964-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56965-lists,linux-media=lfdr.de];
+	DMARC_NA(0.00)[kcore.it];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kcore.it:-];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mnencia@kcore.it,linux-media@vger.kernel.org];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 51EA73224BD
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email,kcore.it:email,kcore.it:mid]
+X-Rspamd-Queue-Id: 418873225CD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/24/26 12:00 PM, Bryan O'Donoghue wrote:
-> On 23/03/2026 15:31, Loic Poulain wrote:
+The get_hsfreq_by_mbps() function searches the freqranges[] table
+backward (from highest to lowest index). Because adjacent frequency
+bands overlap, a data rate that falls in the overlap region always
+lands on the higher-indexed band.
 
-[...]
+For data rates up to 1500 Mbps (index 42) every band uses
+osc_freq_target 335. Starting at index 43 (1461-1640 Mbps) the
+osc_freq_target drops to 208. A sensor running at 1498 Mbps sits in
+the overlap between index 42 (1414-1588, osc 335) and index 43
+(1461-1640, osc 208). The backward search picks index 43, programming
+the lower osc_freq_target of 208 instead of the optimal 335.
 
+This causes DDL lock instability and CSI-2 CRC errors on affected
+configurations, such as the OmniVision OV08X40 sensor on Intel Arrow
+Lake platforms (Dell Pro Max 16).
 
->>> So - this is where the CDM should be used - so that you don't have to do
->>> all of these MMIO writes inside of your ISR.
->> Indeed, and that also the reason stripes are computed ahead of time,
->> so that they can be further 'queued' in a CDM.
->>
->>> Is that and additional step after the RFC ?
->> The current implementation (without CDM) already provides good results
->> and performance, so CDM can be viewed as a future enhancement.
-> 
-> That's true but then the number of MMIO writes per ISR is pretty small right now. You have about 50 writes here.
-> 
->> As far as I understand, CDM could also be implemented in a generic way
->> within CAMSS, since other CAMSS blocks make use of CDM as well.
->> This is something we should discuss further.
-> My concern is even conservatively if each module adds another 10 ? writes by the time we get to denoising, sharpening, lens shade correction, those writes could easily look more like 100.
-> 
-> What user-space should submit is well documented data-structures which then get translated into CDM buffers by the OPE and IFE for the various bits of the pipeline.
+Rewrite get_hsfreq_by_mbps() to select the optimal band:
 
-Would simply switching to a threaded irq handler resolve this?
+1. Prefer an exact default_mbps match (returned immediately).
+2. Among bands whose min/max range covers the data rate, prefer
+   the one with the higher osc_freq_target.
+3. If osc_freq_target is equal, prefer the band whose default_mbps
+   is closest to the requested rate.
 
-Konrad
+For 1498 Mbps this now correctly selects index 42 (osc_freq_target
+335, range 1414-1588) instead of index 43 (osc_freq_target 208,
+range 1461-1640).
+
+Fixes: 1e7eeb301696 ("media: intel/ipu6: add the CSI2 DPHY implementation")
+Cc: stable@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Marco Nenciarini <mnencia@kcore.it>
+---
+Changes in v2:
+- Rewrote get_hsfreq_by_mbps() with a proper selection algorithm instead
+  of patching after the call, as suggested by Sakari Ailus.
+- Added Fixes tag and Cc stable.
+
+ .../media/pci/intel/ipu6/ipu6-isys-dwc-phy.c  | 22 ++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c b/drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c
+index db28748..4c9e50c 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c
+@@ -288,15 +288,27 @@ static const struct dwc_dphy_freq_range freqranges[DPHY_FREQ_RANGE_NUM] = {
+ 
+ static u16 get_hsfreq_by_mbps(u32 mbps)
+ {
+-	unsigned int i = DPHY_FREQ_RANGE_NUM;
++	int best = DPHY_FREQ_RANGE_INVALID_INDEX;
++	unsigned int i;
+ 
+-	while (i--) {
+-		if (freqranges[i].default_mbps == mbps ||
+-		    (mbps >= freqranges[i].min && mbps <= freqranges[i].max))
++	for (i = 0; i < DPHY_FREQ_RANGE_NUM; i++) {
++		if (freqranges[i].default_mbps == mbps)
+ 			return i;
++
++		if (mbps < freqranges[i].min || mbps > freqranges[i].max)
++			continue;
++
++		if (best == DPHY_FREQ_RANGE_INVALID_INDEX ||
++		    freqranges[i].osc_freq_target >
++		    freqranges[best].osc_freq_target ||
++		    (freqranges[i].osc_freq_target ==
++		     freqranges[best].osc_freq_target &&
++		     abs((int)mbps - (int)freqranges[i].default_mbps) <
++		     abs((int)mbps - (int)freqranges[best].default_mbps)))
++			best = i;
+ 	}
+ 
+-	return DPHY_FREQ_RANGE_INVALID_INDEX;
++	return best;
+ }
+ 
+ static int ipu6_isys_dwc_phy_config(struct ipu6_isys *isys,
+-- 
+2.47.3
+
 
