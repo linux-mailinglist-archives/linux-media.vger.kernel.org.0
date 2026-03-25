@@ -1,185 +1,262 @@
-Return-Path: <linux-media+bounces-57095-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57096-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4NisKx1WxGljyAQAu9opvQ
-	(envelope-from <linux-media+bounces-57095-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 22:39:41 +0100
+	id 6DvvIzlqxGlEzAQAu9opvQ
+	(envelope-from <linux-media+bounces-57096-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 00:05:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529F232C8D0
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 22:39:41 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2929732D3B3
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 00:05:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 20289311590D
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 21:34:52 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 717503016AF3
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 23:05:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6CDF396B76;
-	Wed, 25 Mar 2026 21:34:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F11339D6F0;
+	Wed, 25 Mar 2026 23:05:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="e+rDolsH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pE0mNjgV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF5531A072;
-	Wed, 25 Mar 2026 21:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D114396580
+	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 23:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774474489; cv=none; b=T70XjjQnetiW4bRXLu2pPlbQXMO/1a6FoW12gETtq54FVFQnvheaz4fWxqlP1Tdgwyk5PwXWeqSBXr0tPJ4nOUmFHR2PLY1Oy1oqc9z+k73p1t95dEXMN8ltthL3KzLD+jK4bOnWIjMBP2/nYNYmxpaL8oVAE/Jzey08VxOa6X8=
+	t=1774479910; cv=none; b=s7MupJj4mV0C4ZkhxFbk7GejA0lWZvRotqduQTSpJUoEwsRGaHvGhYYvtMK+IN1ieAhGRdFe8o3PDx9zWQSJ/tILNZZRbdTHYeDxfxSahDgFs0QcFsrWtZs3Ia61x0ZyrjSQu/81BJ52BuuxPag6JoTY4k9pSuLSKNyjTSpLlYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774474489; c=relaxed/simple;
-	bh=E1WXPXz+/NlfRML46gDMJ4qfQn90FVfE9nYP5/MLyMg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GkV/d6xfX9EL+guNkhAxeg3YVC7PTKtad4ixvuZPyUfmbiQ3wCDIh5D/71O1sidTt+Vmb4KQM1gt9CITtubFe+iygSNhAkONWf3rcLcLsjlg1gmMldLvC3+lVtRK3wh2jA1C74teaRxFd4nwtpAP4WkoI+WFeueo1o+CE3SufVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=e+rDolsH; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1774474486;
-	bh=E1WXPXz+/NlfRML46gDMJ4qfQn90FVfE9nYP5/MLyMg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=e+rDolsHY8954s81Mp/fexI2cypjxrLKc6/hIUuDpERQFz1AgsSs/k6BYU7Sz3rrK
-	 SKImsKhlljGJuH+3OZEcXhJm8xoMTeiGsUijKm3BS/mgp70vScwP8BV9+qVzxuvmEZ
-	 DuPp1sLsSP5GFzOb1vQ5olRjkHik0XMRcwT0HYkhplYrTTbuR8Nxo1v/pkKOgam9JW
-	 ri0RroBwrfAP0fO00F15ZhuveO6PSW7Xrw113u8hOFw5ed3Tp3BjNUVj/4tQPDm/Ai
-	 DRHPVnmKm5oX5xuT2zWvxywDxOlEpkJxPzMXwaZDwAApkA2FgZvIH8T8iNAKH8VUza
-	 xjVE2rrtnyEGw==
-Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B3FF117E5B52;
-	Wed, 25 Mar 2026 22:34:45 +0100 (CET)
-Message-ID: <703bcf13-ab45-4e9a-b80c-80911d85d819@collabora.com>
-Date: Wed, 25 Mar 2026 22:34:45 +0100
+	s=arc-20240116; t=1774479910; c=relaxed/simple;
+	bh=rf3vPXa7x1VywS4MiMkGOUIsNiVXVvgwlwYOCkZNs/E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L29Zvedpzvo1iGrxBF+6PUs1cvKh4xBqy0tDzdBgtozUl9ihDmIRw6+3frs4QG/IKSTUV+v44v7wi0GXgD9QropCe9XqUwNUdL71RJEahJXY1aALQ7aXijIM2gTzfLdWkxpAlhyTuKYUV5/9Q5VKTGC0Y9Y1YdYDUB6DA8luhX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pE0mNjgV; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b97c44417ffso34271366b.2
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 16:05:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774479907; x=1775084707; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jiwFETKkt3NdDNZkVN46Gf8wVpkOW4mHE9IXrg+0ugk=;
+        b=pE0mNjgVJCH9WorPmcw0aPCC8x/RexjssFR1MdiY1AY93sJ76VaRWs8Cgret4xR5Zw
+         hJEyCCURw3c4tGHIiHA227v0eaXIwYKjeVGYlXkbj6uFCKJCYPcR6jx5NSoEnXZrcS6t
+         VEZ5QRqJdL0VSbRm3zN7H3mb5uG4NkFi+R1mcSR/6tsjj2rxzzSY/sJD3x9/SiL4eH3Y
+         VKPgqUm+DSLgDcVO3yfn5lZd2r0oVuvqVwhs/kQZJrsCsmGdvia9IELxNbZypKT+Qauq
+         cKb/6JngcUITGK3m9fsQt9cPm8Mg2fJL21LLD7oiO+odJPKCD20oozFIXgEWzCKkjzHH
+         8VuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774479907; x=1775084707;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jiwFETKkt3NdDNZkVN46Gf8wVpkOW4mHE9IXrg+0ugk=;
+        b=Pw0SdhtB1XisC432A4KI/+i3yN4FgZBh2jQ1TTdFMRYWfYw0wBkLjvMJ5ztEuYc0re
+         Zzl++azOn5hXZ9zfxXAy06pXp3OE5AV1pVnBZ9XwCGFm1I6pcGuXcNY+eK8TzzOeljHS
+         upuWWTeH49Q3HwgeZA81qaUV1h32JQIGi96kR4plzA0XZaJ/tva1fswa4wfcZXlEbdF0
+         hSU0kpmd5MzvbCZf33A7WAWSr8xQElGvaM9RvPTatMsF50IIJDQBMSSGmQIMKIBBs63A
+         NO3RXFGQv5Fnqa6DY7MyoaLpHQbRlr92OH68niqZnPBZinvuVdQwGZQXPK0V1FQfUCxE
+         7MOw==
+X-Forwarded-Encrypted: i=1; AJvYcCVl5AyHxcxe7KxAojDpuilyOYmObYU59P0YPceO6sXOQAJyfbHopOyFwkkjddT9hFCPht5alobP3V+OFQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuiJ9ZtXRGOMyWbsNqbHGttCMYdf1W+3kU8OMYlSqUY3asXdnQ
+	OVQccATB4pRH5e+VnU94OJL/S/sMgwXUCP37mcnFgGQj1AFqQCpDBv6e
+X-Gm-Gg: ATEYQzyHNSVVbE4hw0DtubVLMCzvj0tzt0aDuNs3bENjQbfinQrtH48iZr9NgOxzNt2
+	9mbHtHFggBtJPTTFP4v/2j6KUc1E6wigwuiArxS48g0+GWdtIUWXVZqjL8lmgOp/BtK1PQePJmX
+	muikO3IINj7uxajlK88LnZYhNsZHeRoLZm0fsXbrrG7XiTYnYgWN+wKsG9C4CInrOImdVk/FyzS
+	UklrBWTLW6SoXpjAwcM1q6g9zNwjI3i0E7cfVD9Yy4x1gUfhgC1EQ9AK0xkLOf+NvB5YBhUaEjY
+	qoOxrWrTrT8QDkUzVMuwNDq88osgKYwo27WYMRrfQr2rr5xOv98glC081HalvFQEHFkCiHrdFI8
+	MM9KzxEEkkh4B4Pm+tZz1zuRixQLnVdjtmEjI+Ed2WCQ2f8vwHE+s4suw2ltowToTuC9XdhmALK
+	KlyfnHAGG6zxDfGFEBudYbTk7TjtCJY5Kh8C41YW5kAF4xCw==
+X-Received: by 2002:a17:907:8694:b0:b96:996c:8605 with SMTP id a640c23a62f3a-b9a3f1adbd8mr393398866b.23.1774479906060;
+        Wed, 25 Mar 2026 16:05:06 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:f41:185f:dfa7:bca5:80ff:fe60:41d2])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b203ef860sm35371766b.48.2026.03.25.16.05.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 16:05:05 -0700 (PDT)
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kees Cook <kees@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: media: atomisp: refactor ia_css_stream_destroy
+Date: Thu, 26 Mar 2026 00:04:48 +0100
+Message-ID: <20260325230453.848584-1-azpijr@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] media: dt-bindings: rockchip,rk3568-mipi-csi2: add
- rk3588 compatible
-To: Rob Herring <robh@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Frank Li <Frank.li@nxp.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Kever Yang <kever.yang@rock-chips.com>,
- Collabora Kernel Team <kernel@collabora.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20260305-rk3588-csi2rx-v3-0-754473981f39@collabora.com>
- <20260305-rk3588-csi2rx-v3-1-754473981f39@collabora.com>
- <20260325210634.GA3963190-robh@kernel.org>
-Content-Language: en-US
-From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <20260325210634.GA3963190-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57095-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-57096-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[michael.riesch@collabora.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:email,collabora.com:mid]
-X-Rspamd-Queue-Id: 529F232C8D0
+	FROM_NEQ_ENVFROM(0.00)[azpijr@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2929732D3B3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Rob,
+Refactor the ISP2401 cleanup logic into a separate helper
+function.
 
-On 3/25/26 22:06, Rob Herring wrote:
-> On Wed, Mar 25, 2026 at 11:25:34AM +0100, Michael Riesch wrote:
->> The RK3588 MIPI CSI-2 receivers are compatible to the ones found in
->> the RK3568.
->> Introduce a list of compatible variants and add the RK3588 variant to
->> it.
->>
->> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Fix a logic bug where the loop variable 'i' was being shadowed and
+overwritten by a nested loop, potentially causing incorrect cleanup
+behavior.
 
-First of all, apologies for applying your Acked-by tag. I figured
-resolving the merged conflict was trivial and impossible to screw up, but...
+Replace an early 'return -EINVAL' with 'continue' within the cleanup
+loop. In a destruction path, it is better to proceed with cleaning up as
+many resources as possible rather than aborting early, which would
+result in memory leaks for the remaining pipes.
 
->> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
->> ---
->>  .../devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml   | 10 +++++++---
->>  1 file changed, 7 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml
->> index 4ac4a3b6f406..3d3b3cd78884 100644
->> --- a/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml
->> +++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml
->> @@ -16,9 +16,13 @@ description:
->>  
->>  properties:
->>    compatible:
->> -    enum:
->> -      - fsl,imx93-mipi-csi2
->> -      - rockchip,rk3568-mipi-csi2
->> +    oneOf:
->> +      - const: fsl,imx93-mipi-csi2
->> +      - const: rockchip,rk3568-mipi-csi2
-> 
-> These 2 should be a single enum as they were before.
+Remove 'assert(entry)' in favor of an explicit null pointer check ('if
+(!entry) continue;'). This avoids a macro-based assertions and ensuring
+the system remains stable even if a pointer is unexpectedly null during
+cleanup.
 
-... hm. Well.
+Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css.c | 89 ++++++++++++----------
+ 1 file changed, 47 insertions(+), 42 deletions(-)
 
-First, do you mean
-
-properties:
-  compatible:
-    oneOf:
-      - enum:
-         - fsl,imx93-mipi-csi2
-         - rockchip,rk3568-mipi-csi2
-      - items:
-         - enum:
-            - rockchip,rk3588-mipi-csi2
-         - const: rockchip,rk3568-mipi-csi2
-?
-
-If so, what is the practical difference?
-
-Thanks and best regards,
-Michael
-
-
-> 
->> +      - items:
->> +          - enum:
->> +              - rockchip,rk3588-mipi-csi2
->> +          - const: rockchip,rk3568-mipi-csi2
->>  
->>    reg:
->>      maxItems: 1
->>
->> -- 
->> 2.39.5
->>
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 6cda5925fa45..076a75c9d0fb 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -8189,6 +8189,51 @@ ia_css_stream_create(const struct ia_css_stream_config *stream_config,
+ 	return err;
+ }
+ 
++static void ia_css_stream_destroy_isp2401(struct ia_css_stream *stream)
++{
++	int i, j;
++
++	for (i = 0; i < stream->num_pipes; i++) {
++		struct ia_css_pipe *entry = stream->pipes[i];
++		unsigned int sp_thread_id;
++		struct sh_css_sp_pipeline_terminal *terminal;
++
++		if (!entry)
++			continue;
++
++		/* get the SP thread id */
++		if (!ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(entry),
++						      &sp_thread_id))
++			continue;
++
++		/* get the target input terminal */
++		terminal = &sh_css_sp_group.pipe_io[sp_thread_id].input;
++
++		for (j = 0; j < IA_CSS_STREAM_MAX_ISYS_STREAM_PER_CH; j++) {
++			ia_css_isys_stream_h isys_stream =
++				&terminal->context.virtual_input_system_stream[j];
++
++			if (stream->config.isys_config[j].valid && isys_stream->valid)
++				ia_css_isys_stream_destroy(isys_stream);
++		}
++	}
++
++	if (stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
++		for (i = 0; i < stream->num_pipes; i++) {
++			/*
++			 * free any mipi frames that are remaining:
++			 * some test stream create-destroy cycles do
++			 * not generate output frames
++			 * and the mipi buffer is not freed in the
++			 * deque function
++			 */
++			if (stream->pipes[i])
++				free_mipi_frames(stream->pipes[i]);
++		}
++	}
++	stream_unregister_with_csi_rx(stream);
++}
++
+ int
+ ia_css_stream_destroy(struct ia_css_stream *stream)
+ {
+@@ -8206,48 +8251,8 @@ ia_css_stream_destroy(struct ia_css_stream *stream)
+ 
+ 	if ((stream->last_pipe) &&
+ 	    ia_css_pipeline_is_mapped(stream->last_pipe->pipe_num)) {
+-		if (IS_ISP2401) {
+-			for (i = 0; i < stream->num_pipes; i++) {
+-				struct ia_css_pipe *entry = stream->pipes[i];
+-				unsigned int sp_thread_id;
+-				struct sh_css_sp_pipeline_terminal *sp_pipeline_input_terminal;
+-
+-				assert(entry);
+-				if (entry) {
+-					/* get the SP thread id */
+-					if (!ia_css_pipeline_get_sp_thread_id(
+-							ia_css_pipe_get_pipe_num(entry), &sp_thread_id))
+-						return -EINVAL;
+-
+-					/* get the target input terminal */
+-					sp_pipeline_input_terminal =
+-						&sh_css_sp_group.pipe_io[sp_thread_id].input;
+-
+-					for (i = 0; i < IA_CSS_STREAM_MAX_ISYS_STREAM_PER_CH; i++) {
+-						ia_css_isys_stream_h isys_stream =
+-							&sp_pipeline_input_terminal->context.virtual_input_system_stream[i];
+-						if (stream->config.isys_config[i].valid && isys_stream->valid)
+-							ia_css_isys_stream_destroy(isys_stream);
+-					}
+-				}
+-			}
+-
+-			if (stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
+-				for (i = 0; i < stream->num_pipes; i++) {
+-					struct ia_css_pipe *entry = stream->pipes[i];
+-					/*
+-					 * free any mipi frames that are remaining:
+-					 * some test stream create-destroy cycles do
+-					 * not generate output frames
+-					 * and the mipi buffer is not freed in the
+-					 * deque function
+-					 */
+-					if (entry)
+-						free_mipi_frames(entry);
+-				}
+-			}
+-			stream_unregister_with_csi_rx(stream);
+-		}
++		if (IS_ISP2401)
++			ia_css_stream_destroy_isp2401(stream);
+ 
+ 		for (i = 0; i < stream->num_pipes; i++) {
+ 			struct ia_css_pipe *curr_pipe = stream->pipes[i];
+-- 
+2.53.0
 
 
