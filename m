@@ -1,192 +1,186 @@
-Return-Path: <linux-media+bounces-57089-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57090-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SM+RAWsvxGkAxQQAu9opvQ
-	(envelope-from <linux-media+bounces-57089-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 19:54:35 +0100
+	id wKnbCl82xGkAxQQAu9opvQ
+	(envelope-from <linux-media+bounces-57090-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 20:24:15 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF9B32AD99
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 19:54:34 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2584932B275
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 20:24:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CE39B30391C4
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 18:54:33 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4CD9E300BC69
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 19:24:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A25434B676;
-	Wed, 25 Mar 2026 18:54:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21589347518;
+	Wed, 25 Mar 2026 19:24:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Sic//J/e"
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="tGBfo5Mf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C6832D0DE;
-	Wed, 25 Mar 2026 18:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674512459EA
+	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 19:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774464872; cv=none; b=MkuXcKdLyBuPr8dz/jQvAkY9y6N6Tpoi50Ro25zSnVH2CQlY1++PX0Fhe8HFyQhgmdB59chi6rZ/e48mXkJw5hqxg0ZS+k2GmjA8VTQjK156x8Uhn1uKa72n+NBynoJW8M0QZ+UxuZ3Fthz2N/gr83UB/nJf5poLKKdf+6wwWTw=
+	t=1774466639; cv=none; b=UGrSGfCLvGXOX4jEAJ4vuGfiFc8Sgc83UEQccRKvu6U5rRM5QzS5rZBXQgg/du+Emwz+3at0qLjkh0l6eioX9EleGzZdt9WrkBUM4+MhUOMK3taphDHdBTBLdyOYwvDNe8xcc2WBdi4rvYGcPs1W8kCVs/KC48rspyUgGtjdGQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774464872; c=relaxed/simple;
-	bh=hWtp3wvsDME4tyn+HULSzB4qXGkVkDYOwOrTsILOGec=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZVQ+arSuNnUAbQVXZehtuk6RGvK4oFtLEyOdeCppLiDrTDOq2xdVfFTY70Vj0llGxf0Svw7mbx63etfHTiyQnrnD5sgVG9sUpNrQcdP4osXFX4Sb686s9rcRfrJAwVwFnUSUzlYC77WU5jsrFabzb1JkJQzmTftDYt+zDCkiaxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Sic//J/e; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1774464869;
-	bh=hWtp3wvsDME4tyn+HULSzB4qXGkVkDYOwOrTsILOGec=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Sic//J/e9I1kJM7KLL90V02zQNZFsW9pYGq7bSP8iae/5wqCz2BtFZPb7K4PpzF6f
-	 mjVc+YpUWR7Lh8rmjhEopq6Rr65G8M0aLjj9phH6vI0Sm/o00KQuXgK9aWJP7reKvw
-	 IEW3wJZ8pSf8/+y+JI603vhrTpVYp4vd/8qMnVspn3V9CMt+hH3jNJNjnrdoykmMkx
-	 05zGmzqa/XUrhWOnlFQ9OKXpaPNIBoTWJYLsgunC/kTnlwgHzvw6nqE3S9+vNGT8gj
-	 D201Bi6ZVmwbV6ewi8v9RuENbwCq8JCOfeghMvL9eyFet3V4lbHrcw6FAZE/BxTFjS
-	 L9zpy+ENNBKLA==
-Received: from [IPv6:2606:6d00:15:e06b::c41] (unknown [IPv6:2606:6d00:15:e06b::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6B77C17E5CC8;
-	Wed, 25 Mar 2026 19:54:28 +0100 (CET)
-Message-ID: <b947d46de2f6587a1feb79641b469493173496f9.camel@collabora.com>
-Subject: Re: [PATCH] v4l2: common: Fix P010 format definition
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
-	 <hverkuil@kernel.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Sven
- =?ISO-8859-1?Q?P=FCschel?=
-	 <s.pueschel@pengutronix.de>
-Date: Wed, 25 Mar 2026 14:54:26 -0400
-In-Reply-To: <20260325-v4l2-common-p010-v1-1-4427779dda56@collabora.com>
-References: <20260325-v4l2-common-p010-v1-1-4427779dda56@collabora.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-d90o5mHe0rOGHbEA/D9E"
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	s=arc-20240116; t=1774466639; c=relaxed/simple;
+	bh=5zxzl6uudo5fm3rD4gIEZz87DRY+U9FKt25ekqymGSU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UQ12kA8SWcemjFoUH6MgGIoB0eBbT3TDO5FA8x8ZE+P1nCktuNR3ZJSp35vpVgA5+ZZ1a+SEOZnArAuk0LPme5nk+3ThPs7iPA4CcihKNaEG4imaM6FpNNFEKba8Q3WDkgSERzH/woLBmPEHRY+gqrFd5PA0WKi7I6FZwLMdfF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=tGBfo5Mf; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso1903645e9.3
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 12:23:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1774466634; x=1775071434; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q9oYYl5Ubh4Ping1zst+E8em20zAUpauFfgriVu6hpE=;
+        b=tGBfo5Mfqs+ivUfJPJCTRonnj6fGVVEabtIy9i2jvDjwOIvkPn7Bq7yCOA1KuJd03s
+         bD5urjQOua5oT1vdBuYAB29rLTYHA2yN3zanfzNgL4VDntqhXGbLwPeyWIuakOxNmHK7
+         X+WXO9KsCpQKJVgHjEN5k/ASVGfNXmvnpAy5gwXwkPyFHdXZalEel5jMZkuhyAZswnHO
+         tYApepT64v8MS1DWf3SRZOz/vGL6J3LizsJJUtEjmB4KwdJxx0z++U1wS8EufJ53ACdw
+         ITXCfCxo9XXquZTUVo/kz/Pesx/q/S9nmPwISvQBOiHqH8bMAzHQye+UhOCkxWyuiUxa
+         BCDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774466634; x=1775071434;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q9oYYl5Ubh4Ping1zst+E8em20zAUpauFfgriVu6hpE=;
+        b=AYODOPbWogGalKlwcQJqdJGRZPlFDtkA5XOOkMxrK75ax2UM8iKTKmXmkuRAqakTLA
+         8je/Sg1D5q5rCkQHbQcxJGnucGyXH9v3m4fTzqARdt0qe/gseI73jOIc5O2iDccDVAI9
+         6tOswCWbWj+Sc/IUQuvn9qyAH5RFRX6iWvqfSuXLMl8H2cMWHupm84V/gzD+dCN2p9bD
+         09Ai1WoM6R+NRC5DupSqOkJ6wPnLtxNnKrJSu4rOagX30zg8YvOIL98OIbyhXzYTJWSQ
+         qT7oodi+8g9UazOFlGSLyjI/nRmgLyuFIo4UWuvmomz9sfZWwJsWVG3iy0sIW505U0Nc
+         Qluw==
+X-Forwarded-Encrypted: i=1; AJvYcCVppiyrxcG/nE5/Ap3LlNHriEz4WIKntvUaxLCnfLx9SbxjNE88+m9YUAPV0Kmsszv47yibotvnTt5Trg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz06DR+xrUWgkUfIj7jg1261/Wj4J0YwAEOe+dycAx4K4VYiwb4
+	vnoXAhbt3F5wg3sny1y2o5tDY0x31hlPXwLfQzAzfp1saHtV8+16TMCAmU8/ito2+ls=
+X-Gm-Gg: ATEYQzy81rRINWMbJFi60Jay2O6WYZZ3eoQHOdEfZt8GwU+A0muCm2iVuTeG7b8XW3a
+	XaKTQbtCHyDKZckypGPSZxk0oPWSio5hZXM3i1ruHUvWxpSl33/JVHzND1oa3d2YfkLxfqHz78Y
+	rrcYfeudWLnBorsVv2jiZtlFJvC9PCSopu15+d0h3LIDuhXSEUoGQR4gKX8iTAf5qVWA1HQGWe2
+	4kmWCGAViLmQyXwdCo7oAyzz61hUl0CIImsMs1AHHHM657vSvVXbExnhyp2rTBdoMxZHeJXOCnx
+	4vFX51VVff5oQGpDzJKg7hNUbs0LN7nKQlF+aKpB0vLTg54Fk8S+EO+g7uV0HhJmBv5xCheFAk+
+	Nu3NUXgpgLYtzJaUWV5oGXMMWkGhwT1p5wgJLi/rawUnm4eoSLw4Lsg3nZy8Q43cQfG15+gipxB
+	kx2SqOLNdSzAKeDSbhX1AGXzCS/+Ss
+X-Received: by 2002:a05:600c:1f12:b0:485:41c4:e2e5 with SMTP id 5b1f17b1804b1-4871605686dmr70437725e9.27.1774466633448;
+        Wed, 25 Mar 2026 12:23:53 -0700 (PDT)
+Received: from localhost ([140.209.217.211])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b919e7111sm1855634f8f.37.2026.03.25.12.23.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 12:23:53 -0700 (PDT)
+From: Jiri Pirko <jiri@resnulli.us>
+To: dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	iommu@lists.linux.dev,
+	linux-media@vger.kernel.org
+Cc: sumit.semwal@linaro.org,
+	benjamin.gaignard@collabora.com,
+	Brian.Starkey@arm.com,
+	jstultz@google.com,
+	tjmercier@google.com,
+	christian.koenig@amd.com,
+	m.szyprowski@samsung.com,
+	robin.murphy@arm.com,
+	jgg@ziepe.ca,
+	leon@kernel.org,
+	sean.anderson@linux.dev,
+	ptesarik@suse.com,
+	catalin.marinas@arm.com,
+	aneesh.kumar@kernel.org,
+	suzuki.poulose@arm.com,
+	steven.price@arm.com,
+	thomas.lendacky@amd.com,
+	john.allen@amd.com,
+	ashish.kalra@amd.com,
+	suravee.suthikulpanit@amd.com,
+	linux-coco@lists.linux.dev
+Subject: [PATCH v5 0/2] dma-buf: heaps: system: add an option to allocate explicitly shared/decrypted memory
+Date: Wed, 25 Mar 2026 20:23:50 +0100
+Message-ID: <20260325192352.437608-1-jiri@resnulli.us>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Spamd-Result: default: False [-4.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57089-lists,linux-media=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_FIVE(0.00)[5];
+	DMARC_NA(0.00)[resnulli.us];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6]
-X-Rspamd-Queue-Id: 9CF9B32AD99
+	TAGGED_FROM(0.00)[bounces-57090-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_NONE(0.00)[];
+	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 2584932B275
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+From: Jiri Pirko <jiri@nvidia.com>
 
---=-d90o5mHe0rOGHbEA/D9E
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Confidential computing (CoCo) VMs/guests, such as AMD SEV and Intel TDX,
+run with private/encrypted memory which creates a challenge
+for devices that do not support DMA to it (no TDISP support).
 
-Le mercredi 25 mars 2026 =C3=A0 14:42 -0400, Nicolas Dufresne a =C3=A9crit=
-=C2=A0:
-> Correct the subsampling divider and unpack the bytes per pixel values. P0=
-10
-> is a 4:2:0 subsampled format but was previously encoded as 4:2:2, and the
-> bytes per pixel value was being hacked to compensate.
->=20
-> Fixes: 5374d8fb75f3132 ("media: Add P010 video format")
+For kernel-only DMA operations, swiotlb bounce buffering provides a
+transparent solution by copying data through shared memory.
+However, the only way to get this memory into userspace is via the DMA
+API's dma_alloc_pages()/dma_mmap_pages() type interfaces which limits
+the use of the memory to a single DMA device, and is incompatible with
+pin_user_pages().
 
-Should have:
-Reported-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
+These limitations are particularly problematic for the RDMA subsystem
+which makes heavy use of pin_user_pages() and expects flexible memory
+usage between many different DMA devices.
 
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
-> =C2=A0drivers/media/v4l2-core/v4l2-common.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
-ore/v4l2-common.c
-> index 554c591e1113310fd8926ebc2cbc4e124bd9f109..1764502cbcb2072c91e0dd002=
-0c4a844281f092e 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -295,7 +295,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
-ormat)
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_NV20,=C2=A0=C2=A0=C2=A0 .pixel_enc =3D=
- V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 5, 1=
-0, 0, 0 }, .bpp_div =3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_NV24,=C2=A0=C2=A0=C2=A0 .pixel_enc =3D=
- V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2=
-, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_NV42,=C2=A0=C2=A0=C2=A0 .pixel_enc =3D=
- V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2=
-, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> -		{ .format =3D V4L2_PIX_FMT_P010,=C2=A0=C2=A0=C2=A0 .pixel_enc =3D V4L2=
-_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 2, 0, =
-0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
-> +		{ .format =3D V4L2_PIX_FMT_P010,=C2=A0=C2=A0=C2=A0 .pixel_enc =3D V4L2=
-_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, =
-0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_P012,=C2=A0=C2=A0=C2=A0 .pixel_enc =3D=
- V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4=
-, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
-> =C2=A0
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_YUV410,=C2=A0 .pixel_enc =3D V4L2_PIXE=
-L_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 3, .bpp =3D { 1, 1, 1, 0 }, =
-.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 4, .vdiv =3D 4 },
->=20
-> ---
-> base-commit: ebeec2b000a90cd8aae86d1931ff5ef23af8284e
-> change-id: 20260325-v4l2-common-p010-9b364a87a679
->=20
-> Best regards,
+This patch series enables userspace to explicitly request shared
+(decrypted) memory allocations from new dma-buf system_cc_shared heap.
+Userspace can mmap this memory and pass the dma-buf fd to other
+existing importers such as RDMA or DRM devices to access the
+memory. The DMA API is improved to allow the dma heap exporter to DMA
+map the shared memory to each importing device.
 
---=-d90o5mHe0rOGHbEA/D9E
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+Based on dma-mapping-for-next e7442a68cd1ee797b585f045d348781e9c0dde0d
 
------BEGIN PGP SIGNATURE-----
+Jiri Pirko (2):
+  dma-mapping: introduce DMA_ATTR_CC_SHARED for shared memory
+  dma-buf: heaps: system: add system_cc_shared heap for explicitly
+    shared memory
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCacQvYgAKCRDZQZRRKWBy
-9MzTAQCb50wPPl/p5dvh65hWi/OiQjFkSx3VkJffBbr0Bbo8DwEAqngEA1oYE1T8
-GA0p50pn5q5A9tDknOhs5cKvJqBxnA0=
-=9cl6
------END PGP SIGNATURE-----
+ drivers/dma-buf/heaps/system_heap.c | 103 ++++++++++++++++++++++++++--
+ include/linux/dma-mapping.h         |  10 +++
+ include/trace/events/dma.h          |   3 +-
+ kernel/dma/direct.h                 |  14 +++-
+ kernel/dma/mapping.c                |  13 +++-
+ 5 files changed, 132 insertions(+), 11 deletions(-)
 
---=-d90o5mHe0rOGHbEA/D9E--
+-- 
+2.51.1
+
 
