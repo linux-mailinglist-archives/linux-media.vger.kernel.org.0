@@ -1,213 +1,195 @@
-Return-Path: <linux-media+bounces-56995-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56999-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Ds8OhPAw2kRtwQAu9opvQ
-	(envelope-from <linux-media+bounces-56995-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:59:31 +0100
+	id eCTwDorLw2lKuAQAu9opvQ
+	(envelope-from <linux-media+bounces-56999-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 12:48:26 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B06A0323673
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:59:31 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D67324316
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 12:48:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0F2B030439CF
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 10:59:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EE786300B3E0
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:36:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2735F3C9440;
-	Wed, 25 Mar 2026 10:58:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 688C13CAE79;
+	Wed, 25 Mar 2026 11:36:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UcRfi06w"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="OOBF4T/8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCED33C454E
-	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 10:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774436334; cv=none; b=t0zmBKqx7o2NKOnRUIBnkHmoPoF/1kKBDZvMdPWwkcDeqUJ1kZ2hDUwRWVLLPrU/6aKUpxMwWbBuBCgry7hJ3gnXHiHhsaJUxVmeyUDy/RU3KJj3kexTv0YORNH9ot9JucoWrjbmv+BdUSJ2qdNsNUcY9PAAZ8sdxguPDg3OpXQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774436334; c=relaxed/simple;
-	bh=4qwME4bFcW63izNidqlxsL7O/G8cgz8uOodADpThi2A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y31Rc2NVyg70AcxThkWsH3pvLUr03FMB2bKSP1Z+g8RJrNAQSKg+FRVxfYofECMjBVC1dFS6ihhd2p4idIWFTUBhWZWM/Jiz09MBUyA2Hd4y21EGAcHPYvrMCFM1S2jJ0V0Sq/A65NcfS5uTHbVJWNlSU2Dz8RJ5YYWqEGu1Y1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UcRfi06w; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774436332; x=1805972332;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=4qwME4bFcW63izNidqlxsL7O/G8cgz8uOodADpThi2A=;
-  b=UcRfi06wkHl+SNcaS3FWS7lPA1z3te+ts4zQw9OCcXAbgKtL80JBI4WJ
-   SlARs53JszKfijo5tKHLjyzaxaHIcKy+qDKaBISmQgJlOO05QYJNAPA9v
-   T0p2+Vd5L5ToR9sYtWcBxB768lCpQZNsBn41c9aG3niEzz/JFvgflmFAQ
-   qJPpgHh1IdZ9ZB08O5h81Y/RZRS3aaIzynL56pBPdO6cHbuTPKcwx0Mcp
-   LZlS/JxVOnY8EKqsQZH3Q4Ccx8ykkwXNMn8KN33HUdoxhe2bTgqYjaD0U
-   ESZoN+SzdfIhjx1lou3YWHwh8YJFVyBEHtiHgvbgu+SX2tuWMcKKrM0q1
-   g==;
-X-CSE-ConnectionGUID: QfESrrgSSKSGYuX/2KOweQ==
-X-CSE-MsgGUID: u/T+JfFdT6+n7I/EQyckVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="74496467"
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="74496467"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 03:58:50 -0700
-X-CSE-ConnectionGUID: fnEtqUMWStmQHUvALtEZ/A==
-X-CSE-MsgGUID: PiuDwIAdRoKPgGupxzbgQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="221763538"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.64])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 03:58:43 -0700
-Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id C6DAE122542;
-	Wed, 25 Mar 2026 12:58:30 +0200 (EET)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1w5LwJ-00000004wBD-10sd;
-	Wed, 25 Mar 2026 12:58:19 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: hans@jjverkuil.nl,
-	laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: [PATCH v3 21/22] media: v4l2-subdev: Perform client info changes to i2c drivers
-Date: Wed, 25 Mar 2026 12:58:18 +0200
-Message-ID: <20260325105818.1176816-23-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260325105818.1176816-1-sakari.ailus@linux.intel.com>
-References: <20260325105818.1176816-1-sakari.ailus@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD4A3CF048
+	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 11:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774438588; cv=pass; b=nwoIk8fpwF8T2L4MUIV+n6ODWaWeJuljLsNtQzAb6DbbifWq1pQfNaRSRshTpbdQUM10rI6fTPuhmebuOKCZ/LJqGPwBo1iAAuWZdUNVtRjP+YrjJqscsrKpo46YOiEciA9erVCMwKTHRwAdak9kma6KkwdZJUAkqGSIWiuOokA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774438588; c=relaxed/simple;
+	bh=jYJ6VW6cqloRi2yxY2TmIyUbCQp72oo8EzkOARRZiMQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RXVBCSFrL02C2QFiZjRzUWbPvtj6paGzZmA/ZBlXR6+iD09/MHnGrxQSt1dOKHxJoCX34kHKXSfOZh8enTD8SmziZvRGrEKokMgGj7B0sjecqxCX2AI1NXSz77DOP/4Rp1uPrmz3GHxqTKGtDW1+cpZZrfx+CkKmrNm4/y1NU1M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=OOBF4T/8; arc=pass smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-7982c3b7da9so22789617b3.1
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 04:36:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774438586; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PORwaBwChRYGqDaPPUulWTNsCyA3R9azOGlCL9yaEZDMHX/wEEkrQF1XbvitQGethI
+         qOAkFe4Kk4GG1swbHcfX+qgvceSQT3v0gj1PHFcHURFMQHP90nOflLwIoBTkzXMArIrc
+         8nedWu9PfftJFRd8r9p2kpnMy6bUBl6XLwnhX/Ds1YIjl0AxDOLbEnSH20dX1JstHAnS
+         SkOx1gq9B2DGVT73N5VVBxSDEp7hMG4Qngw3gEHaQTvs0/yhZL5NTuujQHlRDc0FtG7U
+         L+1Fq+wWDyrPeHTsd27WgP3eA3EpcQemlDs9t7yCe4xM6Wmg9IKYUd+9g3H2GUniEFCT
+         6r4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=IBlF4KOxbpKPe6Mg6fSVT0yKogrzCqPzXiPVSkS0bEI=;
+        fh=5fvgRv0JFQ+qxRjMG7lVpR2l1RbaMPElunm4U+F9zxc=;
+        b=VbbPFPQMOPLN+PpB0p8m6nGtV4N6UI/SRKUznsM4ypIJlKWY5oSClFe5CDsGGXIatv
+         Y4qTTAQF7+ItmarwGklOsjcphxL0uBucC4cxWUX+8P80JbQ80ZzVj866hDAkH2u8OLti
+         n1kvkAc6764sqYSPCuqlX7cL12rGmfKZuD7vYjx/FfL9/ILcRCPlTl37qQjX50XrLSmC
+         VJSWTzAUWIgExoL9R4lTIZ3i0VeqVcp70FTPh25Sc/SgTWtIDcFAWcmhE0Cef0DAZ3g2
+         YXVlMAE9a1Kz6p8eLCrf06kshShBUWNfWpuLaYCAvOC+P3FOE27+dSo4pkNtqnkp6+fm
+         DJsA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1774438586; x=1775043386; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=IBlF4KOxbpKPe6Mg6fSVT0yKogrzCqPzXiPVSkS0bEI=;
+        b=OOBF4T/8ndlCAr4s51S6F9LCjYV9kapkOg7MNFJ/WSWjrLMmkaVutMXUYZZsp+TA+s
+         mPCgsbTObwacz4OZkk2wgrLI9yNSIY7zS/HosaOih88IBK0BFBruz8wJyDoINKS/zVAq
+         3Tnm1NIfs8vMinHcZxPU6JUIIzqa/kjn4/AHCInt/xRRAHB6yAwHTmp3B2VtACFfo5uP
+         ctQun+vwMWywzc2rHwaTSZ2AuFzp840fZbybou0zZqGWiCt9pwOjiYd73hpXwRkZ8n5Q
+         dYePJ4GJGEMIl58T9alDK7q839TZEiDh2FOL/C9h6hn9BJxnFTJvkxCJMi6FCAhFioT9
+         r2tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774438586; x=1775043386;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IBlF4KOxbpKPe6Mg6fSVT0yKogrzCqPzXiPVSkS0bEI=;
+        b=BJtXF3uHsLhDl+k6G1JMp9cc2QrGW3iZk4Il//9G72KuHiGbszakJUFBJi2tRSJ41y
+         M3vlndtb93CdoEZCLGEdTRzxO7LN7HTvwhmJHMXi0BuCOQnh3OpKUMJ5Goehk6oSmjIZ
+         s1SE3lYk5nw+bENf0AwXJiyyFVr+W2pYqzKx/GhzZWoOr/L8HasdX0dMem4PMh8ro/0t
+         ieehY5NImjwGSNtqV0apL6sg+ipOGUoIfExOBVIInnmKg4BYyL9NRvoJYmCnzeOANRO5
+         4IUlWvSID4YV0g28AaHtdL73FiAEWdxH/VbKmoq4HhSZltGhVRrHJk/rdendjQhpAmyV
+         byLA==
+X-Gm-Message-State: AOJu0Yx+wNGgwHywNT2xN+N4ZgzJ+60pQHkcgXiH8Hf/XO8RJAub3hb8
+	AFx5qig0GphUKttlNerHDpO/3Zf8VKHV1n25kS5dCOuEM7NQM6gkKBZCd05PXujIApiHTgpjDgk
+	yFK0yF8w5DJIV39QcfzJaY5FiNYgrcTEgHJfg2kdReQ==
+X-Gm-Gg: ATEYQzyk7dQb2eT+mnhHek8/QoLMpCXyg6K6W0dGo1jhfWXtr3Jnys+a8A7zH32HgP4
+	bIJmCPO+5GxltoqREza4s3j2MBjA0AAZr+tjCJ9G74S3BRVAf1Kr2JQJecjrHUXegnsvG1MEGHS
+	kdDwLqdwO7xu3h779cV2o60nok1V1ivH2SAcjt19Dfxba1goJD4jj3dPOK7+/oywm8jx2QtscFd
+	RaFvJCCRrZDNA0nh38zCmvIHzRPTWbr+KhBC7U1Pak1t93q+XZOGD/6z/U4HAA9TfuWfjVNa0/x
+	gcgLJK42uu++ECgobCuu5D8+mWQop9JUm6myag==
+X-Received: by 2002:a05:690c:c4cb:b0:794:ecaf:c501 with SMTP id
+ 00721157ae682-79acf6c89c9mr30923677b3.46.1774438585605; Wed, 25 Mar 2026
+ 04:36:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
+References: <20260325105818.1176816-1-sakari.ailus@linux.intel.com> <20260325105818.1176816-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <20260325105818.1176816-3-sakari.ailus@linux.intel.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 25 Mar 2026 11:36:09 +0000
+X-Gm-Features: AQROBzAXOp3kglL4hAfuouozUMb9MZaofXq9rB9_TdcbnAUlcF_lf3J9Rc3pQqU
+Message-ID: <CAPY8ntAowXdWcHe1fnDfonx8VMB7dfGf3xLX_B6uBoyGUaN9wA@mail.gmail.com>
+Subject: Re: [PATCH v3 02/22] media: imx219: Fix maximum frame length in lines
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
+	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Kate Hsuan <hpa@redhat.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
+	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
+	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
+	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, 
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>, Jai Luthra <jai.luthra@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
-	TAGGED_FROM(0.00)[bounces-56995-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	HAS_ORG_HEADER(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-56999-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: B06A0323673
+	RCPT_COUNT_TWELVE(0.00)[29];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,foss.st.com,wanadoo.fr,collabora.com,raspberrypi.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,raspberrypi.com:dkim,raspberrypi.com:email,intel.com:email]
+X-Rspamd-Queue-Id: 88D67324316
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Perform client info argument related changes to two i2c drivers (s5k5baf
-and tc358743). These changes are not done by Coccinelle scripts in the
-following patch and will be squashed to the previous patch eventually.
+Hi Sakari
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/i2c/og01a1b.c                     | 2 +-
- drivers/media/i2c/s5k5baf.c                     | 1 +
- drivers/media/i2c/tc358743.c                    | 2 +-
- drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h | 1 +
- 4 files changed, 4 insertions(+), 2 deletions(-)
+On Wed, 25 Mar 2026 at 10:58, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+>
+> The driver used the maximum frame length in lines value of 0xffff, but the
+> maximum appears to be 0xfffe instead. Fix it.
 
-diff --git a/drivers/media/i2c/og01a1b.c b/drivers/media/i2c/og01a1b.c
-index 1675f0460969..1d109ca75d76 100644
---- a/drivers/media/i2c/og01a1b.c
-+++ b/drivers/media/i2c/og01a1b.c
-@@ -763,7 +763,7 @@ static int og01a1b_init_state(struct v4l2_subdev *sd,
- 		},
- 	};
- 
--	og01a1b_set_format(sd, state, &fmt);
-+	og01a1b_set_format(sd, NULL, state, &fmt);
- 
- 	return 0;
- }
-diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
-index d1d00eca8708..a580b7e63302 100644
---- a/drivers/media/i2c/s5k5baf.c
-+++ b/drivers/media/i2c/s5k5baf.c
-@@ -1463,6 +1463,7 @@ static bool s5k5baf_cmp_rect(const struct v4l2_rect *r1,
- }
- 
- static int s5k5baf_set_selection(struct v4l2_subdev *sd,
-+				 const struct v4l2_subdev_client_info *ci,
- 				 struct v4l2_subdev_state *sd_state,
- 				 struct v4l2_subdev_selection *sel)
- {
-diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index a0ca19359c43..59f509aa1939 100644
---- a/drivers/media/i2c/tc358743.c
-+++ b/drivers/media/i2c/tc358743.c
-@@ -1822,7 +1822,7 @@ static int tc358743_set_fmt(struct v4l2_subdev *sd,
- 	struct tc358743_state *state = to_state(sd);
- 
- 	u32 code = format->format.code; /* is overwritten by get_fmt */
--	int ret = tc358743_get_fmt(sd, sd_state, format);
-+	int ret = tc358743_get_fmt(sd, ci, sd_state, format);
- 
- 	if (code == MEDIA_BUS_FMT_RGB888_1X24 ||
- 	    code == MEDIA_BUS_FMT_UYVY8_1X16)
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
-index 35069099c364..d4f76d513dc6 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
-@@ -31,6 +31,7 @@ bool ipu6_isys_is_bayer_format(u32 code);
- u32 ipu6_isys_convert_bayer_order(u32 code, int x, int y);
- 
- int ipu6_isys_subdev_set_fmt(struct v4l2_subdev *sd,
-+			     const struct v4l2_subdev_client_info *ci,
- 			     struct v4l2_subdev_state *state,
- 			     struct v4l2_subdev_format *fmt);
- int ipu6_isys_subdev_enum_mbus_code(struct v4l2_subdev *sd,
--- 
-2.47.3
+Agreed that the datasheet says the max_frame_length_lines register
+0x1142/0x1143 defaults to 0xfffe (and is read-only).
+I haven't checked whether using 0xffff actually works or not, but it
+makes no real difference.
 
+> Fixes: 1283b3b8f82b ("media: i2c: Add driver for Sony IMX219 sensor")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+> ---
+>  drivers/media/i2c/imx219.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index cbd151d4af5f..89061dc1842d 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -72,7 +72,7 @@
+>
+>  /* V_TIMING internal */
+>  #define IMX219_REG_FRM_LENGTH_A                CCI_REG16(0x0160)
+> -#define IMX219_FLL_MAX                 0xffff
+> +#define IMX219_FLL_MAX                 0xfffe
+>  #define IMX219_VBLANK_MIN              32
+>  #define IMX219_REG_LINE_LENGTH_A       CCI_REG16(0x0162)
+>  #define IMX219_LLP_MIN                 0x0d78
+> --
+> 2.47.3
+>
 
