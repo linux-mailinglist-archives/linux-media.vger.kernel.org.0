@@ -1,285 +1,315 @@
-Return-Path: <linux-media+bounces-56951-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56952-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WHzJAqiPw2mCrgQAu9opvQ
-	(envelope-from <linux-media+bounces-56951-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 08:32:56 +0100
+	id qP40LpyUw2ncrgQAu9opvQ
+	(envelope-from <linux-media+bounces-56952-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 08:54:04 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFE18320BCF
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 08:32:54 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD8A320F1D
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 08:54:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D9F56303EFA9
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 07:32:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9B098303AAA1
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 07:53:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAB34358360;
-	Wed, 25 Mar 2026 07:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE7453932FF;
+	Wed, 25 Mar 2026 07:53:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="iATCXDs8"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ocIvucwT";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hYJqwdBW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11021077.outbound.protection.outlook.com [40.107.42.77])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0924B25CC40;
-	Wed, 25 Mar 2026 07:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774423969; cv=fail; b=CfNyLa1o9I22mtVIA4OrM7bUNGMVXs7IKObbw3AVCvOGLIGfhjnOCcUAr09qUJ/IxBPY8cnp48DRWcAZwfYqho1iUGel3AcdcPryv3Y0omHNMJsw/O+uTVt1uZhEVVDrAP+yrrc677q2IAKjVpV9WFNjP2y7gyOsG7+UVMIed9M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774423969; c=relaxed/simple;
-	bh=hCZ/3Zk8LNpYmEG4HOxvUMTfkGfUv/CPhy4jbjZgssE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=JRcG8k05dTO14qO2T7h7HabvZONbWBo5IOiif7rePWdKdLs0ZS4nUdlp1xM9FZsXL7N1ww//YJ3yp6iTbGIKlMb/bvJVC7iru+cyxH7QS5K+Kh1oFut4vEo6QijYvJvyAApj3m1/Z0JiR8WO6qb9wUVTxV94+Gs5A/9C5aSFbbQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=iATCXDs8; arc=fail smtp.client-ip=40.107.42.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VPQGTcAAaZvwm41/V/rmL5FBmEpRI8Eg0BOw8qPvgR3YhKb5i1KiDWb9BI757haha+sy4f0atAeejtAKHEM+GsMOonbgfZPJ1EYNFO4gqo9XChWPMKTzMbQmXiFvIgky4hVcWYc9ufsnfXQM6yz47TiWejllpK+eSuK4BvUPnwXh4rJYYGDDtoG26crGVXSDirq+J/2T9KFVhLY+v8BMZcVlLlbZjv/XXZCTZwTJmsu4eavKKrI5k3SroZLRe4DAcSXd3pWm+V2e61OMTJt7l1nxmoLToqT1MSsEnjsVSYjvvyp9XqMtL8sxDc7M+c1t4pBbWKJNy4CJ3qgWH0NPVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wHJpeNTCuWgEG5TxfwWdJDhYbcjLdH6NzLQxcKmvRxI=;
- b=XQDR9PPw8x/2JQN7GJ8CaApxeOscri3uli1tlYytuPcAWufKr4D+SzprP2UTCv5x4cXyfrlkHvVRu8xxu7hHZky9g2KA93DCOurNFL+KmIIrPRIQKNPNPzXvojOs5LJPCm9IbDZsEQesXDAfJytbjWU0O7be2arwzMDwiTZ5zqhwLNV33ostf68M8M8ojx6muqbu0TNlC7N7F9uaO0ckXb0ZcRa0+07c/8h+iFbzI3B+oCpx2+rGJbijraEWYw+rtXT566Wc9u5p8/4Jr0YpBeYjXmWX1eI2jLc6FurHPcn/YxCM7Usah2pdqPtC69TeRzJq3bbqHt0jGa8ph17SUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wHJpeNTCuWgEG5TxfwWdJDhYbcjLdH6NzLQxcKmvRxI=;
- b=iATCXDs8wX8PkPuy7UebeFe/fsVLZBKVsRtKrffdDAteLqBkW3OALrWD5RLvkjXWbgpMBG6YjsU1dyl3hePR8KVRQRPFclSvhw/IrYK6BXRMkf7IpKjIYn4aEx2gRijIVNBzqs7LRQaZ8DADn3+KDeBu1xviXC760nF893SVKqg=
-Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM (2603:1096:101:f::14) by
- SE5P216MB3377.KORP216.PROD.OUTLOOK.COM (2603:1096:101:2fd::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9723.31; Wed, 25 Mar 2026 07:32:43 +0000
-Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
- ([fe80::8f6c:834c:6cef:7be]) by SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
- ([fe80::8f6c:834c:6cef:7be%3]) with mapi id 15.20.9745.019; Wed, 25 Mar 2026
- 07:32:43 +0000
-From: jackson.lee <jackson.lee@chipsnmedia.com>
-To: Brandon Brnich <b-brnich@ti.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>
-CC: "mchehab@kernel.org" <mchehab@kernel.org>,
-	"nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>
-Subject: RE: [PATCH v2] media: chips-media: wave5: Move src_buf Removal to
- finish_encode
-Thread-Topic: [PATCH v2] media: chips-media: wave5: Move src_buf Removal to
- finish_encode
-Thread-Index: AQHcuJQte7c0n6cD6UWv57sioW4ZpLW+4ZpA
-Date: Wed, 25 Mar 2026 07:32:43 +0000
-Message-ID:
- <SLXP216MB1148FADFCA566AD0746656DFED49A@SLXP216MB1148.KORP216.PROD.OUTLOOK.COM>
-References: <20260320180526.351956-1-b-brnich@ti.com>
-In-Reply-To: <20260320180526.351956-1-b-brnich@ti.com>
-Accept-Language: ko-KR, en-US
-Content-Language: ko-KR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SLXP216MB1148:EE_|SE5P216MB3377:EE_
-x-ms-office365-filtering-correlation-id: 8562c26f-0296-40bf-cf1b-08de8a40b3c3
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|376014|366016|38070700021|7053199007|18002099003|56012099003|22082099003;
-x-microsoft-antispam-message-info:
- MrBmnkkGzcITF0uHKAeCR2iThOFGRdMAPKCZFc8Q4MC3QEpj9vZGRhmAxDvKuuHPCroC98vuXlety/CSvOVIc4GhdRIGdzh6jhbfYXKz/XG6jHQ18IMpfz6nZA00y/tHYQKXhLsuaUjHsnXUT1HNOUS0dZ5SdH1xjWMM8m87Kei/Qsw0KqyoWfbeUWGm6f9xYhXnObBaqxS2Jh2yBKegL1NrTsvkF0DIF2tP0dh3bR9o+sRBJmllFIazOity+9do7stgRCrQfPRBDNdik2/4l6naDIWkZko6l5Qj6OQB/DwcT7ScsKAoq9o5N/JzLK9M1LJYfRLMVavkCmi0625jQE1w6fOEb1zQaM0+Ei+WppPdD5liJdOcjRdpmEGqydKMtWf5Ej4d+ZvnpIv7YO1mPLqsa7A2KOwyZU/xAPHEEqeFlLCUeElH20q3xttfwki1K9f6ioxp6jzi4rGfXuItaGjn75YO7Vim07Xj3ubvBQofGhlksLQf7bpAQkQF6a8KQ+A7zhUR64BjPYtcIjDm7xVPKXQ2hD6FaUla6RQt1Lgp2cgbC5iAAEv196MZukrgm/5xHfJa+EWJtpmlxeYynkwFrYXekuASIGPT50T7i6KNnTP/gOnL6QqVMPR7hX5+62B2VA8ooVPKmCUCX5Rr2X2opxZ3QxYeFfD3UMmF+ZY4N+3S8MbXXSj2noXLUD0IdJYa6sWPwdvUC5PW76qYVhCDQGcAt+STrAi27aSzh2UBifAsuEF09GNTfi3jP+ycf5XwbmDG94fhL3ZfqYH+RcGWtfDSS92fFwcDOLIfSD4=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SLXP216MB1148.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021)(7053199007)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?ASeTO2GLWrluqMySZw8uVqU7NrkPNOJ0+5moenjkse3zdYxqFoL9vZFY0Dco?=
- =?us-ascii?Q?7o8dJjkNkghzM9Fn/DFlA9zZdWZzxramrp5sQuv4KDT9FsUccmXKvamNU+td?=
- =?us-ascii?Q?PZAlQEQWS1v47gGLF6Mue5XD/qTZaieBKTPbjQUbzxMsyZsElyjEkpBbQDje?=
- =?us-ascii?Q?7UUnSyJpMcEYpq+bHdZEWC8sgtH/fTfRw+w8A1BhUj3x50i7bVl40S35xUpA?=
- =?us-ascii?Q?GSDbBlSha17PlZX1qxUKV5vUvy62Hxup4zpThNwjq8afZYXNMPLDkuLDDq4O?=
- =?us-ascii?Q?LJRNvLAqGBqMDMDDSBgtJ/kdb9V6rGamy98TV1dxeWFIRcHJIEDIr3u6A9F4?=
- =?us-ascii?Q?LDKP6ofKav7nV9k6cRbiKUl2D/Dii+sz5OToV6I7unA9DFdWPZiVgSUUd5Cz?=
- =?us-ascii?Q?39PSMNCJrjWlc+Vfw8wGsZ0BGFl3bdHGwo6kRj5ZQnv8tZ6cmfk2X2LbdDSM?=
- =?us-ascii?Q?XfQdVVYCn5roC0wx9fcT4HJDQuAhKTz5eXBXbpVKX8xMgJZuxvI5HU1djctK?=
- =?us-ascii?Q?9qm9gP0e3m0xYpznuKOkM7kiNndFAbTquAqQ2OBNi35g9QEFdHNWBtUwGTrV?=
- =?us-ascii?Q?j6aJf9EPeYSl2mR120pZ3IZ4t8VSfLCRFkzVWNhGsN2lAIfgU2RtUCt/i5UV?=
- =?us-ascii?Q?aoTqJ1cmWAokr6K5+H19EKdUrmondjaDcRJTiomuaXAijorTvsItDM2dbEbW?=
- =?us-ascii?Q?HxocrbyGBK/JJQVTi+omyiGgR0L+ikXNwz7KzTR8TVeS1HpOq9kIxMlVWgJq?=
- =?us-ascii?Q?uw1a3bQ4wEpoK0N2FDkmLO5wktGpVKcA9uvBU//XCK1ZQAqdd7OF0BiJuFbP?=
- =?us-ascii?Q?jzeY4v0R9joNAMF2NLA1tcsZkJPf/ca3J7u3PByh01DMUjzbBBHrSEvigOoj?=
- =?us-ascii?Q?L2PJbn0Rww52hfIKos6xxYnDnCx1u5icu+6O8FIZCHQZA0EzYvT5O//9lv8t?=
- =?us-ascii?Q?iGLSFyQOmSuROeeDEoIjTqPPB19TDOGfqbvFtVII+krkXgTfyXaAtd0wUHFq?=
- =?us-ascii?Q?B7l1azuqGBNYAs6RioL0IUF0emDLSPbBlqsrxHoZrMP5t3B/O7l3qUbz2CYK?=
- =?us-ascii?Q?+xvIFpcCyDu7fk1nShrEgOencUwAMt4Q8FmVUjwMohJH44AWtZg73SzzcqiJ?=
- =?us-ascii?Q?fnvqZNA35nUkoeVGTAsT9+HQva9LsCSMQmiSQyVxMUjnf9I/B6aZp/IF1ZU4?=
- =?us-ascii?Q?wnfRCEGBbnEVnpDnRdL1ftH4wAZobAsPBrFyHdYVda54eMr754wL+g42jP2y?=
- =?us-ascii?Q?mTiukqF9WHCWJpCruwVmGKsyoHcBZNRxjnHNDWmSi7/ukqL4sbq8BC6gtLDy?=
- =?us-ascii?Q?8mlnT5lV7KLTdrxDj3KNZK33JBPsgxCfFfNpLvZgwAFDZxoM2cMcvHwe7PVH?=
- =?us-ascii?Q?o8UCgRDpT64XH0BNFfuV+WxiNtrs8WZYwZoKcrkmuH/PpnGrzEryQ9lFrPpQ?=
- =?us-ascii?Q?rtLMgHyB62+JuCoIosvo6cvTQg1Fu4n67YDsZ+8MoDn20bDLJDkiWxMjyjai?=
- =?us-ascii?Q?8SV9ncWU39qqDXt+Y1r4pIRY8DG75wKyF5Dqyn/sc1j93eOsoUvDhbeY3whC?=
- =?us-ascii?Q?bwyvWItLali0ExvXOwtsBkeDPg3g86PK+wkz5YCuBvw43VGcWHlcB6z/acDD?=
- =?us-ascii?Q?luIBgLOevyfoFQbsQUEz6CvX3T/Q+qbvVokRgmtl8w469b2dw5eoSxDXWIOT?=
- =?us-ascii?Q?/cg7fmiunV0e2aMcHgNavpLhPe8G/oMqdeJMPQkthbjnS4sAqMmEkf0El+k3?=
- =?us-ascii?Q?Yrr7C0oT5g=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7773932C3
+	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 07:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774425203; cv=none; b=kFl4XSu9RzYJrr7U07nUrXQo5YKKzpSDF6mfR0B9DTHaRJNY0oQlemZ99RlTpXNFKag+Pgs45MDLQlqnOzJ19Ljc95u2g+fs3RUbviGQvztv6zeowvOV1htXaDHHE4PEjsK3yOyGBRKBaQEKA6IdLhQnJJFgCrmMYkY7HkrNOqY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774425203; c=relaxed/simple;
+	bh=VXkJN4Kl+ZASyeCC/VdbGUtIGaTdV9woIEAznZCxA64=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IxItlJJ+yMl4hIL4pdbPixLbC0UbQ31gx2EaVBJx+lW2lkeHb1t43BLS2Z+UFJ/r4Z/rivniUJE+xaBbShtwM+qJqYqTbyBDBONFLeWxI/iRnDJONBXZxNaXnxOZR2vCin5hH/NNE8lZ1ToBHEttFB9XYnaijJDr/TBwuQS3vD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ocIvucwT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hYJqwdBW; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62P5Wddt2075395
+	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 07:53:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	DySCntb1zXYgrtxOMXpVWEI01R8xxlo7pSRoUDAwyFw=; b=ocIvucwTxpdsQmPK
+	eruF0N7ZtHsEuBs1RHNS+e/ckAp6Sd8fVmYEdYg6Fe8ZSYcMNgimdylqCd7UcuG7
+	4ocfMVfOUmt4egh34JUwc6p6wR2xbMOMO4zT1JoZ7RpA9rbAXzcL35aNoGIjrf1Y
+	U1fQiz5lf5GzqF7OAg959YiLz9kIOJ5TV8tFIr/+HVDSlILcq7sbmcvX0WtKlNdx
+	qJl01izb75z8ZORmVMLyqKIOz38WR7BixuV+Fx7ytUrVVJhho92bqV5/WliH1a1s
+	tAdXHQsxgxrTrWsOiaTuEVCZNW9hsY0YiSBTD39U3G0yLjMZkERAGLP99APyY1Zd
+	4ZnpLg==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d414123na-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 07:53:16 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2a90510a6d1so8134195ad.0
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 00:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1774425196; x=1775029996; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DySCntb1zXYgrtxOMXpVWEI01R8xxlo7pSRoUDAwyFw=;
+        b=hYJqwdBWqpa1yrUEQYW52KB2Ajcdm0ImJ4Be8BHeu3Zuoie8hKJN94ldxdCZkMcD/x
+         H3d+v61SYk5L8E76UFUE6KmoOPput1BKoGBcW+dgVy3bekSyp9TzIEbktH+WZ6H/XCf4
+         /SQQUZNcui29zIXnlRjgcMt9ETzIrTITmNMaCZi6eACPOAiYPau6M/RP+xgFjKfK3jnI
+         HWxZZY3rQsV7gcIlX+TD2qxmMMHE5ZJb+6RGg3nHJ31mbIaAZqqDIS6Hk7DXzcx/hm+C
+         38565JwZsnkvTfuCI/e+yti2VXUzFWpLion1ji0guc1SzYpSsCrYXyWGbAqdnbqg/Ar5
+         XOnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774425196; x=1775029996;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DySCntb1zXYgrtxOMXpVWEI01R8xxlo7pSRoUDAwyFw=;
+        b=NVUbw3IVjfcsZuLfGWtHhJOXqooqKjQOi4VTIqant9V1j9/WieMcmiNMvS5SpO8u2S
+         mpZssaE8vtqkCcT4cAuSHTNsnnxl54sNQk5+bSue6m8TxllPNvj85Lok6IzxnKlbqeJ0
+         ycR6c6+RBCUgL5WeltZcS8yxzz8V9A3yEdT6nLif2baKx+POmkd17RLAM1A8yta2Sk6m
+         glpECgOBzA9S6r9mOuPUmqrOpnPzi4RO8ITLL5IG2zHlKcGpaYMd2sARc60m15rPH2Cx
+         uQQXL0Zogsi3ibCee3qY/cQt+nOb142MAhkymk2ri1K44BjJ7pHguJTLJ+90ap9b3Rq8
+         80Tg==
+X-Gm-Message-State: AOJu0YwV2C+q1NL6pUx+ArPArOkeJlsY4F8GxB77t0u+AKEkCqnVlP7R
+	6zTCHy78lBFAzfOU5P6FSSj63yNI4irWzlgBt1bxC/bAllKF3Rh69E5hXKh0eHnPn97eRMtH62/
+	4qo6PZoJgx7XSBKpfhnPyBV0+nxVp4BkSraPjkWlA6k5Ft+wElxvEBknnpHSPCrPhEw==
+X-Gm-Gg: ATEYQzztR0t2hfR6cY3JnjrXPnN02lMo7VWBjIJyzMuwVnldv19sIYS+80If3ZZm0YZ
+	8i0ZoF1YYxBkyPcpGyQvY0nsC6vJQknVZWbm+3g0CI1vzg9YdHTis67Yo8JDfCyUXdeo7EYwDan
+	/0DNxythnwlK3tTCPndrB/WRaJHGwA1GqpfHXMUx1fbZRMzfofk7zBkATawveqeR70hCbpCR6Gb
+	J47i9dPaJAUVpsVd7Mod2T1iUquHPG6T1HxHCvAkDG+6qB6Hj22+S3vOIXD2s1wWd3Bq9rih0vy
+	wUxftUIQ7bRZ44lMCfRXxGOcV1TeGzOGJlkh4QeZjcnmnlv+RHuM5NZmP9uinORwtLICUkQA5i9
+	5miGh0f0mTa3PuAz2QrNCCtWHtyGWWhVD0BW0FM+ZyjOthkVeqDNmyQ==
+X-Received: by 2002:a17:902:e80a:b0:2b0:b7c6:4ae7 with SMTP id d9443c01a7336-2b0b7c64d78mr3400245ad.1.1774425196060;
+        Wed, 25 Mar 2026 00:53:16 -0700 (PDT)
+X-Received: by 2002:a17:902:e80a:b0:2b0:b7c6:4ae7 with SMTP id d9443c01a7336-2b0b7c64d78mr3399995ad.1.1774425195495;
+        Wed, 25 Mar 2026 00:53:15 -0700 (PDT)
+Received: from [10.204.101.77] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08368ea1bsm210836495ad.68.2026.03.25.00.53.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Mar 2026 00:53:15 -0700 (PDT)
+Message-ID: <4a81a54d-2dc5-476c-82ed-9481aee8515b@oss.qualcomm.com>
+Date: Wed, 25 Mar 2026 13:23:11 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8562c26f-0296-40bf-cf1b-08de8a40b3c3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Mar 2026 07:32:43.1319
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5MkzDDRz8izWeBUfCWfp7JSZDDusc6mz1xIAek6wt3xy8K3siDkf9jK3S21yfCuNCQ3QmUuSLFcdI3a1/T5uRNQQFqhqe9mHNn8Kjvr7bqM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE5P216MB3377
-X-Spamd-Result: default: False [0.34 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_DKIM_ALLOW(-0.20)[chipsnmedia.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] media: iris: add FPS calculation and VPP FW overhead
+ in frequency formula
+To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260325-update_fps_calculation-v3-1-b2ec654f7e4d@oss.qualcomm.com>
+Content-Language: en-US
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <20260325-update_fps_calculation-v3-1-b2ec654f7e4d@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=fOk0HJae c=1 sm=1 tr=0 ts=69c3946c cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=zq2kz8iOUWQeT6CNkjIA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-GUID: CNCc8DB1F9cbhVZJjegcKwM7n4_CzCW3
+X-Proofpoint-ORIG-GUID: CNCc8DB1F9cbhVZJjegcKwM7n4_CzCW3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDA1NCBTYWx0ZWRfX0pdaL+YCgPJK
+ W5v3+t5H40p2ztpfPX/bAhdk9tysK9Z2HVPG302fxqreHMsJ0KS+9bJMU2jwY+QHv5QgYnms3NV
+ 2UfU/SHlsOUNFsO7k2IRGGiM0EyoDC/y62XkwBCTj9UzliJkteERWIjYPdonlIVEhOT88KxXC2y
+ ns1bLC2SRciTlRWiUe7mgnfm51jgJT5xBlJcuXJfb0/UQeWFyoKodTKMIOppGbDA/hf6qsTDzOs
+ J/wuVXzw73QpDHFot/MYOwo7Z/h1YyaG1WJsPQOw6cct0jPbkQbi6BxilVUwaaXuxA4UDmWMWx8
+ pdPG3wQlwXbvc1YIL2yGhVcRBxRuX8Zwb6JuadAFRT5ADUnsGeRU2pTCeyawzGxM9yNGlRor51T
+ H/PBXNPxETrZ62JCYveaY+VjXrwgBVdVLajbS9FXVcZM3imEhrB0RMU8fRkQCe2VUdq/OxXByI5
+ wliRYqZ6ZlpWy/oOW7Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-25_02,2026-03-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 priorityscore=1501 clxscore=1015 adultscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 suspectscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603250054
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DMARC_NA(0.00)[chipsnmedia.com];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-56951-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jackson.lee@chipsnmedia.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[chipsnmedia.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim,qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56952-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,collabora.com:email,ti.com:email,SLXP216MB1148.KORP216.PROD.OUTLOOK.COM:mid]
-X-Rspamd-Queue-Id: BFE18320BCF
+	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 1DD8A320F1D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Brandon
 
 
-> -----Original Message-----
-> From: Brandon Brnich <b-brnich@ti.com>
-> Sent: Saturday, March 21, 2026 3:05 AM
-> To: linux-kernel@vger.kernel.org; linux-media@vger.kernel.org; jackson.le=
-e
-> <jackson.lee@chipsnmedia.com>; Nas Chung <nas.chung@chipsnmedia.com>
-> Cc: mchehab@kernel.org; nicolas.dufresne@collabora.com; b-brnich@ti.com
-> Subject: [PATCH v2] media: chips-media: wave5: Move src_buf Removal to
-> finish_encode
->=20
-> During encoder processing, there is a case where the IRQ response could
-> return the buffer back to userspace via v4l2_m2m_buf_done call. In this
-> time, userspace could queue up this same buffer before start_encode
-> removes the index from the ready queue. This would then lead to a case
-> where the buffer in the ready queue could be a self loop due to the
-> WRITE_ONCE(prev->next, new) call in __list_add.
->=20
-> When __list_del is finally called, the loop is already made so nothing
-> points back to ready queue list head and pointers are poisoned.
->=20
-> A buffer should not be marked as DONE before the buffer is removed from
-> m2m ready queue. Move removal entirely to finish_encode.
->=20
-> Signed-off-by: Brandon Brnich <b-brnich@ti.com>
-
-Tested-by: Jackson Lee <jackson.lee@chipsnmedia.com>
-
-Thanks
-Jackson
+On 3/25/2026 9:58 AM, Vishnu Reddy wrote:
+> The driver was using a fixed default FPS value when calculating the VPU
+> frequency. This caused wrong frequency requests for high‑frame‑rate
+> streams, for example 4K at 240 FPS. Because of this, the hardware was
+> running at a lower frequency than needed.
+> 
+> Add the FPS measurement based on the decoder input buffer arrival rate.
+> The measured FPS is stored per instance and used in frequency calculation
+> instead of the fixed default FPS. The value is clamped so that it does
+> not exceed platform limits. Add a VPP firmware overhead when running in
+> STAGE_2.
+> 
+> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
 > ---
->=20
-> V2:
->  - Update function to use reported index from encoder
->  - Fix reported media CI bot style errors with brackets
->=20
->  .../chips-media/wave5/wave5-vpu-enc.c         | 29 +++----------------
->  1 file changed, 4 insertions(+), 25 deletions(-)
->=20
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> index 7613fcdbafed..c605a91718d8 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> @@ -226,13 +226,6 @@ static int start_encode(struct vpu_instance *inst,
-> u32 *fail_res)
->  	} else {
->  		dev_dbg(inst->dev->dev, "%s: wave5_vpu_enc_start_one_frame
-> success\n",
->  			__func__);
-> -		/*
-> -		 * Remove the source buffer from the ready-queue now and
-> finish
-> -		 * it in the videobuf2 framework once the index is returned
-> by the
-> -		 * firmware in finish_encode
-> -		 */
-> -		if (src_buf)
-> -			v4l2_m2m_src_buf_remove_by_idx(m2m_ctx, src_buf-
-> >vb2_buf.index);
->  	}
->=20
->  	return 0;
-> @@ -259,27 +252,13 @@ static void wave5_vpu_enc_finish_encode(struct
-> vpu_instance *inst)
->  		__func__,  enc_output_info.pic_type,
-> enc_output_info.recon_frame_index,
->  		enc_output_info.enc_src_idx, enc_output_info.enc_pic_byte,
-> enc_output_info.pts);
->=20
-> -	/*
-> -	 * The source buffer will not be found in the ready-queue as it has
-> been
-> -	 * dropped after sending of the encode firmware command, locate it
-> in
-> -	 * the videobuf2 queue directly
-> -	 */
->  	if (enc_output_info.enc_src_idx >=3D 0) {
-> -		struct vb2_buffer *vb =3D
-> vb2_get_buffer(v4l2_m2m_get_src_vq(m2m_ctx),
-> -						       enc_output_info.enc_src_idx);
-> -		if (vb->state !=3D VB2_BUF_STATE_ACTIVE)
-> -			dev_warn(inst->dev->dev,
-> -				 "%s: encoded buffer (%d) was not in ready
-> queue %i.",
-> -				 __func__, enc_output_info.enc_src_idx, vb-
-> >state);
-> -		else
-> -			src_buf =3D to_vb2_v4l2_buffer(vb);
-> -
-> -		if (src_buf) {
-> +		src_buf =3D v4l2_m2m_src_buf_remove_by_idx(m2m_ctx,
-> enc_output_info.enc_src_idx);
-> +		if (!src_buf) {
-> +			dev_warn(inst->dev->dev, "%s: no source buffer
-> found\n", __func__);
-> +		} else {
->  			inst->timestamp =3D src_buf->vb2_buf.timestamp;
->  			v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
-> -		} else {
-> -			dev_warn(inst->dev->dev, "%s: no source buffer with
-> index: %d found\n",
-> -				 __func__, enc_output_info.enc_src_idx);
->  		}
->  	}
->=20
-> --
-> 2.43.0
+> Changes in v3:
+> - Updated the frame_count condition check
+> - Link to v2: https://lore.kernel.org/r/20260305-update_fps_calculation-v2-1-e3b5cccb1246@oss.qualcomm.com
+> 
+> Changes in v2:
+> - Replaced div_u64 with mult_frac
+> - Link to v1: https://lore.kernel.org/r/20260304-update_fps_calculation-v1-1-4eeac373a504@oss.qualcomm.com
+> ---
+>   drivers/media/platform/qcom/iris/iris_instance.h   |  2 ++
+>   drivers/media/platform/qcom/iris/iris_vdec.c       | 21 +++++++++++++++++++++
+>   drivers/media/platform/qcom/iris/iris_vpu_common.c |  6 +++++-
+>   3 files changed, 28 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
+> index 16965150f427..180cba36a7f2 100644
+> --- a/drivers/media/platform/qcom/iris/iris_instance.h
+> +++ b/drivers/media/platform/qcom/iris/iris_instance.h
+> @@ -109,6 +109,8 @@ struct iris_inst {
+>   	u32				metadata_idx;
+>   	u32				codec;
+>   	bool				last_buffer_dequeued;
+> +	u64				last_buf_recv_time_ns;
+
+s/last_buf_recv_time_ns/last_buf_ns
+
+> +	u32				frame_count;
+
+s/frame_count/frame_counter
+
+>   	u32				frame_rate;
+>   	u32				operating_rate;
+>   	u32				hfi_rc_type;
+> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
+> index 719217399a30..6d982802e5d4 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+> @@ -369,6 +369,8 @@ int iris_vdec_streamon_input(struct iris_inst *inst)
+>   	if (ret)
+>   		return ret;
+>   
+> +	inst->frame_count = 0;
+> +
+>   	return iris_process_streamon_input(inst);
+>   }
+>   
+> @@ -411,6 +413,7 @@ int iris_vdec_qbuf(struct iris_inst *inst, struct vb2_v4l2_buffer *vbuf)
+>   {
+>   	struct iris_buffer *buf = to_iris_buffer(vbuf);
+>   	struct vb2_buffer *vb2 = &vbuf->vb2_buf;
+> +	u64 cur_buf_recv_time_ns, time_delta_ns;
+>   	struct vb2_queue *q;
+>   	int ret;
+>   
+> @@ -427,6 +430,24 @@ int iris_vdec_qbuf(struct iris_inst *inst, struct vb2_v4l2_buffer *vbuf)
+>   		return 0;
+>   	}
+>   
+> +	if (buf->type == BUF_INPUT) {
+> +		cur_buf_recv_time_ns = ktime_get_ns();
+
+s/cur_buf_recv_time_ns/cur_buf_ns
+
+> +
+> +		if (!inst->frame_count) {
+> +			inst->last_buf_recv_time_ns = cur_buf_recv_time_ns;
+> +			inst->frame_rate = MAXIMUM_FPS;
+
+move this to default initialization
+
+> +		}
+> +		time_delta_ns = cur_buf_recv_time_ns - inst->last_buf_recv_time_ns;
+> +
+> +		if (time_delta_ns >= NSEC_PER_SEC) {
+> +			inst->frame_rate = clamp_t(u32, inst->frame_count, DEFAULT_FPS,
+> +						   MAXIMUM_FPS);
+> +			inst->last_buf_recv_time_ns = cur_buf_recv_time_ns;
+
+drop this
+
+> +			inst->frame_count = 0;
+> +		}
+> +		inst->frame_count++;
+
+move this above IF block, so that the reset of 
+inst->last_buf_recv_time_ns can be handled in first IF block
+
+> +	}
+> +
+>   	iris_scale_power(inst);
+>   
+>   	return iris_queue_buffer(inst, buf);
+> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.c b/drivers/media/platform/qcom/iris/iris_vpu_common.c
+> index 548e5f1727fd..d621ccffa868 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vpu_common.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vpu_common.c
+> @@ -416,7 +416,7 @@ u64 iris_vpu3x_vpu4x_calculate_frequency(struct iris_inst *inst, size_t data_siz
+>   	u32 height, width, mbs_per_second, mbpf;
+>   	u64 fw_cycles, fw_vpp_cycles;
+>   	u64 vsp_cycles, vpp_cycles;
+> -	u32 fps = DEFAULT_FPS;
+> +	u32 fps = inst->frame_rate;
+>   
+>   	width = max(inp_f->fmt.pix_mp.width, inst->crop.width);
+>   	height = max(inp_f->fmt.pix_mp.height, inst->crop.height);
+> @@ -435,6 +435,10 @@ u64 iris_vpu3x_vpu4x_calculate_frequency(struct iris_inst *inst, size_t data_siz
+>   	if (inst->fw_caps[PIPE].value > 1)
+>   		vpp_cycles += div_u64(vpp_cycles * 59, 1000);
+>   
+> +	/* 1.05 is VPP FW overhead */
+> +	if (inst->fw_caps[STAGE].value == STAGE_2)
+> +		vpp_cycles += mult_frac(vpp_cycles, 5, 100);
+> +
+>   	vsp_cycles = fps * data_size * 8;
+>   	vsp_cycles = div_u64(vsp_cycles, 2);
+>   	/* VSP FW overhead 1.05 */
+> 
+> ---
+> base-commit: f505e978d1a0442adbbde48aed38c084ddea6d6e
+> change-id: 20260304-update_fps_calculation-98ee7f7507b1
+> 
+> Best regards,
 
 
