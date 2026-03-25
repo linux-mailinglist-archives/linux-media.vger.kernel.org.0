@@ -1,158 +1,156 @@
-Return-Path: <linux-media+bounces-57027-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57028-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yG8iCjLQw2nuuAQAu9opvQ
-	(envelope-from <linux-media+bounces-57027-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:08:18 +0100
+	id GFiQHWnRw2lLuQQAu9opvQ
+	(envelope-from <linux-media+bounces-57028-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:13:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F5E3247B6
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:08:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 241A132496C
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:13:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5EC25307F76F
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:52:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 842E331CEF93
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:54:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7918F3D5660;
-	Wed, 25 Mar 2026 11:51:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A505E3DB652;
+	Wed, 25 Mar 2026 11:51:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i516cVLk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F8VoBQpQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43BFF3D3308;
-	Wed, 25 Mar 2026 11:51:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F1B3CF69F;
+	Wed, 25 Mar 2026 11:51:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774439470; cv=none; b=NM1bxsx9m9vLoQj+7ynu1lHJtI/X/cA/WrpI3+oBY/AFkQgaz2gdlYhlvdbRVRNMpIUXKwryjd1CQlCXmAU+qNMftYDYtHnCTDvQlWmsyj1qfVgnaeK52ImBveL8VVywJmB6CkRFByg5e5dozU4IeA6mI4QN5eW5u0qlDvfAQJU=
+	t=1774439487; cv=none; b=LtIFpnEq+fdW55N0lJ5KjLHwqz87QXBw7t2gi7SzQ7WC814dygtZXndhoCn1Bx2/SXsCq5ud5BI74XpT/UP/TgOirNOtaunKyg83c8Uy2R+Fbbo1JcMIAyT+Hcv8Ajr3Bye/+MsXhiJzOd6dMbKfTJ02KTrq3Ea4R5ysytVFEX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774439470; c=relaxed/simple;
-	bh=u/Xs7U2frs0ytgKfO3Xf4HvlIBF3VP041tOb+X5o8sA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mT0Kn1DykjVOOgIyDOB/j1p9SVe8TBZNfpkBumlI/SHImrxTkMXMZ6PPei/AxPIKsWCmzvd7vNynYvCneM5/nsqqridJYeMQhUxQY55n5cVblzTl87/q85WD16Ds9WHnMN4PptAJV87+ZJ8zgQ7/7FwG5V2pTpfGU0Dglal0nRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i516cVLk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1F411C2BC9E;
-	Wed, 25 Mar 2026 11:51:10 +0000 (UTC)
+	s=arc-20240116; t=1774439487; c=relaxed/simple;
+	bh=ijQZYkQ8huX8bzZfiuwKK5l/O+taUFGXBf7mUcCwX/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pgOg2gNFWYMdKBukorfVPT0egm7iZMc+USBbiVREq5qDEdcDrbeYPC6pdtyvYlAWfcnLf3KVYdmhKXHOHEwesGnjA0PunUqH46app9F39WhIdP3Cbk7REtG3OQV3wggnjt633paRVfin0oILpi3CKmgdwUudOG/CCcXXxgba4CI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F8VoBQpQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F905C2BCB2;
+	Wed, 25 Mar 2026 11:51:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774439470;
-	bh=u/Xs7U2frs0ytgKfO3Xf4HvlIBF3VP041tOb+X5o8sA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=i516cVLksoX6Ui8Zc7u/uPJvqnBCXaR1xXPfMfHaCGv8+TlmHDfXensJIdpkNzvBB
-	 0C1JlRDD2/5beDuRHQB2Y8YJ7Q0WCfl8KOHHMHMDPSLNjwcwGjXJdhnz/7PrUal7p6
-	 vbrf5TstjL57rgy0xs6MYAIUCJgV7Ql7KY/JsHd3yyK8KOKb/Edjm0Ki/2A1ew/cP9
-	 k6TOqwMQtkf2uBiqCYU8E+wktQ1VYY9FLtU2LOPwCyX1gvaNLb9Y8sG8pufm3pMARR
-	 3h4JxDF/OjMduVsTshisjjSL+gmOptIIvUZvP7JeN7WoEoK47aDuSzjlLP3Td2oVDH
-	 +7EoZQFE1tM7Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A3DFEC11B;
-	Wed, 25 Mar 2026 11:51:10 +0000 (UTC)
-From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Wed, 25 Mar 2026 12:51:14 +0100
-Subject: [PATCH v3 9/9] arm64: defconfig: enable designware mipi csi-2
- receiver
+	s=k20201202; t=1774439486;
+	bh=ijQZYkQ8huX8bzZfiuwKK5l/O+taUFGXBf7mUcCwX/o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F8VoBQpQxXDFHPLwjgn+FimF064VYiGnb02ISTZuo7sMCK/Or3p4aIxqTZnuLA+uL
+	 /r3T+Vz7lEc5yc54KjVTpnI+VbV4XN+l9Nl46axhDOOVHgzVdpo/UGmLK8hQXPEUNR
+	 ynBx5dd5yG3uJQWeeWTgH1cW2In1W0YVJ8QoBnAUk6K4WIL8a0REi+e01oXpRwalXe
+	 gSeFc6w+k+DbJNNIa/GojyKKWjfTcx03289D4/2LfiEs6Mel5pKCUogETaR2OKLgYy
+	 1ahoOxct2eimH12qdt9HBRcDZVXFXVZm9/7QyfTkESgul2vKzgUyr+V1bDmNBkVBYO
+	 nsJxO9bsBzs0w==
+Date: Wed, 25 Mar 2026 17:21:14 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Nitin Rawat <quic_nitirawa@quicinc.com>
+Subject: Re: [PATCH v5 phy-next 10/27] scsi: ufs: qcom: keep parallel track
+ of PHY power state
+Message-ID: <vu3cxpynr5mu2fzkrtmjcwijc5jz323wlnbc3r7lp2wxqmhydx@z5xhgf4myw2d>
+References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
+ <20260319223241.1351137-11-vladimir.oltean@nxp.com>
+ <ezrcjjwtg5n76w4m65l27szu5mywx66ti3xuprkfcp3x6quvbf@2rew4zrnnbt2>
+ <20260325114309.3k7xkfrffpxp5xq4@skbuf>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250430-rk3588-vicap-v3-9-e38e428868cc@collabora.com>
-References: <20250430-rk3588-vicap-v3-0-e38e428868cc@collabora.com>
-In-Reply-To: <20250430-rk3588-vicap-v3-0-e38e428868cc@collabora.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Kever Yang <kever.yang@rock-chips.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, 
- =?utf-8?q?=D0=9A=D1=83=D0=B7=D0=BD=D0=B5=D1=86=D0=BE=D0=B2_=D0=9C=D0=B8=D1=85=D0=B0=D0=B8=D0=BB?= <mai.kuznetsov.misha@gmail.com>, 
- Charalampos Mitrodimas <charmitro@posteo.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Collabora Kernel Team <kernel@collabora.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Michael Riesch <michael.riesch@collabora.com>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774439467; l=993;
- i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=eVdcF2RtkbDMqyOIRg7mK2YspwU31YYBLyox7Iyaf8I=;
- b=5b0EALvi9AXxAzBR2WZjbhqWRsq4l3NOZJOtSuurCwB1qJ34wwEVVp8xormh8ck4hlrKqstzt
- CKkgHyYVA8qAvN8sYl/xbtzmIgN3LmuBAU6oshZeJbZDA9aryrebqbJ
-X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
- pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
-X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
- with auth_id=371
-X-Original-From: Michael Riesch <michael.riesch@collabora.com>
-Reply-To: michael.riesch@collabora.com
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260325114309.3k7xkfrffpxp5xq4@skbuf>
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57027-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57028-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[28];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[linux.intel.com,ideasonboard.com,kernel.org,sntech.de,rock-chips.com,amarulasolutions.com,gmail.com,posteo.net,collabora.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
 	FROM_HAS_DN(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	HAS_REPLYTO(0.00)[michael.riesch@collabora.com];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:replyto,collabora.com:mid,intel.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 12F5E3247B6
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 241A132496C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Michael Riesch <michael.riesch@collabora.com>
+On Wed, Mar 25, 2026 at 01:43:09PM +0200, Vladimir Oltean wrote:
+> On Tue, Mar 24, 2026 at 11:00:10AM +0530, Manivannan Sadhasivam wrote:
+> > On Fri, Mar 20, 2026 at 12:32:24AM +0200, Vladimir Oltean wrote:
+> > > As explained in the similar ufs-exynos.c change, PHY consumer drivers
+> > > should not look at the phy->power_count, because in the general case
+> > > there might also be other consumers who have called phy_power_on() too,
+> > > so the fact that the power_count is non-zero does not mean that we did.
+> > > 
+> > > Moreover, struct phy will become opaque soon, so the qcom UFS driver
+> > > will not be able to apply this pattern. Keep parallel track of the PHY
+> > > power state, instead of looking at a field which will become unavailable
+> > > (phy->power_count).
+> > > 
+> > > About treating the phy_power_off() return code: from an API perspective,
+> > > this should have probably returned void, otherwise consumers would be
+> > > stuck in a state they can't escape. The provider, phy-qcom-qmp-ufs.c,
+> > > does return 0 in its power_off() implementation. I consider it safe to
+> > > discard potential errors from phy_power_off() instead of complicating
+> > > the phy_powered_on logic.
+> > > 
+> > 
+> > You could even simplify the code by getting rid of the 'phy_powered_on' check
+> > altogether. There is no real need to track the PHY power state in this driver.
+> > It is safe to call phy_power_off() without any checks.
+> > 
+> > - Mani
+> 
+> Ok.. as the author of commit 7bac65687510 ("scsi: ufs: qcom: Power off
+> the PHY if it was already powered on in ufs_qcom_power_up_sequence()"),
+> I assume you have hardware to test. Would you mind writing a patch that
+> I could pick up to replace this one with?
+> 
 
-The Synopsys DesignWare MIPI CSI-2 Receiver is integrated into
-recent Rockchip SoCs, such as the RK3568 and the RK3588.
-As a consequence, they are used on a lot of Rockchip-based
-single board computers and/or corresponding camera modules, such
-as the Radxa Camera 4K.
-Enable the driver for it in the default configuration.
+Sure, will do.
 
-Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+> I suppose that the power_count test is somehow no longer necessary after
+> commit 77d2fa54a945 ("scsi: ufs: qcom : Refactor phy_power_on/off
+> calls"), but frankly I don't see it - the ufshcd state machine is a bit
+> too complicated for me to just statically analyze.
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index b67d5b1fc45b..a93ff73ae52c 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -907,6 +907,7 @@ CONFIG_SDR_PLATFORM_DRIVERS=y
- CONFIG_V4L_MEM2MEM_DRIVERS=y
- CONFIG_VIDEO_AMPHION_VPU=m
- CONFIG_VIDEO_CADENCE_CSI2RX=m
-+CONFIG_VIDEO_DW_MIPI_CSI2RX=m
- CONFIG_VIDEO_MEDIATEK_JPEG=m
- CONFIG_VIDEO_MEDIATEK_VCODEC=m
- CONFIG_VIDEO_WAVE_VPU=m
+I believe I added the power_count check for phy_exit(). But since that got
+moved, the check becomes no longer necessary.
+
+- Mani
 
 -- 
-2.39.5
-
-
+மணிவண்ணன் சதாசிவம்
 
