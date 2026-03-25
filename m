@@ -1,78 +1,105 @@
-Return-Path: <linux-media+bounces-57030-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57032-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EM+6BsPXw2lwuQQAu9opvQ
-	(envelope-from <linux-media+bounces-57030-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:40:35 +0100
+	id yCEpC5TZw2lwuQQAu9opvQ
+	(envelope-from <linux-media+bounces-57032-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:48:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90AC032508B
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:40:34 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 275CF325232
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 13:48:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0B9CF3254150
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 12:08:54 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3BAC730D8817
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 12:21:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1786D3CF678;
-	Wed, 25 Mar 2026 12:08:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CE2A3D0901;
+	Wed, 25 Mar 2026 12:21:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jpnxEcm2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AC0T9XWd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE1A3D1CAD;
-	Wed, 25 Mar 2026 12:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA113033E3
+	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 12:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774440512; cv=none; b=ZqOcmT94Ulf2S2n3PlhzA/cBS/qXZGENQtkZgIhUqhZ6uCVFkEagsSuVyu8xcvU5iLGe4P9NS5X/HSjM9+qFJsC1xAYtNoLv+wnKosXoGJVEToOlOcz7LAwEcPJ/fDs6D3IR6IOTkm5DCT53CygojetHisvCGdvHntjDsrvZwOc=
+	t=1774441264; cv=none; b=oVxF3uGv+vMcYmHv9agsfd41uRdspNV+UjZcnTWHXV+uT4sGmZRScfcWtcyff5MxI/eKrtH73R/uIlkl3i99tmfSpp8tkfFGXh8OwBzUJss4IuRjvxJz9vsfp3HKFGKlVhEqQeBB6APhsalUwf8BuqnkUvLJY/x0khjiA1ryU7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774440512; c=relaxed/simple;
-	bh=5yuJSLQ7z5NpTLLdJi81NteytuRZpaVCcXKOaqqjLyo=;
+	s=arc-20240116; t=1774441264; c=relaxed/simple;
+	bh=m7wNcvXrY2HTA+b2BQ1oS1dJWpDM66eUZX6SlxkJ91s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O4G4UImIMB2tP6sXvHgOCcefrtedrQKnM267/5860X3sSEAtSRLFH5WDlJ+m5mIMEPrHG0sQubIj5BQbbsJP5ta+SufP+9GtkqIKr7DCxckpF1g9ZZZA8Bv5RpqRxYr68nMuG6W+c0nOlRaufBezcegel+4DNPr84UMjjDnRHs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jpnxEcm2; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=XFYr0nv0koiYby8/RzqTZ9YxhNmbXKSUfGwR6DavEtu7CtDX56NSLTDtz6c57lG9v3ZKTsXo2U23YEd0BinIsAEdflpHL4ZJRVWhrndNwfwz/zBjqhaaOLEpPUt37o723WAjeP5mAjBgFQC9F82ckMd9PsEB8YuBEPcXvfguz7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AC0T9XWd; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774440511; x=1805976511;
+  t=1774441263; x=1805977263;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5yuJSLQ7z5NpTLLdJi81NteytuRZpaVCcXKOaqqjLyo=;
-  b=jpnxEcm23jF5oezRH6ywPFrDwcb6Z/j1uM9nEsbzhicQnJBt6GpJbXjO
-   tRNYKqgc9FfvBByeLPUWr7q+giNuLekCt/cOv5za/yUIjJRqJq6rip5cU
-   79FpNCGu+UuYLKmNt50bgpgCDRV2EHHladrkF7efVurkXqB+sUkwpt7PD
-   wCi8GcdP1dKhuI6Q42pnbm0Oj8YMmrhG9w4+LfSZWrdZUk4UPVi+WAjhP
-   NUw609dk+medlGTtBIbmKk2AKaoHbdeSTVvRij3l7xj9LIJH4v84q0kQg
-   rEnvw5ZT8jhb5KC1BBO5k4xPh9yH2bNoLULsAN1tCdfBFkPrlbp1R5MzE
-   A==;
-X-CSE-ConnectionGUID: Ozpxm0/iQI+dqd/HPIrg5w==
-X-CSE-MsgGUID: uNI0xWgeSByIUuhNez1xoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79381716"
+  bh=m7wNcvXrY2HTA+b2BQ1oS1dJWpDM66eUZX6SlxkJ91s=;
+  b=AC0T9XWd/le7zCTHG5GeOQV0A+mwpLvYcDKp5vVRgWMVRECtdCKZannf
+   Aw5liHMN/5iCGPqNCsua191c/98NYuGVsukJhL0u76rYNLRgkN+ssBwUQ
+   kDvzLbDvCvrGlsrH8osbmfIMBHDfYW8jrvEhnfQAwavC+slKgiw3PX1IC
+   34av8SXV5oFZctCeYEs9JEZtO/elxIwWGxC75urN7q15OEoZwUmkDsyuV
+   0HaPUCIZClopJEIb48+YtAwjfCUTIm1NK9dhT34pFYoXF1qIt8pfcPy4R
+   9a1qBK24e8fwcRitGb2dVSS3FaqXeF0RiqpJGpJE015LMRkEXra2bZMnl
+   w==;
+X-CSE-ConnectionGUID: OaUp5rhvQJSjz39BO7YrnQ==
+X-CSE-MsgGUID: Ch7LoenrRN+4jdmLFx/few==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79331415"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="79381716"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 05:08:30 -0700
-X-CSE-ConnectionGUID: CDBfxRZtT/uoMei0Ecq7VQ==
-X-CSE-MsgGUID: LV2mQTE9SsmMnJ3+Cv1/QQ==
+   d="scan'208";a="79331415"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 05:21:02 -0700
+X-CSE-ConnectionGUID: kexaQFgfQkCxIV+Ej6kvOQ==
+X-CSE-MsgGUID: QwzlEpMBS1K+est2QdROqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="255161078"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.32])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 05:08:28 -0700
-Date: Wed, 25 Mar 2026 14:08:26 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Anushka Badhe <anushkabadhe@gmail.com>
-Cc: andy@kernel.org, gregkh@linuxfoundation.org, hansg@kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com
-Subject: Re: [PATCH v3] staging: media: atomisp: pci: fix block comment style
- and merge split declaration
-Message-ID: <acPQOplQWD_-saf9@ashevche-desk.local>
-References: <20260324180821.42084-1-anushkabadhe@gmail.com>
- <20260324194356.49090-1-anushkabadhe@gmail.com>
+   d="scan'208";a="224927884"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.64])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 05:20:56 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 0FF4B121CF9;
+	Wed, 25 Mar 2026 14:20:59 +0200 (EET)
+Date: Wed, 25 Mar 2026 14:20:59 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>
+Subject: Re: [PATCH v3 03/22] media: imx219: Set horizontal blanking on mode
+ change
+Message-ID: <acPTK315ZABIo5Dh@kekkonen.localdomain>
+References: <20260325105818.1176816-1-sakari.ailus@linux.intel.com>
+ <20260325105818.1176816-4-sakari.ailus@linux.intel.com>
+ <CAPY8ntBdZvsxxmeH42vVif0Dn8LmUxb7mezWk57sg=YtdQmMyA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,51 +108,140 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260324194356.49090-1-anushkabadhe@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Spamd-Result: default: False [-2.16 / 15.00];
+In-Reply-To: <CAPY8ntBdZvsxxmeH42vVif0Dn8LmUxb7mezWk57sg=YtdQmMyA@mail.gmail.com>
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57030-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,foss.st.com,wanadoo.fr,collabora.com,raspberrypi.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-57032-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ashevche-desk.local:mid,intel.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 90AC032508B
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,intel.com:dkim,intel.com:email,linuxtv.org:url]
+X-Rspamd-Queue-Id: 275CF325232
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Mar 25, 2026 at 01:13:56AM +0530, Anushka Badhe wrote:
-> The closing */ of a block comment is on the same line as the comment
-> text, violating kernel coding style. GP_TIMER_BASE declaration is also
-> unnecessarily split across two lines. Fix both issues.
+Hi Dave,
 
-You are doing two things in one change. And doing first half-way...
-NAK.
+Thanks for the review.
+
+On Wed, Mar 25, 2026 at 11:48:26AM +0000, Dave Stevenson wrote:
+> Hi Sakari
+> 
+> On Wed, 25 Mar 2026 at 10:58, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> >
+> > The driver UAPI is mode-based, allowing the user to choose a mode from a
+> > small list based on the output size. The vertical blanking is set based on
+> > the mode, do the same for horizontal blanking so the frame rate obtained
+> > is constant.
+> >
+> > Additinally, it's best to use a known-good horizontal blanking value as
+> 
+> s/Additinally/Additionally
+
+Yes.
+
+> 
+> > choosing the value freely may affect image quality. While the minimum
+> > value may not be the best value for horizontal blanking, at least it is
+> > constant rather than a minimum value of a different configuration.
+> 
+> I've never known what the preferred behaviour is here. Ranges
+> typically change on mode change, and v4l2_ctrl_modify_range will reset
+> to the default if the current value is out of range, but otherwise
+> leave things alone.
+> 
+> Seeing as you would be the one defining the preferred behaviour, I'll
+> take this desire as gospel.
+
+I wouldn't do this for freely configurable drivers but this driver has a
+list of modes that obviously have hand-picked cropping, binning and frame
+rate configuration. The further patches (metadata branch in my linuxtv.org
+tree) adding support to the Common Raw Sensor Model implement a different
+behaviour actually. I guess in practice the difference will be minor as
+libcamera presumably sets the control values in any case to its liking.
+
+Maybe adding a few words of documentation on this could make sense?
+
+> 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
+> With the typo corrected:
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+Thanks!
+
+> 
+> > ---
+> >  drivers/media/i2c/imx219.c | 15 +++------------
+> >  1 file changed, 3 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > index 89061dc1842d..62a23541b1dc 100644
+> > --- a/drivers/media/i2c/imx219.c
+> > +++ b/drivers/media/i2c/imx219.c
+> > @@ -837,11 +837,9 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >         struct v4l2_mbus_framefmt *format;
+> >         struct v4l2_rect *crop;
+> >         u8 bin_h, bin_v, binning;
+> > -       u32 prev_line_len;
+> >         int ret;
+> >
+> >         format = v4l2_subdev_state_get_format(state, 0);
+> > -       prev_line_len = format->width + imx219->hblank->val;
+> >
+> >         /*
+> >          * Adjust the requested format to match the closest mode. The Bayer
+> > @@ -882,7 +880,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >         if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> >                 int exposure_max;
+> >                 int exposure_def;
+> > -               int hblank, llp_min;
+> > +               int llp_min;
+> >                 int pixel_rate;
+> >
+> >                 /* Update limits and set FPS to default */
+> > @@ -924,15 +922,8 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >                                                llp_min - mode->width);
+> >                 if (ret)
+> >                         return ret;
+> > -               /*
+> > -                * Retain PPL setting from previous mode so that the
+> > -                * line time does not change on a mode change.
+> > -                * Limits have to be recomputed as the controls define
+> > -                * the blanking only, so PPL values need to have the
+> > -                * mode width subtracted.
+> > -                */
+> > -               hblank = prev_line_len - mode->width;
+> > -               ret = __v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
+> > +
+> > +               ret = __v4l2_ctrl_s_ctrl(imx219->hblank, llp_min - mode->width);
+> >                 if (ret)
+> >                         return ret;
+> >
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Kind regards,
 
-
+Sakari Ailus
 
