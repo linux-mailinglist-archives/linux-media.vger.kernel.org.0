@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-56929-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56930-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CP7iG1g0w2lVpAQAu9opvQ
-	(envelope-from <linux-media+bounces-56929-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 02:03:20 +0100
+	id KFGLLeM0w2lVpAQAu9opvQ
+	(envelope-from <linux-media+bounces-56930-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 02:05:39 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB06831E2D0
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 02:03:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25DF331E30D
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 02:05:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C30873039882
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 01:03:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9AF6230763E8
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 01:03:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28EC9220F3E;
-	Wed, 25 Mar 2026 01:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 885D2224AF9;
+	Wed, 25 Mar 2026 01:03:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K+PpHdgR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LEqtVdKP"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3A577F39;
-	Wed, 25 Mar 2026 01:03:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1981F4168;
+	Wed, 25 Mar 2026 01:03:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774400588; cv=none; b=AkiXZgsumPImKfbVrL7JuXoW4l6xffuv5R/UVmuGujdKQh5XVNwZEhp5ZKvzfnOkRZS8svtFV+T8l7DIC+N8TN+rUGPZS9KrmcZUcBFqVxemRiP2kj5IGMSb4T6PPI3JnYUI7sNRsKl+NKoug/oVAiZFMf0Hk7Tk/cXFGCrDSvs=
+	t=1774400634; cv=none; b=EZUg4/Se2YgiqPamRGXQ3lmDjyjseNWXWzyNZFnJzeBiII7x2MAu8znqhoe8KeGkgC+nf9mqsjtI+qzL8mc4QfA5UHGmCEV2wM1omdIdk0AAFBWhQQQPrnep6SrmULUUN732vrg13v8OUAPggAztYLffANq/nhbyRhI9pWppGEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774400588; c=relaxed/simple;
-	bh=BCqN1HRfQI85LJqzaOsF30o7yYh99FN5msanyn26A20=;
+	s=arc-20240116; t=1774400634; c=relaxed/simple;
+	bh=Ec30pFjGpNIPtSM6yzZYTFlRdMVgyF721FSkvUyNkaI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D0vZClgCbDLV15CJ6/IOd3WXpQq1ndcPqibgHQ/fr4TgOHABD+eilcdEtSvuofRKpgUxW0lFeKvPytVSjvZkJh/C0EK8EsfZs0TLLQW6xYnGFDHH1pBjBlA55dZh0jR5zK7GEpBriBuak4FrLykl4TTJ7XYYoOmWD7C93w52ivc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K+PpHdgR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9F01C19424;
-	Wed, 25 Mar 2026 01:03:07 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jal3Ixb0DHzyIQhZloqSWjobAN2W6ZDTGye4+smYd8RZ5UN8V/b6zVmZu9BoCTeWICbtp9czLRKI+4E9svra6rtoFvE81a5sQwltFi+5WyX6BGmKcT3RGt72Ipqy8Hhdw+W8D6l62zGl11vfCERC1nuhcRuj5d4EPP07OGShhy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LEqtVdKP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DD7EC19424;
+	Wed, 25 Mar 2026 01:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774400588;
-	bh=BCqN1HRfQI85LJqzaOsF30o7yYh99FN5msanyn26A20=;
+	s=k20201202; t=1774400633;
+	bh=Ec30pFjGpNIPtSM6yzZYTFlRdMVgyF721FSkvUyNkaI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K+PpHdgRj8s5v+pumtM0rbqcsEvchYV+F/DJygRrU8X3g5na3v5U0nMGhsDjC4j3K
-	 eXENBp569HPoBDcsd8FRCMQKptwcoV8UCY3DYKAP9GpiFoS1uw+NK9VbUcGk9Y2xMm
-	 IbEOI1n6OFZl++zMOeRtw1EiPN4AdnbR0kl/69J5eMt3q0E1ILpYQ9sch66XJtgryk
-	 jqod+byIm3aFtNwQR4HUEE2Dqd7/N9jjagKXkBDdp9/qluqB7yebM3alw1RMwBGKId
-	 /tUJ0ikssc9/gH8WMYiFK9a4NMJXtxoLq20kPY8IwoqCgovnz27xFgccXoiQS0orX5
-	 gNOsTrXQ26Jbg==
-Date: Tue, 24 Mar 2026 20:03:07 -0500
-From: Rob Herring <robh@kernel.org>
+	b=LEqtVdKP4amwdek/+3Ktf7X09C5MDfeZBY0wiy5GoJTq1delYyze+d/0JQcLR05jb
+	 ftJ3y4UM5R1aQeKdLwSIgqtf7h13I2is9hulQsIXxMe+wdbbcmCAbqjc4IAVBMcO8s
+	 7y7rjcQuOH+4EnhKnvBp8WRWBld+JEGMNofJ4irYs6YKYWVbtjIgwTrLaOJlVG58Bb
+	 nOGqS6+kdBcUJbohlt09G/7OMBNmdxziHmfk6mV+o7Ajy3hNaVHTfB8yBzzHcoX5/V
+	 YR3+J5eoVji3IcQir4IbIVfCOGBiy7d6J9FTMRQQ+7nK0+boLNE22d+EhWItMVrsXb
+	 PQAouLEGOKrWg==
+Date: Tue, 24 Mar 2026 20:03:52 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Jianhua Lin <jianhua.lin@mediatek.com>
-Cc: nicolas@ndufresne.ca, mchehab@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+Cc: krzk+dt@kernel.org, vince-wl.liu@mediatek.com,
 	linux-mediatek@lists.infradead.org,
+	angelogioacchino.delregno@collabora.com, nicolas@ndufresne.ca,
 	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	sirius.wang@mediatek.com, vince-wl.liu@mediatek.com,
+	mchehab@kernel.org, linux-kernel@vger.kernel.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, matthias.bgg@gmail.com,
+	linux-media@vger.kernel.org, sirius.wang@mediatek.com,
 	jh.hsu@mediatek.com
-Subject: Re: [PATCH v4 1/3] dt-bindings: media: mediatek-jpeg-decoder: add
+Subject: Re: [PATCH v4 2/3] dt-bindings: media: mediatek-jpeg-encoder: add
  MT8189 compatible string
-Message-ID: <20260325010307.GA2309270-robh@kernel.org>
+Message-ID: <177440063161.2317367.2319748600784024525.robh@kernel.org>
 References: <20260324095455.1437-1-jianhua.lin@mediatek.com>
- <20260324095455.1437-2-jianhua.lin@mediatek.com>
+ <20260324095455.1437-3-jianhua.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260324095455.1437-2-jianhua.lin@mediatek.com>
+In-Reply-To: <20260324095455.1437-3-jianhua.lin@mediatek.com>
 X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
@@ -82,8 +82,8 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[16];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[ndufresne.ca,kernel.org,gmail.com,collabora.com,vger.kernel.org,lists.infradead.org,mediatek.com];
-	TAGGED_FROM(0.00)[bounces-56929-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,mediatek.com,lists.infradead.org,collabora.com,ndufresne.ca,vger.kernel.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-56930-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
@@ -98,47 +98,27 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CB06831E2D0
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mediatek.com:email]
+X-Rspamd-Queue-Id: 25DF331E30D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 24, 2026 at 05:54:53PM +0800, Jianhua Lin wrote:
-> Add the compatible string for the JPEG decoder block found in the
+
+On Tue, 24 Mar 2026 17:54:54 +0800, Jianhua Lin wrote:
+> Add the compatible string for the JPEG encoder block found in the
 > MediaTek MT8189 SoC.
 > 
-> Compared to previous generation ICs, the MT8189 JPEG decoder requires
-> 34-bit IOVA address space support and only needs a single clock
-> ("jpgdec") instead of two. Therefore, it is added as a standalone
-> compatible string without falling back to older SoCs.
-> 
-> Update the binding schema to include the new compatible string and add
-> an `allOf` block with conditional checks. This enforces the single clock
-> requirement for MT8189 while preserving the two-clock requirement
-> ("jpgdec-smi", "jpgdec") for older SoCs.
+> Unlike some previous SoCs, the MT8189 JPEG encoder requires 34-bit IOVA
+> address space support. Therefore, it is added as a standalone compatible
+> string without falling back to the generic "mediatek,mtk-jpgenc" to
+> ensure the driver applies the correct hardware-specific configurations.
 > 
 > Signed-off-by: Jianhua Lin <jianhua.lin@mediatek.com>
 > ---
->  .../bindings/media/mediatek-jpeg-decoder.yaml | 39 ++++++++++++++++---
->  1 file changed, 34 insertions(+), 5 deletions(-)
+>  .../bindings/media/mediatek-jpeg-encoder.yaml | 20 ++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
-> index a4aacd3eb189..91c9b2a4687b 100644
-> --- a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
-> +++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
-> @@ -17,13 +17,14 @@ properties:
->      oneOf:
->        - items:
->            - enum:
-> -              - mediatek,mt8173-jpgdec
->                - mediatek,mt2701-jpgdec
-> +              - mediatek,mt8173-jpgdec
->        - items:
->            - enum:
->                - mediatek,mt7623-jpgdec
->                - mediatek,mt8188-jpgdec
->            - const: mediatek,mt2701-jpgdec
-> +      - const: mediatek,mt8189-jpgdec
 
-This goes in the 1st oneOf entry along with 8173.
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+
 
