@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-56992-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56996-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AJEwLwnAw2kRtwQAu9opvQ
-	(envelope-from <linux-media+bounces-56992-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:59:21 +0100
+	id sNS0KhjAw2kRtwQAu9opvQ
+	(envelope-from <linux-media+bounces-56996-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:59:36 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A26332366B
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:59:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CB632367A
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:59:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 30173302D6B3
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 10:59:13 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id F2FF4303AC02
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 10:59:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ED753C9ECD;
-	Wed, 25 Mar 2026 10:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAE6A3BF67A;
+	Wed, 25 Mar 2026 10:58:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ds+U8yDE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kVnh40Bd"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5336339B96B
-	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 10:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDB73C553B
+	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 10:58:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774436331; cv=none; b=sDNpG4U+Y3UuwN9Whm7RrebsVl1z2Tlvn3gJ0GgTRmxz7t4eObaEI/30ivEoNGbbBy1I3zqNkiePZ1lTpRMMbdvA4UT+tUF5QqOw3Np6MP4GUUfyofTMRPwPXvajTRkyUpQPBojYNE8rQ0oDwbGSZdRmIzTle5Ytn7LPL2CNowA=
+	t=1774436336; cv=none; b=cd3SEHD8LLz1SfSn5tU44t8AJ9T4MpYt2WupRyezxr60O4aec7tplGim36R5F4UMLa9zp7664Pb1qirO+Qc74+NrBVexlUap9fDCifyUB7nsNu50DKpOyo19k/OIMhGEuzawr6rzx3iSbeP826VVdcKEuXsiw4ynZI6QEXIC1vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774436331; c=relaxed/simple;
-	bh=eC/g/BB3ptL9As+MQeQclsXvXodNTzzp+uj4SLpGek0=;
+	s=arc-20240116; t=1774436336; c=relaxed/simple;
+	bh=qzxHIyXafS2NwDK9ZtUkBLpR4UVsTCKaEVFwE/deQMQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=koLrCQ3V4eYZwKzC6EVf30zeyXsemn4dYoWcC2ka50WdYHBYGyVRFUX78HXZP/kJ8MhK9rA3yO9sZRoT8b9/ncJ5q4uj/jyfZoSYeH1Sz4sZoh9kH+L2F+m3I39cWXlqJYVO5xidHuQRfRtJ/hjE+hgPd9jpKX75grqfxXl10SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ds+U8yDE; arc=none smtp.client-ip=192.198.163.19
+	 MIME-Version; b=cYFs4bqpwNXXwyQVdZKpoyIDz8zBRPTVJ1l1jdC3UbxyY3kKrV8YoBhuCPkqSXz6Yd1t/fSjKNqm4wMkv7Vfj+SpokW7I5m8IFi/XxJBWv4Qlof17ZJmHItN9jatei7iHyBGZCmlHGUk1jakf9ZugqQsGP8j9uNrcwkbM6zYmm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kVnh40Bd; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774436330; x=1805972330;
+  t=1774436333; x=1805972333;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=eC/g/BB3ptL9As+MQeQclsXvXodNTzzp+uj4SLpGek0=;
-  b=ds+U8yDE3ZTGQ63ljWvI/phj74NRNSnLeFGxEG7dvofRSSUC/ZQDbpfO
-   o8k1T+zkiTlub6CsFJBl7AcJuoPuVh2PgqRzGPuFaB0B+dwWZzPvm4JND
-   3ycgRTPToqUxwqp3U1ZdBSrPBWz2c4HaKejBEEeG0aO24r/rkXhIblaAy
-   6F3rFA+2nGn/rvdlRcq/GzV8YtHMkg+5yU3HEsA2IBZ2ICMhO/E+sfSup
-   mZ4c21xn86n6PfDrNMSC1AffL9cGjFuffPU1yx5VA0u2ahyql/QThYALf
-   gYLFmpzl2LvD9f4FP/ph0Pjs9hFiOGVKlSoLvoRprfEWanxgAuz4GH/OH
+  bh=qzxHIyXafS2NwDK9ZtUkBLpR4UVsTCKaEVFwE/deQMQ=;
+  b=kVnh40BdrC2PB0hCTmUV9KQPE6G7HiEi9G500VY0Ol7kHa9e3Qkkka5F
+   linRICKANjfxaVIDEpkaLhtn0/HJyXmIQvzNbxLinpjrqhXhSFNpD56uu
+   SB6/q4YrN+aC1nLnIOKMBQmKC5VdYudjCmi/0KGL1e0DoGTlLXRidL2ij
+   NToTcOLtLUjYx4KhpwJ+qv72ZCIX4zN//E1DJl63WLs1X8gLX88uGaUol
+   aJLzcPCGfwmO2w4BsTGIwXNKgR7F3JNR/MWRpCn2yCK6eawncvraZopkk
+   YLC299540a55yJxMYLKeY4dKqznKQq9ChkAobDqAr8qJOMRKhB2hRj+/0
    Q==;
-X-CSE-ConnectionGUID: GuSN6/woQXWcfxQUz7bd/g==
-X-CSE-MsgGUID: UgQnj4DrRvCh46/9KMR5fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="74496432"
+X-CSE-ConnectionGUID: NwllRk2YSgeYj3eke+uKpw==
+X-CSE-MsgGUID: OZZ9HVg4RLSHcRZr2E9xFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="74496482"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="74496432"
+   d="scan'208";a="74496482"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 03:58:49 -0700
-X-CSE-ConnectionGUID: cyqMg5d+RO29CqDom/UQzg==
-X-CSE-MsgGUID: eLrozSQvSDio9Ab7txBjtg==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 03:58:50 -0700
+X-CSE-ConnectionGUID: W+G+n4dZQAyHFGk+Dtm3ug==
+X-CSE-MsgGUID: 7X1Q+nCzTvu3ZKBUFcsHQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="221763533"
+   d="scan'208";a="221763543"
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.64])
   by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 03:58:43 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id B961F1224B3;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id B9EE51224DC;
 	Wed, 25 Mar 2026 12:58:30 +0200 (EET)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1w5LwJ-00000004wAx-0kEH;
+	id 1w5LwJ-00000004wB1-0oCn;
 	Wed, 25 Mar 2026 12:58:19 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -99,9 +99,9 @@ Cc: hans@jjverkuil.nl,
 	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: [PATCH v3 17/22] media: Improve enable_streams and disable_streams documentation
-Date: Wed, 25 Mar 2026 12:58:14 +0200
-Message-ID: <20260325105818.1176816-19-sakari.ailus@linux.intel.com>
+Subject: [PATCH v3 18/22] media: v4l2-subdev: Move subdev client capabilities into a new struct
+Date: Wed, 25 Mar 2026 12:58:15 +0200
+Message-ID: <20260325105818.1176816-20-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260325105818.1176816-1-sakari.ailus@linux.intel.com>
 References: <20260325105818.1176816-1-sakari.ailus@linux.intel.com>
@@ -125,7 +125,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
-	TAGGED_FROM(0.00)[bounces-56992-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56996-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[29];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -135,52 +135,108 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,nxp.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:dkim,intel.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,nxp.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 6A26332366B
+X-Rspamd-Queue-Id: 53CB632367A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Document that enable_streams may start additional streams and
-disable_streams may not disable requested streams if other related streams
-are still enabled.
+Add struct v4l2_subdev_client_info to hold sub-device client capability
+bits that used to be stored in the client_caps field of struct
+v4l2_subdev_fh. The intent is to enable passing this struct to sub-device
+pad operation callbacks for capability information. The main reason why
+this is a new struct instead of a u64 field is that modifying the callback
+arguments requires touching almost every sub-device driver and that is
+desirable to avoid in the future, should more than the client capability bits
+need to be known to the callbacks.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
 ---
- include/media/v4l2-subdev.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/media/v4l2-core/v4l2-subdev.c |  8 ++++----
+ include/media/v4l2-subdev.h           | 12 ++++++++++--
+ 2 files changed, 14 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 647587c0499a..f437bd0e528f 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -611,7 +611,7 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
+ 	case VIDIOC_SUBDEV_S_FRAME_INTERVAL: {
+ 		struct v4l2_subdev_frame_interval *fi = arg;
+ 
+-		if (!(subdev_fh->client_caps &
++		if (!(subdev_fh->ci.client_caps &
+ 		      V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH))
+ 			fi->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+ 
+@@ -651,7 +651,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
+ 	bool ro_subdev = test_bit(V4L2_FL_SUBDEV_RO_DEVNODE, &vdev->flags);
+ 	bool streams_subdev = sd->flags & V4L2_SUBDEV_FL_STREAMS;
+-	bool client_supports_streams = subdev_fh->client_caps &
++	bool client_supports_streams = subdev_fh->ci.client_caps &
+ 				       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+ 	int rval;
+ 
+@@ -1118,7 +1118,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_G_CLIENT_CAP: {
+ 		struct v4l2_subdev_client_capability *client_cap = arg;
+ 
+-		client_cap->capabilities = subdev_fh->client_caps;
++		client_cap->capabilities = subdev_fh->ci.client_caps;
+ 
+ 		return 0;
+ 	}
+@@ -1138,7 +1138,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		client_cap->capabilities &= (V4L2_SUBDEV_CLIENT_CAP_STREAMS |
+ 					     V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH);
+ 
+-		subdev_fh->client_caps = client_cap->capabilities;
++		subdev_fh->ci.client_caps = client_cap->capabilities;
+ 
+ 		return 0;
+ 	}
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index d256b7ec8f84..4588992b4417 100644
+index 4588992b4417..6106e4409575 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -814,6 +814,10 @@ struct v4l2_subdev_state {
-  *	V4L2_SUBDEV_CAP_STREAMS sub-device capability flag can ignore the mask
-  *	argument.
+@@ -734,6 +734,14 @@ struct v4l2_subdev_state {
+ 	struct v4l2_subdev_stream_configs stream_configs;
+ };
+ 
++/**
++ * struct v4l2_subdev_client_info - Sub-device client information
++ * @client_caps: bitmask of ``V4L2_SUBDEV_CLIENT_CAP_*``
++ */
++struct v4l2_subdev_client_info {
++	u64 client_caps;
++};
++
+ /**
+  * struct v4l2_subdev_pad_ops - v4l2-subdev pad level operations
   *
-+ *	Starting the requested streams may require starting additional
-+ *	streams. Streams that are started together due to hardware are called a
-+ *	stream group.
-+ *
-  * @disable_streams: Disable the streams defined in streams_mask on the given
-  *	source pad. Subdevs that implement this operation must use the active
-  *	state management provided by the subdev core (enabled through a call to
-@@ -823,6 +827,9 @@ struct v4l2_subdev_state {
-  *	Drivers that support only a single stream without setting the
-  *	V4L2_SUBDEV_CAP_STREAMS sub-device capability flag can ignore the mask
-  *	argument.
-+ *
-+ *	A stream group is disabled when one or more streams in the stream
-+ *	group are disabled.
+@@ -1129,14 +1137,14 @@ struct v4l2_subdev {
+  * @vfh: pointer to &struct v4l2_fh
+  * @state: pointer to &struct v4l2_subdev_state
+  * @owner: module pointer to the owner of this file handle
+- * @client_caps: bitmask of ``V4L2_SUBDEV_CLIENT_CAP_*``
++ * @ci: sub-device client info related to this file handle
   */
- struct v4l2_subdev_pad_ops {
- 	int (*enum_mbus_code)(struct v4l2_subdev *sd,
+ struct v4l2_subdev_fh {
+ 	struct v4l2_fh vfh;
+ 	struct module *owner;
+ #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+ 	struct v4l2_subdev_state *state;
+-	u64 client_caps;
++	struct v4l2_subdev_client_info ci;
+ #endif
+ };
+ 
 -- 
 2.47.3
 
