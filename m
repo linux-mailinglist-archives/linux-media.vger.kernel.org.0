@@ -1,73 +1,73 @@
-Return-Path: <linux-media+bounces-56987-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56983-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kJzWAcnBw2kRtwQAu9opvQ
-	(envelope-from <linux-media+bounces-56987-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 12:06:49 +0100
+	id 2HwCF/a/w2kRtwQAu9opvQ
+	(envelope-from <linux-media+bounces-56983-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:59:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A4153237F1
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 12:06:48 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05B5F32364F
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 11:59:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8AAA530AE932
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 10:59:03 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5C96730298AE
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2026 10:58:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 317C23C7E11;
-	Wed, 25 Mar 2026 10:58:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A0D33C6A37;
+	Wed, 25 Mar 2026 10:58:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ePFZDH6a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+KfVldV"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E31E3C456B
-	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 10:58:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D7F3C456B
+	for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 10:58:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774436327; cv=none; b=o4Eg3LP9gGFrrcoBEHFbfZ8n+hF4ubZqMl7l3Vk/3ZvDdzSGIMvFcd5MUxyNuNH6XTgrLDb6q4Wj9FuncI48FsaYN7x6wySILYaWMIpUZ168LlZrKr6z9vRpl1OjPYAFaGw1S9EewEwdTijKUd47AQ2WVpG0OSqZkHhNDP+o0Ck=
+	t=1774436325; cv=none; b=IzbyPQYmuNka7vFMXMTWrRlpsuSd21Psvfg2+fu2ahCGfJrhYA2efXJ/GXavQGKP1UaVqSEEwA/J5+qTdqVEy8Rurr/Qq7kYqtR4PDCFsKci0wevvYO6vcfsvYi46vMSr7Wq25O+zt4S3i5M6P3CD74XZkpxThWVTdXpdWxmTOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774436327; c=relaxed/simple;
-	bh=Z6MyDWrZviFYM6hf/z+ARRiW75XDAvHjdaUGyb9jj9Q=;
+	s=arc-20240116; t=1774436325; c=relaxed/simple;
+	bh=wYNnny9oXXzq29zZc10s3/tHyMrNU2YdK+d6JfinpMw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UbzAbBfsZDwxGs6OBo0eqNLD8RPoH/HL93/DEAOozaML8tOtwihMw2mQRCmj4J1HcqLmL0bhT0nQLAQX8M8j5u6HJLDWvmT0Vpzwg6blACCSzwSAs2X4/z8xwcSd/KCv5KW1PCthnh779wUbaVzK/2LwLe6X+7ZLwB78ICd9Hzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ePFZDH6a; arc=none smtp.client-ip=192.198.163.19
+	 MIME-Version; b=mlptgBuKw8yiZWDsdKeSNLw72z41nTjyEOPbgZHDbuq/ilvY/OLOH2r7aochsrYSqZc5U8jYMsiOcbY3b3C1XfYljioX5sWGoOvZETe40p1aW02TSyFxHcgWIAxIfZ4OGQSpi6q5vFmWlYjfoB283RKgiKfU6BHp9+hXMp6+uoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+KfVldV; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774436326; x=1805972326;
+  t=1774436324; x=1805972324;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Z6MyDWrZviFYM6hf/z+ARRiW75XDAvHjdaUGyb9jj9Q=;
-  b=ePFZDH6a0JMZbZLVXXdsx+kIzDy3SiQAu4C7h4Tvp3xyMTVXTjf5tZKp
-   +vViSZCEfko2FalTf3tFTMZQ4AtTPCHL+B79Cg9MBqO8LHEa0aGrphMtn
-   ODLJsTNnj0qOl6yb+knALCQHv+kVa7nt1glDS19uAiMRYGLM/s8goxBon
-   QlsKkbxzS3l+zrjanXItv21WxiNrTWClUgsGpgxjCSEZbM80cv4uW6fNL
-   VGUI9ocFrX3bX55oeRTASokgpbMgjkj3FpY08NWagu8T3fb9u0ECVASUV
-   Qg/sq8Rdi8ftAUinlFHPBVlIMp5WX/i6UvjAJ6RYIlLN4QyU5WvGMu5DK
-   Q==;
-X-CSE-ConnectionGUID: JdPdPpftT/K+hDw49ZfJ8g==
-X-CSE-MsgGUID: g/cdjZipSjeJZcRdF4yYTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="74496364"
+  bh=wYNnny9oXXzq29zZc10s3/tHyMrNU2YdK+d6JfinpMw=;
+  b=i+KfVldV87jPBcrGU1mFwv/4eJzVwUH1+yPhawPF4PwjJZUoPUYhv60F
+   cbqHJUmbTsAyzZgPf00qckY5XiFUNqWHMjFbqvUWdH2WD5NeNgFJsGjMV
+   IiHLlq2IiBuZuRLsnY1UNXrpA60F0FRVTku5sDcGhCknTaPfxwg0uzH9x
+   fkBcz0uSjINXgMy1BSTyAaTYbyst3bIyQRnfEI7Mv/AzJsGw+KLpgrzjg
+   Fgn9CY1fqGX8lMyv1/JhX3r3FtTrY3HBVO2Gt2ClZjlS/GsjPzkad51kT
+   9N5GuAfbJ2GNNrx3h57auA3s5eNgpe9BblaiqGmKxg+xbkj/+ScdInIYm
+   g==;
+X-CSE-ConnectionGUID: KQeGAyNNTnC0gRBHXdQFUA==
+X-CSE-MsgGUID: C3Ne9MBGTXmYxr2jAcaB/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="74496317"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="74496364"
+   d="scan'208";a="74496317"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
   by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 03:58:42 -0700
-X-CSE-ConnectionGUID: ZGoI9YryR7OfxzYVYpHukw==
-X-CSE-MsgGUID: 1TpQyy2BSOmdos094Jr61A==
+X-CSE-ConnectionGUID: 3ENSlRd8RY2kpnturKJyZQ==
+X-CSE-MsgGUID: Z4Z6ROMWRX6LQtAwhoQTUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="221763484"
+   d="scan'208";a="221763482"
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.64])
   by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 03:58:35 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8C40C121DA0;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8F043121DB7;
 	Wed, 25 Mar 2026 12:58:30 +0200 (EET)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1w5LwI-00000004wAF-4ADy;
-	Wed, 25 Mar 2026 12:58:18 +0200
+	id 1w5LwJ-00000004wAJ-02RI;
+	Wed, 25 Mar 2026 12:58:19 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
@@ -99,9 +99,9 @@ Cc: hans@jjverkuil.nl,
 	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: [PATCH v3 07/22] media: imx219: Rename "binning" as "bin_hv" in imx219_set_pad_format
-Date: Wed, 25 Mar 2026 12:58:03 +0200
-Message-ID: <20260325105818.1176816-8-sakari.ailus@linux.intel.com>
+Subject: [PATCH v3 08/22] media: Documentation: Improve LINK_FREQ documentation
+Date: Wed, 25 Mar 2026 12:58:04 +0200
+Message-ID: <20260325105818.1176816-9-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260325105818.1176816-1-sakari.ailus@linux.intel.com>
 References: <20260325105818.1176816-1-sakari.ailus@linux.intel.com>
@@ -119,87 +119,72 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
-	TAGGED_FROM(0.00)[bounces-56987-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56983-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[29];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.intel.com:mid];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:dkim,intel.com:email,nxp.com:email,ideasonboard.com:email];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 5A4153237F1
+X-Rspamd-Queue-Id: 05B5F32364F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Rename "binning" as "bin_hv" in anticipation of having a variable called
-"binning" for another purpose.
+Add a reference to the LINK_FREQ control and clarify the meaning of the
+control as for C-PHY the matter is less obvious.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/i2c/imx219.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ Documentation/driver-api/media/tx-rx.rst                      | 3 ++-
+ .../userspace-api/media/v4l/ext-ctrls-image-process.rst       | 4 +++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index ca6a5939773d..5a85d76af65a 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -825,7 +825,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 	const struct imx219_mode *mode;
- 	struct v4l2_mbus_framefmt *format;
- 	struct v4l2_rect *crop;
--	u8 bin_h, bin_v, binning;
-+	u8 bin_h, bin_v, bin_hv;
- 	int ret;
+diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
+index 22e1b13ecde9..7df2407817b3 100644
+--- a/Documentation/driver-api/media/tx-rx.rst
++++ b/Documentation/driver-api/media/tx-rx.rst
+@@ -93,7 +93,8 @@ where
+    * - variable or constant
+      - description
+    * - link_freq
+-     - The value of the ``V4L2_CID_LINK_FREQ`` integer64 menu item.
++     - The value of the :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` integer64
++       menu item.
+    * - nr_of_lanes
+      - Number of data lanes used on the CSI-2 link.
+    * - 2
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+index 6d516f041ca2..ee88933256dd 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+@@ -24,7 +24,9 @@ Image Process Control IDs
+ .. _v4l2-cid-link-freq:
  
- 	format = v4l2_subdev_state_get_format(state, 0);
-@@ -858,11 +858,11 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 	bin_v = min(IMX219_VISIBLE_HEIGHT / format->height, 2U);
+ ``V4L2_CID_LINK_FREQ (integer menu)``
+-    The frequency of the data bus (e.g. parallel or CSI-2).
++    The fundamental frequency of the operating symbol rate (serial interfaces
++    such as CSI-2) or the sampling rate (parallel interfaces such as DVP or
++    Bt.565) of the data interface.
  
- 	/* Ensure bin_h and bin_v are same to avoid 1:2 or 2:1 stretching */
--	binning = min(bin_h, bin_v);
-+	bin_hv = min(bin_h, bin_v);
+ .. _v4l2-cid-pixel-rate:
  
- 	crop = v4l2_subdev_state_get_crop(state, 0);
--	crop->width = format->width * binning;
--	crop->height = format->height * binning;
-+	crop->width = format->width * bin_hv;
-+	crop->height = format->height * bin_hv;
- 	crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
- 	crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
- 
-@@ -872,15 +872,15 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 
- 		/* Update limits and set FPS to default */
- 		ret = __v4l2_ctrl_modify_range(imx219->vblank,
--					       (int)(mode->height / binning),
-+					       (int)(mode->height / bin_hv),
- 					       IMX219_FLL_MAX - mode->height, 1,
--					       (int)(mode->fll_def / binning) -
-+					       (int)(mode->fll_def / bin_hv) -
- 					       (int)mode->height);
- 		if (ret)
- 			return ret;
- 
- 		ret = __v4l2_ctrl_s_ctrl(imx219->vblank,
--					 (int)(mode->fll_def / binning) -
-+					 (int)(mode->fll_def / bin_hv) -
- 					 (int)mode->height);
- 		if (ret)
- 			return ret;
 -- 
 2.47.3
 
