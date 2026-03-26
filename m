@@ -1,87 +1,78 @@
-Return-Path: <linux-media+bounces-57145-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57146-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kGVXMJEsxWnb7gQAu9opvQ
-	(envelope-from <linux-media+bounces-57145-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 13:54:41 +0100
+	id WNRxKvI0xWn/8AQAu9opvQ
+	(envelope-from <linux-media+bounces-57146-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 14:30:26 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3793358BF
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 13:54:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CAD5335F7D
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 14:30:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7474A30D37AD
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 12:49:22 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 083F6316C724
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 13:21:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD4D92264B0;
-	Thu, 26 Mar 2026 12:49:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F27323FCB00;
+	Thu, 26 Mar 2026 13:19:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="ZJN6pI1I"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="J3cH9zZh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-236.mail.qq.com (out203-205-221-236.mail.qq.com [203.205.221.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2C120C00A
-	for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 12:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA9B2EF67A;
+	Thu, 26 Mar 2026 13:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774529358; cv=none; b=KPpMaWjpunPkbvgEBkHAbwo23XwjjIRUc7n57/0BNEm4WWnWrj0KP7DoXutxSIcZ8ApZiiiTxI98PEIjTNtTySZyLExk5blJ7j19/bYtTdN5+n02mjpeQ0Kzbu1eK5YE+Lo2Eus4Qz/ofWQypCIz8+yWZEj7Qgscn2N6utLHRyg=
+	t=1774531162; cv=none; b=W1+ud34FTNeJ3DjxQGsp0/wb/OiYsdbyyoMdKx3vIB1eKz4+kdqGbe5rzCnR4elFrPPAe324xahKdmNE5w0aCtGY1cp7X/SBmiDKPD4aYLNH75tDxlYCA16XKJENawV00QzryEZwJg9G4F+xmsVI227vyBn1AmnxszBjmKRFSb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774529358; c=relaxed/simple;
-	bh=aVfuc87s+3tTh39ekcM1L1w9/FXcabcGAARleuArD/g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PN6em6DzoI+H8KrFiEplV55GA2GQRMrAzWInQxlO+gF0SdK05kFJHjMKiZ/2bZFBmPpc+HrjVsABAuLpPApW+edoRhR/EQSeO22xxy5jQABrQ6VmKCAOhtCu2Mus7rc8/1X/CucRXKD+vgJ6W+0wAb4mkBO7gCJA4mTLrMyFkX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=ZJN6pI1I; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2ab077e3f32so4189015ad.3
-        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 05:49:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thingy.jp; s=google; t=1774529356; x=1775134156; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=34esKa+/ZAh+VB3rUa61ACVsxyshrpKBk7ePNh+3M/Y=;
-        b=ZJN6pI1I8p0DnpBOR3QVHfisKtce4YTrbYv37XAxPn5OsF/HKgrC6D64KuzZ5hpk1Q
-         23Cxmkkg1TN1Li5XC1bqUBuoJVndO3yLhb1BwdWAqi3pDF2BKHhWwpbaKy3t6ipzpbGs
-         FaPsc7RMr/u0Vf7yRWtdOHyLl+NLa3j/3zaC4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774529356; x=1775134156;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=34esKa+/ZAh+VB3rUa61ACVsxyshrpKBk7ePNh+3M/Y=;
-        b=dUYyteIFM2gRwNG4cUNcr9a/YKFQpGvYQpdQv6SvZEpviijtO9JOfIr/mgtu0Q5pQs
-         uAFiYVgC6MlJM+xMTPNFELB2Dc3JlrTauS9/wL9rkHc+o5STUkjGrcRaJFDlLPIwRdqU
-         vGMmSVTuJ5luwCqK1e9ZkO4HSRE/fDRc/mdSq7UrXTmA40kiOk5GlJb09EGE2388dYgv
-         rGi8Orwyn//R7zp3DrnYtdI1djg6GB1eCzySYBLShMChFYwyKeRg22flq4QBx2a3qoBd
-         5HEM/yrokn0yBcAsY7YCBxfB/3Egd7LIPWk2asSWUNMdn956rULKjunbqHRlySS/m6et
-         ZLnA==
-X-Forwarded-Encrypted: i=1; AJvYcCX3eEMIjT8M+bbbhLtwTXbfA1SYr3FWjpx5HsUNssz8o4YdJWVi0Vfi5wApnNKN9lTt4KzXYVLgddRF1g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTJ8vmznjXVAZZs/Vga0ItSd9K7cM+JRqrSxcGV8yIX/Al4VtI
-	Q0aJScdpYGSTcQAIWKBtMfw+xdf3PRBpm7jNxmgPmktoJfuWYca53dvORDCJdGYnwBA=
-X-Gm-Gg: ATEYQzyn5N/YxRBkRPpInTYnJChNAVbi+7n0lCEUUSYNtoTiEWlKMOUEupuaS17s55B
-	yLTzHAto7Odui8uoMqIwhWFNuBQ5/HGyFsHIlPmNIgJc/18YNInDB2ISrmZDFYz3dvMWMIYShov
-	trbcqxvXGUq2AjFdUO402AOEmFsGs+cgV5q7+Tw1MtzotsPujnAUCjW/OfebpmxZmbEubH/8ryC
-	CmNqIKhQUkjlTotfJjUh05lvOfrs7BLAv+bq4EtmS7PNUD20G/je1EFompxdHtz2oTbJ+lWenC/
-	//aazZ9jSbWZCTImVM81bXvqL0rXMqmDPtfISgIE2p2fVWixrFDyVump/ZbnLDsiHYReGDWpa3B
-	hCWNxjFdOtOGQg95hZX/1xwci0+QitHAm5LTjl7ncmnTtC3paNxCCj8a51B40E9i0zL/IhUz0gn
-	x5a0Gmk9cz37czHvwWvlYwSXUTdepiXjqD/LkA7xvtcCVTPSio6aTQ8tPXKIkwkT1MryWc8Ppjz
-	3X5hBFghmg=
-X-Received: by 2002:a17:902:d4d2:b0:2ae:5eee:7a5 with SMTP id d9443c01a7336-2b0b09d10femr87103265ad.12.1774529355762;
-        Thu, 26 Mar 2026 05:49:15 -0700 (PDT)
-Received: from kinako.work.home.arpa (p1860061-ipxg00f01sizuokaden.shizuoka.ocn.ne.jp. [180.1.24.61])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2b0bc7a17c5sm36110155ad.26.2026.03.26.05.49.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 05:49:15 -0700 (PDT)
-From: Daniel Palmer <daniel@thingy.jp>
-To: mchehab@kernel.org,
-	linux-media@vger.kernel.org
+	s=arc-20240116; t=1774531162; c=relaxed/simple;
+	bh=ucqVkd2T0ea3xNOeUsiB7pnWKWFmLI1rEDimNt6y0tE=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=Kl2dbBHeRDJpGHNmp0GSDLR866OJIN+LEQTwI6dyMv+A0P/TnjcopxTTbsFURetimZL2/fKuiQCVxw93arPnXkH5G4sry56+vozZp1qrm8G/ZNxYnDEiC0kqz6fDYWhEcWBnX3azkXijCwTHuPk42vNyUQX5t2c9NboV8ZyO/AI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=J3cH9zZh; arc=none smtp.client-ip=203.205.221.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1774531151; bh=JoErUv58Wj+Rm8kK57uBKDOZhC5D/ZpwrkMzzbsi85w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=J3cH9zZhWD9/06aVt3RKKnl7BbtgtAvLjASrWdT8BrG+wpUgeUjY+2xwh06i64GFA
+	 Gz9UaVRj60C3l0SGmYvNSQkkSfpLMt00g+zvbhonx1wvmLPF/Pxn4TnQ2GGBJeU9Kl
+	 kogyRF53YFL737TAScnJZlcEMWjnV57zFRiPbmKY=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
+	id 47588A37; Thu, 26 Mar 2026 21:17:53 +0800
+X-QQ-mid: xmsmtpt1774531073tzymx5kv2
+Message-ID: <tencent_F063E97E23B8C4431762377E26CC336AE305@qq.com>
+X-QQ-XMAILINFO: OVFdYp27KdlJ4PgGoLQqCw9Wh/LDKt0oMLdE3phc0mrm7OPjHR8ZoWme2bgRYY
+	 AiTbZSiUYkXVG6Yl62unEiBZ8hLzymBwhg8C/1NlQzZcFvXRj4tDXVyny0ibif7v7rIuHuPoaVzR
+	 +6ZOVw5BDKBjfa2NtzbdspxWUg3HSoSWkSmSIbgNWrZBPWXYRgP1JK5bzjo2z1bTwAZc+C6XYhgk
+	 ICLFg8Q7FA1ey5se+iWewQYXmPi5OOdEA5/YfQ5sUoh4wlhETlsyEQEAw2XSw2OnfkYX3+wTOUW4
+	 cstb/1KmeKeGmG66Bvl3PhgrCKal1ecl5d2Ib+pMm51sNyv197lU7vu5Yrqd9GSzFvLnrcwt4VHS
+	 q5yRFDiQGZmawdT/YgaM7p/SJzWDaOtHs4gWJYmr2UIu1sfS37S52ZY4yXs+IG/ZzekZQnDbLanX
+	 gSLBq3qatIB8oeZdnIBMKZpFeDXPG5IF1h+WFLdY/jrnEys4fQBQqqVe7ptWMSQxUORM6GiHGHQw
+	 B68qIwcMfHsaZKlvszrWaQWG3kPnlLnlyBzk7JcH5orie5Pl1x5PSm12ZLbrPu253CFFA3blGc7o
+	 JjnqbiUOgjtEr0hwAYRxK0ZyTzGKn+waOla0AtdmrOPP86sRkFa5j7dJ9GEjqjQJIpzFO4FOopQv
+	 CcK1mRNe82ERSbaUiiTyqCSCGGxg3VunI8PozuPPDi1i1SYFC4NSzpGJryoa47tJB5WmE6ZD/uY6
+	 EolQx1TlQkrxEP8aA35GoiVANZcrp3rbzSfIWAUrOyOAiF2X792m2F3X/T3822ubGiqdz5VjxFOc
+	 LeWjM4xr8isR6jtfLrE/CEBDxbl3+r5NjapA2apBxAqDb8iMbHmzw/OlG8D2t9XGfbEyAejKnhqG
+	 A0hOkAPNj9AMBKuneGtfzFmFgQT+Z8vdtsi8h4AUqBVDs141bcrZkEZjOMP7mnhOujshMQDdv1mx
+	 gte18T6VPMR4jqSKCPUWdtTT8UcvXnX06J6ED90tXwqHYKl9IPVBjLRZleoOn/LzLBaYJlhv1gzx
+	 EZVcMcpQ==
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+3f395d8da879a58fb019@syzkaller.appspotmail.com
 Cc: linux-kernel@vger.kernel.org,
-	Daniel Palmer <daniel@thingy.jp>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] media: i2c: tc358746: Add dependency on COMMON_CLK
-Date: Thu, 26 Mar 2026 21:49:07 +0900
-Message-ID: <20260326124907.2659948-1-daniel@thingy.jp>
-X-Mailer: git-send-email 2.51.0
+	linux-media@vger.kernel.org,
+	mchehab@kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] media: usb: as102: fix race condition between ioctl and register
+Date: Thu, 26 Mar 2026 21:17:54 +0800
+X-OQ-MSGID: <20260326131753.544671-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <69c4c074.a70a0220.23629d.0009.GAE@google.com>
+References: <69c4c074.a70a0220.23629d.0009.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -90,61 +81,88 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qq.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[qq.com:s=s201512];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[thingy.jp:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[thingy.jp];
-	RCVD_TLS_LAST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-57145-lists,linux-media=lfdr.de];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_FROM(0.00)[qq.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57146-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[qq.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[eadavis@qq.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel@thingy.jp,linux-media@vger.kernel.org];
+	TO_DN_NONE(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[5];
-	DKIM_TRACE(0.00)[thingy.jp:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email]
-X-Rspamd-Queue-Id: 3B3793358BF
+	TAGGED_RCPT(0.00)[linux-media,3f395d8da879a58fb019];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,syzkaller.appspot.com:url,appspotmail.com:email,qq.com:dkim,qq.com:email,qq.com:mid]
+X-Rspamd-Queue-Id: 1CAD5335F7D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The driver is internally using bits common clk bits to model a
-clock it manages but doesn't depend on COMMON_CLK so can
-still be built when it isn't available and then cause linking
-to fail.
+A user process first connects to the as102 USB device. During the window
+of time occurring after the kernel routine for registering the as102
+dvb layer device driver has completed its initialization up to the
+start_feed stage, but before the sem lock initialization code has been
+executed, the user process issues a combined open and ioctl sequence to
+invoke the as102_dvb_dmx_start_feed() function. Since the sem lock has
+not yet been initialized at this point, the issue reported in [1] is
+triggered.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202603260904.0mYHPZwr-lkp@intel.com/
-Signed-off-by: Daniel Palmer <daniel@thingy.jp>
+To resolve this, the sem lock initialization procedure has been optimized
+by moving it to occur before the start_feed initialization.
+
+[1]
+INFO: trying to register non-static key.
+Call Trace:
+ mutex_lock_interruptible_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:566
+ as102_dvb_dmx_start_feed+0x70/0x290 drivers/media/usb/as102/as102_drv.c:139
+ dmx_section_feed_start_filtering+0x518/0x6c0 drivers/media/dvb-core/dvb_demux.c:977
+
+Reported-by: syzbot+3f395d8da879a58fb019@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=3f395d8da879a58fb019
+Tested-by: syzbot+3f395d8da879a58fb019@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 ---
- drivers/media/i2c/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/usb/as102/as102_drv.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 5eb1e0e0a87a..27c307be6f9b 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -1343,6 +1343,7 @@ config VIDEO_TC358743_CEC
- config VIDEO_TC358746
- 	tristate "Toshiba TC358746 parallel-CSI2 bridge"
- 	depends on VIDEO_DEV && PM && I2C
-+	depends on COMMON_CLK
- 	select VIDEO_V4L2_SUBDEV_API
- 	select MEDIA_CONTROLLER
- 	select V4L2_FWNODE
+diff --git a/drivers/media/usb/as102/as102_drv.c b/drivers/media/usb/as102/as102_drv.c
+index 6b1d3528a0a7..e94828871635 100644
+--- a/drivers/media/usb/as102/as102_drv.c
++++ b/drivers/media/usb/as102/as102_drv.c
+@@ -299,6 +299,8 @@ int as102_dvb_register(struct as102_dev_t *as102_dev)
+ 	as102_dev->dvb_dmx.priv = as102_dev;
+ 	as102_dev->dvb_dmx.filternum = pid_filtering ? 16 : 256;
+ 	as102_dev->dvb_dmx.feednum = 256;
++	/* init start / stop stream mutex */
++	mutex_init(&as102_dev->sem);
+ 	as102_dev->dvb_dmx.start_feed = as102_dvb_dmx_start_feed;
+ 	as102_dev->dvb_dmx.stop_feed = as102_dvb_dmx_stop_feed;
+ 
+@@ -344,9 +346,6 @@ int as102_dvb_register(struct as102_dev_t *as102_dev)
+ 	/* init bus mutex for token locking */
+ 	mutex_init(&as102_dev->bus_adap.lock);
+ 
+-	/* init start / stop stream mutex */
+-	mutex_init(&as102_dev->sem);
+-
+ 	/*
+ 	 * try to load as102 firmware. If firmware upload failed, we'll be
+ 	 * able to upload it later.
 -- 
-2.51.0
+2.43.0
 
 
