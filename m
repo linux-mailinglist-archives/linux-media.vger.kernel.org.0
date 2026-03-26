@@ -1,252 +1,218 @@
-Return-Path: <linux-media+bounces-57173-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57174-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qHJqGy2AxWkk+wQAu9opvQ
-	(envelope-from <linux-media+bounces-57173-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 19:51:25 +0100
+	id aFb6Nz6FxWlc+wQAu9opvQ
+	(envelope-from <linux-media+bounces-57174-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 20:13:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18CA333A6AA
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 19:51:25 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 437F533AC47
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 20:13:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A480030172ED
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 18:51:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4204231AA7C6
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 19:03:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21A173A1A50;
-	Thu, 26 Mar 2026 18:50:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA53234CFDE;
+	Thu, 26 Mar 2026 19:01:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jLXzqBbQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KSMn4uAf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EAC456472
-	for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 18:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895F63A7824
+	for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 19:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774551057; cv=none; b=La69S1huswU4EC8ENMupanEZ1VYP1V3vXy+bwp2qYMWmVofilyYA4HK0FQcpUzTsQGZ/AV7UjBv1uvMmCSfPPHDamzSAbvmzUZXyyloNbUSrABIPpa4ANK1LRUBADvKldFU9GSuRottb8NursZ4RNzOM+cFhOAK+vz/0jKbyorQ=
+	t=1774551663; cv=none; b=cMs69QZnmub5mgoNo62CNewExVB8c2HBRN6DRo1YxYvPFVcaLl8BMJXW4zoElCaHkp5vKz8hcXDkK8hsBBC52bGVTcmD7Mdb0iJF6rjaOikG/ptHizo8pnWdEuStR45FB+Az4F+TquL+jSRHS2MSBfjCbnDDXtFAjZiy/HWnH2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774551057; c=relaxed/simple;
-	bh=hwytOT5AHQkhNuXB7Dk7q9CVQJ+sv6oWC8s4nFu+akg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=R7E7ACBBhQHk9p0EXLun4ykXRVyga4SeoBnO5csN0WV6a+YDbO5mu/vQ2kFHISjOr5kzv0yGtGw8PT8hoW/kh1WNyrA/kxu2CfbhEftrTeCV0X/UV0puowiMxNFoyv2+P9l29FqakLpO9r035iJUjk6J5aRDw1ZgYbuwC3g5nmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jLXzqBbQ; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774551056; x=1806087056;
-  h=date:from:to:cc:subject:message-id;
-  bh=hwytOT5AHQkhNuXB7Dk7q9CVQJ+sv6oWC8s4nFu+akg=;
-  b=jLXzqBbQcJ0zksqhnOoYA8qcGQucu9jOy90Seib56d4uwkyB9VlU/wmx
-   fVydqZYAdlXclglE7PwQwP9pnaAqSzbLZb/JHOzoKONtlavKuOjfcHsT6
-   KWkhpz/EqyHcUs5v9HvBPHdcRbMOBZmnVJEa9cTv/RZwQ3k0O4xF9QQDe
-   b5t+pyZ1HUwQTQD9X/GhKnnKoBJwTVccyMUYPsvNmjbNeFzGO6Ri0upqU
-   X4IuDRB3CCKf4ZiMzgqqCRK/wRF4Wz8Wy8XLDRjvm45cezoI2zjF1nIkR
-   /RxAn10B27sbuY6muHQt1Oxy6DBGq10SMj9cwwp3qs08iM+qkozOVifhI
-   A==;
-X-CSE-ConnectionGUID: 59sTOjz7QAiAucbEGBHmtw==
-X-CSE-MsgGUID: CdAXGsbxSdmcTHh3vxpV9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75689966"
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="75689966"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 11:50:55 -0700
-X-CSE-ConnectionGUID: 7gIzdKNuQzy1e9PNu2krnw==
-X-CSE-MsgGUID: eXT5pWAYTFiVF9o6PemF5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="224271191"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 26 Mar 2026 11:50:53 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w5pn8-000000009Dv-3kJ0;
-	Thu, 26 Mar 2026 18:50:50 +0000
-Date: Fri, 27 Mar 2026 02:50:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bradford Love <brad@nextdimension.cc>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
- Hans Verkuil <hverkuil@kernel.org>
-Subject: [linuxtv-media-pending:next 144/157]
- drivers/media/usb/em28xx/em28xx-cards.c:3889:2-3: Unneeded semicolon
-Message-ID: <202603270214.pyo7p8m7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1774551663; c=relaxed/simple;
+	bh=k69XcNGqZA1yoRwOAPdRqVUlS+n7++vwFrRdtfF4/ZE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rMcC61mVCUsLrOND/Oew9mVERK8Y29GyD8vu0GqshyiSl4rAc7LUwmf2lY6zS9wSthQ0f2R9Evcl9dnFJQyc1iEmqnvVGj/CVYgK3lXcxfxFz2tOS27gnScY4rtQRPRSETJT+BjDsJkLwKJBRocKUvgm1BjuwgI9XZ2rixnfBOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KSMn4uAf; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-439b2965d4bso1046361f8f.2
+        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 12:00:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774551656; x=1775156456; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JglxAbJwxC0RSdaWUygUvn1XAh97gEO4MyAua4nYFxs=;
+        b=KSMn4uAfxymgCAhVB69ivUgA6mmFRn7FV58fS0Mph++40KBjB1DcnRJ8utATd7sLFS
+         88Np5iwKgwBOce4MgYPu8tozTjLNjpwkZ3XDVQt+TEB9xNuBIhqJLgxvwgw07LSIFIoo
+         kSgzbmqxZmpZbBoaV72SlU7iUrO8roWC219vPJBEGTNAp9Sb911uwNBlzElT3Am96X2W
+         IwYpN/G1rTGDIINhOQjuX0Sld7rcgeNUycDtrmsDJhepqe+ZT42RK+WEDMmkTZ2MofY1
+         atAl533wkft/OrIf7lsvf3Qu8YbdxEAoi02EqgYKCEuUXuydCCfHYapogevIkyZsOg3P
+         MDqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774551656; x=1775156456;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JglxAbJwxC0RSdaWUygUvn1XAh97gEO4MyAua4nYFxs=;
+        b=S3q3xdh17QwCkTNI0VOrnFoGE5wqUCtFszrXMU87dwhw7YbS+nPiRhutHq4eYRvKn/
+         9MxpWVrNq9cxQswo+T5aTaH9Z4daV9F/Z2TickKC43fjx+jHZR/LRL68dxpO9HKbN/ht
+         l/+5JGK1ZG1YDeh0R8ohSW0zUxJkrv0gcZefI+O8QtlbN4MSqcU18uPcCkKXR70nctve
+         iKaeqB+5ltobhAjK8yecY3vofGJUUeLE/1bd7sff0Ag7oSNXYL1AR36DMyl3GcsfA5F5
+         bjGrYHOVruU8vGCJiI1HilcnJXOfvANRrgEuBR2tyK4d3TDaf47/n1w/JO9ujpsC7ogc
+         lYPA==
+X-Gm-Message-State: AOJu0Ywg7yBbcu5J7X5HJ66Ac1zxR7OdEwHC5xgaXTK44XCpn9cwPQLH
+	H0PNl5CVLPyPe4ANv5UY3C+mYcq7PCZbqUZqNqW3ujAHNlXk53Lrs/y2
+X-Gm-Gg: ATEYQzyWZbeTV9FVeAsVPcwkVIsbc8jeolpn+PEC2ZUSoGHIyykT+CWM+hKSh5wrnls
+	Fgjij/C7Kix9zhwJq4HZW1VXY6ab6NVkDi6dSGvurOz1S0gj42tNcxU7ntNO0vODyxDUwgUh0aM
+	bkxiw9/PVcaGCOpJbtUvP39KNNYvGGCmfBP3BQT6iki/Kk08Wo9Z/rtdXvEPXwiRkQbgtWh9ZQg
+	x/NshLpj99CmkgQgpSqWJcy3ssbpvABIMiVYMzVxP3/FJKMEY6rneRsoE9QOIRWlrnNlF8OiKmy
+	G+o3ohRBhfQbhABGD7Na7LJIKO+IJmvEUXPh39d2xruxA+s6IM5c8GXAaEqfLpppr6xs26cYgzV
+	DruahqckITjAEeFMs+uYrJbcO1XwwmCQpmhxFe5zppEqPZqxccJ2UsU3K7VOXYAs3cxZixfgch7
+	3g+I/vK80dC4LEt98nUhXibtrGjzD3qvyOFiQjHM+WHpPKWn1r27a++WSL3NhSFhfhk1ZJ2ehRS
+	sRsoKFU60g2jkxq+2eF8wA=
+X-Received: by 2002:a05:600c:4685:b0:485:17a7:ba0d with SMTP id 5b1f17b1804b1-4871606cbcemr142953075e9.32.1774551655489;
+        Thu, 26 Mar 2026 12:00:55 -0700 (PDT)
+Received: from dohko.chello.ie (188-141-5-72.dynamic.upc.ie. [188.141.5.72])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722be47a4sm68290385e9.0.2026.03.26.12.00.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2026 12:00:55 -0700 (PDT)
+From: David Carlier <devnexen@gmail.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nayden Kanchev <nayden.kanchev@arm.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	David Carlier <devnexen@gmail.com>
+Subject: [PATCH] media: mali-c55: fix resource leaks in probe and remove
+Date: Thu, 26 Mar 2026 19:00:52 +0000
+Message-ID: <20260326190052.11780-1-devnexen@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57173-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_FROM(0.00)[bounces-57174-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 18CA333A6AA
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[devnexen@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com]
+X-Rspamd-Queue-Id: 437F533AC47
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree:   https://git.linuxtv.org/media-ci/media-pending.git next
-head:   ebeec2b000a90cd8aae86d1931ff5ef23af8284e
-commit: 8e53399c63c3152fd572596acedcdaea4cabbc45 [144/157] media: em28xx: Add support for Empia em2828X bridge
-config: riscv-randconfig-r064-20260326 (https://download.01.org/0day-ci/archive/20260327/202603270214.pyo7p8m7-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+mali_c55_probe() calls of_reserved_mem_device_init() to associate
+reserved memory regions with the device. This function allocates a
+struct rmem_assigned_device and adds it to a global linked list, which
+must be explicitly released via of_reserved_mem_device_release() — there
+is no devm variant of this API.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603270214.pyo7p8m7-lkp@intel.com/
+However, neither the probe error paths nor mali_c55_remove() called
+of_reserved_mem_device_release(). Any probe failure after the
+of_reserved_mem_device_init() call, as well as every normal device
+removal, leaked the reserved memory association on the global list.
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/media/usb/em28xx/em28xx-cards.c:3889:2-3: Unneeded semicolon
---
->> drivers/media/usb/em28xx/em28xx-core.c:635:2-3: Unneeded semicolon
+Additionally, pm_runtime_enable() called during probe was never undone
+in mali_c55_remove(), leaving the device's runtime PM state enabled
+after the driver is unbound. The probe error path had a related issue:
+when mali_c55_media_frameworks_init() failed, the goto target jumped
+directly to err_free_context_registers, skipping pm_runtime_disable()
+despite pm_runtime having already been enabled earlier in the function.
 
-vim +3889 drivers/media/usb/em28xx/em28xx-cards.c
+Fix these issues by:
+ - Adding an err_release_mem label at the end of the error chain so all
+   post-init failure paths release the reserved memory association.
+ - Splitting pm_runtime_disable() into its own err_runtime_disable label
+   so the media frameworks init failure correctly unwinds it.
+ - Adding of_reserved_mem_device_release() and pm_runtime_disable() to
+   mali_c55_remove(), with the teardown order mirroring probe in
+   reverse.
 
-  3771	
-  3772	static void em28xx_check_usb_descriptor(struct em28xx *dev,
-  3773						struct usb_device *udev,
-  3774						struct usb_interface *intf,
-  3775						int alt, int ep,
-  3776						bool *has_vendor_audio,
-  3777						bool *has_video,
-  3778						bool *has_dvb)
-  3779	{
-  3780		const struct usb_endpoint_descriptor *e;
-  3781		int sizedescr, size;
-  3782	
-  3783		/*
-  3784		 * NOTE:
-  3785		 *
-  3786		 * Old logic with support for isoc transfers only was:
-  3787		 *  0x82	isoc		=> analog
-  3788		 *  0x83	isoc		=> audio
-  3789		 *  0x84	isoc		=> digital
-  3790		 *
-  3791		 * New logic with support for bulk transfers
-  3792		 *  0x82	isoc		=> analog
-  3793		 *  0x82	bulk		=> analog
-  3794		 *  0x83	isoc*		=> audio
-  3795		 *  0x84	isoc		=> digital
-  3796		 *  0x84	bulk		=> analog or digital**
-  3797		 *  0x85	isoc		=> digital TS2
-  3798		 *  0x85	bulk		=> digital TS2
-  3799		 *  0x8a	isoc		=> digital video
-  3800		 * (*: audio should always be isoc)
-  3801		 * (**: analog, if ep 0x82 is isoc, otherwise digital)
-  3802		 *
-  3803		 * The new logic preserves backwards compatibility and
-  3804		 * reflects the endpoint configurations we have seen
-  3805		 * so far. But there might be devices for which this
-  3806		 * logic is not sufficient...
-  3807		 */
-  3808	
-  3809		e = &intf->altsetting[alt].endpoint[ep].desc;
-  3810	
-  3811		if (!usb_endpoint_dir_in(e))
-  3812			return;
-  3813	
-  3814		sizedescr = le16_to_cpu(e->wMaxPacketSize);
-  3815		size = sizedescr & 0x7ff;
-  3816	
-  3817		if (udev->speed == USB_SPEED_HIGH)
-  3818			size = size * hb_mult(sizedescr);
-  3819	
-  3820		/* Only inspect input endpoints */
-  3821	
-  3822		switch (e->bEndpointAddress) {
-  3823		case 0x81:	/* unknown function */
-  3824			return;
-  3825		case 0x82:
-  3826			*has_video = true;
-  3827			if (usb_endpoint_xfer_isoc(e)) {
-  3828				dev->analog_ep_isoc = e->bEndpointAddress;
-  3829				dev->alt_max_pkt_size_isoc[alt] = size;
-  3830			} else if (usb_endpoint_xfer_bulk(e)) {
-  3831				dev->analog_ep_bulk = e->bEndpointAddress;
-  3832			}
-  3833			return;
-  3834		case 0x83:
-  3835			if (usb_endpoint_xfer_isoc(e))
-  3836				*has_vendor_audio = true;
-  3837			else
-  3838				dev_err(&intf->dev,
-  3839					"error: skipping audio endpoint 0x83, because it uses bulk transfers !\n");
-  3840			return;
-  3841		case 0x84:
-  3842			if (*has_dvb && (usb_endpoint_xfer_bulk(e))) {
-  3843				*has_dvb = true;
-  3844				dev->dvb_ep_bulk = e->bEndpointAddress;
-  3845			} else if (*has_video && (usb_endpoint_xfer_bulk(e))) {
-  3846				dev->analog_ep_bulk = e->bEndpointAddress;
-  3847			} else {
-  3848				if (usb_endpoint_xfer_isoc(e)) {
-  3849					if (size > dev->dvb_max_pkt_size_isoc) {
-  3850						/*
-  3851						 * 2) some manufacturers (e.g. Terratec)
-  3852						 * disable endpoints by setting
-  3853						 * wMaxPacketSize to 0 bytes for all
-  3854						 * alt settings. So far, we've seen
-  3855						 * this for DVB isoc endpoints only.
-  3856						 */
-  3857						*has_dvb = true;
-  3858						dev->dvb_ep_isoc = e->bEndpointAddress;
-  3859						dev->dvb_max_pkt_size_isoc = size;
-  3860						dev->dvb_alt_isoc = alt;
-  3861					}
-  3862				} else {
-  3863					*has_dvb = true;
-  3864					dev->dvb_ep_bulk = e->bEndpointAddress;
-  3865				}
-  3866			}
-  3867			return;
-  3868		case 0x85:
-  3869			if (usb_endpoint_xfer_isoc(e)) {
-  3870				if (size > dev->dvb_max_pkt_size_isoc_ts2) {
-  3871					dev->dvb_ep_isoc_ts2 = e->bEndpointAddress;
-  3872					dev->dvb_max_pkt_size_isoc_ts2 = size;
-  3873					dev->dvb_alt_isoc = alt;
-  3874				}
-  3875			} else {
-  3876				dev->dvb_ep_bulk_ts2 = e->bEndpointAddress;
-  3877			}
-  3878			return;
-  3879		case 0x8a:
-  3880			*has_video = true;
-  3881			*has_dvb = true;
-  3882			if (usb_endpoint_xfer_isoc(e)) {
-  3883				dev->analog_ep_isoc = e->bEndpointAddress;
-  3884				dev->alt_max_pkt_size_isoc[alt] = size;
-  3885			} else if (usb_endpoint_xfer_bulk(e)) {
-  3886				dev->analog_ep_bulk = e->bEndpointAddress;
-  3887			}
-  3888			return;
-> 3889		};
-  3890	}
-  3891	
+Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
+Signed-off-by: David Carlier <devnexen@gmail.com>
+---
+ .../media/platform/arm/mali-c55/mali-c55-core.c   | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
+index c1a562cd214e..bfe811182cda 100644
+--- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
++++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
+@@ -806,8 +806,10 @@ static int mali_c55_probe(struct platform_device *pdev)
+ 	vb2_dma_contig_set_max_seg_size(dev, UINT_MAX);
+ 
+ 	ret = __mali_c55_power_on(mali_c55);
+-	if (ret)
+-		return dev_err_probe(dev, ret, "failed to power on\n");
++	if (ret) {
++		dev_err_probe(dev, ret, "failed to power on\n");
++		goto err_release_mem;
++	}
+ 
+ 	ret = mali_c55_check_hwcfg(mali_c55);
+ 	if (ret)
+@@ -826,7 +828,7 @@ static int mali_c55_probe(struct platform_device *pdev)
+ 
+ 	ret = mali_c55_media_frameworks_init(mali_c55);
+ 	if (ret)
+-		goto err_free_context_registers;
++		goto err_runtime_disable;
+ 
+ 	pm_runtime_idle(&pdev->dev);
+ 
+@@ -841,11 +843,14 @@ static int mali_c55_probe(struct platform_device *pdev)
+ 
+ err_deinit_media_frameworks:
+ 	mali_c55_media_frameworks_deinit(mali_c55);
++err_runtime_disable:
+ 	pm_runtime_disable(&pdev->dev);
+ err_free_context_registers:
+ 	kfree(mali_c55->context.registers);
+ err_power_off:
+ 	__mali_c55_power_off(mali_c55);
++err_release_mem:
++	of_reserved_mem_device_release(dev);
+ 
+ 	return ret;
+ }
+@@ -854,8 +859,10 @@ static void mali_c55_remove(struct platform_device *pdev)
+ {
+ 	struct mali_c55 *mali_c55 = platform_get_drvdata(pdev);
+ 
+-	kfree(mali_c55->context.registers);
+ 	mali_c55_media_frameworks_deinit(mali_c55);
++	pm_runtime_disable(&pdev->dev);
++	kfree(mali_c55->context.registers);
++	of_reserved_mem_device_release(&pdev->dev);
+ }
+ 
+ static const struct of_device_id mali_c55_of_match[] = {
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.53.0
+
 
