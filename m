@@ -1,638 +1,393 @@
-Return-Path: <linux-media+bounces-57101-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57102-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KAKtLeWIxGnB0AQAu9opvQ
-	(envelope-from <linux-media+bounces-57101-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 02:16:21 +0100
+	id 4K9EOsGLxGn50AQAu9opvQ
+	(envelope-from <linux-media+bounces-57102-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 02:28:33 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FADB32DC90
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 02:16:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E9C32DDB7
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 02:28:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 48A4D3043BE8
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 01:15:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5C36F304209C
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 01:28:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 799013290A0;
-	Thu, 26 Mar 2026 01:15:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A409A37BE7E;
+	Thu, 26 Mar 2026 01:28:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CAOnZ1a0"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IQCRZu9j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD0FF4F1;
-	Thu, 26 Mar 2026 01:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61CB31195C
+	for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 01:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774487735; cv=none; b=WtpJ87QVM6zNQi+KXEvWdtHW4VKqwdrDRxYU6pbq9iEMTP/fL9CAU+uL2a1Xn5nCl2BaFO413nyOajKAgEz80zJC5g0rohFcjWw+0HpG7RKyymwIYP4i7eol2m1fOPxuL+m2PCXP8aP3q+GK909G4y09okqGEWbxn3ZJWjp6OGI=
+	t=1774488487; cv=none; b=dqOWcErAfcMKneP9rDtlPDN8R2jJLOOWu463IA3qCp6rb5hz8dksBXZsWmZnHS2EhpsTLH3Kt3LKmt3xCue4WYa7Pc7a5UA8UUBm29nKwxQB+gTbJkqIzvpzq/fFdVlSg9erWN8DBr/hvKqLqns8SFlW962ZDsh5sQwoaaxW8E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774487735; c=relaxed/simple;
-	bh=ONoM3r8dhzn9gp/Rh8CpPc8mBuiVYIjyCbjkV7LKnK8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=m9o8PNBLGdkwhjAN78aF1Da48YH8XFLTq0y2vKdB0uT3bp9zw6DWYDK8ris+vJ0wixf7WvONptGIFiW6kR+5QjavTrHnD0mO873bR+KYCzx4vUSGFd/OG+ohQPH+YxPaiGB/b8N+x+nv4Z8ORG5TY0DVFAfbm8g2SmqURvKFfDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CAOnZ1a0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D58FBC4CEF7;
-	Thu, 26 Mar 2026 01:15:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774487735;
-	bh=ONoM3r8dhzn9gp/Rh8CpPc8mBuiVYIjyCbjkV7LKnK8=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=CAOnZ1a0q6D0c535RBzlK0A467wrlyMMTUCLhHaIahv4vb5pnwfhakQ8ugzQ/pcxH
-	 1DedKNDxH7naDK5ncYMt0icIlFuGnqwzIh3VW4jg/hLePzADzliEE6gsgMxs/2Sl+N
-	 y0icYrEDe+aAYRlAuNd0geFdyDjJiCalG4V8nDKa2AZo3G7bS3BMEdcT10yUyp/sLE
-	 jq7tUi4BYuRMJNyy8DlU0CrzbYO8x3VD7AjqfRYF+5nQWgjdpn2+eZF9TDSZ1DW61A
-	 mO+hGffUVu56CdfQPmk6KeM0wFXV4YhcijwfmNGB0pJvti4ZD4Xrum1/9lXsFUglxS
-	 zEFg+2GKd5AxA==
+	s=arc-20240116; t=1774488487; c=relaxed/simple;
+	bh=6Gcu8+Ao4lstBbI18dMnWxkWILaWqmEG7wVURt2eRUY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dAqS6r57prEdiZw7kny2rvDHGb2bwHHPoy6TAWoNWg1zcZvQUaHCFISxABXwHm14J4GbCzgoPfuxL25tKT2jPb7LhowGLIXRjvaJc85dGVO4BSYzqzr1h+FeFG90/lH0Z8IMyXjTAA7HJt8tFxxPZTUzoYTyV+joAsSXtNIHDps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IQCRZu9j; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43b4f48c47cso295502f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2026 18:28:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1774488482; x=1775093282; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wmh2eSNLdbGG4DbgCFQDaehdjKO6Qs7B6uRF+sCGrf8=;
+        b=IQCRZu9jbjtvE9VhHIGEDyCNwgC7kcjdXPr9gVwEH3VwD1obFdRvrCxBfXNCKIn2Cl
+         /beai+IgXBRQIzDQ4jZqmP+6QaCKVifrPj5d91BIg2G2ulXTp9RsUAt8o215y6GcmZxk
+         OMahHORV9bUV5V8l8CPOYZS76QTnWWK3zHoelGey1kU7agf8Fplwj4ilYk/ndsJHS6e1
+         FryP1gI5McvVpaSIqkjdFfVAj8d4INUr1ZmASf6J+jEDaywBiKOGVbTHyFWVTh+U0q90
+         dhs0VroADbZCF1xHX8G9Upfyg+8PQ1+fbuNCiIJR7/Ci3IFqkXMTv/y3avm7ZCpA2zf3
+         vpEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774488482; x=1775093282;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wmh2eSNLdbGG4DbgCFQDaehdjKO6Qs7B6uRF+sCGrf8=;
+        b=MPfFGxCkZmIq3kSDhB0oc9Rb8w1/fQIS9ZtViYxLaAkFI/WrKlQsamXE+gF7XrC0wi
+         +ko2mzTOS6PhNg5W1i4NZa89fOzGu/UPbCeBCPdlp7rX6SVKeX6eTzTSVWRGRj4CY9NX
+         /OvBpmMzOWHbhjiXZS2cpEKEgxlZ1ZfKeTqnFF47LXosaUGgr02kB1p0j4qUSFFz6+Cs
+         yzpJnyT8m0Z+hIGEf1CaoCQqMH17dXTX2XyTzDzhBN/PssIR7LlHPiVVAbamlWbB+auo
+         k96CJ4qdgnClDpILNUBWHuLRH9c0Wa7u3JotFuE0KVx1ufidGoAMS+qBMFpOkqwogSkB
+         ZkOg==
+X-Forwarded-Encrypted: i=1; AJvYcCXR6gxSTG7NdrVoD0kfdZNjuUdlkPqocY9Q+HdtYRL6uUmJG3S5v2/9CNPz56r5moqg0yX4V48y/iBkfw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUWJPk4DqkWPoljAnWebX61XoPR6c8wobg5ZNqJjByEfQN8pkq
+	qc0zE9uIR8pnt8aEl9hZ2qQuOGpL112NWrEO9QEuJhXTrH5pm4pO/oNrw2ss6DZ5a6w=
+X-Gm-Gg: ATEYQzxx5M1P9EcBqgf/j/2dNrDU97HMcXZOJEnpOfCS0/7zjEVnAEoeHLYVRV9BAj1
+	xkHyljg+jY9V+I7oOqI6m57GS2nmogbFTQ/l83thJ5Udgo+P+802FOMwoHfvP7GHyW1E9k/Oak3
+	Hh2Wu//yr+plz4Jrem3e24tDL8Z0/RjVkFS+T5+X93sOrxNFbGFrL9iSYSnqoH6qCpIQk5budLi
+	Jc5ZKOEeFlJVvYuFV3kqrjwjppm/wqnBEGBKfUBHThIICE4bT/0gdY91sTq7m9yVOArBE6TIu7I
+	Nne0Pumhc34PEjlG5+Re/G4IjZYU8Z3fnfKKIVi4LO+o2q5D6D8CcRJPvVOEDyuhKW+JdcFuNCr
+	dRF1gBwhEJh9zvKI/H+JmzuYuO2AAaxggMGApBoSbx/nlTujdjExcQ6OijTBjto0Fqk2Xp7UljD
+	Ow5OrPmJ+5mFaiYiQA34D5vECLBzZl955M7aY=
+X-Received: by 2002:a05:6000:2dca:b0:43b:4982:fc73 with SMTP id ffacd0b85a97d-43b88a050d7mr8671025f8f.25.1774488481970;
+        Wed, 25 Mar 2026 18:28:01 -0700 (PDT)
+Received: from [192.168.0.35] ([109.76.163.154])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b919cf1c4sm3918051f8f.23.2026.03.25.18.28.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 18:28:01 -0700 (PDT)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH v11 0/7] Add dt-bindings and PHY updates for CAMSS on
+ x1e80100 silicon
+Date: Thu, 26 Mar 2026 01:28:28 +0000
+Message-Id: <20260326-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v11-0-5b93415be6dd@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Mar 2026 02:15:28 +0100
-Message-Id: <DHCBEGGPWSVK.30MV8652PV4PY@kernel.org>
-Subject: Re: (subset) [PATCH v9 0/7] Rust bindings for gem shmem
-Cc: <nouveau@lists.freedesktop.org>, "Gary Guo" <gary@garyguo.net>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, <rust-for-linux@vger.kernel.org>,
- "Matthew Maurer" <mmaurer@google.com>, "FUJITA Tomonori"
- <fujita.tomonori@gmail.com>, "Lorenzo Stoakes"
- <lorenzo.stoakes@oracle.com>, <christian.koenig@amd.com>, "Asahi Lina"
- <lina@asahilina.net>, "Miguel Ojeda" <ojeda@kernel.org>, "Andreas Hindborg"
- <a.hindborg@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Alice Ryhl"
- <aliceryhl@google.com>, "Boqun Feng" <boqun@kernel.org>, "Sumit Semwal"
- <sumit.semwal@linaro.org>, "Krishna Ketan Rai" <prafulrai522@gmail.com>,
- <linux-media@vger.kernel.org>, "Shankari Anand"
- <shankari.ak0208@gmail.com>, "David Airlie" <airlied@gmail.com>, "Benno
- Lossin" <lossin@kernel.org>, "Viresh Kumar" <viresh.kumar@linaro.org>,
- <linaro-mm-sig@lists.linaro.org>, "Asahi Lina" <lina+kernel@asahilina.net>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- <kernel@vger.kernel.org>, "Deborah Brouwer" <deborah.brouwer@collabora.com>
-To: "Lyude Paul" <lyude@redhat.com>, "Alice Ryhl" <aliceryhl@google.com>,
- "Miguel Ojeda" <ojeda@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260316211646.650074-1-lyude@redhat.com>
-In-Reply-To: <20260316211646.650074-1-lyude@redhat.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALyLxGkC/53Qy2rDMBAF0F8JWldFo7e66n+ULvRMBK0dJNe4B
+ P97J4GSFK/cjWCu0LmDLqTnVnMnL4cLaXmuvY4DDgBPBxJPfjhmWhMGhDOumABBg6Qfdfha6JC
+ XiXJFmaAYp6lXukC2DBij0X/2TkExXYwMIQlPEDy3XOpya3t7x/lU+zS271v5rK7pv2pmvKRW6
+ ui8lk54+4ovfRufx3Yk155ZP9pyl63RzikGHksUwPnGNnfbAOyyDdosRJW85UVxvbHtr60ZR2q
+ PbdF2SoERTgRcf2O7R1vvsh3aXrkoChMmsbCxgd1xAftwwD+hJZXsrMRDwh99XdcfEIwIibQCA
+ AA=
+X-Change-ID: 20250313-b4-linux-next-25-03-13-dtsi-x1e80100-camss-1506f74bbd3a
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+ Todor Tomov <todor.too@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ Bryan O'Donoghue <bod@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Christopher Obbard <christopher.obbard@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10647;
+ i=bryan.odonoghue@linaro.org; h=from:subject:message-id;
+ bh=6Gcu8+Ao4lstBbI18dMnWxkWILaWqmEG7wVURt2eRUY=;
+ b=owEBbQKS/ZANAwAKASJxO7Ohjcg6AcsmYgBpxIu/ORb48l6eTKKq0DG1OFcPy5am7AciOOwbw
+ 3HK+iEc8LuJAjMEAAEKAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCacSLvwAKCRAicTuzoY3I
+ Omk9D/91FuHDtHeAfI1PrOIZNntqd6V+3Ba2MTiAlrrn3CurAUe8dnqKEC1nuxZar6I17tOlI0E
+ bM3vI+Txh0cZbxaiGgt7sBMK7pmxQzrNoKWUSvgVHnlgVcwG5BSbL8kUPdlRW2hJmN2/ByVuqhd
+ Wed5jU+uA0ol51LGSGLUc//4XWQkg/H+2fqkf042+71ZgmZjnm9G6KrLYQ9PIRBd55W9kMLVYWr
+ lDFX6hs7zeVWBXv2hgJ3DijwNe/08kSLFKYG9Kj4wpU0z3+OamqHGelgBmvE0L/Oic+RLtx8Gak
+ E6sK6aef6J6kdOtzOicnXrQOYG/5RS5/8QohuEwLSuUq4MModxCvkH+YrOIAiL3kFmQSphKEuUf
+ 8Ob9YimyTt+x7QePCUC4/kTX8InOUjD+7twc8H2hzZ+ZaBstStaOM1WxWW2JjCF7K7AYhuB//vj
+ XB5p+/zT43yE6yB41eM94Iuqv+M1QekJ3FLQQIiKf70aRb+a5i2m82jdkbXmyyrC9O9x6OHtG3+
+ jcaOnQwjnvLetJQVNq+C3xB05tJxmKgIZcMKx0o+3f/rKDeAKdYUwllIapu5CefFE2f3qYmr2vE
+ j9s9LZcWvec/E/4YZ0DaGoxUQ2MHlA3tL72Stk0vZk2K3GYORN0PfC03DqYB5/t0g8LFApAt4ct
+ fiOXjmBSU2yoAHQ==
+X-Developer-Key: i=bryan.odonoghue@linaro.org; a=openpgp;
+ fpr=E693FB2AABA36DE117AB6FB422713BB3A18DC83A
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57101-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,garyguo.net,collabora.com,vger.kernel.org,google.com,gmail.com,oracle.com,amd.com,asahilina.net,kernel.org,ffwll.ch,linaro.org,lists.linaro.org,linuxfoundation.org];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-57102-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,kernel];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,baylibre.com,gmail.com,linaro.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[rust-for-linux.com:url,pages.freedesktop.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:email]
-X-Rspamd-Queue-Id: 1FADB32DC90
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:email,linaro.org:mid,someaddr:email,gitlab.com:url,codelinaro.org:url]
+X-Rspamd-Queue-Id: 50E9C32DDB7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon Mar 16, 2026 at 10:16 PM CET, Lyude Paul wrote:
-> Lyude Paul (5):
->   rust: drm: Add gem::impl_aref_for_gem_obj!
->   rust: gem: Introduce DriverObject::Args
+Changes in v11:
+- Dropped simple-mfd in dts for devm_of_platform_populate() - Krzysztof
+- Pass polarity and position for data and clock lanes - bod
+- Remove check for PHY_TYPE_DPHY - PHY driver validates its own mode - bod
+- Depends-on: https://lore.kernel.org/r/20260325-dphy-params-extension-v1-0-c6df5599284a@linaro.org
+- Depends-on: https://lore.kernel.org/r/20260326-x1e-csi2-phy-v5-0-0c0fc7f5c01b@linaro.org
+- Link to v10: https://lore.kernel.org/r/20260316-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v10-0-fdfe984fe941@linaro.org
 
-Applied to drm-rust-next, thanks!
+Changes in v10:
+- compat simple-mfd added to CAMSS allows probing sub-nodes.
+  The other way to do this would be simple-bus however, CAMSS
+  is really a collection of devices in a block as opposed to a
+  discoverable bus.
+- csiphy nodes are sub-nodes of CAMSS.
+  Sub-nodes as pointed out by Dmitry will allow us to show some love to
+  older platforms.
+- Depends-on: https://lore.kernel.org/r/20260315-x1e-csi2-phy-v4-0-90c09203888d@linaro.org
+- Link to v9: https://lore.kernel.org/r/20260226-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v9-0-a59c3f037d0b@linaro.org
 
-> Asahi Lina (2):
->   rust: drm: gem: shmem: Add DRM shmem helper abstraction
+v9:
+- Adds phy handles as optional nodes
+- Adds minItems: 5 for iommu entries
+  I believe this should be acceptable as maxItems: 8 continues
+  to be valid
+- Makes CAMSS-level rails optional for x1e
+  Similarly I think this should be OK as the legacy binding
+  is still valid it is simply optional instead of mandatory now
+- Supports CSIPHY nodes adjacent to CAMSS while leaving
+  csiphy regs intact.
+- Pushes dtsi drop to another series everything in this series
+  can go through linux-media
+- Depends-on: https://lore.kernel.org/r/20260226-x1e-csi2-phy-v3-0-11e608759410@linaro.org
+- Link to v8: https://lore.kernel.org/r/20260225-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v8-0-95517393bcb2@linaro.org
 
-I was about to pick this one up as well, but did run into quite some build
-errors and warnings. I fixed them all up, but I consider this too excessive=
- to
-actually apply the patch. This is the changelog I came up with:
+v8:
 
-    [ * DRM_GEM_SHMEM_HELPER is a tristate; when a module driver selects it=
-,
-        it becomes =3Dm. The Rust kernel crate and its C helpers are always
-        built into vmlinux and can't reference symbols from a module,
-        causing link errors.
+- This version rebases on latest media-committers/next - bod
+- Adds support for "combo-mode" PHYs in the YAML.
+  It will be possible to build out the code to support this later - Vlad
+- Maintains the upstream model of connecting sensors to CSI decoders.
+  Every other upstream implementation does it this way so
+  CAMSS will do it this way too.
+- Reduces the number of IOMMU entires in CAMSS to those required for
+  CSID, VFE/RDI/PIX respectively.
+  Including all of the IOMMUs implies we will also "stuff" CAMSS
+  with ever increasing lists of registers but a better approach
+  is to have individual nodes for functional blocks.
+  For example this series supports CSIPHy as a separate block
+  CCI is already a separate block - and we will add ICP, BPS, IPE
+  etc as additional standalone nodes.
+  camss@someaddr {
+        //existing bindings vfe, csid, csiphy go here
+        iommus = <just what's needed for this>;
+  };
+  bps@some_other_address {
+        iommus = <bps specific iommus>;
+  }
+  In particular this model will save us from going down the same
+  path as the vpu which has ended up tripping over the total size
+  an iommu entry may span.
 
-        Thus, add RUST_DRM_GEM_SHMEM_HELPER bool Kconfig that selects
-        DRM_GEM_SHMEM_HELPER, forcing it built-in when Rust drivers need it=
-;
-        use cfg(CONFIG_RUST_DRM_GEM_SHMEM_HELPER) for the shmem module.
+  Nobody really likes the legacy binding much so instead of
+  continuing to bludgeon more entries into it, I've conciously
+  not included BPS, IPE, ICP etc.
 
-      * Add cfg_attr(not(CONFIG_RUST_DRM_GEM_SHMEM_HELPER), expect(unused))
-        on pub(crate) use impl_aref_for_gem_obj and BaseObjectPrivate, so
-        that unused warnings are suppressed when shmem is not enabled.
+Depends-on: https://lore.kernel.org/r/20260225-x1e-csi2-phy-v2-0-7756edb67ea9@linaro.org
+Link to v7: https://lore.kernel.org/r/20250711-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v7-0-0bc5da82f526@linaro.org
+Working tree: https://gitlab.com/Linaro/arm64-laptops/linux/-/tree/qcom-laptops-v6.19-rc8-camss?ref_type=heads
 
-      * Enable const_refs_to_static (stabilized in 1.83) to prevent build
-        errors with older compilers.
+v7:
 
-      * Use &raw const for bindings::drm_gem_shmem_vm_ops and add
-        #[allow(unused_unsafe, reason =3D "Safe since Rust 1.82.0")].
+- Reimagine the PHYs as individual nodes.
+  A v1 of the schmea and driver for the CSI PHY has been published with
+  some review feedback from Rob Herring and Konrad Dybcio
 
-      * Fix incorrect C Header path and minor spelling and formatting
-        issues.
+  https://lore.kernel.org/r/20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org
 
-      * Drop shmem::Object::sg_table() as the current implementation is
-        unsound.
+  Both the clock name changes from Rob and OPP changes suggested by Konrad
+  are _not_ yet present in this submission however stipulating to those
+  changes, I think publishing this v7 of the CAMSS/DT changes is warranted.
 
-        - Danilo ]
+  Its important to publish a whole view of changes for reviewers without
+  necessarily munging everything together in one sprawling series.
 
-Please always consider [1] and [2].
+  TL;DR I moved the PHY driver to its own series review comments there
+  are not reflected here yet but "shouldn't" have a big impact here.
 
-[1] https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-=
-drm-rust.html#submit-checklist
-[2] https://rust-for-linux.com/contributing#submit-checklist-addendum
+- Having separate nodes in the DT for the PHYS allows for switching on PHYs
+  as we do for just about every other PHYs.
+  &csiphyX {
+      status = "okay";
+  };
 
-(@Deborah: I assume you were testing this with Tyr built-in?)
+  We just list phys = <> in the core dtsi and enable the PHYs we want in
+  the platform dts.
 
-@Lyude, Alice, Miguel: Please have a look at what I came up with below.
+- The level of code change in CAMSS itself turns out to be quite small.
+  Adding the PHY structure to the CSIPHY device
+  Differentiating the existing camss.c -> camss-csiphy.c init functions
+  A few new function pointers to facilitate parallel support of legacy
+  and new PHY interfaces.
 
-commit 2dc69d77944dbd1494d2b10a4b134b7fead1c8e7
-Author: Asahi Lina <lina+kernel@asahilina.net>
-Date:   Mon Mar 16 17:16:13 2026 -0400
+- A key goal of this updated series is both to introduce a new PHY method
+  to CAMSS but to do it _only_ for a new SoC while taking care to ensure
+  that legacy CAMSS-PHY and legacy DT ABI continues to work.
 
-    rust: drm: gem: shmem: Add DRM shmem helper abstraction
+  This is a key point coming from the DT people which I've slowly imbibed
+  and hopefully succeeded in implementing.
 
-    The DRM shmem helper includes common code useful for drivers which
-    allocate GEM objects as anonymous shmem. Add a Rust abstraction for
-    this. Drivers can choose the raw GEM implementation or the shmem layer,
-    depending on their needs.
+- In addition to the CRD both T14s and Slim7x are supported.
+  I have the Inspirion14 working and the XPS but since we haven't landed
+  the Inspirion upstream yet, I've chosen to hold off on the XPS too.
 
-    Signed-off-by: Asahi Lina <lina@asahilina.net>
-    Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
-    Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-    Signed-off-by: Lyude Paul <lyude@redhat.com>
-    Tested-by: Deborah Brouwer <deborah.brouwer@collabora.com>
-    Link: https://patch.msgid.link/20260316211646.650074-6-lyude@redhat.com
-    [ * DRM_GEM_SHMEM_HELPER is a tristate; when a module driver selects it=
-,
-        it becomes =3Dm. The Rust kernel crate and its C helpers are always
-        built into vmlinux and can't reference symbols from a module,
-        causing link errors.
+- There is another proposal on the list to make PHY devices as sub-devices
 
-        Thus, add RUST_DRM_GEM_SHMEM_HELPER bool Kconfig that selects
-        DRM_GEM_SHMEM_HELPER, forcing it built-in when Rust drivers need it=
-;
-        use cfg(CONFIG_RUST_DRM_GEM_SHMEM_HELPER) for the shmem module.
+  I believe having those separate like most of our other PHYs
+  is the more appropriate way to go.
 
-      * Add cfg_attr(not(CONFIG_RUST_DRM_GEM_SHMEM_HELPER), expect(unused))
-        on pub(crate) use impl_aref_for_gem_obj and BaseObjectPrivate, so
-        that unused warnings are suppressed when shmem is not enabled.
+  Similarly there is less code change to the CAMSS driver with this change.
 
-      * Enable const_refs_to_static (stabilized in 1.83) to prevent build
-        errors with older compilers.
+  Finally I believe we should contine to have endpoints go from the sensor
+  to CAMSS not the PHY as CAMSS' CSI decoder is the consumer of the data
+  not the PHY.
 
-      * Use &raw const for bindings::drm_gem_shmem_vm_ops and add
-        #[allow(unused_unsafe, reason =3D "Safe since Rust 1.82.0")].
+- Working tree: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/x1e80100-6.16-rcX-dell-inspiron14-camss-ov02c10-ov02e10-audio-iris-phy-v3
+- Link to v6: https://lore.kernel.org/r/20250314-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v6-0-edcb2cfc3122@linaro.org
 
-      * Fix incorrect C Header path and minor spelling and formatting
-        issues.
+v6:
+- Removes 'A phandle to an OPP node describing' per Krzysztof's comment
+  on patch #1
+- Drops Fixes: from patch #1 - Krzysztof
+- The ordering of opp description MXC and MMXC is kept as it matches the
+  power-domain ordering - Krzysztof/bod
+- Link to v5: https://lore.kernel.org/r/20250313-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v5-0-846c9a6493a8@linaro.org
 
-      * Drop shmem::Object::sg_table() as the current implementation is
-        unsound.
+v5:
+- Picks up a Fixes: that is a valid precursor for this series - Vlad
+- Applies RB from Vlad
+- Drops "cam" prefix in interconnect names - Krzysztof/Vlad
+- Amends sorting of regs, clocks consistent with recent 8550 - Depeng/Vlad
+- Link to v4: https://lore.kernel.org/r/20250119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v4-0-c2964504131c@linaro.org
 
-        - Danilo ]
-    Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+v4:
+- Applies RB from Konrad
+- Adds the second CCI I2C bus to CCI commit log description.
+  I previously considered leaving out the always on pins but, decided
+  to include them in the end and forgot to align the commit log.
+- Alphabetises the camcc.h included in the dtsi. - Vlad
+- Link to v3: https://lore.kernel.org/r/20250102-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v3-0-cb66d55d20cc@linaro.org
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 0d0657dd1b41..0f68446c9122 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -258,6 +258,13 @@ config DRM_GEM_SHMEM_HELPER
- 	help
- 	  Choose this if you need the GEM shmem helper functions
+v3:
+- Fixes ordering of headers in dtsi - Vlad
+- Changes camcc to always on - Vlad
+- Applies RB as indicated - Krzysztof, Konrad
+- Link to v2: https://lore.kernel.org/r/20241227-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v2-0-06fdd5a7d5bb@linaro.org
 
-+config RUST_DRM_GEM_SHMEM_HELPER
-+	bool
-+	depends on DRM && MMU
-+	select DRM_GEM_SHMEM_HELPER
-+	help
-+	  Choose this if you need the GEM shmem helper functions In Rust
-+
- config DRM_SUBALLOC_HELPER
- 	tristate
- 	depends on DRM
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helpe=
-r.h
-index 563863d96d38..eda8f50d3a3c 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -34,6 +34,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
- #include <drm/drm_gem.h>
-+#include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_ioctl.h>
- #include <kunit/test.h>
- #include <linux/auxiliary_bus.h>
-@@ -63,6 +64,7 @@
- #include <linux/interrupt.h>
- #include <linux/io-pgtable.h>
- #include <linux/ioport.h>
-+#include <linux/iosys-map.h>
- #include <linux/jiffies.h>
- #include <linux/jump_label.h>
- #include <linux/mdio.h>
-diff --git a/rust/helpers/drm.c b/rust/helpers/drm.c
-index fe226f7b53ef..65f3f22b0e1d 100644
---- a/rust/helpers/drm.c
-+++ b/rust/helpers/drm.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
+v2:
 
- #include <drm/drm_gem.h>
-+#include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_vma_manager.h>
+I've gone through each comment and implemented each suggestion since IMO
+they were all good/correct comments.
 
- #ifdef CONFIG_DRM
-@@ -21,4 +22,57 @@ rust_helper_drm_vma_node_offset_addr(struct drm_vma_offs=
-et_node *node)
- 	return drm_vma_node_offset_addr(node);
- }
+Detail:
 
--#endif
-+#ifdef CONFIG_DRM_GEM_SHMEM_HELPER
-+__rust_helper void
-+rust_helper_drm_gem_shmem_object_free(struct drm_gem_object *obj)
-+{
-+	return drm_gem_shmem_object_free(obj);
-+}
-+
-+__rust_helper void
-+rust_helper_drm_gem_shmem_object_print_info(struct drm_printer *p, unsigne=
-d int indent,
-+					    const struct drm_gem_object *obj)
-+{
-+	drm_gem_shmem_object_print_info(p, indent, obj);
-+}
-+
-+__rust_helper int
-+rust_helper_drm_gem_shmem_object_pin(struct drm_gem_object *obj)
-+{
-+	return drm_gem_shmem_object_pin(obj);
-+}
-+
-+__rust_helper void
-+rust_helper_drm_gem_shmem_object_unpin(struct drm_gem_object *obj)
-+{
-+	drm_gem_shmem_object_unpin(obj);
-+}
-+
-+__rust_helper struct sg_table *
-+rust_helper_drm_gem_shmem_object_get_sg_table(struct drm_gem_object *obj)
-+{
-+	return drm_gem_shmem_object_get_sg_table(obj);
-+}
-+
-+__rust_helper int
-+rust_helper_drm_gem_shmem_object_vmap(struct drm_gem_object *obj,
-+				      struct iosys_map *map)
-+{
-+	return drm_gem_shmem_object_vmap(obj, map);
-+}
-+
-+__rust_helper void
-+rust_helper_drm_gem_shmem_object_vunmap(struct drm_gem_object *obj,
-+					struct iosys_map *map)
-+{
-+	drm_gem_shmem_object_vunmap(obj, map);
-+}
-+
-+__rust_helper int
-+rust_helper_drm_gem_shmem_object_mmap(struct drm_gem_object *obj, struct v=
-m_area_struct *vma)
-+{
-+	return drm_gem_shmem_object_mmap(obj, vma);
-+}
-+
-+#endif /* CONFIG_DRM_GEM_SHMEM_HELPER */
-+#endif /* CONFIG_DRM */
-diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
-index 527d86f4ce92..58eb0a3d5686 100644
---- a/rust/kernel/drm/gem/mod.rs
-+++ b/rust/kernel/drm/gem/mod.rs
-@@ -26,6 +26,9 @@
-     ptr::NonNull, //
- };
+- Moves x1e80100 camcc to its own yaml - Krzysztof
+- csid_wrapper comes first because it is the most relevant
+  register set - configuring all CSID blocks subordinate to it - bod, Krzysztof
+- Fixes missing commit log - Krz
+- Updates to latest format established @ sc7280 - bod
+- Includes CSID lite which I forgot to add @ v1 - Konrad, bod
+- Replaces static ICC parameters with defines - Konrad
+- Drops newlines between x and x-name - Konrad
+- Drops redundant iommu extents - Konrad
+- Leaves CAMERA_AHB_CLK as-is - Kronrad, Dmitry
+  Link: https://lore.kernel.org/r/3f1a960f-062e-4c29-ae7d-126192f35a8b@oss.qualcomm.com
+- Interrupt EDGE_RISING - Vladimir
+- Implements suggested regulator names pending refactor to PHY API - Vladimir
+- Drop slow_ahb_src clock - Vladimir
 
-+#[cfg(CONFIG_RUST_DRM_GEM_SHMEM_HELPER)]
-+pub mod shmem;
-+
- /// A macro for implementing [`AlwaysRefCounted`] for any GEM object type.
- ///
- /// Since all GEM objects use the same refcounting scheme.
-@@ -60,6 +63,8 @@ unsafe fn dec_ref(obj: core::ptr::NonNull<Self>) {
-         }
-     };
- }
-+#[cfg_attr(not(CONFIG_RUST_DRM_GEM_SHMEM_HELPER), allow(unused))]
-+pub(crate) use impl_aref_for_gem_obj;
+Link to v1:
+https://lore.kernel.org/r/20241119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v1-0-54075d75f654@linaro.org
 
- /// A type alias for retrieving a [`Driver`]s [`DriverFile`] implementatio=
-n from its
- /// [`DriverObject`] implementation.
-@@ -216,7 +221,7 @@ fn create_mmap_offset(&self) -> Result<u64> {
- impl<T: IntoGEMObject> BaseObject for T {}
+Working tree:
+https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/arm-laptop/wip/x1e80100-6.13-rc3
 
- /// Crate-private base operations shared by all GEM object classes.
--#[expect(unused)]
-+#[cfg_attr(not(CONFIG_RUST_DRM_GEM_SHMEM_HELPER), expect(unused))]
- pub(crate) trait BaseObjectPrivate: IntoGEMObject {
-     /// Return a pointer to this object's dma_resv.
-     fn raw_dma_resv(&self) -> *mut bindings::dma_resv {
-diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
-new file mode 100644
-index 000000000000..d025fb035195
---- /dev/null
-+++ b/rust/kernel/drm/gem/shmem.rs
-@@ -0,0 +1,228 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! DRM GEM shmem helper objects
-+//!
-+//! C header: [`include/linux/drm/drm_gem_shmem_helper.h`](srctree/include=
-/drm/drm_gem_shmem_helper.h)
-+
-+// TODO:
-+// - There are a number of spots here that manually acquire/release the DM=
-A reservation lock using
-+//   dma_resv_(un)lock(). In the future we should add support for ww mutex=
-, expose a method to
-+//   acquire a reference to the WwMutex, and then use that directly instea=
-d of the C functions here.
-+
-+use crate::{
-+    container_of,
-+    drm::{
-+        device,
-+        driver,
-+        gem,
-+        private::Sealed, //
-+    },
-+    error::to_result,
-+    prelude::*,
-+    types::{
-+        ARef,
-+        Opaque, //
-+    }, //
-+};
-+use core::{
-+    ops::{
-+        Deref,
-+        DerefMut, //
-+    },
-+    ptr::NonNull,
-+};
-+use gem::{
-+    BaseObjectPrivate,
-+    DriverObject,
-+    IntoGEMObject, //
-+};
-+
-+/// A struct for controlling the creation of shmem-backed GEM objects.
-+///
-+/// This is used with [`Object::new()`] to control various properties that=
- can only be set when
-+/// initially creating a shmem-backed GEM object.
-+#[derive(Default)]
-+pub struct ObjectConfig<'a, T: DriverObject> {
-+    /// Whether to set the write-combine map flag.
-+    pub map_wc: bool,
-+
-+    /// Reuse the DMA reservation from another GEM object.
-+    ///
-+    /// The newly created [`Object`] will hold an owned refcount to `paren=
-t_resv_obj` if specified.
-+    pub parent_resv_obj: Option<&'a Object<T>>,
-+}
-+
-+/// A shmem-backed GEM object.
-+///
-+/// # Invariants
-+///
-+/// `obj` contains a valid initialized `struct drm_gem_shmem_object` for t=
-he lifetime of this
-+/// object.
-+#[repr(C)]
-+#[pin_data]
-+pub struct Object<T: DriverObject> {
-+    #[pin]
-+    obj: Opaque<bindings::drm_gem_shmem_object>,
-+    /// Parent object that owns this object's DMA reservation object.
-+    parent_resv_obj: Option<ARef<Object<T>>>,
-+    #[pin]
-+    inner: T,
-+}
-+
-+super::impl_aref_for_gem_obj!(impl<T> for Object<T> where T: DriverObject)=
-;
-+
-+// SAFETY: All GEM objects are thread-safe.
-+unsafe impl<T: DriverObject> Send for Object<T> {}
-+
-+// SAFETY: All GEM objects are thread-safe.
-+unsafe impl<T: DriverObject> Sync for Object<T> {}
-+
-+impl<T: DriverObject> Object<T> {
-+    /// `drm_gem_object_funcs` vtable suitable for GEM shmem objects.
-+    const VTABLE: bindings::drm_gem_object_funcs =3D bindings::drm_gem_obj=
-ect_funcs {
-+        free: Some(Self::free_callback),
-+        open: Some(super::open_callback::<T>),
-+        close: Some(super::close_callback::<T>),
-+        print_info: Some(bindings::drm_gem_shmem_object_print_info),
-+        export: None,
-+        pin: Some(bindings::drm_gem_shmem_object_pin),
-+        unpin: Some(bindings::drm_gem_shmem_object_unpin),
-+        get_sg_table: Some(bindings::drm_gem_shmem_object_get_sg_table),
-+        vmap: Some(bindings::drm_gem_shmem_object_vmap),
-+        vunmap: Some(bindings::drm_gem_shmem_object_vunmap),
-+        mmap: Some(bindings::drm_gem_shmem_object_mmap),
-+        status: None,
-+        rss: None,
-+        #[allow(unused_unsafe, reason =3D "Safe since Rust 1.82.0")]
-+        // SAFETY: `drm_gem_shmem_vm_ops` is a valid, static const on the =
-C side.
-+        vm_ops: unsafe { &raw const bindings::drm_gem_shmem_vm_ops },
-+        evict: None,
-+    };
-+
-+    /// Return a raw pointer to the embedded drm_gem_shmem_object.
-+    fn as_raw_shmem(&self) -> *mut bindings::drm_gem_shmem_object {
-+        self.obj.get()
-+    }
-+
-+    /// Create a new shmem-backed DRM object of the given size.
-+    ///
-+    /// Additional config options can be specified using `config`.
-+    pub fn new(
-+        dev: &device::Device<T::Driver>,
-+        size: usize,
-+        config: ObjectConfig<'_, T>,
-+        args: T::Args,
-+    ) -> Result<ARef<Self>> {
-+        let new: Pin<KBox<Self>> =3D KBox::try_pin_init(
-+            try_pin_init!(Self {
-+                obj <- Opaque::init_zeroed(),
-+                parent_resv_obj: config.parent_resv_obj.map(|p| p.into()),
-+                inner <- T::new(dev, size, args),
-+            }),
-+            GFP_KERNEL,
-+        )?;
-+
-+        // SAFETY: `obj.as_raw()` is guaranteed to be valid by the initial=
-ization above.
-+        unsafe { (*new.as_raw()).funcs =3D &Self::VTABLE };
-+
-+        // SAFETY: The arguments are all valid via the type invariants.
-+        to_result(unsafe { bindings::drm_gem_shmem_init(dev.as_raw(), new.=
-as_raw_shmem(), size) })?;
-+
-+        // SAFETY: We never move out of `self`.
-+        let new =3D KBox::into_raw(unsafe { Pin::into_inner_unchecked(new)=
- });
-+
-+        // SAFETY: We're taking over the owned refcount from `drm_gem_shme=
-m_init`.
-+        let obj =3D unsafe { ARef::from_raw(NonNull::new_unchecked(new)) }=
-;
-+
-+        // Start filling out values from `config`
-+        if let Some(parent_resv) =3D config.parent_resv_obj {
-+            // SAFETY: We have yet to expose the new gem object outside of=
- this function, so it is
-+            // safe to modify this field.
-+            unsafe { (*obj.obj.get()).base.resv =3D parent_resv.raw_dma_re=
-sv() };
-+        }
-+
-+        // SAFETY: We have yet to expose this object outside of this funct=
-ion, so we're guaranteed
-+        // to have exclusive access - thus making this safe to hold a muta=
-ble reference to.
-+        let shmem =3D unsafe { &mut *obj.as_raw_shmem() };
-+        shmem.set_map_wc(config.map_wc);
-+
-+        Ok(obj)
-+    }
-+
-+    /// Returns the `Device` that owns this GEM object.
-+    pub fn dev(&self) -> &device::Device<T::Driver> {
-+        // SAFETY: `dev` will have been initialized in `Self::new()` by `d=
-rm_gem_shmem_init()`.
-+        unsafe { device::Device::from_raw((*self.as_raw()).dev) }
-+    }
-+
-+    extern "C" fn free_callback(obj: *mut bindings::drm_gem_object) {
-+        // SAFETY:
-+        // - DRM always passes a valid gem object here
-+        // - We used drm_gem_shmem_create() in our create_gem_object callb=
-ack, so we know that
-+        //   `obj` is contained within a drm_gem_shmem_object
-+        let this =3D unsafe { container_of!(obj, bindings::drm_gem_shmem_o=
-bject, base) };
-+
-+        // SAFETY:
-+        // - We're in free_callback - so this function is safe to call.
-+        // - We won't be using the gem resources on `this` after this call=
-.
-+        unsafe { bindings::drm_gem_shmem_release(this) };
-+
-+        // SAFETY:
-+        // - We verified above that `obj` is valid, which makes `this` val=
-id
-+        // - This function is set in AllocOps, so we know that `this` is c=
-ontained within a
-+        //   `Object<T>`
-+        let this =3D unsafe { container_of!(Opaque::cast_from(this), Self,=
- obj) }.cast_mut();
-+
-+        // SAFETY: We're recovering the Kbox<> we created in gem_create_ob=
-ject()
-+        let _ =3D unsafe { KBox::from_raw(this) };
-+    }
-+}
-+
-+impl<T: DriverObject> Deref for Object<T> {
-+    type Target =3D T;
-+
-+    fn deref(&self) -> &Self::Target {
-+        &self.inner
-+    }
-+}
-+
-+impl<T: DriverObject> DerefMut for Object<T> {
-+    fn deref_mut(&mut self) -> &mut Self::Target {
-+        &mut self.inner
-+    }
-+}
-+
-+impl<T: DriverObject> Sealed for Object<T> {}
-+
-+impl<T: DriverObject> gem::IntoGEMObject for Object<T> {
-+    fn as_raw(&self) -> *mut bindings::drm_gem_object {
-+        // SAFETY:
-+        // - Our immutable reference is proof that this is safe to derefer=
-ence.
-+        // - `obj` is always a valid drm_gem_shmem_object via our type inv=
-ariants.
-+        unsafe { &raw mut (*self.obj.get()).base }
-+    }
-+
-+    unsafe fn from_raw<'a>(obj: *mut bindings::drm_gem_object) -> &'a Obje=
-ct<T> {
-+        // SAFETY: The safety contract of from_gem_obj() guarantees that `=
-obj` is contained within
-+        // `Self`
-+        unsafe {
-+            let obj =3D Opaque::cast_from(container_of!(obj, bindings::drm=
-_gem_shmem_object, base));
-+
-+            &*container_of!(obj, Object<T>, obj)
-+        }
-+    }
-+}
-+
-+impl<T: DriverObject> driver::AllocImpl for Object<T> {
-+    type Driver =3D T::Driver;
-+
-+    const ALLOC_OPS: driver::AllocOps =3D driver::AllocOps {
-+        gem_create_object: None,
-+        prime_handle_to_fd: None,
-+        prime_fd_to_handle: None,
-+        gem_prime_import: None,
-+        gem_prime_import_sg_table: Some(bindings::drm_gem_shmem_prime_impo=
-rt_sg_table),
-+        dumb_create: Some(bindings::drm_gem_shmem_dumb_create),
-+        dumb_map_offset: None,
-+    };
-+}
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index e0837ffc91bf..40de00ce4f97 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -38,6 +38,7 @@
- #![feature(const_option)]
- #![feature(const_ptr_write)]
- #![feature(const_refs_to_cell)]
-+#![feature(const_refs_to_static)]
- //
- // Stable since Rust 1.84.0.
- #![feature(strict_provenance)]
+v1:
+
+This series adds dt-bindings and dtsi for CAMSS on x1e80100.
+
+The primary difference between x1e80100 and other platforms is a new VFE
+and CSID pair at version 680.
+
+Some minor driver churn will be required to support outside of the new VFE
+and CSID blocks but nothing too major.
+
+The CAMCC in this silicon requires two, not one power-domain requiring
+either this fix I've proposed here or something similar:
+
+https://lore.kernel.org/linux-arm-msm/bad60452-41b3-42fb-acba-5b7226226d2d@linaro.org/T/#t
+
+That doesn't gate adoption of the binding description though.
+
+A working tree in progress can be found here:
+https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/x1e80100-6.12-rc7+camss?ref_type=heads
+
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+Bryan O'Donoghue (7):
+      dt-bindings: media: qcom,x1e80100-camss: Add optional PHY handle definitions
+      dt-bindings: media: qcom,x1e80100-camss: Add support for combo-mode endpoints
+      dt-bindings: media: qcom,x1e80100-camss: Describe iommu entries
+      media: qcom: camss: Add support to populate sub-devices
+      media: qcom: camss: Add legacy_phy flag to SoC definition structures
+      media: qcom: camss: Add support for PHY API devices
+      media: qcom: camss: Drop legacy PHY descriptions from x1e
+
+ .../bindings/media/qcom,x1e80100-camss.yaml        | 128 ++++++++++++--
+ drivers/media/platform/qcom/camss/Kconfig          |   1 +
+ drivers/media/platform/qcom/camss/camss-csiphy.c   | 189 +++++++++++++++++++--
+ drivers/media/platform/qcom/camss/camss-csiphy.h   |   7 +
+ drivers/media/platform/qcom/camss/camss.c          | 127 ++++++++------
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 6 files changed, 374 insertions(+), 79 deletions(-)
+---
+base-commit: b11ac7d13db32d3a232e11b09491647179a2df5f
+change-id: 20250313-b4-linux-next-25-03-13-dtsi-x1e80100-camss-1506f74bbd3a
+
+Best regards,
+-- 
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
 
