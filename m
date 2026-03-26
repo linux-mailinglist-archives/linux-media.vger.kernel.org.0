@@ -1,436 +1,1401 @@
-Return-Path: <linux-media+bounces-57158-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57159-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KCd0Mp9JxWl39AQAu9opvQ
-	(envelope-from <linux-media+bounces-57158-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 15:58:39 +0100
+	id 0MJ3IoNOxWkU8wQAu9opvQ
+	(envelope-from <linux-media+bounces-57159-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 16:19:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454F73372AC
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 15:58:39 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E7A93376F5
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 16:19:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CFE7730A37B9
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 14:49:59 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 56A373068D87
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 15:01:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 950F83FFACC;
-	Thu, 26 Mar 2026 14:49:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39BD13FBEA0;
+	Thu, 26 Mar 2026 15:01:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BGzQPXxJ"
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="hq+LtoQk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085673FFAAB
-	for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 14:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774536566; cv=none; b=n3QaRhGmn0Hqf7pm6mLLUWUFDBcafZ9+soAQtGoNK4RqvflKgljy/0adw8BLs5RgXn+sjE7R7iJbQXkReSgv56G1pW1MMBP3uJdff5D3OECMI0yQ2a0rHTrG3OZoCYSUSFzjSxT0cc0q21K6enUWxJLjcvx2UEBvZ8zkAGC0Pu4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774536566; c=relaxed/simple;
-	bh=s3eHPpIMmevtACZU4/8Rv2NgKfiY6wi/fZ/Miq0U6Uo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ftO0aok/evNJm3V0Vw9z3eR7C1ccS1kbgNhAKMCF6cHql3prs5ueTkCj2TEvnwZKXbNRNSmoZbXIsTa2/inc1JwrRCeg+pKYL+VqIS8rLadFq3IXs0ruJ9fdG0bF79luhN3WlCij8JfVbs/YGeqe8wLzvvsw1ZeXJRrr1SKPdpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BGzQPXxJ; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a2885d936eso157364e87.2
-        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 07:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774536562; x=1775141362; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CNMpQGv7dZXbdCrrnUBXQzVhHThggHyeh7O8ca9pPJ0=;
-        b=BGzQPXxJhz6s+Jp/Skl5ufswJVS2b2rDxkK+YV+QXpuNOwUSspaiscOzNJvbNoB0Z5
-         DBsvO6zk5rPISJuMnolPbowlxtQKS0zFHcYfNKuBumBptIycjf+B409O8Cgp15ELaP98
-         6Gqo5Xe02xLM07FwQ+DVFxN+rfCQK/2GEQh4IkYYNRKX7WDOFw99DecSJk9J26Xnc/og
-         tnaR5i7Kg38gmVOpq9qpbdP8oYvOUvyAiGEOD4Vh7MED/cRVSxZ3Gil8yOCgGlbfog2b
-         1CsHwugp9Un/GeA/x+m04shAgh4eTRxUprr8n5tG3UvOdPkCEMhoY0boZjQSY9Fa9g19
-         scLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774536562; x=1775141362;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CNMpQGv7dZXbdCrrnUBXQzVhHThggHyeh7O8ca9pPJ0=;
-        b=YNf9U6mXIDXJd3xae3WDOISDl6lt86IyCnfvi7Gwy04ervtZrhimpYy2zrVnFKGiBN
-         beD1mmtl5XkxmNiGsXxzB0L+hNQ5qTOzOcaDsNtEPJi6NxkTn7z1433mr4++h0VfdxZx
-         k2pq0yqHFO86tJTvZJkigLwAaXqsdrwW9Gu+NQU1ustelSAesV5/+2HQOIwA5pka5+GU
-         Z0xmrN92dG3bJVAeCZYznOuIVFXKCqXSI/IYmdo1e7Aq0yf4Teym89Ea1eK+adbI4hGc
-         7mQG0CvmOUVDBdbYwWBYj2z4Xah0jvOd/GN96pjbi2ZZGyNhHYtpw9dN8ofQI9u/0+Xd
-         Oq6g==
-X-Forwarded-Encrypted: i=1; AJvYcCXMXHztru1Ej/CskImhiSGaAirdm0DfvsbKEfy16KJ5ukV5F3upq/8CxETs6kvZBWcvXHbQKgQgIAyBvw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4eYNBYHrBYzkmOm5Zzwkt+42pU05bH41dTEFqpMCx6G2duRJP
-	5rkOwfWiYkGJHQCTqY/CMyVS9WHPJQ7mMXLHx7m0VzDJKTAbNUTGqBMWW7nfuCPn2Uo=
-X-Gm-Gg: ATEYQzzlKN/sp+55CXW9YbALkyXOxx8FNa8G4cC1wKaaxDjoKOG0W/Y131R64FSGX4i
-	3ZBedPbxbBdgPbq+t6TRtrvS46xbgBlt5m/R7I8ZaF6nNs1vpvbFSxYv4G3KR5PZtHF3KNfu6H9
-	kC3tJTD54OFLEUR3WX1nyKDYbAkySOiJRGhcpSCIV7+QqcQfZ2zd/gOygRQe3rtIP7sktb0U9kI
-	xPU0g7Ww5AjZmk/cIQgfPDR5OY8S9Gha10Q/AzQlWsq7PuilqMTXOkp7883gBPRjZDqFzBQgCaM
-	1suoclpbBLmKn/7Bhuz3ACJgxqyQmDXtTczdZdKq1zUykZGSpbZ3qSogdeLfyWox2WH1VJZNRWh
-	tnUVAxxPyBgA4/sn+6iqQE4X1lVz++zuk6oH8eq2jaeuca7hKGb1mAF6EacPD2RM4wb7F3OBevi
-	80Qq9ulBe3uoUrq/CsLvZ6HjoQk4JyDwHJzESwYs2t0v6zSfZ+BbZ/cjKLf69JAV5PNd1Thu1G8
-	K5UQA==
-X-Received: by 2002:a05:6512:108b:b0:5a2:a23b:c439 with SMTP id 2adb3069b0e04-5a2a23bc4fcmr493040e87.6.1774536561581;
-        Thu, 26 Mar 2026 07:49:21 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38c52fac5fcsm5793741fa.12.2026.03.26.07.49.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2026 07:49:21 -0700 (PDT)
-Message-ID: <99287afe-90cb-44d5-91db-14c6b0f729fd@linaro.org>
-Date: Thu, 26 Mar 2026 16:49:20 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D06138F230;
+	Thu, 26 Mar 2026 15:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.238
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774537263; cv=fail; b=enY3U4WhM8MFbH2Wkn3srLhxOG1hYoX0rE1HHVWOZ+xt6VKJrBWxROxkd7409sCtTx7GHb3M9QhIbFkNoN22Tf21b+Bq0n0tbBJZKYHBRKSfsrODbL/qCeeW7MQU6G1NFlZVO9FzcsV5xph+f62ygsOVbnIRfCV8zNdX+lO/l0c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774537263; c=relaxed/simple;
+	bh=3kHBOF99TtEDhjfGUiqo9yR4ZDLfCPY0/3cnhg1hk0o=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=JmoMSP3TF8rEABj7CiVt/gRVX32Gqm5lbdAiI0n40axr/x6g7vcnKJJ3oLZ2bK1vqdTehQTmz5f3FOw2Iele0+LCnJkzr5bLRUP+Aq3LZoWn5U8pUOPiFUr5SEHdw/vKaYz9nK67rKHqGPMbh5gRUVMbSO/m7kXCGEhWbDVuBB0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=hq+LtoQk; arc=fail smtp.client-ip=205.220.166.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62QAlDK03755848;
+	Thu, 26 Mar 2026 08:00:12 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=lwsiwdOPOafNkn1i5cEuIyhlvRA2Vd6QlT9D825XvtQ=; b=
+	hq+LtoQkuIjhN9Entw4QUKGcJeuYTpCmkmRQ6nymGClBR5UlSM7ZZTW0Qy+o7qwJ
+	kzUnB3VJ7eEKpAme8sN9qMl3HSbo6TXvRXtG0ZZIB2MW8Lui27R+/UNv/X/PHo+o
+	sRyozhgLEkPpSdo4dPhg0SoXCufBuzapusjeRXiPGhyrV9YqFeuS5uHNzpHoh/mH
+	BR5GgoaoBG9a8S7wpQp1/74Iv/6Ucmi4HICs1HvZ72BdJ/SuS3lxjfHn88TlGizk
+	NRuktDbM1qF2yzQ7xmlZXuJ5/g40H8Et1GdUCLumsAXxJIwf8iOEUkpwDduQpgX4
+	py8qtwpnB4/HmrUIQdFdcQ==
+Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011057.outbound.protection.outlook.com [52.101.62.57])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4d1tucxdv8-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 26 Mar 2026 08:00:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=O7ZZ/wpklsgD2Kiqno5dgZ/GX8keB09P91eDxSyygmBbbpcVJCu2H7VK9iFO65SU+2BozQ7ACxCdceGGhZn+Qk1bw4KY8lDzRVTBGBanuUqILyX/SQxIQ4OhtvSIan2xFU/ZXm6FZbKp/WFPwXqMmjAi1nXkKXTkp5x3trEBAshJvuP8VtV0VsmGmMjW8T8DzyB1g2fUKB0ptG1M5iG+9csSTcfFAbhkNwrGLP1ewc23FkTy8M1jci5scVgGGyD+eYHowZmcbjdIZQ6U9QXnFjFBh2mRce11+gvaGOCOHeBO1idly/dGj+19eTQxnSuNEo3WABIj+erF4Y/nHcEUsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lwsiwdOPOafNkn1i5cEuIyhlvRA2Vd6QlT9D825XvtQ=;
+ b=O8Z429UwvnBAFHmPX56mAL5ob/uJRtHiRF/YSV1k9skLmclQfOGfhoGAgBqE0RCwwI1EoE3vJ3y0caEjsbX7txCS1gLGQFGiNsR7A8QDnrSBJukFZN3spIy9PpwVf7dKww7SFl1kg8mWXM3jJ++hrGF4gom4VppNtr5bDDcPHGZ5LHw7m0CCFEIn6+4m8wik/8U79RO6XpwhIMEE4iulYGuWJ9LXqv/H3RIdAPfxKpgbOvAs1TOEZEH0+pQDTJCHzsmR6C8UC2gSoeFx8wBJaQ8Gqm0YcC8eNqXw6TP4pAENXTFcdV/rkaz2cjrykmlK7XwpH1Ide/v31IWtryJkFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::53) by PH0PR11MB5781.namprd11.prod.outlook.com
+ (2603:10b6:510:14a::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Thu, 26 Mar
+ 2026 15:00:04 +0000
+Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
+ ([fe80::5f46:caa4:60d4:f669]) by DS4PPFD667CEBB6.namprd11.prod.outlook.com
+ ([fe80::5f46:caa4:60d4:f669%8]) with mapi id 15.20.9745.007; Thu, 26 Mar 2026
+ 15:00:04 +0000
+Message-ID: <bb172420-e19d-4844-bbd7-a6b6ef5dbab5@windriver.com>
+Date: Thu, 26 Mar 2026 22:59:49 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] media: i2c: ov5645: Convert to CCI register access
+ helpers
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Hans de Goede <johannes.goede@oss.qualcomm.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mehdi Djait <mehdi.djait@linux.intel.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20260326142107.297811-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20260326142107.297811-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Language: en-US
+From: xiaolei wang <xiaolei.wang@windriver.com>
+In-Reply-To: <20260326142107.297811-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2P153CA0037.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::6)
+ To DS4PPFD667CEBB6.namprd11.prod.outlook.com (2603:10b6:f:fc02::53)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
-To: Bryan O'Donoghue <bod@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Vinod Koul
- <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260326-x1e-csi2-phy-v5-0-0c0fc7f5c01b@linaro.org>
- <20260326-x1e-csi2-phy-v5-1-0c0fc7f5c01b@linaro.org>
- <72ef6c9e-feb6-4e57-b8cc-7801bd748698@linaro.org>
- <f1c8c412-1d27-4c83-8c5e-76b9369ea6e9@linaro.org>
- <VwCtoebjwHqLTucsrGruvBpedA4k-Melt7C0DA0aHSVld3PeotwZdtMUm3EFpvQyScrl6yejmLaK7bY1avT1zQ==@protonmail.internalid>
- <8ac55e5f-72ed-4331-bf42-92ccf97507dd@linaro.org>
- <5d7d5bf8-4420-4d75-b928-820bb9233e52@kernel.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <5d7d5bf8-4420-4d75-b928-820bb9233e52@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPFD667CEBB6:EE_|PH0PR11MB5781:EE_
+X-MS-Office365-Filtering-Correlation-Id: 618a439e-9cd9-4368-db6c-08de8b485c63
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|10070799003|366016|921020|56012099003|18002099003|18092099006|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	3+iAwbkm48rdQA7hfOeLL+aA6q+3r/CAotC7sYxGoPF16bK+Jv6KYxdPeW7K2X7QV4vIbKkIz9/BgXWFfYNaFQeZplQC9UO3iB/Lgb3+dVUcm7XiQwpUma7LGkaquZUB/9wQvAKBuN/hDoNEtsrZD2wqLIvoXd2ZEogPARDH6AS5htjgoamB6meEBsml+q/MJ13+ZtIMiHBLGYFF1GIUZ6emBCC5TjD2upE2K/RnaNoUnrezuKuysSM85bhxuNhe/ZxMuQTDcTwmRGJLFZjKOO1ULb8LESO+B6krzdHSnpXpicsX+TRmPaBtX2Ru+PWdChjO9PgEW3KyWWpFmCb/eqZ7wAhiWPgLnpPv9CO348ZIuyjMUD/Fp1G/vhXEAzBaLPdLcwg1tVCEP/a1akPYKqWcH4bFQZXPQ5vn7HR+yn+P9XChIhvJzzP0A3BopKRkRnP1/vh7hDqzhzMLy170OvBnjnZ+0bZ8n45KzgFswHtEQKT/iYyVbqh0B6tm6H6kZAwoT6ngAbUFq3nGADhXQRyomElKrY6y3M+fVAfrlNDQbQfNbo/PlfvKjK01wm0XspM/qkZ6zsOOrN+oELjb8F9VbOHPLfpZvQ0zTo1obTNx2dQMtl8vVKo33lOHJI1OT5P+7IXZIx1fR4Sx83CddVm1IyMxsWaAIPMPC4EM6t4cNYIfVfpwpud320u/GwmC1JSKZYgi01J/IiFqevl6fofs/9Fv6VddeQCb/mcJzakuOeJTo4VTD1uy8IuaudP7HqvefMKEoo7fNSDlWxglfA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFD667CEBB6.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(10070799003)(366016)(921020)(56012099003)(18002099003)(18092099006)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TlMybFZaNVdBYnY1bEJWcXN1YWxBWFRXbnRoYnFkM0picnFjbE9OdERpeXJN?=
+ =?utf-8?B?cjZGWnZIS2xaaG9YUmlVT3BPaUxtMjNFUnFDSE5zVnlRZFltYmkrVnU3YVVD?=
+ =?utf-8?B?Q1JGaDJDbmRScW5TcVR0WUdHV3ppVEVjT2NhNXlZajdwLzdpbmZyYUt4bHhR?=
+ =?utf-8?B?Q0xXYzI5T00zcTFiZ294SW96VlY2LzRuSlp4YnhSZk5TdDl5cnlacWhqSERS?=
+ =?utf-8?B?dVo5QWdOYUUybWJXUFpFUElYM3l6KzdDaDMzYk9lazltSmRHWHJUWS9haTJs?=
+ =?utf-8?B?QnJYZ0hONENyVHN2dmtDZnFJQ1BVQTRGRjNCclRRSnlId0kydDF4NGF0bit0?=
+ =?utf-8?B?MjlqOWJZMEt6QTFFZHVyNWxyQ3lzUGJSQ2FVcTJVZ29hOWhVNDdPdmlqZy9W?=
+ =?utf-8?B?RWY2YXkrejNkV2pZMkFRQnlBVFRCQzkvbXJGZEhmWWJhVGZYOXQwNXc4Nmdu?=
+ =?utf-8?B?azRGWHVKM2MrenpnVXlQTTNnZUk4cEVhUU9yVU0xdW5TZU1vZHMwMUxUMnk4?=
+ =?utf-8?B?ZFhKT2ZkaE84TVc5SDd2U3N0dnhqTmdaOUNhL2R5N3hldmljQXA1NlBWVGwv?=
+ =?utf-8?B?eGNaMGxsc0tROU51eDNRVGFpdDJVVUdPWGlWSGE0S2VFZzA4YTdtUnlSUjVK?=
+ =?utf-8?B?R3BJSlhVQXZEWHhVZGF3M0EvcnVqdWFwSTYyd1RNWjJRNTZBeFRTYllNbkZq?=
+ =?utf-8?B?RkU1SEFicHd4R0tIeWRkTG1OdDZCU0dhMFBuQnRhQ2w2azlpSmVzT3lyY2R6?=
+ =?utf-8?B?YmxVM0Y5RmJzKzhpU0RNYURCSk1VN1Z5NFh5Nk9NMDk5R2RzR0Jkb3k3U09p?=
+ =?utf-8?B?L2hKd1hiR01uK00rK3N6a2h2bUlEVyt5MEovZC9SblNxVFJEb1BEQ1lOM1ha?=
+ =?utf-8?B?QmN1OEdHdzhKaGxRNlBodllueks0Z3BRTUdIUjVGbVREUW81NkNVTmtRTXE3?=
+ =?utf-8?B?ZGRyWHdxZXlBVzNKM0pRSzB2WXd0ZXBCMjhNYTVEVXdQVFVOSTd4WmZLM2Nh?=
+ =?utf-8?B?Z1ZsMldEVHplSHBVdmRUSkJwV081TUdHN3p6T1F2OUt0d0pqUWJvZG1pdHh1?=
+ =?utf-8?B?M0ZFaWZxNm85VmN6RStFY2FqaU4yMU8wb0Q4MnpaMWsxQmhWd25LbFFWSFJz?=
+ =?utf-8?B?R1BRRVNKWmpjMGZmT2VRanNSdFZ5ZGR6bCtQUUJ6TzZPam1lT2hCc1FuNnRM?=
+ =?utf-8?B?cHJUQno5Ymt3KzdEMFl4THIvd20wQS85U1JUYUYySytFNDRibWtPTUxvK2pW?=
+ =?utf-8?B?S2pwK3VnWjVDMTlOeXhJUjhxL0pxMWVEM0V3TTZDREtrNHdHMEcySWN5cmkr?=
+ =?utf-8?B?cVVoZ3BPdndXaGNHSWxHbmN6dmpNem83R29sc1dXdWV5ZFJRbERuSnNYQjdM?=
+ =?utf-8?B?bng0bllrQWdKbWp3eXZ1NTFVM0FlNEdBNFR0cko0cy9qL0pNTnRYOUo4elJw?=
+ =?utf-8?B?NXVEaE5XaTVUMit0Sm1RdmxlM2JOeUxXcFVRdnFSVUdINTVWM0hhZktpQnlo?=
+ =?utf-8?B?Yk9CQ0JhTmd4RSsraW1XYXBXQTk4ZWIxM0lRa3czeTFiNGNWYWZ2UzJSeHpE?=
+ =?utf-8?B?WTBJSk55R3JRbnM5d3RHN09mbEk4SlBCZ3lpYmt6dDFjOTlrMWVCRUpTdFl3?=
+ =?utf-8?B?SWtXNDIxam9RRTZJa1UvQUpnQitMZU5XSDVUMGlQOVNyY0VWQXFGcUIyemsr?=
+ =?utf-8?B?YUtGbUptUDVIOHd3bHJSZ0FqMjVqV0JoZWtmN2crY09reXIzKzRvTXFVa05j?=
+ =?utf-8?B?b1l3cFdqWVdQV0tSVlVDSVlCOGgyYTFoRHZtWC9hYkZEeGJPWlI3QzFSZU1C?=
+ =?utf-8?B?TnowS2xRcW53RHQxRGQyUDJwYm9qZFBNV2VjejZhWVFPbmxwanRuY2Uxd3dm?=
+ =?utf-8?B?K05CZ2JCKzZEdmIzUEJJY1ZQeGRDQjZ1NGhxUDdaekF6T0NIMmxISnhwMEVT?=
+ =?utf-8?B?b29qcmlFMFFFM2pzcHppVEp3b2dCMnl5K1pHRjNDWjBHTlk5elgxZi85dlRa?=
+ =?utf-8?B?czJBdmIrZHcwT2JiQzBmV1VRVnpYQlluOVhOOG9pTHRxLzJNbXVJMjhsUkZF?=
+ =?utf-8?B?dUJ0RnNVbGhpZUtTaVd4SmpjQ0VMaXpGZ2t4NUpHTTh0MytOVlQ3bmo0cWkx?=
+ =?utf-8?B?U05vdEQ3eWJCVGd0d2k3YXZiSVB0TmwzdUErSjBzd29EaVl2dTAvaHNxa2Vm?=
+ =?utf-8?B?OStkeFR6ajI3Q2txbThwTDJJM1RRRkU4TU1WT1JkSEJnL1F0eHduRG85OG9S?=
+ =?utf-8?B?VE81VExrR2RqOFVuTmdBVFhISGh3ZHRYL3ozVWlMRVlBZTZ1eEMxMGZxeFlQ?=
+ =?utf-8?B?S09oUW1teHYyaUxkV05LUllvcEZoQldTNTVJN0IxcXp4b0g3cUdrZ1dsWVQw?=
+ =?utf-8?Q?m92d6yophsEqNd/XpiQ2JciDZMcohrF6cX+5u4OVY6gCh?=
+X-MS-Exchange-AntiSpam-MessageData-1: wlQNeNRljbnr5BXr5rlpCxq1dw1Jn79nFYQ=
+X-Exchange-RoutingPolicyChecked:
+	IH3r5B/l6Olo1sG1IzrOcbTnLjOEPQRcse5TKV1AH134Co6r5kqGJLVehVaYEdqyTAUmVp58umw2rGt4MC0v79bM9/JbFBSfdyZCcONtbILtyTeUDdzd7sBraudZStVFJ1PWqRzBRmA5dgUu/GHdycgmpGzMphK/j40HYa/fHGgLn60oTGUXJcPcTnxrhXVfjbWKxVDrZ9+Bb7BnS1iRF/5BIDLZi0/COOySSuMjFhdwK6dOY1yI8lcZmiFB/NWcPZ4Yn14xP1dbQxEyHOihK/4H8TmsTQiQUMRC3hK4Emio8dXSqOB6l3YSXswhErK9Q9XtPbW8SNhY8w1HF61u0w==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 618a439e-9cd9-4368-db6c-08de8b485c63
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPFD667CEBB6.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 15:00:04.4257
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ePYSh1rCsmjjZLi3Dhbs/5mpTyvQFpcKigLnzV8KW/D9EbHvIlVpGRc+4+DElytO7YkSiBBpjmDTb7m91VVCg7LzIxAscslcv6dO+EQkEMs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5781
+X-Proofpoint-GUID: YGed9JMtsbOV9hB8PQVnBUw1jomh6Hae
+X-Proofpoint-ORIG-GUID: YGed9JMtsbOV9hB8PQVnBUw1jomh6Hae
+X-Authority-Analysis: v=2.4 cv=deCNHHXe c=1 sm=1 tr=0 ts=69c549fc cx=c_pps
+ a=aQYToRbhQZUme44wGBfxuw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
+ a=yC-0_ovQAAAA:8 a=fmOElCpjytO-HW3pjo8A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI2MDEwNiBTYWx0ZWRfXz78lsrih4Hiu
+ hDCjDaLVhNr1/4fs5irXXLWGvBIqeibbTAc9GZkXOP2C47345YzM5AZT9Bm3FVBt8k3HDOzO7OC
+ UfDENt1YcKBJEJEgZS+qJc5gw0M+CvDE7h4Jlc1D3tihWizhVqfSg9SotI/stpdCQQEQeat3iaq
+ kU7UfaEQrjswsVmh+cxyYU/UhjOirawwMTyzZCDiRYwbFvgC7BFxUKvDl6jjKNLWg01+G2LS7o5
+ w+KFaRkhfq+AYNNeYg5Dai97kVZ87MkhC9wZZPehX1/cK4aMCmxhRLFvgjec7Mv+U1I51EJ9v9l
+ bVgpy6kDQgRv5SHJjBoOjzv08M3DlECUjp9vfvURRKDvO/Gsf95478GhewfuoJLO85kSAW0Ra9B
+ fPaAzdZiceChsCkEZLf+MPpSg8NyQDU4XNZ1Y5c++yo0arriygHWURt0JOlIiQUFOdaetnzP/Hd
+ umYzbpmAZ/04TXWMjGg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-26_03,2026-03-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 malwarescore=0 spamscore=0 phishscore=0 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603260106
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[windriver.com,reject];
+	R_DKIM_ALLOW(-0.20)[windriver.com:s=PPS06212021];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	TAGGED_FROM(0.00)[bounces-57158-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57159-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linux.intel.com,oss.qualcomm.com,ideasonboard.com,linaro.org,foss.st.com,siliconsignals.io];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[windriver.com:dkim,windriver.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,renesas.com:email];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[xiaolei.wang@windriver.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[windriver.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 454F73372AC
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 2E7A93376F5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/26/26 16:42, Bryan O'Donoghue wrote:
-> On 26/03/2026 10:28, Vladimir Zapolskiy wrote:
->> On 3/26/26 04:03, Bryan O'Donoghue wrote:
->>> On 26/03/2026 01:46, Vladimir Zapolskiy wrote:
->>>> On 3/26/26 03:04, Bryan O'Donoghue wrote:
->>>>> Add a base schema initially compatible with x1e80100 to describe MIPI
->>>>> CSI2
->>>>> PHY devices.
->>>>>
->>>>> The hardware can support both CPHY, DPHY and a special split-mode
->>>>> DPHY. We
->>>>> capture those modes as:
->>>>>
->>>>> - PHY_QCOM_CSI2_MODE_DPHY
->>>>> - PHY_QCOM_CSI2_MODE_CPHY
->>>>> - PHY_QCOM_CSI2_MODE_SPLIT_DPHY
->>>>
->>>> Distinction between PHY_QCOM_CSI2_MODE_DPHY and
->>>> PHY_QCOM_CSI2_MODE_SPLIT_DPHY
->>>> is
->>>> 1) insufficient in just this simplistic form, because the assignment of
->>>> particular lanes is also needed,
->>>> 2) and under the assumption that the lane mapping is set somewhere else,
->>>> then
->>>> there should be no difference between PHY_QCOM_CSI2_MODE_{DPHY,SPLIT_DPHY},
->>>> it's just DPHY, and the subtype is deductible from data-lanes property on
->>>> the consumer side.
->>>>
->>>> So far the rationale is unclear, why anything above regular PHY_TYPE_DPHY
->>>> and PHY_TYPE_CPHY is needed here, those two are sufficient.
->>>
->>> Because knowing the split-mode exists and that you have asked about how
->>> such a thing would be supported, I thought about how to represent that
->>> mode right from the start, even if we don't support it.
->>
->> It is good to think about this hardware confguration in advance, however
->> the process of describing such hardware setup is incomplete.
->>
->>>
->>> To support split phy we will need to pass the parameter.
->>
->> What you call "split phy" is a DPHY, and "split phy" can not be supported
->> by adding this parameter, because it does not provide information about
->> lanes, and after removing this information it is just DPHY.
-> 
-> That's just not true. If you read the camx source code you can see
-> split/combo mode 2+1 1+1 data/clock mode requires special programming of
-> the PHY to support.
+Hi Prabhakar,
 
-Please do not reduce the upraised problem of proper hardware description
-to some particular realisation in camx, this is irrelevant.
+On 3/26/26 22:21, Prabhakar wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+>
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Convert the ov5645 driver to use the V4L2 CCI register access helpers
+> and regmap infrastructure instead of the custom I2C register access
+> implementation.
+>
+> Keep ov5645_set_register_array() as ov5645_global_init_setting requires
+> a delay between specific register writes, which cannot be expressed
+> through the generic CCI multi-write helper.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>   drivers/media/i2c/Kconfig  |   1 +
+>   drivers/media/i2c/ov5645.c | 901 ++++++++++++++++++-------------------
+>   2 files changed, 429 insertions(+), 473 deletions(-)
+>
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 20482be35f26..921186d36589 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -526,6 +526,7 @@ config VIDEO_OV5640
+>          tristate "OmniVision OV5640 sensor support"
+>          depends on OF
+>          depends on GPIOLIB
+> +       select V4L2_CCI_I2C
 
-Here the description of hardware is done, and my point is that the new
-PHY_QCOM_CSI2_MODE_SPLIT_DPHY phy type is simply not needed, since it's
-possible to give a proper description of hardware without this invention.
+The V4L2_CCI_I2C select option seems to have been placed here on the OV5640.
 
-> https://review.lineageos.org/c/LineageOS/android_kernel_motorola_sm6375/+/423960/1/drivers/cam_sensor_module/cam_csiphy/cam_csiphy_core.c#b285
-> 
-> There is disjunction all over this file depending on the mode.
-> 
-> https://review.lineageos.org/c/LineageOS/android_kernel_motorola_sm6375/+/423960/1/drivers/cam_sensor_module/cam_csiphy/cam_csiphy_core.c#b767
-> 
-> And besides, think about it - you need different init sequences if one
-> of the lanes is clock instead of data...
-> 
-> If we use phy.h::PHY_TYPE_DPHY then that means to support split-mode in
-> the future we need to get that mode represented in phy.h - but really
-> this fixed split mode isn't a generic CSI2 PHY mode, its a Qualcommism.
-> 
-> Nothing wrong with that - but then the mode should reflect the fact it
-> is vendor specific and we absolutely 100% have to do different things in
-> the PHY driver whether we are in regular DPHY mode or in split DPHY mode.
-> 
-> If we use PHY_TYPE_DPHY as I did in the previous patch then we can't
-> convert to a vendor type later on as its an ABI break.
-> 
-> So we have both a sound technical reason hardware will require it to
-> differentiate between DPHY and split-mode DPHY - and we also don't want
-> to be bound to phy.h and then try to upstream a new DPHY_SPLIT_MODE here
-> which a reviewer might reasonably say "why is this special mode from a
-> specific vendor driving new defines in a shared file"
-> 
->>
->>> So we define those parameters upfront.
->>
->> This new header file has to be removed, it does not bring anything valuable.
->>
->>>>
->>>>>
->>>>> The CSIPHY devices have their own pinouts on the SoC as well as their own
->>>>> individual voltage rails.
->>>>>
->>>>> The need to model voltage rails on a per-PHY basis leads us to define
->>>>> CSIPHY devices as individual nodes.
->>>>>
->>>>> Two nice outcomes in terms of schema and DT arise from this change.
->>>>>
->>>>> 1. The ability to define on a per-PHY basis voltage rails.
->>>>> 2. The ability to require those voltage.
->>>>>
->>>>> We have had a complete bodge upstream for this where a single set of
->>>>> voltage rail for all CSIPHYs has been buried inside of CAMSS.
->>>>>
->>>>> Much like the I2C bus which is dedicated to Camera sensors - the CCI
->>>>> bus in
->>>>> CAMSS parlance, the CSIPHY devices should be individually modelled.
->>>>>
->>>>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>>>> ---
->>>>>      .../bindings/phy/qcom,x1e80100-csi2-phy.yaml       | 130 +++++++++++
->>>>> ++++++++++
->>>>>      include/dt-bindings/phy/phy-qcom-mipi-csi2.h       |  15 +++
->>>>>      2 files changed, 145 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-
->>>>> phy.yaml b/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-
->>>>> phy.yaml
->>>>> new file mode 100644
->>>>> index 0000000000000..63114151104b4
->>>>> --- /dev/null
->>>>> +++ b/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml
->>>>> @@ -0,0 +1,130 @@
->>>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>>>> +%YAML 1.2
->>>>> +---
->>>>> +$id: http://devicetree.org/schemas/phy/qcom,x1e80100-csi2-phy.yaml#
->>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>> +
->>>>> +title: Qualcomm CSI2 PHY
->>>>> +
->>>>> +maintainers:
->>>>> +  - Bryan O'Donoghue <bod@kernel.org>
->>>>> +
->>>>> +description:
->>>>> +  Qualcomm MIPI CSI2 C-PHY/D-PHY combination PHY. Connects MIPI CSI2
->>>>> sensors
->>>>> +  to Qualcomm's Camera CSI Decoder. The PHY supports both C-PHY and
->>>>> D-PHY
->>>>> +  modes.
->>>>> +
->>>>> +properties:
->>>>> +  compatible:
->>>>> +    const: qcom,x1e80100-csi2-phy
->>>>> +
->>>>> +  reg:
->>>>> +    maxItems: 1
->>>>> +
->>>>> +  "#phy-cells":
->>>>> +    const: 1
->>>>> +    description:
->>>>> +      The single cell specifies the PHY operating mode.
->>>>> +      See include/dt-bindings/phy/phy-qcom-mipi-csi2.h for valid values.
->>>>
->>>> include/dt-bindings/phy/phy.h should be good enough as it's stated above.
->>>
->>> While include/dt-bindings/phy/phy.h provides generic definitions for
->>> D-PHY and C-PHY, it does not contain a definition for Qualcomm's
->>> proprietary Split D-PHY mode. Because this hardware supports a
->>
->> What Qualcomm's proprietary Split D-PHY mode is manifested by lane mapping,
->> there is no need to introduce another PHY mode, it is DPHY.
->>
->>> vendor-specific operating mode, introducing a vendor-specific header to
->>> define that state is necessary.
->>>
->>> This is exactly what we do with the QMP to support a similar use-case -
->>> the PHYs do vendor specific things, so we use vendor specific defines.
->>>
->>> If we lock to phy.h CPHY/DPHY only then we exclude the possibility of
->>> say adding split-mode to an upstream SoC as the DT ABI will not then
->>> facilitate the mode.
->>>
->>>>
->>>>> +
->>>>> +  clocks:
->>>>> +    maxItems: 2
->>>>> +
->>>>> +  clock-names:
->>>>> +    items:
->>>>> +      - const: core
->>>>> +      - const: timer
->>>>> +
->>>>> +  interrupts:
->>>>> +    maxItems: 1
->>>>> +
->>>>> +  operating-points-v2:
->>>>> +    maxItems: 1
->>>>> +
->>>>> +  power-domains:
->>>>> +    items:
->>>>> +      - description: MXC or MXA voltage rail
->>>>> +      - description: MMCX voltage rail
->>>>> +
->>>>> +  power-domain-names:
->>>>> +    items:
->>>>> +      - const: mx
->>>>> +      - const: mmcx
->>>>> +
->>>>> +  vdda-0p9-supply:
->>>>> +    description: Phandle to a 0.9V regulator supply to a PHY.
->>>>> +
->>>>> +  vdda-1p2-supply:
->>>>> +    description: Phandle to 1.2V regulator supply to a PHY.
->>>>> +
->>>>> +required:
->>>>> +  - compatible
->>>>> +  - reg
->>>>> +  - "#phy-cells"
->>>>> +  - clocks
->>>>> +  - clock-names
->>>>> +  - interrupts
->>>>> +  - operating-points-v2
->>>>> +  - power-domains
->>>>> +  - power-domain-names
->>>>> +  - vdda-0p9-supply
->>>>> +  - vdda-1p2-supply
->>>>> +
->>>>> +additionalProperties: false
->>>>> +
->>>>> +examples:
->>>>> +  - |
->>>>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->>>>> +    #include <dt-bindings/clock/qcom,x1e80100-camcc.h>
->>>>> +    #include <dt-bindings/clock/qcom,x1e80100-gcc.h>
->>>>> +    #include <dt-bindings/phy/phy-qcom-mipi-csi2.h>
->>>>> +    #include <dt-bindings/power/qcom,rpmhpd.h>
->>>>> +
->>>>> +    csiphy4: csiphy@ace4000 {
->>>>> +        compatible = "qcom,x1e80100-csi2-phy";
->>>>> +        reg = <0x0ace4000 0x2000>;
->>>>> +        #phy-cells = <1>;
->>>>> +
->>>>> +        clocks = <&camcc CAM_CC_CSIPHY0_CLK>,
->>>>> +                 <&camcc CAM_CC_CSI0PHYTIMER_CLK>;
->>>>> +        clock-names = "core",
->>>>> +                      "timer";
->>>>> +
->>>>> +        operating-points-v2 = <&csiphy_opp_table>;
->>>>> +
->>>>> +        interrupts = <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>;
->>>>> +
->>>>> +        power-domains = <&rpmhpd RPMHPD_MX>,
->>>>> +                        <&rpmhpd RPMHPD_MMCX>;
->>>>> +        power-domain-names = "mx",
->>>>> +                             "mmcx";
->>>>> +
->>>>> +        vdda-0p9-supply = <&vreg_l2c_0p8>;
->>>>> +        vdda-1p2-supply = <&vreg_l1c_1p2>;
->>>>> +    };
->>>>> +
->>>>> +    csiphy_opp_table: opp-table {
->>>>> +        compatible = "operating-points-v2";
->>>>> +
->>>>> +        opp-300000000 {
->>>>> +            opp-hz = /bits/ 64 <300000000>;
->>>>> +            required-opps = <&rpmhpd_opp_low_svs_d1>,
->>>>> +                            <&rpmhpd_opp_low_svs_d1>;
->>>>> +        };
->>>>> +
->>>>> +        opp-400000000 {
->>>>> +            opp-hz = /bits/ 64 <400000000>;
->>>>> +            required-opps = <&rpmhpd_opp_low_svs>,
->>>>> +                            <&rpmhpd_opp_low_svs>;
->>>>> +        };
->>>>> +
->>>>> +        opp-480000000 {
->>>>> +            opp-hz = /bits/ 64 <480000000>;
->>>>> +            required-opps = <&rpmhpd_opp_low_svs>,
->>>>> +                            <&rpmhpd_opp_low_svs>;
->>>>> +        };
->>>>> +    };
->>>>> +
->>>>> +    isp@acb7000 {
->>>>> +        phys = <&csiphy4 PHY_QCOM_CSI2_MODE_DPHY>;
->>>>> +    };
->>>>
->>>> This example is incomplete in sense that it does not include CAMSS
->>>> CSIPHY IP hardware configuration in whole.
->>>
->>>
->>> No that's not the way examples work. You don't replicate entire nodes
->>> from other schemas you just give a terse reference.
->>>
->>
->> If so, then this example makes no sense and it'd be better to remove it.
-> You know you're right its not strictly necessary - its just there to be
-> helpful.
-> 
-> "Be less helpful" is not usually review feedback I give or take but,
-> I'll drop this anyway.
-> 
+thanks
 
-Thank you.
+xiaolei
 
--- 
-Best wishes,
-Vladimir
+>          help
+>            This is a Video4Linux2 sensor driver for the Omnivision
+>            OV5640 camera sensor with a MIPI CSI-2 interface.
+> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+> index df9001fce44d..04097289e119 100644
+> --- a/drivers/media/i2c/ov5645.c
+> +++ b/drivers/media/i2c/ov5645.c
+> @@ -25,40 +25,42 @@
+>   #include <linux/of.h>
+>   #include <linux/of_graph.h>
+>   #include <linux/pm_runtime.h>
+> +#include <linux/regmap.h>
+>   #include <linux/regulator/consumer.h>
+>   #include <linux/slab.h>
+>   #include <linux/types.h>
+>   #include <media/mipi-csi2.h>
+> +#include <media/v4l2-cci.h>
+>   #include <media/v4l2-ctrls.h>
+>   #include <media/v4l2-fwnode.h>
+>   #include <media/v4l2-subdev.h>
+>
+> -#define OV5645_SYSTEM_CTRL0            0x3008
+> +#define OV5645_SYSTEM_CTRL0            CCI_REG8(0x3008)
+>   #define                OV5645_SYSTEM_CTRL0_START       0x02
+>   #define                OV5645_SYSTEM_CTRL0_STOP        0x42
+> -#define OV5645_CHIP_ID_HIGH            0x300a
+> +#define OV5645_CHIP_ID_HIGH            CCI_REG8(0x300a)
+>   #define                OV5645_CHIP_ID_HIGH_BYTE        0x56
+> -#define OV5645_CHIP_ID_LOW             0x300b
+> +#define OV5645_CHIP_ID_LOW             CCI_REG8(0x300b)
+>   #define                OV5645_CHIP_ID_LOW_BYTE         0x45
+> -#define OV5645_IO_MIPI_CTRL00          0x300e
+> -#define OV5645_PAD_OUTPUT00            0x3019
+> -#define OV5645_AWB_MANUAL_CONTROL      0x3406
+> +#define OV5645_IO_MIPI_CTRL00          CCI_REG8(0x300e)
+> +#define OV5645_PAD_OUTPUT00            CCI_REG8(0x3019)
+> +#define OV5645_AWB_MANUAL_CONTROL      CCI_REG8(0x3406)
+>   #define                OV5645_AWB_MANUAL_ENABLE        BIT(0)
+> -#define OV5645_AEC_PK_MANUAL           0x3503
+> +#define OV5645_AEC_PK_MANUAL           CCI_REG8(0x3503)
+>   #define                OV5645_AEC_MANUAL_ENABLE        BIT(0)
+>   #define                OV5645_AGC_MANUAL_ENABLE        BIT(1)
+> -#define OV5645_TIMING_TC_REG20         0x3820
+> +#define OV5645_TIMING_TC_REG20         CCI_REG8(0x3820)
+>   #define                OV5645_SENSOR_VFLIP             BIT(1)
+>   #define                OV5645_ISP_VFLIP                BIT(2)
+> -#define OV5645_TIMING_TC_REG21         0x3821
+> +#define OV5645_TIMING_TC_REG21         CCI_REG8(0x3821)
+>   #define                OV5645_SENSOR_MIRROR            BIT(1)
+> -#define OV5645_MIPI_CTRL00             0x4800
+> -#define OV5645_PRE_ISP_TEST_SETTING_1  0x503d
+> +#define OV5645_MIPI_CTRL00             CCI_REG8(0x4800)
+> +#define OV5645_PRE_ISP_TEST_SETTING_1  CCI_REG8(0x503d)
+>   #define                OV5645_TEST_PATTERN_MASK        0x3
+>   #define                OV5645_SET_TEST_PATTERN(x)      ((x) & OV5645_TEST_PATTERN_MASK)
+>   #define                OV5645_TEST_PATTERN_ENABLE      BIT(7)
+> -#define OV5645_SDE_SAT_U               0x5583
+> -#define OV5645_SDE_SAT_V               0x5584
+> +#define OV5645_SDE_SAT_U               CCI_REG8(0x5583)
+> +#define OV5645_SDE_SAT_V               CCI_REG8(0x5584)
+>
+>   /* regulator supplies */
+>   static const char * const ov5645_supply_name[] = {
+> @@ -71,15 +73,10 @@ static const char * const ov5645_supply_name[] = {
+>
+>   #define OV5645_PAD_SOURCE      0
+>
+> -struct reg_value {
+> -       u16 reg;
+> -       u8 val;
+> -};
+> -
+>   struct ov5645_mode_info {
+>          u32 width;
+>          u32 height;
+> -       const struct reg_value *data;
+> +       const struct cci_reg_sequence *data;
+>          u32 data_size;
+>          u32 pixel_clock;
+>          u32 link_freq;
+> @@ -88,6 +85,7 @@ struct ov5645_mode_info {
+>   struct ov5645 {
+>          struct i2c_client *i2c_client;
+>          struct device *dev;
+> +       struct regmap *regmap;
+>          struct v4l2_subdev sd;
+>          struct media_pad pad;
+>          struct v4l2_fwnode_endpoint ep;
+> @@ -103,9 +101,9 @@ struct ov5645 {
+>          struct v4l2_ctrl *link_freq;
+>
+>          /* Cached register values */
+> -       u8 aec_pk_manual;
+> -       u8 timing_tc_reg20;
+> -       u8 timing_tc_reg21;
+> +       u64 aec_pk_manual;
+> +       u64 timing_tc_reg20;
+> +       u64 timing_tc_reg21;
+>
+>          struct gpio_desc *enable_gpio;
+>          struct gpio_desc *rst_gpio;
+> @@ -116,393 +114,393 @@ static inline struct ov5645 *to_ov5645(struct v4l2_subdev *sd)
+>          return container_of(sd, struct ov5645, sd);
+>   }
+>
+> -static const struct reg_value ov5645_global_init_setting[] = {
+> -       { 0x3103, 0x11 },
+> -       { 0x3008, 0x42 },
+> -       { 0x3103, 0x03 },
+> -       { 0x3503, 0x07 },
+> -       { 0x3002, 0x1c },
+> -       { 0x3006, 0xc3 },
+> -       { 0x3017, 0x00 },
+> -       { 0x3018, 0x00 },
+> -       { 0x302e, 0x0b },
+> -       { 0x3037, 0x13 },
+> -       { 0x3108, 0x01 },
+> -       { 0x3611, 0x06 },
+> -       { 0x3500, 0x00 },
+> -       { 0x3501, 0x01 },
+> -       { 0x3502, 0x00 },
+> -       { 0x350a, 0x00 },
+> -       { 0x350b, 0x3f },
+> -       { 0x3620, 0x33 },
+> -       { 0x3621, 0xe0 },
+> -       { 0x3622, 0x01 },
+> -       { 0x3630, 0x2e },
+> -       { 0x3631, 0x00 },
+> -       { 0x3632, 0x32 },
+> -       { 0x3633, 0x52 },
+> -       { 0x3634, 0x70 },
+> -       { 0x3635, 0x13 },
+> -       { 0x3636, 0x03 },
+> -       { 0x3703, 0x5a },
+> -       { 0x3704, 0xa0 },
+> -       { 0x3705, 0x1a },
+> -       { 0x3709, 0x12 },
+> -       { 0x370b, 0x61 },
+> -       { 0x370f, 0x10 },
+> -       { 0x3715, 0x78 },
+> -       { 0x3717, 0x01 },
+> -       { 0x371b, 0x20 },
+> -       { 0x3731, 0x12 },
+> -       { 0x3901, 0x0a },
+> -       { 0x3905, 0x02 },
+> -       { 0x3906, 0x10 },
+> -       { 0x3719, 0x86 },
+> -       { 0x3810, 0x00 },
+> -       { 0x3811, 0x10 },
+> -       { 0x3812, 0x00 },
+> -       { 0x3821, 0x01 },
+> -       { 0x3824, 0x01 },
+> -       { 0x3826, 0x03 },
+> -       { 0x3828, 0x08 },
+> -       { 0x3a19, 0xf8 },
+> -       { 0x3c01, 0x34 },
+> -       { 0x3c04, 0x28 },
+> -       { 0x3c05, 0x98 },
+> -       { 0x3c07, 0x07 },
+> -       { 0x3c09, 0xc2 },
+> -       { 0x3c0a, 0x9c },
+> -       { 0x3c0b, 0x40 },
+> -       { 0x3c01, 0x34 },
+> -       { 0x4001, 0x02 },
+> -       { 0x4514, 0x00 },
+> -       { 0x4520, 0xb0 },
+> -       { 0x460b, 0x37 },
+> -       { 0x460c, 0x20 },
+> -       { 0x4818, 0x01 },
+> -       { 0x481d, 0xf0 },
+> -       { 0x481f, 0x50 },
+> -       { 0x4823, 0x70 },
+> -       { 0x4831, 0x14 },
+> -       { 0x5000, 0xa7 },
+> -       { 0x5001, 0x83 },
+> -       { 0x501d, 0x00 },
+> -       { 0x501f, 0x00 },
+> -       { 0x503d, 0x00 },
+> -       { 0x505c, 0x30 },
+> -       { 0x5181, 0x59 },
+> -       { 0x5183, 0x00 },
+> -       { 0x5191, 0xf0 },
+> -       { 0x5192, 0x03 },
+> -       { 0x5684, 0x10 },
+> -       { 0x5685, 0xa0 },
+> -       { 0x5686, 0x0c },
+> -       { 0x5687, 0x78 },
+> -       { 0x5a00, 0x08 },
+> -       { 0x5a21, 0x00 },
+> -       { 0x5a24, 0x00 },
+> -       { 0x3008, 0x02 },
+> -       { 0x3503, 0x00 },
+> -       { 0x5180, 0xff },
+> -       { 0x5181, 0xf2 },
+> -       { 0x5182, 0x00 },
+> -       { 0x5183, 0x14 },
+> -       { 0x5184, 0x25 },
+> -       { 0x5185, 0x24 },
+> -       { 0x5186, 0x09 },
+> -       { 0x5187, 0x09 },
+> -       { 0x5188, 0x0a },
+> -       { 0x5189, 0x75 },
+> -       { 0x518a, 0x52 },
+> -       { 0x518b, 0xea },
+> -       { 0x518c, 0xa8 },
+> -       { 0x518d, 0x42 },
+> -       { 0x518e, 0x38 },
+> -       { 0x518f, 0x56 },
+> -       { 0x5190, 0x42 },
+> -       { 0x5191, 0xf8 },
+> -       { 0x5192, 0x04 },
+> -       { 0x5193, 0x70 },
+> -       { 0x5194, 0xf0 },
+> -       { 0x5195, 0xf0 },
+> -       { 0x5196, 0x03 },
+> -       { 0x5197, 0x01 },
+> -       { 0x5198, 0x04 },
+> -       { 0x5199, 0x12 },
+> -       { 0x519a, 0x04 },
+> -       { 0x519b, 0x00 },
+> -       { 0x519c, 0x06 },
+> -       { 0x519d, 0x82 },
+> -       { 0x519e, 0x38 },
+> -       { 0x5381, 0x1e },
+> -       { 0x5382, 0x5b },
+> -       { 0x5383, 0x08 },
+> -       { 0x5384, 0x0a },
+> -       { 0x5385, 0x7e },
+> -       { 0x5386, 0x88 },
+> -       { 0x5387, 0x7c },
+> -       { 0x5388, 0x6c },
+> -       { 0x5389, 0x10 },
+> -       { 0x538a, 0x01 },
+> -       { 0x538b, 0x98 },
+> -       { 0x5300, 0x08 },
+> -       { 0x5301, 0x30 },
+> -       { 0x5302, 0x10 },
+> -       { 0x5303, 0x00 },
+> -       { 0x5304, 0x08 },
+> -       { 0x5305, 0x30 },
+> -       { 0x5306, 0x08 },
+> -       { 0x5307, 0x16 },
+> -       { 0x5309, 0x08 },
+> -       { 0x530a, 0x30 },
+> -       { 0x530b, 0x04 },
+> -       { 0x530c, 0x06 },
+> -       { 0x5480, 0x01 },
+> -       { 0x5481, 0x08 },
+> -       { 0x5482, 0x14 },
+> -       { 0x5483, 0x28 },
+> -       { 0x5484, 0x51 },
+> -       { 0x5485, 0x65 },
+> -       { 0x5486, 0x71 },
+> -       { 0x5487, 0x7d },
+> -       { 0x5488, 0x87 },
+> -       { 0x5489, 0x91 },
+> -       { 0x548a, 0x9a },
+> -       { 0x548b, 0xaa },
+> -       { 0x548c, 0xb8 },
+> -       { 0x548d, 0xcd },
+> -       { 0x548e, 0xdd },
+> -       { 0x548f, 0xea },
+> -       { 0x5490, 0x1d },
+> -       { 0x5580, 0x02 },
+> -       { 0x5583, 0x40 },
+> -       { 0x5584, 0x10 },
+> -       { 0x5589, 0x10 },
+> -       { 0x558a, 0x00 },
+> -       { 0x558b, 0xf8 },
+> -       { 0x5800, 0x3f },
+> -       { 0x5801, 0x16 },
+> -       { 0x5802, 0x0e },
+> -       { 0x5803, 0x0d },
+> -       { 0x5804, 0x17 },
+> -       { 0x5805, 0x3f },
+> -       { 0x5806, 0x0b },
+> -       { 0x5807, 0x06 },
+> -       { 0x5808, 0x04 },
+> -       { 0x5809, 0x04 },
+> -       { 0x580a, 0x06 },
+> -       { 0x580b, 0x0b },
+> -       { 0x580c, 0x09 },
+> -       { 0x580d, 0x03 },
+> -       { 0x580e, 0x00 },
+> -       { 0x580f, 0x00 },
+> -       { 0x5810, 0x03 },
+> -       { 0x5811, 0x08 },
+> -       { 0x5812, 0x0a },
+> -       { 0x5813, 0x03 },
+> -       { 0x5814, 0x00 },
+> -       { 0x5815, 0x00 },
+> -       { 0x5816, 0x04 },
+> -       { 0x5817, 0x09 },
+> -       { 0x5818, 0x0f },
+> -       { 0x5819, 0x08 },
+> -       { 0x581a, 0x06 },
+> -       { 0x581b, 0x06 },
+> -       { 0x581c, 0x08 },
+> -       { 0x581d, 0x0c },
+> -       { 0x581e, 0x3f },
+> -       { 0x581f, 0x1e },
+> -       { 0x5820, 0x12 },
+> -       { 0x5821, 0x13 },
+> -       { 0x5822, 0x21 },
+> -       { 0x5823, 0x3f },
+> -       { 0x5824, 0x68 },
+> -       { 0x5825, 0x28 },
+> -       { 0x5826, 0x2c },
+> -       { 0x5827, 0x28 },
+> -       { 0x5828, 0x08 },
+> -       { 0x5829, 0x48 },
+> -       { 0x582a, 0x64 },
+> -       { 0x582b, 0x62 },
+> -       { 0x582c, 0x64 },
+> -       { 0x582d, 0x28 },
+> -       { 0x582e, 0x46 },
+> -       { 0x582f, 0x62 },
+> -       { 0x5830, 0x60 },
+> -       { 0x5831, 0x62 },
+> -       { 0x5832, 0x26 },
+> -       { 0x5833, 0x48 },
+> -       { 0x5834, 0x66 },
+> -       { 0x5835, 0x44 },
+> -       { 0x5836, 0x64 },
+> -       { 0x5837, 0x28 },
+> -       { 0x5838, 0x66 },
+> -       { 0x5839, 0x48 },
+> -       { 0x583a, 0x2c },
+> -       { 0x583b, 0x28 },
+> -       { 0x583c, 0x26 },
+> -       { 0x583d, 0xae },
+> -       { 0x5025, 0x00 },
+> -       { 0x3a0f, 0x30 },
+> -       { 0x3a10, 0x28 },
+> -       { 0x3a1b, 0x30 },
+> -       { 0x3a1e, 0x26 },
+> -       { 0x3a11, 0x60 },
+> -       { 0x3a1f, 0x14 },
+> -       { 0x0601, 0x02 },
+> -       { 0x3008, 0x42 },
+> -       { 0x3008, 0x02 },
+> +static const struct cci_reg_sequence ov5645_global_init_setting[] = {
+> +       { CCI_REG8(0x3103), 0x11 },
+> +       { CCI_REG8(0x3008), 0x42 },
+> +       { CCI_REG8(0x3103), 0x03 },
+> +       { CCI_REG8(0x3503), 0x07 },
+> +       { CCI_REG8(0x3002), 0x1c },
+> +       { CCI_REG8(0x3006), 0xc3 },
+> +       { CCI_REG8(0x3017), 0x00 },
+> +       { CCI_REG8(0x3018), 0x00 },
+> +       { CCI_REG8(0x302e), 0x0b },
+> +       { CCI_REG8(0x3037), 0x13 },
+> +       { CCI_REG8(0x3108), 0x01 },
+> +       { CCI_REG8(0x3611), 0x06 },
+> +       { CCI_REG8(0x3500), 0x00 },
+> +       { CCI_REG8(0x3501), 0x01 },
+> +       { CCI_REG8(0x3502), 0x00 },
+> +       { CCI_REG8(0x350a), 0x00 },
+> +       { CCI_REG8(0x350b), 0x3f },
+> +       { CCI_REG8(0x3620), 0x33 },
+> +       { CCI_REG8(0x3621), 0xe0 },
+> +       { CCI_REG8(0x3622), 0x01 },
+> +       { CCI_REG8(0x3630), 0x2e },
+> +       { CCI_REG8(0x3631), 0x00 },
+> +       { CCI_REG8(0x3632), 0x32 },
+> +       { CCI_REG8(0x3633), 0x52 },
+> +       { CCI_REG8(0x3634), 0x70 },
+> +       { CCI_REG8(0x3635), 0x13 },
+> +       { CCI_REG8(0x3636), 0x03 },
+> +       { CCI_REG8(0x3703), 0x5a },
+> +       { CCI_REG8(0x3704), 0xa0 },
+> +       { CCI_REG8(0x3705), 0x1a },
+> +       { CCI_REG8(0x3709), 0x12 },
+> +       { CCI_REG8(0x370b), 0x61 },
+> +       { CCI_REG8(0x370f), 0x10 },
+> +       { CCI_REG8(0x3715), 0x78 },
+> +       { CCI_REG8(0x3717), 0x01 },
+> +       { CCI_REG8(0x371b), 0x20 },
+> +       { CCI_REG8(0x3731), 0x12 },
+> +       { CCI_REG8(0x3901), 0x0a },
+> +       { CCI_REG8(0x3905), 0x02 },
+> +       { CCI_REG8(0x3906), 0x10 },
+> +       { CCI_REG8(0x3719), 0x86 },
+> +       { CCI_REG8(0x3810), 0x00 },
+> +       { CCI_REG8(0x3811), 0x10 },
+> +       { CCI_REG8(0x3812), 0x00 },
+> +       { CCI_REG8(0x3821), 0x01 },
+> +       { CCI_REG8(0x3824), 0x01 },
+> +       { CCI_REG8(0x3826), 0x03 },
+> +       { CCI_REG8(0x3828), 0x08 },
+> +       { CCI_REG8(0x3a19), 0xf8 },
+> +       { CCI_REG8(0x3c01), 0x34 },
+> +       { CCI_REG8(0x3c04), 0x28 },
+> +       { CCI_REG8(0x3c05), 0x98 },
+> +       { CCI_REG8(0x3c07), 0x07 },
+> +       { CCI_REG8(0x3c09), 0xc2 },
+> +       { CCI_REG8(0x3c0a), 0x9c },
+> +       { CCI_REG8(0x3c0b), 0x40 },
+> +       { CCI_REG8(0x3c01), 0x34 },
+> +       { CCI_REG8(0x4001), 0x02 },
+> +       { CCI_REG8(0x4514), 0x00 },
+> +       { CCI_REG8(0x4520), 0xb0 },
+> +       { CCI_REG8(0x460b), 0x37 },
+> +       { CCI_REG8(0x460c), 0x20 },
+> +       { CCI_REG8(0x4818), 0x01 },
+> +       { CCI_REG8(0x481d), 0xf0 },
+> +       { CCI_REG8(0x481f), 0x50 },
+> +       { CCI_REG8(0x4823), 0x70 },
+> +       { CCI_REG8(0x4831), 0x14 },
+> +       { CCI_REG8(0x5000), 0xa7 },
+> +       { CCI_REG8(0x5001), 0x83 },
+> +       { CCI_REG8(0x501d), 0x00 },
+> +       { CCI_REG8(0x501f), 0x00 },
+> +       { CCI_REG8(0x503d), 0x00 },
+> +       { CCI_REG8(0x505c), 0x30 },
+> +       { CCI_REG8(0x5181), 0x59 },
+> +       { CCI_REG8(0x5183), 0x00 },
+> +       { CCI_REG8(0x5191), 0xf0 },
+> +       { CCI_REG8(0x5192), 0x03 },
+> +       { CCI_REG8(0x5684), 0x10 },
+> +       { CCI_REG8(0x5685), 0xa0 },
+> +       { CCI_REG8(0x5686), 0x0c },
+> +       { CCI_REG8(0x5687), 0x78 },
+> +       { CCI_REG8(0x5a00), 0x08 },
+> +       { CCI_REG8(0x5a21), 0x00 },
+> +       { CCI_REG8(0x5a24), 0x00 },
+> +       { CCI_REG8(0x3008), 0x02 },
+> +       { CCI_REG8(0x3503), 0x00 },
+> +       { CCI_REG8(0x5180), 0xff },
+> +       { CCI_REG8(0x5181), 0xf2 },
+> +       { CCI_REG8(0x5182), 0x00 },
+> +       { CCI_REG8(0x5183), 0x14 },
+> +       { CCI_REG8(0x5184), 0x25 },
+> +       { CCI_REG8(0x5185), 0x24 },
+> +       { CCI_REG8(0x5186), 0x09 },
+> +       { CCI_REG8(0x5187), 0x09 },
+> +       { CCI_REG8(0x5188), 0x0a },
+> +       { CCI_REG8(0x5189), 0x75 },
+> +       { CCI_REG8(0x518a), 0x52 },
+> +       { CCI_REG8(0x518b), 0xea },
+> +       { CCI_REG8(0x518c), 0xa8 },
+> +       { CCI_REG8(0x518d), 0x42 },
+> +       { CCI_REG8(0x518e), 0x38 },
+> +       { CCI_REG8(0x518f), 0x56 },
+> +       { CCI_REG8(0x5190), 0x42 },
+> +       { CCI_REG8(0x5191), 0xf8 },
+> +       { CCI_REG8(0x5192), 0x04 },
+> +       { CCI_REG8(0x5193), 0x70 },
+> +       { CCI_REG8(0x5194), 0xf0 },
+> +       { CCI_REG8(0x5195), 0xf0 },
+> +       { CCI_REG8(0x5196), 0x03 },
+> +       { CCI_REG8(0x5197), 0x01 },
+> +       { CCI_REG8(0x5198), 0x04 },
+> +       { CCI_REG8(0x5199), 0x12 },
+> +       { CCI_REG8(0x519a), 0x04 },
+> +       { CCI_REG8(0x519b), 0x00 },
+> +       { CCI_REG8(0x519c), 0x06 },
+> +       { CCI_REG8(0x519d), 0x82 },
+> +       { CCI_REG8(0x519e), 0x38 },
+> +       { CCI_REG8(0x5381), 0x1e },
+> +       { CCI_REG8(0x5382), 0x5b },
+> +       { CCI_REG8(0x5383), 0x08 },
+> +       { CCI_REG8(0x5384), 0x0a },
+> +       { CCI_REG8(0x5385), 0x7e },
+> +       { CCI_REG8(0x5386), 0x88 },
+> +       { CCI_REG8(0x5387), 0x7c },
+> +       { CCI_REG8(0x5388), 0x6c },
+> +       { CCI_REG8(0x5389), 0x10 },
+> +       { CCI_REG8(0x538a), 0x01 },
+> +       { CCI_REG8(0x538b), 0x98 },
+> +       { CCI_REG8(0x5300), 0x08 },
+> +       { CCI_REG8(0x5301), 0x30 },
+> +       { CCI_REG8(0x5302), 0x10 },
+> +       { CCI_REG8(0x5303), 0x00 },
+> +       { CCI_REG8(0x5304), 0x08 },
+> +       { CCI_REG8(0x5305), 0x30 },
+> +       { CCI_REG8(0x5306), 0x08 },
+> +       { CCI_REG8(0x5307), 0x16 },
+> +       { CCI_REG8(0x5309), 0x08 },
+> +       { CCI_REG8(0x530a), 0x30 },
+> +       { CCI_REG8(0x530b), 0x04 },
+> +       { CCI_REG8(0x530c), 0x06 },
+> +       { CCI_REG8(0x5480), 0x01 },
+> +       { CCI_REG8(0x5481), 0x08 },
+> +       { CCI_REG8(0x5482), 0x14 },
+> +       { CCI_REG8(0x5483), 0x28 },
+> +       { CCI_REG8(0x5484), 0x51 },
+> +       { CCI_REG8(0x5485), 0x65 },
+> +       { CCI_REG8(0x5486), 0x71 },
+> +       { CCI_REG8(0x5487), 0x7d },
+> +       { CCI_REG8(0x5488), 0x87 },
+> +       { CCI_REG8(0x5489), 0x91 },
+> +       { CCI_REG8(0x548a), 0x9a },
+> +       { CCI_REG8(0x548b), 0xaa },
+> +       { CCI_REG8(0x548c), 0xb8 },
+> +       { CCI_REG8(0x548d), 0xcd },
+> +       { CCI_REG8(0x548e), 0xdd },
+> +       { CCI_REG8(0x548f), 0xea },
+> +       { CCI_REG8(0x5490), 0x1d },
+> +       { CCI_REG8(0x5580), 0x02 },
+> +       { CCI_REG8(0x5583), 0x40 },
+> +       { CCI_REG8(0x5584), 0x10 },
+> +       { CCI_REG8(0x5589), 0x10 },
+> +       { CCI_REG8(0x558a), 0x00 },
+> +       { CCI_REG8(0x558b), 0xf8 },
+> +       { CCI_REG8(0x5800), 0x3f },
+> +       { CCI_REG8(0x5801), 0x16 },
+> +       { CCI_REG8(0x5802), 0x0e },
+> +       { CCI_REG8(0x5803), 0x0d },
+> +       { CCI_REG8(0x5804), 0x17 },
+> +       { CCI_REG8(0x5805), 0x3f },
+> +       { CCI_REG8(0x5806), 0x0b },
+> +       { CCI_REG8(0x5807), 0x06 },
+> +       { CCI_REG8(0x5808), 0x04 },
+> +       { CCI_REG8(0x5809), 0x04 },
+> +       { CCI_REG8(0x580a), 0x06 },
+> +       { CCI_REG8(0x580b), 0x0b },
+> +       { CCI_REG8(0x580c), 0x09 },
+> +       { CCI_REG8(0x580d), 0x03 },
+> +       { CCI_REG8(0x580e), 0x00 },
+> +       { CCI_REG8(0x580f), 0x00 },
+> +       { CCI_REG8(0x5810), 0x03 },
+> +       { CCI_REG8(0x5811), 0x08 },
+> +       { CCI_REG8(0x5812), 0x0a },
+> +       { CCI_REG8(0x5813), 0x03 },
+> +       { CCI_REG8(0x5814), 0x00 },
+> +       { CCI_REG8(0x5815), 0x00 },
+> +       { CCI_REG8(0x5816), 0x04 },
+> +       { CCI_REG8(0x5817), 0x09 },
+> +       { CCI_REG8(0x5818), 0x0f },
+> +       { CCI_REG8(0x5819), 0x08 },
+> +       { CCI_REG8(0x581a), 0x06 },
+> +       { CCI_REG8(0x581b), 0x06 },
+> +       { CCI_REG8(0x581c), 0x08 },
+> +       { CCI_REG8(0x581d), 0x0c },
+> +       { CCI_REG8(0x581e), 0x3f },
+> +       { CCI_REG8(0x581f), 0x1e },
+> +       { CCI_REG8(0x5820), 0x12 },
+> +       { CCI_REG8(0x5821), 0x13 },
+> +       { CCI_REG8(0x5822), 0x21 },
+> +       { CCI_REG8(0x5823), 0x3f },
+> +       { CCI_REG8(0x5824), 0x68 },
+> +       { CCI_REG8(0x5825), 0x28 },
+> +       { CCI_REG8(0x5826), 0x2c },
+> +       { CCI_REG8(0x5827), 0x28 },
+> +       { CCI_REG8(0x5828), 0x08 },
+> +       { CCI_REG8(0x5829), 0x48 },
+> +       { CCI_REG8(0x582a), 0x64 },
+> +       { CCI_REG8(0x582b), 0x62 },
+> +       { CCI_REG8(0x582c), 0x64 },
+> +       { CCI_REG8(0x582d), 0x28 },
+> +       { CCI_REG8(0x582e), 0x46 },
+> +       { CCI_REG8(0x582f), 0x62 },
+> +       { CCI_REG8(0x5830), 0x60 },
+> +       { CCI_REG8(0x5831), 0x62 },
+> +       { CCI_REG8(0x5832), 0x26 },
+> +       { CCI_REG8(0x5833), 0x48 },
+> +       { CCI_REG8(0x5834), 0x66 },
+> +       { CCI_REG8(0x5835), 0x44 },
+> +       { CCI_REG8(0x5836), 0x64 },
+> +       { CCI_REG8(0x5837), 0x28 },
+> +       { CCI_REG8(0x5838), 0x66 },
+> +       { CCI_REG8(0x5839), 0x48 },
+> +       { CCI_REG8(0x583a), 0x2c },
+> +       { CCI_REG8(0x583b), 0x28 },
+> +       { CCI_REG8(0x583c), 0x26 },
+> +       { CCI_REG8(0x583d), 0xae },
+> +       { CCI_REG8(0x5025), 0x00 },
+> +       { CCI_REG8(0x3a0f), 0x30 },
+> +       { CCI_REG8(0x3a10), 0x28 },
+> +       { CCI_REG8(0x3a1b), 0x30 },
+> +       { CCI_REG8(0x3a1e), 0x26 },
+> +       { CCI_REG8(0x3a11), 0x60 },
+> +       { CCI_REG8(0x3a1f), 0x14 },
+> +       { CCI_REG8(0x0601), 0x02 },
+> +       { CCI_REG8(0x3008), 0x42 },
+> +       { CCI_REG8(0x3008), 0x02 },
+>          { OV5645_IO_MIPI_CTRL00, 0x40 },
+>          { OV5645_MIPI_CTRL00, 0x24 },
+>          { OV5645_PAD_OUTPUT00, 0x70 }
+>   };
+>
+> -static const struct reg_value ov5645_setting_sxga[] = {
+> -       { 0x3612, 0xa9 },
+> -       { 0x3614, 0x50 },
+> -       { 0x3618, 0x00 },
+> -       { 0x3034, 0x18 },
+> -       { 0x3035, 0x21 },
+> -       { 0x3036, 0x70 },
+> -       { 0x3600, 0x09 },
+> -       { 0x3601, 0x43 },
+> -       { 0x3708, 0x66 },
+> -       { 0x370c, 0xc3 },
+> -       { 0x3800, 0x00 },
+> -       { 0x3801, 0x00 },
+> -       { 0x3802, 0x00 },
+> -       { 0x3803, 0x06 },
+> -       { 0x3804, 0x0a },
+> -       { 0x3805, 0x3f },
+> -       { 0x3806, 0x07 },
+> -       { 0x3807, 0x9d },
+> -       { 0x3808, 0x05 },
+> -       { 0x3809, 0x00 },
+> -       { 0x380a, 0x03 },
+> -       { 0x380b, 0xc0 },
+> -       { 0x380c, 0x07 },
+> -       { 0x380d, 0x68 },
+> -       { 0x380e, 0x03 },
+> -       { 0x380f, 0xd8 },
+> -       { 0x3813, 0x06 },
+> -       { 0x3814, 0x31 },
+> -       { 0x3815, 0x31 },
+> -       { 0x3820, 0x47 },
+> -       { 0x3a02, 0x03 },
+> -       { 0x3a03, 0xd8 },
+> -       { 0x3a08, 0x01 },
+> -       { 0x3a09, 0xf8 },
+> -       { 0x3a0a, 0x01 },
+> -       { 0x3a0b, 0xa4 },
+> -       { 0x3a0e, 0x02 },
+> -       { 0x3a0d, 0x02 },
+> -       { 0x3a14, 0x03 },
+> -       { 0x3a15, 0xd8 },
+> -       { 0x3a18, 0x00 },
+> -       { 0x4004, 0x02 },
+> -       { 0x4005, 0x18 },
+> -       { 0x4300, 0x32 },
+> -       { 0x4202, 0x00 }
+> +static const struct cci_reg_sequence ov5645_setting_sxga[] = {
+> +       { CCI_REG8(0x3612), 0xa9 },
+> +       { CCI_REG8(0x3614), 0x50 },
+> +       { CCI_REG8(0x3618), 0x00 },
+> +       { CCI_REG8(0x3034), 0x18 },
+> +       { CCI_REG8(0x3035), 0x21 },
+> +       { CCI_REG8(0x3036), 0x70 },
+> +       { CCI_REG8(0x3600), 0x09 },
+> +       { CCI_REG8(0x3601), 0x43 },
+> +       { CCI_REG8(0x3708), 0x66 },
+> +       { CCI_REG8(0x370c), 0xc3 },
+> +       { CCI_REG8(0x3800), 0x00 },
+> +       { CCI_REG8(0x3801), 0x00 },
+> +       { CCI_REG8(0x3802), 0x00 },
+> +       { CCI_REG8(0x3803), 0x06 },
+> +       { CCI_REG8(0x3804), 0x0a },
+> +       { CCI_REG8(0x3805), 0x3f },
+> +       { CCI_REG8(0x3806), 0x07 },
+> +       { CCI_REG8(0x3807), 0x9d },
+> +       { CCI_REG8(0x3808), 0x05 },
+> +       { CCI_REG8(0x3809), 0x00 },
+> +       { CCI_REG8(0x380a), 0x03 },
+> +       { CCI_REG8(0x380b), 0xc0 },
+> +       { CCI_REG8(0x380c), 0x07 },
+> +       { CCI_REG8(0x380d), 0x68 },
+> +       { CCI_REG8(0x380e), 0x03 },
+> +       { CCI_REG8(0x380f), 0xd8 },
+> +       { CCI_REG8(0x3813), 0x06 },
+> +       { CCI_REG8(0x3814), 0x31 },
+> +       { CCI_REG8(0x3815), 0x31 },
+> +       { CCI_REG8(0x3820), 0x47 },
+> +       { CCI_REG8(0x3a02), 0x03 },
+> +       { CCI_REG8(0x3a03), 0xd8 },
+> +       { CCI_REG8(0x3a08), 0x01 },
+> +       { CCI_REG8(0x3a09), 0xf8 },
+> +       { CCI_REG8(0x3a0a), 0x01 },
+> +       { CCI_REG8(0x3a0b), 0xa4 },
+> +       { CCI_REG8(0x3a0e), 0x02 },
+> +       { CCI_REG8(0x3a0d), 0x02 },
+> +       { CCI_REG8(0x3a14), 0x03 },
+> +       { CCI_REG8(0x3a15), 0xd8 },
+> +       { CCI_REG8(0x3a18), 0x00 },
+> +       { CCI_REG8(0x4004), 0x02 },
+> +       { CCI_REG8(0x4005), 0x18 },
+> +       { CCI_REG8(0x4300), 0x32 },
+> +       { CCI_REG8(0x4202), 0x00 }
+>   };
+>
+> -static const struct reg_value ov5645_setting_1080p[] = {
+> -       { 0x3612, 0xab },
+> -       { 0x3614, 0x50 },
+> -       { 0x3618, 0x04 },
+> -       { 0x3034, 0x18 },
+> -       { 0x3035, 0x11 },
+> -       { 0x3036, 0x54 },
+> -       { 0x3600, 0x08 },
+> -       { 0x3601, 0x33 },
+> -       { 0x3708, 0x63 },
+> -       { 0x370c, 0xc0 },
+> -       { 0x3800, 0x01 },
+> -       { 0x3801, 0x50 },
+> -       { 0x3802, 0x01 },
+> -       { 0x3803, 0xb2 },
+> -       { 0x3804, 0x08 },
+> -       { 0x3805, 0xef },
+> -       { 0x3806, 0x05 },
+> -       { 0x3807, 0xf1 },
+> -       { 0x3808, 0x07 },
+> -       { 0x3809, 0x80 },
+> -       { 0x380a, 0x04 },
+> -       { 0x380b, 0x38 },
+> -       { 0x380c, 0x09 },
+> -       { 0x380d, 0xc4 },
+> -       { 0x380e, 0x04 },
+> -       { 0x380f, 0x60 },
+> -       { 0x3813, 0x04 },
+> -       { 0x3814, 0x11 },
+> -       { 0x3815, 0x11 },
+> -       { 0x3820, 0x47 },
+> -       { 0x4514, 0x88 },
+> -       { 0x3a02, 0x04 },
+> -       { 0x3a03, 0x60 },
+> -       { 0x3a08, 0x01 },
+> -       { 0x3a09, 0x50 },
+> -       { 0x3a0a, 0x01 },
+> -       { 0x3a0b, 0x18 },
+> -       { 0x3a0e, 0x03 },
+> -       { 0x3a0d, 0x04 },
+> -       { 0x3a14, 0x04 },
+> -       { 0x3a15, 0x60 },
+> -       { 0x3a18, 0x00 },
+> -       { 0x4004, 0x06 },
+> -       { 0x4005, 0x18 },
+> -       { 0x4300, 0x32 },
+> -       { 0x4202, 0x00 },
+> -       { 0x4837, 0x0b }
+> +static const struct cci_reg_sequence ov5645_setting_1080p[] = {
+> +       { CCI_REG8(0x3612), 0xab },
+> +       { CCI_REG8(0x3614), 0x50 },
+> +       { CCI_REG8(0x3618), 0x04 },
+> +       { CCI_REG8(0x3034), 0x18 },
+> +       { CCI_REG8(0x3035), 0x11 },
+> +       { CCI_REG8(0x3036), 0x54 },
+> +       { CCI_REG8(0x3600), 0x08 },
+> +       { CCI_REG8(0x3601), 0x33 },
+> +       { CCI_REG8(0x3708), 0x63 },
+> +       { CCI_REG8(0x370c), 0xc0 },
+> +       { CCI_REG8(0x3800), 0x01 },
+> +       { CCI_REG8(0x3801), 0x50 },
+> +       { CCI_REG8(0x3802), 0x01 },
+> +       { CCI_REG8(0x3803), 0xb2 },
+> +       { CCI_REG8(0x3804), 0x08 },
+> +       { CCI_REG8(0x3805), 0xef },
+> +       { CCI_REG8(0x3806), 0x05 },
+> +       { CCI_REG8(0x3807), 0xf1 },
+> +       { CCI_REG8(0x3808), 0x07 },
+> +       { CCI_REG8(0x3809), 0x80 },
+> +       { CCI_REG8(0x380a), 0x04 },
+> +       { CCI_REG8(0x380b), 0x38 },
+> +       { CCI_REG8(0x380c), 0x09 },
+> +       { CCI_REG8(0x380d), 0xc4 },
+> +       { CCI_REG8(0x380e), 0x04 },
+> +       { CCI_REG8(0x380f), 0x60 },
+> +       { CCI_REG8(0x3813), 0x04 },
+> +       { CCI_REG8(0x3814), 0x11 },
+> +       { CCI_REG8(0x3815), 0x11 },
+> +       { CCI_REG8(0x3820), 0x47 },
+> +       { CCI_REG8(0x4514), 0x88 },
+> +       { CCI_REG8(0x3a02), 0x04 },
+> +       { CCI_REG8(0x3a03), 0x60 },
+> +       { CCI_REG8(0x3a08), 0x01 },
+> +       { CCI_REG8(0x3a09), 0x50 },
+> +       { CCI_REG8(0x3a0a), 0x01 },
+> +       { CCI_REG8(0x3a0b), 0x18 },
+> +       { CCI_REG8(0x3a0e), 0x03 },
+> +       { CCI_REG8(0x3a0d), 0x04 },
+> +       { CCI_REG8(0x3a14), 0x04 },
+> +       { CCI_REG8(0x3a15), 0x60 },
+> +       { CCI_REG8(0x3a18), 0x00 },
+> +       { CCI_REG8(0x4004), 0x06 },
+> +       { CCI_REG8(0x4005), 0x18 },
+> +       { CCI_REG8(0x4300), 0x32 },
+> +       { CCI_REG8(0x4202), 0x00 },
+> +       { CCI_REG8(0x4837), 0x0b }
+>   };
+>
+> -static const struct reg_value ov5645_setting_full[] = {
+> -       { 0x3612, 0xab },
+> -       { 0x3614, 0x50 },
+> -       { 0x3618, 0x04 },
+> -       { 0x3034, 0x18 },
+> -       { 0x3035, 0x11 },
+> -       { 0x3036, 0x54 },
+> -       { 0x3600, 0x08 },
+> -       { 0x3601, 0x33 },
+> -       { 0x3708, 0x63 },
+> -       { 0x370c, 0xc0 },
+> -       { 0x3800, 0x00 },
+> -       { 0x3801, 0x00 },
+> -       { 0x3802, 0x00 },
+> -       { 0x3803, 0x00 },
+> -       { 0x3804, 0x0a },
+> -       { 0x3805, 0x3f },
+> -       { 0x3806, 0x07 },
+> -       { 0x3807, 0x9f },
+> -       { 0x3808, 0x0a },
+> -       { 0x3809, 0x20 },
+> -       { 0x380a, 0x07 },
+> -       { 0x380b, 0x98 },
+> -       { 0x380c, 0x0b },
+> -       { 0x380d, 0x1c },
+> -       { 0x380e, 0x07 },
+> -       { 0x380f, 0xb0 },
+> -       { 0x3813, 0x06 },
+> -       { 0x3814, 0x11 },
+> -       { 0x3815, 0x11 },
+> -       { 0x3820, 0x47 },
+> -       { 0x4514, 0x88 },
+> -       { 0x3a02, 0x07 },
+> -       { 0x3a03, 0xb0 },
+> -       { 0x3a08, 0x01 },
+> -       { 0x3a09, 0x27 },
+> -       { 0x3a0a, 0x00 },
+> -       { 0x3a0b, 0xf6 },
+> -       { 0x3a0e, 0x06 },
+> -       { 0x3a0d, 0x08 },
+> -       { 0x3a14, 0x07 },
+> -       { 0x3a15, 0xb0 },
+> -       { 0x3a18, 0x01 },
+> -       { 0x4004, 0x06 },
+> -       { 0x4005, 0x18 },
+> -       { 0x4300, 0x32 },
+> -       { 0x4837, 0x0b },
+> -       { 0x4202, 0x00 }
+> +static const struct cci_reg_sequence ov5645_setting_full[] = {
+> +       { CCI_REG8(0x3612), 0xab },
+> +       { CCI_REG8(0x3614), 0x50 },
+> +       { CCI_REG8(0x3618), 0x04 },
+> +       { CCI_REG8(0x3034), 0x18 },
+> +       { CCI_REG8(0x3035), 0x11 },
+> +       { CCI_REG8(0x3036), 0x54 },
+> +       { CCI_REG8(0x3600), 0x08 },
+> +       { CCI_REG8(0x3601), 0x33 },
+> +       { CCI_REG8(0x3708), 0x63 },
+> +       { CCI_REG8(0x370c), 0xc0 },
+> +       { CCI_REG8(0x3800), 0x00 },
+> +       { CCI_REG8(0x3801), 0x00 },
+> +       { CCI_REG8(0x3802), 0x00 },
+> +       { CCI_REG8(0x3803), 0x00 },
+> +       { CCI_REG8(0x3804), 0x0a },
+> +       { CCI_REG8(0x3805), 0x3f },
+> +       { CCI_REG8(0x3806), 0x07 },
+> +       { CCI_REG8(0x3807), 0x9f },
+> +       { CCI_REG8(0x3808), 0x0a },
+> +       { CCI_REG8(0x3809), 0x20 },
+> +       { CCI_REG8(0x380a), 0x07 },
+> +       { CCI_REG8(0x380b), 0x98 },
+> +       { CCI_REG8(0x380c), 0x0b },
+> +       { CCI_REG8(0x380d), 0x1c },
+> +       { CCI_REG8(0x380e), 0x07 },
+> +       { CCI_REG8(0x380f), 0xb0 },
+> +       { CCI_REG8(0x3813), 0x06 },
+> +       { CCI_REG8(0x3814), 0x11 },
+> +       { CCI_REG8(0x3815), 0x11 },
+> +       { CCI_REG8(0x3820), 0x47 },
+> +       { CCI_REG8(0x4514), 0x88 },
+> +       { CCI_REG8(0x3a02), 0x07 },
+> +       { CCI_REG8(0x3a03), 0xb0 },
+> +       { CCI_REG8(0x3a08), 0x01 },
+> +       { CCI_REG8(0x3a09), 0x27 },
+> +       { CCI_REG8(0x3a0a), 0x00 },
+> +       { CCI_REG8(0x3a0b), 0xf6 },
+> +       { CCI_REG8(0x3a0e), 0x06 },
+> +       { CCI_REG8(0x3a0d), 0x08 },
+> +       { CCI_REG8(0x3a14), 0x07 },
+> +       { CCI_REG8(0x3a15), 0xb0 },
+> +       { CCI_REG8(0x3a18), 0x01 },
+> +       { CCI_REG8(0x4004), 0x06 },
+> +       { CCI_REG8(0x4005), 0x18 },
+> +       { CCI_REG8(0x4300), 0x32 },
+> +       { CCI_REG8(0x4837), 0x0b },
+> +       { CCI_REG8(0x4202), 0x00 }
+>   };
+>
+>   static const s64 link_freq[] = {
+> @@ -537,50 +535,6 @@ static const struct ov5645_mode_info ov5645_mode_info_data[] = {
+>          },
+>   };
+>
+> -static int ov5645_write_reg(struct ov5645 *ov5645, u16 reg, u8 val)
+> -{
+> -       u8 regbuf[3];
+> -       int ret;
+> -
+> -       regbuf[0] = reg >> 8;
+> -       regbuf[1] = reg & 0xff;
+> -       regbuf[2] = val;
+> -
+> -       ret = i2c_master_send(ov5645->i2c_client, regbuf, 3);
+> -       if (ret < 0) {
+> -               dev_err(ov5645->dev, "%s: write reg error %d: reg=%x, val=%x\n",
+> -                       __func__, ret, reg, val);
+> -               return ret;
+> -       }
+> -
+> -       return 0;
+> -}
+> -
+> -static int ov5645_read_reg(struct ov5645 *ov5645, u16 reg, u8 *val)
+> -{
+> -       u8 regbuf[2];
+> -       int ret;
+> -
+> -       regbuf[0] = reg >> 8;
+> -       regbuf[1] = reg & 0xff;
+> -
+> -       ret = i2c_master_send(ov5645->i2c_client, regbuf, 2);
+> -       if (ret < 0) {
+> -               dev_err(ov5645->dev, "%s: write reg error %d: reg=%x\n",
+> -                       __func__, ret, reg);
+> -               return ret;
+> -       }
+> -
+> -       ret = i2c_master_recv(ov5645->i2c_client, val, 1);
+> -       if (ret < 0) {
+> -               dev_err(ov5645->dev, "%s: read reg error %d: reg=%x\n",
+> -                       __func__, ret, reg);
+> -               return ret;
+> -       }
+> -
+> -       return 0;
+> -}
+> -
+>   static int ov5645_set_aec_mode(struct ov5645 *ov5645, u32 mode)
+>   {
+>          u8 val = ov5645->aec_pk_manual;
+> @@ -591,7 +545,7 @@ static int ov5645_set_aec_mode(struct ov5645 *ov5645, u32 mode)
+>          else /* V4L2_EXPOSURE_MANUAL */
+>                  val |= OV5645_AEC_MANUAL_ENABLE;
+>
+> -       ret = ov5645_write_reg(ov5645, OV5645_AEC_PK_MANUAL, val);
+> +       ret = cci_write(ov5645->regmap, OV5645_AEC_PK_MANUAL, val, NULL);
+>          if (!ret)
+>                  ov5645->aec_pk_manual = val;
+>
+> @@ -608,7 +562,7 @@ static int ov5645_set_agc_mode(struct ov5645 *ov5645, u32 enable)
+>          else
+>                  val |= OV5645_AGC_MANUAL_ENABLE;
+>
+> -       ret = ov5645_write_reg(ov5645, OV5645_AEC_PK_MANUAL, val);
+> +       ret = cci_write(ov5645->regmap, OV5645_AEC_PK_MANUAL, val, NULL);
+>          if (!ret)
+>                  ov5645->aec_pk_manual = val;
+>
+> @@ -616,14 +570,14 @@ static int ov5645_set_agc_mode(struct ov5645 *ov5645, u32 enable)
+>   }
+>
+>   static int ov5645_set_register_array(struct ov5645 *ov5645,
+> -                                    const struct reg_value *settings,
+> +                                    const struct cci_reg_sequence *settings,
+>                                       unsigned int num_settings)
+>   {
+>          unsigned int i;
+>          int ret;
+>
+>          for (i = 0; i < num_settings; ++i, ++settings) {
+> -               ret = ov5645_write_reg(ov5645, settings->reg, settings->val);
+> +               ret = cci_write(ov5645->regmap, settings->reg, settings->val, NULL);
+>                  if (ret < 0)
+>                          return ret;
+>
+> @@ -640,7 +594,7 @@ static void __ov5645_set_power_off(struct device *dev)
+>          struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>          struct ov5645 *ov5645 = to_ov5645(sd);
+>
+> -       ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
+> +       cci_write(ov5645->regmap, OV5645_IO_MIPI_CTRL00, 0x58, NULL);
+>          gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
+>          gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
+>          regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
+> @@ -704,11 +658,11 @@ static int ov5645_set_saturation(struct ov5645 *ov5645, s32 value)
+>          u32 reg_value = (value * 0x10) + 0x40;
+>          int ret;
+>
+> -       ret = ov5645_write_reg(ov5645, OV5645_SDE_SAT_U, reg_value);
+> +       ret = cci_write(ov5645->regmap, OV5645_SDE_SAT_U, reg_value, NULL);
+>          if (ret < 0)
+>                  return ret;
+>
+> -       return ov5645_write_reg(ov5645, OV5645_SDE_SAT_V, reg_value);
+> +       return cci_write(ov5645->regmap, OV5645_SDE_SAT_V, reg_value, NULL);
+>   }
+>
+>   static int ov5645_set_hflip(struct ov5645 *ov5645, s32 value)
+> @@ -721,7 +675,7 @@ static int ov5645_set_hflip(struct ov5645 *ov5645, s32 value)
+>          else
+>                  val |= (OV5645_SENSOR_MIRROR);
+>
+> -       ret = ov5645_write_reg(ov5645, OV5645_TIMING_TC_REG21, val);
+> +       ret = cci_write(ov5645->regmap, OV5645_TIMING_TC_REG21, val, NULL);
+>          if (!ret)
+>                  ov5645->timing_tc_reg21 = val;
+>
+> @@ -738,7 +692,7 @@ static int ov5645_set_vflip(struct ov5645 *ov5645, s32 value)
+>          else
+>                  val &= ~(OV5645_SENSOR_VFLIP | OV5645_ISP_VFLIP);
+>
+> -       ret = ov5645_write_reg(ov5645, OV5645_TIMING_TC_REG20, val);
+> +       ret = cci_write(ov5645->regmap, OV5645_TIMING_TC_REG20, val, NULL);
+>          if (!ret)
+>                  ov5645->timing_tc_reg20 = val;
+>
+> @@ -754,7 +708,7 @@ static int ov5645_set_test_pattern(struct ov5645 *ov5645, s32 value)
+>                  val |= OV5645_TEST_PATTERN_ENABLE;
+>          }
+>
+> -       return ov5645_write_reg(ov5645, OV5645_PRE_ISP_TEST_SETTING_1, val);
+> +       return cci_write(ov5645->regmap, OV5645_PRE_ISP_TEST_SETTING_1, val, NULL);
+>   }
+>
+>   static const char * const ov5645_test_pattern_menu[] = {
+> @@ -772,7 +726,7 @@ static int ov5645_set_awb(struct ov5645 *ov5645, s32 enable_auto)
+>          if (!enable_auto)
+>                  val = OV5645_AWB_MANUAL_ENABLE;
+>
+> -       return ov5645_write_reg(ov5645, OV5645_AWB_MANUAL_CONTROL, val);
+> +       return cci_write(ov5645->regmap, OV5645_AWB_MANUAL_CONTROL, val, NULL);
+>   }
+>
+>   static int ov5645_s_ctrl(struct v4l2_ctrl *ctrl)
+> @@ -958,9 +912,8 @@ static int ov5645_enable_streams(struct v4l2_subdev *sd,
+>          if (ret < 0)
+>                  return ret;
+>
+> -       ret = ov5645_set_register_array(ov5645,
+> -                                       ov5645->current_mode->data,
+> -                                       ov5645->current_mode->data_size);
+> +       ret = cci_multi_reg_write(ov5645->regmap, ov5645->current_mode->data,
+> +                                 ov5645->current_mode->data_size, NULL);
+>          if (ret < 0) {
+>                  dev_err(ov5645->dev, "could not set mode %dx%d\n",
+>                          ov5645->current_mode->width,
+> @@ -973,12 +926,12 @@ static int ov5645_enable_streams(struct v4l2_subdev *sd,
+>                  goto err_rpm_put;
+>          }
+>
+> -       ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
+> +       ret = cci_write(ov5645->regmap, OV5645_IO_MIPI_CTRL00, 0x45, NULL);
+>          if (ret < 0)
+>                  goto err_rpm_put;
+>
+> -       ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+> -                              OV5645_SYSTEM_CTRL0_START);
+> +       ret = cci_write(ov5645->regmap, OV5645_SYSTEM_CTRL0,
+> +                       OV5645_SYSTEM_CTRL0_START, NULL);
+>          if (ret < 0)
+>                  goto err_rpm_put;
+>
+> @@ -996,12 +949,12 @@ static int ov5645_disable_streams(struct v4l2_subdev *sd,
+>          struct ov5645 *ov5645 = to_ov5645(sd);
+>          int ret;
+>
+> -       ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
+> +       ret = cci_write(ov5645->regmap, OV5645_IO_MIPI_CTRL00, 0x40, NULL);
+>          if (ret < 0)
+>                  goto rpm_put;
+>
+> -       ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+> -                              OV5645_SYSTEM_CTRL0_STOP);
+> +       ret = cci_write(ov5645->regmap, OV5645_SYSTEM_CTRL0,
+> +                       OV5645_SYSTEM_CTRL0_STOP, NULL);
+>
+>   rpm_put:
+>          pm_runtime_put_autosuspend(ov5645->dev);
+> @@ -1036,9 +989,9 @@ static const struct v4l2_subdev_internal_ops ov5645_internal_ops = {
+>   static int ov5645_probe(struct i2c_client *client)
+>   {
+>          struct device *dev = &client->dev;
+> +       u64 chip_id_high, chip_id_low;
+>          struct device_node *endpoint;
+>          struct ov5645 *ov5645;
+> -       u8 chip_id_high, chip_id_low;
+>          unsigned int i;
+>          u32 xclk_freq;
+>          int ret;
+> @@ -1068,6 +1021,11 @@ static int ov5645_probe(struct i2c_client *client)
+>                  return dev_err_probe(dev, -EINVAL,
+>                                       "invalid bus type, must be CSI2\n");
+>
+> +       ov5645->regmap = devm_cci_regmap_init_i2c(client, 16);
+> +       if (IS_ERR(ov5645->regmap))
+> +               return dev_err_probe(ov5645->dev, PTR_ERR(ov5645->regmap),
+> +                                    "Failed to init CCI\n");
+> +
+>          /* get system clock (xclk) */
+>          ov5645->xclk = devm_v4l2_sensor_clk_get_legacy(dev, NULL, false, 0);
+>          if (IS_ERR(ov5645->xclk))
+> @@ -1154,13 +1112,13 @@ static int ov5645_probe(struct i2c_client *client)
+>          if (ret)
+>                  goto free_entity;
+>
+> -       ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_HIGH, &chip_id_high);
+> +       ret = cci_read(ov5645->regmap, OV5645_CHIP_ID_HIGH, &chip_id_high, NULL);
+>          if (ret < 0 || chip_id_high != OV5645_CHIP_ID_HIGH_BYTE) {
+>                  ret = -ENODEV;
+>                  dev_err_probe(dev, ret, "could not read ID high\n");
+>                  goto power_down;
+>          }
+> -       ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_LOW, &chip_id_low);
+> +       ret = cci_read(ov5645->regmap, OV5645_CHIP_ID_LOW, &chip_id_low, NULL);
+>          if (ret < 0 || chip_id_low != OV5645_CHIP_ID_LOW_BYTE) {
+>                  ret = -ENODEV;
+>                  dev_err_probe(dev, ret, "could not read ID low\n");
+> @@ -1169,24 +1127,21 @@ static int ov5645_probe(struct i2c_client *client)
+>
+>          dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
+>
+> -       ret = ov5645_read_reg(ov5645, OV5645_AEC_PK_MANUAL,
+> -                             &ov5645->aec_pk_manual);
+> +       ret = cci_read(ov5645->regmap, OV5645_AEC_PK_MANUAL, &ov5645->aec_pk_manual, NULL);
+>          if (ret < 0) {
+>                  ret = -ENODEV;
+>                  dev_err_probe(dev, ret, "could not read AEC/AGC mode\n");
+>                  goto power_down;
+>          }
+>
+> -       ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG20,
+> -                             &ov5645->timing_tc_reg20);
+> +       ret = cci_read(ov5645->regmap, OV5645_TIMING_TC_REG20, &ov5645->timing_tc_reg20, NULL);
+>          if (ret < 0) {
+>                  ret = -ENODEV;
+>                  dev_err_probe(dev, ret, "could not read vflip value\n");
+>                  goto power_down;
+>          }
+>
+> -       ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG21,
+> -                             &ov5645->timing_tc_reg21);
+> +       ret = cci_read(ov5645->regmap, OV5645_TIMING_TC_REG21, &ov5645->timing_tc_reg21, NULL);
+>          if (ret < 0) {
+>                  ret = -ENODEV;
+>                  dev_err_probe(dev, ret, "could not read hflip value\n");
+> --
+> 2.53.0
+>
 
