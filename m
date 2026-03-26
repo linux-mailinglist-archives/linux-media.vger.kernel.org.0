@@ -1,218 +1,186 @@
-Return-Path: <linux-media+bounces-57174-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57175-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aFb6Nz6FxWlc+wQAu9opvQ
-	(envelope-from <linux-media+bounces-57174-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 20:13:02 +0100
+	id iLv/Oc2MxWlc+wQAu9opvQ
+	(envelope-from <linux-media+bounces-57175-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 20:45:17 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437F533AC47
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 20:13:02 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B8A33B170
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 20:45:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4204231AA7C6
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 19:03:29 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 99C843039322
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 19:42:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA53234CFDE;
-	Thu, 26 Mar 2026 19:01:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 216FA3A640C;
+	Thu, 26 Mar 2026 19:42:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KSMn4uAf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZLbLVLgv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895F63A7824
-	for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 19:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C2024BBEB
+	for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 19:42:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774551663; cv=none; b=cMs69QZnmub5mgoNo62CNewExVB8c2HBRN6DRo1YxYvPFVcaLl8BMJXW4zoElCaHkp5vKz8hcXDkK8hsBBC52bGVTcmD7Mdb0iJF6rjaOikG/ptHizo8pnWdEuStR45FB+Az4F+TquL+jSRHS2MSBfjCbnDDXtFAjZiy/HWnH2A=
+	t=1774554159; cv=none; b=idSPB3MQzhVh9jz5acs35iCq9nspJeBQK4edvu4nRDUmtzOPDeH2WTCuB8HcdgxiHw2L0MVcVjGeE7P8nbiRWvEX13MkQbFy3CKAbNyoesCF+eDCNqLuTzvIwm/vUeDaSDw7atfRMwZto9qt1L+P/8HKy+25iQ6jydoE9s2Ghvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774551663; c=relaxed/simple;
-	bh=k69XcNGqZA1yoRwOAPdRqVUlS+n7++vwFrRdtfF4/ZE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rMcC61mVCUsLrOND/Oew9mVERK8Y29GyD8vu0GqshyiSl4rAc7LUwmf2lY6zS9wSthQ0f2R9Evcl9dnFJQyc1iEmqnvVGj/CVYgK3lXcxfxFz2tOS27gnScY4rtQRPRSETJT+BjDsJkLwKJBRocKUvgm1BjuwgI9XZ2rixnfBOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KSMn4uAf; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-439b2965d4bso1046361f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 12:00:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774551656; x=1775156456; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JglxAbJwxC0RSdaWUygUvn1XAh97gEO4MyAua4nYFxs=;
-        b=KSMn4uAfxymgCAhVB69ivUgA6mmFRn7FV58fS0Mph++40KBjB1DcnRJ8utATd7sLFS
-         88Np5iwKgwBOce4MgYPu8tozTjLNjpwkZ3XDVQt+TEB9xNuBIhqJLgxvwgw07LSIFIoo
-         kSgzbmqxZmpZbBoaV72SlU7iUrO8roWC219vPJBEGTNAp9Sb911uwNBlzElT3Am96X2W
-         IwYpN/G1rTGDIINhOQjuX0Sld7rcgeNUycDtrmsDJhepqe+ZT42RK+WEDMmkTZ2MofY1
-         atAl533wkft/OrIf7lsvf3Qu8YbdxEAoi02EqgYKCEuUXuydCCfHYapogevIkyZsOg3P
-         MDqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774551656; x=1775156456;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JglxAbJwxC0RSdaWUygUvn1XAh97gEO4MyAua4nYFxs=;
-        b=S3q3xdh17QwCkTNI0VOrnFoGE5wqUCtFszrXMU87dwhw7YbS+nPiRhutHq4eYRvKn/
-         9MxpWVrNq9cxQswo+T5aTaH9Z4daV9F/Z2TickKC43fjx+jHZR/LRL68dxpO9HKbN/ht
-         l/+5JGK1ZG1YDeh0R8ohSW0zUxJkrv0gcZefI+O8QtlbN4MSqcU18uPcCkKXR70nctve
-         iKaeqB+5ltobhAjK8yecY3vofGJUUeLE/1bd7sff0Ag7oSNXYL1AR36DMyl3GcsfA5F5
-         bjGrYHOVruU8vGCJiI1HilcnJXOfvANRrgEuBR2tyK4d3TDaf47/n1w/JO9ujpsC7ogc
-         lYPA==
-X-Gm-Message-State: AOJu0Ywg7yBbcu5J7X5HJ66Ac1zxR7OdEwHC5xgaXTK44XCpn9cwPQLH
-	H0PNl5CVLPyPe4ANv5UY3C+mYcq7PCZbqUZqNqW3ujAHNlXk53Lrs/y2
-X-Gm-Gg: ATEYQzyWZbeTV9FVeAsVPcwkVIsbc8jeolpn+PEC2ZUSoGHIyykT+CWM+hKSh5wrnls
-	Fgjij/C7Kix9zhwJq4HZW1VXY6ab6NVkDi6dSGvurOz1S0gj42tNcxU7ntNO0vODyxDUwgUh0aM
-	bkxiw9/PVcaGCOpJbtUvP39KNNYvGGCmfBP3BQT6iki/Kk08Wo9Z/rtdXvEPXwiRkQbgtWh9ZQg
-	x/NshLpj99CmkgQgpSqWJcy3ssbpvABIMiVYMzVxP3/FJKMEY6rneRsoE9QOIRWlrnNlF8OiKmy
-	G+o3ohRBhfQbhABGD7Na7LJIKO+IJmvEUXPh39d2xruxA+s6IM5c8GXAaEqfLpppr6xs26cYgzV
-	DruahqckITjAEeFMs+uYrJbcO1XwwmCQpmhxFe5zppEqPZqxccJ2UsU3K7VOXYAs3cxZixfgch7
-	3g+I/vK80dC4LEt98nUhXibtrGjzD3qvyOFiQjHM+WHpPKWn1r27a++WSL3NhSFhfhk1ZJ2ehRS
-	sRsoKFU60g2jkxq+2eF8wA=
-X-Received: by 2002:a05:600c:4685:b0:485:17a7:ba0d with SMTP id 5b1f17b1804b1-4871606cbcemr142953075e9.32.1774551655489;
-        Thu, 26 Mar 2026 12:00:55 -0700 (PDT)
-Received: from dohko.chello.ie (188-141-5-72.dynamic.upc.ie. [188.141.5.72])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722be47a4sm68290385e9.0.2026.03.26.12.00.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 12:00:55 -0700 (PDT)
-From: David Carlier <devnexen@gmail.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nayden Kanchev <nayden.kanchev@arm.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	David Carlier <devnexen@gmail.com>
-Subject: [PATCH] media: mali-c55: fix resource leaks in probe and remove
-Date: Thu, 26 Mar 2026 19:00:52 +0000
-Message-ID: <20260326190052.11780-1-devnexen@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1774554159; c=relaxed/simple;
+	bh=Y2ZHozORnLfqvKi2dwhQTPb5sPuBtjKNxVIRQIiOzsg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ABhiy8SSQDiTjS1n1Ls8HjOKb/TNQoyb1SUushqNr+jM7ZjryAzeKQbxAMdyUAVKK1b2uHEmyuP/Q5UQvU86/Ngi08DGxM/hRDamdAHvLZVB3X1wuJKSW1yJVHTvnu2vbnwvLraX9Ra2dOEpzH5kaNWTv+4bp0q1IDbfhTjM7sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZLbLVLgv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31FC1C2BC87
+	for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 19:42:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774554159;
+	bh=Y2ZHozORnLfqvKi2dwhQTPb5sPuBtjKNxVIRQIiOzsg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ZLbLVLgvUsqHZKVA1+e3imKCmqIoVEkun5ZRNqM7lbL1EeK45BJ63eP/YP64X0gBA
+	 0fbGQKnS/h8sMuT0HSsszhRY3fO/xwDo3yGNxd9wqqBupGAqjPDOYWM4JO+5VkKrY2
+	 rbk7a+2hjn6RrquDffH43lFRwFN+wS56GYGSqgLM9PzRj1BvplJw5gUEj2llY8NyrT
+	 QhIOGjjRGTOB1FcuuZRqvmv0/4SOEbv+7hi834VtTaKeQx1nkElKWQE37ZwApuN/IR
+	 t3ah8M72NV4upm4AJ95KO7OtNI8Myy1O1sklmXIbTZ3v81aHnBEFNjZpS+RaV2DStW
+	 3g8GOFo1OspQw==
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b980785a0bfso183623366b.3
+        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 12:42:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWTI34BhEjkOtquLcM1KdTIay/evl6ArBq4Vu/TAJbpXR/jeseR+tSu2Rk2HUbn6Gp24Ywf5jhpZuaqpw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkFYgGBruqzfVO2S9ZkEjP69gl8hZIpkOcEIiva1Ff4Mk9ic4r
+	aHMmvbGPaozNKH4eNi2CvhiLQeVvM9u6DjXgH9xw4RlsrYg+uuWxAmWxEP4m3I1NdQKc60+Hj/I
+	0gAehDV0bbFqWo5doYHjJ0jND2ORcpw==
+X-Received: by 2002:a17:907:3c96:b0:b98:49d:7e37 with SMTP id
+ a640c23a62f3a-b9a5427e5a8mr665511866b.44.1774554157684; Thu, 26 Mar 2026
+ 12:42:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.34 / 15.00];
+References: <20260305-rk3588-csi2rx-v3-0-754473981f39@collabora.com>
+ <20260305-rk3588-csi2rx-v3-1-754473981f39@collabora.com> <20260325210634.GA3963190-robh@kernel.org>
+ <703bcf13-ab45-4e9a-b80c-80911d85d819@collabora.com>
+In-Reply-To: <703bcf13-ab45-4e9a-b80c-80911d85d819@collabora.com>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 26 Mar 2026 14:42:26 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLy4=z24-RrJWLp3hPpTwYLJ8=ehRw8cRdhZiW-eAsYCA@mail.gmail.com>
+X-Gm-Features: AQROBzAHITEw9UIh2Vq6i4lzrBpyx12hq94f54-wyHg8H8rls8eAXLegvhqv8Gk
+Message-ID: <CAL_JsqLy4=z24-RrJWLp3hPpTwYLJ8=ehRw8cRdhZiW-eAsYCA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] media: dt-bindings: rockchip,rk3568-mipi-csi2: add
+ rk3588 compatible
+To: Michael Riesch <michael.riesch@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Frank Li <Frank.li@nxp.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Kever Yang <kever.yang@rock-chips.com>, 
+	Collabora Kernel Team <kernel@collabora.com>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-57175-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57174-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devnexen@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com]
-X-Rspamd-Queue-Id: 437F533AC47
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 61B8A33B170
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-mali_c55_probe() calls of_reserved_mem_device_init() to associate
-reserved memory regions with the device. This function allocates a
-struct rmem_assigned_device and adds it to a global linked list, which
-must be explicitly released via of_reserved_mem_device_release() — there
-is no devm variant of this API.
+On Wed, Mar 25, 2026 at 4:34=E2=80=AFPM Michael Riesch
+<michael.riesch@collabora.com> wrote:
+>
+> Hi Rob,
+>
+> On 3/25/26 22:06, Rob Herring wrote:
+> > On Wed, Mar 25, 2026 at 11:25:34AM +0100, Michael Riesch wrote:
+> >> The RK3588 MIPI CSI-2 receivers are compatible to the ones found in
+> >> the RK3568.
+> >> Introduce a list of compatible variants and add the RK3588 variant to
+> >> it.
+> >>
+> >> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+>
+> First of all, apologies for applying your Acked-by tag. I figured
+> resolving the merged conflict was trivial and impossible to screw up, but=
+...
 
-However, neither the probe error paths nor mali_c55_remove() called
-of_reserved_mem_device_release(). Any probe failure after the
-of_reserved_mem_device_init() call, as well as every normal device
-removal, leaked the reserved memory association on the global list.
+No worries. I would have kept it too.
 
-Additionally, pm_runtime_enable() called during probe was never undone
-in mali_c55_remove(), leaving the device's runtime PM state enabled
-after the driver is unbound. The probe error path had a related issue:
-when mali_c55_media_frameworks_init() failed, the goto target jumped
-directly to err_free_context_registers, skipping pm_runtime_disable()
-despite pm_runtime having already been enabled earlier in the function.
+> >> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+> >> ---
+> >>  .../devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml   | 10 +=
+++++++---
+> >>  1 file changed, 7 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-m=
+ipi-csi2.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-mip=
+i-csi2.yaml
+> >> index 4ac4a3b6f406..3d3b3cd78884 100644
+> >> --- a/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi=
+2.yaml
+> >> +++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi=
+2.yaml
+> >> @@ -16,9 +16,13 @@ description:
+> >>
+> >>  properties:
+> >>    compatible:
+> >> -    enum:
+> >> -      - fsl,imx93-mipi-csi2
+> >> -      - rockchip,rk3568-mipi-csi2
+> >> +    oneOf:
+> >> +      - const: fsl,imx93-mipi-csi2
+> >> +      - const: rockchip,rk3568-mipi-csi2
+> >
+> > These 2 should be a single enum as they were before.
+>
+> ... hm. Well.
+>
+> First, do you mean
+>
+> properties:
+>   compatible:
+>     oneOf:
+>       - enum:
+>          - fsl,imx93-mipi-csi2
+>          - rockchip,rk3568-mipi-csi2
+>       - items:
+>          - enum:
+>             - rockchip,rk3588-mipi-csi2
+>          - const: rockchip,rk3568-mipi-csi2
+> ?
 
-Fix these issues by:
- - Adding an err_release_mem label at the end of the error chain so all
-   post-init failure paths release the reserved memory association.
- - Splitting pm_runtime_disable() into its own err_runtime_disable label
-   so the media frameworks init failure correctly unwinds it.
- - Adding of_reserved_mem_device_release() and pm_runtime_disable() to
-   mali_c55_remove(), with the teardown order mirroring probe in
-   reverse.
+Yes.
 
-Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
-Signed-off-by: David Carlier <devnexen@gmail.com>
----
- .../media/platform/arm/mali-c55/mali-c55-core.c   | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+> If so, what is the practical difference?
 
-diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-index c1a562cd214e..bfe811182cda 100644
---- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-+++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-@@ -806,8 +806,10 @@ static int mali_c55_probe(struct platform_device *pdev)
- 	vb2_dma_contig_set_max_seg_size(dev, UINT_MAX);
- 
- 	ret = __mali_c55_power_on(mali_c55);
--	if (ret)
--		return dev_err_probe(dev, ret, "failed to power on\n");
-+	if (ret) {
-+		dev_err_probe(dev, ret, "failed to power on\n");
-+		goto err_release_mem;
-+	}
- 
- 	ret = mali_c55_check_hwcfg(mali_c55);
- 	if (ret)
-@@ -826,7 +828,7 @@ static int mali_c55_probe(struct platform_device *pdev)
- 
- 	ret = mali_c55_media_frameworks_init(mali_c55);
- 	if (ret)
--		goto err_free_context_registers;
-+		goto err_runtime_disable;
- 
- 	pm_runtime_idle(&pdev->dev);
- 
-@@ -841,11 +843,14 @@ static int mali_c55_probe(struct platform_device *pdev)
- 
- err_deinit_media_frameworks:
- 	mali_c55_media_frameworks_deinit(mali_c55);
-+err_runtime_disable:
- 	pm_runtime_disable(&pdev->dev);
- err_free_context_registers:
- 	kfree(mali_c55->context.registers);
- err_power_off:
- 	__mali_c55_power_off(mali_c55);
-+err_release_mem:
-+	of_reserved_mem_device_release(dev);
- 
- 	return ret;
- }
-@@ -854,8 +859,10 @@ static void mali_c55_remove(struct platform_device *pdev)
- {
- 	struct mali_c55 *mali_c55 = platform_get_drvdata(pdev);
- 
--	kfree(mali_c55->context.registers);
- 	mali_c55_media_frameworks_deinit(mali_c55);
-+	pm_runtime_disable(&pdev->dev);
-+	kfree(mali_c55->context.registers);
-+	of_reserved_mem_device_release(&pdev->dev);
- }
- 
- static const struct of_device_id mali_c55_of_match[] = {
--- 
-2.53.0
+First, then you aren't changing what's already there. For validation,
+there is no difference other than failures with 'oneOf' give poor
+error messages. It wouldn't be much better, just one less oneOf entry.
 
+Rob
 
