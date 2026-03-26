@@ -1,155 +1,175 @@
-Return-Path: <linux-media+bounces-57170-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57171-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6H4uKSdqxWl1+AQAu9opvQ
-	(envelope-from <linux-media+bounces-57170-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 18:17:27 +0100
+	id mDNoHCxzxWmN+QQAu9opvQ
+	(envelope-from <linux-media+bounces-57171-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 18:55:56 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD7F3390B3
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 18:17:26 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9DE339966
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 18:55:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9DE91300F18F
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 17:10:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A0C73308A8FD
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 17:49:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9E7D421F0C;
-	Thu, 26 Mar 2026 17:10:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D86838F64E;
+	Thu, 26 Mar 2026 17:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b="NJbLpGyF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JW1hEVb3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CAB03BC66C
-	for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 17:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E320B30E85D
+	for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 17:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774545034; cv=none; b=qruzJRW7xWIkCZr6HC4gS5UI0EiU27MsW66x2oezKpGsvGn1KhTE7E6Q5OcuFw+Z8o/2CliADshnYIy1Ls06pgCRGQK7UkJHi66psX0aOZ1rguK2/svQKH6n2biuLe9pTjuR3meTx5NDFHSFZdhmxIhlfDbQ1HPLS8LPyVX3kk8=
+	t=1774547351; cv=none; b=gCc8zC3rcCKQZUGukrke90gJCaPQHuvFYWfafqIPZhURZvgkS0hDBtcujQpY1wxWX2QNZ0UDhPRkEiNNpQr1twPmuKkP5lF3ePNgqxveO+WSyxf7XIRUTfAp+8htwUVWwPBMPSMFt743ddFFj/aSTMLfjpUcfLYKtkzjpPX4geI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774545034; c=relaxed/simple;
-	bh=PWeQDbGZItRTqBeCAOHbrQUmh0b+gjI4xEYLq2SDusA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sy/Tw6cXe6WscmWy+DQP5Zp3gDIRfLuSObloMFLIMqfBHCdrDPDL3efp2BnPSi9tfj+Am78825V0up/KiZp1o6CLhgjkMKlFBlZGy85J258iGeagT6vk2Mrxf8Jg5wqgxQXCwD/Mh5IIDcrrJcZN1pgMKNeGhLmQ4XCs/QI7D1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc; spf=pass smtp.mailfrom=nextdimension.cc; dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b=NJbLpGyF; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nextdimension.cc
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-79ab5fd969aso14119557b3.0
-        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 10:10:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nextdimension.cc; s=google; t=1774545030; x=1775149830; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tHbkqSz9YJx2oSHnD+0e+6vqjOdh/v+Rb7cIlN1SS04=;
-        b=NJbLpGyFDNrGka0UR58LQT3VNVrtbZ9k6t5opcyiQNenv1CY2Xvwvc+0N6mKNAnwj6
-         xJr8ik/AHVQuG+z3uJ5TbfqvEmAawOF56HOg71nuN2mHjo+o/OmQL4BarhJxfqxxMJmh
-         BrAb/EGm8zfnAsh078JT2ZhC9J0a/YI3L7Ed0kTI0BUmiRr+NtW2J3uPIsCnjC6E6RQH
-         CzPQXFP8AmCKiMsU3dzFrKaAN97mKcScsNsRGnNUqxd0a1GQ72zA0HPztkmGh7xV6uTA
-         hYRxL5Se5ubhEXN6g6JciIyotfzMGPob3b2KIIb4IZJvcdrKIrpW+YxW9xTRmvZ5evvR
-         ST0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774545030; x=1775149830;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tHbkqSz9YJx2oSHnD+0e+6vqjOdh/v+Rb7cIlN1SS04=;
-        b=X5+Z6WF/adj1ON8TUqB084kWZZ/qed6Jlq4Z3huf5LOAhLvmzEZl4pv3VXH80yq9d/
-         IFQAZUwKSW7AynT2WGgPfvYtClwKHzlXF66VRcmrrXKEyEsH8twNX0g/GAqFWBhGQQkF
-         z2yL5dxNlVoeYuMs6/cHP9lLebMP6JdEiRP+GFmiah8E4+5ej+dw+ro6HN+H7wPrtsEl
-         O++7UqQvF+7bUdpYzrZE89icMxMo8rcpAXEld2EXZ4IP+D3AUUy1IRePBgE3MFfr37WA
-         Mxuxf35bfpB7CNgD/63bkQsfPvAvxtgF+BmlV08SX+jYhVpDmMstEjFQz0kEdrk/I5F+
-         nSxg==
-X-Gm-Message-State: AOJu0Ywz61QnTt/m1jMfE/AzrkrofoSDI2XQNX1oyR1Auv783LuGnRJm
-	gqygHK2rp7kkl2/lim0udM9BfwIMi47anexpzuOpuD95mo/d0YSQ1ElkWLAf72NlTOiBaIU2x+9
-	A1qUWZhk=
-X-Gm-Gg: ATEYQzw2JsTuPbl/lCQaQPdLVplwA/S0AGM4fKzJjM7UkUJ9xCfQyO/b/LMJDextafC
-	iSBCdv2UJdp8BCVt95h5oFEefRx7wm4Lz3bd2GlccZH7vOnoGgQcZC2FU7Yf3Ilp8kCpNM4lwYH
-	EnVTtocN971m9NNFMP6HSF7jtt+wp/KG+VgCmKRpU2yR3EgfzY9x1uXgOrMVdHshkEV7plKmpEn
-	vOUYvFYwvejY4lXWzF0gqJL9XvdtG3NdijPA6En06P2d9RJorGlAwjWqhJ2N8x5Slegr2FzTRsx
-	PfqnQBwCjvt0smbRH1Xo+xG4Kwmxa9u1Ku1jFOXZ71ly35N0sT+USt+zMHUEyOV7uQUxcrNv028
-	zmzlFvGzpyhI2vfWQwxo8YwC2+jENfKJcV3V2ZgwjTcriuiXhkDvNMcqUK8A3tjuCPxDNnBFNsx
-	59rm2V4CLbixEu7sk6Sfk/imHErPIvHqxc6MF98nNGHbi/YKpJ9oN5ISBIGaYRHSv1F4vwVt0hc
-	7evadCK/k4UMXRJgqc=
-X-Received: by 2002:a05:690c:6e84:b0:79b:d341:56f7 with SMTP id 00721157ae682-79bd3415b96mr21019967b3.20.1774545030334;
-        Thu, 26 Mar 2026 10:10:30 -0700 (PDT)
-Received: from localhost.localdomain (108-207-243-35.lightspeed.austtx.sbcglobal.net. [108.207.243.35])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79b1e43b825sm16567247b3.47.2026.03.26.10.10.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 10:10:29 -0700 (PDT)
-From: Bradford Love <brad@nextdimension.cc>
-To: linux-media@vger.kernel.org,
-	hverkuil+cisco@kernel.org
-Cc: Bradford Love <brad@nextdimension.cc>
-Subject: [PATCH] Revert "media: cx231xx: add USB ID 2040:8360 for Hauppauge WinTV-HVR-935"
-Date: Thu, 26 Mar 2026 12:10:23 -0500
-Message-Id: <20260326171023.3404209-1-brad@nextdimension.cc>
-X-Mailer: git-send-email 2.35.1
+	s=arc-20240116; t=1774547351; c=relaxed/simple;
+	bh=SyRV4ibNN4fPiax7DMvyaw5kIlF5ftMO3tpyBvpx/mg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sv45nOuzTq/BGMfpJ6OCaQ/clogEgjVgB1Jjp1aFaLMDNBp0gcfsEsa0UjdwL53gla4iWCnCwbZZnmOxbZ+mf+//H5H7PK/ms3vdgrkLc0NYybPo1j9AGgVd9GnNGmfBaLVaPBYmu7e5uG7oeap5B/r9HZDwHIJwCdEjPenefcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JW1hEVb3; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774547350; x=1806083350;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=SyRV4ibNN4fPiax7DMvyaw5kIlF5ftMO3tpyBvpx/mg=;
+  b=JW1hEVb3S9Opl2KzlTfzzAKNtZ6hwe/eSmNVVvYncAuEmCFNzu8SC4Sp
+   a9KpEqfAKUmjp6ypTGlIcX8qjldAR0rgajWIowAn+LVOWxkvqyZUITub8
+   zr88Xzj7yFyrjJpAOHQU3aUPHHfq3H9TCynQHoP0MlyxJV8j6uj7R58ux
+   rJVnOnQAgSVvTlyywFAZVnrMphTZ7/YxFe1a9VKlX5G4e++K2iWRPliQz
+   gNoSx5xAxcSY83IaIxfKShgN1a0RVnI52Z61md/fn0WNX3Dd/eRaYRsKc
+   6rewl8SjC5AlsK9J06JvMzGTzewbAaUFLTCQtT9KgnEJN1uHm3Jarzr6X
+   A==;
+X-CSE-ConnectionGUID: h1S9EAZXQ+u4bj2TMmO1dw==
+X-CSE-MsgGUID: e9acmIgDSnGTa82ugD11HQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="93000311"
+X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
+   d="scan'208";a="93000311"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 10:49:09 -0700
+X-CSE-ConnectionGUID: i+Q9TmPRSPWlnOxDmu73yw==
+X-CSE-MsgGUID: RIMaIc7WQhWRo49lypgjQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
+   d="scan'208";a="221765431"
+Received: from zzombora-mobl1 (HELO kekkonen.fi.intel.com) ([10.245.244.84])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 10:49:08 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 9717511F9C9;
+	Thu, 26 Mar 2026 19:49:10 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1w5opR-0000000BWXk-3t0Q;
+	Thu, 26 Mar 2026 19:49:09 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Michael Anthony <manthony.nw@outlook.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 1/1] =?UTF-8?q?media:=20dw9719:=20Add=20back=20the=20I?= =?UTF-8?q?=C2=B2C=20device=20id=20table?=
+Date: Thu, 26 Mar 2026 19:49:09 +0200
+Message-ID: <20260326174909.2746696-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <AMBP190MB2678CBCD19A1B6416481EBB7ED4BA@AMBP190MB2678.EURP190.PROD.OUTLOOK.COM>
+References: <AMBP190MB2678CBCD19A1B6416481EBB7ED4BA@AMBP190MB2678.EURP190.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[nextdimension.cc:s=google];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57170-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	DMARC_NA(0.00)[nextdimension.cc];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_NEQ_ENVFROM(0.00)[brad@nextdimension.cc,linux-media@vger.kernel.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[5];
-	DKIM_TRACE(0.00)[nextdimension.cc:+];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: DAD7F3390B3
+	FREEMAIL_CC(0.00)[outlook.com,ideasonboard.com,kernel.org,xs4all.nl];
+	TAGGED_FROM(0.00)[bounces-57171-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,linux.intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,outlook.com:email];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 7D9DE339966
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-This reverts commit bb2a3912549d3b5cef5ed27200402fe8f6fb0694.
+The I²C device id table is necessary as the device may be, besides through
+system firmware, also instantiated in the IPU bridge so matching takes
+place using the I²C device id table. Add back the table, with ids for all
+supported devices.
 
-The USB ID 2040:8360 was reported as a new revision
-of Hauppauge HVR-935 and requested to be added to
-the cx231xx driver. The issue is current generation
-of Hauppauge 9x5 devices including 935, 955, and 975
-have moved to em2828x usb bridge. Support for the
-em2828x usb bridge and USB ID's for the new devices
-has been submitted.
-
-Signed-off-by: Bradford Love <brad@nextdimension.cc>
+Reported-by: Michael Anthony <manthony.nw@outlook.com>
+Closes: https://lore.kernel.org/linux-media/AMBP190MB2678E7DC048409068260DCE8ED4AA@AMBP190MB2678.EURP190.PROD.OUTLOOK.COM/
+Fixes: 15faf0fa1472 ("media: i2c: dw9719: Remove unused i2c device id table")
+Cc: stable@vger.kernel.org # for v6.19 and later
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/usb/cx231xx/cx231xx-cards.c | 2 --
- 1 file changed, 2 deletions(-)
+Hi Michael,
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
-index 8bf2ab9c2e8e..b75535d6abaf 100644
---- a/drivers/media/usb/cx231xx/cx231xx-cards.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
-@@ -1027,8 +1027,6 @@ struct usb_device_id cx231xx_id_table[] = {
- 	 .driver_info = CX231XX_BOARD_HAUPPAUGE_955Q},
- 	{USB_DEVICE(0x2040, 0xb151),
- 	 .driver_info = CX231XX_BOARD_HAUPPAUGE_935C},
--	{USB_DEVICE(0x2040, 0x8360),
--	 .driver_info = CX231XX_BOARD_HAUPPAUGE_935C},
- 	{USB_DEVICE(0x2040, 0xb150),
- 	 .driver_info = CX231XX_BOARD_HAUPPAUGE_975},
- 	{USB_DEVICE(0x2040, 0xb130),
+Could you confirm whether this fixes your issue?
+
+- Sakari
+
+ drivers/media/i2c/dw9719.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/media/i2c/dw9719.c b/drivers/media/i2c/dw9719.c
+index 59558335989e..3b7ba88fd67c 100644
+--- a/drivers/media/i2c/dw9719.c
++++ b/drivers/media/i2c/dw9719.c
+@@ -439,6 +439,15 @@ static void dw9719_remove(struct i2c_client *client)
+ 	pm_runtime_set_suspended(&client->dev);
+ }
+ 
++static const struct i2c_device_id dw9719_id_table[] = {
++	{ .name = "dw9718s", .driver_data = (kernel_ulong_t)DW9718S },
++	{ .name = "dw9719", .driver_data = (kernel_ulong_t)DW9719 },
++	{ .name = "dw9761", .driver_data = (kernel_ulong_t)DW9761 },
++	{ .name = "dw9800k", .driver_data = (kernel_ulong_t)DW9800K },
++	{ }
++};
++MODULE_DEVICE_TABLE(i2c, dw9719_id_table);
++
+ static const struct of_device_id dw9719_of_table[] = {
+ 	{ .compatible = "dongwoon,dw9718s", .data = (const void *)DW9718S },
+ 	{ .compatible = "dongwoon,dw9719", .data = (const void *)DW9719 },
+@@ -459,6 +468,7 @@ static struct i2c_driver dw9719_i2c_driver = {
+ 	},
+ 	.probe = dw9719_probe,
+ 	.remove = dw9719_remove,
++	.id_table = dw9719_id_table,
+ };
+ module_i2c_driver(dw9719_i2c_driver);
+ 
 -- 
-2.35.1
+2.47.3
 
 
