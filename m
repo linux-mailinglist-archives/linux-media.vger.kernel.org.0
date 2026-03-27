@@ -1,299 +1,193 @@
-Return-Path: <linux-media+bounces-57265-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57266-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QAgLJWicxmnrMQUAu9opvQ
-	(envelope-from <linux-media+bounces-57265-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:04:08 +0100
+	id cBriOCidxmnrMQUAu9opvQ
+	(envelope-from <linux-media+bounces-57266-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:07:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0C78346719
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:04:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E3A346763
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:07:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1C2D330209F9
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:03:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A39FE301F9DE
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:07:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D7662C3268;
-	Fri, 27 Mar 2026 15:03:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20EEE2ED154;
+	Fri, 27 Mar 2026 15:07:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YCOPOzPr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pW4/YbdI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3674246BA7;
-	Fri, 27 Mar 2026 15:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30156188735
+	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 15:07:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774623818; cv=none; b=ixjOi/c2oNwns/QC1i0a3qnYJL9qOyUNhFSv99tgyFHLPpKcjISE/xmKPi4JHUMyWe5bqBsa677B4lNFX/6V4Axye1Xko541N2TOnRM03MVGj5qcF5lA9Fl9tLCb6H86ThsKLS2sr5UrgY59Kijs6Zt5k4slauCXyTxCSt39GBs=
+	t=1774624035; cv=none; b=E0Jd9lRji7gLb3QyK9rRNMUBZ4lTplYdceck74e4PxYetW9ukND4pZL2y+ew5481YyKENtllESXYneF/qsTj+tMG/ZSrGDYG5gCVEQvbJhkS5saubPTVsJ3qrGR8q9XrcO0F5CdWrCbai7fJyQjUBq85+zHjHJPWZ8G7K2urnhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774623818; c=relaxed/simple;
-	bh=c2hLlYvCrduL2EsNMVYUTk0N+fX575Q16Fncu6AT/jE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ER4XMXriLeV5E4RtKRR0otknJ0Ar/AXwVRFOyqHtv1jd63nE9JvAtUY+eRcR85pjhX41zhi2hiX89Lkrwdc/csJ57QyReTJ2PNUfpd/2RegomypjoiUK39RQT60HWw5PmiAUNI0F7PGRVJAQVKck7+6F6h8Dt5Pt7/3QMaus5Sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YCOPOzPr; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 46A64201C;
-	Fri, 27 Mar 2026 16:02:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1774623735;
-	bh=c2hLlYvCrduL2EsNMVYUTk0N+fX575Q16Fncu6AT/jE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YCOPOzPrsTAS61SAeKAxSV9DobSyXpm0IxkXjNP1W63dLi6RXkB2NY+stvnwHNAO5
-	 dGyie9Rf8y+SdREZyhg8KqOxaEKpVgYTEmzkhpN7XLBPvjHCerSQ93BUhuvLSdwHWI
-	 b2wtyEVwz5AZg/JhvIe283nUQNYZBZ5cWVy/GvKQ=
-Message-ID: <1a3aedf5-6698-4912-b8d4-a5de97a34992@ideasonboard.com>
-Date: Fri, 27 Mar 2026 15:03:31 +0000
+	s=arc-20240116; t=1774624035; c=relaxed/simple;
+	bh=QT1ktfNmN1UcDS1rLtjBYoZjSUgMc025Oyaz/fGFc7o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=j0g6r9VXHnP5iIJtFk5+fFh3O7ao3KDxnLG+Tggm+wCcBgw2ktKhqgel+UWvWjESV5zkdDQc3eDoI4hjJSfXc+xWAmguJY0kGphO2e8bUkAsd6rf2SArTG61TEN9hsLgXEX5JSpB4BQdUpGwz38ljG8JMnaNnbgCrmOrNigzHTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pW4/YbdI; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4852e9ca034so22553585e9.2
+        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 08:07:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774624032; x=1775228832; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nd5Xli4czy19zxhELaWrbYsp5OrzbC0MTbSXRE2sw1A=;
+        b=pW4/YbdI/Hs0f+mLG0SQ9GkR85sW/8rGdgcWZKzYpfvuZXpDuyQ+I3OyOa4YdDyuMH
+         vPmL5gyupxFP4gNu1GFV+7GOwhnleL8dWwsL2F5ZX7zf8K+Py5BCIj/fn2oSiAGy2aUp
+         00lX5jCzRVNkvxh4/l5WASdsKJa0pwYtYWz8Vc+F3Df8MgfxosEwSTsUqH+l0uTXur25
+         kzq3dtAXTg3enmlVr0hnwv0KP+JHE94putGutjIqKAcRlnvB7XzvdEfHGVoCjpAyS2ZA
+         0+brAWpP5q20ScRP/cefLJy7hAD1EwIX0qpShcGXUIlbmsTXwPiYB0DdjyhhZtvKGKmY
+         0ayQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774624032; x=1775228832;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nd5Xli4czy19zxhELaWrbYsp5OrzbC0MTbSXRE2sw1A=;
+        b=jufnmZ6DvB8h2cQHFCkGhQrveXfYnQY5zcBPO+UXwIHjTDnRSWj+mxJGMBr+6zqvl/
+         uHNS5mSRqnSpFag0haSGCfnN2H+5zsQ5QXriLxzvIU2agcCSz6xBNjQbjRx/+tq8uVwK
+         LSg/PezdZBiNzx07mZPa9j0sYMqZhbNCll+7Sy8Us0P+DyJU6HqtbqgDTjh8vkqBe4Xk
+         BaahX7bqZNzopXpbZnAtxv7C/K3nslPS0mExVwO2fmo3+oeIrVTwYNIcjfBh5TtcYg6K
+         650kZXbBU2kbxlbppZ4oIxHaJS0YMFKTDaz8tHvrLJbk6vSsTFna9H1v/uJE+rwQWJWR
+         6pjg==
+X-Gm-Message-State: AOJu0Yx8paOmAKj2GpnJip8L5zXKqCBTp+UWLK02yh+sAoglWFNvvMyT
+	YTTUTGD60BmBRyaDz54twQsox8HwW0okutZuZxiHNFtashSILriB9sDD
+X-Gm-Gg: ATEYQzzEwbf3+Rl7Z2YL3C0mWpWukdvM2+CM9Z4Oq5btZabuGO4KBDMkKRO5qQzY0nX
+	NqtCvC03jPyh89uQIeNGEOA9up3/NtxOy1OIhItPbXXKzjN11Y4ExGgSDTEMUU1eOXydot82YHq
+	dCpMIQJopE3W1Q0AGd9fVbGqmf34L3Ag7FFzu7UH59YofsHBpEnNZy/1Gf+dQuChwIspALNWKdk
+	d3KB8QXCGYFEvqvou6w7z7e8xphlPBchEm5QfEB9HWqoRuLIscwDD/S8Hs9s5MN81uhhGxd5ZcW
+	uhOwtTDIEpMUmX9sIQ0mppeeYa3pi6tsN2KC8bkxYhzJ4r3py8q4B53+i4B5ZEBAVuROtN5zZDm
+	GiC/1O04FUxTpXMaplt0kt9OpxA1PAIfcXy0pvYnpbNOB8e/r7RSsSowovCqGHrVWLxQ+0NwOfS
+	m3XQNVmp9jeodnqRg8cac8op3ZULw0Ebwk4v+5EIxRkNaj0TQAXGpOieaXJ+O0cDz9dycjLPMYw
+	2PC8/mlNbuh
+X-Received: by 2002:a05:600c:8b2a:b0:485:3dfc:57c with SMTP id 5b1f17b1804b1-48727f5fe97mr46485075e9.21.1774624032289;
+        Fri, 27 Mar 2026 08:07:12 -0700 (PDT)
+Received: from dohko.chello.ie (188-141-5-72.dynamic.upc.ie. [188.141.5.72])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722d40741sm97475055e9.13.2026.03.27.08.07.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 08:07:11 -0700 (PDT)
+From: David Carlier <devnexen@gmail.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nayden Kanchev <nayden.kanchev@arm.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	David Carlier <devnexen@gmail.com>
+Subject: [PATCH v3 1/3] media: mali-c55: add missing of_reserved_mem_device_release()
+Date: Fri, 27 Mar 2026 15:07:05 +0000
+Message-ID: <20260327150707.256752-1-devnexen@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] platform/x86: int3472: Add TPS68470 board data for
- intel nvl
-To: Arun T <arun.t@intel.com>, johannes.goede@oss.qualcomm.com
-Cc: sakari.ailus@linux.intel.com, arec.kao@intel.com,
- ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- mehdi.djait@intel.com
-References: <20260327133905.3509868-1-arun.t@intel.com>
- <20260327133905.3509868-2-arun.t@intel.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20260327133905.3509868-2-arun.t@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57265-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dan.scally@ideasonboard.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57266-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[devnexen@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
-X-Rspamd-Queue-Id: E0C78346719
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 27E3A346763
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Arun, thanks for the revision
+mali_c55_probe() calls of_reserved_mem_device_init() to associate
+reserved memory regions with the device. This function allocates a
+struct rmem_assigned_device and adds it to a global linked list, which
+must be explicitly released via of_reserved_mem_device_release() — there
+is no devm variant of this API.
 
-On 27/03/2026 13:39, Arun T wrote:
-> The Intel NVL platform uses IPU8 is powered by a TPS68470 PMIC,requiring board
-> data to configure the GPIOs and regulators for proper camera sensor operation.
-> 
-> Signed-off-by: Arun T <arun.t@intel.com>
-> ---
->   .../x86/intel/int3472/tps68470_board_data.c   | 127 ++++++++++++++++++
->   1 file changed, 127 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> index 71357a036292..a1c32a988bcd 100644
-> --- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> +++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> @@ -143,6 +143,20 @@ static struct regulator_consumer_supply int3479_aux2_consumer_supplies[] = {
->   	REGULATOR_SUPPLY("dovdd", "i2c-INT3479:00"),
->   };
->   
-> +/* Settings for Intel NVL platform */
-> +
-> +static struct regulator_consumer_supply int3472_core_consumer_supplies[] = {
+However, neither the probe error paths nor mali_c55_remove() called
+of_reserved_mem_device_release(). Any probe failure after the
+of_reserved_mem_device_init() call, as well as every normal device
+removal, leaked the reserved memory association on the global list.
 
-The name of the struct needs to be different really; INT3472 is the HID for the PMIC which will be 
-the same for all sensors across these platforms. So far we've been naming them after the sensor 
-_HID; so in this case this would be something like ovti13b1_core_consumer_supplies. Similar notes 
-for the next two structs. Sorry, didn't notice that on the last version.
+Fix this by adding an err_release_mem label at the end of the probe
+error chain and calling of_reserved_mem_device_release() in
+mali_c55_remove(). The remove teardown order is also corrected to call
+mali_c55_media_frameworks_deinit() before kfree(), mirroring the probe
+init order in reverse.
 
-> +	REGULATOR_SUPPLY("dvdd", "i2c-OVTI13B1:01"),
-> +};
-> +
-> +static struct regulator_consumer_supply int3472_ana_consumer_supplies[] = {
-> +	REGULATOR_SUPPLY("avdd", "i2c-OVTI13B1:01"),
-> +};
-> +
-> +static struct regulator_consumer_supply int3472_vsio_consumer_supplies[] = {
-> +	REGULATOR_SUPPLY("dovdd", "i2c-OVTI13B1:01"),
-> +};
-> +
->   static const struct regulator_init_data dell_7212_tps68470_core_reg_init_data = {
->   	.constraints = {
->   		.min_uV = 1200000,
-> @@ -220,6 +234,83 @@ static const struct regulator_init_data dell_7212_tps68470_aux2_reg_init_data =
->   	.consumer_supplies = int3479_aux2_consumer_supplies,
->   };
->   
-> +static const struct regulator_init_data intel_nvl_tps68470_core_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 1200000,
-> +		.max_uV = 1200000,
-> +		.apply_uV = true,
-> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> +	},
-> +	.num_consumer_supplies = ARRAY_SIZE(int3472_core_consumer_supplies),
-> +	.consumer_supplies = int3472_core_consumer_supplies,
-> +};
-> +
-> +static const struct regulator_init_data intel_nvl_tps68470_ana_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 2815200,
-> +		.max_uV = 2815200,
-> +		.apply_uV = true,
-> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> +	},
-> +	.num_consumer_supplies = ARRAY_SIZE(int3472_ana_consumer_supplies),
-> +	.consumer_supplies = int3472_ana_consumer_supplies,
-> +};
-> +
-> +static const struct regulator_init_data intel_nvl_tps68470_vcm_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 2815200,
-> +		.max_uV = 2815200,
-> +		.apply_uV = true,
-> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> +	},
-> +	.num_consumer_supplies = 0,
-> +	.consumer_supplies = NULL,
+Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
+Signed-off-by: David Carlier <devnexen@gmail.com>
+---
+ drivers/media/platform/arm/mali-c55/mali-c55-core.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-These discrete initialisations to 0 and NULL can be dropped; Sakari has a patch removing them across 
-the rest of the file too.
-
-With those two changes made you can add my R-b on the next version:
-
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-
-> +
-> +};
-> +
-> +/* Ensure the always-on VIO regulator has the same voltage as VSIO */
-> +static const struct regulator_init_data intel_nvl_tps68470_vio_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 1800600,
-> +		.max_uV = 1800600,
-> +		.apply_uV = true,
-> +		.always_on = true,
-> +	},
-> +};
-> +
-> +static const struct regulator_init_data intel_nvl_tps68470_vsio_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 1800600,
-> +		.max_uV = 1800600,
-> +		.apply_uV = true,
-> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> +	},
-> +	.num_consumer_supplies = ARRAY_SIZE(int3472_vsio_consumer_supplies),
-> +	.consumer_supplies = int3472_vsio_consumer_supplies,
-> +};
-> +
-> +static const struct regulator_init_data intel_nvl_tps68470_aux1_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 2815200,
-> +		.max_uV = 2815200,
-> +		.apply_uV = 1,
-> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> +	},
-> +	.num_consumer_supplies = 0,
-> +	.consumer_supplies = NULL,
-> +};
-> +
-> +static const struct regulator_init_data intel_nvl_tps68470_aux2_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 1800600,
-> +		.max_uV = 1800600,
-> +		.apply_uV = 1,
-> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> +	},
-> +	.num_consumer_supplies = 0,
-> +	.consumer_supplies = NULL,
-> +};
-> +
->   static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata = {
->   	.reg_init_data = {
->   		[TPS68470_CORE] = &dell_7212_tps68470_core_reg_init_data,
-> @@ -232,6 +323,18 @@ static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata =
->   	},
->   };
->   
-> +static const struct tps68470_regulator_platform_data intel_nvl_tps68470_pdata = {
-> +	.reg_init_data = {
-> +		[TPS68470_CORE] = &intel_nvl_tps68470_core_reg_init_data,
-> +		[TPS68470_ANA]  = &intel_nvl_tps68470_ana_reg_init_data,
-> +		[TPS68470_VCM]  = &intel_nvl_tps68470_vcm_reg_init_data,
-> +		[TPS68470_VIO] = &intel_nvl_tps68470_vio_reg_init_data,
-> +		[TPS68470_VSIO] = &intel_nvl_tps68470_vsio_reg_init_data,
-> +		[TPS68470_AUX1] = &intel_nvl_tps68470_aux1_reg_init_data,
-> +		[TPS68470_AUX2] = &intel_nvl_tps68470_aux2_reg_init_data,
-> +	},
-> +};
-> +
->   static struct gpiod_lookup_table surface_go_int347a_gpios = {
->   	.dev_id = "i2c-INT347A:00",
->   	.table = {
-> @@ -258,6 +361,14 @@ static struct gpiod_lookup_table dell_7212_int3479_gpios = {
->   	}
->   };
->   
-> +static struct gpiod_lookup_table intel_nvl_ovti13b1_gpios = {
-> +	.dev_id = "i2c-OVTI13B1:01",
-> +	.table = {
-> +		GPIO_LOOKUP("tps68470-gpio", 9, "reset", GPIO_ACTIVE_LOW),
-> +		{ }
-> +	}
-> +};
-> +
->   static const struct int3472_tps68470_board_data surface_go_tps68470_board_data = {
->   	.dev_name = "i2c-INT3472:05",
->   	.tps68470_regulator_pdata = &surface_go_tps68470_pdata,
-> @@ -287,6 +398,15 @@ static const struct int3472_tps68470_board_data dell_7212_tps68470_board_data =
->   	},
->   };
->   
-> +static const struct int3472_tps68470_board_data intel_nvl_tps68470_board_data = {
-> +	.dev_name = "i2c-INT3472:04",
-> +	.tps68470_regulator_pdata = &intel_nvl_tps68470_pdata,
-> +	.n_gpiod_lookups = 1,
-> +	.tps68470_gpio_lookup_tables = {
-> +		&intel_nvl_ovti13b1_gpios,
-> +	},
-> +};
-> +
->   static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
->   	{
->   		.matches = {
-> @@ -316,6 +436,13 @@ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
->   		},
->   		.driver_data = (void *)&dell_7212_tps68470_board_data,
->   	},
-> +	{
-> +		.matches = {
-> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Nova Lake Client Platform"),
-> +		},
-> +	       .driver_data = (void *)&intel_nvl_tps68470_board_data,
-> +	},
->   	{ }
->   };
->   
+diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
+index c1a562cd214e..5cb59c70ffc9 100644
+--- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
++++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
+@@ -806,8 +806,10 @@ static int mali_c55_probe(struct platform_device *pdev)
+ 	vb2_dma_contig_set_max_seg_size(dev, UINT_MAX);
+ 
+ 	ret = __mali_c55_power_on(mali_c55);
+-	if (ret)
+-		return dev_err_probe(dev, ret, "failed to power on\n");
++	if (ret) {
++		dev_err_probe(dev, ret, "failed to power on\n");
++		goto err_release_mem;
++	}
+ 
+ 	ret = mali_c55_check_hwcfg(mali_c55);
+ 	if (ret)
+@@ -846,6 +848,8 @@ static int mali_c55_probe(struct platform_device *pdev)
+ 	kfree(mali_c55->context.registers);
+ err_power_off:
+ 	__mali_c55_power_off(mali_c55);
++err_release_mem:
++	of_reserved_mem_device_release(dev);
+ 
+ 	return ret;
+ }
+@@ -854,8 +858,9 @@ static void mali_c55_remove(struct platform_device *pdev)
+ {
+ 	struct mali_c55 *mali_c55 = platform_get_drvdata(pdev);
+ 
+-	kfree(mali_c55->context.registers);
+ 	mali_c55_media_frameworks_deinit(mali_c55);
++	kfree(mali_c55->context.registers);
++	of_reserved_mem_device_release(&pdev->dev);
+ }
+ 
+ static const struct of_device_id mali_c55_of_match[] = {
+-- 
+2.53.0
 
 
