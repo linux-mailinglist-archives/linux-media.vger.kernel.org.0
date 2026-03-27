@@ -1,248 +1,156 @@
-Return-Path: <linux-media+bounces-57255-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57256-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id DoZIEFeUxml7MQUAu9opvQ
-	(envelope-from <linux-media+bounces-57255-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:29:43 +0100
+	id iH3iCPWVxmnrMQUAu9opvQ
+	(envelope-from <linux-media+bounces-57256-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:36:37 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01800346116
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:29:42 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 253983462E1
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:36:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id EC439305F246
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 14:28:30 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 62091302378C
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 14:33:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 659DA199920;
-	Fri, 27 Mar 2026 14:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 011253F23A4;
+	Fri, 27 Mar 2026 14:33:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RO6vh06e"
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b="RfM4V5cM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41D73BB4A
-	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 14:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774621708; cv=none; b=Z570QztXOtlKWQIHBXxN3D50sCzccXRfSfo4Gl1DooVKMgi2y2bIexQbYcbZDXDtnAtVSneFFOyeLBh5H1c0w8GA39UPDqCzwJm3Ffz5r3Z50jgvUUxeM3t9d63W32/p0IS6u4y5/BVLl0bYfH04QleH6r/nDtEpi5ZcaNiho4A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774621708; c=relaxed/simple;
-	bh=13ut+pc06WW5siJcgsC1Q0NjWfQ1JaLOiLJwqlqZ9nA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=A3l9uUPjRPD8FIglVRybgTW69zIJ7KhGbycjHFk5R/wVvANnqGQjubFD3QbSHbPQPDSPW61MPS8qwYCqQ7S0FHoergpxJEVVOwZeemPdMau1Z45eED1gk0IF7Sun/UZn++5esu7NJn8rwlK+20DPGcOM2JzcyozEBHNV8nXEV2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RO6vh06e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39743C19423;
-	Fri, 27 Mar 2026 14:28:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774621708;
-	bh=13ut+pc06WW5siJcgsC1Q0NjWfQ1JaLOiLJwqlqZ9nA=;
-	h=Date:From:Subject:To:Cc:From;
-	b=RO6vh06eoa38vO0ZgvFGCDeNHiokCIYwnJmu9gTrVy5gLx5H3KmLZE+5lmW36RtTu
-	 2SHNoZKS/uOJq7fKB/EQ33IowFG+hYFRX3RGaicnQm8dJhouygJ8YU9J21yOwagTD1
-	 J5KFJRbO92a5nul+85u6iSqqqIs8gxl0JiasdFPF2YYcAkj+PTkMR2Nvrnbg4UJfhV
-	 kII2qQ1OBNJ2ZL18a58KmppccjLPTUhEMs1pP6EviyeejDfFkpTXhn1fR+ugIAQRDG
-	 GPcBWq5LjbkSEU+0Da51m04U0XOo3U9RBnUWoGb6NlrKCu2X0Htb0xZKe81FLajwF/
-	 ztkfM+x95VqcQ==
-Message-ID: <cd6465bc-ca32-429d-8e79-1a27cdee33e3@kernel.org>
-Date: Fri, 27 Mar 2026 15:28:21 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D6D3F7869;
+	Fri, 27 Mar 2026 14:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774622014; cv=pass; b=EkT2Zs90YBbE1H+kDCaHV7k7nY56QdoEORXYDd8TxdgFtPQjfWBfdcqlAn9CnKpJj1F4OXbYXfRe/lv2HBY1OK/AqtKwRHqgI18FPjcbYbNltnTMBOyymfnDqWpuzvFQfo+WJeC6Cp08b9tkDWQiHnyEFTWcu89ktgcKO5kvaLY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774622014; c=relaxed/simple;
+	bh=+zLhFjmQDcbbt7AWjLmj5y51IOac2tCxLouPPcLnI8s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=nP1lZKT76oW6dVnrdBFyRBCs5V8kJNKLPsituxkuMeWUkVWl7/x9pdXDvz0TuJW07dGjuWTw4o5/wvhRrePYRDaZX8VB4mobOPj/Iy4xCoA5MGOWGtieG6vU7iQHYBTLdFYwlHbTIj5QuqUfaL9lkbCTTHQlu7v6+39Y3HU7Npk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b=RfM4V5cM; arc=pass smtp.client-ip=136.143.188.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1774622001; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=nUljK+qPzkYuVja+whhHMc0Zqr0M6hxb9rBEptKzX4J+TXATTg+him+nzPhHAAJIu01j9yl9Djb+lJzBFZxpO4DxtGZbBQkVrlKngZZQoCCS2pKaOP3qjzgtf0+Utw2rgzPvi4QUz+LBIi9MShCVWnXG5yooKLgW7ujckGeYHO0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774622001; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Y7oh+a8faCMP0nn2EAP8q8UOeOBQTSgBhDx/Ls2KJr4=; 
+	b=YkO5hHZW6oJ7/gKoZkW6uJtS/upBQLzMMVw28KuPslkHzh1MHK+Jx4rTCsi43ESCwVJ/g8py0VSHTSBJIykFTbsnA/hXx+tu3jbI8+fIBEHO1Lh5c8wSHzFxuIIBGUxsps7a2Qvl8a9O0jr/OWv1O1Q8vv0PBEPksas6uKcQePk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=ming.li@zohomail.com;
+	dmarc=pass header.from=<ming.li@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774622001;
+	s=zm2022; d=zohomail.com; i=ming.li@zohomail.com;
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Cc:Cc:Feedback-ID:Reply-To;
+	bh=Y7oh+a8faCMP0nn2EAP8q8UOeOBQTSgBhDx/Ls2KJr4=;
+	b=RfM4V5cMNMR705uZ8k7dsBzmDifyma3junLIxjCSeWyrLgYMLhEy/kE+Bbc2KeCB
+	paN+bvdUPe9E/s7S9pJ42af1fm+8012gTfIyRscrDu8hiukwXEjgaDsmLafYIEnOLI+
+	tBV24CfyLNwhs+2Ww675A52Fi/cgwRG5erZX21kY=
+Received: by mx.zohomail.com with SMTPS id 1774621998416686.6503783790713;
+	Fri, 27 Mar 2026 07:33:18 -0700 (PDT)
+From: Li Ming <ming.li@zohomail.com>
+Date: Fri, 27 Mar 2026 22:33:12 +0800
+Subject: [PATCH] dma-fence: Dereference correct dma_fence in
+ dma_fence_chain_find_seqno()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [ANNv3] Media Summit on May 26th in Nice, France
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa
- <tfiga@chromium.org>, Steve Cho <stevecho@chromium.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Kevin Hilman <khilman@baylibre.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Hans de Goede <hansg@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Brandon Brnich <b-brnich@ti.com>, Marco Felsch <m.felsch@pengutronix.de>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>,
- =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>,
- Michael Riesch <michael.riesch@collabora.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
- Jackson Lee <jackson.lee@chipsnmedia.com>,
- Jai Luthra <jai.luthra@ideasonboard.com>
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260327-fix_dma_fence_chain_find_seqno-v1-1-60e80bfb43c8@zohomail.com>
+X-B4-Tracking: v=1; b=H4sIACeVxmkC/x2NQQqEMBAEvyJz3kCMi4JfERmC6ezOwVETWATx7
+ w57LOjquqiiCCqNzUUFP6myqUH7amj5Rv3ASTKm4EPvuzC4LCenNXKGLmDbiHIWTVxx6OaGmBD
+ 7NzJ8S3ayF5jxD0zzfT/Zd5u7cAAAAA==
+X-Change-ID: 20260327-fix_dma_fence_chain_find_seqno-7adea64efe01
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ Li Ming <ming.li@zohomail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774621995; l=1233;
+ i=ming.li@zohomail.com; s=20260210; h=from:subject:message-id;
+ bh=+zLhFjmQDcbbt7AWjLmj5y51IOac2tCxLouPPcLnI8s=;
+ b=n+W96xE4botpec3dm4ZtmEfoa2crfqwYysFYGgIGPd40VUnYgxh6GUDVRA02g7GKPnyDIfZ3a
+ px4khNDWLaaBfqUeciHdC5QYk3tNhwpvOgC0sEslcxLi0Jq0gaKY6Al
+X-Developer-Key: i=ming.li@zohomail.com; a=ed25519;
+ pk=JfhrdHjyYJMXt47Hy8d/fsqZuhGPD4Z3whV5lTfVvhE=
+Feedback-ID: rr08011228940aa66380fa0d4b662a568400000d279bad22d5095ea3e85f9414054fc86fffc237db77815a9796:zu08011227ab6f83bf04d1505dc422a3a70000adc505029736d0771b9faea9619460ca47f63293d14ccafe3a:rf0801122d88732d6b5a5151da13656a3e00007c881f111584b5d382ba029be96c8375f169bebdf57c1d7ad2c58728b9fa40:ZohoMail
+X-ZohoMailClient: External
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[zohomail.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[zohomail.com:s=zm2022];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57255-lists,linux-media=lfdr.de,cisco];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-57256-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,zohomail.com];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ming.li@zohomail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[zohomail.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 01800346116
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,zohomail.com:dkim,zohomail.com:email,zohomail.com:mid]
+X-Rspamd-Queue-Id: 253983462E1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-(Please pass this on to anyone you think might be interested in this!)
+dma_fence_chain_find_seqno() uses dma_fence_chain_for_each() to walk a
+given dma_fence_chain. dma_fence_chain_for_each() always holds a
+reference for the current fence during iteration. The reference must
+be dropped after breaking out. Instead of dereferencing the last fence
+as intended, dma_fence_chain_find_seqno() incorrectly dereferences the
+first fence in the chain.
 
-Hi all,
+Fixes: 7bf60c52e093 ("dma-buf: add new dma_fence_chain container v7")
+Signed-off-by: Li Ming <ming.li@zohomail.com>
+---
+ drivers/dma-buf/dma-fence-chain.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This is the third version of this announcement, updating the list of attendees
-and the tentative agenda at the end: please let me know if you see mistakes.
-Note that more topics are welcome!
+diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+index a8a90acf4f34..71fa173aef13 100644
+--- a/drivers/dma-buf/dma-fence-chain.c
++++ b/drivers/dma-buf/dma-fence-chain.c
+@@ -103,7 +103,7 @@ int dma_fence_chain_find_seqno(struct dma_fence **pfence, uint64_t seqno)
+ 		    to_dma_fence_chain(*pfence)->prev_seqno < seqno)
+ 			break;
+ 	}
+-	dma_fence_put(&chain->base);
++	dma_fence_put(*pfence);
+ 
+ 	return 0;
+ }
 
-This year's Media Summit will be held on Tuesday May 26th the day before the
-Embedded Recipes Conference in Nice, France:
+---
+base-commit: c369299895a591d96745d6492d4888259b004a9e
+change-id: 20260327-fix_dma_fence_chain_find_seqno-7adea64efe01
 
-https://embedded-recipes.org/2026/
+Best regards,
+-- 
+Li Ming <ming.li@zohomail.com>
 
-The Media Summit will be held at Hotel Campanile and in the same meeting room
-as last year (Nikaia):
-
-https://nice-aeroport.campanile.com/en-us/
-
-It is close to the Airport and to the Embedded Recipes venue.
-
-The meeting room can hold up to 30 people and I will provide video conferencing support,
-just like last year. The location and the meeting room was quite nice last year, so
-I saw no need to change it.
-
-That said, in-person participation is very much preferred. This yearly summit is meant
-for active media developers to meet face-to-face and to discuss media subsystem issues.
-
-And it is also a good opportunity to talk to each other during the Embedded Recipes
-conference to discuss topics in a smaller group. But if you are an active media developer
-and are really not able to attend in person, then remote participation is an option.
-
-If you want to attend the meeting (either in person or remote), then send an email to me
-directly. The deadline for in-person attendance is May 14 as the hotel needs to know the
-final number of attendees by then.
-
-There is no registration fee, the meeting room is sponsored by Cisco and Collabora, and
-the lunch is sponsored by Ideas on Board! Many thanks to our sponsors, it's very much
-appreciated.
-
-If you have a topic that you want to discuss, just 'Reply All' to this announcement
-and give the topic title, a short description and a guesstimate of the time you need
-for your topic.
-
-See last year's Media Summit Report as an example of what to expect:
-
-https://lore.kernel.org/linux-media/21769183-ca57-4f8f-818a-6a1ad089298d@jjverkuil.nl/
-
-This announcement goes out quite early for once, usually it takes a lot longer
-to organize, but having it in the same place as before made life so much easier.
-
-Regards,
-
-	Hans
-
-PS: Be aware that May 24 and 25 are public holidays in France. So many shops may be
-closed those days.
-
-In-person attendees:
-Sakari Ailus <sakari.ailus@linux.intel.com>
-Kieran Bingham <kieran.bingham@ideasonboard.com>
-Brandon Brnich <b-brnich@ti.com>
-Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Marco Felsch <m.felsch@pengutronix.de>
-Paul Kocialkowski <paulk@sys-base.io>
-Jai Luthra <jai.luthra@ideasonboard.com>
-Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Loic Poulain <loic.poulain@oss.qualcomm.com>
-Sven Püschel <s.pueschel@pengutronix.de>
-Ricardo Ribalda <ribalda@chromium.org>
-Michael Riesch <michael.riesch@collabora.com>
-Devarsh Thakkar <devarsht@ti.com>
-Michael Tretter <m.tretter@pengutronix.de>
-Hans Verkuil <hverkuil@kernel.org>
-
-Remote attendees:
-Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-Jackson Lee <jackson.lee@chipsnmedia.com>
-Dave Stevenson <dave.stevenson@raspberrypi.com> (tentative)
-
-
-Agenda (unordered, *very* tentative):
-
-Title: Discussion of the media subsystem development process
-Presenter: Hans Verkuil
-Time estimate: 1 hour
-Description: Review of the multi-committer model: current status and next steps.
-Are there any bottlenecks, any ideas for improvements, w.r.t. the development process?
-
-Title: Status of ISP support in V4L2
-Presenter: Laurent Pinchart
-Time estimate: 15 minutes
-Description: Summary of ISP-related development in V4L2 since the last
-Linux Media Summit. This includes a brief overview of technical
-developments, and a summary of the efforts to engage with vendors.
-
-Title: Vulkan Video Codecs
-Presenter: Nicolas Dufresne
-Time estimate: ???
-Description: Vulkan video codecs: what are the viable options for Linux Media
-and what is in preparation outside of our subsystem. The second aspect is
-informative as these discussions don't seem to lean toward our subsystem as the
-foundation. But I think it's rather useful for everyone to understand why and
-what is included.
-
-Title: V4L2 Stateless Video Encoding uAPI Progress Update
-Presenter: Paul Kocialkowski
-Time estimate: 1 hour
-Description: An update on the ongonig work to support stateless codecs in V4L2.
-Some of the remaining open topics will be presented and discussed.
-
-Title: HDCP support for HDMI receivers
-Presenter: Hans Verkuil
-Time estimate: 30 minutes
-Description: I have been working on adding HDCP support for HDMI receivers.
-Specifically the HDCP negotiation between sources and sinks. Decrypting
-protected video to secure memory is not part of V4L2 so I won't discuss this.
-
-Title: Overview of Media CI: where do pipelines run?
-Presenter: Ricardo Ribalda
-Time estimate: 30
-Description: How are jobs in pipelines assigned? How does the infrastructure
-for Media CI work? Are there things that can be tweaked to make it more
-reliable?
-
-Title: AI patches
-Presenter: Sakari Ailus
-Time estimate: 15
-Description: What is our policy w.r.t. AI generated patches?
 
