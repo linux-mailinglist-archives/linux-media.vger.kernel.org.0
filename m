@@ -1,104 +1,80 @@
-Return-Path: <linux-media+bounces-57224-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57226-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MMOBEsFzxmkCKgUAu9opvQ
-	(envelope-from <linux-media+bounces-57224-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 13:10:41 +0100
+	id IBTALot2xmnSKgUAu9opvQ
+	(envelope-from <linux-media+bounces-57226-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 13:22:35 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC671343FF2
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 13:10:40 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F68E344258
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 13:22:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9B851302F437
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 12:10:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CA6C930E7FB8
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 12:19:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 057FC395240;
-	Fri, 27 Mar 2026 12:10:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32FE639DBEB;
+	Fri, 27 Mar 2026 12:19:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="OcrXxm1V"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kA5KYHyR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3BD3932F2
-	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 12:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5431DBB3A;
+	Fri, 27 Mar 2026 12:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774613425; cv=none; b=QaTPtgSy8/JzmO5+DHtCosdEstnMrJBS9CUJRVsZ2MPw++ZKtpzNkLHorvH8/32WqGhH43/YWKtRBvSCAYoYalWbMZ5DguCiUHXDKlb/zCzkotPfxxuEMVg73pdysqEmPKCNswcalXgttUdqHBG+LVgFuKqUkLbqyqrNcfL0uHc=
+	t=1774613950; cv=none; b=pRzTLR5fACSlYtrsMEWb6R5nGfCJLQszjn20ErShdSkZ68zp3BaPvV2vxeshRqBPzuOjpUanoYwSaStC78DZseDHWs/p/pCpMI+1qBwPwmeMVS13gKDvgm/WAoPWXTr+s2s8b6U0nfP+IcMLny+rNamZ/yMnuH9iPZX0KKj5tCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774613425; c=relaxed/simple;
-	bh=ghZHpLykub1cNN1HjFeRqA1TQ1HWa/ZB0207dvHDd5E=;
+	s=arc-20240116; t=1774613950; c=relaxed/simple;
+	bh=WdmmxLC4uZUaxNYg07u+R61NqLzB+09CSA+9gpv6wjo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pvsps3er4WMyAAlc/0+7iM1TPV6r+fhp69YJmp2irJZeoL/W6SD6zSdzOQvG5ejudS3gTwgscDdSY4neuLcUSweiEQKRfYh1dfAEuzdPnHxfmINM1AduBYSyf9yolTYFAbS/ew5/lHNzivxYrAKgMFaC928MB7ZCWE4CVp0CQwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=OcrXxm1V; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8cfdac74050so255766185a.3
-        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 05:10:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1774613423; x=1775218223; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mfIjIsS8DDjImfR7uqLq3DxooHT40pwlydrjxj52iHU=;
-        b=OcrXxm1VH/AywYiTQ4IIjBGfVkubgOarwkpSTEXkGHMthF2qxy3EiRi7wk3XakyrTd
-         jxuRF+dFlpXxgJ8vS0EQLeo1tr+p8gpT8R4WXQJ7RIbxF1kQLpn+mYWcvAi9fJl+7BX8
-         akTNc3OaT2v2Tfi3QX5nXXaZN2qCsAJZ0gnGNTN5rstN1rFG8k0F+9yMy9uO/TSY6YIh
-         srLareuxexur0qVt5Ad1wiLw2/teblXYO1nlAF2P9+k8OZa2Y14NpUSSYofbml7vFj6Y
-         dY8cfo5z0CKQDotPbt0G8+YzIyWF839fUkiYwLSEKScv1KsUS8/qg4j6Zk5c12hyjGbR
-         uT4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774613423; x=1775218223;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mfIjIsS8DDjImfR7uqLq3DxooHT40pwlydrjxj52iHU=;
-        b=ACb63LgkHQtkTzKa/JP+yojygmJZhgbUz9Qi1DWkFh2RfW+kUpuHjcKvnnBu+/qkX1
-         FoezNQwBlTS7OpvbN0v0u/h0HyxnKtfxZhzJdxNJ4VPC2cAwlYelHecCB2qwnbLfZ3Hw
-         jnWiDH0BMAoxKDBOrr8gUA5tEUQXg1ayVYK0gJ60MzFcgVkYuBwqavkuZ6DADoxYiOOe
-         45sdO+WPB/ZtA2joXZNcJdjo25KqaYT5A6u7f9HlMQMp6na6AyZkd1TR9RKAB4LmoJIA
-         VhLylRwjAedmHjYQiqH2Go0FzneShsZhM6RM4ez5qIQ+xomPsTZ6vIjG0J+eMAemySe2
-         UfCA==
-X-Forwarded-Encrypted: i=1; AJvYcCWuN5XvSvS3TXLPb0UjhqcBTrBcqpqrrlRlFS5/3+L2Q14SXV5NHCkG6vqpI3oBBNLYoUyZ7rdQLXbewQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyP00ozhllY6cm8ddXUdHWea8fEcuuZcRCVbxw46MW8HdBuGSC6
-	C01tSQQIoFxVxm7OmI3VGjcYVfguO4O0XxKnWR3OXmQjGwW5CgBdcjTQgaTjjrKwVmg=
-X-Gm-Gg: ATEYQzxjA/HlDfzJwk30O/FL8xX7MuTOSCED0byQX3DOycMg2JboyMO8S9aTBsn1kCe
-	Md1qTD8IYGFdcktcNmDfkzM8OIfKAU+nuhs8FbiokgAJ2OMV3HDEH2hOUSo4xf3DouV/3NcaGCt
-	5+fFnrUrV+PT8sDD3nkKfavW6JdklwA+3+ftS6ydPjbb/d3jntEPoeshGi/gZzDca7t2+UTvFbY
-	QokKee1aFiXP8B8pe/BE5SrBbTFlU7Gb+BUN/jFi+w7oxdv2BXHDZQ+mt5DpWrALArgS1Vt5yHL
-	4/LG0cfm/fe65dcxKXoGM3xOr5eqhYrc8qwrgbD8V9iMYP83nKXdCDYlGA/ppvl+R1h7BFL/yar
-	5UfYQ9gA8t1TDtvR7IJ1tWZQeztiKgznGlJm3tcgSCdoY4AVukax8KG7QUcsIfuwxyGDI3ovDYQ
-	9hFugQy8dZGF5deKenzp1Q3/8H9l0vSDeyI3JtgGLijDXFbh+CJKmAcj1ce4QmhITWTtMxYg==
-X-Received: by 2002:a05:620a:4589:b0:8cd:6175:9b17 with SMTP id af79cd13be357-8d01c5bf3ffmr259778785a.3.1774613423032;
-        Fri, 27 Mar 2026 05:10:23 -0700 (PDT)
-Received: from ziepe.ca (mctnnbsa70w-159-2-73-22.dhcp-dynamic.fibreop.nb.bellaliant.net. [159.2.73.22])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d00e3c3a0dsm507700285a.13.2026.03.27.05.10.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 05:10:22 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1w6617-00000001CcJ-1QAP;
-	Fri, 27 Mar 2026 09:10:21 -0300
-Date: Fri, 27 Mar 2026 09:10:21 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
-	"T.J. Mercier" <tjmercier@google.com>
-Cc: Jiri Pirko <jiri@resnulli.us>, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
-	linux-media@vger.kernel.org, sumit.semwal@linaro.org,
-	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
-	jstultz@google.com, tjmercier@google.com, christian.koenig@amd.com,
-	robin.murphy@arm.com, leon@kernel.org, sean.anderson@linux.dev,
-	ptesarik@suse.com, catalin.marinas@arm.com, aneesh.kumar@kernel.org,
-	suzuki.poulose@arm.com, steven.price@arm.com,
-	thomas.lendacky@amd.com, john.allen@amd.com, ashish.kalra@amd.com,
-	suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
-Subject: Re: [PATCH v5 0/2] dma-buf: heaps: system: add an option to allocate
- explicitly shared/decrypted memory
-Message-ID: <20260327121021.GB246076@ziepe.ca>
-References: <CGME20260325192400eucas1p2ae38ff4c2b3ab35a7047cfd680d9fda3@eucas1p2.samsung.com>
- <20260325192352.437608-1-jiri@resnulli.us>
- <f2047cd7-91a8-4f6a-b6b9-0e4f143f6854@samsung.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=gBEuYkKztwLFmS0yDIiwgCQt5YAwDjACNu2Tz9mV8SVN6GP4Yg5iLahJVZoCxy1YPNlF6Pg9ivD2yHLezqQJ0xwYumhDFs70sAUirvTO++jW2VbWTZi2K8lZCDFGMkxI0adUGJiUF654qbFZt52eaju0bup7QWJXfrAdSqeF2MM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kA5KYHyR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53BE0C19423;
+	Fri, 27 Mar 2026 12:18:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774613950;
+	bh=WdmmxLC4uZUaxNYg07u+R61NqLzB+09CSA+9gpv6wjo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kA5KYHyR7h3Q8MfGqowvF8zh3gqZs2NKETp6VjzAQHFOxAoWEqN0DxyQgjKOs/s4j
+	 qXoc++EGCuN+Jk+SBWCPkkRPeNWml7CZJMT/6nIXgPViu8Dnrf5Y0JvyDOyGoeqnbI
+	 0H5VWYLLc8pldAYA4QYKHb8XZkd0dRadiA9mRFVYgx1cYMtKzVV+8iqrV7NgH528iQ
+	 NLZxMIbfgUxSiLRf8oVPOV+33glZq4ueSjniXmTt5fgoBdhmEIK2PUTDmmUKysdutE
+	 loM8mBn20nJPvqYo7NRuB1vdTTBJYMQIPAhOc/DLPCFcpNFcwr1vGOZ12458rn/B7m
+	 QhOIXoObtExuw==
+Date: Fri, 27 Mar 2026 17:48:52 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Harshal Dev <harshal.dev@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org, andersson@kernel.org,
+	konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
+	akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+	jesszhan0024@gmail.com, marijn.suijten@somainline.org,
+	airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
+	dikshita.agarwal@oss.qualcomm.com, bod@kernel.org,
+	mchehab@kernel.org, elder@kernel.org, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, jjohnson@kernel.org, mathieu.poirier@linaro.org,
+	trilokkumar.soni@oss.qualcomm.com, mukesh.ojha@oss.qualcomm.com,
+	pavan.kondeti@oss.qualcomm.com, jorge.ramirez@oss.qualcomm.com,
+	tonyh@qti.qualcomm.com, vignesh.viswanathan@oss.qualcomm.com,
+	srinivas.kandagatla@oss.qualcomm.com,
+	amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
+	op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
+	skare@qti.qualcomm.com, linux-kernel@vger.kernel.org,
+	Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH v2 03/15] firmware: qcom_scm: Migrate to generic PAS
+ service
+Message-ID: <acZ1rDB5-koq8UqF@sumit-xelite>
+References: <20260312062756.694390-1-sumit.garg@kernel.org>
+ <20260312062756.694390-4-sumit.garg@kernel.org>
+ <bc7b116d-de41-4b9a-9c84-1010e226bac8@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -107,72 +83,93 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f2047cd7-91a8-4f6a-b6b9-0e4f143f6854@samsung.com>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+In-Reply-To: <bc7b116d-de41-4b9a-9c84-1010e226bac8@oss.qualcomm.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57224-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
-	DMARC_NA(0.00)[ziepe.ca];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
+	TAGGED_FROM(0.00)[bounces-57226-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[50];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nvidia.com:email,ziepe.ca:dkim,ziepe.ca:mid]
-X-Rspamd-Queue-Id: BC671343FF2
+	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email]
+X-Rspamd-Queue-Id: 5F68E344258
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 27, 2026 at 10:38:10AM +0100, Marek Szyprowski wrote:
-> On 25.03.2026 20:23, Jiri Pirko wrote:
-> > From: Jiri Pirko <jiri@nvidia.com>
-> >
-> > Confidential computing (CoCo) VMs/guests, such as AMD SEV and Intel TDX,
-> > run with private/encrypted memory which creates a challenge
-> > for devices that do not support DMA to it (no TDISP support).
-> >
-> > For kernel-only DMA operations, swiotlb bounce buffering provides a
-> > transparent solution by copying data through shared memory.
-> > However, the only way to get this memory into userspace is via the DMA
-> > API's dma_alloc_pages()/dma_mmap_pages() type interfaces which limits
-> > the use of the memory to a single DMA device, and is incompatible with
-> > pin_user_pages().
-> >
-> > These limitations are particularly problematic for the RDMA subsystem
-> > which makes heavy use of pin_user_pages() and expects flexible memory
-> > usage between many different DMA devices.
-> >
-> > This patch series enables userspace to explicitly request shared
-> > (decrypted) memory allocations from new dma-buf system_cc_shared heap.
-> > Userspace can mmap this memory and pass the dma-buf fd to other
-> > existing importers such as RDMA or DRM devices to access the
-> > memory. The DMA API is improved to allow the dma heap exporter to DMA
-> > map the shared memory to each importing device.
-> >
-> > Based on dma-mapping-for-next e7442a68cd1ee797b585f045d348781e9c0dde0d
+On Fri, Mar 27, 2026 at 05:40:16PM +0530, Harshal Dev wrote:
 > 
-> I would like to merge this to dma-mapping-next, but I feel a bit 
-> uncomfortable with my lack of knowledge about CoCo and friends. Could 
-> those who know a bit more about it provide some Reviewed-by tags?
+> 
+> On 3/12/2026 11:57 AM, Sumit Garg wrote:
+> > From: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > 
+> > With the availability of generic PAS service, let's add SCM calls as
+> > a backend to keep supporting legacy QTEE interfaces. The exported
+> > qcom_scm* wrappers will get dropped once all the client drivers get
+> > migrated as part of future patches.
+> > 
+> > Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > ---
+> >  drivers/firmware/qcom/Kconfig    |   1 +
+> >  drivers/firmware/qcom/qcom_scm.c | 336 ++++++++++++++-----------------
+> >  2 files changed, 156 insertions(+), 181 deletions(-)
+> >
+> 
+> [..]
+> 
+> > diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
+> > index 8fbc96693a55..2d7937ae7c8f 100644
+> > --- a/drivers/firmware/qcom/qcom_scm.c
+> > +++ b/drivers/firmware/qcom/qcom_scm.c
+> > @@ -13,6 +13,7 @@
+> >  #include <linux/dma-mapping.h>
+> 
+> [..]
+> 
+> >  
+> > -/**
+> > - * devm_qcom_scm_pas_context_alloc() - Allocate peripheral authentication service
+> > - *				       context for a given peripheral
+> > - *
+> > - * PAS context is device-resource managed, so the caller does not need
+> > - * to worry about freeing the context memory.
+> > - *
+> > - * @dev:	  PAS firmware device
+> > - * @pas_id:	  peripheral authentication service id
+> > - * @mem_phys:	  Subsystem reserve memory start address
+> > - * @mem_size:	  Subsystem reserve memory size
+> > - *
+> > - * Returns: The new PAS context, or ERR_PTR() on failure.
+> > - */
+> 
+> Shouldn't we drop the documentation for the exported functions in this file as part of
+> patch 14/15? After this patch is applied, the devm_qcom_scm_pas_context_alloc() function
+> still remains exported and available.
 
-I'm confident in the CC stuff, I was hoping to see someone from dmabuf
-heap land ack that the uAPI design is OK.. TJ?
+I don't see value in maintaining redundant documentation during the
+course of the patch-set. The wrappers are only maintained to keep the
+individual commits compilable such that we don't break kernel git
+bisection scripts.
 
-Jason
+-Sumit
 
