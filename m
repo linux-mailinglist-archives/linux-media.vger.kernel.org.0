@@ -1,233 +1,197 @@
-Return-Path: <linux-media+bounces-57216-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57217-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ACZwDxNfxmm+JAUAu9opvQ
-	(envelope-from <linux-media+bounces-57216-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 11:42:27 +0100
+	id 0Mn1M8Zdxmm+JAUAu9opvQ
+	(envelope-from <linux-media+bounces-57217-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 11:36:54 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D840342BE4
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 11:42:26 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECEBC342AA6
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 11:36:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 802C730EA635
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 10:27:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D0F1030890BE
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 10:30:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B39563A759C;
-	Fri, 27 Mar 2026 10:26:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BAE53242B5;
+	Fri, 27 Mar 2026 10:30:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Fnk6Vnm+";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bH0x9ZR8"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="DnmXdFBE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from out203-205-221-192.mail.qq.com (out203-205-221-192.mail.qq.com [203.205.221.192])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842A13AE719
-	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 10:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B9D324705;
+	Fri, 27 Mar 2026 10:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.192
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774607214; cv=none; b=ZCpdErc5nMrCYNz/SZpNubkMwELbnEcXLUwlPd67kQVtrT9oCThtRtecJYtcHQL9EwAMZVO6JpPcfTpsJDwbBP2c9EjFy+eQAJaFKa1ZYnngReb6gkwyzJlAQUpHeJ5q4nCKQ5lIH4wbTFeEgWos5gaKhg5SXPjeMssfcme9qLY=
+	t=1774607419; cv=none; b=Y9PgxFSfr32YQXRFh0uCO/TB7rsX+BCoKjjkBcybgqZz+R5MT5G1UH5qbcUyg7pFc+K1SCbcmEzjuF5WMNhO+sTzSg0yHYC7fzXbKblaMAbygILqhTiHhO/ThALiKQsVABfb4JcmvyyY5X/6WJDSVlWn2S0xvxcCqiW6r/LqzGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774607214; c=relaxed/simple;
-	bh=IWKb5OexAcsxmRLl9pMO7VYfbb0SZHY3SM7T2P1bhJ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R+C3/bG+16PFegJSwwyZVsqMczAmUUmnHbUfrSJSjEbwtc45ivr/NRbExASNdDMR1O4F8DfoGqperyCxlBRrd//w4MxAg0h18+xOtGDhLpuR+CnWOGpIH3Uwt6yEoICqc594HhzoEDCPd5WDY1pKpAkobaBPHmop6XxhWV2Wt7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Fnk6Vnm+; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=bH0x9ZR8; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62R6vpqA298512
-	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 10:26:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	9oWiAxBv4NcjBqIF5PRiowTv/QQhNKo2rE3bYQ4pF+A=; b=Fnk6Vnm+3iNSneB2
-	pmonCmrwENxcCA757p3i2inFw8tGTJ+jP6ELaKZzU9YmdOjwrpdvZeo7wLcXfEvr
-	XzPdqD4Am9CKJN31h5cL97SJ5eriXn9rdK3WHL7J0eRQwba3BktcUebmaLqf2EPd
-	g8HoZzaRXLxrFwkvqNP8U3TDgvWqnvp9gKTrXr9gdHBf0UKT85U4/CR+hpxVSsCr
-	tYeU93r5pcU5LiLFd/uFmP/zwM5eG8nxTyLcvEeByZikii6hJ2sIvqsK/iIAozwI
-	adniaWXdpjAvY2Jy5V4quoV+bjjW02BDpNSVhMu+mlb2tCQARCUvcTNdQJxiJTbP
-	+6nMVQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d5bd8tp3k-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 10:26:51 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5073ed1ec6fso6396291cf.1
-        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 03:26:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1774607211; x=1775212011; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9oWiAxBv4NcjBqIF5PRiowTv/QQhNKo2rE3bYQ4pF+A=;
-        b=bH0x9ZR8PZj2oTzCpgrYg+fHz/pSqPvGD/0QVoNhBYILYIp0q83z4nx30bY+j8w4rH
-         Cc1KgFEbsdjrbbHqg03iQ3iaGk5DJWJJqI/JBt95iGMXRGacjSGtKmZSiqEvabynzlsH
-         P/jz3Cdm4rBduZ1tydnMG2OMcZbxa5dklfKjPpQb9K/IOOmrr5ahplcfqxLBFd6EBbbB
-         azTGB38xb4uEw68fUJra1IaM3SiVnu9vlMceaiBMCSZHH49cQ6OyZGmcDoa1RIi03i0T
-         Gb673HgIFRvt3Spbmfk5dHpX/Q8SKmTsZYn9894UAHseEl1ZkQiVNr0RDx6yKDbdhnyR
-         BMSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774607211; x=1775212011;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9oWiAxBv4NcjBqIF5PRiowTv/QQhNKo2rE3bYQ4pF+A=;
-        b=Z9tsbbzC5gCRptX7B2uK+VaPrtf97aDCXJsYTMxIsHUWJEQcuN0hbvj4827ztqfJGI
-         I9ZIjMglbpEc/YgRwGDOlH7POIJ79vRfX0qOy61rqDymXJL/vXsGqYyq0eVuzAsDjbsW
-         cR8XNXlZB1p+3sxzKCi1qucMmgZIn91BDHLmsKzlII8ke32RaKGQw4PSqWvcn7cniq6G
-         PAx5j2/TXP3Gm31/FAJdcmldKRMNmtNRBVMSU5KUdF1PJ6LWZmS4am5vEGFPAxG6eIKO
-         UeMfvv4NxckNIYudlG/IvUV+wd8U40VJ/oBE40PSg5KdA/c2TYPlxq7qdG9EGmktZCnM
-         yOSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXgnj3wTCvabykLyQtjaRfphWjyJzWjryugQk0Amu1fapNq6TGhekFV6nIDf3XsbeTFppDI+XqNnLw+KQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRAcYbgaGPkU+ynurovY9+/mdMLMkEH16V6UFhMdc0v/22wE1P
-	bWM/AVNNLCPtYnfGzdC1PB+7LpjjUJuQFieUhx99weghLEetP5872pSkIXliR4ZGm3pticrqncQ
-	M9EBgy0DUbYTcoF7yEcQ8KxgnTXbpx7RDw/wWTR+5KpymAKAlNPAwAmtNCEfb4qMYgQ==
-X-Gm-Gg: ATEYQzyaEUJkjAUSF0Tt1Fyvzs7DVHt+nHMdC8LEaeV1hdHKVraUf+l2OnjUSy5UZm0
-	4BcXz0b19aJ3qEKpfJwoql6xALuSfuR9+JeVzN9S91u7MIv0nb1eakdVnPDX8i4cLOKYcLNpmZc
-	Hzv+ItUajamw2dtkRczUKcexbUXD3gDqH0IDp68yQIIFzT+GwXo34hzxgQ8uf3H31tuFbGcekp1
-	fpVAH81yrqXA+pRPPzXug3GBPlXkePD0jXi85m0b5IkKGnZXGtTX9AWcL87KcJ3ZS9Wp88+Fdfp
-	7lg80CUDOUpNV5qnLFb/37vqkT4f7Nw8kowt1FQI4xp088y/UP0M3lhEBVRPJZCzcq1z016NBH+
-	rfi4VNeNf/0A+pKvdoGyA9UcuXByCxlJWhGYubWye7w8qmkkMOYIaHN+Pvfa9X0muvqd2PwObIP
-	wlHMw=
-X-Received: by 2002:a05:622a:1982:b0:509:1b76:e9ba with SMTP id d75a77b69052e-50ba3994ea3mr17776411cf.8.1774607210719;
-        Fri, 27 Mar 2026 03:26:50 -0700 (PDT)
-X-Received: by 2002:a05:622a:1982:b0:509:1b76:e9ba with SMTP id d75a77b69052e-50ba3994ea3mr17776131cf.8.1774607210167;
-        Fri, 27 Mar 2026 03:26:50 -0700 (PDT)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b202663c6sm240584466b.23.2026.03.27.03.26.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Mar 2026 03:26:49 -0700 (PDT)
-Message-ID: <0526dbcf-0f4a-4ff7-ba43-705448c989e8@oss.qualcomm.com>
-Date: Fri, 27 Mar 2026 11:26:46 +0100
+	s=arc-20240116; t=1774607419; c=relaxed/simple;
+	bh=64M60AwjcV6uatdDjTxxzYVUns9b8w6LcXMyI46ym4o=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=u82um6Jip9HsBjr34NI8HYRTEn3wnDDgw+TaTH+Dai4D9TqCcGTpDCrUiuOjwRclos82ZHe/3cr9PGQdnjPtXhgJGjaPN0yvWprTxLV4pHB3Jw5JFYQfcB4/VsIStVWfRBK6QTy+VWEQD96y8aJsrfShwyQmNEE07z2nFXZq2KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=DnmXdFBE; arc=none smtp.client-ip=203.205.221.192
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1774607411; bh=yJXSTfD4c5228LiZLBo2CcwvClvIlhe1NPGicQ5r4ik=;
+	h=From:To:Cc:Subject:Date;
+	b=DnmXdFBEjgxBfO0G43y6woHwS9Or5tVHQvK4jCrs0wj1/f5uoxB82E/F3SR0hmpoW
+	 es3gtPVjOXKa3HmhyVOr0R17xdo5QMTxVxRba3UMBDcZr9gmMuIKHLoqRPnZt94A27
+	 TqBIjn3fIUPMjexyCKeqyFAlwPZgp+Nd483cPZOw=
+Received: from LAPTOP-KQCD4QBN.localdomain ([123.121.145.48])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id 7880A40E; Fri, 27 Mar 2026 18:30:08 +0800
+X-QQ-mid: xmsmtpt1774607408t4h1uq9xm
+Message-ID: <tencent_F0B755C48BEB67380BA88ADF22C96E1FC407@qq.com>
+X-QQ-XMAILINFO: MehRKK+d4CIgSwYBsVbxIqKkpCCo/cv1J2GiSMS+9I7JY6bC5921+JTn+FcaTh
+	 svSyAQp6zbLfAHfVtoqkhq+epMXZPk9GuFoWrsiafsSJhk2hJ+K+Al9/mWpp5visqwD4zpTFYe8/
+	 STy3iU77PmdrcxebvNf9BkLBROviHp35kk7vAhFxvwzsnQ7tk/BUZ/pZQVWg2lRLDXnBuEPffay7
+	 zCrMwXQzOg/XPS3dpTkqT65O9RpAKfEeqHqDY56IghKoFESzSOI2QCJVLFw5E4fyb78ZubxImLU+
+	 5HjvNk6cTD/Xf2cq7iXJwWtGBlqtAgv/rmCjHvrGkbSgruALicyD/6yCGoClVYKvHc+SiBICG6LP
+	 0cYpGoIxnxRy62VpFQ3uHv+KTTOrKdsoqZi1X2ZhozyiqssLgfWpvy52c7gke+xtx0LVOt+Ml2ac
+	 dD+bZZA1Mb4rdi3BekvfwtGjIonK/2kimzEDOwtWARZ1lIBLG2HqxM8UTtWTmARaTuoRdgshIXqz
+	 grTuR+g+cuZyG3SPDpSbtDkwJZz96g46JKhHhYPjWENV5sLD76upLQ6rg57S06l7w8wIyUTvnEMH
+	 NQcfxrCjMKDRkOwTB+stVghCfXzqzkIzu5wabN5kE5OT37rfmvlfXm8nDmaeLPX+Updh8kt0gRm2
+	 DDzAt7ov0gCBa2V0HiglVLPURbo2yS7ITSQnEVR095pv2kh1KB0hf0z+H/gCMH9xmER0wrGZqTzC
+	 yeJJq4rXLeYBGICQ+4dya54bJPyng7VZkJfwmM0Z8ECzK3HJXo+kiAo3fq789yhzITbisQnqDIgM
+	 uHUd2tCfllSS257yjapK1d5CP/APG52yayCaiblirSscpIdLAyZGbqdL9Ko5DrkHhfk3oMCOxUTu
+	 5cGmtYJS8jQsLmbI4Hfz2x0prhEjxX5LqjeX6OVcg89Qo3znSA6G/1iQ76SVaszQIdyhLc3NAIhy
+	 DL+3H+YaOgI9l9VRoJZ9o7gjci+bn8gur0i5i8pP+/SKLC7Xw7UU3Sb668vaub6piaqFI6yXVMz9
+	 edD67bMhqgoiuMxR2gDEENkESE+BGf+fWfO34dVClX7YtTWec6cNvwycNZiAof4c1o1TeXpHl+3S
+	 BvhiEGmyTM1pLlXbylpG1JTbX/6YixVFq/4Sni5nWKyDBCo/yZD6DkyVyU02dbFOewBuqS+s6L2j
+	 GIqzE=
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+From: Wenyuan Li <2063309626@qq.com>
+To: Andy Walls <awalls@md.metrocast.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sean Young <sean@mess.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Markus Elfring <Markus.Elfring@web.de>,
+	gszhai@bjtu.edu.cn,
+	25125332@bjtu.edu.cn,
+	25125283@bjtu.edu.cn,
+	23120469@bjtu.edu.cn,
+	Wenyuan Li <2063309626@qq.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] media: ir-i2c: add error handling for I2C send in get_key_adaptec()
+Date: Fri, 27 Mar 2026 18:30:06 +0800
+X-OQ-MSGID: <20260327103006.25736-1-2063309626@qq.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 2/7] dt-bindings: media: qcom,x1e80100-camss: Add
- support for combo-mode endpoints
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab
- <mchehab@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Bryan O'Donoghue <bod@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
-        Christopher Obbard <christopher.obbard@linaro.org>
-References: <20260326-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v11-0-5b93415be6dd@linaro.org>
- <20260326-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v11-2-5b93415be6dd@linaro.org>
- <17ab70a4-1ab8-4384-8537-44dbfe31889a@linaro.org>
- <540c2a97-00ec-4358-855a-b238aab53860@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <540c2a97-00ec-4358-855a-b238aab53860@linaro.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI3MDA3NSBTYWx0ZWRfXySnFe9Ne+64Z
- XMmmg/AJ5Wzoo8O5jb2CJ/R8JjqJTLIWCsxaOE2rvgdRchcAGnpKNjJ7ClQX5UHaam2RmBSwar+
- dhEkzjTVu0HTFzRcEHhYJYJfFu2HS7Mnio/r67o2+iSU58ZZkjmpxM9oXmI7mfdVxHFqntXLpaw
- xeXPHqfrLogpAeZil9mW831JfZ5kUmeccNcA5cvRwIwzEnPO0E8uXIjMUqn5MpZeNA+ZnfRZmWz
- Fi0ypKmONX64MP9ADe65cwBcSTJ09Q3FmsKAEOzJP2Yr7MnegEXzrKbtK8MXZZyUBV7n+U6IBqU
- LzH7pGnwhWhBA1hVo4aAcdsNg9v6qiLVq7BvYVbfjsBJljXWv2WgLBW0czKNjE4+vShK0PMPJri
- u4cbiapZW3KAtAYdqzD1mURom0qqnr0fLMcnu2OItcwoK3FK45bvrkTQzYVq5dX0z2+BPizs5Fl
- 9YKJyNvWpyBI3zyjJWA==
-X-Proofpoint-ORIG-GUID: rvtYTNEBw3P3ywfWFDvfSyPxd-mU_-JO
-X-Authority-Analysis: v=2.4 cv=BZrVE7t2 c=1 sm=1 tr=0 ts=69c65b6b cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=KKAkSRfTAAAA:8 a=0v9nonJskobKTEXhuRwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: rvtYTNEBw3P3ywfWFDvfSyPxd-mU_-JO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-26_04,2026-03-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501 bulkscore=0
- phishscore=0 clxscore=1015 impostorscore=0 spamscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603270075
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qq.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[qq.com:s=s201512];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57216-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[qq.com];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[linaro.org,kernel.org,baylibre.com,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	TAGGED_FROM(0.00)[bounces-57217-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_CC(0.00)[mess.org,vger.kernel.org,web.de,bjtu.edu.cn,qq.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,linaro.org:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[2063309626@qq.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DKIM_TRACE(0.00)[qq.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 3D840342BE4
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qq.com:dkim,qq.com:email,qq.com:mid]
+X-Rspamd-Queue-Id: ECEBC342AA6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/26/26 3:08 AM, Bryan O'Donoghue wrote:
-> On 26/03/2026 01:51, Vladimir Zapolskiy wrote:
->> On 3/26/26 03:28, Bryan O'Donoghue wrote:
->>> Qualcomm CSI2 PHYs support a mode where two sensors may be attached to the
->>> one CSIPHY.
->>>
->>> When we have one endpoint we may have
->>> - DPHY 1, 2 or 4 data lanes + 1 clock lane
->>> - CPHY 3 wire data lane
->>>
->>> When we have two endpoints this indicates the special fixed combo-mode.
->>> - DPHY endpoint0 => 2+1 and endpoint1 => 1+1 data-lane/clock-lane combination.
->>>
->>> Reviewed-by: Christopher Obbard <christopher.obbard@linaro.org>
->>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>> ---
+In get_key_adaptec(), a command byte (0x00) is sent to the IR chip via
+i2c_master_send() to initiate a key read. However, the return value of
+i2c_master_send() is not checked.
 
-[...]
+If this I2C transfer fails, the IR chip may not receive the read
+command, causing the subsequent i2c_master_recv() to read stale or
+invalid data. The driver would then return 0 (no key) without logging
+the error, making debugging difficult.
 
->>> +              bus-type:
->>> +                const: 4 # Combo is D-PHY specific
->>> +
->>
->> It's unclear why both 'bus-type' and 'phys' cell argument are needed
->> at the same time, they are equal and thus one of two is redundant.
->>
-> 
-> bus-type lives on the CAMSS controller endpoint. It tells the V4L2 fwnode parser (v4l2_fwnode_endpoint_parse) how to interpret the endpoint properties — DPHY has data-lanes + clock-lanes, CPHY has trios.
-> 
-> PHY phandle cell lives on the phys reference. It tells the PHY driver which electrical mode to configure
+Fix this by:
+- Checking the return value of i2c_master_send()
+- Converting partial sends to -EIO while preserving kernel error codes
+- Adding dev_err_ratelimited() logging with %pe format
+- Adding similar error logging for the i2c_master_recv() path
 
-But we don't need that second part, no?
+If the send fails, return 0 to maintain the existing behavior (no key
+detected), but log the error for debugging purposes.
 
-If it's strictly required that we keep the bus-type in DT, we already
-store that information once and can translate MEDIA_BUS_TYPE_CSI2_DPHY
-to PHY_MODE_MIPI_CSI or whatever before we power on the PHY (which we
-wouldn't do without first setting up other bits of the topology anyway)
+Fixes: e1e2c5756563 ("[media] ivtv: Add Adaptec Remote Controller")
+Cc: stable@vger.kernel.org
+Signed-off-by: Wenyuan Li <2063309626@qq.com>
 
-Konrad
+---
+v2:
+- Add error handling for i2c_master_send() as suggested
+- Extend checking to i2c_master_recv()
+- Use dev_err_ratelimited() instead of dev_err()
+- Clarify error handling behavior
+- Drop incorrect Fixes tag
+
+---
+v3:
+-Add correct Fixes tag
+---
+ drivers/media/pci/ivtv/ivtv-i2c.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/pci/ivtv/ivtv-i2c.c b/drivers/media/pci/ivtv/ivtv-i2c.c
+index 28cb22d6a892..c011f2246add 100644
+--- a/drivers/media/pci/ivtv/ivtv-i2c.c
++++ b/drivers/media/pci/ivtv/ivtv-i2c.c
+@@ -138,11 +138,28 @@ static int get_key_adaptec(struct IR_i2c *ir, enum rc_proto *protocol,
+ 			   u32 *scancode, u8 *toggle)
+ {
+ 	unsigned char keybuf[4];
++	int ret;
+ 
+ 	keybuf[0] = 0x00;
+-	i2c_master_send(ir->c, keybuf, 1);
++
++	ret = i2c_master_send(ir->c, keybuf, 1);
++	if (ret != 1) {
++		int err = ret < 0 ? ret : -EIO;
++
++		dev_err_ratelimited(&ir->c->dev, "i2c_master_send failed: %pe\n", ERR_PTR(err));
++
++		/* Preserve existing behavior: treat error as no key */
++		return 0;
++	}
++
+ 	/* poll IR chip */
+-	if (i2c_master_recv(ir->c, keybuf, sizeof(keybuf)) != sizeof(keybuf)) {
++	ret = i2c_master_recv(ir->c, keybuf, sizeof(keybuf));
++	if (ret != sizeof(keybuf)) {
++		int err = ret < 0 ? ret : -EIO;
++
++		dev_err_ratelimited(&ir->c->dev, "i2c_master_recv failed: %pe\n", ERR_PTR(err));
++
++		/* Preserve existing behavior */
+ 		return 0;
+ 	}
+ 
+-- 
+2.43.0
+
+
 
