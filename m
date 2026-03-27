@@ -1,206 +1,163 @@
-Return-Path: <linux-media+bounces-57279-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57280-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +N69GsWjxmnrMQUAu9opvQ
-	(envelope-from <linux-media+bounces-57279-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:35:33 +0100
+	id 0NvtH+uoxmk4NQUAu9opvQ
+	(envelope-from <linux-media+bounces-57280-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:57:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078CB346D64
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:35:32 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 255813470FA
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:57:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5CA11307C241
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:29:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 40F363053232
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:57:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8D8F332EBC;
-	Fri, 27 Mar 2026 15:28:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D03C330D2F;
+	Fri, 27 Mar 2026 15:57:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DWCjWMOi"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="KSdhGtUj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452E733260E
-	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 15:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774625334; cv=none; b=LALQtoPZLlzs2m9KRyqO61g5MBkf/3KIK0eyD3BmKGQ/TaJXnwPQVFYu7JNAY4PD/iKe9K5Wf9wwlwbwUAndbw7OR+E04XcusMJQEUaUQOz9Fy7hOEjEk/7HnytJSnAtxjNmhT9z5OOTnoMBfh6r3g4JtPLXvgN+XPUAQR+P/5w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774625334; c=relaxed/simple;
-	bh=BzjorC/KMjxhyLd6FvLMV90Jk6WKFkKPHN77D+v5d54=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DCoenLAwcB3mMMepEoBBCagN/ybh87GnZ1CNsBAd0D2Syrek74vk7kb+G0dezXe8JEs3q2STS1I3teny/XIoGt1vUG7KioERv+q1G3ByQFBgt/xDdSef8SAVCO3fokg0TnJ6WaIX0zpTdQYogHBqz2pWTSx3LO9bN353HJT6/bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DWCjWMOi; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48540d21f7dso25293085e9.0
-        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 08:28:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4874782899
+	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 15:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774627023; cv=pass; b=s3ufBxyMU7CRgzftMq7XPDNLShjA1s8Ggc6FryAk+eo7WkJHLB2LemLU3lYbBXL0nQnUI5+1DgMIaCUGL0xHIo9lHpwuWIoUtj0QJzfZu96qv7iQC1SdFe0DUIFF2fETVEhfYoGgio7IvZl0ED7Y9aIhhKRuHsvH13XTCfWHwY0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774627023; c=relaxed/simple;
+	bh=uDkpvjfQc6WjtFvN7u3S6xqPAt97lXCMrejDxz+LKPs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=otgK+4Yj0q98+kxx5iOnQLeX01h14ZFUwJlJlz/PSvf1IkBp35O3/ZeMEATr5i4+57evfrFPqI7DtTSVS+zn7X+MVEziFzgevXXFLbaG82rI6meRH64SIAXW9J2dq8eCX8v5+2LCY713FtFtkl/mwekV2nTEZ9TYPGRjU/tyvUM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=KSdhGtUj; arc=pass smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5a2967e5de4so3001939e87.3
+        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 08:57:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774627020; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Ei/J58cn8o6L38JXoAKUrRior7D/KOn5YBgjOtZpkp9vzzDd5yLWxfgj0lcdF4gYEs
+         BhPfm9KV4nae7YePrla5hKNemflrWxtkJnh8TEfqsGALjmnHJ5Flh7vBbTSbhsWEXYvW
+         jc/ZyZGG+n+2ZE6Yz5BYzCvbaPWT6vtK4oPne3Zhnv1BsjJEsklHXSwnEohW++1vYozn
+         8mqahqXKxzAVL6ZqB6qP+N6z5meCtZvoRC1vcCMlD2TGteq9RGgFXD4pFusLihxlq2a0
+         FbfIVRMyArf0dkjsGvbCOD7avyhDq8SSYpygaG5JXcSrWEbVPZ1wODvTpjuR7ir/AIsQ
+         st9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cYmHFv0koBuOr22hHFFVxedqADAjwpKelTYgoI8eG1w=;
+        fh=Y5UGMVIBH+XbVYU3jtl5vcX1b7P+PpTAPJG2wPoul8M=;
+        b=SdNlHubkiD57TqziVxqpa+VIlfC7XlmdI5H34yWS7vR7Sh2ynHTiF34XkT6ZCEI4tV
+         YiWSO3o1w3J1G/Wf31sWdsCFQWrAYwmICNqY6naQF5cgztfLYq+4j4+PM9n2XO9EQCGD
+         pr0EYusY/k6kHgbiiNDgIJGUv/D2DcRVI7dlHEoLn8Cjaw+w9pqyyNPIgh85TJcnnADo
+         S/dsRBTcTD1k11Ou8JImLb+4yfPwvkSfR0Tlg1NziAp0yac3hjxuFJwYFif8/t8HW9xE
+         QZz8htdMFoQ9P16Xi1yATrxXKFhXeXEW0Nzhw3t1eDVA1yuySOaxj93YTQm29t1gL6Yl
+         wzHw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774625331; x=1775230131; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KPfKYIz0itJnZ243zFJfg1PZYfMp2nj029kDZFys+04=;
-        b=DWCjWMOigoTHqan2NlPLA6T8fMT0fewrAxZMX5EKVhTwh4wj3esJRC9UlSoU7pnKAs
-         IrgglkUaPoma0iwipw0nZqQKXmilBNhud7+xbXRd/9J/N+9AKsW9uQO9AiMQ7YXoRpoz
-         UM1xFuvvQtRkus5X23hNxOxlXSHXGXYt6O6vfHu6P6mhXa6Wg/vNb/Qqg78ErXMhuZal
-         4ZCPN3AOCaOkPMI1hKl4BgPUyXaf0bWmrXL96CAZ2S4IwjTdqGMxg69AfVwOdCfSCrll
-         C3lhjfprVBkqaFKtzgQOl3YpoW7RD90Rcuni3uzbhddQ2xlRPhG+gg/uJ6EZHnEdv3yI
-         qn6A==
+        d=suse.com; s=google; t=1774627020; x=1775231820; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cYmHFv0koBuOr22hHFFVxedqADAjwpKelTYgoI8eG1w=;
+        b=KSdhGtUjl9pjA707PXkQTidkv+p+qCYPdQobIGw4UvJ0gPFInC5huMi+hkG+3c/yjf
+         DiarBEktdrgt7EfFHnSFSbNM6p7XxomBI7pk4fOo8cgkmU9EFrkTYdQEPCQd/w3KXSUl
+         FZWj7aw5kBqu5ceylm8yaTCRkNJ/9WAwksRFeQRQesJbM3zk06KHskSdPLnncWLdoXGn
+         cePQ8lnuMPiUeDXroM/h4uBpoDbd+9n7O/meqU2bFMWSWoPrwqPcXIVqrbQ+IYaAUPn4
+         b0S+9GF832zvyG/uKtXpfyVbWE87PXxH/SQCKGowaoc36JjBaGgWj6HRvB6343VMA4Js
+         TB2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774625331; x=1775230131;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KPfKYIz0itJnZ243zFJfg1PZYfMp2nj029kDZFys+04=;
-        b=bG1cqB0UXm+LsyIBhvaq7NQSxKOLTBJDiZ3Bc//2D3iFXaYpaK0DgfwhjY4/KjqV/K
-         PoTK+Z4VtrUlrhTUVssiiGY93r3df0bPZ9LVSUE28Ow7lATUM/yUSftB/ww9VX7dEYb3
-         5T3b3AiSHlkKABmgRiGOk8P+Qau9/A8tMSYV1x7t5JmZCaJWNUov/loy1z3ONwZkrhJk
-         N8TbPsyMeUnO451E329Te/gYGBKFoZs7DauFzGEd+Lkm7WFvllc5XRYbIRh/uhffyXJj
-         0eUOI+8Z9mqL2gDpYsOlbuNbMYuWpeeLsuEhHxpBcNy6uFIhpdn4A5QZuaQ9Y3epC0Mi
-         5NGA==
-X-Forwarded-Encrypted: i=1; AJvYcCU5S2zD2j8eP89m59igZpkCSvGzPh9/JUZke58xn7p3D2HgmJlyxqyD7L16t9Qfplctd0CEyAJ/3tq/ig==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6vuGq0CYuc4yIJ9rXtk1INDVpj4umKaNvL3Y1s4A6CKLJix6Z
-	W8NaG+C0aCS1zMmrNj3N1QeKGFC6jxWL7Mp+22I76hXfjzhaZo+jtHleQye+OgH74ik=
-X-Gm-Gg: ATEYQzwv9zxglDtrgawTEJ3xMIEUy0EX0y69BgMB59cNOKfAOUbfHnnMvf98AlubiAB
-	HyHlsgNy1vHdKBddHGTJkL3L6EQ8succoIMyIbJbv7PtZgWMj71my8dEjGSuOVxgfLKQmFlhg75
-	p2Zt8UmSMNNya2VN+AzPZbw78+v2DlixvWaJEw8PwFOmWpuXtJsN0HExaZaBK4lngHS3ya5X3L6
-	aRjOCG3+i82Px96gdqNGxVON3tW5tX3QSC8Vzj4XZx/qNs4EX52qnDznDz5M1SQ/8sUnKmP55NY
-	GOr7eUmdcriHwgJQ32LKZJxbclzr/TCsF60LDoLC3JVpVOfyhWse0BcvCopdBXSuRzaxNtN0UIc
-	vs1UnMIl3jVIb61JpE51UJKL1D5GL9iHK5V319LYVXHkY0Vd81zY8YC80R1QHERts0s2bmprbbJ
-	ofPLrMevEvqIAra21uYHZr50DvoyIUQoOj1j4SZIoLP4+mnJaYaBuU3kAIAwIpMl3ahM9SwTjlQ
-	Ku2vjOEMCJkN/OuPjfEp8E=
-X-Received: by 2002:a05:600c:4743:b0:487:2651:dd6b with SMTP id 5b1f17b1804b1-48727f179aemr49696065e9.29.1774625330441;
-        Fri, 27 Mar 2026 08:28:50 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:106d:1080:81c2:60b3:ff00:9a5e? ([2a01:e0a:106d:1080:81c2:60b3:ff00:9a5e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487270c3393sm28489395e9.4.2026.03.27.08.28.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Mar 2026 08:28:49 -0700 (PDT)
-Message-ID: <1f38187a-9464-4aa9-b70a-03b767349d56@linaro.org>
-Date: Fri, 27 Mar 2026 16:28:48 +0100
+        d=1e100.net; s=20251104; t=1774627020; x=1775231820;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cYmHFv0koBuOr22hHFFVxedqADAjwpKelTYgoI8eG1w=;
+        b=IHxkU7SDbTO7h3c/FmtJfdqNAeF8Owwj0FDgMF5C50TV1FbqHjNSUncwBXsBFNSqzh
+         lzIJ+n/ANfnlt6umujcnnJOxePSH/zTQqwAbbEWXQsoYMyZo1rs76NhPeEjetOBbc+dj
+         v5zbMvh7m9Sv0I+wOG9y4evUU6SSmYlLAMUmmbnASF4RSuL7Yo/VyVn5oY4FAEvsA9lb
+         HOumcTG0uV064fkRBfOs9q6wrZ/iZcpZss2DY526yySFcCumn4eLcHHSwuxczF5VZJZR
+         1CBxSFKjZljsXmaIiPeD+AegoI0QhFdVzUM55JJgM1leMylxY+jHV6Om6bvrgy2EmipO
+         wvHw==
+X-Forwarded-Encrypted: i=1; AJvYcCUHl0wYfA2P/ftAmDqC9Js9hCHxWI+JeGbFxZfiI25442aC2ZGuUL1cQ/U1teUfHNZV91j8RDGwrc6s2g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWmX6KewcJfSxDDUzr7jTfyRSUOefReS2/Zwf/Qn++cIgp7+td
+	fOrgjbHZ4ACRUM2KqMYcx+KF2ilc8URY/9zQCh7nQMgfImHq5WUD1hd2zRjYogxisyAQhtECuLZ
+	vc34YYFwmqbD2Zxz3D+Xk41xnr1hzl/7JPRfaQA6YQA==
+X-Gm-Gg: ATEYQzzZWnYL7KEYLVZKCW5NdACY5WE82MAGrqJZwAJX8rCpp/dOcBwIxMdiK5+va7Z
+	lrFrKnPUqeFXeA9SSaMz1/YFmei+w8JNvPKGXPIrq7xc7xEP3KoQoPcJEddGf/AewhlYdfwApu2
+	wyVGfDpq2OE8AlWfbzWMP6gJyoZFndjq+i4hgilcWkRdEF+4kBMOtTvHUppXwGVgY0QSvo2EvFZ
+	MkIEDQZkNjGxJjwicWTGkdPsz60Y6QdQkDLB3UQN+03C7l479a7uktv4rRYiUvltwxxsGTWDqM7
+	xsO4yCDrR+6tCcWg/pI=
+X-Received: by 2002:a05:6512:3b0b:b0:5a1:1885:69d7 with SMTP id
+ 2adb3069b0e04-5a2ab5fa3e9mr1072061e87.4.1774627020375; Fri, 27 Mar 2026
+ 08:57:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Vinod Koul
- <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Bryan O'Donoghue <bod@kernel.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260326-x1e-csi2-phy-v5-0-0c0fc7f5c01b@linaro.org>
- <20260326-x1e-csi2-phy-v5-1-0c0fc7f5c01b@linaro.org>
- <7712fbdd-a225-49f0-aeb9-ebcbb9d5abac@oss.qualcomm.com>
- <da3ed78d-fb5e-4820-95d6-527d540cf03e@linaro.org>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Content-Language: en-GB
-In-Reply-To: <da3ed78d-fb5e-4820-95d6-527d540cf03e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+References: <20251107141052.221108-1-marco.crivellari@suse.com>
+In-Reply-To: <20251107141052.221108-1-marco.crivellari@suse.com>
+From: Marco Crivellari <marco.crivellari@suse.com>
+Date: Fri, 27 Mar 2026 16:56:48 +0100
+X-Gm-Features: AQROBzDDZ5QAg1lTfji5x_94JSZ9hGN79g1mn7PiEBPS-3IC_gLEbzraYL86wco
+Message-ID: <CAAofZF5Ek3qL5bWq1-SgYG9c31=XKZ-NuPywqbCdnSKyxGMqsw@mail.gmail.com>
+Subject: Re: [PATCH] media: ddbridge: add WQ_PERCPU to alloc_workqueue users
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Michal Hocko <mhocko@suse.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57279-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linutronix.de,suse.com];
+	TAGGED_FROM(0.00)[bounces-57280-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[suse.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[marco.crivellari@suse.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:mid]
-X-Rspamd-Queue-Id: 078CB346D64
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,suse.com:dkim,suse.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 255813470FA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Le 27/03/2026 à 15:38, Bryan O'Donoghue a écrit :
-> On 27/03/2026 10:07, Konrad Dybcio wrote:
->> On 3/26/26 2:04 AM, Bryan O'Donoghue wrote:
->>> Add a base schema initially compatible with x1e80100 to describe MIPI CSI2
->>> PHY devices.
->>>
->>> The hardware can support both CPHY, DPHY and a special split-mode DPHY. We
->>> capture those modes as:
->>>
->>> - PHY_QCOM_CSI2_MODE_DPHY
->>> - PHY_QCOM_CSI2_MODE_CPHY
->>> - PHY_QCOM_CSI2_MODE_SPLIT_DPHY
->> Does the_PHY_ DT node need to be aware about this upfront?
-> 
-> Yeah that's a fair question.
-> 
-> The standard model is to pass the mode via binding right now. You _could_ configure it @ run time in principle.
-> 
-> And you could even conceive of a sensor hardware that might find value in that - but IMO it's a 100% hypothetical use-case - you'd basically need an FPGA that could output CPHY, DPHY or for some reason SPLIT_MODE DPHY.
-> 
-> But that's a pretty off the wall use-case to hypothesize. Split-mode OTOH is a board-level physical reality which => a DT description not a runtime choice.
-> 
->> If we have some sideband signal (e.g. the sensor driver specifically
->> requesting C-PHY mode), we can simply throw all this complexity into
->> phy_mode + phy_configure_opts, all at runtime
-> 
-> Like I say its conceivable but IMO not a real thing and unless your sensor is an FPGA not possible to support in real hardware.
-> 
->> Further, the combo/split mode may possibly be selected through
->> aggregation of requests.
->>
->> The question remains whether the sensor should have a direct connection to
->> the PHY itself (i.e. phys = <&csiphyN> or of_graph straight into the PHY)
->> or whether it's going to be translated by the camss node (which would be
->> the one holding a PHY reference) - there's probably surface for adding such
->> negotiation logic in both places
-> 
-> To be frankly honest you can make an argument for it either way. However my honestly held position is analysing other upstream implementations connecting to the PHY means we can't make the PHY device a drivers/phy device - it would have to be a V4L2 device and then for me the question is why is that even required ?
+On Fri, Nov 7, 2025 at 3:11=E2=80=AFPM Marco Crivellari
+<marco.crivellari@suse.com> wrote:
+> [...]
+>  drivers/media/pci/ddbridge/ddbridge-core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-This is plain wrong, DT definition is different from software implementation, you can do whatever you want if you describe HW accurately.
+Hi,
 
-The CSIPHYs are not tied to a single "consumer" block, they can be connected to different consumers at runtime, which is not something classic PHY devices are designed for. So they are de facto a media element in the dynamic camera pipeline.
+Gentle ping.
 
-> 
-> The model we have right now, right or wrong is sensor endpoint to controller. Similarly the <&phy MODE_GOES_HERE> is a pattern Rob Herring suggested and IMO is a consistent pattern we should aim for upstream. We see it in latest Rockchip, Cadence.
+Thanks!
 
-This doesn’t properly describe the data path, we got out of this classic scheme when implementing the whole USB-C complex on qualcomm SoCs where we had to describe the data flow within all the USB/DSP/DP/PHYs elements, and we have a link between the DP controller and the Combo PHY acting as a DRM bridge.
-And actually Rob Herring asked use to define the complete data flow, it was a strong requirement. I don't see why we wouldn't here.
 
-Looking at other vendors and sticking to this is wrong, we need to solve how to describe the Qualcomm CAMSS complex with accurate representation of the data flow and hw components interconnections. The choice of kernel API to access an HW element is irrelevant in the discussion.
+--=20
 
-Starting refactoring the DT representation of CAMSS is good, starting with PHY is weird since I don't see what it does solve we can't solve already,
-but you need to take in account how the CSIPHYs are connected to other HW blocks. Simply adding a "phys =" reference from CAMSS node doesn't reflect
-at all which HW element will consume the PHY, and what are the link parameters between the consumer and the PHY and between the PHY and the Sensor.
-Those are the whole meaning of the port/endpoint links, where we can define multiple endpoints for a same connection to, for example, define multiple sensors on a same PHY for the split-mode.
+Marco Crivellari
 
-Neil
-
-> 
-> 
->> Note this is a question and I'm not aware of all the possible combinations
->>
->> Konrad
-> 
-
+L3 Support Engineer
 
