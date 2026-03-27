@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-57272-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57273-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AAnoIiegxmnrMQUAu9opvQ
-	(envelope-from <linux-media+bounces-57272-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:20:07 +0100
+	id MC3cB7KfxmlxNAUAu9opvQ
+	(envelope-from <linux-media+bounces-57273-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:18:10 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3FC3469D3
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:20:06 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92499346917
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:18:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6456A3037452
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:16:10 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C3E62307EFDE
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:16:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 801CC322768;
-	Fri, 27 Mar 2026 15:16:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3372A32A3F3;
+	Fri, 27 Mar 2026 15:16:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NczD2fvs"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YBY1xoer"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9F4E55A;
-	Fri, 27 Mar 2026 15:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5497131ED93;
+	Fri, 27 Mar 2026 15:16:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774624569; cv=none; b=PKF4rCO5KBMt2fW1FrwrgQq7qhJGm2aL91n153APGouwyBXv5Dv5+z7l15W7sTTfRQzjhxLGSl4EMsF1NFjpc1ITGpXEB+ziEcREw+jwu5XJFDvvb6dkiC2P99WXGFzj8zOXlEyCcAPW1/Wd7tZVx7z3kbvPK0U3fb3NCiJWqg8=
+	t=1774624569; cv=none; b=PFzT/1QCvZF/FgS03DyqwQuhVQGdSsHRt8hsuuh6FUWxQ733XI7+GxOBJe/JLLn3UA36xQ4ZQ1yXnezcdQEpgjw0QSQH4N+4vKS3K6UAePGXLny/HzVmfn0SMDLfsQH4jS/hMrnLMLeLEbrhHRy/n4oUQMXeVuYuXK+n1a224+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774624569; c=relaxed/simple;
-	bh=GklGLwJruxxCBqdiF2yNlz/pCwjKi6IpbWoG97hl45U=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=blB2TnR51FWLbSwmVvzvyy0Vxb7QkDPeNizjLgTOSSdTN+wG7pWSxleIjDCp7dL2dJYTuF1WSsXJBtRVCUpAaB+5HJvM1Cps472Vb2OeK/xng55e+DP5EIbAoXY8S4LhxsIPLlZXN0Wacxq77NBqTUUhA1AJJoNNt4kGUmle2Ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NczD2fvs; arc=none smtp.client-ip=148.251.105.195
+	bh=93cbvhOhHO3BIlQLuu3rBBU+F598t09c4s9HxlgYH/E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=IF2tD0aqa2LojWuraaa17BM2v9M/afNIIr7nLk78Yxc8bS5pr1C23A/bgm0hUmK8JL4LqEkUV/j9mkx6GS3W7IadfWEWLMyEUcuY2WodAXmYPQMoDoYmJYAU7Q3+cLe/vQjApLfKQxexVVTxBh4EWXutA5MTCWNo1wp3bTSQIok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YBY1xoer; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1774624564;
-	bh=GklGLwJruxxCBqdiF2yNlz/pCwjKi6IpbWoG97hl45U=;
-	h=From:Subject:Date:To:Cc:From;
-	b=NczD2fvsNvnPYKVl+HB0VESISWa5CSibbFLoh6UlXu3EChWSs1GQm3Sci17xbRMg7
-	 cjK4CShwTzoHL+92HAp0lODxLULkNrmY2rxRbf6RKfXc66nZHaRKr6WQKXXyjydjke
-	 WJ+jDWseoArnDRt5MQGnHQwbBXXMM3BMYcUrTli7Oi3sO/cptkgJaOcUCXtvuzCaWt
-	 eNZ05UnqSOl1Fxu/m4toBSCDkGMZ9Ei7Y7MMksuuoK+qovWVpjwqD4HuC29g6x1Krc
-	 ThpnmO7eqCXhOPOY8r9QbSiY9EikUHH4E7Kb6R121MHJ2u8UPBkde+vFtDmyaBU5DR
-	 aMUIAWX9uNyEg==
+	s=mail; t=1774624566;
+	bh=93cbvhOhHO3BIlQLuu3rBBU+F598t09c4s9HxlgYH/E=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=YBY1xoer/CEtYGdfvDkOJnUC9SEAbOn19cLaA4YK5TmfTL8j2/MKqDSC2s1lRmLQE
+	 jOll7A7DaKycsm0VSd19fTkJuFd7toxN34H61yCao80zuEwt74i0vm1ziK/W7XF+at
+	 Gk/pnI3+5inCbtpO8397vE4RTw2U+GURK85ujwqbb5b47D044Dt1Yl4n2uSVFmOmg6
+	 tYeDNAGtLtZJ+UdKeae0I/KZLi1MGO/eU+fffnUMmzzaXi+IZ6yDx2iR8bGEir+x1P
+	 X+P2uAwC7JtG0K10cPOWfsDRAynN629FU4OQ9YFKFQ2H4ZadpIW3jtglXsjCSVRsaE
+	 mAaz8Tv8lQ7uQ==
 Received: from [192.168.0.15] (modemcable014.2-22-96.mc.videotron.ca [96.22.2.14])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id A059017E58B9;
-	Fri, 27 Mar 2026 16:16:02 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id C84F417E5A68;
+	Fri, 27 Mar 2026 16:16:04 +0100 (CET)
 From: Detlev Casanova <detlev.casanova@collabora.com>
-Subject: [PATCH 0/4] media: rkvdec: Switch to using a bitwriter
-Date: Fri, 27 Mar 2026 11:15:59 -0400
-Message-Id: <20260327-rkvdec-use-bitwriter-v1-0-982cf872b590@collabora.com>
+Date: Fri, 27 Mar 2026 11:16:00 -0400
+Subject: [PATCH 1/4] media: rkvdec: Introduce a global bitwriter helper
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,10 +62,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQ6CMAyA4VchPdOEDQPRVyEcXNdpNUHTDjQhv
- LsTjt/h/1cwVmGDS7WC8iImr6nA1RXQ/TrdGCUWg29817S+R30ukQlnYwySPyqZFZOL7nQOLaW
- eoKRv5STffTuMh20OD6b8f8G2/QB+N5kQeAAAAA==
-X-Change-ID: 20260327-rkvdec-use-bitwriter-f1d149b3cf7c
+Message-Id: <20260327-rkvdec-use-bitwriter-v1-1-982cf872b590@collabora.com>
+References: <20260327-rkvdec-use-bitwriter-v1-0-982cf872b590@collabora.com>
+In-Reply-To: <20260327-rkvdec-use-bitwriter-v1-0-982cf872b590@collabora.com>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Heiko Stuebner <heiko@sntech.de>, Nathan Chancellor <nathan@kernel.org>, 
@@ -83,12 +82,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57272-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57273-lists,linux-media=lfdr.de];
 	FREEMAIL_TO(0.00)[vanguardiasur.com.ar,kernel.org,sntech.de,gmail.com,google.com,kwiboo.se,collabora.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -104,65 +103,115 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,lkml];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:email,collabora.com:mid,yhbt.net:url]
-X-Rspamd-Queue-Id: EB3FC3469D3
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:email,collabora.com:mid]
+X-Rspamd-Queue-Id: 92499346917
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Using bitfields in large structures where fields are mostly unaligned can
-be hard on the compiler.
+The use of structures with bitfields is good when the values are
+somewhat aligned.
+More mis-alignement means that compilers need to do more gymanstics
+to edit the fields values.
 
-Issues have been reported with clang ([1], [2]) and, even though those
-issues are addressed by clang devs, some setup can't or won't update clang
-just to compile a driver.
+Some cases have been reported with CLang on specific architectures
+like armhf and hexagon, where the compiler would allocate a bigger
+local stack than needed or even completely freeze during compilation.
 
-Even when fixed, the compiler still might have to allocate a bigger stack
-frame to manage misalignement. Coupled with other features like KASAN, the
-stack becomes larger than the kernel's maximum [3].
+Some fixes have been provided to ease the issues, but the real fix
+here is to use a bitwriter instead of heavily unaligned bitfields.
 
-To avoid this, let's drop the bitfield implementation and switch to a
-bitwriter. There is already one for the older variants, so make it global
-and use it in other variants.
-
-Note that only buffer structures are switched to the bitwriter. The
-registers representation structures are kept with bitfields, as they are
-properly aligned every 32 bits and don't require heavy stack overhead.
-
-Also note that the VDPU381 SPS and PPS structs are kept with bitfields,
-for the same reason that they are small and aligned enough not to require
-heavy stack overhead.
-
-[1]: https://lore.kernel.org/oe-kbuild-all/202601211924.rqKS2Ihm-lkp@intel.com/
-[2]: https://github.com/llvm/llvm-project/issues/178535
-[3]: https://yhbt.net/lore/llvm/20260121230406.GA2625738@ax162/T/#mad878ec24a8224e1387ef5e73cb77b9ada55e3f2
+This is a preparation commit to provide a global bitwriter interface
+for the whole driver.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
-Detlev Casanova (4):
-      media: rkvdec: Introduce a global bitwriter helper
-      media: rkvdec: Use the global bitwriter instead of local one
-      media: rkvdec: common: Drop bitfields for the bitwriter
-      media: rkvdec: vdpu383: Drop bitfields for the bitwriter
+ drivers/media/platform/rockchip/rkvdec/Makefile    |  1 +
+ .../platform/rockchip/rkvdec/rkvdec-bitwriter.c    | 30 ++++++++++++++++++++++
+ .../platform/rockchip/rkvdec/rkvdec-bitwriter.h    | 25 ++++++++++++++++++
+ 3 files changed, 56 insertions(+)
 
- drivers/media/platform/rockchip/rkvdec/Makefile    |   1 +
- .../platform/rockchip/rkvdec/rkvdec-bitwriter.c    |  30 ++
- .../platform/rockchip/rkvdec/rkvdec-bitwriter.h    |  25 +
- .../platform/rockchip/rkvdec/rkvdec-h264-common.c  |  51 +--
- .../platform/rockchip/rkvdec/rkvdec-h264-common.h  |  40 +-
- .../media/platform/rockchip/rkvdec/rkvdec-h264.c   | 109 ++---
- .../platform/rockchip/rkvdec/rkvdec-hevc-common.c  |  92 +---
- .../platform/rockchip/rkvdec/rkvdec-hevc-common.h  |  57 +--
- .../media/platform/rockchip/rkvdec/rkvdec-hevc.c   | 171 +++----
- .../platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c | 351 ++++++--------
- .../platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c | 502 +++++++++------------
- 11 files changed, 578 insertions(+), 851 deletions(-)
----
-base-commit: bbeb83d3182abe0d245318e274e8531e5dd7a948
-change-id: 20260327-rkvdec-use-bitwriter-f1d149b3cf7c
+diff --git a/drivers/media/platform/rockchip/rkvdec/Makefile b/drivers/media/platform/rockchip/rkvdec/Makefile
+index e629d571e4d8..11e2122bcbbf 100644
+--- a/drivers/media/platform/rockchip/rkvdec/Makefile
++++ b/drivers/media/platform/rockchip/rkvdec/Makefile
+@@ -2,6 +2,7 @@ obj-$(CONFIG_VIDEO_ROCKCHIP_VDEC) += rockchip-vdec.o
+ 
+ rockchip-vdec-y += \
+ 		   rkvdec.o \
++		   rkvdec-bitwriter.o \
+ 		   rkvdec-cabac.o \
+ 		   rkvdec-h264.o \
+ 		   rkvdec-h264-common.o \
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-bitwriter.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-bitwriter.c
+new file mode 100644
+index 000000000000..673ebb89002b
+--- /dev/null
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-bitwriter.c
+@@ -0,0 +1,30 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Rockchip Video Decoder bit writer
++ *
++ * Copyright (C) 2026 Collabora, Ltd.
++ *      Detlev Casanova <detlev.casanova@collabora.com>
++ * Copyright (C) 2019 Collabora, Ltd.
++ *	Boris Brezillon <boris.brezillon@collabora.com>
++ */
++
++#include <linux/types.h>
++#include <linux/bits.h>
++
++#include "rkvdec-bitwriter.h"
++
++void rkvdec_set_bw_field(u32 *buf, struct rkvdec_bw_field field, u32 value)
++{
++	u8 bit = field.offset % 32;
++	u16 word = field.offset / 32;
++	u64 mask = GENMASK_ULL(bit + field.len - 1, bit);
++	u64 val = ((u64)value << bit) & mask;
++
++	buf[word] &= ~mask;
++	buf[word] |= val;
++	if (bit + field.len > 32) {
++		buf[word + 1] &= ~(mask >> 32);
++		buf[word + 1] |= val >> 32;
++	}
++}
++
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-bitwriter.h b/drivers/media/platform/rockchip/rkvdec/rkvdec-bitwriter.h
+new file mode 100644
+index 000000000000..44154f1ebc65
+--- /dev/null
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-bitwriter.h
+@@ -0,0 +1,25 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Rockchip Video Decoder bit writer
++ *
++ * Copyright (C) 2026 Collabora, Ltd.
++ *      Detlev Casanova <detlev.casanova@collabora.com>
++ * Copyright (C) 2019 Collabora, Ltd.
++ *	Boris Brezillon <boris.brezillon@collabora.com>
++ */
++
++#ifndef RKVDEC_BIT_WRITER_H_
++#define RKVDEC_BIT_WRITER_H_
++
++#include <linux/types.h>
++
++struct rkvdec_bw_field {
++	u16 offset;
++	u8 len;
++};
++
++#define BW_FIELD(_offset, _len) ((struct rkvdec_bw_field){ _offset, _len })
++
++void rkvdec_set_bw_field(u32 *buf, struct rkvdec_bw_field field, u32 value);
++
++#endif /* RKVDEC_BIT_WRITER_H_ */
 
-Best regards,
---  
-Detlev Casanova <detlev.casanova@collabora.com>
+-- 
+2.53.0
 
 
