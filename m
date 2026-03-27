@@ -1,193 +1,206 @@
-Return-Path: <linux-media+bounces-57278-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57279-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UGD0I3ahxmnENAUAu9opvQ
-	(envelope-from <linux-media+bounces-57278-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:25:42 +0100
+	id +N69GsWjxmnrMQUAu9opvQ
+	(envelope-from <linux-media+bounces-57279-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:35:33 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53FC3346B46
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:25:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 078CB346D64
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:35:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C5492306DD06
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:25:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5CA11307C241
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:29:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FC682DF155;
-	Fri, 27 Mar 2026 15:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8D8F332EBC;
+	Fri, 27 Mar 2026 15:28:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DX/tF2E5";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VVGjigXe"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DWCjWMOi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290FD3016E0
-	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 15:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452E733260E
+	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 15:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774625097; cv=none; b=M+qRNk/AMIOz/oJzyz82b2rUg1D6hm0q6OHPjxTOQyuhWlj0IgKc0BqaoCNf3SytRLp0+dGy3Be8aNdQxFtij89qccRJ+JeDELKOXQiWAK18+dPc2qJUdIk8bzszv5gY04+TtoGGknMdBpk7ONNl2IH9OVWU33JN2UtlMQP4HA8=
+	t=1774625334; cv=none; b=LALQtoPZLlzs2m9KRyqO61g5MBkf/3KIK0eyD3BmKGQ/TaJXnwPQVFYu7JNAY4PD/iKe9K5Wf9wwlwbwUAndbw7OR+E04XcusMJQEUaUQOz9Fy7hOEjEk/7HnytJSnAtxjNmhT9z5OOTnoMBfh6r3g4JtPLXvgN+XPUAQR+P/5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774625097; c=relaxed/simple;
-	bh=3KnfBMTTF4C7BT2e2m/fho4mprI7VFTBf/cUz4blw9c=;
+	s=arc-20240116; t=1774625334; c=relaxed/simple;
+	bh=BzjorC/KMjxhyLd6FvLMV90Jk6WKFkKPHN77D+v5d54=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ktHHfuGTMUj0qtEbnY5DXcIoOfdyk7YQcbZgLrEax17FrqWjJxwrUZ+tm9JidXD7zvdfPSb6mQseKvlV4VZU+8YirXH2FiFqisNiayBn11aq/XdpsPxs2bfNbRYqCsJhXAstS3Dr+ZvTFhDd9rbzQ6KcdDE8jlu97gGn0Ck6ufI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DX/tF2E5; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VVGjigXe; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62RDhgpt1640846
-	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 15:24:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	LBUCQN3XaZLPNcph9CDv9CuvtfskFRgbZnBJyWKpCSo=; b=DX/tF2E5tKzG1KnJ
-	RiJlRQaVFrMzOV7MTJSv+pOO6CRD03wJKMoEzRYzx+lPIXZPzQGwXTSgma9BQhEe
-	2jr3kl/NWqTeC58woODHVp6LylMtMC4Sm5XrGn76Ywxhb1kxvS6xqHp9x7e9RM3n
-	bH8+jBV51eqjtgGL45z8kvcnpvozzh5k3y7k2sa7HLQpxp66mW7Ao1IgsuISH8dU
-	Vhz/uEP/3oZAfzGJYTnAcKwcOiZEy5Wb4bPX6LMk8Ah+XSqLQG5TH+6DdHXuLKI5
-	lRYWCLz3+Hp07DdM6h7liGDbj2XSGi7VQpH/CN9VWo96zIReaBj/mrCfYK22cbG1
-	gWmuLA==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d5a9q3xvk-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 15:24:55 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-c741c4cebf3so1474759a12.2
-        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 08:24:55 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=DCoenLAwcB3mMMepEoBBCagN/ybh87GnZ1CNsBAd0D2Syrek74vk7kb+G0dezXe8JEs3q2STS1I3teny/XIoGt1vUG7KioERv+q1G3ByQFBgt/xDdSef8SAVCO3fokg0TnJ6WaIX0zpTdQYogHBqz2pWTSx3LO9bN353HJT6/bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DWCjWMOi; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48540d21f7dso25293085e9.0
+        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 08:28:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1774625095; x=1775229895; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1774625331; x=1775230131; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=LBUCQN3XaZLPNcph9CDv9CuvtfskFRgbZnBJyWKpCSo=;
-        b=VVGjigXeqtauernFLO2IJYgtALPcaIcAB9tyCxaUWITi3dHAQRIaCmaA0ejtKzesum
-         DNYPAzKXj74vJjvpPMPXE9sTTzuIlc5SoxT9qcNVun9KMMsxda7zvvWbNWOJ8ogx+wUt
-         tU5hkOmtHBRfWqgQCW6O7dGxxZtwjhFHNsQRvL7YG7YoA/ElvsVKSAWzE39XXEzMofJ2
-         r/ibfIhIZk9Nncp+nXrGyNxmMtLjsCwJb/0iPKR3ZW0Z5CUEMyUnq2BYAIVcQPghh2L0
-         BFvOd0dss9ti8Rf8ERxPDEvWu2JWMoLzUcXYTqoYKGgzXcOkJ4bsoXIe7biekrcODEHt
-         DeEQ==
+        bh=KPfKYIz0itJnZ243zFJfg1PZYfMp2nj029kDZFys+04=;
+        b=DWCjWMOigoTHqan2NlPLA6T8fMT0fewrAxZMX5EKVhTwh4wj3esJRC9UlSoU7pnKAs
+         IrgglkUaPoma0iwipw0nZqQKXmilBNhud7+xbXRd/9J/N+9AKsW9uQO9AiMQ7YXoRpoz
+         UM1xFuvvQtRkus5X23hNxOxlXSHXGXYt6O6vfHu6P6mhXa6Wg/vNb/Qqg78ErXMhuZal
+         4ZCPN3AOCaOkPMI1hKl4BgPUyXaf0bWmrXL96CAZ2S4IwjTdqGMxg69AfVwOdCfSCrll
+         C3lhjfprVBkqaFKtzgQOl3YpoW7RD90Rcuni3uzbhddQ2xlRPhG+gg/uJ6EZHnEdv3yI
+         qn6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774625095; x=1775229895;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20251104; t=1774625331; x=1775230131;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LBUCQN3XaZLPNcph9CDv9CuvtfskFRgbZnBJyWKpCSo=;
-        b=MfLjPiTxZsI0AIbrkHkoFaZyF/5PtoZ4OJMYFQ1vsPVduGbFpacEnuicyV4akra8of
-         QXo3u36dXqFP28U1Z2vPeFRhqnPO1yy0yJCMbcZ0v9iUoRL+TKjCNiURUBECXqbKdvnU
-         P39cUSDRi4NtmtJOXCgrWIlfmwwNOM7v8MDZB++FLMyp7P7TJE6ShW+VLsK0njtpsDRC
-         aG6s3fO4yD8S8DixsVYM7U9REZ474CcWqgsKyPoWP5jMOKVNWQg7guGloE62CGz7RqcK
-         KaLX4Cm7N5NuRBbaQhVdpN38S0AbOJ2HDfT02lVN5GhX6aTP+I1w1WG3gJhEn7DbGzGp
-         mpJg==
-X-Gm-Message-State: AOJu0Yyp8DXqtpHkER6eVrj539uNwiZtHbgT1mxmRpJBWp7gpVRpiQQS
-	sAnaVEUdnOIItM1NAjmrHVdRN+nOzuSVQ2n9FbEiUvu/opXEgxLokWOmE1ZcAMGkADhuWyl/RQR
-	nObFBVIujIxigIwFVROAomJAMaXQp0zvHIeA6RhiQMnVSxtpYKXtMztdhvo4mj0XCgA==
-X-Gm-Gg: ATEYQzyjSY5Uabv8Z1UxCj96gtDqMuOGTySy7rZPFWVJABtobiSta1+G4lCo8sJ70Ii
-	jpnyo8Z04IOafCl79KwbpVWopAalmG9DePubC9eTbBVSGe+sLcEIMdQDhAWlohSYdjjJV9lOHfB
-	tXY7C1ODdAYVTcletSJCFFm5eTtWLKc4V7Zn0bISsLSvN0mjZOJ4bF8YxPA9GWjFeoxHyHmCnEM
-	JVu7/XYck/f6vopInKwfqkL06A5V/8kN9MTyabW9ek8hLd80wR0gLkn3MmTbFMGf7BckAPJEPht
-	xQP+T6goq+eIocX94Z4w9lms4w/lu9yYK4QqRZ42u4C9J2sOSvSiNNb1+imcaYtIHEwkWaGpSnX
-	qbRG1tT4n8m9AFrE6XXdkookpZ2rk0UA1V0R6l2b4lV3fJ5EUPyjMnQ==
-X-Received: by 2002:a05:6a20:3943:b0:39c:50b4:cd50 with SMTP id adf61e73a8af0-39c87c4adcamr3224218637.61.1774625094890;
-        Fri, 27 Mar 2026 08:24:54 -0700 (PDT)
-X-Received: by 2002:a05:6a20:3943:b0:39c:50b4:cd50 with SMTP id adf61e73a8af0-39c87c4adcamr3224189637.61.1774625094398;
-        Fri, 27 Mar 2026 08:24:54 -0700 (PDT)
-Received: from [10.0.0.3] ([106.222.229.231])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82c7d21a5cfsm6247175b3a.22.2026.03.27.08.24.51
+        bh=KPfKYIz0itJnZ243zFJfg1PZYfMp2nj029kDZFys+04=;
+        b=bG1cqB0UXm+LsyIBhvaq7NQSxKOLTBJDiZ3Bc//2D3iFXaYpaK0DgfwhjY4/KjqV/K
+         PoTK+Z4VtrUlrhTUVssiiGY93r3df0bPZ9LVSUE28Ow7lATUM/yUSftB/ww9VX7dEYb3
+         5T3b3AiSHlkKABmgRiGOk8P+Qau9/A8tMSYV1x7t5JmZCaJWNUov/loy1z3ONwZkrhJk
+         N8TbPsyMeUnO451E329Te/gYGBKFoZs7DauFzGEd+Lkm7WFvllc5XRYbIRh/uhffyXJj
+         0eUOI+8Z9mqL2gDpYsOlbuNbMYuWpeeLsuEhHxpBcNy6uFIhpdn4A5QZuaQ9Y3epC0Mi
+         5NGA==
+X-Forwarded-Encrypted: i=1; AJvYcCU5S2zD2j8eP89m59igZpkCSvGzPh9/JUZke58xn7p3D2HgmJlyxqyD7L16t9Qfplctd0CEyAJ/3tq/ig==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6vuGq0CYuc4yIJ9rXtk1INDVpj4umKaNvL3Y1s4A6CKLJix6Z
+	W8NaG+C0aCS1zMmrNj3N1QeKGFC6jxWL7Mp+22I76hXfjzhaZo+jtHleQye+OgH74ik=
+X-Gm-Gg: ATEYQzwv9zxglDtrgawTEJ3xMIEUy0EX0y69BgMB59cNOKfAOUbfHnnMvf98AlubiAB
+	HyHlsgNy1vHdKBddHGTJkL3L6EQ8succoIMyIbJbv7PtZgWMj71my8dEjGSuOVxgfLKQmFlhg75
+	p2Zt8UmSMNNya2VN+AzPZbw78+v2DlixvWaJEw8PwFOmWpuXtJsN0HExaZaBK4lngHS3ya5X3L6
+	aRjOCG3+i82Px96gdqNGxVON3tW5tX3QSC8Vzj4XZx/qNs4EX52qnDznDz5M1SQ/8sUnKmP55NY
+	GOr7eUmdcriHwgJQ32LKZJxbclzr/TCsF60LDoLC3JVpVOfyhWse0BcvCopdBXSuRzaxNtN0UIc
+	vs1UnMIl3jVIb61JpE51UJKL1D5GL9iHK5V319LYVXHkY0Vd81zY8YC80R1QHERts0s2bmprbbJ
+	ofPLrMevEvqIAra21uYHZr50DvoyIUQoOj1j4SZIoLP4+mnJaYaBuU3kAIAwIpMl3ahM9SwTjlQ
+	Ku2vjOEMCJkN/OuPjfEp8E=
+X-Received: by 2002:a05:600c:4743:b0:487:2651:dd6b with SMTP id 5b1f17b1804b1-48727f179aemr49696065e9.29.1774625330441;
+        Fri, 27 Mar 2026 08:28:50 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:106d:1080:81c2:60b3:ff00:9a5e? ([2a01:e0a:106d:1080:81c2:60b3:ff00:9a5e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487270c3393sm28489395e9.4.2026.03.27.08.28.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Mar 2026 08:24:53 -0700 (PDT)
-Message-ID: <b557a261-e9ed-95f4-f265-21d74c1e5f33@oss.qualcomm.com>
-Date: Fri, 27 Mar 2026 20:54:49 +0530
+        Fri, 27 Mar 2026 08:28:49 -0700 (PDT)
+Message-ID: <1f38187a-9464-4aa9-b70a-03b767349d56@linaro.org>
+Date: Fri, 27 Mar 2026 16:28:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v9 09/11] media: qcom: iris: split platform data from
- firmware data
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20260320-iris-platform-data-v9-0-3939967f4752@oss.qualcomm.com>
- <20260320-iris-platform-data-v9-9-3939967f4752@oss.qualcomm.com>
-From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-In-Reply-To: <20260320-iris-platform-data-v9-9-3939967f4752@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: ZSA_SsA07GCnquNBo79bjEB0WNbDM41C
-X-Proofpoint-ORIG-GUID: ZSA_SsA07GCnquNBo79bjEB0WNbDM41C
-X-Authority-Analysis: v=2.4 cv=J4GnLQnS c=1 sm=1 tr=0 ts=69c6a147 cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=n9i7a1ABM4vdrNuulSdbnA==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=EUspDBNiAAAA:8 a=hqVnMPCZWYgSQcfks7QA:9 a=QEXdDO2ut3YA:10
- a=x9snwWr2DeNwDh03kgHS:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI3MDEwNiBTYWx0ZWRfX8OlnMtMxZZfC
- Ze/MrXevW1KbVsjmPEc9cehBGiKjVCUPzvGVUxzrsaZP+06F7rpSGOU/bZ9NhyKjNxg4uNsOh5i
- 4MbRC6we5IONoMYBrSfaoJp5TNmAqWMffx/iOKfH703WQuTTBdldgfVjaNxcvcl7mPv61iryxBX
- Cd2DW3z5sfblgGSGMqkktrG/LBa1d3CxEPaYK2zEqgqmF9cA1pktwpz/NO6WNuz1kUPNTdq6fLn
- /unI2+SdvdLXYKNIkKbL92QBfyb8/zXndGoaGLWhldeHY773X0tsDeOjOW82oUE4TqH9Tplk+hw
- oMRJZFozPvfPcfbzF9QKcsAYxEMplGLdngNwcDHkRzcwjaBT3B9dnkOKjvn1qg5iG8RQEVgS/Fj
- 9q2V6cy/yAILQ5lazx4IEDpBqQ3R8wrfbm56NhPzksQ1ZwYXe0aIg4v3MLr4p/41b5s2r/47SVS
- SEaEWc6bPOZUqlGcN6A==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-26_04,2026-03-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 phishscore=0 impostorscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2603270106
-X-Spamd-Result: default: False [-2.16 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Vinod Koul
+ <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260326-x1e-csi2-phy-v5-0-0c0fc7f5c01b@linaro.org>
+ <20260326-x1e-csi2-phy-v5-1-0c0fc7f5c01b@linaro.org>
+ <7712fbdd-a225-49f0-aeb9-ebcbb9d5abac@oss.qualcomm.com>
+ <da3ed78d-fb5e-4820-95d6-527d540cf03e@linaro.org>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Content-Language: en-GB
+In-Reply-To: <da3ed78d-fb5e-4820-95d6-527d540cf03e@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57278-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	FROM_NEQ_ENVFROM(0.00)[dikshita.agarwal@oss.qualcomm.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57279-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 53FC3346B46
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:mid]
+X-Rspamd-Queue-Id: 078CB346D64
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-
-
-On 3/20/2026 7:24 AM, Dmitry Baryshkov wrote:
-> Finalize the logical separation of the software and hardware interface
-> descriptions by moving hardware properties to the files specific to the
-> particular VPU version.
+Le 27/03/2026 à 15:38, Bryan O'Donoghue a écrit :
+> On 27/03/2026 10:07, Konrad Dybcio wrote:
+>> On 3/26/26 2:04 AM, Bryan O'Donoghue wrote:
+>>> Add a base schema initially compatible with x1e80100 to describe MIPI CSI2
+>>> PHY devices.
+>>>
+>>> The hardware can support both CPHY, DPHY and a special split-mode DPHY. We
+>>> capture those modes as:
+>>>
+>>> - PHY_QCOM_CSI2_MODE_DPHY
+>>> - PHY_QCOM_CSI2_MODE_CPHY
+>>> - PHY_QCOM_CSI2_MODE_SPLIT_DPHY
+>> Does the_PHY_ DT node need to be aware about this upfront?
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Yeah that's a fair question.
+> 
+> The standard model is to pass the mode via binding right now. You _could_ configure it @ run time in principle.
+> 
+> And you could even conceive of a sensor hardware that might find value in that - but IMO it's a 100% hypothetical use-case - you'd basically need an FPGA that could output CPHY, DPHY or for some reason SPLIT_MODE DPHY.
+> 
+> But that's a pretty off the wall use-case to hypothesize. Split-mode OTOH is a board-level physical reality which => a DT description not a runtime choice.
+> 
+>> If we have some sideband signal (e.g. the sensor driver specifically
+>> requesting C-PHY mode), we can simply throw all this complexity into
+>> phy_mode + phy_configure_opts, all at runtime
+> 
+> Like I say its conceivable but IMO not a real thing and unless your sensor is an FPGA not possible to support in real hardware.
+> 
+>> Further, the combo/split mode may possibly be selected through
+>> aggregation of requests.
+>>
+>> The question remains whether the sensor should have a direct connection to
+>> the PHY itself (i.e. phys = <&csiphyN> or of_graph straight into the PHY)
+>> or whether it's going to be translated by the camss node (which would be
+>> the one holding a PHY reference) - there's probably surface for adding such
+>> negotiation logic in both places
+> 
+> To be frankly honest you can make an argument for it either way. However my honestly held position is analysing other upstream implementations connecting to the PHY means we can't make the PHY device a drivers/phy device - it would have to be a V4L2 device and then for me the question is why is that even required ?
 
-Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+This is plain wrong, DT definition is different from software implementation, you can do whatever you want if you describe HW accurately.
 
-Thanks,
-Dikshita
+The CSIPHYs are not tied to a single "consumer" block, they can be connected to different consumers at runtime, which is not something classic PHY devices are designed for. So they are de facto a media element in the dynamic camera pipeline.
+
+> 
+> The model we have right now, right or wrong is sensor endpoint to controller. Similarly the <&phy MODE_GOES_HERE> is a pattern Rob Herring suggested and IMO is a consistent pattern we should aim for upstream. We see it in latest Rockchip, Cadence.
+
+This doesn’t properly describe the data path, we got out of this classic scheme when implementing the whole USB-C complex on qualcomm SoCs where we had to describe the data flow within all the USB/DSP/DP/PHYs elements, and we have a link between the DP controller and the Combo PHY acting as a DRM bridge.
+And actually Rob Herring asked use to define the complete data flow, it was a strong requirement. I don't see why we wouldn't here.
+
+Looking at other vendors and sticking to this is wrong, we need to solve how to describe the Qualcomm CAMSS complex with accurate representation of the data flow and hw components interconnections. The choice of kernel API to access an HW element is irrelevant in the discussion.
+
+Starting refactoring the DT representation of CAMSS is good, starting with PHY is weird since I don't see what it does solve we can't solve already,
+but you need to take in account how the CSIPHYs are connected to other HW blocks. Simply adding a "phys =" reference from CAMSS node doesn't reflect
+at all which HW element will consume the PHY, and what are the link parameters between the consumer and the PHY and between the PHY and the Sensor.
+Those are the whole meaning of the port/endpoint links, where we can define multiple endpoints for a same connection to, for example, define multiple sensors on a same PHY for the split-mode.
+
+Neil
+
+> 
+> 
+>> Note this is a question and I'm not aware of all the possible combinations
+>>
+>> Konrad
+> 
+
 
