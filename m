@@ -1,219 +1,249 @@
-Return-Path: <linux-media+bounces-57253-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57254-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WGIxI/iRxmkyMAUAu9opvQ
-	(envelope-from <linux-media+bounces-57253-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:19:36 +0100
+	id EPAhKe2Uxml7MQUAu9opvQ
+	(envelope-from <linux-media+bounces-57254-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:32:13 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A8A8345ED5
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:19:35 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 472183461CA
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:32:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 02D15305E9DA
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 14:16:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4AA4030E152B
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 14:25:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B70803F54BC;
-	Fri, 27 Mar 2026 14:16:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DCBA3F23B7;
+	Fri, 27 Mar 2026 14:25:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="I8m5NWRd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JFD6LXEw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68203345CB0;
-	Fri, 27 Mar 2026 14:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774620966; cv=none; b=IFQoDJ7IJovjpaTitP8h/k0qUAIBWdBXu+jTUf7gSgvY4VOuA/GDd3tEgczA1B9uOu/okxabLv5rhjyE4+8We3/uG0KZTyJU7P1OqkpqhLVvTFne0WcAuIhS0MoNLgfBFZFquaB6cZDkEukZEmX1NfBO3PVphyaZ99ntT4Fylsc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774620966; c=relaxed/simple;
-	bh=CCQcWXfRhfweSERGbnVbNuZIW9remV1MspwlJGH4JsQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T1K0F/nwx5obtKSddn3Cwm8fzXvgbgDJUroGD6cqdOwNZZDnziSCqqD1eLxmEkgj41ilFtJs35zsSETQNR0Hu8F0EuthJuzWjYplxQ5/ur+Mq7qa+28DjqLv3HMzXkxSkXYEcjB3hwZXSLNNRhbukbDLoeSSHGC2kY/lNK+vwFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=I8m5NWRd; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1774620939; x=1775225739; i=markus.elfring@web.de;
-	bh=Cr1scZZi7zdydZbOdobTccCzBZnQpm5ZyembG3sAVrU=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=I8m5NWRdB9PuaFkxJFQDZROab3SflShpLg6IBJUebngxjIo1KNsjcCMDpc7xbrzw
-	 er42s2OqLxBZiT3uEon4Os302fDXn39iXgCVEPi3KBEJoSBsqzW9bVOwBtHzj46sM
-	 aP4nEF9T37JJ824GNKGNXHA84Y68OrvosmNrsPKecqQlPqjaTAG/9qId8ZKi2w+QQ
-	 mTrWk72m61LwGqMyNqXa0zDWQ1NZXKV0Xd8rBqL0v6tC4H9Cgt6Yejc9YqN4wbUKS
-	 FWBpMktjDJ8EyXb2QQRQYfgi5bZCWzDgwcYSxXWHdMVE3asY6u+c+oanpStDu2ovc
-	 7o6IhayakNoLjyTEMg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MWzD3-1w4IS20b3h-00LxMq; Fri, 27
- Mar 2026 15:15:39 +0100
-Message-ID: <98e67723-5100-4a35-ac9d-26a2414037ec@web.de>
-Date: Fri, 27 Mar 2026 15:15:36 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E452D9492
+	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 14:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774621549; cv=pass; b=iGfIIzG7gOJqR7R6nim5tjkdWZtGWYciVJQFZAQZ+hrRwgZ/AQiBax3zmpH5e+2BDzP6Rkdj/huVU6A6bdNmIaERRup0COQ8C/G/Vmdax83R44MqyBeKt43T9o14blfMtmH6VISyKvUFNo4nObX6IXEPpx78MHvZgQt8ajD9qw4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774621549; c=relaxed/simple;
+	bh=Y9XqaeQh8OozS3JKs8ke6BoMKRYt2QxRWf/1HB35n+0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I3s9En7KlzwEqT66+p5zKjbm7XJK1t3pJ+H2i0jaTVRjOWeBgFUQPpXmPhWUwrCePjd5LCi6bJZOl4kNKEbECiWblJPOhLMYvWbBu2Q+pa9XuLf1mJkbKe7gKDBIDNMC01GjFHJVGqELfNLxIEHV4FI+24nqXNEzZ0qRP96WClM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JFD6LXEw; arc=pass smtp.client-ip=209.85.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7d1872504cbso1995927a34.0
+        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 07:25:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774621546; cv=none;
+        d=google.com; s=arc-20240605;
+        b=IVhoE7EZUdigepKAPKxBTIvZObMCjMn++rfECP4fVqQM2S6HFnjYUudWQEEU8f2jvH
+         uhbwi8VKpkInCihqXMf4leeN1QFXz84+rjyfFAY4ZxaHiTVn9BmhvMvsnGbW5p6iWJEi
+         uSlipDmFFdPhdd8b9b9ojxAXSewh5s6eZulDBKq5TyQ9QGefv1MMz6git8oNS7/CG8RT
+         fMDlI6FkQ2zwXvRETKSxXma/LmJpnMy0IHFY2gNBcdv8vG43k3kH/aoC6qO9pqj63Qrd
+         FLxb0St4i5qp10+0UsYsMC+sqjhESjXGhiV/ad8EuhPWcx+n5V0d/CHF/IyFlwo6Hh5L
+         xYkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4CkbRyLOqwqwWGIOpFw2bUHzgPgIG2tUM7yOxEtSZu8=;
+        fh=TvrFz+d8VBxhlqCqbtCgZz7wu4a7FGA+uinoXDzvVbw=;
+        b=TaDexVn01YmAfDFPbJwu9dPmRDak1XAe3OSPiFE9BdGk4f2vKIhPzebKE8btXMgpLU
+         T5T/e1yflfyx5qCdrq8TvzoV+dk7un0NPXjnYjbTAynT9diRq2077xOqChYPd8TIu4ap
+         H5SoBhDQwEO/OzDzmdcrZwHezbYMcs3Le4IlJyQc64nYrNvlOCELABGyBAlzbYr8AdIY
+         S85/R7eNwPYMryjqi0Pb2t1C5lwt/VLiEuIFcAebRPIMTMzwj4sQeBZMKqhbl5QCzMlo
+         XZlhIVLSe0qhRshfdmCjo2XUZb00ICoFsi1beaHCjX70gcyLl6H4wbqCvUM0RPLHe/tO
+         rtFw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774621546; x=1775226346; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4CkbRyLOqwqwWGIOpFw2bUHzgPgIG2tUM7yOxEtSZu8=;
+        b=JFD6LXEwFeaqS74S8TP1GUQxztH5YVnEEAuTIsjFlLNMMQwuA5O15nqZyBe4QxpxD4
+         r7WvUtsCaSRoVEmGI3HF45D3130Jkcyz7do3O57wiDQY6KrOL2Thvr06ODf4deCdifpq
+         gN4K4pjgclY84O2SHOVfSv0zpzNgzgkXxNqc8YyQED21sNSAwKcajP4speg6g583ZRbf
+         yewzE4K6ryVsa+YCbQOnsb/y0qug6j6lZLbpQbbDLi989pJBzYRikHcbJSK+AZV4+eo5
+         SbsqBCglQJyTRp7r0OsZ1K6m0GYJDIwA/Ik3wfzg8naQQYHw9A/iOPgdRydt1VI3Q1Az
+         iqVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774621546; x=1775226346;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4CkbRyLOqwqwWGIOpFw2bUHzgPgIG2tUM7yOxEtSZu8=;
+        b=JUx5zr/gIZ+CsKP77pE0InKYQmhkB9Nlvag5ms5oBP0sUm6B1dUXkRhVPX62zQgCE2
+         xW3MAOVtXVIOyKuC6nLNvI+sJsgWFCE6sfaAJF583G4794QJKEV+yqbWKK2j9mRo8EJd
+         MwlykC9hP920leTNQUug+5QGNHOv/SmRAgI7/krCYG9SzHpxop3vlwaCdWKB9psA9bQF
+         mCg27u+s7BE3Hg50PMCgb9PhgdUYIMx0RLSUWMvwaD6d86M+GkpXUOssnaueOEI0pq3a
+         aezm1gwJ75AyWGCNt/cGdlmOANGpShxSoMfNKketZm1T8graz/rGFMr9NLtdIDAC0DXH
+         lqnA==
+X-Forwarded-Encrypted: i=1; AJvYcCVD6+I4tNlvhJid5i/0++G+YjCnMJ1VBgOfZUedWcAWKWKBrqfhiTMuH3gLG2c7oDKact7MYhKZjKcbmg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTBP/YELQp0+OGp7lInkip0i4N5LOXO5wdzCrstR+KI9GLr9Vs
+	wCXRM7Wd+AMK9hu3ks2xN5/xjeX1MXkAfK0VuSB0hfd9NRFXUvUFVbztd10KrGNnCn5IstURHjn
+	zLit7EKxl0R4vCWkjqgG3wvzHJubMjdo=
+X-Gm-Gg: ATEYQzxU1I4yHKVEJj/1kmnyJckozEZfgM4sf3g4sK/nv3Rkx659zw/M9t4XCBAso5L
+	8eEvxMSz+QjJBXFq0Y8yjg2VE2+ZAFfinEHY5EbTkjNJ14gFBkduwLBCa5/RuTxccgNrtXizvmB
+	+QJgnYgxpESTgE5wg7xQqeBdPT2ipsqKm0ts+3OSlGLM/6TfphkGEndtOM6wJWJLfTD5tS0BeVq
+	2MDElKvJPJ+Pg/7nCMLrc70TOlWM2tBQSmOO2fjp6VmHvC7NFs/iMUp2xZHgsTqZqAkvpbBn5fn
+	njcmRrcPk81H/eLybw==
+X-Received: by 2002:a9d:7dc5:0:b0:7d7:45b7:ed8a with SMTP id
+ 46e09a7af769-7d9ee135024mr2298331a34.5.1774621546467; Fri, 27 Mar 2026
+ 07:25:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] media: ir-i2c: add error handling for I2C send in
- get_key_adaptec()
-To: Wenyuan Li <2063309626@qq.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Andy Walls <awalls@md.metrocast.net>,
- linux-media@vger.kernel.org
-Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Sean Young <sean@mess.org>, gszhai@bjtu.edu.cn, 23120469@bjtu.edu.cn,
- 25125332@bjtu.edu.cn, 25125283@bjtu.edu.cn
-References: <tencent_F0B755C48BEB67380BA88ADF22C96E1FC407@qq.com>
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <tencent_F0B755C48BEB67380BA88ADF22C96E1FC407@qq.com>
-Content-Type: text/plain; charset=UTF-8
+References: <20260317053653.28888-1-mikhail.v.gavrilov@gmail.com>
+In-Reply-To: <20260317053653.28888-1-mikhail.v.gavrilov@gmail.com>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Fri, 27 Mar 2026 19:25:33 +0500
+X-Gm-Features: AQROBzAfh4NA1agUQwts4_skWqTwNVSjJPXSowustcL8qGk_2W0rk3crVq32Jhw
+Message-ID: <CABXGCsOCjQQ65uO3c8DFGx+ErLtn9jSVnktb3MgVdHRfU2pbVw@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf/udmabuf: skip redundant cpu sync to fix cacheline
+ EEXIST warning
+To: kraxel@redhat.com, vivek.kasireddy@intel.com
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, 
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:u7+QixeRS+xsga83TThFi2oZMUiZ6VN+TRvmCyxNfeOIURVkdlv
- Yg/PU65NKHOZotBm7LGHSUltoP+JxETadqBhohzAd4SMAD8yxLgTg/eo80//INhLb3/sH5d
- cWDMqgcawvq8PofrpprNwxNDnpHDKS3Cf3V58VCaCzTkeZOvvI6KjKX2NFN+Xr2UlEMoQWs
- MYDsJA5yuSz8MrCaiPGqQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:RI6IeVtMJBU=;z5nAaYZZ+nSA6GE7aLOFoWLCCBJ
- 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
- BjoBXAB90nuNW4QpFqUHX632SHDHqwsbA==
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[web.de,quarantine];
-	R_DKIM_ALLOW(-0.20)[web.de:s=s29768273];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57253-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[qq.com,kernel.org,md.metrocast.net,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[web.de:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	FREEMAIL_FROM(0.00)[web.de];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Markus.Elfring@web.de,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57254-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TO_DN_NONE(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mikhailvgavrilov@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 8A8A8345ED5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 472183461CA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-=E2=80=A6
-> Fix this by:
-> - Checking the return value of i2c_master_send()
-> - Converting partial sends to -EIO while preserving kernel error codes
-> - Adding dev_err_ratelimited() logging with %pe format
-> - Adding similar error logging for the i2c_master_recv() path
-
-See also once more:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv7.0-rc5#n94
-
-
-=E2=80=A6
+On Tue, Mar 17, 2026 at 10:37=E2=80=AFAM Mikhail Gavrilov
+<mikhail.v.gavrilov@gmail.com> wrote:
+>
+> When CONFIG_DMA_API_DEBUG_SG is enabled, importing a udmabuf into a DRM
+> driver (e.g. amdgpu for video playback in GNOME Videos / Showtime)
+> triggers a spurious warning:
+>
+>   DMA-API: amdgpu 0000:03:00.0: cacheline tracking EEXIST, \
+>       overlapping mappings aren't supported
+>   WARNING: kernel/dma/debug.c:619 at add_dma_entry+0x473/0x5f0
+>
+> The call chain is:
+>
+>   amdgpu_cs_ioctl
+>    -> amdgpu_ttm_backend_bind
+>     -> dma_buf_map_attachment
+>      -> [udmabuf] map_udmabuf -> get_sg_table
+>       -> dma_map_sgtable(dev, sg, direction, 0)  // attrs=3D0
+>        -> debug_dma_map_sg -> add_dma_entry -> EEXIST
+>
+> This happens because udmabuf builds a per-page scatter-gather list via
+> sg_set_folio().  When begin_cpu_udmabuf() has already created an sg
+> table mapped for the misc device, and an importer such as amdgpu maps
+> the same pages for its own device via map_udmabuf(), the DMA debug
+> infrastructure sees two active mappings whose physical addresses share
+> cacheline boundaries and warns about the overlap.
+>
+> The DMA_ATTR_SKIP_CPU_SYNC flag suppresses this check in
+> add_dma_entry() because it signals that no CPU cache maintenance is
+> performed at map/unmap time, making the cacheline overlap harmless.
+>
+> All other major dma-buf exporters already pass this flag:
+>   - drm_gem_map_dma_buf() passes DMA_ATTR_SKIP_CPU_SYNC
+>   - amdgpu_dma_buf_map() passes DMA_ATTR_SKIP_CPU_SYNC
+>
+> The CPU sync at map/unmap time is also redundant for udmabuf:
+> begin_cpu_udmabuf() and end_cpu_udmabuf() already perform explicit
+> cache synchronization via dma_sync_sgtable_for_cpu/device() when CPU
+> access is requested through the dma-buf interface.
+>
+> Pass DMA_ATTR_SKIP_CPU_SYNC to dma_map_sgtable() and
+> dma_unmap_sgtable() in udmabuf to suppress the spurious warning and
+> skip the redundant sync.
+>
+> Fixes: 284562e1f348 ("udmabuf: implement begin_cpu_access/end_cpu_access =
+hooks")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
 > ---
-> v2:
-=E2=80=A6
-> ---
-> v3:
-=E2=80=A6
-> ---
->  drivers/media/pci/ivtv/ivtv-i2c.c | 21 +++++++++++++++++++--
-=E2=80=A6
+>  drivers/dma-buf/udmabuf.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> index 94b8ecb892bb..9c6f8785a28a 100644
+> --- a/drivers/dma-buf/udmabuf.c
+> +++ b/drivers/dma-buf/udmabuf.c
+> @@ -162,7 +162,7 @@ static struct sg_table *get_sg_table(struct device *d=
+ev, struct dma_buf *buf,
+>                 sg_set_folio(sgl, ubuf->folios[i], PAGE_SIZE,
+>                              ubuf->offsets[i]);
+>
+> -       ret =3D dma_map_sgtable(dev, sg, direction, 0);
+> +       ret =3D dma_map_sgtable(dev, sg, direction, DMA_ATTR_SKIP_CPU_SYN=
+C);
+>         if (ret < 0)
+>                 goto err_map;
+>         return sg;
+> @@ -177,7 +177,7 @@ static struct sg_table *get_sg_table(struct device *d=
+ev, struct dma_buf *buf,
+>  static void put_sg_table(struct device *dev, struct sg_table *sg,
+>                          enum dma_data_direction direction)
+>  {
+> -       dma_unmap_sgtable(dev, sg, direction, 0);
+> +       dma_unmap_sgtable(dev, sg, direction, DMA_ATTR_SKIP_CPU_SYNC);
+>         sg_free_table(sg);
+>         kfree(sg);
+>  }
+> --
+> 2.53.0
+>
 
-How do you think about to avoid the specification of redundant marker line=
-s?
+Gentle ping on this patch.
 
-Regards,
-Markus
+To summarize the review so far:
+  Vivek: "Looks OK to me"
+  Christian: Acked-by
+
+Note: while my separate dma-debug patch [1] would also suppress
+this specific warning on x86, the udmabuf fix here is still
+valuable as it removes the redundant CPU sync at map/unmap time
+and aligns udmabuf with other dma-buf exporters that already
+pass DMA_ATTR_SKIP_CPU_SYNC.
+
+[1] https://lore.kernel.org/all/20260327124156.24820-1-mikhail.v.gavrilov@g=
+mail.com/
+
+Gerd, could you take a look when you have a chance?
+
+--=20
+Best Regards,
+Mike Gavrilov.
 
