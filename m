@@ -1,53 +1,52 @@
-Return-Path: <linux-media+bounces-57294-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57295-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OCt4Gnm8xmnoNwUAu9opvQ
-	(envelope-from <linux-media+bounces-57294-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 18:20:57 +0100
+	id SIEBMM68xmnoNwUAu9opvQ
+	(envelope-from <linux-media+bounces-57295-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 18:22:22 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5E434838B
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 18:20:57 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3973483EC
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 18:22:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 72B3B30EE3DD
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 17:11:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 562223015467
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 17:11:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEC293E4C7B;
-	Fri, 27 Mar 2026 17:10:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2A113793C3;
+	Fri, 27 Mar 2026 17:10:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QHWxbcOt"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O9fLSfv6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41A73C3C1E;
-	Fri, 27 Mar 2026 17:10:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD1E3783C1;
+	Fri, 27 Mar 2026 17:10:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774631449; cv=none; b=oEUb2+tF6gg1u9/4Ndbx2iLWNjiTJiWsO8p5OfMIeg+vgM8REI6uClJlX9CKyluJuofCCAaKfPK70Q5m4ogvdPZ25MwYn0qfMkEvRbCDPTQWM2MIcbcE11rCwUEXY7yI0H7oqC28PIMZGMjfaIg5flM681i7Us02fF9YSaXYBnc=
+	t=1774631450; cv=none; b=qzS2RB00/w3doef8F2edU5KVz3x6dzmj+NMm2gBaaURJISaYMPE99yEsHKUWQF1bUt+t6lpxWJawXPxXuFxW1JoU8cWZ0TxP2dXpfDcgwNtx2dU4kbjRi9dr4NiewqUQ+XGklP8H07tPyirXQR7xVI//bdQzPVS2iM49OYi8+4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774631449; c=relaxed/simple;
-	bh=qYNVJErGbpDMrNMDY0tRycGjHWbALYmvbRwfv/gRKvs=;
+	s=arc-20240116; t=1774631450; c=relaxed/simple;
+	bh=MQiAPF1tif77KMDMhwXiTjAr/WzA0OTXN4b2NjGMcMo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cieK1pyIe5c0AQ9hwpazHCvjKRutAg41F4NT3bCTfwuwf7ZWJu8ieyMCmO4Z3djtAqwraKVyDFbYT5m1KOPe8B3C+V8SS2qvchemLySE3iLvsIKUY6GayJA5nixLxXppFnR1pPF1XnFq3fWTpwxY72ArMP867hg1BneDVG9Degw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QHWxbcOt; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=LSFCgbsAbBS/iwKT7/VRVw5SDDjJ6v78QtrSvZVOkHQ/WiyVL6LE/ekOL1D6l10dAD1MPPIEsgvQvcfEAswuYXM9UlnunCD3Ijm8vmYtNlwffT/0sxnBpRg5CjrYvuwlMkjE8QVgycu2M5zToPi7C7v2jWAMoAM6a9qoLsg7LRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O9fLSfv6; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [100.93.44.16] (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B44C3040;
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DDED6304F;
 	Fri, 27 Mar 2026 18:09:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1774631359;
-	bh=qYNVJErGbpDMrNMDY0tRycGjHWbALYmvbRwfv/gRKvs=;
+	s=mail; t=1774631360;
+	bh=MQiAPF1tif77KMDMhwXiTjAr/WzA0OTXN4b2NjGMcMo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=QHWxbcOtHniFytO7Wv6i2m18FzT5C/zCrepBGDMECZr/8kmx5x0LfgtGLIcb71HMl
-	 bIysu1JKZ5pfprJEzzq830cwzvlsmAR5M5aVeucepkh/KvlrjMOacKYGgaabHsufbW
-	 Ukg5GP/Q8Waj5j3T7dg+Mptgh/pWrMdfKy4hOeGg=
+	b=O9fLSfv61KFKskYmk9Wvnm3kfaeN8wzeKz++vh6E2dOCDVIs8P+SB1mzIPcjD6/e8
+	 3w816CyYdTP6JWhKUpCJ1vzCsrMK+ofogXq/c+LYr6RgLKrydDOCO6echakneiS2nu
+	 77SV2IUt7E9fJPwYw0gInUShLuwz+RQGtEUx/ONo=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Fri, 27 Mar 2026 18:10:10 +0100
-Subject: [PATCH 05/14] media: rzg2l-cru: Remove locking from start/stop
- routines
+Date: Fri, 27 Mar 2026 18:10:11 +0100
+Subject: [PATCH 06/14] media: rzg2l-cru: Do not use irqsave when not needed
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260327-b4-cru-rework-v1-5-3b7d0430f538@ideasonboard.com>
+Message-Id: <20260327-b4-cru-rework-v1-6-3b7d0430f538@ideasonboard.com>
 References: <20260327-b4-cru-rework-v1-0-3b7d0430f538@ideasonboard.com>
 In-Reply-To: <20260327-b4-cru-rework-v1-0-3b7d0430f538@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -72,21 +71,21 @@ Cc: Daniel Scally <dan.scally@ideasonboard.com>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
  Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2479;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1328;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=rDJiPzdHrlyY1cOGAeuzTJ0dhKGoLcCuHePAhuQK1sE=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBpxroJMlRhPcgp8xIoRJhQw9zKxd7KeaN/szIVM
- SoGTJ0qPuOJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaca6CQAKCRByNAaPFqFW
- PAgCEACbZdq/cT0GhFCHMNgl9sKfILIQsuNlVTMF7wxWW07MhMeGl+pAvlQh4cUECl16g7QSfjB
- 0UD+xmAMsHUazy0vMVej2y20RyF7ataIi8NRT6UdpGfu3svaIaTZX1M1wYflCXP/TVj6mnTXB/c
- n6fZHBFlxviVV9Wz9n7EmKhwaNQURqakPnNEUJqkhacB2xnHeXr9dYfAvBgendtMnUNriCbMH/N
- xX4HrGeRoFMq5umC4AonaFiv/x89EWUaqToes7nvwKgX8reamPDD1K+hSXsFu3YS+1fFzBtQwCF
- bCYbORPgvM4FBoA6NdDY5b3mertSF2ayp+tYBUr3dQScrlV8EqAtM7XTIsftrjMk7pkj/VKsozD
- ORCmnhuAqrieUiGJjbQDlBxUf3HuIB2P2UudOKlkHeKtkCxgq57PYerNppNQpDaCkKC/3E2jrIH
- DY8uJsJUWIM+038xdH6ifnFyjJVIwv6P8lavfk29SV9Zpo0H9WDGxVWyICcyV2o1PVtXtIB13/q
- xYYOK3efn+mMBUVnBWtr6ulmWTrvx6w9QOPFuot5hKhVFj78h9Cf4s72P/l6UZfA0RJc8DxNAah
- 3lp3h0844mbqv5qiV4vBV+N5t9pLDudp3Sq2i29cJs1IPvVik2kxAPdhSo0AMjLOHqhVxFcvOTR
- zf5u1C2IK0M/GKQ==
+ bh=bF40rZD3TQUHYDp7/ut1kp/JjJgaqy4ZgCBLyzy2Fgw=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBpxroJz/+q75G02YrIYat6AXa6xwPNfcBVeeM2R
+ TIrTbv71u2JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaca6CQAKCRByNAaPFqFW
+ PGwLD/wKDFYM2658ug8Cs3QWkR5cjIgm6H8qbVc4yidppiKxTDqLp9sy4p64zq10+D1aVu47ltd
+ uey3PzUpu9xlML0Z0SqZbjqKhO1kzVEza3qYxvLdtPA5+c9yK5wM6RRflP1dorPTSXKRJYXYkeo
+ 5xFGn5AOjQODSaTxvYchgtiFW0ULNI5Y+yalWmvB3+f0mxWopLif7Q8PR8Aa7SfvJ57/EE1FODp
+ ChmwE8agEi/EsORrB2oIEIcZ+smyOk2S0sHd7ua5AJhxMwJ22IP+cwIKrfxVzdNzRczXzLoFBPb
+ GGmgBOyWeBgj9HGFMTChtqy3+P9cRrIJ4U8POS35+gpG+oO7TJT1BpM9cZ/rEGtNcBAHNW1hGTK
+ 3eiwug7+w7B/hy+7rbln+cS9blUT9Zp91du0WAVve0hTKvly9cCj1OvR4q5fUlCsQ16eaKj9SH2
+ Y/pLjXdhihQK4IuwcMoCZ0mWI8woka60zCiy14UwruMR3mFQX9ndIbrs6w+BdYue4Oh0e3ULuUk
+ MCeTYRhdADwNG7MiXx/eahUTanCfKLUeiuOgvHThC1CaIWnpQ68c2GDnfCH885fON9NThGAZscN
+ 9FAexQT4XCRi/PnKi5C9/aeSufY3Kv+q9fGzADTp8IYUwArIPkhLjeqWzbBcosHnq3E3/j9PFkT
+ 5yFCAgu1z7+vZAg==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -94,11 +93,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57294-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57295-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -115,80 +114,44 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
-X-Rspamd-Queue-Id: 0E5E434838B
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
+X-Rspamd-Queue-Id: 1F3973483EC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
-The start/stop streaming routines do not need to lock the whole function
-body against possible concurrent accesses to the CRU buffers or hardware
-registers.
-
-The stop function starts by disabling interrupts, and only this portion
-needs to be protected not to race against a possible IRQ.
-
-Once interrupts are disabled, nothing in the video device driver can race
-and once the peripheral has been disabled we can release all pending
-buffers.
+The return_unused_buffers() and rzg2l_cru_buffer_queue() functions
+are never called from an interrupt context, hence they do not need to
+use the irqsave version of the spinlock primitives.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 ---
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 18 +++++-------------
- 1 file changed, 5 insertions(+), 13 deletions(-)
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index b041c72837c6..43b1d35fb963 100644
+index 43b1d35fb963..2e94788c3a13 100644
 --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
 +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -341,23 +341,19 @@ bool rzg2l_fifo_empty(struct rzg2l_cru_dev *cru)
- void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
- {
- 	unsigned int retries = 0;
--	unsigned long flags;
- 	u32 icnms;
- 
--	spin_lock_irqsave(&cru->qlock, flags);
--
--	/* Disable and clear the interrupt */
--	cru->info->disable_interrupts(cru);
-+	scoped_guard(spinlock_irq, &cru->qlock) {
-+		/* Disable and clear the interrupt */
-+		cru->info->disable_interrupts(cru);
-+	}
- 
- 	/* Stop the operation of image conversion */
- 	rzg2l_cru_write(cru, ICnEN, 0);
- 
- 	/* Wait for streaming to stop */
--	while ((rzg2l_cru_read(cru, ICnMS) & ICnMS_IA) && retries++ < RZG2L_RETRIES) {
--		spin_unlock_irqrestore(&cru->qlock, flags);
-+	while ((rzg2l_cru_read(cru, ICnMS) & ICnMS_IA) && retries++ < RZG2L_RETRIES)
- 		msleep(RZG2L_TIMEOUT_MS);
--		spin_lock_irqsave(&cru->qlock, flags);
--	}
- 
- 	icnms = rzg2l_cru_read(cru, ICnMS) & ICnMS_IA;
- 	if (icnms)
-@@ -401,8 +397,6 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
- 
- 	/* Resets the image processing module */
- 	rzg2l_cru_write(cru, CRUnRST, 0);
--
--	spin_unlock_irqrestore(&cru->qlock, flags);
- }
- 
- static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
-@@ -470,8 +464,6 @@ int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
- 	csi_vc = ret;
- 	cru->svc_channel = csi_vc;
+@@ -113,7 +113,7 @@ static void return_unused_buffers(struct rzg2l_cru_dev *cru,
+ 	struct rzg2l_cru_buffer *buf, *node;
+ 	unsigned int i;
  
 -	guard(spinlock_irqsave)(&cru->qlock);
--
- 	/* Select a video input */
- 	rzg2l_cru_write(cru, CRUnCTRL, CRUnCTRL_VINSEL(0));
++	guard(spinlock_irq)(&cru->qlock);
+ 
+ 	for (i = 0; i < cru->num_buf; i++) {
+ 		if (cru->queue_buf[i]) {
+@@ -166,7 +166,7 @@ static void rzg2l_cru_buffer_queue(struct vb2_buffer *vb)
+ 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+ 	struct rzg2l_cru_dev *cru = vb2_get_drv_priv(vb->vb2_queue);
+ 
+-	guard(spinlock_irqsave)(&cru->qlock);
++	guard(spinlock_irq)(&cru->qlock);
+ 	list_add_tail(to_buf_list(vbuf), &cru->buf_list);
+ }
  
 
 -- 
