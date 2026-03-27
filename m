@@ -1,248 +1,235 @@
-Return-Path: <linux-media+bounces-57192-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57193-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gNVqOlAexmnvGgUAu9opvQ
-	(envelope-from <linux-media+bounces-57192-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 07:06:08 +0100
+	id sAhyEZIlxmnQGwUAu9opvQ
+	(envelope-from <linux-media+bounces-57193-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 07:37:06 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4734533F620
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 07:06:08 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA29433FDC1
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 07:37:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D572B306A508
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 06:06:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7008A312D9BE
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 06:32:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1D333A9F3;
-	Fri, 27 Mar 2026 06:06:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9365E384239;
+	Fri, 27 Mar 2026 06:25:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z9Qx5miB"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RB/aqBUb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2405431E852
-	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 06:05:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 326C038737E;
+	Fri, 27 Mar 2026 06:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774591561; cv=none; b=aaj2mGD4DEBZIg1V0T3bnztO1Qh0jTBP2qgh8mTcTVsntsJBRGUj0RBcpEMOVcnIA9H03p9TNue7eFks+NhIDYY4yxmZ+uyPAcYs3g2BHppvycqKDqJXEuqxoE+117/at48LZ3qt0fR0vAuMr11TXdRumppG8h2F9OPozVbwk0M=
+	t=1774592751; cv=none; b=LlL56gmYkrxHxbqo0h29t6J2Q50hcIYgNLpMjNxM3s7p893ddNIDJEysgLB93CYBWl2OvisIhNSCO2jcTTs7RFMnh/O4vW5KvuD58WkMQBTtvFsDz1A0l6AmxFuRGukexfcUOWzJP6XH9+UAi6yhD1Pe/kQrN+fz83N9XNftqKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774591561; c=relaxed/simple;
-	bh=4YKoegXNl/z95DhhSsl6seq1dNu1HoG7+gaZVeQtUto=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p10BOKS0bcDkBzguOWowFoAMYqksQGbFhURJHjIsaCxU76GL/VF7xnGFaWLVO9ygyt7SCuDsNRKX3ObDQwLCkzISF/UY0F1BEBT/Nei15FT6Se7SK3DEE9R/DWKwveZPpBiVCvsilipdd7uUosH3SVr0CT80QCTMxZegV+EOLA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z9Qx5miB; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774591559; x=1806127559;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4YKoegXNl/z95DhhSsl6seq1dNu1HoG7+gaZVeQtUto=;
-  b=Z9Qx5miBYsh+77nrQ2AFMdKC297HUlZj9eU0xdswDEzpfELeJQBYTQHH
-   ySiO4gXPq8JXwHTDsuK9Ull/D21OGneeMAx43ZjllumBIyJBj7SYQNxKB
-   kFKoGYM2pvtndiQGXhdkzZaFjcjuYvh5B8UBj7/KeOfDBk7QWSPXmuw5k
-   5WkOUK2wJyTkXOeg+SSSfBjL8gnqtaJQ/DqLqSF2ZRgV9/ptncjtdioqI
-   GzUxmZYC63ZruPvJTK3E3V+6Twi8sDXwehKgF2Kx74hfqzPONS82DQuif
-   5BbvcWwsx8qlV/JotAvnyzuHIkO/xGl0x8GZdxdltelX9DAr3CRKZvOcx
-   w==;
-X-CSE-ConnectionGUID: 94TXQKrSQ3uLbbaULiY62A==
-X-CSE-MsgGUID: FvN2jM8mSPKKt+wP67yb4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75564855"
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="75564855"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 23:05:59 -0700
-X-CSE-ConnectionGUID: TOgSNZoFTa6yMCF9aDABVA==
-X-CSE-MsgGUID: 90r2Y3HFQnyeACP5T/GSSQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="218604192"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Mar 2026 23:05:56 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w60KP-000000009qv-3Gfk;
-	Fri, 27 Mar 2026 06:05:53 +0000
-Date: Fri, 27 Mar 2026 14:05:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Carlier <devnexen@gmail.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nayden Kanchev <nayden.kanchev@arm.com>,
-	Hans Verkuil <hverkuil@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, David Carlier <devnexen@gmail.com>
-Subject: Re: [PATCH] media: mali-c55: fix resource leaks in probe and remove
-Message-ID: <202603271400.K56xZKaE-lkp@intel.com>
-References: <20260326190052.11780-1-devnexen@gmail.com>
+	s=arc-20240116; t=1774592751; c=relaxed/simple;
+	bh=K4Q3qQjpxosCmWZI/SO3Yt6stgpZ57GXLDLHKKODRg8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=LpJjuo3MU/AVv54E1Pm9xmbegee54WzqwvsB7OsSSeW5Y/zV5M3YxA6Y3/y713R4vbG68AEEVOj9njNw6u3coosBeULxNsyCkHwtwn2Lak5u/bwFfFLy3HVIeEFAAF8mEoLuQBXrL2Ul3gauty05/IUGGQEogkXe/ZGgaVOIAS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=RB/aqBUb; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62R4A5XA3341501;
+	Fri, 27 Mar 2026 06:21:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	YSzXm+RZAa9Rqyx7SbN6v7Cf13JatYH15U/iDOUtR48=; b=RB/aqBUbAIIEFFOU
+	c4kMCFtneX801+z8GuXWH1f7pGJr/9byBXrII71fj5Sz7Ta96kdxaERnWneaDLbi
+	EGhEjHiqBR3D1Zn3j94OzxJFnj0MmFTAxL6Pewjtk+1r0WaHSQAkfzVaE4HbIemI
+	4c93ZvL3OaqY4ieLfJ5DIYga0kHNh/Km+B9cWAD7XgLTl6VTBl2QGSVJfGSUm/ms
+	LF+A/AmZp564ZyAPY+xyo7rBYpAztwoFhzlNm7Y0vdiCLcEuofolRGHXCM9Ax3cq
+	ZwzQI08gIaSGMt1af59bfUg5bN0YbkPSZtSeKsadoeV+MQghH7PYDkfxLbOmmHnJ
+	hbbE0A==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d5a9q20g4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Mar 2026 06:21:39 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 62R6LcXr014950
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Mar 2026 06:21:38 GMT
+Received: from [10.217.219.207] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 26 Mar
+ 2026 23:21:34 -0700
+Message-ID: <341f2f06-eae0-44b1-b513-61a4a129bae2@quicinc.com>
+Date: Fri, 27 Mar 2026 11:51:31 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260326190052.11780-1-devnexen@gmail.com>
-X-Spamd-Result: default: False [-1.16 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] i2c: qcom-geni: Skip extra TX DMA TRE for single read
+ message in GPI mode
+To: Aniket Randive <aniket.randive@oss.qualcomm.com>,
+        Mukesh Kumar Savaliya
+	<mukesh.savaliya@oss.qualcomm.com>,
+        Viken Dadhaniya
+	<viken.dadhaniya@oss.qualcomm.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        "Sumit Semwal" <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>
+CC: <linux-i2c@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+        Maramaina Naresh <naresh.maramaina@oss.qualcomm.com>
+References: <20260326-skip_extra_dma_tre-v1-1-deef018895dc@oss.qualcomm.com>
+Content-Language: en-US
+From: Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>
+In-Reply-To: <20260326-skip_extra_dma_tre-v1-1-deef018895dc@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: O8eAz8RP_v7e5AXmdYACo4b6E9ip1Q8b
+X-Proofpoint-ORIG-GUID: O8eAz8RP_v7e5AXmdYACo4b6E9ip1Q8b
+X-Authority-Analysis: v=2.4 cv=J4GnLQnS c=1 sm=1 tr=0 ts=69c621f3 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=DM0cx9kTKsjz1JukrIkA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI3MDA0NiBTYWx0ZWRfX6ZnL9fiECyZ7
+ LMHimHdcXT+aA+1MibCeLVfagtST8511dCr1a3vtURNVnZEw4xHiwvvRhNvN3SSih1yvlx1XKVU
+ pAToEwg1xvFa4h6hRW+pf96/YoiLdY87Xy+/AWg9/HsN/XKdkpY8f0ZXLGhLgVnVp1oM/jidyoF
+ DuTeWboq70Z62uvuKk9UEZhRMGDmie++KvEI9Flgnm2QR5A7Gxr86XNmR2vNj8WgTkDL6AaGbfR
+ 5bbT8pTBIkqgvJGiO9XixXpZuKCwK0HJkrCQHqWHd+Rhbc0hLXPYuqpeW/0U+7y+IGZWydWaJwy
+ pgdTTkTwxJGJHz7AtGJ5z+aqGud8orhprJWpnyN60E/4tjD5kmZa4jkkfXvMCOQj5ytvgyPLfI9
+ DRBZKb0LtQSbJTjb1A48ngeJikYaTQGF1JfvJgsBazv4Vue2p3MVbgOGOHjgxFjlg4n5n3RAKQ/
+ Gsi3MwCAsC9s9N4Y32g==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-26_04,2026-03-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1011 phishscore=0 impostorscore=0 bulkscore=0
+ suspectscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2603270046
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[quicinc.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[quicinc.com:s=qcppdkim1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-57192-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,ideasonboard.com,kernel.org,arm.com];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-57193-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[quicinc.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,quicinc.com:dkim,quicinc.com:mid];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[quic_msavaliy@quicinc.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,intel.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,01.org:url]
-X-Rspamd-Queue-Id: 4734533F620
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: BA29433FDC1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master v7.0-rc5 next-20260326]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Carlier/media-mali-c55-fix-resource-leaks-in-probe-and-remove/20260327-045201
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20260326190052.11780-1-devnexen%40gmail.com
-patch subject: [PATCH] media: mali-c55: fix resource leaks in probe and remove
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260327/202603271400.K56xZKaE-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271400.K56xZKaE-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603271400.K56xZKaE-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/arm/mali-c55/mali-c55-core.c:883:1: warning: unused label 'err_free_context_registers' [-Wunused-label]
-     883 | err_free_context_registers:
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
 
 
-vim +/err_free_context_registers +883 drivers/media/platform/arm/mali-c55/mali-c55-core.c
+On 3/26/2026 10:01 AM, Aniket Randive wrote:
+> In GPI mode, the I2C GENI driver incorrectly generates an extra TX DMA
+> TRE on the TX channel during single read message transfer. This results
+What's the impact of this extra DMA TRE ? do you see failure/timeout, 
+anything ?
+> in an unnecessary write operation on the I2C bus, which is not required.
+> 
+> Update the logic to avoid generating the extra TX DMA TRE for single
+> read message, ensuring correct behavior and preventing redundant
+> transfers.
+> 
+So for read, we do unwanted write too ? if so, please write it 
+accordingly.  Correct behavior needs to be justified against wrong.
+> Co-developed-by: Maramaina Naresh <naresh.maramaina@oss.qualcomm.com>
+> Signed-off-by: Maramaina Naresh <naresh.maramaina@oss.qualcomm.com>
+> Signed-off-by: Aniket Randive <aniket.randive@oss.qualcomm.com>
+> ---
+>   drivers/i2c/busses/i2c-qcom-geni.c | 18 +++++++++++++-----
+>   1 file changed, 13 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
+> index a4acb78fafb6..2706309bbebb 100644
+> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+> @@ -625,8 +625,8 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
+>   {
+>   	struct gpi_i2c_config *peripheral;
+>   	unsigned int flags;
+> -	void *dma_buf;
+> -	dma_addr_t addr;
+> +	void *dma_buf = NULL;
+> +	dma_addr_t addr = 0;
+>   	enum dma_data_direction map_dirn;
+>   	enum dma_transfer_direction dma_dirn;
+>   	struct dma_async_tx_descriptor *desc;
+> @@ -639,6 +639,11 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
+>   	gi2c_gpi_xfer = &gi2c->i2c_multi_desc_config;
+>   	msg_idx = gi2c_gpi_xfer->msg_idx_cnt;
+>   
+> +	if (op == I2C_WRITE && msgs[msg_idx].flags & I2C_M_RD) {
+> +		peripheral->multi_msg = true;
+what's the actual meaning of multi_msg here ? IIUC, this multi_msg is 
+set to true for single transfer  ? any better name if so ? Yes, need to 
+change it out of this patch.
+> +		goto skip_dma;
+> +	}
+> +
+>   	dma_buf = i2c_get_dma_safe_msg_buf(&msgs[msg_idx], 1);
+>   	if (!dma_buf) {
+>   		ret = -ENOMEM;
+> @@ -668,6 +673,7 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
+>   		flags = DMA_PREP_INTERRUPT | DMA_CTRL_ACK;
+>   	}
+>   
+> +skip_dma:
+>   	/* set the length as message for rx txn */
+>   	peripheral->rx_len = msgs[msg_idx].len;
+>   	peripheral->op = op;
+> @@ -740,9 +746,11 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
+>   	return 0;
+>   
+>   err_config:
+> -	dma_unmap_single(gi2c->se.dev->parent, addr,
+> -			 msgs[msg_idx].len, map_dirn);
+> -	i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
+> +	if (op == I2C_WRITE && (msgs[msg_idx].flags & I2C_M_RD)) {
+> +		dma_unmap_single(gi2c->se.dev->parent, addr,
+> +				 msgs[msg_idx].len, map_dirn);
+> +		i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
+> +	}
+>   
+>   out:
+>   	gi2c->err = ret;
+> 
+> ---
+> base-commit: 785f0eb2f85decbe7c1ef9ae922931f0194ffc2e
+> change-id: 20260325-skip_extra_dma_tre-a3cf22f81d9b
+> 
+> Best regards,
+> --
+> Aniket Randive <aniket.randive@oss.qualcomm.com>
+> 
+> 
 
-d5f281f3dd2988 Daniel Scally 2025-11-11  804  
-d5f281f3dd2988 Daniel Scally 2025-11-11  805  static int mali_c55_probe(struct platform_device *pdev)
-d5f281f3dd2988 Daniel Scally 2025-11-11  806  {
-d5f281f3dd2988 Daniel Scally 2025-11-11  807  	struct device *dev = &pdev->dev;
-d5f281f3dd2988 Daniel Scally 2025-11-11  808  	struct mali_c55 *mali_c55;
-d5f281f3dd2988 Daniel Scally 2025-11-11  809  	struct resource *res;
-d5f281f3dd2988 Daniel Scally 2025-11-11  810  	int ret;
-d5f281f3dd2988 Daniel Scally 2025-11-11  811  
-d5f281f3dd2988 Daniel Scally 2025-11-11  812  	mali_c55 = devm_kzalloc(dev, sizeof(*mali_c55), GFP_KERNEL);
-d5f281f3dd2988 Daniel Scally 2025-11-11  813  	if (!mali_c55)
-d5f281f3dd2988 Daniel Scally 2025-11-11  814  		return -ENOMEM;
-d5f281f3dd2988 Daniel Scally 2025-11-11  815  
-d5f281f3dd2988 Daniel Scally 2025-11-11  816  	mali_c55->dev = dev;
-d5f281f3dd2988 Daniel Scally 2025-11-11  817  	platform_set_drvdata(pdev, mali_c55);
-d5f281f3dd2988 Daniel Scally 2025-11-11  818  
-d5f281f3dd2988 Daniel Scally 2025-11-11  819  	mali_c55->base = devm_platform_get_and_ioremap_resource(pdev, 0,
-d5f281f3dd2988 Daniel Scally 2025-11-11  820  								&res);
-d5f281f3dd2988 Daniel Scally 2025-11-11  821  	if (IS_ERR(mali_c55->base))
-d5f281f3dd2988 Daniel Scally 2025-11-11  822  		return dev_err_probe(dev, PTR_ERR(mali_c55->base),
-d5f281f3dd2988 Daniel Scally 2025-11-11  823  				     "failed to map IO memory\n");
-d5f281f3dd2988 Daniel Scally 2025-11-11  824  
-d5f281f3dd2988 Daniel Scally 2025-11-11  825  	for (unsigned int i = 0; i < ARRAY_SIZE(mali_c55_clk_names); i++)
-d5f281f3dd2988 Daniel Scally 2025-11-11  826  		mali_c55->clks[i].id = mali_c55_clk_names[i];
-d5f281f3dd2988 Daniel Scally 2025-11-11  827  
-d5f281f3dd2988 Daniel Scally 2025-11-11  828  	ret = devm_clk_bulk_get(dev, ARRAY_SIZE(mali_c55->clks), mali_c55->clks);
-d5f281f3dd2988 Daniel Scally 2025-11-11  829  	if (ret)
-d5f281f3dd2988 Daniel Scally 2025-11-11  830  		return dev_err_probe(dev, ret, "failed to acquire clocks\n");
-d5f281f3dd2988 Daniel Scally 2025-11-11  831  
-d5f281f3dd2988 Daniel Scally 2025-11-11  832  	for (unsigned int i = 0; i < ARRAY_SIZE(mali_c55_reset_names); i++)
-d5f281f3dd2988 Daniel Scally 2025-11-11  833  		mali_c55->resets[i].id = mali_c55_reset_names[i];
-d5f281f3dd2988 Daniel Scally 2025-11-11  834  
-d5f281f3dd2988 Daniel Scally 2025-11-11  835  	ret = devm_reset_control_bulk_get_optional_shared(dev,
-d5f281f3dd2988 Daniel Scally 2025-11-11  836  			ARRAY_SIZE(mali_c55_reset_names), mali_c55->resets);
-d5f281f3dd2988 Daniel Scally 2025-11-11  837  	if (ret)
-d5f281f3dd2988 Daniel Scally 2025-11-11  838  		return dev_err_probe(dev, ret, "failed to acquire resets\n");
-d5f281f3dd2988 Daniel Scally 2025-11-11  839  
-d5f281f3dd2988 Daniel Scally 2025-11-11  840  	of_reserved_mem_device_init(dev);
-d5f281f3dd2988 Daniel Scally 2025-11-11  841  	vb2_dma_contig_set_max_seg_size(dev, UINT_MAX);
-d5f281f3dd2988 Daniel Scally 2025-11-11  842  
-d5f281f3dd2988 Daniel Scally 2025-11-11  843  	ret = __mali_c55_power_on(mali_c55);
-3b2d04fb011b8b David Carlier 2026-03-26  844  	if (ret) {
-3b2d04fb011b8b David Carlier 2026-03-26  845  		dev_err_probe(dev, ret, "failed to power on\n");
-3b2d04fb011b8b David Carlier 2026-03-26  846  		goto err_release_mem;
-3b2d04fb011b8b David Carlier 2026-03-26  847  	}
-d5f281f3dd2988 Daniel Scally 2025-11-11  848  
-d5f281f3dd2988 Daniel Scally 2025-11-11  849  	ret = mali_c55_check_hwcfg(mali_c55);
-d5f281f3dd2988 Daniel Scally 2025-11-11  850  	if (ret)
-d5f281f3dd2988 Daniel Scally 2025-11-11  851  		goto err_power_off;
-d5f281f3dd2988 Daniel Scally 2025-11-11  852  
-d5f281f3dd2988 Daniel Scally 2025-11-11  853  	ret = mali_c55_init_context(mali_c55, res);
-d5f281f3dd2988 Daniel Scally 2025-11-11  854  	if (ret)
-d5f281f3dd2988 Daniel Scally 2025-11-11  855  		goto err_power_off;
-d5f281f3dd2988 Daniel Scally 2025-11-11  856  
-d5f281f3dd2988 Daniel Scally 2025-11-11  857  	mali_c55->media_dev.dev = dev;
-d5f281f3dd2988 Daniel Scally 2025-11-11  858  
-d5f281f3dd2988 Daniel Scally 2025-11-11  859  	pm_runtime_set_autosuspend_delay(&pdev->dev, 2000);
-d5f281f3dd2988 Daniel Scally 2025-11-11  860  	pm_runtime_use_autosuspend(&pdev->dev);
-d5f281f3dd2988 Daniel Scally 2025-11-11  861  	pm_runtime_set_active(&pdev->dev);
-d5f281f3dd2988 Daniel Scally 2025-11-11  862  	pm_runtime_enable(&pdev->dev);
-d5f281f3dd2988 Daniel Scally 2025-11-11  863  
-d5f281f3dd2988 Daniel Scally 2025-11-11  864  	ret = mali_c55_media_frameworks_init(mali_c55);
-d5f281f3dd2988 Daniel Scally 2025-11-11  865  	if (ret)
-3b2d04fb011b8b David Carlier 2026-03-26  866  		goto err_runtime_disable;
-d5f281f3dd2988 Daniel Scally 2025-11-11  867  
-d5f281f3dd2988 Daniel Scally 2025-11-11  868  	pm_runtime_idle(&pdev->dev);
-d5f281f3dd2988 Daniel Scally 2025-11-11  869  
-d5f281f3dd2988 Daniel Scally 2025-11-11  870  	mali_c55->irqnum = platform_get_irq(pdev, 0);
-d5f281f3dd2988 Daniel Scally 2025-11-11  871  	if (mali_c55->irqnum < 0) {
-d5f281f3dd2988 Daniel Scally 2025-11-11  872  		ret = mali_c55->irqnum;
-d5f281f3dd2988 Daniel Scally 2025-11-11  873  		dev_err(dev, "failed to get interrupt\n");
-d5f281f3dd2988 Daniel Scally 2025-11-11  874  		goto err_deinit_media_frameworks;
-d5f281f3dd2988 Daniel Scally 2025-11-11  875  	}
-d5f281f3dd2988 Daniel Scally 2025-11-11  876  
-d5f281f3dd2988 Daniel Scally 2025-11-11  877  	return 0;
-d5f281f3dd2988 Daniel Scally 2025-11-11  878  
-d5f281f3dd2988 Daniel Scally 2025-11-11  879  err_deinit_media_frameworks:
-d5f281f3dd2988 Daniel Scally 2025-11-11  880  	mali_c55_media_frameworks_deinit(mali_c55);
-3b2d04fb011b8b David Carlier 2026-03-26  881  err_runtime_disable:
-d5f281f3dd2988 Daniel Scally 2025-11-11  882  	pm_runtime_disable(&pdev->dev);
-d5f281f3dd2988 Daniel Scally 2025-11-11 @883  err_free_context_registers:
-d5f281f3dd2988 Daniel Scally 2025-11-11  884  	kfree(mali_c55->context.registers);
-d5f281f3dd2988 Daniel Scally 2025-11-11  885  err_power_off:
-d5f281f3dd2988 Daniel Scally 2025-11-11  886  	__mali_c55_power_off(mali_c55);
-3b2d04fb011b8b David Carlier 2026-03-26  887  err_release_mem:
-3b2d04fb011b8b David Carlier 2026-03-26  888  	of_reserved_mem_device_release(dev);
-d5f281f3dd2988 Daniel Scally 2025-11-11  889  
-d5f281f3dd2988 Daniel Scally 2025-11-11  890  	return ret;
-d5f281f3dd2988 Daniel Scally 2025-11-11  891  }
-d5f281f3dd2988 Daniel Scally 2025-11-11  892  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
