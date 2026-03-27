@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-57275-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57276-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aEPqFKGgxmnrMQUAu9opvQ
-	(envelope-from <linux-media+bounces-57275-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:22:09 +0100
+	id KBFPHdCgxmnrMQUAu9opvQ
+	(envelope-from <linux-media+bounces-57276-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:22:56 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F5B346A3C
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:22:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F8E346A7A
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 16:22:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 20E4F30E0EAC
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:16:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4B17630EA93E
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 15:16:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 943CF3264EB;
-	Fri, 27 Mar 2026 15:16:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E74703246F8;
+	Fri, 27 Mar 2026 15:16:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qO6Ku1KY"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dHCa6hpf"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAADC31ED93;
-	Fri, 27 Mar 2026 15:16:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4372CE55A;
+	Fri, 27 Mar 2026 15:16:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774624577; cv=none; b=h9cUOaT30NtDmAaKj2uPK3NS4WTwH4gzAvaz52zqSR+nayH/oWF56CkoSQu9Qnxqp93GUTNOTBB3QetfdtOJx7/xLZX/NHX4pRl5O5YZZDH5PnSQMgPKU9PJcWTpHgsKDrU1ZsYj/trapaeSrKWrixk8Di9te4lR3WspWLbtSuk=
+	t=1774624578; cv=none; b=LKNLRn+4whd4uTGtjTGJ5ZrjxAeV9HCTLExl6iG3xItG9wfWimENB9WNPfMAC4kqfvsmjxF1Ngov7ErIeZ4dbm3RA5wDp+F/ayNi2CXKOl0zmld1oPQKx/DfcXR1Kb79NqNpGRk1CfrpnZXP1WltbcsslPAI9e3exv/W/o+PBws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774624577; c=relaxed/simple;
-	bh=2e+5HIylszkpISb4HQ5FX4YYF13yOSMzERDIuearLco=;
+	s=arc-20240116; t=1774624578; c=relaxed/simple;
+	bh=DU1PzWt0jflYgZtV0zlnX8JuXUgo6j5dc32YR+DFwiY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HWMreMT2u4U5ZrfNyW8HI8AH6j9048aa7vZYKxUdiiVxNMhuPpZBL15olvcJJKz+XVmwpB6VRSTaMqChmZLEDPfEfRiWfHMP2VzBKI8NE28YzkAHm98X5nQW72fWd+U+2QV2X/Wx6p2awsCVTxPmpwqJGXbBJUZ2jNAtJRcz9fI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qO6Ku1KY; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=b6+h7kXxsAIrsWdQ2aWGWUgpQFwKdCeM05vqZxjMlpGzU8unwYlG+BlUGi2B+3NpTYDt1ndVCk1eOs/jd8nAINXUcRgIgOJkcKrd63wZlvH7dy68KvMHI3YK5L2dAr1/JJVAzHIprlBipYOIa/7G0QweSzJkrFdRBtPkNFoTaec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dHCa6hpf; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1774624571;
-	bh=2e+5HIylszkpISb4HQ5FX4YYF13yOSMzERDIuearLco=;
+	s=mail; t=1774624573;
+	bh=DU1PzWt0jflYgZtV0zlnX8JuXUgo6j5dc32YR+DFwiY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qO6Ku1KYFI3HkhUCod5isC+44/AuyGPkTOXofJglnQswUcoE/0RVsjwqEmNa3z9uW
-	 Vac6st0+u4lOrNXA4S+JRuyLvgsBLFle3zrPM/34Od3sF9/zwOnjDbJLd5Ugyy4C3O
-	 OSfBDAFMtSMUAe12M5qhNaf5FsMbPGENcZ7Vj7g3y3P655YqOjsFImIy+NuZoFMt0E
-	 otwZkPdPzDMmADeYkuubVnuFn346iYKYH2KPbzGd74Z/SvxqZxgBF2bdbL5DSWCQIV
-	 b5kOTPFAR5PdhvltdA7DU4tdue8EkJhOTmDqgoJA6YwMJRAJPXUttVefEVADY3c4Zi
-	 wfjeIsBvoaa6g==
+	b=dHCa6hpf4vcryxH3vhu+Vk4Cln21qjnGIiSyyuAoQKoHzpVmdL8X3ZWB2Dndl1n6f
+	 H7ZhUI9NtRYA8LWxYVhx45NVUEd1PzCSVhNio18ZUPN+Z8DYZcOis1/cyeq9jeq75I
+	 /OeyWqe8GNXMbV1quLeJ8mfMt/RNxAXwecNLyJYr8Ahpb75jQQWtlMrnBtKt89nZpy
+	 E87kvH6mZiJpLOk+ErbhHJ9kPtNElzcp9VnLTNjf7VrjZ/TpLUtmiT/BjCEvN9321S
+	 jsERECM8h8zQ/FrPsZkCM/+HgVLLVznpSIsflHh8l7+W0UNr9AcvM0wc0DR5AbzfNF
+	 GWkzBQVoDXrmw==
 Received: from [192.168.0.15] (modemcable014.2-22-96.mc.videotron.ca [96.22.2.14])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7A61F17E52B1;
-	Fri, 27 Mar 2026 16:16:09 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B440D17E52B6;
+	Fri, 27 Mar 2026 16:16:11 +0100 (CET)
 From: Detlev Casanova <detlev.casanova@collabora.com>
-Date: Fri, 27 Mar 2026 11:16:02 -0400
-Subject: [PATCH 3/4] media: rkvdec: common: Drop bitfields for the
+Date: Fri, 27 Mar 2026 11:16:03 -0400
+Subject: [PATCH 4/4] media: rkvdec: vdpu383: Drop bitfields for the
  bitwriter
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -63,7 +63,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260327-rkvdec-use-bitwriter-v1-3-982cf872b590@collabora.com>
+Message-Id: <20260327-rkvdec-use-bitwriter-v1-4-982cf872b590@collabora.com>
 References: <20260327-rkvdec-use-bitwriter-v1-0-982cf872b590@collabora.com>
 In-Reply-To: <20260327-rkvdec-use-bitwriter-v1-0-982cf872b590@collabora.com>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
@@ -88,7 +88,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57275-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57276-lists,linux-media=lfdr.de];
 	FREEMAIL_TO(0.00)[vanguardiasur.com.ar,kernel.org,sntech.de,gmail.com,google.com,kwiboo.se,collabora.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -106,14 +106,14 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,lkml];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:email,collabora.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B8F5B346A3C
+X-Rspamd-Queue-Id: A2F8E346A7A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Currently, the common code files for hevc and h264 use structs with
-bitfields to represent the HW RPS buffer.
+The VDPU383 support for hevc and h264 use structs with bitfields to
+represent the SPS and PPS.
 
-Because the bitfields are mostly unaligned and numerous, it brings compiler
+Because the fields are mostly unaligned and numerous, it brings compiler
 issues, especially with clang.
 
 To prevent that, switch to using the global bitwriter previously
@@ -121,343 +121,955 @@ introduced instead.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
- .../platform/rockchip/rkvdec/rkvdec-h264-common.c  | 51 +-----------
- .../platform/rockchip/rkvdec/rkvdec-h264-common.h  | 40 +++-------
- .../platform/rockchip/rkvdec/rkvdec-hevc-common.c  | 92 ++++------------------
- .../platform/rockchip/rkvdec/rkvdec-hevc-common.h  | 57 ++++----------
- 4 files changed, 43 insertions(+), 197 deletions(-)
+ .../platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c | 351 ++++++--------
+ .../platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c | 502 +++++++++------------
+ 2 files changed, 360 insertions(+), 493 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.c
-index e28f06394470..54639512e456 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.c
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.c
-@@ -21,51 +21,6 @@
- 
- #define RKVDEC_NUM_REFLIST		3
- 
--static void set_dpb_info(struct rkvdec_rps_entry *entries,
--			 u8 reflist,
--			 u8 refnum,
--			 u8 info,
--			 bool bottom)
--{
--	struct rkvdec_rps_entry *entry = &entries[(reflist * 4) + refnum / 8];
--	u8 idx = refnum % 8;
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c
+index fb4f849d7366..a08038fbc6d5 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c
+@@ -15,105 +15,64 @@
+ #include "rkvdec-cabac.h"
+ #include "rkvdec-vdpu383-regs.h"
+ #include "rkvdec-h264-common.h"
 -
--	switch (idx) {
--	case 0:
--		entry->dpb_info0 = info;
--		entry->bottom_flag0 = bottom;
--		break;
--	case 1:
--		entry->dpb_info1 = info;
--		entry->bottom_flag1 = bottom;
--		break;
--	case 2:
--		entry->dpb_info2 = info;
--		entry->bottom_flag2 = bottom;
--		break;
--	case 3:
--		entry->dpb_info3 = info;
--		entry->bottom_flag3 = bottom;
--		break;
--	case 4:
--		entry->dpb_info4 = info;
--		entry->bottom_flag4 = bottom;
--		break;
--	case 5:
--		entry->dpb_info5 = info;
--		entry->bottom_flag5 = bottom;
--		break;
--	case 6:
--		entry->dpb_info6 = info;
--		entry->bottom_flag6 = bottom;
--		break;
--	case 7:
--		entry->dpb_info7 = info;
--		entry->bottom_flag7 = bottom;
--		break;
--	}
--}
+-struct rkvdec_sps {
+-	u16 seq_parameter_set_id:			4;
+-	u16 profile_idc:				8;
+-	u16 constraint_set3_flag:			1;
+-	u16 chroma_format_idc:				2;
+-	u16 bit_depth_luma:				3;
+-	u16 bit_depth_chroma:				3;
+-	u16 qpprime_y_zero_transform_bypass_flag:	1;
+-	u16 log2_max_frame_num_minus4:			4;
+-	u16 max_num_ref_frames:				5;
+-	u16 pic_order_cnt_type:				2;
+-	u16 log2_max_pic_order_cnt_lsb_minus4:		4;
+-	u16 delta_pic_order_always_zero_flag:		1;
 -
- void lookup_ref_buf_idx(struct rkvdec_ctx *ctx,
- 			struct rkvdec_h264_run *run)
- {
-@@ -111,7 +66,7 @@ void assemble_hw_rps(struct v4l2_h264_reflist_builder *builder,
- 		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
- 			continue;
- 
--		hw_rps->frame_num[i] = builder->refs[i].frame_num;
-+		rkvdec_set_bw_field(hw_rps->info, RPS_FRAME_NUM(i), builder->refs[i].frame_num);
- 	}
- 
- 	for (j = 0; j < RKVDEC_NUM_REFLIST; j++) {
-@@ -138,7 +93,9 @@ void assemble_hw_rps(struct v4l2_h264_reflist_builder *builder,
- 			dpb_valid = !!(run->ref_buf[ref->index]);
- 			bottom = ref->fields == V4L2_H264_BOTTOM_FIELD_REF;
- 
--			set_dpb_info(hw_rps->entries, j, i, ref->index | (dpb_valid << 4), bottom);
-+			rkvdec_set_bw_field(hw_rps->info, RPS_ENTRY_DPB_INFO(j, i),
-+					    ref->index | (dpb_valid << 4));
-+			rkvdec_set_bw_field(hw_rps->info, RPS_ENTRY_BOTTOM_FLAG(j, i), bottom);
- 		}
- 	}
- }
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.h b/drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.h
-index 5336370507d6..8d3255289135 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.h
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.h
-@@ -16,6 +16,7 @@
- #include <media/v4l2-mem2mem.h>
- 
- #include "rkvdec.h"
-+#include "rkvdec-bitwriter.h"
- 
- struct rkvdec_h264_scaling_list {
- 	u8 scaling_list_4x4[6][16];
-@@ -38,39 +39,16 @@ struct rkvdec_h264_run {
- 	struct vb2_buffer *ref_buf[V4L2_H264_NUM_DPB_ENTRIES];
- };
- 
--struct rkvdec_rps_entry {
--	u32 dpb_info0:          5;
--	u32 bottom_flag0:       1;
--	u32 view_index_off0:    1;
--	u32 dpb_info1:          5;
--	u32 bottom_flag1:       1;
--	u32 view_index_off1:    1;
--	u32 dpb_info2:          5;
--	u32 bottom_flag2:       1;
--	u32 view_index_off2:    1;
--	u32 dpb_info3:          5;
--	u32 bottom_flag3:       1;
--	u32 view_index_off3:    1;
--	u32 dpb_info4:          5;
--	u32 bottom_flag4:       1;
--	u32 view_index_off4:    1;
--	u32 dpb_info5:          5;
--	u32 bottom_flag5:       1;
--	u32 view_index_off5:    1;
--	u32 dpb_info6:          5;
--	u32 bottom_flag6:       1;
--	u32 view_index_off6:    1;
--	u32 dpb_info7:          5;
--	u32 bottom_flag7:       1;
--	u32 view_index_off7:    1;
--} __packed;
-+#define RPS_FRAME_NUM(i)		BW_FIELD((i) * 16, 16)
-+#define RPS_ENTRY_DPB_INFO(l, e)	BW_FIELD(288 + (l) * 7 * 32 + (e) * 7, 5) //l: 0-2, e: 0-31
-+#define RPS_ENTRY_BOTTOM_FLAG(l, e)	BW_FIELD(293 + (l) * 7 * 32 + (e) * 7, 1) //l: 0-2, e: 0-31
-+#define RPS_ENTRY_VIEW_INDEX_OFF(l, e)	BW_FIELD(294 + (l) * 7 * 32 + (e) * 7, 1) //l: 0-2, e: 0-31
-+
-+#define RKVDEC_H264_RPS_SIZE		ALIGN(RPS_ENTRY_VIEW_INDEX_OFF(3, 32).offset, 128)
- 
- struct rkvdec_rps {
--	u16 frame_num[16];
--	u32 reserved0;
--	struct rkvdec_rps_entry entries[12];
--	u32 reserved1[66];
--} __packed;
-+	u32 info[RKVDEC_H264_RPS_SIZE / 8 / 4];
-+};
- 
- void lookup_ref_buf_idx(struct rkvdec_ctx *ctx, struct rkvdec_h264_run *run);
- void assemble_hw_rps(struct v4l2_h264_reflist_builder *builder,
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
-index 3119f3bc9f98..be7e86dd976b 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
-@@ -74,72 +74,6 @@ void compute_tiles_non_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size
- 	row_height[i] = pic_in_cts_height - sum;
- }
- 
--static void set_ref_poc(struct rkvdec_rps_short_term_ref_set *set, int poc, int value, int flag)
--{
--	switch (poc) {
--	case 0:
--		set->delta_poc0 = value;
--		set->used_flag0 = flag;
--		break;
--	case 1:
--		set->delta_poc1 = value;
--		set->used_flag1 = flag;
--		break;
--	case 2:
--		set->delta_poc2 = value;
--		set->used_flag2 = flag;
--		break;
--	case 3:
--		set->delta_poc3 = value;
--		set->used_flag3 = flag;
--		break;
--	case 4:
--		set->delta_poc4 = value;
--		set->used_flag4 = flag;
--		break;
--	case 5:
--		set->delta_poc5 = value;
--		set->used_flag5 = flag;
--		break;
--	case 6:
--		set->delta_poc6 = value;
--		set->used_flag6 = flag;
--		break;
--	case 7:
--		set->delta_poc7 = value;
--		set->used_flag7 = flag;
--		break;
--	case 8:
--		set->delta_poc8 = value;
--		set->used_flag8 = flag;
--		break;
--	case 9:
--		set->delta_poc9 = value;
--		set->used_flag9 = flag;
--		break;
--	case 10:
--		set->delta_poc10 = value;
--		set->used_flag10 = flag;
--		break;
--	case 11:
--		set->delta_poc11 = value;
--		set->used_flag11 = flag;
--		break;
--	case 12:
--		set->delta_poc12 = value;
--		set->used_flag12 = flag;
--		break;
--	case 13:
--		set->delta_poc13 = value;
--		set->used_flag13 = flag;
--		break;
--	case 14:
--		set->delta_poc14 = value;
--		set->used_flag14 = flag;
--		break;
--	}
--}
+-	u16 pic_width_in_mbs:				16;
+-	u16 pic_height_in_mbs:				16;
 -
- static void assemble_scalingfactor0(struct rkvdec_ctx *ctx, u8 *output,
- 				    const struct v4l2_ctrl_hevc_scaling_matrix *input)
- {
-@@ -218,10 +152,10 @@ static void rkvdec_hevc_assemble_hw_lt_rps(struct rkvdec_hevc_run *run, struct r
- 		return;
- 
- 	for (int i = 0; i < sps->num_long_term_ref_pics_sps; i++) {
--		rps->refs[i].lt_ref_pic_poc_lsb =
--			run->ext_sps_lt_rps[i].lt_ref_pic_poc_lsb_sps;
--		rps->refs[i].used_by_curr_pic_lt_flag =
--			!!(run->ext_sps_lt_rps[i].flags & V4L2_HEVC_EXT_SPS_LT_RPS_FLAG_USED_LT);
-+		rkvdec_set_bw_field(rps->info, RPS_LT_REF_PIC_POC_LSB(i),
-+			run->ext_sps_lt_rps[i].lt_ref_pic_poc_lsb_sps);
-+		rkvdec_set_bw_field(rps->info, RPS_LT_REF_USED_BY_CURR_PIC(i),
-+			!!(run->ext_sps_lt_rps[i].flags & V4L2_HEVC_EXT_SPS_LT_RPS_FLAG_USED_LT));
- 	}
- }
- 
-@@ -235,18 +169,24 @@ static void rkvdec_hevc_assemble_hw_st_rps(struct rkvdec_hevc_run *run, struct r
- 		int j = 0;
- 		const struct calculated_rps_st_set *set = &calculated_rps_st_sets[i];
- 
--		rps->short_term_ref_sets[i].num_negative = set->num_negative_pics;
--		rps->short_term_ref_sets[i].num_positive = set->num_positive_pics;
-+		rkvdec_set_bw_field(rps->info, RPS_ST_REF_SET_NUM_NEGATIVE(i),
-+			set->num_negative_pics);
-+		rkvdec_set_bw_field(rps->info, RPS_ST_REF_SET_NUM_POSITIVE(i),
-+			set->num_positive_pics);
- 
- 		for (; j < set->num_negative_pics; j++) {
--			set_ref_poc(&rps->short_term_ref_sets[i], j,
--				    set->delta_poc_s0[j], set->used_by_curr_pic_s0[j]);
-+			rkvdec_set_bw_field(rps->info, RPS_ST_REF_SET_DELTA_POC(i, j),
-+					    set->delta_poc_s0[j]);
-+			rkvdec_set_bw_field(rps->info, RPS_ST_REF_SET_USED(i, j),
-+					    set->used_by_curr_pic_s0[j]);
- 		}
- 		poc = j;
- 
- 		for (j = 0; j < set->num_positive_pics; j++) {
--			set_ref_poc(&rps->short_term_ref_sets[i], poc + j,
--				    set->delta_poc_s1[j], set->used_by_curr_pic_s1[j]);
-+			rkvdec_set_bw_field(rps->info, RPS_ST_REF_SET_DELTA_POC(i, poc + j),
-+					    set->delta_poc_s1[j]);
-+			rkvdec_set_bw_field(rps->info, RPS_ST_REF_SET_USED(i, poc + j),
-+					    set->used_by_curr_pic_s1[j]);
- 		}
- 	}
- }
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h
-index 6f4faca4c091..cd3a2eb36b58 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h
-@@ -19,53 +19,24 @@
- #include <linux/types.h>
- 
- #include "rkvdec.h"
-+#include "rkvdec-bitwriter.h"
- 
--struct rkvdec_rps_refs {
--	u16 lt_ref_pic_poc_lsb;
--	u16 used_by_curr_pic_lt_flag	: 1;
--	u16 reserved			: 15;
+-	u16 frame_mbs_only_flag:			1;
+-	u16 mb_adaptive_frame_field_flag:		1;
+-	u16 direct_8x8_inference_flag:			1;
+-	u16 mvc_extension_enable:			1;
+-	u16 num_views:					2;
+-	u16 view_id0:                                   10;
+-	u16 view_id1:                                   10;
 -} __packed;
-+#define RPS_LT_REF_PIC_POC_LSB(i)	BW_FIELD(0 + (i) * 32, 16) // i: 0-31
-+#define RPS_LT_REF_USED_BY_CURR_PIC(i)	BW_FIELD(16 + (i) * 32, 1) // i: 0-31
- 
--struct rkvdec_rps_short_term_ref_set {
--	u32 num_negative	: 4;
--	u32 num_positive	: 4;
--	u32 delta_poc0		: 16;
--	u32 used_flag0		: 1;
--	u32 delta_poc1		: 16;
--	u32 used_flag1		: 1;
--	u32 delta_poc2		: 16;
--	u32 used_flag2		: 1;
--	u32 delta_poc3		: 16;
--	u32 used_flag3		: 1;
--	u32 delta_poc4		: 16;
--	u32 used_flag4		: 1;
--	u32 delta_poc5		: 16;
--	u32 used_flag5		: 1;
--	u32 delta_poc6		: 16;
--	u32 used_flag6		: 1;
--	u32 delta_poc7		: 16;
--	u32 used_flag7		: 1;
--	u32 delta_poc8		: 16;
--	u32 used_flag8		: 1;
--	u32 delta_poc9		: 16;
--	u32 used_flag9		: 1;
--	u32 delta_poc10		: 16;
--	u32 used_flag10		: 1;
--	u32 delta_poc11		: 16;
--	u32 used_flag11		: 1;
--	u32 delta_poc12		: 16;
--	u32 used_flag12		: 1;
--	u32 delta_poc13		: 16;
--	u32 used_flag13		: 1;
--	u32 delta_poc14		: 16;
--	u32 used_flag14		: 1;
--	u32 reserved_bits	: 25;
+-
+-struct rkvdec_pps {
+-	u32 pic_parameter_set_id:				8;
+-	u32 pps_seq_parameter_set_id:				5;
+-	u32 entropy_coding_mode_flag:				1;
+-	u32 bottom_field_pic_order_in_frame_present_flag:	1;
+-	u32 num_ref_idx_l0_default_active_minus1:		5;
+-	u32 num_ref_idx_l1_default_active_minus1:		5;
+-	u32 weighted_pred_flag:					1;
+-	u32 weighted_bipred_idc:				2;
+-	u32 pic_init_qp_minus26:				7;
+-	u32 pic_init_qs_minus26:				6;
+-	u32 chroma_qp_index_offset:				5;
+-	u32 deblocking_filter_control_present_flag:		1;
+-	u32 constrained_intra_pred_flag:			1;
+-	u32 redundant_pic_cnt_present:				1;
+-	u32 transform_8x8_mode_flag:				1;
+-	u32 second_chroma_qp_index_offset:			5;
+-	u32 scaling_list_enable_flag:				1;
+-	u32 is_longterm:					16;
+-	u32 voidx:						16;
+-
+-	// dpb
+-	u32 pic_field_flag:                                     1;
+-	u32 pic_associated_flag:                                1;
+-	u32 cur_top_field:					32;
+-	u32 cur_bot_field:					32;
+-
+-	u32 top_field_order_cnt0:				32;
+-	u32 bot_field_order_cnt0:				32;
+-	u32 top_field_order_cnt1:				32;
+-	u32 bot_field_order_cnt1:				32;
+-	u32 top_field_order_cnt2:				32;
+-	u32 bot_field_order_cnt2:				32;
+-	u32 top_field_order_cnt3:				32;
+-	u32 bot_field_order_cnt3:				32;
+-	u32 top_field_order_cnt4:				32;
+-	u32 bot_field_order_cnt4:				32;
+-	u32 top_field_order_cnt5:				32;
+-	u32 bot_field_order_cnt5:				32;
+-	u32 top_field_order_cnt6:				32;
+-	u32 bot_field_order_cnt6:				32;
+-	u32 top_field_order_cnt7:				32;
+-	u32 bot_field_order_cnt7:				32;
+-	u32 top_field_order_cnt8:				32;
+-	u32 bot_field_order_cnt8:				32;
+-	u32 top_field_order_cnt9:				32;
+-	u32 bot_field_order_cnt9:				32;
+-	u32 top_field_order_cnt10:				32;
+-	u32 bot_field_order_cnt10:				32;
+-	u32 top_field_order_cnt11:				32;
+-	u32 bot_field_order_cnt11:				32;
+-	u32 top_field_order_cnt12:				32;
+-	u32 bot_field_order_cnt12:				32;
+-	u32 top_field_order_cnt13:				32;
+-	u32 bot_field_order_cnt13:				32;
+-	u32 top_field_order_cnt14:				32;
+-	u32 bot_field_order_cnt14:				32;
+-	u32 top_field_order_cnt15:				32;
+-	u32 bot_field_order_cnt15:				32;
+-
+-	u32 ref_field_flags:					16;
+-	u32 ref_topfield_used:					16;
+-	u32 ref_botfield_used:					16;
+-	u32 ref_colmv_use_flag:					16;
+-
+-	u32 reserved0:						30;
 -	u32 reserved[3];
 -} __packed;
-+#define RPS_ST_REF_SET_NUM_NEGATIVE(i)	BW_FIELD(1024 + ((i) * 384), 4) // i: 0-63
-+#define RPS_ST_REF_SET_NUM_POSITIVE(i)	BW_FIELD(1028 + ((i) * 384), 4) // i: 0-63
++#include "rkvdec-bitwriter.h"
 +
-+// i: 0-63, j: 0-14
-+#define RPS_ST_REF_SET_DELTA_POC(i, j)	BW_FIELD(1032 + ((i) * 384) + ((j) * 17), 16)
++#define SEQ_PARAMETER_SET_ID				BW_FIELD(0, 4)
++#define PROFILE_IDC					BW_FIELD(4, 8)
++#define CONSTRAINT_SET3_FLAG				BW_FIELD(12, 1)
++#define CHROMA_FORMAT_IDC				BW_FIELD(13, 2)
++#define BIT_DEPTH_LUMA					BW_FIELD(15, 3)
++#define BIT_DEPTH_CHROMA				BW_FIELD(18, 3)
++#define QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG		BW_FIELD(21, 1)
++#define LOG2_MAX_FRAME_NUM_MINUS4			BW_FIELD(22, 4)
++#define MAX_NUM_REF_FRAMES				BW_FIELD(26, 5)
++#define PIC_ORDER_CNT_TYPE				BW_FIELD(31, 2)
++#define LOG2_MAX_PIC_ORDER_CNT_LSB_MINUS4		BW_FIELD(33, 4)
++#define DELTA_PIC_ORDER_ALWAYS_ZERO_FLAG		BW_FIELD(37, 1)
++#define PIC_WIDTH_IN_MBS				BW_FIELD(38, 16)
++#define PIC_HEIGHT_IN_MBS				BW_FIELD(54, 16)
++#define FRAME_MBS_ONLY_FLAG				BW_FIELD(70, 1)
++#define MB_ADAPTIVE_FRAME_FIELD_FLAG			BW_FIELD(71, 1)
++#define DIRECT_8X8_INFERENCE_FLAG			BW_FIELD(72, 1)
++#define MVC_EXTENSION_ENABLE				BW_FIELD(73, 1)
++#define NUM_VIEWS					BW_FIELD(74, 2)
++#define VIEW_ID(i)					BW_FIELD(76 + ((i) * 10), 10) // i: 0-1
 +
-+// i: 0-63, j: 0-14
-+#define RPS_ST_REF_SET_USED(i, j)	BW_FIELD(1048 + ((i) * 384) + ((j) * 17), 1)
++#define PIC_PARAMETER_SET_ID				BW_FIELD(96, 8)
++#define PPS_SEQ_PARAMETER_SET_ID			BW_FIELD(104, 5)
++#define ENTROPY_CODING_MODE_FLAG			BW_FIELD(109, 1)
++#define BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT_FLAG	BW_FIELD(110, 1)
++#define NUM_REF_IDX_L_DEFAULT_ACTIVE_MINUS1(i)		BW_FIELD(111 + ((i) * 5), 5) // i: 0-1
++#define WEIGHTED_PRED_FLAG				BW_FIELD(121, 1)
++#define WEIGHTED_BIPRED_IDC				BW_FIELD(122, 2)
++#define PIC_INIT_QP_MINUS26				BW_FIELD(124, 7)
++#define PIC_INIT_QS_MINUS26				BW_FIELD(131, 6)
++#define CHROMA_QP_INDEX_OFFSET				BW_FIELD(137, 5)
++#define DEBLOCKING_FILTER_CONTROL_PRESENT_FLAG		BW_FIELD(142, 1)
++#define CONSTRAINED_INTRA_PRED_FLAG			BW_FIELD(143, 1)
++#define REDUNDANT_PIC_CNT_PRESENT			BW_FIELD(144, 1)
++#define TRANSFORM_8X8_MODE_FLAG				BW_FIELD(145, 1)
++#define SECOND_CHROMA_QP_INDEX_OFFSET			BW_FIELD(146, 5)
++#define SCALING_LIST_ENABLE_FLAG			BW_FIELD(151, 1)
++#define IS_LONG_TERM(i)					BW_FIELD(152 + (i), 1) // i: 0-15
 +
-+#define RKVDEC_RPS_HEVC_SIZE		ALIGN(RPS_ST_REF_SET_USED(64, 15).offset, 128)
++#define PIC_FIELD_FLAG					BW_FIELD(184, 1)
++#define PIC_ASSOCIATED_FLAG				BW_FIELD(185, 1)
++#define CUR_TOP_FIELD					BW_FIELD(186, 32)
++#define CUR_BOT_FIELD					BW_FIELD(218, 32)
++
++#define TOP_FIELD_ORDER_CNT(i)				BW_FIELD(250 + (i) * 64, 32) // i: 0-15
++#define BOT_FIELD_ORDER_CNT(i)				BW_FIELD(282 + (i) * 64, 32) // i: 0-15
++
++#define REF_FIELD_FLAGS(i)				BW_FIELD(1274 + (i), 1) // i: 0-15
++#define REF_TOPFIELD_USED(i)				BW_FIELD(1290 + (i), 1) // i: 0-15
++#define REF_BOTFIELD_USED(i)				BW_FIELD(1306 + (i), 1) // i: 0-15
++#define REF_COLMV_USE_FLAG(i)				BW_FIELD(1322 + (i), 1) // i: 0-15
++
++#define SPS_SIZE					ALIGN(REF_COLMV_USE_FLAG(16).offset, 128)
  
- struct rkvdec_rps {
--	struct rkvdec_rps_refs refs[32];
--	struct rkvdec_rps_short_term_ref_set short_term_ref_sets[64];
-+	u32 info[RKVDEC_RPS_HEVC_SIZE / 8 / 4];
+ struct rkvdec_sps_pps {
+-	struct rkvdec_sps sps;
+-	struct rkvdec_pps pps;
++	u32 info[SPS_SIZE / 8 / 4];
  } __packed;
  
- struct rkvdec_hevc_run {
+ /* Data structure describing auxiliary buffer format. */
+@@ -130,67 +89,6 @@ struct rkvdec_h264_ctx {
+ 	struct vdpu383_regs_h26x regs;
+ };
+ 
+-static noinline_for_stack void set_field_order_cnt(struct rkvdec_pps *pps, const struct v4l2_h264_dpb_entry *dpb)
+-{
+-	pps->top_field_order_cnt0 = dpb[0].top_field_order_cnt;
+-	pps->bot_field_order_cnt0 = dpb[0].bottom_field_order_cnt;
+-	pps->top_field_order_cnt1 = dpb[1].top_field_order_cnt;
+-	pps->bot_field_order_cnt1 = dpb[1].bottom_field_order_cnt;
+-	pps->top_field_order_cnt2 = dpb[2].top_field_order_cnt;
+-	pps->bot_field_order_cnt2 = dpb[2].bottom_field_order_cnt;
+-	pps->top_field_order_cnt3 = dpb[3].top_field_order_cnt;
+-	pps->bot_field_order_cnt3 = dpb[3].bottom_field_order_cnt;
+-	pps->top_field_order_cnt4 = dpb[4].top_field_order_cnt;
+-	pps->bot_field_order_cnt4 = dpb[4].bottom_field_order_cnt;
+-	pps->top_field_order_cnt5 = dpb[5].top_field_order_cnt;
+-	pps->bot_field_order_cnt5 = dpb[5].bottom_field_order_cnt;
+-	pps->top_field_order_cnt6 = dpb[6].top_field_order_cnt;
+-	pps->bot_field_order_cnt6 = dpb[6].bottom_field_order_cnt;
+-	pps->top_field_order_cnt7 = dpb[7].top_field_order_cnt;
+-	pps->bot_field_order_cnt7 = dpb[7].bottom_field_order_cnt;
+-	pps->top_field_order_cnt8 = dpb[8].top_field_order_cnt;
+-	pps->bot_field_order_cnt8 = dpb[8].bottom_field_order_cnt;
+-	pps->top_field_order_cnt9 = dpb[9].top_field_order_cnt;
+-	pps->bot_field_order_cnt9 = dpb[9].bottom_field_order_cnt;
+-	pps->top_field_order_cnt10 = dpb[10].top_field_order_cnt;
+-	pps->bot_field_order_cnt10 = dpb[10].bottom_field_order_cnt;
+-	pps->top_field_order_cnt11 = dpb[11].top_field_order_cnt;
+-	pps->bot_field_order_cnt11 = dpb[11].bottom_field_order_cnt;
+-	pps->top_field_order_cnt12 = dpb[12].top_field_order_cnt;
+-	pps->bot_field_order_cnt12 = dpb[12].bottom_field_order_cnt;
+-	pps->top_field_order_cnt13 = dpb[13].top_field_order_cnt;
+-	pps->bot_field_order_cnt13 = dpb[13].bottom_field_order_cnt;
+-	pps->top_field_order_cnt14 = dpb[14].top_field_order_cnt;
+-	pps->bot_field_order_cnt14 = dpb[14].bottom_field_order_cnt;
+-	pps->top_field_order_cnt15 = dpb[15].top_field_order_cnt;
+-	pps->bot_field_order_cnt15 = dpb[15].bottom_field_order_cnt;
+-}
+-
+-static noinline_for_stack void set_dec_params(struct rkvdec_pps *pps, const struct v4l2_ctrl_h264_decode_params *dec_params)
+-{
+-	const struct v4l2_h264_dpb_entry *dpb = dec_params->dpb;
+-
+-	for (int i = 0; i < ARRAY_SIZE(dec_params->dpb); i++) {
+-		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
+-			pps->is_longterm |= (1 << i);
+-		pps->ref_field_flags |=
+-		 (!!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD)) << i;
+-		pps->ref_colmv_use_flag |=
+-		 (!!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)) << i;
+-		pps->ref_topfield_used |=
+-		 (!!(dpb[i].fields & V4L2_H264_TOP_FIELD_REF)) << i;
+-		pps->ref_botfield_used |=
+-			(!!(dpb[i].fields & V4L2_H264_BOTTOM_FIELD_REF)) << i;
+-	}
+-	pps->pic_field_flag =
+-		!!(dec_params->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC);
+-	pps->pic_associated_flag =
+-		!!(dec_params->flags & V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD);
+-
+-	pps->cur_top_field = dec_params->top_field_order_cnt;
+-	pps->cur_bot_field = dec_params->bottom_field_order_cnt;
+-}
+-
+ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+ 			    struct rkvdec_h264_run *run)
+ {
+@@ -202,6 +100,7 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+ 	struct rkvdec_h264_priv_tbl *priv_tbl = h264_ctx->priv_tbl.cpu;
+ 	struct rkvdec_sps_pps *hw_ps;
+ 	u32 pic_width, pic_height;
++	int i;
+ 
+ 	/*
+ 	 * HW read the SPS/PPS information from PPS packet index by PPS id.
+@@ -213,23 +112,25 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+ 	memset(hw_ps, 0, sizeof(*hw_ps));
+ 
+ 	/* write sps */
+-	hw_ps->sps.seq_parameter_set_id = sps->seq_parameter_set_id;
+-	hw_ps->sps.profile_idc = sps->profile_idc;
+-	hw_ps->sps.constraint_set3_flag = !!(sps->constraint_set_flags & (1 << 3));
+-	hw_ps->sps.chroma_format_idc = sps->chroma_format_idc;
+-	hw_ps->sps.bit_depth_luma = sps->bit_depth_luma_minus8;
+-	hw_ps->sps.bit_depth_chroma = sps->bit_depth_chroma_minus8;
+-	hw_ps->sps.qpprime_y_zero_transform_bypass_flag =
+-		!!(sps->flags & V4L2_H264_SPS_FLAG_QPPRIME_Y_ZERO_TRANSFORM_BYPASS);
+-	hw_ps->sps.log2_max_frame_num_minus4 = sps->log2_max_frame_num_minus4;
+-	hw_ps->sps.max_num_ref_frames = sps->max_num_ref_frames;
+-	hw_ps->sps.pic_order_cnt_type = sps->pic_order_cnt_type;
+-	hw_ps->sps.log2_max_pic_order_cnt_lsb_minus4 =
+-		sps->log2_max_pic_order_cnt_lsb_minus4;
+-	hw_ps->sps.delta_pic_order_always_zero_flag =
+-		!!(sps->flags & V4L2_H264_SPS_FLAG_DELTA_PIC_ORDER_ALWAYS_ZERO);
+-	hw_ps->sps.mvc_extension_enable = 0;
+-	hw_ps->sps.num_views = 0;
++	rkvdec_set_bw_field(hw_ps->info, SEQ_PARAMETER_SET_ID, sps->seq_parameter_set_id);
++	rkvdec_set_bw_field(hw_ps->info, PROFILE_IDC, sps->profile_idc);
++	rkvdec_set_bw_field(hw_ps->info, CONSTRAINT_SET3_FLAG,
++			    !!(sps->constraint_set_flags & (1 << 3)));
++	rkvdec_set_bw_field(hw_ps->info, CHROMA_FORMAT_IDC, sps->chroma_format_idc);
++	rkvdec_set_bw_field(hw_ps->info, BIT_DEPTH_LUMA, sps->bit_depth_luma_minus8);
++	rkvdec_set_bw_field(hw_ps->info, BIT_DEPTH_CHROMA, sps->bit_depth_chroma_minus8);
++	rkvdec_set_bw_field(hw_ps->info, QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG,
++			    !!(sps->flags & V4L2_H264_SPS_FLAG_QPPRIME_Y_ZERO_TRANSFORM_BYPASS));
++	rkvdec_set_bw_field(hw_ps->info, LOG2_MAX_FRAME_NUM_MINUS4,
++			    sps->log2_max_frame_num_minus4);
++	rkvdec_set_bw_field(hw_ps->info, MAX_NUM_REF_FRAMES, sps->max_num_ref_frames);
++	rkvdec_set_bw_field(hw_ps->info, PIC_ORDER_CNT_TYPE, sps->pic_order_cnt_type);
++	rkvdec_set_bw_field(hw_ps->info, LOG2_MAX_PIC_ORDER_CNT_LSB_MINUS4,
++			    sps->log2_max_pic_order_cnt_lsb_minus4);
++	rkvdec_set_bw_field(hw_ps->info, DELTA_PIC_ORDER_ALWAYS_ZERO_FLAG,
++			    !!(sps->flags & V4L2_H264_SPS_FLAG_DELTA_PIC_ORDER_ALWAYS_ZERO));
++	rkvdec_set_bw_field(hw_ps->info, MVC_EXTENSION_ENABLE, 0);
++	rkvdec_set_bw_field(hw_ps->info, NUM_VIEWS, 0);
+ 
+ 	/*
+ 	 * Use the SPS values since they are already in macroblocks
+@@ -245,48 +146,72 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+ 	if (!!(dec_params->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC))
+ 		pic_height /= 2;
+ 
+-	hw_ps->sps.pic_width_in_mbs = pic_width;
+-	hw_ps->sps.pic_height_in_mbs = pic_height;
++	rkvdec_set_bw_field(hw_ps->info, PIC_WIDTH_IN_MBS, pic_width);
++	rkvdec_set_bw_field(hw_ps->info, PIC_HEIGHT_IN_MBS, pic_height);
+ 
+-	hw_ps->sps.frame_mbs_only_flag =
+-		!!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY);
+-	hw_ps->sps.mb_adaptive_frame_field_flag =
+-		!!(sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD);
+-	hw_ps->sps.direct_8x8_inference_flag =
+-		!!(sps->flags & V4L2_H264_SPS_FLAG_DIRECT_8X8_INFERENCE);
++	rkvdec_set_bw_field(hw_ps->info, FRAME_MBS_ONLY_FLAG,
++			    !!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY));
++	rkvdec_set_bw_field(hw_ps->info, MB_ADAPTIVE_FRAME_FIELD_FLAG,
++			    !!(sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD));
++	rkvdec_set_bw_field(hw_ps->info, DIRECT_8X8_INFERENCE_FLAG,
++			    !!(sps->flags & V4L2_H264_SPS_FLAG_DIRECT_8X8_INFERENCE));
+ 
+ 	/* write pps */
+-	hw_ps->pps.pic_parameter_set_id = pps->pic_parameter_set_id;
+-	hw_ps->pps.pps_seq_parameter_set_id = pps->seq_parameter_set_id;
+-	hw_ps->pps.entropy_coding_mode_flag =
+-		!!(pps->flags & V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE);
+-	hw_ps->pps.bottom_field_pic_order_in_frame_present_flag =
+-		!!(pps->flags & V4L2_H264_PPS_FLAG_BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT);
+-	hw_ps->pps.num_ref_idx_l0_default_active_minus1 =
+-		pps->num_ref_idx_l0_default_active_minus1;
+-	hw_ps->pps.num_ref_idx_l1_default_active_minus1 =
+-		pps->num_ref_idx_l1_default_active_minus1;
+-	hw_ps->pps.weighted_pred_flag =
+-		!!(pps->flags & V4L2_H264_PPS_FLAG_WEIGHTED_PRED);
+-	hw_ps->pps.weighted_bipred_idc = pps->weighted_bipred_idc;
+-	hw_ps->pps.pic_init_qp_minus26 = pps->pic_init_qp_minus26;
+-	hw_ps->pps.pic_init_qs_minus26 = pps->pic_init_qs_minus26;
+-	hw_ps->pps.chroma_qp_index_offset = pps->chroma_qp_index_offset;
+-	hw_ps->pps.deblocking_filter_control_present_flag =
+-		!!(pps->flags & V4L2_H264_PPS_FLAG_DEBLOCKING_FILTER_CONTROL_PRESENT);
+-	hw_ps->pps.constrained_intra_pred_flag =
+-		!!(pps->flags & V4L2_H264_PPS_FLAG_CONSTRAINED_INTRA_PRED);
+-	hw_ps->pps.redundant_pic_cnt_present =
+-		!!(pps->flags & V4L2_H264_PPS_FLAG_REDUNDANT_PIC_CNT_PRESENT);
+-	hw_ps->pps.transform_8x8_mode_flag =
+-		!!(pps->flags & V4L2_H264_PPS_FLAG_TRANSFORM_8X8_MODE);
+-	hw_ps->pps.second_chroma_qp_index_offset = pps->second_chroma_qp_index_offset;
+-	hw_ps->pps.scaling_list_enable_flag =
+-		!!(pps->flags & V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT);
+-
+-	set_field_order_cnt(&hw_ps->pps, dpb);
+-	set_dec_params(&hw_ps->pps, dec_params);
++	rkvdec_set_bw_field(hw_ps->info, PIC_PARAMETER_SET_ID, pps->pic_parameter_set_id);
++	rkvdec_set_bw_field(hw_ps->info, PPS_SEQ_PARAMETER_SET_ID, pps->seq_parameter_set_id);
++	rkvdec_set_bw_field(hw_ps->info, ENTROPY_CODING_MODE_FLAG,
++			    !!(pps->flags & V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE));
++	rkvdec_set_bw_field(hw_ps->info, BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT_FLAG,
++			    !!(pps->flags &
++			       V4L2_H264_PPS_FLAG_BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT));
++	rkvdec_set_bw_field(hw_ps->info, NUM_REF_IDX_L_DEFAULT_ACTIVE_MINUS1(0),
++			    pps->num_ref_idx_l0_default_active_minus1);
++	rkvdec_set_bw_field(hw_ps->info, NUM_REF_IDX_L_DEFAULT_ACTIVE_MINUS1(1),
++			    pps->num_ref_idx_l1_default_active_minus1);
++	rkvdec_set_bw_field(hw_ps->info, WEIGHTED_PRED_FLAG,
++			    !!(pps->flags & V4L2_H264_PPS_FLAG_WEIGHTED_PRED));
++	rkvdec_set_bw_field(hw_ps->info, WEIGHTED_BIPRED_IDC, pps->weighted_bipred_idc);
++	rkvdec_set_bw_field(hw_ps->info, PIC_INIT_QP_MINUS26, pps->pic_init_qp_minus26);
++	rkvdec_set_bw_field(hw_ps->info, PIC_INIT_QS_MINUS26, pps->pic_init_qs_minus26);
++	rkvdec_set_bw_field(hw_ps->info, CHROMA_QP_INDEX_OFFSET, pps->chroma_qp_index_offset);
++	rkvdec_set_bw_field(hw_ps->info, DEBLOCKING_FILTER_CONTROL_PRESENT_FLAG,
++			    !!(pps->flags & V4L2_H264_PPS_FLAG_DEBLOCKING_FILTER_CONTROL_PRESENT));
++	rkvdec_set_bw_field(hw_ps->info, CONSTRAINED_INTRA_PRED_FLAG,
++			    !!(pps->flags & V4L2_H264_PPS_FLAG_CONSTRAINED_INTRA_PRED));
++	rkvdec_set_bw_field(hw_ps->info, REDUNDANT_PIC_CNT_PRESENT,
++			    !!(pps->flags & V4L2_H264_PPS_FLAG_REDUNDANT_PIC_CNT_PRESENT));
++	rkvdec_set_bw_field(hw_ps->info, TRANSFORM_8X8_MODE_FLAG,
++			    !!(pps->flags & V4L2_H264_PPS_FLAG_TRANSFORM_8X8_MODE));
++	rkvdec_set_bw_field(hw_ps->info, SECOND_CHROMA_QP_INDEX_OFFSET,
++			    pps->second_chroma_qp_index_offset);
++	rkvdec_set_bw_field(hw_ps->info, SCALING_LIST_ENABLE_FLAG,
++			    !!(pps->flags & V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT));
++
++	for (i = 0; i < ARRAY_SIZE(dec_params->dpb); i++) {
++		rkvdec_set_bw_field(hw_ps->info, TOP_FIELD_ORDER_CNT(i),
++				    dpb[i].top_field_order_cnt);
++		rkvdec_set_bw_field(hw_ps->info, BOT_FIELD_ORDER_CNT(i),
++				    dpb[i].bottom_field_order_cnt);
++
++		rkvdec_set_bw_field(hw_ps->info, IS_LONG_TERM(i),
++				    !!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM));
++		rkvdec_set_bw_field(hw_ps->info, REF_FIELD_FLAGS(i),
++				    !!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD));
++		rkvdec_set_bw_field(hw_ps->info, REF_COLMV_USE_FLAG(i),
++				    !!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE));
++		rkvdec_set_bw_field(hw_ps->info, REF_TOPFIELD_USED(i),
++				    !!(dpb[i].fields & V4L2_H264_TOP_FIELD_REF));
++		rkvdec_set_bw_field(hw_ps->info, REF_BOTFIELD_USED(i),
++				    !!(dpb[i].fields & V4L2_H264_BOTTOM_FIELD_REF));
++	}
++
++	rkvdec_set_bw_field(hw_ps->info, PIC_FIELD_FLAG,
++			    !!(dec_params->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC));
++	rkvdec_set_bw_field(hw_ps->info, PIC_ASSOCIATED_FLAG,
++			    !!(dec_params->flags & V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD));
+ 
++	rkvdec_set_bw_field(hw_ps->info, CUR_TOP_FIELD, dec_params->top_field_order_cnt);
++	rkvdec_set_bw_field(hw_ps->info, CUR_BOT_FIELD, dec_params->bottom_field_order_cnt);
+ }
+ 
+ static void rkvdec_write_regs(struct rkvdec_ctx *ctx)
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c
+index 96d938ee70b0..c818a92f1e63 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c
+@@ -13,149 +13,106 @@
+ #include "rkvdec-rcb.h"
+ #include "rkvdec-hevc-common.h"
+ #include "rkvdec-vdpu383-regs.h"
++#include "rkvdec-bitwriter.h"
++
++#define VIDEO_PARAMETER_SET_ID				BW_FIELD(0, 4)
++#define SEQ_PARAMETER_SET_ID				BW_FIELD(4, 4)
++#define CHROMA_FORMAT_IDC				BW_FIELD(8, 2)
++#define PIC_WIDTH_IN_LUMA_SAMPLES			BW_FIELD(10, 16)
++#define PIC_HEIGHT_IN_LUMA_SAMPLES			BW_FIELD(26, 16)
++#define BIT_DEPTH_LUMA					BW_FIELD(42, 3)
++#define BIT_DEPTH_CHROMA				BW_FIELD(45, 3)
++#define LOG2_MAX_PIC_ORDER_CNT_LSB			BW_FIELD(48, 5)
++#define LOG2_DIFF_MAX_MIN_LUMA_CODING_BLOCK_SIZE	BW_FIELD(53, 2)
++#define LOG2_MIN_LUMA_CODING_BLOCK_SIZE			BW_FIELD(55, 3)
++#define LOG2_MIN_TRANSFORM_BLOCK_SIZE			BW_FIELD(58, 3)
++#define LOG2_DIFF_MAX_MIN_LUMA_TRANSFORM_BLOCK_SIZE	BW_FIELD(61, 2)
++#define MAX_TRANSFORM_HIERARCHY_DEPTH_INTER		BW_FIELD(63, 3)
++#define MAX_TRANSFORM_HIERARCHY_DEPTH_INTRA		BW_FIELD(66, 3)
++#define SCALING_LIST_ENABLED_FLAG			BW_FIELD(69, 1)
++#define AMP_ENABLED_FLAG				BW_FIELD(70, 1)
++#define SAMPLE_ADAPTIVE_OFFSET_ENABLED_FLAG		BW_FIELD(71, 1)
++#define PCM_ENABLED_FLAG				BW_FIELD(72, 1)
++#define PCM_SAMPLE_BIT_DEPTH_LUMA			BW_FIELD(73, 4)
++#define PCM_SAMPLE_BIT_DEPTH_CHROMA			BW_FIELD(77, 4)
++#define PCM_LOOP_FILTER_DISABLED_FLAG			BW_FIELD(81, 1)
++#define LOG2_DIFF_MAX_MIN_PCM_LUMA_CODING_BLOCK_SIZE	BW_FIELD(82, 3)
++#define LOG2_MIN_PCM_LUMA_CODING_BLOCK_SIZE		BW_FIELD(85, 3)
++#define NUM_SHORT_TERM_REF_PIC_SETS			BW_FIELD(88, 7)
++#define LONG_TERM_REF_PICS_PRESENT_FLAG			BW_FIELD(95, 1)
++#define NUM_LONG_TERM_REF_PICS_SPS			BW_FIELD(96, 6)
++#define SPS_TEMPORAL_MVP_ENABLED_FLAG			BW_FIELD(102, 1)
++#define STRONG_INTRA_SMOOTHING_ENABLED_FLAG		BW_FIELD(103, 1)
++#define SPS_MAX_DEC_PIC_BUFFERING_MINUS1		BW_FIELD(111, 4)
++#define SEPARATE_COLOUR_PLANE_FLAG			BW_FIELD(115, 1)
++#define HIGH_PRECISION_OFFSETS_ENABLED_FLAG		BW_FIELD(116, 1)
++#define PERSISTENT_RICE_ADAPTATION_ENABLED_FLAG		BW_FIELD(117, 1)
++
++/* PPS */
++#define PIC_PARAMETER_SET_ID				BW_FIELD(118, 6)
++#define PPS_SEQ_PARAMETER_SET_ID			BW_FIELD(124, 4)
++#define DEPENDENT_SLICE_SEGMENTS_ENABLED_FLAG		BW_FIELD(128, 1)
++#define OUTPUT_FLAG_PRESENT_FLAG			BW_FIELD(129, 1)
++#define NUM_EXTRA_SLICE_HEADER_BITS			BW_FIELD(130, 13)
++#define SIGN_DATA_HIDING_ENABLED_FLAG			BW_FIELD(143, 1)
++#define CABAC_INIT_PRESENT_FLAG				BW_FIELD(144, 1)
++#define NUM_REF_IDX_L0_DEFAULT_ACTIVE			BW_FIELD(145, 4)
++#define NUM_REF_IDX_L1_DEFAULT_ACTIVE			BW_FIELD(149, 4)
++#define INIT_QP_MINUS26					BW_FIELD(153, 7)
++#define CONSTRAINED_INTRA_PRED_FLAG			BW_FIELD(160, 1)
++#define TRANSFORM_SKIP_ENABLED_FLAG			BW_FIELD(161, 1)
++#define CU_QP_DELTA_ENABLED_FLAG			BW_FIELD(162, 1)
++#define LOG2_MIN_CU_QP_DELTA_SIZE			BW_FIELD(163, 3)
++#define PPS_CB_QP_OFFSET				BW_FIELD(166, 5)
++#define PPS_CR_QP_OFFSET				BW_FIELD(171, 5)
++#define PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT_FLAG	BW_FIELD(176, 1)
++#define WEIGHTED_PRED_FLAG				BW_FIELD(177, 1)
++#define WEIGHTED_BIPRED_FLAG				BW_FIELD(178, 1)
++#define TRANSQUANT_BYPASS_ENABLED_FLAG			BW_FIELD(179, 1)
++#define TILES_ENABLED_FLAG				BW_FIELD(180, 1)
++#define ENTROPY_CODING_SYNC_ENABLED_FLAG		BW_FIELD(181, 1)
++#define PPS_LOOP_FILTER_ACROSS_SLICES_ENABLED_FLAG	BW_FIELD(182, 1)
++#define LOOP_FILTER_ACROSS_TILES_ENABLED_FLAG		BW_FIELD(183, 1)
++#define DEBLOCKING_FILTER_OVERRIDE_ENABLED_FLAG		BW_FIELD(184, 1)
++#define PPS_DEBLOCKING_FILTER_DISABLED_FLAG		BW_FIELD(185, 1)
++#define PPS_BETA_OFFSET_DIV2				BW_FIELD(186, 4)
++#define PPS_TC_OFFSET_DIV2				BW_FIELD(190, 4)
++#define LISTS_MODIFICATION_PRESENT_FLAG			BW_FIELD(194, 1)
++#define LOG2_PARALLEL_MERGE_LEVEL			BW_FIELD(195, 3)
++#define SLICE_SEGMENT_HEADER_EXTENSION_PRESENT_FLAG	BW_FIELD(198, 1)
++
++/* pps extensions */
++#define LOG2_MAX_TRANSFORM_SKIP_BLOCK_SIZE		BW_FIELD(202, 2)
++#define CROSS_COMPONENT_PREDICTION_ENABLED_FLAG		BW_FIELD(204, 1)
++#define CHROMA_QP_OFFSET_LIST_ENABLED_FLAG		BW_FIELD(205, 1)
++#define LOG2_MIN_CU_CHROMA_QP_DELTA_SIZE		BW_FIELD(206, 3)
++#define CB_QP_OFFSET_LIST(i)				BW_FIELD(209 + (i) * 5, 5) // i: 0-5
++#define CB_CR_OFFSET_LIST(i)				BW_FIELD(239 + (i) * 5, 5) // i: 0-5
++#define CHROMA_QP_OFFSET_LIST_LEN_MINUS1		BW_FIELD(269, 3)
++
++/* mvc0 && mvc1 */
++#define MVC_FF						BW_FIELD(272, 16)
++#define MVC_00						BW_FIELD(288, 9)
++
++/* poc info */
++#define RESERVED2					BW_FIELD(297, 3)
++#define CURRENT_POC					BW_FIELD(300, 32)
++#define REF_PIC_POC(i)					BW_FIELD(332 + (i) * 32, 32) // i: 0-14
++#define RESERVED3					BW_FIELD(812, 32)
++#define REF_IS_VALID(i)					BW_FIELD(844 + (i), 1) // i: 0-14
++#define RESERVED4					BW_FIELD(859, 1)
++
++/* tile info*/
++#define NUM_TILE_COLUMNS				BW_FIELD(860, 5)
++#define NUM_TILE_ROWS					BW_FIELD(865, 5)
++#define COLUMN_WIDTH(i)					BW_FIELD(870 + (i) * 12, 12) // i: 0-19
++#define ROW_HEIGHT(i)					BW_FIELD(1110 + (i) * 12, 12) // i: 0-21
++
++#define HEVC_SPS_SIZE					ALIGN(ROW_HEIGHT(22).offset, 256)
+ 
+ struct rkvdec_hevc_sps_pps {
+-	// SPS
+-	u16 video_parameters_set_id			: 4;
+-	u16 seq_parameters_set_id_sps			: 4;
+-	u16 chroma_format_idc				: 2;
+-	u16 width					: 16;
+-	u16 height					: 16;
+-	u16 bit_depth_luma				: 3;
+-	u16 bit_depth_chroma				: 3;
+-	u16 max_pic_order_count_lsb			: 5;
+-	u16 diff_max_min_luma_coding_block_size		: 2;
+-	u16 min_luma_coding_block_size			: 3;
+-	u16 min_transform_block_size			: 3;
+-	u16 diff_max_min_transform_block_size		: 2;
+-	u16 max_transform_hierarchy_depth_inter		: 3;
+-	u16 max_transform_hierarchy_depth_intra		: 3;
+-	u16 scaling_list_enabled_flag			: 1;
+-	u16 amp_enabled_flag				: 1;
+-	u16 sample_adaptive_offset_enabled_flag		: 1;
+-	u16 pcm_enabled_flag				: 1;
+-	u16 pcm_sample_bit_depth_luma			: 4;
+-	u16 pcm_sample_bit_depth_chroma			: 4;
+-	u16 pcm_loop_filter_disabled_flag		: 1;
+-	u16 diff_max_min_pcm_luma_coding_block_size	: 3;
+-	u16 min_pcm_luma_coding_block_size		: 3;
+-	u16 num_short_term_ref_pic_sets			: 7;
+-	u16 long_term_ref_pics_present_flag		: 1;
+-	u16 num_long_term_ref_pics_sps			: 6;
+-	u16 sps_temporal_mvp_enabled_flag		: 1;
+-	u16 strong_intra_smoothing_enabled_flag		: 1;
+-	u16 reserved0					: 7;
+-	u16 sps_max_dec_pic_buffering_minus1		: 4;
+-	u16 separate_colour_plane_flag			: 1;
+-	u16 high_precision_offsets_enabled_flag		: 1;
+-	u16 persistent_rice_adaptation_enabled_flag	: 1;
+-
+-	// PPS
+-	u16 picture_parameters_set_id			: 6;
+-	u16 seq_parameters_set_id_pps			: 4;
+-	u16 dependent_slice_segments_enabled_flag	: 1;
+-	u16 output_flag_present_flag			: 1;
+-	u16 num_extra_slice_header_bits			: 13;
+-	u16 sign_data_hiding_enabled_flag		: 1;
+-	u16 cabac_init_present_flag			: 1;
+-	u16 num_ref_idx_l0_default_active		: 4;
+-	u16 num_ref_idx_l1_default_active		: 4;
+-	u16 init_qp_minus26				: 7;
+-	u16 constrained_intra_pred_flag			: 1;
+-	u16 transform_skip_enabled_flag			: 1;
+-	u16 cu_qp_delta_enabled_flag			: 1;
+-	u16 log2_min_cb_size				: 3;
+-	u16 pps_cb_qp_offset				: 5;
+-	u16 pps_cr_qp_offset				: 5;
+-	u16 pps_slice_chroma_qp_offsets_present_flag	: 1;
+-	u16 weighted_pred_flag				: 1;
+-	u16 weighted_bipred_flag			: 1;
+-	u16 transquant_bypass_enabled_flag		: 1;
+-	u16 tiles_enabled_flag				: 1;
+-	u16 entropy_coding_sync_enabled_flag		: 1;
+-	u16 pps_loop_filter_across_slices_enabled_flag	: 1;
+-	u16 loop_filter_across_tiles_enabled_flag	: 1;
+-	u16 deblocking_filter_override_enabled_flag	: 1;
+-	u16 pps_deblocking_filter_disabled_flag		: 1;
+-	u16 pps_beta_offset_div2			: 4;
+-	u16 pps_tc_offset_div2				: 4;
+-	u16 lists_modification_present_flag		: 1;
+-	u16 log2_parallel_merge_level			: 3;
+-	u16 slice_segment_header_extension_present_flag	: 1;
+-	u16 reserved1					: 3;
+-
+-	// pps extensions
+-	u16 log2_max_transform_skip_block_size		: 2;
+-	u16 cross_component_prediction_enabled_flag	: 1;
+-	u16 chroma_qp_offset_list_enabled_flag		: 1;
+-	u16 log2_min_cu_chroma_qp_delta_size		: 3;
+-	u16 cb_qp_offset_list0				: 5;
+-	u16 cb_qp_offset_list1				: 5;
+-	u16 cb_qp_offset_list2				: 5;
+-	u16 cb_qp_offset_list3				: 5;
+-	u16 cb_qp_offset_list4				: 5;
+-	u16 cb_qp_offset_list5				: 5;
+-	u16 cb_cr_offset_list0				: 5;
+-	u16 cb_cr_offset_list1				: 5;
+-	u16 cb_cr_offset_list2				: 5;
+-	u16 cb_cr_offset_list3				: 5;
+-	u16 cb_cr_offset_list4				: 5;
+-	u16 cb_cr_offset_list5				: 5;
+-	u16 chroma_qp_offset_list_len_minus1		: 3;
+-
+-	/* mvc0 && mvc1 */
+-	u16 mvc_ff					: 16;
+-	u16 mvc_00					: 9;
+-
+-	/* poc info */
+-	u16 reserved2					: 3;
+-	u32 current_poc					: 32;
+-	u32 ref_pic_poc0				: 32;
+-	u32 ref_pic_poc1				: 32;
+-	u32 ref_pic_poc2				: 32;
+-	u32 ref_pic_poc3				: 32;
+-	u32 ref_pic_poc4				: 32;
+-	u32 ref_pic_poc5				: 32;
+-	u32 ref_pic_poc6				: 32;
+-	u32 ref_pic_poc7				: 32;
+-	u32 ref_pic_poc8				: 32;
+-	u32 ref_pic_poc9				: 32;
+-	u32 ref_pic_poc10				: 32;
+-	u32 ref_pic_poc11				: 32;
+-	u32 ref_pic_poc12				: 32;
+-	u32 ref_pic_poc13				: 32;
+-	u32 ref_pic_poc14				: 32;
+-	u32 reserved3					: 32;
+-	u32 ref_is_valid				: 15;
+-	u32 reserved4					: 1;
+-
+-	/* tile info*/
+-	u16 num_tile_columns				: 5;
+-	u16 num_tile_rows				: 5;
+-	u32 column_width0				: 24;
+-	u32 column_width1				: 24;
+-	u32 column_width2				: 24;
+-	u32 column_width3				: 24;
+-	u32 column_width4				: 24;
+-	u32 column_width5				: 24;
+-	u32 column_width6				: 24;
+-	u32 column_width7				: 24;
+-	u32 column_width8				: 24;
+-	u32 column_width9				: 24;
+-	u32 row_height0					: 24;
+-	u32 row_height1					: 24;
+-	u32 row_height2					: 24;
+-	u32 row_height3					: 24;
+-	u32 row_height4					: 24;
+-	u32 row_height5					: 24;
+-	u32 row_height6					: 24;
+-	u32 row_height7					: 24;
+-	u32 row_height8					: 24;
+-	u32 row_height9					: 24;
+-	u32 row_height10				: 24;
+-	u32 reserved5					: 2;
+-	u32 padding;
+-} __packed;
++	u32 info[HEVC_SPS_SIZE / 8 / 4];
++};
+ 
+ struct rkvdec_hevc_priv_tbl {
+ 	struct rkvdec_hevc_sps_pps param_set;
+@@ -171,51 +128,6 @@ struct rkvdec_hevc_ctx {
+ 	struct vdpu383_regs_h26x		regs;
+ };
+ 
+-static void set_column_row(struct rkvdec_hevc_sps_pps *hw_ps, u16 *column, u16 *row)
+-{
+-	hw_ps->column_width0 = column[0] | (column[1] << 12);
+-	hw_ps->row_height0 = row[0] | (row[1] << 12);
+-	hw_ps->column_width1 = column[2] | (column[3] << 12);
+-	hw_ps->row_height1 = row[2] | (row[3] << 12);
+-	hw_ps->column_width2 = column[4] | (column[5] << 12);
+-	hw_ps->row_height2 = row[4] | (row[5] << 12);
+-	hw_ps->column_width3 = column[6] | (column[7] << 12);
+-	hw_ps->row_height3 = row[6] | (row[7] << 12);
+-	hw_ps->column_width4 = column[8] | (column[9] << 12);
+-	hw_ps->row_height4 = row[8] | (row[9] << 12);
+-	hw_ps->column_width5 = column[10] | (column[11] << 12);
+-	hw_ps->row_height5 = row[10] | (row[11] << 12);
+-	hw_ps->column_width6 = column[12] | (column[13] << 12);
+-	hw_ps->row_height6 = row[12] | (row[13] << 12);
+-	hw_ps->column_width7 = column[14] | (column[15] << 12);
+-	hw_ps->row_height7 = row[14] | (row[15] << 12);
+-	hw_ps->column_width8 = column[16] | (column[17] << 12);
+-	hw_ps->row_height8 = row[16] | (row[17] << 12);
+-	hw_ps->column_width9 = column[18] | (column[19] << 12);
+-	hw_ps->row_height9 = row[18] | (row[19] << 12);
+-
+-	hw_ps->row_height10 = row[20] | (row[21] << 12);
+-}
+-
+-static void set_pps_ref_pic_poc(struct rkvdec_hevc_sps_pps *hw_ps, const struct v4l2_hevc_dpb_entry *dpb)
+-{
+-	hw_ps->ref_pic_poc0 = dpb[0].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc1 = dpb[1].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc2 = dpb[2].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc3 = dpb[3].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc4 = dpb[4].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc5 = dpb[5].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc6 = dpb[6].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc7 = dpb[7].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc8 = dpb[8].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc9 = dpb[9].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc10 = dpb[10].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc11 = dpb[11].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc12 = dpb[12].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc13 = dpb[13].pic_order_cnt_val;
+-	hw_ps->ref_pic_poc14 = dpb[14].pic_order_cnt_val;
+-}
+-
+ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+ 			    struct rkvdec_hevc_run *run)
+ {
+@@ -245,104 +157,130 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+ 	memset(hw_ps, 0, sizeof(*hw_ps));
+ 
+ 	/* write sps */
+-	hw_ps->video_parameters_set_id = sps->video_parameter_set_id;
+-	hw_ps->seq_parameters_set_id_sps = sps->seq_parameter_set_id;
+-	hw_ps->chroma_format_idc = sps->chroma_format_idc;
++	rkvdec_set_bw_field(hw_ps->info, VIDEO_PARAMETER_SET_ID, sps->video_parameter_set_id);
++	rkvdec_set_bw_field(hw_ps->info, SEQ_PARAMETER_SET_ID, sps->seq_parameter_set_id);
++	rkvdec_set_bw_field(hw_ps->info, CHROMA_FORMAT_IDC, sps->chroma_format_idc);
+ 
+ 	log2_min_cb_size = sps->log2_min_luma_coding_block_size_minus3 + 3;
+ 	width = sps->pic_width_in_luma_samples;
+ 	height = sps->pic_height_in_luma_samples;
+-	hw_ps->width = width;
+-	hw_ps->height = height;
+-	hw_ps->bit_depth_luma = sps->bit_depth_luma_minus8 + 8;
+-	hw_ps->bit_depth_chroma = sps->bit_depth_chroma_minus8 + 8;
+-	hw_ps->max_pic_order_count_lsb = sps->log2_max_pic_order_cnt_lsb_minus4 + 4;
+-	hw_ps->diff_max_min_luma_coding_block_size = sps->log2_diff_max_min_luma_coding_block_size;
+-	hw_ps->min_luma_coding_block_size = sps->log2_min_luma_coding_block_size_minus3 + 3;
+-	hw_ps->min_transform_block_size = sps->log2_min_luma_transform_block_size_minus2 + 2;
+-	hw_ps->diff_max_min_transform_block_size =
+-		sps->log2_diff_max_min_luma_transform_block_size;
+-	hw_ps->max_transform_hierarchy_depth_inter = sps->max_transform_hierarchy_depth_inter;
+-	hw_ps->max_transform_hierarchy_depth_intra = sps->max_transform_hierarchy_depth_intra;
+-	hw_ps->scaling_list_enabled_flag =
+-		!!(sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED);
+-	hw_ps->amp_enabled_flag = !!(sps->flags & V4L2_HEVC_SPS_FLAG_AMP_ENABLED);
+-	hw_ps->sample_adaptive_offset_enabled_flag =
+-		!!(sps->flags & V4L2_HEVC_SPS_FLAG_SAMPLE_ADAPTIVE_OFFSET);
++
++	rkvdec_set_bw_field(hw_ps->info, PIC_WIDTH_IN_LUMA_SAMPLES, width);
++	rkvdec_set_bw_field(hw_ps->info, PIC_HEIGHT_IN_LUMA_SAMPLES, height);
++	rkvdec_set_bw_field(hw_ps->info, BIT_DEPTH_LUMA, sps->bit_depth_luma_minus8 + 8);
++	rkvdec_set_bw_field(hw_ps->info, BIT_DEPTH_CHROMA, sps->bit_depth_chroma_minus8 + 8);
++	rkvdec_set_bw_field(hw_ps->info, LOG2_MAX_PIC_ORDER_CNT_LSB,
++			    sps->log2_max_pic_order_cnt_lsb_minus4 + 4);
++	rkvdec_set_bw_field(hw_ps->info, LOG2_DIFF_MAX_MIN_LUMA_CODING_BLOCK_SIZE,
++			    sps->log2_diff_max_min_luma_coding_block_size);
++	rkvdec_set_bw_field(hw_ps->info, LOG2_MIN_LUMA_CODING_BLOCK_SIZE,
++			    sps->log2_min_luma_coding_block_size_minus3 + 3);
++	rkvdec_set_bw_field(hw_ps->info, LOG2_MIN_TRANSFORM_BLOCK_SIZE,
++			    sps->log2_min_luma_transform_block_size_minus2 + 2);
++	rkvdec_set_bw_field(hw_ps->info, LOG2_DIFF_MAX_MIN_LUMA_TRANSFORM_BLOCK_SIZE,
++			    sps->log2_diff_max_min_luma_transform_block_size);
++	rkvdec_set_bw_field(hw_ps->info, MAX_TRANSFORM_HIERARCHY_DEPTH_INTER,
++			    sps->max_transform_hierarchy_depth_inter);
++	rkvdec_set_bw_field(hw_ps->info, MAX_TRANSFORM_HIERARCHY_DEPTH_INTRA,
++			    sps->max_transform_hierarchy_depth_intra);
++	rkvdec_set_bw_field(hw_ps->info, SCALING_LIST_ENABLED_FLAG,
++			    !!(sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED));
++	rkvdec_set_bw_field(hw_ps->info, AMP_ENABLED_FLAG,
++			    !!(sps->flags & V4L2_HEVC_SPS_FLAG_AMP_ENABLED));
++	rkvdec_set_bw_field(hw_ps->info, SAMPLE_ADAPTIVE_OFFSET_ENABLED_FLAG,
++			    !!(sps->flags & V4L2_HEVC_SPS_FLAG_SAMPLE_ADAPTIVE_OFFSET));
+ 
+ 	pcm_enabled = !!(sps->flags & V4L2_HEVC_SPS_FLAG_PCM_ENABLED);
+-	hw_ps->pcm_enabled_flag = pcm_enabled;
+-	hw_ps->pcm_sample_bit_depth_luma =
+-		pcm_enabled ? sps->pcm_sample_bit_depth_luma_minus1 + 1 : 0;
+-	hw_ps->pcm_sample_bit_depth_chroma =
+-		pcm_enabled ? sps->pcm_sample_bit_depth_chroma_minus1 + 1 : 0;
+-	hw_ps->pcm_loop_filter_disabled_flag =
+-		!!(sps->flags & V4L2_HEVC_SPS_FLAG_PCM_LOOP_FILTER_DISABLED);
+-	hw_ps->diff_max_min_pcm_luma_coding_block_size =
+-		sps->log2_diff_max_min_pcm_luma_coding_block_size;
+-	hw_ps->min_pcm_luma_coding_block_size =
+-		pcm_enabled ? sps->log2_min_pcm_luma_coding_block_size_minus3 + 3 : 0;
+-	hw_ps->num_short_term_ref_pic_sets = sps->num_short_term_ref_pic_sets;
+-	hw_ps->long_term_ref_pics_present_flag =
+-		!!(sps->flags & V4L2_HEVC_SPS_FLAG_LONG_TERM_REF_PICS_PRESENT);
+-	hw_ps->num_long_term_ref_pics_sps = sps->num_long_term_ref_pics_sps;
+-	hw_ps->sps_temporal_mvp_enabled_flag =
+-		!!(sps->flags & V4L2_HEVC_SPS_FLAG_SPS_TEMPORAL_MVP_ENABLED);
+-	hw_ps->strong_intra_smoothing_enabled_flag =
+-		!!(sps->flags & V4L2_HEVC_SPS_FLAG_STRONG_INTRA_SMOOTHING_ENABLED);
+-	hw_ps->sps_max_dec_pic_buffering_minus1 = sps->sps_max_dec_pic_buffering_minus1;
++	rkvdec_set_bw_field(hw_ps->info, PCM_ENABLED_FLAG, pcm_enabled);
++	rkvdec_set_bw_field(hw_ps->info, PCM_SAMPLE_BIT_DEPTH_LUMA,
++			    pcm_enabled ? sps->pcm_sample_bit_depth_luma_minus1 + 1 : 0);
++	rkvdec_set_bw_field(hw_ps->info, PCM_SAMPLE_BIT_DEPTH_CHROMA,
++			    pcm_enabled ? sps->pcm_sample_bit_depth_chroma_minus1 + 1 : 0);
++	rkvdec_set_bw_field(hw_ps->info, PCM_LOOP_FILTER_DISABLED_FLAG,
++			    !!(sps->flags & V4L2_HEVC_SPS_FLAG_PCM_LOOP_FILTER_DISABLED));
++	rkvdec_set_bw_field(hw_ps->info, LOG2_DIFF_MAX_MIN_PCM_LUMA_CODING_BLOCK_SIZE,
++			    sps->log2_diff_max_min_pcm_luma_coding_block_size);
++	rkvdec_set_bw_field(hw_ps->info, LOG2_MIN_PCM_LUMA_CODING_BLOCK_SIZE,
++			    pcm_enabled ? sps->log2_min_pcm_luma_coding_block_size_minus3 + 3 : 0);
++	rkvdec_set_bw_field(hw_ps->info, NUM_SHORT_TERM_REF_PIC_SETS,
++			    sps->num_short_term_ref_pic_sets);
++	rkvdec_set_bw_field(hw_ps->info, LONG_TERM_REF_PICS_PRESENT_FLAG,
++			    !!(sps->flags & V4L2_HEVC_SPS_FLAG_LONG_TERM_REF_PICS_PRESENT));
++	rkvdec_set_bw_field(hw_ps->info, NUM_LONG_TERM_REF_PICS_SPS,
++			    sps->num_long_term_ref_pics_sps);
++	rkvdec_set_bw_field(hw_ps->info, SPS_TEMPORAL_MVP_ENABLED_FLAG,
++			    !!(sps->flags & V4L2_HEVC_SPS_FLAG_SPS_TEMPORAL_MVP_ENABLED));
++	rkvdec_set_bw_field(hw_ps->info, STRONG_INTRA_SMOOTHING_ENABLED_FLAG,
++			    !!(sps->flags & V4L2_HEVC_SPS_FLAG_STRONG_INTRA_SMOOTHING_ENABLED));
++	rkvdec_set_bw_field(hw_ps->info, SPS_MAX_DEC_PIC_BUFFERING_MINUS1,
++			    sps->sps_max_dec_pic_buffering_minus1);
+ 
+ 	/* write pps */
+-	hw_ps->picture_parameters_set_id = pps->pic_parameter_set_id;
+-	hw_ps->seq_parameters_set_id_pps = sps->seq_parameter_set_id;
+-	hw_ps->dependent_slice_segments_enabled_flag =
+-		!!(pps->flags & V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED);
+-	hw_ps->output_flag_present_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT);
+-	hw_ps->num_extra_slice_header_bits = pps->num_extra_slice_header_bits;
+-	hw_ps->sign_data_hiding_enabled_flag =
+-		!!(pps->flags & V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED);
+-	hw_ps->cabac_init_present_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT);
+-	hw_ps->num_ref_idx_l0_default_active = pps->num_ref_idx_l0_default_active_minus1 + 1;
+-	hw_ps->num_ref_idx_l1_default_active = pps->num_ref_idx_l1_default_active_minus1 + 1;
+-	hw_ps->init_qp_minus26 = pps->init_qp_minus26;
+-	hw_ps->constrained_intra_pred_flag =
+-		!!(pps->flags & V4L2_HEVC_PPS_FLAG_CONSTRAINED_INTRA_PRED);
+-	hw_ps->transform_skip_enabled_flag =
+-		!!(pps->flags & V4L2_HEVC_PPS_FLAG_TRANSFORM_SKIP_ENABLED);
+-	hw_ps->cu_qp_delta_enabled_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_CU_QP_DELTA_ENABLED);
+-	hw_ps->log2_min_cb_size = log2_min_cb_size +
+-				  sps->log2_diff_max_min_luma_coding_block_size -
+-				  pps->diff_cu_qp_delta_depth;
+-	hw_ps->pps_cb_qp_offset = pps->pps_cb_qp_offset;
+-	hw_ps->pps_cr_qp_offset = pps->pps_cr_qp_offset;
+-	hw_ps->pps_slice_chroma_qp_offsets_present_flag =
+-		!!(pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT);
+-	hw_ps->weighted_pred_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_WEIGHTED_PRED);
+-	hw_ps->weighted_bipred_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_WEIGHTED_BIPRED);
+-	hw_ps->transquant_bypass_enabled_flag =
+-		!!(pps->flags & V4L2_HEVC_PPS_FLAG_TRANSQUANT_BYPASS_ENABLED);
++	rkvdec_set_bw_field(hw_ps->info, PIC_PARAMETER_SET_ID, pps->pic_parameter_set_id);
++	rkvdec_set_bw_field(hw_ps->info, SEQ_PARAMETER_SET_ID, sps->seq_parameter_set_id);
++	rkvdec_set_bw_field(hw_ps->info, DEPENDENT_SLICE_SEGMENTS_ENABLED_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED));
++	rkvdec_set_bw_field(hw_ps->info, OUTPUT_FLAG_PRESENT_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT));
++	rkvdec_set_bw_field(hw_ps->info, NUM_EXTRA_SLICE_HEADER_BITS,
++			    pps->num_extra_slice_header_bits);
++	rkvdec_set_bw_field(hw_ps->info, SIGN_DATA_HIDING_ENABLED_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED));
++	rkvdec_set_bw_field(hw_ps->info, CABAC_INIT_PRESENT_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT));
++	rkvdec_set_bw_field(hw_ps->info, NUM_REF_IDX_L0_DEFAULT_ACTIVE,
++			    pps->num_ref_idx_l0_default_active_minus1 + 1);
++	rkvdec_set_bw_field(hw_ps->info, NUM_REF_IDX_L1_DEFAULT_ACTIVE,
++			    pps->num_ref_idx_l1_default_active_minus1 + 1);
++	rkvdec_set_bw_field(hw_ps->info, INIT_QP_MINUS26, pps->init_qp_minus26);
++	rkvdec_set_bw_field(hw_ps->info, CONSTRAINED_INTRA_PRED_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_CONSTRAINED_INTRA_PRED));
++	rkvdec_set_bw_field(hw_ps->info, TRANSFORM_SKIP_ENABLED_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_TRANSFORM_SKIP_ENABLED));
++	rkvdec_set_bw_field(hw_ps->info, CU_QP_DELTA_ENABLED_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_CU_QP_DELTA_ENABLED));
++	rkvdec_set_bw_field(hw_ps->info, LOG2_MIN_CU_QP_DELTA_SIZE, log2_min_cb_size +
++			    sps->log2_diff_max_min_luma_coding_block_size -
++			    pps->diff_cu_qp_delta_depth);
++	rkvdec_set_bw_field(hw_ps->info, PPS_CB_QP_OFFSET, pps->pps_cb_qp_offset);
++	rkvdec_set_bw_field(hw_ps->info, PPS_CR_QP_OFFSET, pps->pps_cr_qp_offset);
++	rkvdec_set_bw_field(hw_ps->info, PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT_FLAG,
++			    !!(pps->flags &
++			       V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT));
++	rkvdec_set_bw_field(hw_ps->info, WEIGHTED_PRED_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_WEIGHTED_PRED));
++	rkvdec_set_bw_field(hw_ps->info, WEIGHTED_BIPRED_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_WEIGHTED_BIPRED));
++	rkvdec_set_bw_field(hw_ps->info, TRANSQUANT_BYPASS_ENABLED_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_TRANSQUANT_BYPASS_ENABLED));
+ 	tiles_enabled = !!(pps->flags & V4L2_HEVC_PPS_FLAG_TILES_ENABLED);
+-	hw_ps->tiles_enabled_flag = tiles_enabled;
+-	hw_ps->entropy_coding_sync_enabled_flag =
+-		!!(pps->flags & V4L2_HEVC_PPS_FLAG_ENTROPY_CODING_SYNC_ENABLED);
+-	hw_ps->pps_loop_filter_across_slices_enabled_flag =
+-		!!(pps->flags & V4L2_HEVC_PPS_FLAG_PPS_LOOP_FILTER_ACROSS_SLICES_ENABLED);
+-	hw_ps->loop_filter_across_tiles_enabled_flag =
+-		!!(pps->flags & V4L2_HEVC_PPS_FLAG_LOOP_FILTER_ACROSS_TILES_ENABLED);
+-	hw_ps->deblocking_filter_override_enabled_flag =
+-		!!(pps->flags & V4L2_HEVC_PPS_FLAG_DEBLOCKING_FILTER_OVERRIDE_ENABLED);
+-	hw_ps->pps_deblocking_filter_disabled_flag =
+-		!!(pps->flags & V4L2_HEVC_PPS_FLAG_PPS_DISABLE_DEBLOCKING_FILTER);
+-	hw_ps->pps_beta_offset_div2 = pps->pps_beta_offset_div2;
+-	hw_ps->pps_tc_offset_div2 = pps->pps_tc_offset_div2;
+-	hw_ps->lists_modification_present_flag =
+-		!!(pps->flags & V4L2_HEVC_PPS_FLAG_LISTS_MODIFICATION_PRESENT);
+-	hw_ps->log2_parallel_merge_level = pps->log2_parallel_merge_level_minus2 + 2;
+-	hw_ps->slice_segment_header_extension_present_flag =
+-		!!(pps->flags & V4L2_HEVC_PPS_FLAG_SLICE_SEGMENT_HEADER_EXTENSION_PRESENT);
+-	hw_ps->num_tile_columns = tiles_enabled ? pps->num_tile_columns_minus1 + 1 : 1;
+-	hw_ps->num_tile_rows = tiles_enabled ? pps->num_tile_rows_minus1 + 1 : 1;
+-	hw_ps->mvc_ff = 0xffff;
++	rkvdec_set_bw_field(hw_ps->info, TILES_ENABLED_FLAG, tiles_enabled);
++	rkvdec_set_bw_field(hw_ps->info, ENTROPY_CODING_SYNC_ENABLED_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_ENTROPY_CODING_SYNC_ENABLED));
++	rkvdec_set_bw_field(hw_ps->info, PPS_LOOP_FILTER_ACROSS_SLICES_ENABLED_FLAG,
++			    !!(pps->flags &
++			       V4L2_HEVC_PPS_FLAG_PPS_LOOP_FILTER_ACROSS_SLICES_ENABLED));
++	rkvdec_set_bw_field(hw_ps->info, LOOP_FILTER_ACROSS_TILES_ENABLED_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_LOOP_FILTER_ACROSS_TILES_ENABLED));
++	rkvdec_set_bw_field(hw_ps->info, DEBLOCKING_FILTER_OVERRIDE_ENABLED_FLAG,
++			    !!(pps->flags &
++			       V4L2_HEVC_PPS_FLAG_DEBLOCKING_FILTER_OVERRIDE_ENABLED));
++	rkvdec_set_bw_field(hw_ps->info, PPS_DEBLOCKING_FILTER_DISABLED_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_PPS_DISABLE_DEBLOCKING_FILTER));
++	rkvdec_set_bw_field(hw_ps->info, PPS_BETA_OFFSET_DIV2, pps->pps_beta_offset_div2);
++	rkvdec_set_bw_field(hw_ps->info, PPS_TC_OFFSET_DIV2, pps->pps_tc_offset_div2);
++	rkvdec_set_bw_field(hw_ps->info, LISTS_MODIFICATION_PRESENT_FLAG,
++			    !!(pps->flags & V4L2_HEVC_PPS_FLAG_LISTS_MODIFICATION_PRESENT));
++	rkvdec_set_bw_field(hw_ps->info, LOG2_PARALLEL_MERGE_LEVEL,
++			    pps->log2_parallel_merge_level_minus2 + 2);
++	rkvdec_set_bw_field(hw_ps->info, SLICE_SEGMENT_HEADER_EXTENSION_PRESENT_FLAG,
++			    !!(pps->flags &
++			       V4L2_HEVC_PPS_FLAG_SLICE_SEGMENT_HEADER_EXTENSION_PRESENT));
++	rkvdec_set_bw_field(hw_ps->info, NUM_TILE_COLUMNS,
++			    tiles_enabled ? pps->num_tile_columns_minus1 + 1 : 1);
++	rkvdec_set_bw_field(hw_ps->info, NUM_TILE_ROWS,
++			    tiles_enabled ? pps->num_tile_rows_minus1 + 1 : 1);
++	rkvdec_set_bw_field(hw_ps->info, MVC_FF, 0xffff);
+ 
+ 	// Setup tiles information
+ 	memset(column_width, 0, sizeof(column_width));
+@@ -367,15 +305,19 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+ 		row_height[0] = (height + max_cu_width - 1) / max_cu_width;
+ 	}
+ 
+-	set_column_row(hw_ps, column_width, row_height);
++	for (i = 0; i < 20; i++)
++		rkvdec_set_bw_field(hw_ps->info, COLUMN_WIDTH(i), column_width[i]);
++	for (i = 0; i < 22; i++)
++		rkvdec_set_bw_field(hw_ps->info, ROW_HEIGHT(i), row_height[i]);
+ 
+ 	// Setup POC information
+-	hw_ps->current_poc = dec_params->pic_order_cnt_val;
++	rkvdec_set_bw_field(hw_ps->info, CURRENT_POC, dec_params->pic_order_cnt_val);
+ 
+-	set_pps_ref_pic_poc(hw_ps, dec_params->dpb);
+ 	for (i = 0; i < ARRAY_SIZE(dec_params->dpb); i++) {
+-		u32 valid = !!(dec_params->num_active_dpb_entries > i);
+-		hw_ps->ref_is_valid |= valid << i;
++		rkvdec_set_bw_field(hw_ps->info, REF_IS_VALID(i),
++				    !!(dec_params->num_active_dpb_entries > i));
++		rkvdec_set_bw_field(hw_ps->info, REF_PIC_POC(i),
++				    dec_params->dpb[i].pic_order_cnt_val);
+ 	}
+ }
+ 
 
 -- 
 2.53.0
