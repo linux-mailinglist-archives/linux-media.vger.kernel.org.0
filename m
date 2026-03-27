@@ -1,206 +1,212 @@
-Return-Path: <linux-media+bounces-57184-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57187-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eJYjLby9xWkeBAUAu9opvQ
-	(envelope-from <linux-media+bounces-57184-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 00:14:04 +0100
+	id +JCHOnTXxWnQCAUAu9opvQ
+	(envelope-from <linux-media+bounces-57187-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 02:03:48 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B52333CF34
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 00:14:04 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A17333DB33
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 02:03:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 51D0B3057198
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2026 23:10:06 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 11F163059E90
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 01:03:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D91D13537C1;
-	Thu, 26 Mar 2026 23:10:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A3013093DD;
+	Fri, 27 Mar 2026 01:03:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U8j48vEi"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Haf7dYA3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27BF934D905;
-	Thu, 26 Mar 2026 23:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A8230506A
+	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 01:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774566602; cv=none; b=KstKr4IQnt7//Yx+eIVB/0Nno9/UqFIff3NLtON9I/y+fmIJnbPjBfkxOlK1AGBmh1R2iuAQBmOnC+veLtmEn9cqtjCkEDxcYviA4Ly94EjScFwvZyCaQgdyu/jWUBfkOYKHMyOPuJGW9niiiOXJ6yZ5dmAKsKcA5hxgxJrjW6Q=
+	t=1774573419; cv=none; b=Z4Im13XCdlSxKjqDlsYvVluh+uKog4Q9WUwOf7uOGfbHefCRuqehxzxKmWHS9teY1kFOoy0TvljeGBNsRfqhTCffj245p7x31sTd9RcXAHr/C35LqMZD9o+PNFyrmdi+AZ1wPMn6qvZCwjt5nIBLdqMqyfX83saFH2wziLcthQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774566602; c=relaxed/simple;
-	bh=eXpDdX/kQyDxNpLURS993lHyshWENbFjP5/yo5InZe4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Q+2I0DQ2zTViQkU8DzN83qCqzWeikg/DW4C4xv5I1q+NEKObIovzdj0/hevAJYe+sjGVi0ZCX1fNtskaUjkMDTCitfPCLazgXh9ErKgnNL46nCK3Xh16LCECMBM5BVPPHl+zu7iy9V08MyUG/mFBd/i/EjgT/BahRp3egpdBQqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U8j48vEi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E6FBEC2BCB4;
-	Thu, 26 Mar 2026 23:10:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774566602;
-	bh=eXpDdX/kQyDxNpLURS993lHyshWENbFjP5/yo5InZe4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=U8j48vEia8OjUp9LJq/MlCNJCdJon3/xmeEvf+74B8Hq5o1hW/QG3ACPTmS468Hgo
-	 ukZVEUBI2WdbjokSO47YGQU/vynYd/w8LwVAk+BWM19EiRnuh01eETTYf9BK9tgynL
-	 31QocxATuaV1ADYV2qSNawXzcdEOQKPgRIGy7W4/s/Jzk//g47Kq9bsN076AHg+cnJ
-	 /urkgT9ziKviTxtqURsk1bQZXH3OMzgMBOL5GQkB71oLk3FJHs8w2ThrbHJ/2kCSmS
-	 q3zB0fhUtq65GIj+cGASFu5NOxAfTslOJybvJwThQWlBlC286mgiM/5YmwhXcn99uX
-	 9/YU7Pv6uDHNQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD1A310AB832;
-	Thu, 26 Mar 2026 23:10:01 +0000 (UTC)
-From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Fri, 27 Mar 2026 00:10:01 +0100
-Subject: [PATCH v4 2/2] arm64: dts: rockchip: add mipi csi-2 receiver nodes
- to rk3588
+	s=arc-20240116; t=1774573419; c=relaxed/simple;
+	bh=xUevR4UCtU4Tr6vB3xIsFHyUaTubgjvQmZ6CneW4wLE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CtY3ifuVa8c1w3oYWQrlZCPjYfDZcHAGR8vjMnZYW8kT5GcJZzAZ4BggDipwvPZGk8+8BvswrrGGsPw2nObm6OyHmDlhKlkfFG2MnY16UXWedHFA5Wf7pL2/i6DDAUuQkLTciUgunvwmkez7+JSUhPA7ag1fAN2QctXWPZOQCkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Haf7dYA3; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48374014a77so19154515e9.3
+        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2026 18:03:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1774573407; x=1775178207; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=m9Niuzybzpc7ylc9yfsJfs0wdPfmTua5AraM+Dz5c0Q=;
+        b=Haf7dYA34j6bw2yA2l+OXl/XmRygA9RnQfX7iKPLAjXk/WAvrHGMtOLWItyj1HZNh6
+         oOC/9E6EaVDketlvfObk6W4/NtGFwIMGxY94duJXk2hqezOcmjKLu4dC0w0qNTXTXd5r
+         FW6Z40F7ewgI7tttu4fi5oR7iXOatd75kMDtmTi0IjGfCW2wF5kgCCkl2uWp5lRrHpF/
+         4bj4gv2ZLfnZBoX/dddysFcj8mavVdMucjEk1Gp5UAdiJ1RpEca4QRgzWqxOBYAfQKR7
+         CZT8LhVcNY+Fe75lcMn2pVE4CHNvm5e8gfVc/mMR74262FmxDFCpe9czQZCFRBh3Lbjh
+         Z8Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774573407; x=1775178207;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m9Niuzybzpc7ylc9yfsJfs0wdPfmTua5AraM+Dz5c0Q=;
+        b=QzzOnnS+B2pTt7CFr8JXD8VYJ3I4MTDp9xLsU2LiyQ4aQeE0g2NGCUSKzTpfY/2TUt
+         dz6ethAMPOJJ9DH1uprDMvmAnFzwR9VUKmKvS/DsvAMe96REXhxnCes+6kMv9HWkEDqK
+         0ZoyZjq8pdX3ftnkbWVEChIHIZAVL1jSb2VJKxSi6UkvfwwLomeB2qeyGossONrRnwca
+         ho36xgv6secel7nFsCwOR4kLGTImQHpvjETt23XNDdZIHxw3Crs4pTqhDvI68DXEfnEL
+         y7IhvZIKwS1ML6SckCy2cBg2jGuDVCHWImB+M+w50qY+UXR5d9mY9u+RNBMUJMEWy8zr
+         j0OA==
+X-Forwarded-Encrypted: i=1; AJvYcCVsUDRfNVeg/2W1BgHhY8UevgNo5Ozg1myucCKTccWhrHXzOPTVZEXdRxAcbVIqr0pAQktgd9chDtov9A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9T9+nEkj2mKrIfKMcjVzWoL116q2qBtgQuaV5dIaE1kvMCYln
+	fIvKvb4hfiCXd3BkO7D8MJzEL5k4ZXQGYOryCThfKABNJ493YSw2hPf6La3kt/SGy9Q=
+X-Gm-Gg: ATEYQzw0YQW8zH2K9u0XdTlHySgQeYNKZo/9QMaxSRceBTwcTDfeI6yZpZfb+M2kkre
+	kQeu08jaHGnf0RmlHJ3GmyUXPUgB6W/hF4oWq1hfjrPhfNFJ4zHsrgI/d2+hK3EzmS7teuYNa9k
+	yVV8M9Ymolsa4Zy+6dG4I7XNPB3sVLZ8DcvRuxjzrwfeQM00uvJ0OqK50jlszwJg/zM21FP7JVK
+	osexh8111vFINJHWDiJoBGOA9bDHQjm0rheJEk3VYtbhQCX62PAs49kjJXhnE0ICQD/y+4FWL0c
+	alYrLAVLVPb6FbAAGU0qFh31qxNbCv0QMzXa3WCKy+tjqe2onlyVYMs6RtT/flzpiYkzBPsGeaE
+	9zwV5evONx+AlvOB6PgEiZ9CBUB8M4wkwhJvczfysel9q6C12L8+v6yQr4oUHzeV5Xf6n1u6iDA
+	yvmwZ8UOGIyVj4TqHsQCQ7YzIl4sBdD4MEQklNmpEBmJjiug==
+X-Received: by 2002:a05:600c:1d1f:b0:486:d76c:fa57 with SMTP id 5b1f17b1804b1-48727eb81bbmr11253345e9.17.1774573407044;
+        Thu, 26 Mar 2026 18:03:27 -0700 (PDT)
+Received: from [192.168.0.167] ([109.76.111.26])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b9179b212sm12084513f8f.0.2026.03.26.18.03.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Mar 2026 18:03:26 -0700 (PDT)
+Message-ID: <fedd369d-a0fc-4dbd-9862-3b6e3a403764@linaro.org>
+Date: Fri, 27 Mar 2026 01:03:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-rk3588-csi2rx-v4-2-81c6bcfefa63@collabora.com>
-References: <20260305-rk3588-csi2rx-v4-0-81c6bcfefa63@collabora.com>
-In-Reply-To: <20260305-rk3588-csi2rx-v4-0-81c6bcfefa63@collabora.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Frank Li <Frank.li@nxp.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Kever Yang <kever.yang@rock-chips.com>, 
- Collabora Kernel Team <kernel@collabora.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Michael Riesch <michael.riesch@collabora.com>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774566600; l=2503;
- i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=eOx/3+fLG0p1riU9lvyNxwYlp2uG1DyRr96Nkcj8cCQ=;
- b=WX8zJtXNZ2DzUtXeA4tPKCgGn9gURRKTTXJy4EnZHg02/gU9BpDfUKzEmvJ4l0W7muZvZiFXu
- nIM6waggZduCn/3ByzcK3qGtRpHGJjluQE3BqKaqqQ7XtxQT4YG1KZK
-X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
- pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
-X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
- with auth_id=371
-X-Original-From: Michael Riesch <michael.riesch@collabora.com>
-Reply-To: michael.riesch@collabora.com
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Bryan O'Donoghue <bod@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260326-x1e-csi2-phy-v5-0-0c0fc7f5c01b@linaro.org>
+ <20260326-x1e-csi2-phy-v5-1-0c0fc7f5c01b@linaro.org>
+ <72ef6c9e-feb6-4e57-b8cc-7801bd748698@linaro.org>
+ <f1c8c412-1d27-4c83-8c5e-76b9369ea6e9@linaro.org>
+ <VwCtoebjwHqLTucsrGruvBpedA4k-Melt7C0DA0aHSVld3PeotwZdtMUm3EFpvQyScrl6yejmLaK7bY1avT1zQ==@protonmail.internalid>
+ <8ac55e5f-72ed-4331-bf42-92ccf97507dd@linaro.org>
+ <5d7d5bf8-4420-4d75-b928-820bb9233e52@kernel.org>
+ <99287afe-90cb-44d5-91db-14c6b0f729fd@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <99287afe-90cb-44d5-91db-14c6b0f729fd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57184-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-57187-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[michael.riesch@collabora.com];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:replyto,collabora.com:mid,0.0.0.0:email,fdd50000:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,0.0.0.1:email,fdc70000:email,fdd30000:email]
-X-Rspamd-Queue-Id: 3B52333CF34
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:mid]
+X-Rspamd-Queue-Id: 6A17333DB33
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Michael Riesch <michael.riesch@collabora.com>
+On 26/03/2026 14:49, Vladimir Zapolskiy wrote:
+> Here the description of hardware is done, and my point is that the new
+> PHY_QCOM_CSI2_MODE_SPLIT_DPHY phy type is simply not needed, since it's
+> possible to give a proper description of hardware without this invention.
 
-The Rockchip RK3588 features six MIPI CSI-2 receiver units:
- - MIPI0: connected to MIPI DCPHY0 (not supported)
- - MIPI1: connected to MIPI DCPHY1 (not supported)
- - MIPI2: connected to MIPI DPHY0
- - MIPI3: connected to MIPI DPHY0-1 (not supported)
- - MIPI4: connected to MIPI DPHY1
- - MIPI5: connected to MIPI DPHY1-1 (not supported)
-As the MIPI DCPHYs as well as the split DPHY mode of the DPHYs
-are not yet supported, add only the device tree nodes for the
-MIPI2 and MIPI4 units.
+Perhaps I'm not understanding you.
 
-Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+If we use PHY_TYPE_DPHY
+
+include/dt-bindings/phy/phy.h:#define PHY_TYPE_DPHY		10
+
+We _must_ then add SPLIT_MODE to phy.h if/when we implement that 
+support. Which means successfully arguing the toss of weather SPLIT_MODE 
+is a Qualcommism - a vendor specific mode or not.
+
+<&phy PHY_TYPE_DPHY> committed to an upstream dts will then need to be 
+supported perpetually.
+
+So for example qrb5615 - kona/rb5 support split mode.
+
+Pretend go with <&phy PHY_TYPE_DPHY>; and retrofit individual PHY 
+support to this platform.
+
+Grand so far.
+
+The pretend we want to switch from one sensor to a split-mode sensor on 
+the existing mezzanine.
+
+Then we need a representation of split mode in phy.h to represent that 
+in DT.
+
+<&phy PHY_TYPE_DPHY_SPLIT_MODE>;
+
+Except split-mode is not an appropriate mode to define in phy.h since it 
+is vendor specific - even if a few vendors support it, its not a generic 
+PHY mode.
+
+Hence we would have an enormously difficult time justifying adding that 
+mode to phy.h and rightly so.
+
+>> https://review.lineageos.org/c/LineageOS/ 
+>> android_kernel_motorola_sm6375/+/423960/1/drivers/cam_sensor_module/ 
+>> cam_csiphy/cam_csiphy_core.c#b285
+>>
+>> There is disjunction all over this file depending on the mode.
+>>
+>> https://review.lineageos.org/c/LineageOS/ 
+>> android_kernel_motorola_sm6375/+/423960/1/drivers/cam_sensor_module/ 
+>> cam_csiphy/cam_csiphy_core.c#b767
+
+
+OTOH
+
+- SPLIT_MODE will certainly require _both_ separate init sequences
+   and specific logical disjunction for additional configuration steps
+   lane-assignment and masking, etc.
+
+- That phy.h isn't the right location for SPLIT_MODE as its vendor
+   specific. Just look at the modes we have for the USB PHYs
+   same logic => include/dt-bindings/phy/phy-qcom-qmp.h same
+   raison d'être
+
+- And that specifying PHY_TYPE_DPHY now binds us into an ABI that we
+   cannot subsequently change - it will not be possible to introduce
+   include/dt-bindings/phy/phy-qcom-mipi-csi2.h later on with our mode
+
+So therefore include/dt-bindings/phy/phy-qcom-mipi-csi2.h + PHY modes is 
+the logical outcome.
+
 ---
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 52 +++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-index 7fe9593d8c19..6c593b0255c3 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-@@ -1430,6 +1430,58 @@ av1d: video-codec@fdc70000 {
- 		resets = <&cru SRST_A_AV1>, <&cru SRST_P_AV1>, <&cru SRST_A_AV1_BIU>, <&cru SRST_P_AV1_BIU>;
- 	};
- 
-+	csi2: csi@fdd30000 {
-+		compatible = "rockchip,rk3588-mipi-csi2", "rockchip,rk3568-mipi-csi2";
-+		reg = <0x0 0xfdd30000 0x0 0x10000>;
-+		interrupts = <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH 0>,
-+			     <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH 0>;
-+		interrupt-names = "err1", "err2";
-+		clocks = <&cru PCLK_CSI_HOST_2>;
-+		phys = <&csi_dphy0>;
-+		power-domains = <&power RK3588_PD_VI>;
-+		resets = <&cru SRST_P_CSI_HOST_2>;
-+		status = "disabled";
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			csi2_in: port@0 {
-+				reg = <0>;
-+			};
-+
-+			csi2_out: port@1 {
-+				reg = <1>;
-+			};
-+		};
-+	};
-+
-+	csi4: csi@fdd50000 {
-+		compatible = "rockchip,rk3588-mipi-csi2", "rockchip,rk3568-mipi-csi2";
-+		reg = <0x0 0xfdd50000 0x0 0x10000>;
-+		interrupts = <GIC_SPI 151 IRQ_TYPE_LEVEL_HIGH 0>,
-+			     <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH 0>;
-+		interrupt-names = "err1", "err2";
-+		clocks = <&cru PCLK_CSI_HOST_4>;
-+		phys = <&csi_dphy1>;
-+		power-domains = <&power RK3588_PD_VI>;
-+		resets = <&cru SRST_P_CSI_HOST_4>;
-+		status = "disabled";
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			csi4_in: port@0 {
-+				reg = <0>;
-+			};
-+
-+			csi4_out: port@1 {
-+				reg = <1>;
-+			};
-+		};
-+	};
-+
- 	vop: vop@fdd90000 {
- 		compatible = "rockchip,rk3588-vop";
- 		reg = <0x0 0xfdd90000 0x0 0x4200>, <0x0 0xfdd95000 0x0 0x1000>;
-
--- 
-2.39.5
-
-
+bod
 
