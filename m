@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-57301-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57302-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aNaALLO9xmnoNwUAu9opvQ
-	(envelope-from <linux-media+bounces-57301-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 18:26:11 +0100
+	id oECaIEG9xmnoNwUAu9opvQ
+	(envelope-from <linux-media+bounces-57302-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 18:24:17 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA23348508
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 18:26:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1B5348460
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 18:24:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 236663041BCD
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 17:12:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1BD9A313B544
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 17:13:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5703378D9F;
-	Fri, 27 Mar 2026 17:10:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78F8D3FE348;
+	Fri, 27 Mar 2026 17:11:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IvS+Gw28"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ni68RzW3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0AC3FB7EB;
-	Fri, 27 Mar 2026 17:10:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A783FCB02;
+	Fri, 27 Mar 2026 17:10:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774631459; cv=none; b=X2m/pondBa2qSf0Lq4ZLR9fE4E21nO3ihHMdfunNQ6HeXguxG/ZPVqaXNexIZdjlD1Tw1TYgpBIvunT+BC9kY/IyayT6PJ4ZnRAlN8IAghdZAmukI/WvlPJFbS76cg/4a+DL2lszfU6Ai7uUtmCnM5EWIbx4H0KY6JXpEl36/sk=
+	t=1774631461; cv=none; b=RjHPbML5D/8KRFahJOEsB54YufUS7iX0GZzwARLlP8AZVc+Tnpyh0W3sdwGDhuzXFuSLl+OAfAOVEK1E2N3XjPLEq5WNzZl/ecGtUkQVBJj1p+F4fKrmae7ebfzssHzWBsw7KFsvX1MWvGTJyUghU1FC1sjS8tpJx+dz5r11v94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774631459; c=relaxed/simple;
-	bh=stnYVSqBIs3TCyw3XnxM+KWKwzzvVsoFPE1+nZnHlY0=;
+	s=arc-20240116; t=1774631461; c=relaxed/simple;
+	bh=Qb3tqpAyzwaVkziy1vZhmQ0Ppg+QtpMKLAkSM/eIhH0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cKEq1om7i55Pl6zn/pnx5DKR4tpLHDgOa1NR8n0fAsxkas8Ga7hVzwIoGme6rBvtZff78gzqo0jddpeYlGaXF/tBZf4dcLEL2gopFTVak+XtI6n9t4fwFnxWwnSK+IBJQveY3y3SSC6Nn5oNHwXGARrKt07HLLT15rsV577uCHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IvS+Gw28; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=fX69XmFJBYISzz9LxLswRXgtwUeSjqUqZIeeXgqVgYOA0qD2FtVqMurIo7wudw9AC1ev8Su/TMl09w1QIl6SvENKAdd57rUtZpmKO7ISi+NlFoydTz3nyY0MojyiS9kMZFkyK+p/f1wAW1aMs9h8d07Fhmn4ZHHDgswnsZm1/+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ni68RzW3; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [100.93.44.16] (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91FCB307F;
-	Fri, 27 Mar 2026 18:09:23 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B96631A3;
+	Fri, 27 Mar 2026 18:09:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
 	s=mail; t=1774631364;
-	bh=stnYVSqBIs3TCyw3XnxM+KWKwzzvVsoFPE1+nZnHlY0=;
+	bh=Qb3tqpAyzwaVkziy1vZhmQ0Ppg+QtpMKLAkSM/eIhH0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=IvS+Gw28St5nn1kmeCR6uCZsfOchivkT+trRBn5vHasU+EQBkGIV8BhlzBbXGnk/C
-	 Cg0+CJhsm/bbLUeLSTMOjo9aHdRDpmXuSWlhSfYBPG8dLVCB9i0y66IP8RmDEIPnIl
-	 IJvm0FKm1isSb+50zo3Uf1mv7GOz9/mB8LmBlWEM=
+	b=Ni68RzW3iR7xS1qMv9ZRB5yi8vGxzay/OWzV9WqrlIKI5cGbS5wdtdK00hdmKos24
+	 Fl1FLkITYZLguHnQI/11BaODiBkopb8De42vO287wpJ265bQGu7st0dOiET8tRQHYw
+	 Mb7YqrrmhYkzOJecL8VCo+9GG3TAm8NrE48Ji3P8=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Fri, 27 Mar 2026 18:10:17 +0100
-Subject: [PATCH 12/14] media: rzg2l-cru: Rework rzg2l_cru_fill_hw_slot()
+Date: Fri, 27 Mar 2026 18:10:18 +0100
+Subject: [PATCH 13/14] media: rzg2l-cru: Remove the 'state' variable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260327-b4-cru-rework-v1-12-3b7d0430f538@ideasonboard.com>
+Message-Id: <20260327-b4-cru-rework-v1-13-3b7d0430f538@ideasonboard.com>
 References: <20260327-b4-cru-rework-v1-0-3b7d0430f538@ideasonboard.com>
 In-Reply-To: <20260327-b4-cru-rework-v1-0-3b7d0430f538@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -69,24 +69,23 @@ Cc: Daniel Scally <dan.scally@ideasonboard.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
- Daniel Scally <dan.scally+renesas@ideasonboard.com>, 
  Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4915;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6649;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=y/KNXji9b3BMk21cTyXg4JVTlo63mcVF5HC/4y5ov2Y=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBpxroKUnwMmKOV3cwFF5zqtNf5GxhNKsgor6OeD
- e8IJfcVt7WJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaca6CgAKCRByNAaPFqFW
- POaRD/9jpXM0xYqYQDQUriFgnVaIDnvgFSL/46U4sho3u/zWCU0mYnjMsJT6QPG/RRKMxkyY11x
- forv50kpcfKon8FZQ2T0hFNUC4owMI6/0A374AmK/Ora2MO/lezgrYMncxLXQJ/cwXdV82jrjZl
- 3XkjPbKflqa5HA+VrMXpEKAYYJdSwH3+9GjzDVANi7zlBfLgt1dOBO+qoexBwqVv5v3izyOvy0u
- 56/HU2SKR2aI3kdeuk0xU7/uq2nLp7KaKHvA4nFQ3T4FbKb+SSqkpTZYYMj3rk/LK/6TBvX3iWO
- wN2itGPy6HwrKvZVUzFRujow7OYOkMoW4jNQQwHdJam1w+6GtHLEkWpBzYY4QX5VjwiG8IrQZqU
- VfvGT5b1IY9MQsrF5LF7vxmxtBsx/xlA+7Qfo6ytcMAJ7b0OBJPfiYNGl+kz26FemXuDO49ocs4
- 8sKGg3rQhP6PwsdF9sj86wdoRPFlLX+8B/ZE17rZAInpb/+R5uOkt3pfXyYj3gNXiHz6aVQA3pH
- Pj5bNRZ5o8LJHyVaBLcqrKU0qCx36fGKGfuQAI7jmCtUgYWXH9sedcGEvR0TuiZNZ3XAyayN4/q
- rkHy/HQO1xzuyZOSqn5zUlXAH07pe0EWtJHQgFImDdQ0M0Qhuv6L+vgK0YIz2oku6hdW4fFIARG
- RkNPw8EwiXk4Bhg==
+ bh=LZozLAu666sEG2pxrWd3ABjylrlsRX+4kPnVmBg/vqE=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBpxroKRRpdLYUvHR9vNvJEoiKOCFH1tBUYc1kBA
+ 8H+7HcBoE6JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaca6CgAKCRByNAaPFqFW
+ PA+WD/9JUIUeS+qIhCFEWM9lENKO+jjkDPaQp8T3dik011UiR2RN8jMn3eZf4HmJl5FslDR2wvG
+ LYlzpUIR5e9CdmEvVbpcimcf0K+8ovHka/a9abqoCjFhAMwhAWbA+jy95uzUnE3U2LMcrzW60PC
+ cjyIjwhlhlAZxkgyNovqNqyoMiMVGzNVduTVGR2487n0vxy32N/ik5ibfL9RCNoufRAtta96g0l
+ lfKb/Q9e7uDnT+syT3weexXjcKntXfRnL4vPLzajbYfeWdjzbwUdktwRDNzeKxusg9cPnjZy14Y
+ GQ+cBdLLfSQ/HpjszGH5hR5qfsPoObkUDHIdHBheQXRZVrukILXlfWqoMfBFBMtCdgVgoerQJB5
+ lzoiQYmn75YnFk01JEB26uqvY+FiXJxYlXfXLSV2uFQrKN8s1WEdLFL9htaEAXKKTXiKQw2W+xx
+ 2NVmbYvugZZ2EB2svaUvzngckGihUjF1YHmIBkgTE97vtCUUMyKdmVKOCDQB7cwQFws7JEXiRQn
+ YQrq5ZcpbzXhI+2d4qW6GSb+f5XyFiu0VOgQYpx1jC6Uq1L8f2eO4hljVNb3aAEBnjnDJkz64Qs
+ gj23ujkE/zdig0HDJFe8Mhkuw+DJQ/hxFC1L/LdzV4r7yIIGkavwrsx56A2OVJMcrF9j10UFHGZ
+ mtDOztBS7RvB+DA==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -98,12 +97,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57301-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57302-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_CC(0.00)[ideasonboard.com,protonmail.com,bp.renesas.com,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -117,141 +116,211 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
-X-Rspamd-Queue-Id: 0BA23348508
+X-Rspamd-Queue-Id: 2A1B5348460
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
-The current implementation of rzg2l_cru_fill_hw_slot() results in the
-artificial loss of frames. At present whenever a frame-complete IRQ
-is received the driver fills the hardware slot that was just written
-to with the address of the next buffer in the driver's queue. If the
-queue is empty, that hardware slot's address is set to the address of
-the scratch buffer to enable the capture loop to keep running. There
-is a minimum of a two-frame delay before that slot will be written to
-however, and in the intervening period userspace may queue more
-buffers which could be used.
+The cru driver uses a 'state' variable for debugging purpose in the
+interrupt handler. The state is used to detect invalid usage conditions
+that are not meant to happen unless the driver has a bug in handling the
+stop and start conditions.
 
-To resolve the issue rework rzg2l_cru_fill_hw_slot() so that it
-iteratively fills all slots from the queue which currently do not
-have a buffer assigned, until the queue is empty. The scratch
-buffer is only resorted to in the event that the queue is empty and
-the next slot that will be written to does not already have a buffer
-assigned.
+Remove the state variable which seems to be a debugging leftover.
 
-Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 ---
- .../media/platform/renesas/rzg2l-cru/rzg2l-video.c | 62 ++++++++++++----------
- 1 file changed, 35 insertions(+), 27 deletions(-)
+ .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h   | 15 -----
+ .../media/platform/renesas/rzg2l-cru/rzg2l-video.c | 74 +---------------------
+ 2 files changed, 3 insertions(+), 86 deletions(-)
 
+diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+index bc66b0c8c15e..56359491739e 100644
+--- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
++++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+@@ -36,20 +36,6 @@ enum rzg2l_csi2_pads {
+ 
+ struct rzg2l_cru_dev;
+ 
+-/**
+- * enum rzg2l_cru_dma_state - DMA states
+- * @RZG2L_CRU_DMA_STOPPED:   No operation in progress
+- * @RZG2L_CRU_DMA_STARTING:  Capture starting up
+- * @RZG2L_CRU_DMA_RUNNING:   Operation in progress have buffers
+- * @RZG2L_CRU_DMA_STOPPING:  Stopping operation
+- */
+-enum rzg2l_cru_dma_state {
+-	RZG2L_CRU_DMA_STOPPED = 0,
+-	RZG2L_CRU_DMA_STARTING,
+-	RZG2L_CRU_DMA_RUNNING,
+-	RZG2L_CRU_DMA_STOPPING,
+-};
+-
+ struct rzg2l_cru_csi {
+ 	struct v4l2_async_connection *asd;
+ 	struct v4l2_subdev *subdev;
+@@ -173,7 +159,6 @@ struct rzg2l_cru_dev {
+ 	struct vb2_v4l2_buffer *queue_buf[RZG2L_CRU_HW_BUFFER_MAX];
+ 	struct list_head buf_list;
+ 	unsigned int sequence;
+-	enum rzg2l_cru_dma_state state;
+ 
+ 	struct v4l2_pix_format format;
+ };
 diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index a6b606c63f90..45b58e2183bf 100644
+index 45b58e2183bf..30424e2b6cc0 100644
 --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
 +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -215,49 +215,52 @@ static void rzg2l_cru_set_slot_addr(struct rzg2l_cru_dev *cru,
+@@ -399,8 +399,6 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
+ 	if (icnms)
+ 		dev_err(cru->dev, "Failed stop HW, something is seriously broken\n");
+ 
+-	cru->state = RZG2L_CRU_DMA_STOPPED;
+-
+ 	/* Wait until the FIFO becomes empty */
+ 	for (retries = 5; retries > 0; retries--) {
+ 		if (cru->info->fifo_empty(cru))
+@@ -588,8 +586,6 @@ static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
+ 
+ static void rzg2l_cru_stop_streaming(struct rzg2l_cru_dev *cru)
+ {
+-	cru->state = RZG2L_CRU_DMA_STOPPING;
+-
+ 	rzg2l_cru_set_stream(cru, 0);
  }
  
- /*
-- * Moves a buffer from the queue to the HW slot. If no buffer is
-- * available use the scratch buffer. The scratch buffer is never
-- * returned to userspace, its only function is to enable the capture
-- * loop to keep running.
-+ * Move as many buffers as possible from the queue to HW slots If no buffer is
-+ * available use the scratch buffer. The scratch buffer is never returned to
-+ * userspace, its only function is to enable the capture loop to keep running.
-+ *
-+ * @cru: the CRU device
-+ * @slot: the slot that has just completed
-  */
- static void rzg2l_cru_fill_hw_slot(struct rzg2l_cru_dev *cru, int slot)
- {
--	struct vb2_v4l2_buffer *vbuf;
- 	struct rzg2l_cru_buffer *buf;
-+	struct vb2_v4l2_buffer *vbuf;
-+	unsigned int next_slot;
- 	dma_addr_t phys_addr;
+@@ -601,8 +597,6 @@ irqreturn_t rzg2l_cru_irq(int irq, void *data)
+ 	u32 amnmbs;
+ 	int slot;
  
- 	lockdep_assert_held(&cru->hw_lock);
- 
--	/* A already populated slot shall never be overwritten. */
--	if (WARN_ON(cru->queue_buf[slot]))
--		return;
-+	/* Find the next slot which hasn't a valid address programmed. */
-+	for_each_cru_slot_from(cru, next_slot, slot) {
-+		if (cru->queue_buf[next_slot])
-+			continue;
- 
--	dev_dbg(cru->dev, "Filling HW slot: %d\n", slot);
-+		scoped_guard(spinlock_irqsave, &cru->qlock) {
-+			buf = list_first_entry_or_null(&cru->buf_list,
-+						       struct rzg2l_cru_buffer, list);
-+			if (buf)
-+				list_del_init(&buf->list);
-+		}
- 
--	guard(spinlock)(&cru->qlock);
-+		if (!buf) {
-+			/* Direct frames to the scratch buffer. */
-+			phys_addr = cru->scratch_phys;
-+			cru->queue_buf[next_slot] = NULL;
-+			rzg2l_cru_set_slot_addr(cru, next_slot, phys_addr);
-+			return;
-+		}
- 
--	if (list_empty(&cru->buf_list)) {
--		cru->queue_buf[slot] = NULL;
--		phys_addr = cru->scratch_phys;
--	} else {
--		/* Keep track of buffer we give to HW */
--		buf = list_entry(cru->buf_list.next,
--				 struct rzg2l_cru_buffer, list);
- 		vbuf = &buf->vb;
--		list_del_init(to_buf_list(vbuf));
--		cru->queue_buf[slot] = vbuf;
+-	guard(spinlock_irqsave)(&cru->hw_lock);
 -
--		/* Setup DMA */
-+		cru->queue_buf[next_slot] = vbuf;
- 		phys_addr = vb2_dma_contig_plane_dma_addr(&vbuf->vb2_buf, 0);
-+		rzg2l_cru_set_slot_addr(cru, next_slot, phys_addr);
- 	}
+ 	irq_status = rzg2l_cru_read(cru, CRUnINTS);
+ 	if (!irq_status)
+ 		return IRQ_RETVAL(handled);
+@@ -611,20 +605,9 @@ irqreturn_t rzg2l_cru_irq(int irq, void *data)
+ 
+ 	rzg2l_cru_write(cru, CRUnINTS, rzg2l_cru_read(cru, CRUnINTS));
+ 
+-	/* Nothing to do if capture status is 'RZG2L_CRU_DMA_STOPPED' */
+-	if (cru->state == RZG2L_CRU_DMA_STOPPED) {
+-		dev_dbg(cru->dev, "IRQ while state stopped\n");
+-		return IRQ_RETVAL(handled);
+-	}
 -
--	rzg2l_cru_set_slot_addr(cru, slot, phys_addr);
- }
+-	/* Increase stop retries if capture status is 'RZG2L_CRU_DMA_STOPPING' */
+-	if (cru->state == RZG2L_CRU_DMA_STOPPING) {
+-		if (irq_status & CRUnINTS_SFS)
+-			dev_dbg(cru->dev, "IRQ while state stopping\n");
+-		return IRQ_RETVAL(handled);
+-	}
++	/* Calculate slot and prepare for new capture. */
++	guard(spinlock_irqsave)(&cru->hw_lock);
  
- static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
- {
- 	const struct rzg2l_cru_info *info = cru->info;
--	unsigned int slot;
- 	u32 amnaxiattr;
+-	/* Prepare for capture and update state */
+ 	amnmbs = rzg2l_cru_read(cru, AMnMBS);
+ 	cru->active_slot = amnmbs & AMnMBS_MBSTS;
  
- 	/*
-@@ -266,8 +269,14 @@ static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
- 	 */
- 	rzg2l_cru_write(cru, AMnMBVALID, AMnMBVALID_MBVALID(cru->num_buf - 1));
+@@ -637,20 +620,6 @@ irqreturn_t rzg2l_cru_irq(int irq, void *data)
+ 	else
+ 		slot = cru->active_slot - 1;
  
--	for (slot = 0; slot < cru->num_buf; slot++)
--		rzg2l_cru_fill_hw_slot(cru, slot);
-+	/*
-+	 * Program slot#0 with the first available buffer, if any. Pass to the
-+	 * function 'num_buf - 1' as rzg2l_cru_fill_hw_slot() calculates which
-+	 * is the next slot to program.
-+	 */
-+	scoped_guard(spinlock_irq, &cru->hw_lock) {
-+		rzg2l_cru_fill_hw_slot(cru, cru->num_buf - 1);
-+	}
+-	/*
+-	 * To hand buffers back in a known order to userspace start
+-	 * to capture first from slot 0.
+-	 */
+-	if (cru->state == RZG2L_CRU_DMA_STARTING) {
+-		if (slot != 0) {
+-			dev_dbg(cru->dev, "Starting sync slot: %d\n", slot);
+-			return IRQ_RETVAL(handled);
+-		}
+-
+-		dev_dbg(cru->dev, "Capture start synced!\n");
+-		cru->state = RZG2L_CRU_DMA_RUNNING;
+-	}
+-
+ 	/* Capture frame */
+ 	if (cru->queue_buf[slot]) {
+ 		cru->queue_buf[slot]->field = cru->format.field;
+@@ -678,49 +647,18 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
+ 	u32 irq_status;
+ 	int slot;
  
- 	if (info->has_stride) {
- 		u32 stride = cru->format.bytesperline;
-@@ -698,7 +707,6 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
+-	guard(spinlock)(&cru->hw_lock);
+-
+ 	irq_status = rzg2l_cru_read(cru, CRUnINTS2);
+ 	if (!irq_status)
+ 		return IRQ_NONE;
+ 
+-	dev_dbg(cru->dev, "CRUnINTS2 0x%x\n", irq_status);
+-
+ 	rzg2l_cru_write(cru, CRUnINTS2, rzg2l_cru_read(cru, CRUnINTS2));
+ 
+-	/* Nothing to do if capture status is 'RZG2L_CRU_DMA_STOPPED' */
+-	if (cru->state == RZG2L_CRU_DMA_STOPPED) {
+-		dev_dbg(cru->dev, "IRQ while state stopped\n");
+-		return IRQ_HANDLED;
+-	}
+-
+-	if (cru->state == RZG2L_CRU_DMA_STOPPING) {
+-		if (irq_status & CRUnINTS2_FExS(0) ||
+-		    irq_status & CRUnINTS2_FExS(1) ||
+-		    irq_status & CRUnINTS2_FExS(2) ||
+-		    irq_status & CRUnINTS2_FExS(3))
+-			dev_dbg(cru->dev, "IRQ while state stopping\n");
+-		return IRQ_HANDLED;
+-	}
+-
++	guard(spinlock)(&cru->hw_lock);
+ 	slot = cru->active_slot;
  	cru->active_slot = rzg2l_cru_slot_next(cru, cru->active_slot);
  
  	dev_dbg(cru->dev, "Current written slot: %d\n", slot);
--	cru->buf_addr[slot] = 0;
  
- 	/*
- 	 * To hand buffers back in a known order to userspace start
+-	/*
+-	 * To hand buffers back in a known order to userspace start
+-	 * to capture first from slot 0.
+-	 */
+-	if (cru->state == RZG2L_CRU_DMA_STARTING) {
+-		if (slot != 0) {
+-			dev_dbg(cru->dev, "Starting sync slot: %d\n", slot);
+-			return IRQ_HANDLED;
+-		}
+-		dev_dbg(cru->dev, "Capture start synced!\n");
+-		cru->state = RZG2L_CRU_DMA_RUNNING;
+-	}
+-
+ 	/* Capture frame */
+ 	if (cru->queue_buf[slot]) {
+ 		struct vb2_v4l2_buffer *buf = cru->queue_buf[slot];
+@@ -730,9 +668,6 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
+ 		buf->vb2_buf.timestamp = ktime_get_ns();
+ 		vb2_buffer_done(&buf->vb2_buf, VB2_BUF_STATE_DONE);
+ 		cru->queue_buf[slot] = NULL;
+-	} else {
+-		/* Scratch buffer was used, dropping frame. */
+-		dev_dbg(cru->dev, "Dropping frame %u\n", cru->sequence);
+ 	}
+ 
+ 	cru->sequence++;
+@@ -789,7 +724,6 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
+ 		goto out;
+ 	}
+ 
+-	cru->state = RZG2L_CRU_DMA_STARTING;
+ 	dev_dbg(cru->dev, "Starting to capture\n");
+ 	return 0;
+ 
+@@ -862,8 +796,6 @@ int rzg2l_cru_dma_register(struct rzg2l_cru_dev *cru)
+ 	spin_lock_init(&cru->hw_lock);
+ 	spin_lock_init(&cru->qlock);
+ 
+-	cru->state = RZG2L_CRU_DMA_STOPPED;
+-
+ 	for (i = 0; i < RZG2L_CRU_HW_BUFFER_MAX; i++)
+ 		cru->queue_buf[i] = NULL;
+ 
 
 -- 
 2.53.0
