@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-57191-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57192-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id euNLC9EHxmn4FQUAu9opvQ
-	(envelope-from <linux-media+bounces-57191-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 05:30:09 +0100
+	id gNVqOlAexmnvGgUAu9opvQ
+	(envelope-from <linux-media+bounces-57192-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 07:06:08 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7723933F1C5
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 05:30:08 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4734533F620
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 07:06:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F1C42302EEA0
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 04:29:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D572B306A508
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 06:06:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67F093793BB;
-	Fri, 27 Mar 2026 04:29:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1D333A9F3;
+	Fri, 27 Mar 2026 06:06:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WGM+KhpR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z9Qx5miB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47ABC36CE1C
-	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 04:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2405431E852
+	for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 06:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774585791; cv=none; b=kd052uKrk6uZIaJLV0EevJwnrG1p3+YQ+MWzEpc1QnardZBQznAiSd2ryZqR77H7Q5O7/SMqpKIbyV1hnapaxFDlBOQIz9AVwlyqw9nMGX2e+INC7N1GLdybQv2jMEg9CJ7bXaZb1hPLOlTH6FvDJbcypsYAu2dTylF148kxOLE=
+	t=1774591561; cv=none; b=aaj2mGD4DEBZIg1V0T3bnztO1Qh0jTBP2qgh8mTcTVsntsJBRGUj0RBcpEMOVcnIA9H03p9TNue7eFks+NhIDYY4yxmZ+uyPAcYs3g2BHppvycqKDqJXEuqxoE+117/at48LZ3qt0fR0vAuMr11TXdRumppG8h2F9OPozVbwk0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774585791; c=relaxed/simple;
-	bh=gC610/+SrXVHB5xLu4VsSgoGuEZhyoeFyzm5JCVZpJM=;
+	s=arc-20240116; t=1774591561; c=relaxed/simple;
+	bh=4YKoegXNl/z95DhhSsl6seq1dNu1HoG7+gaZVeQtUto=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nc0P2Ij/zdWwNqOXDO7g1D+pK/ZTAt2QV3QD15/69a6W4643/JDrFgY3qqq9U3Qb5E7Fx8chi/Ktx+ynhUwvGdIQPdl3zrkzXMwSGdVEvgeZms6WCA/Vdrvv/aP+YRZlIvTADX6rQTo5eYt6SyU7DSFtBcivCWGL16eAcNAHSng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WGM+KhpR; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=p10BOKS0bcDkBzguOWowFoAMYqksQGbFhURJHjIsaCxU76GL/VF7xnGFaWLVO9ygyt7SCuDsNRKX3ObDQwLCkzISF/UY0F1BEBT/Nei15FT6Se7SK3DEE9R/DWKwveZPpBiVCvsilipdd7uUosH3SVr0CT80QCTMxZegV+EOLA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z9Qx5miB; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774585790; x=1806121790;
+  t=1774591559; x=1806127559;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gC610/+SrXVHB5xLu4VsSgoGuEZhyoeFyzm5JCVZpJM=;
-  b=WGM+KhpRxXlrzOFNdqxIkmHH4aFNb9box3W6nEN0CnwtACpUk5nMtDNL
-   sH9YlU04ghA4rdkELsZ/piYKNXi8+Odi5T+FjoA/ndsuUfQ/xs1TsW6/m
-   ZM2nWNjHoZ4JNPC6WiLi3FIL00LRMrJCuO5s3IFMf5TpAj3xhIGsSJ31n
-   HkY1YuozmHcl4MAj3ST0lxNf/G4DBKvxMHxuJ27Gme7nT+FZtwKULqOIJ
-   A1DdltGCc47yXbMtBwUmbEK/i2jZzK+Wsdmwrlwi5s62prbpNqg485Iud
-   C6sg/FcgbQPivFGLBBlu/9B49R798/+581ld2tI5TPL4Gaz0x7QqHJWBR
-   A==;
-X-CSE-ConnectionGUID: HK0bWh0MS0CloY/gc3WGlA==
-X-CSE-MsgGUID: mMcxeyS3SO+iLVlXNpJmCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="74838987"
+  bh=4YKoegXNl/z95DhhSsl6seq1dNu1HoG7+gaZVeQtUto=;
+  b=Z9Qx5miBYsh+77nrQ2AFMdKC297HUlZj9eU0xdswDEzpfELeJQBYTQHH
+   ySiO4gXPq8JXwHTDsuK9Ull/D21OGneeMAx43ZjllumBIyJBj7SYQNxKB
+   kFKoGYM2pvtndiQGXhdkzZaFjcjuYvh5B8UBj7/KeOfDBk7QWSPXmuw5k
+   5WkOUK2wJyTkXOeg+SSSfBjL8gnqtaJQ/DqLqSF2ZRgV9/ptncjtdioqI
+   GzUxmZYC63ZruPvJTK3E3V+6Twi8sDXwehKgF2Kx74hfqzPONS82DQuif
+   5BbvcWwsx8qlV/JotAvnyzuHIkO/xGl0x8GZdxdltelX9DAr3CRKZvOcx
+   w==;
+X-CSE-ConnectionGUID: 94TXQKrSQ3uLbbaULiY62A==
+X-CSE-MsgGUID: FvN2jM8mSPKKt+wP67yb4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75564855"
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="74838987"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 21:29:49 -0700
-X-CSE-ConnectionGUID: ay9Mg7m1Rl6tvLSwPYx2pg==
-X-CSE-MsgGUID: wnU7UEujQ7eWYwsVZpgWlA==
+   d="scan'208";a="75564855"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 23:05:59 -0700
+X-CSE-ConnectionGUID: TOgSNZoFTa6yMCF9aDABVA==
+X-CSE-MsgGUID: 90r2Y3HFQnyeACP5T/GSSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="220803128"
+   d="scan'208";a="218604192"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Mar 2026 21:29:46 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 26 Mar 2026 23:05:56 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5ypL-000000009ll-3htM;
-	Fri, 27 Mar 2026 04:29:43 +0000
-Date: Fri, 27 Mar 2026 12:29:08 +0800
+	id 1w60KP-000000009qv-3Gfk;
+	Fri, 27 Mar 2026 06:05:53 +0000
+Date: Fri, 27 Mar 2026 14:05:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Carlier <devnexen@gmail.com>,
 	Daniel Scally <dan.scally@ideasonboard.com>,
@@ -73,10 +73,10 @@ To: David Carlier <devnexen@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Nayden Kanchev <nayden.kanchev@arm.com>,
 	Hans Verkuil <hverkuil@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	David Carlier <devnexen@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, David Carlier <devnexen@gmail.com>
 Subject: Re: [PATCH] media: mali-c55: fix resource leaks in probe and remove
-Message-ID: <202603271219.b8QddrPS-lkp@intel.com>
+Message-ID: <202603271400.K56xZKaE-lkp@intel.com>
 References: <20260326190052.11780-1-devnexen@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -91,13 +91,13 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-57191-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57192-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com,ideasonboard.com,kernel.org,arm.com];
 	RCVD_TLS_LAST(0.00)[];
@@ -112,10 +112,10 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,intel.com:dkim,intel.com:email,intel.com:mid]
-X-Rspamd-Queue-Id: 7723933F1C5
+	RCPT_COUNT_SEVEN(0.00)[10];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,intel.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,01.org:url]
+X-Rspamd-Queue-Id: 4734533F620
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -133,21 +133,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/David-Carlier/media-mali-
 base:   git://linuxtv.org/media_tree.git master
 patch link:    https://lore.kernel.org/r/20260326190052.11780-1-devnexen%40gmail.com
 patch subject: [PATCH] media: mali-c55: fix resource leaks in probe and remove
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260327/202603271219.b8QddrPS-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271219.b8QddrPS-lkp@intel.com/reproduce)
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260327/202603271400.K56xZKaE-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271400.K56xZKaE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603271219.b8QddrPS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603271400.K56xZKaE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/media/platform/arm/mali-c55/mali-c55-core.c: In function 'mali_c55_probe':
->> drivers/media/platform/arm/mali-c55/mali-c55-core.c:883:1: warning: label 'err_free_context_registers' defined but not used [-Wunused-label]
+>> drivers/media/platform/arm/mali-c55/mali-c55-core.c:883:1: warning: unused label 'err_free_context_registers' [-Wunused-label]
      883 | err_free_context_registers:
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
 vim +/err_free_context_registers +883 drivers/media/platform/arm/mali-c55/mali-c55-core.c
