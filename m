@@ -1,79 +1,81 @@
-Return-Path: <linux-media+bounces-57220-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57221-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mIjxKShmxmnnJgUAu9opvQ
-	(envelope-from <linux-media+bounces-57220-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 12:12:40 +0100
+	id IJtPCdBpxmmkJwUAu9opvQ
+	(envelope-from <linux-media+bounces-57221-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 12:28:16 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418293432C8
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 12:12:40 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 985723436F6
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 12:28:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 39F18304307F
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 11:11:16 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 75B75305BFF8
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 11:24:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7C823DFC80;
-	Fri, 27 Mar 2026 11:11:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B65983DB64B;
+	Fri, 27 Mar 2026 11:24:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d7MluYe9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c4ujPzDL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A301C3ACA4E;
-	Fri, 27 Mar 2026 11:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51203BED1D;
+	Fri, 27 Mar 2026 11:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774609869; cv=none; b=dtbqgxqpmkr9IYUi0906NjJTyAa2dhlPx4Z4TQFWQJB3RPnXXS+r2k9LbTuCAPlVNhwJstxkcIYBOvaOf+vfU2d7IgG7GTaV6nQc6dOzrnm7O8z3sN2yiwjCdlvkZGvUESJOGmJs9Pb6WEQDGbqo/SUwNwYrlNjbeDa2b/URizY=
+	t=1774610663; cv=none; b=gPBo5QeCLhy5DmkRD3NFP4UnfSxJpawFbbtyOfVmxqW3ZvhUBe7dfb7eIuJ0NRw+2c8Mj44qkJeJlqp9XveNvGWV8fwhlwtm5MFW0WZPqmg8jVeaPEjuoULwZKnxY21+M5/SGSFknJGhRl13uqO+DzIItYlDGsS3m9OyAt6W8hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774609869; c=relaxed/simple;
-	bh=KWTxbWtHXsjI+mpUK5s7SUAbfDdT7EgWH8G6b4L95CA=;
+	s=arc-20240116; t=1774610663; c=relaxed/simple;
+	bh=ojNQ6+TkSwL0/TNIXneOlFJO+/K4GmoOQtz7nh2uvSs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IBLP834v2OKFdEsGiYXFobz6228egf7HL30nV2HGTj1k+Gem6b90/3Q73z8jNglKqPlgal9zTcm6qZ8cOTmgcz/Pq9UOZgGaHJYr/VUAzMP7vI6+2EqMyomw5QQ/O23KyndQx7NiIIWeSyUywJyUNUWvJlJmlryfKFuo04jFhF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d7MluYe9; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=OhFXMEs2SwrVptdb6e+aR8ZxdptJwXGpCjBBcAMkHkRIbO7Qv9XOwEfrvSgy4PDmMFwwfx4XKTxODqPvRgny/LBC0PUbeJ9tmDRJXwNBY5brEGltqSeJNgUXB3Gh775kLLp+O34hSBokpw5C+H6hr7fgMVxB7Z5bGEd9qjipvdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c4ujPzDL; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774609863; x=1806145863;
+  t=1774610661; x=1806146661;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KWTxbWtHXsjI+mpUK5s7SUAbfDdT7EgWH8G6b4L95CA=;
-  b=d7MluYe9A71Hxd1SUbDc31z3SB10y8ie7TLjuXzvEBx2ddYCyA3rjTtz
-   bkPsiboo3SRIQlJRCWkaDw+8l/Bo77o/zSqHZZUjokOg+8inycOK6Ui3G
-   Teo5iqkY2fOhlBq4f1uj28YI4ETx6az+tHIjpWPfgbdiuSm1N6XNinSyz
-   xRhtvrIdPlDDnrYObziCiBlgjlFSYc7Lo2o6SE/X0wQeRa5X21zUrnPPG
-   /IeUhnJvJHJQ4cGFXNRTr9p9doAB+02pb4vU3aZ4H1zYUXKd/er8vnZGm
-   55zPjBo0pRpT+HODFUnYokH6AMoGTPXXJnKPtVbrkAhxstCb/Xd98YnVY
-   Q==;
-X-CSE-ConnectionGUID: cGDZ/5ZxTTKJXjzcWcpuOA==
-X-CSE-MsgGUID: eQxjLCpVR7GNy0UjP8Xlxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75746792"
+  bh=ojNQ6+TkSwL0/TNIXneOlFJO+/K4GmoOQtz7nh2uvSs=;
+  b=c4ujPzDL6y8fmAtBT5LKWPT0UZoB8ePpiUUzj1DigQjrcBzuq7VGjriV
+   9tFWZKNpTCMbt+V/SXR2zhbgFs3fzyx9Z9wY4rQ+nXes/xZQk9pJDKdjS
+   cKFkpZZQmOV5+aasRekZp35Y+B2w6Ze6m/K1CCjCMax6OslQMQHS3Ca84
+   k8fOrxw1CN8T7jmwIeWQ540ZGVKLMx2bivEv0b8ZaHKZvUJrCxA15Ecjh
+   6RbGfmEiNy/UkwJhOxJ+p1PhTaY1pR2IEhRt/j/rlO/J6n8vvyvHd/W/Z
+   jsuIdeD7D/pVkIcqRAw1m70Z1By4lOIV8y33D6XjErMDEp1EUakKfYJV+
+   A==;
+X-CSE-ConnectionGUID: eK7ywtwrQDa7JDF+qW+ROA==
+X-CSE-MsgGUID: I0G0CcwpRjaK4Q3l2uvw1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="86374343"
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="75746792"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:11:01 -0700
-X-CSE-ConnectionGUID: 0PUrURj5T4e0KoJal+Tmpg==
-X-CSE-MsgGUID: MfH00wg2SheleZ0qmdwWdQ==
+   d="scan'208";a="86374343"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:24:20 -0700
+X-CSE-ConnectionGUID: awLHmNY9Tc6BFNtDsqv6hw==
+X-CSE-MsgGUID: vnVvIO/pTzaSFMBs3dXioQ==
 X-ExtLoop1: 1
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.127])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:10:58 -0700
-Date: Fri, 27 Mar 2026 13:10:56 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chethan C <mail.chethanc@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kees Cook <kees@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Osama Albahrani <osalbahr@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6] staging: media: av7110: fix coding style
-Message-ID: <acZlwLpm9oMODXjc@ashevche-desk.local>
-References: <20260324184259.694280-1-mail.chethanc@gmail.com>
+X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
+   d="scan'208";a="229768932"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.137])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:24:17 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id B501E121DA0;
+	Fri, 27 Mar 2026 13:24:20 +0200 (EET)
+Date: Fri, 27 Mar 2026 13:24:20 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Anushka Badhe <anushkabadhe@gmail.com>
+Cc: andriy.shevchenko@intel.com, andy@kernel.org,
+	gregkh@linuxfoundation.org, hansg@kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mchehab@kernel.org
+Subject: Re: [PATCH v6] staging: media: atomisp: fix GP_TIMER_BASE scope in
+ gp_timer.c
+Message-ID: <acZo5LUXH70-UKUi@kekkonen.localdomain>
+References: <20260327031106.10386-1-anushkabadhe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,82 +84,170 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260324184259.694280-1-mail.chethanc@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+In-Reply-To: <20260327031106.10386-1-anushkabadhe@gmail.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57220-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57221-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,suse.com,gmail.com,ideasonboard.com,vger.kernel.org,lists.linux.dev];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:dkim,ashevche-desk.local:mid]
-X-Rspamd-Queue-Id: 418293432C8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,kekkonen.localdomain:mid]
+X-Rspamd-Queue-Id: 985723436F6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Mar 25, 2026 at 12:12:44AM +0530, Chethan C wrote:
-> Fix indentation and alignment issues reported by checkpatch.pl.
+Hi Anushka,
+
+Thanks for the update.
+
+On Fri, Mar 27, 2026 at 08:41:06AM +0530, Anushka Badhe wrote:
+> GP_TIMER_BASE is only used in gp_timer.c and it does not need to be
+> globally visible.
 > 
-> Rename enums av7110_rec_play_state, av7110_type_rec_play_format,
-> and av7110_encoder_command to follow kernel naming style.
+> Move its declaration from system_local.c to gp_timer.c and make it file
+> local by marking it static. Remove external declaration from system_local.h
+> and its usage in gp_timer.h
 > 
-> Rename wssData and wssMode to wss_data and wss_mode to avoid
-> camelCase identifiers.
+> This fixes a sparse warning about global visibility and cleans up
+> unnecessary global exposure.
+> 
+> Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
+> ---
+> Changes in v6:
+> - Mark scope of GP_TIMER_BASE static
+> 
+>  Changes in v5:
+> - Move GP_TIMER_BASE definition to gp_timer.c
+> - Remove extern from system_local.h
+> - Remove include of system_local.h from gp_timer.h
+> 
+> Changes in v4:
+> - Remove unrelated block comment style fixes
+> 
+> Changes in v3:
+> - Add commit description
+> - Fix subject prefix to staging: media: atomisp:
+> 
+> Changes in v2:
+> - Fix block comment style (move closing */ to its own line)
+> - Merge split GP_TIMER_BASE declaration onto a single line
+> 
+> Note:
+> * This patch is part of the GSoC2026 application process for device tree
+> binding
+> s conversions
+> * https://github.com/LinuxFoundationGSoC/ProjectIdeas/wiki/GSoC-2026-Device-Tree-Bindings
+> 
+>  .../media/atomisp/pci/hive_isp_css_common/host/gp_timer.c  | 7 ++++++-
+>  .../media/atomisp/pci/hive_isp_css_include/gp_timer.h      | 1 -
+>  drivers/staging/media/atomisp/pci/system_local.c           | 6 ------
+>  drivers/staging/media/atomisp/pci/system_local.h           | 5 -----
+>  4 files changed, 6 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c
+> index d04c179a5ecd..0c1b67988dd9 100644
+> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c
+> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c
+> @@ -11,7 +11,12 @@
+>  #ifndef __INLINE_GP_TIMER__
+>  #include "gp_timer_private.h"  /*device_access.h*/
+>  #endif /* __INLINE_GP_TIMER__ */
+> -#include "system_local.h"
+> +
+> +/*GP TIMER , all timer registers are inter-twined,
+> + * so, having multiple base addresses for
+> + * different timers does not help
+> + */
+> +static const hrt_address GP_TIMER_BASE = (hrt_address)0x0000000000000600ULL;
 
-TL;DR: one hunk should be not touched (see below).
-Otherwise LGTM.
+Please don't move the defition here. There's a reason for keeping it in the
+same location with the rest of the offsets. There's a lot to cleanup here
+but what should be done is roughly:
 
-...
+- Make these constants macros (with IPU2_ or ATOMISP2_ prefix?) and move
+  them into a separate header (perhaps with register definitions?).
 
-> @@ -551,7 +573,7 @@ static ssize_t dvb_aplay(struct av7110 *av7110, const char __user *buf,
->  			if (nonblock)
->  				return count - todo;
->  			if (wait_event_interruptible(av7110->aout.queue,
-> -						     (dvb_ringbuffer_free(&av7110->aout) >= 20 * 1024)))
-> +			(dvb_ringbuffer_free(&av7110->aout) >= 20 * 1024)))
+- Remove my_env and make struct device (or maybe struct atomisp_device?) as
+  a parameter for register access functions.
 
-This change is wrong.
+This may get a bit complicated due to the amount of cleanup needed so
+having the hardware for testing would be rather essential.
 
-Also one may consider to replace 20*1024 with proper HZ-dependent value.
-(But the latter one should be done separately.)
+>  
+>  /* FIXME: not sure if reg_load(), reg_store() should be API.
+>   */
+> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
+> index 94f81af70007..e651d9ef1114 100644
+> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
+> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
+> @@ -21,7 +21,6 @@
+>   *	- local:   system and cell specific constants and identifiers
+>   */
+>  
+> -#include "system_local.h"    /*GP_TIMER_BASE address */
+>  #include "gp_timer_local.h"  /*GP_TIMER register offsets */
+>  
+>  #ifndef __INLINE_GP_TIMER__
+> diff --git a/drivers/staging/media/atomisp/pci/system_local.c b/drivers/staging/media/atomisp/pci/system_local.c
+> index a8a93760d5b1..8d4fd80f8984 100644
+> --- a/drivers/staging/media/atomisp/pci/system_local.c
+> +++ b/drivers/staging/media/atomisp/pci/system_local.c
+> @@ -83,12 +83,6 @@ const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID] = {
+>  	0x0000000000000000ULL
+>  };
+>  
+> -/*GP TIMER , all timer registers are inter-twined,
+> - * so, having multiple base addresses for
+> - * different timers does not help*/
 
->  				return count - todo;
->  		}
+This comment could benefit from fixing, regarding both formatting and
+language.
 
-...
-
-> -		av7110->wssData = ((d.data[1] << 8) & 0x3f00) | d.data[0];
-> +		av7110->wss_data = ((d.data[1] << 8) & 0x3f00) | d.data[0];
-
-Another side note: This kind of changes can be properly converted to use
-get_unaligned_le16() & GENMASK(). But it's another story.
+> -const hrt_address GP_TIMER_BASE =
+> -    (hrt_address)0x0000000000000600ULL;
+> -
+>  /* GPIO */
+>  const hrt_address GPIO_BASE[N_GPIO_ID] = {
+>  	0x0000000000000400ULL
+> diff --git a/drivers/staging/media/atomisp/pci/system_local.h b/drivers/staging/media/atomisp/pci/system_local.h
+> index 970f4ef990ec..2bd46f5123fb 100644
+> --- a/drivers/staging/media/atomisp/pci/system_local.h
+> +++ b/drivers/staging/media/atomisp/pci/system_local.h
+> @@ -53,11 +53,6 @@ extern const hrt_address FIFO_MONITOR_BASE[N_FIFO_MONITOR_ID];
+>  /* GP_DEVICE (single base for all separate GP_REG instances) */
+>  extern const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID];
+>  
+> -/*GP TIMER , all timer registers are inter-twined,
+> - * so, having multiple base addresses for
+> - * different timers does not help*/
+> -extern const hrt_address GP_TIMER_BASE;
+> -
+>  /* GPIO */
+>  extern const hrt_address GPIO_BASE[N_GPIO_ID];
+>  
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Kind regards,
 
-
+Sakari Ailus
 
