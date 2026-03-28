@@ -1,51 +1,84 @@
-Return-Path: <linux-media+bounces-57401-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57402-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cATsMLUWx2mWSgUAu9opvQ
-	(envelope-from <linux-media+bounces-57401-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 00:45:57 +0100
+	id EDDREckjx2lATgUAu9opvQ
+	(envelope-from <linux-media+bounces-57402-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 01:41:45 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D1834C825
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 00:45:56 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA8E34CC21
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 01:41:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 400443079E6D
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2026 23:42:05 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C6DFF302824A
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 00:41:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75A1938F936;
-	Fri, 27 Mar 2026 23:40:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6854A1FBEB0;
+	Sat, 28 Mar 2026 00:41:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iUdkJeZI"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="viLd/j5O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49E71D5170;
-	Fri, 27 Mar 2026 23:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA081F03D9
+	for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 00:41:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774654856; cv=none; b=kf5Foq5nmQt5F01HdWaoxaSj4yekT2McXu9A20zbS1TYJZExC/7375NqLUST60+5wOm3+DahNURNkZgpV+v42yqFA5u6mU4cCmaNHAeC/ZukNr7geaQCBzcS/R3noufJ7PeczeKv9QLe2zpi7qZQfZbw2FztOLf5sCKCtSsefrU=
+	t=1774658488; cv=none; b=HAlWXxmawq4HACVoN4f/XmuOKIR45F17vFyiAcdqKc7AVY+sYssMfY1XryY2+z/eot5HPzvPxvBYQWw3q7E2Ea9Lc+QJJIrtjJgxDEgoQPrBsoeWO82sLbaOanyQnERAE6PDEzQGLMcA6KMiuyPW6M6gP4tLlg2zoVrasCPZb98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774654856; c=relaxed/simple;
-	bh=sByxVQRXRO33XAc5dfOqJ5M+BSrugSeygBYgV/aa6II=;
+	s=arc-20240116; t=1774658488; c=relaxed/simple;
+	bh=vWi5PsX3/N3kIUZKJo1GpcR0ab9hV2ov2mnFXm2V5+8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YC+gRhqCnqgTvjE9SBUtRmFZdsRL2W8DUBJ8W7Fr3czrax90/kmIC+qK2NH1SBigij42cQlYeKsb4qoY4C1t99mTTOO8qwgWP0r/rRKS9hifemYHBX2vkasa/awaadMsVvibiudp85fIu5hYagd2u7HAPi3E4/T2zrNGGT4LcGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iUdkJeZI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7826DC19423;
-	Fri, 27 Mar 2026 23:40:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774654856;
-	bh=sByxVQRXRO33XAc5dfOqJ5M+BSrugSeygBYgV/aa6II=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iUdkJeZIC/EPizOX4gTS5UdxRRAMfuT5H1Lnb7bOWM3FkLLzFc1hZELrB9U/+uXFU
-	 in9WNNykZWSU0dDg16nEdiXIWyxZuDgAtpTBs9GKjGhYB/bnT57a6D0D2Ft6+7KoWE
-	 i19kVhrn+JFHFUMLHhxA9NePNl8LtnQVI+kiCFifIqhxTNMVK8lkrWeQwnQqvCfloz
-	 DtkFLArCgPndN9MwE2s/h4ZHp9hpo6FZRR00CH6MvI0a/hf8iHWUUdKSOY1g4oaOB3
-	 X+M4teyIFo3t2L4+MTVkTxTAKYFslMNUdmHapftc/PlHJz5ClJ5ZqUcBPk9zp5Bzs3
-	 s0YVh1k/GXmIA==
-Message-ID: <0322e0b3-bce8-4415-90b2-d14445986e23@kernel.org>
-Date: Fri, 27 Mar 2026 23:40:51 +0000
+	 In-Reply-To:Content-Type; b=EEB/v249rx5ZGszhPPJ3DpJTsO+wc8hFeZ3YuQzFRB13uAps0BnIO5/H9Tewbv9VnrX7qe1gLKYMga9LXvyvp8lD7gq0d94+3T60O1dfkaN7KkGEene4OWCVSjQURzUtfw7ogwDhUwdKvqjRNnUZok5IQzVr6b8M6Ndw1Y6mX/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=viLd/j5O; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-38a2fb8ad36so1047151fa.0
+        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 17:41:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1774658486; x=1775263286; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NGqFSu/F2IhY+ii28nyc1IJ0LboHG+irAmTUkiXh190=;
+        b=viLd/j5O2afh9CeeL7DUdhStyVjJFcDF6ElR5yozqSLwFVxltdeipYPTM1iqpOs4S8
+         g9GsGm3EWDd++XvTgzutVAxDs5PWlCYE8iwpsr20wVhGW+syqxXc91zb7A/Wrv8KqMwB
+         ce+TfK90UvO4J7mcE1f2IQGWsa2oDkPI/8tUD+ZmEW8w9p3RVf2IDk449ZRYjsAj10P+
+         HSkBpOQktql+AC5srfbOj5lW+eMmdtIHEYIeT3Z9h7UjbYxH2iah2Jl9AO46jsYTTyPD
+         FIcAlepEXvAEItXFvoH7twz0c4pBbfOdO1VbfobrczypBqYVghDP+X88afwuvrArF780
+         IvEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774658486; x=1775263286;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NGqFSu/F2IhY+ii28nyc1IJ0LboHG+irAmTUkiXh190=;
+        b=ZPsXfxxi0WcCi762oo8r4Ke72OWcDpVdFEMuYB4Cg9JQV0kPDloReddWcZwBvqAhd6
+         aP3aGglvkgPRb2N2kzTREbrSLvwQYA7EOLVMtNi6pNvufQ0+St5g27Cs9aMNDr1pj6+l
+         a+0/ISw1mbVd7c5tD/3HpJrmJT7dxFO1jq1WpGr44hB+YKXg7opOgtFtRTokML8OJLBt
+         TDw4BvV6dit4L2HTeys66u8i1kR2DUiOE7ROqMdtWxkl4PtPA64qORf13qRfraI+w5pI
+         pikhn7ef4pceMpZJW8R/0dmg2rvIRtm6wzXdYr+h71rlgOhrwG1E6zjpEhQhusRLBhGV
+         75vQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWB8uRK32FCXJdbx9E2Gepszl76DVfEHPER+KC055zLmF/3+mj2p2Ec57mctNcjBWqM3HcXr8wytUr+cw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuUsjL4qU34ooeDtqZ5XDsyBYG03gbuA4gp0nQIs6gYAa10MfG
+	NJXZ9nbtJlXyOgJiNlyBsnmziOI1ZDyc+NS6usYQclgMh6cog8t83rVP431JDWqq050=
+X-Gm-Gg: ATEYQzwLnw8+8ZEHKIV2Psd/hIr5FQbJzI6MqKUohUOAjMg/a9TNT+CEizKr6q7aFhT
+	Ebw8A4GCy6wq71kDkVG3oP8BhSmpJjEv77eDHOVTd1zqcLJsC03qsMkWAvXR5W0hTSGHEgM8OOg
+	pe6EtJT1y3FiAQd67NkXlYvt3GlhPyTTSYfAiuApn0lO+M4ga9UAzDn5zCKldr4RjzAakM/Odyt
+	6wTQyxrbGl+sDv8yHZK1pxHeHCCKgkmOk9n9ZspxeTtsog4k2hmMMXYiCfAXQqpvjPK0V7zNEGg
+	hzmc/YIDJGiCOh71V1RS/I5OJS/zDM83tAOUHQOleXZUUALq0wOtM+F5lPyCBdMbwY5mtDKioi/
+	LE0frj9Aiv2ZTS8aBg1k5joNN0ycekBPrvzHuIN4Jw55tWhb/3xJd8EcNNos4qWdFPyx9Ee9zCd
+	faMkI5Guv27IzsAYjBfqUdyvd87tvA8Bzw4UgfYz3vnG6GmHUKg/vlpG6owFpXSNUway4IJMVBB
+	j6g0+/NRfMcO1Qg
+X-Received: by 2002:a05:651c:4cb:b0:38a:3473:526d with SMTP id 38308e7fff4ca-38c740675c0mr7346841fa.7.1774658485521;
+        Fri, 27 Mar 2026 17:41:25 -0700 (PDT)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38c8389524esm1397891fa.21.2026.03.27.17.41.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Mar 2026 17:41:25 -0700 (PDT)
+Message-ID: <d2ebd15d-71d1-4063-903c-2b5971696a5a@linaro.org>
+Date: Sat, 28 Mar 2026 02:41:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,10 +87,10 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Bryan O'Donoghue <bod@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Vinod Koul
+ <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org,
@@ -73,46 +106,43 @@ References: <20260326-x1e-csi2-phy-v5-1-0c0fc7f5c01b@linaro.org>
  <2houacfdkozzk35ky5xtwe3utkvyx4lroyrhvibb5lg6lad2g6@56akvtqigaep>
  <556a6736-472d-4551-b5df-15e809e7e20e@kernel.org>
  <a44a0f58-11cd-4aa4-962f-a5b153e24d82@linaro.org>
- <vcj9b-49PycEnk8KeGcgXAaN09KfYZnW7g0LayiEPie9p-4krmMDfNO6Nx4DLgwoKHdKJughl7zoxvmKVkqOag==@protonmail.internalid>
  <qr6ubhjlzxenx7rswwkfu2nkc7ci5hw5tynpipa76bqsibbd3d@rw5d55vjnkbe>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 In-Reply-To: <qr6ubhjlzxenx7rswwkfu2nkc7ci5hw5tynpipa76bqsibbd3d@rw5d55vjnkbe>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57401-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	DBL_PROHIBIT(0.00)[0.0.0.0:email];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57402-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,0.0.0.1:email]
-X-Rspamd-Queue-Id: C7D1834C825
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:mid]
+X-Rspamd-Queue-Id: 4DA8E34CC21
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 27/03/2026 23:23, Dmitry Baryshkov wrote:
+On 3/28/26 01:23, Dmitry Baryshkov wrote:
 > On Sat, Mar 28, 2026 at 01:12:22AM +0200, Vladimir Zapolskiy wrote:
 >> On 3/28/26 00:29, Bryan O'Donoghue wrote:
 >>> On 27/03/2026 20:51, Dmitry Baryshkov wrote:
@@ -145,23 +175,13 @@ On 27/03/2026 23:23, Dmitry Baryshkov wrote:
 > Okay. How would we describe that there are two sensors connected to the
 > single PHY anyway? How would it be described with the current bindings?
 > 
-> --
-> With best wishes
-> Dmitry
 
-Assuming you add endpoints to the PHY i.e. that is what Neil appears to 
-be asking for and I personally am _fine_ with that, then it should just be
+An RFC example was sent about one year ago, it allows to specify one or
+two endpoints under a single phy port:
 
-port@0
-port@1
+https://lore.kernel.org/linux-arm-msm/20250513143918.2572689-1-vladimir.zapolskiy@linaro.org/
 
-if port@1 exists, you know you are in split-phy mode.
-
-Its actually straight forward enough, really. To be clear though I can 
-write that yaml - the _most_ support I'm willing to put into the PHY 
-code is to detect the port@1 and say "nope not supported yet", since 
-like CPHY its not.
-
----
-bod
+-- 
+Best wishes,
+Vladimir
 
