@@ -1,228 +1,174 @@
-Return-Path: <linux-media+bounces-57442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57450-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8PQdFhHfx2kfeAUAu9opvQ
-	(envelope-from <linux-media+bounces-57442-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 15:00:49 +0100
+	id 4NdFFo/xx2lMfQUAu9opvQ
+	(envelope-from <linux-media+bounces-57450-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 16:19:43 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77A934E9B5
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 15:00:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9D134ED88
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 16:19:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D7102301C3F6
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 13:59:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8A3D4301CF90
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 15:17:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 885533921D6;
-	Sat, 28 Mar 2026 13:59:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D513733556E;
+	Sat, 28 Mar 2026 15:17:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b/ywmdGQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cI7FWZNw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918BA13AA2F;
-	Sat, 28 Mar 2026 13:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB608334688
+	for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 15:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774706389; cv=none; b=F5TEswicgAG8nAsmCEY2rM5LmwCR0ARAwf7AMU+rvVS19OiAyCSZOk9/6bzY1BszB3C6LMDESNTiAZMHdvGIFGrwioZJ+A2IaAWRJDnSSZ7jaqxxgA7XjvMOznctJ+mYaXIWOByBo4UquKAtPD4rdgTgphv7NqaQYT0vg+yOfu8=
+	t=1774711058; cv=none; b=NgEVweiVIpjV5rDQvm1Vt5y3KlXs0k3OiLbx270cwuMQGRvZ5Y9hE4JFWwaTauqzu1kmvFQOSb7cLD7+5lZV+LcJqW6uSVZ9az5P4JziTyyp7tY/GurgbY9XwkwVrPCRsY3xXYKrvf8GhPUv7hWqZpKc8kburutzecyrwyzxLwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774706389; c=relaxed/simple;
-	bh=h/tKi6QrqOTDKr4SqP1BIjcSeikVfTPP+W8yGCH6ZKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u5R+H+/npIqHM9JZs95yLUE4bAM9Zm6C4OErHRMI+BYCKRyfnmd5wG0htqOEIU/zXxN/A0yNphCvupAwDOiavd/Ib4oudWG0GBv1/m7/Nvl/NgFjl0dQMvCiu1ipK+2VfII/J974fuVukYkCgLCdU3GzJLiX2JdmyzneJY18p/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b/ywmdGQ; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774706388; x=1806242388;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=h/tKi6QrqOTDKr4SqP1BIjcSeikVfTPP+W8yGCH6ZKg=;
-  b=b/ywmdGQVk5+LK2ljewhfhadf3hB0rwkseFi8bIwd71B1RKdwFSbAzYX
-   RL6v5yRuVgI0X9CCcZZiR/B4MaX/PBVNhdc1o/tDHbUuP4p7sCK4fMwFr
-   1YWnylLGBhX7uQQSD1IHhe5ns2P8eSLJkjopoiysa23jheAqVq32J+Vxh
-   mCHi5XTGBIavmeHY6zwslk4okiUg99Nh5x1VUrU7YVYycG53IGa0/Uuqk
-   FnUsMaiSLS7lnwej9k6jhVNJN9WAdKhDN/t6pyZc0H6L3fWN0eL1E0nfA
-   H2FZrZLVCkKNAaCx79t+RBgee1Z3G++l8zNLfCjGXgevM53CqSOPlqdOS
-   Q==;
-X-CSE-ConnectionGUID: Z/qEywF3TT2IqgR9DkVKLg==
-X-CSE-MsgGUID: WutoUK08SPuk+O6MRSY28Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="74941681"
-X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="74941681"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 06:59:47 -0700
-X-CSE-ConnectionGUID: Xtwd/9HMSvafUDAoEddeDg==
-X-CSE-MsgGUID: iTaJ75wkQcqbMOqqbZfwNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="230354890"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.251])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 06:59:44 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id ECDAD121D3E;
-	Sat, 28 Mar 2026 15:59:47 +0200 (EET)
-Date: Sat, 28 Mar 2026 15:59:47 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Xiaolei Wang <xiaolei.wang@windriver.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 1/2] media: i2c: ov5645: Report streams using frame
- descriptors
-Message-ID: <acfe0wCdyX20In8I@kekkonen.localdomain>
-References: <20260328132902.776757-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260328132902.776757-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1774711058; c=relaxed/simple;
+	bh=ZWJg7QYWRQbgXcojyR4TKyqPIue1T7QETHoFjcx4hlA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=j3t7iveQAowkpw6qt36R2xyrJsgnTVbTzhcABZJeYOfsSt4QbD4mi/RVF0P+oF83qazjNCoVj5lil4nk64Rv3tplEoobxPY3jRyaaE55we/xETQ9UfpYnCaOiG381etBddFSldSu9iNN8hrHs+SP7mNQLAGybEizoKGasEl0h84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cI7FWZNw; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-65c0891f4e9so5724383a12.1
+        for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 08:17:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774711055; x=1775315855; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rprbcKOKh6LbVDBtx1L6evH/A6xyQAWdrHbB0AMy/jA=;
+        b=cI7FWZNwBScF9XKZC+vlp8IvBWkEUyoc1gtyQaf8ZyVAFEBEpW+RehKE0KXPh1vocs
+         RJj6LiKQacX2Tu/vg4BK/X1wzH8ekPiL3tU2wwsEZ18NN49bjqBqALan0w1Xq1O8ZHQq
+         KCDvfPGevAsdZOJMXnwlugNC5XlpUIKs5QRIU03Xp3JvHXBKsCIHr7QH0dtSOmBy+heg
+         NDoF4TVanJ+cJSPChH/sPg9FQGIWaQFj/m+OrxlPPack4sOyv/pH8Xd4Y1qsE0CRYpQ2
+         VN3sZNX3cq8K0AFWdTsMrHohv5No2/+2D8wK1Kk+cQzBHAyNDQc/sddSXAsfRN/7urmd
+         mSdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774711055; x=1775315855;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rprbcKOKh6LbVDBtx1L6evH/A6xyQAWdrHbB0AMy/jA=;
+        b=oOextKikROkegEHFSWuFgVakLPsxXY1ldszZkuBSAdhXsfG2iyr7g2LZ2yoM5CkrIZ
+         CKFX+Kl18rvf7Irub+deWcsVq/mQ5QaOltIEC9FfVeUkhfIbp9xw8s9tfk3QOHDWJKAZ
+         27uVqNQqtIfFV+qeegErpt1zGIr+oLYh2MbVxs9RuYpT02RaoukYqB3KGzEgTacDXrXP
+         oUJgRCrD2hi5ye/QkAA2Mv61JfKqYNMFHN/htMo6lq4ssqaJQ/n/tCOosPBczMAkIhhi
+         k9cmuicfzm7hNKRUDhEKhl744Tf/WfDfPYEgYFJ7O5ldDwyF1cos1L6KbbQgOvPL1pri
+         Z6jw==
+X-Gm-Message-State: AOJu0YxYyIOszzwUjAaHsoXY0dPcahgJZrMpuile7ZwbgI5vt8Ktz/ET
+	+uzVGXxRYLJgpHEka/yaiRPwt8MBnE0ljJ0F0ksStNC4E0pICAS2pTyyEtbsILglo6Y=
+X-Gm-Gg: ATEYQzyUkfmTIq3RJ6sBqISB/hgH0uv51liqXqf6GSbsMGTubLae+1QJ7BnWnOw2G6X
+	2sd0qRMgxLNMnnDHd59KOsZ2rEwYDW71VEZ9ZAvohL6/LP+vQDbaWFRIQxV1gWY7XUCLKGTBpKc
+	SelJdxf8IdvE8rcg7nMwEC2yoirnGWaYKTcgDKOYVomKFjBXmzE9ySs9yCx3bur/O0udklCs3zr
+	lFbtd+pAVxxeNz4+e6YB+rQLfjGxPb62ei8vzZGl17niRlir4BIzDgI377o1cmvf/ijxDNOfJXa
+	3nVh1YP2TqgJf6XVi2QyGkKifCKDz7juU8/scBPnLXh281GOrXNfpxELjm2WEcWWvcU5SQ6Mcek
+	mNQaw7wLYZXA3B0tmVDbQBlffabYQVb0qIOiPuhgivH5As5MGg8XK0MstQpGGY0rKlK3kypIEiN
+	zk6UezGTGzhmGHtMaVOKdTTV0qGP522JTsNbbMffV3KM36HDqicXBFLIpiorWpG2mvqATLHOIgp
+	sgfNGlFaG0jMjzTS6Ql+pQ=
+X-Received: by 2002:a05:600c:1d86:b0:483:7783:537b with SMTP id 5b1f17b1804b1-4872807470fmr103447895e9.24.1774709207384;
+        Sat, 28 Mar 2026 07:46:47 -0700 (PDT)
+Received: from dohko.chello.ie (188-141-5-72.dynamic.upc.ie. [188.141.5.72])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48727bfc5ecsm91577275e9.1.2026.03.28.07.46.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2026 07:46:46 -0700 (PDT)
+From: David Carlier <devnexen@gmail.com>
+To: kwliu@nuvoton.com,
+	kflin@nuvoton.com,
+	mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	openbmc@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	David Carlier <devnexen@gmail.com>
+Subject: [PATCH v2 1/2] media: nuvoton: npcm-video: fix error handling in npcm_video_init()
+Date: Sat, 28 Mar 2026 14:46:44 +0000
+Message-ID: <20260328144644.67556-1-devnexen@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260327221905.267410-1-devnexen@gmail.com>
+References: <20260327221905.267410-1-devnexen@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260328132902.776757-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57442-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.ozlabs.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-57450-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[devnexen@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kekkonen.localdomain:mid,ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,renesas.com:email,linuxtv.org:url]
-X-Rspamd-Queue-Id: B77A934E9B5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 9E9D134ED88
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Prabhakar,
+npcm_video_init() has two error handling issues after
+of_reserved_mem_device_init() is called:
 
-Thanks for the patch.
+When dma_set_mask_and_coherent() fails, the function releases the
+reserved memory but does not return, allowing execution to fall through
+into npcm_video_ece_init() with a failed DMA configuration.
 
-On Sat, Mar 28, 2026 at 01:29:01PM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Implement the .get_frame_desc() subdev operation to report information
-> about streams to the connected CSI-2 receiver. This is required to let
-> the CSI-2 receiver driver know about virtual channels and data types for
-> each stream.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
-> Changes since v3 [0],
-> - Added a macro for the source pad index.
-> - Updated ov5645_init_state() to use the new macro.
-> 
-> [0] https://lore.kernel.org/all/20241018153230.235647-9-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> 
-> Hi Laurent,
-> 
-> Ive restored your RB tag with the above changes. Please let me know if
-> you have any further comments.
-> Cheers,
-> Prabhakar
-> ---
->  drivers/media/i2c/ov5645.c | 29 ++++++++++++++++++++++++++++-
->  1 file changed, 28 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index b10d408034a1..df9001fce44d 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -28,6 +28,7 @@
->  #include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
-> +#include <media/mipi-csi2.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-fwnode.h>
->  #include <media/v4l2-subdev.h>
-> @@ -68,6 +69,8 @@ static const char * const ov5645_supply_name[] = {
->  
->  #define OV5645_NUM_SUPPLIES ARRAY_SIZE(ov5645_supply_name)
->  
-> +#define OV5645_PAD_SOURCE	0
-> +
->  struct reg_value {
->  	u16 reg;
->  	u8 val;
-> @@ -817,6 +820,29 @@ static const struct v4l2_ctrl_ops ov5645_ctrl_ops = {
->  	.s_ctrl = ov5645_s_ctrl,
->  };
->  
-> +static int ov5645_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> +				 struct v4l2_mbus_frame_desc *fd)
-> +{
-> +	struct v4l2_subdev_state *state;
-> +	u32 code;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> +	code = v4l2_subdev_state_get_format(state, OV5645_PAD_SOURCE, 0)->code;
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-> +	fd->num_entries = 1;
-> +
-> +	memset(fd->entry, 0, sizeof(fd->entry));
-> +
-> +	fd->entry[0].pixelcode = code;
-> +	fd->entry[0].stream = 0;
-> +	fd->entry[0].bus.csi2.vc = 0;
-> +	fd->entry[0].bus.csi2.dt = MIPI_CSI2_DT_YUV422_8B;
+When npcm_video_ece_init() fails, the function returns an error without
+calling of_reserved_mem_device_release(), leaking the reserved memory
+association.
 
-Instead of doing this, could you use my patch here
-<URL:https://git.linuxtv.org/sailus/media_tree.git/commit/?h=metadata&id=56eaab0eed55e5e777344e0b3973d8072786dd98>?
+Fix both by adding the missing return after the DMA mask failure and
+adding the missing of_reserved_mem_device_release() call on the ECE init
+error path.
 
-Every caller needs to be changed, too, but there are less than ten so
-that's a non-issue.
+Fixes: 46c15a4ff1f4 ("media: nuvoton: Add driver for NPCM video capture and encoding engine")
+Signed-off-by: David Carlier <devnexen@gmail.com>
+---
+ drivers/media/platform/nuvoton/npcm-video.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> +
-> +	return 0;
-> +}
-> +
->  static int ov5645_enum_mbus_code(struct v4l2_subdev *sd,
->  				 struct v4l2_subdev_state *sd_state,
->  				 struct v4l2_subdev_mbus_code_enum *code)
-
+diff --git a/drivers/media/platform/nuvoton/npcm-video.c b/drivers/media/platform/nuvoton/npcm-video.c
+index b2a562e1ee1c..5c6bddfe8073 100644
+--- a/drivers/media/platform/nuvoton/npcm-video.c
++++ b/drivers/media/platform/nuvoton/npcm-video.c
+@@ -1720,10 +1720,12 @@ static int npcm_video_init(struct npcm_video *video)
+ 	if (rc) {
+ 		dev_err(dev, "Failed to set DMA mask\n");
+ 		of_reserved_mem_device_release(dev);
++		return rc;
+ 	}
+ 
+ 	rc = npcm_video_ece_init(video);
+ 	if (rc) {
++		of_reserved_mem_device_release(dev);
+ 		dev_err(dev, "Failed to initialize ECE\n");
+ 		return rc;
+ 	}
 -- 
-Regards,
+2.53.0
 
-Sakari Ailus
 
