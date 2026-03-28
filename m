@@ -1,84 +1,84 @@
-Return-Path: <linux-media+bounces-57458-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57445-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oCt9G3b8x2mIfwUAu9opvQ
-	(envelope-from <linux-media+bounces-57458-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 17:06:14 +0100
+	id CGLSIoXtx2mcfAUAu9opvQ
+	(envelope-from <linux-media+bounces-57445-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 16:02:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF35834F183
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 17:06:13 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0575734EC3D
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 16:02:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A8B5E302F7E3
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 16:04:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C6C9B30417BE
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 14:59:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF844399018;
-	Sat, 28 Mar 2026 16:03:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88D6C33DED5;
+	Sat, 28 Mar 2026 14:59:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gn241dQV"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RMSXO1yR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA11256C6C
-	for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 16:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F8C1CAA78
+	for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 14:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774713826; cv=none; b=t8THCRRNMgVs5QyH6+6OAVkVKDDJhjG5ZssZl6kmmlrJr4LjyWjtjk+zR8ixnWOUIxPEf5oDEwsc51DZOIql1phb/BddM8gWgzch3Zpu+yjiPZkiZlurMjcSGnbV2X+Y0cUHupv3KZb0Qmxvq9TBES+Wj2LVKGj/ZcK7z39/VPM=
+	t=1774709942; cv=none; b=RqaYrPMzaPOe/CrMLTfPR+nwDjUYguFf14CNx12eyCtJDvLJTfFmTTFdw/DBYin6xAzW/nF5sEs9bzV85pCKcEIct71B5I+hdKCh2GPiHeLS2WO48ZlM4rkX+ON3CNmWtU/aXHlsnBtHDrKxXtTpdk7hjVc7N8hDBwx8py5k+OI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774713826; c=relaxed/simple;
-	bh=lgGKVbBKE+fTwLHxUCzt47tu/KqD2I6032H0u1C/qDk=;
+	s=arc-20240116; t=1774709942; c=relaxed/simple;
+	bh=5mmjhWAxCiYFPAEUtWK8vIBoYVI6QTdkJFmQtrU9oyY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q+zQAQZJUz4VZ9sGsJsa87KoK0vIcm1HdmABOROESgnRSJIRK4y7HioJKrE9WoeN+nVFN46UJ1s2sXXAOz1TRGkhfVZpMuyVl3boQYIQ6USHwFkl4vveAkxDQXPwNjGtBtRspsIkccPOq72XmJVEAOch3hrWkqY84prs3FZzyAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gn241dQV; arc=none smtp.client-ip=209.85.218.41
+	 In-Reply-To:Content-Type; b=LOdI0iRPKfnEgI+N4EwutbUR3mZNIcKfVpIoQvZyFrnciIcD///fHa3dQpi7rLUZPXfVlcChtakQnqaTBS1f+GNhlTmne95xpASzKHzbFSYg35T33hMai4dDe/3gZTWStz8Nn5yNYI9aqZLKGXMHOVoMmL1L9CsUINMwnSRjT3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RMSXO1yR; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b9841aecf72so358592966b.2
-        for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 09:03:43 -0700 (PDT)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-65c0891f4e9so5702433a12.1
+        for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 07:59:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774713822; x=1775318622; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
+        d=linaro.org; s=google; t=1774709939; x=1775314739; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=CrcVPMX3tCYm4PmLUfk7Jvax7+NoYzH2ICdp4Ljkplk=;
-        b=gn241dQV4OW2CAqTiJCT6oPb4VnXb5U3otL9P1sJBtkfdEKR2d5z9zYU9vR39kkP/z
-         EwLJ6JiERClgUnX4B8JaS2LgvRRLcZm4o9M/TXUZUWNb2NdgtS1Sioz1UvsuqiutrEhv
-         zpI6zjNqYRz6axB/cW/Ek9TxVYIWO9r8h5Oyxd04j0uXzcnfoQtXtkx6g2gl1vGtuei7
-         IF6QRMHgU/G/EKZksB2erGM/cMh76WswcxsEGi4qyRwal/bFSR4COMHndvAiAL8sWYYM
-         Qbx8FSXDI+r5IVHa75X05//rfMibbMYJDwDIUzxWIc84/vFlBs/svTup0bK+rAMAf6ek
-         7EMw==
+        bh=IpiZdUca/KvBHgqMWXQPF+EJwwgHXh6W6A/k2bT285Y=;
+        b=RMSXO1yR4T4uuAX/fvyiCpfUjZ4FqZp5WSUY8yikWrKwG96ovtkQtG3TdtvbM6JMe8
+         DVV/Tav482z4raTrr3p8lq9rYuH2ucAxBAxa0ntHn9VatoGBWoJRRI/YjEMwHHhIjOdl
+         Qc6gxPgIKZ/xGVCfRyW1ujaqMVNS4OMn1ZICswrcaD+Yp9AuYeahPQtjmO6zpXWhheOV
+         GJ2r0bHhCbuR5POGvtGU8QFVHswL1+302yAwPiS946ovQ/mJKOMZGs59KF1kNBi15Mv7
+         N9/God0oyoCPrxaVSQ1mt+6NAIltPD7MiiLbdklN8N8QrCtJvBUnCa8MEcKTviL/28Ix
+         4WoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774713822; x=1775318622;
-        h=content-transfer-encoding:in-reply-to:from:content-language
+        d=1e100.net; s=20251104; t=1774709939; x=1775314739;
+        h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CrcVPMX3tCYm4PmLUfk7Jvax7+NoYzH2ICdp4Ljkplk=;
-        b=WFflcBg1Eovyi5WV258+RsBEJZxjio35aLNDyst4SmiCxN7klb5n7jqK6k8vwEd5H4
-         /TVnyzhTYBBkajdV4oKEsrzNDuTkud544WCWmLvt1i/wxVZ3LYRdDb30FW3sXV+Ag629
-         4WAYQSqvaqp9mwYUJA8qvilMB0VP9ZGIxs0P8j8GTixb5l5CqZmwbAi53UR6K0cAg2MA
-         0/pcKZmNEgKDhNclLop0yAhiNhqUqCMv1lXfsz7JwRF+BPsyMcqbRgt2a/NzgPS35qSK
-         AQ4kKJPEmlZ0Gg3UyOzdivQRb27HLeySSbCEjhFKR7KCbRcdQrigL2KEOfnCJGuGEObP
-         iMCA==
-X-Gm-Message-State: AOJu0Yy34q1+T40O2ff2U682cP16uSFSw1pPok3wNGEcGtmqH+oVLA48
-	JZNAuq1CaKWBv93PQ2mpFk+YAERrgjAmEznEeAm7AJitn9Au4MzyKTapqbJW1Z1t5obux080CwV
-	Rqaon
-X-Gm-Gg: ATEYQzzWcOxfYwX+Xf6E3qwx8hzmxvPpGxY+UVhoiVoxgw2wf5RYpt9K8/JUu4qCdQ6
-	pDGGOlzqZwp+41hMvjVyHErJmQZ4c3bcWfBMhK39ot2CIu0bRf5gN779AqwlS8WKAxvyCJB9ras
-	5+pM4iNo7lRufNlWazblAbGMhTe0UrYVOIRQs7AFx4ES7+D7BHcblZUAM2uxpP4LWmms0CrKnYn
-	kAF9LN2+nNAHa9oShkQXvnfe76+nY2IkQp/pY8hWFDT7yjGSGYMQOcwkQxMNtel7jnxBNBxIJp4
-	84UT+JF32HTVnVxWXunQhzNZYfKxLbxxg6fRpyf3P6ouKkLIuLqv+J0+pG7kwMQ2HkGi+oLu0Lz
-	VTNnfaX3qQmF4OSILTgN++qzc9DlSUdDq9RCYQyPfhUmJ8BnUtvbjJQRB493I9xYodtlLZUW9CN
-	VbbZXnv/7vZyoHfG6UzZy8g6WP8u/LcJsqXA==
-X-Received: by 2002:a05:600c:8b77:b0:486:ffa3:584 with SMTP id 5b1f17b1804b1-48727f17035mr92343295e9.15.1774699085874;
-        Sat, 28 Mar 2026 04:58:05 -0700 (PDT)
-Received: from [192.168.0.35] ([109.76.108.64])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21f173dsm5134165f8f.15.2026.03.28.04.58.04
+        bh=IpiZdUca/KvBHgqMWXQPF+EJwwgHXh6W6A/k2bT285Y=;
+        b=BJ0WtP3R2RnIRuQWb4Ao6m3d2XoSWbJ2EQAwG7A+vQVOozPU80uTRV/LSNRuHJuF1H
+         sUa5vlUn4Yf1DmQiLpwDq7g/JXZaDTckJHR+g9689gaLamiO6SKNaQBi3U7EasIRFDnP
+         1BSo+dXlV9qyqxSyMfqHJtgAIonVipi8zye8AONBvTpbGlwDRpfdAGnmwIM8/Ulo4S5P
+         KTQAXALzqtSg26CKPmMCWRAUZLNDzkHifbAFuP4oEgnH2XIrNbsMHihiyInL/XDCmFDb
+         cHvQ5lhLGj7HTZFalwnbLw0tPOY0fZU6o10lOuXUiyoZUBtT2/xJpETm0Aa0dgFZ1XXk
+         RlaQ==
+X-Gm-Message-State: AOJu0YyxokZrcDNvPUYsHAiQEhzIFyxjLrHcRuEDXEaeFOX55muvfNTh
+	gCaHeTV3GTbvnTJC7RTCCKByQOyK2/SxSfUodEORCVZfaUCap3yfGZcYEmYhzScmyZKlv0tZmgs
+	YXGNE
+X-Gm-Gg: ATEYQzxpsGGRfrI7JnnT+0dG3CdP6o+nmD9hQ/eVFmWD1gVcVCJEcSgtByzAYAYTM02
+	ogPcKfQ15HIR/Cfdoc7caD649QlwBbwsrdowbMxv6IIGjXyU8TPxYLBkqH4uldQ8RGxYeZzAAEw
+	9kBC6OTxp6SyhO8/GTIpsTlPQiipCbCkQ+k8EmuYjzDQPNfyWy+pqmldBtRdRTV7LR1d/5N+u80
+	fe3/SU8UMwKbHuKh+etetq6BNuNEbDr9MlmRlSbGPANH13qiXwcB3+aKmdanqwfG324skKNFCHC
+	+YhzquCAjkEbHfKRUdwqdw8uiIVgSPm3+wk8WlwhHJFyVp8t1xpdAXkU3z6A/vY1BT8WQ3+97eX
+	fWZwqjN+2Tijrsx6i9c4RLxlpQrZVdrykgtdywLnA9fam6lA4PKSpQw00qzUoCZS1bUtb1XVEwK
+	0DCz6AmxF69Ye4Lypkd9txizV0OSyF7AZwooPGfvd8cBAT4w==
+X-Received: by 2002:a05:6000:430e:b0:43b:436d:77f8 with SMTP id ffacd0b85a97d-43b9ea4acbemr9747762f8f.29.1774699315674;
+        Sat, 28 Mar 2026 05:01:55 -0700 (PDT)
+Received: from [192.168.0.167] ([109.76.108.64])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e2727sm4926384f8f.2.2026.03.28.05.01.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Mar 2026 04:58:05 -0700 (PDT)
-Message-ID: <ccc4f25f-1796-419a-8d10-7180b28b0547@linaro.org>
-Date: Sat, 28 Mar 2026 11:58:07 +0000
+        Sat, 28 Mar 2026 05:01:55 -0700 (PDT)
+Message-ID: <f2e9a9fa-f089-42b1-90ff-572f620b127e@linaro.org>
+Date: Sat, 28 Mar 2026 12:01:53 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,11 +86,10 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] media: qcom: camss: Fix clock and IRQ
- configurations for sa8775p platform
+Subject: Re: [PATCH v2 1/3] media: qcom: camss: Fix csid IRQ offset for
+ sa8775p
 To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, Robert Foss
  <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Hans Verkuil <hverkuil+cisco@kernel.org>,
@@ -99,11 +98,11 @@ To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, Robert Foss
  Wenmeng Liu <quic_wenmliu@quicinc.com>
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <uLRnS7PkynWp9Kn5RKKBeGY6obUZTTQfoIDTjSGe4xBdLmrU8OhgrUeADUAv4sLVAxhCLLY0jdE46Z6RnGyvpw==@protonmail.internalid>
- <20260313-vfelite_fix-v2-0-7014429c8345@oss.qualcomm.com>
-Content-Language: en-US
+References: <20260313-vfelite_fix-v2-0-7014429c8345@oss.qualcomm.com>
+ <20260313-vfelite_fix-v2-1-7014429c8345@oss.qualcomm.com>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20260313-vfelite_fix-v2-0-7014429c8345@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20260313-vfelite_fix-v2-1-7014429c8345@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -111,19 +110,19 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57458-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57445-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,gmail.com,linaro.org,quicinc.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
@@ -133,45 +132,39 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email,linaro.org:dkim,linaro.org:email,linaro.org:mid]
-X-Rspamd-Queue-Id: DF35834F183
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email,linaro.org:dkim,linaro.org:email,linaro.org:mid]
+X-Rspamd-Queue-Id: 0575734EC3D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On 13/03/2026 10:13, Wenmeng Liu wrote:
-> This series contains three fixes for the Qualcomm Camera Subsystem driver
-> on sa8775p platform:
+> Fix BUF_DONE_IRQ_STATUS_RDI_OFFSET calculation for csid lite on
+> sa8775p platform. The offset should be 0 for csid lite on sa8775p,
 > 
-> 1. Fix CSID IRQ offset.
-> 2. Fix CSID lite clock configuration.
-> 3. Add missing clocks for VFE lite instances.
-> 
+> Fixes: ed03e99de0fa ("media: qcom: camss: Add support for CSID 690")
 > Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
 > ---
-> Changes in v2:
-> - Split patch 1 into 2. -- bryan
-> - Remove duplicate clk rates struct.
-> - Link to v1: https://lore.kernel.org/r/20260313-vfelite_fix-v1-0-2ee7de00dee7@oss.qualcomm.com
+>   drivers/media/platform/qcom/camss/camss-csid-gen3.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> ---
-> Wenmeng Liu (3):
->        media: qcom: camss: Fix csid IRQ offset for sa8775p
->        media: qcom: camss: Fix csid clock configuration for sa8775p
->        media: qcom: camss: Add missing clocks for VFE lite on sa8775p
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+> index 664245cf6eb0cac662b02f8b920cd1c72db0aeb2..bd059243790edeb045080905eb76fef3b12caae1 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+> @@ -48,9 +48,9 @@
+>   #define IS_CSID_690(csid)	((csid->camss->res->version == CAMSS_8775P) \
+>   				 || (csid->camss->res->version == CAMSS_8300))
+>   #define CSID_BUF_DONE_IRQ_STATUS	0x8C
+> -#define BUF_DONE_IRQ_STATUS_RDI_OFFSET  (csid_is_lite(csid) ?\
+> -						1 : (IS_CSID_690(csid) ?\
+> -						13 : 14))
+> +#define BUF_DONE_IRQ_STATUS_RDI_OFFSET  (csid_is_lite(csid) ? \
+> +						((IS_CSID_690(csid) ? 0 : 1)) : \
+> +						((IS_CSID_690(csid) ? 13 : 14)))
+>   #define CSID_BUF_DONE_IRQ_MASK		0x90
+>   #define CSID_BUF_DONE_IRQ_CLEAR		0x94
+>   #define CSID_BUF_DONE_IRQ_SET		0x98
 > 
->   .../media/platform/qcom/camss/camss-csid-gen3.c    |  6 +-
->   drivers/media/platform/qcom/camss/camss.c          | 80 +++++++++++-----------
->   2 files changed, 43 insertions(+), 43 deletions(-)
-> ---
-> base-commit: 5c9e55fecf9365890c64f14761a80f9413a3b1d1
-> change-id: 20260313-vfelite_fix-00a36e8dccfd
-> 
-> Best regards,
-> --
-> Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-> 
-> 
-
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
 
