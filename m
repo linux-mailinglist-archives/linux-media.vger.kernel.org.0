@@ -1,177 +1,159 @@
-Return-Path: <linux-media+bounces-57428-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57429-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4MDtDPKrx2nNaQUAu9opvQ
-	(envelope-from <linux-media+bounces-57428-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 11:22:42 +0100
+	id KElRKf6sx2kFagUAu9opvQ
+	(envelope-from <linux-media+bounces-57429-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 11:27:10 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2B634E108
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 11:22:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C0B34E163
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 11:27:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 82B81304C13A
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 10:21:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 064A63032654
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 10:27:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFB35386578;
-	Sat, 28 Mar 2026 10:21:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE47037F746;
+	Sat, 28 Mar 2026 10:27:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="O409+/aJ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="anbg3YV2"
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b="EPIijCGa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21752D73AE;
-	Sat, 28 Mar 2026 10:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774693303; cv=none; b=rHTPFd/uuiX9GhjNkTuPyA2gVx2rsmHsN5WN0DH10YmYYO1MsayERl9oSmxtxNscJzWLhW3XtQbvbNk3aaXG4T8sRYfE48Fisp/pD0L1F3+fQz8dlHhazFDY98tpKNOxJ0Xw7ygcwmGpsEg/m5OJQObkY90TUjZ2bkoLY/J4imQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774693303; c=relaxed/simple;
-	bh=rG565eeekN4O8fh1pyKvCFYBqmHBIvM79s0tfBIYolY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s0rzD0Vyf+HXDprAKIFVOqnUSr2BFFDcPL8cO0is4jNU+aFDOUPydmjLp6D2kUhcttJk9/r7DDVbDQKp1SWxTu9Sk6Otr4lIakO+onsuhBShuma+O0pmkwVxNRN5JV6ZOQA+iLmox0XRDE+GKp5xM3BfuJCOkT8v/2pskl2m1es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=O409+/aJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=anbg3YV2; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfout.stl.internal (Postfix) with ESMTP id 164FC1D00009;
-	Sat, 28 Mar 2026 06:21:38 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Sat, 28 Mar 2026 06:21:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1774693297;
-	 x=1774779697; bh=KNApZDYZ9r9b/kyaSUMYOzqKnJ2bmvMoejAncB7Lq6Q=; b=
-	O409+/aJYgKUjy/y5VGjOuXtWj7VRsa2Kv7zb18GemGRj6JTiatNtLBAULC5lqXu
-	WkfRq4kUOZO5muMJEBr8dcapMx3v0YIx+MvcHaugY7b/rNa/hi2uafye6e1m1aHr
-	FeN+k3kOCMNqgQ7HcYdEfFdlOetMxp/Y14hTcK7q8MZcgfte/zxMywY2EjaW9Gwz
-	1u0eNYu4Kel39rExLvPtIUfd51NKh7hxTkXnnXgxFxAusiYxE3iOXrc5ysg9qwer
-	P/CCOxqwFVOVGKYyWtIHT8GnuH599uAeojqv4FcbU4LiszDiegy9CRP2KWSip4Pc
-	Mcy/tVI6pSUhoPX8DcrNNQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774693297; x=
-	1774779697; bh=KNApZDYZ9r9b/kyaSUMYOzqKnJ2bmvMoejAncB7Lq6Q=; b=a
-	nbg3YV2nK0EIa4O1n90nPeOGJxmgbgs3eAwUxjKSXi6464pHb+u2ywso+ecwjUiI
-	gtI3GmCM+96OzlYHzkkypQDCIckCQ+eMwCNW8sEHgFdCsrDC6jOfkrH2iuOv0/+R
-	Pf1h/VL9OEJ4AYhDJplnm5kQMX9qOFdUuPnd6VAu0U4ALZJXnRiiX1MT9z2d4ZEu
-	moEn/pkgPLDiRqQqNkzGCVrqGYrpQP8gxAGe++jzZDddEXbwXf4SFps1n8LOnXRR
-	TSSRbtYb2nWjaOqC8Jjfco9PmiX+0DtczriNuGsXeRkSSGqQ7qvB6uDRck+o6VCn
-	Md+fzBdpVCf4lIdcYyjtg==
-X-ME-Sender: <xms:savHaQrsc1xYN9JR0HV1UOR993isdgSmPh1QenlDZQ_WDDy4GmIUzA>
-    <xme:savHaQVfMaYnhvlvhELDOxI1LrqrHP-F7yqN44uV8aVkf1UomOliC_qG_dbV1mK1v
-    UooXpMurBYzFGoOwuCHgylf_Q3mdHZU_qYKuzS85qDu9M4yPgs>
-X-ME-Received: <xmr:savHaUg0YQzpV8g_ec-10RMFlYPTYpzrCECbQoSUzZEHKIFeS3KldVkQYS-t16xuOJ4DWQI-KNQqj3ye6kP7k8U_3OIxhyvwi4_AMW6EHqU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffedvleduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtugfgjgesthekre
-    dttddtjeenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
-    necuggftrfgrthhtvghrnhepleekheejjeeiheejvdetheejveekudegueeigfefudefgf
-    ffhfefteeuieekudefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
-    drtghomhdpnhgspghrtghpthhtohepfedtpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopeguvghvnhgvgigvnhesghhmrghilhdrtghomhdprhgtphhtthhopehlrghurhgvnh
-    htrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohep
-    mhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfhhrrghnkhdrlhhise
-    hngihprdgtohhmpdhrtghpthhtohepshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidr
-    uggvpdhrtghpthhtohepkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtph
-    htthhopehfvghsthgvvhgrmhesghhmrghilhdrtghomhdprhgtphhtthhopehjrggtohhp
-    ohesjhhmohhnughirdhorhhgpdhrtghpthhtoheprghishhhvghnghdrughonhhgsehngi
-    hprdgtohhm
-X-ME-Proxy: <xmx:savHaf8QvUzL_Ch4OPl78alDw-8dRDCuR5Gcb63o-ACbsV9zYRt2bw>
-    <xmx:savHaUSrobMZQuKmlIkfiw_uwnpksRyGsuuFTmrHooXsznS5hR2XYw>
-    <xmx:savHaUGoXjNFOsMMjkGe7CBxAzz51iLTRTBH40DKGCOmgqiViuYhoA>
-    <xmx:savHaQhnN4HWL11wLZ6kAjfq9FOQBQtvFL7mcrku_1TM6XP0oVXxGw>
-    <xmx:savHafT71wd9gaDA9uMheZHjg7ZBWfKy40mITMqlmf1yGDtwAwEYMDlG>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 28 Mar 2026 06:21:36 -0400 (EDT)
-Date: Sat, 28 Mar 2026 11:21:13 +0100
-From: Greg KH <greg@kroah.com>
-To: David Carlier <devnexen@gmail.com>
-Cc: laurent.pinchart@ideasonboard.com, mchehab@kernel.org, Frank.Li@nxp.com,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	jacopo@jmondi.org, aisheng.dong@nxp.com, guoniu.zhou@nxp.com,
-	linux-media@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] media: nxp: imx8-isi: fix memory leaks in probe error
- paths and remove
-Message-ID: <2026032803-tree-stubbed-1e9b@gregkh>
-References: <20260327222711.268132-1-devnexen@gmail.com>
- <20260328100010.41236-1-devnexen@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0817261C;
+	Sat, 28 Mar 2026 10:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774693620; cv=pass; b=QkpU4IwqkMsU+TVwjPP64QziOcEC0skzFG4Q5VE2Lr9mUdJw26q63LI5ec7tZfd3HKXdoyveOjJIXTGI2A3E3smUcYqKcB1WUt+6ffE8z8QqhTM6MqCaoC0RWOeKcHOuXYUwqaSqGCxk1dLbeojmlanMe2zljjw/DiYnPEk524g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774693620; c=relaxed/simple;
+	bh=EKQxLC74AufikOVLkGu/heEyBqjdTLKPCac/YJa3J/0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rabFCbCEVxAFBqFd4f1JHATi4sspCVe4tweupYUeW++kQzdyizvx3lVDd1XEBbhG5WojK3SpdNPW/uWFV7eosuUXtgHUYFn8FaAzRbqeJAeBzpC21Gumn0YyK/KZ21Yiqrg6/Xm9+SUcc/+xKJe3nHmn+4u9cOe3mf3IuMiAPXU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b=EPIijCGa; arc=pass smtp.client-ip=136.143.188.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1774693608; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=bd04Drm1ka91hLk83I4D41jzfa767UAObfBF+bgB0pm95rWCjbPL2/DFkPuFA+coBHJrQyCa6jIMdvC0T0XzV0kEGlZvc+Xw8RFkkb3910SQMeFI/fvATlC1whTR0S/cLPRccPyCm/bk0eIeENLcztL9csTokh7InXq4jrq221M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774693608; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=ciHXL84GeJtK0HQxAPRAp8r6EO6wmx7etoGI66aZ/DQ=; 
+	b=jXyRBdCeckauGWZOhTnJY4FNpcf0usn0Tf7aLAEIm/ue7RWGssafHHUeiHPP/3yr5hTfbDGuEZANaIGe237526YwRmEjTN8224KcrHn+f+pFMseRoQuHY/sBpu5APNVHNsm19nt66wYtNbg07EK7f6Uxn2KiEJ262yLfKwFkAso=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=ming.li@zohomail.com;
+	dmarc=pass header.from=<ming.li@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774693608;
+	s=zm2022; d=zohomail.com; i=ming.li@zohomail.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=ciHXL84GeJtK0HQxAPRAp8r6EO6wmx7etoGI66aZ/DQ=;
+	b=EPIijCGaDgTIF2sDnEETkEuCZaUXdCUl+m9ZaNuAyQVjAc1dwXK4Di/ShBMRobuu
+	G6MtHCXgfMqSr1r6cXjpKl91Bi4x0D5bJv2os/FKCZ/Qdem4plxtPvhfI19XoHvQKSD
+	Zf+iZSsMYKutNqTBIy65sqoa1nfyf8cQUadzwCWg=
+Received: by mx.zohomail.com with SMTPS id 1774693606783318.50737463196515;
+	Sat, 28 Mar 2026 03:26:46 -0700 (PDT)
+Message-ID: <bb78ce6f-603a-40eb-ac47-bf5ea06a6cc8@zohomail.com>
+Date: Sat, 28 Mar 2026 18:26:19 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] dma-fence: Dereference correct dma_fence in
+ dma_fence_chain_find_seqno()
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20260328-fix_dma_fence_chain_find_seqno-v1-1-3847c8ef0292@zohomail.com>
+From: Li Ming <ming.li@zohomail.com>
+In-Reply-To: <20260328-fix_dma_fence_chain_find_seqno-v1-1-3847c8ef0292@zohomail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260328100010.41236-1-devnexen@gmail.com>
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kroah.com,none];
-	R_DKIM_ALLOW(-0.20)[kroah.com:s=fm1,messagingengine.com:s=fm1];
+Feedback-ID: rr08011228714be64caeac2580a28d597b0000a576b4265144d1ed4868621b53a46b30201aa250b3b8ad53604b:zu08011227f075a096bbe2bfeb18edbcf10000903c53a81a69f96adcc687cb99671445ba47013c463356e5a6:rf0801122d6651f41a29a921138dcc181e0000fe57356feb5c4cb23fd16d37eb8f4ccd68fbd2b68db835a285f86371b5fa97:ZohoMail
+X-ZohoMailClient: External
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[zohomail.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[zohomail.com:s=zm2022];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57428-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,nxp.com,pengutronix.de,gmail.com,jmondi.org,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57429-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[greg@kroah.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kroah.com:+,messagingengine.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kroah.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,messagingengine.com:dkim]
-X-Rspamd-Queue-Id: CF2B634E108
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ming.li@zohomail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[zohomail.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 12C0B34E163
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, Mar 28, 2026 at 10:00:10AM +0000, David Carlier wrote:
-> mxc_isi_probe() allocates isi->pipes with kzalloc_objs() but never
-> frees it on any probe failure path or in mxc_isi_remove(), leaking the
-> allocation on every failed probe and every normal unbind.
-> 
-> Additionally, when mxc_isi_pipe_init() fails partway through the
-> channel loop or when mxc_isi_v4l2_init() fails, the already initialized
-> pipes are not cleaned up — their media entities and mutexes are leaked.
-> 
-> Fix both by adding kfree(isi->pipes) to all probe error paths and to
-> mxc_isi_remove(), and cleaning up already-initialized pipes in the
-> err_xbar error path.
-> 
-> Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
-> Signed-off-by: David Carlier <devnexen@gmail.com>
+
+在 2026/3/28 02:47, Li Ming 写道:
+> dma_fence_chain_find_seqno() uses dma_fence_chain_for_each() to walk a
+> given dma_fence_chain. dma_fence_chain_for_each() always holds a
+> reference for the current fence during iteration. The reference must
+> be dropped after breaking out. Instead of dereferencing the last fence
+> as intended, dma_fence_chain_find_seqno() incorrectly dereferences the
+> first fence in the chain.
+>
+> Fixes: 7bf60c52e093 ("dma-buf: add new dma_fence_chain container v7")
+> Signed-off-by: Li Ming <ming.li@zohomail.com>
 > ---
+>   drivers/dma-buf/dma-fence-chain.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+> index a8a90acf4f34..71fa173aef13 100644
+> --- a/drivers/dma-buf/dma-fence-chain.c
+> +++ b/drivers/dma-buf/dma-fence-chain.c
+> @@ -103,7 +103,7 @@ int dma_fence_chain_find_seqno(struct dma_fence **pfence, uint64_t seqno)
+>   		    to_dma_fence_chain(*pfence)->prev_seqno < seqno)
+>   			break;
+>   	}
+> -	dma_fence_put(&chain->base);
+> +	dma_fence_put(*pfence);
+>   
+>   	return 0;
+>   }
+>
+> ---
+> base-commit: c369299895a591d96745d6492d4888259b004a9e
+> change-id: 20260327-fix_dma_fence_chain_find_seqno-7adea64efe01
+>
+> Best regards,
 
-<formletter>
+After looking deeper into this issue, it is not a bug.
 
-This is not the correct way to submit patches for inclusion in the
-stable kernel tree.  Please read:
-    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-for how to do this properly.
+Seems like this function requires that caller needs to hold the 
+reference of the give fence before calling it. When pfence changed, need 
+to transfer the reference from the original fence to the new fence. That 
+is why it releases the reference for the original fence in the end.
 
-</formletter>
+Sorry to make this noise.
+
+
+Ming
+
 
