@@ -1,187 +1,405 @@
-Return-Path: <linux-media+bounces-57402-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57403-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EDDREckjx2lATgUAu9opvQ
-	(envelope-from <linux-media+bounces-57402-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 01:41:45 +0100
+	id CEdLGsNHx2lAVAUAu9opvQ
+	(envelope-from <linux-media+bounces-57403-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 04:15:15 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA8E34CC21
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 01:41:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B517634D22A
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 04:15:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id C6DFF302824A
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 00:41:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9AF5C303FDCF
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 03:15:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6854A1FBEB0;
-	Sat, 28 Mar 2026 00:41:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D2ED35DA6F;
+	Sat, 28 Mar 2026 03:14:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="viLd/j5O"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hKv9H7ko"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA081F03D9
-	for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 00:41:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB2A1F7541
+	for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 03:14:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774658488; cv=none; b=HAlWXxmawq4HACVoN4f/XmuOKIR45F17vFyiAcdqKc7AVY+sYssMfY1XryY2+z/eot5HPzvPxvBYQWw3q7E2Ea9Lc+QJJIrtjJgxDEgoQPrBsoeWO82sLbaOanyQnERAE6PDEzQGLMcA6KMiuyPW6M6gP4tLlg2zoVrasCPZb98=
+	t=1774667698; cv=none; b=s4NxEjnt6lQQ+qTEGbBmEbRUDTz2JJcCSWwytYmcd0PDHTnEbOb+Y3oUpolgZzDZwN8igEbLmEtp3kTtjKJmG/LTnhqIqLF6ew4RqGJTSF83QaFvox+iPeWMfSfBYhJqHh9+MAIJKb0thVDOCzWRLDlkGAICH6LcT7rvs1Uz6K0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774658488; c=relaxed/simple;
-	bh=vWi5PsX3/N3kIUZKJo1GpcR0ab9hV2ov2mnFXm2V5+8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EEB/v249rx5ZGszhPPJ3DpJTsO+wc8hFeZ3YuQzFRB13uAps0BnIO5/H9Tewbv9VnrX7qe1gLKYMga9LXvyvp8lD7gq0d94+3T60O1dfkaN7KkGEene4OWCVSjQURzUtfw7ogwDhUwdKvqjRNnUZok5IQzVr6b8M6Ndw1Y6mX/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=viLd/j5O; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-38a2fb8ad36so1047151fa.0
-        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 17:41:27 -0700 (PDT)
+	s=arc-20240116; t=1774667698; c=relaxed/simple;
+	bh=ivB1OmGdPNTW2GK2AKrypX3cG37iKp6PvyWPTdn8sXc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jj87y/32mXO9t7O8kQMlLb4gSdzX07kVkqgFvGlCLQAswoJ29f6NObExFa19LfRyj1K+6/2cUjeTC1my07Ufh/icdyox14sIDAqaNWjTkrunnXWto8BNPmZiC+EP3xbDqGr//R2FINepX6a42LOrwPxHb/gvTNvBlqyHLGRyb2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hKv9H7ko; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-67bbea1e090so1650096eaf.3
+        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2026 20:14:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774658486; x=1775263286; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NGqFSu/F2IhY+ii28nyc1IJ0LboHG+irAmTUkiXh190=;
-        b=viLd/j5O2afh9CeeL7DUdhStyVjJFcDF6ElR5yozqSLwFVxltdeipYPTM1iqpOs4S8
-         g9GsGm3EWDd++XvTgzutVAxDs5PWlCYE8iwpsr20wVhGW+syqxXc91zb7A/Wrv8KqMwB
-         ce+TfK90UvO4J7mcE1f2IQGWsa2oDkPI/8tUD+ZmEW8w9p3RVf2IDk449ZRYjsAj10P+
-         HSkBpOQktql+AC5srfbOj5lW+eMmdtIHEYIeT3Z9h7UjbYxH2iah2Jl9AO46jsYTTyPD
-         FIcAlepEXvAEItXFvoH7twz0c4pBbfOdO1VbfobrczypBqYVghDP+X88afwuvrArF780
-         IvEA==
+        d=gmail.com; s=20251104; t=1774667695; x=1775272495; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oOf1MJihMCaszzTY/m9WkVl5J6IxRQts736E69NospA=;
+        b=hKv9H7koPDhkvP9TC8lSsQ1XpCx7rM49EVpFReTxph3aBtOBPxwIsDYRn5jVC/WqbK
+         8/25yKTIMU/BDgQaT1eKfaY7xwCUi/uD34NqAEvWFkokWYpYA/N31atxx/gIdEJGWjzl
+         XKoI+tEWSIelEYSMpwMuCAczwspmunx3EQWk6Naut5Re+C9qG86Ytgl2YwS8k+wvGi9H
+         8702nM2JWl/tINVX1g77uahtkhSqFPDZUBg6j96Aj+b2cEZ/L1nsPx4bQiF1U2Vd9dKW
+         BVpJ+z6JO3kDNXtpQHVW20YKno73q1aD+zAtn8T8AQAiTyouMiRuZa27MAYXO+eJKRNK
+         fSiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774658486; x=1775263286;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NGqFSu/F2IhY+ii28nyc1IJ0LboHG+irAmTUkiXh190=;
-        b=ZPsXfxxi0WcCi762oo8r4Ke72OWcDpVdFEMuYB4Cg9JQV0kPDloReddWcZwBvqAhd6
-         aP3aGglvkgPRb2N2kzTREbrSLvwQYA7EOLVMtNi6pNvufQ0+St5g27Cs9aMNDr1pj6+l
-         a+0/ISw1mbVd7c5tD/3HpJrmJT7dxFO1jq1WpGr44hB+YKXg7opOgtFtRTokML8OJLBt
-         TDw4BvV6dit4L2HTeys66u8i1kR2DUiOE7ROqMdtWxkl4PtPA64qORf13qRfraI+w5pI
-         pikhn7ef4pceMpZJW8R/0dmg2rvIRtm6wzXdYr+h71rlgOhrwG1E6zjpEhQhusRLBhGV
-         75vQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWB8uRK32FCXJdbx9E2Gepszl76DVfEHPER+KC055zLmF/3+mj2p2Ec57mctNcjBWqM3HcXr8wytUr+cw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuUsjL4qU34ooeDtqZ5XDsyBYG03gbuA4gp0nQIs6gYAa10MfG
-	NJXZ9nbtJlXyOgJiNlyBsnmziOI1ZDyc+NS6usYQclgMh6cog8t83rVP431JDWqq050=
-X-Gm-Gg: ATEYQzwLnw8+8ZEHKIV2Psd/hIr5FQbJzI6MqKUohUOAjMg/a9TNT+CEizKr6q7aFhT
-	Ebw8A4GCy6wq71kDkVG3oP8BhSmpJjEv77eDHOVTd1zqcLJsC03qsMkWAvXR5W0hTSGHEgM8OOg
-	pe6EtJT1y3FiAQd67NkXlYvt3GlhPyTTSYfAiuApn0lO+M4ga9UAzDn5zCKldr4RjzAakM/Odyt
-	6wTQyxrbGl+sDv8yHZK1pxHeHCCKgkmOk9n9ZspxeTtsog4k2hmMMXYiCfAXQqpvjPK0V7zNEGg
-	hzmc/YIDJGiCOh71V1RS/I5OJS/zDM83tAOUHQOleXZUUALq0wOtM+F5lPyCBdMbwY5mtDKioi/
-	LE0frj9Aiv2ZTS8aBg1k5joNN0ycekBPrvzHuIN4Jw55tWhb/3xJd8EcNNos4qWdFPyx9Ee9zCd
-	faMkI5Guv27IzsAYjBfqUdyvd87tvA8Bzw4UgfYz3vnG6GmHUKg/vlpG6owFpXSNUway4IJMVBB
-	j6g0+/NRfMcO1Qg
-X-Received: by 2002:a05:651c:4cb:b0:38a:3473:526d with SMTP id 38308e7fff4ca-38c740675c0mr7346841fa.7.1774658485521;
-        Fri, 27 Mar 2026 17:41:25 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38c8389524esm1397891fa.21.2026.03.27.17.41.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Mar 2026 17:41:25 -0700 (PDT)
-Message-ID: <d2ebd15d-71d1-4063-903c-2b5971696a5a@linaro.org>
-Date: Sat, 28 Mar 2026 02:41:24 +0200
+        d=1e100.net; s=20251104; t=1774667695; x=1775272495;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oOf1MJihMCaszzTY/m9WkVl5J6IxRQts736E69NospA=;
+        b=G4ronysJ1xVXXb3IvGw16qoES8Yw8OgAlWMk28b4lbFeamF/kgaamB2dGBgf9G1PDn
+         jfpnuFN0YiXeNwqVoVeWDUYRTj//LTMfppNYFeJsLRwM5cIr/f+kJqGfgsrtd1Bxv+2e
+         SRxjG+5JuUr3apqgQPd1NtLXO0ozbvqqlgRZLrgMX4YJe078lD86QW7NbZmuGXfkC5QZ
+         qXCzaF+1E8y30LnSi+oovGjkiYmkhbuu13R7ry/TPZLQWQmm+EfhSTvdJAq5epQakU2+
+         xVo0fbye/9ov+SoVpxjwVDXk6+Le1r78xKG8UAa8/CyY+X1YRSOfGBEvktIMQXDrHjQD
+         esEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUs4oS1uQW8e0kMzTb3WQ71jGWblEcB5H9DjnWq0rEiQOONHyvFV8DsgNnwptau4u2R+RoLn/j0/k0Pug==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJwE3tmg+v5hXFPbCViEVq1tLEe7M5IPklDUOjcP/SoR0LJ7DG
+	rOVTgauNsJR0EJrqgH1+OygJxWJxX2u4Nl+KejLbw7EcyxqakEWrz9M=
+X-Gm-Gg: ATEYQzyGfLC0+i4/wDJYjpeAbJpFywaenX6LCmkJbeyTz1k0tx2XvR8HSztpNSb5PqI
+	NwUMDlONCyyFWv/pmY2QmOr4kYlHtmnRQZ1O+/kgkLgHbRvCQb4RKvWnsVZyHe0jMMWt4bWDPqW
+	dJSZ37kBhcOtREqW3lWqeU4fFPltOw+apbZN3vwFkxYF3PPJK76aWdN37OUQge65nas06GwR/c8
+	5VCgl6y/vccy2LWq/VpD+oQnZARWSY36Ls9gwQk5S6ur6+C8x+KIgwH1cAhbuilbuMW9/q8sbd7
+	KmU6OvExU0OsUyLfNICM+TB8zI0mU4E/hlZWn1uCRc8IHK9wca76+IVLWd0TeUqMlMZGSQ0ri4u
+	7lMsHWgSzO12gcM4L3JcQnD0skzBY7h22NvvzNZb5OpDhMbRsiGPNFTiGDusVc4gLef3DBQ6Nve
+	bSUGv2S1o7gh1yTFcv1rfinrcAzCfZEaktioki08KyfE0mxiLNqDU=
+X-Received: by 2002:a05:6820:807:b0:67e:e80:694e with SMTP id 006d021491bc7-67e186ec7e9mr2683232eaf.46.1774667694816;
+        Fri, 27 Mar 2026 20:14:54 -0700 (PDT)
+Received: from miso.lan ([136.62.61.36])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-67e231ad680sm726309eaf.10.2026.03.27.20.14.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 20:14:53 -0700 (PDT)
+From: Matthew Laux <matthew.laux@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Matthew Laux <matthew.laux@gmail.com>
+Subject: [PATCH v2 0/1] Add driver for StarTech USB3HDCAP capture device
+Date: Fri, 27 Mar 2026 22:14:17 -0500
+Message-ID: <20260328031418.10459-1-matthew.laux@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Bryan O'Donoghue <bod@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Vinod Koul
- <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260326-x1e-csi2-phy-v5-1-0c0fc7f5c01b@linaro.org>
- <72ef6c9e-feb6-4e57-b8cc-7801bd748698@linaro.org>
- <f1c8c412-1d27-4c83-8c5e-76b9369ea6e9@linaro.org>
- <VwCtoebjwHqLTucsrGruvBpedA4k-Melt7C0DA0aHSVld3PeotwZdtMUm3EFpvQyScrl6yejmLaK7bY1avT1zQ==@protonmail.internalid>
- <8ac55e5f-72ed-4331-bf42-92ccf97507dd@linaro.org>
- <5d7d5bf8-4420-4d75-b928-820bb9233e52@kernel.org>
- <CiKTMNVmEm3LXForJ4o-DjuXFxbKkiaLtqbFPYyA0rC-Ij0hJPmCw_LUixA-dZe2douOwy2Jxizna8qBRvUjPw==@protonmail.internalid>
- <2houacfdkozzk35ky5xtwe3utkvyx4lroyrhvibb5lg6lad2g6@56akvtqigaep>
- <556a6736-472d-4551-b5df-15e809e7e20e@kernel.org>
- <a44a0f58-11cd-4aa4-962f-a5b153e24d82@linaro.org>
- <qr6ubhjlzxenx7rswwkfu2nkc7ci5hw5tynpipa76bqsibbd3d@rw5d55vjnkbe>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <qr6ubhjlzxenx7rswwkfu2nkc7ci5hw5tynpipa76bqsibbd3d@rw5d55vjnkbe>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57402-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[linaro.org:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57403-lists,linux-media=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[matthewlaux@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:mid]
-X-Rspamd-Queue-Id: 4DA8E34CC21
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B517634D22A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/28/26 01:23, Dmitry Baryshkov wrote:
-> On Sat, Mar 28, 2026 at 01:12:22AM +0200, Vladimir Zapolskiy wrote:
->> On 3/28/26 00:29, Bryan O'Donoghue wrote:
->>> On 27/03/2026 20:51, Dmitry Baryshkov wrote:
->>>>> That's just not true. If you read the camx source code you can see
->>>>> split/combo mode 2+1 1+1 data/clock mode requires special programming of the
->>>>> PHY to support.
->>>> This needs to be identified from the data-lanes / clock-lanes topology.
->>>> And once you do that, there would be (probably) no difference in the
->>>> hardware definition.
->>>>
->>>>
->>>> In other words, I'd also ask to drop this mode from the DT. This
->>>> infromation can and should be deduced from other, already-defined
->>>> properties.
->>>
->>> It still needs to be communicated to the PHY from the controller,
->>> however that is not a problem I am trying to solve now.
->>>
->>> If I can't get consensus for PHY_QCOM_CSI2_MODE_SPLIT_DPHY then so be it.
->>>
->>> I'll aim for DPHY only and we can come back to this topic when someone
->>> actually tries to enable it.
->>>
->>
->> DPHY may be the only supported phy type in the driver, it does not matter
->> at this point, however it's totally essential to cover the called by you
->> 'split mode' right from the beginning in the renewed device tree binding
->> descriptions of CAMSS IPs to progress further.
-> 
-> Okay. How would we describe that there are two sensors connected to the
-> single PHY anyway? How would it be described with the current bindings?
-> 
+Add a V4L2/ALSA driver for the StarTech USB3HDCAP (and Micomsoft
+XCAPTURE-1 variant), a USB 3.0 video capture device based on the
+MST3367 HDMI receiver, TW9900 composite decoder, and CS53L21 audio codec.
 
-An RFC example was sent about one year ago, it allows to specify one or
-two endpoints under a single phy port:
+The driver supports composite, S-Video, component, and HDMI inputs,
+including audio capture. I'm targeting staging because the I2C chip
+drivers are currently embedded rather than using proper subdevice drivers,
+and some other minor issues remain (see TODO).
 
-https://lore.kernel.org/linux-arm-msm/20250513143918.2572689-1-vladimir.zapolskiy@linaro.org/
+Tested on all four inputs at various resolutions. All v4l2-compliance
+tests pass, including streaming tests, but I did find what might be a bug
+in v4l2-compliance that causes any device that uses V4L2_FIELD_ALTERNATE
+to fail the streaming tests - I believe the sequence number checks in
+v4l2-test-buffers.cpp are contradictory for V4L2_FIELD_ALTERNATE and
+impossible to satisfy. I temporarily changed my driver to report
+FIELD_NONE to have the streaming tests run. I'm happy to fix the
+v4l2-compliance issue if it is indeed an issue, or fix my driver if
+it's not :)
 
+This is my first contribution. I based this driver heavily on the
+existing `usbtv` driver and welcome all feedback. I am committed to
+eventually getting this out of staging and will stick around to make
+any improvements needed so that can happen.
+
+
+Thanks,
+Matthew
+
+$ v4l2-compliance -s -d /dev/video2
+v4l2-compliance 1.33.0-5455, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 95ad25f6a77a 2026-03-17 13:08:36
+
+Compliance test for usb3hdcap device /dev/video2:
+
+Driver Info:
+	Driver name      : usb3hdcap
+	Card type        : StarTech USB3HDCAP
+	Bus info         : usb-0000:00:14.0-2
+	Driver version   : 6.12.73
+	Capabilities     : 0x85200001
+		Video Capture
+		Read/Write
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x05200001
+		Video Capture
+		Read/Write
+		Streaming
+		Extended Pix Format
+
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video2 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 4 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK
+		fail: v4l2-test-io-config.cpp(210): field == V4L2_FIELD_NONE
+		fail: v4l2-test-io-config.cpp(386): Timings check failed for input 2.
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: FAIL
+	test VIDIOC_DV_TIMINGS_CAP: OK
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 8 Private Controls: 0
+
+Format ioctls (Input 0):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+	test blocking wait: OK
+
+Control ioctls (Input 1):
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 8 Private Controls: 0
+
+Format ioctls (Input 1):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 1):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 1):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+	test blocking wait: OK
+
+Control ioctls (Input 2):
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 8 Private Controls: 0
+
+Format ioctls (Input 2):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 2):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 2):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+	test blocking wait: OK
+
+Control ioctls (Input 3):
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 8 Private Controls: 0
+
+Format ioctls (Input 3):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 3):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 3):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+	test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK
+	test MMAP (no poll, REQBUFS): OK
+	test MMAP (select, REQBUFS): OK
+	test MMAP (epoll, REQBUFS): OK
+	test MMAP (no poll, CREATE_BUFS): OK
+	test MMAP (select, CREATE_BUFS): OK
+	test MMAP (epoll, CREATE_BUFS): OK
+	test USERPTR (no poll): OK
+	test USERPTR (select): OK
+	test DMABUF (no poll): OK (Not Supported)
+	test DMABUF (select): OK (Not Supported)
+
+Total for usb3hdcap device /dev/video2: 134, Succeeded: 133, Failed: 1,
+Warnings: 0
+
+Matthew Laux (1):
+  staging: media: add driver for StarTech USB3HDCAP
+
+ MAINTAINERS                                   |    8 +
+ drivers/staging/media/Kconfig                 |    2 +
+ drivers/staging/media/Makefile                |    1 +
+ drivers/staging/media/usb3hdcap/Kconfig       |   13 +
+ drivers/staging/media/usb3hdcap/Makefile      |    4 +
+ drivers/staging/media/usb3hdcap/TODO          |   15 +
+ .../staging/media/usb3hdcap/usb3hdcap-audio.c |  301 +++++
+ .../media/usb3hdcap/usb3hdcap-composite.c     |  182 +++
+ .../staging/media/usb3hdcap/usb3hdcap-core.c  | 1002 +++++++++++++++++
+ .../staging/media/usb3hdcap/usb3hdcap-hdmi.c  |  802 +++++++++++++
+ .../staging/media/usb3hdcap/usb3hdcap-video.c |  505 +++++++++
+ drivers/staging/media/usb3hdcap/usb3hdcap.h   |  234 ++++
+ 12 files changed, 3069 insertions(+)
+ create mode 100644 drivers/staging/media/usb3hdcap/Kconfig
+ create mode 100644 drivers/staging/media/usb3hdcap/Makefile
+ create mode 100644 drivers/staging/media/usb3hdcap/TODO
+ create mode 100644 drivers/staging/media/usb3hdcap/usb3hdcap-audio.c
+ create mode 100644 drivers/staging/media/usb3hdcap/usb3hdcap-composite.c
+ create mode 100644 drivers/staging/media/usb3hdcap/usb3hdcap-core.c
+ create mode 100644 drivers/staging/media/usb3hdcap/usb3hdcap-hdmi.c
+ create mode 100644 drivers/staging/media/usb3hdcap/usb3hdcap-video.c
+ create mode 100644 drivers/staging/media/usb3hdcap/usb3hdcap.h
+
+
+base-commit: 2c8fe1f14240d75f2002e16b2b69c5c2d27ed41c
 -- 
-Best wishes,
-Vladimir
+2.47.3
+
 
