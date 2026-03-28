@@ -1,185 +1,172 @@
-Return-Path: <linux-media+bounces-57465-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57466-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AMx9JMgTyGkYgwUAu9opvQ
-	(envelope-from <linux-media+bounces-57465-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 18:45:44 +0100
+	id OZrPLlobyGkGhAUAu9opvQ
+	(envelope-from <linux-media+bounces-57466-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 19:18:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC4A734F71A
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 18:45:43 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3C134F7D7
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 19:18:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A06E83032650
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 17:44:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id ED16130269F2
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 18:17:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B08213A452F;
-	Sat, 28 Mar 2026 17:44:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 657033793C2;
+	Sat, 28 Mar 2026 18:17:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Fhasfqx4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pNjDFCXu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB50F32ED29;
-	Sat, 28 Mar 2026 17:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF133E47B
+	for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 18:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774719891; cv=none; b=UHKBTa0QmghVTWkJQllrh2Jd8vN16P66Pyf/nxiNBq1Kv6HghQ43fA9d454djQL9wbX0aevWSkOL5Fr/Q+wKqrIwWJE3CQ4FWgu4SnBkbMRwu+vs2gXxNqzMHJF1+8kPsFyonRvtTR5wULkcUlmkO5anHujCfH+j7jIuV+uhNlQ=
+	t=1774721875; cv=none; b=dq+YPTXJcDvtb+5ugits3+Cf7yDzteB/Hjf5okQVOE+cnRF8L1kMZdb7qKV3nmmOe0ywqesqD4cwrlfveZYzJ4mWb1luZfaW0JVz6DHcCnG4jkbRHMfPV+rlfHuufp05T/ZJlsniAD04byniR9UtFlf3iE9rs7kB5tM+DV13Tt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774719891; c=relaxed/simple;
-	bh=9f5FoTkpUEAyYpmPdbk4UmzTlkKkBMcDTGMWT/ZTAtY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=faLiovbXkZ+UN+ZUmfyU5y8sZ6/W8K3fIrFcss8sxRMvH+84/G42XJj0DT+noRpWELcCRgQyD9wergI8bEtmE3Eh+yefaNOM/9uDbNcXIz7L18csc2KgjIl8JixfuqbZYbWV7v1NO67NsCSeICTsog//W2NmEo+8kkCgr9rMbgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Fhasfqx4; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A579573B;
-	Sat, 28 Mar 2026 18:43:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1774719807;
-	bh=9f5FoTkpUEAyYpmPdbk4UmzTlkKkBMcDTGMWT/ZTAtY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fhasfqx4pFNWTT4FMvnRjoIVljc0kzW3i6C1MXPKOUUT7+0w0AJEHMoqR4V/RriSM
-	 Xj61FfLnBeYpuNP051JHAAizEUIRJtqlQX7uMQWfeb/mevcf5AFq3oh6etF6bFeEEY
-	 FnjSpWOCEOrxvNqAs8Gvzv1IBFnUpyyXKHvpk7WQ=
-Date: Sat, 28 Mar 2026 18:44:44 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: David Carlier <devnexen@gmail.com>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: dan.scally@ideasonboard.com, jacopo.mondi@ideasonboard.com, 
-	mchehab@kernel.org, nayden.kanchev@arm.com, hverkuil+cisco@kernel.org, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] media: mali-c55: add missing
- of_reserved_mem_device_release()
-Message-ID: <acgSk8u9wquMU4Iv@zed>
-References: <20260328151452.148901-1-devnexen@gmail.co>
- <20260328170411.186973-1-devnexen@gmail.com>
+	s=arc-20240116; t=1774721875; c=relaxed/simple;
+	bh=ZWJg7QYWRQbgXcojyR4TKyqPIue1T7QETHoFjcx4hlA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WlL4ghf+1/5tzmb6RPO2bPYMymReGactcnrM2mKiwKg0v0hQAlldptrjnOYsEw8YQnl9udwL3b6E8NZ3K35rdYiqdsW+iRwnxGg7yykNPINTy/FqHxI9RrTzwNeZAzyQ4+H0lp0/ybQ9QxJaJh19XiuCVIcXYAtTk24kCTf/VEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pNjDFCXu; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-439cd6b09f8so2097195f8f.3
+        for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 11:17:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774721873; x=1775326673; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rprbcKOKh6LbVDBtx1L6evH/A6xyQAWdrHbB0AMy/jA=;
+        b=pNjDFCXudYSC/Uo2+ev+6npNPz6F9f3fzuukjykp2RhTmoh12SrSsgc2dBtG3Ju2sb
+         vaFKG+vN0r8kkqE1E2uPBNG8lGKrsPJel+4T8d16PFLyswKgfxS4/aZ9T7fKROu0invA
+         2ExsLzt/EuJYO7hJaP9aup9QhFJwQfAdAKHVMyDFgBrq3OSm7F9WN/enC7YJksZhbbE+
+         ny2lIK2HlDqzwMbYcoHFvSgZHjFflfhzfhjHtV1dK2nG/2gL2r4KvjZBwDrXjWHPO/Rg
+         mxeEqEcAUmHP/J3qe07mGjLWUKrPFQQFF5iTXodqqyczZQkS3zvFKhkB9yeNl7+5g5fO
+         278Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774721873; x=1775326673;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rprbcKOKh6LbVDBtx1L6evH/A6xyQAWdrHbB0AMy/jA=;
+        b=n9c9ZiJnPj43w3n3/mdRzC1GnuzoY/z6xkCmCsCwH/DBtfs3CIAWEYV84ZEENoDMlJ
+         JCaAImU7e8rzoIG3AayM05DQbos4CDlMidJuDSu2PpAW+v5rZ24MVthzTZagr8BSLzl5
+         9/h3CjgdVc6EvKViRPlLQkrCrtmZxHrYx3kDfbBqmr4PM/yWIdw1+NRKqcULT9pmkTIy
+         B1oCx/bOdoFx3bTXALTcy3ayQWNAN6YSJqiCjiOCAroLouIdK/kKdhAYAwnQOYxvNt+8
+         V7dcCOlquEUEitikzOFDB72izuzSks1BoVugJWYfYHgIH/zF5nEbbs9j71vUXUAd6Gy9
+         cnnQ==
+X-Gm-Message-State: AOJu0Yw+PBr3QYRuEkfu9GwSMU/O4V8FTswxxIRb0t9pfKMTK73flKMN
+	jtffLJM0igWm+qI74zFu7b79ER1Ru2OqO6mRZUpUotw8/xwI1qzfRflQ
+X-Gm-Gg: ATEYQzzT5REKoIBxTiQCFX0IlmRRilQ8DcHPUuc6NLKxvew5EOagzolsCafFgdVEHtm
+	uIYZX4A5hB+GB13Ok8aPa4IAAD6TVbt1BbitqxqfTTzEj81CBhwVzsF6Z8dG+K66SWTyJBBl/qc
+	bG6DYadGhAUrXzNdJYmPu1vHQblDVHQKlvHUfgfSScGYvB+UTJbw4eza0n8TIRkuXgpW0VeGmh5
+	7BxIFPe3JMfN8gZ5+21DWILCjS4TqHhLN+U2sxEd12NnWumNOguvgX74TeX/D5SGbyT2t0WYlFA
+	wyBOJs6420fDipy8qEf+F2d/KGKYnVydQjub9Cgsd4RE6bxSI5l/8ghf3veatrOGn1o37d4dh0C
+	8XpyI3Roaczlu8MD+48hOdFmLgUyf3IDfQujWTzIR/rtD5j5e3fQx1t2ePOIimU5cTUNQyDIqAl
+	7fcAksFBDcVerCzoTqLeFZGDIEaMHh1lDSfFHaTqSy0kQKDydtNpvxo/Hbp4A0Bp7lsSLE7xQfX
+	L00EP21dYCt
+X-Received: by 2002:a05:6000:220b:b0:43b:8023:8b2 with SMTP id ffacd0b85a97d-43b9ea76481mr11973788f8f.45.1774721872613;
+        Sat, 28 Mar 2026 11:17:52 -0700 (PDT)
+Received: from dohko.chello.ie (188-141-5-72.dynamic.upc.ie. [188.141.5.72])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf247472csm5435632f8f.28.2026.03.28.11.17.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2026 11:17:52 -0700 (PDT)
+From: David Carlier <devnexen@gmail.com>
+To: kwliu@nuvoton.com,
+	kflin@nuvoton.com,
+	mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	openbmc@lists.ozlabs.org,
+	David Carlier <devnexen@gmail.com>
+Subject: [PATCH v3 1/2] media: nuvoton: npcm-video: fix error handling in npcm_video_init()
+Date: Sat, 28 Mar 2026 18:17:49 +0000
+Message-ID: <20260328181749.13047-1-devnexen@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <69c81867.050a0220.26a904.f72a@mx.google.com>
+References: <69c81867.050a0220.26a904.f72a@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260328170411.186973-1-devnexen@gmail.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57465-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MISSING_XM_UA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.ozlabs.org,gmail.com];
+	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57466-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[devnexen@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: DC4A734F71A
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 1E3C134F7D7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi David
+npcm_video_init() has two error handling issues after
+of_reserved_mem_device_init() is called:
 
-On Sat, Mar 28, 2026 at 05:04:11PM +0000, David Carlier wrote:
-> mali_c55_probe() calls of_reserved_mem_device_init() to associate
-> reserved memory regions with the device. This function allocates a
-> struct rmem_assigned_device and adds it to a global linked list, which
-> must be explicitly released via of_reserved_mem_device_release() — there
-> is no devm variant of this API.
->
-> However, neither the probe error paths nor mali_c55_remove() called
-> of_reserved_mem_device_release(). Any probe failure after the
-> of_reserved_mem_device_init() call, as well as every normal device
-> removal, leaked the reserved memory association on the global list.
->
-> Fix this by adding an err_release_mem label at the end of the probe
-> error chain and calling of_reserved_mem_device_release() in
-> mali_c55_remove(). The remove teardown order is also corrected to call
-> mali_c55_media_frameworks_deinit() before kfree(), mirroring the probe
-> init order in reverse.
->
-> Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
-> Signed-off-by: David Carlier <devnexen@gmail.com>
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+When dma_set_mask_and_coherent() fails, the function releases the
+reserved memory but does not return, allowing execution to fall through
+into npcm_video_ece_init() with a failed DMA configuration.
 
-Please don't send single patches broken out from the series they
-belong to. Either resend the whole series, or, if really really
-necessary, just update the single patch in reply to the one in the
-list by making it [PATCH v4.1] in example.
+When npcm_video_ece_init() fails, the function returns an error without
+calling of_reserved_mem_device_release(), leaking the reserved memory
+association.
 
-Otherwise for maintainers knowing what patches to pick up and from
-where it's quite difficult.
+Fix both by adding the missing return after the DMA mask failure and
+adding the missing of_reserved_mem_device_release() call on the ECE init
+error path.
 
-In this case, no need to resend, I'll add my tag (and possibily
-captialize the first letter of the commit title) once I'll send a pull
-request for v7.2 (unless Hans still have space to pick these ups for
-v7.1, I've put him on cc)
+Fixes: 46c15a4ff1f4 ("media: nuvoton: Add driver for NPCM video capture and encoding engine")
+Signed-off-by: David Carlier <devnexen@gmail.com>
+---
+ drivers/media/platform/nuvoton/npcm-video.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks
-  j
+diff --git a/drivers/media/platform/nuvoton/npcm-video.c b/drivers/media/platform/nuvoton/npcm-video.c
+index b2a562e1ee1c..5c6bddfe8073 100644
+--- a/drivers/media/platform/nuvoton/npcm-video.c
++++ b/drivers/media/platform/nuvoton/npcm-video.c
+@@ -1720,10 +1720,12 @@ static int npcm_video_init(struct npcm_video *video)
+ 	if (rc) {
+ 		dev_err(dev, "Failed to set DMA mask\n");
+ 		of_reserved_mem_device_release(dev);
++		return rc;
+ 	}
+ 
+ 	rc = npcm_video_ece_init(video);
+ 	if (rc) {
++		of_reserved_mem_device_release(dev);
+ 		dev_err(dev, "Failed to initialize ECE\n");
+ 		return rc;
+ 	}
+-- 
+2.53.0
 
-> ---
->  drivers/media/platform/arm/mali-c55/mali-c55-core.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> index c1a562cd214e..5cb59c70ffc9 100644
-> --- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> @@ -806,8 +806,10 @@ static int mali_c55_probe(struct platform_device *pdev)
->  	vb2_dma_contig_set_max_seg_size(dev, UINT_MAX);
->
->  	ret = __mali_c55_power_on(mali_c55);
-> -	if (ret)
-> -		return dev_err_probe(dev, ret, "failed to power on\n");
-> +	if (ret) {
-> +		dev_err_probe(dev, ret, "failed to power on\n");
-> +		goto err_release_mem;
-> +	}
->
->  	ret = mali_c55_check_hwcfg(mali_c55);
->  	if (ret)
-> @@ -846,6 +848,8 @@ static int mali_c55_probe(struct platform_device *pdev)
->  	kfree(mali_c55->context.registers);
->  err_power_off:
->  	__mali_c55_power_off(mali_c55);
-> +err_release_mem:
-> +	of_reserved_mem_device_release(dev);
->
->  	return ret;
->  }
-> @@ -854,8 +858,9 @@ static void mali_c55_remove(struct platform_device *pdev)
->  {
->  	struct mali_c55 *mali_c55 = platform_get_drvdata(pdev);
->
-> -	kfree(mali_c55->context.registers);
->  	mali_c55_media_frameworks_deinit(mali_c55);
-> +	kfree(mali_c55->context.registers);
-> +	of_reserved_mem_device_release(&pdev->dev);
->  }
->
->  static const struct of_device_id mali_c55_of_match[] = {
-> --
-> 2.53.0
->
 
