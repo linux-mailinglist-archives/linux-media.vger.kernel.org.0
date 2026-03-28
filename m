@@ -1,233 +1,158 @@
-Return-Path: <linux-media+bounces-57446-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57447-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IJ6HCkbvx2mcfAUAu9opvQ
-	(envelope-from <linux-media+bounces-57446-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 16:09:58 +0100
+	id 2D42F3fvx2mcfAUAu9opvQ
+	(envelope-from <linux-media+bounces-57447-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 16:10:47 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B94334ECB8
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 16:09:57 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04ABA34ECC7
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 16:10:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 30DDE30263F5
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 15:09:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5797F3027115
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 15:10:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76CD2344029;
-	Sat, 28 Mar 2026 15:09:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70AF4344DAB;
+	Sat, 28 Mar 2026 15:10:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WfBL5UsL"
+	dkim=pass (2048-bit key) header.d=imarcom.net header.i=@imarcom.net header.b="LQSp1H58"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3D632D452
-	for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 15:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774710594; cv=pass; b=D+IrqF+6QXRtyw72TjERmZa7QrasotqM3zP0oHxmu97O7+1aeAv9qWOiwTviJPkn8q2p5tKdoqIYRRch2pbLVIH8SLThiB61+CH05Nz/gQ8+WPmaj7Si1w1j2H9IyBfSwQy+e52jfJ5m4E/44pzm6srg0E4UtwuqWcRDhYN8+4s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774710594; c=relaxed/simple;
-	bh=IioqiuEnWClehqyf6kuLnL06MkxuADF1V4yo9xN84uk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VPZfJrjJDIYOA3SQ47D1rUUDLhrjHy6+CISDZsjM8p0jwnyyNoH20xQVXINc62El7AQnzyrK9qUZbEE9CeEj57WZX/UPibVeIPNhWP/XoDFUMjvAarRGLFzCaNNRe0osbO3injPwA9LhfA6PfdOT4KWqNjb1sCkql8ulcanGXvg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WfBL5UsL; arc=pass smtp.client-ip=209.85.210.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7d74aa6bcdbso1722553a34.2
-        for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 08:09:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774710592; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dwxy3cg93igjj5bXXZlteQWKGU9a1wgqsekfcuRpDZB41itThSsDycxIcFIhrD/Nf7
-         88f50/b84222nWvkIrIWAHMTfFmtj47/UZI+C1diRdfETsScLwr32l5kd7VcUhGjnycH
-         mwJRcS8gn7VRhedcrTTpM2lm7p/hJqqxMxBJRw+UEITESHnjsguFbsADx8RWZHrnsur7
-         paoxeNEQ4kPW6DwIeXW9WUFc0YqSWviTTNlwr8dHWAQdoXG6fTHcJcgK2zgwVp96A5RT
-         RojyxqzSkE2qcEej9Sye5xNrpmd3fg6HzLg4MQ+wr4ryavAc+pl5Ubc0LNRJt/aXsDUc
-         JDBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=t4pH2aZy44NwbJt2RTZwPfT6J+uUkQC1o5bzn/r9BTY=;
-        fh=PRYtMFE/mkhS1KVCZGaO9lCDpL6yWVHp57HWOh3PzVE=;
-        b=AxyAz/mptVfpNbsSgronArBGNbHoL4OR+C3n3YdfIuMcb2T+Vs9epjB1YHpzGZbxSk
-         oRUDfA73Z/8Y9SvbIoh7tQDnVAyvY4GkzNVpgDZATmBLZb94hrfeb/A8Qf467obiQ9xu
-         0nzc4GIjNH1rUMHEnSUWFkQWW/jGL+32QBh+l2M2oBoAQhsGPgYRkC52wxShZIQuQb1V
-         o6BPPCJQgeO1fyk/jbfZyzpvqJ3wus2wfljh1JtLXmahMrGjerkIGpxTibbtYfEnqwIe
-         BFbbCjH30cFzoyTxMMHxHd+SM3/pGPRZkuRcPmehwc898cl7lfeUrgy8I5UDyC+nJtWM
-         oAbA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B708A1FC0FC
+	for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 15:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774710605; cv=none; b=Jt6xL6EaREAghLAFX0/ENOuhNu/DNb1NSjUDUmXwz+qqYdXZ54NkQ8Hm3RfcMtQWHFTXKSrHKiEzNn+ZaAGOo90I/bnKLxaGLIARflVnCIzeL3S4Ea6BZQUpOxkHiZTFGyM/PBrXuPo1rOI4NSn32tgSgGDV7PrADH8rJtvQMyQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774710605; c=relaxed/simple;
+	bh=FPi17ulhlZb0Nh7g4bA+5CMJwB2VDszgc84H1G/p+b0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pzhVwdoLuEokyh7RaYTfQmemgAyw34ljGNDrsNh4SBSmeGIlGlJeO3i7m0t2ZWSJcTXeYQynpCCPhgUIuMmcNRZH4DI09KH2+eQ7Dm1B5H8Dnb5iAF1J9js8EkhwbCBIUizGkaNp6nRs6xPOsdK1yzRmixJFgxW55ExPDFtdHyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imarcom.net; spf=pass smtp.mailfrom=imarcom.net; dkim=pass (2048-bit key) header.d=imarcom.net header.i=@imarcom.net header.b=LQSp1H58; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imarcom.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=imarcom.net
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-50b392f1846so49800071cf.3
+        for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 08:10:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774710592; x=1775315392; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=t4pH2aZy44NwbJt2RTZwPfT6J+uUkQC1o5bzn/r9BTY=;
-        b=WfBL5UsLBlpKCRBco6kDzGom3KjxWt3+X5JzfV8JYnv6p4UUaZPMsbs1BOYyt0zE8w
-         hasuwHbkxMWn65F+UziaoaTDgXBYJRVVfS6kCjO88YCtOH1INO1vXMQRqu5QN7MdtTT1
-         wdQfST0dIbJGWjOKLEyJqPEKslmAzju+EAVvyV9g3kSrhnIrAtP8Sd4Ly9IxsZH/LLwP
-         /KC5UQi6xYRo4sUiiZQXsCyWHLj5pVWYaGdcLpXssdGmMR/gQqZA/dXXQ6gz31tS4gWR
-         S7z1jYEQsQFuEfYYZb/0/xKfF0iLNXpi/0NShvoNNoSP+BQvbsPiR7z7OCak2ER4azSs
-         JuzQ==
+        d=imarcom.net; s=google; t=1774710603; x=1775315403; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hNGrJbQZmfQ6fRrQhvlfsM9LjimdSqFD6j440bkAGso=;
+        b=LQSp1H58987iX9Ja2wty3ad6mjCMNh/k3+NVcsNIDyRFe+Z7P1PM4GVBKKF7jGcQ5l
+         5Y+YnAdBwzh1TkuXgpsiGWJtUwm6DzPrZ0hZctteCDIEba1DIDimGC3iqkh5QKsq+3/H
+         cbhHTGgfttlzbpGx8jndAbIbJOX025hPyAwFBBlOcpNGRfeJ3O5TLDLpREpnJyGx3C0e
+         a7tpORjbu7MXjx2cGvnu7RnGWOgg+dUmMyMpWyaLdG4UpHWA0RWljs5dVQvHW4b4bDMF
+         FM9UJy4cuQYe3jMkQe17S0GIfdD+ttuv6pZxF6kKwf7K2aa/mjDklgfk8GooQ1U0Voa3
+         Nk2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774710592; x=1775315392;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1774710603; x=1775315403;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t4pH2aZy44NwbJt2RTZwPfT6J+uUkQC1o5bzn/r9BTY=;
-        b=gZeWNtimR7TkMR+BEyiQWycAUbqZ1rRAzYT0ggToJLE2Y8RJcmNztNhHNXmg+AFrxS
-         Q0aON7NlWgHS8kjhB7XYXtGbzicsobI7I/xYF/Uk9wV93G5fM2IUzv8+6smeau77LvUU
-         5WsTAVupj8DEHHxju+VQCXx7dnMitAIri9XK4h4ewZYes5bP/6ZxgD6BlWJLKKGXoVkX
-         jHlXjJSL5LuIlZzc3oCpnLVMNk7fz7BvL1HuuVQqyjF2QOCb9UjDGCBjwITHb6vsNB8W
-         xXLQ+EvxgmbnJksBvLXgjBpA/L8aVRtx+u2YYtkYDWdu6YP9ZDNDM9J336IvbNKj2Vmv
-         CNmw==
-X-Forwarded-Encrypted: i=1; AJvYcCV+W70OFrrU/xrZUmJTMvNi4jED8OpecJ8Azz/WjduGhZfE+HWDsgaLIBsqBE22sY8QlZ9X++eMZFpTiQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUI8mBRx6WyZfZ8X73qJXbkMOLtYGnRl6d6bQIpY/vJ8OBOYUP
-	bjgLouuU0RwLJso5HOcXHwKna74MXeOPtgFYXUBZZWv6F81dhZL0tTOFUI9XAZvAHCcmR55O6Vm
-	pVPH9hK1WNnjrGkERaNNBap63d5nTgTrnb70Jrw4=
-X-Gm-Gg: ATEYQzwX4NO2Ry4QjtzmtPSZElcVtElsM/mS42PvdT1JrmR2Cjk/AWFE7gI5zdsAI5H
-	/wq9DwcDfQK6Eir5ZWJbYRJhCfgRGzAn5JHU2sYPQO2ucOP6IKM83erj0m6GEhSr/j1LEHWZCwy
-	wN31CGYqlZXnfpqZFuZuIc0gTUGNIhcBqcRGO26ehpbWrNTYHEk3gg8rEiWcdC/l7eDdcnxkRO6
-	hTn5hO9TQB5n9LqGl7EYq3NXd44gIgBs8An5z4qsqcd43FvcAhkws+UXJrRG257ztSITpc2ojmE
-	IlhFRZE6Qum2DA023zCtShRCtDY/iTJAoXiJxw==
-X-Received: by 2002:a05:6808:ec4:b0:467:f636:23bd with SMTP id
- 5614622812f47-46a8a5d55cdmr2874982b6e.42.1774710592461; Sat, 28 Mar 2026
- 08:09:52 -0700 (PDT)
+        bh=hNGrJbQZmfQ6fRrQhvlfsM9LjimdSqFD6j440bkAGso=;
+        b=mwF1FMiv9/bKUPuW3C8aCvZRT0rt1posLkrlNuibDcvqdtHP9CSDhHfBuF3kW30E/7
+         ebc4XN+dWuZ059V7Jnp89uLvGZC93aXT7jSohPfuMwYalBFLL9p4gZE+K7E2NNsZi1PK
+         K+ttlZNFSzn+G5nKQas3ffAB7ifE8XQoQjI8Gx7hi3basg9jKXuImiMwl1EO4pwUFB/P
+         3WNGYSG8hGjK4+BuDGyPxlIKafwZg5w4wK3uioRLF6AEBiHk7x5nYM+4VRCsCvhE7zcn
+         M9rl0ExWZdIVZrUzRmbeZdjOYUXQzszW2nZhvneUFDwZTzRaQee9/u4C/827gs9EZBdE
+         hfvQ==
+X-Gm-Message-State: AOJu0YyE/BAQIInT340jJXBv1KO3fG7Dy/tk1Jnm7d0KERyUjUqj73jv
+	0YXbYjN2coWpAoz0Blu3OfxCRh+zz2Fv6veaeRAssiED634W+32Xt8sikWZUuptlA0fh5Sut1uJ
+	yc4U=
+X-Gm-Gg: ATEYQzxN5q8OCSF2SqV+1i1HWoX+0lcYfb4cSFzjf2pWeJYGY4aXdPEY6Rgsk6ITPQO
+	PUKiCjkSfqLoO1ViSssUlCOEtn4bYIq7LGX77exw7+hsuGHP4MWnWbSE7AVxscy2zo3bvOlruxS
+	JTed225eKQMY1NtILSG8N0LXf9veuLLEAeXvN75chJy2lTMWT4JlHKPMcEsxUL6VK/gmf44BUPN
+	igwVfgRXSBrXUyitB8G7cqQwrP9UKdgLXL7+8usisVVjRyWrzuiUWWwWzY73/kYo8HYpvwi3Uvf
+	2AYbxNToieJwV+mcIUoXWjWEo9Y/0BjnYk+M97amIhIuImrPLEdbp8XYLjDs45o5Wa6krBXAAW1
+	gu/iKgw8T0kR2rvO5zcyo4N9fvaA4riOXqadwgxEHlzU/Sp8TihkT8C5w7psg9f9qyErYMUrZDG
+	tz7/id/xCwifhpLfgZ9Tb9E2qQnKA1Hs3qH5Gscg==
+X-Received: by 2002:ac8:5f0a:0:b0:50b:46ba:d271 with SMTP id d75a77b69052e-50ba380812bmr90824751cf.12.1774710603293;
+        Sat, 28 Mar 2026 08:10:03 -0700 (PDT)
+Received: from mdellraspe ([2001:4958:3d0c:9401:5bc8:b8be:38e9:7986])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50bb2de76a6sm20201241cf.18.2026.03.28.08.10.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2026 08:10:02 -0700 (PDT)
+From: MaximeD <mderaspe@imarcom.net>
+To: linux-media@vger.kernel.org
+Cc: mchehab@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Maxime Deraspe <mderaspe@imarcom.net>
+Subject: [PATCH] media: ipu-bridge: Add Dell 14 Premium DA14250 to upside-down DMI table
+Date: Sat, 28 Mar 2026 11:09:57 -0400
+Message-ID: <20260328150957.22380-1-mderaspe@imarcom.net>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260327150707.256752-1-devnexen@gmail.com> <20260327150707.256752-2-devnexen@gmail.com>
- <aca3Y6FHItK1cb9l@zed> <acfrMuiiRdCTNoMw@zed>
-In-Reply-To: <acfrMuiiRdCTNoMw@zed>
-From: David CARLIER <devnexen@gmail.com>
-Date: Sat, 28 Mar 2026 15:09:40 +0000
-X-Gm-Features: AQROBzAGlf0vcuBeV5AWNpamqI7OJ93nPOzrJojRzE52EEvmlh8RKegH80JOmv8
-Message-ID: <CA+XhMqxnjxfKdHZC7XOW5K9TgZPD-MHyiNZggHhNFdTpwCa9mA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] media: mali-c55: add missing pm_runtime_disable()
- in remove
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Nayden Kanchev <nayden.kanchev@arm.com>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[imarcom.net,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[imarcom.net:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57446-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[imarcom.net:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57447-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devnexen@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 8B94334ECB8
+	FROM_NEQ_ENVFROM(0.00)[mderaspe@imarcom.net,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,imarcom.net:dkim,imarcom.net:email,imarcom.net:mid]
+X-Rspamd-Queue-Id: 04ABA34ECC7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi sorry I missed your previous messages ok looking into it. Cheers.
+From: Maxime Deraspe <mderaspe@imarcom.net>
 
-On Sat, 28 Mar 2026 at 14:58, Jacopo Mondi
-<jacopo.mondi@ideasonboard.com> wrote:
->
-> Hi David
->   since you have to send a v4 anyway, would you care about also
-> powering off the device duing remove ?
->
-> I have a patch, but since you're already looking at this it doesn't
-> make much sense to pile another one on top.
->
-> Could you squash in the below suggestions ?
->
-> On Fri, Mar 27, 2026 at 06:01:29PM +0100, Jacopo Mondi wrote:
-> > Hi David
-> >
-> > On Fri, Mar 27, 2026 at 03:07:06PM +0000, David Carlier wrote:
-> > > pm_runtime_enable() is called during probe but mali_c55_remove() never
-> > > calls pm_runtime_disable(), leaving the device's runtime PM state
-> > > enabled after the driver is unbound.
->
-> I would use these as the commit message and the commit title:
->
->     media: mali-c55: Power-off the peripheral in remove()
->
->     The Mali C55 driver doesn't depend on PM. For this reason, if pm_runtime
->     is not compiled in it is required to manually power-off the peripheral
->     during the driver's remove() handler.
->
->     Also pm_runtime_enable() is called during probe but mali_c55_remove() never
->     calls pm_runtime_disable(), leaving the device's runtime PM state enabled
->     after the driver is unbound.
->
->     Manually power-off the peripheral in remove() if the peripheral has not
->     been suspended using runtime_pm and disable runtime pm.
->
-> > >
-> > > Add the missing pm_runtime_disable() call to the remove path.
-> >
-> > The driver doesn't depend on PM, so we need to explicitly power-off
-> > the peripheral in remove() (and set the pm_runtime status to
-> > suspended)
-> >
-> > >
-> > > Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
-> > > Signed-off-by: David Carlier <devnexen@gmail.com>
-> >
-> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> >
-> > This patch is however correct, I'll add the power-off on top.
-> >
-> > > ---
-> > >  drivers/media/platform/arm/mali-c55/mali-c55-core.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> > > index 5cb59c70ffc9..38b11d5ba168 100644
-> > > --- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> > > +++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> > > @@ -859,6 +859,7 @@ static void mali_c55_remove(struct platform_device *pdev)
-> > >     struct mali_c55 *mali_c55 = platform_get_drvdata(pdev);
-> > >
-> > >     mali_c55_media_frameworks_deinit(mali_c55);
->
-> And this should become:
->
-> +       if (!pm_runtime_suspended(&pdev->dev)) {
-> +               __mali_c55_power_off(mali_c55);
-> +               pm_runtime_set_suspended(&pdev->dev);
-> +       }
-> > > +   pm_runtime_disable(&pdev->dev);
->
-> Otherwise, if you want to keep your patch simpler, I'll add a patch
-> for power-off on top.
->
-> Thanks
->    j
->
-> > >     kfree(mali_c55->context.registers);
-> > >     of_reserved_mem_device_release(&pdev->dev);
-> > >  }
-> > > --
-> > > 2.53.0
-> > >
-> > >
+The Dell 14 Premium DA14250 (Lunar Lake) has its ov02c10 front camera
+sensor mounted upside-down, but the ACPI SSDB does not report a 180°
+rotation. Add a DMI quirk entry so that the ipu-bridge driver reports
+the correct rotation, allowing libcamera and applications to display the
+camera image with the proper orientation.
+
+Signed-off-by: Maxime Deraspe <mderaspe@imarcom.net>
+---
+ drivers/media/pci/intel/ipu-bridge.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
+index b2b710094..2611a96fc 100644
+--- a/drivers/media/pci/intel/ipu-bridge.c
++++ b/drivers/media/pci/intel/ipu-bridge.c
+@@ -118,6 +118,13 @@ static const struct dmi_system_id upside_down_sensor_dmi_ids[] = {
+ 		},
+ 		.driver_data = "OVTI02C1",
+ 	},
++	{
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Dell 14 Premium DA14250"),
++		},
++		.driver_data = "OVTI02C1",
++	},
+ 	{} /* Terminating entry */
+ };
+ 
+-- 
+2.53.0
+
 
