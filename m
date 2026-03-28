@@ -1,172 +1,195 @@
-Return-Path: <linux-media+bounces-57454-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57434-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sP0tLkHzx2lMfQUAu9opvQ
-	(envelope-from <linux-media+bounces-57454-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 16:26:57 +0100
+	id cO11LAW+x2lxbgUAu9opvQ
+	(envelope-from <linux-media+bounces-57434-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 12:39:49 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E14E34EE0A
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 16:26:56 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B7B34E348
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 12:39:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1CD7030416E1
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 15:23:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 04F9530523DC
+	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2026 11:38:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B14F34B1A1;
-	Sat, 28 Mar 2026 15:23:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87DDC388E5C;
+	Sat, 28 Mar 2026 11:38:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LS3TMnwm"
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="PHmaBbPs";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="2J/acEMG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC4832B99F
-	for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 15:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24433890ED;
+	Sat, 28 Mar 2026 11:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774711419; cv=none; b=eAtGMN7othnRxu+ae+NVirOD0i34ZKbl5pEpoarALuCaV5kRyTbR/VIrqgfXXLUTbXr0mt/IqVUFXq5UI/cRSwH2++SbLClclxD+uj7wpPnXwQIbLHVN4yFRnDFOgfhmdX9nsbDwAevvOujPrSHQj5hSwHsEHdvKtzCRO8TM84M=
+	t=1774697879; cv=none; b=ED/dvMEH4C/P1RYmIvIiyD2mtNNL0rq3EGzHxsn4RaJtP+eB/WmNDjHZGAYmpJcawL/RClM/HA2sPvNpAqsbcJ5/Sht4vYTVS2KaR+WGWS7GyZWjdpnUi4oK8lBa7uShcXD5rclF1li7SDTn6cQa0ZBYHzZeubosk0CxGTv6oVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774711419; c=relaxed/simple;
-	bh=DDxcgTMqVStcQgFfJEtZCeD2KwTgSjwDBMGcMyfbmOQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=npSJhPwEoyvOeVxEzPidbpHdxqxhT58RBVhZsk2tEvdNIsigi4dPac0TKR8Jk71pYsWntIW7UT5lNqvmWv/hHe3TG537Al4JJCCm+aqKZyXVfg4WV1K5dfma0/1++L9kuZdByMsXNelle8ElSktgtRqCt7qYKg8Z/KgNUjsjZxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LS3TMnwm; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b9a0762ed5fso424706666b.1
-        for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 08:23:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774711417; x=1775316217; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6LWhF3uaArkhQK+8SH0+E8r9jK9foFcw9lUUPANL8Bg=;
-        b=LS3TMnwmqJIaKbtO84k79yDBrcppQ4hRUd8TUpvmuWM44h/XGcais4rNtZLC4TGXe+
-         DZeQmYUxLrn+ySjC9tvJXpCuq4GZQG2XMzlxJfB9X/MQfJUtBA9QCp8zD1pn3+2m7/8A
-         Ldw7XkYSioQUPwrqPYPMkcIj3kg9Asrll/k01tDcwRVfbtyYlyBP/dUCX3nytzvEBaA4
-         gi8xak+pX1YU1w4nIGpUq2qaLEG9IOga6ZzRnpSbW3KvrX/TEvD5xRl9dWYn84GazO7N
-         8WLybCGD7hw0azQett5FtxmLUyNHFfkloyP1yoQF0J/zGHIG+6gv+3G9B/T7URNdEC1d
-         j7iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774711417; x=1775316217;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6LWhF3uaArkhQK+8SH0+E8r9jK9foFcw9lUUPANL8Bg=;
-        b=n/MZl0NG4DXM7FrL9/awmgIbnl24OMVPIUl4xyexwbfjjFrSmPoTnr2iNQfb0iHtgJ
-         V8FKinNDu5WX0/7/0dpmBcaXZEV4j7mwzt9vei8RqEn9nseUHpZbFJsTbgD6S3T0Ki16
-         gDUiDo3nTuPkQMFXf4suN/GilIAOUnplvkQj6iUnBWPDUVCjSz+utOy8iFBI5ahWXhBj
-         /Ku9DZDdhDd6NxjPcsLFlpjOWOKfj6RuZQIvnEJcR/wVojaRUbfTPxpF0fzOUFlH9wPf
-         YRl3JJf56F0L8P20aUcUIdz+VhYbRILx+DUqzl05COV/wBsC9XpFh3illhAD8vvGVjdN
-         z0iA==
-X-Forwarded-Encrypted: i=1; AJvYcCUyHz+6jHOCb7RpNqtyx3Zp7v6R/EDXMN2kLI8HX5g/jMeUD7UBPtUkYZeUDzU3RKerd9M5/OquadVVnA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLnJyVa91vvsUDl5spTK4oKguZPXG/OI9sBlj0nyrBuZnjkZwG
-	4D+eUHEa318GnrBdbdC7HFsbjcHJI8mzAf0HfR6L/nm96HlE+2dGxHrQCARfnhRudG3p8g==
-X-Gm-Gg: ATEYQzyJk41HTmWJZ+Q8jP9RbQUNXjIlsQ31RE9aH1E8QVjHHYbAcm6XBWlUZBLp8Ok
-	utGjkcIZa8PitA2Mdk0lNcH6mHH7zb98oFe8YADDPY8ll40VTz0VVQCQP1FEJHFrm6EZRKpUrF1
-	Nz9NcDe5dSyJc40n9nK4WG1qRJP+zClHQQznOCxob1q9RKvLC31geySfZ/vb7oRNM1E7ZU7o4Rw
-	SXOB1MjhoCU1ocZFkVHEHhaNaFlXd/juPflXeKnmEmIap+1fsFgCX1aAfLXNeH/yYTGvy4ruit7
-	iKi4k129qDZPgoVwdQtYET3p5bg2n3Y+pPsYijpVq1mKvwi+/fAPDWQN4YOVGD7GDRLYDuZRl+7
-	WOilmn4XzIauuxyrv0R+VeWNoc1qCZGGi8/GGbDCjhG6n47RotFwnnb8MH9g7vMM7KCrnaifHG5
-	ER4DsyYRQHq9r9xo7tzitzkStm7bF6YA2SHazVJ3PvUbpygaK5b/pvBlfQ/5PRYdf+FiZ+g4OxA
-	yB7+0MmyDw6
-X-Received: by 2002:a05:600c:6986:b0:46e:59bd:f7e2 with SMTP id 5b1f17b1804b1-48729109c35mr80167305e9.11.1774697013685;
-        Sat, 28 Mar 2026 04:23:33 -0700 (PDT)
-Received: from dohko.chello.ie (188-141-5-72.dynamic.upc.ie. [188.141.5.72])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487305da785sm41491685e9.0.2026.03.28.04.23.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 04:23:33 -0700 (PDT)
-From: David Carlier <devnexen@gmail.com>
-To: eajames@linux.ibm.com,
-	mchehab@kernel.org
-Cc: joel@jms.id.au,
-	andrew@codeconstruct.com.au,
-	hverkuil@kernel.org,
-	linux-media@vger.kernel.org,
-	openbmc@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	David Carlier <devnexen@gmail.com>
-Subject: [PATCH v2] media: aspeed: fix missing of_reserved_mem_device_release() on probe failure
-Date: Sat, 28 Mar 2026 11:23:30 +0000
-Message-ID: <20260328112330.50726-1-devnexen@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260327220827.266556-1-devnexen@gmail.com>
-References: <20260327220827.266556-1-devnexen@gmail.com>
+	s=arc-20240116; t=1774697879; c=relaxed/simple;
+	bh=LkDJmadL615W4q00l7NDdJK9EtbSo9KpRQOXiC2c5hU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TXv63h+7t3SUFd+26AYD/k828FtcFzWx5F5WF4jL/9cbvWi2YvZ90YCZn+BGirpcEk1Px0lJmg4dsFEYkZpq3qWbmZNcwpeg82BU4PF6UqaooJ/H2Blfe1FYb3MVTd19m35KYIkiMCyML3wP2llOLMPZFRkVdodrBc0otaUEug8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=PHmaBbPs; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=2J/acEMG; arc=none smtp.client-ip=202.12.124.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfout.stl.internal (Postfix) with ESMTP id BBAAE1D001A0;
+	Sat, 28 Mar 2026 07:37:54 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Sat, 28 Mar 2026 07:37:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1774697874;
+	 x=1774784274; bh=PTd2pk8Y/+znmp8P0psuOqPXJpEyyacbHu+SbMYHSN8=; b=
+	PHmaBbPsV2OTbR9JWMgA7ehBXInZwrFnFkGFb/FMRYDmyFG5A7d/Q22juhsdoe+Y
+	IUYUU0vuEeDoPIqV+hwcft232ghe4xI4VLdOT3/sILW+Mp5QtTUNAdnZJkSjZoPU
+	xjCX6zQBMFAkVDUa22Ed7SMqKnFTr0/RPjv642UrM4oQ8CEWsKS0loHGQWEcAkhD
+	IeCqXW8BfHG7HzVaTFsFXcEP8vXT0+50BKryOiiN995zzLdjbt7EZk+U8UzXrJn6
+	FqEZyPFsyG+j9Xe8SoCIlVqmDc19XwlntkTbXhThTH2OMEh/OpKeXuCTlASTzJOM
+	PRJOeIU6aDqV3MSVQz4/Aw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774697874; x=
+	1774784274; bh=PTd2pk8Y/+znmp8P0psuOqPXJpEyyacbHu+SbMYHSN8=; b=2
+	J/acEMG0Ka3barJs0x/+zf07nOlQbuUxjxoTAetzASOoav6S5VeVVO03AbpGRUzN
+	7KXxW+gXG/CVdFF6001CHGsxR0QFvQdqs6pQI7swXZTQKgQgrXjWdoraQmt83Vps
+	GIfeidqt05tmYA1WtWvJk4xONG/VkP8YDKxnHNw1WzGCSkdTwL5TQpb1+Me1txyg
+	lgUy3U34J/BB4ExQsRN7HUEYbA3yRhc26I+8XV+TIFhzh9nZEsp3jY7I6Usj+aL4
+	fpqyEtBLEiNIrNGQndiMziTd58WvoOoCXSMZJPjr8JwaES4OxFj2ucldSwDDP5/C
+	3B5EgJIBF6crpIMV0f/jA==
+X-ME-Sender: <xms:kb3HadCU7DHeZ4UDxdr4eDTyAxV4-U6ByQIkEZOWx7-tVhpVZuDFCw>
+    <xme:kb3HaVMfuzwlEFuU0cR3G1-K74we4GBOEGGwNfQCTtZgJOz64U_273HP0Ap1utl80
+    ynqm7ugaJbgYyhtcK13mrsoXtH6wq5Wyo6MEaEFkCqvH65NFA>
+X-ME-Received: <xmr:kb3HaX4pttNIG2iOi_yBDr4REp7gjRsHTsCYbb7YKv8GuwAA94JImy6AEeA5kR9b8VR9znO2l3GfRnvquA1PlJ_P-SXluv020mqLssvm-aM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffeeftdejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtugfgjgesthekre
+    dttddtjeenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
+    necuggftrfgrthhtvghrnhepleekheejjeeiheejvdetheejveekudegueeigfefudefgf
+    ffhfefteeuieekudefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
+    drtghomhdpnhgspghrtghpthhtohepfedtpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopeguvghvnhgvgigvnhesghhmrghilhdrtghomhdprhgtphhtthhopehlrghurhgvnh
+    htrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohep
+    mhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfhhrrghnkhdrlhhise
+    hngihprdgtohhmpdhrtghpthhtohepshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidr
+    uggvpdhrtghpthhtohepkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtph
+    htthhopehfvghsthgvvhgrmhesghhmrghilhdrtghomhdprhgtphhtthhopehjrggtohhp
+    ohesjhhmohhnughirdhorhhgpdhrtghpthhtoheprghishhhvghnghdrughonhhgsehngi
+    hprdgtohhm
+X-ME-Proxy: <xmx:kb3Haf38_2FPlxhNNos9IFMbsBN7LOQO-Oi0s8NMTdV8ibfL2TY9XQ>
+    <xmx:kb3HaWpaTrM1gkArlHVQeyD67VVQly80TeBsp6X4T9ftX_JXaxkk3w>
+    <xmx:kb3HaW9fSaDcLgREkK2tgn6UhzupkHJ8ZACymagJoYkJ9cqrLp6dHA>
+    <xmx:kb3HaZ65IoRqWDf-4etebvhEwAHDI1yhOX8fQ8uoI5p_YtxDHdMyLQ>
+    <xmx:kr3HaSvVLQgFq0nvqlCVieN6KT3kjY4cXPuvIF7FW8eAzJdnJVLYc6EL>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 28 Mar 2026 07:37:52 -0400 (EDT)
+Date: Sat, 28 Mar 2026 12:37:29 +0100
+From: Greg KH <greg@kroah.com>
+To: David CARLIER <devnexen@gmail.com>
+Cc: laurent.pinchart@ideasonboard.com, mchehab@kernel.org, Frank.Li@nxp.com,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+	jacopo@jmondi.org, aisheng.dong@nxp.com, guoniu.zhou@nxp.com,
+	linux-media@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] media: nxp: imx8-isi: fix memory leaks in probe error
+ paths and remove
+Message-ID: <2026032832-reputably-bankroll-1205@gregkh>
+References: <20260327222711.268132-1-devnexen@gmail.com>
+ <20260328100010.41236-1-devnexen@gmail.com>
+ <2026032803-tree-stubbed-1e9b@gregkh>
+ <CA+XhMqw+pR3fLGbysq3FnfpH+b2GtmdhSjjgCKhTwfZFrF0_0w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+In-Reply-To: <CA+XhMqw+pR3fLGbysq3FnfpH+b2GtmdhSjjgCKhTwfZFrF0_0w@mail.gmail.com>
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kroah.com,none];
+	R_DKIM_ALLOW(-0.20)[kroah.com:s=fm1,messagingengine.com:s=fm1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[jms.id.au,codeconstruct.com.au,kernel.org,vger.kernel.org,lists.ozlabs.org,lists.infradead.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-57454-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_FROM(0.00)[bounces-57434-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,nxp.com,pengutronix.de,gmail.com,jmondi.org,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devnexen@gmail.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_NEQ_ENVFROM(0.00)[greg@kroah.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kroah.com:+,messagingengine.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1E14E34EE0A
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,kroah.com:dkim,kroah.com:email,messagingengine.com:dkim]
+X-Rspamd-Queue-Id: 56B7B34E348
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-aspeed_video_init() calls of_reserved_mem_device_init() to associate
-reserved memory regions with the device. When aspeed_video_setup_video()
-subsequently fails in aspeed_video_probe(), the error path frees the
-JPEG buffer and unprepares the clocks but does not release the reserved
-memory association, leaking the rmem_assigned_device entry on the global
-list.
+On Sat, Mar 28, 2026 at 11:15:18AM +0000, David CARLIER wrote:
+> On Sat, 28 Mar 2026 at 10:21, Greg KH <greg@kroah.com> wrote:
+> >
+> > On Sat, Mar 28, 2026 at 10:00:10AM +0000, David Carlier wrote:
+> > > mxc_isi_probe() allocates isi->pipes with kzalloc_objs() but never
+> > > frees it on any probe failure path or in mxc_isi_remove(), leaking the
+> > > allocation on every failed probe and every normal unbind.
+> > >
+> > > Additionally, when mxc_isi_pipe_init() fails partway through the
+> > > channel loop or when mxc_isi_v4l2_init() fails, the already initialized
+> > > pipes are not cleaned up — their media entities and mutexes are leaked.
+> > >
+> > > Fix both by adding kfree(isi->pipes) to all probe error paths and to
+> > > mxc_isi_remove(), and cleaning up already-initialized pipes in the
+> > > err_xbar error path.
+> > >
+> > > Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
+> > > Signed-off-by: David Carlier <devnexen@gmail.com>
+> > > ---
+> >
+> > <formletter>
+> >
+> > This is not the correct way to submit patches for inclusion in the
+> > stable kernel tree.  Please read:
+> >     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+> > for how to do this properly.
+> 
+> Apologies for the confusion — I wasn't submitting this for stable
+> inclusion directly. The Cc was added based on CI bot feedback since
+> the Fixes target is in the
+>   stable tree, but I understand the correct flow is to let it go
+> through the maintainer tree first and let the Fixes tag handle stable
+> backporting.
 
-The normal remove path already calls of_reserved_mem_device_release()
-correctly; only the probe error path was missing it.
+If you read the above, "Fixes:" does not guarantee backporting at all,
+so NEVER rely on that if you know you want something applied to a stable
+kernel tree.
 
-Add the missing of_reserved_mem_device_release() call to the
-aspeed_video_setup_video() failure cleanup.
+thanks,
 
-Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
-Signed-off-by: David Carlier <devnexen@gmail.com>
----
- drivers/media/platform/aspeed/aspeed-video.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index 41cb96f60110..a292275f6b7b 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -2343,6 +2343,7 @@ static int aspeed_video_probe(struct platform_device *pdev)
- 	rc = aspeed_video_setup_video(video);
- 	if (rc) {
- 		aspeed_video_free_buf(video, &video->jpeg);
-+		of_reserved_mem_device_release(&pdev->dev);
- 		clk_unprepare(video->vclk);
- 		clk_unprepare(video->eclk);
- 		return rc;
--- 
-2.53.0
-
+greg k-h
 
