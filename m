@@ -1,177 +1,156 @@
-Return-Path: <linux-media+bounces-57499-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57500-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YJUoFCHSyGnprAUAu9opvQ
-	(envelope-from <linux-media+bounces-57499-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 09:17:53 +0200
+	id 6GX/NG/vyGn4sQUAu9opvQ
+	(envelope-from <linux-media+bounces-57500-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 11:22:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E585D351036
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 09:17:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37343351586
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 11:22:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3093C301CFBF
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 07:16:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 704E93029E67
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 09:22:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF5E122D4DC;
-	Sun, 29 Mar 2026 07:16:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A8BE2F83B7;
+	Sun, 29 Mar 2026 09:21:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F7JYfaCZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gOXjoX43"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A4427979A
-	for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 07:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D552E173D
+	for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 09:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774768602; cv=none; b=Na1AJrbTXSzDBrS6TMLqS5kgW5HJmFjFsIRfkSrOeAaf908QH5XJdPmsXZcV9CUndYWe4zWxZBHU/sTi4kuvVwkxypT2eDi7IXUjADYZn48waBufOfEuWWWLVTwqcQKE+3K6iJG5OIZFSSde3q2wII4XcLC8gqsuDgcwrbZojb0=
+	t=1774776118; cv=none; b=Y1rqGkyhmgyzdW9vvRhVHxeK7uVHCLTIkTVTJBUQsSKGjf9EhorB3oB6rK2ZK+Ry7ROO7jgZbMd5eIi62zsR5nnz23Z56JIMgj5/2fa02o+Y20bmWSUY/WmRLbt84/s/5XPqFiPBI5HAql8RH2oXTAiDgY5EH4pk0MWmXfzQmdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774768602; c=relaxed/simple;
-	bh=JfFn5dD8fXSM0/s/rgq34bUOJdT1IsgTK5+GKwn9EYw=;
+	s=arc-20240116; t=1774776118; c=relaxed/simple;
+	bh=sGDCJ4nnZOaX7PqUwJz5bYB/Xwisxt5pEqmuR77rK0M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=e4RXawtAuyEef3Lp1LGMY996LA90KXTWM53r2DC+zw9kwNKq7S3mDn/eeLck50Qw92hOX5xVN4zehOknnCUwuxfew98iEsNmuAjaDPO5f2uB6Wd2igVm2UN+vntMdEbbkyYY77aZVdXAtmfET0wmTxgFpZLo95o1AuIlrUrN5OI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F7JYfaCZ; arc=none smtp.client-ip=209.85.217.45
+	 MIME-Version:Content-Type; b=enG9A0Vbj208ETWjQ6ODv08i7p/kxoSvZocya/cwmb4jUmMVYM5UdZY9ceIe8LztrcPHawxbpVgexzcOWg+IiIso7neKbBld+L1QShFqtP7SbLVxZ4h/wcwHTqD/4KSJWJenrMCL/TIXaWmAPmi7WX8MqXODl7FuLl1PHZvtcag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gOXjoX43; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-6052f9376bfso15928137.2
-        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 00:16:40 -0700 (PDT)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43cfd96354aso61584f8f.1
+        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 02:21:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774768600; x=1775373400; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774776116; x=1775380916; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IncM+rKcgmau4uVK2sm4qPStCq75MjSeVAISYr8iaEQ=;
-        b=F7JYfaCZ40zkTyZjD4/oo9cjgt8c8bax/h81LxTNsXwIjfCJoEazRrsMgXyVgSpMiV
-         73Blt8wowCB8elOrluDcCPjsYRtYVz7pOiso/eaUtfl7pcd/zDWi9wCHrzqSyhZ5i4tN
-         CKTcwtLeIZYLDFSdZ36Kln0imkqeAXZKSWoME3+EAnXWFLczLOL1ikqr7sECibdvCYtj
-         8r7qBA5hv/MQNQIzAZO+KL0FOtiSfZkBnn0oQTHXSB1mDyVK0ymNZSHEOWgkAbndVf6P
-         BmKMcfgune/yu3zuALXgBWM2D915/oZubTB+pMGUgLfnWJhBqo1tHtlZhoNmgQtVukiw
-         d3XQ==
+        bh=sGDCJ4nnZOaX7PqUwJz5bYB/Xwisxt5pEqmuR77rK0M=;
+        b=gOXjoX433aihGOHXsh6agOxKyUwkeI/08tiC2/AjUiGVcKYv3X2kgutUeGmJXjL4Ay
+         dBJdT9EglSY2nEdwQNmIwKhr86tkou0tiwY7sFCR/p8ac6URFfnSxZTuKHd+nD5jIf0Q
+         lRVoAqhvJWhe3y+g/oUXlSMjdrkDGRgnI3y0bvkBQbdwDZOn6//T9HffMFbnj7hbt4iZ
+         cKVWk20LAkI5cccJwvorOIK8mPR87wAj/vUhxQVw4D8pQOxBwvpm0xy43nV6CzwRr5r1
+         KYTLJIXlthfbUXjTFnuTz8P/zWAXnSg92rcpdaHJPZal7s1xPyT/Vn4PCtIL9zw8fty6
+         nlUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774768600; x=1775373400;
+        d=1e100.net; s=20251104; t=1774776116; x=1775380916;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=IncM+rKcgmau4uVK2sm4qPStCq75MjSeVAISYr8iaEQ=;
-        b=ivGqdpSGOM/igfzbGZ0NzWMMknRzk/sQVPCouVBP4cXgAxCrQD9TrZCpjJlQTPyoLr
-         PIAxXIyx+G8iClaE51Hr53I6OB3MZDXJ7sWvAfVq6Dyjq5iV8qp/IPZuZT8GRmFvqOin
-         XtDRA6Srsm2bJC7a2pBVWwPVgWHWcHuvtRmXs9VT0ZYIIJ+vbTHpPM+zh4mtjXy8ww1E
-         peO+Zo4kZCfNsTYbPEcZCshNplVG73Qps9uZf3LN/ef3NSepQQZ83HUgBmr+rfCCzS1t
-         5FKoF50GDF3E4GOxvFTIeRtQ+eamtZZgBB+ZcFQBlHxBs1z90J2Sr5YPYnDkt09AXN2L
-         G76A==
-X-Forwarded-Encrypted: i=1; AJvYcCUzvG0b0Euyj3Pa/t0BRr0ZRC9dRzJDJnrvkjj3WVe4SSLqFMwAwREuBdHsfu/hdmt+xS0trp6n0bsKXQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+LxFkjuNnogfMsIbEPvdEvYkMR3gzUBNltaU/U27kEx4MzW27
-	6mnbNNnKEQFFBvEeKvb9k8bknc3iaNU8jhBRO5oG7IFpvWDTmp6UKa3n
-X-Gm-Gg: ATEYQzyTVt9qEMl413ocpKAeqiE6k0yoJzSRizbmJ4CwZFMTHmZm0Upc5N5QYkkQteP
-	DTl5feGxQaHRm0ql3wk5qbwHGPlZyvMtAiXT+cFpgsBZlxMmcy4hZvBKblH1NasrwkdU1BlzqIY
-	DFy+OUiza4m38OYEjqHmAfq+eWHvR7GJlaNNGC4Q7qK2fxy4vgF/I3O5l/YDklZkk60IYItG9/D
-	C8Oi8Nh9txVJfa98KKyPHxSnUbh188dEOYtqGqEzAy4wmn1J0d9aRWPQY3uGP3VQpcEqjGFNchG
-	Qfld6x8J7quj/Q71Ts2oCkW197P0cndY6gt9Utzz9awkWlosbA4rRRQ3hGZjuctDuFv9vrwQ4OJ
-	UR+chNq1NajH0Xtr0ufdWTm3DVcapKTc2BDTH3zI0HVtVlLfvQroEjfOUTqACGv0NOe8YF27YOI
-	oLedLszeNQBQ5qsa15HD16SrQq
-X-Received: by 2002:a05:6102:41aa:b0:5f1:b7b2:8929 with SMTP id ada2fe7eead31-604f90e520cmr2908812137.15.1774768600043;
-        Sun, 29 Mar 2026 00:16:40 -0700 (PDT)
-Received: from localhost.localdomain ([2a09:bac6:d6df:aa::11:19a])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-60512a5afa9sm4390638137.6.2026.03.29.00.16.37
+        bh=sGDCJ4nnZOaX7PqUwJz5bYB/Xwisxt5pEqmuR77rK0M=;
+        b=jYh4YkP4+8F1fLpg2xyvX3MKT6900egcJTkY9TlGplCxiFZFKBc2DrZcitGdb0hSKs
+         vuFnTMDfjqzQSiTmuUZCCmHP9akYY+YIU7xy3WHxmYRNAA/d1MNG8Om/ksnH/CfyWxsH
+         5cEt+Opc1QaYOZOsegK7qVvbPBuAD/9Nxhl2vsEGNi6MEKYXrXDmn3qwWsLDTM+GNLKZ
+         Ha2YC1nEKEd1C/h8tuOfGnSfAb7kebcxgoks9Jny3AAl5FhkD8xs8Pf71PfCqBZLBTFb
+         IzcVitfh9Z6Utt+2bBlJlMzgvAAcyrwZNtnePdDX4Zw2mMeZAQMmCVVyYekVHhJthTuG
+         E6RA==
+X-Forwarded-Encrypted: i=1; AJvYcCVlOntkEpsj1bNtfFsCuHnNSB5q8jUlfJJ3dBg5ZBz2odW0CPGRx+CZxkAhsApGR+vDfhjAp+tebtajgw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywq2nyx6cwnxGTx6fgUg9pn0j4U/JDWjCe5nGYEah6yl387xAhC
+	zmfu1omXbLeFagRDWtjQVq0sfKOaOg6VQQN4Jx9pYJ6VFrzmN1l2OZWJ
+X-Gm-Gg: ATEYQzwVaJ7JazJBwT8xnfd3hMmgy+xbu4PXA2JyID6dMFNJFXry96vLNj+BK0VYHSP
+	75AfBCO676YrB6H66nFSvR6GKjAOTFda4V9zVFBarwgT+xPhrFcEGlmQxWQI4tknEUM9iiWWEnS
+	N6gECPhszuXMBIlpOzRW6N1mrQovWEVomP3KVIP+QE2zyVhXqOfPTkxxY9fgbkXxNiNu9Sga+2l
+	ucg0nhrKZcLHfDiVRmSr7LNmHIvFP3gdNok8TG+UzhlqKTkCMhHYo4Nit9WMXgFD8JDFythn3G8
+	gmOnE8ct1nnd3p8PRm8ulkQmBuPxkaN4Rnf3tgVmjdK86U8Tbd4ORpMHlb4eCMswfic/60bi4jW
+	/Fyc9hg8tTPMQRTbrA4zpWMuA7+uR6AdQMbmimVD0OdZLgoFWgqKrHtAq23EPe46hrrxUyTpzWG
+	QRkefmM157FlR4/+FgK58/W2LFPPsOexX8NTxkpSegt8ztfmz9JwjClRshxn6IyQksgBZNAHohc
+	fjWXLGLN27bQvIiyg==
+X-Received: by 2002:a05:6000:24ca:b0:43b:60f7:2282 with SMTP id ffacd0b85a97d-43b9ea4ae28mr14838629f8f.28.1774776115668;
+        Sun, 29 Mar 2026 02:21:55 -0700 (PDT)
+Received: from jernej-laptop.localnet (118.red-213-98-130.staticip.rima-tde.net. [213.98.130.118])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e9e18sm9945848f8f.9.2026.03.29.02.21.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 00:16:39 -0700 (PDT)
-From: Sebastian Josue Alba Vives <sebasjosue84@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: bcm-kernel-feedback-list@broadcom.com,
-	linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	kernel-list@raspberrypi.com,
-	=?UTF-8?q?Sebasti=C3=A1n=20Alba=20Vives?= <sebasjosue84@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2 4/4] staging: vc04_services: vchiq-mmal: fix integer underflow in port_parameter_get()
-Date: Sun, 29 Mar 2026 01:15:42 -0600
-Message-ID: <20260329071616.507876-5-sebasjosue84@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260329071616.507876-1-sebasjosue84@gmail.com>
-References: <20260329062229.493430-1-sebasjosue84@gmail.com>
- <20260329071616.507876-1-sebasjosue84@gmail.com>
+        Sun, 29 Mar 2026 02:21:55 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mripard@kernel.org, Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: paulk@sys-base.io, mchehab@kernel.org, gregkh@linuxfoundation.org,
+ wens@kernel.org, samuel@sholland.org, nicolas.dufresne@collabora.com,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, pengpeng@iscas.ac.cn
+Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
+Date: Sun, 29 Mar 2026 11:21:53 +0200
+Message-ID: <2823210.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
+References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[broadcom.com,lists.linux.dev,lists.infradead.org,vger.kernel.org,raspberrypi.com,gmail.com];
-	TAGGED_FROM(0.00)[bounces-57499-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57500-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sebasjosue84@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jernejskrabec@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E585D351036
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,iscas.ac.cn:email]
+X-Rspamd-Queue-Id: 37343351586
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Sebastián Alba Vives <sebasjosue84@gmail.com>
+Dne torek, 24. marec 2026 ob 09:08:56 Srednjeevropski poletni =C4=8Das je P=
+engpeng Hou napisal(a):
+> Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
+> stateless slice control and later uses their indices to look up
+> decode->dpb[] in _cedrus_write_ref_list().
+>=20
+> Rejecting such controls in cedrus_try_ctrl() would break existing
+> userspace, since stateless H.264 reference lists may legitimately carry
+> out-of-range indices for missing references. Instead, guard the actual
+> DPB lookup in Cedrus and skip entries whose indices do not fit the fixed
+> V4L2_H264_NUM_DPB_ENTRIES array.
+>=20
+> This keeps the fix local to the driver use site and avoids out-of-bounds
+> reads from malformed or unsupported reference list entries.
+>=20
+> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 
-port_parameter_get() subtracts 2 * sizeof(u32) from the VideoCore
-firmware's reply size field to compute the parameter value size. If
-the firmware returns a size smaller than 8, the subtraction wraps
-around to a large value due to unsigned integer underflow.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-The underflowed size is then used in a comparison that selects the
-wrong copy path and stored back to the caller via *value_size,
-propagating a bogus size to subsequent operations.
+Best regards,
+Jernej
 
-Add a minimum size check before the subtraction and return -EPROTO
-if the reply is malformed.
-
-Cc: stable@vger.kernel.org
-Fixes: b18ee53ad297 ("staging: bcm2835: Break MMAL support out from camera")
-Signed-off-by: Sebastián Alba Vives <sebasjosue84@gmail.com>
----
- drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-index 18e805b92..f2bb5ce0a 100644
---- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-+++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-@@ -1436,6 +1436,10 @@ static int port_parameter_get(struct vchiq_mmal_instance *instance,
- 	/* port_parameter_get_reply.size includes the header,
- 	 * whilst *value_size doesn't.
- 	 */
-+	if (rmsg->u.port_parameter_get_reply.size < (2 * sizeof(u32))) {
-+		ret = -EPROTO;
-+		goto release_msg;
-+	}
- 	rmsg->u.port_parameter_get_reply.size -= (2 * sizeof(u32));
- 
- 	if (ret || rmsg->u.port_parameter_get_reply.size > *value_size) {
--- 
-2.43.0
 
 
