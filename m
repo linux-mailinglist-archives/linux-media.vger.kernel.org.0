@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-57496-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57497-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SJdRKevRyGnprAUAu9opvQ
-	(envelope-from <linux-media+bounces-57496-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 09:16:59 +0200
+	id qDBkCf/RyGnprAUAu9opvQ
+	(envelope-from <linux-media+bounces-57497-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 09:17:19 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A763351009
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 09:16:59 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74218351017
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 09:17:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C57693024539
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 07:16:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BCAA4301DCFB
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 07:16:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F09122D1931;
-	Sun, 29 Mar 2026 07:16:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83CB52C3266;
+	Sun, 29 Mar 2026 07:16:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="juweVOqC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aTa/AzPN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5BF221540
-	for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 07:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD70C263F44
+	for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 07:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774768594; cv=none; b=aqmplIa3UZ/GzmSX+Xu1lBKfPF49pxIUPqV6KN7iX8jvRrPHVhWgDqdhpO2t9nOCZl314Rw6oZCGx1QzYTmq7mOibpOAZy4rAHqNtbMiWeRG0YSSPr/FgR7O1wh6J1YLCqgCWw37Vaou8E0lQ9OJtdA+OE46LQTeWSZnciEkDmo=
+	t=1774768597; cv=none; b=FCBwiWF2MkpZoMvA9ccPONl9yIvMiBE3Qzdm5H6MonyhZA43Uv39xMzOe84qMTyHze8f1SMKzyTbuMT2smAv5Lf9F+p8bQ/+bUAF8Xnil1twt0rK2Khts6J4qjjZruRQi39MjsJBTfN9qN90JLKpxVm5kOG2KqrzWZoQZjJ3xNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774768594; c=relaxed/simple;
-	bh=nEeadJO/2VXHlqj2GhD2b9UbKa7ccc0BljwIKBpHWLM=;
+	s=arc-20240116; t=1774768597; c=relaxed/simple;
+	bh=SJRE/7KRsudcGVRZrVRgBTRMuVolyj6lhYLA9kgm5S0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ksEnFtua/Phq6UqqDGJwsiXHE0Htg1Z92dmPObcImk6ujsv4q0zqVXm5ms3yGYkQ5URvD2LhMQIvVTrSJh4wwOdKXI9LziIh28ci28IUcmXXanT71hbeCLwZnjKm+rgAT+ru8Ko97iwfAf78v2ANwElZCsYF8PA2XXMclLSeYTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=juweVOqC; arc=none smtp.client-ip=209.85.217.41
+	 MIME-Version:Content-Type; b=YobhKsZSgYBzFnw2OOwAKxYP7YdVaEmTObWcaJtRYzBnU/aQcq5L4fNcyHYiSGmDV3t3EwOsQUq3mBBMnINFdfAYCEdf9WINgOCPLNo4UeKSSqVeIxy4+z/xm80jywOJZ7S1tsNqrlGYJsqJ1mcTRWkfycC577XnmwitM0jaJKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aTa/AzPN; arc=none smtp.client-ip=209.85.222.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-604fb44270aso586696137.2
-        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 00:16:33 -0700 (PDT)
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-9539b80db32so171806241.2
+        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 00:16:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774768592; x=1775373392; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774768595; x=1775373395; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nSlLWkq4h8uaqpliAQo5iTD2HSvpKos26zajciLvI7A=;
-        b=juweVOqCT9fNZl0vp0mzqcL4q2xv1isq1BONA8nfrImCvTZ/UWsM8E8eUzoA4IxX7C
-         JnTYL6FJrxx8+piV7K477VtWk5UCcjAPmJk3TdK4SqgIOhcugsbSUkRjFhCSCW/69/z9
-         7Jta9SV4mQiD8SYiDcwy6Md57JEylxK2E6BhfoskDREJ+PqSe5KKf6lOAc9s7L8Wix5q
-         72o+Slr+6P3eXsZ0016r6BLZWjWfOpoI33ujWb3ESCM+Sl5muvEtd638Zdw4fNopgBwS
-         nEXK2XlGmh6K46mgkPtwMS3HXQbUTbB4dWDhLOmSCEi1pfNIz7DAYVh8MZkyNwJ3ou0M
-         0JDg==
+        bh=toe9kpqOLmbJqv5wMH+Pbc9jMDhi/6HRl6vvRfImJyA=;
+        b=aTa/AzPNvz4oTqfq77vO42fWz75vvM/dBJkvK44J+foqV9a+7r1je5kW58Y5heK3St
+         f0soMZWVqgHB8/a+UAOE/+CT3GmH6osLrNMUAfb1/TUQXeSRkYZlItOslntl2v3TmpeX
+         wV3x194TDnIM6WKgy27YuEISyBIhvmccRLswncn4qBYbbqmUzGuP0Thrj1lK0uQe7uWB
+         hdZXdTb6j9inUZQf1Zr48Ydmej4VL7kN7TP6JU8S2VdTWPZJAWVATgixOGGbrgHGtTEo
+         TeyyztFpjl5DbUH3/DH31muR+nFJNk2Dr9ZP+Z95Aaw3ASv1mwx5q1JN56+QFzW1c0Qj
+         /DPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774768592; x=1775373392;
+        d=1e100.net; s=20251104; t=1774768595; x=1775373395;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=nSlLWkq4h8uaqpliAQo5iTD2HSvpKos26zajciLvI7A=;
-        b=tJshMZG1HkPaNwSFtZdRfKrLaHE//luVY6M+0JW6YA+b19JxX5kj5NHTB6D4ISVJtC
-         bIFpwGXNVhlIaIpeEQxjtzo8nR3EXe2mr0DkJ98OeYA028T3CGGVjGSoG5dYLjbq40d+
-         aooTnF2ll9AxIBTVbeayQn+0MNzv4QlENxD8YllOSewVAJat0HtPrZmQBSciy+2cG2NA
-         tveqZfFK0YntvFRA63PEy5E3tcpDTFaMFWqZeCiOIH2lwyAELYb8HbvygSbvKv+/RhOl
-         zrJxzrQJMNaFa+02iYNcLBQRfpYGFM1bb1dOZCA7Wy9JmzHrJ+FFA17ufh6NOuDmbsSb
-         U3rw==
-X-Forwarded-Encrypted: i=1; AJvYcCVDZNEws8YNGTu35U8ER/jq1Ti1gT8fp8+h4pG9Z21lPt/u9M6CfRHtHfj/ykQsOpP8F91Xbre7Q88gxQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkA21IEAu2aLTCcEDgzeDwzRjuRlYV3VU2Io+HfN13vAFSLPn9
-	tNtPpmYnZmlOW2eI2yYjLsl5XXMhGwc8+jC876Qyr8TbTnNJtENZB65d
-X-Gm-Gg: ATEYQzx7dkIcJhEQvCLPH66XYJubFkaH2tEd1J9Br5u0oh9/o2QuNJDH3b2DjNk9EDe
-	taYyQ1PPNZDFsPZNSG0KlhzI0UQ1f8SRpN9HqJuxZSx5z5ES4vEXeoO8g76sQId5Lv8cZ0XB0Yo
-	UYMzZWkGuzz7f/X1ll3era+4jE4OsN/ekR+hoOeyQ/fo/cD8kvvXPFaRJBrfOBxzebEGupVxinC
-	XVMdMsPs6sKtIf2Ern1qJqarMy0k25hTyvCDajvQT9qO7TpV/9OPDDN3Oy+J2PkJRXBjLF/qKOF
-	BGS0UEsexhaQuVmG1FnH+AWP3DKgMiErfgextdOXks/jYX4iRgFgNbzVQG36EshUnGwqsWYrB3i
-	A3g3SDoD0EWpqtDb1q1ZxkYSIF/IRap4vilVUaLfdpCD9fkILo9yk5X6N/JWvHzSQVgSEsYmrdL
-	erhJ00Ul85IYFwdDPAUyPtNu36
-X-Received: by 2002:a05:6102:4421:b0:5ff:219b:497a with SMTP id ada2fe7eead31-604f8ff5ff7mr3225622137.3.1774768592246;
-        Sun, 29 Mar 2026 00:16:32 -0700 (PDT)
+        bh=toe9kpqOLmbJqv5wMH+Pbc9jMDhi/6HRl6vvRfImJyA=;
+        b=qUhqRG8SVVALtJmuhT1S7cpcIWaAlvkcR43LkKXTaKw1chxEzOOOfxocSgtsibd9Qd
+         wBC8Mjxueogd1bfpaXwyRFN7b6F9xkZ+/6sXk+gd0FjBHHISMbYDO4TKb02nFsWzzgIc
+         OK2Uw0ZMZr2WgQyluNmSG+zDjs4InUAWzoqE3tw7wo/O4IcormMcQUfleeJcr40CAn6O
+         g+slNWdziFQvR+gws+WbVu7f1Vj8RsBBfCSCx8qkZ3g7wLXv/oGeud5SqS7SoQjcthcq
+         J6xgkpt2FxSA0bvhSNiXF78PCNjk6RtI5YtrK4WGBqshM3oUSm/1zFhikpsG1C7tH0ze
+         IaVg==
+X-Forwarded-Encrypted: i=1; AJvYcCWEXPfprogX50hfhqK9lE4bU4zwQWmKrzFA380In46dI8K0xQCQEFGwMrzdJdmNxD9YnT8lajh2qd8Q9A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXGLW9VuABTaZy7Hdu05Rtmach46MRGYHkke6fG3AIDe3vKUYU
+	oedxHc8Upispc107OIKcwWi/+Y/ffZJ3KXmOhJvXhN3SDino0qLPcQ6sdmt14rkSI5PoSQ==
+X-Gm-Gg: ATEYQzwuTnjqM/+Zx0QbdyCt42baTZdHa0Myj28oGrLN4RnZba40hWV3FH/AxAUV/TP
+	8EjWH1eMb6rxozEX5JoIX9aTavcHv1zWHJaBviDwipvaaRs5N0Nzwmxpjb0ip5a6ZiBeU5ZgyYS
+	w+jdg8S1PCRu5cIO+nv/76TFCuzrcWXOflyM60lx8PnN0GrPT6iAi7HZJUQIzc2yIRLjmCxnRhT
+	1g++TcpVtjDNipMMrAhxCjaAN+q1BQb6Rvb6g+0UO0y1JPqrVd0kT7wSXSHX1tDeMvArXrbav0G
+	KuRZM102wSBJ9GtdPZuXOhv4y7NiZ5ojXINclySWUdwyNUmeTsV9T0vCAc0SWr5mNNd3/owup+z
+	weJV5gE+YO/bLcdXagloKzPu8ugKF0L1rsc+nYEsnbvmhvreqI1y0rwrz2e09cjKel5mY8wteq4
+	nptI4oD8YnQofqr+/++UEN3nJw
+X-Received: by 2002:a67:e111:0:b0:5ff:2426:94ed with SMTP id ada2fe7eead31-604f92960edmr3008410137.28.1774768594732;
+        Sun, 29 Mar 2026 00:16:34 -0700 (PDT)
 Received: from localhost.localdomain ([2a09:bac6:d6df:aa::11:19a])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-60512a5afa9sm4390638137.6.2026.03.29.00.16.29
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-60512a5afa9sm4390638137.6.2026.03.29.00.16.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 00:16:31 -0700 (PDT)
+        Sun, 29 Mar 2026 00:16:34 -0700 (PDT)
 From: Sebastian Josue Alba Vives <sebasjosue84@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Florian Fainelli <florian.fainelli@broadcom.com>
@@ -88,9 +88,9 @@ Cc: bcm-kernel-feedback-list@broadcom.com,
 	kernel-list@raspberrypi.com,
 	=?UTF-8?q?Sebasti=C3=A1n=20Alba=20Vives?= <sebasjosue84@gmail.com>,
 	stable@vger.kernel.org
-Subject: [PATCH v2 1/4] staging: vc04_services: vchiq-mmal: validate component index in event_to_host_cb()
-Date: Sun, 29 Mar 2026 01:15:39 -0600
-Message-ID: <20260329071616.507876-2-sebasjosue84@gmail.com>
+Subject: [PATCH v2 2/4] staging: vc04_services: vchiq-mmal: add buffer size check in inline_receive()
+Date: Sun, 29 Mar 2026 01:15:40 -0600
+Message-ID: <20260329071616.507876-3-sebasjosue84@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260329071616.507876-1-sebasjosue84@gmail.com>
 References: <20260329062229.493430-1-sebasjosue84@gmail.com>
@@ -107,20 +107,20 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[broadcom.com,lists.linux.dev,lists.infradead.org,vger.kernel.org,raspberrypi.com,gmail.com];
-	TAGGED_FROM(0.00)[bounces-57496-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57497-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
@@ -131,57 +131,67 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 4A763351009
+X-Rspamd-Queue-Id: 74218351017
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Sebastián Alba Vives <sebasjosue84@gmail.com>
 
-event_to_host_cb() uses msg->u.event_to_host.client_component as an
-index into the instance->component[] array (size VCHIQ_MMAL_MAX_COMPONENTS
-= 64) without bounds validation. While the kernel generally trusts the
-hardware it is bound to, a bounds check here hardens the driver against
-potential firmware bugs that could otherwise cause an uncontrolled
-out-of-bounds array access and kernel crash.
+inline_receive() copies payload data from a VCHIQ message into a
+destination buffer using payload_in_message as the copy length, but
+never validates that this length fits within the destination buffer
+(msg_context->u.bulk.buffer->buffer_size).
 
-Add a bounds check on comp_idx before using it as an array index and
-move the component pointer assignment after the validation. Use
-pr_err_ratelimited() to avoid log flooding. Note: this file does not
-currently have access to a struct device, so dev_err() is not available.
+While the caller validates payload_in_message <= MMAL_VC_SHORT_DATA
+(128) to prevent overreading the source, the destination buffer may be
+smaller than 128 bytes. This is inconsistent with bulk_receive() which
+does check buffer_size before copying.
+
+Add a bounds check against buffer_size and truncate the copy length if
+it exceeds the destination capacity, matching the defensive pattern used
+in bulk_receive(). Use pr_warn_ratelimited() for the truncation warning.
 
 Cc: stable@vger.kernel.org
 Fixes: b18ee53ad297 ("staging: bcm2835: Break MMAL support out from camera")
 Signed-off-by: Sebastián Alba Vives <sebasjosue84@gmail.com>
 ---
- drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ .../vc04_services/vchiq-mmal/mmal-vchiq.c     | 20 ++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-index d36ad71cc..9c6533f82 100644
+index 9c6533f82..44e5246f1 100644
 --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
 +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-@@ -477,12 +477,19 @@ static void event_to_host_cb(struct vchiq_mmal_instance *instance,
- 			     struct mmal_msg *msg, u32 msg_len)
+@@ -368,12 +368,26 @@ static int inline_receive(struct vchiq_mmal_instance *instance,
+ 			  struct mmal_msg *msg,
+ 			  struct mmal_msg_context *msg_context)
  {
- 	int comp_idx = msg->u.event_to_host.client_component;
--	struct vchiq_mmal_component *component =
--					&instance->component[comp_idx];
-+	struct vchiq_mmal_component *component;
- 	struct vchiq_mmal_port *port = NULL;
- 	struct mmal_msg_context *msg_context;
- 	u32 port_num = msg->u.event_to_host.port_num;
- 
-+	if (comp_idx < 0 || comp_idx >= VCHIQ_MMAL_MAX_COMPONENTS) {
-+		pr_err_ratelimited("%s: component index %d out of range\n",
-+				   __func__, comp_idx);
-+		return;
++	u32 payload_len = msg->u.buffer_from_host.payload_in_message;
++
++	/*
++	 * Ensure the payload fits within the destination buffer.
++	 * The caller already validates payload_len <= MMAL_VC_SHORT_DATA
++	 * against the source, but the destination buffer may be smaller.
++	 * bulk_receive() performs this check; inline_receive() must too.
++	 */
++	if (payload_len > msg_context->u.bulk.buffer->buffer_size) {
++		payload_len = msg_context->u.bulk.buffer->buffer_size;
++		pr_warn_ratelimited("inline_receive: payload truncated (%u > %lu)\n",
++				    msg->u.buffer_from_host.payload_in_message,
++				    msg_context->u.bulk.buffer->buffer_size);
 +	}
 +
-+	component = &instance->component[comp_idx];
-+
- 	if (msg->u.buffer_from_host.drvbuf.magic == MMAL_MAGIC) {
- 		pr_err("%s: MMAL_MSG_TYPE_BUFFER_TO_HOST with bad magic\n",
- 		       __func__);
+ 	memcpy(msg_context->u.bulk.buffer->buffer,
+ 	       msg->u.buffer_from_host.short_data,
+-	       msg->u.buffer_from_host.payload_in_message);
++	       payload_len);
+ 
+-	msg_context->u.bulk.buffer_used =
+-	    msg->u.buffer_from_host.payload_in_message;
++	msg_context->u.bulk.buffer_used = payload_len;
+ 
+ 	return 0;
+ }
 -- 
 2.43.0
 
