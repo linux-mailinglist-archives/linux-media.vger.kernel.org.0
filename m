@@ -1,225 +1,140 @@
-Return-Path: <linux-media+bounces-57501-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57502-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cNupD8z0yGkXswUAu9opvQ
-	(envelope-from <linux-media+bounces-57501-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 11:45:48 +0200
+	id 2FDeOcP/yGn1tAUAu9opvQ
+	(envelope-from <linux-media+bounces-57502-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 12:32:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE2693516D9
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 11:45:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3622035195C
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 12:32:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BD1413018292
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 09:45:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 81F5C3037155
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 10:31:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34713043DE;
-	Sun, 29 Mar 2026 09:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65E5C310652;
+	Sun, 29 Mar 2026 10:31:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ea8/je30"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="btvqxH6n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4862E2F3C0E;
-	Sun, 29 Mar 2026 09:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CCCC30C63B
+	for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 10:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774777519; cv=none; b=spQqbxMoyTmUsRcewuw9rUoPOz3f9Z6Gw8ux+6HFdWxe+fk36LcrlAYD0Z/nNTiJ8HoEl+QRrN69E7Na15GpRHeRvSS1pbPLIdjEPZLqSSvCTpWYgPiPAFFybq/Rlp7fHk2OA42QZ6/nvQOABmIKuh0SM17UxmWLKtra8LAQh5M=
+	t=1774780316; cv=none; b=Nnyo2DY1gZYn361oJnCh1NH2aeiPaCPKBoO8mb9qrdY6BcYX2c+K9ggxBd4jD4qY8RR6saBl6vUebebR51eGtrLAgM5Uiwne+BPlIE9YsVeNgJEbZAGK1QqNYNWnpupVtPtELBM6/IbZS+UGqDirhuDZ2dmRExjiZdBHYZi9dec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774777519; c=relaxed/simple;
-	bh=l+dN0lToai8lSGxHzvCi6u+XkB1xl3MrCngigbm7rxY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CqDbzglZmZEdR7HA22+lHkU/vZBEfmpMGdQI2FfMBJqU5uCI2Fos0mwc+Q4RQP5cI85dZYJhOaZ3xit1TjHQf98hHhuMCfKumu14LtilMNItA5Kg74E5phdYpPgwCoSd5xqGxzCqZC/yVPcSmOf3A234qqSFol0vIOxteMEWrg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ea8/je30; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83396C116C6;
-	Sun, 29 Mar 2026 09:45:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774777518;
-	bh=l+dN0lToai8lSGxHzvCi6u+XkB1xl3MrCngigbm7rxY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ea8/je30j5USqeE9VK2yVyHY1iw88GBezVD6/MU6FqTKaOr2rQKlmySGPPAD6GJSh
-	 Nx+JrZo4VMDL0/AP75DXmaEQSkSwMdRfLBUJ2eNF+BjBzSM3ZBmmNKJi5AlLajeDgD
-	 IW0GXFEze+LXem11J8IrGIGLgNZO1F63n3GJZH9tJ1zN8cSwhr47/0JlfzVyqFQg8Q
-	 ufi8wfCHw32tEPIppG42i/2P2dDQ8wa+yklMkTkCqiOz7Mm4HSiC8mp6Dmvhv0/v6g
-	 JB6xiFLMUgRaGGBwq1eRLBw26TF7RDscG2YXj4td+JOn+611QazXd5fx9GXCfgHwqy
-	 pEWBhn5IuKHBQ==
-Date: Sun, 29 Mar 2026 11:45:16 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Pranav Kharche <pranavkharche7@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/1] dt-bindings: media: convert hix5hd2-ir to DT schema
-Message-ID: <20260329-authentic-smiling-cat-0be663@quoll>
-References: <20260328084238.201452-1-pranavkharche7@gmail.com>
- <20260328084238.201452-2-pranavkharche7@gmail.com>
+	s=arc-20240116; t=1774780316; c=relaxed/simple;
+	bh=dhNXEHIExnX2f1N4l5eDf+K1LJ9NNaGnAN9f1+YcNoQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k4Mhn0K12EWKkPIGIWQ0m9zbwuVRyg/VetAxFE0GnOMDf6dDVdCuM0bc5S4k8/g7zF6T/GUBwzeughiu2Lz6qlI9QqdKZ+McLmptXKA8bE2+yeFDqcitXOmuiRr1ucfk6uV9c7/YHU6IsDe3VxYFjCLGF5Qd/Tb/6HvFLAWQAsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=btvqxH6n; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-483487335c2so36882105e9.2
+        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 03:31:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1774780314; x=1775385114; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FbEfcfX+u+PNt8MJVjHcHvkNIFPHR+VDZcKCREDq0jw=;
+        b=btvqxH6ncqZRl3he6Rn1vC9Kf9eRHEuLCHaLtNWMYsgySngkVZKNpe+otVFbugqr7o
+         JdBaG3qvpag+49ISmDFapmnnIyLHpPstUg8zeU6TYhTeAM6hfupV8b6YiMqjqTcSd1HF
+         lSxZXnvv86LUX2fLGFLF8fJvwIWCUCUJvKvRGMzRp/VGUrIHNoGSdwgRTPoD3DQ5zq+H
+         WVTEzt2tdwrZbmSZnmMcmZD9rJ2/bi/iElP2DMIb9HJyxBz4zgIIc5GLv1wMU4OeKWse
+         xj3NGzdXNZKgYZXQCduVjE9JqHFWvXkUbZl0RiobNHOddXnZ+j6B9VnciPVLgegUkjZg
+         khgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774780314; x=1775385114;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FbEfcfX+u+PNt8MJVjHcHvkNIFPHR+VDZcKCREDq0jw=;
+        b=H2yU7QhXW8knLkqTCT8aDdjtFwv4Kozw3gcfSVrjaKZjPgDWcOd0GYKgJda+V9v5qV
+         0NRx4+AzqfrgdHMm6cE5lSUdI2SyckZILHXR6UttiJ/RLzrvkYQyp7vANoF6cTK5TK2D
+         Khbqd2Rvj1h+F3w8BB9tTrsqH3NzsJNTa79aDBmmOT499S8tuk0JwQ7fB2C3DfUEVSo2
+         jnlwAap+nZKxC7mkHz2bMZ5vYojUkSZEKfnOkqMahXL2eDZrQLkbX2cwR+qoTcY/srrA
+         5Dm8H9kOZy7V4FzFo8yp/wgMRFOMY0d5C+5ABD0ntWfgzf1jsOAqK93kXKbllZ60aqq2
+         uEPA==
+X-Gm-Message-State: AOJu0YyAZLzETsGSgBpUyVGxc0QicC5W2o7/k8CxIKTHztdI6Ol/7ew1
+	wq3xLbCchSKHRYVmoG7NuTVVKqR0VZmUxvcPzpgbXn6WEgx7RlHl4qtxBWOcMRSX0Q8=
+X-Gm-Gg: ATEYQzwm8qUZimtLFOeDvJeTK544ChGKQfdkXzB81obLzRbfXjMBnJaawf20FKc3t5o
+	ypCq9jKpf7kaiCcOw3r/BKb7TnlP4MeW94udSjfixdOn/JplB3xuzWv7kpz3f6QWCarYQ1ToTqs
+	TlLuDb/+TufAqq17ZyCt6JVjx0P6IMQpGU795E4iV11Tz/z5mvaytyViyIr6IfXWzkdnKVGKMtZ
+	PbC/51PltRuYo7HPEeVr2Y3rUmzPWpF4BMhkMHrLiwohbsIdltXPyV5YfgO6b0fCsm7YLNN9/a3
+	SgMiS4Zdw2MGlvI8+YaIkvAn4cTWfcdbiB1r/de4ew+wFooTtylPKPNxwnMNuhnt1h4NB0w0KDb
+	Kgk0ZQXxjnDmGjMwoipSoDIR0oWO+hKhZiSXf5vRyzKt4fn5X6aneDm3EdKluJUIWO2LvqYF6JQ
+	isqVbcB0fLfPPrm1aNQOiqZAtoGsYU7KI=
+X-Received: by 2002:a05:600c:1d1e:b0:485:3f1c:d897 with SMTP id 5b1f17b1804b1-48727f0b0femr145120625e9.9.1774780314061;
+        Sun, 29 Mar 2026 03:31:54 -0700 (PDT)
+Received: from [192.168.0.35] ([64.43.41.12])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722c6b4d0sm201579705e9.3.2026.03.29.03.31.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 29 Mar 2026 03:31:53 -0700 (PDT)
+Message-ID: <6309703a-fd61-4224-b9c3-6e1b88ca168d@linaro.org>
+Date: Sun, 29 Mar 2026 11:31:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260328084238.201452-2-pranavkharche7@gmail.com>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] media: qcom: camss: Add per-format BPL alignment
+ helper
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ vladimir.zapolskiy@linaro.org
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ mchehab@kernel.org
+References: <20260313195152.275196-1-loic.poulain@oss.qualcomm.com>
+ <20260313195152.275196-2-loic.poulain@oss.qualcomm.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20260313195152.275196-2-loic.poulain@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57501-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-57502-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,f8001000:email,devicetree.org:url]
-X-Rspamd-Queue-Id: AE2693516D9
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 3622035195C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, Mar 28, 2026 at 02:12:38PM +0530, Pranav Kharche wrote:
-> Convert the legacy plaintext binding for HiSilicon hix5hd2 IR remote
-> controller to JSON Schema (DT schema) format in YAML.
-> 
-> This binding documents the infrared remote receiver found in HiSilicon
-> SoCs such as hix5hd2 and hi3796cv300. The conversion includes:
-> 
-> - Standardized property definitions with types and constraints
+On 13/03/2026 19:51, Loic Poulain wrote:
+> +unsigned int camss_format_get_bpl_alignment(const struct camss_format_info *f);
 
-Drop
+You have a naming disparity between header and implementation wrt to 
+your doxygen.
 
-> - Reference to rc.yaml base schema for remote controller properties
+I will fix it for you when applying
 
-Drop
-
-> - Addition of include directives for interrupt-controller bindings
-
-Drop
-
-> - Proper example with GIC interrupt specifiers
-
-Drop
-
-> - Schema validation support for device tree sources
-
-Drop
-
-> 
-> The new schema enables:
-> - Validation improvement
-
-Drop
-
-> 
-> tested with: make dt_binding_check DT_SCHEMA_FILES=...
-> All schema validation checks pass.
-
-Drop
-
-Please write useful commit msgs, meaning you do not need to state
-obvious things. Plenty of examples in git log.
-
-What you MUST say here is documenting the changes you done to the
-binding. You removed existing property which is not explained at all,
-introduces undocumented ABI and adds new warnings. No, seriously, no.
-
-And if you TESTED this you would see errors, so back to basic
-requirements of schema conversion - see my posts on social.kernel.org.
-
-
-> 
-> Signed-off-by: Pranav Kharche <pranavkharche7@gmail.com>
-> ---
->  .../devicetree/bindings/media/hix5hd2-ir.txt  | 26 ---------
->  .../devicetree/bindings/media/hix5hd2-ir.yaml | 53 +++++++++++++++++++
->  2 files changed, 53 insertions(+), 26 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/hix5hd2-ir.txt
->  create mode 100644 Documentation/devicetree/bindings/media/hix5hd2-ir.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/hix5hd2-ir.txt b/Documentation/devicetree/bindings/media/hix5hd2-ir.txt
-> deleted file mode 100644
-> index ca4cf774662e..000000000000
-> --- a/Documentation/devicetree/bindings/media/hix5hd2-ir.txt
-> +++ /dev/null
-> @@ -1,26 +0,0 @@
-> -Device-Tree bindings for hix5hd2 ir IP
-> -
-> -Required properties:
-> -	- compatible: Should contain "hisilicon,hix5hd2-ir", or:
-> -		- "hisilicon,hi3796cv300-ir" for Hi3796CV300 IR device.
-> -	- reg: Base physical address of the controller and length of memory
-> -	  mapped region.
-> -	- interrupts: interrupt-specifier for the sole interrupt generated by
-> -	  the device. The interrupt specifier format depends on the interrupt
-> -	  controller parent.
-> -	- clocks: clock phandle and specifier pair.
-> -
-> -Optional properties:
-> -	- linux,rc-map-name: see rc.txt file in the same directory.
-> -	- hisilicon,power-syscon: DEPRECATED. Don't use this in new dts files.
-> -		Provide correct clocks instead.
-> -
-> -Example node:
-> -
-> -	ir: ir@f8001000 {
-> -		compatible = "hisilicon,hix5hd2-ir";
-> -		reg = <0xf8001000 0x1000>;
-> -		interrupts = <0 47 4>;
-> -		clocks = <&clock HIX5HD2_IR_CLOCK>;
-> -		linux,rc-map-name = "rc-tivo";
-> -	};
-> diff --git a/Documentation/devicetree/bindings/media/hix5hd2-ir.yaml b/Documentation/devicetree/bindings/media/hix5hd2-ir.yaml
-> new file mode 100644
-> index 000000000000..91cba6ec88c5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/hix5hd2-ir.yaml
-
-Filename must match the compatible, choose one.
-
-> @@ -0,0 +1,53 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/hix5hd2-ir.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: HiSilicon Hix5hd2 infrared remote controller
-> +
-> +maintainers:
-> +  - Pranav Kharche <pranavkharche7@gmail.com>
-> +
-> +allOf:
-> +  - $ref: rc.yaml#
-> +
-> +description: |
-
-Do not need '|' unless you need to preserve formatting.
-
-> +  This binding describes the infrared remote controller found in
-
-So description describes that your binding describes... No, drop.
-Explain the hardware and if you do not have any explanation, no need to
-state obvious and paste here compatibles.
-
-Best regards,
-Krzysztof
-
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
