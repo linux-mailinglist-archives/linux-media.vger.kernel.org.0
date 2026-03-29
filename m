@@ -1,241 +1,404 @@
-Return-Path: <linux-media+bounces-57485-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57486-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4HikL4GWyGm3ngUAu9opvQ
-	(envelope-from <linux-media+bounces-57485-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 05:03:29 +0200
+	id KIMFO2axyGm6owUAu9opvQ
+	(envelope-from <linux-media+bounces-57486-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 06:58:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B715350863
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 05:03:29 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 742AB350C5A
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 06:58:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C32953029E7C
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 02:59:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 17941304A6CC
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 04:56:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 550F22248B3;
-	Sun, 29 Mar 2026 02:59:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CCB0285C89;
+	Sun, 29 Mar 2026 04:56:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TOmBNb2m"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hEkGpaUv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AE31DDC3F
-	for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 02:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774753185; cv=pass; b=ro2ng/QTEOUlOroM1bk+mtxvj4fOeZu47AlaVRXp7UYHqjg7QPv/Hch1pW9yLoRDTK0RSrosUAd3e/ee91BxMGYrchWEVS1QilTWKPpOdXsOi8ueTk58goKkExaI3U48ya76Pzd/3etB3ZTw8KWd+tnlLmHvBOMLyOb8PoGO7Lk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774753185; c=relaxed/simple;
-	bh=oeNehwa1EeZJyigbXHU4X4E2N3zajGz8/K1EHAM/4vk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Dri5Tw1CdhtBVWICdobN1jZQcqzV0mmDV0hA8WiMyPmCgkiNcVImyK6LI2YftYnicsvya+tY4bQLWGNzT0M5NXDoG/Y6TWBSRY7gXRRFORVY2Ot0MAF52C1oQjDy7lWgQb9ToljDC5GNZ3FmtAIQHcj0U3zB29fzHYfrVhZr19g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TOmBNb2m; arc=pass smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D32284662
+	for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 04:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774760201; cv=none; b=TZXj0HKvQf+rUIwAk1FQxSv++3Is4kQABQxyOt+gDzDNPGse1eUmSMgYOubpiRpiCJnNF3suhe/ptQH55sTYqOpfiTPb8NMVbrHT2drlXAaPM7RLGORITpEPJ41HIrKEbT0b4eE6iBMHgOFuGqEQEffDcnpA1i7liTNZwOi/aOI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774760201; c=relaxed/simple;
+	bh=ivB1OmGdPNTW2GK2AKrypX3cG37iKp6PvyWPTdn8sXc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SxIBVs0mEy400Sc8J74ISlDeGRlZlk3LcP1OaNyPGw1w85Eoj45vp3rnI/mTT4A2iKnp922th9ZOie31jMb2Rq7KOTv5GUv4E1KRKyHldvsdCtUf+D44mdQZcsze8gXuYA8TGXuE8jYtycpRTZTtvW8ZdPDl5hQkQRBL+v8OSDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hEkGpaUv; arc=none smtp.client-ip=209.85.160.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-439d8df7620so2368624f8f.0
-        for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 19:59:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774753182; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CBay+cDQu5alqSwvNetMx1FDOMwzObFGDpLSYffZbDx6R7UiRiiRjiWyBaIzO9NGs1
-         dhJOl1TmbP4xlPZOXMfH5XGvHdIRw+djxMiSTTuloCLYrJxMRzT0DrcXFECU+vnwJSm3
-         vc4O7C9U3GwJ2fIgciIX3QtKs5kvjscoYS+so19Yw+hpSpk6gzOwm65NfTq7d+uvknsr
-         VSYHJmicZvac9TWU9LI+pZVwxhDjEHL5kUp25LgqWdd62232gUTvWlCQaActuLVHJfRB
-         BpMDRoUrf1NmDTcbjtT1Q+DOU+SiIdL9BbavndNIX2QIPjx2nICFxKJV8xG5hQPy8Rp3
-         lkhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Oxd9DxtljOO+GpoWdMwRVjRD9w3+k7pr8qjVOaGmgQs=;
-        fh=oNIGcdpRIFL4NylcutrnRJODe7F7Nyyhm4Pg6IJFrYc=;
-        b=I/IvKPdM6OCRI+n4vqyFkPLv4RQmms/vvuO33O7Fb46mUyb+tS4co9sBSzlcdYbkby
-         nM6IPYV9/Qnw6mphELYBxFm76f6jDwbqUsdcEVMkwfe1KZ7qMsRfgv50hFwxvOIeg0FY
-         iy7WvXPPKiXggF2AvEy+0b4W2W12bRgqdevAtFJQlkZyyPYZxh9L0ywNllTl76UerW+u
-         Qsf6lPWTwEOa0w4j2k0sWpKFJbEBuMrMmqdrHfCq09nWJ841T8aShgkAhpnmYQk/TEP7
-         bkmY1hOp6TxrgYuzv9UIG7YmJKmO80ekknFZXskFfTB3bVUbDoO27YpEIiOCgJTAR3ZB
-         t8bQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-40ea36b56b7so2750391fac.3
+        for <linux-media@vger.kernel.org>; Sat, 28 Mar 2026 21:56:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774753182; x=1775357982; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Oxd9DxtljOO+GpoWdMwRVjRD9w3+k7pr8qjVOaGmgQs=;
-        b=TOmBNb2mbS+sDIkGhl6xsFHDjSi5CLuvhmQjeiz2nu0WwVM4/p8S9zTnaUcko9lFyW
-         6gqXUfWVHuW2JbGv2lX6y/jXjSust+m24CaV1okB7x3zrN7XYg/5h7yw9eZWcX09mPcD
-         yNg7Z3F1XLSvZPHdF05P7B3bUKT7f1cahyWV9mHbs+YAaSM2z9EW3vtmcYjKj84NEIBH
-         vrK5Teq/bhmhht4Z6GiQfC2akeH6TeDhhV4AbovoP9wUWg+zBuRXzZ7qJf0+q6aYTpNF
-         FtPZ41je5ktGPzcJX4nho44NM10g+QTkai8t1pentd4Jwymd5MOGnxVyT7huoPAzNs6o
-         S0EQ==
+        d=gmail.com; s=20251104; t=1774760199; x=1775364999; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oOf1MJihMCaszzTY/m9WkVl5J6IxRQts736E69NospA=;
+        b=hEkGpaUvVsNjtyFVkOXx9VdHxcG9n1CVR6exwdb5cX5bzhqOICFjzFVILPqHazW0b+
+         O18H+kf/bLvG/NLOT5X3ezkUdupSfflugWlPTbD3/pp3w8XBs0k7hiCwS9RoyUg/pGiy
+         VnQWLSicdcBtmCK6NEQv7pEpBFvnm1sH1woGvQ2ld53N03nKxbElDk02Szl9vjtXB5+B
+         bgnxOYUHzVlgXroPMykx1uBV6tLdhn3FvDjyHdXb/lMGHDLEONVPQMpV62Jstt6WJh6O
+         PHCC6zeNL9BBryv5eTXJ0e3tXU5PUIz9Je2z2vv3AMtPt9zJlJ0K39GGLljV/i+7nzFR
+         PP6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774753182; x=1775357982;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Oxd9DxtljOO+GpoWdMwRVjRD9w3+k7pr8qjVOaGmgQs=;
-        b=pRObck0E+6yGqXGPArS6DpkqElu0T+44ov3yEyaYyy8yXANcwIHcuQPJGP7O+8e2lE
-         OZuFeSPSs2522kAqzJouwdlKWO/1hUM46oeyxqRax9eIzavljdY/5UtOb4U4yMFyHXaQ
-         ol6ev9vRr0dd8JYZoO6rrORHTTYuyUFdtdeF0JngVfr9dp/D2BkmpEA1hY6fEn8CK6/9
-         eT8A5bEXf+GCH60zjzn4Nx1hWQ4zmUYTpt/qsEzN50usjrNI9wAWoTfbkcg9SiHM0A6Z
-         hzuS32fF3NnOZUpdm7mhV6tL07JAhKIXoxJ6Wo8Uy1rpBGKhLZhTtwMQi8lp9ZRJyhuK
-         8oKw==
-X-Forwarded-Encrypted: i=1; AJvYcCWy9SUm9CYc5sbCd2ybQOJu/pJCEVmzCjkYBtkK/OjHzc8oUvOKuS6MLH/qhs8fk+/7QVI4XFc+HZmgaw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YztxE31bfJ8QQvzDukKc6QmPyVVlbSvjSG1cQANNXoZcZZshoQz
-	HekGkbu6fbkHsd5fG63C+S5mUaOF/gJyXWIIypKq0qhBQeRlo/Iv5jUky4F/IyeE6ZbpNxBbDnX
-	mIMbqxfm0ox70jqRhUvzdMa/q99H6Jhs=
-X-Gm-Gg: ATEYQzyMOOSCeum8KgrdIQgH4eeJUmYMpeBwkCy7XVpGt+lkJWjt4Li247QMDYCgcDK
-	8UYOV0byrgJLa3qiIqd2qQwBYmX84IiSNNwbyjdkbPUoSWYV4NkL1NNWr2fTrJY6DQmrI2u2x2l
-	IK/val3YVHi4SNGKK0uHcGHLHqN5h/GqwmpXTtbRFNPpvYuWEbw7n+H/wSYIaHfEkIiWMnssDDN
-	mTil9SR5ATwDISwbUo5DOzvgkNHuMr+JYnh3lBEN9gJCktL9yWLjwrYDQcv2SLAoL8C5U8aLi7J
-	7/bAjelTMZKJs323p3FK0Ep6psXKzMkZ/eHpAM0iS4h4PlJHgpQ+34BNyBCwY+SWn4QNgA==
-X-Received: by 2002:a5d:588f:0:b0:439:c299:4d8f with SMTP id
- ffacd0b85a97d-43b9e9e8e37mr13378617f8f.17.1774753181546; Sat, 28 Mar 2026
- 19:59:41 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774760199; x=1775364999;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oOf1MJihMCaszzTY/m9WkVl5J6IxRQts736E69NospA=;
+        b=mtq8bv/2dAdPcLeLJJ2FCY6rzC8jEAHJMyvxMWKndc87S66c2fafjTUB3iUXuJpNht
+         wF/ytiJCO683/QZbGmGV2mciHQlJIbVqK8UckQcRyrJnN5qs00Ks/Oj7/8p8GlRLTySE
+         Et5KpN4+ozs6u4yCagU4GAOf/NEH+SO22qkJRdM1v8TkjH0FdAlwFEbmuSAeounGl71U
+         Txka43AaK2a8iKOse1JU5ImIW9k1ShrqoOTnTZ+4d7sYduih5roDh7F3C04ROVCPqDvG
+         LKlwSznnO/LKr1DPHqlhTK+2c9Dea2ahhbfHmth2GUMQHz9+wlXOl/gH26m/VfrnsxTM
+         rCPA==
+X-Forwarded-Encrypted: i=1; AJvYcCWzWaOzsJmyjFKjCzBoBmd9b2XJsdwX3/sgjN+Rq9Sv/vR1uwvHfbwEg4Cbfjvx9I4GaYV70uQLKW7atw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZIfvRPED9VvC0U3WF20MZxURw7QrdJGzl1Tf6/MA6/liameDu
+	TKbjRgom4JaW59Kw8mmTZf6qXEbEuxekdIA+QFzsPLvYO0o8EMUDOfQ=
+X-Gm-Gg: ATEYQzwCTgpzMtSxk+ZsFlGVLGxcikt05B9vBYHHb/Gt0IL787VyAkE028z+1IByOUF
+	JliRYezr2VH8od524EJwIUdn4yAz/PpXoHjbz3FpWpSTR8geHN4nwX1s/mHBSbDpYxhmfxMqF1Z
+	buXV9aMj6qAaOScbF1ppXWjDnmAdEMULtxilA8oLQ0SjSV3PKY/xbb1h1WOjgsgJHVmZU+OWW44
+	ecyhAxveNeBfBX+a/DmdCwRZ2mNTezGjauoOonmRLMLyqfAThWGHDgEDgsy3gozDd3GVX47f3d7
+	XrpGI/Tdy2ApaSj/SARGdP5nRiDeieiCq6Ox+CBeM2tElNIPDpYgi5QFrkKbBu3wMUPHcnnnP5Q
+	jH9llJzAd1kYQDT2p21VGhZ69zjP9xmW6cgH0swm8zMXIXnsqkCmREuJ5c7H7rx7yfRnBi8MhYy
+	vbzQhhrqDlfdlb18jWmSnw2If+4hmABq2KSCcaFlNDBQdpYkLJHRI=
+X-Received: by 2002:a05:6870:1611:b0:417:5a32:1e81 with SMTP id 586e51a60fabf-41cec172741mr4598926fac.17.1774760199034;
+        Sat, 28 Mar 2026 21:56:39 -0700 (PDT)
+Received: from miso.lan ([136.62.61.36])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-41d0494be33sm2531786fac.5.2026.03.28.21.56.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2026 21:56:37 -0700 (PDT)
+From: Matthew Laux <matthew.laux@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Matthew Laux <matthew.laux@gmail.com>
+Subject: [PATCH v3 0/1] Add driver for StarTech USB3HDCAP capture device
+Date: Sat, 28 Mar 2026 23:56:11 -0500
+Message-ID: <20260329045612.6899-1-matthew.laux@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260328132902.776757-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260328132902.776757-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <f8369ece-ff7e-438d-84b5-0e924597246d@windriver.com>
-In-Reply-To: <f8369ece-ff7e-438d-84b5-0e924597246d@windriver.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Sun, 29 Mar 2026 03:59:14 +0100
-X-Gm-Features: AQROBzBQCBDvKqbYB7uBkl8X4GJECz9QPVb6ro2KqB5gY6h5wABEHX4uLTzZcNQ
-Message-ID: <CA+V-a8v2v02Ka3GsE0psSkhT7KUMRf-ot5103B2ZQkcpSKWbEg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] media: i2c: ov5645: Convert to CCI register access helpers
-To: xiaolei wang <xiaolei.wang@windriver.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <johannes.goede@oss.qualcomm.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57485-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-57486-lists,linux-media=lfdr.de];
+	FROM_NEQ_ENVFROM(0.00)[matthewlaux@gmail.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,gmail.com];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 3B715350863
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 742AB350C5A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Xiaolei,
+Add a V4L2/ALSA driver for the StarTech USB3HDCAP (and Micomsoft
+XCAPTURE-1 variant), a USB 3.0 video capture device based on the
+MST3367 HDMI receiver, TW9900 composite decoder, and CS53L21 audio codec.
 
-Thank you for the review.
+The driver supports composite, S-Video, component, and HDMI inputs,
+including audio capture. I'm targeting staging because the I2C chip
+drivers are currently embedded rather than using proper subdevice drivers,
+and some other minor issues remain (see TODO).
 
-On Sat, Mar 28, 2026 at 3:41=E2=80=AFPM xiaolei wang <xiaolei.wang@windrive=
-r.com> wrote:
->
-> Hi Prabhakar,
->
-> Thanks for the update.
->
-> On 3/28/26 21:29, Prabhakar wrote:
-> > CAUTION: This email comes from a non Wind River email account!
-> > Do not click links or open attachments unless you recognize the sender =
-and know the content is safe.
-> >
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Convert the ov5645 driver to use the V4L2 CCI register access helpers
-> > and regmap infrastructure instead of the custom I2C register access
-> > implementation.
-> >
-> > Keep ov5645_set_register_array() as ov5645_global_init_setting requires
-> > a delay between specific register writes, which cannot be expressed
-> > through the generic CCI multi-write helper.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v1->v2
-> > - Fixed selecting V4L2_CCI_I2C config option for the OV5645 driver.
-> > - Fixed checkpatch warnings limiting to 80 characters per line.
-> > ---
-> >   drivers/media/i2c/Kconfig  |   1 +
-> >   drivers/media/i2c/ov5645.c | 907 ++++++++++++++++++------------------=
--
-> >   2 files changed, 435 insertions(+), 473 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > index 20482be35f26..8d7dafba85ca 100644
-> > --- a/drivers/media/i2c/Kconfig
-> > +++ b/drivers/media/i2c/Kconfig
-> > @@ -533,6 +533,7 @@ config VIDEO_OV5640
-> >   config VIDEO_OV5645
-> >          tristate "OmniVision OV5645 sensor support"
-> >          depends on OF
-> > +       select V4L2_CCI_I2C
-> >          help
-> >            This is a Video4Linux2 sensor driver for the OmniVision
-> >            OV5645 camera.
-> > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> > index df9001fce44d..1cfccbdf1406 100644
-> > --- a/drivers/media/i2c/ov5645.c
-> > +++ b/drivers/media/i2c/ov5645.c
-> > @@ -25,40 +25,42 @@
-> >   #include <linux/of.h>
-> >   #include <linux/of_graph.h>
-> >   #include <linux/pm_runtime.h>
-> > +#include <linux/regmap.h>
-> >   #include <linux/regulator/consumer.h>
-> >   #include <linux/slab.h>
-> >   #include <linux/types.h>
-> >   #include <media/mipi-csi2.h>
-> > +#include <media/v4l2-cci.h>
-> >   #include <media/v4l2-ctrls.h>
-> >   #include <media/v4l2-fwnode.h>
-> >   #include <media/v4l2-subdev.h>
-> >
-> > -#define OV5645_SYSTEM_CTRL0            0x3008
-> > +#define OV5645_SYSTEM_CTRL0            CCI_REG8(0x3008)
-> >   #define                OV5645_SYSTEM_CTRL0_START       0x02
-> >   #define                OV5645_SYSTEM_CTRL0_STOP        0x42
-> > -#define OV5645_CHIP_ID_HIGH            0x300a
-> > +#define OV5645_CHIP_ID_HIGH            CCI_REG8(0x300a)
-> >   #define                OV5645_CHIP_ID_HIGH_BYTE        0x56
-> > -#define OV5645_CHIP_ID_LOW             0x300b
-> > +#define OV5645_CHIP_ID_LOW             CCI_REG8(0x300b)
-> Since 0x300a and 0x300b are contiguous, you could simplify this to a
-> single CCI_REG16 read:
->
->      #define OV5645_CHIP_ID        CCI_REG16(0x300a)
->
->      #define OV5645_CHIP_ID_VALUE    0x5645
->
-Agreed, I will update it as described above and post a new version.
+Tested on all four inputs at various resolutions. All v4l2-compliance
+tests pass, including streaming tests, but I did find what might be a bug
+in v4l2-compliance that causes any device that uses V4L2_FIELD_ALTERNATE
+to fail the streaming tests - I believe the sequence number checks in
+v4l2-test-buffers.cpp are contradictory for V4L2_FIELD_ALTERNATE and
+impossible to satisfy. I temporarily changed my driver to report
+FIELD_NONE to have the streaming tests run. I'm happy to fix the
+v4l2-compliance issue if it is indeed an issue, or fix my driver if
+it's not :)
 
-Cheers,
-Prabhakar
+This is my first contribution. I based this driver heavily on the
+existing `usbtv` driver and welcome all feedback. I am committed to
+eventually getting this out of staging and will stick around to make
+any improvements needed so that can happen.
+
+
+Thanks,
+Matthew
+
+$ v4l2-compliance -s -d /dev/video2
+v4l2-compliance 1.33.0-5455, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 95ad25f6a77a 2026-03-17 13:08:36
+
+Compliance test for usb3hdcap device /dev/video2:
+
+Driver Info:
+	Driver name      : usb3hdcap
+	Card type        : StarTech USB3HDCAP
+	Bus info         : usb-0000:00:14.0-2
+	Driver version   : 6.12.73
+	Capabilities     : 0x85200001
+		Video Capture
+		Read/Write
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x05200001
+		Video Capture
+		Read/Write
+		Streaming
+		Extended Pix Format
+
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video2 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 4 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK
+		fail: v4l2-test-io-config.cpp(210): field == V4L2_FIELD_NONE
+		fail: v4l2-test-io-config.cpp(386): Timings check failed for input 2.
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: FAIL
+	test VIDIOC_DV_TIMINGS_CAP: OK
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 8 Private Controls: 0
+
+Format ioctls (Input 0):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+	test blocking wait: OK
+
+Control ioctls (Input 1):
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 8 Private Controls: 0
+
+Format ioctls (Input 1):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 1):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 1):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+	test blocking wait: OK
+
+Control ioctls (Input 2):
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 8 Private Controls: 0
+
+Format ioctls (Input 2):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 2):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 2):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+	test blocking wait: OK
+
+Control ioctls (Input 3):
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 8 Private Controls: 0
+
+Format ioctls (Input 3):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 3):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 3):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+	test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK
+	test MMAP (no poll, REQBUFS): OK
+	test MMAP (select, REQBUFS): OK
+	test MMAP (epoll, REQBUFS): OK
+	test MMAP (no poll, CREATE_BUFS): OK
+	test MMAP (select, CREATE_BUFS): OK
+	test MMAP (epoll, CREATE_BUFS): OK
+	test USERPTR (no poll): OK
+	test USERPTR (select): OK
+	test DMABUF (no poll): OK (Not Supported)
+	test DMABUF (select): OK (Not Supported)
+
+Total for usb3hdcap device /dev/video2: 134, Succeeded: 133, Failed: 1,
+Warnings: 0
+
+Matthew Laux (1):
+  staging: media: add driver for StarTech USB3HDCAP
+
+ MAINTAINERS                                   |    8 +
+ drivers/staging/media/Kconfig                 |    2 +
+ drivers/staging/media/Makefile                |    1 +
+ drivers/staging/media/usb3hdcap/Kconfig       |   13 +
+ drivers/staging/media/usb3hdcap/Makefile      |    4 +
+ drivers/staging/media/usb3hdcap/TODO          |   15 +
+ .../staging/media/usb3hdcap/usb3hdcap-audio.c |  301 +++++
+ .../media/usb3hdcap/usb3hdcap-composite.c     |  182 +++
+ .../staging/media/usb3hdcap/usb3hdcap-core.c  | 1002 +++++++++++++++++
+ .../staging/media/usb3hdcap/usb3hdcap-hdmi.c  |  802 +++++++++++++
+ .../staging/media/usb3hdcap/usb3hdcap-video.c |  505 +++++++++
+ drivers/staging/media/usb3hdcap/usb3hdcap.h   |  234 ++++
+ 12 files changed, 3069 insertions(+)
+ create mode 100644 drivers/staging/media/usb3hdcap/Kconfig
+ create mode 100644 drivers/staging/media/usb3hdcap/Makefile
+ create mode 100644 drivers/staging/media/usb3hdcap/TODO
+ create mode 100644 drivers/staging/media/usb3hdcap/usb3hdcap-audio.c
+ create mode 100644 drivers/staging/media/usb3hdcap/usb3hdcap-composite.c
+ create mode 100644 drivers/staging/media/usb3hdcap/usb3hdcap-core.c
+ create mode 100644 drivers/staging/media/usb3hdcap/usb3hdcap-hdmi.c
+ create mode 100644 drivers/staging/media/usb3hdcap/usb3hdcap-video.c
+ create mode 100644 drivers/staging/media/usb3hdcap/usb3hdcap.h
+
+
+base-commit: 2c8fe1f14240d75f2002e16b2b69c5c2d27ed41c
+-- 
+2.47.3
+
 
