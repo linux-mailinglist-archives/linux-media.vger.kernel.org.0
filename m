@@ -1,142 +1,154 @@
-Return-Path: <linux-media+bounces-57514-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57515-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KLUtLOweyWl/uwUAu9opvQ
-	(envelope-from <linux-media+bounces-57514-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 14:45:32 +0200
+	id IBU6LJgiyWljvAUAu9opvQ
+	(envelope-from <linux-media+bounces-57515-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 15:01:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E92351FB5
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 14:45:32 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 283C33520EF
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 15:01:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id F04623016259
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 12:44:43 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 93E9930143DF
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 13:01:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F58136E487;
-	Sun, 29 Mar 2026 12:44:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0879736F412;
+	Sun, 29 Mar 2026 13:01:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sykENkDT"
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="bdLI6Etg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603D736EA98
-	for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 12:44:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9B5433AD;
+	Sun, 29 Mar 2026 13:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774788281; cv=none; b=naCVFTA5bHwIByq2Ddhll+rO0FV/1uVLHTMgsmHoZAbWIPrtVc2N77zGwhv5Hb1AM8fy4E+XQRil2kfu90hyVfBVBlXN9XphqePuAv1Xm22rRJ2fAtViMu2gaOqnpfI7HZmCHA11QtgvA3qeuaTZUHe6Yg+dlPHzzfRUT8nhKoo=
+	t=1774789262; cv=none; b=Iw0gDENnqCmmeCrqATJhumEMsCkr8t+lPeVpsMdCun9f0Eg9Ra45p1i64ixFPfmm2JZlyuN0g2cJtuOgGlL9Is4nRUZZrnBJQB4Cx1se7mYBmjaRgA352eEQ953aHDUYNqVS3pUhQ2XczgnO5Tn/bGzVQxhPe0x6DlU1XcEr62U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774788281; c=relaxed/simple;
-	bh=vU0+X+y3jioy6E9J30w+FzWYOuFdPtfTOpozKDtwEEc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rJ4ILXNgFqZqMtqXzQgvJaGaHbr7J/0jIGg7uQztVU5itaNQqK/I4HOnhUjiajk/jGJ0NSmuZGlNnjCiU2tSFjjixJJyIUIfVF1fatZg+bTD5NpAPLE4iib39elHAGI5OZkkldcamv4qWBv7JND6cCNQVEmd43q+6lrvy1HVyYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sykENkDT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F05F5C2BCB3
-	for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 12:44:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774788281;
-	bh=vU0+X+y3jioy6E9J30w+FzWYOuFdPtfTOpozKDtwEEc=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=sykENkDT++Jf86J8mOgWM6MXobVRK7SW/QNk54DSf995REgGBtIdJj2QRrmJqHA3G
-	 oXpmbf5/h7xLeddkmdyIY3BKhMpQ4nf/l4hNEbpzE3MFo659oVTzR7fNISdVs3xeA+
-	 Nvt+8WbZcwlvU7eNe3431MVo2eVLLxVuYWjLbRkOy6m7fbYk7T9aRteKtdCIEr5FTT
-	 XUaY+KAQeybXF9WcNfuHEWqqn39Z1YaIZUSZzoSkN/gGnkfBoCkFhsLtjaEixEjqnj
-	 3nW79M54oN9h6HTPMzK9TbGmmYPLSc39jDauyk6twRCdQf8S3gARUbaU3h55NMFr/0
-	 Of/VKc1VTOHxQ==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-38a32d36396so32346331fa.0
-        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 05:44:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX+NX/hgQYemmvMJxaadyBwev17cyVZog1Z+F1pfXcJsO6vGzuWJxr5W6Bl/LiEzJB+QZMHVQiYTUKNmA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVZUFmhgYh2tN8eSWU6tk9v4W0OtRGtBwPYq9Xa8zNCSU9swXm
-	nsjO1Ds00LnFGUNS9v6WFSc7P+mACcBTWvjbVbzMJAHbloHXCGWc7WOeRV/lB34eh1lY5CaG8hb
-	eyjNmjd1h+rh5J8uRjsmfQWlIwQKhULc=
-X-Received: by 2002:a2e:a54f:0:b0:38a:2a56:9546 with SMTP id
- 38308e7fff4ca-38c75c900demr24797411fa.13.1774788279369; Sun, 29 Mar 2026
- 05:44:39 -0700 (PDT)
+	s=arc-20240116; t=1774789262; c=relaxed/simple;
+	bh=W03FI6e80dvROeD6qW3dxWpa6gLkOQSEIxsVWkQzlaE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HeqZXvq4smYkgAWs/A2Vjqg/NVqs0PjQKakepA3qTxJHhKtLnJyNNk+DeCEUO8HPyweJN9ZNXiTuWKmRMoTtGBPApQg8S/B49zhM8CidYOzIgP/sr3yRt6myJ1WdxL5TxGLuskJ+DTtI/LwiCq277XMvlAjUqsDh4EzuEqgPnEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=bdLI6Etg; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:MIME-Version:Content-Transfer-Encoding
+	:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:
+	Reply-To:Content-ID:Content-Description;
+	bh=7ds2j9sLWyfvX6+jyaCW9+3Cik3Amrs5CO0KC6EvITc=; b=bdLI6EtgcvoAI70xnMhcK6mcsD
+	w+8pPAfefXaLtMD1gfi3Lr9rVqewfH4uHv5mrptQs94JOqZBrrsxjt3v5YTzodVBVEAySZHwnj3Yv
+	cuJv6mwESx+A1JACL3Q4KjqSxq2h38EJCYMqbFsTl+2QmIkGHNMg+tXz9v5eX15vxzX+OX2AxAmk4
+	kWFAL6vU5q1LhFkWMjasbVzQntEM3KhguJDYRfBxKlPNtCccP1yFaflSLWzwwFfjn7nAdRFNP/yMu
+	9ToGKplIYDKTribOsxGDwxrlrrBxOMWajKti2IoM1GykZVwOK8SeR9ZGlmh1Yr7FerqFwnUTP10ic
+	ZxF5kwhg==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <obbardc@debian.org>)
+	id 1w6pl3-000gvo-0w;
+	Sun, 29 Mar 2026 13:00:48 +0000
+Message-ID: <76072b04a6ec68dc3cdca773ad843e66fe468685.camel@debian.org>
+Subject: Re: [PATCH v2 0/3] media: camss: Link CAMSS power domain on MSM8996
+From: Christopher Obbard <obbardc@debian.org>
+To: Yassine Oudjana <yassine.oudjana@gmail.com>, Robert Foss
+ <rfoss@kernel.org>,  Todor Tomov <todor.too@gmail.com>, Bryan O'Donoghue
+ <bryan.odonoghue@linaro.org>, Andy Gross	 <agross@kernel.org>, Bjorn
+ Andersson <andersson@kernel.org>, Konrad Dybcio	
+ <konrad.dybcio@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Hans Verkuil <hansverk@cisco.com>
+Cc: Yassine Oudjana <y.oudjana@protonmail.com>, Vladimir Zapolskiy
+	 <vladimir.zapolskiy@linaro.org>, linux-media@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Sun, 29 Mar 2026 14:00:46 +0100
+In-Reply-To: <20230526180712.8481-1-y.oudjana@protonmail.com>
+References: <20230526180712.8481-1-y.oudjana@protonmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260324080856.56787-1-pengpeng@iscas.ac.cn> <2823210.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <2823210.mvXUDI8C0e@jernej-laptop>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 29 Mar 2026 20:44:27 +0800
-X-Gmail-Original-Message-ID: <CAGb2v674Ei2uFh6O0LoFoJrPcqGKGr_v+hfvE7TSfwztxDfTAA@mail.gmail.com>
-X-Gm-Features: AQROBzBu8cBmUz_qtapXabXSe1cUlYbMC4_Is2O7MBHQ-BNPxfI_Wv0OKcRIafM
-Message-ID: <CAGb2v674Ei2uFh6O0LoFoJrPcqGKGr_v+hfvE7TSfwztxDfTAA@mail.gmail.com>
-Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, Pengpeng Hou <pengpeng@iscas.ac.cn>, paulk@sys-base.io, 
-	mchehab@kernel.org, gregkh@linuxfoundation.org, samuel@sholland.org, 
-	nicolas.dufresne@collabora.com, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Debian-User: obbardc
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[debian.org:s=smtpauto.stravinsky];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57514-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linaro.org,cisco.com];
+	TAGGED_FROM(0.00)[bounces-57515-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	DMARC_NA(0.00)[debian.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[debian.org:+];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,linux-media@vger.kernel.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	HAS_REPLYTO(0.00)[wens@kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,iscas.ac.cn:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 41E92351FB5
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[obbardc@debian.org,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[protonmail.com,linaro.org,vger.kernel.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 283C33520EF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, Mar 29, 2026 at 5:21=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrabec=
-@gmail.com> wrote:
->
-> Dne torek, 24. marec 2026 ob 09:08:56 Srednjeevropski poletni =C4=8Das je=
- Pengpeng Hou napisal(a):
-> > Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
-> > stateless slice control and later uses their indices to look up
-> > decode->dpb[] in _cedrus_write_ref_list().
-> >
-> > Rejecting such controls in cedrus_try_ctrl() would break existing
-> > userspace, since stateless H.264 reference lists may legitimately carry
-> > out-of-range indices for missing references. Instead, guard the actual
-> > DPB lookup in Cedrus and skip entries whose indices do not fit the fixe=
-d
-> > V4L2_H264_NUM_DPB_ENTRIES array.
-> >
-> > This keeps the fix local to the driver use site and avoids out-of-bound=
-s
-> > reads from malformed or unsupported reference list entries.
-> >
-> > Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
->
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Hi Yassine,
 
-Tested-by: Chen-Yu Tsai <wens@kernel.org>
+On Fri, 2023-05-26 at 21:07 +0300, Yassine Oudjana wrote:
+> From: Yassine Oudjana <y.oudjana@protonmail.com>
+>=20
+> CAMSS on MSM8996 has been broken since commit
+> 46cc03175498 ("media: camss: Split power domain management").
+> This would happen when trying to start streaming:
+>=20
+> [  199.097810] ------------[ cut here ]------------
+> [  199.097893] camss_top_ahb_clk status stuck at 'off'
+> [  199.097913] WARNING: CPU: 3 PID: 728 at drivers/clk/qcom/clk-branch.c:=
+91 clk_branch_wait+0x140/0x160
+> ...
+> [  199.100064]  clk_branch_wait+0x140/0x160
+> [  199.100112]  clk_branch2_enable+0x30/0x40
+> [  199.100159]  clk_core_enable+0x6c/0xb0
+> [  199.100211]  clk_enable+0x2c/0x50
+> [  199.100257]  camss_enable_clocks+0x94/0xe0 [qcom_camss]
+> [  199.100342]  csiphy_set_power+0x154/0x2a0 [qcom_camss]
+> ...
+> [  199.101594] ---[ end trace 0000000000000000 ]---
+> [  199.101736] qcom-camss a34000.camss: clock enable failed: -16
+> [  199.101813] qcom-camss a34000.camss: Failed to power up pipeline: -16
+>=20
+> Turns out camss_top_ahb_clk needs the CAMSS power domain to be on. Before
+> the change, VFE power domains were enabled before CSIPHY enabled clocks,
+> and since the CAMSS power domain was their parent, it got enabled as well=
+.
+> With the VFE power domains now enabled after CSIPHY is powered on, the
+> CAMSS power domain remains off and things go south when CSIPHY tries to
+> enable camss_top_ahb_clk.
+>=20
+> Link the CAMSS power domain in camss_configure_pd to make sure it gets
+> enabled before CSIPHY tries to enable clocks.
 
-This fixes a KASAN slab-use-after-free warning when running fluster H.264
-tests.
+Do you have any plans to spin another version of this patch series ?
+
+
+Cheers!
+
+Chris
 
