@@ -1,178 +1,195 @@
-Return-Path: <linux-media+bounces-57512-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57513-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id F+LUIeYXyWkFugUAu9opvQ
-	(envelope-from <linux-media+bounces-57512-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 14:15:34 +0200
+	id YPoHLxseyWlKuwUAu9opvQ
+	(envelope-from <linux-media+bounces-57513-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 14:42:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65AB351E59
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 14:15:33 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E009351F71
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 14:42:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E962F30191B5
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 12:15:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4FA11301C590
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2026 12:41:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16E45304BA3;
-	Sun, 29 Mar 2026 12:15:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FEF436D51F;
+	Sun, 29 Mar 2026 12:41:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AQ7qZFGw"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="nos5uN1w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-231.mail.qq.com (out203-205-221-231.mail.qq.com [203.205.221.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED783603E7
-	for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 12:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050D83093DF;
+	Sun, 29 Mar 2026 12:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774786520; cv=none; b=UiISrSzcRhOaTFcu3iyXIUp9C/Tu9fxqxS8bZMu9K5LHx0yttrqIUoRA03IqTo3HSFaLasC2mjBBF88jdDMuA/042edjPxFJXjNNZIPz2L/gJ9IPAGS0Aq1r2JftIdFNTNGlQZbW/JjPYPV4z2ABiFVDlfEpIsYuTgaCc+7F3eA=
+	t=1774788108; cv=none; b=OZxp6S2vcZCpXvTsM1lCE9zNie4dDFp11/lgwr1Cp5uHykLt8cHXOtMad0xSlEl0vVQdMrc8we8ugqRqgg2/Hoz2kzYNkTGATtiLh4q+M+1xrdAE7POjT7pcLNzWgwnkX4S/dxtB9o0cGsoWTTk2/LbwzJa4LIymXeqcpVs1rGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774786520; c=relaxed/simple;
-	bh=4+YpmXMhnzBcEo6XfmETEXML22ItISwI4YoNHx5TKmI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=PWHBRliDKICZoElqcPtw8BsmCyoiHM6ZRoXaLqD3SSsDYiRxiYtncKBKZylyOK+sQRsy4Oino/zJH6pRRRgVpoPdwHgezwezFRMhZoCPArkfnKyj72Z1duotUXPQFNGfTTl0nwiiicITnPXMbZRxFwYQ87yMTchxDaC3yYO0TSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AQ7qZFGw; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-483487335c2so37349465e9.2
-        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 05:15:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774786517; x=1775391317; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LNOLo0OS7Age/PXJ8R9gpObdEtaSycos4+/7fDNETBo=;
-        b=AQ7qZFGwIYpVaHABNtH3oQEvIZ5XL7bt9mAue1LIOzUKZdU+0dKELQ9mgxlminGZom
-         7zmr5N2AHq7nGWhrrV1XiH9aM3Q9uJhqqjQxtnLHChPr53ujgPs41b/0M/rfU9zWGVzq
-         1/AShdPxNiaUmehySujbsahZnKEKpLBFo0iqtv+9rci2ewAxq/5uf/RPfSQltfoB3CKZ
-         sVI2bmnJYH7b85be/iGVfWNr56Gm8a1K/ty+LL2A/WnHUHoadsojDYS+VIIFsWu4fOEv
-         sKN04eVNRB4eeRPxDhOHgtoYPsEc13gkFlmnmU+fFlf7+8GNOgTR58cp58dHEgXJI4QC
-         IJ/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774786517; x=1775391317;
-        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
-         :from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LNOLo0OS7Age/PXJ8R9gpObdEtaSycos4+/7fDNETBo=;
-        b=A98R6UKCh1kVPozjJFwj1+O2COQcslUDUagsOrHCcFYY24NxV5kmo5bvYEd+27LnnW
-         tu5D4Uij9J7/1+PquBt5+NeQ/Vk6mtto0TEiQVNGNEBFdpS8cD7DCbWGSt/BmmM0gwIW
-         cfKdpP2v+35D1JqaEwlmO8vLYDUvPYKpuZrPa4dxalhQz0WWD96IyxKLeySiHzx0dBSH
-         w1iw67ZbYmC1Kto5tUEN1KRRr85GOz6BfFWY/kgJvxJ3mPyP2ExafBiJi9nGN8/bzWck
-         KFQgozr7PF1jFc09QEJoS0aywDxFL6q2oQlXQ8hoBX+RHIPLbhSUaYfJizKNeaUzTDfY
-         P1Aw==
-X-Gm-Message-State: AOJu0Yy1rq2QISO+bK/q0XY8OiKrvDUuzN9KQ2mpwk+pEdI1A3U75HlP
-	gpTVqlUMYQVPW+W3L7HIHTU3pjBqyP7kBlvB5BjM2c7PcXNUXqv7yokvZ1rYbaTa
-X-Gm-Gg: ATEYQzy8o4GSI9Oz8F6g+mCLapAkBfVlnc1ILjz9CZlwWr6+1apY1a3XvGesz1/SzEc
-	ybFkqn1SLEi3sjbvnGJ1nu9B837u8ezytDeAF3jNxcKJUA8On2w3s5cnTn194msbPNJyBrhCACG
-	g6KBAMfSwA+BHja64Q22+VTwwqpoMAnu8MYvTBIO8hI9j1fszo8OzlCOrVirAE/tvTAKpBCTyHG
-	hDq40xXxGi36SyBpKt0HQ8ykaVnBsd13+KbtYAk+1vyXFtDjwYrECrytxkN5MugGVu8M5TiEedM
-	nbgWri1ulEcKKY4dLhb487hWQBF7KgisbJWssw8wJ2uHaJ73LuFKMfrmlyscuBDpbwghJ8pxvmW
-	RpFYx17ERutW80RP5Ykomil2s3JAjWZ/XwLmt/NlxP1NtEZF12RdtQPyv+N+7dHr5sV0KmJQmnI
-	+A+LaH8HtJEMSssMLZ5cYnI5L/eNA2Pj9p0xuEmTzojdhCuEdLAqMu6Zi3sA==
-X-Received: by 2002:a05:600c:1d1e:b0:485:3f1c:d897 with SMTP id 5b1f17b1804b1-48727f0b0femr148622055e9.9.1774786516925;
-        Sun, 29 Mar 2026 05:15:16 -0700 (PDT)
-Received: from localhost (net-2-34-154-96.cust.vodafonedsl.it. [2.34.154.96])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4873ab203e9sm16436675e9.0.2026.03.29.05.15.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 05:15:16 -0700 (PDT)
-Date: Sun, 29 Mar 2026 14:11:31 +0200
-From: Riccardo Boninsegna <rboninsegna2@gmail.com>
-To: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: sean@mess.org, mchehab@kernel.org
-Subject: [PATCH] media: rc: mceusb: add support for 04eb:e033
-Message-ID: <20260329141131.2b3acb25@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1774788108; c=relaxed/simple;
+	bh=E9fb0EnIc9p/YuYSpWEa5VL+fofa3gSVxNR+CROncC8=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=PDabGRzxnAc70ocHVRdNqTVSfaQ3JMOsYj80tYmdH9Zl/ESH8f6Xc5kBBJS/756fIRpU+UNEzyYSwHTYTETiAVePlSA5l6CKqIY7S5vNR4FU17g/NOt4GJTrqL58q8nFxh/zJsei/Y27amKS5Fe8JtcBkGr3ho2IFVLbaErBjUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=nos5uN1w; arc=none smtp.client-ip=203.205.221.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1774788094; bh=KRmC2zby+2bOT4GpdhG24sV/DNEBY41ZP4WcP7AHs48=;
+	h=From:To:Cc:Subject:Date;
+	b=nos5uN1wrYMPNJqYn0k8u9aWySf7tgQAIYUN2ocdgGaWH26UTEEi7M+Raof2bHTlw
+	 kN3oj7h8OCWlooqAfA39msM1IyLAjbAgTpMqxIP/q6P4I053Df4OD3BLCy0iePa6Tn
+	 Bs3Xt9si5Yfsh2bPS6khOYHZqJ5q7hPU5OMOqpKg=
+Received: from LAPTOP-KQCD4QBN.localdomain ([123.121.145.48])
+	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
+	id A5E8D08C; Sun, 29 Mar 2026 20:41:30 +0800
+X-QQ-mid: xmsmtpt1774788090tj6d323ds
+Message-ID: <tencent_820AAE865CAC3FB7596055F016FD7503210A@qq.com>
+X-QQ-XMAILINFO: NbgegmlEc3JuSj1wGuaxjrEpgmHejHAaD/YXyQzW+v1e1oUEQMVbOh9mfOpEhw
+	 rqYgARecSIIEerpVeme4NvQSyYHzcjUlxliVtQw+Bh1cHJY/GigYvaVxRU8eFHNFYwN8Vb/LYujU
+	 IfptXd4SiY/ut9t2f6h6WlJHTmLgMQ/d5niyfhTgivMqLTeNUiGfgvnmek1ouCWFTRa1Vdh9PuNB
+	 QlmvgWjaU9Jn5ATyozC1bXThCBykAffMBf50/o9XkO/8qyJfXrF5eCKLlEoDQuSvk7MUxJQwWFLQ
+	 gETZS1+6Xy1GVD9TNeuJQ1iwlMjsZnBbbDpSqNHV0qJsnOXAkCEhfVWGuf0xBgG+xzvLGu6ZfQ/6
+	 ypfw218MYoKs5wBzF0gNtveLD9SU0kJtuoOGLw5i9Wa/1ly61ysEi0zOkorQs5wGYrRKVeUiDN9V
+	 AsnFWgF+xmZuThLNBeT7xOIxj8b1xNFcBmO8gqo3JEKrsIU/9fr9GtWC+SmvCWtQRrLM5l8dxR/4
+	 tECN1nNZLk1/utWdurIxpPFaj18/rjcvRaUkm+gsVj4zPw0TEi8PHVXdycjpVOCje7ytOJgNzB6I
+	 Xly2Dw7uRdlfFN/qM+N7/j4DQcGJFsZH6v3hEdBwPYyjQamkQUZ5hpDES+xFyuNNFwVy3BNVPeQj
+	 x4bPhWe+ksqPE5OTTmfrnt2KjLc0Y43S4OZE5s0lrkH3EYACwuwn/LI9AWf0yXXjBWzUYKxGS+o/
+	 I/bJeak4nH+jNGilgJ4Z6hBQ2X5dCWihECjhKAFuTekMCHIHShFemBrIO3zLvZZFLecsjBlipGss
+	 1iiN962Xm8IPuksXBDLkIIoRVnVaaSYUyP4zIg7lnnrmkkDOV5Z015vAvix9fs2AH97hJz68tsYC
+	 g8h6I+8186wEilUabfnvb7+5BYVpodE37OWrhX9jbbVBEvlqHKyr7aWwhFy5P0WaBWRSzO9kuvhs
+	 5tH7NYJ80BYRkOtCacnymwmH1nqjidqYLo3/FOKmQSEcaUB9/KGhlsogyUdl71t79rQCn+EaNDlo
+	 LEbydZ4nYFKiZUnYKnNDdVjxQa4St7u1G5VQyB+vq1UMnY+m8l99deSqUwiXcM60nyx2ExRg==
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+From: Wenyuan Li <2063309626@qq.com>
+To: Andy Walls <awalls@md.metrocast.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Markus Elfring <Markus.Elfring@web.de>,
+	gszhai@bjtu.edu.cn,
+	25125332@bjtu.edu.cn,
+	25125283@bjtu.edu.cn,
+	23120469@bjtu.edu.cn,
+	Wenyuan Li <2063309626@qq.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v4] media: ivtv: ir-i2c: check I2C transfer errors in get_key_adaptec()
+Date: Sun, 29 Mar 2026 20:41:28 +0800
+X-OQ-MSGID: <20260329124129.1726-1-2063309626@qq.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qq.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[qq.com:s=s201512];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,web.de,bjtu.edu.cn,qq.com];
+	TAGGED_FROM(0.00)[bounces-57513-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57512-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qq.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_FROM(0.00)[qq.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rboninsegna2@gmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_NONE(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[2063309626@qq.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,skintek.it:url]
-X-Rspamd-Queue-Id: D65AB351E59
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qq.com:dkim,qq.com:email,qq.com:mid]
+X-Rspamd-Queue-Id: 2E009351F71
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-=46rom 42c23a7c8f45eb44ebb56fbbd94ca6318e643bcb Mon Sep 17 00:00:00 2001
-From: Riccardo Boninsegna <rboninsegna2@gmail.com>
-Date: Sun, 29 Mar 2026 12:37:09 +0200
-Subject: [PATCH] media: rc: mceusb: add support for 04eb:e033
+In get_key_adaptec(), a command byte (0x00) is sent via
+i2c_master_send() to initiate a key read, but the return value is not
+checked.
 
-This is a Sonix SN8P2202XG microcontroller with firmware compatible with
-the already supported Northstar 04eb:e004, implementing an MCE IR receiver
-(PCB seems to be tracked for a transmitter too but missing related parts)
+If the transfer fails, the IR chip may not receive the command and the
+subsequent i2c_master_recv() may return stale or invalid data. In this
+case, the driver silently reports "no key", making such failures hard
+to diagnose.
 
-Found in a Skintek SK-CR-IN+IR ( http://www.skintek.it/SK-CR-IN+IR.php )
-internal 3.5 inch USB card reader and MCE receiver combo
-(implemented by, and wired as, separate USB devices)
-PCB marking: AU6475 966816 STIR REV:A02 MCE
+Check the return values of both i2c_master_send() and
+i2c_master_recv(), and log errors using dev_err_ratelimited().
+Short transfers are converted to -EIO while preserving existing
+kernel error codes.
 
-Signed-off-by: Riccardo Boninsegna <rboninsegna2@gmail.com>
+On error, still return 0 to keep the current behavior (no key
+reported), but emit a diagnostic message to aid debugging.
+
+Fixes: e1e2c5756563 ("[media] ivtv: Add Adaptec Remote Controller")
+Cc: stable@vger.kernel.org
+Signed-off-by: Wenyuan Li <2063309626@qq.com>
+
 ---
-Hello everyone, yesterday I've bought this MCE IR receiver "for VISTA!"
-from 2008 and it didn't work (not recognized by LIRC);
-luckily adding its VID:PID to the driver was enough for it to work:
+v4:
+- Reword commit message to improve clarity and rationale
+- No functional changes
 
-# sudo mode2
-Using driver devinput on device auto
-Trying device: /dev/input/event15
-Using device: /dev/input/event15
-Running as regular user riki
-code: 0xad0ec96900000000f3c1030000000000040004000d740f80
-code: 0xad0ec96900000000f3c10300000000000000000000000000
+v3:
+- Add correct Fixes tag
+- No functional changes
 
-This is my first use of git patches, which I've "learnt" on=20
-http://docs.kernel.org/process/submitting-patches.html using
-git://linuxtv.org/media.git as a base, so apologies for any style issues!
-Greetings from Italy
+v2:
+- Add error handling for i2c_master_send()
+- Extend checking to i2c_master_recv()
+- Use dev_err_ratelimited()
+- Clarify error handling behavior
+---
+ drivers/media/pci/ivtv/ivtv-i2c.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
- drivers/media/rc/mceusb.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/rc/mceusb.c b/drivers/media/rc/mceusb.c
-index 6a9e4382a224..39ba7f6a2549 100644
---- a/drivers/media/rc/mceusb.c
-+++ b/drivers/media/rc/mceusb.c
-@@ -397,6 +397,8 @@ static const struct usb_device_id mceusb_dev_table[] =
-=3D {
- 	{ USB_DEVICE(VENDOR_COMPRO, 0x3082) },
- 	/* Northstar Systems, Inc. eHome Infrared Transceiver */
- 	{ USB_DEVICE(VENDOR_NORTHSTAR, 0xe004) },
-+	/* Northstar Systems, Inc. eHome Infrared Transceiver - variant */
-+	{ USB_DEVICE(VENDOR_NORTHSTAR, 0xe033) },
- 	/* TiVo PC IR Receiver */
- 	{ USB_DEVICE(VENDOR_TIVO, 0x2000),
- 	  .driver_info =3D TIVO_KIT },
-
-base-commit: fd55319692151de2b89c21356d1445bce364769b
---=20
-2.47.3
+diff --git a/drivers/media/pci/ivtv/ivtv-i2c.c b/drivers/media/pci/ivtv/ivtv-i2c.c
+index 28cb22d6a892..c011f2246add 100644
+--- a/drivers/media/pci/ivtv/ivtv-i2c.c
++++ b/drivers/media/pci/ivtv/ivtv-i2c.c
+@@ -138,11 +138,28 @@ static int get_key_adaptec(struct IR_i2c *ir, enum rc_proto *protocol,
+ 			   u32 *scancode, u8 *toggle)
+ {
+ 	unsigned char keybuf[4];
++	int ret;
+ 
+ 	keybuf[0] = 0x00;
+-	i2c_master_send(ir->c, keybuf, 1);
++
++	ret = i2c_master_send(ir->c, keybuf, 1);
++	if (ret != 1) {
++		int err = ret < 0 ? ret : -EIO;
++
++		dev_err_ratelimited(&ir->c->dev, "i2c_master_send failed: %pe\n", ERR_PTR(err));
++
++		/* Preserve existing behavior: treat error as no key */
++		return 0;
++	}
++
+ 	/* poll IR chip */
+-	if (i2c_master_recv(ir->c, keybuf, sizeof(keybuf)) != sizeof(keybuf)) {
++	ret = i2c_master_recv(ir->c, keybuf, sizeof(keybuf));
++	if (ret != sizeof(keybuf)) {
++		int err = ret < 0 ? ret : -EIO;
++
++		dev_err_ratelimited(&ir->c->dev, "i2c_master_recv failed: %pe\n", ERR_PTR(err));
++
++		/* Preserve existing behavior */
+ 		return 0;
+ 	}
+ 
+-- 
+2.43.0
 
 
