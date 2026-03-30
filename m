@@ -1,82 +1,61 @@
-Return-Path: <linux-media+bounces-57632-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57633-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kEK5Ms6EymkW9gUAu9opvQ
-	(envelope-from <linux-media+bounces-57632-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 16:12:30 +0200
+	id 8IplBmSHymn09gUAu9opvQ
+	(envelope-from <linux-media+bounces-57633-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 16:23:32 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5091A35C9DC
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 16:12:30 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7040435CBFC
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 16:23:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 36E56300F128
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 14:12:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 42E78304003F
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 14:16:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 559113D6CA5;
-	Mon, 30 Mar 2026 14:12:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00AAB3A3819;
+	Mon, 30 Mar 2026 14:16:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O1Z4uhV8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MWSBCbWl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58503D7D87;
-	Mon, 30 Mar 2026 14:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A70F23AE62
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 14:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774879940; cv=none; b=ZWLjhUrMiJg7924h/AkT+lNG/sAITcwNXN0vJViUH4BIegG1rn/WUU+GZwmyUpBygIJAF0BJ4VdPbLgVsbI+Z+GLu4XxFWDjPPJ8YXvsd9EAEW/Re5eoZ+rTs8T6Xir1iVs+z2xjpC+4RJ2za40ycMOUq2d7xhqXF0enyF5EwCY=
+	t=1774880215; cv=none; b=mKQ79BKhE7vqx1jllaeOYIevDIlsnP7FUwh1jUcYaiDIgDXjmnylTBmGIAgJtqRTKu5J3uhXB/oEXo1tqj5Yu3WlbgO/CHKbeRCavgmW3XC9dBj6rIrqMT8j61UzHGNIRaeJlRZ9tRopUHV651yjRL1kEGEmOzNk1iSgwbwwW84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774879940; c=relaxed/simple;
-	bh=ehU06OoIuKwC2QS/IYuZyMcHXPB/i0LtXjDTVpnidEQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EoRHytgqCoUMHhIGPV49nHevf9+4sKH9vbs3E9DblQeYZZ6N2wZ1sSCW3m3mXvAK/zsq5+yxWDmi86H5/4UZyLohsWaE7yjacxgBcBTta79ooWbUaY9zxg7kI6CF6ihZuGfiK4lMtmNPyzIKOtMNCox/CfdIUI6HUCWZ49kSVTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O1Z4uhV8; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774879938; x=1806415938;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ehU06OoIuKwC2QS/IYuZyMcHXPB/i0LtXjDTVpnidEQ=;
-  b=O1Z4uhV8yM19t8aDt8KpiCqc1abVNUeVHuWqhh/0FV4DEG2Ua2kZ3zYe
-   lDOLaLmiEU/6OQ8Qxqnjclx7Xmw2+EEOalG97+DaZbpkje685VjQqR1kH
-   9hJAA6xYxhjOiOsKGrsxymrKEb1ypsUXLHK5XN0H40gcj6FRWJl5RPZij
-   Mpzagu+nzWXvz+diaHtvVM0nD6AWrvwhtgqZC8AOlSxCEZXyD5sRVCAAI
-   ns4+7bfrTJpM9rYBJt6M89Fl9GVgUJWqoM325P4QL8DhVPugflQELNqKf
-   xw7kvXlTrob3N0xF8/BiBplrCDeQGF6EzjQTexK/9yrIdNvBkUUhmVDex
-   g==;
-X-CSE-ConnectionGUID: Pp5DPhiGTQ+owpiptJtCaA==
-X-CSE-MsgGUID: eTNPpqThSGKGa92rAtzXFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="75761508"
-X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="75761508"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 07:12:18 -0700
-X-CSE-ConnectionGUID: 7TScrLw/S5WafBz4XS6YVA==
-X-CSE-MsgGUID: nKtq4DDRSDOPdBlYJA8/bA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="249122850"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Mar 2026 07:12:15 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w7DLg-000000001Bh-3fe4;
-	Mon, 30 Mar 2026 14:12:12 +0000
-Date: Mon, 30 Mar 2026 22:11:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matthew Laux <matthew.laux@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Matthew Laux <matthew.laux@gmail.com>
-Subject: Re: [PATCH v3 1/1] staging: media: add driver for StarTech USB3HDCAP
-Message-ID: <202603302245.CxjAt9gS-lkp@intel.com>
-References: <20260329045612.6899-2-matthew.laux@gmail.com>
+	s=arc-20240116; t=1774880215; c=relaxed/simple;
+	bh=g40npTkNZ0MCJPQZsXTzV5Dzhy+tMSC8ojjYJdg1RMM=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sLMdUljTwEESOA2k5zp6qBZWG6fyJ3kH96T9eiR+5l4RgRs6VDR1P1AF9LlRu+WAGwG5qGy8arxm65rkkmXJZoYQBPA5VcSIMcCnnD3/FuM+1/vS/7OrqrX39PQx/Yq3VlpQ7fODJ8copmja20VpbMRQ+RLxUHQoE7Z2UhvJCjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MWSBCbWl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0512DC4CEF7
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 14:16:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774880215;
+	bh=g40npTkNZ0MCJPQZsXTzV5Dzhy+tMSC8ojjYJdg1RMM=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=MWSBCbWl4ntiQC8DWEru15Hi0kACr5xuhAFan2XHybqIYVe0zgRKOVf/ClmBGKzpx
+	 p1IsITEr57iltMffKgqkw8CmjgLtqBcN0pdINE+tsujYuhLUM4psra8Ygtu52rAcAs
+	 L+qD8a9or6QSceX1SaUETgrdlAYMvzN+LZjkuhIVFr5zIstscHmRC+6GB27Hd/IcG3
+	 xVEpQkzK1KguLcDoKGQVOQOyXWwpvBu0+UFmIxdgdRglxL78HVS5uORIkyHWtANLV7
+	 fiTd+AXreYZRmI+eZGJ5Taq65v/EoOyIq7RrmYto6t+6NF3iXTv4XjC7hPfzJnpqhJ
+	 fG0W15XDwgCyw==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1w7DQC-00000007DnG-39Wu
+	for linux-media@vger.kernel.org;
+	Mon, 30 Mar 2026 16:16:52 +0200
+Date: Mon, 30 Mar 2026 16:16:52 +0200
+From: Johan Hovold <johan@kernel.org>
+To: linux-media@vger.kernel.org
+Subject: Re: [0/6] media: refactor USB endpoint lookups
+Message-ID: <acqF1CyUUy2E_MoK@hovoldconsulting.com>
+References: <20260330101141.1664143-1-johan@kernel.org>
+ <69ca8460.050a0220.acff7.105a@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,79 +64,60 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260329045612.6899-2-matthew.laux@gmail.com>
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+In-Reply-To: <69ca8460.050a0220.acff7.105a@mx.google.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linuxfoundation.org];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57632-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57633-lists,linux-media=lfdr.de];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[johan@kernel.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:dkim,intel.com:email,intel.com:mid]
-X-Rspamd-Queue-Id: 5091A35C9DC
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: 7040435CBFC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Matthew,
+On Mon, Mar 30, 2026 at 07:10:40AM -0700, Patchwork Integration wrote:
 
-kernel test robot noticed the following build errors:
+> Thanks for your patches! Unfortunately the Media CI robot detected some
+> issues:
+> 
+> # Test checkpatch:./0005-media-hdpvr-refactor-endpoint-lookup.patch checkpatch
+> CHECK: Avoid CamelCase: <bulk_in_endpointAddr>
+> #62: FILE: drivers/media/usb/hdpvr/hdpvr-core.c:331:
+> +dev->bulk_in_endpointAddr = endpoint->bEndpointAddress;
+> 
+> total: 0 errors, 0 warnings, 1 checks, 46 lines checked
+> 
+> 
+> 
+> Please fix your series, and upload a new version. If you have a patchwork
+> account, do not forget to mark the current series as Superseded.
 
-[auto build test ERROR on 2c8fe1f14240d75f2002e16b2b69c5c2d27ed41c]
+> If you believe that the CI is wrong, kindly open an issue at
+> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
+> to this message.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Laux/staging-media-add-driver-for-StarTech-USB3HDCAP/20260329-215100
-base:   2c8fe1f14240d75f2002e16b2b69c5c2d27ed41c
-patch link:    https://lore.kernel.org/r/20260329045612.6899-2-matthew.laux%40gmail.com
-patch subject: [PATCH v3 1/1] staging: media: add driver for StarTech USB3HDCAP
-config: powerpc-randconfig-r064-20260330 (https://download.01.org/0day-ci/archive/20260330/202603302245.CxjAt9gS-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302245.CxjAt9gS-lkp@intel.com/reproduce)
+Checkpatch is complaining about an existing issue in the driver so this
+bot warning is not valid.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603302245.CxjAt9gS-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "usb_alloc_urb" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_free_urb" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_register_driver" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_put_dev" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_get_dev" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_submit_urb" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_control_msg" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_set_interface" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_deregister" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_kill_urb" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
-   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
-   Selected by [y]:
-   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=y] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Johan
 
