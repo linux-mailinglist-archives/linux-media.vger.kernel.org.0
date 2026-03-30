@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-57586-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57587-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2CTJG0ZNymmb7QUAu9opvQ
-	(envelope-from <linux-media+bounces-57586-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 12:15:34 +0200
+	id CCddCoFOymmb7QUAu9opvQ
+	(envelope-from <linux-media+bounces-57587-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 12:20:49 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B7A3358FED
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 12:15:33 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB877359110
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 12:20:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3B41930357A6
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:13:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1D7F6309118B
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:13:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31A6F3BFE41;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FD2F3BFE4C;
 	Mon, 30 Mar 2026 10:11:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ry7RZOy5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Efo5yv+u"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879043BED40;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924363BED4A;
 	Mon, 30 Mar 2026 10:11:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774865516; cv=none; b=SoV4/LS1MhyqHmumkgbguLBuJw0JT9y+gigL43MWhAJ1lRHmyvjt95vv9UkVKAfhv+e9mj1N+T6By7EfFwBEATL3IyY/ImdIUVQ6/E4FMKO1pHXVzbbPWi5ZY2HbNRQRO8zhc8Vopx5oCfY8Xi6S/vFJjuARg3uOlNzAnJcyqcE=
+	t=1774865516; cv=none; b=ESdUyUXSqyBIOGwTYFPnDyr9CGgskwZGUpWWVuCz68D8SroH5bVuEXhZSMgtplKqwXKRE6doYlcbaSiuJIrnVE7PViSWhtfxFQTdWQgboaJDvNd2mXj445BICXs18bhqLHdwmmXx7VOly8eiIMZENLjdW2STJd1L+8ybptoPzeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774865516; c=relaxed/simple;
-	bh=w6KzY0XzyjcyMRUlPVjJZv6AcnGT6wLQdMD+us8oX/4=;
+	bh=vmqS9U+ZM9NT3WFh5nEgoWc0CR8M4Yem0Ykyth1Z57w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uqxKCqeJMVk3UFYvexRis9d9CFbwpdZhbRMRha/HSLs1WinNMMmQh9/UEzDMvqjswcD4ibqIEzG8kt3wbY+Bu1lS1KnDN5yxrw26dhZX0O4owXuYPswHtI0d67OuLxrOApIDOH7GrYuRqL7MxDssqUDo0MgDfzvjE9zSivEPqSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ry7RZOy5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D276C2BCB4;
+	 MIME-Version; b=PrPA5b4Iu25xiuo5l5yEG2oPO4AyZg5mvQbzB/It2WWBCK7AcCDDElJI6NJz06dd/RIGMIZXaWV6wQ682EkK+ZPdKcH2s8eMax1GbI8qe3zHMLao5p7kjvmai8bytxjQ51B0eRwfau0JgisxUWbQ/H6QDQnFgBCqzinlK1tTkRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Efo5yv+u; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 717E7C2BCB6;
 	Mon, 30 Mar 2026 10:11:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1774865516;
-	bh=w6KzY0XzyjcyMRUlPVjJZv6AcnGT6wLQdMD+us8oX/4=;
+	bh=vmqS9U+ZM9NT3WFh5nEgoWc0CR8M4Yem0Ykyth1Z57w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ry7RZOy5B1YvtLjvnkCyB2d/qGBT0h9iJ3fkbKdgbJ4iZb+GcQhvmFY90Krz5N7Xi
-	 v+rpSbLVXsomwLl+N3erzReMxsfClkBgA0H1ELMsy58LawUXarWrz1t96oyQkr9djd
-	 Lk995DyGBQSDGz1B1yVcAfSBWIWzyMQLQoic6aCEmBGUXgc/w7jLQnGC7dohsYNhdT
-	 Zp3GDP9NppBduFYYm39ZATlUUZheJ9oiqSkDbANSA9hSSwViup4pAkzsVwUjac4Bxw
-	 1XTkB94EVfHeYuPPbGZrZbww1Bgi4KswXTmXlHSafVRC4tj6kGciI/A8Dnq69xpOAo
-	 dxfEIXao27xXw==
+	b=Efo5yv+uBud+ifjcOEiz02N85gmMloAGkqhQgZnYxTQnb+C1smemez9f9iWPKyr9c
+	 CIZUAxWbNMR+YN/TOh7uSYuUE5sGe3fy1eleeQV/ya5Vn8//GSWGvsIlIsIkdpoHxm
+	 RLmBdhiqAyPwGUt8F4LvDfMGZ5IFhAucOw6q7CwPF3vrM0irmhXBK72pAL6AeqRa+K
+	 lptqJUAPGXSnMrKLZbX57GNfJ/TQvEDYm78t37bT1F9sdc1ThLWGWSowmxqLws3+/W
+	 W49ecvNrCz1OHYgvnYXCAL9qlylgCK/VeezaxyposTTZLfDMuPD7HjTPYlDe7hvjl5
+	 1/B7Cy5mpmmBg==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1w79b8-00000006yve-1MUj;
+	id 1w79b8-00000006yvg-1Oik;
 	Mon, 30 Mar 2026 12:11:54 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Hans Verkuil <hverkuil@kernel.org>,
@@ -55,9 +55,9 @@ To: Hans Verkuil <hverkuil@kernel.org>,
 Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 2/6] media: imon_raw: refactor endpoint lookup
-Date: Mon, 30 Mar 2026 12:11:37 +0200
-Message-ID: <20260330101141.1664143-3-johan@kernel.org>
+Subject: [PATCH 3/6] media: irtoy: refactor endpoint lookup
+Date: Mon, 30 Mar 2026 12:11:38 +0200
+Message-ID: <20260330101141.1664143-4-johan@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260330101141.1664143-1-johan@kernel.org>
 References: <20260330101141.1664143-1-johan@kernel.org>
@@ -73,13 +73,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57586-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57587-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	MIME_TRACE(0.00)[0:+];
@@ -92,56 +92,69 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0B7A3358FED
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: DB877359110
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Use the common USB helper for looking up interrupt-in endpoints instead
-of open coding.
+Use the common USB helpers for looking up bulk and interrupt endpoints
+(and determining max packet size) instead of open coding.
+
+Note that the device has two bulk endpoints so there is no functional
+change here.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/media/rc/imon_raw.c | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
+ drivers/media/rc/ir_toy.c | 23 ++++++-----------------
+ 1 file changed, 6 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/media/rc/imon_raw.c b/drivers/media/rc/imon_raw.c
-index 3a526dea6532..295acd6ba9e1 100644
---- a/drivers/media/rc/imon_raw.c
-+++ b/drivers/media/rc/imon_raw.c
-@@ -105,26 +105,16 @@ static void imon_ir_rx(struct urb *urb)
- static int imon_probe(struct usb_interface *intf,
- 		      const struct usb_device_id *id)
+diff --git a/drivers/media/rc/ir_toy.c b/drivers/media/rc/ir_toy.c
+index d6472de5da87..f63f06509786 100644
+--- a/drivers/media/rc/ir_toy.c
++++ b/drivers/media/rc/ir_toy.c
+@@ -393,27 +393,15 @@ static int irtoy_probe(struct usb_interface *intf,
  {
--	struct usb_endpoint_descriptor *ir_ep = NULL;
--	struct usb_host_interface *idesc;
-+	struct usb_endpoint_descriptor *ir_ep;
- 	struct usb_device *udev;
- 	struct rc_dev *rcdev;
- 	struct imon *imon;
--	int i, ret;
-+	int ret;
+ 	struct usb_host_interface *idesc = intf->cur_altsetting;
+ 	struct usb_device *usbdev = interface_to_usbdev(intf);
+-	struct usb_endpoint_descriptor *ep_in = NULL;
+-	struct usb_endpoint_descriptor *ep_out = NULL;
+-	struct usb_endpoint_descriptor *ep = NULL;
++	struct usb_endpoint_descriptor *ep_in, *ep_out;
+ 	struct irtoy *irtoy;
+ 	struct rc_dev *rc;
+ 	struct urb *urb;
+-	int i, pipe, err = -ENOMEM;
++	int pipe, err;
  
- 	udev = interface_to_usbdev(intf);
--	idesc = intf->cur_altsetting;
--
 -	for (i = 0; i < idesc->desc.bNumEndpoints; i++) {
--		struct usb_endpoint_descriptor *ep = &idesc->endpoint[i].desc;
+-		ep = &idesc->endpoint[i].desc;
 -
--		if (usb_endpoint_is_int_in(ep)) {
--			ir_ep = ep;
--			break;
--		}
+-		if (!ep_in && usb_endpoint_is_bulk_in(ep) &&
+-		    usb_endpoint_maxp(ep) == MAX_PACKET)
+-			ep_in = ep;
+-
+-		if (!ep_out && usb_endpoint_is_bulk_out(ep) &&
+-		    usb_endpoint_maxp(ep) == MAX_PACKET)
+-			ep_out = ep;
 -	}
- 
--	if (!ir_ep) {
-+	ret = usb_find_int_in_endpoint(intf->cur_altsetting, &ir_ep);
-+	if (ret) {
- 		dev_err(&intf->dev, "IR endpoint missing");
+-
+-	if (!ep_in || !ep_out) {
++	err = usb_find_common_endpoints(idesc, &ep_in, &ep_out, NULL, NULL);
++	if (err || usb_endpoint_maxp(ep_in) != MAX_PACKET ||
++	    usb_endpoint_maxp(ep_out) != MAX_PACKET) {
+ 		dev_err(&intf->dev, "required endpoints not found\n");
  		return -ENODEV;
  	}
+@@ -422,6 +410,7 @@ static int irtoy_probe(struct usb_interface *intf,
+ 	if (!irtoy)
+ 		return -ENOMEM;
+ 
++	err = -ENOMEM;
+ 	irtoy->in = kmalloc(MAX_PACKET,  GFP_KERNEL);
+ 	if (!irtoy->in)
+ 		goto free_irtoy;
 -- 
 2.52.0
 
