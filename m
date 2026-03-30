@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-57590-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57586-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sIXGA0ZOymmb7QUAu9opvQ
-	(envelope-from <linux-media+bounces-57590-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 12:19:50 +0200
+	id 2CTJG0ZNymmb7QUAu9opvQ
+	(envelope-from <linux-media+bounces-57586-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 12:15:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1343590C6
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 12:19:49 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7A3358FED
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 12:15:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5620D30333C7
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:13:18 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3B41930357A6
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:13:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61F013C0617;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31A6F3BFE41;
 	Mon, 30 Mar 2026 10:11:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HyhDzL/K"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ry7RZOy5"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E263BED6E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879043BED40;
 	Mon, 30 Mar 2026 10:11:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774865516; cv=none; b=axI5clqsH24YmwV4Sizq+QeNbtRkBqfyYZ8vzFoHmrLBhy34qxoporHA0ZB6v5T3HqxtjZNQ4VKvULvxFUFytdaUSNtpsKEVhXUL0bxozOHn0Qg7oHEuWrWYmNWrtEWEFPDgyx/2kj8uWZLQ+ESpLCJm9l30xM6VLSVqONE2Rvw=
+	t=1774865516; cv=none; b=SoV4/LS1MhyqHmumkgbguLBuJw0JT9y+gigL43MWhAJ1lRHmyvjt95vv9UkVKAfhv+e9mj1N+T6By7EfFwBEATL3IyY/ImdIUVQ6/E4FMKO1pHXVzbbPWi5ZY2HbNRQRO8zhc8Vopx5oCfY8Xi6S/vFJjuARg3uOlNzAnJcyqcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774865516; c=relaxed/simple;
-	bh=4on6QHPozqnGQIG0eBs3EcvebQJWDyF4s4eHR6wrc/4=;
+	bh=w6KzY0XzyjcyMRUlPVjJZv6AcnGT6wLQdMD+us8oX/4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=t7OzxB6os5ARR6GG5C5YElATckS2P7tny6nl5wBlxkALngPfnaQUtJ+NYHVfc+S215jV5/SjyDlU3adj6mq6Qgu/VfZn2plIkn2r2U/7gXzcgqYaM6a8CV7jpv6zEgg9cRZQuNrzO2eEJnboPsePGzHm+u6tnzkN6hUAcjpL/e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HyhDzL/K; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AD31C2BCB2;
+	 MIME-Version; b=uqxKCqeJMVk3UFYvexRis9d9CFbwpdZhbRMRha/HSLs1WinNMMmQh9/UEzDMvqjswcD4ibqIEzG8kt3wbY+Bu1lS1KnDN5yxrw26dhZX0O4owXuYPswHtI0d67OuLxrOApIDOH7GrYuRqL7MxDssqUDo0MgDfzvjE9zSivEPqSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ry7RZOy5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D276C2BCB4;
 	Mon, 30 Mar 2026 10:11:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1774865516;
-	bh=4on6QHPozqnGQIG0eBs3EcvebQJWDyF4s4eHR6wrc/4=;
+	bh=w6KzY0XzyjcyMRUlPVjJZv6AcnGT6wLQdMD+us8oX/4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HyhDzL/KeXaCuhAY8ki8kQtd8oL6SdaR44FapaHdUpOnpI4DArqenLW6xF7HdeRCC
-	 DFHoYkuGSXHVFRiZsCCUvAUDsCU4emIdrEtjROOyjXr5vvEFvVWhz8xB4gFhV2ScT+
-	 mDPTwn0TbWwV6dfo5yFhZD3H/SMVAwKapJjbpzgvFmsHksOTKjqZynTu/eWMc1W0AQ
-	 0s9hlrvGSOhaRGu8jB9I37sSEuwAptTuKK2V25PmG1Oi/ruG/icIu3zquilg18AHTm
-	 /RCfopXUeV33Ik9jhFHys8+5u4+v55KQBVOPboY7/MnfhqTFyL/YcBBucPJ5gTkadF
-	 fO8Rv/z5KnIng==
+	b=ry7RZOy5B1YvtLjvnkCyB2d/qGBT0h9iJ3fkbKdgbJ4iZb+GcQhvmFY90Krz5N7Xi
+	 v+rpSbLVXsomwLl+N3erzReMxsfClkBgA0H1ELMsy58LawUXarWrz1t96oyQkr9djd
+	 Lk995DyGBQSDGz1B1yVcAfSBWIWzyMQLQoic6aCEmBGUXgc/w7jLQnGC7dohsYNhdT
+	 Zp3GDP9NppBduFYYm39ZATlUUZheJ9oiqSkDbANSA9hSSwViup4pAkzsVwUjac4Bxw
+	 1XTkB94EVfHeYuPPbGZrZbww1Bgi4KswXTmXlHSafVRC4tj6kGciI/A8Dnq69xpOAo
+	 dxfEIXao27xXw==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1w79b8-00000006yvc-1K9C;
+	id 1w79b8-00000006yve-1MUj;
 	Mon, 30 Mar 2026 12:11:54 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Hans Verkuil <hverkuil@kernel.org>,
@@ -55,9 +55,9 @@ To: Hans Verkuil <hverkuil@kernel.org>,
 Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 1/6] media: si470x-usb: refactor endpoint lookup
-Date: Mon, 30 Mar 2026 12:11:36 +0200
-Message-ID: <20260330101141.1664143-2-johan@kernel.org>
+Subject: [PATCH 2/6] media: imon_raw: refactor endpoint lookup
+Date: Mon, 30 Mar 2026 12:11:37 +0200
+Message-ID: <20260330101141.1664143-3-johan@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260330101141.1664143-1-johan@kernel.org>
 References: <20260330101141.1664143-1-johan@kernel.org>
@@ -73,13 +73,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57590-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57586-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	MIME_TRACE(0.00)[0:+];
@@ -92,10 +92,10 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 6C1343590C6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0B7A3358FED
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -104,38 +104,44 @@ of open coding.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/media/radio/si470x/radio-si470x-usb.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ drivers/media/rc/imon_raw.c | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/radio/si470x/radio-si470x-usb.c b/drivers/media/radio/si470x/radio-si470x-usb.c
-index 318b5f6d4202..869b1e7e34b9 100644
---- a/drivers/media/radio/si470x/radio-si470x-usb.c
-+++ b/drivers/media/radio/si470x/radio-si470x-usb.c
-@@ -565,8 +565,7 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
+diff --git a/drivers/media/rc/imon_raw.c b/drivers/media/rc/imon_raw.c
+index 3a526dea6532..295acd6ba9e1 100644
+--- a/drivers/media/rc/imon_raw.c
++++ b/drivers/media/rc/imon_raw.c
+@@ -105,26 +105,16 @@ static void imon_ir_rx(struct urb *urb)
+ static int imon_probe(struct usb_interface *intf,
+ 		      const struct usb_device_id *id)
  {
- 	struct si470x_device *radio;
- 	struct usb_host_interface *iface_desc;
--	struct usb_endpoint_descriptor *endpoint;
--	int i, int_end_size, retval;
-+	int int_end_size, retval;
- 	unsigned char version_warning = 0;
+-	struct usb_endpoint_descriptor *ir_ep = NULL;
+-	struct usb_host_interface *idesc;
++	struct usb_endpoint_descriptor *ir_ep;
+ 	struct usb_device *udev;
+ 	struct rc_dev *rcdev;
+ 	struct imon *imon;
+-	int i, ret;
++	int ret;
  
- 	/* private data allocation and initialization */
-@@ -595,12 +594,8 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
- 	iface_desc = intf->cur_altsetting;
- 
- 	/* Set up interrupt endpoint information. */
--	for (i = 0; i < iface_desc->desc.bNumEndpoints; ++i) {
--		endpoint = &iface_desc->endpoint[i].desc;
--		if (usb_endpoint_is_int_in(endpoint))
--			radio->int_in_endpoint = endpoint;
+ 	udev = interface_to_usbdev(intf);
+-	idesc = intf->cur_altsetting;
+-
+-	for (i = 0; i < idesc->desc.bNumEndpoints; i++) {
+-		struct usb_endpoint_descriptor *ep = &idesc->endpoint[i].desc;
+-
+-		if (usb_endpoint_is_int_in(ep)) {
+-			ir_ep = ep;
+-			break;
+-		}
 -	}
--	if (!radio->int_in_endpoint) {
-+	retval = usb_find_int_in_endpoint(iface_desc, &radio->int_in_endpoint);
-+	if (retval) {
- 		dev_info(&intf->dev, "could not find interrupt in endpoint\n");
- 		retval = -EIO;
- 		goto err_usbbuf;
+ 
+-	if (!ir_ep) {
++	ret = usb_find_int_in_endpoint(intf->cur_altsetting, &ir_ep);
++	if (ret) {
+ 		dev_err(&intf->dev, "IR endpoint missing");
+ 		return -ENODEV;
+ 	}
 -- 
 2.52.0
 
