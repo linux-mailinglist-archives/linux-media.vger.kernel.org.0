@@ -1,169 +1,176 @@
-Return-Path: <linux-media+bounces-57565-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57566-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MDupHaQ6ymnD6gUAu9opvQ
-	(envelope-from <linux-media+bounces-57565-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:56:04 +0200
+	id yH1VD1Y7ymnD6gUAu9opvQ
+	(envelope-from <linux-media+bounces-57566-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:59:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4FD135794A
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:56:03 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C246E3579EF
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:59:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C2F1D30269F6
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 08:49:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3105D30704A7
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 08:51:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6F723AEF34;
-	Mon, 30 Mar 2026 08:49:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7CAA3B0AC5;
+	Mon, 30 Mar 2026 08:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="by3k+Oh8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8202B3ACF12
-	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 08:49:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774860575; cv=none; b=OEnHGRFeWOPlqykvGkedsplpyZdgPsCfmPWxQdDSwedfqr2OJq5mB2m5WydkQgz5HIon3aIitKwUhJiCaRqiu0CXRFRVkiYuqUsDJYNPFQRrH3g76gBR8YFz6YjR2kdb/zBPCbghP2KW/z3Pl/fOVYrfGBj2+koxhSrTmIpN9Iw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774860575; c=relaxed/simple;
-	bh=rlGGi+hetiFE8CkuuDyixofNU4mb0a5gHOxzq3rmSGQ=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pGrQGC8SkIzaBwbK83WB7Zbpq7PlR1oIJD9+lDiqLXgyXW9ozAdVlX/446rYLoTixk5ez5+psdmMkkzqdkGEjBStHo/th/SGKkpWXeQAOnIrY+mi7/FOjEyklOardrksxrmQRmv7GM3a1xouqwvJfZK5i3QNuW9yGRbkLWlEeqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <m.tretter@pengutronix.de>)
-	id 1w78JH-0004gY-Gk; Mon, 30 Mar 2026 10:49:23 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <m.tretter@pengutronix.de>)
-	id 1w78JG-002qYs-30;
-	Mon, 30 Mar 2026 10:49:22 +0200
-Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
-	(envelope-from <m.tretter@pengutronix.de>)
-	id 1w78JG-0000000EP8J-3QNg;
-	Mon, 30 Mar 2026 10:49:22 +0200
-Date: Mon, 30 Mar 2026 10:49:22 +0200
-From: Michael Tretter <m.tretter@pengutronix.de>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>, linux-media@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 0/3] media: imx-csi: cleanup media pipeline start
-Message-ID: <aco5Ei1B4vJWKMMj@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>, linux-media@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	linux-staging@lists.linux.dev
-References: <20251218-media-imx-cleanup-v2-0-9e3e3c269f7f@pengutronix.de>
- <aXOoc0lvAtPt0fAL@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCADD3B19A5
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 08:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774860702; cv=pass; b=FfSxtYoC+ZXIT1NfePDwSJqZK76nJ6kZWitH+CLmpigf8XtttYzYmM5g3WwmkNhoO77iWtXb76zbXyc/wyoBN83D9zlfkI/jwtmmW+AVXIJSwAEi9B8nEZbglTmA2Ru4F9BBsC7eGUtgnIPHzrOh7XytRO8znsg78VZx5cTMiOA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774860702; c=relaxed/simple;
+	bh=gNhDkeZ73nB1ETLE4Qx9gKY8ay61huEBziaX2ObnaJA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UGLPei4F8MiYrP+mBMiGLzoLsINB3yvwT+nIcbY/Di7nmE48L2UW8BAc8pXZzRZ75FXcpndgruaCUHCEjqHU1K8+rn7SRXO44MopcfL7qps64XSThiovfHvmrkp0mJvRJqSfv1mOQm5Zg5+Qxh9AnvcuGu07ERauk4r5gyNzFC4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=by3k+Oh8; arc=pass smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b9358dd7f79so761395066b.1
+        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 01:51:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774860698; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kKJzK5IgrJ+vzhZ7CL83tCZQtLL9TLqFRjaZzD2WO3Dg8FeeMp5tCG2b4LQdizRSAy
+         0NqcyrMlr+9sXXTDjtqfG7U0qMoPqh27HtJaUl007m68mtcXFRTIibx8uglNGkoHBnc2
+         m54vXwXaCkJGymil4iHGSuw2Uh4DzUiQTrlFfaVOpI4bCQHN23YfIocUvF2jDv2EgRmH
+         1dcRxZ8KiJc1O13Ev23eyBK/2/ImGrjYhXT8dKIXImgqGliBMdtQyjBB8vlbaTFO9src
+         FP40yQphvcapGzT2kZ85Dwut51Euj1bvRANq2XXtHpVT7UZIzzaZhgRdE0YeKt/EM1ur
+         sJCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=gNhDkeZ73nB1ETLE4Qx9gKY8ay61huEBziaX2ObnaJA=;
+        fh=s3tUmARc8G8lU8Q2Xb7/7Z0smQ6Nte/gVvzHB2l9EGA=;
+        b=Ebm2fZdrd676DL/Dhg3fLAHBSEMaDtnbCw4fYcRAxuL0VtIFaO/gXXXP+qtOIee23N
+         p52eMnUMH0svga3jgXEJeG6K8D+dRkiPW1s/JmdQ4p4HyDqlyLAthpPThClsOqNz1iZN
+         Fa/PYe6nOnUakuZxyzrT4be6FaNX0Id3vl4YUAgNg6d2Vn6s5bpytuP1iC7Kq2WmeMD+
+         WBIISCUUZCStPT2gM8T9Lk49zd66wpa6+aMFPNpoDwFULDW7fCi5gD+OVFY+PWDrOwWH
+         mRtd4uf8UZK+4mdN/GUobC5fkpxzEIRH9Qp79ED49atqc2L9TkeKul+IlYDYQkvS2qPT
+         pTWA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774860698; x=1775465498; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gNhDkeZ73nB1ETLE4Qx9gKY8ay61huEBziaX2ObnaJA=;
+        b=by3k+Oh8DhoaqbCnl465OgywnLMHna+zQmCLNJj4fmPPtewzOi536w8HCkFlAby5U2
+         yoxpNJSOTJU5ZYhlK85jykmJCDgoLqhyQqg9fISRRXMq6mMc8QkH3d5xV1epHu0lAzXB
+         22n+dW968lzPZiMiS4lDP6xykwfUuGforYmlcNfhNcBObPmL+olE0bl1o/O+/3awNp0Y
+         RqOd8W7OYfi7AkvsO3OXG+B4d6Y1fU+67ihsjCrNyEOI410mASI3cxJhS8cCh00YoB+l
+         98rwbbrhETz27OHLmcSJkgxQWyU1497D81NVYSGe03Te0iGT2Afqh8wmlK2iPIRdSEQR
+         4NlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774860698; x=1775465498;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gNhDkeZ73nB1ETLE4Qx9gKY8ay61huEBziaX2ObnaJA=;
+        b=ignj9FBvHvM5Wud38DTxGqIJbdwmNtQM3a3QT+hUXZRXuCnfWjtmqV++hiq4UlnA+4
+         AiAyLQ60mHn2cK5LRGRRUcSyyWEg+wcnRvXhFRLlZbm/ECAiPHfLo6YI0PZKjEWnv6AX
+         JAPF2JFMfJBndKdoJN9Cg+T90z775BFiNwPTi5JbqSsjZ03pS/w1hwBiVaBWVO7JzCWH
+         +Ba7uX3hipzRk4MT4f3Oq9hew6OOGlzQSGjLQNXR4ERFRWygHeWx3k7+M1Pv03kfiDtM
+         JYt8+VRTNDQzNElJWezH4SkYcCvBH5rQPkRuUA/XzrmKQQ6dgn1WkQr6J8XsCI7KIFqq
+         CrFA==
+X-Forwarded-Encrypted: i=1; AJvYcCWbZRar7wdrG2DMuZte1OKsNpM+9HA1FB7pf1u+mDFSJ5WRz/3PwsABztOs0fe0tPbQ/QaBzZ2qI1prcA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxk8YtZYoIi304RGk8fDgRQ6x6HMRVWNtz21RLYt/a+M0T+DVft
+	eeaCnW0N46E8sJweSmMgMmWohcMS2K6JFhggJNp3qF3gXuKwRS9kKDcqllOHU3asfoVytZ/9QfL
+	GQzBDeCGZ0xIHndiv1+xEgK0CaLntXmI=
+X-Gm-Gg: ATEYQzwtHt0vYZ6mQvHSgJtUIExx41AoSylhJcITRAKCB5s+53rMLLgoQpd6r3FTYhc
+	DRGP8OT7h+pDUCOxMDbMhaLCfXi9lMcJCF6JvJwuBFc2osKAJAL1cF3KLhQHJuJ5Sl5bc5xopU1
+	CEQmWHbLAe7nZxjaZbSQC4uXWt3X6j6SsTqAC0dPOuQ1Ltyni+/N3FtEpTxoEnmH3cjtFCNAzWy
+	8nwV8XeFWazchlggHj9nM4laVIe8kbzlc0jTTH2C979ZMKyyqwO3JU4PANhZ+rCcHi3ABF87hE3
+	g8cFet0KwNgLE4DIyQ4jipjm2+x2tgW1uhS6PW91uNQpVFIsfvyx/lR6K8gmtuPS+Yi0wGNvmyn
+	ujLDJLBo=
+X-Received: by 2002:a17:907:7b06:b0:b98:3e1d:b133 with SMTP id
+ a640c23a62f3a-b9b50942ef2mr752303266b.44.1774860697550; Mon, 30 Mar 2026
+ 01:51:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aXOoc0lvAtPt0fAL@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: m.tretter@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+References: <20260330073549.5782-1-robyserbanpascu06@gmail.com> <20260330073549.5782-2-robyserbanpascu06@gmail.com>
+In-Reply-To: <20260330073549.5782-2-robyserbanpascu06@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 30 Mar 2026 11:51:01 +0300
+X-Gm-Features: AQROBzAoJGM75bwef6q33_iMYnEy6BAnkHip-IRTC0jMuAJlxDrZ_xLiZhSa-fQ
+Message-ID: <CAHp75VeQTNNgzhb1_52F=j_oWgURb6WdMMtOT5U0X+iXogbk1A@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] staging: media: atomisp: fix SPDX license
+ identifier style
+To: Serban-Pascu Robert <robyserbanpascu06@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, 
+	sakari.ailus@linux.intel.com, andy@kernel.org, daniel.baluta@nxp.com, 
+	simona.toaca@nxp.com, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, d-gole@ti.com, 
+	m-chadhry@ti.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57565-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[pengutronix.de];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,pengutronix.de,nxp.com,linuxfoundation.org,vger.kernel.org,lists.linux.dev,lists.infradead.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	TAGGED_FROM(0.00)[bounces-57566-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[m.tretter@pengutronix.de,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.979];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:email,pengutronix.de:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,msgid.link:url]
-X-Rspamd-Queue-Id: E4FD135794A
+	FROM_NEQ_ENVFROM(0.00)[andyshevchenko@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C246E3579EF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Hans,
+On Mon, Mar 30, 2026 at 10:36=E2=80=AFAM Serban-Pascu Robert
+<robyserbanpascu06@gmail.com> wrote:
+>
+> Use the C-style block comment for the SPDX license identifier in the
+> header file as per Linux kernel coding standards.
 
-On Fri, 23 Jan 2026 17:57:23 +0100, Michael Tretter wrote:
-> On Thu, 18 Dec 2025 10:23:48 +0100, Michael Tretter wrote:
-> > The imx media device currently assumes that there is only a single media
-> > pipeline. However, the media graph has multiple imx capture devices.
-> > These may be started separately on media pipelines if they don't cause
-> > conflicts in the media graph.
-> > 
-> > Move the media pipeline from the media device to the capture devices to
-> > properly track and handle multiple media pipelines for the imx-csi.
-> > Refactor the code to start the media pipeline from the driver to help
-> > the reader.
-> 
+I am not sure about this. I believe this should be considered with an
+additional thought. The thing is, AFAIU, that the header is a
+combination of a few from original driver code where they have
+different licensing. If Sakari thinks this is okay, the change is
+good.
 
-Could you take a look and apply this series for the imx-media driver,
-too? The patches are already reviewed by Frank Li and Philipp Zabel.
+...
 
-Michael
+> --- a/drivers/staging/media/atomisp/pci/system_global.h
+> +++ b/drivers/staging/media/atomisp/pci/system_global.h
+> @@ -1,5 +1,4 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> -// SPDX-License-Identifier: GPL-2.0-or-later
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
 
-> 
-> > 
-> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > ---
-> > Changes in v2:
-> > - Improve code readability in Patch 2
-> > - Update commit message of Patch 3 as suggested by Frank Li
-> > - Link to v1: https://patch.msgid.link/20251107-media-imx-cleanup-v1-0-f82a693c28f4@pengutronix.de
-> > 
-> > ---
-> > Michael Tretter (3):
-> >       media: imx-csi: move media_pipeline to video device
-> >       media: imx-csi: explicitly start media pipeline on pad 0
-> >       media: imx-csi: use media_pad_is_streaming helper
-> > 
-> >  drivers/staging/media/imx/imx-media-capture.c |  8 ++++----
-> >  drivers/staging/media/imx/imx-media-utils.c   | 12 ++++++++----
-> >  drivers/staging/media/imx/imx-media.h         |  7 ++++---
-> >  3 files changed, 16 insertions(+), 11 deletions(-)
-> > ---
-> > base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-> > change-id: 20251107-media-imx-cleanup-9022d941ae44
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
