@@ -1,141 +1,146 @@
-Return-Path: <linux-media+bounces-57630-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57631-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SFd1CZiCymkW9gUAu9opvQ
-	(envelope-from <linux-media+bounces-57630-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 16:03:04 +0200
+	id CJ1zCouGymnd9gUAu9opvQ
+	(envelope-from <linux-media+bounces-57631-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 16:19:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF7B35C84D
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 16:03:03 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C54A335CB53
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 16:19:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CB17A301223F
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 14:02:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6E415308FE7B
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 14:12:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF09C3D75B9;
-	Mon, 30 Mar 2026 14:02:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CD433D812E;
+	Mon, 30 Mar 2026 14:12:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CM1zQoA4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZRjqt/C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07ED3A0B01;
-	Mon, 30 Mar 2026 14:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB64C3A3819;
+	Mon, 30 Mar 2026 14:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774879354; cv=none; b=ZNuwK8eyK+k5x6elovzU2i/Hho4P3TKe24vSAFuOh+iAQI0UBkHYh3+4J5SVLJP5ahzm7MYcBV8ZMGt50dGjvxeqaJeXLSkcDrKBbILqMgBJX4VxNRcy687GqydE0UR5iZXNbTWa7W6b+rrOkhYYRuFxXvuQu/nkC/w5WzouPtQ=
+	t=1774879923; cv=none; b=s1Wt+K/SOrhv+YU+cgrZkDPSZxDZbO4qxm4kj7ublZuaj/jWLvU5jvs9i1wRCCk8DjqJpgstX62OPd16JpmKpEVj9B6upiZ23x+PNHSxcxgFZnLdcRPnlZNZxTCFDt8/1Ki/t+qyy85kJcbrQhptralkZCtYTOo/q9/BB00jV3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774879354; c=relaxed/simple;
-	bh=sUz5ALC4Y2FDhT/vDLhjaZuexdUWRUwTcbLe0EGC+cU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MIjyFHI9/kKJXBACMdD6VV21wfmzg1cX7xD1XPd2YKduxoUapJi5FEok9M18tfgoYZKpbx0FLndD1cj8Gr2Mqc4nqfp2hm9Go80vEn2/smVIJGp9CQ8TFBzW/kGGCyLnU8wX3XK2hfOywsdVYg+e2Y+GHAbJCwV3YgzhfwTadvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CM1zQoA4; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E068223B9;
-	Mon, 30 Mar 2026 16:01:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1774879270;
-	bh=sUz5ALC4Y2FDhT/vDLhjaZuexdUWRUwTcbLe0EGC+cU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CM1zQoA4F800Fo5BfRekFuycqmEvPDD6+4ctj/5KPefu4eoy4G7KBRfdi3RXWwOVy
-	 UmLut1HsgrfpfZT4T6QOj0GXyHhLdafRtF3BV41sJHMXntdfNLFsy5jye/nephxlm0
-	 RfFrm1ptVIIVGDMF2mdtyVC+7AFcRFq1bCvhWRjY=
-Date: Mon, 30 Mar 2026 17:02:30 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju <biju.das.au@gmail.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] media: dt-bindings: media: renesas,vsp1: Document RZ/G3L
- VSPD
-Message-ID: <20260330140230.GB3376560@killaraus.ideasonboard.com>
-References: <20260330105637.130189-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1774879923; c=relaxed/simple;
+	bh=fv7u2PJPLBHp3kxSG+S/aLopXh7onyeyM+OxnvrlMPo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SAIn9KbyqUGAbWqD1j1odX0EX3GM4e8I08u7FFmRulOqQBTUXjWIY0kGJqP9gqGxzyvTSRMbd8Qy0JFDV0Yjf0TjxxrmwD492vPer0lttusLVbxd0YxzwS+OS5YsCy7ZbNU5bkja6iVSmVKQk53yqEdlRfpFhAto3N9pNiTjOzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZRjqt/C; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C685C4CEF7;
+	Mon, 30 Mar 2026 14:12:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774879923;
+	bh=fv7u2PJPLBHp3kxSG+S/aLopXh7onyeyM+OxnvrlMPo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aZRjqt/Ch214ay3BxdslOxCzad2Y3vxAEBkiPeN9TZr0EIqjzx/EE5y+1FP1Q0oO+
+	 Sb0c7B8hx7foRfu/lehZyeKH2mCbuUkW4v3eblWtCMYX2p3OZQ4ddr229wzNjXjkBT
+	 ZSLn18qhOtBDu5l8TKV9I9dGFI1udtbtVkBqIm3eK4lBlGxVcXSAHO3y74UbFmAynl
+	 dYm9FY33TV2EA1sKJSYepXEIkY7hp308LHDu9q0T/Lcv9yevzIM+OTb8tlBc1mxMpR
+	 B351kRNLzgSGIdzTSeoB5v//cAW1ACxrpN2s1il3cQVbigmfg0PyJkEhs5DZcg6HF2
+	 autR+TW3FV0LQ==
+Message-ID: <0879e4c1-5381-4a70-9fb3-4af9b3bf6e48@kernel.org>
+Date: Mon, 30 Mar 2026 15:11:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260330105637.130189-1-biju.das.jz@bp.renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/3] media: qcom: camss: Add CAMSS Offline Processing
+ Engine driver
+To: johannes.goede@oss.qualcomm.com,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ vladimir.zapolskiy@linaro.org, laurent.pinchart@ideasonboard.com,
+ kieran.bingham@ideasonboard.com, robh@kernel.org, krzk+dt@kernel.org,
+ andersson@kernel.org, konradybcio@kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, mchehab@kernel.org
+References: <20260323125824.211615-1-loic.poulain@oss.qualcomm.com>
+ <m61yNNvSrw6AIq7_-g2h7VQLmGJ_5iCLg5JTlfQDcL5LlBq37ifAeXw-K3AlRBck5Mb4uVQq0pzeBNAybQNk4w==@protonmail.internalid>
+ <20260323125824.211615-3-loic.poulain@oss.qualcomm.com>
+ <1ba54ec0-be51-4694-a79b-f272e76303d2@kernel.org>
+ <X-Lw_zi1o015-V1Cv4dY_ik6SfTB8TTcLmn1l-Ta7UviYTJ6gwMBn4B4ulYwjd_Aetul5xUt0T6ln9E-Hl5h4g==@protonmail.internalid>
+ <CAFEp6-3ziXJTYADOFj--rZL5TumroXuW+=SnUQ9XakRxHT-ypg@mail.gmail.com>
+ <12194cc0-0960-486c-be7e-1a22d95de340@kernel.org>
+ <rj2vb725he4yzfvjifzyxqpbqk5oztfaafp7sg2qes4qz3mlaz@z5dyoqod56d7>
+ <7fc31426-3157-49c7-a30d-dcd7b181fcc6@oss.qualcomm.com>
+ <qq43xl3lsv2nq4ngn2hojleddxjmkgwclb2ajek5gvdtgyjltl@3tqg5ydhsxia>
+ <8DTHyPLaUjGKd83PvBsisjn_SnpUnvkateTtwz9P6CChP9VGfDyQmJa4Rfd5KwOBOLhtGFJPDzfHrXC4zvV-Fg==@protonmail.internalid>
+ <0330f63f-7137-4484-954a-fc0776a9b052@oss.qualcomm.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+In-Reply-To: <0330f63f-7137-4484-954a-fc0776a9b052@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57630-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,glider.be,gmail.com,bp.renesas.com,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	TAGGED_FROM(0.00)[bounces-57631-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,renesas,dt];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,killaraus.ideasonboard.com:mid,ideasonboard.com:dkim,ideasonboard.com:email,renesas.com:email]
-X-Rspamd-Queue-Id: ACF7B35C84D
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C54A335CB53
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Biju,
+On 30/03/2026 14:46, johannes.goede@oss.qualcomm.com wrote:
+>>> And then your CCMv1 or CCMv2 helper will get called with
+>>> the matching parameter-data.
+>> This leads to userspace having to know exact format for each hardware
+>> version, which is not nice. At the very least it should be possible to
+>> accept CCMv1 buffers and covert them to CCMv2 when required.
+> Yes, but a new ISP may also have a different pipeline altogether
+> with e.g. more then one preview/viewfinder output vs one viewfinder
+> output for current hw, etc.
 
-Thank you for the patch.
+My scoping on HFI shows that the IQ structures between Kona and later 
+versions have pretty stable data-structures.
 
-On Mon, Mar 30, 2026 at 11:56:29AM +0100, Biju wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
-> 
-> The VSPD block on the RZ/G3L SoC is identical to the one found on the
-> RZ/G2L SoC. Document RZ/G3L VSPD.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+It might be worthwhile for the non-HFI version to implement those 
+structures.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+I keep mentioning CDM. Its also possible to construct the buffer in the 
+format the CDM would require and hand that from user-space into the kernel.
 
-> ---
->  Documentation/devicetree/bindings/media/renesas,vsp1.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> index 07a97dd87a5b..5447b9b78930 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> @@ -25,6 +25,7 @@ properties:
->            - enum:
->                - renesas,r9a07g043u-vsp2   # RZ/G2UL
->                - renesas,r9a07g054-vsp2    # RZ/V2L
-> +              - renesas,r9a08g046-vsp2    # RZ/G3L
->                - renesas,r9a09g056-vsp2    # RZ/V2N
->                - renesas,r9a09g057-vsp2    # RZ/V2H(P)
->            - const: renesas,r9a07g044-vsp2 # RZ/G2L fallback
+That would save alot of overhead translating from one format to another.
 
--- 
-Regards,
+That's another reason I bring up CDM again and again. We probably don't 
+want to fix to the wrong format for OPE, introduce the CDM and then find 
+we have to map from one format to another for large and complex data 
+over and over again for each frame or every N frames.
 
-Laurent Pinchart
+TBH I think the CDM should happen for this system and in that vein is 
+there any reason not to pack the data in the order the CDM will want ?
+
+So probably in fact IQ structs are not the right thing for OPE+IFE.
+
+---
+bod
 
