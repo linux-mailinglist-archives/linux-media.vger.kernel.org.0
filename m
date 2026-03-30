@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-57591-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57588-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cB+HDFJOymmb7QUAu9opvQ
-	(envelope-from <linux-media+bounces-57591-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 12:20:02 +0200
+	id cPb6IMhOymmb7QUAu9opvQ
+	(envelope-from <linux-media+bounces-57588-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 12:22:00 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD22A3590D6
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 12:20:01 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8629C359169
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 12:21:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 84E3E3039474
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:13:34 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C42C43095BF7
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:13:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E22D3C199C;
-	Mon, 30 Mar 2026 10:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 438D73BFE50;
+	Mon, 30 Mar 2026 10:11:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J2nEVVMZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s6jAlVAs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F8D3BED6F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925793BED58;
 	Mon, 30 Mar 2026 10:11:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774865516; cv=none; b=i/eqPJn4xSMtIGkWYWsgUJ5+56+n/KBExqYNHRNMRRsaRyLxf/qW4PpsUm8Etrnnj8j05g9OLRXiBFHyOe3QQpB0Op9ITEUtMBh8bCsL3y3Ud2dvkQ6kFKG1BBGoqjWFQLturGZdFVUBCainLwYV50Bdbx0HbyDKYdm2g9h4u+8=
+	t=1774865516; cv=none; b=QnVKSVr3GRTOxuEQH+uiYGFj7FH/ZABMkSkBHEsEgUXsH6dqQ1si0BUJ4bPWTnDunwbgN6f2165WNEwhH3/qSa7ojhyhggoZGeUqNryRNIPqB2Fsub0pwV2rtlo+i/CLcvdQTdT5Ja+TKpQaUaIJtcwI2mT21UetNf5993HiTfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774865516; c=relaxed/simple;
-	bh=Yzz9wzI7bTketJ/FTA9OXRo9U+Vt9chFVgyG0x7s0hY=;
+	bh=9/pTkhn2u2LSwJWS3DyDgtL8TAWdS/g1l4ZFCYjsYio=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tjjftBpfYlbylwsFEMH3Db2qYTMO00al2oa/iNZTFEp2hEgxuN7Tzlk02P8hqJ3wIQn7SVI2v5QSiiDY74oQ0nT98hnLpwYc3ve1bUSyKS6JpQNAkkzKfId5S8FMYP/bFuR/WrNFVjQZszgv7ieZWBx4WNUjC+d4ilFO2sXaZJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J2nEVVMZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73DC3C2BCB8;
+	 MIME-Version; b=er1Vx6xCSTSausFNNWGhDgAzW+YTW9z3dw8FLpavBr4EIUNjyXIzPOk8p1tBSqDVP2x2kFz510xbtNcaMP17TuS2zzCRJooYYKW1yPLev+JcUECsi2CB1DvELM/VTiguR7LvZi1H+iRqWuukZkoiNn/r6z5uOn2nOiyLEpnzNeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s6jAlVAs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F5B9C2BCB3;
 	Mon, 30 Mar 2026 10:11:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1774865516;
-	bh=Yzz9wzI7bTketJ/FTA9OXRo9U+Vt9chFVgyG0x7s0hY=;
+	bh=9/pTkhn2u2LSwJWS3DyDgtL8TAWdS/g1l4ZFCYjsYio=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=J2nEVVMZ6qdy5Vf+WtqCyTXaykKtVzVZ+fUVjU+6KPdCp9peNYFkq515LZJGZYJ5/
-	 /CqaB7TdXWldofmCAnL7epLNnJtN+R9Qi8zB2HNzOfWK7QclO4Uv+baAdfZ3ufDnHw
-	 3Wg6jIdqmhEia2w/h1exe2J1ulZs2SxUcOKiAqnzRzZ30rmbmswaX0hx5GroqpxhLt
-	 uGrOV/sdUk7yvdi0zpyXispRClqnocdng+Av4hQDEvjce++CCjRZ6pM+vBWEszcbiR
-	 FVrcQz/8QHeW7WZ1/HjyZxHtRIp2/2io1g47tDPVfmqIVnvMhze49KrdR9iTG2FbeD
-	 0H46b1sqZC90A==
+	b=s6jAlVAscj5D3hAlHXt6P8nkcGjbsXp9T11dY+dUwjTqtONYDTlh9UTWBT+XD8T4l
+	 sH5xbxXXRM3NxIexG23NiSLa3ex68nLMt0KpchGwIme1YYP2ICpZVAYYlD7pGrW3l2
+	 Ri2jMaLx+FjSrb68Qe7FXduSK6rRzo9lzyksstLW1SVLFR7NTbyWnVzgtaxB+nDGXu
+	 DBrX8acXEuIrCEvbOQwPaCwoOC0ongeopUglUoD1DsVH5EscTcKR/R7uympswkOiyK
+	 8r7lgVdslm5ANekAE6XYU0sKzEuV0KUDbGMqoAREP9QkxAXfjEMHKCHvkFQqUu3K9z
+	 HrNPfhQdad1wA==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1w79b8-00000006yvi-1Qym;
+	id 1w79b8-00000006yvk-1TFJ;
 	Mon, 30 Mar 2026 12:11:54 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Hans Verkuil <hverkuil@kernel.org>,
@@ -55,9 +55,9 @@ To: Hans Verkuil <hverkuil@kernel.org>,
 Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 4/6] media: gspca: refactor endpoint lookup
-Date: Mon, 30 Mar 2026 12:11:39 +0200
-Message-ID: <20260330101141.1664143-5-johan@kernel.org>
+Subject: [PATCH 5/6] media: hdpvr: refactor endpoint lookup
+Date: Mon, 30 Mar 2026 12:11:40 +0200
+Message-ID: <20260330101141.1664143-6-johan@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260330101141.1664143-1-johan@kernel.org>
 References: <20260330101141.1664143-1-johan@kernel.org>
@@ -73,13 +73,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57591-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57588-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	MIME_TRACE(0.00)[0:+];
@@ -92,54 +92,73 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: BD22A3590D6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 8629C359169
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Use the common USB helper for looking up interrupt-in endpoints instead
-of open coding.
+Use the common USB helper for looking up bulk-in endpoints instead of
+open coding.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/media/usb/gspca/gspca.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ drivers/media/usb/hdpvr/hdpvr-core.c | 26 ++++++++------------------
+ 1 file changed, 8 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/media/usb/gspca/gspca.c b/drivers/media/usb/gspca/gspca.c
-index 3fc15d16df8e..94f448819d84 100644
---- a/drivers/media/usb/gspca/gspca.c
-+++ b/drivers/media/usb/gspca/gspca.c
-@@ -208,22 +208,17 @@ static int alloc_and_submit_int_urb(struct gspca_dev *gspca_dev,
- static void gspca_input_create_urb(struct gspca_dev *gspca_dev)
+diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
+index d42336836b18..849a2be416bd 100644
+--- a/drivers/media/usb/hdpvr/hdpvr-core.c
++++ b/drivers/media/usb/hdpvr/hdpvr-core.c
+@@ -265,13 +265,10 @@ static int hdpvr_probe(struct usb_interface *interface,
+ 		       const struct usb_device_id *id)
  {
- 	struct usb_interface *intf;
--	struct usb_host_interface *intf_desc;
- 	struct usb_endpoint_descriptor *ep;
+ 	struct hdpvr_device *dev;
+-	struct usb_host_interface *iface_desc;
+ 	struct usb_endpoint_descriptor *endpoint;
+ #if IS_ENABLED(CONFIG_I2C)
+ 	struct i2c_client *client;
+ #endif
+-	size_t buffer_size;
 -	int i;
-+	int ret;
+ 	int dev_num;
+ 	int retval = -ENOMEM;
  
- 	if (gspca_dev->sd_desc->int_pkt_scan)  {
- 		intf = usb_ifnum_to_if(gspca_dev->dev, gspca_dev->iface);
--		intf_desc = intf->cur_altsetting;
--		for (i = 0; i < intf_desc->desc.bNumEndpoints; i++) {
--			ep = &intf_desc->endpoint[i].desc;
--			if (usb_endpoint_dir_in(ep) &&
--			    usb_endpoint_xfer_int(ep)) {
+@@ -321,25 +318,18 @@ static int hdpvr_probe(struct usb_interface *interface,
  
--				alloc_and_submit_int_urb(gspca_dev, ep);
--				break;
--			}
+ 	/* set up the endpoint information */
+ 	/* use only the first bulk-in and bulk-out endpoints */
+-	iface_desc = interface->cur_altsetting;
+-	for (i = 0; i < iface_desc->desc.bNumEndpoints; ++i) {
+-		endpoint = &iface_desc->endpoint[i].desc;
+-
+-		if (!dev->bulk_in_endpointAddr &&
+-		    usb_endpoint_is_bulk_in(endpoint)) {
+-			/* USB interface description is buggy, reported max
+-			 * packet size is 512 bytes, windows driver uses 8192 */
+-			buffer_size = 8192;
+-			dev->bulk_in_size = buffer_size;
+-			dev->bulk_in_endpointAddr = endpoint->bEndpointAddress;
 -		}
-+		ret = usb_find_int_in_endpoint(intf->cur_altsetting, &ep);
-+		if (ret)
-+			return;
-+
-+		alloc_and_submit_int_urb(gspca_dev, ep);
+-
+-	}
+-	if (!dev->bulk_in_endpointAddr) {
++	if (usb_find_bulk_in_endpoint(interface->cur_altsetting, &endpoint)) {
+ 		v4l2_err(&dev->v4l2_dev, "Could not find bulk-in endpoint\n");
+ 		goto error_put_usb;
  	}
- }
  
++	/*
++	 * USB interface description is buggy, reported max packet size is 512
++	 * bytes, windows driver uses 8192
++	 */
++	dev->bulk_in_size = 8192;
++	dev->bulk_in_endpointAddr = endpoint->bEndpointAddress;
++
+ 	/* init the device */
+ 	if (hdpvr_device_init(dev)) {
+ 		v4l2_err(&dev->v4l2_dev, "device init failed\n");
 -- 
 2.52.0
 
