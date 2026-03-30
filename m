@@ -1,213 +1,267 @@
-Return-Path: <linux-media+bounces-57643-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57644-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iExKO32VymkR+QUAu9opvQ
-	(envelope-from <linux-media+bounces-57643-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 17:23:41 +0200
+	id mFuXGoWUymnF+AUAu9opvQ
+	(envelope-from <linux-media+bounces-57644-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 17:19:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5749435DBDE
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 17:23:41 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FBAD35DAA4
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 17:19:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 777ED308D3D5
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 15:07:04 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id AD375301D6CB
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 15:17:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C46B533AD81;
-	Mon, 30 Mar 2026 15:06:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 829A333FE10;
+	Mon, 30 Mar 2026 15:17:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IJHRFUKy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pZM3ChYV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64C6336EDA
-	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 15:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E9A333730;
+	Mon, 30 Mar 2026 15:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774883219; cv=none; b=hvdOwEHjXSPsVRN07gSJ2gxT4U71JTsLtJ/QU/hG8cU1trYaAI8+mBb9osFq2HZO+OYElcUGV+F33xH3DZhOWNBy+TQwQZ6KFA4JNm1kjEFyRBpnvev73+wYj4G7CAv/oNTFvoYvRXsdrL5vrzw844RU4rgFEv6MTi2tk4hq0gI=
+	t=1774883835; cv=none; b=PQayiLdy7CWGsOo0dPHUNTpxuJfTH8V0xKVyH+3eVCC1i3s4f+n769/flmmGbcK7tYScS4j2N5WovPjVU2Y0SHBO2LNfe+PBXNd3M0rrFxV5v0V+GGHUm6nkWdomqO+2IQyy8+Ghjv3mDO3wT1QSbh3fPWU+iwYapMPabrfZf/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774883219; c=relaxed/simple;
-	bh=p+eWhg50WegLSEXAF6Nxv3eUiQbrMEZ4FanIPXGKwZw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U56/uDNo2v8+m0ZJWXRnh3RIp+WiqZspCYH0EKMAZTMqGbnt4ZjsEq6tzVoApoIOUSkpAcj9gbR6HqRhQDETkWOCFv8BhR6wkrQ2nvl5A04xeeml+ILhQsEcgAtkQOzEXHH3fu46ZO8U6nbTMrWoBsVOMfzgwzY7trCAG+OqDa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IJHRFUKy; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-486fe2024a9so33325645e9.0
-        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 08:06:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774883216; x=1775488016; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t10t7d90tvq1oIUR8H7YoceRX84rV+qS4jxtEp+R5O8=;
-        b=IJHRFUKyzshU2gUyrxRM20SSsI8UtUedE97lr6jh6az9lwvjGXBo1EhLe5bN26SJGJ
-         tJxB7cP9Heel4JdQVbPDyzFEQ0PJOENaTOLPnj34Wh0NzMhWz0CZ2oZD/XgGueeokU2o
-         TYDYeStYwoIai25A8L7RS42HLEwKbpNTsGlBnVJdFxm5Ne2YixXqSC55uv+K8ZdVyLcO
-         z+2wP3RgaeL9l4jQWZuzLWOoBDSPie/OKAwsQpt11rB03MhZ5LZHNG9e6psBaZWRQLh4
-         wabhVa7LCph0acUurO6T0YhA/kPz1jrIAjjIn3crihUu8/5to0xSQ7cMFsKWD5qMBTxX
-         RWug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774883216; x=1775488016;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t10t7d90tvq1oIUR8H7YoceRX84rV+qS4jxtEp+R5O8=;
-        b=atbzLMgnFQDwR2Y8Ps49b8zXQFlikc4nBOi1nIOnl0eZuHhk9ILRv0+fkh3S5AK73y
-         JvEhWIcjVpFe1wMpH9Wb2ePLv2TM6OdGyKvX6ys0OSmS4UMXlT+r/qNLjeaya471Tj0N
-         5u495xZjKzbqcriICe9/tdCzqYcAxXX9oTHNg9J3ue6eoyvIRc6eMJuEVjv4rs6B/osQ
-         JyLHqhqF9et+sKSqArEoTAH4WfQHMgihVaYUSUh/7Cpss7HeO0UINuR69AzCy68ckvJA
-         jT1qN8Z5tQeROzi/i4chK7+n7eunPL6cAC2ON3/+BEw83E3pb2q8p4zU0VAKzwixJBAZ
-         zxGQ==
-X-Gm-Message-State: AOJu0YzTu//3uSuXnfqZm/8XZUNwCdCZhT2WbR8KWRyxxQukq3196XFh
-	zddCNOjsTwpUFsL+XbUoPQD0znd4Fe5s7euNK484Iyg7eWRvwJGgc54f
-X-Gm-Gg: ATEYQzx6/vcv0qZV2z0CkFg+RxU7ih1otMLww2caGKFeJC4YXrg7lGcuq/i3jp9SC7v
-	4CAgo4Lr8LgjD+SlTVM84bTlzTKfBgD3b+Knl+5FEw6H9ft3mVmRSNnyN3yxX/taJh/S9gnJ0jf
-	To5rCie+rTju/ln+uKBaVnCt58z6b/KHxKkvwpz1sWVb52CuvkvEyMlhttpWRkyCYETerad5tRs
-	SL2MbMKaPUEIlXz6z1FDIncpxsA0FaIVhWrdoRYsXcgc8vzkcTyfEo3B/Lec63kxRPxiQVZwU58
-	PuySOLhhJ4ejHtO7DOOWiKEQ3f9s8OD02AGtMhL8ELqEzmR97GLbvCdFb8ASIiSj+7JaXFJQYOF
-	i7a5tsRgPl0rXR2pAX+l2TH9jmNvu04Bw1D3HrAOCIfxllQDFCAaYqnPL+5n6SubrlMPZ9OymMr
-	9pKlNqtwsecnrYOhjWMfPIy0uIRyDInTJ0xBuWR0PhHXbjHyEaxS/e5KAo00/91Nw5bnsVtZAid
-	Q7tZo5UoKmfwVqfOvEfPbHuTlFOhR5ruGC/bWcY6tHt/iU+
-X-Received: by 2002:a05:600c:8589:b0:485:39d1:b500 with SMTP id 5b1f17b1804b1-48727eef71bmr193388595e9.16.1774883216135;
-        Mon, 30 Mar 2026 08:06:56 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:3b85:b2a6:8671:75d4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722d38a5fsm284031295e9.12.2026.03.30.08.06.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 08:06:55 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] media: rzg2l-cru: Switch to v4l2_subdev_get_frame_desc()
-Date: Mon, 30 Mar 2026 16:06:39 +0100
-Message-ID: <20260330150639.272174-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1774883835; c=relaxed/simple;
+	bh=xQvizxmTH9rW3jSSz/vD5EeafCvQxKSQ5BuzWX6J7Lw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BVVOfSwyOLHCmZwQj9dLRKSM8oUFs/+KuWXoJYtm4HXLek2uy2Q6rIqAQy35HRJXoAc8Hg+9mp4xba2pD3kksRw0XAu/yZhgG6ohrSlrsGj0Q8uekc7GTdfRsnuKi8apX3kQZ7wuLfkkZLcvjm4PfAn1PQvkpveSa93jnIUu8Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pZM3ChYV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08FBFC4CEF7;
+	Mon, 30 Mar 2026 15:17:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774883834;
+	bh=xQvizxmTH9rW3jSSz/vD5EeafCvQxKSQ5BuzWX6J7Lw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pZM3ChYVNFeb3wR7igYsyJYfUPEL1uElgd3jOIKHDdUyclQLtZHyp1/nlvYN/IX3g
+	 iVCglERa0IhI+9wswFZjBokg9isn7DloBMM4jkCSodpuP+mR6XKk1+lw7tKktLnyIV
+	 N7hRile8mU80h5kVjI25/kufJg0JEolO2WZh7+e7xC5S8xip2JE2EGRgb0cSunPt9c
+	 7ORM0E3s2pl0UrtWxaAiMy6dvB0TwiAL3JQ4NOPYrRbzz+Um/wsSdBCp/kdt3B2Hb+
+	 b6Yqjz9w8lnm095bLzhRur68hUFn5K7N6mRCKTLoLdNgrDmSjPImPzg9alJzlys01d
+	 U6yGBhAI6YsGQ==
+Message-ID: <d333a55a-c66e-4779-9e0e-b077eb4063df@kernel.org>
+Date: Mon, 30 Mar 2026 17:17:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/2] media: uvcvideo: Fix sequence number when no EOF
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Yunke Cao <yunkec@google.com>,
+ stable@kernel.org
+References: <20260323-uvc-fid-v5-0-e2858b657aac@chromium.org>
+ <20260323-uvc-fid-v5-1-e2858b657aac@chromium.org>
+ <20260324002022.GC2334070@killaraus.ideasonboard.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260324002022.GC2334070@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-57643-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57644-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com,renesas.com];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
-X-Rspamd-Queue-Id: 5749435DBDE
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,qualcomm.com:email,chromium.org:email,ideasonboard.com:email]
+X-Rspamd-Queue-Id: 1FBAD35DAA4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi,
 
-Replace direct v4l2_subdev_call() invocations of the get_frame_desc pad
-operation with the new v4l2_subdev_get_frame_desc() helper in both
-rzg2l-csi2 and rzg2l-video.
+On 24-Mar-26 01:20, Laurent Pinchart wrote:
+> On Mon, Mar 23, 2026 at 09:53:52AM +0000, Ricardo Ribalda wrote:
+>> If the driver could not detect the EOF, the sequence number is increased
+>> twice:
+>>  1) When we enter uvc_video_decode_start() with the old buffer and FID has
+>>    flipped => We return -EAGAIN and last_fid is not flipped
+>>  2) When we enter uvc_video_decode_start() with the new buffer.
+>>
+>> Fix this issue by moving the new frame detection logic earlier in
+>> uvc_video_decode_start().
+>>
+>> This also has some nice side affects:
+>>
+>> - The error status from the new packet will no longer get propagated
+>>   to the previous frame-buffer.
+>> - uvc_video_clock_decode() will no longer update the previous frame
+>>   buf->stf with info from the new packet.
+>> - uvc_video_clock_decode() and uvc_video_stats_decode() will no longer
+>>   get called twice for the same packet.
+>>
+>> Cc: stable@kernel.org
+>> Fixes: 650b95feee35 ("[media] uvcvideo: Generate discontinuous sequence numbers when frames are lost")
+>> Reported-by: Hans de Goede <hansg@kernel.org>
+>> Closes: https://lore.kernel.org/linux-media/CANiDSCuj4cPuB5_v2xyvAagA5FjoN8V5scXiFFOeD3aKDMqkCg@mail.gmail.com/T/#me39fb134e8c2c085567a31548c3403eb639625e4
+>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>> ---
+>>  drivers/media/usb/uvc/uvc_video.c | 92 ++++++++++++++++++++-------------------
+>>  1 file changed, 47 insertions(+), 45 deletions(-)
+>>
+>> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+>> index 40c76c051da2..eddb4821b205 100644
+>> --- a/drivers/media/usb/uvc/uvc_video.c
+>> +++ b/drivers/media/usb/uvc/uvc_video.c
+>> @@ -1168,6 +1168,53 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+>>  	header_len = data[0];
+>>  	fid = data[1] & UVC_STREAM_FID;
+>>  
+>> +	/*
+>> +	 * Mark the buffer as done if we're at the beginning of a new frame.
+>> +	 * End of frame detection is better implemented by checking the EOF
+>> +	 * bit (FID bit toggling is delayed by one frame compared to the EOF
+>> +	 * bit), but some devices don't set the bit at end of frame (and the
+>> +	 * last payload can be lost anyway). We thus must check if the FID has
+>> +	 * been toggled.
+>> +	 *
+>> +	 * stream->last_fid is initialized to -1, and buf->bytesused to 0,
+>> +	 * so the first isochronous frame will never trigger an end of frame
+>> +	 * detection.
+>> +	 *
+>> +	 * Empty buffers (bytesused == 0) don't trigger end of frame detection
+>> +	 * as it doesn't make sense to return an empty buffer. This also
+>> +	 * avoids detecting end of frame conditions at FID toggling if the
+>> +	 * previous payload had the EOF bit set.
+>> +	 */
+>> +	if (fid != stream->last_fid && buf && buf->bytesused != 0) {
+>> +		uvc_dbg(stream->dev, FRAME,
+>> +			"Frame complete (FID bit toggled)\n");
+>> +		buf->state = UVC_BUF_STATE_READY;
+>> +
+>> +		return -EAGAIN;
+>> +	}
+>> +
+>> +	/*
+>> +	 * Some cameras, when running two parallel streams (one MJPEG alongside
+>> +	 * another non-MJPEG stream), are known to lose the EOF packet for a frame.
+>> +	 * We can detect the end of a frame by checking for a new SOI marker, as
+>> +	 * the SOI always lies on the packet boundary between two frames for
+>> +	 * these devices.
+>> +	 */
+>> +	if (stream->dev->quirks & UVC_QUIRK_MJPEG_NO_EOF &&
+>> +	    (stream->cur_format->fcc == V4L2_PIX_FMT_MJPEG ||
+>> +	    stream->cur_format->fcc == V4L2_PIX_FMT_JPEG)) {
+>> +		const u8 *packet = data + header_len;
+>> +
+>> +		if (len >= header_len + 2 &&
+>> +		    packet[0] == 0xff && packet[1] == JPEG_MARKER_SOI &&
+>> +		    buf && buf->bytesused != 0) {
+> 
+> How about moving the buf && buf->bytesused != 0 to the outer condition,
+> so that we don't inspect the packet when we don't need to ? It will also
+> make the two end of frame detection blocks more similar.
 
-Drop the -ENOIOCTLCMD handling and frame descriptor type validation as
-these are redundant after switching to v4l2_subdev_get_frame_desc().
-Set fd.type to V4L2_MBUS_FRAME_DESC_TYPE_CSI2 before calling the helper
-as required by its API contract.
+I've just merged this into my local uvc/for-next branch and
+I've moved the "buf && buf->bytesused != 0" check to the outer condition
+while applying, so there is no need to send a new version.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Note, this patch depends on the patch [0] posted by Sakari which adds
-the v4l2_subdev_get_frame_desc() helper.
+> The patch otherwise looks fine, I don't see anything below this code
+> that would need to be performed before.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-[0] https://lore.kernel.org/all/20260329195625.2840728-1-sakari.ailus@linux.intel.com/
----
- .../platform/renesas/rzg2l-cru/rzg2l-csi2.c    |  5 +++--
- .../platform/renesas/rzg2l-cru/rzg2l-video.c   | 18 +++++++-----------
- 2 files changed, 10 insertions(+), 13 deletions(-)
+Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-index 6dc4b53607b4..1fdd423f6e6c 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-@@ -737,8 +737,9 @@ static int rzg2l_csi2_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 			csi2->remote_source->name, remote_pad);
- 		return PTR_ERR(remote_pad);
- 	}
--	return v4l2_subdev_call(csi2->remote_source, pad, get_frame_desc,
--				remote_pad->index, fd);
-+	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-+	return v4l2_subdev_get_frame_desc(csi2->remote_source,
-+					  remote_pad->index, fd);
- }
- 
- static const struct v4l2_subdev_video_ops rzg2l_csi2_video_ops = {
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index 162e2ace6931..e701a591ce8a 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -406,24 +406,20 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
- 
- static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
- {
--	struct v4l2_mbus_frame_desc fd = { };
-+	struct v4l2_mbus_frame_desc fd = {
-+		.type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2,
-+	};
- 	struct media_pad *remote_pad;
- 	int ret;
- 
- 	remote_pad = media_pad_remote_pad_unique(&cru->ip.pads[RZG2L_CRU_IP_SINK]);
--	ret = v4l2_subdev_call(cru->ip.remote, pad, get_frame_desc, remote_pad->index, &fd);
--	if (ret < 0 && ret != -ENOIOCTLCMD) {
-+
-+	ret = v4l2_subdev_get_frame_desc(cru->ip.remote,
-+					 remote_pad->index, &fd);
-+	if (ret < 0) {
- 		dev_err(cru->dev, "get_frame_desc failed on IP remote subdev\n");
- 		return ret;
- 	}
--	/* If remote subdev does not implement .get_frame_desc default to VC0. */
--	if (ret == -ENOIOCTLCMD)
--		return 0;
--
--	if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
--		dev_err(cru->dev, "get_frame_desc returned invalid bus type %d\n", fd.type);
--		return -EINVAL;
--	}
- 
- 	if (!fd.num_entries) {
- 		dev_err(cru->dev, "get_frame_desc returned zero entries\n");
--- 
-2.53.0
+Regards,
+
+Hans
+
+
+
+> 
+>> +			buf->state = UVC_BUF_STATE_READY;
+>> +			buf->error = 1;
+>> +			stream->last_fid ^= UVC_STREAM_FID;
+>> +			return -EAGAIN;
+>> +		}
+>> +	}
+>> +
+>>  	/*
+>>  	 * Increase the sequence number regardless of any buffer states, so
+>>  	 * that discontinuous sequence numbers always indicate lost frames.
+>> @@ -1224,51 +1271,6 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+>>  		buf->state = UVC_BUF_STATE_ACTIVE;
+>>  	}
+>>  
+>> -	/*
+>> -	 * Mark the buffer as done if we're at the beginning of a new frame.
+>> -	 * End of frame detection is better implemented by checking the EOF
+>> -	 * bit (FID bit toggling is delayed by one frame compared to the EOF
+>> -	 * bit), but some devices don't set the bit at end of frame (and the
+>> -	 * last payload can be lost anyway). We thus must check if the FID has
+>> -	 * been toggled.
+>> -	 *
+>> -	 * stream->last_fid is initialized to -1, so the first isochronous
+>> -	 * frame will never trigger an end of frame detection.
+>> -	 *
+>> -	 * Empty buffers (bytesused == 0) don't trigger end of frame detection
+>> -	 * as it doesn't make sense to return an empty buffer. This also
+>> -	 * avoids detecting end of frame conditions at FID toggling if the
+>> -	 * previous payload had the EOF bit set.
+>> -	 */
+>> -	if (fid != stream->last_fid && buf->bytesused != 0) {
+>> -		uvc_dbg(stream->dev, FRAME,
+>> -			"Frame complete (FID bit toggled)\n");
+>> -		buf->state = UVC_BUF_STATE_READY;
+>> -		return -EAGAIN;
+>> -	}
+>> -
+>> -	/*
+>> -	 * Some cameras, when running two parallel streams (one MJPEG alongside
+>> -	 * another non-MJPEG stream), are known to lose the EOF packet for a frame.
+>> -	 * We can detect the end of a frame by checking for a new SOI marker, as
+>> -	 * the SOI always lies on the packet boundary between two frames for
+>> -	 * these devices.
+>> -	 */
+>> -	if (stream->dev->quirks & UVC_QUIRK_MJPEG_NO_EOF &&
+>> -	    (stream->cur_format->fcc == V4L2_PIX_FMT_MJPEG ||
+>> -	    stream->cur_format->fcc == V4L2_PIX_FMT_JPEG)) {
+>> -		const u8 *packet = data + header_len;
+>> -
+>> -		if (len >= header_len + 2 &&
+>> -		    packet[0] == 0xff && packet[1] == JPEG_MARKER_SOI &&
+>> -		    buf->bytesused != 0) {
+>> -			buf->state = UVC_BUF_STATE_READY;
+>> -			buf->error = 1;
+>> -			stream->last_fid ^= UVC_STREAM_FID;
+>> -			return -EAGAIN;
+>> -		}
+>> -	}
+>> -
+>>  	stream->last_fid = fid;
+>>  
+>>  	return header_len;
+>>
+> 
 
 
