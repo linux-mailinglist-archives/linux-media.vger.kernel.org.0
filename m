@@ -1,507 +1,1327 @@
-Return-Path: <linux-media+bounces-57639-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57640-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wLSaGFyOymn09gUAu9opvQ
-	(envelope-from <linux-media+bounces-57639-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 16:53:16 +0200
+	id 4DskC2SSymma+AUAu9opvQ
+	(envelope-from <linux-media+bounces-57640-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 17:10:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D419C35D346
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 16:53:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5A435D826
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 17:10:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C925A302DF40
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 14:41:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 058E5304E708
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 14:45:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6A222EACF2;
-	Mon, 30 Mar 2026 14:40:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B3C03016E9;
+	Mon, 30 Mar 2026 14:45:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="b6rVbMBM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nxdLi4wy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1266C2F3C3E;
-	Mon, 30 Mar 2026 14:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0C52356BE
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 14:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774881626; cv=none; b=pqADKQeHCX3KmUD4fmXRmCJIy32aU6wlnpY8e6TNqm1pWJESi/uiZ/xc7hUMOZ5XU51UstyvVDX7umVq817miLKTYcw5sFHY7ocnaF5RjhB3czHSQFz/htvqC4vgC3pysDRW1LDuyTy597DpLjRGxfqP+t6uGdi5yVobYGlAKnI=
+	t=1774881917; cv=none; b=iYzGl5MHI+ncqgkxL3JrFBsA3kw9+kbgeS6r0JoKfOWZdtzUB2PYp8LzT/9VH7SJ60wJT7Zy1eLNyYs1U6B6VOJ4vQGmfnByPRvCHCcwPBwMnC3e77yNyI72okedMQixsWSDhD1b7O5GD04r+A9IHnZ+H+JLrl0uC1A3yZw2sWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774881626; c=relaxed/simple;
-	bh=LHTJ8pK1+s4UjMQQ2IOF+q2NcdKnNQ7GMMSp+8koZcY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A7HqD5KnEJjgUvOd9FAMjVwiXsTlyUdUIvyVwJSrvaesvmT66qSSXffoCGLQ7rH7j/R5D14Xxj6Otqf0+chjRth4NPJZkK2Cl7zE8Lfqf3skfQZve5KhSWkMHn37BSIjI7KX9OCCDymBCBHdZ2FsHtCZbqS2slxcyzjDTS8LygE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=b6rVbMBM; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.33.33] (185.221.143.129.nat.pool.zt.hu [185.221.143.129])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5AE0E23B9;
-	Mon, 30 Mar 2026 16:39:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1774881540;
-	bh=LHTJ8pK1+s4UjMQQ2IOF+q2NcdKnNQ7GMMSp+8koZcY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b6rVbMBMoDbeFLudUb/GXDcqb4lE/5BTEpxYgeUHk3Oimi8sln0N+3pUia2MabySg
-	 hpPRYduPj823ud5afUcWyj+QFoG+7aWtQQhRU7vhJVTJvzZl4hjY+hOHZSKjUZ935n
-	 jIzJKP4zDWTngM5txJSXMAavxT+gF4oAIMtsGvVA=
-Message-ID: <6c7ffd2d-94fa-4408-ac24-1e7adac95e5d@ideasonboard.com>
-Date: Mon, 30 Mar 2026 16:40:18 +0200
+	s=arc-20240116; t=1774881917; c=relaxed/simple;
+	bh=ITokvwzyPNwdZmRzhzXXlExwC4mQU0gm6XCceKY0upI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jHiRqEnNj0S8MLuHFLh35/a6cDWF3yntRS4NMldhrVc3DM1Fqr6X44RMLn3C8Sux8DTl+BfTovyscTzs3svq0VI1BhFov7ae9iaqYCippnLu1Xzv6iCMadFWyT/OUcFGDjVu0fpzEthGWVOWDcbd2+JS7cKKbeizFEJFDPJvyLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nxdLi4wy; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso37574495e9.3
+        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 07:45:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774881914; x=1775486714; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZwTy91N/yQlZVbiCARW4f3yG8FM9j2vo4oRn+l2BA3s=;
+        b=nxdLi4wyex1p59SPXldm815lWgk5yQJ5ZnKB1hqQboVu1US/Ohi5F/rzipfd/fgKF5
+         TnkJoZZVrO0z2Ybfzh+w5czDpErMDbLmEVRYPcwY80GY5o+OqdSeFy6yK1NeASfR1O3M
+         cPujCjArJg6LbBtWOw8amJWRvm5ute+hP2xq5VrtLVt5sFc3Ur3xgTXZA6tCu1Lk8Af7
+         yAXM16TNg6Itv7TjLaJDs4iHd04+HXF2liIb3CBjx4CioPavBT2SzsqkyciBQ7jzcW44
+         uMnL23nDlZpbMmfZyLk69sOmo5Zz74UfTP6G+xjCsgD8KiXpuWqr/NhgIRv2m18BOC8q
+         YIlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774881914; x=1775486714;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZwTy91N/yQlZVbiCARW4f3yG8FM9j2vo4oRn+l2BA3s=;
+        b=aoDgOdoYVELsmLFZ9sAdB7vC1PlB0hBOInDocHNE/8GPapHttqeN72fLH6jU+IG3Ay
+         ohPBCD4zK+7bB+BRPIUllURfdgnlFIm+1IGVsgpC+kwha3O0ZzKI5FShpxdgXI07gghU
+         cckIiFEaRHQOfcI2jma1pIfOCBElbOmCHMODVSEbkv3Bfogkaw0Jxxbkkslnrbspmxcx
+         N+VHlNsnaWBei8sdaiS//xxKWV+ZM32I2NVX1gRWpOWncfVGT68Dj1ZYDSNe/SG2kcM3
+         5j1Sy8m0qxFAV33QUTNo23k2p/B5PsVUuYlLxvPTP6Y+HthJbIJ4YrQj4InkU5aoa2IN
+         GuTQ==
+X-Gm-Message-State: AOJu0YzWw+kUZC9VF49vF3J4stQ2u9jV8Ln7mKFhawl5fLpgEZHIWKpD
+	Vfv8CHzF5f+ajGGT0ow4bw3I3LEtLtYtShKrpfxzrldL122HLrlLRGPZ
+X-Gm-Gg: ATEYQzzBROyp54MGEeEstPfK+Peb+1gOVcjpvj1P750tmuX3jSLKECjrXW2/HQDwzC8
+	7/1UfPGEWFokdbgXIQetQlGOYIHwG1OF8I5I1pME02PDg+BovmVZyLI106HzZS+9RajAxvXCap/
+	kcnW0NgR90dgmGdThuvda076gk5SvTi/xUuybY5ygRMLU8z/S5S6nlS0NBIvZLDrd8AQsIHWZcw
+	ki+707OWqu8wRxk+FLi5nIx60KulzKVUfeZ8sVf/kvGcqn9S73tkX7qOAcWjhlAxUTWueSgeGzy
+	Z+JIiaYMN9A3wmTNbaMf2dVOFLBf6M9I6ytP0q7shYFImYDN3Tojk/oyfzIv1rKxK4Vcs3QJCHN
+	9EmIbLYy588qb5oOe9AdCTUWB7Z7LlET80SilP41fujExxRaOR6H350fnqUZXjTF2IX+iPTPmFg
+	LsMugkwvlYqeO5q1oA8vXppLa0GB0vNvOc7/gy2FSJ5wISu9Yv7WplfqwHb9hZeZ3i0rwKZafkO
+	miaFCIWalIswes2cLXLtvf87CUtaOg/THWnIQ==
+X-Received: by 2002:a05:600c:529b:b0:485:3ec6:e634 with SMTP id 5b1f17b1804b1-48727d84100mr199490465e9.15.1774881913213;
+        Mon, 30 Mar 2026 07:45:13 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:3b85:b2a6:8671:75d4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48727192012sm82855065e9.32.2026.03.30.07.45.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2026 07:45:12 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Xiaolei Wang <xiaolei.wang@windriver.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Xiaolei Wang <Xiaolei.Wang@windriver.com>
+Subject: [PATCH v3] media: i2c: ov5645: Convert to CCI register access helpers
+Date: Mon, 30 Mar 2026 15:45:09 +0100
+Message-ID: <20260330144509.258986-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] media: rkisp1: Add support for CAC
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20260323140216.1486161-1-barnabas.pocze@ideasonboard.com>
- <acP7qpa8TxGLKFiw@zed>
-From: =?UTF-8?Q?Barnab=C3=A1s_P=C5=91cze?= <barnabas.pocze@ideasonboard.com>
-Content-Language: en-US, hu-HU
-In-Reply-To: <acP7qpa8TxGLKFiw@zed>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.33 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MIXED_CHARSET(0.83)[subject];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[fastmail.com,ideasonboard.com,kernel.org,sntech.de,vger.kernel.org,lists.infradead.org];
-	TAGGED_FROM(0.00)[bounces-57639-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-57640-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com,renesas.com,windriver.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[barnabas.pocze@ideasonboard.com,linux-media@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
-X-Rspamd-Queue-Id: D419C35D346
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,windriver.com:email]
+X-Rspamd-Queue-Id: 8B5A435D826
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-2026. 03. 25. 16:21 keltezéssel, Jacopo Mondi írta:
-> Hi Barnabás
-> 
-> On Mon, Mar 23, 2026 at 03:02:16PM +0100, Barnabás Pőcze wrote:
->> The CAC block implements chromatic aberration correction. Expose it to
->> userspace using the extensible parameters format. This was tested on the
->> i.MX8MP platform, but based on available documentation it is also present
->> in the RK3399 variant (V10). Thus presumably also in later versions,
->> so no feature flag is introduced.
->>
->> Signed-off-by: Barnabás Pőcze <barnabas.pocze@ideasonboard.com>
-> 
-> Only minors..
-> 
->> ---
->>   .../platform/rockchip/rkisp1/rkisp1-params.c  |  69 ++++++++++++
->>   .../platform/rockchip/rkisp1/rkisp1-regs.h    |  21 +++-
->>   include/uapi/linux/rkisp1-config.h            | 106 +++++++++++++++++-
->>   3 files changed, 193 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
->> index 6442436a5e428..b889af9dcee45 100644
->> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
->> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
->> @@ -64,6 +64,7 @@ union rkisp1_ext_params_config {
->>   	struct rkisp1_ext_params_compand_bls_config compand_bls;
->>   	struct rkisp1_ext_params_compand_curve_config compand_curve;
->>   	struct rkisp1_ext_params_wdr_config wdr;
->> +	struct rkisp1_ext_params_cac_config cac;
->>   };
->>
->>   enum rkisp1_params_formats {
->> @@ -1413,6 +1414,48 @@ static void rkisp1_wdr_config(struct rkisp1_params *params,
->>   				     RKISP1_CIF_ISP_WDR_TONE_CURVE_YM_MASK);
->>   }
->>
->> +static void
->> +rkisp1_cac_config(struct rkisp1_params *params,
->> +		  const struct rkisp1_cif_isp_cac_config *arg)
-> 
-> Fits in one line without going over 80 cols
+Convert the ov5645 driver to use the V4L2 CCI register access helpers
+and regmap infrastructure instead of the custom I2C register access
+implementation.
 
-This is what the other functions looks like, so went this this.
+Keep ov5645_set_register_array() as ov5645_global_init_setting requires
+a delay between specific register writes, which cannot be expressed
+through the generic CCI multi-write helper.
 
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Xiaolei Wang <Xiaolei.Wang@windriver.com>
+---
+Note, this patch was originally part of series [0] since patch 1/2
+is no longer needed after patch [1] just sending this single patch.
 
-> 
->> +{
->> +	u32 regval;
->> +
->> +	/*
->> +	 * The enable bit is in the same register (RKISP1_CIF_ISP_CAC_CTRL),
->> +	 * so only set the clipping mode, and do not modify the other bits.
->> +	 */
->> +	regval = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_CAC_CTRL);
->> +	regval &= ~(RKISP1_CIF_ISP_CAC_CTRL_H_CLIP_MODE |
->> +		    RKISP1_CIF_ISP_CAC_CTRL_V_CLIP_MODE);
->> +	regval |= FIELD_PREP(RKISP1_CIF_ISP_CAC_CTRL_H_CLIP_MODE, arg->h_clip_mode) |
->> +		  FIELD_PREP(RKISP1_CIF_ISP_CAC_CTRL_V_CLIP_MODE, arg->v_clip_mode);
->> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_CTRL, regval);
->> +
->> +	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_COUNT_START_H_MASK, arg->h_count_start) |
->> +		 FIELD_PREP(RKISP1_CIF_ISP_CAC_COUNT_START_V_MASK, arg->v_count_start);
->> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_COUNT_START, regval);
->> +
->> +	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_A_RED_MASK, arg->red[0]) |
->> +		 FIELD_PREP(RKISP1_CIF_ISP_CAC_A_BLUE_MASK, arg->blue[0]);
->> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_A, regval);
->> +
->> +	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_B_RED_MASK, arg->red[1]) |
->> +		 FIELD_PREP(RKISP1_CIF_ISP_CAC_B_BLUE_MASK, arg->blue[1]);
->> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_B, regval);
->> +
->> +	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_C_RED_MASK, arg->red[2]) |
->> +		 FIELD_PREP(RKISP1_CIF_ISP_CAC_C_BLUE_MASK, arg->blue[2]);
->> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_C, regval);
->> +
->> +	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_X_NORM_NF_MASK, arg->x_nf) |
->> +		 FIELD_PREP(RKISP1_CIF_ISP_CAC_X_NORM_NS_MASK, arg->x_ns);
->> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_X_NORM, regval);
->> +
->> +	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_Y_NORM_NF_MASK, arg->y_nf) |
->> +		 FIELD_PREP(RKISP1_CIF_ISP_CAC_Y_NORM_NS_MASK, arg->y_ns);
->> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_Y_NORM, regval);
->> +}
->> +
->>   static void
->>   rkisp1_isp_isr_other_config(struct rkisp1_params *params,
->>   			    const struct rkisp1_params_cfg *new_params)
->> @@ -2089,6 +2132,25 @@ static void rkisp1_ext_params_wdr(struct rkisp1_params *params,
->>   				      RKISP1_CIF_ISP_WDR_CTRL_ENABLE);
->>   }
->>
->> +static void rkisp1_ext_params_cac(struct rkisp1_params *params,
->> +				  const union rkisp1_ext_params_config *block)
->> +{
->> +	const struct rkisp1_ext_params_cac_config *cac = &block->cac;
->> +
->> +	if (cac->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
->> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CAC_CTRL,
->> +					RKISP1_CIF_ISP_CAC_CTRL_ENABLE);
->> +		return;
->> +	}
->> +
->> +	rkisp1_cac_config(params, &cac->config);
->> +
->> +	if ((cac->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE) &&
->> +	    !(params->enabled_blocks & BIT(cac->header.type)))
->> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CAC_CTRL,
->> +				      RKISP1_CIF_ISP_CAC_CTRL_ENABLE);
->> +}
->> +
->>   typedef void (*rkisp1_block_handler)(struct rkisp1_params *params,
->>   			     const union rkisp1_ext_params_config *config);
->>
->> @@ -2185,6 +2247,10 @@ static const struct rkisp1_ext_params_handler {
->>   		.handler	= rkisp1_ext_params_wdr,
->>   		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
->>   	},
->> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_CAC] = {
->> +		.handler	= rkisp1_ext_params_cac,
->> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
->> +	},
->>   };
->>
->>   #define RKISP1_PARAMS_BLOCK_INFO(block, data) \
->> @@ -2215,6 +2281,7 @@ rkisp1_ext_params_block_types_info[] = {
->>   	RKISP1_PARAMS_BLOCK_INFO(COMPAND_EXPAND, compand_curve),
->>   	RKISP1_PARAMS_BLOCK_INFO(COMPAND_COMPRESS, compand_curve),
->>   	RKISP1_PARAMS_BLOCK_INFO(WDR, wdr),
->> +	RKISP1_PARAMS_BLOCK_INFO(CAC, cac),
->>   };
->>
->>   static_assert(ARRAY_SIZE(rkisp1_ext_params_handlers) ==
->> @@ -2474,6 +2541,8 @@ void rkisp1_params_disable(struct rkisp1_params *params)
->>   	rkisp1_ie_enable(params, false);
->>   	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_DPF_MODE,
->>   				RKISP1_CIF_ISP_DPF_MODE_EN);
->> +	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CAC_CTRL,
->> +				RKISP1_CIF_ISP_CAC_CTRL_ENABLE);
->>   }
->>
->>   static const struct rkisp1_params_ops rkisp1_v10_params_ops = {
->> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
->> index fbeb186cde0d5..8e25537459bbd 100644
->> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
->> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
->> @@ -724,6 +724,23 @@
->>   #define RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MASK		GENMASK(20, 16)
->>   #define RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MAX		16U
->>
->> +/* CAC */
->> +#define RKISP1_CIF_ISP_CAC_CTRL_ENABLE		BIT(0)
->> +#define RKISP1_CIF_ISP_CAC_CTRL_V_CLIP_MODE	GENMASK(2, 1)
->> +#define RKISP1_CIF_ISP_CAC_CTRL_H_CLIP_MODE	GENMASK(3, 3)
->> +#define RKISP1_CIF_ISP_CAC_COUNT_START_H_MASK	GENMASK(12, 0)
->> +#define RKISP1_CIF_ISP_CAC_COUNT_START_V_MASK	GENMASK(28, 16)
->> +#define RKISP1_CIF_ISP_CAC_A_RED_MASK		GENMASK(8, 0)
->> +#define RKISP1_CIF_ISP_CAC_A_BLUE_MASK		GENMASK(24, 16)
->> +#define RKISP1_CIF_ISP_CAC_B_RED_MASK		GENMASK(8, 0)
->> +#define RKISP1_CIF_ISP_CAC_B_BLUE_MASK		GENMASK(24, 16)
->> +#define RKISP1_CIF_ISP_CAC_C_RED_MASK		GENMASK(8, 0)
->> +#define RKISP1_CIF_ISP_CAC_C_BLUE_MASK		GENMASK(24, 16)
-> 
-> All these masks for coefficients 0, 1 and 2 are identical. Maybe
-> #define RKISP1_CIF_ISP_CAC_RED_MASK		GENMASK(8, 0)
-> #define RKISP1_CIF_ISP_CAC_BLUE_MASK		GENMASK(24, 16)
-> 
-> is enough
+[0] https://lore.kernel.org/all/20260328132902.776757-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+[1] https://lore.kernel.org/all/20260329195625.2840728-1-sakari.ailus@linux.intel.com/
 
-Adjusted.
+v2->v3:
+- Made use of CCI_REG16 for the chip ID register
+- Replaced CHIP_ID_HIGH and CHIP_ID_LOW with a single
+  CHIP_ID register definition
+- Added RB tag from Xiaolei Wang
 
+v1->v2
+- Fixed selecting V4L2_CCI_I2C config option for the OV5645 driver.
+- Fixed checkpatch warnings limiting to 80 characters per line.
+---
+ drivers/media/i2c/Kconfig  |   1 +
+ drivers/media/i2c/ov5645.c | 919 ++++++++++++++++++-------------------
+ 2 files changed, 439 insertions(+), 481 deletions(-)
 
-> 
->> +#define RKISP1_CIF_ISP_CAC_X_NORM_NF_MASK	GENMASK(4, 0)
->> +#define RKISP1_CIF_ISP_CAC_X_NORM_NS_MASK	GENMASK(19, 16)
->> +#define RKISP1_CIF_ISP_CAC_Y_NORM_NF_MASK	GENMASK(4, 0)
->> +#define RKISP1_CIF_ISP_CAC_Y_NORM_NS_MASK	GENMASK(19, 16)
-
-Did the same with these as well.
-
-
->> +
->>   /* =================================================================== */
->>   /*                            CIF Registers                            */
->>   /* =================================================================== */
->> @@ -1196,8 +1213,8 @@
->>   #define RKISP1_CIF_ISP_CAC_A			(RKISP1_CIF_ISP_CAC_BASE + 0x00000008)
->>   #define RKISP1_CIF_ISP_CAC_B			(RKISP1_CIF_ISP_CAC_BASE + 0x0000000c)
->>   #define RKISP1_CIF_ISP_CAC_C			(RKISP1_CIF_ISP_CAC_BASE + 0x00000010)
->> -#define RKISP1_CIF_ISP_X_NORM			(RKISP1_CIF_ISP_CAC_BASE + 0x00000014)
->> -#define RKISP1_CIF_ISP_Y_NORM			(RKISP1_CIF_ISP_CAC_BASE + 0x00000018)
->> +#define RKISP1_CIF_ISP_CAC_X_NORM		(RKISP1_CIF_ISP_CAC_BASE + 0x00000014)
->> +#define RKISP1_CIF_ISP_CAC_Y_NORM		(RKISP1_CIF_ISP_CAC_BASE + 0x00000018)
->>
->>   #define RKISP1_CIF_ISP_EXP_BASE			0x00002600
->>   #define RKISP1_CIF_ISP_EXP_CTRL			(RKISP1_CIF_ISP_EXP_BASE + 0x00000000)
->> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
->> index b2d2a71f7baff..d8acccaddd0e9 100644
->> --- a/include/uapi/linux/rkisp1-config.h
->> +++ b/include/uapi/linux/rkisp1-config.h
->> @@ -967,6 +967,92 @@ struct rkisp1_cif_isp_wdr_config {
->>   	__u8 use_iref;
->>   };
->>
->> +/*
->> + * enum rkisp1_cif_isp_cac_h_clip_mode - horizontal clipping mode
->> + *
->> + * @RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4PX: +/- 4 pixels
->> + * @RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4_5PX: +/- 4/5 pixels depending on bayer position
->> + */
->> +enum rkisp1_cif_isp_cac_h_clip_mode {
->> +	RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4PX = 0,
->> +	RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4_5PX = 1,
->> +};
->> +
->> +/**
->> + * enum rkisp1_cif_isp_cac_v_clip_mode - vertical clipping mode
->> + *
->> + * @RKISP1_CIF_ISP_CAC_V_CLIP_MODE_2PX: +/- 2 pixels
->> + * @RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3PX: +/- 3 pixels
->> + * @RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3_4PX: +/- 3/4 pixels depending on bayer position
->> + */
->> +enum rkisp1_cif_isp_cac_v_clip_mode {
->> +	RKISP1_CIF_ISP_CAC_V_CLIP_MODE_2PX = 0,
->> +	RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3PX = 1,
->> +	RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3_4PX = 2,
->> +};
->> +
->> +/**
->> + * struct rkisp1_cif_isp_cac_config - chromatic aberration correction configuration
->> + *
->> + * The correction is carried out by shifting the red and blue pixels relative
->> + * to the green ones, depending on the distance from the optical center:
-> 
-> Yes, the distance to the center is one parameter, but the shifting
-> amount depends on other things. I would drop the last part of the
-> sentence and move the description of the two below fields after the
-> text
-
-That's true, but within a specific image, the only varying quantity
-is the distance, so I think it is important to emphasize that.
-
-And I also quite like this structure of
-   - description of step
-   - parameters of step
-   - description of step
-   ...
-
-so I would love to keep it like this, if that's ok?
-
-
-> 
->> + *
->> + * @h_count_start: horizontal coordinate of the optical center (13-bit unsigned integer; [1,8191])
->> + * @v_count_start: vertical coordinate of the optical center (13-bit unsigned integer; [1,8191])
-> 
-> so these could go just before @x_nf
-> 
->> + *
->> + * For each pixel, the x/y distances from the optical center are calculated and
-> 
-> I forgot: did we establish that the correction is applied to the
-> euclidean distance or to x and y separately ?
-
-Given that there are two sets of "normalization" parameters, the assumption is that
-at least the x/y distances are transformed separately. I see two reasonable choices
-after that: (a) use the two distances separately, (b) use the radial distance. The
-documentation says (b). However, testing with sensor test patterns suggests that
-it is not the case (a horizontal/vertical boundary between appropriately colored
-regions should have a curvature after the transformation with appropriate parameters).
-
-
-> 
->> + * then transformed into the [0,255] range based on the following formula:
-> 
-> s/transformed/normalized ?
-
-To be honest I vastly prefer "transform" / "map" over "normalize" here.
-
-
-> 
->> + *
->> + *   (((d << 4) >> s) * f) >> 5
->> + *
->> + * where `d` is the distance, `s` and `f` are the normalization parameters:
-> 
-> Can you use 'ns' and 'nf' to match the below ?
-
-Adjusted.
-
-
-> 
->> + *
->> + * @x_nf: horizontal normalization scale parameter (5-bit unsigned integer; [0,31])
->> + * @x_ns: horizontal normalization shift parameter (4-bit unsigned integer; [0,15])
->> + *
->> + * @y_nf: vertical normalization scale parameter (5-bit unsigned integer; [0,31])
->> + * @y_ns: vertical normalization shift parameter (4-bit unsigned integer; [0,15])
->> + *
->> + * These parameters should be chosen based on the image resolution, the position
->> + * of the optical center, and the shape of pixels: so that no normalized distance
-> 
-> s/pixels:/pixels/
-
-Replaced `:` with `,`.
-
-
-> 
->> + * is larger than 255. If the pixels have square shape, the two sets of parameters
->> + * should be equal.
->> + *
->> + * The actual amount of correction is calculated with a third degree polynomial:
->> + *
->> + *   c[0] * r + c[1] * r^2 + c[2] * r^3
->> + *
->> + * where `c` is the set of coefficients for the given color, and `r` is distance:
->> + *
->> + * @red: red coefficients (5.4 two's complement; [-16,15.9375])
->> + * @blue: blue coefficients (5.4 two's complement; [-16,15.9375])
->> + *
->> + * Finally, the amount is clipped as requested:
->> + *
->> + * @h_clip_mode: maximum horizontal shift (from enum rkisp1_cif_isp_cac_h_clip_mode)
->> + * @v_clip_mode: maximum vertical shift (from enum rkisp1_cif_isp_cac_v_clip_mode)
->> + *
->> + * A positive result will shift away from the optical center, while a negative
->> + * one will shift towards the optical center. In the latter case, the pixel
->> + * values at the edges are duplicated.
->> + */
->> +struct rkisp1_cif_isp_cac_config {
->> +	__u8 h_clip_mode;
->> +	__u8 v_clip_mode;
->> +
->> +	__u16 h_count_start;
->> +	__u16 v_count_start;
->> +
->> +	__u16 red[3];
->> +	__u16 blue[3];
->> +
->> +	__u8 x_nf;
->> +	__u8 x_ns;
->> +
->> +	__u8 y_nf;
->> +	__u8 y_ns;
->> +};
->> +
->>   /*---------- PART2: Measurement Statistics ------------*/
->>
->>   /**
->> @@ -1161,6 +1247,7 @@ enum rkisp1_ext_params_block_type {
->>   	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND,
->>   	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS,
->>   	RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR,
->> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_CAC,
->>   };
->>
->>   /* For backward compatibility */
->> @@ -1507,6 +1594,22 @@ struct rkisp1_ext_params_wdr_config {
->>   	struct rkisp1_cif_isp_wdr_config config;
->>   } __attribute__((aligned(8)));
->>
->> +/**
->> + * struct rkisp1_ext_params_cac_config - RkISP1 extensible params CAC config
->> + *
->> + * RkISP1 extensible parameters CAC block.
->> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_CAC`.
->> + *
->> + * @header: The RkISP1 extensible parameters header, see
->> + *	    :c:type:`rkisp1_ext_params_block_header`
->> + * @config: CAC configuration, see
->> + *	    :c:type:`rkisp1_cif_isp_cac_config`
->> + */
->> +struct rkisp1_ext_params_cac_config {
->> +	struct rkisp1_ext_params_block_header header;
->> +	struct rkisp1_cif_isp_cac_config config;
->> +} __attribute__((aligned(8)));
->> +
->>   /*
->>    * The rkisp1_ext_params_compand_curve_config structure is counted twice as it
->>    * is used for both the COMPAND_EXPAND and COMPAND_COMPRESS block types.
->> @@ -1532,7 +1635,8 @@ struct rkisp1_ext_params_wdr_config {
->>   	sizeof(struct rkisp1_ext_params_compand_bls_config)		+\
->>   	sizeof(struct rkisp1_ext_params_compand_curve_config)		+\
->>   	sizeof(struct rkisp1_ext_params_compand_curve_config)		+\
->> -	sizeof(struct rkisp1_ext_params_wdr_config))
->> +	sizeof(struct rkisp1_ext_params_wdr_config)			+\
->> +	sizeof(struct rkisp1_ext_params_cac_config))
-> 
-> All minors, please add
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> 
-> Thanks
->    j
-> 
->>
->>   /**
->>    * enum rksip1_ext_param_buffer_version - RkISP1 extensible parameters version
->> --
->> 2.53.0
->>
->>
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 8f2ba4121586..bfc9b8060e44 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -546,6 +546,7 @@ config VIDEO_OV5640
+ config VIDEO_OV5645
+ 	tristate "OmniVision OV5645 sensor support"
+ 	depends on OF
++	select V4L2_CCI_I2C
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV5645 camera.
+diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+index b10d408034a1..0585e5c53d33 100644
+--- a/drivers/media/i2c/ov5645.c
++++ b/drivers/media/i2c/ov5645.c
+@@ -25,39 +25,39 @@
+ #include <linux/of.h>
+ #include <linux/of_graph.h>
+ #include <linux/pm_runtime.h>
++#include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
++#include <media/v4l2-cci.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-fwnode.h>
+ #include <media/v4l2-subdev.h>
+ 
+-#define OV5645_SYSTEM_CTRL0		0x3008
++#define OV5645_SYSTEM_CTRL0		CCI_REG8(0x3008)
+ #define		OV5645_SYSTEM_CTRL0_START	0x02
+ #define		OV5645_SYSTEM_CTRL0_STOP	0x42
+-#define OV5645_CHIP_ID_HIGH		0x300a
+-#define		OV5645_CHIP_ID_HIGH_BYTE	0x56
+-#define OV5645_CHIP_ID_LOW		0x300b
+-#define		OV5645_CHIP_ID_LOW_BYTE		0x45
+-#define OV5645_IO_MIPI_CTRL00		0x300e
+-#define OV5645_PAD_OUTPUT00		0x3019
+-#define OV5645_AWB_MANUAL_CONTROL	0x3406
++#define OV5645_CHIP_ID			CCI_REG16(0x300a)
++#define		OV5645_CHIP_ID_VALUE		0x5645
++#define OV5645_IO_MIPI_CTRL00		CCI_REG8(0x300e)
++#define OV5645_PAD_OUTPUT00		CCI_REG8(0x3019)
++#define OV5645_AWB_MANUAL_CONTROL	CCI_REG8(0x3406)
+ #define		OV5645_AWB_MANUAL_ENABLE	BIT(0)
+-#define OV5645_AEC_PK_MANUAL		0x3503
++#define OV5645_AEC_PK_MANUAL		CCI_REG8(0x3503)
+ #define		OV5645_AEC_MANUAL_ENABLE	BIT(0)
+ #define		OV5645_AGC_MANUAL_ENABLE	BIT(1)
+-#define OV5645_TIMING_TC_REG20		0x3820
++#define OV5645_TIMING_TC_REG20		CCI_REG8(0x3820)
+ #define		OV5645_SENSOR_VFLIP		BIT(1)
+ #define		OV5645_ISP_VFLIP		BIT(2)
+-#define OV5645_TIMING_TC_REG21		0x3821
++#define OV5645_TIMING_TC_REG21		CCI_REG8(0x3821)
+ #define		OV5645_SENSOR_MIRROR		BIT(1)
+-#define OV5645_MIPI_CTRL00		0x4800
+-#define OV5645_PRE_ISP_TEST_SETTING_1	0x503d
++#define OV5645_MIPI_CTRL00		CCI_REG8(0x4800)
++#define OV5645_PRE_ISP_TEST_SETTING_1	CCI_REG8(0x503d)
+ #define		OV5645_TEST_PATTERN_MASK	0x3
+ #define		OV5645_SET_TEST_PATTERN(x)	((x) & OV5645_TEST_PATTERN_MASK)
+ #define		OV5645_TEST_PATTERN_ENABLE	BIT(7)
+-#define OV5645_SDE_SAT_U		0x5583
+-#define OV5645_SDE_SAT_V		0x5584
++#define OV5645_SDE_SAT_U		CCI_REG8(0x5583)
++#define OV5645_SDE_SAT_V		CCI_REG8(0x5584)
+ 
+ /* regulator supplies */
+ static const char * const ov5645_supply_name[] = {
+@@ -68,15 +68,10 @@ static const char * const ov5645_supply_name[] = {
+ 
+ #define OV5645_NUM_SUPPLIES ARRAY_SIZE(ov5645_supply_name)
+ 
+-struct reg_value {
+-	u16 reg;
+-	u8 val;
+-};
+-
+ struct ov5645_mode_info {
+ 	u32 width;
+ 	u32 height;
+-	const struct reg_value *data;
++	const struct cci_reg_sequence *data;
+ 	u32 data_size;
+ 	u32 pixel_clock;
+ 	u32 link_freq;
+@@ -85,6 +80,7 @@ struct ov5645_mode_info {
+ struct ov5645 {
+ 	struct i2c_client *i2c_client;
+ 	struct device *dev;
++	struct regmap *regmap;
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
+ 	struct v4l2_fwnode_endpoint ep;
+@@ -100,9 +96,9 @@ struct ov5645 {
+ 	struct v4l2_ctrl *link_freq;
+ 
+ 	/* Cached register values */
+-	u8 aec_pk_manual;
+-	u8 timing_tc_reg20;
+-	u8 timing_tc_reg21;
++	u64 aec_pk_manual;
++	u64 timing_tc_reg20;
++	u64 timing_tc_reg21;
+ 
+ 	struct gpio_desc *enable_gpio;
+ 	struct gpio_desc *rst_gpio;
+@@ -113,393 +109,393 @@ static inline struct ov5645 *to_ov5645(struct v4l2_subdev *sd)
+ 	return container_of(sd, struct ov5645, sd);
+ }
+ 
+-static const struct reg_value ov5645_global_init_setting[] = {
+-	{ 0x3103, 0x11 },
+-	{ 0x3008, 0x42 },
+-	{ 0x3103, 0x03 },
+-	{ 0x3503, 0x07 },
+-	{ 0x3002, 0x1c },
+-	{ 0x3006, 0xc3 },
+-	{ 0x3017, 0x00 },
+-	{ 0x3018, 0x00 },
+-	{ 0x302e, 0x0b },
+-	{ 0x3037, 0x13 },
+-	{ 0x3108, 0x01 },
+-	{ 0x3611, 0x06 },
+-	{ 0x3500, 0x00 },
+-	{ 0x3501, 0x01 },
+-	{ 0x3502, 0x00 },
+-	{ 0x350a, 0x00 },
+-	{ 0x350b, 0x3f },
+-	{ 0x3620, 0x33 },
+-	{ 0x3621, 0xe0 },
+-	{ 0x3622, 0x01 },
+-	{ 0x3630, 0x2e },
+-	{ 0x3631, 0x00 },
+-	{ 0x3632, 0x32 },
+-	{ 0x3633, 0x52 },
+-	{ 0x3634, 0x70 },
+-	{ 0x3635, 0x13 },
+-	{ 0x3636, 0x03 },
+-	{ 0x3703, 0x5a },
+-	{ 0x3704, 0xa0 },
+-	{ 0x3705, 0x1a },
+-	{ 0x3709, 0x12 },
+-	{ 0x370b, 0x61 },
+-	{ 0x370f, 0x10 },
+-	{ 0x3715, 0x78 },
+-	{ 0x3717, 0x01 },
+-	{ 0x371b, 0x20 },
+-	{ 0x3731, 0x12 },
+-	{ 0x3901, 0x0a },
+-	{ 0x3905, 0x02 },
+-	{ 0x3906, 0x10 },
+-	{ 0x3719, 0x86 },
+-	{ 0x3810, 0x00 },
+-	{ 0x3811, 0x10 },
+-	{ 0x3812, 0x00 },
+-	{ 0x3821, 0x01 },
+-	{ 0x3824, 0x01 },
+-	{ 0x3826, 0x03 },
+-	{ 0x3828, 0x08 },
+-	{ 0x3a19, 0xf8 },
+-	{ 0x3c01, 0x34 },
+-	{ 0x3c04, 0x28 },
+-	{ 0x3c05, 0x98 },
+-	{ 0x3c07, 0x07 },
+-	{ 0x3c09, 0xc2 },
+-	{ 0x3c0a, 0x9c },
+-	{ 0x3c0b, 0x40 },
+-	{ 0x3c01, 0x34 },
+-	{ 0x4001, 0x02 },
+-	{ 0x4514, 0x00 },
+-	{ 0x4520, 0xb0 },
+-	{ 0x460b, 0x37 },
+-	{ 0x460c, 0x20 },
+-	{ 0x4818, 0x01 },
+-	{ 0x481d, 0xf0 },
+-	{ 0x481f, 0x50 },
+-	{ 0x4823, 0x70 },
+-	{ 0x4831, 0x14 },
+-	{ 0x5000, 0xa7 },
+-	{ 0x5001, 0x83 },
+-	{ 0x501d, 0x00 },
+-	{ 0x501f, 0x00 },
+-	{ 0x503d, 0x00 },
+-	{ 0x505c, 0x30 },
+-	{ 0x5181, 0x59 },
+-	{ 0x5183, 0x00 },
+-	{ 0x5191, 0xf0 },
+-	{ 0x5192, 0x03 },
+-	{ 0x5684, 0x10 },
+-	{ 0x5685, 0xa0 },
+-	{ 0x5686, 0x0c },
+-	{ 0x5687, 0x78 },
+-	{ 0x5a00, 0x08 },
+-	{ 0x5a21, 0x00 },
+-	{ 0x5a24, 0x00 },
+-	{ 0x3008, 0x02 },
+-	{ 0x3503, 0x00 },
+-	{ 0x5180, 0xff },
+-	{ 0x5181, 0xf2 },
+-	{ 0x5182, 0x00 },
+-	{ 0x5183, 0x14 },
+-	{ 0x5184, 0x25 },
+-	{ 0x5185, 0x24 },
+-	{ 0x5186, 0x09 },
+-	{ 0x5187, 0x09 },
+-	{ 0x5188, 0x0a },
+-	{ 0x5189, 0x75 },
+-	{ 0x518a, 0x52 },
+-	{ 0x518b, 0xea },
+-	{ 0x518c, 0xa8 },
+-	{ 0x518d, 0x42 },
+-	{ 0x518e, 0x38 },
+-	{ 0x518f, 0x56 },
+-	{ 0x5190, 0x42 },
+-	{ 0x5191, 0xf8 },
+-	{ 0x5192, 0x04 },
+-	{ 0x5193, 0x70 },
+-	{ 0x5194, 0xf0 },
+-	{ 0x5195, 0xf0 },
+-	{ 0x5196, 0x03 },
+-	{ 0x5197, 0x01 },
+-	{ 0x5198, 0x04 },
+-	{ 0x5199, 0x12 },
+-	{ 0x519a, 0x04 },
+-	{ 0x519b, 0x00 },
+-	{ 0x519c, 0x06 },
+-	{ 0x519d, 0x82 },
+-	{ 0x519e, 0x38 },
+-	{ 0x5381, 0x1e },
+-	{ 0x5382, 0x5b },
+-	{ 0x5383, 0x08 },
+-	{ 0x5384, 0x0a },
+-	{ 0x5385, 0x7e },
+-	{ 0x5386, 0x88 },
+-	{ 0x5387, 0x7c },
+-	{ 0x5388, 0x6c },
+-	{ 0x5389, 0x10 },
+-	{ 0x538a, 0x01 },
+-	{ 0x538b, 0x98 },
+-	{ 0x5300, 0x08 },
+-	{ 0x5301, 0x30 },
+-	{ 0x5302, 0x10 },
+-	{ 0x5303, 0x00 },
+-	{ 0x5304, 0x08 },
+-	{ 0x5305, 0x30 },
+-	{ 0x5306, 0x08 },
+-	{ 0x5307, 0x16 },
+-	{ 0x5309, 0x08 },
+-	{ 0x530a, 0x30 },
+-	{ 0x530b, 0x04 },
+-	{ 0x530c, 0x06 },
+-	{ 0x5480, 0x01 },
+-	{ 0x5481, 0x08 },
+-	{ 0x5482, 0x14 },
+-	{ 0x5483, 0x28 },
+-	{ 0x5484, 0x51 },
+-	{ 0x5485, 0x65 },
+-	{ 0x5486, 0x71 },
+-	{ 0x5487, 0x7d },
+-	{ 0x5488, 0x87 },
+-	{ 0x5489, 0x91 },
+-	{ 0x548a, 0x9a },
+-	{ 0x548b, 0xaa },
+-	{ 0x548c, 0xb8 },
+-	{ 0x548d, 0xcd },
+-	{ 0x548e, 0xdd },
+-	{ 0x548f, 0xea },
+-	{ 0x5490, 0x1d },
+-	{ 0x5580, 0x02 },
+-	{ 0x5583, 0x40 },
+-	{ 0x5584, 0x10 },
+-	{ 0x5589, 0x10 },
+-	{ 0x558a, 0x00 },
+-	{ 0x558b, 0xf8 },
+-	{ 0x5800, 0x3f },
+-	{ 0x5801, 0x16 },
+-	{ 0x5802, 0x0e },
+-	{ 0x5803, 0x0d },
+-	{ 0x5804, 0x17 },
+-	{ 0x5805, 0x3f },
+-	{ 0x5806, 0x0b },
+-	{ 0x5807, 0x06 },
+-	{ 0x5808, 0x04 },
+-	{ 0x5809, 0x04 },
+-	{ 0x580a, 0x06 },
+-	{ 0x580b, 0x0b },
+-	{ 0x580c, 0x09 },
+-	{ 0x580d, 0x03 },
+-	{ 0x580e, 0x00 },
+-	{ 0x580f, 0x00 },
+-	{ 0x5810, 0x03 },
+-	{ 0x5811, 0x08 },
+-	{ 0x5812, 0x0a },
+-	{ 0x5813, 0x03 },
+-	{ 0x5814, 0x00 },
+-	{ 0x5815, 0x00 },
+-	{ 0x5816, 0x04 },
+-	{ 0x5817, 0x09 },
+-	{ 0x5818, 0x0f },
+-	{ 0x5819, 0x08 },
+-	{ 0x581a, 0x06 },
+-	{ 0x581b, 0x06 },
+-	{ 0x581c, 0x08 },
+-	{ 0x581d, 0x0c },
+-	{ 0x581e, 0x3f },
+-	{ 0x581f, 0x1e },
+-	{ 0x5820, 0x12 },
+-	{ 0x5821, 0x13 },
+-	{ 0x5822, 0x21 },
+-	{ 0x5823, 0x3f },
+-	{ 0x5824, 0x68 },
+-	{ 0x5825, 0x28 },
+-	{ 0x5826, 0x2c },
+-	{ 0x5827, 0x28 },
+-	{ 0x5828, 0x08 },
+-	{ 0x5829, 0x48 },
+-	{ 0x582a, 0x64 },
+-	{ 0x582b, 0x62 },
+-	{ 0x582c, 0x64 },
+-	{ 0x582d, 0x28 },
+-	{ 0x582e, 0x46 },
+-	{ 0x582f, 0x62 },
+-	{ 0x5830, 0x60 },
+-	{ 0x5831, 0x62 },
+-	{ 0x5832, 0x26 },
+-	{ 0x5833, 0x48 },
+-	{ 0x5834, 0x66 },
+-	{ 0x5835, 0x44 },
+-	{ 0x5836, 0x64 },
+-	{ 0x5837, 0x28 },
+-	{ 0x5838, 0x66 },
+-	{ 0x5839, 0x48 },
+-	{ 0x583a, 0x2c },
+-	{ 0x583b, 0x28 },
+-	{ 0x583c, 0x26 },
+-	{ 0x583d, 0xae },
+-	{ 0x5025, 0x00 },
+-	{ 0x3a0f, 0x30 },
+-	{ 0x3a10, 0x28 },
+-	{ 0x3a1b, 0x30 },
+-	{ 0x3a1e, 0x26 },
+-	{ 0x3a11, 0x60 },
+-	{ 0x3a1f, 0x14 },
+-	{ 0x0601, 0x02 },
+-	{ 0x3008, 0x42 },
+-	{ 0x3008, 0x02 },
++static const struct cci_reg_sequence ov5645_global_init_setting[] = {
++	{ CCI_REG8(0x3103), 0x11 },
++	{ CCI_REG8(0x3008), 0x42 },
++	{ CCI_REG8(0x3103), 0x03 },
++	{ CCI_REG8(0x3503), 0x07 },
++	{ CCI_REG8(0x3002), 0x1c },
++	{ CCI_REG8(0x3006), 0xc3 },
++	{ CCI_REG8(0x3017), 0x00 },
++	{ CCI_REG8(0x3018), 0x00 },
++	{ CCI_REG8(0x302e), 0x0b },
++	{ CCI_REG8(0x3037), 0x13 },
++	{ CCI_REG8(0x3108), 0x01 },
++	{ CCI_REG8(0x3611), 0x06 },
++	{ CCI_REG8(0x3500), 0x00 },
++	{ CCI_REG8(0x3501), 0x01 },
++	{ CCI_REG8(0x3502), 0x00 },
++	{ CCI_REG8(0x350a), 0x00 },
++	{ CCI_REG8(0x350b), 0x3f },
++	{ CCI_REG8(0x3620), 0x33 },
++	{ CCI_REG8(0x3621), 0xe0 },
++	{ CCI_REG8(0x3622), 0x01 },
++	{ CCI_REG8(0x3630), 0x2e },
++	{ CCI_REG8(0x3631), 0x00 },
++	{ CCI_REG8(0x3632), 0x32 },
++	{ CCI_REG8(0x3633), 0x52 },
++	{ CCI_REG8(0x3634), 0x70 },
++	{ CCI_REG8(0x3635), 0x13 },
++	{ CCI_REG8(0x3636), 0x03 },
++	{ CCI_REG8(0x3703), 0x5a },
++	{ CCI_REG8(0x3704), 0xa0 },
++	{ CCI_REG8(0x3705), 0x1a },
++	{ CCI_REG8(0x3709), 0x12 },
++	{ CCI_REG8(0x370b), 0x61 },
++	{ CCI_REG8(0x370f), 0x10 },
++	{ CCI_REG8(0x3715), 0x78 },
++	{ CCI_REG8(0x3717), 0x01 },
++	{ CCI_REG8(0x371b), 0x20 },
++	{ CCI_REG8(0x3731), 0x12 },
++	{ CCI_REG8(0x3901), 0x0a },
++	{ CCI_REG8(0x3905), 0x02 },
++	{ CCI_REG8(0x3906), 0x10 },
++	{ CCI_REG8(0x3719), 0x86 },
++	{ CCI_REG8(0x3810), 0x00 },
++	{ CCI_REG8(0x3811), 0x10 },
++	{ CCI_REG8(0x3812), 0x00 },
++	{ CCI_REG8(0x3821), 0x01 },
++	{ CCI_REG8(0x3824), 0x01 },
++	{ CCI_REG8(0x3826), 0x03 },
++	{ CCI_REG8(0x3828), 0x08 },
++	{ CCI_REG8(0x3a19), 0xf8 },
++	{ CCI_REG8(0x3c01), 0x34 },
++	{ CCI_REG8(0x3c04), 0x28 },
++	{ CCI_REG8(0x3c05), 0x98 },
++	{ CCI_REG8(0x3c07), 0x07 },
++	{ CCI_REG8(0x3c09), 0xc2 },
++	{ CCI_REG8(0x3c0a), 0x9c },
++	{ CCI_REG8(0x3c0b), 0x40 },
++	{ CCI_REG8(0x3c01), 0x34 },
++	{ CCI_REG8(0x4001), 0x02 },
++	{ CCI_REG8(0x4514), 0x00 },
++	{ CCI_REG8(0x4520), 0xb0 },
++	{ CCI_REG8(0x460b), 0x37 },
++	{ CCI_REG8(0x460c), 0x20 },
++	{ CCI_REG8(0x4818), 0x01 },
++	{ CCI_REG8(0x481d), 0xf0 },
++	{ CCI_REG8(0x481f), 0x50 },
++	{ CCI_REG8(0x4823), 0x70 },
++	{ CCI_REG8(0x4831), 0x14 },
++	{ CCI_REG8(0x5000), 0xa7 },
++	{ CCI_REG8(0x5001), 0x83 },
++	{ CCI_REG8(0x501d), 0x00 },
++	{ CCI_REG8(0x501f), 0x00 },
++	{ CCI_REG8(0x503d), 0x00 },
++	{ CCI_REG8(0x505c), 0x30 },
++	{ CCI_REG8(0x5181), 0x59 },
++	{ CCI_REG8(0x5183), 0x00 },
++	{ CCI_REG8(0x5191), 0xf0 },
++	{ CCI_REG8(0x5192), 0x03 },
++	{ CCI_REG8(0x5684), 0x10 },
++	{ CCI_REG8(0x5685), 0xa0 },
++	{ CCI_REG8(0x5686), 0x0c },
++	{ CCI_REG8(0x5687), 0x78 },
++	{ CCI_REG8(0x5a00), 0x08 },
++	{ CCI_REG8(0x5a21), 0x00 },
++	{ CCI_REG8(0x5a24), 0x00 },
++	{ CCI_REG8(0x3008), 0x02 },
++	{ CCI_REG8(0x3503), 0x00 },
++	{ CCI_REG8(0x5180), 0xff },
++	{ CCI_REG8(0x5181), 0xf2 },
++	{ CCI_REG8(0x5182), 0x00 },
++	{ CCI_REG8(0x5183), 0x14 },
++	{ CCI_REG8(0x5184), 0x25 },
++	{ CCI_REG8(0x5185), 0x24 },
++	{ CCI_REG8(0x5186), 0x09 },
++	{ CCI_REG8(0x5187), 0x09 },
++	{ CCI_REG8(0x5188), 0x0a },
++	{ CCI_REG8(0x5189), 0x75 },
++	{ CCI_REG8(0x518a), 0x52 },
++	{ CCI_REG8(0x518b), 0xea },
++	{ CCI_REG8(0x518c), 0xa8 },
++	{ CCI_REG8(0x518d), 0x42 },
++	{ CCI_REG8(0x518e), 0x38 },
++	{ CCI_REG8(0x518f), 0x56 },
++	{ CCI_REG8(0x5190), 0x42 },
++	{ CCI_REG8(0x5191), 0xf8 },
++	{ CCI_REG8(0x5192), 0x04 },
++	{ CCI_REG8(0x5193), 0x70 },
++	{ CCI_REG8(0x5194), 0xf0 },
++	{ CCI_REG8(0x5195), 0xf0 },
++	{ CCI_REG8(0x5196), 0x03 },
++	{ CCI_REG8(0x5197), 0x01 },
++	{ CCI_REG8(0x5198), 0x04 },
++	{ CCI_REG8(0x5199), 0x12 },
++	{ CCI_REG8(0x519a), 0x04 },
++	{ CCI_REG8(0x519b), 0x00 },
++	{ CCI_REG8(0x519c), 0x06 },
++	{ CCI_REG8(0x519d), 0x82 },
++	{ CCI_REG8(0x519e), 0x38 },
++	{ CCI_REG8(0x5381), 0x1e },
++	{ CCI_REG8(0x5382), 0x5b },
++	{ CCI_REG8(0x5383), 0x08 },
++	{ CCI_REG8(0x5384), 0x0a },
++	{ CCI_REG8(0x5385), 0x7e },
++	{ CCI_REG8(0x5386), 0x88 },
++	{ CCI_REG8(0x5387), 0x7c },
++	{ CCI_REG8(0x5388), 0x6c },
++	{ CCI_REG8(0x5389), 0x10 },
++	{ CCI_REG8(0x538a), 0x01 },
++	{ CCI_REG8(0x538b), 0x98 },
++	{ CCI_REG8(0x5300), 0x08 },
++	{ CCI_REG8(0x5301), 0x30 },
++	{ CCI_REG8(0x5302), 0x10 },
++	{ CCI_REG8(0x5303), 0x00 },
++	{ CCI_REG8(0x5304), 0x08 },
++	{ CCI_REG8(0x5305), 0x30 },
++	{ CCI_REG8(0x5306), 0x08 },
++	{ CCI_REG8(0x5307), 0x16 },
++	{ CCI_REG8(0x5309), 0x08 },
++	{ CCI_REG8(0x530a), 0x30 },
++	{ CCI_REG8(0x530b), 0x04 },
++	{ CCI_REG8(0x530c), 0x06 },
++	{ CCI_REG8(0x5480), 0x01 },
++	{ CCI_REG8(0x5481), 0x08 },
++	{ CCI_REG8(0x5482), 0x14 },
++	{ CCI_REG8(0x5483), 0x28 },
++	{ CCI_REG8(0x5484), 0x51 },
++	{ CCI_REG8(0x5485), 0x65 },
++	{ CCI_REG8(0x5486), 0x71 },
++	{ CCI_REG8(0x5487), 0x7d },
++	{ CCI_REG8(0x5488), 0x87 },
++	{ CCI_REG8(0x5489), 0x91 },
++	{ CCI_REG8(0x548a), 0x9a },
++	{ CCI_REG8(0x548b), 0xaa },
++	{ CCI_REG8(0x548c), 0xb8 },
++	{ CCI_REG8(0x548d), 0xcd },
++	{ CCI_REG8(0x548e), 0xdd },
++	{ CCI_REG8(0x548f), 0xea },
++	{ CCI_REG8(0x5490), 0x1d },
++	{ CCI_REG8(0x5580), 0x02 },
++	{ CCI_REG8(0x5583), 0x40 },
++	{ CCI_REG8(0x5584), 0x10 },
++	{ CCI_REG8(0x5589), 0x10 },
++	{ CCI_REG8(0x558a), 0x00 },
++	{ CCI_REG8(0x558b), 0xf8 },
++	{ CCI_REG8(0x5800), 0x3f },
++	{ CCI_REG8(0x5801), 0x16 },
++	{ CCI_REG8(0x5802), 0x0e },
++	{ CCI_REG8(0x5803), 0x0d },
++	{ CCI_REG8(0x5804), 0x17 },
++	{ CCI_REG8(0x5805), 0x3f },
++	{ CCI_REG8(0x5806), 0x0b },
++	{ CCI_REG8(0x5807), 0x06 },
++	{ CCI_REG8(0x5808), 0x04 },
++	{ CCI_REG8(0x5809), 0x04 },
++	{ CCI_REG8(0x580a), 0x06 },
++	{ CCI_REG8(0x580b), 0x0b },
++	{ CCI_REG8(0x580c), 0x09 },
++	{ CCI_REG8(0x580d), 0x03 },
++	{ CCI_REG8(0x580e), 0x00 },
++	{ CCI_REG8(0x580f), 0x00 },
++	{ CCI_REG8(0x5810), 0x03 },
++	{ CCI_REG8(0x5811), 0x08 },
++	{ CCI_REG8(0x5812), 0x0a },
++	{ CCI_REG8(0x5813), 0x03 },
++	{ CCI_REG8(0x5814), 0x00 },
++	{ CCI_REG8(0x5815), 0x00 },
++	{ CCI_REG8(0x5816), 0x04 },
++	{ CCI_REG8(0x5817), 0x09 },
++	{ CCI_REG8(0x5818), 0x0f },
++	{ CCI_REG8(0x5819), 0x08 },
++	{ CCI_REG8(0x581a), 0x06 },
++	{ CCI_REG8(0x581b), 0x06 },
++	{ CCI_REG8(0x581c), 0x08 },
++	{ CCI_REG8(0x581d), 0x0c },
++	{ CCI_REG8(0x581e), 0x3f },
++	{ CCI_REG8(0x581f), 0x1e },
++	{ CCI_REG8(0x5820), 0x12 },
++	{ CCI_REG8(0x5821), 0x13 },
++	{ CCI_REG8(0x5822), 0x21 },
++	{ CCI_REG8(0x5823), 0x3f },
++	{ CCI_REG8(0x5824), 0x68 },
++	{ CCI_REG8(0x5825), 0x28 },
++	{ CCI_REG8(0x5826), 0x2c },
++	{ CCI_REG8(0x5827), 0x28 },
++	{ CCI_REG8(0x5828), 0x08 },
++	{ CCI_REG8(0x5829), 0x48 },
++	{ CCI_REG8(0x582a), 0x64 },
++	{ CCI_REG8(0x582b), 0x62 },
++	{ CCI_REG8(0x582c), 0x64 },
++	{ CCI_REG8(0x582d), 0x28 },
++	{ CCI_REG8(0x582e), 0x46 },
++	{ CCI_REG8(0x582f), 0x62 },
++	{ CCI_REG8(0x5830), 0x60 },
++	{ CCI_REG8(0x5831), 0x62 },
++	{ CCI_REG8(0x5832), 0x26 },
++	{ CCI_REG8(0x5833), 0x48 },
++	{ CCI_REG8(0x5834), 0x66 },
++	{ CCI_REG8(0x5835), 0x44 },
++	{ CCI_REG8(0x5836), 0x64 },
++	{ CCI_REG8(0x5837), 0x28 },
++	{ CCI_REG8(0x5838), 0x66 },
++	{ CCI_REG8(0x5839), 0x48 },
++	{ CCI_REG8(0x583a), 0x2c },
++	{ CCI_REG8(0x583b), 0x28 },
++	{ CCI_REG8(0x583c), 0x26 },
++	{ CCI_REG8(0x583d), 0xae },
++	{ CCI_REG8(0x5025), 0x00 },
++	{ CCI_REG8(0x3a0f), 0x30 },
++	{ CCI_REG8(0x3a10), 0x28 },
++	{ CCI_REG8(0x3a1b), 0x30 },
++	{ CCI_REG8(0x3a1e), 0x26 },
++	{ CCI_REG8(0x3a11), 0x60 },
++	{ CCI_REG8(0x3a1f), 0x14 },
++	{ CCI_REG8(0x0601), 0x02 },
++	{ CCI_REG8(0x3008), 0x42 },
++	{ CCI_REG8(0x3008), 0x02 },
+ 	{ OV5645_IO_MIPI_CTRL00, 0x40 },
+ 	{ OV5645_MIPI_CTRL00, 0x24 },
+ 	{ OV5645_PAD_OUTPUT00, 0x70 }
+ };
+ 
+-static const struct reg_value ov5645_setting_sxga[] = {
+-	{ 0x3612, 0xa9 },
+-	{ 0x3614, 0x50 },
+-	{ 0x3618, 0x00 },
+-	{ 0x3034, 0x18 },
+-	{ 0x3035, 0x21 },
+-	{ 0x3036, 0x70 },
+-	{ 0x3600, 0x09 },
+-	{ 0x3601, 0x43 },
+-	{ 0x3708, 0x66 },
+-	{ 0x370c, 0xc3 },
+-	{ 0x3800, 0x00 },
+-	{ 0x3801, 0x00 },
+-	{ 0x3802, 0x00 },
+-	{ 0x3803, 0x06 },
+-	{ 0x3804, 0x0a },
+-	{ 0x3805, 0x3f },
+-	{ 0x3806, 0x07 },
+-	{ 0x3807, 0x9d },
+-	{ 0x3808, 0x05 },
+-	{ 0x3809, 0x00 },
+-	{ 0x380a, 0x03 },
+-	{ 0x380b, 0xc0 },
+-	{ 0x380c, 0x07 },
+-	{ 0x380d, 0x68 },
+-	{ 0x380e, 0x03 },
+-	{ 0x380f, 0xd8 },
+-	{ 0x3813, 0x06 },
+-	{ 0x3814, 0x31 },
+-	{ 0x3815, 0x31 },
+-	{ 0x3820, 0x47 },
+-	{ 0x3a02, 0x03 },
+-	{ 0x3a03, 0xd8 },
+-	{ 0x3a08, 0x01 },
+-	{ 0x3a09, 0xf8 },
+-	{ 0x3a0a, 0x01 },
+-	{ 0x3a0b, 0xa4 },
+-	{ 0x3a0e, 0x02 },
+-	{ 0x3a0d, 0x02 },
+-	{ 0x3a14, 0x03 },
+-	{ 0x3a15, 0xd8 },
+-	{ 0x3a18, 0x00 },
+-	{ 0x4004, 0x02 },
+-	{ 0x4005, 0x18 },
+-	{ 0x4300, 0x32 },
+-	{ 0x4202, 0x00 }
++static const struct cci_reg_sequence ov5645_setting_sxga[] = {
++	{ CCI_REG8(0x3612), 0xa9 },
++	{ CCI_REG8(0x3614), 0x50 },
++	{ CCI_REG8(0x3618), 0x00 },
++	{ CCI_REG8(0x3034), 0x18 },
++	{ CCI_REG8(0x3035), 0x21 },
++	{ CCI_REG8(0x3036), 0x70 },
++	{ CCI_REG8(0x3600), 0x09 },
++	{ CCI_REG8(0x3601), 0x43 },
++	{ CCI_REG8(0x3708), 0x66 },
++	{ CCI_REG8(0x370c), 0xc3 },
++	{ CCI_REG8(0x3800), 0x00 },
++	{ CCI_REG8(0x3801), 0x00 },
++	{ CCI_REG8(0x3802), 0x00 },
++	{ CCI_REG8(0x3803), 0x06 },
++	{ CCI_REG8(0x3804), 0x0a },
++	{ CCI_REG8(0x3805), 0x3f },
++	{ CCI_REG8(0x3806), 0x07 },
++	{ CCI_REG8(0x3807), 0x9d },
++	{ CCI_REG8(0x3808), 0x05 },
++	{ CCI_REG8(0x3809), 0x00 },
++	{ CCI_REG8(0x380a), 0x03 },
++	{ CCI_REG8(0x380b), 0xc0 },
++	{ CCI_REG8(0x380c), 0x07 },
++	{ CCI_REG8(0x380d), 0x68 },
++	{ CCI_REG8(0x380e), 0x03 },
++	{ CCI_REG8(0x380f), 0xd8 },
++	{ CCI_REG8(0x3813), 0x06 },
++	{ CCI_REG8(0x3814), 0x31 },
++	{ CCI_REG8(0x3815), 0x31 },
++	{ CCI_REG8(0x3820), 0x47 },
++	{ CCI_REG8(0x3a02), 0x03 },
++	{ CCI_REG8(0x3a03), 0xd8 },
++	{ CCI_REG8(0x3a08), 0x01 },
++	{ CCI_REG8(0x3a09), 0xf8 },
++	{ CCI_REG8(0x3a0a), 0x01 },
++	{ CCI_REG8(0x3a0b), 0xa4 },
++	{ CCI_REG8(0x3a0e), 0x02 },
++	{ CCI_REG8(0x3a0d), 0x02 },
++	{ CCI_REG8(0x3a14), 0x03 },
++	{ CCI_REG8(0x3a15), 0xd8 },
++	{ CCI_REG8(0x3a18), 0x00 },
++	{ CCI_REG8(0x4004), 0x02 },
++	{ CCI_REG8(0x4005), 0x18 },
++	{ CCI_REG8(0x4300), 0x32 },
++	{ CCI_REG8(0x4202), 0x00 }
+ };
+ 
+-static const struct reg_value ov5645_setting_1080p[] = {
+-	{ 0x3612, 0xab },
+-	{ 0x3614, 0x50 },
+-	{ 0x3618, 0x04 },
+-	{ 0x3034, 0x18 },
+-	{ 0x3035, 0x11 },
+-	{ 0x3036, 0x54 },
+-	{ 0x3600, 0x08 },
+-	{ 0x3601, 0x33 },
+-	{ 0x3708, 0x63 },
+-	{ 0x370c, 0xc0 },
+-	{ 0x3800, 0x01 },
+-	{ 0x3801, 0x50 },
+-	{ 0x3802, 0x01 },
+-	{ 0x3803, 0xb2 },
+-	{ 0x3804, 0x08 },
+-	{ 0x3805, 0xef },
+-	{ 0x3806, 0x05 },
+-	{ 0x3807, 0xf1 },
+-	{ 0x3808, 0x07 },
+-	{ 0x3809, 0x80 },
+-	{ 0x380a, 0x04 },
+-	{ 0x380b, 0x38 },
+-	{ 0x380c, 0x09 },
+-	{ 0x380d, 0xc4 },
+-	{ 0x380e, 0x04 },
+-	{ 0x380f, 0x60 },
+-	{ 0x3813, 0x04 },
+-	{ 0x3814, 0x11 },
+-	{ 0x3815, 0x11 },
+-	{ 0x3820, 0x47 },
+-	{ 0x4514, 0x88 },
+-	{ 0x3a02, 0x04 },
+-	{ 0x3a03, 0x60 },
+-	{ 0x3a08, 0x01 },
+-	{ 0x3a09, 0x50 },
+-	{ 0x3a0a, 0x01 },
+-	{ 0x3a0b, 0x18 },
+-	{ 0x3a0e, 0x03 },
+-	{ 0x3a0d, 0x04 },
+-	{ 0x3a14, 0x04 },
+-	{ 0x3a15, 0x60 },
+-	{ 0x3a18, 0x00 },
+-	{ 0x4004, 0x06 },
+-	{ 0x4005, 0x18 },
+-	{ 0x4300, 0x32 },
+-	{ 0x4202, 0x00 },
+-	{ 0x4837, 0x0b }
++static const struct cci_reg_sequence ov5645_setting_1080p[] = {
++	{ CCI_REG8(0x3612), 0xab },
++	{ CCI_REG8(0x3614), 0x50 },
++	{ CCI_REG8(0x3618), 0x04 },
++	{ CCI_REG8(0x3034), 0x18 },
++	{ CCI_REG8(0x3035), 0x11 },
++	{ CCI_REG8(0x3036), 0x54 },
++	{ CCI_REG8(0x3600), 0x08 },
++	{ CCI_REG8(0x3601), 0x33 },
++	{ CCI_REG8(0x3708), 0x63 },
++	{ CCI_REG8(0x370c), 0xc0 },
++	{ CCI_REG8(0x3800), 0x01 },
++	{ CCI_REG8(0x3801), 0x50 },
++	{ CCI_REG8(0x3802), 0x01 },
++	{ CCI_REG8(0x3803), 0xb2 },
++	{ CCI_REG8(0x3804), 0x08 },
++	{ CCI_REG8(0x3805), 0xef },
++	{ CCI_REG8(0x3806), 0x05 },
++	{ CCI_REG8(0x3807), 0xf1 },
++	{ CCI_REG8(0x3808), 0x07 },
++	{ CCI_REG8(0x3809), 0x80 },
++	{ CCI_REG8(0x380a), 0x04 },
++	{ CCI_REG8(0x380b), 0x38 },
++	{ CCI_REG8(0x380c), 0x09 },
++	{ CCI_REG8(0x380d), 0xc4 },
++	{ CCI_REG8(0x380e), 0x04 },
++	{ CCI_REG8(0x380f), 0x60 },
++	{ CCI_REG8(0x3813), 0x04 },
++	{ CCI_REG8(0x3814), 0x11 },
++	{ CCI_REG8(0x3815), 0x11 },
++	{ CCI_REG8(0x3820), 0x47 },
++	{ CCI_REG8(0x4514), 0x88 },
++	{ CCI_REG8(0x3a02), 0x04 },
++	{ CCI_REG8(0x3a03), 0x60 },
++	{ CCI_REG8(0x3a08), 0x01 },
++	{ CCI_REG8(0x3a09), 0x50 },
++	{ CCI_REG8(0x3a0a), 0x01 },
++	{ CCI_REG8(0x3a0b), 0x18 },
++	{ CCI_REG8(0x3a0e), 0x03 },
++	{ CCI_REG8(0x3a0d), 0x04 },
++	{ CCI_REG8(0x3a14), 0x04 },
++	{ CCI_REG8(0x3a15), 0x60 },
++	{ CCI_REG8(0x3a18), 0x00 },
++	{ CCI_REG8(0x4004), 0x06 },
++	{ CCI_REG8(0x4005), 0x18 },
++	{ CCI_REG8(0x4300), 0x32 },
++	{ CCI_REG8(0x4202), 0x00 },
++	{ CCI_REG8(0x4837), 0x0b }
+ };
+ 
+-static const struct reg_value ov5645_setting_full[] = {
+-	{ 0x3612, 0xab },
+-	{ 0x3614, 0x50 },
+-	{ 0x3618, 0x04 },
+-	{ 0x3034, 0x18 },
+-	{ 0x3035, 0x11 },
+-	{ 0x3036, 0x54 },
+-	{ 0x3600, 0x08 },
+-	{ 0x3601, 0x33 },
+-	{ 0x3708, 0x63 },
+-	{ 0x370c, 0xc0 },
+-	{ 0x3800, 0x00 },
+-	{ 0x3801, 0x00 },
+-	{ 0x3802, 0x00 },
+-	{ 0x3803, 0x00 },
+-	{ 0x3804, 0x0a },
+-	{ 0x3805, 0x3f },
+-	{ 0x3806, 0x07 },
+-	{ 0x3807, 0x9f },
+-	{ 0x3808, 0x0a },
+-	{ 0x3809, 0x20 },
+-	{ 0x380a, 0x07 },
+-	{ 0x380b, 0x98 },
+-	{ 0x380c, 0x0b },
+-	{ 0x380d, 0x1c },
+-	{ 0x380e, 0x07 },
+-	{ 0x380f, 0xb0 },
+-	{ 0x3813, 0x06 },
+-	{ 0x3814, 0x11 },
+-	{ 0x3815, 0x11 },
+-	{ 0x3820, 0x47 },
+-	{ 0x4514, 0x88 },
+-	{ 0x3a02, 0x07 },
+-	{ 0x3a03, 0xb0 },
+-	{ 0x3a08, 0x01 },
+-	{ 0x3a09, 0x27 },
+-	{ 0x3a0a, 0x00 },
+-	{ 0x3a0b, 0xf6 },
+-	{ 0x3a0e, 0x06 },
+-	{ 0x3a0d, 0x08 },
+-	{ 0x3a14, 0x07 },
+-	{ 0x3a15, 0xb0 },
+-	{ 0x3a18, 0x01 },
+-	{ 0x4004, 0x06 },
+-	{ 0x4005, 0x18 },
+-	{ 0x4300, 0x32 },
+-	{ 0x4837, 0x0b },
+-	{ 0x4202, 0x00 }
++static const struct cci_reg_sequence ov5645_setting_full[] = {
++	{ CCI_REG8(0x3612), 0xab },
++	{ CCI_REG8(0x3614), 0x50 },
++	{ CCI_REG8(0x3618), 0x04 },
++	{ CCI_REG8(0x3034), 0x18 },
++	{ CCI_REG8(0x3035), 0x11 },
++	{ CCI_REG8(0x3036), 0x54 },
++	{ CCI_REG8(0x3600), 0x08 },
++	{ CCI_REG8(0x3601), 0x33 },
++	{ CCI_REG8(0x3708), 0x63 },
++	{ CCI_REG8(0x370c), 0xc0 },
++	{ CCI_REG8(0x3800), 0x00 },
++	{ CCI_REG8(0x3801), 0x00 },
++	{ CCI_REG8(0x3802), 0x00 },
++	{ CCI_REG8(0x3803), 0x00 },
++	{ CCI_REG8(0x3804), 0x0a },
++	{ CCI_REG8(0x3805), 0x3f },
++	{ CCI_REG8(0x3806), 0x07 },
++	{ CCI_REG8(0x3807), 0x9f },
++	{ CCI_REG8(0x3808), 0x0a },
++	{ CCI_REG8(0x3809), 0x20 },
++	{ CCI_REG8(0x380a), 0x07 },
++	{ CCI_REG8(0x380b), 0x98 },
++	{ CCI_REG8(0x380c), 0x0b },
++	{ CCI_REG8(0x380d), 0x1c },
++	{ CCI_REG8(0x380e), 0x07 },
++	{ CCI_REG8(0x380f), 0xb0 },
++	{ CCI_REG8(0x3813), 0x06 },
++	{ CCI_REG8(0x3814), 0x11 },
++	{ CCI_REG8(0x3815), 0x11 },
++	{ CCI_REG8(0x3820), 0x47 },
++	{ CCI_REG8(0x4514), 0x88 },
++	{ CCI_REG8(0x3a02), 0x07 },
++	{ CCI_REG8(0x3a03), 0xb0 },
++	{ CCI_REG8(0x3a08), 0x01 },
++	{ CCI_REG8(0x3a09), 0x27 },
++	{ CCI_REG8(0x3a0a), 0x00 },
++	{ CCI_REG8(0x3a0b), 0xf6 },
++	{ CCI_REG8(0x3a0e), 0x06 },
++	{ CCI_REG8(0x3a0d), 0x08 },
++	{ CCI_REG8(0x3a14), 0x07 },
++	{ CCI_REG8(0x3a15), 0xb0 },
++	{ CCI_REG8(0x3a18), 0x01 },
++	{ CCI_REG8(0x4004), 0x06 },
++	{ CCI_REG8(0x4005), 0x18 },
++	{ CCI_REG8(0x4300), 0x32 },
++	{ CCI_REG8(0x4837), 0x0b },
++	{ CCI_REG8(0x4202), 0x00 }
+ };
+ 
+ static const s64 link_freq[] = {
+@@ -534,50 +530,6 @@ static const struct ov5645_mode_info ov5645_mode_info_data[] = {
+ 	},
+ };
+ 
+-static int ov5645_write_reg(struct ov5645 *ov5645, u16 reg, u8 val)
+-{
+-	u8 regbuf[3];
+-	int ret;
+-
+-	regbuf[0] = reg >> 8;
+-	regbuf[1] = reg & 0xff;
+-	regbuf[2] = val;
+-
+-	ret = i2c_master_send(ov5645->i2c_client, regbuf, 3);
+-	if (ret < 0) {
+-		dev_err(ov5645->dev, "%s: write reg error %d: reg=%x, val=%x\n",
+-			__func__, ret, reg, val);
+-		return ret;
+-	}
+-
+-	return 0;
+-}
+-
+-static int ov5645_read_reg(struct ov5645 *ov5645, u16 reg, u8 *val)
+-{
+-	u8 regbuf[2];
+-	int ret;
+-
+-	regbuf[0] = reg >> 8;
+-	regbuf[1] = reg & 0xff;
+-
+-	ret = i2c_master_send(ov5645->i2c_client, regbuf, 2);
+-	if (ret < 0) {
+-		dev_err(ov5645->dev, "%s: write reg error %d: reg=%x\n",
+-			__func__, ret, reg);
+-		return ret;
+-	}
+-
+-	ret = i2c_master_recv(ov5645->i2c_client, val, 1);
+-	if (ret < 0) {
+-		dev_err(ov5645->dev, "%s: read reg error %d: reg=%x\n",
+-			__func__, ret, reg);
+-		return ret;
+-	}
+-
+-	return 0;
+-}
+-
+ static int ov5645_set_aec_mode(struct ov5645 *ov5645, u32 mode)
+ {
+ 	u8 val = ov5645->aec_pk_manual;
+@@ -588,7 +540,7 @@ static int ov5645_set_aec_mode(struct ov5645 *ov5645, u32 mode)
+ 	else /* V4L2_EXPOSURE_MANUAL */
+ 		val |= OV5645_AEC_MANUAL_ENABLE;
+ 
+-	ret = ov5645_write_reg(ov5645, OV5645_AEC_PK_MANUAL, val);
++	ret = cci_write(ov5645->regmap, OV5645_AEC_PK_MANUAL, val, NULL);
+ 	if (!ret)
+ 		ov5645->aec_pk_manual = val;
+ 
+@@ -605,7 +557,7 @@ static int ov5645_set_agc_mode(struct ov5645 *ov5645, u32 enable)
+ 	else
+ 		val |= OV5645_AGC_MANUAL_ENABLE;
+ 
+-	ret = ov5645_write_reg(ov5645, OV5645_AEC_PK_MANUAL, val);
++	ret = cci_write(ov5645->regmap, OV5645_AEC_PK_MANUAL, val, NULL);
+ 	if (!ret)
+ 		ov5645->aec_pk_manual = val;
+ 
+@@ -613,14 +565,15 @@ static int ov5645_set_agc_mode(struct ov5645 *ov5645, u32 enable)
+ }
+ 
+ static int ov5645_set_register_array(struct ov5645 *ov5645,
+-				     const struct reg_value *settings,
++				     const struct cci_reg_sequence *settings,
+ 				     unsigned int num_settings)
+ {
+ 	unsigned int i;
+ 	int ret;
+ 
+ 	for (i = 0; i < num_settings; ++i, ++settings) {
+-		ret = ov5645_write_reg(ov5645, settings->reg, settings->val);
++		ret = cci_write(ov5645->regmap, settings->reg,
++				settings->val, NULL);
+ 		if (ret < 0)
+ 			return ret;
+ 
+@@ -637,7 +590,7 @@ static void __ov5645_set_power_off(struct device *dev)
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct ov5645 *ov5645 = to_ov5645(sd);
+ 
+-	ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
++	cci_write(ov5645->regmap, OV5645_IO_MIPI_CTRL00, 0x58, NULL);
+ 	gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
+ 	gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
+ 	regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
+@@ -701,11 +654,11 @@ static int ov5645_set_saturation(struct ov5645 *ov5645, s32 value)
+ 	u32 reg_value = (value * 0x10) + 0x40;
+ 	int ret;
+ 
+-	ret = ov5645_write_reg(ov5645, OV5645_SDE_SAT_U, reg_value);
++	ret = cci_write(ov5645->regmap, OV5645_SDE_SAT_U, reg_value, NULL);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	return ov5645_write_reg(ov5645, OV5645_SDE_SAT_V, reg_value);
++	return cci_write(ov5645->regmap, OV5645_SDE_SAT_V, reg_value, NULL);
+ }
+ 
+ static int ov5645_set_hflip(struct ov5645 *ov5645, s32 value)
+@@ -718,7 +671,7 @@ static int ov5645_set_hflip(struct ov5645 *ov5645, s32 value)
+ 	else
+ 		val |= (OV5645_SENSOR_MIRROR);
+ 
+-	ret = ov5645_write_reg(ov5645, OV5645_TIMING_TC_REG21, val);
++	ret = cci_write(ov5645->regmap, OV5645_TIMING_TC_REG21, val, NULL);
+ 	if (!ret)
+ 		ov5645->timing_tc_reg21 = val;
+ 
+@@ -735,7 +688,7 @@ static int ov5645_set_vflip(struct ov5645 *ov5645, s32 value)
+ 	else
+ 		val &= ~(OV5645_SENSOR_VFLIP | OV5645_ISP_VFLIP);
+ 
+-	ret = ov5645_write_reg(ov5645, OV5645_TIMING_TC_REG20, val);
++	ret = cci_write(ov5645->regmap, OV5645_TIMING_TC_REG20, val, NULL);
+ 	if (!ret)
+ 		ov5645->timing_tc_reg20 = val;
+ 
+@@ -751,7 +704,8 @@ static int ov5645_set_test_pattern(struct ov5645 *ov5645, s32 value)
+ 		val |= OV5645_TEST_PATTERN_ENABLE;
+ 	}
+ 
+-	return ov5645_write_reg(ov5645, OV5645_PRE_ISP_TEST_SETTING_1, val);
++	return cci_write(ov5645->regmap, OV5645_PRE_ISP_TEST_SETTING_1,
++			 val, NULL);
+ }
+ 
+ static const char * const ov5645_test_pattern_menu[] = {
+@@ -769,7 +723,7 @@ static int ov5645_set_awb(struct ov5645 *ov5645, s32 enable_auto)
+ 	if (!enable_auto)
+ 		val = OV5645_AWB_MANUAL_ENABLE;
+ 
+-	return ov5645_write_reg(ov5645, OV5645_AWB_MANUAL_CONTROL, val);
++	return cci_write(ov5645->regmap, OV5645_AWB_MANUAL_CONTROL, val, NULL);
+ }
+ 
+ static int ov5645_s_ctrl(struct v4l2_ctrl *ctrl)
+@@ -932,9 +886,8 @@ static int ov5645_enable_streams(struct v4l2_subdev *sd,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = ov5645_set_register_array(ov5645,
+-					ov5645->current_mode->data,
+-					ov5645->current_mode->data_size);
++	ret = cci_multi_reg_write(ov5645->regmap, ov5645->current_mode->data,
++				  ov5645->current_mode->data_size, NULL);
+ 	if (ret < 0) {
+ 		dev_err(ov5645->dev, "could not set mode %dx%d\n",
+ 			ov5645->current_mode->width,
+@@ -947,12 +900,12 @@ static int ov5645_enable_streams(struct v4l2_subdev *sd,
+ 		goto err_rpm_put;
+ 	}
+ 
+-	ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
++	ret = cci_write(ov5645->regmap, OV5645_IO_MIPI_CTRL00, 0x45, NULL);
+ 	if (ret < 0)
+ 		goto err_rpm_put;
+ 
+-	ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+-			       OV5645_SYSTEM_CTRL0_START);
++	ret = cci_write(ov5645->regmap, OV5645_SYSTEM_CTRL0,
++			OV5645_SYSTEM_CTRL0_START, NULL);
+ 	if (ret < 0)
+ 		goto err_rpm_put;
+ 
+@@ -970,12 +923,12 @@ static int ov5645_disable_streams(struct v4l2_subdev *sd,
+ 	struct ov5645 *ov5645 = to_ov5645(sd);
+ 	int ret;
+ 
+-	ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
++	ret = cci_write(ov5645->regmap, OV5645_IO_MIPI_CTRL00, 0x40, NULL);
+ 	if (ret < 0)
+ 		goto rpm_put;
+ 
+-	ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+-			       OV5645_SYSTEM_CTRL0_STOP);
++	ret = cci_write(ov5645->regmap, OV5645_SYSTEM_CTRL0,
++			OV5645_SYSTEM_CTRL0_STOP, NULL);
+ 
+ rpm_put:
+ 	pm_runtime_put_autosuspend(ov5645->dev);
+@@ -1011,9 +964,9 @@ static int ov5645_probe(struct i2c_client *client)
+ 	struct device *dev = &client->dev;
+ 	struct device_node *endpoint;
+ 	struct ov5645 *ov5645;
+-	u8 chip_id_high, chip_id_low;
+ 	unsigned int i;
+ 	u32 xclk_freq;
++	u64 chip_id;
+ 	int ret;
+ 
+ 	ov5645 = devm_kzalloc(dev, sizeof(struct ov5645), GFP_KERNEL);
+@@ -1041,6 +994,11 @@ static int ov5645_probe(struct i2c_client *client)
+ 		return dev_err_probe(dev, -EINVAL,
+ 				     "invalid bus type, must be CSI2\n");
+ 
++	ov5645->regmap = devm_cci_regmap_init_i2c(client, 16);
++	if (IS_ERR(ov5645->regmap))
++		return dev_err_probe(ov5645->dev, PTR_ERR(ov5645->regmap),
++				     "Failed to init CCI\n");
++
+ 	/* get system clock (xclk) */
+ 	ov5645->xclk = devm_v4l2_sensor_clk_get_legacy(dev, NULL, false, 0);
+ 	if (IS_ERR(ov5645->xclk))
+@@ -1127,39 +1085,38 @@ static int ov5645_probe(struct i2c_client *client)
+ 	if (ret)
+ 		goto free_entity;
+ 
+-	ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_HIGH, &chip_id_high);
+-	if (ret < 0 || chip_id_high != OV5645_CHIP_ID_HIGH_BYTE) {
+-		ret = -ENODEV;
+-		dev_err_probe(dev, ret, "could not read ID high\n");
++	ret = cci_read(ov5645->regmap, OV5645_CHIP_ID, &chip_id, NULL);
++	if (ret < 0) {
++		dev_err_probe(dev, ret, "could not read chip ID\n");
+ 		goto power_down;
+ 	}
+-	ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_LOW, &chip_id_low);
+-	if (ret < 0 || chip_id_low != OV5645_CHIP_ID_LOW_BYTE) {
+-		ret = -ENODEV;
+-		dev_err_probe(dev, ret, "could not read ID low\n");
++
++	if (chip_id != OV5645_CHIP_ID_VALUE) {
++		ret = dev_err_probe(dev, -ENODEV,
++				    "Unexpected sensor ID %06llx\n", chip_id);
+ 		goto power_down;
+ 	}
+ 
+ 	dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
+ 
+-	ret = ov5645_read_reg(ov5645, OV5645_AEC_PK_MANUAL,
+-			      &ov5645->aec_pk_manual);
++	ret = cci_read(ov5645->regmap, OV5645_AEC_PK_MANUAL,
++		       &ov5645->aec_pk_manual, NULL);
+ 	if (ret < 0) {
+ 		ret = -ENODEV;
+ 		dev_err_probe(dev, ret, "could not read AEC/AGC mode\n");
+ 		goto power_down;
+ 	}
+ 
+-	ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG20,
+-			      &ov5645->timing_tc_reg20);
++	ret = cci_read(ov5645->regmap, OV5645_TIMING_TC_REG20,
++		       &ov5645->timing_tc_reg20, NULL);
+ 	if (ret < 0) {
+ 		ret = -ENODEV;
+ 		dev_err_probe(dev, ret, "could not read vflip value\n");
+ 		goto power_down;
+ 	}
+ 
+-	ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG21,
+-			      &ov5645->timing_tc_reg21);
++	ret = cci_read(ov5645->regmap, OV5645_TIMING_TC_REG21,
++		       &ov5645->timing_tc_reg21, NULL);
+ 	if (ret < 0) {
+ 		ret = -ENODEV;
+ 		dev_err_probe(dev, ret, "could not read hflip value\n");
+-- 
+2.53.0
 
 
