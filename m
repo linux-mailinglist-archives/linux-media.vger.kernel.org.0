@@ -1,111 +1,111 @@
-Return-Path: <linux-media+bounces-57678-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57679-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SF31MmnIymmL/wUAu9opvQ
-	(envelope-from <linux-media+bounces-57678-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 21:00:57 +0200
+	id eAwpG3jJymmL/wUAu9opvQ
+	(envelope-from <linux-media+bounces-57679-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 21:05:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E6936012A
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 21:00:57 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD16D360230
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 21:05:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0D0BB3028022
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 19:00:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8D617303D2CA
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 19:04:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39B483845B7;
-	Mon, 30 Mar 2026 19:00:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF6C93DEADF;
+	Mon, 30 Mar 2026 19:04:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQRQhlFS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XI7rapO2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46CFD2FDC57
-	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 19:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55483803DD
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 19:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774897241; cv=pass; b=sSvhsxR1Nq1QFPVsAmb3CZavmhL1gvgUMVf6ReMm7F41nRFrNsDBLMkOxvDLdHOECVJ88yAZ9oH+f8YSOhyydxSkm/p3a/8r3IwPw3sOJRxwQWhC24teaEgCDVVi8CalHbqdKrBDtosBmm1IiMP5F3ithpW+r9BJiT4cj3vSa7o=
+	t=1774897480; cv=pass; b=NSnt1iCuIgcIkafjNntxgXl2fFStyMMo176EtdSfPGlJSFaoZ1r8x/yQkamHMAupV8M4H1suRdsSRzA7F5z5uxik7fOFrM8jokCGTYDQ5lwOXNOHqfkeoRF9QdfYqpak+IC0jfnHQMubs52dJ80NaXVfCfYNrx1I7A47hcaYin4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774897241; c=relaxed/simple;
-	bh=/1a/Vym2tzO34i8VgAE5TaLD6B98XEwxMTX5gf/jI/4=;
+	s=arc-20240116; t=1774897480; c=relaxed/simple;
+	bh=4X2EbVAT7EHTVuEIVrm0cYJ8D44Gpf/OKg+Djobjzy4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Erfz7IgBIm7NfVMIrf1eQPzRUO+thhYmmjQDYbBTjM2zmZuFQUMdIVS6T/5e06wTNmYwOdMOOWe5YCDuBUQlH3K4Vfcmn1vI3nBh7RVHBRrZgTF7ukwA8nXZ+zVEmk24Z0eqWe4E7tOzp2UgBL5XKW/UHe6WikTX0yNYgtjb84U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bQRQhlFS; arc=pass smtp.client-ip=209.85.221.44
+	 To:Cc:Content-Type; b=o8USxDZ3bPYGLjZlJqrGv5amaMts4+DaZZulguU94p0wj4HQJi8qMrPUz/Kpxvkgts9d0CMH4ckAwjCQTCcZW+eIm4B99dUeP4SK97svkJkKJSBEZpCE58zDbIuAPlzdAnbch+cohGKzwWKu1Qzz08OsAwK5v4PKxDhqSVH5kNw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XI7rapO2; arc=pass smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43ccda008cdso1647004f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 12:00:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774897239; cv=none;
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43cfd1f9fd1so945106f8f.3
+        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 12:04:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774897477; cv=none;
         d=google.com; s=arc-20240605;
-        b=Ix7E28ApO0GfZTv24ISgiCnasfKY/72C3xMQ7WEpqHmdzuc+cqLjUWYwdOe8tDjk3m
-         yZbMr7uaVPwS3QyrrqGqsQfUP98lfw2/39/IV2atDLg96WgyW1bJWKSPh0goe3irLN5Q
-         HoazeEO3Lec7ZOD9MbEMEH4InZyjsLgYVs1WZQ4xPVmSgTjpOSsDLEBnzgrFakLURyQ9
-         z9CCCKTQOgr3w44Ph5V2JbPK5g36jDm9d5zIGPInY2z71mAyh9W0AXtDpxp3eod5nPw9
-         FbagYNhYHBFzi/WZpKkV27vhP1u5NM313DCuqCEmHKyUwwkwsqQTshMNqqrp8qneim4n
-         afmw==
+        b=G6dIrpkcHxHDGRd3GvmNewvgGL14olYge3IneTXmmmeOrOwlbUhlEWOI20RodrpNS4
+         wLxzKNmLF8hoUt7HlyM9ocEfml0ZL/MMvcyCuFpERbus65aCn3T4CLd8HdCNI4vLop2+
+         sOCBArMTqWoV1d9D4BozHNaX0YmdRzo0U/sS9CX4kZO+GgBtKvPb52O5/gv0SeLxfnA6
+         3YCiUlxFhTy6EIqyPHHQmtboX3v0dMXvAaTvk33oi4I/L7nxavyu4h5FgzDZveRBs8Os
+         1i7GWTED7I5g5uThGhPWuQ8jUWAhTbL6e9EVXlQN/QsUh2BX89PxzZXITzCfCPAu7dqs
+         OM2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=DcMtOPAV9FeYIT3myEoFvRsaiivdNMjF8D6jD2I3n4A=;
-        fh=+8ewObBpP2teED8QiJyAvHq3ijybvxed2Aarn03lwBI=;
-        b=KO2cyQgyTOa/CBy26j3iWCxpTv6zyDWPZMSH79YiOeUG4KT7aStuIsaoEpUJmgkzbY
-         Ln+M5/1CJ70UVNfYrFfk+DrxRHSqidUZ/lyL9iiSzH2yF0iqFtFsxebokQqJwclly6tU
-         8C0I24p332/qM0Z2H8qWVQWrNZDx+Riqu2zpddPJIs0gjsDvIghKuqJKIVMStNHArPSl
-         IWvPi82cSH2ffiqDtxFFZYPc7BrBw4WL8wnTV6636UcpDx9ftT6BkKhvxkw1pfIVUwZO
-         7b5Xx3dzVO/IWtMU17aHjmI9dlpcOwF7pTP9Xdt+9GBuVt/0RXXc7o5Vm/kSCU6KRSoQ
-         KfJQ==;
+        bh=kIcuoAut0F4hc99EXY5lY68qKsI/zHcZxryOaERC9kw=;
+        fh=AY0CSvu1SfDlWS8nE+3Mghp2tsZYffCU7iYhSiE0pYI=;
+        b=OtBcp7ed7khTL4NEsoumkSNgZOFExIdCsUEXE1JXClqiAV+iZX87xZHqjaJ0OWdPju
+         v6SVOR7Yk4xw4pX5/xhSJuPtkKNOXk63UwIsXGzRkpDNhvwgn04AvWYp2o3httikERa1
+         zIDLh52Oda8wdz0m3sdNVL8C0c5IlWcorP1+/gE2ccmH6Ssg+/srAmwIJerYCN8n2zX3
+         B0ZHBJFxw0Rkl6l2bDU23thuY2JCXG2V9Onx+D4piz/N2711ejRWZZNlUyY7xoHlKZeT
+         2abUNyVA5ziSyRBNLieguLCOqQSk8MXx0Kos0Kie1TQReGjSYV7FvZLgM+1F7+nJCXGY
+         zWKg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774897239; x=1775502039; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774897477; x=1775502277; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DcMtOPAV9FeYIT3myEoFvRsaiivdNMjF8D6jD2I3n4A=;
-        b=bQRQhlFSOALo/7egHA8s1PWk3ouCtWO/Ychl0zag4gfY8Pc7Pz4HM7XOiszYjC3bnZ
-         JgU1WbB71vEvBv4UAxc6eivTXQf7PQ8S9ZgVWSlPLwzQUGXvU8iSogkNL6AzJ0WDHdzu
-         EHLmtfAzHGNpPA4QRAxI7s1AyCYE0IFwvtm8mxYVdcphe0e20ydWUOydUwNzCjvWDxSY
-         xLUnwPs9o6nS6P37mWQ7DqHKSEr7r4vNErbEXEYKSPgK0xxlJpY6grfqtH1JzwauX1pV
-         kVu/dH5yVkD4iCRzPA+NUfTMhN/b1Nf1hE2Ju5CzS4A/QZUg10hqjvZSDZkgWARW5wEX
-         sh5w==
+        bh=kIcuoAut0F4hc99EXY5lY68qKsI/zHcZxryOaERC9kw=;
+        b=XI7rapO2ecvSLGpJqDHxNgy980y+Q1s391jnswr2L6x/csF6XYumj0caxnQ4yr5bev
+         Rli9ZVWRM90g+d4/7/rJJ6e/PZwlXczxti4/wZhsNSvOC4QSEKOeK9Niw5zisRIHSZ9W
+         g+uN100xrN7WFSexe3A01n9/UlT7hSICPpsLqHuJAhWmbFaucPP9X+cy/RpAtF+wB4Rf
+         PDt01Oly+cRqQjDSdZ2Gck5gePKu1r+s2q3bkul55/1i/BVhCgYe+ZutwaDCG1EA32OC
+         THBF35ko9Y1KaJELsVOUxgUtgUr1Vwy7SPfwLghRi7n4usjmKC9Q/G1t5mh5+J/pbs4X
+         KDyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774897239; x=1775502039;
+        d=1e100.net; s=20251104; t=1774897477; x=1775502277;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DcMtOPAV9FeYIT3myEoFvRsaiivdNMjF8D6jD2I3n4A=;
-        b=R9CJEwONyDhanA/5dpZsM1p++lBDw86DLpo45nl0ccwD+5s3sgSFdGcSbzae9D+LT5
-         G83ZMZnnIx484jxZdd5D//mhp4llJiucVP7KMHGmH+Km1c3Jn/hmU4+ESE661Utbtl4g
-         gOpeN1F7oc80kIYh99zSNbG5M9J2yGb+rpD3aR59ti4WfNWaGf/nWcnC9dHj/owXiVSY
-         ec2+OthYSJv8QhZJIgQAlkIfXIG5vKfGCKPj+3638UsKdDSNCU+MmM7OlThTfeGKLOyA
-         +AwZV0HmRu1VKMD1bYwYHjQ4Q/5bhIJgVRPwQHm0kO3JV+xcmNAMHIJ2bz5VJmCSsvb0
-         Udaw==
-X-Forwarded-Encrypted: i=1; AJvYcCWwDpi9/8ZxQHrGCQe0xYTSebmwpaYqDIJbQLOv+C3hzaEXXnVv7soCWcGbVbHKs9uMlGSXT/a8ekDvAg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhKbVkRAfK6nCCxGJ6I9sulCKnkZhFNW+yaNSqCBKvoHl0+Bb1
-	AfJOW0isr75zqFXwTiV5702D8v7oFSw0yPYAESv2VcaJOpmdlE4NlbyaSNFEKLNEnsfwzbTcCTd
-	QuPO8irSU29+PxVhw3YXM8eu/ciI0wZw=
-X-Gm-Gg: ATEYQzyEI/tu8yiU+k2R3x3ooMelU/l/BJuiSXoTlZKbQSxiwbJgf9zuPcVR0kKCDit
-	6+2BHHn4CPVLiCMI6XnVWWndWYkzTVy7UKN+0gNeCXVThyPNPYzbV2c614Jdy4+RXRn8MYMnBXD
-	kNx5VOOFWYF1cQNx6CAvMlyVWc0U72Szqk0eqLNlIBR/AgaJS6e/cZEMBD77+kt0CGzSRk5R4DU
-	Sfx4alYyXn6cY+zktUod2xea/FegsvkErvQOrw1E9f3iOzToYKvrMUHpQxkW2o1dbTswydDoX5F
-	Zq8wCT4uZgKzpQ6b87j4NLQqS9ApyX7N3R5NNI4oQXISg9BJH91MIos4/ZDypEGCR/0mZg==
-X-Received: by 2002:a05:6000:2d0e:b0:43b:4461:7adc with SMTP id
- ffacd0b85a97d-43d0820bb7emr826363f8f.20.1774897238454; Mon, 30 Mar 2026
- 12:00:38 -0700 (PDT)
+        bh=kIcuoAut0F4hc99EXY5lY68qKsI/zHcZxryOaERC9kw=;
+        b=i0CCUYKZcz8Y+HNV2+TARAiPa7aSKnb2Tz7PgHPWEh/5Xale29GSsuM96lMvbn3KH+
+         Xs5PPJBPfRSxNriCnTXtuWD5eSYxUTGBVrE+raLd3kLzw7S7RgjcqNHKaOy55d0ozkm2
+         7NxI1KpOy3ONDaSm68noKZkUz/00n/Ck6k+Wek60oc8hjwjyhtcngK/rRRF6NmKIF8v6
+         pVaHAbCJ/Xw/UC0STzEbMOZVr63L9w0cK+gW0X7DpPni0EOJBEUnUnbLwG5mwztA+4BS
+         DtJpAeqwYcfUgOsMzNU5NvwK5JTq7k23x9frvqUjR15hZ3IwztPgP5G0DUDPNGG0uczX
+         MGdg==
+X-Forwarded-Encrypted: i=1; AJvYcCX5Y1M5vn1HLqzRh8jlzH/TwNaOdOjYKAoXYLe5ap8Ki98Y4+hg5B8lnMiNRx8yvRLbSG/YXcAPiYwYeg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+GVA+QS2zixSy643dCfNl+t7ooliT1xVMQKf+cD/FdZ/aPmqq
+	+9vzZLdl6nmNXGPhjd+cmEGI27CsINI9EbdzSGkhs1a+k+RHNhkHNwX7+5UwrJabcT9YGt4MnyU
+	hgVxT2nChvf3JTNmI7VHCrZg8A0s3/Sw=
+X-Gm-Gg: ATEYQzwcxC4MIhVnRnWSrNVml8uwU+aHfa9pzqtO3mtqah5oIxCZexfJR2Rh2LFlfYI
+	dKsvSvbhsTUNyyYRf2Z3ffTihOF6CTfog1UvkteDNjBSSwm/rQgvsfkXTIwhy96ok9q3uKglGJA
+	cHGeu6b8VFVicVFo0aefrP/iKh089E4RzyYxQdzGyPU7RPkQ+1Lh5/WyLwcpTuccCRwURCU0nx1
+	cIVW8Ah2xFSA6ksH7+0i29AM4gtHwCP3N98zRihVn+uFxBJw/juFgpqTXQOzPCbPSDuaShbPevY
+	FjpUFv8sMne6EJ9pzo1/2IXTCkg5RDiLcWkSV0Y6J9/ML0M74DGIL+45WujB3aioqHomPg==
+X-Received: by 2002:a05:6000:2887:b0:43c:ff58:35d2 with SMTP id
+ ffacd0b85a97d-43cff583697mr8817861f8f.2.1774897477006; Mon, 30 Mar 2026
+ 12:04:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260327-b4-cru-rework-v1-0-3b7d0430f538@ideasonboard.com> <20260327-b4-cru-rework-v1-4-3b7d0430f538@ideasonboard.com>
-In-Reply-To: <20260327-b4-cru-rework-v1-4-3b7d0430f538@ideasonboard.com>
+References: <20260327-b4-cru-rework-v1-0-3b7d0430f538@ideasonboard.com> <20260327-b4-cru-rework-v1-5-3b7d0430f538@ideasonboard.com>
+In-Reply-To: <20260327-b4-cru-rework-v1-5-3b7d0430f538@ideasonboard.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 30 Mar 2026 20:00:12 +0100
-X-Gm-Features: AQROBzAHDaRh4nsyPlc3FMB3H2GoHtOpuw5BWJfgQHeBuZkJMl7B5_uEi8IBO_w
-Message-ID: <CA+V-a8vCvRnQda+u=bapou7taXNCEBtkvq2Dq+m2yy51c+=Xag@mail.gmail.com>
-Subject: Re: [PATCH 04/14] media: rzg2l-cru: Use proper guard() in irq handler
+Date: Mon, 30 Mar 2026 20:04:11 +0100
+X-Gm-Features: AQROBzAooKv3Byp8mfHZWmLsi0JkywShFUsGkTMe4bamTCOX00qjMabfVWFNUeE
+Message-ID: <CA+V-a8tYZ0BrSTLPzaVenVKd0JodHbmR9FxF71C9yr=v3dv7bg@mail.gmail.com>
+Subject: Re: [PATCH 05/14] media: rzg2l-cru: Remove locking from start/stop routines
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
 	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
@@ -123,12 +123,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57678-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57679-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
@@ -143,29 +143,35 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,ideasonboard.com:email,renesas.com:email]
-X-Rspamd-Queue-Id: 30E6936012A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email,renesas.com:email,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: DD16D360230
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 27, 2026 at 5:19=E2=80=AFPM Jacopo Mondi
+On Fri, Mar 27, 2026 at 5:20=E2=80=AFPM Jacopo Mondi
 <jacopo.mondi@ideasonboard.com> wrote:
 >
 > From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 >
-> The irq handler uses a scoped_guard() that covers the whole function
-> body.
+> The start/stop streaming routines do not need to lock the whole function
+> body against possible concurrent accesses to the CRU buffers or hardware
+> registers.
 >
-> Replace it with a more appropriate guard() and reduce the indentation.
+> The stop function starts by disabling interrupts, and only this portion
+> needs to be protected not to race against a possible IRQ.
+>
+> Once interrupts are disabled, nothing in the video device driver can race
+> and once the peripheral has been disabled we can release all pending
+> buffers.
 >
 > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 > ---
->  .../media/platform/renesas/rzg2l-cru/rzg2l-video.c | 104 ++++++++++-----=
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 18 +++++-------=
 ------
->  1 file changed, 52 insertions(+), 52 deletions(-)
+>  1 file changed, 5 insertions(+), 13 deletions(-)
 >
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
@@ -174,140 +180,59 @@ Prabhakar
 
 > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/dri=
 vers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index 2d7ac9f37291..b041c72837c6 100644
+> index b041c72837c6..43b1d35fb963 100644
 > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
 > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -671,70 +671,70 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
->         u32 irq_status;
->         int slot;
+> @@ -341,23 +341,19 @@ bool rzg2l_fifo_empty(struct rzg2l_cru_dev *cru)
+>  void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
+>  {
+>         unsigned int retries =3D 0;
+> -       unsigned long flags;
+>         u32 icnms;
 >
-> -       scoped_guard(spinlock, &cru->qlock) {
-> -               irq_status =3D rzg2l_cru_read(cru, CRUnINTS2);
-> -               if (!irq_status)
-> -                       return IRQ_NONE;
-> +       guard(spinlock)(&cru->qlock);
->
-> -               dev_dbg(cru->dev, "CRUnINTS2 0x%x\n", irq_status);
-> +       irq_status =3D rzg2l_cru_read(cru, CRUnINTS2);
-> +       if (!irq_status)
-> +               return IRQ_NONE;
->
-> -               rzg2l_cru_write(cru, CRUnINTS2, rzg2l_cru_read(cru, CRUnI=
-NTS2));
-> +       dev_dbg(cru->dev, "CRUnINTS2 0x%x\n", irq_status);
->
-> -               /* Nothing to do if capture status is 'RZG2L_CRU_DMA_STOP=
-PED' */
-> -               if (cru->state =3D=3D RZG2L_CRU_DMA_STOPPED) {
-> -                       dev_dbg(cru->dev, "IRQ while state stopped\n");
-> -                       return IRQ_HANDLED;
-> -               }
-> +       rzg2l_cru_write(cru, CRUnINTS2, rzg2l_cru_read(cru, CRUnINTS2));
->
-> -               if (cru->state =3D=3D RZG2L_CRU_DMA_STOPPING) {
-> -                       if (irq_status & CRUnINTS2_FExS(0) ||
-> -                           irq_status & CRUnINTS2_FExS(1) ||
-> -                           irq_status & CRUnINTS2_FExS(2) ||
-> -                           irq_status & CRUnINTS2_FExS(3))
-> -                               dev_dbg(cru->dev, "IRQ while state stoppi=
-ng\n");
-> -                       return IRQ_HANDLED;
-> -               }
-> +       /* Nothing to do if capture status is 'RZG2L_CRU_DMA_STOPPED' */
-> +       if (cru->state =3D=3D RZG2L_CRU_DMA_STOPPED) {
-> +               dev_dbg(cru->dev, "IRQ while state stopped\n");
-> +               return IRQ_HANDLED;
-> +       }
->
-> -               slot =3D rzg3e_cru_get_current_slot(cru);
-> -               if (slot < 0)
-> -                       return IRQ_HANDLED;
-> +       if (cru->state =3D=3D RZG2L_CRU_DMA_STOPPING) {
-> +               if (irq_status & CRUnINTS2_FExS(0) ||
-> +                   irq_status & CRUnINTS2_FExS(1) ||
-> +                   irq_status & CRUnINTS2_FExS(2) ||
-> +                   irq_status & CRUnINTS2_FExS(3))
-> +                       dev_dbg(cru->dev, "IRQ while state stopping\n");
-> +               return IRQ_HANDLED;
-> +       }
->
-> -               dev_dbg(cru->dev, "Current written slot: %d\n", slot);
-> -               cru->buf_addr[slot] =3D 0;
+> -       spin_lock_irqsave(&cru->qlock, flags);
 > -
-> -               /*
-> -                * To hand buffers back in a known order to userspace sta=
-rt
-> -                * to capture first from slot 0.
-> -                */
-> -               if (cru->state =3D=3D RZG2L_CRU_DMA_STARTING) {
-> -                       if (slot !=3D 0) {
-> -                               dev_dbg(cru->dev, "Starting sync slot: %d=
-\n", slot);
-> -                               return IRQ_HANDLED;
-> -                       }
-> -                       dev_dbg(cru->dev, "Capture start synced!\n");
-> -                       cru->state =3D RZG2L_CRU_DMA_RUNNING;
-> -               }
-> +       slot =3D rzg3e_cru_get_current_slot(cru);
-> +       if (slot < 0)
-> +               return IRQ_HANDLED;
->
-> -               /* Capture frame */
-> -               if (cru->queue_buf[slot]) {
-> -                       struct vb2_v4l2_buffer *buf =3D cru->queue_buf[sl=
-ot];
-> -
-> -                       buf->field =3D cru->format.field;
-> -                       buf->sequence =3D cru->sequence;
-> -                       buf->vb2_buf.timestamp =3D ktime_get_ns();
-> -                       vb2_buffer_done(&buf->vb2_buf, VB2_BUF_STATE_DONE=
-);
-> -                       cru->queue_buf[slot] =3D NULL;
-> -               } else {
-> -                       /* Scratch buffer was used, dropping frame. */
-> -                       dev_dbg(cru->dev, "Dropping frame %u\n", cru->seq=
-uence);
-> +       dev_dbg(cru->dev, "Current written slot: %d\n", slot);
-> +       cru->buf_addr[slot] =3D 0;
-> +
-> +       /*
-> +        * To hand buffers back in a known order to userspace start
-> +        * to capture first from slot 0.
-> +        */
-> +       if (cru->state =3D=3D RZG2L_CRU_DMA_STARTING) {
-> +               if (slot !=3D 0) {
-> +                       dev_dbg(cru->dev, "Starting sync slot: %d\n", slo=
-t);
-> +                       return IRQ_HANDLED;
->                 }
-> +               dev_dbg(cru->dev, "Capture start synced!\n");
-> +               cru->state =3D RZG2L_CRU_DMA_RUNNING;
+> -       /* Disable and clear the interrupt */
+> -       cru->info->disable_interrupts(cru);
+> +       scoped_guard(spinlock_irq, &cru->qlock) {
+> +               /* Disable and clear the interrupt */
+> +               cru->info->disable_interrupts(cru);
 > +       }
 >
-> -               cru->sequence++;
-> +       /* Capture frame */
-> +       if (cru->queue_buf[slot]) {
-> +               struct vb2_v4l2_buffer *buf =3D cru->queue_buf[slot];
+>         /* Stop the operation of image conversion */
+>         rzg2l_cru_write(cru, ICnEN, 0);
 >
-> -               /* Prepare for next frame */
-> -               rzg2l_cru_fill_hw_slot(cru, slot);
-> +               buf->field =3D cru->format.field;
-> +               buf->sequence =3D cru->sequence;
-> +               buf->vb2_buf.timestamp =3D ktime_get_ns();
-> +               vb2_buffer_done(&buf->vb2_buf, VB2_BUF_STATE_DONE);
-> +               cru->queue_buf[slot] =3D NULL;
-> +       } else {
-> +               /* Scratch buffer was used, dropping frame. */
-> +               dev_dbg(cru->dev, "Dropping frame %u\n", cru->sequence);
->         }
+>         /* Wait for streaming to stop */
+> -       while ((rzg2l_cru_read(cru, ICnMS) & ICnMS_IA) && retries++ < RZG=
+2L_RETRIES) {
+> -               spin_unlock_irqrestore(&cru->qlock, flags);
+> +       while ((rzg2l_cru_read(cru, ICnMS) & ICnMS_IA) && retries++ < RZG=
+2L_RETRIES)
+>                 msleep(RZG2L_TIMEOUT_MS);
+> -               spin_lock_irqsave(&cru->qlock, flags);
+> -       }
 >
-> +       cru->sequence++;
-> +
-> +       /* Prepare for next frame */
-> +       rzg2l_cru_fill_hw_slot(cru, slot);
-> +
->         return IRQ_HANDLED;
+>         icnms =3D rzg2l_cru_read(cru, ICnMS) & ICnMS_IA;
+>         if (icnms)
+> @@ -401,8 +397,6 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru=
+_dev *cru)
+>
+>         /* Resets the image processing module */
+>         rzg2l_cru_write(cru, CRUnRST, 0);
+> -
+> -       spin_unlock_irqrestore(&cru->qlock, flags);
 >  }
+>
+>  static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
+> @@ -470,8 +464,6 @@ int rzg2l_cru_start_image_processing(struct rzg2l_cru=
+_dev *cru)
+>         csi_vc =3D ret;
+>         cru->svc_channel =3D csi_vc;
+>
+> -       guard(spinlock_irqsave)(&cru->qlock);
+> -
+>         /* Select a video input */
+>         rzg2l_cru_write(cru, CRUnCTRL, CRUnCTRL_VINSEL(0));
 >
 >
 > --
