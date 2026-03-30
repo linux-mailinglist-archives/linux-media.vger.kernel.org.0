@@ -1,258 +1,276 @@
-Return-Path: <linux-media+bounces-57614-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57615-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iAzeMsdyymnG8gUAu9opvQ
-	(envelope-from <linux-media+bounces-57614-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 14:55:35 +0200
+	id p4vlNix2ymnZ9AUAu9opvQ
+	(envelope-from <linux-media+bounces-57615-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 15:10:04 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C81235B5AE
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 14:55:35 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9429E35BAB1
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 15:10:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C02DD3044653
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 12:51:48 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3887B303A093
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 13:06:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F0863D1CB3;
-	Mon, 30 Mar 2026 12:51:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4356E3D34AC;
+	Mon, 30 Mar 2026 13:06:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="lyd1qaKz"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZTQeaf/b";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YhDjsbje"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566013D170D
-	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 12:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A0D2AF1D
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 13:06:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774875103; cv=none; b=diY6G+VNw5dIqNZ2YWwcfqgMY6HEfRtZG6n6iURIPELsukZPyJ1CXSEZVqTA8iKTGGUSRwT/HYpt10g49Duk4if23k095NgcyQOFXUPCM7LFgewytRSnbRi8mXaO3dQaEKMeq2FCXGl91XR1AWS6B1t8vu33k1tyGWPXyeyZLaI=
+	t=1774875998; cv=none; b=ghlfxL7ldFXjmOQtsLGDr8mvBzCGTtAibBJpCtIjWttTiolEapdYkmY3nzfyABETM3bBvUSnU1XbSguKtCFm/hSvtfkArFg73/DKFGC3RXDmkvz2Md8/tS+r64TYPblBdVofBB231GgarMzeACI0tusm7ACxJ34xrX7dbJKQfZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774875103; c=relaxed/simple;
-	bh=sjvMh4iAUGDdNV/3wW/wwHB7EEp8dN9PC7EVlZyMnjM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=XT7tNTPKf1FwcuREpawi9V99tvpf2kaWMcQzxy+PfXKPObnMIWTGJKjQzAoi2sG1NOSPOZOOsATOuEno5M00q6sVVDyMMNER9/ALBtN0ek/+VDkDeSxDaF4aucpjpZ3gxrSpAfBNa2wO68G/8brKkGekU966TncCmgA4T8QHDp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=lyd1qaKz; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20260330125138euoutp0250ebe7c3393b2540338b8635185548ff~hn3_XtZ4N3101431014euoutp02C
-	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 12:51:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20260330125138euoutp0250ebe7c3393b2540338b8635185548ff~hn3_XtZ4N3101431014euoutp02C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1774875098;
-	bh=/K0BfatLUGOzJ2a4upShRyXd92Gck0knBszJjH43XM0=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=lyd1qaKzKOMZ/N8MPCsQmF5PntlcAwPgetCoeDe4ySx4mig0uYBXch9XggXmrVUzr
-	 /p05+mew8GhkRI8a9hzvHj3w0AnDpcZM/Wxis75yKmkrr+Z02UZq2MMZZ1XICvd8F9
-	 HpbWNeR7q5o6aznWI0alIbd+N/qLrjWo7Z7DLoVI=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20260330125136eucas1p20d38cd3f5c4c3772aeef5b7d2f2b8906~hn381TBya2647926479eucas1p2y;
-	Mon, 30 Mar 2026 12:51:36 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260330125135eusmtip2d7715ffa0968cdc67f37ae3c3026faac~hn37iwEWw2261922619eusmtip2d;
-	Mon, 30 Mar 2026 12:51:35 +0000 (GMT)
-Message-ID: <ac7fa9bc-e966-4337-ae54-7bb6d8bd6e5a@samsung.com>
-Date: Mon, 30 Mar 2026 14:51:34 +0200
+	s=arc-20240116; t=1774875998; c=relaxed/simple;
+	bh=hnJBIkRTxb/pEx74u11pPM/34htrB6sS8kh15oW/cOk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OvPxXKj8zEydamFZOtVHoOQqWfsGFFCTeLO9zxCDMvble7+dWI2+bsGGNanewkV8DaFYr1k2JlAiaCYKIWDSmkWjWsNRFEJtHqdUZlj6/EDRJEZMYEMuSWzZvRYffcYDvjUDqO7eZe3U7DpMTzky7ZQEnC2QhZ69WgEj8TUlom8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZTQeaf/b; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YhDjsbje; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62UAGexs3174192
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 13:06:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/IOBEa7GFyVDrfJ8sYt5+s+/t7ENB46SJEYFrDxrvCM=; b=ZTQeaf/bytoCSzFg
+	EDH8gepEfMTHNA3ea5/l/Z00vj10jB0GWj/hak8WZ2+LJeykTE127InAgZiMx8GO
+	XzS+nfcvuaPOcQSDV/SozA0cdn7P0iTCyazjW3u+in77R91Vp1YhT0ur9yrYylGA
+	xTtTJH2szq98RqFxdWwzcUbh5AdSzfj6Oh2WLltinAPul7VqEGoEu9DTevdoSnzU
+	G7Nu0ewwB0ISQNtX33XcF9XfT8fOiKcE3hVaBq5iYhS0xATgA6sbe5cZvXmLyTAL
+	k10JtG8qp5qG3CD+Cbo58BxEgqrev9YdFl1OYWZEo+XALFovMpnZlEif36TQeUYG
+	zyjM3A==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d7q9h0m8b-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 13:06:36 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2b242cbb97aso19531395ad.1
+        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 06:06:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1774875995; x=1775480795; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/IOBEa7GFyVDrfJ8sYt5+s+/t7ENB46SJEYFrDxrvCM=;
+        b=YhDjsbjezdf3fxam6BiBLP++RxXrsTzOmepg+0XLIXdPd7ELztaTZcdshqvrmTU9Sg
+         iwXWuRwTpbRdiyw92dyKW6B4bZmHLQYrM5Pn+WQuzLP5HVIFHzdumRwxrOzJBM8nKTzr
+         yZk+T3e0MAOukxogwC5Hu9T6Ub3fuC6AT0rPDd+cJ1FnNV5EQOpW9Vu9KDi6CXyFepbE
+         MQZDhRcqynRYoAo/+85pIATD/dvDTgI4kjiN1Xw2qNn/K1qF+hz5nUx5UhJ065MDPSjC
+         LCcMcdUrGIYwEGkkSCKcZTs0yrgD6ayV0gmXwsJ9WJ/8ScSuEyhTA64MZRVCYFoEPZGN
+         GcGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774875995; x=1775480795;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/IOBEa7GFyVDrfJ8sYt5+s+/t7ENB46SJEYFrDxrvCM=;
+        b=jSr0rkJc5g8q9kWOYIBtdn0YMhrqiwtdBW3utccdEj3XK8lMBBVkFg972R3jrz9Rrr
+         RGWfkw84HvwhVAc06AIDHslhgXmFwkuQGcSWva6SHHWUgNcQPlCC8xRRRAcQFrX+/6k0
+         1DAZifGNuhd/LERZ3Pfd/vbCj2zOZMFKSt/+KjM5R0BpdD2kINOCJuEuhiyNqKQTTYLe
+         c35+SmkdwftzXUw8hxerqsJ9f9mV+oiFZksBgvF0QgSiJQzowaCW0OmUiDQszCqr7IVc
+         wTH8Bf0nirzLSTDA9nVdCbaMGq9i+k+oR0z9awOO5bFYRGTZpO/ur5e81X5fNu6ySfMj
+         jUug==
+X-Forwarded-Encrypted: i=1; AJvYcCVan66mgSV/AncbFIImRYu6EzELE63srnXdcZDhqgyq1FcEYvthra1GiI5UwJnrF0SlwpmyhWETSCPncw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIxhQCxVNmDHG800X2qJQjtYpjdfrauxxrrCXvDueKxtImaSVu
+	c+yI7KFRu8XMJDjkuHTBif6BXYUrWzzpc0jw+RqvZvpSjzlKLG/i+taacQRzZwXkWSYx9Kd2VX9
+	w4q2hoHsSXTKD/JMzA7g/IqF9uiH35FrvUWRiMqhJjIvHftOlydH0fXnG5+wzhqI+Tw==
+X-Gm-Gg: ATEYQzz7bmIq3BEUa9EWmf3GZzNzaezU3FIacd6Zvu2sYPFRXMSraQOBkuLMlqA/p4M
+	Myr+RscA9Pdfd7lKa++pVWthE+VhSxT/5lK2fAmmvkbyxR2l3+2dHA68NH48mQ/IknsXgrV5/04
+	8YEb47Nq/b5BBrgFcPBRpIM1z3598suFcEBO9WR5odVqQttqevUEH7AchcCU1CahB9+BQFy1ws3
+	USKO4ppPFjfkcqGcxqWjAMchYZDZ7DwFuk4aHBo49oL1LcONCUyNXCHEpZ5ZMbWmvwqiWE+ZIL/
+	qM/Mb1qfubK5jH2Y5YiTJ8uT2QuEzAu1h3qhBYIxtH/VmHWF+w/7Gh0ky2F5VdzWaACQ71CkAdG
+	vJjg7uJLz8vfDqWNXs1zTMrlQbP2OtS0UGwoAUAKnFMABw5XyiFOeGA==
+X-Received: by 2002:a17:902:d2ca:b0:2b0:5968:a6d5 with SMTP id d9443c01a7336-2b0cdc2165fmr113600805ad.18.1774875995496;
+        Mon, 30 Mar 2026 06:06:35 -0700 (PDT)
+X-Received: by 2002:a17:902:d2ca:b0:2b0:5968:a6d5 with SMTP id d9443c01a7336-2b0cdc2165fmr113600345ad.18.1774875994884;
+        Mon, 30 Mar 2026 06:06:34 -0700 (PDT)
+Received: from [10.0.0.3] ([106.222.233.247])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b24267397bsm88213025ad.27.2026.03.30.06.06.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Mar 2026 06:06:34 -0700 (PDT)
+Message-ID: <0b41ee7c-83fe-d604-b750-8a5a0bd62bf8@oss.qualcomm.com>
+Date: Mon, 30 Mar 2026 18:36:24 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH] dma/contiguous: Fix broken build
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Robin Murphy
-	<robin.murphy@arm.com>, Albert Esteve <aesteve@redhat.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	iommu@lists.linux.dev, Mark Brown <broonie@kernel.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v5 2/5] media: iris: scale MMCX power domain on SM8250
 Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260330-glaring-pygmy-dodo-fa06f3@houat>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Taniya Das <quic_tdas@quicinc.com>, Jonathan Marek <jonathan@marek.ca>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
+        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <20260209-iris-venus-fix-sm8250-v5-0-0a22365d3585@oss.qualcomm.com>
+ <20260209-iris-venus-fix-sm8250-v5-2-0a22365d3585@oss.qualcomm.com>
+ <5e2635ac-35de-645b-b5e7-235923f844ce@oss.qualcomm.com>
+ <x5gv6dxdum5klzfjyo7xjqull6o43okkmkn7avssg26epbvrz6@z2brpssbk7iv>
+From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+In-Reply-To: <x5gv6dxdum5klzfjyo7xjqull6o43okkmkn7avssg26epbvrz6@z2brpssbk7iv>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260330125136eucas1p20d38cd3f5c4c3772aeef5b7d2f2b8906
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260330084111eucas1p1e7cd5c886e34d0ed41226fe524d2a55a
-X-EPHeader: CA
-X-CMS-RootMailID: 20260330084111eucas1p1e7cd5c886e34d0ed41226fe524d2a55a
-References: <CGME20260330084111eucas1p1e7cd5c886e34d0ed41226fe524d2a55a@eucas1p1.samsung.com>
-	<20260330-dma-build-fix-v1-1-748b64f0d8af@kernel.org>
-	<62b9e47c-1c31-4654-8347-16516faf73f0@samsung.com>
-	<20260330-glaring-pygmy-dodo-fa06f3@houat>
-X-Spamd-Result: default: False [-2.15 / 15.00];
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzMwMDEwMiBTYWx0ZWRfXxp/qA3ovDnwS
+ fb0k2qJVHE+dKT0N6ggjzeLZmPCS4esoNyxSyYvNU6FUYPLcOK3xLS78vHsk23adLYJiA+92ZYN
+ +V+GNWAYRmCwvIqDZVwxBVVfe4KWppvCkH1m1mOjs5fT6DXWkAOZ0xr7ExvMBBJtd4ywxqGezxz
+ HgKky6MJpm9l4nzJ/k9VX87IY5Owb6wth54oZTcLZw/XJlEP/kpqmoZuQHwFQpZU5ZgvbSdTTpf
+ azTI6kQttXJ+Kxd++1sYIeVC+xsjJUJvTTRQaCBW/yFZmvgcIwWaS64GCGW+t1rttRtUpDUON5C
+ Iar2PpUi2WuVbA0eeRwnHdO23DUSKljd970pPiD3Gn9tPUOKXJ6ELm2vjl0BqBV1TTdy6QsipGu
+ vogfIj5SlAjuOClgZTTmYTcOw9lIvSMwAtEX2PVKRX/J/J/7c74fSgfbLoJ/gyJhkMBhaTR0niG
+ QJUSbJN4syrqWkTo8qQ==
+X-Authority-Analysis: v=2.4 cv=AZS83nXG c=1 sm=1 tr=0 ts=69ca755c cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=5/Y9Gi2N1OwmQbPtUd2E/A==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=EUspDBNiAAAA:8 a=PIOu0JlNxAVOzX5nUJ4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-GUID: AOwius33ASv3UeVwBOAoxT5yzq7U4tT1
+X-Proofpoint-ORIG-GUID: AOwius33ASv3UeVwBOAoxT5yzq7U4tT1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-29_05,2026-03-28_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 clxscore=1015
+ impostorscore=0 suspectscore=0 bulkscore=0 adultscore=0 malwarescore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2603300102
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	TAGGED_FROM(0.00)[bounces-57614-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[samsung.com:+];
+	RCPT_COUNT_TWELVE(0.00)[28];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57615-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim,qualcomm.com:email];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[m.szyprowski@samsung.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[dikshita.agarwal@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt,huawei];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:dkim,samsung.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3C81235B5AE
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 9429E35BAB1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 30.03.2026 13:41, Maxime Ripard wrote:
-> On Mon, Mar 30, 2026 at 10:59:48AM +0200, Marek Szyprowski wrote:
->> On 30.03.2026 10:40, Maxime Ripard wrote:
->>> Commit 3a236f6a5cf2 ("dma: contiguous: Turn heap registration logic
->>> around") didn't remove one last call to dma_heap_cma_register_heap()
->>> that it removed, thus breaking the build.
+
+
+On 3/30/2026 4:45 PM, Dmitry Baryshkov wrote:
+> On Mon, Mar 30, 2026 at 10:55:02AM +0530, Dikshita Agarwal wrote:
+>>
+>>
+>> On 2/9/2026 7:02 AM, Dmitry Baryshkov wrote:
+>>> On SM8250 most of the video clocks are powered by the MMCX domain, while
+>>> the PLL is powered on by the MX domain. Extend the driver to support
+>>> scaling both power domains, while keeping compatibility with the
+>>> existing DTs, which define only the MX domain.
 >>>
->>> That last call is in dma_contiguous_reserve(), to handle the
->>> registration of the default CMA region heap instance if it's declared in
->>> the device tree.
->>>
->>> However, the default CMA region instance is already handled by
->>> retrieving it through dev_get_cma_area() in the CMA heap driver, so the
->>> call to dma_heap_cma_register_heap() wasn't actually needed.
->>>
->>> Let's remove this call, the now unused function definition, its now
->>> empty header, and all includes of this header.
->>>
->>> Fixes: 3a236f6a5cf2 ("dma: contiguous: Turn heap registration logic around")
->>> Reported-by: Mark Brown <broonie@kernel.org>
->>> Closes: https://lore.kernel.org/linux-next/acbjaDJ1a-YQC64d@sirena.co.uk/
->>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>>> Fixes: 79865252acb6 ("media: iris: enable video driver probe of SM8250 SoC")
+>>> Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 >>> ---
->>>  drivers/dma-buf/heaps/cma_heap.c  |  1 -
->>>  include/linux/dma-buf/heaps/cma.h | 16 ----------------
->>>  kernel/dma/contiguous.c           |  5 -----
->>>  3 files changed, 22 deletions(-)
+>>>  drivers/media/platform/qcom/iris/iris_platform_gen1.c | 2 +-
+>>>  drivers/media/platform/qcom/iris/iris_probe.c         | 7 +++++++
+>>>  2 files changed, 8 insertions(+), 1 deletion(-)
 >>>
->>> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
->>> index f8a3d87f3ccee9630383ba28502eb40b10671cc2..cc517ac68a0bec0788abcb338c03f530d169013b 100644
->>> --- a/drivers/dma-buf/heaps/cma_heap.c
->>> +++ b/drivers/dma-buf/heaps/cma_heap.c
->>> @@ -12,11 +12,10 @@
+>>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen1.c b/drivers/media/platform/qcom/iris/iris_platform_gen1.c
+>>> index df8e6bf9430e..aa71f7f53ee3 100644
+>>> --- a/drivers/media/platform/qcom/iris/iris_platform_gen1.c
+>>> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen1.c
+>>> @@ -281,7 +281,7 @@ static const struct bw_info sm8250_bw_table_dec[] = {
 >>>  
->>>  #define pr_fmt(fmt) "cma_heap: " fmt
+>>>  static const char * const sm8250_pmdomain_table[] = { "venus", "vcodec0" };
 >>>  
->>>  #include <linux/cma.h>
->>>  #include <linux/dma-buf.h>
->>> -#include <linux/dma-buf/heaps/cma.h>
->>>  #include <linux/dma-heap.h>
->>>  #include <linux/dma-map-ops.h>
->>>  #include <linux/err.h>
->>>  #include <linux/highmem.h>
->>>  #include <linux/io.h>
->>> diff --git a/include/linux/dma-buf/heaps/cma.h b/include/linux/dma-buf/heaps/cma.h
->>> deleted file mode 100644
->>> index e751479e21e703e24a5f799b4a7fc8bd0df3c1c4..0000000000000000000000000000000000000000
->>> --- a/include/linux/dma-buf/heaps/cma.h
->>> +++ /dev/null
->>> @@ -1,16 +0,0 @@
->>> -/* SPDX-License-Identifier: GPL-2.0 */
->>> -#ifndef DMA_BUF_HEAP_CMA_H_
->>> -#define DMA_BUF_HEAP_CMA_H_
->>> -
->>> -struct cma;
->>> -
->>> -#ifdef CONFIG_DMABUF_HEAPS_CMA
->>> -int dma_heap_cma_register_heap(struct cma *cma);
->>> -#else
->>> -static inline int dma_heap_cma_register_heap(struct cma *cma)
->>> -{
->>> -	return 0;
->>> -}
->>> -#endif // CONFIG_DMABUF_HEAPS_CMA
->>> -
->>> -#endif // DMA_BUF_HEAP_CMA_H_
->>> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
->>> index ad50512d71d3088a73e4b1ac02d6e6122374888e..9fe001c712339f8388d3f40cca3dfff3f707fcbf 100644
->>> --- a/kernel/dma/contiguous.c
->>> +++ b/kernel/dma/contiguous.c
->>> @@ -40,11 +40,10 @@
->>>  #include <asm/page.h>
+>>> -static const char * const sm8250_opp_pd_table[] = { "mx" };
+>>> +static const char * const sm8250_opp_pd_table[] = { "mx", "mmcx" };
 >>>  
->>>  #include <linux/memblock.h>
->>>  #include <linux/err.h>
->>>  #include <linux/sizes.h>
->>> -#include <linux/dma-buf/heaps/cma.h>
->>>  #include <linux/dma-map-ops.h>
->>>  #include <linux/cma.h>
->>>  #include <linux/nospec.h>
+>>>  static const struct platform_clk_data sm8250_clk_table[] = {
+>>>  	{IRIS_AXI_CLK,  "iface"        },
+>>> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+>>> index 7b612ad37e4f..74ec81e3d622 100644
+>>> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+>>> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+>>> @@ -64,6 +64,13 @@ static int iris_init_power_domains(struct iris_core *core)
+>>>  		return ret;
 >>>  
->>>  #ifdef CONFIG_CMA_SIZE_MBYTES
->>> @@ -270,14 +269,10 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
->>>  						  selected_limit,
->>>  						  &dma_contiguous_default_area,
->>>  						  fixed);
->>>  		if (ret)
->>>  			return;
->>> -
->>> -		ret = dma_heap_cma_register_heap(dma_contiguous_default_area);
->>> -		if (ret)
->>> -			pr_warn("Couldn't register default CMA heap.");
->> After this change no dma-buf heap for the default CMA area is created if it has 
->> not been specified in device-tree. This might be especially a problem for the
->> non-dt systems.
-> I don't think that's the case? My understanding is that
-> dma_contiguous_reserve() is called by the arch code, and will create
-> that region only if it hasn't be set by the DT (that excerpt above is
-> run only if !dma_contiguous_default_area).
->
-> However, for the DT case, dma_contiguous_default_area will be set by
-> rmem_cma_setup() a bit below if linux,cma-default is set in the DT.
->
-> dma_contiguous_reserved() is called (on arm64 at least) through
-> bootmem_init(), called as part of setup_arch().
->
-> rmem_cma_setup() is called through RESERVEDMEM_OF_DECLARE, so through
-> __reserved_mem_init_node(), so, if we consider only the public
-> functions, through:
->
->   * fdt_scan_reserved_mem_reg_nodes(), called by
->     unflatten_device_tree(), called right before bootmem_init() in
->     setup_arch();
->
->   * or fdt_scan_reserved_mem() and then
->     early_init_fdt_scan_reserved_mem(), called in arm64_memblock_init(),
->     itself called in setup_arch() earlier than both
->     unflatten_device_tree(), and bootmem_init().
->
-> Thus, the DT case will run first and set dma_contiguous_default_area if
-> relevant on that platform, and if it's not set, the non-DT case will set
-> it up. Either way, dma_contiguous_default_area will be set.
->
-> The CMA heap runs much later using a regular module_init. It will
-> retrieve dma_contiguous_default_area through dev_get_cma_area(), and
-> will create a heap instance for the default area.
->
-> Am I misunderstanding something?
+>>>  	ret =  devm_pm_domain_attach_list(core->dev, &iris_opp_pd_data, &core->opp_pmdomain_tbl);
+>>> +	/* backwards compatibility for incomplete ABI SM8250 */
+>>> +	if (ret == -ENODEV &&
+>>> +	    of_device_is_compatible(core->dev->of_node, "qcom,sm8250-venus")) {
+>>> +		iris_opp_pd_data.num_pd_names--;
+>>> +		ret = devm_pm_domain_attach_list(core->dev, &iris_opp_pd_data,
+>>> +						 &core->opp_pmdomain_tbl);
+>>> +	}
+>>>  	if (ret < 0)
+>>>  		return ret;
+>>>  
+>>>
+>>
+>> Hitting below compilation error on latest kernel
+>>
+>> drivers/media/platform/qcom/iris/iris_probe.c: In function
+>> ‘iris_init_power_domains’:
+>> drivers/media/platform/qcom/iris/iris_probe.c:71:46: error: decrement of
+>> read-only member ‘num_pd_names’
+>>    71 |                 iris_opp_pd_data.num_pd_names--;
+> 
+> See commit 7ad7f43e568b ("pmdomain: de-constify fields struct
+> dev_pm_domain_attach_data")
 
-The default CMA area is also optional for DT platforms. 
+Ack, Thanks!
 
-If DT doesn't provide such, it will be created based on the kernel cmdline cma= parameter or the default configuration defined in the kernel .config (this is also true for the non-dt platforms). I know that for most Android GKI systems the default CMA area will be defined in DT, but I see no reason to disable dma-buf heap support for the default CMA area if it has been instantiated from kernel cmdline or .config.
-
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+Regards,
+Dikshita
+> 
+>>
+>> Could you please check and fix.
+>>
+>> Thanks,
+>> Dikshita
+> 
 
