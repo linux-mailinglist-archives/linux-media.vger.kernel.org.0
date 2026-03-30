@@ -1,411 +1,309 @@
-Return-Path: <linux-media+bounces-57576-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57577-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SCC1LSs/ymn46wUAu9opvQ
-	(envelope-from <linux-media+bounces-57576-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:15:23 +0200
+	id AD3aFYlBymky7AUAu9opvQ
+	(envelope-from <linux-media+bounces-57577-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:25:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E357357F9F
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:15:23 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A21B235821F
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:25:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3BEA730071D5
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 09:15:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 976643019923
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 09:17:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F90A2C21EE;
-	Mon, 30 Mar 2026 09:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 924903B27E2;
+	Mon, 30 Mar 2026 09:17:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PQT2422c";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="elCcSMw5"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bMsKl8Q+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E6738946E
-	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 09:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.180.131
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774862118; cv=pass; b=DfafEmTRLhF+tPSMtyOb6kOaXjYtDZv8+cC+SpGiN5Z/3QF067imhpvQ8fWrCevS5xEnanL0pRkXEDHBScbEaka+TyUV/dbnlmZ2k3seX7ZbMKbJ8qb/bIzyJ8MzcubQQHE8C49xmFw6BID4pg+3H5v164wGzPvvD2Yqn0LkBlg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774862118; c=relaxed/simple;
-	bh=7rNPnoojxWxF/a1Ookw2tnEXegVgxQ9N6tzbajUIwxA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l+xukvaoAGlnOYcDHdeI0vOcGX0yDE/Jm9W5EhNWPB94+O8ydR/pnu2MitmIhKYFmBR+32oXN4S6fIRbm3xIMC53sQG6gTpyb9zqIymVMiKflS0kafyHqlOwghGWTgIZl3KlOHh4ZOEgFcUU2Q0HT2UX4w8lXds8BsGdIeCP+Fo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PQT2422c; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=elCcSMw5; arc=pass smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62U7U0k63694924
-	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 09:15:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	RZcAczw4mSYr5/IjTiZhA/RGClywOCajTwoqIgAfomY=; b=PQT2422cS784PggO
-	deiu/Rh8Z8Uy7lUng4uYxOtL2Bn/NDEWzLCmiKvN2ZzG1AcblUZq3+JPOnH3Fc2s
-	zfP6NkflAo33ItMksfmcKC/CWKV/X3TvY8CItl/c2QrAw19siIGI52sT0TTAfPZN
-	nmt7mJLo50SZQvS0Mikstnh3EXqDEQuGfp37kKpRTuFctVTUUARtUUYjeY4UZj6w
-	K1Z2rz8lRyqT5TkZnuwUe+0lIyrfI7KiJo4YDSNQ4wRAbaGcBsVqG15MI2OV3j+k
-	W5J+4Is55vuKmRmw/WaLCfnHreUv6tIP+CtlamUBj7Hvw5Qerj8w8BkUqoSZM6Dj
-	8swbBw==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d66afwfmf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 09:15:16 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-89cd4f56e89so108376106d6.1
-        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 02:15:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774862115; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Y7KXfHIHDHCZJYIiB+e8T5VW9KBtYlV2Vs/JY1bmouIxRhopVmydmQ5a7Vx/NBXXBq
-         MHXf/qCTzxM0jxV8w0yP9AjXU/3uT5Rn2WGhfGKPPzKQUptpxl2h8phdz/AUwW88qI60
-         j9mgrefV8vIcf8Ohhe3rsamXGvrN1Ymld8X9CzXpKzRm3mH+S5hlNyG3Sjr62s3gru1p
-         wkBq/ouJ+OqaM+ZHAxhIzrEQ5KpPw1Cxvf6v8NwgDjEGvGhd80FKJxW8whb/+Qkz7zRl
-         P9ymH13KwWs/Hc0rDH+QkGutMWzf30XuaPjmlqnc0og3kre808tWT/qCUJIs3ZuNV0Tp
-         /0PA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RZcAczw4mSYr5/IjTiZhA/RGClywOCajTwoqIgAfomY=;
-        fh=HRBiup+Oj466fiLZv0gasYVZf6PV4fHJGLQRilBWFhY=;
-        b=Gcdz0jBg3QMch1tr7rKzOZnkNRlWF2Rhp6yg08xqu8AKfza07UkiOAzFV9rWKkGpbX
-         jtIUNZkk5VW/eT1l5P658nugP5ajVSGBiRwp/j9GpHs9veAlAycVw2ZLjiWywiE16ow7
-         7I+S+uzZx2NCQH10St+Dsq1Q2ngPtYNa1zB9J3pyS8LhvlgsE5Ogy9+GNgLwoNyESOHo
-         1iCdo12GLze8Q/ez0LGerBzW+nSlxThjAjMHDucYVQVN9E0PY+pHjix7I9Xn2dRkA5eJ
-         uOsYcRBtC9y0V7Tzk3IjZHlsAUn93FWyY3KPtOzJjPmYUB3N7ZOx6sOZAm3+XrFV4utP
-         Z7xw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C16D38946E
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 09:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774862233; cv=none; b=tjfRjrlaIVYUZEIW3l3G8goeT79kKpITO2a7QRHasTEoOeBFwuA21CLVoIZJO+LC6KQfK/YDSJCQKXiH8btef1zSx2rkt8cSENAx8KEOKEIRSUOBGEgVrxEvXGnGI8y8BuBId/wvu+1TKsYg8H83NNVxtcK8nVj45FZ/M3dvmjk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774862233; c=relaxed/simple;
+	bh=/7NiGOUpT1kZQYxs4aI+8rPIELPQb2KrHP9xTjm5odM=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=UfhCup7iw2L01Vz5nFRvYf664PdfrB+VNYGCHFvuW4YmsbU3v3jy07yVIh22Vvdk/5N9PeCSPqXBhOt3PmRdzVo6cz2yAgXioU/j63+yzi7ryY5f7ctez77FvKPAKIf9arhp4VwxTjF5HcyNfiRwNnMwJQwkWJY3E+8XiJeTfgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bMsKl8Q+; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43b8982c2f4so2097455f8f.2
+        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 02:17:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1774862115; x=1775466915; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RZcAczw4mSYr5/IjTiZhA/RGClywOCajTwoqIgAfomY=;
-        b=elCcSMw5EIjWE/P9/YdGHn33VurGhZ+f6jnqtJg8oPMSgIUJnZ0aHuN3SkluLBHQ3e
-         y35035Xs63hOMgkzzor4dQrwzF9HwwUYy5WXYJJ2MAjpgWwuY6yN8gitRtnYcLwm8jlf
-         Atq8+vFVgLbMSGqQbu2Y/ThJDd8lfUxhmjvPGm4UegDIrXfPo0P+naxjyFmVrY22HXRS
-         2Em64mpwJ4Q+IF9XP/4zD1GDCD9w4rOJnWNlLj2A1t5u+IysR8IrhpLjT5oQ05P8R6Ys
-         5VZ1aas+xJTQ5ElfjtfaJQcRXLzR9FJpiXo+dyVZV1dkRDhOJa/UTrE8ERHhrW5LbABg
-         Wi/w==
+        d=linaro.org; s=google; t=1774862230; x=1775467030; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4VOM/b3KwJ3A3R51aHiZRtwvN8eEVduEBIFhFs9QUVY=;
+        b=bMsKl8Q+cfN32buqujoEaQ8WeAc1fhcUwmEk/5mLZdYefvx5rLfbTTXcVHUebbUjJD
+         HN44tmM0Rmb/nOS/goSGmlvc6Vv/wC6LIv0YCIKCXcEPD+ZHxk815ayvrw8e+kZrQZJ2
+         MR6mPMrEVXooL2nLPc4JZZbHJAz1HbK1JrBU1mBSVdoFoG2WV/gI9jwXE/iJ4OMX86/x
+         1yr+BO49Vb0RO5wZ8CyjWsq1kCTmzYyfGXjncpRBWqM12tAYkmcpJ7UlzF+R34+oc1OC
+         MzoLPRc/xi60DpDCoKgtoa/aMWC7jzHwXpyoCBLgEIZ9TIkbU5h3Ro8WO6suMrbJQMLw
+         Pzxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774862115; x=1775466915;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RZcAczw4mSYr5/IjTiZhA/RGClywOCajTwoqIgAfomY=;
-        b=i5HXO6ox2shKx0R9ALhPM3z/w+7N3e/L17bs9hPahsbB6BcwVXfokUR7XEr/79KYZL
-         1fe8LnTJBW6oaUQ2h+/Cy64ad4IoH6pQgWm+fdZuZWAOj9iFcw2cSATlAbKiCrqSY1Ll
-         bjtUbsw4EWK5O24VIr8CDz9fo0h0ItItdfUadA07x1UzA0TUN0JpeuC5lrihVD1HMJ0P
-         xocnFYixEYs8vwnGmPbIcdRf7Ae1r2MRMK2909o6dfuTi1dysM00nvtBq+XcsBSv1oGD
-         C9LtV8m7h3UDBnpIbatBx1MXkw8XQs5lxSY50VdN7TWPE5yr+FH/Jf7aRqw5Iiwv+gSY
-         uDjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUUk3TiCiGZgf1K89BvZ7ufRRm+4TDB6SyriccqnAbT26/k+xHkuw3aqXky7GfkR/X6qJnWieHej3rteQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYoMyR4TpjzzPq/TyWIuQ4SNLWcjMxV1BvFinEVz6aHPOmp2/O
-	YyIQYGsd3vCfqXUWof6qE5jy5TO+7a3AJQncLEtQnsP/SoRxh0zs6oeyNy6PSRbfJh7NBWSB//c
-	VClAmV6fN7MhhxK9+VQkhQTxU7mzYC7jgxcr++pp7iRTkbFwrs3RiPAzHa9otfx0s5oA92514/Q
-	FsOljbjAR/xwydhw698jDUDNNgpGh4Y9lU8gzO/1Pr
-X-Gm-Gg: ATEYQzymYyNpEfvNU8Kr0Hn/n1fe19H8FNPb3G72ggOcbWkHkXgCQwjmiAcqyJ8su0W
-	aiBNUOIQwVqNkWpjY1Rh3EeA57KM09FaBqNAhaE+piKCNvc8L3irysTh7DfKqmBf2AE1rOofVXf
-	bRCgTiruTVi46BMnSodCyCmkcs6bfxNE10A/rdJ9P8oLBdYJYk3gWV5iMW9M/5dF6UJZbINDd6h
-	cp7Q9JSvigPhdeEuuavY6G2oflp/1i9cKiyFmw=
-X-Received: by 2002:a05:6214:3d06:b0:899:e545:4f74 with SMTP id 6a1803df08f44-89ce8d589c5mr160420406d6.7.1774862115417;
-        Mon, 30 Mar 2026 02:15:15 -0700 (PDT)
-X-Received: by 2002:a05:6214:3d06:b0:899:e545:4f74 with SMTP id
- 6a1803df08f44-89ce8d589c5mr160420196d6.7.1774862114956; Mon, 30 Mar 2026
- 02:15:14 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774862230; x=1775467030;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4VOM/b3KwJ3A3R51aHiZRtwvN8eEVduEBIFhFs9QUVY=;
+        b=a64Go5BVJ0GAMDqPPwe9a8jcWij37j/mWhqKX6Uc6+dJHXv0jhLkyFwB2zW8cQQeMc
+         Z/5dm0Z8XCzq0bItGPNZxyKgS1y1H1UnjsVLdjo1tnscLzvTbYC49qUcpJWbvQ3xD9J6
+         FAnVruTQoCk1dWnLd78zHtORIYHoSH5aGTn2KBiOthkfP+cY/RTORwd/5UYwKQsFO+hu
+         f/uNAXqxlHfad1VE7RFAIoYXbhBu9qGvlTtqtEfQHPAXEWVtr+wk0WWiAn27WuYmus4q
+         7n82Rdt3tLJKVfUfVA8C4EcbU1qgU6mhHfZG+fgH0abOFshsDiChQtlmsI/nKggntsWz
+         n8lA==
+X-Forwarded-Encrypted: i=1; AJvYcCWjscru+doH+1plJjhiV0fyJmvG+d8OP3BqZlc5ozEb98dDk7EY5GuqrTP/oEq6oVNc20ns9kbn7y9Upw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEE47X0T+UhBiAHpWNF8Ft5R4K2kihrsKnSiIOjIELmjAvHrlM
+	8VyGx8Jv3B704tdcvSCvWV/qkerpUjRP+olE2fnjJKk2xftuboilRGixOULAbEr7ZoM=
+X-Gm-Gg: ATEYQzxxPgtoER5hDLhQDcNvk3f7oqpqyAeXBr0CmoQD9ssZj6/GFW+HQmRL8vjdt+g
+	69lRqNsllIQwlTepnZ9Ip9YCS68AxD0RSwxqKNQ+Zeyu2UQNqthHtqbcSGtdvXx29S9sk3Yp/Lc
+	SQTK6VCFO2PVHg7i23rIWPT0dajzRy2vcuniWCDrxxba6pdUEhXO6cu/8chlJZCuoxNYC3v1R2p
+	19bC16xPAjDVcz8DygCAlg/Gatgbmrrvu8ijbWf+89CedqjyrgKcb+xuCGwH6Ph7Mo/NNZWP7aj
+	CYHnZUCSa0PI8do6mgcjjV9QiHOyacXalLpLiAFo8I/iIQXDEIrlSJ70tUy0N+z1frtLIVhUQ07
+	WRWzJLvDC/PVN6sXIVtCu4Hbf/fRyD8OxK/YI8xeVPF7M9tjUBO6Zy0P5lKufzwqhiggDBMivhh
+	p2sWT8QpXHoW0EeIQ5aliclVD44KUDHPCOiNEjtjetw/1Pi72b7E79jSY/C6NOSpuYe/UOCh2SE
+	DNFFHI=
+X-Received: by 2002:a05:6000:2f87:b0:43c:ff58:35c2 with SMTP id ffacd0b85a97d-43cff583701mr5346372f8f.20.1774862229397;
+        Mon, 30 Mar 2026 02:17:09 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:106d:1080:cb3c:d0d2:870b:6ad0? ([2a01:e0a:106d:1080:cb3c:d0d2:870b:6ad0])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e2628sm19089838f8f.6.2026.03.30.02.17.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Mar 2026 02:17:09 -0700 (PDT)
+Message-ID: <76ea03d0-d41b-4880-a48c-06570eb089ed@linaro.org>
+Date: Mon, 30 Mar 2026 11:17:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260313131750.187518-1-loic.poulain@oss.qualcomm.com>
- <20260313131750.187518-6-loic.poulain@oss.qualcomm.com> <1ad5f031-cfd5-4feb-9092-03214872509e@linaro.org>
-In-Reply-To: <1ad5f031-cfd5-4feb-9092-03214872509e@linaro.org>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Mon, 30 Mar 2026 11:15:04 +0200
-X-Gm-Features: AQROBzDyey8U2MKyAIUh_CmhYPxWnQO5tr5TMwlA2Z-HObxSkDQj0cICwoNxBiU
-Message-ID: <CAFEp6-36tMM+6javiitNZbcL_OQt_1TXguTszQT1ppfNO2eSEg@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] media: qcom: camss: vfe-340: Support for PIX client
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: vladimir.zapolskiy@linaro.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, mchehab@kernel.org,
-        konrad.dybcio@oss.qualcomm.com, dmitry.baryshkov@oss.qualcomm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: 0zhueXw4QbwiaDXnmereKuVOzA01CCbW
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzMwMDA3MSBTYWx0ZWRfX40h6fT9wPBi1
- M48QdXxeRkHjVTsncBmxldhi5UNluv1sxfur6sEsSIpUvCmaB+mKSKIzdTc7XukH+LisJRUNK8g
- xH+iTWBkqVmgW1az6sOP9YwLJ4qKp+MoJAnAgGkr7DIOfgqcKxhHtnQOoIvXCF/t9PeSxvALhCz
- EUY7eXeAx6bBj8U9yPbrP14r97K7bMGbbdhsMAejUvO23JsU5pZdpLZ+YzFoCdLYJoDq+QQe3sB
- RklyQBK9yP4Tu2jjw+TIbjxMBbXFnOEQdrWZtcrw62I25bh8BUL4pMBG1+yqNOSmRJDlx3EXf3I
- JM9A6/MT3ihKxGwRAgo6dS8DRG+40D0uY64daaG8gefL0GvkqZjd4U2PcNFh8myjzN9EGDC9DSV
- szzaWbEmlqUh6PVaXo1xzXOtaBxpODpRpOntlXuBXTc1Q0WP2hMdizl4ZT5Wvd/McLCCY4VOCFA
- o2EqZgAth4hTNqk+VCA==
-X-Authority-Analysis: v=2.4 cv=KN9XzVFo c=1 sm=1 tr=0 ts=69ca3f24 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=ZpdpYltYx_vBUK5n70dp:22 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=CHRV2P2cdv5__UWTDXYA:9 a=QEj_SxXEJzKJbFzb:21 a=QEXdDO2ut3YA:10
- a=iYH6xdkBrDN1Jqds4HTS:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: 0zhueXw4QbwiaDXnmereKuVOzA01CCbW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-29_05,2026-03-28_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 phishscore=0 spamscore=0
- adultscore=0 suspectscore=0 bulkscore=0 malwarescore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603300071
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v5 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Vinod Koul
+ <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260326-x1e-csi2-phy-v5-0-0c0fc7f5c01b@linaro.org>
+ <20260326-x1e-csi2-phy-v5-1-0c0fc7f5c01b@linaro.org>
+ <7712fbdd-a225-49f0-aeb9-ebcbb9d5abac@oss.qualcomm.com>
+ <da3ed78d-fb5e-4820-95d6-527d540cf03e@linaro.org>
+ <1f38187a-9464-4aa9-b70a-03b767349d56@linaro.org>
+ <c5278028-dfe9-4d09-970a-a25977967bdd@linaro.org>
+ <016c03b8-27c3-41dc-a630-8e7095db1f88@linaro.org>
+ <456ded59-d13e-4b61-975b-97ca48b5e771@linaro.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <456ded59-d13e-4b61-975b-97ca48b5e771@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57576-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	TAGGED_FROM(0.00)[bounces-57577-lists,linux-media=lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,linaro.org:replyto,linaro.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
+	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[loic.poulain@oss.qualcomm.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,linaro.org:email,qualcomm.com:dkim,qualcomm.com:email,mail.gmail.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 5E357357F9F
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	REPLYTO_EQ_FROM(0.00)[]
+X-Rspamd-Queue-Id: A21B235821F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, Mar 29, 2026 at 12:48=E2=80=AFPM Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> On 13/03/2026 13:17, Loic Poulain wrote:
-> > Add support for the vfe-340 PIX write engine, enabling frame capture
-> > through the PIX video device (e.g. msm_vfe0_pix). The PIX path requires
-> > a separate configuration flow from RDI, including cropping setup, line-
-> > based write engine configuration, and the correct packer format based
-> > on the input pixel format.
-> >
-> > In contrast to RDI, the PIX interface embeds a lightweight processing
-> > engine we can use for cropping, configuring custom stride/alignment,
-> > and, in the future, extracting frame statistics.
-> >
-> > The functionality has been validated on Arduino-Uno-Q with:
-> > media-ctl -d /dev/media0 --reset
-> > media-ctl -d /dev/media0 -l '"msm_csiphy0":1->"msm_csid0":0[1],"msm_csi=
-d0":4->"msm_vfe0_pix":0[1]'
-> > media-ctl -d /dev/media0 -V '"imx219 1-0010":0[fmt:SRGGB8_1X8/640x480 f=
-ield:none]'
-> > media-ctl -d /dev/media0 -V '"msm_csiphy0":0[fmt:SRGGB8_1X8/640x480 fie=
-ld:none]'
-> > media-ctl -d /dev/media0 -V '"msm_csid0":0[fmt:SRGGB8_1X8/640x480 field=
-:none]'
-> > media-ctl -d /dev/media0 -V '"msm_vfe0_pix":0[fmt:SRGGB8_1X8/640x480 fi=
-eld:none]'
-> > yavta -B capture-mplane --capture=3D3 -n 3 -f SRGGB8 -s 640x480 /dev/vi=
-deo3
-> >
-> > Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> > ---
-> >   .../media/platform/qcom/camss/camss-vfe-340.c | 85 ++++++++++++++++--=
--
-> >   1 file changed, 75 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/qcom/camss/camss-vfe-340.c b/driver=
-s/media/platform/qcom/camss/camss-vfe-340.c
-> > index d129b0d3a6ed..600c472534fb 100644
-> > --- a/drivers/media/platform/qcom/camss/camss-vfe-340.c
-> > +++ b/drivers/media/platform/qcom/camss/camss-vfe-340.c
-> > @@ -54,6 +54,7 @@
-> >
-> >   #define TFE_BUS_CLIENT_CFG(c)                               BUS_REG(0=
-x200 + (c) * 0x100)
-> >   #define             TFE_BUS_CLIENT_CFG_EN           BIT(0)
-> > +#define              TFE_BUS_CLIENT_CFG_AUTORECOVER  BIT(4)
-> >   #define             TFE_BUS_CLIENT_CFG_MODE_FRAME   BIT(16)
-> >   #define TFE_BUS_IMAGE_ADDR(c)                               BUS_REG(0=
-x204 + (c) * 0x100)
-> >   #define TFE_BUS_FRAME_INCR(c)                               BUS_REG(0=
-x208 + (c) * 0x100)
-> > @@ -63,12 +64,23 @@
-> >   #define TFE_BUS_IMAGE_CFG_2(c)                              BUS_REG(0=
-x214 + (c) * 0x100)
-> >   #define             TFE_BUS_IMAGE_CFG_2_DEFAULT     0xffff
-> >   #define TFE_BUS_PACKER_CFG(c)                               BUS_REG(0=
-x218 + (c) * 0x100)
-> > +#define              TFE_BUS_PACKER_CFG_FMT_PLAIN8   0x1
-> >   #define             TFE_BUS_PACKER_CFG_FMT_PLAIN64  0xa
-> > +#define              TFE_BUS_PACKER_CFG_FMT_MIPI10   0xc
-> > +#define              TFE_BUS_PACKER_CFG_FMT_MIPI12   0xd
-> >   #define TFE_BUS_IRQ_SUBSAMPLE_CFG_0(c)                      BUS_REG(0=
-x230 + (c) * 0x100)
-> >   #define TFE_BUS_IRQ_SUBSAMPLE_CFG_1(c)                      BUS_REG(0=
-x234 + (c) * 0x100)
-> >   #define TFE_BUS_FRAMEDROP_CFG_0(c)                  BUS_REG(0x238 + (=
-c) * 0x100)
-> >   #define TFE_BUS_FRAMEDROP_CFG_1(c)                  BUS_REG(0x23c + (=
-c) * 0x100)
-> >
-> > +#define PP_CROP_REG(a)                                       (0x2800 +=
- (a))
-> > +#define TFE_PP_CROP_CFG                                      PP_CROP_R=
-EG(0x60)
-> > +#define              TFE_PP_CROP_CFG_EN      (BIT(0) | BIT(9))
-> > +#define      TFE_PP_CROP_LINE_CFG                            PP_CROP_R=
-EG(0x68)
-> > +#define              TFE_PP_CROP_FIRST       GENMASK(29, 16)
-> > +#define              TFE_PP_CROP_LAST        GENMASK(13, 0)
-> > +#define      TFE_PP_CROP_PIX_CFG                             PP_CROP_R=
-EG(0x6C)
-> > +
-> >   enum tfe_client {
-> >       TFE_CLI_BAYER,
-> >       TFE_CLI_IDEAL_RAW,
-> > @@ -245,18 +257,72 @@ static void vfe_wm_update(struct vfe_device *vfe,=
- u8 wm, u32 addr,
-> >       writel_relaxed(addr, vfe->base + TFE_BUS_IMAGE_ADDR(client));
-> >   }
-> >
-> > +static u32 vfe_packer_format(struct vfe_device *vfe, u32 pixelformat)
-> > +{
-> > +     const struct camss_formats *fmt =3D vfe->res->formats_rdi;
-> > +     int i;
-> > +
-> > +     for (i =3D 0; i < fmt->nformats; i++)
-> > +             if (fmt->formats[i].pixelformat =3D=3D pixelformat)
-> > +                     break;
-> > +
-> > +     if (i >=3D fmt->nformats)
-> > +             return TFE_BUS_PACKER_CFG_FMT_PLAIN64;
-> > +
-> > +     switch (fmt->formats[i].mbus_bpp) {
-> > +     case 8:
-> > +             return TFE_BUS_PACKER_CFG_FMT_PLAIN8;
-> > +     case 10:
-> > +             return TFE_BUS_PACKER_CFG_FMT_MIPI10;
-> > +     case 12:
-> > +             return TFE_BUS_PACKER_CFG_FMT_MIPI12;
-> > +     default:
-> > +             dev_err(vfe->camss->dev, "VFE%u: Unsupported pixelformat"=
-, vfe->id);
->
-> This to me is wierd.
->
-> If a bpp is wrong we should detect that fact well before writing a value
-> to a register and we shouldn't proceed to write a wrong value anyway.
->
-> If there is a real prospect to even have the bpp be something other than
-> what we accept then that error should be trapped prior to wm_start() and
-> the error thrown up the call stack in a meaningful way.
+On 3/30/26 11:02, Bryan O'Donoghue wrote:
+> On 30/03/2026 08:49, Neil Armstrong wrote:
+>> On 3/27/26 18:42, Bryan O'Donoghue wrote:
+>>> On 27/03/2026 15:28, Neil Armstrong wrote:
+>>>>> To be frankly honest you can make an argument for it either way. However my honestly held position is analysing other upstream implementations connecting to the PHY means we can't make the PHY device a drivers/phy device - it would have to be a V4L2 device and then for me the question is why is that even required ?
+>>>>
+>>>> This is plain wrong, DT definition is different from software implementation, you can do whatever you want if you describe HW accurately.
+>>>
+>>> I'm not sure what point it is you are trying to make here. Are you trying to say drivers/phy is OK with you but you want an endpoint ? If so, please just say so.
+>>
+>> I'm against using the "phys = <>" property in the CAMSS to reference the PHYs, a "PHY" in the classic terminology is tied to a single consumer, and if it can be shared to multiple consumer you must model a mux or whatever in the middle.
+> 
+> The CSIPHY-to-CSID routing is runtime-configurable and is already managed by the media controller framework.
 
-Yes, this is normally caught earlier during the video device format
-checks, where unsupported formats are rejected. We should therefore
-cover all supported formats here.
+This is not compatible with the PHY bindings if you don't have a defined MUX device in the middle, it's wrong. You're hiding the muxing details in the CAMSS blob node.
 
->
-> > +     }
-> > +
-> > +     return TFE_BUS_PACKER_CFG_FMT_PLAIN64;
-> > +}
-> > +
-> >   static void vfe_wm_start(struct vfe_device *vfe, u8 wm, struct vfe_li=
-ne *line)
-> >   {
-> >       struct v4l2_pix_format_mplane *pix =3D &line->video_out.active_fm=
-t.fmt.pix_mp;
-> >       u32 stride =3D pix->plane_fmt[0].bytesperline;
-> >       u8 client =3D tfe_wm_client_map[wm];
-> > -
-> > -     /* Configuration for plain RDI frames */
-> > -     writel_relaxed(TFE_BUS_IMAGE_CFG_0_DEFAULT, vfe->base + TFE_BUS_I=
-MAGE_CFG_0(client));
-> > -     writel_relaxed(0u, vfe->base + TFE_BUS_IMAGE_CFG_1(client));
-> > -     writel_relaxed(TFE_BUS_IMAGE_CFG_2_DEFAULT, vfe->base + TFE_BUS_I=
-MAGE_CFG_2(client));
-> > -     writel_relaxed(stride * pix->height, vfe->base + TFE_BUS_FRAME_IN=
-CR(client));
-> > -     writel_relaxed(TFE_BUS_PACKER_CFG_FMT_PLAIN64, vfe->base + TFE_BU=
-S_PACKER_CFG(client));
-> > +     u32 cfg =3D TFE_BUS_CLIENT_CFG_EN;
-> > +
-> > +     if (client =3D=3D TFE_CLI_BAYER) { /* PIX - Line based */
-> > +             struct v4l2_rect *crop =3D &line->crop;
-> > +
-> > +             /* Cropping */
-> > +             writel_relaxed(TFE_PP_CROP_CFG_EN, vfe->base + TFE_PP_CRO=
-P_CFG);
-> > +             writel_relaxed(FIELD_PREP(TFE_PP_CROP_FIRST, crop->top) |
-> > +                            FIELD_PREP(TFE_PP_CROP_LAST, crop->top + c=
-rop->height - 1),
-> > +                            vfe->base + TFE_PP_CROP_LINE_CFG);
-> > +             writel_relaxed(FIELD_PREP(TFE_PP_CROP_FIRST, crop->left) =
-|
-> > +                            FIELD_PREP(TFE_PP_CROP_LAST, crop->left + =
-crop->width - 1),
-> > +                            vfe->base + TFE_PP_CROP_PIX_CFG);
-> > +
-> > +             /* Write Engine */
-> > +             writel_relaxed(pix->width + (pix->height << 16),
-> > +                            vfe->base + TFE_BUS_IMAGE_CFG_0(client));
->
-> Shouldn't this be width | height not with + height since you are
-> shifting by a nibble.
+> 
+> DT describes static hardware connections. The dynamic mux is a software concern, not a hardware description concern.
 
-This is equivalent here, as the width and height bit ranges do not overlap.
-But yes, using a bitwise | would better express the intent of packing .
+DT must describe the possible interconnections between the nodes, if a PHY can be used by multiple hardware components, it must be described.
 
->
-> > +             writel_relaxed(0u, vfe->base + TFE_BUS_IMAGE_CFG_1(client=
-));
-> > +             writel_relaxed(stride, vfe->base + TFE_BUS_IMAGE_CFG_2(cl=
-ient));
-> > +             writel_relaxed(stride * pix->height, vfe->base + TFE_BUS_=
-FRAME_INCR(client));
-> > +             writel_relaxed(vfe_packer_format(vfe, pix->pixelformat),
-> > +                            vfe->base + TFE_BUS_PACKER_CFG(client));
-> > +
-> > +             cfg |=3D TFE_BUS_CLIENT_CFG_AUTORECOVER;
-> > +     } else { /* RDI - Frame based */
-> > +             writel_relaxed(TFE_BUS_IMAGE_CFG_0_DEFAULT,
-> > +                            vfe->base + TFE_BUS_IMAGE_CFG_0(client));
-> > +             writel_relaxed(0u, vfe->base + TFE_BUS_IMAGE_CFG_1(client=
-));
-> > +             writel_relaxed(TFE_BUS_IMAGE_CFG_2_DEFAULT,
-> > +                            vfe->base + TFE_BUS_IMAGE_CFG_2(client));
-> > +             writel_relaxed(stride * pix->height, vfe->base + TFE_BUS_=
-FRAME_INCR(client));
-> > +             writel_relaxed(TFE_BUS_PACKER_CFG_FMT_PLAIN64,
-> > +                            vfe->base + TFE_BUS_PACKER_CFG(client));
-> > +             cfg |=3D TFE_BUS_CLIENT_CFG_MODE_FRAME;
-> > +     }
-> >
-> >       /* No dropped frames, one irq per frame */
-> >       writel_relaxed(0, vfe->base + TFE_BUS_FRAMEDROP_CFG_0(client));
-> > @@ -266,11 +332,10 @@ static void vfe_wm_start(struct vfe_device *vfe, =
-u8 wm, struct vfe_line *line)
-> >
-> >       vfe_enable_irq(vfe);
-> >
-> > -     writel(TFE_BUS_CLIENT_CFG_EN | TFE_BUS_CLIENT_CFG_MODE_FRAME,
-> > -            vfe->base + TFE_BUS_CLIENT_CFG(client));
-> > +     writel(cfg, vfe->base + TFE_BUS_CLIENT_CFG(client));
-> >
-> >       dev_dbg(vfe->camss->dev, "VFE%u: Started client %u width %u heigh=
-t %u stride %u\n",
-> > -             vfe->id, client, pix->width, pix->height, client);
-> > +             vfe->id, client, pix->width, pix->height, stride);
-> >   }
-> >
-> >   static void vfe_wm_stop(struct vfe_device *vfe, u8 wm)
->
+> 
+> 
+>> The PHY API as an internal software implementation is probably fine, even if it makes implementation of split mode much much harder and doesn't really solve anything, you can just call init()/poweron()/ poweroff()/exit() directly from the CSIPHY media callbacks.
+> 
+> Great.
+> 
+>>> I can see an argument for that hence my response to Konrad, I just don't see why its a Qualcomm specific argument and of course understood stuff bubbles up in review, we have a public debate and come to a consensus - that's a good thing.
+>>>
+>>> However, I'd want wider buy-in and understanding that endpoints in the PHYs is a more accurate description of the data-flow.
+>>
+>> It is, and it was designed for that, and extensively used in the media DT representation, so I wonder here you would not use it...
+>> In an ideal world, you would add nodes for each CAMSS hw elements and adds port/endpoints links between all nodes to describe the data graph, this would be used to construct the media controller graph, and make it much easier supporting new hardware.
+> 
+> Yes but be pragmatic Neil. The first step in making the monolith into sub-nodes is the CSIPHY.
+
+I am, and I agree it's fine to do it step by step.
+
+> 
+> Once the CSIPHY is in, we can follow on with adding new nodes that way IPE, BPS, ICP, JPEG whatever and also work on implementing the old stuff in that new way.
+
+I agree on the approach, I never said otherwise, but you need to have the big picture in mind.
+
+When you'll have the CSID subnodes, where will you add the phys properties ? you'll keep them in the CAMSS top node ? add all CSIPHY to all CSID nodes ? this is wrong and this needs to be fixed now.
+
+> 
+> 
+>>
+>>>
+>>> We've been applying DT bindings aplenty without that so far. So we would establish new CSI2 PHY bindings should represent the sensor endpoints.
+>>
+>> We've been using a dummy representation of CAMM in a single node with only endpoints connecting to the sensors and hiding all the hardware layout in code, it doesn't scale and makes supporting new HW hard.
+>> I mean this is common sense, why would we continue to stick to the current CAMSS bindings ???
+> 
+> We _won't_ I just don't support a big bang integration. Progressive changes over a longer timeline make the transition manageable, without accepting endless sub-standard stuff in the meantime or holding up all new SoC submission unless/until.
+> 
+> I mean there is a CAMSS meeting which I've been running for nearly a year now that both you and Vlad are invited to where we have been discussing this for months...
+> 
+> Anyway one conclusion of that is we want to transition to individual nodes for everything.
+> 
+> PHY is the first step which I'm taking because its easier for me as CAMSS maintainer to convince the CAMSS maintainer to take the relevant patches.
+> 
+> drivers/phy notwithstanding.
+
+As I said I agree on the progressive approach, not the PHY DT bindins approach.
+
+> 
+>>>
+>>> Is that what you want ?
+>>>
+>>>> The CSIPHYs are not tied to a single "consumer" block, they can be connected to different consumers at runtime, which is not something classic PHY devices are designed for. So they are de facto a media element in the dynamic camera pipeline.
+>>>
+>>> The existing CAMSS binding and media graph are not changed by this series.
+>>
+>> This is not my point, I don't care about the software implementation at all, I care about accurate hardware representation. Using the "phys = <>" property does not describe hardware accurately.
+>>
+>> In other words: The CSIPHY are not connected to CAMSS. This is _not_ true, tying the CSIPHYs to the CAMSS block hides the real data muxing in software.
+>>
+>> Please remind DT is used by multiple operating systems, and properly describing hardware in DT will help have good software support over all OSes, not just Linux.
+>>
+>>>
+>>>> And actually Rob Herring asked use to define the complete data flow, it was a strong requirement. I don't see why we wouldn't here.
+>>>
+>>> I'm implementing feedback from Rob.
+>>>
+>>> https://lore.kernel.org/linux-media/20250710230846.GA44483- robh@kernel.org/
+>>
+>> Where did he ask using the PHY DT bindings ? Is he aware those CSIPHYs are muxed to multiple consumers which are burried in the CAMSS code ?
+> 
+> I freely admit to taking the initiative of phys = <> but Neil there is _no_change_ to the media graph and the "mux" is a runtime configuration that is one register in the CSID.
+
+Honestly I don't care about the userspace media graph, this is a software problem and we can totally make the transition seamless if we want.
+
+Don't limit the DT hardware description because of a software userspace ABI breakage, this approach is not the right one.
+
+> 
+> You seriously want a mux device in the kernel to model one bit in a register ?
+
+Why not ? We have drivers that even toggles even single bit to solve those kind of situations.
+
+Physically they're a mux to route the CSIPHY to the consumers, it's a fact... even if it's a register or a single bit.
+
+> 
+> No.
+> 
+>>>
+>>> To me, here is where we stand:
+>>>
+>>> - Individual nodes - we all agree that
+>>> - As sub-nodes - I think the majority agrees this Krzsztof, Dmitry
+>>>    I'm fine with it too.
+>>> - drivers/phy - I think we are accepting this is also fine ?
+>>
+>> Like I said this adds a supplementary API layer for no reason and will make life harder, but I don't care personally.
+>>
+>>> - endpoints should flow into the PHY and then back to the controller
+>>>
+>>> I get that argument. In fact I _like_ that argument at least I like my conception of that argument.
+>>>
+>>> I'll stipulate to that argument meaning then that, new CSI2 PHYs shall include endpoints for this purpose globally.
+>>>
+>>> As I've said before, there's nothing Qualcomm specific about this discussion, really.
+>>
+>> There is, because the current Qualcomm CAMSS bindings are insufficient and should be entirely redesigned from the ground up to properly describe the HW.
+> 
+> The long term plan is to do that. Discussed extensively with the Qcom teams delivering CAMSS, even invited community members along.
+> 
+> Here are the meeting notes - its all in the public domain
+> 
+> https://docs.google.com/document/d/1yUwWHaKLuovKVgGTzvKm68K1zS6xBONVzjOsRjDl03U/edit?tab=t.0#heading=h.mtbm7qfohwfs
+> 
+> ---
+> bod
+
 
