@@ -1,192 +1,226 @@
-Return-Path: <linux-media+bounces-57572-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57571-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CCmKOlU9ymnG6wUAu9opvQ
-	(envelope-from <linux-media+bounces-57572-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:07:33 +0200
+	id EIvpBxA8ymnD6gUAu9opvQ
+	(envelope-from <linux-media+bounces-57571-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:02:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A842357D37
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:07:33 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0910357AD9
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:02:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9A9143068A3C
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 09:01:07 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B635E301A9EE
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 09:00:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B72053B27C9;
-	Mon, 30 Mar 2026 09:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E9133B52F7;
+	Mon, 30 Mar 2026 08:59:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Unl1JwXt"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Mbuozpvj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8933B0AC5
-	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 09:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774861204; cv=pass; b=fF5z3NnuArAwt3mSIsDtE+7XS0teZXAbgMNVd0hGmlTF3a3Iai/x3QFKUQtS1si6Yo6rerMris22vrqdEhxRJisYa0Q8h9X+hk0NouxKXsMbOdXa3WykYb6InenTi5DTQZOkSbklVu2mpDgnfmz+iF3kfE4iBQiWEV2t1m8xhDM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774861204; c=relaxed/simple;
-	bh=Gmf4cKRYBxiM/zbzU6bBxAY/t0/pYX6lhM+af7/ibpo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dCCFbtXhis/0YESxb/STTSCuSZR+uZ3Vtdq1FyKpSGoWJxrMGASUhs0kpqfJq4zgJwtgZ9nzjXMbrfm7q1A6cF8Of9AKYkTyDSkZP4CYnPRFhbLpwoqSfcMx35hltn/5HZpPJD72sY6vnyyZCsKh1LtBkaF4vU7w0cdocN4xKoo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Unl1JwXt; arc=pass smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b9358dd7f79so762994766b.1
-        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 02:00:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774861201; cv=none;
-        d=google.com; s=arc-20240605;
-        b=j5mjw1+tfRcpHRbp1WpqAnEZ3xWrtcDYEoCpQC3nHfrlfMgGe2lmjGeC7Rprn0CH+E
-         71hLDTdUELGUluMYkabWI8tkNHTaJGgqJywuut3v/FiwugyS9jwQDDjwM8l04nr0sXaC
-         R6rJb8xKOmp/GxHDlfZ/BQUR4Jmt28skUDnSrOPkPt7Llrz+8HYqdiyV3TETdieREyn3
-         aok+EklQdzSPY8W7TD6xMQ4LILtPZuSeK0D4rFKPEvHY63tcFHnEzNW98CAp3r170cc5
-         mp2cIv9aB5X1jfuhscuS2K1xJRl1tVCsihu5vMHRhemCFJGYIrO9JFQR8CTNU1CsQJ+o
-         wVhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=aGiglqVIFw2t7J/GqduapkYUREbx60yFQhhgRL82ZAg=;
-        fh=kBcvV2hCHwdhblanFpFN6Nxph6cTYZOEVNW0762iX0g=;
-        b=RxP3qJdw4vxcFpmv/XQC1mJeBbOF+EdS+i0Mk5T3O+Dscv9uH2Za5QC2dX9nYdlwN2
-         XbQJNx2DYdsky+gZDPruQOHN/7xuCRWtONr6Ve5ocmDQ9hQm1O1Ot4CRaGHsP9Y0w+Vi
-         qre8bID/k429zD49txnPR4b6NRd0n+G0uW78z+dkGK6GklS8WeTaY0Kf6w+ziUoUoBqD
-         mPdiqfm3Xm4buRcKS902jnp0hk02X8Lu/8YajZnjeOHqZesxseqe6goXWJsuQ+QP4FMh
-         O8AbQJAWSeh4BisIGvm/kneoGAKzPrMFKw3OP93wbXn0k8S2RTqQpzBMAEuJwhKjvhlg
-         k8+w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774861201; x=1775466001; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aGiglqVIFw2t7J/GqduapkYUREbx60yFQhhgRL82ZAg=;
-        b=Unl1JwXteFmdabPvhnC4hQXFO0/MK+NC7xx3tSKAycepG0Rs7VQqQz4tPEjQ7zl585
-         e8IEjWyNkxwRhRbRrxpwG3MOrAHI5T2lDzVci0AWpfyq2Dg5f6LsXfgZbSX6wGosSLSs
-         3+jdQ+0PHHxwvqFDl7cW6PPbWK+lyR7gJev1vtLj+y4XdMpYXib3sU3tTWgEQqa/RIP6
-         l8+TRgttUG2M5zSSbx9v/qy2BjiSMTU3/fvKknMt2H+V7dKRDJ0d5v/4EJ14SpLFJOxg
-         fI4CkcH9ots6QU+DzhPIEGHnEkuFpBAH1N+wLEE1NKh8iJ8VwxoEImkw8f8/N7xrmyQ2
-         x/Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774861201; x=1775466001;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=aGiglqVIFw2t7J/GqduapkYUREbx60yFQhhgRL82ZAg=;
-        b=EgyzyDVfiQ63X88AqEJXXXyz5MQ+fh+S3JaRtacF6uF9vWYUndXn83D/VmcFOjgunf
-         /s5ULTpFjBsr3y3sUq8GCSydxp2RJ6zBkt8dV3339dVrhy3AqG7Nx8kIcz31UGN5xbW7
-         LDcOZlbQbGHpG7u/rTW1s/6VKt88JGdFVasStubR0/bueVpFJc2mGYFCZkGkWsYw1JBN
-         phShrUgRTNqpFBB40LPXh/j1OT0GmL/8ddtdpjhUJLjw3NCH3EEYIt38AxlPCDsfqF53
-         Ji3czANpA9dLD4WqEnpziOD4PYDb7x52NG9cAZbfZGpBnDyWj9UqlAlTo0ctjjEnnisM
-         OzBA==
-X-Forwarded-Encrypted: i=1; AJvYcCVCFm22HS3iInL4kU9iJh7fsRtu7jf6yUWL0Nk9x8K4v8fNKK/lRh7JqA9l97HZOSVGoFBgJKUrtTL3/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6BNJbwLFDxWJ3Ru/6AwGGYmZjpCUgYdimla7GzpIY5Zrp/PdI
-	cc5JQFLhuHvkOoOCqjq5k5K7s8Zj2vhvxASI4x3Dk7jjef6tChJjp/4GjHxsoeDO67EZu4KaWRS
-	vQDKa4OjG8tDtKI7OycVNHjRHpAmdOUQ=
-X-Gm-Gg: ATEYQzy7gbenWpADcda2JLf+PRll/k1G9VIoqNAq42ncvCzcULxhjGODYn/w5O7TJbF
-	T4/A0rlxV4Z/O9rVoUmwCXxuWIAIkFIubnAoM8+zN91B+/DWCHjP3QUGtBN2wMVTWh9XvL1UF9O
-	0v+xcoJHGFPajxFBf28HqZYqmUu6KZn7Hqn3cpHWRc3ElhkuinwWQb02QkchTQpv9KWurw6PNvZ
-	gQMeH3ChSKuvpqVmIi2vb/3lOe5W/dutnILCNruB51DldfGx/tokJrn3s6Af6VcPbrnNCPJcV0s
-	3PfI1mtEfErVXf24+XqSXS9OMljY3EDLvmuXKb+y7Pir58tTM5pPr3R46blWo5pueoWSbvE0ill
-	USfokCts=
-X-Received: by 2002:a17:907:9711:b0:b9b:63af:d9cf with SMTP id
- a640c23a62f3a-b9b63afda64mr607791166b.48.1774861201120; Mon, 30 Mar 2026
- 02:00:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32623B47DC
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 08:59:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774861195; cv=none; b=Dl5DCOLofYX9xqSdamE4hDwFF+6mvMuSiWyIN96VSqoubJvVyf/GngwA+RHZCH23Pj2NCqyfb3dA47LX7F3lyKWv2zSyuHQ74haGzY9qvHnKCTn6FlofRw1p3eMXdWvJ2YXzo+507iGL4nmgxYjzsPfe6W4dsRSP7qxzXqys5G0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774861195; c=relaxed/simple;
+	bh=4fEDventmX0qGo5Za/mQHwjJ7mCuukWm9uGdDRkRIow=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=apt6+/+g0Wdxs1vbklNuThLf65mfgMeN5LXvzxWauqfLywatepAIjGvnj5IK5cm8BCu0O4VYQWMyqz440IqIIhgHG40b/O2WJbZ8HRFhPGZGv76TumVCXebivaJPku9m4Zmj1up/mrECNxwr7bCNt0xEV4x+0JvDvQSEyggdrTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Mbuozpvj; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20260330085950euoutp029eca169024a3f58bc9d68eac466cdfc5~hktl2CRCL2036620366euoutp020
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 08:59:50 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20260330085950euoutp029eca169024a3f58bc9d68eac466cdfc5~hktl2CRCL2036620366euoutp020
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1774861190;
+	bh=cYvbV9vmk6ZuLyfnM/KH4B2QOnv37WDoJ8hEc+JQuDg=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=MbuozpvjXWHXgzgjWuHC+ySMxMXxaTWV7Sd/Tq080KossBGSyJjExqCDgMFiG8JfX
+	 eL7VwSyau7cyhIx+lHAGVCbHfb5M06r5oiWHa5is7xp0/GV1SYevmTcaYkhB97c0gx
+	 fO581/KMGXd2xcbkYqkiT3PAfMOe7O9FoBaEsFs0=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20260330085950eucas1p1f94b35200e0ca2471baa85be6b85512f~hktlSraz10257402574eucas1p1P;
+	Mon, 30 Mar 2026 08:59:50 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260330085949eusmtip2f8fb615228f6bf437e97b25c4fd14566~hktknbyTA1554315543eusmtip2h;
+	Mon, 30 Mar 2026 08:59:49 +0000 (GMT)
+Message-ID: <62b9e47c-1c31-4654-8347-16516faf73f0@samsung.com>
+Date: Mon, 30 Mar 2026 10:59:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260328192721.255493-1-azpijr@gmail.com> <20260328192721.255493-2-azpijr@gmail.com>
-In-Reply-To: <20260328192721.255493-2-azpijr@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 30 Mar 2026 11:59:24 +0300
-X-Gm-Features: AQROBzAcoxHOw7fb0aPNNPEuLuc8vp52MzCuSgku8_PK1LjqHwTGnIxNOYa7iJk
-Message-ID: <CAHp75VezSSid9b5qNzvMjUS7QTJaKtBhhVVnuS+-sjVe_a=CxQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] media: atomisp: fix potential NULL pointer
- dereference in configure_isp_from_args()
-To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Alan Cox <alan@linux.intel.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH] dma/contiguous: Fix broken build
+To: Maxime Ripard <mripard@kernel.org>, Sumit Semwal
+	<sumit.semwal@linaro.org>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Robin Murphy
+	<robin.murphy@arm.com>, Albert Esteve <aesteve@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	iommu@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20260330-dma-build-fix-v1-1-748b64f0d8af@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20260330085950eucas1p1f94b35200e0ca2471baa85be6b85512f
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260330084111eucas1p1e7cd5c886e34d0ed41226fe524d2a55a
+X-EPHeader: CA
+X-CMS-RootMailID: 20260330084111eucas1p1e7cd5c886e34d0ed41226fe524d2a55a
+References: <CGME20260330084111eucas1p1e7cd5c886e34d0ed41226fe524d2a55a@eucas1p1.samsung.com>
+	<20260330-dma-build-fix-v1-1-748b64f0d8af@kernel.org>
+X-Spamd-Result: default: False [-2.15 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57572-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
+	XM_UA_NO_VERSION(0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andyshevchenko@gmail.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-57571-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[samsung.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MAILSPIKE_FAIL(0.00)[2600:3c09:e001:a7::12fc:5321:query timed out];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[m.szyprowski@samsung.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9A842357D37
+	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:dkim,samsung.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C0910357AD9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, Mar 28, 2026 at 9:27=E2=80=AFPM Jose A. Perez de Azpillaga
-<azpijr@gmail.com> wrote:
+On 30.03.2026 10:40, Maxime Ripard wrote:
+> Commit 3a236f6a5cf2 ("dma: contiguous: Turn heap registration logic
+> around") didn't remove one last call to dma_heap_cma_register_heap()
+> that it removed, thus breaking the build.
 >
-> The function configure_isp_from_args() incorrectly dereferences
-> args->delay_frames[0] to configure cropping without checking if the
-> pointer is valid. However, as noted in a FIXME comment later in the
-> same function, delay_frames can be NULL in certain pipeline
-> configurations.
+> That last call is in dma_contiguous_reserve(), to handle the
+> registration of the default CMA region heap instance if it's declared in
+> the device tree.
 >
-> Add defensive checks for both delay_frames and tnr_frames before passing
-> them to their respective configuration functions. This ensures that
-> optional frames are only processed if they were actually allocated,
-> preventing a kernel NULL pointer dereference.
+> However, the default CMA region instance is already handled by
+> retrieving it through dev_get_cma_area() in the CMA heap driver, so the
+> call to dma_heap_cma_register_heap() wasn't actually needed.
+>
+> Let's remove this call, the now unused function definition, its now
+> empty header, and all includes of this header.
+>
+> Fixes: 3a236f6a5cf2 ("dma: contiguous: Turn heap registration logic around")
+> Reported-by: Mark Brown <broonie@kernel.org>
+> Closes: https://lore.kernel.org/linux-next/acbjaDJ1a-YQC64d@sirena.co.uk/
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/dma-buf/heaps/cma_heap.c  |  1 -
+>  include/linux/dma-buf/heaps/cma.h | 16 ----------------
+>  kernel/dma/contiguous.c           |  5 -----
+>  3 files changed, 22 deletions(-)
+>
+> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+> index f8a3d87f3ccee9630383ba28502eb40b10671cc2..cc517ac68a0bec0788abcb338c03f530d169013b 100644
+> --- a/drivers/dma-buf/heaps/cma_heap.c
+> +++ b/drivers/dma-buf/heaps/cma_heap.c
+> @@ -12,11 +12,10 @@
+>  
+>  #define pr_fmt(fmt) "cma_heap: " fmt
+>  
+>  #include <linux/cma.h>
+>  #include <linux/dma-buf.h>
+> -#include <linux/dma-buf/heaps/cma.h>
+>  #include <linux/dma-heap.h>
+>  #include <linux/dma-map-ops.h>
+>  #include <linux/err.h>
+>  #include <linux/highmem.h>
+>  #include <linux/io.h>
+> diff --git a/include/linux/dma-buf/heaps/cma.h b/include/linux/dma-buf/heaps/cma.h
+> deleted file mode 100644
+> index e751479e21e703e24a5f799b4a7fc8bd0df3c1c4..0000000000000000000000000000000000000000
+> --- a/include/linux/dma-buf/heaps/cma.h
+> +++ /dev/null
+> @@ -1,16 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> -#ifndef DMA_BUF_HEAP_CMA_H_
+> -#define DMA_BUF_HEAP_CMA_H_
+> -
+> -struct cma;
+> -
+> -#ifdef CONFIG_DMABUF_HEAPS_CMA
+> -int dma_heap_cma_register_heap(struct cma *cma);
+> -#else
+> -static inline int dma_heap_cma_register_heap(struct cma *cma)
+> -{
+> -	return 0;
+> -}
+> -#endif // CONFIG_DMABUF_HEAPS_CMA
+> -
+> -#endif // DMA_BUF_HEAP_CMA_H_
+> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+> index ad50512d71d3088a73e4b1ac02d6e6122374888e..9fe001c712339f8388d3f40cca3dfff3f707fcbf 100644
+> --- a/kernel/dma/contiguous.c
+> +++ b/kernel/dma/contiguous.c
+> @@ -40,11 +40,10 @@
+>  #include <asm/page.h>
+>  
+>  #include <linux/memblock.h>
+>  #include <linux/err.h>
+>  #include <linux/sizes.h>
+> -#include <linux/dma-buf/heaps/cma.h>
+>  #include <linux/dma-map-ops.h>
+>  #include <linux/cma.h>
+>  #include <linux/nospec.h>
+>  
+>  #ifdef CONFIG_CMA_SIZE_MBYTES
+> @@ -270,14 +269,10 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
+>  						  selected_limit,
+>  						  &dma_contiguous_default_area,
+>  						  fixed);
+>  		if (ret)
+>  			return;
+> -
+> -		ret = dma_heap_cma_register_heap(dma_contiguous_default_area);
+> -		if (ret)
+> -			pr_warn("Couldn't register default CMA heap.");
+After this change no dma-buf heap for the default CMA area is created if it has 
+not been specified in device-tree. This might be especially a problem for the
+non-dt systems.
 
-Have you experienced bugs IRL?
 
-...
+>  	}
+>  }
+>  
+>  void __weak
+>  dma_contiguous_early_fixup(phys_addr_t base, unsigned long size)
+>
+>
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
->         /*
-> -        * FIXME: args->delay_frames can be NULL here
-> -        *
-> -        * Somehow, the driver at the Intel Atom Yocto tree doesn't seem =
-to
-> -        * suffer from the same issue.
-> -        *
-> -        * Anyway, the function below should now handle a NULL delay_fram=
-es
-> -        * without crashing, but the pipeline should likely be built with=
-out
-> -        * adding it at the first place (or there are a hidden bug somewh=
-ere)
-> +        * Safely handle pipelines built without delay_frames
->          */
-
-This comment suggests something different. What the proposed change is
-doing is just skipping the invalid data without actual understanding
-of the root cause.
-
---=20
-With Best Regards,
-Andy Shevchenko
 
