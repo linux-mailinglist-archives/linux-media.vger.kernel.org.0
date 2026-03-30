@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-57554-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57556-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SOPNLkAyymk66QUAu9opvQ
-	(envelope-from <linux-media+bounces-57554-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:20:16 +0200
+	id 0KI7H4cwymkA6AUAu9opvQ
+	(envelope-from <linux-media+bounces-57556-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:12:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B1A35703B
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:20:16 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8D0A356F0E
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 10:12:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6E37F305C6E3
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 08:12:26 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1A566300E163
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 08:12:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 045C13AD511;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48ED13AE18F;
 	Mon, 30 Mar 2026 08:12:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="Jc8mdmrR"
+	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="GAhqJ2df"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com [185.132.180.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A489C3A1A28;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CCD3ACA6C;
 	Mon, 30 Mar 2026 08:12:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.180.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774858339; cv=none; b=JgRBkp+NrNRKRhv52nA6DgZ2iZNOq5y+1Y9tZKXpprBt2XJVAcVYAgQw/yF9mUWYP0fPh5uuG2nKgrfLfDMJwWNC4qs1kjmdwlahKP19xlNllnB2+7BzJLMarxswSxImgwEDbg6CPBtBb7u+cRhiqRrmvqK65N64O5YqMNmPu2w=
+	t=1774858339; cv=none; b=jbXiFDnbGuiLvirPGzx0GJpOmlI3VWyEjOV6fAnv4KHyKM23ZD8UNGMDWuLUqiHJt89Sn19xWftCGMByZBXyJkH9s2aHO6rgbk2BwlSR3oYKKRn16unCCyIzJ6/wlXcWHfrquu8Lx+HTIzASczURZR4CaklFu0mSPf0F/OH2/bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774858339; c=relaxed/simple;
-	bh=1ruZS5mWr1hpnoKHvH8FYZr7dg1gu8aYTEEk7UMdO64=;
+	bh=aOXr9l0FFmTL/LnafMxft6puEJEDoSxUR5y77Mzx8s8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=jYobIpIKBBAHB3EN0IerJqYiNX5UjUlAZHkP+rAGTkFaxUw0kLe3L5SzqcNEB83/HLoz0keokC0fu+AKkkJzG5lkYrbOy5UWYXTOSJesC1ZAdY7JNuShedggwuzDORTwkVvaNkIbbLI9pdlN4uMmmUnvSbeEI8mSpfwzCGlg4Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imgtec.com; spf=pass smtp.mailfrom=imgtec.com; dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b=Jc8mdmrR; arc=none smtp.client-ip=185.132.180.163
+	 In-Reply-To:To:CC; b=T1Jel6tNRJhS+IL5N/23reha2j00CkifdyCHlqfmH7ZXNHWVlKBIbP36n2o3WPvrqtmtsRsr478Wn/EvDIBiS5690xKyxHyEKhvjdEdgxZgCEeBDfMyUeMSHo41Gundu1CtT3HTefsZHYtvzfp4emdO23NeJQFP5zrEMxy2pjpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imgtec.com; spf=pass smtp.mailfrom=imgtec.com; dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b=GAhqJ2df; arc=none smtp.client-ip=185.132.180.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imgtec.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=imgtec.com
 Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
-	by mx07-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62U5HJTk174202;
-	Mon, 30 Mar 2026 08:57:01 +0100
+	by mx07-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62U5HJTo174202;
+	Mon, 30 Mar 2026 08:57:03 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=dk201812; bh=W
-	Ss4R+WJLlaRlbUhl44LAW/kP57HIL0JMAq4hjBcz4I=; b=Jc8mdmrRwGmCRzZUu
-	CIyvDl7b0ayy5gUk3vZsghlDn3DfsBO/hrbVmiJc6XlFiW+5mZb/Cr4IOrUoVTDs
-	5xoZ19mi3IbD3thYMc8ShQBdGnQ6t6szkV0I/sArLsXxBHqYJf7jTDne6cDUdjV/
-	4b3XN7O+7ZsK8bsfT7ZlmN/7FdLkaJdEd55SdQBbNaOBQYje8IB8rXD445c1iT44
-	MFh9YQcbxUWxS8+ZS280tlrIGrICnwSC411DJGgTxZaRupP/ljaabxejY3USaWz8
-	JktqsJEWry3kKRpO/+4D2ajTP+AjT5pJK3CuhWLrr1g+4eP6A6U+TXmuz/Mbyw1P
-	WJu5Q==
+	:message-id:mime-version:references:subject:to; s=dk201812; bh=s
+	eLcPBEcAsaYN6ay45rwCaaiKgAxHGqW+q1E15iAdgU=; b=GAhqJ2df2B61ce8ss
+	QKzv/zYQBPG2ldQyqeDhYhxnhxXbvSI7bQ8F5Btl4WwPakqvys9s0clGjmOoZ0hy
+	ZTr6iehsCLtpIX6mXeZ1BCc+W4xLHNfnbj5XZ+2CAhaFMSR2VJbdeZfMKTB1nPA8
+	D2+O74uC/pw71xwoH7fWlyMvIG/aGPF8Kvpl/lyEtCMRyl1OInjKJN6HcjptukaU
+	jdCg3WaiBN/CdXE0YOArC/uOcT/aT3SpZOonxaJbQ3Uxsci3+zZMqNlDhWHqsiGD
+	akjGwUE/XtDz7ZUswvZ2nzY5Ca4LMeet983Vv9UztxDFy89DrWjUqyFOZCTwSwEY
+	/l2Tw==
 Received: from hhmail01.hh.imgtec.org (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
-	by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 4d67xusfkv-4
+	by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 4d67xusfkv-8
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 30 Mar 2026 08:57:01 +0100 (BST)
+	Mon, 30 Mar 2026 08:57:02 +0100 (BST)
 Received: from NP-A-BELLE.kl.imgtec.org (172.25.6.106) by
  HHMAIL01.hh.imgtec.org (10.100.10.19) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 30 Mar 2026 08:56:59 +0100
+ 15.2.2562.37; Mon, 30 Mar 2026 08:57:00 +0100
 From: Alessio Belle <alessio.belle@imgtec.com>
-Date: Mon, 30 Mar 2026 08:56:38 +0100
-Subject: [PATCH 3/8] drm/imagination: Skip check on paired job fence during
- job submission
+Date: Mon, 30 Mar 2026 08:56:39 +0100
+Subject: [PATCH 4/8] drm/imagination: Rename
+ pvr_queue_fence_is_ufo_backed() to reflect usage
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260330-job-submission-fixes-cleanup-v1-3-7de8c09cef8c@imgtec.com>
+Message-ID: <20260330-job-submission-fixes-cleanup-v1-4-7de8c09cef8c@imgtec.com>
 References: <20260330-job-submission-fixes-cleanup-v1-0-7de8c09cef8c@imgtec.com>
 In-Reply-To: <20260330-job-submission-fixes-cleanup-v1-0-7de8c09cef8c@imgtec.com>
 To: Frank Binns <frank.binns@imgtec.com>,
@@ -89,46 +89,46 @@ CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
         "Alessio
  Belle" <alessio.belle@imgtec.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774857418; l=1762;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774857418; l=3271;
  i=alessio.belle@imgtec.com; s=20251208; h=from:subject:message-id;
- bh=1ruZS5mWr1hpnoKHvH8FYZr7dg1gu8aYTEEk7UMdO64=;
- b=Hr15ss6AMBUbiy+fmwm5/Y3mpSmrLZJ8SOZMNz5jrX5xTuhQHJgJc6D+iMsZ4YpGmy5qWog6s
- kwh7wmusx9DAjxsMfMBrg5HWjTQPLi6ArKu3CeLK7ZeBw31shpK4bih
+ bh=aOXr9l0FFmTL/LnafMxft6puEJEDoSxUR5y77Mzx8s8=;
+ b=jPTx7qR6OzCRucaHhLcYT3Dw8wFzkDxv+qzNiUFU4TCxWaGz7LSF2jWIeEoRlkuaVBMYVXJ9f
+ B4LQyL0J/WnDcxqdxUn3y5LJOZI/mEaqjeqFYG6USjGh2bmhg2JuMdw
 X-Developer-Key: i=alessio.belle@imgtec.com; a=ed25519;
  pk=2Vtuk+GKBRjwMqIHpKk+Gx6zl7cgtq0joszcOc0zF4g=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzMwMDA2MSBTYWx0ZWRfX3NNUR7xCuwGU
- nvZp334Sq2koxY8z6tHxyR8FVAHb7MMfQTWLLxfrbzJXLuD3duLp3Fx/62GxDQ57bI1bkB6Qh4T
- KY8tjyPGvPvTnKnq8rqh4s4+wKI286pQlUbqCyT3ph9jSy8JNhUnddYAI9EVtIZOV3jLTDX5ZZm
- p5d5Unp+sD0F+M5LrI7m7tYaoruTrQWQMUuCbHe6tphqPyeMbSXTCEk3cHnLCbak1ESy7jk0Y0y
- FUHO11npqYdGGGN/uMPCHsNNHvQVNx6jY4v5At5CTLeFtFBChWXk8LHWcyIvDbMI0oEi8ujmfj4
- zKS8zvD5fyHEoo677mgnld8+7KQ90/FWJJo0QKEGIsmf2iEsMEOUjEc121TJ0cTIPAXqEYdvdvC
- WSITs4vo1dD83qkSWWRU60ejQHDLIUGKSa5SGOJrxRt/9Hp1eoh6L8w1mtTejHkfhYUPUbIPpjC
- okVE356rlu/swrH7wxQ==
-X-Authority-Analysis: v=2.4 cv=QO9lhwLL c=1 sm=1 tr=0 ts=69ca2ccd cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzMwMDA2MSBTYWx0ZWRfX8RiojEjqnNLp
+ ujESR9x9nOyk+KnnMi9dG9on1bIK8IpbWuPlWm7CmC+odHbB76vkYDeCBbFpP0x8iuubAMgfm6X
+ TeovI9i6g/ZO8/Sv8n9eKqDxxDh1xb7NYJeOBl5Hn1PGnl6FEbPXZnThc7yjO0lGdpnw8FJTBEA
+ fWQ4dHo5Vr5bIuZ8LQQhh6P4/FSqF6/464FX3C5Qzrz68T51d5iomG4KOeOphSQVUxf6FJUA0u6
+ oMq+w0DcbeA08rsVleBAJpFYQuyotrjJGTr1CGrBXoh57CdrfrBLCu1hlOj6PhPL2fU7vT67ccR
+ I/ickFYFET4Y67gAgUNZWChcPj7efnkhuIp4Ni06ChoopJ/5G51kbndsTOZBWbNFymshK/CxGT/
+ F55zXz05w/sy7IkvJ+YdtcJi8NDwip7mmbdEwCwREgzTBqlJAwgzKfOc2tS/QQh27s85ujGYj7c
+ v+Lcv4zn8Bu/VyFOXqw==
+X-Authority-Analysis: v=2.4 cv=QO9lhwLL c=1 sm=1 tr=0 ts=69ca2cce cx=c_pps
  a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
  a=txNhvCuK94MA:10 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
  a=VkNPw1HP01LnGYTKEx00:22 a=kQ-hrUj2-E3RCbRHssb7:22 a=7RYWX5rxfSByPNLylY2M:22
- a=r_1tXGB3AAAA:8 a=_Y7jKtEYzl7tsisHUWkA:9 a=QEXdDO2ut3YA:10
+ a=r_1tXGB3AAAA:8 a=BXHwQC_6lmVYEJqqvYEA:9 a=QEXdDO2ut3YA:10
  a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-GUID: MoVJ07EmUFPgzr_k86aZsHFyRHmJytHT
-X-Proofpoint-ORIG-GUID: MoVJ07EmUFPgzr_k86aZsHFyRHmJytHT
+X-Proofpoint-GUID: dDHRjWMPgsG4VMMMCfFiVfPyiBFejy9E
+X-Proofpoint-ORIG-GUID: dDHRjWMPgsG4VMMMCfFiVfPyiBFejy9E
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[imgtec.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[imgtec.com:s=dk201812];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57554-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57556-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[imgtec.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,collabora.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[17];
 	DKIM_TRACE(0.00)[imgtec.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[alessio.belle@imgtec.com,linux-media@vger.kernel.org];
@@ -137,54 +137,86 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imgtec.com:dkim,imgtec.com:email,imgtec.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 20B1A35703B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imgtec.com:dkim,imgtec.com:email,imgtec.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E8D0A356F0E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-While submitting a paired fragment job, there is no need to manually
-look for, and skip, the paired job fence, as the existing logic to
-resolve dependencies to pvr_queue_fence objects will have failed to
-resolve it already and continued with the next one.
-
-Point this out where the fence is actually accessed and drop the related
-check.
+This function is only used by the synchronization code to figure out if
+a fence belongs to this driver.
+Rename it to pvr_queue_fence_is_native() and update its documentation to
+reflect its current purpose.
 
 Signed-off-by: Alessio Belle <alessio.belle@imgtec.com>
 ---
- drivers/gpu/drm/imagination/pvr_queue.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/imagination/pvr_queue.c | 14 +++++++-------
+ drivers/gpu/drm/imagination/pvr_queue.h |  2 +-
+ drivers/gpu/drm/imagination/pvr_sync.c  |  4 ++--
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
-index f1e54e6d940d..527eae1309d8 100644
+index 527eae1309d8..df0a110ed96f 100644
 --- a/drivers/gpu/drm/imagination/pvr_queue.c
 +++ b/drivers/gpu/drm/imagination/pvr_queue.c
-@@ -646,10 +646,6 @@ static void pvr_queue_submit_job_to_cccb(struct pvr_job *job)
- 		if (!jfence)
- 			continue;
+@@ -898,16 +898,16 @@ static const struct drm_sched_backend_ops pvr_queue_sched_ops = {
+ };
  
--		/* This fence will be placed last, as partial render fence. */
--		if (is_paired_job_fence(fence, job))
--			continue;
--
- 		if (dma_fence_is_signaled(&jfence->base))
- 			continue;
+ /**
+- * pvr_queue_fence_is_ufo_backed() - Check if a dma_fence is backed by a UFO object
++ * pvr_queue_fence_is_native() - Check if a dma_fence is native to this driver.
+  * @f: Fence to test.
+  *
+- * A UFO-backed fence is a fence that can be signaled or waited upon FW-side.
+- * pvr_job::done_fence objects are backed by the timeline UFO attached to the queue
+- * they are pushed to, but those fences are not directly exposed to the outside
+- * world, so we also need to check if the fence we're being passed is a
+- * drm_sched_fence that was coming from our driver.
++ * Check if the fence we're being passed is a drm_sched_fence that is coming from this driver.
++ *
++ * It may be a UFO-backed fence i.e. a fence that can be signaled or waited upon FW-side,
++ * such as pvr_job::done_fence objects that are backed by the timeline UFO attached to the queue
++ * they are pushed to.
+  */
+-bool pvr_queue_fence_is_ufo_backed(struct dma_fence *f)
++bool pvr_queue_fence_is_native(struct dma_fence *f)
+ {
+ 	struct drm_sched_fence *sched_fence = f ? to_drm_sched_fence(f) : NULL;
  
-@@ -664,8 +660,13 @@ static void pvr_queue_submit_job_to_cccb(struct pvr_job *job)
- 		}
+diff --git a/drivers/gpu/drm/imagination/pvr_queue.h b/drivers/gpu/drm/imagination/pvr_queue.h
+index fc1986d73fc8..4aa72665ce25 100644
+--- a/drivers/gpu/drm/imagination/pvr_queue.h
++++ b/drivers/gpu/drm/imagination/pvr_queue.h
+@@ -141,7 +141,7 @@ struct pvr_queue {
+ 	u64 callstack_addr;
+ };
+ 
+-bool pvr_queue_fence_is_ufo_backed(struct dma_fence *f);
++bool pvr_queue_fence_is_native(struct dma_fence *f);
+ 
+ int pvr_queue_job_init(struct pvr_job *job, u64 drm_client_id);
+ 
+diff --git a/drivers/gpu/drm/imagination/pvr_sync.c b/drivers/gpu/drm/imagination/pvr_sync.c
+index 3582616ff722..757a18b1ab8f 100644
+--- a/drivers/gpu/drm/imagination/pvr_sync.c
++++ b/drivers/gpu/drm/imagination/pvr_sync.c
+@@ -211,7 +211,7 @@ pvr_sync_add_dep_to_job(struct drm_sched_job *job, struct dma_fence *f)
+ 	int err = 0;
+ 
+ 	dma_fence_unwrap_for_each(uf, &iter, f) {
+-		if (pvr_queue_fence_is_ufo_backed(uf))
++		if (pvr_queue_fence_is_native(uf))
+ 			native_fence_count++;
  	}
  
--	/* Partial render fence goes last. */
- 	if (job->type == DRM_PVR_JOB_TYPE_FRAGMENT && job->paired_job) {
-+		/*
-+		 * The loop above will only process dependencies backed by a UFO i.e. with
-+		 * a valid parent fence assigned, but the paired job dependency won't have
-+		 * one until both jobs have been submitted. Access the parent fence directly
-+		 * here instead, submitting it last as partial render fence.
-+		 */
- 		jfence = to_pvr_queue_job_fence(job->paired_job->done_fence);
- 		if (!WARN_ON(!jfence)) {
- 			pvr_fw_object_get_fw_addr(jfence->queue->timeline_ufo.fw_obj,
+@@ -227,7 +227,7 @@ pvr_sync_add_dep_to_job(struct drm_sched_job *job, struct dma_fence *f)
+ 		if (err)
+ 			continue;
+ 
+-		if (pvr_queue_fence_is_ufo_backed(uf)) {
++		if (pvr_queue_fence_is_native(uf)) {
+ 			struct drm_sched_fence *s_fence = to_drm_sched_fence(uf);
+ 
+ 			/* If this is a native dependency, we wait for the scheduled fence,
 
 -- 
 2.43.0
