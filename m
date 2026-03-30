@@ -1,267 +1,321 @@
-Return-Path: <linux-media+bounces-57659-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57660-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QJ6OC5Wkymmx+gUAu9opvQ
-	(envelope-from <linux-media+bounces-57659-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 18:28:05 +0200
+	id WO+yFEKlymmx+gUAu9opvQ
+	(envelope-from <linux-media+bounces-57660-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 18:30:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A06D35EC4F
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 18:28:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B464C35ED1D
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 18:30:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0FE5B3071692
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 16:17:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DF27030AA17F
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 16:20:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE2E4377EC1;
-	Mon, 30 Mar 2026 16:17:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C69FC377EC6;
+	Mon, 30 Mar 2026 16:20:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="EyGKqCFB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L8s0ZckT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011044.outbound.protection.outlook.com [52.101.125.44])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DE7377015;
-	Mon, 30 Mar 2026 16:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774887451; cv=fail; b=Ok9K/e/UqmYu0QxeVFNnRhjATNzBnblxeLdAdzyfh4Xr0XwquBLZp/V6MhYotnSjso69R5D+XWAEfBul44MFHIWpR+3wzsS8pptF6QALtKVnRnMIqQqNAhqMsRqkyT5NCYatKMKKsCJ+vBcMoh/fo/NdeI5TJPmWkUdkeOU61vI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774887451; c=relaxed/simple;
-	bh=86tJ7EiGWSUgLhh/SvqXUIrCsvkqSqqMa6SVPHVUGls=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=bY9RDlYFEYsJ2wBbuaB+nVo86qU/T1wMCIFSs0YkOGswoEXampYRlEf+Fxbhf/hoYpTC4JmJfdRjtOZs6oLgYjUvpQhY6NdXZbK+m6QbHMMYG+JrgV+rGT4NcqbO+x5QX+KVnEruGSSkA0O1BRRR2aV2hl3P3qaQpEQuo152RiI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=EyGKqCFB; arc=fail smtp.client-ip=52.101.125.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ldmRMMwfRgd/UzYXcjk/g/PoaMo40GB0BD0LeNP3dgzYxvyFjl4ACG8VMTPfdKNZySWFwN7VViksG0Ov4mrcS+2p7uTWffc1dprUXeDvgLpxLCo5jdYh6Zc9JybVbNobH5Cuv64xZvp5uVY9qb6C/oNwOBcvYwfVAIW8RDZpVMCIeYkBjUVHfTehZA/d7gqXjmxiflkzfZZLsm34+XZRSmjiTTGm6FVwBvsRdi6dY4m3KXCJrJ/ax3XPrrFNkL/nUigwTGyy87nTKTJgiElZ1C6yGvbuk8L2osv33q49shjLHeSQYcpWDc6bvttBeTYRDoNu2/Eatzm2TCY1UGJ3AQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K364OzJrtoy0KUzFFnKJY7kXFU4C+LD3JfCv21jBv3M=;
- b=Nnjp0+wVLKxLF4bzrbu9zW/2NdvH1cStSGc9bjn832dvUyANcidJbdXl4nqJwfA7LKWgG40ZI0iDBU1BjIhKlpCNc3MgXYb3uofcfoK23tptpkAdGinh12gZCqOmywBLc4OQRuH3Bx9NeLJYIyr7EpQPLzzvp90WXflJFOxSug9YT8inturctVwxPu6T9BKI1DIjkhfOnkGRaD6pxOE6Q4yUnROC+fLGq0Be+c/kAuO+91VZgZHoKLMhwb+ISY7i04gHuIC4zyfch3aV6GpN7+1fjEG1weg2jbT/c82j+X8HDxxmQmy5RQPuAepVJsogFmytcPMlZtExSN8tYzFgXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K364OzJrtoy0KUzFFnKJY7kXFU4C+LD3JfCv21jBv3M=;
- b=EyGKqCFB/eY7ZSntYNQhuiabwEHF5YBB8joLe+YXIgsnTwfQ7rfGyUII80QTtKGXwxPJ2FIZsgI7RIA5KNzNwRVtIxOliBNHfALPRVu9CF3YB5y81q9HvE9EvhwSzORdi2pd+soK4MM65z5CSl2l0UlSd0fGngjbCmp2ZnMDjTg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by TY6PR01MB17512.jpnprd01.prod.outlook.com (2603:1096:405:35e::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Mon, 30 Mar
- 2026 16:17:26 +0000
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9745.027; Mon, 30 Mar 2026
- 16:17:26 +0000
-Date: Mon, 30 Mar 2026 18:17:14 +0200
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	=?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Subject: Re: [PATCH 08/14] media: rz2gl-cru: Introduce a spinlock for hw
- operations
-Message-ID: <acqiClc70UTck27b@tom-desktop>
-References: <20260327-b4-cru-rework-v1-0-3b7d0430f538@ideasonboard.com>
- <20260327-b4-cru-rework-v1-8-3b7d0430f538@ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260327-b4-cru-rework-v1-8-3b7d0430f538@ideasonboard.com>
-X-ClientProxiedBy: FRYP281CA0008.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::18)
- To TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FA92FDC57
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 16:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774887616; cv=none; b=pvDoS263puJS7zv7ddUXUX1Um36Um7mqF1lmSQ/6OpWv3RzKVBlPoGHNLnQZwV62Miaxk30xQbZYm48sa5+xxtVCIIRi4e7WvhMmeB8D+doVa/qpGaV6Pgw9/Gsll9qBV0I2bjmfEq5db1JH8zUMviKoWPoSAZEgDGjnFQ+G+7Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774887616; c=relaxed/simple;
+	bh=8NdHRlpGTAiQ/vNEfIerY/RY1WsAhKV4fD5NEB31v8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gvIPaEoqiOHvGf6aaTB83cCjV6Yc1RVFVTH+P/VHlC2tZA1tblU7+gUJ87cAsGhozh5WSo+atWWakzMqeZbYBh+29vVdFjUnhnqzD7Pz1VYzVmjih+TtvDaAacXhyoP7ozX8pWRls0YLCbs6abA5Vpz8sIsKGoxeoBgcaq2vNmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L8s0ZckT; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774887615; x=1806423615;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=8NdHRlpGTAiQ/vNEfIerY/RY1WsAhKV4fD5NEB31v8s=;
+  b=L8s0ZckT0P3MeVMrJoVDAZjQe28LmV9l4xtKQsQu1VkVufhTbVLn70tP
+   rg1O4KOo2LhVOhyldlZwCZ80iEdZ0q4bBlOd5HZLn5VcDlIhFy/KAizFJ
+   cXZclK129kbftNlbQBS44J1u8bggs1unmiT19TnI7U+LFWPBDN5A+CSLF
+   Xt2XCpgwYD7FSnSD2nf5iGN+cxPfvGg2FcjOllQLrtirXIJ3ZKplD059e
+   rgawZuSZF9t+eOTf1cEZrcuOz776ow8qG7aYC59952WVlIJ4YWuhx2SYM
+   iw6xAq5pjLyq1qtw6n1myBDyiYY0LU0aRSj2ECtN4C2oGrsUwaG+w9krc
+   Q==;
+X-CSE-ConnectionGUID: 5SGZa1j9TS2e1CO7/lPBZA==
+X-CSE-MsgGUID: GWMUXO7ASgeadGwXmROOlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="87354766"
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="87354766"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 09:20:14 -0700
+X-CSE-ConnectionGUID: lk5tQINfSxmARRpQEFcm1w==
+X-CSE-MsgGUID: o0XMwwyeTXO9638T+2yB7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="221689539"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.173])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 09:20:07 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id D2005121D0D;
+	Mon, 30 Mar 2026 19:20:14 +0300 (EEST)
+Date: Mon, 30 Mar 2026 19:20:14 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 44/66] media: uapi: Add controls for sub-sampling
+ configuration
+Message-ID: <acqivj1Oc-LIDUrm@kekkonen.localdomain>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-45-sakari.ailus@linux.intel.com>
+ <9f56a4ee-150a-44a8-8473-a17931443b30@foss.st.com>
+ <acVkqiSPLAWrOv4A@kekkonen.localdomain>
+ <51d3cb55-b0d3-4968-9871-b7cc646e731f@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|TY6PR01MB17512:EE_
-X-MS-Office365-Filtering-Correlation-Id: f13d6ed3-cc7e-43c8-8552-08de8e77d51b
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|52116014|376014|1800799024|22082099003|56012099003|18002099003|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	NSIEF9Vai5TdHAIZqaKq/oEibIW50jZsaA6sHxtYC5elJHYeBXYLnKqhZAMEa3sLZBGJ156V7jmluesvdfCZK7q/E6T+AcHiyxFfrGSEjsECbbwbMibTaN6Sqox7/8DwCN7gk8RQrFYbNf9vQdLM1mi9er+eLMvfa/VJPd4XFjNzV2/BgbgIGencjqMeLmqTjWclpOd7vJVCq8kBK+UPcpTauPtyU+9uHEa2TFerh3/UI48HNw60/opVNHmje/jSeec1oHfttp9uiUVX1X5hSVL8F9kj8/PjE7ieTZwB4xi9b3Vezrn63kq5vP8Gsp6Ym8qvEUKWSTIIOmqkyktvsFiietq4vN2I5kqWjvUcBwzMRZJdSAjcCtLBGpqf1rpCZi+gwEAT4pmaG2lUO443xQ9iLu/Ow+P7QlV2XBHHeNRgBBPfJtrrNlLD9UN1RAgAwl76ACLVOpUc42/Gb+eoHwXYC/F58Yh/TrgUZ8ZhW6J81NPtNReinvCKUkJCQWcuJ70rmqWGK6lVAZuTwJrXsMxEvzHtfa4TqcV4tTnoZKW+CoB63VlntIIicsuIgw6FDB93LXSR0VnKt0siHdx2aXT1egYyZbx8w9v24hsHFviNFNtv42GXeJGhrDq88rYhEoKn1h8v7nv5pkKwm8cGOmw58x5TW2Ya8S9HbtUe6Olg214/Kpkwvlt8roHJlTDMx4li4rqomHdHOE72j+3QELFxGad7XqtqDw3kSlyL3kINJUz8iH2rbteQkmpkD7+lEHtdqU/443aQBF8NrZOlEePrN8K+dv3rxLgAg+H5r+I=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(52116014)(376014)(1800799024)(22082099003)(56012099003)(18002099003)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?pwPdpI8LNsOpiAhDOFsaw6hDCfawSR3a5p/9ADQgtpKpuruHV0PHVpSZVRFF?=
- =?us-ascii?Q?dP13ManE25UfjCYv76gE91gNHfMn9mMjL2xvOgHgXd5aeJaas0NVSAD9I8Ly?=
- =?us-ascii?Q?ykxZw4hdEBCVjqyAFTB+ig+9+JBqENdaCrRnBZQ/3mKk3XPAos4Jjc6FvClh?=
- =?us-ascii?Q?/km6c8rD9ct+T++g3OxcLmJHlV/hIS9NaFLA1D1yvv9rlqfSsDxZUUKNK7Ec?=
- =?us-ascii?Q?91LLYfYUjsULOeUbuizU5VvCPbTk6BWKhzXLJZmzQrsfKHxi2UtJi1COaC/+?=
- =?us-ascii?Q?e7T6wjJ0XXOkH6VCsBz9EuQ9GcLCt0wnJMeKD7mYJ/jSbG7CjmxTHBhYyGCK?=
- =?us-ascii?Q?kx8r9+UjDLVbaGK+lG8SY1L0566kLfBKfs5qUF7RZXo/Fh+xu0kq8LdWSIi0?=
- =?us-ascii?Q?4HICsOa4fyxcXEHcYz3COzhfwCZ501bWAKIczlzsnaJuBi+cMC53Y42AcpWD?=
- =?us-ascii?Q?wuc8q8gZ4VZ8l0MmDlyBCFXOqDfzBOTVzlO6pTKxGSlQPBjdZEYG12QXqAEg?=
- =?us-ascii?Q?7D8vNEdAnao0Db4tqbMfai7Nw3kTRvBgWMuY1hv0PepavJW+8rP6RtLT6u3R?=
- =?us-ascii?Q?+fA+IcgzxG/+pSazvhv11uK7lrA/m1hxkpWI7m5ctu7XmCcKDBXPHthmdY4y?=
- =?us-ascii?Q?NNz+biZDlUbYCM7CDceHzpRZH0ALpdjJyJBwZaJof2UmpU+Cw5RMzsIe+kXy?=
- =?us-ascii?Q?ZpwX13gceCcclbNYGLwfJHQfNJUPds+NQ/NkY/UvcIAkKFBQR5UYNUYnHcCi?=
- =?us-ascii?Q?3V+6FsejMVmusLEVMPQSbKVO06tnRlgz31HkSk0qVDkHzIlhvvaWthHR08mt?=
- =?us-ascii?Q?2vTkf1aMnkTcQlnDQGtCAxRetTPhfXndcTJkfjenT7d8wSewQbfFB64QfOXt?=
- =?us-ascii?Q?Duc8eSc90k+fvG/rb9u7r4ViRmEMalKO73kLbK7zcz0B136BxHpDqGVF5AZQ?=
- =?us-ascii?Q?co+y2PInX9G5GbEd+mk5kvneelE/FJmkt6yWumGjAxZkSgTMkLweOU114l3J?=
- =?us-ascii?Q?cbtj3M1rl6iBp1HkifAKymF7mdDzEANqhLjBNd7i2n0CmdqZ1DtdPgf8EszY?=
- =?us-ascii?Q?oZVhEMhUgkiqqwnqDW/I4+0+Uov2oRg56U24DzOKQUt2Og630m0zlEZgu0QT?=
- =?us-ascii?Q?mpiIwevQBJgTL9VvveyT1+ZDDnSPxCjzuqOeku8A2977fugSLMl+eEd2UyVY?=
- =?us-ascii?Q?i1mh2U5WUmsmtBQKNHpVzCp+YiHsrJVYgCQibacwA9q6+pkX/hruDroQAUW4?=
- =?us-ascii?Q?6/iSAsSv345C0l/6YIMBFcJ+om6comdmi44lyuo8/Bu2MWpyawQ/zRwGVpIi?=
- =?us-ascii?Q?HGptZph36sI0JqgyEtWnmZNRM5ShVAafmAZnvkgzsiqf5kyS1wS0hBJ126mY?=
- =?us-ascii?Q?nT2BaKsb6hn6jLhl3ezVH3tUZj41lVvlpqrWgcp+NwBGVIOxI8zhQlz0kvUr?=
- =?us-ascii?Q?ReTUyK/fsftg9o5Qq/soBh9Qa+ImIGtFGhqCU7kO/xKRtVq82HZa5VEXiNXe?=
- =?us-ascii?Q?MTLt+ZPf3Zg+ySsxH2LQOqmGJnl3IS0pP+mtmSD9sObXhV+6I/PnzwB65+RH?=
- =?us-ascii?Q?DfclLLeHQfHQR98AhsocsvDw6PaZwDwIXyIcqr19EhlrXcuvWw+Ret7X7eDn?=
- =?us-ascii?Q?c0Uy0HPCE5jt+8fyPt01OzdQ9PPlIT88KgOOnQJYJc0TYcXWcIkFP2q1dCRw?=
- =?us-ascii?Q?OQbMDX/boWoQ1jQBZZvaqrGw1bSdzK1OjkTBePFjZSdvVBvYX4KNmA+00CiA?=
- =?us-ascii?Q?XpgrZe63yUQLBIWejJ0+avWTl6C4XhIAPCWnXxwNvpY/8/RoSFEl?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f13d6ed3-cc7e-43c8-8552-08de8e77d51b
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 16:17:26.4442
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ITRVf25/s/75FGRTtS64aGRvA26qSpPn1ssZlZprKzbGgtw4LScQeAfHDGpKu0ABxwyaVWREhAL3jFTIX9xa3O8FO7lKKNi9NcOfD7mw7usZr9xh/895+PEQekL3A9C3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY6PR01MB17512
-X-Spamd-Result: default: False [1.84 / 15.00];
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <51d3cb55-b0d3-4968-9871-b7cc646e731f@foss.st.com>
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57659-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-57660-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_CC(0.00)[kernel.org,ideasonboard.com,bp.renesas.com,linux.intel.com,protonmail.com,vger.kernel.org];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-media@vger.kernel.org];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
-X-Rspamd-Queue-Id: 8A06D35EC4F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,intel.com:email,st.com:url]
+X-Rspamd-Queue-Id: B464C35ED1D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Jacopo,
-Thanks for your patch.
+Hi Benjamin,
 
-On Fri, Mar 27, 2026 at 06:10:13PM +0100, Jacopo Mondi wrote:
-> From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+On Mon, Mar 30, 2026 at 05:00:44PM +0200, Benjamin Mugnier wrote:
+> Hi Sakari
 > 
-> The CRU driver uses a single spinlock to protect the buffers queue and
-> the hardware operations.
+> Le 26/03/2026 à 17:54, Sakari Ailus a écrit :
+> > Hi Benjamin,
+> > 
+> > On Thu, Mar 26, 2026 at 05:05:47PM +0100, Benjamin Mugnier wrote:
+> >> Hi Sakari,
+> >>
+> >> I'm so late to the party I'm afraid the door might already be closed :)
+> > 
+> > The patches aren't merged so it's still possible to change things...
+> > 
+> >>
+> >> Le 25/08/2025 à 11:50, Sakari Ailus a écrit :
+> >>> Sub-sampling is a way to decrease the data rates after the pixel array by
+> >>> systematically discarding some samples, either vertically or horizontally
+> >>> or both. Add two controls for the purpose and document them. The
+> >>> sub-sampling configuration is taken into account in the compose rectangle.
+> >>>
+> >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >>> ---
+> >>>  .../media/drivers/camera-sensor.rst              | 16 +++++++++++++---
+> >>>  .../userspace-api/media/v4l/ext-ctrls-camera.rst | 11 +++++++++++
+> >>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c        |  2 ++
+> >>>  include/uapi/linux/v4l2-controls.h               |  2 ++
+> >>>  4 files changed, 28 insertions(+), 3 deletions(-)
+> >>>
+> >>> diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> >>> index ef1f51862980..b0ad0d778396 100644
+> >>> --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> >>> +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> >>> @@ -120,8 +120,8 @@ values programmed by the register sequences. The default values of these
+> >>>  controls shall be 0 (disabled). Especially these controls shall not be inverted,
+> >>>  independently of the sensor's mounting rotation.
+> >>>  
+> >>> -Binning
+> >>> --------
+> >>> +Binning and sub-sampling
+> >>> +------------------------
+> >>>  
+> >>>  Binning has traditionally been configured using :ref:`the compose selection
+> >>>  rectangle <v4l2-selection-targets-table>`. The :ref:`V4L2_CID_BINNING
+> >>> @@ -130,7 +130,17 @@ users should use it when it's available. Drivers supporting the control shall
+> >>>  also support the compose rectangle, albeit the rectangle may be read-only when
+> >>>  the control is present.
+> >>>  
+> >>> -Binning isn't affected by flipping.
+> >>> +Sub-sampling is often supported as part of a camera sensor's binning
+> >>> +functionality and performed after the binning operation. Sub-sampling typically
+> >>> +produces quality-wise worse results than binning. Sub-sampling factors are
+> >>> +independent horizontally and vertically and they are controlled using two
+> >>> +controls, :ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and
+> >>> +V4L2_CID_SUBSAMPLING_VERTICAL <v4l2-cid-camera-sensor-subsampling>`. In
+> >>> +sub-sampling, the image size before sub-sampling is horizontally and vertically
+> >>> +divided by the respective sub-sampling factors. Drivers supporting the control shall
+> >>> +also reflect the sub-sampling configuration in the compose rectangle.
+> >>> +
+> >>> +Binning and sub-sampling aren't affected by flipping.
+> >>>  
+> >>>  .. _media_using_camera_sensor_drivers_embedded_data:
+> >>>  
+> >>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> >>> index 18b484ff5d75..577b73045bee 100644
+> >>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> >>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> >>> @@ -701,3 +701,14 @@ enum v4l2_scene_mode -
+> >>>  
+> >>>  For instance, a value of ``0x0001000300020003`` indicates binning by 3
+> >>>  (horizontally) * 3/2 (vertically).
+> >>> +
+> >>> +.. _v4l2-cid-camera-sensor-subsampling:
+> >>> +
+> >>> +``V4L2_CID_SUBSAMPLING_HORIZONTAL`` and ``V4L2_CID_SUBSAMPLING_VERTICAL``
+> >>> +(integer)
+> >>> +
+> >>> +    Horizontal and vertical subsampling factors.
+> >>> +
+> >>> +    Sub-sampling is used to downscale an image, horizontally and vertically, by
+> >>> +    discarding a part of the image data. Typically sub-sampling produces lower
+> >>> +    quality images than binning.
+> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> index 5e1c28850e87..9f8816bfffbe 100644
+> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> @@ -1088,6 +1088,8 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >>>  	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
+> >>>  	case V4L2_CID_HDR_SENSOR_MODE:		return "HDR Sensor Mode";
+> >>>  	case V4L2_CID_BINNING_FACTORS:		return "Binning Factors";
+> >>> +	case V4L2_CID_SUBSAMPLING_HORIZONTAL:	return "Sub-Sampling Factor, Horizontal";
+> >>> +	case V4L2_CID_SUBSAMPLING_VERTICAL:	return "Sub-Sampling Factor, Vertical";
+> >>
+> >> I applied this patch in my tree and I'm currently implementing binning
+> >> and sub-sampling support for the vd55g1. First of all, thank you for
+> >> your work.
+> >>
+> >> The vd55g1 camera sensor only performs sub-sampling in both horizontal
+> >> and vertical axes at the same time, no decoupling. For now I  modified
+> >> the patch to have a single control handling sub-sampling as a whole.
+> >> Maybe there is a more idiomatic way to approach this kind of problem
+> >> that I might have missed ? Kind of 'linking' controls together if that
+> >> make sense.
+> >>
+> >> I'm unusure if having both sub-sampling axes tied together is common
+> >> behavior among camera sensors or not. Do you think this is something
+> >> worth addressing in the serie ?
+> > 
+> > The reason a single control was added for the purpose was that it does
+> > allow for implementations that tie horizontal and vertical binning factors.
+> > I'm not sure which one is more common but both can be supported this way.
+> > Untied factors typically means having a large number of options though.
+> > 
+> > In CCS horizontal and vertical binning are related, too.
+> > 
+> > How many options do you have for each?
+> > 
 > 
-> This single spinlock is held for the whole duration of the interrupt
-> handler, causing all other driver's operations to freeze.
-> 
-> Under heavy system stress conditions with userspace not providing
-> buffers fast enough, this causes loss of frames.
-> 
-> Prepare to re-work the driver locking by introducing (but not using yet)
-> a new spinlock to protect the hardware registers programming.
-> 
+> I have binning x2 and x4, and subsampling x2, x4, and x8. But I only
+> care for x2 for both at the moment. You can find more at H.2.53
+> READOUT_CTRL in the user manual [1].
 
-Reviewed-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+I think I misread your explanation earlier, missing two perhaps impotant
+letters "d" and "e". Another option would be to implement a third
+sub-sampling control that would apply to both directions: this is about
+controlling the sensor only so I don't see this being an issue.
 
-Kind Regards,
-Tommaso
+Controls are a bit awkward when it comes to direct dependencies.
 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> ---
->  drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h   | 10 +++++++---
->  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c |  1 +
->  2 files changed, 8 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> index 3a200db15730..b46696a0012b 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> @@ -109,7 +109,6 @@ struct rzg2l_cru_info {
->   * @v4l2_dev:		V4L2 device
->   * @num_buf:		Holds the current number of buffers enabled
->   * @svc_channel:	SVC0/1/2/3 to use for RZ/G3E
-> - * @buf_addr:		Memory addresses where current video data is written.
->   * @notifier:		V4L2 asynchronous subdevs notifier
->   *
->   * @ip:			Image processing subdev info
-> @@ -118,6 +117,10 @@ struct rzg2l_cru_info {
->   * @mdev_lock:		protects the count, notifier and csi members
->   * @pad:		media pad for the video device entity
->   *
-> + * @hw_lock:		protects the slot counter, hardware programming of
-> + *			slot addresses and the @buf_addr[] list
-> + * @buf_addr:		Memory addresses where current video data is written
-> + *
->   * @lock:		protects @queue
->   * @queue:		vb2 buffers queue
->   * @scratch:		cpu address for scratch buffer
-> @@ -147,8 +150,6 @@ struct rzg2l_cru_dev {
->  	u8 num_buf;
->  
->  	u8 svc_channel;
-> -	dma_addr_t buf_addr[RZG2L_CRU_HW_BUFFER_DEFAULT];
-> -
->  	struct v4l2_async_notifier notifier;
->  
->  	struct rzg2l_cru_ip ip;
-> @@ -157,6 +158,9 @@ struct rzg2l_cru_dev {
->  	struct mutex mdev_lock;
->  	struct media_pad pad;
->  
-> +	spinlock_t hw_lock;
-> +	dma_addr_t buf_addr[RZG2L_CRU_HW_BUFFER_DEFAULT];
-> +
->  	struct mutex lock;
->  	struct vb2_queue queue;
->  	void *scratch;
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index 27079c17a54c..a79b17e146bf 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -844,6 +844,7 @@ int rzg2l_cru_dma_register(struct rzg2l_cru_dev *cru)
->  	mutex_init(&cru->lock);
->  	INIT_LIST_HEAD(&cru->buf_list);
->  
-> +	spin_lock_init(&cru->hw_lock);
->  	spin_lock_init(&cru->qlock);
->  
->  	cru->state = RZG2L_CRU_DMA_STOPPED;
+> I came up with something like this :
 > 
-> -- 
-> 2.53.0
+>   case V4L2_CID_BINNING_FACTORS:
+>     if (ctrl->val != ctrl->cur.val) {
+>       sensor->subsampling_h_ctrl->cur.val = 1;
+>       sensor->subsampling_h_ctrl->val = 1;
+>       sensor->subsampling_v_ctrl->cur.val = 1;
+>       sensor->subsampling_v_ctrl->val = 1;
+>     }
+>     break;
+>   case V4L2_CID_SUBSAMPLING_HORIZONTAL:
+>     if (ctrl->val != ctrl->cur.val) {
+>       sensor->binning_ctrl->cur.val = 0;
+>       sensor->binning_ctrl->val = 0;
+>       sensor->subsampling_v_ctrl->cur.val = ctrl->val;
+>       sensor->subsampling_v_ctrl->val = ctrl->val;
+>     }
+>     break;
+>   case V4L2_CID_SUBSAMPLING_VERTICAL:
+>     if (ctrl->val != ctrl->cur.val) {
+>       sensor->binning_ctrl->cur.val = 0;
+>       sensor->binning_ctrl->val = 0;
+>       sensor->subsampling_h_ctrl->cur.val = ctrl->val;
+>       sensor->subsampling_h_ctrl->val = ctrl->val;
+>     }
+>     break;
 > 
+> Allowing to reset the binning if the sub subsampling is set or the other
+> way around, and tying both sub samplings together.
+> 
+> I don't find it very elegant but it works. Are we fine with this kind of
+> code for sensors having these restrictions ? As you may have guessed
+> they applies for most ST cameras.
+> 
+> 
+> [1]
+> https://www.st.com/resource/en/user_manual/um3224-how-to-integrate-and-configure-the-vd55g1-sensor-stmicroelectronics.pdf
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
