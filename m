@@ -1,328 +1,206 @@
-Return-Path: <linux-media+bounces-57529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57530-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OAZkDebSyWlj2wUAu9opvQ
-	(envelope-from <linux-media+bounces-57529-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 03:33:26 +0200
+	id mA+vJvTWyWnE2wUAu9opvQ
+	(envelope-from <linux-media+bounces-57530-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 03:50:44 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87975354982
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 03:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C4F354A7F
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 03:50:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 262F8301724F
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 01:33:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DCF53300CC3A
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 01:50:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61B3B25DB0D;
-	Mon, 30 Mar 2026 01:33:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C653C19CD1D;
+	Mon, 30 Mar 2026 01:50:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ayONojUb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NkfMSM/E"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3AF212B0A
-	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 01:32:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D7A22A817
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 01:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774834380; cv=pass; b=HRP7uparSUMP9JwqbufNcd2WcD72N0wAT4QTcYXAtsNsNN3H7H9bIeqkn7kULm2POLlFK/TbLpCrpwry35ximgOfWLwF+777j/qqS7UWMroUZItLgXg08Y7GeUhEGw0yXRkwQD/yVKQzI7+AvdoqnSJt/xwspmtwRou1KHzAc5A=
+	t=1774835428; cv=pass; b=tnD71xV6gZvmq8N75iJdJVVylentu6Im5eZyTBhtzR4amRgzyr0AyTy1SlwKfwhF29BnlbrhSQQEpOw1iodDGk17F6Ho8H+vbtoJwRJ8b57c6a83UvCDO8H7m42BveTdtCvKtQxXcGshaET1SNya8BlnCvgDICT+zZr+J4N4O78=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774834380; c=relaxed/simple;
-	bh=+Q1YyVNJu0ZiaK+qjFsoCmBsOlxRu1PCmfsnheR2rfY=;
+	s=arc-20240116; t=1774835428; c=relaxed/simple;
+	bh=3zmpkh1HOAtT9VdLxxFNLSo1VLNkiV6TEdXiOsrwqv4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ONTnm1zTXgLnXJOY21grdgvIaCXhA/+c0ZuWaxgofEaTbgHMPi8i1SCmj+iC+WGcg/u69YtlQtAsbsdV2FZT0JKbJeqqbj3J/EfqHxkVkevrkr8UDxzP89K7X3SNKdaoxbwVWvV/IHJlUM83rPpMy2r3ZzbrsP0MLL99CS3Q0pE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ayONojUb; arc=pass smtp.client-ip=209.85.217.54
+	 To:Content-Type; b=fGRoNqg7kYJEGtz0fuHWovwAebugWi1p2Ybse5x/AkBXPBUQTE+zQShw+CkS/9Pj/FgWrO03+9/yUq6ZsUuNos/C+UQTv3XF5cRjbovJNpVOkBeO4gx5L2d/G20WDumUG3w0hvnxPKMZhP4p8gfYp413AuV4a1WhxLdC5ZIgSDQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NkfMSM/E; arc=pass smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-604de452750so2290062137.0
-        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 18:32:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774834378; cv=none;
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-35d932cc948so938998a91.2
+        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2026 18:50:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774835426; cv=none;
         d=google.com; s=arc-20240605;
-        b=KisfrE9TeCpDR3Plaa8Nzjrthu7JtQWyfl1fe97unxrPud+T0Xv2g51hDwPlaDoPIJ
-         xNoKSuK/iNMLte/Onz5fNhgFoXtoZp4GqSTE2zZbXJsu8iOBnAO6/O9lxcHabZi9GsbB
-         20eGC1z3jim8fKT8+/fcrk3FwA+GazgmiEsjXZTmwBrbkVxD5zxziOrdMWtRfJmbTONy
-         Lxpp0UH4TP+98cTZoHYsBmzTtzuUWDRTJBkwTvOLrwaovf6mHhw5IEIR3aX9YKhUe5Y9
-         Gu7vVQQjAReRHvH/nc+tisSg9fIiLXxLM9kne5CZYMGk+nnneAbYpwBLt9H0rIH4p+/+
-         igGA==
+        b=Ta5mCYfuTh1371ipZm+W6q4c5FYLn/MyNqn1ggnlzyTi+DTFJ0cnDKalNDJ6jNhFD6
+         dwBpOFCZBe/XOaJEhc5Axn964EBqT+Cbg3tdPW31LVpfric6gzH2xlO/xmXBezcZlSAO
+         9nv/qcGbp5J4doCAc/Rz6mfxfhYgWPrObON4imB/1F6gPekBVsf+/KBk6Q4MGm9f36PD
+         PWRivGbO47ry94mNmqNzM9w9Aext6c/8TuMNluluPJdGvqITcDsMDTKDvwY9pViLyVzV
+         RX2aGWqBvMC3x5Rvn6rfvfE082A+ODMllHIUurMG7MVIHw7uLdTBQVj+hrmy2bzTfOSo
+         jCcQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=i3YnJTDVMbGBpA8luj4wZy2j0gbaE3JlsAMh7Iwdxws=;
-        fh=0CPadCZQBqukoP/QPCMrMphk/g6owYU8v7KuIkomPJs=;
-        b=PZ/IaOKP057hjj6NLP+fwE07BKjpGRUsT1jgj2OBeeyhhZQIznXlwktqc6uWQ/mYq+
-         LdDAmgH2sS+/xyhakbsCpnymcEk9tXLDU0BtWQ14HDNvsuxdP8VeO9wFrC+70gKcNXgv
-         +Cz3noS5ricCVD1umbYSIcUlEUsEXWX9hd/1OuaNPRub/e5VJNPhorIzQnB0S+7apl8C
-         B25z3HNKdoZMk3Y7sOLVQu4BTnICD3ZO5jMF7QOPrPRHpZYeBgMNIXh/XG0VT8q/gr30
-         hru/JssygHvjZTvSgxwkKeCZcavf+fM3HF5b8dHiPtRMHCQfxLBNPd4MhwMr/gA+EysD
-         V11A==;
+        bh=J5FBIeneBNFUSJjshfpElbkvAz/Tk6TZKpg7T0/4sXM=;
+        fh=RpYxnnRW5A5FvuL86z7f7YWfE0tvaTrs4Vecbev4fLA=;
+        b=PRXaHFaX4uFMSX/OQRxxYDQ0bKDpB0d80zNVl0zT8Y2v5rgs9d9x7CiUZG87pEjEW7
+         WXJEEM8EfjWbionIacpOv9/rHFndgA8DDbK9aPOpOz+HWO7LEThhThKy8M4hq6DdF04n
+         LMCDGbay9B7pR3UvwH6xea7e7EvqlCngPC0ePuz3wsSqwQcRaLltfkqh6O/WSJ2FmIj4
+         amvYsHUHFkFQ5/8IHvYAzk81tFTDYTb7y6EToAilcBg3wDCI2fY4GSAwWMBIRGiY+FSV
+         ZgaZsV3qnPW0YfVHc1+iH/XzBCDNq4XuATS5SQuKCP7LHuJtsr/FfgT5EkPDH53NbfWt
+         QaMA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774834378; x=1775439178; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=gmail.com; s=20251104; t=1774835426; x=1775440226; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i3YnJTDVMbGBpA8luj4wZy2j0gbaE3JlsAMh7Iwdxws=;
-        b=ayONojUb23MYIn6LPm6cqVWCUU8e9ESF79jOcrEX9PZA0YmjGaECTHYKGouTuwX/Si
-         aEHYUpXC0VkvgnbpGn6FiyBAHjltcz/Tgc3wA60R57jYexrBoiPiNaiu3PkRdtTSDUkI
-         pUi+10+b2QzNIuIPh5I2HMTcNf2LWuzmErEGCuupqbqMYEpwna1uog+f6VmkQEmA50Tr
-         etTOUPvY5NMSw3ejIyNRV0mfe+B8MwspBgW+cHqsJWyg23scylSw1R3GrKJan5lNmf9Q
-         9Q07sbwYt7bTULQ6Th8aDnFGSHjpHIIz7rwmm7TU97f+OBE9tSdUwn98ML5l/mlHBQ9K
-         m8zg==
+        bh=J5FBIeneBNFUSJjshfpElbkvAz/Tk6TZKpg7T0/4sXM=;
+        b=NkfMSM/ExskgdeCAkNEYU6XfYdiLFPu901zqicZEPpgLCwHW5oVy12UdncRtGBuSPt
+         BEBS+aIutdgkdXSXBrZ/XLf751mJjEk+flJDB1H9zEjgQQWQcslL5VGY1SaEjf03aK/9
+         XY/tuqtvisK1bHkvHpTI2jITqf+fWfy6g9gMXtn4L8Jk7Esv0gchvMkUB+F893zsOotM
+         fZkyDO7pJBBvlm0eJlI5JBVW44JiAZLec34pk942Ocmxb780344sdK8zH0zsD5nBQmS7
+         ny0lJ7ZdqG3lZTPRDrSI2eqH5spjWywSb6tfctMqlN4vkTy7Nt5AyHZMKxsq/nAwmzH5
+         QTbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774834378; x=1775439178;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=1e100.net; s=20251104; t=1774835426; x=1775440226;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=i3YnJTDVMbGBpA8luj4wZy2j0gbaE3JlsAMh7Iwdxws=;
-        b=WECWlCGibMbf9ECsELhHTynn7xvZosCj8Kg/EtUTOV3MDDDHriYk3gy7MErUdypjtw
-         IXnRzyiv8pJbZ7+wImxO4jlgakl2u11kq0ps9fDJmddmBUGhpfKi6GJRi72Atz2UmK0V
-         oxrwwSJROXnToesxRc5tHbfa+v+cc5suLxGvB2XN+H2veYt/OvtVZJsM0nXPOd5oXd+I
-         wd8J9ZIovV+uAuWpC02gK9DnF31zxheAZ7V5s4HpZG+6fRMlJrRAihrLiz2tA4TtaRcu
-         vNy0V1wjS/Roqr592E5u3tndUQ6LVRfjZPs8SSgLuQiKpq7KoLuss89W7Pc3WvcUzwKJ
-         vNwA==
-X-Forwarded-Encrypted: i=1; AJvYcCXTPEIN9dnzdEaeZNpixxrzv2PwaXzeG8BqsfG+H2M7G7srVFKged4u/I2J6D48YcLqKHIDImk7QUvmUA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkFLH6pIlOvHLyJG7To31fwqr+jfdAxD8fe8P2dGbTYvDVKw/M
-	LasNA/EAn+gsphHlvkUsbNnYARBFU3On0/Zxu/mBtz9175goJb8/+hKiGjLUmPDWW7xBI8BXgH5
-	mlgqYSaUTb2HhzH2IghP3mVgd/fQ51IQ=
-X-Gm-Gg: ATEYQzzWGel09Jq6n6gs8n11j5CXFr6FraAnfzVeamnWdTtSQnPBc62OAgB9b6+ULXh
-	dFCmtVHVHBOR7Gw1ZJXqIfWRB9QtRA9npTUWd4qk3mJ69PIhnpbzJwqy8KqwCwRerQMOdISp6QC
-	/7tboHvCzSD5NhHi9aFbaQpRSlDaeE4lLfNFjfq7UH6bZuIpzoN4ABx8t0vPAK7cSdyWSK+LdPX
-	xnGjn/ANeryhxgE+hTg4LHxN0Nu9p970nvrd6EMdqInOsdujkUCrxtxJPAMSYByYoLG0hLqnTZN
-	rFa2G6GD
-X-Received: by 2002:a05:6102:4487:b0:5ff:d434:b507 with SMTP id
- ada2fe7eead31-604f9207795mr4316477137.17.1774834378255; Sun, 29 Mar 2026
- 18:32:58 -0700 (PDT)
+        bh=J5FBIeneBNFUSJjshfpElbkvAz/Tk6TZKpg7T0/4sXM=;
+        b=GaXXpVx/0b9ZMvD9ccIt63ty6aPL3EXXhbfTRE4PJfgoJlXvLB4+64aicoTvv8b392
+         wNSQUFTtc1FdUZAcP+YTvm7x5JR3zLvo84qWYkrh+J7phB4bn2FN0nB8gtHJJgtbl/wj
+         aQpJVGcDwxLhP/xqZ0qhGTGLAfsAtEpbK68krUfajhZW1TR05ZyJ6crKAOcRn70Vnk4C
+         ophJ9ZfRwgle0mzA5GOrTJjIMyjV8wZc0IV+Lhvz5MVAI7BoqUoljriFnIkrh0fxUTcy
+         99C1h6P/lag7Xke/b0jqeuAGMzGZqd5mLPPdsdN2L3B+PyzXYoLCw6hmnnBYFn8Ex55m
+         Yzjg==
+X-Gm-Message-State: AOJu0Yy7OgJvSoJHd2Z1gerydFFJ+VeS7ksjXs5BpmeweKP1S56kkH2o
+	W5V+y9zPHnzYfO5BQp8q6L5G2PzKlTVadwrFFMQVmvHJDlQqlDiXYT+qyqkx0ZwaSXqUWcSAgG2
+	q9Hol75CRSSIvZbHMh4tUdECDaOcqXhYESnXiNXU=
+X-Gm-Gg: ATEYQzy4zatpgNMkVMLtoEjhGFMjeEHDj58xv/DFLBmn/LX6OSL+gtww4XMy8y0f/dZ
+	KqzOfVI5eqSLybHFnwNXL4PNGpiqraLE+n5MY4hVem1YyqjebQDs5pEtmLJltpw/0M9ArFT49d1
+	G/ARNFprW2ZTK6ToqbEHmBmRfCbmzUYnUgMf/ZwbRIiUh33rZCfUM9DKX+gB8/kVWF6q9XIaTyX
+	DmR7bUGAb1nl/gj2Fn7UF0Xb1/8GN4rszbguSSWMuRsramdA6roVLj9AHrzhO/YviiJUjEWPi59
+	6exL1ozRDPOhRL6ZQIitIgqzu0ydVyfhVMAc6V/3wM2+MPCQwNgg5paDERVlPpJsbUaJDoee
+X-Received: by 2002:a17:90b:1e4f:b0:35b:e56e:b58b with SMTP id
+ 98e67ed59e1d1-35c300321b2mr9984770a91.15.1774835426154; Sun, 29 Mar 2026
+ 18:50:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260327031106.10386-1-anushkabadhe@gmail.com> <acZo5LUXH70-UKUi@kekkonen.localdomain>
-In-Reply-To: <acZo5LUXH70-UKUi@kekkonen.localdomain>
-From: Anushka B <anushkabadhe@gmail.com>
-Date: Mon, 30 Mar 2026 07:02:21 +0530
-X-Gm-Features: AQROBzDweibRFky0Zl_dhjis5V0cWFM51ww1g3cxadOAkOjsn4Z5X4Ceh9EJJ4M
-Message-ID: <CAAfE=nNNxCKv0JoRcib7YVQfQ9MxqE34WyYu2GHNYaroxzpw1w@mail.gmail.com>
-Subject: Re: [PATCH v6] staging: media: atomisp: fix GP_TIMER_BASE scope in gp_timer.c
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: andriy.shevchenko@intel.com, andy@kernel.org, gregkh@linuxfoundation.org, 
-	hansg@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, mchehab@kernel.org, 
-	Daniel Baluta <daniel.baluta@nxp.com>, Dhruva gole <goledhruva@gmail.com>, m-chawdhry@ti.com, 
-	Simona Toaca <simona.toaca@nxp.com>
+References: <20260318084936.10626-1-esty5664@gmail.com>
+In-Reply-To: <20260318084936.10626-1-esty5664@gmail.com>
+From: Esther Zilberberg <esty5664@gmail.com>
+Date: Mon, 30 Mar 2026 04:50:15 +0300
+X-Gm-Features: AQROBzCEEFjBSs4Lwmr5HLTWQlKPQUfCSM9AXhKxo0s_cKQHgb7hiDY0LjVz-6w
+Message-ID: <CAPMPFbgjVSB-W6tLJuCFdh_axWqSkJbtfNq+_ParWB9tYpqQxA@mail.gmail.com>
+Subject: Re: [PATCH v4l-utils] v4l2-tracer: retrace: support all mplane planes
+To: linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57529-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[intel.com,kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev,nxp.com,gmail.com,ti.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[anushkabadhe@gmail.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-57530-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_ONE(0.00)[1];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 87975354982
+	TO_DN_NONE(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[esty5664@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: F3C4F354A7F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 27, 2026 at 4:54=E2=80=AFPM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+On Wed, Mar 18, 2026 at 10:50=E2=80=AFAM Esther Zilberberg <esty5664@gmail.=
+com> wrote:
 >
-> Hi Anushka,
+> For V4L2_BUF_TYPE_*_MPLANE buffers, retrace_v4l2_buffer()
+> only restored the first plane from the JSON trace.
 >
-> Thanks for the update.
+> Restore all planes by iterating over the "planes" array and
+> reconstructing each struct v4l2_plane entry, assigning them
+> into a properly allocated array.
 >
-> On Fri, Mar 27, 2026 at 08:41:06AM +0530, Anushka Badhe wrote:
-> > GP_TIMER_BASE is only used in gp_timer.c and it does not need to be
-> > globally visible.
-> >
-> > Move its declaration from system_local.c to gp_timer.c and make it file
-> > local by marking it static. Remove external declaration from system_loc=
-al.h
-> > and its usage in gp_timer.h
-> >
-> > This fixes a sparse warning about global visibility and cleans up
-> > unnecessary global exposure.
-> >
-> > Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
-> > ---
-> > Changes in v6:
-> > - Mark scope of GP_TIMER_BASE static
-> >
-> >  Changes in v5:
-> > - Move GP_TIMER_BASE definition to gp_timer.c
-> > - Remove extern from system_local.h
-> > - Remove include of system_local.h from gp_timer.h
-> >
-> > Changes in v4:
-> > - Remove unrelated block comment style fixes
-> >
-> > Changes in v3:
-> > - Add commit description
-> > - Fix subject prefix to staging: media: atomisp:
-> >
-> > Changes in v2:
-> > - Fix block comment style (move closing */ to its own line)
-> > - Merge split GP_TIMER_BASE declaration onto a single line
-> >
-> > Note:
-> > * This patch is part of the GSoC2026 application process for device tre=
-e
-> > binding
-> > s conversions
-> > * https://github.com/LinuxFoundationGSoC/ProjectIdeas/wiki/GSoC-2026-De=
-vice-Tree-Bindings
-> >
-> >  .../media/atomisp/pci/hive_isp_css_common/host/gp_timer.c  | 7 ++++++-
-> >  .../media/atomisp/pci/hive_isp_css_include/gp_timer.h      | 1 -
-> >  drivers/staging/media/atomisp/pci/system_local.c           | 6 ------
-> >  drivers/staging/media/atomisp/pci/system_local.h           | 5 -----
-> >  4 files changed, 6 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host=
-/gp_timer.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp=
-_timer.c
-> > index d04c179a5ecd..0c1b67988dd9 100644
-> > --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_tim=
-er.c
-> > +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_tim=
-er.c
-> > @@ -11,7 +11,12 @@
-> >  #ifndef __INLINE_GP_TIMER__
-> >  #include "gp_timer_private.h"  /*device_access.h*/
-> >  #endif /* __INLINE_GP_TIMER__ */
-> > -#include "system_local.h"
-> > +
-> > +/*GP TIMER , all timer registers are inter-twined,
-> > + * so, having multiple base addresses for
-> > + * different timers does not help
-> > + */
-> > +static const hrt_address GP_TIMER_BASE =3D (hrt_address)0x000000000000=
-0600ULL;
+> This ensures consistency with trace output and prevents
+> incorrect buffer reconstruction for multiplanar formats.
 >
-> Please don't move the defition here. There's a reason for keeping it in t=
-he
-> same location with the rest of the offsets. There's a lot to cleanup here
-> but what should be done is roughly:
+> Signed-off-by: Esther Zilberberg <esty5664@gmail.com>
+> ---
+>  utils/v4l2-tracer/retrace.cpp | 19 ++++++++++++++++---
+>  1 file changed, 16 insertions(+), 3 deletions(-)
 >
-> - Make these constants macros (with IPU2_ or ATOMISP2_ prefix?) and move
->   them into a separate header (perhaps with register definitions?).
+> diff --git a/utils/v4l2-tracer/retrace.cpp b/utils/v4l2-tracer/retrace.cp=
+p
+> index 010936c0..844c25c7 100644
+> --- a/utils/v4l2-tracer/retrace.cpp
+> +++ b/utils/v4l2-tracer/retrace.cpp
+> @@ -284,9 +284,22 @@ struct v4l2_buffer *retrace_v4l2_buffer(json_object =
+*ioctl_args)
+>             buf->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+>                 json_object *planes_obj;
+>                 json_object_object_get_ex(m_obj, "planes", &planes_obj);
+> -                /* TODO add planes > 0 */
+> -               json_object *plane_obj =3D json_object_array_get_idx(plan=
+es_obj, 0);
+> -               buf->m.planes =3D retrace_v4l2_plane(plane_obj, buf->memo=
+ry);
+> +               buf->m.planes =3D (struct v4l2_plane *) calloc(buf->lengt=
+h, sizeof(struct v4l2_plane));
+> +        if (buf->m.planes =3D=3D nullptr) {
+> +            line_info("\n\tMemory allocation failed.");
+> +            free(buf);
+> +            return nullptr;
+> +        }
+> +        for (__u32 i =3D 0; i < buf->length; i++) {
+> +            json_object *plane_obj =3D json_object_array_get_idx(planes_=
+obj, i);
+> +            if (plane_obj =3D=3D nullptr)
+> +                break;
+> +            struct v4l2_plane *plane_ptr =3D retrace_v4l2_plane(plane_ob=
+j, buf->memory);
+> +            if (plane_ptr !=3D nullptr) {
+> +                buf->m.planes[i] =3D *plane_ptr;
+> +                free(plane_ptr);
+> +            }
+> +        }
+>         }
 >
-> - Remove my_env and make struct device (or maybe struct atomisp_device?) =
-as
->   a parameter for register access functions.
->
-> This may get a bit complicated due to the amount of cleanup needed so
-> having the hardware for testing would be rather essential.
->
-> >
-> >  /* FIXME: not sure if reg_load(), reg_store() should be API.
-> >   */
-> > diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_=
-timer.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
-> > index 94f81af70007..e651d9ef1114 100644
-> > --- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
-> > +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
-> > @@ -21,7 +21,6 @@
-> >   *   - local:   system and cell specific constants and identifiers
-> >   */
-> >
-> > -#include "system_local.h"    /*GP_TIMER_BASE address */
-> >  #include "gp_timer_local.h"  /*GP_TIMER register offsets */
-> >
-> >  #ifndef __INLINE_GP_TIMER__
-> > diff --git a/drivers/staging/media/atomisp/pci/system_local.c b/drivers=
-/staging/media/atomisp/pci/system_local.c
-> > index a8a93760d5b1..8d4fd80f8984 100644
-> > --- a/drivers/staging/media/atomisp/pci/system_local.c
-> > +++ b/drivers/staging/media/atomisp/pci/system_local.c
-> > @@ -83,12 +83,6 @@ const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID] =3D=
- {
-> >       0x0000000000000000ULL
-> >  };
-> >
-> > -/*GP TIMER , all timer registers are inter-twined,
-> > - * so, having multiple base addresses for
-> > - * different timers does not help*/
->
-> This comment could benefit from fixing, regarding both formatting and
-> language.
->
-> > -const hrt_address GP_TIMER_BASE =3D
-> > -    (hrt_address)0x0000000000000600ULL;
-> > -
-> >  /* GPIO */
-> >  const hrt_address GPIO_BASE[N_GPIO_ID] =3D {
-> >       0x0000000000000400ULL
-> > diff --git a/drivers/staging/media/atomisp/pci/system_local.h b/drivers=
-/staging/media/atomisp/pci/system_local.h
-> > index 970f4ef990ec..2bd46f5123fb 100644
-> > --- a/drivers/staging/media/atomisp/pci/system_local.h
-> > +++ b/drivers/staging/media/atomisp/pci/system_local.h
-> > @@ -53,11 +53,6 @@ extern const hrt_address FIFO_MONITOR_BASE[N_FIFO_MO=
-NITOR_ID];
-> >  /* GP_DEVICE (single base for all separate GP_REG instances) */
-> >  extern const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID];
-> >
-> > -/*GP TIMER , all timer registers are inter-twined,
-> > - * so, having multiple base addresses for
-> > - * different timers does not help*/
-> > -extern const hrt_address GP_TIMER_BASE;
-> > -
-> >  /* GPIO */
-> >  extern const hrt_address GPIO_BASE[N_GPIO_ID];
-> >
->
+>         if (buf->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE ||
 > --
-> Kind regards,
+> 2.43.0
 >
-> Sakari Ailus
+Hi,
 
-Hi Sakari,
-Thank you for your reply.
-> There's a lot to cleanup here, but what should be done is roughly:
->
-> - Make these constants macros (with IPU2_ or ATOMISP2_ prefix?) and move
->   them into a separate header (perhaps with register definitions?).
->
-> - Remove my_env and make struct device (or maybe struct atomisp_device?) =
-as
->   a parameter for register access functions.
->
-> This may get a bit complicated due to the amount of cleanup needed so
-> having the hardware for testing would be rather essential.
-As a student, I don't currently have access to the hardware needed to
-do the bigger refactor safely. However I'm happy to fix the comment
-formatting and language.
-In earlier versions, I had merged the split declaration of
-GP_TIMER_BASE in place in system_local.c before later moving it to
-gp_timer.c.
-Link: https://lore.kernel.org/linux-media/20260325132434.55775-1-anushkabad=
-he@gmail.com/
-Would it be okay to proceed with the simpler in-place fix for
-GP_TIMER_BASE declaration instead?
+Gentle reminder to review the patch below.
 
-Thank you,
-Anushka
+Thanks,
+Esther
 
