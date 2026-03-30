@@ -1,168 +1,247 @@
-Return-Path: <linux-media+bounces-57550-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57551-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EORHI9cqymmQ5wUAu9opvQ
-	(envelope-from <linux-media+bounces-57550-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 09:48:39 +0200
+	id YGBWNAYrymmQ5wUAu9opvQ
+	(envelope-from <linux-media+bounces-57551-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 09:49:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB047356A07
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 09:48:38 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A69356A3C
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 09:49:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 08451302AE28
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 07:47:26 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 123CB300D17F
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 07:49:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF8193A8737;
-	Mon, 30 Mar 2026 07:47:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E6C23A7F74;
+	Mon, 30 Mar 2026 07:49:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="T67jEG8F"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s9im0yTG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28543A7F4C
-	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 07:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774856841; cv=pass; b=OxEYRAODHpC2qSCM2Bw6MlcA8YxqlnDaIERl0xpXBfhooES3HqGGRmAlVsiKfO3HkhpAoiuYiia3sn7OnigmJCPxg9YSJBxdMEaOa3fHue6G23vx6geDJDkXKz0kM22fVzrLZq6K2dSbBvuoXDEQRDxR5WYXnahJJOYYbsnqtmE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774856841; c=relaxed/simple;
-	bh=utomh18VVNFCmFdz9xSYL8o5VlY6b49hsxShVKFI2u4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rlh8+TNJFAgx/iVZjewOHK4GZV+et+kNEiLRTFgMpQo1L+csLRimwt/fYCz2j+w+En3Qq8j5HZUVneciFoLKmZRk9FmVlQ58zaSq6eueCvfr13UPPRbG0FlMD8OkIyHtP+k2ob/GOI8OPXZKi9HyzWX5aTNp2Vw8AbSOrF9rc68=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=T67jEG8F; arc=pass smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a2a70bb66aso3979722e87.0
-        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 00:47:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774856837; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hNHz4ARByN8+FbT36MsZfQJT+yJNcFyQl6tq7zbhdvzZD8hSZmYr3AJ2Im4W3kydAg
-         EDi8kggwiN5hyZ8Hig+aD98QKaq1sCpU65Ar+JdQayZ1mANpnHWv/omNm6Bx0G2TI6t7
-         Xhwr7C5cqfkLdNoZtJ3EhSDOeNZA7l5Ah4IeMFwTGq9a1SLwsmX/AfSWxFqcyATGNkSd
-         H/s8IOyyBCiy7RQ2c2gmq2Ji7FrBFRxkYLx0wsDwj3e1zTEp5ieHYVciHX1IZIU5g5pm
-         /0Jn/bJQQl/eBlMQCcIiOqoFK3prq9enNlYgLnW7La2cUias1UjEgcwVQFdn4fl14Ff0
-         fmhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=utomh18VVNFCmFdz9xSYL8o5VlY6b49hsxShVKFI2u4=;
-        fh=5etZ1P6OcbRWpO33x1IrdvkHiJS6qFmJvy7WwLSXcNg=;
-        b=lItxWaSlXaFog/3oGV39jebM4BYEt14xMDXFnU2UBOdq6EgwiA2s+y6TNT4tFlAeJn
-         DWE0r7rp8ojQfmrDPyBhn4VTc3CM/rysod+292gDT34z7wSF5EyX18wRZNoizoPMB/rA
-         3g5E3jc9uzop+TSWAHn9K4pp1FAKpm8nEwcQik14cRJG2uYw54mluB2YM7+/EkyKK06M
-         k+sTWgj42bfOGq3tai7KjOwXWGec8AN/sOoKHeIRHKD70tEN2w4YSdBhsT8s5sYLaqEr
-         eysgyHNlH6XVsEZIAX5ShhCBJs/Pwcr10rfBrbXERFaNDqAPwK87huWJ6SFFU7iHHsA2
-         lGDg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852D729D281
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 07:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774856953; cv=none; b=ZoZhvh/KDCAMe6reGhXHfpbcWC5b8jJNKwUcYa2NGv1wdWR/AkgXihlHHDpqSGwKZszFtEgrl4IOkoZxic8wOyBh5uDs2zsNl8eXFMO7vAbGZRg4ZKK/hC6b8cFgCPgPSz3i401xoVrSpfRuAuFCyOpoHcLcTif3x/rOyGOb3KY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774856953; c=relaxed/simple;
+	bh=o622oh54cTsU+KKUTxCLpNHU169i/iVq4YO8czMNyw0=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kCJMRx4SPhSGTr2IeXA0bPamGS5wp/Ns6Z69luJxAE40JPj6rnQk+24SI0VFdIgh26nDBpNPI/nkrJYmYurgH+9ny6n247ese7yCvE4iCezizLsUjSNY4Pwwz5td8Lpm6ovzxOZHt5GBJQXopeBZbyjju+lpWx58VpyGKNS+d5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s9im0yTG; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-486fb14227cso54975915e9.3
+        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 00:49:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1774856837; x=1775461637; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=utomh18VVNFCmFdz9xSYL8o5VlY6b49hsxShVKFI2u4=;
-        b=T67jEG8FT0KrGqXhnMZUtl+QcpaDzD8rVbEGFVKCzuWfDXMoumKVzAW78fJmds8GOZ
-         Gy71WDPqdUmEk5a5u7JKUijhJLLsbK7uqfDDQCz5H3A0rzT+H5SkLadI5qg3wQwxo11O
-         WtfLFSTNlwHGE45M2QUTBOrFidK9HVxPRWVBiG8+5RXK7Q4PuvImUmbJnVFaalr76/+r
-         ZLNuAgJ1RuKvQ9iBoi04GVkdWVTMGNBHtVVx2LgQCIK6WMMGDCoPsMCdzPLfb2qJAY1q
-         AEf+6Xpzbu2EeT4HLPpUgjGlU38S3dYVntg45TOgLn4F0G9M+cSz/HnPL5WOOvKuetaw
-         +EoQ==
+        d=linaro.org; s=google; t=1774856950; x=1775461750; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l/nFmeNNFWPp+7jec/T1A0Kyh+DGfRIv+rs3nkdXw+U=;
+        b=s9im0yTG6+qrtiG1MwP/0px8LTVk+D/844FhT8O2dG57xgC6GKZyLCkkt0/gdWA5z4
+         yE/nSLNp1VRO89RgGzj793QjMauERltq6EIMbHzGoFCeqWNYd0q1/AGflm7li1GcL3Rz
+         hLcvI/YwO6iPS8i8kZvqBvuqfgQG7XbDHsHSVA9t3IcgkwnUgwsYLLKS3LAvN7hau1ed
+         tmebh8iFJ4EDv3PGk5GSnndakw65ZkylArrlRBWci2ur6r1grWfe8iB9zROxJaccH3mk
+         GcHv6O9P0k+8xoWqD4oXbBqxp4Cbi5cZaLn4AsN802c1RONRkznBNmD/Z7kteIAHCD9y
+         /hTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774856837; x=1775461637;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=utomh18VVNFCmFdz9xSYL8o5VlY6b49hsxShVKFI2u4=;
-        b=N8qBjoCVout8y9XIeX/QfMXJscdXTDBxZoPtjk26sJ2YA0EIt7MYKsfzybOmNc3Pdj
-         GRYbIXGTRaXL82LtvX46GZNYv6++0EyJ/vjrUQA9R3sJwnU/Yg3tw/fTozpOzMGeXwh4
-         /KbmnMKlPx1BtS4faUUCDb7Ce95TABikRA99XcCgDGLvYcNFWJgRaUYmqDw0gj8ok60B
-         nUJ3nKXPpRpk1I/YN+G9qduayfCr3nm3yNSjn9XMwbWwp4vxMTQj3i8mWkuy+WgZUYj1
-         YXxlPzeKWA737F7W20fuGjeEUVp2WCYDQQMXGPdueyNcDDvNaFTR+2Lr/uvoavRLT7CS
-         VHbA==
-X-Forwarded-Encrypted: i=1; AJvYcCUfOFvoQUQPD7LY+Tz2AfdiOI9yqVWLvS+mbIuJuRdEJGacq2O6GE2uFVMGamlI0tXe+2hCmdAc+nVj7w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZRhKS1Vvw9D2rG5FruQ8EGgZ/faO0VeqO9ZvYAqV6uStztJY4
-	Exo1Jke05xhEnkcfU5yT6fv3zTNgjn8FQTUxuqFuNZC8nOq1siIA24TddPkrCeqgQK1iJyuJYm/
-	CqoFWlfALuAZA3TfozApATCkbAZRC70g+6YmYM6hyiw==
-X-Gm-Gg: ATEYQzxeZcW7Y5ejVqesZRImE8eMQOukepYKAiV01RUpKbDJmMdwS2Y67j2GF0ZjiyN
-	w6DU3aIbM6UpS6IAwEiBifXx6WsOGr5pMKY09yHDkWJh5OJLT6rRtTaYJXdnMyvt94+ieih+A8S
-	qVNRz0vyi0GXwtaHpAit9K7rJ3CCF3FYKNwV1UAS/1+DHvo8WVX2Eq4oY0Afa9vuPP6iS1Ngsrt
-	5xNAsK20wq1N2TMFwWx1VNjmpw6l7fNuTWwigEHvVKdyZ8JNrGkZYMsVOxG9xR6U6ojMCIaSaWI
-	WIT7Wv5FlM1P1DM66CzhtkD0OEuuJXbv5lp5nRb3
-X-Received: by 2002:a05:6512:3b2c:b0:5a2:7b95:af0 with SMTP id
- 2adb3069b0e04-5a2ab920a31mr3613277e87.25.1774856836706; Mon, 30 Mar 2026
- 00:47:16 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774856950; x=1775461750;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l/nFmeNNFWPp+7jec/T1A0Kyh+DGfRIv+rs3nkdXw+U=;
+        b=HbtxXfGF3C/GfbTBln9nFKtcQlT6ftW4yLhWYHnkJAAfzCbSadnagO6rlvHPjj7x47
+         N3f6S1wMLTAZujVQ+AO7aIkcrsHDiaNqEIbqkadQH3taxkvWCImV7r70RApRG03QvTuj
+         ff8LsUl9gIrNQNADdjiGroacW6ZYfdYPjJwO6dQj2iDjJXVw2GUlu0xMUn21cH6qf5Vs
+         DHhLihOTEw1oMhyIK4AzD0ULEPsC4SqK7jDRYEoWpT5VKnDwNz/BNzujvbsm6E9YXu/R
+         7CocHxKag6uqlobAMbLP22ex6RlOoB06Kj1O9RPO2ulvJgptn7xEODtw3mX4zfZtWuIe
+         J6lQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXsQ0+bjPULJ3xbMo7OFrI+G4mDmoVzlkH0gP2d/YDtKCkEF8yL+zjsxfozEY4P0H85g33vAHUM0c/y9A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy75JwjT4BgEU968TqusJVdGJpESQczaTfPJo+VK5H7JpzlgAaW
+	r49qgJnztLKNVgLJdr9ZyrbYsAuUo6QQcYC8F7opU44pVtNo8Ooe6Ia4oFcc31xN6ow=
+X-Gm-Gg: ATEYQzzLgPfs5RJg86ZjRsUI3zVEoCP1CKn9gD//+8/fic5sX80tXq34bfNLNWag+SM
+	q2ka8Zkvt79lSENeFeKq5J/lhshBavWimR6fjpB1kXOjpEG3vkal8K9Decct/Wq3km1gmEfDdVe
+	/CPREDxuk5D9SvvnXPTFBHfJfziKA1nMV9DCzb8lFiGcsRse/BmgBB//8iggXGDOxAPyDGoFay9
+	JW7cQmNSnnWRjGsDpx0nU9+HkUcH55lXtl6GXYu03Q26We0s+pP2MoEn90GIb4xgTsY2LjjsURv
+	GAjPL4pBD9GKWpXHppWHWlPZRJgrwLZ1AQxHFs2RI2+3YMnChqR7YCkhEQhlOIx8MybteWSaFg3
+	weXlcyzhrfKW/jYvZ79OU8vgHYlCBS8qJw0LCJAHOw5sLA19YFZWpvsamXzLWI4wHV/zh+stVNL
+	QxfYwEFLCSfDTc2h8jvdOLQrjCDVf9BycDPJNqLv/xASLtoYHm/6hKdc9H001vJ+4Rw5ZfMmhYv
+	JJ/hQQ=
+X-Received: by 2002:a05:600c:1d08:b0:486:fab9:a578 with SMTP id 5b1f17b1804b1-48727e95417mr189631935e9.11.1774856949649;
+        Mon, 30 Mar 2026 00:49:09 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:106d:1080:cb3c:d0d2:870b:6ad0? ([2a01:e0a:106d:1080:cb3c:d0d2:870b:6ad0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722c9506dsm251920295e9.7.2026.03.30.00.49.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Mar 2026 00:49:09 -0700 (PDT)
+Message-ID: <016c03b8-27c3-41dc-a630-8e7095db1f88@linaro.org>
+Date: Mon, 30 Mar 2026 09:49:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260113141248.203944-1-marco.crivellari@suse.com>
- <CAAofZF5k1SO-RwfgZMvDTxJ2Go=NZuPEeGFM8gF==ZQzh_SXKg@mail.gmail.com> <b38d2d08-7ee3-4356-94b9-d9c885238cbf@redhat.com>
-In-Reply-To: <b38d2d08-7ee3-4356-94b9-d9c885238cbf@redhat.com>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Mon, 30 Mar 2026 09:47:05 +0200
-X-Gm-Features: AQROBzCTwbD0tDmtpCPVAXBJUGe-STavyIONtOcRVkb6niI5MU4SLvMNhLgVsko
-Message-ID: <CAAofZF6-8Me8CeVHy9YSqQ9n8eTqXt_gRB7EZm5Wnd0zghsz1A@mail.gmail.com>
-Subject: Re: [PATCH] octeontx2-af: add WQ_PERCPU to alloc_workqueue users
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Michal Hocko <mhocko@suse.com>, Sunil Goutham <sgoutham@marvell.com>, 
-	Linu Cherian <lcherian@marvell.com>, Geetha sowjanya <gakula@marvell.com>, 
-	Jerin Jacob <jerinj@marvell.com>, hariprasad <hkelam@marvell.com>, 
-	Subbaraya Sundeep <sbhatta@marvell.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v5 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Vinod Koul
+ <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260326-x1e-csi2-phy-v5-0-0c0fc7f5c01b@linaro.org>
+ <20260326-x1e-csi2-phy-v5-1-0c0fc7f5c01b@linaro.org>
+ <7712fbdd-a225-49f0-aeb9-ebcbb9d5abac@oss.qualcomm.com>
+ <da3ed78d-fb5e-4820-95d6-527d540cf03e@linaro.org>
+ <1f38187a-9464-4aa9-b70a-03b767349d56@linaro.org>
+ <c5278028-dfe9-4d09-970a-a25977967bdd@linaro.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <c5278028-dfe9-4d09-970a-a25977967bdd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57550-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linutronix.de,suse.com,marvell.com,lunn.ch,davemloft.net,google.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	TAGGED_FROM(0.00)[bounces-57551-lists,linux-media=lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:replyto,linaro.org:mid];
+	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[marco.crivellari@suse.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[suse.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,netdev];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: DB047356A07
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	REPLYTO_EQ_FROM(0.00)[]
+X-Rspamd-Queue-Id: 71A69356A3C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 27, 2026 at 7:31=E2=80=AFPM Paolo Abeni <pabeni@redhat.com> wro=
-te:
-> [...]
-> I looks like the above patch did not land into the netdev ML. You have
-> to resubmit with the correct recipients list and including 'net-next'
-> into the subj prefix.
->
+On 3/27/26 18:42, Bryan O'Donoghue wrote:
+> On 27/03/2026 15:28, Neil Armstrong wrote:
+>>> To be frankly honest you can make an argument for it either way. However my honestly held position is analysing other upstream implementations connecting to the PHY means we can't make the PHY device a drivers/phy device - it would have to be a V4L2 device and then for me the question is why is that even required ?
+>>
+>> This is plain wrong, DT definition is different from software implementation, you can do whatever you want if you describe HW accurately.
+> 
+> I'm not sure what point it is you are trying to make here. Are you trying to say drivers/phy is OK with you but you want an endpoint ? If so, please just say so.
 
-Thanks Paolo, I will.
+I'm against using the "phys = <>" property in the CAMSS to reference the PHYs, a "PHY" in the classic terminology is tied to a single consumer, and if it can be shared to multiple consumer you must model a mux or whatever in the middle.
 
---=20
+The PHY API as an internal software implementation is probably fine, even if it makes implementation of split mode much much harder and doesn't really solve anything, you can just call init()/poweron()/poweroff()/exit() directly from the CSIPHY media callbacks.
 
-Marco Crivellari
+> 
+> I can see an argument for that hence my response to Konrad, I just don't see why its a Qualcomm specific argument and of course understood stuff bubbles up in review, we have a public debate and come to a consensus - that's a good thing.
+> 
+> However, I'd want wider buy-in and understanding that endpoints in the PHYs is a more accurate description of the data-flow.
 
-L3 Support Engineer
+It is, and it was designed for that, and extensively used in the media DT representation, so I wonder here you would not use it...
+In an ideal world, you would add nodes for each CAMSS hw elements and adds port/endpoints links between all nodes to describe the data graph, this would be used to construct the media controller graph, and make it much easier supporting new hardware.
+
+> 
+> We've been applying DT bindings aplenty without that so far. So we would establish new CSI2 PHY bindings should represent the sensor endpoints.
+
+We've been using a dummy representation of CAMM in a single node with only endpoints connecting to the sensors and hiding all the hardware layout in code, it doesn't scale and makes supporting new HW hard.
+I mean this is common sense, why would we continue to stick to the current CAMSS bindings ???
+
+> 
+> Is that what you want ?
+> 
+>> The CSIPHYs are not tied to a single "consumer" block, they can be connected to different consumers at runtime, which is not something classic PHY devices are designed for. So they are de facto a media element in the dynamic camera pipeline.
+> 
+> The existing CAMSS binding and media graph are not changed by this series.
+
+This is not my point, I don't care about the software implementation at all, I care about accurate hardware representation. Using the "phys = <>" property does not describe hardware accurately.
+
+In other words: The CSIPHY are not connected to CAMSS. This is _not_ true, tying the CSIPHYs to the CAMSS block hides the real data muxing in software.
+
+Please remind DT is used by multiple operating systems, and properly describing hardware in DT will help have good software support over all OSes, not just Linux.
+
+> 
+>> And actually Rob Herring asked use to define the complete data flow, it was a strong requirement. I don't see why we wouldn't here.
+> 
+> I'm implementing feedback from Rob.
+> 
+> https://lore.kernel.org/linux-media/20250710230846.GA44483-robh@kernel.org/
+
+Where did he ask using the PHY DT bindings ? Is he aware those CSIPHYs are muxed to multiple consumers which are burried in the CAMSS code ?
+
+> 
+> To me, here is where we stand:
+> 
+> - Individual nodes - we all agree that
+> - As sub-nodes - I think the majority agrees this Krzsztof, Dmitry
+>    I'm fine with it too.
+> - drivers/phy - I think we are accepting this is also fine ?
+
+Like I said this adds a supplementary API layer for no reason and will make life harder, but I don't care personally.
+
+> - endpoints should flow into the PHY and then back to the controller
+> 
+> I get that argument. In fact I _like_ that argument at least I like my conception of that argument.
+> 
+> I'll stipulate to that argument meaning then that, new CSI2 PHYs shall include endpoints for this purpose globally.
+> 
+> As I've said before, there's nothing Qualcomm specific about this discussion, really.
+
+There is, because the current Qualcomm CAMSS bindings are insufficient and should be entirely redesigned from the ground up to properly describe the HW.
+
+Neil
+
+> 
+> ---
+> bod
+
 
