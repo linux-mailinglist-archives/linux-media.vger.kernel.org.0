@@ -1,90 +1,94 @@
-Return-Path: <linux-media+bounces-57579-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57580-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SDyNJQZEymky7AUAu9opvQ
-	(envelope-from <linux-media+bounces-57579-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:36:06 +0200
+	id OMNkJx5Gymnn7AUAu9opvQ
+	(envelope-from <linux-media+bounces-57580-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:45:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE18358452
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:36:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0124C3586D0
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:45:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 33D61303DD35
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 09:30:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 12F0B303CC11
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 09:35:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E6613B4E9A;
-	Mon, 30 Mar 2026 09:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D0B73B6356;
+	Mon, 30 Mar 2026 09:35:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IOac5X6A"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a6w+lIJB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25A33A874F
-	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 09:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2A23B582F
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 09:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774863041; cv=none; b=j4c9axpiXy5dO+jK95neRdkpc1F7NZF6VBX0RmSIrfxyAoGAwfl0fbB+ve4IeZ/INmV2aLYVQ7ANUi2HNJtGVKaMskow2683L5L/zf+42bXL8YujUmmYhNwp0y5M68rTxvw9jEGis1XoyeulBOI6kP5lCsujmrostFWl0g+X+fo=
+	t=1774863337; cv=none; b=HUFmivbbm0Y10UrKN+l9q8EiEZkJQRQv/UfSt6H3fVDa7ITfE2Gf7SPm2LzgaXIU7u4psHFG/r73ULlMkJcpGFQCOGL0sdE1nznHJQHnOJqIFwDa8qpcGIEIa3bjw5t10oUHv9SIcWb3o1jyPLMMyJMRaQ0bZdS1PG+FFlDcI0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774863041; c=relaxed/simple;
-	bh=dDXdYT1zf8jcRW3Lh7wW3hi8RufyCiCX8TZ7JkbPYLA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T6SHdT5U4USRr2fEzQnc2I1RixzkH5FLReAvfAgXRtjszfEVK5TujiTfgwDSospu0aiYOeqndJjVqn81oGQad2+R7fvjjInUWRL4sVHqbm9yMo3igHDWLg1KiwCu1pBbude42db157kczuYvZsewxEqU7QAyGedZlQX5XC/BDII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IOac5X6A; arc=none smtp.client-ip=209.85.128.52
+	s=arc-20240116; t=1774863337; c=relaxed/simple;
+	bh=/THPjhtsCKvwzT/E0Ctzftz6Mn22zZmXPK0LI6tBVz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dsl5iQrLLjl7+Nbya34px8+1UyEkfguMUpcLasuOcxJdzqBeT8i3jh1v4Klq0dB4gZyHZf1AAekwUMLyEj3kYaL78ZErPy5fXMswYMwq7EoQp9G0LjcRM9H2WnjFfII/o50ylZ5omCBuIPP6/QpV/AxPYm9Q4Nsnh0joCTprmfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a6w+lIJB; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-486fe655187so55135635e9.2
-        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 02:30:39 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b97a9f4b4dcso546784966b.3
+        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 02:35:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774863038; x=1775467838; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z+az+AaDlx97xMl9c5AxMiWqH7QYTzxKlo69P1hgDlo=;
-        b=IOac5X6AbRp+Q4yJxKakLZmCnhZ2CDQ+GVVykllRTpVLxXT4H6srXcHtNVsuFHJpjE
-         9YW6ixW07Ps6Q9Ru851v+OB2ST+/qLKlc8D2F+EAM/416wT2ELfA2YaNPL2ak14BW2xp
-         V7V+i3JLRYBYJ5Dzx552Q/RGFQB4B5KTPECFxFheNUWxfTvUdzOBtyiELNzM3ju3YKyT
-         cYWIULoinqLEE+wisZwhpoQIOlJcadpiQyHliK7tySdPgZd7NSQlURIsDQxyfNrripAi
-         5mGojkGSYfdxFdGk2VN/0nqRebsYg2XB5HvcbnGMxn0jI4L5vihePzQybimNaR2BtMqU
-         1jYw==
+        d=gmail.com; s=20251104; t=1774863335; x=1775468135; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=T8icbgd+Gvc605wy+mpl63d77z2nXysg0+vXcRUSsPs=;
+        b=a6w+lIJBSWF6YOwyG3CUPzfFtVBd/DCfdsd6smqr5axRN5ET+Am2NeFhF9isPOX81j
+         oiLuynyh9UvGATUVhtmxSYHF0nwREl+myQdhaaGanlKixiS67+pnPe6rcU5qnlfnDk0I
+         2PuF3CkWrsg6XrOxAQ3/zWrFy4vkF1zunJc7D3h1XCGz5qjU3qbLwPmA2czRbDFB2KpU
+         BJaPOnqijAGwtRJ+cONiNCdd0EfiwiF9kfaXCzZJ5Mj1gKDOhHbcyD+o+bcwp9p+zuMi
+         Yx3kSB05vwAbmDLS37upU9mRvBs3X4uYHXYwze2E2h+3in1p17UhKezrtLStSAr/Kc3e
+         PL+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774863038; x=1775467838;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z+az+AaDlx97xMl9c5AxMiWqH7QYTzxKlo69P1hgDlo=;
-        b=BrLNE0iE0dbgMGGw25TgnvU/AiZglJk0MqconXPHEjb8B7tVuNxCtZ7z8f//7dGU0i
-         ZB1ETCRp4wbOvb74Yzb5u07KOT+iT6ba7VBj1NdUhSWyzgmkOvIeocs3YGA6tlrp7df7
-         2fXaJTQqNpW9N3doPPHIA5k3tMUpoCOgK377IqNB4gP4Ftx6ppgilNiod4wAcl2daphX
-         aP21WZr73BV7SswSVhOP6il0y6OeO+z8F0OSRPEmLV717soLfDi8RFbYwYm8XzqqEekg
-         jl/XcXlALCKYD0QXIYwVHvwUwFXwMZSN8QmxlwkdDpzdGh+GXmcM85x9fdBZngRYU0yD
-         OvzA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVYGN54jas111uUesfxHOdQu7vRFKEoqCOSZuRC1AZhzfHFy4BcX2CxBjQ885SWpeO/L+jEi9xL37nIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3V/GO9g7/XyVlE3o3wmA6dH2n5+XUfbgxYIeaA6I/1Dde/esc
-	QfIrYAdz2hJFriPqdQtUhhz4RaWyxemHDV0GMRdDWlG3MLt/+3+9VfauB3s6ZA==
-X-Gm-Gg: ATEYQzywcZs002mlKJzZdERG1qmhSaP/QWrDSXWWmL5xHOvkKxQhnyf6n2JcBO9JN5C
-	jLgxOPAgMq+lwIxqp2CskXdHLAOaMbkds1tAN8EjtytagyTzcQM7OLEi3JYoaVfiKfbfQbr+aY/
-	XCb6JzwCSqzn0HE1AVuvy/S6NWW0jJpTxLOaimRsn6AX4/zltCFVaA/ayePcXFmkYAY1t5rxjO8
-	bjrAOBk3FGsWfu1VJm4a2gYqyQ8FjDg3AymQ3iEJDPbxOmrU9EqeXoX/e3ogzEHkHXI6uoWpAcj
-	UgbksdOraEga/4lRqTSTvxT0z0Q/eCTaQnutDOoZlJffjnGEXtEESkPZIeOjLvCbyxHEYiOlcye
-	0uPeht+KuefHRd1+srpRFy9HF30YKyEFBKx7g+9f+cPAZxzkcp9Or7tv8QIi5YkAUKdAFD9Nams
-	4SDtwceWjiBLQa/YNemC4=
-X-Received: by 2002:a05:600c:8b08:b0:485:303b:c50a with SMTP id 5b1f17b1804b1-48727d73611mr192261325e9.13.1774863038151;
-        Mon, 30 Mar 2026 02:30:38 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774863335; x=1775468135;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T8icbgd+Gvc605wy+mpl63d77z2nXysg0+vXcRUSsPs=;
+        b=cCq7JrsnWxCYMI38C+cVibHdvM8Z7thMRysl6g5pnil9mKld9JXxYO6UaOT/g4gEoR
+         N6P2m8d0Fcbl6u40UtBF/BsOb9FiuoYG9sRFXB7OKXupUqB9QAiHXVJIl4399DBqoIjS
+         h7Ine8VRQxWqN4URQXNYxt8hCXY+ZNvefkDhTQwtcqufiL+ipbdA4IWK0/CQefoUfvzT
+         4KcVouxk9YnXOJQhovblasAotjZggL4rDaonguVWIUXcyylBJUu9mIy6j39CXprZvk6M
+         TWzB3r+XkT5W98ySE+quH5sMzJGqhQ0M3VidkXBADy/9QMakDC39/Q0dV28jH5Ff1G8r
+         4fnA==
+X-Forwarded-Encrypted: i=1; AJvYcCWfqIN+30qYQwWeA4rS7du1arlC9RuRNBP3qowrsyQBGCH2uye45c/K05c9XGDr4V6tX5SYOtZJVc0Ddw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YypWNxNb1aY6sLtjiSC3eaZqaTvAaWnCPruWPre4cSJwagZN2er
+	vJ1KIFdRp9t3lfuRIw/7jQqXwxBzIy7MPTU/I+2HBBXvSX6K6l+kXfjr
+X-Gm-Gg: ATEYQzwcsEljoiFVkgSdfvzqwvLE9zOPCctrm31iFs/Cd/w9xARwiNj7sVgOGgbVgVO
+	AOaQ4qrZ0x+asPxZAqrG2YkvRKbdgGACXzIByRxbBkRCkgPrHvyB7PDr62R1B7TCzj1TaHbzO02
+	YadYcAfufHVIVMLdqKK8IzqSuD7QNPxr+71bY/9618aK1gB3fb7kOs3Vvqm2Bq/8tI6GCUe4Nab
+	VxwVITlvkwTqK2rAL5kGUrUrSg4SwnvlSa6Fav5TzMyCFzkmzB1H6hN52LOWdqIaOREs6WRwxft
+	7M3DDDhGBZNB3p4+1N9+NQ7/T+3mIxhT6MGDCv7i3xawFpNwPOvt2pF3UdvquexQjik3MrykEo+
+	B0Qfjz7UhhXRqOe778+NXONep9kqKZJbNOWj+7oTRtb5Tp/7YJkU9tUI1B4YE65jASkbcslG2dh
+	kE82Ya/RhzolrjgT4ytbvztwL8xRJLnQ==
+X-Received: by 2002:a17:907:93c2:b0:b9b:1f3e:fa56 with SMTP id a640c23a62f3a-b9b5094c45fmr423164866b.45.1774863334604;
+        Mon, 30 Mar 2026 02:35:34 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf2577cbdsm18766581f8f.33.2026.03.30.02.30.37
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b7b1a65c2sm268002966b.34.2026.03.30.02.35.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 02:30:37 -0700 (PDT)
-Date: Mon, 30 Mar 2026 12:30:34 +0300
+        Mon, 30 Mar 2026 02:35:34 -0700 (PDT)
+Date: Mon, 30 Mar 2026 12:35:30 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Kate Hsuan <hpa@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [linuxtv-media-pending:next 165/183] drivers/media/i2c/t4ka3.c:577
- t4ka3_enable_stream() warn: pm_runtime_get_sync() also returns 1 on success
-Message-ID: <acpCusUjXndiISEI@stanley.mountain>
+To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] media: atomisp: fix potential NULL pointer
+ dereference in configure_isp_from_args()
+Message-ID: <acopy6nyxSb16J8N@stanley.mountain>
+References: <20260328192721.255493-1-azpijr@gmail.com>
+ <20260328192721.255493-2-azpijr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -93,6 +97,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260328192721.255493-2-azpijr@gmail.com>
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
@@ -101,114 +106,48 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57579-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57580-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com]
-X-Rspamd-Queue-Id: EFE18358452
+	DBL_BLOCKED_OPENRESOLVER(0.00)[stanley.mountain:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0124C3586D0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree:   https://git.linuxtv.org/media-ci/media-pending.git next
-head:   4fbeef21f5387234111b5d52924e77757626faa5
-commit: fd55319692151de2b89c21356d1445bce364769b [165/183] media: Add t4ka3 camera sensor driver
-config: um-randconfig-r072-20260327 (https://download.01.org/0day-ci/archive/20260328/202603280011.CCbaQy6n-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-smatch: v0.5.0-9004-gb810ac53
+On Sat, Mar 28, 2026 at 08:21:37PM +0100, Jose A. Perez de Azpillaga wrote:
+> The function configure_isp_from_args() incorrectly dereferences
+> args->delay_frames[0] to configure cropping without checking if the
+> pointer is valid. However, as noted in a FIXME comment later in the
+> same function, delay_frames can be NULL in certain pipeline
+> configurations.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603280011.CCbaQy6n-lkp@intel.com/
+The comment comes later in the function and it says "FIXME:
+args->delay_frames can be NULL here".  "args->delay_frames" is
+different from "args->delay_frames[0]".  Obviously
+args->delay_frames can't actually be NULL there since we
+dereference it here so the comment is wrong.
 
-smatch warnings:
-drivers/media/i2c/t4ka3.c:577 t4ka3_enable_stream() warn: pm_runtime_get_sync() also returns 1 on success
+If the correct response to the FIXME were just to add a NULL
+check then the original author probably would have done that.
 
-vim +577 drivers/media/i2c/t4ka3.c
-
-fd55319692151d Kate Hsuan 2026-03-25  558  static int t4ka3_enable_stream(struct v4l2_subdev *sd,
-fd55319692151d Kate Hsuan 2026-03-25  559  			       struct v4l2_subdev_state *state,
-fd55319692151d Kate Hsuan 2026-03-25  560  			       u32 pad, u64 streams_mask)
-fd55319692151d Kate Hsuan 2026-03-25  561  {
-fd55319692151d Kate Hsuan 2026-03-25  562  	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
-fd55319692151d Kate Hsuan 2026-03-25  563  	int ret;
-fd55319692151d Kate Hsuan 2026-03-25  564  
-fd55319692151d Kate Hsuan 2026-03-25  565  	ret = pm_runtime_get_sync(sensor->sd.dev);
-fd55319692151d Kate Hsuan 2026-03-25  566  	if (ret < 0) {
-
-pm_runtime_get_sync can return either zero or one on success.
-(See the comments next to that function).  Probably use
-pm_runtime_resume_and_get() instead.
-
-fd55319692151d Kate Hsuan 2026-03-25  567  		dev_err(sensor->dev, "power-up err.\n");
-fd55319692151d Kate Hsuan 2026-03-25  568  		goto error_powerdown;
-fd55319692151d Kate Hsuan 2026-03-25  569  	}
-fd55319692151d Kate Hsuan 2026-03-25  570  
-fd55319692151d Kate Hsuan 2026-03-25  571  	cci_multi_reg_write(sensor->regmap, t4ka3_init_config,
-fd55319692151d Kate Hsuan 2026-03-25  572  			    ARRAY_SIZE(t4ka3_init_config), &ret);
-
-If we pass 1 to cci_multi_reg_write() it is treated
-as an error and it returns immediately.
-
-fd55319692151d Kate Hsuan 2026-03-25  573  	/* enable group hold */
-fd55319692151d Kate Hsuan 2026-03-25  574  	cci_write(sensor->regmap, T4KA3_REG_PARAM_HOLD, 1, &ret);
-fd55319692151d Kate Hsuan 2026-03-25  575  	cci_multi_reg_write(sensor->regmap, t4ka3_pre_mode_set_regs,
-fd55319692151d Kate Hsuan 2026-03-25  576  			    ARRAY_SIZE(t4ka3_pre_mode_set_regs), &ret);
-fd55319692151d Kate Hsuan 2026-03-25 @577  	if (ret)
-fd55319692151d Kate Hsuan 2026-03-25  578  		goto error_powerdown;
-
-And we error out here with ret == 1.
-
-fd55319692151d Kate Hsuan 2026-03-25  579  
-fd55319692151d Kate Hsuan 2026-03-25  580  	ret = t4ka3_set_mode(sensor, state);
-fd55319692151d Kate Hsuan 2026-03-25  581  	if (ret)
-fd55319692151d Kate Hsuan 2026-03-25  582  		goto error_powerdown;
-fd55319692151d Kate Hsuan 2026-03-25  583  
-fd55319692151d Kate Hsuan 2026-03-25  584  	ret = cci_multi_reg_write(sensor->regmap, t4ka3_post_mode_set_regs,
-fd55319692151d Kate Hsuan 2026-03-25  585  				  ARRAY_SIZE(t4ka3_post_mode_set_regs), NULL);
-fd55319692151d Kate Hsuan 2026-03-25  586  	if (ret)
-fd55319692151d Kate Hsuan 2026-03-25  587  		goto error_powerdown;
-fd55319692151d Kate Hsuan 2026-03-25  588  
-fd55319692151d Kate Hsuan 2026-03-25  589  	/* Restore value of all ctrls */
-fd55319692151d Kate Hsuan 2026-03-25  590  	ret = __v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
-fd55319692151d Kate Hsuan 2026-03-25  591  	if (ret)
-fd55319692151d Kate Hsuan 2026-03-25  592  		goto error_powerdown;
-fd55319692151d Kate Hsuan 2026-03-25  593  
-fd55319692151d Kate Hsuan 2026-03-25  594  	/* disable group hold */
-fd55319692151d Kate Hsuan 2026-03-25  595  	cci_write(sensor->regmap, T4KA3_REG_PARAM_HOLD, 0, &ret);
-fd55319692151d Kate Hsuan 2026-03-25  596  	cci_write(sensor->regmap, T4KA3_REG_STREAM, 1, &ret);
-fd55319692151d Kate Hsuan 2026-03-25  597  	if (ret)
-fd55319692151d Kate Hsuan 2026-03-25  598  		goto error_powerdown;
-fd55319692151d Kate Hsuan 2026-03-25  599  
-fd55319692151d Kate Hsuan 2026-03-25  600  	sensor->streaming = 1;
-fd55319692151d Kate Hsuan 2026-03-25  601  
-fd55319692151d Kate Hsuan 2026-03-25  602  	return ret;
-fd55319692151d Kate Hsuan 2026-03-25  603  
-fd55319692151d Kate Hsuan 2026-03-25  604  error_powerdown:
-fd55319692151d Kate Hsuan 2026-03-25  605  	pm_runtime_put(sensor->sd.dev);
-fd55319692151d Kate Hsuan 2026-03-25  606  
-fd55319692151d Kate Hsuan 2026-03-25  607  	return ret;
-fd55319692151d Kate Hsuan 2026-03-25  608  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards,
+dan carpenter
 
 
