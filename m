@@ -1,193 +1,239 @@
-Return-Path: <linux-media+bounces-57653-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57655-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4AITBSOfymmg+QUAu9opvQ
-	(envelope-from <linux-media+bounces-57653-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 18:04:51 +0200
+	id KL4QOwWeymmg+QUAu9opvQ
+	(envelope-from <linux-media+bounces-57655-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 18:00:05 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0960035E552
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 18:04:49 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE6E35E4C0
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 18:00:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 728B430055C2
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 15:54:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 323F330614CC
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 15:55:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00E5B37419F;
-	Mon, 30 Mar 2026 15:54:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A54B3750B1;
+	Mon, 30 Mar 2026 15:55:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="fLMVzIO0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ibgiO8Zm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1365C2F260C;
-	Mon, 30 Mar 2026 15:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774886055; cv=none; b=gB8CvrBqABJtdTtXQfyxO5NZqcd3qde82RqTP06S2SzyoZq0jPLM1vWgekSTWG157q/QybMsd4D21TkjTnLlBcObfQeC3ZRxDuKh53VFDeK6Ny4JIJh3HqwXMXIdrTMettRNDaqoAriF3BUokQjLvzzE5umHocsFz90n5XCJDQE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774886055; c=relaxed/simple;
-	bh=evRfJZ2H0f5w7cEuYrRalerBqdAFDdmPvV3Byn5zcKk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qqyMaP9eUFl2nbM3PoEDEojt5HGtfsMk6g0n9r32wm+O3EWrgQVIhuLnCe5Ey9S/waF/vfXVgQu8kN9Uz1kU5GsuFdnkJidd4xtoi/xv4kHrPHjbCuHDa4R4a6cnrgEWuTYKBcjRuNasaKG6I1gaiWodJDRRuLvI8Xn8yI/oMBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=fLMVzIO0; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1774886052;
-	bh=evRfJZ2H0f5w7cEuYrRalerBqdAFDdmPvV3Byn5zcKk=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=fLMVzIO0WL+sc0qyr1bmUKPIeRxe5LGIhn01XN65Tdy4jP0Mbk93NzcokPLqcbb6g
-	 Jw8Vef2vcRCoDEeEHmQMdEk+jzWy4PfbHSNdiJQRp+dllic3Jt0vONpxJRSAsoYXQZ
-	 a8/34zeO0Qlfm/boSMeJiwrib/bcX3BLBId3CXAMdwAj9zPa4ZvAabKtbPYKrnOmOU
-	 7PQN7uJdT+2/5Zi9Peg8rknUiCTsblsLtQ0KZTvrlV0ggTgAipAUPtI8qwo8HVcpL+
-	 RJQTAFEulEKowN2/Uy333hWFXgye6g8tnk2TIsc/ad5nWcdTRhT0OrS3xjhBBg6Xl1
-	 0It6wdX6YaP2g==
-Received: from [IPv6:2606:6d00:15:e06b::c41] (unknown [IPv6:2606:6d00:15:e06b::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id EC9FA17E4884;
-	Mon, 30 Mar 2026 17:54:10 +0200 (CEST)
-Message-ID: <ac0caac393dbc7dabe6e0fd530a6a2f9d2742f00.camel@collabora.com>
-Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>, mripard@kernel.org
-Cc: paulk@sys-base.io, mchehab@kernel.org, gregkh@linuxfoundation.org, 
-	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Mon, 30 Mar 2026 11:54:08 -0400
-In-Reply-To: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
-References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-kv04JgWUz8A1UA6gWqGA"
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97FB237419A
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 15:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774886152; cv=pass; b=qgigHbcvMb5tFIeLMAy1NfiUV9BOjLo8Zk10pZfq/tVpnnJDvqzO2YdIOT5Zf35ar1M72J0OxwydKyIzkjmSqniwA9YHkgTeF+zsnGzVkGQstwwXKK0e5A2ObiCJxC/+x9VHB+738G+j7hVVgq83ZqNyIyQco0hSA0yYfiiwEXE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774886152; c=relaxed/simple;
+	bh=gNWok/IAsMWevG4eHRezYjF6+JwGntTB45vSpo2cwE8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JmssT8ztC6iv7vvzlv1SK+o2tMZScPcYLSr9gVeAmSzO/cYR8tqCR2x3qUg8/JuL9EH5QF6F04YNiWrwkdjqTYevle61NXnQisyNm/wUngE4DCnu8o4qxfv47HNqyjAmerYb66Dvm7EPPZjKuOUusepQrAH3jzydvfL7fIKLWF8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ibgiO8Zm; arc=pass smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43cfce3a195so751255f8f.2
+        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 08:55:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774886149; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hXMRSftumXqsbOqKoJVN9bRItl+yhteJIN/GFdkLoa0fMEFVXul/tGkm287OAaeqLg
+         XhIXpUAti55HrxRQkFEbyGstVU1cA/FvtOLIJ65JCGY/Qq0WryFK4gL091KsfulFWCS7
+         UkRNP/WK1yj/7YVrJ186JpTaX/4cfg1ncrfHgMLpVp8Wo5oSXHIFhydn5im7oPhkJsuT
+         kB2wv6QhhfLHFMuoMWiJwNmp6CXx1OPn3qfc8fiAiB8Y1w04MkF5hHZYJV8sZP/mQbDT
+         H4Vgn12uxUs2HKlWf4ZF/3+K9EYUzKODyUcK81ulNQmh3hopEeDB3dQNSoGu8svZrSQP
+         AmdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9pJcdizetzoKuJH44vn82II0IoK/ql94W08EDaC/fgs=;
+        fh=5auEyz2tMneJDNA++rNDA2Cyvydluv5DHIkApTu3cPA=;
+        b=N5MvSnWEeFl/aBp9MJki0a8GnbE2SF1o8tJh5Y0GTaVxYkMXl/g3C8KJGyB1BL313x
+         8sGV9q5X58ABtZmEIgh2RmDhVc5KZiq2H19tmZ6V1ZTF440dQXCuS66g61NTTwaca3GB
+         TpD2EVkz+fIqX8IvSPxOaVTK+sw0NSM3PVfslnraZS298D6xEN1oedCEBnz7WFNLNGgl
+         FF5EJjjzyqNVc3iLDUe4/vZZrHXHPeXYen1mQpqBiATFCqJM5B6Vh8I/9SFei+MSdLjG
+         dGB2Tn44YlksxKncXEbsQFeqFiFdThZ0WCK86YhJFVhdgXMwA2cAPaYogIO+3Vbku6I4
+         6Zwg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774886149; x=1775490949; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9pJcdizetzoKuJH44vn82II0IoK/ql94W08EDaC/fgs=;
+        b=ibgiO8Zm5advTmR6wHrHY45LcMRWaqo7QpjnEKWAotI1RMLkl9HjktYrlldFBbDU6I
+         FXqP6DJLjcks4skdapOy0zKmZS4tnPMbl+DK3aQlLutVvbU60dF4HPGGZSk1KJAl4Jjk
+         /7Bk82gYqxYrEjeRrNXWnVEk+Rola9U3AlBHcEOcEi+kR3QkSpZw37FPi5fNl2JIyS5k
+         Tf30AHyEVl1cfqMQ5cb7vZFQr1jhXDpjqyQ2Rbkkh68TvpKg6fI5y0Pkfo8Sqb0Ceoql
+         COyyyA/qgGFL2c8M3OUDOLmGqz7ie9/NNdMiuSo+j3DYnaDYeuOm7Uw6L4R7VIfEK7iQ
+         GOUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774886149; x=1775490949;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9pJcdizetzoKuJH44vn82II0IoK/ql94W08EDaC/fgs=;
+        b=Ku58aYfYSdeQYoX6F+e2fe8xWNL5mEPnNkAAoXVLQtCD9zAY0w5yylIkw//yS6aXhk
+         YO9iK8keIaWTJbqYzHTHw9Jtn8qbJYoyBE7x7iJ/fp8zAlKq/7suDbeVi+7yPS4HSAuF
+         51xaEU2Q4NqVHk7DXIOZV2RQkpVMyGVxGm4ZuW+j+hOyoxBKjempH9eQ6Kt4zDRuSCR7
+         K3I4AoPQApx4C8jm1XHgDbEvRbtcB2OoBI11LTJ83mcwHg37LrAghDF5w8AzUsbCw0Td
+         qyDTMv1/QnDs2nrzL5oXN/21zFg3nwT4EHvXNTkfUAKvfaItyyrspqN44zC2sLX6mRGk
+         gduQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX5Jcd7bwjWtAiJVN/n4E4WiiOzoyk3JDhCEuKATdN8ru4Vg2uf0ATxUfHSoBd8sayFfo7wiPc8YQAk3g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyty/RPphbog+Rb2eLElo1CqMgR3ypwEaTqiv4iWFreVuo888xy
+	SIhFDRNk7xBjljm61Ty+Ce8Ob42orM72smaqUCy6NefoNoFl5anXQB+TZt0HHHolPWHdiVriN5l
+	KUEqoqoqLK/wSIuekKhdzIPrSerWUKts=
+X-Gm-Gg: ATEYQzzMP21LxWQVCOG/MW7y2UJ7W4c988Xs4A7tWHWrjCUkaJm5toNdlL9px3aFsnL
+	j6Lh8fR90eNNJ2wZLSIHJhFvc0wDjsIhWCqinYpFd9zWlIgOHYqZVZyGeuZtl+M0iEvVBZM/0f9
+	AVxKJrrjYUcP4lnfg8WWUqwpXLqZBhupz/QvdQBN3vSdv2OZGw8GY4yrLdKYD7Jp8g0rCjzPJ4R
+	mXikwmA1pdoUWkz2I5zRhjejhPivORgnbJBq/thydyKmZwAHaMZwIZLd80w0hIffVU7pHPVJI+U
+	PaVDdo+o9cfLDz6Yee3HJqvbgFKjlJsHOZkUbhkOC7QT7djKT2jJAHz9O1Q5uk9ftQXkSw==
+X-Received: by 2002:a05:6000:310d:b0:43d:262:c97b with SMTP id
+ ffacd0b85a97d-43d0262ca87mr5056947f8f.41.1774886148810; Mon, 30 Mar 2026
+ 08:55:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+References: <20260327-b4-cru-rework-v1-0-3b7d0430f538@ideasonboard.com> <20260327-b4-cru-rework-v1-2-3b7d0430f538@ideasonboard.com>
+In-Reply-To: <20260327-b4-cru-rework-v1-2-3b7d0430f538@ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 30 Mar 2026 16:55:21 +0100
+X-Gm-Features: AQROBzCS1ISFV8_oWPHxX645PWhua51q7t77cS-YtJt7VjmgbyhEtmV7TZOFNWs
+Message-ID: <CA+V-a8tdRsivBzmVk6PRpkGo6FQvF_3LKM2JRuCVqmjOyMLySA@mail.gmail.com>
+Subject: Re: [PATCH 02/14] media: rzg2l-cru: Use only frame end interrupts
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+	Daniel Scally <dan.scally@ideasonboard.com>, =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57653-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_CC(0.00)[sys-base.io,kernel.org,linuxfoundation.org,gmail.com,sholland.org,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-57655-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_CC(0.00)[kernel.org,ideasonboard.com,bp.renesas.com,linux.intel.com,protonmail.com,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:email,collabora.com:dkim,collabora.com:email,collabora.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0960035E552
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 5EE6E35E4C0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Hi Jacopo,
 
---=-kv04JgWUz8A1UA6gWqGA
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch.
 
-Le mardi 24 mars 2026 =C3=A0 16:08 +0800, Pengpeng Hou a =C3=A9crit=C2=A0:
-> Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
-> stateless slice control and later uses their indices to look up
-> decode->dpb[] in _cedrus_write_ref_list().
->=20
-> Rejecting such controls in cedrus_try_ctrl() would break existing
-> userspace, since stateless H.264 reference lists may legitimately carry
-> out-of-range indices for missing references. Instead, guard the actual
-> DPB lookup in Cedrus and skip entries whose indices do not fit the fixed
-> V4L2_H264_NUM_DPB_ENTRIES array.
->=20
-> This keeps the fix local to the driver use site and avoids out-of-bounds
-> reads from malformed or unsupported reference list entries.
->=20
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+On Fri, Mar 27, 2026 at 5:20=E2=80=AFPM Jacopo Mondi
+<jacopo.mondi@ideasonboard.com> wrote:
+>
+> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+>
+> On RZ/G3E the CRU driver relies on the frame end interrupt to detect the
+> completion of an active frame transfer when stopping DMA.
+>
+> Update the driver to enable only frame end interrupts (CRUnIE2_FExE),
+> dropping the usage of the frame start interrupts, which is not required
+> for this operations flow.
+>
+> Fix the interrupt status handling in the DMA stopping state by checking
+> the correct frame end status bits (FExS) instead of the frame start one
+> (FSxS). Add a dedicated CRUnINTS2_FExS() macro to reflect the actual
+> register bit layout.
+>
+> This ensures that DMA stopping is triggered by the intended frame end
+> events and avoids incorrect interrupt handling.
+>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 > ---
-> =C2=A0drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 3 +++
-> =C2=A01 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> @@ -210,6 +210,9 @@ static void _cedrus_write_ref_list(struct cedrus_ctx =
-*ctx,
-> =C2=A0		u8 dpb_idx;
-> =C2=A0
-> =C2=A0		dpb_idx =3D ref_list[i].index;
-> +		if (dpb_idx >=3D V4L2_H264_NUM_DPB_ENTRIES)
-> +			continue;
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h | 1 +
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c    | 9 ++++-----
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h b/=
+drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> index 10e62f2646d0..5a6ac9cb09a4 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> @@ -19,6 +19,7 @@
+>
+>  #define CRUnINTS_SFS                   BIT(16)
+>
+> +#define CRUnINTS2_FExS(x)              BIT(((x) * 3) + 1)
+>  #define CRUnINTS2_FSxS(x)              BIT(((x) * 3))
+>
+>  #define CRUnRST_VRESETN                        BIT(0)
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/dri=
+vers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index 6aea7c244df1..98b6afbc708d 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -440,7 +440,6 @@ static int rzg2l_cru_get_virtual_channel(struct rzg2l=
+_cru_dev *cru)
+>
+>  void rzg3e_cru_enable_interrupts(struct rzg2l_cru_dev *cru)
+>  {
+> -       rzg2l_cru_write(cru, CRUnIE2, CRUnIE2_FSxE(cru->svc_channel));
+We could drop the CRUnIE2_FSxE macro as it is no longer used. Rest LGTM.
 
-Matches how we skip inactive references (in this diff, though most userspac=
-e
-just don't pass them). Now, if I looked lower, we set a position for each
-references. My understanding is that if no bits are set, it means "no posit=
-ion".
-How much testing have you done to confirm the HW behaves properly ?
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Despite this question, I think this is going to work better then doing memo=
-ry
-overrun:
-
-	Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-Nicolas
-
-> +
-> =C2=A0		dpb =3D &decode->dpb[dpb_idx];
-> =C2=A0
-> =C2=A0		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-
---=-kv04JgWUz8A1UA6gWqGA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCacqcoQAKCRDZQZRRKWBy
-9DAQAPwKkG9KdjJow+AAJHKaPq3Zeel97DZlNnHZBVd/Ag0xRAEAs7QtX42z2jd5
-4nollgoY5CGJnkjx9RVSHq+m86uwcgU=
-=/FV6
------END PGP SIGNATURE-----
-
---=-kv04JgWUz8A1UA6gWqGA--
+Cheers,
+Prabhakar
+>         rzg2l_cru_write(cru, CRUnIE2, CRUnIE2_FExE(cru->svc_channel));
+>  }
+>
+> @@ -700,10 +699,10 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
+>                 }
+>
+>                 if (cru->state =3D=3D RZG2L_CRU_DMA_STOPPING) {
+> -                       if (irq_status & CRUnINTS2_FSxS(0) ||
+> -                           irq_status & CRUnINTS2_FSxS(1) ||
+> -                           irq_status & CRUnINTS2_FSxS(2) ||
+> -                           irq_status & CRUnINTS2_FSxS(3))
+> +                       if (irq_status & CRUnINTS2_FExS(0) ||
+> +                           irq_status & CRUnINTS2_FExS(1) ||
+> +                           irq_status & CRUnINTS2_FExS(2) ||
+> +                           irq_status & CRUnINTS2_FExS(3))
+>                                 dev_dbg(cru->dev, "IRQ while state stoppi=
+ng\n");
+>                         return IRQ_HANDLED;
+>                 }
+>
+> --
+> 2.53.0
+>
+>
 
