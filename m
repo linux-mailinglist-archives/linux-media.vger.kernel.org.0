@@ -1,235 +1,214 @@
-Return-Path: <linux-media+bounces-57578-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57579-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yNXDFpRCymky7AUAu9opvQ
-	(envelope-from <linux-media+bounces-57578-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:29:56 +0200
+	id SDyNJQZEymky7AUAu9opvQ
+	(envelope-from <linux-media+bounces-57579-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:36:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74CA35834D
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:29:55 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE18358452
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 11:36:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4B85430269E2
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 09:25:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 33D61303DD35
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2026 09:30:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7DF620B22;
-	Mon, 30 Mar 2026 09:25:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E6613B4E9A;
+	Mon, 30 Mar 2026 09:30:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i+5ZjBvM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IOac5X6A"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5531A3AEF2E;
-	Mon, 30 Mar 2026 09:25:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25A33A874F
+	for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 09:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774862727; cv=none; b=QZyBbHJxw1GRT6sxDxAt4itR84g+DixKfdkM4rPhe+vX2lBHBoqTeuke7VIlRNpGCNaeVtXlu+soDRHaworKsO8V2Cv6d+2uAxRubq4zjPJv2KWNOuXW87HPqRTjZCjxUgXSTCkZVXuhzskC8YRTKEssGxjcbqccclQCURR30S4=
+	t=1774863041; cv=none; b=j4c9axpiXy5dO+jK95neRdkpc1F7NZF6VBX0RmSIrfxyAoGAwfl0fbB+ve4IeZ/INmV2aLYVQ7ANUi2HNJtGVKaMskow2683L5L/zf+42bXL8YujUmmYhNwp0y5M68rTxvw9jEGis1XoyeulBOI6kP5lCsujmrostFWl0g+X+fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774862727; c=relaxed/simple;
-	bh=9bQ/OYfV+keQ5xo2EhGFiUEry34Hic8CujRdJP9iYiM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CTAcMnnbWUchFwEGsLPmgPaN1Zi/oyoKouJZbc+oeeEf37JcgIU3tnEvv/1K5iA5jOPljZ9eaih2GEIYPp3JGiZg9qysI0Nc+OPAoOKM2FBNr4H6QXerVP9nppDsuLp0MeT27zToKdtDAjcsk3he3Te8uigZvnc9rvaG+zihKuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i+5ZjBvM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3630EC4CEF7;
-	Mon, 30 Mar 2026 09:25:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774862727;
-	bh=9bQ/OYfV+keQ5xo2EhGFiUEry34Hic8CujRdJP9iYiM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=i+5ZjBvMd74lpS/usvh16Cm14l1ZC/XvVznSnDamBKq87Kz+frVYkLCeeIgT8Ao1F
-	 0UH814n7osomW+K9KR+fL82rfnmrPm2ihy80OUI5NnwfmryCArj8PB8sfEoDl8DvcP
-	 JOb2tND7bEzGh+7c28HzhooZX/EkA62Je17T9Vp6ldqMAXZuEdjEvuY/XI2nxfD1O+
-	 nlXVybgjDJBgqfeUZcawpxhvS5HsjLMjzNPLfcua+5LcuMxzc9lcmcAxUHO/M76P9v
-	 /Ni/qaAGXdqEszH0ywM1aJF6ETqXcHIPSbix/uqx0Br7mejmcnDez5kvqWaJAGsQA9
-	 XxeP/Idob3nmg==
-Message-ID: <0101d8bc-1ae8-475e-bb9e-cc1e16db87ec@kernel.org>
-Date: Mon, 30 Mar 2026 10:25:22 +0100
+	s=arc-20240116; t=1774863041; c=relaxed/simple;
+	bh=dDXdYT1zf8jcRW3Lh7wW3hi8RufyCiCX8TZ7JkbPYLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=T6SHdT5U4USRr2fEzQnc2I1RixzkH5FLReAvfAgXRtjszfEVK5TujiTfgwDSospu0aiYOeqndJjVqn81oGQad2+R7fvjjInUWRL4sVHqbm9yMo3igHDWLg1KiwCu1pBbude42db157kczuYvZsewxEqU7QAyGedZlQX5XC/BDII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IOac5X6A; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-486fe655187so55135635e9.2
+        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2026 02:30:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774863038; x=1775467838; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=z+az+AaDlx97xMl9c5AxMiWqH7QYTzxKlo69P1hgDlo=;
+        b=IOac5X6AbRp+Q4yJxKakLZmCnhZ2CDQ+GVVykllRTpVLxXT4H6srXcHtNVsuFHJpjE
+         9YW6ixW07Ps6Q9Ru851v+OB2ST+/qLKlc8D2F+EAM/416wT2ELfA2YaNPL2ak14BW2xp
+         V7V+i3JLRYBYJ5Dzx552Q/RGFQB4B5KTPECFxFheNUWxfTvUdzOBtyiELNzM3ju3YKyT
+         cYWIULoinqLEE+wisZwhpoQIOlJcadpiQyHliK7tySdPgZd7NSQlURIsDQxyfNrripAi
+         5mGojkGSYfdxFdGk2VN/0nqRebsYg2XB5HvcbnGMxn0jI4L5vihePzQybimNaR2BtMqU
+         1jYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774863038; x=1775467838;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z+az+AaDlx97xMl9c5AxMiWqH7QYTzxKlo69P1hgDlo=;
+        b=BrLNE0iE0dbgMGGw25TgnvU/AiZglJk0MqconXPHEjb8B7tVuNxCtZ7z8f//7dGU0i
+         ZB1ETCRp4wbOvb74Yzb5u07KOT+iT6ba7VBj1NdUhSWyzgmkOvIeocs3YGA6tlrp7df7
+         2fXaJTQqNpW9N3doPPHIA5k3tMUpoCOgK377IqNB4gP4Ftx6ppgilNiod4wAcl2daphX
+         aP21WZr73BV7SswSVhOP6il0y6OeO+z8F0OSRPEmLV717soLfDi8RFbYwYm8XzqqEekg
+         jl/XcXlALCKYD0QXIYwVHvwUwFXwMZSN8QmxlwkdDpzdGh+GXmcM85x9fdBZngRYU0yD
+         OvzA==
+X-Forwarded-Encrypted: i=1; AJvYcCUVYGN54jas111uUesfxHOdQu7vRFKEoqCOSZuRC1AZhzfHFy4BcX2CxBjQ885SWpeO/L+jEi9xL37nIQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3V/GO9g7/XyVlE3o3wmA6dH2n5+XUfbgxYIeaA6I/1Dde/esc
+	QfIrYAdz2hJFriPqdQtUhhz4RaWyxemHDV0GMRdDWlG3MLt/+3+9VfauB3s6ZA==
+X-Gm-Gg: ATEYQzywcZs002mlKJzZdERG1qmhSaP/QWrDSXWWmL5xHOvkKxQhnyf6n2JcBO9JN5C
+	jLgxOPAgMq+lwIxqp2CskXdHLAOaMbkds1tAN8EjtytagyTzcQM7OLEi3JYoaVfiKfbfQbr+aY/
+	XCb6JzwCSqzn0HE1AVuvy/S6NWW0jJpTxLOaimRsn6AX4/zltCFVaA/ayePcXFmkYAY1t5rxjO8
+	bjrAOBk3FGsWfu1VJm4a2gYqyQ8FjDg3AymQ3iEJDPbxOmrU9EqeXoX/e3ogzEHkHXI6uoWpAcj
+	UgbksdOraEga/4lRqTSTvxT0z0Q/eCTaQnutDOoZlJffjnGEXtEESkPZIeOjLvCbyxHEYiOlcye
+	0uPeht+KuefHRd1+srpRFy9HF30YKyEFBKx7g+9f+cPAZxzkcp9Or7tv8QIi5YkAUKdAFD9Nams
+	4SDtwceWjiBLQa/YNemC4=
+X-Received: by 2002:a05:600c:8b08:b0:485:303b:c50a with SMTP id 5b1f17b1804b1-48727d73611mr192261325e9.13.1774863038151;
+        Mon, 30 Mar 2026 02:30:38 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf2577cbdsm18766581f8f.33.2026.03.30.02.30.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2026 02:30:37 -0700 (PDT)
+Date: Mon, 30 Mar 2026 12:30:34 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Kate Hsuan <hpa@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [linuxtv-media-pending:next 165/183] drivers/media/i2c/t4ka3.c:577
+ t4ka3_enable_stream() warn: pm_runtime_get_sync() also returns 1 on success
+Message-ID: <acpCusUjXndiISEI@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Vinod Koul
- <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260326-x1e-csi2-phy-v5-0-0c0fc7f5c01b@linaro.org>
- <20260326-x1e-csi2-phy-v5-1-0c0fc7f5c01b@linaro.org>
- <7712fbdd-a225-49f0-aeb9-ebcbb9d5abac@oss.qualcomm.com>
- <da3ed78d-fb5e-4820-95d6-527d540cf03e@linaro.org>
- <1f38187a-9464-4aa9-b70a-03b767349d56@linaro.org>
- <c5278028-dfe9-4d09-970a-a25977967bdd@linaro.org>
- <016c03b8-27c3-41dc-a630-8e7095db1f88@linaro.org>
- <456ded59-d13e-4b61-975b-97ca48b5e771@linaro.org>
- <RAPaPhpxA39W0ykm-Cr1KaDiJKpRqdQTXUeEmt5mQn4lJBHEGaIS010ejjmhUYEBsHjzrTX41Ek9zLU2bae_YA==@protonmail.internalid>
- <76ea03d0-d41b-4880-a48c-06570eb089ed@linaro.org>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-In-Reply-To: <76ea03d0-d41b-4880-a48c-06570eb089ed@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57578-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-57579-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C74CA35834D
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com]
+X-Rspamd-Queue-Id: EFE18358452
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 30/03/2026 10:17, Neil Armstrong wrote:
-> On 3/30/26 11:02, Bryan O'Donoghue wrote:
->> On 30/03/2026 08:49, Neil Armstrong wrote:
->>> On 3/27/26 18:42, Bryan O'Donoghue wrote:
->>>> On 27/03/2026 15:28, Neil Armstrong wrote:
->>>>>> To be frankly honest you can make an argument for it either way. However my honestly held position is analysing other upstream implementations connecting to the PHY means we can't make the PHY device a drivers/phy device - it would have to be a V4L2 device and then for me the question is why is that even required ?
->>>>>
->>>>> This is plain wrong, DT definition is different from software implementation, you can do whatever you want if you describe HW accurately.
->>>>
->>>> I'm not sure what point it is you are trying to make here. Are you trying to say drivers/phy is OK with you but you want an endpoint ? If so, please just say so.
->>>
->>> I'm against using the "phys = <>" property in the CAMSS to reference the PHYs, a "PHY" in the classic terminology is tied to a single consumer, and if it can be shared to multiple consumer you must model a mux or whatever in the middle.
->>
->> The CSIPHY-to-CSID routing is runtime-configurable and is already managed by the media controller framework.
-> 
-> This is not compatible with the PHY bindings if you don't have a defined MUX device in the middle, it's wrong. You're hiding the muxing details in the CAMSS blob node.
-> 
->>
->> DT describes static hardware connections. The dynamic mux is a software concern, not a hardware description concern.
-> 
-> DT must describe the possible interconnections between the nodes, if a PHY can be used by multiple hardware components, it must be described.
+tree:   https://git.linuxtv.org/media-ci/media-pending.git next
+head:   4fbeef21f5387234111b5d52924e77757626faa5
+commit: fd55319692151de2b89c21356d1445bce364769b [165/183] media: Add t4ka3 camera sensor driver
+config: um-randconfig-r072-20260327 (https://download.01.org/0day-ci/archive/20260328/202603280011.CCbaQy6n-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+smatch: v0.5.0-9004-gb810ac53
 
-But right now the CAMSS block is described as a single block. There is 
-no CSID device in the kernel _yet_.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603280011.CCbaQy6n-lkp@intel.com/
 
-When we break CSID into its own block then fine, lets have a debate 
-about a mux then but right now the "nodes" are CAMSS[MONOLITH] <=> 
-CSIPHY there is no DT CSID device to model this to.
+smatch warnings:
+drivers/media/i2c/t4ka3.c:577 t4ka3_enable_stream() warn: pm_runtime_get_sync() also returns 1 on success
 
-> 
->>
->>
->>> The PHY API as an internal software implementation is probably fine, even if it makes implementation of split mode much much harder and doesn't really solve anything, you can just call init()/poweron()/ poweroff()/exit() directly from the CSIPHY media callbacks.
->>
->> Great.
->>
->>>> I can see an argument for that hence my response to Konrad, I just don't see why its a Qualcomm specific argument and of course understood stuff bubbles up in review, we have a public debate and come to a consensus - that's a good thing.
->>>>
->>>> However, I'd want wider buy-in and understanding that endpoints in the PHYs is a more accurate description of the data-flow.
->>>
->>> It is, and it was designed for that, and extensively used in the media DT representation, so I wonder here you would not use it...
->>> In an ideal world, you would add nodes for each CAMSS hw elements and adds port/endpoints links between all nodes to describe the data graph, this would be used to construct the media controller graph, and make it much easier supporting new hardware.
->>
->> Yes but be pragmatic Neil. The first step in making the monolith into sub-nodes is the CSIPHY.
-> 
-> I am, and I agree it's fine to do it step by step.
+vim +577 drivers/media/i2c/t4ka3.c
 
-Cool.
+fd55319692151d Kate Hsuan 2026-03-25  558  static int t4ka3_enable_stream(struct v4l2_subdev *sd,
+fd55319692151d Kate Hsuan 2026-03-25  559  			       struct v4l2_subdev_state *state,
+fd55319692151d Kate Hsuan 2026-03-25  560  			       u32 pad, u64 streams_mask)
+fd55319692151d Kate Hsuan 2026-03-25  561  {
+fd55319692151d Kate Hsuan 2026-03-25  562  	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
+fd55319692151d Kate Hsuan 2026-03-25  563  	int ret;
+fd55319692151d Kate Hsuan 2026-03-25  564  
+fd55319692151d Kate Hsuan 2026-03-25  565  	ret = pm_runtime_get_sync(sensor->sd.dev);
+fd55319692151d Kate Hsuan 2026-03-25  566  	if (ret < 0) {
 
-So let's talk about muxing to CSID devices, when we have CSID devices in 
-the DT.
+pm_runtime_get_sync can return either zero or one on success.
+(See the comments next to that function).  Probably use
+pm_runtime_resume_and_get() instead.
 
->>
->> Once the CSIPHY is in, we can follow on with adding new nodes that way IPE, BPS, ICP, JPEG whatever and also work on implementing the old stuff in that new way.
-> 
-> I agree on the approach, I never said otherwise, but you need to have the big picture in mind.
-> 
-> When you'll have the CSID subnodes, where will you add the phys properties ? you'll keep them in the CAMSS top node ? add all CSIPHY to all CSID nodes ? this is wrong and this needs to be fixed now.
-> 
->>
->>
->>>
->>>>
->>>> We've been applying DT bindings aplenty without that so far. So we would establish new CSI2 PHY bindings should represent the sensor endpoints.
->>>
->>> We've been using a dummy representation of CAMM in a single node with only endpoints connecting to the sensors and hiding all the hardware layout in code, it doesn't scale and makes supporting new HW hard.
->>> I mean this is common sense, why would we continue to stick to the current CAMSS bindings ???
->>
->> We _won't_ I just don't support a big bang integration. Progressive changes over a longer timeline make the transition manageable, without accepting endless sub-standard stuff in the meantime or holding up all new SoC submission unless/until.
->>
->> I mean there is a CAMSS meeting which I've been running for nearly a year now that both you and Vlad are invited to where we have been discussing this for months...
->>
->> Anyway one conclusion of that is we want to transition to individual nodes for everything.
->>
->> PHY is the first step which I'm taking because its easier for me as CAMSS maintainer to convince the CAMSS maintainer to take the relevant patches.
->>
->> drivers/phy notwithstanding.
-> 
-> As I said I agree on the progressive approach, not the PHY DT bindins approach.
-> 
->>
->>>>
->>>> Is that what you want ?
->>>>
->>>>> The CSIPHYs are not tied to a single "consumer" block, they can be connected to different consumers at runtime, which is not something classic PHY devices are designed for. So they are de facto a media element in the dynamic camera pipeline.
->>>>
->>>> The existing CAMSS binding and media graph are not changed by this series.
->>>
->>> This is not my point, I don't care about the software implementation at all, I care about accurate hardware representation. Using the "phys = <>" property does not describe hardware accurately.
->>>
->>> In other words: The CSIPHY are not connected to CAMSS. This is _not_ true, tying the CSIPHYs to the CAMSS block hides the real data muxing in software.
->>>
->>> Please remind DT is used by multiple operating systems, and properly describing hardware in DT will help have good software support over all OSes, not just Linux.
->>>
->>>>
->>>>> And actually Rob Herring asked use to define the complete data flow, it was a strong requirement. I don't see why we wouldn't here.
->>>>
->>>> I'm implementing feedback from Rob.
->>>>
->>>> https://lore.kernel.org/linux-media/20250710230846.GA44483- robh@kernel.org/
->>>
->>> Where did he ask using the PHY DT bindings ? Is he aware those CSIPHYs are muxed to multiple consumers which are burried in the CAMSS code ?
->>
->> I freely admit to taking the initiative of phys = <> but Neil there is _no_change_ to the media graph and the "mux" is a runtime configuration that is one register in the CSID.
-> 
-> Honestly I don't care about the userspace media graph, this is a software problem and we can totally make the transition seamless if we want.
-> 
-> Don't limit the DT hardware description because of a software userspace ABI breakage, this approach is not the right one.
-> 
->>
->> You seriously want a mux device in the kernel to model one bit in a register ?
-> 
-> Why not ? We have drivers that even toggles even single bit to solve those kind of situations.
-> 
-> Physically they're a mux to route the CSIPHY to the consumers, it's a fact... even if it's a register or a single bit.
+fd55319692151d Kate Hsuan 2026-03-25  567  		dev_err(sensor->dev, "power-up err.\n");
+fd55319692151d Kate Hsuan 2026-03-25  568  		goto error_powerdown;
+fd55319692151d Kate Hsuan 2026-03-25  569  	}
+fd55319692151d Kate Hsuan 2026-03-25  570  
+fd55319692151d Kate Hsuan 2026-03-25  571  	cci_multi_reg_write(sensor->regmap, t4ka3_init_config,
+fd55319692151d Kate Hsuan 2026-03-25  572  			    ARRAY_SIZE(t4ka3_init_config), &ret);
 
-That's fine. I can understanding making that case if/when CSID becomes 
-its own node but, I don't think it makes sense when connecting the PHY 
-back to the monolith.
+If we pass 1 to cci_multi_reg_write() it is treated
+as an error and it returns immediately.
 
----
-bod
+fd55319692151d Kate Hsuan 2026-03-25  573  	/* enable group hold */
+fd55319692151d Kate Hsuan 2026-03-25  574  	cci_write(sensor->regmap, T4KA3_REG_PARAM_HOLD, 1, &ret);
+fd55319692151d Kate Hsuan 2026-03-25  575  	cci_multi_reg_write(sensor->regmap, t4ka3_pre_mode_set_regs,
+fd55319692151d Kate Hsuan 2026-03-25  576  			    ARRAY_SIZE(t4ka3_pre_mode_set_regs), &ret);
+fd55319692151d Kate Hsuan 2026-03-25 @577  	if (ret)
+fd55319692151d Kate Hsuan 2026-03-25  578  		goto error_powerdown;
+
+And we error out here with ret == 1.
+
+fd55319692151d Kate Hsuan 2026-03-25  579  
+fd55319692151d Kate Hsuan 2026-03-25  580  	ret = t4ka3_set_mode(sensor, state);
+fd55319692151d Kate Hsuan 2026-03-25  581  	if (ret)
+fd55319692151d Kate Hsuan 2026-03-25  582  		goto error_powerdown;
+fd55319692151d Kate Hsuan 2026-03-25  583  
+fd55319692151d Kate Hsuan 2026-03-25  584  	ret = cci_multi_reg_write(sensor->regmap, t4ka3_post_mode_set_regs,
+fd55319692151d Kate Hsuan 2026-03-25  585  				  ARRAY_SIZE(t4ka3_post_mode_set_regs), NULL);
+fd55319692151d Kate Hsuan 2026-03-25  586  	if (ret)
+fd55319692151d Kate Hsuan 2026-03-25  587  		goto error_powerdown;
+fd55319692151d Kate Hsuan 2026-03-25  588  
+fd55319692151d Kate Hsuan 2026-03-25  589  	/* Restore value of all ctrls */
+fd55319692151d Kate Hsuan 2026-03-25  590  	ret = __v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
+fd55319692151d Kate Hsuan 2026-03-25  591  	if (ret)
+fd55319692151d Kate Hsuan 2026-03-25  592  		goto error_powerdown;
+fd55319692151d Kate Hsuan 2026-03-25  593  
+fd55319692151d Kate Hsuan 2026-03-25  594  	/* disable group hold */
+fd55319692151d Kate Hsuan 2026-03-25  595  	cci_write(sensor->regmap, T4KA3_REG_PARAM_HOLD, 0, &ret);
+fd55319692151d Kate Hsuan 2026-03-25  596  	cci_write(sensor->regmap, T4KA3_REG_STREAM, 1, &ret);
+fd55319692151d Kate Hsuan 2026-03-25  597  	if (ret)
+fd55319692151d Kate Hsuan 2026-03-25  598  		goto error_powerdown;
+fd55319692151d Kate Hsuan 2026-03-25  599  
+fd55319692151d Kate Hsuan 2026-03-25  600  	sensor->streaming = 1;
+fd55319692151d Kate Hsuan 2026-03-25  601  
+fd55319692151d Kate Hsuan 2026-03-25  602  	return ret;
+fd55319692151d Kate Hsuan 2026-03-25  603  
+fd55319692151d Kate Hsuan 2026-03-25  604  error_powerdown:
+fd55319692151d Kate Hsuan 2026-03-25  605  	pm_runtime_put(sensor->sd.dev);
+fd55319692151d Kate Hsuan 2026-03-25  606  
+fd55319692151d Kate Hsuan 2026-03-25  607  	return ret;
+fd55319692151d Kate Hsuan 2026-03-25  608  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
