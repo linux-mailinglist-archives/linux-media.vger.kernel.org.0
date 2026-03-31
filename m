@@ -1,557 +1,356 @@
-Return-Path: <linux-media+bounces-57802-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57803-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YAVQO2noy2myMQYAu9opvQ
-	(envelope-from <linux-media+bounces-57802-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 17:29:46 +0200
+	id YNgCFU7ry2l6MgYAu9opvQ
+	(envelope-from <linux-media+bounces-57803-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 17:42:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA45F36BAEC
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 17:29:44 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 015D636BE90
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 17:42:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E76B13046E5F
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 15:24:59 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D72913038156
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 15:36:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 413D94035BB;
-	Tue, 31 Mar 2026 15:24:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA34A40F8DA;
+	Tue, 31 Mar 2026 15:34:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GofwKlM4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H+q3IhlN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAFA3E4C92;
-	Tue, 31 Mar 2026 15:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B90423A95
+	for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 15:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774970685; cv=none; b=UQqk74nxzsLTiaYRuMUkx3tWwIHQf3OhZLnoquZlE6Vwv51gF7OGavMv+LQ7KwAGhCpgUSa5UqmjuB5XXRZW5x/jbNdigOVW8Ksq/1YX2lKLSt97c7a968PMtjK9HwmT1qiqLDkDeFN9nIo77oklR3q16gy4Ztr84MTI+5W6/to=
+	t=1774971234; cv=none; b=UQhCcQNv2NSxc+BDHv0VY2rnQTYUhaCis7IVVDz8SytjLbCuE5fpR7Kly4cp3dtREnql27n7jGV+wZJc51hFftLTgtkm/C9PmEUUqH2M0zBLCWo5SLYBFCjXUxfPaTCsLsBbj+cP5hMdNAX5drGOiBU2MIRVX7bO3LAe3lDiQJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774970685; c=relaxed/simple;
-	bh=wJqmw0G2zwGNuB+jWnj7ko4yyf1Hjero8b9MRRzk3OA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gIH1qGzvsKaJqkwaRq+a7KjzkserL+jY4fInJ8j7gKSH6rU1TGliPo0rhIq+YijqWKVlIuuoJIHj84Fy1nKra/8073gOjVE3h6jwj6XLZo+Arg6g/Kyah09B4HoxycUgGuB/DXStsHdfz6LIAZMDlZ7agfxjuT9su1u2QaRpX8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GofwKlM4; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.33.35] (185.221.143.151.nat.pool.zt.hu [185.221.143.151])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A7722244D;
-	Tue, 31 Mar 2026 17:23:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1774970598;
-	bh=wJqmw0G2zwGNuB+jWnj7ko4yyf1Hjero8b9MRRzk3OA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GofwKlM4YOiFcnDM8J6U43Ja2FUsQUmJt4FH+dCFiCO9KS9Ov6shk2YQX/FevwJnV
-	 cAyYGS55dtQzMf0vz8qOru3AzMUypMU8yLB9GR54nBSkc9xK/4aTjw+Cvn68ImmxHC
-	 RMJP7dlmn6LblToI/vRK2r5fxstDxccjLCDwawo0=
-Message-ID: <5a7d1894-ee12-42b6-b40c-4d0e0b370974@ideasonboard.com>
-Date: Tue, 31 Mar 2026 17:24:38 +0200
+	s=arc-20240116; t=1774971234; c=relaxed/simple;
+	bh=VBnUps52CFyG/FoydIZuQExaREr6jUgcN6RNLQQSv/U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NE/C0z35TvAo9csjBmT2Vy2KVICCa4RwkHCVrzd+sEo+aHfBQDdtvrQciSdxfmLAkZ4IdwvC3WVixEySFFnFRR27j55r8VsmyAJsOchhmUWSSN3cvLrt30U+lrHBHJcvzPN4dNHDG5zAg4RPtmE6TGPmHswGnP3b74z1L8S1hWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H+q3IhlN; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-482f454be5bso81615e9.0
+        for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 08:33:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774971223; x=1775576023; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=GoPzotOzxchx6HJtazekerTGgce+xj3FHC32X+mzsS0=;
+        b=H+q3IhlNuhTFVkuJRoArfpI5peKbJ/9/qCGGDkWc4DtZLeEnDIWRNYNBwLAD1UFwRF
+         rP0ZpYH7DH1cJ77p6w5tFH9Srrvw2dSHcw3FH/wP8a1ARasgBg11Uu4ZuosMDwaJvmUC
+         ZqHFm0XHdaMWxp7Fw1uZUORfyJmmw8feMPH4BKMAsnWEFP4wYfAIxWoJ803oEQAFBtQ4
+         REwg5q6gP9cL8/7cqHjZdferDZ/NMHLTawYrbu4SBjzWaxqavnHN6Y9HhTyAFMEvOOGh
+         XlYTQJHalvlb+1fh3q8OiUGhyVUKdI2TMrn11f8GP8AfxxULx4uj+1mK7NUXDF13kn7m
+         H2Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774971223; x=1775576023;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GoPzotOzxchx6HJtazekerTGgce+xj3FHC32X+mzsS0=;
+        b=QSf9ZV8Vh32ONMOQkOF8+8qbYlMcicStwr+LN9804IIYR4Kn+3WSLjfoTptxiKbm8s
+         u1rHBJ3hFiIxABmlEPHJkDehsHy+cN6r+uT/yPoPiGsgWdKnubJ+J85jd8eZ5BsJRSKM
+         oj8JBIKuuotSKkk1iohpBzvr3KIa9qPcjFf8/AjT5y6MN5xGmdv9hpOsdDjS+pjTIEI6
+         nCaW9RYbP5JPLJeb8YzpdL+6aRiUrLznw+lLOEMLgy26LLjqP9k0LZKTmTnnov4QDstk
+         arkd7UqSs6gi8db7osnRd8RmeE0JSw5P99bbQKmJnTZ42DmL07+j9XvonfsASFNdsMwF
+         psWw==
+X-Forwarded-Encrypted: i=1; AJvYcCVkLI0bjDAOOIgI0/0Ujp9Z7oEcL3asgA07w6L2pqUdxoST04o4LLCl4V614ar+KQU1B/lJpLqw3SVNcA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaylORh++4bMWoatUKJi7wsBPirSt05R31IIER+ni0wJxz7x2W
+	PXWezrO/ar3dAposrug2xj439gbWz8mlYl8io/AKneTXTbwXDTZXAzuw
+X-Gm-Gg: ATEYQzw1dVFS2vpEW08SM42VN9x4a9dPXI4+tWdUaS52tt0EyvH8PvZ5/GzYJSTnudT
+	H9OENDGvI3022XKCMMkzyZi9yA9ezstVnluZPRmKK2UhY9NTGDigLyb4XLkC2/HcEr4fn0HsgGE
+	BHBiDDoIoS1VMbDYKSMMaCboRDlkBexx7zuGyF8uKLjHqKysfKboQyI5A3YS0G8XiP7nk/nD+04
+	Nsbux8e1DLnWD/1zAuMl2QzHYo3/xdBaXBzbSzMZzC+tVuqYcWDh5icI4cnm63rLt3vF/eJ7/OQ
+	DZIHCkX+2X8oiHwNCoHch5bHO6+0ZMGhyGJRJe/W0cnV47UucKaC2MUFTaNm36ZeoHPIpJDMpSV
+	dVYQg73BsIBTiQQMcYhI/9f8UPr3TbCwurQk+5jG+zeroq6QH2Mhu+IimQtW6hFal7aYlysAnUC
+	apwqVZfJmuqz2AEapvs+ceYpKozuVOlzJrBlUELMWXD3oxXSKshDlub9c=
+X-Received: by 2002:a05:600c:a101:b0:485:50ac:b8cf with SMTP id 5b1f17b1804b1-48878113373mr53950405e9.0.1774971222451;
+        Tue, 31 Mar 2026 08:33:42 -0700 (PDT)
+Received: from nixos-office (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e952b0bsm39767515e9.12.2026.03.31.08.33.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 08:33:41 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+From: Julian Braha <julianbraha@gmail.com>
+To: mchehab@kernel.org
+Cc: js@linuxtv.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Julian Braha <julianbraha@gmail.com>
+Subject: [PATCH v2] media: dvb: cleanup dead DVB_USB code in Kconfig
+Date: Tue, 31 Mar 2026 16:32:30 +0100
+Message-ID: <20260331153230.15871-1-julianbraha@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] media: rkisp1: Add support for CAC
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20260323140216.1486161-1-barnabas.pocze@ideasonboard.com>
- <acP7qpa8TxGLKFiw@zed>
- <6c7ffd2d-94fa-4408-ac24-1e7adac95e5d@ideasonboard.com>
- <acu-j4hm0g8pTeAF@zed> <20260331133934.GC3357297@killaraus.ideasonboard.com>
-From: =?UTF-8?Q?Barnab=C3=A1s_P=C5=91cze?= <barnabas.pocze@ideasonboard.com>
-Content-Language: en-US, hu-HU
-In-Reply-To: <20260331133934.GC3357297@killaraus.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.33 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MIXED_CHARSET(0.83)[subject];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[fastmail.com,kernel.org,sntech.de,vger.kernel.org,lists.infradead.org];
-	TAGGED_FROM(0.00)[bounces-57802-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[linuxtv.org,vger.kernel.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-57803-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[barnabas.pocze@ideasonboard.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[julianbraha@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
-X-Rspamd-Queue-Id: EA45F36BAEC
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 015D636BE90
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-2026. 03. 31. 15:39 keltezéssel, Laurent Pinchart írta:
-> On Tue, Mar 31, 2026 at 02:42:33PM +0200, Jacopo Mondi wrote:
->> On Mon, Mar 30, 2026 at 04:40:18PM +0200, Barnabás Pőcze wrote:
->>> 2026. 03. 25. 16:21 keltezéssel, Jacopo Mondi írta:
->>>> On Mon, Mar 23, 2026 at 03:02:16PM +0100, Barnabás Pőcze wrote:
->>>>> The CAC block implements chromatic aberration correction. Expose it to
->>>>> userspace using the extensible parameters format. This was tested on the
->>>>> i.MX8MP platform, but based on available documentation it is also present
->>>>> in the RK3399 variant (V10). Thus presumably also in later versions,
->>>>> so no feature flag is introduced.
->>>>>
->>>>> Signed-off-by: Barnabás Pőcze <barnabas.pocze@ideasonboard.com>
->>>>
->>>> Only minors..
->>>>
->>>>> ---
->>>>>    .../platform/rockchip/rkisp1/rkisp1-params.c  |  69 ++++++++++++
->>>>>    .../platform/rockchip/rkisp1/rkisp1-regs.h    |  21 +++-
->>>>>    include/uapi/linux/rkisp1-config.h            | 106 +++++++++++++++++-
->>>>>    3 files changed, 193 insertions(+), 3 deletions(-)
->>>>>
->>>>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
->>>>> index 6442436a5e428..b889af9dcee45 100644
->>>>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
->>>>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
->>>>> @@ -64,6 +64,7 @@ union rkisp1_ext_params_config {
->>>>>    	struct rkisp1_ext_params_compand_bls_config compand_bls;
->>>>>    	struct rkisp1_ext_params_compand_curve_config compand_curve;
->>>>>    	struct rkisp1_ext_params_wdr_config wdr;
->>>>> +	struct rkisp1_ext_params_cac_config cac;
->>>>>    };
->>>>>
->>>>>    enum rkisp1_params_formats {
->>>>> @@ -1413,6 +1414,48 @@ static void rkisp1_wdr_config(struct rkisp1_params *params,
->>>>>    				     RKISP1_CIF_ISP_WDR_TONE_CURVE_YM_MASK);
->>>>>    }
->>>>>
->>>>> +static void
->>>>> +rkisp1_cac_config(struct rkisp1_params *params,
->>>>> +		  const struct rkisp1_cif_isp_cac_config *arg)
->>>>
->>>> Fits in one line without going over 80 cols
->>>
->>> This is what the other functions looks like, so went this this.
->>
->> It seems to me not all of them are broken, but only the ones that go
->> over 80 cols
+There is already an 'if DVB_USB' condition wrapping most config
+options, making the 'depends on' statement for each a duplicate
+dependency (dead code).
 
-I think I misunderstood initially. Adjusted now.
+Additionally, we can move the 'if DVB_USB' condition up to include
+the DVB_USB_DEBUG config option, and also remove its specific
+'depends on' statement.
 
+This dead code was found by kconfirm, a static analysis tool for Kconfig.
 
->>
->> in example:
->>
->> static void rkisp1_dpf_config(struct rkisp1_params *params,
->> 			      const struct rkisp1_cif_isp_dpf_config *arg)
->>
->> A detail anyway, up to you
->>
->>>>> +{
->>>>> +	u32 regval;
-> 
-> All other functions in this file name similar variables "val", "value"
-> or "reg_val". Let's not introduce a fourth one. I have a small
-> preference for "val", but that's not mandatory.
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
+---
+v2: added 'media' prefix to subject line
+Link to v1: https://lore.kernel.org/all/20260331115540.97695-1-julianbraha@gmail.com/
+---
+ drivers/media/usb/dvb-usb/Kconfig | 30 +++---------------------------
+ 1 file changed, 3 insertions(+), 27 deletions(-)
 
-Adjusted.
-
-
-> 
->>>>> +
->>>>> +	/*
->>>>> +	 * The enable bit is in the same register (RKISP1_CIF_ISP_CAC_CTRL),
->>>>> +	 * so only set the clipping mode, and do not modify the other bits.
->>>>> +	 */
->>>>> +	regval = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_CAC_CTRL);
->>>>> +	regval &= ~(RKISP1_CIF_ISP_CAC_CTRL_H_CLIP_MODE |
->>>>> +		    RKISP1_CIF_ISP_CAC_CTRL_V_CLIP_MODE);
->>>>> +	regval |= FIELD_PREP(RKISP1_CIF_ISP_CAC_CTRL_H_CLIP_MODE, arg->h_clip_mode) |
->>>>> +		  FIELD_PREP(RKISP1_CIF_ISP_CAC_CTRL_V_CLIP_MODE, arg->v_clip_mode);
->>>>> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_CTRL, regval);
->>>>> +
->>>>> +	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_COUNT_START_H_MASK, arg->h_count_start) |
->>>>> +		 FIELD_PREP(RKISP1_CIF_ISP_CAC_COUNT_START_V_MASK, arg->v_count_start);
->>>>> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_COUNT_START, regval);
->>>>> +
->>>>> +	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_A_RED_MASK, arg->red[0]) |
->>>>> +		 FIELD_PREP(RKISP1_CIF_ISP_CAC_A_BLUE_MASK, arg->blue[0]);
->>>>> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_A, regval);
->>>>> +
->>>>> +	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_B_RED_MASK, arg->red[1]) |
->>>>> +		 FIELD_PREP(RKISP1_CIF_ISP_CAC_B_BLUE_MASK, arg->blue[1]);
->>>>> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_B, regval);
->>>>> +
->>>>> +	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_C_RED_MASK, arg->red[2]) |
->>>>> +		 FIELD_PREP(RKISP1_CIF_ISP_CAC_C_BLUE_MASK, arg->blue[2]);
->>>>> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_C, regval);
->>>>> +
->>>>> +	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_X_NORM_NF_MASK, arg->x_nf) |
->>>>> +		 FIELD_PREP(RKISP1_CIF_ISP_CAC_X_NORM_NS_MASK, arg->x_ns);
->>>>> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_X_NORM, regval);
->>>>> +
->>>>> +	regval = FIELD_PREP(RKISP1_CIF_ISP_CAC_Y_NORM_NF_MASK, arg->y_nf) |
->>>>> +		 FIELD_PREP(RKISP1_CIF_ISP_CAC_Y_NORM_NS_MASK, arg->y_ns);
->>>>> +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_Y_NORM, regval);
->>>>> +}
->>>>> +
->>>>>    static void
->>>>>    rkisp1_isp_isr_other_config(struct rkisp1_params *params,
->>>>>    			    const struct rkisp1_params_cfg *new_params)
->>>>> @@ -2089,6 +2132,25 @@ static void rkisp1_ext_params_wdr(struct rkisp1_params *params,
->>>>>    				      RKISP1_CIF_ISP_WDR_CTRL_ENABLE);
->>>>>    }
->>>>>
->>>>> +static void rkisp1_ext_params_cac(struct rkisp1_params *params,
->>>>> +				  const union rkisp1_ext_params_config *block)
->>>>> +{
->>>>> +	const struct rkisp1_ext_params_cac_config *cac = &block->cac;
->>>>> +
->>>>> +	if (cac->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
->>>>> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CAC_CTRL,
->>>>> +					RKISP1_CIF_ISP_CAC_CTRL_ENABLE);
->>>>> +		return;
->>>>> +	}
->>>>> +
->>>>> +	rkisp1_cac_config(params, &cac->config);
->>>>> +
->>>>> +	if ((cac->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE) &&
->>>>> +	    !(params->enabled_blocks & BIT(cac->header.type)))
->>>>> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CAC_CTRL,
->>>>> +				      RKISP1_CIF_ISP_CAC_CTRL_ENABLE);
->>>>> +}
->>>>> +
->>>>>    typedef void (*rkisp1_block_handler)(struct rkisp1_params *params,
->>>>>    			     const union rkisp1_ext_params_config *config);
->>>>>
->>>>> @@ -2185,6 +2247,10 @@ static const struct rkisp1_ext_params_handler {
->>>>>    		.handler	= rkisp1_ext_params_wdr,
->>>>>    		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
->>>>>    	},
->>>>> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_CAC] = {
->>>>> +		.handler	= rkisp1_ext_params_cac,
->>>>> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
->>>>> +	},
->>>>>    };
->>>>>
->>>>>    #define RKISP1_PARAMS_BLOCK_INFO(block, data) \
->>>>> @@ -2215,6 +2281,7 @@ rkisp1_ext_params_block_types_info[] = {
->>>>>    	RKISP1_PARAMS_BLOCK_INFO(COMPAND_EXPAND, compand_curve),
->>>>>    	RKISP1_PARAMS_BLOCK_INFO(COMPAND_COMPRESS, compand_curve),
->>>>>    	RKISP1_PARAMS_BLOCK_INFO(WDR, wdr),
->>>>> +	RKISP1_PARAMS_BLOCK_INFO(CAC, cac),
->>>>>    };
->>>>>
->>>>>    static_assert(ARRAY_SIZE(rkisp1_ext_params_handlers) ==
->>>>> @@ -2474,6 +2541,8 @@ void rkisp1_params_disable(struct rkisp1_params *params)
->>>>>    	rkisp1_ie_enable(params, false);
->>>>>    	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_DPF_MODE,
->>>>>    				RKISP1_CIF_ISP_DPF_MODE_EN);
->>>>> +	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CAC_CTRL,
->>>>> +				RKISP1_CIF_ISP_CAC_CTRL_ENABLE);
->>>>>    }
->>>>>
->>>>>    static const struct rkisp1_params_ops rkisp1_v10_params_ops = {
->>>>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
->>>>> index fbeb186cde0d5..8e25537459bbd 100644
->>>>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
->>>>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
->>>>> @@ -724,6 +724,23 @@
->>>>>    #define RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MASK		GENMASK(20, 16)
->>>>>    #define RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MAX		16U
->>>>>
->>>>> +/* CAC */
->>>>> +#define RKISP1_CIF_ISP_CAC_CTRL_ENABLE		BIT(0)
->>>>> +#define RKISP1_CIF_ISP_CAC_CTRL_V_CLIP_MODE	GENMASK(2, 1)
->>>>> +#define RKISP1_CIF_ISP_CAC_CTRL_H_CLIP_MODE	GENMASK(3, 3)
-> 
-> I'd go for BIT(3) as you use BIT(0) for the enable bit.
-
-Adjusted.
-
-
-> 
->>>>> +#define RKISP1_CIF_ISP_CAC_COUNT_START_H_MASK	GENMASK(12, 0)
->>>>> +#define RKISP1_CIF_ISP_CAC_COUNT_START_V_MASK	GENMASK(28, 16)
->>>>> +#define RKISP1_CIF_ISP_CAC_A_RED_MASK		GENMASK(8, 0)
->>>>> +#define RKISP1_CIF_ISP_CAC_A_BLUE_MASK		GENMASK(24, 16)
->>>>> +#define RKISP1_CIF_ISP_CAC_B_RED_MASK		GENMASK(8, 0)
->>>>> +#define RKISP1_CIF_ISP_CAC_B_BLUE_MASK		GENMASK(24, 16)
->>>>> +#define RKISP1_CIF_ISP_CAC_C_RED_MASK		GENMASK(8, 0)
->>>>> +#define RKISP1_CIF_ISP_CAC_C_BLUE_MASK		GENMASK(24, 16)
->>>>
->>>> All these masks for coefficients 0, 1 and 2 are identical. Maybe
->>>> #define RKISP1_CIF_ISP_CAC_RED_MASK		GENMASK(8, 0)
->>>> #define RKISP1_CIF_ISP_CAC_BLUE_MASK		GENMASK(24, 16)
->>>>
->>>> is enough
->>>
->>> Adjusted.
->>>
->>>>> +#define RKISP1_CIF_ISP_CAC_X_NORM_NF_MASK	GENMASK(4, 0)
->>>>> +#define RKISP1_CIF_ISP_CAC_X_NORM_NS_MASK	GENMASK(19, 16)
->>>>> +#define RKISP1_CIF_ISP_CAC_Y_NORM_NF_MASK	GENMASK(4, 0)
->>>>> +#define RKISP1_CIF_ISP_CAC_Y_NORM_NS_MASK	GENMASK(19, 16)
->>>
->>> Did the same with these as well.
->>
->> Ah thanks!
->>
->>>>> +
->>>>>    /* =================================================================== */
->>>>>    /*                            CIF Registers                            */
->>>>>    /* =================================================================== */
->>>>> @@ -1196,8 +1213,8 @@
->>>>>    #define RKISP1_CIF_ISP_CAC_A			(RKISP1_CIF_ISP_CAC_BASE + 0x00000008)
->>>>>    #define RKISP1_CIF_ISP_CAC_B			(RKISP1_CIF_ISP_CAC_BASE + 0x0000000c)
->>>>>    #define RKISP1_CIF_ISP_CAC_C			(RKISP1_CIF_ISP_CAC_BASE + 0x00000010)
->>>>> -#define RKISP1_CIF_ISP_X_NORM			(RKISP1_CIF_ISP_CAC_BASE + 0x00000014)
->>>>> -#define RKISP1_CIF_ISP_Y_NORM			(RKISP1_CIF_ISP_CAC_BASE + 0x00000018)
->>>>> +#define RKISP1_CIF_ISP_CAC_X_NORM		(RKISP1_CIF_ISP_CAC_BASE + 0x00000014)
->>>>> +#define RKISP1_CIF_ISP_CAC_Y_NORM		(RKISP1_CIF_ISP_CAC_BASE + 0x00000018)
->>>>>
->>>>>    #define RKISP1_CIF_ISP_EXP_BASE			0x00002600
->>>>>    #define RKISP1_CIF_ISP_EXP_CTRL			(RKISP1_CIF_ISP_EXP_BASE + 0x00000000)
->>>>> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
->>>>> index b2d2a71f7baff..d8acccaddd0e9 100644
->>>>> --- a/include/uapi/linux/rkisp1-config.h
->>>>> +++ b/include/uapi/linux/rkisp1-config.h
->>>>> @@ -967,6 +967,92 @@ struct rkisp1_cif_isp_wdr_config {
->>>>>    	__u8 use_iref;
->>>>>    };
->>>>>
->>>>> +/*
->>>>> + * enum rkisp1_cif_isp_cac_h_clip_mode - horizontal clipping mode
->>>>> + *
->>>>> + * @RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4PX: +/- 4 pixels
->>>>> + * @RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4_5PX: +/- 4/5 pixels depending on bayer position
->>>>> + */
->>>>> +enum rkisp1_cif_isp_cac_h_clip_mode {
->>>>> +	RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4PX = 0,
->>>>> +	RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4_5PX = 1,
->>>>> +};
->>>>> +
->>>>> +/**
->>>>> + * enum rkisp1_cif_isp_cac_v_clip_mode - vertical clipping mode
->>>>> + *
->>>>> + * @RKISP1_CIF_ISP_CAC_V_CLIP_MODE_2PX: +/- 2 pixels
->>>>> + * @RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3PX: +/- 3 pixels
->>>>> + * @RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3_4PX: +/- 3/4 pixels depending on bayer position
->>>>> + */
->>>>> +enum rkisp1_cif_isp_cac_v_clip_mode {
->>>>> +	RKISP1_CIF_ISP_CAC_V_CLIP_MODE_2PX = 0,
->>>>> +	RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3PX = 1,
->>>>> +	RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3_4PX = 2,
->>>>> +};
->>>>> +
->>>>> +/**
->>>>> + * struct rkisp1_cif_isp_cac_config - chromatic aberration correction configuration
->>>>> + *
->>>>> + * The correction is carried out by shifting the red and blue pixels relative
->>>>> + * to the green ones, depending on the distance from the optical center:
->>>>
->>>> Yes, the distance to the center is one parameter, but the shifting
->>>> amount depends on other things. I would drop the last part of the
->>>> sentence and move the description of the two below fields after the
->>>> text
->>>
->>> That's true, but within a specific image, the only varying quantity
->>> is the distance, so I think it is important to emphasize that.
->>>
->>> And I also quite like this structure of
->>>    - description of step
->>>    - parameters of step
->>>    - description of step
->>>    ...
->>>
->>> so I would love to keep it like this, if that's ok?
->>
->> Ok!
-> 
-> Ack.
-> 
->>>>> + *
->>>>> + * @h_count_start: horizontal coordinate of the optical center (13-bit unsigned integer; [1,8191])
->>>>> + * @v_count_start: vertical coordinate of the optical center (13-bit unsigned integer; [1,8191])
->>>>
->>>> so these could go just before @x_nf
->>>>
->>>>> + *
->>>>> + * For each pixel, the x/y distances from the optical center are calculated and
->>>>
->>>> I forgot: did we establish that the correction is applied to the
->>>> euclidean distance or to x and y separately ?
->>>
->>> Given that there are two sets of "normalization" parameters, the assumption is that
->>> at least the x/y distances are transformed separately. I see two reasonable choices
->>> after that: (a) use the two distances separately, (b) use the radial distance. The
->>> documentation says (b). However, testing with sensor test patterns suggests that
->>> it is not the case (a horizontal/vertical boundary between appropriately colored
->>> regions should have a curvature after the transformation with appropriate parameters).
->>
->> I now recall that you have been able to shift just one plan when using
->> the sensor's test pattern
-> 
-> I agree about the normalization, but it sounds really weird that the
-> hardware would then shift separately in the X and Y directions. Below
-> you document the radial correction formula, which looks correct to me.
-
-I think so, too. But if it uses the radial distance, I would expect the shifting to happen
-along the radius. But that does not appear to be the case (e.g. y_nf=0 removes all vertical
-correction). This could be explained by saying that the shifting actually happens along the
-direction determined by the sum of the normalized distance vectors, but that seemed a bit
-far fetched to me. And even with that, I would expect to be able to turn a straight line
-into a curve. Maybe I'm doing something wrong, but I can't recall ever being able to.
-
-
-> 
->>>>> + * then transformed into the [0,255] range based on the following formula:
->>>>
->>>> s/transformed/normalized ?
->>>
->>> To be honest I vastly prefer "transform" / "map" over "normalize" here.
->>
->> You're right here, the below formula doesn't normalize the
->> distance in an interval but just re-scale it
->>
->>>>> + *
->>>>> + *   (((d << 4) >> s) * f) >> 5
->>>>> + *
->>>>> + * where `d` is the distance, `s` and `f` are the normalization parameters:
->>>>
->>>> Can you use 'ns' and 'nf' to match the below ?
->>>
->>> Adjusted.
->>
->> Thanks!
->>
->>>>> + *
->>>>> + * @x_nf: horizontal normalization scale parameter (5-bit unsigned integer; [0,31])
->>>>> + * @x_ns: horizontal normalization shift parameter (4-bit unsigned integer; [0,15])
->>>>> + *
->>>>> + * @y_nf: vertical normalization scale parameter (5-bit unsigned integer; [0,31])
->>>>> + * @y_ns: vertical normalization shift parameter (4-bit unsigned integer; [0,15])
->>>>> + *
->>>>> + * These parameters should be chosen based on the image resolution, the position
->>>>> + * of the optical center, and the shape of pixels: so that no normalized distance
->>>>
->>>> s/pixels:/pixels/
->>>
->>> Replaced `:` with `,`.
->>>
->>>>> + * is larger than 255. If the pixels have square shape, the two sets of parameters
->>>>> + * should be equal.
-> 
-> I wonder if we could have anisotropic lenses (from the point of view of
-> chromatic aberrations) with square pixels. We can deal with it later.
-
-Right, this is what the documentation suggests, and I believe it is probably "correct enough"
-most of the time. But should I remove it?
-
-
-> 
->>>>> + *
->>>>> + * The actual amount of correction is calculated with a third degree polynomial:
->>>>> + *
->>>>> + *   c[0] * r + c[1] * r^2 + c[2] * r^3
->>>>> + *
->>>>> + * where `c` is the set of coefficients for the given color, and `r` is distance:
->>>>> + *
->>>>> + * @red: red coefficients (5.4 two's complement; [-16,15.9375])
->>>>> + * @blue: blue coefficients (5.4 two's complement; [-16,15.9375])
->>>>> + *
->>>>> + * Finally, the amount is clipped as requested:
->>>>> + *
->>>>> + * @h_clip_mode: maximum horizontal shift (from enum rkisp1_cif_isp_cac_h_clip_mode)
->>>>> + * @v_clip_mode: maximum vertical shift (from enum rkisp1_cif_isp_cac_v_clip_mode)
->>>>> + *
->>>>> + * A positive result will shift away from the optical center, while a negative
->>>>> + * one will shift towards the optical center. In the latter case, the pixel
->>>>> + * values at the edges are duplicated.
->>>>> + */
->>>>> +struct rkisp1_cif_isp_cac_config {
->>>>> +	__u8 h_clip_mode;
->>>>> +	__u8 v_clip_mode;
->>>>> +
->>>>> +	__u16 h_count_start;
->>>>> +	__u16 v_count_start;
->>>>> +
->>>>> +	__u16 red[3];
->>>>> +	__u16 blue[3];
->>>>> +
->>>>> +	__u8 x_nf;
->>>>> +	__u8 x_ns;
->>>>> +
->>>>> +	__u8 y_nf;
->>>>> +	__u8 y_ns;
->>>>> +};
->>>>> +
->>>>>    /*---------- PART2: Measurement Statistics ------------*/
->>>>>
->>>>>    /**
->>>>> @@ -1161,6 +1247,7 @@ enum rkisp1_ext_params_block_type {
->>>>>    	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND,
->>>>>    	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS,
->>>>>    	RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR,
->>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_CAC,
->>>>>    };
->>>>>
->>>>>    /* For backward compatibility */
->>>>> @@ -1507,6 +1594,22 @@ struct rkisp1_ext_params_wdr_config {
->>>>>    	struct rkisp1_cif_isp_wdr_config config;
->>>>>    } __attribute__((aligned(8)));
->>>>>
->>>>> +/**
->>>>> + * struct rkisp1_ext_params_cac_config - RkISP1 extensible params CAC config
->>>>> + *
->>>>> + * RkISP1 extensible parameters CAC block.
->>>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_CAC`.
->>>>> + *
->>>>> + * @header: The RkISP1 extensible parameters header, see
->>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
->>>>> + * @config: CAC configuration, see
->>>>> + *	    :c:type:`rkisp1_cif_isp_cac_config`
->>>>> + */
->>>>> +struct rkisp1_ext_params_cac_config {
->>>>> +	struct rkisp1_ext_params_block_header header;
->>>>> +	struct rkisp1_cif_isp_cac_config config;
->>>>> +} __attribute__((aligned(8)));
->>>>> +
->>>>>    /*
->>>>>     * The rkisp1_ext_params_compand_curve_config structure is counted twice as it
->>>>>     * is used for both the COMPAND_EXPAND and COMPAND_COMPRESS block types.
->>>>> @@ -1532,7 +1635,8 @@ struct rkisp1_ext_params_wdr_config {
->>>>>    	sizeof(struct rkisp1_ext_params_compand_bls_config)		+\
->>>>>    	sizeof(struct rkisp1_ext_params_compand_curve_config)		+\
->>>>>    	sizeof(struct rkisp1_ext_params_compand_curve_config)		+\
->>>>> -	sizeof(struct rkisp1_ext_params_wdr_config))
->>>>> +	sizeof(struct rkisp1_ext_params_wdr_config)			+\
->>>>> +	sizeof(struct rkisp1_ext_params_cac_config))
->>>>
->>>> All minors, please add
->>>> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> 
-> and
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
->>>>>
->>>>>    /**
->>>>>     * enum rksip1_ext_param_buffer_version - RkISP1 extensible parameters version
-> 
+diff --git a/drivers/media/usb/dvb-usb/Kconfig b/drivers/media/usb/dvb-usb/Kconfig
+index f10fe27e2a4d..9a9ccfa72d5c 100644
+--- a/drivers/media/usb/dvb-usb/Kconfig
++++ b/drivers/media/usb/dvb-usb/Kconfig
+@@ -15,18 +15,16 @@ config DVB_USB
+ 
+ 	  Say Y if you own a USB DVB device.
+ 
++if DVB_USB
++
+ config DVB_USB_DEBUG
+ 	bool "Enable extended debug support for all DVB-USB devices"
+-	depends on DVB_USB
+ 	help
+ 	  Say Y if you want to enable debugging. See modinfo dvb-usb (and the
+ 	  appropriate drivers) for debug levels.
+ 
+-if DVB_USB
+-
+ config DVB_USB_A800
+ 	tristate "AVerMedia AverTV DVB-T USB 2.0 (A800)"
+-	depends on DVB_USB
+ 	select DVB_USB_DIB3000MC
+ 	select DVB_PLL if MEDIA_SUBDRV_AUTOSELECT
+ 	select MEDIA_TUNER_MT2060 if MEDIA_SUBDRV_AUTOSELECT
+@@ -35,7 +33,6 @@ config DVB_USB_A800
+ 
+ config DVB_USB_AF9005
+ 	tristate "Afatech AF9005 DVB-T USB1.1 support"
+-	depends on DVB_USB
+ 	select MEDIA_TUNER_MT2060 if MEDIA_SUBDRV_AUTOSELECT
+ 	select MEDIA_TUNER_QT1010 if MEDIA_SUBDRV_AUTOSELECT
+ 	help
+@@ -51,7 +48,6 @@ config DVB_USB_AF9005_REMOTE
+ 
+ config DVB_USB_AZ6027
+ 	tristate "Azurewave DVB-S/S2 USB2.0 AZ6027 support"
+-	depends on DVB_USB
+ 	select DVB_STB0899 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_STB6100 if MEDIA_SUBDRV_AUTOSELECT
+ 	help
+@@ -59,7 +55,6 @@ config DVB_USB_AZ6027
+ 
+ config DVB_USB_CINERGY_T2
+ 	tristate "Terratec CinergyT2/qanu USB 2.0 DVB-T receiver"
+-	depends on DVB_USB
+ 	help
+ 	  Support for "TerraTec CinergyT2" USB2.0 Highspeed DVB Receivers
+ 
+@@ -67,7 +62,6 @@ config DVB_USB_CINERGY_T2
+ 
+ config DVB_USB_CXUSB
+ 	tristate "Conexant USB2.0 hybrid reference design support"
+-	depends on DVB_USB
+ 	select DVB_PLL if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_CX22702 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_LGDT330X if MEDIA_SUBDRV_AUTOSELECT
+@@ -106,7 +100,6 @@ config DVB_USB_CXUSB_ANALOG
+ 
+ config DVB_USB_DIB0700
+ 	tristate "DiBcom DiB0700 USB DVB devices (see help for supported devices)"
+-	depends on DVB_USB
+ 	select DVB_DIB7000P if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_DIB7000M if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_DIB8000 if MEDIA_SUBDRV_AUTOSELECT
+@@ -137,7 +130,6 @@ config DVB_USB_DIB0700
+ 
+ config DVB_USB_DIB3000MC
+ 	tristate
+-	depends on DVB_USB
+ 	select DVB_DIB3000MC
+ 	help
+ 	  This is a module with helper functions for accessing the
+@@ -147,7 +139,6 @@ config DVB_USB_DIB3000MC
+ 
+ config DVB_USB_DIBUSB_MB
+ 	tristate "DiBcom USB DVB-T devices (based on the DiB3000M-B) (see help for device list)"
+-	depends on DVB_USB
+ 	select DVB_PLL if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_DIB3000MB
+ 	depends on DVB_DIB3000MC || !DVB_DIB3000MC
+@@ -170,7 +161,6 @@ config DVB_USB_DIBUSB_MB_FAULTY
+ 
+ config DVB_USB_DIBUSB_MC
+ 	tristate "DiBcom USB DVB-T devices (based on the DiB3000M-C/P) (see help for device list)"
+-	depends on DVB_USB
+ 	select DVB_USB_DIB3000MC
+ 	select MEDIA_TUNER_MT2060 if MEDIA_SUBDRV_AUTOSELECT
+ 	help
+@@ -185,7 +175,6 @@ config DVB_USB_DIBUSB_MC
+ 
+ config DVB_USB_DIGITV
+ 	tristate "Nebula Electronics uDigiTV DVB-T USB2.0 support"
+-	depends on DVB_USB
+ 	select DVB_PLL if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_NXT6000 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_MT352 if MEDIA_SUBDRV_AUTOSELECT
+@@ -194,7 +183,6 @@ config DVB_USB_DIGITV
+ 
+ config DVB_USB_DTT200U
+ 	tristate "WideView WT-200U and WT-220U (pen) DVB-T USB2.0 support (Yakumo/Hama/Typhoon/Yuan)"
+-	depends on DVB_USB
+ 	help
+ 	  Say Y here to support the WideView/Yakumo/Hama/Typhoon/Yuan DVB-T USB2.0 receiver.
+ 
+@@ -204,7 +192,6 @@ config DVB_USB_DTT200U
+ 
+ config DVB_USB_DTV5100
+ 	tristate "AME DTV-5100 USB2.0 DVB-T support"
+-	depends on DVB_USB
+ 	select DVB_ZL10353 if MEDIA_SUBDRV_AUTOSELECT
+ 	select MEDIA_TUNER_QT1010 if MEDIA_SUBDRV_AUTOSELECT
+ 	help
+@@ -212,7 +199,6 @@ config DVB_USB_DTV5100
+ 
+ config DVB_USB_DW2102
+ 	tristate "DvbWorld & TeVii DVB-S/S2 USB2.0 support"
+-	depends on DVB_USB
+ 	select DVB_PLL if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_STV0299 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_STV0288 if MEDIA_SUBDRV_AUTOSELECT
+@@ -235,7 +221,6 @@ config DVB_USB_DW2102
+ 
+ config DVB_USB_GP8PSK
+ 	tristate "GENPIX 8PSK->USB module support"
+-	depends on DVB_USB
+ 	help
+ 	  Say Y here to support the
+ 	    GENPIX 8psk module
+@@ -244,7 +229,6 @@ config DVB_USB_GP8PSK
+ 
+ config DVB_USB_M920X
+ 	tristate "Uli m920x DVB-T USB2.0 support"
+-	depends on DVB_USB
+ 	select DVB_MT352 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_TDA1004X if MEDIA_SUBDRV_AUTOSELECT
+ 	select MEDIA_TUNER_QT1010 if MEDIA_SUBDRV_AUTOSELECT
+@@ -258,7 +242,6 @@ config DVB_USB_M920X
+ 
+ config DVB_USB_NOVA_T_USB2
+ 	tristate "Hauppauge WinTV-NOVA-T usb2 DVB-T USB2.0 support"
+-	depends on DVB_USB
+ 	select DVB_USB_DIB3000MC
+ 	select DVB_PLL if MEDIA_SUBDRV_AUTOSELECT
+ 	select MEDIA_TUNER_MT2060 if MEDIA_SUBDRV_AUTOSELECT
+@@ -267,7 +250,6 @@ config DVB_USB_NOVA_T_USB2
+ 
+ config DVB_USB_OPERA1
+ 	tristate "Opera1 DVB-S USB2.0 receiver"
+-	depends on DVB_USB
+ 	select DVB_STV0299 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_PLL if MEDIA_SUBDRV_AUTOSELECT
+ 	help
+@@ -275,7 +257,6 @@ config DVB_USB_OPERA1
+ 
+ config DVB_USB_PCTV452E
+ 	tristate "Pinnacle PCTV HDTV Pro USB device/TT Connect S2-3600"
+-	depends on DVB_USB
+ 	select TTPCI_EEPROM
+ 	select DVB_ISL6423 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_LNBP22 if MEDIA_SUBDRV_AUTOSELECT
+@@ -289,7 +270,6 @@ config DVB_USB_PCTV452E
+ 
+ config DVB_USB_TECHNISAT_USB2
+ 	tristate "Technisat DVB-S/S2 USB2.0 support"
+-	depends on DVB_USB
+ 	select DVB_STV090x if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_STV6110x if MEDIA_SUBDRV_AUTOSELECT
+ 	help
+@@ -297,7 +277,6 @@ config DVB_USB_TECHNISAT_USB2
+ 
+ config DVB_USB_TTUSB2
+ 	tristate "Pinnacle 400e DVB-S USB2.0 support"
+-	depends on DVB_USB
+ 	select DVB_TDA10086 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_LNBP21 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_TDA826X if MEDIA_SUBDRV_AUTOSELECT
+@@ -312,7 +291,6 @@ config DVB_USB_TTUSB2
+ 
+ config DVB_USB_UMT_010
+ 	tristate "HanfTek UMT-010 DVB-T USB2.0 support"
+-	depends on DVB_USB
+ 	select DVB_PLL if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_USB_DIB3000MC
+ 	select MEDIA_TUNER_MT2060 if MEDIA_SUBDRV_AUTOSELECT
+@@ -322,7 +300,6 @@ config DVB_USB_UMT_010
+ 
+ config DVB_USB_VP702X
+ 	tristate "TwinhanDTV StarBox and clones DVB-S USB2.0 support"
+-	depends on DVB_USB
+ 	help
+ 	  Say Y here to support the
+ 
+@@ -334,7 +311,6 @@ config DVB_USB_VP702X
+ 
+ config DVB_USB_VP7045
+ 	tristate "TwinhanDTV Alpha/MagicBoxII, DNTV tinyUSB2, Beetle USB2.0 support"
+-	depends on DVB_USB
+ 	help
+ 	  Say Y here to support the
+ 
+@@ -346,4 +322,4 @@ config DVB_USB_VP7045
+ 
+ 	  DVB-T USB2.0 receivers.
+ 
+-endif
++endif # DVB_USB
+-- 
+2.51.2
 
 
