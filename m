@@ -1,196 +1,135 @@
-Return-Path: <linux-media+bounces-57821-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57822-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cKVqG+Y+zGm+RgYAu9opvQ
-	(envelope-from <linux-media+bounces-57821-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 23:38:46 +0200
+	id GN+tCopJzGmmSAYAu9opvQ
+	(envelope-from <linux-media+bounces-57822-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 00:24:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2B737202C
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 23:38:46 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2DD372625
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 00:24:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5812C3028738
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 21:37:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B7CF6302F0F2
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 22:22:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 137004534A2;
-	Tue, 31 Mar 2026 21:37:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 871A64657D0;
+	Tue, 31 Mar 2026 22:22:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NwYRp2iR"
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="of5TGQ3B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2076C44B67E
-	for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 21:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FCF3803FC;
+	Tue, 31 Mar 2026 22:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774993038; cv=none; b=CvuDPB0Wsy+3aacSd7rsCecvIPbU1HMEDEaloJV5d1YLhFjv0M8w8Xt6NKcIhxmEbJ4hnmYlsEde98+FCZ+dN7ewJzIJ+h42QP/VzSL7UJxY7HW9E/tFzCQsCVh5J13Nn8ugf55q51yyzmSEeV28X5Ngveh1VBUHHLLMedAO8OE=
+	t=1774995760; cv=none; b=nIlKUBmpRtuG1TXU5ogfIvy1ghGNpsSgFfkjlaftwtX0sikTA/UsmsSwS7QZgTZjIj17W9goYGgSpYuQLkD3mkLI+PuGpFpi5yFub9erU5Ogols2mzowz90H6BGe4JRGy7RLBL7/kok5+U3ymcp2bphAaipmZmul4LU5G0wb77U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774993038; c=relaxed/simple;
-	bh=77TKJXfDqxRbDJZcS4iQHfQ8ePzfWbiSwaDIcMZRDug=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gz18RCePLD9K5mDA9Xkdwga4sQfhFija3WP3mzATSRhp+fFoc+RSmE9pCp0QMmr1bMdgFSl9hT6AYtcglC4ZsTQTsSVhuXepBcWhXFhMjWsi1zTgx19CuFhO5o1IKnjUpIgKKO3//W9VhiwDzGphQiRcMAFDm3RxBgpIQfJM9rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NwYRp2iR; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a2c1b09d69so52894e87.2
-        for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 14:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774993035; x=1775597835; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KHUi+YrE+mS2lDKmIKKoK4NA/mtXRLEN2zW5bJXcYuk=;
-        b=NwYRp2iRxPPx8fvTfwe0/Bp9h9kSs1CCF1G2mfCPegUPc8pWgatU+ffGKa9dT/6Pi5
-         0h9a5fuAppZYQLmujL8LjF16ErqGiOs5pXwzP5nU+lwnmTtVQwGKTVjyouPQ1774Vx7z
-         f1bq06Y9Aw2XzbKYsWR1N7tCNQL+ETTk2tD6s55UwFYTGV2rvyES4eaG2wrTFMKFcgvm
-         hoYjmzhrwyaCOq0KPdRFme/9ciAH1YqzcYxpFsV8A3dFxNLf1rXUTHe3nmhsVgXdWL7L
-         POV8H7IMAnWS1eCQExEtZjh0UpO7oyf6/CmDofzzyhtOGL8JKV6XBIm73YnthF8OJFFl
-         i4HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774993035; x=1775597835;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KHUi+YrE+mS2lDKmIKKoK4NA/mtXRLEN2zW5bJXcYuk=;
-        b=AGEogCcwT19Sc9o6ZVqxbKp+T29YVuT3/BT2H6dP5dhplwlxyzupcq3z2F9QTQeEOw
-         oKZRK+9fXscPch13y1G4UWVS5TQmOClG2Vha8ruxyq3JEIJfSYF2nqabb3tJBWQZGqyP
-         jUo4/zIBEo/Q5AhSRanHUoG59OZ3AMXu2cLvObYhPBFxsCU+S9K11UFQ4pz7rbyOOsXU
-         hxvzahE8twfQE/LopJWmwyuOfQ8iBSGihDH0eSIp8d/Lg94gAK/ELputlsLSoElU+o9z
-         pEjmBmfeE/kRmTnYIyNvW+lle1Hypb3wLi9DE9Ar3UDa8NFBIqQ5lHVI/EIl20rzSLKg
-         ef3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVRvISaX5UWwY6dKt8Zs3cRxs3sLCbgFjsxCodVB4MzYJHsiYBGEieAXRi4S3prcXBo1saruBsWilUacA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywz3vGONE4ULv9rvIbSz74moC0rQzTf36otHhP6wYcplQ1/+3nh
-	D4XG562B8FMGbNwE7jA8gsDxzd18zxXy/NvrfijWF7ECYHWEBTeZLLgFQJgTtBe+bS0=
-X-Gm-Gg: ATEYQzwvpaIXCZh3k5zTGEU9RC4lXi2uIcAfGcbAb8NXPmoUah06hqr6+KcUmkdigTf
-	CPpvjkRJIaVNv27dNBjzYnMnIr1ETWW9MjJAwbsR1NUpG8ZUcQcOec/hYBAjXXTcEXSqArerm9M
-	bWJDvaHiMUZ38PO4kl7/j57kFYh+cyY8gHUyn+MoEZRZ2NbIfn7ED+xoNqY2k7Fi+HND22p8l+r
-	v9LI92W4rqzVdymMN05a5PUQr7WYgY7tHVNNtGyiMgozJOqYeCY9kGCkdIAJR10sBhUvPW26t7D
-	faZeCyg/8fy5ARf8a0xrBLOgDKoWtHlNo0P0NvWQOTMs+h72duTFL2W9bu2k1tEIW6YM723c9/O
-	AJhnC7jtCPiCuMI/qn49T/Ww6zyT8zYK04L3Czb+UBUuoPD0JTehZyu4pjLU1OvyjK4z9987zMw
-	sKyLb9TXpXZgGIfp29X+3A4EsxcZbjHVqOnIR88tpaosDgb9df09OGuqifqoTyvJTiVV+h5+GUr
-	fyjNeU+hCC1ZMBK
-X-Received: by 2002:a05:6512:1091:b0:5a1:3d15:287b with SMTP id 2adb3069b0e04-5a2c1c98cc5mr165782e87.0.1774993035132;
-        Tue, 31 Mar 2026 14:37:15 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38c83890bbcsm25187391fa.25.2026.03.31.14.37.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Mar 2026 14:37:14 -0700 (PDT)
-Message-ID: <3c51f9fe-9c5f-47dd-a971-5b2a9e416230@linaro.org>
-Date: Wed, 1 Apr 2026 00:37:14 +0300
+	s=arc-20240116; t=1774995760; c=relaxed/simple;
+	bh=rSN3556X0WPg2Hj91zd4Pp5IUyn4KcRXfcYrEOVwTbE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Dlvy9dFkktX/oZCa6V2IZDCcvERbY9i2rSBxyknQ16YNo8vjV8i4dAuLsAXQns9tZb51g+vcy+moYDTC6flyb/Ob9MGUzwjxinuZVRECd/25r9YK5J1pPmHorYfQgVWOue4oknOWMBs38+MPN1sFiYtg/XXFT2Lg0TAVRV/fOW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=of5TGQ3B; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=zn6Tx+/yUqe1wFWE2jjPTR23b4f4dmxO8nkrQL8rqP8=; b=of5TGQ3BY/0dYg1URKjyoESvBO
+	WXTk2pPyPrMCkMK4+uqn8AKjLqJs0tgkgxpPvBGgmG5MvL0wqBRI5ixxaEtVHnDc/bd12kQHGXQ+D
+	MGX+Am8QHsCVJuQhquqAC+qi0CdqFzDyrXoT+0Lt7rfGBHI3+6aboRx0JwiZ9G1eB97ifpZMm+xnM
+	f8RVfU+U0xVnXNHFYnmWPqYoWRR+zOQdljjtbzkik/e7DVX+fuHOtaboo4Ew3XUSKagsTdcV4h8ZB
+	eceTwq94vniZVWqvhCZ7fM9HLnXrcJFHjvSli50pym7lOwEdXDLMe+89t+86ZVto83iAdEjMlSOYF
+	yZatu2Ow==;
+From: Heiko Stuebner <heiko@sntech.de>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Heiko Stuebner <heiko@sntech.de>,
+	kernel@collabora.com,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	linux-media@vger.kernel.org,
+	Conor Dooley <conor@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH v5 0/4] arm64: dts: rockchip: Fix vdec register blocks order on RK3576/RK3588
+Date: Wed,  1 Apr 2026 00:22:22 +0200
+Message-ID: <177499572601.2230685.5329289608304242879.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260304-vdec-reg-order-rk3576-v5-0-7006fad42c3a@collabora.com>
+References: <20260304-vdec-reg-order-rk3576-v5-0-7006fad42c3a@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 4/7] media: i2c: imx355: Restrict data lanes to 4
-To: Richard Acayan <mailingradian@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Tianshu Qiu
- <tian.shu.qiu@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-Cc: Robert Mader <robert.mader@collabora.com>,
- David Heidelberg <david@ixit.cz>, phone-devel@vger.kernel.org
-References: <20260217002738.133534-1-mailingradian@gmail.com>
- <20260217002738.133534-5-mailingradian@gmail.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20260217002738.133534-5-mailingradian@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[sntech.de,quarantine];
+	R_DKIM_ALLOW(-0.20)[sntech.de:s=gloria202408];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57821-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linaro.org,intel.com,linux.intel.com,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
+	TAGGED_FROM(0.00)[bounces-57822-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.944];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[heiko@sntech.de,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[sntech.de:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:mid,intel.com:email]
-X-Rspamd-Queue-Id: 0E2B737202C
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,27b00000:email]
+X-Rspamd-Queue-Id: 8A2DD372625
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 2/17/26 02:27, Richard Acayan wrote:
-> The IMX355 sensor driver currently supports having 4 data lanes. There
-> can't be more or less, so check if the firmware specifies 4 lanes.
 
-Does IMX355 sensor hardware support any other number of lanes?
-
-1) If no, then it makes no practical sense to check for data lanes number
-given by firmware, there can be any stored value, but it's known that the
-number of sensor data lanes is 4.
-
-2) If yes, then please return to the sensor dt bindings, and reflect any
-other options, right now it is set strictly to 4 lanes only. In case if
-'data-lanes' property is omitted, you can use 4 lanes as a default number
-of data lanes, and this information shall be documented in the dt bindings.
-
+On Wed, 04 Mar 2026 23:00:39 +0200, Cristian Ciocaltea wrote:
+> When building device trees for the RK3576 based boards, DTC shows the
+> following complaint:
 > 
-> Existing ACPI hardware descriptions may not have the data lanes defined
-> so this check also accepts a placeholder of 0 lanes.
+>   rk3576.dtsi:1282.30-1304.5: Warning (simple_bus_reg): /soc/video-codec@27b00000: simple-bus unit address format error, expected "27b00100"
 > 
-> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Link: https://lore.kernel.org/r/aW3uFcT1zmiF4GUP@kekkonen.localdomain
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
->   drivers/media/i2c/imx355.c | 7 +++++++
->   1 file changed, 7 insertions(+)
+> The first two patches updates 'reg-names' property in rockchip,vdec
+> binding to make it mandatory for RK3576 & RK3588, since this is what the
+> driver expects, as well as to allow providing the register blocks
+> following the address-based order and, consequently, ensure the video
+> decoder unit address points to the primary register range.
 > 
-> diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-> index 9ca87488c933..0d6aabea7d59 100644
-> --- a/drivers/media/i2c/imx355.c
-> +++ b/drivers/media/i2c/imx355.c
-> @@ -66,6 +66,9 @@
->   #define IMX355_EXT_CLK			19200000
->   #define IMX355_LINK_FREQ_INDEX		0
->   
-> +/* number of data lanes */
-> +#define IMX355_DATA_LANES		4
-> +
->   struct imx355_reg {
->   	u16 address;
->   	u8 val;
-> @@ -1705,6 +1708,10 @@ static struct imx355_hwcfg *imx355_get_hwcfg(struct device *dev)
->   	if (!cfg)
->   		goto out_err;
->   
-> +	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 0
-> +	 && bus_cfg.bus.mipi_csi2.num_data_lanes != IMX355_DATA_LANES)
-> +		goto out_err;
-> +
->   	ret = v4l2_link_freq_to_bitmap(dev, bus_cfg.link_frequencies,
->   				       bus_cfg.nr_of_link_frequencies,
->   				       link_freq_menu_items,
+> [...]
 
+Applied, thanks!
+
+[3/4] arm64: dts: rockchip: Fix vdec register blocks order on RK3576
+      commit: f8fa98aa23699b7019023cc7cd8bbb8d837f2d3b
+[4/4] arm64: dts: rockchip: Update vdec register blocks order on RK3588
+      commit: 6c4a6f7f19e69bedddee87bebd4f1f1c7411b820
+
+Best regards,
 -- 
-Best wishes,
-Vladimir
+Heiko Stuebner <heiko@sntech.de>
 
