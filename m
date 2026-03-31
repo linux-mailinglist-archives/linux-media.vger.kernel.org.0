@@ -1,245 +1,254 @@
-Return-Path: <linux-media+bounces-57793-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57794-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WL+FCLHcy2lHMAYAu9opvQ
-	(envelope-from <linux-media+bounces-57793-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 16:39:45 +0200
+	id AH5+Jhbgy2m0MAYAu9opvQ
+	(envelope-from <linux-media+bounces-57794-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 16:54:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C0B36B13B
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 16:39:44 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B9E36B3A7
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 16:54:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id F3A8830AC1BE
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 14:33:44 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 51952300B294
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 14:54:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3A8A3FD130;
-	Tue, 31 Mar 2026 14:33:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7A133F9F31;
+	Tue, 31 Mar 2026 14:54:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="J3Gedx2a"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="mkQUPt9D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011071.outbound.protection.outlook.com [52.101.70.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47373FCB22;
-	Tue, 31 Mar 2026 14:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774967622; cv=fail; b=QnYfd7z+no7gj7/8zzMhdcCGdI3/xqYhOArNf3Udhxncnh7uzwQcNeG7qhQUmCcsGDE5MllQwBKmt7tvHnBYHz4cbVp4JfPgrliQoAJiChYR+j2sQgIBrFAiQpRH1ixGwCz8GOKnpNcY1ccw6ZNKOj3PeCklCRQmvOXifS6w1jk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774967622; c=relaxed/simple;
-	bh=RvMPoPDu+mhus/vjZZD+d8SFPMRCLyivtQMiTrfT9mI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=FBgcXX7n+RnYqEX087fem9mq0OE8TCuPRutJqG+SDCyY66gjynWjtN42HLBK0keRm3q41ZGA3LNtJ1NcAdUh6bnvIUHjKESC3mIreLlEJFFQz6sDQ026Bf4VBwKxaAzC/BZXgla4Fww4xiT/WGS2pX4w2rFqZNLEaB8SYbLb69g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=J3Gedx2a; arc=fail smtp.client-ip=52.101.70.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tH4qxLn/CN8x83/IVxNh6jRlKnPuZfRxQwjxFJa8O2ENH3XmcaqKvA0QZ/KSvJPbw30SH4ZFIUGGVctX5RZbS/S7EXwKcrAlg6iVY9yPlQsPgYuBU+qtUEIgbD3t89xpNVxUhNAm0+AR5b211QliioK3ZPIFOSS47N/3wW/D5TSlr31xrYWj9ebJ/XO/uxv1gC3jqv06q/BJtPb4/aRhfI/22gFSdUMfDYb7pcppbRRTNkCiwRbabVOUspm4lcLIM7s/6VlDKIIetNE7MBv4BVS+7iCkSPloW0K0imwLwiiNyBDvrGQSAv+FALZVYr4EwkYF4WPWumJtiEF5JZABiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VcOL3Vh4pwkqd9kOphdXO12VUXfppE56TJGlIPr/YKM=;
- b=j8jvswcaoiupYFktXI8mv7exxkEJ2xpcIhTO/FmwzBpFMajEjYw5QaTLpnZ4IOEb8WGSX0Yag7qrkFEbNfgemZIeLJB/HuJTMuwJ3zze7LYRCrb+3plh9fZA356xeKMuYmglZi/7kEjqOvwIlWou0PILGgMNAPIlkHE5J80ezuSPH4qNcl/l6D4k+eBx0QFJgqdqs/Z7pX6NLmFB7P4wcQ9PnZbPGV8MOQwE1/s3x6AQDu8/zNfuywpM273nqjVDHptkJK1pZ/FhEwv/hQAJi//WEC4nrW4Nlwcm6TKtYKpFbH0y6fS1fwo+AlWVRB4JfwI3YSI+BIcs7kTbXzTBuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VcOL3Vh4pwkqd9kOphdXO12VUXfppE56TJGlIPr/YKM=;
- b=J3Gedx2aQN0bBzkfm8vUQoACvbVRHAHwQLxdlGD7rpCapfEHsmIFxFS8AqbozxaaFLq66fj7a/C2RrrlevvOXGuC1JaE7ahM0IPMHLFP9KmxLUPszXPibx0BOZWJggbtoRuv5dSDuvNmX7I7Zedo0vw7Fm/IFpLfR7I2e76urE7CNXkuaU/13WwfE1U1DUk3Ee+UDmE3OlgkX66a6oDbSsjm0phhGx78k3sJpv+t7DmbyYNibBX1NETKorON8xSLZIVk/Bad0rqI1AXU80rD5mWmGh6xgAy6NQJAbNy1kGKz/Yki4cUQe5c/SyCu1p+zlhoBdGVggUgHRCNMY+0ZWA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by PR3PR04MB7354.eurprd04.prod.outlook.com (2603:10a6:102:8e::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Tue, 31 Mar
- 2026 14:33:38 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9745.027; Tue, 31 Mar 2026
- 14:33:37 +0000
-Date: Tue, 31 Mar 2026 10:33:30 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: ming.qian@oss.nxp.com
-Cc: linux-media@vger.kernel.org, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
-	sebastian.fricke@collabora.com, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	linux-imx@nxp.com, xiahong.bao@nxp.com, eagle.zhou@nxp.com,
-	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535C7282F00
+	for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 14:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774968849; cv=none; b=YjEtJLAu6Lh5aM9Ac/QYPPyEzEIr0Wg6/D1NZnqoCqVaJI5yCuq6Xn51ubSgwH9vA/9RIGPncxgEn0rU44Q204sDI6sH+axVRwrT6snjUAgdh1c5wMEfVCgW1OJTY6S3+65rqtqKAmCRTdwhYUUpv+9VkS50T/ROKxb6hXvNxsw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774968849; c=relaxed/simple;
+	bh=4UGmf50+gfLnZc6+u6iDl6NicmkmuoVpuu9aSS4dDAY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=VzzX7JyJveXxy7+d26xgnXBjKtmRqI05Ss0qcGzEov3KdrsFc9eWosNmfahkovbkbHYUag+VAUhEwvOAcJOVcE4p6dJhry2PNww2PJBN+GnHA6XAQM0nvWmbNY97AqLzqk0QI1JnBUaCrx4Qczd1fewaZI/60yPcyPFvacJWGOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=mkQUPt9D; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8a016799d2cso34623796d6.1
+        for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 07:54:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1774968846; x=1775573646; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=xn5zNT1spHRq0DkkC+7339Y+wwjQRD78iQTIrf+3mdw=;
+        b=mkQUPt9DlZ3Qj65ZEnp3sTy8L8sWLjLstnNYuCrRqsDEXjLCA0ILua8dNgdl+y04w1
+         I3+lJJ2RzW3rQreCPB4amYQMEvXn4mRQLBuC1YmueZTALgqBBfCFvTknfbP4fsY72Xsy
+         Hh9yp+iYUZFdvqs9ML1o4gun5M7ey8/oGWcRDx59dFXHBwwAf095p9HvS+mgfgdtlA6r
+         VXWdyMJ4NYgmbWwVqXOMjtxSKbkJE8w3mrbCMbQ4hCRkhyyX3fLcbVw7MI2LwLNq5KxB
+         4dTngYFn0NUJYM2/8R/o8s5CisCS346Skkpv5xu1ekPvIHJZgXKVfdkh0Af93zOO8QDn
+         fnXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774968846; x=1775573646;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xn5zNT1spHRq0DkkC+7339Y+wwjQRD78iQTIrf+3mdw=;
+        b=I0TN45semPWlGp4WqSZf8P0NfwAP5d4EnCwsy2ncrUXQV8j4fELRGVsDSQ+Dt0ALJ0
+         rHMlECMu1T3yh363rhrV4BgH53QWU1RonDfC35rQ6aJeSv6hz91KjVEmvX1B/PpqeDi8
+         mV0s1hdgoj/ig6LC7QpkB8kHgB0VPnXfx2yIWs2acTkbDTv/mr7z3RbN/3JghIibl/Q7
+         g1s4X04/HJO9yqh0CO/39bVRw56mAw1IbLGtobtQZLzQjlRMft6MQ19/bFYuacFEh75i
+         jE4rk5VOdTP/KVAxdYcDLjdAJXRCS3/o6hEJifK++500RWUYRCtl7FgUmWrmSf7YZx5a
+         Hnuw==
+X-Gm-Message-State: AOJu0Yzw1z5WN2aCJAAnDmj38Xmx1PHKesqZ5ROkIcs348j/VBHomP1R
+	lfyXBtiZHA0yQck4vclX1bNURusP7d35B/cjYTXwJy9M9q0+7ebL97mLcVkTl2Rsjnc=
+X-Gm-Gg: ATEYQzwikf1MOMbRg3eFNezpKhtazztMFRJwWVh4T7poqXDO0f56NuWNym/ixZTkklM
+	FwrJkl2HfDJMx+xmmhIx1N6tVy1BGV5OsQyK87WIdHIcK/DL7ls6Oy+Itr2dgWP+PizRJZGecWd
+	SKvYjrpYX5ThXYYPCd024gtZzXOqJVZ3cx/5uQ6H8O6jMZ9s9qh+1pCimRZbkOe+UtIgcrCniFf
+	9AAzrFUyo1aWcWpx3O0tQhulKg7N3QqXfrsfJFhjuRjNF9l1M6CILAMJAWSz7yEq7LjZDJpEshz
+	0WQN/VOpEG5bUyeIPyyzHM+m+v/2dOA0MrZ69ysldA4eRPctXaBcGnf8j9SKhYYV5zhPasRb0Uz
+	c7Gdtd3PTS8nYxluJQqVeVZtThHruyoh54AypjTYaauWd/ApgxyO2wE7ql/60UkHilc3W8lqswi
+	2XbtPbGl17GYCmlR/oxp+SCk0CBBWb
+X-Received: by 2002:a05:6214:27cb:b0:89c:ca30:6b92 with SMTP id 6a1803df08f44-89ce8f8d2fcmr240762806d6.56.1774968846090;
+        Tue, 31 Mar 2026 07:54:06 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:15:e06b::5ac? ([2606:6d00:15:e06b::5ac])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89ecb5cb14bsm89054306d6.1.2026.03.31.07.54.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 07:54:05 -0700 (PDT)
+Message-ID: <079b1630abe5dd22e032797fc12925c9c79ea305.camel@ndufresne.ca>
 Subject: Re: [RFC PATCH 1/7] media: v4l2-ctrls: Add V4L2_CID_MEMORY_USAGE
  control
-Message-ID: <acvbOo17tU-s20BS@lizhi-Precision-Tower-5810>
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Frank Li <Frank.li@nxp.com>, ming.qian@oss.nxp.com
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org,
+ hverkuil-cisco@xs4all.nl, 	sebastian.fricke@collabora.com,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, 	kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, xiahong.bao@nxp.com, 
+	eagle.zhou@nxp.com, imx@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Date: Tue, 31 Mar 2026 10:54:03 -0400
+In-Reply-To: <acvbOo17tU-s20BS@lizhi-Precision-Tower-5810>
 References: <20260331072347.253-1-ming.qian@oss.nxp.com>
- <20260331072347.253-2-ming.qian@oss.nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260331072347.253-2-ming.qian@oss.nxp.com>
-X-ClientProxiedBy: PH7P221CA0055.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:510:33c::27) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+	 <20260331072347.253-2-ming.qian@oss.nxp.com>
+	 <acvbOo17tU-s20BS@lizhi-Precision-Tower-5810>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-L4QS/jCTQxYv029Nq/FW"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|PR3PR04MB7354:EE_
-X-MS-Office365-Filtering-Correlation-Id: dda1fab5-77d3-4c91-3ea4-08de8f327f1f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|19092799006|7416014|376014|52116014|38350700014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	MyBr552MXGqCPzK9UUcIkHCq6gZraaT+0E6NIgtuEP/YEgWOlh44ijyazPwRwOmKyUxmKVn6lX86kNBkJYmpNxpJtGohRCsoSiDDaz6ZBqeudLRsvCsxzvG8xL2czmmLRqaSMeiEDx9ZiIO2buuPRgnFlsEfXs2EEUEJmak9BcqEcS/+EBLsTzqMNQNz+Jn9wJ7z0GJ5gpWe6FxWSk904fuH7joDQHVSoPTPVvW+E32SyQUjkTMC/742zNpEAHzG48jMZOLDrD9ehcd2iiM8Q916EicvieE74TsmKlFqwUFjV1txGPZ2psW4vKeLgRQp2NBk3fYNscWSIK3QZyLafUCJpkXO2sI735UmBNGjVn9Hh00LcqtfEY9CwxgvTWjNdCGokkh5SPOZ2uxL15bshbQKfaYs6s6Esy2B9uj3dCYXtRfdzcS9kEtLm5ZoIuhv57RGJd64k5yLLa8qnYD/I/9TTLZM3xVt4c+y+tsSqc/JLZ3fbdydZhESNUEDpmLO1anbSPNfxMttlBzc5Q1eGgtZ53YDQJzyOeRekNbT0maumTvjsEq5ClE35hIPknXDhUwuk2e8OXqBv1kYA3rT36yHpeF7xnZO0Wj5k5gokyFuMhKUmuBYkior+UsiB9tBle1l+O0nvOtHJZPnJ1F1NCEGZkNRDns0CLpxKNXCwAV1IVBSaVK53/i+hi2DTwTLdoH1SPwNrrfx4HW3K3U1szAR2TjYTihgjMpUu9t0ZXuGJ+tcCrEqSO81v0c9Xztitajo+Y1iD6Q5ChX0QKSDwmVPRYM+GMG98SLwXd9BhJU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(7416014)(376014)(52116014)(38350700014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9t2BHxIuixm8Xo30V7psL8sLvi8SKkpLtGamCwW9pQ4Dl949gnKXF9SJkFjW?=
- =?us-ascii?Q?jHhLMC6sT9qn1aTN/iphM7JiFeCXgmI6PpEK5YqvBvu7DF91ucSO/gEhZ1hA?=
- =?us-ascii?Q?mKGPXlU7g981PIyrTWmhPKFxPpw2Q5gFJp6v7oKF3d5I+GKb087dBQIv3afw?=
- =?us-ascii?Q?UjLMNwUC6f4d0pVfBYdk7nKhyB6XnKH7I2p+irTaz4wx5rkxelO9RePWvKdt?=
- =?us-ascii?Q?R+anC+9kUoCTuPS39eslcEhMirERE9dz6LEBpsbzfpNi2bhcdjmfCaWTbcW9?=
- =?us-ascii?Q?T9QOjUJE+FL1JRxJtGEH8MM5xF48DN9u5WU+2lSr3upa9tWRF9arsn+stGsr?=
- =?us-ascii?Q?iM5/ZnPOmqTf7OvBqLxQK9CnJRymb857YQY0szeCfek/Fh8GlTYp+l1I6M/N?=
- =?us-ascii?Q?6puH0KRfItwCqPYzDCC9gEFG0tRGxmsyTKKcvcEkgka+ANbprq0/e7lP0n3l?=
- =?us-ascii?Q?oUCvYmcM8Bi1FNBBwmk8K+xG4rAqi+WFKZsrtj95rdMG6POgFkSPYFGmFkjs?=
- =?us-ascii?Q?MmWxVjifDyNDRqlyIGLByamZ7LfvlAYHjFWzIlfAqCkM34BGRnrDfmw9SFW/?=
- =?us-ascii?Q?zJAAfLfrDrRrGLH5M39D9yGRKBW+yuG13parcIPcpQihS1aSVOCBme3DF6lf?=
- =?us-ascii?Q?0yDfAD4jZB4kOTUUMl9B8+PwDXLm7X3X9MJnjYxgg8h6u1D2yCc11VmlQy3a?=
- =?us-ascii?Q?o8h3tJOhy9cPxgA91xbBQl+y80HqlP6E7o6gFOIVpupiMFckdQFD4woqHBsv?=
- =?us-ascii?Q?Yh4461p21uXVKPLiXnj7cPoP2thFDYmrSiyV4OTKA9U9x+qhU+akNUeB2/c7?=
- =?us-ascii?Q?9lfE3KCFxwyub9HCeQdn6a5263QX1Suvsw1xjX7xicJD4GMPeF2Iw+rIk/nB?=
- =?us-ascii?Q?U8GfLat+oKD8exQ2ZqEtCgsiAzhHXPpzRknuTHEcwk/7LCiXAR3FlRW38Nlx?=
- =?us-ascii?Q?GmjNb8kre0dQBz+jv5mKbpjmstWXOUoa/JwdPbPvW5I+QHtafq8o+Lie7Q7z?=
- =?us-ascii?Q?GqGdyMvWEoIBRodUrtHRRcPSHKCeobRMjWSYtw8bVgDHYv1D4J/RpXF8AE0K?=
- =?us-ascii?Q?HFEsstvsUq4xEgHvPorEUVLolB6zEil3t+1xvaHaKRUrwTYXWIS40ShlUDgc?=
- =?us-ascii?Q?/Cd16h7/uLAYX18C1L9nWjdMk2TGq3dmbrzG0XAQyls6/eOPGWamDA4C0pLY?=
- =?us-ascii?Q?+GKoTpTTgSDo96Ea4tZPTKqvQUyTaxJ0+MVsElGMdAedxmISac1+ZTFFyI76?=
- =?us-ascii?Q?uxSqCdT8uCvwlLA6QlmUKt22ujzePuDVsF2YmkrqRv9oruvPk7QI4p6szA+K?=
- =?us-ascii?Q?FdZvyCb/ba772Xe+5vwRS3gBOmjFXrhqY7tFvbidqFOF3izIvK/QXOTWwo6F?=
- =?us-ascii?Q?HPD1RCO6POJVy9Gf+urWS6Jyb0bhy+tPiwBghXpkXcZ5DT4LLlfiTjU96do4?=
- =?us-ascii?Q?9gqE45CGJD6AR/Tld71Ts8RBqTNqj1w9P41WHS1cgXdS8JTv9jKVxnb2k2EC?=
- =?us-ascii?Q?HQifwi7w0nWsyQqpHC1OlwJV4FyzvlE9gx7l63Ir7SQAnzalLA4AuhMwd3j+?=
- =?us-ascii?Q?OVNRO1oLWwQ3ytEHvGM1xUGfWpBJGOJhAHaXXrTiSC4n/My68+jw+Ewyndqb?=
- =?us-ascii?Q?uQdnpysecfkmRFpJ6fSoLCjDKe2MFWN6HWeg4OuMmeECCwk3pEprrkue19f2?=
- =?us-ascii?Q?gztfnxqzzsql2SbWxYq6c/nzu35bZct8BuXguF0Un6fFZE60?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dda1fab5-77d3-4c91-3ea4-08de8f327f1f
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 14:33:37.8367
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BSG3LuzOEa7XKWy5c8QCQvLPdYR2+I6myV93LoIVHnv/Fuq7BvtlNdXmWrErDx8RFENTRjhal6htpecpgE/eeg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7354
-X-Spamd-Result: default: False [0.34 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,xs4all.nl,ndufresne.ca,collabora.com,pengutronix.de,gmail.com,nxp.com,lists.linux.dev,lists.infradead.org];
-	TAGGED_FROM(0.00)[bounces-57793-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57794-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,xs4all.nl,collabora.com,pengutronix.de,gmail.com,nxp.com,lists.linux.dev,lists.infradead.org];
 	RCPT_COUNT_TWELVE(0.00)[16];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[ndufresne-ca.20230601.gappssmtp.com:+];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,nxp.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 98C0B36B13B
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,nxp.com:email,ndufresne.ca:mid,ndufresne-ca.20230601.gappssmtp.com:dkim]
+X-Rspamd-Queue-Id: 49B9E36B3A7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 31, 2026 at 03:23:11PM +0800, ming.qian@oss.nxp.com wrote:
-> From: Ming Qian <ming.qian@oss.nxp.com>
->
-> Add a new read-only control V4L2_CID_MEMORY_USAGE that allows
-> applications to query the total amount of memory currently used
-> by a device instance.
->
-> This control reports the memory consumption in bytes, including
-> internal buffers, intermediate processing data, and other
-> driver-managed allocations. Applications can use this information
-> for debugging, resource monitoring, or making informed decisions
-> about buffer allocation strategies.
->
-> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
-> ---
 
-Not sure why not export these information by debugfs, or any benefit vs
-debugfs?
+--=-L4QS/jCTQxYv029Nq/FW
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Generanlly document should be first patch, then driver change.
+Le mardi 31 mars 2026 =C3=A0 10:33 -0400, Frank Li a =C3=A9crit=C2=A0:
+> On Tue, Mar 31, 2026 at 03:23:11PM +0800, ming.qian@oss.nxp.com=C2=A0wrot=
+e:
+> > From: Ming Qian <ming.qian@oss.nxp.com>
+> >=20
+> > Add a new read-only control V4L2_CID_MEMORY_USAGE that allows
+> > applications to query the total amount of memory currently used
+> > by a device instance.
+> >=20
+> > This control reports the memory consumption in bytes, including
+> > internal buffers, intermediate processing data, and other
+> > driver-managed allocations. Applications can use this information
+> > for debugging, resource monitoring, or making informed decisions
+> > about buffer allocation strategies.
+> >=20
+> > Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+> > ---
+>=20
+> Not sure why not export these information by debugfs, or any benefit vs
+> debugfs?
 
-Frank
+There is also a on-going proposal that uses fdinfo.
 
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c | 8 ++++++++
->  include/uapi/linux/v4l2-controls.h        | 4 +++-
->  2 files changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index 551426c4cd01..053db78ff661 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -831,6 +831,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_ALPHA_COMPONENT:		return "Alpha Component";
->  	case V4L2_CID_COLORFX_CBCR:		return "Color Effects, CbCr";
->  	case V4L2_CID_COLORFX_RGB:              return "Color Effects, RGB";
-> +	case V4L2_CID_MEMORY_USAGE:		return "Memory Usage";
->
->  	/*
->  	 * Codec controls
-> @@ -1476,6 +1477,13 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  		*min = 0;
->  		*max = 0xffff;
->  		break;
-> +	case V4L2_CID_MEMORY_USAGE:
-> +		*type = V4L2_CTRL_TYPE_INTEGER64;
-> +		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +		*min = 0;
-> +		*max = S64_MAX;
-> +		*step = 1;
-> +		break;
->  	case V4L2_CID_FLASH_FAULT:
->  	case V4L2_CID_JPEG_ACTIVE_MARKER:
->  	case V4L2_CID_3A_LOCK:
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 68dd0c4e47b2..02c6f960d38e 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -110,8 +110,10 @@ enum v4l2_colorfx {
->  #define V4L2_CID_COLORFX_CBCR			(V4L2_CID_BASE+42)
->  #define V4L2_CID_COLORFX_RGB			(V4L2_CID_BASE+43)
->
-> +#define V4L2_CID_MEMORY_USAGE			(V4L2_CID_BASE+44)
-> +
->  /* last CID + 1 */
-> -#define V4L2_CID_LASTP1                         (V4L2_CID_BASE+44)
-> +#define V4L2_CID_LASTP1                         (V4L2_CID_BASE+45)
->
->  /* USER-class private control IDs */
->
-> --
-> 2.53.0
->
+Nicolas
+
+>=20
+> Generanlly document should be first patch, then driver change.
+>=20
+> Frank
+>=20
+> > =C2=A0drivers/media/v4l2-core/v4l2-ctrls-defs.c | 8 ++++++++
+> > =C2=A0include/uapi/linux/v4l2-controls.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 4 +++-
+> > =C2=A02 files changed, 11 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/=
+v4l2-core/v4l2-ctrls-defs.c
+> > index 551426c4cd01..053db78ff661 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -831,6 +831,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> > =C2=A0	case V4L2_CID_ALPHA_COMPONENT:		return "Alpha Component";
+> > =C2=A0	case V4L2_CID_COLORFX_CBCR:		return "Color Effects, CbCr";
+> > =C2=A0	case V4L2_CID_COLORFX_RGB:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return "Color Effects, RGB";
+> > +	case V4L2_CID_MEMORY_USAGE:		return "Memory Usage";
+> >=20
+> > =C2=A0	/*
+> > =C2=A0	 * Codec controls
+> > @@ -1476,6 +1477,13 @@ void v4l2_ctrl_fill(u32 id, const char **name, e=
+num v4l2_ctrl_type *type,
+> > =C2=A0		*min =3D 0;
+> > =C2=A0		*max =3D 0xffff;
+> > =C2=A0		break;
+> > +	case V4L2_CID_MEMORY_USAGE:
+> > +		*type =3D V4L2_CTRL_TYPE_INTEGER64;
+> > +		*flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
+> > +		*min =3D 0;
+> > +		*max =3D S64_MAX;
+> > +		*step =3D 1;
+> > +		break;
+> > =C2=A0	case V4L2_CID_FLASH_FAULT:
+> > =C2=A0	case V4L2_CID_JPEG_ACTIVE_MARKER:
+> > =C2=A0	case V4L2_CID_3A_LOCK:
+> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4=
+l2-controls.h
+> > index 68dd0c4e47b2..02c6f960d38e 100644
+> > --- a/include/uapi/linux/v4l2-controls.h
+> > +++ b/include/uapi/linux/v4l2-controls.h
+> > @@ -110,8 +110,10 @@ enum v4l2_colorfx {
+> > =C2=A0#define V4L2_CID_COLORFX_CBCR			(V4L2_CID_BASE+42)
+> > =C2=A0#define V4L2_CID_COLORFX_RGB			(V4L2_CID_BASE+43)
+> >=20
+> > +#define V4L2_CID_MEMORY_USAGE			(V4L2_CID_BASE+44)
+> > +
+> > =C2=A0/* last CID + 1 */
+> > -#define V4L2_CID_LASTP1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 (V4L2_CID_BASE+44)
+> > +#define V4L2_CID_LASTP1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 (V4L2_CID_BASE+45)
+> >=20
+> > =C2=A0/* USER-class private control IDs */
+> >=20
+> > --
+> > 2.53.0
+> >=20
+
+--=-L4QS/jCTQxYv029Nq/FW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCacvgCwAKCRDZQZRRKWBy
+9HhiAP9pxmgO01Tw2u1jmX3JDGf0HUlwoJFHITjsspschCXhGwEA2CLSZfwaGF3P
+FBjvjpv8iG0M2472UaZ+ET35dRy4DwA=
+=NB0B
+-----END PGP SIGNATURE-----
+
+--=-L4QS/jCTQxYv029Nq/FW--
 
