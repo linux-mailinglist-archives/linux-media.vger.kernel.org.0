@@ -1,173 +1,190 @@
-Return-Path: <linux-media+bounces-57716-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57717-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YDcZJ5Bwy2k3HwYAu9opvQ
-	(envelope-from <linux-media+bounces-57716-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 08:58:24 +0200
+	id SKvkCT9yy2k3HwYAu9opvQ
+	(envelope-from <linux-media+bounces-57717-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 09:05:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6B5364AC2
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 08:58:24 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80EC8364C2E
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 09:05:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DE0F630413A9
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 06:58:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3DD6930584A3
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 07:02:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDC183B3BFE;
-	Tue, 31 Mar 2026 06:58:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6A5C3B4E9B;
+	Tue, 31 Mar 2026 07:02:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DFnvt4Vr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k6afqY4r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9A336AB6B;
-	Tue, 31 Mar 2026 06:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342DC146A66;
+	Tue, 31 Mar 2026 07:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774940293; cv=none; b=lKsxgu+PMYb7CEJkWeCOGS+0gueaVWFkKbRQYaHlHQ9uqrDU77IsWIy2abMSPxF7DmgMGf3W3PJKzTyT9E3Yz1mZMFWB+uUCBSYqoonPk3nh+oCVy/ksJ4B6pzVhRHVwX3p8sZ9HAMBta2CXO1Hk+ekq0R8msPbPnkf+Ly5zWik=
+	t=1774940575; cv=none; b=fkZX9EBg3KKdPgxjKK5uhexyFzvYAgS6EjeklqiTI5uNRgYL+37YipVoPN1aN3hJNcjD/jufVM9MgICrDOzwEMVkxu5+ftRbcnfNok3ZOqw1DgwFILiBIhdpFQAURad2OHmQUveUXc6+0lurDN79M3I5MiwQv80RnGfzJaA88O8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774940293; c=relaxed/simple;
-	bh=vZRhJfLIHtRNxv9Ku8UnrdHkQj63umsc0nroN0CiSVE=;
+	s=arc-20240116; t=1774940575; c=relaxed/simple;
+	bh=yt9o+hP525Oxql1j/peL75RWbfKyVjlXzURR7373UqE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DnBnvVPgMdMMp1nUuOSWYbLZQJYyG1+yBnDjrHdXFl0gtouG4AR6qp2VthkfZPsOamwIS1UVnv9HukLquyrmYJiGhgzEBmmM/DlcwabW397I1sQKlHhPZ3f+XgglzgkOJLb4ZLJGHslpmTc68MN1jAIVvQzfbRr9x7ilX52AJeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DFnvt4Vr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A5D3C19423;
-	Tue, 31 Mar 2026 06:58:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774940293;
-	bh=vZRhJfLIHtRNxv9Ku8UnrdHkQj63umsc0nroN0CiSVE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DFnvt4VrrZmcm2PstmRZXNm45WHCeH7OgYOg3Q0leLVTj/SIpXSxL0W19zsdk9X8I
-	 he4gRaNRwP4dhmSnFU2zFfosEJvPlIity6K0lyY8vWbJkyTStL9vuGEDFiilu1DkOE
-	 iDlLaqXATsDH3qkySF1HT82ImNt/ejvAk5Z0ddAKjmCGX8TjuVcqj3TUie8zY8xlhg
-	 lU5lIqgPNe/DJCay49+04YOUCBZxnvyqMBKCR7ebe6ZDGmB+r2Yf2q1RydHf4vWBfV
-	 MSl30gU6me9sgK0iR21Qx6CsKY8/jgP6mEaAhbtiWQxcWhYntwyN9YMPeYkV41rIZ1
-	 QnDOh70oPK00A==
-Date: Tue, 31 Mar 2026 08:58:10 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Jianhua Lin <jianhua.lin@mediatek.com>
-Cc: nicolas@ndufresne.ca, mchehab@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, matthias.bgg@gmail.com, 
-	angelogioacchino.delregno@collabora.com, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, Project_Global_Chrome_Upstream_Group@mediatek.com, 
-	sirius.wang@mediatek.com, vince-wl.liu@mediatek.com, jh.hsu@mediatek.com
-Subject: Re: [PATCH v5 1/3] dt-bindings: media: mediatek-jpeg-decoder: add
- MT8189 compatible string
-Message-ID: <20260331-thankful-crouching-camel-cfabce@quoll>
-References: <20260331005458.24010-1-jianhua.lin@mediatek.com>
- <20260331005458.24010-2-jianhua.lin@mediatek.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ka8VQMDc0brDnqvr459TVvzrDDRmAVQGW9KEt7YnKkNhhRex/IXd/89zU4y9lSTINUYMAs+Hj4kX2SwDl/WDl0qC+t58ez0fkG3ExashiIfqJSglxHLnYogdSNe1HYPVN7uP4lHVrmJSa1zdvGucW2GhDuPKdKAlHSiqtu43mP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k6afqY4r; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774940574; x=1806476574;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yt9o+hP525Oxql1j/peL75RWbfKyVjlXzURR7373UqE=;
+  b=k6afqY4rMs/43BmdKoPcayEl2a1QYA4NMGm2V8YZV3dDCYn6A6qDH3sf
+   auvLZIrpPw+75LRsTNU7Khrzs6DwjHKZSBmblc9TyHnp400T243vXf7Ob
+   9Wp2db8MFHPY7Pt9stHwbxaSfqvp+SARDEKkX6OUnT7TniXiyrEdxH+Me
+   JMV1JCRRqEYB7LEYEOF6jJLEvVb75AlD1NzH3rE6PCFRXd2rcQyc8T+Me
+   ADAB1xXXOQKnJoLj6ZcsJ5i7oZqfOzM+EZpKkOQMwkvK9vq/Tn4/06+OU
+   aCMVkJBMQP800F8hUc4xf8T8Vr6NYpDpmsXpQZun853AitZfS/31IxOHR
+   w==;
+X-CSE-ConnectionGUID: EqasG9K0TG6De97H1nFDNA==
+X-CSE-MsgGUID: VppXuF84QCysb5aqSysJBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="79545029"
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="79545029"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 00:02:53 -0700
+X-CSE-ConnectionGUID: EilyfNbITeSJwrNzdhz4uA==
+X-CSE-MsgGUID: u2eMCNNLQkmmy/GQ3a7TUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="249494457"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.233])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 00:02:48 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 536DA121CF2;
+	Tue, 31 Mar 2026 10:02:55 +0300 (EEST)
+Date: Tue, 31 Mar 2026 10:02:55 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: David Heidelberg <david@ixit.cz>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Robert Mader <robert.mader@collabora.com>,
+	phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v9 7/7] arm64: dts: qcom: sdm670-google-sargo: add imx355
+ front camera
+Message-ID: <actxn5kvN3auqCBm@kekkonen.localdomain>
+References: <20260217002738.133534-1-mailingradian@gmail.com>
+ <20260217002738.133534-8-mailingradian@gmail.com>
+ <1349f725-a20f-4935-a829-208c8e583ad9@ixit.cz>
+ <acHxgIsyPiQTeqCB@rdacayan>
+ <eff25adf-c5fd-484d-a9ae-ec27c0d9c100@ixit.cz>
+ <acJuN_FRqMTGgl8C@kekkonen.localdomain>
+ <acsjH0tZ-jj7N7c5@rdacayan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260331005458.24010-2-jianhua.lin@mediatek.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
+In-Reply-To: <acsjH0tZ-jj7N7c5@rdacayan>
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57716-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[ndufresne.ca,kernel.org,gmail.com,collabora.com,vger.kernel.org,lists.infradead.org,mediatek.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	TAGGED_FROM(0.00)[bounces-57717-lists,linux-media=lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[ixit.cz,kernel.org,gmail.com,linaro.org,intel.com,collabora.com,vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0C6B5364AC2
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-0.999];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,kekkonen.localdomain:mid,1a:email]
+X-Rspamd-Queue-Id: 80EC8364C2E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 31, 2026 at 08:54:56AM +0800, Jianhua Lin wrote:
-> Add the compatible string for the JPEG decoder block found in the
-> MediaTek MT8189 SoC.
+On Mon, Mar 30, 2026 at 09:27:59PM -0400, Richard Acayan wrote:
+> On Tue, Mar 24, 2026 at 12:57:59PM +0200, Sakari Ailus wrote:
+> > Hi David, Richard,
+> > 
+> > On Tue, Mar 24, 2026 at 10:35:24AM +0100, David Heidelberg wrote:
+> > > 
+> > > 
+> > > On 24/03/2026 03:05, Richard Acayan wrote:
+> > > > On Fri, Mar 13, 2026 at 07:26:47PM +0100, David Heidelberg wrote:
+> > > > > On 17/02/2026 01:27, Richard Acayan wrote:
+> > > > > [...]
+> > > > > 
+> > > > > > +&cci_i2c1 {
+> > > > > > +	camera@1a {
+> > > > > > +		compatible = "sony,imx355";
+> > > > > > +		reg = <0x1a>;
+> > > > > > +
+> > > > > > +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> > > > > > +
+> > > > > > +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> > > > > > +		assigned-clock-rates = <19200000>;
+> > > > > 
+> > > > > Extract from #sdm670-mainline:erebion.eu discussion:
+> > > > > The imx355 can operate on 24 MHz (on both Pixel 3 and 3a), but Linux kernel
+> > > > > driver can operate only with 19.2 MHz.
+> > > > > 
+> > > > > I assume it would be worth it mention at least by comment here.
+> > > > 
+> > > > This might set the series back because the devicetree isn't meant to be
+> > > > written for specific software, but it's included in v11 because you
+> > > > already asked twice.
+> > > > 
+> > > 
+> > > I would say node with lower clock frequency is still much better than
+> > > nothing or placeholder saying "i2c camera here". Instead we'll have small
+> > > placeholder that value can be bumped to 24 MHz. Important is this can be
+> > > easily improved when at least one consumer of the device-tree gains support.
+> > > 
+> > > We have very scarce support of cameras on mobile phones in mainline, thus
+> > > leaving a comment that HW can do 24 MHz is reasonable compromise IMHO.
+> > 
+> > The bindings could document the supported frequency range.
+> > 
+> > In DTS it may make sense to set the frequency the vendor uses as it may
+> > affect the link frequencies (albeit I guess they're the same in this
+> > case?).
 > 
-> Compared to previous generation ICs, the MT8189 JPEG decoder requires
-> 34-bit IOVA address space support and only needs a single clock
-> ("jpgdec") instead of two. Therefore, it is added as a standalone
-> compatible string without falling back to older SoCs.
-> 
-> Update the binding schema to include the new compatible string and add
-> an `allOf` block with conditional checks. This enforces the single clock
-> requirement for MT8189 while preserving the two-clock requirement
-> ("jpgdec-smi", "jpgdec") for older SoCs.
-> 
-> Suggested-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Jianhua Lin <jianhua.lin@mediatek.com>
-> ---
->  .../bindings/media/mediatek-jpeg-decoder.yaml | 44 +++++++++++++++----
->  1 file changed, 36 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
-> index a4aacd3eb189..601fe05b73e7 100644
-> --- a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
-> +++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
-> @@ -15,10 +15,10 @@ description: |-
->  properties:
->    compatible:
->      oneOf:
-> -      - items:
-> -          - enum:
-> -              - mediatek,mt8173-jpgdec
-> -              - mediatek,mt2701-jpgdec
-> +      - enum:
-> +          - mediatek,mt2701-jpgdec
-> +          - mediatek,mt8173-jpgdec
-> +          - mediatek,mt8189-jpgdec
->        - items:
->            - enum:
->                - mediatek,mt7623-jpgdec
-> @@ -32,13 +32,22 @@ properties:
->      maxItems: 1
->  
->    clocks:
-> +    minItems: 1
->      maxItems: 2
-> -    minItems: 2
->  
->    clock-names:
-> -    items:
-> -      - const: jpgdec-smi
-> -      - const: jpgdec
-> +    minItems: 1
-> +    maxItems: 2
+> Is this review relevant to v11?
 
-Why jpgdec-smi alone is now valid? Drop these two.
+I'd think so: it doesn't mention the frequency should be 24 MHz.
 
-> +    oneOf:
-> +      - items:
-> +          - const: jpgdec
-> +      - items:
-> +          - const: jpgdec-smi
-> +          - const: jpgdec
-> +
-> +  mediatek,larb:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: a phandle to the smi_larb node.
-
-Best regards,
-Krzysztof
-
+-- 
+Sakari Ailus
 
