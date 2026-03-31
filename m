@@ -1,140 +1,159 @@
-Return-Path: <linux-media+bounces-57816-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57817-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MFszFPc2zGn7RQYAu9opvQ
-	(envelope-from <linux-media+bounces-57816-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 23:04:55 +0200
+	id iM+2FNs5zGn7RQYAu9opvQ
+	(envelope-from <linux-media+bounces-57817-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 23:17:15 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3313A37156E
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 23:04:55 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA4D371824
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 23:17:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CA30B302B9EE
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 21:04:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 277E2306DFDC
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 21:17:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A30642669A;
-	Tue, 31 Mar 2026 21:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6C054508FB;
+	Tue, 31 Mar 2026 21:17:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ngitMcCZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X/1Q7k2Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B33F41B36E;
-	Tue, 31 Mar 2026 21:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA65450903
+	for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 21:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774991071; cv=none; b=o1knk7hBLHvWkyak+Pzzw4qfvhmzXwz4cnxb4Pl3bly3fGgWK2hKkcgeHufj85+komLhFnIMjV45Hl7LwqtVXPNxyd3lU825EnBdobOFKUXW+flb43Prb29dIYYFOTgV8xeEEaRYv5Y9wib3IaPjU1cA6rTjtr1+9Y7aubOQmOk=
+	t=1774991826; cv=none; b=sJXv8sgtv7+zxEkDgSzEiwPA03OOH0mX5mz08qkPqsIV/zIGCZ04U0H4+W9vc7bUkfKH9b4K52HebjBpWubn1pKeKWSjQmbiUWpCyzSy9MaPPJs34KL/r+ockMj1LUW72w7n8uvwNFL0Z7s4N9xx8E9Vl2DMPZKx3fewzH5ll+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774991071; c=relaxed/simple;
-	bh=em86yCCRyL2CVX8urGD8oO6MxC7Rij/SyBrH46i9bEs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dlQPvXTzS/1tvn5d+sSEkfOm/hy6mvAuF3CWSiahRiBrm/+voYLBbJORE2EVioTTo4tge3CV4tLsuyLyDLQknCb8Y3DbrlCB6vWRL8ULvNxh1dgyA2lA/27zM7BPXQW8jKztHrS1s4PZTsd7ACsVDKMNU9MRbtSc9xCJN4rGMYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ngitMcCZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C29EC2BCB3;
-	Tue, 31 Mar 2026 21:04:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774991071;
-	bh=em86yCCRyL2CVX8urGD8oO6MxC7Rij/SyBrH46i9bEs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ngitMcCZqK8YJPw3oMlXOXSGH6ZLumD9rVj88yWO8kXfSpvgXjwYM7h65jrgonhxv
-	 DWwbGSi4DG0i4a6P7F1VVkVd7IqhUlSHjKBd24empwrsrfJsbl2SmyL05ORkVwon7h
-	 KCx0CWbsz1eE3HUQs6ES/BjnO85ytl77jTPf2Be/Tmxae1S6yIPGV5fErj7gVvI7RF
-	 M3/HQHjQ64fBdE2RcpFv+Zn2x3BCDWkvZqloRJwoQxSB3uPFXYS8YtWCp3fezWoKDT
-	 psYytvBtV/ak+QsmPhGk8pucgZ6AgZT5iT/KzmLNsXjPrbfPFYbZO+jofRWkjOBsZM
-	 CQiKCZVuwRnEA==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Akhil P Oommen <akhilpo@oss.qualcomm.com>,
-	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-	Bryan O'Donoghue <bod@kernel.org>,
+	s=arc-20240116; t=1774991826; c=relaxed/simple;
+	bh=BZg+POCyc0aHse7ifJCDTBN65JYsXS0lgfnAw42OYyg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=INVVPTIRHj/4pwM55UEDbaMekL6OE/Nw6Fqv1/xt7bfVp5jbyTQrB03pL7Nn3kStCpXrZfaXDkx8KfnSn1Ywjik0dLBQq0yWBj8KKGNggJO7D2ghBXDWRFEgFbMV8U9BAIwI06yojuZdoKE/EUILoZ2FI+W+RLaG8tH6xTup5tA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X/1Q7k2Y; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-482f454be5bso2992755e9.0
+        for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 14:17:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774991822; x=1775596622; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8PAOrgazS9H3VM+uxXKBMbAaIq8gwz/zdEtYxUAlRNo=;
+        b=X/1Q7k2YVvPfJDHKmt5YDHbrgZTEXclW2jukw5BqSGQDG9dO2cyk3WBBBJlSAZRTSf
+         APXdVwFPtYG/4qiqyImoVhPW1dmXO8XvJxu6uN6+xTdOciUUPT0LIfMfDYmW1Y4eRr1y
+         5PbKKK4riZia455LEjImb2DzXbVVVoIPCwfWTq59QbvERxG5ycEfDdrUfaz6mRfSzkkK
+         aP1ftw9bd3QJCb4dNSXaZwtuZnDltuOhdP7tuh7rQMC/xadIDKDx1vqGa+iwDFZPM/Rl
+         eacxvZzzOyLB4lmM+3OMewOpaKlzYSzOeARIA8TeWbtFWMzThzmLUk9avsXo9Y18gsrp
+         LPgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774991822; x=1775596622;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8PAOrgazS9H3VM+uxXKBMbAaIq8gwz/zdEtYxUAlRNo=;
+        b=QYhq/pKmt9duOtRPUkMxzqtJZWwjnYXYhWYYzRgto8q3aJvcRnhPbKJR7HAjz4cMdB
+         G+wskMZcZ+8nSpWbYXON5IaKc5579l6OpLYfI5OFM1CCqJHMpi99L/CQe+GgsKL/U5NO
+         QUVfutiD97gWivdoiGizFxm0o6ooUYTwfkll915LXk3MyZ9KeDLlmqVjhsE5cFdsNjzk
+         Hp9XokBck+GSVgINA/NvP2yUSqLVwmhJqaViubkYlzhzZUOmXrQgfBpkSfO1eBJCJ5sY
+         2QQzokHt3GMpsr1Fgq0cEoikP5xL3IYeEyaONultJD8X6MX74/Ltb9ecIaANwmaop4/s
+         APVg==
+X-Forwarded-Encrypted: i=1; AJvYcCXQ0GDLSgB3T/wpdwqP+hekOEc9lbpUwWpL0vYrza+h2Jx3TFEG4GX4dElHpmRmrGeP75Vkl23XUpAceQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRUCxGBisMqDEFvRSXT512L7d7AfrUghbCEDlgjrPsDJyvjBrn
+	zg0HrokXInY8n2WCTmmZoZXVcSXPtnm55sYIOQJzkjUmeiy42ry6eiaD
+X-Gm-Gg: ATEYQzzAkeSKzBjVP+bqBk51FC3MiiXJFESupUa/tVOoRILn8eoWxsLP1bpXKnhXOsi
+	05jgqGPl52w5rYXkbm74i8sfEYG7j/mS3iGVD9zMsyqUXq2UPIka1qAF+epboZy4GHzzib0MCtk
+	5SNm/lwO/EiQVadIPJ2exHyXK/tGYLscWT591N+7CcA36kjT4m67NHViNP9/k8MSRIlE/wHSL+q
+	usu6SlINCDZ41vISyJSRmCPHml6kRcUGNd1naew2Eyyv2OSEWtP1VPGtxuJf4mJWhpMV5nc6WKP
+	6IDCPYWF1nrPxygjX6ueg1ZtAYphudVpxPVMalghPiErPUOnrwppQOqcCnoD3b2fpsaJG/F4aUO
+	NVoggyEJHT8fLdWGsAh6aF6ezdQFn5qhZrEUGfs97cTaCEqj/QAak7cYFuA8aYcRkaUxdzb1AI3
+	Y9upE6MEvrvbohKwuv0F2jdS10gJ270tKhZvbmgkxklSCV3A==
+X-Received: by 2002:a05:600c:a51:b0:47e:e59c:67c5 with SMTP id 5b1f17b1804b1-48883590a07mr14626735e9.8.1774991821421;
+        Tue, 31 Mar 2026 14:17:01 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:f41:186c:aad2:ccc1:5aff:fe8f:d494])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e81a2cesm66051735e9.8.2026.03.31.14.17.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 14:17:01 -0700 (PDT)
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	linux-arm-msm@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Wangao Wang <wangao.wang@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v4 0/9] media: iris: migrate to using global UBWC config
-Date: Tue, 31 Mar 2026 16:04:24 -0500
-Message-ID: <177499105231.956796.588474423586543717.b4-ty@kernel.org>
+	linux-media@vger.kernel.org
+Subject: [PATCH v2 0/2] staging: media: atomisp: clean up ISP configuration path
+Date: Tue, 31 Mar 2026 23:16:10 +0200
+Message-ID: <20260331211649.421777-1-azpijr@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260125-iris-ubwc-v4-0-1ff30644ac81@oss.qualcomm.com>
-References: <20260125-iris-ubwc-v4-0-1ff30644ac81@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch];
+	TAGGED_FROM(0.00)[bounces-57817-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57816-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3313A37156E
+	FROM_NEQ_ENVFROM(0.00)[azpijr@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: BEA4D371824
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+NOT TESTED, REVIEW CAREFULLY.
 
-On Sun, 25 Jan 2026 13:30:02 +0200, Dmitry Baryshkov wrote:
-> Having UBWC configuration in the driver is error prone. For example, the
-> driver specifies fixed values for HBB, while the actual value might
-> depend on the DDR type. Stop defining UBWC data in the iris driver and
-> use the global UBWC configuration registry.
-> 
-> Merge strategy: either merge SoC bits directly through the media tree
-> (with Bjorn's ack) or merge to the media tree through the immutable tag.
-> The drm patches will follow depending on the way the SoC patches are
-> merged.
-> 
-> [...]
+This series cleans up technical debt in the ISP configuration path of
+the AtomISP driver.
 
-Applied, thanks!
+Resolves a long-standing FIXME by gating ref and TNR frame configuration
+behind the ISP feature flags that already govern their allocation,
+rather than unconditionally attempting to use frames that may not have
+been built into the pipeline, and removes a duplicate call that
+overwrites the same cached state with identical values.
 
-[1/9] soc: qcom: ubwc: add helper to get min_acc length
-      commit: 68a66a44af6e196ca426d1250104d3018ed9e74b
-[2/9] soc: qcom: ubwc: add helpers to get programmable values
-      commit: b2571ef8d4ec9bb636889a9132090bcc3449792e
+v2:
+- Replaced NULL checks with feature flag guards to address the root
+  cause rather than the symptom.
+- Updated subject line and commit message accordingly in patch 1/2.
+- Expanded commit message to explain why the duplicate call is safe to
+  remove in patch 2/2.
+- Updated subject line in patch 2/2.
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+Jose A. Perez de Azpillaga (2):
+  staging: media: atomisp: gate ref and tnr frame config behind ISP
+    enable flags
+  media: atomisp: remove redundant call to ia_css_output0_configure()
+
+ drivers/staging/media/atomisp/pci/sh_css_sp.c | 41 +++++++++----------
+ 1 file changed, 19 insertions(+), 22 deletions(-)
+
+--
+2.53.0
+
 
