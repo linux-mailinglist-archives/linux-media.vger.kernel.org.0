@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-57805-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57806-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kO01JLn2y2kGNAYAu9opvQ
-	(envelope-from <linux-media+bounces-57805-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 18:30:49 +0200
+	id ADOTL4j/y2kJNQYAu9opvQ
+	(envelope-from <linux-media+bounces-57806-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 19:08:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E030136CAC7
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 18:30:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2166136DF13
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 19:08:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E0D1B30DF088
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 16:26:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B72CB3150F08
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 16:33:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 570EB30E0DC;
-	Tue, 31 Mar 2026 16:26:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19D154266B0;
+	Tue, 31 Mar 2026 16:32:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="g9MONuf8"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="X1Jo0z3V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010049.outbound.protection.outlook.com [52.101.229.49])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011025.outbound.protection.outlook.com [52.101.125.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E94B3F7A8B;
-	Tue, 31 Mar 2026 16:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50CF3E3C5C;
+	Tue, 31 Mar 2026 16:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774974387; cv=fail; b=O12BxiMnVvkmQpx00YHH6dwHdEJlo+Eq2KX6zCMZ8Gh9CZk8NEMVMV+X/qBsxdqZCG47FYfy7bqXA4JhBFiX/kEuJCdopOqCNH9zYy7YNtMIExH3FwQaedTxaGwVQ/7hd4omDG35eHSUGJzfG1ObaHZXOsCX+VthZWD9dGOrP4Q=
+	t=1774974749; cv=fail; b=pNdClVS5z0vFEPrUEa57O275a9Se3/1sL3SKBvTKZSvZqaqGDzpmffIKncudFkQ7YvBvL4ZiMlQecz5m4OrHCaV08vdrT2LEXUb9y9nGGNcRR3A9CLj4r0dS9Cz3OyRDXlQ68kgwFwO0eBDfBQuKUD+TmWSBj/CSXnJouZYf1js=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774974387; c=relaxed/simple;
-	bh=FSc1eC2gVCjriYvUcaoF3r8eW4ZoByb+8FRDY4dJLOQ=;
+	s=arc-20240116; t=1774974749; c=relaxed/simple;
+	bh=oNaebwW3Uj+RRbwoWcnMLSjTJSedpf4c+GO6k4C8HCE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ntvH7ljgX/G3SVpaCsk1cEyoeh/o1U2lV6hPrx34pBE2Zqddt6tRuSsBa9YER8L2VMKENn8+3aoHfrjj9IdyheLSlBqXOjqouTLygbI4lnNiUrilGtFkxDyh2yEHY9mBk+homN25CO9WAwM+0/zxm/jE2LnSPgYcNo7CPjiK1hQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=g9MONuf8; arc=fail smtp.client-ip=52.101.229.49
+	 Content-Disposition:In-Reply-To:MIME-Version; b=BoBznybf6GpWjJggT6IxG1u+qPmOIrxyp6CiL15/qJhucK6vYFrzDmUHrW6hYH0xAJ7r+VdTgavLdn32XunomWLVt0njlVjkMY0wI2dQOYDg0M+y4EMPeFJXvjS2CiW3zp7/zY9uOXOhReIJrtB/OWWXFPPkqRmxajz+Ewh9/Eg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=X1Jo0z3V; arc=fail smtp.client-ip=52.101.125.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fZZDy/UQg0uqxOl+F5FQkrR0OFn/BWa8eBUHMkU7bXSGyXwXKkKKtBgK163X3xwlzrzKWvzD5lWPjqogh6LK1DKYf/WKbVejgeKTVGvTtYi9aDhQtUDkzAM7/EhDvECc/Mm28W/f/0b+Fut7NqtiCtgFZeYHO7Yiqbe/ddYJfhd511NngYcDtaAciD2UjyUnh7p4ko6eIhUwEeepq0Lrln7OswcsY6X2QeSuJ1/W9jjGknZqxlVUsb9Re2d0PFohGNEE7cSRMVTwQhMq2hxxiA1OUHVJgDXFNVub/vPXcqB6BVKmiH3qMYDN8UxQvsDUkj+EuB0juaZekZ0pH7hX3A==
+ b=dgMoTqUHsBjdyEgnjlB7odomgEmwwz3jC2LuvXxO7959op8Ou5A2J7iHo3ExQdysEnO+YCMSQ31GvRBKq076URSgmiqaSEzy+m/NhD5KO7jcITigKKdjYbscJnmAUg128lxnUe8QgfO2lm19nlEq+z7th1keqYCso/M3StlYegF7oKRd+Z6lsMIk9CKi3L8BxImkBwZO3soLhb7pZ9zIYewa22qXszX1U8c7COxeEYZrtjehnF45zJcx91O0NElCA5eeUXi2En3nYq3h52itgqzR9YuojZNzLIvbLA1Yvr5LjozWLBtMiqgTPIpNcCXk5kSkJknBHoTPKgO3KMOGOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FhigUgzDosIn+49QaKycuCaGzujGAtwyLuypitQbFd8=;
- b=xOIaJyPuunWfNfCewLYL3WxMutsh/ko1N/MUK3nC8yQHfiv3nsfkkKvnuRKDmvL7Gn1Vjvd0YK/RyQiv0xjfqT+00ldvVTKMWF8JYZoe0OEdnRsDBOhBo7dcVra2THdeqgKQ+1uP6JE6rJSz/Q0XOVszSloZzTDVv8ALSarZIsu2/IeWIMvt/NNCI5JmzNfODiU/sNvthAY4x6fwZ02MrJJoQdlEGV7rx4iNvy/YZBBvNWAJNzYM7xfenFGlS0+xaXZWpK4kTmR9+3/WDxF3TXOwaPfIQAd0PDnXzrLxmihqT92sY2s43tR9ZXk7+Ob20vdP4BRVVXjQBiMej42CLA==
+ bh=FVLJCaWiXwXcErOx5CXNpblSZ6YIFm3mEukHhSLj3ro=;
+ b=rQ4GG0iIhsTeOeuxKWK8Z+9AMSA3/q6khvW29HaT4feyAdU5JfOTkixg5IjWT7MhCRa0mboGfE8Vau2np19p9dNydE9EXcNNK3GeU3YAqAaUTo01aBoCQwEEAfajJBwEx1uVwFnjdMZsjl8L03/WUwVH1yk9ktlccRwJjEVoysDJb9s+CYBOLddrTQ6O+Ps+dCAT7cC9/qqkd6l66tnDZR0sGfo80y/cLq2qutAGaRTsrA8ain4QWT1XtqvGO2Sb3UUPPAHvQVTIz28mzKiUGq/ZPIhZkagditij1xY98y2Njv331eKMLZC9aaawga2e16byAGwoSG43JICSUNd0lQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FhigUgzDosIn+49QaKycuCaGzujGAtwyLuypitQbFd8=;
- b=g9MONuf8pCNkc3FZbyEu/k5fqSB+JCcL0XwAI04kUCTrxteoYepNZEoYiFYnD9xQxh0BpgpYMEYt9QVIwvCG8A45oojuPFEMaoZWPbuzZEl5Y12HbHQdm66R5QjwnMumzVr9J/KyasIdd261DZ4GA8cGeRP5Cvi7Z7yQg1ghcG4=
+ bh=FVLJCaWiXwXcErOx5CXNpblSZ6YIFm3mEukHhSLj3ro=;
+ b=X1Jo0z3VwMj4Sekpmv3fBoOHdKdzPELeVQWFZ/1d1ANTb0TU7CV6owCXvOlrJ1/iH6ixaCBHZuompzvj7KPokMvkqhtB2It8U0jIxAHgt/CPbQQ8RDg3UcCnOFycuTWml6J0EAn3INlFSwXytVFLM+THsZVq4uS6eqHxTleDVCU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by OS7PR01MB17194.jpnprd01.prod.outlook.com (2603:1096:604:424::15) with
+ by OSRPR01MB11646.jpnprd01.prod.outlook.com (2603:1096:604:233::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Tue, 31 Mar
- 2026 16:26:24 +0000
+ 2026 16:32:25 +0000
 Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
  ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
  ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9745.027; Tue, 31 Mar 2026
- 16:26:23 +0000
-Date: Tue, 31 Mar 2026 18:26:05 +0200
+ 16:32:25 +0000
+Date: Tue, 31 Mar 2026 18:32:14 +0200
 From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -72,18 +72,16 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	=?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
 	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 12/15] media: rzg2l-cru: Rework
- rzg2l_cru_fill_hw_slot()
-Message-ID: <acv1nVy4wUG5QIa9@tom-desktop>
+Subject: Re: [PATCH v2 13/15] media: rzg2l-cru: Remove the 'state' variable
+Message-ID: <acv3DqFG3SxjyHY5@tom-desktop>
 References: <20260331-b4-cru-rework-v2-0-f94b238b35d4@ideasonboard.com>
- <20260331-b4-cru-rework-v2-12-f94b238b35d4@ideasonboard.com>
+ <20260331-b4-cru-rework-v2-13-f94b238b35d4@ideasonboard.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260331-b4-cru-rework-v2-12-f94b238b35d4@ideasonboard.com>
-X-ClientProxiedBy: FR2P281CA0003.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::13) To TYCPR01MB11947.jpnprd01.prod.outlook.com
+In-Reply-To: <20260331-b4-cru-rework-v2-13-f94b238b35d4@ideasonboard.com>
+X-ClientProxiedBy: MR1P264CA0089.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:3f::22) To TYCPR01MB11947.jpnprd01.prod.outlook.com
  (2603:1096:400:3e1::6)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -92,60 +90,60 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OS7PR01MB17194:EE_
-X-MS-Office365-Filtering-Correlation-Id: a5d667af-b72b-48a1-83b8-08de8f423fb9
+X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OSRPR01MB11646:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2535eeb8-bcad-468a-5084-08de8f431731
 X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|52116014|7416014|376014|38350700014|18002099003|22082099003|56012099003;
+	BCL:0;ARA:13230040|52116014|376014|366016|7416014|1800799024|38350700014|22082099003|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	OljLs7mQhitueTsyMBn3SeRFwcNqeddUf2AguvqmPlWvg8x/GJ14S1j46tf1sjqlz+S/62LQrWHUHpxSZJq/BTpcnM+Cp3tV9ZgPzg5dQqCpCxFNF3/qqgeAFEqIPSjFJyU1Qo4Fx4P51/TpaJFQRXlZyZ+f95Ox+z3/l+KUK2T8v5rxKySrsNYTOVeUgfCi3lJRZL9dWPtwBvkWI1y9lEQoHBQ2OblqoK9TYHHqh/HJF0szz+XgFtjdnCri6q3wmHICcHS4wxmrt3/MBHImcVMcTdOI6iYdgSvnt8OGhM79AYdQtifgjGdnFp9PyJ/qlKLHOQsV6PWd3gtzWNKJ5qLZGzGoE116JpBYAJa2ZJVskSSKRJdE7DAg6Joy5k+wmerkr6qF/V1oER9YswS9XFTPAQQlLJRnQDi9bhTf36ncSkh37ycyYmLPafP94LvdKLIDycNoV4Nfm5omdJaI3+IHY0ihchBlwcASB8d+/a28ztgXzfPmZLzNBZSj4FywrTVY+w5uLlFQjplJDb0516GRjEXnXjpkDt0KUItcMmYX5Dy9N47IqNjygfjV/cYNraD0wmPHDsJaxKLsuNbzlTLaocMX9IFbx5pxxX8dMvHA/uhsbMpREfx0yMo5cUMl02pjDdxMCYLIpkLevXBoVIzyaQneFlpmlh/WgUCnA4GkHmljbuy7b/mzWjUCQqdbZWSjic+7Uhcaowy6BnFbVxlne0dpSx9Ln5Xy3HTWwtcWIZSbDQtJQtfLwbv7VYNJyFjMZIwR8vqLr8732p2J4BJY25+bjJC6XAZlVfmLUgU=
+	cZkfcRpEBpba92y5fp86tTpdqdK3fCo+bVAH3lgNsiYySzZ5fY7wUltgW9ndM7CpF1cw42ylTsgLCtX6Fnb4n1hoFmSSxcAR08xTzrk5lXP3z5Xz43ewUdqQ0xdFMRedhN4irq0Tp6YT5/1VFjYDEtQhyK8clqduUSDFBV3XKdeq18wixkj+AcflztvNN1+eJ4TRwhiTIY5oIFH4hl/HeboSd3xqgkz+jV6VrM+lC7M0UBapADHuWdixp7SW2Qkfyi0jB2Akwyes+2Fvrsp0JrarBCPkige/Db5EACF/RUczak9YkFgqkQuWxNAdGPjLKXowkCiNmGBo1rKi1nhm8IHAMNs0yWRNrPEsFykZr/62qKWhwyehcmPlu4XLjQj9YwHRZ6wivrMtkgs3WsS4Zs6N/Fs/Ze8yHIuaNvB3xpp5HN7elIDjGK+z28QUyh1bCsg5oJqthgMLmu06WJBlqPlUppJ5bQoBHbD4A54XxWMNwTpWddi1sjS4iLYC6ei9pY9KQ86dp+TuGRSQjnD4bBGuzEJLNc3ef2dXQZbvOp0QKiwcDSHiROIEFzdf+cFMcFSFEkb5Xw4y3dHrytO6b0l0PsKKUB3WdDIoa0VWENBMe1xsarOfux6GhLVT6DLYVvge8Larc8AhPAjAkgX89+0Mkaj3/PfdOpWtAXbbxS3A9fdL2hCkd7K6C4Dy9d7MnqkD1kJOSRM6F8HLrv+7pOddcvpPgYihfkXce7scsfk4q0agUhsPv/QiIAOOl2T7c/hlZmySpxwAfxVYv7iLoLJD0qvYVcoQ0wbNr79HTEA=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(7416014)(376014)(38350700014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(7416014)(1800799024)(38350700014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?5B33ofrQI+oFqFODWGqrTuNtAE6i67trrEWSjjZ0jTVaeg9pXJ6Q9/e2b5xe?=
- =?us-ascii?Q?oHA+5btvw8n5R0+kTi0Sc80gJbir5mZRsE+Z8l9DdNnma2yHK0/FHOlMDLmp?=
- =?us-ascii?Q?HSZ7AOVmgO1rO4ix0wB1Vnp7mFJraQkVazL5KnG61RuGnoLUs/2GFgXupr6b?=
- =?us-ascii?Q?vghbhK1S7FysI5F6eMklkmNuAVFt6aJE+3o46tycm8Cl+qUqGiFPTj4AO4v0?=
- =?us-ascii?Q?sSpD3W0R3H2HSOe3Mg5m7XcscZK1rUo7raTat7y3WM5THnLDm4rIu2lZ5osp?=
- =?us-ascii?Q?D2zOsUCsTZxq9TafJcmRxF9afJZwDGKEJNvIoqFoKMoXpBApMbC9XIwnZ833?=
- =?us-ascii?Q?lEn8udt0mWmLtoZTONtZUwuFUx/FCjMMlafCLnFtunUBNKObF9XFdTD1stVY?=
- =?us-ascii?Q?Xcx0IEr3DeP2wikMaQBPuBAl5oLGKJG1LEdRS4ny59KJDVOsUEMmze/IG721?=
- =?us-ascii?Q?AfT2f2Nm3X6BzIV+tHLdUCDwPzWrmApJ+lqM4JwyWq5p3LC3xnQrFBh0t55n?=
- =?us-ascii?Q?z0nn9CiEW13H9uYHXgIMa1/AvUZGcNSUiOVxpWQqReQ9PAtMNLwFikPs0ppL?=
- =?us-ascii?Q?pPQxHFn+DK2GKE9oJArPuUT4m0i3Ov1b6MMZr5cfnIditdy7I9mOjmgM6iVO?=
- =?us-ascii?Q?3d7imONutP0f0CLs+IFrlUsQjVNbsPmNf7GhiAhl790hgIh2TL67gEn9ei9k?=
- =?us-ascii?Q?RX9GlflEYs4uyN9/76sSEqrR20QewAYeu9uOujRPGMz9zxNs7y/fkAaDMxP8?=
- =?us-ascii?Q?SkOua6nSHn/AMhMUoIq1ELh6EaBf0NyFLHdvuaPYXcn/GyX1l75pEnSJUiQ4?=
- =?us-ascii?Q?Tx3voJINBJFmuAISMhveoM799FBdseVpjXq5BiX9lAom+LG0h/GMDiQlE5H+?=
- =?us-ascii?Q?DK5UBtzgS305/eiFxcvehfUjTG8DqMQTgEJGZIrLgicBNAex9A1XwVhQrq+b?=
- =?us-ascii?Q?prQpgZUtNVHEvoRoZTQI0EWPuWjO87nhJpjJkcc5sVHlmP5yd+txZiAQYym0?=
- =?us-ascii?Q?AkrwZy20l7Gj1iZ4eG2i4W+2s0VDlAk2567GdFYEdzHpYMCYApPSXUVz4LJl?=
- =?us-ascii?Q?Shb2LPLGUrpv+N30yTgM1qTk3pT4RCV/xlzu9pwrGqhqx/tU/jxOZPGw4/4+?=
- =?us-ascii?Q?KbRiCSuB3G+NU2VQ5Y+nrUH/4nzi8z03CdjCKKJxhyYJEQinGJ3qtAdTjV72?=
- =?us-ascii?Q?xrh9unHXjbPxCh853wPcgd1g4jsRgOo4NFwuGU8tCwVXp06hNlLvHBTx0xTG?=
- =?us-ascii?Q?MbBhi/rz90TLgfs/RtJElVbqk7p1ikmdE2eu7y7gt19TYb4cuSa2WJBbijnc?=
- =?us-ascii?Q?7weWxIO/IGYrnmApt8hcAglWKNBErRAZW+PPU1QG0YXNFPWPljz5kcA4nXDG?=
- =?us-ascii?Q?dweM02Sr5/ZIL1Nz1ZLBVnlfZ9VdSCRFBWV+/wjIT5xsVze5m+LMA/BV8/LU?=
- =?us-ascii?Q?Kyz9itD3XEe3P6DqeOebKBlF51CZYpjrl97x2wEc0xG+wYZP+3MvC7CPOSDC?=
- =?us-ascii?Q?D6CnSbxVr5SOs4OjvquQIry6SE7WS/fvU+p4zq6ZiqVfm27TX64mlrSPtCXi?=
- =?us-ascii?Q?220JGOwEuYzBf6w8t+xKWr3hcg7LF0jyax43ZBZc2GhMOMDq+Zjy33RJ5UA9?=
- =?us-ascii?Q?RK/nBr4cqbMJFd4/ZaNhoIfCKgfTLEXKEy/ohURaRCpgXG7ZJ9DZitF/SnWO?=
- =?us-ascii?Q?D89HMeBV4v9XTOznVzHFqOSjtsO0koZAZAy8Dt1o4K3bZi9yIxQoGKHupOZB?=
- =?us-ascii?Q?YIjgZYJ4nzek3IlJOKOrWS5DEfFkiS+UuGKM1ETKi6vjWklbQrUU?=
+	=?us-ascii?Q?yfi6048RRtCcxz/szVRE/D70Dz8lDY+GggpB6hhSr0ZKwskL1pOkTIOTGUEW?=
+ =?us-ascii?Q?+jyO1j85Z2cxXHarRBTRMQqIk5Nw6vxEDC1k0FeTvHnZGdlzz4OVWMtoy8Jj?=
+ =?us-ascii?Q?P2UJXEcYf4HgqFtIq63iNrSodH/1rGdmyfgyAxeCQUsMdLj+eRUNbL6BGwJI?=
+ =?us-ascii?Q?1EccQ0IlfyYVtNpIHm/Go1rH7Tp3IZaAfW3TyKpLNDljGarQ/gpFxpNWA33d?=
+ =?us-ascii?Q?0xJVGY31kMPOkZ/PU5eqM4ms7TIhqZs1uJqbj0MPXVqBtnyEGcmiKGwaPEDf?=
+ =?us-ascii?Q?gUhn4YNe1qkJ/FziJLfW+MKFA7RdNv0W/b3gsvJZDZkC/CM+9UcUOaabV1nt?=
+ =?us-ascii?Q?psuZ/IlLlbIFGCSYdLOzp8i9OyzDTqpmO3sxnwcaUEJqlF/UOK+0WqUQimlw?=
+ =?us-ascii?Q?OU9TLM0KV2l8bTueBdR8hEjVHen7H5+ByFmsnzq8ucBCbW7tUDgYArMQN3do?=
+ =?us-ascii?Q?VR18y/xcykbsrw5hoHPihh1Y01VIEpW1MyVvM/m1yRqVpQipZ7zGJs6pLXZl?=
+ =?us-ascii?Q?IkRDTbhQIBJvTABO9F38BeE8ZCwsgK+HthuAHVW0y6SOqQ+gVDFpjs2/JUdB?=
+ =?us-ascii?Q?rQJkak8sIuc3/hK6e4uDKlVxl+UtaM0dw/19T0cghyordzl8RFQHBdInbUJQ?=
+ =?us-ascii?Q?BzqdBI3l19VNqMOKcEB4FCnORKclCzc8LTLsMtQcZjpP7fNtX7/vPlNdulvG?=
+ =?us-ascii?Q?doX9OzyUaXm2FuvJUA8YRYCzGGMF+Cx10UlIwXc2PwhGmPfW5G7cNyRc+k1e?=
+ =?us-ascii?Q?tFVhlUF0TRWMwlumaOnWxQhCll8bOZwy+JJ0tL0g3zMXWfRmBSKDGyvpSrOv?=
+ =?us-ascii?Q?DBuEm5Mf444G0xiQW4lz5hEA5T6jbkPjVqFyhOnRpaNDDr/n6c77XZlu1THd?=
+ =?us-ascii?Q?CowKgrK8jOwJliQers+9QisJKgrDEa6PxWX7sGAqd9lOH6RVZwL3iadTJcTY?=
+ =?us-ascii?Q?Fx0rY4xgt0U8PoSMTF1iTNuYfdFKyO5M/dYgaou9RcUPmsWQtdA/K+5R8E86?=
+ =?us-ascii?Q?7NNz3nzkzlKG7yuOcFmKf90Iyx3Nr7CspGUTnDFJthqkSmBRobH+Qj0CsPlU?=
+ =?us-ascii?Q?xI9EFc8O5pKgNnqFvptrbxLVDgIc3pxNTu4CQe7TtC8FUY5Zy4lwGOYkKY3d?=
+ =?us-ascii?Q?uJJtHlQ4RHNoEK1LSXp69OF8yAuG+LgKiHyi/XXcRE8M46bWrRlkA7uBHNRF?=
+ =?us-ascii?Q?zo1eDBpIO+gBHH2LLEBj3pLS3aLbRVCYxXOtU7Mpkw7pyqCkTIkhEL0GiLhO?=
+ =?us-ascii?Q?I+f+Nsyf1hYf0PGORBi9pya9RP6WvwpIFmAp+tkqVXK09OSNG7Bn+GpObkUF?=
+ =?us-ascii?Q?2AskvAIXxC5Z79Zn67WhgbI/eq4mQbg+BvEO9dKDtazEpjMMhdEXTSccTLhq?=
+ =?us-ascii?Q?0Vyf1kx20yVgENkWnxOM/bDRPwxbj5CkNd0lOc9vVjZT7602M7zO2TIsR6bZ?=
+ =?us-ascii?Q?60t9PHQdZde3CJTlTHySVrE8574ztGN1UJGvoO8AwYK0CWSgLRZfcWvhAMPI?=
+ =?us-ascii?Q?EeAkiWjsB+GXXmUoDjTpmcNJYhFeu4WKUfbmg3n5rQNzdbwPG9qFdeh8EYDn?=
+ =?us-ascii?Q?ngZ9XfB8+Kv2mHS+7gn+9G6pYDVHTz9G5Occu7p4ehF7Myn3CH4gxVGSWLA4?=
+ =?us-ascii?Q?HUnJlUutzJqws0Blty+sSYBNQExTbdaKPUwilWnPAhunS79HuELw766b74LE?=
+ =?us-ascii?Q?cXFufEzrBecRH2sIeAMLdhgHa3WKJihwUK3Is/3er8hoL/Vg/2y8/nzRlBxH?=
+ =?us-ascii?Q?5AGEUtaDsT0u/z6DROQhanguUb9+VnOc0VzewHRkc5PAqQUejuwo?=
 X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5d667af-b72b-48a1-83b8-08de8f423fb9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2535eeb8-bcad-468a-5084-08de8f431731
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 16:26:23.6581
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 16:32:24.9858
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DssaBYUYjmdN0aRikyutYgPY61zFgGb0rKTMk4qQ6r4cU6H4MYT1X17KFlgjLTc0uhd2aJHON0FfCaQNq4vnP0eW4wnqXkBYe8y7TcaGAGa+sBo82FizKL0BV4u+JCBB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB17194
+X-MS-Exchange-CrossTenant-UserPrincipalName: QjoL6GROXjJpnGrihWGP6ctSHkMysMr2D+eiBu2l/pVyGUeuvDTYcNVm1CMF0fq7DEiLduvs5BjvgeQRnuSU0vjU2wHC34+7Ew+y9IHGI3s09L8DKMjRtfl672YKNQBa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSRPR01MB11646
 X-Spamd-Result: default: False [1.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
@@ -156,12 +154,12 @@ X-Spamd-Result: default: False [1.84 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57805-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57806-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	FREEMAIL_CC(0.00)[kernel.org,ideasonboard.com,bp.renesas.com,linux.intel.com,protonmail.com,vger.kernel.org];
 	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -173,153 +171,212 @@ X-Spamd-Result: default: False [1.84 / 15.00];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:dkim]
-X-Rspamd-Queue-Id: E030136CAC7
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email,renesas.com:email]
+X-Rspamd-Queue-Id: 2166136DF13
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Hi Jacopo,
-Thanks for your patch.
 
-On Tue, Mar 31, 2026 at 12:27:42PM +0200, Jacopo Mondi wrote:
-> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+On Tue, Mar 31, 2026 at 12:27:43PM +0200, Jacopo Mondi wrote:
+> From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 > 
-> The current implementation of rzg2l_cru_fill_hw_slot() results in the
-> artificial loss of frames. At present whenever a frame-complete IRQ
-> is received the driver fills the hardware slot that was just written
-> to with the address of the next buffer in the driver's queue. If the
-> queue is empty, that hardware slot's address is set to the address of
-> the scratch buffer to enable the capture loop to keep running. There
-> is a minimum of a two-frame delay before that slot will be written to
-> however, and in the intervening period userspace may queue more
-> buffers which could be used.
+> The cru driver uses a 'state' variable for debugging purpose in the
+> interrupt handler. The state is used to detect invalid usage conditions
+> that are not meant to happen unless the driver has a bug in handling the
+> stop and start conditions.
 > 
-> To resolve the issue rework rzg2l_cru_fill_hw_slot() so that it
-> iteratively fills all slots from the queue which currently do not
-> have a buffer assigned, until the queue is empty. The scratch
-> buffer is only resorted to in the event that the queue is empty and
-> the next slot that will be written to does not already have a buffer
-> assigned.
+> Remove the state variable which seems to be a debugging leftover.
 > 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
-Tested on RZ/G3E + OV5645 image sensor.
 Tested-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
 Kind Regards,
 Tommaso
 
-> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 > ---
->  .../media/platform/renesas/rzg2l-cru/rzg2l-video.c | 64 +++++++++++++---------
->  1 file changed, 37 insertions(+), 27 deletions(-)
+>  .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h   | 15 -----
+>  .../media/platform/renesas/rzg2l-cru/rzg2l-video.c | 71 +---------------------
+>  2 files changed, 3 insertions(+), 83 deletions(-)
 > 
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> index 25f17069585c..5bf334e173d2 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> @@ -38,20 +38,6 @@ enum rzg2l_csi2_pads {
+>  
+>  struct rzg2l_cru_dev;
+>  
+> -/**
+> - * enum rzg2l_cru_dma_state - DMA states
+> - * @RZG2L_CRU_DMA_STOPPED:   No operation in progress
+> - * @RZG2L_CRU_DMA_STARTING:  Capture starting up
+> - * @RZG2L_CRU_DMA_RUNNING:   Operation in progress have buffers
+> - * @RZG2L_CRU_DMA_STOPPING:  Stopping operation
+> - */
+> -enum rzg2l_cru_dma_state {
+> -	RZG2L_CRU_DMA_STOPPED = 0,
+> -	RZG2L_CRU_DMA_STARTING,
+> -	RZG2L_CRU_DMA_RUNNING,
+> -	RZG2L_CRU_DMA_STOPPING,
+> -};
+> -
+>  struct rzg2l_cru_csi {
+>  	struct v4l2_async_connection *asd;
+>  	struct v4l2_subdev *subdev;
+> @@ -174,7 +160,6 @@ struct rzg2l_cru_dev {
+>  	struct vb2_v4l2_buffer *queue_buf[RZG2L_CRU_HW_BUFFER_MAX];
+>  	struct list_head buf_list;
+>  	unsigned int sequence;
+> -	enum rzg2l_cru_dma_state state;
+>  
+>  	struct v4l2_pix_format format;
+>  };
 > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index a5197196a408..f061bee51ea8 100644
+> index f061bee51ea8..721057edca6b 100644
 > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
 > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -214,47 +214,52 @@ static void rzg2l_cru_set_slot_addr(struct rzg2l_cru_dev *cru,
->  }
+> @@ -398,8 +398,6 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
+>  	if (icnms)
+>  		dev_err(cru->dev, "Failed stop HW, something is seriously broken\n");
 >  
->  /*
-> - * Moves a buffer from the queue to the HW slot. If no buffer is
-> - * available use the scratch buffer. The scratch buffer is never
-> - * returned to userspace, its only function is to enable the capture
-> - * loop to keep running.
-> + * Move as many buffers as possible from the queue to HW slots If no buffer is
-> + * available use the scratch buffer. The scratch buffer is never returned to
-> + * userspace, its only function is to enable the capture loop to keep running.
-> + *
-> + * @cru: the CRU device
-> + * @slot: the slot that has just completed
->   */
->  static void rzg2l_cru_fill_hw_slot(struct rzg2l_cru_dev *cru, int slot)
->  {
-> -	struct vb2_v4l2_buffer *vbuf;
->  	struct rzg2l_cru_buffer *buf;
-> +	struct vb2_v4l2_buffer *vbuf;
-> +	unsigned int next_slot;
->  	dma_addr_t phys_addr;
->  
-> -	/* A already populated slot shall never be overwritten. */
-> -	if (WARN_ON(cru->queue_buf[slot]))
-> -		return;
-> +	lockdep_assert_held(&cru->hw_lock);
->  
-> -	dev_dbg(cru->dev, "Filling HW slot: %d\n", slot);
-> +	/* Find the next slot which hasn't a valid address programmed. */
-> +	for_each_cru_slot_from(cru, next_slot, slot) {
-> +		if (cru->queue_buf[next_slot])
-> +			continue;
->  
-> -	guard(spinlock)(&cru->qlock);
-> +		scoped_guard(spinlock_irqsave, &cru->qlock) {
-> +			buf = list_first_entry_or_null(&cru->buf_list,
-> +						       struct rzg2l_cru_buffer, list);
-> +			if (buf)
-> +				list_del_init(&buf->list);
-> +		}
->  
-> -	if (list_empty(&cru->buf_list)) {
-> -		cru->queue_buf[slot] = NULL;
-> -		phys_addr = cru->scratch_phys;
-> -	} else {
-> -		/* Keep track of buffer we give to HW */
-> -		buf = list_entry(cru->buf_list.next,
-> -				 struct rzg2l_cru_buffer, list);
-> -		vbuf = &buf->vb;
-> -		list_del_init(to_buf_list(vbuf));
-> -		cru->queue_buf[slot] = vbuf;
-> +		if (!buf) {
-> +			/* Direct frames to the scratch buffer. */
-> +			phys_addr = cru->scratch_phys;
-> +			cru->queue_buf[next_slot] = NULL;
-> +			rzg2l_cru_set_slot_addr(cru, next_slot, phys_addr);
-> +			return;
-> +		}
->  
-> -		/* Setup DMA */
-> +		vbuf = &buf->vb;
-> +		cru->queue_buf[next_slot] = vbuf;
->  		phys_addr = vb2_dma_contig_plane_dma_addr(&vbuf->vb2_buf, 0);
-> +		rzg2l_cru_set_slot_addr(cru, next_slot, phys_addr);
->  	}
+> -	cru->state = RZG2L_CRU_DMA_STOPPED;
 > -
-> -	rzg2l_cru_set_slot_addr(cru, slot, phys_addr);
+>  	/* Wait until the FIFO becomes empty */
+>  	for (retries = 5; retries > 0; retries--) {
+>  		if (cru->info->fifo_empty(cru))
+> @@ -587,8 +585,6 @@ static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
+>  
+>  static void rzg2l_cru_stop_streaming(struct rzg2l_cru_dev *cru)
+>  {
+> -	cru->state = RZG2L_CRU_DMA_STOPPING;
+> -
+>  	rzg2l_cru_set_stream(cru, 0);
 >  }
 >  
->  static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
->  {
->  	const struct rzg2l_cru_info *info = cru->info;
-> -	unsigned int slot;
->  	u32 amnaxiattr;
+> @@ -600,8 +596,6 @@ irqreturn_t rzg2l_cru_irq(int irq, void *data)
+>  	u32 amnmbs;
+>  	int slot;
 >  
->  	/*
-> @@ -263,8 +268,14 @@ static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
->  	 */
->  	rzg2l_cru_write(cru, AMnMBVALID, AMnMBVALID_MBVALID(cru->num_buf - 1));
+> -	guard(spinlock_irqsave)(&cru->hw_lock);
+> -
+>  	irq_status = rzg2l_cru_read(cru, CRUnINTS);
+>  	if (!irq_status)
+>  		return IRQ_RETVAL(handled);
+> @@ -610,20 +604,9 @@ irqreturn_t rzg2l_cru_irq(int irq, void *data)
 >  
-> -	for (slot = 0; slot < cru->num_buf; slot++)
-> -		rzg2l_cru_fill_hw_slot(cru, slot);
-> +	/*
-> +	 * Program slot#0 with the first available buffer, if any. Pass to the
-> +	 * function 'num_buf - 1' as rzg2l_cru_fill_hw_slot() calculates which
-> +	 * is the next slot to program.
-> +	 */
-> +	scoped_guard(spinlock_irq, &cru->hw_lock) {
-> +		rzg2l_cru_fill_hw_slot(cru, cru->num_buf - 1);
-> +	}
+>  	rzg2l_cru_write(cru, CRUnINTS, rzg2l_cru_read(cru, CRUnINTS));
 >  
->  	if (info->has_stride) {
->  		u32 stride = cru->format.bytesperline;
-> @@ -695,7 +706,6 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
+> -	/* Nothing to do if capture status is 'RZG2L_CRU_DMA_STOPPED' */
+> -	if (cru->state == RZG2L_CRU_DMA_STOPPED) {
+> -		dev_dbg(cru->dev, "IRQ while state stopped\n");
+> -		return IRQ_RETVAL(handled);
+> -	}
+> -
+> -	/* Increase stop retries if capture status is 'RZG2L_CRU_DMA_STOPPING' */
+> -	if (cru->state == RZG2L_CRU_DMA_STOPPING) {
+> -		if (irq_status & CRUnINTS_SFS)
+> -			dev_dbg(cru->dev, "IRQ while state stopping\n");
+> -		return IRQ_RETVAL(handled);
+> -	}
+> +	/* Calculate slot and prepare for new capture. */
+> +	guard(spinlock_irqsave)(&cru->hw_lock);
+>  
+> -	/* Prepare for capture and update state */
+>  	amnmbs = rzg2l_cru_read(cru, AMnMBS);
+>  	cru->active_slot = amnmbs & AMnMBS_MBSTS;
+>  
+> @@ -636,20 +619,6 @@ irqreturn_t rzg2l_cru_irq(int irq, void *data)
+>  	else
+>  		slot = cru->active_slot - 1;
+>  
+> -	/*
+> -	 * To hand buffers back in a known order to userspace start
+> -	 * to capture first from slot 0.
+> -	 */
+> -	if (cru->state == RZG2L_CRU_DMA_STARTING) {
+> -		if (slot != 0) {
+> -			dev_dbg(cru->dev, "Starting sync slot: %d\n", slot);
+> -			return IRQ_RETVAL(handled);
+> -		}
+> -
+> -		dev_dbg(cru->dev, "Capture start synced!\n");
+> -		cru->state = RZG2L_CRU_DMA_RUNNING;
+> -	}
+> -
+>  	/* Capture frame */
+>  	if (cru->queue_buf[slot]) {
+>  		cru->queue_buf[slot]->field = cru->format.field;
+> @@ -677,49 +646,18 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
+>  	u32 irq_status;
+>  	int slot;
+>  
+> -	guard(spinlock)(&cru->hw_lock);
+> -
+>  	irq_status = rzg2l_cru_read(cru, CRUnINTS2);
+>  	if (!irq_status)
+>  		return IRQ_NONE;
+>  
+> -	dev_dbg(cru->dev, "CRUnINTS2 0x%x\n", irq_status);
+> -
+>  	rzg2l_cru_write(cru, CRUnINTS2, rzg2l_cru_read(cru, CRUnINTS2));
+>  
+> -	/* Nothing to do if capture status is 'RZG2L_CRU_DMA_STOPPED' */
+> -	if (cru->state == RZG2L_CRU_DMA_STOPPED) {
+> -		dev_dbg(cru->dev, "IRQ while state stopped\n");
+> -		return IRQ_HANDLED;
+> -	}
+> -
+> -	if (cru->state == RZG2L_CRU_DMA_STOPPING) {
+> -		if (irq_status & CRUnINTS2_FExS(0) ||
+> -		    irq_status & CRUnINTS2_FExS(1) ||
+> -		    irq_status & CRUnINTS2_FExS(2) ||
+> -		    irq_status & CRUnINTS2_FExS(3))
+> -			dev_dbg(cru->dev, "IRQ while state stopping\n");
+> -		return IRQ_HANDLED;
+> -	}
+> -
+> +	guard(spinlock)(&cru->hw_lock);
+>  	slot = cru->active_slot;
 >  	cru->active_slot = rzg2l_cru_slot_next(cru, cru->active_slot);
 >  
 >  	dev_dbg(cru->dev, "Current written slot: %d\n", slot);
-> -	cru->buf_addr[slot] = 0;
 >  
->  	/*
->  	 * To hand buffers back in a known order to userspace start
+> -	/*
+> -	 * To hand buffers back in a known order to userspace start
+> -	 * to capture first from slot 0.
+> -	 */
+> -	if (cru->state == RZG2L_CRU_DMA_STARTING) {
+> -		if (slot != 0) {
+> -			dev_dbg(cru->dev, "Starting sync slot: %d\n", slot);
+> -			return IRQ_HANDLED;
+> -		}
+> -		dev_dbg(cru->dev, "Capture start synced!\n");
+> -		cru->state = RZG2L_CRU_DMA_RUNNING;
+> -	}
+> -
+>  	/* Capture frame */
+>  	if (cru->queue_buf[slot]) {
+>  		struct vb2_v4l2_buffer *buf = cru->queue_buf[slot];
+> @@ -788,7 +726,6 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
+>  		goto out;
+>  	}
+>  
+> -	cru->state = RZG2L_CRU_DMA_STARTING;
+>  	dev_dbg(cru->dev, "Starting to capture\n");
+>  	return 0;
+>  
+> @@ -861,8 +798,6 @@ int rzg2l_cru_dma_register(struct rzg2l_cru_dev *cru)
+>  	spin_lock_init(&cru->hw_lock);
+>  	spin_lock_init(&cru->qlock);
+>  
+> -	cru->state = RZG2L_CRU_DMA_STOPPED;
+> -
+>  	for (i = 0; i < RZG2L_CRU_HW_BUFFER_MAX; i++)
+>  		cru->queue_buf[i] = NULL;
+>  
 > 
 > -- 
 > 2.53.0
