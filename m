@@ -1,52 +1,53 @@
-Return-Path: <linux-media+bounces-57777-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57778-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gMtgNZ+ky2mhJwYAu9opvQ
-	(envelope-from <linux-media+bounces-57777-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 12:40:31 +0200
+	id gC6jCC6ky2mTJwYAu9opvQ
+	(envelope-from <linux-media+bounces-57778-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 12:38:38 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E4B36829A
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 12:40:31 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C02E3681E4
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 12:38:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0AABC30D0CF9
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 10:30:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 13ADB3063D45
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 10:30:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B36C3F87E7;
-	Tue, 31 Mar 2026 10:28:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 766933F8DF3;
+	Tue, 31 Mar 2026 10:28:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="beRnUmXf"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uGHuLUkK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8F53F7AA9;
-	Tue, 31 Mar 2026 10:28:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B354F3F87FA;
+	Tue, 31 Mar 2026 10:28:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774952897; cv=none; b=RGEE0q5U6JQRWBtk9Z36rZLp8dk7yJp3DsovLSF1VVSjFZ+/YxqNi2gpjxw1VojuFSpodFy7vGDh6rrvDT7PVV7Uu7MC+l74zmKLa2y3J4q0qJSAClubgo9M+nv1TbRduh0Dn3eQqCOm1n88AXp8dISEcZoLKh1U5xUb3vEmax0=
+	t=1774952899; cv=none; b=LLN8usN+Wj5u0YgayuetVTkC98+O+yrC6uyNW1Qefj64/EFdRQEY6YIDsi7WwW48+X6vQQYq1MmlnoVBX5K4qB1Nhf7UpCx/8oej3tjbDlZLhcsCOe7w9ahqB34m+LKezTXFIDuMbSKtTAi2LufRxl0uSb040gCcCa+LOZIOxdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774952897; c=relaxed/simple;
-	bh=87fafp0Vs8fZ27geephEAz0Fiq02SSizNzQI7pKZJgY=;
+	s=arc-20240116; t=1774952899; c=relaxed/simple;
+	bh=B7Z0qz1KWQYocWsu5+Ifr/zBqKWMWpNbiEUfrqDJ1y0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZlRoU4WN/2+ojnvJycxK7F1PBD/ERzje3kh4SiC8YgM4o8+WM1zSLWDzlO5/uLSLKwjN9kFSJNE33VqU2aNU46btrSgv9LQCb+s5Cgr78xSmYm2bPnGaaKM5ptJNueSK7EAwZ7Ax2U+8eNJ2uAp1l8PuASjNMZ6vscvAqFKn9m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=beRnUmXf; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=HMWij8hgVOHJOCaNGCefxWkQJyxa2jX0Wq0pknzMEIMlEGz4fX7HGrtpdyGR9CfAvh//eOKih4SCnsFAWcjCo504qhRcV902eiGXufa4Tn/QHdDC/f/JsnihTWVo4oufkw3AHYDO2/HH/kvlRpk6VDjfshJsrWqbCSXx3m4YXfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uGHuLUkK; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [100.93.44.16] (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D66FE1E29;
-	Tue, 31 Mar 2026 12:26:41 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86FEC1E5A;
+	Tue, 31 Mar 2026 12:26:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1774952802;
-	bh=87fafp0Vs8fZ27geephEAz0Fiq02SSizNzQI7pKZJgY=;
+	s=mail; t=1774952803;
+	bh=B7Z0qz1KWQYocWsu5+Ifr/zBqKWMWpNbiEUfrqDJ1y0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=beRnUmXfQf+ciqcEmkRimyoIg+QLIF2Hus7c/q1pQ3K7C2CC8TrJcQsNU7mVy8X93
-	 lp7h/DJLsw6iAyADSzXenoZ60A41PAswaUJRPpAx9+Tas6b99ce6AX+DHj48ID7uwW
-	 tgPHEHTVJDlKRgoAYwqAcZpaM0FsFFp8yHN4ILZ4=
+	b=uGHuLUkKxTsTnGtpiiYF1BWIvURXijGXYVPjpChmh3J2a4oybz+s26EIj6RGUI9qH
+	 Q4zIj53OdP2fcqKtH/juUbN0+o6ZjtDuH1Kg5xQ0zd4qbiOR7RfzlZvWaY1qNrc5Uo
+	 SBAVvZL/iXoDwX/k705wYK2KlSDiAjmLKkfPzVcc=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Tue, 31 Mar 2026 12:27:44 +0200
-Subject: [PATCH v2 14/15] media: rzg2l-cru: Remove debug printouts from irq
+Date: Tue, 31 Mar 2026 12:27:45 +0200
+Subject: [PATCH v2 15/15] media: rzg2l-cru: Simplify irq return value
+ handling
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260331-b4-cru-rework-v2-14-f94b238b35d4@ideasonboard.com>
+Message-Id: <20260331-b4-cru-rework-v2-15-f94b238b35d4@ideasonboard.com>
 References: <20260331-b4-cru-rework-v2-0-f94b238b35d4@ideasonboard.com>
 In-Reply-To: <20260331-b4-cru-rework-v2-0-f94b238b35d4@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -68,23 +69,24 @@ Cc: Daniel Scally <dan.scally@ideasonboard.com>,
  =?utf-8?q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>, 
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1900;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1486;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=87fafp0Vs8fZ27geephEAz0Fiq02SSizNzQI7pKZJgY=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBpy6GpvldPIgS+xTJ7wqWEQkM3y7iVVzhcFovSB
- pzItrRfu/qJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCacuhqQAKCRByNAaPFqFW
- POKgD/wI1TrMF3NGne+61Fsjm+uF8UrCjBTCaNR6XJQM9E4cILj0Poz26ZFNYW+O/2ftz+n4BVh
- G+2s8EVcRv8wAkCrJq7rtVhqMS0M12fCprXHqAlGH/6up347AYTuv0SQevlS+NLiSKgc7cPTO0t
- +xm6OlPV8mPifU0p9aNhGRHb9EHgKnDVPvaJFEXfxIsBECFqlJJl4dMG+DyIvzvfvsCoB631SpP
- tSWhicn7Jtszv3fEoOTYSH+8ylMN3UIdvocogu4mVT5qm+63UsIIr/EvDbZbzpxv6lVtXJSiRGD
- V+I6E2Dg0A4gzlhGbYyVVNZzVvWvhvF5o3qePxYa4z6iFALVnFlAYLd3fG1Ps5z3sOLy5vCTqQp
- VB2BuFzHeXYe+z3CfbpUgZvU+sq3EHqz9J+wOSqO6Lo0BdRZiLOmwB97LcekEnEAxmzMeELLd8m
- hWMmQAdpj+1f07yweUccMkyhk90zhLO4rpee8JX5KFKKijxY99cZP86XmWXnKS9pSOUXsJOXZki
- yiIKPU6L4shzNA6EUjmpPi7pGVE1gdnlHUGXJBwKZORB4Mw8gtA4OSHh29dObNmBAfo0ep0Zddz
- P2n1QlnSMV4Ny7Wd/MvAUwj/ByATsCl9gW3Sg/SvDo+KCIU1gRnPk9jEaOT9F+QBEq3sRP9CDqr
- WLezk9D2CBD3TaQ==
+ bh=gRFkpLLIbDTTNqHG9UI0gnxHk9cmv8yF4XICpOXdbIg=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBpy6GptX0NXeWwkVsBdoPnNxbbQihNQVJ2k/bNd
+ ocdYo15KGaJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCacuhqQAKCRByNAaPFqFW
+ PHF9D/9EG/1bQHgZrFVDNvKZA5OJlGK/QvlYAQziYV+ZWqXQ5QYLObYxht8QPLC4Pd6flhQjG/e
+ cJxcNXfm9fHZv5tkOzZG9GaFgKR8sh6TbhUBYrB6vZyPk1ICMpB44WNRHDNhRSawwCl7UditUW5
+ S3ld2ExZW5oEqNO37TFmsGWF6VnTN06PVBqbvl3W0f2WPJFZMgAZ+tu1KvY3TrTLZtawuj50xgc
+ N8TUGbMLqS6m8f0kCkcAa9yZjw/wB9Wtjfv+QNV8nhp4vClw9+dJsq4GUVwCo5zKBNwbYsLMHxR
+ FkryAnKi70dfvrKO+M64BxWrg9LaqrOUiONuvIJV4opes8zFtIxw8i6Y7Do7JeARAHS6bJ4bTYm
+ o8h4dqq6tdrFo545P7O1U+dylKNTWX1PglnhsTSPgpsgatoeJ7lHNWC3xcDtZKG+3kmdHReZacs
+ rzg2rhKDnZhVu02vpQYw/wBpAyQefOCKki4fdgEoIW0ImcLLFZfm226EBPTXBTJFs0Yg6rsAEzb
+ Yv1ep0O5oGFUfhwT1N8iy1uNspnWCsc++ALE594DgHNQP5KzkScbMTbKn/cIHiWbGm7GHSVg82r
+ akmmM70EHnVKLXyeR8724T8AFt/bL92otYPSOZWtpUZ/Kq6+7sp9ijL0JbRPsJJqJsNMNTsK5ks
+ B83MFJxzcL2i0Mw==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -92,16 +94,16 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57777-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57778-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_CC(0.00)[ideasonboard.com,protonmail.com,bp.renesas.com,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -113,59 +115,57 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 32E4B36829A
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
+X-Rspamd-Queue-Id: 6C02E3681E4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Using dev_dbg() in irq handlers to debug per-frame events is marginally
-useful and possibly not the best idea, as using printk-based helpers
-introduce latencies that impact the drivers operations.
+From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
-If any tracing/debugging has to be performed around frame events
-in interrupt handlers, the tracing subsystem offers better alternatives.
+The rzg2l_cru_irq() irq handler uses a local variable to store the
+handler return value.
 
-Drop dev_dgb() calls from the CRU interrupt handlers.
+Simplify it by using IRQ_NONE and IRQ_HANDLED.
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Reviewed-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 ---
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index 721057edca6b..e2073cc1afc6 100644
+index e2073cc1afc6..3390e08cd868 100644
 --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
 +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -627,9 +627,6 @@ irqreturn_t rzg2l_cru_irq(int irq, void *data)
- 		vb2_buffer_done(&cru->queue_buf[slot]->vb2_buf,
- 				VB2_BUF_STATE_DONE);
- 		cru->queue_buf[slot] = NULL;
--	} else {
--		/* Scratch buffer was used, dropping frame. */
--		dev_dbg(cru->dev, "Dropping frame %u\n", cru->sequence);
- 	}
+@@ -591,16 +591,13 @@ static void rzg2l_cru_stop_streaming(struct rzg2l_cru_dev *cru)
+ irqreturn_t rzg2l_cru_irq(int irq, void *data)
+ {
+ 	struct rzg2l_cru_dev *cru = data;
+-	unsigned int handled = 0;
+ 	u32 irq_status;
+ 	u32 amnmbs;
+ 	int slot;
  
- 	cru->sequence++;
-@@ -656,8 +653,6 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
- 	slot = cru->active_slot;
- 	cru->active_slot = rzg2l_cru_slot_next(cru, cru->active_slot);
- 
--	dev_dbg(cru->dev, "Current written slot: %d\n", slot);
+ 	irq_status = rzg2l_cru_read(cru, CRUnINTS);
+ 	if (!irq_status)
+-		return IRQ_RETVAL(handled);
 -
- 	/* Capture frame */
- 	if (cru->queue_buf[slot]) {
- 		struct vb2_v4l2_buffer *buf = cru->queue_buf[slot];
-@@ -667,9 +662,6 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
- 		buf->vb2_buf.timestamp = ktime_get_ns();
- 		vb2_buffer_done(&buf->vb2_buf, VB2_BUF_STATE_DONE);
- 		cru->queue_buf[slot] = NULL;
--	} else {
--		/* Scratch buffer was used, dropping frame. */
--		dev_dbg(cru->dev, "Dropping frame %u\n", cru->sequence);
- 	}
+-	handled = 1;
++		return IRQ_NONE;
  
- 	cru->sequence++;
+ 	rzg2l_cru_write(cru, CRUnINTS, rzg2l_cru_read(cru, CRUnINTS));
+ 
+@@ -634,7 +631,7 @@ irqreturn_t rzg2l_cru_irq(int irq, void *data)
+ 	/* Prepare for next frame */
+ 	rzg2l_cru_fill_hw_slot(cru, slot);
+ 
+-	return IRQ_RETVAL(handled);
++	return IRQ_HANDLED;
+ }
+ 
+ irqreturn_t rzg3e_cru_irq(int irq, void *data)
 
 -- 
 2.53.0
