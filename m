@@ -1,206 +1,311 @@
-Return-Path: <linux-media+bounces-57743-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57744-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sCk6D2eFy2l4IgYAu9opvQ
-	(envelope-from <linux-media+bounces-57743-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 10:27:19 +0200
+	id qH4VFP+Gy2kuIwYAu9opvQ
+	(envelope-from <linux-media+bounces-57744-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 10:34:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1580366131
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 10:27:18 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4CBB366342
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 10:34:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1A99430A5C09
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 08:20:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6B9E1302EAAA
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 08:30:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2FDD3D75D5;
-	Tue, 31 Mar 2026 08:20:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3212C3E023E;
+	Tue, 31 Mar 2026 08:30:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Wk85xRbJ";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Q+zvWklN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ORhvAmSD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9872E371888
-	for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 08:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774945235; cv=none; b=mWwo3tY1lFUQixuOK6zTQdVa8ucKk9uU5Xazeu/LQVZ6FImqW9clQc0/yoz41+lxrqfjy67yTEYO1ZsZHPD5HhqfdOEOEhbQf4l+VRGjIrL+oia3c2sZPN+O0DekomPJLu27x/VvnUXqjOKL+iwWAMv7gbwIWBKYzvxaF9BAT9o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774945235; c=relaxed/simple;
-	bh=pIn7DVo83rKFtZQ4lodJgGsSWTKSw7e3XyL9bBLwCOI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p6TlXaohaAznCJD+MThsbvUJ8+Pz8u3qrW4yVhBIgTjb5sTN18or6CQ+pkZs7IZ1EzuRX6K3TvveRNybJot3U5DBXgVss4UzfpZhpuAN7/6+ggWHkT6upW60dDsN70ZsomPZ16d/3OYtJBYbkBsEDoPyR257ZSRo++nSnP9a7eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Wk85xRbJ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Q+zvWklN; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62V6A6361090724
-	for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 08:20:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	BG1I/liNZmNcrk2tkigeYR5Je0NJszVTJPmGzNZ557U=; b=Wk85xRbJ/ntis3Z+
-	Dhhc9zf1ImvmsxEsvaPG1qqvEceuza5QEtVsZTpleMgA2EIbh/4qzqYUTWNDyMpB
-	5RuuZe1ObVti7NPPMc6GMdbK/OZmpv4foFfYmjK5wKfh782JnVHwkkD0yf8TUr1c
-	Y8DzGb5XoJM5x3ejmCUy8HTdwPZNuYYai5La0njIEUZYhczQRXtMnOxgG1qDjkqu
-	RLBc4A6afMz2T2Yp0paWi489yCWGs35hf61Tf4KLCWMBXl06wE0Mvjy7oW7OAAoU
-	DTXikLj7F05QnSdgmQX9vtcSqY1vztUnUUpzQr3k3seTfOyHCGietHg4TermHOSp
-	k8xnmQ==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d7trd3qmy-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 08:20:31 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-35daf3d3030so1629094a91.1
-        for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 01:20:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298F1175A71
+	for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 08:30:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774945832; cv=pass; b=S4DLJybiNXG20I/QBguW+64DJpzC3WBxK3haWD3xI6C/s1BKcXAoZ1vV1OE426ykYVBUdoFXe3w7EQ0Mp4wKkm/ApiywLrvYrvWPsyNrRdjntSShhGpI1wT8ydwhkt0T9l3vZTFa1meTuOPX+HYnXR4axAzFv9916+odvCfu0zE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774945832; c=relaxed/simple;
+	bh=G1Pwokd+IsNEuDrIXMcYN+6Kadk3HgIFlmoAcABbAZs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Vj2ZEILEg5yg6VZlZpwCvD11Mdnhxm/5TGWa5VVrIW9hJV9iiSu/O4kHEGOIZRC/35wqGcCy3AkcXEIG7+i5yiz77O0rTB1CPbQLxLuED5QN5mONRZl9mov1ubTmYXJGykA9tDXkm/Z8Xx17fOQYu45MYY0QM9OHYHYO/QvO/ZQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ORhvAmSD; arc=pass smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43d03db7f87so884331f8f.3
+        for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 01:30:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774945829; cv=none;
+        d=google.com; s=arc-20240605;
+        b=K2Wu+EWI5RsWjFJL4JBotyFrS1LlO02m24+x70og8Ie4pQl9Q3r6YTNeml43Na/vLx
+         jaB67EPRtouKmakmzT33dQWVnrVn++bbeU8M+QdiciUNwKh71sPZx5MF9W2EkN/8LQLc
+         IF3oYbEy6mVXfBAIeXZqsLwjfycfF3v4AbB106kA8GfIKnv3qBbI53VZedKcKXrhOcYt
+         DU622oNPB2i5kWNn537VUbh+srO0gMAXb7Fld9vFVIysgbpabTs2ph6xG2HihMIKE3L7
+         rnbbdoKasl9RiC7xP0ICmSHW9MsF02+sTJlybh/CXnXshCq5PlhObDULW2+F9HnqdGlj
+         tvYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Zl9n5j1xbJGPBg3cLJnWvIHK+QEejvKcNtwZ1exKM40=;
+        fh=R5Lu2IzUs77HU0u0fupsNOwmIwQM4gOx3fthnQPkfng=;
+        b=UCLz2bwoFQqSXQCAUfFNWW7BSRP8IFOX8wyzjCqoO88v8LJo4FTer8aT/LMXcSqiOF
+         N8/h71cDDfEmwHEBYLDyUhgZgYhsJoYy1tUzesZe/hNU/YlD2a7jRPhmGj+9BVYLWsfh
+         BJTT7VFCcBMgavP0ASFzLhhz2HHCS2NAZvHW3EXMUsX4JlyKFinImOOJeg5bRSG1xXmm
+         LjPp+VaXBBX2WifIgIoGclno31zn9Ao5UjXxLYCNtZKJWHZa3RFUE7E4VZDJC52iI09d
+         nJMGcgNd5NL+fm+judHfJCygdlFjOLCjg0RhtBfCFPhLcvnQqB/m5HvTe3dYM42jRZjR
+         TaLg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1774945231; x=1775550031; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BG1I/liNZmNcrk2tkigeYR5Je0NJszVTJPmGzNZ557U=;
-        b=Q+zvWklNYPcunN46OkLuUblcNtykZyWpPRMS2lzbZqE7DQcpWB2ZIWehsZfrOeIbCF
-         kiEOF6nX3vT6+6i++luREMKynilzkLC+PBOUzyVg7bxBKkvWzUxI7v4aJkm/MT8CaARk
-         wyr7hWyxFTP7fTKY4zVrw9ZKFIbRif7//cfE0ax1gURaDEjMMO06vYFdK/yQE16w9aP4
-         6MpM3selLekny7irmPou4aNnOujzyriqmX/cAFOoDo+w92QTj7iVyYpEz2v4VZf27JSO
-         Wc9W0KP3ra51XQzOCUEKpxScXce/xTVx9Hrn/P2btUKBPoPd8HNvavGKHBdkQ4TgaZf4
-         UmIA==
+        d=gmail.com; s=20251104; t=1774945829; x=1775550629; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zl9n5j1xbJGPBg3cLJnWvIHK+QEejvKcNtwZ1exKM40=;
+        b=ORhvAmSDeXb6b51m+YynU6VOYl3itU8AeBxN5/YOVgoRmLbgt/KGrmzdcsWFR92ro7
+         p5BQNrk6Q76hbQSOc+4ARJqlMaojY+C6uMXjMpgY7hK74dFej92QKHj9M+O2N06pY+yC
+         QtMUJnqH0UaQuexpAxDwkNRipmMq4SYcJU9IUmpsUks4WOca7/ygD7kaY40xo+wHl8ss
+         Nns6freUkXMuo3OAAvSQowbFq2OqMx4uIAHxHtgOVaa9wclIR0bcSE4yzY+iH6a5dOJz
+         bZngggTjP6z2e7l8DHmoTKXtZghTt0sRs8MbC+qVAGIETW2OrVeasi3yDGVEyOwkeETK
+         S70Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774945231; x=1775550031;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BG1I/liNZmNcrk2tkigeYR5Je0NJszVTJPmGzNZ557U=;
-        b=IuNG3UXqTm8UupAsZuI7wbwlBXu+dZcq7Jpy9n4kYOkdjntXOYwuWcwPRGC6UPaIkD
-         ZVn6Qq1CSBRVCJHK0ihKP92mJ+N3lcWtlPIWib6g8sdH065IfIabm85XB3GdeNSQRTb/
-         ZB83nU3u2MSjDSOpvPY7BTiBwx1Bw26gsrKYoWJBs1uTh9YleqOcNrZbVrVYBkxQwGw3
-         JKviV1MyFJUlmkZx1O9FHtv30kW/XPxPYHjv05yHcqEtHfwfQjeX1UqRudU9dNJznZC0
-         sCQAblfeN/E4BJf6sdtuzqvsIoGqS8ywZAyHW1cPkxwFEwPbR66uCMbIBWeMKm5xjc9G
-         ZQYw==
-X-Gm-Message-State: AOJu0YwjgjuNtf8imNeF/epYYt7L/OYbRnRXGeJQWw/OyE1BzyFOrlVc
-	BKLwgSx4GmhH9ruWTriPtzGSZo4LTYk0bJPMvSkL83GTFmtKK+mhOxjoLIeuy7DrkT9k9j+uNJ7
-	Zcbm9XK4UQZiHIjVyWrPsZnt75ULibjG03ApcBxFlF9Fxs3vNwXl40IZCQ/BLL8cMNw==
-X-Gm-Gg: ATEYQzz0mK3K6Krf2iZF3fvrYYHrh9W5EBX6PGhZhrOp4l+vebxpGq53Sz9qVqRVq+B
-	cgJK3tOuWSk1PUtMmyAqpvT7ayY9OD4HCEca56I+Mp/5m8AO46jN0n9WKpOkhzYn7XGHviDVUEI
-	wZLipkMIvrNN/a0sT/eWsLe25zVTiqRakax4Pni2199Z9n9X2bBgZhi4MqOWgfkSCKSLvYdV4iH
-	yBeGhKf8HECO2N/ETvG+fX3UqrIWQD3g6eB03b4ZPIyzHdA1t4z9VLwXBuYuGT+BNbj99zEim8+
-	INP8bDrXXLrS9YmmtsNxULIB2KVNsBrfyHNaJ1/jXZYUnQCTzbq6KYb9gyfhtanDvCY7qK1N3tD
-	8+vMCWLXtHJBZ3P8h0zHhcKV30UxeFzjyxzoXp3hZ/2hLzvUZxUYWAg==
-X-Received: by 2002:a17:90b:5288:b0:35d:a557:e41 with SMTP id 98e67ed59e1d1-35da5572476mr7580362a91.14.1774945231124;
-        Tue, 31 Mar 2026 01:20:31 -0700 (PDT)
-X-Received: by 2002:a17:90b:5288:b0:35d:a557:e41 with SMTP id 98e67ed59e1d1-35da5572476mr7580341a91.14.1774945230674;
-        Tue, 31 Mar 2026 01:20:30 -0700 (PDT)
-Received: from [10.204.101.77] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35dbe959886sm852242a91.14.2026.03.31.01.20.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Mar 2026 01:20:30 -0700 (PDT)
-Message-ID: <1f2e1608-100d-4a3e-99cf-6a7a6d39fbef@oss.qualcomm.com>
-Date: Tue, 31 Mar 2026 13:50:25 +0530
+        d=1e100.net; s=20251104; t=1774945829; x=1775550629;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Zl9n5j1xbJGPBg3cLJnWvIHK+QEejvKcNtwZ1exKM40=;
+        b=o6+B+H/ccNiCW4fa+MXj3pyrXawwu06wZWTzqqmcH83AiK2cCPeKJb+F1MHC+67joe
+         Rt0SLS5q8N9KkM68wW3YiJu1SzCTaVK6Oj0bvovSeA4FsC4Ai2ptcnQAvgrlb4jSrCW+
+         SF6DAll4PpVGZ8xyHx7gzc+EFgIYioj0uLG6gzrEtzeVFpENATWRHdTPJJSGWGHT0Jrf
+         qmiKR/CyN6wDm71QVL+/GUjyqI4j2k9UxbHiBVv9SYKV35TQoD/O5a6T9INVn22LfbKa
+         3k6InIyC6jcw1W2wQB8rzZ20EGta8tiwt8hlVPOmauZF+89K5Qpai55xIRJO1MnvP3EU
+         BDfA==
+X-Forwarded-Encrypted: i=1; AJvYcCWOAfa5h9ks94hupCxG2yv6WMXCMMLpGl3FQ1JpcXgRjZinqtDQTc/Qeur6dAb9CB/xc+Eb+3nhkabxTA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrJG0Xtub1iMBgH61f0MvYMFnHcgE7U7Fn7qAlALBPz+vK/U86
+	HtgsZys4O7QirAwu/ckfD/I1RSCzvY1ZRcdrN51zu0jBR1914RwHQRQ8XSmYmuQdKszpYb8dGrw
+	oftG3mMEcoCccbu6q4eipm86NgNmYL8M=
+X-Gm-Gg: ATEYQzx+57lXqL8ZGRE/aGFeSfBHoWlnbegUi8N7aOU4mNMgoh1nSscPiQK9o1nhFJd
+	8/HBR7gx+EZaOXjXV4BTUob9zlUmKDPf7n/6P9qTG3+c8TRtdI4tz6rKZ03BclNmg52DVK9MNEZ
+	EG8EHkEfB3qePnAuc6Uyqd5GpuCBqBGxGvjfMu+uZLHoStkUJH+1x9jYcsfdnvZLgnmGBd4doPl
+	+vzg8FcYJqVlFzsLPVURWLU/2uF+4vVPEhW0aOh2indhKOSOsy8Xd/B3/i7mXSaLeCfvm+bpuO7
+	7wS3VuFF8qCYnir4yuYLpVnfpMLzi6x0rDrHixbOMOwnIm7MLiMfukKZg0gVUEPQVncKIQ==
+X-Received: by 2002:a05:6000:2312:b0:43b:851c:4483 with SMTP id
+ ffacd0b85a97d-43b9e9d5ae7mr26547497f8f.4.1774945829317; Tue, 31 Mar 2026
+ 01:30:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] media: iris: Switch to hardware mode after
- firmware boot
-To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil+cisco@kernel.org>,
-        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20260331-kodiak-gen2-support-v3-0-958296fab838@oss.qualcomm.com>
- <20260331-kodiak-gen2-support-v3-1-958296fab838@oss.qualcomm.com>
-Content-Language: en-US
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <20260331-kodiak-gen2-support-v3-1-958296fab838@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: mwWwwOUZ-E--6mYgqcovNjMe8kuiPWYK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzMxMDA3OSBTYWx0ZWRfXyAAldSI1rmaC
- p0Yv003iRgfNTs1a4WMhm09pC7sAyD+hKFp/oovnVWDxR1U+okachPOWaAQ4zJQowfz0ENARSlS
- H002nyWc1EerHPBX5l4wkQ2y5Z2tWUgm+WfwKrued48R5woNCjQKufkkWRcajj2BaxqltFmwhAp
- PWasheBQPyG5hm0/EuoMdXeUWoCvgFNSiSYTeAnj375a3vreOzRCD1zaPEGEMjR9Y1wYfdROphE
- F/TICU9lhWrASIC2gruK98Qr6U9nluwwfADgpEbINdr0pKUEJKm/7+abBO9k90T9VpgnhU1bgDQ
- 7w6K8NCWCjtyldzpPNIDprva37zXHdM06Qqij+oasj1LZo74UMxiE5FrAfYP97U9Kk2VgrP3S4F
- JjlBPu/FpfLZsb/Y3GvoA0BUouQu8C0NVc+MctxmO74EOAJLkdjJYs0lQwnQx5KO9StQUMaZH/g
- osKzwD4E0B65Bq1URHA==
-X-Proofpoint-ORIG-GUID: mwWwwOUZ-E--6mYgqcovNjMe8kuiPWYK
-X-Authority-Analysis: v=2.4 cv=H8/WAuYi c=1 sm=1 tr=0 ts=69cb83cf cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=vonRipBiouzHufA7OUcA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-31_02,2026-03-28_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 bulkscore=0 spamscore=0 lowpriorityscore=0
- clxscore=1015 impostorscore=0 phishscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603310079
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+References: <20260327-b4-cru-rework-v1-0-3b7d0430f538@ideasonboard.com> <20260327-b4-cru-rework-v1-10-3b7d0430f538@ideasonboard.com>
+In-Reply-To: <20260327-b4-cru-rework-v1-10-3b7d0430f538@ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 31 Mar 2026 09:30:02 +0100
+X-Gm-Features: AQROBzBRYH3wkSHEUhOar64wMI5Uen9fBcSn0gLJh07adZPOJDwWUwgMg9xGpF8
+Message-ID: <CA+V-a8vsxUtw4__mrNFWg+BJxKcomzgs4pMwWo=2rhip+zZ2ZA@mail.gmail.com>
+Subject: Re: [PATCH 10/14] media: rzg2l-cru: Manually track active slot number
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+	Daniel Scally <dan.scally@ideasonboard.com>, =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:dkim,qualcomm.com:email];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57743-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-57744-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_CC(0.00)[kernel.org,ideasonboard.com,bp.renesas.com,linux.intel.com,protonmail.com,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: C1580366131
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email]
+X-Rspamd-Queue-Id: C4CBB366342
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Hi Jacopo,
 
+Thank you for the patch.
 
-On 3/31/2026 1:09 PM, Dikshita Agarwal wrote:
-> Currently the driver switches the vcodec GDSC to hardware (HW) mode
-> before firmware load and boot sequence. GDSC can be powered off,
-> keeping in hw mode, thereby the vcodec registers programmed in TrustZone
-> (TZ) carry default (reset) values.
-> Move the transition to HW mode after firmware load and boot sequence.
-> 
-> The bug was exposed with driver configuring different stream ids to
-> different devices via iommu-map. With registers carrying reset values,
-> VPU would not generate desired stream-id, thereby leading to SMMU fault.
-> 
-> The efuse tells us which hardware blocks are actually present. If efuse
-> status is disabled for a block, the driver will skip powering it on or
-> resetting it. otherwise the driver will perform the necessary resets and
-> then switch that block into hardware mode. This makes sure we only touch
-> hardware that really exists and is enabled on the silicon.
-> 
-> Fixes: dde659d37036 ("media: iris: Introduce vpu ops for vpu4 with necessary hooks")
-> Co-developed-by: Vishnu Reddy<busanna.reddy@oss.qualcomm.com>
-> Signed-off-by: Vishnu Reddy<busanna.reddy@oss.qualcomm.com>
-> Signed-off-by: Vikash Garodia<vikash.garodia@oss.qualcomm.com>
-> Signed-off-by: Dikshita Agarwal<dikshita.agarwal@oss.qualcomm.com>
+On Fri, Mar 27, 2026 at 5:27=E2=80=AFPM Jacopo Mondi
+<jacopo.mondi@ideasonboard.com> wrote:
+>
+> From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+>
+> The CRU cycles over the hardware slots where the destination address for
+> the next frame has to be programmed.
+>
+> The RZ/G2L version of the IP has a register that tells which is the
+> last used slot by the hardware but, unfortunately, such register is not
+> available on RZ/G3E and RZ/V2H(P).
+>
+> The driver currently compares the value of the AMnMADRSL/H register
+> which report "the memory address which the current video data was
+> written to" and compares it with the address programmed in the slots.
+>
+> This heuristic requires a bit of book keeping and proper locking. As the
+> driver handles the FrameEnd interrupt, it's way easier to keep track
+> of the slot that has been used by ourselves with a driver variable.
+>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 > ---
+>  .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h   |  7 +++--
+>  .../media/platform/renesas/rzg2l-cru/rzg2l-video.c | 35 ++++------------=
+------
+>  2 files changed, 10 insertions(+), 32 deletions(-)
+>
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drive=
+rs/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> index b46696a0012b..bc66b0c8c15e 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> @@ -108,6 +108,7 @@ struct rzg2l_cru_info {
+>   * @vdev:              V4L2 video device associated with CRU
+>   * @v4l2_dev:          V4L2 device
+>   * @num_buf:           Holds the current number of buffers enabled
+> + *
+stray change.
 
-It is missing the RB tags
+>   * @svc_channel:       SVC0/1/2/3 to use for RZ/G3E
+>   * @notifier:          V4L2 asynchronous subdevs notifier
+>   *
+> @@ -117,9 +118,10 @@ struct rzg2l_cru_info {
+>   * @mdev_lock:         protects the count, notifier and csi members
+>   * @pad:               media pad for the video device entity
+>   *
+> - * @hw_lock:           protects the slot counter, hardware programming o=
+f
+> - *                     slot addresses and the @buf_addr[] list
+> + * @hw_lock:           protects the @active_slot counter, hardware progr=
+amming
+> + *                     of slot addresses and the @buf_addr[] list
+>   * @buf_addr:          Memory addresses where current video data is writ=
+ten
+> + * @active_slot:       The slot in use
+>   *
+>   * @lock:              protects @queue
+>   * @queue:             vb2 buffers queue
+> @@ -160,6 +162,7 @@ struct rzg2l_cru_dev {
+>
+>         spinlock_t hw_lock;
+>         dma_addr_t buf_addr[RZG2L_CRU_HW_BUFFER_DEFAULT];
+> +       unsigned int active_slot;
+>
+>         struct mutex lock;
+>         struct vb2_queue queue;
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/dri=
+vers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index 9406a089ec9f..17e0153052e1 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -637,31 +637,6 @@ irqreturn_t rzg2l_cru_irq(int irq, void *data)
+>         return IRQ_RETVAL(handled);
+>  }
+>
+> -static int rzg3e_cru_get_current_slot(struct rzg2l_cru_dev *cru)
+> -{
+> -       u64 amnmadrs;
+> -       int slot;
+> -
+> -       /*
+> -        * When AMnMADRSL is read, AMnMADRSH of the higher-order
+> -        * address also latches the address.
+> -        *
+> -        * AMnMADRSH must be read after AMnMADRSL has been read.
+> -        */
+> -       amnmadrs =3D rzg2l_cru_read(cru, AMnMADRSL);
+> -       amnmadrs |=3D (u64)rzg2l_cru_read(cru, AMnMADRSH) << 32;
+> -
+> -       /* Ensure amnmadrs is within this buffer range */
+> -       for (slot =3D 0; slot < cru->num_buf; slot++) {
+> -               if (amnmadrs >=3D cru->buf_addr[slot] &&
+> -                   amnmadrs < cru->buf_addr[slot] + cru->format.sizeimag=
+e)
+> -                       return slot;
+> -       }
+> -
+> -       dev_err(cru->dev, "Invalid MB address 0x%llx (out of range)\n", a=
+mnmadrs);
+> -       return -EINVAL;
+> -}
+> -
+>  irqreturn_t rzg3e_cru_irq(int irq, void *data)
+>  {
+>         struct rzg2l_cru_dev *cru =3D data;
+> @@ -693,9 +668,8 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
+>                 return IRQ_HANDLED;
+>         }
+>
+> -       slot =3D rzg3e_cru_get_current_slot(cru);
+> -       if (slot < 0)
+> -               return IRQ_HANDLED;
+> +       slot =3D cru->active_slot;
+> +       cru->active_slot =3D (cru->active_slot + 1) % cru->num_buf;
+>
+>         dev_dbg(cru->dev, "Current written slot: %d\n", slot);
+>         cru->buf_addr[slot] =3D 0;
+> @@ -762,6 +736,9 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_qu=
+eue *vq, unsigned int count
+>                 goto assert_aresetn;
+>         }
+>
+> +       cru->active_slot =3D 0;
+> +       cru->sequence =3D 0;
+> +
+>         /* Allocate scratch buffer */
+>         cru->scratch =3D dma_alloc_coherent(cru->dev, cru->format.sizeima=
+ge,
+>                                           &cru->scratch_phys, GFP_KERNEL)=
+;
+> @@ -772,8 +749,6 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_qu=
+eue *vq, unsigned int count
+>                 goto assert_presetn;
+>         }
+>
+> -       cru->sequence =3D 0;
+> -
+Maybe we can move cru->active_slot assignment here and keep
+cru->sequence assignment as is. With that fixed,
+
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Cheers,
+Prabhakar
+
+>         ret =3D rzg2l_cru_set_stream(cru, 1);
+>         if (ret) {
+>                 return_unused_buffers(cru, VB2_BUF_STATE_QUEUED);
+>
+> --
+> 2.53.0
+>
+>
 
