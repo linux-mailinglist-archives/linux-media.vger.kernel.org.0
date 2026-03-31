@@ -1,64 +1,65 @@
-Return-Path: <linux-media+bounces-57721-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57722-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EOG9Beh3y2k3HwYAu9opvQ
-	(envelope-from <linux-media+bounces-57721-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 09:29:44 +0200
+	id CJq3HgF4y2k3HwYAu9opvQ
+	(envelope-from <linux-media+bounces-57722-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 09:30:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160E63652F4
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 09:29:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A097536530D
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 09:30:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 950AE301370E
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 07:25:05 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 544473022D77
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 07:25:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80D943BE164;
-	Tue, 31 Mar 2026 07:25:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2283D3BFE44;
+	Tue, 31 Mar 2026 07:25:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="UREpwd5G"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="llldHKDD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013061.outbound.protection.outlook.com [40.107.162.61])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013063.outbound.protection.outlook.com [52.101.83.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999983BADB6;
-	Tue, 31 Mar 2026 07:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422263BFE2F;
+	Tue, 31 Mar 2026 07:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.63
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774941901; cv=fail; b=IQbLlye98qFqXLK/pe/ycU+4DiGEadOC0+KLHXmb40wg6RhNi12QxibNonIsOz0gHC6mDE5VMgGuDjk4vOqEFDXQT1Az7aq+/uxGN+NbfWoooxUCaO1KtYT91AC9aAL4brfq3+3704pUI0jHImpLn93Tm1V4oIP/eMqINX6EyYI=
+	t=1774941906; cv=fail; b=jLOszq948zMhSNzDbb4gQ3o2eZk8qYMfWtrt36OCefUEcpcrtqCbk4WhwkYW2LDymKELbkFp8bps526exeFu7dSGFHC0kEdA9CKTeruJow5QAWYp6wuSl+OeOaEfJBlCqtrAR/tuMKi0tWKCmyzDFOc8xRdXG8Y2/Bz2zOwLUoA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774941901; c=relaxed/simple;
-	bh=x7zRWdL2n76ZRmc2XJgHID/RkyDPOpwdsCRAk+lraNQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Xgyye1YWUgB1BWTaTBrNuNWzXlGsNWDB7m86wIn9kGedoOScJyuclWJ54vW8TdgG/NEPZ4Ra7VsogiRhepYc5ztwQGevixaJKwZYF2LYG7lVdqP2hqvw5Jfa+yGkyLXIYCN5HdSZHEhYxBN+rXnTywobUNN+LshR7xUMZAKV1jQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=UREpwd5G; arc=fail smtp.client-ip=40.107.162.61
+	s=arc-20240116; t=1774941906; c=relaxed/simple;
+	bh=dxqwC4iZox6/8g7y9TIXO2niVHVRP5fhMYEMPdNOZGM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZdDyioepu77x19dyFWkIfEnuOv4+9Cwpdw9UOY4kz/hpnIDLR2ZWSBn2azYAnytpC+gMnxpZZ1336fJloXV3i12MLEWsgxcZvdPf/TGRKTL5HSNPYCMqNV3BV/+mEbjKtGJN/5R8HaWaKWO7ubhG5j9wJC6YUH77jx6rd/r+SSk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=llldHKDD; arc=fail smtp.client-ip=52.101.83.63
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yMY933ypeNBCx7kRmrwC7DIf5zf1RbqctskE8caLAWmzI3Gy1PUO8U1OAuZ9wWonBI2IxKUx+tJenwleONGqN8Fm7qKs2TcDALJaKGDnkDSg8uzDuyJIEWUAdfeuk60wHwi6Q4qW6mVF/sGvkcmZRydYj7hz9Wo8PDMhHuWCv/qSvdDLSUJ5HfLDjzsxCr9pryVARA01CIX8kPKviUl5PIM1VXQZxK13yjKn467zmep8WWBF5+zNTHgzHgS7tMmRJKaOVDyGTPfUtsj7o31fdUwQhBybcM/hyOCxB/blO7wiBudDM1Xe6GcivGssjNz5mawUqDXWjlu9zf/wEeYpcQ==
+ b=FyhllBTYsxhpr9Czm0LYiaRJndZTb+iBFEHXEwKMJzijma7tcJ7vA5L0XENMlF8sKvKTbQOpgoeltSeJEswL41iCqNqy1UerDYTo7iv95PnPQQbVSXvuQWod4zzF7reWRbTlco2et7IUTVXOr9jiUZ3qPpJ2cdQwPpqsXjqJROR//Ag7zx9N9pU2FLTdm/PLbcZwJq9FFO8H9QoA8wqH2pnxvAJ16OgfkrGKScJSTip5zelbMToHZSlee92GDF7I0DdnhTzdn8kBy4MAlEx3lMc7ZvuCUJNKgXyqPtYXVWfEAycaJjG7gczM8t5d8MTGz7VUKKqwoHb+5Mxfbv3gng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ojCzOytFjq9FbqhDOY0WTjoDgITSoCxrAc62GoQgR8I=;
- b=tolEptZ/P/6k6Q/3+l6gz4YSFRiHVPygDXVwH27S9EEhhSwaOo8lVXbh2+8EInCg44pAFRL/W+UQG8GsnIn3Nt+zhLP1gfWVAD/b/YIxF0x8/DgKsXeMhua34oinKO993MkpAGMLH40MIdCDaWEPdeu+qNPHbB/Mb+xZj60aBwZwX97q4q1wbrDXB1d8IVlSmaaiuluiTSKrUpUQPAoQ6soV3cRr/QWc4zBzR4H9GfbrUXUFG1YGweSrd/eyXXTUpMDyez2bcQ9UnP8PjG09fFCuboSSYULoAQ0iHuN/xo1dcXM3L0dSPPnwFk0LC/awTAFDVCPzsBXmqfM3hUp7Uw==
+ bh=dWzVJ63pGh3vNJoRsqFe5lreamznhZFozyFzoLtLHWw=;
+ b=aPMcVuYGztUkHD8ChkssuT6mJugS5wSVvrdk2Kj0vtkMVSh3h58vFjhbBIpGfydjb2V5JWbIXPgRn+ml/UL5rnl2+PMwSVySbFSdKGzFcf7SLn8KIVr3WYJk7aPlSjY5fxeVkUkdbTNJqG+TBxFz75gB1UlKQPhNcGLSo+9KB9yPXQhpDg+F9IVkP2szXnrxrX8v3cpOaDMTMbhJi7xbkijN40M85VlaeKB2oR+5a4vBx+Ij51tuaZisWd5gi17rSsn3+9rvPP4wgxIrc4RR6l/vGk1TAZB+u9VcetATadTFISigDcadOf52iZyfAsypElc6CTqt1w7EcIDVxHSYaw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ojCzOytFjq9FbqhDOY0WTjoDgITSoCxrAc62GoQgR8I=;
- b=UREpwd5GFuIk4qV/c/GrPLiRIUV1kTNiVZP2jfGQfNiUCl68U1Jh69r7msnQfg8lGdiE4cjlHAk1dUl28O0XMOhOlqmDDuI5oHl1NaVpkKIdWle+JWGTbVGitBHirGdWMzk2UmaY0fknYTO9uXM7V1C/OKvehVNUqj/gp0tI0AUbKdp3oXXV9fcMdcNermpcijgoCYnQkLOy4Ry0fY4We7O0hnXuWgk54eq5G4IAw+L7WZpyhltGPF8S1a3LGvsl8Z8CiGHGQ4WPSqBuZjz/GGxSgSsff6OYnWfRhPXpnWkLu806BIuyaIi8MIKMGuakkZi8kR8w4L765T/5THJoeg==
+ bh=dWzVJ63pGh3vNJoRsqFe5lreamznhZFozyFzoLtLHWw=;
+ b=llldHKDDsfZ1m0qiRUtE42M5bi8HM87N4yQ/JafpQVegJunTStqzRkHmObaTEULLUGSG8G28mbfivlLbuPZTvkNucLaaaX+jKXTM0WHNeK2ryEKgOjfPANWmY7mGPBVgeM4/TYAEE3Ybp+JwMSVAJ4JEzOEGaO55Ua3PJCMNh6EfInKl0e3vwAmSuoJRvTK9jlvZlbG+3lca7vG2KJ8a3fvp1HP6YInvajynaivwsxGfyoFD0CR6KB+//iCrDCHviZ9Tlz4MwYSfX51qlWo64R4N2Qkr9GVK27uC3qC43Ka1zMzcMO7tukvkSU7KwixVodf9ph5OgpGG0WiJex3oBg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from AM6PR04MB5110.eurprd04.prod.outlook.com (2603:10a6:20b:8::21)
  by DUZPR04MB9968.eurprd04.prod.outlook.com (2603:10a6:10:4d8::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Tue, 31 Mar
- 2026 07:24:56 +0000
+ 2026 07:25:02 +0000
 Received: from AM6PR04MB5110.eurprd04.prod.outlook.com
  ([fe80::2866:93b6:c814:89fc]) by AM6PR04MB5110.eurprd04.prod.outlook.com
  ([fe80::2866:93b6:c814:89fc%5]) with mapi id 15.20.9632.017; Tue, 31 Mar 2026
- 07:24:56 +0000
+ 07:25:01 +0000
 From: ming.qian@oss.nxp.com
 To: linux-media@vger.kernel.org
 Cc: mchehab@kernel.org,
@@ -76,10 +77,12 @@ Cc: mchehab@kernel.org,
 	imx@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [RFC PATCH 0/7] media: amphion: Add DMA memory tracking support
-Date: Tue, 31 Mar 2026 15:23:10 +0800
-Message-ID: <20260331072347.253-1-ming.qian@oss.nxp.com>
+Subject: [RFC PATCH 1/7] media: v4l2-ctrls: Add V4L2_CID_MEMORY_USAGE control
+Date: Tue, 31 Mar 2026 15:23:11 +0800
+Message-ID: <20260331072347.253-2-ming.qian@oss.nxp.com>
 X-Mailer: git-send-email 2.48.1.windows.1
+In-Reply-To: <20260331072347.253-1-ming.qian@oss.nxp.com>
+References: <20260331072347.253-1-ming.qian@oss.nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: MA0P287CA0014.INDP287.PROD.OUTLOOK.COM
@@ -94,58 +97,58 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM6PR04MB5110:EE_|DUZPR04MB9968:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6e8d545a-9681-4421-8fa2-08de8ef69b9f
+X-MS-Office365-Filtering-Correlation-Id: 2776bf93-6e35-4634-ccb2-08de8ef69f1a
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|52116014|19092799006|18002099003|56012099003|38350700014;
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|52116014|19092799006|18002099003|56012099003|22082099003|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	q3wwAd9APEpUxrtJVhM/z4l5G1/Lkf9b5rgNQhhl/3JqkUzxO/sJ8ZHpSpUKfQTHB3Xw4NmgWeHyhMOcywYJR5doii8xEdzhNSdIOKkjXIw+kZybWvSfjKixOhE+majs9t7nLUB3Pn/AL/MmHqMKale71wZA4v41Gla2C44C3D/czNibbmAjfWfJjb6Uadkhw+jggp6i+Mq1GgNeKEDOdLyvBRD+DUGWPoWwHxsJk0CtB6N3tSnKhDdJOW2M2aAWXWQptaangF3vt1jH1BnQgXN2lKC87kdVtJfPYTdK9TtSACzbkVLeSVNzACCweubDf+0iSI+JsYe6P9qSgsdU0S3hIcfgUk5UH6xUL0CIfas+ZWJCtSwfYjbBf6ewp2weGwcFP31VQsosIhXwZlnid32lIfQ14cHBtPCyGWMAsZTYGLNqOe3TFUpUchKj7x2EX5DA52OPN/FXMUjSGWnGXw49mOqXRTideEHGSm6pNf4GcE4hM0HxHJprSTCPRpZIPJpC59e5Pdi5EisC05k1OdfsE3UEVn3WoLXBIhE1W1Tj0r8YabnpCxU9nPOfP1ka3a4FeAg/hWZmN/sHKG4X7rZBVdfezkZpxRRW/4ucWfYkx6Hn1sZaEEe/Be1kmcYL5H1LGi6/NxcOdMnvq4IvXUdjPp8IZjuIcE4QolPH9fQrF8u8YbZTwD1rLISt8hW9PLyKYIFEI7NmZXSW8r6eHNK1XYl2Q4vVYnkHmGsnUGbNUmLgsb++A2XtDp+/Ld4N4eocjXBjS8KRf72slGl9OEM09wXer69HrujdfuivMSY=
+	lGUT0afL/7F/Rh7iabA9zqOS7Rf5GQ/9VsK6UzN4BARpPeYecsDlVaNN9yZ9FzDdSnzTTF/+kmvMrm9hte9AQrHsdIpsY+55YvpPDSV/nFTOJAHL8mpDNtaXNuygl5ZKKI+ighwk5w3LiwmDh8oQ73Ll8oLVuMo65BvngOxPtzTm3QC6XVsTZWZUUkgOcji3nJGrYbVBuSm2Y+leHpytXo/j412FcHYDDYVEReIiJNPd5GB+FKDQtLK7TB4J8T9Sz8D2TIlcV/hKNrbe1yF5gV27Fy9KoPh5kWkMfTs4sgm3sITskP+Omh07RtcyNdKBV+pOPsKRZ/NgR1TNxzc29CIs06il6B+pfRWGyKPSr8vs/TL3jIhnsNSou5AiZ/zxO8bmtT5rYZ3175EBpdoLU+xZm/7+NwWR24zunJv/kie+/Yj/kbKWpJw5o1h9bPjLwcuXgX0uRPS/e6fjI05K23kXmN2zeULypdG6rXeVFGH30dBnp000/xccWRnYBeN9xxc4LG3ryJTTubx8IFaTlJuMVkrtYonWEMAL7aXYIomx9axTdPUuDd+v4mGmBEfG8eXx0FpU6Iwfi4fHfWMjGqUW9iN1kwqnRqC6nLKxH4G6S+nayfHQCIOR54u8wiMHRXBw3v/R9VB7ptNQ3xkgJmbV+Kndr0A0etGeToqOJCMrYLoKvh7ryMeRRAmznL4/VddbHgHmKw4CzsENQ9d7uHuR7rEl7httMhgu3WszXh7r+jayg2AbWUfKL52DTzFYpIIf1mJA/oBp2QGsrMODYDvuHkGxpDw2LfyKBtXiGoA=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB5110.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(52116014)(19092799006)(18002099003)(56012099003)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB5110.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(52116014)(19092799006)(18002099003)(56012099003)(22082099003)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?BKz+AS8lkTfz3V+b/jX1KA0FDT1JSUpgv8uls2bXLFzEnc46FeFdvZ6/JAFD?=
- =?us-ascii?Q?tcBQulpjxRMeAXrJt60XVWHRjA31scOF7+AJdTCOIlhrWGVwhTJK/VESGwmD?=
- =?us-ascii?Q?BpgT2zO47B1T9rH8BPAhCSCzwuZo0rdMqktYUdP7xrKuZeKXBwn0taXVOFiQ?=
- =?us-ascii?Q?TQswBkC8lQ0Ux8t8bCW4PCBEYRrHCxq6vvvd1x2BmW5KOGstLpuI3D0grY4H?=
- =?us-ascii?Q?hwp4tGPUUWz7XN7zifaMkh/jFpOhJqNo/+vJShtGcSce17rqRKsjAzFz3cRx?=
- =?us-ascii?Q?yyD5wuy6DXevdOSdqx0Pq/NN0m6gEcajHJEXQ0ISc4BqMSvhKqs83WvfPfcN?=
- =?us-ascii?Q?v5uqNs7iU8bA0W9omO07OiPI/b/sRxoodBEdQYJp7kQtXVX/3aty0U+bWioZ?=
- =?us-ascii?Q?jVH+EYAoBExzfXmo6NOhAXRVoBSgaWYFF0mDxAXBJb/2iKN/ixFxxPEyeeVd?=
- =?us-ascii?Q?gEN5unodz+nH0aBMQ6iASFspSXtfUCtG0Yc68+vfLLJQQsvytf35OcFf5HVE?=
- =?us-ascii?Q?eONtQsy2UJpkw5/1QDYEG1kK2mtSNA+LZzhFKrPBN6vodtmlnU1tDDdi4qhh?=
- =?us-ascii?Q?+U7XPQSmy5MQY1g4OGTQDRYd6r4s7FIXR9a5TYmtFuHic2apRSbTrsXzPJIr?=
- =?us-ascii?Q?w6PkUwFo2sFY6JTueu1zm2d1YMKC7aNJQ58AYXRzUajWLQzocyLZK275a5/c?=
- =?us-ascii?Q?hOFkmud1gBUHXv+mtrJmF7dhk5holn91+8U7n1EvtzUUneCbPsJhocQ9evcS?=
- =?us-ascii?Q?SCoecOIl2JphNbI6dFX071czkuUD0JT33MRHVLCh4pBxdX+SUSdv+remgRwp?=
- =?us-ascii?Q?XXgmwsiRKZztuq/GcoFbsfm7EBRum2G1Of7CzANSA3OYrZp1unanRQGqmKA6?=
- =?us-ascii?Q?5ZEi9b1KFulXgzUJwy18/mGnAOQ8I9LjF/wGfpyHd+ZSldStK9RFtDPCGkCv?=
- =?us-ascii?Q?J7E+4g/Y7XyO/JLPf+C9zO59bJFiiSv4Hc1vugYKAHlRswV+HWY6V0x9dgce?=
- =?us-ascii?Q?wSNZG3zb1GtVO/rYSVtOzdQYDg8GavdiD/i8ZPGu0Slnc8xQ35Z40fwDK+dw?=
- =?us-ascii?Q?syScp+8JjIukKPn/6DH8AB5LE98ObraMb/68bLj5NHKfPSLJKrq19COLMBCD?=
- =?us-ascii?Q?Jmuqm9AZC9ycndkH/CIA6srOxhY23T+oaGyeuc+d959hJSvfx6LeG1NjG4jP?=
- =?us-ascii?Q?jYeittqcPpupNwmDVG9InCdvIQTRilQfABCGzOkTeGMcQR1L0IdreH3XUMkM?=
- =?us-ascii?Q?404x0dxZvdV4D6eV6kEdJE8+rycv7Bzqb+1Ez9LCQYqhMqjlHtSNG/R09zT5?=
- =?us-ascii?Q?j4L4M6ONW1GtNBWgAwenQV3m79RtfbLJvKcT4bs2i5i5sJikWldKeVfA0URd?=
- =?us-ascii?Q?+llL4Lo/zvokpMGFR4/4fIYKp7ZA1AYahdXsXnlQBBAPVIdVmRNkeVa0hXbQ?=
- =?us-ascii?Q?SmIdBkh8DnFIzId1sMWUpfQGCHOWNxjN75svKO9NBEw+7PIVtJFOhfC+YzZj?=
- =?us-ascii?Q?zEagt57vveQTzUa+N2Kjfx8sqhrzxSuhyZcpdokOVImP5+myjyIYH+9eFSvs?=
- =?us-ascii?Q?uu/Q3lO5cqyvOJQ1eECFI9R2ICY1BbaMv+jKMZmeZPooZJuQ6GdIwtoF8CHx?=
- =?us-ascii?Q?u4yihYy8S5hn+BaPQ71khjrlEMRBK1UJCLvojzYeDwAD+ctFN8e9A6c7fu0T?=
- =?us-ascii?Q?+60073Ke0usfcoeWL/Q286vJkdv+9qxlRBi5mt+v89NrtqNFAPMBnxaediaq?=
- =?us-ascii?Q?VCkR8eKtCw=3D=3D?=
+	=?us-ascii?Q?jxserZ1NssyFoUg3bVnxjg7fBOAJwwa8fTRi4cA/ohkW2uJBidRFxa7Cm/Hj?=
+ =?us-ascii?Q?KcQPUz/6rQUoI3rS1fLUwzxXoAuNStDViT9WufqoBXPn6SZISaAg/+99WazS?=
+ =?us-ascii?Q?TY8Iw/rU3a9Y9osKBVgkUeNCtNfz60Z7oWyPNq/8/dtgfsoSnP2/S5FyXBf0?=
+ =?us-ascii?Q?tQZ/E7/3MapD9tM/ZeitS+G5QJrSKaTAVuP1UdXl6QGlc3u8iSauUHuVY317?=
+ =?us-ascii?Q?mkFJXYtFd8WZF1VosCMUgtDHA+6bdvmhRnHe3vspnfDZPbh2FR3JIlCDQHSi?=
+ =?us-ascii?Q?nNc92BF4F8mtp1dwgJKgr9CXpn2ZB4J2ybHbPc+hxmLc/dihgqAcdtFy2alL?=
+ =?us-ascii?Q?QNCOQGxX9dsicP47/x6WJJPGltNHGdqxDwutbuKSpNAnBkDRK7itSWRKvmQQ?=
+ =?us-ascii?Q?9fXsfPmKLLlBYEZ4yZWPfIuKMdHQU0FnxLG0D37zB3KZ2F094REIVNZORlrQ?=
+ =?us-ascii?Q?2juloSKxugjem07+Ij7G9BaIUGrIsFc9FHSmqOzEyI9nk5Jp5JWXkYk6G4Vz?=
+ =?us-ascii?Q?JxMOLk6Kg5TAo+kybGytqOtOSeG7kLeOFHKry6AtS29rqeA45QqRukyc4yEo?=
+ =?us-ascii?Q?1hzdC/WkipmHuuZlJbbht079bwATpRHjsKvzkZuXYkHtBKUlAONtJN+o+FcK?=
+ =?us-ascii?Q?1XEE1EEKa2JUA/obFeGCPKnnDO7rmMqEwCpmFPzhRtEWx/WNRBvhaRnT0MkK?=
+ =?us-ascii?Q?nIWKghGZDN0zKNwBuYdvkWPMGdgPFGe5lupacTOAOevQzQBCjbWNP+kESsR7?=
+ =?us-ascii?Q?9i3ZeMS0SYA5PevjGXZfGF1kqycwIU67bI/7b6PMzTKNIQmMuUJQHS7Lj5/1?=
+ =?us-ascii?Q?8JRzBRv9eDdYZVTaJHdfKlDHEBzTtXpPdV1/raKnZd5vvKIk+SjgzR1MNqAE?=
+ =?us-ascii?Q?R/HvkyEH5bgzr6sMRI7hVZPMPD6auAZuzltjlbjaRlcHOtkRGvZX56HJPv4T?=
+ =?us-ascii?Q?DGQQQKFB2y12uxstk1mey+9P0Zr0qwtJ1lSoDn/4KITf9Plu2Kdjq+bAFZ+F?=
+ =?us-ascii?Q?IQZxWOrXgszz8vV+D4942P3kWhrOzlmhbCUEqBfc81Q8nyDH/X2m8yn16g68?=
+ =?us-ascii?Q?dlarDJnqy7QzKbzV4K2PauJmvuAPHWyS+4jn3zZFL+gY9PiDvNOKgj0WArMA?=
+ =?us-ascii?Q?vslWGpFa8o2kCIIUqRXMbMXcR4w2QKnzLUNpfPk1IFguPWdQtwaDJmn5xyYk?=
+ =?us-ascii?Q?Gq3qUa4tQ+RwWCx0oiW2aliJxaI/jdMxQwWIfbzZKkZUiO6pcXryaqND3nNt?=
+ =?us-ascii?Q?TgByF1NKhT36oYGzp5qi6W+w5eCoOIEVwIVMLkFgJEAzE41Mv2ePYXACxLgr?=
+ =?us-ascii?Q?VKtBDDYtmsHy9qM+1uyi/Mb8829eL6xl7CpnOmKB8SvC2McqQc5MH6nKC0Mz?=
+ =?us-ascii?Q?kQ3tYhOU5h0ShOzkTDTP9sJbFmANm9MhvmZYrfZaMpfoSUlTP+Yrj6NENXHU?=
+ =?us-ascii?Q?b4kxcWFMNb0QbDKyTbCaxPMC2RrrDcu2OWWpKX9Ks/LgF/r4ygtZDv9S79O0?=
+ =?us-ascii?Q?PxwPrKaIw6Md/ndw2HbIuK8fg3m+YrAqCJ31NqxN0/CNg1Brc3V7BwNiGMfv?=
+ =?us-ascii?Q?VNUSVNxcL5ru9kH52+rcAL0mDv9uc0gLR2DUenPfeBny6nLjV8RXdyEmCfyR?=
+ =?us-ascii?Q?2VtY/xNQdTQ4WlHDELVE8nZZAZWViDRfNI+BnXvNBuOwk3thq+1wBYsVcDyS?=
+ =?us-ascii?Q?zm9/f6WshFNC6xjdQ4s3lBxKLlm+yGGaXVfte8ayrDzqqWMJw7Q4qkgohI9B?=
+ =?us-ascii?Q?084weQnWSA=3D=3D?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e8d545a-9681-4421-8fa2-08de8ef69b9f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2776bf93-6e35-4634-ccb2-08de8ef69f1a
 X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB5110.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 07:24:56.0399
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 07:25:01.8554
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fngj1J3YWi9hcUCiFnxQO1k2hmSRR2WZLZAGgaRNe2uoDQOVfssgzsBRu0th13O/zzAWwTctPN1ucDECGU9Q2Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: IO+rA0r2u3qm46Fq1o6j+RHNoMpWDDxKoj0/0R0Q+uC0MDXrFS6Q4h9zE8y94NvddtHaqUgsVkyXgjqatFvRWg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9968
 X-Spamd-Result: default: False [1.94 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -161,7 +164,7 @@ X-Spamd-Result: default: False [1.94 / 15.00];
 	FREEMAIL_CC(0.00)[kernel.org,xs4all.nl,ndufresne.ca,collabora.com,pengutronix.de,gmail.com,nxp.com,lists.linux.dev,vger.kernel.org,lists.infradead.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57721-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57722-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
 	FROM_NO_DN(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[16];
@@ -174,95 +177,70 @@ X-Spamd-Result: default: False [1.94 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[NXP1.onmicrosoft.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,oss.nxp.com:mid,nxp.com:email]
-X-Rspamd-Queue-Id: 160E63652F4
+X-Rspamd-Queue-Id: A097536530D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Ming Qian <ming.qian@oss.nxp.com>
 
-This series adds DMA memory tracking support to the Amphion VPU driver,
-allowing userspace to monitor memory consumption of codec instances.
+Add a new read-only control V4L2_CID_MEMORY_USAGE that allows
+applications to query the total amount of memory currently used
+by a device instance.
 
-To implement this feature in a reusable way, a new V4L2 memory tracking
-infrastructure (v4l2-memtrack) is introduced, which can be adopted by
-other V4L2 drivers in the future.
+This control reports the memory consumption in bytes, including
+internal buffers, intermediate processing data, and other
+driver-managed allocations. Applications can use this information
+for debugging, resource monitoring, or making informed decisions
+about buffer allocation strategies.
 
-Background
-==========
+Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+---
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c | 8 ++++++++
+ include/uapi/linux/v4l2-controls.h        | 4 +++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-The Amphion VPU codec driver allocates various DMA buffers internally:
-
-- Firmware boot region and RPC buffers
-- Stream ring buffers
-- Codec-specific buffers (MBI, DCP, reference frames)
-- Encoder/decoder working buffers
-
-These allocations are not visible to userspace, making it difficult to
-debug memory issues or monitor resource usage in multi-instance scenarios
-(e.g., transcoding servers with multiple simultaneous streams).
-
-Solution
-========
-
-This series introduces:
-
-1. V4L2_CID_MEMORY_USAGE control
-   - New read-only control reporting memory usage in bytes
-   - Standard V4L2 interface, queryable via VIDIOC_G_CTRL
-
-2. v4l2-memtrack infrastructure
-   - Hierarchical memory tracking (device -> instance -> queue)
-   - debugfs interface at /sys/kernel/debug/v4l2-memtrack/
-   - Reusable by other V4L2 drivers
-
-3. videobuf2 integration
-   - Automatic tracking of vb2 buffer allocations
-
-4. Amphion VPU integration
-   - Tracks all internal DMA allocations
-   - Organized as: device -> instance -> buffers
-
-Ming Qian (7):
-  media: v4l2-ctrls: Add V4L2_CID_MEMORY_USAGE control
-  docs: media: v4l2-ctrls: Add V4L2_CID_MEMORY_USAGE control
-  media: v4l2-memtrack: Add V4L2 memory tracking infrastructure
-  docs: media: v4l2-memtrack: Add driver API documentation
-  MAINTAINERS: Add entry for V4L2 memory usage tracker
-  media: videobuf2: Add memory tracking support
-  media: amphion: Add V4L2 memory tracking support
-
- Documentation/driver-api/media/v4l2-core.rst  |   1 +
- .../driver-api/media/v4l2-memtrack.rst        | 140 +++
- .../userspace-api/media/v4l/control.rst       |  22 +-
- MAINTAINERS                                   |   8 +
- drivers/media/common/Kconfig                  |   1 +
- drivers/media/common/Makefile                 |   2 +-
- drivers/media/common/v4l2-memtrack/Kconfig    |  19 +
- drivers/media/common/v4l2-memtrack/Makefile   |   3 +
- .../common/v4l2-memtrack/v4l2-memtrack.c      | 825 ++++++++++++++++++
- .../media/common/videobuf2/videobuf2-core.c   |  13 +
- drivers/media/platform/amphion/Kconfig        |   1 +
- drivers/media/platform/amphion/vdec.c         |   9 +
- drivers/media/platform/amphion/venc.c         |   9 +
- drivers/media/platform/amphion/vpu.h          |   7 +
- drivers/media/platform/amphion/vpu_core.c     |   6 +
- drivers/media/platform/amphion/vpu_dbg.c      |   5 +
- drivers/media/platform/amphion/vpu_drv.c      |   2 +
- drivers/media/platform/amphion/vpu_v4l2.c     |  35 +-
- drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   8 +
- include/media/v4l2-memtrack.h                 | 220 +++++
- include/media/videobuf2-core.h                |   4 +
- include/uapi/linux/v4l2-controls.h            |   4 +-
- 22 files changed, 1340 insertions(+), 4 deletions(-)
- create mode 100644 Documentation/driver-api/media/v4l2-memtrack.rst
- create mode 100644 drivers/media/common/v4l2-memtrack/Kconfig
- create mode 100644 drivers/media/common/v4l2-memtrack/Makefile
- create mode 100644 drivers/media/common/v4l2-memtrack/v4l2-memtrack.c
- create mode 100644 include/media/v4l2-memtrack.h
-
-
-base-commit: 4fbeef21f5387234111b5d52924e77757626faa5
-prerequisite-patch-id: 0000000000000000000000000000000000000000
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+index 551426c4cd01..053db78ff661 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+@@ -831,6 +831,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_ALPHA_COMPONENT:		return "Alpha Component";
+ 	case V4L2_CID_COLORFX_CBCR:		return "Color Effects, CbCr";
+ 	case V4L2_CID_COLORFX_RGB:              return "Color Effects, RGB";
++	case V4L2_CID_MEMORY_USAGE:		return "Memory Usage";
+ 
+ 	/*
+ 	 * Codec controls
+@@ -1476,6 +1477,13 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 		*min = 0;
+ 		*max = 0xffff;
+ 		break;
++	case V4L2_CID_MEMORY_USAGE:
++		*type = V4L2_CTRL_TYPE_INTEGER64;
++		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
++		*min = 0;
++		*max = S64_MAX;
++		*step = 1;
++		break;
+ 	case V4L2_CID_FLASH_FAULT:
+ 	case V4L2_CID_JPEG_ACTIVE_MARKER:
+ 	case V4L2_CID_3A_LOCK:
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index 68dd0c4e47b2..02c6f960d38e 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -110,8 +110,10 @@ enum v4l2_colorfx {
+ #define V4L2_CID_COLORFX_CBCR			(V4L2_CID_BASE+42)
+ #define V4L2_CID_COLORFX_RGB			(V4L2_CID_BASE+43)
+ 
++#define V4L2_CID_MEMORY_USAGE			(V4L2_CID_BASE+44)
++
+ /* last CID + 1 */
+-#define V4L2_CID_LASTP1                         (V4L2_CID_BASE+44)
++#define V4L2_CID_LASTP1                         (V4L2_CID_BASE+45)
+ 
+ /* USER-class private control IDs */
+ 
 -- 
 2.53.0
 
