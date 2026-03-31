@@ -1,79 +1,81 @@
-Return-Path: <linux-media+bounces-57817-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57818-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iM+2FNs5zGn7RQYAu9opvQ
-	(envelope-from <linux-media+bounces-57817-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 23:17:15 +0200
+	id 4BLyEOU5zGn7RQYAu9opvQ
+	(envelope-from <linux-media+bounces-57818-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 23:17:25 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA4D371824
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 23:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01849371833
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 23:17:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 277E2306DFDC
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 21:17:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 066B730781B4
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 21:17:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6C054508FB;
-	Tue, 31 Mar 2026 21:17:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4976451076;
+	Tue, 31 Mar 2026 21:17:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X/1Q7k2Y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tE7z0xA2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA65450903
-	for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 21:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E112D4508FB
+	for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 21:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774991826; cv=none; b=sJXv8sgtv7+zxEkDgSzEiwPA03OOH0mX5mz08qkPqsIV/zIGCZ04U0H4+W9vc7bUkfKH9b4K52HebjBpWubn1pKeKWSjQmbiUWpCyzSy9MaPPJs34KL/r+ockMj1LUW72w7n8uvwNFL0Z7s4N9xx8E9Vl2DMPZKx3fewzH5ll+s=
+	t=1774991830; cv=none; b=I5dj/YsZlhqELuCxZEkID4rqRCC7bVttHMiukVC+HT6geBkB6H7VHlmJMMpLv3+s4fpxburCwbuyt02GPyflUFZsLY/u7hbt4+GC+j8ZkcmxVPaZAJv/gaRsGlvqwAUsAsSBPx7l76WSBFKxuo0gzXRCIIbVqqKQPfRQEJHl0z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774991826; c=relaxed/simple;
-	bh=BZg+POCyc0aHse7ifJCDTBN65JYsXS0lgfnAw42OYyg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=INVVPTIRHj/4pwM55UEDbaMekL6OE/Nw6Fqv1/xt7bfVp5jbyTQrB03pL7Nn3kStCpXrZfaXDkx8KfnSn1Ywjik0dLBQq0yWBj8KKGNggJO7D2ghBXDWRFEgFbMV8U9BAIwI06yojuZdoKE/EUILoZ2FI+W+RLaG8tH6xTup5tA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X/1Q7k2Y; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1774991830; c=relaxed/simple;
+	bh=HEOh/2zfJtpsxctQhzZwUU9VXOdfk2AHOVDm77USX6E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fOkh6T3+Y/334AizRGTQ/KFkOB+xw5HMlVhpk6roQzBtOqtogdxyPOzQUrQHlBkygBp7tPycS6aSF2tsXU+Z7wBTvprkk8DJ+lH/ZN7kE4aYrpdBwERpTsLxh5/DqkvlaUllXHTsyXlmEOo/dZxroeBiyLvev/V4UkprUpL+Mfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tE7z0xA2; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-482f454be5bso2992755e9.0
-        for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 14:17:03 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-486b96760easo68422405e9.2
+        for <linux-media@vger.kernel.org>; Tue, 31 Mar 2026 14:17:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774991822; x=1775596622; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8PAOrgazS9H3VM+uxXKBMbAaIq8gwz/zdEtYxUAlRNo=;
-        b=X/1Q7k2YVvPfJDHKmt5YDHbrgZTEXclW2jukw5BqSGQDG9dO2cyk3WBBBJlSAZRTSf
-         APXdVwFPtYG/4qiqyImoVhPW1dmXO8XvJxu6uN6+xTdOciUUPT0LIfMfDYmW1Y4eRr1y
-         5PbKKK4riZia455LEjImb2DzXbVVVoIPCwfWTq59QbvERxG5ycEfDdrUfaz6mRfSzkkK
-         aP1ftw9bd3QJCb4dNSXaZwtuZnDltuOhdP7tuh7rQMC/xadIDKDx1vqGa+iwDFZPM/Rl
-         eacxvZzzOyLB4lmM+3OMewOpaKlzYSzOeARIA8TeWbtFWMzThzmLUk9avsXo9Y18gsrp
-         LPgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774991822; x=1775596622;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774991827; x=1775596627; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8PAOrgazS9H3VM+uxXKBMbAaIq8gwz/zdEtYxUAlRNo=;
-        b=QYhq/pKmt9duOtRPUkMxzqtJZWwjnYXYhWYYzRgto8q3aJvcRnhPbKJR7HAjz4cMdB
-         G+wskMZcZ+8nSpWbYXON5IaKc5579l6OpLYfI5OFM1CCqJHMpi99L/CQe+GgsKL/U5NO
-         QUVfutiD97gWivdoiGizFxm0o6ooUYTwfkll915LXk3MyZ9KeDLlmqVjhsE5cFdsNjzk
-         Hp9XokBck+GSVgINA/NvP2yUSqLVwmhJqaViubkYlzhzZUOmXrQgfBpkSfO1eBJCJ5sY
-         2QQzokHt3GMpsr1Fgq0cEoikP5xL3IYeEyaONultJD8X6MX74/Ltb9ecIaANwmaop4/s
-         APVg==
-X-Forwarded-Encrypted: i=1; AJvYcCXQ0GDLSgB3T/wpdwqP+hekOEc9lbpUwWpL0vYrza+h2Jx3TFEG4GX4dElHpmRmrGeP75Vkl23XUpAceQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRUCxGBisMqDEFvRSXT512L7d7AfrUghbCEDlgjrPsDJyvjBrn
-	zg0HrokXInY8n2WCTmmZoZXVcSXPtnm55sYIOQJzkjUmeiy42ry6eiaD
-X-Gm-Gg: ATEYQzzAkeSKzBjVP+bqBk51FC3MiiXJFESupUa/tVOoRILn8eoWxsLP1bpXKnhXOsi
-	05jgqGPl52w5rYXkbm74i8sfEYG7j/mS3iGVD9zMsyqUXq2UPIka1qAF+epboZy4GHzzib0MCtk
-	5SNm/lwO/EiQVadIPJ2exHyXK/tGYLscWT591N+7CcA36kjT4m67NHViNP9/k8MSRIlE/wHSL+q
-	usu6SlINCDZ41vISyJSRmCPHml6kRcUGNd1naew2Eyyv2OSEWtP1VPGtxuJf4mJWhpMV5nc6WKP
-	6IDCPYWF1nrPxygjX6ueg1ZtAYphudVpxPVMalghPiErPUOnrwppQOqcCnoD3b2fpsaJG/F4aUO
-	NVoggyEJHT8fLdWGsAh6aF6ezdQFn5qhZrEUGfs97cTaCEqj/QAak7cYFuA8aYcRkaUxdzb1AI3
-	Y9upE6MEvrvbohKwuv0F2jdS10gJ270tKhZvbmgkxklSCV3A==
-X-Received: by 2002:a05:600c:a51:b0:47e:e59c:67c5 with SMTP id 5b1f17b1804b1-48883590a07mr14626735e9.8.1774991821421;
-        Tue, 31 Mar 2026 14:17:01 -0700 (PDT)
+        bh=0p+vcDzh9k//T8x4e9/jUT1tl1SO1LruCVo6s74BwBI=;
+        b=tE7z0xA2tu9hGoz9ZgkGKoDzIu8W3cCgVxQzjw/pP6YRrkWSXOsi6hJhiNd9cjZeRR
+         ETjXlAsYaulAd//qsqRAUhhGk1cdK8kzx6VBVVbs5OxRxLCx+sOXPjneGu0b7fwrEgs0
+         OcdKW91u+PvS9gxSbxSWbBDXhcv6vsP3mX43Ha7DuZLg9IJw/BnK/+KejnooeNb67iyY
+         bPRP0MbbuaDEWXYIXZaQYEx5vS8pY1P7iO2vH36O/XnePo4h4JqixLz6mVQANNjUuL/E
+         J0z/qdBqvHoVjFENBt2unpvRg96yv2IAiaqNzpal0QO2sQ8P478bKj56egeUPx3tRO85
+         GDBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774991827; x=1775596627;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0p+vcDzh9k//T8x4e9/jUT1tl1SO1LruCVo6s74BwBI=;
+        b=bsq14o0LF7nEsjGxOammlBKb+4ksG6GHYftqAnzWfan7GyrskAShNShwIQbhENX+aU
+         jszh/V5kr053pdbsgG/mUmdQaPnO7R5tKyoVz5qRrLuH+XlqOrEqoALUUbVva4cAIRpd
+         WF5RadwFpBmoeqCoFRf9jvw6DzGk8S0GTKtgXe8YuYM6/uj/zB2VJVUx2kykvl2FKXap
+         ASm8lByqiqBs7ORr5aNp93/y4wYKmrV6m/B52r+nvTDN4ZTUkQladiyC5xYr8oc3CDQr
+         WbETDI35buFadH+meX3Sc9UE7VdzAAH4J7C0bUH+h95v+Jfax9hDZ1zEcYQK9XLbS7Yh
+         qUkA==
+X-Forwarded-Encrypted: i=1; AJvYcCVLH2HjP2/DjAbH8x8aPu7OUOT/At7eVgys9jXuMLNMflLoH9c5c0AVZwwMy9cMkDG93Fr7/1e/H4v+4A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6sfGVFIS5ACNeDBvyvC+jEcR98zAc5ADXfjoJWnG16tor/1dL
+	k1U+OR3l8yNPROz4hir6IJC8MI2Us7oGOMrFsAsJny+HHXb2LI+Ri5V3
+X-Gm-Gg: ATEYQzzBaudX4CFgdJk0ox8YeGwMauZKT0AvXqAGaqX+xCq3fVK4A+3LzomrN+IRdJg
+	hITMmZKy1JzOEs5ZsfCcUh6v2iLoR7AqStWuihqUVh63J+7Y9857xbs1gM9akArWQUicmQS8u8R
+	Zjc0SZKgrlVmuw/yvFd9uqcYSzgdFx2ImrTpPvMngb0281pTK3BO/mLO2w4zXg+rEXhoJo3a9Kj
+	eNY2da9K+UAq5vlwgu6wNHz09R9OcOaKVp5A67KB1Px7tYg6ld+qCGxUaucCH70LEziuqsr16ys
+	HmgdISG1nu86QmtRf20ykQ+tSrU8N8n0MfRUzU0EKpJq30SWmXOrgWr6ef8cwwxGW/kuCjKowNw
+	/MgBnA8aNKPJ+Cyr+GLWXAJgv1dpF0+iFbttOHHKzqUlPIIDGrO5fYf9fcoezxF9NuNfDouTa6t
+	008VdJMrzD+mHFQYyLeYx07pgJER6mHk5oU/GaHbxVO7+qlcbJ5aZje3FZ
+X-Received: by 2002:a05:600c:828f:b0:477:6d96:b3e5 with SMTP id 5b1f17b1804b1-48883562a22mr16825715e9.7.1774991827075;
+        Tue, 31 Mar 2026 14:17:07 -0700 (PDT)
 Received: from localhost.localdomain ([2a00:f41:186c:aad2:ccc1:5aff:fe8f:d494])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e81a2cesm66051735e9.8.2026.03.31.14.17.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e81a2cesm66051735e9.8.2026.03.31.14.17.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 14:17:01 -0700 (PDT)
+        Tue, 31 Mar 2026 14:17:06 -0700 (PDT)
 From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: Andy Shevchenko <andy@kernel.org>,
@@ -82,11 +84,14 @@ Cc: Andy Shevchenko <andy@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH v2 0/2] staging: media: atomisp: clean up ISP configuration path
-Date: Tue, 31 Mar 2026 23:16:10 +0200
-Message-ID: <20260331211649.421777-1-azpijr@gmail.com>
+	linux-media@vger.kernel.org,
+	Alan Cox <alan@linux.intel.com>
+Subject: [PATCH v2 1/2] staging: media: atomisp: gate ref and tnr frame config behind ISP enable flags
+Date: Tue, 31 Mar 2026 23:16:11 +0200
+Message-ID: <20260331211649.421777-2-azpijr@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260331211649.421777-1-azpijr@gmail.com>
+References: <20260331211649.421777-1-azpijr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -105,7 +110,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57817-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57818-lists,linux-media=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -114,7 +119,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[azpijr@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
@@ -122,36 +127,83 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: BEA4D371824
+X-Rspamd-Queue-Id: 01849371833
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-NOT TESTED, REVIEW CAREFULLY.
+The FIXME comment noted that delay_frames can be NULL for certain
+pipeline configurations, without knowing why. The reason is that when a
+binary does not enable ref_frame, delay frame allocation is
+intentionally skipped to save memory, leaving the pointers NULL by
+design.
 
-This series cleans up technical debt in the ISP configuration path of
-the AtomISP driver.
+The ISP feature flags in binary->info->sp.enable accurately reflect
+which features are active for a given binary. Using enable.ref_frame and
+enable.tnr as the predicate for their respective configuration steps
+ensures the configuration path stays in sync with what was actually
+built into the pipeline.
 
-Resolves a long-standing FIXME by gating ref and TNR frame configuration
-behind the ISP feature flags that already govern their allocation,
-rather than unconditionally attempting to use frames that may not have
-been built into the pipeline, and removes a duplicate call that
-overwrites the same cached state with identical values.
+Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css_sp.c | 38 +++++++++----------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
 
-v2:
-- Replaced NULL checks with feature flag guards to address the root
-  cause rather than the symptom.
-- Updated subject line and commit message accordingly in patch 1/2.
-- Expanded commit message to explain why the duplicate call is safe to
-  remove in patch 2/2.
-- Updated subject line in patch 2/2.
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+index 6da151e7a873..abdffff41ae2 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+@@ -775,9 +775,13 @@ static int configure_isp_from_args(const struct sh_css_sp_pipeline *pipeline,
+ 	ret = ia_css_fpn_configure(binary,  &binary->in_frame_info);
+ 	if (ret)
+ 		return ret;
+-	ret = ia_css_crop_configure(binary, ia_css_frame_get_info(args->delay_frames[0]));
+-	if (ret)
+-		return ret;
++
++	if (binary->info->sp.enable.ref_frame) {
++		ret = ia_css_crop_configure(binary, ia_css_frame_get_info(args->delay_frames[0]));
++		if (ret)
++			return ret;
++	}
++
+ 	ret = ia_css_qplane_configure(pipeline, binary, &binary->in_frame_info);
+ 	if (ret)
+ 		return ret;
+@@ -807,22 +811,18 @@ static int configure_isp_from_args(const struct sh_css_sp_pipeline *pipeline,
+ 	if (ret)
+ 		return ret;
 
-Jose A. Perez de Azpillaga (2):
-  staging: media: atomisp: gate ref and tnr frame config behind ISP
-    enable flags
-  media: atomisp: remove redundant call to ia_css_output0_configure()
-
- drivers/staging/media/atomisp/pci/sh_css_sp.c | 41 +++++++++----------
- 1 file changed, 19 insertions(+), 22 deletions(-)
+-	/*
+-	 * FIXME: args->delay_frames can be NULL here
+-	 *
+-	 * Somehow, the driver at the Intel Atom Yocto tree doesn't seem to
+-	 * suffer from the same issue.
+-	 *
+-	 * Anyway, the function below should now handle a NULL delay_frames
+-	 * without crashing, but the pipeline should likely be built without
+-	 * adding it at the first place (or there are a hidden bug somewhere)
+-	 */
+-	ret = ia_css_ref_configure(binary, args->delay_frames, pipeline->dvs_frame_delay);
+-	if (ret)
+-		return ret;
+-	ret = ia_css_tnr_configure(binary, args->tnr_frames);
+-	if (ret)
+-		return ret;
++	if (binary->info->sp.enable.ref_frame) {
++		ret = ia_css_ref_configure(binary, args->delay_frames, pipeline->dvs_frame_delay);
++		if (ret)
++			return ret;
++	}
++
++	if (binary->info->sp.enable.tnr) {
++		ret = ia_css_tnr_configure(binary, args->tnr_frames);
++		if (ret)
++			return ret;
++	}
++
+ 	return ia_css_bayer_io_config(binary, args);
+ }
 
 --
 2.53.0
