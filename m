@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-57756-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57757-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mHr1BiGcy2loJgYAu9opvQ
-	(envelope-from <linux-media+bounces-57756-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 12:04:17 +0200
+	id kPsnH0icy2loJgYAu9opvQ
+	(envelope-from <linux-media+bounces-57757-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 12:04:56 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886523678B0
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 12:04:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0215A3678DC
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 12:04:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 30E5930B8CE1
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 10:01:01 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E10CC30C6033
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2026 10:01:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADE3F3EE1F1;
-	Tue, 31 Mar 2026 10:00:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 319323EF0B8;
+	Tue, 31 Mar 2026 10:00:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T4btGymv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Up1CxMKO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E24730F803;
-	Tue, 31 Mar 2026 10:00:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA2E30F803;
+	Tue, 31 Mar 2026 10:00:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774951239; cv=none; b=HHVGRq1Re0XJKYnmtH70CL39hYh8gv7DaVu6aHL4VTZi7LF2BWz0YSdu/BUowdF9wH5qWk7BBRVwH+Xj9myWGQ9PjtPWJ+n2Yp/CZq/MCebBuX1y/Fop0A/NZBjmunm+6/CmsXStE7zomcBQZcoRb1HaYebNN3ZOzztDLerLbuU=
+	t=1774951242; cv=none; b=rcQ1xWI1uZVFC52gCz8z9+HcUJuvCCh40iU6mcc7QZrL5ffkGxllVA/BMLtTISoW451S1yNwkKqbg6FioU1Hih4xYdAYJ6hCsIgNQ8daTC34cssA6xaN5junJxfBbfADofpDC+TG/r+KCIyzR+ltAygFql27/QXlIke06ySRzRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774951239; c=relaxed/simple;
-	bh=uocFqI6buKhD72I9T9guormXJl46wyFDpX9g7jostug=;
+	s=arc-20240116; t=1774951242; c=relaxed/simple;
+	bh=XD1ohQhO9zZA1+h5cJdCf8noqsv9utcIYdzdurGWIrY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=n5bvxtAhM6JT6D2I+SO0esFIavVqyYon1DqsQLEeoexk/HQOnsVVKsBu+YT7g0TWxaJbLIW0l+aHY7tr167sWpZ0aCJS69RKAxwWHeEVxcRDWjrLGVqmtAZz3uBK0QXxwWbaskULKXfkfBSuaiajQAtZVHS11JP3IEHzyt0J8Q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T4btGymv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0542C19423;
-	Tue, 31 Mar 2026 10:00:38 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=pIxO/TXaIk6VX1iQMvX/pxBzIKS/jfos/wjzfHh68mJga11EdsialIZMNFPvQ+fTLEUsfm2BVGCMBsXruLh0oXr4K+uaD6ziOMmzB9yFtwehf5Jm0WuSY25hbmVuN9OwGMruj1jPLSduIsJUX5ABbNuxRBNNs550i+N8oB2EQxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Up1CxMKO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6FDDC19423;
+	Tue, 31 Mar 2026 10:00:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774951239;
-	bh=uocFqI6buKhD72I9T9guormXJl46wyFDpX9g7jostug=;
+	s=k20201202; t=1774951242;
+	bh=XD1ohQhO9zZA1+h5cJdCf8noqsv9utcIYdzdurGWIrY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=T4btGymvet3fwK87izBY1umkLJypnus3myzupVvCPOwlMa9dLMbqmG/kq9UplVDxP
-	 1F0ebNEQo5/XnSIn250vpq3AIyMIkzP1bRg0vwAVeblCzSIQBJ55rS1XvOPQ1XVMWO
-	 //jU/RL+d6DdIhMhL8T3UUgHaFjHlHcCkkLBCarvJP7dWPu4bPQnDWKKCw2c19AaVP
-	 +pSXNyJMPbPQkFzQMs9IOr5upt0oM5SNGtIC4JCdcRIiKZHMYZUBDSnDdSGXdkBd8M
-	 jbUPlt5tRo0Bsp7Bwng3BJIzTBB5RTZVVDIOiem2eYS+2pKTJPGc1tZkGkSFZac5ac
-	 TUdQuER1obGlA==
+	b=Up1CxMKOAyN1rLwyQza8/sAk+vuTStw21qVWIaeT0nv7/i2FS4hW1rDu2o22IyXEN
+	 KKa5Vg1LLUbpLbvjhb8zh9awLQxhplAE1M+xTJ8L4nCdl3cjQ2uhrO36q6X6Buto1Y
+	 tfUcsp3l4j89be0q9tm1gQnuH5PromlrCiPR4/nrg67weWLfiN0M+uaYpQNacjCkh+
+	 g+G29chbogcDCTSGyLBYn2A0b5DGmhrxkNzYIfWxzmKDL0c96m5+Ia5YlCSC/kw39e
+	 C+SDDZTbdOUeTGc95q0Rbc2mPncZYH6jGbvfdwKsAke6Qi0IxqrllwEc+J1jHuMPBs
+	 vpQqXEfrI7rgw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 31 Mar 2026 12:00:15 +0200
-Subject: [PATCH v4 6/8] dma-buf: heaps: Export mem_accounting parameter
+Date: Tue, 31 Mar 2026 12:00:16 +0200
+Subject: [PATCH v4 7/8] dma-buf: heaps: cma: Turn the heap into a module
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260331-dma-buf-heaps-as-modules-v4-6-e18fda504419@kernel.org>
+Message-Id: <20260331-dma-buf-heaps-as-modules-v4-7-e18fda504419@kernel.org>
 References: <20260331-dma-buf-heaps-as-modules-v4-0-e18fda504419@kernel.org>
 In-Reply-To: <20260331-dma-buf-heaps-as-modules-v4-0-e18fda504419@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>, 
@@ -76,12 +76,12 @@ Cc: Albert Esteve <aesteve@redhat.com>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1114; i=mripard@kernel.org;
- h=from:subject:message-id; bh=uocFqI6buKhD72I9T9guormXJl46wyFDpX9g7jostug=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJmnZxtyeG59tObuKquHuc8qry5fYc3JV8d8JJWvsO395
- 6xnHT9/dUxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJTJnB2PAstjN7VnvEugXN
- jXdyvD68/7X30jTHKQde6hy+yPic3ZBpmoDUpoh9pUmPH/sWZgQ3KTNWMtZyRJ0VXhId8Xup0ZL
- Tsu2LznCl3L19d4fYP0bTu8/6N8Svu32vidc8xOGjRmS1lqgpAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1869; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=XD1ohQhO9zZA1+h5cJdCf8noqsv9utcIYdzdurGWIrY=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJmnZxt2/QrhDmEWnJyuEZ53bFn8sXkc/fdfaT1zvGv9R
+ LA4sj+hYyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAExkoTZjw5nbW9wPGX2XvzCp
+ NnIfb9ta1a19Tar+HziFhd6HPjo/df3qyE3LS7byVlas//HX8DaHKmN9uOtdhR0Ge1ts2rp1L+r
+ Psrpy+l3A5P2zWGvPxGWffLW7YLeUjuTjde96utSmCZ7/spcJAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-Spamd-Result: default: False [-2.16 / 15.00];
@@ -93,7 +93,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57756-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57757-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
@@ -110,38 +110,55 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 886523678B0
+X-Rspamd-Queue-Id: 0215A3678DC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The mem_accounting kernel parameter is used by heaps to know if they
-should account allocations in their respective cgroup controllers.
+Now that all the symbols used by the CMA heap are exported, turning the
+CMA heap into a module becomes pretty easy: we just need to add the
+usual MODULE_* macros, import the proper namespaces and change the
+Kconfig symbol to a tristate.
 
-Since we're going to allow heaps to compile as modules, we need to
-export that variable.
+This heap won't be able to unload though, since we're missing a lot of
+infrastructure to make it safe.
 
 Reviewed-by: T.J. Mercier <tjmercier@google.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/dma-buf/dma-heap.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/dma-buf/heaps/Kconfig    | 2 +-
+ drivers/dma-buf/heaps/cma_heap.c | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index ac5f8685a649496c0e1c6decbf263b63fa472d04..a76bf3f8b071a3d5bf39a8513f31e9e8aa16e02f 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -51,10 +51,11 @@ static DEFINE_XARRAY_ALLOC(dma_heap_minors);
+diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+index a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3..aed0b9b4febf388376cfc41be9843980d010c4e8 100644
+--- a/drivers/dma-buf/heaps/Kconfig
++++ b/drivers/dma-buf/heaps/Kconfig
+@@ -4,11 +4,11 @@ config DMABUF_HEAPS_SYSTEM
+ 	help
+ 	  Choose this option to enable the system dmabuf heap. The system heap
+ 	  is backed by pages from the buddy allocator. If in doubt, say Y.
  
- bool __read_mostly mem_accounting;
- module_param(mem_accounting, bool, 0444);
- MODULE_PARM_DESC(mem_accounting,
- 		 "Enable cgroup-based memory accounting for dma-buf heap allocations (default=false).");
-+EXPORT_SYMBOL_NS_GPL(mem_accounting, "DMA_BUF_HEAP");
+ config DMABUF_HEAPS_CMA
+-	bool "DMA-BUF CMA Heap"
++	tristate "DMA-BUF CMA Heap"
+ 	depends on DMABUF_HEAPS && DMA_CMA
+ 	help
+ 	  Choose this option to enable dma-buf CMA heap. This heap is backed
+ 	  by the Contiguous Memory Allocator (CMA). If your system has these
+ 	  regions, you should say Y here.
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 33cac626da1198e3c4a1cdcd562223c1924b6ceb..0ed519a19da455df7441396c96934a107fd72ffb 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -421,5 +421,8 @@ static int __init add_cma_heaps(void)
  
- static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
- 				 u32 fd_flags,
- 				 u64 heap_flags)
- {
+ 	return 0;
+ }
+ module_init(add_cma_heaps);
+ MODULE_DESCRIPTION("DMA-BUF CMA Heap");
++MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS("DMA_BUF");
++MODULE_IMPORT_NS("DMA_BUF_HEAP");
 
 -- 
 2.53.0
