@@ -1,210 +1,215 @@
-Return-Path: <linux-media+bounces-57903-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57904-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KCVvJfFvzWlsdgYAu9opvQ
-	(envelope-from <linux-media+bounces-57903-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 21:20:17 +0200
+	id mIARFxpxzWmadgYAu9opvQ
+	(envelope-from <linux-media+bounces-57904-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 21:25:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA52D37FC58
-	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 21:20:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9470937FD09
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 21:25:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 44E3A3029267
-	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2026 19:17:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F2DBF30293D4
+	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2026 19:20:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA21733263A;
-	Wed,  1 Apr 2026 19:17:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8988233263A;
+	Wed,  1 Apr 2026 19:20:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CehY0KkH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CUyaXfaS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092342DEA61
-	for <linux-media@vger.kernel.org>; Wed,  1 Apr 2026 19:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36D610785;
+	Wed,  1 Apr 2026 19:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775071072; cv=none; b=dMrFgVOhpcm1hfYfu2YAxa0oB4yefJc4SPIBlltH6An6loBIM9bQqdTSYDaf5PSMw3FQBIolC6U1GAjrym4YgSaLqN6ApTVS5XQywwfbQduslvK6AHGSBXDqxsuBQFujiyAf6TXdUpjhBLMIa5NvL9Jp/jw/K/W6SCIx4D0fgCQ=
+	t=1775071224; cv=none; b=N0ZbNG7Mz+Bn58Oz15ZQJ4o9fEvXgqv2vwZFTej1QWhp0bbdgWzCrZwTHdZXZ8BEeu6vyxa3iJlo/MsV1O385lwlDrZeB1h5Ce8k78n7iFZ+hu0+/rGSBFo7LMWn+4CrHtXkzvg2op85kZdg5kidpQgJREYxop8I6dHT0upac54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775071072; c=relaxed/simple;
-	bh=WVp2ddejS72pCQjGiKfyMEp3r12FjUVCqSOQQN8vZ68=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UdcnvQpqBkULhh+vfmh6/mxk09YP+QZnc9Ih8SYTHfl6aXquZUk1cFsB1k1XlCgaGJZZVVlK4zQSJ8ISK/kNTK0ijmnf0W7cca7s8MlcnTSy4sGaqvswunLErD+T5SEUbUSX2mCcN0bShm7UBlJ1AnqnytGU1n5J/WnSPEJrpfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CehY0KkH; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82a7539851fso56027b3a.1
-        for <linux-media@vger.kernel.org>; Wed, 01 Apr 2026 12:17:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775071070; x=1775675870; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xFGgYlat78QlHBf17jTWXfuiJFHZzeYKJ7RjiLS7B90=;
-        b=CehY0KkHcr/s1XaucVoeoy7sxhGVwpAVKEILCMCGJtij0FzN2tIx/PMCl2+jsAn+xS
-         HTh2CsHQRAp1TCBtkhTgZiBhLfvdnwB+9VdQjc07OlE4KmnJJl+oDIasNzqdxDkWK9bO
-         YjUHq4qTOkFxUBidXi/iG5sscCDUNgKRG1usKnyPGNyhf2a2l7rMDah1/3TfOthnzHj3
-         qZdwHa3YjJE+45vJEdIwWc1aNpGzQjc+dMbd7MNk0umIz94NyCBQg6y9KvXj+pL73Eh9
-         duREj0kgrIg0NrHWic7WDTQ8v/liD82AXkZARDjlM7nPGH7pANmQzcbguUfs5GDdqES/
-         UQ+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775071070; x=1775675870;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xFGgYlat78QlHBf17jTWXfuiJFHZzeYKJ7RjiLS7B90=;
-        b=F+sTKtAb5Jm7MX3RC+IRXQ0CUw781g7avFkyKRYVTR/2kD7dwAAyTTk91Qc/u17ikV
-         2+AB7a6zx4d5c2qIv1waBLlhmFiDfMATQkQqHLe8DZUTq1b0YBgaN8b5UrbPNkpGsQuC
-         0DDFn3wOWsUTLawlw2dh88ACH/JQQIkqKxGXzqI/CWVZw0B0Fc9yZ8kxi7PYApq4B6RK
-         9MsqYcIvL/X5/Cl2ixC9Hkl7jfRN07njPVTidduUW/aMXYb7zV8v92Zo+M30h/GtzU+d
-         B16jYOY8LNomelfP8JesvcEuymenNhjYIhl0i0crI4wsfDcGZIasDnPskbn2odfNYu5s
-         zkEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUlwmM+QMBK08h75KL02ZjQs4IGisSnsvjFz5XWm1ddS3ARS1ZcxVuNjgVu4dVOem1CrcnKHZSnubXPCA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5zMRFfGblU0y+qmDw1eS96lUCe2WEnAHdYS0BH8akQLyB4ZCT
-	AKYk/XYd5J/tasTuQ8BqksWrJl2noHhc1/l7BFm1QMsn6rWmvrt/O9MR
-X-Gm-Gg: ATEYQzxD7gTDoT7JOMDcNOqorYt5Dh49j7iqZTzJ2fVkFl5t6SalqrcHVkU4qpUfP2O
-	ylL4SSwPU3NUDYX5Ur+0ZyjAHmneAjTdHJB66lCDsB9RvzOFkwqMPbTZqyi9KInUSAPPctZM0bE
-	qWrNOcPZq6kTyiDZT2S4spgJuiBhL2pf3SBIGXMZGYbveCk0j+R3lHzPXdoa8fJWoGjTUyReSi+
-	LDIs2EpPxUr/JnIp40l5sUIbY1maB07/MnvOlAPnG0qjNYTfABvfwQqsRHO2qZ9EDdQ2uHrOgtb
-	RW4EN6uJMHAAoCUt4sM5O8UdsK4wL7egPE2IvULt8Cz3TfXYvpErxX69hl5Z8SapM+ALGNBfFOc
-	q0B7I9jGBOS+IHL85W9d4A36MtT0XOfvJfFLuG8NuhRlj+5XxJT8atLOLkMewfkYVVYQmlD/2pU
-	UawxyLiYHF3sc+X6gLYl8A1WlWsnu8J8WFlQo=
-X-Received: by 2002:a05:6a00:3010:b0:7f1:7b2a:ab5b with SMTP id d2e1a72fcca58-82cfb901ee7mr688533b3a.27.1775071070238;
-        Wed, 01 Apr 2026 12:17:50 -0700 (PDT)
-Received: from ganesha.. ([106.51.225.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9c706f7sm689490b3a.47.2026.04.01.12.17.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 12:17:49 -0700 (PDT)
-From: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
-To: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	error27@gmail.com
-Cc: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4] staging: media: av7110: coding style fixes: too many tabs
-Date: Thu,  2 Apr 2026 00:47:42 +0530
-Message-ID: <20260401191743.26951-1-ss22.kern.dev@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1775071224; c=relaxed/simple;
+	bh=OuenldaDpgWS3ji+/XQGWuMq2n/E7oit7oh2Jm14lOc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eNaubXq2jOVZu2fHYE1BG7x6n9Z9yijHDmT21rGj9wgTRYmtYL4HFq7cseryySJlcWVvuoZ5VpaJiH62o3G9a+Zlr41xGIccihd3T/Kt4mSyf4K+AF8IkaKxkKnTADuohPXzUHuvFp1h8KBeSlgo8fMdC4HHJ2Z0s5cshTkE3+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CUyaXfaS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DFADC4CEF7;
+	Wed,  1 Apr 2026 19:20:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775071223;
+	bh=OuenldaDpgWS3ji+/XQGWuMq2n/E7oit7oh2Jm14lOc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CUyaXfaSE4ijY/mRJeZFn3KIiE45z0kXyHmD1a0775u5zpshCO0uFShCcbIdfW/3W
+	 XUTxupGDSnydbUMd+hu3jn41xgpRVo+i3Wkl0emFi1pY5/nGiNhCb8Kz1Rzcw+Jq9n
+	 1A4vgBB90LIM4AmbiYqQRXFkoL9+UoMeGq0VXXT4kJadimBzUDYB5iQdkQASVMaHsM
+	 RL1ykoPL9L7EfgvXgxXnlDd1kjmlk6dT4sPPOLmyaoRRJ+bLQGimXSq/xKTeDh1+P0
+	 If3226zbtn/AdDAf7HsRNkm4Xp7pUC7ZucEWCMm21wJ1Vl+akdk3YUApbUrwuPalTl
+	 l4qocE27NNZTg==
+Message-ID: <404149fe-761e-4c8c-90f0-12850c5b049c@kernel.org>
+Date: Wed, 1 Apr 2026 21:20:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] media: i2c: gc0310: Use devm_v4l2_sensor_clk_get()
+To: Sanjay Chitroda <sanjayembeddedse@gmail.com>,
+ sakari.ailus@linux.intel.com, mchehab@kernel.org
+Cc: hverkuil+cisco@kernel.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260401181657.654055-1-sanjayembedded@gmail.com>
+ <20260401181657.654055-4-sanjayembedded@gmail.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260401181657.654055-4-sanjayembedded@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57903-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FREEMAIL_TO(0.00)[kernel.org,linuxfoundation.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-57904-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,lists.linux.dev];
+	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[ss22kerndev@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-0.998];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_NEQ_ENVFROM(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,checkpatch.pl:url]
-X-Rspamd-Queue-Id: EA52D37FC58
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 9470937FD09
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Fix warning reported by checkpatch.pl
-"WARNING: Too many leading tabs - consider code refactoring"
+Hi,
 
-Signed-off-by: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
----
-v4:
-  - Added the missing check for  "feed->ts_type"
-  - Removed initialization of 'ret'
-  - handle_ts_memory_fe() accepts only "feed", "demux" and "av7110" extracted thereafter
-  - demux->playing assigned to int, instead of bool to maintain original style
-v3:
-  - Removed the additional tabs in handle_ts_memory_fe() as indicated by Greg KH
-  - Retained the original code style as suggested by Dan Carpenter
-v2:
-  - Refactored change by adding function handle_ts_memory_fe
+On 1-Apr-26 20:16, Sanjay Chitroda wrote:
+> From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
+> 
+> Several camera sensor drivers access the "clock-frequency" property
+> directly to retrieve the external clock rate or handle the external
+> clock manually in the driver. While this is valid on a subset of ACPI
+> platforms, implementing this logic directly in drivers is deprecated
+> and can lead to inconsistent behaviour across drivers.
+> 
+> This driver supports ACPI platforms only. It currently retrieves the
+> external clock rate from the "clock-frequency" property and fails
+> probing if the rate does not match the expected value, which is the
+> correct policy for ACPI platforms.
+> 
+> Switch to using the devm_v4l2_sensor_clk_get() helper to standardise
+> clock handling. This preserves the existing behaviour on ACPI
+> platforms that specify a clock-frequency property without providing
+> a clock. On platforms that provide a clock, the helper will program
+> the clock to the rate specified by clock-frequency, which is also
+> consistent with the driver's expectations.
+> 
+> Signed-off-by: Sanjay Chitroda <sanjayembeddedse@gmail.com>
 
-v2: https://lore.kernel.org/linux-staging/20260318191149.109616-1-ss22.kern.dev@gmail.com/
-v1: https://lore.kernel.org/linux-staging/20260316152340.238100-1-ss22.kern.dev@gmail.com/
+Thanks, patch looks good to me:
 
- drivers/staging/media/av7110/av7110.c | 36 +++++++++++++++++++--------
- 1 file changed, 26 insertions(+), 10 deletions(-)
+Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
 
-diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-index 607992100baf..486dd8010e7f 100644
---- a/drivers/staging/media/av7110/av7110.c
-+++ b/drivers/staging/media/av7110/av7110.c
-@@ -932,6 +932,31 @@ static int dvb_feed_stop_pid(struct dvb_demux_feed *dvbdmxfeed)
- 	return ret;
- }
+Regards,
 
-+static int handle_ts_memory_fe(struct dvb_demux_feed *feed)
-+{
-+	struct dvb_demux *demux = feed->demux;
-+	struct av7110 *av7110 = demux->priv;
-+	int ret;
-+
-+	if (!(feed->ts_type & TS_DECODER))
-+		return 0;
-+
-+	if (feed->pes_type >= 2)
-+		return 0;
-+
-+	if ((demux->pids[0] & 0x8000) || (demux->pids[1] & 0x8000))
-+		return 0;
-+
-+	dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
-+	dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
-+
-+	ret = av7110_av_start_play(av7110, RP_AV);
-+	if (!ret)
-+		demux->playing = 1;
-+
-+	return ret;
-+}
-+
- static int av7110_start_feed(struct dvb_demux_feed *feed)
- {
- 	struct dvb_demux *demux = feed->demux;
-@@ -951,16 +976,7 @@ static int av7110_start_feed(struct dvb_demux_feed *feed)
- 		    (feed->pes_type <= DMX_PES_PCR)) {
- 			switch (demux->dmx.frontend->source) {
- 			case DMX_MEMORY_FE:
--				if (feed->ts_type & TS_DECODER)
--					if (feed->pes_type < 2 &&
--					    !(demux->pids[0] & 0x8000) &&
--					    !(demux->pids[1] & 0x8000)) {
--						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
--						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
--						ret = av7110_av_start_play(av7110, RP_AV);
--						if (!ret)
--							demux->playing = 1;
--					}
-+				ret = handle_ts_memory_fe(feed);
- 				break;
- 			default:
- 				ret = dvb_feed_start_pid(feed);
---
-2.43.0
+Hans
+
+
+
+> ---
+>  drivers/media/i2c/gc0310.c | 29 +++++++++++++----------------
+>  1 file changed, 13 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/gc0310.c b/drivers/media/i2c/gc0310.c
+> index e538479fee2e..e9e67bd73f51 100644
+> --- a/drivers/media/i2c/gc0310.c
+> +++ b/drivers/media/i2c/gc0310.c
+> @@ -6,6 +6,7 @@
+>   * Copyright (c) 2023-2025 Hans de Goede <hansg@kernel.org>
+>   */
+>  
+> +#include <linux/clk.h>
+>  #include <linux/delay.h>
+>  #include <linux/errno.h>
+>  #include <linux/gpio/consumer.h>
+> @@ -84,6 +85,7 @@
+>  #define to_gc0310_sensor(x) container_of(x, struct gc0310_device, sd)
+>  
+>  struct gc0310_device {
+> +	struct clk *clk;
+>  	struct device *dev;
+>  	struct i2c_client *client;
+>  
+> @@ -634,7 +636,6 @@ static int gc0310_check_hwcfg(struct device *dev)
+>  	};
+>  	struct fwnode_handle *ep_fwnode;
+>  	unsigned long link_freq_bitmap;
+> -	u32 mclk;
+>  	int ret;
+>  
+>  	/*
+> @@ -646,21 +647,6 @@ static int gc0310_check_hwcfg(struct device *dev)
+>  		return dev_err_probe(dev, -EPROBE_DEFER,
+>  				     "waiting for fwnode graph endpoint\n");
+>  
+> -	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+> -				       &mclk);
+> -	if (ret) {
+> -		fwnode_handle_put(ep_fwnode);
+> -		return dev_err_probe(dev, ret,
+> -				     "reading clock-frequency property\n");
+> -	}
+> -
+> -	if (mclk != GC0310_MCLK_FREQ) {
+> -		fwnode_handle_put(ep_fwnode);
+> -		return dev_err_probe(dev, -EINVAL,
+> -				     "external clock %u is not supported\n",
+> -				     mclk);
+> -	}
+> -
+>  	ret = v4l2_fwnode_endpoint_alloc_parse(ep_fwnode, &bus_cfg);
+>  	fwnode_handle_put(ep_fwnode);
+>  	if (ret)
+> @@ -684,6 +670,7 @@ static int gc0310_check_hwcfg(struct device *dev)
+>  static int gc0310_probe(struct i2c_client *client)
+>  {
+>  	struct gc0310_device *sensor;
+> +	unsigned long freq;
+>  	int ret;
+>  
+>  	ret = gc0310_check_hwcfg(&client->dev);
+> @@ -697,6 +684,16 @@ static int gc0310_probe(struct i2c_client *client)
+>  	sensor->client = client;
+>  	sensor->dev = &client->dev;
+>  
+> +	sensor->clk = devm_v4l2_sensor_clk_get(sensor->dev, NULL);
+> +	if (IS_ERR(sensor->clk))
+> +		return dev_err_probe(sensor->dev, PTR_ERR(sensor->clk),
+> +				     "failed to get clock\n");
+> +
+> +	freq = clk_get_rate(sensor->clk);
+> +	if (freq != GC0310_MCLK_FREQ)
+> +		return dev_err_probe(sensor->dev, -EINVAL,
+> +				     "external clock %lu is not supported\n", freq);
+> +
+>  	sensor->reset = devm_gpiod_get(sensor->dev, "reset", GPIOD_OUT_HIGH);
+>  	if (IS_ERR(sensor->reset)) {
+>  		return dev_err_probe(sensor->dev, PTR_ERR(sensor->reset),
 
 
