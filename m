@@ -1,242 +1,187 @@
-Return-Path: <linux-media+bounces-57888-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57889-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uElgEaQ8zWn5awYAu9opvQ
-	(envelope-from <linux-media+bounces-57888-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 17:41:24 +0200
+	id IDGzHhNCzWkkbAYAu9opvQ
+	(envelope-from <linux-media+bounces-57889-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 18:04:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2CF37D528
-	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 17:41:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2705D37DA81
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 18:04:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4310E3050BD0
-	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2026 15:36:10 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 1061230601B0
+	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2026 16:03:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 218013CEB88;
-	Wed,  1 Apr 2026 15:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A86545BD4E;
+	Wed,  1 Apr 2026 16:03:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vdbB9F7z"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cR1qRMeq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7669A3A9DB2;
-	Wed,  1 Apr 2026 15:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775057762; cv=none; b=FuzfXZeIBsl+CirQmmylNaZlTz3dpvO2LHao7+xZvpvAoWj51WOvCnN6o1MWXS0I1MidQNbX8woJckhq3nebBN5Zv5vo1RbEvLdCaUM8cn+wi/qh+XhLA8psUWGIx2J4LxK7oy6fKqLdFZu6tS9bPRbnQ1HEPF5RgzVYI4jdtgk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775057762; c=relaxed/simple;
-	bh=62fiRzIlB0LuN2BoHoHtPdkZTJJ0p6SufQDIUY7eSro=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=U9Rpvl5BPuUrHpQCuhTSkRgHdtTXwevuaDRrr57tU/fRGvINF1MpnI8LifHqLibepkakM0D5uYnr/P8zImRG1wic2D5wNb7ZP0Nkz9mI7XQKDu+zK3yYA5LiSU4n6HCC5vfKJ/FDNUCOqwaDcd5iZGCgPjNb7eyyvwJAITapj+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vdbB9F7z; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [100.93.44.16] (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D5D7BE4E;
-	Wed,  1 Apr 2026 17:34:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775057675;
-	bh=62fiRzIlB0LuN2BoHoHtPdkZTJJ0p6SufQDIUY7eSro=;
-	h=From:Date:Subject:To:Cc:From;
-	b=vdbB9F7zHabSQcfi7ZBO4x70vJI4suGHMXB/GRd32COapSwpnLWdkp8QArjeYgNCf
-	 mcwo1oKmDxBeMqhljCXIr1VyW8ojSgaa6yjNMNOME5A+WKBJ+o29zkTq/AXVAMPGZW
-	 OOWGjXOZ+HDLntUtbSaM2nIg3xC8nh13+S/NB1Kc=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Wed, 01 Apr 2026 17:35:37 +0200
-Subject: [PATCH] media: rzv2h-ivc: Wait for frame end in stop_streaming
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5190244D68A
+	for <linux-media@vger.kernel.org>; Wed,  1 Apr 2026 16:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775059388; cv=pass; b=i9ewwfoqvN7ZCef/Nj+IhaTkvfdKqBJwbTmTqdPkmZYytpS3D0Yi6LV9St8kYVVv/ssSGQ0IfKedHhw+Hq7RvUo10DvpOPvuFWmdvNNFfYgyN5MLzj7s0Y62bSVCSARuaid8ObYRCqjSMGxvFWw1fitR1D4A5pG7GgV0i7M6gwY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775059388; c=relaxed/simple;
+	bh=BlFbgD83On9yJwJTCrqpyDsa7llGSgZ8ZbMiF17c/SY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=knhugCXn5Bz/4iTZUWlsCebE3zGtOx9ThQZ84Tu3uzjcoALI8NV3SUIX46WuEnVSva4nCev7rN+igYKp3WSDD+h5V90zE4n5QCpWap88/rE4TC9Lax1Dk2F5G8rUP79TB7LYhl7toaiGo06Is3BW7Pbs4oDHnPh2eklCDJ+XgbE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cR1qRMeq; arc=pass smtp.client-ip=209.85.217.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-6054ce34c0fso1003352137.1
+        for <linux-media@vger.kernel.org>; Wed, 01 Apr 2026 09:03:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775059386; cv=none;
+        d=google.com; s=arc-20240605;
+        b=OFjEjnTBqfsdpVdmLypDwhD95NcmG2koOGSpVZtFNLHlj46r6bsSYvwK5JhLvdwFAa
+         gff7J7AipKJ6BTXSw6hE5kiDZiDsjk7sVIImB/jWfH1fzXyqOUlBcg9b9QRpOVlID2tS
+         n2rbncPOK8Vb7w+a/K9NxCuhtEw2lfBxvvFs6nFoDfbmL74hBkPKj0Lt6DHArIh5hgRf
+         DQ7VYOZMh6DCArWNRRS1jS0o+sw7KOeCvIEy6vM/RfACJ6t7ab2HUIyxuJlIsyuv4jzQ
+         WZ5he5vT4KokCtiU7rf/oUW+BBG8SvGdAMBiAWxqxtFNhFlNwhxib42kHzvWKgRk3SkM
+         1ELg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=EWBm097o/NmYsuE5hv1aBoOkjyXB23DVWkezN42y2/A=;
+        fh=To2v3zdAR5Ul+4F86vFT8/3to4Zuv13OfD3g+szHlhQ=;
+        b=bluW9jyL4AF/SnAFoPx2NOh3bstK93DTkRnBuV8qxWPOk3x6fxD+Uf27Sr+0uXrE8/
+         MV+EjgycRx5u8YsqNG8tYN4MKwvDoGpKFQLeflgVWrV33P48a4y1QhKVd3sKLUvdGdHi
+         8g2KynOnFL9cL1IkY2JAWAUaxoYAfppjmtF6T0tMwRlWheW6WFGNnX+s02w2otyKImK3
+         QtRAN2JuxCkvIrma9wOsaNBMJqAyxxOuqb0vRcr9ZeKKQvquKsJPxfjvGotUTI3bOJaM
+         CGpIIMAgKdAXgB/UZC6yWGp3JQiBt64yBK6VAzgV41NWSG8BGZi1ipIx5U9NWGp+CVFt
+         vA3A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775059386; x=1775664186; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EWBm097o/NmYsuE5hv1aBoOkjyXB23DVWkezN42y2/A=;
+        b=cR1qRMeqYI/ur2SJMwuFYbAPYHZCyFYHSzBDmbAxYzH02zaSuJo8RmcpH8NxYSgyBf
+         ygmXuAcJAOXMR6NqB6KfzYyC5gl3SaQm+m8o4gThmmI1Z8fp3he8ZixO+gcSOxrlowG3
+         mBYDrsr1yUrkew2J7lKAyJFgoVfKRVCWYtPuH+X+fmBfJlyT6py77M6lXL9D3q9nVYWU
+         ogr7iVOtl3U77Hr4jN3SsDO1y03LROT4Z5SCy/0wA/mUlgkbM6hM1M9gSEhhVMVdWcpT
+         QBu1mSRPcDynLCjpFzndizBCyODJhifF0UBd13lTXwp4ThfkyYEvSnvo6O0u91WD42yc
+         vblw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775059386; x=1775664186;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EWBm097o/NmYsuE5hv1aBoOkjyXB23DVWkezN42y2/A=;
+        b=d5R9dZN2vnuByeo9YmPjQ6/x316mQYKvHzQ8yRhRKWDsiB1yaxFlHVYyRDMrJLQ/xb
+         aDHrO1ofG3jjM+LPJxj8EYsHnc7RRUuT8RyvlofCVLsvvEDFs6QM9Jq4CuQ1CTK7kJXh
+         PChU/Iw4s9sMMnFkmpQjRLGlfmQkTgWz61/HqmlJzpXSENErKmziHIDHqKV2z3IBGFLn
+         wFirwyfaQXKy2cd7gx49I830qkbzgKJaot2heps2oIPf0A4PXgmS7E5Pe8MmMoh3Hr2A
+         ptyZZHTlUw/HQA0+kxCu/gqm/9JAERoujsO0zryNEutmQ5uwsy1g8jbnfEMr09wLKnLu
+         +Ohw==
+X-Forwarded-Encrypted: i=1; AJvYcCVzdXHrQxUn2BkPIjgAqQVPoioY1Sp+VyHJ5DgjxpVrT/ZS+tgW+4dXXqRUNdI9uNwAYd2ZkE66DtvKEQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyp59RFbWR82S3NzAtutbzJ9I+oCGuq3VZmXuEw8B/11/dfLqE9
+	brTB/v23h+Mp/fWjb0MXrXq7CL8Gy2qKNEj+5yqC9myQqmHEtzfLNFzhnEzbrEEAw9Evod4jh/8
+	7N7JxtHo3cBMa+4ubueCjuuUJxdlqODc=
+X-Gm-Gg: ATEYQzzeoaE6mVOsNFanVxy+Elo4U629PAKAjTQ+zd6pEL7Ih7XeewZNkpPl+WWDrxW
+	9DAJyvy+huB1PUFLmItEWP6jiaQ9iJbjUCvbLJ4dkfuKUet7rd/vWBCME4tFYZJkB2Gv/7No7rg
+	3LSOdeZDFKcs4f55QiQITlGK1k76KHql9gLOIGWzlB9PNQ3g//PsAQYQ6IsEw1SulJ0HFz7m+nY
+	Jx0T5sUE7tB5xbHkBz3rt0M52Tr/59kw/E2quP45TuvHISzGnxdSEGs2c+zqRkFRKidnCcHarJC
+	XZMwP+qC
+X-Received: by 2002:a05:6102:1612:b0:5f5:4055:4558 with SMTP id
+ ada2fe7eead31-60567d381a0mr1586750137.2.1775059386272; Wed, 01 Apr 2026
+ 09:03:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260401-ivc-stop-streaming-v1-1-b7599982c280@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIAEg7zWkC/x2MQQqAIBAAvxJ7TrCNEvtKdDDbbA9paEgQ/j3pM
- jCHmRcSRaYEU/NCpMyJg6/StQ3Yw3hHgrfqgBJH2fed4GxFusNVEcmc7J1AqzWiUqscJNTwirT
- z80/npZQPwTjivmQAAAA=
-X-Change-ID: 20260331-ivc-stop-streaming-2c992277b050
-To: Daniel Scally <dan.scally@ideasonboard.com>, 
- =?utf-8?q?Barnab=C3=A1s_P=C5=91cze?= <barnabas.pocze@ideasonboard.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5297;
- i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=HBtx5Ghb1fuQs0BuDtBLc5AqBUj4s1eusjaVua2vYCA=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBpzTtdNQjZkdljoMmJGmPGD5LZFvoPOuCpBNBOx
- 3Yt/VgW2cmJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCac07XQAKCRByNAaPFqFW
- PHYzD/9af6mK4uuN4jtatUOnw67FxXbHGXTpV7XMVcgqJy41/7YWfSRPA58zWFXIuwXK1FSlEp0
- oWoYHcpyhO1ygYVJ+MfdeilYNrWvdklcnvRJWiB/9CZ4zmQUwhJ8amFBsBlNfV9HUM9eGUbenq4
- n7G7nXFbSgDOfjDKa+vlFi81HXcbnUfXLueFuPHlPytuhACzJ1JABDEvkok1NPoC1lyDVFovqMx
- uoytE1jyGbk8oxxP0f2/u663YqktQiIJH4gMozRUdyqYU3J05dNK9s4igvBsZZD1ILvdC6P2M4W
- YhKs2W8D/9z2ffVjiXUPb4p0wAkNLLCud2sbrK0q4hJP1ztXAnQATv8rxVi2q9HenVPCx9EHpKK
- fktXlZcLL0bK19p1sB8p9S+FkvGCre6o03c0rsOWB7ejAdY2ag647POfMwL/bYetXQRssLtBNdA
- jQyVZ2ZZE6Oqg7ZgrigAIRK53ASrmnEA0tUe4sfEOWwkkFac55tjK4yCNKrXpl15kbaVIRLavOG
- CUJFlArLaHSFp4J2hOuIb6MypIK9wisoIFP4JaPE7oXi2fQnsaZ6/OssZFfvYTb0jH/8Yp/lETw
- j4gTq1hZXM4o9AlW6k0NjoaaMCH6GHW/45M+5ZYPriDM+15TQAmgAL3eKE0ZlPeeGXL6yVlT7Lv
- clxYA5ohymZH0Gg==
-X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
+References: <20260327031106.10386-1-anushkabadhe@gmail.com>
+ <acZo5LUXH70-UKUi@kekkonen.localdomain> <CAAfE=nNNxCKv0JoRcib7YVQfQ9MxqE34WyYu2GHNYaroxzpw1w@mail.gmail.com>
+ <aczBS_KJQa_j97RP@kekkonen.localdomain>
+In-Reply-To: <aczBS_KJQa_j97RP@kekkonen.localdomain>
+From: Anushka B <anushkabadhe@gmail.com>
+Date: Wed, 1 Apr 2026 21:32:29 +0530
+X-Gm-Features: AQROBzCynCEgVXuUpyeXfY2mLkrtfTBAwk9eRsCwaRHI32FliuaMQyv840YyuW8
+Message-ID: <CAAfE=nOs9YfpnFGY+bPg1WPxuCHOzkR9oHD9DizNxxse25A0hw@mail.gmail.com>
+Subject: Re: [PATCH v6] staging: media: atomisp: fix GP_TIMER_BASE scope in gp_timer.c
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: andriy.shevchenko@intel.com, andy@kernel.org, gregkh@linuxfoundation.org, 
+	hansg@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, mchehab@kernel.org, 
+	Daniel Baluta <daniel.baluta@nxp.com>, Dhruva gole <goledhruva@gmail.com>, m-chawdhry@ti.com, 
+	Simona Toaca <simona.toaca@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57888-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57889-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FREEMAIL_CC(0.00)[intel.com,kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev,nxp.com,gmail.com,ti.com];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[anushkabadhe@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,10bi:email,10bit:email]
-X-Rspamd-Queue-Id: DE2CF37D528
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 2705D37DA81
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Hi Sakari,
 
-The rzv2h-ivc driver fails to handle back-2-back streaming sessions that
-do not go through a peripheral reset. As the driver uses an autosuspend
-delay of 2 seconds, it is quite possible that two consecutive streaming
-sessions won't go through a suspend/resume sequence.
+On Wed, Apr 1, 2026 at 12:25=E2=80=AFPM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> On Mon, Mar 30, 2026 at 07:02:21AM +0530, Anushka B wrote:
+> > > There's a lot to cleanup here, but what should be done is roughly:
+> > >
+> > > - Make these constants macros (with IPU2_ or ATOMISP2_ prefix?) and m=
+ove
+> > >   them into a separate header (perhaps with register definitions?).
+> > >
+> > > - Remove my_env and make struct device (or maybe struct atomisp_devic=
+e?) as
+> > >   a parameter for register access functions.
+> > >
+> > > This may get a bit complicated due to the amount of cleanup needed so
+> > > having the hardware for testing would be rather essential.
+> > As a student, I don't currently have access to the hardware needed to
+> > do the bigger refactor safely. However I'm happy to fix the comment
+> > formatting and language.
+> > In earlier versions, I had merged the split declaration of
+> > GP_TIMER_BASE in place in system_local.c before later moving it to
+> > gp_timer.c.
+> > Link: https://lore.kernel.org/linux-media/20260325132434.55775-1-anushk=
+abadhe@gmail.com/
+> > Would it be okay to proceed with the simpler in-place fix for
+> > GP_TIMER_BASE declaration instead?
+>
+> I'm fine with v4.
 
-If the peripheral is not reset the second streaming session hangs and no
-frames are delivered to the ISP.
+Should I send a v7 similar to v4, where I merged the split declaration
+of GP_TIMER_BASE, and a separate patch for the comment fixes?
 
-This is because the stop_streaming() procedure implemented in the driver
-doesn't match what's prescribed by the chip datasheet:
-
-1) The chip manual suggests to poll the RZV2H_IVC_FM_INT_STAT_STPEND bit
-   of RZV2H_IVC_REG_FM_INT_STA instead of polling on RZV2H_IVC_REG_FM_STOP
-   and prescribes to clear the bit after polling has completed
-
-2) More importantly: the RZV2H_IVC_REG_FM_STOP_FSTOP bit has to be set
-   on RZV2H_IVC_REG_FM_STOP -only- if a frame transfer to the ISP is in
-   progress. Setting the RZV2H_IVC_REG_FM_STOP_FSTOP bit when no frame is
-   being transferred causes the polling routine to timeout and the next
-   streaming session fails to start
-
-As a frame transfer of an image in 1920x1080@10bi takes 5 milliseconds
-at most, it is quite possible that the frame transfer completion interrupt
-races with the stop procedure.
-
-Instead of forcing a frame transfer abort, simply wait for the
-in-progress transfer to complete by polling the ivc->vvalid_ifp status
-variable in an hand-rolled loop that allows to inspect the variable
-while holding the spinlock, to allow the irq handler to complete the
-current buffer.
-
-With this change, streaming back-2-back without suspending the
-peripheral works successfully.
-
-Cc: stable@vger.kernel.org
-Fixes: f0b3984d821b ("media: platform: Add Renesas Input Video Control block driver")
-Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
----
-As detailed in the commit message, re-starting a streaming session
-without going through a peripheral reset doesn't currently work.
-
-I initially thought this is because the stop_streaming() procedure
-implemented in the rzv2h-ivc driver does not comply with what is
-prescribed by the chip manual.
-
-So I went and modified it according to the manual.
-
-Unfortunately, even by following the suggested procedure, once
-RZV2H_IVC_REG_FM_STOP is set and a forceful frame transfer abort is
-started, the RZV2H_IVC_FM_INT_STAT_STPEND bit takes a long time to
-clear, during which is most often times the case the current in-progress
-transfer completes by itself. If this happen, then a peripheral
-reset is required to restart streaming regardless if I forcefully clear
-the RZV2H_IVC_REG_FM_STOP_FSTOP and RZV2H_IVC_FM_INT_STAT_STPEND bits.
-
-I have tried several strategies to properly forcefully stop an
-in-progress transfer and handle the potential race betwee the
-transfer-complete irq and the polling the RZV2H_IVC_REG_FM_INT_STA
-register (which could potentially sleep), but it's still quite easy to
-get races between frame completion and the forced stop procedure unless
-I hold on to the ivc->spinlock preventing the irq handler to run.
-
-Once I timed the transfer time for a 1920x1080@10bit frame to 5 milli-seconds
-at most I decided to simply wait for the current in-progress transfer to
-complete, as this seems the most reliable way to be able to re-start
-streaming without resetting the peripheral.
----
- .../platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c   | 31 ++++++++++++++++++----
- 1 file changed, 26 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
-index b167f1bab7ef..932fed38cf3f 100644
---- a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
-+++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
-@@ -297,12 +297,33 @@ static int rzv2h_ivc_start_streaming(struct vb2_queue *q, unsigned int count)
- static void rzv2h_ivc_stop_streaming(struct vb2_queue *q)
- {
- 	struct rzv2h_ivc *ivc = vb2_get_drv_priv(q);
--	u32 val = 0;
-+	unsigned int loop = 5;
- 
--	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_STOP, RZV2H_IVC_REG_FM_STOP_FSTOP);
--	readl_poll_timeout(ivc->base + RZV2H_IVC_REG_FM_STOP,
--			   val, !(val & RZV2H_IVC_REG_FM_STOP_FSTOP),
--			   10 * USEC_PER_MSEC, 250 * USEC_PER_MSEC);
-+	/*
-+	 * If no frame transfer is in progress, we're done, otherwise, wait for
-+	 * the transfer to complete.
-+	 *
-+	 * Transferring a 1920x1080@10bit frame to the ISP takes less than 5
-+	 * msec so sleep for 2.5 msec (+- 25%) and give up after 5 attempts.
-+	 */
-+	for (; loop > 0; loop--) {
-+		unsigned int vvalid_ifp;
-+
-+		/*
-+		 * Inspect the ivc->vvalid_ifp variable holding the spinlock not
-+		 * to the race with the rzv2h_ivc_buffer_done() call in the irq
-+		 * handler.
-+		 */
-+		scoped_guard(spinlock_irq, &ivc->spinlock) {
-+			vvalid_ifp = ivc->vvalid_ifp;
-+		}
-+		if (vvalid_ifp < 2)
-+			break;
-+
-+		fsleep(2500);
-+	}
-+	if (!loop)
-+		dev_err(ivc->dev, "Failed to stop streaming\n");
- 
- 	rzv2h_ivc_return_buffers(ivc, VB2_BUF_STATE_ERROR);
- 	video_device_pipeline_stop(&ivc->vdev.dev);
-
----
-base-commit: 4fbeef21f5387234111b5d52924e77757626faa5
-change-id: 20260331-ivc-stop-streaming-2c992277b050
-
-Best regards,
--- 
-Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
+Thanks,
+Anushka
 
