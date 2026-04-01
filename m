@@ -1,216 +1,163 @@
-Return-Path: <linux-media+bounces-57844-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57845-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2JYoCYLazGnnWwYAu9opvQ
-	(envelope-from <linux-media+bounces-57844-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 10:42:42 +0200
+	id 0EpWFibhzGm0XAYAu9opvQ
+	(envelope-from <linux-media+bounces-57845-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 11:11:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06BBA377003
-	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 10:42:40 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68283377519
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 11:11:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5192A309C082
-	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2026 08:30:22 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C08C43077A26
+	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2026 09:03:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CD1C3B27F8;
-	Wed,  1 Apr 2026 08:29:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFAA13CBE6B;
+	Wed,  1 Apr 2026 09:02:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZWLth0XK"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y5iZzCMe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D018B3B27C6
-	for <linux-media@vger.kernel.org>; Wed,  1 Apr 2026 08:29:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431D13CBE6C
+	for <linux-media@vger.kernel.org>; Wed,  1 Apr 2026 09:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775032162; cv=none; b=WwZ1cuA9jQZXibrQufw1naSvxyt9SLr0FTUV1v4usHG5lHGBgDAEL4c4OgMcdkscpvqmCL5bZTX1dakD3sn4FwAJNaC0nsgv3k2wSKGciTkCZZAxGb/6vLEJFVYwAEdLa7lkB1j6n3XjMLaUjODj2CgktNReThFEFKXYdbkI1dA=
+	t=1775034160; cv=none; b=rYylTJkOnrhNcvZsPlFuQn56qoGSM2Sa+OQJdiLZxWEIUbReM9mY/EAG83mEIXbFHbdafR5v4T0S8l/DNn3yukvvwYe48LFBMyNimorewf0dRPt3wdjd8Ub1S8pexo0VHyAWxKzkwlUvj/CCX5mQbaQ8I5BK0JjmOzqYB2y9D4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775032162; c=relaxed/simple;
-	bh=xWymgsxKoXsfs+629uIVGha7HwRpch1lFzOxT+ljJkU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ecsmu/FUlcksgEqXqELJ/1t6BayuRkiiEi7Z6srwSst9Vg+fSSxamIZFJr+MQsfDFTGFpPkao0/mBlRVkgS2fAO7PDMfgx1oVxUNw7sw3dJfS+GkmNo8qxBIOuGgYONNd809Zx8TsnfytgyzB0yeU+OWDF6cpzxMWRYCvMVZGsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZWLth0XK; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-486fd27754bso64675135e9.3
-        for <linux-media@vger.kernel.org>; Wed, 01 Apr 2026 01:29:20 -0700 (PDT)
+	s=arc-20240116; t=1775034160; c=relaxed/simple;
+	bh=O1HK0Jj/R3UIJ82LFS+5RhJz5avmTJzqUtVQIzkvhd0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LvfD/2xIixMIGyUNeAKTXy8IjyLkq3YdH2PIGz2c6tHdL27Ik7C0ALaR5noElGaF8Zs6BVlBrP1+cDp+0GHXpkqsIHNISC+rf2hWEoN+IAIOsR/mlvnHzTI94KhcT4+gMY64HT+rWvhrwFbEZ3lWSqmsi8vS+mgbBvkq3FkCWHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=y5iZzCMe; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6618bc129acso9762931a12.2
+        for <linux-media@vger.kernel.org>; Wed, 01 Apr 2026 02:02:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775032159; x=1775636959; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HH4vyhHFmJJWYYMCxWnCs0SONovTrBJdlFBGYKRYxY0=;
-        b=ZWLth0XKQb7JR4jS5VgqFbZaARyp1l1pJoSfni3Z9ztKtgFDS1EeCj+8OWd+k0P1T1
-         HcU8TVqsSuzHJx58AN5mfLU4sd/3r4ETplVqb6R/e6kNER2J2+WTKJ4ELx++E4RSWwZb
-         bJ2svuysyzxE5syXijybjBktQCPsw2CDU98fkZssN62rqKXDAt/JWSGLlcnQbLmcgABv
-         ImbpzQILF7t+ltNnPTMPRQ1+YN3FZ4QDq/Yr4m5G52qLVusnzTErNkX3hMo2REK04T5p
-         Zxpl4F52AGDAtrGiVLXqn0MKq7DUtaGMv7wDem93gzJ11tO8DPVcIcn2SUWb58uip9HF
-         nvng==
+        d=linaro.org; s=google; t=1775034156; x=1775638956; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1PukhdiG5D11EUZIE0UsizRPKVyY9ijY1qfZllXyoG0=;
+        b=y5iZzCMeRP9y8rFvklIWpamvKlq1Yruap7z3lTHm1dlZgQLLuQrbKWlHPJJstn6rwT
+         pGrgAID+3HhEVAVxeaLusfq+3KpaBMR6ed0ZO54MW+ryREw+bTbIxo41V9awxrV2o6b0
+         P/Z73/7WIH25GhbvAHtCIfEIYIFnqdJaGaWkHqElI2C8W+8taE3sKMfSl8MHytc775K1
+         VfO7yvOltR9hhkKAc8fPJcBiGOTC3Tizba9VdUQfsOZuKUJke4kCoyN0RhdZRQx+aRA5
+         b9pgckwqN1Ruipu4JSNHO7kZFHfRw7Q4FfxRaPiJaQIEW/qOEF4hQBdneI2UBgPsjMgX
+         mvnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775032159; x=1775636959;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HH4vyhHFmJJWYYMCxWnCs0SONovTrBJdlFBGYKRYxY0=;
-        b=DY7ZbWWgIOKdXQx84g8hqgL6yo25hanhI4K+xDHmZiRVtaU8Af0GvBeAk4aKTPMywJ
-         vzbiCfHEcnK34aBQhLXigy8Q6uAX9AuzRvQcpmtqfOK6J7tWIYg10v4FNJ4TybKXOHTl
-         F/pmeD1yzNCBzvAU9OWIne4IUMdaKEFKEZu31azDRP6bRxqV3wmS0ES6RRom/v8+jvt9
-         k+lsngPb9JkXmFzv4CDa4HHwfFgp8fNVZYFo4kheNYFxhVXqd0PTvL4hgfdnAIgwaHI0
-         EvKFHlLVHDIdY/2Zn2LDVhqqXOeAmZKiLXqsyPU03HQTxZC/erbVniw/3GxRHK1CCAhA
-         BnxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWNyF1tiUw1nf3LoJtxj/SUhUFNiTyPArVo3kK1HxgB1SZC2o9me3tq3xYIPrQtlPv/EioXhFZlFJ+geQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwWikDNmxzbxSKPt4+MvpOC1DvDV+CyGOPDbTsBKRkuDrSeFLD
-	+I3O9drCEp4OpWiRk4Gv/4pSM7OymvbmANLdOJM1ExJTfj4oiWx7S6c3
-X-Gm-Gg: ATEYQzyxFn+9plT1VSvTWzN/0ZObx3/IVo3nSdhkSPV0WxdHPpLafsUAVkzmQj9W8ze
-	4PfjnLI0EMWKnSvuyyJ94Z8+Fz5k1/lbvhH17zRez1RrLFI11sIjzK6jy0EWsFpRwHfOShjiPHh
-	NXLotdVD7mhrUxkphC6bw2qcAInWacPLhyGe7l5omF2FjOSzEoPBrDjhDTp9dnYK/m4TMgJ3Jdn
-	c0JMcm3O3EB4los2OOtfTDre8k4ywS1FHb8oHtmiI6r18tnVi+3PvD+ExzCcyVHK/AIo6N+YPjp
-	KcSTg6YjCZdX0kZtCuYqkJiaAqUIDXot2SK4JDNYa+X+e9pWKDgEDgIR0TcE/vB2v7RPSdBd2Jw
-	ywO9Q8CX+YdkgVOQ/2okvORKMYTSWLj4FIG512LcRGvhZ6sWxk+L/BYmlifEpLFKWiZUwYQH6xo
-	b5Oiz5cQNbu75zCbYK+lA=
-X-Received: by 2002:a05:600c:8184:b0:485:4eaf:eb53 with SMTP id 5b1f17b1804b1-48883590481mr41435375e9.19.1775032158912;
-        Wed, 01 Apr 2026 01:29:18 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e80a6ebsm118583285e9.6.2026.04.01.01.29.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 01:29:17 -0700 (PDT)
-Date: Wed, 1 Apr 2026 11:29:14 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
-	dan.carpenter@linaro.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: media: av7110: coding style fixes: too many
- tabs
-Message-ID: <aczXWu23wEVVO4fJ@stanley.mountain>
-References: <20260330204035.22074-1-ss22.kern.dev@gmail.com>
+        d=1e100.net; s=20251104; t=1775034156; x=1775638956;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1PukhdiG5D11EUZIE0UsizRPKVyY9ijY1qfZllXyoG0=;
+        b=Rqk0n9oeuqOFnIlZJEUdf0yswWYbxKH343hs6Czti9onDqTxEYf5MP4/64nsJk9qCN
+         rBJJJRyWHOEArU3hhvCL8Cc1A/THOqUeMwtNTz5B4RJBURxp6M3aYX7097vDAfEmebGT
+         C0Ypq49r5H73B456djVLXE/O7mu4m5BFxwS5X2BgqX43tc0+7EjC1xpE66AuwibMC07N
+         1QEslm3CSP7ackPGm168TZXj+fAosjk2xJOM7E3eLKjSq3h9Sr0DmPrAidlFt7SnKUB3
+         /150JYMIXvyhrEC4NBXTtIAUkAOnjtAls/khZZ6hK/NAZZ3Ltt01vnhFt8wolP1lLZnh
+         Tolg==
+X-Forwarded-Encrypted: i=1; AJvYcCVAymVrrEocodsJUV57pARO2ruXplk6meHuQf+3Ut4TM7aBIBwgUZJ2+W8mHCNQ3wYVtah/zMuAO7yh+A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YykcCkIEH9DkfW/NbU29XaRW6lNCgcM/ircb1GQF+iEPMnwboU1
+	aNpXNyeUzHC4zqAdnIDnbmKde2JFPWY75AFByyeDMWOuxWmHKX3NfkqCiKy94Nzjlfo=
+X-Gm-Gg: ATEYQzw62DjaLzan0zuCLGBJtmuXmMHHucmRRvIAHBlaiXJB4ibTF/I2fBfJfFd6Lh2
+	00p2i9bVHqm7mf/Y+9AMdcImUZ8dUEzZBoqGTircN6h8QEWn7K8ggzGhPZB1svA2hl+rw2/Iejv
+	xFNwpGssuup8elt76wXH3XmKOY96gl1//KQLxRWRxqS7RHrrP71s1W8b8XFzMXmf2kuYmO66rJQ
+	W6akYi5kzixbuRPaum3t0nKUkZLKy8CHsdl2iHEsWa1U7GV3SPmwjdw0TP0XyHCF6FPGOqwFfaN
+	YCxdIz3YuXytyAZKOnExOjDzWJT6d/oc/f+zyZR/pllKknJpbsdxx70mjR9oHD8lXbtk7mpSSKH
+	0ko/F1hus1vkQyUn7/5XfX9SpzvHwdNM52jW/KJPi8qTe3Q/AZ5Tz7vI2dUvIKXfTHZPGvL8tGb
+	9MQpA0gYQulslHNsFTNfWR7MP1jzxG5b6LafI=
+X-Received: by 2002:aa7:ce0e:0:b0:66d:d05d:aab5 with SMTP id 4fb4d7f45d1cf-66dd05db070mr776807a12.19.1775034156409;
+        Wed, 01 Apr 2026 02:02:36 -0700 (PDT)
+Received: from [192.168.0.167] ([109.76.235.19])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-66beb2d044esm3047130a12.26.2026.04.01.02.02.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Apr 2026 02:02:34 -0700 (PDT)
+Message-ID: <90c88cf7-8873-412f-b14b-cb0f94028194@linaro.org>
+Date: Wed, 1 Apr 2026 10:02:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260330204035.22074-1-ss22.kern.dev@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 0/3] media: qcom: camss: Add camss TPG support for
+ multiple targets
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20260317-camss_tpg-v10-0-b4cfa85c2e1b@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20260317-camss_tpg-v10-0-b4cfa85c2e1b@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57844-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,gmail.com,linaro.org];
+	TAGGED_FROM(0.00)[bounces-57845-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.997];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,checkpatch.pl:url,stanley.mountain:mid]
-X-Rspamd-Queue-Id: 06BBA377003
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:mid]
+X-Rspamd-Queue-Id: 68283377519
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 31, 2026 at 02:10:24AM +0530, Sudarshan Srinivasan wrote:
-> This patch fixes below warning reported by checkpatch.pl
-> WARNING: Too many leading tabs - consider code refactoring
-> 
-> Signed-off-by: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
-> ---
-> PATCH v3 consolidates and addresses review comments from earlier versions.
-> 
-> v3:
->   - Removed the additional tabs in handle_ts_memory_fe() as indicated by Greg KH
->   - Retained the original code style as suggested by Dan Carpenter
-> v2:
->   - Refactored change by adding function handle_ts_memory_fe
-> 
-> v2: https://lore.kernel.org/linux-staging/20260318191149.109616-1-ss22.kern.dev@gmail.com/
-> v1: https://lore.kernel.org/linux-staging/20260316152340.238100-1-ss22.kern.dev@gmail.com/
-> 
-> 
->  drivers/staging/media/av7110/av7110.c | 33 +++++++++++++++++++--------
->  1 file changed, 23 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-> index 607992100baf..35f7d6bb8c74 100644
-> --- a/drivers/staging/media/av7110/av7110.c
-> +++ b/drivers/staging/media/av7110/av7110.c
-> @@ -932,6 +932,28 @@ static int dvb_feed_stop_pid(struct dvb_demux_feed *dvbdmxfeed)
->  	return ret;
->  }
-> 
-> +static int handle_ts_memory_fe(struct dvb_demux_feed *feed,
-> +			       struct dvb_demux *demux,
-> +			       struct av7110 *av7110)
-> +{
-> +	int ret = 0;
+On 17/03/2026 10:05, Wenmeng Liu wrote:
+> Tested with following commands:
+> - media-ctl --reset
+> - media-ctl -V '"msm_tpg0":0[fmt:SRGGB10/4608x2592 field:none]'
+> - media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4608x2592 field:none]'
+> - media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4608x2592 field:none]'
+> - media-ctl -l '"msm_tpg0":1->"msm_csid0":0[1]'
+> - media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> - v4l2-ctl -d /dev/v4l-subdev1 -c test_pattern=9
+> - yavta -B capture-mplane -n 5 -f SRGGB10P -s 4608x2592 /dev/video2
+>    --capture=7
 
-Don't do this unnnecessary initialization.  It just disables static
-analysis for no reason.
+I get this on Hamoa.
 
-> +
+media-ctl --reset
 
-What happened to the if (feed->ts_type & TS_DECODER) check?
+media-ctl -V '"msm_tpg0":0[fmt:SRGGB10/4608x2592 field:none]'
+media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4608x2592 field:none]'
+media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4608x2592 field:none]'
+media-ctl -l '"msm_tpg0":1->"msm_csid0":0[1]'
+Unable to parse link: Invalid argument (22)
 
-regards,
-dan carpenter
+Failing to connect the TPG to the CSID.
 
-> +	if (feed->pes_type >= 2)
-> +		return 0;
-> +
-> +	if ((demux->pids[0] & 0x8000) || (demux->pids[1] & 0x8000))
-> +		return 0;
-> +
-> +	dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
-> +	dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
-> +
-> +	ret = av7110_av_start_play(av7110, RP_AV);
-> +	if (!ret)
-> +		demux->playing = true;
-> +
-> +	return ret;
-> +}
-> +
->  static int av7110_start_feed(struct dvb_demux_feed *feed)
->  {
->  	struct dvb_demux *demux = feed->demux;
-> @@ -951,16 +973,7 @@ static int av7110_start_feed(struct dvb_demux_feed *feed)
->  		    (feed->pes_type <= DMX_PES_PCR)) {
->  			switch (demux->dmx.frontend->source) {
->  			case DMX_MEMORY_FE:
-> -				if (feed->ts_type & TS_DECODER)
-> -					if (feed->pes_type < 2 &&
-> -					    !(demux->pids[0] & 0x8000) &&
-> -					    !(demux->pids[1] & 0x8000)) {
-> -						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
-> -						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
-> -						ret = av7110_av_start_play(av7110, RP_AV);
-> -						if (!ret)
-> -							demux->playing = 1;
-> -					}
-> +				ret = handle_ts_memory_fe(feed, demux, av7110);
->  				break;
->  			default:
->  				ret = dvb_feed_start_pid(feed);
-> --
-> 2.43.0
-> 
+Please resolve.
+
+---
+bod
 
