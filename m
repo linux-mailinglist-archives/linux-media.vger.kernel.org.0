@@ -1,199 +1,201 @@
-Return-Path: <linux-media+bounces-57886-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57887-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oJ6VOjUrzWn7aQYAu9opvQ
-	(envelope-from <linux-media+bounces-57886-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 16:27:01 +0200
+	id GMKpCCM1zWlwawYAu9opvQ
+	(envelope-from <linux-media+bounces-57887-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 17:09:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7027E37C1F8
-	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 16:27:01 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB62437CBA1
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 17:09:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E50C33098FA6
-	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2026 14:12:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9FDC930EA92A
+	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2026 14:38:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDF8A40F8D9;
-	Wed,  1 Apr 2026 14:12:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43AAB311957;
+	Wed,  1 Apr 2026 14:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WFQLde/H";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eqFw+Clj"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="NO4/6b7d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013051.outbound.protection.outlook.com [52.101.72.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DF92DB7BB
-	for <linux-media@vger.kernel.org>; Wed,  1 Apr 2026 14:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775052766; cv=none; b=UVf8yop5g7Aob6oeZ1fzGzXWHSZ46HV3uBlDxHCA7ArKWlsy+D4VjM5ZnSP+rzqrOnM6IlqCIX6t3co4TjK4/IDGNrM0mwq7AZqE1n227ieufYPYHLKeux2ckuBYwArRTkuUjccJj90zGnfRG1hoEOhIffZ4lBdxQpsEcFdOeZs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775052766; c=relaxed/simple;
-	bh=C3Bvz6+dr63+4olpaxktcoW2bMenHTk6Y/NyA36vuvk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HK3B3F0RYO25tBUDn7m3NOT/kXFa+65DT6Ok1F/I+CPk/di2yVAYskL6WO7qBiLYM3VgqeJScMOKV5donOQSWsrbNgVJLALjfwldaILOqlFFBuQt+KIHifpzclOTU7d/D/xJHtPrhKouhYhgpa9orWrZMbmHq3evl3lFduSecmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WFQLde/H; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eqFw+Clj; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 631DPnMS1894106
-	for <linux-media@vger.kernel.org>; Wed, 1 Apr 2026 14:12:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=SKV5RsuNlQlTgHyoiQ7K1nfj
-	fKHtd2rOvc/7sm5jAfY=; b=WFQLde/H+4DEvSXEcUb5UzLGM2sd6QJj+VXJLzEt
-	XJ8mgnHVPaP3GxLUuclM99ic8V7w61i8FeaH6L9eMZUwLKafn0ybZthz//JhmXm4
-	VwIXQjVgIsUjPn/C1esZJkLy8dpJCn7+q2HH8qA6w2v3Fah2eB4omIuhmGhC/5FH
-	KRs7SED2adblud2LORvRmooA5m/vjAk5qjEDxsh4XQ/ANE6O2h1tKYswW5QzEgr1
-	lWgZSoGHGHDdo4teDlruLRKF3AiDGG3LfUe2RCT6UnMynIGc9usxZyvgbVk5YB9+
-	kv2AkAmCxlXmS/R2YGSKDw9iVhSKJ0vYSZNsqQtdqsjlWw==
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d9483r5u7-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 01 Apr 2026 14:12:44 +0000 (GMT)
-Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-6057a534ce8so465995137.0
-        for <linux-media@vger.kernel.org>; Wed, 01 Apr 2026 07:12:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1775052763; x=1775657563; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SKV5RsuNlQlTgHyoiQ7K1nfjfKHtd2rOvc/7sm5jAfY=;
-        b=eqFw+CljmSp2foU6lb02IdJUarACxyxHmYP4ESDiV554tttZGkWuHgveyV6k1hZQse
-         +oLPPIW4SD5eIWFcwyB0hhiaNY0Vt9ayC4G05oQ5DQ9I5W+tVYYh/Ws9RNYhgyVdylAz
-         QgrHs5psAEycBK4JweVQ3amugs86TWg8Fk/Nbw2c+vzlWdJMPEkWlaAoOA/jMaZrxUvl
-         thaaAFqlvVBW4BOPow8AKbLwZjn6sg1Dzzp1r7YWINw1MtEwNU74kTCeNDlrVjeU+43n
-         ie9RdELoYGtcjhHnCdfBPI13/e9IvbjnQBp7YxJd4swvOK5zZE5nItlWgHD50a8Irj4S
-         AemA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775052763; x=1775657563;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SKV5RsuNlQlTgHyoiQ7K1nfjfKHtd2rOvc/7sm5jAfY=;
-        b=KNTuhlzyNnKJyGMS/Fh8PsPk191pCvzgdV0CPbd8FbpJ7kY+Qy+VHP8PUxleFMkVp4
-         HWwTdBT4sUhql2Llpzd1GaaYp27oi0FCLNI1LBOryEAG9Pbti0l1g0HiqaY0yWMe97UM
-         H0Pae7S2a3CxlKUAbP/vJ8Zf0mTeYTYEEka7MeAB+kpV0q2BYWsddEZd5GD06Sx4P6JD
-         sAsrMWK5nogTrA0ewR3tHIM4MAsi/rrdf71GG75MHrFjODP/nEwSgeXagbpvpoHdHg5C
-         OeSJdP4TvFZkg9/PlaPg0CiF/2akcr7BTUcUYihiNZt646UzEu5Z9EnSXyUGOhrzO0xv
-         jKYA==
-X-Forwarded-Encrypted: i=1; AJvYcCWUT0+xmBgf7wjWQVGPgRrqcf9JbCgD96dwhKKlRS1PEUZ6uDtZDG8ceXP0mauU6BvCn/t1ydPHoNfPDw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBx2JBup3ZaexroDheuET1hnTqXMaZpWRqCK5ymS3SPNqAgu9k
-	vg/wRUWMObiIJenRQMir9H4Y05t5SFwEQA60POW39uoAoR8f/whKEkh0p+f/cBZajMcTi4z6vUN
-	7IDs1iJt+/09SPeELa51hJoKAVVDDR98CQFPWjJLnmrQIVBV7qh5FN5Mefqi/vWBxDA==
-X-Gm-Gg: ATEYQzzka1YZDmzsUPZJAwEuRU5IXZdpe/SRQsD0wj/ciWJ5BcbhMl1iS71W92uy0hM
-	NP4VYX4YQXhtE6wkHOOG/A9ZaCvx1kgqVkvB9mH80Sccdc1nKAvxC2N34flDhvsW+fTkXMfBSoH
-	zLexZTX6imP80ZNPudGXU1IChN8T/kIVYhlLpRslK2008O4Prq+3bo7bJqbT2JIzXi8L4iM9PJ2
-	seB39ZypzRwmsaGUDau0F3P6FuWuK1A3jNWNSblaqM+nJHNKHL0p/A8nNS60k/CI8jUXLQpf0Q1
-	g72bKrW22uimsizd5kcCi85cnd0+s+QTpq6EFEZaS3KG+BntqPX1V94hG82uGjO0ZHwVOMMiJmg
-	R5VeTg1wUvjXBnx+Wi+RnPHXkUac18EqE7g/SIDsx/mj28lvWHMaqbl0VDDyAKId+45S4bbnzae
-	S5NLVb4c2vOiTjnj/IT4pwrqFlv2JSCAT5Q/s=
-X-Received: by 2002:a05:6102:2d09:b0:602:896a:84ba with SMTP id ada2fe7eead31-6054fefac74mr3215560137.17.1775052763559;
-        Wed, 01 Apr 2026 07:12:43 -0700 (PDT)
-X-Received: by 2002:a05:6102:2d09:b0:602:896a:84ba with SMTP id ada2fe7eead31-6054fefac74mr3215547137.17.1775052763100;
-        Wed, 01 Apr 2026 07:12:43 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2c43b3597sm455593e87.23.2026.04.01.07.12.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 07:12:41 -0700 (PDT)
-Date: Wed, 1 Apr 2026 17:12:40 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil+cisco@kernel.org>,
-        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: Re: [PATCH v3 2/3] media: iris: Initialize HFI ops after firmware
- load in core init
-Message-ID: <pmhamab25borj22drn5oamb3c3jybqpjd65m4j2btaroqxhn2b@eiw6zoj4fow6>
-References: <20260331-kodiak-gen2-support-v3-0-958296fab838@oss.qualcomm.com>
- <20260331-kodiak-gen2-support-v3-2-958296fab838@oss.qualcomm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D0A3F8801
+	for <linux-media@vger.kernel.org>; Wed,  1 Apr 2026 14:38:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775054285; cv=fail; b=r0iTtRym9RBhCyubw28hNVLaUf3p0xa1sE+2XsuA8re36NwNpfTP47bJFE82JF4+N8X6lELEv1D585djZQ9NQ/Nwr9/0p4fLLp5b4EXAFUuKWAzUs/sgMGLPuMtR0thP5yhiMNz2KEYiCuAdRAdohyesdegMzq+7bpi5JWGcaMs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775054285; c=relaxed/simple;
+	bh=8qmVFI2i2gslCb3geEbbb7B0MnT5wxDCqM5WPb98Zpw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=RWFm4nyqDioUUH5BiXbqtljfHbBfY/euGQex77/L6ILW9E09De6lsgD/t3OOi49wK/eRFbqrpwxS5+TGGKD0p2pYjMN8Kvj4uTsI2Dq7PmoZmw/tBvR3n9oOk/KTnsfUFpjhoPnz2Yt/MMXhpgmd0IRqHOtRIuZIlfzshLRvK+g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=NO4/6b7d; arc=fail smtp.client-ip=52.101.72.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RgNPoj5G9b6o0z1jlb/+mIPkxYfrt1pi/Waabm1xGQDo3xCw+O5DJvhC7Lhi5boly9RNNLUGVWH/8yPTvaDdDl2psAUVyOQoA4KH9rqPRZfhP5eF4T+1UI9k1xK0OvCHbJbbLoJjdG75dQ0YzGfnGDaSn7mZUD7pCCv1zJ3cTRSHFlhJx2oy2EYLaAR8gEdCculsc5mCCPYkXGSMeDLM8t85+g8oGxo1DS+6udnGBWAQBJk4miJpBnAx+TqxDhfgxzkTDdUmDuiCw8iZZ6RPhggwwWf+X2i/uWzoPUhtQqJbm9sVL+4c9tYmHdnTGeCQsn+l4SBcbJ/xZQQJ0Xd3cA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zi0sBA9BgFxoD61qM3N5aBhjSgdttQKA8rMRD5V/Bnw=;
+ b=UNFR7vC/aQgrusxc6dcc+QF0NMwGwnGILt2XXtFkYzglJJhUdY3NA1NDf/6C0YFRTxsJldD/WReciFu2W51XGJry4/jI92AWeKOHyABCFiKHqVO0tEed5Vzp3Ytfni9qwkFwmwigJ1tC7wRezzyJrfktbykjnSkv1Icb1QhYt33+te3KFwf5APDja+cGDMqNOfFvTmd00SBiKPajQbm1iMFhJr2Vu45/LXDm1fVfc/pM8qx9fUeaGgX9D9tzZ+KbZsPogWghJ950VWIop1j7Ny7bj5BK6NsS/ZBZ8nqlNQkohHRoqZ3gBGovwHtK4F3kiQyHfTJCe+M4nhaNGR5olQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.60) smtp.rcpttodomain=ideasonboard.com smtp.mailfrom=foss.st.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zi0sBA9BgFxoD61qM3N5aBhjSgdttQKA8rMRD5V/Bnw=;
+ b=NO4/6b7drKRTbozYZ1hIEWOr69BKfkz6FrlaPsfdlb1c53Wku/WapXI8Mbbjb24YSjzb3+a/Ff+qk6LQfhzp+Qey3T1YVPPkh9phDTajT/9pLSn+mY4ln0daIQl4lmDeCkUVJr9Vg5ddWazfrtINsKkHZoglR8onpIBU8f5eSz93F+/qYUXtUd3MpmOIPWZnXoRtO36SNKd0qliOnn+b7MzEnVR14oSBoHKfoeVKDxSi9xaYyxivUX1G63qQL1gOjD9AYUGzqIHsG9znGfY1tWYXDvgl5yDwspYPLi8TORdNhncxhg5/MabOnGDutTrJgTQX7j2d8wVHuNsQURsR1Q==
+Received: from AM9P193CA0001.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:21e::6)
+ by DB9PR10MB6452.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3d7::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 1 Apr
+ 2026 14:37:52 +0000
+Received: from AMS0EPF000001B5.eurprd05.prod.outlook.com
+ (2603:10a6:20b:21e:cafe::54) by AM9P193CA0001.outlook.office365.com
+ (2603:10a6:20b:21e::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.28 via Frontend Transport; Wed,
+ 1 Apr 2026 14:37:30 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.60)
+ smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.60; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.60) by
+ AMS0EPF000001B5.mail.protection.outlook.com (10.167.16.169) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9769.17 via Frontend Transport; Wed, 1 Apr 2026 14:37:52 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
+ (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Wed, 1 Apr
+ 2026 16:40:32 +0200
+Received: from [10.130.78.67] (10.130.78.67) by STKDAG1NODE2.st.com
+ (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Wed, 1 Apr
+ 2026 16:37:50 +0200
+Message-ID: <03499cdc-fe18-47ad-9b70-658f0c0dde7f@foss.st.com>
+Date: Wed, 1 Apr 2026 16:37:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260331-kodiak-gen2-support-v3-2-958296fab838@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=RYydyltv c=1 sm=1 tr=0 ts=69cd27dc cx=c_pps
- a=5HAIKLe1ejAbszaTRHs9Ug==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=wb2wMtAIV9lWYoYjNPEA:9 a=CjuIK1q_8ugA:10
- a=gYDTvv6II1OnSo0itH1n:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAxMDEzMiBTYWx0ZWRfX24vOFVCIcanp
- 1vPm1IFdi6LVJNR3VnFNldF5oU8gmAo73mSKXHtv1J7kBKtM/imzzNk/a0qc5GH/pY70MmJudvE
- cjlDcmCi4/rPS9DdoICBEyebjlE7h+rYHk2UzRIB4B8NoN7jhCibmWlEcpwPe+4MJx7/JNdm9zk
- m200i73US9yeJKwhaUOEtv1WpbjMLr5QMdqNZ6gqi7VD3QuusJgjaggGm4hvBQmfVynO7804awC
- uUAKbByd/x4wouHfvy/kbgopHuZwWvpaKdTXilG8up7/1o4TBRZBa20aGcM6LECJHddlXEkVDs8
- 2IfyoAClLIHtFLlSddgx8Dg58C3mIKT1FgDtdjQFVj2/X5I7nMYqEZKQL1tVoyCLnXaffrnsUX0
- 9AMI/XI12ZrLpEJ010YdFjewLakNmEW+9Fy7MczbfVTlcacTcsJS4qiPj+/qrImSvpOxzzuELoq
- EgHP6QQphJiJQZF7xww==
-X-Proofpoint-ORIG-GUID: iR9K2H12WtoX9xKFkXQdo1vVoHxPPENY
-X-Proofpoint-GUID: iR9K2H12WtoX9xKFkXQdo1vVoHxPPENY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-01_04,2026-04-01_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 clxscore=1015 adultscore=0 bulkscore=0
- spamscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604010132
+User-Agent: Mozilla Thunderbird
+Subject: Re: [ANNOUNCEMENT] libcamera workshop 2026 - Nice, May 29th
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	<libcamera-devel@lists.libcamera.org>
+CC: <linux-media@vger.kernel.org>
+References: <20260315221126.GA520505@killaraus.ideasonboard.com>
+Content-Language: fr
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+In-Reply-To: <20260315221126.GA520505@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To STKDAG1NODE2.st.com
+ (10.75.128.133)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMS0EPF000001B5:EE_|DB9PR10MB6452:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe1d673c-7229-4408-9b73-08de8ffc4152
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|1800799024|36860700016|13003099007|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	mZG1iOLN0XmbFo3UH4ZfdJOFHJkEYkg1UzqaVoLQwaL7NwWlcrvr+i7g1IMBlMlt6EmOocn0o+LT/mGOxWbs6+95kAbNq4YEbazQkzToWunQ2DUf/7Qg06BZiZAA7pkeL10xKH5QK5pBNWEQBTZwMCN/XDlMEXjIJOG5GovWfZ+valUbCx6CdG4NZd12u2hEUFMqyFUkyXExLrnCJPmoq2MPdPkLwlk3Ll0wNBwp3nvDu+2oPN/dqr2f1YEUZcZB7HtdnQ2smaqQAIJxvZygH9fG6FhPztjHoCYacmUP9wlK3BoD5f8rAfGxRxjgh742AiDrn+1qve92J/SoG3xfLSAix775hdmpCBnNdOxoCfV7svQFM00v4Ba1g0x5HCSUdSESwNBsbeXXadkMqIf2VZbj0i02X97xuSKpjKrDTLxyQxRuU7a0v3XJw1mYdUx0EW+Rmdp+D9ggeIge4gtn0CmvDkXF8X4RQtRnXv7b91LGyQVT5NoV11V0rmOpEA4l2KLB0CJeNTqoKz8Ph6TlJ9ujP6zmlXPtmgPYFosNOue+IU/kB6y2jcbLp/kKFRUFbNmvalz20YXNPMjjELnn5kpsF0xLvpzglYr/Am00OMnBou3XYnNP5H7RZI0fARlJmS0iVFF+tuGuP+DWC2fQTd1QV192j4E8SXJqVsByuFJEGWEgp3k8sCOypnhiVfFyqPiHKOikAvglTUU6vkKVQAfXXKLuE2mKaS7v6AzYuI0=
+X-Forefront-Antispam-Report:
+	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(1800799024)(36860700016)(13003099007)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	8d2oRDf2BdwrUphdxQCdngU72BGX/7c+MYU0szJwix6Zz6d2+v0Djx3r8ltMuJD4KJAAUKzla60imBVsnuI+bpgguoXCGzg7f1cbtO4GFjsLLj5UYSGMpy6n85Auv533tLiZ8EZXshs/K8duwYa54Ggzw8Z4Gn7r2T78pnZ0vwX4GJqcQgdltK3gNkbrAWtQb9jsWa6AeAlU+pggsBMey9Oj8lvCywvytoxa6EtJh8Tdzsj6RzIopZ629PsZH971o1bjKpn3k6W1XUwQd0+cYlzjP5p+EX3E3DQS707lTWLbccM4qG9dUQuv73aWkiAkQORfblNI4Ybgq3dO6GIDz8Tzo93U8JT0y0Xj2q01yJXj+nTVrkCSRnEMJFP3Zb4kVFtARSZVqtJkCi8Ejlzt8ccFSj4oRdHR6NunKS8DE+XYkBaSF4JJrD0LAHTfiMKR
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 14:37:52.2801
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe1d673c-7229-4408-9b73-08de8ffc4152
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AMS0EPF000001B5.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB6452
 X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[foss.st.com,none];
+	R_DKIM_ALLOW(-0.20)[foss.st.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57886-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 7027E37C1F8
+	NEURAL_HAM(-0.00)[-0.999];
+	DKIM_TRACE(0.00)[foss.st.com:+];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_NEQ_ENVFROM(0.00)[benjamin.mugnier@foss.st.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57887-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: CB62437CBA1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 31, 2026 at 01:09:56PM +0530, Dikshita Agarwal wrote:
-> The HFI sys ops were previously initialized in probe() but, we don't
-> have firmware loaded at probe time. Since HFI is tightly coupled to
-> firmware, initialize the HFI sys ops after firmware has been successfully
-> loaded and booted.
-> 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-> ---
->  drivers/media/platform/qcom/iris/iris_core.c  | 2 ++
->  drivers/media/platform/qcom/iris/iris_probe.c | 1 -
->  2 files changed, 2 insertions(+), 1 deletion(-)
-> 
+Hi Laurent,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+I'd like to attend please. I don't have any special topic to address at
+the moment.
 
+Thanks !
+
+Le 15/03/2026 à 23:11, Laurent Pinchart a écrit :
+> Hello everybody,
+> 
+> With spring approaching (at least in the northern hemisphere), it is
+> time to announce the next libcamera workshop. After four stops in four
+> different countries, we will pause our journey through Europe by
+> extending last year's stay in Nice for one more edition.
+> 
+> The workshop will be organized by Ideas on Board at the Radisson Blu
+> Hotel Nice ([1]) on Friday the 29th of May. It will be the perfect
+> occasion to meet face to face with the libcamera community and to
+> discuss the project's roadmap together. The event will be free of charge
+> for attendees.
+> 
+> We will be part of the "Embedded Week in Nice" ([2]), a week-long event
+> that extends the Embedded Recipes conference ([3]) for extra
+> embedded-related fun. As last year, communities we cooperate with will
+> be present. In addition to the PipeWire Hackfest, this edition will
+> bring the Display Next Hackfest to the French Riviera, and the Linux
+> Media Summit will also be organized in a nearby location on Tuesday the
+> 26th ([4]).
+> 
+> If you would like to attend, please register your interest by replying
+> to this e-mail, and indicate if you have any discussion topics you would
+> like to include in the schedule. We will draft and circulate an agenda
+> after receiving topic proposals. If registrations exceed our capacity,
+> priority will be given based on topic submissions.
+> 
+> [1] https://www.openstreetmap.org/relation/5130684
+> [2] https://embedded-recipes.org/2026/colo/
+> [3] https://embedded-recipes.org/2026/
+> [4] https://lore.kernel.org/linux-media/92e24f36-d189-4ba8-ad0b-43277bc1aabd@kernel.org
+> 
 
 -- 
-With best wishes
-Dmitry
+Regards,
+Benjamin
+
 
