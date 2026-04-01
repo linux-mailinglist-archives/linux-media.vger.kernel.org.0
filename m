@@ -1,181 +1,143 @@
-Return-Path: <linux-media+bounces-57879-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57880-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AJOuE0IdzWnOaAYAu9opvQ
-	(envelope-from <linux-media+bounces-57879-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 15:27:30 +0200
+	id ICgKMBsczWnOaAYAu9opvQ
+	(envelope-from <linux-media+bounces-57880-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 15:22:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D4037B36B
-	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 15:27:29 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 396FD37B24D
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 15:22:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A063B3087452
-	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2026 13:15:06 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B554B310B959
+	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2026 13:15:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E4EE408238;
-	Wed,  1 Apr 2026 13:14:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6732394787;
+	Wed,  1 Apr 2026 13:15:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4D43B895E;
-	Wed,  1 Apr 2026 13:14:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B18A1F418F
+	for <linux-media@vger.kernel.org>; Wed,  1 Apr 2026 13:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775049299; cv=none; b=DZaqVI+4kFFm2s5V0SI8yX7d4/MZKdsLjMf52YCxeBeniJOLLSqoB6ppv4NWjA2utnQm8DBPzeDkBl+lNdHyGJx+YjucGX1IqDnPXSkQPbZZ+K0CorQEixOKbheKN54gP56CIfnOAKxO3W+ssx5l/KYEuzGD3Qosri+P2fcILWc=
+	t=1775049326; cv=none; b=Oh9v+6xglYWqD4ZQG4fFjSzXz35uWlitAoX0DtWJS1X2YdaNV3dROHyLI66jOwHSc6Wws2Yfdexjn6UfUjsu9+r/I38Tcv1VrUPrrfbuPgpLa39Rapb36kiR8MjEcTPTlh/xDfrDbXAfGl75ESCNX1jpzJHVk0OchIX9pZEQykI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775049299; c=relaxed/simple;
-	bh=y3Q4UEIkiQsD31eoEhRFbzyfP01/ffPoZ8nGmowwaw4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PwW/oJaIsxjm8XFLUpPFOIWw2NMfEyYcEq3fPFfXFM2codVbVhg0fn5BHDdC/n2zYNWO/sJbE3RghAPiEzOpe3+9D1uAy3LhMCtFR3yGP72zCmli+8Mxmq2xX/yre2ohbmxF4rBIO8/nkpdIDq/kxT5xt4WuOlUPrWWtcSZ0y8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from ubuntu.. (unknown [202.112.113.208])
-	by APP-01 (Coremail) with SMTP id qwCowABH8Gs7Gs1p_+PdCw--.31536S2;
-	Wed, 01 Apr 2026 21:14:46 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: mchehab@kernel.org,
-	make24@iscas.ac.cn,
-	tglx@kernel.org,
-	mingo@kernel.org,
-	laurent.pinchart+renesas@ideasonboard.com,
-	jai.luthra@linux.dev,
-	hverkuil+cisco@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	stable@vger.kernel.org
-Subject: [PATCH] [media] saa7134: Fix a possible memory leak in saa7134_video_init1
-Date: Wed,  1 Apr 2026 21:14:33 +0800
-Message-ID: <20260401131433.137365-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1775049326; c=relaxed/simple;
+	bh=9kKz1NuyzPTdS29gXY6YszPmo3f2jZAS7uQCXkXfigw=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=BUJDCy1PqQWmeZAvWjP0cO2sTW2rlWbhmXReW18ek8CXfouF5dZPxdQQezNkFMlkcmv6qKdPbjA6VDKRJnm7QKeBS5o9AnKxESrfNiEPfOGonImTMU8iVbFm+mqX19tE7gVx68iX16jj5Onpoanl7VtLnUHGjkFJkFXBl657DXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-7d4be1dee67so29380924a34.1
+        for <linux-media@vger.kernel.org>; Wed, 01 Apr 2026 06:15:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775049324; x=1775654124;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KFlB0l8lLf5AV4rrOyWvfjH0CFiY2dvJm8xVryALAvM=;
+        b=H59jMEE1NncG4e4qWL+uYMVcVoqG8q0P5WfNC+Zn1t0oc18B4EBk4oTHgA4XA5ukox
+         ELOn4xqLuqRttrynsnufB1zpXlpioLoj2HtOiv85HUNhn/LEut9AOoJZPsOmqNv8n1vq
+         58pSw7zS4dKB8vOxBBPgZPjNYh+iNQWtR6+G2H6PWHOCPpKZ6o/lx/6AVJbcYTm6qSDl
+         ay2oVAVXeWloc3Y6kTwzQGFTaSX/J8K8VGDH3mbpGSy8mUWyYkLsl0sF+d4a7iBZoJ7n
+         70pw53HRv/qpDBeXJaTuxzX+d3wh2RoSVBfiSxWSwc9CxpLsAANjhmMRBtz3WdYT3rjc
+         4hNA==
+X-Forwarded-Encrypted: i=1; AJvYcCVomVNvA3jYnUCPJbsULT0IasruF6U8ndFfYyRzM7aq9DwahpbvpFeo8OeWUXK17UdKGPr6lm6KPIP1zQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvAcBk3697yolGlZ4GRMCP4g/xjylBGJa57lSmcPmURGkM04fM
+	j6dejuyXt14KufOf/e2xk2fl7tsDOLU031pAKxsS9s1V/2OQbhaUOoMI0fkGxTICWaqmueCAeRW
+	xC7DODnz4/uHLf++w+RACD4FWtcIRY6GOh5EJM3c6/SufCAg6xJvzXaqpX+g=
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowABH8Gs7Gs1p_+PdCw--.31536S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCr47JrW7Wr1kAr1xWw43Awb_yoW5Gw1fpa
-	97tF9ayw15Jw4kGa1xXa18CF1fC3y8Wr43WFZFg348Kw15Cw18AF15X34j9FZ8ArsrAF1j
-	9r40vr1kCr15WaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
-	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
-	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
-	YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7V
-	AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
-	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
-	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
-	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
-	0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbQVy7UUUUU==
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
-X-Spamd-Result: default: False [1.54 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+X-Received: by 2002:a05:6820:a08:b0:67d:f8f9:d3c1 with SMTP id
+ 006d021491bc7-67fabd03ee1mr1616284eaf.65.1775049324320; Wed, 01 Apr 2026
+ 06:15:24 -0700 (PDT)
+Date: Wed, 01 Apr 2026 06:15:24 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69cd1a6c.050a0220.70c3a.0001.GAE@google.com>
+Subject: [syzbot] Monthly media report (Apr 2026)
+From: syzbot <syzbot+listb55b05bd6ba228a0a478@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-1.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57879-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[iscas.ac.cn];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_NEQ_ENVFROM(0.00)[make24@iscas.ac.cn,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-57880-lists,linux-media=lfdr.de,listb55b05bd6ba228a0a478];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_HAS_DN(0.00)[];
+	REDIRECTOR_URL(0.00)[goo.gl];
 	PRECEDENCE_BULK(0.00)[];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.988];
-	TO_DN_NONE(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:email,iscas.ac.cn:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 55D4037B36B
+	TO_DN_NONE(0.00)[];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.991];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,goo.gl:url,googlegroups.com:email]
+X-Rspamd-Queue-Id: 396FD37B24D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-In saa7134_video_init1(), the return value of the first
-saa7134_pgtable_alloc() is not checked. If it fails, the function
-continues as if successful, leaving the driver with an invalid page
-table. Additionally, if vb2_queue_init() for the VBI queue fails after
-the video queue page table has been allocated, the allocated memory is
-not freed before returning. The second saa7134_pgtable_alloc() also
-lacks a return value check. Errors occur during device probing before
-the device is fully registered, the normal cleanup path in
-saa7134_finidev() is not executed, leading to memory leaks and
-potential use of uninitialized DMA resources.
+Hello media maintainers/developers,
 
-Check the return value of both saa7134_pgtable_alloc() calls and
-propagate errors. On failure of any later step, free allocated page
-tables to avoid memory leaks. Ensure control handlers are also
-released on error to prevent further resource leakage.
+This is a 31-day syzbot report for the media subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/media
 
-Found by code review.
+During the period, 8 new issues were detected and 0 were fixed.
+In total, 31 issues are still open and 103 have already been fixed.
 
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
-Cc: stable@vger.kernel.org
-Fixes: a00e68888d5d ("[media] saa7134: move saa7134_pgtable to saa7134_dmaqueue")
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  4938    Yes   KASAN: slab-use-after-free Read in dvb_device_open
+                   https://syzkaller.appspot.com/bug?extid=1eb177ecc3943b883f0a
+<2>  814     Yes   KMSAN: uninit-value in dvbdmx_release_ts_feed
+                   https://syzkaller.appspot.com/bug?extid=01d4620886bee3db0e74
+<3>  567     Yes   WARNING in igorplugusb_probe/usb_submit_urb
+                   https://syzkaller.appspot.com/bug?extid=5d7eece664082e0c5c1a
+<4>  221     Yes   general protection fault in su3000_i2c_transfer
+                   https://syzkaller.appspot.com/bug?extid=d99f3a288cc7d8ef60fb
+<5>  148     No    KASAN: vmalloc-out-of-bounds Write in tpg_fill_plane_buffer (4)
+                   https://syzkaller.appspot.com/bug?extid=dac8f5eaa46837e97b89
+<6>  135     Yes   general protection fault in dvb_usbv2_generic_write
+                   https://syzkaller.appspot.com/bug?extid=f9f5333782a854509322
+<7>  93      Yes   KMSAN: uninit-value in dvb_demux_read
+                   https://syzkaller.appspot.com/bug?extid=bd7c90de4c9f1f8ab660
+<8>  33      Yes   KASAN: slab-use-after-free Read in dvb_frontend_release (3)
+                   https://syzkaller.appspot.com/bug?extid=ae466a728017ec940b41
+<9>  15      Yes   KASAN: use-after-free Read in em28xx_close_extension (2)
+                   https://syzkaller.appspot.com/bug?extid=a11c46f37ee083a73deb
+<10> 12      Yes   BUG: corrupted list in az6007_i2c_xfer
+                   https://syzkaller.appspot.com/bug?extid=0192952caa411a3be209
+
 ---
- drivers/media/pci/saa7134/saa7134-video.c | 25 ++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
-index 4a51b873e47a..2b1672737d84 100644
---- a/drivers/media/pci/saa7134/saa7134-video.c
-+++ b/drivers/media/pci/saa7134/saa7134-video.c
-@@ -1714,8 +1714,10 @@ int saa7134_video_init1(struct saa7134_dev *dev)
- 	q->dev = &dev->pci->dev;
- 	ret = vb2_queue_init(q);
- 	if (ret)
--		return ret;
--	saa7134_pgtable_alloc(dev->pci, &dev->video_q.pt);
-+		goto err_free_ctrl;
-+	ret = saa7134_pgtable_alloc(dev->pci, &dev->video_q.pt);
-+	if (ret)
-+		goto err_free_ctrl;
- 
- 	q = &dev->vbi_vbq;
- 	q->type = V4L2_BUF_TYPE_VBI_CAPTURE;
-@@ -1732,11 +1734,24 @@ int saa7134_video_init1(struct saa7134_dev *dev)
- 	q->lock = &dev->lock;
- 	q->dev = &dev->pci->dev;
- 	ret = vb2_queue_init(q);
--	if (ret)
--		return ret;
--	saa7134_pgtable_alloc(dev->pci, &dev->vbi_q.pt);
-+	if (ret) {
-+		saa7134_pgtable_free(dev->pci, &dev->video_q.pt);
-+		goto err_free_ctrl;
-+	}
-+
-+	ret = saa7134_pgtable_alloc(dev->pci, &dev->vbi_q.pt);
-+	if (ret) {
-+		saa7134_pgtable_free(dev->pci, &dev->video_q.pt);
-+		goto err_free_ctrl;
-+	}
- 
- 	return 0;
-+
-+err_free_ctrl:
-+	v4l2_ctrl_handler_free(&dev->ctrl_handler);
-+	if (card_has_radio(dev))
-+		v4l2_ctrl_handler_free(&dev->radio_ctrl_handler);
-+	return ret;
- }
- 
- void saa7134_video_fini(struct saa7134_dev *dev)
--- 
-2.43.0
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
 
