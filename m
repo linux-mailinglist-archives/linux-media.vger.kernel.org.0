@@ -1,64 +1,98 @@
-Return-Path: <linux-media+bounces-57891-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57892-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ENTZGVBOzWkWbwYAu9opvQ
-	(envelope-from <linux-media+bounces-57891-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 18:56:48 +0200
+	id 6HwvG2dOzWkWbwYAu9opvQ
+	(envelope-from <linux-media+bounces-57892-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 18:57:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744CF37E42B
-	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 18:56:47 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C693E37E449
+	for <lists+linux-media@lfdr.de>; Wed, 01 Apr 2026 18:57:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D8E483031513
-	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2026 16:28:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4BCA031B4453
+	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2026 16:31:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E86C247D943;
-	Wed,  1 Apr 2026 16:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB986478841;
+	Wed,  1 Apr 2026 16:31:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kcore.it header.i=@kcore.it header.b="KGfM9Sjh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NKBJLMdH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from spark.kcore.it (spark.kcore.it [49.13.27.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62D53C942D;
-	Wed,  1 Apr 2026 16:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.13.27.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEFC43CEE4
+	for <linux-media@vger.kernel.org>; Wed,  1 Apr 2026 16:30:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775060758; cv=none; b=J0Q89E6QaGZ1CySjSyjyBAREdMiKXFLxSBWwIDwelliMoVA7FBMZ5ydKOraxt8Xn8NXO1OU6BY5QyY/ncs1GfOEtqpGiOG7kbeb3scQU0BpT7Vnj97/tR4tAo6ymBaLDm4SiqbL6wJtiAD3qX5Qm9D9zC7KZMXl/21h4hJYowlU=
+	t=1775061060; cv=none; b=inc4vJqOwnP+eFg668fo69srkTGYaj00fOxdNgtJKpFIQlDxtyQ+uW4i51xBV0Oohelxewo3dG2vtSiD+an1BwQfsstG5Cn6iivD7+k46eG3kOGlsQwPajMDyPGu1LraMM+El2pyNgr8nml4IhkDWt6GxwEgHCwoLUc+d00/Sr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775060758; c=relaxed/simple;
-	bh=65k/OPgoCxkpL0B2UvUpOxb8aihUudDsObyqeHk30n0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Bm5sIBgRWyiynOtBYoPOOwwfsYy2RHBom5qyOfRy7N6OHU6AOu8qVcTWUfRSyY6BzLqIAXARCZDPhvcZv3/t8ZZ6D9OhAJUbM+Z5uyva7goGjHvAoyz9yGKkXNfNM6Y12Y6e4jzhk2y1K8NOo5k30YKtB0fhVvyh6aL8A8NJM9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kcore.it; spf=pass smtp.mailfrom=kcore.it; dkim=pass (1024-bit key) header.d=kcore.it header.i=@kcore.it header.b=KGfM9Sjh; arc=none smtp.client-ip=49.13.27.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kcore.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kcore.it
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kcore.it;
-	s=spark; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:
-	To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=cnsGCJerqZeic+bB0DW198cYcKvnJe3T1BtOwC5JpOc=; b=KGfM9Sjh4A7iVDRHTMfSw4RPYc
-	81bB+J9zsHFyQRv5omL5slOTiJFr1ZVQu+UlAcjvULhqviQ+sZipT2+xmh4Bbw03UffryGqrcgx79
-	qLW5bfATQCHVJVqvpgGf44JIRhhaNM9429j4QXwyjMdSVI9q8kKAcL22WDEDpwq8jTh8=;
-Received: from mnencia by spark.kcore.it with local (Exim 4.96)
-	(envelope-from <mnencia@kcore.it>)
-	id 1w7yO3-006hht-2t;
-	Wed, 01 Apr 2026 18:25:47 +0200
-From: Marco Nenciarini <mnencia@kcore.it>
-To: linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>
-Cc: Tianshu Qiu <tian.shu.qiu@intel.com>,
+	s=arc-20240116; t=1775061060; c=relaxed/simple;
+	bh=WFxD1dCi0gdEf1RrCRcbG6DJ80ofO47eH0nGB+1UHro=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sNfpJ3VHvxOTDhwaJ0o60favYGuN4ozTDvKYIWXPe5EZ9rEjtgF0dk0FP/Yx4y1I+bzfUV88ASLM+VaXC4GBJGBbJU6GZmRk2qJMfc7xiZmF4a4qwciIp56JZXo2jEKwdwzHkOrRJ0FfaFXmtH6Farfp3UjYeRv4mBduTcf8Cis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NKBJLMdH; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8cb40149037so782022285a.2
+        for <linux-media@vger.kernel.org>; Wed, 01 Apr 2026 09:30:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775061056; x=1775665856; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KUNe/dYEv7kv40YpEMImc7XF/Oi4b6WN91XD+axok70=;
+        b=NKBJLMdHcNJeWHIemMTlD2FFb9pYuMV3dMgg8fwgPUax/fCuwMkL53zAfDZie2eR5i
+         ATTiY6kYV0hwEC22czYhXVUco0qdPNyfhxF4gUzoQz7KPzjoLSNB3dBb3wtxekKUNuGz
+         Jmq/J0fc/EKwQTk28kyzbz9lA1vto/VVFkCpUcFwG1t6y8vifnQlIJ/Tc1eaa6oIZskb
+         bn8fl2gzrkU/z/ykHWmbJvw63okUlrKp1uMpRhzg3vwc0c0w+oJH8jFAFtPrCHqD78LW
+         vZOjaEOEsmOuuFvG6ZwAo6MmG6KugO24ojlJC/HzaWpilqJoPnNA8Hu2FgooSvDQe+hV
+         G1sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775061056; x=1775665856;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KUNe/dYEv7kv40YpEMImc7XF/Oi4b6WN91XD+axok70=;
+        b=lzuiS2+BTD4FJbkQFry7WqlmxSNuQ4UkSLIfAsJwabDqNUkcvCjAcdbKakIh1UttYp
+         juhao5RErSLSbDApGCKfGiacEYGEiodiZDeM3cnCOv3Fy/HwfNDYWRmqXsHNzg/4j0rh
+         hwpHCR1MfB05gsUKhZzkMbANqM7cgF+d+lHesJ2S5wpBs4KQCSCexppbsiomxA1cXMkc
+         aZgvGGnIFJiY4n5NFt1AMbC8JkLZOHei4hx6QBD4YISLM8B02/zwav8mLlJQssReYEiW
+         rgJLfh4D22+cBFr7q9nYQI6/al0QwSKEdbl5ozTH3WJVJUTR3MHj1ZeUIYFYTHIElezY
+         pUzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUyAwPUuMI5sNL+pSoA/ARWVL0FWLMrKa1lDAKbhLRzciGBGnISKiZbLyOy9ktA3r7tdGnI3hDJTeJFqw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJg3LtlKmfplCvoR1B8UpoBFo/XpO0s4Vk9KRFAEJfC20ZbG0+
+	aPToEP9g1TQF64FmjJSSJbhWN778WSsAvdngnKpZeoPQl9cAWVmV9UCn
+X-Gm-Gg: ATEYQzz8i3IL6gNIdmaWAmDN2VIaoytBuCexlH/HK7kgKjzBqEMlvPkQfBKqtFcvmWP
+	z3sTyD5iEDjVrfs4En214lqm4/sOcfr1guP3IahCyYT7oS/0D0WHqU44tHUHPBfd2+z9pv9/T8f
+	3U7dD1439IdaAb5T2XxOCOEkADFAdk+03R4vvTdy0FRsYoF5rCHBzlfR8a3ucxVy3FZfLAAD1WO
+	KQ1JjZv6tKXcAGcIxeIn3iUecOW/+dFkKrxKIzen6+U9SqkG/aDitXvfkTGsY/JVN47LYbSbO6K
+	3rXtUs9L57xUbMMYQsX+HyTFQ/EeaYtlHd3nAPNmJ6G89wBSiSbDt21DG6va8z5bdZykPy5fcCq
+	sxcO8vjhYf/tXN7NRiSZfYhRImw053Dv0w7/CC4ZxF0oqu2nWYfSbOQr+A2N8+AsdRsopvUHFP0
+	+zodRZSL85DMRtd6DaTku8laiqKSFt
+X-Received: by 2002:a05:620a:1981:b0:8cf:d5f3:9a1a with SMTP id af79cd13be357-8d1b5c2a262mr623888785a.51.1775061054536;
+        Wed, 01 Apr 2026 09:30:54 -0700 (PDT)
+Received: from localhost ([104.39.66.164])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d2a874459asm12496985a.39.2026.04.01.09.30.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2026 09:30:54 -0700 (PDT)
+From: Yuho Choi <dbgh9129@gmail.com>
+X-Google-Original-From: Yuho Choi <yqc5929@psu.edu>
+To: Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	stable@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Marco Nenciarini <mnencia@kcore.it>
-Subject: [PATCH v3] media: intel/ipu6: Improve DWC PHY HSFREQRANGE band selection for overlapping ranges
-Date: Wed,  1 Apr 2026 18:25:47 +0200
-Message-Id: <20260401162547.1597975-1-mnencia@kcore.it>
-X-Mailer: git-send-email 2.39.5
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Kees Cook <kees@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Thomas Andreatta <thomas.andreatta2000@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Yuho Choi <yqc5929@psu.edu>
+Subject: [PATCH v3] media: atomisp: gc2235: fix UAF and memory leak
+Date: Wed,  1 Apr 2026 12:30:50 -0400
+Message-ID: <20260401163050.34830-1-yqc5929@psu.edu>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,123 +100,132 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [1.04 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[kcore.it:s=spark];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-57891-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57892-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[kcore.it];
-	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[infradead.org,kernel.org,gmail.com,vger.kernel.org,lists.linux.dev,psu.edu];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mnencia@kcore.it,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kcore.it:-];
-	NEURAL_HAM(-0.00)[-0.916];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 744CF37E42B
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dbgh9129@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,psu.edu:email,psu.edu:mid]
+X-Rspamd-Queue-Id: C693E37E449
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The get_hsfreq_by_mbps() function searches the freqranges[] table
-backward (from highest to lowest index). Because adjacent frequency
-bands overlap, a data rate that falls in the overlap region always
-lands on the higher-indexed band.
+gc2235_probe() handles its error paths incorrectly.
 
-For data rates up to 1500 Mbps (index 42) every band uses
-osc_freq_target 335. Starting at index 43 (1461-1640 Mbps) the
-osc_freq_target drops to 208. A sensor running at 1498 Mbps sits in
-the overlap between index 42 (1414-1588, osc 335) and index 43
-(1461-1640, osc 208). The backward search picks index 43, programming
-the lower osc_freq_target of 208 instead of the optimal 335.
+If media_entity_pads_init() fails, gc2235_remove() is called, which
+tears down the subdev and frees dev, but then still falls through to
+atomisp_register_i2c_module(). This results in use-after-free.
 
-This causes DDL lock instability and CSI-2 CRC errors on affected
-configurations, such as the OmniVision OV08X40 sensor on Intel Arrow
-Lake platforms (Dell Pro Max 16).
+If atomisp_register_i2c_module() fails, the media entity and control
+handler are left initialized and dev is leaked.
 
-Rewrite get_hsfreq_by_mbps() to select the optimal band:
+gc2235_remove() is the full teardown path for a successfully probed
+device; it unconditionally assumes a fully-initialized device.
+gc2235_probe() must unwind only the resources that were actually
+initialized at the point of failure.
 
-1. Among bands whose min/max range covers the data rate, prefer
-   the one with the higher osc_freq_target.
-2. If osc_freq_target is equal, prefer the band whose default_mbps
-   is closest to the requested rate.
+Handle each failure path with explicit unwind labels that free only
+what has been initialized. Return success only after the full probe
+sequence completes.
 
-Since the frequency ranges are monotonically increasing, the loop
-exits early once min exceeds the requested rate.
-
-For 1498 Mbps this now correctly selects index 42 (osc_freq_target
-335, range 1414-1588) instead of index 43 (osc_freq_target 208,
-range 1461-1640).
-
-Fixes: 1e7eeb301696 ("media: intel/ipu6: add the CSI2 DPHY implementation")
-Cc: stable@vger.kernel.org
-Signed-off-by: Marco Nenciarini <mnencia@kcore.it>
+Fixes: ad85094b293e ("media: atomisp: gc2235: Remove driver")
+Fixes: e838b8c69e45 ("media: atomisp: Drop intel_v4l2_subdev_type")
+Signed-off-by: Yuho Choi <yqc5929@psu.edu>
 ---
-Changes in v3:
-- Changed best variable type from int to u16 to match the function
-  return type (Sakari Ailus).
-- Removed the exact default_mbps match early return since the range
-  check already covers it (Sakari Ailus).
-- Added early break when mbps < min, since frequencies are
-  monotonically increasing (Sakari Ailus).
 
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Bingbu Cao <bingbu.cao@intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
- .../media/pci/intel/ipu6/ipu6-isys-dwc-phy.c  | 26 ++++++++++++++-----
- 1 file changed, 19 insertions(+), 7 deletions(-)
+Changes since v2:
+- Replaced gc2235_remove() calls in remaining two error paths with
+  goto labels to unwind only initialized resources
+- Added Fixes tag
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c b/drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c
-index db2874843..237906cb1 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c
-@@ -288,15 +288,27 @@ static const struct dwc_dphy_freq_range freqranges[DPHY_FREQ_RANGE_NUM] = {
+Changes since v1:
+- Edited the commit message to be imperative mood
+- Corrected the previous mangled patch
+
+ .../media/atomisp/i2c/atomisp-gc2235.c        | 29 ++++++++++++-------
+ 1 file changed, 19 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+index d3414312e1de2..eedaedc84284b 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+@@ -818,18 +818,16 @@ static int gc2235_probe(struct i2c_client *client)
+ 	ret =
+ 	    v4l2_ctrl_handler_init(&dev->ctrl_handler,
+ 				   ARRAY_SIZE(gc2235_controls));
+-	if (ret) {
+-		gc2235_remove(client);
+-		return ret;
+-	}
++	if (ret) 
++        goto out_free;
  
- static u16 get_hsfreq_by_mbps(u32 mbps)
- {
--	unsigned int i = DPHY_FREQ_RANGE_NUM;
--
--	while (i--) {
--		if (freqranges[i].default_mbps == mbps ||
--		    (mbps >= freqranges[i].min && mbps <= freqranges[i].max))
--			return i;
-+	u16 best = DPHY_FREQ_RANGE_INVALID_INDEX;
-+	unsigned int i;
-+
-+	for (i = 0; i < DPHY_FREQ_RANGE_NUM; i++) {
-+		if (mbps > freqranges[i].max)
-+			continue;
-+
-+		if (mbps < freqranges[i].min)
-+			break;
-+
-+		if (best == DPHY_FREQ_RANGE_INVALID_INDEX ||
-+		    freqranges[i].osc_freq_target >
-+		    freqranges[best].osc_freq_target ||
-+		    (freqranges[i].osc_freq_target ==
-+		     freqranges[best].osc_freq_target &&
-+		     abs((int)mbps - (int)freqranges[i].default_mbps) <
-+		     abs((int)mbps - (int)freqranges[best].default_mbps)))
-+			best = i;
+ 	for (i = 0; i < ARRAY_SIZE(gc2235_controls); i++)
+ 		v4l2_ctrl_new_custom(&dev->ctrl_handler, &gc2235_controls[i],
+ 				     NULL);
+ 
+ 	if (dev->ctrl_handler.error) {
+-		gc2235_remove(client);
+-		return dev->ctrl_handler.error;
++        ret = dev->ctrl_handler.error;
++        goto err_free_ctrl;
  	}
  
--	return DPHY_FREQ_RANGE_INVALID_INDEX;
-+	return best;
- }
+ 	/* Use same lock for controls as for everything else. */
+@@ -837,13 +835,24 @@ static int gc2235_probe(struct i2c_client *client)
+ 	dev->sd.ctrl_handler = &dev->ctrl_handler;
  
- static int ipu6_isys_dwc_phy_config(struct ipu6_isys *isys,
+ 	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
+-	if (ret)
+-		gc2235_remove(client);
++	if (ret) {
++		dev_err(&client->dev, "media_entity_pads_init failed\n");
++		goto err_free_ctrl;
++	}
+ 
+-	return atomisp_register_i2c_module(&dev->sd, gcpdev);
++	ret = atomisp_register_i2c_module(&dev->sd, gcpdev);
++	if (ret) {
++		dev_err(&client->dev, "atomisp_register_i2c_module failed\n");
++		goto err_entity_cleanup;
++	}
++
++	return 0;
+ 
++err_entity_cleanup:
++	media_entity_cleanup(&dev->sd.entity);
++err_free_ctrl:
++	v4l2_ctrl_handler_free(&dev->ctrl_handler);
+ out_free:
+-	v4l2_device_unregister_subdev(&dev->sd);
+ 	kfree(dev);
+ 
+ 	return ret;
 -- 
-2.47.3
+2.50.1 (Apple Git-155)
 
 
