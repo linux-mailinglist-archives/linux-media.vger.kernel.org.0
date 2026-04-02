@@ -1,98 +1,78 @@
-Return-Path: <linux-media+bounces-57960-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57961-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aMP+G3trzmnWngYAu9opvQ
-	(envelope-from <linux-media+bounces-57960-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 15:13:31 +0200
+	id SI1GOeRrzmmpngYAu9opvQ
+	(envelope-from <linux-media+bounces-57961-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 15:15:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02E83897C0
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 15:13:30 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF263897F7
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 15:15:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 99788315AA19
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 13:02:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AE1A3318FA87
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 13:04:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D8673E275E;
-	Thu,  2 Apr 2026 13:01:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C77053BE634;
+	Thu,  2 Apr 2026 13:04:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="owh4RlT6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m96HQAzg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAACB28851C
-	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 13:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49CA3D6CA4;
+	Thu,  2 Apr 2026 13:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775134858; cv=none; b=BS96sPvIlF7AJix6gvu1TKRyjfQUiq7LlPqAetTXk0CTNAfOm9C+R9NoR4b5BR/NFsdaFRS91Me/aBNf/YTMS29exXajtU+HgRH4JBm5o19iFcNF7OAISEw49UY+Jt1fYRzAk6Mp15P9z12HTYX5LBKosr7gytrGVum4jTI0OHk=
+	t=1775135047; cv=none; b=BB469xH0J2ZPfF0bfJwqZB0Atnv6YE3sm6avj2aYt4ss1hWDdbv6YlJ3FwNawor1TTRjc6T1CNynUG34gPLPT6fi7g6HTP8ayT36OfWypyjxKxl6e7tlIxpH3bZArZm3BNw5I7fi/aQK0zxFMu/YDom5RhbgA0b6DMjMCjjz7Ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775134858; c=relaxed/simple;
-	bh=P4aQMbaBnnxQLePUnINQzLxACT0pK5SmCXI4vlruYo4=;
+	s=arc-20240116; t=1775135047; c=relaxed/simple;
+	bh=PZ1mbJckwHJY4yOabONXFik8vFfJx/UYDjn4Ro1vDHE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l47lFuQEbbXa2SwpPyLRatpZM1SxJu8Yb7xcQIwqktmufRwD0yf+MunTLMsTYpPl6sFXtDbXDUu+si2HqCjq6syU5VQJHe0sTEOiVeAfRDHVaI0Pcrv/j+8R/BWc0rm9bTKTvHlcM4+U/0xpJh2X8aK9xZ3D6J4N2W8POOJWpKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=owh4RlT6; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-486507134e4so11002665e9.0
-        for <linux-media@vger.kernel.org>; Thu, 02 Apr 2026 06:00:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775134847; x=1775739647; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WBUUN37+QBAzPQbNHxZUZ/UPJ9R3fSHJHiwX6qvjBAA=;
-        b=owh4RlT651N0dj+rzq30VAAY7uDxLaCs37qBXB0Tx9MQ2yu/+7AKWlJA1ojW3xvTty
-         4S3dOoKcMdnYP07j7I/70tqDdnxNkWhVLQYSYGfZ6XizJYWIVd0L0QSeVUPwtRCjg7a6
-         P4IFTwJwt1Vast/6b8XfkqgMyRV83/Z3U/WaPMhYK6AHWSnXlRLcEKq1RlckOwa02SM7
-         p7HHPPDRt83oZ+8MHLixGiEkrOLmkqJc3vpOg3yG7XjctZM5HrIx4fqm5Q/6S40fJ41g
-         7cjTTT0LcqnSuzemJnDNoXforqzgBslA4BJMw5A+ccZvBkgDjRnoW4HJqqdtvB29VoBM
-         aMbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775134847; x=1775739647;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WBUUN37+QBAzPQbNHxZUZ/UPJ9R3fSHJHiwX6qvjBAA=;
-        b=Uae7eID1jK74KQ6enOgwY6b1mK77cpccWgleSrofkbhcLnBqhdSZL8x9IY4+YEBwP5
-         S0PoB4OQU83BMtj5B+tgrernqLQcpTJEELuzDpaf7aSTVZ57s3+riaOX+D13ho13JS7+
-         nUsHUXmlMq/00hYplqKPER7Qw6joVx7CANzyYWnEZfyf/G+7lui3GpAdJs8rahLYnzdg
-         l9wqTHcDdROvH0e8mxi64MrVIQ1ZDIEy3OSmBWFS42wIKeRKZrLjtSqVV4ROgdSz7jbK
-         GwcTuMVzFlXQwsHdEL95lA310m2hbcP54+L4ZVn3IFGboyn8osnm2qDjZoH6lB7wMIr+
-         k/sw==
-X-Forwarded-Encrypted: i=1; AJvYcCXvEOkWJO95ejZZ0VpB2VsceMZhVb1OanbpzQdnL08NgjX+R7QOJIwhpD/5VtEeoxE/SAN++w68jBBT3A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKPzN/VXsr8CTJUD5HORy8RbuTxWl99qOjRx7rebpXgA8B3l4T
-	H+VTKmYaVZovESOp2xsPRgE5RHP5GJ93Ah8zekufdwJH3Cwxh2qtzqq5
-X-Gm-Gg: ATEYQzw7AF5sz2L1Vvn/600S36xI+HNAg1202ch1wmFHT4T7MQ90hmUl/hbCkU2zf6b
-	xfylNRJ94R8HOAo5XB+jbRC/MI77XtSOsgl8AEovKsNP69ftM7zjuDjbaXqMjI3CG5UwCsa81x1
-	HhvxWg77TM4zgPT1r/fsyd35SFZx3jR9rVU7LigApftSvKpC2Me3MQWl6Z4laa9qJ4eF66lDreG
-	nYYp/unoifx8Hs2+QnDfuMtiFsPKMTL6HCnVpyenK3dLjZIpw6HamQnxmtlAUxomsG8T0pItHCq
-	8H5XzS88qCO2sB6slgsZrh4++OOOdnz+6IPNPZ9+a/hczbEVYUzrA9/+9m1foGDJn1R/JVT0Q8a
-	WdNCKiiewgwMTbw9SPOaSVppv7FxK/MKo7vajG4f+527PMYYQkLqJ+WjwLUHKFgw9afqwSQLrBg
-	9K1KPYv5wamngVt9qfQ0c=
-X-Received: by 2002:a05:600c:8b83:b0:488:90ac:8f71 with SMTP id 5b1f17b1804b1-48890ac91bbmr39369785e9.5.1775134847181;
-        Thu, 02 Apr 2026 06:00:47 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4888a626100sm121462725e9.1.2026.04.02.06.00.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 06:00:44 -0700 (PDT)
-Date: Thu, 2 Apr 2026 16:00:41 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: cedrus: Fix failure to clean up hardware on
- probe failure
-Message-ID: <ac5oecJ05oZD25VF@stanley.mountain>
-References: <20260401191441.1217646-1-andrej.skvortzov@gmail.com>
- <20260401191441.1217646-2-andrej.skvortzov@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=DlkTSGVzFdqrHTo+8GJ+WgoGZY1hxIz/GB0PpC7q2KXKu+62iqksmVyxA9+m9pQn9tDbA7D4XiR/KSeDvfK7ZU3jUkYcjU25P5Dbu3j+mSSfLT6DUe+QF4mckx1UfxFje8ZKX7lDjTDoc4gnSsJ5OE7BeLEhZgHzvz2mEdJEuBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m96HQAzg; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775135042; x=1806671042;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PZ1mbJckwHJY4yOabONXFik8vFfJx/UYDjn4Ro1vDHE=;
+  b=m96HQAzg9vIGKOV6CZK0Ze1PF5hgwdWEIOKsha7iewaSnVSpQPaZphFb
+   7puu1H96yaEYnx69FGqjQBY+T6Y/YSj3W7IpbLJYZYMALA81/lUy6sW7A
+   ntw3bpPw7Vqpl7yi/fVfqEPwcLXTMH9cTgE/ZCX2FuL/ye3cX+ImxWbgs
+   sFuqaFqC64kGcbtnAUtmyLxy3A43+o9CEo9kPrGyOufFWlY2IN55w1XHE
+   lZzDig+6gRs6MhJvfJhqih44gDznRnRhh0xV4s4m602+DedQlgsLcy33E
+   obR/QJW/M3yzrLMA82hgKsGiefcFHnMj9xI1T7VoPzPDL4D882GO0CD4Z
+   A==;
+X-CSE-ConnectionGUID: ZYTkMZvPRgeMN4z0wPyHKQ==
+X-CSE-MsgGUID: UcPZUvmTRjupkZjmav386g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="87264654"
+X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
+   d="scan'208";a="87264654"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 06:04:01 -0700
+X-CSE-ConnectionGUID: P5C5wateQVS3yhD/6xLZMA==
+X-CSE-MsgGUID: sFllq6i7QcWu+BgJJClAOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
+   d="scan'208";a="250178420"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.245.31])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 06:03:57 -0700
+Date: Thu, 2 Apr 2026 16:03:55 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, andy@kernel.org,
+	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
+	grondon@gmail.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: atomisp: fix alignment in function signature
+Message-ID: <ac5pOwTLZHFtgyfG@ashevche-desk.local>
+References: <20260402091827.2163-1-joshua.crofts1@gmail.com>
+ <ac5mFkf5RIEg410Q@ashevche-desk.local>
+ <CALoEA-zg2pFEvGGesXJPVfEJQCKZA0Cj5-oqS=U8GUKBd-TRkw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -101,58 +81,62 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260401191441.1217646-2-andrej.skvortzov@gmail.com>
+In-Reply-To: <CALoEA-zg2pFEvGGesXJPVfEJQCKZA0Cj5-oqS=U8GUKBd-TRkw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-57961-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57960-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,sys-base.io,linuxfoundation.org,gmail.com,sholland.org,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,linux.intel.com,gmail.com,vger.kernel.org,lists.linux.dev];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-0.949];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,stanley.mountain:mid,sholland.org:email]
-X-Rspamd-Queue-Id: E02E83897C0
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,checkpatch.pl:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ashevche-desk.local:mid]
+X-Rspamd-Queue-Id: 5FF263897F7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Apr 01, 2026 at 10:14:41PM +0300, Andrey Skvortsov wrote:
-> From: Samuel Holland <samuel@sholland.org>
-> 
-> From: Samuel Holland <samuel@sholland.org>
-> 
+On Thu, Apr 02, 2026 at 02:56:08PM +0200, Joshua Crofts wrote:
+> On Thu, 2 Apr 2026 at 14:50, Andy Shevchenko
+> <andriy.shevchenko@intel.com> wrote:
+> > First of all, missing period at the end.
+> > Second, why? Does it fix anything?
+> > Third, is this the only issue with the driver of a kind?
+> >
+> Hi, I was doing some checkpatch.pl work and got a few check errors.
+> Wasn't sure if it's convention to group all check errors together or do each
+> separately. Apologies for the misleading commit name, i'm aware it's cleanup
+> and not a fix.
 
-git am isn't set up to deal with two From: headers.
+It is okay and good to group the fixes for the same driver of the same kind.
+I don't believe it's the only single problem of this kind in this driver.
+But you may double check and fix them all.
 
-> cedrus_hw_remove undoes, that was done by cedrus_hw_probe previously,
-> like disabling runtime power management, releasing claimed sram.
 
-The first part of this sentence is missing.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Otherwise, the patch itself looks okay.
-
-regards,
-dan carpenter
 
 
