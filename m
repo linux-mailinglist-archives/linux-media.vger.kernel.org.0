@@ -1,359 +1,304 @@
-Return-Path: <linux-media+bounces-57928-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57929-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eOtaHm4izmnElAYAu9opvQ
-	(envelope-from <linux-media+bounces-57928-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 10:01:50 +0200
+	id +LvdJwgrzmnIlQYAu9opvQ
+	(envelope-from <linux-media+bounces-57929-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 10:38:32 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13DFF38593B
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 10:01:45 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBFC386231
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 10:38:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D379F302F6A4
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 08:01:32 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 90B2A3019833
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 08:36:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0497396578;
-	Thu,  2 Apr 2026 08:01:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 311F82FCC0E;
+	Thu,  2 Apr 2026 08:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RHma4SsO";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="j0agQ9jh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f77.google.com (mail-ot1-f77.google.com [209.85.210.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E625E3947AD
-	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 08:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CFF30F92D
+	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 08:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775116888; cv=none; b=ptYJ43SyUyTfkURdEix5SvaNORDjDlfjTcsNQ9s8IAK31nd7uSGvZZ7TTyEZ3d1w2ynFJvWSbO5xu6JckUCGEe7cxB7/D4SWhWMVydEiaN4BWyY/7F+pzXcpoqdiQ7dVCc8T2E22gakgYf3vnr06qiSSTFYWKrjKicctN9/wMv4=
+	t=1775118972; cv=none; b=ARSXmmDQ1XrzI8Cfa2hoZuTbjltMWGxfrV7BfCjkWrMVyABEpBSPZFMHOYDB5PikFIzdAlJkYEtNJ2nq9BfwcZVwnSUv6sAmRvg89UtgrIdZEeh5BguJMkiBElOTmrCo7fofi1Q3Cqav25mh64aUfRqi6tPncjQte9bw+7jhCao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775116888; c=relaxed/simple;
-	bh=07GQZj2vd1F/4B4BRCKkwcY3yGxB+sdzvb10TWYH86M=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=fEV0Xt7op1MHUfyRF2Q1ecP2XTbST6SokEz2YiNcc2jc/KX4K2DlMLqFaIqARTmxmZ3/AG7QUMJo2h0XCHPKXl0KRWPK6fc70yQIBTo4XkjmrzpMqVj4lJCZK9CmL3+yjH5eXtRHOB9SuiJ10clxHJacX71ScCnc6YRUcs0DUDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f77.google.com with SMTP id 46e09a7af769-7d73fc43561so1691814a34.0
-        for <linux-media@vger.kernel.org>; Thu, 02 Apr 2026 01:01:26 -0700 (PDT)
+	s=arc-20240116; t=1775118972; c=relaxed/simple;
+	bh=efq6KExaXloGlu4W+o6XXI3jit5Ma9jZElLXNdRwpoM=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=SyPLjtdClZSq5ddKUW8FuJf5pIBLmZIKHTjTZX9BfwSH5xWt3XA2kyl92ySKuN/8tCQFBshTyb2Z60VqLdCHWkCzXsWUxigugy6vRaoQSEaINzp/9Ci/rNPk4UrRVhSf+oYma2aCJdtQ6CM/GEr5rqpci54iRFC/GnajPyH/eI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RHma4SsO; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=j0agQ9jh; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6328RplT351773
+	for <linux-media@vger.kernel.org>; Thu, 2 Apr 2026 08:36:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	nZz3msypn/iPTQp7pBZHHsP/2F3PYJPj/B+Z6Rd1qmE=; b=RHma4SsOd/81yQFQ
+	xAx6QCQAEfsXUYd1eiP/9KcSKt05B/8+nzzL65Ik3f6iUQz9+9v40os1eMNUM4Om
+	IS9+3uV9M7/lJ0a6VZGq6psD7b30MCA+yw5iTekmwvuLomU4AkZYSi58G9jG5Mpa
+	iOp2Y8QzPE972/fofH+xbDT6h1kVAjUtirRtXOJD/iBWVX/JGnpdt+p1fi87apVD
+	1BHkr0w3slGvST99Bky9/WwAq3wJu5E2rRTGZuY1HvKgHB9TediDxYiK2oU1nnOM
+	VB+ogu469E8DK5gDXnhY4WdZGMdplI6U/29ywBKz1Vr1nrk+2NFbY0oyylNTCK//
+	s0HIyQ==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d9myh80x9-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 02 Apr 2026 08:36:10 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2b24e9b4d82so18389835ad.1
+        for <linux-media@vger.kernel.org>; Thu, 02 Apr 2026 01:36:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1775118970; x=1775723770; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=nZz3msypn/iPTQp7pBZHHsP/2F3PYJPj/B+Z6Rd1qmE=;
+        b=j0agQ9jhpGOlLpuYokhwwOgFcvdrH+A8TotNKbbz77s0c7uoAGzwy1JHIP9u1qcFHm
+         zWkBbPsOF5yz8vgoD5EfArOkunccFyaHrL4X40vudnPbqS99fDYbwH4LvDPVRf23C36R
+         BR1z5LrhsTmjzSBOW09YOCOov3MR6s+bfQLh+NIJhU2M0kUjx9MVHBbkbFZ3QS3QAQBx
+         peltmcVVy7LIWI8cUIpNaM1hmIxR+5izrZhR8K4PLxd6UKqVBF9O4OFk+U4i+tC7XSoP
+         l1JZuXkVxz2Bmw5ePUePxAFlv1MbnpvT2fPW6X1FIg2y6mmdRLlata4cenJh60fCWN9t
+         hO4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775116886; x=1775721686;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P9XPTfBU+h9eku0oHJf627RHydXh8UWcygv9oVdJ8bA=;
-        b=qyGpcnFUObkt+AyvfYMI4XYMHaaVWgtav6ucQgpzEi2+K3i6mPfLprpfs6Q3u7Kgn8
-         8FE3ESrowRBHHSOHEFflKWVy02jpu3TD72bEggnJw0RRcMFr1cFvC538ifH4IqbLnrVQ
-         6w2eRCtur04UzqQtNeRakSXe5fGhXssFLZttmazgo7mE/Hl5TDpvZywotuh+pAS9rAbZ
-         wCn+v4kdH4XT/a98/oBAiZyy5muxkE736cUJPpvs9lnTogE7xihOfAlJp5GCfhVYJ9Rf
-         9uucr+iLgPXkerkR3p4CvlUzZHeTWG5V4XVM1wznU8RnTsBSe1ybtZV2tpzNs6yvh8Jh
-         4ixw==
-X-Forwarded-Encrypted: i=1; AJvYcCWglQgTFw6ythU+2mNmhIOMBfvEBU11uR0LrjqvQ4RrPxU8nwj4iPxFO6DCH1kBQ3WMaLp9CmquaN7P4Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YznFodLGcM+Wl9O1lBC/Xg3HkRF/DRoNFxc4bVKcbvbnfcsC1hM
-	AdfKJhVPuGdR6BvKveNJQJc0diUYbsCNFZGggfB+8QhsDMuEodyVTGSMcfnU4N1igdNs5FPZ8Vc
-	aiMIX8NiXopQGhzil+6z2pso45tgmRxNGgs36CsJiBzXukyZPJsGdRihGjK8=
+        d=1e100.net; s=20251104; t=1775118970; x=1775723770;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nZz3msypn/iPTQp7pBZHHsP/2F3PYJPj/B+Z6Rd1qmE=;
+        b=q4KNt75Vd5oWpby2RuMEVDd2Wrh7AzbognBNjh0nmKouVJRsgmDqNps5OsqWi6RJO6
+         2U3cGIfX0jhzJ+gwFg8XEq6z0LOKtI7ZE2C8Rj8gd4Ee3XVoa79hzcrcEdIiW0heFtph
+         Iu83vPUh1qmXkmgP7LN4Ukx8L0wYAgKZf22xuOjG+waQ756vnFvKQ8DxSOCCBSvjnKRC
+         Ye+WbYCh6Tonkf9IqVUfbWQC++URe6t68GdcZUfg39xf0ft5s5/JHgQ1P3fU0EJZpkxJ
+         V2WnwAJJijW36Zzeymr418I+bEx88uaXn9LOz1BOM4DUV60FcvGPmeAwdnCV/2vD/kzq
+         Bhtw==
+X-Forwarded-Encrypted: i=1; AJvYcCXeG9OXD3Yi3mNNitXOQlHEhed8htHnidIvXvlIfMpjh1rnA40cxS4D34n2y1YnG1I7ItJQ/NrB02HHeQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzl78xfovocS4pyLagB4FBAewrqv9rXLa6mcUvfx8vNfqD3d4zX
+	DdriZia7yd/+vmqBMldxcFWeX1biCYxzZmPbUf1ySMsY0dusDRigTl/9dv8HHEZNQz8nOJK9AxD
+	3P53XSjLtjpMznJhiVat5uRbqdS5fOWjfPWXPt2kvgo/HnQNUuePRr8mkaMxkSkWQPA==
+X-Gm-Gg: AeBDietLVIQUabdQDoaHctjOnGOT+fM7q0ful5up8TEe8Joh6s5xqsnfCgwbdx92tPV
+	a5mZA9JJVx06rMLuYRxH+xAY9I5OiVca7EhrI7caNyE88wH6kIC4/MrBjDgPECvx3eQJM6ktfoi
+	LWFj/PjNRLWtoZFLsRAxU0bb5UpCQf9XfhUKSC71VOr1f6kYVaB7HO8cyqCpmQSTrqXOCb//YoB
+	Gydfn62sOQQkoQTJwpsZ96U3pAa6sYnEpTPjckh9uE1uwC0a52BUqeUVKEkYn1XNYN4hdtkkAjB
+	euRpb+VGa77peTLaHpcwd1gbJ0tYvkOJcVCD7P8k3/K8TiosfdgldwWZt5l89EV5hGBcpPfHF6x
+	hpxT9HrwLJ7GDgg+iyogYMun/GhIZZdS1pM65gLTzaosKZlvXuVq9
+X-Received: by 2002:a17:902:db12:b0:2b2:4c30:e6e2 with SMTP id d9443c01a7336-2b277e256c0mr15094535ad.16.1775118969702;
+        Thu, 02 Apr 2026 01:36:09 -0700 (PDT)
+X-Received: by 2002:a17:902:db12:b0:2b2:4c30:e6e2 with SMTP id d9443c01a7336-2b277e256c0mr15094325ad.16.1775118969177;
+        Thu, 02 Apr 2026 01:36:09 -0700 (PDT)
+Received: from [192.168.1.14] ([110.225.167.58])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2749e2e97sm27595375ad.82.2026.04.02.01.36.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Apr 2026 01:36:08 -0700 (PDT)
+Message-ID: <998ce121-e027-441d-a3f4-2f3e41e10830@oss.qualcomm.com>
+Date: Thu, 2 Apr 2026 14:06:00 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:c98:b0:677:48f4:3c66 with SMTP id
- 006d021491bc7-67fabd33a3emr3504532eaf.67.1775116885823; Thu, 02 Apr 2026
- 01:01:25 -0700 (PDT)
-Date: Thu, 02 Apr 2026 01:01:25 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69ce2255.050a0220.fcd29.0001.GAE@google.com>
-Subject: [syzbot] [media?] KASAN: slab-use-after-free Read in __vb2_queue_cancel
-From: syzbot <syzbot+179796e91319a073bbd3@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	m.szyprowski@samsung.com, mchehab@kernel.org, syzkaller-bugs@googlegroups.com, 
-	tfiga@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-0.36 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 12/18] accel/qda: Add PRIME dma-buf import support
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-12-fe46a9c1a046@oss.qualcomm.com>
+ <e87c0c1d-82f1-4a03-9a56-9bf3e03273cf@amd.com>
+ <29f9bb45-5c3f-4847-a629-21cef540f38b@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <29f9bb45-5c3f-4847-a629-21cef540f38b@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: 94ALAqWYJK3p0G8_dfY_HZboNPVmA-PG
+X-Proofpoint-ORIG-GUID: 94ALAqWYJK3p0G8_dfY_HZboNPVmA-PG
+X-Authority-Analysis: v=2.4 cv=JII2csKb c=1 sm=1 tr=0 ts=69ce2a7a cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=GstQyB7T1i92F5dDEt+vJw==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=_EeEMxcBAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=yv3-IXtlHroiPP0bXpQA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=czjwGCTIUPoA:10
+ a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAyMDA3NiBTYWx0ZWRfX+DpvVK7t7qMS
+ YPwZbfVrqWrvcdP10Qv9QfGDAxkmtEU5tmNuPTfQddTZouyssumdNTx1avLQFBnI3flMu8JAHjW
+ aWyrm09YFRsmtqVpAIgmI1jL22eIte4KF2BFFemeodclqTFuri/u515bS07VUIG06PGkA3H25q8
+ MYkMeRsPlC5a0zdju0EvGADo7HdChB1SIslTtsKdvZeNra4k27ppWX4vtN6uw0Zfwh22eIdT7u/
+ a3SwQYmsX7OdTOU9AdLpE4fxubj6kOKBYnsQZ43dZKxSi5B16D/Fsiu2bAXmAVS3piYikyzBAyk
+ A7gtXWe2P3VzTLsoAHFz3+BYRW9fOMJsu4akzWcOvsnStWeGizm/UJgb7rqu1mbzoI2KQA1dfHx
+ HLyDKqCwDLGwe29rffPJoqk7BDYmIWpM2So3mWczDPFiTvWkR9vYnpuHQc2VY2rnulMjMZf0Cjz
+ RWMkROU6Fj6OdWtFWJA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-02_01,2026-04-02_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0 phishscore=0 priorityscore=1501
+ lowpriorityscore=0 spamscore=0 clxscore=1015 bulkscore=0 suspectscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2604020076
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=6754c86e8d9e4c91];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57928-lists,linux-media=lfdr.de,179796e91319a073bbd3];
+	TAGGED_FROM(0.00)[bounces-57929-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[amd.com,kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RSPAMD_URIBL_FAIL(0.00)[goo.gl:query timed out,googlegroups.com:query timed out];
-	MISSING_XM_UA(0.00)[];
-	SUBJECT_HAS_QUESTION(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[aka.ms:url,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[ekansh.gupta@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TO_DN_NONE(0.00)[];
-	R_DKIM_NA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	NEURAL_HAM(-0.00)[-0.997];
-	REDIRECTOR_URL(0.00)[goo.gl];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[goo.gl:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,storage.googleapis.com:url,syzkaller.appspot.com:url]
-X-Rspamd-Queue-Id: 13DFF38593B
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	REDIRECTOR_URL(0.00)[aka.ms];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 3FBFC386231
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    cbfffcca2bf0 Merge tag 'trace-v7.0-rc5' of git://git.kerne..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=127db0d2580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6754c86e8d9e4c91
-dashboard link: https://syzkaller.appspot.com/bug?extid=179796e91319a073bbd3
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/348d2713062d/disk-cbfffcca.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/53af46be4a29/vmlinux-cbfffcca.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/d24e241e2fca/bzImage-cbfffcca.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+179796e91319a073bbd3@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-use-after-free in __vb2_queue_cancel+0xd56/0xdb0 drivers/media/common/videobuf2/videobuf2-core.c:2255
-Read of size 4 at addr ffff88803ad98f48 by task v4l_id/15134
-
-CPU: 0 UID: 0 PID: 15134 Comm: v4l_id Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0xba/0x230 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- __vb2_queue_cancel+0xd56/0xdb0 drivers/media/common/videobuf2/videobuf2-core.c:2255
- vb2_core_queue_release+0x2f/0x150 drivers/media/common/videobuf2/videobuf2-core.c:2677
- vb2_queue_release drivers/media/common/videobuf2/videobuf2-v4l2.c:956 [inline]
- _vb2_fop_release drivers/media/common/videobuf2/videobuf2-v4l2.c:1159 [inline]
- vb2_fop_release+0x16e/0x200 drivers/media/common/videobuf2/videobuf2-v4l2.c:1173
- v4l2_release+0x250/0x370 drivers/media/v4l2-core/v4l2-dev.c:471
- __fput+0x44f/0xa70 fs/file_table.c:469
- fput_close_sync+0x11f/0x240 fs/file_table.c:574
- __do_sys_close fs/open.c:1509 [inline]
- __se_sys_close fs/open.c:1494 [inline]
- __x64_sys_close+0x7e/0x110 fs/open.c:1494
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f4ccaca7407
-Code: 48 89 fa 4c 89 df e8 38 aa 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-RSP: 002b:00007ffc33054410 EFLAGS: 00000202 ORIG_RAX: 0000000000000003
-RAX: ffffffffffffffda RBX: 00007f4ccb48a880 RCX: 00007f4ccaca7407
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000003
-RBP: 00007f4ccb48a6e8 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000013
-R13: 00007ffc33054640 R14: 00007f4ccb5f1000 R15: 0000563beee3a4d8
- </TASK>
-
-Allocated by task 5826:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x31c/0x660 mm/slub.c:5380
- kmalloc_noprof include/linux/slab.h:950 [inline]
- kzalloc_noprof include/linux/slab.h:1188 [inline]
- hackrf_probe+0xe6/0x13a0 drivers/media/usb/hackrf/hackrf.c:1351
- usb_probe_interface+0x668/0xc90 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x267/0xaf0 drivers/base/dd.c:721
- __driver_probe_device+0x18c/0x320 drivers/base/dd.c:863
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:893
- __device_attach_driver+0x279/0x430 drivers/base/dd.c:1021
- bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c5/0x450 drivers/base/dd.c:1093
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1148
- bus_probe_device+0x12a/0x220 drivers/base/bus.c:613
- device_add+0x7b6/0xb70 drivers/base/core.c:3691
- usb_set_configuration+0x1a87/0x2110 drivers/usb/core/message.c:2266
- usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
- usb_probe_device+0x1c4/0x3b0 drivers/usb/core/driver.c:291
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x267/0xaf0 drivers/base/dd.c:721
- __driver_probe_device+0x18c/0x320 drivers/base/dd.c:863
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:893
- __device_attach_driver+0x279/0x430 drivers/base/dd.c:1021
- bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c5/0x450 drivers/base/dd.c:1093
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1148
- bus_probe_device+0x12a/0x220 drivers/base/bus.c:613
- device_add+0x7b6/0xb70 drivers/base/core.c:3691
- usb_new_device+0xa08/0x16f0 drivers/usb/core/hub.c:2695
- hub_port_connect drivers/usb/core/hub.c:5567 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x2a1c/0x4f30 drivers/usb/core/hub.c:5953
- process_one_work kernel/workqueue.c:3276 [inline]
- process_scheduled_works+0xb6e/0x18c0 kernel/workqueue.c:3359
- worker_thread+0xa53/0xfc0 kernel/workqueue.c:3440
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x51e/0xb90 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Freed by task 5826:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2685 [inline]
- slab_free mm/slub.c:6165 [inline]
- kfree+0x1c1/0x630 mm/slub.c:6483
- hackrf_probe+0xdb4/0x13a0 drivers/media/usb/hackrf/hackrf.c:1523
- usb_probe_interface+0x668/0xc90 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x267/0xaf0 drivers/base/dd.c:721
- __driver_probe_device+0x18c/0x320 drivers/base/dd.c:863
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:893
- __device_attach_driver+0x279/0x430 drivers/base/dd.c:1021
- bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c5/0x450 drivers/base/dd.c:1093
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1148
- bus_probe_device+0x12a/0x220 drivers/base/bus.c:613
- device_add+0x7b6/0xb70 drivers/base/core.c:3691
- usb_set_configuration+0x1a87/0x2110 drivers/usb/core/message.c:2266
- usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
- usb_probe_device+0x1c4/0x3b0 drivers/usb/core/driver.c:291
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x267/0xaf0 drivers/base/dd.c:721
- __driver_probe_device+0x18c/0x320 drivers/base/dd.c:863
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:893
- __device_attach_driver+0x279/0x430 drivers/base/dd.c:1021
- bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c5/0x450 drivers/base/dd.c:1093
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1148
- bus_probe_device+0x12a/0x220 drivers/base/bus.c:613
- device_add+0x7b6/0xb70 drivers/base/core.c:3691
- usb_new_device+0xa08/0x16f0 drivers/usb/core/hub.c:2695
- hub_port_connect drivers/usb/core/hub.c:5567 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x2a1c/0x4f30 drivers/usb/core/hub.c:5953
- process_one_work kernel/workqueue.c:3276 [inline]
- process_scheduled_works+0xb6e/0x18c0 kernel/workqueue.c:3359
- worker_thread+0xa53/0xfc0 kernel/workqueue.c:3440
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x51e/0xb90 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-The buggy address belongs to the object at ffff88803ad98000
- which belongs to the cache kmalloc-8k of size 8192
-The buggy address is located 3912 bytes inside of
- freed 8192-byte region [ffff88803ad98000, ffff88803ad9a000)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x3ad98
-head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000040 ffff88813fea6280 dead000000000122 0000000000000000
-raw: 0000000000000000 0000000800020002 00000000f5000000 0000000000000000
-head: 00fff00000000040 ffff88813fea6280 dead000000000122 0000000000000000
-head: 0000000000000000 0000000800020002 00000000f5000000 0000000000000000
-head: 00fff00000000003 ffffea0000eb6601 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 15002, tgid 15001 (syz.1.15875), ts 869736062981, free_ts 868896913803
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x231/0x280 mm/page_alloc.c:1889
- prep_new_page mm/page_alloc.c:1897 [inline]
- get_page_from_freelist+0x24dc/0x2580 mm/page_alloc.c:3962
- __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5250
- alloc_slab_page mm/slub.c:3292 [inline]
- allocate_slab+0x77/0x660 mm/slub.c:3481
- new_slab mm/slub.c:3539 [inline]
- refill_objects+0x331/0x3c0 mm/slub.c:7175
- refill_sheaf mm/slub.c:2812 [inline]
- __pcs_replace_empty_main+0x2e6/0x730 mm/slub.c:4615
- alloc_from_pcs mm/slub.c:4717 [inline]
- slab_alloc_node mm/slub.c:4851 [inline]
- __do_kmalloc_node mm/slub.c:5259 [inline]
- __kmalloc_noprof+0x474/0x760 mm/slub.c:5272
- kmalloc_noprof include/linux/slab.h:954 [inline]
- kzalloc_noprof include/linux/slab.h:1188 [inline]
- ops_init+0x7b/0x5c0 net/core/net_namespace.c:127
- setup_net+0x118/0x340 net/core/net_namespace.c:446
- copy_net_ns+0x50e/0x730 net/core/net_namespace.c:581
- create_new_namespaces+0x3e7/0x6a0 kernel/nsproxy.c:130
- unshare_nsproxy_namespaces+0x11a/0x160 kernel/nsproxy.c:226
- ksys_unshare+0x51d/0x930 kernel/fork.c:3173
- __do_sys_unshare kernel/fork.c:3244 [inline]
- __se_sys_unshare kernel/fork.c:3242 [inline]
- __x64_sys_unshare+0x38/0x50 kernel/fork.c:3242
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-page last free pid 14961 tgid 14961 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- __free_pages_prepare mm/page_alloc.c:1433 [inline]
- __free_frozen_pages+0xc2b/0xdb0 mm/page_alloc.c:2978
- __slab_free+0x263/0x2b0 mm/slub.c:5573
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x97/0x100 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:350
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4538 [inline]
- slab_alloc_node mm/slub.c:4866 [inline]
- __do_kmalloc_node mm/slub.c:5259 [inline]
- __kmalloc_noprof+0x316/0x760 mm/slub.c:5272
- kmalloc_noprof include/linux/slab.h:954 [inline]
- kzalloc_noprof include/linux/slab.h:1188 [inline]
- tomoyo_encode2 security/tomoyo/realpath.c:45 [inline]
- tomoyo_encode+0x28b/0x550 security/tomoyo/realpath.c:80
- tomoyo_path_perm+0x318/0x560 security/tomoyo/file.c:836
- tomoyo_path_symlink+0xab/0xf0 security/tomoyo/tomoyo.c:212
- security_path_symlink+0x16f/0x360 security/security.c:1477
- filename_symlinkat+0x134/0x410 fs/namei.c:5638
- __do_sys_symlinkat fs/namei.c:5660 [inline]
- __se_sys_symlinkat+0x4e/0x2b0 fs/namei.c:5655
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Memory state around the buggy address:
- ffff88803ad98e00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88803ad98e80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff88803ad98f00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                              ^
- ffff88803ad98f80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88803ad99000: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+On 3/9/2026 12:29 PM, Ekansh Gupta wrote:
+>
+> On 2/24/2026 2:42 PM, Christian König wrote:
+>> On 2/23/26 20:09, Ekansh Gupta wrote:
+>>> [Sie erhalten nicht häufig E-Mails von ekansh.gupta@oss.qualcomm.com. Weitere Informationen, warum dies wichtig ist, finden Sie unter https://aka.ms/LearnAboutSenderIdentification ]
+>>>
+>>> Add PRIME dma-buf import support for QDA GEM buffer objects and integrate
+>>> it with the existing per-process memory manager and IOMMU device model.
+>>>
+>>> The implementation extends qda_gem_obj to represent imported dma-bufs,
+>>> including dma_buf references, attachment state, scatter-gather tables
+>>> and an imported DMA address used for DSP-facing book-keeping. The
+>>> qda_gem_prime_import() path handles reimports of buffers originally
+>>> exported by QDA as well as imports of external dma-bufs, attaching them
+>>> to the assigned IOMMU device
+>> That is usually an absolutely clear NO-GO for DMA-bufs. Where exactly in the code is that?
+> dma_buf_attach* to comute-cb iommu devices are critical for DSPs to access the buffer.
+> This is needed if the buffer is exported by anyone other than QDA(say system heap). If this is not
+> the correct way, what should be the right way here? On the current fastrpc driver also,
+> the DMABUF is getting attached with iommu device[1] due to the same requirement.
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/misc/fastrpc.c#n779
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Hi Christian,
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+Do you have any suggestions for the shared requirements?
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+I'm reworking on the next version and currently I don't see any other way
+to handle dma_buf_attach* cases.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+//Ekansh
 
-If you want to undo deduplication, reply with:
-#syz undup
+>>> and mapping them through the memory manager
+>>> for DSP access. The GEM free path is updated to unmap and detach
+>>> imported buffers while preserving the existing behaviour for locally
+>>> allocated memory.
+>>>
+>>> The PRIME fd-to-handle path is implemented in qda_prime_fd_to_handle(),
+>>> which records the calling drm_file in a driver-private import context
+>>> before invoking the core DRM helpers. The GEM import callback retrieves
+>>> this context to ensure that an IOMMU device is assigned to the process
+>>> and that imported buffers follow the same per-process IOMMU selection
+>>> rules as natively allocated GEM objects.
+>>>
+>>> This patch prepares the driver for interoperable buffer sharing between
+>>> QDA and other dma-buf capable subsystems while keeping IOMMU mapping and
+>>> lifetime handling consistent with the existing GEM allocation flow.
+>>>
+>>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+>> ...
+>>
+>>> @@ -15,23 +16,29 @@ static int validate_gem_obj_for_mmap(struct qda_gem_obj *qda_gem_obj)
+>>>                 qda_err(NULL, "Invalid GEM object size\n");
+>>>                 return -EINVAL;
+>>>         }
+>>> -       if (!qda_gem_obj->iommu_dev || !qda_gem_obj->iommu_dev->dev) {
+>>> -               qda_err(NULL, "Allocated buffer missing IOMMU device\n");
+>>> -               return -EINVAL;
+>>> -       }
+>>> -       if (!qda_gem_obj->iommu_dev->dev) {
+>>> -               qda_err(NULL, "Allocated buffer missing IOMMU device\n");
+>>> -               return -EINVAL;
+>>> -       }
+>>> -       if (!qda_gem_obj->virt) {
+>>> -               qda_err(NULL, "Allocated buffer missing virtual address\n");
+>>> -               return -EINVAL;
+>>> -       }
+>>> -       if (qda_gem_obj->dma_addr == 0) {
+>>> -               qda_err(NULL, "Allocated buffer missing DMA address\n");
+>>> -               return -EINVAL;
+>>> +       if (qda_gem_obj->is_imported) {
+>> Absolutely clear NAK to that. Imported buffers *can't* be mmaped through the importer!
+>>
+>> Userspace needs to mmap() them through the exporter.
+>>
+>> If you absolutely have to map them through the importer for uAPI backward compatibility then there is dma_buf_mmap() for that, but this is clearly not the case here.
+>>
+>> ...
+> Okay, the requirement is slightly different here. Any buffer which is not allocated using the
+> QDA GEM interface needs to be attached to the iommu device for that particular process to
+> enable DSP for the access. I should not call it `mmap` instead it should be called importing the
+> buffer to a particular iommu context bank. With this definition, is it fine to keep it this way? Or
+> should the dma_buf_attach* calls be moved to some other place?
+>>> +static int qda_memory_manager_map_imported(struct qda_memory_manager *mem_mgr,
+>>> +                                          struct qda_gem_obj *gem_obj,
+>>> +                                          struct qda_iommu_device *iommu_dev)
+>>> +{
+>>> +       struct scatterlist *sg;
+>>> +       dma_addr_t dma_addr;
+>>> +       int ret = 0;
+>>> +
+>>> +       if (!gem_obj->is_imported || !gem_obj->sgt || !iommu_dev) {
+>>> +               qda_err(NULL, "Invalid parameters for imported buffer mapping\n");
+>>> +               return -EINVAL;
+>>> +       }
+>>> +
+>>> +       gem_obj->iommu_dev = iommu_dev;
+>>> +
+>>> +       sg = gem_obj->sgt->sgl;
+>>> +       if (sg) {
+>>> +               dma_addr = sg_dma_address(sg);
+>>> +               dma_addr += ((u64)iommu_dev->sid << 32);
+>>> +
+>>> +               gem_obj->imported_dma_addr = dma_addr;
+>> Well that looks like you are only using the first DMA address from the imported sgt. What about the others?
+> I might have a proper appach for this now, will update in the next spin.
+>> Regards,
+>> Christian.
+
 
