@@ -1,185 +1,184 @@
-Return-Path: <linux-media+bounces-57924-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57926-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WOZSBWEbzml7lAYAu9opvQ
-	(envelope-from <linux-media+bounces-57924-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 09:31:45 +0200
+	id yG1XHeAezml7lAYAu9opvQ
+	(envelope-from <linux-media+bounces-57926-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 09:46:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83DF385379
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 09:31:44 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7294238561B
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 09:46:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B15A930F80AC
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 07:27:47 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E8442309B55D
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 07:36:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05E0038C2A2;
-	Thu,  2 Apr 2026 07:26:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="muPuwK+l"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B739E389111;
+	Thu,  2 Apr 2026 07:35:50 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91DC3988FF
-	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 07:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775114794; cv=pass; b=fJStKyTDQF8/s9qW/wYQMIrMlV+1nwmVf4891sevhjf3Dwd32bw2PBNQbmPLWS5JLyHhex+/SZxmy+ohwEJwFrmcLTyRbpbIFKbeBaNd5cxdI7g9tFlGnHIfFTJURaTN8t1voZxing7Sb87f4BfWHy52NH1qWBfdIZBDRe8HXmc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775114794; c=relaxed/simple;
-	bh=FsYlSXlZJpdy1ThdoQxU8mkas6T2ddqvGWar7MbfscY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g+xUgbVVzU6fZbADBj833CD32rbBMU4hb5bGeXaJifODZ2VvKml25wNH6rOqBYXOA13XT18vq7KatNLxW6BVw1ZvVDfA18fjS2pFZbddweF8TbLgb1lOnbxmRd/ervlG6djSbjurgCpYhGIG4OT/jiqtGf8zPOH471PFvsJvuUw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=muPuwK+l; arc=pass smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b982b0889d8so71912066b.2
-        for <linux-media@vger.kernel.org>; Thu, 02 Apr 2026 00:26:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775114791; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jDtbue7VdRgzg+TeZ7x0gQ3oYM9sbXz+NLCh6YKjM69rktcUmLExpG16DWIUsscYRe
-         wP0h95ndm27LfOF701hWsyFqsOjzRb/umRP/BbwZRXZHkBunB+BPsDLPDGzT2DaFXgmV
-         qVZ46NCWeFmMYDZKJgFYMGNvah3nCqbqSpR525P4ZjwjpuMj3YC2Dy7d1nW3PawoAHZz
-         ILSXjofBQ1/4UvTscQ925tMO1gTUZSYNmqLQkUsMK+nTMsZ8HbYK96kyC59zM6h+6X4W
-         tkxkpmDJS+uh3m3vKl2u5iNlSNq5jxg+VJtODw7EIIC+SjoJQQWKIS6X/FRydiURQ763
-         UGBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FsYlSXlZJpdy1ThdoQxU8mkas6T2ddqvGWar7MbfscY=;
-        fh=lzw3vX2ZRhdwb0d7APwAl17ytmLPNNfQSfRC21mAqYA=;
-        b=kZbFekDK8kNJAxGBKCnzsuTIBAW/2pMqauXZqLguq2D9/BBsc7mv1czJPvXy4Zt+RL
-         Qz7KM2+knSlAhqgFzxUVHWmEitiyGRqNI75EX4nsbqJqUui2PAVfRdqmGyC0/Fn0H20j
-         zoxzOdRWFA6PVfnhJl/hRbxwe31iDGG+EEoXEkFRuaXH9AO9oXlKzN42JeDkFsGlX23x
-         qqeY88GDNK8qjCh4VnQ+ZRhQatiozCXNxWZe/Tm2sN2aZOHI64hP4Ha/a8WblhSsuLAh
-         A38Zw0BFIK9OY1nKcr3V5Gjrj1/8NUcfLksPmB7SuJog+c7j0q5/lq7wjimYxsRKoL0I
-         mC+g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775114791; x=1775719591; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FsYlSXlZJpdy1ThdoQxU8mkas6T2ddqvGWar7MbfscY=;
-        b=muPuwK+l3I/DuCTL93j7Q2BIu1v9HfaiUK19+rZHSXiDbi3GFHzCA/9y9af81a1aX/
-         CcRyekQ4514wClUnqLe6sh3lNYSGPEnrPxlwJLR/qftGDqomDyfQ6u7WHimVYnbV7kjs
-         0bbd2MCNv+2efJCWs5qMKlD1qQHXpkIELyDcbCoiFBvGKzRKzZvrdfIIW1Sew4hctWZA
-         PrvPun1fpJvQ0e7wPR8DkMBwbdcj0zJbL+sfoG+muF5BZxdPKI19Juca7mWjHxpPC93j
-         PxLDP1OHQH5QF+rXp1rMk+jzJuo5m3Y/zVq/o6ozgeEeSXUByvMOrJkkdzuWqkmCUbJ/
-         blzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775114791; x=1775719591;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FsYlSXlZJpdy1ThdoQxU8mkas6T2ddqvGWar7MbfscY=;
-        b=MGsB1W6SzzpxRGnAtgYCTEKrYsB10q8h1AhOInOKz1RZabIQcP+yobbeLyjviZbSmF
-         9EgRBsq038FPe18GIKN2RU8WwSBWRqzg0kAAbzRXmKg8ihnoXB2VvgkCrBCTmdAuQVTs
-         hH/bdkwqYCJcflIyLhE7SXcOIZnTEJzY3fagBnkOzqNWvROI4MdHFjuQFp+cqQbymPX3
-         zB42KxrhmupGTopa4TXuh62pSbYZlNkfN5ZBzoibiSaXaGTvRmntx+cmHXPBEgBldzix
-         vScPxGzPKFUxf6Sby3Pf8WXdG80FpBelRyQP9Cq37knoDD/32sfwS67w5+CU5PJtAc/b
-         AAKA==
-X-Forwarded-Encrypted: i=1; AJvYcCX9Q3TculQ5PoydNTouDMLl/CfKRDh4pzUv2jGUF+kEijHpV49JcXv2fcOcRtgTyC6W3rI32fekwH1Alg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwN5CKpgpjg/kYgJth9MX/vXDtiI+/mNTle7hzeLOJprElrqfnv
-	ssP6fS0Sg5yOBwLuUCa5nZNTapvIdDnBGTK303GS9Hcmq0GZiswvMDb76D6WW2YUxoKlZHL3BY7
-	/XPqd5WbXsDKrAON+dhhrcm4uVubEVKc=
-X-Gm-Gg: ATEYQzyXgk1G13ZrpBfFIKIHjLyIMO9qyKNlr+vZofGrNn3noqjJ6Nh6ZB8VXC7qqlv
-	8Hwu8lk72XUtSCw1kyg1oqWxnRmgENiuElE1rcvPYa/kOVyz5pzXOoKNdno4IKjHh+P2q+uKaX8
-	eIFEdNVI7Ta/2W/O9MnwxjcVkciC/o14bBI50qpP3jY6kudthOyQ+CWmwXxbZQ2wm773MW/AWM1
-	yXQBpB7Bj8ZaUmX0xkK5CljpK8TCKyWK5+A23kwgjzeMCNZmtwrw0sZTTIFZ/qnwuRfJfbUiGdQ
-	vGIsT+E9WPt7zzrsHO0PRGKLLYKrfCZU7KOJFQ5i2I1dZiqXhfoPEPbea1dOV4JQpnXewt1gzQR
-	88hpQe3U=
-X-Received: by 2002:a17:907:a315:b0:b8f:a5c8:f75 with SMTP id
- a640c23a62f3a-b9c13ce0cd8mr459776366b.52.1775114790940; Thu, 02 Apr 2026
- 00:26:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24480384235;
+	Thu,  2 Apr 2026 07:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775115350; cv=none; b=d1FbNDrRr5maK2hcgMPdE8l5fQbwO8sPr9cKY6Ns6s6PPOkaf2enDyXZqLyT8rmyJKPao1humj4+bV9yDnttQkcqbkgL5ZS/IJN9B9+m/NN/nz0eMgM+mor2D6DJ4BxSWv7380LI2wVr61hBniZBIscFk/6TlWw3Cn8+Kebh/tM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775115350; c=relaxed/simple;
+	bh=pATpZTFLY7t5pFMre5yAN1qit6F2aA38hDMRZNZBVUo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N/UMm8k7mweONY0AJHkZDjrcSOaJect47SnuLssyM6L7aFfVf35zAuGaUC4UxUdGbnIARVeoEHmw/Pq0zNWbJeL+RqxGdUeOghtKt26VXn7JnbivyAsYAvne5BO0/ZRA2FmUfLykL9unYZcNEf+3N9QLOMHQ9QqPM/qWBkOFZh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from ubuntu.. (unknown [202.112.113.208])
+	by APP-03 (Coremail) with SMTP id rQCowABnh95DHM5px6GjDA--.18453S2;
+	Thu, 02 Apr 2026 15:35:42 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: mchehab@kernel.org,
+	mingo@kernel.org,
+	tglx@kernel.org,
+	make24@iscas.ac.cn,
+	jai.luthra@linux.dev,
+	laurent.pinchart+renesas@ideasonboard.com,
+	hverkuil+cisco@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2] media: aa7134: Fix a possible memory leak in saa7134_video_init1
+Date: Thu,  2 Apr 2026 15:35:29 +0800
+Message-ID: <20260402073529.652126-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260401170218.40504-1-sairambandikanti@gmail.com> <CAHp75VdwT7tRPhzyHdsR+WyS7-9NS9bme2cGrGfc+p4X6wykgQ@mail.gmail.com>
-In-Reply-To: <CAHp75VdwT7tRPhzyHdsR+WyS7-9NS9bme2cGrGfc+p4X6wykgQ@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 2 Apr 2026 10:25:54 +0300
-X-Gm-Features: AQROBzCp5fS-K4NyHMtTee7gdcJpqRAoxNdcTv8uC5KiyvPavc8H3f1QHGBxPrY
-Message-ID: <CAHp75VdMJ_kNDt74bkXfLbMVAE6MKZNnsf+Z2g25LpBonORWsw@mail.gmail.com>
-Subject: Re: [PATCH] staging: atomisp: fix memory leak in sh_css_load_firmware
- on error path
-To: Sairam Bandikanti <sairambandikanti@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Claude <noreply@anthropic.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowABnh95DHM5px6GjDA--.18453S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCr47JrW7Wr1kAr1xZry3twb_yoW5XrWxpa
+	97tF9ayw15Jw4kGan7Xa18CF1fC3y8Wr43WFZFg340kw15Cw18AF1Yq34j9FZ8ArsrAF1j
+	9r40vr4kCr1UWaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
+	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
+	YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7V
+	AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
+	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
+	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
+	0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbQVy7UUUUU==
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+X-Spamd-Result: default: False [1.54 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57924-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57926-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[iscas.ac.cn];
 	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andyshevchenko@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[make24@iscas.ac.cn,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,anthropic.com:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: A83DF385379
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.987];
+	TO_DN_NONE(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,iscas.ac.cn:email,iscas.ac.cn:mid]
+X-Rspamd-Queue-Id: 7294238561B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Apr 2, 2026 at 10:15=E2=80=AFAM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Wed, Apr 1, 2026 at 8:02=E2=80=AFPM Sairam Bandikanti
-> <sairambandikanti@gmail.com> wrote:
-> >
-> > sh_css_load_firmware() allocates sh_css_blob_info and fw_minibuffer but
-> > all error paths inside the firmware parsing loop use bare 'return'
-> > statements, leaking both allocations. Additionally, when the
-> > fw_minibuffer allocation itself fails, sh_css_blob_info is leaked.
-> >
-> > Replace all bare returns with goto to a common err_alloc cleanup label
-> > that frees both allocations before returning.
->
-> NAK.
->
-> > Signed-off-by: Sairam Bandikanti <sairambandikanti@gmail.com>
-> > Assisted-by: Claude <noreply@anthropic.com>
->
-> Please, use your skills to investigate what the code is doing and not
-> blindly follow some stupid AI.
+In saa7134_video_init1(), the return value of the first
+saa7134_pgtable_alloc() is not checked. If it fails, the function
+continues as if successful, leaving the driver with an invalid page
+table. Additionally, if vb2_queue_init() for the VBI queue fails after
+the video queue page table has been allocated, the allocated memory is
+not freed before returning. The second saa7134_pgtable_alloc() also
+lacks a return value check. Errors occur during device probing before
+the device is fully registered, the normal cleanup path in
+saa7134_finidev() is not executed, leading to memory leaks and
+potential use of uninitialized DMA resources.
 
-A bit of elaboration. There is indeed an issue with the memory
-leaking, but taking into account how the code is organised the problem
-lies in the error path of atomisp_pci_probe() to make sure the
-ia_css_unload_firmware() is called even on the failed
-atomisp_css_load_firmware() and in sh_css_load_firmware() to check
-that sh_css_num_binaries is not 0.
+Check the return value of both saa7134_pgtable_alloc() calls and
+propagate errors. On failure of any later step, free allocated page
+tables to avoid memory leaks. Ensure control handlers are also
+released on error to prevent further resource leakage.
 
-It took 5 minutes of browsing code via
-https://elixir.bootlin.com/linux/v7.0-rc6/source/...
+Found by code review.
 
---=20
-With Best Regards,
-Andy Shevchenko
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+Cc: stable@vger.kernel.org
+Fixes: a00e68888d5d ("[media] saa7134: move saa7134_pgtable to saa7134_dmaqueue")
+---
+Changes in v2:
+- modified the subject as suggestions.
+---
+ drivers/media/pci/saa7134/saa7134-video.c | 25 ++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
+index 4a51b873e47a..2b1672737d84 100644
+--- a/drivers/media/pci/saa7134/saa7134-video.c
++++ b/drivers/media/pci/saa7134/saa7134-video.c
+@@ -1714,8 +1714,10 @@ int saa7134_video_init1(struct saa7134_dev *dev)
+ 	q->dev = &dev->pci->dev;
+ 	ret = vb2_queue_init(q);
+ 	if (ret)
+-		return ret;
+-	saa7134_pgtable_alloc(dev->pci, &dev->video_q.pt);
++		goto err_free_ctrl;
++	ret = saa7134_pgtable_alloc(dev->pci, &dev->video_q.pt);
++	if (ret)
++		goto err_free_ctrl;
+ 
+ 	q = &dev->vbi_vbq;
+ 	q->type = V4L2_BUF_TYPE_VBI_CAPTURE;
+@@ -1732,11 +1734,24 @@ int saa7134_video_init1(struct saa7134_dev *dev)
+ 	q->lock = &dev->lock;
+ 	q->dev = &dev->pci->dev;
+ 	ret = vb2_queue_init(q);
+-	if (ret)
+-		return ret;
+-	saa7134_pgtable_alloc(dev->pci, &dev->vbi_q.pt);
++	if (ret) {
++		saa7134_pgtable_free(dev->pci, &dev->video_q.pt);
++		goto err_free_ctrl;
++	}
++
++	ret = saa7134_pgtable_alloc(dev->pci, &dev->vbi_q.pt);
++	if (ret) {
++		saa7134_pgtable_free(dev->pci, &dev->video_q.pt);
++		goto err_free_ctrl;
++	}
+ 
+ 	return 0;
++
++err_free_ctrl:
++	v4l2_ctrl_handler_free(&dev->ctrl_handler);
++	if (card_has_radio(dev))
++		v4l2_ctrl_handler_free(&dev->radio_ctrl_handler);
++	return ret;
+ }
+ 
+ void saa7134_video_fini(struct saa7134_dev *dev)
+-- 
+2.43.0
+
 
