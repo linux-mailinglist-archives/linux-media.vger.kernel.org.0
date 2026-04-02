@@ -1,76 +1,97 @@
-Return-Path: <linux-media+bounces-57955-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57956-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qL5EOz5qzmmpngYAu9opvQ
-	(envelope-from <linux-media+bounces-57955-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 15:08:14 +0200
+	id qJM5A/tozmmpngYAu9opvQ
+	(envelope-from <linux-media+bounces-57956-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 15:02:51 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 271E838969F
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 15:08:14 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 620AF3895AA
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 15:02:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0AFAD304CE85
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 12:54:47 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7E63A30862E1
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 12:57:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1805130FC1E;
-	Thu,  2 Apr 2026 12:54:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B5D83C13F1;
+	Thu,  2 Apr 2026 12:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KY8dXVsJ"
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="mUd7BbuC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F398736C9D5;
-	Thu,  2 Apr 2026 12:54:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C563D34A0
+	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 12:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775134479; cv=none; b=fHtwOG4tgV+YvLLFYqGMbG+wQOIUiV+x0/24vMMByh4JYGDHd+TsJf+NSReFmlJtU8WmuX3n1y2Z7JpWzKigQXlYxjdEgURbun4xn/TRs41mqq5QJt+oReuRQLjf4GeJ+wiIN8nIXxwlSO0EWZYR0i+AYqxU2rSQDOPki7eBxsQ=
+	t=1775134572; cv=none; b=Epuws9fRLmqD6FvNLHiH0gh2HBvM0ICbHNKNGJmTC8+wh5jUTfylkmDs1UnPudSD0bTqqAZrE1lBMKq7MUgHpJbZ44wltqZMZ+jgqgi2J7CJuKApd4TMTEGZXU+mNIJU+Fptk4lDoPG38Bm7seaPK/XkoJ8IotpflZEiOMZZLz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775134479; c=relaxed/simple;
-	bh=XIzQXlwe0ecgXVx2mdaWJeeWQsRZyyfoRUDP4A5qqd0=;
+	s=arc-20240116; t=1775134572; c=relaxed/simple;
+	bh=2p+a85skg1xtIimTdmJjZJySYA2FlAdgDf3eby1isD4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BMahRcFN1kbcuswBp5K2quYwuJ8c2Plmbhx21X6BRJPaRS8YZ8zR49rZ/Z9QzjEYhT7Y5hdzoSzGtgnjbWGyK8BBJbAqMpQbE7+XpQh2v+03+CIClPOB0HWak4VLxCokPfXIvrovhyc3ogVNfhoTP4NW2UIgsJYsSdm8RmPJ46o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KY8dXVsJ; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775134475; x=1806670475;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XIzQXlwe0ecgXVx2mdaWJeeWQsRZyyfoRUDP4A5qqd0=;
-  b=KY8dXVsJx6I8Y5B09fY3PDqrBHwNUPUiBDeNKE5i6EuD+a7BAOP6r7pr
-   1/xFzraUCpThpm5OXQAV1OO756tAZxRIZF4rSZgpzNxEQNjQavoXUPkkn
-   pO24paESPj5xe6neADuO161zmeklssXrQVDog16X6JnNNBsG/tKKoI7KW
-   SkM9h7IL9+v72Mv+JQfdL9UhV1CcdCJ3cjyXojiEcf0dUOeGTh6o5jvXd
-   f4GwBRgi1eO3wEYtC86VUI1c6ZMjMe/JNedoRnxMo2cHvOtkyMZw/O7GE
-   T56A3VpJED0XpxdcpAv7gIjCEVgjuEDsJWEnBHex93HwGMdY4cs3kcoRe
-   Q==;
-X-CSE-ConnectionGUID: PVjkqh+OR82ztuMwixyFKA==
-X-CSE-MsgGUID: kWBu0oqCSiC7dIlx1uB1og==
-X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="63742162"
-X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="63742162"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 05:54:34 -0700
-X-CSE-ConnectionGUID: diIh6MnOT6qDXNsDPleNcg==
-X-CSE-MsgGUID: pjnn8Xn+Q5GxoceFCwqaMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="226136324"
-Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.245.31])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 05:54:31 -0700
-Date: Thu, 2 Apr 2026 15:54:28 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, andy@kernel.org,
-	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
-	grondon@gmail.com, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: atomisp: fix alignment in function signature
-Message-ID: <ac5nBB8unILvfl4P@ashevche-desk.local>
-References: <20260402122333.1336-1-joshua.crofts1@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=jnyq5eKf0JjLX6HzEnr7Dah6TK7t0I9h5HZGLehUo5yyJQH+i98l38ecDUV0nv4Csua/BaUnQkCxUEtC0s0hhMnT1Wm++2m1BmY1gdH0HE8LYQ0IWuOz0s5PKWh+x8WDW8ZaT88rutzJWbGZyt40jIFz5Vtjo5OiZ3FNmUNi3Lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=mUd7BbuC; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-486ff201041so8220725e9.1
+        for <linux-media@vger.kernel.org>; Thu, 02 Apr 2026 05:56:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1775134563; x=1775739363; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sdBGEtOVUOrqsu+m2DU0Xpq65+UG7RkCtVPt0Shx5yg=;
+        b=mUd7BbuCoeJqm2nPr9AJfEe7p9aPySbUbNGAW0JSICQ/AdYlxHsbTizJ7wfRk8s7t/
+         X11XpNFTzHjMPmIW98FmEc//h29+jO3A8Iw2NE0jUwrG6rt1UoWNEfiUP/Q0XZVxZRzY
+         WTN4Om4/skS5+Isgt8jBhF/3pDMKkYpKmV94fucs1B6VLuNsi8r28V3nQ6wkDI+G050U
+         LGhZeOjoUO7Kmhz6UTT1Xwmgk/Z0JbmB4IcYdS/VxQ7TK0/S3+j2FQoNk0R2PFcXUC8g
+         0icsOlOpN/WdI7CrGfoh+lQk0vTrwRSsEiyFPDBbn4sqadqPme+v8kpe17tZns5TymZ5
+         97AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775134563; x=1775739363;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sdBGEtOVUOrqsu+m2DU0Xpq65+UG7RkCtVPt0Shx5yg=;
+        b=KzPdMygea0Iri81s1ZhDlePvKMVFbRz9n9csGLcerg5EUnDC12NjQI9nFRiKQg7bG0
+         8yi0HplIyhvrG6X3iMYdyzNu1EBO5rG5FWZHbKvIpZlMqnk++58TBlZQLUETivrDo5ZT
+         rDpatSblYl5H500UuqQfpVt3lRM0XmRWH6jYeCacHMzBe4sPBfeIMzwtw10ma+a6K13t
+         P3fLaSYiK8Xuq91ZGFYISQ3amOEAuUapIMr7qiJTWaDNs/29wQywLd/8WTQZvoQsvdLl
+         QXxeF0MXFHszS0U/68lrXeMqWpQb54ilPk1xaZjOwk8IYThxjB/jZsWWeiDgHO+r/hgh
+         kw5g==
+X-Forwarded-Encrypted: i=1; AJvYcCW8qOXs39Lp1TF53C5F5SRWP0joH1ct2KbVpPU/iCz8T7akdGbWHZu4ER5Nwi2We2Ppcb7sa2fe7XD+qg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFpvWGwEPANDwhSwyMIVybrKIsweqUEwaRicDXewCTr6erbaPc
+	B5oIpozfIXIFSsGsaSmpsCz7B6G50Apt5fku8Skz0DN/rqIRfsYp5y9kJRNZFicaTV8=
+X-Gm-Gg: ATEYQzx3YYru+LXW2wTC4SB3IShVht1z+uaAPkhavAHNqjRZrD7qUIRXc85V8LTDNli
+	zw4zmRY/mlYJqaVsClPOPsEI6OGkWJS1dyqyljrP12QqManyCHc6KNprbbZsjsTdxwDUbBsaUF9
+	qzBPXDTJQBBAJxg1Ode5b2fyk4V3whRXEAqASjyDW8BGIIiLBuLzv+bYGh1K7hGTOtL4ZoeDsIT
+	7rm0jfu8pUkYIJdk6zoRX296BR9L7ADOgf7w8mY+7Bl/Nl22LVQzRJBnRmoRHXKrDA0XKG1DjwV
+	GgOnadJg74zvQF45kPJ8Bj0HeOn2PlwJpPiD4dh6OLg+5X57O4euAvF8keaNtzGAb5dCmEy8arQ
+	5nAufsER/uhq+B+MSim32odNW1VKyxK7SkskB/EpKKOXlI3ncbvIl5+ECRqmnOAZAzozcwUpba+
+	Q5YOAqL45LG9r5Ale4FZNvr7dN2n4epNc=
+X-Received: by 2002:a05:600c:a31c:b0:487:338:b4eb with SMTP id 5b1f17b1804b1-4888b7b89a1mr36557135e9.28.1775134563095;
+        Thu, 02 Apr 2026 05:56:03 -0700 (PDT)
+Received: from FV6GYCPJ69 ([208.127.45.21])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4e56fesm7943310f8f.27.2026.04.02.05.56.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2026 05:56:02 -0700 (PDT)
+Date: Thu, 2 Apr 2026 14:56:00 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Maxime Ripard <mripard@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	iommu@lists.linux.dev, linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
+	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com, 
+	christian.koenig@amd.com, m.szyprowski@samsung.com, robin.murphy@arm.com, jgg@ziepe.ca, 
+	leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com, 
+	catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com, 
+	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com, 
+	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
+Subject: Re: [PATCH v5 2/2] dma-buf: heaps: system: add system_cc_shared heap
+ for explicitly shared memory
+Message-ID: <qvp2zepvwnlgcw36bcx47xouskuqk3tzjuomnhnwwg5ahiswt3@zbseau5arjho>
+References: <20260325192352.437608-1-jiri@resnulli.us>
+ <20260325192352.437608-3-jiri@resnulli.us>
+ <20260402-discreet-glossy-perch-bda4f9@houat>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,63 +100,94 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260402122333.1336-1-joshua.crofts1@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+In-Reply-To: <20260402-discreet-glossy-perch-bda4f9@houat>
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57955-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,linux.intel.com,gmail.com,vger.kernel.org,lists.linux.dev];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[resnulli.us];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-57956-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-0.954];
+	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ashevche-desk.local:mid,linuxtv.org:url,intel.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 271E838969F
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 620AF3895AA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Apr 02, 2026 at 12:23:33PM +0000, Joshua Crofts wrote:
-> Fix alignment checks in function signatures
-> 
-> Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
-> ---
-> v2:
-> - Rebased patch onto the staging-next branch to resolve CI merge conflict.
+Thu, Apr 02, 2026 at 02:23:12PM +0200, mripard@redhat.com wrote:
+>Hi Jiri,
+>
+>On Wed, Mar 25, 2026 at 08:23:52PM +0100, Jiri Pirko wrote:
+>> From: Jiri Pirko <jiri@nvidia.com>
+>> 
+>> Add a new "system_cc_shared" dma-buf heap to allow userspace to
+>> allocate shared (decrypted) memory for confidential computing (CoCo)
+>> VMs.
+>> 
+>> On CoCo VMs, guest memory is private by default. The hardware uses an
+>> encryption bit in page table entries (C-bit on AMD SEV, "shared" bit on
+>> Intel TDX) to control whether a given memory access is private or
+>> shared. The kernel's direct map is set up as private,
+>> so pages returned by alloc_pages() are private in the direct map
+>> by default. To make this memory usable for devices that do not support
+>> DMA to private memory (no TDISP support), it has to be explicitly
+>> shared. A couple of things are needed to properly handle
+>> shared memory for the dma-buf use case:
+>> 
+>> - set_memory_decrypted() on the direct map after allocation:
+>>   Besides clearing the encryption bit in the direct map PTEs, this
+>>   also notifies the hypervisor about the page state change. On free,
+>>   the inverse set_memory_encrypted() must be called before returning
+>>   pages to the allocator. If re-encryption fails, pages
+>>   are intentionally leaked to prevent shared memory from being
+>>   reused as private.
+>> 
+>> - pgprot_decrypted() for userspace and kernel virtual mappings:
+>>   Any new mapping of the shared pages, be it to userspace via
+>>   mmap or to kernel vmalloc space via vmap, creates PTEs independent
+>>   of the direct map. These must also have the encryption bit cleared,
+>>   otherwise accesses through them would see encrypted (garbage) data.
+>> 
+>> - DMA_ATTR_CC_SHARED for DMA mapping:
+>>   Since the pages are already shared, the DMA API needs to be
+>>   informed via DMA_ATTR_CC_SHARED so it can map them correctly
+>>   as unencrypted for device access.
+>> 
+>> On non-CoCo VMs, the system_cc_shared heap is not registered
+>> to prevent misuse by userspace that does not understand
+>> the security implications of explicitly shared memory.
+>> 
+>> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
+>
+>I'm a bit late to the party, sorry.
+>
+>This new heap must be documented in
+>Documentation/userspace-api/dma-buf-heaps.rst, but (and especially since
+>it seems like it was merged already) it can be done as a follow-up
+>patch.
 
-Wrong branch for this driver, you need to use one from git.linuxtv.org.
+Okay, will send a follow-up. Thanks!
 
-> - No functional changes to the code.
-
-Also the comments I gave against v1 are still valid.
-
-Plus now the request you to read Submitting Patches and other process
-documentation, so you will know that it is required at least 24h between
-versions of the patch to give a chance others to review.
-
--- 
-With Best Regards,
-Andy Shevchenko
+>
+>Maxime
 
 
 
