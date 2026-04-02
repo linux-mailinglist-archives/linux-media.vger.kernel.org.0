@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-57944-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57945-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iLZSFBBbzmmgnAYAu9opvQ
-	(envelope-from <linux-media+bounces-57944-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:03:28 +0200
+	id 4JfrCiZbzmmgnAYAu9opvQ
+	(envelope-from <linux-media+bounces-57945-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:03:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F47388C07
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:03:22 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58485388C27
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:03:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 239EA3094029
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 11:56:51 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E51E8307CC57
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 12:00:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 673D93C5540;
-	Thu,  2 Apr 2026 11:56:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47EDA3D4119;
+	Thu,  2 Apr 2026 12:00:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NjaTrbs5"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="eOt7mu+6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9D1370D47
-	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 11:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546CE3A4517
+	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 12:00:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775131004; cv=none; b=NivaSba3S+ZCfeku9VpzMhZdHQB2UBGVm+c80xhhKI4E310jUF88Clxmy3+g6Bt1RRJ+JnO9XFpPIdXBmR9c4MUnomfMUsdh1/NcsH1ste0VNBy5BbAXMkPl1QWnDNFexOA/ObdSQVzCtxfuqWyzBjkEcSEVDVSIprTgVGbLe8s=
+	t=1775131228; cv=none; b=YtB0yQP6Mmf038ZIIaGn6fuSW0Au+y4YPy0Z0+0LRcei2LHtaZ6UYKkfoQPgfOacbPXW+f5tOhDrwfu3WFopT2M+xxHbbV0H3T6/yg2IwjInza/HWKiMYboafLJKhqbavM+g8WKwTyB8jg7d9Du/h6iiXPR8x8ZpqePQHNa9488=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775131004; c=relaxed/simple;
-	bh=0hhpUie3lopwdf2kqOxnj7Te7az2UkNJRTHQmk5UaW4=;
+	s=arc-20240116; t=1775131228; c=relaxed/simple;
+	bh=YQTNOWULEKJu7QXVb7cw5H0wOpBwIYQa4Pbqcfq12MA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mrIBXs0iytJXqcFSWns4vXHXziCNLdWZtn/F/SyiSOrD9i5/tUj2BitSOVpO3s5rxkoUVxhk9HAOCJNUFK7AtRN8+ihS0HUMphU/wvQQVwUEDrKohf4SfEk8VIvXoV6GmbUDx/GQN4VcFlHajih9f2650MELadhToNtj6fb8jlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NjaTrbs5; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:Content-Type; b=DPHHH9Te570wbNhqmCdUqgcAVm+b3ftsF5ah2swsK7UrDEzn5QLRBNnC4RsNxDqI6xzArj1cgXudGBkss7j5u2cwEG5Z0QzuJWM5qNaMgptJDjfdWeqBxaLm72/zmhVAlXGSvU3B9Isz9blxiAfBwtFNuzXyysTprycVcIWtN9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=eOt7mu+6; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1775130999;
-	bh=0hhpUie3lopwdf2kqOxnj7Te7az2UkNJRTHQmk5UaW4=;
+	s=mail; t=1775131218;
+	bh=YQTNOWULEKJu7QXVb7cw5H0wOpBwIYQa4Pbqcfq12MA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NjaTrbs5C60sH5YHp4CHk7C6WkI0BVcauRvLpfDhfMNLj5n6rtW9n3shMyNk/QO/q
-	 sEWvMG5fWsUGQEN3hxL+9svpOntVg1i4kpCaE8NVv+YR7O+uOpE5dNTj2FEpkjZXTX
-	 I2xLgPp7ZcSN+rUy1t1ZDhTCVuJuY/vFT9HNcwi/JIrtuo1r1SeKM7UezEcSpvQvuY
-	 +xJWmsMPub6YvoN0/ZrhcYPrKfN+SHdQagZ1plfKwf1diSgqWiwVNc3tbeFT2Af/xs
-	 /lGkPBTJAUsL+fwii3NohWp+jfJHjhN3Uzt//YjmzYkch90GlRyRoPtbgmFQTcwrUo
-	 vvRzxEUx1Ww4A==
+	b=eOt7mu+6YauexdjkZRLuk/FP/kcs9OSYwHGl5zvMUBfnmpXTZWYBzDOv6YBwp2ssq
+	 PSpzGYjIy4MiWujlmmMeha1SuO3KkzcXshxiIK3Ev76tIgy4ypkBH1S1N4L/6LSkEa
+	 Hr1XtVi2YY7NeHHKbbK2YUknUxyMtoQl0cw18Zci659c6HGxP5TJigGIoxWC2qugKA
+	 J2SuITgqvMm0HaX3YqPD1bMFQQ04CVMZIObJWHwmmqgCas8egptveQhJcp5rlJ2hkk
+	 KtjeXdEJcKRYS7eIVtVHAw9jrkJF1osmb+htmenUq2B90Z8yuUSZaipvXRYA3mtyIy
+	 z81p2ZQ08DWXg==
 Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B24E017E7C56;
-	Thu,  2 Apr 2026 13:56:38 +0200 (CEST)
-Message-ID: <25492190-7f46-40c8-8d90-ff53168d3971@collabora.com>
-Date: Thu, 2 Apr 2026 13:56:37 +0200
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id ABA0617E66B7;
+	Thu,  2 Apr 2026 14:00:17 +0200 (CEST)
+Message-ID: <f16dc673-ef8a-4395-abcd-d44fc6b87fd3@collabora.com>
+Date: Thu, 2 Apr 2026 14:00:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,7 +60,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 10/22] media: v4l2-subdev: Refactor returning routes
+Subject: Re: [PATCH v3 11/22] media: v4l2-subdev: Allow accessing routes with
+ STREAMS client capability
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com,
  Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
@@ -86,30 +87,29 @@ Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com,
  "Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen"
  <khai.wen.ng@intel.com>, Jai Luthra <jai.luthra@ideasonboard.com>
 References: <20260325105818.1176816-1-sakari.ailus@linux.intel.com>
- <20260325105818.1176816-11-sakari.ailus@linux.intel.com>
+ <20260325105818.1176816-12-sakari.ailus@linux.intel.com>
 Content-Language: en-US
 From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <20260325105818.1176816-11-sakari.ailus@linux.intel.com>
+In-Reply-To: <20260325105818.1176816-12-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57944-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RSPAMD_URIBL_FAIL(0.00)[collabora.com:query timed out];
-	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-57945-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RSPAMD_EMAILBL_FAIL(0.00)[sakari.ailus.linux.intel.com:query timed out];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
@@ -119,19 +119,20 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_TWELVE(0.00)[30];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: D8F47388C07
+X-Rspamd-Queue-Id: 58485388C27
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Hi Sakari,
 
 On 3/25/26 11:58, Sakari Ailus wrote:
-> Refactor returning the routes by adding a new function that essentially
-> does a memcopy and sets the number of the routes in the routing table.
+> Disable access to routes when the STREAMS client capability bit isn't set.
+> Routes aren't relevant otherwise anyway.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by <mirela.rabulea@nxp.com>
 
 Reviewed-by: Michael Riesch <michael.riesch@collabora.com>
 
@@ -139,81 +140,32 @@ Thanks and best regards,
 Michael
 
 > ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 34 +++++++++++++--------------
->  1 file changed, 16 insertions(+), 18 deletions(-)
+>  drivers/media/v4l2-core/v4l2-subdev.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
 > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 831c69c958b8..f8fde395a53a 100644
+> index f8fde395a53a..647587c0499a 100644
 > --- a/drivers/media/v4l2-core/v4l2-subdev.c
 > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -629,6 +629,19 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
->  			     v4l2_subdev_get_unlocked_active_state(sd);
->  }
->  
-> +static void copy_routes_state_to_routing(struct v4l2_subdev_routing *routing,
-> +					 const struct v4l2_subdev_state *state)
-> +{
-> +	struct v4l2_subdev_route *routes =
-> +		(struct v4l2_subdev_route *)(uintptr_t)routing->routes;
-> +	u32 copy_routes = min(routing->len_routes, state->routing.num_routes);
-> +
-> +	for (u32 i = 0; i < copy_routes; i++)
-> +		routes[i] = state->routing.routes[i];
-> +
-> +	routing->num_routes = state->routing.num_routes;
-> +}
-> +
->  static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  			    struct v4l2_subdev_state *state)
->  {
-> @@ -1000,7 +1013,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  
->  	case VIDIOC_SUBDEV_G_ROUTING: {
->  		struct v4l2_subdev_routing *routing = arg;
-> -		struct v4l2_subdev_krouting *krouting;
->  
->  		if (!v4l2_subdev_enable_streams_api)
+> @@ -1020,6 +1020,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
 >  			return -ENOIOCTLCMD;
-> @@ -1010,13 +1022,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
 >  
+> +		if (!client_supports_streams)
+> +			return -EINVAL;
+> +
 >  		memset(routing->reserved, 0, sizeof(routing->reserved));
 >  
-> -		krouting = &state->routing;
-> -
-> -		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
-> -		       krouting->routes,
-> -		       min(krouting->num_routes, routing->len_routes) *
-> -		       sizeof(*krouting->routes));
-> -		routing->num_routes = krouting->num_routes;
-> +		copy_routes_state_to_routing(routing, state);
+>  		copy_routes_state_to_routing(routing, state);
+> @@ -1041,6 +1044,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+>  			return -ENOIOCTLCMD;
 >  
->  		return 0;
->  	}
-> @@ -1084,11 +1090,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  		 * the routing table.
->  		 */
->  		if (!v4l2_subdev_has_op(sd, pad, set_routing)) {
-> -			memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
-> -			       state->routing.routes,
-> -			       min(state->routing.num_routes, routing->len_routes) *
-> -			       sizeof(*state->routing.routes));
-> -			routing->num_routes = state->routing.num_routes;
-> +			copy_routes_state_to_routing(routing, state);
+> +		if (!client_supports_streams)
+> +			return -EINVAL;
+> +
+>  		if (routing->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+>  			return -EPERM;
 >  
->  			return 0;
->  		}
-> @@ -1102,11 +1104,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  		if (rval < 0)
->  			return rval;
->  
-> -		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
-> -		       state->routing.routes,
-> -		       min(state->routing.num_routes, routing->len_routes) *
-> -		       sizeof(*state->routing.routes));
-> -		routing->num_routes = state->routing.num_routes;
-> +		copy_routes_state_to_routing(routing, state);
->  
->  		return 0;
->  	}
 
 
