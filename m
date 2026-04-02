@@ -1,142 +1,178 @@
-Return-Path: <linux-media+bounces-57966-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57967-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gGWjA1p3zmk6nwYAu9opvQ
-	(envelope-from <linux-media+bounces-57966-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 16:04:10 +0200
+	id kFdBO7p4zmmMnwYAu9opvQ
+	(envelope-from <linux-media+bounces-57967-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 16:10:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F3538A2DD
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 16:04:08 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43ECB38A41D
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 16:10:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 7BB7430102F4
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 13:50:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 87EBA302F0F9
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 14:06:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C0E13D9DA9;
-	Thu,  2 Apr 2026 13:50:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD9E03E63A8;
+	Thu,  2 Apr 2026 14:06:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mg6xYm9t"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="LFogEVTI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B111B19F115;
-	Thu,  2 Apr 2026 13:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7163AC0FB;
+	Thu,  2 Apr 2026 14:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775137813; cv=none; b=hvwu8uvdpzgYkypRVAkYC7alrQJXrtuxJYyF2B6MPR81kNEeV/mr3z4Nk8rXpt1s1QF/4KZba4QmxD0gEhzDIwip+lQ3mckDwZ8Svvnw+XpAVpSlNwYIq2XwCdbhmh/GV0pou6E5qu3YnlMia8bexyFvwiO52/pL2eax661yjBU=
+	t=1775138814; cv=none; b=X+Zc+B+vCkHtO7htGIl2YrRR9q2Zt5w7vKnqxQ4ZWDH5ZP+FCOZny0Vg7wQGxwT99grljAoY9vBBHB3gLKgMD1Uz7b9YS0SyeD1aL4o/kk1U1XBMut+k5wwkF06BnEFmneRjPPtSBaD3K9q4enFF4nb835ACeNK6D8HJuKUAGig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775137813; c=relaxed/simple;
-	bh=Dmndvs2MFjQ3SAIaC7g32e7CcDen/0rO3NkMInu/JRo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A772FwafezVdlfCE4rqbwWkYCXPHU2jpbpsR+Le73mM1ycb8G9kdtGCOdijwpextUbf44Gg16UPX4uQDOY4jM+ow50OKOb2pIW9EaP3xWicrGCV3GUWqUQ35bHe9AdBRiERhxeE3EVzRi1hU5OKOWz4AQvMSua7FmICRHpwwkbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mg6xYm9t; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775137811; x=1806673811;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Dmndvs2MFjQ3SAIaC7g32e7CcDen/0rO3NkMInu/JRo=;
-  b=mg6xYm9tuKyynAhyhMQZA0iKAt1VDERbElFZKhAB+hvTuBYZe5GxNX+G
-   8XSLZdXm5WH4DYpJVG0R64Orf/gJVnRF9QRYZHn9qzFMy0M/KISGR82Bq
-   tTrFdlpRDjYB7V2yw3vNKpWi4Dy47s1mK/a8XdjwzGVo5GFoWKAXch+F0
-   bCltJxy8ohwEQ3iRAZ59uUm3k39beBtrtOfUzOVLkuWb5L8mYAXP9azYi
-   F9RmLVs/OC+RpXUu1SXDvqbuWC0js9JKO9ij24dyW6yJUSShqdcAAvU9F
-   YQtuz1z4wc7fmgQPyfTKYMwW2MM7sAEh9fJTobLHLqSBdwYpUpkbHen0o
-   w==;
-X-CSE-ConnectionGUID: qd9mkumBRCiiFZcM52pdiw==
-X-CSE-MsgGUID: a+MQ+MvKT8qwAbXHF8J+PQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="93779407"
-X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="93779407"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 06:50:11 -0700
-X-CSE-ConnectionGUID: m4gb3qwKShi9Vy26gS3Xsw==
-X-CSE-MsgGUID: b2kTs0IFRR61XDk7VjzMSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="223707598"
-Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.245.31])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 06:50:09 -0700
-Date: Thu, 2 Apr 2026 16:50:07 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Daniil Bulgar <bulgardaniil18@gmail.com>
-Cc: gregkh@linuxfoundation.org, hansg@kernel.org, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, andy@kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: atomisp: fix indentation and spacing in
- sh_css.c
-Message-ID: <ac50D2dnXceZqtV8@ashevche-desk.local>
-References: <20260402133005.288643-1-bulgardaniil18@gmail.com>
+	s=arc-20240116; t=1775138814; c=relaxed/simple;
+	bh=QK06DeIrGJLo+skpQxZiMaOTbSFroKiAVBO1zjQLL8s=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=J3eovSHSz85d96bBwskJCYc52k02Q7KJLSCq2v104YrQrO2fZ/zyOlVTaevTlC7PBxYBlrrIbo1fit1geVdaDTd5QDjlKih0H87xQ2h57ZL0Mn1QvmRQd+hdYyrNT7zZzOyB4efiWOP5cL9Tkfxjom5Uf/LH+EFIOJI+X4tp7Oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=LFogEVTI; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1775138810;
+	bh=QK06DeIrGJLo+skpQxZiMaOTbSFroKiAVBO1zjQLL8s=;
+	h=From:Subject:Date:To:Cc:From;
+	b=LFogEVTIizHA9dz8cc7MtMaY27t1BL8kIFa3b2Dah2VYrBHqYyeWwlhC9njLL/YwN
+	 CYzUAxIrgSTmwkSLCGwmJvhnrgiIXEs4hFf4M/8lVRe3B+k4XR5whz0A9QX4gDvr7F
+	 /VfWhjLBiZSyw4eU6pslcWytUeG7/GW92jdigFhln/PQyLhlfY46zvoSAE7TLFuWYy
+	 h5okdLGQdiXV2Derhst7wleIeWhSHR8k0WB6e39hs6r9O8hbD2qoM0dCQlRzzCBxjf
+	 eqoO+YzAzGvbRKp5gIolZYwnQQNGhA28QYAaLMSBFN6gklMqwORefb7AZbwCnnGFre
+	 PVs9V1yfe8MQQ==
+Received: from [192.168.0.15] (modemcable014.2-22-96.mc.videotron.ca [96.22.2.14])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: detlev)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 71C5D17E7827;
+	Thu,  2 Apr 2026 16:06:48 +0200 (CEST)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+Subject: [PATCH v3 0/4] media: rkvdec: Switch to using a bitwriter
+Date: Thu, 02 Apr 2026 10:06:35 -0400
+Message-Id: <20260402-rkvdec-use-bitwriter-v3-0-2072474ceaf4@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260402133005.288643-1-bulgardaniil18@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQ7CIBQFr9KwFgO02NaV9zAugH4sWosBipqmd
+ xfqzo0uJ3lvZkYenAGP9sWMHETjjR0TlJsCqV6MZ8CmS4wYYTtSshq7a+xA4ckDliY8nAngsKY
+ drVpZKl0rlK53B9o8V+3x9GE/yQuokF150RsfrHut3Ujz7kciUkxw2zClm5pJ3pKDssMgpHViq
+ +wN5Uxk/4hYEgkuqppXknDafIuWZXkD4F6jABcBAAA=
+X-Change-ID: 20260327-rkvdec-use-bitwriter-f1d149b3cf7c
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ llvm@lists.linux.dev, kernel@collabora.com, 
+ Detlev Casanova <detlev.casanova@collabora.com>
+X-Mailer: b4 0.15.0
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57966-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.990];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	TAGGED_FROM(0.00)[bounces-57967-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[vanguardiasur.com.ar,kernel.org,sntech.de,gmail.com,google.com,kwiboo.se,collabora.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[checkpatch.pl:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ashevche-desk.local:mid,intel.com:dkim]
-X-Rspamd-Queue-Id: 88F3538A2DD
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.996];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[detlev.casanova@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,lkml];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,msgid.link:url]
+X-Rspamd-Queue-Id: 43ECB38A41D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Apr 02, 2026 at 03:30:05PM +0200, Daniil Bulgar wrote:
-> Fix several coding style errors reported by checkpatch.pl.
-> Use tabs for indentation instead of spaces.
-> Fix alignment of function arguments to match the opening parenthesis.
-> Remove trailing whitespaces and fix blank lines.
+Using bitfields in large structures where fields are mostly unaligned can
+be hard on the compiler.
 
-Split to the fix per type of the issues.
+Issues have been reported with clang ([1], [2]) and, even though those
+issues are addressed by clang devs, some setup can't or won't update clang
+just to compile a driver.
 
-...
+Even when fixed, the compiler still might have to allocate a bigger stack
+frame to manage misalignement. Coupled with other features like KASAN, the
+stack becomes larger than the kernel's maximum [3].
 
-> -/**
-> +/*
+To avoid this, let's drop the bitfield implementation and switch to a
+bitwriter. There is already one for the older variants, so make it global
+and use it in other variants.
 
-Huh?!
+Note that only buffer structures are switched to the bitwriter. The
+registers representation structures are kept with bitfields, as they are
+properly aligned every 32 bits and don't require heavy stack overhead.
 
-...
+Also note that the VDPU381 SPS and PPS structs are kept with bitfields,
+for the same reason that they are small and aligned enough not to require
+heavy stack overhead.
 
-Also, if you are doing that, do it on the set of files or against the entire
-driver. No need to have 1000+ patches like this.
+[1]: https://lore.kernel.org/oe-kbuild-all/202601211924.rqKS2Ihm-lkp@intel.com/
+[2]: https://github.com/llvm/llvm-project/issues/178535
+[3]: https://yhbt.net/lore/llvm/20260121230406.GA2625738@ax162/T/#mad878ec24a8224e1387ef5e73cb77b9ada55e3f2
 
--- 
-With Best Regards,
-Andy Shevchenko
+Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+---
+Changes in v3:
+- Change bitwriter function to static inline instead of its own object
+- Link to v2: https://patch.msgid.link/20260327-rkvdec-use-bitwriter-v2-0-a5a4754b0518@collabora.com
 
+Changes in v2:
+- Don't use BW_FIELD to compute buffer size
+- Use correct size for buffers
+- Fix missed indentation issues
+- Link to v1: https://patch.msgid.link/20260327-rkvdec-use-bitwriter-v1-0-982cf872b590@collabora.com
+
+---
+Detlev Casanova (4):
+      media: rkvdec: Introduce a global bitwriter helper
+      media: rkvdec: Use the global bitwriter instead of local one
+      media: rkvdec: common: Drop bitfields for the bitwriter
+      media: rkvdec: vdpu383: Drop bitfields for the bitwriter
+
+ .../platform/rockchip/rkvdec/rkvdec-bitwriter.h    |  39 ++
+ .../platform/rockchip/rkvdec/rkvdec-h264-common.c  |  51 +--
+ .../platform/rockchip/rkvdec/rkvdec-h264-common.h  |  40 +-
+ .../media/platform/rockchip/rkvdec/rkvdec-h264.c   | 109 ++---
+ .../platform/rockchip/rkvdec/rkvdec-hevc-common.c  |  93 +---
+ .../platform/rockchip/rkvdec/rkvdec-hevc-common.h  |  57 +--
+ .../media/platform/rockchip/rkvdec/rkvdec-hevc.c   | 171 +++----
+ .../platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c | 351 ++++++--------
+ .../platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c | 502 +++++++++------------
+ 9 files changed, 562 insertions(+), 851 deletions(-)
+---
+base-commit: d0c3bcd5b8976159d835a897254048e078f447e6
+change-id: 20260327-rkvdec-use-bitwriter-f1d149b3cf7c
+
+Best regards,
+--  
+Detlev Casanova <detlev.casanova@collabora.com>
 
 
