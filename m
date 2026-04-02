@@ -1,135 +1,138 @@
-Return-Path: <linux-media+bounces-57910-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57911-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SNY4IZfzzWlLjgYAu9opvQ
-	(envelope-from <linux-media+bounces-57910-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 06:41:59 +0200
+	id 4H57DMP5zWkdkAYAu9opvQ
+	(envelope-from <linux-media+bounces-57911-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 07:08:19 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0850383B19
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 06:41:58 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AEAE383DCC
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 07:08:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 78D9B3033E4B
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 04:41:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A49F03061450
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 05:07:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D11FE365A1B;
-	Thu,  2 Apr 2026 04:41:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20A3436D9E1;
+	Thu,  2 Apr 2026 05:07:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BO1FXlKb"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R9CVOwEq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D943659F9
-	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 04:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A18361DD0
+	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 05:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775104904; cv=pass; b=K6SKzw7enI3XCXzuNnBNwCQuVbiOg+dEaaPuRDomiiUQdXgA6/DfbygDjBV6ORJ9b5LYX561dZKlAy9s97rOhCqZF9p/pu8FrgfI4jE9O/axVOVKFWgiW3OZMgtL1E4yFhH2W9hralUmO2Tv467L0Buj4/Ju5AKgd6/gyLt/5OU=
+	t=1775106423; cv=pass; b=H5FnyKzR1o3EnrbaLBjw9dHJSx7BRb+n4bFU4T+uZgH+onOisFZNF2QFXNCjOX5r3FwsW9aHlAuaowO214ekSFWg/rjmSsM4P7GguQDOLpfdOfhJJM4VJTY25VggP7+tmM6d+b3np1G9KrONXw0cKQlEfOq51L2yngFCG387gCA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775104904; c=relaxed/simple;
-	bh=8M0uK/dY9UfmR0xcTfEk17ugbKg+8eIoSDrEidIpkIc=;
+	s=arc-20240116; t=1775106423; c=relaxed/simple;
+	bh=Qf3x6hVmCFdUqtHFD5VJaVdwz6bPu+MVKVWepeQR03o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lMAx5Oo9YZ2EOQWYr0vWvb/2hKu2yak71lwtaXlsbjF3A/cALNPnulg+3CdCcb+aPu5Y816Nv+YxtlpiavOlP6iJL2/zgzauTtMdIoihWbXpvpZvN5B5xKkAmdJGT7jADBXvs06NSs072TUsvKkWrIdbxSeFnGKS5JCKrCOu4eQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BO1FXlKb; arc=pass smtp.client-ip=209.85.218.44
+	 To:Cc:Content-Type; b=gya0U8cl65HU5NWXQ5yh1sESLU/lZLV1Jep2BolkSrUj4i8h4INA/NfWYEDjGMYzCKEJG9GtopbhBgOMwuseA++5xzsF6HLDpFTus7R8zyjglut61FTfNC6dJZW6WnxjhoFNZBEl49aRJwXYq7PfBX7x+/LXELLHgswsiBc96r4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=R9CVOwEq; arc=pass smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b980b35534eso275405866b.1
-        for <linux-media@vger.kernel.org>; Wed, 01 Apr 2026 21:41:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775104901; cv=none;
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b9bfcbaa81eso66780266b.1
+        for <linux-media@vger.kernel.org>; Wed, 01 Apr 2026 22:07:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775106420; cv=none;
         d=google.com; s=arc-20240605;
-        b=WDBKeS8WUTud8YCaNZ6wnYcnhWfXZUFcUDPnDDcM2Afwho0kBncDRLyhOq/0TdVzNg
-         gM0n7T5/Z2hh6NI8y1Yk6kGm3PryG4VQagnEn76IymBCOP4feaZF2FluHDspmmK9v5Tu
-         pAC4qgLg/dKyM/vPUnfn9WOe8Zn9wcDCmpU3dsqew7JS8fvvX8+VYmxwJgcgXe0dt4TU
-         zQA1PpHxuzktlw3fOS7HYxmBaZGBKsAO+4VFz/D0I2aE9xow15NQHOLgyRhXOmXABo83
-         pq0DBKs1p6uxdPwxcqUmJYIFD2FfD510aujJ7gFlN3qgtv4NSkkbt79sWDZ6aCiiRdTb
-         wOEA==
+        b=MXRJav9GBnQBXlkm4LwqzMwTpYbpqUuCJSTnq4zVz5FX2ZO6DgmyRm8Ku3QmiW2A5r
+         GZR7SgghgYNWPVX47ngL/OBSg+ul/qTAPja5qZh/imSG+Kk+0U9sXD+mBn8kVXzJ7+v0
+         7k7aG1TO40pPNwWZBA/V4ULN3W6r8n+L1uzf7Xze8YRzL7e6i4GdAxskhCeLmXtOqLXO
+         SKD3R0ZfniKWrb+3+LqnpyUyIekl1okyHScoYHAB2kyBs1mfEpa9KXndKkwx59xQmdlG
+         NRIvcoAVXpzxTbwSOjKV+jho+eU5JM42jKDQzYHowT2FwXbNH7Z8iZ+fzemza163nI0F
+         tc1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=MsqizXttng34qJSYG1+nQy1RthHCf+vtWgekNCi7+qE=;
-        fh=wHYObGwCyXNDXyZhWo4USpqueFpF/2HzPi68WLJn/wU=;
-        b=JOtliXGZ7TKRSg4rOnDm4/yhkuiidMXO/a6sdijFjWvfaS9rD7MbqEGXZag75BmyB7
-         EWwDyRpadhm5XMhMC5AlAnWh5yz2tEZnNRGbE28FNX9IZf8vdE+ZzkV8e43VDsILJ1YK
-         tpxzoQW6hRVIC8sj7IFX34GY1qDuojLti8IN2AohZ6TC3RPGaRpTh/gCI8LnbNTCLTtm
-         3D5RJjXFQH3op+VGJG4JkSCRau4PQ2aulEbvYrqX3pA4qPaOQS3JH5Fk7lJBoTy9vZBN
-         0gyrypmsk1pXEutaY7cidr2G8IutbyPKFXWsy6bpflrL/2tWoMb2sydUnjIYzLsdCiB4
-         Ahgw==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Qf3x6hVmCFdUqtHFD5VJaVdwz6bPu+MVKVWepeQR03o=;
+        fh=H4xjLokPGCP00EokTkqwThFdEGtWT0EUqA2TVXsr1B4=;
+        b=gk+YOrd3hJ8RQm+0EBt4uzuJ2Okv//SFU11eLaC6f/cP0ff40ulYY5wG+VhLQxVhPX
+         UUTgjXpgJJeYrVzXCYcuw+GjheqXbRUHTB1zmFXxKz6FZJ38kYbBBtSLhOVa3ClAB7yi
+         Np2tXAoGUydT7RzPwcAvGHzcZmLzrmJVj6lNMUBKQMYoqUFg2+2FoZgBMEnBHGqY8GMh
+         nLguS8AmM7HKZBTlhnivTRIV1yBz5VBd10WkSn+eSB6gmWLDJosr4pB42zhNrs5M0l+Q
+         YyY3l8I4R0veDt7+cHH/1too0PNARnnEPiWvTa5uPMvwNGRguKrpVWo7tIQrvfMoXmPN
+         thIw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1775104901; x=1775709701; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MsqizXttng34qJSYG1+nQy1RthHCf+vtWgekNCi7+qE=;
-        b=BO1FXlKbFnLsywCUNjNDxalmf/H81ktx/teEEQOxjSzDk9hyfHXqjOpoghb2MEjCk6
-         ouqpEWEkSTCwKWCskGgrYFo2kT2TmtD+VaDc44PSD5qoUZKZ397clW5RoLoKDE5DftYK
-         fdm0mFeWKA+2IsEph/tBQ99xAqzzjs7BEbNvMayDxhRkMbX3+oWJhay/LpSuWZINmWDv
-         FjU1yCIc6jSUQ0axecP+4EA2X1d5+cI0WKG6z9RQUJCg+yV/IhSzJlFTQOQHfbRktItd
-         y1AYkpCaK8sNOzVLsO3XtA8LafPCvTowB3uP1s5/XO8buw4UzT7rD4tiZ6o9NAQbk1uY
-         IIrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775104901; x=1775709701;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1775106420; x=1775711220; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MsqizXttng34qJSYG1+nQy1RthHCf+vtWgekNCi7+qE=;
-        b=s0QIGg/rQP6MgTBstigKIl1o6YCpTJgb4lomm/pIADr9ud6wfFjRT8WEjlMWJRYxtJ
-         RwAzPCw9sa+DgzT0lZB6uZkzJaXvzmg+VwgYHdFkf2mbeIJYHNrU5anyZ5qkQ8b1MNtO
-         HqRdpiP4CyR3C1RXvgoroMpiiA6EC0OaY+pgn0J6CcRLT/zfz2vK4acwXGaGFGLWT6QR
-         Cs7dbd9GeMLvniCz57M+uHoPF9IDQ6xbvtGTsGQvEppErp/m13bIBYIXaxXpYtoliL13
-         idCU95BIMPiCYHdGsiwRutmvI5MudRNlGvviPIMbOeT3QjrIUJOLfdF2yll91JYoDwOl
-         9BIg==
-X-Forwarded-Encrypted: i=1; AJvYcCV75GMmtPsqQOsUNXoSDR0NzNvqgzFgACsPXAdsRgsp1zTO0iy8665dXjJfAgsDqmKaxSN3hpo5umjXyQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxB1TxggMqLomT+Zp9Xfw0epd9pAk07uDd1s1+7Rf4u2CY6tO8W
-	C1yWpUEz4MUYdKezgmtNgtC13hGx9EZYPn0TxA4LJG+RpXwRqV4CBRdGGImw71waMlnn7NbcYW2
-	8sei2nmPfEo2bgCXqSILEpebl8a03zXaFI+9dA1SayQ==
-X-Gm-Gg: ATEYQzw9SGdHfayWXULCfBZzlQlQa0sS/rNjrXSHQyvrh2vCF8MIc6mzEiI87IQBLhb
-	UOGGsxhIFhxL9N55U0DT3FnhyGx8JS81PNcBWzo3Al72yHhB+PRCsb3peAqcc33A8jOJvmM/0Uz
-	725y6hdk+KxF683SaFtDZTalVrtnA8T+EyXHduudQcT0WIC8dSdx+Z0aQKDjhHQVX1gzlVGjiN3
-	YeB8Pdr3SNY1Qkse6CkFDG0fu6mKYGZ5ZZWe1d1FWQlt+tDiP3XU4V5r/AxvdCQ2Qo5qNWrU6ci
-	OErVKqnLBnesZQ5GRvDu5myzcUo7iesTxE4yyg0=
-X-Received: by 2002:a17:907:8694:b0:b93:8275:795a with SMTP id
- a640c23a62f3a-b9c46fedc2cmr44691666b.15.1775104901064; Wed, 01 Apr 2026
- 21:41:41 -0700 (PDT)
+        bh=Qf3x6hVmCFdUqtHFD5VJaVdwz6bPu+MVKVWepeQR03o=;
+        b=R9CVOwEqukrkqXxkjwTJEN5EzjRQlsnmR8V7ZmCp97xdyGwGCGtkVXUkFpqyS1K6iE
+         e8WgyDGhYvPi8h1mDiOMr1yUZt41vHhEfbvk8zOCPijXMqIQgA31buemToatXRn5XCSA
+         q37RZ7BoYCsjMpy9MPDVR11bxGePQUljVUJTmozIulQjD5Z0Tythj0E1chYkteBwcrwj
+         VmBF5e511R4wkY2TiB9w4vdN/2414DQ7mZs9kMlIfgt0ZIhYLUw4ATe1vPiGGYqc58FX
+         8tCH5HAnqYFwtF+EA+qbGoJh4YvjnOhX45acoLvq+UJeoDuI8AvkM7nBgwOyQXG1xTAb
+         yiMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775106420; x=1775711220;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Qf3x6hVmCFdUqtHFD5VJaVdwz6bPu+MVKVWepeQR03o=;
+        b=cI9vgHwWpGi8Jx/wQ42ZWMS4moR+BxmiUOBftqFCxYW8LGtVHdL9cL4wWc47LmXwez
+         vy8ZPoi3ZTomtYPvcRrbtkW/IofpT9GPaytHooxbkmmZK2vyXbjef5hGvI6Z4spi755N
+         sg/CZGgejqD4RoKhpH89m7YoBZdaMG+/f+IMtf68CxWVI9Dx+yNYhp59bECXoEvWcHEL
+         xhdjUA2j7gGWpxhJz0UIoJXe5rpEPy4jj4THq4sZcUAGy1aurRQxk2Ib7JKDbTKSQXn/
+         3VxFVoOcVMKx2cGEnes7P2mqyKEi2wHiG+b28P461oU1Ou7d7ZrRx36zukpWQPAbJCbi
+         fFyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXWS5lUCTcnFQiel7VECR4NDRMqGIcRqgaueJHYl1Ah0mOrvxF1XNiFJArduslIgfm3/4WrLhDknC137g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCsfyNA605g/ys7jWcTtUrACOCN9A8UO4gLKu3IG4IXSMFpLQp
+	cUmEqDUSH5lnlUPYoK5qTaVyPyS6pnZt+y44r/2n52iZbvGyvgpQfDXbjaTJoATXBF8pAQQ83Rl
+	htlIyDxdwkTsuTlEAhhAaX7Zpy872TuInxh1nxW2wzQ==
+X-Gm-Gg: ATEYQzyyoG21xzxgmJqwSD0f1G9hr7pmO9M5ulRdVBb9nuXllFXsllmL+n3UydFcNjW
+	iKu83d7lADUHtNyKNKihAXJzHqKHAbK91gaXD2Wshf5ubTTLWnCgnuZ7KOyEK/ZhZL80u10PcC/
+	YahcecYBHwJye7vdzy/HxVpLsVG8skVXLjJeILN+UG2PQMTIQDtEojjSgEDlSjRBSw3cZ1M6wlj
+	J6DDoAX8QARHPpr2XDItp56Q9Quty+dDrXxwYkyf9qMYJTk0hdxh2G/3HpVodjOr2TImwKqsA10
+	qQQPgYrSRe3D9R30lhGD6XveP2uFvLXpyYvmC70=
+X-Received: by 2002:a17:906:f185:b0:b97:4e42:23ef with SMTP id
+ a640c23a62f3a-b9c138f8b82mr248056566b.16.1775106419953; Wed, 01 Apr 2026
+ 22:06:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260325192352.437608-1-jiri@resnulli.us>
-In-Reply-To: <20260325192352.437608-1-jiri@resnulli.us>
+References: <CGME20260331100026eucas1p19bdc2aaca4c9a48c6f6ac8fec71478d8@eucas1p1.samsung.com>
+ <20260331-dma-buf-heaps-as-modules-v4-0-e18fda504419@kernel.org> <46397de2-eedf-4e09-a83a-3b683d154fe7@samsung.com>
+In-Reply-To: <46397de2-eedf-4e09-a83a-3b683d154fe7@samsung.com>
 From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Thu, 2 Apr 2026 10:11:29 +0530
-X-Gm-Features: AQROBzCoqOVd8w8IT8q-wzhadg7W4rdnhn-HGLlu-Tm0fuk9WqMGP5WDrs9ZghY
-Message-ID: <CAO_48GEUXpcFBiyJAMgTcGPSq56-mZ0qnO3FrFRM2LoGd8W6HA@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] dma-buf: heaps: system: add an option to allocate
- explicitly shared/decrypted memory
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	iommu@lists.linux.dev, linux-media@vger.kernel.org, 
-	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, jstultz@google.com, 
-	tjmercier@google.com, christian.koenig@amd.com, m.szyprowski@samsung.com, 
-	robin.murphy@arm.com, jgg@ziepe.ca, leon@kernel.org, sean.anderson@linux.dev, 
-	ptesarik@suse.com, catalin.marinas@arm.com, aneesh.kumar@kernel.org, 
-	suzuki.poulose@arm.com, steven.price@arm.com, thomas.lendacky@amd.com, 
-	john.allen@amd.com, ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, 
-	linux-coco@lists.linux.dev
+Date: Thu, 2 Apr 2026 10:36:48 +0530
+X-Gm-Features: AQROBzCJbHUqpXNhrktgFRPzZ2TP3XLnRpMznWDVTmhDI0Xxoe_pLYi4105Frnw
+Message-ID: <CAO_48GEFQE_FJjuq1UqP=DC6LJE8jjE3C+4FdAyB4uEZDsnFJw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/8] dma-buf: heaps: Turn heaps into modules
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Albert Esteve <aesteve@redhat.com>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57910-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57911-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[25];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
@@ -138,65 +141,74 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sumit.semwal@linaro.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[linaro.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,resnulli.us:email,mail.gmail.com:mid,linaro.org:dkim,linaro.org:email]
-X-Rspamd-Queue-Id: F0850383B19
+	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,linaro.org:dkim,linaro.org:url,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 5AEAE383DCC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hello Jiri,
+Hello Maxime,
 
-On Thu, 26 Mar 2026 at 00:53, Jiri Pirko <jiri@resnulli.us> wrote:
+On Tue, 31 Mar 2026 at 18:24, Marek Szyprowski <m.szyprowski@samsung.com> w=
+rote:
 >
-> From: Jiri Pirko <jiri@nvidia.com>
->
-> Confidential computing (CoCo) VMs/guests, such as AMD SEV and Intel TDX,
-> run with private/encrypted memory which creates a challenge
-> for devices that do not support DMA to it (no TDISP support).
->
-> For kernel-only DMA operations, swiotlb bounce buffering provides a
-> transparent solution by copying data through shared memory.
-> However, the only way to get this memory into userspace is via the DMA
-> API's dma_alloc_pages()/dma_mmap_pages() type interfaces which limits
-> the use of the memory to a single DMA device, and is incompatible with
-> pin_user_pages().
->
-> These limitations are particularly problematic for the RDMA subsystem
-> which makes heavy use of pin_user_pages() and expects flexible memory
-> usage between many different DMA devices.
->
-> This patch series enables userspace to explicitly request shared
-> (decrypted) memory allocations from new dma-buf system_cc_shared heap.
-> Userspace can mmap this memory and pass the dma-buf fd to other
-> existing importers such as RDMA or DRM devices to access the
-> memory. The DMA API is improved to allow the dma heap exporter to DMA
-> map the shared memory to each importing device.
+> On 31.03.2026 12:00, Maxime Ripard wrote:
+> > The recent introduction of heaps in the optee driver [1] made possible
+> > the creation of heaps as modules.
+> >
+> > It's generally a good idea if possible, including for the already
+> > existing system and CMA heaps.
+> >
+> > The system one is pretty trivial, the CMA one is a bit more involved,
+> > especially since we have a call from kernel/dma/contiguous.c to the CMA
+> > heap code. This was solved by turning the logic around and making the
+> > CMA heap call into the contiguous DMA code.
+> >
+> > Let me know what you think,
+> > Maxime
+> >
+> > 1: https://lore.kernel.org/dri-devel/20250911135007.1275833-4-jens.wikl=
+ander@linaro.org/
+> >
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Thank you for the patch series, it looks good to me.
+Thank you for this patch series; now that it is needed by more folks,
+I think we can merge this.
 
-Marek, if you are ok, please could you take it through your tree, with my
-Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+Marek, I'll coordinate with you on this - thank you!
 
 Best,
 Sumit.
+
+
 >
-> Based on dma-mapping-for-next e7442a68cd1ee797b585f045d348781e9c0dde0d
 >
-> Jiri Pirko (2):
->   dma-mapping: introduce DMA_ATTR_CC_SHARED for shared memory
->   dma-buf: heaps: system: add system_cc_shared heap for explicitly
->     shared memory
+> Applied again patches 1-5 to my dma-mapping-for-next branch. I hope this =
+time it
 >
->  drivers/dma-buf/heaps/system_heap.c | 103 ++++++++++++++++++++++++++--
->  include/linux/dma-mapping.h         |  10 +++
->  include/trace/events/dma.h          |   3 +-
->  kernel/dma/direct.h                 |  14 +++-
->  kernel/dma/mapping.c                |  13 +++-
->  5 files changed, 132 insertions(+), 11 deletions(-)
+> won't cause new problems in linux-next.
 >
+>
+> Here is a stable branch to apply remaining dma-buf heaps patches:
+>
+> https://web.git.kernel.org/pub/scm/linux/kernel/git/mszyprowski/linux.git=
+/log/?h=3Ddma-contig-for-7.1-modules-prep-v4
+>
+
+>
+> Best regards
 > --
-> 2.51.1
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
 >
+
+
+--
+Thanks and regards,
+
+Sumit Semwal (he / him)
+Senior Tech Lead - Platforms and Virtualisation
+Linaro.org =E2=94=82 Arm Solutions at Light Speed
 
