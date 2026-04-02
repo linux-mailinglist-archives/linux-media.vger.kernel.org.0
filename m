@@ -1,160 +1,168 @@
-Return-Path: <linux-media+bounces-57962-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57963-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +B1FItJtzmnxngYAu9opvQ
-	(envelope-from <linux-media+bounces-57962-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 15:23:30 +0200
+	id CPG4EZtuzmnxngYAu9opvQ
+	(envelope-from <linux-media+bounces-57963-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 15:26:51 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44083899F7
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 15:23:29 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87510389B1A
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 15:26:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2EEA33123181
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 13:10:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C376E308A174
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 13:12:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AF633E6383;
-	Thu,  2 Apr 2026 13:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FCCD371D0A;
+	Thu,  2 Apr 2026 13:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AnLpZxwr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WSszUspE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCED3E5569
-	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 13:09:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940191F1304;
+	Thu,  2 Apr 2026 13:12:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775135376; cv=none; b=RULT0wq8JhaTeRvfsscGKZtsmdvgPQiaz+1TpgxE3MlUmrkARpKZ0NVJ4p1D1ccFQLgDxNX22z3uBq74IkdXAZnw4824yVYDIjtjf+9vntZkkWMghxbWFTgQ104rPW6kgaEgESotYN2a5Qb+ljTi3PSGeQ3pA8glk7VMiqOntLI=
+	t=1775135522; cv=none; b=UFturqizcqv1DA1CeckIRrXLulCnUUMO47kZ7cGSFXdzG03V/WZ0Lr7z7PbLcJIGEFrSBbS2vJAVXNVCCP2QGxQYcoq1p9suL/V6ZOeyil3LjxG+Jef34zSJh43Ry6L5W9FO7bCblxNurZf4ZbNe6rDslYbJ0Gwf3nP8cvq4WQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775135376; c=relaxed/simple;
-	bh=YzIB4Lu+zX+IE4ZJ+/9khtZjX6XzKpii2qvc0U32c3o=;
+	s=arc-20240116; t=1775135522; c=relaxed/simple;
+	bh=a7x/ysTtVW24aU35eMPirkt+sO+v8dpDAEKDhxuDe60=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A314MpQACrUlUh4XY784T3DyxQn1QgecmDiXdbhS51ppvJNV684G08Y0Asjy/ycjGMRw6ScVW69mWa6ZWIw1eudpRLhTr/l3WAPT3brBafrs16yuJDqK9pv0IxtEICHQyTBJVHnENPOfrWa3zssUFysm1AWN1P7ClaJmOK+7rw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AnLpZxwr; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso7620945e9.3
-        for <linux-media@vger.kernel.org>; Thu, 02 Apr 2026 06:09:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775135371; x=1775740171; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LBHNBVUFUCJBpW5DUWaq2VhnmG86vXoZK/pVSYZwtz0=;
-        b=AnLpZxwrjiqmFLRDhowyOQnBkDRGV/B22U38khe9b+VZPd/cDkJCxbdRTR99yATtp/
-         kWq/j07BIS9VlVrDEmPf2fydfsuhrFcBjYxfga7/rYx+f9A7PWRCFlt244QVtEwj/FbS
-         zCwrB89GVXhW59uahfuM81bz5I7kiAmtXNP6o3jvFz4/sUwy6MbFPEsHBZ6EYJA18r06
-         OPlXthDKyeZ7PSECTGYK8BQxmt/6Pq8SWSIzU+FzfbGoch4wlzSoLqyJj9ARJfskyyYP
-         ilu5hu2BVv/0rQ3JMpZI7OjU3cgcLIl1WY+i2HEQiIWF494/in8m4RTRTO2RWn6MJ3xO
-         mgig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775135371; x=1775740171;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LBHNBVUFUCJBpW5DUWaq2VhnmG86vXoZK/pVSYZwtz0=;
-        b=NRHBdj6XTFD5MVdLZ08rP6cqTCb8Y2sNrZOyUF/B+X9js5LlbETJwAyjS2TGsfVEDs
-         /C3Pd32xV76sWHkR/cmpx56KTZJneLx7UUdRswSis3uzraDLUO9N1b03v0IKluXIQ3UX
-         jjc3AnroRDIlEVPX1b9Oyen44ZTUE97xE4PK6uFU/yt3882KHjUOVvhdiGgmoG3Z/xry
-         G221ACKjGWFa4Smo3L3po8Fa7ecfcU/k4bp7Tg4tkIHRaJrtkzdCXcDv13IANqGc073K
-         xQHA3PHeyCPgG7fBcWq9yiMiJ5+iCCxyVEy/ybWtWqB0I1joJz3xKcw3mDxwicMxzLyo
-         +j9w==
-X-Forwarded-Encrypted: i=1; AJvYcCUuP2NuoDrH1kJ3TwNftsVr1U7C6KRr/S0pQOQW5ZnOemBFJandfXglvbDQY1vSwRbFP6IdJL8kJgAlMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yya01DWQRXKPgDWphz4lkMUKH4zbsdQsYvIw+zYcRPWtACs/XdR
-	uYMzNBrDduRymz0CZlAcJLKFWKWES9SQ2K/gsRLvN1RJZnFr+wmOrjDoRhrNbw==
-X-Gm-Gg: ATEYQzyCtaXJLT6EOEhvjiNp6Byjo+iwZBSluR2qeMO0jP6utZirEUInTbUYKbDImSx
-	3dmzaesf9o4sp2wRWp35GoesHxF6GIy8cDkuAGNyZDgUDQtkRHaUh5/NhiAAW9YoZa8sDxg4s1A
-	1+mLXXfIPbMygM3J7C42Fq+0nMDBU2EeaJ7kDqEFy3iLKr8vvOkFmylH/TDZn5N0wJTxl83nSPa
-	P/dpjUPFsQD9SsQjxNRM2iZY6S2AGDyU1j7xV7x5OOTUFH7UrU422QjiT7tFJB+/iuqwjvw1r+q
-	5LpDRNRokZ7Su5gegkfGc6f/QyyukpMb6TR64FOV7foHkwLVu+ZxQWA3pCWKa6Dw9oMLOV6sglc
-	3YimwdoAjOyCXyVriwjBbdUy8JxHkHnh2KKmKyBgFTFGDnyolhaeC7MVSXSz7TFU7eq3CLjGdF9
-	/k15hIgl+ZFTwzTyEuDsc=
-X-Received: by 2002:a05:600d:11:b0:485:3ff1:d5ed with SMTP id 5b1f17b1804b1-4888355df72mr134713795e9.1.1775135371137;
-        Thu, 02 Apr 2026 06:09:31 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e829c43sm175553955e9.5.2026.04.02.06.09.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 06:09:30 -0700 (PDT)
-Date: Thu, 2 Apr 2026 16:09:27 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: cedrus: Fix missing cleanup in error path
-Message-ID: <ac5qhwdZLNe628eW@stanley.mountain>
-References: <20260401191441.1217646-1-andrej.skvortzov@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=H8+9JkBz5LW1a+yy99lkP3ZvM5gaHglIkZVq0cGRwkBsFRMcynu2jz9PRmgDsk2eoOlWMFT+CexT/UTEghE5xBFXJIhQFGVawPSvhkxXiMi2mKf4389ZptblpFJ5HQooRspjLDpsYEuRW1/w7laiwoEgvobpUw1Kl7rh2W6Cuek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WSszUspE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2097EC116C6;
+	Thu,  2 Apr 2026 13:12:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775135522;
+	bh=a7x/ysTtVW24aU35eMPirkt+sO+v8dpDAEKDhxuDe60=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WSszUspE9dzXyP1vG2gMcdzvhWi9nAi5ipcnGtuyZonB7RZAGmX1hwDPduMtfEj0f
+	 lW2LoRIl2ShIjcyVDeuG1hlvOO/zqpCeA0Z146DRKKA0duBquAvj+fJQT/uscVbkZe
+	 2wg5nQmX87424MYUc//sb0M9cOh0Ho+XSCi8NXobJRbr+fliundDiCPi1S/NRwsAeC
+	 kc4nITLm01qhH8H8Sxex1i7X4/hTzJrnBqisiAgNMciIgTmVqODXmYgxMjwhE4MTBg
+	 w18ZXyGoeIRDg6/g/t6PcP82CKsFc0A1CC7A5a4HCiyOTIneD54u7brrQ1GJ5SK+vp
+	 +XGiv48Yu5boA==
+Date: Thu, 2 Apr 2026 15:11:59 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Albert Esteve <aesteve@redhat.com>, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-mm@kvack.org
+Subject: Re: [PATCH v4 0/8] dma-buf: heaps: Turn heaps into modules
+Message-ID: <20260402-burrowing-fine-bloodhound-afcebc@houat>
+References: <CGME20260331100026eucas1p19bdc2aaca4c9a48c6f6ac8fec71478d8@eucas1p1.samsung.com>
+ <20260331-dma-buf-heaps-as-modules-v4-0-e18fda504419@kernel.org>
+ <46397de2-eedf-4e09-a83a-3b683d154fe7@samsung.com>
+ <CAO_48GEFQE_FJjuq1UqP=DC6LJE8jjE3C+4FdAyB4uEZDsnFJw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="me4gicdwmutl43x6"
 Content-Disposition: inline
-In-Reply-To: <20260401191441.1217646-1-andrej.skvortzov@gmail.com>
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+In-Reply-To: <CAO_48GEFQE_FJjuq1UqP=DC6LJE8jjE3C+4FdAyB4uEZDsnFJw@mail.gmail.com>
+X-Spamd-Result: default: False [-3.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57962-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,sys-base.io,linuxfoundation.org,gmail.com,sholland.org,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	TAGGED_FROM(0.00)[bounces-57963-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sholland.org:email,stanley.mountain:mid]
-X-Rspamd-Queue-Id: D44083899F7
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,samsung.com:email]
+X-Rspamd-Queue-Id: 87510389B1A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Apr 01, 2026 at 10:14:40PM +0300, Andrey Skvortsov wrote:
-> From: Samuel Holland <samuel@sholland.org>
-> 
-> From: Samuel Holland <samuel@sholland.org>
-> 
-> According to the documentation struct v4l2_fh has to be cleaned up with
-> v4l2_fh_exit() before being freed. [1]
-> 
-> 1. https://docs.kernel.org/driver-api/media/v4l2-fh.html
-> 
 
-I wish the commit message would say what the use visible effect of the
-bug is.  I looked at it and I don't think this patch hurts but I also
-didn't necessarily see a that the original code had a user visible bug.
+--me4gicdwmutl43x6
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 0/8] dma-buf: heaps: Turn heaps into modules
+MIME-Version: 1.0
 
-I read the documentation but it wasn't as unambiguous as I'd prefer.
+On Thu, Apr 02, 2026 at 10:36:48AM +0530, Sumit Semwal wrote:
+> Hello Maxime,
+>=20
+> On Tue, 31 Mar 2026 at 18:24, Marek Szyprowski <m.szyprowski@samsung.com>=
+ wrote:
+> >
+> > On 31.03.2026 12:00, Maxime Ripard wrote:
+> > > The recent introduction of heaps in the optee driver [1] made possible
+> > > the creation of heaps as modules.
+> > >
+> > > It's generally a good idea if possible, including for the already
+> > > existing system and CMA heaps.
+> > >
+> > > The system one is pretty trivial, the CMA one is a bit more involved,
+> > > especially since we have a call from kernel/dma/contiguous.c to the C=
+MA
+> > > heap code. This was solved by turning the logic around and making the
+> > > CMA heap call into the contiguous DMA code.
+> > >
+> > > Let me know what you think,
+> > > Maxime
+> > >
+> > > 1: https://lore.kernel.org/dri-devel/20250911135007.1275833-4-jens.wi=
+klander@linaro.org/
+> > >
+> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>=20
+> Thank you for this patch series; now that it is needed by more folks,
+> I think we can merge this.
+>=20
+> Marek, I'll coordinate with you on this - thank you!
 
-But I'm not a subsystem expert.
+If Marek plans on sending it during the next merge window, maybe the
+best thing to do for us is just to wait for -rc1 and apply the rest of
+the patches. Otherwise, we can merge the branch in drm-misc.
 
-regards,
-dan carpenter
+Maxime
 
+--me4gicdwmutl43x6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCac5rGAAKCRAnX84Zoj2+
+drvAAX9Gv+TrbX5Ru5iTuTfrjby3dUGZF6Vd9/L4HY+x15swwQBj44P2X43WwAnM
+cMhPq+8Bf00cagtlOIBhV4Hse29yKk8z2Is7iRaewRIPe/yQho7wdJK8x1cnDkbD
+NQuA+jE9OQ==
+=+ZbZ
+-----END PGP SIGNATURE-----
+
+--me4gicdwmutl43x6--
 
