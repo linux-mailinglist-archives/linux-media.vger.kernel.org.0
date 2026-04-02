@@ -1,231 +1,165 @@
-Return-Path: <linux-media+bounces-57949-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57950-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wHKYLzdgzmnvnAYAu9opvQ
-	(envelope-from <linux-media+bounces-57949-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:25:27 +0200
+	id 6IQiFvFgzmnvnAYAu9opvQ
+	(envelope-from <linux-media+bounces-57950-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:28:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B2C538903F
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:25:26 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9738389117
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:28:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3E5643060AE9
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 12:23:21 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4170D30A2510
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 12:23:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4ADA3DFC9E;
-	Thu,  2 Apr 2026 12:23:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 217D63E1204;
+	Thu,  2 Apr 2026 12:23:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LjGKf2zr";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Pv+e99zb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TlArw2Gm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82EE3CB2DC
-	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 12:23:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465F73D3CEA
+	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 12:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775132599; cv=none; b=IxzMMGNfRZoPBdC8HH8H9ODptTaoHvDqqHVSKvKFSo+eeL1/85OZfoYOvqEa3ryE0TD1jvHwZ1Ky30LYAJj3tkifEdL9h2DO6DciabEyvMsZM5O2Z8YjuIoMXCdT9mmd8UyvFWPgoNE6GhfVgKfZBjOQ0/kufLAo/7jNBKD1+zU=
+	t=1775132634; cv=none; b=fNGbwXWSfS9nczhcHw9oKab53Mj9lDScqUl/LPvvALtrlTndjpmcZ/E0dkKUPCsu4jKGjdQeqkBsYIoBft/LVId+7qpxkfN0XfUdJga6sjn/LHwsTFdimYjC/JK63EZbuPJubNUklm80L1gsOFE8KnlqlsQ1sLtLj7ahn1MsRDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775132599; c=relaxed/simple;
-	bh=ZmBGSEKxrm2sD1+zHMG9w0btvdw9ZsL148HNd6FLqgg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D5UfOuNZOMc7NKNEd/vtntFIWKno+NgGsYN6F7F9J/RscizkiXBNtJOSiTRh1DKA8+euPvgxTIjM1m89TTy7OAfD6edME0tfaQnqUdkHwhcMjZdVlGnbtAItRx8o8q2C1y8OYzTr+oUKmdiBK6AhMuydOlWuJuHpEXduB8CBAhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LjGKf2zr; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Pv+e99zb; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1775132596;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xRxSNukj518ppA3ZO+j946SBDUenrVVHerZheyJEcDQ=;
-	b=LjGKf2zr/aRN2tOMCkH/oG/HIdRBC5uKqP6cQPGO8HHAZEo2aWMkwGJPnwtQMjQ1WfvEss
-	X7lW/Qvv5sFC5A2wc2MmRq7OE13+Oly3HQBVJIRIx7h90ZT6ZRWNfdQ8D6Qkxm+ypkkJpy
-	vQaBHQ1oaIwxQ0p6GN0PTaVV4PLNuRA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-490-qte7yeUrNDWBxDRMr66JvA-1; Thu, 02 Apr 2026 08:23:15 -0400
-X-MC-Unique: qte7yeUrNDWBxDRMr66JvA-1
-X-Mimecast-MFC-AGG-ID: qte7yeUrNDWBxDRMr66JvA_1775132594
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-43d022974acso877822f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 02 Apr 2026 05:23:15 -0700 (PDT)
+	s=arc-20240116; t=1775132634; c=relaxed/simple;
+	bh=CiazWmmi6vMLPLWIeEGthiISVK90JbaZcBdoKBCyeMI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BskkTuNmsU98/5VKAe59+04MYquKZxEpTWGGW9iG0bOtG/SVctQGIr+uF0K2qsYsnPz991g4ein5PhtHEZBZRe0qSmov01UEnAh3OB7E8GypeZifvx7QB0EdECGZ3YpFGKUklHdCBNqI05n3UbCS//wg0ghvxR3uhsM34KO/BdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TlArw2Gm; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b93698bb57aso176674666b.0
+        for <linux-media@vger.kernel.org>; Thu, 02 Apr 2026 05:23:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1775132594; x=1775737394; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xRxSNukj518ppA3ZO+j946SBDUenrVVHerZheyJEcDQ=;
-        b=Pv+e99zbXqzbS+FHIyllukokK1bt2Vz/6fHeLr3PH10BWlAxmTYBRpZcv0vVmpdtI/
-         l+Z8M45q+RE9ICVDYpFTXy8o5S+/rq91MAFxMR6TxpcdJzMA4/815n9y/Wu7Cb+lfkg3
-         wSbZOUHc1gLvidV0VQglOfPm2fxfXYMb4sJISNOxpcWJ5ObS2OCJNcn1TMvhkVLtAwO6
-         BA7XTLJkVodKAX0HHCCq3emXlrQJg6MttoPSLciHcf4V/817RdRDvEiXpQJANA5mBxgv
-         euOSmKKwUiNkXznzGLLyFXAmWnq0notvEZGnEcgdo0vVLktZJCIBKE8wuUnnrdJbCdjh
-         0Xrw==
+        d=gmail.com; s=20251104; t=1775132631; x=1775737431; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=93MKXho5CihfBi64XHlp856AFQOutHeNOOS2UatSKRs=;
+        b=TlArw2GmNejwEwiQsANoFk7nzKsJ6pkxherYZvL5Zy9NNXzyB9g2hqdKc7dfq/Q72r
+         1LMaRlloR+tvK46KLHaiIfadbAahpnSBzrMLDm8gLMObtNXmqdFbRyfcT+noxkECwhlW
+         3yuY38VJlaX5OQdxeOTBuiT6BwX1DBXPciQahUN9JdHubKHBxctbRfWxERo3z8Os1EQA
+         qaP2a//gNxVx6ES9wEoRuj7Q8e6N+/ghaN2bewtfDZSUsstxLMosMbfwQRW1ld1EjTTv
+         mLzyJUJDOR+J1wr8EANjHjwmjXlvCkSQ6G4EWuD7MaiDh5MyljWlfOpk5osctGpnbi8F
+         xa4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775132594; x=1775737394;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xRxSNukj518ppA3ZO+j946SBDUenrVVHerZheyJEcDQ=;
-        b=Fw7qTdV4Q0t6hTzeG9rVcUMo99UmqgDoLZDl2aJd2ocwCeJxnvk4DbQQx6TOMUWXB0
-         tOMbKcKXxjm0mBtgCrF1UqChcdcLBAQ38LhIh/kNEdEfqcnqXUjAdSKen0S05yR021fg
-         oHzxBXC1KOal1yj4uLCekDWf1b4NPe9TZeo7OaPDMakqlNVVrBmMmMIkq1wGGS3jh6+k
-         /CQiiKKmve5tbkbeNT+RC9hNATlss4kOpAqL6q0OhhHGhwEOjs8QB4akL2wpKNDucZBh
-         3NK6utyUSOjS+g5TZN4jIMmJqwW7DhuT1eCHxEbIcUp679WHEfyjMvJhkvjgkCzfpY74
-         HkiA==
-X-Forwarded-Encrypted: i=1; AJvYcCVK+KSgNMgErc80TI0OU+X6N+bdnVgVUzr72FzkeUwGKsUkRR0Z1I9UuAeLCenmS0eErWw4W9m2tK4WYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNk6/E3ZCDIcz/MiCQSAbpcSxIha/V1bMcrFr2W3E1B2b6R3TX
-	QAfPsqq6vRQdUDTef6+T2LNPBfzr3QLkyqlE8vWhafm4VQdbfTjdRMuqhRJNNOzNK09Vldqb1Qw
-	lQGjWihXWHqyTEEN5W7R0NtXx/sqe9vAir8xi9azK2B2UxrORL/f1l8216z9hth3f
-X-Gm-Gg: AeBDietVgtBHNsAq4jWA1f85TvTluTGod+57Ri8UVIZLD5HlOC4qu1q7MNVFJENgetS
-	paet9r4DERuuPtW9xe9cm1Qyog9a8SV069FR8/k7UGC6uoUnXuLoPw1dbs8H/tL9WgOls7y0oCj
-	EmB2HbJ74/1V1m/BY35J1h7J+IEEBk92tD1Lq8FhTp+QlWHuN2xnnbhlvxdn8XtsszRkpBo7sh+
-	hsN8KLcMoO5+F9vnjytfWUcWjVtVfcVmYWDZRCjl3v9fUi+NLIGfVCtTACfpRpJEOG34MCXAQaw
-	Ukafnl50e8ptm6Bmv31FBw5EBRjYh7arftqBLSXdeu76elDFMICJc/qWDOGzv1axJ7gCYTCCag=
-	=
-X-Received: by 2002:a05:6000:2409:b0:43b:6a16:17e with SMTP id ffacd0b85a97d-43d1505b105mr13705388f8f.11.1775132594204;
-        Thu, 02 Apr 2026 05:23:14 -0700 (PDT)
-X-Received: by 2002:a05:6000:2409:b0:43b:6a16:17e with SMTP id ffacd0b85a97d-43d1505b105mr13705319f8f.11.1775132593703;
-        Thu, 02 Apr 2026 05:23:13 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d214f2b63sm4510096f8f.28.2026.04.02.05.23.12
+        d=1e100.net; s=20251104; t=1775132631; x=1775737431;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=93MKXho5CihfBi64XHlp856AFQOutHeNOOS2UatSKRs=;
+        b=kyWG2GS3QeZ9RQCl/bZXcaK5yyxNhb6upeARXDBloRDXuDt/ADzjY+Z4S7TzuiNUbP
+         GaBcAJSGH2epkHCTrzALHWV+unBP65OfFdddesqFZpznQlnJLAuAfg7X39cQXVccVydN
+         IfGraARRnnQY7eclISA7ogYWId8y/LsXYEPq+sGM0VGYXxjLr19wN97FLuzxjILA0bXw
+         FqM4mNy2lE2K1/VBqIxq5pd8YFEbkCTv4KSHpnknFcnsHp7s8ztTDw2DMD8c9Ds5BYIF
+         6aGCMqyiChoDZbO65nDNJ7pnFDt66uHhTbR3loCmOo30atXJ2cZECuviOWe7iRyK98dt
+         Gcew==
+X-Forwarded-Encrypted: i=1; AJvYcCXQO8sJHK5SyvoJufhMk49Eg9sV1PK2/pBCEB6t0OdS7I36DKEehij1Cifzl4GoHuLaXEUB3SJ49cZh0A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSb0s4mTlTwGHG5gAX5y3ZtMBSBGF8J8VvDUbckKFHRrX6RSwj
+	JNw4SMXWr7js9/Ocl4pi2OKuAK/DbXL2Vx15cXMk+SkfVJB8LqdzfS6x
+X-Gm-Gg: ATEYQzzjaleRXG8WMklXkzGHIKJHb+FFhGTxSTw1kpJN3lyPTrdwpSr54qYeqXPUUiw
+	4oxenf/PDFD23LU9U3kU4606WlPDTDKHvUNREeQ1BqLh8lDapN/KUzYOoqMNiSkrnruRaHycU9c
+	Bc9NakAbtOfUkkGE/Lz7Kmvybntum4gSrmbNQ17NWPjrZNxcMvXBXKFIDLPZ8rxYOkDfJ8mQEfl
+	PITnDa9oIm6LGoBrZUPkQMaWjO4K3h16wnVPVH8H7HfV8pbfT5lSXz/vacsmWww9ZZYcZOnCYvy
+	r6EFulRJys2v46cT1PMMOkvK09TzQwZ/PzbNMhl42YG561CccJ28zpMZCnIWLHd9CROFr1tAuRy
+	mtzpSBXIXQABvydtwiNn85AJtKc5PoD2NJifmHM848/A+Ac15uaVE5VxbCL4VGYrMu7cAUB0lxA
+	ja6oa2rRTxNH9NZQjk3BHHbE89RKWhOp7LlbnSQt7Sx7DQWSoBKny1YXbQN9q92z+oUrU/5FW/o
+	MqNbQbjvAA2SDOZ6mOMcD2Vrir5w52DIM8uz6x8Gn/CBVzif6sooDCd0qKugyU3yz8YTPJm16W/
+	ynrdMb6gq1DclzlENTbgPdFouXoGNmLiA70wTQqWW4jeEm1fGXHNS+1GIRiyD2tn0aurF7SJZXT
+	AW3Z+v+l/8N6F0AEY
+X-Received: by 2002:a17:907:97d3:b0:b9b:e7b3:a257 with SMTP id a640c23a62f3a-b9c46fedbebmr95671466b.21.1775132631230;
+        Thu, 02 Apr 2026 05:23:51 -0700 (PDT)
+Received: from cs-280612103108-default.europe-west4-a.c.od237066db22328bb-tp.internal (253.119.12.34.bc.googleusercontent.com. [34.12.119.253])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-66e02d4500asm658588a12.10.2026.04.02.05.23.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 05:23:13 -0700 (PDT)
-Date: Thu, 2 Apr 2026 14:23:12 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	iommu@lists.linux.dev, linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
-	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com, 
-	christian.koenig@amd.com, m.szyprowski@samsung.com, robin.murphy@arm.com, jgg@ziepe.ca, 
-	leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com, 
-	catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com, 
-	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com, 
-	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
-Subject: Re: [PATCH v5 2/2] dma-buf: heaps: system: add system_cc_shared heap
- for explicitly shared memory
-Message-ID: <20260402-discreet-glossy-perch-bda4f9@houat>
-References: <20260325192352.437608-1-jiri@resnulli.us>
- <20260325192352.437608-3-jiri@resnulli.us>
+        Thu, 02 Apr 2026 05:23:50 -0700 (PDT)
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: sakari.ailus@linux.intel.com,
+	grondon@gmail.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Joshua Crofts <joshua.crofts1@gmail.com>
+Subject: [PATCH v2] staging: atomisp: fix alignment in function signature
+Date: Thu,  2 Apr 2026 12:23:33 +0000
+Message-ID: <20260402122333.1336-1-joshua.crofts1@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="e65sn5i4kwgewwdb"
-Content-Disposition: inline
-In-Reply-To: <20260325192352.437608-3-jiri@resnulli.us>
-X-Spamd-Result: default: False [-3.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57949-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[bounces-57950-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@redhat.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linux.intel.com,gmail.com,vger.kernel.org,lists.linux.dev];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email]
-X-Rspamd-Queue-Id: 1B2C538903F
+	FROM_NEQ_ENVFROM(0.00)[joshuacrofts1@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E9738389117
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Fix alignment checks in function signatures
 
---e65sn5i4kwgewwdb
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 2/2] dma-buf: heaps: system: add system_cc_shared heap
- for explicitly shared memory
-MIME-Version: 1.0
+Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
+---
+v2:
+- Rebased patch onto the staging-next branch to resolve CI merge conflict.
+- No functional changes to the code.
 
-Hi Jiri,
+ drivers/staging/media/atomisp/pci/atomisp_fops.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Wed, Mar 25, 2026 at 08:23:52PM +0100, Jiri Pirko wrote:
-> From: Jiri Pirko <jiri@nvidia.com>
->=20
-> Add a new "system_cc_shared" dma-buf heap to allow userspace to
-> allocate shared (decrypted) memory for confidential computing (CoCo)
-> VMs.
->=20
-> On CoCo VMs, guest memory is private by default. The hardware uses an
-> encryption bit in page table entries (C-bit on AMD SEV, "shared" bit on
-> Intel TDX) to control whether a given memory access is private or
-> shared. The kernel's direct map is set up as private,
-> so pages returned by alloc_pages() are private in the direct map
-> by default. To make this memory usable for devices that do not support
-> DMA to private memory (no TDISP support), it has to be explicitly
-> shared. A couple of things are needed to properly handle
-> shared memory for the dma-buf use case:
->=20
-> - set_memory_decrypted() on the direct map after allocation:
->   Besides clearing the encryption bit in the direct map PTEs, this
->   also notifies the hypervisor about the page state change. On free,
->   the inverse set_memory_encrypted() must be called before returning
->   pages to the allocator. If re-encryption fails, pages
->   are intentionally leaked to prevent shared memory from being
->   reused as private.
->=20
-> - pgprot_decrypted() for userspace and kernel virtual mappings:
->   Any new mapping of the shared pages, be it to userspace via
->   mmap or to kernel vmalloc space via vmap, creates PTEs independent
->   of the direct map. These must also have the encryption bit cleared,
->   otherwise accesses through them would see encrypted (garbage) data.
->=20
-> - DMA_ATTR_CC_SHARED for DMA mapping:
->   Since the pages are already shared, the DMA API needs to be
->   informed via DMA_ATTR_CC_SHARED so it can map them correctly
->   as unencrypted for device access.
->=20
-> On non-CoCo VMs, the system_cc_shared heap is not registered
-> to prevent misuse by userspace that does not understand
-> the security implications of explicitly shared memory.
->=20
-> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
-
-I'm a bit late to the party, sorry.
-
-This new heap must be documented in
-Documentation/userspace-api/dma-buf-heaps.rst, but (and especially since
-it seems like it was merged already) it can be done as a follow-up
-patch.
-
-Maxime
-
---e65sn5i4kwgewwdb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCac5frAAKCRAnX84Zoj2+
-dnVEAX9CFXx//98RE08S4/htofGJDNunF07/14IluU1iYb8+94vCMi2iUvSzXSKI
-zbgrVRgBfRy+pMU2nc+zOonhVfFvK813bX4cN9vLtMfH0/h/fKnFJKCc5msL12k4
-8g97/3uO3A==
-=FGaV
------END PGP SIGNATURE-----
-
---e65sn5i4kwgewwdb--
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index c7aef066f2..c51d04af6c 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -96,8 +96,8 @@ static int atomisp_buf_init(struct vb2_buffer *vb)
+ }
+ 
+ static int atomisp_q_one_metadata_buffer(struct atomisp_sub_device *asd,
+-	enum atomisp_input_stream_id stream_id,
+-	enum ia_css_pipe_id css_pipe_id)
++					 enum atomisp_input_stream_id stream_id,
++					 enum ia_css_pipe_id css_pipe_id)
+ {
+ 	struct atomisp_metadata_buf *metadata_buf;
+ 	enum atomisp_metadata_type md_type = ATOMISP_MAIN_METADATA;
+-- 
+2.47.3
 
 
