@@ -1,178 +1,191 @@
-Return-Path: <linux-media+bounces-57905-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57906-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EO/iNkXBzWnwggYAu9opvQ
-	(envelope-from <linux-media+bounces-57905-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 03:07:17 +0200
+	id QNg3Cg3SzWnVhwYAu9opvQ
+	(envelope-from <linux-media+bounces-57906-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 04:18:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493A6382275
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 03:07:17 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A26382930
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 04:18:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9568B305B2AF
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 01:05:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 509A6302DF7D
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 02:18:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37C9323A564;
-	Thu,  2 Apr 2026 01:05:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B26A42848BA;
+	Thu,  2 Apr 2026 02:18:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E6siG1Eh"
+	dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b="Be7FWQ76"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-06.mail-europe.com (mail-06.mail-europe.com [85.9.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B3129B78F
-	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 01:05:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB8E1EEA49
+	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 02:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775091934; cv=none; b=mRAQgGEt0PRu9wiJfJM3fxXfcct5eOmAkiAMVVtPm0axyNaV2zYePjrFgqdjcbXjDhHVpusx5LDE9yddJbqySWmr0zvEfITmnDdUZ9cO8ZqlzEjDM+0scP2SjYP0mw3C95aibgUQiHIjlemNOcfM+KcMsuGQplWYVF8UwzXLnko=
+	t=1775096329; cv=none; b=qkkDIBZVO21J+0LNw4ET0bdOROaQp66EhPA5QUkIBJFljfH/Ez6WmQv0CfGKP5/8x52VkkTRRMYDCO/UD1wzOhj6/jUI/oMa5bzUQcJR15Osa0R+HRs7Tsf9oE8jgT/M6A11p2DkUIpqpBvzw3coo2ssQgMfkCv9wgFhkGJSGiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775091934; c=relaxed/simple;
-	bh=am/OmExRMs6+4inYpMeuvlbO5iWLZZ1oD5RIyvgeXuQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nWqyGy1vZwGrtYRgGIDqdBoDBr0yNkxKjWUlJbooKdOkSr6q+hk2phbMaAQGcRz+rPizvkeHVktlkEGbJ8bShVzcLsPqY8kJj/gDzVhwD9++76gO3eXGYfpV5+KOqUJvEvhuAKRdTGy3IfjgJ5XD9aLOOtWy7owjVXeoVK5A9y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E6siG1Eh; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-50b268fba9aso3112621cf.3
-        for <linux-media@vger.kernel.org>; Wed, 01 Apr 2026 18:05:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775091932; x=1775696732; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l/gHu0FdfX6ZXbcJGvtqN+jQ/yvbzkeHZ4ajTT5rTrk=;
-        b=E6siG1EhVTKGOfnj4xwH3D/Rw5dWilZ0kNDXadAQBVOQJzl0vx/FVmSwewipWFENKA
-         xo+ztQgylWLADpS4vH9Sb8hs2mvQzuSgoIQtOLg/AeV5KTNrNMU+rU/FQrTuCd8ZDjQB
-         E/YSSTSELWrLmk7pJdEebIIUA7v8Y0UYXgHR/YsLTN6kVqxJI1S4jXaAB77nvwWOh1IZ
-         LFrMJJuYXZU/QqOITLSChuO3mUAzyGXkidhWBNNs2aa52sGILDCdSVMcOAffOMFgyBNY
-         JFWcq3yG/mNyNgr8VYcsoFVS1cGo69MTJucRPgN3xo/CfYHa++nejqkjf0tLK/ZirJs1
-         gt5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775091932; x=1775696732;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l/gHu0FdfX6ZXbcJGvtqN+jQ/yvbzkeHZ4ajTT5rTrk=;
-        b=llLhk/e1A0rZ1M+EcjAFKYHBy0yK77y7I0mtakzaG/Qq1uyP1mlvwp9BWksWu3J5nW
-         RIGg78qby1R41a3MwzVMjfApDO5loDLo1oTNURODojmkHtDhX+ZTTtrZgZhXmksmzCS9
-         jJvi4u+xAPWj4JycH0JytkFAFcSNU0vgZwA5gOLuUEKvAS8Oi0AVzQXqPXJVhcEDUEW3
-         yZHYqNdf98YjtAp3ESl9Ba94iQTXMGrbEIbekrXOgSEbAIyIfLcv1wbaDYAmdiULO/Zh
-         Ctg85jWXFjdN0Uydysn3qUjMoPNkplij8tE4dTcC/3VMk8P/uOy5Wte6CeHkF8YcayxU
-         JwUg==
-X-Forwarded-Encrypted: i=1; AJvYcCWwS6Z30nQIIzmaPT1QTzfcHCEQrxzX8chfxiO+Fjcw16eqRkU0SSp8+JyQaIw97QuQhfUQvHaCBwIRdg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGLLXwQ5KvMgHdxdf8ow1BVk9+6MMmtG4HR6kmh0QKHtFaVysV
-	OPOho4Ksna/j0U3FKHf2/Z847BdBqwGl8k2y9aiNwPU3m+twvMMNOFmp
-X-Gm-Gg: ATEYQzxI8W8Cczl4Zo8btFnA3vuctb+bXxOFd0Y6nyIn95qYLfiSTZ1l4T0GNzA+kht
-	WtWCq4EDFrX272EXTghpVUi1RZ6UmKHfFm0KtUFJ07G32IypcfT2Pc/cxnFDUDa5CBmzkXFWBX8
-	bxh5Xash53BSmclLKC2X3NBoxQovaAelU1NuUqABmTT22OX/7aA7t9z9wxKZtrHuimv1hMv3Sbe
-	GRivpa1Kk6Cqdueo3WKEg+ElndE2Dz1BUjee9exxo8q2GhrW33c/qRLJ4N0XrjE6EbYX4+GOS/R
-	xfG1YSeXl9CDIn+LXUHJvf96ixRWo1VETABXrTU/B7t2AtLasZy7lawhnNXRJMvrFKw0rYl1c/L
-	Nq+v8IjKwZrFnTg9U+lfDxUcf95p/dCJNCrWaBCfQsDjTo7BTnxltN5TPYBmYm9BQ2uLDAU9YM1
-	0tAvF6Gmovov8RulDoTYc3au9y2Q==
-X-Received: by 2002:a05:622a:d3:b0:509:2455:2b53 with SMTP id d75a77b69052e-50d3bdcc8cdmr85646001cf.49.1775091932321;
-        Wed, 01 Apr 2026 18:05:32 -0700 (PDT)
-Received: from localhost ([184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50d4b1a3fc7sm14217521cf.5.2026.04.01.18.05.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 18:05:30 -0700 (PDT)
-Date: Wed, 1 Apr 2026 21:06:06 -0400
-From: Richard Acayan <mailingradian@gmail.com>
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	Robert Mader <robert.mader@collabora.com>,
-	David Heidelberg <david@ixit.cz>, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v9 4/7] media: i2c: imx355: Restrict data lanes to 4
-Message-ID: <ac3A_m4sKyJHa_hT@rdacayan>
-References: <20260217002738.133534-1-mailingradian@gmail.com>
- <20260217002738.133534-5-mailingradian@gmail.com>
- <3c51f9fe-9c5f-47dd-a971-5b2a9e416230@linaro.org>
+	s=arc-20240116; t=1775096329; c=relaxed/simple;
+	bh=nlQyViKkjH4/+zd1hTaN7dfeagiHZabB+Eudd/Ic7mY=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=cVQWO6sCQQLXrcuZyMKE6RnVSgOM5QW/KlhuGCfuiI+tSjCKnHZs8ZeSOebPWIhKG84Mlt91Fg1Luhb8CglSZBoIQg/n/kFxvZar49UV25ATgBATyl3uTvmQV3gqoeQ9Rl190uI/D3GqG6rBbjDRRatY7j9BEHngJd9Kc78t4FA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=innora.ai; spf=pass smtp.mailfrom=innora.ai; dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b=Be7FWQ76; arc=none smtp.client-ip=85.9.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=innora.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innora.ai
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innora.ai;
+	s=protonmail; t=1775096317; x=1775355517;
+	bh=zV1wuNbiqtmiDlb+UQsMvQCW/nntEfgpQyjZEoDGF8I=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=Be7FWQ76jFOmvxsBpLaVUQ2BcVCwOjeBaTB4sC/qr/jMJU2qwb/8bFW4d0UIdCLNZ
+	 K52bhY6mjWWNlbk138rkQVGAyXJGbWu/ACnQ7F9o4AzcSTFZYVcQpLOHowySPt2WnR
+	 vt/iur8L8kCVHzLupjPCm+eiZXktksrTmUk7B22lCNuF5u/zKLXPsbMsLRCRlChXEU
+	 Da92UZUf4bHIOxW9OYJdqY6r9nPMYX+kdBLwl9k5GUfJk7KrJiB3IABxb01XLor4xa
+	 7kpK1yZtLbZm216Td9dD+hCEWBM8YnFNrChs2cYWo9AbYcVwZgDatz2oEI+pEVT2yA
+	 40OM+PHDMx/bg==
+Date: Thu, 02 Apr 2026 02:18:32 +0000
+To: linux-media@vger.kernel.org
+From: Feng Ning <feng@innora.ai>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org
+Subject: [PATCH] staging: media: atomisp: use array3_size() for overflow-safe allocation
+Message-ID: <ac3R8_qf4qivmGc2@ans-MacBook-Pro.local>
+Feedback-ID: 140578448:user:proton
+X-Pm-Message-ID: 19b7b74d54c3637ed0d944a4f4952bcb73824f6c
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3c51f9fe-9c5f-47dd-a971-5b2a9e416230@linaro.org>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------c87e65cf39a9a4de9406f79c16af3449f5339ee71514eb8addafa1090d26194b"; charset=utf-8
+X-Spamd-Result: default: False [-4.16 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[innora.ai,quarantine];
+	MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[innora.ai:s=protonmail];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_UNKNOWN(0.10)[application/pgp-keys];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-57906-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-57905-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	HAS_ATTACHMENT(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:+,3:~,4:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,intel.com,linux.intel.com,vger.kernel.org,collabora.com,ixit.cz];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mailingradian@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	DKIM_TRACE(0.00)[innora.ai:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 493A6382275
+	TO_DN_NONE(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[feng@innora.ai,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 88A26382930
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Apr 01, 2026 at 12:37:14AM +0300, Vladimir Zapolskiy wrote:
-> On 2/17/26 02:27, Richard Acayan wrote:
-> > The IMX355 sensor driver currently supports having 4 data lanes. There
-> > can't be more or less, so check if the firmware specifies 4 lanes.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------c87e65cf39a9a4de9406f79c16af3449f5339ee71514eb8addafa1090d26194b
+Content-Type: multipart/mixed;
+ boundary=f295e648c7368048b3681a0b0fd5d3d1ad4e17b7b2427519e01222734591
+Date: Thu, 2 Apr 2026 10:18:27 +0800
+From: Feng Ning <feng@innora.ai>
+To: linux-media@vger.kernel.org
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Subject: [PATCH] staging: media: atomisp: use array3_size() for overflow-safe
+ allocation
+Message-ID: <ac3R8_qf4qivmGc2@ans-MacBook-Pro.local>
+MIME-Version: 1.0
+Sender: feng@innora.ai
 
-This patch is superseded:
+--f295e648c7368048b3681a0b0fd5d3d1ad4e17b7b2427519e01222734591
+Content-Type: text/plain; charset=UTF-8
+Content-Disposition: inline
 
-v10: https://lore.kernel.org/all/20260311020328.57976-1-mailingradian@gmail.com/
-v11: https://lore.kernel.org/all/20260324020132.8683-5-mailingradian@gmail.com/
+Replace bare width * height * sizeof() multiplications with
+array3_size() to prevent integer overflow in buffer allocations.
 
-If my workflow somehow caused you not to receive the new versions,
-please let me know.
+The atomisp driver computes DVS and shading buffer sizes using
+unchecked u32 multiplication. When dimensions are large, the
+product wraps and kvmalloc allocates an undersized buffer.
 
-> Does IMX355 sensor hardware support any other number of lanes?
+Use array3_size() which returns SIZE_MAX on overflow, causing
+kvmalloc to fail safely instead of allocating too little memory.
 
-Actually, I don't have hardware docs so I don't know. There can't be
-more or less without driver support.
+Affected locations (11 instances across 3 files):
+  - sh_css_params.c: ia_css_dvs_6axis_config_allocate (lines 4482-4498)
+  - sh_css_params.c: ia_css_morph_table_allocate (lines 1384-1387)
+  - sh_css_params.c: ia_css_dvs_stat_allocate (lines 4209-4214)
+  - sh_css_param_dvs.c: ia_css_dvs_6axis_config_allocate (lines 52-79)
+  - sh_css_param_shading.c: ia_css_shading_table_alloc (line 342)
 
-> 1) If no, then it makes no practical sense to check for data lanes number
-> given by firmware, there can be any stored value, but it's known that the
-> number of sensor data lanes is 4.
-> 
-> 2) If yes, then please return to the sensor dt bindings, and reflect any
-> other options, right now it is set strictly to 4 lanes only.
+Example fix for one location:
 
-I think more lane configurations in dt-bindings can be added as they are
-discovered, either by reading hardware docs or by finding a board that
-has a different number of lanes.
+  -  dvs_config->xcoords_y = kvmalloc(width_y * height_y * sizeof(uint32_t),
+  +  dvs_config->xcoords_y = kvmalloc(array3_size(width_y, height_y, sizeof(uint32_t)),
+                                       GFP_KERNEL);
 
-> In case if
-> 'data-lanes' property is omitted, you can use 4 lanes as a default number
-> of data lanes, and this information shall be documented in the dt bindings.
+The full patch covering all 11 locations is larger than suitable for
+email. I can send git format-patch output if preferred, or submit via
+a merge request on the kernel gitlab.
 
-Later revisions of the patch require data-lanes.
+Reported-by: Feng Ning <feng@innora.ai>
+Signed-off-by: Feng Ning <feng@innora.ai>
+---
+ drivers/staging/media/atomisp/pci/sh_css_params.c       | 11 changes
+ drivers/staging/media/atomisp/pci/sh_css_param_dvs.c    |  4 changes
+ drivers/staging/media/atomisp/pci/sh_css_param_shading.c |  1 change
+
+Best regards,
+Feng Ning
+Innora.ai Security Research
+
+--f295e648c7368048b3681a0b0fd5d3d1ad4e17b7b2427519e01222734591
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="publickey - Jiqiang Feng -
+ 0x7D1A285E.asc"; name="publickey - Jiqiang Feng - 0x7D1A285E.asc"
+Content-Type: application/pgp-keys; filename="publickey - Jiqiang Feng -
+ 0x7D1A285E.asc"; name="publickey - Jiqiang Feng - 0x7D1A285E.asc"
+
+LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
+ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuOS4wCgp4ak1FYWFSbHJoWUpLd1lCQkFIYVJ3
+OEJBUWRBd0tYblA1L3dHcFc0b0plTTVmVEo5bVRiTXdmaGpzSzNheldTClNDaGg4cnJOSFVwcGNX
+bGhibWNnUm1WdVp5QThabVZ1WjBCcGJtNXZjbUV1WVdrK3dwTUVFeFlLQURzV0lRUjkKR2loZTgv
+NlFmQldVK2lrdWN6QVBZb3JvbmdVQ2FhUmxyZ0liQXdVTENRZ0hBZ0lpQWdZVkNna0lDd0lFRmdJ
+RApBUUllQndJWGdBQUtDUkF1Y3pBUFlvcm9ucnpyQVFDNHVMcGgxbThyaHh1dUFCazhPbE03QW8w
+cU5tUWdoN3Q3CkZIa1orWmxGOHdEOUgzWDdrZjR5MDl0TnkzZWpRdXNKVko2VjFWekpMY2RnU3oz
+WnZJSnMvZ3pPT0FScHBHVzIKRWdvckJnRUVBWmRWQVFVQkFRZEFsOUVsUGwxU2dkQ1JiMmMzNTh1
+VmN2UE1oRFBTRlc3Rnd5TjhORjg4QUNjRApBUWdId25nRUdCWUtBQ0FXSVFSOUdpaGU4LzZRZkJX
+VStpa3VjekFQWW9yb25nVUNhYVJsdGdJYkRBQUtDUkF1CmN6QVBZb3Jvbm8wWkFRRG12c3VQa0hn
+Q1VHd2daaFhtS3FKZFpocTlYK3JQYm12blNjbXllOWlBa2dFQWorSWgKN0dVUklYR2tHN3NlRFFt
+WCtCWXBBa0FSK1JUNmJSYmluVHQwaHdNPQo9M2VuQwotLS0tLUVORCBQR1AgUFVCTElDIEtFWSBC
+TE9DSy0tLS0t
+--f295e648c7368048b3681a0b0fd5d3d1ad4e17b7b2427519e01222734591--
+
+--------c87e65cf39a9a4de9406f79c16af3449f5339ee71514eb8addafa1090d26194b
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: ProtonMail
+
+wqsEARYIAF0FgmnN0fgJEC5zMA9iiuieNRQAAAAAABwAEHNhbHRAbm90YXRp
+b25zLm9wZW5wZ3Bqcy5vcmdsrtQmrzp/oHR4HdEWiW/aFiEEfRooXvP+kHwV
+lPopLnMwD2KK6J4AAKI9AQDNn84bcqdKHDqNSruTo8hBsbv74Zah1Dyet/wA
+uzH7cQEAquDP/UHpRBGKU5/hZ2ZYAadAC00DCb+kH4cfYY10DAI=
+=BMN0
+-----END PGP SIGNATURE-----
+
+
+--------c87e65cf39a9a4de9406f79c16af3449f5339ee71514eb8addafa1090d26194b--
+
 
