@@ -1,240 +1,130 @@
-Return-Path: <linux-media+bounces-57952-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57953-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +IQwNEtkzmmXnQYAu9opvQ
-	(envelope-from <linux-media+bounces-57952-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:42:51 +0200
+	id KA0IIjFmzmmXnQYAu9opvQ
+	(envelope-from <linux-media+bounces-57953-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:50:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4064E3892F6
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:42:51 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B2F3893FE
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:50:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BC51530916A4
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 12:36:20 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7DC72300D4E2
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 12:50:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 555903E3D99;
-	Thu,  2 Apr 2026 12:36:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48C783DFC6D;
+	Thu,  2 Apr 2026 12:50:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="O+qls6jY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nn8RcMLE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4253D9DD3
-	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 12:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF743D34A0;
+	Thu,  2 Apr 2026 12:50:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775133376; cv=none; b=qv+M5YSmBvF0CmHaSTKUnWSnHJxbPpV7hvrwmZVE7kygu6kbnJqmuntzlyn802e+Fa8bnA22FndrYxSudy84jXTFoJHXQDA/o4Ez93gKJ+ikjpEpVjQxHrawDf+5iPuO5TSaO0jOdBwZAfHU/rM7kfrZ00u5+70aZO+ZUYuQrXg=
+	t=1775134240; cv=none; b=soGNd03Ra10GJuYHt33NFvRAqkU1qr2JL5DBo8UrRGejXoKI3e5zBsZyNAdXPRVT7PYemaUhPnbFIT9DyjVD98ZLGiON4hdUQ8nwTjrFnMJSjTkB934lj3p21vnRI9vpP6KBPp9PwngIsipAKEfLedm62KsYODFYn6GYfr7vuzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775133376; c=relaxed/simple;
-	bh=1NEVIbIBpd83OEhtZ8cPOGeg8wJRksOKI2Qm0J2WXtY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LQfoSutfmWfFBMZe6GQN696FFY6HodEAoOqC3ro8Z5nesFJLytqNoypqmlJFWK/IdkLtD2OBjz7iYM9F/QBvJwOvpm/5rQNoqd1qBxEur/tnbr7vFRkAKe3ZHbU5N+UXQW+IkaYVh2YDVtyXUs60suYAXpNHj5HzXKZIEOY0n9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=O+qls6jY; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1775133368;
-	bh=1NEVIbIBpd83OEhtZ8cPOGeg8wJRksOKI2Qm0J2WXtY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=O+qls6jYK9GvFLQ0V9buheGUcjjJfSYcJ4dP5vlhEQQsAFymJOaf4BVTdFFf3IpKO
-	 FKcSpPSDZdHB5vlt7OUW8p3uMQempcyVU2/sdYnQau7Lz+fkk5LY5SYTWnQAppnY/Y
-	 PKbuC/NdTFbH7PT3wJEfx0JeqIFmDUJgXcb6PFQmKz3a/dloIae7w0/2+ZjxbzIaUf
-	 ONCyGImGOnAniLGDL7Zu3nMfVxIeannyzk+KiUd6ylMiAXbrfY7ijs/+TyXABSmC/N
-	 1Bwdeq3yNkJUM0le0JD+HVdbyJZ4VSdDMNQj96zt+IS8O4SPiWjb8gNt1Ty9ndLMch
-	 KAfDcih6REtAw==
-Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9194C17E7992;
-	Thu,  2 Apr 2026 14:36:07 +0200 (CEST)
-Message-ID: <7e622a1e-0ec0-4fe2-9aa4-4b152b4cbb3a@collabora.com>
-Date: Thu, 2 Apr 2026 14:36:07 +0200
+	s=arc-20240116; t=1775134240; c=relaxed/simple;
+	bh=tibweY+B+N0uBAl5xfAd8SBcdQVS7DQKA8+tBS5xoJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NRiBZB2V0i6mOx/AsJ441rpyMpvHg2QOSoFJRGtamcsqisLKsu2sm2mzSeP7rzk9J2au6H16svOJffted9Yh25XA501tNGUiOENEjTYusaJkTrRnRG20yGI5dep2x8CwxBkNvjdRsa0Z73BIY0UkiKr019YBD5B1cKHrinMzLU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nn8RcMLE; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775134237; x=1806670237;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tibweY+B+N0uBAl5xfAd8SBcdQVS7DQKA8+tBS5xoJ8=;
+  b=nn8RcMLEOJGKVuuRtRVK2diDImlPN1J8YuyeBqfZHYM3k6f6cig+ow0c
+   YfJPncQ5Fl9L3xjo44kC2hE3Xd8boHRLyeBkqmCu2NZqAee5+EsZrCvPq
+   99Sd646Fux/ny/X0PSqKLAdW18CKQZNhtogPcE+a1R+ZnBk7EdQwFWxcQ
+   ym6LqNVZ0125mgHkZm06ek+b8qLTm+ISxgUQWfaU8MN0mXe+57iLrXl8N
+   7yI+FvcDJdy9q3gRN8P01GmQ9zFNh96+dOhKqwWz7libYnZx2ItRjB4nu
+   zj/VpGvyPfcmcbCzib5naWAsymev7t/O3wJdpPza0aJnO6WsDrh2eeaND
+   w==;
+X-CSE-ConnectionGUID: Sv5vKy4bTPOoype9vcFztA==
+X-CSE-MsgGUID: vgoAvAJaRMqSBIlAcGQe2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="93583314"
+X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
+   d="scan'208";a="93583314"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 05:50:35 -0700
+X-CSE-ConnectionGUID: EopDx8fCRSuOx9SYA0eYMw==
+X-CSE-MsgGUID: uzWCp2R4Sy2dgHHmcs4yUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
+   d="scan'208";a="226837152"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.245.31])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 05:50:32 -0700
+Date: Thu, 2 Apr 2026 15:50:30 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, andy@kernel.org,
+	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
+	grondon@gmail.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: atomisp: fix alignment in function signature
+Message-ID: <ac5mFkf5RIEg410Q@ashevche-desk.local>
+References: <20260402091827.2163-1-joshua.crofts1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 13/22] media: mc: Separate single link validation into
- a new function
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com,
- Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Tommaso Merciai <tomm.merciai@gmail.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Julien Massot <julien.massot@collabora.com>,
- Naushir Patuck <naush@raspberrypi.com>,
- "Yan, Dongcheng" <dongcheng.yan@intel.com>,
- "Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu"
- <tian.shu.qiu@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
- <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Ricardo Ribalda Delgado <ribalda@kernel.org>,
- Hans de Goede <hansg@kernel.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- David Plowman <david.plowman@raspberrypi.com>,
- "Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen"
- <khai.wen.ng@intel.com>, Jai Luthra <jai.luthra@ideasonboard.com>
-References: <20260325105818.1176816-1-sakari.ailus@linux.intel.com>
- <20260325105818.1176816-14-sakari.ailus@linux.intel.com>
-Content-Language: en-US
-From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <20260325105818.1176816-14-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260402091827.2163-1-joshua.crofts1@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57952-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57953-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[30];
+	FREEMAIL_TO(0.00)[gmail.com];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,linux.intel.com,gmail.com,vger.kernel.org,lists.linux.dev];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[michael.riesch@collabora.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:email,collabora.com:mid]
-X-Rspamd-Queue-Id: 4064E3892F6
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ashevche-desk.local:mid]
+X-Rspamd-Queue-Id: 23B2F3893FE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Sakari,
+On Thu, Apr 02, 2026 at 09:18:27AM +0000, Joshua Crofts wrote:
+> Fix alignment checks in function signatures
 
-On 3/25/26 11:58, Sakari Ailus wrote:
-> Add a new function __media_pipeline_validate_one() to validate a single
-> link in a pipeline. This will soon be used for performing validation in
-> multiple phases.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+First of all, missing period at the end.
+Second, why? Does it fix anything?
+Third, is this the only issue with the driver of a kind?
 
-Reviewed-by: Michael Riesch <michael.riesch@collabora.com>
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Thanks and best regards,
-Michael
-
-> ---
->  drivers/media/mc/mc-entity.c | 74 ++++++++++++++++++++----------------
->  1 file changed, 42 insertions(+), 32 deletions(-)
-> 
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index 6bf4730b89d2..717569bd1a8c 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -768,6 +768,45 @@ static int media_pipeline_populate(struct media_pipeline *pipe,
->  	return ret;
->  }
->  
-> +static int
-> +__media_pipeline_validate_one(struct media_pad *origin,
-> +			      struct media_pad *pad, struct media_link *link,
-> +			      bool *has_enabled_link)
-> +{
-> +	struct media_device *mdev = origin->graph_obj.mdev;
-> +	struct media_entity *entity = pad->entity;
-> +	int ret;
-> +
-> +	/* Return here if the link is disabled. */
-> +	if (!(link->flags & MEDIA_LNK_FL_ENABLED))
-> +		return 0;
-> +
-> +	if (has_enabled_link)
-> +		*has_enabled_link = true;
-> +
-> +	/* Skip validation if the current pad isn't the sink pad of the link. */
-> +	if (link->sink != pad)
-> +		return 0;
-> +
-> +	if (!entity->ops || !entity->ops->link_validate)
-> +		return 0;
-> +
-> +	ret = entity->ops->link_validate(link);
-> +	if (ret) {
-> +		dev_dbg(mdev->dev,
-> +			"Link '%s':%u -> '%s':%u failed validation: %d\n",
-> +			link->source->entity->name, link->source->index,
-> +			link->sink->entity->name, link->sink->index, ret);
-> +		return ret;
-> +	}
-> +
-> +	dev_dbg(mdev->dev, "Link '%s':%u -> '%s':%u is valid\n",
-> +		link->source->entity->name, link->source->index,
-> +		link->sink->entity->name, link->sink->index);
-> +
-> +	return 0;
-> +}
-> +
->  __must_check int __media_pipeline_start(struct media_pad *origin,
->  					struct media_pipeline *pipe)
->  {
-> @@ -838,39 +877,10 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
->  			if (link->sink != pad && link->source != pad)
->  				continue;
->  
-> -			/*
-> -			 * Ensure the link is enabled and if so, record
-> -			 * it. Proceed to the next link if the current pad isn't
-> -			 * the sink pad of the link.
-> -			 */
-> -			if (!(link->flags & MEDIA_LNK_FL_ENABLED))
-> -				continue;
-> -
-> -			has_enabled_link = true;
-> -
-> -			if (link->sink != pad)
-> -				continue;
-> -
-> -			if (!entity->ops || !entity->ops->link_validate)
-> -				continue;
-> -
-> -			ret = entity->ops->link_validate(link);
-> -			if (ret) {
-> -				dev_dbg(mdev->dev,
-> -					"Link '%s':%u -> '%s':%u failed validation: %d\n",
-> -					link->source->entity->name,
-> -					link->source->index,
-> -					link->sink->entity->name,
-> -					link->sink->index, ret);
-> +			ret = __media_pipeline_validate_one(origin, pad, link,
-> +							    &has_enabled_link);
-> +			if (ret)
->  				goto error;
-> -			}
-> -
-> -			dev_dbg(mdev->dev,
-> -				"Link '%s':%u -> '%s':%u is valid\n",
-> -				link->source->entity->name,
-> -				link->source->index,
-> -				link->sink->entity->name,
-> -				link->sink->index);
->  		}
->  
->  		/*
 
 
