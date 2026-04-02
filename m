@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-57951-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-57952-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oLb3KfZjzmmXnQYAu9opvQ
-	(envelope-from <linux-media+bounces-57951-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:41:26 +0200
+	id +IQwNEtkzmmXnQYAu9opvQ
+	(envelope-from <linux-media+bounces-57952-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:42:51 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2725138929F
-	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:41:26 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4064E3892F6
+	for <lists+linux-media@lfdr.de>; Thu, 02 Apr 2026 14:42:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 74A0E31182CC
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 12:35:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BC51530916A4
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2026 12:36:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0172F3E4C6B;
-	Thu,  2 Apr 2026 12:35:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 555903E3D99;
+	Thu,  2 Apr 2026 12:36:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="EgBDI7tL"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="O+qls6jY"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C7A4086A
-	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 12:35:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4253D9DD3
+	for <linux-media@vger.kernel.org>; Thu,  2 Apr 2026 12:36:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775133314; cv=none; b=NHM5uPu8ZfewrDwwrpxf5xANXd5V+NMgtQ1W1HqadVu5r/m3UwsmKbzUxwrmjIefcEbkd9hznvs56ANKnQvQ+LohzGza2CM14Tv7vowReJWDeCgEP0ZAC+kUpzjQG5nimKHl4SmMbO2P10FhniWQjYrKJRODsFGltHi7wLleH9Y=
+	t=1775133376; cv=none; b=qv+M5YSmBvF0CmHaSTKUnWSnHJxbPpV7hvrwmZVE7kygu6kbnJqmuntzlyn802e+Fa8bnA22FndrYxSudy84jXTFoJHXQDA/o4Ez93gKJ+ikjpEpVjQxHrawDf+5iPuO5TSaO0jOdBwZAfHU/rM7kfrZ00u5+70aZO+ZUYuQrXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775133314; c=relaxed/simple;
-	bh=QuDlVEFp70ktxCB3FIRXQQkslUd/QrAM/xB7AfZWJ7Y=;
+	s=arc-20240116; t=1775133376; c=relaxed/simple;
+	bh=1NEVIbIBpd83OEhtZ8cPOGeg8wJRksOKI2Qm0J2WXtY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N4zpJbI9P4tkQrBXcW7Qk2EJkdIuhCRDjf6l/o2h4DtbmrJDtvrzLvqv+VOKcskgDREOdkJG48w0x+uTFTJfzS6r5gx6SfBL2ivZ+9tXRg1Adckv1UxOL9VQmWnLU4prJgv4RjUmxms3mb6d7akyIK4N1we8vmSSlQSz5epoPos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=EgBDI7tL; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:Content-Type; b=LQfoSutfmWfFBMZe6GQN696FFY6HodEAoOqC3ro8Z5nesFJLytqNoypqmlJFWK/IdkLtD2OBjz7iYM9F/QBvJwOvpm/5rQNoqd1qBxEur/tnbr7vFRkAKe3ZHbU5N+UXQW+IkaYVh2YDVtyXUs60suYAXpNHj5HzXKZIEOY0n9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=O+qls6jY; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1775133305;
-	bh=QuDlVEFp70ktxCB3FIRXQQkslUd/QrAM/xB7AfZWJ7Y=;
+	s=mail; t=1775133368;
+	bh=1NEVIbIBpd83OEhtZ8cPOGeg8wJRksOKI2Qm0J2WXtY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EgBDI7tLprK1+/XzfKSxK0qnNOemrVScjyAVkUik2IAOexDU/PnaEaCZM9qSCu0bi
-	 QlW/rb5wA9PyPD1HEUK95//jnvHW3/kXQBm74JTlz+GSve3SpGtsp6MYoq9Lm0RiS0
-	 v2/qMNbHaKkLzyA3Ctxbfaaz7kjhYImGhohj4T97LUvcwGv6lUxjOuF2e0J4tmF2vQ
-	 dEhz3Os8Sq9JIlrdWWZRqmUEzJOmsrWTe+ZB18wyUu6L1bmnCHSsi69VIpDGRCsxf/
-	 Msr+ZKOY7mJK2Akvt/3VGoHeIT6jtVYVI/YmLDMZdKx21QrXKOJnvJLkY0mzySXodW
-	 E/eMUUTsyWiQg==
+	b=O+qls6jYK9GvFLQ0V9buheGUcjjJfSYcJ4dP5vlhEQQsAFymJOaf4BVTdFFf3IpKO
+	 FKcSpPSDZdHB5vlt7OUW8p3uMQempcyVU2/sdYnQau7Lz+fkk5LY5SYTWnQAppnY/Y
+	 PKbuC/NdTFbH7PT3wJEfx0JeqIFmDUJgXcb6PFQmKz3a/dloIae7w0/2+ZjxbzIaUf
+	 ONCyGImGOnAniLGDL7Zu3nMfVxIeannyzk+KiUd6ylMiAXbrfY7ijs/+TyXABSmC/N
+	 1Bwdeq3yNkJUM0le0JD+HVdbyJZ4VSdDMNQj96zt+IS8O4SPiWjb8gNt1Ty9ndLMch
+	 KAfDcih6REtAw==
 Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3F26217E7CB4;
-	Thu,  2 Apr 2026 14:35:04 +0200 (CEST)
-Message-ID: <ab21bd5a-3653-44be-a984-8f223cc4dd60@collabora.com>
-Date: Thu, 2 Apr 2026 14:35:03 +0200
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9194C17E7992;
+	Thu,  2 Apr 2026 14:36:07 +0200 (CEST)
+Message-ID: <7e622a1e-0ec0-4fe2-9aa4-4b152b4cbb3a@collabora.com>
+Date: Thu, 2 Apr 2026 14:36:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,8 +60,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 12/22] media: mc: Simplify link processing in
- __media_pipeline_start()
+Subject: Re: [PATCH v3 13/22] media: mc: Separate single link validation into
+ a new function
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com,
  Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
@@ -87,10 +87,10 @@ Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com,
  "Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen"
  <khai.wen.ng@intel.com>, Jai Luthra <jai.luthra@ideasonboard.com>
 References: <20260325105818.1176816-1-sakari.ailus@linux.intel.com>
- <20260325105818.1176816-13-sakari.ailus@linux.intel.com>
+ <20260325105818.1176816-14-sakari.ailus@linux.intel.com>
 Content-Language: en-US
 From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <20260325105818.1176816-13-sakari.ailus@linux.intel.com>
+In-Reply-To: <20260325105818.1176816-14-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -98,11 +98,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-57951-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-57952-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -119,18 +119,18 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:email,collabora.com:mid]
-X-Rspamd-Queue-Id: 2725138929F
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:email,collabora.com:mid]
+X-Rspamd-Queue-Id: 4064E3892F6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Hi Sakari,
 
 On 3/25/26 11:58, Sakari Ailus wrote:
-> There are two conditions checking the ENABLED link flag in the loop
-> going through the links related to an entity. Drop the other one and
-> simplify the remaining code.
+> Add a new function __media_pipeline_validate_one() to validate a single
+> link in a pipeline. This will soon be used for performing validation in
+> multiple phases.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
@@ -140,35 +140,101 @@ Thanks and best regards,
 Michael
 
 > ---
->  drivers/media/mc/mc-entity.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
+>  drivers/media/mc/mc-entity.c | 74 ++++++++++++++++++++----------------
+>  1 file changed, 42 insertions(+), 32 deletions(-)
 > 
 > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index 3fa0bc687851..6bf4730b89d2 100644
+> index 6bf4730b89d2..717569bd1a8c 100644
 > --- a/drivers/media/mc/mc-entity.c
 > +++ b/drivers/media/mc/mc-entity.c
-> @@ -838,17 +838,16 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
+> @@ -768,6 +768,45 @@ static int media_pipeline_populate(struct media_pipeline *pipe,
+>  	return ret;
+>  }
+>  
+> +static int
+> +__media_pipeline_validate_one(struct media_pad *origin,
+> +			      struct media_pad *pad, struct media_link *link,
+> +			      bool *has_enabled_link)
+> +{
+> +	struct media_device *mdev = origin->graph_obj.mdev;
+> +	struct media_entity *entity = pad->entity;
+> +	int ret;
+> +
+> +	/* Return here if the link is disabled. */
+> +	if (!(link->flags & MEDIA_LNK_FL_ENABLED))
+> +		return 0;
+> +
+> +	if (has_enabled_link)
+> +		*has_enabled_link = true;
+> +
+> +	/* Skip validation if the current pad isn't the sink pad of the link. */
+> +	if (link->sink != pad)
+> +		return 0;
+> +
+> +	if (!entity->ops || !entity->ops->link_validate)
+> +		return 0;
+> +
+> +	ret = entity->ops->link_validate(link);
+> +	if (ret) {
+> +		dev_dbg(mdev->dev,
+> +			"Link '%s':%u -> '%s':%u failed validation: %d\n",
+> +			link->source->entity->name, link->source->index,
+> +			link->sink->entity->name, link->sink->index, ret);
+> +		return ret;
+> +	}
+> +
+> +	dev_dbg(mdev->dev, "Link '%s':%u -> '%s':%u is valid\n",
+> +		link->source->entity->name, link->source->index,
+> +		link->sink->entity->name, link->sink->index);
+> +
+> +	return 0;
+> +}
+> +
+>  __must_check int __media_pipeline_start(struct media_pad *origin,
+>  					struct media_pipeline *pipe)
+>  {
+> @@ -838,39 +877,10 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
 >  			if (link->sink != pad && link->source != pad)
 >  				continue;
 >  
-> -			/* Record if the pad has links and enabled links. */
-> -			if (link->flags & MEDIA_LNK_FL_ENABLED)
-> -				has_enabled_link = true;
+> -			/*
+> -			 * Ensure the link is enabled and if so, record
+> -			 * it. Proceed to the next link if the current pad isn't
+> -			 * the sink pad of the link.
+> -			 */
+> -			if (!(link->flags & MEDIA_LNK_FL_ENABLED))
+> -				continue;
 > -
->  			/*
-> -			 * Validate the link if it's enabled and has the
-> -			 * current pad as its sink.
-> +			 * Ensure the link is enabled and if so, record
-> +			 * it. Proceed to the next link if the current pad isn't
-> +			 * the sink pad of the link.
->  			 */
->  			if (!(link->flags & MEDIA_LNK_FL_ENABLED))
->  				continue;
+> -			has_enabled_link = true;
+> -
+> -			if (link->sink != pad)
+> -				continue;
+> -
+> -			if (!entity->ops || !entity->ops->link_validate)
+> -				continue;
+> -
+> -			ret = entity->ops->link_validate(link);
+> -			if (ret) {
+> -				dev_dbg(mdev->dev,
+> -					"Link '%s':%u -> '%s':%u failed validation: %d\n",
+> -					link->source->entity->name,
+> -					link->source->index,
+> -					link->sink->entity->name,
+> -					link->sink->index, ret);
+> +			ret = __media_pipeline_validate_one(origin, pad, link,
+> +							    &has_enabled_link);
+> +			if (ret)
+>  				goto error;
+> -			}
+> -
+> -			dev_dbg(mdev->dev,
+> -				"Link '%s':%u -> '%s':%u is valid\n",
+> -				link->source->entity->name,
+> -				link->source->index,
+> -				link->sink->entity->name,
+> -				link->sink->index);
+>  		}
 >  
-> +			has_enabled_link = true;
-> +
->  			if (link->sink != pad)
->  				continue;
->  
+>  		/*
 
 
