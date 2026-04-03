@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-58000-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58001-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oDT7JYAPz2lysgYAu9opvQ
-	(envelope-from <linux-media+bounces-58000-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 03 Apr 2026 02:53:20 +0200
+	id mHFjKWkOz2lysgYAu9opvQ
+	(envelope-from <linux-media+bounces-58001-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 03 Apr 2026 02:48:41 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E3A38FB5F
-	for <lists+linux-media@lfdr.de>; Fri, 03 Apr 2026 02:53:19 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 082D838FA7E
+	for <lists+linux-media@lfdr.de>; Fri, 03 Apr 2026 02:48:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E557D3034204
-	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2026 00:47:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A6EFF30490EB
+	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2026 00:47:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA48125DB12;
-	Fri,  3 Apr 2026 00:47:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D281D23F40D;
+	Fri,  3 Apr 2026 00:47:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YuThJLFN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U48ykSlU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA0223817E;
-	Fri,  3 Apr 2026 00:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6402D2475F7;
+	Fri,  3 Apr 2026 00:47:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775177233; cv=none; b=jR/BZhVaDvXrC7yrtzVM7LFvMAHYBHvpszohgOGgqXwD9rO21A0G0bh3Z+3wST7625+v8MRh9CioRYBQ7eGoGk9UTASU7s69vr8kGwGl9B+8wkKRiEc+3qmBeq2l/9yoSZgFuxfgwTAuOPe06L4sct1Sg8GmqedMnzr3X84ZVuU=
+	t=1775177239; cv=none; b=diLdf/VFQtn8Px3lOu4ObnWHAVdbka3tMEcUiFHpUb7vvKoLitXui+Ex2UZBO5ps+8aknLGS2E4UQPXGJaQFi9q8zLXfH9B5CPsQs9CZ01eJRHf7k0xhm+sutT7859ZE/DTwXV2b9YZbo48m7+KprsrWshf7K5XLMRtyfROoeYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775177233; c=relaxed/simple;
-	bh=ldW57WbspsG3W6dCpLmmuuANBIAw83sAzPLHF+CZZuY=;
+	s=arc-20240116; t=1775177239; c=relaxed/simple;
+	bh=LTeQaUWHvsph4joDVjSb9M34kexlgvWpIEuOIo8m45k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BGUCu8JGPzscOh77M+f9MgnW71wTQEWnrCwCVTaVT5z9qSZXPt01owpF+/P6zH/i1ZKZlPR2jh4mADoT13mJAg2hZ5R7iMppL/wzzfytZkMm7ebIphUpiNC5Z7OTPRnPnN5c/u4Aia5VJb2iLf0dM/5AU0xrliU1+vjZbwrxFWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YuThJLFN; arc=none smtp.client-ip=192.198.163.18
+	 MIME-Version; b=pjECrcifRhmu9KtylB/sNh+JELasjPMiGj3s/B+8dgTfH5qKt+zjTFa+q2H6XXfUJHm+E9RgpsDTI2tSCtGwx+d7CS3rneGXn6yIqGZFhdcC34d0mlFI2qnXtKCnyLrkxv+zsroIo35HmQOqE8yBlMeHHqmN/Ecopf6ESWT8yVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U48ykSlU; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775177232; x=1806713232;
+  t=1775177235; x=1806713235;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ldW57WbspsG3W6dCpLmmuuANBIAw83sAzPLHF+CZZuY=;
-  b=YuThJLFN0dgFth+bP/9L3h64z0TMc/coEqy5jV+z/ThGoYZFsYAVgIao
-   mu1E+25oy5DQ53tpbIe4qXbl+DBjfzwGRDKkwa9nKOck4xJpGpAmrNlxD
-   sXgDVJG5wJfr3vOPjo5nWVZ8zmBvTBz1VzpJx6GPiTU8yfiBSogBcluE+
-   hlSJCXVRYu0Iz643vmKEqA1qVcw5EkYlwZvDNlYkP1l79dR9FkrVfQkMs
-   W+qyjMgKxvp5OzhQK95n2aSjMRUM384Xka/0rmOG0xg3wGvrfz1HsW00C
-   AAtEWlTMqY4Vwl1sBm/efasaF97itSuXxW8AKv5qp6Ty/xHhoPwG7FL1d
-   w==;
-X-CSE-ConnectionGUID: jbxugVTMTsqLvKtobLiomg==
-X-CSE-MsgGUID: y3MUKMKWQ0+jNifOlNXhqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="75417219"
+  bh=LTeQaUWHvsph4joDVjSb9M34kexlgvWpIEuOIo8m45k=;
+  b=U48ykSlUY9aTzo8vPT01Rs/ha45rlTkJmjY9jtbp96OIBckaoAE/LGAx
+   OGMUdL9b+OhBH96C0/R4TGVd0wGMSDo72oB4ZAfrvvGaI8wU23P3PGG3d
+   QygQT+h5VYF47+qbZhssFBm644AY3ZGLiQoKh0SHZrSPneGiNpKlYu6aq
+   fJOXK8rQ/v5g3t9dy7DgxVCFdRHAmSmvuHpkpqHeXCRvArF/Yeiz7WT44
+   Pkj9vfayXgyROl6BWDqqg1vxeU5W1OfyJZFy9TIw0l0meCG7u9PF7abXz
+   MntkYCAQv2uD2Qwp33ak3/d3TZK+UsttBl0BeyMm2G8vdTC45tyapzaOb
+   g==;
+X-CSE-ConnectionGUID: 8SCQOLHOR6ezwF061YDvEQ==
+X-CSE-MsgGUID: cJaAnKP8Sc+VkyXG42WqLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="75417225"
 X-IronPort-AV: E=Sophos;i="6.23,156,1770624000"; 
-   d="scan'208";a="75417219"
+   d="scan'208";a="75417225"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 17:47:11 -0700
-X-CSE-ConnectionGUID: lnY2z4HhTra9ajwCpn/6sA==
-X-CSE-MsgGUID: x2roloNmQxOcO795hTHiBQ==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 17:47:15 -0700
+X-CSE-ConnectionGUID: cwzy6uNBRs6F9CIbi7vQLw==
+X-CSE-MsgGUID: 8WIzhzOsTSegU3kRNW153g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,156,1770624000"; 
-   d="scan'208";a="227371048"
+   d="scan'208";a="227371056"
 Received: from intel-nuc8i7beh.iind.intel.com ([10.223.163.35])
-  by orviesa007.jf.intel.com with ESMTP; 02 Apr 2026 17:47:08 -0700
+  by orviesa007.jf.intel.com with ESMTP; 02 Apr 2026 17:47:12 -0700
 From: Arun T <arun.t@intel.com>
 To: arun.t@intel.com,
 	johannes.goede@oss.qualcomm.com
@@ -72,9 +72,9 @@ Cc: sakari.ailus@linux.intel.com,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	mehdi.djait@intel.com
-Subject: [PATCH v9 1/2] platform/x86: int3472: Add TPS68470 board data for Intel nvl
-Date: Fri,  3 Apr 2026 06:10:42 +0530
-Message-ID: <20260403004044.4093501-2-arun.t@intel.com>
+Subject: [PATCH v9 2/2] media: ov13b10: Support multiple regulators
+Date: Fri,  3 Apr 2026 06:10:43 +0530
+Message-ID: <20260403004044.4093501-3-arun.t@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260403004044.4093501-1-arun.t@intel.com>
 References: <20260403004044.4093501-1-arun.t@intel.com>
@@ -91,191 +91,141 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_NEQ_ENVFROM(0.00)[arun.t@intel.com,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-58000-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58001-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCVD_COUNT_FIVE(0.00)[5];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,intel.com:dkim,intel.com:email,intel.com:mid,ideasonboard.com:email]
-X-Rspamd-Queue-Id: 96E3A38FB5F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email,intel.com:dkim,intel.com:email,intel.com:mid]
+X-Rspamd-Queue-Id: 082D838FA7E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The Intel NVL platform uses IPU8 is powered by a TPS68470 PMIC,requiring board
-data to configure the GPIOs and regulators for proper camera sensor operation.
+The OV13B10 sensor driver currently handles a single regulator called
+avdd, however the sensor can be supplied by up to three regulators.
+Update the driver to handle all of them together using the regulator
+bulk API.
 
 Signed-off-by: Arun T <arun.t@intel.com>
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
 ---
- .../x86/intel/int3472/tps68470_board_data.c   | 106 ++++++++++++++++++
- 1 file changed, 106 insertions(+)
+ drivers/media/i2c/ov13b10.c | 47 ++++++++++++++++++++-----------------
+ 1 file changed, 26 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-index 6bec5a910396..49cfd0255b11 100644
---- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-+++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-@@ -144,6 +144,24 @@ static struct regulator_consumer_supply int3479_aux2_consumer_supplies[] = {
- 	REGULATOR_SUPPLY("dovdd", "i2c-INT3479:00"),
- };
- 
-+/* Settings for Intel NVL platform */
-+
-+static struct regulator_consumer_supply ovti13b1_core_consumer_supplies[] = {
-+	REGULATOR_SUPPLY("dvdd", "i2c-OVTI13B1:01"),
-+};
-+
-+static struct regulator_consumer_supply ovti13b1_ana_consumer_supplies[] = {
-+	REGULATOR_SUPPLY("avdd", "i2c-OVTI13B1:01"),
-+};
-+
-+static struct regulator_consumer_supply ovti13b1_vcm_consumer_supplies[] = {
-+	REGULATOR_SUPPLY("vcc", "i2c-OVTI13B1:01-VCM"),
-+};
-+
-+static struct regulator_consumer_supply ovti13b1_vsio_consumer_supplies[] = {
-+	REGULATOR_SUPPLY("dovdd", "i2c-OVTI13B1:01"),
-+};
-+
- static const struct regulator_init_data dell_7212_tps68470_core_reg_init_data = {
- 	.constraints = {
- 		.min_uV = 1200000,
-@@ -221,6 +239,60 @@ static const struct regulator_init_data dell_7212_tps68470_aux2_reg_init_data =
- 	.consumer_supplies = int3479_aux2_consumer_supplies,
- };
- 
-+static const struct regulator_init_data intel_nvl_tps68470_core_reg_init_data = {
-+	.constraints = {
-+		.min_uV = 1200000,
-+		.max_uV = 1200000,
-+		.apply_uV = true,
-+		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-+	},
-+	.num_consumer_supplies = ARRAY_SIZE(ovti13b1_core_consumer_supplies),
-+	.consumer_supplies = ovti13b1_core_consumer_supplies,
-+};
-+
-+static const struct regulator_init_data intel_nvl_tps68470_ana_reg_init_data = {
-+	.constraints = {
-+		.min_uV = 2815200,
-+		.max_uV = 2815200,
-+		.apply_uV = true,
-+		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-+	},
-+	.num_consumer_supplies = ARRAY_SIZE(ovti13b1_ana_consumer_supplies),
-+	.consumer_supplies = ovti13b1_ana_consumer_supplies,
-+};
-+
-+static const struct regulator_init_data intel_nvl_tps68470_vcm_reg_init_data = {
-+	.constraints = {
-+		.min_uV = 2815200,
-+		.max_uV = 2815200,
-+		.apply_uV = true,
-+		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-+	},
-+	.num_consumer_supplies = ARRAY_SIZE(ovti13b1_vcm_consumer_supplies),
-+	.consumer_supplies = ovti13b1_vcm_consumer_supplies,
-+};
-+
-+/* Ensure the always-on VIO regulator has the same voltage as VSIO */
-+static const struct regulator_init_data intel_nvl_tps68470_vio_reg_init_data = {
-+	.constraints = {
-+		.min_uV = 1800600,
-+		.max_uV = 1800600,
-+		.apply_uV = true,
-+		.always_on = true,
-+	},
-+};
-+
-+static const struct regulator_init_data intel_nvl_tps68470_vsio_reg_init_data = {
-+	.constraints = {
-+		.min_uV = 1800600,
-+		.max_uV = 1800600,
-+		.apply_uV = true,
-+		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-+	},
-+	.num_consumer_supplies = ARRAY_SIZE(ovti13b1_vsio_consumer_supplies),
-+	.consumer_supplies = ovti13b1_vsio_consumer_supplies,
-+};
-+
- static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata = {
- 	.reg_init_data = {
- 		[TPS68470_CORE] = &dell_7212_tps68470_core_reg_init_data,
-@@ -297,6 +369,16 @@ static const struct tps68470_regulator_platform_data msi_p14_ai_evo_tps68470_pda
+diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
+index 5421874732bc..b0d34141a13a 100644
+--- a/drivers/media/i2c/ov13b10.c
++++ b/drivers/media/i2c/ov13b10.c
+@@ -8,6 +8,7 @@
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/pm_runtime.h>
++#include <linux/regulator/consumer.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-fwnode.h>
+@@ -699,6 +700,12 @@ static const struct ov13b10_mode supported_2_lanes_modes[] = {
  	},
  };
  
-+static const struct tps68470_regulator_platform_data intel_nvl_tps68470_pdata = {
-+	.reg_init_data = {
-+		[TPS68470_CORE] = &intel_nvl_tps68470_core_reg_init_data,
-+		[TPS68470_ANA]  = &intel_nvl_tps68470_ana_reg_init_data,
-+		[TPS68470_VCM]  = &intel_nvl_tps68470_vcm_reg_init_data,
-+		[TPS68470_VIO] = &intel_nvl_tps68470_vio_reg_init_data,
-+		[TPS68470_VSIO] = &intel_nvl_tps68470_vsio_reg_init_data,
-+	},
++static const char * const ov13b10_supply_names[] = {
++	"dovdd",        /* Digital I/O power */
++	"avdd",         /* Analog power */
++	"dvdd",         /* Digital core power */
 +};
 +
- static struct gpiod_lookup_table surface_go_int347a_gpios = {
- 	.dev_id = "i2c-INT347A:00",
- 	.table = {
-@@ -340,6 +422,14 @@ static const struct software_node msi_p14_ai_evo_tps68470_gpio_swnode = {
- 	.properties = msi_p14_ai_evo_gpio_props,
- };
+ struct ov13b10 {
+ 	struct device *dev;
  
-+static struct gpiod_lookup_table intel_nvl_tps68470_gpios = {
-+	.dev_id = "i2c-OVTI13B1:01",
-+	.table = {
-+		GPIO_LOOKUP("tps68470-gpio", 9, "reset", GPIO_ACTIVE_LOW),
-+		{ }
-+	}
-+};
-+
- static const struct int3472_tps68470_board_data surface_go_tps68470_board_data = {
- 	.dev_name = "i2c-INT3472:05",
- 	.tps68470_regulator_pdata = &surface_go_tps68470_pdata,
-@@ -379,6 +469,15 @@ static const struct int3472_tps68470_board_data msi_p14_ai_evo_tps68470_board_da
- 	},
- };
+@@ -708,7 +715,7 @@ struct ov13b10 {
+ 	struct v4l2_ctrl_handler ctrl_handler;
  
-+static const struct int3472_tps68470_board_data intel_nvl_tps68470_board_data = {
-+	.dev_name = "i2c-INT3472:04",
-+	.tps68470_regulator_pdata = &intel_nvl_tps68470_pdata,
-+	.n_gpiod_lookups = 1,
-+	.tps68470_gpio_lookup_tables = {
-+		&intel_nvl_tps68470_gpios,
-+	},
-+};
-+
- static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
- 	{
- 		.matches = {
-@@ -415,6 +514,13 @@ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
- 		},
- 		.driver_data = (void *)&msi_p14_ai_evo_tps68470_board_data,
- 	},
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Nova Lake Client Platform"),
-+		},
-+		.driver_data = (void *)&intel_nvl_tps68470_board_data,
-+	},
- 	{ }
- };
+ 	struct clk *img_clk;
+-	struct regulator *avdd;
++	struct regulator_bulk_data supplies[ARRAY_SIZE(ov13b10_supply_names)];
+ 	struct gpio_desc *reset;
+ 
+ 	/* V4L2 Controls */
+@@ -1194,9 +1201,8 @@ static int ov13b10_power_off(struct device *dev)
+ 	struct ov13b10 *ov13b10 = to_ov13b10(sd);
+ 
+ 	gpiod_set_value_cansleep(ov13b10->reset, 1);
+-
+-	if (ov13b10->avdd)
+-		regulator_disable(ov13b10->avdd);
++	regulator_bulk_disable(ARRAY_SIZE(ov13b10_supply_names),
++			       ov13b10->supplies);
+ 
+ 	clk_disable_unprepare(ov13b10->img_clk);
+ 
+@@ -1214,14 +1220,12 @@ static int ov13b10_power_on(struct device *dev)
+ 		dev_err(dev, "failed to enable imaging clock: %d", ret);
+ 		return ret;
+ 	}
+-
+-	if (ov13b10->avdd) {
+-		ret = regulator_enable(ov13b10->avdd);
+-		if (ret < 0) {
+-			dev_err(dev, "failed to enable avdd: %d", ret);
+-			clk_disable_unprepare(ov13b10->img_clk);
+-			return ret;
+-		}
++	ret = regulator_bulk_enable(ARRAY_SIZE(ov13b10_supply_names),
++				    ov13b10->supplies);
++	if (ret < 0) {
++		dev_err(dev, "failed to enable regulators\n");
++		clk_disable_unprepare(ov13b10->img_clk);
++		return ret;
+ 	}
+ 
+ 	gpiod_set_value_cansleep(ov13b10->reset, 0);
+@@ -1475,7 +1479,8 @@ static int ov13b10_get_pm_resources(struct ov13b10 *ov13b)
+ 	unsigned long freq;
+ 	int ret;
+ 
+-	ov13b->reset = devm_gpiod_get_optional(ov13b->dev, "reset", GPIOD_OUT_LOW);
++	ov13b->reset = devm_gpiod_get_optional(ov13b->dev, "reset",
++					       GPIOD_OUT_LOW);
+ 	if (IS_ERR(ov13b->reset))
+ 		return dev_err_probe(ov13b->dev, PTR_ERR(ov13b->reset),
+ 				     "failed to get reset gpio\n");
+@@ -1491,15 +1496,15 @@ static int ov13b10_get_pm_resources(struct ov13b10 *ov13b)
+ 				     "external clock %lu is not supported\n",
+ 				     freq);
+ 
+-	ov13b->avdd = devm_regulator_get_optional(ov13b->dev, "avdd");
+-	if (IS_ERR(ov13b->avdd)) {
+-		ret = PTR_ERR(ov13b->avdd);
+-		ov13b->avdd = NULL;
+-		if (ret != -ENODEV)
+-			return dev_err_probe(ov13b->dev, ret,
+-					     "failed to get avdd regulator\n");
+-	}
++	for (unsigned int i = 0; i < ARRAY_SIZE(ov13b10_supply_names); i++)
++		ov13b->supplies[i].supply = ov13b10_supply_names[i];
+ 
++	ret = devm_regulator_bulk_get(ov13b->dev,
++				      ARRAY_SIZE(ov13b10_supply_names),
++				      ov13b->supplies);
++	if (ret)
++		return dev_err_probe(ov13b->dev, ret,
++				     "failed to get regulators\n");
+ 	return 0;
+ }
  
 -- 
 2.43.0
