@@ -1,300 +1,149 @@
-Return-Path: <linux-media+bounces-58052-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58053-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KKSrFP0B0WmNDQcAu9opvQ
-	(envelope-from <linux-media+bounces-58052-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 04 Apr 2026 14:20:13 +0200
+	id gBBIGJkc0WmIFQcAu9opvQ
+	(envelope-from <linux-media+bounces-58053-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 04 Apr 2026 16:13:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9E339B0E1
-	for <lists+linux-media@lfdr.de>; Sat, 04 Apr 2026 14:20:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D84D39B54A
+	for <lists+linux-media@lfdr.de>; Sat, 04 Apr 2026 16:13:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 18AAA3019F1A
-	for <lists+linux-media@lfdr.de>; Sat,  4 Apr 2026 12:19:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 313BC300EAA6
+	for <lists+linux-media@lfdr.de>; Sat,  4 Apr 2026 14:13:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86DE128643C;
-	Sat,  4 Apr 2026 12:19:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69512350298;
+	Sat,  4 Apr 2026 14:13:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Zs+wMqij";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SF5A3+mw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PcSElRud"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620A031D375;
-	Sat,  4 Apr 2026 12:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5972ED15D
+	for <linux-media@vger.kernel.org>; Sat,  4 Apr 2026 14:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775305151; cv=none; b=HtcBsqvvyhIlibA3SMOBhNRjXVzYuxXcsoPKL7i0xfkBkvDDTrhoRrIzQn7ASof78ea8weZT1SZkZHniN0mgo1rqM95LliUJvMZlvgs5hNxn7hppgzc9Jd0HdHd9Yx1ei0TlYDzqUu/hu9UJ6NxVBFxqvzoMeSEDvL1KTq4ki0k=
+	t=1775312000; cv=none; b=fBy3dzJid8iHOEqXe0103fYRGwxkXr6bsCrj9zjp0O8LowSiHF1IhXD5xogTzWnO2g91IlsL+h1EHYD6RHriFPjxc2Jb1emuz3yFNomm0/Jsst02dXajxaYCbC0McikmxoFhjjB/bCp2BOVhaQxFXVW6G/VvCiBiZ1wTNFYIQrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775305151; c=relaxed/simple;
-	bh=CUoDV3D4pecN8JpS1jYQXTLdWt27VjZSEFy/TaFLSjw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cc1CWe6qWhvD4nMtR15lGvLcRAkqqc0jpoFEBY7AKmOTf1HSK5cvxUbCny/cAa4TMqsWXA/oEU9Q8Z64+xLH2Ke/GCs8+IQOdueQTBvugTgyiyIzD21Jv7cLjbZpxfX5AYS07hUhtOGR2iiwHl5m8y3XlEzM1JaANoMeY2mRNMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Zs+wMqij; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SF5A3+mw; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 40ED17A00F0;
-	Sat,  4 Apr 2026 08:19:08 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Sat, 04 Apr 2026 08:19:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1775305148;
-	 x=1775391548; bh=zzlZkYd5f93opKbHaL40VhxjqUFHsu3Z2dk21eQ1Mjg=; b=
-	Zs+wMqijyZj6DKwc2gWs3KhJht1wOkfTF+2HwiqlOCRbjsTBtMzcKecc+9LJlcEr
-	Wv51dirJUja3pasIhl9lF3djGbF7YTVPIzznLTRt26PkY7Erwo97AWfFFCB1Gdf8
-	31Q5ghQxrjdfDqJb8mkteffFGPGcy02Rgm1ZuUADDn3xtPu1DoYjW9NHzrIZrgV3
-	d4VG7SasOeF1nkdSDRTHNjmoToF7/ppLcf0Q6u2Fi0TUQWrPP0hTnDah4Xuyh5+V
-	LiAgls2T61SMeSN3Y6TUHjyGQhSMiWsamSYNabruUPINEznczh3S2H2ta7aG+Qcv
-	ZXSzeFWYr32HFTgwaUbwuA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1775305148; x=
-	1775391548; bh=zzlZkYd5f93opKbHaL40VhxjqUFHsu3Z2dk21eQ1Mjg=; b=S
-	F5A3+mwSsBkYF6WHSz5OFZOjLXVvS6cQzpf0j6QtZJ+Myyx93PYeA8JRipKSfZjp
-	tf3pVF0t+TysChlE85DrXuPzBz2gKmCb2CcDphUWQ1Mv1qy0RJCs/N6gfLLoXOhT
-	kwT5tugog0dUZgNXLWezV4A7GDiVCAsGDwCx4NxOglHeQb7bZjvn1+J+wknzyX/c
-	GsKy7zqCd2KDb74hVMYo6z8s5otnWwpLW8qgZlrvRUeTyekhltAgfmt/5SoyMZr2
-	bh+bZzV6Nx97thFR5elvoZDduxokueSia4PtmEobcRLxC0zRoR9qrTE4gyeA6L8U
-	h2zgMIloYNtvoZf+UlzVA==
-X-ME-Sender: <xms:uwHRaYciZZ5LSvCXSVsk6DfobVWFKbhFiI_284GJckb9pj02qrMm1A>
-    <xme:uwHRaWzkVKxtCJCio5iNYZ0syOU1FVN6AiHzQnb6W1X-FvRlLICCiivyuNMkGE3Uz
-    aLYzJSfbUxjVW6zirYfchrxZ6aYEom-ojJoSngQIXKEr9RuxUzmSCI_>
-X-ME-Received: <xmr:uwHRad-ClFQq0pwf7TbpNMiV9geSVAUNKL_JrzFam82HgTVwzANpasx8jcI9C0AwaHWXO3IkhIX6mCXE1SwMjZMdJFVWUPdeTEKF>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudekfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
-    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrth
-    gvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepffdtgeefveefgfeutdevveelgfelkeeu
-    vdefgefgfeehfeeijeehudelhfejkefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrgh
-    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhk
-    lhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtth
-    hopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlrghurhgvnhhtrdhpihhn
-    tghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepthhomhhird
-    hvrghlkhgvihhnvghnodhrvghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomhdp
-    rhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsrg
-    hkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehl
-    ihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
-    hinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehmtghhvghhrggsodhhuhgrfigviheskhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtohepjhgrtghophhordhmohhnughisehiuggvrghsohhnsghorghrugdrtghomh
-X-ME-Proxy: <xmx:uwHRaUwU2ag27fBnakxDZ8B5k13yl31FpC5tQYndKhsqd529JaRHeA>
-    <xmx:vAHRaVrE1-bl95s7tBby6umBSMCFnjDhOHYFxmpPMwglT2-hnq5AZA>
-    <xmx:vAHRadrtQQwW8m_FdjElottRURoqSviFSw-S--kTm4_nlmA37qv5aQ>
-    <xmx:vAHRadCKfFhEJLQm1dJwbL7oYAMZjag1Fsk2OR5CcbALm-Bws7vHvQ>
-    <xmx:vAHRaRJeYI8KPXufyx8YtYWakRd6fS3mqrJOfoEp5n4MuD7DqA7RI8HX>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 4 Apr 2026 08:19:07 -0400 (EDT)
-Date: Sat, 4 Apr 2026 14:19:06 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	s=arc-20240116; t=1775312000; c=relaxed/simple;
+	bh=Jg+fsTOROnVvaQQAL6cybgivgl+SdIXbV247NOJdpxQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ta2DvYnNWI5qUyS+WJn1cLA1BOVhCquEXt7lX1VJhWKcJU0AO/ta5Hsp10bSFh+WI3SYN2cY5rjPJ9Pb8gyUwaHWf8PjEGtJl8eEZ/2Su2nQWuMQUTH1tX9Xa62HU1JCHNPyv93ZXKIrViJihP2DUuCHVW+A+0kTTJpcLE8FSJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PcSElRud; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-35d971fb6f1so2346711a91.0
+        for <linux-media@vger.kernel.org>; Sat, 04 Apr 2026 07:13:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775311999; x=1775916799; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rM5lqMnANidrsdiMfZkTev2S1xmCByaOcAvF7f91gpU=;
+        b=PcSElRudadyn6yC36tiaSARgtiBc6O1eFUSzDGfCUXjW92neZFO7GVuDFAWWgnM1LX
+         iP3/I1fUomy9MhFJJAoDU8L3TkLcV0XjBprVzHGm537rs9GLoHnvEIU1Wf8J+1b52BJ2
+         DHVThi0q2c9/p+zPsSA4GUwbM3mPttTm4lPEwWIjR6KfYNR8TrrKikpiTMLDsBl9ur82
+         r81bqVi6HrpDyfg53/LONJiidrwI0ygKUtbmLtry1INztR6/5RtTIx7HvaQrs3ugnrkS
+         X4ZL6QI367YDAZ7D5HxSP+wrUoXuK++o7Sv47eVVPixbVDG6TjKlGM6SICwBEvFwOjmO
+         5YQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775311999; x=1775916799;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rM5lqMnANidrsdiMfZkTev2S1xmCByaOcAvF7f91gpU=;
+        b=SWOly1mLaRB7jJJ1BVksaEZ7LIigS+vjl94Az+k+Io8MiiTywuj5DMRc8MCV4RyGad
+         4+DV8mzErp1hajiwuoAStxTyBWOLAzCAkLPlAtV6CJijBit9vHoPSqFGTO3xYh3Q8ORE
+         fGV73Xgszhr8ONNKjlAb4KhpcryMGmGUYBY5ht70sV/+VeyAKNOpGjkUBNw3az3sdITY
+         UfR5fpVp7lZVJphmCzMuLnNQAM4qOvCi+Q4cX/S/gAwWarn5vRjQA/rAQy0O+G8EM24g
+         b55Mvbnqbi0ejIqQNoNsyA9aLnHCZPdFWinrHYn20Pt/h9MOVNC5cPjSLJ80Pw7cWRcy
+         L01A==
+X-Forwarded-Encrypted: i=1; AJvYcCUIEZl64Itv/iJ+vD/feS7qalXjSwYcnAPVWI4BQo0OmrZ0qK2d1WGVWhXCpquPPI7LGceDyirqdmUMCQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhHPz2FMMqf01HzS3fbvnvnxFQtCURSmiKt3L5B5htiY3Tg0g5
+	SXdMX9lfjxFFmvHd6bMZuidgnRs6OH0hhNYDNnX96+fnvae7QPefsRFm
+X-Gm-Gg: AeBDiesjKXldfhhYRDpcAW1tK3VY5XLvYSemqtuPZItZn0lW1U5pGFpX9cNJKPJqdoj
+	kL46f0XMJNd73AcOUJbE5ZgLG6FQY7qS6X2qWC2gDAYwqUou2PajRf9A3rwaTBaw5K59jXis544
+	K4Gw3B/yCAPty+wsaZYAOD1oD/IzBEYiTYR8eJZ5ZJJGw7sbswPGa7dpTSvw1oogER504npAQyi
+	GMsRFJmEqkFTRZhYijCQY8ZyKY+nQtoXUtIxBrze+GimLWEv/q7x8HpI72J/yCvVNaGA+zvtQwE
+	xg/Iz941/mvhMVp1iEl1O5IqukTJTCy892/o63hpOGSQB63kaTwAiz+IslisB+erBNJeGP+9GIm
+	NfxzkJhGWAQ84S9H8TaRVgbaeOvvWyRnV4B1bqukL4WJE8TnH+pYXebB5U+bSlIoPvQn/qAs+7E
+	M5ym0f4fEzNt8ILRSGfxOnY/UdJwB9eiZqFPYPGmlBvDbGdiF4WKAGUBeJ
+X-Received: by 2002:a17:90b:1348:b0:35d:a542:2dc4 with SMTP id 98e67ed59e1d1-35de6957354mr5908061a91.21.1775311999183;
+        Sat, 04 Apr 2026 07:13:19 -0700 (PDT)
+Received: from tech-Alienware-m15-R6.. ([122.171.19.181])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35dbe937925sm18477140a91.12.2026.04.04.07.12.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Apr 2026 07:13:18 -0700 (PDT)
+From: Sunny Patel <nueralspacetech@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v5 03/10] media: rcar-csi2: Move
- {enable|disable}_streams() calls
-Message-ID: <20260404121906.GC1525575@ragnatech.se>
-References: <20260311-rcar-streams-v5-0-3e6c957d7567@ideasonboard.com>
- <20260311-rcar-streams-v5-3-3e6c957d7567@ideasonboard.com>
- <20260318205435.GG716464@killaraus.ideasonboard.com>
+	Sunny Patel <nueralspacetech@gmail.com>
+Subject: [PATCH] media: v4l2-core: v4l2-subdev: Removed duplicate lockdep  assertion
+Date: Sat,  4 Apr 2026 19:42:26 +0530
+Message-ID: <20260404141226.77477-1-nueralspacetech@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260318205435.GG716464@killaraus.ideasonboard.com>
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm1,messagingengine.com:s=fm2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
-	TAGGED_FROM(0.00)[bounces-58052-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[ideasonboard.com,linux.intel.com,vger.kernel.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-58053-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nueralspacetech@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas,huawei];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 9E9E339B0E1
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0D84D39B54A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hello,
+---
+ drivers/media/v4l2-core/v4l2-subdev.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-On 2026-03-18 22:54:35 +0200, Laurent Pinchart wrote:
-> On Wed, Mar 11, 2026 at 03:53:16PM +0200, Tomi Valkeinen wrote:
-> > With multiple streams the operation to enable the CSI-2 hardware and to
-> > call {enable|disable}_streams() on upstream subdev will need to be
-> > handled separately.
-> > 
-> > Prepare for that by moving {enable|disable}_streams() calls out from
-> > rcsi2_start() and rcsi2_stop().
-> > 
-> > On Gen3, a side effect of this change is that if the sink side devices
-> > call .enable_streams() on rcar-csi2 multiple times, the second call will
-> > fail. This is because we always use stream ID 0, so the second call
-> > would attempt to enable the same stream again, leading to an error. In
-> > other words, a normal single-stream setup continues to work, but trying
-> > to use the current driver's custom VC based routing will fail.
-> 
-> I assume this gets addressed later in the series.
-> 
-> > 
-> > On Gen4, this doesn't matter as the rcar-isp behaves in a similar way as
-> > described above, and thus rcar-csi2 will only get a single
-> > .enable_streams() call.
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > ---
-> >  drivers/media/platform/renesas/rcar-csi2.c | 25 +++++++++++++++----------
-> >  1 file changed, 15 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-> > index 7305cc4a04cb..158fa447e668 100644
-> > --- a/drivers/media/platform/renesas/rcar-csi2.c
-> > +++ b/drivers/media/platform/renesas/rcar-csi2.c
-> > @@ -1822,20 +1822,12 @@ static int rcsi2_start(struct rcar_csi2 *priv, struct v4l2_subdev_state *state)
-> >  		return ret;
-> >  	}
-> >  
-> > -	ret = v4l2_subdev_enable_streams(priv->remote, priv->remote_pad,
-> > -					 BIT_ULL(0));
-> > -	if (ret) {
-> > -		rcsi2_enter_standby(priv);
-> > -		return ret;
-> > -	}
-> > -
-> >  	return 0;
-> >  }
-> >  
-> >  static void rcsi2_stop(struct rcar_csi2 *priv)
-> >  {
-> >  	rcsi2_enter_standby(priv);
-> > -	v4l2_subdev_disable_streams(priv->remote, priv->remote_pad, BIT_ULL(0));
-> >  }
-> >  
-> >  static int rcsi2_enable_streams(struct v4l2_subdev *sd,
-> > @@ -1857,6 +1849,14 @@ static int rcsi2_enable_streams(struct v4l2_subdev *sd,
-> >  			return ret;
-> >  	}
-> >  
-> > +	ret = v4l2_subdev_enable_streams(priv->remote, priv->remote_pad,
-> > +					 BIT_ULL(0));
-> > +	if (ret) {
-> > +		if (priv->stream_count == 0)
-> > +			rcsi2_stop(priv);
-> > +		return ret;
-> > +	}
-> > +
-> >  	priv->stream_count += 1;
-> >  
-> >  	return ret;
-> > @@ -1867,7 +1867,7 @@ static int rcsi2_disable_streams(struct v4l2_subdev *sd,
-> >  				 u32 source_pad, u64 source_streams_mask)
-> >  {
-> >  	struct rcar_csi2 *priv = sd_to_csi2(sd);
-> > -	int ret = 0;
-> > +	int ret;
-> >  
-> >  	if (source_streams_mask != 1)
-> >  		return -EINVAL;
-> > @@ -1878,9 +1878,14 @@ static int rcsi2_disable_streams(struct v4l2_subdev *sd,
-> >  	if (priv->stream_count == 1)
-> >  		rcsi2_stop(priv);
-> >  
-> > +	ret = v4l2_subdev_disable_streams(priv->remote, priv->remote_pad,
-> > +					  BIT_ULL(0));
-> > +	if (ret)
-> > +		return ret;
-> > +
-> >  	priv->stream_count -= 1;
-> >  
-> > -	return ret;
-> > +	return 0;
-> >  }
-> 
-> rcsi2_irq_thread() also calls rcsi2_stop(), followed by rcsi2_start().
-> This is to handle errors reported by the AFIFO_OF, ERRSOTHS and
-> ERRSOTSYNCHS interrupts. If the source isn't restarted, such an attempt
-> to recover from errors will likely fail. On the other hand, restarting
-> the source will likely not lead to great results either.
-> 
-> Error handling was introduced in
-> 
-> commit 4ab44ff0841b9a825f9875623d24809d29e37a10
-> Author: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Date:   Thu Apr 11 16:30:58 2019 -0400
-> 
->     media: rcar-csi2: restart CSI-2 link if error is detected
-> 
->     Restart the CSI-2 link if the CSI-2 receiver detects an error during
->     reception. The driver did nothing when a link error happened and the
->     data flow simply stopped without the user knowing why.
-> 
->     Change the driver to try and recover from errors by restarting the link
->     and informing the user that something is not right. For obvious reasons
->     it's not possible to recover from all errors (video source disconnected
->     for example) but in such cases the user is at least informed of the
->     error and the same behavior of the stopped data flow is retained.
-> 
-> Niklas, do you recall anything about the errors you saw ?
-
-IIRC, the spark for the work was a user report where the wish was to 
-handle detectable errors somehow instead of just silently fail. The 
-first try was this commit where the driver tries to recover. However as 
-you point out it might not be the optimal solution.
-
-Instead I proposed a way to signal to user-space that there where a link 
-error and let it deal with it [1]. As seen on the date from that work it 
-kind of stalled. I still plan to resume that work once all the cleanups 
-of the R-Car VIN pipeline are done.
-
-1.  https://lore.kernel.org/linux-renesas-soc/20211108160220.767586-1-niklas.soderlund%2Brenesas@ragnatech.se/
-
-> 
-> >  
-> >  static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
-> > 
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 32e6f60e26c7..4616e9280a28 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -1843,8 +1843,6 @@ __v4l2_subdev_state_get_interval(struct v4l2_subdev_state *state,
+ 	if (WARN_ON(!state))
+ 		return NULL;
+ 
+-	lockdep_assert_held(state->lock);
+-
+ 	if (state->pads) {
+ 		if (stream)
+ 			return NULL;
 -- 
-Kind Regards,
-Niklas Söderlund
+2.43.0
+
 
