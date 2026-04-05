@@ -1,62 +1,68 @@
-Return-Path: <linux-media+bounces-58074-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58075-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mNXRBhHF0mn1agcAu9opvQ
-	(envelope-from <linux-media+bounces-58074-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 05 Apr 2026 22:24:49 +0200
+	id oAalBAfG0mk0awcAu9opvQ
+	(envelope-from <linux-media+bounces-58075-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 05 Apr 2026 22:28:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A254239FBF8
-	for <lists+linux-media@lfdr.de>; Sun, 05 Apr 2026 22:24:48 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B187B39FC23
+	for <lists+linux-media@lfdr.de>; Sun, 05 Apr 2026 22:28:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 04427300CBF4
-	for <lists+linux-media@lfdr.de>; Sun,  5 Apr 2026 20:24:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6069B300DDC0
+	for <lists+linux-media@lfdr.de>; Sun,  5 Apr 2026 20:28:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D21F9382365;
-	Sun,  5 Apr 2026 20:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6217E38236D;
+	Sun,  5 Apr 2026 20:28:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eSzqkjK6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R3pRAqS5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030B82BF002;
-	Sun,  5 Apr 2026 20:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1582BF002;
+	Sun,  5 Apr 2026 20:28:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775420675; cv=none; b=Ce8ofgXfZKd62XTon6pBM+PMZo7oHCrKU/S02u/Ql0l/MsDR9GpzAAPq4A7zFUjj+CqGFaAqhPLFPCrBBiZMQWui2r4o9wyrJMUVY+bu4LGZ1gRD89ZTu6Zl8YPfq1hpdoD0o5BZCUHU5nZbnBDApcOlxepS2/t5BpZM9mAcGwg=
+	t=1775420916; cv=none; b=V8Hu5bGGP8M7IXTNxXpj6caSF6bMHEAwKuX0VdMUi949gRjaGwTEqGUZZcrRqmCLGJ8qIIvwLL2fWdQHlbYzpBTZI/4xdojYiormAuxUucxqE4kMqhiGyTrAG73rVFPAOEqn6We+2KDcIgz8pB4c9OhHD3xvkMcZnuTZikPyskA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775420675; c=relaxed/simple;
-	bh=4URvBvx60TZ/gMFeDnx2oBlXjJOgy0M8Xq8rQDZnM9A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gn8Yg3PTxsO518Xlb0gRuDliomEIhC7TmQM0hgIInQfZlaMba7tHwITkhKarqMtQoZ+LFeHGFEhlRTceFhXlmxKTimrOsoUsIJS89MzGc/YUkouMrlZ4OrXSxdB06X72nM2EovXfhapfbMCmgS8hKrcA8z4ynJCsAx82KndW4L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eSzqkjK6; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 72E5DC87;
-	Sun,  5 Apr 2026 22:23:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775420586;
-	bh=4URvBvx60TZ/gMFeDnx2oBlXjJOgy0M8Xq8rQDZnM9A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eSzqkjK6AriNtRg5H6geutSclpKKO+LtYE0CkNhzaF7X0aTTZkaDn8jJOKNLot7+U
-	 ABpJ4fQyT4kkCNFborDF9JeQgVbeyA9CD/lHT4n7aOrxCr1toejvVzd0SIxhIFVb21
-	 k7tKZs/t+qiPh6C3rkrGpjokKzCO94qKNExWcX0I=
-Date: Sun, 5 Apr 2026 23:24:31 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Bryan O'Donoghue <bod@kernel.org>
-Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>,
-	vladimir.zapolskiy@linaro.org, kieran.bingham@ideasonboard.com,
-	robh@kernel.org, krzk+dt@kernel.org, andersson@kernel.org,
-	konradybcio@kernel.org, linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, johannes.goede@oss.qualcomm.com,
-	mchehab@kernel.org
+	s=arc-20240116; t=1775420916; c=relaxed/simple;
+	bh=NRxP5PSd979Phq/RLQbd7oy9HuowRWr6CYDv5RhgG6w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rhn2DP0r0GUJmWwAqef9apohNw02noHvNLqfS8eyMpv1g+9lVgoCqgKseAhGm00v0exzNdnZ76W5hJ9UfmzjsCAf9a5jS+d7XKFxukj7I5OHAnWp1GReBE2UuebHuJNzkmsS5ojVCPxid7zWbMc8wGPOEKWOv0eHc5KOb+8RSPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R3pRAqS5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48F8BC116C6;
+	Sun,  5 Apr 2026 20:28:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775420916;
+	bh=NRxP5PSd979Phq/RLQbd7oy9HuowRWr6CYDv5RhgG6w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=R3pRAqS5zRskJ1LVRW3XAzv8kaqysJXo7n6XCxOgFz2Icwuiw0R8AsUTqFoUpU9FJ
+	 98sLWteqgQnH4h2Y+zf+VeWu9UIRHwOz14s58Jo8yE8M4pObvqLOrZLCtXW+q0dh+k
+	 H7DIZTiw/oenl+aHXF5ea0lXYVnzU54N3nUYLE1+RliG+4HXiukIDmQFkswbwm+O3m
+	 3kc+pB/Lv5Mb80hGRr4hEbuWT5+jp7DF/IW9VTe9MMqj60zmSZWOJVCpAl8fnnHSf/
+	 SXlpoEakdDdyk0al2S0fNI1Wy6gK3+OstmsBLh6H/LKIm0wNNwxpexqZhxmk8DInyt
+	 0v8PqRWu6Xjvg==
+Message-ID: <e85dec04-afc6-4942-bc06-d46c508d2584@kernel.org>
+Date: Sun, 5 Apr 2026 21:28:31 +0100
+Precedence: bulk
+X-Mailing-List: linux-media@vger.kernel.org
+List-Id: <linux-media.vger.kernel.org>
+List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH 2/3] media: qcom: camss: Add CAMSS Offline Processing
  Engine driver
-Message-ID: <20260405202431.GE1213462@killaraus.ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ vladimir.zapolskiy@linaro.org, kieran.bingham@ideasonboard.com,
+ robh@kernel.org, krzk+dt@kernel.org, andersson@kernel.org,
+ konradybcio@kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, johannes.goede@oss.qualcomm.com,
+ mchehab@kernel.org
 References: <20260323125824.211615-1-loic.poulain@oss.qualcomm.com>
  <m61yNNvSrw6AIq7_-g2h7VQLmGJ_5iCLg5JTlfQDcL5LlBq37ifAeXw-K3AlRBck5Mb4uVQq0pzeBNAybQNk4w==@protonmail.internalid>
  <20260323125824.211615-3-loic.poulain@oss.qualcomm.com>
@@ -67,79 +73,59 @@ References: <20260323125824.211615-1-loic.poulain@oss.qualcomm.com>
  <Coon32Ka9XbQ-1AzN_iIIH8paxBBuz2astLCFhzSxOoDSHFP_1HoJOl0XKC7urJtTl3r64nBEeZP8ng7iNa5Qg==@protonmail.internalid>
  <20260405201129.GB1213462@killaraus.ideasonboard.com>
  <3bcd8500-ff6c-4a1f-8b7e-3e7c474f6345@kernel.org>
-Precedence: bulk
-X-Mailing-List: linux-media@vger.kernel.org
-List-Id: <linux-media.vger.kernel.org>
-List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3bcd8500-ff6c-4a1f-8b7e-3e7c474f6345@kernel.org>
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+ <vND_8PraFcz-qkPg7skcrfb3l6gsQ5qSvDvqEiaVCG1EYb5904gHHR-wapoZGYBiceyiehoEvPsDsX0Qhj8fXQ==@protonmail.internalid>
+ <20260405202431.GE1213462@killaraus.ideasonboard.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bod@kernel.org>
+In-Reply-To: <20260405202431.GE1213462@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58074-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58075-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MISSING_XM_UA(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[14];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: A254239FBF8
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B187B39FC23
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, Apr 05, 2026 at 09:15:47PM +0100, Bryan O'Donoghue wrote:
-> On 05/04/2026 21:11, Laurent Pinchart wrote:
-> > The mali-c55 driver does this, it translates the ISP parameters buffers
-> > to a list of register values in userspace context, when the buffer is
-> > queued. In the IRQ handler, it then either copies those values to
-> > registers with MMIO writes, or use a DMA engine, depending on the
-> > platform. The rppx1 driver does something similar, with a different
-> > format for the buffer containing the register values.
-> > 
-> > I think this architecture could be replicated here. This translation in
-> > userspace context ensures that work at IRQ time is limited. The driver
-> > can use whatever DMA engine is available depending on the platform, and
-> > we can also force usage of MMIO for debugging or development purpose.
-> > That way, development of ISP features is decoupled from development of
-> > CDM support, enabling parallel development if desired, and faster
-> > plaform enablement that allows starting the userspace side of the work
-> > quicker.
-> 
-> I think that's a reasonable plan.
-> 
-> We make the buffer in user-space which could be used by CDM but stage 
-> the implementation.
+On 05/04/2026 21:24, Laurent Pinchart wrote:
+>> We make the buffer in user-space which could be used by CDM but stage
+>> the implementation.
+> My proposal is to use an abstraction for the ISP parameters buffer, with
+> logical parameters, and translate that to the CDM buffer in kernelspace,
+> but in userspace context instead of IRQ handler context.
 
-My proposal is to use an abstraction for the ISP parameters buffer, with
-logical parameters, and translate that to the CDM buffer in kernelspace,
-but in userspace context instead of IRQ handler context.
+As I understand it, the parameters buffers can top out at nearly 2.5 
+megabytes.
 
-> That way if CDM proves too hard, we can do MMIO for a while, and then 
-> transition to CDM if/when.
-> 
-> For me though I really think translating between formats is storing up pain.
+However I haven't looked into the CDM format in detail so - it needs 
+anaylsis.
 
--- 
-Regards,
+TBH I'm happy enough to follow a precedent, let's discuss further with 
+an analysis of CDM in hand.
 
-Laurent Pinchart
+---
+bod
 
