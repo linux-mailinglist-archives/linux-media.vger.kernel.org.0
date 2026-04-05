@@ -1,174 +1,217 @@
-Return-Path: <linux-media+bounces-58061-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58062-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CJ19Mhws0mn5TwcAu9opvQ
-	(envelope-from <linux-media+bounces-58061-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 05 Apr 2026 11:32:12 +0200
+	id 9/waE5k20mkTUQcAu9opvQ
+	(envelope-from <linux-media+bounces-58062-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 05 Apr 2026 12:16:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B8C739DFD1
-	for <lists+linux-media@lfdr.de>; Sun, 05 Apr 2026 11:32:11 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB9439E058
+	for <lists+linux-media@lfdr.de>; Sun, 05 Apr 2026 12:16:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5C8FE301CCFC
-	for <lists+linux-media@lfdr.de>; Sun,  5 Apr 2026 09:31:18 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 16A303003800
+	for <lists+linux-media@lfdr.de>; Sun,  5 Apr 2026 10:16:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90DCC3382CB;
-	Sun,  5 Apr 2026 09:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34B5E33D6FC;
+	Sun,  5 Apr 2026 10:16:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MZC9p03R"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e7WxuXvK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF33E2E2663
-	for <linux-media@vger.kernel.org>; Sun,  5 Apr 2026 09:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878734C6C
+	for <linux-media@vger.kernel.org>; Sun,  5 Apr 2026 10:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775381477; cv=none; b=jLCZPNIKjWnS4TnzvGkUdSCgSmthZlgImI5kP3d49HLwLXPnOffMTk0WcXw8EoFpQ3PzVum+iUdLAaw1bYdSilXKmliTPIbGwI4hbU15n/A0cCyQBDkavK1wxwf/LXOYpmCnPhnH0uy9GA9AdYNBKAim2YXq0h1kdtWNAleNI5I=
+	t=1775384207; cv=none; b=LOZdNzjmfgKRRTgVCRRR8qbPoGBB1W1KUazENF5MynqAbg/9J8OkRPFo/JzwIFwkCPkVX8zH/kYzKrieygxHWd8BKViV+VqMVBOHNFoE/SsMx9GSNG/3uFfAgWTF9dZUIiMP4dN5/7IdsmsoffNtPbUhom/vYgeY8GTLaxbrJg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775381477; c=relaxed/simple;
-	bh=ErK4cyjYPm91+zNjvpGOJAvbVwIvmcEeItVbsI1yMSY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KUGOllP6KoOY7maPV2vmwxk9fl1Tuk5Wz1jH1T5ISstUJiOJAlD7X+k4tJ2LPAxbHXqX1F18q1PzNX3X5PHLrLftycBALjfwrxzSyOTuINKk8lQ06s+72IioNiKAtQOZbaSUP7UboeiKgyW/YNUsSc5dVvAgstikMeLfLrzVfBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MZC9p03R; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1775384207; c=relaxed/simple;
+	bh=mCnHLWneSs2Y/R6Z9WTw3gnhijcrCO3nFRbsCWDS/BA=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=eIHY/uo6BwVfRAkpj+NZRvvaryTY4wI2rT5AJJu0PJxHM+uIR+GF8Lg4On3KrdHeMv9nqg22qgNxT54ZEGSz8THn9wCobDqVUXPC4mcH5EzBfHTlNILWlyFzFczxaZnpbbqCtWBQVPKhiEV3QGLSn0fkDwZbUutRJkdNnrbuq3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e7WxuXvK; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43cf7683a28so1790104f8f.2
-        for <linux-media@vger.kernel.org>; Sun, 05 Apr 2026 02:31:15 -0700 (PDT)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2b0afa0210bso14942165ad.2
+        for <linux-media@vger.kernel.org>; Sun, 05 Apr 2026 03:16:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775381474; x=1775986274; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bXMWNVHfumBchZlq3WtoZ97ns5eMXe5atHuWyp6eKiE=;
-        b=MZC9p03RD6+X91pi1MzkSwpjjoHE+3kgHjomxJKGungMN1zNxzWIdD2Eo2L3DXD4Gr
-         41zoBFQ65ODFk93qS97bZg55ud6iMMiE9ylAR3yMr+2u/A5VpLX/9io3lFx4cx5QaPjF
-         FGo+AzpZmIICF5+489MD0/WNxIypXZZDyJGLT1r76RbE9VyZFx1g1PZ6bx922aM/HKUZ
-         6V9SK+03gEH6CiVOPKIgbAYoBwjeh+sW/M8ulSLyJX6V0H/I3VGxZMXxWUMgXc/4vtXK
-         Z44Pl7/fKMt+JwJvOWQIzFpcqKv+/17Gwe8Zh0Qki3OZFMItvqxrDPc6rEz9w9KVCO0Y
-         aRZQ==
+        d=gmail.com; s=20251104; t=1775384206; x=1775989006; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=mCnHLWneSs2Y/R6Z9WTw3gnhijcrCO3nFRbsCWDS/BA=;
+        b=e7WxuXvK/Oyqp9uBQkMEUuOL/OVWZ8Fk5BaWbCqLlYI7J9LQx6uB3ELJFSSRUajNrE
+         DbJB42sGrtSiQjucp42odvuq0NhmrJUxrH8PRQaifCYP6kM3TIScHPKRx5OVYe1QEBxK
+         jx652s/gyywCpFsmt1wJrfccFUogM07lzl572w/oDmKFACGmvv0JPta2C/Bz5toz2WIY
+         kHqnxAteFIACoESixbJPb6n5mQz0SFc3sXFPZmgNZO2Mpw2Zxe80o+yVzCU8GFfn6pEd
+         69SEdOIQH/DUnyZeGAQclBbmv27pnRjUiRHwQpKYved08Ct8D2OISbZO4v105gYx9K+w
+         Iu+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775381474; x=1775986274;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bXMWNVHfumBchZlq3WtoZ97ns5eMXe5atHuWyp6eKiE=;
-        b=L+3c8wtnL36hZ/COQkp7H7mLCEYq6pO1LplC23ECQP+XBF6ekGgd6mqzXHM6JHqxxz
-         yjsRLFWsmhxaM9bNHuudpUXKeeb6U5VQ0aHXRfFyLysjpJJlgbduDUQE+QI0L2oj3rcA
-         hLSz1S/uBF6/R6zhNiZc9Fk4Jb7SHub6CWhSBZWYXW1YfZ+YvAJnw7qhlgFhPuQMsG4B
-         RcGpafMv/8pr1NAZ2icxhyzkfX2AKv2hhlYSH45e3V+tbbJPWedsF/+dupixE8YxP0Qt
-         PZnUdE7VA8zI5umIRQkX+1eLpwy3WuqFOT+q0Pzg0Ag3iaHgBt06qjVwoO4joRBSnjkq
-         Itog==
-X-Forwarded-Encrypted: i=1; AJvYcCXGWfFtMwBO9vem1wCC/B9a1+88cIU8bIjsQ8vvyNgZAQ2/KVe4verV32Sr1JC2+SUUUZkvx/T/IpoHYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzstiWEiMoHVlBLiXLnOPT7wF3lIa6R3c9zI15r3lSlqUufxFVr
-	7qAYgvFF812S5rLiTDruEsWdSBhLbELj1NWkFZizsrPHFWrqojINpipE
-X-Gm-Gg: AeBDiesRk0KYSmGZfijDN4FMyLoEpP4CjYRSruGTutFcVju8715qQpBab0RVrlgruBN
-	5C4xDW4/Y2cv9wF5DMydXsHffAkUzFl4uPDqQT3/CBDfDbSX/2LKkVl2pAETbOzmLbWCm7oJEuW
-	fS5oNJVHugbNNtQLQLGwKuQUEuXLDXvc0qJBi8J8cU0wZBwIpOChgpYs+/+d7Yjj802rfhJwvfk
-	Bjafr+y2TPrkXSZe+n3WMRCO2BQMKsZxppS1/+KRDC93ZXYq0zK1Shm5YruGZGMc88BzkZ1Pu2d
-	kkMXKdsXPzQiCzVXvyda5W7QIm9f10LTS5EPFyoJnDzcplDjKFqhugCFqBjjjKmdN7fenHh2LpY
-	mGi7t1rjk+Z4Jut1pTEd+MWZ87iGExBjoAa4vBhvx+j5ZeQqBFTpVZjw8j/vLkaQJ3bg72gvN1c
-	GjLk8DrmxjUYoMw9zk91N45Kyi+GKz0XvgHnKAg4kH1Wa7Xw==
-X-Received: by 2002:a05:6000:40dd:b0:43b:8858:1146 with SMTP id ffacd0b85a97d-43d292e7fd9mr14331002f8f.41.1775381473697;
-        Sun, 05 Apr 2026 02:31:13 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:f41:1c83:b0bd:2a0c:50ff:fe2f:36f4])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4e221bsm29156707f8f.29.2026.04.05.02.31.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Apr 2026 02:31:13 -0700 (PDT)
-From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: Andy Shevchenko <andy@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH v4 2/2] media: atomisp: remove redundant call to ia_css_output0_configure()
-Date: Sun,  5 Apr 2026 11:30:44 +0200
-Message-ID: <20260405093051.515222-3-azpijr@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260405093051.515222-1-azpijr@gmail.com>
-References: <20260405093051.515222-1-azpijr@gmail.com>
+        d=1e100.net; s=20251104; t=1775384206; x=1775989006;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mCnHLWneSs2Y/R6Z9WTw3gnhijcrCO3nFRbsCWDS/BA=;
+        b=Ya+ZBKbqqRYjIfeYWCVHsd7qoK2XCl7OxEJFkRaUl7LR/t2iupxevL91W7YWY49Jn7
+         vQeqKfASbBHy7onMVOra2D+eEnySCsQ/fv8R7Hz//cm3LhVBrUV6xJWpv+Gaim7lekiW
+         sNA+/3IMdxsuhlJfN/BLk9dGc5od93QBFtjqhcHY7d/XlWHgWtxPyx6V24iwX11X9xn/
+         FLT3FNJTijtwxt/DBW2tnx5pixpl8vB6tWBKK/wech/mJ6SQIR4T91u8yG0kQovNJCmI
+         N+C4gomhlEZiPClHhb5aQoBBuVjRN8vH9Caqr37h10zLxO7ud3wdcD3vMG/YmJ+wvkJm
+         nCIg==
+X-Forwarded-Encrypted: i=1; AJvYcCWhHdyZ8g0rJEfBHF864u6SY8A8lj55dOWLYnwkhzq64IYYxu/GGf6hLwTxzCVlw7Z78pOuveAIefndwg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpxecruhA8lcjs1wqIU5m6xnAHBTxQlCYhnBeuLfYj9NFJkv3b
+	NNH9H9B7gvHMQ2ju4T/apcXba2t9pDUZQn2WU7tiYiES79Ep4uEoguXiIl2Dzw==
+X-Gm-Gg: AeBDietzPAv2YIWRxRPgf5FAavoM4kxIsweWaCzLYUMvU71ODuAaC17Mkuq+TtbldaC
+	+XC3heT36AR5qwZI3hrz2OYbzf/fVVKu9QKehcp9dLq6crx3tt3+E6DtYq1KQhFfrB04I/m1gLU
+	yK+mXOoRytYcyTaKA6TYrtYwwN5iJ78pOlhlYaP+uDHaNo2Ix3fNji0HbOE0/GzLftCi898rKCN
+	d0L+IuWNnS2fm0G85rRxrSfORzYpICOWcGJqUVYyMTwTMWpi7tMa1lr39stv2p0vNEupBxcYu4u
+	+76n1nAy2tEncuRZLdmuSsHtHY0WJCbY16b4BoksYYdw9s4CmwL5/HTRkJn0lJiNFq0fv+KNMwq
+	eBSlcPv5k1vw4Dipt2C7pI5Ne+DKBiPcTm8ciz12mF+fTWMDHaaUuaNgJf9M4drLD1e2KPNsJc4
+	fnnZrwdhDCuLJGEUop37Zst8b0MgGy+JGGaJCaeZcO7yV7g0zhg+T222E3
+X-Received: by 2002:a17:902:f747:b0:2b2:4e70:631c with SMTP id d9443c01a7336-2b2818b40admr52203755ad.28.1775384205809;
+        Sun, 05 Apr 2026 03:16:45 -0700 (PDT)
+Received: from ehlo.thunderbird.net ([2401:4900:7915:e198:7f98:a783:bdbd:79e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b27497af19sm103826785ad.50.2026.04.05.03.16.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Apr 2026 03:16:45 -0700 (PDT)
+Date: Sun, 05 Apr 2026 15:46:39 +0530
+From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
+To: Hans de Goede <hansg@kernel.org>, sakari.ailus@linux.intel.com,
+ mchehab@kernel.org
+CC: hverkuil+cisco@kernel.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_1/3=5D_media=3A_i2c=3A_gc0310=3A_fix_probe?=
+ =?US-ASCII?Q?_error_handling_and_unwind_resources_properly?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <38dc77ed-2427-44df-847d-4d41183e0df2@kernel.org>
+References: <20260401181657.654055-1-sanjayembedded@gmail.com> <20260401181657.654055-2-sanjayembedded@gmail.com> <38dc77ed-2427-44df-847d-4d41183e0df2@kernel.org>
+Message-ID: <DB5F4EC4-0754-483E-B59A-595A565E628A@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.95 / 15.00];
+	SUBJ_EXCESS_QP(1.20)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
+	TAGGED_FROM(0.00)[bounces-58062-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58061-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[azpijr@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sanjayembeddedse@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.994];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 2B8C739DFD1
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 3DB9439E058
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The function configure_isp_from_args() contained a duplicate call to
-ia_css_output0_configure() using the same output frame index. Remove the
-redundant call to simplify the configuration path.
 
-The ia_css_output0_configure() function acts as a configuration setter.
-It populates a struct ia_css_output0_configuration from the frame info
-and caches it in the binary parameters. Calling it twice with the same
-out_frame[0] pointer merely overwrites the exact same state with
-identical values. It has no cumulative state, neither does its order
-matter relative to ia_css_copy_output_configure().
 
-ia_css_configure_output0() writes into binary->mem_params.params[], a
-software-side DMEM parameter buffer in kernel memory. The ISP firmware
-receives these parameters later as a batch, not at the time of the call.
-Calling a pure memory write twice with the same pointer and same value
-simply overwrites the same location with identical data, there is no
-hardware interaction that could require repetition.
+On 2 April 2026 12:36:33=E2=80=AFam IST, Hans de Goede <hansg@kernel=2Eorg=
+> wrote:
+>Hi,
+>
+>On 1-Apr-26 20:16, Sanjay Chitroda wrote:
+>> From: Sanjay Chitroda <sanjayembeddedse@gmail=2Ecom>
+>>=20
+>> The GC0310 probe path currently performs error cleanup by jumping to a
+>> common label that mirrors the driver's remove() callback=2E This is uns=
+afe,
+>> as remove() assumes that the subdevice has been fully registered with
+>> the V4L2 framework, media and control resources have been initialized=
+=2E
+>
+>That is simply not true, all functions called in remove() internally
+>check if their init counter-part has succeeded and if not are a no-op=2E
+>
+>If you're aware of any specific calls in remove() where this is not
+>the case, please explicitly describe these cases and describe an
+>example exit-error path from probe() where things actually go wrong=2E
+>
 
-Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
----
- drivers/staging/media/atomisp/pci/sh_css_sp.c | 3 ---
- 1 file changed, 3 deletions(-)
+Hi Hans,
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index abdffff41ae2..2beb7168517f 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -792,9 +792,6 @@ static int configure_isp_from_args(const struct sh_css_sp_pipeline *pipeline,
- 	if (ret)
- 		return ret;
- 	ret = ia_css_copy_output_configure(binary, args->copy_output);
--	if (ret)
--		return ret;
--	ret = ia_css_output0_configure(binary, ia_css_frame_get_info(args->out_frame[0]));
- 	if (ret)
- 		return ret;
- 	ret = ia_css_iterator_configure(binary, ia_css_frame_get_info(args->in_frame));
---
-2.53.0
+Thanks for the clarification - agreed, the remove helpers are defensively =
+implemented and the existing code is not incorrect for a functional point=
+=2E I should not have stated gc0310_remov() from a probe failure is unsafe=
+=2E
 
+>> Calling remove() from probe can result in unregistering or cleaning up
+>> subdevice, leading to resource leaks and subtle lifecycle bugs=2E
+>>=20
+>> Rewrite the probe() error handling to unwind resources explicitly, usin=
+g
+>> fine=E2=80=91grained goto labels along with appropriate error logs=2E E=
+ach failure
+>> path now frees only successfully acquired resource, without remove()=2E
+>>=20
+>> This aligns the driver with standard V4L2 sensor lifecycle expectations
+>> and avoids incorrect teardown during probe failures=2E
+>
+>The rest of this reads very much like this was AI generated=2E
+>
+>Did you use AI to generate these patches ? If so please:
+>
+>Make sure you actually understand what the patch is doing and
+>very yourself that it actually is correct, which in this case
+>I believe it is not=2E
+>
+>Regards,
+>
+>Hans
+>
+
+Yes, I did use AI assistance to help draft the commit message, but the pat=
+ch logic itself was written and reviewed by me=2E However, your feedback ma=
+kes it clear that i did not sufficiently validate internals of existing rem=
+ove() based cleanup=2E
+
+
+I would like to propose commit message that align with change and existing=
+ kernel internals:
+
+-------
+media: i2c: gc0310: make probe error unwinding explicit
+
+The gc0310 probe path unwinds failures by jumping to a single label remove=
+-style cleanup=2E
+
+Refactor the probe error handling so that resources are unwound explicitly=
+ and in reverse order of initialization using fine-grained goto labels=2E
+
+This improves clarity and maintains symmetry with the probe initialization=
+ path=2E
+
+No functional change intended=2E
+-------
+
+Kindly share your input on the same, according I will plan to resend v2 wi=
+th an updated commit message as above=2E
+
+>
 
