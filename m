@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-58078-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58079-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eO0HEFLU0mm7bQcAu9opvQ
-	(envelope-from <linux-media+bounces-58078-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 05 Apr 2026 23:29:54 +0200
+	id zPr/MBLq0mn/cAcAu9opvQ
+	(envelope-from <linux-media+bounces-58079-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 01:02:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E89E839FDD8
-	for <lists+linux-media@lfdr.de>; Sun, 05 Apr 2026 23:29:53 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C323A0140
+	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 01:02:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 28465300A7E3
-	for <lists+linux-media@lfdr.de>; Sun,  5 Apr 2026 21:29:47 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4C6273001D49
+	for <lists+linux-media@lfdr.de>; Sun,  5 Apr 2026 23:02:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37096383C6C;
-	Sun,  5 Apr 2026 21:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A88C63845BD;
+	Sun,  5 Apr 2026 23:02:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CFcRW3Oz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UpzF/e9r"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8AA1DED40;
-	Sun,  5 Apr 2026 21:29:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173492367CF;
+	Sun,  5 Apr 2026 23:02:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775424580; cv=none; b=prW6dthydNEtwSGLy3m7YpWxFpyWEyX+nGH7TwSKK0ql7yMfeYueiIPSXkvPypGmfUBSIOfPSM9CvILgtpPwxGlDAKUF7rxI1Qy0DgVPqq1VEIQcGjfwKa2DXF7M35N5PmIK1EJ0IwzxKQbtrjnSLrUgOmnt8lOGHDKxN+cZkcI=
+	t=1775430154; cv=none; b=hWINH8PN0VfpmZnX1u9F+Fwf0HQhJ1VHrzjaOVufwUO8wbSbd1ASfdMJGsQC9ZzoneYa9Uau+D/itqEublfrfExYBC0iPN00Ny+t3QG+Rp03kLrdV/AVoOGb7wFi8vsFlUJugBnsFlnOgmvRIROP1hwwbJPWCBEg/XDhkKoUdXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775424580; c=relaxed/simple;
-	bh=dXS+FxVq4LEDJe2HdwsZRG/n6zVumhKsjswpD80SDYI=;
+	s=arc-20240116; t=1775430154; c=relaxed/simple;
+	bh=AWRDv3dYlnVLH8M78Vu/CRSLMGyviOHStxu9JnvTLnw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QvuNXthMrWHU+iAapyioT/xIl7NzYjBTzc+458cyf4J2Q5plZTVuA0+Fg+JOQ9EwxtLRXkJ+zb1W3D/8QynbQ4+Mve6uh291AUyQWCxBo+bX0e7/MryFuJKtrObwgtML9H4HGydHWo12B0MfkVJGYqRFfXGXwTInw9TfL568jwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CFcRW3Oz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 842FFC116C6;
-	Sun,  5 Apr 2026 21:29:37 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=LgUdfB2DVS3Lkz/K3VSXyIPfAl123KgxIp5/2ApxnsSs+HvjYEPKcggSf22VXN/e/AytZGFtTkVSatygB76vep6v+L5WwCpEC4+f1UWol1b4zEWs+zFFYOenHGJ0BUqJcWYvriXEnMSTzOgRQF5JsZNmEL7YfRskVPsy4SHhUck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UpzF/e9r; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79783C116C6;
+	Sun,  5 Apr 2026 23:02:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775424580;
-	bh=dXS+FxVq4LEDJe2HdwsZRG/n6zVumhKsjswpD80SDYI=;
+	s=k20201202; t=1775430153;
+	bh=AWRDv3dYlnVLH8M78Vu/CRSLMGyviOHStxu9JnvTLnw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CFcRW3OzyCZSgsAI1ltCYmjXiLFSGvw78h3AbwATNn+RCFdXjBC7MHJWhX3wqgtdA
-	 Gd6564oMCqKTZJQueKZyr40MvlHHCy16ss9pvizJAEgjWLU4w46fXW4YRVW3NS3CZ8
-	 +Ipnw4TmagFK1rxLNR5VzyepLc1TZSGthe+owM8ZR6aS7LPGNXKHAvqv/rK8LUtGl8
-	 eG7zxFqHue5khgWGgI9XTU3hHGDGLmVkYpVbiXSC7EbqR6P+1mEHgXW8blWwaR8H+z
-	 46iFwbEcnqm89JnTD9Vcj7nalN3fWefzkDtba6C+2FiEW0HdpIePsVfNLYlD76ZnLa
-	 YYDuhajrWhDzg==
-Message-ID: <bf820340-4831-44c5-97e7-fb738dca6325@kernel.org>
-Date: Sun, 5 Apr 2026 22:29:35 +0100
+	b=UpzF/e9rwQePgER3O3lp0nBHskFh1r5QwllSDnOagkLDwHKjaTORIw7K9coLH64V0
+	 PGXQPHqr16Q5sUNKKeyfDFxqA4l7DC84eTjXRjmowSeEFND7sppO8MAOSRLR3k52U9
+	 QxcQa1xtY8BNepGVzXmoXhJaXAU0rI+PFyJRiHZSi16WBiWP0wcXF/E0F14QtxaFgs
+	 yvBTadJEMccztoUW1Bah+Yp+TZUFOFUrGzGlIkqDolEiDn95vYYNFhTnw7tlCtccC9
+	 J/JONU5FDfO5YC7WqXDBtgZYFj1aROmgydSxjxLNcexqpbkZTFIfjBgQzVRmnOYVHD
+	 5mUWMPHZ93uIA==
+Message-ID: <954a1202-e9b7-47ce-b218-a576e41d2512@kernel.org>
+Date: Mon, 6 Apr 2026 00:02:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,41 +76,42 @@ Content-Language: en-US
 From: Bryan O'Donoghue <bod@kernel.org>
 In-Reply-To: <20260405204722.GF1213462@killaraus.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58078-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58079-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[14];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: E89E839FDD8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 87C323A0140
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On 05/04/2026 21:47, Laurent Pinchart wrote:
-> Temporal denoising can also be more tricky in an inline ISP.
+>> So actually I've shifted my focus on Hamoa to IFE/IPP.
+> I'd love to get stats out of the IFE 🙂
 
-Funny you should mention that, to my knowledge, this is the only 
-functional thing BPS/IPE has that IFE/PIX does not.
+Yeah, I'm fiddling with stats on Hamoa IFE right now.
 
 ---
 bod
