@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-58090-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58091-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IFsKOdSI02lEiwcAu9opvQ
-	(envelope-from <linux-media+bounces-58090-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 12:20:04 +0200
+	id sBKHKQCJ02lEiwcAu9opvQ
+	(envelope-from <linux-media+bounces-58091-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 12:20:48 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9147E3A2C4A
-	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 12:20:04 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E443A2C83
+	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 12:20:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 778253008993
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2026 10:19:59 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A60AA300B9F4
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2026 10:20:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9642D3290C3;
-	Mon,  6 Apr 2026 10:19:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F46D323417;
+	Mon,  6 Apr 2026 10:19:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="h3UWFny+"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="dsRm4+XZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-106118.protonmail.ch (mail-106118.protonmail.ch [79.135.106.118])
+Received: from mail-244116.protonmail.ch (mail-244116.protonmail.ch [109.224.244.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C069F327C09
-	for <linux-media@vger.kernel.org>; Mon,  6 Apr 2026 10:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CA4329E40
+	for <linux-media@vger.kernel.org>; Mon,  6 Apr 2026 10:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775470795; cv=none; b=E3uYmJDz0aH3AXTzZAl+dzWlaLcxN7QxvE9+EQ4bSkSc//fRvKl9mH2KR24U/UNE28ItSgeYUicVpJiBt9UueuvDAOdpJ4JKVBh9z+3TwYyjGJpGg3wIdGHG05+2u+9A2+/nDKDY1l09+qXKXRTaV9TlpNsvC8nZOMsTZGuX9XM=
+	t=1775470798; cv=none; b=DgTJ8Aa2eg/NnHpbSplILbnZ6X5X9AexsMLLszLVTu+CHTz53qkOSAHBguthhPSuDiLUGqsrHEpni8z+YvKxPgaHlpRsRElOAIv8NsRaw/R4hh0dBfLX9qTTVg0OzLqYMtdR6JZR6MKR6w71Y5PHnSXWQ/1WxDcpg1eRlxpOjp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775470795; c=relaxed/simple;
-	bh=EWtbV05iLD/vAolX/931VZaBbU/m/hDYmS7SzY6zwPY=;
+	s=arc-20240116; t=1775470798; c=relaxed/simple;
+	bh=EAOndGzg5SeHnZrOPq2utAwld0EaSk59a8CbrPbEzLk=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CL/apEBrUnfu6ASiVZEZBgHZTguxueZfqCC4Jfe8HMJGcgGun0douNcqNW8lhexqch+o3wTHTP8hoWjWluQdc3GNP3NWbVjylkwTU+/AK8xVSU/6dE9cBTLx4nUgi/2RLGblbF7jqfa3SZ70+H2/XESySN8Ta+Ft6wlC5GyQuJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=h3UWFny+; arc=none smtp.client-ip=79.135.106.118
+	 MIME-Version:Content-Type; b=TPfN2bU3rincNNh5gUJNKEPhScucSPt4z+UUr3FvIwUq71wknAdmrbxv7Fod0qyx1UIXY6vmkbkIArnfz3OjRPDdLydVkUemWLHf+gu9mRFxvlr0klxPiIWuD2IuP/mcu98S/jv7G2PHi6dIUZj6MPalEwsxCPsqPYjLpykndJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=dsRm4+XZ; arc=none smtp.client-ip=109.224.244.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1775470786; x=1775729986;
-	bh=2CGSMmqZdPTgnMH99i2IZgKi3HZinBkkv7lT+JA3kCM=;
+	s=protonmail3; t=1775470795; x=1775729995;
+	bh=2FDa4FbKQRT0D69gXEO+/YnhJ9jnvzn9vQZ7iyZ7f+I=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=h3UWFny+oxdvxN4+fT3+LD0AZXhJJu6tkIPtq6QYNqpk/P6enscMtqYEcp/zjTRze
-	 iLHcd6B1KC7K0XHCmQkW8451MgPTngIMXhM/D9f7LWwgtw+RizYzUEBECLBT4GIaRF
-	 IYNifOrDjv0PRBj9XIFLXCQ0oJrX6XLN3I2AlfEk65ItinGMO3gaDz6nXMxTascEGX
-	 qEpwrNr7k3U1j5K80le22IsAxY4dNbgTc6JI/nZeOmOzAEN6j8pd+xngblNtshLY1m
-	 ee122jicw3uBGxnOinQkm/Nf0Hn0RNbO7EurmWoJGZegcbOPfA1ur1z4faoLiGkq4J
-	 174vPqI0aWBGA==
-Date: Mon, 06 Apr 2026 10:19:41 +0000
+	b=dsRm4+XZwDA67L6jfP3v9+XO2W6Vzhfuccrck/elicBjA9gWneMqA7py6tnkqqX4e
+	 Zr0ekKrrAxgTOlNB50r7gfvfDQfi4kuQJ28QECJRgbdha/oup3yeMtr8rQGM5Ul7Sd
+	 p5Z9/YnA4t4qLQi7h8FKz0PTGngkKBA8Z5b+I/L4LR9F3zpHD4Dq7c158x68vddBoi
+	 y/9UAidhM2JbQBhSjhDfXvRxsVugaLjVLkk7ip0t0udJE8LPz5PjG6PD9UI7wyoK4o
+	 3ZrEirdzIIam42z7h1zERPe3dZzA1gB7aXJUpslgi67vL3b/xovJz7kohrb45Y5DnY
+	 i4sqRTbP2EDFA==
+Date: Mon, 06 Apr 2026 10:19:50 +0000
 To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>, Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
 From: Alexander Koskovich <akoskovich@pm.me>
 Cc: Luca Weiss <luca.weiss@fairphone.com>, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Alexander Koskovich <akoskovich@pm.me>
-Subject: [PATCH 2/3] media: iris: Add support for Milos (VPU v2.0)
-Message-ID: <20260406-milos-iris-v1-2-17ed0167ba6f@pm.me>
+Subject: [PATCH 3/3] arm64: dts: qcom: milos: Add Iris VPU v2.0
+Message-ID: <20260406-milos-iris-v1-3-17ed0167ba6f@pm.me>
 In-Reply-To: <20260406-milos-iris-v1-0-17ed0167ba6f@pm.me>
 References: <20260406-milos-iris-v1-0-17ed0167ba6f@pm.me>
 Feedback-ID: 37836894:user:proton
-X-Pm-Message-ID: f69f3fa144524c9ec771ca15441fca415c247942
+X-Pm-Message-ID: 166f561c1a48f6cef99ff39d402798d53e5c3291
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,12 +69,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[pm.me,quarantine];
 	R_DKIM_ALLOW(-0.20)[pm.me:s=protonmail3];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58090-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58091-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -87,842 +87,128 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[akoskovich@pm.me,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[pm.me:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,pm.me:dkim,pm.me:email,pm.me:mid,30fps:email,0.0.0.30:email]
-X-Rspamd-Queue-Id: 9147E3A2C4A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,pm.me:dkim,pm.me:email,pm.me:mid]
+X-Rspamd-Queue-Id: 98E443A2C83
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add support for the Milos Iris codec. This only supports the variant
-found on the SM7635-AB that has half of it's pipes disabled via efuse.
+Add devicetree nodes for the Iris codec (VPU 2.0) found on the Milos
+platform.
 
 Signed-off-by: Alexander Koskovich <akoskovich@pm.me>
 ---
- .../platform/qcom/iris/iris_platform_common.h      |   1 +
- .../media/platform/qcom/iris/iris_platform_gen2.c  | 106 ++++
- .../media/platform/qcom/iris/iris_platform_milos.h | 655 +++++++++++++++++=
+ arch/arm64/boot/dts/qcom/milos.dtsi | 85 +++++++++++++++++++++++++++++++++=
 ++++
- drivers/media/platform/qcom/iris/iris_probe.c      |   4 +
- 4 files changed, 766 insertions(+)
+ 1 file changed, 85 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/driv=
-ers/media/platform/qcom/iris/iris_platform_common.h
-index 5a489917580e..c8a9f122952e 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-+++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-@@ -41,6 +41,7 @@ enum pipe_type {
- =09PIPE_4 =3D 4,
- };
+diff --git a/arch/arm64/boot/dts/qcom/milos.dtsi b/arch/arm64/boot/dts/qcom=
+/milos.dtsi
+index e1a51d43943f..07aa398c9695 100644
+--- a/arch/arm64/boot/dts/qcom/milos.dtsi
++++ b/arch/arm64/boot/dts/qcom/milos.dtsi
+@@ -7,6 +7,7 @@
+ #include <dt-bindings/clock/qcom,milos-dispcc.h>
+ #include <dt-bindings/clock/qcom,milos-gcc.h>
+ #include <dt-bindings/clock/qcom,milos-gpucc.h>
++#include <dt-bindings/clock/qcom,milos-videocc.h>
+ #include <dt-bindings/clock/qcom,rpmh.h>
+ #include <dt-bindings/clock/qcom,sm8650-tcsr.h>
+ #include <dt-bindings/dma/qcom-gpi.h>
+@@ -1517,6 +1518,90 @@ usb_1_dwc3_hs: endpoint {
+ =09=09=09};
+ =09=09};
 =20
-+extern const struct iris_platform_data milos_data;
- extern const struct iris_platform_data qcs8300_data;
- extern const struct iris_platform_data sc7280_data;
- extern const struct iris_platform_data sm8250_data;
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/driver=
-s/media/platform/qcom/iris/iris_platform_gen2.c
-index 5da90d47f9c6..78cd4656b981 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-+++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-@@ -12,6 +12,7 @@
- #include "iris_vpu_buffer.h"
- #include "iris_vpu_common.h"
-=20
-+#include "iris_platform_milos.h"
- #include "iris_platform_qcs8300.h"
- #include "iris_platform_sm8650.h"
- #include "iris_platform_sm8750.h"
-@@ -1317,3 +1318,108 @@ const struct iris_platform_data qcs8300_data =3D {
- =09.enc_op_int_buf_tbl =3D sm8550_enc_op_int_buf_tbl,
- =09.enc_op_int_buf_tbl_size =3D ARRAY_SIZE(sm8550_enc_op_int_buf_tbl),
- };
++=09=09iris: video-codec@aa00000 {
++=09=09=09compatible =3D "qcom,milos-iris";
++=09=09=09reg =3D <0 0x0aa00000 0 0xf0000>;
 +
-+/*
-+ * Shares most of SM8550 data except:
-+ * - vpu_ops to iris_vpu2_ops
-+ * - icc_tbl to milos_icc_table
-+ * - clk_rst_tbl to sm8650_clk_reset_table
-+ * - opp_pd_tbl to milos_opp_pd_table
-+ * - fwname to "qcom/vpu/vpu20_2v.mbn"
-+ * - inst_iris_fmts to platform_fmts_milos_dec
-+ * - inst_caps to platform_inst_cap_milos
-+ * - inst_fw_caps_dec to inst_fw_cap_milos_dec
-+ * - inst_fw_caps_enc to inst_fw_cap_milos_enc
-+ * - ubwc_config to ubwc_config_milos
-+ * - num_vpp_pipe to 2
-+ * - max_core_mbpf scaled for 4k@30fps dec/enc
-+ * - max_core_mbps scaled for 4k@30fps dec & 1080p@30 enc
-+ */
-+const struct iris_platform_data milos_data =3D {
-+=09.get_instance =3D iris_hfi_gen2_get_instance,
-+=09.init_hfi_command_ops =3D iris_hfi_gen2_command_ops_init,
-+=09.init_hfi_response_ops =3D iris_hfi_gen2_response_ops_init,
-+=09.get_vpu_buffer_size =3D iris_vpu_buf_size,
-+=09.vpu_ops =3D &iris_vpu2_ops,
-+=09.set_preset_registers =3D iris_set_sm8550_preset_registers,
-+=09.icc_tbl =3D milos_icc_table,
-+=09.icc_tbl_size =3D ARRAY_SIZE(milos_icc_table),
-+=09.clk_rst_tbl =3D sm8650_clk_reset_table,
-+=09.clk_rst_tbl_size =3D ARRAY_SIZE(sm8650_clk_reset_table),
-+=09.bw_tbl_dec =3D sm8550_bw_table_dec,
-+=09.bw_tbl_dec_size =3D ARRAY_SIZE(sm8550_bw_table_dec),
-+=09.pmdomain_tbl =3D sm8550_pmdomain_table,
-+=09.pmdomain_tbl_size =3D ARRAY_SIZE(sm8550_pmdomain_table),
-+=09.opp_pd_tbl =3D milos_opp_pd_table,
-+=09.opp_pd_tbl_size =3D ARRAY_SIZE(milos_opp_pd_table),
-+=09.clk_tbl =3D sm8550_clk_table,
-+=09.clk_tbl_size =3D ARRAY_SIZE(sm8550_clk_table),
-+=09.opp_clk_tbl =3D sm8550_opp_clk_table,
-+=09/* Upper bound of DMA address range */
-+=09.dma_mask =3D 0xe0000000 - 1,
-+=09.fwname =3D "qcom/vpu/vpu20_2v.mbn",
-+=09.pas_id =3D IRIS_PAS_ID,
-+=09.inst_iris_fmts =3D platform_fmts_milos_dec,
-+=09.inst_iris_fmts_size =3D ARRAY_SIZE(platform_fmts_milos_dec),
-+=09.inst_caps =3D &platform_inst_cap_milos,
-+=09.inst_fw_caps_dec =3D inst_fw_cap_milos_dec,
-+=09.inst_fw_caps_dec_size =3D ARRAY_SIZE(inst_fw_cap_milos_dec),
-+=09.inst_fw_caps_enc =3D inst_fw_cap_milos_enc,
-+=09.inst_fw_caps_enc_size =3D ARRAY_SIZE(inst_fw_cap_milos_enc),
-+=09.tz_cp_config_data =3D tz_cp_config_sm8550,
-+=09.tz_cp_config_data_size =3D ARRAY_SIZE(tz_cp_config_sm8550),
-+=09.core_arch =3D VIDEO_ARCH_LX,
-+=09.hw_response_timeout =3D HW_RESPONSE_TIMEOUT_VALUE,
-+=09.ubwc_config =3D &ubwc_config_milos,
-+=09.num_vpp_pipe =3D 2,
-+=09.max_session_count =3D 16,
-+=09.max_core_mbpf =3D ((4096 * 2176) / 256) * 2,
-+=09.max_core_mbps =3D ((3840 * 2176) / 256) * 30 + ((1920 * 1088) / 256) *=
- 30,
-+=09.dec_input_config_params_default =3D
-+=09=09sm8550_vdec_input_config_params_default,
-+=09.dec_input_config_params_default_size =3D
-+=09=09ARRAY_SIZE(sm8550_vdec_input_config_params_default),
-+=09.dec_input_config_params_hevc =3D
-+=09=09sm8550_vdec_input_config_param_hevc,
-+=09.dec_input_config_params_hevc_size =3D
-+=09=09ARRAY_SIZE(sm8550_vdec_input_config_param_hevc),
-+=09.dec_input_config_params_vp9 =3D
-+=09=09sm8550_vdec_input_config_param_vp9,
-+=09.dec_input_config_params_vp9_size =3D
-+=09=09ARRAY_SIZE(sm8550_vdec_input_config_param_vp9),
-+=09.dec_output_config_params =3D
-+=09=09sm8550_vdec_output_config_params,
-+=09.dec_output_config_params_size =3D
-+=09=09ARRAY_SIZE(sm8550_vdec_output_config_params),
++=09=09=09interrupts =3D <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH 0>;
 +
-+=09.enc_input_config_params =3D
-+=09=09sm8550_venc_input_config_params,
-+=09.enc_input_config_params_size =3D
-+=09=09ARRAY_SIZE(sm8550_venc_input_config_params),
-+=09.enc_output_config_params =3D
-+=09=09sm8550_venc_output_config_params,
-+=09.enc_output_config_params_size =3D
-+=09=09ARRAY_SIZE(sm8550_venc_output_config_params),
++=09=09=09power-domains =3D <&videocc VIDEO_CC_MVS0C_GDSC>,
++=09=09=09=09=09<&videocc VIDEO_CC_MVS0_GDSC>,
++=09=09=09=09=09<&rpmhpd RPMHPD_CX>,
++=09=09=09=09=09<&rpmhpd RPMHPD_MX>;
++=09=09=09power-domain-names =3D "venus",
++=09=09=09=09=09     "vcodec0",
++=09=09=09=09=09     "cx",
++=09=09=09=09=09     "mx";
 +
-+=09.dec_input_prop =3D sm8550_vdec_subscribe_input_properties,
-+=09.dec_input_prop_size =3D ARRAY_SIZE(sm8550_vdec_subscribe_input_propert=
-ies),
-+=09.dec_output_prop_avc =3D sm8550_vdec_subscribe_output_properties_avc,
-+=09.dec_output_prop_avc_size =3D
-+=09=09ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_avc),
-+=09.dec_output_prop_hevc =3D sm8550_vdec_subscribe_output_properties_hevc,
-+=09.dec_output_prop_hevc_size =3D
-+=09=09ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_hevc),
-+=09.dec_output_prop_vp9 =3D sm8550_vdec_subscribe_output_properties_vp9,
-+=09.dec_output_prop_vp9_size =3D
-+=09=09ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_vp9),
++=09=09=09operating-points-v2 =3D <&iris_opp_table>;
 +
-+=09.dec_ip_int_buf_tbl =3D sm8550_dec_ip_int_buf_tbl,
-+=09.dec_ip_int_buf_tbl_size =3D ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
-+=09.dec_op_int_buf_tbl =3D sm8550_dec_op_int_buf_tbl,
-+=09.dec_op_int_buf_tbl_size =3D ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
++=09=09=09clocks =3D <&gcc GCC_VIDEO_AXI0_CLK>,
++=09=09=09=09 <&videocc VIDEO_CC_MVS0C_CLK>,
++=09=09=09=09 <&videocc VIDEO_CC_MVS0_CLK>;
++=09=09=09clock-names =3D "iface",
++=09=09=09=09      "core",
++=09=09=09=09      "vcodec0_core";
 +
-+=09.enc_ip_int_buf_tbl =3D sm8550_enc_ip_int_buf_tbl,
-+=09.enc_ip_int_buf_tbl_size =3D ARRAY_SIZE(sm8550_enc_ip_int_buf_tbl),
-+=09.enc_op_int_buf_tbl =3D sm8550_enc_op_int_buf_tbl,
-+=09.enc_op_int_buf_tbl_size =3D ARRAY_SIZE(sm8550_enc_op_int_buf_tbl),
-+};
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_milos.h b/drive=
-rs/media/platform/qcom/iris/iris_platform_milos.h
-new file mode 100644
-index 000000000000..dacd3ad5aa7e
---- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_platform_milos.h
-@@ -0,0 +1,655 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
++=09=09=09interconnects =3D <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE=
+_ONLY
++=09=09=09=09=09 &cnoc_cfg SLAVE_VENUS_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
++=09=09=09=09=09<&mmss_noc MASTER_VIDEO QCOM_ICC_TAG_ALWAYS
++=09=09=09=09=09 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
++=09=09=09interconnect-names =3D "cpu-cfg",
++=09=09=09=09=09     "video-mem";
 +
-+#ifndef __IRIS_PLATFORM_MILOS_H__
-+#define __IRIS_PLATFORM_MILOS_H__
++=09=09=09memory-region =3D <&video_mem>;
 +
-+#define MILOS_V1_MAX_BITRATE=09100000000
-+#define MILOS_V1_MAX_FPS=09240
++=09=09=09resets =3D <&gcc GCC_VIDEO_AXI0_CLK_ARES>,
++=09=09=09=09 <&videocc VIDEO_CC_MVS0C_CLK_ARES>;
++=09=09=09reset-names =3D "bus",
++=09=09=09=09      "core";
 +
-+static struct iris_fmt platform_fmts_milos_dec[] =3D {
-+=09[IRIS_FMT_H264] =3D {
-+=09=09.pixfmt =3D V4L2_PIX_FMT_H264,
-+=09=09.type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+=09},
-+=09[IRIS_FMT_HEVC] =3D {
-+=09=09.pixfmt =3D V4L2_PIX_FMT_HEVC,
-+=09=09.type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+=09},
-+=09[IRIS_FMT_VP9] =3D {
-+=09=09.pixfmt =3D V4L2_PIX_FMT_VP9,
-+=09=09.type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+=09},
-+};
++=09=09=09iommus =3D <&apps_smmu 0x1960 0>,
++=09=09=09=09 <&apps_smmu 0x1967 0>;
 +
-+static const struct platform_inst_fw_cap inst_fw_cap_milos_dec[] =3D {
-+=09{
-+=09=09.cap_id =3D PROFILE_H264,
-+=09=09.min =3D V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
-+=09=09.max =3D V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_PROFILE_HIGH) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH),
-+=09=09.value =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-+=09=09.hfi_id =3D HFI_PROP_PROFILE,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_u32_enum,
-+=09},
-+=09{
-+=09=09.cap_id =3D PROFILE_HEVC,
-+=09=09.min =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
-+=09=09.max =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE),
-+=09=09.value =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
-+=09=09.hfi_id =3D HFI_PROP_PROFILE,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_u32_enum,
-+=09},
-+=09{
-+=09=09.cap_id =3D PROFILE_VP9,
-+=09=09.min =3D V4L2_MPEG_VIDEO_VP9_PROFILE_0,
-+=09=09.max =3D V4L2_MPEG_VIDEO_VP9_PROFILE_2,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_VP9_PROFILE_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_VP9_PROFILE_2),
-+=09=09.value =3D V4L2_MPEG_VIDEO_VP9_PROFILE_0,
-+=09=09.hfi_id =3D HFI_PROP_PROFILE,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_u32_enum,
-+=09},
-+=09{
-+=09=09.cap_id =3D LEVEL_H264,
-+=09=09.min =3D V4L2_MPEG_VIDEO_H264_LEVEL_1_0,
-+=09=09.max =3D V4L2_MPEG_VIDEO_H264_LEVEL_5_1,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1B) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_2) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_3) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_2_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_2_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_2_2) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_3_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_3_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_3_2) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_4_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_4_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_4_2) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_5_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_5_1),
-+=09=09.value =3D V4L2_MPEG_VIDEO_H264_LEVEL_5_1,
-+=09=09.hfi_id =3D HFI_PROP_LEVEL,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_u32_enum,
-+=09},
-+=09{
-+=09=09.cap_id =3D LEVEL_HEVC,
-+=09=09.min =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_1,
-+=09=09.max =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_5,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_2) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_2_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_3) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_3_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_4) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_4_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_5),
-+=09=09.value =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_5,
-+=09=09.hfi_id =3D HFI_PROP_LEVEL,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_u32_enum,
-+=09},
-+=09{
-+=09=09.cap_id =3D LEVEL_VP9,
-+=09=09.min =3D V4L2_MPEG_VIDEO_VP9_LEVEL_1_0,
-+=09=09.max =3D V4L2_MPEG_VIDEO_VP9_LEVEL_5_0,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_1_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_1_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_2_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_2_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_3_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_3_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_4_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_4_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_5_0),
-+=09=09.value =3D V4L2_MPEG_VIDEO_VP9_LEVEL_5_0,
-+=09=09.hfi_id =3D HFI_PROP_LEVEL,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_u32_enum,
-+=09},
-+=09{
-+=09=09.cap_id =3D TIER,
-+=09=09.min =3D V4L2_MPEG_VIDEO_HEVC_TIER_MAIN,
-+=09=09.max =3D V4L2_MPEG_VIDEO_HEVC_TIER_HIGH,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_HEVC_TIER_MAIN) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_TIER_HIGH),
-+=09=09.value =3D V4L2_MPEG_VIDEO_HEVC_TIER_HIGH,
-+=09=09.hfi_id =3D HFI_PROP_TIER,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_u32_enum,
-+=09},
-+=09{
-+=09=09.cap_id =3D INPUT_BUF_HOST_MAX_COUNT,
-+=09=09.min =3D DEFAULT_MAX_HOST_BUF_COUNT,
-+=09=09.max =3D DEFAULT_MAX_HOST_BURST_BUF_COUNT,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D DEFAULT_MAX_HOST_BUF_COUNT,
-+=09=09.hfi_id =3D HFI_PROP_BUFFER_HOST_MAX_COUNT,
-+=09=09.flags =3D CAP_FLAG_INPUT_PORT,
-+=09=09.set =3D iris_set_u32,
-+=09},
-+=09{
-+=09=09.cap_id =3D STAGE,
-+=09=09.min =3D STAGE_1,
-+=09=09.max =3D STAGE_2,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D STAGE_2,
-+=09=09.hfi_id =3D HFI_PROP_STAGE,
-+=09=09.set =3D iris_set_stage,
-+=09},
-+=09{
-+=09=09.cap_id =3D PIPE,
-+=09=09/* .max, .min and .value are set via platform data */
-+=09=09.step_or_mask =3D 1,
-+=09=09.hfi_id =3D HFI_PROP_PIPE,
-+=09=09.set =3D iris_set_pipe,
-+=09},
-+=09{
-+=09=09.cap_id =3D POC,
-+=09=09.min =3D 0,
-+=09=09.max =3D 2,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D 1,
-+=09=09.hfi_id =3D HFI_PROP_PIC_ORDER_CNT_TYPE,
-+=09},
-+=09{
-+=09=09.cap_id =3D CODED_FRAMES,
-+=09=09.min =3D CODED_FRAMES_PROGRESSIVE,
-+=09=09.max =3D CODED_FRAMES_PROGRESSIVE,
-+=09=09.step_or_mask =3D 0,
-+=09=09.value =3D CODED_FRAMES_PROGRESSIVE,
-+=09=09.hfi_id =3D HFI_PROP_CODED_FRAMES,
-+=09},
-+=09{
-+=09=09.cap_id =3D BIT_DEPTH,
-+=09=09.min =3D BIT_DEPTH_8,
-+=09=09.max =3D BIT_DEPTH_8,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D BIT_DEPTH_8,
-+=09=09.hfi_id =3D HFI_PROP_LUMA_CHROMA_BIT_DEPTH,
-+=09},
-+=09{
-+=09=09.cap_id =3D RAP_FRAME,
-+=09=09.min =3D 0,
-+=09=09.max =3D 1,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D 1,
-+=09=09.hfi_id =3D HFI_PROP_DEC_START_FROM_RAP_FRAME,
-+=09=09.flags =3D CAP_FLAG_INPUT_PORT,
-+=09=09.set =3D iris_set_u32,
-+=09},
-+};
++=09=09=09dma-coherent;
 +
-+static const struct platform_inst_fw_cap inst_fw_cap_milos_enc[] =3D {
-+=09{
-+=09=09.cap_id =3D PROFILE_H264,
-+=09=09.min =3D V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
-+=09=09.max =3D V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_PROFILE_HIGH),
-+=09=09.value =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-+=09=09.hfi_id =3D HFI_PROP_PROFILE,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_profile,
-+=09},
-+=09{
-+=09=09.cap_id =3D PROFILE_HEVC,
-+=09=09.min =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
-+=09=09.max =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10),
-+=09=09.value =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
-+=09=09.hfi_id =3D HFI_PROP_PROFILE,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_profile,
-+=09},
-+=09{
-+=09=09.cap_id =3D LEVEL_H264,
-+=09=09.min =3D V4L2_MPEG_VIDEO_H264_LEVEL_1_0,
-+=09=09.max =3D V4L2_MPEG_VIDEO_H264_LEVEL_5_1,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1B) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_2) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_3) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_2_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_2_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_2_2) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_3_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_3_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_3_2) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_4_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_4_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_4_2) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_5_0) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_LEVEL_5_1),
-+=09=09.value =3D V4L2_MPEG_VIDEO_H264_LEVEL_5_0,
-+=09=09.hfi_id =3D HFI_PROP_LEVEL,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_level,
-+=09},
-+=09{
-+=09=09.cap_id =3D LEVEL_HEVC,
-+=09=09.min =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_1,
-+=09=09.max =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_5,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_2) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_2_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_3) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_3_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_4) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_4_1) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_5),
-+=09=09.value =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_5,
-+=09=09.hfi_id =3D HFI_PROP_LEVEL,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_level,
-+=09},
-+=09{
-+=09=09.cap_id =3D STAGE,
-+=09=09.min =3D STAGE_1,
-+=09=09.max =3D STAGE_2,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D STAGE_2,
-+=09=09.hfi_id =3D HFI_PROP_STAGE,
-+=09=09.set =3D iris_set_stage,
-+=09},
-+=09{
-+=09=09.cap_id =3D HEADER_MODE,
-+=09=09.min =3D V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE,
-+=09=09.max =3D V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME),
-+=09=09.value =3D V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME,
-+=09=09.hfi_id =3D HFI_PROP_SEQ_HEADER_MODE,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_header_mode_gen2,
-+=09},
-+=09{
-+=09=09.cap_id =3D PREPEND_SPSPPS_TO_IDR,
-+=09=09.min =3D 0,
-+=09=09.max =3D 1,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D 0,
-+=09},
-+=09{
-+=09=09.cap_id =3D BITRATE,
-+=09=09.min =3D 1,
-+=09=09.max =3D MILOS_V1_MAX_BITRATE,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D BITRATE_DEFAULT,
-+=09=09.hfi_id =3D HFI_PROP_TOTAL_BITRATE,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_INPUT_PORT |
-+=09=09=09CAP_FLAG_DYNAMIC_ALLOWED,
-+=09=09.set =3D iris_set_bitrate,
-+=09},
-+=09{
-+=09=09.cap_id =3D BITRATE_PEAK,
-+=09=09.min =3D 1,
-+=09=09.max =3D MILOS_V1_MAX_BITRATE,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D BITRATE_DEFAULT,
-+=09=09.hfi_id =3D HFI_PROP_TOTAL_PEAK_BITRATE,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_INPUT_PORT |
-+=09=09=09CAP_FLAG_DYNAMIC_ALLOWED,
-+=09=09.set =3D iris_set_peak_bitrate,
-+=09},
-+=09{
-+=09=09.cap_id =3D BITRATE_MODE,
-+=09=09.min =3D V4L2_MPEG_VIDEO_BITRATE_MODE_VBR,
-+=09=09.max =3D V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_BITRATE_MODE_VBR) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_BITRATE_MODE_CBR),
-+=09=09.value =3D V4L2_MPEG_VIDEO_BITRATE_MODE_VBR,
-+=09=09.hfi_id =3D HFI_PROP_RATE_CONTROL,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_bitrate_mode_gen2,
-+=09},
-+=09{
-+=09=09.cap_id =3D FRAME_SKIP_MODE,
-+=09=09.min =3D V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_DISABLED,
-+=09=09.max =3D V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_BUF_LIMIT,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_DISABLED) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_LEVEL_LIMIT) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_BUF_LIMIT),
-+=09=09.value =3D V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_DISABLED,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09},
-+=09{
-+=09=09.cap_id =3D FRAME_RC_ENABLE,
-+=09=09.min =3D 0,
-+=09=09.max =3D 1,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D 1,
-+=09},
-+=09{
-+=09=09.cap_id =3D GOP_SIZE,
-+=09=09.min =3D 0,
-+=09=09.max =3D INT_MAX,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D 2 * DEFAULT_FPS - 1,
-+=09=09.hfi_id =3D HFI_PROP_MAX_GOP_FRAMES,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_INPUT_PORT |
-+=09=09=09CAP_FLAG_DYNAMIC_ALLOWED,
-+=09=09.set =3D iris_set_u32,
-+=09},
-+=09{
-+=09=09.cap_id =3D ENTROPY_MODE,
-+=09=09.min =3D V4L2_MPEG_VIDEO_H264_ENTROPY_MODE_CAVLC,
-+=09=09.max =3D V4L2_MPEG_VIDEO_H264_ENTROPY_MODE_CABAC,
-+=09=09.step_or_mask =3D BIT(V4L2_MPEG_VIDEO_H264_ENTROPY_MODE_CAVLC) |
-+=09=09=09=09BIT(V4L2_MPEG_VIDEO_H264_ENTROPY_MODE_CABAC),
-+=09=09.value =3D V4L2_MPEG_VIDEO_H264_ENTROPY_MODE_CABAC,
-+=09=09.hfi_id =3D HFI_PROP_CABAC_SESSION,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09=09.set =3D iris_set_entropy_mode_gen2,
-+=09},
-+=09{
-+=09=09.cap_id =3D MIN_FRAME_QP_H264,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MIN_QP_8BIT,
-+=09=09.hfi_id =3D HFI_PROP_MIN_QP_PACKED,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT,
-+=09=09.set =3D iris_set_min_qp,
-+=09},
-+=09{
-+=09=09.cap_id =3D MIN_FRAME_QP_HEVC,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MIN_QP_8BIT,
-+=09=09.hfi_id =3D HFI_PROP_MIN_QP_PACKED,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT,
-+=09=09.set =3D iris_set_min_qp,
-+=09},
-+=09{
-+=09=09.cap_id =3D MAX_FRAME_QP_H264,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MAX_QP,
-+=09=09.hfi_id =3D HFI_PROP_MAX_QP_PACKED,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT,
-+=09=09.set =3D iris_set_max_qp,
-+=09},
-+=09{
-+=09=09.cap_id =3D MAX_FRAME_QP_HEVC,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MAX_QP,
-+=09=09.hfi_id =3D HFI_PROP_MAX_QP_PACKED,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT,
-+=09=09.set =3D iris_set_max_qp,
-+=09},
-+=09{
-+=09=09.cap_id =3D I_FRAME_MIN_QP_H264,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MIN_QP_8BIT,
-+=09},
-+=09{
-+=09=09.cap_id =3D I_FRAME_MIN_QP_HEVC,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MIN_QP_8BIT,
-+=09},
-+=09{
-+=09=09.cap_id =3D P_FRAME_MIN_QP_H264,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MIN_QP_8BIT,
-+=09},
-+=09{
-+=09=09.cap_id =3D P_FRAME_MIN_QP_HEVC,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MIN_QP_8BIT,
-+=09},
-+=09{
-+=09=09.cap_id =3D B_FRAME_MIN_QP_H264,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MIN_QP_8BIT,
-+=09},
-+=09{
-+=09=09.cap_id =3D B_FRAME_MIN_QP_HEVC,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MIN_QP_8BIT,
-+=09},
-+=09{
-+=09=09.cap_id =3D I_FRAME_MAX_QP_H264,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MAX_QP,
-+=09},
-+=09{
-+=09=09.cap_id =3D I_FRAME_MAX_QP_HEVC,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MAX_QP,
-+=09},
-+=09{
-+=09=09.cap_id =3D P_FRAME_MAX_QP_H264,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MAX_QP,
-+=09},
-+=09{
-+=09=09.cap_id =3D P_FRAME_MAX_QP_HEVC,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MAX_QP,
-+=09},
-+=09{
-+=09=09.cap_id =3D B_FRAME_MAX_QP_H264,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MAX_QP,
-+=09},
-+=09{
-+=09=09.cap_id =3D B_FRAME_MAX_QP_HEVC,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D MAX_QP,
-+=09},
-+=09{
-+=09=09.cap_id =3D I_FRAME_QP_H264,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D DEFAULT_QP,
-+=09=09.hfi_id =3D HFI_PROP_QP_PACKED,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_INPUT_PORT |
-+=09=09=09CAP_FLAG_DYNAMIC_ALLOWED,
-+=09=09.set =3D iris_set_frame_qp,
-+=09},
-+=09{
-+=09=09.cap_id =3D I_FRAME_QP_HEVC,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D DEFAULT_QP,
-+=09=09.hfi_id =3D HFI_PROP_QP_PACKED,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_INPUT_PORT |
-+=09=09=09CAP_FLAG_DYNAMIC_ALLOWED,
-+=09=09.set =3D iris_set_frame_qp,
-+=09},
-+=09{
-+=09=09.cap_id =3D P_FRAME_QP_H264,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D DEFAULT_QP,
-+=09=09.hfi_id =3D HFI_PROP_QP_PACKED,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_INPUT_PORT |
-+=09=09=09CAP_FLAG_DYNAMIC_ALLOWED,
-+=09=09.set =3D iris_set_frame_qp,
-+=09},
-+=09{
-+=09=09.cap_id =3D P_FRAME_QP_HEVC,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D DEFAULT_QP,
-+=09=09.hfi_id =3D HFI_PROP_QP_PACKED,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_INPUT_PORT |
-+=09=09=09CAP_FLAG_DYNAMIC_ALLOWED,
-+=09=09.set =3D iris_set_frame_qp,
-+=09},
-+=09{
-+=09=09.cap_id =3D B_FRAME_QP_H264,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D DEFAULT_QP,
-+=09=09.hfi_id =3D HFI_PROP_QP_PACKED,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_INPUT_PORT |
-+=09=09=09CAP_FLAG_DYNAMIC_ALLOWED,
-+=09=09.set =3D iris_set_frame_qp,
-+=09},
-+=09{
-+=09=09.cap_id =3D B_FRAME_QP_HEVC,
-+=09=09.min =3D MIN_QP_8BIT,
-+=09=09.max =3D MAX_QP,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D DEFAULT_QP,
-+=09=09.hfi_id =3D HFI_PROP_QP_PACKED,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_INPUT_PORT |
-+=09=09=09CAP_FLAG_DYNAMIC_ALLOWED,
-+=09=09.set =3D iris_set_frame_qp,
-+=09},
-+=09{
-+=09=09.cap_id =3D INPUT_BUF_HOST_MAX_COUNT,
-+=09=09.min =3D DEFAULT_MAX_HOST_BUF_COUNT,
-+=09=09.max =3D DEFAULT_MAX_HOST_BURST_BUF_COUNT,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D DEFAULT_MAX_HOST_BUF_COUNT,
-+=09=09.hfi_id =3D HFI_PROP_BUFFER_HOST_MAX_COUNT,
-+=09=09.flags =3D CAP_FLAG_INPUT_PORT,
-+=09=09.set =3D iris_set_u32,
-+=09},
-+=09{
-+=09=09.cap_id =3D OUTPUT_BUF_HOST_MAX_COUNT,
-+=09=09.min =3D DEFAULT_MAX_HOST_BUF_COUNT,
-+=09=09.max =3D DEFAULT_MAX_HOST_BURST_BUF_COUNT,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D DEFAULT_MAX_HOST_BUF_COUNT,
-+=09=09.hfi_id =3D HFI_PROP_BUFFER_HOST_MAX_COUNT,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT,
-+=09=09.set =3D iris_set_u32,
-+=09},
-+=09{
-+=09=09.cap_id =3D ROTATION,
-+=09=09.min =3D 0,
-+=09=09.max =3D 270,
-+=09=09.step_or_mask =3D 90,
-+=09=09.value =3D 0,
-+=09=09.hfi_id =3D HFI_PROP_ROTATION,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT,
-+=09=09.set =3D iris_set_rotation,
-+=09},
-+=09{
-+=09=09.cap_id =3D HFLIP,
-+=09=09.min =3D 0,
-+=09=09.max =3D 1,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D 0,
-+=09=09.hfi_id =3D HFI_PROP_FLIP,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_INPUT_PORT |
-+=09=09=09CAP_FLAG_DYNAMIC_ALLOWED,
-+=09=09.set =3D iris_set_flip,
-+=09},
-+=09{
-+=09=09.cap_id =3D VFLIP,
-+=09=09.min =3D 0,
-+=09=09.max =3D 1,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D 0,
-+=09=09.hfi_id =3D HFI_PROP_FLIP,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_INPUT_PORT |
-+=09=09=09CAP_FLAG_DYNAMIC_ALLOWED,
-+=09=09.set =3D iris_set_flip,
-+=09},
-+=09{
-+=09=09.cap_id =3D IR_TYPE,
-+=09=09.min =3D V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_RANDOM,
-+=09=09.max =3D V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_RANDOM,
-+=09=09.step_or_mask =3D BIT(V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_=
-RANDOM),
-+=09=09.value =3D V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_RANDOM,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+=09},
-+=09{
-+=09=09.cap_id =3D IR_PERIOD,
-+=09=09.min =3D 0,
-+=09=09.max =3D INT_MAX,
-+=09=09.step_or_mask =3D 1,
-+=09=09.value =3D 0,
-+=09=09.flags =3D CAP_FLAG_OUTPUT_PORT |
-+=09=09=09CAP_FLAG_DYNAMIC_ALLOWED,
-+=09=09.set =3D iris_set_ir_period,
-+=09},
-+};
++=09=09=09/*
++=09=09=09 * IRIS firmware is signed by vendors, only enable on
++=09=09=09 * boards where the proper signed firmware is available.
++=09=09=09 */
++=09=09=09status =3D "disabled";
 +
-+static struct platform_inst_caps platform_inst_cap_milos =3D {
-+=09.min_frame_width =3D 96,
-+=09.max_frame_width =3D 4096,
-+=09.min_frame_height =3D 96,
-+=09.max_frame_height =3D 4096,
-+=09.max_mbpf =3D (4096 * 2176) / 256,
-+=09.mb_cycles_vpp =3D 200,
-+=09.mb_cycles_fw =3D 326389,
-+=09.mb_cycles_fw_vpp =3D 44156,
-+=09.num_comv =3D 0,
-+=09.max_frame_rate =3D MILOS_V1_MAX_FPS,
-+=09.max_operating_rate =3D MILOS_V1_MAX_FPS,
-+};
++=09=09=09iris_opp_table: opp-table {
++=09=09=09=09compatible =3D "operating-points-v2";
 +
-+static const struct icc_info milos_icc_table[] =3D {
-+=09{ "cpu-cfg",    1000, 1000     },
-+=09{ "video-mem",  1000, 10000000 },
-+};
++=09=09=09=09opp-240000000 {
++=09=09=09=09=09opp-hz =3D /bits/ 64 <240000000>;
++=09=09=09=09=09required-opps =3D <&rpmhpd_opp_low_svs>,
++=09=09=09=09=09=09=09<&rpmhpd_opp_low_svs>;
++=09=09=09=09};
 +
-+static const char * const milos_opp_pd_table[] =3D { "cx", "mx" };
++=09=09=09=09opp-338000000 {
++=09=09=09=09=09opp-hz =3D /bits/ 64 <338000000>;
++=09=09=09=09=09required-opps =3D <&rpmhpd_opp_svs>,
++=09=09=09=09=09=09=09<&rpmhpd_opp_svs>;
++=09=09=09=09};
 +
-+static struct ubwc_config_data ubwc_config_milos =3D {
-+=09.max_channels =3D 8,
-+=09.mal_length =3D 32,
-+=09.highest_bank_bit =3D 15,
-+=09.bank_swzl_level =3D 0,
-+=09.bank_swz2_level =3D 1,
-+=09.bank_swz3_level =3D 1,
-+=09.bank_spreading =3D 1,
-+};
++=09=09=09=09opp-366000000 {
++=09=09=09=09=09opp-hz =3D /bits/ 64 <366000000>;
++=09=09=09=09=09required-opps =3D <&rpmhpd_opp_svs_l1>,
++=09=09=09=09=09=09=09<&rpmhpd_opp_svs_l1>;
++=09=09=09=09};
 +
-+#endif
-diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/=
-platform/qcom/iris/iris_probe.c
-index ddaacda523ec..ff3f4f1dc2ff 100644
---- a/drivers/media/platform/qcom/iris/iris_probe.c
-+++ b/drivers/media/platform/qcom/iris/iris_probe.c
-@@ -348,6 +348,10 @@ static const struct dev_pm_ops iris_pm_ops =3D {
- };
-=20
- static const struct of_device_id iris_dt_match[] =3D {
-+=09{
-+=09=09.compatible =3D "qcom,milos-iris",
-+=09=09.data =3D &milos_data,
-+=09},
- =09{
- =09=09.compatible =3D "qcom,qcs8300-iris",
- =09=09.data =3D &qcs8300_data,
++=09=09=09=09opp-444000000 {
++=09=09=09=09=09opp-hz =3D /bits/ 64 <444000000>;
++=09=09=09=09=09required-opps =3D <&rpmhpd_opp_nom>,
++=09=09=09=09=09=09=09<&rpmhpd_opp_nom>;
++=09=09=09=09};
++
++=09=09=09=09opp-552000000 {
++=09=09=09=09=09opp-hz =3D /bits/ 64 <552000000>;
++=09=09=09=09=09required-opps =3D <&rpmhpd_opp_turbo>,
++=09=09=09=09=09=09=09<&rpmhpd_opp_turbo>;
++=09=09=09=09};
++=09=09=09};
++=09=09};
++
+ =09=09videocc: clock-controller@aaf0000 {
+ =09=09=09compatible =3D "qcom,milos-videocc";
+ =09=09=09reg =3D <0x0 0x0aaf0000 0x0 0x10000>;
 
 --=20
 2.53.0
