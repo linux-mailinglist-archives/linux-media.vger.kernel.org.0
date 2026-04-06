@@ -1,194 +1,140 @@
-Return-Path: <linux-media+bounces-58101-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58102-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uHKKNq7a02nVnQcAu9opvQ
-	(envelope-from <linux-media+bounces-58101-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 18:09:18 +0200
+	id wK9vB10M1GmYqQcAu9opvQ
+	(envelope-from <linux-media+bounces-58102-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 21:41:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712F03A51A9
-	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 18:09:18 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 879033A6B3A
+	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 21:41:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8E726300909D
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2026 16:09:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B89E33029C14
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2026 19:41:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E58643876AE;
-	Mon,  6 Apr 2026 16:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9705C2C1595;
+	Mon,  6 Apr 2026 19:41:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWKlIHeQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mXltIKOA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9263126DA;
-	Mon,  6 Apr 2026 16:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5F01A285;
+	Mon,  6 Apr 2026 19:41:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775491752; cv=none; b=sx6i9Kgc/TWINbaVEOdxc+jyK3RRBr4lhmnzr7/Y8+faD3c4sogbjUg3ovG/o6mljjpIPz6m2iJIEK4wH1g00tNoAi9LVnWEPsokcs2svH20iXJXAcYmmzCSfFyJkc10yFh0rhVN93ukdlNyboIPd/5ayhxnLYBdmbQLrjDGWUk=
+	t=1775504473; cv=none; b=Pj1/JaGG2Ba5973s3dDHEAumcttnFd3W+u/D2ZySAOk74k+fvy67rcatjAMioWurmJsQ35mPRFlxL9RoOCCIzX9yXsiqdTP3bOmgKjQXt2hu7AUJSv11o3rr5vur75qWQqmIwzZkhhJ35lblPUZZ3Ff/tgUH/C1jtEuwM3MMGPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775491752; c=relaxed/simple;
-	bh=ed7II0ObwxWjBKbVe/fCrXnK0q9Aq6GdXdPXUMMh3R8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dWBXGg0GlfNdqtG/AmPw4ETaNxACrD6frc8haOeZKE6mrLn4XRYLP2JX512IhtQckIaekIVYkNx73bPH6/ew9t4NUvoRiW0aApfxaw85TxOw1+2348TChypjXUUnms4Gbz25n2SOZcbavekTFiAX8mXuw7S7GL8ncQitcgKLsEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWKlIHeQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB9AFC4CEF7;
-	Mon,  6 Apr 2026 16:09:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775491752;
-	bh=ed7II0ObwxWjBKbVe/fCrXnK0q9Aq6GdXdPXUMMh3R8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TWKlIHeQtZzDQNcGz1g34T5V/iTr4mMr8+ZebfM1TlhULst44Qf+BaGzc3ugj5gXi
-	 1hGyeteza7wdjCV9us8urgP6BEcqukHlG2XtOUFFMXwBiLdNpGayCc4iJf1EfsvlM6
-	 FZAMmkXWDkH3jMf9SUe6ko4kTsKoxDJAtoAcNPqAiNIC4kgMhoV5bjsCsbRfbV9SkJ
-	 eI+ssatG7Hz1gF65Kd90C2YS5TQuwTElRA3E+5tzivqnd47dXjeyiqliTxI1Ni0rEJ
-	 dSP5roBLruOST2cVfQ+rn08AivzG15UlPuJvC2xSnG2mDiYHM/oYjWtlmaVfypuP3l
-	 jyziOFpFPDfdw==
-Message-ID: <8bd6abed-a317-416f-9301-f218ea766b1d@kernel.org>
-Date: Mon, 6 Apr 2026 18:09:08 +0200
+	s=arc-20240116; t=1775504473; c=relaxed/simple;
+	bh=3lJBnLxzR7G3aaNBk+UKUX0z5q0mlgImN+twMV56KXw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S2As9WT/txXVT0sSq00/vsYVzUTLG2/YKxEH8WRf/T/HHPXORwxO9IN1pe3W80fEGaLuD0NPDmbI2iHQ58i6YtxLoSoMliQCFkndithKqlk0ddU/Rm5r4Cl1JfwoqBDM1QU4IjhOUm4RkoKOXB+hDvgVkAz88XNbaHmavf1U2Bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mXltIKOA; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775504472; x=1807040472;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3lJBnLxzR7G3aaNBk+UKUX0z5q0mlgImN+twMV56KXw=;
+  b=mXltIKOAbxVXHxaU24reHbOGQ6X2BoHzbCszy0lDy2OE3cJ6blYYo4WI
+   gk28hdSPWWhEWEwaz7AdwitUcOoix0g2k2gEpj54eoADh/oCTvn+tl/Rt
+   Z6DPcaEJV5Ss4swqrdfnAynac/Z+vcmapUMng9sGoOFqKu9E25qHsxec2
+   Tx6bKYqxiyfRIR8VGS6M7S+ifzfQsyUE+rfazuex8H8XjiddpVzuM9RgS
+   YqDll2TdoJKrvaMGuw8Aj3zqGf5LT5fEqMSLDtgiRnAml00nA/Hpz4xeD
+   ZrmZTAM20yPViv4EppAZqsw7G1SIs4zfNYKJHiP6uhk5K8qDbRjyQsrtp
+   w==;
+X-CSE-ConnectionGUID: yzSkJp0gTFyIswo2USShXA==
+X-CSE-MsgGUID: U1RuZqfkTDqyqj5Q4KGsdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76174767"
+X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
+   d="scan'208";a="76174767"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 12:41:12 -0700
+X-CSE-ConnectionGUID: amulHOPjSY609DBAlEXqtQ==
+X-CSE-MsgGUID: zYtkB5vxQaiyksTOw5Kjtw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
+   d="scan'208";a="232354734"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.73])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 12:41:09 -0700
+Date: Mon, 6 Apr 2026 22:41:06 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, andy@kernel.org,
+	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
+	grondon@gmail.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: media: atomisp: cleanup parenthesis
+ alignment in pci.
+Message-ID: <adQMUrq7LlR2qAdF@ashevche-desk.local>
+References: <adFrJmqSfx7dEJWt@ashevche-desk.local>
+ <20260405143910.10517-1-joshua.crofts1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: i2c: gc0310: fix probe error handling and
- unwind resources properly
-To: Sanjay Chitroda <sanjayembeddedse@gmail.com>,
- sakari.ailus@linux.intel.com, mchehab@kernel.org
-Cc: hverkuil+cisco@kernel.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260401181657.654055-1-sanjayembedded@gmail.com>
- <20260401181657.654055-2-sanjayembedded@gmail.com>
- <38dc77ed-2427-44df-847d-4d41183e0df2@kernel.org>
- <DB5F4EC4-0754-483E-B59A-595A565E628A@gmail.com>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <DB5F4EC4-0754-483E-B59A-595A565E628A@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260405143910.10517-1-joshua.crofts1@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-58102-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58101-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,linux.intel.com,gmail.com,vger.kernel.org,lists.linux.dev];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 712F03A51A9
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-0.994];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ashevche-desk.local:mid,intel.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,checkpatch.pl:url]
+X-Rspamd-Queue-Id: 879033A6B3A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Sanjay,
+On Sun, Apr 05, 2026 at 04:39:11PM +0200, Joshua Crofts wrote:
+> Cleanup parenthesis alignment as per checkpatch.pl in the
+> pci/ directory.
 
-On 5-Apr-26 12:16, Sanjay Chitroda wrote:
-> 
-> 
-> On 2 April 2026 12:36:33 am IST, Hans de Goede <hansg@kernel.org> wrote:
->> Hi,
->>
->> On 1-Apr-26 20:16, Sanjay Chitroda wrote:
->>> From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
->>>
->>> The GC0310 probe path currently performs error cleanup by jumping to a
->>> common label that mirrors the driver's remove() callback. This is unsafe,
->>> as remove() assumes that the subdevice has been fully registered with
->>> the V4L2 framework, media and control resources have been initialized.
->>
->> That is simply not true, all functions called in remove() internally
->> check if their init counter-part has succeeded and if not are a no-op.
->>
->> If you're aware of any specific calls in remove() where this is not
->> the case, please explicitly describe these cases and describe an
->> example exit-error path from probe() where things actually go wrong.
->>
-> 
-> Hi Hans,
-> 
-> Thanks for the clarification - agreed, the remove helpers are defensively implemented and the existing code is not incorrect for a functional point. I should not have stated gc0310_remov() from a probe failure is unsafe.
-> 
->>> Calling remove() from probe can result in unregistering or cleaning up
->>> subdevice, leading to resource leaks and subtle lifecycle bugs.
->>>
->>> Rewrite the probe() error handling to unwind resources explicitly, using
->>> fine‑grained goto labels along with appropriate error logs. Each failure
->>> path now frees only successfully acquired resource, without remove().
->>>
->>> This aligns the driver with standard V4L2 sensor lifecycle expectations
->>> and avoids incorrect teardown during probe failures.
->>
->> The rest of this reads very much like this was AI generated.
->>
->> Did you use AI to generate these patches ? If so please:
->>
->> Make sure you actually understand what the patch is doing and
->> very yourself that it actually is correct, which in this case
->> I believe it is not.
->>
->> Regards,
->>
->> Hans
->>
-> 
-> Yes, I did use AI assistance to help draft the commit message, but the patch logic itself was written and reviewed by me. However, your feedback makes it clear that i did not sufficiently validate internals of existing remove() based cleanup.
-> 
-> 
-> I would like to propose commit message that align with change and existing kernel internals:
-> 
-> -------
-> media: i2c: gc0310: make probe error unwinding explicit
-> 
-> The gc0310 probe path unwinds failures by jumping to a single label remove-style cleanup.
-> 
-> Refactor the probe error handling so that resources are unwound explicitly and in reverse order of initialization using fine-grained goto labels.
-> 
-> This improves clarity and maintains symmetry with the probe initialization path.
-> 
-> No functional change intended.
-> -------
-> 
-> Kindly share your input on the same, according I will plan to resend v2 with an updated commit message as above.
-
-The problem is that your patch makes the code more complicated.
-
-Since we know that gc0310_remove() is always safe to call
-the simplest and cleanest code is to simply keep calling
-gc0310_remove().
-
-If you plan to do a v2 of this series please drop this patch.
-
-Note I see no need for a v2. Patch 3/3 is good to have and
-v1 of that can be merged. The other 2 patches should be dropped.
-
-Regards,
-
-Hans
+Thanks for doing this. However, the proper fix should be the getting rid of
+copy_from_compatible() in favour of using iov_iter. You can consult with
+this example:
+49aa6ed94c5e ("ALSA: korg1212: Convert to generic PCM copy ops")
 
 
+The current patch in its form is quite low priority and not guaranteed to be
+ever applied. Sorry, we consider real patches to be done first, see above.
 
+(Note, the rest of the patch is okay, but again, quite low priority.)
 
-> 
->>
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
 
