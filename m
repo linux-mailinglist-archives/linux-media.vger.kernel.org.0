@@ -1,217 +1,161 @@
-Return-Path: <linux-media+bounces-58091-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58092-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sBKHKQCJ02lEiwcAu9opvQ
-	(envelope-from <linux-media+bounces-58091-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 12:20:48 +0200
+	id yMsdK0+c02mrjgcAu9opvQ
+	(envelope-from <linux-media+bounces-58092-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 13:43:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E443A2C83
-	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 12:20:47 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 542423A3204
+	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 13:43:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A60AA300B9F4
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2026 10:20:04 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 093243007BBE
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2026 11:43:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F46D323417;
-	Mon,  6 Apr 2026 10:19:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A67F333725;
+	Mon,  6 Apr 2026 11:43:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="dsRm4+XZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uEwkjpkg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-244116.protonmail.ch (mail-244116.protonmail.ch [109.224.244.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CA4329E40
-	for <linux-media@vger.kernel.org>; Mon,  6 Apr 2026 10:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0186C153BE9;
+	Mon,  6 Apr 2026 11:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775470798; cv=none; b=DgTJ8Aa2eg/NnHpbSplILbnZ6X5X9AexsMLLszLVTu+CHTz53qkOSAHBguthhPSuDiLUGqsrHEpni8z+YvKxPgaHlpRsRElOAIv8NsRaw/R4hh0dBfLX9qTTVg0OzLqYMtdR6JZR6MKR6w71Y5PHnSXWQ/1WxDcpg1eRlxpOjp8=
+	t=1775475780; cv=none; b=h8Te5bBtV4QVR23KndBXyQc0os1Eu9f+uID/pnk61A/plrunhAn5/OmUSvPKVSrpajOThIz9pxPo/QINEdS1XLutZC2eMDeHgiIWENvZ6eb6Zt7MN76SIyxk+snwTP6VVSJ7Q2kw/1NL8nrriNEUW4pCZsJ6Ux3ta0JVgqA/rSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775470798; c=relaxed/simple;
-	bh=EAOndGzg5SeHnZrOPq2utAwld0EaSk59a8CbrPbEzLk=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TPfN2bU3rincNNh5gUJNKEPhScucSPt4z+UUr3FvIwUq71wknAdmrbxv7Fod0qyx1UIXY6vmkbkIArnfz3OjRPDdLydVkUemWLHf+gu9mRFxvlr0klxPiIWuD2IuP/mcu98S/jv7G2PHi6dIUZj6MPalEwsxCPsqPYjLpykndJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=dsRm4+XZ; arc=none smtp.client-ip=109.224.244.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1775470795; x=1775729995;
-	bh=2FDa4FbKQRT0D69gXEO+/YnhJ9jnvzn9vQZ7iyZ7f+I=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=dsRm4+XZwDA67L6jfP3v9+XO2W6Vzhfuccrck/elicBjA9gWneMqA7py6tnkqqX4e
-	 Zr0ekKrrAxgTOlNB50r7gfvfDQfi4kuQJ28QECJRgbdha/oup3yeMtr8rQGM5Ul7Sd
-	 p5Z9/YnA4t4qLQi7h8FKz0PTGngkKBA8Z5b+I/L4LR9F3zpHD4Dq7c158x68vddBoi
-	 y/9UAidhM2JbQBhSjhDfXvRxsVugaLjVLkk7ip0t0udJE8LPz5PjG6PD9UI7wyoK4o
-	 3ZrEirdzIIam42z7h1zERPe3dZzA1gB7aXJUpslgi67vL3b/xovJz7kohrb45Y5DnY
-	 i4sqRTbP2EDFA==
-Date: Mon, 06 Apr 2026 10:19:50 +0000
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>, Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
-From: Alexander Koskovich <akoskovich@pm.me>
-Cc: Luca Weiss <luca.weiss@fairphone.com>, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Alexander Koskovich <akoskovich@pm.me>
-Subject: [PATCH 3/3] arm64: dts: qcom: milos: Add Iris VPU v2.0
-Message-ID: <20260406-milos-iris-v1-3-17ed0167ba6f@pm.me>
-In-Reply-To: <20260406-milos-iris-v1-0-17ed0167ba6f@pm.me>
-References: <20260406-milos-iris-v1-0-17ed0167ba6f@pm.me>
-Feedback-ID: 37836894:user:proton
-X-Pm-Message-ID: 166f561c1a48f6cef99ff39d402798d53e5c3291
+	s=arc-20240116; t=1775475780; c=relaxed/simple;
+	bh=FGRHUXyR+0IYeCGEAzCaangJ4UIXGFGgJFbwE4z892Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pnQsDCXTavBN/Tm/+F1kKE3/t+DkL3UIbDbmTic164eCWznorYRbpGG9m+b3XOHlku2Fgi19+clKxZUrVjXvq3KW139xV+VhGOC7wCEiv4yVUH784xxVwecqzo6R6/q35T6aBnyXIROTjQXIY7RJYnXcNjblX5LVrskjKspJzR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uEwkjpkg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 716F7C4CEF7;
+	Mon,  6 Apr 2026 11:42:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775475779;
+	bh=FGRHUXyR+0IYeCGEAzCaangJ4UIXGFGgJFbwE4z892Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uEwkjpkgZJJUgzLAMipZqb7S3m6PFvmEe1MRqsi12pNbrWPbTPr+/ozV0WB4e3kwc
+	 wUFFUuEvlco8X0oM3WIbq9yPqBJEUoDRTdYVLYUFB2rLHKjh8gNzdqJKD/ZZA+/iG9
+	 1xttCsrneXaxcIrBL9n1jqQndgGGSU6R9UiOuHMqxrC6g8cjPDhBpYAasm+A5RKcHR
+	 nV9r4Cclk4K062pas6X6TeGAxUgQ9hdOz1Jzos5uBp1OPKQb3IZujuUKw/GO3+cLck
+	 va/Idz0NKezYCEsD/GzpcK2QssI9WrYqRPMFymOo9jE/73sGxbCzQuYHAdNKM1hmip
+	 dP8d3gB/fbK0A==
+Date: Mon, 6 Apr 2026 17:12:42 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>,
+	vikash.garodia@oss.qualcomm.com
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org, andersson@kernel.org,
+	konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
+	akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+	jesszhan0024@gmail.com, marijn.suijten@somainline.org,
+	airlied@gmail.com, simona@ffwll.ch,
+	dikshita.agarwal@oss.qualcomm.com, bod@kernel.org,
+	mchehab@kernel.org, elder@kernel.org, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, jjohnson@kernel.org, mathieu.poirier@linaro.org,
+	trilokkumar.soni@oss.qualcomm.com, mukesh.ojha@oss.qualcomm.com,
+	pavan.kondeti@oss.qualcomm.com, tonyh@qti.qualcomm.com,
+	vignesh.viswanathan@oss.qualcomm.com,
+	srinivas.kandagatla@oss.qualcomm.com,
+	amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
+	op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
+	skare@qti.qualcomm.com, harshal.dev@oss.qualcomm.com,
+	linux-kernel@vger.kernel.org,
+	Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH v3 11/15] media: qcom: Switch to generic PAS TZ APIs
+Message-ID: <adOcMsk8a_Clb4WZ@sumit-xelite>
+References: <20260327131043.627120-1-sumit.garg@kernel.org>
+ <20260327131043.627120-12-sumit.garg@kernel.org>
+ <ac-KQ7e8-syph1Zl@trex>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ac-KQ7e8-syph1Zl@trex>
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[pm.me,quarantine];
-	R_DKIM_ALLOW(-0.20)[pm.me:s=protonmail3];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58091-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-58092-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_GT_50(0.00)[50];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[akoskovich@pm.me,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[pm.me:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.998];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,pm.me:dkim,pm.me:email,pm.me:mid]
-X-Rspamd-Queue-Id: 98E443A2C83
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 542423A3204
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add devicetree nodes for the Iris codec (VPU 2.0) found on the Milos
-platform.
+Hi Jorge,
 
-Signed-off-by: Alexander Koskovich <akoskovich@pm.me>
----
- arch/arm64/boot/dts/qcom/milos.dtsi | 85 +++++++++++++++++++++++++++++++++=
-++++
- 1 file changed, 85 insertions(+)
+On Fri, Apr 03, 2026 at 11:37:07AM +0200, Jorge Ramirez wrote:
+> On 27/03/26 18:40:39, Sumit Garg wrote:
+> > From: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > 
+> > Switch qcom media client drivers over to generic PAS TZ APIs. Generic PAS
+> > TZ service allows to support multiple TZ implementation backends like QTEE
+> > based SCM PAS service, OP-TEE based PAS service and any further future TZ
+> > backend service.
+> 
+> OP-TEE based PAS service relies on the linux driver to configure the
+> iommu (just as it is done on the no_tz case). This generic patch does
+> not cover that requirement.
 
-diff --git a/arch/arm64/boot/dts/qcom/milos.dtsi b/arch/arm64/boot/dts/qcom=
-/milos.dtsi
-index e1a51d43943f..07aa398c9695 100644
---- a/arch/arm64/boot/dts/qcom/milos.dtsi
-+++ b/arch/arm64/boot/dts/qcom/milos.dtsi
-@@ -7,6 +7,7 @@
- #include <dt-bindings/clock/qcom,milos-dispcc.h>
- #include <dt-bindings/clock/qcom,milos-gcc.h>
- #include <dt-bindings/clock/qcom,milos-gpucc.h>
-+#include <dt-bindings/clock/qcom,milos-videocc.h>
- #include <dt-bindings/clock/qcom,rpmh.h>
- #include <dt-bindings/clock/qcom,sm8650-tcsr.h>
- #include <dt-bindings/dma/qcom-gpi.h>
-@@ -1517,6 +1518,90 @@ usb_1_dwc3_hs: endpoint {
- =09=09=09};
- =09=09};
-=20
-+=09=09iris: video-codec@aa00000 {
-+=09=09=09compatible =3D "qcom,milos-iris";
-+=09=09=09reg =3D <0 0x0aa00000 0 0xf0000>;
-+
-+=09=09=09interrupts =3D <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH 0>;
-+
-+=09=09=09power-domains =3D <&videocc VIDEO_CC_MVS0C_GDSC>,
-+=09=09=09=09=09<&videocc VIDEO_CC_MVS0_GDSC>,
-+=09=09=09=09=09<&rpmhpd RPMHPD_CX>,
-+=09=09=09=09=09<&rpmhpd RPMHPD_MX>;
-+=09=09=09power-domain-names =3D "venus",
-+=09=09=09=09=09     "vcodec0",
-+=09=09=09=09=09     "cx",
-+=09=09=09=09=09     "mx";
-+
-+=09=09=09operating-points-v2 =3D <&iris_opp_table>;
-+
-+=09=09=09clocks =3D <&gcc GCC_VIDEO_AXI0_CLK>,
-+=09=09=09=09 <&videocc VIDEO_CC_MVS0C_CLK>,
-+=09=09=09=09 <&videocc VIDEO_CC_MVS0_CLK>;
-+=09=09=09clock-names =3D "iface",
-+=09=09=09=09      "core",
-+=09=09=09=09      "vcodec0_core";
-+
-+=09=09=09interconnects =3D <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE=
-_ONLY
-+=09=09=09=09=09 &cnoc_cfg SLAVE_VENUS_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
-+=09=09=09=09=09<&mmss_noc MASTER_VIDEO QCOM_ICC_TAG_ALWAYS
-+=09=09=09=09=09 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
-+=09=09=09interconnect-names =3D "cpu-cfg",
-+=09=09=09=09=09     "video-mem";
-+
-+=09=09=09memory-region =3D <&video_mem>;
-+
-+=09=09=09resets =3D <&gcc GCC_VIDEO_AXI0_CLK_ARES>,
-+=09=09=09=09 <&videocc VIDEO_CC_MVS0C_CLK_ARES>;
-+=09=09=09reset-names =3D "bus",
-+=09=09=09=09      "core";
-+
-+=09=09=09iommus =3D <&apps_smmu 0x1960 0>,
-+=09=09=09=09 <&apps_smmu 0x1967 0>;
-+
-+=09=09=09dma-coherent;
-+
-+=09=09=09/*
-+=09=09=09 * IRIS firmware is signed by vendors, only enable on
-+=09=09=09 * boards where the proper signed firmware is available.
-+=09=09=09 */
-+=09=09=09status =3D "disabled";
-+
-+=09=09=09iris_opp_table: opp-table {
-+=09=09=09=09compatible =3D "operating-points-v2";
-+
-+=09=09=09=09opp-240000000 {
-+=09=09=09=09=09opp-hz =3D /bits/ 64 <240000000>;
-+=09=09=09=09=09required-opps =3D <&rpmhpd_opp_low_svs>,
-+=09=09=09=09=09=09=09<&rpmhpd_opp_low_svs>;
-+=09=09=09=09};
-+
-+=09=09=09=09opp-338000000 {
-+=09=09=09=09=09opp-hz =3D /bits/ 64 <338000000>;
-+=09=09=09=09=09required-opps =3D <&rpmhpd_opp_svs>,
-+=09=09=09=09=09=09=09<&rpmhpd_opp_svs>;
-+=09=09=09=09};
-+
-+=09=09=09=09opp-366000000 {
-+=09=09=09=09=09opp-hz =3D /bits/ 64 <366000000>;
-+=09=09=09=09=09required-opps =3D <&rpmhpd_opp_svs_l1>,
-+=09=09=09=09=09=09=09<&rpmhpd_opp_svs_l1>;
-+=09=09=09=09};
-+
-+=09=09=09=09opp-444000000 {
-+=09=09=09=09=09opp-hz =3D /bits/ 64 <444000000>;
-+=09=09=09=09=09required-opps =3D <&rpmhpd_opp_nom>,
-+=09=09=09=09=09=09=09<&rpmhpd_opp_nom>;
-+=09=09=09=09};
-+
-+=09=09=09=09opp-552000000 {
-+=09=09=09=09=09opp-hz =3D /bits/ 64 <552000000>;
-+=09=09=09=09=09required-opps =3D <&rpmhpd_opp_turbo>,
-+=09=09=09=09=09=09=09<&rpmhpd_opp_turbo>;
-+=09=09=09=09};
-+=09=09=09};
-+=09=09};
-+
- =09=09videocc: clock-controller@aaf0000 {
- =09=09=09compatible =3D "qcom,milos-videocc";
- =09=09=09reg =3D <0x0 0x0aaf0000 0x0 0x10000>;
+That's exactly the reason why the kodiak EL2 dtso disables venus by
+default in patch #1 due to missing IOMMU configuration.
 
---=20
-2.53.0
+> 
+> Because of that, it is probably better if the commit message doesnt
+> mention OP-TEE and instead maybe indicate that PAS wll support TEEs that
+> implement the same restrictions that QTEE (ie, iommu configuration).
 
+The scope for this patch is to just adopt the generic PAS layer without
+affecting the client functionality.
 
+> 
+> I can send an RFC for OP-TEE support based on the integration work being
+> carried out here [1]
+
+@Vikash may know better details about support for IOMMU configuration
+for venus since it's a generic functionality missing when Linux runs in
+EL2 whether it's with QTEE or OP-TEE.
+
+However, feel free to propose your work to initiate discussions again.
+
+> 
+> [1] https://github.com/OP-TEE/optee_os/pull/7721#discussion_r3016923507
+
+-Sumit
 
