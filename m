@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-58132-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58133-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mFIlDvUr1GnLrwcAu9opvQ
-	(envelope-from <linux-media+bounces-58132-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 23:56:05 +0200
+	id 2APLJhcs1GnLrwcAu9opvQ
+	(envelope-from <linux-media+bounces-58133-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 23:56:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8F43A7AC7
-	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 23:56:04 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F11003A7AF4
+	for <lists+linux-media@lfdr.de>; Mon, 06 Apr 2026 23:56:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0A52B30649F6
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2026 21:55:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1900A307B003
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2026 21:55:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C0C039D6D2;
-	Mon,  6 Apr 2026 21:55:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A5939DBD2;
+	Mon,  6 Apr 2026 21:55:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YjQC8uFx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FRklpXtS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7FB274FDC;
-	Mon,  6 Apr 2026 21:55:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC23274FDC;
+	Mon,  6 Apr 2026 21:55:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775512513; cv=none; b=VJuiURgump/MlkaDaeAeSwFbPu5iVsv8Nw5PXJ8Q1Le6o0h4+u4PHq2HWeBCEDp3gyVA8jUVxCSiJhkx1CuDRCiVeAMf7FrhpgifEfT604J7WzxNbNUOKcU7NUcF0ly6UdlzXsv7Fn+LbVXfTAk+6GNo5xMAUk4PlKg8B/9tJRQ=
+	t=1775512517; cv=none; b=bu/xLtAjNETGpnLPlJ0mee9wxk+pQ7qgDlf9TNEmWmpmVo6R7YuQSmzdvZyyRnays+fd7nTI7s6LfiXJvoFqLs9yYjtLyWmPfu0iqbp9pRyX5FetoKy34VTqA+Kf7vK27uyDbwlus6jwSmzMgXVjoafBBdUDFU/wN4GlOhZgPuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775512513; c=relaxed/simple;
-	bh=CBd0FlqYMyo+UihOndAv+LMaCgvCiK2xmy/EWQc5hMU=;
+	s=arc-20240116; t=1775512517; c=relaxed/simple;
+	bh=Z9r0dbQzT/tJ52KABpH4UhKOxrTmTU6KUEpsWEpGA0I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IYV97aaIkE4zJkOlGc+4VzrB+3+2ENvf0KBO1yjA5yfoPuc7LVESSbecaJMZLbsQkupsVXHSnm9f+hYfMLoMmM+MAaUOsKNQ3wKo4NDqu0/H3CEbAMocvuWcpb5s2TGje3CST4S4Q/j7g7d/miecudOsFoFEzOZgG66+XBvCI3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YjQC8uFx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10479C2BC9E;
-	Mon,  6 Apr 2026 21:55:09 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=s8vzoCgx4EOvy6rkPT3x9UEZg5Y2s5/RZSA7WorGiHL+xPYNJkERzrcpSms8aWPEm7BZZ8GYDPCLmXbCaMMU9jvsm6XwvYJZmkLQymyc7TWefc5Q8/Skwr3/vuy8QRFsyfvuSK98e7k3V82xGU8FZDwj1LPrOriAs0PtAWaKYP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FRklpXtS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEF1BC2BCAF;
+	Mon,  6 Apr 2026 21:55:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775512513;
-	bh=CBd0FlqYMyo+UihOndAv+LMaCgvCiK2xmy/EWQc5hMU=;
+	s=k20201202; t=1775512516;
+	bh=Z9r0dbQzT/tJ52KABpH4UhKOxrTmTU6KUEpsWEpGA0I=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=YjQC8uFxuZYehtC5TwqQ1mb/gGs0tWjDe+EhZWuZDpl7674xnkGEzI1kQW5B9+NeU
-	 77vkZvnRBvxU6HY47/WsZV2lj9L3qdxbbMoHUb/j+Zrw/XwTb+O29Ee49Bz3kxBw6c
-	 SkVQ/JSrF3Q0h8LX1V+QLOp7yFpEeIBl7ikMV1/3Kx55UkRRzSMqt9DNpoCmoYx5Di
-	 ftO3uNYWvBlScpkFBfIsI8joa7zMNvFoho7CF5plgyplo4bP0H0ELgZPXQ7yGgaysE
-	 M5PNWQX/MGzh8k5WT/S88xocOFTvIM9cR9Hzkm/m1GW0HTw1u7julrWWe2NDoX8OTz
-	 YToKrqiyFhDLw==
+	b=FRklpXtSsr22QptRA6hS3vZmhCB1rEGjNmdhSCsyJzzqxTzRmU9tBwBTypfkqgM9U
+	 yJUBzk33GzaOqFHe1V7XlYJTIdaORU6f51I1zQo3/9yY62oELKNIW4avAGSwbHZ6o9
+	 q0nTJe0v7kvzUnwwnXmfpGMCp3ogI/0mG2hPUDh6mlegHHe6AzvLC94Xx1xrAZf3vS
+	 AJ57NVqBUvmRC7NyXbpYGwQjjIZDjr7gtOmaB+X4QBvGtQR34u4m2/7xAJGRZtdvYi
+	 KqiO4scFjrmxcmRuoTQe19vZiZ5ab0jqIRsQgU1JM+UyD+V8HXUI7zZq98yd7nHIq8
+	 D64PPzIPEfA8A==
 From: bod@kernel.org
-Date: Mon, 06 Apr 2026 22:55:01 +0100
-Subject: [PATCH 1/5] media: qcom: camss: Fix RDI streaming for CSID 680
+Date: Mon, 06 Apr 2026 22:55:02 +0100
+Subject: [PATCH 2/5] media: qcom: camss: Fix RDI streaming for CSID 340
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260406-camss-rdi-fix-v1-1-d3f8b12473d0@kernel.org>
+Message-Id: <20260406-camss-rdi-fix-v1-2-d3f8b12473d0@kernel.org>
 References: <20260406-camss-rdi-fix-v1-0-d3f8b12473d0@kernel.org>
 In-Reply-To: <20260406-camss-rdi-fix-v1-0-d3f8b12473d0@kernel.org>
 To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
@@ -72,95 +72,77 @@ Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, Bryan O'Donoghue <bod@kernel.org>, 
  stable@vger.kernel.org
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4830; i=bod@kernel.org;
- h=from:subject:message-id; bh=oQbn1r82XFSxBh7iYyo5i/uVB0YKAqo8XeTYt3/N/IE=;
- b=owEBbQKS/ZANAwAKASJxO7Ohjcg6AcsmYgBp1Cu4XvkJJSJZ2L9tWr8jmA6QZJKdEIJ2PEpMz
- VqWbYif8lCJAjMEAAEKAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCadQruAAKCRAicTuzoY3I
- Ou05EACQBerL/HWiXzNZRfqGRpBd/ETV/yr5/tdf6wVxBKgLsOXDBxzMBR/rp5GfMdQuD2RPX1K
- wXM1QiPEmk0hI9/Q2UR09DsOOxwm7t83woHHkGDlKCoFyxnz5r0eFOnXShTD+d3i0V9bbUqiIdS
- TefsC41ZPQIWxpINlOsvANCMcv2E2b5U46zIwaJPEfOSM/iCP8q61DO9KivcnXj9ay+zLkSv26X
- N2oBUpxMHSco9+VRzXvNljCSZy4tTHhXRwjo5vzisHYF1jc2kQNBAxwQmv4d+SopPRMEYvS31IL
- MQsQXLjQ/AmPbYhrt1CKhKa+WfSONYx12jt9WkNGpHFTNXV0q7UziGZD1j1Ac6a6B9+quPj6Vqs
- I1yJJT0SQsusKYI7GNOFf/tKYd1mH+x61+O4qbajBEKPc3NMiEFcpgLjQKQYxuIROpyN2be7CW1
- Mdc1NSTl/KKieeR6U4+9hlPg8b6MdVgiNFB+71FwqVeSlYZuJlE6MKJ3NVSYxK2XYAQSJLH+bNP
- RwHR3e5Lj4wXknbJQYScniPDpDivUJW/EN+CeStNcRTWohPhFOvCGaxZWjYGjn2BbLNSaAP5GSX
- x29jHa91a5F2eyhAMh+kp9ByjcAB9lUcp3DgKpK6AE2weQdXQ1+5ZzeUS/FyOnBxW3XermN2vbm
- JwnyRE9yIfCoyEw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3005; i=bod@kernel.org;
+ h=from:subject:message-id; bh=rMMfBnojIW90eGYUR2SwkMLX8SQysFcHYJO9587rzoE=;
+ b=owEBbQKS/ZANAwAKASJxO7Ohjcg6AcsmYgBp1Cu4LUWv55g2X9GC0Lw2/RJzlqoG1j+zqFmDC
+ ViV7MAnOO2JAjMEAAEKAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCadQruAAKCRAicTuzoY3I
+ OspSEAC9J6UYQiVa10lMHM7gmeiaCrJ/G0f7RE7ZrZrufgcieRN6Z7bySTfFSLxEpN9CxeFGVOG
+ qZ0X5/XYrsvq+x8APf9Jc207haHPHEojZUDxhkHuiLf9qtZMQmUzgW6GxhFHgRC9mgPMdrNjX31
+ Fo9zZA6mPpsuSdrxGD4dTawCAZ5e1LqK6g1SYLytOs3rV7LBaB4F5vZ7UsAQdM4ftjwDWBdjVoO
+ 7+mLs0j/jNdzfs3oxwvtmfLidHAu3GoP39v6LPXztG7LZAzVHiSNwgHMsi3lT7bDld8n0zBp1ce
+ BCPpzt2aPEkfRbjbGh4gC0kVZ2uJNOW7e3Ti5+swRKQO5Fn+3mKoWsfaCg2BTR0/Gabd4CEBSxx
+ DX4wLc7Yl7zbbfO3i3gFDKr6tHzf1qlDQix2qRj7SUlvrDUA/P62h1cDjxji5TB/4z5o3ZR6ch5
+ 9cSOv1gFcwnbb4sC0ZQa14NUJQhpJesuz3L2tycxB1uEvwMgochi8L49a9ISsY+Adu8EBmeUe9s
+ TjerlS2TEjbbVBvrqi0XeBwm+dWYpJ55brZL5+CUCuTeKDPyuXRTqCH0sMqEkIe4639qCHG469Y
+ HcWd/edNKThMdXlzIYp9EMM7UXBJEpSGhwyMPCasNK/fK5rs6hSxW+iUauyxDBQkSiZ+TxLx47M
+ xBtX5AZYk1koCiw==
 X-Developer-Key: i=bod@kernel.org; a=openpgp;
  fpr=E693FB2AABA36DE117AB6FB422713BB3A18DC83A
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-58133-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58132-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com,quicinc.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com,quicinc.com];
 	MIME_TRACE(0.00)[0:+];
 	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	FROM_NO_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CD8F43A7AC7
+	RCPT_COUNT_TWELVE(0.00)[17];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: F11003A7AF4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-Fix streaming to RDI1 and RDI2. csid->phy.en_vc contains a bitmask of
-enabled CSID ports not virtual channels.
+Fix streaming from CSIDn RDI1 and RDI2 to VFEn RDI1 and RDI2. A pattern we
+have replicated throughout CAMSS where we use the VC number to populate
+both the VC fields and port fields of the CSID means that in practice only
+VC = 0 on CSIDn:RDI0 to VFEn:RDI0 works.
 
-We cycle through the number of available CSID ports and test this value
-against the vc_en bitmask.
+Fix that for CSID 340 by separating VC and port. Fix to VC zero as a bugfix
+we will look to properly populate the VC field with follow on patches
+later.
 
-We then use the passed value both as an index to the port configuration
-macros and as a virtual channel index.
-
-This is a very broken pattern. Reviewing the initial introduction of VC
-support it states that you can only map one CSID to one VFE. This is true
-however each CSID has multiple sources which can sink inside of the VFE -
-for example there is a "pixel" path for bayer stats which sources @
-CSID(x):3 and sinks on VFE(x):pix.
-
-That is CSID port # 3 should drive VFE port #3. With our current setup only
-a sensor which drives virtual channel number #3 could possibly enable that
-setup.
-
-This is deeply wrong the virtual channel has no relevance to hooking CSID
-to VFE, a fact that is proven after this patch is applied allowing
-RDI0,RDI1 and RDI2 to function with VC0 whereas before only RDI1 worked.
-
-Default the VC back to zero. A follow on series will implement subdev
-streams to actually enable VCs without breaking CSID source to VFE sink.
-
-Fixes: 253314b20408 ("media: qcom: camss: Add CSID 680 support")
+Fixes: f0fc808a466a ("media: qcom: camss: Add CSID 340 support")
 Cc: stable@vger.kernel.org
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/platform/qcom/camss/camss-csid-680.c | 26 +++++++++++-----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ drivers/media/platform/qcom/camss/camss-csid-340.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-680.c b/drivers/media/platform/qcom/camss/camss-csid-680.c
-index 3ad3a174bcfb8..35a6bb209f97c 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-680.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-680.c
-@@ -219,9 +219,9 @@ static void __csid_configure_top(struct csid_device *csid)
- 	    CSID_TOP_IO_PATH_CFG0(csid->id));
+diff --git a/drivers/media/platform/qcom/camss/camss-csid-340.c b/drivers/media/platform/qcom/camss/camss-csid-340.c
+index 2b50f9b96a34e..5a7271785ec7a 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid-340.c
++++ b/drivers/media/platform/qcom/camss/camss-csid-340.c
+@@ -74,9 +74,9 @@ static void __csid_ctrl_rdi(struct csid_device *csid, int enable, u8 rdi)
+ 	writel_relaxed(!!enable, csid->base + CSID_RDI_CTRL(rdi));
  }
  
 -static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8 vc)
@@ -171,69 +153,36 @@ index 3ad3a174bcfb8..35a6bb209f97c 100644
  	const struct csid_format_info *format = csid_get_fmt_entry(csid->res->formats->formats,
  								   csid->res->formats->nformats,
  								   input_format->code);
-@@ -240,21 +240,21 @@ static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8
- 	 * the four least significant bits of the five bit VC
- 	 * bitfield to generate an internal CID value.
- 	 *
--	 * CSID_RDI_CFG0(vc)
-+	 * CSID_RDI_CFG0(port)
- 	 * DT_ID : 28:27
- 	 * VC    : 26:22
- 	 * DT    : 21:16
+@@ -95,7 +95,7 @@ static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8
  	 *
  	 * CID   : VC 3:0 << 2 | DT_ID 1:0
  	 */
 -	dt_id = vc & 0x03;
 +	dt_id = port & 0x03;
  
- 	/* note: for non-RDI path, this should be format->decode_format */
- 	val |= DECODE_FORMAT_PAYLOAD_ONLY << RDI_CFG0_DECODE_FORMAT;
- 	val |= format->data_type << RDI_CFG0_DATA_TYPE;
- 	val |= vc << RDI_CFG0_VIRTUAL_CHANNEL;
- 	val |= dt_id << RDI_CFG0_DT_ID;
--	writel(val, csid->base + CSID_RDI_CFG0(vc));
-+	writel(val, csid->base + CSID_RDI_CFG0(port));
- 
- 	val = RDI_CFG1_TIMESTAMP_STB_FRAME;
- 	val |= RDI_CFG1_BYTE_CNTR_EN;
-@@ -265,23 +265,23 @@ static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8
- 	val |= RDI_CFG1_CROP_V_EN;
- 	val |= RDI_CFG1_PACKING_MIPI;
- 
--	writel(val, csid->base + CSID_RDI_CFG1(vc));
-+	writel(val, csid->base + CSID_RDI_CFG1(port));
- 
- 	val = 0;
--	writel(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(vc));
-+	writel(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(port));
- 
- 	val = 1;
--	writel(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PATTERN(vc));
-+	writel(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PATTERN(port));
- 
- 	val = 0;
--	writel(val, csid->base + CSID_RDI_CTRL(vc));
-+	writel(val, csid->base + CSID_RDI_CTRL(port));
- 
--	val = readl(csid->base + CSID_RDI_CFG0(vc));
-+	val = readl(csid->base + CSID_RDI_CFG0(port));
+ 	val = CSID_RDI_CFG0_DECODE_FORMAT_NOP; /* only for RDI path */
+ 	val |= FIELD_PREP(CSID_RDI_CFG0_DT_MASK, format->data_type);
+@@ -105,10 +105,11 @@ static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8
  	if (enable)
- 		val |= RDI_CFG0_ENABLE;
- 	else
- 		val &= ~RDI_CFG0_ENABLE;
--	writel(val, csid->base + CSID_RDI_CFG0(vc));
-+	writel(val, csid->base + CSID_RDI_CFG0(port));
+ 		val |= CSID_RDI_CFG0_ENABLE;
+ 
+-	dev_dbg(csid->camss->dev, "CSID%u: Stream %s (dt:0x%x vc=%u)\n",
+-		csid->id, enable ? "enable" : "disable", format->data_type, vc);
++	dev_dbg(csid->camss->dev, "CSID%u: Stream %s (dt:0x%x port=%u vc=%u)\n",
++		csid->id, enable ? "enable" : "disable", format->data_type,
++		port, vc);
+ 
+-	writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
++	writel_relaxed(val, csid->base + CSID_RDI_CFG0(port));
  }
  
  static void csid_configure_stream(struct csid_device *csid, u8 enable)
-@@ -293,8 +293,8 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
-        /* Loop through all enabled VCs and configure stream for each */
+@@ -119,7 +120,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
+ 
  	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++) {
  		if (csid->phy.en_vc & BIT(i)) {
 -			__csid_configure_rdi_stream(csid, enable, i);
--			__csid_configure_rx(csid, &csid->phy, i);
 +			__csid_configure_rdi_stream(csid, enable, i, 0);
-+			__csid_configure_rx(csid, &csid->phy, 0);
  			__csid_ctrl_rdi(csid, enable, i);
  		}
  	}
