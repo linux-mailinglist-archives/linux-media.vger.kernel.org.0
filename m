@@ -1,128 +1,148 @@
-Return-Path: <linux-media+bounces-58145-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58146-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mETCEPCJ1GkrvAcAu9opvQ
-	(envelope-from <linux-media+bounces-58145-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 06:37:04 +0200
+	id CBSlAjuO1Gk2vQcAu9opvQ
+	(envelope-from <linux-media+bounces-58146-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 06:55:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE493A9B71
-	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 06:37:03 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A843A9C6A
+	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 06:55:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D908B301C6EF
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2026 04:37:01 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C271C300D77F
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2026 04:55:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D675A1A9F88;
-	Tue,  7 Apr 2026 04:36:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EFD536E498;
+	Tue,  7 Apr 2026 04:55:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mdsJdW6h"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="og8fhcTr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3A41E505
-	for <linux-media@vger.kernel.org>; Tue,  7 Apr 2026 04:36:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC19E344D8D;
+	Tue,  7 Apr 2026 04:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775536618; cv=none; b=lI9l25jPuGbylviz9KaRSNZkaxotCfSMzJyjspGhzsoBfo5gxtNpTTGLc2wpob8pV0jzmEthrf9mmnWhqYfXi+WHw7ajRwLUHZG8I4L0dMRK0UbyEwIHusxhkgz427wu6JlNfVZpbOQ9vc1ls02t/XZ58hFjtx0qvCv/b5Kbg4I=
+	t=1775537702; cv=none; b=OJVZVTuFn/+V4tQi+eyjLkJZpvOlVSFElIqcZPYwdBKf0mxRksYxpDN6W7TGDneoCQKMp/5NOzDM9cuq6x5OsOBw0iyYthSLDJRxk7AgPkBYNlJXGbowpC1JglMpXTJiklrsXreHk+EqKy827Tw/eoUifxMROaR39J657Knn31E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775536618; c=relaxed/simple;
-	bh=yiZQlMpKmH4qIx+xwj7WH8RyJf9EBRY0irW9kF3wXrc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q2A91OzBJ13PbM/1hyrWuiWvRXiV093QZE8/AgjThMjindygfHIBwVCAgeRuXEhfhaANxENvbnBdX9ndeIYbCiPBdPEX+hGpha/J5XmUva/bbnZQl+TxBKtnQMyIYPSEiA2fQNxuJGhmBkbTtT9T2Z9JL+Rx7Ti5LrmYKYpD8i4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mdsJdW6h; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=AZdryoEjym1dfrc8csNMBSh/pD6+gVbxgUBr+ZfMCMA=; b=mdsJdW6hBj4+4e6enWTyx6vv0L
-	nWX/ZO1Q37CzQXmdqbssr4bMckGKz/ZsEdHTesiAlfbpMfvufanvVxWDKI+SN4iaeW6g8LB/tmJhR
-	ea2SojoO0DQv9Wn6XrG2Ot4MEmptBZYvik95FcUj5X/fOVS5J5KMN9fOH4K57mlA3/YJqxumshadq
-	rd2/WKN0j/Ekzg8QnVzE3dBuPBas68DBtjzO+1DRy2Pe1rZ7YXHVD/71OvlS6QD7569QB24Ae+ICO
-	7lIGy3xPbPJ4G62D2afLts4Vy73WpZxlEDTn73bfwX3L88oLrRgoi/nl+YcT2FKbPhIPe0YWk4ol4
-	Zws0gmug==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9yBF-00000005soa-3IbK;
-	Tue, 07 Apr 2026 04:36:49 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	linux-media@vger.kernel.org
-Subject: [PATCH] dma-fence: correct kernel-doc function parameter @flags
-Date: Mon,  6 Apr 2026 21:36:48 -0700
-Message-ID: <20260407043649.2015894-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1775537702; c=relaxed/simple;
+	bh=rvu7/o0Lwq7mvoGpGDMuVDAnB7mMlRjy9d5tc7U+Cb8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oPHX+qalhQLEAB2+ra1xXAjTnTBXIYGWYVyGkeJPGER6wr5dDd0CBpcVRT7EMZJDfItccG6L+Ur045mZgNf4eJQJwsfmcPPqu3J1zMP/zdcQk6UqWfVam5DLCIqhSaXWbLeKKbQbq7LYo18hB7Rae9ILxF/zNFM/g+drjXdfed8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=og8fhcTr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60815C116C6;
+	Tue,  7 Apr 2026 04:54:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775537702;
+	bh=rvu7/o0Lwq7mvoGpGDMuVDAnB7mMlRjy9d5tc7U+Cb8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=og8fhcTrcSW1XpExdd/a68mQ3sOlxr3SXLyjG8HBdY4XWYM29iTLx0Vs0oZzLQBYD
+	 tu/RPZiAfSuTwJv5JHbdFaiitpZ6bXxgjdlLLxffWjK89/+jrNtXEyaJ4DJU/d0LCi
+	 R6uKK10Vn0UY5G1a0lvKWQphTQ5vpl4v7DMcIZPNotI5UlcQAmshX1P/Wvpvltcgkl
+	 vD400kR01f5mLCkLuTrZxTVTIz3eLkCsqiEBguYacQ0aKOGIUaWkZrKUIb0uWeIiYs
+	 L/vTx3jbOsZk2PnifHxjEUKls3C4t+Wnbflcd+lJMRWwJLFmxogFFi7/Fue/xF+WPg
+	 BLYdUjWFdKV2w==
+Date: Tue, 7 Apr 2026 10:24:44 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org, konradybcio@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	robin.clark@oss.qualcomm.com, sean@poorly.run,
+	akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+	jesszhan0024@gmail.com, marijn.suijten@somainline.org,
+	airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
+	dikshita.agarwal@oss.qualcomm.com, bod@kernel.org,
+	mchehab@kernel.org, elder@kernel.org, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, jjohnson@kernel.org, mathieu.poirier@linaro.org,
+	trilokkumar.soni@oss.qualcomm.com, mukesh.ojha@oss.qualcomm.com,
+	pavan.kondeti@oss.qualcomm.com, jorge.ramirez@oss.qualcomm.com,
+	tonyh@qti.qualcomm.com, vignesh.viswanathan@oss.qualcomm.com,
+	srinivas.kandagatla@oss.qualcomm.com,
+	amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
+	op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
+	skare@qti.qualcomm.com, harshal.dev@oss.qualcomm.com,
+	linux-kernel@vger.kernel.org,
+	Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH v3 00/15] firmware: qcom: Add OP-TEE PAS service support
+Message-ID: <adSOFCL26y5qt1Cu@sumit-xelite>
+References: <20260327131043.627120-1-sumit.garg@kernel.org>
+ <adPLx3nCBb8IHz2b@baldur>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <adPLx3nCBb8IHz2b@baldur>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[infradead.org:s=bombadil.20210309];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58145-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-58146-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_GT_50(0.00)[50];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rdunlap@infradead.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[infradead.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9DE493A9B71
+	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,qualcomm.com:email]
+X-Rspamd-Queue-Id: 07A843A9C6A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-'make htmldocs' complains that dma_fence_unlock_irqrestore() is missing
-a description of its @flags parameter. The description is there but it is
-missing a ':' sign. Add that and correct the possessive form of "its".
+Hi Bjorn,
 
-WARNING: ../include/linux/dma-fence.h:414 function parameter 'flags' not described in 'dma_fence_unlock_irqrestore'
+On Mon, Apr 06, 2026 at 10:09:27AM -0500, Bjorn Andersson wrote:
+> On Fri, Mar 27, 2026 at 06:40:28PM +0530, Sumit Garg wrote:
+> > From: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > 
+> > Qcom platforms has the legacy of using non-standard SCM calls
+> > splintered over the various kernel drivers. These SCM calls aren't
+> > compliant with the standard SMC calling conventions which is a
+> > prerequisite to enable migration to the FF-A specifications from Arm.
+> > 
+> 
+> Please get our colleagues involved in this discussion, because this
+> non-SCM interface does not match the direction we are taking.
 
-Fixes: 3e5067931b5d ("dma-buf: abstract fence locking v2")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org
+I thought I have already involved folks from QTEE perspective (Apurupa
+and Sree) actively working on FF-A implementation aligned to this
+interface. It would have been better if you could let me know where is
+the direction mismatch here. In case there is a better alternative
+design proposal for PAS service with FF-A, I would be happy to hear
+that.
 
- include/linux/dma-fence.h |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Anyhow for the legacy SoCs like KLMT, we really don't have any
+alternative but have to stick to existing QTEE PAS design with OP-TEE
+providing as an alternative backend. Surely we want to support loading
+of existing signed firmware present in linux-firmware repo for KLMT with
+OP-TEE being the TZ.
 
---- linux-next-20260406.orig/include/linux/dma-fence.h
-+++ linux-next-20260406/include/linux/dma-fence.h
-@@ -408,9 +408,9 @@ static inline spinlock_t *dma_fence_spin
- /**
-  * dma_fence_unlock_irqrestore - unlock the fence and irqrestore
-  * @fence: the fence to unlock
-- * @flags the CPU flags to restore
-+ * @flags: the CPU flags to restore
-  *
-- * Unlock the fence, allowing it to change it's state to signaled again.
-+ * Unlock the fence, allowing it to change its state to signaled again.
-  */
- #define dma_fence_unlock_irqrestore(fence, flags)	\
- 	spin_unlock_irqrestore(dma_fence_spinlock(fence), flags)
+-Sumit
 
