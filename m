@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-58173-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58174-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aOT1Jhzb1GlxyAcAu9opvQ
-	(envelope-from <linux-media+bounces-58173-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 12:23:24 +0200
+	id iHf1BXHb1GnzyAcAu9opvQ
+	(envelope-from <linux-media+bounces-58174-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 12:24:49 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B42D3ACC1C
-	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 12:23:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31FE3ACC68
+	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 12:24:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F0567301AA4A
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2026 10:18:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C170C30D2791
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2026 10:18:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 977593AA1A7;
-	Tue,  7 Apr 2026 10:17:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A81F13AB276;
+	Tue,  7 Apr 2026 10:17:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RRUZkc47"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SPWBr08J"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0193A9D8F;
-	Tue,  7 Apr 2026 10:17:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082083A9D8F;
+	Tue,  7 Apr 2026 10:17:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775557067; cv=none; b=HNEJMaoAXuPHkSmDReBImjUnRUOFVgDylVIHR09r+iO56GyYoSkyBHAmK2M1RFDajSAe5GwpwSJLD436UV6hNVjO8drYC06a3+l0Afk6jHOdzk6adw6GD90TZBJNLCTj0EEfkW+wybfRjsakD5zEbMsRmaXwi5KaqFnz29ynE5c=
+	t=1775557071; cv=none; b=ABnIBFfcLIZpdq8hK6R0dwQUklXpz4BtFqrNGhA9zIR9MrKlhvtXhd5qdLtrwSRZa8pZVGixREC/AKLuM39T2+wk2oE7HtXhOdklZ5c8HBoie/py8uAwHUDVF8XFAmbEBONdWGH7mgfxNG6ZT100XYA9nQ4NLkxL5EwUtSuoZ04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775557067; c=relaxed/simple;
-	bh=Iw/0ZMUWO2zJVSR27I/5GetL9KxeKyvBcMMEYB7HZ5E=;
+	s=arc-20240116; t=1775557071; c=relaxed/simple;
+	bh=DGj3axpedAEnHJKp2yI1ceJxi/eU0z5cs7/iQ1HQVnQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=teoDI1DkzznotwyAYd/DoPxYygOt/kuGHNx2zVH2Vus9w7IXSscPT/wDjeSB8naIi3Tpo0WTANw4ovB30SVR7FJAYAGO8MSlgD/6kwp7Ocs5DJRoKiVLfEdT6iILzQbC+522A6SIAG+5iCARVr1R0As7bs5u114zs83zosdXgDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RRUZkc47; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EB3FC19421;
-	Tue,  7 Apr 2026 10:17:43 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=ikNmE0OJEhxhhglqlG1dUDXXhk54NvOj/NN/umblH879Sk6W6Lhfe65Rv+Bvyyd1/PXuNaXpzJ24QWcUJs+D3S5W1rMJgQfC6rPdZ3bF1Bbxu63a0H1rKwasWVzTAUyJaT6VlfgBoo4foLArQJGSmrky9p6bA5Q97ySGeYFtsSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SPWBr08J; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5243AC19421;
+	Tue,  7 Apr 2026 10:17:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775557066;
-	bh=Iw/0ZMUWO2zJVSR27I/5GetL9KxeKyvBcMMEYB7HZ5E=;
+	s=k20201202; t=1775557070;
+	bh=DGj3axpedAEnHJKp2yI1ceJxi/eU0z5cs7/iQ1HQVnQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=RRUZkc47egqJFCo1QFaNHI/D5lgf1HPJ/qcccStVUMJyKzXr6xxo65n1fq9qoT9G6
-	 pmeufZaYN/Kw/U42UmgjOT490DYG/nOHqrYP/l12UIJk10FO2WqEammMDRqvROybSj
-	 q2sjHm7FaTdSfXXvEbvj0A7NDEOwrETU1LRvbFRCN+PNPs+phjmkT9J+1PbNX2ULPg
-	 iI3PWv8IZOE90pP2fli7uuoyAWllesJYFCZtt+Jy2EPk4pbYF7337Z0q2eeRucBZ6w
-	 Ai77OzSAXEhfueoF9NslRUlGCU98MVgi3dhAtz67lwLYAuLmHDfznIwJywo+DS9b20
-	 EpaYRvuOSZVTQ==
+	b=SPWBr08JZh2nLqYEjfES/B9eomNrZnB1BoAAydzZXrpT44jbb3fvUIJGZjqGWeLuW
+	 RUOcuBblEuuzozZfipz5mhzZjrUcptIbrfYDYPq9QQV56LL2sFKZsOEMpiiQ0518xo
+	 VVdKBeS0+2MrmfHe29IiMWdY2QKcY809fn+PdLxz/DatXp7NvaIyfS/t/2JiY36p6N
+	 fb5SfP05qBmFNEZ2uxuppk3PF8hv8fC9juysM3USdKdvxA/2HZVbZGnWbZCD7axdGC
+	 RhErR9AD3LS9krUTlvFLsLMwTkXCMkZtgpBAwOXYD7I3n3RM5zmY9Y7x3tx8K783wv
+	 hge6CyEEwFAiA==
 From: bod@kernel.org
-Date: Tue, 07 Apr 2026 11:17:25 +0100
-Subject: [PATCH v2 4/5] media: qcom: camss: Fix RDI streaming for CSID GEN3
+Date: Tue, 07 Apr 2026 11:17:26 +0100
+Subject: [PATCH v2 5/5] media: qcom: camss: csid: Rename en_vc to en_port
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260407-camss-rdi-fix-v2-4-66f6c600fcff@kernel.org>
+Message-Id: <20260407-camss-rdi-fix-v2-5-66f6c600fcff@kernel.org>
 References: <20260407-camss-rdi-fix-v2-0-66f6c600fcff@kernel.org>
 In-Reply-To: <20260407-camss-rdi-fix-v2-0-66f6c600fcff@kernel.org>
 To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
@@ -69,23 +69,22 @@ To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Milen Mitkov <quic_mmitkov@quicinc.com>, 
  Depeng Shao <quic_depengs@quicinc.com>, Yongsheng Li <quic_yon@quicinc.com>
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Bryan O'Donoghue <bod@kernel.org>, 
- stable@vger.kernel.org
+ linux-kernel@vger.kernel.org, Bryan O'Donoghue <bod@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4312; i=bod@kernel.org;
- h=from:subject:message-id; bh=s60sIJaXGpdYqv090mjDLH9kxg4goK1KRKFRBCPJ730=;
- b=owEBbQKS/ZANAwAKASJxO7Ohjcg6AcsmYgBp1Nm27ukRGAGTENEjVQtuWZ30q1tltYwngdMyX
- 9ngbW8Gq56JAjMEAAEKAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCadTZtgAKCRAicTuzoY3I
- OmV4D/0XwDqRUfVLkYHmr8oWLStUjCAZqdzQAaEeN9o3yFUexUzwZRm7gJwnePJpuZ/ZzJsss2d
- bp2EYfBFgpt/gq/331lV5BsXGm8Wt067IXFPO6SgSaYvoeXCGXfPxclNAvRacUlz9xJGNYrv2fS
- Lig93uQXgkRawZN/Y7nAA9DXJEObCGgVFZ69uVPIOM36cx5VIEIQabo99spPzyp77PSN/EuEOle
- rn6cRy0XvEb3QiNmV7NaMCY/125Bg7pGlCGAf9K4T2T5gbCDYPixlNAc8RGcjdA5Pvi9v3obOyW
- DnNB0TpXmTnPtWXbc0u69aRcsXALjZDp27DYf44Eixt3yjaZv/KLXAw1xW/tWvmk93o09TSXowF
- QHql0df+gHXyebA0OfxmTnwJCgKFcw4WeWOaUzZ4DpD1zT+LW2nms8Ax5Ykacdft1tdRS4EUf4t
- OXaqQNxMYBYamG83Tjr7ZJ/a3pHcmyizsWy5gJp0m252fZAA7LoSspI2nEPtWTVAlC4RIkIUIfC
- Hb6dNqWzYU8WjNFyndh2Wl0zgqdzkwoWu5ANH5XSOmF+uYENLbGV1ZibKDCJcjEKcdbyGsxEr+b
- I0OoYMvYInFVL4+FL7SnHq4OQtSA4vMfdKyeS/VHgikvcimvO+mL9ui5wxvGto+FfnTDQ2U/SRg
- /kJfl7LYuRnsm1g==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6522; i=bod@kernel.org;
+ h=from:subject:message-id; bh=DjMHY5kEPdHmjL+rHzIUEVjRX9XhouTzisnS5c5xsQY=;
+ b=owEBbQKS/ZANAwAKASJxO7Ohjcg6AcsmYgBp1Nm2JguINIfDhCsPzoOj0czA1j1oI15dN5+nW
+ UzYXH2R4N2JAjMEAAEKAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCadTZtgAKCRAicTuzoY3I
+ OpgcD/48AYIaVYM1s7AXIRXAQRq7XopT5NO3olr0v/yKwYTI/+1joleWt2ATZ7Z9S3Pk7gYgjFA
+ XR2LqVRcVnrpXGy5hF7WW6s+sagbDhCoQIR92DhSvNFnN7IdH/TzHcXuFIZGhOivhv+Nq6qp6ZL
+ RVNAZiJWgFW7DrKL+07FKcBth/naxUacAj2FSexLboUmZzQzqgPVWhBkeV8WcrCOqac1uNuHP/1
+ BatU4/cmUNbdx9BMLVD4jrfOkRgqNrttPHAoQYWPySSMsUq4UjpAc9PWldGMFKwnqllKUgMGNCr
+ yQMCqF4zX6sMeAnuYNJQ9Gx+hGohOIoMEw+CnVQ/f1Tk0sUZ0rzPZze+8AeNMfj7U6tRT8/A3bF
+ JU7EUM2iiqYQsvCLr3pcqYYP8SrbH9lDy560P695W3l5peDYfe0Paae51TwcFpCqMNKKsHglSv+
+ S2yA4uYU3cJ4WV4/Hf8PayMO/3A0Nyj0BiitDvw6pvSQJkMb7ojF1+hzZaN/VdnoZgQ09tCxsnm
+ RaR3uVDnDeLofjAOLEnM610tPF3+K2Pyme6cJSF/FOHRKJD/tHQoEte76mEqIZ50lpn5f2r/AYq
+ TSYd1SbRB+RFF9JmdZcaQX2wED453c3MppkNDm9vDdHS0VB+MCdO6ftBZEd1oEzk6i+tIpMT2mH
+ LOq0YhKwNT4EC/w==
 X-Developer-Key: i=bod@kernel.org; a=openpgp;
  fpr=E693FB2AABA36DE117AB6FB422713BB3A18DC83A
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -98,11 +97,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58173-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58174-lists,linux-media=lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com,quicinc.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
 	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -116,117 +115,152 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_NO_DN(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3B42D3ACC1C
+X-Rspamd-Queue-Id: B31FE3ACC68
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-Fix streaming from CSIDn RDI1 and RDI2 to VFEn RDI1 and RDI2. A pattern we
-have replicated throughout CAMSS where we use the VC number to populate
-both the VC fields and port fields of the CSID means that in practice only
-VC = 0 on CSIDn:RDI0 to VFEn:RDI0 works.
+The en_vc mask has always also been an en_port mask. Name the variable for
+what it does a bitmask of ports. When implementing v4l2 subdev streams it
+probably makes more sense to have tuples for port/vc mappings. Such a
+change right now feels like putting the cart before the horse.
 
-Fix that for CSID gen3 by separating VC and port. Fix to VC zero as a
-bugfix we will look to properly populate the VC field with follow on
-patches later.
+Sanitise the name in the interregnum.
 
-Fixes: d96fe1808dcc ("media: qcom: camss: Add CSID 780 support")
-Cc: stable@vger.kernel.org
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- .../media/platform/qcom/camss/camss-csid-gen3.c    | 28 +++++++++++-----------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ drivers/media/platform/qcom/camss/camss-csid-340.c  |  2 +-
+ drivers/media/platform/qcom/camss/camss-csid-680.c  |  2 +-
+ drivers/media/platform/qcom/camss/camss-csid-gen2.c |  4 ++--
+ drivers/media/platform/qcom/camss/camss-csid-gen3.c |  6 +++---
+ drivers/media/platform/qcom/camss/camss-csid.c      | 10 +++++-----
+ drivers/media/platform/qcom/camss/camss-csid.h      |  2 +-
+ 6 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
-index bd059243790ed..ed5c5766efd36 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen3.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
-@@ -145,12 +145,12 @@ static void __csid_configure_wrapper(struct csid_device *csid)
- 	writel(val, csid->camss->csid_wrapper_base + CSID_IO_PATH_CFG0(csid->id));
- }
+diff --git a/drivers/media/platform/qcom/camss/camss-csid-340.c b/drivers/media/platform/qcom/camss/camss-csid-340.c
+index 2e189efef79c2..cc6133dc8613a 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid-340.c
++++ b/drivers/media/platform/qcom/camss/camss-csid-340.c
+@@ -120,7 +120,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
  
--static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8 vc)
-+static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8 port, u8 vc)
- {
- 	u32 val;
- 	u8 lane_cnt = csid->phy.lane_cnt;
- 	/* Source pads matching RDI channels on hardware. Pad 1 -> RDI0, Pad 2 -> RDI1, etc. */
--	struct v4l2_mbus_framefmt *input_format = &csid->fmt[MSM_CSID_PAD_FIRST_SRC + vc];
-+	struct v4l2_mbus_framefmt *input_format = &csid->fmt[MSM_CSID_PAD_FIRST_SRC + port];
- 	const struct csid_format_info *format = csid_get_fmt_entry(csid->res->formats->formats,
- 								   csid->res->formats->nformats,
- 								   input_format->code);
-@@ -163,14 +163,14 @@ static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8
- 	 * the four least significant bits of the five bit VC
- 	 * bitfield to generate an internal CID value.
- 	 *
--	 * CSID_RDI_CFG0(vc)
-+	 * CSID_RDI_CFG0(port)
- 	 * DT_ID : 28:27
- 	 * VC    : 26:22
- 	 * DT    : 21:16
- 	 *
- 	 * CID   : VC 3:0 << 2 | DT_ID 1:0
- 	 */
--	u8 dt_id = vc & 0x03;
-+	u8 dt_id = port & 0x03;
- 
- 	val = RDI_CFG0_TIMESTAMP_EN;
- 	val |= RDI_CFG0_TIMESTAMP_STB_SEL;
-@@ -180,7 +180,7 @@ static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8
- 	val |= format->data_type << RDI_CFG0_DT;
- 	val |= dt_id << RDI_CFG0_DT_ID;
- 
--	writel(val, csid->base + CSID_RDI_CFG0(vc));
-+	writel(val, csid->base + CSID_RDI_CFG0(port));
- 
- 	val = RDI_CFG1_PACKING_FORMAT_MIPI;
- 	val |= RDI_CFG1_PIX_STORE;
-@@ -189,22 +189,22 @@ static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8
- 	val |= RDI_CFG1_CROP_H_EN;
- 	val |= RDI_CFG1_CROP_V_EN;
- 
--	writel(val, csid->base + CSID_RDI_CFG1(vc));
-+	writel(val, csid->base + CSID_RDI_CFG1(port));
- 
- 	val = 0;
--	writel(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(vc));
-+	writel(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(port));
- 
- 	val = 1;
--	writel(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PATTERN(vc));
-+	writel(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PATTERN(port));
- 
- 	val = 0;
--	writel(val, csid->base + CSID_RDI_CTRL(vc));
-+	writel(val, csid->base + CSID_RDI_CTRL(port));
- 
--	val = readl(csid->base + CSID_RDI_CFG0(vc));
-+	val = readl(csid->base + CSID_RDI_CFG0(port));
- 
- 	if (enable)
- 		val |= RDI_CFG0_EN;
--	writel(val, csid->base + CSID_RDI_CFG0(vc));
-+	writel(val, csid->base + CSID_RDI_CFG0(port));
- }
- 
- static void csid_configure_stream(struct csid_device *csid, u8 enable)
-@@ -213,11 +213,11 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
- 
- 	__csid_configure_wrapper(csid);
- 
--	/* Loop through all enabled VCs and configure stream for each */
-+	/* Loop through all enabled ports and configure a stream for each */
- 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
- 		if (csid->phy.en_vc & BIT(i)) {
--			__csid_configure_rdi_stream(csid, enable, i);
--			__csid_configure_rx(csid, &csid->phy, i);
-+			__csid_configure_rdi_stream(csid, enable, i, 0);
-+			__csid_configure_rx(csid, &csid->phy, 0);
+ 	/* Loop through all enabled ports and configure a stream for each */
+ 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++) {
+-		if (csid->phy.en_vc & BIT(i)) {
++		if (csid->phy.en_port & BIT(i)) {
+ 			__csid_configure_rdi_stream(csid, enable, i, 0);
  			__csid_ctrl_rdi(csid, enable, i);
  		}
- }
+diff --git a/drivers/media/platform/qcom/camss/camss-csid-680.c b/drivers/media/platform/qcom/camss/camss-csid-680.c
+index 0fc908096a99b..b95659af9d297 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid-680.c
++++ b/drivers/media/platform/qcom/camss/camss-csid-680.c
+@@ -292,7 +292,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
+ 
+ 	/* Loop through all enabled ports and configure a stream for each */
+ 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++) {
+-		if (csid->phy.en_vc & BIT(i)) {
++		if (csid->phy.en_port & BIT(i)) {
+ 			__csid_configure_rdi_stream(csid, enable, i, 0);
+ 			__csid_configure_rx(csid, &csid->phy, 0);
+ 			__csid_ctrl_rdi(csid, enable, i);
+diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
+index eadcb2f7e3aaa..0e0c44d118a59 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
++++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
+@@ -329,7 +329,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
+ 
+ 	/* Loop through all enabled ports and configure a stream for each */
+ 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+-		if (csid->phy.en_vc & BIT(i)) {
++		if (csid->phy.en_port & BIT(i)) {
+ 			if (tg->enabled)
+ 				__csid_configure_testgen(csid, enable, i, 0);
+ 
+@@ -370,7 +370,7 @@ static irqreturn_t csid_isr(int irq, void *dev)
+ 
+ 	/* Read and clear IRQ status for each enabled RDI channel */
+ 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+-		if (csid->phy.en_vc & BIT(i)) {
++		if (csid->phy.en_port & BIT(i)) {
+ 			val = readl_relaxed(csid->base + CSID_CSI2_RDIN_IRQ_STATUS(i));
+ 			writel_relaxed(val, csid->base + CSID_CSI2_RDIN_IRQ_CLEAR(i));
+ 		}
+diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+index ed5c5766efd36..cb6ca470dafa8 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid-gen3.c
++++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+@@ -215,7 +215,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
+ 
+ 	/* Loop through all enabled ports and configure a stream for each */
+ 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+-		if (csid->phy.en_vc & BIT(i)) {
++		if (csid->phy.en_port & BIT(i)) {
+ 			__csid_configure_rdi_stream(csid, enable, i, 0);
+ 			__csid_configure_rx(csid, &csid->phy, 0);
+ 			__csid_ctrl_rdi(csid, enable, i);
+@@ -263,7 +263,7 @@ static irqreturn_t csid_isr(int irq, void *dev)
+ 
+ 	/* Read and clear IRQ status for each enabled RDI channel */
+ 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+-		if (csid->phy.en_vc & BIT(i)) {
++		if (csid->phy.en_port & BIT(i)) {
+ 			val = readl(csid->base + CSID_CSI2_RDIN_IRQ_STATUS(i));
+ 			writel(val, csid->base + CSID_CSI2_RDIN_IRQ_CLEAR(i));
+ 
+@@ -309,7 +309,7 @@ static int csid_reset(struct csid_device *csid)
+ 	writel(1, csid->base + CSID_TOP_IRQ_MASK);
+ 
+ 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+-		if (csid->phy.en_vc & BIT(i)) {
++		if (csid->phy.en_port & BIT(i)) {
+ 			writel(BIT(BUF_DONE_IRQ_STATUS_RDI_OFFSET + i),
+ 			       csid->base + CSID_BUF_DONE_IRQ_CLEAR);
+ 			writel(IRQ_CMD_CLEAR, csid->base + CSID_IRQ_CMD);
+diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+index ed1820488c987..71a40c2cb350b 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid.c
++++ b/drivers/media/platform/qcom/camss/camss-csid.c
+@@ -1278,21 +1278,21 @@ static int csid_link_setup(struct media_entity *entity,
+ 		csid->phy.lane_cnt = lane_cfg->num_data;
+ 		csid->phy.lane_assign = csid_get_lane_assign(lane_cfg);
+ 	}
+-	/* Decide which virtual channels to enable based on which source pads are enabled */
++	/* Decide which ports to enable based on which source pads are enabled */
+ 	if (local->flags & MEDIA_PAD_FL_SOURCE) {
+ 		struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
+ 		struct csid_device *csid = v4l2_get_subdevdata(sd);
+ 		struct device *dev = csid->camss->dev;
+ 
+ 		if (flags & MEDIA_LNK_FL_ENABLED)
+-			csid->phy.en_vc |= BIT(local->index - 1);
++			csid->phy.en_port |= BIT(local->index - 1);
+ 		else
+-			csid->phy.en_vc &= ~BIT(local->index - 1);
++			csid->phy.en_port &= ~BIT(local->index - 1);
+ 
+ 		csid->phy.need_vc_update = true;
+ 
+-		dev_dbg(dev, "%s: Enabled CSID virtual channels mask 0x%x\n",
+-			__func__, csid->phy.en_vc);
++		dev_dbg(dev, "%s: Enabled CSID ports mask 0x%x\n",
++			__func__, csid->phy.en_port);
+ 	}
+ 
+ 	return 0;
+diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
+index aedc96ed84b2f..b227923ca5c15 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid.h
++++ b/drivers/media/platform/qcom/camss/camss-csid.h
+@@ -68,7 +68,7 @@ struct csid_phy_config {
+ 	u8 csiphy_id;
+ 	u8 lane_cnt;
+ 	u32 lane_assign;
+-	u32 en_vc;
++	u32 en_port;
+ 	u8 need_vc_update;
+ };
+ 
 
 -- 
 2.52.0
