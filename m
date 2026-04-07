@@ -1,268 +1,298 @@
-Return-Path: <linux-media+bounces-58174-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58175-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iHf1BXHb1GnzyAcAu9opvQ
-	(envelope-from <linux-media+bounces-58174-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 12:24:49 +0200
+	id ALK8Nhfb1GlxyAcAu9opvQ
+	(envelope-from <linux-media+bounces-58175-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 12:23:19 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31FE3ACC68
-	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 12:24:48 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 575283ACC15
+	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 12:23:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C170C30D2791
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2026 10:18:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4744A3025E75
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2026 10:23:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A81F13AB276;
-	Tue,  7 Apr 2026 10:17:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9842133EAE6;
+	Tue,  7 Apr 2026 10:23:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SPWBr08J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hYHi924F"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082083A9D8F;
-	Tue,  7 Apr 2026 10:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5CC7262B;
+	Tue,  7 Apr 2026 10:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775557071; cv=none; b=ABnIBFfcLIZpdq8hK6R0dwQUklXpz4BtFqrNGhA9zIR9MrKlhvtXhd5qdLtrwSRZa8pZVGixREC/AKLuM39T2+wk2oE7HtXhOdklZ5c8HBoie/py8uAwHUDVF8XFAmbEBONdWGH7mgfxNG6ZT100XYA9nQ4NLkxL5EwUtSuoZ04=
+	t=1775557380; cv=none; b=H9PbUW+fi3/aK7nxlDyopY7IaciMESHmYHsjcE5Hw+Em2oqoC4ISa5KM5BvYrbBHozp7yM4wXqj/X97fOoFqR7OVZtvuLdpJXBuhL0UyLBuGq/MXf1jOIzaW6SdxVCkQse/ZjpbWLge3WEtBw9QT0vml8TOEYkzvYjErkEsAnHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775557071; c=relaxed/simple;
-	bh=DGj3axpedAEnHJKp2yI1ceJxi/eU0z5cs7/iQ1HQVnQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ikNmE0OJEhxhhglqlG1dUDXXhk54NvOj/NN/umblH879Sk6W6Lhfe65Rv+Bvyyd1/PXuNaXpzJ24QWcUJs+D3S5W1rMJgQfC6rPdZ3bF1Bbxu63a0H1rKwasWVzTAUyJaT6VlfgBoo4foLArQJGSmrky9p6bA5Q97ySGeYFtsSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SPWBr08J; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5243AC19421;
-	Tue,  7 Apr 2026 10:17:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775557070;
-	bh=DGj3axpedAEnHJKp2yI1ceJxi/eU0z5cs7/iQ1HQVnQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=SPWBr08JZh2nLqYEjfES/B9eomNrZnB1BoAAydzZXrpT44jbb3fvUIJGZjqGWeLuW
-	 RUOcuBblEuuzozZfipz5mhzZjrUcptIbrfYDYPq9QQV56LL2sFKZsOEMpiiQ0518xo
-	 VVdKBeS0+2MrmfHe29IiMWdY2QKcY809fn+PdLxz/DatXp7NvaIyfS/t/2JiY36p6N
-	 fb5SfP05qBmFNEZ2uxuppk3PF8hv8fC9juysM3USdKdvxA/2HZVbZGnWbZCD7axdGC
-	 RhErR9AD3LS9krUTlvFLsLMwTkXCMkZtgpBAwOXYD7I3n3RM5zmY9Y7x3tx8K783wv
-	 hge6CyEEwFAiA==
-From: bod@kernel.org
-Date: Tue, 07 Apr 2026 11:17:26 +0100
-Subject: [PATCH v2 5/5] media: qcom: camss: csid: Rename en_vc to en_port
+	s=arc-20240116; t=1775557380; c=relaxed/simple;
+	bh=q+oiP2iDmQatdYOQooC4ZTWV9ghp6LXvksJZSfc+WU0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XV9hY7DZqMSfuqRcV5JFNP05wMJe/f8lZn8RVT/+Qq3FRU+bROGqtoWMiConfTLbUjQfsD7h2LDIa/9DDgw0ISs5q9mEWX4quejZk0Fdn7KJ59oWH9uqbB8hngkqhoB957LRA6U0FyFVDNFV1oYbM4VVmF6Do3z7ta7os0plRdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hYHi924F; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775557378; x=1807093378;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=q+oiP2iDmQatdYOQooC4ZTWV9ghp6LXvksJZSfc+WU0=;
+  b=hYHi924F3WXQ+eoBRD0ehLBAu4ceikNFJcNpzar8AAX7mlqdD7j9Ql4S
+   btdFiXE66u5Mzjouv5hMMpMkQ2p6BwJEtfn0nOuapa97JhvhpAzrJT6wH
+   kgMt8CK8J0H29XcimTSgg+QebwJu4kSjmr11o2YiUYEYRnLPJpaGaKrQa
+   ka3QtlGrE/Kxp4lQ2xBeaIivzecrQ2qqsC9pKk96IdT/8/PRmn+VwVLyG
+   9M2wSatCjQZmuZqN0M6qciB4wSortM90QxlT3AL2u8pNpnFl2rRnFQ1l0
+   h38EPAEolOjbn2MfIEJmPIsEyIz3BUuppewXE3EgtAz+ZmtptYJB50e5M
+   A==;
+X-CSE-ConnectionGUID: mRTJTqRQR6WZ9mqwvSxk8Q==
+X-CSE-MsgGUID: jMm1HQ/mSY+g3NoaaA868Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76588964"
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="76588964"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 03:22:58 -0700
+X-CSE-ConnectionGUID: pQcEnVm2Ttq+uNpGQXyzVA==
+X-CSE-MsgGUID: msxm52CSRlOh4QHkWcm5dA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="232171156"
+Received: from amilburn-desk.amilburn-desk (HELO kekkonen.fi.intel.com) ([10.245.244.123])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 03:22:55 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 9CE91121CEE;
+	Tue, 07 Apr 2026 13:23:08 +0300 (EEST)
+Date: Tue, 7 Apr 2026 13:23:08 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Arun T <arun.t@intel.com>
+Cc: johannes.goede@oss.qualcomm.com, arec.kao@intel.com,
+	ilpo.jarvinen@linux.intel.com, dan.scally@ideasonboard.com,
+	platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mehdi.djait@intel.com
+Subject: Re: [PATCH v9 1/2] platform/x86: int3472: Add TPS68470 board data
+ for Intel nvl
+Message-ID: <adTbDBbxsOWxh-TC@kekkonen.localdomain>
+References: <20260403004044.4093501-1-arun.t@intel.com>
+ <20260403004044.4093501-2-arun.t@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260407-camss-rdi-fix-v2-5-66f6c600fcff@kernel.org>
-References: <20260407-camss-rdi-fix-v2-0-66f6c600fcff@kernel.org>
-In-Reply-To: <20260407-camss-rdi-fix-v2-0-66f6c600fcff@kernel.org>
-To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Hans Verkuil <hverkuil@kernel.org>, 
- Loic Poulain <loic.poulain@oss.qualcomm.com>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>, 
- Gjorgji Rosikopulos <quic_grosikop@quicinc.com>, 
- Milen Mitkov <quic_mmitkov@quicinc.com>, 
- Depeng Shao <quic_depengs@quicinc.com>, Yongsheng Li <quic_yon@quicinc.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Bryan O'Donoghue <bod@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6522; i=bod@kernel.org;
- h=from:subject:message-id; bh=DjMHY5kEPdHmjL+rHzIUEVjRX9XhouTzisnS5c5xsQY=;
- b=owEBbQKS/ZANAwAKASJxO7Ohjcg6AcsmYgBp1Nm2JguINIfDhCsPzoOj0czA1j1oI15dN5+nW
- UzYXH2R4N2JAjMEAAEKAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCadTZtgAKCRAicTuzoY3I
- OpgcD/48AYIaVYM1s7AXIRXAQRq7XopT5NO3olr0v/yKwYTI/+1joleWt2ATZ7Z9S3Pk7gYgjFA
- XR2LqVRcVnrpXGy5hF7WW6s+sagbDhCoQIR92DhSvNFnN7IdH/TzHcXuFIZGhOivhv+Nq6qp6ZL
- RVNAZiJWgFW7DrKL+07FKcBth/naxUacAj2FSexLboUmZzQzqgPVWhBkeV8WcrCOqac1uNuHP/1
- BatU4/cmUNbdx9BMLVD4jrfOkRgqNrttPHAoQYWPySSMsUq4UjpAc9PWldGMFKwnqllKUgMGNCr
- yQMCqF4zX6sMeAnuYNJQ9Gx+hGohOIoMEw+CnVQ/f1Tk0sUZ0rzPZze+8AeNMfj7U6tRT8/A3bF
- JU7EUM2iiqYQsvCLr3pcqYYP8SrbH9lDy560P695W3l5peDYfe0Paae51TwcFpCqMNKKsHglSv+
- S2yA4uYU3cJ4WV4/Hf8PayMO/3A0Nyj0BiitDvw6pvSQJkMb7ojF1+hzZaN/VdnoZgQ09tCxsnm
- RaR3uVDnDeLofjAOLEnM610tPF3+K2Pyme6cJSF/FOHRKJD/tHQoEte76mEqIZ50lpn5f2r/AYq
- TSYd1SbRB+RFF9JmdZcaQX2wED453c3MppkNDm9vDdHS0VB+MCdO6ftBZEd1oEzk6i+tIpMT2mH
- LOq0YhKwNT4EC/w==
-X-Developer-Key: i=bod@kernel.org; a=openpgp;
- fpr=E693FB2AABA36DE117AB6FB422713BB3A18DC83A
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260403004044.4093501-2-arun.t@intel.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-58175-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58174-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com,quicinc.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B31FE3ACC68
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[checkpatch.pl:url,ideasonboard.com:email,qualcomm.com:email,intel.com:dkim,intel.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 575283ACC15
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Hi Arun,
 
-The en_vc mask has always also been an en_port mask. Name the variable for
-what it does a bitmask of ports. When implementing v4l2 subdev streams it
-probably makes more sense to have tuples for port/vc mappings. Such a
-change right now feels like putting the cart before the horse.
+On Fri, Apr 03, 2026 at 06:10:42AM +0530, Arun T wrote:
+> The Intel NVL platform uses IPU8 is powered by a TPS68470 PMIC,requiring board
+> data to configure the GPIOs and regulators for proper camera sensor operation.
 
-Sanitise the name in the interregnum.
+Can you still check what does checkpatch.pl say about this?
 
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/platform/qcom/camss/camss-csid-340.c  |  2 +-
- drivers/media/platform/qcom/camss/camss-csid-680.c  |  2 +-
- drivers/media/platform/qcom/camss/camss-csid-gen2.c |  4 ++--
- drivers/media/platform/qcom/camss/camss-csid-gen3.c |  6 +++---
- drivers/media/platform/qcom/camss/camss-csid.c      | 10 +++++-----
- drivers/media/platform/qcom/camss/camss-csid.h      |  2 +-
- 6 files changed, 13 insertions(+), 13 deletions(-)
+> 
+> Signed-off-by: Arun T <arun.t@intel.com>
+> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+> Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+> ---
+>  .../x86/intel/int3472/tps68470_board_data.c   | 106 ++++++++++++++++++
+>  1 file changed, 106 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> index 6bec5a910396..49cfd0255b11 100644
+> --- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> +++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> @@ -144,6 +144,24 @@ static struct regulator_consumer_supply int3479_aux2_consumer_supplies[] = {
+>  	REGULATOR_SUPPLY("dovdd", "i2c-INT3479:00"),
+>  };
+>  
+> +/* Settings for Intel NVL platform */
+> +
+> +static struct regulator_consumer_supply ovti13b1_core_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("dvdd", "i2c-OVTI13B1:01"),
+> +};
+> +
+> +static struct regulator_consumer_supply ovti13b1_ana_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("avdd", "i2c-OVTI13B1:01"),
+> +};
+> +
+> +static struct regulator_consumer_supply ovti13b1_vcm_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("vcc", "i2c-OVTI13B1:01-VCM"),
+> +};
+> +
+> +static struct regulator_consumer_supply ovti13b1_vsio_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("dovdd", "i2c-OVTI13B1:01"),
+> +};
+> +
+>  static const struct regulator_init_data dell_7212_tps68470_core_reg_init_data = {
+>  	.constraints = {
+>  		.min_uV = 1200000,
+> @@ -221,6 +239,60 @@ static const struct regulator_init_data dell_7212_tps68470_aux2_reg_init_data =
+>  	.consumer_supplies = int3479_aux2_consumer_supplies,
+>  };
+>  
+> +static const struct regulator_init_data intel_nvl_tps68470_core_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1200000,
+> +		.max_uV = 1200000,
+> +		.apply_uV = true,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(ovti13b1_core_consumer_supplies),
+> +	.consumer_supplies = ovti13b1_core_consumer_supplies,
+> +};
+> +
+> +static const struct regulator_init_data intel_nvl_tps68470_ana_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 2815200,
+> +		.max_uV = 2815200,
+> +		.apply_uV = true,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(ovti13b1_ana_consumer_supplies),
+> +	.consumer_supplies = ovti13b1_ana_consumer_supplies,
+> +};
+> +
+> +static const struct regulator_init_data intel_nvl_tps68470_vcm_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 2815200,
+> +		.max_uV = 2815200,
+> +		.apply_uV = true,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(ovti13b1_vcm_consumer_supplies),
+> +	.consumer_supplies = ovti13b1_vcm_consumer_supplies,
+> +};
+> +
+> +/* Ensure the always-on VIO regulator has the same voltage as VSIO */
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-340.c b/drivers/media/platform/qcom/camss/camss-csid-340.c
-index 2e189efef79c2..cc6133dc8613a 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-340.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-340.c
-@@ -120,7 +120,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
- 
- 	/* Loop through all enabled ports and configure a stream for each */
- 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++) {
--		if (csid->phy.en_vc & BIT(i)) {
-+		if (csid->phy.en_port & BIT(i)) {
- 			__csid_configure_rdi_stream(csid, enable, i, 0);
- 			__csid_ctrl_rdi(csid, enable, i);
- 		}
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-680.c b/drivers/media/platform/qcom/camss/camss-csid-680.c
-index 0fc908096a99b..b95659af9d297 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-680.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-680.c
-@@ -292,7 +292,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
- 
- 	/* Loop through all enabled ports and configure a stream for each */
- 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++) {
--		if (csid->phy.en_vc & BIT(i)) {
-+		if (csid->phy.en_port & BIT(i)) {
- 			__csid_configure_rdi_stream(csid, enable, i, 0);
- 			__csid_configure_rx(csid, &csid->phy, 0);
- 			__csid_ctrl_rdi(csid, enable, i);
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-index eadcb2f7e3aaa..0e0c44d118a59 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-@@ -329,7 +329,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
- 
- 	/* Loop through all enabled ports and configure a stream for each */
- 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
--		if (csid->phy.en_vc & BIT(i)) {
-+		if (csid->phy.en_port & BIT(i)) {
- 			if (tg->enabled)
- 				__csid_configure_testgen(csid, enable, i, 0);
- 
-@@ -370,7 +370,7 @@ static irqreturn_t csid_isr(int irq, void *dev)
- 
- 	/* Read and clear IRQ status for each enabled RDI channel */
- 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
--		if (csid->phy.en_vc & BIT(i)) {
-+		if (csid->phy.en_port & BIT(i)) {
- 			val = readl_relaxed(csid->base + CSID_CSI2_RDIN_IRQ_STATUS(i));
- 			writel_relaxed(val, csid->base + CSID_CSI2_RDIN_IRQ_CLEAR(i));
- 		}
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
-index ed5c5766efd36..cb6ca470dafa8 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen3.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
-@@ -215,7 +215,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
- 
- 	/* Loop through all enabled ports and configure a stream for each */
- 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
--		if (csid->phy.en_vc & BIT(i)) {
-+		if (csid->phy.en_port & BIT(i)) {
- 			__csid_configure_rdi_stream(csid, enable, i, 0);
- 			__csid_configure_rx(csid, &csid->phy, 0);
- 			__csid_ctrl_rdi(csid, enable, i);
-@@ -263,7 +263,7 @@ static irqreturn_t csid_isr(int irq, void *dev)
- 
- 	/* Read and clear IRQ status for each enabled RDI channel */
- 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
--		if (csid->phy.en_vc & BIT(i)) {
-+		if (csid->phy.en_port & BIT(i)) {
- 			val = readl(csid->base + CSID_CSI2_RDIN_IRQ_STATUS(i));
- 			writel(val, csid->base + CSID_CSI2_RDIN_IRQ_CLEAR(i));
- 
-@@ -309,7 +309,7 @@ static int csid_reset(struct csid_device *csid)
- 	writel(1, csid->base + CSID_TOP_IRQ_MASK);
- 
- 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
--		if (csid->phy.en_vc & BIT(i)) {
-+		if (csid->phy.en_port & BIT(i)) {
- 			writel(BIT(BUF_DONE_IRQ_STATUS_RDI_OFFSET + i),
- 			       csid->base + CSID_BUF_DONE_IRQ_CLEAR);
- 			writel(IRQ_CMD_CLEAR, csid->base + CSID_IRQ_CMD);
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index ed1820488c987..71a40c2cb350b 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -1278,21 +1278,21 @@ static int csid_link_setup(struct media_entity *entity,
- 		csid->phy.lane_cnt = lane_cfg->num_data;
- 		csid->phy.lane_assign = csid_get_lane_assign(lane_cfg);
- 	}
--	/* Decide which virtual channels to enable based on which source pads are enabled */
-+	/* Decide which ports to enable based on which source pads are enabled */
- 	if (local->flags & MEDIA_PAD_FL_SOURCE) {
- 		struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
- 		struct csid_device *csid = v4l2_get_subdevdata(sd);
- 		struct device *dev = csid->camss->dev;
- 
- 		if (flags & MEDIA_LNK_FL_ENABLED)
--			csid->phy.en_vc |= BIT(local->index - 1);
-+			csid->phy.en_port |= BIT(local->index - 1);
- 		else
--			csid->phy.en_vc &= ~BIT(local->index - 1);
-+			csid->phy.en_port &= ~BIT(local->index - 1);
- 
- 		csid->phy.need_vc_update = true;
- 
--		dev_dbg(dev, "%s: Enabled CSID virtual channels mask 0x%x\n",
--			__func__, csid->phy.en_vc);
-+		dev_dbg(dev, "%s: Enabled CSID ports mask 0x%x\n",
-+			__func__, csid->phy.en_port);
- 	}
- 
- 	return 0;
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
-index aedc96ed84b2f..b227923ca5c15 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.h
-+++ b/drivers/media/platform/qcom/camss/camss-csid.h
-@@ -68,7 +68,7 @@ struct csid_phy_config {
- 	u8 csiphy_id;
- 	u8 lane_cnt;
- 	u32 lane_assign;
--	u32 en_vc;
-+	u32 en_port;
- 	u8 need_vc_update;
- };
- 
+I missed this earlier... Is this needed for I²C daisy chain? If so, don't
+you need to set the related GPIOs, too? There's an example in Antti's
+patches.
+
+> +static const struct regulator_init_data intel_nvl_tps68470_vio_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1800600,
+> +		.max_uV = 1800600,
+> +		.apply_uV = true,
+> +		.always_on = true,
+> +	},
+> +};
+> +
+> +static const struct regulator_init_data intel_nvl_tps68470_vsio_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1800600,
+> +		.max_uV = 1800600,
+> +		.apply_uV = true,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(ovti13b1_vsio_consumer_supplies),
+> +	.consumer_supplies = ovti13b1_vsio_consumer_supplies,
+> +};
+> +
+>  static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata = {
+>  	.reg_init_data = {
+>  		[TPS68470_CORE] = &dell_7212_tps68470_core_reg_init_data,
+> @@ -297,6 +369,16 @@ static const struct tps68470_regulator_platform_data msi_p14_ai_evo_tps68470_pda
+>  	},
+>  };
+>  
+> +static const struct tps68470_regulator_platform_data intel_nvl_tps68470_pdata = {
+> +	.reg_init_data = {
+> +		[TPS68470_CORE] = &intel_nvl_tps68470_core_reg_init_data,
+> +		[TPS68470_ANA]  = &intel_nvl_tps68470_ana_reg_init_data,
+> +		[TPS68470_VCM]  = &intel_nvl_tps68470_vcm_reg_init_data,
+> +		[TPS68470_VIO] = &intel_nvl_tps68470_vio_reg_init_data,
+> +		[TPS68470_VSIO] = &intel_nvl_tps68470_vsio_reg_init_data,
+> +	},
+> +};
+> +
+>  static struct gpiod_lookup_table surface_go_int347a_gpios = {
+>  	.dev_id = "i2c-INT347A:00",
+>  	.table = {
+> @@ -340,6 +422,14 @@ static const struct software_node msi_p14_ai_evo_tps68470_gpio_swnode = {
+>  	.properties = msi_p14_ai_evo_gpio_props,
+>  };
+>  
+> +static struct gpiod_lookup_table intel_nvl_tps68470_gpios = {
+> +	.dev_id = "i2c-OVTI13B1:01",
+> +	.table = {
+> +		GPIO_LOOKUP("tps68470-gpio", 9, "reset", GPIO_ACTIVE_LOW),
+> +		{ }
+> +	}
+> +};
+> +
+>  static const struct int3472_tps68470_board_data surface_go_tps68470_board_data = {
+>  	.dev_name = "i2c-INT3472:05",
+>  	.tps68470_regulator_pdata = &surface_go_tps68470_pdata,
+> @@ -379,6 +469,15 @@ static const struct int3472_tps68470_board_data msi_p14_ai_evo_tps68470_board_da
+>  	},
+>  };
+>  
+> +static const struct int3472_tps68470_board_data intel_nvl_tps68470_board_data = {
+> +	.dev_name = "i2c-INT3472:04",
+> +	.tps68470_regulator_pdata = &intel_nvl_tps68470_pdata,
+> +	.n_gpiod_lookups = 1,
+> +	.tps68470_gpio_lookup_tables = {
+> +		&intel_nvl_tps68470_gpios,
+> +	},
+> +};
+> +
+>  static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+>  	{
+>  		.matches = {
+> @@ -415,6 +514,13 @@ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+>  		},
+>  		.driver_data = (void *)&msi_p14_ai_evo_tps68470_board_data,
+>  	},
+> +	{
+> +		.matches = {
+> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
+> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Nova Lake Client Platform"),
+> +		},
+> +		.driver_data = (void *)&intel_nvl_tps68470_board_data,
+> +	},
+>  	{ }
+>  };
+>  
 
 -- 
-2.52.0
+Regards,
 
+Sakari Ailus
 
