@@ -1,215 +1,247 @@
-Return-Path: <linux-media+bounces-58198-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58199-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iMDZGbJq1Wm96AcAu9opvQ
-	(envelope-from <linux-media+bounces-58198-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 22:36:02 +0200
+	id CO3uFuWB1Wlr7AcAu9opvQ
+	(envelope-from <linux-media+bounces-58199-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 00:15:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6333B493D
-	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 22:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A76023B546C
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 00:15:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0BBEA30421FC
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2026 20:35:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 57610301CCE0
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2026 22:14:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B375B379EFE;
-	Tue,  7 Apr 2026 20:35:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A97937F759;
+	Tue,  7 Apr 2026 22:14:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OweH0Y2k";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Towwi8qC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F040733D4EE
-	for <linux-media@vger.kernel.org>; Tue,  7 Apr 2026 20:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828BB37C922
+	for <linux-media@vger.kernel.org>; Tue,  7 Apr 2026 22:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775594131; cv=none; b=BPmtNMvbcIEEDP+JzS5CsACC5EvWohVOa9yUs072lSfkBTMJKcP9EvoXUtrlkTH3vikncWEhp3PYqXPzWBw4ULsbjRL4GAhug4ECERa3NsYSEfPS0cQtTYdnFBVr3k0w/sD9KmP1lZA6Led7wKuv95byvNA1vTMqfFjj2JQ5Qhc=
+	t=1775600075; cv=none; b=k1X8DUO+d8ofRc9JOgYBh0HMfW2gjVAVVys/reQ6UR7paAkQnTdyx4Fr6x7SCQmNsBt8rJFM/0ded7hjcIn7dT+nRyLTbgD0QAMx4pGNllV7q3Jm1GJBTfpWoD+7DeBq8+7dRXm+dqSKSyMpo6NorY0PcpA3+j38djL24/A/bzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775594131; c=relaxed/simple;
-	bh=UJQ8tTGwe60L4fGtTfOqmrArLKsfe5i/rLB7iDn6LpE=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=e+txec3JlIvKPDGhSZrcHSwetHFha4GkR7WgTAiOGrOrGvEr8uW59KFFsM+9KmeDbUjP4GMvP5c3bLp/mqKnIVR/ExIjc2Sezmz/XL/HghNCKSr94VfS1lnlaOr60jkgxqxtShuJv0iCcTIBUKrqVk1RAzbmSKlFKXKSlj6l2yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-683b4edaab1so7764035eaf.3
-        for <linux-media@vger.kernel.org>; Tue, 07 Apr 2026 13:35:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775594129; x=1776198929;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+	s=arc-20240116; t=1775600075; c=relaxed/simple;
+	bh=O70zG8/vQ7/2/njiFcnoP01VaZrKBSDy6k7ous7SiZg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n/GOZsoNExt4f5rwsaTY4sx0R4Tst+TN/XRpXUtyGs59zmI7aDDBt2jGWk1Iar843sWcqRosCIwkvlPTJ2G0uhGGQN+lAUf/mFxsrka74TC8qZy/mJzpXj+Ibu6qRUJSKgyt3rDhGFAB5vuHjVmh0BlsMnmj0+3A5uLO0aGhYhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OweH0Y2k; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Towwi8qC; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 637KJaXa2009187
+	for <linux-media@vger.kernel.org>; Tue, 7 Apr 2026 22:14:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	VjGZu1nMIYxEH+BkM12qs+iRxdD0JnnyuDFHzOWT/rM=; b=OweH0Y2kARoYn1W1
+	qq3nLdCQrnMusgkFKVH97SH/YIOnMEsAfAZK2KoiG9Gxh/8/n7cU1UsGD3/JY+O+
+	TnCC6+QeX8Z0IUKHaUmjTIypZ2H0UfYbyJVOT7JUEat6dMR7LzZBxjoLQJyQmwOz
+	hXC6WmTAPgKiCEnt8sayLvxEaf1aQEZ3KVbNm3zDkVgkpsYAgEMpiGSFzicXC+GT
+	zLbUcVWQXj925Bce1NoFoyGvgQBlVpoEnadvPpUlxJC/tmR4UarU4h86gc0j8iqn
+	9zGvFPUfebfRPl8K/kWd8XSw9wadeBrURZDqQNVSPOk9jaO1/Rspujy1bXSio4MO
+	UaKy3Q==
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dcmrrvr97-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 07 Apr 2026 22:14:33 +0000 (GMT)
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-2ba9a744f7dso7903251eec.0
+        for <linux-media@vger.kernel.org>; Tue, 07 Apr 2026 15:14:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1775600066; x=1776204866; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=5KfmEpOYEOSlgLhRYLojn6YVk+Z22HFOwx4QJusbr5w=;
-        b=IDu3vqCwMR7/AqAqUxAj0xw7p7SsPb8PXK5nZWCdpCTvA7aHADwe9mthBos95YkHRR
-         zT5aKsBAg9guCZekeRoPU0xky8eCE/5BFSRwleiGBLNvqtkd2cnKp7BKleqSXKCtNCUq
-         FMT/Rw7NKX7A9ahqW48/UPNhXCjoaa4vQnG+WK3eS2ac8mPtvX2zAON3M51Ln/tULXUZ
-         EV8+uYmJ5GCL9B5HZk9aFX8zFDsXHKZinUEc3c8ZMb23bSMlWV4B6rYwpNA/7EHSR/Y/
-         z/HvY0lUHRatV9+a+Qv5ZteFtQjLsg1EBv4BUHuqBn/mKsumCr1PF+BqERIX29Va8FgE
-         ijMg==
-X-Forwarded-Encrypted: i=1; AJvYcCWWV1FMuoOk6ty+Mw1PvelKRShhL3MvLiQfn6OOS6lq1NyHr+SFU9vTW0gSGbSW5Tb4S8NPovr6zLxWMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKIsJ4ATrfD4Te460f2vYe2Bxy6pl1knaaJ9OBczoN8of5KhI8
-	49mDeo4IIyvJpxegfEYr9LZoemHI7H4qC9JydZedfQByhYT6M9f2P8QQArake31suDFmNQdqDDW
-	VQH833MGKckSym0LB7VRb/kLvSCfqQrh0aQ5E/5u1sQpo3h8neGKR49Qd7PQ=
+        bh=VjGZu1nMIYxEH+BkM12qs+iRxdD0JnnyuDFHzOWT/rM=;
+        b=Towwi8qCgZfYUflNkOb/McOoIKWL4FXtnHS+61NfoX++L3aMY7rz/hE198FCH4bEr7
+         lTERDD6vyUau5niV1ACETaGLJLCGKM8CtQ0iiSxhmTxj+2HO2sINAgOq0BoMpBk9P1YU
+         W9md2wZDgOfa20KbSwBg+UV8n0wd523R2GHFLceuS34njkbSagCzY+oSqRTutlOBHC6Z
+         e6Q135NmJUVeVXysLPa9h+mTLE1K4lGnxU8vGE6WgQf84h93PCfXW7qpQB3FDz88YPWz
+         6xhTGOk4ctF9wQjZs54SKwXMl75pDrM3hj5xPU33fZycNyzpm+gsA1bz8/8rTSIX/0Ll
+         hLGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775600066; x=1776204866;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VjGZu1nMIYxEH+BkM12qs+iRxdD0JnnyuDFHzOWT/rM=;
+        b=TjzvBNRxAv4NDTWLdEu0nOzjTOodXAP9X7t7eE6nBtsHRr418umbKC3GZsUEj7ybYV
+         CXmS/R4LSqoUZF8a+2RDeqqLEoYNh4w1tLmbRSF/6QvdYpFTete6b46SLFxrsBG+c6mN
+         3wJN0TelO6XOlW3AhRJBuV4mLOAGJSnl62UgnlHlukIuPh515L2RGiHym8GyAwaBQhQr
+         6b82MWIsZVIgsA9RSoGNz2HQa+otAToh3+wVvDOwvesQ+IB62zzgTkyifs/AGQVsuqwD
+         X779fpnzrRGlpibL7rxisfpZZ0kHHZDmdUrye75PevLqTdEkVv4gGhkcn/BHr84MMcDl
+         7D+w==
+X-Forwarded-Encrypted: i=1; AJvYcCWOJb7UJ5UoJaufEc4w7wLloO74pysxtcNHehwzjKEMqfFS4z6vRt9qsjV0hyUmlgPInW/ZzKOGT2QMYw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZ0gfaFigJnIDMd6xGd+dD1mRJToEBxiNchkXapigPAhAalMVr
+	b3AHEXdVsZtW8IP6uWRxeHJaUKpyPc/dfJfRgli0KjgyKg930DFgQ0sfQqpsANvFRUC2eNzkkS9
+	CrPrJNiC90ExgjUiuWsfaftQSSw6A/SnP01sR55GcEyed2SzEQvwNnLH9ul09eYnouw==
+X-Gm-Gg: AeBDietiwdS9O/5rsmjVSLpkUPUNYHlaPS7eUopuq6W8mPEMqwGrlHF1rzmg39tixdk
+	6iY1/yEiD+qGwAs3pDntXO+xlZz1yh+tx3w2UlBmSMG/XYaow6kdLegTiFjc3jWL3JV9YGXF0gN
+	XH7s/TbAxAtKeopc7G4YGVCnG7TXH8Hn8PodK+zkJwyuqqZDmarLa0aNPD7CPS/h7DaWIqje7GU
+	g7A94BiI6xP9RvQeArzU3b+gqe0gtQ7K6jBSLHbJvIPcWM2Vvy5VHRI/pSEdeVEt0C6ng76U0dN
+	igmrwNEh3JtIHJ4VQfgKjbreF6og40TSuiYpFq47CEOq1Y3N9UKL/76LXLDF1BzsedKxcjVWwMd
+	hB/lrR1sYe5QC0jMSQkeihm9RGS9XH2N0QMbfk7KeZTE1mAGGOK3iSZQJheaDRkcQHw2ErJ3jSK
+	GZVFTg
+X-Received: by 2002:a05:7300:880a:b0:2ce:f3d7:20c with SMTP id 5a478bee46e88-2cef3d70bd3mr4324875eec.29.1775600065619;
+        Tue, 07 Apr 2026 15:14:25 -0700 (PDT)
+X-Received: by 2002:a05:7300:880a:b0:2ce:f3d7:20c with SMTP id 5a478bee46e88-2cef3d70bd3mr4324829eec.29.1775600065017;
+        Tue, 07 Apr 2026 15:14:25 -0700 (PDT)
+Received: from [10.134.65.116] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2cf2be19f85sm12178552eec.30.2026.04.07.15.14.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Apr 2026 15:14:24 -0700 (PDT)
+Message-ID: <439f9bbf-1ba1-465f-b5af-01ba0ebb86d4@oss.qualcomm.com>
+Date: Tue, 7 Apr 2026 15:14:22 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:2f0d:b0:688:b145:46cb with SMTP id
- 006d021491bc7-688b14547d6mr951683eaf.32.1775594128990; Tue, 07 Apr 2026
- 13:35:28 -0700 (PDT)
-Date: Tue, 07 Apr 2026 13:35:28 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69d56a90.050a0220.28fc4.0002.GAE@google.com>
-Subject: [syzbot] [media?] general protection fault in em28xx_resolution_set (2)
-From: syzbot <syzbot+755151a86449f029bae0@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mchehab@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-0.36 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 11/15] media: qcom: Switch to generic PAS TZ APIs
+To: Sumit Garg <sumit.garg@kernel.org>,
+        Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>,
+        vikash.garodia@oss.qualcomm.com
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        linux-media@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
+        linux-remoteproc@vger.kernel.org, andersson@kernel.org,
+        konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+        conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
+        akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+        jesszhan0024@gmail.com, marijn.suijten@somainline.org,
+        airlied@gmail.com, simona@ffwll.ch, dikshita.agarwal@oss.qualcomm.com,
+        bod@kernel.org, mchehab@kernel.org, elder@kernel.org,
+        andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, jjohnson@kernel.org,
+        mathieu.poirier@linaro.org, mukesh.ojha@oss.qualcomm.com,
+        pavan.kondeti@oss.qualcomm.com, tonyh@qti.qualcomm.com,
+        vignesh.viswanathan@oss.qualcomm.com,
+        srinivas.kandagatla@oss.qualcomm.com,
+        amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
+        op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
+        skare@qti.qualcomm.com, harshal.dev@oss.qualcomm.com,
+        linux-kernel@vger.kernel.org, Sumit Garg <sumit.garg@oss.qualcomm.com>
+References: <20260327131043.627120-1-sumit.garg@kernel.org>
+ <20260327131043.627120-12-sumit.garg@kernel.org> <ac-KQ7e8-syph1Zl@trex>
+ <adOcMsk8a_Clb4WZ@sumit-xelite>
+Content-Language: en-US
+From: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>
+In-Reply-To: <adOcMsk8a_Clb4WZ@sumit-xelite>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA3MDIwMyBTYWx0ZWRfX1sj39bSvYlB/
+ YaXdzutoBb/jYvlZP6TufReDb3Yc4TcrTMpxHO0IiAkGU16jTLzqhZ9uzvo2zUv1FUN1wdOphit
+ YbCDYJs0eR/xcI/aQrEDOmmxH11YN8klOqWz6NBg9f0d7W0FbHRLmBSFnyyZIi3ZxgjlQweluhK
+ bheN6hMtLvYIVVHA8tXlBfKDIqv4ZH10UdF7MMaiCkcFzt1btQMt2wVQdM8cdXVA6s8a6D18Rxs
+ EV8nkXiTk5yfkeRfvAZ2afbDiGpxcuAGOsfNL7dv+zAkfZ7/r4uhCPDivfGZr2cstZuh/BJw/No
+ G6cz3zVHRWHLd00ZuLTz0EKCdvrpCeFTd8OVEMvgfrsM0skyRB0zd5KwAZIUmd0BIXDRWLHL/9k
+ 6MR7/On/Khx8gOygs39ZMocKOZ6hnD8N2fkv3ppje8/n844XfAcbBC4YvEORbBjFnLPGc2mJs+z
+ PJ2QwrFIyTV1TNsIAWA==
+X-Proofpoint-GUID: TuQGB2quKAnnoSllV0QkqFAa6GfyJQig
+X-Proofpoint-ORIG-GUID: TuQGB2quKAnnoSllV0QkqFAa6GfyJQig
+X-Authority-Analysis: v=2.4 cv=LquiDHdc c=1 sm=1 tr=0 ts=69d581c9 cx=c_pps
+ a=Uww141gWH0fZj/3QKPojxA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=nRfXl0x10UYwF-qtBXkA:9 a=QEXdDO2ut3YA:10
+ a=PxkB5W3o20Ba91AHUih5:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-07_05,2026-04-07_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 adultscore=0 phishscore=0
+ impostorscore=0 spamscore=0 suspectscore=0 clxscore=1015 bulkscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604010000
+ definitions=main-2604070203
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=36a2baf561dcdf64];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-58198-lists,linux-media=lfdr.de,755151a86449f029bae0];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	SUBJECT_HAS_QUESTION(0.00)[];
-	REDIRECTOR_URL(0.00)[goo.gl];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	TAGGED_FROM(0.00)[bounces-58199-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[trilokkumar.soni@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	TO_DN_NONE(0.00)[];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,goo.gl:url,appspotmail.com:email,syzkaller.appspot.com:url,storage.googleapis.com:url,googlegroups.com:email]
-X-Rspamd-Queue-Id: BB6333B493D
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_GT_50(0.00)[50];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: A76023B546C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hello,
+On 4/6/2026 4:42 AM, Sumit Garg wrote:
+> Hi Jorge,
+> 
+> On Fri, Apr 03, 2026 at 11:37:07AM +0200, Jorge Ramirez wrote:
+>> On 27/03/26 18:40:39, Sumit Garg wrote:
+>>> From: Sumit Garg <sumit.garg@oss.qualcomm.com>
+>>>
+>>> Switch qcom media client drivers over to generic PAS TZ APIs. Generic PAS
+>>> TZ service allows to support multiple TZ implementation backends like QTEE
+>>> based SCM PAS service, OP-TEE based PAS service and any further future TZ
+>>> backend service.
+>>
+>> OP-TEE based PAS service relies on the linux driver to configure the
+>> iommu (just as it is done on the no_tz case). This generic patch does
+>> not cover that requirement.
+> 
+> That's exactly the reason why the kodiak EL2 dtso disables venus by
+> default in patch #1 due to missing IOMMU configuration.
+> 
+>>
+>> Because of that, it is probably better if the commit message doesnt
+>> mention OP-TEE and instead maybe indicate that PAS wll support TEEs that
+>> implement the same restrictions that QTEE (ie, iommu configuration).
+> 
+> The scope for this patch is to just adopt the generic PAS layer without
+> affecting the client functionality.
+> 
+>>
+>> I can send an RFC for OP-TEE support based on the integration work being
+>> carried out here [1]
+> 
+> @Vikash may know better details about support for IOMMU configuration
+> for venus since it's a generic functionality missing when Linux runs in
+> EL2 whether it's with QTEE or OP-TEE.
+> 
+> However, feel free to propose your work to initiate discussions again.
 
-syzbot found the following issue on:
+Vikas and team depends on some of the IOMMU patches to get accepted 
+before they enable the EL2 venus support. Please reach out to him
+and Prakash Gupta at Qualcomm. 
 
-HEAD commit:    81ebd43cc0d6 usb: gadget: f_hid: don't call cdev_init whil..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=140d45ca580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=36a2baf561dcdf64
-dashboard link: https://syzkaller.appspot.com/bug?extid=755151a86449f029bae0
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+> 
+>>
+>> [1] https://github.com/OP-TEE/optee_os/pull/7721#discussion_r3016923507
+> 
+> -Sumit
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/59aca7fb2d65/disk-81ebd43c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/87180154ea1a/vmlinux-81ebd43c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/862a7fc58ad2/bzImage-81ebd43c.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+755151a86449f029bae0@syzkaller.appspotmail.com
-
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000354: 0000 [#1] SMP KASAN PTI
-KASAN: probably user-memory-access in range [0x0000000000001aa0-0x0000000000001aa7]
-CPU: 0 UID: 0 PID: 5637 Comm: v4l_id Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2026
-RIP: 0010:norm_maxh drivers/media/usb/em28xx/em28xx-video.c:149 [inline]
-RIP: 0010:em28xx_resolution_set.isra.0+0xe4/0x730 drivers/media/usb/em28xx/em28xx-video.c:317
-Code: 0f 85 d5 05 00 00 48 8d bd a0 1a 00 00 44 0f b6 bb 3c 01 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 41 83 e7 10 <80> 3c 02 00 0f 85 e9 05 00 00 31 ff 44 89 fe 4c 8b a5 a0 1a 00 00
-RSP: 0018:ffffc90002027798 EFLAGS: 00010246
-
-RAX: dffffc0000000000 RBX: ffff88811f368000 RCX: ffffffff85a50292
-RDX: 0000000000000354 RSI: ffffffff85a4f799 RDI: 0000000000001aa0
-RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000002
-R10: 0000000000000000 R11: 0000000000000000 R12: ffff88812bc88000
-R13: 1ffff92000404ef7 R14: ffff88811f36813c R15: 0000000000000000
-FS:  00007f8c837eb880(0000) GS:ffff8882686f6000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f8c839e455a CR3: 000000010735c000 CR4: 00000000003506f0
-Call Trace:
- <TASK>
- em28xx_v4l2_open+0x457/0x570 drivers/media/usb/em28xx/em28xx-video.c:2166
- v4l2_open+0x1d2/0x490 drivers/media/v4l2-core/v4l2-dev.c:433
- chrdev_open+0x234/0x6a0 fs/char_dev.c:411
- do_dentry_open+0x68b/0x14b0 fs/open.c:949
- vfs_open+0x82/0x3f0 fs/open.c:1081
- do_open fs/namei.c:4671 [inline]
- path_openat+0x208c/0x31a0 fs/namei.c:4830
- do_file_open+0x20e/0x430 fs/namei.c:4859
- do_sys_openat2+0x10d/0x1e0 fs/open.c:1366
- do_sys_open fs/open.c:1372 [inline]
- __do_sys_openat fs/open.c:1388 [inline]
- __se_sys_openat fs/open.c:1383 [inline]
- __x64_sys_openat+0x12d/0x210 fs/open.c:1383
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x106/0x7b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f8c838d9407
-Code: 48 89 fa 4c 89 df e8 38 aa 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-RSP: 002b:00007ffe5cd9fa90 EFLAGS: 00000202
- ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007f8c837eb880 RCX: 00007f8c838d9407
-RDX: 0000000000000000 RSI: 00007ffe5cda0f21 RDI: ffffffffffffff9c
-RBP: 0000000000000002 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000000
-R13: 00007ffe5cd9fce0 R14: 00007f8c8406f000 R15: 0000555f3c43e4d8
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:norm_maxh drivers/media/usb/em28xx/em28xx-video.c:149 [inline]
-RIP: 0010:em28xx_resolution_set.isra.0+0xe4/0x730 drivers/media/usb/em28xx/em28xx-video.c:317
-Code: 0f 85 d5 05 00 00 48 8d bd a0 1a 00 00 44 0f b6 bb 3c 01 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 41 83 e7 10 <80> 3c 02 00 0f 85 e9 05 00 00 31 ff 44 89 fe 4c 8b a5 a0 1a 00 00
-RSP: 0018:ffffc90002027798 EFLAGS: 00010246
-
-RAX: dffffc0000000000 RBX: ffff88811f368000 RCX: ffffffff85a50292
-RDX: 0000000000000354 RSI: ffffffff85a4f799 RDI: 0000000000001aa0
-RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000002
-----------------
-Code disassembly (best guess):
-   0:	0f 85 d5 05 00 00    	jne    0x5db
-   6:	48 8d bd a0 1a 00 00 	lea    0x1aa0(%rbp),%rdi
-   d:	44 0f b6 bb 3c 01 00 	movzbl 0x13c(%rbx),%r15d
-  14:	00
-  15:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  1c:	fc ff df
-  1f:	48 89 fa             	mov    %rdi,%rdx
-  22:	48 c1 ea 03          	shr    $0x3,%rdx
-  26:	41 83 e7 10          	and    $0x10,%r15d
-* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
-  2e:	0f 85 e9 05 00 00    	jne    0x61d
-  34:	31 ff                	xor    %edi,%edi
-  36:	44 89 fe             	mov    %r15d,%esi
-  39:	4c 8b a5 a0 1a 00 00 	mov    0x1aa0(%rbp),%r12
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
 
