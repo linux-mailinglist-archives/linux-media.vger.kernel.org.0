@@ -1,334 +1,339 @@
-Return-Path: <linux-media+bounces-58151-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58152-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sBh0LEq01GnvwQcAu9opvQ
-	(envelope-from <linux-media+bounces-58151-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 09:37:46 +0200
+	id 0M9lNkK11GnvwQcAu9opvQ
+	(envelope-from <linux-media+bounces-58152-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 09:41:54 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DE73AAD7A
-	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 09:37:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 350023AAE10
+	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 09:41:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 71C6A3031822
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2026 07:37:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 43F7D30107FC
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2026 07:41:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C669639EF38;
-	Tue,  7 Apr 2026 07:37:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04A633A1E80;
+	Tue,  7 Apr 2026 07:41:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="I1ZcWRtR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EgGrY2w0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010007.outbound.protection.outlook.com [52.101.84.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620C5396D15;
-	Tue,  7 Apr 2026 07:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775547431; cv=fail; b=R9k76AGYNiahChcp+0vE09ZUnNE6IRqNmiR4jAsjQ94blLQ4N+JctHX69SC7tRVCqYSsfaDOIJLXLQxhafc+eY+5uHAuVSvOZeG5MRECkFm4SqzxGklq8au/QJCC9xRXfXHJaFpU7k+M2o+VSSb19jr3aavxQXN3Ay4hRb9NdYY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775547431; c=relaxed/simple;
-	bh=pvs17D5ghxx3pT39+PyFp2DLf9URdRRhPu9F495fLJk=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=SucBG6kgZpOAtx+2sr4U06x+3GUvKrjLEouHUhVNyW/Bal2lPmBheKh1C4r0i7sjGEHmh4uPO0qT8pOyhzJTONBuaZNhISBlbvN4+A4TJmtglglxNRi6VuOdMHedJWCaSZaj0+CjYJZ+/lzrTPX1YB2IA5aMpX/oxjF0zVwCq+s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=I1ZcWRtR; arc=fail smtp.client-ip=52.101.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mr2HE5I7TRTok04JUxGAIviU+sx8bBcvPJDc0eD1OLRjMvexb8NqypykosTiz7BSMRQtT+kz9qsEXZl0sLxV52TeXdlH6/CLiTSy+J7NRvF25KbFMsiAaimD37AYkhK7F1MR1jIn1tCI6AnxOVkP0zl9rv2vVRSksjD8aGIlG0fma2Q9bKAU2SC/qwym1ThbEZEbNw/wwjwJqE/2Ncr6I2G95ktapz/y0ldXBpxD3s0TWxzZAL7qSVi9J+FWPduRbJxPKOlArUZBjUFKZiXaWrJsuA33cAQY3wDx68qaJ/pdzOLWTPCRiG/ESxa50MRS4L1MW0Btk59kKknvKR3pCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IJBRXN3P5fGYe205STdMAFvshqcm4C934yvfMQ/Cc10=;
- b=batr5VloA6X9ngVPFcphLH21s8BR+hPS6cCRk6SQdZJ6Xmp3V0OzXsBZ4oSg0vYWh3iZjW5ebL2VmTy6oaHScwKx2UslS85QaPnYiarWpKRcIpwryf1+b+OR4jVGVnHY5mYj+f7/RgHnyncJh0vSsV6jQLcVGXEPjKZksESzAfMfCIlsR2IJ4W7v4ZC8jphI6/HW7Zww9HKBKJRlGq3/+qaMHSx0tulyoDLkA8YQX7m5rYRL20GWgUfJC4OdZ1S1orJ+BJqALt/leMTz0LuLAzAcswJdj7tzVZy+aSh4UD4RcPNWT/vkEuLKrVB2qw18UABl1gYVp9giCeu/UbY6AA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IJBRXN3P5fGYe205STdMAFvshqcm4C934yvfMQ/Cc10=;
- b=I1ZcWRtRdGih564alvYn/+yCE2FwfFfsb+0dL0Olv4VFsNGf98DR1/3nX5mi53x0aNdVJGBmRe5mlzLL+sQ6vYmsRhxaYaZFShuj/cgkn+7TiiYjjP8n58xY+IVwJtoFoKoxH4WBEflaL6Vb8VRJVE9HvANUkiUdmugmovDd0xX7FM7+gqbMi8UcdMtWs+XtsP80dcXOWwYMNcnMwbq0k6dlwlLD3NuuwQJsiCYikR0JwQQo2h5Xb+lVOrxFbqrS2QS59vbUbpCFx4XZTDCCRE7yISKp0amkMecAxoVpKeexOmcKexCUkSgcT6huVFZEmQdvwwXLQ95UjRTdmLwwyQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
- (2603:10a6:102:516::16) by DU2PR04MB9020.eurprd04.prod.outlook.com
- (2603:10a6:10:2e3::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Tue, 7 Apr
- 2026 07:37:05 +0000
-Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
- ([fe80::d3f0:3c24:f717:4989]) by PA6PR04MB11910.eurprd04.prod.outlook.com
- ([fe80::d3f0:3c24:f717:4989%4]) with mapi id 15.20.9769.014; Tue, 7 Apr 2026
- 07:37:05 +0000
-Message-ID: <4e669a11-38ff-41a5-b54d-8f50841b0411@nxp.com>
-Date: Tue, 7 Apr 2026 09:37:03 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v1 01/11] media: uapi: v4l2-isp: Add v4l2 ISP extensible
- statistics definitions
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: julien.vuillaumier@nxp.com, alexi.birlinger@nxp.com,
- daniel.baluta@nxp.com, peng.fan@nxp.com, frank.li@nxp.com,
- laurent.pinchart@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Jai Luthra <jai.luthra@ideasonboard.com>,
- paul elder <paul.elder@ideasonboard.com>
-References: <20260123080938.3367348-1-antoine.bouyer@nxp.com>
- <20260123080938.3367348-2-antoine.bouyer@nxp.com> <ac93m33MhldSpYDj@zed>
-Content-Language: en-US
-From: Antoine Bouyer <antoine.bouyer@nxp.com>
-In-Reply-To: <ac93m33MhldSpYDj@zed>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0042.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c7::12) To PA6PR04MB11910.eurprd04.prod.outlook.com
- (2603:10a6:102:516::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69EDB1C3BF7;
+	Tue,  7 Apr 2026 07:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775547704; cv=none; b=mGfEuZ8LEeVyD5rU70H2+k0hxXx857lX86mbfnVkg3+A96eVe9yCzLXclucl9EZhWo6tENZwpauZjltofxMio4Ka7DvOfszPciPzKU+n3XzWhEJUhcbHVtgHWkejwc2KQQ+R5nX47Ber4Ed3lHO8DS6iGpIlkIjIOaX0cqHI060=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775547704; c=relaxed/simple;
+	bh=ot13fgGGPF9SQQOzfVUWEK9TwcYoeSTBU4g6a6CIqmc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mNptydjWM79bEsgPlB8KzrwIjSwPokXHTg6wSby4EPM73/3PpHfbACL3Vj/+0uwPuQSt/L5FYUhIdYXLwiNa6u8cWuL/IvStQrrpTM7P7fMhQJ9p2tOPIqtuuQdjZloY7KVq+BgW8RvHRiiILHN9JMqd/XA35JbeSTEjVlu4Lnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EgGrY2w0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2A40C116C6;
+	Tue,  7 Apr 2026 07:41:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775547704;
+	bh=ot13fgGGPF9SQQOzfVUWEK9TwcYoeSTBU4g6a6CIqmc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EgGrY2w0I2rSD2V/sVgktDoWSbCIQHNp8lVA1ogrdxQVX59kECcoeUzHSdcDuUJVX
+	 ng4jb/nzfyB88RyCJSUcWzACUYX/4DOcDnXpREhoD60IgwVUtwa6avZVJnuLzmaBTp
+	 d9JpWAd3kIDEMXESB8qHtxjSVHL9Yy0NcRXKzyLSox27U/+tx3qmrWPOMm37zzwp/O
+	 tYCvS3KFDFKwb4vvO6TCTDm4e+J2cD8FAwz7mCoOrEhEhNJe6DdMtd1dLGnqniM2CE
+	 WTKDeNeLyaGBr3hpdOINokxiahaqMekAzxHeSaXAb3rPmoV51ahk5B+34KAFby6Cup
+	 mxyf/2fnmjsRA==
+Message-ID: <bbbd3a3d-7fe2-4402-957f-7b5098db4f2f@kernel.org>
+Date: Tue, 7 Apr 2026 08:41:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA6PR04MB11910:EE_|DU2PR04MB9020:EE_
-X-MS-Office365-Filtering-Correlation-Id: c57f8221-149a-4d8d-0ae6-08de94787758
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|376014|7416014|19092799006|1800799024|366016|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
- MMmlXQ37bnYPzoKXUgZBvS63vpd/iaZ3m0u2/VbQqxlYsQ1yYkmRukhFs3IguLpigXW3MB/sBvD/9yXnFu6qP9GT+i10kKtblw1uq+4o8mnP7vPOVo86kSRf8EU7hHEafgTBpTXQZ847rp1hteAYDP35QTtVimXDafsq9TETXVuPZeRKqG3GEmEO1MU5Ufddf2JbPZmhBbdblpbbdNXYRhbwKZstP1dSoIXpLgUsusLuZwHtAmN2cyfDGVXtaAhvXj+UXTIIS0xDujdMQe5ilrVKTZfg+S8jdVU7ELOGyuX9gQyyx2UJwjwlBixouw4bTXYJ6JlKbKcldXI43X9ttP5K8RmcEy/1FV3+rpWEI/Nn2S4a0hAr8Wxn2X7IpbFcYhBlhcvX6z1HnrX12OobqJ5Ddd37+47pwAf8wmqUgALOwXGT0fw4W8BwgDvA67AGPVpSGVK8xYEyv9P2FA9xf/7fPLwai5DDSPWGsgpGWeJDoliCNgr7D5dEkpFj1eyA2QGlYCtHgEuhq5zzfqJodBFSe25BYnJP7dlwTHxSEHay/zYhXwNJWRbLZE1C9BMVkltIzsyAyCjZPfhi/4rH+W52jdEI7LC8ztWRYALCA3VJMiJnuoD2ww3NcMZczk4CgYbycApdJeWZoi55zC+umgNUYWNQkRDHZkkacMlEI004MB3byHZfAulXKR0GBZnaUmcBhYrwPhB0XKZGKsq7ZJa/sLSzDUhLGyf15b9YUPs=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR04MB11910.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(19092799006)(1800799024)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?akUxZm13NzNKb2ZZanZvU0I2U21TZmJwNlJtN0ViVXAvZ21Yd2tSb3l4a002?=
- =?utf-8?B?aUd5LzdmZ3UyN0NVVmlzZzFqeVBsd2pOMzNhcFVZNkQ5MW1JOUhWWlByOWxs?=
- =?utf-8?B?d04zdCtVeUtoTzh6ZUdnSWFXOGhGdER5a2tXYnkyeUNJYzVwNmxMdlhRQWlT?=
- =?utf-8?B?c2libUpxUy9ZZnpCbXNjcFR6TGVPNC9qM1VQZzRUVWxtS28xcFpjL0hwbHpE?=
- =?utf-8?B?R1VIbUN6SlFrUVM2ME1GcUc3QWo3S004NXkvNlBCeWIvY3VuNTEyOTJ1WlpE?=
- =?utf-8?B?SnRmYzZnbE1WT0ZsTmMrSVRLanNFWU5iamFaWUtzeUJRdTk2TGlwdWFJY2lR?=
- =?utf-8?B?MzA5eVlJVThkMWg1dDExZTltT0oyL3l1NjIzQk05MGhnNi9JUTIzbnJjai8x?=
- =?utf-8?B?aVFqajJmYlhaeGhvRWtCMmhMNE1BRWhmTVg3Q041Vm45SndEcm45cU9YdUd6?=
- =?utf-8?B?aGl4N1NVRVp5OEEvSFlZbytGa1VkNEZCY0hQaEZqVmFDei9qd3MzRmpmeUVO?=
- =?utf-8?B?Z09xRU5oSDhWTEp2ZndlSTN3by9UZGR0NGkxb2hhQnNadG55L1FDeXlFK2I1?=
- =?utf-8?B?WDNxSGgxK2VxQnJXV2MySTZFZ1JNbEpYTXBoSEN5VWUwNDBoanYzUUZ2cTh5?=
- =?utf-8?B?RGMvOE93REE3c0Y1WjkycXVObjk5ZXJsejNBTTlFUnV3R2kra2hhK1FxUEJ3?=
- =?utf-8?B?djBsOVJJbVRtelFEUXNickJhWWlGbEZMS1Z3KzQ3bmJqZ2ZmWENTWUJEV1J4?=
- =?utf-8?B?OGNyWWdkeHlVRmMwM05rRGc5MVJESThHSTF0OU9NeFlMdnc4a3hTdUZ1OW50?=
- =?utf-8?B?Q0xCN2V1Q1luQVZqOWUrdWhxZHdudFRQcnplRWpHb0JnSERSUlNrUHY0Q3lo?=
- =?utf-8?B?WkpjdWVETFJTREMwMitWUzFma2VIdnBPNWhaMUh3M0lYSlhUUVlVbjJsOXBn?=
- =?utf-8?B?alR2MkFzZ3VaSzRCaGsyQ1d0SHlsWFI0R2JINTAyaXY3WXUyQ1dZTGxhYVZW?=
- =?utf-8?B?N3VFZ1Y4TGNQSEZoWmk5dWw2aHdDRk1KM0VZc3R1dzByTWZxUkN6Uk4wSGZt?=
- =?utf-8?B?b0ZUOUZzZVh0dDBUNElzSitHNHFWQ25aS2NEMmdVbnA2dDQ4TzZ1SmIzdkxD?=
- =?utf-8?B?UTVIQk1KOU5vdC9tL1NLa3gxbTc5OGRkU05aSFIrM0xmUVVJZkdsUXdSaVlP?=
- =?utf-8?B?TGtES09EZE9RRnFTWk9hcm5NQzJJdHZCckh0WW0wRG9IVmVkend1dFBMYUZP?=
- =?utf-8?B?d0ZOdDV0cG52WEhLSlk5N1BYTWJ0YUp0a3UrRXNGNEhwWXl0dnFVRzdjbHRl?=
- =?utf-8?B?R1BlbmIwc2ovOGFwV0tqZ3pvNjQ2UldrT0lpZjk3YnRTSHJDWHlHT3dNVmp1?=
- =?utf-8?B?bGF2cWMyL2gxK1ZQaG1GcTNVbDhJaitOM1pPd216WGpxcEtTK1k4UTM1am4w?=
- =?utf-8?B?V2hiQzVWR0MvV0NJdjVNdjBLeHI1cE14VFl4Wm9RV3Z3YXVDSDY0SGZ6bURN?=
- =?utf-8?B?SXdTUDBLMWpwNlNkSHJzRitPQ0hqZTNHZnFUVjMyaCtPVUY3dDNVSWN2NXMy?=
- =?utf-8?B?dDFkbk80a1JxQzJPTTZXTGtHQVYzbWhuT1E4RDBLVmlOVTF1U2lsVG44VzNH?=
- =?utf-8?B?czNzUDN6SVE5NUZQbWs2bExwcWovSGhPRmFvb0tZQVp6OTMxNmFHL1dieTMy?=
- =?utf-8?B?UkRvazFNRXlUU3pVQkIwVkpqUW1FVkxPbTd2aE5UbkdYd2xycXZnYnF6Mzdv?=
- =?utf-8?B?TXVuMnNpRjBqM0RjYzgrRDRRMk11K1A4RTBWVU9VcE1uV3V1dUgwdXlVV2hk?=
- =?utf-8?B?WXpZa1dQa0VocWZzdHJrbEliRG1ma2lvdkFDYnN4dFNmdGo3ZVhkU3NwK3Yw?=
- =?utf-8?B?eUt0VjgvMnkwRjVmclc5eERUTUp3VVh6ZUR5NGlqYmU5cGhQOFJJQ001cHA3?=
- =?utf-8?B?cVEzK0lNNEV1d2czOGVaNy81QzJuSWdRQSt5Nm00WFM5cVQxSU15blYrUnhC?=
- =?utf-8?B?UFE4cGRyQVV5UUhkcXRNUllIVEdiRE10cEdySUJ5bmRkWGxUcnVKamF5SVRW?=
- =?utf-8?B?dGxwbG5OWkUvaEswY1ZLbVpEblFZY2ZNaEE3QUtWdlhDRnM1NmZUOW0yUlFp?=
- =?utf-8?B?Q3BMb3grQXBOeEpjcjNyeGtCRGZVRVNaVXN5SmI2MEd6U0cydnpkUy9KSWRT?=
- =?utf-8?B?dUtORFVHVzNsTVZEaUh6Vnc5dWx5QW1ueksrc09QMEN3UWx5ZnZKeW5xU2tD?=
- =?utf-8?B?bDlld0FMZjNDb09RakpjTmRYQlE0cEI0MEE3QnV4aEdHN1lwcFRKekpQOXlx?=
- =?utf-8?B?WkMwdTFvQzNZd1FBcms5dFR1a3JJeVc1U2pHRGJhYmxkdXhuK1R4dz09?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c57f8221-149a-4d8d-0ae6-08de94787758
-X-MS-Exchange-CrossTenant-AuthSource: PA6PR04MB11910.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2026 07:37:05.4753
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WhSNW/njCtYccx7IUeqzIXaVAUf4fglGqawkJvZ31Qg8cgOlpu+ERg7mklp7Y7bLgMhejixqjCChVK1sgDo9/g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB9020
-X-Spamd-Result: default: False [1.34 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] media: qcom: camss: csid: Rename en_vc to en_port
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>,
+ Gjorgji Rosikopulos <quic_grosikop@quicinc.com>,
+ Milen Mitkov <quic_mmitkov@quicinc.com>,
+ Depeng Shao <quic_depengs@quicinc.com>, Yongsheng Li <quic_yon@quicinc.com>,
+ Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260406-camss-rdi-fix-v1-0-d3f8b12473d0@kernel.org>
+ <20260406-camss-rdi-fix-v1-5-d3f8b12473d0@kernel.org>
+ <wflVmMMKix2FKJgQq_tfDVL_YdsMuAn1r-DABIDFBedSWeefoaN3CgKJdI92RaXjWc7n6RrcC--RWkAlR8olqg==@protonmail.internalid>
+ <4d5b49c4-7142-48e9-af47-f996f10346f0@oss.qualcomm.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bod@kernel.org>
+In-Reply-To: <4d5b49c4-7142-48e9-af47-f996f10346f0@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58151-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[nxp.com,ideasonboard.com,kernel.org,pengutronix.de,gmail.com,vger.kernel.org,lists.infradead.org];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58152-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,gmail.com,linaro.org,quicinc.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[antoine.bouyer@nxp.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 11DE73AAD7A
+X-Rspamd-Queue-Id: 350023AAE10
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-
-Hi Jacopo
-
-On 4/3/26 10:19 AM, Jacopo Mondi wrote:
-> 
-> 
-> Hello Antoine
-> 
->     in cc Jai and Paul
-> 
-> Jai and Paul are working on upstreaming new ISP formats which would
-> benefit from usage of extensible stats.
-> 
-> No pressure of course, just wanted to check how things are progressing
-> on your side. Do you have an updated version of this patch which can
-> be taken in ? Should we sync and work on an updated version ?
-
-I'm still on it. Things are progressing well, but little bit delayed 
-because of neoisp rework. I hope to submit patchset (v4l2-isp + neo) by 
-end of this week.
-
-BR
-Antoine
-
-> 
-> Thanks!
->     j
-> 
-> On Fri, Jan 23, 2026 at 09:09:28AM +0100, Antoine Bouyer wrote:
->> Extend the v4l2-isp extensible format introduced for isp parameters buffer
->> to the statistics buffer as well.
+On 07/04/2026 03:24, Hangxiang Ma wrote:
+> On 4/7/2026 5:55 AM, bod@kernel.org wrote:
+>> From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 >>
->> Like for ISP configuration purpose, that will help supporting various ISP
->> hardware versions reporting different statistics data with less impact on
->> userspace.
+>> The en_vc mask has always also been an en_port mask. Name the variable for
+>> what it does a bitmask of ports. When implementing v4l2 subdev streams it
+>> probably makes more sense to have tuples for port/vc mappings. Such a
+>> change right now feels like putting the cart before the horse.
 >>
->> The `v4l2_isp_stats_buffer` reuses the `v4l2_isp_params_buffer` container
->> definitions, with similar header, versions and flags. V0 and V1 versions
->> are provided to match with params versions. On the other side, ENABLE and
->> DISABLE flags are not really meaningfull for statistics purpose. So VALID
->> and INVALID flags are introduced. Purpose is to force ISP driver to
->> validate a statistics buffer, before it is consumed by userspace.
+>> Sanitise the name in the interregnum.
 >>
->> Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 >> ---
->>   include/uapi/linux/media/v4l2-isp.h | 85 +++++++++++++++++++++++++++++
->>   1 file changed, 85 insertions(+)
+>>    drivers/media/platform/qcom/camss/camss-csid-340.c  |  2 +-
+>>    drivers/media/platform/qcom/camss/camss-csid-680.c  |  2 +-
+>>    drivers/media/platform/qcom/camss/camss-csid-gen2.c |  4 ++--
+>>    drivers/media/platform/qcom/camss/camss-csid-gen3.c |  6 +++---
+>>    drivers/media/platform/qcom/camss/camss-csid.c      | 10 +++++-----
+>>    drivers/media/platform/qcom/camss/camss-csid.h      |  2 +-
+>>    6 files changed, 13 insertions(+), 13 deletions(-)
 >>
->> diff --git a/include/uapi/linux/media/v4l2-isp.h b/include/uapi/linux/media/v4l2-isp.h
->> index 779168f9058e..ed1279b86694 100644
->> --- a/include/uapi/linux/media/v4l2-isp.h
->> +++ b/include/uapi/linux/media/v4l2-isp.h
->> @@ -99,4 +99,89 @@ struct v4l2_isp_params_buffer {
->>        __u8 data[] __counted_by(data_size);
->>   };
+>> diff --git a/drivers/media/platform/qcom/camss/camss-csid-340.c b/drivers/media/platform/qcom/camss/camss-csid-340.c
+>> index 5a7271785ec7a..da5e03b340bb7 100644
+>> --- a/drivers/media/platform/qcom/camss/camss-csid-340.c
+>> +++ b/drivers/media/platform/qcom/camss/camss-csid-340.c
+>> @@ -119,7 +119,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
+>>    	__csid_configure_rx(csid, &csid->phy);
 >>
->> +/**
->> + * enum v4l2_isp_stats_version - V4L2 ISP statistics versioning
->> + *
->> + * @V4L2_ISP_STATS_VERSION_V0: First version of the V4L2 ISP statistics format
->> + *                          (for compatibility)
->> + * @V4L2_ISP_STATS_VERSION_V1: First version of the V4L2 ISP statistics format
->> + *
->> + * V0 and V1 are identical, and comply with V4l2 ISP parameters versions. So
->> + * both V0 and V1 refers to the first version of the V4L2 ISP statistics
->> + * format.
->> + *
->> + * Future revisions of the V4L2 ISP statistics format should start from the
->> + * value of 2.
->> + */
->> +enum v4l2_isp_stats_version {
->> +     V4L2_ISP_STATS_VERSION_V0 = 0,
->> +     V4L2_ISP_STATS_VERSION_V1,
->> +};
->> +
->> +#define V4L2_ISP_PARAMS_FL_BLOCK_VALID               (1U << 0)
->> +#define V4L2_ISP_PARAMS_FL_BLOCK_INVALID     (1U << 1)
->> +
->> +/*
->> + * Reserve the first 8 bits for V4L2_ISP_STATS_FL_* flag.
->> + *
->> + * Driver-specific flags should be defined as:
->> + * #define DRIVER_SPECIFIC_FLAG0     ((1U << V4L2_ISP_STATS_FL_DRIVER_FLAGS(0))
->> + * #define DRIVER_SPECIFIC_FLAG1     ((1U << V4L2_ISP_STATS_FL_DRIVER_FLAGS(1))
->> + */
->> +#define V4L2_ISP_STATS_FL_DRIVER_FLAGS(n)       ((n) + 8)
->> +
->> +/**
->> + * struct v4l2_isp_stats_block_header - V4L2 extensible statistics block header
->> + * @type: The statistics block type (driver-specific)
->> + * @flags: A bitmask of block flags (driver-specific)
->> + * @size: Size (in bytes) of the statistics block, including this header
->> + *
->> + * This structure represents the common part of all the ISP statistics blocks.
->> + * Each statistics block shall embed an instance of this structure type as its
->> + * first member, followed by the block-specific statistics data.
->> + *
->> + * The @type field is an ISP driver-specific value that identifies the block
->> + * type. The @size field specifies the size of the parameters block.
->> + *
->> + * The @flags field is a bitmask of per-block flags V4L2_STATS_ISP_FL_* and
->> + * driver-specific flags specified by the driver header.
->> + */
->> +struct v4l2_isp_stats_block_header {
->> +     __u16 type;
->> +     __u16 flags;
->> +     __u32 size;
->> +} __attribute__((aligned(8)));
->> +
->> +/**
->> + * struct v4l2_isp_stats_buffer - V4L2 extensible statistics data
->> + * @version: The statistics buffer version (driver-specific)
->> + * @data_size: The statistics data effective size, excluding this header
->> + * @data: The statistics data
->> + *
->> + * This structure contains the statistics information of the ISP hardware,
->> + * serialized for userspace into a data buffer. Each statistics block is
->> + * represented by a block-specific structure which contains a
->> + * :c:type:`v4l2_isp_stats_block_header` entry as first member. Driver
->> + * populates the @data buffer with statistics information of the ISP blocks it
->> + * intends to share to userspace. As a consequence, the data buffer effective
->> + * size changes according to the number of ISP blocks that driver intends to
->> + * provide and is set by the driver in the @data_size field.
->> + *
->> + * The statistics buffer is versioned by the @version field to allow modifying
->> + * and extending its definition. Driver shall populate the @version field to
->> + * inform the userpsace about the version it intends to use. The userspace will
->> + * parse and handle the @data buffer according to the data layout specific to
->> + * the indicated version.
->> + *
->> + * For each ISP block that driver wants to report, a block-specific structure
->> + * is appended to the @data buffer, one after the other without gaps in
->> + * between. Driver shall populate the @data_size field with the effective
->> + * size, in bytes, of the @data buffer.
->> + */
->> +struct v4l2_isp_stats_buffer {
->> +     __u32 version;
->> +     __u32 data_size;
->> +     __u8 data[] __counted_by(data_size);
->> +};
->> +
->>   #endif /* _UAPI_V4L2_ISP_H_ */
->> --
->> 2.52.0
+>>    	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++) {
+>> -		if (csid->phy.en_vc & BIT(i)) {
+>> +		if (csid->phy.en_port & BIT(i)) {
+>>    			__csid_configure_rdi_stream(csid, enable, i, 0);
+>>    			__csid_ctrl_rdi(csid, enable, i);
+>>    		}
+>> diff --git a/drivers/media/platform/qcom/camss/camss-csid-680.c b/drivers/media/platform/qcom/camss/camss-csid-680.c
+>> index 35a6bb209f97c..80d8bcd6e0854 100644
+>> --- a/drivers/media/platform/qcom/camss/camss-csid-680.c
+>> +++ b/drivers/media/platform/qcom/camss/camss-csid-680.c
+>> @@ -292,7 +292,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
 >>
+>>           /* Loop through all enabled VCs and configure stream for each */
+>>    	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++) {
+>> -		if (csid->phy.en_vc & BIT(i)) {
+>> +		if (csid->phy.en_port & BIT(i)) {
+>>    			__csid_configure_rdi_stream(csid, enable, i, 0);
+>>    			__csid_configure_rx(csid, &csid->phy, 0);
+>>    			__csid_ctrl_rdi(csid, enable, i);
+>> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
+>> index 331feed199094..e2d14b25f8c85 100644
+>> --- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
+>> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
+>> @@ -328,7 +328,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
+>>    	u8 i;
+>>    	/* Loop through all enabled VCs and configure stream for each */
+>>    	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+>> -		if (csid->phy.en_vc & BIT(i)) {
+>> +		if (csid->phy.en_port & BIT(i)) {
+>>    			if (tg->enabled)
+>>    				__csid_configure_testgen(csid, enable, i, 0);
+>>
+>> @@ -369,7 +369,7 @@ static irqreturn_t csid_isr(int irq, void *dev)
+>>
+>>    	/* Read and clear IRQ status for each enabled RDI channel */
+>>    	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+>> -		if (csid->phy.en_vc & BIT(i)) {
+>> +		if (csid->phy.en_port & BIT(i)) {
+>>    			val = readl_relaxed(csid->base + CSID_CSI2_RDIN_IRQ_STATUS(i));
+>>    			writel_relaxed(val, csid->base + CSID_CSI2_RDIN_IRQ_CLEAR(i));
+>>    		}
+>> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+>> index 73504c349fd0b..b92234ba84efc 100644
+>> --- a/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+>> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+>> @@ -215,7 +215,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
+>>
+>>    	/* Loop through all enabled VCs and configure stream for each */
+>>    	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+>> -		if (csid->phy.en_vc & BIT(i)) {
+>> +		if (csid->phy.en_port & BIT(i)) {
+>>    			__csid_configure_rdi_stream(csid, enable, i, 0);
+>>    			__csid_configure_rx(csid, &csid->phy, 0);
+>>    			__csid_ctrl_rdi(csid, enable, i);
+>> @@ -263,7 +263,7 @@ static irqreturn_t csid_isr(int irq, void *dev)
+>>
+>>    	/* Read and clear IRQ status for each enabled RDI channel */
+>>    	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+>> -		if (csid->phy.en_vc & BIT(i)) {
+>> +		if (csid->phy.en_port & BIT(i)) {
+>>    			val = readl(csid->base + CSID_CSI2_RDIN_IRQ_STATUS(i));
+>>    			writel(val, csid->base + CSID_CSI2_RDIN_IRQ_CLEAR(i));
+>>
+>> @@ -309,7 +309,7 @@ static int csid_reset(struct csid_device *csid)
+>>    	writel(1, csid->base + CSID_TOP_IRQ_MASK);
+>>
+>>    	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+>> -		if (csid->phy.en_vc & BIT(i)) {
+>> +		if (csid->phy.en_port & BIT(i)) {
+>>    			writel(BIT(BUF_DONE_IRQ_STATUS_RDI_OFFSET + i),
+>>    			       csid->base + CSID_BUF_DONE_IRQ_CLEAR);
+>>    			writel(IRQ_CMD_CLEAR, csid->base + CSID_IRQ_CMD);
+>> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+>> index ed1820488c987..71a40c2cb350b 100644
+>> --- a/drivers/media/platform/qcom/camss/camss-csid.c
+>> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
+>> @@ -1278,21 +1278,21 @@ static int csid_link_setup(struct media_entity *entity,
+>>    		csid->phy.lane_cnt = lane_cfg->num_data;
+>>    		csid->phy.lane_assign = csid_get_lane_assign(lane_cfg);
+>>    	}
+>> -	/* Decide which virtual channels to enable based on which source pads are enabled */
+>> +	/* Decide which ports to enable based on which source pads are enabled */
+>>    	if (local->flags & MEDIA_PAD_FL_SOURCE) {
+>>    		struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
+>>    		struct csid_device *csid = v4l2_get_subdevdata(sd);
+>>    		struct device *dev = csid->camss->dev;
+>>
+>>    		if (flags & MEDIA_LNK_FL_ENABLED)
+>> -			csid->phy.en_vc |= BIT(local->index - 1);
+>> +			csid->phy.en_port |= BIT(local->index - 1);
+>>    		else
+>> -			csid->phy.en_vc &= ~BIT(local->index - 1);
+>> +			csid->phy.en_port &= ~BIT(local->index - 1);
+>>
+>>    		csid->phy.need_vc_update = true;
+>>
+>> -		dev_dbg(dev, "%s: Enabled CSID virtual channels mask 0x%x\n",
+>> -			__func__, csid->phy.en_vc);
+>> +		dev_dbg(dev, "%s: Enabled CSID ports mask 0x%x\n",
+>> +			__func__, csid->phy.en_port);
+>>    	}
+>>
+>>    	return 0;
+>> diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
+>> index aedc96ed84b2f..b227923ca5c15 100644
+>> --- a/drivers/media/platform/qcom/camss/camss-csid.h
+>> +++ b/drivers/media/platform/qcom/camss/camss-csid.h
+>> @@ -68,7 +68,7 @@ struct csid_phy_config {
+>>    	u8 csiphy_id;
+>>    	u8 lane_cnt;
+>>    	u32 lane_assign;
+>> -	u32 en_vc;
+>> +	u32 en_port;
+>>    	u8 need_vc_update;
+>>    };
+>>
+>>
+> 
+> I want to suggest a feasible way to solve this issue. The v4l2 framework
+> provide a standard interface 'get_frame_desc' to acquire vc/dt, stream,
+> format, etc. The vc/dt is determined by sensor in fact. Could we use
+> this inteface to populate such information from sensor side and use them
+> in csid? If sensor driver doesn't provide the desc, we can use the
+> default vc0.
+> 
+> I have made some tests locally, the only gap is we need to determine the
+> vc binding order and ask the user to follow it if multiple streams are
+> configured simultaneously. Maybe we can handle this more flexible if we
+> come up with new ideas.
+> 
+> Something like below
+> 
+> 1. Configure RDI0 first then RDI1 will get
+>     RDI0 -> vc0
+>     RDI1 -> vc1
+> 2. Configure RDI1 first then RDI0 will get
+>     RDI1 -> vc0
+>     RDI0 -> vc1
+> 
+> Best regards,
+> Hangxiang
 
+I think there is a solution upstream we could reuse instead.
+
+If you're interested in fixing this, I think the way to go is the 
+set-route/set-routing syntax
+
+- Add V4L2_SUBDEV_FL_STREAMS to CSID
+- Support the routing syntax
+- Continue to support the non-routing syntax
+   i.e. when not doing set route, default to VC0 and not requiring
+   the routing syntax to understand that VC0 is default
+
+Let's pretend ov08x40 supports two VCs we want the existing syntax for 
+the non-VC case to continue as-is
+
+media-ctl --reset
+media-ctl -v -d /dev/media0 -V '"ov08x40 
+'2-0036'":0[fmt:SGRBG10/3856x2416 field:none]'
+media-ctl -V '"msm_csiphy4":0[fmt:SGRBG10/3856x2416]'
+media-ctl -V '"msm_csid0":0[fmt:SGRBG10/3856x2416]'
+media-ctl -V '"msm_vfe0_rdi0":0[fmt:SGRBG10/3856x2416]'
+media-ctl -l '"msm_csiphy4":1->"msm_csid0":0[1]'
+media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+media-ctl -d /dev/media0 -p
+
+And then the routing syntax - something like the following
+
+media-ctl --reset
+
+# Sensor format
+media-ctl -V '"ov08x40 2-0036":0[fmt:SGRBG10/3856x2416]'
+media-ctl -V '"msm_csiphy4":0[fmt:SGRBG10/3856x2416]'
+
+# CSID sink format
+media-ctl -V '"msm_csid0":0[fmt:SGRBG10/3856x2416]'
+
+# Route VC0 to pad1 (RDI0), VC1 to pad2 (RDI1)
+media-ctl -R '"msm_csid0" [0/0->1/0[1], 0/1->2/0[1]]'
+
+# Set format on each routed source pad
+media-ctl -V '"msm_csid0":1[fmt:SGRBG10/3856x2416]'
+media-ctl -V '"msm_csid0":2[fmt:SGRBG10/3856x2416]'
+
+# VFE sink formats
+media-ctl -V '"msm_vfe0_rdi0":0[fmt:SGRBG10/3856x2416]'
+media-ctl -V '"msm_vfe0_rdi1":0[fmt:SGRBG10/3856x2416]'
+
+# Links
+media-ctl -l '"msm_csiphy4":1->"msm_csid0":0[1]'
+media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
+
+# Capture VC0 on /dev/video2, VC1 on /dev/video3
+yavta -B capture-mplane -c -n 1000 -f SGRBG10P -s 3856x2416 -F /dev/video2 &
+yavta -B capture-mplane -c -n 1000 -f SGRBG10P -s 3856x2416 -F /dev/video3 &
+
+---
+bod
 
