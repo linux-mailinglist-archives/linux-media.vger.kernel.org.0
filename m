@@ -1,100 +1,89 @@
-Return-Path: <linux-media+bounces-58150-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58151-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8M+YBjew1GnvwQcAu9opvQ
-	(envelope-from <linux-media+bounces-58150-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 09:20:23 +0200
+	id sBh0LEq01GnvwQcAu9opvQ
+	(envelope-from <linux-media+bounces-58151-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 09:37:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CB53AAB7F
-	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 09:20:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DE73AAD7A
+	for <lists+linux-media@lfdr.de>; Tue, 07 Apr 2026 09:37:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4435D30158BF
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2026 07:19:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 71C6A3031822
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2026 07:37:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FDAA392C25;
-	Tue,  7 Apr 2026 07:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C669639EF38;
+	Tue,  7 Apr 2026 07:37:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="znBNNsFL"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="I1ZcWRtR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011065.outbound.protection.outlook.com [40.107.208.65])
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010007.outbound.protection.outlook.com [52.101.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC2F1C3BF7;
-	Tue,  7 Apr 2026 07:19:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620C5396D15;
+	Tue,  7 Apr 2026 07:37:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.7
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775546374; cv=fail; b=WEnzIR5ViLHPNpliSxVkMzya+00DdqWClfB4w3z/zlC0Pr/Vc9mSG72yISQ0lSY5R5ih9lje2+WixJdx2MALs+Yprwh11/hnHhTIIHJ9Ngd2tsclqXYlmjgRYU6berQya4U0At0ubd3QhBhyy1Jbs1uqF2Y0V4r20Vn3ov0kiC4=
+	t=1775547431; cv=fail; b=R9k76AGYNiahChcp+0vE09ZUnNE6IRqNmiR4jAsjQ94blLQ4N+JctHX69SC7tRVCqYSsfaDOIJLXLQxhafc+eY+5uHAuVSvOZeG5MRECkFm4SqzxGklq8au/QJCC9xRXfXHJaFpU7k+M2o+VSSb19jr3aavxQXN3Ay4hRb9NdYY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775546374; c=relaxed/simple;
-	bh=SRBNVmfDCQS+lH5EIXlplTzG02YOVulXVoMYoi6ypVY=;
+	s=arc-20240116; t=1775547431; c=relaxed/simple;
+	bh=pvs17D5ghxx3pT39+PyFp2DLf9URdRRhPu9F495fLJk=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=RwVNKvwByaY4mu/D1XfhsfHBO9pRbouxgpyABfCp7DZ2hGjk8qLfiMGhZtb86ssSh93k0YODKyZ9bafSVtII8oe/l3mir3pUC3hde6KZ9G3lh5uBSfvjUlMTBhSql5N9RXLMpiaVGB2wxtiagZS7ZP/TQP4594f+XU9rp0RS1Xs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=znBNNsFL; arc=fail smtp.client-ip=40.107.208.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	 Content-Type:MIME-Version; b=SucBG6kgZpOAtx+2sr4U06x+3GUvKrjLEouHUhVNyW/Bal2lPmBheKh1C4r0i7sjGEHmh4uPO0qT8pOyhzJTONBuaZNhISBlbvN4+A4TJmtglglxNRi6VuOdMHedJWCaSZaj0+CjYJZ+/lzrTPX1YB2IA5aMpX/oxjF0zVwCq+s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=I1ZcWRtR; arc=fail smtp.client-ip=52.101.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LRuqSzD16SX+NslN7kcDw8Oj9Jaom/RS7Dyrbh7qds68E9qQxhkVzhGx0fACP11sLrQPQDFdNKOoiihBrHROFLhJKMcy2YPToIdqxLAFtLOLgIgSxoz/2wippjnZVL1wKh8UhzF4CZltGdAczhSYdfeQtvUTG1G9kb8gc0GXHr5+Gjbhqav6sP4bckAkDyaa6LIEtipie6VuvTo+P59obD8Zo7Fo5bMEQI7AbWZ2No1HgVqZDvvmci4W4eq1LUvagYj/3m2O+DMxX+oh5/uCgToHpUoc8Y+5aJjZNsaMfcEpPAKRQlZWym2iiFcNTDb7ClF4BERz3R27oKfMWaUFvA==
+ b=mr2HE5I7TRTok04JUxGAIviU+sx8bBcvPJDc0eD1OLRjMvexb8NqypykosTiz7BSMRQtT+kz9qsEXZl0sLxV52TeXdlH6/CLiTSy+J7NRvF25KbFMsiAaimD37AYkhK7F1MR1jIn1tCI6AnxOVkP0zl9rv2vVRSksjD8aGIlG0fma2Q9bKAU2SC/qwym1ThbEZEbNw/wwjwJqE/2Ncr6I2G95ktapz/y0ldXBpxD3s0TWxzZAL7qSVi9J+FWPduRbJxPKOlArUZBjUFKZiXaWrJsuA33cAQY3wDx68qaJ/pdzOLWTPCRiG/ESxa50MRS4L1MW0Btk59kKknvKR3pCw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H2204gj+Gxyx6TqY08eJCYKhjd0/SFZa2rqsP3AN3KE=;
- b=bshUwdhH7+7VZlfYFC5npmVgCWEBYYSfXiHWx+Js8mFPJCvqtNPTECXZuc/FWCxJW0eIl79NbtszhauUj80J9lnGXDkNPKIkUrB9EPM7jJEHBut4KjLcgHl48E/jTE2VE8yOE7+mHTpAE6S403nmLJ4H660qbFimLX0kO8Ll58jL4CRQTeaWciJ2ke98BbUswEdWQKTkGLuYMfFrXih0ahSFpj/EeAuaKsRAmwtuLTq9uKWcB5HaAx5TtXI2CEzHVsK/ee/YRk7EyDUjUFanMM31HRCOUZJwmdbxTK+a6XoA6lp9XH4ZKFBYuZKX6WtoZqVljXewnCjMJHz/gMV5rQ==
+ bh=IJBRXN3P5fGYe205STdMAFvshqcm4C934yvfMQ/Cc10=;
+ b=batr5VloA6X9ngVPFcphLH21s8BR+hPS6cCRk6SQdZJ6Xmp3V0OzXsBZ4oSg0vYWh3iZjW5ebL2VmTy6oaHScwKx2UslS85QaPnYiarWpKRcIpwryf1+b+OR4jVGVnHY5mYj+f7/RgHnyncJh0vSsV6jQLcVGXEPjKZksESzAfMfCIlsR2IJ4W7v4ZC8jphI6/HW7Zww9HKBKJRlGq3/+qaMHSx0tulyoDLkA8YQX7m5rYRL20GWgUfJC4OdZ1S1orJ+BJqALt/leMTz0LuLAzAcswJdj7tzVZy+aSh4UD4RcPNWT/vkEuLKrVB2qw18UABl1gYVp9giCeu/UbY6AA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H2204gj+Gxyx6TqY08eJCYKhjd0/SFZa2rqsP3AN3KE=;
- b=znBNNsFLMc8EUiD1DhDCJvz4r39t9ii9Q3S5XLtGO5Oi7WZSARO3b3AYoDHIDfO+8xdZnWXQcI7ZSXA0w7CcYcolpYO+Wwzd6yLvG2hewZJh/DGYNdxGwX5VRk4h9cByvTS+FTBKs3lQhX3z6MaYmPDnEkFmG/HiovtxqThGO5I=
+ bh=IJBRXN3P5fGYe205STdMAFvshqcm4C934yvfMQ/Cc10=;
+ b=I1ZcWRtRdGih564alvYn/+yCE2FwfFfsb+0dL0Olv4VFsNGf98DR1/3nX5mi53x0aNdVJGBmRe5mlzLL+sQ6vYmsRhxaYaZFShuj/cgkn+7TiiYjjP8n58xY+IVwJtoFoKoxH4WBEflaL6Vb8VRJVE9HvANUkiUdmugmovDd0xX7FM7+gqbMi8UcdMtWs+XtsP80dcXOWwYMNcnMwbq0k6dlwlLD3NuuwQJsiCYikR0JwQQo2h5Xb+lVOrxFbqrS2QS59vbUbpCFx4XZTDCCRE7yISKp0amkMecAxoVpKeexOmcKexCUkSgcT6huVFZEmQdvwwXLQ95UjRTdmLwwyQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from LV9PR12MB9829.namprd12.prod.outlook.com (2603:10b6:408:2eb::9)
- by SA3PR12MB9226.namprd12.prod.outlook.com (2603:10b6:806:396::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Tue, 7 Apr
- 2026 07:19:30 +0000
-Received: from LV9PR12MB9829.namprd12.prod.outlook.com
- ([fe80::2bc0:451f:661a:ac32]) by LV9PR12MB9829.namprd12.prod.outlook.com
- ([fe80::2bc0:451f:661a:ac32%3]) with mapi id 15.20.9769.020; Tue, 7 Apr 2026
- 07:19:30 +0000
-Message-ID: <21dfb3d2-d838-4325-8a6a-6024b851cbc5@amd.com>
-Date: Tue, 7 Apr 2026 15:19:20 +0800
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
+ (2603:10a6:102:516::16) by DU2PR04MB9020.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e3::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Tue, 7 Apr
+ 2026 07:37:05 +0000
+Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
+ ([fe80::d3f0:3c24:f717:4989]) by PA6PR04MB11910.eurprd04.prod.outlook.com
+ ([fe80::d3f0:3c24:f717:4989%4]) with mapi id 15.20.9769.014; Tue, 7 Apr 2026
+ 07:37:05 +0000
+Message-ID: <4e669a11-38ff-41a5-b54d-8f50841b0411@nxp.com>
+Date: Tue, 7 Apr 2026 09:37:03 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 0/7] Add AMD ISP4 driver
-To: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
-Cc: "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
- "laurent.pinchart+renesas@ideasonboard.com"
- <laurent.pinchart+renesas@ideasonboard.com>,
- "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
- "prabhakar.mahadev-lad.rj@bp.renesas.com"
- <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "sultan@kerneltoast.com" <sultan@kerneltoast.com>,
- "Nirujogi, Pratap" <Pratap.Nirujogi@amd.com>,
- "Chan, Benjamin (Koon Pan)" <Benjamin.Chan@amd.com>,
- "Li, King" <King.Li@amd.com>,
- "gjorgji.rosikopulos@amd.com" <gjorgji.rosikopulos@amd.com>,
- "Jawich, Phil" <Phil.Jawich@amd.com>,
- "Antony, Dominic" <Dominic.Antony@amd.com>,
- "Gong, Richard" <Richard.Gong@amd.com>, "Tsao, Anson" <anson.tsao@amd.com>
-References: <20260320084146.200988-1-Bin.Du@amd.com>
- <7d5d52bf-b0dc-47d4-8cb8-d6099fd05c57@amd.com>
- <470a9fbc-c4c2-4bde-a91d-a22f1c730b31@amd.com>
- <LV9PR12MB982900FA14329B742FF64BBE875EA@LV9PR12MB9829.namprd12.prod.outlook.com>
- <adSlwqPVF81feLHx@kekkonen.localdomain>
+Subject: Re: [RFC v1 01/11] media: uapi: v4l2-isp: Add v4l2 ISP extensible
+ statistics definitions
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: julien.vuillaumier@nxp.com, alexi.birlinger@nxp.com,
+ daniel.baluta@nxp.com, peng.fan@nxp.com, frank.li@nxp.com,
+ laurent.pinchart@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Jai Luthra <jai.luthra@ideasonboard.com>,
+ paul elder <paul.elder@ideasonboard.com>
+References: <20260123080938.3367348-1-antoine.bouyer@nxp.com>
+ <20260123080938.3367348-2-antoine.bouyer@nxp.com> <ac93m33MhldSpYDj@zed>
 Content-Language: en-US
-From: Bin Du <Bin.Du@amd.com>
-In-Reply-To: <adSlwqPVF81feLHx@kekkonen.localdomain>
+From: Antoine Bouyer <antoine.bouyer@nxp.com>
+In-Reply-To: <ac93m33MhldSpYDj@zed>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TPYP295CA0021.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:7d0:a::11) To LV9PR12MB9829.namprd12.prod.outlook.com
- (2603:10b6:408:2eb::9)
+X-ClientProxiedBy: FR4P281CA0042.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c7::12) To PA6PR04MB11910.eurprd04.prod.outlook.com
+ (2603:10a6:102:516::16)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -102,145 +91,244 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV9PR12MB9829:EE_|SA3PR12MB9226:EE_
-X-MS-Office365-Filtering-Correlation-Id: 104989f3-ca24-4196-56b6-08de9476026c
+X-MS-TrafficTypeDiagnostic: PA6PR04MB11910:EE_|DU2PR04MB9020:EE_
+X-MS-Office365-Filtering-Correlation-Id: c57f8221-149a-4d8d-0ae6-08de94787758
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|22082099003|18002099003|56012099003;
+ BCL:0;ARA:13230040|376014|7416014|19092799006|1800799024|366016|56012099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	kLQKrO3lgAJlc94EpGEjjptTJaAXPJG16PWygnanFsB1r5VUghLwJDorDK6p3l1fXNUYCNa8OXBMSTj/OcRCz/QN81QIJInbAM0Xl4tnAXYHRGi1JdxIBxhdZXKpwxJ1SZtqRqaqBve0I2UMEwyHoy0yjaOcLysn66BPmKqiYrOI9bZ9Cfsy2q0AO657tdEzxnbIPYXtpiqNx8+nsouZGo/n+2X2W0IGh05EOwpRgNDrdL7YSVuFgurzoXQZufLvs9h7E/oGGKapFQjrBjngkHTxd9QE5BciNZdXda9bR5bBBVSClqZqOwNy218eVf7WsaEAM5oI/Bj1MpZQvvQxj6LdlaaX458IcbGXfkI5w563em4U1394eo2SiqnGNmIumfR69yIr032i55anqquZ8QAMlYYnEBRDukXJUwEBlG2PZnMSO54OyqymLNF6nfX9qYPXEz5O/PekQfzPDx1oXq092iV86SMWbP5Qo5zEciMivBYoDMAzxQkasGBzXp4ANgLWETxYTTPCHOV/A60rd3bpWdoTDft6TqcdyT4+WQmYDMuNRjRexLIkMJuimFGzcETTDN5WziFNxFejAlnuR2bt/m0F37/CW0N1YLSZhI6QEXrCwpHke+c9vqo1GFsu+hhwajD3X5uXzGcBnHUbcFN8MWL4dFprI7gHkNe6G+M3P3j9ApfdMBvV95NFnQO625SwiaTSlf2L6KFKdvlr2xIaqzkaC3O09OZq5DC30l4=
+ MMmlXQ37bnYPzoKXUgZBvS63vpd/iaZ3m0u2/VbQqxlYsQ1yYkmRukhFs3IguLpigXW3MB/sBvD/9yXnFu6qP9GT+i10kKtblw1uq+4o8mnP7vPOVo86kSRf8EU7hHEafgTBpTXQZ847rp1hteAYDP35QTtVimXDafsq9TETXVuPZeRKqG3GEmEO1MU5Ufddf2JbPZmhBbdblpbbdNXYRhbwKZstP1dSoIXpLgUsusLuZwHtAmN2cyfDGVXtaAhvXj+UXTIIS0xDujdMQe5ilrVKTZfg+S8jdVU7ELOGyuX9gQyyx2UJwjwlBixouw4bTXYJ6JlKbKcldXI43X9ttP5K8RmcEy/1FV3+rpWEI/Nn2S4a0hAr8Wxn2X7IpbFcYhBlhcvX6z1HnrX12OobqJ5Ddd37+47pwAf8wmqUgALOwXGT0fw4W8BwgDvA67AGPVpSGVK8xYEyv9P2FA9xf/7fPLwai5DDSPWGsgpGWeJDoliCNgr7D5dEkpFj1eyA2QGlYCtHgEuhq5zzfqJodBFSe25BYnJP7dlwTHxSEHay/zYhXwNJWRbLZE1C9BMVkltIzsyAyCjZPfhi/4rH+W52jdEI7LC8ztWRYALCA3VJMiJnuoD2ww3NcMZczk4CgYbycApdJeWZoi55zC+umgNUYWNQkRDHZkkacMlEI004MB3byHZfAulXKR0GBZnaUmcBhYrwPhB0XKZGKsq7ZJa/sLSzDUhLGyf15b9YUPs=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV9PR12MB9829.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR04MB11910.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(19092799006)(1800799024)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cGp4ZXo2ZFJLSis5bnhYUlFTRVFkeG9BM0NPb2Q5UFlqSVUrbTBJZG8zWVVv?=
- =?utf-8?B?R1dWRkJKYnR6aXo0Ri9aa0p1WmlFZGlYNDVXMmJJZ3BiSjMxb3cwcis2NEsz?=
- =?utf-8?B?dEljcTRmdndNd3NKaDZSK0VUSGRRY3JZWHNBcktxK2daSlFOUTJ3YlVHMGY2?=
- =?utf-8?B?RGtUd3pGWHpZb1Zmd09lT0FmV21mT1V0NVRrbFZESHcwRmJiVDh3SFBjV0VX?=
- =?utf-8?B?TXMwTFlqa2wyMDBkWDUra3MrQTYyd3V0KytqNDVCbklZTVdrd0NVL21PODl6?=
- =?utf-8?B?eU1wTCttbUwyYUpDTlNBR3JYZ1E4WTMvc2RlYVJ2RklITWp1RTZWNUJpdlpE?=
- =?utf-8?B?TkNORzF5djk4TE9COFlOZGRSYjc5NGlyQS9xM1N1UFR0TFg5OHBERmwvTXVZ?=
- =?utf-8?B?em44Y1VBMld5cUFrcU1CSlNqMUw1M21XblUreTB0M1Fjd01xZzFQamVjV0F1?=
- =?utf-8?B?WHlLNkZCcHhvbUxkNFVZTDBxQUpaRlR6YncvdWl6RithNU41OHJ0aDA0Ylpw?=
- =?utf-8?B?Zit0Z0p3ZFViYUZEVmNuWHg5b25laWxGZXpxNmljSFVBaE9NVnQwV1B3bzM5?=
- =?utf-8?B?by8ydFp1cDRsYzNJTVpuYU5lUDl1VUNHbUZlTUE3N214TzJGeTZkWXBheStm?=
- =?utf-8?B?T2tGV2Z4TGdndU1DdWFneGhqa2UzRXBzbDgrK3pHVHYyN1llcTg4RmhQZmtr?=
- =?utf-8?B?RzB6NitWa2ZjNnd2MHlkRTcvVEczOWNJb0owL2UweTN1cWFEem5OUHBtck1V?=
- =?utf-8?B?dzcvaERtNzR2dnBORUFVSFNqNDlSNGJsNG5NNU9XeFZmUkd1dGlyYTl6UmFm?=
- =?utf-8?B?a1NETkp5LzI5Snl5TXl4dWZMdE50amdweXhkRzJCbGRRZUlaSzhNOUpMT0wy?=
- =?utf-8?B?VzJqL2VPdGhzamw2MjdGcG9ybzhqSlpzNkdram1XYmhFdmQvbktucW5BN3NE?=
- =?utf-8?B?NnJ6bXJpaHZubmNRZnpCR3llTDhyRCtKU0FFY0o2Y3J1bWJCZ2JvanJJQjdv?=
- =?utf-8?B?QXRnbnUwUDVqSDQ3MFl2YUIxbUh6TXUwSVRDWm43dkNxbTdHQnNsWE1DQmMv?=
- =?utf-8?B?em9VNDJlR0dKSUpodmhrd3dFMitXYmVZNkkxZTE1MTVxQ3RDQ0lpN3l3dmd6?=
- =?utf-8?B?dUJSMmVVLzRFSFg0TEVFQVVrUlpNWUVsejU3eXpjMjk0b0psa0NaSHFhT1E3?=
- =?utf-8?B?NWsyZ1FhOCtmZkNOV3NrczVQYWloYTAwUlZxcGNPUG1GcEo5WHhFVEh3NFlq?=
- =?utf-8?B?REx6VzFncHV1WEVTWXpLUHV1d0l5bm1IR211b2t1T0dOMWU3dEtuVXhqcDcw?=
- =?utf-8?B?SHI1MWdHYm1oMWd6RzdsTnVNZVlwazVnTEsrYXJCZGlLWlQ3ZHpBVVcyeG1Z?=
- =?utf-8?B?UFBVMVVyUDF0WnBnY1Q3MWlqMTgxYld5Y05lK2JxR1JScVlrNWpaVFp1T2lt?=
- =?utf-8?B?WTlnM2NVOFpsdWlBby9iZG4raStVT3pmbG16eXgvT25kVlJJVWZOUTd6Qkw2?=
- =?utf-8?B?ek1FV0FtUlNIcG1FbHg3RGhQc3RuUm1NelpveWs1V0cza3h2NDRVL1A5MVJh?=
- =?utf-8?B?eXhUZ0o3Q3FWK2xIZW5MYTg0M25xMndVeVdydWkzU05EU1RoTjRPejNzajlk?=
- =?utf-8?B?UmEwUFhLYWNVWVR3aXBwSFhzSmUyS2h1bnRicitCRTRLcXhOREJUNU1rN0di?=
- =?utf-8?B?YmlQNXd4bTgvaXl0M3NRSXJZVENHRFVKT3c0L1hmdS9VekJLbHNtUE1KR1lG?=
- =?utf-8?B?OVl4THBuRnZaQTd5R2tFWlowUWQ0V2doRllqSFBpQS9CSTRIRmdZeXFkZ0hn?=
- =?utf-8?B?ckF0U3BmbEltUW1JbFgzZVNGaGJQeWZhWnRzKzZmODJQZFVhQXpUNlhjVjAr?=
- =?utf-8?B?c09SRUVsT1pRNVBPRzM4Rkc2OWpZNk5DNVN4TkJ4UmRFV055UThDOVdta3BG?=
- =?utf-8?B?WVQ3ZVFtLzFKN2xHSFJkVXl0cXZjUDVzcnFzQTNHK0ZsL2VTUVBFZmppb1NH?=
- =?utf-8?B?alh4OW93Z1l3L0ROdDZlcnN4T0wwVzRJN0VwT0RqQzBRZVptZFFOSXE3Unp6?=
- =?utf-8?B?Q1lma0x6TS9NRldUOTlFbTJHN2ZRd2pHOStMSUhwOUxGa2lSbUtaM3gwK1RQ?=
- =?utf-8?B?UEErd25wa2x4Q0lOY2NQT2pqVFpFWGoxc29aSXpoalh0MWdxQjg0QS9TRFZF?=
- =?utf-8?B?Rm83aVBCWFNBbWF5Qys4KzByaTNtZzZ5ckxEU1ZUY1Nnb0loNUVjM0NPVjZC?=
- =?utf-8?B?VTlhSnBtaGxEWW9HNmhteU1jMER3NEtaMVQ2VzE3TEhScXgxVlNXYnhGYXNa?=
- =?utf-8?Q?HjPsGOeYa7fh1I3zeU?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 104989f3-ca24-4196-56b6-08de9476026c
-X-MS-Exchange-CrossTenant-AuthSource: LV9PR12MB9829.namprd12.prod.outlook.com
+ =?utf-8?B?akUxZm13NzNKb2ZZanZvU0I2U21TZmJwNlJtN0ViVXAvZ21Yd2tSb3l4a002?=
+ =?utf-8?B?aUd5LzdmZ3UyN0NVVmlzZzFqeVBsd2pOMzNhcFVZNkQ5MW1JOUhWWlByOWxs?=
+ =?utf-8?B?d04zdCtVeUtoTzh6ZUdnSWFXOGhGdER5a2tXYnkyeUNJYzVwNmxMdlhRQWlT?=
+ =?utf-8?B?c2libUpxUy9ZZnpCbXNjcFR6TGVPNC9qM1VQZzRUVWxtS28xcFpjL0hwbHpE?=
+ =?utf-8?B?R1VIbUN6SlFrUVM2ME1GcUc3QWo3S004NXkvNlBCeWIvY3VuNTEyOTJ1WlpE?=
+ =?utf-8?B?SnRmYzZnbE1WT0ZsTmMrSVRLanNFWU5iamFaWUtzeUJRdTk2TGlwdWFJY2lR?=
+ =?utf-8?B?MzA5eVlJVThkMWg1dDExZTltT0oyL3l1NjIzQk05MGhnNi9JUTIzbnJjai8x?=
+ =?utf-8?B?aVFqajJmYlhaeGhvRWtCMmhMNE1BRWhmTVg3Q041Vm45SndEcm45cU9YdUd6?=
+ =?utf-8?B?aGl4N1NVRVp5OEEvSFlZbytGa1VkNEZCY0hQaEZqVmFDei9qd3MzRmpmeUVO?=
+ =?utf-8?B?Z09xRU5oSDhWTEp2ZndlSTN3by9UZGR0NGkxb2hhQnNadG55L1FDeXlFK2I1?=
+ =?utf-8?B?WDNxSGgxK2VxQnJXV2MySTZFZ1JNbEpYTXBoSEN5VWUwNDBoanYzUUZ2cTh5?=
+ =?utf-8?B?RGMvOE93REE3c0Y1WjkycXVObjk5ZXJsejNBTTlFUnV3R2kra2hhK1FxUEJ3?=
+ =?utf-8?B?djBsOVJJbVRtelFEUXNickJhWWlGbEZMS1Z3KzQ3bmJqZ2ZmWENTWUJEV1J4?=
+ =?utf-8?B?OGNyWWdkeHlVRmMwM05rRGc5MVJESThHSTF0OU9NeFlMdnc4a3hTdUZ1OW50?=
+ =?utf-8?B?Q0xCN2V1Q1luQVZqOWUrdWhxZHdudFRQcnplRWpHb0JnSERSUlNrUHY0Q3lo?=
+ =?utf-8?B?WkpjdWVETFJTREMwMitWUzFma2VIdnBPNWhaMUh3M0lYSlhUUVlVbjJsOXBn?=
+ =?utf-8?B?alR2MkFzZ3VaSzRCaGsyQ1d0SHlsWFI0R2JINTAyaXY3WXUyQ1dZTGxhYVZW?=
+ =?utf-8?B?N3VFZ1Y4TGNQSEZoWmk5dWw2aHdDRk1KM0VZc3R1dzByTWZxUkN6Uk4wSGZt?=
+ =?utf-8?B?b0ZUOUZzZVh0dDBUNElzSitHNHFWQ25aS2NEMmdVbnA2dDQ4TzZ1SmIzdkxD?=
+ =?utf-8?B?UTVIQk1KOU5vdC9tL1NLa3gxbTc5OGRkU05aSFIrM0xmUVVJZkdsUXdSaVlP?=
+ =?utf-8?B?TGtES09EZE9RRnFTWk9hcm5NQzJJdHZCckh0WW0wRG9IVmVkend1dFBMYUZP?=
+ =?utf-8?B?d0ZOdDV0cG52WEhLSlk5N1BYTWJ0YUp0a3UrRXNGNEhwWXl0dnFVRzdjbHRl?=
+ =?utf-8?B?R1BlbmIwc2ovOGFwV0tqZ3pvNjQ2UldrT0lpZjk3YnRTSHJDWHlHT3dNVmp1?=
+ =?utf-8?B?bGF2cWMyL2gxK1ZQaG1GcTNVbDhJaitOM1pPd216WGpxcEtTK1k4UTM1am4w?=
+ =?utf-8?B?V2hiQzVWR0MvV0NJdjVNdjBLeHI1cE14VFl4Wm9RV3Z3YXVDSDY0SGZ6bURN?=
+ =?utf-8?B?SXdTUDBLMWpwNlNkSHJzRitPQ0hqZTNHZnFUVjMyaCtPVUY3dDNVSWN2NXMy?=
+ =?utf-8?B?dDFkbk80a1JxQzJPTTZXTGtHQVYzbWhuT1E4RDBLVmlOVTF1U2lsVG44VzNH?=
+ =?utf-8?B?czNzUDN6SVE5NUZQbWs2bExwcWovSGhPRmFvb0tZQVp6OTMxNmFHL1dieTMy?=
+ =?utf-8?B?UkRvazFNRXlUU3pVQkIwVkpqUW1FVkxPbTd2aE5UbkdYd2xycXZnYnF6Mzdv?=
+ =?utf-8?B?TXVuMnNpRjBqM0RjYzgrRDRRMk11K1A4RTBWVU9VcE1uV3V1dUgwdXlVV2hk?=
+ =?utf-8?B?WXpZa1dQa0VocWZzdHJrbEliRG1ma2lvdkFDYnN4dFNmdGo3ZVhkU3NwK3Yw?=
+ =?utf-8?B?eUt0VjgvMnkwRjVmclc5eERUTUp3VVh6ZUR5NGlqYmU5cGhQOFJJQ001cHA3?=
+ =?utf-8?B?cVEzK0lNNEV1d2czOGVaNy81QzJuSWdRQSt5Nm00WFM5cVQxSU15blYrUnhC?=
+ =?utf-8?B?UFE4cGRyQVV5UUhkcXRNUllIVEdiRE10cEdySUJ5bmRkWGxUcnVKamF5SVRW?=
+ =?utf-8?B?dGxwbG5OWkUvaEswY1ZLbVpEblFZY2ZNaEE3QUtWdlhDRnM1NmZUOW0yUlFp?=
+ =?utf-8?B?Q3BMb3grQXBOeEpjcjNyeGtCRGZVRVNaVXN5SmI2MEd6U0cydnpkUy9KSWRT?=
+ =?utf-8?B?dUtORFVHVzNsTVZEaUh6Vnc5dWx5QW1ueksrc09QMEN3UWx5ZnZKeW5xU2tD?=
+ =?utf-8?B?bDlld0FMZjNDb09RakpjTmRYQlE0cEI0MEE3QnV4aEdHN1lwcFRKekpQOXlx?=
+ =?utf-8?B?WkMwdTFvQzNZd1FBcms5dFR1a3JJeVc1U2pHRGJhYmxkdXhuK1R4dz09?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c57f8221-149a-4d8d-0ae6-08de94787758
+X-MS-Exchange-CrossTenant-AuthSource: PA6PR04MB11910.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2026 07:19:30.3913
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2026 07:37:05.4753
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U8+A2z100oUWfF/+p/YdxJ+/G+T9ePytZg4jrnBphAge+Fys7b5DV2wDAZ3VUx4u
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9226
+X-MS-Exchange-CrossTenant-UserPrincipalName: WhSNW/njCtYccx7IUeqzIXaVAUf4fglGqawkJvZ31Qg8cgOlpu+ERg7mklp7Y7bLgMhejixqjCChVK1sgDo9/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB9020
 X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58150-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[amd.com,kernel.org,xs4all.nl,ideasonboard.com,linaro.org,bp.renesas.com,vger.kernel.org,kerneltoast.com];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58151-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[nxp.com,ideasonboard.com,kernel.org,pengutronix.de,gmail.com,vger.kernel.org,lists.infradead.org];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Bin.Du@amd.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[antoine.bouyer@nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
 	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 87CB53AAB7F
+X-Rspamd-Queue-Id: 11DE73AAD7A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Sakari,
 
-Thank you very much for picking up the series and for updating 
-Patchwork. I really appreciate your help and support. It means a lot to us.
-Yes, that's right. <20260303224433.87242-1-kinncj@gmail.com> is no 
-longer needed.
+Hi Jacopo
 
->-----Original Message-----
->From: sakari.ailus@linux.intel.com <sakari.ailus@linux.intel.com>
->Sent: Tuesday, April 7, 2026 2:36 PM
->To: Du, Bin <Bin.Du@amd.com>
->Cc: Limonciello, Mario <Mario.Limonciello@amd.com>; mchehab@kernel.org;
->hverkuil@xs4all.nl; laurent.pinchart+renesas@ideasonboard.com;
->bryan.odonoghue@linaro.org; prabhakar.mahadev-lad.rj@bp.renesas.com;
->linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
->sultan@kerneltoast.com; Nirujogi, Pratap <Pratap.Nirujogi@amd.com>; Chan,
->Benjamin (Koon Pan) <Benjamin.Chan@amd.com>; Li, King
-><King.Li@amd.com>; gjorgji.rosikopulos@amd.com; Jawich, Phil
-><Phil.Jawich@amd.com>; Antony, Dominic <Dominic.Antony@amd.com>; Gong,
->Richard <Richard.Gong@amd.com>; Tsao, Anson <anson.tsao@amd.com>
->Subject: Re: [PATCH v10 0/7] Add AMD ISP4 driver
->
->Hi Bin,
->
->On Fri, Apr 03, 2026 at 03:17:18AM +0000, Du, Bin wrote:
->> Hi Laurent and Sakari,
+On 4/3/26 10:19 AM, Jacopo Mondi wrote:
+> 
+> 
+> Hello Antoine
+> 
+>     in cc Jai and Paul
+> 
+> Jai and Paul are working on upstreaming new ISP formats which would
+> benefit from usage of extensible stats.
+> 
+> No pressure of course, just wanted to check how things are progressing
+> on your side. Do you have an updated version of this patch which can
+> be taken in ? Should we sync and work on an updated version ?
+
+I'm still on it. Things are progressing well, but little bit delayed 
+because of neoisp rework. I hope to submit patchset (v4l2-isp + neo) by 
+end of this week.
+
+BR
+Antoine
+
+> 
+> Thanks!
+>     j
+> 
+> On Fri, Jan 23, 2026 at 09:09:28AM +0100, Antoine Bouyer wrote:
+>> Extend the v4l2-isp extensible format introduced for isp parameters buffer
+>> to the statistics buffer as well.
 >>
->> Just a gentle reminder regarding the review request below. When you
->> have a moment, I would appreciate it if you could take a look at this
->> patch series. Your feedback would be very helpful to ensure the
->> changes align with upstream expectations and maintainability.
->> Thank you very much for your time and support.
->
->The set is in my tree (amdisp4 branch) and I intend to send a PR for 7.2 once we
->have rc1 in the media tree (or whatever process we manage to get working by
->then).
->
->I updated the state in patchwork, too. I understand <20260303224433.87242-1-
->kinncj@gmail.com> isn't needed, is that right?
->
->--
->Kind regards,
->
->Sakari Ailus
+>> Like for ISP configuration purpose, that will help supporting various ISP
+>> hardware versions reporting different statistics data with less impact on
+>> userspace.
+>>
+>> The `v4l2_isp_stats_buffer` reuses the `v4l2_isp_params_buffer` container
+>> definitions, with similar header, versions and flags. V0 and V1 versions
+>> are provided to match with params versions. On the other side, ENABLE and
+>> DISABLE flags are not really meaningfull for statistics purpose. So VALID
+>> and INVALID flags are introduced. Purpose is to force ISP driver to
+>> validate a statistics buffer, before it is consumed by userspace.
+>>
+>> Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
+>> ---
+>>   include/uapi/linux/media/v4l2-isp.h | 85 +++++++++++++++++++++++++++++
+>>   1 file changed, 85 insertions(+)
+>>
+>> diff --git a/include/uapi/linux/media/v4l2-isp.h b/include/uapi/linux/media/v4l2-isp.h
+>> index 779168f9058e..ed1279b86694 100644
+>> --- a/include/uapi/linux/media/v4l2-isp.h
+>> +++ b/include/uapi/linux/media/v4l2-isp.h
+>> @@ -99,4 +99,89 @@ struct v4l2_isp_params_buffer {
+>>        __u8 data[] __counted_by(data_size);
+>>   };
+>>
+>> +/**
+>> + * enum v4l2_isp_stats_version - V4L2 ISP statistics versioning
+>> + *
+>> + * @V4L2_ISP_STATS_VERSION_V0: First version of the V4L2 ISP statistics format
+>> + *                          (for compatibility)
+>> + * @V4L2_ISP_STATS_VERSION_V1: First version of the V4L2 ISP statistics format
+>> + *
+>> + * V0 and V1 are identical, and comply with V4l2 ISP parameters versions. So
+>> + * both V0 and V1 refers to the first version of the V4L2 ISP statistics
+>> + * format.
+>> + *
+>> + * Future revisions of the V4L2 ISP statistics format should start from the
+>> + * value of 2.
+>> + */
+>> +enum v4l2_isp_stats_version {
+>> +     V4L2_ISP_STATS_VERSION_V0 = 0,
+>> +     V4L2_ISP_STATS_VERSION_V1,
+>> +};
+>> +
+>> +#define V4L2_ISP_PARAMS_FL_BLOCK_VALID               (1U << 0)
+>> +#define V4L2_ISP_PARAMS_FL_BLOCK_INVALID     (1U << 1)
+>> +
+>> +/*
+>> + * Reserve the first 8 bits for V4L2_ISP_STATS_FL_* flag.
+>> + *
+>> + * Driver-specific flags should be defined as:
+>> + * #define DRIVER_SPECIFIC_FLAG0     ((1U << V4L2_ISP_STATS_FL_DRIVER_FLAGS(0))
+>> + * #define DRIVER_SPECIFIC_FLAG1     ((1U << V4L2_ISP_STATS_FL_DRIVER_FLAGS(1))
+>> + */
+>> +#define V4L2_ISP_STATS_FL_DRIVER_FLAGS(n)       ((n) + 8)
+>> +
+>> +/**
+>> + * struct v4l2_isp_stats_block_header - V4L2 extensible statistics block header
+>> + * @type: The statistics block type (driver-specific)
+>> + * @flags: A bitmask of block flags (driver-specific)
+>> + * @size: Size (in bytes) of the statistics block, including this header
+>> + *
+>> + * This structure represents the common part of all the ISP statistics blocks.
+>> + * Each statistics block shall embed an instance of this structure type as its
+>> + * first member, followed by the block-specific statistics data.
+>> + *
+>> + * The @type field is an ISP driver-specific value that identifies the block
+>> + * type. The @size field specifies the size of the parameters block.
+>> + *
+>> + * The @flags field is a bitmask of per-block flags V4L2_STATS_ISP_FL_* and
+>> + * driver-specific flags specified by the driver header.
+>> + */
+>> +struct v4l2_isp_stats_block_header {
+>> +     __u16 type;
+>> +     __u16 flags;
+>> +     __u32 size;
+>> +} __attribute__((aligned(8)));
+>> +
+>> +/**
+>> + * struct v4l2_isp_stats_buffer - V4L2 extensible statistics data
+>> + * @version: The statistics buffer version (driver-specific)
+>> + * @data_size: The statistics data effective size, excluding this header
+>> + * @data: The statistics data
+>> + *
+>> + * This structure contains the statistics information of the ISP hardware,
+>> + * serialized for userspace into a data buffer. Each statistics block is
+>> + * represented by a block-specific structure which contains a
+>> + * :c:type:`v4l2_isp_stats_block_header` entry as first member. Driver
+>> + * populates the @data buffer with statistics information of the ISP blocks it
+>> + * intends to share to userspace. As a consequence, the data buffer effective
+>> + * size changes according to the number of ISP blocks that driver intends to
+>> + * provide and is set by the driver in the @data_size field.
+>> + *
+>> + * The statistics buffer is versioned by the @version field to allow modifying
+>> + * and extending its definition. Driver shall populate the @version field to
+>> + * inform the userpsace about the version it intends to use. The userspace will
+>> + * parse and handle the @data buffer according to the data layout specific to
+>> + * the indicated version.
+>> + *
+>> + * For each ISP block that driver wants to report, a block-specific structure
+>> + * is appended to the @data buffer, one after the other without gaps in
+>> + * between. Driver shall populate the @data_size field with the effective
+>> + * size, in bytes, of the @data buffer.
+>> + */
+>> +struct v4l2_isp_stats_buffer {
+>> +     __u32 version;
+>> +     __u32 data_size;
+>> +     __u8 data[] __counted_by(data_size);
+>> +};
+>> +
+>>   #endif /* _UAPI_V4L2_ISP_H_ */
+>> --
+>> 2.52.0
+>>
 
-Regards,
-Bin
 
