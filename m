@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-58217-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58218-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GD5AMp8q1mkUBggAu9opvQ
-	(envelope-from <linux-media+bounces-58217-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 12:14:55 +0200
+	id yO3/NXIq1mkUBggAu9opvQ
+	(envelope-from <linux-media+bounces-58218-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 12:14:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E1F3BA603
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 12:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5013BA5EC
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 12:14:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 48EEA30DB4D1
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 10:08:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E9320307EB79
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 10:08:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F34A3B6BF7;
-	Wed,  8 Apr 2026 10:07:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0964C3AEF24;
+	Wed,  8 Apr 2026 10:07:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="hkDTTvs0"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4PRTmYSP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011042.outbound.protection.outlook.com [40.93.194.42])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013042.outbound.protection.outlook.com [40.93.201.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86573B5306;
-	Wed,  8 Apr 2026 10:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590933B6BF5;
+	Wed,  8 Apr 2026 10:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775642856; cv=fail; b=rNVvNNF9Dew7UXDRT2i8zVCwH+QCPYbl0SGXVG3hfTEbFZ5K/30eQDYBUHxt3AUU4wgeE1dCk1xYaWUNpBeRB+tyO8MP4HzRQaCAy8Pvq7TVao3JS535AgnAOCM/wOa/gwQOaAFV97DHPLIe7ORFHrNU7D/vwOIrBmR2vHuJPbI=
+	t=1775642863; cv=fail; b=rQh1vwR5ae97tofmkZ5hxAA2+4UHCtPzmmY5qeeJvCdOVJQURHGJbzs3O3zjzAe7yl9gsY2cbBBQ8WdqA3/6puQPIQqVpuqF/Oheik3O4CwWo/NpkaX72CdLHbqp3S0hmMm08sXM/Ywu1X2GSZhB01dnskyOqRCvuuWbwSZeycA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775642856; c=relaxed/simple;
-	bh=uDOX9svzFmJOUu+OOMWNpcM2Wzc6m/tC/5LzqfBVWeM=;
+	s=arc-20240116; t=1775642863; c=relaxed/simple;
+	bh=r23Cy0NaiwsCt1GBCYK/Hu0KkL0swat9Hh9HVvFM7NE=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I8ouOEkpA4ki54WpGhWkFXfoHq5Hu6uentgyPkQ8heoFY0Z6qhhiHi5i1x1U1XhUvZTOWWrxB6ezPiVbbJgH5BOEn+l6O2yBXCECg5E2WQHbUXKWQSs2iGWdFcUe70sA84KbWPNt6EJDE4ysr2PE7pbHyGKXpOvjcnKO2AJUKXE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=hkDTTvs0; arc=fail smtp.client-ip=40.93.194.42
+	 MIME-Version:Content-Type; b=EXuR14rEmbS60BGs64Cto1xogU1TKaMJJ6FzI2gOSl+bblvJkqZ/N+layJGlpuprqrwlFTLiCpoyMdyAlOuOV3rXgO/WIg8jd04n2p3Qvf83Md7j6AO9R8cPG7/Ka4rOktlV03jzak5qZcbUi0FHF7Hyeq2TuW5UTZOz1HDm2Nc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4PRTmYSP; arc=fail smtp.client-ip=40.93.201.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=evXnz6OtruBl5pJj/ECM8KLmRJ5DYjp2COhCqkivoIEOrMvSa7npe149XcpKGB1fqwkOb94z45QrhJ8emrkhliCX9dYzJLIVJIMuKb3lZ+wi85IJ7WmFJZtHxsWOxRa4FzwwiFRDP4H7Qk0Ff1JGK+PGSNPZCg0Imc9XfdHFah1t+viGcATN/9xH+1eAXpq8Tq+m6CFoTZ9U17lTfJLREm8TFY6ZnjrFiFp8TIWS6i7h8grUrxo4aeG4N8E9/EWCeTWQol0/XKFFoGEWv1g62wcvvFIFgWn8IUyOpHQJADu4paX6IuAFnQPH/AUs+2xwJbARQ2KHJahi4qCQxwm6Rg==
+ b=l3DZNHxDsx1BMAfmBI5MVelhvos/SUuKvK14lqpUn+Agg1ERqbdY0XUrh9rTQ8sxgBSdRY4kuWdskqy8CNoDlmghC2NPvvloC/z5yq3+sdMpBL9lgbzIB9NfS7a4T4UVF25Zjz3ugswJ1au5aYYYI0hEUUoNWpf/j+bVHB9wjd/QGQAint7Db7uKnE4Wg7ijSl2LG7GRbs69TXaP/6EQURp1gWIyDKI3isVAkbxfVvm4kOdhV5SK5bXMOs0CoBO0HMHspA4LXNB20UznM1Jxy12ImlQ+rZpwPzQLz/5AV1J7b1DikX2Li/ihYs/ILsQF4M7ip4LHKyQMgGqnogSMzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9U43/arQtkQq2ldwXFqvC3Jwdig4eZ+ndkT0p4LuTxE=;
- b=RRH9nVPE16rgEZQ/NuiYpVZLZRvpmWQIttxQu8XuEqKeGKRz/c4rSpWe09Nqp5GTHOQU5dfzRjnOSR6oQAw6rOgg4flNXCrR3XYmEqm8mpAa2RU/tnS43Hfd8XLS+QwpY/Hxm9+2GIdfccgXzwGD1dikpafvMCgPb+SW4b4yPGrCnVbKUvDpimw232UzsLyv4osWTG8cT3Ufv6bF4j12Uygk9O2UX4njTSQ+YLgRl2QwvZ9Y4HXFQd9YsdXzm0THj+kqJtYqZdfEyJJx4ABTvlWBR+nED70PoCD/ZmHuOwy5m1iNkMHTVFiNiGCK+Pg1tH13gBStlZC1GodATz0ynw==
+ bh=KU/qZn6yp8Db2YGZP5eiexytoV3LmXULmALLIdcdl7A=;
+ b=iMHVIBrpSGEDdN0j1hJ2wnCc2b5Pxp7n37RGAzRawafnwwWWHk4GDS3S0zCU0pURWVz0eByZkpfKERb3vmLGsma06R9l6nA+55URkHrQw9Mw3rhZiR76cusX4dllclC+2WiK+mwab1UYJRVI5UcEqrOapDz02GCZLQDWqNXb6RBDTBKohGuA4+D5FuEBLT4yivEEGVqDNoBBo4nJmsopwPqpQwGnOh4ZkE+RVMVqrNQNPiDPZMDgfSpw7sVtYueV8DxALiiBoptYHDpnakCQpykt/lEDvilZJrbIdWCb81ON69wad1F/ZnWOzZsuFuE+YTUns7ts4Zg+q/FKtoPiDA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9U43/arQtkQq2ldwXFqvC3Jwdig4eZ+ndkT0p4LuTxE=;
- b=hkDTTvs000ON+5tdD6ya1SfHR/QGGnfTxDpsnTV0xXlInss6L4pmsMeE1LF+O6K7FVuCO2A0Oz2ngZCWijgeASVJtnAWic+Mil0g0JcsGQ8bwK7qZgs/rjZYuLoRrUtuqJjw+ykhBvj01vczDNNKS1ozA6iJa3JRnrt5a2F6N2E=
-Received: from DM6PR11CA0066.namprd11.prod.outlook.com (2603:10b6:5:14c::43)
- by IA1PR12MB6460.namprd12.prod.outlook.com (2603:10b6:208:3a8::13) with
+ bh=KU/qZn6yp8Db2YGZP5eiexytoV3LmXULmALLIdcdl7A=;
+ b=4PRTmYSPgqKFiaFEErDBVnh0Jge/H0d//Wn5jtjreT/SEFeFNgkw8N3igCbRroLxFrOKK6yx2qqsnjGAVckErhjJxnO/pR7J/wcL1rA+1MWiVLQpwg1GWVy3kaBEHQBG8ZgGqSNddquglQ04vdfP0N6sjHmthpJVwKRxCTbUzLg=
+Received: from PH2PEPF0000384F.namprd17.prod.outlook.com (2603:10b6:518:1::71)
+ by IA0PR12MB8748.namprd12.prod.outlook.com (2603:10b6:208:482::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.21; Wed, 8 Apr
- 2026 10:07:22 +0000
-Received: from CY4PEPF0000EDD0.namprd03.prod.outlook.com
- (2603:10b6:5:14c:cafe::a2) by DM6PR11CA0066.outlook.office365.com
- (2603:10b6:5:14c::43) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.33 via Frontend Transport; Wed,
- 8 Apr 2026 10:07:26 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Wed, 8 Apr
+ 2026 10:07:28 +0000
+Received: from CY4PEPF0000EDD5.namprd03.prod.outlook.com
+ (2a01:111:f403:f912::1) by PH2PEPF0000384F.outlook.office365.com
+ (2603:1036:903:48::3) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.32 via Frontend Transport; Wed,
+ 8 Apr 2026 10:07:28 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -66,13 +66,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- CY4PEPF0000EDD0.mail.protection.outlook.com (10.167.241.196) with Microsoft
+ CY4PEPF0000EDD5.mail.protection.outlook.com (10.167.241.201) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.17 via Frontend Transport; Wed, 8 Apr 2026 10:07:22 +0000
+ 15.20.9769.17 via Frontend Transport; Wed, 8 Apr 2026 10:07:27 +0000
 Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
  satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 8 Apr 2026 05:07:20 -0500
+ 15.2.2562.17; Wed, 8 Apr 2026 05:07:25 -0500
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
@@ -82,9 +82,9 @@ CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
 	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
 	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
 	<linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v6 5/8] drm/amdgpu: get rid of amdgpu_ttm_clear_buffer
-Date: Wed, 8 Apr 2026 12:03:16 +0200
-Message-ID: <20260408100327.1372-5-pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v6 6/8] drm/amdgpu: rename amdgpu_fill_buffer as amdgpu_ttm_clear_buffer
+Date: Wed, 8 Apr 2026 12:03:17 +0200
+Message-ID: <20260408100327.1372-6-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260408100327.1372-1-pierre-eric.pelloux-prayer@amd.com>
 References: <20260408100327.1372-1-pierre-eric.pelloux-prayer@amd.com>
@@ -100,30 +100,30 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD0:EE_|IA1PR12MB6460:EE_
-X-MS-Office365-Filtering-Correlation-Id: ee365a65-3325-42d2-f36a-08de9556a04f
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD5:EE_|IA0PR12MB8748:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc8bbeaf-1796-48a9-343a-08de9556a3bf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|1800799024|82310400026|56012099003|18002099003|22082099003;
+	BCL:0;ARA:13230040|1800799024|36860700016|376014|82310400026|56012099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	V6dbIoBKoo3ldil9lbhw7H2TWbWD5mdWZ7c91XRNXUGWECIAlV/G0VnXvj0bzqLLN5+t8PZ8QoVEpQ2Tdfbxd3GbybEXrGp0EN7GRbjXBbvG26CONlIEyjqXabfQPB0UUtvdP+t6VqD3CVfFQWJDQiTSMn2rC8wWqueytzXErad6msi6w3KXJw0YaCASJmdbd7OQwjH1R5OOuzdU7E+xNqw9QNvuzKv8oia55ITqCGj+LtK9GXgjPRY6k1KDnttx7rmtHFDs8b8sHLCYiPKj0bVM897NXRJPPb7oXQFE/B41WXodpauQApC3Zc8zwyxK6OjC56aOmdyk4Aj6K9OkMTNRTpp8vVE5Ob9nsnzes5oeE+tSyHEhK/gGQ27+3rFflwNrwJZGyCPZcdVfVAuRbli3THZVmNjfzqv59hGC89Q8nuS6lE3AZss0o66A9O22b3aH2O3O6TkDduoaQ/bGOFF4Ja2RFAsxqm4HL6MWaioeH+gYLFd0uGK9PU1UNJUdlAHbgtKebBjhPnPkQrjYBs+9R36NCmbxgtzXR3tym3jC3KCtZfzi4qb43lgcRbeBBIG0PgGWg5C+e+8jOR+kOJnMTNwqobNvxZNqLbj96yXIs8ulN6DgK9WpImYVBZLVzUQ+gP8D6SjePRplWJil/bLHcAiIt6VOeiB6A3gz6X+PqhVAe3j8Fyaa3BjXC8XYWqpRzZBaftIVHdMQvwLGhOpopijnbdy928SKpS6MkbsMWsP6YoH7oGTfeB9rrTf6JB9XK7aYD/0GKAIrOZho/A==
+	H06rEIuQ6CXK5GrgaI6HFgrUdciIcVpkL+af7Lan9Q7VDfOw36RErD2wQsN89D8EumLKXqtYxuOBMpurpODWq/SIYQZIoNtcBUQZhvbn8eBLqOVI0V7/wCul2mF/7HrzNcwd4AMKtzYc0GXFolDQFh/s+a34NWFxlf6laRgzDfKBMLRlnWb38CXA9meCDNWhzCiWvzU8UX4HVq6tVnIxGQ23RwcltOog6aiYfph2gwTdkeID//Qh4rWBknk3AfMVg7qbalRPbua14A2JgbvPTiDHohay9S8GoO5WUYlK9kRHw8fInu+HAbaOURbDhbxNw8/RelN3uQjHMHtzSoCJP7uB8RNnqGJPBQyJg/gBI+t9AbuWC6N7RGW8axt9mkYLia1vpYO+VIi09U9kIayzcJkOjSKwDRpRKR2lVnFv7iwkZ56Xp5p4H7/MNo46NN/zWqNFnq/lTo0TW5tbZp3OWON98dK4eUwCtgeKu70nF7eEq/DDjlEEKc+vzzSk6M9Z2NIR1z0disqzKp5iK6lXBuBPejK87aFBYSY/NuBUbMq3XsoxYDKXR5ljBT3xLoaqoI7D2+ZcnFJFm8uI8DZOohtCpHOGHyJfe98JboXJ8v4XCvg0sqqVS+Cujga5neUfncW45PKzdGv4BV9rfm/kaGc8Pf3dx1RVu2/oWbUT98jj+lpdvc/yMCvN1RQsjOBBbHvcVoAsKaXalNHbj7Qqyn8M9zCHmx1gKWZq50E3udaAPsOu/mgRgRGRrpbZ/2VALRWt8xCKmnwatUEB9kE8/A==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(1800799024)(82310400026)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(376014)(82310400026)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	lawBUQDFr62KEBk4SU5HJfe+Mhu4vZGTcpXpWNOwKQD1MaLRr18lTEbG58oF/7bhO1E5UBvcHfi/fOx4yauySmVHEu8hCLo8KsO6RdJGtt4/zPX7fgwGictFgG4lQ6310tRw48Xi+a4U/KMQLILkkkmYPjYe6fQ0B3HuucDT11S85n5YY7qYvtuHzBzboJtLHVHlM8CA9cKFGGe1JXwlD8YlKerFaIDi8CxD9DUiZG0PZm95luEvdLH0EdBzy6h4V7FUeprY6ro+jbg2hZtS9YsqVfOtoE8zH1oCpmOBAo2e8oGyaBULITf9sGmRxb2sCmalqEcg9nBt92phteEgiUe9X8v5dDiVjSb4+5lAByCSLq8kZarrJC6HEgu9cA2Z9Kp0s0EkRgLzaiQCC2JNYMMheQEpDhvseKE1MM17saV/7Ogu+O8czSlVGEnDyCEH
+	fXbEHWFQFlW0AjH2hKN7oUdfqgzhlyg5MoQRY0AnYHy3dpJe1MzA3GkUEX/NIfZ1qmtLRacjCDiFmM+cfiajVtwuUsPTN13ko3BuQHm0+VaNmaPO8dfZp8BH6ztQo6nbkjw/6Ige95+K56dK0MqTRBKLcQI76Hgz0qTJQCUGVWiCgGKvmqOlZSw1nGCoIUZDlaiWgkC7I2qW5dj+F/uxmYKoFCLjbn1zkb7V2gPvDUdOSvLQtXzrzTUqZjPuZ2GVItazmKRLMNhKuIw6FIoVnwhPq8h3tSGYKH+pEFZZd8LSXAZvIpLEoDGuLWLKCwye/czxgTNXAMi4e/umKrZSyLM1dOrFToYoykbkzoyf3G5Ivz047GiejPy5scWpYMqLuMviMAoxwgIHULYRnkyhLc45agiTi32QLDR3GDl6OF6px3uCx1Kqu4TslFxs3Ggg
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 10:07:22.1670
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 10:07:27.9507
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee365a65-3325-42d2-f36a-08de9556a04f
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc8bbeaf-1796-48a9-343a-08de9556a3bf
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EDD0.namprd03.prod.outlook.com
+	CY4PEPF0000EDD5.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6460
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8748
 X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
@@ -135,7 +135,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-58217-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58218-lists,linux-media=lfdr.de];
 	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch,linaro.org];
 	RCVD_TLS_LAST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,amd.com:dkim,amd.com:email,amd.com:mid];
@@ -150,213 +150,136 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 31E1F3BA603
+X-Rspamd-Queue-Id: 7A5013BA5EC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-It's doing the same thing as amdgpu_fill_buffer(src_data=0), so drop it.
-
-The only caveat is that amdgpu_res_cleared() return value is only valid
-right after allocation.
+This is the only use case for this function.
 
 ---
-v2: introduce new "bool consider_clear_status" arg
-v6: dont pass a NULL resv when calling amdgpu_fill_buffer from
-    amdgpu_bo_create
+v2: amdgpu_ttm_clear_buffer instead of amdgpu_clear_buffer
 ---
 
 Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 Reviewed-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 16 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 88 +++++-----------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    |  6 +-
- 3 files changed, 32 insertions(+), 78 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 12 +++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 23 ++++++++++------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    | 13 ++++++------
+ 3 files changed, 22 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 66c20dd46d12..bdeca80cd77d 100644
+index bdeca80cd77d..4dd7c712b8c3 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -717,13 +717,17 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
+@@ -717,9 +717,9 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
  	    bo->tbo.resource->mem_type == TTM_PL_VRAM) {
  		struct dma_fence *fence;
  
--		r = amdgpu_ttm_clear_buffer(bo, bo->tbo.base.resv, &fence);
-+		r = amdgpu_fill_buffer(amdgpu_ttm_next_clear_entity(adev),
-+				       bo, 0, bo->tbo.base.resv, &fence,
-+				       true, AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
+-		r = amdgpu_fill_buffer(amdgpu_ttm_next_clear_entity(adev),
+-				       bo, 0, bo->tbo.base.resv, &fence,
+-				       true, AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
++		r = amdgpu_ttm_clear_buffer(amdgpu_ttm_next_clear_entity(adev),
++					    bo, bo->tbo.base.resv, &fence,
++					    true, AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
  		if (unlikely(r))
  			goto fail_unreserve;
  
--		dma_resv_add_fence(bo->tbo.base.resv, fence,
--				   DMA_RESV_USAGE_KERNEL);
--		dma_fence_put(fence);
-+		if (fence) {
-+			dma_resv_add_fence(bo->tbo.base.resv, fence,
-+					   DMA_RESV_USAGE_KERNEL);
-+			dma_fence_put(fence);
-+		}
- 	}
- 	if (!bp->resv)
- 		amdgpu_bo_unreserve(bo);
-@@ -1326,8 +1330,8 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
+@@ -1329,9 +1329,9 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
+ 	if (r)
  		goto out;
  
- 	r = amdgpu_fill_buffer(amdgpu_ttm_next_clear_entity(adev),
--			       abo, 0, &bo->base._resv,
--			       &fence, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
-+			       abo, 0, &bo->base._resv, &fence,
-+			       false, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
+-	r = amdgpu_fill_buffer(amdgpu_ttm_next_clear_entity(adev),
+-			       abo, 0, &bo->base._resv, &fence,
+-			       false, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
++	r = amdgpu_ttm_clear_buffer(amdgpu_ttm_next_clear_entity(adev),
++				    abo, &bo->base._resv, &fence,
++				    false, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
  	if (WARN_ON(r))
  		goto out;
  
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 7b92f240eea7..7af11623263d 100644
+index 7af11623263d..8d778cbce1aa 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -418,7 +418,7 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+@@ -417,8 +417,8 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+ 	if (old_mem->mem_type == TTM_PL_VRAM &&
  	    (abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE)) {
  		struct dma_fence *wipe_fence = NULL;
- 		r = amdgpu_fill_buffer(entity, abo, 0, NULL, &wipe_fence,
--				       AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
-+				       false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
+-		r = amdgpu_fill_buffer(entity, abo, 0, NULL, &wipe_fence,
+-				       false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
++		r = amdgpu_ttm_clear_buffer(entity, abo, NULL, &wipe_fence,
++					    false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
  		if (r) {
  			goto error;
  		} else if (wipe_fence) {
-@@ -2573,76 +2573,25 @@ static int amdgpu_ttm_fill_mem(struct amdgpu_device *adev,
+@@ -2573,26 +2573,23 @@ static int amdgpu_ttm_fill_mem(struct amdgpu_device *adev,
  }
  
  /**
-- * amdgpu_ttm_clear_buffer - clear memory buffers
-- * @bo: amdgpu buffer object
-- * @resv: reservation object
-- * @fence: dma_fence associated with the operation
-+ * amdgpu_fill_buffer - fill a buffer with a given value
-+ * @entity: entity to use
-+ * @bo: the bo to fill
-+ * @src_data: the value to set
-+ * @resv: fences contained in this reservation will be used as dependencies.
-+ * @out_fence: the fence from the last clear will be stored here. It might be
-+ *             NULL if no job was run.
-+ * @dependency: optional input dependency fence.
-+ * @consider_clear_status: true if region reported as cleared by amdgpu_res_cleared()
-+ *                         are skipped.
-+ * @k_job_id: trace id
+- * amdgpu_fill_buffer - fill a buffer with a given value
++ * amdgpu_ttm_clear_buffer - fill a buffer with 0
+  * @entity: entity to use
+  * @bo: the bo to fill
+- * @src_data: the value to set
+  * @resv: fences contained in this reservation will be used as dependencies.
+  * @out_fence: the fence from the last clear will be stored here. It might be
+  *             NULL if no job was run.
+- * @dependency: optional input dependency fence.
+  * @consider_clear_status: true if region reported as cleared by amdgpu_res_cleared()
+  *                         are skipped.
+  * @k_job_id: trace id
   *
-- * Clear the memory buffer resource.
-- *
-- * Returns:
-- * 0 for success or a negative error code on failure.
   */
--int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
--			    struct dma_resv *resv,
--			    struct dma_fence **fence)
--{
--	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
--	struct amdgpu_ttm_buffer_entity *entity;
--	struct amdgpu_res_cursor cursor;
--	u64 addr;
--	int r = 0;
--
--	if (!adev->mman.buffer_funcs_enabled)
--		return -EINVAL;
--
--	if (!fence)
--		return -EINVAL;
--	entity = &adev->mman.clear_entities[0];
--	*fence = dma_fence_get_stub();
--
--	amdgpu_res_first(bo->tbo.resource, 0, amdgpu_bo_size(bo), &cursor);
--
--	mutex_lock(&entity->lock);
--	while (cursor.remaining) {
--		struct dma_fence *next = NULL;
--		u64 size;
--
--		if (amdgpu_res_cleared(&cursor)) {
--			amdgpu_res_next(&cursor, cursor.size);
--			continue;
--		}
--
--		/* Never clear more than 256MiB at once to avoid timeouts */
--		size = min(cursor.size, 256ULL << 20);
--
--		r = amdgpu_ttm_map_buffer(entity, &bo->tbo, bo->tbo.resource, &cursor,
--					  0, false, &size, &addr);
--		if (r)
--			goto err;
--
--		r = amdgpu_ttm_fill_mem(adev, entity, 0, addr, size, resv,
--					&next, true,
--					AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
--		if (r)
--			goto err;
--
--		dma_fence_put(*fence);
--		*fence = next;
--
--		amdgpu_res_next(&cursor, size);
--	}
--err:
--	mutex_unlock(&entity->lock);
--
--	return r;
--}
--
- int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
- 		       struct amdgpu_bo *bo,
- 		       uint32_t src_data,
- 		       struct dma_resv *resv,
--		       struct dma_fence **f,
-+		       struct dma_fence **out_fence,
-+		       bool consider_clear_status,
- 		       u64 k_job_id)
+-int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
+-		       struct amdgpu_bo *bo,
+-		       uint32_t src_data,
+-		       struct dma_resv *resv,
+-		       struct dma_fence **out_fence,
+-		       bool consider_clear_status,
+-		       u64 k_job_id)
++int amdgpu_ttm_clear_buffer(struct amdgpu_ttm_buffer_entity *entity,
++			    struct amdgpu_bo *bo,
++			    struct dma_resv *resv,
++			    struct dma_fence **out_fence,
++			    bool consider_clear_status,
++			    u64 k_job_id)
  {
  	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
-@@ -2660,6 +2609,11 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
- 		struct dma_fence *next;
- 		uint64_t cur_size, to;
+ 	struct dma_fence *fence = NULL;
+@@ -2623,7 +2620,7 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
+ 			goto error;
  
-+		if (consider_clear_status && amdgpu_res_cleared(&dst)) {
-+			amdgpu_res_next(&dst, dst.size);
-+			continue;
-+		}
-+
- 		/* Never fill more than 256MiB at once to avoid timeouts */
- 		cur_size = min(dst.size, 256ULL << 20);
- 
-@@ -2681,9 +2635,7 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
- 	}
- error:
- 	mutex_unlock(&entity->lock);
--	if (f)
--		*f = dma_fence_get(fence);
--	dma_fence_put(fence);
-+	*out_fence = fence;
- 	return r;
- }
- 
+ 		r = amdgpu_ttm_fill_mem(adev, entity,
+-					src_data, to, cur_size, resv,
++					0, to, cur_size, resv,
+ 					&next, true, k_job_id);
+ 		if (r)
+ 			goto error;
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index a6249252948b..436a3e09a178 100644
+index 436a3e09a178..d7b14d5cac77 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -187,14 +187,12 @@ int amdgpu_copy_buffer(struct amdgpu_device *adev,
+@@ -187,13 +187,12 @@ int amdgpu_copy_buffer(struct amdgpu_device *adev,
  		       struct dma_resv *resv,
  		       struct dma_fence **fence,
  		       bool vm_needs_flush, uint32_t copy_flags);
--int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
--			    struct dma_resv *resv,
--			    struct dma_fence **fence);
- int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
- 		       struct amdgpu_bo *bo,
- 		       uint32_t src_data,
- 		       struct dma_resv *resv,
--		       struct dma_fence **f,
-+		       struct dma_fence **out_fence,
-+		       bool consider_clear_status,
- 		       u64 k_job_id);
+-int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
+-		       struct amdgpu_bo *bo,
+-		       uint32_t src_data,
+-		       struct dma_resv *resv,
+-		       struct dma_fence **out_fence,
+-		       bool consider_clear_status,
+-		       u64 k_job_id);
++int amdgpu_ttm_clear_buffer(struct amdgpu_ttm_buffer_entity *entity,
++			    struct amdgpu_bo *bo,
++			    struct dma_resv *resv,
++			    struct dma_fence **out_fence,
++			    bool consider_clear_status,
++			    u64 k_job_id);
  struct amdgpu_ttm_buffer_entity *amdgpu_ttm_next_clear_entity(struct amdgpu_device *adev);
  
+ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo);
 -- 
 2.43.0
 
