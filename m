@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-58257-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58261-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MCBGDw131mlQFggAu9opvQ
-	(envelope-from <linux-media+bounces-58257-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:41:01 +0200
+	id qK5TMqB31mlQFggAu9opvQ
+	(envelope-from <linux-media+bounces-58261-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:43:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FFC3BE573
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:41:00 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C523BE652
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:43:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 27B1C3061D41
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 15:40:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 260043015726
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 15:40:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4735B3D6CC6;
-	Wed,  8 Apr 2026 15:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CB0D3D47B3;
+	Wed,  8 Apr 2026 15:40:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dho69S03"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b53WJTCA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9253D7D7E
-	for <linux-media@vger.kernel.org>; Wed,  8 Apr 2026 15:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D30D3D75D4
+	for <linux-media@vger.kernel.org>; Wed,  8 Apr 2026 15:40:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775662819; cv=none; b=G/O6V3+C/yx0U0TvoyJmWWzxcaa0nBGrTOSQ4htNaKbHOgLFDg/TUCblQ9kS0zUl3ZzrO0qQmu2rh0XdXHCAsVJIgNwLKBInHHlxcAZoZPcR+SUWv2f8XIEtHqMY8TxWCdxxUSBmtVAKkOyYIqDoXG9wWBq+S+ovqKGAwaXw/Hs=
+	t=1775662826; cv=none; b=FWJtGYtGSSH20YLi+P2ES4Tkab/EdrM7WwNwHaq/P6rpn8b31b6bcI7xbxj4eqxaJZG5SrfgGJkFE/JxLVE4Ff9migCns8YaBoHUPc2OyqO+5w6QNHiGLdkSPnSjcfWnGWL+7mMCzLkg9+int9PXzipXkxkHz6LIhd3fbUlMCZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775662819; c=relaxed/simple;
-	bh=Iq1mEQyxzSqCLXx8AY8Ru/zsO0CeGKBh1qUZzKD/Xxk=;
+	s=arc-20240116; t=1775662826; c=relaxed/simple;
+	bh=QJr3IO0NBhQN06ES4RQzVF/mhvyAkuI4PXtOR+OpcJQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MB2AeMZ+TJlRA+W1oy1vqgonJahe79AoqCrqz7XvvwY3M2XBQgL3UpUNEVul5njuWkPKoqLaSlrs/Ad8VWSsH/xq2Vu6yAG6AZLL7zMmmtMhWRfi2w0YUQ48d7aaHL40PLJXU6l3KOoMEIRgwdQtkTBjd/YTuuE5/b9zpG4Y3ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dho69S03; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=r519VLTYOualXCZ9dopxkglMUpqQjLIZxLxhpw51rV/h7H5smDx5qWVbszf4n+TJW52UxgprtfpNitdJKLFSZfqWScQ3eRl+F4ZYkRISKrNy0Q4zY2i0obtMeOWqr18MRj8U3K5MMVBSawMteGvlZBELQoJ6w0Wensg+vXju2PA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b53WJTCA; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775662816; x=1807198816;
+  t=1775662822; x=1807198822;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Iq1mEQyxzSqCLXx8AY8Ru/zsO0CeGKBh1qUZzKD/Xxk=;
-  b=Dho69S03ARmkcBzUh6oX+c9zrVp1+JQHxKBdJqiBjaWoUgJlIHxmhxIg
-   mXTP2hAk8a6zpRMM9albAvlww7O0wgjwg/xp1FbzMfPMIUZ+i2PAFGmoa
-   mxLXZ34FlRtLQV2KntF4VuqO1wuXDUkirW7rXVX/kzDWzGWk6UBmj0Wnl
-   MARM6qt9n6haAMzXTfmtvUwXaf/yvW9ZGDzDwLoNai/w1FxM7HXNC6taC
-   StgtaQvOL57krmEIJSKnuGvr5KnoOYoNSXwOBKTPLEwDiHbQ4/F4/kW0f
-   S/Sa7tWLHOxTjVuP70mILOvgYK5r2v6hMCh6bJwyLyTHC3B/JZ7rQfpQ2
-   g==;
-X-CSE-ConnectionGUID: NnmebdZbQTSiFz1ELTzu2w==
-X-CSE-MsgGUID: VGSJKVTPQSer0Qv2qu22JA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="94038449"
+  bh=QJr3IO0NBhQN06ES4RQzVF/mhvyAkuI4PXtOR+OpcJQ=;
+  b=b53WJTCAvJK2A5hj/bd3Jgfqlg3tbPHkG3K+EXF4k+z/Z9w5MczLhoSY
+   yQpvOZowhkJzxS+x9dieZRNHe0u4FUzOsEdoLlZc3f1jR/nBxzAEtMgBS
+   /16icc91X2RA9WXpnNfpvNSgAYyBRGJdu8YcCC3G6QFYZCXJancztK0iw
+   +SFnY71psO94Kvt0e+XSGbE0kMVU9a/wsrYf5T1CIWzQ2O8SJUMgN6WAV
+   /pcDlGwx8fjpZ+2urWpk4r9uBkHcFvl99s2F/UqP4kpGPLlmI0pRfvOkF
+   dI+HIdCPSM+CwYdjC4MP0ro+6xMQudwNAjoc5bfF3N1063G3Ut/i9zbc6
+   w==;
+X-CSE-ConnectionGUID: CB2UsVJySo6wt+2wM7JyZA==
+X-CSE-MsgGUID: Ah9um0yDSKGF6RLVVQiYNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="94038491"
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="94038449"
+   d="scan'208";a="94038491"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 08:40:00 -0700
-X-CSE-ConnectionGUID: Z31mttUaQJuXEp5HTjAPvw==
-X-CSE-MsgGUID: Zf0ksZSUQ0WNNNigIDCGMA==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 08:40:01 -0700
+X-CSE-ConnectionGUID: 3PVdJPPeQo2HMS84K5sHPA==
+X-CSE-MsgGUID: nv6u7exoT42XbvKIOr8R3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="223740381"
+   d="scan'208";a="223740392"
 Received: from hrotuna-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.104])
   by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 08:39:53 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2E53A12203A;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 341B712206F;
 	Wed, 08 Apr 2026 18:39:51 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAV0F-000000044DX-2UKD;
+	id 1wAV0F-000000044Db-2ZEy;
 	Wed, 08 Apr 2026 18:39:39 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -100,9 +100,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v4 19/29] media: mc: Separate single link validation into a new function
-Date: Wed,  8 Apr 2026 18:39:28 +0300
-Message-ID: <20260408153939.969381-20-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 20/29] media: uapi: Bump the STREAMS bit a little
+Date: Wed,  8 Apr 2026 18:39:29 +0300
+Message-ID: <20260408153939.969381-21-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
 References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
@@ -120,135 +120,59 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
-	TAGGED_FROM(0.00)[bounces-58257-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58261-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[30];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux.intel.com:mid,intel.com:dkim,intel.com:email,collabora.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,intel.com:email];
 	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.922];
+	NEURAL_HAM(-0.00)[-0.954];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: C7FFC3BE573
+X-Rspamd-Queue-Id: 38C523BE652
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add a new function __media_pipeline_validate_one() to validate a single
-link in a pipeline. This will soon be used for performing validation in
-multiple phases.
+Bump the V4L2_SUBDEV_CAP_STREAMS by one bit up, order to avoid confusing
+libcamera with streams that has moved forward from the original libcamera
+implementation. The bit can presumably be taken into use but only after
+the other free bits.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Michael Riesch <michael.riesch@collabora.com>
 ---
- drivers/media/mc/mc-entity.c | 74 ++++++++++++++++++++----------------
- 1 file changed, 42 insertions(+), 32 deletions(-)
+ include/uapi/linux/v4l2-subdev.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 6bf4730b89d2..717569bd1a8c 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -768,6 +768,45 @@ static int media_pipeline_populate(struct media_pipeline *pipe,
- 	return ret;
- }
+diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+index 2347e266cf75..6160c3e21436 100644
+--- a/include/uapi/linux/v4l2-subdev.h
++++ b/include/uapi/linux/v4l2-subdev.h
+@@ -196,8 +196,11 @@ struct v4l2_subdev_capability {
+ /* The v4l2 sub-device video device node is registered in read-only mode. */
+ #define V4L2_SUBDEV_CAP_RO_SUBDEV		0x00000001
  
-+static int
-+__media_pipeline_validate_one(struct media_pad *origin,
-+			      struct media_pad *pad, struct media_link *link,
-+			      bool *has_enabled_link)
-+{
-+	struct media_device *mdev = origin->graph_obj.mdev;
-+	struct media_entity *entity = pad->entity;
-+	int ret;
++/* Reserved, old STREAMS bit libcamera used before API stabilisation. */
++/* #define V4L2_SUBDEV_CAP_STREAMS_PRELIMINARY	0x00000002 */
 +
-+	/* Return here if the link is disabled. */
-+	if (!(link->flags & MEDIA_LNK_FL_ENABLED))
-+		return 0;
-+
-+	if (has_enabled_link)
-+		*has_enabled_link = true;
-+
-+	/* Skip validation if the current pad isn't the sink pad of the link. */
-+	if (link->sink != pad)
-+		return 0;
-+
-+	if (!entity->ops || !entity->ops->link_validate)
-+		return 0;
-+
-+	ret = entity->ops->link_validate(link);
-+	if (ret) {
-+		dev_dbg(mdev->dev,
-+			"Link '%s':%u -> '%s':%u failed validation: %d\n",
-+			link->source->entity->name, link->source->index,
-+			link->sink->entity->name, link->sink->index, ret);
-+		return ret;
-+	}
-+
-+	dev_dbg(mdev->dev, "Link '%s':%u -> '%s':%u is valid\n",
-+		link->source->entity->name, link->source->index,
-+		link->sink->entity->name, link->sink->index);
-+
-+	return 0;
-+}
-+
- __must_check int __media_pipeline_start(struct media_pad *origin,
- 					struct media_pipeline *pipe)
- {
-@@ -838,39 +877,10 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
- 			if (link->sink != pad && link->source != pad)
- 				continue;
+ /* The v4l2 sub-device supports routing and multiplexed streams. */
+-#define V4L2_SUBDEV_CAP_STREAMS			0x00000002
++#define V4L2_SUBDEV_CAP_STREAMS			0x00000004
  
--			/*
--			 * Ensure the link is enabled and if so, record
--			 * it. Proceed to the next link if the current pad isn't
--			 * the sink pad of the link.
--			 */
--			if (!(link->flags & MEDIA_LNK_FL_ENABLED))
--				continue;
--
--			has_enabled_link = true;
--
--			if (link->sink != pad)
--				continue;
--
--			if (!entity->ops || !entity->ops->link_validate)
--				continue;
--
--			ret = entity->ops->link_validate(link);
--			if (ret) {
--				dev_dbg(mdev->dev,
--					"Link '%s':%u -> '%s':%u failed validation: %d\n",
--					link->source->entity->name,
--					link->source->index,
--					link->sink->entity->name,
--					link->sink->index, ret);
-+			ret = __media_pipeline_validate_one(origin, pad, link,
-+							    &has_enabled_link);
-+			if (ret)
- 				goto error;
--			}
--
--			dev_dbg(mdev->dev,
--				"Link '%s':%u -> '%s':%u is valid\n",
--				link->source->entity->name,
--				link->source->index,
--				link->sink->entity->name,
--				link->sink->index);
- 		}
- 
- 		/*
+ /*
+  * Is the route active? An active route will start when streaming is enabled
 -- 
 2.47.3
 
