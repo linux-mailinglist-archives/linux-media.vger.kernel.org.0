@@ -1,172 +1,147 @@
-Return-Path: <linux-media+bounces-58209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58210-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aLOVJpAJ1mlnAwgAu9opvQ
-	(envelope-from <linux-media+bounces-58209-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 09:53:52 +0200
+	id oKTSBk0M1mlnAwgAu9opvQ
+	(envelope-from <linux-media+bounces-58210-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 10:05:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C543B8996
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 09:53:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AED373B8B9E
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 10:05:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 45650304D738
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 07:51:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9939A3010155
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 08:05:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65644387564;
-	Wed,  8 Apr 2026 07:51:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AB0939BFEF;
+	Wed,  8 Apr 2026 08:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a6OG4mNX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z2110AsJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00803396D3C
-	for <linux-media@vger.kernel.org>; Wed,  8 Apr 2026 07:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420D0397698;
+	Wed,  8 Apr 2026 08:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775634663; cv=none; b=lqGTAwrsCZSGiGFoz3RYsVOIPyOXu23bg+U2scvPtvzSrBLnDIBFvcbhIbMhA1z2BLWYa/9WyzGNZC83yHalb0Pk7WuRKiyUl9fvKYL9HKMW39MhLCueyhlrL6fV4eXxWwuWo0NivllRfpCjKuN00lcamYtw9KjQ9/bUAo1NSAQ=
+	t=1775635513; cv=none; b=VzJ5LDecjBd59bEdz+GsWUfjqDmb5fmJBBm+JwizJOfaP5fqa/qDw0GZ0B2x2nTk4OZQGMaZ+w6czaOwvIyTdUuy0/HvGzVCSsJBw6utURmQa0jRuoBjEGVoEfiSL+oyjYgTzzxSjQufwn2JAQ6bIHOJpgCoirlwFVei48RYTSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775634663; c=relaxed/simple;
-	bh=NAXhOUQe4RCftNvGyxSnkFGFvbamB7e1U2GEX1xAGrA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cBRNiREGynnHxSMSGj94aoLqevaXtTw0JC9JPlBiMHfovG2agsfOvOet8Awr5qlMj6GqD0oGEGtj6bY8nTnathXvS8ohAairBPnr7RvtLg24cyCb9q+8WtdtvaE7TkANsQ0aMn++Lj9QEsv3LI5DZEHET3FelZxnwMyXw0JhLXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a6OG4mNX; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1775635513; c=relaxed/simple;
+	bh=LsoItqOaE3hAy7uN2dHO7bdB6DnI0M10PxH+jAAFVN8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mLZLX6iwdLyeAgU3V2IVjXHLNM+c/KJQF8Nv0LOCYt1KJdSXSKu1l/K5P5M3Irv+g2PkP6o1pvJis2ufaInXIaz6D9fFzIyioD9E/7OVeS+LOMMlVvCj2U/bTXesWowE+2aQCFe6PDSQbEOX+PEtgWBtp0/1pY9eFUWIIE+i1Uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z2110AsJ; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775634661; x=1807170661;
-  h=date:from:to:cc:subject:message-id;
-  bh=NAXhOUQe4RCftNvGyxSnkFGFvbamB7e1U2GEX1xAGrA=;
-  b=a6OG4mNXWy9XfhwjYMl6HPVFmdke4s+l5Kch5oPBUpYGIsbbj8Jl7r6H
-   bCt7b4agFdTeRi30bJbKSixEK42sj7RwuekQdttTCrbyIWtiEm5Ap+X1k
-   7g301Pxx8GP4B89I9cA9Ts2J56ZES3w4Q9jOTIAhIo/veEo/hoVBLW9+D
-   2JI7eeAuf8VDSxoyzMFswp7IUZgWa4YFyLZVbbzrQDrBwIzkXx03lAKIT
-   Wgc4NQAJOvjs6cWZaUmrSGFNv14AmhFkT85HPZrJLoUq/qQEXDSoTx8b3
-   iMKTpGU50WzoTtbGukYIAWliGAH9fIFiWX4xiNA7FJ2q25dmO6dAVvZzv
-   g==;
-X-CSE-ConnectionGUID: R51bbOn3Qg2mQvw7x6DOHw==
-X-CSE-MsgGUID: GIFhT9LlSTq7cx8OVoGczw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="87238040"
+  t=1775635512; x=1807171512;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LsoItqOaE3hAy7uN2dHO7bdB6DnI0M10PxH+jAAFVN8=;
+  b=Z2110AsJ14G98ZFurUeKE0nJEuJcNiK2iywiFjOaH3ftvslUakkhOKD/
+   lLo97GbCWS2e2xwJp6UmzbdLQ7QzaSFhJYsUpdz3ughc06VJ9guWDrsCr
+   NNrjDf1qkSVaHRMh/p5Q3QKDLxbO5E7VgvYaROzYoRIcyKTM/zb2PXHlr
+   RhSPPFZBnH5qsL42zjx5Newy8PvHMOO16DEAbuaZgBudHeZzR2ZUMFCER
+   rgjqat4quZfUo+lMdGQ31xwn6U5+YEWo48WbFmZL39cGnpWyFxuz5s3iA
+   R27Xpm8xFRYecwfR/mnhqcD819jXnsyI/YhaYI/w2uI+GfGLiOSF3T46G
+   w==;
+X-CSE-ConnectionGUID: RDZz8Y8KTbKjZgUijnr2VA==
+X-CSE-MsgGUID: YBRGaKuqSLu8537VfKvXmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="79203529"
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="87238040"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 00:51:01 -0700
-X-CSE-ConnectionGUID: Gnr1xLMDRJm+OppVPKtOEw==
-X-CSE-MsgGUID: 98HtKanwS1Ch51CpsrT57A==
+   d="scan'208";a="79203529"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 01:05:11 -0700
+X-CSE-ConnectionGUID: cQSqKE2ERT6zeih3/eSOPw==
+X-CSE-MsgGUID: dFTYpTEWSDeViP1x0oSaHA==
 X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 08 Apr 2026 00:50:59 -0700
-Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wANge-000000001aT-3rMJ;
-	Wed, 08 Apr 2026 07:50:56 +0000
-Date: Wed, 08 Apr 2026 15:50:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 28/115]
- drivers/media/platform/renesas/vsp1/vsp1_entity.c:164:5: error: conflicting
- types for 'vsp1_subdev_get_pad_format'
-Message-ID: <202604081508.HhYdRWpG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
+   d="scan'208";a="228657545"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.17])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 01:05:08 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 058A911F8BF;
+	Wed, 08 Apr 2026 11:05:22 +0300 (EEST)
+Date: Wed, 8 Apr 2026 11:05:22 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: michael.riesch@collabora.com
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Frank Li <Frank.li@nxp.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Kever Yang <kever.yang@rock-chips.com>,
+	Collabora Kernel Team <kernel@collabora.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] media: dt-bindings: rockchip,rk3568-mipi-csi2:
+ add rk3588 compatible
+Message-ID: <adYMQlNtInGYu7Ka@kekkonen.localdomain>
+References: <20260305-rk3588-csi2rx-v4-0-81c6bcfefa63@collabora.com>
+ <20260305-rk3588-csi2rx-v4-1-81c6bcfefa63@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260305-rk3588-csi2rx-v4-1-81c6bcfefa63@collabora.com>
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-58210-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58209-lists,linux-media=lfdr.de];
-	RCPT_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,samsung.com:email,ideasonboard.com:email,01.org:url,intel.com:dkim,intel.com:email,intel.com:mid]
-X-Rspamd-Queue-Id: E4C543B8996
+	RBL_SEM_IPV6_FAIL(0.00)[2600:3c0a:e001:db::12fc:5321:query timed out];
+	NEURAL_HAM(-0.00)[-0.993];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,intel.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,kekkonen.localdomain:mid]
+X-Rspamd-Queue-Id: AED373B8B9E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   0788d31c6570b12fdf54d8ecc25877ece44318d9
-commit: b0b1469354e8ad8b1555fa966ac3c8c14a6a70c7 [28/115] media: v4l2-subdev: Add struct v4l2_subdev_client_info argument to pad ops
-config: arm-randconfig-001-20260408 (https://download.01.org/0day-ci/archive/20260408/202604081508.HhYdRWpG-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604081508.HhYdRWpG-lkp@intel.com/reproduce)
+Hi Michael,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604081508.HhYdRWpG-lkp@intel.com/
+On Fri, Mar 27, 2026 at 12:10:00AM +0100, Michael Riesch via B4 Relay wrote:
+> From: Michael Riesch <michael.riesch@collabora.com>
+> 
+> The RK3588 MIPI CSI-2 receivers are compatible to the ones found in
+> the RK3568.
+> Introduce a list of compatible variants and add the RK3588 variant to
+> it.
 
-All errors (new ones prefixed by >>):
+Please use your editor to wrap the commit messages in the future as needed.
+It became:
 
->> drivers/media/platform/renesas/vsp1/vsp1_entity.c:164:5: error: conflicting types for 'vsp1_subdev_get_pad_format'
-    int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/media/platform/renesas/vsp1/vsp1_entity.c:22:
-   drivers/media/platform/renesas/vsp1/vsp1_entity.h:187:5: note: previous declaration of 'vsp1_subdev_get_pad_format' was here
-    int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/vsp1_subdev_get_pad_format +164 drivers/media/platform/renesas/vsp1/vsp1_entity.c
-
-e790c3cb8d904c4 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2015-11-15  154  
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  155  /*
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  156   * vsp1_subdev_get_pad_format - Subdev pad get_fmt handler
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  157   * @subdev: V4L2 subdevice
-30d187cd74874aa drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  158   * @sd_state: V4L2 subdev state
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  159   * @fmt: V4L2 subdev format
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  160   *
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  161   * This function implements the subdev get_fmt pad operation. It can be used as
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  162   * a direct drop-in for the operation handler.
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  163   */
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24 @164  int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
-b0b1469354e8ad8 drivers/media/platform/renesas/vsp1/vsp1_entity.c Sakari Ailus     2026-01-30  165  			       const struct v4l2_subdev_client_info *ci,
-0d346d2a6f54f06 drivers/media/platform/vsp1/vsp1_entity.c         Tomi Valkeinen   2021-06-10  166  			       struct v4l2_subdev_state *sd_state,
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  167  			       struct v4l2_subdev_format *fmt)
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  168  {
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  169  	struct vsp1_entity *entity = to_vsp1_entity(subdev);
-30d187cd74874aa drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  170  	struct v4l2_subdev_state *state;
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  171  
-30d187cd74874aa drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  172  	state = vsp1_entity_get_state(entity, sd_state, fmt->which);
-30d187cd74874aa drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  173  	if (!state)
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  174  		return -EINVAL;
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  175  
-34e77ed84b274d2 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-06-26  176  	mutex_lock(&entity->lock);
-0aaf7db08726773 drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-12  177  	fmt->format = *v4l2_subdev_state_get_format(state, fmt->pad);
-34e77ed84b274d2 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-06-26  178  	mutex_unlock(&entity->lock);
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  179  
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  180  	return 0;
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  181  }
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  182  
-
-:::::: The code at line 164 was first introduced by commit
-:::::: 3f557220cc29d1961ef9efa2a8db04c7c5f6e6d4 [media] v4l: vsp1: Factorize get pad format code
-
-:::::: TO: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+The RK3588 MIPI CSI-2 receivers are compatible to the ones found in the
+RK3568. Introduce a list of compatible variants and add the RK3588 variant
+to it.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sakari Ailus
 
