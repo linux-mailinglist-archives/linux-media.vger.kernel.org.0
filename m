@@ -1,286 +1,177 @@
-Return-Path: <linux-media+bounces-58218-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58219-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yO3/NXIq1mkUBggAu9opvQ
-	(envelope-from <linux-media+bounces-58218-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 12:14:10 +0200
+	id aH6IO2Uv1mlZBwgAu9opvQ
+	(envelope-from <linux-media+bounces-58219-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 12:35:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5013BA5EC
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 12:14:10 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DBB3BA9C6
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 12:35:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E9320307EB79
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 10:08:18 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 99806301533F
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 10:34:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0964C3AEF24;
-	Wed,  8 Apr 2026 10:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4315C3AE719;
+	Wed,  8 Apr 2026 10:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4PRTmYSP"
+	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="v0dGvejY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013042.outbound.protection.outlook.com [40.93.201.42])
+Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com [185.132.180.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590933B6BF5;
-	Wed,  8 Apr 2026 10:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775642863; cv=fail; b=rQh1vwR5ae97tofmkZ5hxAA2+4UHCtPzmmY5qeeJvCdOVJQURHGJbzs3O3zjzAe7yl9gsY2cbBBQ8WdqA3/6puQPIQqVpuqF/Oheik3O4CwWo/NpkaX72CdLHbqp3S0hmMm08sXM/Ywu1X2GSZhB01dnskyOqRCvuuWbwSZeycA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775642863; c=relaxed/simple;
-	bh=r23Cy0NaiwsCt1GBCYK/Hu0KkL0swat9Hh9HVvFM7NE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EXuR14rEmbS60BGs64Cto1xogU1TKaMJJ6FzI2gOSl+bblvJkqZ/N+layJGlpuprqrwlFTLiCpoyMdyAlOuOV3rXgO/WIg8jd04n2p3Qvf83Md7j6AO9R8cPG7/Ka4rOktlV03jzak5qZcbUi0FHF7Hyeq2TuW5UTZOz1HDm2Nc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4PRTmYSP; arc=fail smtp.client-ip=40.93.201.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l3DZNHxDsx1BMAfmBI5MVelhvos/SUuKvK14lqpUn+Agg1ERqbdY0XUrh9rTQ8sxgBSdRY4kuWdskqy8CNoDlmghC2NPvvloC/z5yq3+sdMpBL9lgbzIB9NfS7a4T4UVF25Zjz3ugswJ1au5aYYYI0hEUUoNWpf/j+bVHB9wjd/QGQAint7Db7uKnE4Wg7ijSl2LG7GRbs69TXaP/6EQURp1gWIyDKI3isVAkbxfVvm4kOdhV5SK5bXMOs0CoBO0HMHspA4LXNB20UznM1Jxy12ImlQ+rZpwPzQLz/5AV1J7b1DikX2Li/ihYs/ILsQF4M7ip4LHKyQMgGqnogSMzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KU/qZn6yp8Db2YGZP5eiexytoV3LmXULmALLIdcdl7A=;
- b=iMHVIBrpSGEDdN0j1hJ2wnCc2b5Pxp7n37RGAzRawafnwwWWHk4GDS3S0zCU0pURWVz0eByZkpfKERb3vmLGsma06R9l6nA+55URkHrQw9Mw3rhZiR76cusX4dllclC+2WiK+mwab1UYJRVI5UcEqrOapDz02GCZLQDWqNXb6RBDTBKohGuA4+D5FuEBLT4yivEEGVqDNoBBo4nJmsopwPqpQwGnOh4ZkE+RVMVqrNQNPiDPZMDgfSpw7sVtYueV8DxALiiBoptYHDpnakCQpykt/lEDvilZJrbIdWCb81ON69wad1F/ZnWOzZsuFuE+YTUns7ts4Zg+q/FKtoPiDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KU/qZn6yp8Db2YGZP5eiexytoV3LmXULmALLIdcdl7A=;
- b=4PRTmYSPgqKFiaFEErDBVnh0Jge/H0d//Wn5jtjreT/SEFeFNgkw8N3igCbRroLxFrOKK6yx2qqsnjGAVckErhjJxnO/pR7J/wcL1rA+1MWiVLQpwg1GWVy3kaBEHQBG8ZgGqSNddquglQ04vdfP0N6sjHmthpJVwKRxCTbUzLg=
-Received: from PH2PEPF0000384F.namprd17.prod.outlook.com (2603:10b6:518:1::71)
- by IA0PR12MB8748.namprd12.prod.outlook.com (2603:10b6:208:482::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Wed, 8 Apr
- 2026 10:07:28 +0000
-Received: from CY4PEPF0000EDD5.namprd03.prod.outlook.com
- (2a01:111:f403:f912::1) by PH2PEPF0000384F.outlook.office365.com
- (2603:1036:903:48::3) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.32 via Frontend Transport; Wed,
- 8 Apr 2026 10:07:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CY4PEPF0000EDD5.mail.protection.outlook.com (10.167.241.201) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.17 via Frontend Transport; Wed, 8 Apr 2026 10:07:27 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 8 Apr 2026 05:07:25 -0500
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
-	<sumit.semwal@linaro.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v6 6/8] drm/amdgpu: rename amdgpu_fill_buffer as amdgpu_ttm_clear_buffer
-Date: Wed, 8 Apr 2026 12:03:17 +0200
-Message-ID: <20260408100327.1372-6-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260408100327.1372-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20260408100327.1372-1-pierre-eric.pelloux-prayer@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6631D37C929;
+	Wed,  8 Apr 2026 10:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.180.163
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775644423; cv=none; b=HzU6I2eDe56WUu1GRc2+LsduP+AKkAhoGj9hCegI645AIFw49Ian7AfkiP2K1yxkssm0jRIdXs7wy1bh37h/k0aWKO4Ok0t4dQ8b8HYZr1SNOI0hzZ16euUicqr2ZesoAL2x96XBih9lxaA+hXPpuEPm42/1o1bbQ4LyhfWzXxU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775644423; c=relaxed/simple;
+	bh=2xCwmwcBGgcIhZc8BW5ejsoW569ZAMP4U39Xk7sun3M=;
+	h=From:To:CC:In-Reply-To:References:Subject:Message-ID:Date:
+	 MIME-Version:Content-Type; b=FZT6+10GPL6/yDaXvR8+kMEFg0CmTywzqU3HCSBSGKDXZqPwDCWGRXFDa6HdXInCu6ximLdFVQurJJ/aI/VE+WPHjjF4+eAtevCyb1wt0IRZMTXPgveYl5vIydPRQHlKs0MXvvFxqGxVbRzWa+l9+zbBJ8v1817cApo8inb0dkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imgtec.com; spf=pass smtp.mailfrom=imgtec.com; dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b=v0dGvejY; arc=none smtp.client-ip=185.132.180.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imgtec.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=imgtec.com
+Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
+	by mx07-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6385eBuw2995154;
+	Wed, 8 Apr 2026 11:33:03 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=dk201812; bh=Y
+	RbIUfy7PDUjzpSHaVbdZAuNWadSqt0BWYZ64+s6FzA=; b=v0dGvejY1qOLi4OWX
+	cSd8OYKCKN5epd3EIE+jSol+If6RExyox0ntJaT9DgWfxFpfbmvKfk73L/bQDNKf
+	sA48anNK2CaLzgXR4Z8XUDeALOEw08iIXfNMBL/oYWQyu+dkbQYRh2MSAth1z27d
+	IESyxiozXQeKIombfglswcVgXVCnwmg7YviHcMUw2//n0S+qwLaWreQ1Y55xpOdO
+	ceUMNds3TrKZN3Q3dB7Km9G8gR0OIBeNpn8l/4xyf7QvIK69hH97jiApPibjuhAI
+	oMlV0FcUPmFVA9rzRIsLnnAQXcRL9ef9FSf3xAYR3b+Y4i0v3kkYY9HPINzOHrjU
+	H2jpQ==
+Received: from hhmail02.hh.imgtec.org (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
+	by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 4dd4s2gs5a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Apr 2026 11:33:03 +0100 (BST)
+Received: from HHMAIL03.hh.imgtec.org (10.44.0.121) by HHMAIL02.hh.imgtec.org
+ (10.100.10.20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 8 Apr
+ 2026 11:33:02 +0100
+Received: from
+ 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
+ (172.25.4.178) by HHMAIL03.hh.imgtec.org (10.44.0.121) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Wed, 8 Apr 2026 11:33:02 +0100
+From: Matt Coster <matt.coster@imgtec.com>
+To: Frank Binns <frank.binns@imgtec.com>,
+        Brajesh Gupta
+	<brajesh.gupta@imgtec.com>,
+        Alexandru Dadu <alexandru.dadu@imgtec.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard
+	<mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie
+	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal
+	<sumit.semwal@linaro.org>,
+        =?utf-8?q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Alessio Belle <alessio.belle@imgtec.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
+        <stable@vger.kernel.org>
+In-Reply-To: <20260330-job-submission-fixes-cleanup-v1-0-7de8c09cef8c@imgtec.com>
+References: <20260330-job-submission-fixes-cleanup-v1-0-7de8c09cef8c@imgtec.com>
+Subject: Re: [PATCH 0/8] drm/imagination: Job submission fixes and cleanup
+Message-ID: <177564438213.82099.271553295476946768.b4-ty@b4>
+Date: Wed, 8 Apr 2026 11:33:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD5:EE_|IA0PR12MB8748:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc8bbeaf-1796-48a9-343a-08de9556a3bf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700016|376014|82310400026|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	H06rEIuQ6CXK5GrgaI6HFgrUdciIcVpkL+af7Lan9Q7VDfOw36RErD2wQsN89D8EumLKXqtYxuOBMpurpODWq/SIYQZIoNtcBUQZhvbn8eBLqOVI0V7/wCul2mF/7HrzNcwd4AMKtzYc0GXFolDQFh/s+a34NWFxlf6laRgzDfKBMLRlnWb38CXA9meCDNWhzCiWvzU8UX4HVq6tVnIxGQ23RwcltOog6aiYfph2gwTdkeID//Qh4rWBknk3AfMVg7qbalRPbua14A2JgbvPTiDHohay9S8GoO5WUYlK9kRHw8fInu+HAbaOURbDhbxNw8/RelN3uQjHMHtzSoCJP7uB8RNnqGJPBQyJg/gBI+t9AbuWC6N7RGW8axt9mkYLia1vpYO+VIi09U9kIayzcJkOjSKwDRpRKR2lVnFv7iwkZ56Xp5p4H7/MNo46NN/zWqNFnq/lTo0TW5tbZp3OWON98dK4eUwCtgeKu70nF7eEq/DDjlEEKc+vzzSk6M9Z2NIR1z0disqzKp5iK6lXBuBPejK87aFBYSY/NuBUbMq3XsoxYDKXR5ljBT3xLoaqoI7D2+ZcnFJFm8uI8DZOohtCpHOGHyJfe98JboXJ8v4XCvg0sqqVS+Cujga5neUfncW45PKzdGv4BV9rfm/kaGc8Pf3dx1RVu2/oWbUT98jj+lpdvc/yMCvN1RQsjOBBbHvcVoAsKaXalNHbj7Qqyn8M9zCHmx1gKWZq50E3udaAPsOu/mgRgRGRrpbZ/2VALRWt8xCKmnwatUEB9kE8/A==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(376014)(82310400026)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	fXbEHWFQFlW0AjH2hKN7oUdfqgzhlyg5MoQRY0AnYHy3dpJe1MzA3GkUEX/NIfZ1qmtLRacjCDiFmM+cfiajVtwuUsPTN13ko3BuQHm0+VaNmaPO8dfZp8BH6ztQo6nbkjw/6Ige95+K56dK0MqTRBKLcQI76Hgz0qTJQCUGVWiCgGKvmqOlZSw1nGCoIUZDlaiWgkC7I2qW5dj+F/uxmYKoFCLjbn1zkb7V2gPvDUdOSvLQtXzrzTUqZjPuZ2GVItazmKRLMNhKuIw6FIoVnwhPq8h3tSGYKH+pEFZZd8LSXAZvIpLEoDGuLWLKCwye/czxgTNXAMi4e/umKrZSyLM1dOrFToYoykbkzoyf3G5Ivz047GiejPy5scWpYMqLuMviMAoxwgIHULYRnkyhLc45agiTi32QLDR3GDl6OF6px3uCx1Kqu4TslFxs3Ggg
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 10:07:27.9507
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc8bbeaf-1796-48a9-343a-08de9556a3bf
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EDD5.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8748
-X-Spamd-Result: default: False [0.84 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.1
+X-Proofpoint-GUID: _TMcyOQ8vC78jZMMA64wGo11iNMJ4oFu
+X-Authority-Analysis: v=2.4 cv=cL/QdFeN c=1 sm=1 tr=0 ts=69d62edf cx=c_pps
+ a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
+ a=vO48zYV2LvQA:10 a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=kQ-hrUj2-E3RCbRHssb7:22 a=7RYWX5rxfSByPNLylY2M:22
+ a=r_1tXGB3AAAA:8 a=TDz46OUBVoeO_pJfSP8A:9 a=QEXdDO2ut3YA:10
+ a=t8nPyN_e6usw4ciXM-Pk:22
+X-Proofpoint-ORIG-GUID: _TMcyOQ8vC78jZMMA64wGo11iNMJ4oFu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA4MDA5NyBTYWx0ZWRfX/eQQBFVBZg2E
+ Ol7j9k4HU3URWdMzOVwSOImzIkGBeYxlGqzExnLAasSyRg/51K4G5pLUuiuri0pu1HpawO4x1KI
+ G+P+zkm9OAwZwpYAGtSi78AT9wmrPRrMjLQQRE9lMi3wYAUcJToHanw0t8vduYtwfso9mvHULNu
+ m5HjA9ISZkKQKT2hKV9reG8Fl2jRI64qTa2EUWqEDqTZDIBLUj4edSfev+lEzljuBTe0MwXLi2z
+ gmYxh1NhVdu1n0GqodK176OBD8IFLEGsczmNJPDngu2ZhFwrk3oQvrkfWk6optu263lnp3KVQt6
+ aMAjI5ktnBDJdDHXSyxg1FZAV/NpgrRhcr8WWNSOXXi9TdVPqsSJvmUkuYEfXQdZLbqbGDvxB2I
+ W7zpm1oxzvLI1oJ40oh3NoQ/IPFyZ0lo9DMxPoc7Nik6NIMUVbdoqPyfuK5nz+C0CeC/Ik9f3Hp
+ MpRDyJ38fg6uOCpHtxA==
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[imgtec.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[imgtec.com:s=dk201812];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-58218-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch,linaro.org];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,amd.com:dkim,amd.com:email,amd.com:mid];
+	FREEMAIL_TO(0.00)[imgtec.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,collabora.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58219-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,imgtec.com:dkim,imgtec.com:email];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pierre-eric.pelloux-prayer@amd.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[matt.coster@imgtec.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[imgtec.com:+];
+	PRECEDENCE_BULK(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 7A5013BA5EC
+X-Rspamd-Queue-Id: F2DBB3BA9C6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-This is the only use case for this function.
 
----
-v2: amdgpu_ttm_clear_buffer instead of amdgpu_clear_buffer
----
+On Mon, 30 Mar 2026 08:56:35 +0100, Alessio Belle wrote:
+> The first two commits fix rare bugs and should be backported to stable
+> branches.
+> 
+> The rest is an attempt to cleanup and document the code to make it
+> a bit easier to understand.
+> 
+> 
+> [...]
 
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 12 +++++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 23 ++++++++++------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    | 13 ++++++------
- 3 files changed, 22 insertions(+), 26 deletions(-)
+Applied, thanks!
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index bdeca80cd77d..4dd7c712b8c3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -717,9 +717,9 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
- 	    bo->tbo.resource->mem_type == TTM_PL_VRAM) {
- 		struct dma_fence *fence;
- 
--		r = amdgpu_fill_buffer(amdgpu_ttm_next_clear_entity(adev),
--				       bo, 0, bo->tbo.base.resv, &fence,
--				       true, AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
-+		r = amdgpu_ttm_clear_buffer(amdgpu_ttm_next_clear_entity(adev),
-+					    bo, bo->tbo.base.resv, &fence,
-+					    true, AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
- 		if (unlikely(r))
- 			goto fail_unreserve;
- 
-@@ -1329,9 +1329,9 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
- 	if (r)
- 		goto out;
- 
--	r = amdgpu_fill_buffer(amdgpu_ttm_next_clear_entity(adev),
--			       abo, 0, &bo->base._resv, &fence,
--			       false, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
-+	r = amdgpu_ttm_clear_buffer(amdgpu_ttm_next_clear_entity(adev),
-+				    abo, &bo->base._resv, &fence,
-+				    false, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
- 	if (WARN_ON(r))
- 		goto out;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 7af11623263d..8d778cbce1aa 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -417,8 +417,8 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
- 	if (old_mem->mem_type == TTM_PL_VRAM &&
- 	    (abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE)) {
- 		struct dma_fence *wipe_fence = NULL;
--		r = amdgpu_fill_buffer(entity, abo, 0, NULL, &wipe_fence,
--				       false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
-+		r = amdgpu_ttm_clear_buffer(entity, abo, NULL, &wipe_fence,
-+					    false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
- 		if (r) {
- 			goto error;
- 		} else if (wipe_fence) {
-@@ -2573,26 +2573,23 @@ static int amdgpu_ttm_fill_mem(struct amdgpu_device *adev,
- }
- 
- /**
-- * amdgpu_fill_buffer - fill a buffer with a given value
-+ * amdgpu_ttm_clear_buffer - fill a buffer with 0
-  * @entity: entity to use
-  * @bo: the bo to fill
-- * @src_data: the value to set
-  * @resv: fences contained in this reservation will be used as dependencies.
-  * @out_fence: the fence from the last clear will be stored here. It might be
-  *             NULL if no job was run.
-- * @dependency: optional input dependency fence.
-  * @consider_clear_status: true if region reported as cleared by amdgpu_res_cleared()
-  *                         are skipped.
-  * @k_job_id: trace id
-  *
-  */
--int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
--		       struct amdgpu_bo *bo,
--		       uint32_t src_data,
--		       struct dma_resv *resv,
--		       struct dma_fence **out_fence,
--		       bool consider_clear_status,
--		       u64 k_job_id)
-+int amdgpu_ttm_clear_buffer(struct amdgpu_ttm_buffer_entity *entity,
-+			    struct amdgpu_bo *bo,
-+			    struct dma_resv *resv,
-+			    struct dma_fence **out_fence,
-+			    bool consider_clear_status,
-+			    u64 k_job_id)
- {
- 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
- 	struct dma_fence *fence = NULL;
-@@ -2623,7 +2620,7 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
- 			goto error;
- 
- 		r = amdgpu_ttm_fill_mem(adev, entity,
--					src_data, to, cur_size, resv,
-+					0, to, cur_size, resv,
- 					&next, true, k_job_id);
- 		if (r)
- 			goto error;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index 436a3e09a178..d7b14d5cac77 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -187,13 +187,12 @@ int amdgpu_copy_buffer(struct amdgpu_device *adev,
- 		       struct dma_resv *resv,
- 		       struct dma_fence **fence,
- 		       bool vm_needs_flush, uint32_t copy_flags);
--int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
--		       struct amdgpu_bo *bo,
--		       uint32_t src_data,
--		       struct dma_resv *resv,
--		       struct dma_fence **out_fence,
--		       bool consider_clear_status,
--		       u64 k_job_id);
-+int amdgpu_ttm_clear_buffer(struct amdgpu_ttm_buffer_entity *entity,
-+			    struct amdgpu_bo *bo,
-+			    struct dma_resv *resv,
-+			    struct dma_fence **out_fence,
-+			    bool consider_clear_status,
-+			    u64 k_job_id);
- struct amdgpu_ttm_buffer_entity *amdgpu_ttm_next_clear_entity(struct amdgpu_device *adev);
- 
- int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo);
+[1/8] drm/imagination: Count paired job fence as dependency in prepare_job()
+      commit: 9cd74f935306cd857f46686975c43383e1d95f94
+[2/8] drm/imagination: Fit paired fragment job in the correct CCCB
+      commit: 4baf9e70cb756d78dd56419f8baee2978a72d0c3
+[3/8] drm/imagination: Skip check on paired job fence during job submission
+      commit: 18998b3cb7595850b8b2da55adb3fdc7aef8bc22
+[4/8] drm/imagination: Rename pvr_queue_fence_is_ufo_backed() to reflect usage
+      commit: c162e655092de8de2e0f7776d72919dd5e3b84f2
+[5/8] drm/imagination: Rename fence returned by pvr_queue_job_arm()
+      commit: 5dae1a21f1e7128a19c68212422383f700699d01
+[6/8] drm/imagination: Move repeated job fence check to its own function
+      commit: 402562e60c6c1b15ee359ba7ffed907baa886a99
+[7/8] drm/imagination: Update check to skip prepare_job() for fragment jobs
+      commit: 5c81eb2970133ad073214eb1e5b0c34a1ae793eb
+[8/8] drm/imagination: Minor improvements to job submission code documentation
+      commit: 62a36c2da774800bef893bc4bf8922fb9c07c1d0
+
+Best regards,
 -- 
-2.43.0
+Matt Coster <matt.coster@imgtec.com>
 
 
