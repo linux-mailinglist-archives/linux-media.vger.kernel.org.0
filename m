@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-58253-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58260-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GPh0OVR31mlQFggAu9opvQ
-	(envelope-from <linux-media+bounces-58253-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:42:12 +0200
+	id KJooOJZ31mlQFggAu9opvQ
+	(envelope-from <linux-media+bounces-58260-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:43:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6193BE5F0
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:42:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 461773BE63C
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:43:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AAD8530567B7
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 15:40:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 649C03083FDA
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 15:40:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FBB23D75DA;
-	Wed,  8 Apr 2026 15:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5A0E3D7D7E;
+	Wed,  8 Apr 2026 15:40:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjFCl5Vi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nMTVP8Ew"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9983A2579
-	for <linux-media@vger.kernel.org>; Wed,  8 Apr 2026 15:40:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940E235F163
+	for <linux-media@vger.kernel.org>; Wed,  8 Apr 2026 15:40:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775662811; cv=none; b=JCVQ894A60uICzbS4kfPDKRvVp5P4vzYFnMx9sKFGeGkKdSh/Y2+n9npYCbt7xKSY3alsHHcPuV7xSeQ5KTrkJIV6eABbVsPEd1BzCwrGBX/Tn3haf3+m4JT2boG0488dfGiTfNl4qDXFHIh0jsZGhSYOaarmPp8JtyUHAml1aY=
+	t=1775662823; cv=none; b=r2TJuG8aHZEkCxyiuivFflWw49meetMG5n2uCnTBhSfsHYVwIUs+m2x+1zw1Ks9n3ySxR/eZKQCSRBnw7/N93KMUCr6iABjs17zSwGDyuHW4VBgHvQJNXJrzSAT61PipHIHvMGVxv7aXoY21uMoR5M93GLfv1yVbRBPmsg4Glwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775662811; c=relaxed/simple;
-	bh=wYNnny9oXXzq29zZc10s3/tHyMrNU2YdK+d6JfinpMw=;
+	s=arc-20240116; t=1775662823; c=relaxed/simple;
+	bh=UcZ0lkDypFFiA3hVUS0c44fquslrKlzn0Bf+ggYGfEs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SageTDHHJyENfR3sQzw2UEyZ/0keoLByV2Zn6j/3sBWmyRxZ1yViuGRKco0E00mFsS7Fb48kmdWYk2ovXmdOhDGZ80JIXmBOISt3Qme9zDlRSjqQWxo6qorm3pH16u69hqYABT3jw48B75rv9ee3uFI1+KpS6BiGRTTLyIXwzo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjFCl5Vi; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=BGy3w55YaD/zrG3nS6bZfZbPxAcyC9UqHu996D3MX2jbUCpQ0QR4x3eYvV5uNC6hnpU5LjLGWg7amw1C4M3evTfhtx5nPvV90DYPXAZgGJfAsx5FFCvT7dF3BJrq+e7WN4YPur9zL5Ch1rUuQYfuk8s0y2yOmBa+xUbK9yJmaC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nMTVP8Ew; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775662808; x=1807198808;
+  t=1775662819; x=1807198819;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=wYNnny9oXXzq29zZc10s3/tHyMrNU2YdK+d6JfinpMw=;
-  b=LjFCl5Vi4O0hS++2uqJ1B6C83hAVdzZqOuTj52d3LIHfsQHMTkNbSGlM
-   Q8S5MGfI0zMxcgGLM2eJiFEW7cet/Ub62T/I4UewkwhMzuVXBSU8fswy3
-   z03iRE1DPMAE0ZGDvlz21XcrLt769F/HSEjD0LNT44RL0GWc7xx7VHOAA
-   isrl8GHnPQxHTF6ODqkKvl7NVTi1A6faM0NkLEfyyWhxLnUW58+O4JaDK
-   osQUfM5nfkziJ5xwcBZlDfQeO8t3JioltJn9KiWRJ1uyaOY4fM1hQ9EWN
-   wO/uAathUs++aANfZY5T+7puGDLYLW4e0FEqHv9nUJ2Nw94/G9OH8z8uR
+  bh=UcZ0lkDypFFiA3hVUS0c44fquslrKlzn0Bf+ggYGfEs=;
+  b=nMTVP8EwxQRJFm5zNuC3NKXsZAnDOIoZG/cI5cRYWi/5OQh52cdMs4An
+   2ikff4d/J+u8EF9WBd6oXyw/8q9bDrxHXjpW6mSmrAsqvUtHJ32QjYisU
+   JQkyFyNMQ1hzn4/FnFw393oTrBhPM9lIZ0IF3mLGETblyqnEt0G2xj3Mx
+   tY/qARqc947LWIaKRSwhUVjmKvA3qSjrstbrG3jk3bQ+tKRxe+49njnV8
+   MOwemI52bbGGx3ePdyz0ZAKd/Isdv9ZQpmppgwBRWAD1DBx8VCsOJ6yCt
+   1dbMDZV+GgOTNbifKRe4WMoeX8BseCAIAy9X5REH6q2d0S4lSH8KxK+SM
    g==;
-X-CSE-ConnectionGUID: WAjVwFjJR8mOJphm5YKN2w==
-X-CSE-MsgGUID: YuBqkTnaSr+0jDL9l8AfSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="94038388"
+X-CSE-ConnectionGUID: sTPf4EJRSqatNo1Md6k9+g==
+X-CSE-MsgGUID: SoPvv29QSCK0LVkPvRXq1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="94038471"
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="94038388"
+   d="scan'208";a="94038471"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 08:39:54 -0700
-X-CSE-ConnectionGUID: 2KM/W1IQQWKSkkFN/xsfHA==
-X-CSE-MsgGUID: MbxKfKlKRj2uFE80hPo5Sw==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 08:40:01 -0700
+X-CSE-ConnectionGUID: RIwBBEK1SUCWvySfULweeg==
+X-CSE-MsgGUID: 4Y7ReXueRHaURz6cImsJ4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="223740292"
+   d="scan'208";a="223740386"
 Received: from hrotuna-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.104])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 08:39:45 -0700
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 08:39:53 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 12654121F87;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 183AC121F8E;
 	Wed, 08 Apr 2026 18:39:51 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAV0F-000000044DC-25WE;
+	id 1wAV0F-000000044DG-2Afc;
 	Wed, 08 Apr 2026 18:39:39 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -100,9 +100,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v4 14/29] media: Documentation: Improve LINK_FREQ documentation
-Date: Wed,  8 Apr 2026 18:39:23 +0300
-Message-ID: <20260408153939.969381-15-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 15/29] media: Documentation: Improve pixel rate calculation documentation
+Date: Wed,  8 Apr 2026 18:39:24 +0300
+Message-ID: <20260408153939.969381-16-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
 References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
@@ -126,7 +126,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
-	TAGGED_FROM(0.00)[bounces-58253-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58260-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[30];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -136,55 +136,43 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,intel.com:email,nxp.com:email,linux.intel.com:mid,ideasonboard.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,nxp.com:email,linux.intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email];
 	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.933];
+	NEURAL_HAM(-0.00)[-0.936];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 2E6193BE5F0
+X-Rspamd-Queue-Id: 461773BE63C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add a reference to the LINK_FREQ control and clarify the meaning of the
-control as for C-PHY the matter is less obvious.
+Improve documentation on calculating the pixel rate, by adding references
+to relevant functions and mentioning V4L2 fwnode endpoint instead of OF
+endpoint.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- Documentation/driver-api/media/tx-rx.rst                      | 3 ++-
- .../userspace-api/media/v4l/ext-ctrls-image-process.rst       | 4 +++-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ Documentation/driver-api/media/tx-rx.rst | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
-index 22e1b13ecde9..7df2407817b3 100644
+index 7df2407817b3..9b231fa0216a 100644
 --- a/Documentation/driver-api/media/tx-rx.rst
 +++ b/Documentation/driver-api/media/tx-rx.rst
-@@ -93,7 +93,8 @@ where
-    * - variable or constant
-      - description
-    * - link_freq
--     - The value of the ``V4L2_CID_LINK_FREQ`` integer64 menu item.
-+     - The value of the :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` integer64
-+       menu item.
-    * - nr_of_lanes
-      - Number of data lanes used on the CSI-2 link.
-    * - 2
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-index 6d516f041ca2..ee88933256dd 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-@@ -24,7 +24,9 @@ Image Process Control IDs
- .. _v4l2-cid-link-freq:
+@@ -104,7 +104,11 @@ where
+    * - k
+      - 16 for D-PHY and 7 for C-PHY.
  
- ``V4L2_CID_LINK_FREQ (integer menu)``
--    The frequency of the data bus (e.g. parallel or CSI-2).
-+    The fundamental frequency of the operating symbol rate (serial interfaces
-+    such as CSI-2) or the sampling rate (parallel interfaces such as DVP or
-+    Bt.565) of the data interface.
+-Information on whether D-PHY or C-PHY is used, and the value of ``nr_of_lanes``, can be obtained from the OF endpoint configuration.
++Information on whether D-PHY or C-PHY is used as well as the value of
++``nr_of_lanes`` can be obtained from the V4L2 endpoint configuration; see
++:c:func:`v4l2_fwnode_endpoint_alloc_parse()`,
++:c:func:`v4l2_fwnode_endpoint_parse()` and
++:c:func:`v4l2_get_active_data_lanes()`.
  
- .. _v4l2-cid-pixel-rate:
+ .. note::
  
 -- 
 2.47.3
