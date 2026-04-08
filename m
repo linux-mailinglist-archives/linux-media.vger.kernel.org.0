@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-58250-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58254-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aGEnCkB31mlQFggAu9opvQ
-	(envelope-from <linux-media+bounces-58250-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:41:52 +0200
+	id eBe0BwV31mlQFggAu9opvQ
+	(envelope-from <linux-media+bounces-58254-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:40:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91EB93BE5D3
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:41:51 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A29CD3BE55E
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:40:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 60B97304B2BA
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 15:40:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C1618305CD96
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 15:40:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E3B23D6CD3;
-	Wed,  8 Apr 2026 15:40:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B03333D7D91;
+	Wed,  8 Apr 2026 15:40:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c5s7/f4e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nkC0UYIU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDB53D6CCD
-	for <linux-media@vger.kernel.org>; Wed,  8 Apr 2026 15:40:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9AB175A63
+	for <linux-media@vger.kernel.org>; Wed,  8 Apr 2026 15:40:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775662806; cv=none; b=uBS6h/yFc9DYQW9VivQY7I9Z7QqALSgI9wrHgl3/YX8LFGd8DJGxNOjgeqMvaJaLZ4+p+jTqNrK8zUPvihuMr01pBavt+4CSUBLmQLo5vN8dfVTuYqS7guIowFn+32KeHuF8RZgJYgSok8MLZPx594Ufm5pONq7nTRiUYjx7/AQ=
+	t=1775662815; cv=none; b=nLIonrMGPn5/+69WPfdXYo0oVtS/UVGNapYIl1rCdHduCDQs6eNjfNzgYbj6NVDNWRbWP0svKfX4S56NPMFTV+z7b4GJZtiZSFl7FzbWDJQbe4gqclbmcIkZoO67DB+GjgbefxPmTAk0z5k4yQ8TeIgiNm6YCWNX/lC14ez2S7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775662806; c=relaxed/simple;
-	bh=sMx1BAC0rTQO9irSYSSFp0Fn4NTWHvNZN/sAKLa7bpI=;
+	s=arc-20240116; t=1775662815; c=relaxed/simple;
+	bh=p1ChjdlUdlU9EfV7WyFxL00sbB2pUyUXrpQBue8z2NA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Aol8ttr//Ck8Wod7OktZdC90Hss9TcqvAyNtw52+YXgcSNY0a2094mFYPz0mpiQ87iZDbhjgPw2vbQcdzdZEvwKtCEuLPFA9bqA3XyFIlMRPe3DqZjffa1iDJMbRnN/JMrSPdCm6mknzS9Xgw6MtYoRL8UVSfxHF5ZOkezzHnq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c5s7/f4e; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=dAZoAn+wCDLxE7/4qGXbQAd/XYGya9BfvOLlS2NgbYaEfUTbz1AQZINnNrDtzZwNE+cs6NQ7/kyPnUy6exZ2mBiZXVvSzU9bzuuVzmZr+4gMRjYX9DMZiR/zqXYC23f8+p48wtYmPanRUT1cb4uETwBx0AfQlEWXz84Bwm88BP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nkC0UYIU; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775662802; x=1807198802;
+  t=1775662811; x=1807198811;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=sMx1BAC0rTQO9irSYSSFp0Fn4NTWHvNZN/sAKLa7bpI=;
-  b=c5s7/f4eTmu95It4O07rHDQ+B06ma1Q5o/S6AUSI+1d01rVD+TbcaW2s
-   yEpSHCPRaAwhgG6eegN16pn+WlDRLV1dna8Eld0r6SzqGa3vTFQQsaLb1
-   YVGv9C7r6vTq7j+oVyzWOEG4VJKSc33YXyMpji5+O04jYSsf7RaSE/2wL
-   b7pCNBVjhDELQRVn2jzzCffiQwRkp89OLVaUfYp5G0ibNq2XJwjRAzHqR
-   cf+PU+MmfusEdQ1kskRELm06YI8ZJy4/Y11uGIiPVQp/HFzWep6q50M46
-   xyDBoOqU1XKnb5LjRBIss3ZWZJui32BC8lbIjfOCtdMlVLpi3XvPf6VJL
+  bh=p1ChjdlUdlU9EfV7WyFxL00sbB2pUyUXrpQBue8z2NA=;
+  b=nkC0UYIUiW3kUaPDdRUZazzBFc3ZLQURvBOukSuNiw6vGtGS9tANKvKV
+   O/yZ7Dyw+fULY8iv6leBXfzcjAL1jo9cz1KCfUJOCm5cWpsfolEmQYcpb
+   sWmAyBd0Lx7eS7JVN/mrFrgaQAJ21VizZo+Z31FEOv8SQm65C0nMMmpuC
+   U9RzYyLl6m1IQxqhI7TkhNFIj0d8iuZ6flm+IZkKSWRsANpQG9NDdpAiT
+   j1O+6lHOLhTSDAqqfylx0NYn/w4AevvtmIbPszios2zDsMgVZEFqUbVrG
+   o4vFpl7P95edmlZiJkMvk4iwc8LnFzgumsmh6DrwkjlgSLMFNDpjMBt9w
    w==;
-X-CSE-ConnectionGUID: V4M1uWUjQWi23LMlAjBxug==
-X-CSE-MsgGUID: 9dg4O8NcQWyCPdtecdL9/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="94038350"
+X-CSE-ConnectionGUID: 8kSOE1XdQGm2T4SWCLsMZQ==
+X-CSE-MsgGUID: o9VWa3KLStu187gERKzimA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="94038387"
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="94038350"
+   d="scan'208";a="94038387"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 08:39:53 -0700
-X-CSE-ConnectionGUID: Cp9ZjpUcQvG6tRV/fEF+SQ==
-X-CSE-MsgGUID: wEt9RDMPS+Wr5nizmDo+cw==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 08:39:54 -0700
+X-CSE-ConnectionGUID: 2W6XScs8R3uEQcYqoChVdw==
+X-CSE-MsgGUID: EyIpTvHpRNC70SY0oUk+Yg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="223740282"
+   d="scan'208";a="223740289"
 Received: from hrotuna-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.104])
   by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 08:39:45 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id F190E121E1D;
-	Wed, 08 Apr 2026 18:39:50 +0300 (EEST)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 013D7121E39;
+	Wed, 08 Apr 2026 18:39:51 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAV0F-000000044Cs-1fe1;
+	id 1wAV0F-000000044Cw-1kBB;
 	Wed, 08 Apr 2026 18:39:39 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -100,9 +100,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v4 09/29] media: imx334: Remove redundant kernel-doc comments
-Date: Wed,  8 Apr 2026 18:39:18 +0300
-Message-ID: <20260408153939.969381-10-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 10/29] media: imx335: Remove redundant kernel-doc comments
+Date: Wed,  8 Apr 2026 18:39:19 +0300
+Message-ID: <20260408153939.969381-11-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
 References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
@@ -120,29 +120,29 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
-	TAGGED_FROM(0.00)[bounces-58250-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58254-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[30];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.intel.com:mid,intel.com:dkim,intel.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux.intel.com:mid,intel.com:dkim,intel.com:email];
 	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.936];
+	NEURAL_HAM(-0.00)[-0.937];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 91EB93BE5D3
+X-Rspamd-Queue-Id: A29CD3BE55E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -151,19 +151,19 @@ have no information value.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/imx334.c | 93 --------------------------------------
- 1 file changed, 93 deletions(-)
+ drivers/media/i2c/imx335.c | 87 --------------------------------------
+ 1 file changed, 87 deletions(-)
 
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index 9654f9268056..553a16b84f4d 100644
---- a/drivers/media/i2c/imx334.c
-+++ b/drivers/media/i2c/imx334.c
-@@ -566,18 +566,6 @@ static int imx334_update_exp_gain(struct imx334 *imx334, u32 exposure, u32 gain)
+diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+index 5790aa4fabeb..1f777a1a8192 100644
+--- a/drivers/media/i2c/imx335.c
++++ b/drivers/media/i2c/imx335.c
+@@ -698,18 +698,6 @@ static int imx335_update_test_pattern(struct imx335 *imx335, u32 pattern_index)
  	return ret;
  }
  
 -/**
-- * imx334_set_ctrl() - Set subdevice control
+- * imx335_set_ctrl() - Set subdevice control
 - * @ctrl: pointer to v4l2_ctrl structure
 - *
 - * Supported controls:
@@ -174,165 +174,152 @@ index 9654f9268056..553a16b84f4d 100644
 - *
 - * Return: 0 if successful, error code otherwise.
 - */
- static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
+ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
  {
- 	struct imx334 *imx334 =
-@@ -678,14 +666,6 @@ static int imx334_get_format_code(struct imx334 *imx334, u32 code)
- 	return imx334_mbus_codes[0];
+ 	struct imx335 *imx335 =
+@@ -800,14 +788,6 @@ static int imx335_get_format_code(struct imx335 *imx335, u32 code)
+ 	return imx335_mbus_codes[0];
  }
  
 -/**
-- * imx334_enum_mbus_code() - Enumerate V4L2 sub-device mbus codes
-- * @sd: pointer to imx334 V4L2 sub-device structure
-- * @sd_state: V4L2 sub-device state
+- * imx335_enum_mbus_code() - Enumerate V4L2 sub-device mbus codes
+- * @sd: pointer to imx335 V4L2 sub-device structure
+- * @sd_state: V4L2 sub-device configuration
 - * @code: V4L2 sub-device code enumeration need to be filled
 - *
 - * Return: 0 if successful, error code otherwise.
 - */
- static int imx334_enum_mbus_code(struct v4l2_subdev *sd,
+ static int imx335_enum_mbus_code(struct v4l2_subdev *sd,
  				 struct v4l2_subdev_state *sd_state,
  				 struct v4l2_subdev_mbus_code_enum *code)
-@@ -698,14 +678,6 @@ static int imx334_enum_mbus_code(struct v4l2_subdev *sd,
+@@ -820,14 +800,6 @@ static int imx335_enum_mbus_code(struct v4l2_subdev *sd,
  	return 0;
  }
  
 -/**
-- * imx334_enum_frame_size() - Enumerate V4L2 sub-device frame sizes
-- * @sd: pointer to imx334 V4L2 sub-device structure
-- * @sd_state: V4L2 sub-device state
+- * imx335_enum_frame_size() - Enumerate V4L2 sub-device frame sizes
+- * @sd: pointer to imx335 V4L2 sub-device structure
+- * @sd_state: V4L2 sub-device configuration
 - * @fsize: V4L2 sub-device size enumeration need to be filled
 - *
 - * Return: 0 if successful, error code otherwise.
 - */
- static int imx334_enum_frame_size(struct v4l2_subdev *sd,
+ static int imx335_enum_frame_size(struct v4l2_subdev *sd,
  				  struct v4l2_subdev_state *sd_state,
  				  struct v4l2_subdev_frame_size_enum *fsize)
-@@ -749,14 +721,6 @@ static void imx334_fill_pad_format(struct imx334 *imx334,
+@@ -871,14 +843,6 @@ static void imx335_fill_pad_format(struct imx335 *imx335,
  	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
  }
  
 -/**
-- * imx334_get_pad_format() - Get subdevice pad format
-- * @sd: pointer to imx334 V4L2 sub-device structure
-- * @sd_state: V4L2 sub-device state
+- * imx335_set_pad_format() - Set subdevice pad format
+- * @sd: pointer to imx335 V4L2 sub-device structure
+- * @sd_state: V4L2 sub-device configuration
 - * @fmt: V4L2 sub-device format need to be set
 - *
 - * Return: 0 if successful, error code otherwise.
 - */
- static int imx334_get_pad_format(struct v4l2_subdev *sd,
+ static int imx335_set_pad_format(struct v4l2_subdev *sd,
  				 struct v4l2_subdev_state *sd_state,
  				 struct v4l2_subdev_format *fmt)
-@@ -776,14 +740,6 @@ static int imx334_get_pad_format(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
--/**
-- * imx334_set_pad_format() - Set subdevice pad format
-- * @sd: pointer to imx334 V4L2 sub-device structure
-- * @sd_state: V4L2 sub-device state
-- * @fmt: V4L2 sub-device format need to be set
-- *
-- * Return: 0 if successful, error code otherwise.
-- */
- static int imx334_set_pad_format(struct v4l2_subdev *sd,
- 				 struct v4l2_subdev_state *sd_state,
- 				 struct v4l2_subdev_format *fmt)
-@@ -815,13 +771,6 @@ static int imx334_set_pad_format(struct v4l2_subdev *sd,
+@@ -923,13 +887,6 @@ static int imx335_set_pad_format(struct v4l2_subdev *sd,
  	return ret;
  }
  
 -/**
-- * imx334_init_state() - Initialize sub-device state
-- * @sd: pointer to imx334 V4L2 sub-device structure
-- * @sd_state: V4L2 sub-device state
+- * imx335_init_state() - Initialize sub-device state
+- * @sd: pointer to imx335 V4L2 sub-device structure
+- * @sd_state: V4L2 sub-device configuration
 - *
 - * Return: 0 if successful, error code otherwise.
 - */
- static int imx334_init_state(struct v4l2_subdev *sd,
+ static int imx335_init_state(struct v4l2_subdev *sd,
  			     struct v4l2_subdev_state *sd_state)
  {
-@@ -856,15 +805,6 @@ static int imx334_set_framefmt(struct imx334 *imx334)
- 	return -EINVAL;
+@@ -947,14 +904,6 @@ static int imx335_init_state(struct v4l2_subdev *sd,
+ 	return imx335_set_pad_format(sd, sd_state, &fmt);
  }
  
 -/**
-- * imx334_enable_streams() - Enable specified streams for the sensor
-- * @sd: pointer to the V4L2 subdevice
-- * @state: pointer to the subdevice state
-- * @pad: pad number for which streams are enabled
-- * @streams_mask: bitmask specifying the streams to enable
+- * imx335_get_selection() - Selection API
+- * @sd: pointer to imx335 V4L2 sub-device structure
+- * @sd_state: V4L2 sub-device configuration
+- * @sel: V4L2 selection info
 - *
 - * Return: 0 if successful, error code otherwise.
 - */
- static int imx334_enable_streams(struct v4l2_subdev *sd,
+ static int imx335_get_selection(struct v4l2_subdev *sd,
+ 				struct v4l2_subdev_state *sd_state,
+ 				struct v4l2_subdev_selection *sel)
+@@ -1011,15 +960,6 @@ static int imx335_set_framefmt(struct imx335 *imx335)
+ 	return ret;
+ }
+ 
+-/**
+- * imx335_enable_streams() - Enable sensor streams
+- * @sd: V4L2 subdevice
+- * @state: V4L2 subdevice state
+- * @pad: The pad to enable
+- * @streams_mask: Bitmask of streams to enable
+- *
+- * Return: 0 if successful, error code otherwise.
+- */
+ static int imx335_enable_streams(struct v4l2_subdev *sd,
  				 struct v4l2_subdev_state *state, u32 pad,
  				 u64 streams_mask)
-@@ -929,15 +869,6 @@ static int imx334_enable_streams(struct v4l2_subdev *sd,
+@@ -1097,15 +1037,6 @@ static int imx335_enable_streams(struct v4l2_subdev *sd,
  	return ret;
  }
  
 -/**
-- * imx334_disable_streams() - Enable specified streams for the sensor
-- * @sd: pointer to the V4L2 subdevice
-- * @state: pointer to the subdevice state
-- * @pad: pad number for which streams are disabled
-- * @streams_mask: bitmask specifying the streams to disable
+- * imx335_disable_streams() - Disable sensor streams
+- * @sd: V4L2 subdevice
+- * @state: V4L2 subdevice state
+- * @pad: The pad to disable
+- * @streams_mask: Bitmask of streams to disable
 - *
 - * Return: 0 if successful, error code otherwise.
 - */
- static int imx334_disable_streams(struct v4l2_subdev *sd,
+ static int imx335_disable_streams(struct v4l2_subdev *sd,
  				  struct v4l2_subdev_state *state, u32 pad,
  				  u64 streams_mask)
-@@ -1067,12 +998,6 @@ static const struct v4l2_subdev_internal_ops imx334_internal_ops = {
- 	.init_state = imx334_init_state,
- };
- 
--/**
-- * imx334_power_on() - Sensor power on sequence
-- * @dev: pointer to i2c device
-- *
-- * Return: 0 if successful, error code otherwise.
-- */
- static int imx334_power_on(struct device *dev)
- {
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-@@ -1101,12 +1026,6 @@ static int imx334_power_on(struct device *dev)
+@@ -1299,12 +1230,6 @@ static int imx335_power_on(struct device *dev)
  	return ret;
  }
  
 -/**
-- * imx334_power_off() - Sensor power off sequence
+- * imx335_power_off() - Sensor power off sequence
 - * @dev: pointer to i2c device
 - *
 - * Return: 0 if successful, error code otherwise.
 - */
- static int imx334_power_off(struct device *dev)
+ static int imx335_power_off(struct device *dev)
  {
  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-@@ -1206,12 +1125,6 @@ static int imx334_init_controls(struct imx334 *imx334)
+@@ -1430,12 +1355,6 @@ static int imx335_init_controls(struct imx335 *imx335)
  	return 0;
  }
  
 -/**
-- * imx334_probe() - I2C client device binding
+- * imx335_probe() - I2C client device binding
 - * @client: pointer to i2c client device
 - *
 - * Return: 0 if successful, error code otherwise.
 - */
- static int imx334_probe(struct i2c_client *client)
+ static int imx335_probe(struct i2c_client *client)
  {
- 	struct imx334 *imx334;
-@@ -1311,12 +1224,6 @@ static int imx334_probe(struct i2c_client *client)
+ 	struct imx335 *imx335;
+@@ -1530,12 +1449,6 @@ static int imx335_probe(struct i2c_client *client)
  	return ret;
  }
  
 -/**
-- * imx334_remove() - I2C client device unbinding
+- * imx335_remove() - I2C client device unbinding
 - * @client: pointer to I2C client device
 - *
 - * Return: 0 if successful, error code otherwise.
 - */
- static void imx334_remove(struct i2c_client *client)
+ static void imx335_remove(struct i2c_client *client)
  {
  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 -- 
