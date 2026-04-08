@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-58265-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58264-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cBktMBt31mlQFggAu9opvQ
-	(envelope-from <linux-media+bounces-58265-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:41:15 +0200
+	id +PL7Hfx21mlQFggAu9opvQ
+	(envelope-from <linux-media+bounces-58264-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:40:44 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37BA83BE592
-	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:41:15 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C46D3BE54F
+	for <lists+linux-media@lfdr.de>; Wed, 08 Apr 2026 17:40:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 653AF3069708
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 15:40:39 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 877023024907
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2026 15:40:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEFEB3D7D69;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DC273D6CC8;
 	Wed,  8 Apr 2026 15:40:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jOslbwsw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bb0OXNAR"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B957B3D7D60
-	for <linux-media@vger.kernel.org>; Wed,  8 Apr 2026 15:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC76F3D47A5
+	for <linux-media@vger.kernel.org>; Wed,  8 Apr 2026 15:40:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775662829; cv=none; b=Kxgrru9o2vkWkItMDy8UvncNLlZu02IShetKohdRefhRwwsmnyMIJiVfihLNKfjxTZTBrqIEbVVgs9m9ygPvFq/5trKXBOqWu5Qwx9aTsQl/MTfqQrDNhJxK+VIHQOlACQtuDjkcHFxqF0msdjJn6nVW/H0ae1y61s+UMwcdJUA=
+	t=1775662828; cv=none; b=Q1rQGx+IVAF3CKefCKE7UbAalTSav3EBBsXO3C+2WPmyQGKzq+6nnORyPWU8BxTp/QEqsTuyJi/1qleY519HijHTuNdjfSKl3+9igJTCmXeOvaGDxSLbALFcn0N7ofhHtFZqH2fvKB6zG5/ORsJbPNHBFrC96lqzh/55KK3hVKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775662829; c=relaxed/simple;
-	bh=76Ypjive7Y+eFqg6f5Al3Kw5AcHO32NDyXaa01fmwo8=;
+	s=arc-20240116; t=1775662828; c=relaxed/simple;
+	bh=4qwME4bFcW63izNidqlxsL7O/G8cgz8uOodADpThi2A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VjAzs2WZyUURSfe0xSCnldBC42zu/hgeWsLEc6qztAJWP1QRp3xhQ4Z1KnwVMCPeDBgaGl8r3T9InK8HGfufHZ2yzBjaht+KwGVYxd0LqFwfV7upIsXql2DEoFLRtFAgeinC42pY9v5s0BW+9EUyZa2W5SeWEBRovyQ5+wAmXnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jOslbwsw; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=conCICNtBajmXcCewkm1Xg6t+Hh16pxzO+BjhoIY6U26C+PDvh2S2OcrqLBnvPv3yrTlc8NaFLeY8YSz4ZoUCxTuZBk/A0CVL52oeC4FvV+WceROzNXarbByxngXR5TW1ZSxFLlRiWucJSv1cwNxvtPsI6cRrLVH9KFsFkJhWic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bb0OXNAR; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -39,34 +39,34 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1775662828; x=1807198828;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=76Ypjive7Y+eFqg6f5Al3Kw5AcHO32NDyXaa01fmwo8=;
-  b=jOslbwswhYOPM4TWrtbNEKx3S8cM8EnHHTLyqMzCI69yURSkLwWm1O1M
-   D9INbuIs2d7LYsdzarsGLdc7I5GgTx/AiV2i+FzNCjyQyNfVsGnayaE8U
-   yId9UiedaTACcsIVxaNpijEpCAfGWSb+WmJGA7Cqdu/cj0nqegVZxZ4qR
-   JrUJ/wKAsl76CdWLYizNWbBfzE3Pl0MD+JAre4+9GTErvdSG6ycNteiDB
-   o8K/uhdyrN+emorPorCUjG8hnGNpZqwv7jyHDqsIJisMQlx4oJvUdXp5+
-   LL99fjMICi0WhH9Peg2ENKPGXjuvPEo5UNxTNpnTshsNXEG3Q6+XgjhRp
-   g==;
-X-CSE-ConnectionGUID: WwhEuGrjSlOsSr8fuwv2mg==
-X-CSE-MsgGUID: ko66nBUjT0K5/ZE64MOIwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="94038548"
+  bh=4qwME4bFcW63izNidqlxsL7O/G8cgz8uOodADpThi2A=;
+  b=Bb0OXNAR4pZ1TJHV15k30PJCjZTq8GgFWdJjKHmUvDFUSr9PCSLLmtza
+   CmtTFK3wc9XORAVy75a5zSr39JAlG/U9c+2OaTUCdghZcFkXkZeC5VH2/
+   LQ7npuyPhL4Nsu+kU70RzGEPZTEnRVfx0twdLIxFd94UCuhGBmbw371Kq
+   nQmixBGfAvTR2F1DYZLDZNpRvpY4peCOqbsJ11vfacC0eG+au9aiZMUni
+   4Aj0CoxPOOvNRYXq+7eG8sBf90InxPcb6BU5X7EVmr7Bl81PDF5wV8lF0
+   DtpI5TqHwWMsRF178jxXHMuDaoNIiUL4A3HZyLy3/qJTjyFtvRZDlklVJ
+   w==;
+X-CSE-ConnectionGUID: YVYj8G/NRyWmjTesFfefvA==
+X-CSE-MsgGUID: GHQ369JiRIKDf3MmXnqvdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="94038529"
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="94038548"
+   d="scan'208";a="94038529"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 08:40:02 -0700
-X-CSE-ConnectionGUID: 0k5naFKtT5eTXmg14ImOrQ==
-X-CSE-MsgGUID: u7SZj9gnRG+LxUhydHCe1A==
+X-CSE-ConnectionGUID: ICocAxI0RsWz0ak/6fDEJA==
+X-CSE-MsgGUID: fPRdbPPhRe+2XpwYUvMLMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="223740400"
+   d="scan'208";a="223740401"
 Received: from hrotuna-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.104])
   by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 08:39:54 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 53714122145;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 54DD612229E;
 	Wed, 08 Apr 2026 18:39:51 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAV0F-000000044E2-38K6;
+	id 1wAV0F-000000044E6-3DHd;
 	Wed, 08 Apr 2026 18:39:39 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -100,9 +100,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v4 27/29] media: v4l2-subdev: Add v4l2_subdev_call_ci_active_state
-Date: Wed,  8 Apr 2026 18:39:36 +0300
-Message-ID: <20260408153939.969381-28-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 28/29] media: v4l2-subdev: Perform client info changes to i2c drivers
+Date: Wed,  8 Apr 2026 18:39:37 +0300
+Message-ID: <20260408153939.969381-29-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
 References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
@@ -120,107 +120,94 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
-	TAGGED_FROM(0.00)[bounces-58265-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58264-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[30];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:dkim,intel.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linux.intel.com:mid,intel.com:dkim,intel.com:email];
 	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.926];
+	NEURAL_HAM(-0.00)[-0.942];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 37BA83BE592
+X-Rspamd-Queue-Id: 3C46D3BE54F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add v4l2_subdev_call_ci_active_state(), to call sub-device pad ops that
-take struct v4l2_subdev_client_info pointer as an argument.
+Perform client info argument related changes to two i2c drivers (s5k5baf
+and tc358743). These changes are not done by Coccinelle scripts in the
+following patch and will be squashed to the previous patch eventually.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- include/media/v4l2-subdev.h | 49 ++++++++++++++++++++++++++++---------
- 1 file changed, 38 insertions(+), 11 deletions(-)
+ drivers/media/i2c/og01a1b.c                     | 2 +-
+ drivers/media/i2c/s5k5baf.c                     | 1 +
+ drivers/media/i2c/tc358743.c                    | 2 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h | 1 +
+ 4 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 1ce1c18f84a9..9b0e091c30c1 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1968,6 +1968,22 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
- 		__result;						\
- 	})
+diff --git a/drivers/media/i2c/og01a1b.c b/drivers/media/i2c/og01a1b.c
+index 1675f0460969..1d109ca75d76 100644
+--- a/drivers/media/i2c/og01a1b.c
++++ b/drivers/media/i2c/og01a1b.c
+@@ -763,7 +763,7 @@ static int og01a1b_init_state(struct v4l2_subdev *sd,
+ 		},
+ 	};
  
-+#define v4l2_subdev_call_drop_fourth(first, second, third, fourth, rest...) \
-+	v4l2_subdev_call(first, second, third, ##rest)
-+
-+#define __v4l2_subdev_call_state_active(call, sd, o, f, args...) \
-+	({								\
-+		int __result;						\
-+		struct v4l2_subdev_state *state;			\
-+		state = v4l2_subdev_get_unlocked_active_state(sd);	\
-+		if (state)						\
-+			v4l2_subdev_lock_state(state);			\
-+		__result = call(sd, o, f, NULL, state, ##args);		\
-+		if (state)						\
-+			v4l2_subdev_unlock_state(state);		\
-+		__result;						\
-+	})
-+
- /**
-  * v4l2_subdev_call_state_active - call an operation of a v4l2_subdev which
-  *				   takes state as a parameter, passing the
-@@ -1986,17 +2002,28 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
-  * active state, lock it before calling the op and unlock it after the call.
-  */
- #define v4l2_subdev_call_state_active(sd, o, f, args...)		\
--	({								\
--		int __result;						\
--		struct v4l2_subdev_state *state;			\
--		state = v4l2_subdev_get_unlocked_active_state(sd);	\
--		if (state)						\
--			v4l2_subdev_lock_state(state);			\
--		__result = v4l2_subdev_call(sd, o, f, state, ##args);	\
--		if (state)						\
--			v4l2_subdev_unlock_state(state);		\
--		__result;						\
--	})
-+	__v4l2_subdev_call_state_active(v4l2_subdev_call_drop_fourth,	\
-+					sd, o, f, ##args)
-+
-+/**
-+ * v4l2_subdev_call_ci_state_active - call an operation of a v4l2_subdev which
-+ *				      takes state as a parameter, passing the
-+ *				      subdev its active state.
-+ *
-+ * @sd: pointer to the &struct v4l2_subdev
-+ * @o: name of the element at &struct v4l2_subdev_ops that contains @f.
-+ *     Each element there groups a set of callbacks functions.
-+ * @f: callback function to be called.
-+ *     The callback functions are defined in groups, according to
-+ *     each element at &struct v4l2_subdev_ops.
-+ * @args: arguments for @f.
-+ *
-+ * This macro is just as v4l2_subdev_call_state_active(), with the exception
-+ * that it passes NULL as the client info to sub-device ops that need it
-+ * (currently pad ops get_fmt, set_fmt, get_selection and set_selection).
-+ */
-+#define v4l2_subdev_call_ci_state_active(sd, o, f, args...)		\
-+	__v4l2_subdev_call_state_active(v4l2_subdev_call, sd, o, f, ##args)
+-	og01a1b_set_format(sd, state, &fmt);
++	og01a1b_set_format(sd, NULL, state, &fmt);
  
- /**
-  * v4l2_subdev_call_state_try - call an operation of a v4l2_subdev which
+ 	return 0;
+ }
+diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
+index d1d00eca8708..a580b7e63302 100644
+--- a/drivers/media/i2c/s5k5baf.c
++++ b/drivers/media/i2c/s5k5baf.c
+@@ -1463,6 +1463,7 @@ static bool s5k5baf_cmp_rect(const struct v4l2_rect *r1,
+ }
+ 
+ static int s5k5baf_set_selection(struct v4l2_subdev *sd,
++				 const struct v4l2_subdev_client_info *ci,
+ 				 struct v4l2_subdev_state *sd_state,
+ 				 struct v4l2_subdev_selection *sel)
+ {
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index a0ca19359c43..59f509aa1939 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -1822,7 +1822,7 @@ static int tc358743_set_fmt(struct v4l2_subdev *sd,
+ 	struct tc358743_state *state = to_state(sd);
+ 
+ 	u32 code = format->format.code; /* is overwritten by get_fmt */
+-	int ret = tc358743_get_fmt(sd, sd_state, format);
++	int ret = tc358743_get_fmt(sd, ci, sd_state, format);
+ 
+ 	if (code == MEDIA_BUS_FMT_RGB888_1X24 ||
+ 	    code == MEDIA_BUS_FMT_UYVY8_1X16)
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
+index 35069099c364..d4f76d513dc6 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
+@@ -31,6 +31,7 @@ bool ipu6_isys_is_bayer_format(u32 code);
+ u32 ipu6_isys_convert_bayer_order(u32 code, int x, int y);
+ 
+ int ipu6_isys_subdev_set_fmt(struct v4l2_subdev *sd,
++			     const struct v4l2_subdev_client_info *ci,
+ 			     struct v4l2_subdev_state *state,
+ 			     struct v4l2_subdev_format *fmt);
+ int ipu6_isys_subdev_enum_mbus_code(struct v4l2_subdev *sd,
 -- 
 2.47.3
 
