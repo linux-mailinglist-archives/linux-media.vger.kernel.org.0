@@ -1,200 +1,182 @@
-Return-Path: <linux-media+bounces-58360-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58361-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8HAoA8nI12k/TAgAu9opvQ
-	(envelope-from <linux-media+bounces-58360-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 17:42:01 +0200
+	id 6LczMVLP12mrTAgAu9opvQ
+	(envelope-from <linux-media+bounces-58361-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 18:09:54 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A273CCE4F
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 17:42:00 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D3A73CD6E0
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 18:09:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2CA613089ED8
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 15:32:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 54F3730B257F
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 15:53:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6494A3B52F7;
-	Thu,  9 Apr 2026 15:32:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 333623DBD71;
+	Thu,  9 Apr 2026 15:52:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hWgRkilN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020C026B777;
-	Thu,  9 Apr 2026 15:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361803090E2
+	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 15:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775748726; cv=none; b=XdkZ5l2cFf/eTJTH42Vv1tBqFAYR/ApXhobsM6Eb9pFtX47jeFhP0Qiw7KgPASAe6WD56YeB8fz3He+phQote1VhwNcHn0nVUtUNqGbJ9OW5WB3tEqiUK3LCDfvUJNUt3BZqM5p2v6u9Yqh+6neKFy7NkRq3mbMG+WeluNbgQuI=
+	t=1775749978; cv=none; b=jub+xL6Js31hFn+Xq3P6fAM8u1lm8hTpcZ+PLhMHW1vHy2U6Nr4lkIjfAmtpIoqDqwMem1QeqchuNeurcYRD0AqpSa1euXWepjp7pv//QqxOyYzekaNtfe6G1SgppHcMEAElloQn5W25rEIzyCPF6sSlKuyYsQcxve9mHlQvzC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775748726; c=relaxed/simple;
-	bh=jZNZnmvRPm3LeBqvn1h1FsH6Ouoyskaqzekqd+96NrE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u5/zDlhx4TrVjc2v84ZAktr/RJJiBdcv8lcEbjzvjzR+cdrulu5Ru09YW16oa5vTdJySSQb6s/HqKSpA/Tzc7fER/hEUYQGMgY1PsGin4KjrndeRqOGbASeNcxIKtU8blc13ep3KuTDN+Mib725ikqnIivWGS80CmX7QxcL3uv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 5CA181F8005E;
-	Thu,  9 Apr 2026 15:31:54 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 6E908B401BC; Thu,  9 Apr 2026 15:31:52 +0000 (UTC)
-X-Spam-Level: 
-Received: from shepard (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id D4EF3B401B3;
-	Thu,  9 Apr 2026 15:31:50 +0000 (UTC)
-Date: Thu, 9 Apr 2026 17:31:48 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>, mripard@kernel.org,
-	mchehab@kernel.org, gregkh@linuxfoundation.org, wens@kernel.org,
-	jernej.skrabec@gmail.com, samuel@sholland.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
-Message-ID: <adfGZHR9wM2d6-yJ@shepard>
-References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
- <adeqkmA9VhaPkSAk@shepard>
- <4bd5d70a6144f3e8d4356c182f314cf735f1921c.camel@collabora.com>
- <ade4Qe4OS04au2Ba@shepard>
- <a5f8c14becdc926f14ea852c8c5a2d4665a2ef8a.camel@collabora.com>
+	s=arc-20240116; t=1775749978; c=relaxed/simple;
+	bh=/pvXc5WIJxIAf4hbxTG79yDKdrk8s8Sribq0S9nfTEg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WNbJUO03dY2atnYnMzLwS21QOiIEN+b6oC+Mr938Eck/IwMBZGedDuw6RQ1lcwliZMfXkBi8t+XyZVVhKuzGJnvx+SaIMkQk6DVrJYUQAUQq5EMsoKokpjTt6t7V09RlfDNsWvGiOIx1AQwZ4gWXtQ84TYxjKAop6YBmdTmCZOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hWgRkilN; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38dda82b601so234701fa.1
+        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2026 08:52:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1775749975; x=1776354775; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K5p2xo/4m0JDhf++H7DLBizAlziwNWg0BWASCHtSL14=;
+        b=hWgRkilN7uvDud/09oH/2BAyiFtDWBPMCJk4SR7DGkWzxEZDYF69LrX9d2fnpO0fpw
+         hUKUJKrp0xTK7P8yQlJhAS4z+6XvBqcAp4QN2Tl93gdPJkvrpKoTUd2XxYRz4tgBxVGs
+         kR3JAlu0MKD9GMFVNbThce/Mhf6jel3DNXczKlkvk/+S89HufIYtvif1IBkhZ/T4GoOK
+         e00NULCvjDjE9QtL/18ciIXKG6YyE1XhOavSGPV8z1X0elWWg7eR0yt3gmGC91xJZZwl
+         XNK+LUUseRzBp+XCEC0xYwJzUuNjU33vkd8rQ/2hpP0eNIYF8NbvYTT3reaWNIwIJ2+v
+         WeXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775749975; x=1776354775;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K5p2xo/4m0JDhf++H7DLBizAlziwNWg0BWASCHtSL14=;
+        b=dOzVNhZtimrH/urh9qwZdeUTJbYZ8zOsBKH5mzVVdz2Kj6TkJcWPFmPj3p7AMnmGPd
+         g8oCpOmEhf+1LFllaNzShC0BVn8D7v94hDnf6s9jQJp+QfAoJ20Iioq9Pc5FabLeps29
+         j2XZUi/vGRa0yQ+rJXYDij5EWXbX6AcRGaHX2C7ucC4scOc5YCcmEKfhfwaKAc8CAjIs
+         EWWc/v5GOTsrSC1WlsPyRGF9XPIT+w+xgCQzo2JDwpJlfVrTP8n1oxJ7a5SqUELANLmb
+         SMF1XXa6Gtq9ZurhgQxTz4vz6KD2M1MoJtjR2w5eEVp0o07xfh6WsdJ9gKC8R0Eui5K7
+         JAzw==
+X-Gm-Message-State: AOJu0Yz+9yunTC09td2nvXTDvdjJk5R/RLFUE+8FpFrlK9cjFl6imx4S
+	hBYM1vJdyPHM3lSSMrUAQVIczkFx3cnR9KU2IqwY4nDzU5IEdInjart1EeCif33nugU=
+X-Gm-Gg: AeBDieve9yJPfD2k2FQcyvzTtTgtbD0J3RXwYgoEfvnnWNBHCsY1Zf9NY295yXV3EbC
+	4OIZqFh7QEH5ynq+Qa+3C6XkQsdf4mJw758vv0kgf5vzaBdlX5tQJX4386UlwxHEgsrPOZqK9qA
+	XH5JQ61o+mIYpAAo1kvQPv50XGMeHp2UlfEtsIimp/XQo2EJuihw46GqU3hOCvS91chajwu66Ml
+	7s7NbIKKKSniOEDms3YQ9MZRgXpz+rtueSGb/esPV02GZ+cikozVsddoZqrNOid+ClEE0hZ/v8m
+	ajS8FB5+99+nU49iufVpuQL8Z8NmV3/5m+OoYR0Qv8h61aVOpp4fp9YkXfqx8qI8bCg0pO+uhHI
+	4w1ug95vmLN55bKm2NtZtAHjTyhNaRdKiq3wxE/Bi/+wQMQ5+YL+2ALtW0FKRafLOpKqngKWwBG
+	D4YYyKAzK70L3SMZeBTlfC/XZOLpCO+k2BEhRUqi/qsTvsf+rTuXrNyqCIixDU4ycpsCcGuN+kB
+	WQe1g==
+X-Received: by 2002:a05:651c:1b06:b0:386:5df3:8195 with SMTP id 38308e7fff4ca-38d9d4c710amr34829731fa.6.1775749975281;
+        Thu, 09 Apr 2026 08:52:55 -0700 (PDT)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38e495ae59bsm188831fa.38.2026.04.09.08.52.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Apr 2026 08:52:54 -0700 (PDT)
+Message-ID: <b7aa5f4b-a2d7-4a97-98d1-58f7fa5dc349@linaro.org>
+Date: Thu, 9 Apr 2026 18:52:44 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8zWVGOCXRFNtUVQP"
-Content-Disposition: inline
-In-Reply-To: <a5f8c14becdc926f14ea852c8c5a2d4665a2ef8a.camel@collabora.com>
-X-Spamd-Result: default: False [-1.56 / 15.00];
-	SIGNED_PGP(-2.00)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/5] media: qcom: camss: Fix RDI streaming for CSID 680
+To: bod@kernel.org, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>,
+ Gjorgji Rosikopulos <quic_grosikop@quicinc.com>,
+ Milen Mitkov <quic_mmitkov@quicinc.com>,
+ Depeng Shao <quic_depengs@quicinc.com>, Yongsheng Li <quic_yon@quicinc.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260407-camss-rdi-fix-v3-0-08f72d1f3442@kernel.org>
+ <20260407-camss-rdi-fix-v3-1-08f72d1f3442@kernel.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20260407-camss-rdi-fix-v3-1-08f72d1f3442@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58360-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_CC(0.00)[iscas.ac.cn,kernel.org,linuxfoundation.org,gmail.com,sholland.org,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[bounces-58361-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com,quicinc.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[sys-base.io];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[paulk@sys-base.io,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	R_DKIM_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,sys-base.io:url,paulk.fr:url]
-X-Rspamd-Queue-Id: 70A273CCE4F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:email,linaro.org:mid]
+X-Rspamd-Queue-Id: 1D3A73CD6E0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On 4/7/26 13:34, bod@kernel.org wrote:
+> From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> 
+> Fix streaming to RDI1 and RDI2. csid->phy.en_vc contains a bitmask of
+> enabled CSID ports not virtual channels.
+> 
+> We cycle through the number of available CSID ports and test this value
+> against the vc_en bitmask.
+> 
+> We then use the passed value both as an index to the port configuration
+> macros and as a virtual channel index.
+> 
+> This is a very broken pattern. Reviewing the initial introduction of VC
+> support it states that you can only map one CSID to one VFE. This is true
+> however each CSID has multiple sources which can sink inside of the VFE -
+> for example there is a "pixel" path for bayer stats which sources @
+> CSID(x):3 and sinks on VFE(x):pix.
+> 
+> That is CSID port # 3 should drive VFE port #3. With our current setup only
+> a sensor which drives virtual channel number #3 could possibly enable that
+> setup.
+> 
+> This is deeply wrong the virtual channel has no relevance to hooking CSID
+> to VFE, a fact that is proven after this patch is applied allowing
+> RDI0,RDI1 and RDI2 to function with VC0 whereas before only RDI1 worked.
+> 
+> Another way the current model breaks is the DT field. A sensor driving
+> different data-types on the same VC would not be able to separate the VC:DT
+> pair to separate RDI outputs, thus breaking another feature of VCs in the
+> MIPI data-stream.
+> 
+> Default the VC back to zero. A follow on series will implement subdev
+> streams to actually enable VCs without breaking CSID source to VFE sink.
+> 
+> Fixes: 253314b20408 ("media: qcom: camss: Add CSID 680 support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
---8zWVGOCXRFNtUVQP
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 
-Hi,
-
-On Thu 09 Apr 26, 10:39, Nicolas Dufresne wrote:
-> Hi,
->=20
-> Le jeudi 09 avril 2026 =C3=A0 16:31 +0200, Paul Kocialkowski a =C3=A9crit=
-=C2=A0:
-> > I think it make sense yes, but it would be good to document it in the u=
-API
-> > document too.
->=20
-> Basically, extend in the M2M decoder spec(s) on the existing documentatio=
-n:
->   =20
->    V4L2_BUF_FLAG_ERROR:
->    -
->    When this flag is set, the buffer has been dequeued successfully, alth=
-ough
->    the data might **have been corrupted**. This is recoverable, streaming=
- may
->    continue as normal and the buffer may be reused normally. Drivers set =
-this
->    flag when the VIDIOC_DQBUF ioctl is called.
-
-Well this part is about v4l2 buffers in general, not just m2m/decoders.
-But I guess this mechanism would make sense for more device classes than ju=
-st
-decoders, so we could indeed specify it there. Maybe with a sufficiently br=
-oad
-wording.
-
-But it would be good to also update the stateless decode document (and maybe
-stateful too) where V4L2_BUF_FLAG_ERROR is already mentionned a few times.
-We could indicate how this behavior related to reference frames there.
-
-If we agree I could make a series with the following:
-- Introduce a V4L2_H264_REF_MISSING 0xff define (same for HEVC)
-- Update the v4l2_h264_reference doc to mention it
-- Update the cedrus driver to error out (zero-size payload) when the L0/L1 =
-index
-  is either V4L2_H264_REF_MISSING or an invalid index that doesn't exist in=
- the
-  DPB (same for HEVC)
-- Update the v4l2 buffer and stateless(+stateful) documents to mention that
-  buffers marked with V4L2_BUF_FLAG_ERROR may or may not contain usable (yet
-  corrupted) data depending on the payload size and how it relates to refer=
-ence
-  frames.
-
-Then we could later envision having a mechanism (hopefully common) to figur=
-e out
-the best replacement to a given missing reference, which would allow cedrus
-(and maybe other drivers too) to return a frame with incorrect data instead=
- of
-a zero-size payload error.
-
-What do you think?
-
-All the best,
-
-Paul
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---8zWVGOCXRFNtUVQP
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmnXxmQACgkQhP3B6o/u
-lQz8nA//drat7vJDY+ABdsZlCoKtEB58kHDwiuxolmRi5JwVyxQfQoaO3exwOicd
-dAQmv1DYkEvV6C/BFO/4F+LtT3BOjASFPChxlB8jsWN+NU8TJhizp6BURanrmDns
-PT2BOKE33OVvN+ZpumARIBZ2IjlPUOvuDZqj9wvnQKZBrqIn6n6bh0zMHmZ53Dxm
-yADWxQhvGhP1Q9IKFjocOZwc4hULqolm1HDj7oc2sJBhNGoBHU49co5lUcaMuEag
-DSC+wSkH5xGSNZsTbKuasl5XDIjObFlRTpoGykMFuQtKqKJu+SNYFCl1Gq4loyjX
-5pkh2LbRUJeu3A6Zo3XDBRJACdRH9dh5ttaaR0tstL9XaQAU78MVvLPslumAmhti
-wwq46BdVRBPOWkYw07HEsVXbFPZMZGX/BYq+Mfyj7whW3xfSQUn1wXjPOI6ed1OS
-MH1GuZKy8nRXHnvo6RDqE0dvlBeeEb49uPDk/S92f/tvI7tVwIBTYFKzZzEtHusy
-lx1QJj7U6hA2jUa/O/uWgRkDU2d/OVH7PN0wRh1DeDC4F9/TCX7/Qb1L5yaD81KN
-kO4+GO4VlZD0g6yWPjvyrITJbmQF0e4yowB6BaOHJa8Z4Zf/G8AfVvkoxxs1byaA
-+X+wV7C+8yveA0dP9fdbqvf8DCoixA0U6FHZSLRvACk+HAy84P8=
-=EPPU
------END PGP SIGNATURE-----
-
---8zWVGOCXRFNtUVQP--
+-- 
+Best wishes,
+Vladimir
 
