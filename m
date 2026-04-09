@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-58430-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58417-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IGP5Ci4K2Gm5WggAu9opvQ
-	(envelope-from <linux-media+bounces-58430-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:02 +0200
+	id IP89JQsJ2GlOWggAu9opvQ
+	(envelope-from <linux-media+bounces-58417-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:16:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF7B93CF6BE
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:01 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 757753CF455
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:16:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E3EFE3092F68
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:05 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B0D06303344B
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:15:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79FAE346FA5;
-	Thu,  9 Apr 2026 20:15:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC7D333FE00;
+	Thu,  9 Apr 2026 20:15:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJMPY1Hz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9HIV8Fw"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE8733B970
-	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380DE33C1BE
+	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775765733; cv=none; b=QwcBeJJqLNXc/UIPmPK24l1Bqkx9GbIcpclS5IXxONMcWppoJWCYQo0gqwayJZ9rvFL86yzRvbmJgIgzae6H3MC9JNSJCj8lavIFPKVX+P/U0uag3cPhVssRwEU3Hw85cCrktSOznczeiD/CpPYEk5Dk/Ma/59P26P3gYgJwdpg=
+	t=1775765730; cv=none; b=pZJLrQyB+5U1D/BXBPO0y1rnCd7ATVv/GY29JzGyACEpZUgaQKPCS6vhINUH6GxbwzfTRmlNjWLt29tVFtQYBntdbnNT6/qQ/OnxWDnmEj9/EzgDu82exg5kq5pKcIbUGbBZYQam1yVG2OJXHtH21cgJbT3u1oDn5LrXqHBTINA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775765733; c=relaxed/simple;
-	bh=G1Jq09kAIPrhLlXnBT28MIGa7AvCvLJ2b63vI4B2S/Q=;
+	s=arc-20240116; t=1775765730; c=relaxed/simple;
+	bh=OLUNrfKZ24CbwIPLs5Nas+WtkBd84fiFJTo9HMb30Qo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SeuYCuZvKiEn6mx0kGQ3QP+CZyAWWVKM+7BTaC8ULq/l2Le2p8shB0XQ6zaAVJrOgkYbbxxK8swdMiyw8eyCOQRJPEhShRFUvEkYJL7bNEhbUdM7c4AsLuiyu0+fFpqfosJQFgdxCdDNC6x2S+WDKAB/rfO2horqehRfrBmMQGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VJMPY1Hz; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=LIjfiCM4h2NnHAtZH3H8nIzF1v/2adFkxV5h0cNqt9Sha8VYP71yl74gGKOeXwXDWgWfUcC6MmgK1kHilT+3cPkLsMmSKjSBW6TzrEEBSTwc4M30So6uWjFvJKtjIUXfURlg3MbT2bYlZWFnRW/1vXSuKN568dwUQI4WJfRkH24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9HIV8Fw; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775765733; x=1807301733;
+  t=1775765729; x=1807301729;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=G1Jq09kAIPrhLlXnBT28MIGa7AvCvLJ2b63vI4B2S/Q=;
-  b=VJMPY1Hz+P2mjkzvTqNugKFrc9f10zoo7ech9cW++2mupEO4NTBRIDz4
-   jUNcv0/Xi4+2vVI4jvYpjZozsx7COiAzU4PWoWThRtz3CoKI/AEFhHTlS
-   DqzfmkoXliuxsY+kjuIscl4tBYp+EIohDbBxaYp5rpLP0OR0eLCDFzMsf
-   XZDMgHqQwnBobn00QrAbVKWylb+3P8iGtqmi5/Ra+8uuIHZfsSvGs+NME
-   rPTbrG33kHb6LXXr4l0wiAtw7r5VzJCE1dzzN/j3GdaHY7qkdWK3OGotZ
-   WNW4j5ioYRyav1J25EySakQxhzvjec867xiVBbwPASbB9oE3N/yySiQC3
-   w==;
-X-CSE-ConnectionGUID: O/v+rZtpSvOUiTHSv9q6Ww==
-X-CSE-MsgGUID: vAApMiukSsWxvt0H18heVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94176483"
+  bh=OLUNrfKZ24CbwIPLs5Nas+WtkBd84fiFJTo9HMb30Qo=;
+  b=U9HIV8FwOUNFSb21rKud1+x48NlUxRNybqtt+hrvNG37gUdQLUlDXbgC
+   x8bJLON7t7WroXfk6DR2qN0tM5Gq/JoYDqJEK9tHqIivgSFxBmf+6ew2U
+   mSNJvWg2LHBfDHZOngnxq+i6rvtd7FolNP12hA1JZigCRknJAr9G4Ql0i
+   9LWGgAme9YZ8DFwbTjIwdHpf9CFs0ejSrSaHn+lPCcjtJ4txYwkFIb9Qy
+   9/jd9eK3mBIaeooJ71y4+IsIyeVYl2NI4OXGde7/lo9vsT/WTbNUK+kc1
+   igO6A9mCVZSDKsasG4jFqRShDrDzYGgt6uBGzHNL9AprCVSAFqAzjEU0c
+   A==;
+X-CSE-ConnectionGUID: 9WA0X6xfS0GWRkblqzdqnw==
+X-CSE-MsgGUID: gSgZfQKwTmeCIReuNpYIXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94176407"
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="94176483"
+   d="scan'208";a="94176407"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:26 -0700
-X-CSE-ConnectionGUID: VApJF4upSgWEKC1SopS4ug==
-X-CSE-MsgGUID: OsGxhZ90Syaeptz2Z187zA==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:25 -0700
+X-CSE-ConnectionGUID: DXrEfWyrRNq8kMq9kACG8A==
+X-CSE-MsgGUID: 3m9uHLfMQ0mHcpckFjTZRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="228047536"
+   d="scan'208";a="228047518"
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.29])
   by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:19 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 9D64312288C;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id A0F1B1228AD;
 	Thu, 09 Apr 2026 23:15:13 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAvmI-000000045mb-0HEP;
+	id 1wAvmI-000000045mf-0M7p;
 	Thu, 09 Apr 2026 23:15:02 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -97,9 +97,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v12 30/86] media: Documentation: Add binning and sub-sampling controls
-Date: Thu,  9 Apr 2026 23:14:05 +0300
-Message-ID: <20260409201501.975242-31-sakari.ailus@linux.intel.com>
+Subject: [PATCH v12 31/86] media: v4l2-subdev: Set STATIC route flag if IMMUTABLE route flag is set
+Date: Thu,  9 Apr 2026 23:14:06 +0300
+Message-ID: <20260409201501.975242-32-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
 References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
@@ -117,81 +117,57 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	TAGGED_FROM(0.00)[bounces-58430-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58417-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[27];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.intel.com:mid,ideasonboard.com:email,intel.com:dkim,intel.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linux.intel.com:mid];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: BF7B93CF6BE
+X-Rspamd-Queue-Id: 757753CF455
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Document the binning and scaling controls (V4L2_CID_BINNING and
-V4L2_CID_SUBSAMPLING_{HORIZONTAL,VERTICAL}) in the common raw sensor
-model.
+As the IMMUTABLE sub-device route flag implies the STATIC flag, do set the
+STATIC flag for all IMMUTABLE routes returned to the user space.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- .../media/v4l/subdev-config-model.rst         | 20 ++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-index 0fb01bf6c825..fb6d8a1bcac7 100644
---- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-+++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-@@ -144,8 +144,12 @@ separately horizontally and vertically.
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 4b7830f705a2..3f671282ee91 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -698,8 +698,11 @@ static void copy_routes_state_to_routing(struct v4l2_subdev_routing *routing,
+ 		(struct v4l2_subdev_route *)(uintptr_t)routing->routes;
+ 	u32 copy_routes = min(routing->len_routes, state->routing.num_routes);
  
- The combined effect of binning and sub-sampling is configured using the
- ``V4L2_SEL_TGT_COMPOSE`` rectangle, relative to the analogue crop rectangle, on
--(pad, stream) pair 1/0. The driver implementation determines how to configure
--binning and sub-sampling to achieve the desired size.
-+(pad, stream) pair 1/0. It depends on the driver which of these operations are
-+being used to achieve the resulting size. Binning and sub-sampling are also
-+directly configured using :ref:`V4L2_CID_BINNING_FACTORS
-+<image_source_control_binning_factors>` and
-+:ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and V4L2_CID_SUBSAMPLING_VERTICAL
-+<image_source_control_subsampling>` controls on drivers that support them.
+-	for (u32 i = 0; i < copy_routes; i++)
++	for (u32 i = 0; i < copy_routes; i++) {
+ 		routes[i] = state->routing.routes[i];
++		if (routes[i].flags & V4L2_SUBDEV_ROUTE_FL_IMMUTABLE)
++			routes[i].flags |= V4L2_SUBDEV_ROUTE_FL_STATIC;
++	}
  
- The digital crop operation takes place after binning and sub-sampling. It is
- configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
-@@ -216,9 +220,15 @@ Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
-       - \-
-       - X
-       - Binning and sub-sampling. This rectangle is relative to the
--        ``V4L2_SEL_TGT_CROP`` rectangle on the same (pad, stream). The
--        combination of binning and sub-sampling is configured using this
--        selection target.
-+        ``V4L2_SEL_TGT_CROP`` rectangle on the same (pad, stream). Binning is
-+        configured using the :ref:`V4L2_CID_BINNING_FACTORS
-+        <image_source_control_binning_factors>` control and sub-sampling is configured
-+        using the :ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and
-+        V4L2_CID_SUBSAMPLING_VERTICAL <image_source_control_subsampling>`
-+        controls on drivers that support these controls. To configure binning
-+        and sub-sampling on drivers that do not support these controls, the
-+        selection rectangle may be changed directly to configure the combined
-+        effect on the image size.
-     * - 2/0
-       - Format
-       - X
+ 	routing->num_routes = state->routing.num_routes;
+ }
 -- 
 2.47.3
 
