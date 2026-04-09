@@ -1,128 +1,130 @@
-Return-Path: <linux-media+bounces-58322-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58323-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +BNkK51312nTOAgAu9opvQ
-	(envelope-from <linux-media+bounces-58322-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 11:55:41 +0200
+	id gK0SLll712mXOggAu9opvQ
+	(envelope-from <linux-media+bounces-58323-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 12:11:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C473C8C32
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 11:55:40 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EFB13C9016
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 12:11:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1444F3003BE0
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 09:55:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D6FC630479E1
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 10:05:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAA0B3B52F7;
-	Thu,  9 Apr 2026 09:54:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CD363A8737;
+	Thu,  9 Apr 2026 10:05:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="T7Bti8CZ"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="LhyCJJdc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21263ACA4B
-	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 09:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACDE635DD1C
+	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 10:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775728497; cv=pass; b=u4phk5Wpa/nC3ZMySN9lXsqp9kIng5ucqwXeaeJr+9yFsMgzkHPXusLWzbIuUBicZ2bQWMbpmHiv2/3viOrlnMeWJCCidfQG8fGoX6HJrH6aWMQzn2QL+goJCGdN6eUBpsJncR640vXGWVH/JI6O8R2XavvNY+OITz63o4XszeI=
+	t=1775729123; cv=pass; b=K9/0rXXnXXkd6761lACvGmpoAeDZeP50aNEROYsmsT7Z5kz4GUGWuxyDW6ZNgoZM8dFTsL+iI9Ifu1hp3qiinwB2dgCj22lPC9kVQVBqfrK3KYiVYcLTJJ4QhxjywKxoKZLEHGcVEeRP33fTII4sk/C7abIIkMdHUFzE+jQCzjg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775728497; c=relaxed/simple;
-	bh=kVhlDxAgWFJn12ZVg10oT6kB5cwQiliC7NLQ1Rcthg0=;
+	s=arc-20240116; t=1775729123; c=relaxed/simple;
+	bh=RROMFInh79PGacu3ZvW0OlGOhCieH9GPPWOWlBqVqR8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CRQRPPV8Kx4tKYVttS3FIr749Nd/mgZm7sXL/W4OAkZ7PZseWBhKVaaMwbT0JOZoDeOTW9GFDctFezNfRXdygaPidJs3W5la5tak7vLJmNgVVdYitvMB2d6aDjPO5DwtdgawYs0QShVM5xgvuhjKzI1s4uiUG9X19kWYVqBJfpE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=T7Bti8CZ; arc=pass smtp.client-ip=209.85.167.49
+	 To:Cc:Content-Type; b=M4+GlrI542rO9iEmZm7RC9tdzIZAf+LKci5TGmAjMTlWYDOcMz9/FOiGX1qGubg8ize3QWEFs6yYSwzXjSR70K/m5w/JD6n1QQqTPtPph+XdDjY5u0sl1wxNj9orR9zauEp+2HHjMzOYedzRvfxDs1fwmpVWpid80HnMAjflmpM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=LhyCJJdc; arc=pass smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a3e5b4acc1so598027e87.2
-        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2026 02:54:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775728494; cv=none;
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a2c77c62d7so765326e87.0
+        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2026 03:05:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775729121; cv=none;
         d=google.com; s=arc-20240605;
-        b=Cd+t7DwLFWFb6vI0BNTd5BCMXqUYmzI4yQ8oOkh76ou0LQPD5mPve9kwcVMricA5Hv
-         roeh35irrL/6SYEG7fooq5Q1jNzBSaSaOz1WP9ZrBLwWIlhdq+hxRfinl2HmgnVCBHXF
-         iT4aHFJicrLbUPwQ4NYFPj/o9E28FZZudsZ2zY2MrVgxbqVIPEBh1jTDcddk/fp5kbgc
-         KiZPbS6kvx3Q/34qRxwWYEJ36DSsuXwrBWYvv+xoEzOMHXVhpYluC4M1mn2S6dA4vGsZ
-         4guwxin8rxHtdy7FdLw5/fgWPlE2EzTAhIUB+25lDZ/nyRbTSjIoa3O+JScudnpuPuD6
-         HdQA==
+        b=h9nDQDQaL8IQx4PHkl3CgJT5J5Z8W8H+thLskAZwPJ5ZcjBs2uYB51miymVs3hXaZS
+         M/zZTp15DcZcp25LtdwtWno2sAFaLGBs3Hui0va1EN7lHFwZcdeTY6zG4FV13J5nTds8
+         cYEtoD4acdpP1Yk7ZvjzQN6lrLtPTNw50alPSXNl7I72VA0QwN/eyUNmDG28SLYPVStD
+         JoikB2diBLNYVTOhcOOS6rd6505nrJ9mw7M6DD0lhey44ufumVrXuldYvF0PpFC9dTM8
+         kIAOeuNQSNqBeD0ZJwd8zaAhFurQOhvJycPqeKFHD8YQPtwg2zNxFLjpaXulxKowX1sZ
+         v9TQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Bj7sPjSd+XOMrMYAc4RsV5swRAsq8jTuOPcjZUJ+AJ8=;
-        fh=qdFcGCz8MMRpImzLN1pPUwj4UOOljPl4zNaNK1z9yq4=;
-        b=S+WQ1v0nR9r3pgfmNhmzUSUeYdDlxdaqZa1ehuUVB8MVH/OMwLmtqzHu1bbI+oo/z5
-         ZyxPOPU4J3QkRt6rIXQlGDkGPZVBVTcFa66syPNE9W8pJI+hw8VZrM50Oob6qd202g3U
-         wA1J+NHH3fda74lehDPEuzvWMuYsdoaeT9M29f75qL5mfGUMdJHS/a/CyJhCL53JnV1r
-         LGYUt6EFsu3xcNJ/afSdUqRmrUe61+xJyEt5jrHG4IlD/PwraWclaqWOkpc8WI9U6D6O
-         D7axxT0g+GKK5QVXVLPY/l0+lgP2wTZkjyehiK14Y1ljZt+0H1eMlouJOAUwpV1h0ln5
-         iMOw==;
+        bh=U0EjKVMSezJTfKGsgUH31tGHy/yfbazr6z99/gKR8m8=;
+        fh=xofQFDCRdPhC5jjW8Zrp5Ry9nN/ETeH9Jnxa4ko4Rgc=;
+        b=Ok0BQUCYJNoWK/sqczQC363bNSFNMx39OHwbnU+Q8ojEDAlKo1jFywS+6XWgDBrIrE
+         An61Er9Ci2Xn8/MYk/C3B0y1JcT/3KpHtZGbslnhGIfDpt7+flOJ8YJwFd53uOvCzBTp
+         Im1fI6tPXykptfoCBlSK2fXq0eBHno+X9ILftudMCanAkhx5Gyb+/K6vDb8k1dvq0Hxk
+         CXHS82cTkRWheZWgM0vVmQggj8G/l0LgZKR+CQL3Yxcrc0eCLkjXlwei6OMlGEpiG/aS
+         EzIBda8NBgcoUhcYpNQFZXEZK4LOPTa5wr/Xrm/QEODocVr4F8hDOXCR6GQkfmRLQbMw
+         Drdw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1775728494; x=1776333294; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1775729121; x=1776333921; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Bj7sPjSd+XOMrMYAc4RsV5swRAsq8jTuOPcjZUJ+AJ8=;
-        b=T7Bti8CZfI7S0G42ekFdKWBP15GBWu04OWiBRk5FINd/MOhRNVnj5zuw3sn/bimRmd
-         CTGiYKuobd2OLO5oThcrlVmGuB/J9R2GfBRmIZx5c8Ny4DhXRIxHjisifELvc3bah95+
-         BC+KlrjiIuldIz42gKPqFBmClkmv8v10P753OZ489V2AFxRW/N+MCquNWInr1OBtBHz6
-         sybWrDXRGG+Wz3fI+jQVVjFOkiggNvi8ekG3qKid5FrVflTtqdh2hSIsX1b0V6+xCp1s
-         GKxBEaJEiEK36VONaevE/LOGO9KiixlqdWHrSCBYi5am7LxiOZYpqHjEM/scBKDHpAi0
-         XhiQ==
+        bh=U0EjKVMSezJTfKGsgUH31tGHy/yfbazr6z99/gKR8m8=;
+        b=LhyCJJdcRK53hlRdpU/+evLe8TPdoB5xURKSfpzV8druRxFSZZW+y3cqlrutUXdZpx
+         q8fQWGe9wwO9LoGGQJcX2UHxhSWhvs42b4CJlz0vXaWYkQMZRje47T/7B7E/3u0CigdN
+         etRjTAKSkLNJzf7G7VAZl9/h32IRSQYJ+aTCxr1jqv+wODz8ZfEThWfspiO+/bDIHdZA
+         SBuETtxvKOLAsVGcSVvGfUdCdaWCb1zMKL3ud8InIyqOYM03lv0UsXGw0ufSmgM4TQJh
+         vqa7oBOAlEcLBLUEPc/M7oFKffZoDJ6YIRTvfgrzz9jopS3GCQwBGxXhqq72A+wCgkhI
+         9cFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775728494; x=1776333294;
+        d=1e100.net; s=20251104; t=1775729121; x=1776333921;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Bj7sPjSd+XOMrMYAc4RsV5swRAsq8jTuOPcjZUJ+AJ8=;
-        b=AJPIJGr2wMMwxGtS7F/cjjH7WIA8OBniF5KXE6bSVNH0JsvJwFgxiIZkXide9fhpCf
-         lzmlo62yKQeO0RK1d80a6tsE1jgJwrKLpepAQD6WpBjwL2WSfwW30PjeayMEFo7TKgWe
-         zwrU0XsuZvew5mwqvy2XindGX8MIs7ENCw2gPyglQSesEj+RKGnK+hqOSB5c3LtsQm5e
-         mw/ukoO53ohBjq1cXGlc+70Ynluq50HVDA2CarmIHiPcvx7iwWr9t2MYWYpds9w7ctDI
-         pCCfojB/QhnLlCMsCfJy0X9y7PMYYKs8DZy2Ul3yBWRKrORmuDiMU6U+zyzPpLNITW9Y
-         JErA==
-X-Forwarded-Encrypted: i=1; AJvYcCUx5SI6uiq8MeViOkDI6OSYsZHIU0+2I4ZC3DGGEtLZAJOOZLPc242xuA79QZqew0NAZRadGcp2yT2bHg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvMOCzBWr0H7aab/pqFpm/U0/DVhyce0E6/NbvxtNR5uhLaWK9
-	HxeyZ7ZO86gWAw22ZhdZ5v5XFbdJ5D+NuokOquk4Fw15fTVghAwj/J33X4USnaESKEuPQDuUGrm
-	8U7N1uaNlLVMoZE/ojJB1Wut1EXcmfsU2xioFAOk7kg==
-X-Gm-Gg: AeBDieshmg0QFzN6PQO0D+SGuAuzoTSQcaNcRMAnz0VamMgHfgpkxNNyNt9Bs7FqhhT
-	UogaWxeyoSOF6bUwfHLKam1eqwdepFA+PHsXG8PnNE5eVAOtqNRzyyf5wjNhvP3cCzyhJRwriyW
-	Ne9RLdLkSQyQxfo7ZC2QErFGb+A+hsWaaVFe4RC026U/m26PgiDh0MQhgmlQaJmewmZVvouYGXd
-	DEv9BtZgmPywU7WSfDnJ15axrMEg+6bVQib762/Dp7Ik1X3/B4mIdFq7SC2gjYZSLG2lgN/+ct+
-	g4dfsww8XiragZViNaaEBJXN3sBE/b6idJl+KF6m
-X-Received: by 2002:a05:6512:3d1b:b0:5a1:2e0c:86f0 with SMTP id
- 2adb3069b0e04-5a3e7c4d27amr938154e87.37.1775728494123; Thu, 09 Apr 2026
- 02:54:54 -0700 (PDT)
+        bh=U0EjKVMSezJTfKGsgUH31tGHy/yfbazr6z99/gKR8m8=;
+        b=SoCgNqrQ89n9oSMkAt02pHf/aS7Y4N+PUHOwGzDpFHvoQxJ6GPcmIfogba664YGpEe
+         dDEecv/G5oDtNf/VevQNgGEyHaYHajIg4Cvnw6ExWk3r3vYHYv/+XSzZkSHFp3ijYH2i
+         L8iLgg8WLwFQ1WzXEggko8qIgxNNh4Pg2sse9oT0yXj/Cukg3OKPCAVoH7Lyk1DlD6Ti
+         ZA7wr2nHepyDMSVjLvCoiEvAdc9tgcx2hyGeZxsNlE+pcMWGFYWTO3q4KEmeC+sq02ee
+         NhDctNlQlXNjQv5hEltQXYeHn0CMWLI6oT1pyene1y33SFSRz50Xx5orkaXrNrem9293
+         ge/A==
+X-Forwarded-Encrypted: i=1; AJvYcCXNeSVmdGGPAIpixCkkYwV7HK6odz3guIPgEW271GA6itTdBgUh00kDcX1XsrKM64eCTb+mHrrkNeBsuQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPO0VcZbSPgHwiipYtn1yMsBFC6KIsPg1TwThCEJSuK/6Z9PHP
+	wXBjZp0kuTwKxb+4FK2FOCwayVIyyefRfe60i8At0XS8jyuFh/5pA0lo04opP/ZGgM8aNPHmB3P
+	2LarSjdU3JuYobMHU+sRilMAhYkmx6nDym690g5UBXw==
+X-Gm-Gg: AeBDieum7rcuv5+fj0TpSZ6PLUDLKRVimeHUVR+nDMQAZ4VVMzPACBAcfaNQI8yYMM0
+	sL+6sDA6BmGDGiGANh8/v9SKmUiqGHlX/Qxv8Sssfibv9ushzq4x2rZeMDFJ8xYp0/XMcv38/s9
+	5+C7+P1ZWFm94uYuI+ByAIr90ypHeII1CTa4gTZY+kWqwJGxPSao7lNL+i9+6r98RWXhEmqSZUV
+	K8Xmw343VHULRFhfmSG7X1ErNMl/PwVu4EhjEa1qc+UpA1Vrj0P4Wk71/2LeRC2O60NYU4hxrhj
+	8ry5e10W34RmGnm74Hmpc0pCCVDrT8oXMFM+dGlW
+X-Received: by 2002:a05:6512:3c81:b0:5a3:d175:7f8a with SMTP id
+ 2adb3069b0e04-5a3e7a2c82bmr993816e87.19.1775729120838; Thu, 09 Apr 2026
+ 03:05:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260113140446.196930-1-marco.crivellari@suse.com>
-In-Reply-To: <20260113140446.196930-1-marco.crivellari@suse.com>
+References: <20260212092846.61602-1-marco.crivellari@suse.com>
+In-Reply-To: <20260212092846.61602-1-marco.crivellari@suse.com>
 From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Thu, 9 Apr 2026 11:54:43 +0200
-X-Gm-Features: AQROBzApAFHwOLkClIX6lvWH5vObVEIZU5bnHM-veRMD5MxkoSOashtOu4FMUM4
-Message-ID: <CAAofZF6Ap96qQ33=9ak1euxj_-_Z7Y_T5ZmhfGH9TXkpRsoqyA@mail.gmail.com>
-Subject: Re: [PATCH] media: platform: Add WQ_PERCPU to alloc_workqueue users
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Date: Thu, 9 Apr 2026 12:05:08 +0200
+X-Gm-Features: AQROBzAQ34LXdgUYfmjmLPNoOBwz1BqHy26GIoCTy-sn_p2WMOp5xKEeBtQqUj4
+Message-ID: <CAAofZF7_6zg0F=Ki=8UCttsOEDTjD3sH8p3m7ZoCyusDGRWLQw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: synopsys: hdmirx: replace use of
+ system_unbound_wq with system_dfl_wq
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	kernel@collabora.com
 Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
 	Frederic Weisbecker <frederic@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Michal Hocko <mhocko@suse.com>, Daniel Scally <dan.scally@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>
+	Michal Hocko <mhocko@suse.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
 	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linutronix.de,suse.com,ideasonboard.com];
-	TAGGED_FROM(0.00)[bounces-58322-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linutronix.de,suse.com,collabora.com];
+	TAGGED_FROM(0.00)[bounces-58323-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
@@ -136,18 +138,18 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,suse.com:dkim,suse.com:email]
-X-Rspamd-Queue-Id: B6C473C8C32
+	RCPT_COUNT_SEVEN(0.00)[10];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,suse.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 1EFB13C9016
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Jan 13, 2026 at 3:04=E2=80=AFPM Marco Crivellari
+On Thu, Feb 12, 2026 at 10:28=E2=80=AFAM Marco Crivellari
 <marco.crivellari@suse.com> wrote:
 > [...]
->  drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 
 Hi,
 
