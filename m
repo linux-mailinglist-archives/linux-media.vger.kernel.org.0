@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-58376-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58377-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8O9FDP4I2GlOWggAu9opvQ
-	(envelope-from <linux-media+bounces-58376-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:15:58 +0200
+	id WHHAKgoJ2GlOWggAu9opvQ
+	(envelope-from <linux-media+bounces-58377-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:16:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCE03CF41A
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14ED33CF44E
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:16:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2E8DC302616E
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:15:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1243D302A2C3
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:15:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A22FD337BA3;
-	Thu,  9 Apr 2026 20:15:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FB9333689F;
+	Thu,  9 Apr 2026 20:15:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hUW0V0+9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dHoznO7c"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27C83093C6
-	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CDF83358B9
+	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775765704; cv=none; b=QUcPz7CUSOZ9IErjIMNJJNUF7MKbpzpNoFVSdpaUoXSQsjf5isbOXTOu7jNiatZRPlZdOJ0/0QedaKpzWW1T2aWz5C9da5JFpUFiBj65m86q/vA8SKbFEjtybhWzi0LTXzfa6TmP2193y8hPrBrxxaF11q7ytJluBBZ5VDIgUoI=
+	t=1775765704; cv=none; b=jQ4tyxE+hYjGSF+NL9H+2ZzxAKo+mWhNU6vRH5+RCAK8GJJ8MPU6r66/p86fdRWFKl5cIAbdqM4TXsHr3Tl0E70Rtai8f3GPSEGfnyS7ADAQQokciqht5Yk/HCuuocfUkbq0VpAIGDNFCBmEIepGbHODptFV9ZY1Ve+ILoIEYVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775765704; c=relaxed/simple;
-	bh=24WDH9sncOY1Nm+0wynAg+orhtieuY4fjuuYFQaI4SQ=;
+	bh=ddClvMGa/BxgNQH7DbR6UVG2cXsKelF9gcPFAKQ4YJs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HiDrxp/YDKrRnL2qHUNJ1pwcbmsKang1sZJ8oKgS0hqlkyda9x83Oa5p59P806p74wrZDALLJWyiQ9kQMM6al4OUP1Az3GZhpBnZFUeSxrSJ1AUwQvQuXFjno/lWMsLYMaxsu5fDN5gjApa8bl6neWh1W0YWYgAYlZqsktUL3Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hUW0V0+9; arc=none smtp.client-ip=192.198.163.11
+	 MIME-Version; b=KF0fvgXmemm61KcLkasvdj7jj7i1GhoAw2h0Dl/0IxytZBUGUeTxXFbVqL+efj0kTgsJEWnX4nq4rTSDUAfDk6VAuD9M9jetvv4ixHuThwAicfvTm+FRWJC852jcCRXunij2CwK9LDST7yqgu/N2xPL2ZOiOLN4GUQphHlQcurw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dHoznO7c; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -39,32 +39,32 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1775765703; x=1807301703;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=24WDH9sncOY1Nm+0wynAg+orhtieuY4fjuuYFQaI4SQ=;
-  b=hUW0V0+97THEStwiO0Wz8gE2jN3NxypIwUVEG8F1qt/IMtgxVksVN6Sc
-   7DxCQUIllYp0mValWAaqFLy7aIszVX+d82gMI1oO5ssOggREAa9yFO/R5
-   kcmqte/PKB+TI1X27a+X63YNEKNnVsYROwAp8j67idXSJXKI3NWUqVxws
-   QgXAQas4gAOuQoawUe3o/Uo0JGsT3dI+hNFvPM9m/1M93RWr9JZKAwXlJ
-   FZq7dIqifm9Cvx4+/gWoy50fHe77SG7x/yunu0CwXvcfK6nwEpI7NSOq1
-   gVE+s4LdJbPsC/47aXBZpTZeTJNSaqfGvQAGwdbLoYQ9IV7PSipem29WK
-   w==;
-X-CSE-ConnectionGUID: 6fPAzYpuS7aPnFrLXJvWUA==
-X-CSE-MsgGUID: uG2XPZ4NTfW188/46/hafQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="87408504"
+  bh=ddClvMGa/BxgNQH7DbR6UVG2cXsKelF9gcPFAKQ4YJs=;
+  b=dHoznO7cp3hFuTei/LjeE4YnrUCfV42Ms46Ty71QU9sPZyVQ+/u5yEQi
+   wEAk+Iagnbm7jBQfiQlPfG6U6XwGz3+AmMnCWhzCJW1BmCYmebt5Od466
+   x77yYMJBiTSnOvzT6MJ2XhrUbxJD2iMHmuDquUP+kP+d+JYNu3cGXMT3e
+   Yx33vld+ZwiqtOZTaQnyNqIw6p8ceW9xNH6gWkVrR4nOjm7XFR53ScmHG
+   8/K/EkhGJGOBb99H2xqqARAGSJm/BaLQpjAi94j4kH57rxV7H25SSMBD9
+   A9d40VYBEt5j0KMTNTCv+4gOXHwq8vybCu0vZKINgH6duF8r7BK2licqn
+   Q==;
+X-CSE-ConnectionGUID: PfUobnUaR16IBS6YetvqDQ==
+X-CSE-MsgGUID: Y7pmriTRStWoLXkk5bZC4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="87408517"
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="87408504"
+   d="scan'208";a="87408517"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:01 -0700
-X-CSE-ConnectionGUID: WFx4DdtNQmCpm8+fBD/ceQ==
-X-CSE-MsgGUID: GF4R2116T8Kia0OAYbirEA==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:02 -0700
+X-CSE-ConnectionGUID: mjNh33RuR8yNBCcEb+5QsA==
+X-CSE-MsgGUID: CUcVix5WS2Khn/d3puC9rg==
 X-ExtLoop1: 1
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.29])
   by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:14:56 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 11D55121CF3;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 15365121CFD;
 	Thu, 09 Apr 2026 23:15:03 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAvmI-000000045oV-2Em1;
+	id 1wAvmI-000000045oa-2IEF;
 	Thu, 09 Apr 2026 23:15:02 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -95,9 +95,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v12 58/86] media: imx219: Report internal routes to userspace
-Date: Thu,  9 Apr 2026 23:14:33 +0300
-Message-ID: <20260409201501.975242-59-sakari.ailus@linux.intel.com>
+Subject: [PATCH v12 59/86] media: imx219: Report streams using frame descriptors
+Date: Thu,  9 Apr 2026 23:14:34 +0300
+Message-ID: <20260409201501.975242-60-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
 References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
@@ -121,7 +121,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	TAGGED_FROM(0.00)[bounces-58376-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58377-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[27];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -131,76 +131,110 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,intel.com:dkim,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.intel.com:mid];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,intel.com:dkim,intel.com:email,ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: CCCE03CF41A
+X-Rspamd-Queue-Id: 14ED33CF44E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Usage of internal pads creates a route internal to the subdev, and the
-V4L2 camera sensor API requires such routes to be reported to userspace.
-Create the route in the .init_state() operation.
-
-Internal routing support requires stream support, so set the
-V4L2_SUBDEV_FL_STREAMS flag. As the route is immutable, there's no need
-to implement the .set_routing() operation.
+Implement the .get_frame_desc() subdev operation to report information
+about streams to the connected CSI-2 receiver. This is required to let
+the CSI-2 receiver driver know about virtual channels and data types for
+each stream.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/imx219.c | 25 ++++++++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+ drivers/media/i2c/imx219.c | 48 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
 diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index bb7b2e4b34fd..e79b26268415 100644
+index e79b26268415..d695987839e4 100644
 --- a/drivers/media/i2c/imx219.c
 +++ b/drivers/media/i2c/imx219.c
-@@ -1049,6 +1049,28 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+@@ -23,6 +23,7 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
+ 
++#include <media/mipi-csi2.h>
+ #include <media/v4l2-cci.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+@@ -669,6 +670,24 @@ static void imx219_free_controls(struct imx219 *imx219)
+  * Subdev operations
+  */
+ 
++static unsigned int imx219_format_bpp(u32 code)
++{
++	switch (code) {
++	case MEDIA_BUS_FMT_SRGGB8_1X8:
++	case MEDIA_BUS_FMT_SGRBG8_1X8:
++	case MEDIA_BUS_FMT_SGBRG8_1X8:
++	case MEDIA_BUS_FMT_SBGGR8_1X8:
++		return 8;
++
++	case MEDIA_BUS_FMT_SRGGB10_1X10:
++	case MEDIA_BUS_FMT_SGRBG10_1X10:
++	case MEDIA_BUS_FMT_SGBRG10_1X10:
++	case MEDIA_BUS_FMT_SBGGR10_1X10:
++	default:
++		return 10;
++	}
++}
++
+ static int imx219_set_framefmt(struct imx219 *imx219,
+ 			       struct v4l2_subdev_state *state)
+ {
+@@ -1046,6 +1065,34 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+ 	}
+ }
+ 
++static int imx219_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
++				 struct v4l2_mbus_frame_desc *fd)
++{
++	const struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_subdev_state *state;
++	u32 code;
++
++	if (pad != IMX219_PAD_SOURCE)
++		return -EINVAL;
++
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++	fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
++					   IMX219_STREAM_IMAGE);
++	code = fmt->code;
++	v4l2_subdev_unlock_state(state);
++
++	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
++	fd->num_entries = 1;
++
++	fd->entry[0].pixelcode = code;
++	fd->entry[0].stream = IMX219_STREAM_IMAGE;
++	fd->entry[0].bus.csi2.vc = 0;
++	fd->entry[0].bus.csi2.dt = imx219_format_bpp(code) == 8 ?
++		MIPI_CSI2_DT_RAW8 : MIPI_CSI2_DT_RAW10;
++
++	return 0;
++}
++
  static int imx219_init_state(struct v4l2_subdev *sd,
  			     struct v4l2_subdev_state *state)
  {
-+	struct v4l2_subdev_route routes[1] = {
-+		{
-+			.sink_pad = IMX219_PAD_IMAGE,
-+			.sink_stream = 0,
-+			.source_pad = IMX219_PAD_SOURCE,
-+			.source_stream = IMX219_STREAM_IMAGE,
-+			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
-+				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE |
-+				 V4L2_SUBDEV_ROUTE_FL_STATIC,
-+		},
-+	};
-+	struct v4l2_subdev_krouting routing = {
-+		.len_routes = ARRAY_SIZE(routes),
-+		.num_routes = ARRAY_SIZE(routes),
-+		.routes = routes,
-+	};
-+	int ret;
-+
-+	ret = v4l2_subdev_set_routing(sd, state, &routing);
-+	if (ret)
-+		return ret;
-+
- 	struct v4l2_mbus_framefmt *pixel_array_format =
- 		v4l2_subdev_state_get_format(state, IMX219_PAD_IMAGE);
- 	struct v4l2_rect *analogue_crop =
-@@ -1349,7 +1371,8 @@ static int imx219_probe(struct i2c_client *client)
- 	if (ret)
- 		goto error_power_off;
- 
--	imx219->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	imx219->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-+			    V4L2_SUBDEV_FL_STREAMS;
- 	imx219->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 
- 	imx219->pads[IMX219_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
+@@ -1117,6 +1164,7 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
+ 	.set_fmt = imx219_set_pad_format,
+ 	.get_selection = imx219_get_selection,
+ 	.enum_frame_size = imx219_enum_frame_size,
++	.get_frame_desc = imx219_get_frame_desc,
+ 	.enable_streams = imx219_enable_streams,
+ 	.disable_streams = imx219_disable_streams,
+ };
 -- 
 2.47.3
 
