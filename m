@@ -1,71 +1,70 @@
-Return-Path: <linux-media+bounces-58346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58347-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4MyXGmC012kORggAu9opvQ
-	(envelope-from <linux-media+bounces-58346-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 16:14:56 +0200
+	id QAmjHey112lURwgAu9opvQ
+	(envelope-from <linux-media+bounces-58347-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 16:21:32 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55BA03CBD94
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 16:14:55 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D02993CBEA7
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 16:21:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id C0808300C7E6
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 14:14:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4BD59300DF4E
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 14:19:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ED1E2E0925;
-	Thu,  9 Apr 2026 14:14:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B0AF3CCFA5;
+	Thu,  9 Apr 2026 14:19:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YK2BzoFv"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="b/HIGzlK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F83031A045;
-	Thu,  9 Apr 2026 14:14:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329C437D137;
+	Thu,  9 Apr 2026 14:19:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775744072; cv=none; b=RW1yk9nZyCXsr10HjJi4+7s0kD/Jr/tNQ5M/Q7458jocrYoMi3aACQC5VdzFONd3w7MsgA9pzEzoQve7lDoBxddBrs6soePFeferyVdt/S7QkDgySCvypDDEGADESsbDnA4LFq/q7Lm/+m4Zn72LZxs6O2pps1Pv5d8d1qk74ZA=
+	t=1775744357; cv=none; b=JY/GMIRgumUBQvjB49/ERZgxZfWbjiF5O08tAH7DXm0HjCTYeao3ZmPMeOu2dADfDocPiNMXUKOeYEwNL180aDM+duWv8OddTg1ZbrMTwjwtI0h3ezuPibwjXNW4X60XZL759mUk8lEOl4tQhPezBYPbmsmyCfK/etSs1xDvbOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775744072; c=relaxed/simple;
-	bh=FU2WnDZms77qZT5DPcMHojBrq+Yr8ChCaLv6KM2JXDw=;
+	s=arc-20240116; t=1775744357; c=relaxed/simple;
+	bh=V3M5/+eiv7Jh1DsCad4yjgGbVosE62VvCDePOQgvn2Q=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=N71dD1HCULwAr/fOn/co+kfV83GZ8UEt4LKNB5NzgkjpgJcShX2wEVQkF5HD5mU7lsPb41LPZxw7o6//WJ9VIpF1YHZDLulyF9Rev0GD1Mm2ES/OWhxH8C1xwFrMGqZ7I39DP/gsU8ZPSABVvcjodkoSV8QubGmplmZ6xX75ztU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YK2BzoFv; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=PLnoXdl912lwaYPOlIZTljnSBFASLmpnBFQlaghxy1sKyexD124rWWG37eNahj0odpgNMVR/4DKiTWJaBFW3EH3aSJN3+Hfj+27psBomBeM9+m+Ss93VxZtKRGRwjC+6btwnFn2X5Hr6Zppl2Hp3Uqzp4cJdhgrpbOM/ZcVjnUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=b/HIGzlK; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1775744069;
-	bh=FU2WnDZms77qZT5DPcMHojBrq+Yr8ChCaLv6KM2JXDw=;
+	s=mail; t=1775744353;
+	bh=V3M5/+eiv7Jh1DsCad4yjgGbVosE62VvCDePOQgvn2Q=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=YK2BzoFvxZvgct/geopQl7/Avdjap4RFBEi16dl39QmEvCqw5BgPq+dBRUdTh+QwU
-	 lh+3pJZn0HptOz1l/Y5Lto6mJEUw7ZrTE8Jn7cznFHXyMtxAtyVPSqmuCPI1vapT01
-	 L6qJ4LTsIrABJdkV7CRc1gYci+bnqp6b/0OZ0s7tK9TQ63ilXYNigNsJ7lNAUcPrDA
-	 h1kx3AGNC1pEj+5j1D6DTMJWUOrZ6OcbuKX3D3WFV71zqj7t+g7V4//PcItyzRaadG
-	 Vk0FcA1lbulZr/4Y2w/zR/2D4Ry6jxu2UI6eZjX3+pldNFVLGlReSnFF2KrMXyqQX/
-	 /NqmZuHc/Jw6Q==
+	b=b/HIGzlKrcfkgv8rRQQsJZfk38ZZtoJrU+KcIWQHLbTbt6jC3arUGATU6zOYzGmlR
+	 wkXMCqAvWB00m3AqjE5YXQtHwSboV2SZwu08mABVbDy+XH6vcNkl4DsJJG+TYCSpGm
+	 GP9ISEZlfOFhZQoBjN9AQSUsZ8I3+RnxvBmTjF/8p3aC37lJsuxLJcwD8SGnRbd2GS
+	 DAAd2qJb3wym6wgSQ3qRHdJjEgozgmiO3/wzYPesrUA8kBsVO7sCGWWV4yhijzTWw6
+	 GWVb95sXDO1tUS03CgyT2K3RxOl92ggg3Fp/6uMT4Dsdxvut6jiVzEuhhuSWnNS2qy
+	 Qt+E2TXZxmcNA==
 Received: from [100.64.0.214] (unknown [100.64.0.214])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id F23E717E1396;
-	Thu,  9 Apr 2026 16:14:27 +0200 (CEST)
-Message-ID: <8035203a724b54969ba5f3cbd484160124792f78.camel@collabora.com>
-Subject: Re: [PATCH v2] media: v4l2-ctrls: validate HEVC slice reference
- lists
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id BD1B117E0C83;
+	Thu,  9 Apr 2026 16:19:11 +0200 (CEST)
+Message-ID: <517dc6e9de0e284b3dc22952d9479616e6c8ec62.camel@collabora.com>
+Subject: Re: [PATCH 7/7] media: rkvdec: Add multicore IOMMU support
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>, mchehab@kernel.org, 
-	hverkuil@kernel.org, sakari.ailus@linux.intel.com, 
-	laurent.pinchart@ideasonboard.com, opensource206@gmail.com, 
-	jernej.skrabec@gmail.com, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Thu, 09 Apr 2026 10:14:26 -0400
-In-Reply-To: <adevHyqtwtEj2_-l@shepard>
-References: <20260323083031.30941-1-pengpeng@iscas.ac.cn>
-	 <176cfd181e783d2b24fad1a2c7b18425374b4622.camel@collabora.com>
-	 <adevHyqtwtEj2_-l@shepard>
+To: Detlev Casanova <detlev.casanova@collabora.com>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Heiko Stuebner <heiko@sntech.de>, Hans Verkuil <hverkuil+cisco@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>
+Cc: kernel@collabora.com, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org
+Date: Thu, 09 Apr 2026 10:19:10 -0400
+In-Reply-To: <20260409-rkvdec-multicore-v1-7-62b316abf0f7@collabora.com>
+References: <20260409-rkvdec-multicore-v1-0-62b316abf0f7@collabora.com>
+	 <20260409-rkvdec-multicore-v1-7-62b316abf0f7@collabora.com>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -81,7 +80,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-ZeoIaUve0XpjsNwgsS5b"
+	protocol="application/pgp-signature"; boundary="=-0Hey9sLhjTZTeirzEJYW"
 User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -94,154 +93,341 @@ X-Spamd-Result: default: False [-2.76 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58346-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58347-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_CC(0.00)[iscas.ac.cn,kernel.org,linux.intel.com,ideasonboard.com,gmail.com,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 55BA03CBD94
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:email,collabora.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: D02993CBEA7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---=-ZeoIaUve0XpjsNwgsS5b
+--=-0Hey9sLhjTZTeirzEJYW
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le jeudi 09 avril 2026 =C3=A0 15:52 +0200, Paul Kocialkowski a =C3=A9crit=
-=C2=A0:
-> Hi Nicolas,
+Le jeudi 09 avril 2026 =C3=A0 09:50 -0400, Detlev Casanova a =C3=A9crit=C2=
+=A0:
+> As each core has its own IOMMU core, buffers must be mapped in each
+> core's IOMMU so that any run() call can use any core without having to
+> remap everything.
 >=20
-> On Mon 23 Mar 26, 09:41, Nicolas Dufresne wrote:
-> > > +
-> > > +		for (i =3D 0; i <=3D p_hevc_slice_params->num_ref_idx_l0_active_mi=
-nus1;
-> > > +		=C2=A0=C2=A0=C2=A0=C2=A0 i++)
-> > > +			if (p_hevc_slice_params->ref_idx_l0[i] >=3D
-> > > +			=C2=A0=C2=A0=C2=A0 V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
-> > > +				return -EINVAL;
-> >=20
-> > That one is a breaking change since userspace already passes off limit =
-values
-> > such as 0xff when a reference is missing (was lost). See:
-> >=20
-> > 	47825b1646a6a9eca0f90baa3d4f98947c2add96
-> >=20
-> > The hardware may or may not be capable of doing concealment, but with t=
-his
-> > change, we bring down all drivers to failing the decode completely.
+> To do that, we use rockchip iommu domain's iommu devices list.
+> With that, one IOMMU domain can be mapped on multiple devices, meaning
+> that each call to iommu_map() will flush the new mapping on all devices
+> in the list.
 >=20
-> So while some decoders may be able to deal with missing references, it se=
-ems
-> that cedrus should still error out in that case. I don't think it will be=
- very
-> happy if we configure the hardware with L0/L1 lists that don't match what=
- was
-> used for the encode.
-
-The L0/L1 list passed by application do match the decoder list, but has gap=
-s. By
-the spec, decoder should be gap resistant. You are better place them me to =
-know
-what the Cedrus hardware can and cannot do. This is rarely well document, a=
-nd in
-RE case like this, you probably have to do some trial and errors.
-
+> The IOMMU domain that will have all devices in its list is the first
+> core's default domain.
 >=20
-> But maybe we could pick up another (existing or empty) reference to repla=
-ce the
-> missing one, which would be better than failing to decode the frame. IMO =
-this
-> would be best done by userspace, but maybe we'd need some indication to k=
-now
-> that the hardware cannot deal with missing references.
+> Another domain cannot be used because VB2 allocates buffers through the
+> DMA engine, which uses iommu_get_dma_domain() to find the domain to map
+> buffers through.
+>=20
+> The IOMMU restore function can still work as before, but needs to be more
+> explicit in what domain to attach the device to.
+> That is because detaching the empty domain will reattach the core's defau=
+lt
+> domain, which is wrong (except for the first "main" core).
+>=20
+> The RCB temporary buffers are allocated in a dedicated SRAM, each
+> core has its own SRAM, so the mapping for each core's SRAM is added in th=
+e
+> global domain.
+>=20
+> Everything else is mapped through the first core's default domain, making
+> the driver write the mappings on both IOMMU cores.
 
-Exact, experimenting first seems key, every hardware I've worked with behav=
-es
-differently. Hantro G2 notably tends to cause system wide issues on imx8mq =
-if
-you don't carefully select your replacement. Yet, after testing and looking=
- at
-the visual result, its way better (visually) to pick a replacement. I have
-patches coming that tracks which frame have decoded successfully and holds
-initialized MV data (which was the reason it was going wild).
-
-Note that going one step further, on HEVC we could use the poc to find a va=
-lid
-replacement that is temporarily closer, but that would simply be an enhance=
-ment
-for streams with reordering.
+Just raising an issue with the patch ordering here. I'm worried in a git bi=
+sect,
+the driver will be broken until we apply this last patch. Can we make sure =
+that
+the driver bisects ? (or tell me if I'm wrong)
 
 Nicolas
 
 >=20
-> What do you think?
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> ---
+> =C2=A0.../media/platform/rockchip/rkvdec/rkvdec-rcb.c=C2=A0=C2=A0=C2=A0 |=
+ 21 ++++++-------
+> =C2=A0.../media/platform/rockchip/rkvdec/rkvdec-rcb.h=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 6 ++--
+> =C2=A0drivers/media/platform/rockchip/rkvdec/rkvdec.c=C2=A0=C2=A0=C2=A0 |=
+ 35 +++++++++++++++++-----
+> =C2=A0drivers/media/platform/rockchip/rkvdec/rkvdec.h=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 2 +-
+> =C2=A04 files changed, 44 insertions(+), 20 deletions(-)
 >=20
-> All the best,
->=20
-> Paul
->=20
-> > > +
-> > > +		if (p_hevc_slice_params->slice_type !=3D V4L2_HEVC_SLICE_TYPE_B)
-> > > +			break;
-> > > +
-> > > +		if (p_hevc_slice_params->num_ref_idx_l1_active_minus1 >=3D
-> > > +		=C2=A0=C2=A0=C2=A0 V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
-> > > +			return -EINVAL;
-> >=20
-> > Ack.
-> >=20
-> > > +
-> > > +		for (i =3D 0; i <=3D p_hevc_slice_params->num_ref_idx_l1_active_mi=
-nus1;
-> > > +		=C2=A0=C2=A0=C2=A0=C2=A0 i++)
-> > > +			if (p_hevc_slice_params->ref_idx_l1[i] >=3D
-> > > +			=C2=A0=C2=A0=C2=A0 V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
-> > > +				return -EINVAL;
-> >=20
-> > Same.
-> >=20
-> > cheers,
-> > Nicolas
-> >=20
-> > > =C2=A0		break;
-> > > =C2=A0
-> > > =C2=A0	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS:
->=20
->=20
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c b/driver=
+s/media/platform/rockchip/rkvdec/rkvdec-rcb.c
+> index 190fb7438e8c..977e37cf209b 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c
+> @@ -57,7 +57,7 @@ bool rkvdec_rcb_buf_validate_size(struct rkvdec_ctx *ct=
+x)
+> =C2=A0	return ret;
+> =C2=A0}
+> =C2=A0
+> -void rkvdec_free_rcb(struct rkvdec_core *core)
+> +void rkvdec_free_rcb(struct rkvdec_dev *rkvdec, struct rkvdec_core *core=
+)
+> =C2=A0{
+> =C2=A0	struct rkvdec_rcb_config *cfg =3D core->rcb_config;
+> =C2=A0	unsigned long virt_addr;
+> @@ -76,12 +76,12 @@ void rkvdec_free_rcb(struct rkvdec_core *core)
+> =C2=A0		case RKVDEC_ALLOC_SRAM:
+> =C2=A0			virt_addr =3D (unsigned long)cfg->rcb_bufs[i].cpu;
+> =C2=A0
+> -			if (core->iommu_domain)
+> -				iommu_unmap(core->iommu_domain, virt_addr, rcb_size);
+> +			if (rkvdec->iommu_global_domain)
+> +				iommu_unmap(rkvdec->iommu_global_domain, virt_addr, rcb_size);
+> =C2=A0			gen_pool_free(core->sram_pool, virt_addr, rcb_size);
+> =C2=A0			break;
+> =C2=A0		case RKVDEC_ALLOC_DMA:
+> -			dma_free_coherent(core->dev,
+> +			dma_free_coherent(rkvdec->main_core->dev,
+> =C2=A0					=C2=A0 rcb_size,
+> =C2=A0					=C2=A0 cfg->rcb_bufs[i].cpu,
+> =C2=A0					=C2=A0 cfg->rcb_bufs[i].dma);
+> @@ -97,7 +97,8 @@ void rkvdec_free_rcb(struct rkvdec_core *core)
+> =C2=A0	core->rcb_config =3D NULL;
+> =C2=A0}
+> =C2=A0
+> -int rkvdec_allocate_rcb(struct rkvdec_core *core, u32 width, u32 height,
+> +int rkvdec_allocate_rcb(struct rkvdec_dev *rkvdec, struct rkvdec_core *c=
+ore,
+> +			u32 width, u32 height,
+> =C2=A0			const struct rcb_size_info *size_info,
+> =C2=A0			size_t rcb_count)
+> =C2=A0{
+> @@ -132,7 +133,7 @@ int rkvdec_allocate_rcb(struct rkvdec_core *core, u32=
+ width, u32 height,
+> =C2=A0
+> =C2=A0		/* Try allocating an SRAM buffer */
+> =C2=A0		if (core->sram_pool) {
+> -			if (core->iommu_domain)
+> +			if (rkvdec->iommu_global_domain)
+> =C2=A0				rcb_size =3D ALIGN(rcb_size, SZ_4K);
+> =C2=A0
+> =C2=A0			cpu =3D gen_pool_dma_zalloc_align(core->sram_pool,
+> @@ -142,11 +143,11 @@ int rkvdec_allocate_rcb(struct rkvdec_core *core, u=
+32 width, u32 height,
+> =C2=A0		}
+> =C2=A0
+> =C2=A0		/* If an IOMMU is used, map the SRAM address through it */
+> -		if (cpu && core->iommu_domain) {
+> +		if (cpu && rkvdec->iommu_global_domain) {
+> =C2=A0			unsigned long virt_addr =3D (unsigned long)cpu;
+> =C2=A0			phys_addr_t phys_addr =3D dma;
+> =C2=A0
+> -			ret =3D iommu_map(core->iommu_domain, virt_addr, phys_addr,
+> +			ret =3D iommu_map(rkvdec->iommu_global_domain, virt_addr, phys_addr,
+> =C2=A0					rcb_size, IOMMU_READ | IOMMU_WRITE, 0);
+> =C2=A0			if (ret) {
+> =C2=A0				gen_pool_free(core->sram_pool,
+> @@ -166,7 +167,7 @@ int rkvdec_allocate_rcb(struct rkvdec_core *core, u32=
+ width, u32 height,
+> =C2=A0ram_fallback:
+> =C2=A0		/* Fallback to RAM */
+> =C2=A0		if (!cpu) {
+> -			cpu =3D dma_alloc_coherent(core->dev,
+> +			cpu =3D dma_alloc_coherent(rkvdec->main_core->dev,
+> =C2=A0						 rcb_size,
+> =C2=A0						 &dma,
+> =C2=A0						 GFP_KERNEL);
+> @@ -189,7 +190,7 @@ int rkvdec_allocate_rcb(struct rkvdec_core *core, u32=
+ width, u32 height,
+> =C2=A0	return 0;
+> =C2=A0
+> =C2=A0err_alloc:
+> -	rkvdec_free_rcb(core);
+> +	rkvdec_free_rcb(rkvdec, core);
+> =C2=A0
+> =C2=A0	return ret;
+> =C2=A0}
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h b/driver=
+s/media/platform/rockchip/rkvdec/rkvdec-rcb.h
+> index a12af9b7dc2b..d1149afe7fda 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h
+> @@ -8,6 +8,7 @@
+> =C2=A0
+> =C2=A0#include <linux/types.h>
+> =C2=A0
+> +struct rkvdec_dev;
+> =C2=A0struct rkvdec_ctx;
+> =C2=A0struct rkvdec_core;
+> =C2=A0
+> @@ -21,11 +22,12 @@ struct rcb_size_info {
+> =C2=A0	enum rcb_axis axis;
+> =C2=A0};
+> =C2=A0
+> -int rkvdec_allocate_rcb(struct rkvdec_core *core, u32 width, u32 height,
+> +int rkvdec_allocate_rcb(struct rkvdec_dev *rkvdec, struct rkvdec_core *c=
+ore,
+> +			u32 width, u32 height,
+> =C2=A0			const struct rcb_size_info *size_info,
+> =C2=A0			size_t rcb_count);
+> =C2=A0dma_addr_t rkvdec_rcb_buf_dma_addr(struct rkvdec_ctx *ctx, int id);
+> =C2=A0size_t rkvdec_rcb_buf_size(struct rkvdec_ctx *ctx, int id);
+> =C2=A0int rkvdec_rcb_buf_count(struct rkvdec_ctx *ctx);
+> =C2=A0bool rkvdec_rcb_buf_validate_size(struct rkvdec_ctx *ctx);
+> -void rkvdec_free_rcb(struct rkvdec_core *core);
+> +void rkvdec_free_rcb(struct rkvdec_dev *rkvdec, struct rkvdec_core *core=
+);
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/me=
+dia/platform/rockchip/rkvdec/rkvdec.c
+> index c2818f1575ef..2930e9b64906 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> @@ -1204,9 +1204,9 @@ static void rkvdec_device_run(void *priv)
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	if (!rkvdec_rcb_buf_validate_size(ctx)) {
+> -		rkvdec_free_rcb(ctx->core);
+> +		rkvdec_free_rcb(ctx->dev, ctx->core);
+> =C2=A0
+> -		ret =3D rkvdec_allocate_rcb(ctx->core,
+> +		ret =3D rkvdec_allocate_rcb(ctx->dev, ctx->core,
+> =C2=A0					=C2=A0 ctx->decoded_fmt.fmt.pix_mp.width,
+> =C2=A0					=C2=A0 ctx->decoded_fmt.fmt.pix_mp.height,
+> =C2=A0					=C2=A0 ctx->dev->variant->rcb_sizes,
+> @@ -1486,6 +1486,7 @@ static void rkvdec_v4l2_cleanup(struct rkvdec_dev *=
+rkvdec)
+> =C2=A0
+> =C2=A0static void rkvdec_iommu_restore(struct rkvdec_core *core)
+> =C2=A0{
+> +	int ret;
+> =C2=A0	if (core->empty_domain) {
+> =C2=A0		/*
+> =C2=A0		 * To rewrite mapping into the attached IOMMU core, attach a new =
+empty domain that
+> @@ -1494,8 +1495,14 @@ static void rkvdec_iommu_restore(struct rkvdec_cor=
+e *core)
+> =C2=A0		 * This is safely done in this interrupt handler to make sure no =
+memory get mapped
+> =C2=A0		 * through the IOMMU while the empty domain is attached.
+> =C2=A0		 */
+> -		iommu_attach_device(core->empty_domain, core->dev);
+> +		iommu_detach_device(core->curr_ctx->dev->iommu_global_domain, core->de=
+v);
+> +		ret =3D iommu_attach_device(core->empty_domain, core->dev);
+> +		if (ret)
+> +			dev_warn(core->dev, "Cannot attach empty domain: %d\n", ret);
+> =C2=A0		iommu_detach_device(core->empty_domain, core->dev);
+> +		ret =3D iommu_attach_device(core->curr_ctx->dev->iommu_global_domain, =
+core->dev);
+> +		if (ret)
+> +			dev_warn(core->dev, "Cannot attach global domain: %d\n", ret);
+> =C2=A0	}
+> =C2=A0}
+> =C2=A0
+> @@ -1858,6 +1865,8 @@ static int rkvdec_probe(struct platform_device *pde=
+v)
+> =C2=A0
+> =C2=A0	core =3D &rkvdec->cores[rkvdec->core_count++];
+> =C2=A0
+> +	core->id =3D rkvdec->core_count - 1;
+> +
+> =C2=A0	platform_set_drvdata(pdev, rkvdec);
+> =C2=A0	core->dev =3D &pdev->dev;
+> =C2=A0	INIT_DELAYED_WORK(&core->watchdog_work, rkvdec_watchdog_func);
+> @@ -1883,12 +1892,24 @@ static int rkvdec_probe(struct platform_device *p=
+dev)
+> =C2=A0			return PTR_ERR(core->link);
+> =C2=A0	}
+> =C2=A0
+> -	core->iommu_domain =3D iommu_get_domain_for_dev(&pdev->dev);
+> -	if (core->iommu_domain) {
+> +	if (iommu_get_domain_for_dev(&pdev->dev)) {
+> =C2=A0		core->empty_domain =3D iommu_paging_domain_alloc(core->dev);
+> =C2=A0
+> -		if (!core->empty_domain)
+> +		if (IS_ERR(core->empty_domain))
+> =C2=A0			dev_warn(core->dev, "cannot alloc new empty domain\n");
+> +
+> +		if (!rkvdec->iommu_global_domain) {
+> +			rkvdec->iommu_global_domain =3D iommu_get_domain_for_dev(core->dev);
+> +
+> +			if (IS_ERR(rkvdec->iommu_global_domain)) {
+> +				rkvdec->iommu_global_domain =3D NULL;
+> +				dev_warn_once(core->dev, "cannot alloc new global domain\n");
+> +			}
+> +		}
+> +
+> +		ret =3D iommu_attach_device(rkvdec->iommu_global_domain, core->dev);
+> +		if (ret)
+> +			dev_warn(core->dev, "cannot attach global domain to core %d\n", core-=
+>id);
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	ret =3D dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
+> @@ -1961,7 +1982,7 @@ static void rkvdec_remove(struct platform_device *p=
+dev)
+> =C2=A0		if (rkvdec->cores[i].empty_domain)
+> =C2=A0			iommu_domain_free(rkvdec->cores[i].empty_domain);
+> =C2=A0
+> -		rkvdec_free_rcb(&rkvdec->cores[i]);
+> +		rkvdec_free_rcb(rkvdec, &rkvdec->cores[i]);
+> =C2=A0	}
+> =C2=A0}
+> =C2=A0
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h b/drivers/me=
+dia/platform/rockchip/rkvdec/rkvdec.h
+> index 4f042a367dc0..ccd766b220c7 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+> @@ -135,7 +135,6 @@ struct rkvdec_core {
+> =C2=A0	void __iomem *link;
+> =C2=A0	struct delayed_work watchdog_work;
+> =C2=A0	struct gen_pool *sram_pool;
+> -	struct iommu_domain *iommu_domain;
+> =C2=A0	struct iommu_domain *empty_domain;
+> =C2=A0	struct rkvdec_rcb_config *rcb_config;
+> =C2=A0	struct rkvdec_ctx *curr_ctx;
+> @@ -155,6 +154,7 @@ struct rkvdec_dev {
+> =C2=A0	unsigned int available_core_count;
+> =C2=A0	spinlock_t cores_lock; /* serializes core list access */
+> =C2=A0	struct rkvdec_core *main_core;
+> +	struct iommu_domain *iommu_global_domain;
+> =C2=A0};
+> =C2=A0
+> =C2=A0struct rkvdec_ctx {
 
---=-ZeoIaUve0XpjsNwgsS5b
+--=-0Hey9sLhjTZTeirzEJYW
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCade0QgAKCRDZQZRRKWBy
-9N4YAQCW2AwWKUdRC6yk9gPMKjnR+paqzheVLQrItflUxwOlqgD+KjrxaXTGViqV
-o7gy0OVBq5Pz7dapSxeq0JP+y/w+Cgs=
-=lLjM
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCade1XgAKCRDZQZRRKWBy
+9DnKAQDJtAASe6SiickkeAzlO+XdvrxlSxhsCWnQxvtuFM97rwD+LI+0vIjaN001
+xcPK2Z7PRkSlDfAVJ24WRD4hWKGziwE=
+=fi3S
 -----END PGP SIGNATURE-----
 
---=-ZeoIaUve0XpjsNwgsS5b--
+--=-0Hey9sLhjTZTeirzEJYW--
 
