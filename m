@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-58435-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58433-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KBvhNUgJ2GlOWggAu9opvQ
-	(envelope-from <linux-media+bounces-58435-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:17:12 +0200
+	id cHeKEDIK2Gm5WggAu9opvQ
+	(envelope-from <linux-media+bounces-58433-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EDB83CF4C9
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:17:12 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85FB63CF6CD
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B9BDE3033F24
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 774AC3094D38
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 723A134889F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17776347FD3;
 	Thu,  9 Apr 2026 20:15:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GKqNaZot"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RSjpLJfy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896CC345724
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF2F344D83
 	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775765734; cv=none; b=TZ8BCW3nhN+P3bk6LTsIHmhuxBnZtmE8FDGSlShkCRtyYb3vpPVIYX6xcCJGt8ogxBr7Un41x9EJMZD2d/dBRB3aUWY31756UUlvAo/WMrQCGUzLZs33FfkqdyqjFsH3KME+FpHiDkPwS2w81eYNrkJ3AcA5MsdmNhbF33kRBJY=
+	t=1775765734; cv=none; b=HAoaR0VJ8WzuS0joPbb5KTBd0hw7DpapmChVemBE3pU1s2ZQ3WnKk7ZPrpVWL4Q0MO21WmlWm8q2TEp+eOzXpq7gGBJWqW3747LlvjoBN3Pvz93vSlaATFmLj0rJ0sKdpM/rDTm8m78IO7vFoOU+bcDTF5QA3bihh9GS2mdgTKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775765734; c=relaxed/simple;
-	bh=n0N4kXmSvUGOCkefV8fZpTl9zTNQUahjAqEYmJMyqI0=;
+	bh=478ULRabJKYfzjppZ8RLDd2ZFdo3bKhlhsjjh5IOp5k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bD7fO/yx0Iq7dzdK/+bCy/wKGlXRnQecqGDOZwWOR/0UpY/BW8hLdCMZvhYa/t0IjORm63Mhl9u/FvDR5yJU5Hwbs/HdZof+90BLjD0DHED9BWQ7oYL658JSBH9tHQe1CUlMh9I/aWUjoVz3GcXBaOHlsAKpjem6/fMUzYz04Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GKqNaZot; arc=none smtp.client-ip=192.198.163.11
+	 MIME-Version; b=emmaqJEycdeAav6S4G/eOMbYnh/N4YLYwcprkKv5/NUAhWrrLXpsWrLrw82nlSzJ/Mh9O4GmkAyTeD3vt21nWscPOjoGmcL2XLUTApvCJPXtz+t6RUw/eYicN9XPvwjzNqJcEc+g555aaZOFqG+8zOHfeXzAaC055DoINCElxWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RSjpLJfy; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -39,32 +39,32 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1775765733; x=1807301733;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=n0N4kXmSvUGOCkefV8fZpTl9zTNQUahjAqEYmJMyqI0=;
-  b=GKqNaZotJRb1WefyYqdruFSgOliPbRsvBDHdySQq1Bo4cenXmPfJ4PXk
-   TDhWf5QioxjJuGJowtRKUEbouDClLEspb+4KKdevI3JUugQuOmTjUT2kb
-   CbMeHTYIK3yblwoegMMLrB7r85Cgt0KsEa2R8JojOQyufV1XZd6vTPECw
-   cHIvmbetIB5fCUtli2SICvRbin41944Q3F0UFP6nO1ZiDLRS1iB/D4YR6
-   3+RYaJ3Nc53mVXSHmLRxnV2KAbi3eMEPjO2mzZTz1iaIh4TTsMDmTReGx
-   Fyl+/+t+9oVf+xGsWWr22LOBRzvb4894B7aszwmpF2X5sg/82qitt7pdA
-   Q==;
-X-CSE-ConnectionGUID: 0GDAHqlGRO+CbP+X6GQd7Q==
-X-CSE-MsgGUID: bk6waqVbR9qnPMWZXk/QiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="87409145"
+  bh=478ULRabJKYfzjppZ8RLDd2ZFdo3bKhlhsjjh5IOp5k=;
+  b=RSjpLJfy038yU5b0W0otTI7Y+djJQjXQYIlKl+xgF2iZP0Tv/QbCW331
+   KHrFpmG72oKSIP9vGM2cxj1U9MLUYsMnEaY5lSdIBeGCMbB3QNTV776MS
+   PI+/56sES67sR7Xf3jD7yR1fLJam1p8jxRSWeNBSPCCvckcQHmtOUVX+q
+   VSuJt00CI/YN6ImIfTKucn/ldlHYrYPLgQJeqiFm9QAWMXu1IoGUg1vIT
+   +pubwSjtAPKwfI8vSBWClf3sJw+yKdE33y6l2CTUWx4J9NPS2OY0WFjo0
+   MRfHITXr4BDG1d07CxnBT10nWS8OYZg2RqlTVZpfX/82wbaJbrFm7WPyn
+   A==;
+X-CSE-ConnectionGUID: dUKpOYAVTq6whsEjAg/lDA==
+X-CSE-MsgGUID: alox8Ii2SG6YRxMnXyjIoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="87409121"
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="87409145"
+   d="scan'208";a="87409121"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:18 -0700
-X-CSE-ConnectionGUID: mcqOTqpXSQi5nRAE9ZcQNQ==
-X-CSE-MsgGUID: q/Skv7P5SNCvg3uPKb1bnQ==
+X-CSE-ConnectionGUID: joFuKoifRuqz3UM639X+dA==
+X-CSE-MsgGUID: 2S71c6oqSAOKmd3HefoGAA==
 X-ExtLoop1: 1
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.29])
   by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:11 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 58F6112260E;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 5D0B1122693;
 	Thu, 09 Apr 2026 23:15:13 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAvmH-000000045lR-3GvH;
+	id 1wAvmH-000000045lV-3MQy;
 	Thu, 09 Apr 2026 23:15:01 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -95,9 +95,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v12 12/86] media: Documentation: Refer to metadata layout in metadata documentation
-Date: Thu,  9 Apr 2026 23:13:47 +0300
-Message-ID: <20260409201501.975242-13-sakari.ailus@linux.intel.com>
+Subject: [PATCH v12 13/86] media: Documentation: v4l: Document internal sink pads
+Date: Thu,  9 Apr 2026 23:13:48 +0300
+Message-ID: <20260409201501.975242-14-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
 References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
@@ -115,66 +115,97 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	TAGGED_FROM(0.00)[bounces-58435-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58433-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[27];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,intel.com:dkim,intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ideasonboard.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.intel.com:mid,nxp.com:email,ideasonboard.com:email,intel.com:dkim,intel.com:email,collabora.com:email];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 7EDB83CF4C9
+X-Rspamd-Queue-Id: 85FB63CF6CD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Using generic metadata mbus codes requires the use of
-V4L2_CID_METADATA_LAYOUT control to define the metadata layout. Document
-this in generic metadata format documentation.
+Document internal sink pads, pads that have both SINK and INTERNAL flags
+set. Use the IMX219 camera sensor as an example.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Julien Massot <julien.massot@collabora.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
 ---
- Documentation/userspace-api/media/v4l/metafmt-generic.rst | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ .../userspace-api/media/v4l/dev-subdev.rst    | 24 +++++++++++++++++++
+ .../media/v4l/ext-ctrls-image-source.rst      |  2 ++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/metafmt-generic.rst b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-index 23f69e1a1afa..7226b4810088 100644
---- a/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-+++ b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-@@ -8,12 +8,16 @@ V4L2_META_FMT_GENERIC_8 ('MET8'), V4L2_META_FMT_GENERIC_CSI2_10 ('MC1A'), V4L2_M
+diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+index 142e2cd95062..39c281991460 100644
+--- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
++++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+@@ -554,6 +554,25 @@ A stream at a specific point in the media pipeline is identified by the
+ sub-device and a (pad, stream) pair. For sub-devices that do not support
+ multiplexed streams the 'stream' field is always 0.
  
- Generic line-based metadata formats
- 
--
- Description
- ===========
- 
- These generic line-based metadata formats define the memory layout of the data
--without defining the format or meaning of the metadata itself.
-+without defining the format or meaning of the metadata itself. These formats may
-+only be used with a Media Controller pipeline where the exact metadata layout is
-+reported using the :ref:`V4L2_CID_METADATA_LAYOUT control
-+<image_source_control_metadata_layout>` by the sub-device generating the
-+metadata. See also :ref:`source routes <subdev-routing>`.
++Internal sink pads and routing
++------------------------------
 +
++Cases where a single sub-device source pad is carries multiple streams, one or
++more of which originate from within the sub-device itself, are special as there
++is no external sink pad for such routes. In those cases, the sources of the
++internally generated streams are represented by internal sink pads, which are
++sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>` pad
++flag set.
++
++Internal pads have all the properties of an external pad, including formats and
++selections. The format in this case is the source format of the stream. An
++internal pad always has a single stream only (0).
++
++Routes from an internal sink pad to an external source pad are created by the
++driver and can be activated and deactivated using the
++:ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
++on the device capabilities.
++
+ Interaction between routes, streams, formats and selections
+ -----------------------------------------------------------
  
- .. _v4l2-meta-fmt-generic-8:
+@@ -691,3 +710,8 @@ To configure this pipeline, the userspace must take the following steps:
+    the configurations along the stream towards the receiver, using
+    :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
+    stream endpoint in each sub-device.
++
++   In case generic raw and metadata formats are used, :ref:`V4L2_CID_CFA_PATTERN
++   <image-source-control-cfa-pattern>` and :ref:`V4L2_CID_METADATA_LAYOUT
++   <image_source_control_metadata_layout>` controls are present on the source
++   sub-device to obtain the pixel array CFA pattern and metadata layout.
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+index e369978c2b50..490cd16186cd 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+@@ -153,6 +153,8 @@ Image Source Control IDs
  
+     This is a read-only control.
+ 
++.. _image_source_control_metadata_layout:
++
+ ``V4L2_CID_METADATA_LAYOUT (integer)``
+     The metadata layout control defines the metadata layout on the device's data
+     interface for metadata streams. The control is used in conjunction with
 -- 
 2.47.3
 
