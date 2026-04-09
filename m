@@ -1,98 +1,98 @@
-Return-Path: <linux-media+bounces-58318-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58319-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EIPeEHlg12keNQgAu9opvQ
-	(envelope-from <linux-media+bounces-58318-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 10:16:57 +0200
+	id OMomBKdg12keNQgAu9opvQ
+	(envelope-from <linux-media+bounces-58319-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 10:17:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D186C3C79EF
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 10:16:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3E93C7A0D
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 10:17:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 25AD930849F1
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 08:12:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 911ED30610F4
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 08:13:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 522C839769F;
-	Thu,  9 Apr 2026 08:12:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFA2239EF2F;
+	Thu,  9 Apr 2026 08:13:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jphein.com header.i=@jphein.com header.b="ph39ttqx"
+	dkim=pass (2048-bit key) header.d=jphein.com header.i=@jphein.com header.b="R8TpHwQH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743B438C419
-	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 08:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85670397E81
+	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 08:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775722369; cv=pass; b=IhG9tvJdExUygWpb478oKe7VipvouoFdTsPpxkUKbfImteOKbssIOAN5toA3A/2dt19hTJin1CU3IW74duD0/ElhhkO8MMMt/zwQ9Ao2GWNclOfvTELLP/hymGLbwWIEW61nDEJbrINHXBYL1m1jzvmt7Lu07btlB6fs4Z+K9vE=
+	t=1775722406; cv=pass; b=AQU0KZojshxsUPMEkDeSj65/Dx0klE/f3NtxhRbjHRvTwFJ5SVcZpbn+bf2k93UGTMXfsNn6ib240EfBHSzivBd/elXVmiMuCNEgkx7y75PQZXKJG+eZsZWMqUOY0gXp05TZ8SGOnxQBFsmmdAVpg6i0boOiKzSEkI55sU1MMxE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775722369; c=relaxed/simple;
-	bh=zoxUDL/qAxsCJiz4aFeQJrqOxFYUx9bQNxNKoGNuXFo=;
+	s=arc-20240116; t=1775722406; c=relaxed/simple;
+	bh=IJJYXkJSgLMENY1RzS7Emu2PbcjlpJ+pewoYr3PdWPQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z2IxenrChmpYy+5Aj7722WFsKH2yo2oD1+4L/lYGov/NEdP08kvsu9XcJfaAJTa75iyZ8NYieEHGCubnWNPUifZ0p5H48UCZ/Qr/G43+63MofJI+EqlvyWZwzmbK4LtXmTbt0XVmd8S6y0ej4KPZKwiyC90vacJV4jJDiRf0CoM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jphein.com; spf=pass smtp.mailfrom=jphein.com; dkim=pass (2048-bit key) header.d=jphein.com header.i=@jphein.com header.b=ph39ttqx; arc=pass smtp.client-ip=74.125.224.49
+	 To:Cc:Content-Type; b=GtEeCDIqpxM0AJUzsqXZetoLo2/KbC+Ijmdxq9hSe8U9MAxERsQxTvl7hYz92CMZA1A95yij40Gg0+DH8irQLvlztBV1hMngeFlV0F0ud6sUyCV1eNJI9RQ3m+LmNQrDSyYOR7ZsnnaHPO4R5NfYYx4b9hJjbqc9CP/gICNFTWo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jphein.com; spf=pass smtp.mailfrom=jphein.com; dkim=pass (2048-bit key) header.d=jphein.com header.i=@jphein.com header.b=R8TpHwQH; arc=pass smtp.client-ip=74.125.224.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jphein.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jphein.com
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-6505ef94043so623045d50.2
-        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2026 01:12:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775722367; cv=none;
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-64ee82e853cso454437d50.3
+        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2026 01:13:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775722403; cv=none;
         d=google.com; s=arc-20240605;
-        b=YP7ieC3cPpffig45ogTvmlCrL/V5F3jp1zIoK9Cw2AuMlPv6UMzQrwH8/y6doidy+0
-         vqIkeSJlHAJs8bhl+obsATypQfXbKBjs+COZEIa7jZ3u9uj72nPGGWzvdTS1wpKTT6WM
-         dY2lT8+jCyQ3lx0luqEtKvKNzMjkM+7RVXpcnSfo4dkyKiLrmsg1TWRB2KCcoCn9UEvo
-         DlSZHbA87g+lAzqSI0vLd+d9UCZGTT4S3z/29Jl1kQrylM/z+4Tk3QdKy2ejNjH6Gvv5
-         Bf2lM9vpIOB+CsJXJ7qNgSi3nmFUsddeNqfPf8hs6IQZ5AQ0I9sETt8VZkBfd/TrXEke
-         kHVQ==
+        b=Pi61mhP165FA5Wk6gY7z0+pfHaHr71sjaYAfvmkb1JFjL69FHp9SMR2dyR6ylQ5npu
+         7lO8xG3k02odxl3FsfhVj5f93IWA63MRSsGA9/cLCI5WnmAT2qEvi8VsxGwXlu4rLtFF
+         nmJwsBGDoVc0xTIDcnAR4I8jpPoKPo/4XZY7v3mLXBKNSCspdvwGg/Woetho8/WzmzUa
+         V5gXcya5izhJZ45rkIxONDq4eayz450NWmQ2aDTux57nk14qGJGCS3wzs1R6mhVBc7Nd
+         A0niSr2XG7AY9Che2188Ds126H7LFTIV3gDwI7t4M6RlLVfqMvKZf6/6pufyxJqa6exH
+         +3Jg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=gmJkY2vpo7l8EzEMqyrVo1q5VZsFRi51zVqa7I4LQhY=;
-        fh=Sl5hTj/opNW2DMZcUgVGC2Bflm/eCFH0VagXOZl/UR8=;
-        b=PLWkuUfW+D2JCqi8mcjZMk4CDQTeBiCqdbuE91UnMkc7hK4jh4CeK41/7ANvt8O+l5
-         SWWa9eGlRf6gg9ChIT86Bp/oVobeqTnZvRRJiaMn0F6d0nzR2Pl9ipXHy1Zb34a+Tyir
-         DQSeL6mTHcV+fzja+PEJBWqhjX17UVdRH4Voc55NTYHGIFDcXW0dbAQdZtyffKua9EFF
-         RjMludZ33tQf3S10GNCik0bt3bFklFDXNw7RYfBbn0jgqyoS/b/wgrubVPxOAeYa6OH9
-         WxByK2pEf1Dm4mcSdyYyBSD22Afyo0ndQcay1nWsHEmCW75jJ910VGd6rgCsU33LL7tt
-         +Drg==;
+        bh=m2T0HzcPHFjquEbAcpJZqmSt5vKZwxpwTJQgZ4CtwnQ=;
+        fh=iEH9txxlNKcMHtmkcyBY3uOkAwrgcC8H4jFqVaJ2VYk=;
+        b=VUPcUHiMqEpggwb2t3uIGLndFgYnrCypy+BQ3pjgsJ9fckuQOUUUKFvI6DxdU08DA6
+         URv2UXg9uE6qntUVsdyN2HQdcGBBS50uoseoPkepZcmwqj9dOCI7I3s0pdgU9aluexGd
+         nQ+5Nj+sFBapXghPY/U0r3Amkv5AWWWsNMP8S4Et3EbBg8L3NQr/X2is7l+9qTqKvgRl
+         V+1woLhij/HrDrTpD7X+DCazj5stIu50JKfhWxjJpkpoF78Fiy+pJLewN0REF4vaTz4O
+         H4PjxRsTon21jfh5U8IzTvSJLUZ1aY9X4HM1Klohf42dpzfRBsUhOtKfhzjJdw0z1ORg
+         CNUg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jphein.com; s=google; t=1775722367; x=1776327167; darn=vger.kernel.org;
+        d=jphein.com; s=google; t=1775722403; x=1776327203; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gmJkY2vpo7l8EzEMqyrVo1q5VZsFRi51zVqa7I4LQhY=;
-        b=ph39ttqxeXcTgTAjjkB6S3Y9NMoCDvBKIVrURAV7IIzr0Ub21hCvpv2SH2+4E5B1u+
-         xZJ17Z/gOsl260sjX2HLstNbpmjDmC0tau2GWUBaEsjSW7qDMp/LfD3yKK7Ln8i6TLsg
-         pwWc4m2yymNc7pKgcFe9KHp1Y23WEnMtaOMAW8ioeRq4YPVI/WGmLWbgYEuVEHYilYo9
-         DCrhKR9iokOvlGVQJ3V0nEurQv3xaJVxdOAhOlpx0Ri1QF4Gv5mCXkQgnA2AuknE2qQl
-         spHTvrhVwmVEo9QudBGf35YVVLglobJ7+wViKKKK6tu1zoXN9aBsdEaaycTnfqPulCPC
-         ZKfA==
+        bh=m2T0HzcPHFjquEbAcpJZqmSt5vKZwxpwTJQgZ4CtwnQ=;
+        b=R8TpHwQHR0C5fE1XpMhj0YXU5pMD0j3cC++5/Pu6XlDxDV2Y5X6tcTcNCG5oIhEA3h
+         8paBrzcelWNhdM4T3kDdc/6MacF5Mv6Mrxylv0g6liz3tTNpf3kn/M2VAhSV0uqP5s+Q
+         inZYRrN8z35Adq9FAe2OUV+ITnuIecPUZBYJ2LzPICRwXuHy51XSLNKv0YJOI3WKOc2P
+         1cvN0e/WJoIw9UEwC99X4eCJBYrkZ7YX4n+/5G0yQTzDAclzU5W5Hhvtrwb1lFMNyYTr
+         HazAIMIbHoWxy5kwhWveSilaZRB9JxfhURTk0s0TE8s2WbIW+ztSg+/+B1PKBj9NkN34
+         WrtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775722367; x=1776327167;
+        d=1e100.net; s=20251104; t=1775722403; x=1776327203;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=gmJkY2vpo7l8EzEMqyrVo1q5VZsFRi51zVqa7I4LQhY=;
-        b=scvu5fCXE6UO7e37T+x84VCXyeNzvCELv4VZtGGr+FiXBPJDLYAnU4WVS6EkWPpd4W
-         fVYtdLQOPdYzTcTQtkrHzxDuG0RWI/QF9umEN8JpbsuJiP5wnN0qt9bturt6sjM/DNwk
-         oXlNgA4qscH28TCEKxDYnb8R57++3BGO8nT0SzxF9HtYlABK1Nb2vNs8DqmOBNwcaB7s
-         ZVMRzooFOYqce7XxMTuZRDnUXN5j3D7eDK86AP6DasRIUeJXLJxRXXmimR3CoDXafo1A
-         O3028rDIoiSIrfUn4x2BRtWYwJAbdDds19fNv0uYHz5hOQ5oAH/LRA0VWEW+HcqZv4iu
-         7IdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUDPFcXwr9txwtcr6k3zCf8jf22E9fbeTT3iXRDiBKB1G/yaPmE3Xp+7Ef9ewWIiqqRQJVmbWFlQdgr4A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkOMIshpiBz7OltJRBH9hn+MVgfEvHxe8B8FFznVWVhhBJzu+s
-	zhydnoM1elGMjpMA9/k7lOgiRbVB6fK5FLt3fENc6yNjqItZxNNV6y7INmKeUIxKRwdJgDPVIGB
-	ehtSc+y0YW59og/3KwDg1hjaYZBrbWOtp54SnDDuV
-X-Gm-Gg: AeBDieuKw2ZMph238ztdgqxMAIjBFtx/B3B+dodTf3do6+SS/4Jh6LozQLn1yK7kOqQ
-	1keDzcUZy8HP0h0tIvSu/L8mg6ffbYNm8lHZh++lf2xFfsukP92Hgg4z8I1qb4rsL24LT+brzQo
-	9KrWTWmWfQ/21mzr0yKTttLRAPWLQOGx1/BRIDj+tv4zsct9lMopjbqOKfyLkNSluOmZWdalUb6
-	cU+3xVhn8vM2gB5JwvCYEeZG+pEbwnom2OokIKRjGkxFE3BhLnYAAxsDxNX/ZK4tdZ/TsdN3yK+
-	D5fO
-X-Received: by 2002:a05:690e:440d:b0:650:12eb:16db with SMTP id
- 956f58d0204a3-6504887cb9bmr15515722d50.50.1775722367308; Thu, 09 Apr 2026
- 01:12:47 -0700 (PDT)
+        bh=m2T0HzcPHFjquEbAcpJZqmSt5vKZwxpwTJQgZ4CtwnQ=;
+        b=POXBk6x9Y/LfRt6gp6ZPWYZJMRFwZIDx7nydlg+zKUQ3rmYS+XjDyu9NHE3YZ9xrtS
+         ohS6TmQiWW38mgoauPBJ9r4/NmP8Tsq/ZNkdmFzcH3Y7R8fM+jvfs/EaJvDjS2QA1KmK
+         OTxpCx7qIjtZvEBIRJs1aKeHf3Al5UDkTunA4j8EfgmijyHnC5/nu+OZop3y8i0Q9ElL
+         xkxjC0Ih9KTeFfGroZf+kzypHOln74PmXLf/zbBwo1R4D3OaIjAGlh1/EujzHESDrXmo
+         Ky06WzoTSNHEsGjSd+QJqWJofmjCXMXDfSHhPRMQiBl8v7EXDCmt3ej60YBxHgJ3stpJ
+         y0RQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWIGhhIzIb5FyZShLBnL8FmYUEI4FzxsuksIuDwwZzAuMDYFRSINnEnPkBpQWFPBuA5CGjjYdet1Grt4w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4q7ZKXc0J1s9PDszr/izTW7obOm9mpgmLhr5xhvvLk+8sHiuS
+	E8Q+rCEhOOPYybRVyR618W+oiks6yCRZrv8oMJGTWRKE4YXqNu20ekdjQzGSKyIG7ljZsRNVvYY
+	EN17IuekinfpJ6UeUgz4UlqwnR1BwhbKHsfOEyVpY
+X-Gm-Gg: AeBDievpCpbnu80U1G2sOlQv8wkDPBk5tkBKBcvgy8KDvWiTamG3IP+PNYH4Rwsrk8l
+	xDrNUQT9gmb0reXcqcmqaHlMty6SuKzheIeNtRisHGoZ31EvYpz0CJcgT0wro6AXgg+nP50lEaK
+	5Th9dVXV1J7EfsN41jHLzoP02mWeULNpZRHaO6iBz6PDjK8yXyJt0Xt+vpmQmXMSG4uNiv0TccT
+	Nwnzeje0l78aTpbQ1vdtV35wfO3Cx7vq38U77V08vZXCWhIIn57aww8yQiIUzA03XM0U6U9Vs+X
+	mvhp
+X-Received: by 2002:a05:690e:190b:b0:650:4bc9:afce with SMTP id
+ 956f58d0204a3-6504bc9ca70mr21794740d50.63.1775722403434; Thu, 09 Apr 2026
+ 01:13:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -100,14 +100,13 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260331003806.212565-1-jp@jphein.com> <20260409074242.2115657-1-jp@jphein.com>
- <20260409074242.2115657-2-jp@jphein.com> <CANiDSCva8V5+h6QsHLXEsJfjMPYaoGWKzZcvH9u2wgXCs-jRdw@mail.gmail.com>
-In-Reply-To: <CANiDSCva8V5+h6QsHLXEsJfjMPYaoGWKzZcvH9u2wgXCs-jRdw@mail.gmail.com>
+ <20260409074242.2115657-3-jp@jphein.com> <CANiDSCvNLVO7EEMO-FzSD1cteoMUTcftaXqvw5-AW-VqKLkNxA@mail.gmail.com>
+In-Reply-To: <CANiDSCvNLVO7EEMO-FzSD1cteoMUTcftaXqvw5-AW-VqKLkNxA@mail.gmail.com>
 From: Jeffrey Hein <jp@jphein.com>
-Date: Thu, 9 Apr 2026 01:12:35 -0700
-X-Gm-Features: AQROBzCwzQ7ycElepf9PBapl3c7uBo9xilIRFgRQoulJ62oC_O-o8mkGeVIs1f0
-Message-ID: <CAD5VvzDx3GeNndtAOZjaZYntEh2-+08KP2OT0Sq3rd4u243BFg@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] media: uvcvideo: add UVC_QUIRK_CTRL_THROTTLE for
- fragile USB firmware
+Date: Thu, 9 Apr 2026 01:13:12 -0700
+X-Gm-Features: AQROBzD_A3xnAuqRKEGC2IfuxUge1mX9ZzVr0JIXFoo5GdzaKM2lsdH9M6XQj7U
+Message-ID: <CAD5VvzBQEvRPQiyeaEEXBRQjmNRWN5L1_-RCmR3KNnOYBkUUYQ@mail.gmail.com>
+Subject: Re: [PATCH v6 2/2] media: uvcvideo: add Razer Kiyo Pro to device info table
 To: Ricardo Ribalda <ribalda@chromium.org>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
@@ -126,7 +125,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,linuxfoundation.org,vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-58318-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58319-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -141,137 +140,101 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,jphein.com:dkim,jphein.com:email]
-X-Rspamd-Queue-Id: D186C3C79EF
+X-Rspamd-Queue-Id: AD3E93C7A0D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Hi Ricardo,
 
-Agreed -- the error-code query goes through __uvc_query_ctrl() now,
-so it gets the 50ms throttle automatically. Dropped in v7.
+Full lsusb -vv output included in the v7 commit message.
 
 Thanks,
 JP
 
 
 
-On Thu, Apr 9, 2026 at 12:57=E2=80=AFAM Ricardo Ribalda <ribalda@chromium.o=
+On Thu, Apr 9, 2026 at 12:58=E2=80=AFAM Ricardo Ribalda <ribalda@chromium.o=
 rg> wrote:
+>
+> Hi
 >
 > On Thu, 9 Apr 2026 at 09:44, JP Hein <jp@jphein.com> wrote:
 > >
-> > Some UVC devices have firmware that locks up under sustained rapid
-> > USB control transfers, crashing the xHCI host controller and taking
-> > all USB devices on the bus with it.
+> > Add a device entry for the Razer Kiyo Pro (1532:0e05) with quirks to
+> > work around firmware bugs that crash the xHCI host controller:
 > >
-> > The Razer Kiyo Pro (1532:0e05) is the first known example: approximatel=
-y
-> > 25 rapid consecutive control transfers cause the firmware to stall an
-> > endpoint. The kernel's standard UVC error recovery (GET_CUR on
-> > UVC_VC_REQUEST_ERROR_CODE_CONTROL) then sends a second transfer to the
-> > already-stalling device, amplifying the failure into complete firmware
-> > lockup and xHCI controller death.
+> >   UVC_QUIRK_CTRL_THROTTLE   - rate-limit control transfers and skip
+> >                                error-code queries after EPIPE
+> >   UVC_QUIRK_DISABLE_AUTOSUSPEND - prevent runtime suspend
+> >   UVC_QUIRK_NO_RESET_RESUME - skip post-reset reinitialization
 > >
-> > Add UVC_QUIRK_CTRL_THROTTLE which:
-> >   - Rate-limits all USB control transfers to 50ms intervals in
-> >     __uvc_query_ctrl(), the lowest-level UVC control transfer function,
-> >     ensuring all callers are throttled including uvc_set_video_ctrl()
-> >     which bypasses uvc_query_ctrl()
-> >   - Skips the error-code query after EPIPE to avoid amplifying stalls
+> > The firmware (v1.5.0.1) has two failure modes: it stalls endpoints
+> > under rapid control transfers (~25 without delay), and it fails to
+> > reinitialize properly after USB power state transitions. Both can
+> > cascade into xHCI controller death, disconnecting all USB devices on
+> > the bus.
 > >
-> > The 50ms interval was determined experimentally: the device is stable
-> > at this rate under sustained operation, while shorter intervals
-> > eventually trigger the firmware bug.
+> > Bug reproduced on two separate Kiyo Pro units running simultaneously,
+> > confirming the issue is not unit-specific.
 > >
+> > lsusb -v:
+> >   Bus 002 Device 002: ID 1532:0e05 Razer USA, Ltd Razer Kiyo Pro
+> >   Device Descriptor:
+> >     bLength                18
+> >     bDescriptorType         1
+> >     bcdUSB               3.20
+> >     bDeviceClass          239 Miscellaneous Device
+> >     bDeviceSubClass         2 [unknown]
+> >     bDeviceProtocol         1 Interface Association
+> >     bMaxPacketSize0         9
+> >     idVendor           0x1532 Razer USA, Ltd
+> >     idProduct          0x0e05 Razer Kiyo Pro
+> >     bcdDevice            8.21
+> >     iManufacturer           1 Razer Inc
+> >     iProduct                2 Razer Kiyo Pro
+> >     iSerial                 0
+> >
+>
+> Is this the whole output of lsusb?? Can you try with lsusb -vv?
+>
 > > Signed-off-by: JP Hein <jp@jphein.com>
 > > ---
-> >  drivers/media/usb/uvc/uvc_video.c | 30 ++++++++++++++++++++++++++++++
-> >  drivers/media/usb/uvc/uvcvideo.h  |  3 +++
-> >  2 files changed, 33 insertions(+)
+> >  drivers/media/usb/uvc/uvc_driver.c | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
 > >
-> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/=
-uvc_video.c
-> > index a5013a7..cee93ac 100644
-> > --- a/drivers/media/usb/uvc/uvc_video.c
-> > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > @@ -36,6 +36,26 @@ static int __uvc_query_ctrl(struct uvc_device *dev, =
-u8 query, u8 unit,
-> >         u8 type =3D USB_TYPE_CLASS | USB_RECIP_INTERFACE;
-> >         unsigned int pipe;
-> >
+> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc=
+/uvc_driver.c
+> > index 775bede..9b6df8e 100644
+> > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > @@ -2880,6 +2880,22 @@ static const struct usb_device_id uvc_ids[] =3D =
+{
+> >           .bInterfaceSubClass   =3D 1,
+> >           .bInterfaceProtocol   =3D 0,
+> >           .driver_info          =3D (kernel_ulong_t)&uvc_quirk_probe_mi=
+nmax },
+> > +
 > > +       /*
-> > +        * Rate-limit control transfers for devices with fragile firmwa=
-re.
-> > +        * The Razer Kiyo Pro locks up under sustained rapid control
-> > +        * transfers (hundreds without delay), crashing the xHCI contro=
-ller.
-> > +        * Throttle in this low-level function to cover all callers,
-> > +        * including uvc_set_video_ctrl() which bypasses uvc_query_ctrl=
-().
+> > +        * Razer Kiyo Pro -- firmware crashes under rapid control trans=
+fers
+> > +        * and on LPM/autosuspend resume, cascading into xHCI controlle=
+r
+> > +        * death that disconnects all USB devices on the bus.
 > > +        */
-> > +       if (dev->quirks & UVC_QUIRK_CTRL_THROTTLE) {
-> > +               unsigned long min_interval =3D msecs_to_jiffies(50);
-> > +
-> > +               if (dev->last_ctrl_jiffies &&
-> > +                   time_before(jiffies,
-> > +                               dev->last_ctrl_jiffies + min_interval))=
- {
-> > +                       unsigned long wait =3D dev->last_ctrl_jiffies +
-> > +                                            min_interval - jiffies;
-> > +                       msleep(jiffies_to_msecs(wait));
-> > +               }
-> > +               dev->last_ctrl_jiffies =3D jiffies;
-> > +       }
-> > +
-> >         pipe =3D (query & 0x80) ? usb_rcvctrlpipe(dev->udev, 0)
-> >                               : usb_sndctrlpipe(dev->udev, 0);
-> >         type |=3D (query & 0x80) ? USB_DIR_IN : USB_DIR_OUT;
-> > @@ -108,6 +128,16 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 quer=
-y, u8 unit,
-> >                 return ret < 0 ? ret : -EPIPE;
-> >         }
-> >
-> > +       /*
-> > +        * Skip the error code query for devices that crash under load.
-> > +        * The standard error-code query (GET_CUR on
-> > +        * UVC_VC_REQUEST_ERROR_CODE_CONTROL) sends a second USB transf=
-er to
-> > +        * a device that is already stalling, which can amplify the fai=
-lure
-> > +        * into a full firmware lockup and xHCI controller death.
-> > +        */
-> > +       if (dev->quirks & UVC_QUIRK_CTRL_THROTTLE)
-> > +               return -EPIPE;
->
-> I do not believe this is needed anymore now that the check is in the
-> inner funcion
->
-> > +
-> >         /* Reuse data[0] to request the error code. */
-> >         tmp =3D *(u8 *)data;
-> >
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/u=
-vcvideo.h
-> > index 757254f..31f2af5 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -78,6 +78,7 @@
-> >  #define UVC_QUIRK_INVALID_DEVICE_SOF   0x00010000
-> >  #define UVC_QUIRK_MJPEG_NO_EOF         0x00020000
-> >  #define UVC_QUIRK_MSXU_META            0x00040000
-> > +#define UVC_QUIRK_CTRL_THROTTLE                0x00080000
-> >
-> >  /* Format flags */
-> >  #define UVC_FMT_FLAG_COMPRESSED                0x00000001
-> > @@ -583,6 +584,8 @@ struct uvc_device {
-> >         struct usb_interface *intf;
-> >         unsigned long warnings;
-> >         u32 quirks;
-> > +       /* UVC control transfer throttling (UVC_QUIRK_CTRL_THROTTLE) */
-> > +       unsigned long last_ctrl_jiffies;
-> >         int intfnum;
-> >         char name[32];
-> >
+> > +       { .match_flags          =3D USB_DEVICE_ID_MATCH_DEVICE
+> > +                               | USB_DEVICE_ID_MATCH_INT_INFO,
+> > +         .idVendor             =3D 0x1532,
+> > +         .idProduct            =3D 0x0e05,
+> > +         .bInterfaceClass      =3D USB_CLASS_VIDEO,
+> > +         .bInterfaceSubClass   =3D 1,
+> > +         .bInterfaceProtocol   =3D 0,
+> > +         .driver_info          =3D UVC_INFO_QUIRK(UVC_QUIRK_CTRL_THROT=
+TLE
+> > +                                       | UVC_QUIRK_DISABLE_AUTOSUSPEND
+> > +                                       | UVC_QUIRK_NO_RESET_RESUME) },
+> >         /* Kurokesu C1 PRO */
+> >         { .match_flags          =3D USB_DEVICE_ID_MATCH_DEVICE
+> >                                 | USB_DEVICE_ID_MATCH_INT_INFO,
 > > --
 > > 2.43.0
 > >
