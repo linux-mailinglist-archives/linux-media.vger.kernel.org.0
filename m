@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-58431-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58440-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WOlUDy0K2Gm5WggAu9opvQ
-	(envelope-from <linux-media+bounces-58431-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:01 +0200
+	id kPBLAT0K2Gm5WggAu9opvQ
+	(envelope-from <linux-media+bounces-58440-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3C623CF6B7
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780CE3CF6EB
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1A32B3028371
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 33DE9302F0C3
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83137346FB0;
-	Thu,  9 Apr 2026 20:15:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4A2834CFC2;
+	Thu,  9 Apr 2026 20:15:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aiS6yw53"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ny1c6+rg"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98CFE3446A6
-	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AEC3446C3
+	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775765733; cv=none; b=Ueps2pb7oI58SrYUf2+NDMsxqIde/ec1aM9/25cKAlL/XmtBYNlOvTSxX7Ejax0wTRnHADr0M2Q+3qEuYyWk/AsO91D7fSpEord4+eB52aJFae+vkr9SvvGpke1WjuKz02ft7KnzX6YTU6pbHa636IZb9AegnspsFzOTwdoMhYQ=
+	t=1775765737; cv=none; b=Laq+AcEWOsY/DBZLS8dlxaARA0ig22BMtt/zc2Pg3yj/NLSlC6/RiLlPaOhiRUkeNlYNLkR4nN2PTmvzSWASvpn5NugBuiHwbH2o1wa7g0F7DWxVl+wXcYF2mzRFQ+wXzx1x3csbDbUIMbzlgle+yhRnbqaZnUC8B36FdDINYEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775765733; c=relaxed/simple;
-	bh=bh1OGej4wkJ+GP7BDmK7ahH/MRhI258u7ESCnuvFCW8=;
+	s=arc-20240116; t=1775765737; c=relaxed/simple;
+	bh=RXY7mLJa/mcFbtgWufbuVq4q7gFlSMHXrAHW1R0Brdg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AuZfKh8TqDhRjKbLSvWs/F/14C9g5rIG8QfdNkxGHMF7/N65ywfC1+Qs8XDETCljI92Z9ARJde5lf4kfB+PoUkCSgrv5JN3T+OWRFQ5/d9u1N+gLOsLIoq0M+qppDomjJVFIkPmTBBjtpHUgVJcn0Lbi8zraOdJRgqiKB8jD76Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aiS6yw53; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=psFLHZao99YHxkFlIeujGD7Ttb0010CZpXIujyqkESEE3FN16gxRaIhxjzys9SkFks5qzLfX+c+NBbrD/bOCZkyo3tSGd9sWmJZIADqX905VVt0c5f4/IvXLFQNIC1+oerresKaKEQOU05s39cRqHbYbfG83ANArHNYVCKCwJ6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ny1c6+rg; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775765733; x=1807301733;
+  t=1775765736; x=1807301736;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=bh1OGej4wkJ+GP7BDmK7ahH/MRhI258u7ESCnuvFCW8=;
-  b=aiS6yw53JWR4low++elAXLj+KQyM1TO5jcPPqIdXI/QK/1cRmZV9Xnm/
-   jZMQQ1Xj9WSGeBjmshTMVo3da4I2bDOBH29kgGYo0QYHCu+RbFPTE4/12
-   65uh1eW21gyPLEN33niEWZ4nX6XlaX5w4aV3ARIKu2TIWG/uYUE9PKS/P
-   QbKeYROiWyLNMxQRKT62oam3lHua+QMZh3FD5j80z8BpbOSM8Xu66o172
-   gowctaaZrKHSMmfxHJUc0SPJttjfV038gWp6aJ3k8+MLMVrqj+KNTDXhM
-   Kgu3RasqJeZxECLq6QQDP8I6AJAu4xxjnoPA0iC+n2yZjmRK4+pOwkwnX
-   g==;
-X-CSE-ConnectionGUID: KS243e0jQ3qU06EMGzCXsA==
-X-CSE-MsgGUID: 6PE+2uzzTlaUoSJ9DPFewQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94176495"
+  bh=RXY7mLJa/mcFbtgWufbuVq4q7gFlSMHXrAHW1R0Brdg=;
+  b=ny1c6+rge4Xbk4zY+R2U77h5lGgu+08+6T2/OcH618E+w5GDDgvXWhE6
+   +D4HcJpvWa27gXP3qrzZU4d+Kf0DWj5JORJVYlNceUVjrFVUe3hYVanmV
+   4fIPxy/EJ0wPZDSiMDzQi9lDuiCM1lObGMHxC2Pc8FX/pljL5CxlvxDDD
+   OaT8qpFbRlaBbPmwr3hsyL81WIOwcN09MSjqF9cSPOzHPqmoiTz+w8CZ3
+   j0pXjr7S2A6yZQqwCukLlR0OI50TE/l2eZjzdWg+Dw7iefYrPcOOaaV0/
+   VcyA9wbuM/nwyFxlRkbWf1e16Pf+8W/gQ46RgTY/8qokpcO5KAY50K3CW
+   A==;
+X-CSE-ConnectionGUID: FJAj+Q+mRS+w2JExW1Hs9A==
+X-CSE-MsgGUID: jHcSPi4RSj+H5k4EXjWVSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94176557"
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="94176495"
+   d="scan'208";a="94176557"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:26 -0700
-X-CSE-ConnectionGUID: tMZlXI70RSqDW+q5gB/ToQ==
-X-CSE-MsgGUID: EG51qYl3SXSwr8uCh0ZZgw==
+X-CSE-ConnectionGUID: mmo7YcmjRA2L82LzUqFfeg==
+X-CSE-MsgGUID: rfnIhVeeRoK+ccKKPXMIDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="228047532"
+   d="scan'208";a="228047544"
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.29])
   by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:19 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 7FA121227A6;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 880CA1227D2;
 	Thu, 09 Apr 2026 23:15:13 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAvmH-000000045m9-426k;
+	id 1wAvmH-000000045mD-46SR;
 	Thu, 09 Apr 2026 23:15:01 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -97,9 +97,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v12 23/86] media: v4l2-subdev: Prevent accessing internal pads without STREAMS cap
-Date: Thu,  9 Apr 2026 23:13:58 +0300
-Message-ID: <20260409201501.975242-24-sakari.ailus@linux.intel.com>
+Subject: [PATCH v12 24/86] media: Documentation: Add scaling and post-scaler crop for common raw
+Date: Thu,  9 Apr 2026 23:13:59 +0300
+Message-ID: <20260409201501.975242-25-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
 References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
@@ -123,7 +123,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	TAGGED_FROM(0.00)[bounces-58431-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58440-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[27];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -133,115 +133,77 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.intel.com:mid,intel.com:dkim,intel.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,linux.intel.com:mid,ideasonboard.com:email,intel.com:dkim,intel.com:email];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: D3C623CF6B7
+X-Rspamd-Queue-Id: 780CE3CF6EB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The internal pads are expected to be accessed by users that are aware of
-streams. Require the V4L2_SUBDEV_CLIENT_CAP_STREAMS client capability to
-be set before allowing accessing internal pads from the user space.
+Document scaling and post-scaler digital crop operations for the common
+raw sensor model.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 41 ++++++++++++++++++++++++---
- 1 file changed, 37 insertions(+), 4 deletions(-)
+ .../media/v4l/subdev-config-model.rst         | 26 ++++++++++++++-----
+ 1 file changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 7723e37a0ff5..c6d8399c2252 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -234,6 +234,18 @@ static int check_state(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
- 	return 0;
- }
+diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+index b450f698a608..1525119cbeb9 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+@@ -146,12 +146,19 @@ binning and sub-sampling to achieve the desired size.
  
-+static inline int check_caps(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *state,
-+			     const struct v4l2_subdev_client_info *ci,
-+			     u32 pad)
-+{
-+	if (sd->entity.pads[pad].flags & MEDIA_PAD_FL_INTERNAL)
-+		return ci->client_caps & V4L2_SUBDEV_CLIENT_CAP_STREAMS ?
-+			0 : -EINVAL;
+ The digital crop operation takes place after binning and sub-sampling. It is
+ configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
+-0/0. The resulting image size is further output by the sensor on the sensor's
+-data interface.
++0/0.
 +
-+	return 0;
-+}
-+
- static inline int check_format(struct v4l2_subdev *sd,
- 			       struct v4l2_subdev_state *state,
- 			       struct v4l2_subdev_format *format)
-@@ -245,12 +257,21 @@ static inline int check_format(struct v4l2_subdev *sd,
- 	       check_state(sd, state, format->which, format->pad, format->stream);
- }
++The scaling operation is performed after the digital crop. It is configured by
++setting the ``V4L2_SEL_TGT_COMPOSE`` rectangle on (pad, stream) pair 0/0,
++relative to the digital crop. The resulting image size is further output by the
++sensor on the sensor's data interface.
  
-+static inline int check_format_caps(struct v4l2_subdev *sd,
-+				    const struct v4l2_subdev_client_info *ci,
-+				    struct v4l2_subdev_state *state,
-+				    struct v4l2_subdev_format *format)
-+{
-+	return check_format(sd, state, format) ?:
-+		check_caps(sd, state, ci, format->pad);
-+}
-+
- static int call_get_fmt(struct v4l2_subdev *sd,
- 			const struct v4l2_subdev_client_info *ci,
- 			struct v4l2_subdev_state *state,
- 			struct v4l2_subdev_format *format)
- {
--	return check_format(sd, state, format) ? :
-+	return check_format_caps(sd, ci, state, format) ? :
- 		sd->ops->pad->get_fmt(sd, ci, state, format);
- }
+ The sensor's output mbus code is configured by setting the format on the (pad,
+-stream) pair 0/0. When setting the format, always use the same width and height
+-as for the digital crop setting.
++stream) pair 0/0. The width and height fields are used to configure post-scaler
++digital crop if supported by the driver, affecting the right and bottom edges of
++the frame. If post-scaler digital crop is not supported, the width and height
++fields of the format will match the compose rectangle sizes applied on the same
++0/0 (pad, stream) pair.
  
-@@ -259,7 +280,7 @@ static int call_set_fmt(struct v4l2_subdev *sd,
- 			struct v4l2_subdev_state *state,
- 			struct v4l2_subdev_format *format)
- {
--	return check_format(sd, state, format) ? :
-+	return check_format_caps(sd, ci, state, format) ? :
- 		sd->ops->pad->set_fmt(sd, ci, state, format);
- }
- 
-@@ -310,12 +331,24 @@ static inline int check_selection(struct v4l2_subdev *sd,
- 	       check_state(sd, state, sel->which, sel->pad, sel->stream);
- }
- 
-+static inline int check_selection_caps(struct v4l2_subdev *sd,
-+				       const struct v4l2_subdev_client_info *ci,
-+				       struct v4l2_subdev_state *state,
-+				       struct v4l2_subdev_selection *sel)
-+{
-+	if (!sel)
-+		return -EINVAL;
-+
-+	return check_selection(sd, state, sel) ? :
-+		check_caps(sd, state, ci, sel->pad);
-+}
-+
- static int call_get_selection(struct v4l2_subdev *sd,
- 			      const struct v4l2_subdev_client_info *ci,
- 			      struct v4l2_subdev_state *state,
- 			      struct v4l2_subdev_selection *sel)
- {
--	return check_selection(sd, state, sel) ? :
-+	return check_selection_caps(sd, ci, state, sel) ? :
- 		sd->ops->pad->get_selection(sd, ci, state, sel);
- }
- 
-@@ -324,7 +357,7 @@ static int call_set_selection(struct v4l2_subdev *sd,
- 			      struct v4l2_subdev_state *state,
- 			      struct v4l2_subdev_selection *sel)
- {
--	return check_selection(sd, state, sel) ? :
-+	return check_selection_caps(sd, ci, state, sel) ? :
- 		sd->ops->pad->set_selection(sd, ci, state, sel);
- }
- 
+ Drivers may only support some or even none of these configurations, in which
+ case they do not expose the corresponding selection rectangles. If any selection
+@@ -220,12 +227,19 @@ Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
+       - X
+       - Digital crop. This rectangle is relative to the ``V4L2_SEL_TGT_COMPOSE``
+         rectangle on (pad, stream) pair 1/0.
++    * - 0/0
++      - ``V4L2_SEL_TGT_COMPOSE``
++      - \-
++      - X
++      - Scaling. This rectangle is relative to the ``V4L2_SEL_TGT_CROP``
++        rectangle on (pad, stream) pair 0/0.
+     * - 0/0
+       - Format
+       - X
+       - X
+-      - Image data source format. Always assign the width and height fields of
+-        the format to the same values than for the ``V4L2_SEL_TGT_CROP``
++      - Image data source format and post-scaler crop. The width and height
++        fields of the format, used to configure post-scaler crop on the right
++        and bottom edges of the image, are related to the ``V4L2_SEL_TGT_COMPOSE``
+         rectangle on (pad, stream) pair 0/0. The media bus code reflects the
+         pixel data output of the sensor. Setting the media bus code on this pad
+         configures the output format.
 -- 
 2.47.3
 
