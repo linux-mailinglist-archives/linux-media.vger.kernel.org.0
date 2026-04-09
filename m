@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-58440-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58425-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kPBLAT0K2Gm5WggAu9opvQ
-	(envelope-from <linux-media+bounces-58440-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:17 +0200
+	id 6JqnG1cK2Gm5WggAu9opvQ
+	(envelope-from <linux-media+bounces-58425-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780CE3CF6EB
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7D23CF70F
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 33DE9302F0C3
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 166CD308FD5A
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:15:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4A2834CFC2;
-	Thu,  9 Apr 2026 20:15:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 141463446CA;
+	Thu,  9 Apr 2026 20:15:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ny1c6+rg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uhris9ME"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AEC3446C3
-	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B406340D9A
+	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775765737; cv=none; b=Laq+AcEWOsY/DBZLS8dlxaARA0ig22BMtt/zc2Pg3yj/NLSlC6/RiLlPaOhiRUkeNlYNLkR4nN2PTmvzSWASvpn5NugBuiHwbH2o1wa7g0F7DWxVl+wXcYF2mzRFQ+wXzx1x3csbDbUIMbzlgle+yhRnbqaZnUC8B36FdDINYEY=
+	t=1775765732; cv=none; b=Y7hU65/icl6VtIRmKpQBl8E5R0KlYC83VkJimH7BXhvfUKMPfoXbBPkTuObcSrVltwdVdwWKPTVOtvJBuDS8sKrNUYncuCzUF/zla2rLRyhKWdOAeBO5zjxgmyzh2fOrF9yic2Ayln9aAIClRKmS0uXc6NNBOwu/yrRScKuaeag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775765737; c=relaxed/simple;
-	bh=RXY7mLJa/mcFbtgWufbuVq4q7gFlSMHXrAHW1R0Brdg=;
+	s=arc-20240116; t=1775765732; c=relaxed/simple;
+	bh=kzE8X6kEuYodQd5rOAg9J+8eEtaa5fgRS2kW+LoeL98=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=psFLHZao99YHxkFlIeujGD7Ttb0010CZpXIujyqkESEE3FN16gxRaIhxjzys9SkFks5qzLfX+c+NBbrD/bOCZkyo3tSGd9sWmJZIADqX905VVt0c5f4/IvXLFQNIC1+oerresKaKEQOU05s39cRqHbYbfG83ANArHNYVCKCwJ6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ny1c6+rg; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=fr5PtrdI0zHC0xAM9cc9cjGQt8nsJ2EqwiLCaBXwHL03ag6gF/OIRaN5ipsjgjuPNVVihPSpubDoZsbPPJTyVzWcbTFsRuSP1LnpAzMJBuP4ybjN2qPEBZwGFua1lf19k9TnEABleYyF1Gp48rrLBGH2qRFySJV2dSLJdtn1OLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uhris9ME; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775765736; x=1807301736;
+  t=1775765731; x=1807301731;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=RXY7mLJa/mcFbtgWufbuVq4q7gFlSMHXrAHW1R0Brdg=;
-  b=ny1c6+rge4Xbk4zY+R2U77h5lGgu+08+6T2/OcH618E+w5GDDgvXWhE6
-   +D4HcJpvWa27gXP3qrzZU4d+Kf0DWj5JORJVYlNceUVjrFVUe3hYVanmV
-   4fIPxy/EJ0wPZDSiMDzQi9lDuiCM1lObGMHxC2Pc8FX/pljL5CxlvxDDD
-   OaT8qpFbRlaBbPmwr3hsyL81WIOwcN09MSjqF9cSPOzHPqmoiTz+w8CZ3
-   j0pXjr7S2A6yZQqwCukLlR0OI50TE/l2eZjzdWg+Dw7iefYrPcOOaaV0/
-   VcyA9wbuM/nwyFxlRkbWf1e16Pf+8W/gQ46RgTY/8qokpcO5KAY50K3CW
-   A==;
-X-CSE-ConnectionGUID: FJAj+Q+mRS+w2JExW1Hs9A==
-X-CSE-MsgGUID: jHcSPi4RSj+H5k4EXjWVSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94176557"
+  bh=kzE8X6kEuYodQd5rOAg9J+8eEtaa5fgRS2kW+LoeL98=;
+  b=Uhris9MERzSTwmC/NS0GDPmU62PDWnRd4OzY9Lmx9EyhQsiac5B0yhxM
+   jw3BuNDzWKFQgCUUpNMa2/Bd9uMYgghx2QfMtRI5eTnF+mPwC15d7rBD6
+   w54nnAu+Jig5riJzuJh6Or9epOiE6opAksHkDWMCSwFsG+XdMMoIReS8S
+   Lh4YWBeabMKUDHRhgAkvYa5mAJUZfbl5Os9Rw9ZKRq+ak6SZxkZW71t2i
+   VIAUCD8QElY0FJKoqP0kRM+pcPZXb/ONU6xx/Ldj5VgsmCQNv+T/jC31F
+   Hemqib6U7kEdR30dxhH7of/gOaIYAZQiYR0Ri/XuNEQ+ogHtklCU8ZNP6
+   g==;
+X-CSE-ConnectionGUID: ovpjNZvgTSuw+/xAYBv86g==
+X-CSE-MsgGUID: jEcWk3PZRqy2TxNQpHrKtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94176467"
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="94176557"
+   d="scan'208";a="94176467"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:26 -0700
-X-CSE-ConnectionGUID: mmo7YcmjRA2L82LzUqFfeg==
-X-CSE-MsgGUID: rfnIhVeeRoK+ccKKPXMIDg==
+X-CSE-ConnectionGUID: nGNi9Ag4SBadclMypKSwGQ==
+X-CSE-MsgGUID: qlzPs1YASH+qOdBCe2NghA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="228047544"
+   d="scan'208";a="228047529"
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.29])
   by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:19 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 880CA1227D2;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8CB591227EC;
 	Thu, 09 Apr 2026 23:15:13 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAvmH-000000045mD-46SR;
+	id 1wAvmH-000000045mH-4Ami;
 	Thu, 09 Apr 2026 23:15:01 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -97,9 +97,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v12 24/86] media: Documentation: Add scaling and post-scaler crop for common raw
-Date: Thu,  9 Apr 2026 23:13:59 +0300
-Message-ID: <20260409201501.975242-25-sakari.ailus@linux.intel.com>
+Subject: [PATCH v12 25/86] media: uapi: Add MIPI CCS configuration model
+Date: Thu,  9 Apr 2026 23:14:00 +0300
+Message-ID: <20260409201501.975242-26-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
 References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
@@ -123,7 +123,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	TAGGED_FROM(0.00)[bounces-58440-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58425-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[27];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -133,77 +133,53 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,linux.intel.com:mid,ideasonboard.com:email,intel.com:dkim,intel.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.intel.com:mid,intel.com:dkim,intel.com:email];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 780CE3CF6EB
+X-Rspamd-Queue-Id: EB7D23CF70F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Document scaling and post-scaler digital crop operations for the common
-raw sensor model.
+Add a configuration model for MIPI CCS sensors and refer to the CCS driver
+documentation from it. If more drivers start implementing the CCS model
+the documentation should be split into two but that appears to be unlikely
+at the moment.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- .../media/v4l/subdev-config-model.rst         | 26 ++++++++++++++-----
- 1 file changed, 20 insertions(+), 6 deletions(-)
+ .../userspace-api/media/v4l/subdev-config-model.rst         | 6 ++++++
+ include/uapi/linux/v4l2-controls.h                          | 1 +
+ 2 files changed, 7 insertions(+)
 
 diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-index b450f698a608..1525119cbeb9 100644
+index 1525119cbeb9..3011643d58cf 100644
 --- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
 +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-@@ -146,12 +146,19 @@ binning and sub-sampling to achieve the desired size.
+@@ -262,3 +262,9 @@ space may obtain the size of the embedded data once the image data size on the
+ source pad has been configured.
  
- The digital crop operation takes place after binning and sub-sampling. It is
- configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
--0/0. The resulting image size is further output by the sensor on the sensor's
--data interface.
-+0/0.
+ Also see :ref:`media_using_camera_sensor_drivers_embedded_data`.
 +
-+The scaling operation is performed after the digital crop. It is configured by
-+setting the ``V4L2_SEL_TGT_COMPOSE`` rectangle on (pad, stream) pair 0/0,
-+relative to the digital crop. The resulting image size is further output by the
-+sensor on the sensor's data interface.
++MIPI Camera Command Set (CCS) model
++-----------------------------------
++
++The MIPI Camera Command Set configuration model is implemented by the :ref:`CCS
++driver <media-ccs-uapi>`.
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index 2f0bd33bbc3d..1bf6d298e3c4 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -1262,6 +1262,7 @@ enum v4l2_jpeg_chroma_subsampling {
+ #define V4L2_CID_CONFIG_MODEL			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 6)
  
- The sensor's output mbus code is configured by setting the format on the (pad,
--stream) pair 0/0. When setting the format, always use the same width and height
--as for the digital crop setting.
-+stream) pair 0/0. The width and height fields are used to configure post-scaler
-+digital crop if supported by the driver, affecting the right and bottom edges of
-+the frame. If post-scaler digital crop is not supported, the width and height
-+fields of the format will match the compose rectangle sizes applied on the same
-+0/0 (pad, stream) pair.
+ #define V4L2_CONFIG_MODEL_COMMON_RAW_SENSOR	(1U << 0)
++#define V4L2_CONFIG_MODEL_MIPI_CCS		(1U << 1)
  
- Drivers may only support some or even none of these configurations, in which
- case they do not expose the corresponding selection rectangles. If any selection
-@@ -220,12 +227,19 @@ Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
-       - X
-       - Digital crop. This rectangle is relative to the ``V4L2_SEL_TGT_COMPOSE``
-         rectangle on (pad, stream) pair 1/0.
-+    * - 0/0
-+      - ``V4L2_SEL_TGT_COMPOSE``
-+      - \-
-+      - X
-+      - Scaling. This rectangle is relative to the ``V4L2_SEL_TGT_CROP``
-+        rectangle on (pad, stream) pair 0/0.
-     * - 0/0
-       - Format
-       - X
-       - X
--      - Image data source format. Always assign the width and height fields of
--        the format to the same values than for the ``V4L2_SEL_TGT_CROP``
-+      - Image data source format and post-scaler crop. The width and height
-+        fields of the format, used to configure post-scaler crop on the right
-+        and bottom edges of the image, are related to the ``V4L2_SEL_TGT_COMPOSE``
-         rectangle on (pad, stream) pair 0/0. The media bus code reflects the
-         pixel data output of the sensor. Setting the media bus code on this pad
-         configures the output format.
+ /*  DV-class control IDs defined by V4L2 */
+ #define V4L2_CID_DV_CLASS_BASE			(V4L2_CTRL_CLASS_DV | 0x900)
 -- 
 2.47.3
 
