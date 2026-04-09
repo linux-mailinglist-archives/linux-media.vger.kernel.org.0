@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-58432-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58443-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WNO9DD4J2GlOWggAu9opvQ
-	(envelope-from <linux-media+bounces-58432-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:17:02 +0200
+	id UM9vAmYJ2GlOWggAu9opvQ
+	(envelope-from <linux-media+bounces-58443-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:17:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2163CF4B2
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:17:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A97E63CF518
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:17:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B9A36302661A
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 575FB303C6B5
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E525133EAEC;
-	Thu,  9 Apr 2026 20:15:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 183E634D911;
+	Thu,  9 Apr 2026 20:15:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUCgYnbq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YSS91cEh"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C54B342CBA
-	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C8634751E
+	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775765734; cv=none; b=cxv+NwyVQ4vgpKpwKKp0o/loKDUPxo5QSKFbGPB5ww30xOpc0HclsEHn4vdq2xkXlUwvBTen/xuBEDXgtQ7COV1z64U8SRVE1xRNyrd96YnMn0vkcYdHaERWBwwZKNudT1LpKoDVVKk/nWE6WpqKcjP5arEJnN1wzpAq5zgfuYM=
+	t=1775765738; cv=none; b=A1gvyqCu03uqUvon+syHK2XUHd880gCSxewOg+qcfRexe6kprN6QeBHpPARsZsBb7/OJH8CUBEM4vp7rGXOf3k25yu047tz7G8PW7MBUn1yvj/3h2cb3rsIhKbT19rcGndKE14lZPcaTa8VN9v69/eTksmmIrMjQ5Rj9IrPZiaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775765734; c=relaxed/simple;
-	bh=oLfm7W1lexeKYW6WKnolXXU+zcmSnrPNvSSJt/eKRTA=;
+	s=arc-20240116; t=1775765738; c=relaxed/simple;
+	bh=DPTidinhnCY5NNjcHuKs0zz/BoUnnRFtfQ1k29vJZbE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bnmFJ0wDg61JSosB9h2AK/cwTR2HwWwaO8RX6Joz6HKK1MniFI39fC2n1EKmpGkHSxvAAg/icTvWiU7zIWYhO16QoeFKUSMKmlkxYFm/UAEA27RTkunB+keWCeLYuy8cFE0JgMelBvrziGv8ZvD3H9iOXgsyK72iOAHt03w1p1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUCgYnbq; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=LJEalbMrfGXKx1oXJemBf2fPvgt+aAYAXBgewgBQn3cCHUXBxyzCRUYPojWj9N5P7EI4/bEKk4WiWgKhvrKEmrz6/+DYRzVYQvpM0UE6uyHvR4P8w2gNW5rrc3SreqlZ3qWpfWtZAWdiDckDfgJMvS5bDHTR7YI2N3+hJk3KAb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YSS91cEh; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775765732; x=1807301732;
+  t=1775765738; x=1807301738;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=oLfm7W1lexeKYW6WKnolXXU+zcmSnrPNvSSJt/eKRTA=;
-  b=cUCgYnbqkx4sSv/XEBt+iBOzWv4xB3IS9gsHkyRXLVvFnr1ueeddMY9w
-   E4xWggLpKzrsejVr6pUZGsbR1Pby2MwygnxHNgt+NAxhFKtWh8UqGd6Om
-   2vNGJjZqFNsWmOn9vyFtsjEorjSx1HC+jKlC5ISsRPBt2lwidgXSd3wAC
-   j2YOq5HYsAyrW1YaudUAs0odshrJzU3lirCyYbSIo2APTEgFGqU/FegpZ
-   dQw9nG39O/Xdrxu/hLFH1tA4fD6A93E7sXW91jr26/FPeEZCqzXzqsR1d
-   +pWyI4gGpF9PswkaCWLUkBkRZ/QMhY0YPgjwHPSTsy2FwMwXK4gSJ12kB
+  bh=DPTidinhnCY5NNjcHuKs0zz/BoUnnRFtfQ1k29vJZbE=;
+  b=YSS91cEhb12IdCLfq41UFHwYFO+Bw2HkI2oVEIQabEylT3CiazY8NAVv
+   Du5jwY0PQv72GbaPsIIhBNml6AGcjI6fH+03zLNcPPry/KH1TrSLuiuX0
+   1Zu88p21+1Y8bRN+TG43IjV7WcxlMwziA8QLzEgB+4EAIxqFVuHmtewLM
+   C3Zpmh/N8dq+NL0XT5BZZZp2iGEGNJtnbvH3Jb8U5ii1x/rFeSwWS1DJ8
+   WbTVDFZs5VnFqUereknRiKoYkUMca6be9JJMqI4YlLWp3ieY+Mnv388Ej
+   1ZAOJsFSOddp4nZa08U3Ym0vQHWLn04xLiKPg1rWxi4MiQ6h7varws8Yw
    Q==;
-X-CSE-ConnectionGUID: SqlMbSCQTeWIGLjMqbf0aw==
-X-CSE-MsgGUID: JpY7c4uFRkelre6812N53Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94176470"
+X-CSE-ConnectionGUID: xm/bwVxUQQyDcEEY1pnAWg==
+X-CSE-MsgGUID: 0S9wWg6MRuSy4blpInvKDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94176578"
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="94176470"
+   d="scan'208";a="94176578"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:26 -0700
-X-CSE-ConnectionGUID: RRyY85nJT/iQDBU7aWxBZA==
-X-CSE-MsgGUID: 8uvAGbCYTIiMLc3eoI57RQ==
+X-CSE-ConnectionGUID: YOHlZaYzQAC715Uykga6xw==
+X-CSE-MsgGUID: 7Un/qYPyQtOxXi2mJi1wow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="228047530"
+   d="scan'208";a="228047548"
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.29])
   by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:20 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id AFBFF1228C8;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id B12A01228F5;
 	Thu, 09 Apr 2026 23:15:13 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAvmI-000000045mr-0YaY;
+	id 1wAvmI-000000045mv-0dEj;
 	Thu, 09 Apr 2026 23:15:02 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -97,9 +97,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v12 34/86] media: uapi: Add binning factor helper macros
-Date: Thu,  9 Apr 2026 23:14:09 +0300
-Message-ID: <20260409201501.975242-35-sakari.ailus@linux.intel.com>
+Subject: [PATCH v12 35/86] media: Documentation: Document frame controls for common raw sensor model
+Date: Thu,  9 Apr 2026 23:14:10 +0300
+Message-ID: <20260409201501.975242-36-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
 References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
@@ -123,7 +123,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	TAGGED_FROM(0.00)[bounces-58432-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58443-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[27];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -139,34 +139,64 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: CA2163CF4B2
+X-Rspamd-Queue-Id: A97E63CF518
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add helper macros for handling binning factor integer control menu items.
+Document that V4L2_CID_LINE_LENGTH_PIXELS V4L2_CID_FRAME_LENGTH_LINES are
+used to configure frame rate in common raw camera sensor model. Also
+mention the controls in camera sensor documentation.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- include/uapi/linux/v4l2-controls.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ .../userspace-api/media/drivers/camera-sensor.rst         | 8 ++++++++
+ .../userspace-api/media/v4l/subdev-config-model.rst       | 8 ++++++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 60f0fb599926..aaa0d88d7e6e 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -1250,6 +1250,13 @@ enum v4l2_jpeg_chroma_subsampling {
- #define V4L2_CID_METADATA_LAYOUT		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 12)
+diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+index aa05681c7090..6d9dadab3277 100644
+--- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
++++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+@@ -61,6 +61,8 @@ There are two different methods for obtaining possibilities for different frame
+ intervals as well as configuring the frame interval. Which one to implement
+ depends on the type of the device.
  
- #define V4L2_CID_BINNING_FACTORS		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 13)
-+#define V4L2_BINNING_FACTORS_MAKE(hnum, hdem, vnum, vdem)		\
-+	(((uint64_t)(0xffff & hnum) << 48) | ((uint64_t)(0xffff & hdem) << 32) | \
-+	 ((uint64_t)(0xffff & vnum) << 16) | (uint64_t)(0xffff & vdem))
-+#define V4L2_BINNING_FACTORS_HNUM(binning)	((binning >> 48) & 0xffff)
-+#define V4L2_BINNING_FACTORS_HDEM(binning)	((binning >> 32) & 0xffff)
-+#define V4L2_BINNING_FACTORS_VNUM(binning)	((binning >> 16) & 0xffff)
-+#define V4L2_BINNING_FACTORS_VDEM(binning)	(binning & 0xffff)
- #define V4L2_CID_SUBSAMPLING_HORIZONTAL		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 14)
- #define V4L2_CID_SUBSAMPLING_VERTICAL		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 15)
++.. _media_camera_sensor_frame_rate_raw:
++
+ Raw camera sensors
+ ~~~~~~~~~~~~~~~~~~
+ 
+@@ -78,6 +80,12 @@ The formula is bus independent and is applicable for raw timing parameters on
+ large variety of devices beyond camera sensors. Devices that have no analogue
+ crop, use the full source image size, i.e. pixel array size.
+ 
++The combined *analogue crop width + horizontal blanking* and *analogue crop
++height + vertical blanking* can be controlled directly using the
++:ref:`V4L2_CID_LINE_LENGTH_PIXELS and V4L2_CID_FRAME_LENGTH_LINES
++<image_source_control_frame_length>` controls, respectively, should the driver
++support them.
++
+ Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+ ``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+ is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+index fb6d8a1bcac7..1923ccbafdd0 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+@@ -262,6 +262,14 @@ Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
+       - \-
+       - Embedded data source format.
+ 
++Frame rate
++^^^^^^^^^^
++
++Drivers supporting the Common raw camera sensor model support
++:ref:`V4L2_CID_LINE_LENGTH_PIXELS and V4L2_CID_FRAME_LENGTH_LINES
++<image_source_control_frame_length>` controls for :ref:`frame rate configuration
++<media_camera_sensor_frame_rate_raw>`.
++
+ Embedded data
+ ^^^^^^^^^^^^^
  
 -- 
 2.47.3
