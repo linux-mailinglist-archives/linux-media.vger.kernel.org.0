@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-58332-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58334-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sBc3EG2w12kORggAu9opvQ
-	(envelope-from <linux-media+bounces-58332-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 15:58:05 +0200
+	id QJ6fHVKv12kORggAu9opvQ
+	(envelope-from <linux-media+bounces-58334-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 15:53:22 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE2F3CBA91
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 15:58:04 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A0F3CB9B9
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 15:53:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6A0E3309C262
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 13:52:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 1B07A302FDC7
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 13:52:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2462D3D3D0E;
-	Thu,  9 Apr 2026 13:51:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DEAE3D6470;
+	Thu,  9 Apr 2026 13:51:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="i54P+b5J"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dXvO3xJx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0717A3D2FFD;
-	Thu,  9 Apr 2026 13:51:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841CF3D3489;
+	Thu,  9 Apr 2026 13:51:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775742698; cv=none; b=ZpOeepd77ioj0sUQpfiOecy9cl781EvXgwtajP9u5by8e62aMpTEWGFw3mb08TB2+dJ6bdM4rHjHWpOtozQOCBYGMFkCK/rm7qjUaKgS4qXeGv5qnQlncBfqnZ0hEw5LR7o3Hz3NETLjwDzfTUe2QPgM698QhFb8g2oTSuE1NuM=
+	t=1775742700; cv=none; b=Pi6ugevXK5TbMclGI506+yXPIUkMk0CjEwz8/+nE7k8SpEn1CnK9EJYJITg3/GxAPrPSiVe+9du0/fPcRYgykfBG37ek2XcKBIDH/UPN8111dqVNFRkChHSkgL0klc4kEwctLipnVCjLsRh0hfDaopM3b4ewxrgj6LwbRPL71Ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775742698; c=relaxed/simple;
-	bh=zb8Kdcld56GkDD3eedBbJU1WAMrgjQXCYOIVVPIDCuE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Q/R+aSw1rfC2prxQM1knYadVkUMjqOBlRTaHB6Q3Hmc2HPjdOtQKUpp3Z9W2ruxPb6Qd2fS2T0uLbx0AIZ02GcjWRRDKq/ykB0rgrIZd/YG5VJQrNTAj7iHfM5OV0vYDTruirBPdHj1DWvevoIJCd0/4OwWjOzB+6znIvdg6qKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=i54P+b5J; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1775742700; c=relaxed/simple;
+	bh=EANjXK0pUgPsxuTannl80kTzacZ17wagSvF/zmR7XQE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=N8NR8orMqIb5wzc7Uz5CMNnOkHo9gx7W8KdjNtjVBTV0BQvvC0y2UkVwp/S246VNPIU4vhNKAw5KkYtrFL6Y09YWWdppYWOixxPo+eIWPoeZ5aYwOuEbQz0HYfToQ+fxXnXP8xsfwg9msA0aoMHOCHWdF2sjMIRYuB3Pq4OWoBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dXvO3xJx; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1775742688;
-	bh=zb8Kdcld56GkDD3eedBbJU1WAMrgjQXCYOIVVPIDCuE=;
-	h=From:Subject:Date:To:Cc:From;
-	b=i54P+b5JUflbk2iAP5O3PJHSnKjPJHg0+jrZX+sOPe8KoX9ChZlc8aZPy/TMgV8R0
-	 Zhiv0TZpgVEx7/JYko257JDLmncVuXkQaPw7R7CEgTE6sUS14SFqSd6RFMl0Ud5F8y
-	 QEeLDC36E2QOvH8JY8aMPIZhSRSXRmt0s/s1ZQ+Jl+Q9iWH+JVT/FNm3Hnsiz0owCv
-	 +fuititxsucYcIDa0U2jFWQ4A+XYyzYrCI9mR0gM4PHLMedgYWTh+O2dnKFfdcW3/F
-	 QfQmj7OSSdn5N30KlYVuCmdFpVrK3rAVJJIbInfibb6Faw1L+AlelbEF+a63svX2NH
-	 GWyFnWPEawcHw==
+	s=mail; t=1775742690;
+	bh=EANjXK0pUgPsxuTannl80kTzacZ17wagSvF/zmR7XQE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=dXvO3xJxl7lDEOkIRDGLuC+39/Sm6Y2njQQiRjybGrV0XFhGDJ9mL99rvQktUq7cN
+	 VqFYAexEknC3JnYkGlCzdstdGN9PalgO49S6bStNXE5piAuVPXWxh5v8uypHd7Mltj
+	 KhlW0hg5HJg+jJjVATlAwO8MtJf97+deopOT6vum7r9xBfiL4IWuiRl+7zYLBD+XTO
+	 nRjJbzSkrl4GNPBHgmoeBfJZJWpYKtT2LY72khK5p9LqnpnJOxbWimZUSmlj/HnuLR
+	 hVlCld99uuUMyy1wucuS/xXkYmx6UdWdb8LwbDEb8SNcz5CnCsdegNBPmRdYMUT6fk
+	 xmDcvA5ir4z+w==
 Received: from [192.168.0.15] (unknown [100.64.0.170])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 47E1517E0CA9;
-	Thu,  9 Apr 2026 15:51:27 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2C1C917E0D23;
+	Thu,  9 Apr 2026 15:51:29 +0200 (CEST)
 From: Detlev Casanova <detlev.casanova@collabora.com>
-Subject: [PATCH 0/7] media: rkvdec: Enable multi-core support
-Date: Thu, 09 Apr 2026 09:50:35 -0400
-Message-Id: <20260409-rkvdec-multicore-v1-0-62b316abf0f7@collabora.com>
+Date: Thu, 09 Apr 2026 09:50:36 -0400
+Subject: [PATCH 1/7] media: v4l2-mem2mem: Add v4l2_m2m_buf_done_manual()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,10 +62,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMSQ6DMAxA0asgrxspCVPoVSoWkBhwy1A5gJAQd
- yfA8i3+38EjE3p4RzswruRpGgPUKwLbVWOLglwwaKkzmUgj+Lc6tGJY+pnsxCgKY2LlqlTJXEP
- I/owNbffyUz72S/1FO18fOI4TEu/+mnQAAAA=
-X-Change-ID: 20260408-rkvdec-multicore-98831da51072
+Message-Id: <20260409-rkvdec-multicore-v1-1-62b316abf0f7@collabora.com>
+References: <20260409-rkvdec-multicore-v1-0-62b316abf0f7@collabora.com>
+In-Reply-To: <20260409-rkvdec-multicore-v1-0-62b316abf0f7@collabora.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
  Heiko Stuebner <heiko@sntech.de>, 
@@ -81,18 +80,18 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58332-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58334-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
@@ -102,74 +101,111 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:email,collabora.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9CE2F3CBA91
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:email,collabora.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 11A0F3CB9B9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Since the driver is used for decoding on rk3588 and that the SoC has
-2 identical decoding cores, enable support for it.
+This function can be used to mark buffers as done, handling locking, but
+not finishing the job as it is done by v4l2_m2m_buf_done_and_finish_job().
 
-Instead of exposing 2 v4l2 devices to userspace, the driver will only
-expose one and handle the 2 cores transparently.
+To avoid copying similar code, a static function is added with an extra
+finish argument.
+The code path of v4l2_m2m_buf_done_and_finish_job() is unchanged.
 
-The 2 cores are able to work in parallel, but only contexts are
-parallelized: 1 stream, that uses 1 context, will only be able to use
-1 core as it usually needs previous frames already decoded to use as
-reference frames.
-To avoid complex scheduling, only different streams can use cores at the
-same time.
-
-To achieve this, the v4l2_m2m_buf_done_and_job_finish() had to be split
-in a done and a finish part (still keeping the unsplit function for other
-drivers). That allows the driver to get new jobs to run while the previous
-one is still running.
-The job_ready() callback is used to avoid scheduling multiple jobs from
-the same context.
-
-The IOMMU support is in a different commit, as it needed a bit more
-thought to work correctly, but I'm wondering if it should be merged with
-the multicore support commit.
-
-A fix for the RCB (Row and Cols Buffer) size computation is also provided
-as it was causing issues with some fluster tests.
-
-Performance-wise, fluster doesn't seem to run much faster, but I tested
-with an HEVC test video from Jellyfin and observed that frames start
-dropping with 6 concurrent gstreamer instances, instead of 4 without
-multi-core enabled.
+This allows for finer grained buffer management in drivers, scheduling
+new jobs before the previous one is finished and prepares for enabling
+multicore support in rkvdec.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
-Detlev Casanova (7):
-      media: v4l2-mem2mem: Add v4l2_m2m_buf_done_manual()
-      media: v4l2-mem2mem: Remove WARN_ON() in v4l2_m2m_job_finish()
-      media: rkvdec: Keep RCB to the correct size
-      media: rkvdec: Remove unused need_reset
-      media: rkvdec: Add multicore support
-      media: rkvdec: Wait for all buffers before stop_streaming
-      media: rkvdec: Add multicore IOMMU support
+ drivers/media/v4l2-core/v4l2-mem2mem.c | 27 ++++++++++++++++++++++-----
+ include/media/v4l2-mem2mem.h           | 20 ++++++++++++++++++++
+ 2 files changed, 42 insertions(+), 5 deletions(-)
 
- .../media/platform/rockchip/rkvdec/rkvdec-h264.c   |  17 +-
- .../media/platform/rockchip/rkvdec/rkvdec-hevc.c   |  16 +-
- .../media/platform/rockchip/rkvdec/rkvdec-rcb.c    |  77 ++--
- .../media/platform/rockchip/rkvdec/rkvdec-rcb.h    |   8 +-
- .../platform/rockchip/rkvdec/rkvdec-vdpu381-h264.c |  24 +-
- .../platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c |  24 +-
- .../platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c |  24 +-
- .../platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c |  26 +-
- .../media/platform/rockchip/rkvdec/rkvdec-vp9.c    |  27 +-
- drivers/media/platform/rockchip/rkvdec/rkvdec.c    | 482 +++++++++++++--------
- drivers/media/platform/rockchip/rkvdec/rkvdec.h    |  31 +-
- drivers/media/v4l2-core/v4l2-mem2mem.c             |  34 +-
- include/media/v4l2-mem2mem.h                       |  20 +
- 13 files changed, 500 insertions(+), 310 deletions(-)
----
-base-commit: 3036cd0d3328220a1858b1ab390be8b562774e8a
-change-id: 20260408-rkvdec-multicore-98831da51072
+diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+index a65cbb124cfe..7f9fad4f6807 100644
+--- a/drivers/media/v4l2-core/v4l2-mem2mem.c
++++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+@@ -503,9 +503,9 @@ void v4l2_m2m_job_finish(struct v4l2_m2m_dev *m2m_dev,
+ }
+ EXPORT_SYMBOL(v4l2_m2m_job_finish);
+ 
+-void v4l2_m2m_buf_done_and_job_finish(struct v4l2_m2m_dev *m2m_dev,
+-				      struct v4l2_m2m_ctx *m2m_ctx,
+-				      enum vb2_buffer_state state)
++static void _buf_done_and_job_finish(struct v4l2_m2m_dev *m2m_dev,
++				     struct v4l2_m2m_ctx *m2m_ctx,
++				     enum vb2_buffer_state state, bool finish)
+ {
+ 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+ 	bool schedule_next = false;
+@@ -532,13 +532,30 @@ void v4l2_m2m_buf_done_and_job_finish(struct v4l2_m2m_dev *m2m_dev,
+ 	 * before the CAPTURE buffer is done.
+ 	 */
+ 	v4l2_m2m_buf_done(src_buf, state);
+-	schedule_next = _v4l2_m2m_job_finish(m2m_dev, m2m_ctx);
++	if (finish)
++		schedule_next = _v4l2_m2m_job_finish(m2m_dev, m2m_ctx);
+ unlock:
+ 	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+ 
+-	if (schedule_next)
++	if (schedule_next || !finish)
+ 		v4l2_m2m_schedule_next_job(m2m_dev, m2m_ctx);
+ }
++
++
++void v4l2_m2m_buf_done_manual(struct v4l2_m2m_dev *m2m_dev,
++			      struct v4l2_m2m_ctx *m2m_ctx,
++			      enum vb2_buffer_state state)
++{
++	_buf_done_and_job_finish(m2m_dev, m2m_ctx, state, false);
++}
++EXPORT_SYMBOL(v4l2_m2m_buf_done_manual);
++
++void v4l2_m2m_buf_done_and_job_finish(struct v4l2_m2m_dev *m2m_dev,
++				      struct v4l2_m2m_ctx *m2m_ctx,
++				      enum vb2_buffer_state state)
++{
++	_buf_done_and_job_finish(m2m_dev, m2m_ctx, state, true);
++}
+ EXPORT_SYMBOL(v4l2_m2m_buf_done_and_job_finish);
+ 
+ void v4l2_m2m_suspend(struct v4l2_m2m_dev *m2m_dev)
+diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+index 31de25d792b9..6a36fc885f5f 100644
+--- a/include/media/v4l2-mem2mem.h
++++ b/include/media/v4l2-mem2mem.h
+@@ -227,6 +227,26 @@ void v4l2_m2m_buf_done_and_job_finish(struct v4l2_m2m_dev *m2m_dev,
+ 				      struct v4l2_m2m_ctx *m2m_ctx,
+ 				      enum vb2_buffer_state state);
+ 
++/**
++ * v4l2_m2m_buf_done_manual() - manually mark the job as done, but do not
++ * finish it.
++ *
++ * @m2m_dev: opaque pointer to the internal data to handle M2M context
++ * @m2m_ctx: m2m context assigned to the instance given by struct &v4l2_m2m_ctx
++ * @state: vb2 buffer state passed to v4l2_m2m_buf_done().
++ *
++ * The function works the same way as v4l2_m2m_buf_done_and_job_finish()
++ * but does not inform the framework that the job has been finished,
++ * leaving the user the responsability to call v4l2_m2m_job_finish()
++ * when a buffer can be released to userspace.
++ *
++ * It allows driver to process new buffers, before the previous one is
++ * done.
++ */
++void v4l2_m2m_buf_done_manual(struct v4l2_m2m_dev *m2m_dev,
++			      struct v4l2_m2m_ctx *m2m_ctx,
++			      enum vb2_buffer_state state);
++
+ static inline void
+ v4l2_m2m_buf_done(struct vb2_v4l2_buffer *buf, enum vb2_buffer_state state)
+ {
 
-Best regards,
---  
-Detlev Casanova <detlev.casanova@collabora.com>
+-- 
+2.53.0
 
 
