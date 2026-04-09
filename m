@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-58453-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58452-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2HAuEIUJ2GlOWggAu9opvQ
-	(envelope-from <linux-media+bounces-58453-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:18:13 +0200
+	id 0EVeO5UK2Gm5WggAu9opvQ
+	(envelope-from <linux-media+bounces-58452-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:22:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0622A3CF571
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:18:12 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D5903CF72E
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:22:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E1EA0302FF1B
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E004C30A0B05
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD098340293;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50C0E36EA88;
 	Thu,  9 Apr 2026 20:15:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PeprlzJH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KVt2BH3K"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56B9364957
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632813624AE
 	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775765743; cv=none; b=bQN2MjsYM9SljLEE7/LIwb0MNGsIZEM+AOJ3BEk0+oOdaSkHXR/xB703YY1skaHzLZiRsNYd4tYwHD0ImogWxE94wDwGR+4KGgnhVfEvfbtovva8g6NV1YF+2+iBTALR+QI6PrOvuGtWpMWejt4HIxx6s7dWRKnNwypy1Dkc9pU=
+	t=1775765742; cv=none; b=TP99PC2RV/zGNnq7pFzuRA5xEvfPnYk4e3M94LP0otggHBvVkYjqmHH205hGO0cmXjIeBpCnPtO5DoUaO04Gb+pCPl7Ga3U8KjwRrCJ+5OH2zU4JaK7BmTZV29ide0DQ0nPVu+gpjPH5bXcoK+Bx/ZWF6cAsRNlzg6bQi2KJypE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775765743; c=relaxed/simple;
-	bh=svuDrQC21pBTb///cb5/41E0sY2XCBwZkQWYTGz1JFw=;
+	s=arc-20240116; t=1775765742; c=relaxed/simple;
+	bh=wAsOkfVavOOzWU1Axhxv2X4saZDB2wnwBJ1JPAIpiEM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=t2dhvnFSlo85CxYQ5XxJKDwK7Vwucaf8UzwZ8qI3qCWgeWgw8HBc3bZ2+gqJyhkyD8RixkSMLocTGze6BrXGAa73nTmmqBX0FkGcC+CPoXsh3kX+Yxw4Q89KepW0nalfQFKKOYvVcDKWpbQlgjeDBFFgItdLirrC+l9ywqOjn00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PeprlzJH; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=YMDsrcb0iHDA5NeteP/t7NQ8kyFSnm+nE8dK5DzVeeNS7AUrSfamRqgIlsHL2WJ/QrAplPxQdK4oNNM0GoG2/j+6dwVIXARQTDRuSmjHlZrsw59g1ZcxZrTTQHCPPwO/7eLSkPnQMYunORU+sQlTjRxejXR0ZK3/FrWoEjkLSNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KVt2BH3K; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -39,34 +39,34 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1775765742; x=1807301742;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=svuDrQC21pBTb///cb5/41E0sY2XCBwZkQWYTGz1JFw=;
-  b=PeprlzJHPZsWF9HBCjP9ay27daXAgaVWCwAWw4AEnj+AlAHnVnjvGAcj
-   zkSh8axUtHXIb33EffYp3VgHcdg4xk1GnaRLOm3U/Zbzg3mbS8L7+aurB
-   gud9ScAmUAT6COtsu8bTuHN5O/DP/9it3qASrTXagJ8oTvv1noACp7FIZ
-   kEPeKJsa3qa0t0U+94uY4D6Y0hInt6zdSkyl80qEkbZX97c63cu7P/KxF
-   PmtWWPgvh1w3tMNur3SFN9By490289ohRu+OdH9I+Jx9tCvINB7mXH5he
-   xf04uvIvlcf+rL5whUyHMMys7DFnaUl2PIcKuvl7YbnTWw+6c1eubVnAe
+  bh=wAsOkfVavOOzWU1Axhxv2X4saZDB2wnwBJ1JPAIpiEM=;
+  b=KVt2BH3K/gjSRYQ2fYuQIq+xlLe/fSrqgEvTq9I2l4vLzyCH999SsVDL
+   CMQHHV7pU87DSsZlkVemGoJ78ik4VsCa4VpnUWG8sQ+idzrjlxJrbsIF/
+   ASbcaY/tsMlCgO2mDkNa7GEjUK3wj/Qz6QbdPexw7+dLT8IACvVjqiFeg
+   u2DLpNwBxRIqAE7S3RomlGP7HprbUGArJNvIrw6y5QP+u3pRBLJa7jIMK
+   O14r1VEvoRp/sE8tn6piK8EnhQu1boPRJ1srfMjYne88ugmwaUz9ZwIAs
+   8XlJa5bm81Lu+5LHFi8rX/XgHnhrNOCpRh5bWNkF9mcwAJvvOGmlzQ0c6
    A==;
-X-CSE-ConnectionGUID: Lr1e60wxQjObTJ0t3J2hwA==
-X-CSE-MsgGUID: bCisnTLaSNqHm026E0hL/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94176742"
+X-CSE-ConnectionGUID: Z6W2zQNMRD+cK2HfVqAsMQ==
+X-CSE-MsgGUID: rc20dpoDStGP8Wz20Ld2Cg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94176718"
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="94176742"
+   d="scan'208";a="94176718"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:34 -0700
-X-CSE-ConnectionGUID: kXknMKX5RIO4XdMCRtVt4w==
-X-CSE-MsgGUID: U1K9+sLJT4uIk1KJ3S0MrQ==
+X-CSE-ConnectionGUID: ZIUopcAkRH2pBJnEniZtAg==
+X-CSE-MsgGUID: 1O0eVLtWQQaENvGv3wHbbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="228047637"
+   d="scan'208";a="228047631"
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.29])
   by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:28 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id D29A1122938;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id D3FEF12293D;
 	Thu, 09 Apr 2026 23:15:13 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAvmI-000000045nR-1Ak7;
+	id 1wAvmI-000000045nV-1FHl;
 	Thu, 09 Apr 2026 23:15:02 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -97,9 +97,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v12 43/86] media: uapi: ccs: Add metadata layout for MIPI CCS embedded data
-Date: Thu,  9 Apr 2026 23:14:18 +0300
-Message-ID: <20260409201501.975242-44-sakari.ailus@linux.intel.com>
+Subject: [PATCH v12 44/86] media: ccs: Add support for generic raw mbus codes
+Date: Thu,  9 Apr 2026 23:14:19 +0300
+Message-ID: <20260409201501.975242-45-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
 References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
@@ -117,169 +117,175 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	TAGGED_FROM(0.00)[bounces-58453-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58452-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[27];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,linux.intel.com:mid,intel.com:dkim,intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mipi.org:url];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.intel.com:mid,intel.com:dkim,intel.com:email];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 0622A3CF571
+X-Rspamd-Queue-Id: 4D5903CF72E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add new metadata layout (V4L2_METADATA_LAYOUT_CCS) for MIPI CCS embedded
-data.
+Add support for generic media bus codes for 8, 10, 12 and 14 bits per
+pixel.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Julien Massot <julien.massot@collabora.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../media/v4l/ext-ctrls-image-source.rst      | 12 ++++++
- .../userspace-api/media/v4l/meta-formats.rst  |  1 +
- .../media/v4l/metadata-layouts.rst            | 39 +++++++++++++++++++
- .../media/v4l/metafmt-generic.rst             |  2 +
- .../media/v4l/subdev-formats.rst              |  5 +++
- include/uapi/linux/v4l2-controls.h            |  1 +
- 6 files changed, 60 insertions(+)
- create mode 100644 Documentation/userspace-api/media/v4l/metadata-layouts.rst
+ drivers/media/i2c/ccs/ccs-core.c | 54 ++++++++++++++++++++++----------
+ drivers/media/i2c/ccs/ccs.h      |  2 ++
+ 2 files changed, 39 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-index fb4dee1b4f94..4ed9bea89101 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-@@ -161,6 +161,18 @@ Image Source Control IDs
-     :ref:`generic metadata formats <media-bus-format-generic-meta>` formats to
-     specify the layout of the data.
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index 1cd4db3f5708..0248a51eba8f 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -642,13 +642,18 @@ static const struct ccs_csi_data_format ccs_csi_data_formats[] = {
+ 	{ MEDIA_BUS_FMT_SRGGB8_1X8, 8, 8, CCS_PIXEL_ORDER_RGGB, },
+ 	{ MEDIA_BUS_FMT_SBGGR8_1X8, 8, 8, CCS_PIXEL_ORDER_BGGR, },
+ 	{ MEDIA_BUS_FMT_SGBRG8_1X8, 8, 8, CCS_PIXEL_ORDER_GBRG, },
++	/* Generic formats are placed below. */
++	{ MEDIA_BUS_FMT_RAW_8, 8, 8, 0, true },
++	{ MEDIA_BUS_FMT_RAW_10, 10, 10, 0, true },
++	{ MEDIA_BUS_FMT_RAW_12, 12, 12, 0, true },
++	{ MEDIA_BUS_FMT_RAW_14, 14, 14, 0, true },
+ };
  
-+.. flat-table:: V4L2 metadata layouts
-+    :header-rows:  1
-+    :stub-columns: 0
-+    :widths:       1 2 1
-+
-+    * - Macro name
-+      - Synopsis
-+      - Value
-+    * - V4L2_METADATA_LAYOUT_CCS
-+      - :ref:`CCS embedded data <media-metadata-layout-ccs>`
-+      - 1
-+
- .. _image_source_control_binning_factors:
+ static const char *pixel_order_str[] = { "GRBG", "RGGB", "BGGR", "GBRG" };
  
- ``V4L2_CID_BINNING_FACTORS (integer menu)``
-diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-index 3e0cab153f0a..218d75965a73 100644
---- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-@@ -17,6 +17,7 @@ These formats are used for the :ref:`metadata` interface only.
-     metafmt-c3-isp
-     metafmt-d4xx
-     metafmt-generic
-+    metadata-layouts
-     metafmt-intel-ipu3
-     metafmt-pisp-be
-     metafmt-pisp-fe
-diff --git a/Documentation/userspace-api/media/v4l/metadata-layouts.rst b/Documentation/userspace-api/media/v4l/metadata-layouts.rst
-new file mode 100644
-index 000000000000..cd190f453994
---- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/metadata-layouts.rst
-@@ -0,0 +1,39 @@
-+.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-+
-+.. _media_metadata_layouts:
-+
-+Metadata Layouts
-+----------------
-+
-+The :ref:`metadata layout control <image_source_control_metadata_layout>`
-+specifies the exact layout of the metadata stream while the a :ref:`generic
-+metadata mbus code <media-bus-format-generic-meta>` on the subdevice pads
-+only describe the size of the :term:`Data Unit`.
-+
-+.. _media-metadata-layout-ccs:
-+
-+MIPI CCS Embedded Data Layout (``V4L2_METADATA_LAYOUT_CCS``)
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+`MIPI CCS <https://www.mipi.org/specifications/camera-command-set>`_ defines a
-+metadata layout for sensor embedded data, identified by
-+``V4L2_CID_METADATA_LAYOUT`` control value ``V4L2_METADATA_LAYOUT_CCS``, which
-+is used to store the register configuration used for capturing a given
-+frame. The layout itself is defined in the CCS specification.
-+
-+The CCS embedded data format (code ``0xa``) definition includes three levels:
-+
-+1. Padding within CSI-2 bus :term:`Data Unit` as documented in the MIPI CCS
-+   specification.
-+
-+2. The tagged data format as documented in the MIPI CCS specification.
-+
-+3. Register addresses and register documentation as documented in the MIPI CCS
-+   specification.
-+
-+The ``V4L2_METADATA_LAYOUT_CCS`` metadata layout value shall be used only by
-+devices that fulfill all three levels above.
-+
-+This metadata layout code is only used for "2-byte simplified tagged data
-+format" (code ``0xa``) but their use may be extended further in the future, to
-+cover other CCS embedded data format codes.
-diff --git a/Documentation/userspace-api/media/v4l/metafmt-generic.rst b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-index 07147b4d0dd2..fb97fe4d3c72 100644
---- a/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-+++ b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-@@ -8,6 +8,8 @@ V4L2_META_FMT_GENERIC_8 ('MET8'), V4L2_META_FMT_GENERIC_CSI2_10 ('MECA'), V4L2_M
+-#define to_csi_format_idx(fmt) (((unsigned long)(fmt)			\
+-				 - (unsigned long)ccs_csi_data_formats) \
+-				/ sizeof(*ccs_csi_data_formats))
++#define to_csi_format_idx(fmt)						\
++	(((unsigned long)(fmt) - (unsigned long)ccs_csi_data_formats)	\
++	 / sizeof(*ccs_csi_data_formats))
  
- Generic line-based metadata formats
+ static u32 ccs_pixel_order(struct ccs_sensor *sensor)
+ {
+@@ -669,27 +674,25 @@ static u32 ccs_pixel_order(struct ccs_sensor *sensor)
  
-+.. _v4l2-format-generic-meta:
+ static void ccs_update_mbus_formats(struct ccs_sensor *sensor)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
++	unsigned int mask = sensor->csi_format->is_generic ? ~0 : ~3;
+ 	unsigned int csi_format_idx =
+-		to_csi_format_idx(sensor->csi_format) & ~3;
++		to_csi_format_idx(sensor->csi_format) & mask;
+ 	unsigned int internal_csi_format_idx =
+-		to_csi_format_idx(sensor->internal_csi_format) & ~3;
+-	unsigned int pixel_order = ccs_pixel_order(sensor);
++		to_csi_format_idx(sensor->internal_csi_format) & mask;
++	unsigned int pixel_order = sensor->csi_format->is_generic ?
++		0 : ccs_pixel_order(sensor);
+ 
+ 	if (WARN_ON_ONCE(max(internal_csi_format_idx, csi_format_idx) +
+ 			 pixel_order >= ARRAY_SIZE(ccs_csi_data_formats)))
+ 		return;
+ 
+ 	sensor->mbus_frame_fmts =
+-		sensor->default_mbus_frame_fmts << pixel_order;
++		(sensor->default_mbus_frame_fmts << pixel_order) |
++		sensor->default_generic_mbus_frame_fmts;
+ 	sensor->csi_format =
+ 		&ccs_csi_data_formats[csi_format_idx + pixel_order];
+ 	sensor->internal_csi_format =
+-		&ccs_csi_data_formats[internal_csi_format_idx
+-					 + pixel_order];
+-
+-	dev_dbg(&client->dev, "new pixel order %s\n",
+-		pixel_order_str[pixel_order]);
++		&ccs_csi_data_formats[internal_csi_format_idx + pixel_order];
+ }
+ 
+ static const char * const ccs_test_patterns[] = {
+@@ -896,7 +899,7 @@ static int ccs_init_controls(struct ccs_sensor *sensor)
+ 	struct v4l2_fwnode_device_properties props;
+ 	int rval;
+ 
+-	rval = v4l2_ctrl_handler_init(&sensor->pixel_array->ctrl_handler, 19);
++	rval = v4l2_ctrl_handler_init(&sensor->pixel_array->ctrl_handler, 21);
+ 	if (rval)
+ 		return rval;
+ 
+@@ -1091,6 +1094,17 @@ static int ccs_init_controls(struct ccs_sensor *sensor)
+ 
+ 	v4l2_ctrl_cluster(2, &sensor->hflip);
+ 
++	v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler, NULL,
++			  V4L2_CID_CFA_PATTERN, sensor->default_pixel_order,
++			  sensor->default_pixel_order, 1,
++			  sensor->default_pixel_order);
 +
- Description
- ===========
- 
-diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-index 4b832118060a..30dd26804776 100644
---- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-@@ -8932,6 +8932,11 @@ content is more or less device specific but the data is transmitted and received
- by multiple devices that do not process the data in any way, simply writing
- it to system memory for processing in software at the end of the pipeline.
- 
-+The exact layout of the data generated by the device is reported by the
-+:ref:`V4L2_CID_METADATA_LAYOUT <image_source_control_metadata_layout>`
-+control. For in-memory formats, :ref:`Generic line-based metadata formats
-+<v4l2-format-generic-meta>` are used.
++	v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler, NULL,
++			  V4L2_CID_CFA_PATTERN_FLIP,
++			  V4L2_CFA_PATTERN_FLIP_BOTH,
++			  V4L2_CFA_PATTERN_FLIP_BOTH, 1,
++			  V4L2_CFA_PATTERN_FLIP_BOTH);
 +
- "b" in an array cell signifies a byte of data, followed by the number of the bit
- and finally the bit number in subscript. "x" indicates a padding bit.
+ 	rval = v4l2_ctrl_handler_init(&sensor->src->ctrl_handler, 0);
+ 	if (rval)
+ 		return rval;
+@@ -1199,15 +1213,21 @@ static int ccs_get_mbus_formats(struct ccs_sensor *sensor)
+ 			const struct ccs_csi_data_format *f =
+ 				&ccs_csi_data_formats[j];
  
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index aaa0d88d7e6e..e27a7ad47c51 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -1248,6 +1248,7 @@ enum v4l2_jpeg_chroma_subsampling {
- 	(V4L2_CFA_PATTERN_FLIP_HORIZONTAL | V4L2_CFA_PATTERN_FLIP_VERTICAL)
+-			if (f->pixel_order != CCS_PIXEL_ORDER_GRBG)
+-				continue;
+-
+ 			if (f->width != fmt >>
+ 			    CCS_DATA_FORMAT_DESCRIPTOR_UNCOMPRESSED_SHIFT ||
+ 			    f->compressed !=
+ 			    (fmt & CCS_DATA_FORMAT_DESCRIPTOR_COMPRESSED_MASK))
+ 				continue;
  
- #define V4L2_CID_METADATA_LAYOUT		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 12)
-+#define V4L2_METADATA_LAYOUT_CCS		1U
++			if (f->is_generic) {
++				sensor->default_generic_mbus_frame_fmts |=
++					BIT_U64(j);
++				continue;
++			}
++
++			if (f->pixel_order != CCS_PIXEL_ORDER_GRBG)
++				continue;
++
+ 			dev_dbg(&client->dev, "jolly good! %u\n", j);
  
- #define V4L2_CID_BINNING_FACTORS		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 13)
- #define V4L2_BINNING_FACTORS_MAKE(hnum, hdem, vnum, vdem)		\
+ 			sensor->default_mbus_frame_fmts |= BIT_U64(j);
+diff --git a/drivers/media/i2c/ccs/ccs.h b/drivers/media/i2c/ccs/ccs.h
+index 58952c5bf06b..df044dbde23f 100644
+--- a/drivers/media/i2c/ccs/ccs.h
++++ b/drivers/media/i2c/ccs/ccs.h
+@@ -170,6 +170,7 @@ struct ccs_csi_data_format {
+ 	u8 width;
+ 	u8 compressed;
+ 	u8 pixel_order;
++	bool is_generic;
+ };
+ 
+ #define CCS_SUBDEVS			3
+@@ -226,6 +227,7 @@ struct ccs_sensor {
+ 	const struct ccs_csi_data_format *csi_format;
+ 	const struct ccs_csi_data_format *internal_csi_format;
+ 	u64 default_mbus_frame_fmts;
++	u64 default_generic_mbus_frame_fmts;
+ 	int default_pixel_order;
+ 	struct ccs_data_container sdata, mdata;
+ 
 -- 
 2.47.3
 
