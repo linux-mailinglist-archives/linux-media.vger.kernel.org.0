@@ -1,83 +1,83 @@
-Return-Path: <linux-media+bounces-58361-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58362-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6LczMVLP12mrTAgAu9opvQ
-	(envelope-from <linux-media+bounces-58361-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 18:09:54 +0200
+	id QMFVF6XN12mrTAgAu9opvQ
+	(envelope-from <linux-media+bounces-58362-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 18:02:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3A73CD6E0
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 18:09:54 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5CF03CD497
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 18:02:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 54F3730B257F
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 15:53:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A399B31ADE90
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 15:53:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 333623DBD71;
-	Thu,  9 Apr 2026 15:52:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A0CD31327A;
+	Thu,  9 Apr 2026 15:53:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hWgRkilN"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p1ILTGxc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361803090E2
-	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 15:52:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C222BE056
+	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 15:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775749978; cv=none; b=jub+xL6Js31hFn+Xq3P6fAM8u1lm8hTpcZ+PLhMHW1vHy2U6Nr4lkIjfAmtpIoqDqwMem1QeqchuNeurcYRD0AqpSa1euXWepjp7pv//QqxOyYzekaNtfe6G1SgppHcMEAElloQn5W25rEIzyCPF6sSlKuyYsQcxve9mHlQvzC0=
+	t=1775750000; cv=none; b=cL73jTsymCoY7CrPXbdhDPq/pUnPtmtU5UIOuo1vHygKC6sEtEDdTm/WLckAqMvH1UKqtrAM8JVDen47CmM6EXCxbcurG30+qT0vxhOKcu3rTWl58UAzHCiTMH2+m8/HSygj1FfF3/RljJxAqf8fXPsJ5sP5BjFaK4MoxYhhETs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775749978; c=relaxed/simple;
-	bh=/pvXc5WIJxIAf4hbxTG79yDKdrk8s8Sribq0S9nfTEg=;
+	s=arc-20240116; t=1775750000; c=relaxed/simple;
+	bh=CcfeUTBqdrPWX9PLWNaqEnioi2DbZM/+yoVkROngFHI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WNbJUO03dY2atnYnMzLwS21QOiIEN+b6oC+Mr938Eck/IwMBZGedDuw6RQ1lcwliZMfXkBi8t+XyZVVhKuzGJnvx+SaIMkQk6DVrJYUQAUQq5EMsoKokpjTt6t7V09RlfDNsWvGiOIx1AQwZ4gWXtQ84TYxjKAop6YBmdTmCZOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hWgRkilN; arc=none smtp.client-ip=209.85.208.181
+	 In-Reply-To:Content-Type; b=OFi4alqfhJGFlc/pyxXJfC3xAp33vUSIj91zB6yqHs8Xp4oDBkL9Bd9/V/S8lXCzJhF6kQuzIRwTCVWcflWqhaPJFegK3ZZt/6ckUKVV7luya2HX3HcFGsCXNJob4hI+VGKYLtIAzIFK6fVw15X3yXqmxltE9PUrpXZ5e5Mrf6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p1ILTGxc; arc=none smtp.client-ip=209.85.208.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38dda82b601so234701fa.1
-        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2026 08:52:57 -0700 (PDT)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38e203fbe14so753071fa.0
+        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2026 08:53:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1775749975; x=1776354775; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1775749998; x=1776354798; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=K5p2xo/4m0JDhf++H7DLBizAlziwNWg0BWASCHtSL14=;
-        b=hWgRkilN7uvDud/09oH/2BAyiFtDWBPMCJk4SR7DGkWzxEZDYF69LrX9d2fnpO0fpw
-         hUKUJKrp0xTK7P8yQlJhAS4z+6XvBqcAp4QN2Tl93gdPJkvrpKoTUd2XxYRz4tgBxVGs
-         kR3JAlu0MKD9GMFVNbThce/Mhf6jel3DNXczKlkvk/+S89HufIYtvif1IBkhZ/T4GoOK
-         e00NULCvjDjE9QtL/18ciIXKG6YyE1XhOavSGPV8z1X0elWWg7eR0yt3gmGC91xJZZwl
-         XNK+LUUseRzBp+XCEC0xYwJzUuNjU33vkd8rQ/2hpP0eNIYF8NbvYTT3reaWNIwIJ2+v
-         WeXw==
+        bh=2dePcqvygy03K7J//IlqvJIbf/FJzL8WZk9xUAjuc8o=;
+        b=p1ILTGxchXHgH8PufWY13xJvOeG6AEee3Hyla1EuSPb0chDVpiY7yMtzth3G0zASU1
+         d+NwNqx40G5eWz6uf49gau2wZqzrAl6aeTTcCv4ZCqWunL2hCb1rjPEpasTFoZ2u7Mjj
+         9qLlpWP/Xron5nn/RsgCkm+0Ze6nvYvnhZYvIDC/erW3eNmmfFrzP6/unawA63uImEEO
+         2b3tbjoCpUlKRngVYS2+/DA1o7CvXmsQ9bPlE9HbTzMLn4rttz8GEqqLvws8F333Dos1
+         3zfpX029enhSWrRPaWjdLqXeypuAClQw3R59xahNjb09SeB2K7zzKJed/GC2x8FC39sX
+         tTYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775749975; x=1776354775;
+        d=1e100.net; s=20251104; t=1775749998; x=1776354798;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=K5p2xo/4m0JDhf++H7DLBizAlziwNWg0BWASCHtSL14=;
-        b=dOzVNhZtimrH/urh9qwZdeUTJbYZ8zOsBKH5mzVVdz2Kj6TkJcWPFmPj3p7AMnmGPd
-         g8oCpOmEhf+1LFllaNzShC0BVn8D7v94hDnf6s9jQJp+QfAoJ20Iioq9Pc5FabLeps29
-         j2XZUi/vGRa0yQ+rJXYDij5EWXbX6AcRGaHX2C7ucC4scOc5YCcmEKfhfwaKAc8CAjIs
-         EWWc/v5GOTsrSC1WlsPyRGF9XPIT+w+xgCQzo2JDwpJlfVrTP8n1oxJ7a5SqUELANLmb
-         SMF1XXa6Gtq9ZurhgQxTz4vz6KD2M1MoJtjR2w5eEVp0o07xfh6WsdJ9gKC8R0Eui5K7
-         JAzw==
-X-Gm-Message-State: AOJu0Yz+9yunTC09td2nvXTDvdjJk5R/RLFUE+8FpFrlK9cjFl6imx4S
-	hBYM1vJdyPHM3lSSMrUAQVIczkFx3cnR9KU2IqwY4nDzU5IEdInjart1EeCif33nugU=
-X-Gm-Gg: AeBDieve9yJPfD2k2FQcyvzTtTgtbD0J3RXwYgoEfvnnWNBHCsY1Zf9NY295yXV3EbC
-	4OIZqFh7QEH5ynq+Qa+3C6XkQsdf4mJw758vv0kgf5vzaBdlX5tQJX4386UlwxHEgsrPOZqK9qA
-	XH5JQ61o+mIYpAAo1kvQPv50XGMeHp2UlfEtsIimp/XQo2EJuihw46GqU3hOCvS91chajwu66Ml
-	7s7NbIKKKSniOEDms3YQ9MZRgXpz+rtueSGb/esPV02GZ+cikozVsddoZqrNOid+ClEE0hZ/v8m
-	ajS8FB5+99+nU49iufVpuQL8Z8NmV3/5m+OoYR0Qv8h61aVOpp4fp9YkXfqx8qI8bCg0pO+uhHI
-	4w1ug95vmLN55bKm2NtZtAHjTyhNaRdKiq3wxE/Bi/+wQMQ5+YL+2ALtW0FKRafLOpKqngKWwBG
-	D4YYyKAzK70L3SMZeBTlfC/XZOLpCO+k2BEhRUqi/qsTvsf+rTuXrNyqCIixDU4ycpsCcGuN+kB
-	WQe1g==
-X-Received: by 2002:a05:651c:1b06:b0:386:5df3:8195 with SMTP id 38308e7fff4ca-38d9d4c710amr34829731fa.6.1775749975281;
-        Thu, 09 Apr 2026 08:52:55 -0700 (PDT)
+        bh=2dePcqvygy03K7J//IlqvJIbf/FJzL8WZk9xUAjuc8o=;
+        b=dhjCRKb/BUZV4ugIaSrhX6uypyBa+O57XV4PYWf88flZPtCfSublY9P7ftheBrACO4
+         2UbuvJ4PE6j8rkEdbkUXBzJArUefAvyba/OZJnGy46DB/LzbOhSzH3UAjrHuGBe570l6
+         Hl5RGBMcfOSzlo3ou0c6XyXJzSohE3KoFf1GElUVq86DrHCni0GF5xJvWuo6T6gqV/Ge
+         MLyqKPi/gCwIjKncjsq7gWGaSj7C0zpKX5DU7I++NJDR870lzqgUOEGVLWJn7ycapw2l
+         Bxv0DXcSul348tXN6omQSVHpsCZZRkp1gQ6iA6TeIxpQOofbKBrbMQrD/Fh9PMqd5cGD
+         V7WA==
+X-Gm-Message-State: AOJu0YwlL2uCNKcn4Wz7AeQPGLfEMJRlqs78ZmzKYOQKfgpGkWu0ZccQ
+	g6xj9OFFA7JSTqja+qnL7b45JXg0nZ4llQ03NhlfB7shDoGj3SrESHbVWDh448vqJY8=
+X-Gm-Gg: AeBDietXTp84MWbPs9747PUrAofIKIEXVKwKW1ARJy2lqYZwKhOvwtjrzG52bIm6fkm
+	oyZ+k620P4LGtjOt52W5Z4/cUbkunt+DawXM6dqZQIs/uplZ5zX+ANCItodEo0zTMJ+WSV5bxrC
+	+Z1qijOckGr3FLIqeABccA2poNf/to/Jlt7S+aoikldP3cp6BQjjfQeI6PXi3qE29Yww1icLTF3
+	2YoHdCEgxBnIVAjezbMbKFNhBJ+ztHoKJ8IzQCU/GxvxmwF5QhoYtfcxfbPsRgN9Q040Q1IwZlC
+	J+3dD2GZkU676RWh/1gtiM6XiOYERarIba46bsTgWhIrVO+9TC6unuvJAWYzHLTTot0khpcrARc
+	F90quAi2XDEbwWWhWHoYYO/UpzmGa3nv/EtWpqtquRUlt1flPnwFn690QrrG6um0zpOr4HHSjEr
+	1O1bYP6gJfHltXLMhiNhwWav4TNSj5kdUU0Zh57/reP7gMlBWHvVp/nn9RXzvFnhvoxWf8N4jW6
+	Smv+w==
+X-Received: by 2002:a2e:a813:0:b0:38c:6616:e2b3 with SMTP id 38308e7fff4ca-38d9d4e188emr35046621fa.7.1775749997451;
+        Thu, 09 Apr 2026 08:53:17 -0700 (PDT)
 Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38e495ae59bsm188831fa.38.2026.04.09.08.52.54
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38e4957eb57sm210041fa.36.2026.04.09.08.53.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Apr 2026 08:52:54 -0700 (PDT)
-Message-ID: <b7aa5f4b-a2d7-4a97-98d1-58f7fa5dc349@linaro.org>
-Date: Thu, 9 Apr 2026 18:52:44 +0300
+        Thu, 09 Apr 2026 08:53:17 -0700 (PDT)
+Message-ID: <d3c22f40-28af-4ba5-90e4-61643ad6d82f@linaro.org>
+Date: Thu, 9 Apr 2026 18:53:16 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,7 +85,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] media: qcom: camss: Fix RDI streaming for CSID 680
+Subject: Re: [PATCH v3 2/5] media: qcom: camss: Fix RDI streaming for CSID 340
 To: bod@kernel.org, Robert Foss <rfoss@kernel.org>,
  Todor Tomov <todor.too@gmail.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
@@ -99,9 +99,9 @@ To: bod@kernel.org, Robert Foss <rfoss@kernel.org>,
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, stable@vger.kernel.org
 References: <20260407-camss-rdi-fix-v3-0-08f72d1f3442@kernel.org>
- <20260407-camss-rdi-fix-v3-1-08f72d1f3442@kernel.org>
+ <20260407-camss-rdi-fix-v3-2-08f72d1f3442@kernel.org>
 From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20260407-camss-rdi-fix-v3-1-08f72d1f3442@kernel.org>
+In-Reply-To: <20260407-camss-rdi-fix-v3-2-08f72d1f3442@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -109,11 +109,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58361-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58362-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com,quicinc.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -121,7 +121,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
@@ -132,45 +132,23 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:email,linaro.org:mid]
-X-Rspamd-Queue-Id: 1D3A73CD6E0
+X-Rspamd-Queue-Id: D5CF03CD497
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On 4/7/26 13:34, bod@kernel.org wrote:
 > From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > 
-> Fix streaming to RDI1 and RDI2. csid->phy.en_vc contains a bitmask of
-> enabled CSID ports not virtual channels.
+> Fix streaming from CSIDn RDI1 and RDI2 to VFEn RDI1 and RDI2. A pattern we
+> have replicated throughout CAMSS where we use the VC number to populate
+> both the VC fields and port fields of the CSID means that in practice only
+> VC = 0 on CSIDn:RDI0 to VFEn:RDI0 works.
 > 
-> We cycle through the number of available CSID ports and test this value
-> against the vc_en bitmask.
+> Fix that for CSID 340 by separating VC and port. Fix to VC zero as a bugfix
+> we will look to properly populate the VC field with follow on patches
+> later.
 > 
-> We then use the passed value both as an index to the port configuration
-> macros and as a virtual channel index.
-> 
-> This is a very broken pattern. Reviewing the initial introduction of VC
-> support it states that you can only map one CSID to one VFE. This is true
-> however each CSID has multiple sources which can sink inside of the VFE -
-> for example there is a "pixel" path for bayer stats which sources @
-> CSID(x):3 and sinks on VFE(x):pix.
-> 
-> That is CSID port # 3 should drive VFE port #3. With our current setup only
-> a sensor which drives virtual channel number #3 could possibly enable that
-> setup.
-> 
-> This is deeply wrong the virtual channel has no relevance to hooking CSID
-> to VFE, a fact that is proven after this patch is applied allowing
-> RDI0,RDI1 and RDI2 to function with VC0 whereas before only RDI1 worked.
-> 
-> Another way the current model breaks is the DT field. A sensor driving
-> different data-types on the same VC would not be able to separate the VC:DT
-> pair to separate RDI outputs, thus breaking another feature of VCs in the
-> MIPI data-stream.
-> 
-> Default the VC back to zero. A follow on series will implement subdev
-> streams to actually enable VCs without breaking CSID source to VFE sink.
-> 
-> Fixes: 253314b20408 ("media: qcom: camss: Add CSID 680 support")
+> Fixes: f0fc808a466a ("media: qcom: camss: Add CSID 340 support")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
