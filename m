@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-58410-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58403-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sJKdBvIJ2GlOWggAu9opvQ
-	(envelope-from <linux-media+bounces-58410-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:20:02 +0200
+	id EIpiIcYJ2GlOWggAu9opvQ
+	(envelope-from <linux-media+bounces-58403-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:19:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC713CF63F
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 184B13CF5FE
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:19:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 68782308002F
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:15:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DFCDB300F5C0
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:15:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5656033DEFC;
-	Thu,  9 Apr 2026 20:15:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FDC433B955;
+	Thu,  9 Apr 2026 20:15:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nVy5ii5t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dx3Wa5s4"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBC433CEA7
-	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BABD33B6C8
+	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775765725; cv=none; b=Ayb9WjeFRaSZKCe/bEPeWmFa8caHKQB8dZguMYL6UwUVlJjSjCOD6OpykZZ+d0i5+g7NjXgyQAgcD6NC4FaYR08/sTPNtXuBq2zmOZ8rb4fPWZq6OmxPDNPGDbRW8nDMDArA5rb6pJz93kYraFyLQApJfrW92vu2F+kxmdp3ixY=
+	t=1775765722; cv=none; b=tXpaxCYuKKeg2DYcg9jPbIxEzjAwTNd0xGqch53GM/XSOhptj9VvRsBvnGQUpcgfVHSF6EKSqZlbfsA1N7oBX3JXUAhp9g9x6Qe22OEc+fIMPbpksx/mldBSHpJHxm11/6kJBomGXCcajOHrdARHM5jaWbZmRZhspFbHTtzLnIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775765725; c=relaxed/simple;
-	bh=4I6GdTy3yn4a4WACl2C68P/ld2VbTNIz4u/MgZMPLUY=;
+	s=arc-20240116; t=1775765722; c=relaxed/simple;
+	bh=FamP04/RqVdu56kY9frHn7pKQWFGaHMB/rh3QVLs3w8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bFfvWmQIO78juzb/eE7JSfp5ZGhnSRaIgQThgq5nmyS76A+ue7l4LwZTqav7Dt+GEt5asJgl5tpYoC2BPkYZDAWHRYQ76knkaVeBRDL2+MKkwsBsZeZmFwT5Z4iunU+D2BF38Zez85ihc0GVtRoBdmkbgfGQ/SALH9oKpu2o60Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nVy5ii5t; arc=none smtp.client-ip=192.198.163.11
+	 MIME-Version; b=OAQiQHrF810rMrM0EaTKV3fncW0Shepjy/JYpMmCiVHjNvZc3r/cUFc+uc1HU8mAKmrYc7QtgvzD48VBSdCYRDKJ43axW5LWdgv3x3K0JlpiiFt5Em2v8aoir/JeRmjtynxBNROgc7YNHfyTFDlDOCPbXB60mW+GXIzQNGNpol8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dx3Wa5s4; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775765724; x=1807301724;
+  t=1775765721; x=1807301721;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=4I6GdTy3yn4a4WACl2C68P/ld2VbTNIz4u/MgZMPLUY=;
-  b=nVy5ii5tmeSooUEyHOzHc0dSY3IBXsx8Unj0o9+GlipBfeGqg6TrViLN
-   9P5idP8g4QdoKvNrsfrrd1wdsRbJ3nv3n6oZvSYsQpLLXK1ECbVp2fGv+
-   RyLUjTAfasLuRCpWN/kTpT1NBILkRROW8f+L/TgzU7FuQMntjkANWE/4/
-   8+SymU4wu0ATM12NXEpt6ar1B6yVo3UnF+3Ejbn6jZX1l9jOevn7t0PHu
-   s42R4G6P63v4ta+OTA0hikhzpgct3oQezSDauqwzU9wnnzGLhYv6ZmVUe
-   khBhT0jzkSgml6fH7X6ddghDs0uKN8IqT1HiSIA5+5FSvs6ocYVQ3Anzx
-   g==;
-X-CSE-ConnectionGUID: rpzkXvshRPmvC2BOMO4DDg==
-X-CSE-MsgGUID: yVQTO/sTQqCfMyQGhtuz9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="87408972"
+  bh=FamP04/RqVdu56kY9frHn7pKQWFGaHMB/rh3QVLs3w8=;
+  b=Dx3Wa5s4VzPdFgb4OUCzZeT9Zjxu0VvT3K3pBWcY0SlXZHmBo2gvSxQK
+   tu4PDOHDyfk7kths76vw640adIDITqNUDDF/bAcanw9jeHrlXX1uB+wj2
+   zrcH4IAjjIxm2Wufs6+76PAyL8FhMW8xHDXDG2cS3DXrQ4SFLMvgb86Iu
+   1QUwFETaSX+/mf3hUmygFMqeiYenVB1IY4/Ie2ctSo4ABf0EvqpJTfwEZ
+   1EQ7IX6+rXOFcIvskdaAuXCXgMgraBmfWTk7ny+vJS0s4EilRodPDCRpT
+   Mr0PYm+um5pNq8jhVmbUPK6nGNRSHZf+BuD7EuYYKtS+KUHz4c43CTFsT
+   Q==;
+X-CSE-ConnectionGUID: swbHgt3dQS66G21ohhKK5w==
+X-CSE-MsgGUID: JXJWWm2BTXeTqrC+ASVHGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="87408907"
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="87408972"
+   d="scan'208";a="87408907"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:17 -0700
-X-CSE-ConnectionGUID: x2+9xIPTRu+Jz13ulPE5tg==
-X-CSE-MsgGUID: 8VFOmKTsT9KJUoWADBmZmA==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:16 -0700
+X-CSE-ConnectionGUID: 4vlxwTzaTiGSzTW86MP+0Q==
+X-CSE-MsgGUID: ONvAyaAfSIWE5E54OeGWfw==
 X-ExtLoop1: 1
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.29])
   by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:11 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 35138121883;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 35FA3121CE5;
 	Thu, 09 Apr 2026 23:15:13 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAvmH-000000045kn-2be4;
+	id 1wAvmH-000000045kr-2fu2;
 	Thu, 09 Apr 2026 23:15:01 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -95,9 +95,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v12 02/86] media: uapi: Add generic CSI-2 raw pixelformats
-Date: Thu,  9 Apr 2026 23:13:37 +0300
-Message-ID: <20260409201501.975242-3-sakari.ailus@linux.intel.com>
+Subject: [PATCH v12 03/86] media: uapi: Add new media bus codes for generic raw formats
+Date: Thu,  9 Apr 2026 23:13:38 +0300
+Message-ID: <20260409201501.975242-4-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
 References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
@@ -121,7 +121,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	TAGGED_FROM(0.00)[bounces-58410-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58403-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[27];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -137,249 +137,80 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: ACC713CF63F
+X-Rspamd-Queue-Id: 184B13CF5FE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add generic raw pixelformats for bit depths 8, 10, 12 and 14. These
-formats are CSI-2 packed, apart from the 8-bit format.
+Add new media bus codes for generic raw formats that are not specific to
+the colour filter array but that simply specify the bit depth. The layout
+(packing) of the data is interface specific.
+
+The rest of the properties of the format are specified with controls in
+the image source.
+
+The mbus codes added by this patch have bit depth of 8, 10, 12 and 14.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../media/v4l/pixfmt-raw-generic.rst          | 175 ++++++++++++++++++
- .../userspace-api/media/v4l/pixfmt.rst        |   1 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +
- include/uapi/linux/videodev2.h                |   6 +
- 4 files changed, 186 insertions(+)
- create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-raw-generic.rst
+ .../media/v4l/subdev-formats.rst              | 27 +++++++++++++++++++
+ include/uapi/linux/media-bus-format.h         |  6 +++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-raw-generic.rst b/Documentation/userspace-api/media/v4l/pixfmt-raw-generic.rst
-new file mode 100644
-index 000000000000..254f8f18c7c5
---- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-raw-generic.rst
-@@ -0,0 +1,175 @@
-+.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-+
-+************************************************************************************************************************************
-+V4L2_PIX_FMT_RAW_8 ('RAW8'), V4L2_PIX_FMT_RAW_CSI2_10 ('RACA'), V4L2_PIX_FMT_RAW_CSI2_12 ('RACC'), V4L2_PIX_FMT_RAW_CSI2_14 ('RACE')
-+************************************************************************************************************************************
-+
-+
-+Generic line-based raw image data formats
-+
-+
-+Description
-+===========
-+
-+These generic raw image data formats define the memory layout of the data without
-+defining the order of the colour components or even the colour components
-+themselves.
-+
-+.. _v4l2-pix-fmt-raw-8:
-+
-+V4L2_PIX_FMT_RAW_8
-+------------------
-+
-+The V4L2_PIX_FMT_RAW_8 format is a plain 8-bit raw pixel data format. This
-+format is used on CSI-2 for 8 bits per :term:`Data Unit`.
-+
-+**Byte Order Of V4L2_PIX_FMT_RAW_8.**
-+Each cell is one byte. "P" denotes a pixel.
-+
-+.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|
-+
-+.. flat-table:: Sample 4x2 Image Frame
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths: 12 8 8 8 8
-+
-+    * - start + 0:
-+      - P\ :sub:`00`
-+      - P\ :sub:`10`
-+      - P\ :sub:`20`
-+      - P\ :sub:`30`
-+    * - start + 4:
-+      - P\ :sub:`01`
-+      - P\ :sub:`11`
-+      - P\ :sub:`21`
-+      - P\ :sub:`31`
-+
-+.. _v4l2-pix-fmt-raw-csi2-10:
-+
-+V4L2_PIX_FMT_RAW_CSI2_10
-+------------------------
-+
-+V4L2_PIX_FMT_RAW_CSI2_10 contains 10-bit packed image data, with four bytes
-+containing the top 8 bits of the pixels followed by lowest 2 bits of the pixels
-+packed into one byte. This format is typically used by CSI-2 receivers with
-+a source that transmits MEDIA_BUS_FMT_RAW_10 and the CSI-2 receiver writes the
-+received data to memory as-is.
-+
-+The packing of the data follows the MIPI CSI-2 specification.
-+
-+**Byte Order Of V4L2_PIX_FMT_RAW_CSI2_10.**
-+Each cell is one byte. "P" denotes a pixel.
-+
-+.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{2cm}|
-+
-+.. flat-table:: Sample 4x2 Image Frame
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths: 12 8 8 8 8 8
-+
-+    * - start + 0:
-+      - P\ :sub:`00 bits 9--2`
-+      - P\ :sub:`10 bits 9--2`
-+      - P\ :sub:`20 bits 9--2`
-+      - P\ :sub:`30 bits 9--2`
-+      - P\ :sub:`00 bits 1--0` (bits 1--0),
-+        P\ :sub:`10 bits 1--0` (bits 3--2),
-+        P\ :sub:`20 bits 1--0` (bits 5--4),
-+        P\ :sub:`30 bits 1--0` (bits 7--6)
-+    * - start + 5:
-+      - P\ :sub:`01 bits 9--2`
-+      - P\ :sub:`11 bits 9--2`
-+      - P\ :sub:`21 bits 9--2`
-+      - P\ :sub:`31 bits 9--2`
-+      - P\ :sub:`01 bits 1--0` (bits 1--0),
-+        P\ :sub:`11 bits 1--0` (bits 3--2),
-+        P\ :sub:`21 bits 1--0` (bits 5--4),
-+        P\ :sub:`31 bits 1--0` (bits 7--6)
-+
-+.. _v4l2-pix-fmt-raw-csi2-12:
-+
-+V4L2_PIX_FMT_RAW_CSI2_12
-+------------------------
-+
-+V4L2_PIX_FMT_RAW_CSI2_12 contains 12-bit packed image data, with two bytes
-+containing the top 8 bits of the pixels followed by lowest 4 bits of the pixels
-+packed into 1 byte. This format is typically used by CSI-2 receivers with
-+a source that transmits MEDIA_BUS_FMT_RAW_12 and the CSI-2 receiver writes the
-+received data to memory as-is.
-+
-+The packing of the data follows the MIPI CSI-2 specification.
-+
-+**Byte Order Of V4L2_PIX_FMT_RAW_CSI2_12.**
-+Each cell is one byte. "P" denotes a pixel.
-+
-+.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{2cm}|p{1.2cm}|p{1.2cm}|p{2cm}|
-+
-+.. flat-table:: Sample 4x2 Image Frame
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths: 12 8 8 8 8 8 8
-+
-+    * - start + 0:
-+      - P\ :sub:`00 bits 11--4`
-+      - P\ :sub:`10 bits 11--4`
-+      - P\ :sub:`00 bits 3--0` (bits 3--0),
-+        P\ :sub:`10 bits 3--0` (bits 7--4)
-+      - P\ :sub:`20 bits 11--4`
-+      - P\ :sub:`30 bits 11--4`
-+      - P\ :sub:`20 bits 3--0` (bits 3--0),
-+        P\ :sub:`30 bits 3--0` (bits 7--4)
-+    * - start + 6:
-+      - P\ :sub:`01 bits 11--4`
-+      - P\ :sub:`11 bits 11--4`
-+      - P\ :sub:`01 bits 3--0` (bits 3--0),
-+        P\ :sub:`11 bits 3--0` (bits 7--4)
-+      - P\ :sub:`21 bits 11--4`
-+      - P\ :sub:`31 bits 11--4`
-+      - P\ :sub:`21 bits 3--0` (bits 3--0),
-+        P\ :sub:`31 bits 3--0` (bits 7--4)
-+
-+.. _v4l2-pix-fmt-raw-csi2-14:
-+
-+V4L2_PIX_FMT_RAW_CSI2_14
-+------------------------
-+
-+V4L2_PIX_FMT_RAW_CSI2_14 contains 14-bit packed image data, with four bytes
-+containing the top 8 bits of the pixels followed by lowest 6 bits of the pixels
-+packed into three bytes. This format is typically used by CSI-2 receivers with a
-+source that transmits MEDIA_BUS_FMT_RAW_14 and the CSI-2 receiver writes the
-+received data to memory as-is.
-+
-+The packing of the data follows the MIPI CSI-2 specification.
-+
-+**Byte Order Of V4L2_PIX_FMT_RAW_CSI2_14.**
-+Each cell is one byte. "P" denotes a pixel.
-+
-+.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{2cm}|p{2cm}|p{2cm}|
-+
-+.. flat-table:: Sample 4x2 Image Frame
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths: 12 8 8 8 8 8 8 8
-+
-+    * - start + 0:
-+      - P\ :sub:`00 bits 13--6`
-+      - P\ :sub:`10 bits 13--6`
-+      - P\ :sub:`20 bits 13--6`
-+      - P\ :sub:`30 bits 13--6`
-+      - P\ :sub:`10 bits 1--0` (bits 7--6),
-+        P\ :sub:`00 bits 5--0` (bits 5--0)
-+      - P\ :sub:`20 bits 3--0` (bits 7--4),
-+        P\ :sub:`10 bits 5--2` (bits 3--0)
-+      - P\ :sub:`30 bits 5--0` (bits 7--2),
-+        P\ :sub:`20 bits 5--4` (bits 1--0)
-+    * - start + 7:
-+      - P\ :sub:`01 bits 13--6`
-+      - P\ :sub:`11 bits 13--6`
-+      - P\ :sub:`21 bits 13--6`
-+      - P\ :sub:`31 bits 13--6`
-+      - P\ :sub:`11 bits 1--0` (bits 7--6),
-+        P\ :sub:`01 bits 5--0` (bits 5--0)
-+      - P\ :sub:`21 bits 3--0` (bits 7--4),
-+        P\ :sub:`11 bits 5--2` (bits 3--0)
-+      - P\ :sub:`31 bits 5--0` (bits 7--2),
-+        P\ :sub:`21 bits 5--4` (bits 1--0)
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt.rst b/Documentation/userspace-api/media/v4l/pixfmt.rst
-index 71b29267488f..520a8ec438c9 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt.rst
-@@ -26,6 +26,7 @@ see also :ref:`VIDIOC_G_FBUF <VIDIOC_G_FBUF>`.)
-     pixfmt-indexed
-     pixfmt-rgb
-     pixfmt-bayer
-+    pixfmt-raw-generic
-     yuv-formats
-     hsv-formats
-     depth-formats
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 37d33d4a363d..5fda3835f680 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1434,6 +1434,10 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_SGBRG16:	descr = "16-bit Bayer GBGB/RGRG"; break;
- 	case V4L2_PIX_FMT_SGRBG16:	descr = "16-bit Bayer GRGR/BGBG"; break;
- 	case V4L2_PIX_FMT_SRGGB16:	descr = "16-bit Bayer RGRG/GBGB"; break;
-+	case V4L2_PIX_FMT_RAW_8:	descr = "8-bit Raw"; break;
-+	case V4L2_PIX_FMT_RAW_CSI2_10:	descr = "10-bit Raw, CSI-2 Packed"; break;
-+	case V4L2_PIX_FMT_RAW_CSI2_12:	descr = "12-bit Raw, CSI-2 Packed"; break;
-+	case V4L2_PIX_FMT_RAW_CSI2_14:	descr = "14-bit Raw, CSI-2 Packed"; break;
- 	case V4L2_PIX_FMT_RAW_CRU20:	descr = "14-bit Raw CRU Packed"; break;
- 	case V4L2_PIX_FMT_SN9C20X_I420:	descr = "GSPCA SN9C20X I420"; break;
- 	case V4L2_PIX_FMT_SPCA501:	descr = "GSPCA SPCA501"; break;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index eda4492e40dc..901c2b788edd 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -745,6 +745,12 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_SGRBG16 v4l2_fourcc('G', 'R', '1', '6') /* 16  GRGR.. BGBG.. */
- #define V4L2_PIX_FMT_SRGGB16 v4l2_fourcc('R', 'G', '1', '6') /* 16  RGRG.. GBGB.. */
+diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+index c9999b929773..fecb786cb8af 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+@@ -3855,6 +3855,33 @@ organization is given as an example for the first pixel only.
  
-+/* Generic CSI-2 packed raw pixel formats */
-+#define V4L2_PIX_FMT_RAW_8 v4l2_fourcc('R', 'A', 'W', '8')
-+#define V4L2_PIX_FMT_RAW_CSI2_10 v4l2_fourcc('R', 'A', 'C', 'A')
-+#define V4L2_PIX_FMT_RAW_CSI2_12 v4l2_fourcc('R', 'A', 'C', 'C')
-+#define V4L2_PIX_FMT_RAW_CSI2_14 v4l2_fourcc('R', 'A', 'C', 'E')
+     \endgroup
+ 
++Generic raw formats on serial interfaces
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 +
- /* HSV formats */
- #define V4L2_PIX_FMT_HSV24 v4l2_fourcc('H', 'S', 'V', '3')
- #define V4L2_PIX_FMT_HSV32 v4l2_fourcc('H', 'S', 'V', '4')
++Those formats transfer raw pixel data typically from raw camera sensors using
++Bayer and other Colour Filter Arrays (CFAs) on serial interfaces. The packing of
++the data on the bus is determined by the hardware, however the bit depth is
++still specific to the format.
++
++.. tabularcolumns:: |p{2.0cm}|p{4.0cm}|p{11.3cm}|
++
++.. cssclass:: longtable
++
++.. flat-table:: Generic raw formats on serial buses
++    :header-rows:  1
++    :stub-columns: 0
++    :widths:       1 1
++
++    * - Format name
++      - Bit depth
++    * - MEDIA_BUS_FMT_RAW_8
++      - 8
++    * - MEDIA_BUS_FMT_RAW_10
++      - 10
++    * - MEDIA_BUS_FMT_RAW_12
++      - 12
++    * - MEDIA_BUS_FMT_RAW_14
++      - 14
+ 
+ Packed YUV Formats
+ ^^^^^^^^^^^^^^^^^^
+diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+index 6005f033e62c..83feeae6a31e 100644
+--- a/include/uapi/linux/media-bus-format.h
++++ b/include/uapi/linux/media-bus-format.h
+@@ -190,4 +190,10 @@
+ #define MEDIA_BUS_FMT_META_20			0x8006
+ #define MEDIA_BUS_FMT_META_24			0x8007
+ 
++/* Generic (CFA independent) pixel data formats. Next is 0x9005. */
++#define MEDIA_BUS_FMT_RAW_8			0x9001
++#define MEDIA_BUS_FMT_RAW_10			0x9002
++#define MEDIA_BUS_FMT_RAW_12			0x9003
++#define MEDIA_BUS_FMT_RAW_14			0x9004
++
+ #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
 -- 
 2.47.3
 
