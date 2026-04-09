@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-58439-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58434-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SNg5BVgJ2GlOWggAu9opvQ
-	(envelope-from <linux-media+bounces-58439-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:17:28 +0200
+	id iHsRHUUJ2GlOWggAu9opvQ
+	(envelope-from <linux-media+bounces-58434-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:17:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB343CF4ED
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:17:27 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85BF53CF4C0
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:17:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id ECDFE303A975
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A337B30193A1
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1FF0346FAB;
-	Thu,  9 Apr 2026 20:15:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3388D34844C;
+	Thu,  9 Apr 2026 20:15:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dSxDXTQ2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="egXKvPq6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DE434751E
-	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EEC93451A6
+	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775765736; cv=none; b=WL2v3YUxxws46kUsORNom4FexPBMsU5RI1DAF+dYXeS1XmX7dHSUD9LiTXXZHEKcpwkOoP6Q3E/1smxZ2uZwFM73euRjtbZV3UdogaF3c93/EyoQ/ySZu+Bf7bb4CiDk5bD0BTWERwZGhZ8QF8g78SW4386m/fHgmnxvj7u/UnI=
+	t=1775765734; cv=none; b=gX5C3PHLMqcftrKuas8gviUdNxrG7muoFlqY3rgiBYB2Fmy0wcxdkejIZnW5lJ6NXtv7zfv1jWqFVC1j43sfFYBWkhkNiSIp5AG4N+J52qHEnWeIjj6noAqbCtGJE/c8+G7WiHMW3YN1LXHnFR+Q0dKK1FVJtS1R97tZfBzA1Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775765736; c=relaxed/simple;
-	bh=gulW1dzIwWpc+ISFZK0Loy/aQHOvUskSDaHX1PkCUfo=;
+	s=arc-20240116; t=1775765734; c=relaxed/simple;
+	bh=9HPwYzzNKCeBR09lC5sKNinj7KtoZwN0iDIT99bkfgs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LW+wvRxYN7Fmbq0K2ulhEdH4juTdmzWvOLei71J+4yQkHwi5p2pR24UVp4zde0lbTb8+ZfYQMEHMhUCbWh3SzzqxJvrl9c0cNmsY0edkrEqOP50W0415IFeIBEMBJx1ssWEQUs95WZ5Voq2E9yVU71kmT4YX+KlkLoJOVh+IYcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dSxDXTQ2; arc=none smtp.client-ip=192.198.163.11
+	 MIME-Version; b=o54NMZcMCnW+igCkzrYCWS58ayxNJD4c35+20d5S6xpgrcAt9zVmqtBOUD7JbLuS0FIlFyGSA4WDOkkLaeYHRWT/sn4Mx71jykDSXoHZbpah4K7APVtxkylvPNbDukeV8QgWX8G4X0PZ9okWeZgF4+gsKNv1qDBGSn5A+Zhbyg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=egXKvPq6; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775765734; x=1807301734;
+  t=1775765733; x=1807301733;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=gulW1dzIwWpc+ISFZK0Loy/aQHOvUskSDaHX1PkCUfo=;
-  b=dSxDXTQ2nnn8od3cOrzjwxJ8uyWS8jiiaRmFlmTTrbH1PV/40pqLXhDx
-   +lbEfqWUZZvGC1qT8glqrXD4SnbcVsyu2LBQhD0o1A72sHmcRU5/V8Kl6
-   U1f1v9wBbNegBuXX+IcUZTP0w8r9duaOETUu96TL34W4BwaO0Rw8L6yuy
-   xt48U1r/wQf0HTx0FIq7L1jm++so6rlKL2tZ8ukZ9xW0f++4QImQ/m1/L
-   2VKrf+E28gl2IUgHRYMMnycYyFZOQ1XssdJwop9xGzz+Xx93dXCOv4F59
-   KWq5eFypediLDSOEO/uF/AKf27FFG/bIaZzUanoU0I/di13+qiiZZa1pP
-   Q==;
-X-CSE-ConnectionGUID: ddAdPFOhRbKZxey47Ak6Lw==
-X-CSE-MsgGUID: 9wl0AX1hRxSPDb4/scO15g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="87409155"
+  bh=9HPwYzzNKCeBR09lC5sKNinj7KtoZwN0iDIT99bkfgs=;
+  b=egXKvPq6Y6fqu3m+mY2Uq2GVOOdTajotSL9YBSf1d7vtP+g4+2NI0wu1
+   O85CYEZVUIRq5u+JHoKGvOZ7NxBDd7DnUyttE6lwgLXuCEPosavUMHtoL
+   WWvTXr3F/rcqMoTO9mDR/7AHsUeN2abgRLpQP1OTTS14iwKE0I0G5erIi
+   ZStuvC+fSxtYyfGzBY+J2f2Aj4SN4yoi/tpKTpZ6vt2zr3ChaEDoUxn68
+   cKCrZJ41ybV+lCuPfHOJ0sOitpTu9C2g1Z4zQKJHMfIeqUi9KVnYgIfc2
+   6ZI/kIn6M/sFS3PbK4t6ke+GVya1HLPZDnKGeIWwqUR8GLZbD/a/tyR47
+   g==;
+X-CSE-ConnectionGUID: lCMZDIrDTR+3o2KVxv/ZsA==
+X-CSE-MsgGUID: 9fo1L2xlRoSmyAXKHT/ZLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="87409141"
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="87409155"
+   d="scan'208";a="87409141"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:18 -0700
-X-CSE-ConnectionGUID: lZqm+jdKQFCMuOne2o0OTA==
-X-CSE-MsgGUID: A/4J1YfDQ+6NT5xnoLTOKQ==
+X-CSE-ConnectionGUID: mH98pPA4Sou0aONWUH8yCQ==
+X-CSE-MsgGUID: eCTICfM+Q+mhM86yxIfXMA==
 X-ExtLoop1: 1
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.29])
   by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:11 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 6C18E1226BD;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 6D0371226C5;
 	Thu, 09 Apr 2026 23:15:13 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAvmH-000000045lh-3a1y;
+	id 1wAvmH-000000045ll-3eQ8;
 	Thu, 09 Apr 2026 23:15:01 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -95,9 +95,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v12 16/86] media: uapi: Correct generic CSI-2 metadata format 4cc
-Date: Thu,  9 Apr 2026 23:13:51 +0300
-Message-ID: <20260409201501.975242-17-sakari.ailus@linux.intel.com>
+Subject: [PATCH v12 17/86] Revert "media: uapi: v4l: Don't expose generic metadata formats to userspace"
+Date: Thu,  9 Apr 2026 23:13:52 +0300
+Message-ID: <20260409201501.975242-18-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
 References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
@@ -115,200 +115,64 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	TAGGED_FROM(0.00)[bounces-58439-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58434-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[27];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,intel.com:dkim,intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ideasonboard.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,intel.com:dkim,intel.com:email,ideasonboard.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: CCB343CF4ED
+X-Rspamd-Queue-Id: 85BF53CF4C0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Rework the pixelformat 4cc for CSI-2 generic metadata, the 16- and 24-bit
-variants are not specific to CSI-2. This can be done as no driver uses
-this yet and the interface is disabled.
+This reverts commit d69c8429ea80af02e89e5b3eecb78e417ad049c8.
+
+Now that the API has stabilised, make the generic metadata formats visible
+for the userspace again.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../media/v4l/metafmt-generic.rst             | 40 +++++++++----------
- .../media/pci/intel/ipu6/ipu6-isys-video.c    |  2 +-
- drivers/media/v4l2-core/v4l2-ioctl.c          |  8 ++--
- include/uapi/linux/videodev2.h                | 12 +++---
- 4 files changed, 30 insertions(+), 32 deletions(-)
+ include/uapi/linux/videodev2.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/metafmt-generic.rst b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-index 7226b4810088..07147b4d0dd2 100644
---- a/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-+++ b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-@@ -2,7 +2,7 @@
- .. c:namespace:: V4L
- 
- ********************************************************************************************************************************************************************************************************************************************************************************
--V4L2_META_FMT_GENERIC_8 ('MET8'), V4L2_META_FMT_GENERIC_CSI2_10 ('MC1A'), V4L2_META_FMT_GENERIC_CSI2_12 ('MC1C'), V4L2_META_FMT_GENERIC_CSI2_14 ('MC1E'), V4L2_META_FMT_GENERIC_CSI2_16 ('MC1G'), V4L2_META_FMT_GENERIC_CSI2_20 ('MC1K'), V4L2_META_FMT_GENERIC_CSI2_24 ('MC1O')
-+V4L2_META_FMT_GENERIC_8 ('MET8'), V4L2_META_FMT_GENERIC_CSI2_10 ('MECA'), V4L2_META_FMT_GENERIC_CSI2_12 ('MECC'), V4L2_META_FMT_GENERIC_CSI2_14 ('MECE'), V4L2_META_FMT_GENERIC_16 ('METG'), V4L2_META_FMT_GENERIC_CSI2_20 ('MECK'), V4L2_META_FMT_GENERIC_24 ('METO')
- ********************************************************************************************************************************************************************************************************************************************************************************
- 
- 
-@@ -29,7 +29,7 @@ is used on CSI-2 for 8 bits per :term:`Data Unit`.
- 
- Additionally it is used for 16 bits per Data Unit when two bytes of metadata are
- packed into one 16-bit Data Unit. Otherwise the 16 bits per pixel dataformat is
--:ref:`V4L2_META_FMT_GENERIC_CSI2_16 <v4l2-meta-fmt-generic-csi2-16>`.
-+:ref:`V4L2_META_FMT_GENERIC_16 <v4l2-meta-fmt-generic-16>`.
- 
- **Byte Order Of V4L2_META_FMT_GENERIC_8.**
- Each cell is one byte. "M" denotes a byte of metadata.
-@@ -112,8 +112,8 @@ the data is defined in the MIPI CCS specification.
- 
- This format is also used in conjunction with 24 bits per :term:`Data Unit`
- formats that pack two bytes of metadata into one Data Unit. Otherwise the
--24 bits per pixel dataformat is :ref:`V4L2_META_FMT_GENERIC_CSI2_24
--<v4l2-meta-fmt-generic-csi2-24>`.
-+24 bits per pixel dataformat is :ref:`V4L2_META_FMT_GENERIC_24
-+<v4l2-meta-fmt-generic-24>`.
- 
- This format is little endian.
- 
-@@ -185,16 +185,15 @@ Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
-       - x
-       - x
- 
--.. _v4l2-meta-fmt-generic-csi2-16:
-+.. _v4l2-meta-fmt-generic-16:
- 
--V4L2_META_FMT_GENERIC_CSI2_16
-------------------------------
-+V4L2_META_FMT_GENERIC_16
-+------------------------
- 
--V4L2_META_FMT_GENERIC_CSI2_16 contains 8-bit generic metadata packed in 16-bit
--Data Units, with one padding byte after every byte of metadata. This format is
--typically used by CSI-2 receivers with a source that transmits
--MEDIA_BUS_FMT_META_16 and the CSI-2 receiver writes the received data to memory
--as-is.
-+V4L2_META_FMT_GENERIC_16 contains 8-bit generic metadata packed in 16-bit Data
-+Units, with one padding byte after every byte of metadata. This format is also
-+used by CSI-2 receivers with a source that transmits MEDIA_BUS_FMT_META_16 and
-+the CSI-2 receiver writes the received data to memory as-is.
- 
- The packing of the data follows the MIPI CSI-2 specification and the padding of
- the data is defined in the MIPI CCS specification.
-@@ -205,7 +204,7 @@ Some devices support more efficient packing of metadata in conjunction with
- 
- This format is little endian.
- 
--**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_16.**
-+**Byte Order Of V4L2_META_FMT_GENERIC_16.**
- Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
- 
- .. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|
-@@ -287,16 +286,15 @@ Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
-       - x
-       - x
- 
--.. _v4l2-meta-fmt-generic-csi2-24:
-+.. _v4l2-meta-fmt-generic-24:
- 
--V4L2_META_FMT_GENERIC_CSI2_24
-------------------------------
-+V4L2_META_FMT_GENERIC_24
-+------------------------
- 
--V4L2_META_FMT_GENERIC_CSI2_24 contains 8-bit generic metadata packed in 24-bit
--Data Units, with two padding bytes after every byte of metadata. This format is
--typically used by CSI-2 receivers with a source that transmits
--MEDIA_BUS_FMT_META_24 and the CSI-2 receiver writes the received data to memory
--as-is.
-+V4L2_META_FMT_GENERIC_24 contains 8-bit generic metadata packed in 24-bit Data
-+Units, with two padding bytes after every byte of metadata. This format is also
-+used by CSI-2 receivers with a source that transmits MEDIA_BUS_FMT_META_24 and
-+the CSI-2 receiver writes the received data to memory as-is.
- 
- The packing of the data follows the MIPI CSI-2 specification and the padding of
- the data is defined in the MIPI CCS specification.
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-index 3ac48d2076da..cf0eef64e503 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-@@ -105,7 +105,7 @@ const struct ipu6_isys_pixelformat ipu6_isys_pfmts[] = {
- 	  IPU6_FW_ISYS_FRAME_FORMAT_RAW10, true },
- 	{ V4L2_META_FMT_GENERIC_CSI2_12, 12, 12, MEDIA_BUS_FMT_META_12,
- 	  IPU6_FW_ISYS_FRAME_FORMAT_RAW12, true },
--	{ V4L2_META_FMT_GENERIC_CSI2_16, 16, 16, MEDIA_BUS_FMT_META_16,
-+	{ V4L2_META_FMT_GENERIC_16, 16, 16, MEDIA_BUS_FMT_META_16,
- 	  IPU6_FW_ISYS_FRAME_FORMAT_RAW16, true },
- };
- 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 5fda3835f680..8e99cdefead3 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1489,9 +1489,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_META_FMT_GENERIC_CSI2_10:	descr = "8-bit Generic Meta, 10b CSI-2"; break;
- 	case V4L2_META_FMT_GENERIC_CSI2_12:	descr = "8-bit Generic Meta, 12b CSI-2"; break;
- 	case V4L2_META_FMT_GENERIC_CSI2_14:	descr = "8-bit Generic Meta, 14b CSI-2"; break;
--	case V4L2_META_FMT_GENERIC_CSI2_16:	descr = "8-bit Generic Meta, 16b CSI-2"; break;
-+	case V4L2_META_FMT_GENERIC_16:	descr = "8-bit Generic Meta, 16b"; break;
- 	case V4L2_META_FMT_GENERIC_CSI2_20:	descr = "8-bit Generic Meta, 20b CSI-2"; break;
--	case V4L2_META_FMT_GENERIC_CSI2_24:	descr = "8-bit Generic Meta, 24b CSI-2"; break;
-+	case V4L2_META_FMT_GENERIC_24:	descr = "8-bit Generic Meta, 24b"; break;
- 
- 	default:
- 		/* Compressed formats */
-@@ -1579,9 +1579,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 		case V4L2_META_FMT_GENERIC_CSI2_10:
- 		case V4L2_META_FMT_GENERIC_CSI2_12:
- 		case V4L2_META_FMT_GENERIC_CSI2_14:
--		case V4L2_META_FMT_GENERIC_CSI2_16:
-+		case V4L2_META_FMT_GENERIC_16:
- 		case V4L2_META_FMT_GENERIC_CSI2_20:
--		case V4L2_META_FMT_GENERIC_CSI2_24:
-+		case V4L2_META_FMT_GENERIC_24:
- 			fmt->flags |= V4L2_FMT_FLAG_META_LINE_BASED;
- 			break;
- 		default:
 diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 901c2b788edd..fe5bb00ffe91 100644
+index fe5bb00ffe91..3ba872deeeb9 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
-@@ -901,12 +901,12 @@ struct v4l2_pix_format {
+@@ -895,7 +895,6 @@ struct v4l2_pix_format {
+ #define V4L2_META_FMT_MALI_C55_PARAMS	v4l2_fourcc('C', '5', '5', 'P') /* ARM Mali-C55 Parameters */
+ #define V4L2_META_FMT_MALI_C55_STATS	v4l2_fourcc('C', '5', '5', 'S') /* ARM Mali-C55 3A Statistics */
+ 
+-#ifdef __KERNEL__
+ /*
+  * Line-based metadata formats. Remember to update v4l_fill_fmtdesc() when
   * adding new ones!
-  */
- #define V4L2_META_FMT_GENERIC_8		v4l2_fourcc('M', 'E', 'T', '8') /* Generic 8-bit metadata */
--#define V4L2_META_FMT_GENERIC_CSI2_10	v4l2_fourcc('M', 'C', '1', 'A') /* 10-bit CSI-2 packed 8-bit metadata */
--#define V4L2_META_FMT_GENERIC_CSI2_12	v4l2_fourcc('M', 'C', '1', 'C') /* 12-bit CSI-2 packed 8-bit metadata */
--#define V4L2_META_FMT_GENERIC_CSI2_14	v4l2_fourcc('M', 'C', '1', 'E') /* 14-bit CSI-2 packed 8-bit metadata */
--#define V4L2_META_FMT_GENERIC_CSI2_16	v4l2_fourcc('M', 'C', '1', 'G') /* 16-bit CSI-2 packed 8-bit metadata */
--#define V4L2_META_FMT_GENERIC_CSI2_20	v4l2_fourcc('M', 'C', '1', 'K') /* 20-bit CSI-2 packed 8-bit metadata */
--#define V4L2_META_FMT_GENERIC_CSI2_24	v4l2_fourcc('M', 'C', '1', 'O') /* 24-bit CSI-2 packed 8-bit metadata */
-+#define V4L2_META_FMT_GENERIC_CSI2_10	v4l2_fourcc('M', 'E', 'C', 'A') /* 10-bit CSI-2 packed 8-bit metadata */
-+#define V4L2_META_FMT_GENERIC_CSI2_12	v4l2_fourcc('M', 'E', 'C', 'C') /* 12-bit CSI-2 packed 8-bit metadata */
-+#define V4L2_META_FMT_GENERIC_CSI2_14	v4l2_fourcc('M', 'E', 'C', 'E') /* 14-bit CSI-2 packed 8-bit metadata */
-+#define V4L2_META_FMT_GENERIC_16	v4l2_fourcc('M', 'E', 'T', 'G') /* Generic 16-bit 8-bit metadata */
-+#define V4L2_META_FMT_GENERIC_CSI2_20	v4l2_fourcc('M', 'E', 'C', 'K') /* 20-bit CSI-2 packed 8-bit metadata */
-+#define V4L2_META_FMT_GENERIC_24	v4l2_fourcc('M', 'E', 'T', 'O') /* Generic 24-bit 8-bit metadata */
- #endif
+@@ -907,7 +906,6 @@ struct v4l2_pix_format {
+ #define V4L2_META_FMT_GENERIC_16	v4l2_fourcc('M', 'E', 'T', 'G') /* Generic 16-bit 8-bit metadata */
+ #define V4L2_META_FMT_GENERIC_CSI2_20	v4l2_fourcc('M', 'E', 'C', 'K') /* 20-bit CSI-2 packed 8-bit metadata */
+ #define V4L2_META_FMT_GENERIC_24	v4l2_fourcc('M', 'E', 'T', 'O') /* Generic 24-bit 8-bit metadata */
+-#endif
  
  /* priv field value to indicates that subsequent fields are valid. */
+ #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
 -- 
 2.47.3
 
