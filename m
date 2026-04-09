@@ -1,45 +1,46 @@
-Return-Path: <linux-media+bounces-58330-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58329-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uFH+Lo2u12kMRQgAu9opvQ
-	(envelope-from <linux-media+bounces-58330-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 15:50:05 +0200
+	id +JpSC3mv12kORggAu9opvQ
+	(envelope-from <linux-media+bounces-58329-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 15:54:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A52163CB8D7
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 15:50:04 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71AF53CB9CF
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 15:54:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id EDE84300BE31
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 13:49:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6978D3037996
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 13:49:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48EFE3D332F;
-	Thu,  9 Apr 2026 13:49:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F22AE3B52EB;
+	Thu,  9 Apr 2026 13:49:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pFSGkhfx"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WQH9jp1/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C193CAE71;
-	Thu,  9 Apr 2026 13:49:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49ED73A5459;
+	Thu,  9 Apr 2026 13:49:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775742590; cv=none; b=G4GReBP48z0gSFilNqC5adkOtyJyJM6xUf85NdugASMCll6tr0TRi08AoD9ttIr9OfNM3yy8cuKKfTMtVCa/S5udWJetMNEOBXjtRPT5TgHms174uTCYCYdMvrRreLcSVmrznGNRlREKHAyK2i3teeUzT8tMc9oESvrV7j4NACk=
+	t=1775742588; cv=none; b=B08YZL0rbYGyKNoTw8mkgrOyt9jHEAmnTabTjRbocYDAkUGk8HFQmYo22Kl73Z8AuywpnKbtplrchpbicCkKkGxOnwcmWYiHmjl4ATEga1Lfd2QtrHk/rCltSyYFgD8g+DNcdnExUCaCsKwhUl2opfcQpsUqUB35pNEUeSKf2N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775742590; c=relaxed/simple;
-	bh=jqcrmMuFbfsiDA/7PQOZmdVkbmu6Ur3HF3siTrHCda0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YMYVWoNKFdKqJay5wUVrWyNQAMTCQMGHyJkmlE9xQlNN1UFjE+UiFbXgD/os+dHHThJ4xqTY4aaftsWv07N47ObrNqFljUC9fMyD6jxMW0uQLFzzTuKqc7D3D+6OQCbyV/gzStsfahHPJRMW6AqjrEpZWtQEVmqEuo1AioqO+zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pFSGkhfx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F73BC19424;
-	Thu,  9 Apr 2026 13:49:49 +0000 (UTC)
+	s=arc-20240116; t=1775742588; c=relaxed/simple;
+	bh=Accc1DDK59ZqoGajH/rYDRfinvJ7K8paT0pHNtx24w0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dvSS5ckTIWsAKdnREhDkfqcon3LV2yAUDZ13dbdDHzfLHNW6VPI27uvAKssjkY9C02Fa/f6lNUxhtTd19Kq4hc8yzK+qp8LEZBQ87UT1FmbvQQ/3aBmz1gB9PAS7ZSqETAUvFMhD8mZJcmEA6HlHMYTjrDxgJDdWRggCfPd1gvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WQH9jp1/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57965C4CEF7;
+	Thu,  9 Apr 2026 13:49:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1775742590;
-	bh=jqcrmMuFbfsiDA/7PQOZmdVkbmu6Ur3HF3siTrHCda0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=pFSGkhfxQZPZex4oCEl+r7ZdkSqgh17p4D68OTn0sOjPP5KB1Y6S1CKmkXCUd9TdU
-	 LnkU6nOPE3vi6UwSxOje5gx116EUA8rpi/G/iyfIiQWor+xRKGke1WSs2P9UTjH16s
-	 I364Czjd0pnTFN/NeCGLDuszkJTey7sxB5BYeluk=
+	s=korg; t=1775742587;
+	bh=Accc1DDK59ZqoGajH/rYDRfinvJ7K8paT0pHNtx24w0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WQH9jp1/kHy0PEbkH1WQaylDACvj/DqUGwPtg00UUmIKUWzf4BZTU1L9i5lixxtrJ
+	 /zrZfH5/6O1/gwzWv4iCwVh4iOWQgU9dA8EQtJrHsp2wW7opcUidWoiPyQTI3l5Pou
+	 8/X6yW50v8T4HzOU2MxXJiKKjRMMjDadZzIadOK8=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-media@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -47,18 +48,20 @@ Cc: linux-kernel@vger.kernel.org,
 	Hans Verkuil <hverkuil@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	stable <stable@kernel.org>
-Subject: [PATCH 1/3] media: adv7604: avoid negative array index in log_status when cp_read fails
-Date: Thu,  9 Apr 2026 15:49:44 +0200
-Message-ID: <2026040943-finishing-daredevil-d6e0@gregkh>
+Subject: [PATCH 2/3] media: stv090x: bound DiSEqC reply length to msg[] size
+Date: Thu,  9 Apr 2026 15:49:45 +0200
+Message-ID: <2026040943-goliath-both-2ee5@gregkh>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <2026040943-finishing-daredevil-d6e0@gregkh>
+References: <2026040943-finishing-daredevil-d6e0@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Lines: 36
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1474; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=jqcrmMuFbfsiDA/7PQOZmdVkbmu6Ur3HF3siTrHCda0=; b=owGbwMvMwCRo6H6F97bub03G02pJDJnX15XXrWGsYTusVKtbqR3fFDftazxbaPwx0ZJzU2a0J //M/pjYEcvCIMjEICumyPJlG8/R/RWHFL0MbU/DzGFlAhnCwMUpABNZq84wh7/6wnYf50VOyWLX P4nOV4r7f/iRLsOCS9of/iR+457AEW1hWfoijVn525ccAA==
+Lines: 34
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1428; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=Accc1DDK59ZqoGajH/rYDRfinvJ7K8paT0pHNtx24w0=; b=owGbwMvMwCRo6H6F97bub03G02pJDJnX11XYCU3YVVBzM1V+be/mO8ryPLsebgjX3NRTJy4ae +XZdvYjHbEsDIJMDLJiiixftvEc3V9xSNHL0PY0zBxWJpAhDFycAjCRg+UMC1aYMR8syYkv/Oe4 wUvq6qaa+R8uRDEsWHzVP6Wde5rzPMsp3i/TyxVTvN8/BAA=
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [2.84 / 15.00];
@@ -67,7 +70,7 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	MID_RHS_NOT_FQDN(0.50)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -76,9 +79,9 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58330-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58329-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-media@vger.kernel.org];
@@ -88,45 +91,43 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,linuxfoundation.org:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: A52163CB8D7
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linuxfoundation.org:dkim,linuxfoundation.org:email]
+X-Rspamd-Queue-Id: 71AF53CB9CF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-cp_read() returns the negative errno from regmap_read() on I2C failure.
-adv76xx_log_status() shifts the result right by 4 and uses it directly
-to index csc_coeff_sel_rb[16] causing the right shift of a negative
-number to result in -1, reading a negative place in the array.
+The FIFO_BYTENBR_FIELD register field is 4 bits wide, giving a length
+of 0..15, but reply->msg is __u8[4] in struct dvb_diseqc_slave_reply.
+A faulty or malicious DiSEqC slave (or i2c bus glitch) reporting more
+than 4 bytes will the array and clobber the stack.
 
-Commit 8163419e3e05 ("media: adv7842: Avoid possible out-of-bounds
-array accesses in adv7842_cp_log_status()") fixed the identical pattern
-in the adv7842, so do the same thing here.
+The stb0899, tda10071, and s5h1420 drivers all properly bound the FIFO
+count against sizeof(reply->msg) before the read loop, so do the same
+thing in this driver.
 
 Cc: Hans Verkuil <hverkuil@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Fixes: 54450f591c99 ("[media] adv7604: driver for the Analog Devices ADV7604 video decoder")
+Fixes: e415c689a884 ("V4L/DVB (11579): Initial go at TT S2-1600")
 Cc: stable <stable@kernel.org>
 Assisted-by: gregkh_clanker_t1000
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/media/i2c/adv7604.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/dvb-frontends/stv090x.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 67116a4ef134..02203fd4c937 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -2641,8 +2641,9 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 					"(16-235)" : "(0-255)",
- 				(reg_io_0x02 & 0x08) ? "enabled" : "disabled");
- 	}
-+	ret = cp_read(sd, info->cp_csc) >> 4;
- 	v4l2_info(sd, "Color space conversion: %s\n",
--			csc_coeff_sel_rb[cp_read(sd, info->cp_csc) >> 4]);
-+			ret < 0 ? "" : csc_coeff_sel_rb[ret]);
+diff --git a/drivers/media/dvb-frontends/stv090x.c b/drivers/media/dvb-frontends/stv090x.c
+index 657df713865e..d4bf6d28961a 100644
+--- a/drivers/media/dvb-frontends/stv090x.c
++++ b/drivers/media/dvb-frontends/stv090x.c
+@@ -3902,6 +3902,8 @@ static int stv090x_recv_slave_reply(struct dvb_frontend *fe, struct dvb_diseqc_s
  
- 	if (!is_digital_input(sd))
- 		return 0;
+ 	if (rx_end) {
+ 		reply->msg_len = STV090x_GETFIELD_Px(reg, FIFO_BYTENBR_FIELD);
++		if (reply->msg_len > sizeof(reply->msg))
++			reply->msg_len = sizeof(reply->msg);
+ 		for (i = 0; i < reply->msg_len; i++)
+ 			reply->msg[i] = STV090x_READ_DEMOD(state, DISRXDATA);
+ 	}
 -- 
 2.53.0
 
