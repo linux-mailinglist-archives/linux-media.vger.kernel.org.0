@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-58442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58444-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uNU3DT8K2Gm5WggAu9opvQ
-	(envelope-from <linux-media+bounces-58442-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:19 +0200
+	id WJwVLYIK2Gm5WggAu9opvQ
+	(envelope-from <linux-media+bounces-58444-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:22:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1ED93CF6F2
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5CB3CF71F
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:22:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4A84F302F99E
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5FFE030315CF
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11D6634D3B9;
-	Thu,  9 Apr 2026 20:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5268F33F5B1;
+	Thu,  9 Apr 2026 20:15:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9MYj8JS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mj9zWyKo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1D333DEDF
-	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A056833F59A
+	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775765737; cv=none; b=pW5F+vMd1HqPnAOzDdjrNsMygnA7Rs6ZsYrF0rUukdPXHqsbD6NumBpXmno/SHQ8MNvTZ5F3GOoq6fDJhtI2v8CKd86laFJPKvCHheb6OWbslD8YEf5hVTLaKk8G038usl9FUz7/SGcE6DJ4zHDJbXwZ6vF5lHINqRys1YKMsxQ=
+	t=1775765738; cv=none; b=L9GnpuO+fSUAOR6uUqsSCruUPaYEf+cSF1b07bao9aUT0kIOljIyfWxHv934uapfF87u9/kiLGyG0ZNLIOH2wxDok/Y29g7TeObB/96/PAQTosw/Dp/d/nMC2/4SjsMpU7SMAg0aFOoulBDGLLyhK0T57jGYtrE1y9cXTPJhLYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775765737; c=relaxed/simple;
-	bh=nIPQY511UNTMFbKBi8r+dK7AoVg6JGxrJIV2oZmHKl8=;
+	s=arc-20240116; t=1775765738; c=relaxed/simple;
+	bh=Sesa5MhY6wIJI0gwTuXPS/ArP8FCpS+O40MQjpswRwQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jCRUGoWrbADxpE9vq1702OHN5I8pZpu+g4yAGqyc3SEHSWKp0P8IKUkz+n53EAABq2rMWOYxYI5jI9OPEPKFcgv6ud7r/eZYCHkXj2lacTcPN5pgwNej/SuNG/XYJDyzwBjmNyhMw7q5bmt6Dni4Aa9EaWfo1KN/Od+GrDsQTCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9MYj8JS; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=PZ8zYSrLj34kl3LyjSb1OyR3lQzGi0fdnuxGPFfXIZ+cIvkWteeY1oKbIRIG+G0EUVxinvSF+BOVH/v4Ly8lZ853pvwuMNEgrWdtWlce2uyIptQ7lcP5w5Lm+SldEejYNXePZoIhOABDxJYHZqh+m7VbDPtDO9OUETRPZoInLo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mj9zWyKo; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775765736; x=1807301736;
+  t=1775765738; x=1807301738;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=nIPQY511UNTMFbKBi8r+dK7AoVg6JGxrJIV2oZmHKl8=;
-  b=A9MYj8JSrNNSk+S6XFUVht1WeyaxfCB+DyDtwn1yiC8y2RLQhPe9ARoG
-   UhAV0+hZQr1N4HA6WaxN2DW2yjuVzyQAzR9MgiUdtnch5Vsm/ci2Lu5Cn
-   PdXCiOdTZ9QcJqgSbb4EXljRRAxOqLEvu48Hyjsk2poclq5c2oEVcDbb1
-   nXWlYbj1GCaaMflA9pGst2jiPoRE3j6aGvRHcJK6kcmyTx2cy9U0huyp8
-   3RkjreQHJzNJZsByUTG2Gwsp0lUZVeKPZW9In0wH4M9DQ8tKcOOEvpfXI
-   RzeqHJ5jgbHxwP+owv/JlKliOVvU6r52LJgeTXoI6bT24Gol4Xorqje8D
-   A==;
-X-CSE-ConnectionGUID: bUgktdSYTxKJRUep2k14QQ==
-X-CSE-MsgGUID: DgGPFXMBT16Dbq1/yNJrLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94176558"
+  bh=Sesa5MhY6wIJI0gwTuXPS/ArP8FCpS+O40MQjpswRwQ=;
+  b=Mj9zWyKoFr1kwjm3EEj0GsM+X17+AoXeBrEnN8vA+LWAYa+MbKR5/FxI
+   ofUPitiPJ+Km6JLdGBY0A0J3cmcpBMqvX2alXxmw/PFUqlfk0PbPzXn3o
+   D+DbuQl6IKtA7jeeXU0l4Y/LsAk+1aDWXnpSoNmy7F/AHD+xKhBYK24Mj
+   B9Em59bzpxsNNeMkuBSSSMJ5P3mVKNM8L/W3m+66Tk+rwU3xftedjX/SQ
+   I+juNnuZsuI+Vj/jnk52gpBMs+vAgVMWzpRUYmPydDMuAL4H3KK9Z+RHs
+   Fw8gFLVfQmDxCmfg5gqMgQl/kNKacIVlQmMmJo7Mggmf9VbZDy/nmkq79
+   g==;
+X-CSE-ConnectionGUID: TDDL3PpMSbuZmnk8hwhPoQ==
+X-CSE-MsgGUID: 1xmI/zCHRW6zq5xKPiC22g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94176637"
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="94176558"
+   d="scan'208";a="94176637"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:26 -0700
-X-CSE-ConnectionGUID: ACkhWQITQpSwWFpnNmYxvQ==
-X-CSE-MsgGUID: hmAbdQCqT/2ILuxeYRSPCw==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:33 -0700
+X-CSE-ConnectionGUID: sMoLcnnRReGF+4KsJkDNjA==
+X-CSE-MsgGUID: 0vjgg6+MTQW6h7ML3Gm2Ig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="228047546"
+   d="scan'208";a="228047618"
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.29])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:20 -0700
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:27 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id BB1371228FF;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id BE5EC122902;
 	Thu, 09 Apr 2026 23:15:13 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAvmI-000000045n3-0mNc;
+	id 1wAvmI-000000045n7-0rWG;
 	Thu, 09 Apr 2026 23:15:02 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -97,9 +97,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v12 37/86] media: Documentation: Add sub-device internal pads example
-Date: Thu,  9 Apr 2026 23:14:12 +0300
-Message-ID: <20260409201501.975242-38-sakari.ailus@linux.intel.com>
+Subject: [PATCH v12 38/86] media: Documentation: Document streaming behaviour for common raw cameras
+Date: Thu,  9 Apr 2026 23:14:13 +0300
+Message-ID: <20260409201501.975242-39-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
 References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
@@ -123,7 +123,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	TAGGED_FROM(0.00)[bounces-58442-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58444-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[27];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -133,163 +133,45 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,linux.intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,intel.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,intel.com:email];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: D1ED93CF6F2
+X-Rspamd-Queue-Id: 2E5CB3CF71F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add an example using sub-device internal pads, with the Sony IMX219 camera
-sensor.
+Document that streaming control is based on stream number 0 and additional
+streams need to be started before that.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../userspace-api/media/v4l/dev-subdev.rst    | 129 ++++++++++++++++++
- 1 file changed, 129 insertions(+)
+ .../userspace-api/media/v4l/subdev-config-model.rst    | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-index 2fc81e0205dc..a9d462b57b54 100644
---- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-@@ -729,4 +729,133 @@ To configure this pipeline, the userspace must take the following steps:
-    controls are present on the source sub-device to obtain the pixel array CFA
-    pattern and metadata layout.
+diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+index 1923ccbafdd0..3d0f14dfdded 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+@@ -99,6 +99,16 @@ following routes.
+ Support for the embedded data stream is optional. Drivers supporting the
+ embedded data stream may allow disabling and enabling the route.
  
-+Internal pads setup example
-+---------------------------
++Starting and stopping streaming
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 +
-+A simple example of a multiplexed stream setup might be as follows:
++Starting and stopping streaming is controlled through the stream number 0; if
++there's a desire to capture additional streams, such streams need to be started
++before stream 0. All streams start and stop at the same moment.
 +
-+- An IMX219 camera sensor source sub-device, with one source pad (0), one
-+  internal sink pad (1) as the source of the image data and an internal sink
-+  pad (2) as the source of the embedded data. There are two routes, one from the
-+  internal sink pad 1 to the source pad 0 (image data) and another from the
-+  internal sink pad 2 to the source pad 0 (embedded data). Both streams are
-+  always active, i.e. there is no need to separately enable the embedded data
-+  stream. The sensor uses the CSI-2 interface.
++This is subject to change in the future through additional API elements while
++the default behaviour will be maintained.
 +
-+- A CSI-2 receiver in the SoC. The receiver has a single sink pad (pad 0),
-+  connected to the sensor's source pad (0), and two source pads (pads 1 and 2),
-+  to two DMA engines. The receiver demultiplexes the incoming streams to the
-+  source pads.
-+
-+- Two DMA engines in the SoC, one for each stream. Each DMA engine is connected
-+  to a different source pad of the receiver.
-+
-+The sensor and the receiver are modelled as V4L2 sub-devices, exposed to
-+userspace via /dev/v4l-subdevX device nodes. The DMA engines are modelled as
-+V4L2 video devices, exposed to userspace via /dev/videoX nodes.
-+
-+To configure this pipeline, the userspace must take the following steps:
-+
-+1) Set up media links between entities: enable the links from the sensor to the
-+   receiver and from the receiver to the DMA engines. This step does not differ
-+   from normal non-multiplexed media controller setup.
-+
-+2) Configure routing
-+
-+.. flat-table:: Camera sensor. There are no configurable routes.
-+    :header-rows: 1
-+
-+    * - Sink Pad/Stream
-+      - Source Pad/Stream
-+      - Routing Flags
-+      - Comments
-+    * - 1/0
-+      - 0/0
-+      - V4L2_SUBDEV_ROUTE_FL_ACTIVE | V4L2_SUBDEV_ROUTE_FL_IMMUTABLE |
-+        V4L2_SUBDEV_ROUTE_FL_STATIC
-+      - Pixel data stream from the internal image sink pad
-+    * - 2/0
-+      - 0/1
-+      - V4L2_SUBDEV_ROUTE_FL_ACTIVE | V4L2_SUBDEV_ROUTE_FL_IMMUTABLE |
-+        V4L2_SUBDEV_ROUTE_FL_STATIC
-+      - Metadata stream from the internal embedded data sink pad
-+
-+While both routes are immutable for the IMX219, other camera sensors may offer
-+more flexible configuration options. Routing configuration is dictated by the
-+hardware capabilities: camera sensors typically always produce an image data
-+stream, but some of them support enabling and disabling the embedded data
-+stream.
-+
-+.. flat-table:: Receiver routing table. Typically both routes need to be
-+		explicitly created.
-+    :header-rows:  1
-+
-+    * - Sink Pad/Stream
-+      - Source Pad/Stream
-+      - Routing Flags
-+      - Comments
-+    * - 0/0
-+      - 1/0
-+      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-+      - Pixel data stream from camera sensor
-+    * - 0/1
-+      - 2/0
-+      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-+      - Metadata stream from camera sensor
-+
-+3) Configure formats
-+
-+   This example assumes that the formats are propagated from sink pad to the
-+   source pad as-is. The tables contain fields of both struct v4l2_subdev_format
-+   and struct v4l2_mbus_framefmt.
-+
-+.. flat-table:: Formats set on the sub-devices. Bold values are set, others are
-+                static or propagated. The order is aligned with configured
-+                routes.
-+    :header-rows: 1
-+    :fill-cells:
-+
-+    * - Sub-device
-+      - Pad/Stream
-+      - Width
-+      - Height
-+      - Code
-+    * - :rspan:`3` IMX219
-+      - 1/0
-+      - 3296
-+      - 2480
-+      - MEDIA_BUS_FMT_RAW_10
-+    * - 0/0
-+      - 3296
-+      - 2480
-+      - **MEDIA_BUS_FMT_RAW_10**
-+    * - 2/0
-+      - 3296
-+      - 2
-+      - MEDIA_BUS_FMT_META_10
-+    * - 0/1
-+      - 3296
-+      - 2
-+      - MEDIA_BUS_FMT_META_10
-+    * - :rspan:`3` CSI-2 receiver
-+      - 0/0
-+      - **3296**
-+      - **2480**
-+      - **MEDIA_BUS_FMT_RAW_10**
-+    * - 1/0
-+      - 3296
-+      - 2480
-+      - MEDIA_BUS_FMT_RAW_10
-+    * - 0/1
-+      - **3296**
-+      - **2**
-+      - **MEDIA_BUS_FMT_META_10**
-+    * - 2/0
-+      - 3296
-+      - 2
-+      - MEDIA_BUS_FMT_META_10
-+
-+The embedded data format does not need to be configured on the sensor's pads as
-+the format is dictated by the pixel data format in this case.
-+
- .. include:: subdev-config-model.rst
+ Sensor pixel array size, cropping and binning
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
 -- 
 2.47.3
 
