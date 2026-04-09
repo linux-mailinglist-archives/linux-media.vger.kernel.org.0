@@ -1,70 +1,72 @@
-Return-Path: <linux-media+bounces-58434-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58415-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iHsRHUUJ2GlOWggAu9opvQ
-	(envelope-from <linux-media+bounces-58434-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:17:09 +0200
+	id yEeGMgQJ2GlOWggAu9opvQ
+	(envelope-from <linux-media+bounces-58415-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:16:04 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85BF53CF4C0
-	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:17:08 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A463CF43F
+	for <lists+linux-media@lfdr.de>; Thu, 09 Apr 2026 22:16:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A337B30193A1
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:16:12 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3551B302541F
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2026 20:15:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3388D34844C;
-	Thu,  9 Apr 2026 20:15:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CB9133D6C0;
+	Thu,  9 Apr 2026 20:15:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="egXKvPq6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IecPp4wN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EEC93451A6
-	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436383368BF
+	for <linux-media@vger.kernel.org>; Thu,  9 Apr 2026 20:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775765734; cv=none; b=gX5C3PHLMqcftrKuas8gviUdNxrG7muoFlqY3rgiBYB2Fmy0wcxdkejIZnW5lJ6NXtv7zfv1jWqFVC1j43sfFYBWkhkNiSIp5AG4N+J52qHEnWeIjj6noAqbCtGJE/c8+G7WiHMW3YN1LXHnFR+Q0dKK1FVJtS1R97tZfBzA1Ak=
+	t=1775765729; cv=none; b=boV3yDb0FjBpZr3/jJyW38maJ/Lrgpca2DLs6dRdZ/PmY/CEqgVtZBrcBBAxNFCT/vrP51ZI5eZkcwUrBjovEX3X852gqUzCXHrC93iGNnnFcK7ywoBDRY7zVDOgfJoR6Kvsqkt/QvNIvhwBR+bbDQxRY0JU0n2k04sVPP1MdcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775765734; c=relaxed/simple;
-	bh=9HPwYzzNKCeBR09lC5sKNinj7KtoZwN0iDIT99bkfgs=;
+	s=arc-20240116; t=1775765729; c=relaxed/simple;
+	bh=T5S2bvQj6fXB70DjJp8NzQpwZVtkHUorK2aq8hBMPc0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o54NMZcMCnW+igCkzrYCWS58ayxNJD4c35+20d5S6xpgrcAt9zVmqtBOUD7JbLuS0FIlFyGSA4WDOkkLaeYHRWT/sn4Mx71jykDSXoHZbpah4K7APVtxkylvPNbDukeV8QgWX8G4X0PZ9okWeZgF4+gsKNv1qDBGSn5A+Zhbyg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=egXKvPq6; arc=none smtp.client-ip=192.198.163.11
+	 MIME-Version; b=Vt3vLIqMXnlg4vypvHFb0Via8wkbGKQtATbxPOceqwzpbZDtwpE5DD+j49AyRLQuVV5w9LvBEDFylEGHVB/T58cDP8lnZS2JlOxWwhyT3uYjkOaolihDMicqmvPF165xYcFLYsy5M5u3PsOGOUX9Az306TYq8NoCds38xHG9X6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IecPp4wN; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775765733; x=1807301733;
+  t=1775765728; x=1807301728;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=9HPwYzzNKCeBR09lC5sKNinj7KtoZwN0iDIT99bkfgs=;
-  b=egXKvPq6Y6fqu3m+mY2Uq2GVOOdTajotSL9YBSf1d7vtP+g4+2NI0wu1
-   O85CYEZVUIRq5u+JHoKGvOZ7NxBDd7DnUyttE6lwgLXuCEPosavUMHtoL
-   WWvTXr3F/rcqMoTO9mDR/7AHsUeN2abgRLpQP1OTTS14iwKE0I0G5erIi
-   ZStuvC+fSxtYyfGzBY+J2f2Aj4SN4yoi/tpKTpZ6vt2zr3ChaEDoUxn68
-   cKCrZJ41ybV+lCuPfHOJ0sOitpTu9C2g1Z4zQKJHMfIeqUi9KVnYgIfc2
-   6ZI/kIn6M/sFS3PbK4t6ke+GVya1HLPZDnKGeIWwqUR8GLZbD/a/tyR47
-   g==;
-X-CSE-ConnectionGUID: lCMZDIrDTR+3o2KVxv/ZsA==
-X-CSE-MsgGUID: 9fo1L2xlRoSmyAXKHT/ZLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="87409141"
+  bh=T5S2bvQj6fXB70DjJp8NzQpwZVtkHUorK2aq8hBMPc0=;
+  b=IecPp4wNYR7c2SLIlhsBiKmmqiMuewTKVn97GvjxdyeE38QF2G/ttWpF
+   3oDC3TW1l4mQb9dj+eD0et1TuSMs3SaFL5UQ36DcfPPSPstZNAuDwMHer
+   MC5Eh0CsELM3MjrS2gNgBm/fcdukjD6JrZRwJlWM/afK4DCBD+Vud4Cgs
+   gvbq0aIbVJqHHBgh9UIa0frSMecNrVXdweC50eIUF2PvliMX6tKDQw7Ru
+   WoX3Oumf/apQhoD3qNa50PiYY/sktJH8AmJCLymECBFkii5/p2BaVun3y
+   blJqoSMCMESUR113fpO9j7qwdWRaKroOaWN6Qf3gXmgn5BkF+Zq9T4FA2
+   Q==;
+X-CSE-ConnectionGUID: CdG9X+hwShanhdHVdT6vLw==
+X-CSE-MsgGUID: LaNTWYezRJSXj0lLRlh1pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94176399"
 X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
-   d="scan'208";a="87409141"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:18 -0700
-X-CSE-ConnectionGUID: mH98pPA4Sou0aONWUH8yCQ==
-X-CSE-MsgGUID: eCTICfM+Q+mhM86yxIfXMA==
+   d="scan'208";a="94176399"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:25 -0700
+X-CSE-ConnectionGUID: yjlPaDXgQDSzHu99wZWX8g==
+X-CSE-MsgGUID: WN13hxJ5TBWoE735dbpE3g==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
+   d="scan'208";a="228047515"
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.29])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:11 -0700
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:15:19 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 6D0371226C5;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 713101226D1;
 	Thu, 09 Apr 2026 23:15:13 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wAvmH-000000045ll-3eQ8;
+	id 1wAvmH-000000045lp-3iFP;
 	Thu, 09 Apr 2026 23:15:01 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -95,9 +97,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v12 17/86] Revert "media: uapi: v4l: Don't expose generic metadata formats to userspace"
-Date: Thu,  9 Apr 2026 23:13:52 +0300
-Message-ID: <20260409201501.975242-18-sakari.ailus@linux.intel.com>
+Subject: [PATCH v12 18/86] media: v4l: Add V4L2_SUBDEV_ROUTE_FL_IMMUTABLE sub-device routing flag
+Date: Thu,  9 Apr 2026 23:13:53 +0300
+Message-ID: <20260409201501.975242-19-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
 References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
@@ -115,64 +117,90 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	TAGGED_FROM(0.00)[bounces-58434-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58415-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[27];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,intel.com:dkim,intel.com:email,ideasonboard.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,intel.com:dkim,intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ideasonboard.com:email];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 85BF53CF4C0
+X-Rspamd-Queue-Id: 93A463CF43F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-This reverts commit d69c8429ea80af02e89e5b3eecb78e417ad049c8.
-
-Now that the API has stabilised, make the generic metadata formats visible
-for the userspace again.
+Add a flag to denote immutable routes, V4L2_SUBDEV_ROUTE_FL_IMMUTABLE.
+Such routes cannot be changed and they're always active.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- include/uapi/linux/videodev2.h | 2 --
- 1 file changed, 2 deletions(-)
+ Documentation/userspace-api/media/v4l/dev-subdev.rst         | 4 +++-
+ .../userspace-api/media/v4l/vidioc-subdev-g-routing.rst      | 5 +++++
+ include/uapi/linux/v4l2-subdev.h                             | 5 +++++
+ 3 files changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index fe5bb00ffe91..3ba872deeeb9 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -895,7 +895,6 @@ struct v4l2_pix_format {
- #define V4L2_META_FMT_MALI_C55_PARAMS	v4l2_fourcc('C', '5', '5', 'P') /* ARM Mali-C55 Parameters */
- #define V4L2_META_FMT_MALI_C55_STATS	v4l2_fourcc('C', '5', '5', 'S') /* ARM Mali-C55 3A Statistics */
+diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+index 39c281991460..78842b9fbe67 100644
+--- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
++++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+@@ -571,7 +571,9 @@ internal pad always has a single stream only (0).
+ Routes from an internal sink pad to an external source pad are created by the
+ driver and can be activated and deactivated using the
+ :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
+-on the device capabilities.
++on the device capabilities. The :ref:`V4L2_SUBDEV_ROUTE_FL_IMMUTABLE
++<v4l2-subdev-routing-flags>` flag indicates that the
++``V4L2_SUBDEV_ROUTE_FLAG_ACTIVE`` of the route may not be unset.
  
--#ifdef __KERNEL__
- /*
-  * Line-based metadata formats. Remember to update v4l_fill_fmtdesc() when
-  * adding new ones!
-@@ -907,7 +906,6 @@ struct v4l2_pix_format {
- #define V4L2_META_FMT_GENERIC_16	v4l2_fourcc('M', 'E', 'T', 'G') /* Generic 16-bit 8-bit metadata */
- #define V4L2_META_FMT_GENERIC_CSI2_20	v4l2_fourcc('M', 'E', 'C', 'K') /* 20-bit CSI-2 packed 8-bit metadata */
- #define V4L2_META_FMT_GENERIC_24	v4l2_fourcc('M', 'E', 'T', 'O') /* Generic 24-bit 8-bit metadata */
--#endif
+ Interaction between routes, streams, formats and selections
+ -----------------------------------------------------------
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+index 6f66ca38589e..2fd55d875075 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+@@ -146,6 +146,11 @@ wants to retrieve the missing routes, it can issue a new
+     * - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+       - 0x0001
+       - The route is enabled. Set by applications.
++    * - V4L2_SUBDEV_ROUTE_FL_IMMUTABLE
++      - 0x0002
++      - The route is immutable. Set by the driver. Indicates that the
++	``V4L2_SUBDEV_ROUTE_FL_ACTIVE`` flag of an immutable route may not be
++	unset.
  
- /* priv field value to indicates that subsequent fields are valid. */
- #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
+ Return Value
+ ============
+diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+index 6160c3e21436..2be7db814288 100644
+--- a/include/uapi/linux/v4l2-subdev.h
++++ b/include/uapi/linux/v4l2-subdev.h
+@@ -207,6 +207,11 @@ struct v4l2_subdev_capability {
+  * on a video node.
+  */
+ #define V4L2_SUBDEV_ROUTE_FL_ACTIVE		(1U << 0)
++/*
++ * Is the route immutable? The ACTIVE flag of an immutable route may not be
++ * unset.
++ */
++#define V4L2_SUBDEV_ROUTE_FL_IMMUTABLE		(1U << 1)
+ 
+ /**
+  * struct v4l2_subdev_route - A route inside a subdev
 -- 
 2.47.3
 
