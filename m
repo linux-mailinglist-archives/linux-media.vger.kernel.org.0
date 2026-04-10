@@ -1,302 +1,175 @@
-Return-Path: <linux-media+bounces-58554-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58555-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4HHdG1/92GkVkwgAu9opvQ
-	(envelope-from <linux-media+bounces-58554-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 15:38:39 +0200
+	id KFhYHSD/2Gl3kwgAu9opvQ
+	(envelope-from <linux-media+bounces-58555-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 15:46:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5990F3D82D4
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 15:38:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEDB53D845E
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 15:46:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1ED333019FCA
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 13:38:35 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 42DD63037189
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 13:43:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 561F13C454E;
-	Fri, 10 Apr 2026 13:38:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29DF53C3C07;
+	Fri, 10 Apr 2026 13:43:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R7AK7cIP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p2Vb4A/R"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8431E1E04
-	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 13:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCECB3C73C8;
+	Fri, 10 Apr 2026 13:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775828311; cv=none; b=h/G0RV8vZC7PLSkxtYuqNZn+MRa+qldtfg+49nAlBSVH79duH4wrD+AQFSRSFT6AJWK1Q4GbqYrOvlIkhSHPhaULqRFWQKG3EuVwl5T6NI2EDBm3l2cnFjMeBG/A7KdMJEfOj/ECVik9dadkSzrXLRUT/rthRg71bQelYOELnB4=
+	t=1775828605; cv=none; b=R86LaWG+8kj5JQH6bL7We17aHOskTjmy0a5AejLE8JwNwPeoUmOYgEkxdIrTm08VFfWDp8JlBfEbunT9NzO22L7p5taf0TsmYCKmdTE+97fwsP42Nj9/iWapi3Vsoep58Q7pguNH8pl5u4xE3fMKy/gTb6qsR8HQ91QYJ7FWAXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775828311; c=relaxed/simple;
-	bh=8DAruWYk+7ZER/ZWa7DWIENc5RE6W/mYgVDa2d7a+EI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ywn/al+IqxHmeIhxYWClY9n7zWOcK5t0apg/2cP+bObe0qezfU1HnSrFTLVlypT1oV8CBrLuqNJ0MiQ8DiEczeFX01NrZzBkVfcCfW7Z0AZ7cUIOvoPvq8jhrX6rogAtWedc/tHf/lJTRS4dIT5Hd4YnbsBq4BKc+AtkBtz1RP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=R7AK7cIP; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02A56225;
-	Fri, 10 Apr 2026 15:36:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775828217;
-	bh=8DAruWYk+7ZER/ZWa7DWIENc5RE6W/mYgVDa2d7a+EI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R7AK7cIPO3Spbg1m3M69RetTIKoQ+ERORQQmDNsLJ1/L7ieYoIKNoCTyAvkpCV7XQ
-	 1B3JSbLi2R2MQMDD6OK6Re0cSh3KyDLat9WVD3G5tLGUxvT0t2ABLCQ6ZVLMcY0H+f
-	 cFLl7j8rc/Ae2CVAC78nm9nSopDizSsqisai3KhE=
-Date: Fri, 10 Apr 2026 15:38:23 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, 
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
-	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
-	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
-	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
-	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, 
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, 
-	Jai Luthra <jai.luthra@ideasonboard.com>, Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v4 05/29] media: imx219: Fix vertical blanking and
- exposure for analogue binning
-Message-ID: <adj8Ox1ZlG_9uT81@zed>
-References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-6-sakari.ailus@linux.intel.com>
- <adi17tFyi5uX1GpP@zed>
- <adi4-T0TMfWIOBmk@kekkonen.localdomain>
- <adi6Jvys5KxvCmOA@zed>
- <adi9CgXFC1RQxNij@kekkonen.localdomain>
+	s=arc-20240116; t=1775828605; c=relaxed/simple;
+	bh=eO70mw2m3Rgb2pLdJEFXF/GNu4emkMHOfvWvBTWaHh8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jdYGzVDgeOJIIV9lrIqL1cqgeRlUArMHAJd8WT4NRHDJ+ZKnoCiok7gTc2Kx6ircNcEo8Yaci2NILgYMp3/hA6l1mPhraq1mnGKI3WTYkuQlxQry495z1Iv7UsOOBCd0RvV++xQy7yrMxah3rK39eit4llj57TAeDZyRkGUmAcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p2Vb4A/R; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A18AC19425;
+	Fri, 10 Apr 2026 13:43:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775828605;
+	bh=eO70mw2m3Rgb2pLdJEFXF/GNu4emkMHOfvWvBTWaHh8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=p2Vb4A/R3JkUfa/TseC9NKVRJVWuq79xeWUYvnc372Xm9Ysc5QQH8IPXLwcS/MKGm
+	 JiOX9k7sBYfqilEOBUKxT8kOfE4qVlWWxdnbgJn02JT7lEdX3auTPbjDu7xzZE8ROX
+	 dtPOKG0mlgPH7OmbJoMHrTkRYUZ2CmYszVdCVyKTNhJH0t6n8+m9LRxG9Qgr/xKtO9
+	 wc0WYJBQqI5hMztHq0AGLRKVmb01QShKRvsxPxw0QUSWuGwpwvTJVnexSgybciLk9T
+	 MZ6WYKvrFhHW/FEL8oM9mwsT71aedNzKAIinhoWvs45D/jMYUS4SZMR4GXsbgzySt8
+	 ZJIYNZSWKxaIQ==
+Message-ID: <2e047313-38b1-4758-a484-5c79f628f7e9@kernel.org>
+Date: Fri, 10 Apr 2026 15:43:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <adi9CgXFC1RQxNij@kekkonen.localdomain>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] arm64: dts: qcom: purwa-iot-evk: Add camss node
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Robert Foss
+ <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260410-purwa_camss-v1-0-eedcf6d9d8ee@oss.qualcomm.com>
+ <20260410-purwa_camss-v1-4-eedcf6d9d8ee@oss.qualcomm.com>
+ <765e4740-cf13-4d4e-ab69-c1abe1c39d34@linaro.org>
+ <c9cea1d2-a51f-4c38-8ae9-db868b86a928@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <c9cea1d2-a51f-4c38-8ae9-db868b86a928@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-58554-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58555-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,linaro.org,kernel.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 5990F3D82D4
+X-Rspamd-Queue-Id: EEDB53D845E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Sakari
+On 10/04/2026 10:38, Wenmeng Liu wrote:
+>>> +&camss {
+>>> +    status = "okay";
+>>> +};
+>>
+>> Hmm.
+>>
+>> I don't agree with this. Enabling the CAMSS node with just the TPG is of 
+>> very low value to an end-user and doesn't "prove out" the CSIPHY, TPG 
+>> and RDI path - which is the minimum entry point in upstream right now.
+>>
+>> I don't support less than a sensor at minimum.
+>>
+>> You guys must have a sensor you've used with this board ?
+>>
+> 
+> Yes we have, but both not upstreamed sensor, we currently have no plans 
+> for sensor upstream, perhaps this work will be carried out later.
+> 
 
-On Fri, Apr 10, 2026 at 12:04:10PM +0300, Sakari Ailus wrote:
-> Hi Jacopo,
->
-> On Fri, Apr 10, 2026 at 10:56:46AM +0200, Jacopo Mondi wrote:
-> > Hi Sakari
-> >
-> > On Fri, Apr 10, 2026 at 11:46:49AM +0300, Sakari Ailus wrote:
-> > > Hi Jacopo,
-> > >
-> > > On Fri, Apr 10, 2026 at 10:42:22AM +0200, Jacopo Mondi wrote:
-> > > > Hi Sakari
-> > > >
-> > > > On Wed, Apr 08, 2026 at 06:39:14PM +0300, Sakari Ailus wrote:
-> > > > > When vertical analogue binning is in use, the minimum frame length in
-> > > > > lines decreases to around half of the normal. In relation to the sensor's
-> > > > > output size this means vertical blanking can be negative but that's not an
-> > > > > issue as control values are signed. Remove the workaround for this
-> > > > > non-issue that doubled the pixel rate, frame length in lines and exposure
-> > > > > time.
-> > > >
-> > > > I don't think this was a workaround. Doubling the pixel rate and
-> > >
-> > > You could also call it a bug. :-) If you look what the driver does with
-> > > PLL, you can see the PLL configuration is always the same independently of
-> > > any binning configuration.
-> >
-> > Are you suggesting doubling the PIXEL_RATE is not accurate as the PLL
-> > config doesn't change ? I might be very wrong, but in my understanding
-> > this is partially why the "special" binning mode is special. We don't
-> > have documentation for it and I'm maybe speculating here.
->
-> I guess this comes down to the definition of PIXEL_RATE. I checked the
-> control's documentation and I think it's indeed possible to understand it
-> the way you suggest above.
->
-> The control's value indeed was meant to reflect the actual frequency the
-> pixels are read in the sensor's pixel array. The fact that the sensor uses
-> analogue binning to sample two (or in some cases more) pixels into one
-> output pixel in a single cycle doesn't change the frequency.
->
+Then, as Bryan said, this patch should not be sent. It brings no value
+to the user of this DTS, because users-with-out-of-tree-patches can have
+this as well out of tree.
 
-Not sure, I feel like we're talking details :) To be honest I
-value consistency towards userspace more than exposing the exact
-details of the sensor's configuration. It might be argued that the
-sole purpose of PIXEL_RATE is to allow userspace to calculate the
-frame duration instead of reporting the exact PLL configuration.
-
-I'll defer the call to you and Dave, but I suggst to test this
-carefully because getting it right hasn't been easy as Jai can confirm
-
-> >
-> > Is doubling the VBLANK limit to a number larger of the register
-> > maximum value more accurate ?
-> >
-> > >
-> > > > halving the values written to registers for EXPOSURE and VBLANK
-> > > > allowed userspace to maintain a consistent view while the driver
-> > > > accounts for the special binning mode where, at least in my latest
-> > > > understanding, the sensor averages two lines before passing them to
-> > > > the ADC.
-> > > >
-> > > > I am missing in which case, with the current driver implementation,
-> > > > the vertical blanking can be negative.
-> > > >
-> > > > >
-> > > > > The resulting change also fixes the minimum, the maximum and the step
-> > > > > values for the control.
-> > > > >
-> > > > > Fixes: f513997119f4 ("media: i2c: imx219: Scale the pixel rate for analog binning")
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > >
-> > > > Jai, and others including Dave and me, have spent quite some time
-> > > > testing and implementing proper support for the special analogue
-> > > > binning mode for this sensor. Of course we might have missed something
-> > > > obvious, but I'm still missing what you're trying to fix here.
-> > > >
-> >
-> > still not sure what you're trying to fix here
-> >
-> > > > > ---
-> > > > >  drivers/media/i2c/imx219.c | 29 +++++++++--------------------
-> > > > >  1 file changed, 9 insertions(+), 20 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > > > > index 6819a2fa3262..a72630ad1561 100644
-> > > > > --- a/drivers/media/i2c/imx219.c
-> > > > > +++ b/drivers/media/i2c/imx219.c
-> > > > > @@ -420,15 +420,6 @@ static void imx219_get_binning(struct v4l2_subdev_state *state, u8 *bin_h,
-> > > > >
-> > > > >  }
-> > > > >
-> > > > > -static inline u32 imx219_get_rate_factor(struct v4l2_subdev_state *state)
-> > > > > -{
-> > > > > -	u8 bin_h, bin_v;
-> > > > > -
-> > > > > -	imx219_get_binning(state, &bin_h, &bin_v);
-> > > > > -
-> > > > > -	return (bin_h & bin_v) == IMX219_BINNING_X2_ANALOG ? 2 : 1;
-> > > > > -}
-> > > > > -
-> > > > >  /* -----------------------------------------------------------------------------
-> > > > >   * Controls
-> > > > >   */
-> > > > > @@ -440,12 +431,10 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > > >  	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
-> > > > >  	const struct v4l2_mbus_framefmt *format;
-> > > > >  	struct v4l2_subdev_state *state;
-> > > > > -	u32 rate_factor;
-> > > > >  	int ret = 0;
-> > > > >
-> > > > >  	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
-> > > > >  	format = v4l2_subdev_state_get_format(state, 0);
-> > > > > -	rate_factor = imx219_get_rate_factor(state);
-> > > > >
-> > > > >  	if (ctrl->id == V4L2_CID_VBLANK) {
-> > > > >  		int exposure_max, exposure_def;
-> > > > > @@ -478,7 +467,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > > >  		break;
-> > > > >  	case V4L2_CID_EXPOSURE:
-> > > > >  		cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
-> > > > > -			  ctrl->val / rate_factor, &ret);
-> > > > > +			  ctrl->val, &ret);
-> > > > >  		break;
-> > > > >  	case V4L2_CID_DIGITAL_GAIN:
-> > > > >  		cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
-> > > > > @@ -495,7 +484,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > > >  		break;
-> > > > >  	case V4L2_CID_VBLANK:
-> > > > >  		cci_write(imx219->regmap, IMX219_REG_FRM_LENGTH_A,
-> > > > > -			  (format->height + ctrl->val) / rate_factor, &ret);
-> > > > > +			  format->height + ctrl->val, &ret);
-> > > > >  		break;
-> > > > >  	case V4L2_CID_HBLANK:
-> > > > >  		cci_write(imx219->regmap, IMX219_REG_LINE_LENGTH_A,
-> > > > > @@ -878,7 +867,6 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > > > >  	crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
-> > > > >
-> > > > >  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > > > > -		unsigned int rate_factor = imx219_get_rate_factor(state);
-> > > > >  		int exposure_max;
-> > > > >  		int exposure_def;
-> > > > >  		int llp_min;
-> > > > > @@ -886,15 +874,16 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > > > >
-> > > > >  		/* Update limits and set FPS to default */
-> > > > >  		ret = __v4l2_ctrl_modify_range(imx219->vblank,
-> > > > > -					       IMX219_VBLANK_MIN * rate_factor,
-> > > > > -					       (IMX219_FLL_MAX - mode->height) *
-> > > > > -					       rate_factor, rate_factor,
-> > > > > -					       mode->fll_def - mode->height);
-> > > > > +					       (int)(mode->height / binning),
-> > > > > +					       IMX219_FLL_MAX - mode->height, 1,
-> > > > > +					       (int)(mode->fll_def / binning) -
-> > > > > +					       (int)mode->height);
-> > > > >  		if (ret)
-> > > > >  			return ret;
-> > > > >
-> > > > >  		ret = __v4l2_ctrl_s_ctrl(imx219->vblank,
-> > > > > -					 mode->fll_def - mode->height);
-> > > > > +					 (int)(mode->fll_def / binning) -
-> > > > > +					 (int)mode->height);
-> > > > >  		if (ret)
-> > > > >  			return ret;
-> > > > >
-> > > > > @@ -931,7 +920,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > > > >  			return ret;
-> > > > >
-> > > > >  		/* Scale the pixel rate based on the mode specific factor */
-> > > > > -		pixel_rate = imx219_get_pixel_rate(imx219) * rate_factor;
-> > > > > +		pixel_rate = imx219_get_pixel_rate(imx219);
-> > > > >  		ret = __v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
-> > > > >  					       pixel_rate, 1, pixel_rate);
-> > > > >  		if (ret)
-> > >
-> > > --
-> > > Regards,
-> > >
-> > > Sakari Ailus
-> > >
->
-> --
-> Regards,
->
-> Sakari Ailus
->
+Best regards,
+Krzysztof
 
