@@ -1,990 +1,141 @@
-Return-Path: <linux-media+bounces-58561-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58562-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sDRZDRch2WkqmggAu9opvQ
-	(envelope-from <linux-media+bounces-58561-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 18:11:03 +0200
+	id 4GyDIOwi2WlrmggAu9opvQ
+	(envelope-from <linux-media+bounces-58562-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 18:18:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56FC3DA25D
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 18:11:02 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1AE73DA470
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 18:18:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1BDB8300BBAB
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 16:10:40 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3EFF7301D301
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 16:14:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55D363DA7E5;
-	Fri, 10 Apr 2026 16:10:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F8513D3490;
+	Fri, 10 Apr 2026 16:14:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ka4KjjMX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oyLqtGux"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD0D3C7DF2;
-	Fri, 10 Apr 2026 16:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0963D9DCD
+	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 16:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775837435; cv=none; b=GKihgKuNB/doi7zTiETMxkvy/umpqqNmvar7QSFr9ipkaxSsuHY3P/O1pPoaL9KzqMsv6MLy29GfJoLLzQ846SXGtFvLzegDWwg3E5WrHjKC+TyfQH8m+5jHlujTuH9GJ8FW3hwBokvS6zpiK3yZCaenIG2NZLdZdtg4e+sxgKE=
+	t=1775837674; cv=none; b=k9E5sjuY0X5TY0GZDs+T1Y0kWY7obJe9Mz0KDwdnHTtXiRbygkK3rjC8bfLi0syt+NlQM4zbkT8GEYN94Z91j68MoUYoJD+brSN1VIHIFZ1tG4MDzIiMU6lD3xS94e2DaAXAc19CJ6wGHziDMman+xQRpXU2RSSCNlCDEZk86yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775837435; c=relaxed/simple;
-	bh=mZEchpR09j7HLoA8S2CCLjcgdYnpa6ooc1sn9SY3vDw=;
+	s=arc-20240116; t=1775837674; c=relaxed/simple;
+	bh=1AzS82S56n+QGXJOncdKL9W5z7WDXflEXP+d4nQ61gk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fqbpkX2xGyveV2Z9zF+m17G3ia0MnIBtx+M5ogYNT/MhbhZkoKrtOR2TLJaFlLO7NbJ6/phq7kZYyL52aoz7jKrOW9MLAqgw1AJEdRYB32L4Tyl7dftnPhEU+pMm0aCFs+Jo0vNOqOrpkLE6OwLROnWqdESX49abJBVKpCypxEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ka4KjjMX; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 406BD236;
-	Fri, 10 Apr 2026 18:09:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775837340;
-	bh=mZEchpR09j7HLoA8S2CCLjcgdYnpa6ooc1sn9SY3vDw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ka4KjjMXU8S3qiPG4H96MkrFdGHRyi209VrvfpwyaG1did/KVmTjJyaaAZOq3RP8e
-	 vfh/+C/BFgE2TYk/qn52KhFu6K3+S5MZ40/dMfjCEKFWwOy7HIqf7IxFPIZGrHN+fr
-	 4YUNryxewHgkAFt51PyLjRHbjzwZfcJI3OWNTe2g=
-Date: Fri, 10 Apr 2026 18:10:26 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rMhUnpJQO9/O5LSy4UNTWYSdRnbIZei+j8OP/4qCyF+ON+wgWxHQ61msd4EOEZ911okNtVFwR/qJLqBtAVOAwDmh72xgHrAPzu5laMnVCu0wp2WWgYbcg8lHI3aFSSGZqy01AmXfO043KAAoYSnelywMHSI85igHuaTUCUyuDT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oyLqtGux; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43b95e5b3afso1446085f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 09:14:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775837672; x=1776442472; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1AzS82S56n+QGXJOncdKL9W5z7WDXflEXP+d4nQ61gk=;
+        b=oyLqtGuxU/Y522o/VZlLtNj0H+j1Y99Gj/uEAMxHO4uNHrPfEvzPr4f6s//skeJ5D9
+         A/SbWRBECL3709La2pskoH1t/PktZngUqfbNdPxp7XWmibZNp2ELuDGpKmFriMu+aL/A
+         sVQh2k3x4WBNA0zDyOj0CjkQznfAxEDwuuEj9v/EeAqa7vgFE/3SyIEyLGxDfnKKR3qu
+         Av76flK03DYgsC2a8niVxmh2nfErVivHPc1l211noIn/7SH5v83341eGykZYiMvLLJrk
+         cS0L6iB23HZWkvOf4Ie18cX85w1SbO2KprQlYye0jsPnOQbpqA65ERU2B4poPZZ1CwCz
+         NBUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775837672; x=1776442472;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1AzS82S56n+QGXJOncdKL9W5z7WDXflEXP+d4nQ61gk=;
+        b=k9IbOKaVz8RK073t5OwCRIMpFWPREPHaxW0RRBgqHoZIB7z2KYNW1aVWSk3DsrfPug
+         xUxtGT9cIUQvM2UJPorKJ9sfBuGjscRt8QIOkIy25/Ryq1NBXJjQb8gamRJmofzVHtWK
+         HfOKeo9AsbaFF/zElXe/E6JqjEp1Ki0zbgaVjMEgnYRGyh2/ux2VhRz6zHvajNzTv5ES
+         2/yMEroZrqvUj3fiRILUwj8ObawCqsVuFfLDIMDb0TJ/Oe4UvA6f0PS+kYT9gezkLGc7
+         eLvD0H0kHxJWG0WC2hWrFY21jP2ZQZOftvd+A5pDd14he4gpdFVww16kfMQ5vNvpkGkE
+         oTXw==
+X-Forwarded-Encrypted: i=1; AJvYcCWtNP0w+EMIqVTfBllRkAtkO8+TCbU42QB+oD0d3RJVGHp1MkoZAyLQOyxANmlh2BM2X07WdPGFlZ6lgQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6yAFdq5GPdCoPZ6D9i2CWyI+YLkCXzje2hrDczG7bQYGzY56h
+	aHBt7iDujKhZWRPHosiFmwKspEKq0wGU8eP03JrJZH2QCv8zgDAv3v3h
+X-Gm-Gg: AeBDievhcUaPjzO/Pwhng/wBq1TjLDvLwy3mS92jd9uxp0MbGVv7nSp5EuaPbZBl/wU
+	aRGMR4+h/wWCn9j2n8qo4WemdVjeli5R1IingPjjDlBWVyUiQvfQAONEu0s4haAcEevwEXtGyVY
+	Sed3NChTXgoN9l6gKjciOjiWQ2PCd9kr/2AREClkl1aVgKuyvNO/8EpD8Gk3y+HRO+RotkTwaj3
+	KzEvBZH/hdCpwjgx7i8tzSWL6BqtnV9RDYy1p6IvRDuicYuisFSErpDFd8sWAHcFjSmXVm97i4J
+	bdqs5Jzn/KFjCwBf9L46h72SG1vqqhffZSNzfnWjOejTcMms/530uK9hwRyNKYBAuaGqDAw94KU
+	WW8lAHm24iZhh4ZEWaEYpqF02U1bfq8u4pmLfIuVcZCMMrodseL6ioTEK8YtX7NMNUbPa91Y2+4
+	uDFBeLEx0mcZ+YIvOV3PATXAl/G++btA==
+X-Received: by 2002:a5d:5846:0:b0:43b:3d4f:e18d with SMTP id ffacd0b85a97d-43d642c3db2mr5952453f8f.39.1775837671379;
+        Fri, 10 Apr 2026 09:14:31 -0700 (PDT)
+Received: from gmail.com ([2a00:f41:1c39:1fd5:2a0c:50ff:fe2f:36f4])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63de2e4csm9029419f8f.2.2026.04.10.09.14.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2026 09:14:30 -0700 (PDT)
+Date: Fri, 10 Apr 2026 18:14:27 +0200
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+To: Josh Hesketh <josh.hesketh@gmail.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>
-Subject: Re: [PATCH v7 02/18] media: uapi: Add extensible param and stats
- blocks for RPPX1
-Message-ID: <adkN3HLFanUYJs20@zed>
-References: <20260410-rppx1-v7-0-43cfc6b44f1f@ideasonboard.com>
- <20260410-rppx1-v7-2-43cfc6b44f1f@ideasonboard.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: av7110: remove dead code from av7110_hw.c
+Message-ID: <adke6OqyRZcurrkn@gmail.com>
+References: <20260410152502.25310-1-josh.hesketh@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260410-rppx1-v7-2-43cfc6b44f1f@ideasonboard.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
+In-Reply-To: <20260410152502.25310-1-josh.hesketh@gmail.com>
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58561-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58562-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,ragnatech.se,glider.be,gmail.com,renesas.com,vger.kernel.org,ideasonboard.com,mailbox.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E56FC3DA25D
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[azpijr@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: F1AE73DA470
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Jai
-
-On Fri, Apr 10, 2026 at 02:35:37PM +0530, Jai Luthra wrote:
-> Define the userspace API for the Dreamchip RPP-X1 ISP extensible
-> parameters and statistics. The RPP-X1 is functionally similar to the
-> RkISP1 already supported upstream, but operates at higher bit depths (up
-> to 24-bit precision in many blocks) and exposes additional configuration
-> options. This warrants a dedicated uAPI rather than reusing the RkISP1
-> definitions.
+On Fri, Apr 10, 2026 at 04:25:02PM +0100, Josh Hesketh wrote:
+> Remove functions av7110_reset_arm() and av7110_send_ci_cmd()
+> which have both been disabled behind #if 0 since the introduction
+> to staging. Code can be recovered from git history.
 >
-> The parameter blocks follow the V4L2 extensible parameters framework
-> using struct v4l2_isp_params_block_header, with each ISP functional
-> block represented as a tagged configuration structure. The statistics
-> buffer provides AWB, auto-exposure and histogram measurement results at
-> native RPP-X1 precision.
->
-> Not all functional blocks present on the RPP-X1 hardware are included
-> yet, but the format is extensible and new blocks can be added without
-> breaking existing userspace.
->
-> Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
-> ---
->  include/uapi/linux/media/dreamchip/rppx1-config.h | 728 ++++++++++++++++++++++
->  1 file changed, 728 insertions(+)
->
-> diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..b9083e6f32b15329333eb13491b50c0aea8d1a32
-> --- /dev/null
-> +++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
-> @@ -0,0 +1,728 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +/*
-> + * Dreamchip RPP-X1 ISP Driver - Userspace API
-> + *
-> + * Copyright (C) 2026 Renesas Electronics Corp.
-> + * Copyright (C) 2026 Ideas on Board Oy
-> + * Copyright (C) 2026 Ragnatech AB
-> + */
-> +
-> +#ifndef __UAPI_RPP_X1_CONFIG_H
-> +#define __UAPI_RPP_X1_CONFIG_H
-> +
-> +#include <linux/types.h>
-> +#include <linux/media/v4l2-isp.h>
-> +
-> +/*
-> + * Defect Pixel Cluster Correction
-> + */
-> +#define RPPX1_DPCC_METHODS_MAX				3
-> +
-> +/* Linearization (Sensor De-gamma) */
-> +#define RPPX1_LIN_SAMPLES_NUM				17
-> +
-> +/* Gamma Out */
-> +#define RPPX1_GAMMA_OUT_MAX_SAMPLES			17
-> +
-> +/* Lens Shade Correction */
-> +#define RPPX1_LSC_SECTORS_TBL_SIZE			8
-> +#define RPPX1_LSC_SAMPLES_MAX				17
-> +
-> +/* Histogram */
-> +#define RPPX1_HIST_BIN_N_MAX				32
-> +
-> +/* Exposure Measurement */
-> +#define RPPX1_EXM_MEAN_MAX				25
-> +
-> +/* AWB Measurement */
-> +#define RPPX1_AWB_MAX_GRID				1
-> +
-> +/* Color Correction Matrix */
-> +#define RPPX1_CTK_COEFF_MAX				0x8000
-> +#define RPPX1_CTK_OFFSET_MAX				0x800000
-> +
-> +/* Filter */
-> +#define RPPX1_BDM_MAX_TH				0xffff
-> +
-> +/**
-> + * enum rppx1_params_block_type - RPP-X1 extensible params block types
-> + *
-> + * @RPPX1_PARAMS_BLOCK_TYPE_BLS: Black Level Subtraction
-> + * @RPPX1_PARAMS_BLOCK_TYPE_DPCC: Defect Pixel Cluster Correction
-> + * @RPPX1_PARAMS_BLOCK_TYPE_LIN: Linearization (Sensor De-gamma)
-> + * @RPPX1_PARAMS_BLOCK_TYPE_AWB_GAIN: Auto White Balance Gains
-> + * @RPPX1_PARAMS_BLOCK_TYPE_FLT: ISP Filtering
-> + * @RPPX1_PARAMS_BLOCK_TYPE_BDM: Bayer Demosaic
-> + * @RPPX1_PARAMS_BLOCK_TYPE_CTK: Color Correction (Cross-Talk)
-> + * @RPPX1_PARAMS_BLOCK_TYPE_GOC: Gamma Out Correction
-> + * @RPPX1_PARAMS_BLOCK_TYPE_DPF: De-noise Pre-Filter
-> + * @RPPX1_PARAMS_BLOCK_TYPE_DPF_STRENGTH: De-noise Pre-Filter Strength
-> + * @RPPX1_PARAMS_BLOCK_TYPE_LSC: Lens Shading Correction
-> + * @RPPX1_PARAMS_BLOCK_TYPE_AWB_MEAS: AWB Measurement Configuration
-> + * @RPPX1_PARAMS_BLOCK_TYPE_HST_MEAS: Histogram Measurement Configuration
-> + * @RPPX1_PARAMS_BLOCK_TYPE_AEC_MEAS: Auto Exposure Measurement Configuration
-> + */
-> +enum rppx1_params_block_type {
-> +	RPPX1_PARAMS_BLOCK_TYPE_BLS,
-> +	RPPX1_PARAMS_BLOCK_TYPE_DPCC,
-> +	RPPX1_PARAMS_BLOCK_TYPE_LIN,
-> +	RPPX1_PARAMS_BLOCK_TYPE_AWB_GAIN,
-> +	RPPX1_PARAMS_BLOCK_TYPE_FLT,
-> +	RPPX1_PARAMS_BLOCK_TYPE_BDM,
-> +	RPPX1_PARAMS_BLOCK_TYPE_CTK,
-> +	RPPX1_PARAMS_BLOCK_TYPE_GOC,
-> +	RPPX1_PARAMS_BLOCK_TYPE_DPF,
-> +	RPPX1_PARAMS_BLOCK_TYPE_DPF_STRENGTH,
-> +	RPPX1_PARAMS_BLOCK_TYPE_LSC,
-> +	RPPX1_PARAMS_BLOCK_TYPE_AWB_MEAS,
-> +	RPPX1_PARAMS_BLOCK_TYPE_HST_MEAS,
-> +	RPPX1_PARAMS_BLOCK_TYPE_AEC_MEAS,
-> +};
 
-Let me start with a review of some of the blocks, we'll go through
-them one by one.
+cleanup patches for this driver won't be accepted anymore :(
 
-> +
-> +/**
-> + * struct rppx1_window - Measurement window
-> + *
-> + * @h_offs: horizontal offset from the left of the frame in pixels
-
-I think it's relevant saying these are 14 bits values
-
-> + * @v_offs: vertical offset from the top of the frame in pixels
-> + * @h_size: horizontal size of the window in pixels
-> + * @v_size: vertical size of the window in pixels
-> + */
-> +struct rppx1_window {
-> +	__u16 h_offs;
-> +	__u16 v_offs;
-> +	__u16 h_size;
-> +	__u16 v_size;
-> +};
-> +
-> +/**
-> + * struct rppx1_bls_fixed_val - BLS fixed subtraction values
-> + *
-> + * Fixed black level values subtracted from sensor data per Bayer channel.
-> + * Negative values result in addition. Each value is a 24-bit + sign
-> + * (25-bit signed) fixed-point number stored in a __s32.
-
-I think these should be described as
-
-"Each value is is stored as a signed 2's complement representation
-ranging from -2^24 to 2^24-1."
-
-As the fixed point representation in 2's complement allows to
-represent a negative number with an integer I think the type of the
-fields should be __u32.
-
-> + *
-> + * RPP-X1 supports 12/20/24-bit + sign depending on hardware version.
-
-The ISP reports this through the "bls_version" register field.
-
-I would introduce an enumeration for this and reference it here.
-More on this below.
-
-> + * Userspace should provide values at full 24-bit precision; the driver
-> + * truncates to match the hardware.
-
-If you're looking at "bls_version" I didn't find where it is said that
-it impacts the fixed values, I only read it impacts the measured
-values. Have I missed that ?
-
-> + *
-> + * @r: subtraction value for Bayer pattern R
-> + * @gr: subtraction value for Bayer pattern Gr
-> + * @gb: subtraction value for Bayer pattern Gb
-> + * @b: subtraction value for Bayer pattern B
-
-The manual describes the values as "A", "B", "C" and "D".
-
-These values are matched with the Bayer components according to the
-cropping configuration on the input port. The pipeline should
-carefully crop to the macro-pixel boundary so that A B C and D
-correspond to the sensor's native Bayer ordering.
-
-Also, I wouldn't say "subtraction" but simply "Fixed black level for
-channel ..."
-
-> + */
-> +struct rppx1_bls_fixed_val {
-> +	__s32 r;
-> +	__s32 gr;
-> +	__s32 gb;
-> +	__s32 b;
-> +};
-> +
-> +/**
-> + * struct rppx1_params_bls_config - Black Level Subtraction configuration
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_BLS)
-> + * @enable_auto: 1 = use measured values, 0 = use fixed_val
-
-I would call this "bls_mode" and create and enum for it
-
-enum rppx1_bls_mode {
-        RPPX1_BLS_MODE_FIXED,
-        RPPX1_BLS_MODE_MEAS,
-};
-
-> + * @en_windows: enabled measurement windows bitmask
-
-For this one as well
-
-enum rppx1_bls_win_en {
-        RPPX1_BLS_WIN_EN_OFF,
-        RPPX1_BLS_WIN_EN_WIN1,
-        RPPX1_BLS_WIN_EN_WIN2,
-        RPPX1_BLS_WIN_EN_WIN12,
-};
-
-> + * @bls_window1: measurement window 1
-> + * @bls_window2: measurement window 2
-> + * @bls_samples: log2 of the number of measured pixels per Bayer position
-> + * @fixed_val: fixed subtraction values (24-bit + sign)
-
-Let's defer the field length description to the documentation of
-rppx1_bls_fixed_val.
-
-Also, I would document these as "fixed black level values"
-
-> + */
-> +struct rppx1_params_bls_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u8 enable_auto;
-> +	__u8 en_windows;
-
-I was about to complaint that you're missing the enable bit but we can
-use the block header maybe ?
-
-> +	struct rppx1_window bls_window1;
-> +	struct rppx1_window bls_window2;
-> +	__u8 bls_samples;
-> +	struct rppx1_bls_fixed_val fixed_val;
-> +};
-> +
-> +/**
-> + * struct rppx1_dpcc_methods_config - DPCC methods set configuration
-> + *
-> + * This structure stores the configuration of one set of methods for the DPCC
-> + * algorithm. Multiple methods can be selected in each set (independently for
-> + * the Green and Red/Blue components) through the @method field, the result is
-> + * the logical AND of all enabled methods. The remaining fields set thresholds
-> + * and factors for each method.
-> + *
-> + * @method: method enable bits (RPPX1_DPCC_METHODS_SET_*)
-> + * @line_thresh: line threshold (RPPX1_DPCC_LINE_THRESH_*)
-> + * @line_mad_fac: line MAD factor (RPPX1_DPCC_LINE_MAD_FAC_*)
-> + * @pg_fac: peak gradient factor (RPPX1_DPCC_PG_FAC_*)
-> + * @rnd_thresh: rank neighbor difference threshold (RPPX1_DPCC_RND_THRESH_*)
-> + * @rg_fac: rank gradient factor (RPPX1_DPCC_RG_FAC_*)
-> + */
-> +struct rppx1_dpcc_methods_config {
-> +	__u32 method;
-
-Shoulf we define each bit ?
-
-#define RPPX1_DPCC_METHODS_RG_RB_EN             (1 << 12)
-#define RPPX1_DPCC_METHODS_RND_RB_EN            (1 << 11)
-#define RPPX1_DPCC_METHODS_RO_RB_EN             (1 << 10)
-#define RPPX1_DPCC_METHODS_LC_RB_EN             (1 << 9)
-#define RPPX1_DPCC_METHODS_PG_RB_EN             (1 << 8)
-#define RPPX1_DPCC_METHODS_RG_G_EN              (1 << 4)
-#define RPPX1_DPCC_METHODS_RND_G_EN             (1 << 3)
-#define RPPX1_DPCC_METHODS_RO_G_EN              (1 << 2)
-#define RPPX1_DPCC_METHODS_LC_G_EN              (1 << 1)
-#define RPPX1_DPCC_METHODS_PG_G_EN              (1 << 0)
-
-> +	__u32 line_thresh;
-> +	__u32 line_mad_fac;
-
-For these and other fields you can define bitshits like the RkISP1
-uAPI header does
-
-> +	__u32 pg_fac;
-> +	__u32 rnd_thresh;
-> +	__u32 rg_fac;
-> +};
-> +
-> +/**
-> + * struct rppx1_params_dpcc_config - Defect Pixel Cluster Correction configuration
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_DPCC)
-> + * @mode: DPCC mode (RPPX1_DPCC_MODE_*)
-> + * @output_mode: interpolation output mode (RPPX1_DPCC_OUTPUT_MODE_*)
-> + * @set_use: methods sets selection (RPPX1_DPCC_SET_USE_*)
-> + * @methods: methods sets configuration
-> + * @ro_limits: rank order limits (RPPX1_DPCC_RO_LIMITS_*)
-> + * @rnd_offs: differential rank offsets (RPPX1_DPCC_RND_OFFS_*)
-> + */
-> +struct rppx1_params_dpcc_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u32 mode;
-
-Here as well it might be useful to define
-
-#define RPPX1_DPCC_MODE_STAGE1_EN               (1 << 2)
-#define RPPX1_DPCC_MODE_GRAYSCALE               (1 << 1)
-#define RPPX1_DPPC_MODE_ENABLE                  (1 << 0)
-
-> +	__u32 output_mode;
-> +	__u32 set_use;
-
-The same applies to these two registers
-
-> +	struct rppx1_dpcc_methods_config methods[RPPX1_DPCC_METHODS_MAX];
-> +	__u32 ro_limits;
-> +	__u32 rnd_offs;
-> +};
-
-DPPC reports a version number that allows to identify the bit width.
-Should it be communicated to userspace through statistics ?
-
-> +
-> +/**
-> + * struct rppx1_lin_curve - Linearization curve for one color channel
-> + *
-> + * The RPP-X1 linearization module supports 12/20/24-bit precision depending
-> + * on hardware version. Values are provided at 24-bit precision; the driver
-
-The hardware version should be reported through stats with proper
-defines
-
-Did you get what the difference is between:
-0x006: 24 bit version
-0x009: 24 bit, 4 bit dxi
-
-It seems to me dxi samples are 4 bits, aren't they ?
-
-> + *
-> + * @gamma_y: curve y-axis values, each up to 24 bits
-> + */
-> +struct rppx1_lin_curve {
-> +	__u32 gamma_y[RPPX1_LIN_SAMPLES_NUM];
-> +};
-> +
-> +/**
-> + * struct rppx1_lin_curve_dx - Linearization curve x-axis (sampling points)
-> + * increments.
-> + *
-> + * gamma_dx[0] is for the lower samples, so Bits 0:3 for sample 1, ... Bits
-> + * 28:31 for sample 8
-> + * gamma_dx[1] is for the higher samples, so Bits 0:3 for sample 9, ... Bits
-> + * 28:31 for sample 16
-> + *
-> + * The reset values for both fields is 0xcccccccc. This means that each sample
-> + * is 12 units away from the previous one on the x-axis.
-> + *
-> + * @gamma_dx: curve x-axis increments in 4-bit precision
-> + */
-> +struct rppx1_lin_curve_dx {
-> +	__u32 gamma_dx[2];
-> +};
-> +
-> +/**
-> + * struct rppx1_params_lin_config - Linearization (Sensor De-gamma) configuration
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_LIN)
-> + * @curve_r: linearization curve for red channel
-> + * @curve_g: linearization curve for green channel
-> + * @curve_b: linearization curve for blue channel
-> + * @xa_pnts: x axis increment definitions
-> + */
-> +struct rppx1_params_lin_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	struct rppx1_lin_curve curve_r;
-> +	struct rppx1_lin_curve curve_g;
-> +	struct rppx1_lin_curve curve_b;
-> +	struct rppx1_lin_curve_dx xa_pnts;
-> +};
-
-Ack, I'll stop here for the time being :)
-
-> +
-> +/**
-> + * struct rppx1_params_lsc_config - Lens Shading Correction configuration
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_LSC)
-> + * @r_data_tbl: sample table red
-> + * @gr_data_tbl: sample table green (red)
-> + * @gb_data_tbl: sample table green (blue)
-> + * @b_data_tbl: sample table blue
-> + * @x_grad_tbl: gradient table x
-> + * @y_grad_tbl: gradient table y
-> + * @x_size_tbl: size table x
-> + * @y_size_tbl: size table y
-> + * @config_width: reserved
-> + * @config_height: reserved
-> + */
-> +struct rppx1_params_lsc_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u16 r_data_tbl[RPPX1_LSC_SAMPLES_MAX][RPPX1_LSC_SAMPLES_MAX];
-> +	__u16 gr_data_tbl[RPPX1_LSC_SAMPLES_MAX][RPPX1_LSC_SAMPLES_MAX];
-> +	__u16 gb_data_tbl[RPPX1_LSC_SAMPLES_MAX][RPPX1_LSC_SAMPLES_MAX];
-> +	__u16 b_data_tbl[RPPX1_LSC_SAMPLES_MAX][RPPX1_LSC_SAMPLES_MAX];
-> +	__u16 x_grad_tbl[RPPX1_LSC_SECTORS_TBL_SIZE];
-> +	__u16 y_grad_tbl[RPPX1_LSC_SECTORS_TBL_SIZE];
-> +	__u16 x_size_tbl[RPPX1_LSC_SECTORS_TBL_SIZE];
-> +	__u16 y_size_tbl[RPPX1_LSC_SECTORS_TBL_SIZE];
-> +	__u16 config_width;
-> +	__u16 config_height;
-> +};
-> +
-> +/**
-> + * struct rppx1_params_awb_gain_config  - AWB gain configuration
-> + *
-> + * RPP-X1 AWB gains are 18-bit with 12-bit fractional part (0x1000 = 1.0),
-> + * giving a range of 0.0 to 64.0.
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_AWB_GAIN)
-> + * @gain_red: gain for red component, 18-bit (Q6.12)
-> + * @gain_green_r: gain for green-in-red component, 18-bit (Q6.12)
-> + * @gain_blue: gain for blue component, 18-bit (Q6.12)
-> + * @gain_green_b: gain for green-in-blue component, 18-bit (Q6.12)
-> + */
-> +struct rppx1_params_awb_gain_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u32 gain_red;
-> +	__u32 gain_green_r;
-> +	__u32 gain_blue;
-> +	__u32 gain_green_b;
-> +};
-> +
-> +/**
-> + * struct rppx1_params_flt_config - Filter (demosaic/denoise) configuration
-> + *
-> + * RPP-X1 thresholds are 18-bit and factors are 8-bit.
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_FLT)
-> + * @mode: filter mode
-> + * @grn_stage1: green filter stage 1 select (range 0x0...0x8)
-> + * @chr_h_mode: chroma filter horizontal mode
-> + * @chr_v_mode: chroma filter vertical mode
-> + * @thresh_bl0: If thresh_bl1 < sum_grad < thresh_bl0 then fac_bl0 is selected (blurring th)
-> + * @thresh_bl1: If sum_grad < thresh_bl1 then fac_bl1 is selected (blurring th)
-> + * @thresh_sh0: If thresh_sh0 < sum_grad < thresh_sh1 then thresh_sh0 is selected (sharpening th)
-> + * @thresh_sh1: If thresh_sh1 < sum_grad then thresh_sh1 is selected (sharpening th)
-> + * @lum_weight: luminance weight, min (bits 0:11), kink (bits 12:23), gain (bits 28:30)
-> + * @fac_sh1: filter factor for sharp1 level
-> + * @fac_sh0: filter factor for sharp0 level
-> + * @fac_mid: filter factor for mid level and for static filter mode
-> + * @fac_bl0: filter factor for blur0 level
-> + * @fac_bl1: filter factor for blur1 level (max blur)
-> + */
-> +struct rppx1_params_flt_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u32 mode;
-> +	__u8 grn_stage1;
-> +	__u8 chr_h_mode;
-> +	__u8 chr_v_mode;
-> +	__u32 thresh_bl0;
-> +	__u32 thresh_bl1;
-> +	__u32 thresh_sh0;
-> +	__u32 thresh_sh1;
-> +	__u32 lum_weight;
-> +	__u32 fac_sh1;
-> +	__u32 fac_sh0;
-> +	__u32 fac_mid;
-> +	__u32 fac_bl0;
-> +	__u32 fac_bl1;
-> +};
-> +
-> +/**
-> + * struct rppx1_params_bdm_config - Bayer Demosaic configuration
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_BDM)
-> + * @demosaic_th: threshold for texture detection, 16-bit
-> + */
-> +struct rppx1_params_bdm_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u16 demosaic_th;
-> +};
-> +
-> +/**
-> + * struct rppx1_params_ctk_config - Color Correction (Cross-Talk) configuration
-> + *
-> + * RPP-X1 coefficients are 16-bit signed fixed-point (Q4.12).
-> + * Range: -8.0 (0x8000) to +7.9996 (0x7FFF), 1.0 = 0x1000.
-> + *
-> + * RPP-X1 offsets are up to 24-bit + sign depending on hardware version.
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_CTK)
-> + * @coeff: 3x3 color correction matrix, Q4.12 signed
-> + * @ct_offset: R, G, B offsets, up to 25-bit signed
-> + */
-> +struct rppx1_params_ctk_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u16 coeff[3][3];
-> +	__u32 ct_offset[3];
-> +};
-> +
-> +/**
-> + * struct rppx1_params_goc_config - Gamma Out Correction configuration
-> + *
-> + * RPP-X1 gamma output values are up to 24-bit depending on hardware version.
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_GOC)
-> + * @mode: gamma curve mode (0 = logarithmic, 1 = equidistant)
-> + * @gamma_y: gamma out curve y-axis values, up to 24-bit
-> + */
-> +struct rppx1_params_goc_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u32 mode;
-> +	__u32 gamma_y[RPPX1_GAMMA_OUT_MAX_SAMPLES];
-> +};
-> +
-> +/**
-> + * enum rppx1_dpf_gain_usage - DPF noise function gain usage mode
-> + * @RPPX1_DPF_GAIN_USAGE_DISABLED: gain not used
-> + * @RPPX1_DPF_GAIN_USAGE_NF_GAINS: use noise function gains
-> + * @RPPX1_DPF_GAIN_USAGE_LSC_GAINS: use LSC gains
-> + * @RPPX1_DPF_GAIN_USAGE_NF_LSC_GAINS: use noise function and LSC gains
-> + * @RPPX1_DPF_GAIN_USAGE_AWB_GAINS: use AWB gains
-> + * @RPPX1_DPF_GAIN_USAGE_AWB_LSC_GAINS: use AWB and LSC gains
-> + */
-> +enum rppx1_dpf_gain_usage {
-> +	RPPX1_DPF_GAIN_USAGE_DISABLED,
-> +	RPPX1_DPF_GAIN_USAGE_NF_GAINS,
-> +	RPPX1_DPF_GAIN_USAGE_LSC_GAINS,
-> +	RPPX1_DPF_GAIN_USAGE_NF_LSC_GAINS,
-> +	RPPX1_DPF_GAIN_USAGE_AWB_GAINS,
-> +	RPPX1_DPF_GAIN_USAGE_AWB_LSC_GAINS,
-> +};
-> +
-> +/**
-> + * enum rppx1_nll_scale_mode - DPF noise level lookup scale mode
-> + * @RPPX1_NLL_SCALE_LINEAR: linear scaling
-> + * @RPPX1_NLL_SCALE_LOGARITHMIC: logarithmic scaling
-> + */
-> +enum rppx1_nll_scale_mode {
-> +	RPPX1_NLL_SCALE_LINEAR,
-> +	RPPX1_NLL_SCALE_LOGARITHMIC,
-> +};
-> +
-> +/**
-> + * enum rppx1_dpf_rb_filtersize - DPF red/blue filter kernel size
-> + * @RPPX1_DPF_RB_FILTERSIZE_13x9: 13x9 filter size
-> + * @RPPX1_DPF_RB_FILTERSIZE_9x9: 9x9 filter size
-> + */
-> +enum rppx1_dpf_rb_filtersize {
-> +	RPPX1_DPF_RB_FILTERSIZE_13x9,
-> +	RPPX1_DPF_RB_FILTERSIZE_9x9,
-> +};
-> +
-> +/**
-> + * struct rppx1_dpf_gain - DPF noise function gain configuration
-> + *
-> + * @mode: gain usage mode
-> + * @nf_r_gain: noise function gain replacing AWB gain for red
-> + * @nf_b_gain: noise function gain replacing AWB gain for blue
-> + * @nf_gr_gain: noise function gain replacing AWB gain for green-in-red
-> + * @nf_gb_gain: noise function gain replacing AWB gain for green-in-blue
-> + */
-> +struct rppx1_dpf_gain {
-> +	__u32 mode;
-> +	__u16 nf_r_gain;
-> +	__u16 nf_b_gain;
-> +	__u16 nf_gr_gain;
-> +	__u16 nf_gb_gain;
-> +};
-> +
-> +#define RPPX1_DPF_MAX_NLF_COEFFS			17
-> +#define RPPX1_DPF_MAX_SPATIAL_COEFFS			6
-> +
-> +/**
-> + * struct rppx1_dpf_nll - DPF noise level lookup
-> + *
-> + * @coeff: noise level lookup coefficients
-> + * @scale_mode: 0 = linear, 1 = logarithmic
-> + */
-> +struct rppx1_dpf_nll {
-> +	__u16 coeff[RPPX1_DPF_MAX_NLF_COEFFS];
-> +	__u32 scale_mode;
-> +};
-> +
-> +/**
-> + * struct rppx1_dpf_rb_flt - DPF red/blue filter configuration
-> + *
-> + * @fltsize: filter kernel size (0 = 13x9, 1 = 9x9)
-> + * @spatial_coeff: spatial weight coefficients
-> + * @r_enable: enable filter for red pixels
-> + * @b_enable: enable filter for blue pixels
-> + */
-> +struct rppx1_dpf_rb_flt {
-> +	__u32 fltsize;
-> +	__u8 spatial_coeff[RPPX1_DPF_MAX_SPATIAL_COEFFS];
-> +	__u8 r_enable;
-> +	__u8 b_enable;
-> +};
-> +
-> +/**
-> + * struct rppx1_dpf_g_flt - DPF green filter configuration
-> + *
-> + * @spatial_coeff: spatial weight coefficients
-> + * @gr_enable: enable filter for green-in-red pixels
-> + * @gb_enable: enable filter for green-in-blue pixels
-> + */
-> +struct rppx1_dpf_g_flt {
-> +	__u8 spatial_coeff[RPPX1_DPF_MAX_SPATIAL_COEFFS];
-> +	__u8 gr_enable;
-> +	__u8 gb_enable;
-> +};
-> +
-> +/**
-> + * struct rppx1_params_dpf_config - De-noising Pre-Filter configuration
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_DPF)
-> + * @gain: noise function gain
-> + * @g_flt: green filter configuration
-> + * @rb_flt: red/blue filter configuration
-> + * @nll: noise level lookup
-> + */
-> +struct rppx1_params_dpf_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	struct rppx1_dpf_gain gain;
-> +	struct rppx1_dpf_g_flt g_flt;
-> +	struct rppx1_dpf_rb_flt rb_flt;
-> +	struct rppx1_dpf_nll nll;
-> +};
-> +
-> +/**
-> + * struct rppx1_params_dpf_strength_config - DPF strength configuration
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_DPF_STRENGTH)
-> + * @r: filter strength for RED
-> + * @g: filter strength for GREEN
-> + * @b: filter strength for BLUE
-> + */
-> +struct rppx1_params_dpf_strength_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u8 r;
-> +	__u8 g;
-> +	__u8 b;
-> +};
-> +
-> +/**
-> + * enum rppx1_awb_mode_type - AWB measurement mode
-> + * @RPPX1_AWB_MODE_MANUAL: manual white balance
-> + * @RPPX1_AWB_MODE_RGB: RGB measurement mode
-> + * @RPPX1_AWB_MODE_YCBCR: YCbCr measurement mode
-> + */
-> +enum rppx1_awb_mode_type {
-> +	RPPX1_AWB_MODE_MANUAL,
-> +	RPPX1_AWB_MODE_RGB,
-> +	RPPX1_AWB_MODE_YCBCR,
-> +};
-> +
-> +/**
-> + * struct rppx1_params_awb_meas_config - AWB measurement configuration
-> + *
-> + * RPP-X1 min_y, max_y, min_c, max_csum, awb_ref_cr, awb_ref_cb are up to
-> + * 24-bit depending on hardware version (8/20/24-bit).
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_AWB_MEAS)
-> + * @awb_wnd: measurement window
-> + * @awb_mode: measurement mode (from enum rppx1_awb_mode_type)
-> + * @max_y: upper pixel value limit, up to 24-bit
-> + * @min_y: lower pixel value limit, up to 24-bit
-> + * @max_csum: chrominance sum maximum, up to 24-bit
-> + * @min_c: chrominance minimum, up to 24-bit
-> + * @frames: number of frames for mean value calculation (0 = 1 frame)
-> + * @awb_ref_cr: reference Cr for AWB regulation, up to 24-bit
-> + * @awb_ref_cb: reference Cb for AWB regulation, up to 24-bit
-> + * @enable_ymax_cmp: enable Y_MAX compare
-> + */
-> +struct rppx1_params_awb_meas_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	struct rppx1_window awb_wnd;
-> +	__u32 awb_mode;
-> +	__u32 max_y;
-> +	__u32 min_y;
-> +	__u32 max_csum;
-> +	__u32 min_c;
-> +	__u8 frames;
-> +	__u32 awb_ref_cr;
-> +	__u32 awb_ref_cb;
-> +	__u8 enable_ymax_cmp;
-> +};
-> +
-> +/**
-> + * enum rppx1_histogram_mode - Histogram measurement mode
-> + * @RPPX1_HISTOGRAM_MODE_DISABLE: histogram disabled
-> + * @RPPX1_HISTOGRAM_MODE_RGB_COMBINED: combined RGB histogram
-> + * @RPPX1_HISTOGRAM_MODE_R_HISTOGRAM: red channel histogram
-> + * @RPPX1_HISTOGRAM_MODE_G_HISTOGRAM: green channel histogram
-> + * @RPPX1_HISTOGRAM_MODE_B_HISTOGRAM: blue channel histogram
-> + * @RPPX1_HISTOGRAM_MODE_Y_HISTOGRAM: luminance histogram
-> + */
-> +enum rppx1_histogram_mode {
-> +	RPPX1_HISTOGRAM_MODE_DISABLE,
-> +	RPPX1_HISTOGRAM_MODE_RGB_COMBINED,
-> +	RPPX1_HISTOGRAM_MODE_R_HISTOGRAM,
-> +	RPPX1_HISTOGRAM_MODE_G_HISTOGRAM,
-> +	RPPX1_HISTOGRAM_MODE_B_HISTOGRAM,
-> +	RPPX1_HISTOGRAM_MODE_Y_HISTOGRAM,
-> +};
-> +
-> +#define RPPX1_HISTOGRAM_WEIGHT_GRIDS_SIZE		25
-> +
-> +/**
-> + * struct rppx1_params_hst_config - Histogram measurement configuration
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_HST_MEAS)
-> + * @mode: histogram mode (from enum rppx1_histogram_mode)
-> + * @histogram_predivider: process every Nth pixel
-> + * @meas_window: measurement window coordinates
-> + * @hist_weight: weighting factors for sub-windows (5x5 grid)
-> + */
-> +struct rppx1_params_hst_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u32 mode;
-> +	__u8 histogram_predivider;
-> +	struct rppx1_window meas_window;
-> +	__u8 hist_weight[RPPX1_HISTOGRAM_WEIGHT_GRIDS_SIZE];
-> +};
-> +
-> +/**
-> + * enum rppx1_exp_meas_mode - Exposure measurement mode
-> + * @RPPX1_EXP_MEASURING_MODE_0: Y = 16 + 0.25R + 0.5G + 0.1094B
-> + * @RPPX1_EXP_MEASURING_MODE_1: Y = (R + G + B) x (85/256)
-> + */
-> +enum rppx1_exp_meas_mode {
-> +	RPPX1_EXP_MEASURING_MODE_0,
-> +	RPPX1_EXP_MEASURING_MODE_1,
-> +};
-> +
-> +/**
-> + * struct rppx1_params_aec_config - Auto Exposure measurement configuration
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_AEC_MEAS)
-> + * @mode: exposure measure mode (from enum rppx1_exp_meas_mode)
-> + * @autostop: 0 = continuous, 1 = stop after one frame
-> + * @meas_window: measurement window coordinates
-> + */
-> +struct rppx1_params_aec_config {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u32 mode;
-> +	__u32 autostop;
-> +	struct rppx1_window meas_window;
-> +};
-> +
-> +/**
-> + * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
-> + */
-> +#define RPPX1_PARAMS_MAX_SIZE						\
-> +	(sizeof(struct rppx1_params_bls_config)			+	\
-> +	sizeof(struct rppx1_params_dpcc_config)			+	\
-> +	sizeof(struct rppx1_params_lin_config)			+	\
-> +	sizeof(struct rppx1_params_awb_gain_config)		+	\
-> +	sizeof(struct rppx1_params_flt_config)			+	\
-> +	sizeof(struct rppx1_params_bdm_config)			+	\
-> +	sizeof(struct rppx1_params_ctk_config)			+	\
-> +	sizeof(struct rppx1_params_goc_config)			+	\
-> +	sizeof(struct rppx1_params_dpf_config)			+	\
-> +	sizeof(struct rppx1_params_dpf_strength_config)		+	\
-> +	sizeof(struct rppx1_params_lsc_config)			+	\
-> +	sizeof(struct rppx1_params_awb_meas_config)		+	\
-> +	sizeof(struct rppx1_params_hst_config)			+	\
-> +	sizeof(struct rppx1_params_aec_config))
-> +
-> +/* ---------------------------------------------------------------------------
-> + * Statistics Structures
-> + *
-> + * Native RPP-X1 precision. Fields use __u32 where the hardware provides
-> + * wider-than-8-bit results.
-> + */
-> +
-> +/**
-> + * struct rppx1_awb_meas - AWB measured values
-> + *
-> + * @cnt: white pixel count
-> + * @mean_y_or_g: mean Y (or G in RGB mode), up to 24-bit
-> + * @mean_cb_or_b: mean Cb (or B in RGB mode), up to 24-bit
-> + * @mean_cr_or_r: mean Cr (or R in RGB mode), up to 24-bit
-> + */
-> +struct rppx1_awb_meas {
-> +	__u32 cnt;
-> +	__u32 mean_y_or_g;
-> +	__u32 mean_cb_or_b;
-> +	__u32 mean_cr_or_r;
-> +};
-> +
-> +/**
-> + * struct rppx1_awb_stat - AWB statistics
-> + *
-> + * @awb_mean: measured AWB data
-> + */
-> +struct rppx1_awb_stat {
-> +	struct rppx1_awb_meas awb_mean[RPPX1_AWB_MAX_GRID];
-> +};
-> +
-> +/**
-> + * struct rppx1_bls_meas_val - BLS measured values
-> + *
-> + * RPP-X1 BLS statistics can be 8/20/24-bit depending on version.
-> + *
-> + * @meas_r: mean measured value for Bayer pattern R
-> + * @meas_gr: mean measured value for Bayer pattern Gr
-> + * @meas_gb: mean measured value for Bayer pattern Gb
-> + * @meas_b: mean measured value for Bayer pattern B
-> + */
-> +struct rppx1_bls_meas_val {
-> +	__u32 meas_r;
-> +	__u32 meas_gr;
-> +	__u32 meas_gb;
-> +	__u32 meas_b;
-> +};
-
-You can also report the value of "bls_version" which tells you
-the measured black levels number of significant bits.
-
-One thing which might be worth testing is if the measured values are
-reported unconditionally or only if RPPX1_BLS_MODE_MEAS is selected.
-
-In this case it should be specified these values are only valid in
-case RPPX1_BLS_MODE_MEAS is in use.
-
-> +
-> +/**
-> + * struct rppx1_ae_stat - Auto Exposure statistics
-> + *
-> + * RPP-X1 exposure mean values are up to 20-bit depending on version.
-> + * The image is divided into a 5x5 grid (25 blocks).
-> + *
-> + * @exp_mean: mean luminance values per block, up to 20-bit
-> + * @bls_val: BLS measured values
-> + */
-> +struct rppx1_ae_stat {
-> +	__u32 exp_mean[RPPX1_EXM_MEAN_MAX];
-> +	struct rppx1_bls_meas_val bls_val;
-
-Curious to know why you report this together with AE stats
-
-> +};
-> +
-> +/**
-> + * struct rppx1_hist_stat - Histogram statistics
-> + *
-> + * @hist_bins: 32 histogram bin counters, each 20-bit unsigned fixed point
-> + *	       (bits 0-4 fractional, bits 5-19 integer)
-> + */
-> +struct rppx1_hist_stat {
-> +	__u32 hist_bins[RPPX1_HIST_BIN_N_MAX];
-> +};
-> +
-> +/**
-> + * struct rppx1_stat - RPP-X1 3A statistics
-> + *
-> + * @awb: auto white balance statistics
-> + * @ae: auto exposure statistics
-> + * @hist: histogram statistics
-> + */
-> +struct rppx1_stat {
-> +	struct rppx1_awb_stat awb;
-> +	struct rppx1_ae_stat ae;
-> +	struct rppx1_hist_stat hist;
-> +};
-> +
-> +/**
-> + * RPPX1_STAT_AWB - AWB measurement data available
-> + * RPPX1_STAT_AUTOEXP - Auto exposure measurement data available
-> + * RPPX1_STAT_HIST - Histogram measurement data available
-> + */
-> +#define RPPX1_STAT_AWB			(1U << 0)
-> +#define RPPX1_STAT_AUTOEXP		(1U << 1)
-> +#define RPPX1_STAT_HIST			(1U << 2)
-> +
-> +/**
-> + * struct rppx1_stat_buffer - RPP-X1 statistics metadata buffer
-> + *
-> + * @meas_type: bitmask of available measurements (RPPX1_STAT_*)
-> + * @frame_id: frame identifier for synchronization
-> + * @params: statistics data
-> + */
-> +struct rppx1_stat_buffer {
-> +	__u32 meas_type;
-> +	__u32 frame_id;
-> +	struct rppx1_stat params;
-> +};
-> +
-> +#endif /* __UAPI_RPP_X1_CONFIG_H */
->
-> --
-> 2.53.0
->
+--
+regards,
+jose a. p-a
 
