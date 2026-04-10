@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-58507-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58508-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GIE/GAK+2GlVhggAu9opvQ
-	(envelope-from <linux-media+bounces-58507-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 11:08:18 +0200
+	id 6HbLFkS+2GlVhggAu9opvQ
+	(envelope-from <linux-media+bounces-58508-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 11:09:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A953D482F
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 11:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25543D4889
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 11:09:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D8522304139A
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 09:06:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 05D433056157
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 09:06:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21A433B3BF3;
-	Fri, 10 Apr 2026 09:06:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30E5B3B38B2;
+	Fri, 10 Apr 2026 09:06:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KxGsLUjZ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HB4CiKCH"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4093B19DE;
-	Fri, 10 Apr 2026 09:06:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC2A3A3E72;
+	Fri, 10 Apr 2026 09:06:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775812001; cv=none; b=D0gFEtkfM/QjBfn2Q8haVj9PlvI1tYj9ylQsSxdpkTpibdSW5NnAlNPY4olfMzg+blWxTRdfA/40159OgPsPz+qvIjvEgzgliShvNQRj1qU/WogMGMjAA920xZHZMAtmunJkNWzI2ezDdjJvXxMvH25e5eqou1ZoCdz09hfOhQE=
+	t=1775812011; cv=none; b=OlBIjUn7+uttWPfNH3oLiUV7zt24azxMigvJpb/8MLURHE9FRmKbdfk3Xll5OmHHL9azuoQv0l91ZD8Cx0JogWT8m9a3xYR2C9hXioQLlNoUK6UCNsyNUrf1b5Y9R2yRwO7SnjAHOvN1e4VyE0vvWhoI1Oc536VNdCF21KUio1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775812001; c=relaxed/simple;
-	bh=KzDGtqSUGglqj1NVSzTEqAf6gdmYkdTy9Pn5aL62An0=;
+	s=arc-20240116; t=1775812011; c=relaxed/simple;
+	bh=SlWbwBr5LKeeiFXB9+cSX7jC+M0cIemHboFOEtHkZb0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lrV8VKcdy8mWv8nMfOwhcY3JBGr2KjFhzv+JkaAmh8iaabbc1lmzIq9wJTmP26zndtuZgakBWoQskyqlJ2QaHEqnot+/q2AAu1yK0Ct6NI1vYNddXc7fywyd4Y6nnyQ7mqUd4OpkH3U7cCrZFuBBwxxZthjnhtegUSCnzYa4qyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KxGsLUjZ; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=f27ywZC1dVkzzYx9Ymh7E6Mb0XYkrgDoUNkMaD49zJdIIHpoSUYacdbmsYeFUzjuZWVIHOCKJi2ocUebhxz6D84J1e6vNwAl40pyriuL8KTDYaJ4wTTN+JqJWwZcuIBc8RpebiHNcu0U9zL9WtL2EmDvWm0/NpCVcDODTL4mDHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HB4CiKCH; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [103.176.47.184])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB35B225;
-	Fri, 10 Apr 2026 11:05:07 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD4341C6;
+	Fri, 10 Apr 2026 11:05:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775811908;
-	bh=KzDGtqSUGglqj1NVSzTEqAf6gdmYkdTy9Pn5aL62An0=;
+	s=mail; t=1775811915;
+	bh=SlWbwBr5LKeeiFXB9+cSX7jC+M0cIemHboFOEtHkZb0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=KxGsLUjZ2+OmpfC1KUsqvsXnaPLTB1A3Ge4PuvRwG5uxvfscl0oynIHvhDIE1C+Ph
-	 ZSHgavQVm/HFwCZgn7RSNKjIlfRmSQE8LlAUhf/S4X199ji8O8JW6qqxaR+yDSMDLM
-	 dfjPw8QG0UPgcUyXWh8gy8rp4CxrtIa1l0DqUu2E=
+	b=HB4CiKCHU0RF5uzr4ULI64mdGZra8igqSn6l8kTsHc756iADDwyjPyxx3m1sUFjBd
+	 coDziBitt0ufGIfxi1ZdGH/AWIMh1HnMwDoOWqwJ8EMnGswsKHe3kNzOnTiTqHkou1
+	 v+eaklnrDlFtMNUId45DkEjjCf/lzXQfzFQyVwV4=
 From: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
-Date: Fri, 10 Apr 2026 14:35:37 +0530
-Subject: [PATCH v7 02/18] media: uapi: Add extensible param and stats
- blocks for RPPX1
+Date: Fri, 10 Apr 2026 14:35:38 +0530
+Subject: [PATCH v7 03/18] media: rppx1: Add framework to support Dreamchip
+ RPPX1 ISP
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,8 +55,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260410-rppx1-v7-2-43cfc6b44f1f@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260410-rppx1-v7-3-43cfc6b44f1f@ideasonboard.com>
 References: <20260410-rppx1-v7-0-43cfc6b44f1f@ideasonboard.com>
 In-Reply-To: <20260410-rppx1-v7-0-43cfc6b44f1f@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -71,21 +71,21 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Marek Vasut <marek.vasut+renesas@mailbox.org>, 
  Jai Luthra <jai.luthra+renesas@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=25186;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=88797;
  i=jai.luthra+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=KzDGtqSUGglqj1NVSzTEqAf6gdmYkdTy9Pn5aL62An0=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBp2L15F9DnaNf0/VzZi73NLHBa7kk1PRjRx6Oqw
- /HU7OlQIbqJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCadi9eQAKCRBD3pH5JJpx
- RcnRD/9UIehD0VoU2bExj4oaR2KyZlUA8ygFXQXWwgZLrxOkvA7/posXbwOQSyzs+6VEvS6lzg/
- XiLtJkU3Rmp7A6CaHGNTCi9ZEsQN7cR/TPJ9GNGLMxt3TmdjhG5jNMtwa23cQSYyZQ+0LrGje+p
- ClQUyNu6XZdGBFnLc2wzSElRjV1yk5Lm80qZzjvuhYJ38r+4PO6l3z9knQcQTYNy70WmwtaC/Go
- VLEH2TB24cSjaSPTd7RaBZ+I+97l7aD0OxFk/NtdCPCuuon19NXtDgThEN8r3VEd2k1i8ApRS7V
- xlk4d7WGii2EsP3VdGvDaVPArD003Syni4OB+6kwET6yHJ2cFLY/bzxhIym16u4iiwozgI8BaJD
- EgwwdfodjCBUhfeGgsnBpHidGnDrs9y9kFK465Mna9LGUiwdiOTt4/Sv+FFm7wKZYSRcUS2dZpe
- PJxVqXAzmJIPwff+W3ruHzJCTbwwpLlPMJOY5kquPSWUVAEiLgXhmhX3uHWUE411OyqadST/d2V
- iPzaixFJtiENUGIUItA+N6rP5+dH0Fy2w1+PpzTEA5x8zTOd2GBAWx3HXShTBgQLVaYf8Xf+FAE
- lrGpbNMt+8UgOqiHOEB3657T0nEl9uMucjQav/2JlTsC7ZiLfHj9q2cJWgef4X8F5rD+KUobpbR
- +pbbL5lHVmFz3mQ==
+ bh=hszZdFaJCUEwsdS3iyynX3r4dBiWXLk9IH6anAJlSYI=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBp2L167zT/oYvM1lYawBItCw/WchL/Fy8tZQYcG
+ 6zg1KV66XSJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCadi9egAKCRBD3pH5JJpx
+ RSMuD/4g5UD/jqEUiXTVoKUVy7YrsU5P2IwLSAZy6EBhhzQpVC3BSFwC07V2q6dDCXSq+PwYlJA
+ XJC9zr61NhRW0ySeEtMMRhDiUxr4zFQ9M7KmPI4N7M1ZiF2VjhkZA+rn7EnXoxVmM/P6UzjiWU4
+ OtQDtFR38cDaSTz9mYAfRyLUsFYJm3gseW1qrLvCRycpl5Ud0R9EnO/EhCQd9T+oDdgUFJYKl5g
+ VP8lHWw+GMbDBxsT/HmRp+xy7iIlZOzKXehGfpG5nUWAtD66qdunZRZMtSRx2jsQ8Yvx1L5ip20
+ 0yVa+NsAes31evi/pjknAtM4zYpliMzjN2+P76BgJcQ1aQLWdfzzjOjzs9zGgqgUyEBcxEd2hs0
+ OiyE27SX1wW05W2bamYPuOM5LUf7Z8ZfpdR+FtMO7YqZucikJRYszdeYLpqumdIH9SfV9Bh5xN8
+ zGhUikyx7v0PW4dKPgTt8pzDDUwJhEGlDCDyRfsVf2KgrttzovDg9I61QkoMgUZ+PxPw+kEugt0
+ a27saasiMXIkCE0psYT+PgnLPFGhrsWagqQ2oik/gtgouuZXEcp6hqjvJZayLpkxU2kIxQZ6Y/c
+ mtatSDZjYNfN7FANpzteXoESR3UAoKq3pz7ysvOYQ8xLWkeklZEo4YPNSMpBXLvGqNffOQJL6Fc
+ NMf/4QMJOM1rfGA==
 X-Developer-Key: i=jai.luthra+renesas@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -98,7 +98,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58507-lists,linux-media=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-58508-lists,linux-media=lfdr.de,renesas];
 	FREEMAIL_TO(0.00)[kernel.org,ragnatech.se,glider.be,gmail.com,renesas.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -115,767 +115,2662 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,renesas];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
-X-Rspamd-Queue-Id: F2A953D482F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ragnatech.se:email,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
+X-Rspamd-Queue-Id: A25543D4889
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Define the userspace API for the Dreamchip RPP-X1 ISP extensible
-parameters and statistics. The RPP-X1 is functionally similar to the
-RkISP1 already supported upstream, but operates at higher bit depths (up
-to 24-bit precision in many blocks) and exposes additional configuration
-options. This warrants a dedicated uAPI rather than reusing the RkISP1
-definitions.
+From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-The parameter blocks follow the V4L2 extensible parameters framework
-using struct v4l2_isp_params_block_header, with each ISP functional
-block represented as a tagged configuration structure. The statistics
-buffer provides AWB, auto-exposure and histogram measurement results at
-native RPP-X1 precision.
+Add a framework driver for Dreamchip RPPX1 ISP. The driver aims to
+provide a framework for other V4L2 based drivers to drive the RPPX1
+functionality. The reason for this split is that the RPPX1 IP itself do
+not provide any DMA engines to drive data to/from the device, instead it
+depends on other IP blocks to implement these features.
 
-Not all functional blocks present on the RPP-X1 hardware are included
-yet, but the format is extensible and new blocks can be added without
-breaking existing userspace.
+While the peripherals around the RPPX1 ISP used in different designs and
+by different vendors are different the RPPX1 core itself is the same.
+For this reason the framework solution to be able to split the Dreamchip
+RPPX1 driver from vendors usage of it have been picked in hope to reduce
+duplication of the common parts.
 
+The functions provided by the RPPX1 are similar to what is exposed by
+other ISP drivers already in tree (RkISP1 primarily), but the
+implementation of them are different.
+
+The design is to try and keep the surface of this framework as small as
+possible. The intention of this change is to be able to fill all needs
+of this.
+
+  * Two functions to create and destroy a RPPX1 instance, rppx1_create()
+    and rppx1_destory(). These are intended to be called in the users
+    probe and remove code paths.
+
+  * Two functions to start and stop the RPPX1 processing, rppx1_start()
+    and rppx1_stop(). These are intended to be called in the users
+    stream on and stream off code paths.
+
+  * One function to ask the RPPX1 to process parameters buffer prepared
+    by user space, rppx1_params(). This is intended to translate the
+    parameter buffer to the register writes needed to be preformed on
+    the RPPX1. The intention is to call this function when the parameter
+    buffer is queued to the V4L2 driver and the result stored by the
+    driver until the time it needs to be written to the RPPX1. It's the
+    users responsibility to write it either using MMIO or other means.
+
+  * One function to fill in a statistic buffer based on the current
+    status of the RPPX1, rppx1_stats_fill_isr(). The intention is that
+    the user call's this in its interrupt handler when it knows the
+    RPPX1 is done processing a frame.
+
+  * One function to ack and retrieve the interrupts generated by the
+    RPPX1, rppx1_interrupt(). The intention is to call this function
+    when the users interrupt handler detects the RPPX1 have raised and
+    interrupt. There is no need for the user to understand, or act, on
+    the actual RPPX1 interrupt, but it can if it wants too.
+
+The initial support in the framework is limited and do not implement any
+ISP processing algorithms other then configuring the RPPX1 to process
+any Bayer (8-, 10, or 12-bit) image and produce either a RGB or YUYV
+output. It do however probe all function blocks of the RPPX1 and provide
+an interface to interact with both parameter and statistic bufferers.
+The user of the framework will not change as algorithms for the
+different function blocks of the ISP are being added.
+
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
 ---
- include/uapi/linux/media/dreamchip/rppx1-config.h | 728 ++++++++++++++++++++++
- 1 file changed, 728 insertions(+)
+ MAINTAINERS                                        |   7 +
+ drivers/media/platform/Kconfig                     |   1 +
+ drivers/media/platform/Makefile                    |   1 +
+ drivers/media/platform/dreamchip/Kconfig           |   3 +
+ drivers/media/platform/dreamchip/Makefile          |   6 +
+ drivers/media/platform/dreamchip/rppx1/Kconfig     |  12 +
+ drivers/media/platform/dreamchip/rppx1/Makefile    |  33 ++
+ .../media/platform/dreamchip/rppx1/rpp_module.c    |  40 +++
+ .../media/platform/dreamchip/rppx1/rpp_module.h    | 155 ++++++++++
+ .../media/platform/dreamchip/rppx1/rpp_params.c    |  72 +++++
+ drivers/media/platform/dreamchip/rppx1/rpp_stats.c |  15 +
+ drivers/media/platform/dreamchip/rppx1/rppx1.c     | 338 +++++++++++++++++++++
+ drivers/media/platform/dreamchip/rppx1/rppx1.h     |  99 ++++++
+ drivers/media/platform/dreamchip/rppx1/rppx1_acq.c | 147 +++++++++
+ .../media/platform/dreamchip/rppx1/rppx1_awbg.c    |  30 ++
+ drivers/media/platform/dreamchip/rppx1/rppx1_bd.c  |  52 ++++
+ .../media/platform/dreamchip/rppx1/rppx1_bdrgb.c   |  80 +++++
+ drivers/media/platform/dreamchip/rppx1/rppx1_bls.c |  59 ++++
+ drivers/media/platform/dreamchip/rppx1/rppx1_cac.c |  29 ++
+ .../media/platform/dreamchip/rppx1/rppx1_ccor.c    | 106 +++++++
+ drivers/media/platform/dreamchip/rppx1/rppx1_db.c  |  44 +++
+ .../media/platform/dreamchip/rppx1/rppx1_dpcc.c    |  76 +++++
+ drivers/media/platform/dreamchip/rppx1/rppx1_exm.c |  51 ++++
+ drivers/media/platform/dreamchip/rppx1/rppx1_ga.c  |  49 +++
+ .../media/platform/dreamchip/rppx1/rppx1_hist.c    |  76 +++++
+ .../media/platform/dreamchip/rppx1/rppx1_hist256.c |  46 +++
+ drivers/media/platform/dreamchip/rppx1/rppx1_is.c  |  42 +++
+ drivers/media/platform/dreamchip/rppx1/rppx1_lin.c |  60 ++++
+ drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c |  68 +++++
+ drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c |  48 +++
+ .../media/platform/dreamchip/rppx1/rppx1_ltmmeas.c |  41 +++
+ .../media/platform/dreamchip/rppx1/rppx1_outif.c   |  45 +++
+ .../media/platform/dreamchip/rppx1/rppx1_outregs.c |  75 +++++
+ .../media/platform/dreamchip/rppx1/rppx1_rmap.c    |  64 ++++
+ .../platform/dreamchip/rppx1/rppx1_rmapmeas.c      |  47 +++
+ .../media/platform/dreamchip/rppx1/rppx1_shrp.c    |  64 ++++
+ .../media/platform/dreamchip/rppx1/rppx1_wbmeas.c  |  61 ++++
+ .../media/platform/dreamchip/rppx1/rppx1_xyz2luv.c |  26 ++
+ include/media/rppx1.h                              |  33 ++
+ 39 files changed, 2301 insertions(+)
 
-diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c3fe46d7c4bc43e960282537a7d89fd4c34080f7..9325268157121a892effed3174fdc50dd836daac 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7783,6 +7783,13 @@ F:	drivers/block/drbd/
+ F:	include/linux/drbd*
+ F:	lib/lru_cache.c
+ 
++DREAMCHIP RPPX1 ISP
++M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++F:	drivers/media/platform/dreamchip/rppx1/
++F:	include/uapi/linux/media/dreamchip/rppx1-config.h
++
+ DRIVER COMPONENT FRAMEWORK
+ L:	dri-devel@lists.freedesktop.org
+ F:	drivers/base/component.c
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index 3f0b7bb68cc94086347239118d7a92b65734b785..3621b46e1e8d75241bc30a1a9736a1dd457be066 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -71,6 +71,7 @@ source "drivers/media/platform/atmel/Kconfig"
+ source "drivers/media/platform/broadcom/Kconfig"
+ source "drivers/media/platform/cadence/Kconfig"
+ source "drivers/media/platform/chips-media/Kconfig"
++source "drivers/media/platform/dreamchip/Kconfig"
+ source "drivers/media/platform/imagination/Kconfig"
+ source "drivers/media/platform/intel/Kconfig"
+ source "drivers/media/platform/marvell/Kconfig"
+diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+index 6d5f79ddfcc37a7d2168edff018475c3d73ff101..0cc4bfe0da326fac19c510b5eadcdbf3204758c2 100644
+--- a/drivers/media/platform/Makefile
++++ b/drivers/media/platform/Makefile
+@@ -14,6 +14,7 @@ obj-y += atmel/
+ obj-y += broadcom/
+ obj-y += cadence/
+ obj-y += chips-media/
++obj-y += dreamchip/
+ obj-y += imagination/
+ obj-y += intel/
+ obj-y += marvell/
+diff --git a/drivers/media/platform/dreamchip/Kconfig b/drivers/media/platform/dreamchip/Kconfig
 new file mode 100644
-index 0000000000000000000000000000000000000000..b9083e6f32b15329333eb13491b50c0aea8d1a32
+index 0000000000000000000000000000000000000000..d177d4ee79ae17022328219f876100920324d140
 --- /dev/null
-+++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
-@@ -0,0 +1,728 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++++ b/drivers/media/platform/dreamchip/Kconfig
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++source "drivers/media/platform/dreamchip/rppx1/Kconfig"
+diff --git a/drivers/media/platform/dreamchip/Makefile b/drivers/media/platform/dreamchip/Makefile
+new file mode 100644
+index 0000000000000000000000000000000000000000..ba47ba2d136e6e13c86211bbbedfa2f438e51f5c
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/Makefile
+@@ -0,0 +1,6 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# Makefile for the Dreamchip device drivers.
++#
++
++obj-y += rppx1/
+diff --git a/drivers/media/platform/dreamchip/rppx1/Kconfig b/drivers/media/platform/dreamchip/rppx1/Kconfig
+new file mode 100644
+index 0000000000000000000000000000000000000000..0998a7d10bf28c9b14422716c51bebc3887da418
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/Kconfig
+@@ -0,0 +1,12 @@
++# SPDX-License-Identifier: GPL-2.0
++config VIDEO_DCT_RPPX1
++	tristate
++	depends on V4L_PLATFORM_DRIVERS
++	select V4L2_ISP
++	help
++	  Support library for Dreamchip HDR RPP X1 High Dynamic Range Real-time
++	  Pixel Processor (RPP). The library can be used by other drivers who
++	  utilises the RPP as part of an ISP implementation.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called rppx1.
+diff --git a/drivers/media/platform/dreamchip/rppx1/Makefile b/drivers/media/platform/dreamchip/rppx1/Makefile
+new file mode 100644
+index 0000000000000000000000000000000000000000..b2bd6b5d68bcf951988ef2d821ee1e97b155ab08
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/Makefile
+@@ -0,0 +1,33 @@
++# SPDX-License-Identifier: GPL-2.0
++dct-rpp-x1-objs = \
++	rpp_module.o \
++	rpp_params.o \
++	rpp_stats.o \
++	rppx1.o \
++	rppx1_acq.o \
++	rppx1_awbg.o \
++	rppx1_bd.o \
++	rppx1_bdrgb.o \
++	rppx1_bls.o \
++	rppx1_cac.o \
++	rppx1_ccor.o \
++	rppx1_db.o \
++	rppx1_dpcc.o \
++	rppx1_exm.o \
++	rppx1_ga.o \
++	rppx1_hist.o \
++	rppx1_hist256.o \
++	rppx1_is.o \
++	rppx1_lin.o \
++	rppx1_lsc.o \
++	rppx1_ltm.o \
++	rppx1_ltmmeas.o \
++	rppx1_outif.o \
++	rppx1_outregs.o \
++	rppx1_rmap.o \
++	rppx1_rmapmeas.o \
++	rppx1_shrp.o \
++	rppx1_wbmeas.o \
++	rppx1_xyz2luv.o
++
++obj-$(CONFIG_VIDEO_DCT_RPPX1) += dct-rpp-x1.o
+diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.c b/drivers/media/platform/dreamchip/rppx1/rpp_module.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..cd923b7ff5c1322dd225e256e1e534786de7ffe8
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.c
+@@ -0,0 +1,40 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Dreamchip RPP-X1 ISP Driver - Userspace API
-+ *
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
 +
-+#ifndef __UAPI_RPP_X1_CONFIG_H
-+#define __UAPI_RPP_X1_CONFIG_H
++#include <linux/slab.h>
++
++#include "rppx1.h"
++#include "rpp_module.h"
++
++int rpp_module_probe(struct rpp_module *mod, struct rppx1 *rpp,
++		     const struct rpp_module_ops *ops, u32 base)
++{
++	mod->rpp = rpp;
++	mod->base = base;
++	mod->ops = ops;
++
++	if (ops->probe)
++		return ops->probe(mod);
++
++	return 0;
++}
++
++void rpp_module_write(struct rpp_module *mod, u32 offset, u32 value)
++{
++	rppx1_write(mod->rpp, mod->base + offset, value);
++}
++
++u32 rpp_module_read(struct rpp_module *mod, u32 offset)
++{
++	return rppx1_read(mod->rpp, mod->base + offset);
++}
++
++void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value)
++{
++	u32 reg = rpp_module_read(mod, offset) & ~mask;
++
++	rpp_module_write(mod, offset, reg | value);
++}
+diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..747ee4b928d0944a0f08091890fb6aa4090e5ee6
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+@@ -0,0 +1,155 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
++ */
++
++#ifndef __RPPX1_MODULE_H__
++#define __RPPX1_MODULE_H__
++
++#include <linux/errno.h>
++#include <linux/types.h>
++#include <linux/v4l2-mediabus.h>
++
++#include <linux/media/dreamchip/rppx1-config.h>
++
++#include <media/rppx1.h>
++
++struct rpp_module_ops;
++
++enum rpp_raw_pattern {
++	RPP_RGGB = 0,
++	RPP_GRBG,
++	RPP_GBRG,
++	RPP_BGGR,
++};
++
++struct rpp_module {
++	struct rppx1 *rpp;
++	u32 base;
++
++	const struct rpp_module_ops *ops;
++
++	union {
++		struct {
++			enum rpp_raw_pattern raw_pattern;
++		} acq;
++		struct {
++			unsigned int colorbits;
++		} bdrgb;
++		struct {
++			unsigned int colorbits;
++		} bls;
++		struct {
++			unsigned int colorbits;
++			unsigned int type;
++		} ccor;
++		struct {
++			unsigned int colorbits;
++		} dpcc;
++		struct {
++			unsigned int resultbits;
++		} exm;
++		struct {
++			unsigned int colorbits;
++		} ga;
++		struct {
++			unsigned int colorbits;
++		} hist;
++		struct {
++			unsigned int colorbits;
++		} lin;
++		struct {
++			unsigned int colorbits_high;
++			unsigned int colorbits_low;
++		} rmap;
++		struct {
++			unsigned int colorbits_high;
++			unsigned int colorbits_low;
++		} rmapmeas;
++		struct {
++			unsigned int colorbits;
++		} shrp;
++		struct {
++			unsigned int colorbits;
++		} wbmeas;
++	} info;
++};
++
++int rpp_module_probe(struct rpp_module *mod, struct rppx1 *rpp,
++		     const struct rpp_module_ops *ops, u32 base);
++
++void rpp_module_write(struct rpp_module *mod, u32 offset, u32 value);
++u32 rpp_module_read(struct rpp_module *mod, u32 offset);
++void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
++
++union rppx1_params_block {
++	struct v4l2_isp_params_block_header header;
++	struct rppx1_params_bls_config bls;
++	struct rppx1_params_dpcc_config dpcc;
++	struct rppx1_params_lin_config lin;
++	struct rppx1_params_lsc_config lsc;
++	struct rppx1_params_awb_gain_config awbg;
++	struct rppx1_params_flt_config flt;
++	struct rppx1_params_bdm_config bdm;
++	struct rppx1_params_ctk_config ctk;
++	struct rppx1_params_goc_config goc;
++	struct rppx1_params_dpf_config dpf;
++	struct rppx1_params_dpf_strength_config dpfs;
++	struct rppx1_params_awb_meas_config awbm;
++	struct rppx1_params_hst_config hst;
++	struct rppx1_params_aec_config aec;
++};
++
++struct rpp_module_ops {
++	int (*probe)(struct rpp_module *mod);
++	int (*start)(struct rpp_module *mod, const struct v4l2_mbus_framefmt *fmt);
++
++	int (*fill_params)(struct rpp_module *mod,
++			   const union rppx1_params_block *block,
++			   rppx1_reg_write write, void *priv);
++	int (*fill_stats)(struct rpp_module *mod,
++			  struct rppx1_stat *stats);
++};
++
++extern const struct rpp_module_ops rppx1_acq_ops;
++extern const struct rpp_module_ops rppx1_awbg_ops;
++extern const struct rpp_module_ops rppx1_bd_ops;
++extern const struct rpp_module_ops rppx1_bdrgb_ops;
++extern const struct rpp_module_ops rppx1_bls_ops;
++extern const struct rpp_module_ops rppx1_cac_ops;
++extern const struct rpp_module_ops rppx1_ccor_ops;
++extern const struct rpp_module_ops rppx1_ccor_csm_ops;
++extern const struct rpp_module_ops rppx1_db_ops;
++extern const struct rpp_module_ops rppx1_dpcc_ops;
++extern const struct rpp_module_ops rppx1_exm_ops;
++extern const struct rpp_module_ops rppx1_ga_ops;
++extern const struct rpp_module_ops rppx1_hist256_ops;
++extern const struct rpp_module_ops rppx1_hist_ops;
++extern const struct rpp_module_ops rppx1_is_ops;
++extern const struct rpp_module_ops rppx1_lin_ops;
++extern const struct rpp_module_ops rppx1_lsc_ops;
++extern const struct rpp_module_ops rppx1_ltm_ops;
++extern const struct rpp_module_ops rppx1_ltmmeas_ops;
++extern const struct rpp_module_ops rppx1_outif_ops;
++extern const struct rpp_module_ops rppx1_outregs_ops;
++extern const struct rpp_module_ops rppx1_rmapmeas_ops;
++extern const struct rpp_module_ops rppx1_rmap_ops;
++extern const struct rpp_module_ops rppx1_shrp_ops;
++extern const struct rpp_module_ops rppx1_wbmeas_ops;
++extern const struct rpp_module_ops rppx1_xyz2luv_ops;
++
++#define rpp_module_call(mod, op, args...)				\
++	({								\
++		struct rpp_module *__mod = (mod);			\
++		int __result;						\
++		if (!__mod)						\
++			__result = -ENODEV;				\
++		else if (!__mod->ops->op)				\
++			__result = 0;					\
++		else							\
++			__result = __mod->ops->op(__mod, ##args);	\
++		__result;						\
++	})
++
++#endif /* __RPPX1_MODULE_H__ */
+diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..6d2a8d45056ae19c9c05b7e38c1aa013cbe2706b
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+@@ -0,0 +1,72 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
++ */
++
++#include <media/v4l2-isp.h>
++#include <media/videobuf2-v4l2.h>
++
++#include "rppx1.h"
++
++#define RPPX1_PARAMS_BLOCK_INFO(block, data) \
++	[RPPX1_PARAMS_BLOCK_TYPE_ ## block] = { \
++		.size = sizeof(struct rppx1_params_ ## data ## _config), \
++	}
++
++static const struct v4l2_isp_params_block_type_info
++rppx1_ext_params_blocks_info[] = {
++};
++
++int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
++		 rppx1_reg_write write, void *priv)
++{
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct v4l2_isp_params_buffer *cfg;
++	size_t block_offset;
++	int ret;
++
++	ret = v4l2_isp_params_validate_buffer_size(rpp->dev, vb, max_size);
++	if (ret)
++		return ret;
++
++	cfg = vb2_plane_vaddr(&vbuf->vb2_buf, 0);
++
++	ret = v4l2_isp_params_validate_buffer(rpp->dev, vb,
++					      (struct v4l2_isp_params_buffer *)cfg,
++					      rppx1_ext_params_blocks_info,
++					      ARRAY_SIZE(rppx1_ext_params_blocks_info));
++	if (ret)
++		return ret;
++
++	/* Walk the list of parameter blocks and process them. */
++	block_offset = 0;
++	while (block_offset < cfg->data_size) {
++		const union rppx1_params_block *block =
++			(const union rppx1_params_block *)&cfg->data[block_offset];
++		struct rpp_module *module;
++		int ret;
++
++		block_offset += block->header.size;
++
++		switch (block->header.type) {
++		default:
++			module = NULL;
++			break;
++		}
++
++		if (!module) {
++			pr_warn("Not handled RPPX1 block type: 0x%04x\n", block->header.type);
++			continue;
++		}
++
++		ret = rpp_module_call(module, fill_params, block, write, priv);
++		if (ret) {
++			pr_err("Error processing RPPX1 block type: 0x%04x\n", block->header.type);
++			return ret;
++		}
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(rppx1_params);
+diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_stats.c b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..b62e792b84a105baec904640ec606670b9bbbadd
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
+@@ -0,0 +1,15 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
++ */
++
++#include "rppx1.h"
++
++void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf)
++{
++	struct rppx1_stat_buffer *stats = buf;
++
++	stats->meas_type = 0;
++}
++EXPORT_SYMBOL_GPL(rppx1_stats_fill_isr);
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1.c b/drivers/media/platform/dreamchip/rppx1/rppx1.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..06e299f90aecaa5f6a75129cf5ce174c2f4197c9
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1.c
+@@ -0,0 +1,338 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
++ *
++ * Support library for Dreamchip HDR RPPX1 High Dynamic Range Real-time Pixel
++ * Processor.
++ */
++
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/slab.h>
++
++#include "rppx1.h"
++
++/* RPP_HDR Base Addresses */
++#define RPPX1_HDRREGS_BASE			0x0000
++#define RPPX1_HDR_IRQ_BASE			0x0200
++#define RPPX1_RPP_OUT_BASE			0x0800
++#define RPPX1_RPP_RMAP_BASE			0x0c00
++#define RPPX1_RPP_RMAP_MEAS_BASE		0x1000
++#define RPPX1_RPP_MAIN_PRE1_BASE		0x2000
++#define RPPX1_RPP_MAIN_PRE2_BASE		0x4000
++#define RPPX1_RPP_MAIN_POST_BASE		0xa000
++#define RPPX1_RPP_MVOUT_BASE			0xc000
++#define RPPX1_RPP_FUSA_BASE			0xf000
++
++#define RPPX1_RPP_HDRREGS_VERSION_REG			(RPPX1_HDRREGS_BASE + 0x0000)
++#define RPPX1_RPP_HDR_UPD_REG				(RPPX1_HDRREGS_BASE + 0x0004)
++#define RPPX1_RESERVED_3_REG				(RPPX1_HDRREGS_BASE + 0x0008)
++#define RPPX1_RPP_HDR_INFORM_ENABLE_REG			(RPPX1_HDRREGS_BASE + 0x000c)
++#define RPPX1_RPP_HDR_OUT_IF_ON_REG			(RPPX1_HDRREGS_BASE + 0x0010)
++#define RPPX1_RPP_HDR_OUT_IF_OFF_REG			(RPPX1_HDRREGS_BASE + 0x0014)
++#define RPPX1_RPP_HDR_SAFETY_ACCESS_PROTECTION_REG	(RPPX1_HDRREGS_BASE + 0x0018)
++
++#define RPPX1_RPP_ISM				(RPPX1_HDR_IRQ_BASE + 0x00)
++#define RPPX1_RPP_RIS				(RPPX1_HDR_IRQ_BASE + 0x04)
++#define RPPX1_RPP_MIS				(RPPX1_HDR_IRQ_BASE + 0x08)
++#define RPPX1_RPP_ISC				(RPPX1_HDR_IRQ_BASE + 0x0c)
++
++/* RPP_OUT/MV_OUT Pipelines - Base Addresses */
++#define RPPX1_GAMMA_OUT_BASE			0x0000 /* HV, MV */
++#define RPPX1_IS_BASE				0x00c0 /* HV, MV */
++#define RPPX1_CSM_BASE				0x0100 /* HV, MV */
++#define RPPX1_OUT_IF_BASE			0x0200 /* HV, MV */
++#define RPPX1_RPP_OUTREGS_BASE			0x02c0 /* HV, MV */
++#define RPPX1_LUV_BASE				0x0300 /* MV */
++
++/* PRE1/PRE2/POST Pipelines - Base Addresses */
++#define RPPX1_ACQ_BASE				0x0080 /* PRE1, PRE2 */
++#define RPPX1_BLS_BASE				0x0100 /* PRE1, PRE2 */
++#define RPPX1_GAMMA_IN_BASE			0x0200 /* PRE1, PRE2 */
++#define RPPX1_LSC_BASE				0x0400 /* PRE1, PRE2 */
++#define RPPX1_AWB_GAIN_BASE			0x0500 /* PRE1, PRE2, POST */
++#define RPPX1_DPCC_BASE				0x0600 /* PRE1, PRE2 */
++#define RPPX1_DPF_BASE				0x0700 /* PRE1, PRE2 */
++#define RPPX1_FILT_BASE				0x0800 /* POST */
++#define RPPX1_CAC_BASE				0x0880 /* POST */
++#define RPPX1_CCOR_BASE				0x0900 /* POST */
++#define RPPX1_HIST_BASE				0x0a00 /* PRE1, PRE2, POST */
++#define RPPX1_HIST256_BASE			0x0b00 /* PRE1 */
++#define RPPX1_EXM_BASE				0x0c00 /* PRE1, PRE2 */
++#define RPPX1_LTM_BASE				0x1000 /* POST */
++#define RPPX1_LTM_MEAS_BASE			0x1200 /* POST */
++#define RPPX1_WBMEAS_BASE			0x1700 /* POST */
++#define RPPX1_BDRGB_BASE			0x1800 /* POST */
++#define RPPX1_SHRP_BASE				0x1a00 /* POST */
++
++/* Functional Safety Module Base Addresses */
++#define RPPX1_FMU_BASE				0x0100
++
++#define RPPX1_RPP_HDR_FMU_FSM			(RPPX1_RPP_FUSA_BASE + RPPX1_FMU_BASE + 0x00)
++#define RPPX1_RPP_HDR_FMU_RFS			(RPPX1_RPP_FUSA_BASE + RPPX1_FMU_BASE + 0x04)
++#define RPPX1_RPP_HDR_FMU_MFS			(RPPX1_RPP_FUSA_BASE + RPPX1_FMU_BASE + 0x08)
++#define RPPX1_RPP_HDR_FMU_FSC			(RPPX1_RPP_FUSA_BASE + RPPX1_FMU_BASE + 0x0c)
++
++void rppx1_write(struct rppx1 *rpp, u32 offset, u32 value)
++{
++	iowrite32(value, rpp->base + offset);
++}
++
++u32 rppx1_read(struct rppx1 *rpp, u32 offset)
++{
++	u32 ret = ioread32(rpp->base + offset);
++	return ret;
++}
++
++bool rppx1_interrupt(struct rppx1 *rpp, u32 *isc)
++{
++	u32 status, raw, fault;
++
++	fault = rppx1_read(rpp, RPPX1_RPP_HDR_FMU_MFS);
++	if (fault) {
++		pr_err("%s: fault 0x%08x\n", __func__, fault);
++		rppx1_write(rpp, RPPX1_RPP_HDR_FMU_FSC, fault);
++	}
++
++	/* Read raw interrupt status. */
++	raw = rppx1_read(rpp, RPPX1_RPP_RIS);
++	status = rppx1_read(rpp, RPPX1_RPP_MIS);
++
++	/* Propagate the isc status. */
++	if (isc)
++		*isc = status | raw;
++
++	/* Clear enabled interrupts */
++	rppx1_write(rpp, RPPX1_RPP_ISC, status);
++
++	return !!(status & RPPX1_IRQ_ID_OUT_FRAME);
++}
++EXPORT_SYMBOL_GPL(rppx1_interrupt);
++
++void rppx1_destroy(struct rppx1 *rpp)
++{
++	kfree(rpp);
++}
++EXPORT_SYMBOL_GPL(rppx1_destroy);
++
++/*
++ * Allocate the private data structure and verify the hardware is present.
++ */
++struct rppx1 *rppx1_create(void __iomem *base)
++{
++	struct rppx1 *rpp;
++	u32 reg;
++
++	/* Allocate library structure */
++	rpp = kzalloc(sizeof(*rpp), GFP_KERNEL);
++	if (!rpp)
++		return NULL;
++
++	rpp->base = base;
++
++	/* Check communication with RPP and verify it truly is a X1. */
++	reg = rppx1_read(rpp, RPPX1_RPP_HDRREGS_VERSION_REG);
++	if (reg != 3) {
++		pr_err("Unsupported HDR version (%u)\n", reg);
++		rppx1_destroy(rpp);
++		return NULL;
++	}
++
++	/* Probe the PRE1 pipeline. */
++	if (rpp_module_probe(&rpp->pre1.acq, rpp, &rppx1_acq_ops,
++			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_ACQ_BASE) ||
++	    rpp_module_probe(&rpp->pre1.bls, rpp, &rppx1_bls_ops,
++			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_BLS_BASE) ||
++	    rpp_module_probe(&rpp->pre1.lin, rpp, &rppx1_lin_ops,
++			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_GAMMA_IN_BASE) ||
++	    rpp_module_probe(&rpp->pre1.lsc, rpp, &rppx1_lsc_ops,
++			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_LSC_BASE) ||
++	    rpp_module_probe(&rpp->pre1.awbg, rpp, &rppx1_awbg_ops,
++			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_AWB_GAIN_BASE) ||
++	    rpp_module_probe(&rpp->pre1.dpcc, rpp, &rppx1_dpcc_ops,
++			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_DPCC_BASE) ||
++	    rpp_module_probe(&rpp->pre1.bd, rpp, &rppx1_bd_ops,
++			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_DPF_BASE) ||
++	    rpp_module_probe(&rpp->pre1.hist, rpp, &rppx1_hist_ops,
++			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_HIST_BASE) ||
++	    rpp_module_probe(&rpp->pre1.hist256, rpp, &rppx1_hist256_ops,
++			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_HIST256_BASE) ||
++	    rpp_module_probe(&rpp->pre1.exm, rpp, &rppx1_exm_ops,
++			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_EXM_BASE))
++		goto err;
++
++	/* Probe the PRE2 pipeline. */
++	if (rpp_module_probe(&rpp->pre2.acq, rpp, &rppx1_acq_ops,
++			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_ACQ_BASE) ||
++	    rpp_module_probe(&rpp->pre2.bls, rpp, &rppx1_bls_ops,
++			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_BLS_BASE) ||
++	    rpp_module_probe(&rpp->pre2.lin, rpp, &rppx1_lin_ops,
++			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_GAMMA_IN_BASE) ||
++	    rpp_module_probe(&rpp->pre2.lsc, rpp, &rppx1_lsc_ops,
++			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_LSC_BASE) ||
++	    rpp_module_probe(&rpp->pre2.awbg, rpp, &rppx1_awbg_ops,
++			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_AWB_GAIN_BASE) ||
++	    rpp_module_probe(&rpp->pre2.dpcc, rpp, &rppx1_dpcc_ops,
++			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_DPCC_BASE) ||
++	    rpp_module_probe(&rpp->pre2.bd, rpp, &rppx1_bd_ops,
++			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_DPF_BASE) ||
++	    rpp_module_probe(&rpp->pre2.hist, rpp, &rppx1_hist_ops,
++			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_HIST_BASE) ||
++	    rpp_module_probe(&rpp->pre2.exm, rpp, &rppx1_exm_ops,
++			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_EXM_BASE))
++		goto err;
++
++	/* Probe the POST pipeline. */
++	if (rpp_module_probe(&rpp->post.awbg, rpp, &rppx1_awbg_ops,
++			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_AWB_GAIN_BASE) ||
++	    rpp_module_probe(&rpp->post.ccor, rpp, &rppx1_ccor_ops,
++			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_CCOR_BASE) ||
++	    rpp_module_probe(&rpp->post.hist, rpp, &rppx1_hist_ops,
++			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_HIST_BASE) ||
++	    rpp_module_probe(&rpp->post.db, rpp, &rppx1_db_ops,
++			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_FILT_BASE) ||
++	    rpp_module_probe(&rpp->post.cac, rpp, &rppx1_cac_ops,
++			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_CAC_BASE) ||
++	    rpp_module_probe(&rpp->post.ltm, rpp, &rppx1_ltm_ops,
++			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_LTM_BASE) ||
++	    rpp_module_probe(&rpp->post.ltmmeas, rpp, &rppx1_ltmmeas_ops,
++			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_LTM_MEAS_BASE) ||
++	    rpp_module_probe(&rpp->post.wbmeas, rpp, &rppx1_wbmeas_ops,
++			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_WBMEAS_BASE) ||
++	    rpp_module_probe(&rpp->post.bdrgb, rpp, &rppx1_bdrgb_ops,
++			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_BDRGB_BASE) ||
++	    rpp_module_probe(&rpp->post.shrp, rpp, &rppx1_shrp_ops,
++			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_SHRP_BASE))
++		goto err;
++
++	/* Probe the Human Vision pipeline. */
++	if (rpp_module_probe(&rpp->hv.ga, rpp, &rppx1_ga_ops,
++			     RPPX1_RPP_OUT_BASE + RPPX1_GAMMA_OUT_BASE) ||
++	    rpp_module_probe(&rpp->hv.is, rpp, &rppx1_is_ops,
++			     RPPX1_RPP_OUT_BASE + RPPX1_IS_BASE) ||
++	    rpp_module_probe(&rpp->hv.ccor, rpp, &rppx1_ccor_csm_ops,
++			     RPPX1_RPP_OUT_BASE + RPPX1_CSM_BASE) ||
++	    rpp_module_probe(&rpp->hv.outif, rpp, &rppx1_outif_ops,
++			     RPPX1_RPP_OUT_BASE + RPPX1_OUT_IF_BASE) ||
++	    rpp_module_probe(&rpp->hv.outregs, rpp, &rppx1_outregs_ops,
++			     RPPX1_RPP_OUT_BASE + RPPX1_RPP_OUTREGS_BASE))
++		goto err;
++
++	/* Probe the Machine Vision pipeline. */
++	if (rpp_module_probe(&rpp->mv.ga, rpp, &rppx1_ga_ops,
++			     RPPX1_RPP_MVOUT_BASE + RPPX1_GAMMA_OUT_BASE) ||
++	    rpp_module_probe(&rpp->mv.is, rpp, &rppx1_is_ops,
++			     RPPX1_RPP_MVOUT_BASE + RPPX1_IS_BASE) ||
++	    rpp_module_probe(&rpp->mv.ccor, rpp, &rppx1_ccor_csm_ops,
++			     RPPX1_RPP_MVOUT_BASE + RPPX1_CSM_BASE) ||
++	    rpp_module_probe(&rpp->mv.outif, rpp, &rppx1_outif_ops,
++			     RPPX1_RPP_MVOUT_BASE + RPPX1_OUT_IF_BASE) ||
++	    rpp_module_probe(&rpp->mv.outregs, rpp, &rppx1_outregs_ops,
++			     RPPX1_RPP_MVOUT_BASE + RPPX1_RPP_OUTREGS_BASE) ||
++	    rpp_module_probe(&rpp->mv.xyz2luv, rpp, &rppx1_xyz2luv_ops,
++			     RPPX1_RPP_MVOUT_BASE + RPPX1_LUV_BASE))
++		goto err;
++
++	/* Probe the standalone Radiance Mapping modules. */
++	if (rpp_module_probe(&rpp->rmap, rpp, &rppx1_rmap_ops,
++			     RPPX1_RPP_RMAP_BASE) ||
++	    rpp_module_probe(&rpp->rmapmeas, rpp, &rppx1_rmapmeas_ops,
++			     RPPX1_RPP_RMAP_MEAS_BASE))
++		goto err;
++
++	return rpp;
++err:
++	rppx1_destroy(rpp);
++
++	return NULL;
++}
++EXPORT_SYMBOL_GPL(rppx1_create);
++
++int rppx1_start(struct rppx1 *rpp,
++		const struct v4l2_mbus_framefmt *input,
++		const struct v4l2_mbus_framefmt *hv,
++		const struct v4l2_mbus_framefmt *mv)
++{
++	if (rpp_module_call(&rpp->pre1.acq, start, input) ||
++	    rpp_module_call(&rpp->pre1.bls, start, input) ||
++	    rpp_module_call(&rpp->pre1.lin, start, input) ||
++	    rpp_module_call(&rpp->pre1.lsc, start, input) ||
++	    rpp_module_call(&rpp->pre1.awbg, start, input) ||
++	    rpp_module_call(&rpp->pre1.dpcc, start, input) ||
++	    rpp_module_call(&rpp->pre1.bd, start, input) ||
++	    rpp_module_call(&rpp->pre1.hist, start, input) ||
++	    rpp_module_call(&rpp->pre1.exm, start, input) ||
++	    rpp_module_call(&rpp->pre1.hist256, start, input))
++		return -EINVAL;
++
++	if (rpp_module_call(&rpp->rmap, start, NULL) ||
++	    rpp_module_call(&rpp->rmapmeas, start, NULL))
++		return -EINVAL;
++
++	if (rpp_module_call(&rpp->post.awbg, start, input) ||
++	    rpp_module_call(&rpp->post.db, start, input) ||
++	    rpp_module_call(&rpp->post.cac, start, input) ||
++	    rpp_module_call(&rpp->post.ccor, start, input) ||
++	    rpp_module_call(&rpp->post.ltm, start, input) ||
++	    rpp_module_call(&rpp->post.bdrgb, start, input) ||
++	    rpp_module_call(&rpp->post.shrp, start, input) ||
++	    rpp_module_call(&rpp->post.ltmmeas, start, input) ||
++	    rpp_module_call(&rpp->post.wbmeas, start, input) ||
++	    rpp_module_call(&rpp->post.hist, start, input))
++		return -EINVAL;
++
++	if (hv && (rpp_module_call(&rpp->hv.ga, start, hv) ||
++		   rpp_module_call(&rpp->hv.ccor, start, hv) ||
++		   rpp_module_call(&rpp->hv.outregs, start, hv) ||
++		   rpp_module_call(&rpp->hv.is, start, hv) ||
++		   rpp_module_call(&rpp->hv.outif, start, hv)))
++		return -EINVAL;
++
++	if (mv && (rpp_module_call(&rpp->mv.ga, start, mv) ||
++		   rpp_module_call(&rpp->mv.ccor, start, mv) ||
++		   rpp_module_call(&rpp->mv.xyz2luv, start, mv) ||
++		   rpp_module_call(&rpp->mv.outregs, start, mv) ||
++		   rpp_module_call(&rpp->mv.is, start, mv) ||
++		   rpp_module_call(&rpp->mv.outif, start, mv)))
++		return -EINVAL;
++
++	rppx1_write(rpp, RPPX1_RPP_HDR_UPD_REG, 0x00000001);
++
++	/* Clear fault interrupts. */
++	rppx1_write(rpp, RPPX1_RPP_HDR_SAFETY_ACCESS_PROTECTION_REG, 0x00000001);
++	rppx1_write(rpp, RPPX1_RPP_HDR_FMU_FSM, 0x000001c0);
++	rppx1_write(rpp, RPPX1_RPP_HDR_FMU_FSC, rppx1_read(rpp, RPPX1_RPP_HDR_FMU_MFS));
++	rppx1_write(rpp, RPPX1_RPP_HDR_SAFETY_ACCESS_PROTECTION_REG, 0x00000000);
++
++	/* Set interrupt mask. */
++	rppx1_write(rpp, RPPX1_RPP_ISM, RPPX1_IRQ_ID_OUT_FRAME);
++
++	rppx1_write(rpp, RPPX1_RPP_HDR_UPD_REG, 0x00000001);
++	rppx1_write(rpp, RPPX1_RPP_HDR_UPD_REG, 0x00000002);
++
++	/* Clear any pending interrupts. */
++	rppx1_interrupt(rpp, NULL);
++
++	/* Enable input formatters. */
++	rppx1_write(rpp, RPPX1_RPP_HDR_INFORM_ENABLE_REG, 1);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(rppx1_start);
++
++int rppx1_stop(struct rppx1 *rpp)
++{
++	/* Disable input formatters. */
++	rppx1_write(rpp, RPPX1_RPP_HDR_INFORM_ENABLE_REG, 0);
++
++	/* Clear any pending interrupts. */
++	rppx1_interrupt(rpp, NULL);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(rppx1_stop);
++
++MODULE_AUTHOR("Niklas Söderlund <niklas.soderlund@ragnatech.se>");
++MODULE_DESCRIPTION("Dreamchip HDR RPPX1 support library");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1.h b/drivers/media/platform/dreamchip/rppx1/rppx1.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..dcf43826d3083c56a7d4065bb3b28ccf70fea75d
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1.h
+@@ -0,0 +1,99 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __MEDIA_RPPX1_H__
++#define __MEDIA_RPPX1_H__
 +
 +#include <linux/types.h>
-+#include <linux/media/v4l2-isp.h>
 +
++#include "rpp_module.h"
++
++#define RPPX1_IRQ_ID_256HIST			BIT(27)
++#define RPPX1_IRQ_ID_PRE2_DPCC			BIT(25)
++#define RPPX1_IRQ_ID_PRE1_DPCC			BIT(24)
++#define RPPX1_IRQ_ID_MV_OUT_FRAME_OUT		BIT(23)
++#define RPPX1_IRQ_ID_MV_OUT_OFF			BIT(22)
++#define RPPX1_IRQ_ID_POST_AWB_MEAS		BIT(21)
++#define RPPX1_IRQ_ID_POST_HIST_MEAS		BIT(20)
++#define RPPX1_IRQ_ID_POST_TM			BIT(19)
++#define RPPX1_IRQ_ID_PRE1_EXM			BIT(18)
++#define RPPX1_IRQ_ID_PRE1_HIST			BIT(17)
++#define RPPX1_IRQ_ID_PRE1_FRAME_IN		BIT(16)
++#define RPPX1_IRQ_ID_PRE1_HSTART		BIT(15)
++#define RPPX1_IRQ_ID_PRE1_VSTART		BIT(14)
++#define RPPX1_IRQ_ID_PRE2_EXM			BIT(13)
++#define RPPX1_IRQ_ID_PRE2_HIST			BIT(12)
++#define RPPX1_IRQ_ID_PRE2_FRAME_IN		BIT(11)
++#define RPPX1_IRQ_ID_PRE2_HSTART		BIT(10)
++#define RPPX1_IRQ_ID_PRE2_VSTART		BIT(9)
++#define RPPX1_IRQ_ID_OUT_FRAME			BIT(3)
++#define RPPX1_IRQ_ID_OUT_OFF			BIT(2)
++#define RPPX1_IRQ_ID_RMAP_MEAS			BIT(1)
++#define RPPX1_IRQ_ID_RMAP_DONE			BIT(0)
++
++struct rppx1 {
++	struct device *dev;
++	void __iomem *base;
++
++	struct {
++		struct rpp_module acq;
++		struct rpp_module bls;
++		struct rpp_module lin;
++		struct rpp_module lsc;
++		struct rpp_module awbg;
++		struct rpp_module dpcc;
++		struct rpp_module bd;
++		struct rpp_module hist;
++		struct rpp_module hist256;
++		struct rpp_module exm;
++	} pre1;
++
++	struct {
++		struct rpp_module acq;
++		struct rpp_module bls;
++		struct rpp_module lin;
++		struct rpp_module lsc;
++		struct rpp_module awbg;
++		struct rpp_module dpcc;
++		struct rpp_module bd;
++		struct rpp_module hist;
++		struct rpp_module exm;
++	} pre2;
++
++	struct {
++		struct rpp_module awbg;
++		struct rpp_module ccor;
++		struct rpp_module hist;
++		struct rpp_module db;
++		struct rpp_module cac;
++		struct rpp_module ltm;
++		struct rpp_module ltmmeas;
++		struct rpp_module wbmeas;
++		struct rpp_module bdrgb;
++		struct rpp_module shrp;
++	} post;
++
++	struct {
++		struct rpp_module ga;
++		struct rpp_module is;
++		struct rpp_module ccor;
++		struct rpp_module outif;
++		struct rpp_module outregs;
++	} hv;
++
++	struct {
++		struct rpp_module ga;
++		struct rpp_module is;
++		struct rpp_module ccor;
++		struct rpp_module outif;
++		struct rpp_module outregs;
++		struct rpp_module xyz2luv;
++	} mv;
++
++	struct rpp_module rmap;
++	struct rpp_module rmapmeas;
++};
++
++void rppx1_write(struct rppx1 *rpp, u32 offset, u32 value);
++u32 rppx1_read(struct rppx1 *rpp, u32 offset);
++
++#endif /* __MEDIA_RPPX1_H__ */
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_acq.c b/drivers/media/platform/dreamchip/rppx1/rppx1_acq.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..45f619ccb684d96054028459b311fb37e6923f69
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_acq.c
+@@ -0,0 +1,147 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Defect Pixel Cluster Correction
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+#define RPPX1_DPCC_METHODS_MAX				3
 +
-+/* Linearization (Sensor De-gamma) */
-+#define RPPX1_LIN_SAMPLES_NUM				17
++#include "rpp_module.h"
 +
-+/* Gamma Out */
-+#define RPPX1_GAMMA_OUT_MAX_SAMPLES			17
++#define ACQ_VERSION_REG				0x0000
 +
-+/* Lens Shade Correction */
-+#define RPPX1_LSC_SECTORS_TBL_SIZE			8
-+#define RPPX1_LSC_SAMPLES_MAX				17
++#define ACQ_CTRL_REG				0x0004
++#define ACQ_CTRL_ALTERNATIVE_CFG_MODE_ENABLE	BIT(8)
++#define ACQ_CTRL_RPP_MODE_MASK			GENMASK(3, 1)
++#define ACQ_CTRL_RPP_MODE_RAWBT601		(0 << 1)
++#define ACQ_CTRL_RPP_MODE_BT656			(1 << 1)
++#define ACQ_CTRL_RPP_MODE_BT601			(2 << 1)
++#define ACQ_CTRL_RPP_MODE_BAYER			(3 << 1)
++#define ACQ_CTRL_RPP_MODE_DATA			(4 << 1)
++#define ACQ_CTRL_RPP_MODE_BAYERRGB		(5 << 1)
++#define ACQ_CTRL_RPP_MODE_RAWBT656		(6 << 1)
++#define ACQ_CTRL_INFORM_EN_ENABLE		BIT(0)
 +
-+/* Histogram */
-+#define RPPX1_HIST_BIN_N_MAX				32
++#define ACQ_PROP_REG				0x0008
 +
-+/* Exposure Measurement */
-+#define RPPX1_EXM_MEAN_MAX				25
++#define ACQ_PROP_SENSOR_IN_LSB_ALIGNED_IN_LSB	BIT(30)
++#define ACQ_PROP_YUV_OUT_SEL			BIT(25)
++#define ACQ_PROP_MUX_DMA_SEL			BIT(24)
++#define ACQ_PROP_SECOND_INPUT_TYPE		BIT(18)
++#define ACQ_PROP_LATENCY_FIFO_INPUT_SELECTION	BIT(15)
++#define ACQ_PROP_INPUT_SELECTION_MASK		GENMASK(14, 12)
++#define ACQ_PROP_INPUT_SELECTION_8BIT		(0 << 12)
++#define ACQ_PROP_INPUT_SELECTION_10BIT		(1 << 12)
++#define ACQ_PROP_INPUT_SELECTION_12BIT		(2 << 12)
++#define ACQ_PROP_BAYER_PAT_MASK			GENMASK(4, 3)
++#define ACQ_PROP_BAYER_PAT_RGRG			(0 << 3)
++#define ACQ_PROP_BAYER_PAT_GRGR			(1 << 3)
++#define ACQ_PROP_BAYER_PAT_GBGB			(2 << 3)
++#define ACQ_PROP_BAYER_PAT_BGBG			(3 << 3)
++#define ACQ_PROP_VSYNC_POL			BIT(2)
++#define ACQ_PROP_HSYNC_POL			BIT(1)
++#define ACQ_PROP_SAMPLE_EDGE			BIT(0)
 +
-+/* AWB Measurement */
-+#define RPPX1_AWB_MAX_GRID				1
++#define ACQ_H_OFFS_REG				0x000c
++#define ACQ_V_OFFS_REG				0x0010
++#define ACQ_H_SIZE_REG				0x0014
++#define ACQ_V_SIZE_REG				0x0018
++#define ACQ_OUT_H_OFFS_REG			0x001c
++#define ACQ_OUT_V_OFFS_REG			0x0020
++#define ACQ_OUT_H_SIZE_REG			0x0024
++#define ACQ_OUT_V_SIZE_REG			0x0028
++#define FLAGS_SHD_REG				0x002c
++#define ACQ_OUT_H_OFFS_SHD_REG			0x0030
++#define ACQ_OUT_V_OFFS_SHD_REG			0x0034
++#define ACQ_OUT_H_SIZE_SHD_REG			0x0038
++#define ACQ_OUT_V_SIZE_SHD_REG			0x003c
 +
-+/* Color Correction Matrix */
-+#define RPPX1_CTK_COEFF_MAX				0x8000
-+#define RPPX1_CTK_OFFSET_MAX				0x800000
++static int rppx1_acq_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	if (rpp_module_read(mod, ACQ_VERSION_REG) != 0x0b)
++		return -EINVAL;
 +
-+/* Filter */
-+#define RPPX1_BDM_MAX_TH				0xffff
++	return 0;
++}
 +
-+/**
-+ * enum rppx1_params_block_type - RPP-X1 extensible params block types
-+ *
-+ * @RPPX1_PARAMS_BLOCK_TYPE_BLS: Black Level Subtraction
-+ * @RPPX1_PARAMS_BLOCK_TYPE_DPCC: Defect Pixel Cluster Correction
-+ * @RPPX1_PARAMS_BLOCK_TYPE_LIN: Linearization (Sensor De-gamma)
-+ * @RPPX1_PARAMS_BLOCK_TYPE_AWB_GAIN: Auto White Balance Gains
-+ * @RPPX1_PARAMS_BLOCK_TYPE_FLT: ISP Filtering
-+ * @RPPX1_PARAMS_BLOCK_TYPE_BDM: Bayer Demosaic
-+ * @RPPX1_PARAMS_BLOCK_TYPE_CTK: Color Correction (Cross-Talk)
-+ * @RPPX1_PARAMS_BLOCK_TYPE_GOC: Gamma Out Correction
-+ * @RPPX1_PARAMS_BLOCK_TYPE_DPF: De-noise Pre-Filter
-+ * @RPPX1_PARAMS_BLOCK_TYPE_DPF_STRENGTH: De-noise Pre-Filter Strength
-+ * @RPPX1_PARAMS_BLOCK_TYPE_LSC: Lens Shading Correction
-+ * @RPPX1_PARAMS_BLOCK_TYPE_AWB_MEAS: AWB Measurement Configuration
-+ * @RPPX1_PARAMS_BLOCK_TYPE_HST_MEAS: Histogram Measurement Configuration
-+ * @RPPX1_PARAMS_BLOCK_TYPE_AEC_MEAS: Auto Exposure Measurement Configuration
++static int rppx1_acq_start(struct rpp_module *mod,
++			   const struct v4l2_mbus_framefmt *fmt)
++{
++	u32 bayerpat, selection;
++
++	rpp_module_clrset(mod, ACQ_CTRL_REG, ACQ_CTRL_RPP_MODE_MASK,
++			  ACQ_CTRL_RPP_MODE_BAYER);
++
++	rpp_module_write(mod, ACQ_H_OFFS_REG, 0);
++	rpp_module_write(mod, ACQ_V_OFFS_REG, 0);
++	rpp_module_write(mod, ACQ_H_SIZE_REG, fmt->width);
++	rpp_module_write(mod, ACQ_V_SIZE_REG, fmt->height);
++	rpp_module_write(mod, ACQ_OUT_H_OFFS_REG, 0);
++	rpp_module_write(mod, ACQ_OUT_V_OFFS_REG, 0);
++	rpp_module_write(mod, ACQ_OUT_H_SIZE_REG, fmt->width);
++	rpp_module_write(mod, ACQ_OUT_V_SIZE_REG, fmt->height);
++
++	switch (fmt->code) {
++	case MEDIA_BUS_FMT_SBGGR8_1X8:
++	case MEDIA_BUS_FMT_SBGGR10_1X10:
++	case MEDIA_BUS_FMT_SBGGR12_1X12:
++		mod->info.acq.raw_pattern = RPP_BGGR;
++		bayerpat = ACQ_PROP_BAYER_PAT_BGBG;
++		break;
++	case MEDIA_BUS_FMT_SGBRG8_1X8:
++	case MEDIA_BUS_FMT_SGBRG10_1X10:
++	case MEDIA_BUS_FMT_SGBRG12_1X12:
++		mod->info.acq.raw_pattern = RPP_GBRG;
++		bayerpat = ACQ_PROP_BAYER_PAT_GBGB;
++		break;
++	case MEDIA_BUS_FMT_SGRBG8_1X8:
++	case MEDIA_BUS_FMT_SGRBG10_1X10:
++	case MEDIA_BUS_FMT_SGRBG12_1X12:
++		mod->info.acq.raw_pattern = RPP_GRBG;
++		bayerpat = ACQ_PROP_BAYER_PAT_GRGR;
++		break;
++	case MEDIA_BUS_FMT_SRGGB8_1X8:
++	case MEDIA_BUS_FMT_SRGGB10_1X10:
++	case MEDIA_BUS_FMT_SRGGB12_1X12:
++		mod->info.acq.raw_pattern = RPP_RGGB;
++		bayerpat = ACQ_PROP_BAYER_PAT_RGRG;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	switch (fmt->code) {
++	case MEDIA_BUS_FMT_SBGGR8_1X8:
++	case MEDIA_BUS_FMT_SGBRG8_1X8:
++	case MEDIA_BUS_FMT_SGRBG8_1X8:
++	case MEDIA_BUS_FMT_SRGGB8_1X8:
++		selection = ACQ_PROP_INPUT_SELECTION_8BIT;
++		break;
++	case MEDIA_BUS_FMT_SBGGR10_1X10:
++	case MEDIA_BUS_FMT_SGBRG10_1X10:
++	case MEDIA_BUS_FMT_SGRBG10_1X10:
++	case MEDIA_BUS_FMT_SRGGB10_1X10:
++		selection = ACQ_PROP_INPUT_SELECTION_10BIT;
++		break;
++	case MEDIA_BUS_FMT_SBGGR12_1X12:
++	case MEDIA_BUS_FMT_SGBRG12_1X12:
++	case MEDIA_BUS_FMT_SGRBG12_1X12:
++	case MEDIA_BUS_FMT_SRGGB12_1X12:
++		selection = ACQ_PROP_INPUT_SELECTION_12BIT;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	rpp_module_write(mod, ACQ_PROP_REG, bayerpat | selection |
++			 ACQ_PROP_SENSOR_IN_LSB_ALIGNED_IN_LSB);
++
++	rpp_module_clrset(mod, ACQ_CTRL_REG, ACQ_CTRL_INFORM_EN_ENABLE,
++			  ACQ_CTRL_INFORM_EN_ENABLE);
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_acq_ops = {
++	.probe = rppx1_acq_probe,
++	.start = rppx1_acq_start,
++};
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c b/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..e20bc369ca8c6db3781ed95381024f0fa4c48dff
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+@@ -0,0 +1,30 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+enum rppx1_params_block_type {
-+	RPPX1_PARAMS_BLOCK_TYPE_BLS,
-+	RPPX1_PARAMS_BLOCK_TYPE_DPCC,
-+	RPPX1_PARAMS_BLOCK_TYPE_LIN,
-+	RPPX1_PARAMS_BLOCK_TYPE_AWB_GAIN,
-+	RPPX1_PARAMS_BLOCK_TYPE_FLT,
-+	RPPX1_PARAMS_BLOCK_TYPE_BDM,
-+	RPPX1_PARAMS_BLOCK_TYPE_CTK,
-+	RPPX1_PARAMS_BLOCK_TYPE_GOC,
-+	RPPX1_PARAMS_BLOCK_TYPE_DPF,
-+	RPPX1_PARAMS_BLOCK_TYPE_DPF_STRENGTH,
-+	RPPX1_PARAMS_BLOCK_TYPE_LSC,
-+	RPPX1_PARAMS_BLOCK_TYPE_AWB_MEAS,
-+	RPPX1_PARAMS_BLOCK_TYPE_HST_MEAS,
-+	RPPX1_PARAMS_BLOCK_TYPE_AEC_MEAS,
++
++#include "rpp_module.h"
++
++#define AWB_GAIN_VERSION_REG		0x0000
++
++#define AWB_ENABLE_REG			0x0004
++#define AWB_ENABLE_AWB_GAIN_EN		BIT(0)
++
++#define AWB_GAIN_GR_REG			0x0008
++#define AWB_GAIN_GB_REG			0x000c
++#define AWB_GAIN_R_REG			0x0010
++#define AWB_GAIN_B_REG			0x0014
++
++static int rppx1_awbg_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	if (rpp_module_read(mod, AWB_GAIN_VERSION_REG) != 3)
++		return -EINVAL;
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_awbg_ops = {
++	.probe = rppx1_awbg_probe,
++};
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..acbfbcd595915fbb36221bc3e6a63cfdc954409e
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
+@@ -0,0 +1,52 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
++ */
++
++#include "rpp_module.h"
++
++#define DPF_VERSION_REG			0x0000
++
++#define DPF_MODE_REG			0x0004
++#define DPF_MODE_USE_NF_GAIN		BIT(9)
++#define DPF_MODE_LSC_GAIN_COMP		BIT(8)
++#define DPF_MODE_NLL_SEGMENTATION	BIT(6)
++#define DPF_MODE_RB_FILTER_SIZE		BIT(5)
++#define DPF_MODE_R_FILTER_OFF		BIT(4)
++#define DPF_MODE_GR_FILTER_OFF		BIT(3)
++#define DPF_MODE_GB_FILTER_OFF		BIT(2)
++#define DPF_MODE_B_FILTER_OFF		BIT(1)
++#define DPF_MODE_DPF_ENABLE		BIT(0)
++
++#define DPF_STRENGTH_R_REG		0x0008
++#define DPF_STRENGTH_G_REG		0x000c
++#define DPF_STRENGTH_B_REG		0x0010
++#define DPF_S_WEIGHT_G_1_4_REG		0x0014
++#define DPF_S_WEIGHT_G_5_6_REG		0x0018
++#define DPF_S_WEIGHT_RB_1_4_REG		0x001c
++#define DPF_S_WEIGHT_RB_5_6_REG		0x0020
++
++#define DPF_NLL_G_COEFF_REG_NUM		17
++#define DPF_NLL_G_COEFF_REG(n)		(0x0024 + (4 * (n)))
++
++#define DPF_NLL_RB_COEFF_REG_NUM	17
++#define DPF_NLL_RB_COEFF_REG(n)		(0x0068 + (4 * (n)))
++
++#define DPF_NF_GAIN_R_REG		0x00ac
++#define DPF_NF_GAIN_GR_REG		0x00b0
++#define DPF_NF_GAIN_GB_REG		0x00b4
++#define DPF_NF_GAIN_B_REG		0x00b8
++
++static int rppx1_bd_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	if (rpp_module_read(mod, DPF_VERSION_REG) != 5)
++		return -EINVAL;
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_bd_ops = {
++	.probe = rppx1_bd_probe,
++};
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..292f0b7bfd3fff6e4d9fd736e551e17ed3aa3d00
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c
+@@ -0,0 +1,80 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
++ */
++
++#include "rpp_module.h"
++
++#define RGBDENOISE_VERSION_REG					0x0000
++
++#define RGBDENOISE_HW_BYPASS_REG				0x0004
++#define RGBDENOISE_HW_BYPASS_BYPASS_EN				BIT(0)
++
++#define RGBDENOISE_SPNR_CTRL_REG				0x0008
++#define RGBDENOISE_SPNR_CTRL_C2NR_INTENSITY_SHIFT_C_MASK	GENMASK(11, 8)
++#define RGBDENOISE_SPNR_CTRL_C2NR_INTENSITY_SHIFT_Y_MASK	GENMASK(7, 4)
++#define RGBDENOISE_SPNR_CTRL_C2NR_EN				BIT(0)
++
++#define RGBDENOISE_SPNR_LUMA_IF_COEF_00_07_REG			0x000c
++#define RGBDENOISE_SPNR_LUMA_IF_COEF_08_15_REG			0x0010
++#define RGBDENOISE_SPNR_LUMA_IF_COEF_16_23_REG			0x0014
++#define RGBDENOISE_SPNR_LUMA_IF_COEF_24_31_REG			0x0018
++#define RGBDENOISE_SPNR_CHROMA_IF_COEF_00_07_REG		0x001c
++#define RGBDENOISE_SPNR_CHROMA_IF_COEF_08_15_REG		0x0020
++#define RGBDENOISE_SPNR_CHROMA_IF_COEF_16_23_REG		0x0024
++#define RGBDENOISE_SPNR_CHROMA_IF_COEF_24_31_REG		0x0028
++#define RGBDENOISE_SPNR_SPATIAL_COEF_0_3_REG			0x002c
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_0_REG			0x0030
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_1_REG			0x0034
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_2_REG			0x0038
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_3_REG			0x003c
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_4_REG			0x0040
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_5_REG			0x0044
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_6_REG			0x0048
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_7_REG			0x004c
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_8_REG			0x0050
++#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_R_REG			0x0054
++#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_G_REG			0x0058
++#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_B_REG			0x005c
++#define RGBDENOISE_HW_BYPASS_SDW_REG				0x0060
++#define RGBDENOISE_SPNR_CTRL_SDW_REG				0x0064
++#define RGBDENOISE_SPNR_LUMA_IF_COEF_00_07_SDW_REG		0x0068
++#define RGBDENOISE_SPNR_LUMA_IF_COEF_08_15_SDW_REG		0x006c
++#define RGBDENOISE_SPNR_LUMA_IF_COEF_16_23_SDW_REG		0x0070
++#define RGBDENOISE_SPNR_LUMA_IF_COEF_24_31_SDW_REG		0x0074
++#define RGBDENOISE_SPNR_CHROMA_IF_COEF_00_07_SDW_REG		0x0078
++#define RGBDENOISE_SPNR_CHROMA_IF_COEF_08_15_SDW_REG		0x007c
++#define RGBDENOISE_SPNR_CHROMA_IF_COEF_16_23_SDW_REG		0x0080
++#define RGBDENOISE_SPNR_CHROMA_IF_COEF_24_31_SDW_REG		0x0084
++#define RGBDENOISE_SPNR_SPATIAL_COEFF_0_3_SDW_REG		0x0088
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_0_SDW_REG			0x008c
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_1_SDW_REG			0x0090
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_2_SDW_REG			0x0094
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_3_SDW_REG			0x0098
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_4_SDW_REG			0x009c
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_5_SDW_REG			0x00a0
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_6_SDW_REG			0x00a4
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_7_SDW_REG			0x00a8
++#define RGBDENOISE_RGB2YUV_CCOR_COEFF_8_SDW_REG			0x00ac
++#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_R_SDW_REG		0x00b0
++#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_G_SDW_REG		0x00b4
++#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_B_SDW_REG		0x00b8
++
++static int rppx1_bdrgb_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	switch (rpp_module_read(mod, RGBDENOISE_VERSION_REG)) {
++	case 6:
++		mod->info.bdrgb.colorbits = 12;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_bdrgb_ops = {
++	.probe = rppx1_bdrgb_probe,
++};
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..de7008befd8ea79f7bca974de7714399e8bf443c
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
+@@ -0,0 +1,59 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
++ */
++
++#include "rpp_module.h"
++
++#define BLS_VERSION_REG				0x0000
++
++#define BLS_CTRL_REG				0x0004
++#define BLS_CTRL_BLS_WIN2			BIT(3)
++#define BLS_CTRL_BLS_WIN1			BIT(2)
++#define BLS_CTRL_BLS_MODE_MEASURED		BIT(1)
++#define BLS_CTRL_BLS_EN				BIT(0)
++
++#define BLS_SAMPLES_REG				0x0008
++#define BLS_H1_START_REG			0x000c
++#define BLS_H1_STOP_REG				0x0010
++#define BLS_V1_START_REG			0x0014
++#define BLS_V1_STOP_REG				0x0018
++#define BLS_H2_START_REG			0x001c
++#define BLS_H2_STOP_REG				0x0020
++#define BLS_V2_START_REG			0x0024
++#define BLS_V2_STOP_REG				0x0028
++#define BLS_A_FIXED_REG				0x002c
++#define BLS_B_FIXED_REG				0x0030
++#define BLS_C_FIXED_REG				0x0034
++#define BLS_D_FIXED_REG				0x0038
++#define BLS_A_MEASURED_REG			0x003c
++#define BLS_B_MEASURED_REG			0x0040
++#define BLS_C_MEASURED_REG			0x0044
++#define BLS_D_MEASURED_REG			0x0048
++
++static int rppx1_bls_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	switch (rpp_module_read(mod, BLS_VERSION_REG)) {
++	case 3:
++	case 5:
++		mod->info.bls.colorbits = 12;
++		break;
++	case 2:
++	case 4:
++		mod->info.bls.colorbits = 20;
++		break;
++	case 6:
++		mod->info.bls.colorbits = 24;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_bls_ops = {
++	.probe = rppx1_bls_probe,
++};
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_cac.c b/drivers/media/platform/dreamchip/rppx1/rppx1_cac.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..5ed8c60982ba02f183015f80beff852e22a0edc1
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_cac.c
+@@ -0,0 +1,29 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
++ */
++
++#include "rpp_module.h"
++
++#define CAC_VERSION_REG			0x0000
++#define CAC_CTRL_REG			0x0004
++#define CAC_COUNT_START_REG		0x0008
++#define CAC_A_REG			0x000c
++#define CAC_B_REG			0x0010
++#define CAC_C_REG			0x0014
++#define CAC_X_NORM_REG			0x0018
++#define CAC_Y_NORM_REG			0x001c
++
++static int rppx1_cac_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	if (rpp_module_read(mod, CAC_VERSION_REG) != 3)
++		return -EINVAL;
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_cac_ops = {
++	.probe = rppx1_cac_probe,
++};
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..4754b0bbce0a13678a91b2e40f001aed98ddabfc
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
+@@ -0,0 +1,106 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
++ */
++
++#include "rpp_module.h"
++
++#define CCOR_VERSION_REG				0x0000
++
++#define CCOR_COEFF_REG_NUM				9
++#define CCOR_COEFF_REG(n)				(0x0004 + (4 * (n)))
++
++#define CCOR_OFFSET_R_REG				0x0028
++#define CCOR_OFFSET_G_REG				0x002c
++#define CCOR_OFFSET_B_REG				0x0030
++
++#define CCOR_CONFIG_TYPE_REG				0x0034
++#define CCOR_CONFIG_TYPE_USE_OFFSETS_AS_PRE_OFFSETS	BIT(1)
++#define CCOR_CONFIG_TYPE_CCOR_RANGE_AVAILABLE		BIT(0)
++
++#define CCOR_RANGE_REG					0x0038
++#define CCOR_RANGE_CCOR_C_RANGE				BIT(1)
++#define CCOR_RANGE_CCOR_Y_RANGE				BIT(0)
++
++static int rppx1_ccor_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	switch (rpp_module_read(mod, CCOR_VERSION_REG)) {
++	case 3:
++		mod->info.ccor.colorbits = 12;
++		break;
++	case 4:
++		mod->info.ccor.colorbits = 20;
++		break;
++	case 5:
++		mod->info.ccor.colorbits = 24;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	mod->info.ccor.type = rpp_module_read(mod, CCOR_CONFIG_TYPE_REG);
++
++	return 0;
++}
++
++static int rppx1_ccor_start(struct rpp_module *mod,
++			    const struct v4l2_mbus_framefmt *fmt)
++{
++	/* Configure matrix in bypass mode. */
++	rpp_module_write(mod, CCOR_COEFF_REG(0), 0x1000);
++	rpp_module_write(mod, CCOR_COEFF_REG(1), 0x0000);
++	rpp_module_write(mod, CCOR_COEFF_REG(2), 0x0000);
++
++	rpp_module_write(mod, CCOR_COEFF_REG(3), 0x0000);
++	rpp_module_write(mod, CCOR_COEFF_REG(4), 0x1000);
++	rpp_module_write(mod, CCOR_COEFF_REG(5), 0x0000);
++
++	rpp_module_write(mod, CCOR_COEFF_REG(6), 0x0000);
++	rpp_module_write(mod, CCOR_COEFF_REG(7), 0x0000);
++	rpp_module_write(mod, CCOR_COEFF_REG(8), 0x1000);
++
++	rpp_module_write(mod, CCOR_OFFSET_R_REG, 0x00000000);
++	rpp_module_write(mod, CCOR_OFFSET_G_REG, 0x00000000);
++	rpp_module_write(mod, CCOR_OFFSET_B_REG, 0x00000000);
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_ccor_ops = {
++	.probe = rppx1_ccor_probe,
++	.start = rppx1_ccor_start,
 +};
 +
-+/**
-+ * struct rppx1_window - Measurement window
-+ *
-+ * @h_offs: horizontal offset from the left of the frame in pixels
-+ * @v_offs: vertical offset from the top of the frame in pixels
-+ * @h_size: horizontal size of the window in pixels
-+ * @v_size: vertical size of the window in pixels
-+ */
-+struct rppx1_window {
-+	__u16 h_offs;
-+	__u16 v_offs;
-+	__u16 h_size;
-+	__u16 v_size;
++static int rppx1_ccor_csm_start(struct rpp_module *mod,
++				const struct v4l2_mbus_framefmt *fmt)
++{
++	/* Reuse bypass matrix setup. */
++	if (fmt->code == MEDIA_BUS_FMT_RGB888_1X24)
++		return rppx1_ccor_start(mod, fmt);
++
++	/* Color Transformation RGB to YUV according to ITU-R BT.709. */
++	rpp_module_write(mod, CCOR_COEFF_REG(0), 0x0367);
++	rpp_module_write(mod, CCOR_COEFF_REG(1), 0x0b71);
++	rpp_module_write(mod, CCOR_COEFF_REG(2), 0x0128);
++
++	rpp_module_write(mod, CCOR_COEFF_REG(3), 0xfe2b);
++	rpp_module_write(mod, CCOR_COEFF_REG(4), 0xf9d5);
++	rpp_module_write(mod, CCOR_COEFF_REG(5), 0x0800);
++
++	rpp_module_write(mod, CCOR_COEFF_REG(6), 0x0800);
++	rpp_module_write(mod, CCOR_COEFF_REG(7), 0xf8bc);
++	rpp_module_write(mod, CCOR_COEFF_REG(8), 0xff44);
++
++	rpp_module_write(mod, CCOR_OFFSET_R_REG, 0x00000000);
++	rpp_module_write(mod, CCOR_OFFSET_G_REG, 0x00000800);
++	rpp_module_write(mod, CCOR_OFFSET_B_REG, 0x00000800);
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_ccor_csm_ops = {
++	.probe = rppx1_ccor_probe,
++	.start = rppx1_ccor_csm_start,
 +};
-+
-+/**
-+ * struct rppx1_bls_fixed_val - BLS fixed subtraction values
-+ *
-+ * Fixed black level values subtracted from sensor data per Bayer channel.
-+ * Negative values result in addition. Each value is a 24-bit + sign
-+ * (25-bit signed) fixed-point number stored in a __s32.
-+ *
-+ * RPP-X1 supports 12/20/24-bit + sign depending on hardware version.
-+ * Userspace should provide values at full 24-bit precision; the driver
-+ * truncates to match the hardware.
-+ *
-+ * @r: subtraction value for Bayer pattern R
-+ * @gr: subtraction value for Bayer pattern Gr
-+ * @gb: subtraction value for Bayer pattern Gb
-+ * @b: subtraction value for Bayer pattern B
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_db.c b/drivers/media/platform/dreamchip/rppx1/rppx1_db.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..5e233896cfc8b66e7d90770171b77a2fabc3cd9b
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_db.c
+@@ -0,0 +1,44 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_bls_fixed_val {
-+	__s32 r;
-+	__s32 gr;
-+	__s32 gb;
-+	__s32 b;
++
++#include "rpp_module.h"
++
++#define FILT_VERSION_REG		0x0000
++
++#define DEMOSAIC_REG			0x0004
++#define DEMOSAIC_DEMOSAIC_BYPASS	BIT(16)
++#define DEMOSAIC_DEMOSAIC_TH_MASK	GENMASK(15, 0)
++
++#define FILT_MODE_REG			0x0008
++#define FILT_MODE_FILT_LP_SELECT_MASK	GENMASK(11, 8)
++#define FILT_MODE_FILT_CHR_H_MODE_MASK	GENMASK(7, 6)
++#define FILT_MODE_FILT_CHR_V_MODE_MASK	GENMASK(5, 4)
++#define FILT_MODE_FILT_MODE		BIT(1)
++#define FILT_MODE_FILT_ENABLE		BIT(0)
++
++#define FILT_THRESH_BL0_REG		0x000c
++#define FILT_THRESH_BL1_REG		0x0010
++#define FILT_THRESH_SH0_REG		0x0014
++#define FILT_THRESH_SH1_REG		0x0018
++#define FILT_LUM_WEIGHT_REG		0x001c
++#define FILT_FAC_SH1_REG		0x0020
++#define FILT_FAC_SH0_REG		0x0024
++#define FILT_FAC_MID_REG		0x0028
++#define FILT_FAC_BL0_REG		0x002c
++#define FILT_FAC_BL1_REG		0x0030
++
++static int rppx1_db_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	if (rpp_module_read(mod, FILT_VERSION_REG) != 5)
++		return -EINVAL;
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_db_ops = {
++	.probe = rppx1_db_probe,
 +};
-+
-+/**
-+ * struct rppx1_params_bls_config - Black Level Subtraction configuration
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_BLS)
-+ * @enable_auto: 1 = use measured values, 0 = use fixed_val
-+ * @en_windows: enabled measurement windows bitmask
-+ * @bls_window1: measurement window 1
-+ * @bls_window2: measurement window 2
-+ * @bls_samples: log2 of the number of measured pixels per Bayer position
-+ * @fixed_val: fixed subtraction values (24-bit + sign)
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c b/drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..ae0b659764528efd49cd293358294cc0d06ed0d0
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c
+@@ -0,0 +1,76 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_params_bls_config {
-+	struct v4l2_isp_params_block_header header;
-+	__u8 enable_auto;
-+	__u8 en_windows;
-+	struct rppx1_window bls_window1;
-+	struct rppx1_window bls_window2;
-+	__u8 bls_samples;
-+	struct rppx1_bls_fixed_val fixed_val;
++
++#include "rpp_module.h"
++
++#define DPCC_VERSION_REG			0x0000
++
++#define DPCC_MODE_REG				0x0004
++#define DPCC_MODE_STAGE1_ENABLE			BIT(2)
++#define DPCC_MODE_GRAYSCALE_MODE		BIT(1)
++#define DPCC_MODE_DPCC_ENABLE			BIT(0)
++
++#define DPCC_OUTPUT_MODE_REG			0x0008
++#define DPCC_SET_USE_REG			0x000c
++#define DPCC_METHODS_SET_1_REG			0x0010
++#define DPCC_METHODS_SET_2_REG			0x0014
++#define DPCC_METHODS_SET_3_REG			0x0018
++#define DPCC_LINE_THRESH_1_REG			0x001c
++#define DPCC_LINE_MAD_FAC_1_REG			0x0020
++#define DPCC_PG_FAC_1_REG			0x0024
++#define DPCC_RND_THRESH_1_REG			0x0028
++#define DPCC_RG_FAC_1_REG			0x002c
++#define DPCC_LINE_THRESH_2_REG			0x0030
++#define DPCC_LINE_MAD_FAC_2_REG			0x0034
++#define DPCC_PG_FAC_2_REG			0x0038
++#define DPCC_RND_THRESH_2_REG			0x003c
++#define DPCC_RG_FAC_2_REG			0x0040
++#define DPCC_LINE_THRESH_3_REG			0x0044
++#define DPCC_LINE_MAD_FAC_3_REG			0x0048
++#define DPCC_PG_FAC_3_REG			0x004c
++#define DPCC_RND_THRESH_3_REG			0x0050
++#define DPCC_RG_FAC_3_REG			0x0054
++#define DPCC_RO_LIMITS_REG			0x0058
++#define DPCC_RND_OFFS_REG			0x005c
++#define DPCC_BPT_CTRL_REG			0x0060
++#define DPCC_BP_NUMBER_REG			0x0064
++#define DPCC_BP_TADDR_REG			0x0068
++#define DPCC_BP_POSITION_REG			0x006c
++
++static int rppx1_dpcc_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	switch (rpp_module_read(mod, DPCC_VERSION_REG)) {
++	case 2:
++	case 4:
++	case 6:
++		mod->info.dpcc.colorbits = 12;
++		break;
++	case 3:
++	case 5:
++	case 7:
++		mod->info.dpcc.colorbits = 24;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int rppx1_dpcc_start(struct rpp_module *mod,
++			    const struct v4l2_mbus_framefmt *fmt)
++{
++	/* Bypass stage1 and DPCC. */
++	rpp_module_write(mod, DPCC_MODE_REG, 0);
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_dpcc_ops = {
++	.probe = rppx1_dpcc_probe,
++	.start = rppx1_dpcc_start,
 +};
-+
-+/**
-+ * struct rppx1_dpcc_methods_config - DPCC methods set configuration
-+ *
-+ * This structure stores the configuration of one set of methods for the DPCC
-+ * algorithm. Multiple methods can be selected in each set (independently for
-+ * the Green and Red/Blue components) through the @method field, the result is
-+ * the logical AND of all enabled methods. The remaining fields set thresholds
-+ * and factors for each method.
-+ *
-+ * @method: method enable bits (RPPX1_DPCC_METHODS_SET_*)
-+ * @line_thresh: line threshold (RPPX1_DPCC_LINE_THRESH_*)
-+ * @line_mad_fac: line MAD factor (RPPX1_DPCC_LINE_MAD_FAC_*)
-+ * @pg_fac: peak gradient factor (RPPX1_DPCC_PG_FAC_*)
-+ * @rnd_thresh: rank neighbor difference threshold (RPPX1_DPCC_RND_THRESH_*)
-+ * @rg_fac: rank gradient factor (RPPX1_DPCC_RG_FAC_*)
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_exm.c b/drivers/media/platform/dreamchip/rppx1/rppx1_exm.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..0c40300e13ad934c02106d804dd776990983792f
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_exm.c
+@@ -0,0 +1,51 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_dpcc_methods_config {
-+	__u32 method;
-+	__u32 line_thresh;
-+	__u32 line_mad_fac;
-+	__u32 pg_fac;
-+	__u32 rnd_thresh;
-+	__u32 rg_fac;
++
++#include "rpp_module.h"
++
++#define EXM_VERSION_REG			0x0000
++#define EXM_START_REG			0x0004
++
++#define EXM_CTRL_REG			0x0008
++#define EXM_CTRL_EXM_UPDATE_ENABLE	BIT(0)
++
++#define EXM_MODE_REG			0x000c
++#define EXM_CHANNEL_SEL_REG		0x0010
++#define EXM_LAST_MEAS_LINE_REG		0x0014
++#define EXM_COEFF_R_REG			0x0018
++#define EXM_COEFF_G_GR_REG		0x001c
++#define EXM_COEFF_B_REG			0x0020
++#define EXM_COEFF_GB_REG		0x0024
++#define EXM_H_OFFS_REG			0x0028
++#define EXM_V_OFFS_REG			0x002c
++#define EXM_H_SIZE_REG			0x0030
++#define EXM_V_SIZE_REG			0x0034
++#define EXM_FORCED_UPD_START_LINE_REG	0x0038
++#define EXM_VSTART_STATUS_REG		0x003c
++
++#define EXM_MEAN_REG_NUM		25
++#define EXM_MEAN_REG(n)			(0x0040 + (4 * (n)))
++
++static int rppx1_exm_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	switch (rpp_module_read(mod, EXM_VERSION_REG)) {
++	case 1:
++		mod->info.exm.resultbits = 8;
++		break;
++	case 3:
++		mod->info.exm.resultbits = 20;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_exm_ops = {
++	.probe = rppx1_exm_probe,
 +};
-+
-+/**
-+ * struct rppx1_params_dpcc_config - Defect Pixel Cluster Correction configuration
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_DPCC)
-+ * @mode: DPCC mode (RPPX1_DPCC_MODE_*)
-+ * @output_mode: interpolation output mode (RPPX1_DPCC_OUTPUT_MODE_*)
-+ * @set_use: methods sets selection (RPPX1_DPCC_SET_USE_*)
-+ * @methods: methods sets configuration
-+ * @ro_limits: rank order limits (RPPX1_DPCC_RO_LIMITS_*)
-+ * @rnd_offs: differential rank offsets (RPPX1_DPCC_RND_OFFS_*)
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..d6c7f951cf2972a8d633b7915818e26f8d0a1cf5
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
+@@ -0,0 +1,49 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_params_dpcc_config {
-+	struct v4l2_isp_params_block_header header;
-+	__u32 mode;
-+	__u32 output_mode;
-+	__u32 set_use;
-+	struct rppx1_dpcc_methods_config methods[RPPX1_DPCC_METHODS_MAX];
-+	__u32 ro_limits;
-+	__u32 rnd_offs;
++
++#include "rpp_module.h"
++
++#define GAMMA_OUT_VERSION_REG			0x0000
++
++#define GAMMA_OUT_ENABLE_REG			0x0004
++#define GAMMA_OUT_ENABLE_GAMMA_OUT_EN		BIT(0)
++
++#define GAMMA_OUT_MODE_REG			0x0008
++#define GAMMA_OUT_MODE_GAMMA_OUT_EQU_SEGM	BIT(0)
++
++#define GAMMA_OUT_Y_REG_NUM			17
++#define GAMMA_OUT_Y_REG(n)			(0x000c + (4 * (n)))
++
++static int rppx1_ga_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	switch (rpp_module_read(mod, GAMMA_OUT_VERSION_REG)) {
++	case 1:
++		mod->info.ga.colorbits = 12;
++		break;
++	case 2:
++		mod->info.ga.colorbits = 24;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int rppx1_ga_start(struct rpp_module *mod,
++			  const struct v4l2_mbus_framefmt *fmt)
++{
++	/* Disable stage. */
++	rpp_module_write(mod, GAMMA_OUT_ENABLE_REG, 0);
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_ga_ops = {
++	.probe = rppx1_ga_probe,
++	.start = rppx1_ga_start,
 +};
-+
-+/**
-+ * struct rppx1_lin_curve - Linearization curve for one color channel
-+ *
-+ * The RPP-X1 linearization module supports 12/20/24-bit precision depending
-+ * on hardware version. Values are provided at 24-bit precision; the driver
-+ * truncates to the hardware capability.
-+ *
-+ * @gamma_y: curve y-axis values, each up to 24 bits
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c b/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..cab498ece5a8fac01e9e6c048b786f2aed829dd2
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
+@@ -0,0 +1,76 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_lin_curve {
-+	__u32 gamma_y[RPPX1_LIN_SAMPLES_NUM];
++
++#include "rpp_module.h"
++
++#define HIST_VERSION_REG			0x0000
++
++#define HIST_CTRL_REG				0x0004
++#define HIST_CTRL_HIST_UPDATE_ENABLE		BIT(0)
++
++#define HIST_MODE_REG				0x0008
++#define HIST_MODE_HIST_MODE_MASK		GENMASK(2, 0)
++#define HIST_MODE_HIST_MODE_DISABLE		0
++#define HIST_MODE_HIST_MODE_YRGB		1
++#define HIST_MODE_HIST_MODE_R			2
++#define HIST_MODE_HIST_MODE_GR			3
++#define HIST_MODE_HIST_MODE_B			4
++#define HIST_MODE_HIST_MODE_GB			5
++
++#define HIST_CHANNEL_SEL_REG			0x000c
++#define HIST_CHANNEL_SEL_CHANNEL_SELECT_MASK	GENMASK(2, 0)
++
++#define HIST_LAST_MEAS_LINE_REG			0x0010
++#define HIST_SUBSAMPLING_REG			0x0014
++#define HIST_COEFF_R_REG			0x0018
++#define HIST_COEFF_G_REG			0x001c
++#define HIST_COEFF_B_REG			0x0020
++#define HIST_H_OFFS_REG				0x0024
++#define HIST_V_OFFS_REG				0x0028
++#define HIST_H_SIZE_REG				0x002c
++#define HIST_V_SIZE_REG				0x0030
++
++#define HIST_SAMPLE_RANGE_REG			0x0034
++#define HIST_SAMPLE_RANGE_SAMPLE_SHIFT_MASK	GENMASK(28, 24)
++#define HIST_SAMPLE_RANGE_SAMPLE_OFFSET_MASK	GENMASK(23, 0)
++
++#define HIST_WEIGHT_00TO30_REG			0x0038
++#define HIST_WEIGHT_40TO21_REG			0x003c
++#define HIST_WEIGHT_31TO12_REG			0x0040
++#define HIST_WEIGHT_22TO03_REG			0x0044
++#define HIST_WEIGHT_13TO43_REG			0x0048
++#define HIST_WEIGHT_04TO34_REG			0x004c
++#define HIST_WEIGHT_44_REG			0x0050
++#define HIST_FORCED_UPD_START_LINE_REG		0x0054
++#define HIST_FORCED_UPDATE_REG			0x0058
++#define HIST_VSTART_STATUS_REG			0x005c
++
++#define HIST_BIN_REG_NUM			32
++#define HIST_BIN_REG(n)				(0x0060 + (4 * (n)))
++
++static int rppx1_hist_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	switch (rpp_module_read(mod, HIST_VERSION_REG)) {
++	case 3:
++		mod->info.hist.colorbits = 12;
++		break;
++	case 4:
++		mod->info.hist.colorbits = 20;
++		break;
++	case 5:
++		mod->info.hist.colorbits = 24;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_hist_ops = {
++	.probe = rppx1_hist_probe,
 +};
-+
-+/**
-+ * struct rppx1_lin_curve_dx - Linearization curve x-axis (sampling points)
-+ * increments.
-+ *
-+ * gamma_dx[0] is for the lower samples, so Bits 0:3 for sample 1, ... Bits
-+ * 28:31 for sample 8
-+ * gamma_dx[1] is for the higher samples, so Bits 0:3 for sample 9, ... Bits
-+ * 28:31 for sample 16
-+ *
-+ * The reset values for both fields is 0xcccccccc. This means that each sample
-+ * is 12 units away from the previous one on the x-axis.
-+ *
-+ * @gamma_dx: curve x-axis increments in 4-bit precision
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c b/drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..5b846b415a497427b25187b5e2058d4e22ae5916
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c
+@@ -0,0 +1,46 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_lin_curve_dx {
-+	__u32 gamma_dx[2];
++
++#include "rpp_module.h"
++
++#define HIST256_VERSION_REG			0x0000
++#define HIST256_MODE_REG			0x0004
++#define HIST256_MODE_HIST256_MODE		BIT(0)
++
++#define HIST256_CHANNEL_SEL_REG			0x0008
++#define HIST256_CHANNEL_SEL_CHANNEL_SELECT	GENMASK(2, 0)
++
++#define HIST256_H_OFFS_REG			0x000c
++#define HIST256_V_OFFS_REG			0x0010
++#define HIST256_H_SIZE_REG			0x0014
++#define HIST256_V_SIZE_REG			0x0018
++#define HIST256_SAMPLE_OFFSET_REG		0x001c
++#define HIST256_SAMPLE_SCALE_REG		0x0020
++#define HIST256_MEAS_RESULT_ADDR_AUTOINCR_REG	0x0024
++#define HIST256_MEAS_RESULT_ADDR_REG		0x0028
++#define HIST256_MEAS_RESULT_DATA_REG		0x002c
++
++#define HIST256_LOG_ENABLE_REG			0x0030
++#define HIST256_LOG_ENABLE_HIST256_LOG_EN	BIT(0)
++
++#define HIST256_LOG_DX_LO_REG			0x0034
++#define HIST256_LOG_DX_HI_REG			0x0038
++
++#define HIST256_Y_REG_NUM			17
++#define HIST256_Y_REG(n)			(0x0040 + (4 * (n)))
++
++static int rppx1_hist256_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	if (rpp_module_read(mod, HIST256_VERSION_REG) != 2)
++		return -EINVAL;
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_hist256_ops = {
++	.probe = rppx1_hist256_probe,
 +};
-+
-+/**
-+ * struct rppx1_params_lin_config - Linearization (Sensor De-gamma) configuration
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_LIN)
-+ * @curve_r: linearization curve for red channel
-+ * @curve_g: linearization curve for green channel
-+ * @curve_b: linearization curve for blue channel
-+ * @xa_pnts: x axis increment definitions
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_is.c b/drivers/media/platform/dreamchip/rppx1/rppx1_is.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..3637a2e677ca42a0eaae6ea114621d7d2d24cc8a
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_is.c
+@@ -0,0 +1,42 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_params_lin_config {
-+	struct v4l2_isp_params_block_header header;
-+	struct rppx1_lin_curve curve_r;
-+	struct rppx1_lin_curve curve_g;
-+	struct rppx1_lin_curve curve_b;
-+	struct rppx1_lin_curve_dx xa_pnts;
++
++#include "rpp_module.h"
++
++#define IS_VERSION			0x0000
++#define IS_H_OFFS			0x0008
++#define IS_V_OFFS			0x000c
++#define IS_H_SIZE			0x0010
++#define IS_V_SIZE			0x0014
++#define IS_H_OFFS_SHD			0x0024
++#define IS_V_OFFS_SHD			0x0028
++#define IS_H_SIZE_SHD			0x002c
++#define IS_V_SIZE_SHD			0x0030
++
++static int rppx1_is_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	if (rpp_module_read(mod, IS_VERSION) != 1)
++		return -EINVAL;
++
++	return 0;
++}
++
++static int rppx1_is_start(struct rpp_module *mod,
++			  const struct v4l2_mbus_framefmt *fmt)
++{
++	rpp_module_write(mod, IS_H_OFFS, 0);
++	rpp_module_write(mod, IS_V_OFFS, 0);
++	rpp_module_write(mod, IS_H_SIZE, fmt->width);
++	rpp_module_write(mod, IS_V_SIZE, fmt->height);
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_is_ops = {
++	.probe = rppx1_is_probe,
++	.start = rppx1_is_start,
 +};
-+
-+/**
-+ * struct rppx1_params_lsc_config - Lens Shading Correction configuration
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_LSC)
-+ * @r_data_tbl: sample table red
-+ * @gr_data_tbl: sample table green (red)
-+ * @gb_data_tbl: sample table green (blue)
-+ * @b_data_tbl: sample table blue
-+ * @x_grad_tbl: gradient table x
-+ * @y_grad_tbl: gradient table y
-+ * @x_size_tbl: size table x
-+ * @y_size_tbl: size table y
-+ * @config_width: reserved
-+ * @config_height: reserved
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..e4b0a7be76656c4bc04408500c7ca60709bebf79
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
+@@ -0,0 +1,60 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_params_lsc_config {
-+	struct v4l2_isp_params_block_header header;
-+	__u16 r_data_tbl[RPPX1_LSC_SAMPLES_MAX][RPPX1_LSC_SAMPLES_MAX];
-+	__u16 gr_data_tbl[RPPX1_LSC_SAMPLES_MAX][RPPX1_LSC_SAMPLES_MAX];
-+	__u16 gb_data_tbl[RPPX1_LSC_SAMPLES_MAX][RPPX1_LSC_SAMPLES_MAX];
-+	__u16 b_data_tbl[RPPX1_LSC_SAMPLES_MAX][RPPX1_LSC_SAMPLES_MAX];
-+	__u16 x_grad_tbl[RPPX1_LSC_SECTORS_TBL_SIZE];
-+	__u16 y_grad_tbl[RPPX1_LSC_SECTORS_TBL_SIZE];
-+	__u16 x_size_tbl[RPPX1_LSC_SECTORS_TBL_SIZE];
-+	__u16 y_size_tbl[RPPX1_LSC_SECTORS_TBL_SIZE];
-+	__u16 config_width;
-+	__u16 config_height;
++
++#include "rpp_module.h"
++
++/* NOTE: The module is called LIN the registers GAMMA_IN. */
++#define LIN_VERSION_REG				0x0000
++
++#define LIN_ENABLE_REG				0x0004
++#define LIN_ENABLE_GAMMA_IN_EN			BIT(0)
++
++#define LIN_DX_LO_REG				0x0008
++#define LIN_DX_HI_REG				0x000c
++
++#define LIN_R_Y_REG_NUM				17
++#define LIN_R_Y_REG(n)				(0x0010 + (4 * (n)))
++
++#define LIN_G_Y_REG_NUM				17
++#define LIN_G_Y_REG(n)				(0x0054 + (4 * (n)))
++
++#define LIN_B_Y_REG_NUM				17
++#define LIN_B_Y_REG(n)				(0x0098 + (4 * (n)))
++
++#define LIN_SAMPLES_NUM	17
++
++static int rppx1_lin_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	switch (rpp_module_read(mod, LIN_VERSION_REG)) {
++	case 7:
++		mod->info.lin.colorbits = 12;
++		break;
++	case 8:
++		mod->info.lin.colorbits = 20;
++		break;
++	case 9:
++		mod->info.lin.colorbits = 24;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int rppx1_lin_start(struct rpp_module *mod,
++			   const struct v4l2_mbus_framefmt *fmt)
++{
++	rpp_module_clrset(mod, LIN_ENABLE_REG, LIN_ENABLE_GAMMA_IN_EN, 0);
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_lin_ops = {
++	.probe = rppx1_lin_probe,
++	.start = rppx1_lin_start,
 +};
-+
-+/**
-+ * struct rppx1_params_awb_gain_config  - AWB gain configuration
-+ *
-+ * RPP-X1 AWB gains are 18-bit with 12-bit fractional part (0x1000 = 1.0),
-+ * giving a range of 0.0 to 64.0.
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_AWB_GAIN)
-+ * @gain_red: gain for red component, 18-bit (Q6.12)
-+ * @gain_green_r: gain for green-in-red component, 18-bit (Q6.12)
-+ * @gain_blue: gain for blue component, 18-bit (Q6.12)
-+ * @gain_green_b: gain for green-in-blue component, 18-bit (Q6.12)
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..e8acdf74495633790e2614a9985a47fa92df4eeb
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
+@@ -0,0 +1,68 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_params_awb_gain_config {
-+	struct v4l2_isp_params_block_header header;
-+	__u32 gain_red;
-+	__u32 gain_green_r;
-+	__u32 gain_blue;
-+	__u32 gain_green_b;
++
++#include "rpp_module.h"
++
++#define LSC_VERSION_REG		0x0000
++
++#define LSC_CTRL_REG		0x0004
++#define LSC_CTRL_LSC_EN		BIT(0)
++
++#define LSC_R_TABLE_ADDR_REG	0x0008
++#define LSC_GR_TABLE_ADDR_REG	0x000c
++#define LSC_B_TABLE_ADDR_REG	0x0010
++#define LSC_GB_TABLE_ADDR_REG	0x0014
++#define LSC_R_TABLE_DATA_REG	0x0018
++#define LSC_GR_TABLE_DATA_REG	0x001c
++#define LSC_B_TABLE_DATA_REG	0x0020
++#define LSC_GB_TABLE_DATA_REG	0x0024
++#define LSC_XGRAD_01_REG	0x0028
++#define LSC_XGRAD_23_REG	0x002c
++#define LSC_XGRAD_45_REG	0x0030
++#define LSC_XGRAD_67_REG	0x0034
++#define LSC_XGRAD_89_REG	0x0038
++#define LSC_XGRAD_1011_REG	0x003c
++#define LSC_XGRAD_1213_REG	0x0040
++#define LSC_XGRAD_1415_REG	0x0044
++#define LSC_YGRAD_01_REG	0x0048
++#define LSC_YGRAD_23_REG	0x004c
++#define LSC_YGRAD_45_REG	0x0050
++#define LSC_YGRAD_67_REG	0x0054
++#define LSC_YGRAD_89_REG	0x0058
++#define LSC_YGRAD_1011_REG	0x005c
++#define LSC_YGRAD_1213_REG	0x0060
++#define LSC_YGRAD_1415_REG	0x0064
++#define LSC_XSIZE_01_REG	0x0068
++#define LSC_XSIZE_23_REG	0x006c
++#define LSC_XSIZE_45_REG	0x0070
++#define LSC_XSIZE_67_REG	0x0074
++#define LSC_XSIZE_89_REG	0x0078
++#define LSC_XSIZE_1011_REG	0x007c
++#define LSC_XSIZE_1213_REG	0x0080
++#define LSC_XSIZE_1415_REG	0x0084
++#define LSC_YSIZE_01_REG	0x0088
++#define LSC_YSIZE_23_REG	0x008c
++#define LSC_YSIZE_45_REG	0x0090
++#define LSC_YSIZE_67_REG	0x0094
++#define LSC_YSIZE_89_REG	0x0098
++#define LSC_YSIZE_1011_REG	0x009c
++#define LSC_YSIZE_1213_REG	0x00a0
++#define LSC_YSIZE_1415_REG	0x00a4
++#define LSC_TABLE_SEL_REG	0x00a8
++#define LSC_STATUS_REG		0x00ac
++
++static int rppx1_lsc_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	if (rpp_module_read(mod, LSC_VERSION_REG) != 0x04)
++		return -EINVAL;
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_lsc_ops = {
++	.probe = rppx1_lsc_probe,
 +};
-+
-+/**
-+ * struct rppx1_params_flt_config - Filter (demosaic/denoise) configuration
-+ *
-+ * RPP-X1 thresholds are 18-bit and factors are 8-bit.
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_FLT)
-+ * @mode: filter mode
-+ * @grn_stage1: green filter stage 1 select (range 0x0...0x8)
-+ * @chr_h_mode: chroma filter horizontal mode
-+ * @chr_v_mode: chroma filter vertical mode
-+ * @thresh_bl0: If thresh_bl1 < sum_grad < thresh_bl0 then fac_bl0 is selected (blurring th)
-+ * @thresh_bl1: If sum_grad < thresh_bl1 then fac_bl1 is selected (blurring th)
-+ * @thresh_sh0: If thresh_sh0 < sum_grad < thresh_sh1 then thresh_sh0 is selected (sharpening th)
-+ * @thresh_sh1: If thresh_sh1 < sum_grad then thresh_sh1 is selected (sharpening th)
-+ * @lum_weight: luminance weight, min (bits 0:11), kink (bits 12:23), gain (bits 28:30)
-+ * @fac_sh1: filter factor for sharp1 level
-+ * @fac_sh0: filter factor for sharp0 level
-+ * @fac_mid: filter factor for mid level and for static filter mode
-+ * @fac_bl0: filter factor for blur0 level
-+ * @fac_bl1: filter factor for blur1 level (max blur)
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..693cf5ed16891de67d5c15da4dbee71533ec06ea
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c
+@@ -0,0 +1,48 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_params_flt_config {
-+	struct v4l2_isp_params_block_header header;
-+	__u32 mode;
-+	__u8 grn_stage1;
-+	__u8 chr_h_mode;
-+	__u8 chr_v_mode;
-+	__u32 thresh_bl0;
-+	__u32 thresh_bl1;
-+	__u32 thresh_sh0;
-+	__u32 thresh_sh1;
-+	__u32 lum_weight;
-+	__u32 fac_sh1;
-+	__u32 fac_sh0;
-+	__u32 fac_mid;
-+	__u32 fac_bl0;
-+	__u32 fac_bl1;
++
++#include "rpp_module.h"
++
++#define LTM_VERSION_REG				0x0000
++
++#define LTM_CTRL_REG				0x0004
++#define LTM_CTRL_LTM_ENABLE			BIT(0)
++
++#define LTM_RGB_WEIGHTS_REG			0x0008
++#define LTM_CLB_LINESIZE_REG			0x000c
++#define LTM_TONECURVE_1_REG			0x0010
++#define LTM_TONECURVE_2_REG			0x0014
++#define LTM_TONECURVE_3_REG			0x0018
++#define LTM_TONECURVE_4_REG			0x001c
++#define LTM_TONECURVE_5_REG			0x0020
++#define LTM_TONECURVE_6_REG			0x0024
++#define LTM_TONECURVE_YM_REG(n)			(0x0028 + (4 * (n)))
++#define LTM_L0W_REG				0x00ec
++#define LTM_L0W_R_REG				0x00f0
++#define LTM_L0D_REG				0x00f4
++#define LTM_L0D_R_REG				0x00f8
++#define LTM_KMIND_REG				0x00fc
++#define LTM_KMAXD_REG				0x0100
++#define LTM_KDIFFD_REG				0x0104
++#define LTM_KDIFFD_R_REG			0x0108
++#define LTM_KW_REG				0x010c
++#define LTM_KW_R_REG				0x0110
++#define LTM_CGAIN_REG				0x0114
++#define LTM_LPRCH_R_HIGH_REG			0x0118
++#define LTM_LPRCH_R_LOW_REG			0x011c
++
++static int rppx1_ltm_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	if (rpp_module_read(mod, LTM_VERSION_REG) != 8)
++		return -EINVAL;
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_ltm_ops = {
++	.probe = rppx1_ltm_probe,
 +};
-+
-+/**
-+ * struct rppx1_params_bdm_config - Bayer Demosaic configuration
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_BDM)
-+ * @demosaic_th: threshold for texture detection, 16-bit
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..efc3d09db5ebea2b4ce195410fd8c6d07adfcc67
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c
+@@ -0,0 +1,41 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_params_bdm_config {
-+	struct v4l2_isp_params_block_header header;
-+	__u16 demosaic_th;
++
++#include "rpp_module.h"
++
++#define LTM_MEAS_VERSION_REG		0x0000
++
++#define LTM_MEAS_CTRL_REG		0x0004
++#define LTM_MEAS_CTRL_LTM_MEAS_ENABLE	BIT(0)
++
++#define LTM_MEAS_RGB_WEIGHTS_REG	0x0008
++#define LTM_MEAS_H_OFFS_REG		0x000c
++#define LTM_MEAS_V_OFFS_REG		0x0010
++#define LTM_MEAS_H_SIZE_REG		0x0014
++#define LTM_MEAS_V_SIZE_REG		0x0018
++
++#define LTM_MEAS_PRC_THRESH_NUM		8
++#define LTM_MEAS_PRC_THRESH_REG(n)	(0x001c + (4 * (n)))
++
++#define LTM_MEAS_PRC_REG_NUM		8
++#define LTM_MEAS_PRC_REG(n)		(0x003c + (4 * (n)))
++
++#define LTM_MEAS_L_MIN_REG		0x005c
++#define LTM_MEAS_L_MAX_REG		0x0060
++#define LTM_MEAS_L_GMEAN_REG		0x0064
++
++static int rppx1_ltmmeas_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	if (rpp_module_read(mod, LTM_MEAS_VERSION_REG) != 1)
++		return -EINVAL;
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_ltmmeas_ops = {
++	.probe = rppx1_ltmmeas_probe,
 +};
-+
-+/**
-+ * struct rppx1_params_ctk_config - Color Correction (Cross-Talk) configuration
-+ *
-+ * RPP-X1 coefficients are 16-bit signed fixed-point (Q4.12).
-+ * Range: -8.0 (0x8000) to +7.9996 (0x7FFF), 1.0 = 0x1000.
-+ *
-+ * RPP-X1 offsets are up to 24-bit + sign depending on hardware version.
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_CTK)
-+ * @coeff: 3x3 color correction matrix, Q4.12 signed
-+ * @ct_offset: R, G, B offsets, up to 25-bit signed
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_outif.c b/drivers/media/platform/dreamchip/rppx1/rppx1_outif.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..742c818449129fe92daedaf4ef4ede1c93f671d2
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_outif.c
+@@ -0,0 +1,45 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_params_ctk_config {
-+	struct v4l2_isp_params_block_header header;
-+	__u16 coeff[3][3];
-+	__u32 ct_offset[3];
++
++#include "rpp_module.h"
++
++#define OUT_IF_VERSION_REG			0x0000
++
++#define OUT_IF_ON_REG				0x0004
++#define OUT_IF_ON_RPP_ON			BIT(0)
++
++#define OUT_IF_OFF_REG				0x0008
++
++#define OUT_IF_NR_FRAMES_REG			0x000c
++#define OUT_IF_NR_FRAMES_NR_FRAMES		GENMASK(9, 0)
++
++#define OUT_IF_NR_FRAMES_CNT_REG		0x0010
++#define FLAGS_SHD_REG				0x0018
++
++static int rppx1_outif_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	if (rpp_module_read(mod, OUT_IF_VERSION_REG) != 1)
++		return -EINVAL;
++
++	return 0;
++}
++
++static int rppx1_outif_start(struct rpp_module *mod,
++			     const struct v4l2_mbus_framefmt *fmt)
++{
++	rpp_module_clrset(mod, OUT_IF_NR_FRAMES_REG,
++			  OUT_IF_NR_FRAMES_NR_FRAMES, 0);
++
++	rpp_module_write(mod, OUT_IF_ON_REG, OUT_IF_ON_RPP_ON);
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_outif_ops = {
++	.probe = rppx1_outif_probe,
++	.start = rppx1_outif_start,
 +};
-+
-+/**
-+ * struct rppx1_params_goc_config - Gamma Out Correction configuration
-+ *
-+ * RPP-X1 gamma output values are up to 24-bit depending on hardware version.
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_GOC)
-+ * @mode: gamma curve mode (0 = logarithmic, 1 = equidistant)
-+ * @gamma_y: gamma out curve y-axis values, up to 24-bit
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c b/drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..63d61e1dc447e6376e9a1c9ec21b71b6830c3452
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c
+@@ -0,0 +1,75 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_params_goc_config {
-+	struct v4l2_isp_params_block_header header;
-+	__u32 mode;
-+	__u32 gamma_y[RPPX1_GAMMA_OUT_MAX_SAMPLES];
++
++#include "rpp_module.h"
++
++#define OUTREGS_VERSION_REG					0x0000
++
++#define OUT_MODE_REG						0x0004
++#define OUT_MODE_UNSELECTED_MODE_MASK				GENMASK(11, 8)
++#define OUT_MODE_UNSELECTED_MODE_MAIN				(0x1 << 8)
++#define OUT_MODE_UNSELECTED_MODE_PRE1				(0x2 << 8)
++#define OUT_MODE_UNSELECTED_MODE_PRE2				(0x4 << 8)
++#define OUT_MODE_IN_SEL_MASK					GENMASK(3, 0)
++#define OUT_MODE_IN_SEL_MAIN					1
++#define OUT_MODE_IN_SEL_PRE1					2
++#define OUT_MODE_IN_SEL_PRE2					4
++
++#define OUT_CONV_422_METHOD_REG					0x0008
++#define OUT_CONV_422_METHOD_CONV_422_METHOD_MASK		GENMASK(1, 0)
++#define OUT_CONV_422_METHOD_CONV_422_METHOD_CO_SITED1		0
++#define OUT_CONV_422_METHOD_CONV_422_METHOD_CO_SITED2		1
++#define OUT_CONV_422_METHOD_CONV_422_METHOD_NON_CO_SITED	2
++
++#define OUTREGS_FORMAT_REG					0x000c
++#define OUTREGS_FORMAT_OUTPUT_FORMAT_MASK			GENMASK(1, 0)
++#define OUTREGS_FORMAT_OUTPUT_FORMAT_RGB			0
++#define OUTREGS_FORMAT_OUTPUT_FORMAT_YUV422			1
++#define OUTREGS_FORMAT_OUTPUT_FORMAT_YUV420			2
++
++static int rppx1_outregs_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	if (rpp_module_read(mod, OUTREGS_VERSION_REG) != 2)
++		return -EINVAL;
++
++	return 0;
++}
++
++static int rppx1_outregs_start(struct rpp_module *mod,
++			       const struct v4l2_mbus_framefmt *fmt)
++{
++	u32 format;
++
++	switch (fmt->code) {
++	case MEDIA_BUS_FMT_YUYV12_1X24:
++		format = OUTREGS_FORMAT_OUTPUT_FORMAT_YUV422;
++		break;
++	case MEDIA_BUS_FMT_RGB888_1X24:
++		format = OUTREGS_FORMAT_OUTPUT_FORMAT_RGB;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	rpp_module_clrset(mod, OUT_MODE_REG,
++			  OUT_MODE_UNSELECTED_MODE_MASK | OUT_MODE_IN_SEL_MASK,
++			  OUT_MODE_UNSELECTED_MODE_MASK | OUT_MODE_IN_SEL_MAIN);
++
++	rpp_module_clrset(mod, OUT_CONV_422_METHOD_REG,
++			  OUT_CONV_422_METHOD_CONV_422_METHOD_MASK,
++			  OUT_CONV_422_METHOD_CONV_422_METHOD_CO_SITED1);
++
++	rpp_module_clrset(mod, OUTREGS_FORMAT_REG,
++			  OUTREGS_FORMAT_OUTPUT_FORMAT_MASK, format);
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_outregs_ops = {
++	.probe = rppx1_outregs_probe,
++	.start = rppx1_outregs_start,
 +};
-+
-+/**
-+ * enum rppx1_dpf_gain_usage - DPF noise function gain usage mode
-+ * @RPPX1_DPF_GAIN_USAGE_DISABLED: gain not used
-+ * @RPPX1_DPF_GAIN_USAGE_NF_GAINS: use noise function gains
-+ * @RPPX1_DPF_GAIN_USAGE_LSC_GAINS: use LSC gains
-+ * @RPPX1_DPF_GAIN_USAGE_NF_LSC_GAINS: use noise function and LSC gains
-+ * @RPPX1_DPF_GAIN_USAGE_AWB_GAINS: use AWB gains
-+ * @RPPX1_DPF_GAIN_USAGE_AWB_LSC_GAINS: use AWB and LSC gains
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c b/drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..f6773a452bd1e02885e509535eea1069bd00d79b
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c
+@@ -0,0 +1,64 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+enum rppx1_dpf_gain_usage {
-+	RPPX1_DPF_GAIN_USAGE_DISABLED,
-+	RPPX1_DPF_GAIN_USAGE_NF_GAINS,
-+	RPPX1_DPF_GAIN_USAGE_LSC_GAINS,
-+	RPPX1_DPF_GAIN_USAGE_NF_LSC_GAINS,
-+	RPPX1_DPF_GAIN_USAGE_AWB_GAINS,
-+	RPPX1_DPF_GAIN_USAGE_AWB_LSC_GAINS,
++
++#include "rpp_module.h"
++
++#define RMAP_DATA_VERSION_REG		0x0000
++
++#define RMAP_CTRL_REG			0x0004
++#define RMAP_CTRL_BYPASS_LONG		BIT(2)
++
++#define RMAP_WBTHRESHOLD_LONG_REG	0x0008
++#define RMAP_WBTHRESHOLD_SHORT_REG	0x000c
++#define RMAP_RESERVED_1_REG		0x0010
++#define RMAP_WBGAIN_LONG_RED_REG	0x0014
++#define RMAP_WBGAIN_LONG_BLUE_REG	0x0018
++#define RMAP_WBGAIN_SHORT_RED_REG	0x001c
++#define RMAP_WBGAIN_SHORT_BLUE_REG	0x0020
++#define RMAP_RESERVED_2_REG		0x0024
++#define RMAP_RESERVED_3_REG		0x0028
++#define RMAP_MAP_FAC_SHORT_REG		0x002c
++#define RMAP_RESERVED_4_REG		0x0030
++#define RMAP_MIN_THRES_SHORT_REG	0x0034
++#define RMAP_MAX_THRES_SHORT_REG	0x0038
++#define RMAP_STEPSIZE_SHORT_REG		0x003c
++#define RMAP_MIN_THRES_LONG_REG		0x0040
++#define RMAP_MAX_THRES_LONG_REG		0x0044
++#define RMAP_STEPSIZE_LONG_REG		0x0048
++#define RMAP_CLB_LINESIZE_REG		0x004c
++
++static int rppx1_rmap_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	switch (rpp_module_read(mod, RMAP_DATA_VERSION_REG)) {
++	case 8:
++		mod->info.rmap.colorbits_high = 20;
++		mod->info.rmap.colorbits_low = 12;
++		break;
++	case 9:
++		mod->info.rmap.colorbits_high = 24;
++		mod->info.rmap.colorbits_low = 12;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int rppx1_rmap_start(struct rpp_module *mod,
++			    const struct v4l2_mbus_framefmt *fmt)
++{
++	/* Bypass radiance mapping and use the long exposure channel (PRE1). */
++	rpp_module_write(mod, RMAP_CTRL_REG, RMAP_CTRL_BYPASS_LONG);
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_rmap_ops = {
++	.probe = rppx1_rmap_probe,
++	.start = rppx1_rmap_start,
 +};
-+
-+/**
-+ * enum rppx1_nll_scale_mode - DPF noise level lookup scale mode
-+ * @RPPX1_NLL_SCALE_LINEAR: linear scaling
-+ * @RPPX1_NLL_SCALE_LOGARITHMIC: logarithmic scaling
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c b/drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..c04f92508f6d3e5978e1b0c173679efb67406019
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c
+@@ -0,0 +1,47 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+enum rppx1_nll_scale_mode {
-+	RPPX1_NLL_SCALE_LINEAR,
-+	RPPX1_NLL_SCALE_LOGARITHMIC,
++
++#include "rpp_module.h"
++
++#define RMAP_MEAS_VERSION_REG			0x0000
++#define RMAP_MEAS_MODE_REG			0x0004
++#define RMAP_MEAS_SUBSAMPLING_REG		0x0008
++#define RMAP_MEAS_RESERVED_1_REG		0x000c
++#define RMAP_MEAS_MIN_THRES_SHORT_REG		0x0010
++#define RMAP_MEAS_MAX_THRES_SHORT_REG		0x0014
++#define RMAP_MEAS_MAX_THRES_LONG_REG		0x0018
++#define RMAP_MEAS_H_OFFS_REG			0x001c
++#define RMAP_MEAS_V_OFFS_REG			0x0020
++#define RMAP_MEAS_H_SIZE_REG			0x0024
++#define RMAP_MEAS_V_SIZE_REG			0x0028
++#define RMAP_MEAS_LAST_MEAS_LINE_REG		0x002c
++#define RMAP_MEAS_LS_RESULTSHORT0_REG		0x0030
++#define RMAP_MEAS_LS_RESULTLONG0_REG		0x0034
++#define RMAP_MEAS_RESERVED_2_REG		0x0038
++#define RMAP_MEAS_RESERVED_3_REG		0x003c
++#define RMAP_MEAS_LS_RESULTSHORT1_REG		0x0040
++#define RMAP_MEAS_LS_RESULTLONG1_REG		0x0044
++#define RMAP_MEAS_RESERVED_4_REG		0x0048
++#define RMAP_MEAS_RESERVED_5_REG		0x004c
++
++static int rppx1_rmapmeas_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	switch (rpp_module_read(mod, RMAP_MEAS_VERSION_REG)) {
++	case 3:
++		mod->info.rmapmeas.colorbits_high = 24;
++		mod->info.rmapmeas.colorbits_low = 12;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_rmapmeas_ops = {
++	.probe = rppx1_rmapmeas_probe,
 +};
-+
-+/**
-+ * enum rppx1_dpf_rb_filtersize - DPF red/blue filter kernel size
-+ * @RPPX1_DPF_RB_FILTERSIZE_13x9: 13x9 filter size
-+ * @RPPX1_DPF_RB_FILTERSIZE_9x9: 9x9 filter size
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c b/drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..5bec022e8f0517e84b5481c227b87cea8cf82682
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c
+@@ -0,0 +1,64 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+enum rppx1_dpf_rb_filtersize {
-+	RPPX1_DPF_RB_FILTERSIZE_13x9,
-+	RPPX1_DPF_RB_FILTERSIZE_9x9,
++
++#include "rpp_module.h"
++
++#define SHRPCNR_VERSION_REG				0x0000
++
++#define SHRPCNR_CTRL_REG				0x0004
++#define SHRPCNR_CTRL_CAD_EN				BIT(3)
++#define SHRPCNR_CTRL_DESAT_EN				BIT(2)
++#define SHRPCNR_CTRL_CNR_EN				BIT(1)
++#define SHRPCNR_CTRL_SHARPEN_EN				BIT(0)
++
++#define SHRPCNR_PARAM_REG				0x0008
++#define SHRPCNR_PARAM_SHARP_FACTOR_MASK			GENMASK(19, 12)
++#define SHRPCNR_PARAM_CORING_THR_MASK			GENMASK(11, 0)
++
++#define SHRPCNR_MAT_1_REG				0x000c
++#define SHRPCNR_MAT_2_REG				0x0010
++#define SHRPCNR_CLB_LINESIZE_REG			0x0014
++#define SHRPCNR_YUV2RGB_CCOR_COEFF_0_REG		0x0018
++#define SHRPCNR_YUV2RGB_CCOR_COEFF_1_REG		0x001c
++#define SHRPCNR_YUV2RGB_CCOR_COEFF_2_REG		0x0020
++#define SHRPCNR_YUV2RGB_CCOR_COEFF_3_REG		0x0024
++#define SHRPCNR_YUV2RGB_CCOR_COEFF_4_REG		0x0028
++#define SHRPCNR_YUV2RGB_CCOR_COEFF_5_REG		0x002c
++#define SHRPCNR_YUV2RGB_CCOR_COEFF_6_REG		0x0030
++#define SHRPCNR_YUV2RGB_CCOR_COEFF_7_REG		0x0034
++#define SHRPCNR_YUV2RGB_CCOR_COEFF_8_REG		0x0038
++#define SHRPCNR_YUV2RGB_CCOR_OFFSET_R_REG		0x003c
++#define SHRPCNR_YUV2RGB_CCOR_OFFSET_G_REG		0x0040
++#define SHRPCNR_YUV2RGB_CCOR_OFFSET_B_REG		0x0044
++
++#define SHRPCNR_CNR_THRES_REG				0x0048
++#define SHRPCNR_CNR_THRES_CNR_THRES_CR_MASK		GENMASK(27, 16)
++#define SHRPCNR_CNR_THRES_CNR_THRES_CB_MASK		GENMASK(11, 0)
++
++#define SHRPCNR_CRED_THRES_REG				0x004c
++#define SHRPCNR_CRED_SLOPE_REG				0x0050
++#define SHRPCNR_CAD_RESTORE_LVL_REG			0x0054
++#define SHRPCNR_CAD_THRESH_V_UNEG_REG			0x0058
++#define SHRPCNR_CAD_THRESH_V_UPOS_REG			0x005c
++#define SHRPCNR_CAD_THRESH_U_REG			0x0060
++
++static int rppx1_shrp_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	switch (rpp_module_read(mod, SHRPCNR_VERSION_REG)) {
++	case 2:
++		mod->info.shrp.colorbits = 12;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_shrp_ops = {
++	.probe = rppx1_shrp_probe,
 +};
-+
-+/**
-+ * struct rppx1_dpf_gain - DPF noise function gain configuration
-+ *
-+ * @mode: gain usage mode
-+ * @nf_r_gain: noise function gain replacing AWB gain for red
-+ * @nf_b_gain: noise function gain replacing AWB gain for blue
-+ * @nf_gr_gain: noise function gain replacing AWB gain for green-in-red
-+ * @nf_gb_gain: noise function gain replacing AWB gain for green-in-blue
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c b/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..3d197d914d0710128a61842ac3db54ddcce8c45e
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
+@@ -0,0 +1,61 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_dpf_gain {
-+	__u32 mode;
-+	__u16 nf_r_gain;
-+	__u16 nf_b_gain;
-+	__u16 nf_gr_gain;
-+	__u16 nf_gb_gain;
++
++#include "rpp_module.h"
++
++#define AWB_MEAS_VERSION_REG			0x0000
++
++#define AWB_MEAS_PROP_REG			0x0004
++#define AWB_MEAS_PROP_MEAS_MODE_RGB		BIT(16) /* 0: YCbCr 1: RGB */
++#define AWB_MEAS_PROP_YMAX			BIT(2)
++#define AWB_MEAS_PROP_AWB_MODE_ON		BIT(1)
++
++#define AWB_MEAS_H_OFFS_REG			0x0008
++#define AWB_MEAS_V_OFFS_REG			0x000c
++#define AWB_MEAS_H_SIZE_REG			0x0010
++#define AWB_MEAS_V_SIZE_REG			0x0014
++#define AWB_MEAS_FRAMES_REG			0x0018
++#define AWB_MEAS_REF_CB_MAX_B_REG		0x001c
++#define AWB_MEAS_REF_CR_MAX_R_REG		0x0020
++#define AWB_MEAS_MAX_Y_REG			0x0024
++#define AWB_MEAS_MIN_Y_MAX_G_REG		0x0028
++#define AWB_MEAS_MAX_CSUM_REG			0x002c
++#define AWB_MEAS_MIN_C_REG			0x0030
++#define AWB_MEAS_WHITE_CNT_REG			0x0034
++#define AWB_MEAS_MEAN_Y_G_REG			0x0038
++#define AWB_MEAS_MEAN_CB_B_REG			0x003c
++#define AWB_MEAS_MEAN_CR_R_REG			0x0040
++
++#define AWB_MEAS_CCOR_COEFF_NUM			9
++#define AWB_MEAS_CCOR_COEFF_REG(n)		(0x0044 + (4 * (n)))
++
++#define AWB_MEAS_CCOR_OFFSET_R_REG		0x0068
++#define AWB_MEAS_CCOR_OFFSET_G_REG		0x006c
++#define AWB_MEAS_CCOR_OFFSET_B_REG		0x0070
++
++static int rppx1_wbmeas_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	switch (rpp_module_read(mod, AWB_MEAS_VERSION_REG)) {
++	case 1:
++		mod->info.wbmeas.colorbits = 8;
++		break;
++	case 2:
++		mod->info.wbmeas.colorbits = 20;
++		break;
++	case 3:
++		mod->info.wbmeas.colorbits = 24;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_wbmeas_ops = {
++	.probe = rppx1_wbmeas_probe,
 +};
-+
-+#define RPPX1_DPF_MAX_NLF_COEFFS			17
-+#define RPPX1_DPF_MAX_SPATIAL_COEFFS			6
-+
-+/**
-+ * struct rppx1_dpf_nll - DPF noise level lookup
-+ *
-+ * @coeff: noise level lookup coefficients
-+ * @scale_mode: 0 = linear, 1 = logarithmic
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c b/drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..73789c48c0574dbe5ca26fd47837dd9b8203d4fa
+--- /dev/null
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c
+@@ -0,0 +1,26 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_dpf_nll {
-+	__u16 coeff[RPPX1_DPF_MAX_NLF_COEFFS];
-+	__u32 scale_mode;
++
++#include "rpp_module.h"
++
++#define XYZ2LUV_VERSION_REG			0x0000
++#define XYZ2LUV_U_REF_REG			0x0004
++#define XYZ2LUV_V_REF_REG			0x0008
++#define XYZ2LUV_LUMA_OUT_FAC_REG		0x000c
++#define XYZ2LUV_CHROMA_OUT_FAC_REG		0x0010
++
++static int rppx1_xyz2luv_probe(struct rpp_module *mod)
++{
++	/* Version check. */
++	if (rpp_module_read(mod, XYZ2LUV_VERSION_REG) != 4)
++		return -EINVAL;
++
++	return 0;
++}
++
++const struct rpp_module_ops rppx1_xyz2luv_ops = {
++	.probe = rppx1_xyz2luv_probe,
 +};
-+
-+/**
-+ * struct rppx1_dpf_rb_flt - DPF red/blue filter configuration
-+ *
-+ * @fltsize: filter kernel size (0 = 13x9, 1 = 9x9)
-+ * @spatial_coeff: spatial weight coefficients
-+ * @r_enable: enable filter for red pixels
-+ * @b_enable: enable filter for blue pixels
+diff --git a/include/media/rppx1.h b/include/media/rppx1.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..cb911f7bf010fbba549a00c9d00f5c7f950d3281
+--- /dev/null
++++ b/include/media/rppx1.h
+@@ -0,0 +1,33 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright 2025 Renesas Electronics Corp.
++ * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
 + */
-+struct rppx1_dpf_rb_flt {
-+	__u32 fltsize;
-+	__u8 spatial_coeff[RPPX1_DPF_MAX_SPATIAL_COEFFS];
-+	__u8 r_enable;
-+	__u8 b_enable;
-+};
++#ifndef __MEDIA_DCT_RPPX1_H__
++#define __MEDIA_DCT_RPPX1_H__
 +
-+/**
-+ * struct rppx1_dpf_g_flt - DPF green filter configuration
-+ *
-+ * @spatial_coeff: spatial weight coefficients
-+ * @gr_enable: enable filter for green-in-red pixels
-+ * @gb_enable: enable filter for green-in-blue pixels
-+ */
-+struct rppx1_dpf_g_flt {
-+	__u8 spatial_coeff[RPPX1_DPF_MAX_SPATIAL_COEFFS];
-+	__u8 gr_enable;
-+	__u8 gb_enable;
-+};
++#include <linux/v4l2-mediabus.h>
++#include <linux/media/dreamchip/rppx1-config.h>
++#include <media/videobuf2-core.h>
 +
-+/**
-+ * struct rppx1_params_dpf_config - De-noising Pre-Filter configuration
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_DPF)
-+ * @gain: noise function gain
-+ * @g_flt: green filter configuration
-+ * @rb_flt: red/blue filter configuration
-+ * @nll: noise level lookup
-+ */
-+struct rppx1_params_dpf_config {
-+	struct v4l2_isp_params_block_header header;
-+	struct rppx1_dpf_gain gain;
-+	struct rppx1_dpf_g_flt g_flt;
-+	struct rppx1_dpf_rb_flt rb_flt;
-+	struct rppx1_dpf_nll nll;
-+};
++struct rppx1;
 +
-+/**
-+ * struct rppx1_params_dpf_strength_config - DPF strength configuration
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_DPF_STRENGTH)
-+ * @r: filter strength for RED
-+ * @g: filter strength for GREEN
-+ * @b: filter strength for BLUE
-+ */
-+struct rppx1_params_dpf_strength_config {
-+	struct v4l2_isp_params_block_header header;
-+	__u8 r;
-+	__u8 g;
-+	__u8 b;
-+};
++struct rppx1 *rppx1_create(void __iomem *base);
 +
-+/**
-+ * enum rppx1_awb_mode_type - AWB measurement mode
-+ * @RPPX1_AWB_MODE_MANUAL: manual white balance
-+ * @RPPX1_AWB_MODE_RGB: RGB measurement mode
-+ * @RPPX1_AWB_MODE_YCBCR: YCbCr measurement mode
-+ */
-+enum rppx1_awb_mode_type {
-+	RPPX1_AWB_MODE_MANUAL,
-+	RPPX1_AWB_MODE_RGB,
-+	RPPX1_AWB_MODE_YCBCR,
-+};
++void rppx1_destroy(struct rppx1 *rpp);
 +
-+/**
-+ * struct rppx1_params_awb_meas_config - AWB measurement configuration
-+ *
-+ * RPP-X1 min_y, max_y, min_c, max_csum, awb_ref_cr, awb_ref_cb are up to
-+ * 24-bit depending on hardware version (8/20/24-bit).
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_AWB_MEAS)
-+ * @awb_wnd: measurement window
-+ * @awb_mode: measurement mode (from enum rppx1_awb_mode_type)
-+ * @max_y: upper pixel value limit, up to 24-bit
-+ * @min_y: lower pixel value limit, up to 24-bit
-+ * @max_csum: chrominance sum maximum, up to 24-bit
-+ * @min_c: chrominance minimum, up to 24-bit
-+ * @frames: number of frames for mean value calculation (0 = 1 frame)
-+ * @awb_ref_cr: reference Cr for AWB regulation, up to 24-bit
-+ * @awb_ref_cb: reference Cb for AWB regulation, up to 24-bit
-+ * @enable_ymax_cmp: enable Y_MAX compare
-+ */
-+struct rppx1_params_awb_meas_config {
-+	struct v4l2_isp_params_block_header header;
-+	struct rppx1_window awb_wnd;
-+	__u32 awb_mode;
-+	__u32 max_y;
-+	__u32 min_y;
-+	__u32 max_csum;
-+	__u32 min_c;
-+	__u8 frames;
-+	__u32 awb_ref_cr;
-+	__u32 awb_ref_cb;
-+	__u8 enable_ymax_cmp;
-+};
++int rppx1_start(struct rppx1 *rpp, const struct v4l2_mbus_framefmt *input,
++		const struct v4l2_mbus_framefmt *hv,
++		const struct v4l2_mbus_framefmt *mv);
 +
-+/**
-+ * enum rppx1_histogram_mode - Histogram measurement mode
-+ * @RPPX1_HISTOGRAM_MODE_DISABLE: histogram disabled
-+ * @RPPX1_HISTOGRAM_MODE_RGB_COMBINED: combined RGB histogram
-+ * @RPPX1_HISTOGRAM_MODE_R_HISTOGRAM: red channel histogram
-+ * @RPPX1_HISTOGRAM_MODE_G_HISTOGRAM: green channel histogram
-+ * @RPPX1_HISTOGRAM_MODE_B_HISTOGRAM: blue channel histogram
-+ * @RPPX1_HISTOGRAM_MODE_Y_HISTOGRAM: luminance histogram
-+ */
-+enum rppx1_histogram_mode {
-+	RPPX1_HISTOGRAM_MODE_DISABLE,
-+	RPPX1_HISTOGRAM_MODE_RGB_COMBINED,
-+	RPPX1_HISTOGRAM_MODE_R_HISTOGRAM,
-+	RPPX1_HISTOGRAM_MODE_G_HISTOGRAM,
-+	RPPX1_HISTOGRAM_MODE_B_HISTOGRAM,
-+	RPPX1_HISTOGRAM_MODE_Y_HISTOGRAM,
-+};
++int rppx1_stop(struct rppx1 *rpp);
 +
-+#define RPPX1_HISTOGRAM_WEIGHT_GRIDS_SIZE		25
++bool rppx1_interrupt(struct rppx1 *rpp, u32 *isc);
 +
-+/**
-+ * struct rppx1_params_hst_config - Histogram measurement configuration
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_HST_MEAS)
-+ * @mode: histogram mode (from enum rppx1_histogram_mode)
-+ * @histogram_predivider: process every Nth pixel
-+ * @meas_window: measurement window coordinates
-+ * @hist_weight: weighting factors for sub-windows (5x5 grid)
-+ */
-+struct rppx1_params_hst_config {
-+	struct v4l2_isp_params_block_header header;
-+	__u32 mode;
-+	__u8 histogram_predivider;
-+	struct rppx1_window meas_window;
-+	__u8 hist_weight[RPPX1_HISTOGRAM_WEIGHT_GRIDS_SIZE];
-+};
++typedef int (*rppx1_reg_write)(void *priv, u32 offset, u32 value);
++int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
++		 rppx1_reg_write write, void *priv);
 +
-+/**
-+ * enum rppx1_exp_meas_mode - Exposure measurement mode
-+ * @RPPX1_EXP_MEASURING_MODE_0: Y = 16 + 0.25R + 0.5G + 0.1094B
-+ * @RPPX1_EXP_MEASURING_MODE_1: Y = (R + G + B) x (85/256)
-+ */
-+enum rppx1_exp_meas_mode {
-+	RPPX1_EXP_MEASURING_MODE_0,
-+	RPPX1_EXP_MEASURING_MODE_1,
-+};
++void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf);
 +
-+/**
-+ * struct rppx1_params_aec_config - Auto Exposure measurement configuration
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_AEC_MEAS)
-+ * @mode: exposure measure mode (from enum rppx1_exp_meas_mode)
-+ * @autostop: 0 = continuous, 1 = stop after one frame
-+ * @meas_window: measurement window coordinates
-+ */
-+struct rppx1_params_aec_config {
-+	struct v4l2_isp_params_block_header header;
-+	__u32 mode;
-+	__u32 autostop;
-+	struct rppx1_window meas_window;
-+};
-+
-+/**
-+ * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
-+ */
-+#define RPPX1_PARAMS_MAX_SIZE						\
-+	(sizeof(struct rppx1_params_bls_config)			+	\
-+	sizeof(struct rppx1_params_dpcc_config)			+	\
-+	sizeof(struct rppx1_params_lin_config)			+	\
-+	sizeof(struct rppx1_params_awb_gain_config)		+	\
-+	sizeof(struct rppx1_params_flt_config)			+	\
-+	sizeof(struct rppx1_params_bdm_config)			+	\
-+	sizeof(struct rppx1_params_ctk_config)			+	\
-+	sizeof(struct rppx1_params_goc_config)			+	\
-+	sizeof(struct rppx1_params_dpf_config)			+	\
-+	sizeof(struct rppx1_params_dpf_strength_config)		+	\
-+	sizeof(struct rppx1_params_lsc_config)			+	\
-+	sizeof(struct rppx1_params_awb_meas_config)		+	\
-+	sizeof(struct rppx1_params_hst_config)			+	\
-+	sizeof(struct rppx1_params_aec_config))
-+
-+/* ---------------------------------------------------------------------------
-+ * Statistics Structures
-+ *
-+ * Native RPP-X1 precision. Fields use __u32 where the hardware provides
-+ * wider-than-8-bit results.
-+ */
-+
-+/**
-+ * struct rppx1_awb_meas - AWB measured values
-+ *
-+ * @cnt: white pixel count
-+ * @mean_y_or_g: mean Y (or G in RGB mode), up to 24-bit
-+ * @mean_cb_or_b: mean Cb (or B in RGB mode), up to 24-bit
-+ * @mean_cr_or_r: mean Cr (or R in RGB mode), up to 24-bit
-+ */
-+struct rppx1_awb_meas {
-+	__u32 cnt;
-+	__u32 mean_y_or_g;
-+	__u32 mean_cb_or_b;
-+	__u32 mean_cr_or_r;
-+};
-+
-+/**
-+ * struct rppx1_awb_stat - AWB statistics
-+ *
-+ * @awb_mean: measured AWB data
-+ */
-+struct rppx1_awb_stat {
-+	struct rppx1_awb_meas awb_mean[RPPX1_AWB_MAX_GRID];
-+};
-+
-+/**
-+ * struct rppx1_bls_meas_val - BLS measured values
-+ *
-+ * RPP-X1 BLS statistics can be 8/20/24-bit depending on version.
-+ *
-+ * @meas_r: mean measured value for Bayer pattern R
-+ * @meas_gr: mean measured value for Bayer pattern Gr
-+ * @meas_gb: mean measured value for Bayer pattern Gb
-+ * @meas_b: mean measured value for Bayer pattern B
-+ */
-+struct rppx1_bls_meas_val {
-+	__u32 meas_r;
-+	__u32 meas_gr;
-+	__u32 meas_gb;
-+	__u32 meas_b;
-+};
-+
-+/**
-+ * struct rppx1_ae_stat - Auto Exposure statistics
-+ *
-+ * RPP-X1 exposure mean values are up to 20-bit depending on version.
-+ * The image is divided into a 5x5 grid (25 blocks).
-+ *
-+ * @exp_mean: mean luminance values per block, up to 20-bit
-+ * @bls_val: BLS measured values
-+ */
-+struct rppx1_ae_stat {
-+	__u32 exp_mean[RPPX1_EXM_MEAN_MAX];
-+	struct rppx1_bls_meas_val bls_val;
-+};
-+
-+/**
-+ * struct rppx1_hist_stat - Histogram statistics
-+ *
-+ * @hist_bins: 32 histogram bin counters, each 20-bit unsigned fixed point
-+ *	       (bits 0-4 fractional, bits 5-19 integer)
-+ */
-+struct rppx1_hist_stat {
-+	__u32 hist_bins[RPPX1_HIST_BIN_N_MAX];
-+};
-+
-+/**
-+ * struct rppx1_stat - RPP-X1 3A statistics
-+ *
-+ * @awb: auto white balance statistics
-+ * @ae: auto exposure statistics
-+ * @hist: histogram statistics
-+ */
-+struct rppx1_stat {
-+	struct rppx1_awb_stat awb;
-+	struct rppx1_ae_stat ae;
-+	struct rppx1_hist_stat hist;
-+};
-+
-+/**
-+ * RPPX1_STAT_AWB - AWB measurement data available
-+ * RPPX1_STAT_AUTOEXP - Auto exposure measurement data available
-+ * RPPX1_STAT_HIST - Histogram measurement data available
-+ */
-+#define RPPX1_STAT_AWB			(1U << 0)
-+#define RPPX1_STAT_AUTOEXP		(1U << 1)
-+#define RPPX1_STAT_HIST			(1U << 2)
-+
-+/**
-+ * struct rppx1_stat_buffer - RPP-X1 statistics metadata buffer
-+ *
-+ * @meas_type: bitmask of available measurements (RPPX1_STAT_*)
-+ * @frame_id: frame identifier for synchronization
-+ * @params: statistics data
-+ */
-+struct rppx1_stat_buffer {
-+	__u32 meas_type;
-+	__u32 frame_id;
-+	struct rppx1_stat params;
-+};
-+
-+#endif /* __UAPI_RPP_X1_CONFIG_H */
++#endif /* __MEDIA_DCT_RPPX1_H__ */
 
 -- 
 2.53.0
