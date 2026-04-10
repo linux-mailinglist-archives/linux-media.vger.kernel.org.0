@@ -1,284 +1,208 @@
-Return-Path: <linux-media+bounces-58494-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58495-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QCYHEBG52GmmhQgAu9opvQ
-	(envelope-from <linux-media+bounces-58494-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 10:47:13 +0200
+	id +JDWGGO52GmmhQgAu9opvQ
+	(envelope-from <linux-media+bounces-58495-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 10:48:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB873D44B3
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 10:47:12 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFCB03D44CB
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 10:48:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 494613006823
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 08:47:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6B97A301107B
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 08:48:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A163A9635;
-	Fri, 10 Apr 2026 08:47:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C1D43AA500;
+	Fri, 10 Apr 2026 08:48:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XcM34xPa"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gTxBiQkq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B403AC0C5
-	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 08:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B142D877A
+	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 08:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775810828; cv=none; b=kTaoFG1AfFr6ZmMjj1FvTirDxQMBXwnJiqTVG8b5eHNhvMZugtfNYqMog1OJHwJWsOID6KMhWwaxWL0vxLNOrxslseAu6WyvnZFgbqH60sJtETHrDIbONnbwOrEArMrT/vD/s2szYUoG9rz+J+kUgZvwc9acD+KtVlSW7y/8gqM=
+	t=1775810912; cv=none; b=YCFShYiGbe4WKPcNXEOMYJwaQjOOo7EGzYr8nkQPV6ShrZWX487Ftj86/6qyJih746E9Zq4aDTAHO2TbfNp61JgrlOEgMUccWR4qsNuMV3Vv0Be+cDsAC1Oz6C5NYRqa/IqLJAKEg6/0keRm6xw7eT6EgplE7EtyD3C33LPY24Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775810828; c=relaxed/simple;
-	bh=ZL1BQM0QoUWGAQ7uyZMkygG+SxRtplAtcJsWVySBzrA=;
+	s=arc-20240116; t=1775810912; c=relaxed/simple;
+	bh=YrYcxetUoCdKpTga/NiRsI7ssOntAeavqcg60Jz4W8I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GwNc4q9BbSFtKXfPObwBb6AGBECY+MzVvRehEY0xTlWF94uf/x0s8mYHUCmtp/3VRpqLDCEdt6UMaWNJ9Ne3Ot6FLlal9Qm32/nc5sDDiZl38tAvRABtF5syXri226pqkVM8+s5zpnU86qLgEYUDxD1fRbI394/qWYgMzGXUoZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XcM34xPa; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775810827; x=1807346827;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZL1BQM0QoUWGAQ7uyZMkygG+SxRtplAtcJsWVySBzrA=;
-  b=XcM34xPa1ysEZSq+rHT6/6xXzLZ7ekyfAnNma7lfSot3CQeUAM34aR41
-   wYq6wmMwuxYHarSsINnzQussZPbnVwVkdHwzzebOVGy9F2AzsxxRNqlwf
-   hNecMU2clCX4pUCX9qQ/R7oUIc2jyHd5GZJouxQxmt9OVvRd/O9NYu5GM
-   qNobRc4gIX3ROAZJ2pTLCM7DLZp7R1rU9nv+/r5ikeUIN3TgXqtdBZEWg
-   TTm0kF63gnUEUw9t9sgmWdvqjfdmp1IBX2nfSwSOhn358Z8bfXnKMIypE
-   RYgy+Kyo8tWO54cnMjaZGa6/2vghvdKs0f/3UnosRCVA7ScxaQ66kXs30
-   A==;
-X-CSE-ConnectionGUID: vBf6ftyOTMaoic841AaN5w==
-X-CSE-MsgGUID: rDzHgEkaTtO+aB5smHFuTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="76545100"
-X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="76545100"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 01:46:41 -0700
-X-CSE-ConnectionGUID: +jTv2EWGSGqJTjBznlJRCg==
-X-CSE-MsgGUID: aZXepOlDQ1KJIlBPr1ateQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="226315731"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.73])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 01:46:34 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 34AFA120F00;
-	Fri, 10 Apr 2026 11:46:49 +0300 (EEST)
-Date: Fri, 10 Apr 2026 11:46:49 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v4 05/29] media: imx219: Fix vertical blanking and
- exposure for analogue binning
-Message-ID: <adi4-T0TMfWIOBmk@kekkonen.localdomain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=tMxi2mlm7TbOrT3mVkCnzP5GG0rBVe7A3BM9cGQVaI6KAzoR+7nkEM5bDJo027egshMohkwv68+ZRxWc7wHadhqG34y3yRnxc+ouXXoIvERrKcqTN+c7nJhXfQNUhfTEQDtBSVOdBrJhShi4qAH+oPA9cYOk/wuR7xd1AU8T4jE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gTxBiQkq; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A426D1BA;
+	Fri, 10 Apr 2026 10:46:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1775810818;
+	bh=YrYcxetUoCdKpTga/NiRsI7ssOntAeavqcg60Jz4W8I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gTxBiQkqFTOn1tKTQGsPD/tnVbiq28mC9oNTMmuI5R/qLizoZBCaeZ8ePbnL2hwKa
+	 wrajJJQYFMA6nZTbm9toWTvpAO0uPQgDqGKItTyPM50SWgWU4OrTs+SGIOO/ytE1vp
+	 ckx/G9AOY7XVk8Z+iijzg4LVLShLdzaEG1iVbPeY=
+Date: Fri, 10 Apr 2026 10:48:24 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
+	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Kate Hsuan <hpa@redhat.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, 
+	Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, 
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
+	Hans de Goede <hansg@kernel.org>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, 
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, 
+	Jai Luthra <jai.luthra@ideasonboard.com>, Rishikesh Donadkar <r-donadkar@ti.com>
+Subject: Re: [PATCH v4 08/29] media: imx274: Remove redundant kernel-doc
+ comments
+Message-ID: <adi5CH2yE4CLikVv@zed>
 References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-6-sakari.ailus@linux.intel.com>
- <adi17tFyi5uX1GpP@zed>
+ <20260408153939.969381-9-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <adi17tFyi5uX1GpP@zed>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+In-Reply-To: <20260408153939.969381-9-sakari.ailus@linux.intel.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
-	TAGGED_FROM(0.00)[bounces-58494-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58495-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,kekkonen.localdomain:mid]
-X-Rspamd-Queue-Id: DAB873D44B3
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email,ideasonboard.com:dkim,ideasonboard.com:email]
+X-Rspamd-Queue-Id: CFCB03D44CB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Jacopo,
+Hi Sakari
 
-On Fri, Apr 10, 2026 at 10:42:22AM +0200, Jacopo Mondi wrote:
-> Hi Sakari
-> 
-> On Wed, Apr 08, 2026 at 06:39:14PM +0300, Sakari Ailus wrote:
-> > When vertical analogue binning is in use, the minimum frame length in
-> > lines decreases to around half of the normal. In relation to the sensor's
-> > output size this means vertical blanking can be negative but that's not an
-> > issue as control values are signed. Remove the workaround for this
-> > non-issue that doubled the pixel rate, frame length in lines and exposure
-> > time.
-> 
-> I don't think this was a workaround. Doubling the pixel rate and
+On Wed, Apr 08, 2026 at 06:39:17PM +0300, Sakari Ailus wrote:
+> Remove kernel-doc comments from  regular callback functions. These
+> comments have no information value.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-You could also call it a bug. :-) If you look what the driver does with
-PLL, you can see the PLL configuration is always the same independently of
-any binning configuration.
+This might be easy, but how is this related to metadata ?
+This is a 29 patch series that prepares for an 89 patch series.
 
-> halving the values written to registers for EXPOSURE and VBLANK
-> allowed userspace to maintain a consistent view while the driver
-> accounts for the special binning mode where, at least in my latest
-> understanding, the sensor averages two lines before passing them to
-> the ADC.
-> 
-> I am missing in which case, with the current driver implementation,
-> the vertical blanking can be negative.
-> 
-> >
-> > The resulting change also fixes the minimum, the maximum and the step
-> > values for the control.
-> >
-> > Fixes: f513997119f4 ("media: i2c: imx219: Scale the pixel rate for analog binning")
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> Jai, and others including Dave and me, have spent quite some time
-> testing and implementing proper support for the special analogue
-> binning mode for this sensor. Of course we might have missed something
-> obvious, but I'm still missing what you're trying to fix here.
-> 
-> > ---
-> >  drivers/media/i2c/imx219.c | 29 +++++++++--------------------
-> >  1 file changed, 9 insertions(+), 20 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index 6819a2fa3262..a72630ad1561 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -420,15 +420,6 @@ static void imx219_get_binning(struct v4l2_subdev_state *state, u8 *bin_h,
-> >
-> >  }
-> >
-> > -static inline u32 imx219_get_rate_factor(struct v4l2_subdev_state *state)
-> > -{
-> > -	u8 bin_h, bin_v;
-> > -
-> > -	imx219_get_binning(state, &bin_h, &bin_v);
-> > -
-> > -	return (bin_h & bin_v) == IMX219_BINNING_X2_ANALOG ? 2 : 1;
-> > -}
-> > -
-> >  /* -----------------------------------------------------------------------------
-> >   * Controls
-> >   */
-> > @@ -440,12 +431,10 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
-> >  	const struct v4l2_mbus_framefmt *format;
-> >  	struct v4l2_subdev_state *state;
-> > -	u32 rate_factor;
-> >  	int ret = 0;
-> >
-> >  	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
-> >  	format = v4l2_subdev_state_get_format(state, 0);
-> > -	rate_factor = imx219_get_rate_factor(state);
-> >
-> >  	if (ctrl->id == V4L2_CID_VBLANK) {
-> >  		int exposure_max, exposure_def;
-> > @@ -478,7 +467,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  		break;
-> >  	case V4L2_CID_EXPOSURE:
-> >  		cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
-> > -			  ctrl->val / rate_factor, &ret);
-> > +			  ctrl->val, &ret);
-> >  		break;
-> >  	case V4L2_CID_DIGITAL_GAIN:
-> >  		cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
-> > @@ -495,7 +484,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  		break;
-> >  	case V4L2_CID_VBLANK:
-> >  		cci_write(imx219->regmap, IMX219_REG_FRM_LENGTH_A,
-> > -			  (format->height + ctrl->val) / rate_factor, &ret);
-> > +			  format->height + ctrl->val, &ret);
-> >  		break;
-> >  	case V4L2_CID_HBLANK:
-> >  		cci_write(imx219->regmap, IMX219_REG_LINE_LENGTH_A,
-> > @@ -878,7 +867,6 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  	crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
-> >
-> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > -		unsigned int rate_factor = imx219_get_rate_factor(state);
-> >  		int exposure_max;
-> >  		int exposure_def;
-> >  		int llp_min;
-> > @@ -886,15 +874,16 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >
-> >  		/* Update limits and set FPS to default */
-> >  		ret = __v4l2_ctrl_modify_range(imx219->vblank,
-> > -					       IMX219_VBLANK_MIN * rate_factor,
-> > -					       (IMX219_FLL_MAX - mode->height) *
-> > -					       rate_factor, rate_factor,
-> > -					       mode->fll_def - mode->height);
-> > +					       (int)(mode->height / binning),
-> > +					       IMX219_FLL_MAX - mode->height, 1,
-> > +					       (int)(mode->fll_def / binning) -
-> > +					       (int)mode->height);
-> >  		if (ret)
-> >  			return ret;
-> >
-> >  		ret = __v4l2_ctrl_s_ctrl(imx219->vblank,
-> > -					 mode->fll_def - mode->height);
-> > +					 (int)(mode->fll_def / binning) -
-> > +					 (int)mode->height);
-> >  		if (ret)
-> >  			return ret;
-> >
-> > @@ -931,7 +920,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  			return ret;
-> >
-> >  		/* Scale the pixel rate based on the mode specific factor */
-> > -		pixel_rate = imx219_get_pixel_rate(imx219) * rate_factor;
-> > +		pixel_rate = imx219_get_pixel_rate(imx219);
-> >  		ret = __v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
-> >  					       pixel_rate, 1, pixel_rate);
-> >  		if (ret)
+review time is not free, piling stuff over stuff is a recipe for
+making sure we'll never merge this.
 
--- 
-Regards,
+Anyway
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-Sakari Ailus
+
+> ---
+>  drivers/media/i2c/imx274.c | 38 --------------------------------------
+>  1 file changed, 38 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
+> index 8ec78b60bea6..241821572e03 100644
+> --- a/drivers/media/i2c/imx274.c
+> +++ b/drivers/media/i2c/imx274.c
+> @@ -897,14 +897,6 @@ static int imx274_regulators_get(struct device *dev, struct stimx274 *imx274)
+>  					imx274->supplies);
+>  }
+>
+> -/**
+> - * imx274_s_ctrl - This is used to set the imx274 V4L2 controls
+> - * @ctrl: V4L2 control to be set
+> - *
+> - * This function is used to set the V4L2 controls for the imx274 sensor.
+> - *
+> - * Return: 0 on success, errors otherwise
+> - */
+>  static int imx274_s_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
+> @@ -1059,16 +1051,6 @@ static int __imx274_change_compose(struct stimx274 *imx274,
+>  	return 0;
+>  }
+>
+> -/**
+> - * imx274_get_fmt - Get the pad format
+> - * @sd: Pointer to V4L2 Sub device structure
+> - * @sd_state: Pointer to sub device state structure
+> - * @fmt: Pointer to pad level media bus format
+> - *
+> - * This function is used to get the pad format information.
+> - *
+> - * Return: 0 on success
+> - */
+>  static int imx274_get_fmt(struct v4l2_subdev *sd,
+>  			  struct v4l2_subdev_state *sd_state,
+>  			  struct v4l2_subdev_format *fmt)
+> @@ -1081,16 +1063,6 @@ static int imx274_get_fmt(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>
+> -/**
+> - * imx274_set_fmt - This is used to set the pad format
+> - * @sd: Pointer to V4L2 Sub device structure
+> - * @sd_state: Pointer to sub device state information structure
+> - * @format: Pointer to pad level media bus format
+> - *
+> - * This function is used to set the pad format.
+> - *
+> - * Return: 0 on success
+> - */
+>  static int imx274_set_fmt(struct v4l2_subdev *sd,
+>  			  struct v4l2_subdev_state *sd_state,
+>  			  struct v4l2_subdev_format *format)
+> @@ -1423,16 +1395,6 @@ static void imx274_load_default(struct stimx274 *priv)
+>  	priv->ctrls.test_pattern->val = TEST_PATTERN_DISABLED;
+>  }
+>
+> -/**
+> - * imx274_s_stream - It is used to start/stop the streaming.
+> - * @sd: V4L2 Sub device
+> - * @on: Flag (True / False)
+> - *
+> - * This function controls the start or stop of streaming for the
+> - * imx274 sensor.
+> - *
+> - * Return: 0 on success, errors otherwise
+> - */
+>  static int imx274_s_stream(struct v4l2_subdev *sd, int on)
+>  {
+>  	struct stimx274 *imx274 = to_imx274(sd);
+> --
+> 2.47.3
+>
+>
 
