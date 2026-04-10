@@ -1,153 +1,175 @@
-Return-Path: <linux-media+bounces-58529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58530-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sL0aLGTD2Gk4hwgAu9opvQ
-	(envelope-from <linux-media+bounces-58529-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 11:31:16 +0200
+	id OHJuMszJ2GmkiAgAu9opvQ
+	(envelope-from <linux-media+bounces-58530-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 11:58:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1124B3D4C75
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 11:31:16 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0173D54FE
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 11:58:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 053AA301DEC5
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 09:31:15 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id DD4633007B02
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 09:58:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73F18334681;
-	Fri, 10 Apr 2026 09:31:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DDB33A783C;
+	Fri, 10 Apr 2026 09:58:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n9B0VnNl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AKXE8Fkc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BC6324B1F
-	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 09:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6069321CC5A
+	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 09:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775813472; cv=none; b=dD85aPbXZAWatvXTmF6HShIqREW0aEAAKYRHv83rsBVTUHgVf/BzsMLEWh5xYZWkYICT9vlK+TEjDYCQWi7GYCtyk5HbeG34kIUIcLaELz2TE/IC9Bkt0ZWr+IDPSWF6XDWzUZPH5FwIZ1eNxCG1Xe3sscldcJb1AwQR/MXnzIM=
+	t=1775815110; cv=none; b=eAWSuJ2atlLrBphGmuTv2Ew8tQhgi4ZISHZS1jrmTJxWGKAkACm+Z3xrV2j0ebaKnyGxsaSRAtKtdfgQo1t0k9K//ILRFZ25V1tmMPkUqYp8Tdzm0zKwfY16mPFNo8gA1k+vvwM6yJ2tJ0kQHJQsl0GuIvK4Sw4xpHl/OzKgdtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775813472; c=relaxed/simple;
-	bh=51NSPHZ5PqBPzGohiMgHpBNXmi1D7Y23XKhllFrMEfU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rpP9j0z04bnEvJq5bYcXnm8dDYKgdpFAekLKA85T06CErirZCueOEPJkfgslEjw9/92v+7Ny3MTJJ1tH264/lWutBPkxACxw4AZS3pXvQPU9TrkR1D0KvYyCVTML1kAEFnD3wgsKplCEMICyfT4++Ch+bsOVyXrcNkXqyIdwSIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=n9B0VnNl; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 877F1225;
-	Fri, 10 Apr 2026 11:29:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775813380;
-	bh=51NSPHZ5PqBPzGohiMgHpBNXmi1D7Y23XKhllFrMEfU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n9B0VnNlHbRBMqDliYsXYwzjSTP9IzEGXG3DRBIoQUfWskjBKIR/BmnVkKpmqnGcZ
-	 R8syv+jJQhR3TGMoO4FgEEjkiLvjLvvOVUTkQD4XY+wOwo9nynVfxgkGM8XqhqcyeU
-	 i5zYRbq1hekPqClMVfKZliIil9xKOTbOOSkKpXMk=
-Date: Fri, 10 Apr 2026 11:31:06 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1775815110; c=relaxed/simple;
+	bh=0XID9MjzbAMMVm0z+ekXB3Y+5LN0NooVElExEKdHCIA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sQhMc10YUOCPR7nNNZUyPzt0vkg4ElytpUz9U3R/x1VYNE4XaF5swKdO/NweTbNLflysICG2Ko8Fw/PU9TWpty42HL7Tc+APDL+QjmWsP+/6Av6y6u64lyNvhTVP0UTzXNxyc4jxWD5DpmilZ26fi5OU3WLlhag5skdwValAqfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AKXE8Fkc; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775815107; x=1807351107;
+  h=date:from:to:cc:subject:message-id;
+  bh=0XID9MjzbAMMVm0z+ekXB3Y+5LN0NooVElExEKdHCIA=;
+  b=AKXE8FkcGEtcFByTK2WsaM2yjBhm/x50y0BbegrI5e/I2HI+XriJpZvM
+   zXy2HC4u4iL7dXHahxaEi7k449esZDiLWfFjhBjr4fZ/sF9gsL0Bh3vNK
+   H8YIb9x/Er7W24+DGGyKEmaRq0CryHaqNqT+1iJFS9KsoWI1j243QNZBj
+   0xNs+4RiE5ZUIsOS/Y6jgfgLKD3JDsX15qoxSoWs2P8BwtBJBosq4wFFW
+   aGbiKFs9VmqSQcugJDeOt3OKBVE0LS32T0xVMoVt7ZRzFpZsm+XL46fRa
+   JtLo9QYF4bP6FMDEo1Gxnb+Q0q1cmzXiT0l9Ib/kCL+bmSbuwTZUV566/
+   A==;
+X-CSE-ConnectionGUID: T5QE2chdSyaXIJTIrKFzaA==
+X-CSE-MsgGUID: eiUoyoaWS8mOVKKTcbUwMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="87461201"
+X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
+   d="scan'208";a="87461201"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 02:58:26 -0700
+X-CSE-ConnectionGUID: HBLq59smTfC/PVvCC8WdBw==
+X-CSE-MsgGUID: IfQFr6oUTQSUhQ1GgrA76g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
+   d="scan'208";a="228204458"
+Received: from lkp-server01.sh.intel.com (HELO 6449335cace3) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 10 Apr 2026 02:58:25 -0700
+Received: from kbuild by 6449335cace3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wB8d5-000000003a9-05uI;
+	Fri, 10 Apr 2026 09:58:23 +0000
+Date: Fri, 10 Apr 2026 17:57:59 +0800
+From: kernel test robot <lkp@intel.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
-	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
-	Kate Hsuan <hpa@redhat.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, 
-	Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, 
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
-	Hans de Goede <hansg@kernel.org>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, 
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, 
-	Jai Luthra <jai.luthra@ideasonboard.com>, Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v4 20/29] media: uapi: Bump the STREAMS bit a little
-Message-ID: <adjDJdB6rBscZ-lZ@zed>
-References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-21-sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 92/115]
+ drivers/media/i2c/imx219.c:511: undefined reference to `__aeabi_ldivmod'
+Message-ID: <202604101719.IZnukkGx-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260408153939.969381-21-sakari.ailus@linux.intel.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58529-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[31];
+	DKIM_TRACE(0.00)[intel.com:+];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58530-lists,linux-media=lfdr.de];
+	RCPT_COUNT_THREE(0.00)[3];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email]
-X-Rspamd-Queue-Id: 1124B3D4C75
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,intel.com:dkim,intel.com:email,intel.com:mid]
+X-Rspamd-Queue-Id: DB0173D54FE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Sakari
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   ace2f872475ed78b708d667f1b2d004b192eeeb1
+commit: fbaf57c5f207a3fbab657d5bc757041ba26d5d69 [92/115] media: imx219: Allow configuring cropping and binning through CRSM
+config: arm-randconfig-r072-20260408 (https://download.01.org/0day-ci/archive/20260410/202604101719.IZnukkGx-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604101719.IZnukkGx-lkp@intel.com/reproduce)
 
-On Wed, Apr 08, 2026 at 06:39:29PM +0300, Sakari Ailus wrote:
-> Bump the V4L2_SUBDEV_CAP_STREAMS by one bit up, order to avoid confusing
-> libcamera with streams that has moved forward from the original libcamera
-> implementation. The bit can presumably be taken into use but only after
-> the other free bits.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604101719.IZnukkGx-lkp@intel.com/
 
-Thanks!
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+All errors (new ones prefixed by >>):
 
-> ---
->  include/uapi/linux/v4l2-subdev.h | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-> index 2347e266cf75..6160c3e21436 100644
-> --- a/include/uapi/linux/v4l2-subdev.h
-> +++ b/include/uapi/linux/v4l2-subdev.h
-> @@ -196,8 +196,11 @@ struct v4l2_subdev_capability {
->  /* The v4l2 sub-device video device node is registered in read-only mode. */
->  #define V4L2_SUBDEV_CAP_RO_SUBDEV		0x00000001
->
-> +/* Reserved, old STREAMS bit libcamera used before API stabilisation. */
-> +/* #define V4L2_SUBDEV_CAP_STREAMS_PRELIMINARY	0x00000002 */
+   arm-linux-gnueabi-ld: drivers/media/i2c/imx219.o: in function `imx219_apply_binning':
+>> drivers/media/i2c/imx219.c:511: undefined reference to `__aeabi_ldivmod'
+>> arm-linux-gnueabi-ld: drivers/media/i2c/imx219.c:512: undefined reference to `__aeabi_ldivmod'
 
-This should make sure libcamera versions which support the new flag
-won't match agains older kernel which use the old value!
 
-> +
->  /* The v4l2 sub-device supports routing and multiplexed streams. */
-> -#define V4L2_SUBDEV_CAP_STREAMS			0x00000002
-> +#define V4L2_SUBDEV_CAP_STREAMS			0x00000004
->
->  /*
->   * Is the route active? An active route will start when streaming is enabled
-> --
-> 2.47.3
->
->
+vim +511 drivers/media/i2c/imx219.c
+
+   484	
+   485	static void imx219_apply_binning(struct v4l2_subdev_state *state,
+   486					 struct v4l2_rect *crop, unsigned int index)
+   487	{
+   488		struct v4l2_rect *compose =
+   489			v4l2_subdev_state_get_compose(state, IMX219_PAD_IMAGE);
+   490		struct v4l2_mbus_framefmt *source_format =
+   491			v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+   492						     IMX219_STREAM_IMAGE);
+   493		struct v4l2_mbus_framefmt *embedded_source_format =
+   494			v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+   495						     IMX219_STREAM_EDATA);
+   496		s64 binning = imx219_binning_factors[index];
+   497	
+   498		crop->width = clamp(crop->width, IMX219_OUTPUT_X_SIZE_MIN *
+   499				    V4L2_BINNING_FACTORS_HNUM(binning),
+   500				    IMX219_VISIBLE_WIDTH) & ~1;
+   501		crop->height = clamp(crop->height, IMX219_OUTPUT_Y_SIZE_MIN *
+   502				     V4L2_BINNING_FACTORS_VNUM(binning),
+   503				     IMX219_VISIBLE_HEIGHT) & ~1;
+   504		crop->left = clamp((unsigned int)crop->left, IMX219_VISIBLE_LEFT,
+   505				   IMX219_VISIBLE_LEFT + IMX219_VISIBLE_WIDTH -
+   506				   crop->width);
+   507		crop->top = clamp((unsigned int)crop->top, IMX219_VISIBLE_TOP,
+   508				  IMX219_VISIBLE_TOP + IMX219_VISIBLE_HEIGHT -
+   509				  crop->height);
+   510	
+ > 511		compose->width = crop->width / V4L2_BINNING_FACTORS_HNUM(binning);
+ > 512		compose->height = crop->height / V4L2_BINNING_FACTORS_VNUM(binning);
+   513	
+   514		source_format->width = compose->width;
+   515		source_format->height = compose->height;
+   516	
+   517		struct v4l2_mbus_framefmt *embedded_format =
+   518			v4l2_subdev_state_get_format(state, IMX219_PAD_EDATA);
+   519	
+   520		embedded_format->width =
+   521			embedded_source_format->width = source_format->width;
+   522	}
+   523	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
