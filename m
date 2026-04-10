@@ -1,205 +1,192 @@
-Return-Path: <linux-media+bounces-58559-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58560-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QFHlEGga2Wk1mQgAu9opvQ
-	(envelope-from <linux-media+bounces-58559-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 17:42:32 +0200
+	id YGzSH5Ya2Wk1mQgAu9opvQ
+	(envelope-from <linux-media+bounces-58560-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 17:43:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAAF3D98ED
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 17:42:31 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6E243D9940
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 17:43:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 86C7631392FC
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 15:32:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 58651308D9A9
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 15:38:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0757B3DA7F2;
-	Fri, 10 Apr 2026 15:25:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 573C03DA7F4;
+	Fri, 10 Apr 2026 15:37:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gNJQ9etp"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="hWMWG3or"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7553E2759
-	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 15:25:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9103DA5D2
+	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 15:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775834729; cv=none; b=dAIaOFS3wDeXOubntf2tFYOI+GHEYEJg6RYZYahYxM6dR+v2T1rumF/5U4XuCDD+1EmW6PEddMjBYFg3VDRyEoUdK9CwxJqRoBnn2cTQuY6vbn17Vw2gHAwK2pqFmEgWQF7hzM7NvcOFWuqN/Nc0ojD4g8/nu/zEEs9uKF60Jgo=
+	t=1775835475; cv=none; b=XB24pEGdb8Fi8VOzty91LyIOuOzFmZ/Ykd5/w8LwYP0adUt2cisK3XGypkffhTlhaEiJ+K5LtxkM1KN+mMPB1ZCHEXT1BLloupIMQ69nG3S5EkVOYv1vYEv3jPz6AdOo8lZmY58amJT9rLBwwjZ5/z1P80gySWxc92Ul8oEVdG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775834729; c=relaxed/simple;
-	bh=41Neor7tSLrmgihGYhIlmf6oXzMPazdCBeClFzMAnzo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZmFtoDr3dEg9Rs5/Utx2aw4URSNqZwS/7PVTbN9rZrGt+9GdnhqqzKsGHbLzdgEbfuoD4Quzd6vxX/XvRQaSdYAiDKPuHF9WX0pc9PFs7L7K94ST0JljZSJzIsj9J4mbSwyNVov2/g2c6sfGbCXSrffA42TqlBWA8dHEBM9g20Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gNJQ9etp; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43d17bb1c65so1499692f8f.0
-        for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 08:25:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775834726; x=1776439526; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=g5E/qGGytHyyxjtH+nmK60xHIAvqtE0J+wOflAMG2XA=;
-        b=gNJQ9etpzDY0gtsn/P8ELdIbu8ZlXIVAezz/Qm7aVpeCf0tbVdEzO7VIT01mIf0L7a
-         NLn3X7iRBBsHm+VCq8cGuy6eGF0KGfNsXQp6bFIIHRGT41ypT6+NI9zjq7gAk4fJOplO
-         AGsXGelHEZcn7rOmCSGXqgKJwowqHPNPR9Dj75+cVkZ1nh+91LJ9j/rN1UVbSzQRPrwC
-         8TZseirpuF0eDavIuIIitDyS3zMwo5SCdojgi4CtQX3TgQui9WACbGFZHzvyIFNPolcr
-         u0z5HGwJ+D40xlLb8SY7XfAN/O0wBqFVLy2Pg0c6XSCIaBqVp65gwsWtONDXm4+SelDa
-         6hoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775834726; x=1776439526;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g5E/qGGytHyyxjtH+nmK60xHIAvqtE0J+wOflAMG2XA=;
-        b=VOscpgy6+UrOIHK3O5x86tTOIfoYQ+rr7wfJjEpMf4ns6+tkcj60gsrRuSl+jvMUMi
-         lvtFWd3Gz90qpqrjhbPjIbspKWc8V59zBWDxo+RK+6IobaeZQNu4EH+obq+6pXzEjkY3
-         ZvTMgJ/YRHZT0ic72lZTGWekBQMFJG1RrzCLPUL2M6JcV0V6etq2ksfMaanB6KNA4SmV
-         VkPzhtuTkpYs1nU+yZdkn1dcGMlbXuOBBLwU/we6iZf2a3pexWzac6+zMJ2OluerFh1t
-         uLF/VfLzLcmnp5nCWLkNHkeulgtk30D3zlHyh94aXH5YluJ3IxhVCQ12uo/Y7Hl6qPwu
-         Ckfw==
-X-Gm-Message-State: AOJu0YzvB+qEBmNCDXmgp1zv60pdZO/EDdxEABTIoGkY7rZgKdZdmyrF
-	gVD2TgSfBZGqTJ6+LbYmMWqKL1zB2T8c847NxKg1eKMyG6Q6NLCA0a1o
-X-Gm-Gg: AeBDiesvTQ4DzZe+1sWpQ1thjBjQD9uCvjhbouKNAh8ftRMF9OD3hXyVXciLLalJTET
-	C0EmA0tgIj+o6ws55pOCb0Wp52wcgB3Fk+hZeoy3ZANpkS2OLLqXGKzXrWPUpxc2iTgbUORtlce
-	F1jMjp3tmemtdyiIB3tnqe2hhHO/kz8WHWaiaEsZpHqJz45u0FEH/Bpa9FK+ewQBnQH93SSrfGK
-	qEV2+IwUmIaDCvtsUGVBEHn9hwzTyUVLIpfENaKt4BXx3jkViTbhpx1eNrzQdsVzWDUoQ336ht3
-	XCkbbZFkZNM2JgBDeuf70PaT7TxY6GQP/W3KkxAPLSFsNGD+HmKSMIHiW55XTkP2tw/SfH8R30R
-	ADdbjJyIDI5iMSknyani/RJvWfHVmpfTFI33+/4asImBN/Z2HoN6BKP6tGllL5EeIK8E0CD7k5Z
-	YkSn9ecIBbUbWfPUpoihwvUugISpFZg3QA5xi5jH6bj0hbBwADRV6inE7Fpl7QKcVxtz8d9c9dt
-	eUbePMHqvp3
-X-Received: by 2002:a5d:588c:0:b0:43d:578:586f with SMTP id ffacd0b85a97d-43d642b8e06mr5498182f8f.25.1775834726385;
-        Fri, 10 Apr 2026 08:25:26 -0700 (PDT)
-Received: from fedora ([2a00:23c5:4a5d:3701:b24c:c1d6:5c61:a2ed])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63de2e4csm8722033f8f.2.2026.04.10.08.25.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 08:25:26 -0700 (PDT)
-From: Josh Hesketh <josh.hesketh@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Josh Hesketh <josh.hesketh@gmail.com>
-Subject: [PATCH] staging: media: av7110: remove dead code from av7110_hw.c
-Date: Fri, 10 Apr 2026 16:25:02 +0100
-Message-ID: <20260410152502.25310-1-josh.hesketh@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1775835475; c=relaxed/simple;
+	bh=Y3vYkn3uLUkeuTRyZiWRbVIPHnrHfZX2F46X8IxxSnM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f80z8Mj0f/XtJNS+68ibBSKzY3tlsRunYAKdAEnPmH9AzkSMPFvpMx/UfGyVdPzLfKz1olbitnGCFPMc+veYbbiQKzwHWTYxW2YYWi1NE5uhbyQGGhTM1hHrEgqK4bpNFPkdK3d/0rTqZrhrua7VqJn5vnrq0ZI+txJ1+4RAczA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=hWMWG3or; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=mYNwM0J3f8E8VOY/oeiqgSWmb0DW6P+uM/hk330XqIM=; b=hWMWG3ors1UZ5eKQ2/SIpSFxVk
+	h0uUCBaSDzzQzlQjYOKq6EW7yt8MVoU3or7rM9rHpTx63mte8larmy16ePf5MfGfiKfGbSUdAvqvf
+	oBT6gT1O+Dw6CcrVCoWMNUykgiFdWop1gDUx9A4Z7mUN0bKBzixAequt6ebQhi97fnDtLgphQ2Ncq
+	f0D4ymdRegDFnsAuJwFRUnIAh9IkrouxQGk+HX9HYZwW/avGC8bRIV31SQwBbtDD0tpU6MbpHDNIb
+	ULJyH43alSLhZkRThMbOgPPuTt7eAxyXZ4tU2ewbpA0+P2EhtUChx1uXS8bY3ZPVk4GKRBynOVj9d
+	R4o5XFDg==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1wBDvN-00ESAa-QW; Fri, 10 Apr 2026 17:37:37 +0200
+Message-ID: <601a78ea-74e7-4b20-afeb-d822a362484a@igalia.com>
+Date: Fri, 10 Apr 2026 16:37:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-fence: Move signalling tracepoint to before ops
+ detach
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ Philipp Stanner <phasta@kernel.org>, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20260330133623.17704-1-tvrtko.ursulin@igalia.com>
+ <20260331094944.772833c0@fedora>
+ <918805b0-2cb9-454a-9048-84cc5bfc8798@igalia.com>
+ <2fae926b-a25b-42bc-ab63-caf36505b33d@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <2fae926b-a25b-42bc-ab63-caf36505b33d@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,gmail.com];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-58560-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58559-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[joshhesketh@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.977];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: DEAAF3D98ED
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,amd.com:email,collabora.com:email,igalia.com:email,igalia.com:mid]
+X-Rspamd-Queue-Id: E6E243D9940
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Remove functions av7110_reset_arm() and av7110_send_ci_cmd()
-which have both been disabled behind #if 0 since the introduction
-to staging. Code can be recovered from git history.
 
-Signed-off-by: Josh Hesketh <josh.hesketh@gmail.com>
----
- drivers/staging/media/av7110/av7110_hw.c | 46 ------------------------
- 1 file changed, 46 deletions(-)
+On 10/04/2026 09:58, Christian König wrote:
+> On 4/9/26 15:58, Tvrtko Ursulin wrote:
+>>
+>> On 31/03/2026 08:49, Boris Brezillon wrote:
+>>> On Mon, 30 Mar 2026 14:36:23 +0100
+>>> Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
+>>>
+>>>> Move the signalling tracepoint to before fence->ops are reset otherwise
+>>>> tracepoint will dereference a null pointer.
+>>>
+>>> I suspect other trace points are impacted too
+>>> (trace_dma_fence_destroy() is, at the very least).
+>>
+>> Indeed. I wonder why that did not trigger for me, while the one I fix here was an insta-crash...
+> 
+> You need to actually enable the trace points and at least for the destroy one nobody is usually interested in that.
 
-diff --git a/drivers/staging/media/av7110/av7110_hw.c b/drivers/staging/media/av7110/av7110_hw.c
-index 49ce295771e4..b0bd7666d48b 100644
---- a/drivers/staging/media/av7110/av7110_hw.c
-+++ b/drivers/staging/media/av7110/av7110_hw.c
-@@ -95,29 +95,6 @@ u32 av7110_debiread(struct av7110 *av7110, u32 config, int addr, unsigned int co
- 	return result;
- }
- 
--/* av7110 ARM core boot stuff */
--#if 0
--void av7110_reset_arm(struct av7110 *av7110)
--{
--	saa7146_setgpio(av7110->dev, RESET_LINE, SAA7146_GPIO_OUTLO);
--
--	/* Disable DEBI and GPIO irq */
--	SAA7146_IER_DISABLE(av7110->dev, MASK_19 | MASK_03);
--	SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);
--
--	saa7146_setgpio(av7110->dev, RESET_LINE, SAA7146_GPIO_OUTHI);
--	msleep(30);	/* the firmware needs some time to initialize */
--
--	ARM_ResetMailBox(av7110);
--
--	SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);
--	SAA7146_IER_ENABLE(av7110->dev, MASK_03);
--
--	av7110->arm_ready = 1;
--	dprintk(1, "reset ARM\n");
--}
--#endif  /*  0  */
--
- static int waitdebi(struct av7110 *av7110, int adr, int state)
- {
- 	int k;
-@@ -498,29 +475,6 @@ int av7110_fw_cmd(struct av7110 *av7110, int type, int com, int num, ...)
- 	return ret;
- }
- 
--#if 0
--int av7110_send_ci_cmd(struct av7110 *av7110, u8 subcom, u8 *buf, u8 len)
--{
--	int i, ret;
--	u16 cmd[18] = { ((COMTYPE_COMMON_IF << 8) + subcom),
--		16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
--
--	dprintk(4, "%p\n", av7110);
--
--	for (i = 0; i < len && i < 32; i++) {
--		if (i % 2 == 0)
--			cmd[(i / 2) + 2] = (u16)(buf[i]) << 8;
--		else
--			cmd[(i / 2) + 2] |= buf[i];
--	}
--
--	ret = av7110_send_fw_cmd(av7110, cmd, 18);
--	if (ret && ret != -ERESTARTSYS)
--		pr_err("%s(): error %d\n", __func__, ret);
--	return ret;
--}
--#endif  /*  0  */
--
- int av7110_fw_request(struct av7110 *av7110, u16 *request_buf,
- 		      int request_buf_len, u16 *reply_buf, int reply_buf_len)
- {
--- 
-2.53.0
+Right, but I was pretty sure I was enabling perf record -e 'dma_fence:*' 
+when I hit this. Anyway, it doesn't matter, I could be misremembering.
+
+>>
+>> To fix trace_dma_fence_destroy I think we need a new tracepoint definition ie. move it away from the existing event class - make it just log the context and seqno.
+>>
+>> Anyone has a better idea?
+> 
+> The idea of tracing without accessing fence->ops sounds valid to me.
+> 
+> Alternatively we could call dma_fence_timeline_name() and dma_fence_driver_name() from the tracepoint as well, but that means the tracepoints now require a RCU read side lock.
+
+We could possibly use the helpers. I am not sure if RCU annotation would 
+have to be casted away to keep sparse happy, but more importantly, I 
+think it would not be safe.
+
+   thread A					thread B
+
+   dma_fence_signal_timestamp_locked		dma_fence_timeline_name
+     ..						ops = rcu_dereference(fence->ops);
+						if (!dma_fence_test_signaled_flag(fence))
+     test_and_set_bit
+     ..
+     RCU_INIT_POINTER(fence->ops, NULL);
+     						return (const char __rcu *)ops->get_driver_name(fence); // OOPS!
+
+Apologies for long line length, it did not fit otherwise.
+
+Looks like we missed this. Or it is me who is missing something?
+Regards,
+
+Tvrtko
+
+>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>> Fixes: 541c8f2468b9 ("dma-buf: detach fence ops on signal v3")
+>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>> Cc: Philipp Stanner <phasta@kernel.org>
+>>>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+>>>> Cc: linux-media@vger.kernel.org
+>>>> Cc: linaro-mm-sig@lists.linaro.org
+>>>> ---
+>>>>    drivers/dma-buf/dma-fence.c | 3 ++-
+>>>>    1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>>>> index 1826ba73094c..1c1eaecaf1b0 100644
+>>>> --- a/drivers/dma-buf/dma-fence.c
+>>>> +++ b/drivers/dma-buf/dma-fence.c
+>>>> @@ -363,6 +363,8 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+>>>>                          &fence->flags)))
+>>>>            return;
+>>>>    +    trace_dma_fence_signaled(fence);
+>>>> +
+>>>>        /*
+>>>>         * When neither a release nor a wait operation is specified set the ops
+>>>>         * pointer to NULL to allow the fence structure to become independent
+>>>> @@ -377,7 +379,6 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+>>>>          fence->timestamp = timestamp;
+>>>>        set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
+>>>> -    trace_dma_fence_signaled(fence);
+>>>>          list_for_each_entry_safe(cur, tmp, &cb_list, node) {
+>>>>            INIT_LIST_HEAD(&cur->node);
+>>>
+>>
+> 
 
 
