@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-58524-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58525-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AP57HBvC2Gk4hwgAu9opvQ
-	(envelope-from <linux-media+bounces-58524-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 11:25:47 +0200
+	id +K60CKLA2Gk4hwgAu9opvQ
+	(envelope-from <linux-media+bounces-58525-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 11:19:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA073D4B50
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 11:25:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777D73D4A4A
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 11:19:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8146330718D2
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 09:10:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2D9A8311DD21
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 09:11:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3D9C3BAD90;
-	Fri, 10 Apr 2026 09:08:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEBC63BB9F4;
+	Fri, 10 Apr 2026 09:08:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u6Y4XRqQ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DO5mI3/1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A073C5DB8
-	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 09:08:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62DB312825
+	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 09:08:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775812105; cv=none; b=Ci19K5lsqwPfAilyTo5AZuk87vfnjsln3PvqJnqAJZAbGDhLsaAf+oOB0CCPOjRxCFAkX5OHsvHGyuTk7E8A/mszB0MSFshaR6wK87Lq+qkSsmYK2FnohAkoyWR9Q0rChaZ4DH7bghYZsRhQARfB0Nh03LzQ8y1Ngxh7olRgpwE=
+	t=1775812120; cv=none; b=iugxAYUCBfbBf+JeUmERpIH7/WZgvH8m8LTWUtEp31rTcXkdbAARYSUHhKvPvNFPDDsgyDGStnVM+hJO2woZFzIuokbhQQKj24F7M6zANQJ3l2A9SN0b6S7gq1uAu5SE0Jo46SaBB+R3/u9CDxpWZB3Arwo4y0E8ouY1WdMu5dE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775812105; c=relaxed/simple;
-	bh=8xrYudR4ehNBidPMTSQSZTtAMX98UgcG0gwrPOZI4i4=;
+	s=arc-20240116; t=1775812120; c=relaxed/simple;
+	bh=BT6KXRNB12twSFP+yZI1TKSUFEt1fd8nzIWcEE0lEtg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jHSb5d3oyOVuR5BCfz1/8bTSF1KbWKb3dKYe3gQkzUrtIlSu+5K9BIYqsWdGaPZmT0AgOlM/RVdC9jAVpy4+IjQr9GTEwTK4mn0N3VaWXDaNXQ3TTu50fYYjviEb/tGZaWw6nGngupMujP+kvQHKCeYCc6ge0r961Qjlyb9onF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=u6Y4XRqQ; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=MWeGZrueDRsx7YG72u/cNZh4/ZUBbJxuQLmVCNvW8D/iBivNmojNzEi+paX8Z/wT/Uv57/nIa52Xka/wjyuOf38b64w2zRViOitpiuLroMWBPviPexT2IkdzDvEeo9ncaiVr21iguhSddckm14AS9Eyv/N4UXXfMvFcMwFJHjkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DO5mI3/1; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF4ADE47;
-	Fri, 10 Apr 2026 11:06:51 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A442225;
+	Fri, 10 Apr 2026 11:07:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775812012;
-	bh=8xrYudR4ehNBidPMTSQSZTtAMX98UgcG0gwrPOZI4i4=;
+	s=mail; t=1775812028;
+	bh=BT6KXRNB12twSFP+yZI1TKSUFEt1fd8nzIWcEE0lEtg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u6Y4XRqQPQifH2Rgp2zyqLwxXCfZ7XwFeFTob9Xin3NNhO7vPNNGyPO5PeXgOPKvw
-	 N6uo4DGKY+xJklZX1sR3yb9C3jyvaXWGjMIzo1lzrtMdvLaxxsRiwmwCZ2CPeeU/BQ
-	 64CiCwGLtIHiXf8nJQ0x2xzQmQ5n4wRKr5djcO7Q=
-Date: Fri, 10 Apr 2026 11:08:17 +0200
+	b=DO5mI3/1xgDU/5V2rYW1e+ui7uc4dbojTF3jEiNGMQpKyWdo5FZM2aYo46Rel4Kn1
+	 9dL9gShaKVR+rwjXMhLcwJWJxT+UQqviPj1G/DEv9FMm2jlJsOohzM4HKD6yhkUt1o
+	 nr0YuAHIuftvqpkO5BmDolGLZuoqk4Qkw/ILQecE=
+Date: Fri, 10 Apr 2026 11:08:35 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
@@ -62,11 +62,11 @@ Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, 
 	"Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, 
 	Jai Luthra <jai.luthra@ideasonboard.com>, Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v4 12/29] media: ov9282: Remove redundant kernel-doc
+Subject: Re: [PATCH v4 13/29] media: tvp514x: Remove redundant kernel-doc
  comments
-Message-ID: <adi99kYvOpeIAd6F@zed>
+Message-ID: <adi-B7tSo8FCnWJ4@zed>
 References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-13-sakari.ailus@linux.intel.com>
+ <20260408153939.969381-14-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,7 +75,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260408153939.969381-13-sakari.ailus@linux.intel.com>
+In-Reply-To: <20260408153939.969381-14-sakari.ailus@linux.intel.com>
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -86,7 +86,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58524-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58525-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -104,14 +104,14 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: EBA073D4B50
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email,ideasonboard.com:dkim,ideasonboard.com:email]
+X-Rspamd-Queue-Id: 777D73D4A4A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Hi Sakari
 
-On Wed, Apr 08, 2026 at 06:39:21PM +0300, Sakari Ailus wrote:
+On Wed, Apr 08, 2026 at 06:39:22PM +0300, Sakari Ailus wrote:
 > Remove kernel-doc comments from regular callback functions. These comments
 > have no information value.
 >
@@ -120,141 +120,115 @@ On Wed, Apr 08, 2026 at 06:39:21PM +0300, Sakari Ailus wrote:
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
 > ---
->  drivers/media/i2c/ov9282.c | 67 --------------------------------------
->  1 file changed, 67 deletions(-)
+>  drivers/media/i2c/tvp514x.c | 55 +------------------------------------
+>  1 file changed, 1 insertion(+), 54 deletions(-)
 >
-> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> index 2167fb73ea41..5b6f897a74fc 100644
-> --- a/drivers/media/i2c/ov9282.c
-> +++ b/drivers/media/i2c/ov9282.c
-> @@ -586,18 +586,6 @@ static u32 ov9282_flash_duration_to_us(struct ov9282 *ov9282, u32 value)
->  	return DIV_ROUND_UP(value * frame_width, OV9282_STROBE_SPAN_FACTOR);
+> diff --git a/drivers/media/i2c/tvp514x.c b/drivers/media/i2c/tvp514x.c
+> index f9c9c80c33ac..7af8f37646d6 100644
+> --- a/drivers/media/i2c/tvp514x.c
+> +++ b/drivers/media/i2c/tvp514x.c
+> @@ -686,13 +686,6 @@ static int tvp514x_s_routing(struct v4l2_subdev *sd,
+>  	return 0;
 >  }
 >
 > -/**
-> - * ov9282_set_ctrl() - Set subdevice control
+> - * tvp514x_s_ctrl() - V4L2 decoder interface handler for s_ctrl
 > - * @ctrl: pointer to v4l2_ctrl structure
 > - *
-> - * Supported controls:
-> - * - V4L2_CID_VBLANK
-> - * - cluster controls:
-> - *   - V4L2_CID_ANALOGUE_GAIN
-> - *   - V4L2_CID_EXPOSURE
-> - *
-> - * Return: 0 if successful, error code otherwise.
+> - * If the requested control is supported, sets the control's current
+> - * value in HW. Otherwise, returns -EINVAL if the control is not supported.
 > - */
->  static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
+>  static int tvp514x_s_ctrl(struct v4l2_ctrl *ctrl)
 >  {
->  	struct ov9282 *ov9282 =
-> @@ -704,14 +692,6 @@ static const struct v4l2_ctrl_ops ov9282_ctrl_ops = {
->  	.try_ctrl = ov9282_try_ctrl,
->  };
->
-> -/**
-> - * ov9282_enum_mbus_code() - Enumerate V4L2 sub-device mbus codes
-> - * @sd: pointer to ov9282 V4L2 sub-device structure
-> - * @sd_state: V4L2 sub-device configuration
-> - * @code: V4L2 sub-device code enumeration need to be filled
-> - *
-> - * Return: 0 if successful, error code otherwise.
-> - */
->  static int ov9282_enum_mbus_code(struct v4l2_subdev *sd,
->  				 struct v4l2_subdev_state *sd_state,
->  				 struct v4l2_subdev_mbus_code_enum *code)
-> @@ -780,14 +760,6 @@ static void ov9282_fill_pad_format(struct ov9282 *ov9282,
->  	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
->  }
->
-> -/**
-> - * ov9282_get_pad_format() - Get subdevice pad format
-> - * @sd: pointer to ov9282 V4L2 sub-device structure
-> - * @sd_state: V4L2 sub-device configuration
-> - * @fmt: V4L2 sub-device format need to be set
-> - *
-> - * Return: 0 if successful, error code otherwise.
-> - */
->  static int ov9282_get_pad_format(struct v4l2_subdev *sd,
->  				 struct v4l2_subdev_state *sd_state,
->  				 struct v4l2_subdev_format *fmt)
-> @@ -807,14 +779,6 @@ static int ov9282_get_pad_format(struct v4l2_subdev *sd,
+>  	struct v4l2_subdev *sd = to_sd(ctrl);
+> @@ -789,13 +782,6 @@ tvp514x_set_frame_interval(struct v4l2_subdev *sd,
 >  	return 0;
 >  }
 >
 > -/**
-> - * ov9282_set_pad_format() - Set subdevice pad format
-> - * @sd: pointer to ov9282 V4L2 sub-device structure
-> - * @sd_state: V4L2 sub-device configuration
-> - * @fmt: V4L2 sub-device format need to be set
+> - * tvp514x_s_stream() - V4L2 decoder i/f handler for s_stream
+> - * @sd: pointer to standard V4L2 sub-device structure
+> - * @enable: streaming enable or disable
 > - *
-> - * Return: 0 if successful, error code otherwise.
+> - * Sets streaming to enable or disable, if possible.
 > - */
->  static int ov9282_set_pad_format(struct v4l2_subdev *sd,
->  				 struct v4l2_subdev_state *sd_state,
->  				 struct v4l2_subdev_format *fmt)
-> @@ -852,13 +816,6 @@ static int ov9282_set_pad_format(struct v4l2_subdev *sd,
->  	return ret;
->  }
->
-> -/**
-> - * ov9282_init_state() - Initialize sub-device state
-> - * @sd: pointer to ov9282 V4L2 sub-device structure
-> - * @sd_state: V4L2 sub-device configuration
-> - *
-> - * Return: 0 if successful, error code otherwise.
-> - */
->  static int ov9282_init_state(struct v4l2_subdev *sd,
->  			     struct v4l2_subdev_state *sd_state)
+>  static int tvp514x_s_stream(struct v4l2_subdev *sd, int enable)
 >  {
-> @@ -1157,12 +1114,6 @@ static const struct v4l2_subdev_internal_ops ov9282_internal_ops = {
->  	.init_state = ov9282_init_state,
+>  	int err = 0;
+> @@ -850,14 +836,6 @@ static const struct v4l2_ctrl_ops tvp514x_ctrl_ops = {
+>  	.s_ctrl = tvp514x_s_ctrl,
 >  };
 >
 > -/**
-> - * ov9282_power_on() - Sensor power on sequence
-> - * @dev: pointer to i2c device
+> - * tvp514x_enum_mbus_code() - V4L2 decoder interface handler for enum_mbus_code
+> - * @sd: pointer to standard V4L2 sub-device structure
+> - * @sd_state: subdev state
+> - * @code: pointer to v4l2_subdev_mbus_code_enum structure
 > - *
-> - * Return: 0 if successful, error code otherwise.
+> - * Enumertaes mbus codes supported
 > - */
->  static int ov9282_power_on(struct device *dev)
->  {
->  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> @@ -1206,12 +1157,6 @@ static int ov9282_power_on(struct device *dev)
->  	return ret;
->  }
->
-> -/**
-> - * ov9282_power_off() - Sensor power off sequence
-> - * @dev: pointer to i2c device
-> - *
-> - * Return: 0 if successful, error code otherwise.
-> - */
->  static int ov9282_power_off(struct device *dev)
->  {
->  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> @@ -1333,12 +1278,6 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+>  static int tvp514x_enum_mbus_code(struct v4l2_subdev *sd,
+>  				  struct v4l2_subdev_state *sd_state,
+>  				  struct v4l2_subdev_mbus_code_enum *code)
+> @@ -877,14 +855,6 @@ static int tvp514x_enum_mbus_code(struct v4l2_subdev *sd,
 >  	return 0;
 >  }
 >
 > -/**
-> - * ov9282_probe() - I2C client device binding
-> - * @client: pointer to i2c client device
+> - * tvp514x_get_pad_format() - V4L2 decoder interface handler for get pad format
+> - * @sd: pointer to standard V4L2 sub-device structure
+> - * @sd_state: subdev state
+> - * @format: pointer to v4l2_subdev_format structure
 > - *
-> - * Return: 0 if successful, error code otherwise.
+> - * Retrieves pad format which is active or tried based on requirement
 > - */
->  static int ov9282_probe(struct i2c_client *client)
+>  static int tvp514x_get_pad_format(struct v4l2_subdev *sd,
+>  				  struct v4l2_subdev_state *sd_state,
+>  				  struct v4l2_subdev_format *format)
+> @@ -909,14 +879,6 @@ static int tvp514x_get_pad_format(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>
+> -/**
+> - * tvp514x_set_pad_format() - V4L2 decoder interface handler for set pad format
+> - * @sd: pointer to standard V4L2 sub-device structure
+> - * @sd_state: subdev state
+> - * @fmt: pointer to v4l2_subdev_format structure
+> - *
+> - * Set pad format for the output pad
+> - */
+>  static int tvp514x_set_pad_format(struct v4l2_subdev *sd,
+>  				  struct v4l2_subdev_state *sd_state,
+>  				  struct v4l2_subdev_format *fmt)
+> @@ -1014,15 +976,7 @@ tvp514x_get_pdata(struct i2c_client *client)
+>  	return pdata;
+>  }
+>
+> -/**
+> - * tvp514x_probe() - decoder driver i2c probe handler
+> - * @client: i2c driver client device structure
+> - *
+> - * Register decoder as an i2c client device and V4L2
+> - * device.
+> - */
+> -static int
+> -tvp514x_probe(struct i2c_client *client)
+> +static int tvp514x_probe(struct i2c_client *client)
 >  {
->  	struct ov9282 *ov9282;
-> @@ -1435,12 +1374,6 @@ static int ov9282_probe(struct i2c_client *client)
+>  	struct tvp514x_platform_data *pdata = tvp514x_get_pdata(client);
+>  	struct tvp514x_decoder *decoder;
+> @@ -1113,13 +1067,6 @@ tvp514x_probe(struct i2c_client *client)
 >  	return ret;
 >  }
 >
 > -/**
-> - * ov9282_remove() - I2C client device unbinding
-> - * @client: pointer to I2C client device
+> - * tvp514x_remove() - decoder driver i2c remove handler
+> - * @client: i2c driver client device structure
 > - *
-> - * Return: 0 if successful, error code otherwise.
+> - * Unregister decoder as an i2c client device and V4L2
+> - * device. Complement of tvp514x_probe().
 > - */
->  static void ov9282_remove(struct i2c_client *client)
+>  static void tvp514x_remove(struct i2c_client *client)
 >  {
 >  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 > --
