@@ -1,269 +1,246 @@
-Return-Path: <linux-media+bounces-58497-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58498-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aCqYEWu72GmmhQgAu9opvQ
-	(envelope-from <linux-media+bounces-58497-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 10:57:15 +0200
+	id CA50NP272GmmhQgAu9opvQ
+	(envelope-from <linux-media+bounces-58498-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 10:59:41 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58283D4674
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 10:57:14 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9AD3D46FC
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 10:59:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 67DCD3018742
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 08:56:58 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 703F23025C5C
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 08:59:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EBFA3AEF2E;
-	Fri, 10 Apr 2026 08:56:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B9913B19DB;
+	Fri, 10 Apr 2026 08:59:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jan5gzwD"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Vi/v6jlh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013026.outbound.protection.outlook.com [40.93.201.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345563AD515
-	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 08:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775811414; cv=none; b=JrxF0IVnc5Z8rwgYTYdpKS2eiW3COLlzJeou+NAO6fgM0Oddw9qDoOmf1KOQiwlQBA3aiqLsHhDSb4v6QUB6CVixJ0CPhKVb3xgygPmM8HH4/ABJv18aHXNxWpJm4v+fsakUsmbShiCFfZf8eRkMlZlspmoDoz8brd9fKsTUIEY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775811414; c=relaxed/simple;
-	bh=hkWAwI7Q4XQ94QLo083EERqg5cde5FjM+FBc2skcanY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OXQwonLJujTvf9hUpTtPtcU6KCUxuPP/hw+ZWGnFZxnx963oEF8/h3jEhFd1MKrQwpY1AsXU+L+sMbZl+7b3tKE1pa4OA/IINfbuVb8FQRxWcsqQOe7GsPBSduvSSkISg7csksJL+bRJUiPEwv1yjLNKq1QEQM8ctc6I13bAAdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jan5gzwD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17AE71BA;
-	Fri, 10 Apr 2026 10:55:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775811320;
-	bh=hkWAwI7Q4XQ94QLo083EERqg5cde5FjM+FBc2skcanY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jan5gzwDyL50w6PR5ogwO0T8CamwQmnyn71v/qbaR1tpa2oVs3xqb+KAA/HBmme8P
-	 /iK047ZZJ5L+sKrzGTU6H0OGkJ9XCDqH7ccAlGtFR/9hTsogFXdo5wK7zfgfq9CQPN
-	 EoDbMiqmKgieSIzVsBb1n9mbs3QuNcJXv2UhD3PQ=
-Date: Fri, 10 Apr 2026 10:56:46 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, 
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
-	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
-	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
-	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
-	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, 
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, 
-	Jai Luthra <jai.luthra@ideasonboard.com>, Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v4 05/29] media: imx219: Fix vertical blanking and
- exposure for analogue binning
-Message-ID: <adi6Jvys5KxvCmOA@zed>
-References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-6-sakari.ailus@linux.intel.com>
- <adi17tFyi5uX1GpP@zed>
- <adi4-T0TMfWIOBmk@kekkonen.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2803B19DE
+	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 08:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.26
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775811543; cv=fail; b=tmtkErEiH7LtVY8w8Tdk9p3brnfGWqTOaJZjLatx8yBeS9kyMbnkQyPeyPgjVsqOdLNJ2zyxDY+zEhkakgih+qXyZ0VJ6hZHsZnNdK4ihiMktzDokwBrngbSSIRHgyi3OqK32u8X9i5ImxYEAJz0Y0SWArWD48n2QuTG1bRu0pc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775811543; c=relaxed/simple;
+	bh=X+uJWQzOpK1J2jwmlbRv9GvSBIzDsDyNTpEkWnX/J0g=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=C1xFAErhF9Ad6caKhHZ8VBybaEJcDyop83KhXLm54mtft+GRq+Yg7zc3MhKn7+sqHdaAzxDNqXql+si98jTrao/eMrSoFG2OJIZn9p9YiFqDL4rV+777p64+bldmL86/ETkj/aWgq0/ZUnyEqN5KFROCaG+WSx7JsvdddbGS+Is=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Vi/v6jlh; arc=fail smtp.client-ip=40.93.201.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tPnU8RnGhjU0Avc195Xi74RIGiiVyUMiVbxID7Fm/5dxQfsXgm+O9w9444F/YD+lZKWMsUTzorVN5iI5wTr73teGz9CcUNjwrE6tCIyHVOGjpCd6Ug9Hkky/MNHwKnWabL/4dy+pVvyFQE9iDuQPDRX+D55eGvfq1VUjmhfJ/VksJy6NHr/49P3tCvmIymZZdgfOgDrOsRj4Puc04OAnwsf+wvAjju24aR9tJqIb0f+Hd7mnYKx1Q3MLByBHpI6SFr6YjU94dDDZPe/ujhuFl5xMEgRoeuA2ScmTo7smJzbuZSHDJfT7qp6JHVb0mzrgAHnhBXObuMOO76v9q53xsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ILgRY5+Fz981rnHHgnY8pD7P4hJtorwPhDoWTapzONk=;
+ b=wSed2XqVXB6aRf+IGxDEV1VsW7sjtn95MdRKZtXCyfp0Cr48E/1y8FxKe7pBjmSOhZTFMFHr+VZMvzXV/lbYABMgW6MmU7V3Gyw1mTKmaHawWAOjtAqOEdDjynqIo3NtfXxAizL8JZ0E8BGjMZ8uQdI4vej1r/0YoolfBCG+pqyFWi6aNRDnuS4oS6U+rHJ12RkRGZZbYC/8Xa9pRdL3m1Xto0yiT/oe4DT6vuw//5PIpIj7SV76QwuGfeZp6C/U+vnAGdlcu5jxcnrf6ZFXFXlKuAWwHXAsvj0VaoCP0ri/1eRs5erA3PU4uAzqj1VnBzrncSpd+2xG17nK4I+K0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ILgRY5+Fz981rnHHgnY8pD7P4hJtorwPhDoWTapzONk=;
+ b=Vi/v6jlhexjk+DA0jaDVS4pvqgXoO9QmbAWo/XhR0gw+Zy5hYBZwEHcpPluYzqfqubvosypTWo5Hi4YT3+iFViLPualb0ZQI4h+sL66EloU9L2roHj6AMlkXJ7nqLH1ldwCJb74D+zmFSzxuwGyU7j/mKXvtL3zGksJUXaw4jSY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ0PR12MB6757.namprd12.prod.outlook.com (2603:10b6:a03:449::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9791.34; Fri, 10 Apr
+ 2026 08:58:52 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9791.032; Fri, 10 Apr 2026
+ 08:58:52 +0000
+Message-ID: <2fae926b-a25b-42bc-ab63-caf36505b33d@amd.com>
+Date: Fri, 10 Apr 2026 10:58:47 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-fence: Move signalling tracepoint to before ops
+ detach
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ Philipp Stanner <phasta@kernel.org>, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20260330133623.17704-1-tvrtko.ursulin@igalia.com>
+ <20260331094944.772833c0@fedora>
+ <918805b0-2cb9-454a-9048-84cc5bfc8798@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <918805b0-2cb9-454a-9048-84cc5bfc8798@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0001.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c8::15) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <adi4-T0TMfWIOBmk@kekkonen.localdomain>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB6757:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f0154d8-80ca-440c-5fa0-08de96df6334
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	QV6tsxaMjOzyk8KxTfN1ppGr5LpgJFgQ7GYltu/2TyxVYBHpsL5SMPTR+6YvdP+kGY7lmOI6uFIRgg4fMoWzHtH2gRPJXbKa4GnXS4l/MgoZry0dj81PA99erv1oYSnTi8EZyYX1kNmY+Dpov2OnB6+SuoyRkNib4tHbvhBX4dSJg+mk6xeyDakT3h6QAC62r2obzNqp2RA082DkXnpq+e4vgezU4/q8086JtzRmwbEeiAXBC1Sv3odGX9MnIz9hd1Yd0x2CqLJzqgySkWRuhl8V/oQlA14kO5UDszKle5qBgAk6WHkcYh85E8oGOfNuWNOaRPRWktaA2zL65nHYXmukUQIeCLe7P4EBguSDVNVaAo4+asS8aHYyZCiewANNHOktrd/9d1ug5r5PAuPADgb7HmxFcp+Sog6hwNzf/5MrC8BSMmHtDsofkeQbzHgeoB/AdOn18WaVkGKEppD9UI4Ftf+UYCeEWxcEEVDT9ohC1RvHcAyQ94dAGMQeexx89wmPW5xBc/mTsWDBs6+GswjaxcJuPu2U6MkrRsHwlw5pFXnEJ/I8gZH3z3aSZWAvtuCPJv4zdPfZF4MN248epxh4+slCS04lxwlBKbLexa4TtHhKmc0klezrCeqrNu8U0naVZTBOQAjEEC3ZtPFr3uipGIVE3TegR+UW8WkbLiHjtthB1yL8lWPimKycs4WMyiiSVhy4UXFw4hDTTpC7R3QJsKTsll28fFhcmJP31vs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZkFrdFBiNVFxVWFVRWh1RjdmNXlWQzVkNFRwV2JVb2hHM2M0SzJ0VE1yN3p0?=
+ =?utf-8?B?VVBuSTJGUzEwRC9oeTFibkovT1NSRVhBUEMvUXVRa2orNGNOclNFc1E1dllK?=
+ =?utf-8?B?cUtLcm1VOUJ4cFF4R3RHOE56SDJQUC82aFl4Y3dYVXVJZ1RuMS85bnRFOWM5?=
+ =?utf-8?B?Y2RKQnJkNjRwL2dOVHowbWpHRDM4Ny9oVHBTeTNQbHVWQ2lwQktQSm9kM0gz?=
+ =?utf-8?B?bTd1TUhnaXdqVlRLR1U3Vjl5YlpSRUFOSUc5S3dvbDF1MURXb1MvQjE0dlRL?=
+ =?utf-8?B?aHQzYzNmREtaM2o1Wi8vVUEzb29lcEhhZ29wR0ZXVjE0WXlnZjBSaEFBWXpX?=
+ =?utf-8?B?cjcvcG5FdGs4cXdJK0EyYzRtOS9BcUhZQmM5bEpISU1iQ0JXQU5ybW9lMm5h?=
+ =?utf-8?B?WGJOcGR4M1NyRXZ2TUZ2T2xiUk9XWnBNSzdTZTg3ekl5OGxYVzN4WWtuL3VC?=
+ =?utf-8?B?Z25pZytKbkNRZUZTbXV3WjRtWkFzTHFBSGk2RkdseVNNZHpOTTdZTUg3MTEw?=
+ =?utf-8?B?cndZajkxdlV1QmM1d2czcVdXWmpaSXM5aVlNQThLL2ZEcGNzaGhPYXdnK2hn?=
+ =?utf-8?B?QXdoUVZJUmQ1WHBtUUp6cnRRNExFTk4yckQwSElsa0NEMTlCZGJETGw5bElr?=
+ =?utf-8?B?U1JTZHZONHdJeVlxRkRaL2hJcGVvOVU1Snp4aHBwOWZCellqVmlCaHB5dUlo?=
+ =?utf-8?B?UkdmSzJmY2JYRHhrRmpuV2hjK1ZWci9CNldlUWZEVWxFRjRuZEJSYUNiU3hj?=
+ =?utf-8?B?Z01LazFkK0tCQWVhWCtsN2R4aDhYaWJXZytuekZUMHRlM2JKdDdMbmEyTG9B?=
+ =?utf-8?B?dXJITDJvK2N4ZThvZit3NGVqa0pBWUpVM0JydWczbDlwc2Z2NWVET0lFYW1F?=
+ =?utf-8?B?NytlWE9YNytKdTZlN3dpbGgzODRScXZrQld2cnRESG1NcUFFTWg2OVA3dGlI?=
+ =?utf-8?B?THhhejNlZU1RN1JCSEhKTTBWczN3T3hNU1FISWhwbWlzY3B6bzM5TkRzZ1E3?=
+ =?utf-8?B?ejlJZ05GZEdnZXFTTG5ZL0dMay9mRFRONERycFVEbXhOTjV1TmZlMTFWYU1i?=
+ =?utf-8?B?OVJBV1lhNGpRZXBTVXVsb1pZVHhMTDFRYU5hUFlFcVp0bGNIQXdMWklTS1dB?=
+ =?utf-8?B?TzZ3TVhramZTQnNLRGpVdk1CbWlXYTYxd0Ivck5zSk9uRUdINnk4MnRVTDhr?=
+ =?utf-8?B?dVhqeFl3bTcxSjM1UlExTW9qVzhqVW5pVm5ISXdBVmd5aGUxQnBqK2VXRTFP?=
+ =?utf-8?B?eFVWWXJmREo3Vnl0dVlOTEM4UGczZ3ludVZuWmVYdGVRZTJYcXVnakg0akRh?=
+ =?utf-8?B?K1B1SXVlOEM0dExsYkgwcm8xSmJlWE5jOHd2YWpjVVRWNno4ZGFqMHV2NzJt?=
+ =?utf-8?B?VW44cTZ3ZGJtdS9Xc2hDU0ZTL3ZxQzNSdnFwdS9sb3ZRTUpNTWpJaFgrcGpu?=
+ =?utf-8?B?VDA4NXd5VjREYXFpakxLc2ZyWjhHb2ZKRjlFLzFITUxYN2diem9KeDNScEF5?=
+ =?utf-8?B?L0pjVDhIMWFoUzkzd0IvY01uUmN2bHpsRWFPT1BLS3ZVMU5OMnR2OWZ1SGJG?=
+ =?utf-8?B?TDcrc1l3WDd4UTBmejc3UjRSakhOS2IyOU9qeW91cGNtaTdqNHdOcWxveUtQ?=
+ =?utf-8?B?L3pqaE0wSkRwN01wY3dvazBwZVhGRjdETlVwY09mc0duUjdjMDhqdlBpYmhn?=
+ =?utf-8?B?TVpMS3BjRDZaaWVELzBhSmFEZm0ycDVQb0xVTFZpdGFrSnBHYjRwZjJZMEw0?=
+ =?utf-8?B?NHB3cWFsMVVONDNlQ0M2ZFJGb2ZRendsZkd6OFp3M3B2UWFjaVBHQUJUV0tB?=
+ =?utf-8?B?VkkxYUxaOHVFU21ZZE1ZSWtuU3dLSW5rZ2loQkIzNEhVeVNMeTRQMzE0U2tP?=
+ =?utf-8?B?RmJQOFhnZzZIckxHNHNNandxb2RzL1JYZU5BNFNzNitqKy9PUWFRbE5nSXlN?=
+ =?utf-8?B?UjNuOUhkdWtKMjNWbDJyVHFBYmZBWlZ6L3J3N09SekgvVWZFMUNBTXZRcWVx?=
+ =?utf-8?B?TG02eEhoRGhDYVc5Rm1PK280VXNyajhzNnN3Y0RUWVZTUjJjTWtvTmt1b1o4?=
+ =?utf-8?B?MFV0NWZoMWJvNDZrYlVEUjZ2L3lJNWVkajREYVQ3Z1R5OVNXQzhWVEJkc0Fq?=
+ =?utf-8?B?OWdxOEQ4VG4vS1U2OSs0REtVN2Y2S0wxVmdCMWFuNG5obVhpYXQxUnd0Tm5S?=
+ =?utf-8?B?MlVaYUJTS0xLYmRybmlvUFQzczR4Q1M3ZjRYQXkyTGNFNzR6QkhaR3hNdnNL?=
+ =?utf-8?B?clY2bUdlbHNHTnlXbm1BS3JpWjgrdGNHd3o5VGxTM1NodTB4TWVJL296NjVu?=
+ =?utf-8?Q?cY/zpHlXm6477JIj62?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f0154d8-80ca-440c-5fa0-08de96df6334
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2026 08:58:52.0869
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: L8amLVDQOszLaKY3VEyMlG8QqdUav34AXH9oNvZhikvT4SkFvuzazboO2/IIWao1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6757
 X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58497-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[31];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
+	TAGGED_FROM(0.00)[bounces-58498-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[amd.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email]
-X-Rspamd-Queue-Id: B58283D4674
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,amd.com:dkim,amd.com:email,amd.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:email]
+X-Rspamd-Queue-Id: 4E9AD3D46FC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Sakari
+On 4/9/26 15:58, Tvrtko Ursulin wrote:
+> 
+> On 31/03/2026 08:49, Boris Brezillon wrote:
+>> On Mon, 30 Mar 2026 14:36:23 +0100
+>> Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
+>>
+>>> Move the signalling tracepoint to before fence->ops are reset otherwise
+>>> tracepoint will dereference a null pointer.
+>>
+>> I suspect other trace points are impacted too
+>> (trace_dma_fence_destroy() is, at the very least).
+> 
+> Indeed. I wonder why that did not trigger for me, while the one I fix here was an insta-crash...
 
-On Fri, Apr 10, 2026 at 11:46:49AM +0300, Sakari Ailus wrote:
-> Hi Jacopo,
->
-> On Fri, Apr 10, 2026 at 10:42:22AM +0200, Jacopo Mondi wrote:
-> > Hi Sakari
-> >
-> > On Wed, Apr 08, 2026 at 06:39:14PM +0300, Sakari Ailus wrote:
-> > > When vertical analogue binning is in use, the minimum frame length in
-> > > lines decreases to around half of the normal. In relation to the sensor's
-> > > output size this means vertical blanking can be negative but that's not an
-> > > issue as control values are signed. Remove the workaround for this
-> > > non-issue that doubled the pixel rate, frame length in lines and exposure
-> > > time.
-> >
-> > I don't think this was a workaround. Doubling the pixel rate and
->
-> You could also call it a bug. :-) If you look what the driver does with
-> PLL, you can see the PLL configuration is always the same independently of
-> any binning configuration.
+You need to actually enable the trace points and at least for the destroy one nobody is usually interested in that.
 
-Are you suggesting doubling the PIXEL_RATE is not accurate as the PLL
-config doesn't change ? I might be very wrong, but in my understanding
-this is partially why the "special" binning mode is special. We don't
-have documentation for it and I'm maybe speculating here.
+> 
+> To fix trace_dma_fence_destroy I think we need a new tracepoint definition ie. move it away from the existing event class - make it just log the context and seqno.
+> 
+> Anyone has a better idea?
 
-Is doubling the VBLANK limit to a number larger of the register
-maximum value more accurate ?
+The idea of tracing without accessing fence->ops sounds valid to me.
 
->
-> > halving the values written to registers for EXPOSURE and VBLANK
-> > allowed userspace to maintain a consistent view while the driver
-> > accounts for the special binning mode where, at least in my latest
-> > understanding, the sensor averages two lines before passing them to
-> > the ADC.
-> >
-> > I am missing in which case, with the current driver implementation,
-> > the vertical blanking can be negative.
-> >
-> > >
-> > > The resulting change also fixes the minimum, the maximum and the step
-> > > values for the control.
-> > >
-> > > Fixes: f513997119f4 ("media: i2c: imx219: Scale the pixel rate for analog binning")
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >
-> > Jai, and others including Dave and me, have spent quite some time
-> > testing and implementing proper support for the special analogue
-> > binning mode for this sensor. Of course we might have missed something
-> > obvious, but I'm still missing what you're trying to fix here.
-> >
+Alternatively we could call dma_fence_timeline_name() and dma_fence_driver_name() from the tracepoint as well, but that means the tracepoints now require a RCU read side lock.
 
-still not sure what you're trying to fix here
+Regards,
+Christian.
 
-> > > ---
-> > >  drivers/media/i2c/imx219.c | 29 +++++++++--------------------
-> > >  1 file changed, 9 insertions(+), 20 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > > index 6819a2fa3262..a72630ad1561 100644
-> > > --- a/drivers/media/i2c/imx219.c
-> > > +++ b/drivers/media/i2c/imx219.c
-> > > @@ -420,15 +420,6 @@ static void imx219_get_binning(struct v4l2_subdev_state *state, u8 *bin_h,
-> > >
-> > >  }
-> > >
-> > > -static inline u32 imx219_get_rate_factor(struct v4l2_subdev_state *state)
-> > > -{
-> > > -	u8 bin_h, bin_v;
-> > > -
-> > > -	imx219_get_binning(state, &bin_h, &bin_v);
-> > > -
-> > > -	return (bin_h & bin_v) == IMX219_BINNING_X2_ANALOG ? 2 : 1;
-> > > -}
-> > > -
-> > >  /* -----------------------------------------------------------------------------
-> > >   * Controls
-> > >   */
-> > > @@ -440,12 +431,10 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> > >  	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
-> > >  	const struct v4l2_mbus_framefmt *format;
-> > >  	struct v4l2_subdev_state *state;
-> > > -	u32 rate_factor;
-> > >  	int ret = 0;
-> > >
-> > >  	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
-> > >  	format = v4l2_subdev_state_get_format(state, 0);
-> > > -	rate_factor = imx219_get_rate_factor(state);
-> > >
-> > >  	if (ctrl->id == V4L2_CID_VBLANK) {
-> > >  		int exposure_max, exposure_def;
-> > > @@ -478,7 +467,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> > >  		break;
-> > >  	case V4L2_CID_EXPOSURE:
-> > >  		cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
-> > > -			  ctrl->val / rate_factor, &ret);
-> > > +			  ctrl->val, &ret);
-> > >  		break;
-> > >  	case V4L2_CID_DIGITAL_GAIN:
-> > >  		cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
-> > > @@ -495,7 +484,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> > >  		break;
-> > >  	case V4L2_CID_VBLANK:
-> > >  		cci_write(imx219->regmap, IMX219_REG_FRM_LENGTH_A,
-> > > -			  (format->height + ctrl->val) / rate_factor, &ret);
-> > > +			  format->height + ctrl->val, &ret);
-> > >  		break;
-> > >  	case V4L2_CID_HBLANK:
-> > >  		cci_write(imx219->regmap, IMX219_REG_LINE_LENGTH_A,
-> > > @@ -878,7 +867,6 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > >  	crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
-> > >
-> > >  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > > -		unsigned int rate_factor = imx219_get_rate_factor(state);
-> > >  		int exposure_max;
-> > >  		int exposure_def;
-> > >  		int llp_min;
-> > > @@ -886,15 +874,16 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > >
-> > >  		/* Update limits and set FPS to default */
-> > >  		ret = __v4l2_ctrl_modify_range(imx219->vblank,
-> > > -					       IMX219_VBLANK_MIN * rate_factor,
-> > > -					       (IMX219_FLL_MAX - mode->height) *
-> > > -					       rate_factor, rate_factor,
-> > > -					       mode->fll_def - mode->height);
-> > > +					       (int)(mode->height / binning),
-> > > +					       IMX219_FLL_MAX - mode->height, 1,
-> > > +					       (int)(mode->fll_def / binning) -
-> > > +					       (int)mode->height);
-> > >  		if (ret)
-> > >  			return ret;
-> > >
-> > >  		ret = __v4l2_ctrl_s_ctrl(imx219->vblank,
-> > > -					 mode->fll_def - mode->height);
-> > > +					 (int)(mode->fll_def / binning) -
-> > > +					 (int)mode->height);
-> > >  		if (ret)
-> > >  			return ret;
-> > >
-> > > @@ -931,7 +920,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > >  			return ret;
-> > >
-> > >  		/* Scale the pixel rate based on the mode specific factor */
-> > > -		pixel_rate = imx219_get_pixel_rate(imx219) * rate_factor;
-> > > +		pixel_rate = imx219_get_pixel_rate(imx219);
-> > >  		ret = __v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
-> > >  					       pixel_rate, 1, pixel_rate);
-> > >  		if (ret)
->
-> --
+> 
 > Regards,
->
-> Sakari Ailus
->
+> 
+> Tvrtko
+> 
+>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>> Fixes: 541c8f2468b9 ("dma-buf: detach fence ops on signal v3")
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: Philipp Stanner <phasta@kernel.org>
+>>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+>>> Cc: linux-media@vger.kernel.org
+>>> Cc: linaro-mm-sig@lists.linaro.org
+>>> ---
+>>>   drivers/dma-buf/dma-fence.c | 3 ++-
+>>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>>> index 1826ba73094c..1c1eaecaf1b0 100644
+>>> --- a/drivers/dma-buf/dma-fence.c
+>>> +++ b/drivers/dma-buf/dma-fence.c
+>>> @@ -363,6 +363,8 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+>>>                         &fence->flags)))
+>>>           return;
+>>>   +    trace_dma_fence_signaled(fence);
+>>> +
+>>>       /*
+>>>        * When neither a release nor a wait operation is specified set the ops
+>>>        * pointer to NULL to allow the fence structure to become independent
+>>> @@ -377,7 +379,6 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+>>>         fence->timestamp = timestamp;
+>>>       set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
+>>> -    trace_dma_fence_signaled(fence);
+>>>         list_for_each_entry_safe(cur, tmp, &cb_list, node) {
+>>>           INIT_LIST_HEAD(&cur->node);
+>>
+> 
+
 
