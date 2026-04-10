@@ -1,345 +1,609 @@
-Return-Path: <linux-media+bounces-58485-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58486-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wE6lGQWt2GljgwgAu9opvQ
-	(envelope-from <linux-media+bounces-58485-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 09:55:49 +0200
+	id OMsbLGav2GljgwgAu9opvQ
+	(envelope-from <linux-media+bounces-58486-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 10:05:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EAB3D3A46
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 09:55:48 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 365343D3C0B
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 10:05:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1E9873020FF3
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 07:55:44 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 270A530164BC
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 07:59:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 325623A63EB;
-	Fri, 10 Apr 2026 07:55:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DEB33A960E;
+	Fri, 10 Apr 2026 07:59:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BlzTku97"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QGtl0Ggr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010054.outbound.protection.outlook.com [52.101.193.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471AE3A1A2B;
-	Fri, 10 Apr 2026 07:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775807739; cv=fail; b=magh7sBrw9JVVBFIWsP3+nHVcKSL3NX5umo0+FzI1g/XEJyxlsrr1sPRc7XZ9ztbPYM39DAqfLRb9cTJn5xrF3qIq204L/tCOAGqm9yachdaQP+Dwoz0wKa5xEU29LKlLibDKw66iEtDG6gdCiNdXyIndRjooxMj+lkqqcRzKVE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775807739; c=relaxed/simple;
-	bh=7sYu02e80298x65+difPCqFyj6BhrTYfn7nKfNNWXuk=;
-	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
-	 In-Reply-To:MIME-Version; b=OhXRm4d+ktc1RWNYrHf62qNxkkx4muwwD0NPq8/bvDwAIZzQhLYS/rWq+9TkTIgOziIuN8moBrcR31slI9HP2uaVYXdoJRTf31sNxFhWIfw0qcgONX7pBXh4nb+uHqvrqyZi+EZEpjC0FI6q6YrkfA65m3nDQ52Eas+M9wRhvz8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BlzTku97; arc=fail smtp.client-ip=52.101.193.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nQRIwWVdrNgINSR3x2lBK0Ck9tr1HCl+kHXy1EgekC9YnQBkEonRIV4ahYpbjzInOP6onIuLvuL1xriMvvHE4jBFWoapADGrI7Hggq+IKXIZfBY5B6t6daDHgtyUclVloWh6yDOCmRmEEHwwZo6YdCL9KbXVwUJm77A09Aa6AfSxFrTj9K2Ftp0GwXxJHsfhoZIjhRu5R3LTeKrc/JlJSf1uvB282MdKpfKehl0X6cvbYjpKt9OuDOl33pazSc2VataNIVKuFcWG+OhcYm7nDNDU/qX37ADXwEJwEnVaTxCW1C4JHAy75nfh1QEFm8UaFPNscKN8V0PgZ+nWLp2q/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3OXEUGYW9Do+/K69MxrytMjWJ3zBD1kAkqZEIVep5sw=;
- b=uSl5N92pCyy5T2/B5fAT+1gMLZNCHvx2Q5tQbHilx61+27Uxx3wvfbmulPf9NaDY16E5+lXOI4zyVrkM4bdIW7DNQudkVlgFTUV9WvAkB6mqC+T8SV9bq0cED4FbItwW7yWQZR6tnTB63P7b3DLg37I7pgsTlOFrbaFiy4zW+2HoAXuhTkmkiZRtyyHe6j+YOBBxH7yHCepB4XneuFQ/QbLloTQ60QWZjMV6zId8YRjIklMxql71KojLR2ZpuqRZq/0OYjETzW7INKtb26Rdw3+ne0KFsGCXmcjHIxfYwtL29CykonMK5H0zLWh3uyrA7gSy1lfxrKLgnkYktDUd8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3OXEUGYW9Do+/K69MxrytMjWJ3zBD1kAkqZEIVep5sw=;
- b=BlzTku97Sb2c1qA+ssp4mTbqy4ziD8C61rQQEMyRdOEsZ6M8nsGHEUjAF4JP+LrYqJmqcYvL/QaXV0SA/JXQDdttZqUK+vL48pHsdlVCiDdlZhA/IQuDbPjGLKzImi++cj3EXT+zJU4WDPhHn3hSOAuhLRAze0kGcmCJQ57ZV8MjP++tTU77Hrrp4WzOEWhqnO/sjM6K+tzaayNdkMM5rFtK8SXtjIdmP0SbtGzBrf+K6KWVeDSvgDbN4PMW3roNEgkPiiMcq1brgbLNQmLahZo7mT3GG+DxPr9FF3yZ7NuHgzdY0NrbJXyDWqL055URrkVlyaUAXZmEiTsR6ME97w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by PH7PR12MB8156.namprd12.prod.outlook.com (2603:10b6:510:2b5::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9791.34; Fri, 10 Apr
- 2026 07:55:33 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.20.9769.041; Fri, 10 Apr 2026
- 07:55:33 +0000
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 10 Apr 2026 16:55:27 +0900
-Message-Id: <DHPBAVQHIM11.XVBHOWYFRITF@nvidia.com>
-To: "Lyude Paul" <lyude@redhat.com>
-Cc: <nouveau@lists.freedesktop.org>, "Gary Guo" <gary@garyguo.net>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, <rust-for-linux@vger.kernel.org>,
- "Danilo Krummrich" <dakr@kernel.org>, <dri-devel@lists.freedesktop.org>,
- "Matthew Maurer" <mmaurer@google.com>, "FUJITA Tomonori"
- <fujita.tomonori@gmail.com>, "Lorenzo Stoakes"
- <lorenzo.stoakes@oracle.com>, <christian.koenig@amd.com>, "Asahi Lina"
- <lina@asahilina.net>, "Miguel Ojeda" <ojeda@kernel.org>, "Andreas Hindborg"
- <a.hindborg@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Alice Ryhl"
- <aliceryhl@google.com>, "Boqun Feng" <boqun@kernel.org>, "Sumit Semwal"
- <sumit.semwal@linaro.org>, "Krishna Ketan Rai" <prafulrai522@gmail.com>,
- <linux-media@vger.kernel.org>, "Shankari Anand"
- <shankari.ak0208@gmail.com>, "David Airlie" <airlied@gmail.com>, "Benno
- Lossin" <lossin@kernel.org>, "Viresh Kumar" <viresh.kumar@linaro.org>,
- <linaro-mm-sig@lists.linaro.org>, "Asahi Lina" <lina+kernel@asahilina.net>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, <kernel@vger.kernel.org>
-Subject: Re: [PATCH v10 4/5] rust: drm: gem: Introduce shmem::SGTable
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-Content-Transfer-Encoding: quoted-printable
-References: <20260409001559.622026-1-lyude@redhat.com>
- <20260409001559.622026-5-lyude@redhat.com>
-In-Reply-To: <20260409001559.622026-5-lyude@redhat.com>
-X-ClientProxiedBy: TYCP286CA0005.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:26c::9) To MN2PR12MB3997.namprd12.prod.outlook.com
- (2603:10b6:208:161::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFEE839E183
+	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 07:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775807976; cv=none; b=LL7YY+Z4EfapT0GkC3zsrAiKT92e6TAL7ia/iHdAPzW+N07beT1eS/dN/PtYwe8WyOxpYqJqwDcm74JeDrRH0X0Qh9K5Li+Fer/KgGEAWL2lyBT+HXwG0kgjAHe+sMHHD9YSuujL0LqM5ffgjXVYEI00mnoIvm+YwtBsvbk2IG0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775807976; c=relaxed/simple;
+	bh=ReCnQiXwPqST0TGoob6Ww1TBHNZ5qFEgT0ouTZPYyGg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=A72c5+06hScp1aQoubZY+79FYknBStLlUraX0ZkTU2cUyzbs4RCSXJj7ylFQAcJwIRwITpZfMjJkE3aTPFhSrYE73QrzauhOhsYf7daNzFRRxmaMfNDMs70bs2fBacLvUxCEaxlhIYDYkB5u5kNmVNP5lQg4OhrYXdAoTp/6FjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QGtl0Ggr; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6708c954b94so604684a12.1
+        for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 00:59:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1775807973; x=1776412773; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fEyhOgcjSBi5KOFIDLHmALEjF7/wDBOBx21rWp3qA6k=;
+        b=QGtl0GgrS+/b0Jf8nmB9weYBhz5CremIVYrZa2ZF9alsBFZcG4Y9WdpoWnHwnLoMcE
+         Pm8vTLgrTl54UPVvwqUEgVmmupSdb0yGUu7NQ28qU7+5TTr9dJbDo1oEpi3Tu30MXt8P
+         jTpbUhP424ZDuc4qCh+SFE/OwgoZm0n93g/U1PPB1JuEbU5oMw9yTITZ2xgZSWzf6fsw
+         tgBOgQ5bFqWxC8vTc8rj04tR6QScgEppYzZEf2RdDEgxioIFT5dkMpzQ9wvjPUxF1kXj
+         /KRfbfys0PU/BblS/XbRC3F73w134PaohGDrbho1bM4ZALX2czI0zyIUuUyjgbrFNmOZ
+         E6mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775807973; x=1776412773;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fEyhOgcjSBi5KOFIDLHmALEjF7/wDBOBx21rWp3qA6k=;
+        b=RFb+RGB9LtcGufFu5qGJOBvxM5qQPYzK7asgTrbmgnt37bSOIETwo5XrJTvO4ZWdZR
+         c7L25cTaG9x+FJUio01jcF0rHitKDXJXGo10FuMDOV51wAaKKgkhHwAaUyI3NkoHkv1V
+         0FxaeMkySz8YDJgtbUXsA6xNLWUYf4Pz7dhMCeKAifvwk5q7AbJ+WKW9gjwpUkXiHTp4
+         YoHXHHSBLsoE6PngknpvQWG6JflgQz+tgfThKB84Y6i35WhwpzswDeiGqQciHwKPQg3e
+         Hmil/2E+ogIwl/DnmNrkkEX3k2xORNmBEBN/czUWhOOYB5Mz8bynGxoWDcDJaBZl4/72
+         jhQA==
+X-Gm-Message-State: AOJu0YzmDWSWLbAX9CRLOOLMPJD2noW+zo4+OP/M/gMXJLlhfUiVjJof
+	+0//yhX3fTVoU1OEPjBgwKoKD0gsMl+uyw+3t+HF6zgmvZbSiEURf32ePUKvg1UtAmo=
+X-Gm-Gg: AeBDietyY4s7Oi1FuCVISNlS3xlbRf9sTU+hQDKKAIdzewSGcGQ3A1s8IOZ9nKW90hF
+	BIaxsE5Lb2gCFhFyvIuPBROgFEnwTC1xwCTU+jqvxxcYlPceAQeRxgTNV1NrIV0hyYLctp081mv
+	QeulRTwEBt4EDE2fFyzjtEac9W3w3jvDYFWLmdfDyvI8rcOT1mf1MsfSGEW2aC7xMAYupoiN4Le
+	wvVS1pOs2WZgXPBIceMT0nLGafR0/urtVreSWztiVJl/OC7+LtE+KH8gm9zdbtHYFp65WQpjadR
+	MPdjvLVwZJU1CTFl+dNlGVjK6HWsIndhYvxfitGIVTqGg9wg0dL+crC1DRAEsrmzmU29ztOinkf
+	1pXEcTx4Wo9HID6SotaI3DUHOBpPXOPT1p+wQ5T84fJX2VFaNJMJGeUSTJoDJBDfRJGkkCj7OEE
+	vqD1x9PBHeWYaTYeKaDT0yrOXe16M/4GtI5LVzJGl3hG9k6ecyRPzmkpuwqgxRktSh0u8CBQkpK
+	S4uw5+gssl4C51/m0m8ekiG8j/7q3y9T82NN42zFVGtluM/325MBI68Rz4rg8wcbhrqYTVEbHS2
+	SgTktNriR0Wang==
+X-Received: by 2002:a17:907:6b8e:b0:b9c:a5b4:6208 with SMTP id a640c23a62f3a-b9d727931bbmr115842566b.16.1775807972889;
+        Fri, 10 Apr 2026 00:59:32 -0700 (PDT)
+Received: from ?IPV6:2001:1c06:2302:5600:7555:cca3:bbc4:648b? (2001-1c06-2302-5600-7555-cca3-bbc4-648b.cable.dynamic.v6.ziggo.nl. [2001:1c06:2302:5600:7555:cca3:bbc4:648b])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6e7f188fsm58134166b.59.2026.04.10.00.59.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Apr 2026 00:59:32 -0700 (PDT)
+Message-ID: <ccee11ac-a84e-4120-99eb-712e88350c41@linaro.org>
+Date: Fri, 10 Apr 2026 08:59:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH7PR12MB8156:EE_
-X-MS-Office365-Filtering-Correlation-Id: fec013a5-e1ea-4127-1111-08de96d689b9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|10070799003|366016|1800799024|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	yHBqNYUXEqyEtAoZaskLS5g393zrpSLT2Hif8VZQ9Z7UhHUaoB650TIBqfxQ5OxdzY6qCPRDqYssH2UJJLfnzvFiZxQU73gy8z0XCOUT4jMTPsUV6GEVQLm6Flog71fUkTBl9TuNG6Mma+GkLCiC6obwHbOfwnXHUSPw6KrrOYKNGyYaLNSeEhLADKJqIqdMElxrTGHTStQrQ76rPTJEuIDurgTezK4KvAQ316oYnFeWpKmNuuS4jJyhw6jvUAjxb1K3DAhb3xqNRFDssLUJd3W8bsnxaEAJh5dS5Yucw6LeXv1rris6CMrCmemYQtYSyEkfj9qzzVpG73bKTaYU2NgPnPCRWcqWDP0psswX7BdExM9cDOy2dEgb3mpsg5q1QY54JHwZbedI0jlIecUf55Q6PmcWulBwWrAGoRW2+wLttknV6qJT8rFMAsfVGYdH/fmhfVY0Wc/fgwyP0hPWuOedjXuteVa8xpcizKXejWTMy2lAOuOo3+Kiw/707ENrAXzi2hUhsjgGOkbOTxN3LSkysdKlUSkRL5KTxbImJisST/j4xcEQbY6YsigbYD8q91K2+XITUjJXy5FAErhl55W6TsgYFkp37Cx9qONb0YJcWSbDSFB52bfw9KqP4N3GGu3jZTw2sGzyY1TJcw39++0nglQGPiiF++/gwR0w6iLD+KTnWv9y0eICBq7L2hUJ2126rMS2YpXh09vzOsJKJQhJ13eVE9kK/c/JmXhBBCE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(366016)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WmdnYVRGMTUvQXNZZ1lBU1ZpZnRrWnpRcDk3WVJVZE9xbjQ2SWRNVWU4RlJQ?=
- =?utf-8?B?aklyTmtiK01NWDRRQ2dSQXVLMHp1bFh5aHg0SEx0Ly9BNHpoQ3FMSXhPZkR5?=
- =?utf-8?B?bS94TDF6NENEaHpMTXdBLzRnZ1FzQzdwZG9RWGpJU01RWGJQeDFXeTEvVmZ2?=
- =?utf-8?B?U3NFUFFwajR6UUZ2K21ZL1VWWU1PYmNENDlBMHJxWmZJV2RVVzFSK1F1ZjdT?=
- =?utf-8?B?ckY3aUNTK0NSbVNKZk9pY1hUYUN5L1o1NnFrUHdzME5VSkh6Wll6U1pVL3k0?=
- =?utf-8?B?V0JhQ0ZMMy95SFdFTU5HUG5xYkdjVnhjb0xURWFIM3g2YTE0eEF2M1RpWG52?=
- =?utf-8?B?NFJXUDd5RHB6TWh0VUtBMEU5VVEvZVVDOHUxWmEwYllFdmQ4SExia1Vqai96?=
- =?utf-8?B?OStsZHlNK1Q1dnZOakZWTms0Y0UyUk10elpYU1ZnQnVvaVh2YzJPOFhMeVpR?=
- =?utf-8?B?SEVEUG55em5mK0ZBS1BNaWNoVlZIRWplSFF0SjhXYzQyTExhUkR1SU9JcVZO?=
- =?utf-8?B?YW54U3hKdHBaVEF6MVhhaUVhVTVEbDFqQ2RWUTVkZm5aNUMyM1pFR3E0YTJ2?=
- =?utf-8?B?SllqbzUyVWhQT3hjUDZzenloVFVRSjkxMDdxakNMMW5FenptQ0F1OWhiZWEx?=
- =?utf-8?B?UEQzOTVxMnBST09Lbyt3UTRvWDBWYjVubFl5ZWJINFM4S2MyUklLMFdtUGtz?=
- =?utf-8?B?Y1ZFMnpxZnZCZUgxdUkzVHlPcktPYkRmYi8yS2ppanc0Rk9zQlNNdVFRZHdJ?=
- =?utf-8?B?aDRTMmMvNGluWTdGY3dyOUFvSUxNODdCN3JVbWlWMGtOTDJ0a3VDdDc5WERO?=
- =?utf-8?B?djZXa1FKN0YveVlnMTRENDFRMHVJRW5nazk3Q2RFTnRqOUt5TEZKSmVWbGpo?=
- =?utf-8?B?QnByMDhTZWRUOXIrSi9jYytXTSswbnhJNUJnWFY1aUN6ZG4yZ1IwbmRSSzFk?=
- =?utf-8?B?dk5uaWtYaWdlQmFad0thd2pGenlNWGJNYWFDMEZnWUllOVFMMHpyLzlPQk5R?=
- =?utf-8?B?SWRRbm8zc0VvY29YTVdReUJNM2FwL1p2VXIwditBYUtLcDhrMHR5d2VWUGpl?=
- =?utf-8?B?UVphYWhLQS8welBidUYvMldDVk15M0wrd3Z5V1g0LzN2aEFBTjNKOHRMOUZa?=
- =?utf-8?B?dTBUM3pOSWdRS2hTUlBsM3NROWZRUlBQZ1hhQWcxVzdsK0E3VTZNRE5oQnJ4?=
- =?utf-8?B?NTRhNTJFZXV1d3JJb3FQVXYvYjFFRXFRTUtncVZHMm42TDc4aXhZKzAwdXhD?=
- =?utf-8?B?QU9hRGZzSkV0RGhlemJYN24xSUljMDBoeTdPYzFJQWN5WklXWVkvVVBGSGNn?=
- =?utf-8?B?aUVNUlM4OHlnZHZxVEZsd0QwSEMwL1hwaHRYZUFHYVBDdEpDV1ZUUXZwZ0py?=
- =?utf-8?B?cEY1Zk9KNkJ6V3FTSTdSTzZHeGRZdDZ5YWt4dGZzVkxoalA5Rzlhc0d3emV4?=
- =?utf-8?B?ZGZEai9jTUhtQVR5TEo5Z1p2eDJQWGNqR090bEY0Zm42RGhuRmM4eVpqNk9I?=
- =?utf-8?B?dnRxNjBNZHRqeVZSQWFEREsrUTRYS1Y3TnVjdmkzakxRWUtEd1lzT0YwRnF1?=
- =?utf-8?B?b25UYVU3T2QvbDhJQk93N0F0SDVVdzJxR2wxNkQzaXV2YWdMSmVMWUE0VGRt?=
- =?utf-8?B?dHFBNXhyQXJHdCtta1JGakd5NTVNdS9aVlB6dlNRZWdZVUVJQWxSekdNWTJ0?=
- =?utf-8?B?R2Mwalk4S0J0UEIyMURjalJYbjc4eW5taUxVelh4c0tGK05vN1R5REVqVjlG?=
- =?utf-8?B?VHdHTFdKc2d2M1cyY2dDaGJsZm0wRXFkaUpqQ0hrLzVTcklFT3BuaDV2TGFK?=
- =?utf-8?B?TFl3a2NxT1FUUXhIdmZXdlF1MHpLSDRxaVpJa3RqMGxkb0VUUmVuUVA4K0F5?=
- =?utf-8?B?eDZtcEhtQUVjRVpOUUM2N0lhQ09iYzB6MERpSzlGcTh2NkdiRUFpdmdaYU01?=
- =?utf-8?B?YmdjRkxleG9INW0xZGVNOTA2V1RDRmZoc3gzamZNTjViR3N6YndJTVB2Szha?=
- =?utf-8?B?ckt3TmJuNlJ4ZGlMakxGVFpIV1FJR0Q5MXdCQUlnd2xBU0NDZml4Q3R4YU5u?=
- =?utf-8?B?L3JSbEY2R3ZPU3loNS9mbGNqMmFndXI5MVU1azlHektzM2Rtcmh4V0ZsNldq?=
- =?utf-8?B?dWJrd0syWkdRTlpzOWs4T2hRKzQ2eEVzRmw4TVZxclJua2NYeVRlaFo5SDFx?=
- =?utf-8?B?d2xpYW5RcVh4TCtKTVVzcC82eU5aSlZQL2tlR2tscFU2cFdnK1JtTlloM0ph?=
- =?utf-8?B?VVNPV1BndHdSdHltWjFvcG5ZWTh2MFhZTlhuRUpsT0MwbW11L0F4dmZhdENS?=
- =?utf-8?B?MUM2Y1pYY1NwMnYweWFJNXFzWXVxZ2tJNGplK01Qa3dCeDhQQ2ZNU2tZQnJ5?=
- =?utf-8?Q?VlPNhs9BlJnCKwJIpxbbxcc0WbCzgYMCR9YekmFMCYsWP?=
-X-MS-Exchange-AntiSpam-MessageData-1: H7Yg7HZ3+/pAOQ==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fec013a5-e1ea-4127-1111-08de96d689b9
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3997.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2026 07:55:33.8316
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gphHb/uU7dgx71wA582xffjXxvMCyE0CabINA0DMjieXMtwbt3Ab0UtzE1I0LtoKLTrsfimIW59HLE90N0YENw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8156
-X-Spamd-Result: default: False [1.34 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] dt-bindings: media: Add bindings for
+ qcom,x1p42100-camss
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260410-purwa_camss-v1-0-eedcf6d9d8ee@oss.qualcomm.com>
+ <20260410-purwa_camss-v1-1-eedcf6d9d8ee@oss.qualcomm.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20260410-purwa_camss-v1-1-eedcf6d9d8ee@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [4.84 / 15.00];
+	SEM_URIBL(3.50)[0.0.0.0:email];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	BAD_REP_POLICIES(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58485-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,garyguo.net,collabora.com,vger.kernel.org,kernel.org,google.com,gmail.com,oracle.com,amd.com,asahilina.net,ffwll.ch,linaro.org,lists.linaro.org,linuxfoundation.org];
-	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58486-lists,linux-media=lfdr.de];
+	R_DKIM_ALLOW(0.00)[linaro.org:s=google];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,gmail.com,linaro.org];
+	GREYLIST(0.00)[pass,body];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	DMARC_POLICY_ALLOW(0.00)[linaro.org,none];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	NEURAL_SPAM(0.00)[0.942];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
+	DBL_PROHIBIT(0.00)[0.0.0.0:email];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,kernel];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,Nvidia.com:dkim,nvidia.com:mid]
-X-Rspamd-Queue-Id: D2EAB3D3A46
+	R_SPF_ALLOW(0.00)[+ip4:172.232.135.74:c];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[acb7000:email,qualcomm.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,0.0.0.1:email,devicetree.org:url]
+X-Rspamd-Queue-Id: 365343D3C0B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu Apr 9, 2026 at 9:12 AM JST, Lyude Paul wrote:
-> In order to do this, we need to be careful to ensure that any interface w=
-e
-> expose for scatterlists ensures that any mappings created from one are
-> destroyed on driver-unbind. To do this, we introduce a Devres resource in=
-to
-> shmem::Object that we use in order to ensure that we release any SGTable
-> mappings on driver-unbind. We store this in an UnsafeCell and protect
-> access to it using the dma_resv lock that we already have from the shmem
-> gem object, which is the same lock that currently protects
-> drm_gem_object_shmem->sgt.
->
-> We also provide two different methods for acquiring an sg table:
-> self.sg_table(), and self.owned_sg_table(). The first function is for
-> short-term uses of mapped SGTables, the second is for callers that need t=
-o
-> hold onto the mapped SGTable for an extended period of time. The second
-> variant uses Devres of course, whereas the first simply relies on rust's
-> borrow checker to prevent driver-unbind when using the mapped SGTable.
->
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
->
+On 10/04/2026 05:25, Wenmeng Liu wrote:
+> Add bindings for the Camera Subsystem for X1P42100.
+> 
+> The X1P42100 platform provides:
+> - 2 x CSIPHY
+> - 3 x TPG
+> - 3 x CSID
+> - 2 x CSID Lite
+> - 1 x IFE
+> - 2 x IFE Lite
+> 
+> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
 > ---
-> V3:
-> * Rename OwnedSGTable to shmem::SGTable. Since the current version of the
->   SGTable abstractions now has a `Owned` and `Borrowed` variant, I think
->   renaming this to shmem::SGTable makes things less confusing.
->   We do however, keep the name of owned_sg_table() as-is.
-> V4:
-> * Clarify safety comments for SGTable to explain why the object is
->   thread-safe.
-> * Rename from SGTableRef to SGTable
-> V10:
-> * Use Devres in order to ensure that SGTables are revocable, and are
->   unmapped on driver-unbind.
->
->  rust/kernel/drm/gem/shmem.rs | 191 ++++++++++++++++++++++++++++++++++-
->  1 file changed, 189 insertions(+), 2 deletions(-)
->
-> diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
-> index c643f18b20838..111be446213df 100644
-> --- a/rust/kernel/drm/gem/shmem.rs
-> +++ b/rust/kernel/drm/gem/shmem.rs
-> @@ -11,25 +11,38 @@
-> =20
->  use crate::{
->      container_of,
-> +    device::{
-> +        self,
-> +        Bound, //
-> +    },
-> +    devres::*,
->      drm::{
->          driver,
->          gem,
->          private::Sealed, //
->          Device,
->      },
-> -    error::to_result,
-> +    error::{
-> +        from_err_ptr, //
-> +        to_result,
-
-nit: `//` guard should be on last item.
-
-> +    },
->      prelude::*,
-> +    scatterlist,
->      types::{
->          ARef,
->          Opaque, //
->      }, //
->  };
->  use core::{
-> +    cell::UnsafeCell,
->      ops::{
->          Deref,
->          DerefMut, //
->      },
-> -    ptr::NonNull,
-> +    ptr::{
-> +        self,
-> +        NonNull, //
-> +    },
->  };
->  use gem::{
->      BaseObjectPrivate,
-> @@ -65,6 +78,10 @@ pub struct Object<T: DriverObject> {
->      obj: Opaque<bindings::drm_gem_shmem_object>,
->      /// Parent object that owns this object's DMA reservation object.
->      parent_resv_obj: Option<ARef<Object<T>>>,
-> +    /// Devres object for unmapping any SGTable on driver-unbind.
-> +    ///
-> +    /// This is protected by the object's dma_resv lock.
-> +    sgt_res: UnsafeCell<Option<Devres<SGTableMap<T>>>>,
->      #[pin]
->      inner: T,
->  }
-> @@ -117,6 +134,7 @@ pub fn new(
->              try_pin_init!(Self {
->                  obj <- Opaque::init_zeroed(),
->                  parent_resv_obj: config.parent_resv_obj.map(|p| p.into()=
-),
-> +                sgt_res: UnsafeCell::new(None),
->                  inner <- T::new(dev, size, args),
->              }),
->              GFP_KERNEL,
-> @@ -176,6 +194,100 @@ extern "C" fn free_callback(obj: *mut bindings::drm=
-_gem_object) {
->          // SAFETY: We're recovering the Kbox<> we created in gem_create_=
-object()
->          let _ =3D unsafe { KBox::from_raw(this) };
->      }
+>   .../bindings/media/qcom,x1p42100-camss.yaml        | 424 +++++++++++++++++++++
+>   1 file changed, 424 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,x1p42100-camss.yaml b/Documentation/devicetree/bindings/media/qcom,x1p42100-camss.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..8bfa7e616c3b6b91adc8e21ebfbbe6fb579484f6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,x1p42100-camss.yaml
+> @@ -0,0 +1,424 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,x1p42100-camss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +    // If necessary, create an SGTable for the gem object and register a=
- Devres for it to ensure
-> +    // that it is unmapped on driver unbind.
-> +    fn create_sg_table<'a>(
-
-This method looks like it is misnamed - it won't create the SG table if
-it already exists, just return a reference to it. Maybe `get_sg_table`
-is a more fitting name.
-
-I would have suggesting splitting the creation part into a dedicated
-method, but it would require the resv lock to be acquired as a
-precondition so not sure that's worth it.
-
-> +        &'a self,
-> +        dev: &'a device::Device<Bound>,
-> +    ) -> Result<&'a Devres<SGTableMap<T>>> {
-> +        let ret;
-> +        let sgt_res_ptr =3D self.sgt_res.get();
+> +title: Qualcomm X1P42100 Camera Subsystem (CAMSS)
 > +
-> +        // SAFETY: This lock is initialized throughout the lifetime of t=
-he gem object
-> +        unsafe { bindings::dma_resv_lock(self.raw_dma_resv(), ptr::null_=
-mut()) };
+> +maintainers:
+> +  - Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
 > +
-> +        // SAFETY: We just grabbed the lock required for reading this da=
-ta above.
-> +        let sgt_res =3D unsafe { (*sgt_res_ptr).as_ref() };
-> +        if let Some(sgt_res) =3D sgt_res {
-> +            // We already have a Devres object for this sg table, return=
- it
-> +            ret =3D Ok(sgt_res);
+> +description:
+> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,x1p42100-camss
+> +
+> +  reg:
+> +    maxItems: 14
+> +
+> +  reg-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csid_lite0
+> +      - const: csid_lite1
+> +      - const: csid_wrapper
+> +      - const: csiphy0
+> +      - const: csiphy4
+> +      - const: csitpg0
+> +      - const: csitpg1
+> +      - const: csitpg2
+> +      - const: vfe0
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
+> +
+> +  '#address-cells':
+> +    const: 2
+> +
+> +  '#size-cells':
+> +    const: 2
+> +
+> +  ranges: true
+> +
+> +  clocks:
+> +    maxItems: 22
+> +
+> +  clock-names:
+> +    items:
+> +      - const: camnoc_nrt_axi
+> +      - const: camnoc_rt_axi
+> +      - const: core_ahb
+> +      - const: cpas_ahb
+> +      - const: cpas_fast_ahb
+> +      - const: cpas_vfe0
+> +      - const: cpas_vfe_lite
+> +      - const: cphy_rx_clk_src
+> +      - const: csid
+> +      - const: csid_csiphy_rx
+> +      - const: csiphy0
+> +      - const: csiphy0_timer
+> +      - const: csiphy4
+> +      - const: csiphy4_timer
+> +      - const: gcc_axi_hf
+> +      - const: gcc_axi_sf
+> +      - const: vfe0
+> +      - const: vfe0_fast_ahb
+> +      - const: vfe_lite
+> +      - const: vfe_lite_ahb
+> +      - const: vfe_lite_cphy_rx
+> +      - const: vfe_lite_csid
+> +
+> +  interrupts:
+> +    maxItems: 10
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csid_lite0
+> +      - const: csid_lite1
+> +      - const: csiphy0
+> +      - const: csiphy4
+> +      - const: vfe0
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
+> +
+> +  interconnects:
+> +    maxItems: 4
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: ahb
+> +      - const: hf_mnoc
+> +      - const: sf_mnoc
+> +      - const: sf_icp_mnoc
+> +
+> +  iommus:
+> +    oneOf:
+> +      - items:
+> +          - description: S1 HLOS IFE and IFE_LITE non-protected read
+> +          - description: S1 HLOS IFE and IFE_LITE non-protected write
+> +          - description: S1 HLOS SFE non-protected read
+> +          - description: S1 HLOS SFE non-protected write
+> +          - description: S1 HLOS CDM IFE non-protected
+> +          - description: Legacy slot 0 - do not use
+> +          - description: Legacy slot 1 - do not use
+> +          - description: Legacy slot 2 - do not use
+> +      - items:
+> +          - description: S1 HLOS IFE and IFE_LITE non-protected read
+> +          - description: S1 HLOS IFE and IFE_LITE non-protected write
+> +          - description: S1 HLOS SFE non-protected read
+> +          - description: S1 HLOS SFE non-protected write
+> +          - description: S1 HLOS CDM IFE non-protected
+> +
+> +  power-domains:
+> +    items:
+> +      - description: IFE0 GDSC - Image Front End, Global Distributed Switch Controller.
+> +      - description: Titan Top GDSC - Titan ISP Block, Global Distributed Switch Controller.
+> +
+> +  power-domain-names:
+> +    items:
+> +      - const: ife0
+> +      - const: top
+> +
+> +  vdd-csiphy-0p8-supply:
+> +    description:
+> +      0.8V supply to a PHY.
+> +
+> +  vdd-csiphy-1p2-supply:
+> +    description:
+> +      1.2V supply to a PHY.
+> +
+> +  phys:
+> +    maxItems: 2
+> +
+> +  phy-names:
+> +    items:
+> +      - const: csiphy0
+> +      - const: csiphy4
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    description:
+> +      CSI input ports. Supports either standard single sensor mode or
+> +      Qualcomm's combo mode with one sensor in 2x1 + 1x1 data-lane, clock-lane mode.
+> +
+> +    patternProperties:
+> +      "^port@[0-3]$":
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint@0:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            description:
+> +              Endpoint for receiving a single sensor input (or first leg of combo).
+> +
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4 # Base max allows 4 (for D-PHY)
+> +
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              bus-type:
+> +                enum:
+> +                  - 1 # MEDIA_BUS_TYPE_CSI2_CPHY
+> +                  - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
+> +
+> +          endpoint@1:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            description:
+> +              Endpoint for receiving the second leg of a combo sensor input.
+> +
+> +            properties:
+> +              data-lanes:
+> +                maxItems: 1
+> +
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              bus-type:
+> +                const: 4 # Combo is D-PHY specific
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +        allOf:
+> +          # Case 1: Combo Mode (endpoint@1 is present)
+> +          # If endpoint@1 exists, we restrict endpoint@0 to 2 lanes (D-PHY split)
+> +          - if:
+> +              required:
+> +                - endpoint@1
+> +            then:
+> +              properties:
+> +                endpoint@0:
+> +                  properties:
+> +                    data-lanes:
+> +                      minItems: 2
+> +                      maxItems: 2
+> +                    bus-type:
+> +                      const: 4
+> +                endpoint@1:
+> +                  properties:
+> +                    data-lanes:
+> +                      minItems: 1
+> +                      maxItems: 1
+> +                    bus-type:
+> +                      const: 4
+> +
+> +          # Case 2: Single Mode (endpoint@1 is missing)
+> +          # We explicitly allow up to 4 lanes here to cover the D-PHY use case.
+> +          - if:
+> +              not:
+> +                required:
+> +                  - endpoint@1
+> +            then:
+> +              properties:
+> +                endpoint@0:
+> +                  properties:
+> +                    data-lanes:
+> +                      minItems: 1
+> +                      maxItems: 4
+> +
+> +patternProperties:
+> +  "^phy@[0-9a-f]+$":
+> +    $ref: /schemas/phy/qcom,x1e80100-csi2-phy.yaml
+> +    unevaluatedProperties: false
+> +
+> +  "^opp-table(-.*)?$":
+> +    type: object
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - interrupt-names
+> +  - interconnects
+> +  - interconnect-names
+> +  - iommus
+> +  - power-domains
+> +  - power-domain-names
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,x1e80100-gcc.h>
+> +    #include <dt-bindings/clock/qcom,x1e80100-camcc.h>
+> +    #include <dt-bindings/interconnect/qcom,icc.h>
+> +    #include <dt-bindings/interconnect/qcom,x1e80100-rpmh.h>
+> +    #include <dt-bindings/phy/phy.h>
+> +    #include <dt-bindings/power/qcom-rpmpd.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        camss: isp@acb7000 {
+> +            compatible = "qcom,x1p42100-camss";
+> +
+> +            reg = <0 0x0acb7000 0 0x2000>,
+> +                  <0 0x0acb9000 0 0x2000>,
+> +                  <0 0x0acbb000 0 0x2000>,
+> +                  <0 0x0acc6000 0 0x1000>,
+> +                  <0 0x0acca000 0 0x1000>,
+> +                  <0 0x0acb6000 0 0x1000>,
+> +                  <0 0x0ace4000 0 0x1000>,
+> +                  <0 0x0acec000 0 0x4000>,
+> +                  <0 0x0acf6000 0 0x1000>,
+> +                  <0 0x0acf7000 0 0x1000>,
+> +                  <0 0x0acf8000 0 0x1000>,
+> +                  <0 0x0ac62000 0 0x4000>,
 
-nit: let's use `let ret =3D if let Some(sgt_res) ...` to avoid the
-multiple `ret =3D `statements?
+Is this the full extent of the VFE ? It looks like not to me.
 
-Or maybe even better, you might be able to use
-`Option::get_or_insert_with`.
+For each register block please make sure you cover the _entire_ range of 
+the block not just the RDI part of it.
+
+> +                  <0 0x0acc7000 0 0x2000>,
+> +                  <0 0x0accb000 0 0x2000>;
+> +
+> +            reg-names = "csid0",
+> +                        "csid1",
+> +                        "csid2",
+> +                        "csid_lite0",
+> +                        "csid_lite1",
+> +                        "csid_wrapper",
+> +                        "csiphy0",
+> +                        "csiphy4",
+> +                        "csitpg0",
+> +                        "csitpg1",
+> +                        "csitpg2",
+> +                        "vfe0",
+> +                        "vfe_lite0",
+> +                        "vfe_lite1";
+> +
+> +            #address-cells = <2>;
+> +            #size-cells = <2>;
+> +            ranges;
+> +
+> +            clocks = <&camcc CAM_CC_CAMNOC_AXI_NRT_CLK>,
+> +                     <&camcc CAM_CC_CAMNOC_AXI_RT_CLK>,
+> +                     <&camcc CAM_CC_CORE_AHB_CLK>,
+> +                     <&camcc CAM_CC_CPAS_AHB_CLK>,
+> +                     <&camcc CAM_CC_CPAS_FAST_AHB_CLK>,
+> +                     <&camcc CAM_CC_CPAS_IFE_0_CLK>,
+> +                     <&camcc CAM_CC_CPAS_IFE_LITE_CLK>,
+> +                     <&camcc CAM_CC_CPHY_RX_CLK_SRC>,
+
+_SRC clocks are generally not necessary, is this one ?
+
+> +                     <&camcc CAM_CC_CSID_CLK>,
+> +                     <&camcc CAM_CC_CSID_CSIPHY_RX_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY0_CLK>,
+> +                     <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY4_CLK>,
+> +                     <&camcc CAM_CC_CSI4PHYTIMER_CLK>,
+> +                     <&gcc GCC_CAMERA_HF_AXI_CLK>,
+> +                     <&gcc GCC_CAMERA_SF_AXI_CLK>,
+> +                     <&camcc CAM_CC_IFE_0_CLK>,
+> +                     <&camcc CAM_CC_IFE_0_FAST_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_CPHY_RX_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_CSID_CLK>;
+> +
+> +            clock-names = "camnoc_nrt_axi",
+> +                          "camnoc_rt_axi",
+> +                          "core_ahb",
+> +                          "cpas_ahb",
+> +                          "cpas_fast_ahb",
+> +                          "cpas_vfe0",
+> +                          "cpas_vfe_lite",
+> +                          "cphy_rx_clk_src",
+> +                          "csid",
+> +                          "csid_csiphy_rx",
+> +                          "csiphy0",
+> +                          "csiphy0_timer",
+> +                          "csiphy4",
+> +                          "csiphy4_timer",
+> +                          "gcc_axi_hf",
+> +                          "gcc_axi_sf",
+> +                          "vfe0",
+> +                          "vfe0_fast_ahb",
+> +                          "vfe_lite",
+> +                          "vfe_lite_ahb",
+> +                          "vfe_lite_cphy_rx",
+> +                          "vfe_lite_csid";
+> +
+> +           interrupts = <GIC_SPI 464 IRQ_TYPE_EDGE_RISING>,
+> +                        <GIC_SPI 466 IRQ_TYPE_EDGE_RISING>,
+> +                        <GIC_SPI 431 IRQ_TYPE_EDGE_RISING>,
+> +                        <GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
+> +                        <GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
+> +                        <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
+> +                        <GIC_SPI 122 IRQ_TYPE_EDGE_RISING>,
+> +                        <GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
+> +                        <GIC_SPI 469 IRQ_TYPE_EDGE_RISING>,
+> +                        <GIC_SPI 360 IRQ_TYPE_EDGE_RISING>;
+> +
+> +            interrupt-names = "csid0",
+> +                              "csid1",
+> +                              "csid2",
+> +                              "csid_lite0",
+> +                              "csid_lite1",
+> +                              "csiphy0",
+> +                              "csiphy4",
+> +                              "vfe0",
+> +                              "vfe_lite0",
+> +                              "vfe_lite1";
+> +
+> +            interconnects = <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
+> +                             &config_noc SLAVE_CAMERA_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
+> +                            <&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_ALWAYS
+> +                             &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
+> +                            <&mmss_noc MASTER_CAMNOC_SF QCOM_ICC_TAG_ALWAYS
+> +                             &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
+> +                            <&mmss_noc MASTER_CAMNOC_ICP QCOM_ICC_TAG_ALWAYS
+> +                             &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
+> +
+> +            interconnect-names = "ahb",
+> +                                 "hf_mnoc",
+> +                                 "sf_mnoc",
+> +                                 "sf_icp_mnoc";
+> +
+> +            iommus = <&apps_smmu 0x800 0x60>,
+> +                     <&apps_smmu 0x820 0x60>,
+> +                     <&apps_smmu 0x840 0x60>,
+> +                     <&apps_smmu 0x860 0x60>,
+> +                     <&apps_smmu 0x18a0 0x0>;
+
+Please define which IOMMUs these are - I'd like to make sure the top 
+level node maps the IFE IOMMUs and not the ICP IOMMUs - as ICP should be 
+its own sub/separate node.
+
+> +
+> +            power-domains = <&camcc CAM_CC_IFE_0_GDSC>,
+> +                            <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +
+> +            power-domain-names = "ife0",
+> +                                 "top";
+> +
+> +            vdd-csiphy-0p8-supply = <&csiphy_0p8_supply>;
+> +            vdd-csiphy-1p2-supply = <&csiphy_1p2_supply>;
+
+
+
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    csiphy_ep0: endpoint {
+> +                        data-lanes = <0 1>;
+> +                        remote-endpoint = <&sensor_ep>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> 
+
 
