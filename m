@@ -1,258 +1,158 @@
-Return-Path: <linux-media+bounces-58535-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58536-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OG8ZIaXQ2GngiQgAu9opvQ
-	(envelope-from <linux-media+bounces-58535-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 12:27:49 +0200
+	id KHxRMpfR2GngiQgAu9opvQ
+	(envelope-from <linux-media+bounces-58536-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 12:31:51 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08B13D5A99
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 12:27:48 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 288343D5B27
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 12:31:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A3FFC304076B
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 10:20:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 47DBF3008D2D
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 10:29:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0136537C92E;
-	Fri, 10 Apr 2026 10:20:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E61437DE81;
+	Fri, 10 Apr 2026 10:29:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ndPdVVLn";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="S4AFAO13"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5nj/9nG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5459635E55D
-	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 10:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB7C35B632
+	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 10:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775816400; cv=none; b=kNOah0Ug7psiTPQvMbMzYVpRcd7W1KroO11X+miGksy+Ao6zWD5ws6zN6gSnZWZpL3lm2BTkV9WWV5iUp8Rt666Nhb2bOAGR2mrBrxYQ84yue7HhD5mWaptaM0gXCib7XMmB5h5MwBEXMooaJSXDasWtp3ShRrbLsk2PqC2rfBA=
+	t=1775816967; cv=none; b=cqa5eOjiae7SAU4yp7hCxYW8KcRH8YuX/bOODblO3BDbahdEwI2ViyNTql9/XjrQ/0QP7Qh1jR+p/1DWpoBo1GNuJGqL+nd8LElCAZCmOdpQbvuSMyMfFHJbN/9JyfI0la0d4ruy1Kb7l4V651EshATyb5x9Kkg4xcflcnj/7J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775816400; c=relaxed/simple;
-	bh=U9lnarrase4jaY5q287H+b4eiN/j85K2bs3ZiGD/sKY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TNgbp0qFINOS+tEmfPTfG2o7jtbb9Y0/P2TNdSclJ/dKrVf82Vuy2zDmhkBal99kals4JFx1am7kehKRlECvrfNSX+bFR5s7QGVz5kn8XOBUKchR7t3JWDR8YgRqtoo/q7Ki+tyiOEiJvzWoC2YSOj0P+G+NrWhqE+6xU/uJTTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ndPdVVLn; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=S4AFAO13; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63A5tSN2779503
-	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 10:19:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=6jAgrIXul/6oRSYYubPw70Q0si68WXVn+fa
-	kGuy+ODE=; b=ndPdVVLnGPt32e2MEzl7sTuz9/zVb7Sk84BklOIbc/rtOnMHJEL
-	6J+fQmw38SM2WVmQRhoUZxq1JPCnytnNgArI2MVnT+7H+9+tsq0JMpTHzF/xgKAd
-	a6IH4gcMXW9TISx4eJ1JpoF5ESDjtT6gjEquabdsRmduxNHxtVD2uEzbJ34suXz+
-	WqwbGrj4lFSE8uqFuyLx/qQcmXTS266MnkSJSXqfy9tCcrS367sBehXCLdq20vlc
-	pGC7/r0GVnkNCxZoLcI5VUv4xZkN/l7EaEOGEsMf8cdLCmtyafGpMMA7qSNJr7Va
-	QApP0LKWRTcmc5d/DwrpEJSBJgRAMzDg6jA==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dec8hv3p9-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 10:19:58 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2b0c96f5d9aso18160685ad.3
-        for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 03:19:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1775816398; x=1776421198; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6jAgrIXul/6oRSYYubPw70Q0si68WXVn+fakGuy+ODE=;
-        b=S4AFAO13j9CjWAb90zPY+HckegWhCoh41NLZb1ULgjpWV/8MXkr/PAyYbyV69bcmJ8
-         nyHuZK1vULNQbpG+xNRqhA0g/xIXdS3vW5LlPNMSp3y8ChN5zrzX0ELSkaEMER8/ZR15
-         8rwRZ79PhJyjmz8pD55Wjl+EhJEoKw22eLXF+1qxKgo22J26iZRXOWBD1qGJ9XO7lhdU
-         UfSsq+tYM6aXr3dLx3V3uQf3a1YW2X0yNIgCnhJyqfGFtuAqnMsIhwhK08RPjBc3ydhn
-         Nqc9M0gjnquVaZww9g+XZiUwg/dG702u9OtidmUPLlgKuPTqiLfDEepyJHaqj1rqkvZB
-         QMRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775816398; x=1776421198;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6jAgrIXul/6oRSYYubPw70Q0si68WXVn+fakGuy+ODE=;
-        b=oNJhyLzBzwk30QyFCeqcbX1kmp/m6Sfz1hwBDknXcJHIAS+SmEES28UWvQgW6cy6cd
-         xb5mPbPi00rIqwmAoVTl53fAs9YvQMgTj5tInq4qixvb/yStsAFLBAQNKg4JGoTxun1R
-         7GLPgvP4R35BBtMWkM9jo1sudKA1awp+6MuMOrp/flQe2oylGZLYo1a8miAitSOEJ0j2
-         1vrtqjRX7n18PmcSEv3Vwi5TDFoxJkWnOb4fSJZCKxsExEUsiMoftOdx6hy+qtKUhG1O
-         y/IrbNWQUd88uKJQibjJmhrLss0gP3IJMJH0RruBje1Uzq17gVrAgrqyztDp/Hdi1Yws
-         1EkA==
-X-Forwarded-Encrypted: i=1; AJvYcCUJi7BRJ6EPtN2KlixUh6GgE2DheBbcZ3P0Q9P1JQIu0JYINUXSnsvdI3v8smGMBEHSP+hUeoqJXg8T7A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQ/S4WqxP/RiRh54GPHAh7bi9j4viCeuPCXy8eZvM3vK6JSpQ8
-	Hu62NJwEko1mKCgK8Mqyb++vNDhTWMP2fZ37b2CnY2wlfv8XJXkItF8clItyNYVkinErblOvavr
-	dy74hWLiTAxreDSiCZH1+mCPCbTX1CUfv68/8SSLWeFihLpxLobjg6N7ucHvNqz6Rpg==
-X-Gm-Gg: AeBDiesyOd1eWFhzU5rMjkOPLSOds+uu7R67HXi1Q0wJz/wzp6vD7Jdje7LbChhPf0E
-	8NRvin660TXE2EdOMYq+2hwhPcNcB8lmejOyX0Cp8Riu5HIdXNaZDG9OITsrX4fgmoYecny61CZ
-	xnmgqaTupmgScrdJiMb9VCZumdKQ196yKh/JGMiOX8WdXwou3ymbArrgxYsPbQpwK2zdzTBlEJB
-	pHGwjO2Ba1z2MA1XclXzjeHr/KpzruI3f3JtMd6DC+eJ3sEcyG0Rq8BjDJfExDG8RpH9qKOwZhQ
-	mkwIThAxrK364ZgiCwJZHjlShnavUfJq/x71zjDd4zrlWCdNL2ktYQ7O2UCHYoa0IdALdlKmxQU
-	RMbUFv0WejVzCauP9LQ0bym0DdcTAwOClPO3qsKeJYurPI8CrGaGSalyL
-X-Received: by 2002:a05:6a20:9389:b0:398:7855:1596 with SMTP id adf61e73a8af0-39fe3c64b7amr3091115637.10.1775816397569;
-        Fri, 10 Apr 2026 03:19:57 -0700 (PDT)
-X-Received: by 2002:a05:6a20:9389:b0:398:7855:1596 with SMTP id adf61e73a8af0-39fe3c64b7amr3091085637.10.1775816397075;
-        Fri, 10 Apr 2026 03:19:57 -0700 (PDT)
-Received: from hu-arandive-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c79219c618asm2024362a12.18.2026.04.10.03.19.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 03:19:56 -0700 (PDT)
-From: Aniket Randive <aniket.randive@oss.qualcomm.com>
-To: mukesh.savaliya@oss.qualcomm.com, viken.dadhaniya@oss.qualcomm.com,
-        andi.shyti@kernel.org, sumit.semwal@linaro.org,
-        christian.koenig@amd.com
-Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        naresh.maramaina@oss.qualcomm.com, aniket.randive@oss.qualcomm.com
-Subject: [PATCH V4] i2c: qcom-geni: Avoid extra TX DMA TRE for single read message in GPI mode
-Date: Fri, 10 Apr 2026 15:49:49 +0530
-Message-Id: <20260410101949.2315058-1-aniket.randive@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1775816967; c=relaxed/simple;
+	bh=GBA2N4ydXrEaNvMl8iLX9vxYXFYzDm5ad4wQk7elsTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sDu+51z9H7xhst5FBWQwDDIPHoGSo/FZ/oGntQYiIH7xoOGgfo+1rE7dn8q8PV92YriK2ej0VA6DLgJhngR/rRW2lfj+XM77JPENntJA81VrdFW1Vst3hqkElJGFm5Mq/L28ttb3lwzbdQyJFrEi6GQTgqSyGAxoOcMEioI4Ppw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5nj/9nG; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775816966; x=1807352966;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GBA2N4ydXrEaNvMl8iLX9vxYXFYzDm5ad4wQk7elsTE=;
+  b=g5nj/9nGAtaeKMvR7OK1qr7+KX/OMnA2UelUWG4pm0jY5LTLjvf+1+wL
+   khoZQNTOcrdQgzPzGJdXmMQfg2+yz74B3T4G4kfPhDK+OgU9ONBCDYkHk
+   mV784b0L2OkztFuiqqWli39PGhloHoCZvbrz6dmCO7cb1WsiqhtW9ocZT
+   0HzGWAWnEiV/3xD+WXWqRMWPLgejPLwb72wWJGsUQ0jkGSv6LDQm8mxoc
+   N6clcR3jqvut2ugKnjlTPlMafShQCtaC4ruHnw4DE7MUNaNiLCEi/gPFT
+   HjTUREF+QAq77m18nn+b5fti5hwPdQ5NGT9N6f1pncn05EK8tBqkkxTK4
+   Q==;
+X-CSE-ConnectionGUID: A3+bDPeoR8eGOWY9JOpnew==
+X-CSE-MsgGUID: arQ9FWRRRMy0hOLj13ad/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="76955878"
+X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
+   d="scan'208";a="76955878"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 03:29:26 -0700
+X-CSE-ConnectionGUID: QXXvMi7qR9OvEgC1PsjHEg==
+X-CSE-MsgGUID: up1gmfEnScyqMaIwAehZkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
+   d="scan'208";a="233975937"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.73])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 03:29:20 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 8AFEF120F00;
+	Fri, 10 Apr 2026 13:29:34 +0300 (EEST)
+Date: Fri, 10 Apr 2026 13:29:34 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Rishikesh Donadkar <r-donadkar@ti.com>
+Subject: Re: [PATCH v4 06/29] media: imx219: Don't update exposure limits
+ while setting format
+Message-ID: <adjRDpj0HjVN4exx@kekkonen.localdomain>
+References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
+ <20260408153939.969381-7-sakari.ailus@linux.intel.com>
+ <adi4VeDEtQzBCuXy@zed>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=PMM/P/qC c=1 sm=1 tr=0 ts=69d8cece cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8
- a=g-2Moo4YgOi5Nr3pVm0A:9 a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-ORIG-GUID: vjvtubZYtYrA9Vz9vGfzClB-aFGnECj6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEwMDA5NSBTYWx0ZWRfXw/j+ZgigKINk
- K4GLr5LvP6aQEB6Rgy+Fk40emHJ5HNwFvVR1F5/NBOeiKCzsO9KsPWPayIg9r3c2PjvfQNAKzc4
- nV0qu6HoPDEmf6SoL/uQhjI/VVIgfuUbi2WPQh1waneWJQCcqncGGs9t9geWsZKRGbQoefCP+xj
- na9nLsAs6DvKnbxYkyKMW+4W1bbAZ8lTCjif1z0wO0jSajGiM4vk66oV9E2bgDIRqrJh4kdPl6f
- 8Emx2AZbhIz1LO6GZp18cCNusH9ExNm/tP8B1z1rOP6k04Ya91qUOFUxbO+VuZu8gIcEt9mQ0n5
- lz1o1gER/mI8Ub9zZvLNFIDjFkJV527x3NAKjmL+GTF5PtyoPKCDWZiG969YWg7J8UzJHrzVMIh
- x9DkW3nB6On6d6V57A6qBDCzv8aZXJZOOUJEbiZuhxRBjEdT3d8Q07CgJ8alYu3ngFFbuMct+LV
- HnZnWo0yVlKKzseCoig==
-X-Proofpoint-GUID: vjvtubZYtYrA9Vz9vGfzClB-aFGnECj6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-10_03,2026-04-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 bulkscore=0 phishscore=0 clxscore=1015 malwarescore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2604010000
- definitions=main-2604100095
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <adi4VeDEtQzBCuXy@zed>
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	TAGGED_FROM(0.00)[bounces-58535-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
+	TAGGED_FROM(0.00)[bounces-58536-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aniket.randive@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_NONE(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: E08B13D5A99
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim]
+X-Rspamd-Queue-Id: 288343D5B27
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-In GPI mode, the I2C GENI driver programs an extra TX DMA transfer
-descriptor (TRE) on the TX channel when handling a single read message.
-This results in an unintended write phase being issued on the I2C bus,
-even though a read transaction does not require any TX data.
+On Fri, Apr 10, 2026 at 10:44:33AM +0200, Jacopo Mondi wrote:
+> Hi Sakari
+> 
+> On Wed, Apr 08, 2026 at 06:39:15PM +0300, Sakari Ailus wrote:
+> > Don't update exposure limits explicitly while setting format. This is
+> > already done through the s_ctrl() callback.
+> 
+> already done through the s_ctrl() callback for the VBLANK control.
 
-For a single-byte read, the correct hardware sequence consists of the
-CONFIG and GO commands followed by a single RX DMA TRE. Programming an
-additional TX DMA TRE is redundant, causes unnecessary DMA buffer
-mapping on the TX channel, and may lead to incorrect bus behavior.
+I squashed this to the patch that adds LLP and FLL controls.
 
-Update the transfer logic to avoid programming a TX DMA TRE for single
-read messages in GPI mode.
-
-Co-developed-by: Maramaina Naresh <naresh.maramaina@oss.qualcomm.com>
-Signed-off-by: Maramaina Naresh <naresh.maramaina@oss.qualcomm.com>
-Signed-off-by: Aniket Randive <aniket.randive@oss.qualcomm.com>
----
-
-Changes in v4:
-  - Added some more description in comment and changed the label name.
-Changes in v3:
-  - Added comment in the driver for better readability and changed the
-    position of 'skip_dma' label to allow dma engine configuration.
-Changes in v2:
-  - Updated the commit message.
-
- drivers/i2c/busses/i2c-qcom-geni.c | 24 +++++++++++++++++++-----
- 1 file changed, 19 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index a4acb78fafb6..a482a4c60744 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -625,8 +625,8 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
- {
- 	struct gpi_i2c_config *peripheral;
- 	unsigned int flags;
--	void *dma_buf;
--	dma_addr_t addr;
-+	void *dma_buf = NULL;
-+	dma_addr_t addr = 0;
- 	enum dma_data_direction map_dirn;
- 	enum dma_transfer_direction dma_dirn;
- 	struct dma_async_tx_descriptor *desc;
-@@ -639,6 +639,16 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
- 	gi2c_gpi_xfer = &gi2c->i2c_multi_desc_config;
- 	msg_idx = gi2c_gpi_xfer->msg_idx_cnt;
- 
-+	/*
-+	 * Skip TX DMA mapping for a read message (I2C_M_RD) to avoid
-+	 * programming an extra TX DMA TRE that would cause an unintended
-+	 * write cycle on the I2C bus before the actual read operation.
-+	 */
-+	if (op == I2C_WRITE && msgs[msg_idx].flags & I2C_M_RD) {
-+		peripheral->multi_msg = true;
-+		goto skip_tx_dma_map;
-+	}
-+
- 	dma_buf = i2c_get_dma_safe_msg_buf(&msgs[msg_idx], 1);
- 	if (!dma_buf) {
- 		ret = -ENOMEM;
-@@ -658,6 +668,7 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
- 		goto out;
- 	}
- 
-+skip_tx_dma_map:
- 	if (gi2c->is_tx_multi_desc_xfer) {
- 		flags = DMA_CTRL_ACK;
- 
-@@ -740,9 +751,12 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
- 	return 0;
- 
- err_config:
--	dma_unmap_single(gi2c->se.dev->parent, addr,
--			 msgs[msg_idx].len, map_dirn);
--	i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
-+	/* Avoid DMA unmap as the write operation skipped DMA mapping */
-+	if (dma_buf) {
-+		dma_unmap_single(gi2c->se.dev->parent, addr,
-+				 msgs[msg_idx].len, map_dirn);
-+		i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
-+	}
- 
- out:
- 	gi2c->err = ret;
 -- 
-2.34.1
-
+Sakari Ailus
 
