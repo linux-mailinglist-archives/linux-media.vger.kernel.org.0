@@ -1,220 +1,129 @@
-Return-Path: <linux-media+bounces-58551-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58552-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EH2SCEL72Gk5kggAu9opvQ
-	(envelope-from <linux-media+bounces-58551-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 15:29:38 +0200
+	id oPhYGDj72Gk5kggAu9opvQ
+	(envelope-from <linux-media+bounces-58552-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 15:29:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4743D81F2
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 15:29:37 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1FD3D81EA
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 15:29:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4643A3057D52
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 13:25:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 48967303DA1D
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 13:28:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E37653BB9F4;
-	Fri, 10 Apr 2026 13:25:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AF973C197A;
+	Fri, 10 Apr 2026 13:28:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tkKX/zO4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Js2QkJxS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7940175A84
-	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 13:25:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6CF38F240
+	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 13:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775827507; cv=none; b=H74IiB3zD7Dk4XDt+jUFXzp1M61qqOgyeRGM/JC+NAxzB/mRfLbu2ErqBfDGyElgyyl+MtjDhQuAyW+RMmUAoR8TgPp+jbUPE98tktB8lXDe5thpuayxfARfkENvf04KubEDGcpqf5Nnz4WfVdr5bL9mZ517lqDfC+UgfWklIQM=
+	t=1775827725; cv=none; b=U+8xsyyklalzBai2C8WUlV9oS+P89fHWb6KTNg7Ih+OkBC0nX938fiGaHqJd+4FUWkcT3+ts5dpz/L6LnfVFiFHYWLv7JDLgWA242xgPZKsiP41W+0DfXgD2j+C5pnrd40MGkzAjaE0ODnm2wiBcBfsQ+BBDgVyL2ZPutJ1R1rU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775827507; c=relaxed/simple;
-	bh=Ejj5yAP3NNrEQFnoRbdP3kMb84OLbx3S2u5Z5H1cN18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qEPO3llWU4fmtLUPgYjE1Lj8FoH83A1XvlRQ/xH2dj4F76XAAzkTM1edsgtogKDYyCn/YkDVfPR3U4rXLFHruLkB6Bn3ZHkXcspF7PVO8qDrhJYkhgH5xTJc+Ugemnqg/jYeCHScV7UxL69wlebgoVkLiSaVqA+AJQn0M95jepw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tkKX/zO4; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7AF71236;
-	Fri, 10 Apr 2026 15:23:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775827407;
-	bh=Ejj5yAP3NNrEQFnoRbdP3kMb84OLbx3S2u5Z5H1cN18=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tkKX/zO4cXftip8TvSvEEQoWz73bjEJ0JnIk2vMFCKzsLJ/r/UTSEM8q5pJ+aIkTu
-	 66qgtTzbAeewaeqVaENKzxADpXDgoDOFqnTKKvq9LKUpDuCo7FsGiiUigyA8oYx8dd
-	 FaeW2oOzxAYE6uy1PuwE2bDwzvJ4lzkQtHYBX6E0=
-Date: Fri, 10 Apr 2026 15:24:54 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1775827725; c=relaxed/simple;
+	bh=IJ8pn+Y4Ce/sFJWWyEUO+tHkvmgSteawUrYqdh6cVgM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jvz8XsTXAZj1aZf9blaElLfl9vPhv0kHDDAX2T8NJvGrPw0jSNiYMjYsjiBGsC3gMldGkxkfaNpJe/97Ma+uertrW1qZAMbPJKS9QWyCBydB+42c0OzXchu+kkWgI/6GaLxjtsz+WSm+07BCpwR9a7+6LxAx33vbfIsAFlS6ayY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Js2QkJxS; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775827724; x=1807363724;
+  h=date:from:to:cc:subject:message-id;
+  bh=IJ8pn+Y4Ce/sFJWWyEUO+tHkvmgSteawUrYqdh6cVgM=;
+  b=Js2QkJxS807zUlmnP8l5m8FNRtrw4XmKS5ZkgfZ01zzXbYkQwbTstk3E
+   Lm2Q4cpaJcjrI6tSetJe8iiTW8RufiHrH+UHQdHJ4sbcTf3fwdbJVIARP
+   RQsbo2ijvkvjFFtDtqSIcpkqwiWFu/Ffmoks7L4MEOYgEoVV24MCA7ns0
+   vteoccojKvOStmjwwmZvnAMb/hp5ZHWvW+WUpcJqT9rie1xMoKyYY9xa5
+   n/riHqAtgQvIBqtI1y/97AY32LOAcmCK68XOw02YeDVSqxj0CGtZ3pqwr
+   WcYmTjpwfJVaDHJfjN5X7ANueM5EXPRKZn4+ggeS7xR8+oJ2123qE6HdH
+   w==;
+X-CSE-ConnectionGUID: U3T8i++TRiauNM7n0aWlyA==
+X-CSE-MsgGUID: 8u6+W1zFQ/iMc7qEcpgUqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="76724183"
+X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
+   d="scan'208";a="76724183"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 06:28:44 -0700
+X-CSE-ConnectionGUID: bhshlMYtQEKKQyGn+Y1UUw==
+X-CSE-MsgGUID: rtJVnKtrT8CRXWBkWrfIjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
+   d="scan'208";a="230809254"
+Received: from lkp-server01.sh.intel.com (HELO 6449335cace3) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 10 Apr 2026 06:28:41 -0700
+Received: from kbuild by 6449335cace3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wBBuZ-000000003m3-1Vfi;
+	Fri, 10 Apr 2026 13:28:39 +0000
+Date: Fri, 10 Apr 2026 21:28:32 +0800
+From: kernel test robot <lkp@intel.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, 
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
-	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
-	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
-	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
-	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, 
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, 
-	Jai Luthra <jai.luthra@ideasonboard.com>, Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v4 21/29] media: mc: Don't care about unsettable flags in
- MEDIA_IOC_LINK_SETUP
-Message-ID: <adj5rhRYZINXm-zs@zed>
-References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-22-sakari.ailus@linux.intel.com>
- <adjPiWt-UFsf0h7h@zed>
- <adjzmjukGeTesBYr@kekkonen.localdomain>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 93/115] ERROR: modpost:
+ "__aeabi_ldivmod" [drivers/media/i2c/imx219.ko] undefined!
+Message-ID: <202604102137.3ve9nLmE-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <adjzmjukGeTesBYr@kekkonen.localdomain>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-58552-lists,linux-media=lfdr.de];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-58551-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	NEURAL_HAM(-0.00)[-1.000];
+	SUBJECT_ENDS_EXCLAIM(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 7C4743D81F2
+	NEURAL_HAM(-0.00)[-0.934];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: BB1FD3D81EA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Sakari
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   ace2f872475ed78b708d667f1b2d004b192eeeb1
+commit: e7e6aacc616a0a6f74793f3a4172d14a37ee432f [93/115] media: imx219: Support LINE_LENGTH_PIXELS and FRAME_LENGTH_LINES controls
+config: arm-randconfig-004-20260408 (https://download.01.org/0day-ci/archive/20260410/202604102137.3ve9nLmE-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c80443cd37b2e2788cba67ffa180a6331e5f0791)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604102137.3ve9nLmE-lkp@intel.com/reproduce)
 
-On Fri, Apr 10, 2026 at 03:56:58PM +0300, Sakari Ailus wrote:
-> Hi Jacopo,
->
-> Thanks for the review.
->
-> On Fri, Apr 10, 2026 at 12:31:58PM +0200, Jacopo Mondi wrote:
-> > Hi Sakari
-> >
-> > On Wed, Apr 08, 2026 at 06:39:30PM +0300, Sakari Ailus wrote:
-> > > The implementation of MEDIA_IOC_LINK_SETUP currently requires that all
-> > > flags that are set by the driver are correctly set as the driver expects.
-> >
-> > I would
-> >
-> > The implementation of MEDIA_IOC_LINK_SETUP currently requires that all
-> > flags that are not configurable are not modified by userspace.
->
-> Sounds good.
->
-> >
-> > > This poses a problem for adding new flags as programs could not work with
-> > > links that have unknown flags even when the use of these flags wouldn't
-> > > affect the program.
-> > >
-> > > Ignore the non-settable link flags.
-> > >
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > >  drivers/media/mc/mc-entity.c | 8 ++++----
-> > >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> > > index 717569bd1a8c..287eded356bb 100644
-> > > --- a/drivers/media/mc/mc-entity.c
-> > > +++ b/drivers/media/mc/mc-entity.c
-> > > @@ -1319,7 +1319,7 @@ static int __media_entity_setup_link_notify(struct media_link *link, u32 flags)
-> > >
-> > >  int __media_entity_setup_link(struct media_link *link, u32 flags)
-> >
-> > Let me get this right: "link" comes from userspace. "flags" are the
-> > flags set by driver when creating the link, right ?
->
-> It's the other way around; this is called via MEDIA_IOC_SETUP_LINK IOCTL.
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604102137.3ve9nLmE-lkp@intel.com/
 
-Ah
-static long media_device_setup_link(struct media_device *mdev, void *arg)
-{
-   struct media_link_desc *linkd = arg;
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   ...
+>> ERROR: modpost: "__aeabi_ldivmod" [drivers/media/i2c/imx219.ko] undefined!
 
-   return __media_entity_setup_link(link, linkd->flags);
-}
-
-I've read it the other way around
-
-> >
-> > >  {
-> > > -	const u32 mask = MEDIA_LNK_FL_ENABLED;
-> > > +	const u32 settable_flags = MEDIA_LNK_FL_ENABLED;
-> > >  	struct media_device *mdev;
-> > >  	struct media_pad *source, *sink;
-> > >  	int ret = -EBUSY;
-> > > @@ -1327,9 +1327,9 @@ int __media_entity_setup_link(struct media_link *link, u32 flags)
-> > >  	if (link == NULL)
-> > >  		return -EINVAL;
-> > >
-> > > -	/* The non-modifiable link flags must not be modified. */
-> > > -	if ((link->flags & ~mask) != (flags & ~mask))
-> > > -		return -EINVAL;
-> > > +	/* Only allow changing user-settable flags. */
-> > > +	flags &= settable_flags;
-> > > +	flags |= link->flags & ~settable_flags;
-> > >
-> > >  	if (link->flags & MEDIA_LNK_FL_IMMUTABLE)
-> >
-> > If my above understanding is correct and if you drop the above check,
-> > doesn't this mean userspace can now clear MEDIA_LNK_FL_IMMUTABLE ?
-> >
-> > Should link->flags be replaced by "flags" here ?
->
-> The intent here is to drop whatever non-settable flags the user provided
-> and replace them with what is set on the link.
->
-> >
-> > >  		return link->flags == flags ? 0 : -EINVAL;
-> >
-> > And this should probably be changed as well. Unfortunately, if we
-> > want to allow userspace to ignore the forthcoming MEDIA_LNK_FL_VALIDATE_LATE
-> > flag I guess we need to make it an exception (which is not great, I know).
-> >
-> > Hope I got it right...
-> >
-
-I didn't
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
->
-> --
-> Regards,
->
-> Sakari Ailus
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
