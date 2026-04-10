@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-58466-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58465-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kHR7NCFl2GlDcwgAu9opvQ
-	(envelope-from <linux-media+bounces-58466-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 04:49:05 +0200
+	id 0DoeBEhk2GlDcwgAu9opvQ
+	(envelope-from <linux-media+bounces-58465-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 04:45:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DADC93D18EE
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 04:49:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6656F3D1889
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 04:45:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AE0593053770
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 02:46:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 252093064977
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 02:42:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BB252C0303;
-	Fri, 10 Apr 2026 02:46:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 748C42FD1DA;
+	Fri, 10 Apr 2026 02:42:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sina.cn header.i=@sina.cn header.b="UlsgTIjU"
+	dkim=pass (1024-bit key) header.d=sina.cn header.i=@sina.cn header.b="KItVt9wK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail115-76.sinamail.sina.com.cn (mail115-76.sinamail.sina.com.cn [218.30.115.76])
+Received: from mail115-63.sinamail.sina.com.cn (mail115-63.sinamail.sina.com.cn [218.30.115.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA4F242D89
-	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 02:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=218.30.115.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5E02EF66B
+	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 02:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=218.30.115.63
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775789183; cv=none; b=d+/LRcyla9hWsRvFNVm5GqTWRpNfX8hUbOTqPakAGgAFHl46tbiVBnlYwRkj1BVNuhvuOHq2lusw7tp3BaznfcY3Kuhi7Xzk82wD6R29p/Zt9j9gr5HFD+VaimVzizgZxoIEaAgMV/7QKKSgkoKoxaEv/uITzjuQzhmdkD/nQYc=
+	t=1775788925; cv=none; b=sFK8mUH5zyS6qaFTfxRsQdYfhYdshKu4hCqrs1qF5dFix5L76XKClVXTpb3zkz3d5Ni0+Q5pdLXQHrxBw3T7Tu9eqqndwXrMYXoBqkJSPxYCm7sEOaRZw5tOoBSyNxQGcjrBCduZka2GNYvXBqNy/JBUUb4tEcMS9r+D0WyUxXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775789183; c=relaxed/simple;
+	s=arc-20240116; t=1775788925; c=relaxed/simple;
 	bh=a4lni9hcsti9FZ1wRpFGW1X6Y+us/2ONM6YdbyDS/ig=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tAwW96DSzHzhagVe5XAV5gNXbAagssStVBOd8W/Xm/lDV/g0KsG9kP+ARr+7TO/lyZBIHRUnQ5wWhL7nzpiLjaSdWdL32jBPFTGbSyLMHGriZ8gS1nutz/hNsfO1trSdz3YbPGQ1T0EYPzzHcwtRRxrm6Y3AE92tDWWila98fXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.cn; spf=pass smtp.mailfrom=sina.cn; dkim=pass (1024-bit key) header.d=sina.cn header.i=@sina.cn header.b=UlsgTIjU; arc=none smtp.client-ip=218.30.115.76
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Wnno7qo94QABaMIysXkJYG0qNFEJcydjQeIh6KP8CzfqOgHJqI3TEzH8vS3UmKPP6MHWXVgCrJB/KcRlqnpdf0yFKfQt6fAPt1vhKFQKyTutzL9wESxy55o4XM6UR0rA+P6FL0KqdJYt0FJtA0BiOR9sT/eltmA/Lie8VhjVJWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.cn; spf=pass smtp.mailfrom=sina.cn; dkim=pass (1024-bit key) header.d=sina.cn header.i=@sina.cn header.b=KItVt9wK; arc=none smtp.client-ip=218.30.115.63
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.cn; s=201208; t=1775789180;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.cn; s=201208; t=1775788923;
 	bh=ruYH7ms7tY97YQislZdAnstwK+shvlV+EpfW2XTw8BM=;
 	h=From:Subject:Date:Message-Id;
-	b=UlsgTIjUJ+SGlKixCMg22ghvqqSJoKB2TTy02BzS9gWG5T2Om+5nUXKsB/394JLJz
-	 1ITFYoGdR8acRX7aPtd0ArFV59BioaGE+jdFenkGnTI29qlLfp44HLYZuxeKy330HU
-	 BJXWLbVAizY1BHgoWj/1UjM8hcajEhD3lZdy1XJs=
+	b=KItVt9wKLHzB+W40SxDPW0oUFzAkSPlRErLEM5pTb05qUa3voV+hYwA3n53Vw/Hd3
+	 jDi1EhnuVkF2eeSnhN4ICxzLuDbfJaNJw/Ky8xqKXHEpoh/hpBtLHZm5gIFzVPqilr
+	 eNAVT460HLrCshLXQes/Y0+o0NKToS1AnbrbIjhI=
 X-SMAIL-HELO: NTT-kernel-dev
 Received: from unknown (HELO NTT-kernel-dev)([60.247.85.88])
 	by sina.cn (10.185.250.22) with ESMTP
-	id 69D863300000308F; Fri, 10 Apr 2026 10:40:51 +0800 (CST)
+	id 69D8637300004E7D; Fri, 10 Apr 2026 10:42:00 +0800 (CST)
 X-Sender: jianqkang@sina.cn
 X-Auth-ID: jianqkang@sina.cn
 Authentication-Results: sina.cn;
 	 spf=none smtp.mailfrom=jianqkang@sina.cn;
 	 dkim=none header.i=none;
 	 dmarc=none action=none header.from=jianqkang@sina.cn
-X-SMAIL-MID: 2701797602325
-X-SMAIL-UIID: 35D1CE780ABD41B7A80F43E657DA5241-20260410-104051-1
+X-SMAIL-MID: 5399577602229
+X-SMAIL-UIID: 4C3470BD7AEE45A6807157EBF20EDA74-20260410-104200-1
 From: Jianqiang kang <jianqkang@sina.cn>
 To: gregkh@linuxfoundation.org,
 	stable@vger.kernel.org,
@@ -60,9 +60,9 @@ Cc: patches@lists.linux.dev,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
 	mchehab+huawei@kernel.org
-Subject: [PATCH 5.15.y] media: dvb-net: fix OOB access in ULE extension header tables
-Date: Fri, 10 Apr 2026 10:40:48 +0800
-Message-Id: <20260410024048.3765362-1-jianqkang@sina.cn>
+Subject: [PATCH 5.10.y] media: dvb-net: fix OOB access in ULE extension header tables
+Date: Fri, 10 Apr 2026 10:41:55 +0800
+Message-Id: <20260410024155.3765938-1-jianqkang@sina.cn>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -78,7 +78,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[sina.cn,none];
 	R_DKIM_ALLOW(-0.20)[sina.cn:s=201208];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -87,7 +87,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[linuxfoundation.org,vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-58466-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58465-lists,linux-media=lfdr.de];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -100,7 +100,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FREEMAIL_FROM(0.00)[sina.cn];
 	TAGGED_RCPT(0.00)[linux-media,huawei];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sina.cn:dkim,sina.cn:email,sina.cn:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: DADC93D18EE
+X-Rspamd-Queue-Id: 6656F3D1889
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
