@@ -1,369 +1,264 @@
-Return-Path: <linux-media+bounces-58467-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58468-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UANHOD9m2Gm1cwgAu9opvQ
-	(envelope-from <linux-media+bounces-58467-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 04:53:51 +0200
+	id IHWWGth72GlMdwgAu9opvQ
+	(envelope-from <linux-media+bounces-58468-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 06:26:00 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9A43D1952
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 04:53:51 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA33C3D208E
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 06:25:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 114923019C9D
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 02:53:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F2E053018BC6
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2026 04:25:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54E3B3002BB;
-	Fri, 10 Apr 2026 02:53:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A17D3330D2F;
+	Fri, 10 Apr 2026 04:25:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="qioQbAPr"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VErWMXR5";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dKyCbrI8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012052.outbound.protection.outlook.com [52.101.66.52])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0161C3C1F;
-	Fri, 10 Apr 2026 02:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775789628; cv=fail; b=Gw42UDmJHhiapx/OXRfL1JsKdsySPze0qrvNmW7RDUUb3lIWsZ2k9C5/BqrpgzNG2KdsqB55RP63khg6eBU8Os81WCTM4DyebagIlbiC4ZtsFNTzGFwcJe/JT/s59IoX1QklR3u6GuGH6Cm7onIquBF7zytS4vAzwan/lOFVSsU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775789628; c=relaxed/simple;
-	bh=zkQlmZXpKKrkCBJjVZRf3twawzPnouXOiAGRn9Ck9is=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=nY5bFYO9St6eQEDcf976OySmfuWJT23o4+FVfw+G9M3aaChLkEtvY4HhN6ZyuJTngn9Y4+OHoqnuHvfn8dt/d4DOGz8ojO0+ERqytEJmYo2H43FFmGs7nMRecbQgSYOGHt9eo2Oqo5ypxqGXodhB27ve7IV21pFhzzYkEnBgYKg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=qioQbAPr; arc=fail smtp.client-ip=52.101.66.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nYfsstaizkIlN7UXsiwnaae5H3eIKzbaMLUXmM2Bk9x1Gupk0es8sIBrlksNCrb2VxtG+Sc4BdXFSwpMdCofDWdah+c2IIFbpmXGSPR1iEoMgl9oz2gXyIQi3QeWtyhPOImWdRKADXaOC7RsQ5BSTSw/Vb5esIIahWurNr+J+OrEU8+GVanugnze6tl+vq8D5H5/mFVjRQWIXr7GaIdxRZ3yH1WWJWVc60wq7IBe89YzIgTHfyeyuZwmQ8EAzuRs0ahSReeoy74fe16RyeRfKJBb2zctK4FXY0eiSE5+lvJn5dhZ/qjSHJWbi48Qo+S56J8Au03tHmZ9QMzMirjbeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3XVEiPZxUKKwgW4QInLP2OgWFBDC3B942s2KPO5Nj4w=;
- b=iZsNyx9/WR7hKwN720cRuBtqLlJMFqeX+N7f3hVBYZY7yr660NR7PoAlozaYYqYdDCHHGw4xtZpd6G/T8Y/HFQTfBQ1FWjc3Dd0BeSjKhQ9S5w6XLmXIWnvpLMoomlkYZDZz5uvlrihlmHSIATVx6cC0u/0rxx3mnZOlSQ4hEmZWOT+PhikqQhNHmkvAznToAHVuvEAUAiZXWcxx3zPKPeD3Zdc4+98ruKhaSWAPWPwMy/FKPdS8WfbgLiWPtCzDMAcW5HWL2LBKrKmsyqh3J4O4uTUaZZV6mtsGXYxM3y5pCZqlvXhuPFnTD/pebcSo5lqofMfkr2ofV/9DHoEboQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3XVEiPZxUKKwgW4QInLP2OgWFBDC3B942s2KPO5Nj4w=;
- b=qioQbAPr8+RVq5qmSGwSH1lyk3iAFbLX+4i6BixoHW2NQyxDZzcnhuipkT8c6i9dJz1fZAxEUqkdLsM06SJhIOqQXBBIaRKW/u8lQPjByWvoqkIX/k+2OlM2gs5nRxHfZh6nWmReYVr3b/REZkl87cb9iO6CLQCoLA/V/IvGUKz74EY/pkIoq29pm+EVTd7p0sveAHFhkFIogvVjVGenLMGAmImGWjDht+i1J59JFc3N4fzM7j55RNgDYsxRuMHEKG/vK80SfZeFa/GsnsLzJE2NtX7Dd/uTj92t8z0cJatdWXzbkfxnWZBor5f0EfXVsTPqdXuwPxQTSloFHeODRg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AM6PR04MB5110.eurprd04.prod.outlook.com (2603:10a6:20b:8::21)
- by AS8PR04MB7990.eurprd04.prod.outlook.com (2603:10a6:20b:2a5::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.42; Fri, 10 Apr
- 2026 02:53:43 +0000
-Received: from AM6PR04MB5110.eurprd04.prod.outlook.com
- ([fe80::2866:93b6:c814:89fc]) by AM6PR04MB5110.eurprd04.prod.outlook.com
- ([fe80::2866:93b6:c814:89fc%5]) with mapi id 15.20.9745.035; Fri, 10 Apr 2026
- 02:53:43 +0000
-Message-ID: <ea729302-6dca-443b-80fd-c1f5d9a41613@oss.nxp.com>
-Date: Fri, 10 Apr 2026 10:53:33 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/7] media: v4l2-ctrls: Add V4L2_CID_MEMORY_USAGE
- control
-To: Detlev Casanova <detlev.casanova@collabora.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, Frank Li <Frank.li@nxp.com>
-Cc: linux-media@vger.kernel.org, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, sebastian.fricke@collabora.com,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com, xiahong.bao@nxp.com,
- eagle.zhou@nxp.com, imx@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20260331072347.253-1-ming.qian@oss.nxp.com>
- <20260331072347.253-2-ming.qian@oss.nxp.com>
- <acvbOo17tU-s20BS@lizhi-Precision-Tower-5810>
- <079b1630abe5dd22e032797fc12925c9c79ea305.camel@ndufresne.ca>
- <d8c12ba1-5004-4a51-8a2b-3d500184778b@oss.nxp.com>
- <5c24fe3f-a1c7-4fd6-b5e6-c920bc3e7fcb@oss.nxp.com>
- <8911674f2f86a4b75e1f44d6e9b66a28f6e74e56.camel@ndufresne.ca>
- <9fdca013-32f7-4ce1-a296-f2f36ef31b50@collabora.com>
-From: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
-In-Reply-To: <9fdca013-32f7-4ce1-a296-f2f36ef31b50@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5P287CA0189.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1b6::11) To AM6PR04MB5110.eurprd04.prod.outlook.com
- (2603:10a6:20b:8::21)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C3B325704
+	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 04:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775795148; cv=none; b=btrpTC80zp6ords2bOu1/Z5TBneEijjLI6pFJrOfjOhv9HG7bk85+IxoRb5PH3r0IQp2trvyxNbo6XDB3SJyvDBT/leA6/iQfj6ULCDF9mP+7h/zIxK7va3H0hh4s+DxvhoN0JJTVL1eCXysWnSKG4KZztLZEkp1xgUg3t4RaLo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775795148; c=relaxed/simple;
+	bh=afMyCl6q80b5zE2nccWBXEOFfRuZfUdUC9CQcEqjYC0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pj2mK0B9UIpNRWiXu0j0pXOFHeR6AUo3fLXPYJweB87jhA7BupJj/NrZfe5C827oComlG8I9Z/MQm4Dvyan44HhvSSVSY+Dm8YJBLDR3+gVLJjvVPaXVqQfih+J4WFu3UJsXV4ZOY45Vjh9K6EN0syZbkyJCzx1A+o0l4Vtw51E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VErWMXR5; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=dKyCbrI8; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 639HkRX72698366
+	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 04:25:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=E+x2pfKVCYAegJiR8tU4eX
+	nRaVp98QEUR06OD9JbNxw=; b=VErWMXR5BaE8jHyIAsg9HhX/85oMt2SUzWRIJg
+	uzjUgIDencPfbD6iLBybA7wdU+LG1dxyg1iPgrQC2Fp5VVlEmnBUxutRvhIcimvc
+	1lsp1C7NTyocrsisz8qtwl4JYITbQljuY6WAH3VsgDYzm6U396BzNUcoOCuwVI3X
+	bhuQiysXDOONJ4yah9ZJPlAHjqC+pEHEZlDcf8YAl1BTsCeiWvkwpStOEoHuQA9U
+	BlljhiBLOsVLYK/lpBoGiCf7pIhPGbZzpV0YXmLq9mB63XXDgqUEz0PUTiJto5/Q
+	UNTUSkBQjuukkOX0g8fx61OUxBDkM6fWmwAVivtSQBdOtqcA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4degt9sjxj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 04:25:45 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8d3a8df9a52so323520185a.1
+        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2026 21:25:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1775795145; x=1776399945; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=E+x2pfKVCYAegJiR8tU4eXnRaVp98QEUR06OD9JbNxw=;
+        b=dKyCbrI8mrwmXYf+rXvaqG6PrSRn/aPP5qzUvWeL6NomTqs87W5sB/dQ7u+wpMNngh
+         7vw0Gi81/NK7o5b95G3g2j+/dTFSPDR7safIN0k5V8BTAqsZnijzx/uKA8gjlart47M4
+         FxMSG5CH8ZKYrQ8pTIXkxPLcCj6eiKz7IoQ7mGbF5kPgId7UAIl64xSQ6w2rbQF9lzEA
+         0wAo+MV8hLvxEupjGZztyjEqprNP8D0KVoipAONdWfkE32vRLdLrMuv7kguj/wL3ZynR
+         wDmtIulTxrPZ+RC7M60R0wzwwMmnP4jMTWkMk2J8Lv1VjSDPpNEhMZ5OBNxdHaYadyij
+         atDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775795145; x=1776399945;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E+x2pfKVCYAegJiR8tU4eXnRaVp98QEUR06OD9JbNxw=;
+        b=DqCSkxR0BGs5qjumt4BHTE05PK+KI9e+CB8Es9jG7CNMIDVCzMV2S/IH+j2I0MM+/9
+         rDH6nlgCqhW5bOxJLLossKiqry93FDL9jLYIulKq33J80rMqxbHsv0BzXFRwmNZfNtKl
+         qRnjHsBp7DI0/Qa2yxsX+qJpcs3RLEKnYUEvJ8lswu8oG2R10x8VkqQ0uRGRiwJSgqxB
+         FrQ+FVEfpApJ+Xmh7opJ2bhMm0q4bHtlcJpxu5SMFjsnRNlqIu0egKjLjX0LYLYfrmN0
+         pWguhMn+evw+MdiG8jLk6ozTFKeUwwq6c6OCjJAUgpwb4QziroKTmi6gcIrTX9Uq9vdT
+         AbYg==
+X-Gm-Message-State: AOJu0YzaYGhwlD4SpEyAuBDRNOfoSh1C11S3F0vKlH7aPHcP7JJ717zm
+	1uYugHxdLKaxjYPhwIQowCps/ff0Oa6l0ffMnkTfU9zHvbcUVWCPDAh7mlYNl7HHRtohpb+aYzv
+	OjOu4JVOE1e6ghA57FZHjrjyCwBrdqZq62CQnrtkMFFc2b9Ts7Nl2oAwX8Sn51Nai8kuHIkq2Bf
+	4P
+X-Gm-Gg: AeBDieuYhTX9NhTxjfdkhxeDu+JKatxeyinpU9QtLapjP313XbYurt9RyFserXybIwd
+	gXb1pSEJ6Srz/2BdceEqK7JksS1M2oEqVPDaMXS5qFQysDe0+p6HDE48utHDj5NFjMQZQZ1GUsL
+	NTEU8gO0bEqST47LC3cU5xLCuxgj5QCTkca+muJOCN0Oq+zZnkYGKPofoNcob+jjq0wUmN+wF7C
+	2K1Wa/D8cYR2WvGUPIr8ZyxSG5EQETdtdUfdaNatf2/0CEdIabMYs3tQdf43KjM+S1+dUVp6fs4
+	FCHVcb2jmwNNOPhfkgVu915OxWzHFC+FHcMGEO4fw8pHkpcmhEJ8aErO+drWyA1WzvDtXQ7cLoo
+	mh7rWla1oHomarsJMNfjvuc4QvHuTzMPe7xEyep8TZOHGHNwa5+13yqAmDNNPX4DwgEqj0E4tYZ
+	ckD3q2H1+c+PO7
+X-Received: by 2002:a05:620a:468e:b0:8d8:2a0:e17a with SMTP id af79cd13be357-8ddcfcb2d46mr231434985a.50.1775795144728;
+        Thu, 09 Apr 2026 21:25:44 -0700 (PDT)
+X-Received: by 2002:a05:620a:468e:b0:8d8:2a0:e17a with SMTP id af79cd13be357-8ddcfcb2d46mr231432085a.50.1775795144215;
+        Thu, 09 Apr 2026 21:25:44 -0700 (PDT)
+Received: from WENMLIU-LAB01.ap.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ddb934d8e9sm121757785a.35.2026.04.09.21.25.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Apr 2026 21:25:43 -0700 (PDT)
+From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+Subject: [PATCH 0/4] media: camss: add support for purwa platform
+Date: Fri, 10 Apr 2026 12:25:30 +0800
+Message-Id: <20260410-purwa_camss-v1-0-eedcf6d9d8ee@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6PR04MB5110:EE_|AS8PR04MB7990:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5a414202-bfe5-464e-dc1e-08de96ac603a
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|19092799006|376014|7416014|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	6N9ftameJJziSAkh+kiNRWuPdJ5oMt0dif1vO1LyLsyRaSziWHL2pGde840EOoWSWtvwzFjYw/q6DdVWTMfZUWGdreN87XEPhSjDwWUbXzivrZR0/W2bKzcg+ExIpnuT5n9oJSOljYXSVZSRY8OmGKIk4mazAxlE/ZsL651GphjesjvCqpYvdS+lXn+kpZN5cfAZ/anExx6hHtscrKlIHhMDyEjJwt0HCgOX3XWjOY6Hr/cbcwERHJKyUWjyxcV7YjdGMHa+Oc4GjhBEM5RLVfR/G7TeFDH3v0q4ddcD6BZmT0E/Biq3eXHHKTr9vJp9kPdGJ7EO0aYLtsULh8w5I0oXoSDGfkAT3pUyZ849HVn5V2QA+L50Imq9M660rjXgh7trMxzh8xYU1cQ+jbTrRlRaVrJFuXkn8hqQlTLTLroQA10h3a9ao++CYkvIPbxQ65P9uli+uicZIX1T5bhlK6Tandqy2Y6WHJ0btYVl09c1/Dg0H3b4MlFpO31YPB/bG1vBOdkZBYIUOUvuGZXJvzwDM5sLyj2TGKr51z+4nctC05cOdViQYmAj9pO0GEFi2oRiEaYkTI2NFDJH+py8G3on6ZVZQ+1AjjOX1t3ZGTSRW78jurLpo2p58bcNlHSfn2yxJwRSHC1zb9K6I/4m4D8bt5OfNYiM4NwqPbOo2GSYwTaLabaokoKfMBHIcrHH9AtCmfOlm5KNN6ehETtKvBv+RiV4zBEnl7xWU2LQCc1bMji9Ra0SRAtcSDozzzhW
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB5110.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(376014)(7416014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cld6SjA1VzVyUDVyQmljR1JXSGVoa2lSc3pCT1JETTZVVkNOS1BDTDQ1US9P?=
- =?utf-8?B?aXJPbGR5dEJCZmlENEluR1RWMUJXd2hBZW82dnFDSDhuRnRWV0Z3bTZqanpR?=
- =?utf-8?B?Z1RyT1hCOUU3ejF4MHNMMm4zMkw5aFIySmszL0I2L3d1aERacGY4ZkprdXB5?=
- =?utf-8?B?dlBUWW5QeDlMM3YwRUpVUUdvMUFMVHYwdENxVHF4S2cya2lFYW5YWkJnSDAx?=
- =?utf-8?B?QiswK08xQUJMd2dlSW85V3N3a1RWQUdtdFgzdTNUOFZTWWdORWdsV1hiSnBQ?=
- =?utf-8?B?aXk1ekg0eVR1cklXVVByejFxamdvSFpyLzcvTUxGOG5idGk0bGNrRitsRzNW?=
- =?utf-8?B?alVwRHJrTCtLWlBld1Nvbm54ZGNjQTNVRHF4V2hLU1ovK3EzNUpiWU9VQWRZ?=
- =?utf-8?B?Vkx6dHhGNS9wQUJpOFRtSERRK0hxWnZhSi8wU0dhVWZKUHpqRzMzTjhnM0dJ?=
- =?utf-8?B?d3JJS2VIcmJYYlU4SGdYU3h2aU14VzAxcGFta05mRVpHNnRyVHpBUEFZV3lp?=
- =?utf-8?B?N1k5ZXRjaHVDWExwZXFzMDhZUU1YWWNNVVg0S3VLZHpIbG5WUDlUZk9uMkU1?=
- =?utf-8?B?NzVpRExpa1phbWZtWE1JQmJSQkZLaGNNYXUxNE1nSjBMZHVJUnNoU1dsRDVV?=
- =?utf-8?B?a0d2L0cwS0VOYjZDZHFNMUxmOEw2MW1rL0NoNE40VTl6dTJCWjZYdXkxUmpJ?=
- =?utf-8?B?ZUdsWnVvOEI5eGE1dk1raVlLT2xHMW03ZWxhK0VWSXdDNW5nekxSWTFFdW1M?=
- =?utf-8?B?T3ZLaytqL1lZMytMQW5QU0RiUVFJYTlHZU94bVhhNXNsWlBHanZjWnhtbExo?=
- =?utf-8?B?bDcyYnVkNkQveGxYdTVOa0V2ekdvcUFqNTh5SkM0YkVaVVAwckRONlpoc1Ro?=
- =?utf-8?B?NmFSeWZ5b2ZRTjFUMDlMUGdZZzBDWWNwSEhIZXNzY3NGNTlZWnBycFplYlJV?=
- =?utf-8?B?Wm9JZ3oyOGxVK1d3dUJmeDl2YlpUZnhRYyt0YkF0MHNqYTg1UEVrV3Z3UW9v?=
- =?utf-8?B?TWxlVU9qeWRJME42OXJIVVl4dCt0aVdIa081dytpbk4xOEJoQS9ib3N5R056?=
- =?utf-8?B?OWRkanVhOTl0cFFKa3ZKdm9jd1pKM1gwdkExNHJ5QmpjYTNsdzRnMjBQa090?=
- =?utf-8?B?VlVVSFo3MVVqRWJGbHltcjlJamxpU3Y3QW1iOEZYLzU5bWFIa0d6cmEvdUVK?=
- =?utf-8?B?Zm1vc1BHb2pNYWhOL2VKQWpOZGRhNG52UXlTNWxoblhTS2x6L3Z0MGUvUHgw?=
- =?utf-8?B?elkzM0J5N0pacGROR0RXbytoM3pvQWJlek9kRWFMMHNFOUc4ZWNtWU1wM0Jy?=
- =?utf-8?B?WFVBU0FnZEEwRk9VaWFoRkRQaE5icGp3b1AwQ05Tc3JNVFQyNktvN2JsRkEx?=
- =?utf-8?B?c0h5SkpKL0kxVVg5WGJPRzc4QjhsM0ZCV0E0N0hJcnRlejBuQjZXbnRQWkhw?=
- =?utf-8?B?Sis0ZmlWVlV0RkxQYmFHc09UNXZMdXExSzY3NWZoQk5KbFc4c2JYNzVpU0p5?=
- =?utf-8?B?cUU0WGc2SkNDRVZ2dGlpSllFUURLSnZNVDArczlkWGZMUVdMWSs3ZHlocDAz?=
- =?utf-8?B?NmEwZTNMOFYxTnlOYmwwSW14d3BBNEVIMTZOUGlpK1VJUEZpK0drczVwaWY5?=
- =?utf-8?B?NUVadmJadG01SG5WNWtUMEtEMzRrMmlTeHJxWnJFT1hwbGs5VjNaK243ZVRq?=
- =?utf-8?B?c0ZxNFlwdEFKT3VvUXY1blIxTnlOWjV6MFArQ1V2Q1pFTWMvakxCZVJnZ2wr?=
- =?utf-8?B?WVRtQUxqV0Y1WEFvVGZQNUhmeTljMzNTeUJLUWttOVZFRForMGVKeldCM2Uv?=
- =?utf-8?B?Z0QxSnlBcmZNeDAreEYxZDBscXlkZGVHSlRlRzhXNTFWS3lMSlpNcFZkRlZI?=
- =?utf-8?B?ZkNCWU9OWjN4eWNSREh3VGNZUkUzbFpSMGdzSER5Nlo0UzVncnovZUhtTGdn?=
- =?utf-8?B?NzlLVUU1L2VvMGNLU2RadEdoOEp5UFhqV0xUK2tjUi9YWjBEVjZPWXRCaDkr?=
- =?utf-8?B?YUlZZGQrU3MwRTB2M3h6VWhLRXd3dXc1amw5VEhiNG5qSS9kcjJJYUtzNWVl?=
- =?utf-8?B?c2grK2l5LzQ4ZlVCQksxM0pocFdmM1JkRXloUExrYk91YXJYaGkvZS9SaVp6?=
- =?utf-8?B?WDVTZzZKRnZLcTBNZno3T0o5KzFUS2pyNkh6Qk5NOVlacTVwQ2o1Ny85d1Mv?=
- =?utf-8?B?SnNTa0xmK0MrYUJRZWlDRFhNUEhKT3Q4NGJ1ejdvd3VCZkxPQ2VtS1RkUitY?=
- =?utf-8?B?VGtpak41MGw1cXJZNmhyT0lRQjk1RGN3MWZNSGx5MmR0cWNjenZkem0yeWRQ?=
- =?utf-8?B?RmNZMGxWdGpnNlRxVVFXbHpNanhXSmJDbExTb3NtN1IzS1A0S3hZZz09?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a414202-bfe5-464e-dc1e-08de96ac603a
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB5110.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2026 02:53:42.9435
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Qu/5E3vaOFlJL/MVlfTuCL/6c6yG9pN1Anl3yPm5YFRPEW4LAop+Bi0M83/car2cC1t5EQkjMPmDy4jcaR0E4g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7990
-X-Spamd-Result: default: False [0.44 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALt72GkC/22Q3WrcQAyFX2XxdQXS/Hr8KiUEzV92oOt1bK+7J
+ eTdK9sXpSQ3A0fofDpzPrqlzK0s3XD56OaytaXdRxH049KlK49vBVoW3SlUDg0GmB7zb35NfFs
+ WMN763sfeFzKdOKa51PY8aD9fTj2X94dA13P4jzlcDqLWdBJha7ncUwIhy5uDR8xYffB52A74F
+ 6uykKfrH5h4ljRQnmsZ9/hga8ohcs/V0bDRV7NFTwhPKpCWpmCHVGe0ic5S1jxs9juPJg3RwK8
+ 2Pp4wyjmQBKhBxnld2s7rkRDhLIcsuupNjAeRjhgTr+l6EGOyMWhFiZThmIMjLlQdOsKcjPNIO
+ fXI6X+Xy9rVwqxZySEdqlTPxjN7Y5RmsUkxNbpv4pNS7kz2uk5vEGVdhz7Kl/d0uDsiL9LI/XZ
+ r63DJ0ZeaiuEim9kWo6qt1hrVV6tCrU7F3lWO3cvn51/FxIVbRgIAAA==
+X-Change-ID: 20260409-purwa_camss-475787b87e14
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775795138; l=3887;
+ i=wenmeng.liu@oss.qualcomm.com; s=20250925; h=from:subject:message-id;
+ bh=afMyCl6q80b5zE2nccWBXEOFfRuZfUdUC9CQcEqjYC0=;
+ b=CdBvw3hrELo9xP28PYSiKqqhcA5eiB9AakDjInbtyboiDdpVfoZ9GnV06wYlndEMam1zmJZh3
+ Newvpy6/FIPD/acEKDNmDOcxhtiHcUpXWhsBZ4zCiMsn0tPzVnvEnFp
+X-Developer-Key: i=wenmeng.liu@oss.qualcomm.com; a=ed25519;
+ pk=fQJjf9C3jGDjE1zj2kO3NQLTbQEaZObVcXAzx5WLPX0=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEwMDAzOCBTYWx0ZWRfX4QKLzdkI7Dyy
+ +6K7y260pL9OiaiWcX8UMz0shhZR9WgNTzlXqUx+s+irIE8WyJ4STDKuSUr6ddxpzL7YAr4a/An
+ V4xqwRxAS/eqs+WE7jejE+7I4xACDq2iY9qJH7bv/pkQP9e5zlp6YbDHVLvXM6W1/fRYW+82hSK
+ WmQXoUo8ZLKZh5sHyg6NJTx4EgPFcPvg8Q2Y3apqE4XOib18fy7QOOqkKB0tUPhpMcturuhxqdZ
+ SP8PRSj5klJ522yXf/IUaXUtG2WaI66tuspVogYYXybN/kh6TfW5sOv6A97d/1fHGMp6pkrOtAx
+ VL3IeD0yDElfJL+AP3iN2OrNVsR13xiKeoGs1NMp8KThzJVG/PvROKL3VjVWH+PF9vO76v5qVbR
+ sEO8U1NswpGWAf91Q7+SepnVj6qeS8sqFpKdY0kbt4MvWGjc2cZfZiSnt4L3OluEQHlgRUdsu9V
+ MznU9j99+kyWE9145gw==
+X-Proofpoint-ORIG-GUID: 8oRxa2FiFMp6FK4ZBy6Ubao62uV3S07J
+X-Proofpoint-GUID: 8oRxa2FiFMp6FK4ZBy6Ubao62uV3S07J
+X-Authority-Analysis: v=2.4 cv=BJyDalQG c=1 sm=1 tr=0 ts=69d87bc9 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=Qb1CgdutHYG83UUbXIIA:9
+ a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-10_01,2026-04-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 bulkscore=0 adultscore=0
+ priorityscore=1501 impostorscore=0 clxscore=1015 phishscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604100038
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-58468-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58467-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,xs4all.nl,collabora.com,pengutronix.de,gmail.com,nxp.com,lists.linux.dev,lists.infradead.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ming.qian@oss.nxp.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
+	FROM_NEQ_ENVFROM(0.00)[wenmeng.liu@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,NXP1.onmicrosoft.com:dkim]
-X-Rspamd-Queue-Id: 4C9A43D1952
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: BA33C3D208E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Detlev,
+This series adds camss support for purwa platform and enables TPG for
+purwa-iot-evk board.
 
-On 4/9/2026 10:29 PM, Detlev Casanova wrote:
-> 
-> 
-> On 4/8/26 17:11, Nicolas Dufresne wrote:
->> Le jeudi 02 avril 2026 à 11:14 +0800, Ming Qian(OSS) a écrit :
->>> Hi Nicolas,
->>>
->>> On 4/1/2026 10:23 AM, Ming Qian(OSS) wrote:
->>>> Hi Nicolas,
->>>>
->>>> On 3/31/2026 10:54 PM, Nicolas Dufresne wrote:
->>>>> Le mardi 31 mars 2026 à 10:33 -0400, Frank Li a écrit :
->>>>>> On Tue, Mar 31, 2026 at 03:23:11PM +0800, 
->>>>>> ming.qian@oss.nxp.com wrote:
->>>>>>> From: Ming Qian <ming.qian@oss.nxp.com>
->>>>>>>
->>>>>>> Add a new read-only control V4L2_CID_MEMORY_USAGE that allows
->>>>>>> applications to query the total amount of memory currently used
->>>>>>> by a device instance.
->>>>>>>
->>>>>>> This control reports the memory consumption in bytes, including
->>>>>>> internal buffers, intermediate processing data, and other
->>>>>>> driver-managed allocations. Applications can use this information
->>>>>>> for debugging, resource monitoring, or making informed decisions
->>>>>>> about buffer allocation strategies.
->>>>>>>
->>>>>>> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
->>>>>>> ---
->>>>>> Not sure why not export these information by debugfs, or any 
->>>>>> benefit vs
->>>>>> debugfs?
->>>>> There is also a on-going proposal that uses fdinfo.
->>>>>
->>>>> Nicolas
->>>>>
->>>> Thanks for the reminder about the ongoing fdinfo proposal.
->>>>
->>>> Just to confirm, you are referring to Detlev’s ongoing fdinfo proposal,
->>>> specifically this series:
->>>> https://lore.kernel.org/lkml/20260212162328.192217-1-
->>>> detlev.casanova@collabora.com/
->>>>
->>>> I will align my work with it and switch to using fdinfo.
->>>> Once the show_fdinfo support from that series is merged, I will prepare
->>>> the next revision of my patch accordingly.
->>>>
->>>> Regards,
->>>> Ming
->>>>
->>> Regarding the discussion about using fdinfo instead of a V4L2 control, I
->>> have two questions:
->>>
->>>     1. Key consistency in fdinfo
->>>     fdinfo uses key–value pairs, which is flexible, but if multiple
->>>     drivers want to expose the same “memory usage” information,
->>>     they need to agree on a common key name and meaning. Otherwise
->>>     user‑space must handle each driver differently. A V4L2 control
->>>     naturally provides a unified interface without this coordination
->>>     effort.
->>>
->>>
->>>     2. Lack of notification in fdinfo
->>>     With a control, user‑space can subscribe to control events and
->>>     receive notifications when the memory usage changes. fdinfo does
->>>     not have a built‑in event mechanism, so users must either poll
->>>     or rely on additional eventfd‑like or custom event mechanisms.
->>>
->>> Do you have any suggestions or existing practices to address these two
->>> issues when using fdinfo?
->>>
->>> Thanks again for your time and comments.
->> Added Detlev in CC. You can also refer to his work through:
->>
->> https://lore.kernel.org/all/20260212162328.192217-1- 
->> detlev.casanova@collabora.com/
->>
->> Nicolas
-> Hi Ming !
-> 
-> One of the reasons for using fdinfo is that it's already being used in 
-> the drm subsystem and it is working well.
-> Of course, in DRM, drivers don't allocate a lot of memory themselves, 
-> userspace drivers (in mesa) go through the DRM uAPI to allocate buffers, 
-> making the DRM subsystem aware of all allocated memory.
-> That lets DRM show memory stats in a standard way for all drm drivers. 
-> In v4l2, memory allocation is shared between userspace and the driver.
-> We could have drivers report memory usage through a callback and v4l2- 
-> core can add the standard field based on that.
-> 
-> For notifications, I don't really see a need for that, most tracing 
-> tools will use polling (I'm thinking perfetto, but also top-like tools).
-> We could have a max-mem-usage field if we'd want to make sure we don't 
-> miss the maximum memory usage between 2 polls.
-> 
-> Finally, I think v4l2 controls should only be used to control, configure 
-> and exchange data with video devices, not get stat information on what 
-> the driver is doing.
-> 
-> Detlev.
+Have tested with following commands:
+- media-ctl -d /dev/media0 --reset
+- media-ctl -V '"msm_tpg0":0[fmt:SRGGB10/4608x2592 field:none]'
+- media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4608x2592 field:none]'
+- media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4608x2592 field:none]'
+- media-ctl -l '"msm_tpg0":0->"msm_csid0":0[1]'
+- media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+- v4l2-ctl -d /dev/v4l-subdev0 -c test_pattern=9
+- yavta -B capture-mplane -n 5 -f SRGGB10P -s 4608x2592 -F /dev/video0 --capture=5
 
-Thank you for your detailed explanation and suggestions.
-Your points make sense, especially regarding fdinfo for standardized
-stats reporting, polling being sufficient for tracing tools, and keeping
-V4L2 controls focused on device control rather than driver statistics.
+This patch series depends on patch series:
+https://lore.kernel.org/all/20260409-purwa-videocc-camcc-v4-0-5a8e5f2dd4b2@oss.qualcomm.com/
+https://lore.kernel.org/all/20260326-x1e-camss-csi2-phy-dtsi-v3-0-1d5a9306116a@linaro.org/
+https://lore.kernel.org/all/20260317-camss_tpg-v10-0-b4cfa85c2e1b@oss.qualcomm.com/
 
-I'll revisit the design accordingly.
+Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+---
+Wenmeng Liu (4):
+      dt-bindings: media: Add bindings for qcom,x1p42100-camss
+      media: qcom: camss: add support for X1P42100 camss
+      arm64: dts: qcom: purwa: Add camss node
+      arm64: dts: qcom: purwa-iot-evk: Add camss node
 
-Regards,
-Ming
+ .../bindings/media/qcom,x1p42100-camss.yaml        | 424 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/purwa-iot-evk.dts         |   4 +
+ arch/arm64/boot/dts/qcom/purwa.dtsi                | 158 ++++++++
+ .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     |   2 +
+ drivers/media/platform/qcom/camss/camss-vfe.c      |   2 +
+ drivers/media/platform/qcom/camss/camss.c          | 109 ++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 7 files changed, 700 insertions(+)
+---
+base-commit: db7efce4ae23ad5e42f5f55428f529ff62b86fab
+change-id: 20260409-purwa_camss-475787b87e14
+prerequisite-change-id: 20260331-purwa-videocc-camcc-d9700d0f797d:v4
+prerequisite-patch-id: 61bdb45446193b72dd8a4b093e4ab2f78db2f066
+prerequisite-patch-id: b5be9dcbb612a14108f890b2782860847edfcbe4
+prerequisite-patch-id: 2f4d4c5c118e057c76e6d2785479df01d5bc1c7b
+prerequisite-patch-id: 026db5dd71d5b0472225ba72c8ba2781334143a9
+prerequisite-patch-id: 615e6f38e528de35dc206f1c7f3eaf78ff04afe2
+prerequisite-patch-id: 66096b909debe4d942eee972948d5a138a5be427
+prerequisite-patch-id: ee26e00cdde21ddb070af713230082ad3454422c
+prerequisite-change-id: 20260325-dphy-params-extension-5fcd9ba8af61:v1
+prerequisite-patch-id: 471e9403130bb3e65cea1d2365d75ef664662306
+prerequisite-patch-id: 075fa72fba3c4f51138b88972e6a5e240038d90c
+prerequisite-patch-id: 4edca361ad7d370a338641d1ebb5ca65b114a244
+prerequisite-patch-id: 32dd1b55ba678d00088b376e33e12d9da6241aca
+prerequisite-change-id: 20250710-x1e-csi2-phy-f6434b651d3a:v5
+prerequisite-patch-id: 5c8b5c0011e54921bcfb64b07f0468977f44290b
+prerequisite-patch-id: 22e71ff566976c8333537b09b2721116acd267e1
+prerequisite-change-id: 20250313-b4-linux-next-25-03-13-dtsi-x1e80100-camss-1506f74bbd3a:v11
+prerequisite-patch-id: 6e8e67cd3ab96a602971bbeeb7dfdeaf3f1426a2
+prerequisite-patch-id: bbf431fcabc17c30fa5e804eb4accb8275198b37
+prerequisite-patch-id: a7fbea14628b62a8de096dea420473b283010aba
+prerequisite-patch-id: b6b6c4e7a5818e1b93fe2758902bd32d2be48509
+prerequisite-patch-id: 4f11e3d079a484008a03ce750952d6e2933c0253
+prerequisite-patch-id: 5f5504fd7b5eee72c3fb8c045fa57219fd2f0456
+prerequisite-patch-id: 570b65b326f4c684d813f6ebeda152378dc2a47f
+prerequisite-patch-id: bc5b9321c124abd961ae1f60610dc46701dc80ac
+prerequisite-patch-id: 6d36feaa3a210039f87ea47aa74423a670260fb6
+prerequisite-change-id: 20251226-camss_tpg-b23a398bb65a:v10
+prerequisite-patch-id: 520491f0d518f3463d429e77444e231fa6016dd9
+prerequisite-patch-id: 459fda84ad92fcd4a497d00ce1690cd19f2cbacb
+prerequisite-patch-id: 82330aed01b91c49acbd577ba75bb73bcae6ac90
 
->>
->>> Regards,
->>> Ming
->>>
->>>>>> Generanlly document should be first patch, then driver change.
->>>>>>
->>>>>> Frank
->>>>>>
->>>>>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c | 8 ++++++++
->>>>>>>    include/uapi/linux/v4l2-controls.h        | 4 +++-
->>>>>>>    2 files changed, 11 insertions(+), 1 deletion(-)
->>>>>>>
->>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/
->>>>>>> media/v4l2-core/v4l2-ctrls-defs.c
->>>>>>> index 551426c4cd01..053db78ff661 100644
->>>>>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>>>>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>>>>>> @@ -831,6 +831,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>>>>>>        case V4L2_CID_ALPHA_COMPONENT:        return "Alpha 
->>>>>>> Component";
->>>>>>>        case V4L2_CID_COLORFX_CBCR:        return "Color Effects, 
->>>>>>> CbCr";
->>>>>>>        case V4L2_CID_COLORFX_RGB:              return "Color 
->>>>>>> Effects,
->>>>>>> RGB";
->>>>>>> +    case V4L2_CID_MEMORY_USAGE:        return "Memory Usage";
->>>>>>>
->>>>>>>        /*
->>>>>>>         * Codec controls
->>>>>>> @@ -1476,6 +1477,13 @@ void v4l2_ctrl_fill(u32 id, const char
->>>>>>> **name, enum v4l2_ctrl_type *type,
->>>>>>>            *min = 0;
->>>>>>>            *max = 0xffff;
->>>>>>>            break;
->>>>>>> +    case V4L2_CID_MEMORY_USAGE:
->>>>>>> +        *type = V4L2_CTRL_TYPE_INTEGER64;
->>>>>>> +        *flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>>>>>> +        *min = 0;
->>>>>>> +        *max = S64_MAX;
->>>>>>> +        *step = 1;
->>>>>>> +        break;
->>>>>>>        case V4L2_CID_FLASH_FAULT:
->>>>>>>        case V4L2_CID_JPEG_ACTIVE_MARKER:
->>>>>>>        case V4L2_CID_3A_LOCK:
->>>>>>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/
->>>>>>> linux/v4l2-controls.h
->>>>>>> index 68dd0c4e47b2..02c6f960d38e 100644
->>>>>>> --- a/include/uapi/linux/v4l2-controls.h
->>>>>>> +++ b/include/uapi/linux/v4l2-controls.h
->>>>>>> @@ -110,8 +110,10 @@ enum v4l2_colorfx {
->>>>>>>    #define V4L2_CID_COLORFX_CBCR            (V4L2_CID_BASE+42)
->>>>>>>    #define V4L2_CID_COLORFX_RGB            (V4L2_CID_BASE+43)
->>>>>>>
->>>>>>> +#define V4L2_CID_MEMORY_USAGE            (V4L2_CID_BASE+44)
->>>>>>> +
->>>>>>>    /* last CID + 1 */
->>>>>>> -#define V4L2_CID_LASTP1                         (V4L2_CID_BASE+44)
->>>>>>> +#define V4L2_CID_LASTP1                         (V4L2_CID_BASE+45)
->>>>>>>
->>>>>>>    /* USER-class private control IDs */
->>>>>>>
->>>>>>> -- 
->>>>>>> 2.53.0
->>>>>>>
-> 
+Best regards,
+-- 
+Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+
 
