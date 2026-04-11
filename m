@@ -1,100 +1,97 @@
-Return-Path: <linux-media+bounces-58594-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58596-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QJmKMjyG2mkO3ggAu9opvQ
-	(envelope-from <linux-media+bounces-58594-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2026 19:34:52 +0200
+	id GGujARe52mkO5wgAu9opvQ
+	(envelope-from <linux-media+bounces-58596-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2026 23:11:51 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432A93E10FB
-	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2026 19:34:51 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5883E1B63
+	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2026 23:11:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6382F3037653
-	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2026 17:34:50 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7052F3031AEA
+	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2026 21:11:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7588F3B9DB3;
-	Sat, 11 Apr 2026 17:34:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBB9A3BF68E;
+	Sat, 11 Apr 2026 21:11:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bX+DzwVu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ixj8ZSCf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB24C285CA4
-	for <linux-media@vger.kernel.org>; Sat, 11 Apr 2026 17:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F391EB1AA
+	for <linux-media@vger.kernel.org>; Sat, 11 Apr 2026 21:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775928888; cv=none; b=RBkiFwFbzPphAcSHudM1QIfBSUz/8x1gqdqNSCCyQ9vznYyZL+t2TwgQYluY8yZWsfaiEcT20Tmm7/gQN1fl1PVKyWPp7a62MEI6+A0Xgq8mEqEhzFRN+Vxwso5m/ScF2Lgqasi+hv6r+nsRMmqTv+vNGU+29OYvkWaz0C+DpN0=
+	t=1775941897; cv=none; b=J+mDrCW+d1MrT4JqYapFmLyn5AcTjtwYD+SopNJATE/pyBmeei7ln4EPJSnYyCo48OwtwGBwaAwsCj06RlksF0wSWLub1HCfDUb1YCu+jFaR/6V+9WIytOu3JlpdSsibHIIIUZ1HxwoMMDwFapksxGA1E6TbSE7CkV9qasy4+qY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775928888; c=relaxed/simple;
-	bh=TVUmmcEGpWyuwDQqSCraoxd2R9SWXANWLHXdECuOFG0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eSC8/md8WieJBCrPlar1qFQ+xvXAsvCnUjTGmn8jx1m4zgM7c6NNvKst7m0jbNsNH75FD58eJYm177hHhLce2v21jB5So086cM+DRqYxfykmh6asQ+CnhSzcyOJfMmoPt7ihcfUhcmaJEIBMGa+JqSFQpSTNpsmfAtK9ZDle0UM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bX+DzwVu; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1775941897; c=relaxed/simple;
+	bh=gi15hcyqfgdadvIhdvu5Qn7qP7o4w4fImY4nXxFjqQc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DgHNohPZw7y1TcHrlwl+VTWVQpZqxijr5VLKpBj0S9N1WxS7WdX/O7/tW9UwJc7/EkYHukMGq6WRJoIUWa2agK2U/ScTvdQinmMeH3Xvtf5fg1XmSAFJlJl6YfjhS1ff6fWtQgI7jc1znsE4Urva2eqifCzzTZCwqJC7NSkn/w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ixj8ZSCf; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ad4d639db3so14144295ad.0
-        for <linux-media@vger.kernel.org>; Sat, 11 Apr 2026 10:34:47 -0700 (PDT)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6634bb959a2so4495109a12.1
+        for <linux-media@vger.kernel.org>; Sat, 11 Apr 2026 14:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775928887; x=1776533687; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EjJYUGwxxGgqwtKOdyqSDtrzAYZSru7BIzGMtnuqExI=;
-        b=bX+DzwVuIBZE3Aa8jiczIC8BEMEl5sANb7PaeK8UXZ5pxTxDu5jlUd0TR0P9mgGXR+
-         +Nx8UII1I29TjibLLek99UKeoYTlt6/SRtz2CGkim6+JYwBq/1xo9TpAqLOF2eCyc1NN
-         md8k+djv7LQXfAqXJUABIhQczw2CJ48wx27yvvcN6bJbiBNdCwvBUGk2skZmAhBZ85hm
-         fumXKdiaBR9Kv5SJuhHZWB4yM1dfgiAfiBWatHiTfZZ7ohhjcPJO8V9Maf/1cJSvVytP
-         XiSEoh8kDDJ2/GanmAtQ9bDaJw7qGmtmSbAg9lJahFjwrk9FtXLPpJb59NAAlBCIVX2v
-         0J5w==
+        d=gmail.com; s=20251104; t=1775941893; x=1776546693; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7sJmPJWyRpJ6XpOWhqHf2lRa3H2nAMFw7nJfxUU+y3o=;
+        b=Ixj8ZSCfh9qoyLBz05ac4nnJJeza7KmqAD8wV816BmzFZN5hwn0CqobIIF3Z98nPJQ
+         d1mFxY/boyPEG3/fpS0fr7OP7ltIrnVm5S/rVPX5MuYVZs+97JXkES534wjObAWrxSln
+         Edh3zs2miqDRGa0YcYp6EwEbP3d8dtRAzrtUtiGDbInT9xqR1NrcQ9DKgCJdYY4SNjfe
+         woVUlpP6RCizXf0wRfvel6Aa2MKCl+SekvcNN8ujiz+UUjqlUGiO+s2Y7bZbFrURi9ds
+         9141oz4vBiZoAJt7h7PATVjpKTijn+//SmhG5UOkkfxv0grMEEaOtcYFamnGcM4fgfJA
+         Jyiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775928887; x=1776533687;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EjJYUGwxxGgqwtKOdyqSDtrzAYZSru7BIzGMtnuqExI=;
-        b=OL1F0A6TIZ1XCUsVTmJ4qkFIGGAqKaeOngp6jiUYHskUFB6L3zCmtfApfJp3g6AHkr
-         qvh9t8HOK2VtcT6wvx6771enxFHJKbNSHpVpSl4vI/nQSj7anIp7CCbuTVAQD+MWHzuS
-         dRhkqH7krs1rNGS4DwST0GpE9Do8ogSM9wIMZgpoH5Woptm1Sl5uOPLD82aYHqSvCo8C
-         wt/7EOeKkJCz45Gwg41fIcJR2zGflz8CQXAO87wJYwD9RH6O6/gspjv/X5jyLNULnJ5H
-         ZtGm8YV5iv/94SKSXHQj7TcsSRa069usS/3tQBVnB4yO6mnpBxv+4aa1eQk2KNYsUpJa
-         GZlA==
-X-Forwarded-Encrypted: i=1; AFNElJ8XWzpNSnLEitoreK6jP1dGZfbjFvYJcymmgwQ+O0AewB+TEhbVPAGLKgVI6mkeqoTGAYm3ipI0v7uqYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrGbOXt+FG6Hs7rn9G9ryVEOu9yKuArnnu/IMJFSez7Ua/QQwg
-	+jYrcWerso79xiE/goiK0IwtiYadXqtVSkto6th7SYiXQbI7Doi3pDgc
-X-Gm-Gg: AeBDiesR6u8kf3ngEi212yR5isdzZqb/iZNt4PlOb+XP7l/leH0Qlm/mZohwxOdYRKW
-	RwgZYz9xiYx2fcglXA8ZvG2LBSS++4o0iWaGQV+cFb/CwL+xKmE8cFB2Z1dk3vvjvNZ/zVrJCSV
-	HeVHqCNqhbT0PKtG3k+1R4W59BQZi6rk0wGsy8mGY6aHk8VrIB/qSrfZbq6Gz7VzjzrnzBchAXj
-	oH7qtbj3jNwBlGtsp7h5ozRMEk/tc9xzpfYImU73qVYqdBUQWZo4TphEY8n+NOs6inbEVkmhBTz
-	jRXIPSaaeMJ8rVlXRDPn/0dPKttCQLePYVFnr4+7uwQdOD2AMPy2Xhfp0HmI+RSPhAPcmd2xZoe
-	4zoQtEzjvGEvPXPPailvCJqiVTGy/bjTTDPxRa4GQ3kvw9jMK1tk26DZTfku3MMxAdPb/kU/0cc
-	KgkKPFKV4a1RkI+JPAujOcdx+N8ByC2LkGFY9bXZrznrH9X1xKL2zzUCw7uwguoIzXHi8qErS8P
-	OGhH/9MQr6XnNGaNDBe1Kl3cK8ZcFdG
-X-Received: by 2002:a17:903:144e:b0:2b2:58c7:2ce1 with SMTP id d9443c01a7336-2b2d5a7773emr76956635ad.36.1775928887277;
-        Sat, 11 Apr 2026 10:34:47 -0700 (PDT)
-Received: from michael-mint.tail2556e3.ts.net ([50.47.84.240])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2d4dd67ecsm67009125ad.21.2026.04.11.10.34.46
+        d=1e100.net; s=20251104; t=1775941893; x=1776546693;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7sJmPJWyRpJ6XpOWhqHf2lRa3H2nAMFw7nJfxUU+y3o=;
+        b=N2JJmm7R/mlXpE72v7JMUrYJOmBY0wCt7e4U3NAGDdEKinPIHVlr9cJupL5B49/WCn
+         UQyp0lYB9P0V4kgrAcAMOdJ6txVZMmzl4Xt9CyVOuPvXegDLT8Gm1igWTY3zFczbYCUv
+         d/1AXOsLPdTl3c5ceNwmE9c7L3pteTpyzUDpnkRXUgf4ZVMGB67Ou4q4fEoVvQ2zPp70
+         jvwosl6svChsXTReMjx+uGlaBqsrsCruqXKBn+Zb+NlyFKH8bbAyb0Ej+4WTf6lR3hPo
+         jJcgRfFm9blVZ+GQ2ZV/+ld6MMNspHtd0Kk5Mj20o8lME3ygMKZhRxLroq7lktczI41G
+         sc/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW0dM2BkZLfMVuDIfKYEUUbfxigxK81y4Sw6ciy0+YqGJX3PZ2N6HC8sSLIvhOMF/r2ZSMwbZpdQMoJlQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBbQnsH+1rBKwabQHjYFuq64djw/7Vbnrx162nFjfhgBwZ1uAe
+	jK4bB/n95zJw6BVfuKVlDOr9+sp3pP/CtNjF2sAu9aVJYs1jJF5JCG0B
+X-Gm-Gg: AeBDievXXoGboDgy368puGSlyNdID/zcsLc0mra06wP8nemWBTBFKv67GDPeCGfWD6O
+	BELtvt8ldTX92x1hsW+WgGnNXUqJPJ2pz9TLA+yjgNM5LxLvKPx8y0ZPnKYqDPGL8v9aw0ksxQ5
+	PxKVJOgy8PNAZa67Z2wDYYzZPyqABNzFuc5SujReR6Hj8iimvDB3qAtqhaMTwb/Eux8neROfkgy
+	O8LfPUMVJ2T8MmWgFonoJ39jEUMBrDIdYmqotPDxMdU4P/vpKimi86UKMVuDdeYkLcxBuOmaOnW
+	PF1jhzjidfkUskLO28RGpXsTUDYTI/eGciFIr2t3jlxd/O+jZOpML9LZb8TVtcfcKytYXObrstd
+	kfjqDXjfi1OZ1Pe0jOMU76xC9ebgiODfDsOdo2LzZIcE5H2mzrZqywMvh3//CrUE+3ugsS1Kc0W
+	dQeXeqK28spiEPGkRuewprx/Ty3w95kNDBEskWDd/E1/fcq3ODVX/FcU2SN28yymtT9EntgrcG+
+	9Jax74ChiWzjUHNtF+UPpkELJXjl7hUUtjlASHT3oK35cYr9tAH8Eci4BQS3kgfCT6O15rbz9fd
+	S5H5LA==
+X-Received: by 2002:a05:6402:280c:b0:670:64fd:2301 with SMTP id 4fb4d7f45d1cf-670795162d8mr3722324a12.15.1775941893193;
+        Sat, 11 Apr 2026 14:11:33 -0700 (PDT)
+Received: from ahossu.residents.sin.openfiber.nl ([88.202.160.248])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-670702eec8asm1511110a12.2.2026.04.11.14.11.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 10:34:46 -0700 (PDT)
-From: Michael Ugrin <mugrinphoto@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	Dan Carpenter <error27@gmail.com>,
-	David Laight <david.laight.linux@gmail.com>,
+        Sat, 11 Apr 2026 14:11:31 -0700 (PDT)
+From: Alexandru Hossu <hossu.alexandru@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Michael Ugrin <mugrinphoto@gmail.com>
-Subject: [PATCH v2] staging: media: atomisp: use umin() for strscpy size arguments
-Date: Sat, 11 Apr 2026 10:34:05 -0700
-Message-ID: <20260411173405.14485-1-mugrinphoto@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260411005512.46142-1-mugrinphoto@gmail.com>
-References: <20260411005512.46142-1-mugrinphoto@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Alexandru Hossu <hossu.alexandru@gmail.com>
+Subject: [PATCH 1/2] staging: media: tegra-video: fix wrong return type in tegra_get_format_fourcc_by_idx()
+Date: Sat, 11 Apr 2026 23:10:04 +0200
+Message-ID: <20260411211006.150782-1-hossu.alexandru@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -102,92 +99,99 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,linuxfoundation.org,gmail.com,vger.kernel.org,lists.linux.dev];
 	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58596-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FREEMAIL_TO(0.00)[gmail.com,nvidia.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58594-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[nvidia.com,bootlin.com,kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev,gmail.com];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mugrinphoto@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hossualexandru@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 432A93E10FB
+X-Rspamd-Queue-Id: 6D5883E1B63
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Replace open-coded ternary min expressions with umin() in
-strscpy() calls, as suggested by Dan Carpenter.
+The function is declared to return u32, but returns -EINVAL on the error
+path. Due to implicit conversion, -EINVAL (-22) becomes 0xFFFFFFEA as u32,
+which is an invalid V4L2 pixel format value.
 
-Signed-off-by: Michael Ugrin <mugrinphoto@gmail.com>
+The caller tegra_channel_enum_format() assigns this garbage value directly
+to f->pixelformat and returns 0 (success) to userspace via VIDIOC_ENUM_FMT,
+giving applications a silently wrong format descriptor instead of an error.
+
+Fix this by changing the return type to int and propagating the error
+correctly in the caller.
+
+Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
 ---
- .../atomisp/pci/runtime/debug/src/ia_css_debug.c      | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/staging/media/tegra-video/vi.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-index b411ca2f415e0..60bb10dac5891 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-@@ -1256,8 +1256,7 @@ ia_css_debug_pipe_graph_dump_stage(
- 				while (ei[p] != ',')
- 					p--;
- 				/* Last comma found, copy till that comma */
--				strscpy(enable_info1, ei,
--                                        p > sizeof(enable_info1) ? sizeof(enable_info1) : p);
-+				strscpy(enable_info1, ei, umin(p, sizeof(enable_info1)));
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 9c0b38585d63..afc7327ef318 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -77,13 +77,13 @@ static int tegra_get_format_idx_by_code(struct tegra_vi *vi,
+ 	return -1;
+ }
  
- 				ei += p + 1;
- 				l = strlen(ei);
-@@ -1268,8 +1267,7 @@ ia_css_debug_pipe_graph_dump_stage(
- 					 * it is not guaranteed dword aligned
- 					 */
+-static u32 tegra_get_format_fourcc_by_idx(struct tegra_vi *vi,
++static int tegra_get_format_fourcc_by_idx(struct tegra_vi *vi,
+ 					  unsigned int index)
+ {
+ 	if (index >= vi->soc->nformats)
+ 		return -EINVAL;
  
--					strscpy(enable_info2, ei,
--						l > sizeof(enable_info2) ? sizeof(enable_info2) : l);
-+					strscpy(enable_info2, ei, umin(l, sizeof(enable_info2)));
+-	return vi->soc->video_formats[index].fourcc;
++	return (int)vi->soc->video_formats[index].fourcc;
+ }
  
- 					snprintf(enable_info, sizeof(enable_info), "%s\\n%s",
- 						 enable_info1, enable_info2);
-@@ -1280,8 +1278,7 @@ ia_css_debug_pipe_graph_dump_stage(
- 					while (ei[p] != ',')
- 						p--;
+ static const struct tegra_video_format *
+@@ -395,6 +395,7 @@ static int tegra_channel_enum_format(struct file *file, void *fh,
+ 	struct tegra_vi_channel *chan = video_drvdata(file);
+ 	unsigned int index = 0, i;
+ 	unsigned long *fmts_bitmap = chan->tpg_fmts_bitmap;
++	int ret;
  
--					strscpy(enable_info2, ei,
--						p > sizeof(enable_info2) ? sizeof(enable_info2) : p);
-+					strscpy(enable_info2, ei, umin(p, sizeof(enable_info2)));
+ 	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+ 		fmts_bitmap = chan->fmts_bitmap;
+@@ -405,7 +406,11 @@ static int tegra_channel_enum_format(struct file *file, void *fh,
+ 	for (i = 0; i < f->index + 1; i++, index++)
+ 		index = find_next_bit(fmts_bitmap, MAX_FORMAT_NUM, index);
  
- 					ei += p + 1;
- 					l = strlen(ei);
-@@ -1303,7 +1300,7 @@ ia_css_debug_pipe_graph_dump_stage(
- 						while (ei[p] != ',')
- 							p--;
- 						strscpy(enable_info3, ei,
--							p > sizeof(enable_info3) ? sizeof(enable_info3) : p);
-+							umin(p, sizeof(enable_info3)));
- 						ei += p + 1;
- 						strscpy(enable_info3, ei,
- 							sizeof(enable_info3));
+-	f->pixelformat = tegra_get_format_fourcc_by_idx(chan->vi, index - 1);
++	ret = tegra_get_format_fourcc_by_idx(chan->vi, index - 1);
++	if (ret < 0)
++		return ret;
++
++	f->pixelformat = ret;
+ 
+ 	return 0;
+ }
 -- 
-2.43.0
+2.53.0
 
 
