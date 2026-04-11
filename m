@@ -1,154 +1,130 @@
-Return-Path: <linux-media+bounces-58575-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58576-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6ALXM5K/2WkKswgAu9opvQ
-	(envelope-from <linux-media+bounces-58575-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2026 05:27:14 +0200
+	id CNbuKE/D2WlxswgAu9opvQ
+	(envelope-from <linux-media+bounces-58576-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2026 05:43:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757DD3DE350
-	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2026 05:27:14 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B5813DE41E
+	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2026 05:43:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8FAD2301CA9F
-	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2026 03:27:13 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 35454300C562
+	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2026 03:43:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEEBF285C91;
-	Sat, 11 Apr 2026 03:27:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB72F2D73BD;
+	Sat, 11 Apr 2026 03:43:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RrfkHgzY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V+O4fV/C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A9919C546
-	for <linux-media@vger.kernel.org>; Sat, 11 Apr 2026 03:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775878031; cv=pass; b=Ixa5VQUSn2YEamIr2+G++QuOSixJMt471HFsxlItn1jp87Eitj3YSh/O5i8WLXx4nFP4jx9Ptu3XNPPacHeMjPQixlPTvx0ou98J8DcyfEDclKtP/p4UKMuOnpjkyU3hqSDq7yMHQIByZ3qMcI+c5HqlvUSnXzC3sABJ6u40xAI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775878031; c=relaxed/simple;
-	bh=e88WVrpza7S4Khk2110OYmJcejjIOgQt2X2JqIJv5tw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=ktNw9PsEr2E5M5gYrvVoaGvhN1TqsdMtx7oqP7YFuNwaBWQDpFcIdRuN9gMkW6WHle+BNlLsGBVw8Q0guRmrgovZHHe6tfzid4GmRmsz2cVLcjPzlextOSR7L8RLsdSWOB8V5/gQcDlMqIcgxmkpCIwqUKGr/1y7vIMw38gWSt0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RrfkHgzY; arc=pass smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6501c9903edso3125293d50.1
-        for <linux-media@vger.kernel.org>; Fri, 10 Apr 2026 20:27:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775878029; cv=none;
-        d=google.com; s=arc-20240605;
-        b=QVyeAY4ZdwJUDkNEJ7NRxXO0XUBSCe+Fo6+wp5GLXHzx+KGKiwUnOBabWISsFN2qMR
-         VORBKEfxQP7Nv1shGYI+vsJld4sgtd31NcHjUwtfroL6dok3GHzXuQn1KFhjAuanxNVK
-         PK+EWRC9DQ4+Z+9hEEAJV5B0Vk0l/dEV1MDTICiwkBiKMqoZ0BL39YUoQU61pJbdky9W
-         9EyQYemVWiidY67hqs2VvcGxtp2YS2P0uTtELM3LUujymROE8y/BwwvcrMuTsIWcqvUq
-         yz5IJt9HeMHMqT8fjqtktEp+jRF6/llVnVi1BxuIZ96QXiD4JDsJKROG5P/etVIMN4rg
-         PHPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :dkim-signature;
-        bh=e88WVrpza7S4Khk2110OYmJcejjIOgQt2X2JqIJv5tw=;
-        fh=RpYxnnRW5A5FvuL86z7f7YWfE0tvaTrs4Vecbev4fLA=;
-        b=XFoc8WwShzIuuHHJrNW61psG9rMt2fVPJhKSFx8CaCu27ALimheNvsv8JWMD7GXKQq
-         SNg51gfDcRppQuRiQdgqGfXyvUDXab8uYa8FX2pTiCmE8kcMfcvO9SBGMKqAy+cRvjxU
-         JCdyjdvOHhA5H1XJVjwJowWnZlQaBOuIIkcIWwYSyKFxWwZVgC4yRA7IVWucWOwaWIwY
-         6cyPT17Ud14OB4nByP/QjBqGV60hKCx+rcDNAJ836WYx0LUVODjTqDrzqS62lWS+gkaS
-         wIgYfDChT+cMhKH/2cx2/0vCsxAGaJSqFojnLVPXH/SQbVnq/DMfSrekwKKBWUT0p5iq
-         HvUw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775878029; x=1776482829; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=e88WVrpza7S4Khk2110OYmJcejjIOgQt2X2JqIJv5tw=;
-        b=RrfkHgzYXzWXJpT5PLEJeA8R9NmvuY+HfxQbI144w3b/YljqR5Aiau1cxqB354SIzn
-         bIfB5fqXBQVINgsKBNMGRvHDEMn3JbzrXQF09u3nDADWay2V4ryYgsWmntRRkbNk4uei
-         /oESIQYGBFEH5HUOGXTWmewqvQuvnRUu1AUvve9Ipm93Jtmt3aqg+4rH+xPQxttsGveP
-         Si3QDVajgBR1/0LV+WlDOj4ECpVuX5vDZMW2X0AXKpGlmZc8qBTmOLRpx6UA7dyJavw0
-         6IOcQtgoC6PM+N+TjwFBD+59H36t+8ZfZdMphJl1pryaWX4AOa0mtYYnLtEAZGn7BVUn
-         eVYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775878029; x=1776482829;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e88WVrpza7S4Khk2110OYmJcejjIOgQt2X2JqIJv5tw=;
-        b=tFbgx97W8pn6ZKYkxdelht16YX+nU9wCUiA10EC06CjGudWaiwX16vb/BJimvJgCFA
-         PG8DhQu+nVKcXNxqDs0bd1GEquojNdur+SQsrBzJcKHpSxU3aTKfqaW5QtqXaRX0hN66
-         3q6Gjg7vYlJcDvclH64Lx7cYUdLfFSz0HoSa+4Lv2luSDYmWM4u1sEf4Fwq9OJN20qzu
-         tkBPj3pvq1wB3UOEbGxZxHSa5lrf8YxQyTydXxXbHjwxGjMFz84iNAdKRtc7llEDxKbj
-         r30wsbqXPT80YwJN4PTKMgYSkRTOpPxTbugovQcKk+wgeYBraaKtxj369SpQNL/Cx2QN
-         zooQ==
-X-Gm-Message-State: AOJu0YyNMTWblTUrMmjUBVVM2PcXpi73k2AaNw5NwHh3EM9/rA/CKtfr
-	HkOtvaMgHp+ankJufHGRCZS/LVFHFmHymZGAduMklBINK4KHdUAXmP2Co1YHbOVjb1ASysg+3LD
-	t/5Go+YCQh8cDuboxnQpE8nVuyMDGsaUKLGwOLug=
-X-Gm-Gg: AeBDieu8ah/siwGVHQbBrnEvsVKUxr8mvAyoFaTJl+j/rlFNk1VgOGxg/VdiZBXgMjv
-	6bYpP+ypxk/Bx53Wyj2GH5dE3p4Y19w6ay4Xk9Gvzhfdqx3DzZGPTvvRV/gp1XsQgeH56+1cWlU
-	VJpCuE0ILXzmbCm6cJtgGfywBJCg/bJiN7pg7lEwHfnIrHh/e+aEs9zrEAwnnoC+JFsc6hejFNk
-	rBIUUZDQhblS53mJRXn+7XtLk3KQp/flKL0WcTv6BdMNvaC7Bwk1X98CaWIUczZu8oc4U+qTtLz
-	tFoKBiAGp6YE90NzuYcemLOHy3O4H8h6QeqaPmflcq9DBQP93zabtyXcnKsy2g==
-X-Received: by 2002:a05:690c:c507:b0:7a2:7b00:67f6 with SMTP id
- 00721157ae682-7af6f22b954mr56175377b3.9.1775878028994; Fri, 10 Apr 2026
- 20:27:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCFA280CFB
+	for <linux-media@vger.kernel.org>; Sat, 11 Apr 2026 03:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775878982; cv=none; b=mZxExhIrSbbqvJ3OUtgeZuyKwsS1pHpSCsyy+XplhERigCk9UOIEahamx65e4QDIGJO1HUVvAjOUwo8yV9I69fAQb4ozotEJSHQa/7z3H2Fx+wB/uOazrrRQ+rhnh4L9Fnri6ueshEgQlNZS8zC0soPzrhMhhxGLIQ6ANcxbUtg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775878982; c=relaxed/simple;
+	bh=D8JLvZudWYPw8KEuqIcwICczZgGDzXdU89Gvz+A8dQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PCoNg2mbszki022cg/i97mdC1NF6nTv3SQg0VA5sPAH2+sibfNdrabqQFDLnwi9g7L9QkjMyx/zO6ekgAVESEmYpL3O/SdWptdvm+Z0tway2IHIdITQ7zgsr8Xg8MVqdBS+4DfJ5vLuRVex32knNzRKglfCNHcAGE2k7guSaRuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V+O4fV/C; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775878981; x=1807414981;
+  h=date:from:to:cc:subject:message-id;
+  bh=D8JLvZudWYPw8KEuqIcwICczZgGDzXdU89Gvz+A8dQ0=;
+  b=V+O4fV/CmWMpAWqvE0hoXD6U0bxwnjfzx6EIblWyKX8xKy7WUMaypnun
+   LPIf1kV8lz7w5Y7WjmQrUfpICWXvOLYL1OwvxK5cm7A15Oek+tvgQwvxC
+   0Z8aymbqT5bbvHkgazTt9TykJ7stJw+t4BCqeS61uAv/gW+Zd1UXIGG8C
+   A9l+B1I+uUsOeMUoqljoxBVo8DSesoIV7XKKgAB8IpF51zUYR0U+fUWMX
+   D6ZxZN+QpmuBEXT8HypPEdLzsrqG/mj2CTs1RJAi7jQtw/fvlGABGPvo+
+   D5xN6Y1Q9hY9pKY8w/QURylgU7CYr+/UVUXXwGrONuHh/O8sNVYxJb+Hj
+   w==;
+X-CSE-ConnectionGUID: B18Md/VBR5GkK842QBhWXA==
+X-CSE-MsgGUID: etrYgnGnQrWkttsq0Eb5JA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="79485181"
+X-IronPort-AV: E=Sophos;i="6.23,172,1770624000"; 
+   d="scan'208";a="79485181"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 20:43:00 -0700
+X-CSE-ConnectionGUID: gV7tfCPeSkWqVfOL8tfWnw==
+X-CSE-MsgGUID: 7axVnIEGSaG0PmDwT3hr8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,172,1770624000"; 
+   d="scan'208";a="233336561"
+Received: from lkp-server01.sh.intel.com (HELO 3eaaf1a74b89) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 10 Apr 2026 20:42:59 -0700
+Received: from kbuild by 3eaaf1a74b89 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wBPFH-000000000iX-3yO8;
+	Sat, 11 Apr 2026 03:42:55 +0000
+Date: Sat, 11 Apr 2026 11:42:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [sailus-media-tree:pld 5/11] ERROR: modpost:
+ "v4l2_fwnode_device_parse" [drivers/media/pci/intel/ipu-bridge.ko] undefined!
+Message-ID: <202604111142.iUEyM6oM-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260411005512.46142-1-mugrinphoto@gmail.com> <69d9bb8e.050a0220.25af5d.8ac6@mx.google.com>
-In-Reply-To: <69d9bb8e.050a0220.25af5d.8ac6@mx.google.com>
-From: Michael Ugrin <mugrinphoto@gmail.com>
-Date: Fri, 10 Apr 2026 20:26:58 -0700
-X-Gm-Features: AQROBzBrkoKN_gzVAs2IozrvwYIQxwILp1WA3Nr-A8CbIgEbTC-PCcVOe22B-rw
-Message-ID: <CAEiYE9j19pjxasuWt_zhzp7zp2wyscyOz+8=sMY-THKtZt7Y8g@mail.gmail.com>
-Subject: Re: staging: media: atomisp: fix indentation to use tabs instead of spaces
-To: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58575-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_ONE(0.00)[1];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mugrinphoto@gmail.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 757DD3DE350
+	TAGGED_FROM(0.00)[bounces-58576-lists,linux-media=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCPT_COUNT_THREE(0.00)[4];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-0.932];
+	SUBJECT_ENDS_EXCLAIM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url]
+X-Rspamd-Queue-Id: 6B5813DE41E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hello,
+tree:   git://linuxtv.org/sailus/media_tree.git pld
+head:   eb7a465247c98700986d85aa41baadbd0734dead
+commit: 00b2c5aa794c2da0ab85ba2ea8cece4e14bd3ecf [5/11] media: ipu-bridge: Use v4l2_fwnode_device_parse helper
+config: x86_64-randconfig-016-20260410 (https://download.01.org/0day-ci/archive/20260411/202604111142.iUEyM6oM-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604111142.iUEyM6oM-lkp@intel.com/reproduce)
 
-The static job failure on this series was a CI infrastructure issue.
-The SSH tunnel to the GCE runner VM dropped mid-build ("connection
-reset by peer"), and the job ended with "Job failed (system failure)."
-The smatch build was compiling successfully when the connection died.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604111142.iUEyM6oM-lkp@intel.com/
 
-All other jobs passed with success.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Could the static job be retried?
+>> ERROR: modpost: "v4l2_fwnode_device_parse" [drivers/media/pci/intel/ipu-bridge.ko] undefined!
 
-
-Thank you!
-- Michael
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
