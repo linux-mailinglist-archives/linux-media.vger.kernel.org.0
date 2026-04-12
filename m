@@ -1,167 +1,119 @@
-Return-Path: <linux-media+bounces-58612-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58613-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oMtbODzK22nzGgkAu9opvQ
-	(envelope-from <linux-media+bounces-58612-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2026 18:37:16 +0200
+	id WMZLDiTT22m7HAkAu9opvQ
+	(envelope-from <linux-media+bounces-58613-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2026 19:15:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1783E4DE1
-	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2026 18:37:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DEC13E5085
+	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2026 19:15:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6C8AE301B91A
-	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2026 16:36:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 21230301D307
+	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2026 17:13:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E1A52DA76C;
-	Sun, 12 Apr 2026 16:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l2mATZi0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5B603148A3;
+	Sun, 12 Apr 2026 17:13:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com [209.85.160.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF706280CE5
-	for <linux-media@vger.kernel.org>; Sun, 12 Apr 2026 16:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD1A30C35F
+	for <linux-media@vger.kernel.org>; Sun, 12 Apr 2026 17:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776011787; cv=none; b=S3dX57HCEYLBT57LJeQJ6V/a1NIsgzqMBNw1f1hvF7B8CrN9AT6Lt/WnGkIpjgnr0wKAMjPgXKbTAaiTiYbov30OJsdVJghYP7BIttm+b9A4zfZSUHYaHUwuLhwSj8UKGYO3NPVrboS7l17NJLBNlo6SqLtwe8dIsDq/MOWOPWs=
+	t=1776013986; cv=none; b=ZjAzIxotUm8qVYYtK6RnVwIxl0C0owoRQL/o24p27v4maP8kBH997UCELVI1fix1VpiHUDktf77gLXHFS2HHhJBZTRSsDOJQDCYzFTQY++7Aa7nqpDLcUF+LJyMulL8AQ7KULCBOuSNM2lBfoWHZhxsAx+aME0a6aK1/vKzZX8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776011787; c=relaxed/simple;
-	bh=QrDJhhk0twAoCgQb0RphuWTv0vbxFxQEpBvzjFSkNow=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SIc7K6QrqDs0nDNepE3Rvh4slspq2Zu5YAgPp3pk9OteHU4KR0wjNkNsH+CahuuEUQ6BoPBPghXBnUree6oe0i/AGuT5RpfwtkMS6EWWMu+9Fbf7OK913uS+zbfcyMPmde+DDvpg/fniOB8EoIJQ/Jpi5j1PGTqPw+k6LpYWvro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l2mATZi0; arc=none smtp.client-ip=74.125.82.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-1273349c56bso4663807c88.0
-        for <linux-media@vger.kernel.org>; Sun, 12 Apr 2026 09:36:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776011786; x=1776616586; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/9Q7XW5fCWd+W/KHOAvk90/HILYyws38daEBVyb/sVw=;
-        b=l2mATZi0OrSws6PqfWE9zYTMpcD/sk6v7AL/1rpXpBrt9mrSqNHl0zyfeRWEhThVsm
-         sTazkxNvRBdTLFPCTLoeqOM4tREWA1ZBmSzuXWk7W/+bMcua+1ESpR/DY5V079oZqJ2+
-         GMnXox604nGvG2Iy/deES6RJ3TaaIBY7DncGkMetI9ZWm9fSgnTeDb6tkfiNs/z0ZLOr
-         2naXwW4cQ/Rmjk0wWHfdRTe/+J4tMJrvAJ0xEvx/6FU/VDEZwvmJPZXgCQ+gl/dfLek7
-         zplPDL7Iowg7HVGhPDFXVuFhY2ce4PrZzOjdaFBE5sISUW1R5LBZghQn6mQCAoyPXGva
-         iI+Q==
+	s=arc-20240116; t=1776013986; c=relaxed/simple;
+	bh=hr1MV9S561RrJoixK7OZ9h8Z/yV796RTYFnsxlWRa0U=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=TByJQrZhrycreepdCP5oYsVyOgI9Af9izMuYnqumZzJ/x5HR7JojcQk+qv9IFRO40r+dlHPed8JSFAiI6ZbkzG06WxEZhlbqRivijHxIV12Q2RB7IniLs06VwGXqT5HS2tW0eWkDs6D1smr6id/RGAwuq6kHx388zT7g6e0KR5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-4240a9f9375so1252825fac.1
+        for <linux-media@vger.kernel.org>; Sun, 12 Apr 2026 10:13:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776011786; x=1776616586;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/9Q7XW5fCWd+W/KHOAvk90/HILYyws38daEBVyb/sVw=;
-        b=swdCIR8UZPqbplKMGfww0LGV1++FxHlELsVwK7cFTQrcpXTvG7n+Lg/mcVoLo8yx0B
-         e6aEAFtnaYkMTeZse4VPa0xo+4mjJ717qRET+zYpjGA9BXNt+i7yRqqvGJ10xAOMhuX8
-         2hKzY0WVA1DaDK8nYRnQgoMIptCnrD7pNCs8qiPIav/K+2DZNwBOZDMKMgsQic75HRYb
-         KHrEp9AbaabLWbC0x1/VF1pNYFZy4oufPMAviRzSGr+a7y40odkUgUeRvw6hNJVJxRRs
-         4kMFi7ZiVUpUTmpP+Fj6PlW3tSnpwRkfRkFN2zYZCIpnu6qxOJxdMSw63OR+EJRtZkTy
-         IGCA==
-X-Forwarded-Encrypted: i=1; AJvYcCUTXoaNK4c5vT3Gu+kRahTfcKsHjk1mpC28oi77nllyMgBOocTCIrUFMMj56baMU7YqWgJr+bMVMGvfSQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzgx+T5BX6z5l0ZtmDRbgHuFUwtX7L5lDVorh0KNEqw+TkAZRQU
-	z2TPl+sA8cf341YkSw1VvBZY+gkcwXa0meBdmDYrfuYn+SNRT1/iFyj4
-X-Gm-Gg: AeBDiesDjx1ZTxrvtsuyiy1N2THEyqvVPzrU+7GKmGCPXR1VXxy6CojTEq53r0fvNda
-	fdFg/DY3stZvldoYVjthSykA3kb4n0d8rQdmqUrbsu6Lmu7lCXIK5OR31ET5Imry+TLOwHOtJIy
-	UF/Yz09X0sCRmyQDJli+0Lzi/M7xtErN5pE8ZIjKG1zKlzjFfaih91eAAlDHscX9tFk/1pezQ2O
-	phSZdoYM34SxbIn400FzIFzjJHoQiObHHs5ztVaSgwWfCgq0rq8TjVu4/cSRD9RA04ej1adbISV
-	ZPdLQr6W1sH6L+UsFbFiXLeKYFBVW62RV7KJ6ATx6D2ErUR4tQTk9mag4FxgIPuMywGN/+uO0e+
-	bKn6uhsdcafgEjpjlXiDr1t4lcomrrq5plBDc1Ktd8s+tGTZqe4GWZJKoHa7oD9Er09N7qbC/MW
-	CJnYBk4ei//22pki7t4M7QpsKyep+rqICCuDABFND1HCOZmf1jlDPTP1s=
-X-Received: by 2002:a05:7022:6a9:b0:123:3488:899f with SMTP id a92af1059eb24-12c34f14188mr5695800c88.32.1776011785777;
-        Sun, 12 Apr 2026 09:36:25 -0700 (PDT)
-Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c34acb077sm10201730c88.6.2026.04.12.09.36.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Apr 2026 09:36:24 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: thierry.reding@gmail.com,
-	jonathanh@nvidia.com,
-	skomatineni@nvidia.com,
-	luca.ceresoli@bootlin.com
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH] media: tegra-video: tegra210: ensure PHY is disabled in pg_mode stop path
-Date: Sun, 12 Apr 2026 16:36:00 +0000
-Message-Id: <20260412163600.29925-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20251104; t=1776013982; x=1776618782;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7b+YZHSwsuyQR6R44PrK/kYsqjsuy+wg61jI8nterfY=;
+        b=RVdA24NtyfTkPcFxslMoIbCTPUg1CmTMdKerk8c8vuilg/lVeL2SBc668R+dDV6ur7
+         gQTzfcivO89wPwbAL/FKsRBR3l2QMqeMtcdGwiiqTt7VSEO+DPtz9HVerJh3R5khmos+
+         VDwUJg/0i4rG2algCz6+mkzc2pqdDXUwfaG4BbnRlNKdsok/nWYXN0ZRS/igTY31XnBG
+         wZexy4Zcr2U/V3HQ2BnRpcPLJm+y7b4bYHVMOYzB+S1Q98blpLUqfIfTBjRHcXn/L8Vm
+         3k0cV7SGEXXgAp7inyjMY5Cra6UhbEPpaIapb9P8PwLHEY+Jf5uh/cTrG3HU4yaEvbNt
+         +SQg==
+X-Forwarded-Encrypted: i=1; AJvYcCWcp6e2Qj84Dgq68b48MR/jIId0/7loWyVtok4Jr9zdZsLDHvKrEURIUPruJdHMpnFbYIV6uLIICBsuQA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCQoh/X9K1bKZdjC3In+UfrC/dV6YpsKNKkseXg9bD6oSf1BjH
+	7EyRrQDVlPgjbdGJSu2ThUqFnuPJ+uZV5PT9o5wVCxHrRnBNlow2s/gqNlyw/ozCe9qC6C/ejzi
+	Q9kx3CGSDF64VLQtmMfgAI0WAROmxnqPHG+IZlbmuZS+yfA2r+bq2Tv7WGmw=
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+X-Received: by 2002:a05:6820:198c:b0:68b:6c1d:2258 with SMTP id
+ 006d021491bc7-68be7ee194amr5127820eaf.31.1776013982752; Sun, 12 Apr 2026
+ 10:13:02 -0700 (PDT)
+Date: Sun, 12 Apr 2026 10:13:02 -0700
+In-Reply-To: <advGF8eFp3on-6hb@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69dbd29e.a00a0220.468cb.003b.GAE@google.com>
+Subject: Re: [syzbot] [media?] memory leak in vidtv_psi_short_event_desc_init
+From: syzbot <syzbot+afc686a471d70896c5d9@syzkaller.appspotmail.com>
+To: azpijr@gmail.com, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-0.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=e2bba615ee79faa5];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,bootlin.com];
-	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev,gmail.com];
+	TAGGED_FROM(0.00)[bounces-58613-lists,linux-media=lfdr.de,afc686a471d70896c5d9];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-58612-lists,linux-media=lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[dennylin0707@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,googlegroups.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_NONE(0.00)[];
+	R_DKIM_NA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 4A1783E4DE1
+	SUBJECT_HAS_QUESTION(0.00)[]
+X-Rspamd-Queue-Id: 8DEC13E5085
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tegra210_csi_port_start_streaming() enables the CSI PHY regardless
-of pg_mode, but tegra210_csi_port_stop_streaming() skips disabling
-the PHY when pg_mode is set due to an early return.
+Hello,
 
-Remove the early return so that the PHY disable path is always
-executed, ensuring consistent teardown.
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
- drivers/staging/media/tegra-video/tegra210.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Reported-by: syzbot+afc686a471d70896c5d9@syzkaller.appspotmail.com
+Tested-by: syzbot+afc686a471d70896c5d9@syzkaller.appspotmail.com
 
-diff --git a/drivers/staging/media/tegra-video/tegra210.c b/drivers/staging/media/tegra-video/tegra210.c
-index da99f19a39e7..57b5da11da93 100644
---- a/drivers/staging/media/tegra-video/tegra210.c
-+++ b/drivers/staging/media/tegra-video/tegra210.c
-@@ -1095,11 +1095,9 @@ tegra210_csi_port_stop_streaming(struct tegra_csi_channel *csi_chan, u8 portno)
- 		 (0xf << CSI_PP_START_MARKER_FRAME_MAX_OFFSET) |
- 		 CSI_PP_DISABLE);
- 
--	if (csi_chan->pg_mode) {
-+	if (csi_chan->pg_mode)
- 		tpg_write(csi, portno, TEGRA_CSI_PATTERN_GENERATOR_CTRL,
- 			  PG_DISABLE);
--		return;
--	}
- 
- 	if (csi_chan->numlanes == 4) {
- 		csi_write(csi, portno, TEGRA_CSI_PHY_CIL_COMMAND,
--- 
-2.34.1
+Tested on:
 
+commit:         f5459048 Merge tag 'i2c-for-7.0-final' of git://git.ke..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=169f9b02580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e2bba615ee79faa5
+dashboard link: https://syzkaller.appspot.com/bug?extid=afc686a471d70896c5d9
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=16111036580000
+
+Note: testing is done by a robot and is best-effort only.
 
