@@ -1,158 +1,253 @@
-Return-Path: <linux-media+bounces-58608-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58609-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ON3MDmSn22kSEwkAu9opvQ
-	(envelope-from <linux-media+bounces-58608-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2026 16:08:36 +0200
+	id IEsBNE2y22lfFQkAu9opvQ
+	(envelope-from <linux-media+bounces-58609-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2026 16:55:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F43F3E4265
-	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2026 16:08:35 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBFC43E4675
+	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2026 16:55:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5A0203026751
-	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2026 14:06:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 99DB0300D6AC
+	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2026 14:55:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88659315793;
-	Sun, 12 Apr 2026 14:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PqHMnWZD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AAA337CD3A;
+	Sun, 12 Apr 2026 14:55:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7AD82F5468
-	for <linux-media@vger.kernel.org>; Sun, 12 Apr 2026 14:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9F92C21F0
+	for <linux-media@vger.kernel.org>; Sun, 12 Apr 2026 14:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776002804; cv=none; b=pCcLa1dMrv4AmnUjTZx04FRxTUA0or6PPjVZ2RdotQ3VohvEY4ra79/RFMeIEyJ4wvxpZ5LS86XhLLEiMPdAJ0brtbw+NiFAMELwzBDjbmFkEI3RGGbH8DaZbqyKcvmAkxhNzRkyz6z0ZHyLHgKazBvCFZYqg1TyxOiC6/p1cDA=
+	t=1776005706; cv=none; b=i78s3hlKJ2Gu1fT4N1vAUffTJFZxRtbhrRe+7s6pyHvaErx6MraW68BAkfMsZ1mHUr4rMNVJWNIus6q1lpUfv2MPvFhB+lGmqi8z31nwQuERs45Xpz3fdzVGCxsBYExK/MR7Oaf991SLWK+ihwBr7Y9mybOgcr/otxLdJ6fWE78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776002804; c=relaxed/simple;
-	bh=qM6YJ53xNVzXG/PrBOuOXVikaLggFljOKKHluRxC+88=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p0YnCprKtp8fQoAFvK0GfCmlF0FC4gnMXljmBi3LPEYi5tDg0gCsnNjLbXVeoLoHKoNYI1n7telnNjhTiix2MB+kijQylW1pdk742Wkn3dCjT5ZMJSoyFRXtNW7uWQeffTbYcMPwVNjaRjvw6uScfMF45QZBxXvM0k7t858ZBMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PqHMnWZD; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-35d9923eec5so2096932a91.2
-        for <linux-media@vger.kernel.org>; Sun, 12 Apr 2026 07:06:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776002801; x=1776607601; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aYYlewohB0JAi3ANrfi9m34ZEoRc/crJvBD2FBn8Ras=;
-        b=PqHMnWZDRdzI9Gdd7ztDALR5yw+axD15qnLxwpqwbG8phZp+Qq+8yT82LcZW0kFISO
-         haA8NuLquu2L25xk5hIR0ooZbmw0DU47mfcCkINohWXIjReBTb2HhN/vB6kMWLxI9zQv
-         K1DNW/hHgGbrJbB8EPUqJma5byXZltjAaGz3ckRGXo9ruci1xWX2i2+jck9QI9zsXMp+
-         IHCRwKTnHWhLXyxG10N3oczDT9l9XmrUCCMMreDgRlYZ+aVq3AhdYiU3QPaXkouL4tTR
-         M9RLawYRjX0pgwwFKz4ll9QKxtLOELdtGEcZWYKSMq/789k37fPNP0Cd1hf6ZM3uofP7
-         PXzw==
+	s=arc-20240116; t=1776005706; c=relaxed/simple;
+	bh=4RRdnBLP3Hz96BtMU3C6/EgQrJUQ9BJVxiT0uPNOj+4=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=kCf+ODfYl4Ve97+KqZtGTalDAoPs+SBXm15+U2IsGnt91tnN0bBwcpxBCBvXsqSLodW4BRrhqh0/Yfwf3HLHOQgouBOLiXeA3WKbT13YAHmoPgqF2hCyTl94kEE2dqxItxJuYtsSCBHNlkTIPNlvuEOMbx3/P6TyEYSwnm2YJtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-68cfc614246so2148292eaf.3
+        for <linux-media@vger.kernel.org>; Sun, 12 Apr 2026 07:55:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776002801; x=1776607601;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aYYlewohB0JAi3ANrfi9m34ZEoRc/crJvBD2FBn8Ras=;
-        b=XMg/OAWQca37/3NU5uhyhq5/N5Dy95Br9Et+vp96rwfkcrYjG3fSDW3t57tCmLMoC3
-         ZvF2TXCTczcXMQqqCA//v47zgJHblGhpSltxh842OYKkdpQoKgNUUn+c0PinByHGGYsT
-         UEHBokokqgQmiD+cWpvkGQ9gdbZmsjj/D3LAd61DVCTgyy6oDiEdo8zRjW410u1ObIaO
-         ctsQXAnLr8xM1JjGdy7QAK2CfPIuUvLIVz0yx2sMx+QtlXCnmXHmjEcAAgOdYLIUNHva
-         beOel5eQYlj7B8Fid2gOkk1D9gxgES0oJbWZNVblDesW5BIHDn35hHnhupTvSL133jGY
-         oArA==
-X-Forwarded-Encrypted: i=1; AFNElJ83Z1ciA6Kyccwxmps/u5HTee0dNYl/plAkUp5iMI6kzQUqcx5SmYYwHoVnzwBCshdNALWwxgQm46GTPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwD9XIUt0Iyvkkqiq5piiNgEqKd8OJAEksBgbefpHE59yVTL69P
-	J8bgQZswpORt1nCzvWVMUwcYpETNCKUw0NKYVE85gfQ17am5TgMD1W34lDvklA==
-X-Gm-Gg: AeBDievnLxgyZ2XCz59JJju9ujgFsEqZ14Z/2031LKcHSkmaCYRwB73kQhiQWEWcWbH
-	326+HUsjHzD5SLZE3b3Kdjd1uHl5TNCBRlzBT3kwTKP3ictoxPKfS43zX7nlU9n3VSmCMsW4zaO
-	FrBqqPe+RTHiCfhYrSuSQllp3rqldocBCHcdnEQd5APCkHgGQGXzSqEf1//SKpWluhhgYW3r/DQ
-	temVsUrnSDp5jw2w75lLwdb1i7G5qP+9OI9WcOPIvFaA80Ow7GRT/Hz1Tyzx7X1Ei1mfouYV8wH
-	FYul7WEoUNKTeYECiBq1hcBIiNm5gVyggCU37bV/gkja3uz8Wc+6LBxgQrp7JERafSYy238qDpa
-	7foAjVJUWbim59+RsSFAjU9sa/KhKFzj/v6vpp2wc7oDKwxtACaFhyhaBLhbhMyFXWccBMtEfx8
-	zkQGSm4C6jWT5SXSiBPdyrUvbTvMw2LdtJib0iPCCxoOgEiLmS1Iyd73KNpBPeV7ICA9KcksWXk
-	WRv9VE3gkLId5QdYxJmsqg=
-X-Received: by 2002:a17:90b:4b90:b0:356:35a5:4a64 with SMTP id 98e67ed59e1d1-35e4254fb08mr10777957a91.4.1776002801225;
-        Sun, 12 Apr 2026 07:06:41 -0700 (PDT)
-Received: from shyam-VMware-Virtual-Platform.localdomain ([223.181.113.178])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b45cbf0f87sm9362365ad.6.2026.04.12.07.06.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Apr 2026 07:06:39 -0700 (PDT)
-From: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-To: andy@kernel.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	shyamsunderreddypadira@gmail.com
-Subject: [PATCH] staging: media: atomisp: remove outdated TODO comment
-Date: Sun, 12 Apr 2026 19:35:41 +0530
-Message-ID: <20260412140542.41911-1-shyamsunderreddypadira@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1776005704; x=1776610504;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qVf5fiqUq0onPyBFF8VtLinQdg5TDgsGPn7OOzBAazQ=;
+        b=UuiGrJetdxMVbd5j/wlJGgBZKVPoABNc2Cm03j9t/1W7aULZZQttUguny3wBZA58+R
+         wW/YB8kL7bTTtK/qRS4JWelIixkWv3xgvlQmzXEtgkQxE46YdybtZwgxOp53d5cFdqSz
+         BqjictH534YPR0WS4EwtIOkp1Lly8RzqalsCJMQdiclOEJPGITjcgknQCDHjRvNh1T5K
+         pbYAEWtkwa72Fdyc5ifcTkzuTG/8kHtbiZdtIooZ0Q7NwV0MAo6RqbSE4E8XmqfJT4WK
+         OpT07sa/IbPcr1x8zfVdyaPEvDv7RjyKMgOi4KeDAykl/7vTmyxzDsygynJfq2KDfn/V
+         qH5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXsUe4QnkxSQ7y0IB9+BDWboeGkpSkAYCB2AmRhaQc2vq41BR9JRElzhwjo++vJPUqNi7zrBB3auX/mzQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxsk1rbrYXQAsjbcCg0KLGbeY7g9dEXfe9rr6XmCPWKAyxfa5wk
+	uQMEYGKLoRggyPoHjp1bnJMZRnV8uDYeRiUpMg889vCqVyPMLmyuXt0Hsae76DvLpA+d7hKmUzP
+	rtF8b+zU4UoH2KnmeFO3z/H4r8ttjm3Ff8AkBoNKXT/yU/8R22X5kIlyh0yk=
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Received: by 2002:a05:6820:1886:b0:685:dcfd:2305 with SMTP id
+ 006d021491bc7-68be57780femr5155444eaf.3.1776005703838; Sun, 12 Apr 2026
+ 07:55:03 -0700 (PDT)
+Date: Sun, 12 Apr 2026 07:55:03 -0700
+In-Reply-To: <aduY8CsgJq3SUXD2@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69dbb247.a00a0220.468cb.0039.GAE@google.com>
+Subject: Re: [syzbot] [media?] memory leak in vidtv_psi_short_event_desc_init
+From: syzbot <syzbot+afc686a471d70896c5d9@syzkaller.appspotmail.com>
+To: azpijr@gmail.com, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-0.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=e2bba615ee79faa5];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58608-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[linux.intel.com,vger.kernel.org,lists.linux.dev,gmail.com];
-	TO_DN_NONE(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[shyamsunderreddypadira@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,googlegroups.com];
+	TAGGED_FROM(0.00)[bounces-58609-lists,linux-media=lfdr.de,afc686a471d70896c5d9];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_THREE(0.00)[4];
+	MISSING_XM_UA(0.00)[];
+	SUBJECT_HAS_QUESTION(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	PRECEDENCE_BULK(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_NONE(0.00)[];
+	R_DKIM_NA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 8F43F3E4265
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: EBFC43E4675
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Remove a TODO comment suggesting a filename change for
-sw_event_global.h. The header is already consistently
-used across the driver, making the comment obsolete.
+Hello,
 
-No functional changes.
+syzbot has tested the proposed patch but the reproducer is still triggering an issue:
+memory leak in vidtv_psi_short_event_desc_init
 
-Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
----
- .../media/atomisp/pci/runtime/event/interface/ia_css_event.h    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+BUG: memory leak
+unreferenced object 0xffff88812bb30d00 (size 64):
+  comm "syz.0.17", pid 6713, jiffies 4294945608
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 4d 8b 98 d9 e0 09 81 88  ........M.......
+    ff ff 20 40 d8 7a 14 81 88 ff ff 66 00 23 c3 14  .. @.z.....f.#..
+  backtrace (crc 3cb0610c):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4543 [inline]
+    slab_alloc_node mm/slub.c:4866 [inline]
+    __kmalloc_cache_noprof+0x377/0x480 mm/slub.c:5375
+    kmalloc_noprof include/linux/slab.h:950 [inline]
+    kzalloc_noprof include/linux/slab.h:1188 [inline]
+    vidtv_psi_short_event_desc_init+0x9e/0x220 drivers/media/test-drivers/vidtv/vidtv_psi.c:444
+    vidtv_channel_s302m_init+0x1c2/0x2a0 drivers/media/test-drivers/vidtv/vidtv_channel.c:124
+    vidtv_channels_init+0x1b/0x40 drivers/media/test-drivers/vidtv/vidtv_channel.c:524
+    vidtv_mux_init+0x372/0x390 drivers/media/test-drivers/vidtv/vidtv_mux.c:515
+    vidtv_start_streaming drivers/media/test-drivers/vidtv/vidtv_bridge.c:194 [inline]
+    vidtv_start_feed+0x1d4/0x260 drivers/media/test-drivers/vidtv/vidtv_bridge.c:239
+    dmx_ts_feed_start_filtering+0x8e/0x130 drivers/media/dvb-core/dvb_demux.c:747
+    dvb_dmxdev_start_feed+0x11c/0x170 drivers/media/dvb-core/dmxdev.c:658
+    dvb_dmxdev_filter_start+0xd8/0x440 drivers/media/dvb-core/dmxdev.c:769
+    dvb_demux_do_ioctl+0x297/0x7d0 drivers/media/dvb-core/dmxdev.c:1065
+    dvb_usercopy+0x116/0x2d0 drivers/media/dvb-core/dvbdev.c:996
+    dvb_demux_ioctl+0x29/0x40 drivers/media/dvb-core/dmxdev.c:1201
+    vfs_ioctl fs/ioctl.c:51 [inline]
+    __do_sys_ioctl fs/ioctl.c:597 [inline]
+    __se_sys_ioctl fs/ioctl.c:583 [inline]
+    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
+    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+    do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/event/interface/ia_css_event.h b/drivers/staging/media/atomisp/pci/runtime/event/interface/ia_css_event.h
-index d0c3278b0fd9..874331d8a435 100644
---- a/drivers/staging/media/atomisp/pci/runtime/event/interface/ia_css_event.h
-+++ b/drivers/staging/media/atomisp/pci/runtime/event/interface/ia_css_event.h
-@@ -8,7 +8,7 @@
- #define _IA_CSS_EVENT_H
- 
- #include <type_support.h>
--#include "sw_event_global.h"    /*event macros.TODO : Change File Name..???*/
-+#include "sw_event_global.h"    /*event macros.*/
- 
- bool ia_css_event_encode(
-     u8	*in,
--- 
-2.43.0
+BUG: memory leak
+unreferenced object 0xffff888109e0d998 (size 8):
+  comm "syz.0.17", pid 6713, jiffies 4294945608
+  hex dump (first 8 bytes):
+    65 6e 67 00 00 00 00 00                          eng.....
+  backtrace (crc 5673a685):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4543 [inline]
+    slab_alloc_node mm/slub.c:4866 [inline]
+    __do_kmalloc_node mm/slub.c:5259 [inline]
+    __kmalloc_node_track_caller_noprof+0x3e0/0x5d0 mm/slub.c:5368
+    __kmemdup_nul mm/util.c:64 [inline]
+    kstrdup+0x3c/0x80 mm/util.c:84
+    vidtv_psi_short_event_desc_init+0xf3/0x220 drivers/media/test-drivers/vidtv/vidtv_psi.c:462
+    vidtv_channel_s302m_init+0x1c2/0x2a0 drivers/media/test-drivers/vidtv/vidtv_channel.c:124
+    vidtv_channels_init+0x1b/0x40 drivers/media/test-drivers/vidtv/vidtv_channel.c:524
+    vidtv_mux_init+0x372/0x390 drivers/media/test-drivers/vidtv/vidtv_mux.c:515
+    vidtv_start_streaming drivers/media/test-drivers/vidtv/vidtv_bridge.c:194 [inline]
+    vidtv_start_feed+0x1d4/0x260 drivers/media/test-drivers/vidtv/vidtv_bridge.c:239
+    dmx_ts_feed_start_filtering+0x8e/0x130 drivers/media/dvb-core/dvb_demux.c:747
+    dvb_dmxdev_start_feed+0x11c/0x170 drivers/media/dvb-core/dmxdev.c:658
+    dvb_dmxdev_filter_start+0xd8/0x440 drivers/media/dvb-core/dmxdev.c:769
+    dvb_demux_do_ioctl+0x297/0x7d0 drivers/media/dvb-core/dmxdev.c:1065
+    dvb_usercopy+0x116/0x2d0 drivers/media/dvb-core/dvbdev.c:996
+    dvb_demux_ioctl+0x29/0x40 drivers/media/dvb-core/dmxdev.c:1201
+    vfs_ioctl fs/ioctl.c:51 [inline]
+    __do_sys_ioctl fs/ioctl.c:597 [inline]
+    __se_sys_ioctl fs/ioctl.c:583 [inline]
+    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
+    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+    do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+BUG: memory leak
+unreferenced object 0xffff8881147ad840 (size 64):
+  comm "syz.0.17", pid 6713, jiffies 4294945608
+  hex dump (first 32 bytes):
+    0b 4c 75 64 77 69 67 20 76 61 6e 20 42 65 65 74  .Ludwig van Beet
+    68 6f 76 65 6e 3a 20 46 fc 72 20 45 6c 69 73 65  hoven: F.r Elise
+  backtrace (crc 6d5386ce):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4543 [inline]
+    slab_alloc_node mm/slub.c:4866 [inline]
+    __do_kmalloc_node mm/slub.c:5259 [inline]
+    __kmalloc_node_track_caller_noprof+0x3e0/0x5d0 mm/slub.c:5368
+    __kmemdup_nul mm/util.c:64 [inline]
+    kstrdup+0x3c/0x80 mm/util.c:84
+    vidtv_psi_short_event_desc_init+0x1f0/0x220 drivers/media/test-drivers/vidtv/vidtv_psi.c:467
+    vidtv_channel_s302m_init+0x1c2/0x2a0 drivers/media/test-drivers/vidtv/vidtv_channel.c:124
+    vidtv_channels_init+0x1b/0x40 drivers/media/test-drivers/vidtv/vidtv_channel.c:524
+    vidtv_mux_init+0x372/0x390 drivers/media/test-drivers/vidtv/vidtv_mux.c:515
+    vidtv_start_streaming drivers/media/test-drivers/vidtv/vidtv_bridge.c:194 [inline]
+    vidtv_start_feed+0x1d4/0x260 drivers/media/test-drivers/vidtv/vidtv_bridge.c:239
+    dmx_ts_feed_start_filtering+0x8e/0x130 drivers/media/dvb-core/dvb_demux.c:747
+    dvb_dmxdev_start_feed+0x11c/0x170 drivers/media/dvb-core/dmxdev.c:658
+    dvb_dmxdev_filter_start+0xd8/0x440 drivers/media/dvb-core/dmxdev.c:769
+    dvb_demux_do_ioctl+0x297/0x7d0 drivers/media/dvb-core/dmxdev.c:1065
+    dvb_usercopy+0x116/0x2d0 drivers/media/dvb-core/dvbdev.c:996
+    dvb_demux_ioctl+0x29/0x40 drivers/media/dvb-core/dmxdev.c:1201
+    vfs_ioctl fs/ioctl.c:51 [inline]
+    __do_sys_ioctl fs/ioctl.c:597 [inline]
+    __se_sys_ioctl fs/ioctl.c:583 [inline]
+    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
+    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+    do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+BUG: memory leak
+unreferenced object 0xffff88812a3536e0 (size 32):
+  comm "syz.0.17", pid 6713, jiffies 4294945608
+  hex dump (first 32 bytes):
+    08 80 fd 80 1b e0 30 35 2a 81 88 ff ff 00 00 00  ......05*.......
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 47116e02):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4543 [inline]
+    slab_alloc_node mm/slub.c:4866 [inline]
+    __kmalloc_cache_noprof+0x377/0x480 mm/slub.c:5375
+    kmalloc_noprof include/linux/slab.h:950 [inline]
+    kzalloc_noprof include/linux/slab.h:1188 [inline]
+    vidtv_psi_sdt_service_init+0x32/0xa0 drivers/media/test-drivers/vidtv/vidtv_psi.c:1441
+    vidtv_channel_sdt_serv_cat_into_new drivers/media/test-drivers/vidtv/vidtv_channel.c:229 [inline]
+    vidtv_channel_si_init+0x230/0x750 drivers/media/test-drivers/vidtv/vidtv_channel.c:435
+    vidtv_mux_init+0x115/0x390 drivers/media/test-drivers/vidtv/vidtv_mux.c:519
+    vidtv_start_streaming drivers/media/test-drivers/vidtv/vidtv_bridge.c:194 [inline]
+    vidtv_start_feed+0x1d4/0x260 drivers/media/test-drivers/vidtv/vidtv_bridge.c:239
+    dmx_ts_feed_start_filtering+0x8e/0x130 drivers/media/dvb-core/dvb_demux.c:747
+    dvb_dmxdev_start_feed+0x11c/0x170 drivers/media/dvb-core/dmxdev.c:658
+    dvb_dmxdev_filter_start+0xd8/0x440 drivers/media/dvb-core/dmxdev.c:769
+    dvb_demux_do_ioctl+0x297/0x7d0 drivers/media/dvb-core/dmxdev.c:1065
+    dvb_usercopy+0x116/0x2d0 drivers/media/dvb-core/dvbdev.c:996
+    dvb_demux_ioctl+0x29/0x40 drivers/media/dvb-core/dmxdev.c:1201
+    vfs_ioctl fs/ioctl.c:51 [inline]
+    __do_sys_ioctl fs/ioctl.c:597 [inline]
+    __se_sys_ioctl fs/ioctl.c:583 [inline]
+    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
+    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+    do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
+
+
+Tested on:
+
+commit:         f5459048 Merge tag 'i2c-for-7.0-final' of git://git.ke..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15ce1036580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e2bba615ee79faa5
+dashboard link: https://syzkaller.appspot.com/bug?extid=afc686a471d70896c5d9
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=11dcdcd2580000
 
 
