@@ -1,399 +1,195 @@
-Return-Path: <linux-media+bounces-58649-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58650-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ONsMNXm43Gn2VgkAu9opvQ
-	(envelope-from <linux-media+bounces-58649-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 11:33:45 +0200
+	id ADOCHSG93GliVwkAu9opvQ
+	(envelope-from <linux-media+bounces-58650-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 11:53:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3776C3E9E1A
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 11:33:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFC503EA11C
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 11:53:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0633D3030EAF
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 09:30:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 96CC33024A70
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 09:46:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79C523803C2;
-	Mon, 13 Apr 2026 09:30:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57EAB34F241;
+	Mon, 13 Apr 2026 09:46:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MDHJsDzG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WeamRhP9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19EC94C6D
-	for <linux-media@vger.kernel.org>; Mon, 13 Apr 2026 09:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B895A1DF75A;
+	Mon, 13 Apr 2026 09:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776072633; cv=none; b=BnTxvASw3uGpvkJDhfIqYM4Ra4bhB5Ct7uGp0hCKpU6PWClSjiH10yYEpsaE/N9GjczO4ltJPWru8RVWlxxsJyIHowQudIEzYZFqLcsdexDX0fFMTID1Q5K1br1BHRyunxmDUfNjq/eMRUvTRA3P7jCHLYoj9uMkWF7M/rhl8FI=
+	t=1776073559; cv=none; b=hKDakPsK1+8thDfsobEprLEDchq7imnm4jQw6r5nhxqDzk7Q1vzn1Gu3B/SRk7PLU0FZGYQtptom2hXNGR23thgVHWehb70x/UVf01PcEMChjUq7QLgxBx7NuSNgJA/s/Y2KqSXWRX+Xpe40Y0BJ4h8+rcPUiOPOFtbiU5ZbyUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776072633; c=relaxed/simple;
-	bh=vKwSzVAD4gtnxfMjYBQzGiq9gwCQT35drWyTgqBymdI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y/STzYpHlwbL530WB0jFmynkUIMmG6uHGKUjz6HInCAJabLQ1LlLKz2ZbgAGLs66eMbgUYVy1qUwtB4D00V52mJtFBTVkY3KhBHg1AX0sa4E8SyBZSd08pVaKnxM4rJoFCcoO8GoJxAjqybMawe+4gi64jmXaVLjV2bgnLD+hvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MDHJsDzG; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56D0516A;
-	Mon, 13 Apr 2026 11:28:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1776072535;
-	bh=vKwSzVAD4gtnxfMjYBQzGiq9gwCQT35drWyTgqBymdI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MDHJsDzG3Da+Ad5r9o2xMMYNyRmgvIGMHsKruCJGqE1/yJdKpPUi73HjZ9YJ+zjNV
-	 llMJUsnwTqUk638cJm30urCZA2rcFnJNfc2WnYuad4jqpvGkXw3P7XFFPxsfhDLdes
-	 69Hp7xubSOU51U0R8LBDAffOEDKIv8IMVmnTr0I8=
-Date: Mon, 13 Apr 2026 11:30:24 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, 
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
-	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
-	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
-	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
-	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, 
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, 
-	Jai Luthra <jai.luthra@ideasonboard.com>, Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v4 22/29] media: mc: Add MEDIA_LNK_FL_VALIDATE_LATE
-Message-ID: <ady3Ud_eoN9CTalK@zed>
-References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-23-sakari.ailus@linux.intel.com>
- <adjR6lJWKDdg4tBZ@zed>
- <adyiV0UtYSrlzcK4@kekkonen.localdomain>
+	s=arc-20240116; t=1776073559; c=relaxed/simple;
+	bh=5veiHHgWaMzRiwn6PqcbksFhy1YN7r23zzqcwCRI7c8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FW9OLBgCEmZH6//OMewb9B/HD46vtn9EPRk0IGRZVFzerE9QB0h1P7H0wyWi48lrJhGmnWGfi9Va6aMQHamOlhMluYxXEYQy8twSUblU+OrMsP/EA7SW7A2caatrIa96NYc2PGcwJt4ZEug5l9Nr6nMu9XxyNxG3RLnf7k/ihus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WeamRhP9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AEE0C116C6;
+	Mon, 13 Apr 2026 09:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776073559;
+	bh=5veiHHgWaMzRiwn6PqcbksFhy1YN7r23zzqcwCRI7c8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WeamRhP9646SVf2IFUQlX/iyvdRV9gNeT1Y4g6PqjcuNsbxuW2ImPnKKa0twJSjM7
+	 PRte7P4h4faYwmIo9b4vz9A5SH1kCiOOy9mJkRnm7YnRAyDqtKw5Utpi+zlZ1kdprh
+	 XtIZIFDdGzOnTw3Z5MHhDVfSkj4XSdJvmOlUXrborJSCtE1liDgsTE2sa5EwF4kP48
+	 bQNLou6OdlecerlUCvHBKSP7pITaGxko6rjS0lUqgOHzz0MIB7+cpLlO0wd8Hkz+i7
+	 n1lIvzxZbR45DvfY+cyHuU5dTcmPLTbsE90vFD/82+1uagC9HQpCJ9pty01QvgZ9Kq
+	 E//v0B2L59V0g==
+Message-ID: <25fd6ad5-0da9-485b-b507-9d1dc080cc86@kernel.org>
+Date: Mon, 13 Apr 2026 11:45:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <adyiV0UtYSrlzcK4@kekkonen.localdomain>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] Enable dual cameras on Dell Latitude 5285 2-in-1
+To: Thierry Chatard <tchatard@gmail.com>, linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ lee@kernel.org, djrscally@gmail.com, ilpo.jarvinen@linux.intel.com,
+ mchehab@kernel.org, sakari.ailus@linux.intel.com,
+ jacopo.mondi@ideasonboard.com, nicholas@rothemail.net
+References: <20260320000937.9177-1-tchatard@gmail.com>
+ <20260324214129.17300-1-tchatard@gmail.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260324214129.17300-1-tchatard@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58649-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58650-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linux.intel.com,ideasonboard.com,rothemail.net];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[31];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3776C3E9E1A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: CFC503EA11C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Sakari
+Hi Thierry,
 
-On Mon, Apr 13, 2026 at 10:59:19AM +0300, Sakari Ailus wrote:
-> Hi Jacopo,
->
-> On Fri, Apr 10, 2026 at 12:41:27PM +0200, Jacopo Mondi wrote:
-> > Hi Sakari
-> >
-> > On Wed, Apr 08, 2026 at 06:39:31PM +0300, Sakari Ailus wrote:
-> > > Add MEDIA_LNK_FL_VALIDATE_LATE flag to support late validation of links.
-> > > This is serving the use case where video devices are configured and
-> > > started streaming indepenently of each other but this sequence may be run
-> >
-> > s/indepenently/independently
->
-> Yes.
->
-> >
-> > > in series, in such a way that a video device in a pipeline starts
-> > > streaming before another one is configured.
-> > >
-> > > Before this flag, drivers have resorted to implementing the link
-> > > validation separately for the video nodes as part of streaming start
-> > > sequence.
-> > >
-> > > media_pipeline_start() shall be called on each leaf entity connected to
-> > > the graph with a link where MEDIA_LNK_FL_VALIDATE_LATE is set before
-> > > uphardware operation.
-> > >
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > >  .../media/mediactl/media-ioc-setup-link.rst   |  4 +
-> > >  .../media/mediactl/media-types.rst            |  5 ++
-> > >  drivers/media/mc/mc-entity.c                  | 82 ++++++++++++++++++-
-> > >  include/uapi/linux/media.h                    |  1 +
-> > >  4 files changed, 88 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst b/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
-> > > index 23208300cb61..7c2bced57e77 100644
-> > > --- a/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
-> > > +++ b/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
-> > > @@ -49,6 +49,10 @@ Only links marked with the ``DYNAMIC`` link flag can be enabled/disabled
-> > >  while streaming media data. Attempting to enable or disable a streaming
-> > >  non-dynamic link will return an ``EBUSY`` error code.
-> > >
-> > > +Pipeline validation may be delayed for links marked with the ``VALIDATE_LATE``
-> >
-> > Is it helpful to say "created" instead of "marked" to highlight that
-> > this flag is set by drivers or is it clear enough from the context ?
->
-> How about:
->
-> Pipeline validation may be delayed for links with the ``VALIDATE_LATE`` flag set
-> until actual hardware operation even if the rest of the pipeline would be
-> validated at an earlier point of time.
->
+Thank you for your work on this.
 
-Nice, thanks
+On 24-Mar-26 10:41 PM, Thierry Chatard wrote:
+> Changes in v2:
+> - patch 2: split trailing statements in aml_parse_int() onto separate
+>   lines (checkpatch); add kernel-doc @param descriptions to
+>   aml_parse_int(), dell5285_gnvs_from_table(), and dell5285_gnvs_find()
+>   (kernel test robot); add Reported-by/Closes tags
+> - patch 3: wrap long lines in commit message (checkpatch)
+> 
+> The Dell Latitude 5285 2-in-1 has two cameras (OV5670 front, OV8858
+> rear) connected through a TPS68470 PMIC/clock/GPIO hub. All five patches
+> are required for a working system; each is self-contained and
+> bisect-safe.
+> 
+> Hardware topology
+> -----------------
+>   Front camera:  OV5670 (ACPI INT3479), I2C4 / INT3446
+>   Rear camera:   OV8858 (ACPI INT3477), I2C2 / i2c_designware.3
+>   PMIC:          TPS68470 (ACPI INT3472:05), addr 0x4D, on I2C2
+>   ISP:           Intel IPU3 (ipu3_cio2 + ipu3-imgu)
+> 
+> The OV8858 is daisy-chained behind the TPS68470 S_I2C passthrough port.
+> The TPS68470 VSIO regulator controls S_I2C_CTL (reg 0x43); marking it
+> always_on keeps the passthrough active from boot so OV8858 is reachable
+> on I2C2 at probe time.
+> > Four problems must be fixed in combination:
 
-> >
-> > > +flag until actual hardware operation even if the rest of the pipeline would be
-> >
-> > operation or operations ?
->
-> I'd use singular in referring what the hardware does as a whole here, but I
-> can rework the sentence, too.
->
+Hmm, it is unfortunate that this 2-in-1 requires the first 2 workarounds,
+especially the second workaround.
 
-Oh ok, no worries, as long as it was intentional it's fine
+Patches 3-5 look fine at a quick glance.
 
-> >
-> > > +validated at an earlier point of time.
-> > > +
-> > >  If the specified link can't be found the driver returns with an ``EINVAL``
-> > >  error code.
-> > >
-> > > diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
-> > > index 6332e8395263..d6a690655a01 100644
-> > > --- a/Documentation/userspace-api/media/mediactl/media-types.rst
-> > > +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
-> > > @@ -391,6 +391,7 @@ must be set for every pad.
-> > >  .. _MEDIA-LNK-FL-ENABLED:
-> > >  .. _MEDIA-LNK-FL-IMMUTABLE:
-> > >  .. _MEDIA-LNK-FL-DYNAMIC:
-> > > +.. _MEDIA-LNK-FL-VALIDATE-LATE:
-> > >  .. _MEDIA-LNK-FL-LINK-TYPE:
-> > >
-> > >  .. flat-table:: Media link flags
-> > > @@ -410,6 +411,10 @@ must be set for every pad.
-> > >         -  The link enabled state can be modified during streaming. This flag
-> > >  	  is set by drivers and is read-only for applications.
-> > >
-> > > +    *  -  ``MEDIA_LNK_FL_VALIDATE_LATE``
-> > > +       -  The validation of the link may be delayed up to until the start of
-> >
-> > Not an English native speaker here, but "delayed up to until" sounds more
-> > complicated than just "delayed to"
->
-> Yes, but I don't think it's grammatically nor factually correct. :-)
->
-> How about:
->
->        -  The validation of the link may be delayed from the pipeline start but
-> 	  it is done no later than starting streaming on the hardware.
->
+> patch 1/5 - intel_lpss: The BIOS claims the same MMIO region for both
+>   GEXP and INT3446 (I2C4). Without this quirk the kernel rejects INT3446
+>   as a resource conflict and the front camera's I2C bus never comes up.
 
-Fine with me, up to you :)
+This one is a bit unfortunate but this is a known issue on similar
+(Microsoft Surface Go series) devices with an IPU3 camera like here,
+with a pre-existing quirk mechanism to deal with this, so I guess this is
+acceptable.
 
-> >
-> > > +	  hardware operation.
-> > > +
-> > >      *  -  ``MEDIA_LNK_FL_LINK_TYPE``
-> > >         -  This is a bitmask that defines the type of the link. The following
-> > >  	  link types are currently supported:
-> > > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> > > index 287eded356bb..5b0162f81425 100644
-> > > --- a/drivers/media/mc/mc-entity.c
-> > > +++ b/drivers/media/mc/mc-entity.c
-> > > @@ -771,7 +771,7 @@ static int media_pipeline_populate(struct media_pipeline *pipe,
-> > >  static int
-> > >  __media_pipeline_validate_one(struct media_pad *origin,
-> > >  			      struct media_pad *pad, struct media_link *link,
-> > > -			      bool *has_enabled_link)
-> > > +			      bool *has_enabled_link, bool skip_validation)
-> > >  {
-> > >  	struct media_device *mdev = origin->graph_obj.mdev;
-> > >  	struct media_entity *entity = pad->entity;
-> > > @@ -784,6 +784,9 @@ __media_pipeline_validate_one(struct media_pad *origin,
-> > >  	if (has_enabled_link)
-> > >  		*has_enabled_link = true;
-> > >
-> > > +	if (skip_validation)
-> > > +		return 0;
-> > > +
-> > >  	/* Skip validation if the current pad isn't the sink pad of the link. */
-> > >  	if (link->sink != pad)
-> > >  		return 0;
-> > > @@ -825,11 +828,48 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
-> > >  		return -EINVAL;
-> > >
-> > >  	/*
-> > > -	 * If the pipeline has already been started, it is guaranteed to be
-> > > -	 * valid, so just increase the start count.
-> > > +	 * Increase start count on pipelines that have been validated
-> > > +	 * earlier. Also check links with the VALIDATE_LATE flag here.
-> > >  	 */
-> > >  	if (pipe->start_count) {
-> > > +		struct media_link *link;
-> > > +
-> > > +		link = __media_entity_next_link(origin->entity, NULL,
-> > > +						MEDIA_LNK_FL_DATA_LINK);
-> > > +		if (link && link->flags & MEDIA_LNK_FL_VALIDATE_LATE) {
-> > > +			struct media_link *link2 =
-> > > +				__media_entity_next_link(origin->entity, link,
-> > > +							 MEDIA_LNK_FL_DATA_LINK);
-> > > +			bool has_enabled_link = false;
-> > > +
-> > > +			/*
-> > > +			 * Only a single pad is allowed for VALIDATE_LATE
-> > > +			 * links. That pad needs to have exactly one link.
-> > > +			 */
-> > > +			if (origin->entity->num_pads != 1)
-> > > +				return -EINVAL;
-> > > +
-> > > +			if (!link || link2)
-> > > +				return -EINVAL;
-> >
-> > This is a development error, isn't it ? Is it worth an error message ?
->
-> Actually the !link check can be removed from here as it is already checked
-> earlier.
->
-> >
-> > > +
-> > > +			dev_dbg(mdev->dev,
-> > > +				"Validating pad '%s':%u late\n",
-> > > +				origin->entity->name, origin->index);
-> > > +
-> > > +			ret = __media_pipeline_validate_one(link->sink,
-> > > +							    link->sink, link,
-> > > +							    &has_enabled_link,
-> > > +							    false);
-> > > +			if (ret)
-> > > +				return ret;
-> > > +
-> > > +			if (origin->flags & MEDIA_PAD_FL_MUST_CONNECT &&
-> > > +			    !has_enabled_link)
-> > > +				return -ENOLINK;
-> > > +		}
-> > > +
-> > >  		pipe->start_count++;
-> > > +
-> > >  		return 0;
-> > >  	}
-> > >
-> > > @@ -873,12 +913,19 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
-> > >  		 * the connected sink pad to avoid duplicating checks.
-> > >  		 */
-> > >  		for_each_media_entity_data_link(entity, link) {
-> > > +			/* Skip late-validated links not connected to origin. */
-> > > +			bool skip_validation =
-> > > +				link->flags & MEDIA_LNK_FL_VALIDATE_LATE &&
-> > > +				link->sink != origin &&
-> > > +				link->source != origin;
-> > > +
-> > >  			/* Skip links unrelated to the current pad. */
-> > >  			if (link->sink != pad && link->source != pad)
-> > >  				continue;
-> > >
-> > >  			ret = __media_pipeline_validate_one(origin, pad, link,
-> > > -							    &has_enabled_link);
-> > > +							    &has_enabled_link,
-> > > +							    skip_validation);
-> > >  			if (ret)
-> > >  				goto error;
-> > >  		}
-> > > @@ -1158,6 +1205,33 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
-> > >  	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
-> > >  		return -EINVAL;
-> > >
-> > > +	/*
-> > > +	 * With the late validate flag, either source or sink shall have exactly
-> > > +	 * one pad and no links before this one. Similarly, no links may be
-> > > +	 * added to entities with a single pad and an existing late-validated
-> > > +	 * link.
-> > > +	 */
-> > > +	if (flags & MEDIA_LNK_FL_VALIDATE_LATE) {
-> > > +		if (!(source->num_pads == 1 && !source->num_links) &&
-> > > +		    !(sink->num_pads == 1 && !sink->num_links))
-> > > +			return -EINVAL;
-> >
-> > Ah, so the above error check for which I suggested an error message
-> > cannot happen, right ?
->
-> Indeed.
->
-> >
-> > > +	} else {
-> > > +		struct media_entity *entities[] = { source, sink };
-> > > +
-> > > +		for (unsigned int i = 0; i < ARRAY_SIZE(entities); i++) {
-> > > +			if (entities[i]->num_pads != 1)
-> > > +				continue;
-> > > +
-> > > +			struct media_link *__link =
-> > > +				__media_entity_next_link(entities[i], NULL,
-> > > +							 MEDIA_LNK_FL_DATA_LINK);
-> > > +
-> > > +			if (__link &&
-> > > +			    __link->flags & MEDIA_LNK_FL_VALIDATE_LATE)
-> > > +				return -EINVAL;
-> > > +		}
-> > > +	}
-> > > +
-> > >  	link = media_add_link(&source->links);
-> > >  	if (link == NULL)
-> > >  		return -ENOMEM;
-> > > diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
-> > > index 1c80b1d6bbaf..c96e2118ea99 100644
-> > > --- a/include/uapi/linux/media.h
-> > > +++ b/include/uapi/linux/media.h
-> > > @@ -219,6 +219,7 @@ struct media_pad_desc {
-> > >  #define MEDIA_LNK_FL_ENABLED			(1U << 0)
-> > >  #define MEDIA_LNK_FL_IMMUTABLE			(1U << 1)
-> > >  #define MEDIA_LNK_FL_DYNAMIC			(1U << 2)
-> > > +#define MEDIA_LNK_FL_VALIDATE_LATE		(1U << 3)
-> >
-> > Nice, with the above minors addressed, if applicable
-> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->
-> Thank you!
->
+> patch 2/5 - GNVS fixup: With I2C4 available, ipu_bridge still does not
+>   create the front camera client because _DEP on INT3479 returns the
+>   root PCI bus instead of the INT3472 handle. Root cause: BIOS leaves
+>   GNVS fields C0TP, L0CL, L1CL at zero. Fix: scan DSDT/SSDTs for the
+>   GNVS OperationRegion at TPS68470 probe time and write 0x02 (19.2 MHz)
+>   into all three fields before ipu_bridge evaluates _DEP.
 
-Thanks
-   j
+This one really is nasty. I'll reply in detail to the patch itself.
 
-> >
-> > >
-> > >  #define MEDIA_LNK_FL_LINK_TYPE			(0xf << 28)
-> > >  #  define MEDIA_LNK_FL_DATA_LINK		(0U << 28)
->
+Regards,
+
+Hans
+
+
+
+> patch 3/5 - TPS68470 board data: No board data existed for this machine,
+>   so no PMIC regulators or GPIOs were configured for either sensor.
+> 
+> patch 4/5 - ipu-bridge: INT3477 (OV8858) was unknown to ipu_bridge, so
+>   it was skipped at CSI-2 enumeration.
+> 
+> patch 5/5 - ov8858 driver: No ACPI match for INT3477, and the driver did
+>   not request the vsio supply needed by the S_I2C passthrough.
+> 
+> Tested on Dell Latitude 5285 2-in-1, Ubuntu 25.10, kernel 6.17.0-19.
+> Both cameras appear in libcamera and are usable in applications.
+> Note: the IPU3 IMGU can only run one pipeline at a time, so front and
+> rear camera use is mutually exclusive.
+> 
+> Thierry Chatard (5):
+>   platform/x86: intel_lpss: add resource conflict quirk for Dell
+>     Latitude 5285
+>   platform/x86: int3472: tps68470: fix GNVS clock fields for Dell
+>     Latitude 5285
+>   platform/x86: int3472: tps68470: add board data for Dell Latitude 5285
+>   media: ipu-bridge: add sensor configuration for OV8858 (INT3477)
+>   media: ov8858: add ACPI device ID INT3477 and vsio power supply
+> 
+>  drivers/mfd/intel-lpss-acpi.c                 |  32 +++
+>  drivers/media/i2c/ov8858.c                    |  10 +-
+>  drivers/media/pci/intel/ipu-bridge.c          |   2 ++
+>  drivers/platform/x86/intel/int3472/tps68470.c | 201 ++++++++++++++++++
+>  .../x86/intel/int3472/tps68470_board_data.c   | 163 ++++++++++++++
+>  5 files changed, 407 insertions(+), 1 deletion(-)
+> 
+> base-commit: 6de23f81a4be5ee86a4df4fde0ca0c7bf67aecd1
 > --
-> Kind regards,
->
-> Sakari Ailus
->
+> 2.51.0
+> 
+
 
