@@ -1,411 +1,476 @@
-Return-Path: <linux-media+bounces-58660-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58661-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KHQkF0bN3GmcWQkAu9opvQ
-	(envelope-from <linux-media+bounces-58660-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 13:02:30 +0200
+	id IBDsC93T3GmcWQkAu9opvQ
+	(envelope-from <linux-media+bounces-58661-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 13:30:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF29F3EB0B0
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 13:02:29 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74AF13EB513
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 13:30:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 028113008322
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 11:02:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0E7D6301386B
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 11:29:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAFA83BE167;
-	Mon, 13 Apr 2026 11:02:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34DED3C1976;
+	Mon, 13 Apr 2026 11:29:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jiAlKdaZ"
+	dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b="GqNGU2Nn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-4318.protonmail.ch (mail-4318.protonmail.ch [185.70.43.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7B322156C;
-	Mon, 13 Apr 2026 11:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52216356A24
+	for <linux-media@vger.kernel.org>; Mon, 13 Apr 2026 11:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776078144; cv=none; b=VWsb7XlwXNp427HU+EoQzY3n8bOn/4mxx7QzYvJr5Jg2ZqAlLI1C0F65jbtKErh/DHnaIEzuS0gi4J1bB3FIoihrZy2JBWrPxw5p+mw/KD99SdCFpFRPr164bIWvjd0f88TyuC2dTqBJyRKtXcon2qNOb2v+wJAJohOv++Gd63s=
+	t=1776079773; cv=none; b=VlWhr4bNJZU5Klbd9EX+14OOScFyBcYDfGhSXTy5GYPkqk51OhOA2dBZVaiTDgGlA9g2r6z1dK7qR1VICfGON8RwFA0nbBLDrvM+n2+J21ikWkBvuOjrjvMsTKAxecSroD4frQ26bg+ZTG85n3cBgLuj1oV+6eAlVsJ1bNy85aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776078144; c=relaxed/simple;
-	bh=WqZvPApVXMwS7BXxXyyxchsM+pO3uNmhKBM1ivYferU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bgHylYdMIOCsAB5seIvmtf8ZVmkATs/jHFP0raDtkJ3CQyBOpbmuLUoigDhTvpLyT4xnLysk69D7aKOj1/HlXaZPoCRKwm/gKbSf16tjE9YTI9XJolYNu4+oq3OKz2VXWeKfxDBGuuw6oQElgRoXEG3TTQ3EEgJYOgJiaE3m9R8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jiAlKdaZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9009C116C6;
-	Mon, 13 Apr 2026 11:02:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776078143;
-	bh=WqZvPApVXMwS7BXxXyyxchsM+pO3uNmhKBM1ivYferU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jiAlKdaZDJ6CswQxMwsXxXd1MF7Z1TzTax6/zpxIp32UA9vZdRZHBzLi9AixRaKjQ
-	 HQLCSF3YE5dq1MsIyLp1KMLoSQhbFue2Dnl8fbrnkFjOeZN3Pqx64TmZ5VgS+a7W56
-	 nbMAf6toskK30vi+7AvNCZBWunmM0sSjUjeZW52ElPo5el3ZHtHZs7vU+wfx0CxWmG
-	 0sJiMA77sdD3fR0ZJhyQvmCDhXamkmNfRWpuNMaTDH3k1JO/KZt2HL89jdBl2o/euU
-	 R1UmEZuaB+g/Sx6iVoCAyloyFsNP/CtPmyV09p/3IJUe7dfXiN5i4fv5HfGnoo+3ai
-	 3TcDohiBYoGEw==
-Message-ID: <4ef5f305-0234-4193-a190-edbfe770ea04@kernel.org>
-Date: Mon, 13 Apr 2026 13:02:20 +0200
+	s=arc-20240116; t=1776079773; c=relaxed/simple;
+	bh=qemG22e/5nzyJ2cRqYSbIe3s25/A62DpHW91KDudR1w=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ZNlz64nmUrFe7XleJk6fTWLblOBFubaOJVoOaSUYXocOIPIKJh0wnMbgSVGmEX6wjuK/haY+eUv827iwzIjrLYbmcpKOwvh5J2uoBRxOHlAPkZ6E/Tn62tBjlLyC/ktZXHlxGl8PL1saZGEFnbQXfLs/YlzP6ySWzyakOXydkvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai; spf=pass smtp.mailfrom=innora.ai; dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b=GqNGU2Nn; arc=none smtp.client-ip=185.70.43.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innora.ai
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innora.ai;
+	s=protonmail; t=1776079759; x=1776338959;
+	bh=pug3q+LylfGKBnP3R57Ns6cabPwPmjWJL6bF4IL8NpM=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=GqNGU2Nnp8EWeYYeDDwp8sH4OJKkbTqzIBkrbmLF8v9l+a5t2bzKOdiDYBfOH7fpm
+	 5klBE07LxbNalH/Ho5dCO6y9efF1vq4fYE6GgE9yjNg0+GLKnd+wF1MQ4+GQW3BASm
+	 tveDU3/MKu3GFUeNGSIIq8Ev3V06pahtSJvs8SSPi234kDuSaHOwtyyVQHCkEcyV9s
+	 jjAzWvaEwwodvUDD2GUDSrXmADvGQoG9Ej/+Nxj+EwijsN+1QbVbjDGSfhDzcT6Bjq
+	 /PJyL+BAZvhWCiAzsY+wz9yNqqKXJESHVerhhhHj/g5CjtMOgZ0srOKSDTa1g2FcuO
+	 DvyQruOCXOOOA==
+Date: Mon, 13 Apr 2026 11:29:11 +0000
+To: andy.shevchenko@gmail.com, gregkh@linuxfoundation.org
+From: Feng Ning <feng@innora.ai>
+Cc: linux-staging@lists.linux.dev, linux-media@vger.kernel.org, sakari.ailus@linux.intel.com, feng <feng@innora.ai>
+Subject: [PATCH] staging: media: atomisp: use kvmalloc_objs() for overflow-safe allocations
+Message-ID: <20260413112904.98864-1-feng@innora.ai>
+Feedback-ID: 140578448:user:proton
+X-Pm-Message-ID: 8b4568203f94433d7ac2ebf28ecafddc63689276
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] platform/x86: int3472: tps68470: fix GNVS clock
- fields for Dell Latitude 5285
-To: Thierry Chatard <tchatard@gmail.com>, linux-kernel@vger.kernel.org
-Cc: linux-media@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- lee@kernel.org, djrscally@gmail.com, ilpo.jarvinen@linux.intel.com,
- mchehab@kernel.org, sakari.ailus@linux.intel.com,
- jacopo.mondi@ideasonboard.com, nicholas@rothemail.net,
- kernel test robot <lkp@intel.com>
-References: <20260320000937.9177-1-tchatard@gmail.com>
- <20260324214129.17300-1-tchatard@gmail.com>
- <20260324214129.17300-3-tchatard@gmail.com>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <20260324214129.17300-3-tchatard@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[innora.ai,reject];
+	R_DKIM_ALLOW(-0.20)[innora.ai:s=protonmail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58660-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linux.intel.com,ideasonboard.com,rothemail.net,intel.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-58661-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com,linuxfoundation.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[innora.ai:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[feng@innora.ai,linux-media@vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: DF29F3EB0B0
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 74AF13EB513
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
+From: feng <feng@innora.ai>
 
-On 24-Mar-26 10:41 PM, Thierry Chatard wrote:
-> The Dell Latitude 5285 BIOS leaves the GNVS fields C0TP, L0CL, and L1CL
-> at zero at boot. The TPS68470 clock driver reads L0CL and L1CL to select
-> the output frequency; with both fields zero the clock outputs are disabled,
-> and neither camera sensor can communicate over I2C.
-> 
-> Additionally, when C0TP=0 the ACPI _DEP method on INT3479 returns PCI0 as
-> its dependency instead of CLP0 (the INT3472 device), causing ipu_bridge to
-> never create the i2c-INT3479:00 client for the front camera.
-> 
-> Add a DMI-gated fixup that runs at TPS68470 probe time and writes 0x02
-> (19.2 MHz) into C0TP, L0CL, and L1CL.
-> 
-> The GNVS physical address is discovered at run time by scanning the raw
-> AML of the DSDT (and any SSDTs) for the GNVS SystemMemory OperationRegion
-> definition (opcode sequence 0x5B 0x80 "GNVS" 0x00). The parsed address is
-> then mapped with acpi_os_map_memory(), which is safe because ACPI NVS
-> memory is reserved by the firmware and already mapped by the OS. No
-> hard-coded physical addresses are used.
-> 
-> Field byte offsets within the GNVS region (verified against DSDT
-> disassembly on this platform, region size 0x0725 bytes):
->   C0TP: 0x43A   L0CL: 0x4F7   L1CL: 0x549
-> 
-> Signed-off-by: Thierry Chatard <tchatard@gmail.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202603211747.Z6xudmNd-lkp@intel.com/
+Replace open-coded width * height * sizeof() multiplications with
+kvmalloc_objs() and array_size() to prevent integer overflow in buffer
+allocations.
 
-I'm sorry but the ACPI table / GNVS poking going on here really is not
-acceptable. I can see you've done your best to make this safe, but this is
-still something which I think we should not do. Writing to GNVS is troublesome
-because the old values there might have already been used for 
+The atomisp driver computes DVS, morphing table, shading table, and
+statistics buffer sizes using unchecked arithmetic.  When dimensions are
+large, the product can silently wrap, causing kvmalloc() to allocate an
+undersized buffer.
 
-The first thing to try here is make sure you have the latest BIOS and then select
-"load setup defaults" or something similar and then "save settings". These sort
-of GVNS problems often come from the layout of GVNS having changed with a BIOS
-update, but the BIOS not automatically re-applying the new default settings
-(which include many hidden settings) to its saved settings.
+kvmalloc_objs() uses size_mul() internally, which saturates to SIZE_MAX
+on overflow, so kvmalloc() returns NULL instead of succeeding with too
+few bytes.  array_size() provides the same overflow protection for the
+two-factor dimension products.
 
-This may also change the I2C4 controller from being in ACPI enumeration mode
-to being in PCI enumeration mode as one would expect of this generation of
-"laptop".
+Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Feng Ning <feng@innora.ai>
+---
+ .../media/atomisp/pci/sh_css_param_dvs.c      |  18 +-
+ .../staging/media/atomisp/pci/sh_css_params.c | 154 ++++++++----------
+ 2 files changed, 79 insertions(+), 93 deletions(-)
 
-If loading + saving the BIOS default settings does not help then for the
-tps68470 clk problem I would suggest to just add clk data to struct
-int3472_tps68470_board_data and if the clk data is set use that instead of
-the values from ACPI.
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers=
+/staging/media/atomisp/pci/sh_css_param_dvs.c
+index 9ccdb66de..5560d8054 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+@@ -5,6 +5,8 @@
+  */
+=20
+ #include "sh_css_param_dvs.h"
++#include <linux/overflow.h>
++#include <linux/slab.h>
+ #include <assert_support.h>
+ #include <type_support.h>
+ #include <ia_css_err.h>
+@@ -48,16 +50,16 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *f=
+rame_res,
+ =09=09}
+=20
+ =09=09/* Generate Y buffers  */
+-=09=09dvs_config->xcoords_y =3D kvmalloc(width_y * height_y * sizeof(uint3=
+2_t),
+-=09=09=09=09=09=09 GFP_KERNEL);
++=09=09dvs_config->xcoords_y =3D kvmalloc_objs(*dvs_config->xcoords_y,
++=09=09=09=09=09=09       array_size(width_y, height_y));
+ =09=09if (!dvs_config->xcoords_y) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+ =09=09=09err =3D -ENOMEM;
+ =09=09=09goto exit;
+ =09=09}
+=20
+-=09=09dvs_config->ycoords_y =3D kvmalloc(width_y * height_y * sizeof(uint3=
+2_t),
+-=09=09=09=09=09=09 GFP_KERNEL);
++=09=09dvs_config->ycoords_y =3D kvmalloc_objs(*dvs_config->ycoords_y,
++=09=09=09=09=09=09       array_size(width_y, height_y));
+ =09=09if (!dvs_config->ycoords_y) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+ =09=09=09err =3D -ENOMEM;
+@@ -67,16 +69,16 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *f=
+rame_res,
+ =09=09/* Generate UV buffers  */
+ =09=09IA_CSS_LOG("UV W %d H %d", width_uv, height_uv);
+=20
+-=09=09dvs_config->xcoords_uv =3D kvmalloc(width_uv * height_uv * sizeof(ui=
+nt32_t),
+-=09=09=09=09=09=09  GFP_KERNEL);
++=09=09dvs_config->xcoords_uv =3D kvmalloc_objs(*dvs_config->xcoords_uv,
++=09=09=09=09=09=09=09array_size(width_uv, height_uv));
+ =09=09if (!dvs_config->xcoords_uv) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+ =09=09=09err =3D -ENOMEM;
+ =09=09=09goto exit;
+ =09=09}
+=20
+-=09=09dvs_config->ycoords_uv =3D kvmalloc(width_uv * height_uv * sizeof(ui=
+nt32_t),
+-=09=09=09=09=09=09  GFP_KERNEL);
++=09=09dvs_config->ycoords_uv =3D kvmalloc_objs(*dvs_config->ycoords_uv,
++=09=09=09=09=09=09=09array_size(width_uv, height_uv));
+ =09=09if (!dvs_config->ycoords_uv) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+ =09=09=09err =3D -ENOMEM;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/st=
+aging/media/atomisp/pci/sh_css_params.c
+index fcebace11..a439af085 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -5,6 +5,8 @@
+  */
+=20
+ #include <linux/math.h>
++#include <linux/overflow.h>
++#include <linux/slab.h>
+=20
+ #include "gdc_device.h"=09=09/* gdc_lut_store(), ... */
+ #include "isp.h"=09=09=09/* ISP_VEC_ELEMBITS */
+@@ -951,8 +953,8 @@ sh_css_set_black_frame(struct ia_css_stream *stream,
+ =09=09params->fpn_config.data =3D NULL;
+ =09}
+ =09if (!params->fpn_config.data) {
+-=09=09params->fpn_config.data =3D kvmalloc(array3_size(height, width, size=
+of(short)),
+-=09=09=09=09=09=09   GFP_KERNEL);
++=09=09params->fpn_config.data =3D kvmalloc_objs(*params->fpn_config.data,
++=09=09=09=09=09=09=09array_size(height, width));
+ =09=09if (!params->fpn_config.data) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+ =09=09=09IA_CSS_LEAVE_ERR_PRIVATE(-ENOMEM);
+@@ -1381,12 +1383,10 @@ struct ia_css_morph_table *ia_css_morph_table_alloc=
+ate(
+ =09}
+=20
+ =09for (i =3D 0; i < IA_CSS_MORPH_TABLE_NUM_PLANES; i++) {
+-=09=09me->coordinates_x[i] =3D kvmalloc(height * width *
+-=09=09=09=09=09=09sizeof(*me->coordinates_x[i]),
+-=09=09=09=09=09=09GFP_KERNEL);
+-=09=09me->coordinates_y[i] =3D kvmalloc(height * width *
+-=09=09=09=09=09=09sizeof(*me->coordinates_y[i]),
+-=09=09=09=09=09=09GFP_KERNEL);
++=09=09me->coordinates_x[i] =3D kvmalloc_objs(*me->coordinates_x[i],
++=09=09=09=09=09=09      array_size(height, width));
++=09=09me->coordinates_y[i] =3D kvmalloc_objs(*me->coordinates_y[i],
++=09=09=09=09=09=09      array_size(height, width));
+=20
+ =09=09if ((!me->coordinates_x[i]) ||
+ =09=09    (!me->coordinates_y[i])) {
+@@ -4167,7 +4167,7 @@ ia_css_3a_statistics_allocate(const struct ia_css_3a_=
+grid_info *grid)
+=20
+ =09me->grid =3D *grid;
+ =09grid_size =3D grid->width * grid->height;
+-=09me->data =3D kvmalloc(grid_size * sizeof(*me->data), GFP_KERNEL);
++=09me->data =3D kvmalloc_objs(*me->data, array_size(grid->width, grid->hei=
+ght));
+ =09if (!me->data)
+ =09=09goto err;
+ =09/* No weighted histogram, no structure, treat the histogram data as a b=
+yte dump in a byte array */
+@@ -4206,13 +4206,15 @@ ia_css_dvs_statistics_allocate(const struct ia_css_=
+dvs_grid_info *grid)
+ =09=09goto err;
+=20
+ =09me->grid =3D *grid;
+-=09me->hor_proj =3D kvmalloc(grid->height * IA_CSS_DVS_NUM_COEF_TYPES *
+-=09=09=09=09sizeof(*me->hor_proj), GFP_KERNEL);
++=09me->hor_proj =3D kvmalloc_objs(*me->hor_proj,
++=09=09=09=09     array_size(grid->height,
++=09=09=09=09=09=09IA_CSS_DVS_NUM_COEF_TYPES));
+ =09if (!me->hor_proj)
+ =09=09goto err;
+=20
+-=09me->ver_proj =3D kvmalloc(grid->width * IA_CSS_DVS_NUM_COEF_TYPES *
+-=09=09=09=09sizeof(*me->ver_proj), GFP_KERNEL);
++=09me->ver_proj =3D kvmalloc_objs(*me->ver_proj,
++=09=09=09=09     array_size(grid->width,
++=09=09=09=09=09=09IA_CSS_DVS_NUM_COEF_TYPES));
+ =09if (!me->ver_proj)
+ =09=09goto err;
+=20
+@@ -4245,15 +4247,15 @@ ia_css_dvs_coefficients_allocate(const struct ia_cs=
+s_dvs_grid_info *grid)
+=20
+ =09me->grid =3D *grid;
+=20
+-=09me->hor_coefs =3D kvmalloc(grid->num_hor_coefs *
+-=09=09=09=09 IA_CSS_DVS_NUM_COEF_TYPES *
+-=09=09=09=09 sizeof(*me->hor_coefs), GFP_KERNEL);
++=09me->hor_coefs =3D kvmalloc_objs(*me->hor_coefs,
++=09=09=09=09      array_size(grid->num_hor_coefs,
++=09=09=09=09=09=09 IA_CSS_DVS_NUM_COEF_TYPES));
+ =09if (!me->hor_coefs)
+ =09=09goto err;
+=20
+-=09me->ver_coefs =3D kvmalloc(grid->num_ver_coefs *
+-=09=09=09=09 IA_CSS_DVS_NUM_COEF_TYPES *
+-=09=09=09=09 sizeof(*me->ver_coefs), GFP_KERNEL);
++=09me->ver_coefs =3D kvmalloc_objs(*me->ver_coefs,
++=09=09=09=09      array_size(grid->num_ver_coefs,
++=09=09=09=09=09=09 IA_CSS_DVS_NUM_COEF_TYPES));
+ =09if (!me->ver_coefs)
+ =09=09goto err;
+=20
+@@ -4286,59 +4288,51 @@ ia_css_dvs2_statistics_allocate(const struct ia_css=
+_dvs_grid_info *grid)
+=20
+ =09me->grid =3D *grid;
+=20
+-=09me->hor_prod.odd_real =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09 grid->aligned_height *
+-=09=09=09=09=09 sizeof(*me->hor_prod.odd_real),
+-=09=09=09=09=09 GFP_KERNEL);
++=09me->hor_prod.odd_real =3D kvmalloc_objs(*me->hor_prod.odd_real,
++=09=09=09=09=09      array_size(grid->aligned_width,
++=09=09=09=09=09=09=09 grid->aligned_height));
+ =09if (!me->hor_prod.odd_real)
+ =09=09goto err;
+=20
+-=09me->hor_prod.odd_imag =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09 grid->aligned_height *
+-=09=09=09=09=09 sizeof(*me->hor_prod.odd_imag),
+-=09=09=09=09=09 GFP_KERNEL);
++=09me->hor_prod.odd_imag =3D kvmalloc_objs(*me->hor_prod.odd_imag,
++=09=09=09=09=09      array_size(grid->aligned_width,
++=09=09=09=09=09=09=09 grid->aligned_height));
+ =09if (!me->hor_prod.odd_imag)
+ =09=09goto err;
+=20
+-=09me->hor_prod.even_real =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09  grid->aligned_height *
+-=09=09=09=09=09  sizeof(*me->hor_prod.even_real),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->hor_prod.even_real =3D kvmalloc_objs(*me->hor_prod.even_real,
++=09=09=09=09=09       array_size(grid->aligned_width,
++=09=09=09=09=09=09=09  grid->aligned_height));
+ =09if (!me->hor_prod.even_real)
+ =09=09goto err;
+=20
+-=09me->hor_prod.even_imag =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09  grid->aligned_height *
+-=09=09=09=09=09  sizeof(*me->hor_prod.even_imag),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->hor_prod.even_imag =3D kvmalloc_objs(*me->hor_prod.even_imag,
++=09=09=09=09=09       array_size(grid->aligned_width,
++=09=09=09=09=09=09=09  grid->aligned_height));
+ =09if (!me->hor_prod.even_imag)
+ =09=09goto err;
+=20
+-=09me->ver_prod.odd_real =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09 grid->aligned_height *
+-=09=09=09=09=09 sizeof(*me->ver_prod.odd_real),
+-=09=09=09=09=09 GFP_KERNEL);
++=09me->ver_prod.odd_real =3D kvmalloc_objs(*me->ver_prod.odd_real,
++=09=09=09=09=09      array_size(grid->aligned_width,
++=09=09=09=09=09=09=09 grid->aligned_height));
+ =09if (!me->ver_prod.odd_real)
+ =09=09goto err;
+=20
+-=09me->ver_prod.odd_imag =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09 grid->aligned_height *
+-=09=09=09=09=09 sizeof(*me->ver_prod.odd_imag),
+-=09=09=09=09=09 GFP_KERNEL);
++=09me->ver_prod.odd_imag =3D kvmalloc_objs(*me->ver_prod.odd_imag,
++=09=09=09=09=09      array_size(grid->aligned_width,
++=09=09=09=09=09=09=09 grid->aligned_height));
+ =09if (!me->ver_prod.odd_imag)
+ =09=09goto err;
+=20
+-=09me->ver_prod.even_real =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09  grid->aligned_height *
+-=09=09=09=09=09  sizeof(*me->ver_prod.even_real),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->ver_prod.even_real =3D kvmalloc_objs(*me->ver_prod.even_real,
++=09=09=09=09=09       array_size(grid->aligned_width,
++=09=09=09=09=09=09=09  grid->aligned_height));
+ =09if (!me->ver_prod.even_real)
+ =09=09goto err;
+=20
+-=09me->ver_prod.even_imag =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09  grid->aligned_height *
+-=09=09=09=09=09  sizeof(*me->ver_prod.even_imag),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->ver_prod.even_imag =3D kvmalloc_objs(*me->ver_prod.even_imag,
++=09=09=09=09=09       array_size(grid->aligned_width,
++=09=09=09=09=09=09=09  grid->aligned_height));
+ =09if (!me->ver_prod.even_imag)
+ =09=09goto err;
+=20
+@@ -4377,51 +4371,43 @@ ia_css_dvs2_coefficients_allocate(const struct ia_c=
+ss_dvs_grid_info *grid)
+=20
+ =09me->grid =3D *grid;
+=20
+-=09me->hor_coefs.odd_real =3D kvmalloc(grid->num_hor_coefs *
+-=09=09=09=09=09  sizeof(*me->hor_coefs.odd_real),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->hor_coefs.odd_real =3D kvmalloc_objs(*me->hor_coefs.odd_real,
++=09=09=09=09=09       grid->num_hor_coefs);
+ =09if (!me->hor_coefs.odd_real)
+ =09=09goto err;
+=20
+-=09me->hor_coefs.odd_imag =3D kvmalloc(grid->num_hor_coefs *
+-=09=09=09=09=09  sizeof(*me->hor_coefs.odd_imag),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->hor_coefs.odd_imag =3D kvmalloc_objs(*me->hor_coefs.odd_imag,
++=09=09=09=09=09       grid->num_hor_coefs);
+ =09if (!me->hor_coefs.odd_imag)
+ =09=09goto err;
+=20
+-=09me->hor_coefs.even_real =3D kvmalloc(grid->num_hor_coefs *
+-=09=09=09=09=09   sizeof(*me->hor_coefs.even_real),
+-=09=09=09=09=09   GFP_KERNEL);
++=09me->hor_coefs.even_real =3D kvmalloc_objs(*me->hor_coefs.even_real,
++=09=09=09=09=09=09grid->num_hor_coefs);
+ =09if (!me->hor_coefs.even_real)
+ =09=09goto err;
+=20
+-=09me->hor_coefs.even_imag =3D kvmalloc(grid->num_hor_coefs *
+-=09=09=09=09=09   sizeof(*me->hor_coefs.even_imag),
+-=09=09=09=09=09   GFP_KERNEL);
++=09me->hor_coefs.even_imag =3D kvmalloc_objs(*me->hor_coefs.even_imag,
++=09=09=09=09=09=09grid->num_hor_coefs);
+ =09if (!me->hor_coefs.even_imag)
+ =09=09goto err;
+=20
+-=09me->ver_coefs.odd_real =3D kvmalloc(grid->num_ver_coefs *
+-=09=09=09=09=09  sizeof(*me->ver_coefs.odd_real),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->ver_coefs.odd_real =3D kvmalloc_objs(*me->ver_coefs.odd_real,
++=09=09=09=09=09       grid->num_ver_coefs);
+ =09if (!me->ver_coefs.odd_real)
+ =09=09goto err;
+=20
+-=09me->ver_coefs.odd_imag =3D kvmalloc(grid->num_ver_coefs *
+-=09=09=09=09=09  sizeof(*me->ver_coefs.odd_imag),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->ver_coefs.odd_imag =3D kvmalloc_objs(*me->ver_coefs.odd_imag,
++=09=09=09=09=09       grid->num_ver_coefs);
+ =09if (!me->ver_coefs.odd_imag)
+ =09=09goto err;
+=20
+-=09me->ver_coefs.even_real =3D kvmalloc(grid->num_ver_coefs *
+-=09=09=09=09=09   sizeof(*me->ver_coefs.even_real),
+-=09=09=09=09=09   GFP_KERNEL);
++=09me->ver_coefs.even_real =3D kvmalloc_objs(*me->ver_coefs.even_real,
++=09=09=09=09=09=09grid->num_ver_coefs);
+ =09if (!me->ver_coefs.even_real)
+ =09=09goto err;
+=20
+-=09me->ver_coefs.even_imag =3D kvmalloc(grid->num_ver_coefs *
+-=09=09=09=09=09   sizeof(*me->ver_coefs.even_imag),
+-=09=09=09=09=09   GFP_KERNEL);
++=09me->ver_coefs.even_imag =3D kvmalloc_objs(*me->ver_coefs.even_imag,
++=09=09=09=09=09=09grid->num_ver_coefs);
+ =09if (!me->ver_coefs.even_imag)
+ =09=09goto err;
+=20
+@@ -4478,25 +4464,23 @@ ia_css_dvs2_6axis_config_allocate(const struct ia_c=
+ss_stream *stream)
+ =09=09=09=09    params->pipe_dvs_6axis_config[IA_CSS_PIPE_ID_VIDEO]->heigh=
+t_uv;
+ =09IA_CSS_LOG("table Y: W %d H %d", width_y, height_y);
+ =09IA_CSS_LOG("table UV: W %d H %d", width_uv, height_uv);
+-=09dvs_config->xcoords_y =3D kvmalloc(width_y * height_y * sizeof(uint32_t=
+),
+-=09=09=09=09=09 GFP_KERNEL);
++=09dvs_config->xcoords_y =3D kvmalloc_objs(*dvs_config->xcoords_y,
++=09=09=09=09=09       array_size(width_y, height_y));
+ =09if (!dvs_config->xcoords_y)
+ =09=09goto err;
+=20
+-=09dvs_config->ycoords_y =3D kvmalloc(width_y * height_y * sizeof(uint32_t=
+),
+-=09=09=09=09=09 GFP_KERNEL);
++=09dvs_config->ycoords_y =3D kvmalloc_objs(*dvs_config->ycoords_y,
++=09=09=09=09=09       array_size(width_y, height_y));
+ =09if (!dvs_config->ycoords_y)
+ =09=09goto err;
+=20
+-=09dvs_config->xcoords_uv =3D kvmalloc(width_uv * height_uv *
+-=09=09=09=09=09  sizeof(uint32_t),
+-=09=09=09=09=09  GFP_KERNEL);
++=09dvs_config->xcoords_uv =3D kvmalloc_objs(*dvs_config->xcoords_uv,
++=09=09=09=09=09=09array_size(width_uv, height_uv));
+ =09if (!dvs_config->xcoords_uv)
+ =09=09goto err;
+=20
+-=09dvs_config->ycoords_uv =3D kvmalloc(width_uv * height_uv *
+-=09=09=09=09=09  sizeof(uint32_t),
+-=09=09=09=09=09  GFP_KERNEL);
++=09dvs_config->ycoords_uv =3D kvmalloc_objs(*dvs_config->ycoords_uv,
++=09=09=09=09=09=09array_size(width_uv, height_uv));
+ =09if (!dvs_config->ycoords_uv)
+ =09=09goto err;
+=20
+--=20
+2.49.0
 
-Which would leave the when C0TP=0 the ACPI _DEP method on INT3479 returns PCI0
-problem. Can you describe that in a bit more detail? You write:
-
-> returns PCI0 as
-> its dependency instead of CLP0 (the INT3472 device), causing ipu_bridge to
-> never create the i2c-INT3479:00 client for the front camera.
-
-but it is not ipu-bridge which is creating the i2c-INT3479:00 client, that
-is done by the APCI + I2C core code, when all _DEP dependencies are marked
-as available.
-
-I guess a problem with the wrong _DEP being returned is mostly a problem
-for the int3472 code which uses the _DEP relation to find out which sensor
-to add regulator lookups, etc. to. But we could do a DMI quirk to simply
-lookup the sensor firmware-node by its ACPI path on this 2-in-1 model ?
-
-Also can you share an acpidump of the tables for this device please ?
-
-Regards,
-
-Hans
-
-
-
-> ---
->  drivers/platform/x86/intel/int3472/tps68470.c | 201 ++++++++++++++++++
->  1 file changed, 201 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/intel/int3472/tps68470.c b/drivers/platform/x86/intel/int3472/tps68470.c
-> index a496075c0..c9686426f 100644
-> --- a/drivers/platform/x86/intel/int3472/tps68470.c
-> +++ b/drivers/platform/x86/intel/int3472/tps68470.c
-> @@ -2,8 +2,10 @@
->  /* Author: Dan Scally <djrscally@gmail.com> */
->  
->  #include <linux/acpi.h>
-> +#include <linux/dmi.h>
->  #include <linux/i2c.h>
->  #include <linux/kernel.h>
-> +#include <linux/unaligned.h>
->  #include <linux/mfd/core.h>
->  #include <linux/mfd/tps68470.h>
->  #include <linux/platform_device.h>
-> @@ -140,6 +142,203 @@ skl_int3472_fill_clk_pdata(struct device *dev, struct tps68470_clk_platform_data
->  	return n_consumers;
->  }
->  
-> +/* Dell Latitude 5285 GNVS fix
-> + *
-> + * The BIOS leaves GNVS fields C0TP, L0CL and L1CL at zero after POST.
-> + * With C0TP=0 the ACPI _DEP on INT3479 resolves to PCI0 instead of CLP0
-> + * (INT3472), so ipu_bridge never creates i2c-INT3479:00 (OV5670 front cam).
-> + * With L0CL=L1CL=0 the TPS68470 clock driver disables all clock outputs,
-> + * making both sensors unreachable over I2C.
-> + *
-> + * Fix: at TPS68470 probe time, locate the GNVS SystemMemory OperationRegion
-> + * by scanning the DSDT/SSDTs for its AML definition, map the region, and
-> + * write 0x02 (19.2 MHz) into C0TP, L0CL and L1CL.
-> + *
-> + * Field byte offsets (verified from DSDT disassembly, GNVS size 0x0725):
-> + *   C0TP: 0x43A   L0CL: 0x4F7   L1CL: 0x549
-> + */
-> +#define DELL5285_C0TP_OFF	0x43A
-> +#define DELL5285_L0CL_OFF	0x4F7
-> +#define DELL5285_L1CL_OFF	0x549
-> +/* Minimum GNVS region size: last field (L1CL) is 1 byte at 0x549 */
-> +#define DELL5285_GNVS_MIN_SIZE	(DELL5285_L1CL_OFF + 1)
-> +
-> +/* AML integer opcodes (ACPI 6.4, section 20.2.3) */
-> +#define AML_ZERO_OP		0x00
-> +#define AML_ONE_OP		0x01
-> +#define AML_BYTE_PREFIX		0x0A
-> +#define AML_WORD_PREFIX		0x0B
-> +#define AML_DWORD_PREFIX	0x0C
-> +#define AML_QWORD_PREFIX	0x0E
-> +
-> +/**
-> + * aml_parse_int - Parse one AML integer opcode at @p.
-> + * @p:   Pointer to the current position in the AML byte stream.
-> + * @end: One past the last valid byte of the AML buffer.
-> + * @val: Output: the parsed integer value.
-> + *
-> + * Returns the number of bytes consumed, or 0 on failure.
-> + */
-> +static int aml_parse_int(const u8 *p, const u8 *end, u64 *val)
-> +{
-> +	if (p >= end)
-> +		return 0;
-> +	switch (*p) {
-> +	case AML_ZERO_OP:
-> +		*val = 0;
-> +		return 1;
-> +	case AML_ONE_OP:
-> +		*val = 1;
-> +		return 1;
-> +	case AML_BYTE_PREFIX:
-> +		if (p + 2 > end)
-> +			return 0;
-> +		*val = p[1];
-> +		return 2;
-> +	case AML_WORD_PREFIX:
-> +		if (p + 3 > end)
-> +			return 0;
-> +		*val = get_unaligned_le16(p + 1);
-> +		return 3;
-> +	case AML_DWORD_PREFIX:
-> +		if (p + 5 > end)
-> +			return 0;
-> +		*val = get_unaligned_le32(p + 1);
-> +		return 5;
-> +	case AML_QWORD_PREFIX:
-> +		if (p + 9 > end)
-> +			return 0;
-> +		*val = get_unaligned_le64(p + 1);
-> +		return 9;
-> +	}
-> +	return 0;
-> +}
-> +
-> +/**
-> + * dell5285_gnvs_from_table - Scan one ACPI table for the GNVS OperationRegion.
-> + * @tbl:  ACPI table header; the AML body is scanned for the GNVS signature.
-> + * @addr: Output: physical base address of the GNVS region.
-> + * @size: Output: byte length of the GNVS region.
-> + *
-> + * Searches the AML body of @tbl for the byte sequence:
-> + *   ExtOp(0x5B) OpRegionOp(0x80) NameSeg("GNVS") RegionSpace(SystemMemory=0x00)
-> + * followed by two AML integers (region address and length).
-> + *
-> + * Returns true and fills @addr / @size if found and plausible.
-> + */
-> +static bool dell5285_gnvs_from_table(const struct acpi_table_header *tbl,
-> +				     phys_addr_t *addr, u32 *size)
-> +{
-> +	/* AML: ExtOp OpRegionOp NameSeg("GNVS") SystemMemory */
-> +	static const u8 sig[] = { 0x5B, 0x80, 'G', 'N', 'V', 'S', 0x00 };
-> +	const u8 *aml = (const u8 *)tbl + sizeof(*tbl);
-> +	const u8 *end = (const u8 *)tbl + tbl->length;
-> +	const u8 *p;
-> +
-> +	for (p = aml; p + sizeof(sig) < end; p++) {
-> +		u64 region_addr, region_size;
-> +		int consumed;
-> +
-> +		if (memcmp(p, sig, sizeof(sig)) != 0)
-> +			continue;
-> +
-> +		p += sizeof(sig);
-> +		consumed = aml_parse_int(p, end, &region_addr);
-> +		if (!consumed || !region_addr)
-> +			continue;
-> +
-> +		p += consumed;
-> +		consumed = aml_parse_int(p, end, &region_size);
-> +		if (!consumed || region_size < DELL5285_GNVS_MIN_SIZE)
-> +			continue;
-> +
-> +		*addr = (phys_addr_t)region_addr;
-> +		*size = (u32)region_size;
-> +		return true;
-> +	}
-> +	return false;
-> +}
-> +
-> +/**
-> + * dell5285_gnvs_find - Locate the GNVS OperationRegion by scanning DSDT and SSDTs.
-> + * @addr: Output: physical base address of the GNVS region.
-> + * @size: Output: byte length of the GNVS region.
-> + *
-> + * Returns true if the GNVS region was found in any ACPI table.
-> + */
-> +static bool dell5285_gnvs_find(phys_addr_t *addr, u32 *size)
-> +{
-> +	struct acpi_table_header *tbl;
-> +	u32 i;
-> +
-> +	/* DSDT */
-> +	if (ACPI_SUCCESS(acpi_get_table(ACPI_SIG_DSDT, 1, &tbl))) {
-> +		bool found = dell5285_gnvs_from_table(tbl, addr, size);
-> +
-> +		acpi_put_table(tbl);
-> +		if (found)
-> +			return true;
-> +	}
-> +
-> +	/* SSDTs (instance numbers start at 1, stop at first failure) */
-> +	for (i = 1; i <= 32; i++) {
-> +		bool found;
-> +
-> +		if (ACPI_FAILURE(acpi_get_table(ACPI_SIG_SSDT, i, &tbl)))
-> +			break;
-> +		found = dell5285_gnvs_from_table(tbl, addr, size);
-> +		acpi_put_table(tbl);
-> +		if (found)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +static const struct dmi_system_id dell5285_gnvs_dmi[] = {
-> +	{
-> +		.matches = {
-> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Latitude 5285"),
-> +		},
-> +	},
-> +	{ }
-> +};
-> +
-> +static void dell5285_gnvs_fix(void)
-> +{
-> +	phys_addr_t gnvs_addr;
-> +	u32 gnvs_size;
-> +	void *gnvs;
-> +
-> +	if (!dmi_check_system(dell5285_gnvs_dmi))
-> +		return;
-> +
-> +	if (!dell5285_gnvs_find(&gnvs_addr, &gnvs_size)) {
-> +		pr_err("int3472-tps68470: Dell 5285: GNVS OperationRegion not found in DSDT/SSDTs\n");
-> +		return;
-> +	}
-> +
-> +	gnvs = acpi_os_map_memory(gnvs_addr, gnvs_size);
-> +	if (!gnvs) {
-> +		pr_err("int3472-tps68470: Dell 5285: failed to map GNVS at %pa\n",
-> +		       &gnvs_addr);
-> +		return;
-> +	}
-> +
-> +	pr_info("int3472-tps68470: Dell 5285 GNVS fix at %pa: C0TP=0x%02x L0CL=0x%02x L1CL=0x%02x -> 0x02\n",
-> +		&gnvs_addr,
-> +		*(u8 *)(gnvs + DELL5285_C0TP_OFF),
-> +		*(u8 *)(gnvs + DELL5285_L0CL_OFF),
-> +		*(u8 *)(gnvs + DELL5285_L1CL_OFF));
-> +
-> +	*(u8 *)(gnvs + DELL5285_C0TP_OFF) = 0x02;
-> +	*(u8 *)(gnvs + DELL5285_L0CL_OFF) = 0x02;
-> +	*(u8 *)(gnvs + DELL5285_L1CL_OFF) = 0x02;
-> +
-> +	acpi_os_unmap_memory(gnvs, gnvs_size);
-> +}
-> +
->  static int skl_int3472_tps68470_probe(struct i2c_client *client)
->  {
->  	struct acpi_device *adev = ACPI_COMPANION(&client->dev);
-> @@ -155,6 +354,8 @@ static int skl_int3472_tps68470_probe(struct i2c_client *client)
->  	if (!adev)
->  		return -ENODEV;
->  
-> +	dell5285_gnvs_fix();
-> +
->  	n_consumers = skl_int3472_fill_clk_pdata(&client->dev, &clk_pdata);
->  	if (n_consumers < 0)
->  		return n_consumers;
 
 
