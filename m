@@ -1,226 +1,328 @@
-Return-Path: <linux-media+bounces-58641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58640-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GDDYIIqk3GkEUgkAu9opvQ
-	(envelope-from <linux-media+bounces-58641-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:08:42 +0200
+	id GFEMDWKk3GkEUgkAu9opvQ
+	(envelope-from <linux-media+bounces-58640-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:08:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91B33E8D6B
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:08:41 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9707E3E8D35
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:08:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 325483017F9E
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 08:07:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5A1443014C40
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 08:07:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 083DD3A5E73;
-	Mon, 13 Apr 2026 08:07:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39EE33A1697;
+	Mon, 13 Apr 2026 08:07:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="VwjOXlYT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EAU5HTYa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50BFD3A451E
-	for <linux-media@vger.kernel.org>; Mon, 13 Apr 2026 08:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B0D3A5429
+	for <linux-media@vger.kernel.org>; Mon, 13 Apr 2026 08:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776067625; cv=none; b=Eqwb8DXDCsCYqV4i/NOeFOd141p2EBW6EFiRrJKMV+ggh908ArxXUowoFgTVNqPOu+4xFand22LHz4La2AooLsLgdgYEYuLiv0vNwlHzpU8Hs3F0djfx96pDvVNeGxyHr4mQVAB7YOuGUe0ISSZ6cycMZP140f5X3U1Aa0+Xo5s=
+	t=1776067620; cv=none; b=CZ1FgMbhh9xqAqVgo8ToKQbuR/Z9ev+8UrilrnIPoXyVby5aantaEg/d6dinI13I6ojM2CRtF3eOCDn6jwcpVCe8ENu7k7XMXd2t6heA6tRdGbSgu8HyY5Qozxdi4IZ2wkjWEEH+zSs4p1RUr0HLl6rLIre8xS5kSKGFk/aPNFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776067625; c=relaxed/simple;
-	bh=crS9OeY4ZhcwveEBPFt0L0a3qtbOJfkNUNhmIYymP1I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GBFO4wJvbepzl/Y4WPZYbmdcVbdPH4EqGFuPCRNyvD3UPuXXicii+4LDLZ5BReK8XhwbXqpXHW21/E7Nx/+2zx76xChOuoEUKcQnnhfPKsq9MTxdWMyLQCYql88RQK97BdYO4lhbe3dSP3l8xsdPc/dxYqac4mX+VZFB+OwEIi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=VwjOXlYT; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=lISybMQp+OaO/Lf3/XZqCWYYTxwbrtzYdJKyH0Xg9hQ=; b=VwjOXlYTFc6VCSbjzlF7+0xvAk
-	tYTG6IZPhNQyxh9KJK5VwIPOdmtVTb+xwNW8JIIp/7Q64xhxubf9dPm3EGOdRA0eqKe9jvzb4rhZF
-	L/97kXQkOaVBsNdWlm2NIinBKpOYwtCivc4wQFtY+/5rnXQ6aAivTUdmN1qSO7shHcsvIvy4NUqu+
-	WN0G/mKIzYC1wHuEKlVvTuJiW8vIJ3EmVgTtMrMXxhXf6ZClGxLi+Y4G4lsvnD4Cm1k+JKhUZ+Ytw
-	QfM9lfK85d9jqO7a5/1ZhDtZsMrB6/NMwywgvEXLpCUaACgRc5vmVqycI1kY5mRWINoAAiHDaREpH
-	ZVbfhYAw==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1wCCJg-00FIUa-Jv; Mon, 13 Apr 2026 10:06:44 +0200
-Message-ID: <6c83b204-0d6b-46d1-8b7e-375826c445b9@igalia.com>
-Date: Mon, 13 Apr 2026 09:06:43 +0100
+	s=arc-20240116; t=1776067620; c=relaxed/simple;
+	bh=yVLaDZTH9F2EM3MdreIPylEG4HZxJcfqer8OxUg7ff8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qqzmGwzjFREFehwUTPqUSoNlTOOwJxEdANXWdQy1jHdsB0okHZMH/wBSvnubTc60hDtrPOi5js16mv6sVGHyqe135GW9zhQZHZ/9pOOqmCw2MVp0NnKID1gCi9L3/qE+Gehia8hfO0Rrnu7z7uD682K1KWC7rW/xkohcVnG045k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EAU5HTYa; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776067617; x=1807603617;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yVLaDZTH9F2EM3MdreIPylEG4HZxJcfqer8OxUg7ff8=;
+  b=EAU5HTYaTdmVoe63FX0ahzdlLmXI0KZfIZJ7jfk9b+SQTk9rTcieQo9I
+   Rg9rHbOnerTvG05d2ko6s2yEFgGV6ieXc9McXfYo3HfW8+5kBv1f6zWAI
+   78GG0WSogXeB07KO2amCFtpFhZ9+5ICJvT7Y5fbXQK8zV+TjN52cVm9rU
+   c+VSCDD8wCBrZYjpuAeZ9cXwhOuES4W367A+kGqxXlOxGZiywlQBxV7YK
+   wmbC3aw2cFtn0HV+ZJqw5T9Bo/v3E4CtzV+HZsgkR3Nb3dDZ20slJQfcv
+   MaYQ4hGzSORIwqM+WYIB21XX1RX5ymwW9b4NBaohFP+/xRAChUSIJOo2V
+   w==;
+X-CSE-ConnectionGUID: sOB5RvrOQjqIz4trDz0SIw==
+X-CSE-MsgGUID: gK7w39D8QaaLcVm6WNmeVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11757"; a="88380970"
+X-IronPort-AV: E=Sophos;i="6.23,176,1770624000"; 
+   d="scan'208";a="88380970"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 01:06:56 -0700
+X-CSE-ConnectionGUID: 6VGUvGFmTSKqC4T1i7QOCg==
+X-CSE-MsgGUID: ea/fMNr9T5O/edghtNwhJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,176,1770624000"; 
+   d="scan'208";a="228851094"
+Received: from amilburn-desk.amilburn-desk (HELO kekkonen.fi.intel.com) ([10.245.245.21])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 01:06:49 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 5D64412053B;
+	Mon, 13 Apr 2026 11:07:07 +0300 (EEST)
+Date: Mon, 13 Apr 2026 11:07:07 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Rishikesh Donadkar <r-donadkar@ti.com>
+Subject: Re: [PATCH v4 24/29] media: v4l2-subdev: Introduce
+ v4l2_subdev_get_frame_desc()
+Message-ID: <adykK0JxoIoZjWUT@kekkonen.localdomain>
+References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
+ <20260408153939.969381-25-sakari.ailus@linux.intel.com>
+ <adjWaqk9qO7CWM5W@zed>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-fence: Move signalling tracepoint to before ops
- detach
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- Philipp Stanner <phasta@kernel.org>, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20260330133623.17704-1-tvrtko.ursulin@igalia.com>
- <20260331094944.772833c0@fedora>
- <918805b0-2cb9-454a-9048-84cc5bfc8798@igalia.com>
- <2fae926b-a25b-42bc-ab63-caf36505b33d@amd.com>
- <601a78ea-74e7-4b20-afeb-d822a362484a@igalia.com>
- <c09d9dc1-43d1-4d7a-93ef-9707f282ad07@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <c09d9dc1-43d1-4d7a-93ef-9707f282ad07@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.36 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <adjWaqk9qO7CWM5W@zed>
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58641-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
+	TAGGED_FROM(0.00)[bounces-58640-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[30];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.977];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,igalia.com:email,igalia.com:mid,collabora.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:email]
-X-Rspamd-Queue-Id: E91B33E8D6B
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:email]
+X-Rspamd-Queue-Id: 9707E3E8D35
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Hi Jacopo,
 
-On 13/04/2026 07:52, Christian König wrote:
-> On 4/10/26 17:37, Tvrtko Ursulin wrote:
->>
->> On 10/04/2026 09:58, Christian König wrote:
->>> On 4/9/26 15:58, Tvrtko Ursulin wrote:
->>>>
->>>> On 31/03/2026 08:49, Boris Brezillon wrote:
->>>>> On Mon, 30 Mar 2026 14:36:23 +0100
->>>>> Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
->>>>>
->>>>>> Move the signalling tracepoint to before fence->ops are reset otherwise
->>>>>> tracepoint will dereference a null pointer.
->>>>>
->>>>> I suspect other trace points are impacted too
->>>>> (trace_dma_fence_destroy() is, at the very least).
->>>>
->>>> Indeed. I wonder why that did not trigger for me, while the one I fix here was an insta-crash...
->>>
->>> You need to actually enable the trace points and at least for the destroy one nobody is usually interested in that.
->>
->> Right, but I was pretty sure I was enabling perf record -e 'dma_fence:*' when I hit this. Anyway, it doesn't matter, I could be misremembering.
->>
->>>>
->>>> To fix trace_dma_fence_destroy I think we need a new tracepoint definition ie. move it away from the existing event class - make it just log the context and seqno.
->>>>
->>>> Anyone has a better idea?
->>>
->>> The idea of tracing without accessing fence->ops sounds valid to me.
->>>
->>> Alternatively we could call dma_fence_timeline_name() and dma_fence_driver_name() from the tracepoint as well, but that means the tracepoints now require a RCU read side lock.
->>
->> We could possibly use the helpers. I am not sure if RCU annotation would have to be casted away to keep sparse happy, but more importantly, I think it would not be safe.
->>
->>    thread A                    thread B
->>
->>    dma_fence_signal_timestamp_locked        dma_fence_timeline_name
->>      ..                        ops = rcu_dereference(fence->ops);
->>                          if (!dma_fence_test_signaled_flag(fence))
->>      test_and_set_bit
->>      ..
->>      RCU_INIT_POINTER(fence->ops, NULL);
->>                              return (const char __rcu *)ops->get_driver_name(fence); // OOPS!
->>
->> Apologies for long line length, it did not fit otherwise.
->>
->> Looks like we missed this. Or it is me who is missing something?
-> 
-> See function dma_fence_driver_name() and dma_fence_timeline_name():
-> 
-> ops = rcu_dereference(fence->ops);
-> if (!dma_fence_test_signaled_flag(fence))
-> 	return (const char __rcu *)ops->get_driver_name(fence);
-> 
-> We first grab the ops pointer and then check if the fence is signaled or not. Since we first set the signaled flag and then NULL the ops pointer in the other thread we should be save here.
-> 
-> Could only be that test_bit() is not a memory barrier, but set_bit() is so that would be a bit surprising.
+Thank you for the review.
 
-You are right, I got confused jumping back and forth between patches 
-last week.
-
-So changing to helpers on top of the change from this patch should be 
-enough.
-
-I only need to check if the __rcu needs to be casted away in the 
-tracepoints assignments in case it can upset sparse. I will send a v2 
-when I do that.
-
-Regards,
-
-Tvrtko
+On Fri, Apr 10, 2026 at 12:53:42PM +0200, Jacopo Mondi wrote:
+> Hi Sakari
 > 
-> Alternatively I would be fine to switching testing ops for NULL instead of calling dma_fence_test_signaled_flag().
+> On Wed, Apr 08, 2026 at 06:39:33PM +0300, Sakari Ailus wrote:
+> > Introduce v4l2_subdev_get_frame_desc() in order to facilitate implementing
+> > drivers that need frame descriptors. If the remote sub-device does not
+> > support frame descriptors, v4l2_subdev_get_frame_desc() creates one (with
+> > a single entry) opportunistically, thus avoiding the need to add frame
+> > descriptor support to sensor drivers the device for which only generates a
+> > single stream, or managing the situation on the caller side.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-subdev.c | 96 +++++++++++++++++++++++++++
+> >  include/media/v4l2-subdev.h           | 20 ++++++
+> >  2 files changed, 116 insertions(+)
+> >
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index 647587c0499a..40b28e070726 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -20,6 +20,7 @@
+> >  #include <linux/version.h>
+> >  #include <linux/videodev2.h>
+> >
+> > +#include <media/mipi-csi2.h>
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-device.h>
+> >  #include <media/v4l2-event.h>
+> > @@ -2758,3 +2759,98 @@ void v4l2_subdev_put_privacy_led(struct v4l2_subdev *sd)
+> >  #endif
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_subdev_put_privacy_led);
+> > +
+> > +static int get_mipi_dt_for_mbus(u32 code)
+> > +{
+> > +	switch (code) {
+> > +	case MEDIA_BUS_FMT_BGR888_1X24:
+> > +		return MIPI_CSI2_DT_RGB888;
+> > +	case MEDIA_BUS_FMT_Y8_1X8:
+> > +	case MEDIA_BUS_FMT_SBGGR8_1X8:
+> > +	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> > +	case MEDIA_BUS_FMT_SGRBG8_1X8:
+> > +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> > +		return MIPI_CSI2_DT_RAW8;
+> > +	case MEDIA_BUS_FMT_Y10_1X10:
+> > +	case MEDIA_BUS_FMT_SBGGR10_1X10:
+> > +	case MEDIA_BUS_FMT_SGBRG10_1X10:
+> > +	case MEDIA_BUS_FMT_SGRBG10_1X10:
+> > +	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> > +		return MIPI_CSI2_DT_RAW10;
+> > +	case MEDIA_BUS_FMT_Y12_1X12:
+> > +	case MEDIA_BUS_FMT_SBGGR12_1X12:
+> > +	case MEDIA_BUS_FMT_SGBRG12_1X12:
+> > +	case MEDIA_BUS_FMT_SGRBG12_1X12:
+> > +	case MEDIA_BUS_FMT_SRGGB12_1X12:
+> > +		return MIPI_CSI2_DT_RAW12;
+> > +	case MEDIA_BUS_FMT_Y14_1X14:
+> > +	case MEDIA_BUS_FMT_SBGGR14_1X14:
+> > +	case MEDIA_BUS_FMT_SGBRG14_1X14:
+> > +	case MEDIA_BUS_FMT_SGRBG14_1X14:
+> > +	case MEDIA_BUS_FMT_SRGGB14_1X14:
+> > +		return MIPI_CSI2_DT_RAW14;
+> > +	case MEDIA_BUS_FMT_Y16_1X16:
+> > +	case MEDIA_BUS_FMT_SBGGR16_1X16:
+> > +	case MEDIA_BUS_FMT_SGBRG16_1X16:
+> > +	case MEDIA_BUS_FMT_SGRBG16_1X16:
+> > +	case MEDIA_BUS_FMT_SRGGB16_1X16:
+> > +		return MIPI_CSI2_DT_RAW16;
+> > +	case MEDIA_BUS_FMT_SBGGR20_1X20:
+> > +	case MEDIA_BUS_FMT_SGBRG20_1X20:
+> > +	case MEDIA_BUS_FMT_SGRBG20_1X20:
+> > +	case MEDIA_BUS_FMT_SRGGB20_1X20:
+> > +		return MIPI_CSI2_DT_RAW20;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +}
+> > +
+> > +int v4l2_subdev_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> > +			       struct v4l2_mbus_frame_desc *desc)
+> > +{
+> > +	struct v4l2_subdev_format subdev_fmt = {
+> > +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> > +		.pad = pad,
+> > +	};
+> > +	int ret;
+> > +
+> > +	if (v4l2_subdev_has_op(sd, pad, get_frame_desc)) {
+> > +		unsigned int type = desc->type;
+> > +
+> > +		ret = v4l2_subdev_call(sd, pad, get_frame_desc, pad, desc);
+> > +
+> > +		if (desc->type != type)
+> > +			return -EINVAL;
+> > +
+> > +		return ret;
+> > +	}
+> > +
+> > +	if (desc->type != V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL &&
+> > +	    desc->type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+> > +		return -EINVAL;
+> > +
+> > +	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, NULL,
+> > +			       &subdev_fmt);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	struct v4l2_mbus_frame_desc_entry entry = {
+> > +		.pixelcode = subdev_fmt.format.code,
+> > +	};
+> > +
+> > +	if (desc->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
+> > +		int dt;
+> > +
+> > +		dt = get_mipi_dt_for_mbus(subdev_fmt.format.code);
+> > +		if (dt < 0)
+> > +			return dt;
+> > +
+> > +		entry.bus.csi2.dt = dt;
+> > +	}
+> > +
+> > +	desc->entry[0] = entry;
+> > +	desc->num_entries = 1;
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(v4l2_subdev_get_frame_desc);
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index 4588992b4417..93b672edd08e 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -2058,4 +2058,24 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+> >   */
+> >  bool v4l2_subdev_is_streaming(struct v4l2_subdev *sd);
+> >
+> > +/**
+> > + * v4l2_subdev_get_frame_desc() - Get a pad's frame descriptor
+> > + * @sd: The sub-device
+> > + * @pad: The number of the pad in @sd from which to obtain the frame descriptor
+> > + * @desc: A pointer to a frame descriptor, with its type field set
+> > + *
+> > + * Obtain a frame descriptor from a sub-device. If the sub-device supports the
+> > + * get_frame_desc pad operation, its result is returned, just like calling it
+> > + * directly using v4l2_subdev_call(). If the sub-device driver does not support
+> > + * it, then one containing a single entry is created using the information from
+> > + * the sub-device active state, which this function locks for the duration of
+> > + * the call to obtain it.
 > 
-> Regards,
-> Christian.
-> 
->> Regards,
->>
->> Tvrtko
->>
->>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>>> Fixes: 541c8f2468b9 ("dma-buf: detach fence ops on signal v3")
->>>>>> Cc: Christian König <christian.koenig@amd.com>
->>>>>> Cc: Philipp Stanner <phasta@kernel.org>
->>>>>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
->>>>>> Cc: linux-media@vger.kernel.org
->>>>>> Cc: linaro-mm-sig@lists.linaro.org
->>>>>> ---
->>>>>>     drivers/dma-buf/dma-fence.c | 3 ++-
->>>>>>     1 file changed, 2 insertions(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->>>>>> index 1826ba73094c..1c1eaecaf1b0 100644
->>>>>> --- a/drivers/dma-buf/dma-fence.c
->>>>>> +++ b/drivers/dma-buf/dma-fence.c
->>>>>> @@ -363,6 +363,8 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>>>>>                           &fence->flags)))
->>>>>>             return;
->>>>>>     +    trace_dma_fence_signaled(fence);
->>>>>> +
->>>>>>         /*
->>>>>>          * When neither a release nor a wait operation is specified set the ops
->>>>>>          * pointer to NULL to allow the fence structure to become independent
->>>>>> @@ -377,7 +379,6 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>>>>>           fence->timestamp = timestamp;
->>>>>>         set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
->>>>>> -    trace_dma_fence_signaled(fence);
->>>>>>           list_for_each_entry_safe(cur, tmp, &cb_list, node) {
->>>>>>             INIT_LIST_HEAD(&cur->node);
->>>>>
->>>>
->>>
->>
-> 
+> This doesn't seem to apply anymore...
 
+I'll rephrase it.
+
+> 
+> > + *
+> > + * The caller is required to set @desc->type to the expected bus type.
+> 
+> Is it worth mentioning that only V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL
+> and V4L2_MBUS_FRAME_DESC_TYPE_CSI2 are supported ?
+
+I'll add that.
+
+> 
+> 
+> > + *
+> > + * Return: %0 on success or negative error code on failure.
+> > + */
+> > +int v4l2_subdev_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> > +			       struct v4l2_mbus_frame_desc *desc);
+> 
+> With the documentation addressed
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thanks!
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
