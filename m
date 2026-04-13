@@ -1,211 +1,197 @@
-Return-Path: <linux-media+bounces-58645-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58646-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oKaEDBep3GkEUgkAu9opvQ
-	(envelope-from <linux-media+bounces-58645-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:28:07 +0200
+	id 8OHUOv2p3GlfVAkAu9opvQ
+	(envelope-from <linux-media+bounces-58646-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:31:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D113E91B7
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:28:06 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3903E9275
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:31:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 40E9E3009F3F
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 08:28:05 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E287030046AA
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 08:31:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E8973A7F40;
-	Mon, 13 Apr 2026 08:28:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 318C53A9D83;
+	Mon, 13 Apr 2026 08:31:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DsordvGy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZAyKEiL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2452C0274
-	for <linux-media@vger.kernel.org>; Mon, 13 Apr 2026 08:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF90C39DBC3
+	for <linux-media@vger.kernel.org>; Mon, 13 Apr 2026 08:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776068883; cv=none; b=DziL0KazldMkauXHhX2n69y35B1HJP+K/Rmf/44ISA4q8BkrOCZsqEWPDL/URovc0zTWsB+cFPgKRaxHUzF72AoLubyGpxOVstR6jBrQi6zRS7jkjTLAeuAWEkvPXyFRLSeI+JBJ8sz3oMx4dgQdubS5RR+ezmP+6XLnIjR5PZI=
+	t=1776069112; cv=none; b=TX5VuHSFn+3mMcLwu4sT4rlRi0EZfQxJdMu9FBVt5v1D6mC4nGDoyPoR8JDN+AYoNr75RzYk+UsEZ7XLHYfdVe2OSOyN2BbdKUP9vZTeGvB4biwM2ahmtyXF8c2Hso39iSv5LVG1K/ynJBOLvQDlO8royQEJzTj6vMzSXM8GKNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776068883; c=relaxed/simple;
-	bh=x/ArPEjgkRFmr2Ou75CLISSLQ+UM8la49trxVzEqOw0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QB7rVM0a+C7aTogexEcg+u0sf1ho6WkLkplQfm34Ro4UkF+h4jg4IcMeLO7JXOM+Tr2RT/M+U7ZPKhSOWNg1oniQwyYkApi2/u4R14rkJIP0YMJf47Rp05cGTGe2Z+swHS9bMceOn7YAPYgrOwyVmm6cuhcGe0+d6Rmay6Db6qU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DsordvGy; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso38667735e9.1
-        for <linux-media@vger.kernel.org>; Mon, 13 Apr 2026 01:28:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776068881; x=1776673681; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hgVK+xMFHenSVr8/JL2FgJGbiRTPeNjFrSjIxLFtmWA=;
-        b=DsordvGygj1SaVaEjAfwBU6wLoag7o6E3bX9X1/khLkklRi6RfjKqLFQSPBia4Ey25
-         g5ApkV5VJ2acw/yq/Zj4cJxOheiQ69Two1XMFhL1VFE3Wd94O/KYP7BWXXJcEYZ2NUk4
-         Vbwl84t2Sii4rYocfOEbSu0rA746nCL689K/VgwgRdeayJTTAXwi7ijfX7h3NUKV2jTx
-         a6tx/az5v2z36rfp1lSdTMeq/hJ3tJSmxAxLJBdUnl779X942Pc1xdAETvKMIFVKhI7J
-         PslrSG0LzbE2dqrdsS8oGdZDdNU8WrgGNwfRNLkQ64s/ntEvlJyAiiw88cZURFTM2BSP
-         5+wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776068881; x=1776673681;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hgVK+xMFHenSVr8/JL2FgJGbiRTPeNjFrSjIxLFtmWA=;
-        b=sTBYEDuelqXQEw1zFtYSh4vFj5URXIiiQNXJZSYWfgLljo112xWUQSflIJdNzQARI9
-         mvtkuvKcCQTTlw1z2U4cEXVRyfyd5j7hFbv6eNuuFGwONfO4dn3TlN220YdnkS6DNDm8
-         Tl6iB3MZBou+LCP1hfWhesZmNaaEcxM0aYh4fz3ddJn8JFDzhQiOZMjPqSSjY7Yzkx43
-         vKkyCAn7y9zWIIGx+nLxmwkzuaD8hTCYU990cR0pd8fO/Gj3E2QWMLQqiRuWXPm48nqZ
-         TNsViNoLIJIaaK82VVxDim29ng2d4tfZ5xRGKIdLUKXc7wZs75dtM3Kkmspx1L5tzchR
-         1ciA==
-X-Gm-Message-State: AOJu0YxDrpjzStSRQ2i08hH+NGZPnfyz577yifAUU5aOFeB9N78LKj6d
-	fTqsLJ/UIy/StNnJk+4q7HyPVVsv6pdw0Oa/KIlYgyPCF6k5yaOuCUBWZJrNUonq
-X-Gm-Gg: AeBDiev3vAaeYGTKoxMMNv4S6C1qApXhr3pZYc7tKROQMP3+evYjEgAYXawFfpv6ZKC
-	JYUC0aIwx6Bmh4nCyyzU/xVAY1AjooMiLgjQHi68rkjK28t+NmSm+GAvxpooxDwosQVQJkUvkb8
-	Y1N34HgPVyCYd7GrxtrTLlSihI8bOFqdaGA5j3Syu36KJ20asfWO2VDtskLc7QTifjglYYQiYP6
-	ccDyevKRTnH23EAaZHapsZbTWykzBBBF/QHq0kVD4xt7a3CiCr5kerGjwxmMfMR/UfDrxfY4IOo
-	ZulUnlo2chIJuq4rU0JuwwrZEocKgMR9UaqVc5x6fHKISd4/yOfSButtgdD7G/wVnWCp+2mudPH
-	sjETRWcnkAxA0GT2KiILfo0xUP3Nm5YU/HRB6tbTawkV2CpcFGOYKA8SNyHta1BMP6bCWkQR/em
-	qyhMN9Gkxn/PnXXYmIpJE=
-X-Received: by 2002:a05:600c:a010:b0:471:700:f281 with SMTP id 5b1f17b1804b1-488d68af20cmr173109845e9.25.1776068880612;
-        Mon, 13 Apr 2026 01:28:00 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d68479b2sm88460975e9.25.2026.04.13.01.27.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 01:27:59 -0700 (PDT)
-Date: Mon, 13 Apr 2026 11:27:56 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Alexandru Hossu <hossu.alexandru@gmail.com>
-Cc: linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-	bingbu.cao@intel.com, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] staging: media: ipu7: fix double-free of pdata in
- error paths
-Message-ID: <adypDC2I8pjekoPJ@stanley.mountain>
-References: <20260412205128.387234-1-hossu.alexandru@gmail.com>
+	s=arc-20240116; t=1776069112; c=relaxed/simple;
+	bh=ygX3QGpmpzQ4vDb35DrfpC80ywfwMhPNQFU2B1S833A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lSKhXdI7Rvk6gbzZacbEWX23GRvjl9jHZqU6RrhtwCgND5JRnQoK75TT4qDU/RrMFubIJ8nX67IHSB02aY3uEICoPSZptprYPJsfrssRZkmyDx6hjygh7CvAKv2AgZ6M7+WGQPhEdjUt8qnjOMoVpJtNex4/b7eT6Nw7OtDVMJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZAyKEiL; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776069111; x=1807605111;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=ygX3QGpmpzQ4vDb35DrfpC80ywfwMhPNQFU2B1S833A=;
+  b=eZAyKEiLNDAcCguLfo7h0TEfW001AB6mONoY+EKiN8Qu2mA9/GRvdJDc
+   XOHmCyQwWNLpnjFgmT/s/JJdckUuQatpd0iX21BOR86bO5Zc603+PfIZz
+   SUilkH9itz1tPCXEO6FDiDpzbpDL5orVT2K6sHXNC1lKt8stJpPr9/rL8
+   dWF2BtlOvzYEbJJ3/Soj9+YW7fdWJdSt7uJVZabNitHYA5ZVkdEKJ24lp
+   ZWaVdAkh3Di4NWr8VbJFTKIdcBiyuK7GMf+/5i8YufXNpLPgghwQ5zxuq
+   N2XI2A/qRlaLciBhJ2BJyZ80NpvrCkiOB/L7xxjbiSOcou5lthtcsJnmc
+   Q==;
+X-CSE-ConnectionGUID: UTjkdVqKQbyKcYKHFo3Y1Q==
+X-CSE-MsgGUID: oe+I5SSHSFeaqdophozxIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11757"; a="76907456"
+X-IronPort-AV: E=Sophos;i="6.23,176,1770624000"; 
+   d="scan'208";a="76907456"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 01:31:51 -0700
+X-CSE-ConnectionGUID: kRnB8EohQb611Ginyevg6g==
+X-CSE-MsgGUID: AiU4VxdXSISX/Yzv4b1gFg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,176,1770624000"; 
+   d="scan'208";a="233756454"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 01:31:47 -0700
+Message-ID: <f4e2171a-da58-488f-be02-26a39b5afbe3@linux.intel.com>
+Date: Mon, 13 Apr 2026 16:29:59 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260412205128.387234-1-hossu.alexandru@gmail.com>
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 12/26] vfio/pci: Change the DMA-buf exporter to use
+ mapping_type
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Christian Koenig <christian.koenig@amd.com>,
+ Dongwon Kim <dongwon.kim@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, iommu@lists.linux.dev,
+ Kevin Tian <kevin.tian@intel.com>, Leon Romanovsky <leonro@nvidia.com>,
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+ Matthew Brost <matthew.brost@intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+References: <12-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <12-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58645-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[stanley.mountain:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 97D113E91B7
+	NEURAL_HAM(-0.00)[-1.000];
+	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[baolu.lu@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58646-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: EF3903E9275
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, Apr 12, 2026 at 10:51:28PM +0200, Alexandru Hossu wrote:
-> In both ipu7_isys_init() and ipu7_psys_init(), pdata is allocated and
-> then passed to ipu7_bus_initialize_device(), which stores it in
-> adev->pdata. The ipu7_bus_release() function frees adev->pdata when the
-> device's reference count drops to zero.
+On 2/18/26 08:11, Jason Gunthorpe wrote:
+> Simple conversion to add a match_mapping() callback that offers an
+> exporter SGT mapping type. Later patches will add a physical address
+> exporter so go straight to adding the match_mapping() function.
 > 
-> Two error paths incorrectly call kfree(pdata) after the device teardown
-> has already freed it:
+> The check for attachment->peer2peer is replaced with setting
+> exporter_requires_p2p=true. VFIO always uses MMIO memory.
 > 
-> 1. When ipu7_mmu_init() fails: put_device() is called, which drops the
->    reference count to zero and triggers ipu7_bus_release() ->
->    kfree(pdata). The subsequent kfree(pdata) is a double-free.
-> 
-> 2. When ipu7_bus_add_device() fails: it calls auxiliary_device_uninit()
->    internally, which calls put_device() -> ipu7_bus_release() ->
->    kfree(pdata). The subsequent kfree(pdata) is again a double-free.
-> 
-> Note that the kfree(pdata) when ipu7_bus_initialize_device() itself
-> fails is correct, because in that case auxiliary_device_init() failed
-> and the release function was never set up, so pdata must be freed
-> manually.
-> 
-> Remove the redundant kfree(pdata) calls from the two affected error
-> paths.
-> 
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
-
-We need a Fixes tag.
-
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->  drivers/staging/media/ipu7/ipu7.c | 10 ++--------
->  1 file changed, 2 insertions(+), 8 deletions(-)
+>   drivers/vfio/pci/vfio_pci_dmabuf.c | 31 +++++++++++++++++++++++++-----
+>   1 file changed, 26 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
-> index c771e763f8c5..043b67dfe19a 100644
-> --- a/drivers/staging/media/ipu7/ipu7.c
-> +++ b/drivers/staging/media/ipu7/ipu7.c
-> @@ -2172,7 +2172,6 @@ ipu7_isys_init(struct pci_dev *pdev, struct device *parent,
->  		dev_err_probe(dev, PTR_ERR(isys_adev->mmu),
->  			      "ipu7_mmu_init(isys_adev->mmu) failed\n");
->  		put_device(&isys_adev->auxdev.dev);
-> -		kfree(pdata);
->  		return ERR_CAST(isys_adev->mmu);
-                                ^^^^^^^^^^^^^^
-The put_device() frees isys_adev as well so this is a use after free.
+> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> index d4d0f7d08c53e2..c7addef5794abf 100644
+> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> @@ -25,9 +25,6 @@ static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
+>   {
+>   	struct vfio_pci_dma_buf *priv = dmabuf->priv;
+>   
+> -	if (!attachment->peer2peer)
+> -		return -EOPNOTSUPP;
+> -
+>   	if (priv->revoked)
+>   		return -ENODEV;
+>   
+> @@ -75,11 +72,35 @@ static void vfio_pci_dma_buf_release(struct dma_buf *dmabuf)
+>   	kfree(priv);
+>   }
+>   
+> -static const struct dma_buf_ops vfio_pci_dmabuf_ops = {
+> -	.attach = vfio_pci_dma_buf_attach,
+> +static const struct dma_buf_mapping_sgt_exp_ops vfio_pci_dma_buf_sgt_ops = {
+>   	.map_dma_buf = vfio_pci_dma_buf_map,
+>   	.unmap_dma_buf = vfio_pci_dma_buf_unmap,
+> +};
+> +
+> +static int vfio_pci_dma_buf_match_mapping(struct dma_buf_match_args *args)
+> +{
+> +	struct vfio_pci_dma_buf *priv = args->dmabuf->priv;
+> +	struct dma_buf_mapping_match sgt_match[1];
+> +
+> +	dma_resv_assert_held(priv->dmabuf->resv);
 
-		ret = dev_err_probe(dev, PTR_ERR(isys_adev->mmu), ...
-		put_device();
-		return ret;
+My understanding of this lock assertion is that priv and the underlying
+priv->vdev are accessed within this function. Therefore, the lock is
+necessary to protect them. Do I understand it right?
 
->  	}
->  
-> @@ -2180,10 +2179,8 @@ ipu7_isys_init(struct pci_dev *pdev, struct device *parent,
->  	isys_adev->subsys = IPU_IS;
->  
->  	ret = ipu7_bus_add_device(isys_adev);
-> -	if (ret) {
-> -		kfree(pdata);
-> +	if (ret)
->  		return ERR_PTR(ret);
-> -	}
->  
->  	return isys_adev;
->  }
-> @@ -2219,7 +2216,6 @@ ipu7_psys_init(struct pci_dev *pdev, struct device *parent,
->  		dev_err_probe(&pdev->dev, PTR_ERR(psys_adev->mmu),
->  			      "ipu7_mmu_init(psys_adev->mmu) failed\n");
->  		put_device(&psys_adev->auxdev.dev);
-> -		kfree(pdata);
->  		return ERR_CAST(psys_adev->mmu);
+However, callers - for example, dma_buf_mapping_attach() - do not
+acquire dma_resv_lock() before calling this function. So kernel traces
+will always be triggered.
 
-Same here?
+> +
+> +	/*
+> +	 * Once we pass vfio_pci_dma_buf_cleanup() the dmabuf will never be
+> +	 * usable again.
+> +	 */
+> +	if (!priv->vdev)
+> +		return -ENODEV;
+> +
+> +	sgt_match[0] = DMA_BUF_EMAPPING_SGT_P2P(&vfio_pci_dma_buf_sgt_ops,
+> +						priv->vdev->pdev);
+> +
+> +	return dma_buf_match_mapping(args, sgt_match, ARRAY_SIZE(sgt_match));
+> +}
+> +
+> +static const struct dma_buf_ops vfio_pci_dmabuf_ops = {
+> +	.attach = vfio_pci_dma_buf_attach,
+>   	.release = vfio_pci_dma_buf_release,
+> +	.match_mapping = vfio_pci_dma_buf_match_mapping,
+>   };
+>   
+>   /*
 
-regards,
-dan carpenter
-
-
->  	}
->  
-
+Thanks,
+baolu
 
