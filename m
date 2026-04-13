@@ -1,197 +1,187 @@
-Return-Path: <linux-media+bounces-58646-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58647-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8OHUOv2p3GlfVAkAu9opvQ
-	(envelope-from <linux-media+bounces-58646-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:31:57 +0200
+	id kCFjIluq3GlfVAkAu9opvQ
+	(envelope-from <linux-media+bounces-58647-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:33:31 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF3903E9275
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:31:56 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A123E92A8
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:33:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E287030046AA
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 08:31:53 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6F431300644F
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 08:33:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 318C53A9D83;
-	Mon, 13 Apr 2026 08:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 957FC3A9D97;
+	Mon, 13 Apr 2026 08:33:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZAyKEiL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L0/gIs2/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF90C39DBC3
-	for <linux-media@vger.kernel.org>; Mon, 13 Apr 2026 08:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776069112; cv=none; b=TX5VuHSFn+3mMcLwu4sT4rlRi0EZfQxJdMu9FBVt5v1D6mC4nGDoyPoR8JDN+AYoNr75RzYk+UsEZ7XLHYfdVe2OSOyN2BbdKUP9vZTeGvB4biwM2ahmtyXF8c2Hso39iSv5LVG1K/ynJBOLvQDlO8royQEJzTj6vMzSXM8GKNA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776069112; c=relaxed/simple;
-	bh=ygX3QGpmpzQ4vDb35DrfpC80ywfwMhPNQFU2B1S833A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lSKhXdI7Rvk6gbzZacbEWX23GRvjl9jHZqU6RrhtwCgND5JRnQoK75TT4qDU/RrMFubIJ8nX67IHSB02aY3uEICoPSZptprYPJsfrssRZkmyDx6hjygh7CvAKv2AgZ6M7+WGQPhEdjUt8qnjOMoVpJtNex4/b7eT6Nw7OtDVMJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZAyKEiL; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776069111; x=1807605111;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ygX3QGpmpzQ4vDb35DrfpC80ywfwMhPNQFU2B1S833A=;
-  b=eZAyKEiLNDAcCguLfo7h0TEfW001AB6mONoY+EKiN8Qu2mA9/GRvdJDc
-   XOHmCyQwWNLpnjFgmT/s/JJdckUuQatpd0iX21BOR86bO5Zc603+PfIZz
-   SUilkH9itz1tPCXEO6FDiDpzbpDL5orVT2K6sHXNC1lKt8stJpPr9/rL8
-   dWF2BtlOvzYEbJJ3/Soj9+YW7fdWJdSt7uJVZabNitHYA5ZVkdEKJ24lp
-   ZWaVdAkh3Di4NWr8VbJFTKIdcBiyuK7GMf+/5i8YufXNpLPgghwQ5zxuq
-   N2XI2A/qRlaLciBhJ2BJyZ80NpvrCkiOB/L7xxjbiSOcou5lthtcsJnmc
-   Q==;
-X-CSE-ConnectionGUID: UTjkdVqKQbyKcYKHFo3Y1Q==
-X-CSE-MsgGUID: oe+I5SSHSFeaqdophozxIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11757"; a="76907456"
-X-IronPort-AV: E=Sophos;i="6.23,176,1770624000"; 
-   d="scan'208";a="76907456"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 01:31:51 -0700
-X-CSE-ConnectionGUID: kRnB8EohQb611Ginyevg6g==
-X-CSE-MsgGUID: AiU4VxdXSISX/Yzv4b1gFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,176,1770624000"; 
-   d="scan'208";a="233756454"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 01:31:47 -0700
-Message-ID: <f4e2171a-da58-488f-be02-26a39b5afbe3@linux.intel.com>
-Date: Mon, 13 Apr 2026 16:29:59 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9DA392815
+	for <linux-media@vger.kernel.org>; Mon, 13 Apr 2026 08:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776069205; cv=pass; b=Hjp1zD4Yd2UWfBPItIMhVZ/V6qfvm2gZmCp36PTWHaPkjAGB8uMFWqjfuC3qsjQ7atdIRQ8MIfkKBk5FyXSPvgwUEbvQvZJdeRzLGZ97hy8NApjVvp/W+VBweGC7hvk859GmiGET+iWU1e9bmjoL6I2uiCG0e/R8l3ILGPCtdJs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776069205; c=relaxed/simple;
+	bh=5RU0nj5Hybs1aPtlV5028DIT5U8+h+f963lhnIeQAQA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iIprhj1OTPJkTVrnVrwH5h/ee2Uk9dStmP/+wbiJCXGlrd+fLzut1MRy8iqH7JXSd5qhIP+GRTaE6mdTMMV2cOm6j9HE1h8Hpbo8PPsHZ6ZOUTo+1mTr25r7gNTPK5ujH/gwNSTh6KyETsSznk9dkHU1V7XbNe7fPOHzcV5mdrQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L0/gIs2/; arc=pass smtp.client-ip=209.85.167.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f65.google.com with SMTP id 2adb3069b0e04-5a2bd236adbso4544480e87.1
+        for <linux-media@vger.kernel.org>; Mon, 13 Apr 2026 01:33:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776069202; cv=none;
+        d=google.com; s=arc-20240605;
+        b=big9sX3+0MZOpMycHlSDd/+UQFthALiyd0fTkP4+nsHr4MTVfFbinfiKEq0vEQjVv6
+         M6cYf2FXPaT5UKVNKu/GuUj8RJTFqV84/UyQ3w90qRuRFPdLG5hK0DJPUNQ1izGCF+XD
+         SyL93i4GGaAdcASv4wso/sSn5ZafMCTaUzfgAXgHLYY5IcK6Upvn5zT+rrpRtRjm0QJ2
+         YXEXbdYmQHMLZ6vMbYuK7QuW5LJQLbL5u93qKNRHqZRGFpifHCC3HkMIxi4csIFowOAB
+         YRcoC4+Pn6J8Q9cGKjSfjBTQsNg1+h/Hs6ZkKATrnN7xvlJbWpE2QhR13wCg+kierZI6
+         EVhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dK4kJdzKXHKDCUCLBrZ/FEqxTe/gWrJpiQBUKE6RVXw=;
+        fh=isI6aKwrCBET0lqrJmEuVpkfL157YsPm8HXemYYprKs=;
+        b=PadvSIpTxPxc0TPidca3A8L574XiqNbgvavTcriU9Jcso9yg4zTas/FQQebe6mHBId
+         dztt+jsQfA2q1a4d0m1EJNcSNSmV1P/40k8sehnFcAzU0hBUcvGn3cl9y2jYPohkL45N
+         xTumPd06nhacQ7nam/dfqRhYJvDFA7jPRJbpjMh9oYQ+D5X9D3g9tUoYmeUpUvouB7fH
+         HkUXUPKzi4V4b8GanmnKf563SWWinUOkiAAVn9a8wADJx0MIoZrocmZ7urBoeFYgvwAV
+         PT8kFOWDWGsdgiyuofIEhYpD+W2wy8pFu1j2/rvRlV4ufBcXabD46ogY2Bgp/5B32XkU
+         Lsvw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776069202; x=1776674002; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dK4kJdzKXHKDCUCLBrZ/FEqxTe/gWrJpiQBUKE6RVXw=;
+        b=L0/gIs2/Mb9tZi1bBm+Oc6J/iA0xndygRj3rVkQe2D6SQa5yYA7ewkiNSjPcipf7GQ
+         WTLyElQ5Nx1XpqeVjjQ1rri6Rzoz5f0rskom9NvTSouJWRUgYGhBHvYo7asecEg7WBhF
+         3z3juup525TRAXQMdhneZaOgbNs+VygdEW4WFJiOMFqf+XvTvIzgI/ww/qWbkcJjCyGh
+         rU4VDZ/jAIfhAyxMaiGXrL35Hz+cCPMI8cuuT3E1qMUGN6fQVpKHQLa+SoeEEqgIc+Q0
+         QWkSfEr7Lai0nEYZBYjlnatGEG0km8W74hx0CkKzl3d5ZbfxCiUWquWi1gJ/IzN5a2Wa
+         jF2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776069202; x=1776674002;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dK4kJdzKXHKDCUCLBrZ/FEqxTe/gWrJpiQBUKE6RVXw=;
+        b=X+kyzUaHlx3/+g1H2MdPjii/1SL+c8BK9jmh5CiFCqRF2KlF8YM59nAfIVbf3bWdBT
+         a1cXFn9H7JUIj6b1eIQ/Lrk3J3JBFwjDYAQ/gIf3Ez9Ntx3thbkwu1m2N5YadulsNYcF
+         2jzTjjXvzdYWNsnKQiG6mCbs/45v8ci/ugbeZpVGYp8OiK7ZekBhbiseI8/1UDPV/Ufn
+         3BnNqtvlEtlYPoyLW0ybbt+dMvL6LWcU0nFQBpoiu81TzfghpC3n1FvGqSeMcDCwAuoy
+         9Cw4ATY+aes+QPBejneEtkqW8PVboHP9bNLQWRthTHfMgZYZp6A8XbLzTHPi0jzBNuS0
+         kMOg==
+X-Forwarded-Encrypted: i=1; AFNElJ9kTr4RnHAALvbcus4/0k0XuU/LLBX28byfYOKT40pdxXd4DgDfqCCohGBLd5P/WslAdR+J2BbiU9ZpWA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4DmHX6KS3pSrC6TQ9JQNbjyqH2jamL2W+RhWS5VOvX7nnzjBm
+	Oa7LJTnUtoc1XhGTE1WZoakamNHLMGkvosR+DpYqCycNLzD6XBA7ol92jMYDvsum+4YgSKZY91b
+	Z1YE8C1szyclDYxul/HbBVjnF8v08GD8=
+X-Gm-Gg: AeBDies8QUs+WDF+lNQPzlUoBq/gNyfUpOp9hzUm1Wc5P9GTb0/5rSNKd3HGyL37jLR
+	vtHAdifUj3LmMFF4puA0XDEFyW/JP794NTeLqRFyDqmlyOvHQNX/7a9QwiDR9WLz4YJA4jfOkDP
+	nWtxWZwWRPs1WeLuUeoPYFQ7ENu+n36J7L4Z+ZV0rK38lFccqWNO0aSIYHPNsAkqWxwrE2gKZFl
+	bqP8E8gPp1I9ayexxW4bZ6naPOFjU7QFV/wGppeWfPAdRB2CDh15d8BgDs4L/B7lXLUU457eL2C
+	2eS5vrAXlYg14IeNHhZqUq/VT7wAoSJDt7PgxEvtHw==
+X-Received: by 2002:a05:6512:1110:b0:5a2:c66a:d6d1 with SMTP id
+ 2adb3069b0e04-5a3f0848711mr4280644e87.6.1776069201441; Mon, 13 Apr 2026
+ 01:33:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 12/26] vfio/pci: Change the DMA-buf exporter to use
- mapping_type
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Christian Koenig <christian.koenig@amd.com>,
- Dongwon Kim <dongwon.kim@intel.com>, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, iommu@lists.linux.dev,
- Kevin Tian <kevin.tian@intel.com>, Leon Romanovsky <leonro@nvidia.com>,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- Matthew Brost <matthew.brost@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-References: <12-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <12-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+References: <20260412163600.29925-1-dennylin0707@gmail.com> <adyjSM70HcX5cq9s@stanley.mountain>
+In-Reply-To: <adyjSM70HcX5cq9s@stanley.mountain>
+From: Denny Lin <dennylin0707@gmail.com>
+Date: Mon, 13 Apr 2026 01:33:09 -0700
+X-Gm-Features: AQROBzCK_WHlyt_DtYrQ3zmGBT5e-OQtv9pIgUn1-ecfdBcx06XmgaGhc9zsw1o
+Message-ID: <CAGEkeHcT-EcqFTHKybOLqUxzbK8hCB4+XfWP=aUTi1e9T5-XwA@mail.gmail.com>
+Subject: Re: [PATCH] media: tegra-video: tegra210: ensure PHY is disabled in
+ pg_mode stop path
+To: Dan Carpenter <error27@gmail.com>
+Cc: thierry.reding@gmail.com, jonathanh@nvidia.com, skomatineni@nvidia.com, 
+	luca.ceresoli@bootlin.com, mchehab@kernel.org, gregkh@linuxfoundation.org, 
+	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-58647-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,nvidia.com,bootlin.com,kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-1.000];
-	MID_RHS_MATCH_FROM(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[baolu.lu@linux.intel.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58646-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: EF3903E9275
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dennylin0707@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com]
+X-Rspamd-Queue-Id: 27A123E92A8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 2/18/26 08:11, Jason Gunthorpe wrote:
-> Simple conversion to add a match_mapping() callback that offers an
-> exporter SGT mapping type. Later patches will add a physical address
-> exporter so go straight to adding the match_mapping() function.
-> 
-> The check for attachment->peer2peer is replaced with setting
-> exporter_requires_p2p=true. VFIO always uses MMIO memory.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->   drivers/vfio/pci/vfio_pci_dmabuf.c | 31 +++++++++++++++++++++++++-----
->   1 file changed, 26 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> index d4d0f7d08c53e2..c7addef5794abf 100644
-> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
-> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> @@ -25,9 +25,6 @@ static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
->   {
->   	struct vfio_pci_dma_buf *priv = dmabuf->priv;
->   
-> -	if (!attachment->peer2peer)
-> -		return -EOPNOTSUPP;
-> -
->   	if (priv->revoked)
->   		return -ENODEV;
->   
-> @@ -75,11 +72,35 @@ static void vfio_pci_dma_buf_release(struct dma_buf *dmabuf)
->   	kfree(priv);
->   }
->   
-> -static const struct dma_buf_ops vfio_pci_dmabuf_ops = {
-> -	.attach = vfio_pci_dma_buf_attach,
-> +static const struct dma_buf_mapping_sgt_exp_ops vfio_pci_dma_buf_sgt_ops = {
->   	.map_dma_buf = vfio_pci_dma_buf_map,
->   	.unmap_dma_buf = vfio_pci_dma_buf_unmap,
-> +};
-> +
-> +static int vfio_pci_dma_buf_match_mapping(struct dma_buf_match_args *args)
-> +{
-> +	struct vfio_pci_dma_buf *priv = args->dmabuf->priv;
-> +	struct dma_buf_mapping_match sgt_match[1];
-> +
-> +	dma_resv_assert_held(priv->dmabuf->resv);
+Hi Dan,
 
-My understanding of this lock assertion is that priv and the underlying
-priv->vdev are accessed within this function. Therefore, the lock is
-necessary to protect them. Do I understand it right?
+Thanks, I'll wait for feedback from Nvidia before resending.
 
-However, callers - for example, dma_buf_mapping_attach() - do not
-acquire dma_resv_lock() before calling this function. So kernel traces
-will always be triggered.
+Best regards,
+Hungyu
 
-> +
-> +	/*
-> +	 * Once we pass vfio_pci_dma_buf_cleanup() the dmabuf will never be
-> +	 * usable again.
-> +	 */
-> +	if (!priv->vdev)
-> +		return -ENODEV;
-> +
-> +	sgt_match[0] = DMA_BUF_EMAPPING_SGT_P2P(&vfio_pci_dma_buf_sgt_ops,
-> +						priv->vdev->pdev);
-> +
-> +	return dma_buf_match_mapping(args, sgt_match, ARRAY_SIZE(sgt_match));
-> +}
-> +
-> +static const struct dma_buf_ops vfio_pci_dmabuf_ops = {
-> +	.attach = vfio_pci_dma_buf_attach,
->   	.release = vfio_pci_dma_buf_release,
-> +	.match_mapping = vfio_pci_dma_buf_match_mapping,
->   };
->   
->   /*
-
-Thanks,
-baolu
+On Mon, Apr 13, 2026 at 1:03=E2=80=AFAM Dan Carpenter <error27@gmail.com> w=
+rote:
+>
+> On Sun, Apr 12, 2026 at 04:36:00PM +0000, Hungyu Lin wrote:
+> > tegra210_csi_port_start_streaming() enables the CSI PHY regardless
+> > of pg_mode, but tegra210_csi_port_stop_streaming() skips disabling
+> > the PHY when pg_mode is set due to an early return.
+> >
+> > Remove the early return so that the PHY disable path is always
+> > executed, ensuring consistent teardown.
+> >
+> > Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> > ---
+>
+> The obvious complaint is that this patch needs a Fixes tag.
+>
+> The early return is suspicious but I don't believe you have tested this
+> patch.  It would be better to not send untested patches like this,
+> because there is a risk that the author wrote what they did deliberately.
+> This code is six years old now, so the original author has probably
+> moved on to a different project.  It's not necessarily that easy to
+> review and test the patch.
+>
+> On the other hand, if someone from Nvidia wants to Ack this patch
+> then of course we'll merge the v2 of this which has a Fixes tag.
+> Just wait for someone from Nvidia to respond before resending.
+>
+> regards,
+> dan carpenter
+>
 
