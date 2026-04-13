@@ -1,342 +1,399 @@
-Return-Path: <linux-media+bounces-58648-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58649-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QPp9Lj6w3GldVQkAu9opvQ
-	(envelope-from <linux-media+bounces-58648-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:58:38 +0200
+	id ONsMNXm43Gn2VgkAu9opvQ
+	(envelope-from <linux-media+bounces-58649-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 11:33:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7673E96FC
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 10:58:38 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3776C3E9E1A
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 11:33:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C273D30054C7
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 08:58:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0633D3030EAF
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2026 09:30:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1599B3AE1AA;
-	Mon, 13 Apr 2026 08:58:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79C523803C2;
+	Mon, 13 Apr 2026 09:30:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Ya7SXqP6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MDHJsDzG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010022.outbound.protection.outlook.com [52.101.85.22])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E43D3A5451
-	for <linux-media@vger.kernel.org>; Mon, 13 Apr 2026 08:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776070713; cv=fail; b=k6tmRHyJyFWBJRS7Qm3Ub4aS8easPghGHFkWgCnR9T43nNUneZR1l2nFRIXFsTTh6217Hs8EC1wV5GZEhE+IxX7gRxWJwwbEaPq88j4UFgibpajzvBa046hWmZ+/0vL9E3FK20AXISoCXs6lUATu+btqXhZWuxA0BYMCszVa7/E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776070713; c=relaxed/simple;
-	bh=6thp7vaJrwFVpZbiF8tvRafuobjjfQBk4eifN2aY41g=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=bgsl7RE5L8MqlWX47vzii/qGvTYRWBUa0sQ/vefugbGv8ci8QEpF+HelAHq/VTx2nEVVjoLyyj9bPsV+Pr6Zz/viVoHFQ7368kyeM5Bm/oAi6HtVLwBT3KXhwDRz/RbqfDgcPBfLcvmH5cUPepoXVZ0htTH126bJR6E+M0mEyy0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Ya7SXqP6; arc=fail smtp.client-ip=52.101.85.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=P3fLaaupY6wAEx7kZbrY7+wb1de9JzncxObPA5UVlp1dSBhCRaOeYl56Mv//68SpxzHFwuhGoq32PeuqtDgPYQF5puj2p7Cdlt6Omv78ECovEDzWqPz30PnJsj2TbTrdMgv4155qOLVYQnk3qrtplFvL3NuJoCTvwi6mo6bsinQUMLRDJTqbMk4dvCDhOI3e3Q7Zdf5Yac7M77bYTs6Hy4NJGPGZgZx2Yro3lf+ijcHQpvNLqqkQ1DMz27p6kn9eGBSfCD69VxewYzNPjbhDqBm6CPg+Qm1sqh2bVaUI8K8ng5MdYppVy2p5waqJxlfws/qbhacyqmuasDbVPacQRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fmYYmJ1pdH1p+mGrX8f/T6nmsij8qV8ZEOWGdWDaG9o=;
- b=Keu4rf/uwCJ0rjYC8Ad655t0Iw07apr/Ql/wkFLwoHh4MCfGT2egiWYaKbO2PUmg35/LwZQ0FyhOpCdVFDmHy2IRv6FoGouaFlekQcNCoBkq/HAfkqSx+qwXWOhG1iliT1pB88mFrnLZMA/1yHzbA0VwPqBftqABR2DuHzyNulUkVI22JZ53YM52u3eY/I5h5MhTm1LfUVM4gofQV3xSPq6cyOQ04aiM6Y5jFV4mm2jh4J1gTb01x/FzgNNYisSh03o/AXD5io5YE0k0R/H1hJVIoZFXksW0SgRYdTa4wfYa+T11Xb/IpEuF/hjghukZ3OQwtSQWxLh6e6xNpvqrGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fmYYmJ1pdH1p+mGrX8f/T6nmsij8qV8ZEOWGdWDaG9o=;
- b=Ya7SXqP6Zf2pVfk6ZF/K2nnTUWBrwQRIKzrRBR6/ba8qWJoReONIMykMvCeg0AFjcV4jsM0ox5AS7x5Df29vEuWcmdSCCSX28JUD2VpLiDT8QJV15DQcnRmIM1hDoSf59wfx3voKo3B+iHTWdmc6lfUMNK0UKiYHUzLM6Wa+7GE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by LV2PR12MB5872.namprd12.prod.outlook.com (2603:10b6:408:173::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Mon, 13 Apr
- 2026 08:58:28 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9818.017; Mon, 13 Apr 2026
- 08:58:28 +0000
-Message-ID: <c413710b-4c28-4ed8-88ec-aeb8c4482011@amd.com>
-Date: Mon, 13 Apr 2026 10:58:20 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 21/26] dma-buf: Add the Physical Address List DMA
- mapping type
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Dongwon Kim <dongwon.kim@intel.com>, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, iommu@lists.linux.dev,
- Kevin Tian <kevin.tian@intel.com>, Leon Romanovsky <leonro@nvidia.com>,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- Matthew Brost <matthew.brost@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-References: <21-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <21-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0122.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:94::6) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19EC94C6D
+	for <linux-media@vger.kernel.org>; Mon, 13 Apr 2026 09:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776072633; cv=none; b=BnTxvASw3uGpvkJDhfIqYM4Ra4bhB5Ct7uGp0hCKpU6PWClSjiH10yYEpsaE/N9GjczO4ltJPWru8RVWlxxsJyIHowQudIEzYZFqLcsdexDX0fFMTID1Q5K1br1BHRyunxmDUfNjq/eMRUvTRA3P7jCHLYoj9uMkWF7M/rhl8FI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776072633; c=relaxed/simple;
+	bh=vKwSzVAD4gtnxfMjYBQzGiq9gwCQT35drWyTgqBymdI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y/STzYpHlwbL530WB0jFmynkUIMmG6uHGKUjz6HInCAJabLQ1LlLKz2ZbgAGLs66eMbgUYVy1qUwtB4D00V52mJtFBTVkY3KhBHg1AX0sa4E8SyBZSd08pVaKnxM4rJoFCcoO8GoJxAjqybMawe+4gi64jmXaVLjV2bgnLD+hvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MDHJsDzG; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56D0516A;
+	Mon, 13 Apr 2026 11:28:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1776072535;
+	bh=vKwSzVAD4gtnxfMjYBQzGiq9gwCQT35drWyTgqBymdI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MDHJsDzG3Da+Ad5r9o2xMMYNyRmgvIGMHsKruCJGqE1/yJdKpPUi73HjZ9YJ+zjNV
+	 llMJUsnwTqUk638cJm30urCZA2rcFnJNfc2WnYuad4jqpvGkXw3P7XFFPxsfhDLdes
+	 69Hp7xubSOU51U0R8LBDAffOEDKIv8IMVmnTr0I8=
+Date: Mon, 13 Apr 2026 11:30:24 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, 
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
+	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
+	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
+	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, 
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, 
+	Jai Luthra <jai.luthra@ideasonboard.com>, Rishikesh Donadkar <r-donadkar@ti.com>
+Subject: Re: [PATCH v4 22/29] media: mc: Add MEDIA_LNK_FL_VALIDATE_LATE
+Message-ID: <ady3Ud_eoN9CTalK@zed>
+References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
+ <20260408153939.969381-23-sakari.ailus@linux.intel.com>
+ <adjR6lJWKDdg4tBZ@zed>
+ <adyiV0UtYSrlzcK4@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|LV2PR12MB5872:EE_
-X-MS-Office365-Filtering-Correlation-Id: c0c1f1eb-63ac-41f1-294d-08de993ad43d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	VFMAuT+pet7c+l670oZ2PyerScNqa/CsamufZPVfcV8UwgHUkCZ6lq7H0UHmdL8/fAeglCwuN7STwCAONN1IhqlYje9n6yKZKIqgB38qxfytkShzyXeC46JZnGDACWE4W9A5ciDckj4fsZKdHMt8Yt5oeUMOLCv5UoOQDIWvwUJ9W7sbkTzU97yaJGXBxOJMXSdveuD6ANw4Ivt6RC1zT4DkMpxQ8s1+XoyeVfivar4wzuqGy8IaODGqITRMhqUL2c5pxCjcXNi1hSaUfuz1a1cooUM4pMBXsAz3mAirNpofRQ29+nYnVJNQhE4Qzij76rsvWM7oLyy/5tIiYbRWghEqrS3Af0L0/CLdqyjjEBSkmCanq1aszmSR5UebBZS180xPzCxpzzWrlbNVDddQnROQjF6hw2NPwObn/QArYyqdG6DSuXAHUOisULHEHUEtiKHFMPhb2/ybt19R9/g+pqWzHKmy8+ly/ErUkX9BeqPmE4GgVaCNSq5tsKORoR41A5P8TB2n3e87sXds3KaIBRS4IPBdesBU2xMZELhPTbuAj8at+5FFYMk6yih69soF89KZ2HaZ29BNppYljnTKuP3ZFGx85Nj12rJGszt5WXDYpE/QimRguBCO6NflX3onv3kMVp7b68C8Uo9y9nzbgl5B6ufCgk7TBTXzZS1W55t2pR8IFh6aVQseUWF788PN7Z3/hgbVmEcangmhRLCUb6NvdWBUcAgZ7wvEt6A/nXg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UlZBMDNkeXhqakxyNXZmWE80UTFJWnBzMmJ5MEc1QUNUMnQxUjRpYmhhVVkw?=
- =?utf-8?B?QTRicEdkeE80MVpieTlEYmZoeXlWNlNyc3h1azJNMS9lVXd4REJKUGMrVVVJ?=
- =?utf-8?B?a1pUZ2FGU1hEbDNDeFQ4WHdGRDhwSXQ3THorbGZtcEtPR0ZYOGxjMmQ4NlRz?=
- =?utf-8?B?NXRRc292RlI4eFA5eDNONS9FZXVDUU8ycEFnR1hwWEZKT2JYQ01RbG0yTE9G?=
- =?utf-8?B?Y1RhUFlRVXhaL3RuazkvZk42eE9kU01KY0lRY2pZcmo3NEhwa2FFVE9YNVBB?=
- =?utf-8?B?N0hEa1NwZm50ZmUzMHpGWmlPY3JoeW4yN2JmUmQwcm1ZNUFWdURQZ2dkUXR1?=
- =?utf-8?B?dG8xUEdHSUVoZmxvbkJnT1NaVXVORzIxMW5tdWJuTVJSZlE4MEd6RWU5Zk0z?=
- =?utf-8?B?cFRVMWd0a1A4QUl4MU5KamplVHk5cWZNcE4zcHBtU0toMnpMdDFleUNrMEkw?=
- =?utf-8?B?QUh1OGFPQy92NGkyeWtLbXF5czRLNEtOemhwTkczaFJrV1FUVmlsU3ZWaElK?=
- =?utf-8?B?dXdrbVpNdkt4WlA0U084TzRMc3RjYW5oK3RTWm90bmFqZFZ0M3Ezak9BWkda?=
- =?utf-8?B?QTlRWHdJcmJTNWxWNkVJSFRpZDEwdnVpUTloWTlNaU1WQm5VNEpRVDF1bXIw?=
- =?utf-8?B?MHZNYThXY1hxSEJUVzR4MHUyRHF1bzlKaWExWmVjcHZNeWQwNGpOTVFoMU5W?=
- =?utf-8?B?a3M4cm1idTJqSXQ2cWpGOGR5di83QWxNNDJ6TFdPeEZZVTc4elg0MlhOMUFT?=
- =?utf-8?B?cWtXWlZ6c01OM0ZMSWpaNEo2RGxpVkpibHlQdEsyVVRnVkoxYnpoQ0RkQW9L?=
- =?utf-8?B?Q0Q5Y0c3TFJ0cGptaHc5SHN4TndnNjlrVHdUWWlZZ2ZyWXA2TkVVZkhpOVdH?=
- =?utf-8?B?MThLelBFc2E3d3V6ZVlHTGYwU1J0ZFNUb0ZxNUlId1ZONDM2UGZqWkRUTzFj?=
- =?utf-8?B?SG1yZHhieHNMUGFlYVNqamc3Tk14NUxoemJVZHg2Vlljb1prNU5KbEQ2SUJk?=
- =?utf-8?B?bkJHR1pxQ2ZPODlXazJURitzQ1UvWjA1VkRYWDVCMkdYTk45Z090VzdSOU5H?=
- =?utf-8?B?VXV6dWxxWkdEa1A4dUFpeXZpemdoNmhLcnkwL25UTFlwTmlhanJjald1RElD?=
- =?utf-8?B?eTgyV1lEUjZzeXpiVFU4dVAxZkZiSG9oMHNXVnVEZmRQTlFFekgyOEp2ckJz?=
- =?utf-8?B?ZVJwSFozQ0lxZzVEQVZwcXVyZDJYYUNXYWZWWnUzZmxaR1FKOXh2N1BGK0dQ?=
- =?utf-8?B?QVl2ZVJpa0ord0VMUWxEQmJRVXE1cVM1c3NxeEdHUThndXNIU2tKa01XejhN?=
- =?utf-8?B?YjBESldTQjVzaWduWFBxSVYrSysxUXoxYTBDcWVlOUFsdzJGaGdkMUl0aEI4?=
- =?utf-8?B?cG5mV0RTZ3VmcllHSDNSeE9qQjloYjhrUnFYdERJenZ5L2hjVlUvbDlGYi9E?=
- =?utf-8?B?WWJNRnNUVGdpbDkzV29rdXNyNFFpSG1BSmlTQURLWkwya2RpZldXajJvYktG?=
- =?utf-8?B?RkNvNktCOFZLYTZNdlpMcURWMk1HMWRwUGtpZzVuandjTUFFV2dBcDJBNVNm?=
- =?utf-8?B?ckY5Qmc4eVcyd1Myb3RoYjczWlVaNitzc3NZUnRYSU5BUFBDcmZSdkxPUzZM?=
- =?utf-8?B?MXVKd2NIbVJWMWtpZXNKcFM2RGpXVERlQm9nb3N2YlFQODNuOTY2ZjZ1WXh0?=
- =?utf-8?B?WmY0RlIzdE9rVzEvTHNhMEJSVmpEWXBVQzh0dzBpam45b2FzZWptZS9HbThO?=
- =?utf-8?B?eFRFUG5nRUZ0M1NodjhveWRKeWdNdGkwM3FBMkNkV2lYVlNGSTlWMUEzUVRM?=
- =?utf-8?B?UWJ4T2YzYnBwYkN1Y0hKS2lFSFlwNGNuSVR6YjJUdWdvd2Ird0o2Uy9jMVR3?=
- =?utf-8?B?SGJCSzRyd3BYbGMvdG9QWjN4U3F0RnkrdUlYY3Z0T0g4aWNsTzVlSlpFRmQz?=
- =?utf-8?B?VG1ISThkZ2FqV2NjamZ4MXdZblVJdVlCb0YzMDBVeTFJdkZjSS9GWWl5blFD?=
- =?utf-8?B?VGZuRVFoNktRY2Vmb1VURFdmcVBjV0hydmgzelkwUWdXc1puYkRFRlAzVFRW?=
- =?utf-8?B?b25KUWZmdHU2Tm9KcDR1VVhjSU1STktDYmtocUhjVDVUVWVLK1ExN2tuQnky?=
- =?utf-8?B?SGk1T1V4MXdIOGhsMUdKUTFMM3ZoZEp5UzBGZGJaWFRqaTBtc0MzN0N3ZVVi?=
- =?utf-8?B?TEVZS1FzbGtJR1lGaEtQUUY5eDlOaTRTaFVzRzF2QkxLWGdNZS9Wblkwd3o1?=
- =?utf-8?B?Z0lDdlhSUktqQjdIaG9XZUpCUnhHMWNXc2JCNlVoQkhOTUhDRE9aYk9sNmJj?=
- =?utf-8?Q?S0h4Nb/ZA0/IuyrH8w?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0c1f1eb-63ac-41f1-294d-08de993ad43d
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2026 08:58:28.2891
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZNrmYWqfnAQJJzswmB2U5gVYqykb3svm/hFGDSxLzqR8DbMqAsAOa8oVZGzAKGHV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5872
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <adyiV0UtYSrlzcK4@kekkonen.localdomain>
 X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58648-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58649-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 5F7673E96FC
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 3776C3E9E1A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 2/18/26 01:11, Jason Gunthorpe wrote:
-> This type is required by iommufd and kvm as dmabuf importers.
-> 
-> Due to sensitivity about abusing physical addresses, restrict importers by
-> using EXPORT_SYMBOL_FOR_MODULES(). Only iommufd can implement an importer,
-> the kernel module loader will enforce this.
-> 
-> Allow anything to implement an exporter as there are use cases in
-> DPDK/SPDK to connect GPU memory into VFIO/iommufd and it is hard to abuse
-> the API as an exporter.
-> 
-> The physical address list exporter returns a physical address list in a
-> simple kvalloc'd array of struct phys_vec.
+Hi Sakari
 
-As far as I can see that is still a pretty big NO-GO.
+On Mon, Apr 13, 2026 at 10:59:19AM +0300, Sakari Ailus wrote:
+> Hi Jacopo,
+>
+> On Fri, Apr 10, 2026 at 12:41:27PM +0200, Jacopo Mondi wrote:
+> > Hi Sakari
+> >
+> > On Wed, Apr 08, 2026 at 06:39:31PM +0300, Sakari Ailus wrote:
+> > > Add MEDIA_LNK_FL_VALIDATE_LATE flag to support late validation of links.
+> > > This is serving the use case where video devices are configured and
+> > > started streaming indepenently of each other but this sequence may be run
+> >
+> > s/indepenently/independently
+>
+> Yes.
+>
+> >
+> > > in series, in such a way that a video device in a pipeline starts
+> > > streaming before another one is configured.
+> > >
+> > > Before this flag, drivers have resorted to implementing the link
+> > > validation separately for the video nodes as part of streaming start
+> > > sequence.
+> > >
+> > > media_pipeline_start() shall be called on each leaf entity connected to
+> > > the graph with a link where MEDIA_LNK_FL_VALIDATE_LATE is set before
+> > > uphardware operation.
+> > >
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >  .../media/mediactl/media-ioc-setup-link.rst   |  4 +
+> > >  .../media/mediactl/media-types.rst            |  5 ++
+> > >  drivers/media/mc/mc-entity.c                  | 82 ++++++++++++++++++-
+> > >  include/uapi/linux/media.h                    |  1 +
+> > >  4 files changed, 88 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst b/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
+> > > index 23208300cb61..7c2bced57e77 100644
+> > > --- a/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
+> > > +++ b/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
+> > > @@ -49,6 +49,10 @@ Only links marked with the ``DYNAMIC`` link flag can be enabled/disabled
+> > >  while streaming media data. Attempting to enable or disable a streaming
+> > >  non-dynamic link will return an ``EBUSY`` error code.
+> > >
+> > > +Pipeline validation may be delayed for links marked with the ``VALIDATE_LATE``
+> >
+> > Is it helpful to say "created" instead of "marked" to highlight that
+> > this flag is set by drivers or is it clear enough from the context ?
+>
+> How about:
+>
+> Pipeline validation may be delayed for links with the ``VALIDATE_LATE`` flag set
+> until actual hardware operation even if the rest of the pipeline would be
+> validated at an earlier point of time.
+>
 
-We have seen so many problems with direct physical address access by the importer that I clear don't want to repeat that performance.
+Nice, thanks
 
-My main question is why does IOMMUFD need the physical address in the first place?
+> >
+> > > +flag until actual hardware operation even if the rest of the pipeline would be
+> >
+> > operation or operations ?
+>
+> I'd use singular in referring what the hardware does as a whole here, but I
+> can rework the sentence, too.
+>
 
-If that is really strictly necessary then I strongly suggest to not touch drivers/dma-buf in any way, but only do this is private interface between iommufd and KVM.
+Oh ok, no worries, as long as it was intentional it's fine
 
-Regards,
-Christian.
+> >
+> > > +validated at an earlier point of time.
+> > > +
+> > >  If the specified link can't be found the driver returns with an ``EINVAL``
+> > >  error code.
+> > >
+> > > diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > index 6332e8395263..d6a690655a01 100644
+> > > --- a/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > @@ -391,6 +391,7 @@ must be set for every pad.
+> > >  .. _MEDIA-LNK-FL-ENABLED:
+> > >  .. _MEDIA-LNK-FL-IMMUTABLE:
+> > >  .. _MEDIA-LNK-FL-DYNAMIC:
+> > > +.. _MEDIA-LNK-FL-VALIDATE-LATE:
+> > >  .. _MEDIA-LNK-FL-LINK-TYPE:
+> > >
+> > >  .. flat-table:: Media link flags
+> > > @@ -410,6 +411,10 @@ must be set for every pad.
+> > >         -  The link enabled state can be modified during streaming. This flag
+> > >  	  is set by drivers and is read-only for applications.
+> > >
+> > > +    *  -  ``MEDIA_LNK_FL_VALIDATE_LATE``
+> > > +       -  The validation of the link may be delayed up to until the start of
+> >
+> > Not an English native speaker here, but "delayed up to until" sounds more
+> > complicated than just "delayed to"
+>
+> Yes, but I don't think it's grammatically nor factually correct. :-)
+>
+> How about:
+>
+>        -  The validation of the link may be delayed from the pipeline start but
+> 	  it is done no later than starting streaming on the hardware.
+>
 
-> 
-> For now all entries are assumed to be MMIO and iommufd will map into
-> the IOMMU using the IOMMU_MMIO flag.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/dma-buf/dma-buf-mapping.c | 63 +++++++++++++++++++++++++++++++
->  include/linux/dma-buf-mapping.h   | 42 +++++++++++++++++++++
->  2 files changed, 105 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-buf-mapping.c b/drivers/dma-buf/dma-buf-mapping.c
-> index baa96b37e2c6bd..d9d6b9b5bf05c6 100644
-> --- a/drivers/dma-buf/dma-buf-mapping.c
-> +++ b/drivers/dma-buf/dma-buf-mapping.c
-> @@ -349,3 +349,66 @@ struct dma_buf_mapping_type dma_buf_mapping_sgt_type = {
->  	.debugfs_dump = dma_buf_sgt_debugfs_dump,
->  };
->  EXPORT_SYMBOL_NS_GPL(dma_buf_mapping_sgt_type, "DMA_BUF");
-> +
-> +static const struct dma_buf_mapping_pal_exp_ops *
-> +to_pal_exp_ops(struct dma_buf_attachment *attach)
-> +{
-> +	return container_of(attach->map_type.exp_ops,
-> +			    struct dma_buf_mapping_pal_exp_ops, ops);
-> +}
-> +
-> +/**
-> + * dma_buf_pal_map_phys - Obtain the physical address list for a PAL attachment
-> + * @attach: The DMA-buf attachment
-> + *
-> + * Calls the exporter's map_phys() callback to retrieve the physical address
-> + * list for the buffer. The caller must hold the dma-buf's reservation lock.
-> + *
-> + * This symbol is restricted to iommufd to prevent misuse.
-> + *
-> + * Returns the physical address list on success, or an ERR_PTR on failure.
-> + * The returned list must be freed with dma_buf_pal_unmap_phys().
-> + */
-> +struct dma_buf_phys_list *
-> +dma_buf_pal_map_phys(struct dma_buf_attachment *attach)
-> +{
-> +	dma_resv_assert_held(attach->dmabuf->resv);
-> +	return to_pal_exp_ops(attach)->map_phys(attach);
-> +}
-> +/*
-> + * Restricted, iommufd is the only importer allowed to prevent misuse of this
-> + * API.
-> + */
-> +EXPORT_SYMBOL_FOR_MODULES(dma_buf_pal_map_phys, "iommufd");
-> +
-> +/**
-> + * dma_buf_pal_unmap_phys - Unmap a physical address list
-> + * @attach: The DMA-buf attachment
-> + * @phys: The physical address list returned by dma_buf_pal_map_phys()
-> + *
-> + * Returns the mapping back to the exporter. After this point the importer may
-> + * not touch any of the addresses in any way.
-> + */
-> +void dma_buf_pal_unmap_phys(struct dma_buf_attachment *attach,
-> +			    struct dma_buf_phys_list *phys)
-> +{
-> +	to_pal_exp_ops(attach)->unmap_phys(attach, phys);
-> +}
-> +EXPORT_SYMBOL_NS_GPL(dma_buf_pal_unmap_phys, "DMA_BUF");
-> +
-> +static inline void
-> +dma_buf_pal_finish_match(struct dma_buf_match_args *args,
-> +			 const struct dma_buf_mapping_match *exp,
-> +			 const struct dma_buf_mapping_match *imp)
-> +{
-> +	args->attach->map_type = (struct dma_buf_mapping_match){
-> +		.type = &dma_buf_mapping_pal_type,
-> +		.exp_ops = exp->exp_ops,
-> +	};
-> +}
-> +
-> +struct dma_buf_mapping_type dma_buf_mapping_pal_type = {
-> +	.name = "Physical Address List",
-> +	.finish_match = dma_buf_pal_finish_match,
-> +};
-> +EXPORT_SYMBOL_NS_GPL(dma_buf_mapping_pal_type, "DMA_BUF");
-> diff --git a/include/linux/dma-buf-mapping.h b/include/linux/dma-buf-mapping.h
-> index ac859b8913edcd..10831ce2e72851 100644
-> --- a/include/linux/dma-buf-mapping.h
-> +++ b/include/linux/dma-buf-mapping.h
-> @@ -269,4 +269,46 @@ DMA_BUF_EMAPPING_SGT_P2P(const struct dma_buf_mapping_sgt_exp_ops *exp_ops,
->  			.exporter_requires_p2p = DMA_SGT_NO_P2P,         \
->  		} })
->  
-> +/*
-> + * Physical Address List mapping type
-> + *
-> + * Use of the Physical Address List type is restricted to prevent abuse of the
-> + * physical addresses API. Please check with the DMA BUF maintainers before
-> + * trying to use it.
-> + */
-> +struct dma_buf_phys_list {
-> +	size_t length;
-> +	struct dma_buf_phys_vec phys[] __counted_by(length);
-> +};
-> +
-> +extern struct dma_buf_mapping_type dma_buf_mapping_pal_type;
-> +
-> +struct dma_buf_mapping_pal_exp_ops {
-> +	struct dma_buf_mapping_exp_ops ops;
-> +	struct dma_buf_phys_list *(*map_phys)(struct dma_buf_attachment *attach);
-> +	void (*unmap_phys)(struct dma_buf_attachment *attach,
-> +			   struct dma_buf_phys_list *phys);
-> +};
-> +
-> +struct dma_buf_phys_list *
-> +dma_buf_pal_map_phys(struct dma_buf_attachment *attach);
-> +void dma_buf_pal_unmap_phys(struct dma_buf_attachment *attach,
-> +			    struct dma_buf_phys_list *phys);
-> +
-> +static inline struct dma_buf_mapping_match DMA_BUF_IMAPPING_PAL(void)
-> +{
-> +	return (struct dma_buf_mapping_match){
-> +		.type = &dma_buf_mapping_pal_type,
-> +	};
-> +}
-> +
-> +static inline struct dma_buf_mapping_match
-> +DMA_BUF_EMAPPING_PAL(const struct dma_buf_mapping_pal_exp_ops *exp_ops)
-> +{
-> +	return (struct dma_buf_mapping_match){
-> +		.type = &dma_buf_mapping_pal_type,
-> +		.exp_ops = &exp_ops->ops,
-> +	};
-> +}
-> +
->  #endif
+Fine with me, up to you :)
 
+> >
+> > > +	  hardware operation.
+> > > +
+> > >      *  -  ``MEDIA_LNK_FL_LINK_TYPE``
+> > >         -  This is a bitmask that defines the type of the link. The following
+> > >  	  link types are currently supported:
+> > > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> > > index 287eded356bb..5b0162f81425 100644
+> > > --- a/drivers/media/mc/mc-entity.c
+> > > +++ b/drivers/media/mc/mc-entity.c
+> > > @@ -771,7 +771,7 @@ static int media_pipeline_populate(struct media_pipeline *pipe,
+> > >  static int
+> > >  __media_pipeline_validate_one(struct media_pad *origin,
+> > >  			      struct media_pad *pad, struct media_link *link,
+> > > -			      bool *has_enabled_link)
+> > > +			      bool *has_enabled_link, bool skip_validation)
+> > >  {
+> > >  	struct media_device *mdev = origin->graph_obj.mdev;
+> > >  	struct media_entity *entity = pad->entity;
+> > > @@ -784,6 +784,9 @@ __media_pipeline_validate_one(struct media_pad *origin,
+> > >  	if (has_enabled_link)
+> > >  		*has_enabled_link = true;
+> > >
+> > > +	if (skip_validation)
+> > > +		return 0;
+> > > +
+> > >  	/* Skip validation if the current pad isn't the sink pad of the link. */
+> > >  	if (link->sink != pad)
+> > >  		return 0;
+> > > @@ -825,11 +828,48 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
+> > >  		return -EINVAL;
+> > >
+> > >  	/*
+> > > -	 * If the pipeline has already been started, it is guaranteed to be
+> > > -	 * valid, so just increase the start count.
+> > > +	 * Increase start count on pipelines that have been validated
+> > > +	 * earlier. Also check links with the VALIDATE_LATE flag here.
+> > >  	 */
+> > >  	if (pipe->start_count) {
+> > > +		struct media_link *link;
+> > > +
+> > > +		link = __media_entity_next_link(origin->entity, NULL,
+> > > +						MEDIA_LNK_FL_DATA_LINK);
+> > > +		if (link && link->flags & MEDIA_LNK_FL_VALIDATE_LATE) {
+> > > +			struct media_link *link2 =
+> > > +				__media_entity_next_link(origin->entity, link,
+> > > +							 MEDIA_LNK_FL_DATA_LINK);
+> > > +			bool has_enabled_link = false;
+> > > +
+> > > +			/*
+> > > +			 * Only a single pad is allowed for VALIDATE_LATE
+> > > +			 * links. That pad needs to have exactly one link.
+> > > +			 */
+> > > +			if (origin->entity->num_pads != 1)
+> > > +				return -EINVAL;
+> > > +
+> > > +			if (!link || link2)
+> > > +				return -EINVAL;
+> >
+> > This is a development error, isn't it ? Is it worth an error message ?
+>
+> Actually the !link check can be removed from here as it is already checked
+> earlier.
+>
+> >
+> > > +
+> > > +			dev_dbg(mdev->dev,
+> > > +				"Validating pad '%s':%u late\n",
+> > > +				origin->entity->name, origin->index);
+> > > +
+> > > +			ret = __media_pipeline_validate_one(link->sink,
+> > > +							    link->sink, link,
+> > > +							    &has_enabled_link,
+> > > +							    false);
+> > > +			if (ret)
+> > > +				return ret;
+> > > +
+> > > +			if (origin->flags & MEDIA_PAD_FL_MUST_CONNECT &&
+> > > +			    !has_enabled_link)
+> > > +				return -ENOLINK;
+> > > +		}
+> > > +
+> > >  		pipe->start_count++;
+> > > +
+> > >  		return 0;
+> > >  	}
+> > >
+> > > @@ -873,12 +913,19 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
+> > >  		 * the connected sink pad to avoid duplicating checks.
+> > >  		 */
+> > >  		for_each_media_entity_data_link(entity, link) {
+> > > +			/* Skip late-validated links not connected to origin. */
+> > > +			bool skip_validation =
+> > > +				link->flags & MEDIA_LNK_FL_VALIDATE_LATE &&
+> > > +				link->sink != origin &&
+> > > +				link->source != origin;
+> > > +
+> > >  			/* Skip links unrelated to the current pad. */
+> > >  			if (link->sink != pad && link->source != pad)
+> > >  				continue;
+> > >
+> > >  			ret = __media_pipeline_validate_one(origin, pad, link,
+> > > -							    &has_enabled_link);
+> > > +							    &has_enabled_link,
+> > > +							    skip_validation);
+> > >  			if (ret)
+> > >  				goto error;
+> > >  		}
+> > > @@ -1158,6 +1205,33 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
+> > >  	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
+> > >  		return -EINVAL;
+> > >
+> > > +	/*
+> > > +	 * With the late validate flag, either source or sink shall have exactly
+> > > +	 * one pad and no links before this one. Similarly, no links may be
+> > > +	 * added to entities with a single pad and an existing late-validated
+> > > +	 * link.
+> > > +	 */
+> > > +	if (flags & MEDIA_LNK_FL_VALIDATE_LATE) {
+> > > +		if (!(source->num_pads == 1 && !source->num_links) &&
+> > > +		    !(sink->num_pads == 1 && !sink->num_links))
+> > > +			return -EINVAL;
+> >
+> > Ah, so the above error check for which I suggested an error message
+> > cannot happen, right ?
+>
+> Indeed.
+>
+> >
+> > > +	} else {
+> > > +		struct media_entity *entities[] = { source, sink };
+> > > +
+> > > +		for (unsigned int i = 0; i < ARRAY_SIZE(entities); i++) {
+> > > +			if (entities[i]->num_pads != 1)
+> > > +				continue;
+> > > +
+> > > +			struct media_link *__link =
+> > > +				__media_entity_next_link(entities[i], NULL,
+> > > +							 MEDIA_LNK_FL_DATA_LINK);
+> > > +
+> > > +			if (__link &&
+> > > +			    __link->flags & MEDIA_LNK_FL_VALIDATE_LATE)
+> > > +				return -EINVAL;
+> > > +		}
+> > > +	}
+> > > +
+> > >  	link = media_add_link(&source->links);
+> > >  	if (link == NULL)
+> > >  		return -ENOMEM;
+> > > diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
+> > > index 1c80b1d6bbaf..c96e2118ea99 100644
+> > > --- a/include/uapi/linux/media.h
+> > > +++ b/include/uapi/linux/media.h
+> > > @@ -219,6 +219,7 @@ struct media_pad_desc {
+> > >  #define MEDIA_LNK_FL_ENABLED			(1U << 0)
+> > >  #define MEDIA_LNK_FL_IMMUTABLE			(1U << 1)
+> > >  #define MEDIA_LNK_FL_DYNAMIC			(1U << 2)
+> > > +#define MEDIA_LNK_FL_VALIDATE_LATE		(1U << 3)
+> >
+> > Nice, with the above minors addressed, if applicable
+> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>
+> Thank you!
+>
+
+Thanks
+   j
+
+> >
+> > >
+> > >  #define MEDIA_LNK_FL_LINK_TYPE			(0xf << 28)
+> > >  #  define MEDIA_LNK_FL_DATA_LINK		(0U << 28)
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
+>
 
