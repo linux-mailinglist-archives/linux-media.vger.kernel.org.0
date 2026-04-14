@@ -1,226 +1,237 @@
-Return-Path: <linux-media+bounces-58753-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58754-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MLY3N7Fi3mlqDgAAu9opvQ
-	(envelope-from <linux-media+bounces-58753-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 17:52:17 +0200
+	id uLWoAo5j3mlqDgAAu9opvQ
+	(envelope-from <linux-media+bounces-58754-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 17:55:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E3B3FC289
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 17:52:17 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 169AB3FC36C
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 17:55:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 13128308F807
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 15:49:53 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 367FB301068B
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 15:55:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77B683EC2FA;
-	Tue, 14 Apr 2026 15:49:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCAB233123B;
+	Tue, 14 Apr 2026 15:55:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="stG6I3gs"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Na3azW+M"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E690C3D6CBA
-	for <linux-media@vger.kernel.org>; Tue, 14 Apr 2026 15:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E027740DFB7
+	for <linux-media@vger.kernel.org>; Tue, 14 Apr 2026 15:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776181788; cv=none; b=hKDw/dMp9EA3+IzoC+S37ZQT1q7kmKaur+RK63TdCU8ckftjzOITg8WTl2YaIpDyBfi4qUktZ5UW7jp8JNUOHhQHYlLqSc/uv38YTEIqziyhZL3P6Kik+E7GntcUmyY3vbIpkLt/OsiJeQ3i1b2kyLzoD/9Yju0sOw2ttrvOi4M=
+	t=1776182136; cv=none; b=fo0PA2wJ14MYfk7+1yZ6uwC5YS9ZGtrmXj6qNIquOc3oiV4EmgVLd+MCDdSrxtgz9xhi0X4bpihLqh8b3S1Y0SMjUUzR0GNcJMpkIjeHftJ0dU2sh/QpaZS64hoA982JkjFSCW337RRgOHkviJ1x2qXYqaMX4U0bbLpKEAlP7ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776181788; c=relaxed/simple;
-	bh=erj2DJ6UcSVTIgJSuGL7T1govl7nyDgqafRlEr8l3eo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Xho+SUBDNY2EmKwRodD5srVU2VKQ6lHBc8noOvihv7Fx9/z83SMVAt+vcYgBQ4exdyBrfk1RiIs/RjTEi7o9I/nPaBMgqAIZ/iuGtT10QEgyKG8p67OvvzYp8YzXUOt2gvkcR/nhowIPggm0OwIjqrxtmc9W6+zn2d8g3mkyhP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=stG6I3gs; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=NH3VFhuA4KTmnv2Djo8xtQoIH/0rZEUzxAByURI9vUg=; b=stG6I3gsqgvfdtVZTDguCcJfNf
-	gXAfIrwQpNDQCCp73jOKYg0RMWF2ZbCRMtCWLux1PhBfRjl3JxCp24q1WBMVXh+gvbLqDUvWhTtLd
-	IpfsplhtpS81PL7jXXti/5BA67GVooOBN7cHYPVqn41/s89tywrOJPkvZl3SGtT9l9L1EQzY0eDwk
-	TmnniWZ29CCI6YUMApd+GvKAkYuHfI86lps9/S/iw70sn2UbKPGYpd2kscAaHQmJaosU6YMILMJ+4
-	qQeFlY4kaVm5FQHpGlLZchvWhuSXBWwaUt6MiKwU4zMmt2+6V31lEoIhhj6MxjqA/iAXhaVMneh+B
-	tSxqISlw==;
-Received: from [90.240.106.137] (helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wCg15-00FxmJ-Ay; Tue, 14 Apr 2026 17:49:31 +0200
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 2/2] dma-fence: Fix potential tracepoint null pointer dereferences
-Date: Tue, 14 Apr 2026 16:49:28 +0100
-Message-ID: <20260414154928.32934-2-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260414154928.32934-1-tvrtko.ursulin@igalia.com>
-References: <20260414154928.32934-1-tvrtko.ursulin@igalia.com>
+	s=arc-20240116; t=1776182136; c=relaxed/simple;
+	bh=+EqxjLeuFn9ZYC4DX/68jy8FmVG2eirxw9/yToRe3gw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bsm0WJU9tZm+fmkifgsKrcgwrWgVCXvkhHJI60PhigTyKT0eZz/+orHPvvFxeKVgIt98pXLtbP2oX73V/z4NJRM5jIblIcvb1Qqrhvhj/DURWwWcw4opXbdmg/ppLoDUDHM1mHZXNxCK/qEGnR+oz7/EjASOAIl3wns8QZ6DiLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Na3azW+M; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0754225;
+	Tue, 14 Apr 2026 17:53:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1776182039;
+	bh=+EqxjLeuFn9ZYC4DX/68jy8FmVG2eirxw9/yToRe3gw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Na3azW+MfDjLXuwOeLqUlH2dE4De/ycyofWZ2yz8gqTv//oagehshmJW+8JfV/WNp
+	 2V5oBfWsm0ddEywyWEbxA2rtsSsv6QwLXqjzX8Ylm+5J/n7ohbLfeC+YxfmjXhLSIZ
+	 IN5R1+XRha71m18hIRr3N4U1SS+upbeC1Cx92qtg=
+Date: Tue, 14 Apr 2026 17:55:28 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
+	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Kate Hsuan <hpa@redhat.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
+	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
+	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, 
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>, Jai Luthra <jai.luthra@ideasonboard.com>, 
+	Rishikesh Donadkar <r-donadkar@ti.com>
+Subject: Re: [PATCH v12 27/86] media: uapi: Add V4L2_CID_BINNING control for
+ binning configuration
+Message-ID: <ad5jAqaTkHbIiUcA@zed>
+References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
+ <20260409201501.975242-28-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.64 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260409201501.975242-28-sakari.ailus@linux.intel.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58753-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-58754-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
-	PRECEDENCE_BULK(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.912];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,igalia.com:email,collabora.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:email,amd.com:email]
-X-Rspamd-Queue-Id: 54E3B3FC289
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,ideasonboard.com:dkim,ideasonboard.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 169AB3FC36C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Trace_dma_fence_signaled, trace_dma_fence_wait_end and
-trace_dma_fence_destroy can all currently dereference a null fence->ops
-pointer after it has been reset on fence signalling.
+On Thu, Apr 09, 2026 at 11:14:02PM +0300, Sakari Ailus wrote:
+> Add V4L2_CID_BINNING control for configuring binning and enumerating a
 
-Lets use the safe string getters for most tracepoints to avoid this class
-of a problem, while for the signal tracepoint we move it to before ops are
-cleared to avoid losing the driver and timeline name information. Apart
-from moving it we also need to add a new tracepoint class to bypass the
-safe name getters since the signaled bit is already set.
+Seems like the control is now named V4L2_CID_BINNING_FACTORS ?
+Also applies to the patch subject
 
-For dma_fence_init we also need to use the new tracepoint class since the
-rcu read lock is not held there, and we can do the same for the enable
-signaling since there we are certain the fence cannot be signaled while
-we are holding the lock and have even validated the fence->ops.
+Have I missed something ?
+$ git grep CID_BINNING include/
+include/uapi/linux/v4l2-controls.h:#define V4L2_CID_BINNING_FACTORS             (V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 13)
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Fixes: 541c8f2468b9 ("dma-buf: detach fence ops on signal v3")
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Philipp Stanner <phasta@kernel.org>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/dma-buf/dma-fence.c      |  3 ++-
- include/trace/events/dma_fence.h | 33 ++++++++++++++++++++++++++++----
- 2 files changed, 31 insertions(+), 5 deletions(-)
+> camera sensor's binning capabilities. The control combines horizontal and
+> vertical binning into a single control as the two are generally related.
+>
+> New drivers should use this control to configure binning.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  .../media/drivers/camera-sensor.rst           | 12 ++++++++
+>  .../media/v4l/ext-ctrls-image-source.rst      | 30 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  2 ++
+>  include/uapi/linux/v4l2-controls.h            |  2 ++
+>  4 files changed, 46 insertions(+)
+>
+> diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> index d8ba809486c5..12f075379bc8 100644
+> --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> @@ -120,6 +120,18 @@ values programmed by the register sequences. The default values of these
+>  controls shall be 0 (disabled). Especially these controls shall not be inverted,
+>  independently of the sensor's mounting rotation.
+>
+> +Binning
+> +-------
+> +
+> +Binning has traditionally been configured using :ref:`the compose selection
+> +rectangle <v4l2-selection-targets-table>`. The :ref:`V4L2_CID_BINNING
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index a2aa82f4eedd..b3bfa6943a8e 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -363,6 +363,8 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
- 				      &fence->flags)))
- 		return;
- 
-+	trace_dma_fence_signaled(fence);
-+
- 	/*
- 	 * When neither a release nor a wait operation is specified set the ops
- 	 * pointer to NULL to allow the fence structure to become independent
-@@ -377,7 +379,6 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
- 
- 	fence->timestamp = timestamp;
- 	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
--	trace_dma_fence_signaled(fence);
- 
- 	list_for_each_entry_safe(cur, tmp, &cb_list, node) {
- 		INIT_LIST_HEAD(&cur->node);
-diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
-index 3abba45c0601..9e0cb9ce2388 100644
---- a/include/trace/events/dma_fence.h
-+++ b/include/trace/events/dma_fence.h
-@@ -9,12 +9,37 @@
- 
- struct dma_fence;
- 
-+DECLARE_EVENT_CLASS(dma_fence,
-+
-+	TP_PROTO(struct dma_fence *fence),
-+
-+	TP_ARGS(fence),
-+
-+	TP_STRUCT__entry(
-+		__string(driver, dma_fence_driver_name(fence))
-+		__string(timeline, dma_fence_timeline_name(fence))
-+		__field(unsigned int, context)
-+		__field(unsigned int, seqno)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(driver);
-+		__assign_str(timeline);
-+		__entry->context = fence->context;
-+		__entry->seqno = fence->seqno;
-+	),
-+
-+	TP_printk("driver=%s timeline=%s context=%u seqno=%u",
-+		  __get_str(driver), __get_str(timeline), __entry->context,
-+		  __entry->seqno)
-+);
-+
- /*
-  * Safe only for call sites which are guaranteed to not race with fence
-  * signaling,holding the fence->lock and having checked for not signaled, or the
-  * signaling path itself.
-  */
--DECLARE_EVENT_CLASS(dma_fence,
-+DECLARE_EVENT_CLASS(dma_fence_ops,
- 
- 	TP_PROTO(struct dma_fence *fence),
- 
-@@ -46,7 +71,7 @@ DEFINE_EVENT(dma_fence, dma_fence_emit,
- 	TP_ARGS(fence)
- );
- 
--DEFINE_EVENT(dma_fence, dma_fence_init,
-+DEFINE_EVENT(dma_fence_ops, dma_fence_init,
- 
- 	TP_PROTO(struct dma_fence *fence),
- 
-@@ -60,14 +85,14 @@ DEFINE_EVENT(dma_fence, dma_fence_destroy,
- 	TP_ARGS(fence)
- );
- 
--DEFINE_EVENT(dma_fence, dma_fence_enable_signal,
-+DEFINE_EVENT(dma_fence_ops, dma_fence_enable_signal,
- 
- 	TP_PROTO(struct dma_fence *fence),
- 
- 	TP_ARGS(fence)
- );
- 
--DEFINE_EVENT(dma_fence, dma_fence_signaled,
-+DEFINE_EVENT(dma_fence_ops, dma_fence_signaled,
- 
- 	TP_PROTO(struct dma_fence *fence),
- 
--- 
-2.52.0
+This needs to be updated as well ?
 
+> +<image_source_control_binning_factors>` control is also available for binning
+> +configuration and users should use it when it's available. Drivers supporting
+> +the control shall also support the compose rectangle, albeit the rectangle may
+> +be read-only when the control is present.
+> +
+> +Binning isn't affected by flipping.
+> +
+>  .. _media_using_camera_sensor_drivers_embedded_data:
+>
+>  Embedded data
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> index 490cd16186cd..0ef76b02a6e1 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> @@ -160,3 +160,33 @@ Image Source Control IDs
+>      interface for metadata streams. The control is used in conjunction with
+>      :ref:`generic metadata formats <media-bus-format-generic-meta>` formats to
+>      specify the layout of the data.
+> +
+> +.. _image_source_control_binning_factors:
+> +
+> +``V4L2_CID_BINNING_FACTORS (integer menu)``
+> +
+> +    This control determines horizontal and vertical binning factors. Binning
+> +    combines several horizontal, vertical or both pixel values into a single
+> +    pixel. It is a way to scale an image. Binning typically produces fairly good
+> +    quality output.
+> +
+> +    Determines both horizontal and vertical binning factors for a camera
+> +    sensor. The values are encoded in the following way:
+> +
+> +.. flat-table::
+> +    :header-rows:  1
+> +    :stub-columns: 0
+> +
+> +    * - Bits
+> +      - Synopsis
+> +    * - 48--63
+> +      - Horizontal binning numerator.
+> +    * - 32--47
+> +      - Horizontal binning denominator.
+> +    * - 16--31
+> +      - Vertical binning numerator.
+> +    * - 0--15
+> +      - Vertical binning denominator.
+> +
+> +For instance, a value of ``0x0001000300020003`` indicates binning by 3
+> +(horizontally) * 3/2 (vertically).
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> index 4618252d24f2..fee343667b69 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1160,6 +1160,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_CFA_PATTERN:		return "Color Filter Array Pattern";
+>  	case V4L2_CID_CFA_PATTERN_FLIP:		return "CFA Pattern Flip";
+>  	case V4L2_CID_METADATA_LAYOUT:		return "Metadata Layout";
+> +	case V4L2_CID_BINNING_FACTORS:		return "Binning Factors";
+>
+>  	/* Image processing controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> @@ -1438,6 +1439,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_HDR_SENSOR_MODE:
+>  		*type = V4L2_CTRL_TYPE_MENU;
+>  		break;
+> +	case V4L2_CID_BINNING_FACTORS:
+>  	case V4L2_CID_LINK_FREQ:
+>  		*type = V4L2_CTRL_TYPE_INTEGER_MENU;
+>  		break;
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 1bf6d298e3c4..5496b1664432 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -1249,6 +1249,8 @@ enum v4l2_jpeg_chroma_subsampling {
+>
+>  #define V4L2_CID_METADATA_LAYOUT		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 12)
+>
+> +#define V4L2_CID_BINNING_FACTORS		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 13)
+> +
+>  /* Image processing controls */
+>
+>  #define V4L2_CID_IMAGE_PROC_CLASS_BASE		(V4L2_CTRL_CLASS_IMAGE_PROC | 0x900)
+> --
+> 2.47.3
+>
+>
 
