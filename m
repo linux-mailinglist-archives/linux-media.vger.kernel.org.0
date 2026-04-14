@@ -1,247 +1,325 @@
-Return-Path: <linux-media+bounces-58769-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58770-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qDBoMj+W3mm0GAAAu9opvQ
-	(envelope-from <linux-media+bounces-58769-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 21:32:15 +0200
+	id qKOaI9nQ3ml0IgAAu9opvQ
+	(envelope-from <linux-media+bounces-58770-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 01:42:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91D53FE080
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 21:32:14 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 081573FF1E0
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 01:42:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B10F1302E7B8
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 19:32:11 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 00EED30811BD
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 23:39:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADD3229DB64;
-	Tue, 14 Apr 2026 19:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE3593CAE90;
+	Tue, 14 Apr 2026 23:39:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QdITEKKG";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JJIs85ZO"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="jKd1dHOu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE61114E2F2
-	for <linux-media@vger.kernel.org>; Tue, 14 Apr 2026 19:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.180.131
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776195130; cv=pass; b=oRjshE/Kan1kjfJElG4hqKw8T1uSNEnXABCFF7DZKvkaJLEdvfW0pFOxZm1iZpD00veTfUWqhdG5V1FBnYS+WCgmBfudMXt11NvILr1aKXJS8sBY6Z8eaRKVf89+x8eKY85Vfma4aX/g2j1aiZ01yR/GGBIAAbtStGRn4JZMmlg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776195130; c=relaxed/simple;
-	bh=KWNMLGggJeuxR4jnVaz8gmRT7gwcKbVgVXE9kPT73kw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=enxqyJi4XCDM3tYVMnUqOY2Xpr0oOkn0xvwLALQL4vUOvzgtVTWUQDQWKCfSsqoPCtpHj3y7EoNjwoEfkn2gbUEkqRfZWwt40YXhTUchZYRUf/PyS1iyBdREcSkDzRT9rlc+NfeRMYX8owRJ8X5pJYzjvDbtjmFF/apQ/LzmtzY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QdITEKKG; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JJIs85ZO; arc=pass smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63EHbXfL3126613
-	for <linux-media@vger.kernel.org>; Tue, 14 Apr 2026 19:32:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4lnM01/HINKWExKWtn+/pUMhXJKImwAV4a6Gn+hdsK4=; b=QdITEKKGye5FHEEE
-	7sbHbKlHsxRvKCEODbqmKWPIuHQpCBC+HAdXHX/Z/jZonHSDAFpGlXjS3+kV4Cr1
-	etn3iXmUBwcdRwfVb4b/FFUR0SXc9nnbxo3ljQXr2YP1Qhg/dWs6JlNGvk14GiBC
-	Bj6+3RQd6X7L1cK6ftgliCnQrnvojtljgxx/GxBfCvO/qqTJj4HFVkBYSfM8lSbL
-	aZBrK+fh32ppYE+p6kFihIgg9TS8yVccMbpdOyu3QB4e46umm927Iu+syiZrq0zg
-	kSe2EfuAwYdHaXEQwzJrKZ7545aE1idVelzpT+bWJTyY/kcjzD53zehhqebLMy4V
-	2o5/JQ==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dht56rcdp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 14 Apr 2026 19:32:07 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8a5f6110cadso98415506d6.3
-        for <linux-media@vger.kernel.org>; Tue, 14 Apr 2026 12:32:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776195127; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JWmlsEnQ4rzG4brxoCVpD91hQwohDNAAONzf8s9yNHyIYKIKYXDsQs84lucpF7iut3
-         F749YnAR9NRVDuKovrJcxhUzVqTgTBlvvwCP065c719QMJ/P/YcMWZLgGuL0nSUjVz7V
-         N6Nkib6fJyU8K4cVYrVIaaZl1Io1krNO85IpeT129opN/R3L+V0v8F2HqzQKTpuhQq3M
-         V8XUMOQWt7TUgK6TuVmp1bpB6HVXpgpag9PAFYjh95aWWII2+LVLNSqv6xPz8xXI+1PK
-         Ww0sHQGIuYssn2vgCtzESElxvb6IJnswh8+YzV2FUkXHnMBo5T0hYa3epltWTtYzm7WT
-         O6rg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4lnM01/HINKWExKWtn+/pUMhXJKImwAV4a6Gn+hdsK4=;
-        fh=v2zAupe5obAJAyDUvHa3s+y8SSWXzMVPT5TEDb7WewY=;
-        b=JQQuHyIZ3q5ATeQ3cdUdCtyaICiCgiqIyImX2MU8OwUB5eF4rkrIuOiqIQpLIxF1SF
-         EbBq418aypUO8cYtHt6ruLPlbT0ZfUvQhFDsgQD3gQ47aTfj2C07xRINB6Sq6HauZPMM
-         3r6/JV8EkrmzIvl0VckYHB57aHcuxBcOp3B5GYi0+zGqPHgh7xwtvMxSRaxvkNPrNguJ
-         xvUu8iVBtIC5TxvijyvBO3UTJkD/O4HqwjPB0FO8oQOHqkr0URsHb3OxUfEgMPZI2Ad6
-         /b9uwkopde9GYh8vRIRRzmhmyoDiiXGwuHeOnEc4COfibvS8wudtWVLInaCRTHXOh7jT
-         pHDw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907DE3BE145
+	for <linux-media@vger.kernel.org>; Tue, 14 Apr 2026 23:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776209951; cv=none; b=BSaUqnGmQEwimkAIxW5mtDNRRKZG+95CnV/0xkg9zufQVrvAT5PDZV5jgOHi0TtLVEQlkWzQlJrtiGeaReM0E3AoWzfpTX2z7oG6UOhERmK0QIiAHHS1zMslP5gh8zrTgL2+v23G2bdtg61lXO0zC2N9WLs79/e2xiVsXHZxmq8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776209951; c=relaxed/simple;
+	bh=ZQsOBkB1S3n0//aolM4avdvsGyqltWWjuQg9TpDOfeM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=P3hWLbH3XJgxMp+tL2s3vJe3zR0zZrBBzOee/TayfipC6ndt0mooFfXjFnHFQK24D49wTQC7P8a6P0uByjhsW/QjfWY1i5iMf5hCZ0yycwCN1bNAJ2KESbUgYnuzVr3N40Mk6TJKgsffMcj993sDCnxRBAcTayDBjUXUCUajk2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=jKd1dHOu; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8a08fa355a1so87072206d6.0
+        for <linux-media@vger.kernel.org>; Tue, 14 Apr 2026 16:39:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776195127; x=1776799927; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4lnM01/HINKWExKWtn+/pUMhXJKImwAV4a6Gn+hdsK4=;
-        b=JJIs85ZOOMzp0UU6vZSnc3FZtWgsC6fjvzfdB83aQPDba8WyUnFvfssikUFRapvobh
-         6wxo5aRRKZulJYCHtpVxGPts8g/pmAM5HVsTmjpd1T+aUNqzaAv7/FhaRYjqyqwIlbkF
-         s2tptdHp40u2lx893tmayHEAM/zUBDBuAfLASboY8Nn7hD3nKBByTH3DiJqhoeM0QfHg
-         +lywopnzqpxsN6NrtkhgKpnzo/HYvFsClJFE9OdkXInHKTxPE5p8kBeHiwB7zedP+xA9
-         8xg95fODBa5F0wrXK908kgyXnngp0iXzO8XrbuZUcrR/R+n9h4CLkFsbXFIRdiYBVdx9
-         L71A==
+        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1776209948; x=1776814748; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=xdcDizxUzZtD3adFCvdchJhJRQ2hD09xTn0vHjtmQjM=;
+        b=jKd1dHOu8CUFco7qVVWGRl5mBx40cygBhTdsm1y5zcT2TZgT5p72fpNiJUhY0XcBAK
+         qfuM6d2pesrt56hgSRWt4wnnWPrKoAjncqvgPr1KF+kB7z5ITjeUqovogWQ2an3I2AsH
+         +BgLVtA/1YwsYmkfSvFKpf2ksqtco007lEGXCWQi/n4hlxwy3BuS75rKHtuOE0k1S+91
+         mTppkSzayK48PfHHbiB5QcssB4sGuHDfq1QhkLaZaokPLhKnmNYeknO6o7u5d7T6isR7
+         7e4fHNdOHW/iNft/GtB+o8hgfvAShhTBn6+B4DHkNOMzvGogXsgsNR6/RLbyHzHEDvsY
+         X2yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776195127; x=1776799927;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4lnM01/HINKWExKWtn+/pUMhXJKImwAV4a6Gn+hdsK4=;
-        b=CPhluiut+wmL+bWlaFiT+mVZ037+7rbAaAIY83mKdINs6B7ALZPOCfAsf0tM7kLrK/
-         lKiFWSL9wYyAQk+c9XzTdkBnesC0MKLSqp59fjOFg6xYE3NAo/aCixMboZXaZZS3CfEy
-         LdvevmNLyVjHLEhq7D+nkTvOuE0itIhEo11LCr/+4dUfRu2OioBudcNO5CtXpYFA6u+o
-         W+djWawP9XqPAbw0MTfHhzG54NiOfzeL1lwzaVw+N5w/wjgOXLCHIluG3LzGAdiOuvdR
-         h4uWKixcDCEcUHV0JfS7J3WK/xMy1092ceJE2O81PavR0O6K1WnTi2YTFu1VVgZ5/p+k
-         W0Wg==
-X-Gm-Message-State: AOJu0YznCRsjZJtMdTqMhRE2qXLZrCnmHVgEbzqflEJpUp0Uhvnr7JA9
-	/xHpDYpWQDVBdi3Q8P0nw44G19uxhnqd9tX8scWOND+42YZHHrM8iwu6p5+9PYUxLo4abKMvaT3
-	bhKXaftfAqlICGABietk/U6mykPqr3t8xCw8rvLsSXqOfrJsiyeeZs5LePPF+M1mH7CAwx0OZw9
-	CD919hfnQWJZA/5kk/g6NSgqLI+0Pat8enna5tQUJu
-X-Gm-Gg: AeBDies4pk+0smq/VoVnMU0pk6m2FdgTEgGc8gcS5Kv3Uz1V6OPA0AdFKLzuyr12yUh
-	yM2TEmBNbRn0mWA0pvjJDOOPZNfRwsg8jF00G3ONwSxlDMeE+I+YDRoju3hbjWdhyy/sl3XyQRo
-	HfCUSPuqgp3HVHfvtq+4+L8zIRT0nqnTJ22WoBE/n275oOR9c3hD/FSgb23BNYNgfmlykP+T2fe
-	L7YSWfy9zM5MB7/tcCvR0A4Fy5vw4S8OtX/bGQ=
-X-Received: by 2002:a05:6214:8012:b0:8ac:a6f7:8a71 with SMTP id 6a1803df08f44-8aca6f79755mr152462356d6.24.1776195126885;
-        Tue, 14 Apr 2026 12:32:06 -0700 (PDT)
-X-Received: by 2002:a05:6214:8012:b0:8ac:a6f7:8a71 with SMTP id
- 6a1803df08f44-8aca6f79755mr152461776d6.24.1776195126382; Tue, 14 Apr 2026
- 12:32:06 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776209948; x=1776814748;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xdcDizxUzZtD3adFCvdchJhJRQ2hD09xTn0vHjtmQjM=;
+        b=nzt8ZPc4txqnaSBsLxR8XDvXYVWPTbqdSv7+2LYkmvxBW3wls3Oo8eyLReBatE0DIx
+         GgnCYTarnrnCRIv6ElHtZJ0iarjbitujGie3QjPcf8DUQff5EwcGJZLSB/rKxpQlDb3V
+         4+KcgA3SLrPOOhA/9jNsJLi10J3wJ+IHqFw581DO6FbHuVclwdUT4biiDs4zqhMrm7fe
+         TOx85hBeoMp8m5mCDIxdg7nQ4I1owlMtsGXlCuV+6AqkXRHd69WaRLCh0+UrdJrpbiSH
+         sjfXHNPpp+WEsFIoP7Gk3eehyOe51HNiN4FObzD0gIlgWnzUaJtLDuZ20j0W/wnHGP2W
+         4zgw==
+X-Gm-Message-State: AOJu0Yxxp1wsCl4HAUxRnVJaLHVEC+uUd6Ei1ZumiVoOZRhIC9Vqb/Gs
+	N9KC9nvi1rWJblK+EP+k3yB6Jp2FaaC1/wViVGx4d/TX9S0l3SEFjdLaF6aLGZPyw5g=
+X-Gm-Gg: AeBDievQS25bJiltzPpZt3gf2OC5SF29C/jBp3Rl24z8yT/V2F5THVf8XDU+1k8yw9G
+	BqnlWyej+c05db9QqQn3TFl/E8d3aCH6fugMxyOJ06bVzzGXtZNNPDH7jsURBbZl3oYEDQTx8Mf
+	5Nt8w9tFcOcdft0fUbov1/6DqDvVidY1NCU07nyBS44iZDeVMVd8kHZ8ch8Gq7KBObBYM0gI9md
+	Tr/1SJcBSRvDgjiNht0ibSMU5EEdJt1aW8Ef/0dVRHLBs2Ki+dBMRTnhFIS7RgoN8pc97PqV/ui
+	syIHp+2uOar2PcBe1cnnzX44Lgqubh038akCHRwnludMz7lv4Go9Jil9p0LiCdV8ES9Q6a7GcGe
+	vWPHkl+iRQkZSExFEdYz5PP2TTFAWO/Wk3i1MoyRYGcdNGKouWUYVYJSQVdFbMfVj7PPpR4Pe81
+	j769TIdX0B04ScmZmW6zAFSQmyW+zYIuCxpvJBVYI=
+X-Received: by 2002:a05:6214:2503:b0:8ac:b204:3238 with SMTP id 6a1803df08f44-8acb20435f5mr139156866d6.30.1776209948439;
+        Tue, 14 Apr 2026 16:39:08 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:15:e06b::5ac? ([2606:6d00:15:e06b::5ac])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8aca5222c8esm93751436d6.28.2026.04.14.16.39.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2026 16:39:07 -0700 (PDT)
+Message-ID: <5d9c38edcfa4faffdf9d02a318f87355a5c9a021.camel@ndufresne.ca>
+Subject: Re: [PATCH RFC 4/7] media: qcom: iris: vdec: update size and stride
+ calculations for 10bit formats
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Neil Armstrong <neil.armstrong@linaro.org>, Vishnu Reddy	
+ <busanna.reddy@oss.qualcomm.com>, Vikash Garodia	
+ <vikash.garodia@oss.qualcomm.com>, Dikshita Agarwal	
+ <dikshita.agarwal@oss.qualcomm.com>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>,  Bryan O'Donoghue	 <bod@kernel.org>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 14 Apr 2026 19:39:05 -0400
+In-Reply-To: <0301bf82-0859-44cd-99df-3de997e2cff4@linaro.org>
+References: 
+	<20260408-topic-sm8x50-iris-10bit-decoding-v1-0-428c1ec2e3f3@linaro.org>
+	 <20260408-topic-sm8x50-iris-10bit-decoding-v1-4-428c1ec2e3f3@linaro.org>
+	 <99eb55a8-6370-bf7b-f9de-e88231454b0e@oss.qualcomm.com>
+	 <0301bf82-0859-44cd-99df-3de997e2cff4@linaro.org>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-CdX+pDs4e4UxKbXGxFhm"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260414185202.2714019-1-loic.poulain@oss.qualcomm.com>
-In-Reply-To: <20260414185202.2714019-1-loic.poulain@oss.qualcomm.com>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Tue, 14 Apr 2026 21:31:55 +0200
-X-Gm-Features: AQROBzB_zqoJ98z82D70XjchR2wbCQsqzrKE47oy1E6g3QZfASfGbshTwGg4bp4
-Message-ID: <CAFEp6-1+TeEDodfMM+ZmvGOwxr2sQa5pJ9vuk+h2WWPtkMvVXA@mail.gmail.com>
-Subject: Re: [PATCH v5 0/5] media: qcom: camss: Add PIX support for CSID/VFE-340
-To: bryan.odonoghue@linaro.org, vladimir.zapolskiy@linaro.org
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        mchehab@kernel.org, konrad.dybcio@oss.qualcomm.com,
-        dmitry.baryshkov@oss.qualcomm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=LuiiDHdc c=1 sm=1 tr=0 ts=69de9637 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=gowsoOTTUOVcmtlkKump:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=kfigPR_gXQGDb6zMejoA:9 a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE0MDE4MiBTYWx0ZWRfXyX/ngxrnRClq
- 3EqQZM6OTi/TX2KdJQaqvx13hTgZ1jCCdtALeSliQjdxSTmH54yB0BFZnKiLtN4eeo7LV15iB5o
- qkuMLyXis2TDiAiyZf88D09SzlM4MzDD5WbF64ck34v1Begh4DzBt4IOXJZiXvPOWgLfOJ5m0r6
- 6GcYoBvm6/ETJzzDEfcc4q2QM9oim5lsgraWzATjD/Pk/tSsK1oqma1hXvdy7SLfQwxx8Py/q+v
- glD9EqrF3lqIUQpFszUulGtYW4OStGrurG3YI5w+Uri8pcx/2yikD3LmZdkDEtglRtQXPZV3SX0
- IdOh/K94RsuksYtup14Jy3OtvOFj9M+3OY97kHDgU9vLDMlr21uuJHwVIFkNVze4c5qQLxEpxY5
- D7c6x0/xpFgRSmqMBwuqiNh3OsochNvbKkVgJC/4YCWcDL4dGfWCxndTFg9ZUPuaX5PH/3VOSfq
- oYBlbYEwbn8Kna3FtoQ==
-X-Proofpoint-ORIG-GUID: JQIqTqGp-A5hVOPGBWu973NW83gqbnhi
-X-Proofpoint-GUID: JQIqTqGp-A5hVOPGBWu973NW83gqbnhi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-14_04,2026-04-13_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 priorityscore=1501 adultscore=0 spamscore=0
- suspectscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604140182
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58769-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
+	TAGGED_FROM(0.00)[bounces-58770-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[loic.poulain@oss.qualcomm.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,mail.gmail.com:mid,oss.qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D91D53FE080
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ndufresne-ca.20251104.gappssmtp.com:dkim,ndufresne.ca:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:email]
+X-Rspamd-Queue-Id: 081573FF1E0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Bryan,
 
-On Tue, Apr 14, 2026 at 8:52=E2=80=AFPM Loic Poulain
-<loic.poulain@oss.qualcomm.com> wrote:
->
-> Add PIX-path support to the CAMSS pipeline on CSID-340 and VFE-340,
-> allowing frames to be routed to the VFE PIX interface and exposed
-> through PIX output devices such as msm_vfe0_pix.
->
-> On CM2290/TFE, the PIX interface includes a minimal inline processing
-> engine, which we will be able to leverage later to export statistics
-> needed for proper 3A frame processing. This also fixes the PIX path
-> not being usable on this platform, as PIX routing was previously
-> unsupported, causing frame capture hangs.
+--=-CdX+pDs4e4UxKbXGxFhm
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I forgot to mention this series now depends on your CSID/port series:
-https://lore.kernel.org/all/20260407-camss-rdi-fix-v3-0-08f72d1f3442@kernel=
-.org/
+Le vendredi 10 avril 2026 =C3=A0 13:59 +0200, Neil Armstrong a =C3=A9crit=
+=C2=A0:
+> On 4/10/26 12:10, Vishnu Reddy wrote:
+> >=20
+> > On 4/8/2026 10:13 PM, Neil Armstrong wrote:
+> > > Update the gen2 response and vdec s_fmt code to take in account
+> > > the P010 and QC010 when calculating the width, height and stride.
+> > >=20
+> > > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> > > ---
+> > > =C2=A0 .../platform/qcom/iris/iris_hfi_gen2_response.c=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 19
+> > > ++++++++++++++++---
+> > > =C2=A0 drivers/media/platform/qcom/iris/iris_vdec.c=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 21
+> > > ++++++++++++++++++---
+> > > =C2=A0 2 files changed, 34 insertions(+), 6 deletions(-)
+> > >=20
+> > > diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.=
+c
+> > > b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+> > > index 8e19f61bbbf9..d268149191ea 100644
+> > > --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+> > > +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+> > > @@ -542,9 +542,22 @@ static void
+> > > iris_hfi_gen2_read_input_subcr_params(struct iris_inst *inst)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pixmp_ip->width =3D width;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pixmp_ip->height =3D height;
+> > > -=C2=A0=C2=A0=C2=A0 pixmp_op->width =3D ALIGN(width, 128);
+> > > -=C2=A0=C2=A0=C2=A0 pixmp_op->height =3D ALIGN(height, 32);
+> > > -=C2=A0=C2=A0=C2=A0 pixmp_op->plane_fmt[0].bytesperline =3D ALIGN(wid=
+th, 128);
+> > > +=C2=A0=C2=A0=C2=A0 pixmp_op->width =3D pixmp_op->pixelformat =3D=3D =
+V4L2_PIX_FMT_QC10C ?
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ALIGN(width, 192) : ALIGN=
+(width, 128);
+> > > +=C2=A0=C2=A0=C2=A0 pixmp_op->height =3D pixmp_op->pixelformat =3D=3D=
+ V4L2_PIX_FMT_QC10C ?
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ALIGN(height, 16) : ALIGN=
+(height, 32);
+> > > +=C2=A0=C2=A0=C2=A0 switch (pixmp_op->pixelformat) {
+> > > +=C2=A0=C2=A0=C2=A0 case V4L2_PIX_FMT_P010:
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pixmp_op->plane_fmt[0].by=
+tesperline =3D ALIGN(width * 2, 256);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+> > > +=C2=A0=C2=A0=C2=A0 case V4L2_PIX_FMT_QC10C:
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pixmp_op->plane_fmt[0].by=
+tesperline =3D ALIGN(ALIGN(width, 192) * 4
+> > > / 3, 256);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+> > > +=C2=A0=C2=A0=C2=A0 case V4L2_PIX_FMT_NV12:
+> > > +=C2=A0=C2=A0=C2=A0 case V4L2_PIX_FMT_QC08C:
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pixmp_op->plane_fmt[0].by=
+tesperline =3D ALIGN(width, 128);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+> > > +=C2=A0=C2=A0=C2=A0 }
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pixmp_op->plane_fmt[0].sizeimage =3D i=
+ris_get_buffer_size(inst,
+> > > BUF_OUTPUT);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 matrix_coeff =3D subsc_params.color_in=
+fo & 0xFF;
+> > > diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c
+> > > b/drivers/media/platform/qcom/iris/iris_vdec.c
+> > > index 719217399a30..ca0518c27834 100644
+> > > --- a/drivers/media/platform/qcom/iris/iris_vdec.c
+> > > +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+> > > @@ -272,10 +272,25 @@ int iris_vdec_s_fmt(struct iris_inst *inst, str=
+uct
+> > > v4l2_format *f)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt =3D inst->=
+fmt_dst;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->type =3D =
+V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->fmt.pix_m=
+p.pixelformat =3D f->fmt.pix_mp.pixelformat;
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->fmt.pix_mp.width =3D=
+ ALIGN(f->fmt.pix_mp.width, 128);
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->fmt.pix_mp.height =
+=3D ALIGN(f->fmt.pix_mp.height, 32);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 codec_align =3D f->fmt.pi=
+x_mp.pixelformat =3D=3D V4L2_PIX_FMT_QC10C ?
+> > > 192 : 128;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->fmt.pix_mp.width =3D=
+ ALIGN(f->fmt.pix_mp.width, codec_align);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 codec_align =3D f->fmt.pi=
+x_mp.pixelformat =3D=3D V4L2_PIX_FMT_QC10C ?
+> > > 16 : 32;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->fmt.pix_mp.height =
+=3D ALIGN(f->fmt.pix_mp.height,
+> > > codec_align);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->fmt.pix_m=
+p.num_planes =3D 1;
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->fmt.pix_mp.plane_fmt=
+[0].bytesperline =3D ALIGN(f-
+> > > >fmt.pix_mp.width, 128);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (f->fmt.pix_mp.pix=
+elformat) {
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case V4L2_PIX_FMT_P010:
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 f=
+mt->fmt.pix_mp.plane_fmt[0].bytesperline =3D
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 ALIGN(f->fmt.pix_mp.width * 2, 256);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 b=
+reak;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case V4L2_PIX_FMT_QC10C:
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 f=
+mt->fmt.pix_mp.plane_fmt[0].bytesperline =3D
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 ALIGN(f->fmt.pix_mp.width * 4 / 3, 256);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 b=
+reak;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case V4L2_PIX_FMT_NV12:
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case V4L2_PIX_FMT_QC08C:
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 f=
+mt->fmt.pix_mp.plane_fmt[0].bytesperline =3D f-
+> > > >fmt.pix_mp.width;
+> > In the removed code, bytesperline for NV12 and QC08C was aligned to 128
+> > bytes.
+> > In the new code, Is that alignment missed or not required?
+>=20
+> The alignment is done right before:
+> 	codec_align =3D f->fmt.pix_mp.pixelformat =3D=3D V4L2_PIX_FMT_QC10C ? 19=
+2 :
+> 128;
+> 	fmt->fmt.pix_mp.width =3D ALIGN(f->fmt.pix_mp.width, codec_align);
+>=20
+> calling ALIGN(f->fmt.pix_mp.width, 128) again is a no-op.
 
+What typically other drivers do is implement a static table that associate =
+a
+v4l2_frmsize_stepwise to each format, and possibly per HW generation. And t=
+hen
+uses v4l2_apply_frmsize_constraints() to apply them generically in their
+try/s_fmt functions. This make lot cleaner and clearer code then the sate o=
+f
+this driver.
 
+Nicolas
 
->
-> Changes in V5:
-> - Rebase/Move from en_vc to en_port
-> - Use common __csid_configure_stream for RDI and PIX
-> - Use bitwise | for packing vfe width and height config
-> - Simplify vfe_packer_format, no error expected
->
-> Changes in V4:
-> - Remove unnecessary boundary check for wm-to-client
-> - Remove stray \n and fix commit subject for 2/5
-> - Add proper define for PIX pad index in csid-340
->
-> Changes in V3:
-> - Introduce what PIX is/means in 2/5 as discussed with Dmitry.
-> - Fix patches format/encoding (proper ASCII)
->
-> Changes in V2:
-> - Fix various typos, extra spaces, and reword commit messages.
-> - Split the CSID-340 patch into three independent changes.
-> - Make VC/DT-ID configuration explicit in the CSID/PIX setup.
-> - Add the csid_vc_iface_map helper to retrieve the interface offset
->   from a Virtual Channel (VC).
-> - Add cropping configuration in the VFE/PIX path so that it
->   respects the crop parameters defined in camss-vfe.
->
-> Loic Poulain (5):
->   media: qcom: camss: csid-340: Switch to generic CSID_CFG/CTRL
->     registers
->   media: qcom: camss: csid-340: Add port-to-interface mapping
->   media: qcom: camss: csid-340: Enable PIX interface routing
->   media: qcom: camss: vfe-340: Proper client handling
->   media: qcom: camss: vfe-340: Support for PIX client
->
->  .../platform/qcom/camss/camss-csid-340.c      |  83 ++++++----
->  .../media/platform/qcom/camss/camss-vfe-340.c | 152 +++++++++++++-----
->  2 files changed, 156 insertions(+), 79 deletions(-)
->
-> --
-> 2.34.1
->
+>=20
+> Thanks,
+> Neil
+>=20
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 b=
+reak;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->fmt.pix_m=
+p.plane_fmt[0].sizeimage =3D
+> > > iris_get_buffer_size(inst, BUF_OUTPUT);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inst->buffers[=
+BUF_OUTPUT].min_count =3D iris_vpu_buf_count(inst,
+> > > BUF_OUTPUT);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inst->buffers[=
+BUF_OUTPUT].size =3D fmt-
+> > > >fmt.pix_mp.plane_fmt[0].sizeimage;
+> > >=20
+>=20
+
+--=-CdX+pDs4e4UxKbXGxFhm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCad7QGgAKCRDZQZRRKWBy
+9OTVAQDjDrJmAqZEOXX8SZYq68g2MLgk/zHNCSipt8K3Kenp/wEAh/Y/BbqAEvAn
+GwHnpqw/pVb+Q+MkJnLervpmdFlT6AY=
+=itdH
+-----END PGP SIGNATURE-----
+
+--=-CdX+pDs4e4UxKbXGxFhm--
 
