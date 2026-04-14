@@ -1,147 +1,141 @@
-Return-Path: <linux-media+bounces-58751-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58752-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AGr4Lndi3mldDgAAu9opvQ
-	(envelope-from <linux-media+bounces-58751-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 17:51:19 +0200
+	id oA5JIaxi3mldDgAAu9opvQ
+	(envelope-from <linux-media+bounces-58752-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 17:52:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288973FC247
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 17:51:18 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EE93FC281
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 17:52:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3568C30911F2
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 15:46:59 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AD28A308DFA4
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 15:49:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 370EC3EC2FB;
-	Tue, 14 Apr 2026 15:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC293EBF33;
+	Tue, 14 Apr 2026 15:49:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MAbti3BW"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="QG1W//EF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1D03EC2FD
-	for <linux-media@vger.kernel.org>; Tue, 14 Apr 2026 15:46:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681377081E
+	for <linux-media@vger.kernel.org>; Tue, 14 Apr 2026 15:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776181617; cv=none; b=A8Gdm8h8VMF+H97ZRvHv2YT0Y4f5UHX44OGpLP3vwXT1Mf7UfResbsXA2ehBLxe5sSMbbgcHYZjEZbcUXx4wdKT63lg+hnTIA1g79ThSNCeOca3IjHcH6Nc1TbgGlLh+9Lkn72fwyHsKCsKfMKqO08iN/bqpt6yS09B3HRZib8o=
+	t=1776181787; cv=none; b=pd7Dl6oW38sKbDIL/ZlZhptGz+gsgWcEpIfV1XtGGaMCumG2EVLccPh3Y+U0V49zkxMiXbsMrHtZLx1wL0FPDvL3FcDlIk6ScgQ82h+IRFMG3TLTdr2a7x30LomlW9N6DFArPJZFGMRNyi8gisN8xW4Lsx2Yb9N8Ne/shzx1L8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776181617; c=relaxed/simple;
-	bh=5HmdW4NBI8fhvU6C1IU3YacEUUAomllmtzA6ArkCMJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FYY7QUoJAQqbqpj/BqaXXBaOcTZuI9bSbvthaT75sD2o8Hcfdi4BLMiaITCp8OKyi1ZZC2cXddKSQFGalB62tocevqZ1HZd1Cm/inUx4YS3gkI6wYpt4Y0vGrPs7SY30H/5XGso3pEohdRYxzEp5kUYSPWfYtKJRhUa1R1Wg8Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MAbti3BW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F96963D;
-	Tue, 14 Apr 2026 17:45:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1776181522;
-	bh=5HmdW4NBI8fhvU6C1IU3YacEUUAomllmtzA6ArkCMJ4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MAbti3BWhVrXXX4Fuxupi1PKogfDZxLBuQfS1ZFI66ykvhIVeseR5568UVrYmpN9D
-	 4ahVU6fIpUtXBZYdzInt1gdkhvfJy/0C6w9gmBI1ospMIfTcJquKlJgmACHjdP7dwZ
-	 wCf6ub0LfeSULVVDHeWlNHWCLFtZeRbwNJru/Ujo=
-Date: Tue, 14 Apr 2026 17:46:51 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, jai.luthra@ideasonboard.com
-Subject: Re: [PATCH 1/1] media: Documentation: Improve PIXEL_RATE control
- documentation
-Message-ID: <ad5d_I4LGrLLEVK2@zed>
-References: <20260414103559.1021712-1-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1776181787; c=relaxed/simple;
+	bh=eoOmjhohqlc4bD9VkeDoWJkaId5oyMWFqJyMp8PKmmg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=foKvBRACEv3OFASq6ri43kFHaaOAs1kccxDD+i1wHe6xnLEew01wx0Blsy+qsManUCqe4Y0jWx24JT9nZyHRO3ftXXrnoQd5E69bd6Ni/AxFy0/WEvCywrDTktRnz3DqSgCU2JCWFJEo1RX5LAiRga4ZM6ao3kO+VtFBHxxWZvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=QG1W//EF; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=uCpVefvv5ROP1tgitV0gkmnvwqRDrAl+dZVonDpY3E4=; b=QG1W//EFKWTBHZKufrnx1780WU
+	vSHCCSlWfHKTYMu4GxbKaBSYtiG1wUGMEBqTugC/YdBSqnfXshcvbcBWdpFlqV6eLjGlo24Py0j3w
+	77duXuQVHC0x9MkvZqNo+lxy8VaV2NN55q+15zQ0jYknMl2/p9GLrsOv1IE22p/qiGM96tPp6Y5OL
+	iR/csl0bzTJRC79vbqrgYCU3b0V4JZGesarX+TtvB1Kxl+0a1s9NEp/RLWy6n/2mcQph1pSv0UzTJ
+	IptPQnpWCOMR50HqI3SdBnulxG4LjYv/Z6pC7LUr7mmW3ZCc3PQTKJO0R0NcYRlUiYhPtWvVlPYNg
+	FqTV8hJA==;
+Received: from [90.240.106.137] (helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wCg14-00FxmF-K3; Tue, 14 Apr 2026 17:49:30 +0200
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com,
+	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 1/2] dma-fence: Silence sparse warning in dma_fence_describe
+Date: Tue, 14 Apr 2026 16:49:27 +0100
+Message-ID: <20260414154928.32934-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260414103559.1021712-1-sakari.ailus@linux.intel.com>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.64 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-58752-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58751-lists,linux-media=lfdr.de];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	NEURAL_HAM(-0.00)[-0.889];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 288973FC247
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,igalia.com:email,amd.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:email]
+X-Rspamd-Queue-Id: F2EE93FC281
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Sakari
+Sparse complains about assigning a string to a __rcu annotated local
+variable:
 
-On Tue, Apr 14, 2026 at 01:35:59PM +0300, Sakari Ailus wrote:
-> Document explicitly that the PIXEL_RATE control reflects the actual
-> frequency at which the pixels are read in the pixel array. It is thus
-> orthogonal to analogue binning.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  .../userspace-api/media/v4l/ext-ctrls-image-process.rst      | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> index 6d516f041ca2..8616bcd67270 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> @@ -41,6 +41,11 @@ Image Process Control IDs
->      The configuration of the frame rate is performed by selecting the desired
->      horizontal and vertical blanking. The unit of this control is Hz.
->
-> +    Note that this control isn't affected by analogue binning as the pixels are
-> +    still being read at the same frequency as without analogue binning, only
-> +    what is being read is different (a single pixel value vs. a binned pixel
-> +    value based on the values of two or more pixels).
-> +
+drivers/dma-buf/dma-fence.c:1040:38: warning: incorrect type in initializer (different address spaces)
+drivers/dma-buf/dma-fence.c:1040:38:    expected char const [noderef] __rcu *timeline
+drivers/dma-buf/dma-fence.c:1040:38:    got char *
+drivers/dma-buf/dma-fence.c:1041:36: warning: incorrect type in initializer (different address spaces)
+drivers/dma-buf/dma-fence.c:1041:36:    expected char const [noderef] __rcu *driver
+drivers/dma-buf/dma-fence.c:1041:36:    got char *
 
-This breaks the model implemented to support "special" (aka analogue
-?) binning mode on imx219 where we double the pixel rate to express an
-higher frame rate and halve the blanking values before writing them to
-registers
+It is harmless but lets silence it.
 
-I guess we have to keep this mode working not to break existing
-userspace, also because it's the only way we can have it working
-without the introduction of the FLL and LLP controls.
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Fixes: ac364014fd81 ("dma-buf: cleanup dma_fence_describe v3")
+Cc: Christian König <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+---
+ drivers/dma-buf/dma-fence.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-With the new model and FLL and LLP controls, I presume analog binning
-would require userspace to program halved FLL and LLP values ?
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 1826ba73094c..a2aa82f4eedd 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -1037,8 +1037,8 @@ EXPORT_SYMBOL(dma_fence_set_deadline);
+  */
+ void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
+ {
+-	const char __rcu *timeline = "";
+-	const char __rcu *driver = "";
++	const char __rcu *timeline = (const char __rcu *)"";
++	const char __rcu *driver = (const char __rcu *)"";
+ 	const char *signaled = "";
+ 
+ 	rcu_read_lock();
+-- 
+2.52.0
 
-Currently in your proposal of V4L2_CID_BINNING_FACTORS it doesn't seem
-there is a way to distinguish between  a digital and an analogue
-binning mode, they're both 2x2 so I guess it's the driver that has to
-realize that if FLL and LLP are smaller the [output width + blank] it
-has to activate the analogue binning mode ?
-
-
->  ``V4L2_CID_TEST_PATTERN (menu)``
->      Some capture/display/sensor devices have the capability to generate
->      test pattern images. These hardware specific test patterns can be
-> --
-> 2.47.3
->
 
