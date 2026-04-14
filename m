@@ -1,440 +1,302 @@
-Return-Path: <linux-media+bounces-58718-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58719-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CEPDFCf+3WkRmAkAu9opvQ
-	(envelope-from <linux-media+bounces-58718-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 10:43:19 +0200
+	id OG69HikA3mkRmAkAu9opvQ
+	(envelope-from <linux-media+bounces-58719-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 10:51:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D443F77B4
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 10:43:18 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AA83F787A
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 10:51:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D57103019816
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 08:43:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9293A301DB8C
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2026 08:50:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A1D7394498;
-	Tue, 14 Apr 2026 08:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 325D43B6C03;
+	Tue, 14 Apr 2026 08:50:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hXi5ztgz"
+	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="G3RYz/qZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11021096.outbound.protection.outlook.com [40.107.51.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8047D318B9D
-	for <linux-media@vger.kernel.org>; Tue, 14 Apr 2026 08:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776156192; cv=none; b=QMLpecu4jJM59TnHgEJk46SPfDXBdO/FT3qwDds1fzbyTcKG8cK7kwdXPWLtg6vTfr0Gpodgo9yET64335ce8rzhwfUjRCuTLttKREjCbsgFaL4fha6W1t2bMQFMhV3T7CdddWV87SIsCWLKPO/7YLJ4KsJUsHUYVFV833pYTM8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776156192; c=relaxed/simple;
-	bh=qofM838wn8pkidmS9aOPhfQvkYaLeh35EzOaX3UqKSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J5saa9vew8wxXe/vyFMhJAEqAg9idBc/KUP33QJGjPriiJrCV27nD2EuVT8LkablFbhgvJPDdJayFRdPLvSXf4st4OMbbOE8bV0GMYeyL1yOsICduoaPLuQfsFLq78ybrTVhQeqGEPm4Kd6bJrBiDPfnjAQSOoOONWuAh0UtoEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hXi5ztgz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 0B4D563D;
-	Tue, 14 Apr 2026 10:41:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1776156088;
-	bh=qofM838wn8pkidmS9aOPhfQvkYaLeh35EzOaX3UqKSA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hXi5ztgzR7abjDaotnJS1c8oOGcYbcZg/aqDdHJr3eXDrSA7WyYcPnDSJJNHF5aCO
-	 wo4oxZEvCd9wRW/nEoA/FFizuJyuU1YSfxvdeFyuSUbJkteO/+PwC3gpViKkqZxrid
-	 FGzrouvu8CFgybgNgVS6oJx3/vV2Q3OK6aW3I7tY=
-Date: Tue, 14 Apr 2026 11:42:59 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: Michael Riesch <michael.riesch@collabora.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93C6296BDC;
+	Tue, 14 Apr 2026 08:50:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.51.96
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776156648; cv=fail; b=kmaLh9jHjyKI8TloA77vsLB70soTPJtVpRhQN1USCpuG5HdEyrPbDAcZww264Lm5tW/Y4PzcA7wJ2n7jr5lAy2hsf59p5ttQziV7da+lWK947+vqj5FAW1+vZjAn+mHt7X8Tt83xxTtIRmZwsSaTvqsMkJ898fvhGDeq/FgBvwA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776156648; c=relaxed/simple;
+	bh=hKPIR5l/bg7EKzPkUMf9KQn+KBDLqki6ByigRx+tmJw=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=XTFvbNwXg3ZWf7GCdA5340VI9AfqdVXJpfcPow4eaNODFiVUFewXsSy8B4pKWCeRrCZjCZX5/RdBA9u8QXQW2YBWicEJWrcTsQ5dCkcbOyQDGH1QyqB9CFzR1Wcz/08VS7OhHHdWTyFP0vSwzrrDMsIe9SvXKiUCMS681AOObh4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=G3RYz/qZ; arc=fail smtp.client-ip=40.107.51.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vh8JV8A901qiQHjCsgl8JyZbFmAcx3uiP48NerIZsRP8b/nQzzBenhmmc8Jj+tvWNFnTpvYB/Skgv1cbzuYaSQKiH16rZtU1XAEhzua+FTpATrc0lNmpyL5xfXewtx+IwwpIVrIFQRVTHVlVwLzXN6smFY9BZ12zZ9MV88dKPhGF+qhUF1K5bi16ldUt5GQMIdhKN+sncNTycgBNnrIc2WpanL8g+C6QgUOC9eHja5TqEeUWERA0IEXHLv6ysHTYK41sLfL6a1LhNabPavQK9Sf3spxCGl6zeKJgyh+xXlDlrSW1izNvibBELzgVPpPWZu1+WrL5sEJtA/khFIkQnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pIrq1rqAvgC6u1CgaCcpimRTwydXfBAJ/JVFxErYOPY=;
+ b=lx5Y/w1poivlBLSRU3LUasAJ4tTCh8w+G/Ybj7AdZGeIKCJf1A3BSQH2nt/Ug4MGbviLUKaBwAqeiXyUwYkgBf/cLuxegTuCmcLpaeT7/IgYw5ayNSWq7vdBLS0/lhXatEErnJPi2gICKt1hZYTUe2cmpYYVtjdAt0OS+7vSc0T7EYKd/MRoKjG1s6acNw1RorZgGB176zc8V4Wr0daDlIQ5GlC9kJBiONmv6ePynE8weYTWT9kVZfPlEAiFdL6Qtii20ZsnS/G9A6AbLNIJjTC8crxfKRBtZCoSw6GVZcW9lKGqoZfvp13Sf4WIYt06EF2CW79mr9P9VxX1rf/IcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pIrq1rqAvgC6u1CgaCcpimRTwydXfBAJ/JVFxErYOPY=;
+ b=G3RYz/qZ9DZKYDjgkc3hOs0WRFxU6pXdHSdmIV7EdPeRtZP2PR1Gwgdz5RhkRH5xUt4incLjw6JT8ZY/TZZLpAPGvcdGyfSqxmz3MkQqFjA1THok6DxXv2zEKRFcEjdLmUkHtHqzmgNn3cfJU/bLrVnP7FF23eDFUwrxOizqGCjq9h8nO0WjQpDQIV9PTZphaLmi0Q0R+DPKSlqkkE35C3iznYtUyw6Aipw8+RVA1WvIBmiyBTYrPgL5QmL5bebwtKgp4F7LuexVCJXt0zcjvegGM94gB5Co6GhVRL1cz5+G5XOqqzTi3ZVismAeBblVbrMcQ6vG5vjGsjcZ2bL/BA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+Received: from MA0P287MB2178.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:11e::14)
+ by MAUP287MB5036.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:1c4::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Tue, 14 Apr
+ 2026 08:50:43 +0000
+Received: from MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
+ ([fe80::f8da:c075:cde1:e167]) by MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
+ ([fe80::f8da:c075:cde1:e167%3]) with mapi id 15.20.9769.046; Tue, 14 Apr 2026
+ 08:50:42 +0000
+From: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
+To: sakari.ailus@linux.intel.com,
+	tarang.raval@siliconsignals.io
+Cc: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sean Young <sean@mess.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Tomasz Figa <tfiga@chromium.org>, Steve Cho <stevecho@chromium.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Brandon Brnich <b-brnich@ti.com>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>,
-	Devarsh Thakkar <devarsht@ti.com>,
-	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	"Padhi, Beleswar" <b-padhi@ti.com>,
-	"Donadkar, Rishikesh" <r-donadkar@ti.com>,
-	Rouven Czerwinski <rouven.czerwinski@linaro.org>
-Subject: Re: [ANNv4] Media Summit on May 26th in Nice, France
-Message-ID: <20260414084259.GC4061@killaraus.ideasonboard.com>
-References: <0f95419b-93c1-4c4f-873b-43bd2a9853f7@kernel.org>
- <CAFEp6-0_BdVDqB-re4AghOrRpwZ6H0ZQ9Vw9hv-hgZ+4Dz9HkQ@mail.gmail.com>
- <20260413201907.GD4034@killaraus.ideasonboard.com>
- <becd4dc0fe49c9d63fa6b49aab5afb3c4cffa8af.camel@collabora.com>
- <20260413211602.GE4034@killaraus.ideasonboard.com>
- <b427dccb-d512-470f-9a42-0f9d153dd1b5@kernel.org>
- <CANiDSCtHpzVf7KEYoH+tA3RwN5kqQ=5CVp3WR-xPdCMpQ=2x6w@mail.gmail.com>
- <420e20b3-4264-4ab0-bb50-1ae60f6c837a@collabora.com>
- <20260414074230.GB4061@killaraus.ideasonboard.com>
- <CAFEp6-3yQGp5R-B5VajUsmszFOTCFggCXuUa_dyXXULp0bk7Dw@mail.gmail.com>
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] media: i2c: Add os02g10 camera sensor driver
+Date: Tue, 14 Apr 2026 14:19:43 +0530
+Message-Id: <20260414084952.217215-1-elgin.perumbilly@siliconsignals.io>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PN2PR01CA0231.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:eb::7) To MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:11e::14)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEp6-3yQGp5R-B5VajUsmszFOTCFggCXuUa_dyXXULp0bk7Dw@mail.gmail.com>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MA0P287MB2178:EE_|MAUP287MB5036:EE_
+X-MS-Office365-Filtering-Correlation-Id: 87597d41-0608-40f9-8046-08de9a02e8f8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|1800799024|7416014|376014|366016|38350700014|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	Ec2tWsyH8LWKZwYWuA+jS99JCQpntcZBjAaT/CSaOyVIyHYjkLY5YTyOKIcGx4sTUl6tZz0QR3euR9EMOrG5gLmcwv0NQIoKaq5wGIdqdH8MR7YOM5zJiF/HVDgFw90JxDJKOVfYMuAOYiyvCu3WxUlY4p1Ul37LTchiMp1Mq1CqzvHtmnZZ6PmUbk9sxVLqATdGDOOeKG5EmizpfPVEDREAAtJ2ymLJk3TrLrN+ZhZ2x4Ym9GinD9ie3sloi2HWVCOyAgGFmPSnjNFB1YpkR0suK98O4CCNdUcLMUdYNepiDEGSxrwFC/tZWvSjkSXhDjqVmQQr6+KOFv8er3coBFLWxCpExCGY9j09itdkXu3OteavAK6qhxZXM/GJ3xny6pEhG6HriSb8F1ja7F9FGHlUaKLzK+B4l/m4X0qtgQm8VtDJ7WF2C+/E50RHSkbYz7UJIwA0T2Vk3ydWvOIMbvnsMLYjVi993JmfZB7w9mJiWiFS0p1CwF4tK43e+mjlVVAtJyRz7C5I17PUt198Za0puaqtmBOMjulsaD+uykRtrsS3ddZvhsu0fTrI9ZVQbK0/GPTGS4n3MtSmQ6JTNayHq3W/SfcRnQykm8oGpgQ3rS3YMiY0wxlV21G4i2CgabJxRkO1OoKwyx+mmaQ8rJKZQp7/SwS6c073eYytQmSJUiNzY+VzoL+KwUjaYYz2M5flINDUVyJ+YYv4GmXH4UtERJtKEUBQAVzkgtIP3EaOWyaURm/JBLH8UO5GcOH65G0sTImuFuPOfbZSKN9+m9s4r/wYqhUOqpvK61ZxdhQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MA0P287MB2178.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(7416014)(376014)(366016)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?NQFhTyW00wLzfj/JBFizQEt/p8Y/L48SzZdB2XV5q/qUgRRaUb7+QbRvBd0C?=
+ =?us-ascii?Q?DK5oYEFC97MtaWSNZNfc7Q3dc/1LsucYOgeOxL2q2JHkM0Orc0pMzeVqaWc6?=
+ =?us-ascii?Q?Vw7s01kLAPoPj1GvStUoiGfW+q+o+dJJn8Kx/UzNCu4y7iwLlh22RrgUUtpW?=
+ =?us-ascii?Q?mNoZRsAoWz58hXOkPdr4g4z82VuztY4IAvY9mUs4gIlkKYKjYXSR31QgAPpy?=
+ =?us-ascii?Q?Y82HtwZOgHBhGrTy3cuiYB0QQo3RoBI7lKAXKYQ7Lm1xkviJZQV86j1agyjc?=
+ =?us-ascii?Q?EotL+SLKippP12AMZtnS87UPnykkP5ylyOBox47j3enc9ejVeSZI0RAU8oFK?=
+ =?us-ascii?Q?q5vtcf6SkQQjXtgbmWQPywNxH2sn49Sd3Y4bd9jdxpU+5f8u33PBzTMYyw4b?=
+ =?us-ascii?Q?MXRmVYWr0Rn1XK4v/Ru5ukkTmKcDn4gpkWNiIKjCoG5JUhojGJM4hdMBLW2k?=
+ =?us-ascii?Q?kAzOWiFZcaD1MKVHaBltinwN8Zvu5CDOS4xJ+/xVAPb/UQIxHCvw8emoT1Kz?=
+ =?us-ascii?Q?2cV6C8jj0VBLJfkZH+JcDydVledfjyBt2xGuGmASxa9UtjT3nTvhVUCcsMuR?=
+ =?us-ascii?Q?o0eqFjawGc/1gV2EX6YAzJLqppXXQmxasdA+ghEpy8D0zb3oAfvQCsTr5AyQ?=
+ =?us-ascii?Q?kDg2UGgem0ZXLdPM9eFvJ62F/bg6JRVR8RRW7+RlT6kuU01hCr9fLI4b3YHX?=
+ =?us-ascii?Q?K/fiECNKrCWwjSl8Wne4w7Jt5bJbuHHsFEA04+Fqw/WpS+2EVcRzELwTqoP+?=
+ =?us-ascii?Q?UV61pdfsBldHGvCb0ZbwzsKhtsIzo2i+VdFOFbFs7IT00TWFU8erNRkr7PRZ?=
+ =?us-ascii?Q?pFjvvWZsFZ1VnYVTKV/UocUSTBac6yKlMXwjg2WzQOvVDPb2l07w1GgfI6mm?=
+ =?us-ascii?Q?PazAafzYUftRtFCnBdrGRhOigu6uoY9fdkNABHmzUAqVhHSFsVM3TIOZEEGQ?=
+ =?us-ascii?Q?mWoJ86X4oYS4aIKsO1v0I9JTDAr8VhruYZwRKhODQ034ukY+PhjSUyPNJQ6l?=
+ =?us-ascii?Q?YWvuhRWdnN99BYsWp/LuO73cEhAGeaqgzbdEVKMo3NtDjVEjC1G0XtM7s4Pq?=
+ =?us-ascii?Q?3saSoBtMo4IpBNZZ8uBlmHnTJSsz0JsL/fzlSA4eC4l6LGr+oetV710QHWN5?=
+ =?us-ascii?Q?lSTDwujVts47iLk0SH9jcnQTtLiOA7o1pB5Cw+B5e82cFucGFzCMat9SmS+6?=
+ =?us-ascii?Q?6+RunHRUBRnNsw4VVcQk5emqy03sPPhRlvEYQu9CdxKTpRexdz8EZdCed4lI?=
+ =?us-ascii?Q?o5V40JVhw5BvVuSak9brgzB9Jj7CokcYg/wFCMuWc9rDr5CzXxG6Z2Spx8p+?=
+ =?us-ascii?Q?DksQ3e1Awhg/GTlHuGj/adlyZ5RouGS8muD7WWeD7VrgXGJKyhgGHbAvamQU?=
+ =?us-ascii?Q?SZc5Fyn1BVHoiZ23gzEgNS9xL+xZmmfoQrV6uo/mYQjL5PeOMA+o4+jry1QY?=
+ =?us-ascii?Q?W73ntIlA+KsqLMQkZYwCbbTymyKhvJ5ysmKi+AQLbeGw40TEnBwBQzJcsWw/?=
+ =?us-ascii?Q?g3xZpHOo1SL/ULTrUND5mL74uIk3NvzRABH72dKmQr14pb9nXObOXH/rJ/aN?=
+ =?us-ascii?Q?FozcKwRNLx18DdroUYVa4tN/hDSQo/1oW5Yy/kT1eodMD23DSycx/mUSpUvY?=
+ =?us-ascii?Q?dWQoYvHKHDOOUM6tdGSHAJo7BEJVzv1Uo95n5yOjshwGlLRnDwdHbNO9tCmc?=
+ =?us-ascii?Q?Yuf/G4EGcOAkTYIXiZwW0eHZZDPYDoM9YPUdQOmAxrVK0zrxVhI0pKBn3V/6?=
+ =?us-ascii?Q?MwWIqPzGSg9BwXWYTsZqWVDxBpAlRa1Pc0w64G4o1KkHwKIl7Gif?=
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87597d41-0608-40f9-8046-08de9a02e8f8
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2026 08:50:42.3763
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dteHKlZ9vBFNZ1xU3Ecuhy05krAm7yDLMEc3I8cKSeRFWMeU2jafCZKCEzQcYgZPmdgvdNR+vgGcvDiZkIi5W1TPpsOpIevcOjktninB8av9uJPfkYRsLR2WvA6s0+A+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAUP287MB5036
+X-Spamd-Result: default: False [2.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[siliconsignals.io,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[siliconsignals.io:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58718-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,linux.intel.com,ideasonboard.com,foss.st.com,intel.com,gmail.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-58719-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[siliconsignals.io:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_TWELVE(0.00)[36];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B7D443F77B4
+	FROM_NEQ_ENVFROM(0.00)[elgin.perumbilly@siliconsignals.io,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	NEURAL_HAM(-0.00)[-0.991];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imx8mp-debix:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,siliconsignals.io:dkim,siliconsignals.io:mid]
+X-Rspamd-Queue-Id: C3AA83F787A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Apr 14, 2026 at 10:34:13AM +0200, Loic Poulain wrote:
-> On Tue, Apr 14, 2026 at 9:42 AM Laurent Pinchart wrote:
-> > On Tue, Apr 14, 2026 at 09:20:56AM +0200, Michael Riesch wrote:
-> > > On 4/14/26 08:55, Ricardo Ribalda wrote:
-> > > > On Tue, 14 Apr 2026 at 08:47, Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
-> > > >> On 13/04/2026 23:16, Laurent Pinchart wrote:
-> > > >>> On Mon, Apr 13, 2026 at 04:25:54PM -0400, Nicolas Dufresne wrote:
-> > > >>>> Le lundi 13 avril 2026 à 23:19 +0300, Laurent Pinchart a écrit :
-> > > >>>>> On Mon, Apr 13, 2026 at 10:03:52PM +0200, Loic Poulain wrote:
-> > > >>>>>> Hi Hans,
-> > > >>>>>>
-> > > >>>>>> I would be happy to discuss this if a slot is available:
-> > > >>>>>>
-> > > >>>>>> Title: Generic V4L2 ISP M2M framework
-> > > >>>>>> Presenter: Loic Poulain
-> > > >>>>>> Time estimate: ~20min
-> > > >>>>>> Description: During early development of a Qualcomm Offline Image
-> > > >>>>>> Processing Engine (OPE), we relied on the V4L2 memory‑to‑memory
-> > > >>>>>> (v4l2‑m2m) framework, which is widely used and provides solid support
-> > > >>>>>> for buffer management and scheduling. However, applying it to an ISP
-> > > >>>>>> use case exposes limitations: ISP engines often require a richer media
-> > > >>>>>> graph, with multiple pads and metadata flows, similar to inline ISP
-> > > >>>>>> pipelines (params, stats, outputs). This talk proposes discussing the
-> > > >>>>>> need for and design of a common V4L2 ISP M2M framework to factor out
-> > > >>>>>> shared functionality across drivers, particularly around buffer/queue
-> > > >>>>>> management and job scheduling.
-> > >
-> > > It seems that we share some pain points.. :-) :-/
-> > >
-> > > Over the last year, some ideas have been brewing in my mind. Not
-> > > necessarily *my* ideas, mind you, rather ideas that have been around in
-> > > linux-media for quite a while, actually. What I would like to prepare
-> > > for the Media Summit goes along the same lines.
-> > >
-> > > >>>>> That's well aligned with the v4l2-isp framework that Jacopo started, and
-> > > >>>>> to the multi-context and media-jobs APIs that we have proposed. I
-> > > >>>>> wonder, however, if a short session at the media summit will be enough,
-> > > >>>>> or if we should try to organize a half day brainstorming workshop at
-> > > >>>>> some point. Depending on when the people interested in this topic plan
-> > > >>>>> to arrive, Monday could be an option.
-> > > >>>>
-> > > >>>> I'm also/still interested in the multi-context for m2m decoders that have inline
-> > > >>>> post-processing capabilities (current model forces us to waste a lot of RAM). We
-> > > >>>> just restarted some design discussion with the team, with an increased
-> > > >>>> confidence that multi-context is the way. The scheduler could come handy in the
-> > > >>>> future if we get to deal with more multi-stage codecs in the future. I'll be in
-> > > >>>> Nice all day Monday.
-> > > >>>
-> > > >>> I will unfortunately be available only until 15:00 on Monday, but Jacopo
-> > > >>> should be available through the day. Let's see who would be interested
-> > > >>> and available, and try to organize something.
-> > > >>
-> > > >> I'm available on Monday as well. I think this is a topic that is well suited
-> > > >> to a brainstorm session.
-> > > >
-> > > > I am also available on Monday and would like to attend the session.
-> > >
-> > > I'd be interested too. Right now the plan is to arrive on Monday
-> > > afternoon. Depending on what time you agree on it may work out anyway.
-> > > It would be great to know the exact time this session will start (as I
-> > > might need to adjust my travel arrangements).
-> 
-> I can arrive on Monday, with a preference for the afternoon.
-> 
-> > We need a volunteer to organize this, as in finding and booking a
-> > meeting space. Note that Monday is a public holiday in France (Monday
-> > the 25th of May in particular, not all Mondays).
-> >
-> > If the number of attendees was small I was thinking of hosting the event
-> > in the place where the Ideas on Board team will be staying, but it looks
-> > like we're already reaching a fair number of people.
-> >
-> > > > Regards!
-> > > >
-> > > >> The agenda for the media summit is getting quite full, and I agree with Laurent
-> > > >> that 20 minutes is likely not enough. If we can so a session on Monday instead,
-> > > >> then that would be a good solution.
-> > >
-> > > Apart from the time and date the scope of this session would be interesting.
-> > >
-> > > Will this be a birds of a feather session in which the next generation
-> > > kernel ISP framework will be discussed? Or even the next generation
-> > > kernel video processing framework, where video processing is image
-> > > signal processing, encoding/decoding, 2D graphics processing (fisheye
-> > > correction units, 2D GPU such as the Rockchip RGA3, ...)?
-> >
-> > I would focus on Loic's original scope. If the solution can be used for
-> > other devices that's great too. I believe that the current multi-context
-> > patch series is a good fit for codecs. If we broaden the scope too much
-> > right away we'll achieve nothing.
-> >
-> > > >> I have never been very enthusiastic about the m2m framework: it's fine for e.g.
-> > > >> simple scalers, but it's awkward to use for codecs let alone ISPs.
-> > > >>
-> > > >> I always felt that we really need variants of the m2m framework that are customized
-> > > >> to specific use-cases: i.e. a codec m2m framework, and (perhaps) an ISP m2m framework.
-> > > >>
-> > > >> The big problem with that is of course who will do the work. Making new frameworks
-> > > >> is difficult and takes a long time.
-> 
-> A couple of weeks ago, I submitted an initial driver for a Qualcomm
-> Offline ISP based on the standard v4l2-m2m framework. Following
-> discussions around which parts could be generalized, I started
-> migrating this work to a new v4l2-isp-m2m framework:
-> (https://github.com/loicpoulain/linux/commit/5d575d7eff8f2371e91d8237148ffdb44b0af5b0).
+The following features are supported:
+- Manual exposure an gain control support.
+- vblank/hblank control support.
+- vflip/hflip control support
+- Test pattern control support.
+- Supported resolution: 1920 x 1080 @ 30fps (SBGGR10).
 
-I definitely want to discuss this, but I will be available on Monday
-until 15:00 only.
+The driver is tested on mainline branch v7.0-rc2 on IMX8MP Debix Model a.
 
-> The API and overall logic closely mirror v4l2-m2m.c, but are extended
-> to address ISP‑specific requirements such as multi‑device support and
-> multiple queue handling.
+debix@imx8mp-debix:~$ v4l2-compliance -d /dev/v4l-subdev3
+v4l2-compliance 1.31.0-5387, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 5508bc4301ac 2025-08-25 08:14:22
 
-That part I don't like. The V4L2 M2M framework is a big mid-layer that
-prevents drivers from having control of how operations are handled. It
-does too much, and doesn't give enough flexibility to drivers. It may
-have been fine when the framework was designed, for the devices we had
-back then, but today it's just painful. I want to turn this around and
-give control to the drivers, with helpers they can use to implement
-parts that are not driver-specific. This needs to be opt-in, not a layer
-that takes completely control between the uAPI and driver operations.
+Compliance test for device /dev/v4l-subdev3:
 
-Let's not reproduce the design mistakes made in the V4L2 M2M framework.
+Driver Info:
+        Driver version   : 7.0.0
+        Capabilities     : 0x00000000
+        Client Capabilities: 0x0000000000000002
+interval-uses-which
+Required ioctls:
+        test VIDIOC_SUDBEV_QUERYCAP: OK
+        test invalid ioctls: OK
 
-I also think you need to decouple the context handling and scheduling in
-two separate components. They need to work together, but shouldn't be
-bundled into a monolithic system. Very importantly, a driver should be
-able to implement contexts with the multi-context helpers, and implement
-custom scheduling itself.
+Allow for multiple opens:
+        test second /dev/v4l-subdev3 open: OK
+        test VIDIOC_SUBDEV_QUERYCAP: OK
+        test for unlimited opens: OK
 
-> I am planning to submit this work as an RFC
-> before the Media Summit. At this stage, the framework is still fairly
-> basic and primarily tailored to the Qualcomm use case. There is
-> definitely room for improvement, for example, integrating Jacopo’s
-> multi‑context support, since for now, the Qualcomm driver simply
-> instantiates a single ISP‑M2M context.
-> 
-> As I am still getting familiar with the media subsystem, this work may
-> overlap with or conflict with ongoing efforts. Synchronizing seems
-> indeed important. Based on my current understanding, there are several
-> related areas of work that appear either complementary or orthogonal:
-> - Multi‑context support, to instantiate multiple processing sessions
-> on shared hardware/driver.
-> - Media jobs, to synchronize work across multiple drivers within the
-> same media pipeline.
-> - ISP M2M, aiming to provide a v4l2-m2m‑like framework specifically
-> for memory‑to‑memory ISP devices.
-> 
-> > > This may be naive and overly optimistic, but I feel there is quite a
-> > > number of people sharing the same pain points (which are similar to
-> > > those Loic pointed out). Maybe (hopefully) this birds of a feather
-> > > session leads to the formation of some work group?
-> > >
-> > > >>>>>> On Sun, Apr 12, 2026 at 12:25 PM Hans Verkuil wrote:
-> > > >>>>>>>
-> > > >>>>>>> (Please pass this on to anyone you think might be interested in this!)
-> > > >>>>>>>
-> > > >>>>>>> Hi all,
-> > > >>>>>>>
-> > > >>>>>>> This is the fourth version of this announcement, updating the list of attendees
-> > > >>>>>>> and the tentative agenda at the end: please let me know if you see mistakes.
-> > > >>>>>>> Note that there is still time for one or two other topics. Also please check
-> > > >>>>>>> the agenda if you need more (or perhaps less) time for your topic.
-> > > >>>>>>>
-> > > >>>>>>> This year's Media Summit will be held on Tuesday May 26th the day before the
-> > > >>>>>>> Embedded Recipes Conference in Nice, France:
-> > > >>>>>>>
-> > > >>>>>>> https://embedded-recipes.org/2026/
-> > > >>>>>>>
-> > > >>>>>>> The Media Summit will be held at Hotel Campanile and in the same meeting room
-> > > >>>>>>> as last year (Nikaia):
-> > > >>>>>>>
-> > > >>>>>>> https://nice-aeroport.campanile.com/en-us/
-> > > >>>>>>>
-> > > >>>>>>> It is close to the Airport and to the Embedded Recipes venue.
-> > > >>>>>>>
-> > > >>>>>>> The meeting room can hold up to 30 people and I will provide video conferencing support,
-> > > >>>>>>> just like last year. The location and the meeting room was quite nice last year, so
-> > > >>>>>>> I saw no need to change it.
-> > > >>>>>>>
-> > > >>>>>>> That said, in-person participation is very much preferred. This yearly summit is meant
-> > > >>>>>>> for active media developers to meet face-to-face and to discuss media subsystem issues.
-> > > >>>>>>>
-> > > >>>>>>> And it is also a good opportunity to talk to each other during the Embedded Recipes
-> > > >>>>>>> conference to discuss topics in a smaller group. But if you are an active media developer
-> > > >>>>>>> and are really not able to attend in person, then remote participation is an option.
-> > > >>>>>>>
-> > > >>>>>>> If you want to attend the meeting (either in person or remote), then send an email to me
-> > > >>>>>>> directly. The deadline for in-person attendance is May 14 as the hotel needs to know the
-> > > >>>>>>> final number of attendees by then.
-> > > >>>>>>>
-> > > >>>>>>> There is no registration fee, the meeting room is sponsored by Cisco and Collabora, and
-> > > >>>>>>> the lunch is sponsored by Ideas on Board! Many thanks to our sponsors, it's very much
-> > > >>>>>>> appreciated.
-> > > >>>>>>>
-> > > >>>>>>> If you have a topic that you want to discuss, just 'Reply All' to this announcement
-> > > >>>>>>> and give the topic title, a short description and a guesstimate of the time you need
-> > > >>>>>>> for your topic.
-> > > >>>>>>>
-> > > >>>>>>> See last year's Media Summit Report as an example of what to expect:
-> > > >>>>>>>
-> > > >>>>>>> https://lore.kernel.org/linux-media/21769183-ca57-4f8f-818a-6a1ad089298d@jjverkuil.nl/
-> > > >>>>>>>
-> > > >>>>>>> Regards,
-> > > >>>>>>>
-> > > >>>>>>>         Hans
-> > > >>>>>>>
-> > > >>>>>>> PS: Be aware that May 24 and 25 are public holidays in France. So many
-> > > >>>>>>> shops may be
-> > > >>>>>>> closed those days.
-> > > >>>>>>>
-> > > >>>>>>> In-person attendees:
-> > > >>>>>>> Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > >>>>>>> Kieran Bingham <kieran.bingham@ideasonboard.com>
-> > > >>>>>>> Brandon Brnich <b-brnich@ti.com>
-> > > >>>>>>> Rouven Czerwinski <rouven.czerwinski@linaro.org>
-> > > >>>>>>> Mehdi Djait <mehdi.djait@linux.intel.com>
-> > > >>>>>>> Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> > > >>>>>>> Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > > >>>>>>> Marco Felsch <m.felsch@pengutronix.de>
-> > > >>>>>>> Paul Kocialkowski <paulk@sys-base.io>
-> > > >>>>>>> Jai Luthra <jai.luthra@ideasonboard.com>
-> > > >>>>>>> Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > >>>>>>> Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-> > > >>>>>>> Beleswar Padhi <b-padhi@ti.com>
-> > > >>>>>>> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > >>>>>>> Loic Poulain <loic.poulain@oss.qualcomm.com>
-> > > >>>>>>> Sven Püschel <s.pueschel@pengutronix.de>
-> > > >>>>>>> Ricardo Ribalda <ribalda@chromium.org>
-> > > >>>>>>> Michael Riesch <michael.riesch@collabora.com>
-> > > >>>>>>> Devarsh Thakkar <devarsht@ti.com>
-> > > >>>>>>> Michael Tretter <m.tretter@pengutronix.de>
-> > > >>>>>>> Hans Verkuil <hverkuil@kernel.org>
-> > > >>>>>>>
-> > > >>>>>>> Remote attendees:
-> > > >>>>>>> Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-> > > >>>>>>> Rishikesh Donadkar <r-donadkar@ti.com>
-> > > >>>>>>> Jackson Lee <jackson.lee@chipsnmedia.com>
-> > > >>>>>>> Dave Stevenson <dave.stevenson@raspberrypi.com> (tentative)
-> > > >>>>>>>
-> > > >>>>>>>
-> > > >>>>>>> Agenda (tentative):
-> > > >>>>>>>
-> > > >>>>>>> 8:45-9:20: Arrive, settle in
-> > > >>>>>>>
-> > > >>>>>>> 9:20-9:30: Short intro (Hans Verkuil)
-> > > >>>>>>>
-> > > >>>>>>> 9:30-9:45: Status of ISP support in V4L2
-> > > >>>>>>>         Presenter: Laurent Pinchart
-> > > >>>>>>>         Description: Summary of ISP-related development in V4L2 since the last
-> > > >>>>>>>         Linux Media Summit. This includes a brief overview of technical
-> > > >>>>>>>         developments, and a summary of the efforts to engage with vendors.
-> > > >>>>>>>
-> > > >>>>>>> 9:45-10:45: V4L2 Stateless Video Encoding uAPI Progress Update
-> > > >>>>>>>         Presenter: Paul Kocialkowski
-> > > >>>>>>>         Description: An update on the ongonig work to support stateless codecs in V4L2.
-> > > >>>>>>>         Some of the remaining open topics will be presented and discussed.
-> > > >>>>>>>
-> > > >>>>>>> 10:45-11:00: break
-> > > >>>>>>>
-> > > >>>>>>> 11:00-11:30: Vulkan Video Codecs
-> > > >>>>>>>         Presenter: Nicolas Dufresne
-> > > >>>>>>>         Description: Vulkan video codecs: what are the viable options for Linux Media
-> > > >>>>>>>         and what is in preparation outside of our subsystem. The second aspect is
-> > > >>>>>>>         informative as these discussions don't seem to lean toward our subsystem as the
-> > > >>>>>>>         foundation. But I think it's rather useful for everyone to understand why and
-> > > >>>>>>>         what is included.
-> > > >>>>>>>
-> > > >>>>>>> 11:30-12:00: Protected Video playback on i.MX8MQ
-> > > >>>>>>>         Presenter: Rouven Czerwinski
-> > > >>>>>>>         Description: Introduction to protected video playback
-> > > >>>>>>>         on i.MX8MQ and missing bits for linux-media & protected heap interoperability.
-> > > >>>>>>>
-> > > >>>>>>> 12:00-13:30: Lunch
-> > > >>>>>>>
-> > > >>>>>>> 13:30-14:00: HDCP support for HDMI receivers
-> > > >>>>>>>         Presenter: Hans Verkuil
-> > > >>>>>>>         Description: I have been working on adding HDCP support for HDMI receivers.
-> > > >>>>>>>         Specifically the HDCP negotiation between sources and sinks.
-> > > >>>>>>>
-> > > >>>>>>> 14:00-14:30: AI patches
-> > > >>>>>>>         Presenter: Sakari Ailus
-> > > >>>>>>>         Description: What is our policy w.r.t. AI generated patches?
-> > > >>>>>>>
-> > > >>>>>>> 14:30-15:00 Overview of Media CI: where do pipelines run?
-> > > >>>>>>>         Presenter: Ricardo Ribalda
-> > > >>>>>>>         Description: How are jobs in pipelines assigned? How does the infrastructure
-> > > >>>>>>>         for Media CI work? Are there things that can be tweaked to make it more
-> > > >>>>>>>         reliable?
-> > > >>>>>>>
-> > > >>>>>>> 15:00-15:15: Break
-> > > >>>>>>>
-> > > >>>>>>> 15:15-16:15: Discussion of the media subsystem development process
-> > > >>>>>>>         Presenter: Hans Verkuil
-> > > >>>>>>>         Description: Review of the multi-committer model: current status and next steps.
-> > > >>>>>>>         Are there any bottlenecks, any ideas for improvements, w.r.t. the development process?
-> > > >>>>>>>
-> > > >>>>>>> As you can see, there is still some available time for other topics.
+Debug ioctls:
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
 
--- 
-Regards,
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
 
-Laurent Pinchart
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 13 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK (Not Supported)
+        test VIDIOC_TRY_FMT: OK (Not Supported)
+        test VIDIOC_S_FMT: OK (Not Supported)
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK (Not Supported)
+        test Requests: OK (Not Supported)
+        test blocking wait: OK (Not Supported)
+
+Total for device /dev/v4l-subdev3: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+
+V1 -> V2
+- Mode-specific register writes handled dynamically.
+- Moved page 2 registers into a dedicated page 2 block.
+- Used pm_runtime_get_if_active() in set_ctrls.
+- Resolved negative hblank issue.
+- Improved error messages in disable_stream.
+- Updated V4L2_SEL_TGT_CROP and V4L2_SEL_TGT_CROP_BOUNDS.
+- Added my name to the author list.
+
+Elgin Perumbilly (2):
+  dt-bindings: media: i2c: Add os02g10 sensor
+  media: i2c: add os02g10 image sensor driver
+
+ .../bindings/media/i2c/ovti,os02g10.yaml      |   96 ++
+ MAINTAINERS                                   |    8 +
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/os02g10.c                   | 1039 +++++++++++++++++
+ 5 files changed, 1154 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,os02g10.yaml
+ create mode 100644 drivers/media/i2c/os02g10.c
+
+--
+2.34.1
+
 
