@@ -1,234 +1,320 @@
-Return-Path: <linux-media+bounces-58800-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58802-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sF2dBNdY32n1RwAAu9opvQ
-	(envelope-from <linux-media+bounces-58800-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 11:22:31 +0200
+	id GIdKFq1Z32n1RwAAu9opvQ
+	(envelope-from <linux-media+bounces-58802-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 11:26:05 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE11940283B
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 11:22:29 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09BB74028AA
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 11:26:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 778043042E0D
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 09:21:54 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 23D353030194
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 09:25:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BAE6335091;
-	Wed, 15 Apr 2026 09:21:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B518D33689D;
+	Wed, 15 Apr 2026 09:25:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="chGELXGG"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="W3C57tCX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011070.outbound.protection.outlook.com [40.107.130.70])
+Received: from SE2P216CU007.outbound.protection.outlook.com (mail-koreacentralazon11021105.outbound.protection.outlook.com [40.107.42.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704583264F6;
-	Wed, 15 Apr 2026 09:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC0D329C6B;
+	Wed, 15 Apr 2026 09:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.105
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776244911; cv=fail; b=uBGF1zsZ2x05wdKoMweaY7bD7Tz9/xGH0EdYoHd9nmrMO+tvV9QLjZqYpwVnUi1vaJGrHm2z38ZHYwMPxLwrI1Ezpy42/L20YVLI2Tovd07oyECbuANiPYdC4BQqrDE/DcKbswRJYQFdSCgaMZmr4fq3vBX+vCsSD3Xb7iCJcrk=
+	t=1776245151; cv=fail; b=QokYlzi5nRFxtoW/y6h9ZkSj7bMJCMHqMgBjvvQ4YDtFXfSgrVPd0O0FvEntzgtuiftMZDO45dbp0vhT/pTLQ6DKK5JEHWZ8g914dJp1XTbKgHOi+KNaxxhE3EYnCAsM0rdlnFt7YjPf0SyqCbVV7PWuUWDr+W1O2K71p2Zl/lE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776244911; c=relaxed/simple;
-	bh=DiZWMewKGk3E6eySD3Ob0SxXFPu6yGdRa9Bcu8TWwTQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=sHEqbvheuEqr1+Ep9FLB535z3P50Fcz/2PRiCMXmsluRuFnpfRZkVnC3odYopkX1vpphhtR1MVtSc5VnG5eBqtMWEGwglwH1NoZ1HZr2reaeaKjeGwY66ugKH0A4338AfMOTwppA7EjKHLByoAV/VXbE5G41HUjti/vgKBUxs9Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=chGELXGG; arc=fail smtp.client-ip=40.107.130.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1776245151; c=relaxed/simple;
+	bh=pJow1WopSOZWgBuUr9Lcu1Y+ZAYa/T1CzvOu9ehn4XQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=CSHFoejx+oyklHuSkiV0IlwrBq8oss9Alv+yca3GXiIuk0iIQ3oITUiFOLLL6Qjo9OEgw0HZ8CK+nxaQ3mrO7RYpRGCjlmko619KV+vp+pWobN77QHuhbCokzAIY2CY9EODLi0qcAWnIo4UJXs9upKwJrLifeKJeAyORjas5VbU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=W3C57tCX; arc=fail smtp.client-ip=40.107.42.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JPRYD++rH2GEsY/bVR1SDnDA/9s0HCC8elgBCUBh3r2PB/OLiwvwEfeMO0YUMLGQWv5XRrseceykAqNYV5LTz93fWKztGz7vbVM2U7ojH/g+qwmzrIbMu5X4PUxs0PW3cj55+BGGP3phNPPGyRVke5AWPjiwCW4rQdq1unXxPr5bcyI32xMn1wfvvnzXxgEp/tIKlMAn2beBZ/fYbMSg4lYOBATFZVGPyPPSxu7OtrnWCN/mKC6l3tV9ejp4yD0o5L56/YzafaEmhcs+/kQWV+FAxzXbp+NYEJFhxNkRhElejEnrwb53ZnwnezpzchlDIb6ura4dMXek+orUD6/XIw==
+ b=rO2KPzKx/EKtSpNnpNxoc5ik/SOQJbP4pdHDs6CmOEZyvArjSC/Z2XgozM4C+uFUPF1POOnUjS9DdD1shLIA8ihq/Z7L0lggTpsiY6di5kU349vlPHXBIltT+9XoWPIIzdVjwZfI6dK22MP+/Trcmftbiyi9d4Su2cej0YO2hG2JfSmSexfg5Dvntj1dRCOeG6/jCZRpOB+UX6dCLgrZdeBUoty5T/ixhosWXKwZj0kCGpigxM6l6f36qwyDthVXBNMFbyR9o8HhmDXz/oVsYx/7mcl0aiw5AqO11hdsIhs7A0gVUojeA+HsDvlT/b90EjV8Ljspk/cWBVE1bX5NRQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DiZWMewKGk3E6eySD3Ob0SxXFPu6yGdRa9Bcu8TWwTQ=;
- b=bIr73QPq19IZReaqluYwnIwCJdnkdP2wJA6DfQvWLUBA8bQr89ACCkJq5n+B4jTRHXJWUIGJ9VDsSspf7ck1vKacU0o00mkguSQUStdhTTZaFY+VPjzBHdASusjgfnnXLImZ6bIqnQaIDuGJE1AoYtooJ14ajJbHOPQrP4d6AKYUXqP9fWlmWgvs3wzftJfZboag/E5B3X5NmBr/V2tIcIqRxrAsy2vpCJZKMB/mULG+LwWZJZA6nOZabMjBZS4qnW5wVi5801lcB12Ii+pidC2blu2KD3BP05tSGYKBa+CvC8Tj0x2HLGYblMANfbXwgzHUyPC9KRNSzZ9j8m0GhQ==
+ bh=9ukFn/BJte2xzE/8lNRU0e3WmDjRum3zxDZ25rLEBmE=;
+ b=Hz2h2qJHwgAQ1MJZUGPgYZO6qCJGOg/ULlMJAve66TG0QMg66Zvhzay40loE+2WynxPHU61KaT8xtE3q6AoxaC84B/h+a+f75Zn6c1/O5yxZ/E5IzyQAgCL7H9GanipCaIfsXsOpXksaxEiugb/hYx8hVOG4OwHTJmKovFrcKtSOFqzyB79kpcVoK/zSEPq3WDrO0/WD5BFUKZ4lH3xBz2vpJwZGlXkRtzhQR5vwr3aa8QtU0x3NH73xvxARn0Wq5M4xdNeY/kHxs6jdn9CH+r5TvMOKBv+H852y2GxDQH30iQKR6JFYnxDn/DIyBAOYDogz2/TXXlP2AivW9sEawQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DiZWMewKGk3E6eySD3Ob0SxXFPu6yGdRa9Bcu8TWwTQ=;
- b=chGELXGGMbw0lhXDwumEPes1RmHedTH4eQDFc3xw3FNzf9eSAnRl4PdAa6ZiVRejDO7cwJokn6xyLLmK+aVOMOvqfdnAsYe3k15FyEj2JkKn7UsvT1V5Nqbxt6jYlgGJYNFemxuMPQHGjh6gUQu2X+6XJL33iccZeEZMP8wztSoPaZKWWEWURgZN6Kcq9WXut1Of+0BgCQKcCQ6xsWOBzLp7bMG10AMWAyX9tRJk319DbztAjU+aBM3LA0OSAovJfMLAz2GG5n7fchNqTBNyVMsZJlp18fvSU+MCyJrfzxzTfrv/Nf6L/gYNdmGNhSLdyDWkt8KD9wh8oqDwBx0bIA==
-Received: from DU2PR04MB9081.eurprd04.prod.outlook.com (2603:10a6:10:2f0::13)
- by PA4PR04MB9438.eurprd04.prod.outlook.com (2603:10a6:102:2aa::6) with
+ bh=9ukFn/BJte2xzE/8lNRU0e3WmDjRum3zxDZ25rLEBmE=;
+ b=W3C57tCX/XxgIbqsdRob7kaC7J0tB8x1Bw1ufD1IbaPLlX5DdCDhE+EDbP0RMG/3wNxDkzF3Y3ToCw9jf88FhhvcY94haVDuRdm6E71awLkeNO81TM0QXyEHawFYHKctGSiCvEmAHgnGX8NAlfe2CAj3iPuW2DwWyX0cU+1C7Bs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+Received: from SL2P216MB2441.KORP216.PROD.OUTLOOK.COM (2603:1096:101:1b9::8)
+ by SL2P216MB2830.KORP216.PROD.OUTLOOK.COM (2603:1096:101:27f::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Wed, 15 Apr
- 2026 09:21:44 +0000
-Received: from DU2PR04MB9081.eurprd04.prod.outlook.com
- ([fe80::b025:f7ce:2cc:9e5e]) by DU2PR04MB9081.eurprd04.prod.outlook.com
- ([fe80::b025:f7ce:2cc:9e5e%5]) with mapi id 15.20.9769.046; Wed, 15 Apr 2026
- 09:21:44 +0000
-From: "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, "G.N. Zhou (OSS)"
-	<guoniu.zhou@oss.nxp.com>
-CC: Michael Riesch <michael.riesch@collabora.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner
-	<heiko@sntech.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Frank Li <frank.li@nxp.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-rockchip@lists.infradead.org"
-	<linux-rockchip@lists.infradead.org>
-Subject: RE: [PATCH 4/5] media: dt-bindings: add NXP i.MX95 compatible string
-Thread-Topic: [PATCH 4/5] media: dt-bindings: add NXP i.MX95 compatible string
-Thread-Index: AQHczIo7yqSdwt1jm0+Tq4wQSiYCi7XfxYEAgAASMWA=
-Date: Wed, 15 Apr 2026 09:21:44 +0000
-Message-ID:
- <DU2PR04MB9081CE0130B8924A2B3C9E14FA222@DU2PR04MB9081.eurprd04.prod.outlook.com>
-References: <20260415-csi2_imx95-v1-0-7d63f3508719@oss.nxp.com>
- <20260415-csi2_imx95-v1-4-7d63f3508719@oss.nxp.com>
- <20260415-glaring-premium-nuthatch-ce00fc@quoll>
-In-Reply-To: <20260415-glaring-premium-nuthatch-ce00fc@quoll>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU2PR04MB9081:EE_|PA4PR04MB9438:EE_
-x-ms-office365-filtering-correlation-id: ecf7765a-8668-49ab-cfeb-08de9ad06967
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|19092799006|1800799024|366016|38070700021|22082099003|56012099003|18002099003;
-x-microsoft-antispam-message-info:
- Mw9XkK+Zg/RINL6AORcMAFMYowJ11dvcqX2FewvlL0OhsRgpRwQ6dgHTpF3GGcMrBI5VYY4H0p2bf/qUQ8Z/zkaQ7FAQg2Mfl8v+SjAslXBKf3Yg99kPAWd1b2ruVEJIXc8pfkRwHkNlRQLx5H3CWUsQnz7BDnzOK6ErsfsOpBZjdrGT9jLw5yI0nj7uzMc70sPar7CSMTYpVtTIOF/vT/lgfkrB/aO67btkYu7O3LJ7Gik2PkFrkX9zgZj/Ybtl4+swpy5Djso5GPtzS1K+dXdnW82T7xY62OkjtdtWvVTP3NSL7X81haxLzGEQm0G6xk/lpHK+BPQO/1rIWmhBjiwalPzuUHc+sc42jDBPJcR53iY0PzmrZLV2XSs0g7t15c+SILoPOxfnfPDVHq0wxdUBEAO2WXvaVF90p0NjflHSE0ylLdg80mf7E0K6Bx444NRwMqGAjV22qd1AGXKngpAcNLweMaqjR3t/3DTwypBlTJZN+tK/IaBHxzZfT4mC6Vgn5vdirGBFm5eoUHYL4QJ5xrXK3Ab19OmRUyNd4SjlB/Qt17SoyjzM9dZuM9M4iIxr758UNyDT54mYLzQJhbjXxdKl9WGzUpStwwUcZ+Il8ZDE92IdyX8w+6qJgcYlS13Ay/+zci7v+Vc/jdmjho+V0QdwVUgKNniIK1QE+nvgxRllWsgwaiU8FxZGvJIbhq9fqFXCRo/CUNb8jSDzgIstfV6JLP9t4GV35ttX2TOc5C0eMRvCFmwzce+t2rykRZm2dypXu2+kNBxpjEsX64PEhLZtG/W/Cv5HYUpw6+s=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB9081.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(19092799006)(1800799024)(366016)(38070700021)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?LzRmc3NhZHlZdUVMYm8wTWlwTVhIY004UytjTC84QnZra2ZhVHl1QVFyMkM5?=
- =?utf-8?B?YXJXaDk4WWFmVkI3S3ZoemJNa1VkK3F1Z0xLeEVXVXB6S0VNaGdZUDJMNTNZ?=
- =?utf-8?B?SGQ2MVhQY3NKVWxqZVNCSGdwK2gyTmtjMG03b2VjR1JZUURXVUNFd2h1YS9P?=
- =?utf-8?B?cCtqd3kxRXkvMTFrOHR0Z0N6UDJSZEdpdnFaeCtFVEtVWHgzdzRwY3p3aytH?=
- =?utf-8?B?UUdOSGNhWEJIRGFkMUR0alJCeDFObndLUkk4ZlB3WEV2cExaMnpEVFJnRkxM?=
- =?utf-8?B?RkEyeTJDbmw5RTM3ZkJSY0g4MjBzQjE5U2VLYklILzZNVXp0ZjVyMjN0RjZo?=
- =?utf-8?B?d1lsMzl1ZXdENXhwMnVVRGdtTjJmMWUrWXlnSE1rZUcvbUJROGVkT2NwL3JX?=
- =?utf-8?B?V29YRHVMZ0lwYnNhNStTQTBGL1NFb09wZU1EZkc5TTROcElKME4rUmlzcnZU?=
- =?utf-8?B?bXRabndmdVBXY3gzMWFTZ2dCYWVwN1hyNGhtdEJDd21uKzN3VnIwcEh4RXho?=
- =?utf-8?B?SU5EaytiejVQckl0c05WT0w5YWNPRUlPYllWb2x5Sk5lVEFWd3Z0MWFiN2ZJ?=
- =?utf-8?B?Yk5OTG9mM2M5OU14b3hOOElGc21xeG5IQ1QrcFJxNHBoWmdsTUFFSkxCUWRK?=
- =?utf-8?B?ZGtFZlVEdzZjTHVnNDc5NWRnQTlETVk4VmhsamlaYlBTVURWRTFFaGFHdTA2?=
- =?utf-8?B?OHorc2JJNTNrU29DeFloUVVhYjlCcVB2YmhabEVBL281TjcvdkR3eTdwMFIw?=
- =?utf-8?B?cCtrNDRrUGUzdDJ5UkE1ajU5SU1rZGxCNkpPdXVsbFRhc0VnSTVYTXdyNFIw?=
- =?utf-8?B?WWEwMFZxczl5Q0d1dm1vV0h5QWFSbDV2MTl3VU5TUjl1ZFhvakNoT2Jsc1Ba?=
- =?utf-8?B?enBXLzVGZzR1bVFNWXdaaEdjSkdGQy9xdkpQUGxLWmg1VkVuTDg0QTBmOVpq?=
- =?utf-8?B?alowUkJ3aEVzQ2JEWWc3YUJUa1BSUzR5MEhjWGw5eXcrL2ErYmRUeUloOTE0?=
- =?utf-8?B?RFJNWWl1dW12OVh6NktSMmxiWGJibGgrak0ySVhZL0lzeURMN2tIeUxabndT?=
- =?utf-8?B?SExwblRzNzBNeU9iMkVQb0l4cGpQRUtuM0Y5UkU5STFaVzRyWGt6S2o4SzJi?=
- =?utf-8?B?Uk5QcnFucnVpL2MzLzNoQ1FhQTAzd0pWRjd6N0M5ck9hQ3BWUUZUQnlpbmRs?=
- =?utf-8?B?ZWYyTzk2NVdTaXB1ZWJpMFNUUkhRa1IvTTJheDVLZkh5Wi9HSlN2UTEvbW9R?=
- =?utf-8?B?UmQ4QytjZjJXMHJ5QjJ1ZUZyUEliOSt2QVRiMlB5TDhGZW51ek5FYm1OcVk2?=
- =?utf-8?B?MStGNWh2SkVDeTZMTU9yYTA0eTNHY1A5RHhTaG1tS1RoSk5rLzJlWEY3eDY1?=
- =?utf-8?B?emQwalVDa1RCbXFKUmF6QXlLYWpPczF2dEZ1bzNVZmJDSFFodXpNYnhnbDJQ?=
- =?utf-8?B?NFUxREhEcTJWUWREVUJjTjRhRDV6WkdiOFlRTDZMNEhWUy80V3I1NkZ5cHBY?=
- =?utf-8?B?T0V3a0l3bzVvSTErTjVwQTZYOGpuVW1IYjNCcW5pS3ZzWmt5TTVIYWczY1h3?=
- =?utf-8?B?Q0Y4amRZUUVIMWR6djNwT2RsL1JrOUZHQmF3aFlFNzJhcUlHcWszNHRjbVY2?=
- =?utf-8?B?T1J3RUJkZnd2MFNGSVV0NzZORjJRSUE3cmZyWHdLWTg3ZkRnZlBzMVlhSGJY?=
- =?utf-8?B?dFJNUzVoQ0ZiTGZwME43b2lCYm05dDNPeGJoS2xFSEgzOGtZVVhUakhqQjVk?=
- =?utf-8?B?UTFIaE94cnZ6eVpLVGxNaVVLOFZoaGtkSVM1b04yc3lURXRMOTFLUFpUWE1Q?=
- =?utf-8?B?eDBKSjJwUGFQdWt5OUhmdVE0WkdsMm9hUmpDZEZWbnVNOHJaTmJjSUxtUCsr?=
- =?utf-8?B?b1plT3NQZGtRWDVjNENWVFl4eEllV0xuSEZkbVNId0oraWJuRDlwWWVvT1NT?=
- =?utf-8?B?RmRZQk5oZ0QvalU5amFBZXpTODRRNTUvUlQ4OHF3R1RleUV1SVVHUW96bDJ3?=
- =?utf-8?B?VkkxSFBZZmcreGwyM1ZPVmNOYkxEeTVPMWhZVGs1VUoyZ3BYeVZOck8zOW14?=
- =?utf-8?B?ZFJIK0pLY0hPZktYem9pQ1NzbU9XeGZDTTIvWGpONGRNMTBJZGhaWERkNkJ6?=
- =?utf-8?B?bzhyVDNsNDRpcEk5R2pNZUMrR3VXNEtWMGxsbE5TbXExQi9pRE1kYm16czYz?=
- =?utf-8?B?QStYc3g0alhaVlVlR1FDUUR6VFYwRnY5bDhXS0E2Nng1L1puVDM1QUlXZWw5?=
- =?utf-8?B?THBJbnNVbTdIVGUvTjdoTXc3ZXpYVDNySGJIa3NpcUZodmlZQkNpVjNtNXRJ?=
- =?utf-8?B?TkordDZEWGRqTUYwZWFkNHU1aEViejNrWG4wZjEyMk9XT0h3QmF2Zz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ 2026 09:25:43 +0000
+Received: from SL2P216MB2441.KORP216.PROD.OUTLOOK.COM
+ ([fe80::f234:3bc6:9197:8232]) by SL2P216MB2441.KORP216.PROD.OUTLOOK.COM
+ ([fe80::f234:3bc6:9197:8232%5]) with mapi id 15.20.9769.046; Wed, 15 Apr 2026
+ 09:25:43 +0000
+From: Nas Chung <nas.chung@chipsnmedia.com>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de
+Cc: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-imx@nxp.com,
+	linux-arm-kernel@lists.infradead.org,
+	marek.vasut@mailbox.org,
+	ming.qian@oss.nxp.com,
+	Nas Chung <nas.chung@chipsnmedia.com>
+Subject: [RFC PATCH v5 0/9] Add support for Wave6 video codec driver
+Date: Wed, 15 Apr 2026 18:25:20 +0900
+Message-Id: <20260415092529.577-1-nas.chung@chipsnmedia.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SE2P216CA0163.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2cb::11) To SL2P216MB2441.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:1b9::8)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: oss.nxp.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SL2P216MB2441:EE_|SL2P216MB2830:EE_
+X-MS-Office365-Filtering-Correlation-Id: 14e412a3-bd5f-4094-1533-08de9ad0f78a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|52116014|38350700014|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	+mvMwhoEMxXPOdUljRIyc/oYNLtV9t5kCHFea9YhOtx1Df1/jlbvJ7B2ydLrRqViZVyVltBRvgcOYVrhQjeD6VXMyc70RGVGvgL7WA/mqXU9Yuz1jsWFCzE8digU6uc7q8LOdDp4fBNuLNvlm+xu2oVLm3TrhUtGI9YZAJk2hLplngMRFfWy6K+YC93j6KceKE0+ROe5WH6Dvr9A/+sJZq0Sbfq9t0tFSYGkTRhk7tC2osuZVfePR+tsnVkn+CWfNA7bB3NaY8wUdEVRBVkHwM4pLAdcYQgc+klIadDJ2POgt+YVKUnmTgovBYp0RHJVrxLTiMbwoy6TeYynnY4pZiSNkdyszSu4r5+EB8zrhLFX2/xNpz5VS1eQzrn2c7Bugxhv6gELLQMbDiHl/EE/GwA+z2iQelOmqC7E2X+zCxXWkCPrnM8lOvMQbeEnd+mQdK5SzXOienfhEe6bZk/Q7SpNL/ySYyerkEBfs7rZl5XtZImvIH94ZKgz7zH1j0QSnkZyJKZoDenNyYFXIZ1uuwCT4GXB0N4dFjke22NmLra6YDrES6Ieu8GGhLpe+yGu+HbEpiFi53FWP2Xm/DKYx5xA8bqwKAY/Xk2OBmGSPQTruuLCQHnyW4VgUdrxD4pNgXXHdqCfCiHHyNd9kRdki+y9Mwl3KATuVxZR8yccFYcaj8Qid5r87bokbl/Ce8SvNk0om+ahSEHBDFRwGus+K6z/V0TOpbyd08qdaySzjUAuJandP2cUyjVFx6OgZGy7r1dZflnThPTYhS9CRru1d7mo75BykvqFv5rGnoGixtI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB2441.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(52116014)(38350700014)(56012099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Goar8O4sHv3MLdD2/i5yOghFBzIr0D6UzGvv5uAn2FtzMkeUELS41EgwVhzK?=
+ =?us-ascii?Q?+wWD2SKWq8Fa9kogq27jzh8rDjhd7QYVwm3TYnpzk4/hKmZ2iMLJyDAR1w4B?=
+ =?us-ascii?Q?8AVVIgWFCHVzJts1IX2IKnkK5K9sbvdydOPyJImu2Vvh9dFyV8sYwq4lEcR4?=
+ =?us-ascii?Q?qDVahDe7LokzyrRWPpbdcNoaR58iRtiN8Wt0EDUeL3CsiWdvVwE49vheja8Y?=
+ =?us-ascii?Q?pWKthBKO3Pwbc/JD7xjeLl/25RUgKurZkbGJkuNkpCPk/fTbThwAEs9ctbPv?=
+ =?us-ascii?Q?FWZPAK/Yy21sfAGTJgBWUnzatWFlTkNrLm4rY68IxpwDAwMpRL8yVDeQ7N+R?=
+ =?us-ascii?Q?9jw938qRIdER1dMxF+2yzMBgcdFYObvorRy+spSJBjsUSDKF0Wqi+xE+CVA5?=
+ =?us-ascii?Q?BFTXvtgyjc8kSaB1cV+Zo9/P9RMgSVuBp0LtnfOdTL739dzZW6y1LOGO6BD8?=
+ =?us-ascii?Q?K0y/1YDRAJEjjgvOUxmR/Bd514G9vEVVBKOb/uv+BOepnknENuXKTbT9GzyO?=
+ =?us-ascii?Q?t4kFNCYH26U7XCaxTzCQuXuQgE7l0+tPxdtL7W+nSO2n2dgeGf6tQibmaGEX?=
+ =?us-ascii?Q?Fy9CS+SYjFXBCmIwI868ENUFdyA4TnFOTQ9lJP2LQVAZbAxhH/WEoP4CuYJF?=
+ =?us-ascii?Q?ZQa8DRr8dnJKXXqn0Mmk/rK/PCwQtEzPsIUIVyxXdrKkMP8FR/ihuBYJGJde?=
+ =?us-ascii?Q?Hr4GmzQVKqa4hYUbwinhEbVwEalv5ljRsC1J7InszoRk9OmPveLxjYPBaE5V?=
+ =?us-ascii?Q?DuZfPNHnNXg6yKOaXlkBiuKk/TBP1vCYVaOKoUDdVqF/x693KcWclqBVfyn+?=
+ =?us-ascii?Q?3zjPqnXAgBUjVhyP026ZbrvHM19IL4ZxpGdb1M3qEqzpYShfu9hBLy8o98BL?=
+ =?us-ascii?Q?AZ7n9pR84+0J/Z/Wwz1PpycAdia18BHLsEkghHe3xuED3qQx4OF+E8M+5HJQ?=
+ =?us-ascii?Q?dmLON+EmYB/FYxEn2KB7e070IfEKeEXP+LMV3rgTfotIA2zihWNKxYhs649O?=
+ =?us-ascii?Q?V0tfkU/i8b3k2ra8T5RBClNpUshTbH7cVokQMfzRaRZzD7n4psuISBoN39nL?=
+ =?us-ascii?Q?6FDgRdpcYonOImd7stBnP9M4EPxJqjsQchmr/Rj1NLBQbGk5k0ro6LAYFKCR?=
+ =?us-ascii?Q?SttgZcEpaPAqkStNIS7880blymeVvmXU2scY2dAzBuMwnOzq69sO+kZ6g66c?=
+ =?us-ascii?Q?9HtUwjm1ZbSq6RcZ0mWSsFPz36lEZZMhs4fC5vLggvwelYbo3vmyFRJhUv2A?=
+ =?us-ascii?Q?FsWs6oQlGWFjAf/SdCLlD6WrPxlzT+QTBSV76gde7YwCc6Z9TXiQLS60K9Ya?=
+ =?us-ascii?Q?pzmWvLREb+xnWYbjcQhAj6QEteCUdCkSAG5rsTeFjxA/oYdqqpiGlDkIxRf2?=
+ =?us-ascii?Q?RG6Z1RLwcv1raBFHghNImTpulzTy4C8+fy5f7LFbP06l/uvrr0NHaA+ZRynr?=
+ =?us-ascii?Q?E2KMLV4qfvJw2sSYaluWRyWTQhDt729pC4ZlJtnuDVr1m0zMOnUTNKcO3Bvt?=
+ =?us-ascii?Q?9gzo3mzZpJNXlqUKOSx6jwE6KN67ABZBxUSJW1pa3wtbfwNl86YCDZg1j/uQ?=
+ =?us-ascii?Q?NWeTuX98PCKvGI2LUYZCvfaM5DdArcZiDYJmvuox+sIvazTR+0QbUEFCh+85?=
+ =?us-ascii?Q?hYgCkN5Bf3svqMkvLbN5BeNU7wfptyg29Zm5ezh6EE/2/PcszfSH8q9KSl/g?=
+ =?us-ascii?Q?hZHH7VWGEtW79DKI3wDe6DBwJe6wOaQN+0hVrS+aZLo57cNMMPqK4bIxgoPZ?=
+ =?us-ascii?Q?7EJVMKXml5YTgmTn0bUzGS0DUxgyK/c=3D?=
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14e412a3-bd5f-4094-1533-08de9ad0f78a
+X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB2441.KORP216.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB9081.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ecf7765a-8668-49ab-cfeb-08de9ad06967
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2026 09:21:44.4888
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2026 09:25:43.1258
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: P/0MdPc8jkhsG8qUTy4GZJRLgdh4376akA7QAfN75poiQAhyP3z5maH2isxgf4QCunDR/16ahlSZOmoh/wamxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9438
-X-Spamd-Result: default: False [3.04 / 15.00];
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BUm38M6Mwyl6dFmMRCYUsAu/A0qPb0vpXx/1KeRCQ145OK6Os++/nlQdoqNVoh7cDWr6wVd8LHu9b4YxXtCYpMC+tTYMNMxeXbtT82ECoEQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2P216MB2830
+X-Spamd-Result: default: False [3.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[chipsnmedia.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
-	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58800-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58802-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[chipsnmedia.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,xs4all.nl,pengutronix.de];
+	DKIM_TRACE(0.00)[chipsnmedia.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[guoniu.zhou@oss.nxp.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[nas.chung@chipsnmedia.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	NEURAL_HAM(-0.00)[-1.000];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sntech.de:email,ideasonboard.com:email,infradead.org:email,linux.dev:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,nxp.com:email]
-X-Rspamd-Queue-Id: EE11940283B
+	NEURAL_HAM(-0.00)[-0.996];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,chipsnmedia.com:dkim,chipsnmedia.com:mid]
+X-Rspamd-Queue-Id: 09BB74028AA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-SGkgS3J6eXN6dG9mIEtvemxvd3NraQ0KDQpUaGFua3MgZm9yIHlvdXIgcmV2aWV3Lg0KDQo+IC0t
-LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEtyenlzenRvZiBLb3psb3dza2kgPGty
-emtAa2VybmVsLm9yZz4NCj4gU2VudDogV2VkbmVzZGF5LCBBcHJpbCAxNSwgMjAyNiA0OjEwIFBN
-DQo+IFRvOiBHLk4uIFpob3UgKE9TUykgPGd1b25pdS56aG91QG9zcy5ueHAuY29tPg0KPiBDYzog
-TWljaGFlbCBSaWVzY2ggPG1pY2hhZWwucmllc2NoQGNvbGxhYm9yYS5jb20+OyBNYXVybyBDYXJ2
-YWxobyBDaGVoYWINCj4gPG1jaGVoYWJAa2VybmVsLm9yZz47IFJvYiBIZXJyaW5nIDxyb2JoQGtl
-cm5lbC5vcmc+OyBLcnp5c3p0b2YgS296bG93c2tpDQo+IDxrcnprK2R0QGtlcm5lbC5vcmc+OyBD
-b25vciBEb29sZXkgPGNvbm9yK2R0QGtlcm5lbC5vcmc+OyBIZWlrbyBTdHVlYm5lcg0KPiA8aGVp
-a29Ac250ZWNoLmRlPjsgTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29u
-Ym9hcmQuY29tPjsNCj4gRnJhbmsgTGkgPGZyYW5rLmxpQG54cC5jb20+OyBsaW51eC1tZWRpYUB2
-Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LQ0KPiBrZXJuZWxAdmdlci5rZXJuZWwub3JnOyBkZXZpY2V0
-cmVlQHZnZXIua2VybmVsLm9yZzsgaW14QGxpc3RzLmxpbnV4LmRldjsgbGludXgtDQo+IGFybS1r
-ZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZzsgbGludXgtcm9ja2NoaXBAbGlzdHMuaW5mcmFkZWFk
-Lm9yZw0KPiBTdWJqZWN0OiBSZTogW1BBVENIIDQvNV0gbWVkaWE6IGR0LWJpbmRpbmdzOiBhZGQg
-TlhQIGkuTVg5NSBjb21wYXRpYmxlIHN0cmluZw0KPiANCj4gT24gV2VkLCBBcHIgMTUsIDIwMjYg
-YXQgMTE6NDY6NTVBTSArMDgwMCwgR3Vvbml1IFpob3Ugd3JvdGU6DQo+ID4gVGhlIGkuTVg5NSBD
-U0ktMiBjb250cm9sbGVyIGlzIG5lYXJseSBpZGVudGljYWwgdG8gaS5NWDkzLCB3aXRoIHRoZQ0K
-PiA+IG9ubHkgZGlmZmVyZW5jZSBiZWluZyB0aGUgdXNlIG9mIElESSAoSW1hZ2UgRGF0YSBJbnRl
-cmZhY2UpIGluc3RlYWQgb2YNCj4gPiBJUEkgKEltYWdlIFBpeGVsIEludGVyZmFjZSkuIFRoZSBi
-aW5kaW5nIGNvbnN0cmFpbnRzIGFyZSBvdGhlcndpc2UgdGhlDQo+ID4gc2FtZS4NCj4gDQo+IE5l
-YXJseSBpZGVudGljYWwgd2l0aCBzb21lIGRpZmZlcmVuY2UgcmVhbGx5LCByZWFsbHkgc3VnZ2Vz
-dHMgdGhleSBhcmUNCj4gY29tcGF0aWJsZS4gRXhwcmVzcyBjb21wYXRpYmlsaXR5IG9yIGV4cGxh
-aW4gd2h5IHRoZXkgYXJlIG5vdCBjb21wYXRpYmxlDQo+IChkaWZmZXJlbmNlIGJldHdlZW4gSURJ
-IGFuZCBJUEkgdW5mb3J0dW5hdGVseSBkb2VzIG5vdCBoZWxwIG1lKS4NCg0KWW91J3JlIHJpZ2h0
-IHRoYXQgdGhleSBhcmUgdmVyeSBzaW1pbGFyLiBUaGUga2V5IGRpZmZlcmVuY2UgYmV0d2VlbiBJ
-REkgYW5kIElQSQ0KaXMgaW4gdGhlIHNvZnR3YXJlIGludGVyZmFjZToNCg0KLSBJUEkgKEltYWdl
-IFBpeGVsIEludGVyZmFjZSkgb24gaS5NWDkzIHJlcXVpcmVzIHNvZnR3YXJlIGNvbmZpZ3VyYXRp
-b24gdGhyb3VnaA0KICBhIHNldCBvZiByZWdpc3RlcnMgdG8gZW5hYmxlIHRoZSBpbnRlcmZhY2Ug
-YW5kIGNvbmZpZ3VyZSBkYXRhIHJvdXRpbmcuDQoNCi0gSURJIChJbWFnZSBEYXRhIEludGVyZmFj
-ZSkgb24gaS5NWDk1IGlzIHNvZnR3YXJlIHRyYW5zcGFyZW50IC0gaXQgcmVxdWlyZXMgbm8NCiAg
-cmVnaXN0ZXIgY29uZmlndXJhdGlvbiBhbmQgdGhlIGRhdGEgcm91dGluZyBpcyBoYW5kbGVkIGF1
-dG9tYXRpY2FsbHkgYnkgaGFyZHdhcmUuDQoNCkJlY2F1c2Ugb2YgdGhpcyBkaWZmZXJlbmNlIGlu
-IHJlZ2lzdGVyIGxheW91dCBhbmQgaW5pdGlhbGl6YXRpb24gcmVxdWlyZW1lbnRzLA0KdGhleSBj
-YW5ub3Qgc2hhcmUgdGhlIHNhbWUgY29tcGF0aWJsZSBzdHJpbmcuIFRoZSBkcml2ZXIgbmVlZHMg
-dG8ga25vdyB3aGljaA0KaW50ZXJmYWNlIGlzIHByZXNlbnQNCg0KPiANCj4gQmVzdCByZWdhcmRz
-LA0KPiBLcnp5c3p0b2YNCg0K
+This RFC primarily asks for feedback on the devicetree representation
+for the Chips&Media Wave6 codec block on NXP i.MX95. It only includes
+DT-driven changes. Non-DT driver feedback and cleanups will be
+addressed once the DT structure is agreed.
+
+On i.MX95 the Wave6 hardware exposes one control register region and
+four interface register regions for one shared video processing engine.
+In this RFC, the control region is described by the parent node and the
+interface regions by child nodes. The control and interface regions are
+distinct DMA requesters and can be associated with separate IOMMU stream
+IDs, allowing DMA isolation between them. The control region has its own
+MMIO range, and each interface region has its own MMIO range and
+interrupt.
+
+I also evaluated folding all resources into a single parent node, but in
+that model all stream IDs end up attached to the same IOMMU domain and
+we observed loss of DMA isolation. Alternatives such as iommu-map or a
+vendor-specific stream ID property were considered, but they do not seem
+to fit this use case.
+
+Thanks for your time and feedback.
+
+RFC v5:
+- Move all shared resources to the parent node
+- Drop child compatible and use data-only interface child nodes
+- Update the VPU driver to create child devices and load the core driver
+
+v4:
+- Fixed build issues reported by CI tools
+- Updated commit messages to use imperative mood
+- Avoided using the same name for both nodes and labels in devicetree
+- Removed unused labels from YAML examples
+- Added description for child(vpu-core) node
+- Added iommus property to both parent(vpu) and child(vpu-core) nodes
+- Updated probe() functions to use dev_err_probe() when returning -EPROBE_DEFER
+- Added wave6_vpu prefix to trace functions
+- Updated HEVC decoder profile control to report MAIN_STILL profile
+- Fixed bug in multiple instance creation by pre-allocating work buffer
+- Fixed interrupt handling by checking INSTANCE_INFO register and instance list
+
+v3:
+- Removed ambiguous SUPPORT_FOLLOWER feature
+- Used WARN_ON() for unexpected programming errors
+- Split thermal device code into wave6-vpu-thermal.c/h
+- Dropped wave6_cooling_disable module parameter
+- Replaced mutex_lock() with guard()
+- Added lockdep_assert_held() to clarify locking regions
+- Removed exported function due to dual-license and used function pointer
+- Added documentation and validation for state transitions
+- Added documentation for device structures
+- Added patch to enable VPU device in imx95 DTS
+- Updated DT bindings and driver to align with parent(vpu) and child(vpu-core)
+- Replaced magic numbers with mask and offset macros when accessing registers
+- Placed goto statements after an empty line
+- Printed HW info (e.g. product_code) via dev_dbg() for debugging
+- Replaced wave6_vpu_dec_give_command() with dedicated functions
+
+v2:
+- Refined DT bindings to better represent the hardware
+- Reworked driver to align with the parent(VPU) and child(CTRL, CORE)
+- Fixed build issues reported by CI tools (Smatch, Sparse, TRACE)
+- Improved commit messages with clearer descriptions
+- Added kernel-doc for exported functions
+- Removed redundant print statements and unused code
+- Reordered patches to prevent build failures
+
+Nas Chung (9):
+  media: v4l2-common: Add YUV24 format info
+  dt-bindings: media: nxp: Add Wave6 video codec device
+  media: chips-media: wave6: Add Wave6 VPU interface
+  media: chips-media: wave6: Add v4l2 m2m driver support
+  media: chips-media: wave6: Add Wave6 core driver
+  media: chips-media: wave6: Improve debugging capabilities
+  media: chips-media: wave6: Add Wave6 thermal cooling device
+  media: chips-media: wave6: Add Wave6 control driver
+  arm64: dts: freescale: imx95: Add video codec node
+
+ .../bindings/media/nxp,imx95-vpu.yaml         |  163 +
+ MAINTAINERS                                   |    8 +
+ .../boot/dts/freescale/imx95-15x15-evk.dts    |    7 +-
+ .../boot/dts/freescale/imx95-15x15-frdm.dts   |    5 +
+ .../boot/dts/freescale/imx95-19x19-evk.dts    |   10 +
+ .../dts/freescale/imx95-19x19-verdin-evk.dts  |   10 +
+ .../dts/freescale/imx95-phycore-fpsc.dtsi     |   10 +
+ .../dts/freescale/imx95-toradex-smarc-dev.dts |    5 +
+ .../dts/freescale/imx95-toradex-smarc.dtsi    |    5 +
+ .../boot/dts/freescale/imx95-tqma9596sa.dtsi  |    7 +-
+ arch/arm64/boot/dts/freescale/imx95.dtsi      |   35 +
+ drivers/media/platform/chips-media/Kconfig    |    1 +
+ drivers/media/platform/chips-media/Makefile   |    1 +
+ .../media/platform/chips-media/wave6/Kconfig  |   17 +
+ .../media/platform/chips-media/wave6/Makefile |   17 +
+ .../platform/chips-media/wave6/wave6-hw.c     | 2929 +++++++++++++++++
+ .../platform/chips-media/wave6/wave6-hw.h     |   73 +
+ .../chips-media/wave6/wave6-regdefine.h       |  641 ++++
+ .../platform/chips-media/wave6/wave6-trace.h  |  289 ++
+ .../platform/chips-media/wave6/wave6-vdi.h    |   92 +
+ .../chips-media/wave6/wave6-vpu-core.c        |  397 +++
+ .../chips-media/wave6/wave6-vpu-core.h        |  123 +
+ .../chips-media/wave6/wave6-vpu-dbg.c         |  225 ++
+ .../chips-media/wave6/wave6-vpu-dbg.h         |   14 +
+ .../chips-media/wave6/wave6-vpu-dec.c         | 1867 +++++++++++
+ .../chips-media/wave6/wave6-vpu-enc.c         | 2691 +++++++++++++++
+ .../chips-media/wave6/wave6-vpu-thermal.c     |  141 +
+ .../chips-media/wave6/wave6-vpu-thermal.h     |   26 +
+ .../chips-media/wave6/wave6-vpu-v4l2.c        |  507 +++
+ .../platform/chips-media/wave6/wave6-vpu.c    |  816 +++++
+ .../platform/chips-media/wave6/wave6-vpu.h    |  143 +
+ .../platform/chips-media/wave6/wave6-vpuapi.c |  725 ++++
+ .../platform/chips-media/wave6/wave6-vpuapi.h | 1026 ++++++
+ .../chips-media/wave6/wave6-vpuconfig.h       |   72 +
+ .../chips-media/wave6/wave6-vpuerror.h        |  262 ++
+ drivers/media/v4l2-core/v4l2-common.c         |    1 +
+ 36 files changed, 13359 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx95-vpu.yaml
+ create mode 100644 drivers/media/platform/chips-media/wave6/Kconfig
+ create mode 100644 drivers/media/platform/chips-media/wave6/Makefile
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-hw.c
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-hw.h
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-regdefine.h
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-trace.h
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vdi.h
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpu-core.c
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpu-core.h
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpu-dbg.c
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpu-dbg.h
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpu-dec.c
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpu-enc.c
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpu-thermal.c
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpu-thermal.h
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpu-v4l2.c
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpu.c
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpu.h
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpuapi.c
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpuapi.h
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpuconfig.h
+ create mode 100644 drivers/media/platform/chips-media/wave6/wave6-vpuerror.h
+
+-- 
+2.31.1
+
 
