@@ -1,213 +1,153 @@
-Return-Path: <linux-media+bounces-58821-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58822-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yOLPJZqj32miXAAAu9opvQ
-	(envelope-from <linux-media+bounces-58821-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 16:41:30 +0200
+	id EBniNVum32miXAAAu9opvQ
+	(envelope-from <linux-media+bounces-58822-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 16:53:15 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B7AE4056D0
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 16:41:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45DE44058B5
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 16:53:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 546EA3094F36
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 14:38:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1E7B530D2C20
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 14:51:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 061012F069D;
-	Wed, 15 Apr 2026 14:38:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4D883D669F;
+	Wed, 15 Apr 2026 14:51:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mYe+qLqs"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="f+prQqq0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D0E33F8CA
-	for <linux-media@vger.kernel.org>; Wed, 15 Apr 2026 14:38:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58C83A759E;
+	Wed, 15 Apr 2026 14:51:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.252
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776263922; cv=none; b=mQf8do6cwFRBsTr8ku/+fH9GqJQlCiqoL+cdXmOiCaIDIYOs6T57omFuHya6sMVr2W7W6Ye/CqhCId61EKjkGZKx6KI6vqtFh7uuSAGSrVEO2JGXl1ckDLQRpgRDm3WpRJht6BHCjvGJtAoHMv/RCs+OjohkhM30KAKAjzNJDxk=
+	t=1776264668; cv=none; b=LLhsK2rcapLNI5e4JGetKFvTxFoegWVDsH2Ui28/vkBTGEZs0QhhV2hWON/0vwQI1VnurJlAeGdsyxuuzBvQWBFEnAclH99HBxr1sxsUUtIl5DwaDGKJhPYABSb0/l605XIu1PiB8PoeIyexG5qj/B9wD/4K7kGYCs6Yi2iSpsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776263922; c=relaxed/simple;
-	bh=tQ0oB9SB/6RkMWN+wXVbE1GI4dbYnDmtgqDdSFVz9Es=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=pkUuZixrw1CMglPG5LK9OnQsjviQe8sOW6cAtXkL9T5waaSHTm6WWQt4GekM44Efj8ziecBDl1A+yzCgYRUNqKI2X9AmX1XQKSF3XaM1vBr5ncqIy9UJqEIG/Z28th1DqmiatzOSqcQ55OXcCf30jvgrgiW6aCIQnVUDcHIZl+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mYe+qLqs reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c30:51df:7e0d:3bc9:3b1b:3f69])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 46477A06;
-	Wed, 15 Apr 2026 16:37:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1776263822;
-	bh=tQ0oB9SB/6RkMWN+wXVbE1GI4dbYnDmtgqDdSFVz9Es=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=mYe+qLqsamatQxyymnO9kt+Pnd42K5EvtmkQPN21GNu1oSKbBR49Nzp2TmnfKYb5b
-	 QT2dukdgQ1KXbahObwXR0ubAxmr0JlUF6xkTbyh9L2YU4apk+T/017RVKI7y28BD18
-	 D6SwIpbv4hCtic58+0uRUWFw3akjCMZBDmz/XugU=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1776264668; c=relaxed/simple;
+	bh=fbp5/keiovj/9xD/H+TTcsudSsltptN7IqfWBpWupMY=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=LRq/IBTti662BorKoLbZWje4YlTcjoB1N7NO/9cJngiFKyRps+oxgQYcqDJnOeds2+B6xq8ELKSaWhVShsXn2yGa9EZT9vJoWGxcG9gccZhKASLieuh3K7Yls61RHWsypgn9U6Jwjp2pd5Ek/p1wagmUEcY2zDUVNu+GuXk0Iyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=f+prQqq0; arc=none smtp.client-ip=162.62.57.252
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1776264661; bh=z8Dvz5T3kUpp+yhU5o9z25OB6mynB3Denbc9oWW9cxs=;
+	h=From:To:Cc:Subject:Date;
+	b=f+prQqq0kqjQDZgIh9EMXCks2vBXOqK/0AX/MslWq6sbo8fUNF7B/ZOA0AVbcALgB
+	 qmurawf6zxc/T2CSATsZKN9BbKvhl2lgHXiVt0IBwU+1t6mnM+soZ+VJdMyPmQ0b73
+	 Un7y4i4Ng6tfl1CXDfYCFDsBbMDfQ9kXV37mYFio=
+Received: from admin.. ([2001:da8:205:20a0:6eeb:b6ff:fe15:94a7])
+	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
+	id C6E82AC8; Wed, 15 Apr 2026 22:49:46 +0800
+X-QQ-mid: xmsmtpt1776264586tycy5xnqg
+Message-ID: <tencent_FC6FCF5626EC3794CB35B87EAA37E614D107@qq.com>
+X-QQ-XMAILINFO: NU1WwRH9AHfmX9Er4QddTnxkt4CTBRE6vMEcmGJDqtvIHOcR3ChNgdiP1qcIhk
+	 X/E2XXKRvNV0bJYAIN4m64TfsUdjQU1O81zGa2fLaxIgu888Ur9n2NbFa4UZfVgxKha8+HD+HyBQ
+	 57e/oehRcbEVNuRpWXeQPTculuvD+YrHqM+a9dOZTFz0iWsggWuqwG16lFQutifgfmpmg4ky8MWl
+	 RfjGf0iEsGv/rZol2adNWCnhRKPM8Mbl6jkus5RXrtsJ7Fg3HEv7QobKdVOgx6qjplna76x8k0/m
+	 iyRoc72p7N+NY0mgVLSR6gdnNQ3GgIDvuIYviCByEez2mWu+qnrww5aWb+l8CvSox0V1TTsuUgrH
+	 nDcTxJCZcs9K3wxAzi585FyYrHBXQ/1rrgRxMKNFjCoSP8XWaDhSgTEHn/v+r30eoGTeb5F+LNrG
+	 SLmEoGRV9KNh8GLlYG2Hutq18unwyFwXVIFVJRSM74ovwOw1F/CRyuDu6qMMc9uS3jL1RQAoNcij
+	 QvmydqGuxIgY0kCdf+1T/kGv4BTGwtvPO/i+y1iXQKSUh5r/Q0cxC/8zI2IGPbNMbL93xMG7ic4u
+	 4CAOL/M751sBBlCl3QmueSxwdo+YuicI3zbQdMENCrN94KujY8TbD3VaV3cgRTW6nN0bkTiQImL/
+	 eB81+rmQcO+2cHMHoc0FZpsYJmp0iHRnuCrBbuhF0W5/LX8kmmH8o83jtMNGKO8TNVqV9/ndfGu2
+	 0HKGNVVw9lUv320q431XFJ4odh+PKf4nVQZ9caIgeb39+SYHbGJJ1ePx0H3+V5axrDCAOULAbzsX
+	 nkmI3/ijZB4rI46BOo/Ue26RNyU+dDiEHzczErTaXLJ+SJIKwkBI3VvgIXYUTMBbmXZwm6geTPXk
+	 Tkqhuw0BkIUTgq/7oCU4hLOpOBd7B8Gv3x4/cuVZvR3bzDKlrWeprD32qVLEn9/r/qO9dxVcXUoD
+	 Dl1bL5P/bc0IB/rP3w+cdo7RT9Z1XQH6tRXqmKuBITTze7TyGNtAK2yLtF4i6Zs/BgI/N25GpHHF
+	 Wj40OsNVHSCtIkglAYrs4PhJf7dGtEtvXFriekZpsRVhtS1TSgAzFJ3d1NXMU=
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+From: Zhaoyang Yu <2426767509@qq.com>
+To: mchehab@kernel.org,
+	linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	23120469@bjtu.edu.cn,
+	gszhai@bjtu.edu.cn,
+	Zhaoyang Yu <2426767509@qq.com>
+Subject: [PATCH 7/7] media: dm1105: fix missing error check for dma_alloc_coherent
+Date: Wed, 15 Apr 2026 14:49:09 +0000
+X-OQ-MSGID: <20260415144909.17143-1-2426767509@qq.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <adi17tFyi5uX1GpP@zed>
-References: <20260408153939.969381-1-sakari.ailus@linux.intel.com> <20260408153939.969381-6-sakari.ailus@linux.intel.com> <adi17tFyi5uX1GpP@zed>
-Subject: Re: [PATCH v4 05/29] media: imx219: Fix vertical blanking and exposure for analogue binning
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, Jacopo Mondi <jacopo.mondi@idea
- sonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, Rishikesh Donadkar <r-donadkar@ti.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Wed, 15 Apr 2026 20:08:31 +0530
-Message-ID: <177626391137.489396.6706972719698320660@freya>
-User-Agent: alot/0.13.dev20+g31692a239
-X-Spamd-Result: default: False [1.64 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[ideasonboard.com:s=mail];
-	MID_RHS_NOT_FQDN(0.50)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qq.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[qq.com:s=s201512];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[ideasonboard.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_FROM(0.00)[qq.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58821-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[31];
+	TAGGED_FROM(0.00)[bounces-58822-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:-];
+	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	PRECEDENCE_BULK(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,idea sonboard.com,ti.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_SPAM(0.00)[0.004];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FREEMAIL_CC(0.00)[vger.kernel.org,bjtu.edu.cn,qq.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email]
-X-Rspamd-Queue-Id: 0B7AE4056D0
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[2426767509@qq.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qq.com:+];
+	NEURAL_HAM(-0.00)[-0.991];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qq.com:email,qq.com:dkim,qq.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 45DE44058B5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Sakari
+The return value of dm1105_dma_map(), which handles DMA memory allocation,
+is ignored in dm1105_hw_init(). If dma_alloc_coherent() fails, the driver
+will proceed using a NULL pointer for DMA transfers, leading to a kernel
+oops or invalid hardware access.
 
-Thank you for the patch, and sorry for the late response. I finally got
-time to test this out, there are some significant issues.
+Fix this by checking the return value and propagating -ENOMEM on failure.
 
-Did you test the behaviour with an IMX219 sensor before and after this
-series?
+Signed-off-by: Zhaoyang Yu <2426767509@qq.com>
+---
+ drivers/media/pci/dm1105/dm1105.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-What I see is the following before this series:
+diff --git a/drivers/media/pci/dm1105/dm1105.c b/drivers/media/pci/dm1105/dm1105.c
+index 9e9c7c071acc..c881802423f5 100644
+--- a/drivers/media/pci/dm1105/dm1105.c
++++ b/drivers/media/pci/dm1105/dm1105.c
+@@ -767,6 +767,8 @@ static void dm1105_ir_exit(struct dm1105_dev *dm1105)
+ 
+ static int dm1105_hw_init(struct dm1105_dev *dev)
+ {
++	int ret;
++
+ 	dm1105_disable_irqs(dev);
+ 
+ 	dm_writeb(DM1105_HOST_CTR, 0);
+@@ -777,7 +779,10 @@ static int dm1105_hw_init(struct dm1105_dev *dev)
+ 	dm_writew(DM1105_TSCTR, 0xc10a);
+ 
+ 	/* map DMA and set address */
+-	dm1105_dma_map(dev);
++	ret = dm1105_dma_map(dev);
++	if (ret)
++		return -ENOMEM;
++
+ 	dm1105_set_dma_addr(dev);
+ 	/* big buffer */
+ 	dm_writel(DM1105_RLEN, 5 * DM1105_DMA_BYTES);
+-- 
+2.34.1
 
-    | Mode | HBLANK | VBLANK | Pixel Rate | Observed FPS | Formula FPS | Er=
-ror
-    % |
-    |---|---:|---:|---:|---:|---:|---:|
-    | 640x480 | 2920 | 1227 | 364800000 | 60.07 | 60.03 | 0.07 |
-    | 640x480 | 4000 | 1227 | 364800000 | 46.09 | 46.06 | 0.07 |
-    | 640x480 | 6000 | 1227 | 364800000 | 32.20 | 32.18 | 0.05 |
-    | 640x480 | 2920 | 2000 | 364800000 | 41.32 | 41.32 | 0.00 |
-    | 640x480 | 2920 | 3000 | 364800000 | 29.45 | 29.45 | 0.01 |
-    | 1640x1232 | 1920 | 475 | 364800000 | 60.07 | 60.03 | 0.07 |
-    | 1640x1232 | 3000 | 475 | 364800000 | 46.09 | 46.06 | 0.07 |
-    | 1640x1232 | 5000 | 475 | 364800000 | 32.20 | 32.18 | 0.05 |
-    | 1640x1232 | 1920 | 1000 | 364800000 | 45.91 | 45.91 | -0.00 |
-    | 1640x1232 | 1920 | 2000 | 364800000 | 31.71 | 31.71 | 0.01 |
-    | 1920x1080 | 1528 | 683 | 182400000 | 30.01 | 30.01 | 0.01 |
-    | 1920x1080 | 2500 | 683 | 182400000 | 23.43 | 23.41 | 0.10 |
-    | 1920x1080 | 4000 | 683 | 182400000 | 17.48 | 17.48 | 0.02 |
-    | 1920x1080 | 1528 | 1200 | 182400000 | 23.20 | 23.20 | -0.01 |
-    | 1920x1080 | 1528 | 2000 | 182400000 | 17.18 | 17.18 | 0.03 |
-
-
-And after this series
-
-    | Mode | HBLANK | VBLANK | Pixel Rate | Observed FPS | Formula FPS | Er=
-ror
-    % |
-    |---|---:|---:|---:|---:|---:|---:|
-    | 640x480 | 2920 | 1227 | 182400000 | 30.02 | 30.02 | 0.02 |
-    | 640x480 | 4000 | 1227 | 182400000 | 23.03 | 23.03 | 0.00 |
-    | 640x480 | 6000 | 1227 | 182400000 | 16.09 | 16.09 | -0.02 |
-    | 640x480 | 2920 | 2000 | 182400000 | 20.66 | 20.66 | 0.00 |
-    | 640x480 | 2920 | 3000 | 182400000 | 14.72 | 14.72 | -0.02 |
-
-So while the "formula" still works, we can't achieve high FPS capture we
-could before.
-
-With minimum blankings I could get around ~190 FPS capture before. Now it's
-just ~70 FPS.
-
-And I couldn't even stream the any other mode than 640x480, because S_FMT
-on the sensor gives an error:
-
-$ media-ctl -V '"imx219 1-0010":0 [fmt:SRGGB10_1X10/1920x1080 field:none]'
-Unable to setup formats: Numerical result out of range (34)
-
-This patch sets vblank ranges and default values which don't work out:
-   - 1920x1080: min =3D 1080, default =3D 683
-   - 1640x1232: min =3D 616, default =3D -379
-
-Quoting Jacopo Mondi (2026-04-10 14:12:22)
-> Hi Sakari
->=20
-> On Wed, Apr 08, 2026 at 06:39:14PM +0300, Sakari Ailus wrote:
-> > When vertical analogue binning is in use, the minimum frame length in
-> > lines decreases to around half of the normal. In relation to the sensor=
-'s
-> > output size this means vertical blanking can be negative but that's not=
- an
-> > issue as control values are signed. Remove the workaround for this
-> > non-issue that doubled the pixel rate, frame length in lines and exposu=
-re
-> > time.
->=20
-> I don't think this was a workaround. Doubling the pixel rate and
-> halving the values written to registers for EXPOSURE and VBLANK
-> allowed userspace to maintain a consistent view while the driver
-> accounts for the special binning mode where, at least in my latest
-> understanding, the sensor averages two lines before passing them to
-> the ADC.
->=20
-> I am missing in which case, with the current driver implementation,
-> the vertical blanking can be negative.
->=20
-> >
-> > The resulting change also fixes the minimum, the maximum and the step
-> > values for the control.
-> >
-> > Fixes: f513997119f4 ("media: i2c: imx219: Scale the pixel rate for anal=
-og binning")
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->=20
-> Jai, and others including Dave and me, have spent quite some time
-> testing and implementing proper support for the special analogue
-> binning mode for this sensor. Of course we might have missed something
-> obvious, but I'm still missing what you're trying to fix here.
->=20
-
-So, I tend to agree with Jacopo here. There's been a lot of effort to get
-this sensor give correct and high FPS frames.
-
-As we discussed offline, I don't mind the model where we have negative
-values for blankings, but the sensor should still work the same way, i.e.
-the same FPS range is supported with the new blanking and pixel rate model.
-
-Otherwise that would count as breaking the userspace, especially for
-probably the most widely used sensor out there :/
-
-Thanks,
-    Jai
-
-> > ---
-> >  drivers/media/i2c/imx219.c | 29 +++++++++--------------------
-> >  1 file changed, 9 insertions(+), 20 deletions(-)
-> >
-
-[snip]
 
