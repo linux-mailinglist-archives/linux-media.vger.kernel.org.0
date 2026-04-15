@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-58817-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58818-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SHQxF52c32kEWwAAu9opvQ
-	(envelope-from <linux-media+bounces-58817-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 16:11:41 +0200
+	id qEGNGrGc32kEWwAAu9opvQ
+	(envelope-from <linux-media+bounces-58818-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 16:12:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9876D4052AD
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 16:11:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2CB4052B4
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 16:12:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E78E03117E7B
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 14:04:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7636731212CD
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 14:04:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 512113D2FE5;
-	Wed, 15 Apr 2026 14:04:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 764A03D349D;
+	Wed, 15 Apr 2026 14:04:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nRUV7TLx"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kVC1+s3P"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D9B331A65;
-	Wed, 15 Apr 2026 14:04:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1008F5CDF1;
+	Wed, 15 Apr 2026 14:04:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776261875; cv=none; b=EY1Er7bJlfKiX6yJrNxj94jjs70nYhoDRtTA1q2wyMYlqgwdZutnVet0H59Ea95qDEJp1dLgH0SSRrDRfscuLTozuHFn9tPB5zHdrX12sKmGaucwwsNEaV4ZsfeozEI76YX7IKb8ohhcXP3PTs1uqQti0QyVu8kT7g7+FJlIH58=
+	t=1776261876; cv=none; b=iY2Z2Gkpbd/yuZPcGvYgGpWdA4Q7gU3oq6rz3CwvgVXeUEast6FehgwK2JwIQHaUyzdD9uPt1aIHLvhoKtdrVO0jfiwBWRK8kRPX4ybFyQYAqR1txwcU8ae4SKWLnv7CfJ1lrYkAKnL3LIfqqEtqnuAmaaCQrCfj3t5RZCS+2bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776261875; c=relaxed/simple;
-	bh=b5fjOwEBSIWZcALpUV/eqnaYNOTXdtYyqyc59anKa/k=;
+	s=arc-20240116; t=1776261876; c=relaxed/simple;
+	bh=JMFGsq6wkG7d06wrBymDGs/SYjjTwc7qvNBL7Nb2+4w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fe8ZuOPY2cgqf+bMofMvAJ5Dx+s6BtOz5N74gZF25r1tHSqTSHBFIQz0XD+94K4MoSDxn1e7I8sLm0tNqVeOYF8ovvKGWjWmG5JLNGGPN+sw6yfF08/k2cWDLpCrnaFtn4gZSmA4QZpWy2g7lOrnvwlOnw/R3zEBsndBeT+8Xvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nRUV7TLx; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version; b=NNHR3R0v7RfHjbrOfUJW49DT+bR/MNQtT0qLJdYYmD/lBXBrBsHDOF1arKOFf5/GZqCSQO13KeQX2CDK5sCQ/h22cghJPAnvhygh+t9UcDo5DZg9cxucB4Xlq7AQzRFQ7fHDufIdjpMnd3G09unuPZjVD2TiAOaXygT3/3/gLiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kVC1+s3P; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1776261871;
-	bh=b5fjOwEBSIWZcALpUV/eqnaYNOTXdtYyqyc59anKa/k=;
+	s=mail; t=1776261872;
+	bh=JMFGsq6wkG7d06wrBymDGs/SYjjTwc7qvNBL7Nb2+4w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nRUV7TLxSBZM5vysGHLhxG7lxxX2OAEGi+bWSOc3lzr93seYlG+gHATwQYEe6+nQj
-	 XUnjY9bZu/Lcf/2xKqbqMxrv84Kfv2z1tfQv6BKtMZWQsyB0FMrC+oKyQGbtKL7IBB
-	 tQmnk5WfwviJ6MUImnma5vbzFqVZv7Og9Gs65MsZeASr8cUoO/Ke9OW/y6QgmjrMKd
-	 douMiaR8T7+86vZYVXlh7pU3yPs1msbGbScwv4FZCorPa7U5Lrx0blNvMcMGpCXgKi
-	 XfAZ9Rh59mNawv387QjH86mN84VydGCTQPtSeMv5NT2CGAv70JtQ2xRiLNreblzoAh
-	 LLmGJo/EFuSBw==
+	b=kVC1+s3PxQZezEvmCbL51enHJAonbzBc5cp8cKQ5PjFwqum5sf2/5zsehKZ4TDaeM
+	 pf1CA6NafYPFPjPwXXam843vU1R2EKShf9ch6tNEZ/ZjNUU9ReKujb078RhB9a21wA
+	 cGYbkvG/p0qkK1B3f4onAkZU0EfoqGvtIPKGYzFzjQSQbAvCXznpxLNyxy8R4eeuuz
+	 QLe/Fdftj9qpYYA9I+YC5VRKcs/4WyY/WLCzof+OB3bJzWmMtvFy1RIpJTUObxFFx+
+	 oLXSqx4gnniN0znjd6YYbldEOvnMuh+zOn0RI0/RNqame2nfWYUB0ocyl7aa/X5ACJ
+	 wKwedm9xB1APQ==
 Received: from benjamin-XPS-13-9310.. (unknown [100.64.1.43])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1EE0A17E1356;
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id DAB4017E1380;
 	Wed, 15 Apr 2026 16:04:31 +0200 (CEST)
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: nicolas.dufresne@collabora.com,
@@ -74,9 +74,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v3 1/2] media: verisilicon: Simplify motion vectors and rfc buffers allocation
-Date: Wed, 15 Apr 2026 16:04:19 +0200
-Message-ID: <20260415140420.282084-2-benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 2/2] media: verisilicon: Clean up messy include
+Date: Wed, 15 Apr 2026 16:04:20 +0200
+Message-ID: <20260415140420.282084-3-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260415140420.282084-1-benjamin.gaignard@collabora.com>
 References: <20260415140420.282084-1-benjamin.gaignard@collabora.com>
@@ -100,7 +100,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[22];
 	FREEMAIL_TO(0.00)[collabora.com,pengutronix.de,kernel.org,nxp.com,gmail.com,sntech.de,foss.st.com,sholland.org];
-	TAGGED_FROM(0.00)[bounces-58817-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58818-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -116,971 +116,1137 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:email,collabora.com:dkim,collabora.com:mid]
-X-Rspamd-Queue-Id: 9876D4052AD
+X-Rspamd-Queue-Id: 8B2CB4052B4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Until now we reserve the space needed for motion vectors and reference
-frame compression at the end of the frame buffer.
-Disentanglement mv and rfc from frame buffers by allocating
-distinct buffers for each purpose.
-That simplify the code by removing lot of offset computation.
+Over time all codecs specific functions and structures have been
+added in hantro_hw.h file.
+Moving them into dedicated files clean up hantro_hw.h where only
+hardware specific functions should remain and, while at it, reorder
+them.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/platform/verisilicon/hantro.h   |  17 +-
- .../media/platform/verisilicon/hantro_av1.c   |   7 -
- .../media/platform/verisilicon/hantro_av1.h   |  14 +-
- .../media/platform/verisilicon/hantro_g2.c    |  36 ---
- .../platform/verisilicon/hantro_g2_hevc_dec.c |  24 +-
- .../platform/verisilicon/hantro_g2_vp9_dec.c  |  12 +-
- .../media/platform/verisilicon/hantro_h264.h  |  33 +++
- .../media/platform/verisilicon/hantro_hevc.c  |  35 ++-
- .../media/platform/verisilicon/hantro_hevc.h  |  16 ++
- .../media/platform/verisilicon/hantro_hw.h    | 104 +------
- .../platform/verisilicon/hantro_postproc.c    |  29 +-
- .../media/platform/verisilicon/hantro_v4l2.c  | 255 ++++++++++++++++--
- .../media/platform/verisilicon/hantro_vp9.h   |  18 ++
- .../verisilicon/rockchip_vpu981_hw_av1_dec.c  |  16 +-
- 14 files changed, 388 insertions(+), 228 deletions(-)
- create mode 100644 drivers/media/platform/verisilicon/hantro_h264.h
- create mode 100644 drivers/media/platform/verisilicon/hantro_hevc.h
+ drivers/media/platform/verisilicon/hantro.h   |  14 +-
+ .../media/platform/verisilicon/hantro_av1.h   |  86 +++++
+ .../platform/verisilicon/hantro_g1_h264_dec.c |   1 +
+ .../verisilicon/hantro_g1_mpeg2_dec.c         |   2 +-
+ .../platform/verisilicon/hantro_g1_vp8_dec.c  |   2 +-
+ .../platform/verisilicon/hantro_g2_hevc_dec.c |   2 +-
+ .../media/platform/verisilicon/hantro_h264.c  |   2 +-
+ .../media/platform/verisilicon/hantro_h264.h  |  65 ++++
+ .../media/platform/verisilicon/hantro_hevc.c  |   2 +-
+ .../media/platform/verisilicon/hantro_hevc.h  |  66 ++++
+ .../media/platform/verisilicon/hantro_hw.h    | 352 +-----------------
+ .../media/platform/verisilicon/hantro_mpeg2.c |   1 +
+ .../media/platform/verisilicon/hantro_mpeg2.h |  27 ++
+ .../media/platform/verisilicon/hantro_v4l2.c  |   7 +-
+ .../media/platform/verisilicon/hantro_vp8.c   |   1 +
+ .../media/platform/verisilicon/hantro_vp8.h   |  29 ++
+ .../media/platform/verisilicon/hantro_vp9.h   |  86 +++++
+ .../media/platform/verisilicon/imx8m_vpu_hw.c |   5 +
+ .../verisilicon/rockchip_vpu2_hw_h264_dec.c   |   2 +-
+ .../verisilicon/rockchip_vpu2_hw_mpeg2_dec.c  |   2 +-
+ .../verisilicon/rockchip_vpu2_hw_vp8_dec.c    |   2 +-
+ .../platform/verisilicon/rockchip_vpu_hw.c    |   3 +
+ .../platform/verisilicon/stm32mp25_vpu_hw.c   |   2 +
+ .../media/platform/verisilicon/sunxi_vpu_hw.c |   1 +
+ 24 files changed, 413 insertions(+), 349 deletions(-)
+ create mode 100644 drivers/media/platform/verisilicon/hantro_mpeg2.h
+ create mode 100644 drivers/media/platform/verisilicon/hantro_vp8.h
 
 diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
-index 0353de154a1e..c4ceb9c99016 100644
+index c4ceb9c99016..91e04df6463e 100644
 --- a/drivers/media/platform/verisilicon/hantro.h
 +++ b/drivers/media/platform/verisilicon/hantro.h
-@@ -31,6 +31,9 @@ struct hantro_ctx;
+@@ -25,7 +25,12 @@
+ #include <media/videobuf2-core.h>
+ #include <media/videobuf2-dma-contig.h>
+ 
+-#include "hantro_hw.h"
++#include "hantro_av1.h"
++#include "hantro_h264.h"
++#include "hantro_hevc.h"
++#include "hantro_mpeg2.h"
++#include "hantro_vp8.h"
++#include "hantro_vp9.h"
+ 
+ struct hantro_ctx;
  struct hantro_codec_ops;
- struct hantro_postproc_ops;
+@@ -520,4 +525,11 @@ dma_addr_t hantro_mv_get_buf_addr(struct hantro_ctx *ctx, int index);
+ dma_addr_t hantro_rfc_get_luma_buf_addr(struct hantro_ctx *ctx, int index);
+ dma_addr_t hantro_rfc_get_chroma_buf_addr(struct hantro_ctx *ctx, int index);
  
-+#define MAX_MV_BUFFERS	MAX_POSTPROC_BUFFERS
-+#define MAX_RFC_BUFFERS	MAX_POSTPROC_BUFFERS
-+
- #define HANTRO_JPEG_ENCODER	BIT(0)
- #define HANTRO_ENCODERS		0x0000ffff
- #define HANTRO_MPEG2_DECODER	BIT(16)
-@@ -237,6 +240,9 @@ struct hantro_dev {
-  * @need_postproc:	Set to true if the bitstream features require to
-  *			use the post-processor.
-  *
-+ * @dec_mv:		motion vectors buffers for the context.
-+ * @dec_rfc:		reference frame compression buffers for the context.
-+ *
-  * @codec_ops:		Set of operations related to codec mode.
-  * @postproc:		Post-processing context.
-  * @h264_dec:		H.264-decoding context.
-@@ -264,6 +270,9 @@ struct hantro_ctx {
- 	int jpeg_quality;
- 	int bit_depth;
- 
-+	struct hantro_aux_buf dec_mv[MAX_MV_BUFFERS];
-+	struct hantro_aux_buf dec_rfc[MAX_RFC_BUFFERS];
-+
- 	const struct hantro_codec_ops *codec_ops;
- 	struct hantro_postproc_ctx postproc;
- 	bool need_postproc;
-@@ -334,14 +343,14 @@ struct hantro_vp9_decoded_buffer_info {
- 	unsigned short width;
- 	unsigned short height;
- 	size_t chroma_offset;
--	size_t mv_offset;
-+	dma_addr_t mv_addr;
- 	u32 bit_depth : 4;
- };
- 
- struct hantro_av1_decoded_buffer_info {
- 	/* Info needed when the decoded frame serves as a reference frame. */
- 	size_t chroma_offset;
--	size_t mv_offset;
-+	dma_addr_t mv_addr;
- };
- 
- struct hantro_decoded_buffer {
-@@ -507,4 +516,8 @@ void hantro_postproc_free(struct hantro_ctx *ctx);
- int hanto_postproc_enum_framesizes(struct hantro_ctx *ctx,
- 				   struct v4l2_frmsizeenum *fsize);
- 
-+dma_addr_t hantro_mv_get_buf_addr(struct hantro_ctx *ctx, int index);
-+dma_addr_t hantro_rfc_get_luma_buf_addr(struct hantro_ctx *ctx, int index);
-+dma_addr_t hantro_rfc_get_chroma_buf_addr(struct hantro_ctx *ctx, int index);
++void hantro_watchdog(struct work_struct *work);
++void hantro_run(struct hantro_ctx *ctx);
++void hantro_irq_done(struct hantro_dev *vpu,
++		     enum vb2_buffer_state result);
++void hantro_start_prepare_run(struct hantro_ctx *ctx);
++void hantro_end_prepare_run(struct hantro_ctx *ctx);
 +
  #endif /* HANTRO_H_ */
-diff --git a/drivers/media/platform/verisilicon/hantro_av1.c b/drivers/media/platform/verisilicon/hantro_av1.c
-index 5a51ac877c9c..3a80a7994f67 100644
---- a/drivers/media/platform/verisilicon/hantro_av1.c
-+++ b/drivers/media/platform/verisilicon/hantro_av1.c
-@@ -222,13 +222,6 @@ size_t hantro_av1_luma_size(struct hantro_ctx *ctx)
- 	return ctx->ref_fmt.plane_fmt[0].bytesperline * ctx->ref_fmt.height;
- }
- 
--size_t hantro_av1_chroma_size(struct hantro_ctx *ctx)
--{
--	size_t cr_offset = hantro_av1_luma_size(ctx);
--
--	return ALIGN((cr_offset * 3) / 2, 64);
--}
--
- static void hantro_av1_tiles_free(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
 diff --git a/drivers/media/platform/verisilicon/hantro_av1.h b/drivers/media/platform/verisilicon/hantro_av1.h
-index 4e2122b95cdd..bc4a0887f8e7 100644
+index bc4a0887f8e7..8f0a001b9750 100644
 --- a/drivers/media/platform/verisilicon/hantro_av1.h
 +++ b/drivers/media/platform/verisilicon/hantro_av1.h
-@@ -41,7 +41,6 @@ int hantro_av1_get_order_hint(struct hantro_ctx *ctx, int ref);
- int hantro_av1_frame_ref(struct hantro_ctx *ctx, u64 timestamp);
- void hantro_av1_clean_refs(struct hantro_ctx *ctx);
- size_t hantro_av1_luma_size(struct hantro_ctx *ctx);
--size_t hantro_av1_chroma_size(struct hantro_ctx *ctx);
- void hantro_av1_exit(struct hantro_ctx *ctx);
- int hantro_av1_init(struct hantro_ctx *ctx);
- int hantro_av1_prepare_run(struct hantro_ctx *ctx);
-@@ -59,4 +58,17 @@ void hantro_av1_set_prob(struct hantro_ctx *ctx);
- int hantro_av1_get_hardware_mcomp_filt_type(int interpolation_filter);
- int hantro_av1_get_hardware_tx_mode(enum v4l2_av1_tx_mode tx_mode);
+@@ -3,6 +3,10 @@
+ #ifndef _HANTRO_AV1_H_
+ #define _HANTRO_AV1_H_
  
-+static inline unsigned short hantro_av1_num_sbs(unsigned short dimension)
-+{
-+	return DIV_ROUND_UP(dimension, 64);
-+}
++#include "hantro_av1_entropymode.h"
++#include "hantro_av1_filmgrain.h"
++#include "hantro_hw.h"
 +
-+static inline size_t
-+hantro_av1_mv_size(unsigned int width, unsigned int height)
-+{
-+	size_t num_sbs = hantro_av1_num_sbs(width) * hantro_av1_num_sbs(height);
+ #define AV1_PRIMARY_REF_NONE	7
+ #define AV1_REF_SCALE_SHIFT	14
+ #define MAX_FRAME_DISTANCE	31
+@@ -36,6 +40,88 @@
+ #define ALT2_BUF_IDX (V4L2_AV1_REF_ALTREF2_FRAME - V4L2_AV1_REF_LAST_FRAME)
+ #define ALT_BUF_IDX (V4L2_AV1_REF_ALTREF_FRAME - V4L2_AV1_REF_LAST_FRAME)
+ 
++#define AV1_MAX_FRAME_BUF_COUNT	(V4L2_AV1_TOTAL_REFS_PER_FRAME + 1)
 +
-+	return ALIGN(num_sbs * 384, 16) * 2 + 512;
-+}
 +
- #endif
-diff --git a/drivers/media/platform/verisilicon/hantro_g2.c b/drivers/media/platform/verisilicon/hantro_g2.c
-index 318673b66da8..4ae7df53dcb1 100644
---- a/drivers/media/platform/verisilicon/hantro_g2.c
-+++ b/drivers/media/platform/verisilicon/hantro_g2.c
-@@ -99,39 +99,3 @@ size_t hantro_g2_chroma_offset(struct hantro_ctx *ctx)
- {
- 	return ctx->ref_fmt.plane_fmt[0].bytesperline *	ctx->ref_fmt.height;
- }
--
--size_t hantro_g2_motion_vectors_offset(struct hantro_ctx *ctx)
--{
--	size_t cr_offset = hantro_g2_chroma_offset(ctx);
--
--	return ALIGN((cr_offset * 3) / 2, G2_ALIGN);
--}
--
--static size_t hantro_g2_mv_size(struct hantro_ctx *ctx)
--{
--	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
--	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
--	unsigned int pic_width_in_ctbs, pic_height_in_ctbs;
--	unsigned int max_log2_ctb_size;
--
--	max_log2_ctb_size = sps->log2_min_luma_coding_block_size_minus3 + 3 +
--			    sps->log2_diff_max_min_luma_coding_block_size;
--	pic_width_in_ctbs = (sps->pic_width_in_luma_samples +
--			    (1 << max_log2_ctb_size) - 1) >> max_log2_ctb_size;
--	pic_height_in_ctbs = (sps->pic_height_in_luma_samples + (1 << max_log2_ctb_size) - 1)
--			     >> max_log2_ctb_size;
--
--	return pic_width_in_ctbs * pic_height_in_ctbs * (1 << (2 * (max_log2_ctb_size - 4))) * 16;
--}
--
--size_t hantro_g2_luma_compress_offset(struct hantro_ctx *ctx)
--{
--	return hantro_g2_motion_vectors_offset(ctx) +
--	       hantro_g2_mv_size(ctx);
--}
--
--size_t hantro_g2_chroma_compress_offset(struct hantro_ctx *ctx)
--{
--	return hantro_g2_luma_compress_offset(ctx) +
--	       hantro_hevc_luma_compressed_size(ctx->dst_fmt.width, ctx->dst_fmt.height);
--}
++/**
++ * struct hantro_av1_dec_ctrls
++ * @sequence:		AV1 Sequence
++ * @tile_group_entry:	AV1 Tile Group entry
++ * @frame:		AV1 Frame Header OBU
++ * @film_grain:		AV1 Film Grain
++ */
++struct hantro_av1_dec_ctrls {
++	const struct v4l2_ctrl_av1_sequence *sequence;
++	const struct v4l2_ctrl_av1_tile_group_entry *tile_group_entry;
++	const struct v4l2_ctrl_av1_frame *frame;
++	const struct v4l2_ctrl_av1_film_grain *film_grain;
++};
++
++struct hantro_av1_frame_ref {
++	int width;
++	int height;
++	int mi_cols;
++	int mi_rows;
++	u64 timestamp;
++	enum v4l2_av1_frame_type frame_type;
++	bool used;
++	u32 order_hint;
++	u32 order_hints[V4L2_AV1_TOTAL_REFS_PER_FRAME];
++	struct vb2_v4l2_buffer *vb2_ref;
++};
++
++/**
++ * struct hantro_av1_dec_hw_ctx
++ * @db_data_col:	db tile col data buffer
++ * @db_ctrl_col:	db tile col ctrl buffer
++ * @cdef_col:		cdef tile col buffer
++ * @sr_col:		sr tile col buffer
++ * @lr_col:		lr tile col buffer
++ * @global_model:	global model buffer
++ * @tile_info:		tile info buffer
++ * @segment:		segmentation info buffer
++ * @film_grain:		film grain buffer
++ * @prob_tbl:		probability table
++ * @prob_tbl_out:	probability table output
++ * @tile_buf:		tile buffer
++ * @ctrls:		V4L2 controls attached to a run
++ * @frame_refs:		reference frames info slots
++ * @ref_frame_sign_bias: array of sign bias
++ * @num_tile_cols_allocated: number of allocated tiles
++ * @cdfs:		current probabilities structure
++ * @cdfs_ndvc:		current mv probabilities structure
++ * @default_cdfs:	default probabilities structure
++ * @default_cdfs_ndvc:	default mv probabilties structure
++ * @cdfs_last:		stored probabilities structures
++ * @cdfs_last_ndvc:	stored mv probabilities structures
++ * @current_frame_index: index of the current in frame_refs array
++ */
++struct hantro_av1_dec_hw_ctx {
++	struct hantro_aux_buf db_data_col;
++	struct hantro_aux_buf db_ctrl_col;
++	struct hantro_aux_buf cdef_col;
++	struct hantro_aux_buf sr_col;
++	struct hantro_aux_buf lr_col;
++	struct hantro_aux_buf global_model;
++	struct hantro_aux_buf tile_info;
++	struct hantro_aux_buf segment;
++	struct hantro_aux_buf film_grain;
++	struct hantro_aux_buf prob_tbl;
++	struct hantro_aux_buf prob_tbl_out;
++	struct hantro_aux_buf tile_buf;
++	struct hantro_av1_dec_ctrls ctrls;
++	struct hantro_av1_frame_ref frame_refs[AV1_MAX_FRAME_BUF_COUNT];
++	u32 ref_frame_sign_bias[V4L2_AV1_TOTAL_REFS_PER_FRAME];
++	unsigned int num_tile_cols_allocated;
++	struct av1cdfs *cdfs;
++	struct mvcdfs  *cdfs_ndvc;
++	struct av1cdfs default_cdfs;
++	struct mvcdfs  default_cdfs_ndvc;
++	struct av1cdfs cdfs_last[NUM_REF_FRAMES];
++	struct mvcdfs  cdfs_last_ndvc[NUM_REF_FRAMES];
++	int current_frame_index;
++};
++
+ int hantro_av1_get_frame_index(struct hantro_ctx *ctx, int ref);
+ int hantro_av1_get_order_hint(struct hantro_ctx *ctx, int ref);
+ int hantro_av1_frame_ref(struct hantro_ctx *ctx, u64 timestamp);
+diff --git a/drivers/media/platform/verisilicon/hantro_g1_h264_dec.c b/drivers/media/platform/verisilicon/hantro_g1_h264_dec.c
+index ad5c1a6634f5..a1da2adda5eb 100644
+--- a/drivers/media/platform/verisilicon/hantro_g1_h264_dec.c
++++ b/drivers/media/platform/verisilicon/hantro_g1_h264_dec.c
+@@ -16,6 +16,7 @@
+ #include <media/v4l2-mem2mem.h>
+ 
+ #include "hantro_g1_regs.h"
++#include "hantro_h264.h"
+ #include "hantro_hw.h"
+ #include "hantro_v4l2.h"
+ 
+diff --git a/drivers/media/platform/verisilicon/hantro_g1_mpeg2_dec.c b/drivers/media/platform/verisilicon/hantro_g1_mpeg2_dec.c
+index e0d6bd0a6e44..7c2f0697295d 100644
+--- a/drivers/media/platform/verisilicon/hantro_g1_mpeg2_dec.c
++++ b/drivers/media/platform/verisilicon/hantro_g1_mpeg2_dec.c
+@@ -9,8 +9,8 @@
+ #include <linux/bitfield.h>
+ #include <media/v4l2-mem2mem.h>
+ #include "hantro.h"
+-#include "hantro_hw.h"
+ #include "hantro_g1_regs.h"
++#include "hantro_mpeg2.h"
+ 
+ #define G1_SWREG(nr)			((nr) * 4)
+ 
+diff --git a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+index 851eb67f19f5..e155d9868b32 100644
+--- a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
++++ b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+@@ -11,9 +11,9 @@
+ 
+ #include <media/v4l2-mem2mem.h>
+ 
+-#include "hantro_hw.h"
+ #include "hantro.h"
+ #include "hantro_g1_regs.h"
++#include "hantro_vp8.h"
+ 
+ /* DCT partition base address regs */
+ static const struct hantro_reg vp8_dec_dct_base[8] = {
 diff --git a/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c b/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
-index e8c2e83379de..d0af9fb882ba 100644
+index d0af9fb882ba..39f271e570f7 100644
 --- a/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
 +++ b/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
-@@ -383,9 +383,6 @@ static int set_ref(struct hantro_ctx *ctx)
- 	struct vb2_v4l2_buffer *vb2_dst;
- 	struct hantro_decoded_buffer *dst;
- 	size_t cr_offset = hantro_g2_chroma_offset(ctx);
--	size_t mv_offset = hantro_g2_motion_vectors_offset(ctx);
--	size_t compress_luma_offset = hantro_g2_luma_compress_offset(ctx);
--	size_t compress_chroma_offset = hantro_g2_chroma_compress_offset(ctx);
- 	u32 max_ref_frames;
- 	u16 dpb_longterm_e;
- 	static const struct hantro_reg cur_poc[] = {
-@@ -453,14 +450,17 @@ static int set_ref(struct hantro_ctx *ctx)
- 	dpb_longterm_e = 0;
- 	for (i = 0; i < decode_params->num_active_dpb_entries &&
- 	     i < (V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1); i++) {
-+		int index = hantro_hevc_get_ref_buf_index(ctx, dpb[i].pic_order_cnt_val);
- 		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt_val);
- 		if (!luma_addr)
- 			return -ENOMEM;
+@@ -5,7 +5,7 @@
+  * Copyright (C) 2020 Safran Passenger Innovations LLC
+  */
  
- 		chroma_addr = luma_addr + cr_offset;
--		mv_addr = luma_addr + mv_offset;
--		compress_luma_addr = luma_addr + compress_luma_offset;
--		compress_chroma_addr = luma_addr + compress_chroma_offset;
-+		mv_addr = hantro_mv_get_buf_addr(ctx, index);
-+		if (ctx->hevc_dec.use_compression) {
-+			compress_luma_addr = hantro_rfc_get_luma_buf_addr(ctx, index);
-+			compress_chroma_addr = hantro_rfc_get_chroma_buf_addr(ctx, index);
-+		}
+-#include "hantro_hw.h"
++#include "hantro_hevc.h"
+ #include "hantro_g2_regs.h"
  
- 		if (dpb[i].flags & V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
- 			dpb_longterm_e |= BIT(V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1 - i);
-@@ -478,13 +478,17 @@ static int set_ref(struct hantro_ctx *ctx)
- 	if (!luma_addr)
- 		return -ENOMEM;
+ static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
+diff --git a/drivers/media/platform/verisilicon/hantro_h264.c b/drivers/media/platform/verisilicon/hantro_h264.c
+index 2414782f1eb6..5e684389f04f 100644
+--- a/drivers/media/platform/verisilicon/hantro_h264.c
++++ b/drivers/media/platform/verisilicon/hantro_h264.c
+@@ -15,7 +15,7 @@
+ #include <media/v4l2-mem2mem.h>
  
--	if (hantro_hevc_add_ref_buf(ctx, decode_params->pic_order_cnt_val, luma_addr))
-+	if (hantro_hevc_add_ref_buf(ctx, decode_params->pic_order_cnt_val, luma_addr, vb2_dst))
- 		return -EINVAL;
+ #include "hantro.h"
+-#include "hantro_hw.h"
++#include "hantro_h264.h"
  
- 	chroma_addr = luma_addr + cr_offset;
--	mv_addr = luma_addr + mv_offset;
--	compress_luma_addr = luma_addr + compress_luma_offset;
--	compress_chroma_addr = luma_addr + compress_chroma_offset;
-+	mv_addr = hantro_mv_get_buf_addr(ctx, dst->base.vb.vb2_buf.index);
-+	if (ctx->hevc_dec.use_compression) {
-+		compress_luma_addr =
-+			hantro_rfc_get_luma_buf_addr(ctx, dst->base.vb.vb2_buf.index);
-+		compress_chroma_addr =
-+			hantro_rfc_get_chroma_buf_addr(ctx, dst->base.vb.vb2_buf.index);
-+	}
- 
- 	hantro_write_addr(vpu, G2_REF_LUMA_ADDR(i), luma_addr);
- 	hantro_write_addr(vpu, G2_REF_CHROMA_ADDR(i), chroma_addr);
-diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-index 56c79e339030..1e96d0fce72a 100644
---- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-+++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-@@ -129,7 +129,7 @@ static void config_output(struct hantro_ctx *ctx,
- 			  struct hantro_decoded_buffer *dst,
- 			  const struct v4l2_ctrl_vp9_frame *dec_params)
- {
--	dma_addr_t luma_addr, chroma_addr, mv_addr;
-+	dma_addr_t luma_addr, chroma_addr;
- 
- 	hantro_reg_write(ctx->dev, &g2_out_dis, 0);
- 	if (!ctx->dev->variant->legacy_regs)
-@@ -142,9 +142,8 @@ static void config_output(struct hantro_ctx *ctx,
- 	hantro_write_addr(ctx->dev, G2_OUT_CHROMA_ADDR, chroma_addr);
- 	dst->vp9.chroma_offset = hantro_g2_chroma_offset(ctx);
- 
--	mv_addr = luma_addr + hantro_g2_motion_vectors_offset(ctx);
--	hantro_write_addr(ctx->dev, G2_OUT_MV_ADDR, mv_addr);
--	dst->vp9.mv_offset = hantro_g2_motion_vectors_offset(ctx);
-+	dst->vp9.mv_addr = hantro_mv_get_buf_addr(ctx, dst->base.vb.vb2_buf.index);
-+	hantro_write_addr(ctx->dev, G2_OUT_MV_ADDR, dst->vp9.mv_addr);
- }
- 
- struct hantro_vp9_ref_reg {
-@@ -215,15 +214,12 @@ static void config_ref_registers(struct hantro_ctx *ctx,
- 			.c_base = G2_REF_CHROMA_ADDR(5),
- 		},
- 	};
--	dma_addr_t mv_addr;
- 
- 	config_ref(ctx, dst, &ref_regs[0], dec_params, dec_params->last_frame_ts);
- 	config_ref(ctx, dst, &ref_regs[1], dec_params, dec_params->golden_frame_ts);
- 	config_ref(ctx, dst, &ref_regs[2], dec_params, dec_params->alt_frame_ts);
- 
--	mv_addr = hantro_get_dec_buf_addr(ctx, &mv_ref->base.vb.vb2_buf) +
--		  mv_ref->vp9.mv_offset;
--	hantro_write_addr(ctx->dev, G2_REF_MV_ADDR(0), mv_addr);
-+	hantro_write_addr(ctx->dev, G2_REF_MV_ADDR(0), mv_ref->vp9.mv_addr);
- 
- 	hantro_reg_write(ctx->dev, &vp9_last_sign_bias,
- 			 dec_params->ref_frame_sign_bias & V4L2_VP9_SIGN_BIAS_LAST ? 1 : 0);
+ /* Size with u32 units. */
+ #define CABAC_INIT_BUFFER_SIZE		(460 * 2)
 diff --git a/drivers/media/platform/verisilicon/hantro_h264.h b/drivers/media/platform/verisilicon/hantro_h264.h
-new file mode 100644
-index 000000000000..89348203a712
---- /dev/null
+index 89348203a712..d94e4b21d991 100644
+--- a/drivers/media/platform/verisilicon/hantro_h264.h
 +++ b/drivers/media/platform/verisilicon/hantro_h264.h
-@@ -0,0 +1,33 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Hantro H264 codec driver
-+ *
-+ * Copyright (C) 2026 Collabora Ltd.
-+ */
+@@ -5,6 +5,63 @@
+  * Copyright (C) 2026 Collabora Ltd.
+  */
+ 
++#ifndef _HANTRO_H264_H_
++#define _HANTRO_H264_H_
 +
-+static inline size_t
-+hantro_h264_mv_size(unsigned int width, unsigned int height)
-+{
-+	/*
-+	 * A decoded 8-bit 4:2:0 NV12 frame may need memory for up to
-+	 * 448 bytes per macroblock with additional 32 bytes on
-+	 * multi-core variants.
-+	 *
-+	 * The H264 decoder needs extra space on the output buffers
-+	 * to store motion vectors. This is needed for reference
-+	 * frames and only if the format is non-post-processed NV12.
-+	 *
-+	 * Memory layout is as follow:
-+	 *
-+	 * +---------------------------+
-+	 * | Y-plane   256 bytes x MBs |
-+	 * +---------------------------+
-+	 * | UV-plane  128 bytes x MBs |
-+	 * +---------------------------+
-+	 * | MV buffer  64 bytes x MBs |
-+	 * +---------------------------+
-+	 * | MC sync          32 bytes |
-+	 * +---------------------------+
-+	 */
-+	return 64 * MB_WIDTH(width) * MB_WIDTH(height) + 32;
-+}
++#include "hantro_hw.h"
++
++/* Max. number of entries in the DPB (HW limitation). */
++#define HANTRO_H264_DPB_SIZE		16
++
++/**
++ * struct hantro_h264_dec_ctrls
++ *
++ * @decode:	Decode params
++ * @scaling:	Scaling info
++ * @sps:	SPS info
++ * @pps:	PPS info
++ */
++struct hantro_h264_dec_ctrls {
++	const struct v4l2_ctrl_h264_decode_params *decode;
++	const struct v4l2_ctrl_h264_scaling_matrix *scaling;
++	const struct v4l2_ctrl_h264_sps *sps;
++	const struct v4l2_ctrl_h264_pps *pps;
++};
++
++/**
++ * struct hantro_h264_dec_reflists
++ *
++ * @p:		P reflist
++ * @b0:		B0 reflist
++ * @b1:		B1 reflist
++ */
++struct hantro_h264_dec_reflists {
++	struct v4l2_h264_reference p[V4L2_H264_REF_LIST_LEN];
++	struct v4l2_h264_reference b0[V4L2_H264_REF_LIST_LEN];
++	struct v4l2_h264_reference b1[V4L2_H264_REF_LIST_LEN];
++};
++
++/**
++ * struct hantro_h264_dec_hw_ctx
++ *
++ * @priv:	Private auxiliary buffer for hardware.
++ * @dpb:	DPB
++ * @reflists:	P/B0/B1 reflists
++ * @ctrls:	V4L2 controls attached to a run
++ * @dpb_longterm: DPB long-term
++ * @dpb_valid:	  DPB valid
++ * @cur_poc:	Current picture order count
++ */
++struct hantro_h264_dec_hw_ctx {
++	struct hantro_aux_buf priv;
++	struct v4l2_h264_dpb_entry dpb[HANTRO_H264_DPB_SIZE];
++	struct hantro_h264_dec_reflists reflists;
++	struct hantro_h264_dec_ctrls ctrls;
++	u32 dpb_longterm;
++	u32 dpb_valid;
++	s32 cur_poc;
++};
++
+ static inline size_t
+ hantro_h264_mv_size(unsigned int width, unsigned int height)
+ {
+@@ -31,3 +88,11 @@ hantro_h264_mv_size(unsigned int width, unsigned int height)
+ 	 */
+ 	return 64 * MB_WIDTH(width) * MB_WIDTH(height) + 32;
+ }
++
++dma_addr_t hantro_h264_get_ref_buf(struct hantro_ctx *ctx, unsigned int dpb_idx);
++u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx);
++int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx);
++int hantro_h264_dec_init(struct hantro_ctx *ctx);
++void hantro_h264_dec_exit(struct hantro_ctx *ctx);
++
++#endif
 diff --git a/drivers/media/platform/verisilicon/hantro_hevc.c b/drivers/media/platform/verisilicon/hantro_hevc.c
-index 83cd12b0ddd6..eea4d9e6fde0 100644
+index eea4d9e6fde0..04a694cd19f9 100644
 --- a/drivers/media/platform/verisilicon/hantro_hevc.c
 +++ b/drivers/media/platform/verisilicon/hantro_hevc.c
-@@ -44,30 +44,49 @@ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
- 	int i;
+@@ -9,7 +9,7 @@
+ #include <media/v4l2-mem2mem.h>
  
- 	/* Find the reference buffer in already known ones */
--	for (i = 0;  i < NUM_REF_PICTURES; i++) {
-+	for (i = 0; i < NUM_REF_PICTURES; i++) {
- 		if (hevc_dec->ref_bufs_poc[i] == poc) {
- 			hevc_dec->ref_bufs_used |= 1 << i;
- 			return hevc_dec->ref_bufs[i].dma;
- 		}
- 	}
--
- 	return 0;
- }
+ #include "hantro.h"
+-#include "hantro_hw.h"
++#include "hantro_hevc.h"
  
--int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr)
-+int hantro_hevc_get_ref_buf_index(struct hantro_ctx *ctx, s32 poc)
- {
- 	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
- 	int i;
- 
--	/* Add a new reference buffer */
-+	/* Find the reference buffer in already known ones */
- 	for (i = 0; i < NUM_REF_PICTURES; i++) {
--		if (!(hevc_dec->ref_bufs_used & 1 << i)) {
-+		if (hevc_dec->ref_bufs_poc[i] == poc) {
- 			hevc_dec->ref_bufs_used |= 1 << i;
--			hevc_dec->ref_bufs_poc[i] = poc;
--			hevc_dec->ref_bufs[i].dma = addr;
--			return 0;
-+			return hevc_dec->ref_vb2[i]->vb2_buf.index;
- 		}
- 	}
-+	return 0;
-+}
-+
-+int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx,
-+			    int poc,
-+			    dma_addr_t addr,
-+			    struct vb2_v4l2_buffer *vb2)
-+{
-+	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
-+	int i;
-+
-+	/* Add a new reference buffer */
-+	for (i = 0; i < NUM_REF_PICTURES; i++) {
-+		if (hevc_dec->ref_bufs_used & (1 << i))
-+			continue;
-+
-+		hevc_dec->ref_bufs_used |= 1 << i;
-+		hevc_dec->ref_bufs_poc[i] = poc;
-+		hevc_dec->ref_bufs[i].dma = addr;
-+		hevc_dec->ref_vb2[i] = vb2;
-+		return 0;
-+	}
- 
- 	return -EINVAL;
- }
+ #define VERT_FILTER_RAM_SIZE 8 /* bytes per pixel row */
+ /*
 diff --git a/drivers/media/platform/verisilicon/hantro_hevc.h b/drivers/media/platform/verisilicon/hantro_hevc.h
-new file mode 100644
-index 000000000000..cfaeb8662473
---- /dev/null
+index cfaeb8662473..71e17054743d 100644
+--- a/drivers/media/platform/verisilicon/hantro_hevc.h
 +++ b/drivers/media/platform/verisilicon/hantro_hevc.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Hantro H264 codec driver
-+ *
-+ * Copyright (C) 2026 Collabora Ltd.
-+ */
+@@ -5,6 +5,60 @@
+  * Copyright (C) 2026 Collabora Ltd.
+  */
+ 
++#ifndef _HANTRO_HEVC_H_
++#define _HANTRO_HEVC_H_
 +
-+static inline size_t
-+hantro_hevc_mv_size(unsigned int width, unsigned int height, int depth)
-+{
-+	/*
-+	 * A CTB can be 64x64, 32x32 or 16x16.
-+	 * Allocated memory for the "worse" case: 16x16
-+	 */
-+	return DIV_ROUND_UP(width * height * depth / 8, 16);
-+}
-diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
-index d1d39d1df5d2..6903af119345 100644
---- a/drivers/media/platform/verisilicon/hantro_hw.h
-+++ b/drivers/media/platform/verisilicon/hantro_hw.h
-@@ -162,6 +162,7 @@ struct hantro_hevc_dec_hw_ctx {
- 	struct hantro_aux_buf scaling_lists;
- 	s32 ref_bufs_poc[NUM_REF_PICTURES];
- 	u32 ref_bufs_used;
++#include "hantro_hw.h"
++
++#define NUM_REF_PICTURES	(V4L2_HEVC_DPB_ENTRIES_NUM_MAX + 1)
++
++/**
++ * struct hantro_hevc_dec_ctrls
++ * @decode_params: Decode params
++ * @scaling:	Scaling matrix
++ * @sps:	SPS info
++ * @pps:	PPS info
++ * @hevc_hdr_skip_length: the number of data (in bits) to skip in the
++ *			  slice segment header syntax after 'slice type'
++ *			  token
++ */
++struct hantro_hevc_dec_ctrls {
++	const struct v4l2_ctrl_hevc_decode_params *decode_params;
++	const struct v4l2_ctrl_hevc_scaling_matrix *scaling;
++	const struct v4l2_ctrl_hevc_sps *sps;
++	const struct v4l2_ctrl_hevc_pps *pps;
++	u32 hevc_hdr_skip_length;
++};
++
++/**
++ * struct hantro_hevc_dec_hw_ctx
++ * @tile_sizes:		Tile sizes buffer
++ * @tile_filter:	Tile vertical filter buffer
++ * @tile_sao:		Tile SAO buffer
++ * @tile_bsd:		Tile BSD control buffer
++ * @ref_bufs:		Internal reference buffers
++ * @scaling_lists:	Scaling lists buffer
++ * @ref_bufs_poc:	Internal reference buffers picture order count
++ * @ref_bufs_used:	Bitfield of used reference buffers
++ * @ctrls:		V4L2 controls attached to a run
++ * @num_tile_cols_allocated: number of allocated tiles
++ * @use_compression:	use reference buffer compression
++ */
++struct hantro_hevc_dec_hw_ctx {
++	struct hantro_aux_buf tile_sizes;
++	struct hantro_aux_buf tile_filter;
++	struct hantro_aux_buf tile_sao;
++	struct hantro_aux_buf tile_bsd;
++	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
++	struct hantro_aux_buf scaling_lists;
++	s32 ref_bufs_poc[NUM_REF_PICTURES];
++	u32 ref_bufs_used;
 +	struct vb2_v4l2_buffer *ref_vb2[NUM_REF_PICTURES];
- 	struct hantro_hevc_dec_ctrls ctrls;
- 	unsigned int num_tile_cols_allocated;
- 	bool use_compression;
-@@ -457,109 +458,14 @@ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
- int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
- void hantro_hevc_ref_init(struct hantro_ctx *ctx);
- dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
--int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
++	struct hantro_hevc_dec_ctrls ctrls;
++	unsigned int num_tile_cols_allocated;
++	bool use_compression;
++};
++
+ static inline size_t
+ hantro_hevc_mv_size(unsigned int width, unsigned int height, int depth)
+ {
+@@ -14,3 +68,15 @@ hantro_hevc_mv_size(unsigned int width, unsigned int height, int depth)
+ 	 */
+ 	return DIV_ROUND_UP(width * height * depth / 8, 16);
+ }
++
++int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
++void hantro_hevc_ref_init(struct hantro_ctx *ctx);
++dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
 +int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc,
 +			    dma_addr_t addr,
 +			    struct vb2_v4l2_buffer *vb2);
 +int hantro_hevc_get_ref_buf_index(struct hantro_ctx *ctx, s32 poc);
++int hantro_hevc_dec_init(struct hantro_ctx *ctx);
++void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
++
++#endif
+diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
+index 6903af119345..6d6944088c8e 100644
+--- a/drivers/media/platform/verisilicon/hantro_hw.h
++++ b/drivers/media/platform/verisilicon/hantro_hw.h
+@@ -15,9 +15,6 @@
+ #include <media/v4l2-vp9.h>
+ #include <media/videobuf2-core.h>
  
- int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx);
+-#include "hantro_av1_entropymode.h"
+-#include "hantro_av1_filmgrain.h"
+-
+ #define DEC_8190_ALIGN_MASK	0x07U
  
--static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
--{
--	return (dimension + 63) / 64;
--}
--
--static inline size_t
--hantro_vp9_mv_size(unsigned int width, unsigned int height)
--{
--	int num_ctbs;
--
--	/*
--	 * There can be up to (CTBs x 64) number of blocks,
--	 * and the motion vector for each block needs 16 bytes.
--	 */
--	num_ctbs = hantro_vp9_num_sbs(width) * hantro_vp9_num_sbs(height);
--	return (num_ctbs * 64) * 16;
--}
--
--static inline size_t
--hantro_h264_mv_size(unsigned int width, unsigned int height)
--{
--	/*
--	 * A decoded 8-bit 4:2:0 NV12 frame may need memory for up to
--	 * 448 bytes per macroblock with additional 32 bytes on
--	 * multi-core variants.
--	 *
--	 * The H264 decoder needs extra space on the output buffers
--	 * to store motion vectors. This is needed for reference
--	 * frames and only if the format is non-post-processed NV12.
--	 *
--	 * Memory layout is as follow:
--	 *
--	 * +---------------------------+
--	 * | Y-plane   256 bytes x MBs |
--	 * +---------------------------+
--	 * | UV-plane  128 bytes x MBs |
--	 * +---------------------------+
--	 * | MV buffer  64 bytes x MBs |
--	 * +---------------------------+
--	 * | MC sync          32 bytes |
--	 * +---------------------------+
--	 */
--	return 64 * MB_WIDTH(width) * MB_WIDTH(height) + 32;
--}
--
--static inline size_t
--hantro_hevc_mv_size(unsigned int width, unsigned int height)
--{
--	/*
--	 * A CTB can be 64x64, 32x32 or 16x16.
--	 * Allocated memory for the "worse" case: 16x16
--	 */
--	return width * height / 16;
--}
--
--static inline size_t
--hantro_hevc_luma_compressed_size(unsigned int width, unsigned int height)
--{
--	u32 pic_width_in_cbsy =
--		round_up((width + CBS_LUMA - 1) / CBS_LUMA, CBS_SIZE);
--	u32 pic_height_in_cbsy = (height + CBS_LUMA - 1) / CBS_LUMA;
--
--	return round_up(pic_width_in_cbsy * pic_height_in_cbsy, CBS_SIZE);
--}
--
--static inline size_t
--hantro_hevc_chroma_compressed_size(unsigned int width, unsigned int height)
--{
--	u32 pic_width_in_cbsc =
--		round_up((width + CBS_CHROMA_W - 1) / CBS_CHROMA_W, CBS_SIZE);
--	u32 pic_height_in_cbsc = (height / 2 + CBS_CHROMA_H - 1) / CBS_CHROMA_H;
--
--	return round_up(pic_width_in_cbsc * pic_height_in_cbsc, CBS_SIZE);
--}
--
--static inline size_t
--hantro_hevc_compressed_size(unsigned int width, unsigned int height)
--{
--	return hantro_hevc_luma_compressed_size(width, height) +
--	       hantro_hevc_chroma_compressed_size(width, height);
--}
--
--static inline unsigned short hantro_av1_num_sbs(unsigned short dimension)
--{
--	return DIV_ROUND_UP(dimension, 64);
--}
--
--static inline size_t
--hantro_av1_mv_size(unsigned int width, unsigned int height)
--{
--	size_t num_sbs = hantro_av1_num_sbs(width) * hantro_av1_num_sbs(height);
--
--	return ALIGN(num_sbs * 384, 16) * 2 + 512;
--}
--
- size_t hantro_g2_chroma_offset(struct hantro_ctx *ctx);
--size_t hantro_g2_motion_vectors_offset(struct hantro_ctx *ctx);
--size_t hantro_g2_luma_compress_offset(struct hantro_ctx *ctx);
--size_t hantro_g2_chroma_compress_offset(struct hantro_ctx *ctx);
+ #define MB_DIM			16
+@@ -36,19 +33,8 @@
+ #define FMT_4K_WIDTH		4096
+ #define FMT_4K_HEIGHT		2304
  
+-#define NUM_REF_PICTURES	(V4L2_HEVC_DPB_ENTRIES_NUM_MAX + 1)
+-
+-#define AV1_MAX_FRAME_BUF_COUNT	(V4L2_AV1_TOTAL_REFS_PER_FRAME + 1)
+-
+ #define MAX_POSTPROC_BUFFERS	64
+ 
+-#define CBS_SIZE	16	/* compression table size in bytes */
+-#define CBS_LUMA	8	/* luminance CBS is composed of 1 8x8 coded block */
+-#define CBS_CHROMA_W	(8 * 2)	/* chrominance CBS is composed of two 8x4 coded
+-				 * blocks, with Cb CB first then Cr CB following
+-				 */
+-#define CBS_CHROMA_H	4
+-
+ struct hantro_dev;
+ struct hantro_ctx;
+ struct hantro_buf;
+@@ -69,279 +55,6 @@ struct hantro_aux_buf {
+ 	unsigned long attrs;
+ };
+ 
+-/* Max. number of entries in the DPB (HW limitation). */
+-#define HANTRO_H264_DPB_SIZE		16
+-
+-/**
+- * struct hantro_h264_dec_ctrls
+- *
+- * @decode:	Decode params
+- * @scaling:	Scaling info
+- * @sps:	SPS info
+- * @pps:	PPS info
+- */
+-struct hantro_h264_dec_ctrls {
+-	const struct v4l2_ctrl_h264_decode_params *decode;
+-	const struct v4l2_ctrl_h264_scaling_matrix *scaling;
+-	const struct v4l2_ctrl_h264_sps *sps;
+-	const struct v4l2_ctrl_h264_pps *pps;
+-};
+-
+-/**
+- * struct hantro_h264_dec_reflists
+- *
+- * @p:		P reflist
+- * @b0:		B0 reflist
+- * @b1:		B1 reflist
+- */
+-struct hantro_h264_dec_reflists {
+-	struct v4l2_h264_reference p[V4L2_H264_REF_LIST_LEN];
+-	struct v4l2_h264_reference b0[V4L2_H264_REF_LIST_LEN];
+-	struct v4l2_h264_reference b1[V4L2_H264_REF_LIST_LEN];
+-};
+-
+-/**
+- * struct hantro_h264_dec_hw_ctx
+- *
+- * @priv:	Private auxiliary buffer for hardware.
+- * @dpb:	DPB
+- * @reflists:	P/B0/B1 reflists
+- * @ctrls:	V4L2 controls attached to a run
+- * @dpb_longterm: DPB long-term
+- * @dpb_valid:	  DPB valid
+- * @cur_poc:	Current picture order count
+- */
+-struct hantro_h264_dec_hw_ctx {
+-	struct hantro_aux_buf priv;
+-	struct v4l2_h264_dpb_entry dpb[HANTRO_H264_DPB_SIZE];
+-	struct hantro_h264_dec_reflists reflists;
+-	struct hantro_h264_dec_ctrls ctrls;
+-	u32 dpb_longterm;
+-	u32 dpb_valid;
+-	s32 cur_poc;
+-};
+-
+-/**
+- * struct hantro_hevc_dec_ctrls
+- * @decode_params: Decode params
+- * @scaling:	Scaling matrix
+- * @sps:	SPS info
+- * @pps:	PPS info
+- * @hevc_hdr_skip_length: the number of data (in bits) to skip in the
+- *			  slice segment header syntax after 'slice type'
+- *			  token
+- */
+-struct hantro_hevc_dec_ctrls {
+-	const struct v4l2_ctrl_hevc_decode_params *decode_params;
+-	const struct v4l2_ctrl_hevc_scaling_matrix *scaling;
+-	const struct v4l2_ctrl_hevc_sps *sps;
+-	const struct v4l2_ctrl_hevc_pps *pps;
+-	u32 hevc_hdr_skip_length;
+-};
+-
+-/**
+- * struct hantro_hevc_dec_hw_ctx
+- * @tile_sizes:		Tile sizes buffer
+- * @tile_filter:	Tile vertical filter buffer
+- * @tile_sao:		Tile SAO buffer
+- * @tile_bsd:		Tile BSD control buffer
+- * @ref_bufs:		Internal reference buffers
+- * @scaling_lists:	Scaling lists buffer
+- * @ref_bufs_poc:	Internal reference buffers picture order count
+- * @ref_bufs_used:	Bitfield of used reference buffers
+- * @ctrls:		V4L2 controls attached to a run
+- * @num_tile_cols_allocated: number of allocated tiles
+- * @use_compression:	use reference buffer compression
+- */
+-struct hantro_hevc_dec_hw_ctx {
+-	struct hantro_aux_buf tile_sizes;
+-	struct hantro_aux_buf tile_filter;
+-	struct hantro_aux_buf tile_sao;
+-	struct hantro_aux_buf tile_bsd;
+-	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
+-	struct hantro_aux_buf scaling_lists;
+-	s32 ref_bufs_poc[NUM_REF_PICTURES];
+-	u32 ref_bufs_used;
+-	struct vb2_v4l2_buffer *ref_vb2[NUM_REF_PICTURES];
+-	struct hantro_hevc_dec_ctrls ctrls;
+-	unsigned int num_tile_cols_allocated;
+-	bool use_compression;
+-};
+-
+-/**
+- * struct hantro_mpeg2_dec_hw_ctx
+- *
+- * @qtable:		Quantization table
+- */
+-struct hantro_mpeg2_dec_hw_ctx {
+-	struct hantro_aux_buf qtable;
+-};
+-
+-/**
+- * struct hantro_vp8_dec_hw_ctx
+- *
+- * @segment_map:	Segment map buffer.
+- * @prob_tbl:		Probability table buffer.
+- */
+-struct hantro_vp8_dec_hw_ctx {
+-	struct hantro_aux_buf segment_map;
+-	struct hantro_aux_buf prob_tbl;
+-};
+-
+-/**
+- * struct hantro_vp9_frame_info
+- *
+- * @valid: frame info valid flag
+- * @frame_context_idx: index of frame context
+- * @reference_mode: inter prediction type
+- * @tx_mode: transform mode
+- * @interpolation_filter: filter selection for inter prediction
+- * @flags: frame flags
+- * @timestamp: frame timestamp
+- */
+-struct hantro_vp9_frame_info {
+-	u32 valid : 1;
+-	u32 frame_context_idx : 2;
+-	u32 reference_mode : 2;
+-	u32 tx_mode : 3;
+-	u32 interpolation_filter : 3;
+-	u32 flags;
+-	u64 timestamp;
+-};
+-
+-#define MAX_SB_COLS	64
+-#define MAX_SB_ROWS	34
+-
+-/**
+- * struct hantro_vp9_dec_hw_ctx
+- *
+- * @tile_edge: auxiliary DMA buffer for tile edge processing
+- * @segment_map: auxiliary DMA buffer for segment map
+- * @misc: auxiliary DMA buffer for tile info, probabilities and hw counters
+- * @cnts: vp9 library struct for abstracting hw counters access
+- * @probability_tables: VP9 probability tables implied by the spec
+- * @frame_context: VP9 frame contexts
+- * @cur: current frame information
+- * @last: last frame information
+- * @bsd_ctrl_offset: bsd offset into tile_edge
+- * @segment_map_size: size of segment map
+- * @ctx_counters_offset: hw counters offset into misc
+- * @tile_info_offset: tile info offset into misc
+- * @tile_r_info: per-tile information array
+- * @tile_c_info: per-tile information array
+- * @last_tile_r: last number of tile rows
+- * @last_tile_c: last number of tile cols
+- * @last_sbs_r: last number of superblock rows
+- * @last_sbs_c: last number of superblock cols
+- * @active_segment: number of active segment (alternating between 0 and 1)
+- * @feature_enabled: segmentation feature enabled flags
+- * @feature_data: segmentation feature data
+- */
+-struct hantro_vp9_dec_hw_ctx {
+-	struct hantro_aux_buf tile_edge;
+-	struct hantro_aux_buf segment_map;
+-	struct hantro_aux_buf misc;
+-	struct v4l2_vp9_frame_symbol_counts cnts;
+-	struct v4l2_vp9_frame_context probability_tables;
+-	struct v4l2_vp9_frame_context frame_context[4];
+-	struct hantro_vp9_frame_info cur;
+-	struct hantro_vp9_frame_info last;
+-
+-	unsigned int bsd_ctrl_offset;
+-	unsigned int segment_map_size;
+-	unsigned int ctx_counters_offset;
+-	unsigned int tile_info_offset;
+-
+-	unsigned short tile_r_info[MAX_SB_ROWS];
+-	unsigned short tile_c_info[MAX_SB_COLS];
+-	unsigned int last_tile_r;
+-	unsigned int last_tile_c;
+-	unsigned int last_sbs_r;
+-	unsigned int last_sbs_c;
+-
+-	unsigned int active_segment;
+-	u8 feature_enabled[8];
+-	s16 feature_data[8][4];
+-};
+-
+-/**
+- * struct hantro_av1_dec_ctrls
+- * @sequence:		AV1 Sequence
+- * @tile_group_entry:	AV1 Tile Group entry
+- * @frame:		AV1 Frame Header OBU
+- * @film_grain:		AV1 Film Grain
+- */
+-struct hantro_av1_dec_ctrls {
+-	const struct v4l2_ctrl_av1_sequence *sequence;
+-	const struct v4l2_ctrl_av1_tile_group_entry *tile_group_entry;
+-	const struct v4l2_ctrl_av1_frame *frame;
+-	const struct v4l2_ctrl_av1_film_grain *film_grain;
+-};
+-
+-struct hantro_av1_frame_ref {
+-	int width;
+-	int height;
+-	int mi_cols;
+-	int mi_rows;
+-	u64 timestamp;
+-	enum v4l2_av1_frame_type frame_type;
+-	bool used;
+-	u32 order_hint;
+-	u32 order_hints[V4L2_AV1_TOTAL_REFS_PER_FRAME];
+-	struct vb2_v4l2_buffer *vb2_ref;
+-};
+-
+-/**
+- * struct hantro_av1_dec_hw_ctx
+- * @db_data_col:	db tile col data buffer
+- * @db_ctrl_col:	db tile col ctrl buffer
+- * @cdef_col:		cdef tile col buffer
+- * @sr_col:		sr tile col buffer
+- * @lr_col:		lr tile col buffer
+- * @global_model:	global model buffer
+- * @tile_info:		tile info buffer
+- * @segment:		segmentation info buffer
+- * @film_grain:		film grain buffer
+- * @prob_tbl:		probability table
+- * @prob_tbl_out:	probability table output
+- * @tile_buf:		tile buffer
+- * @ctrls:		V4L2 controls attached to a run
+- * @frame_refs:		reference frames info slots
+- * @ref_frame_sign_bias: array of sign bias
+- * @num_tile_cols_allocated: number of allocated tiles
+- * @cdfs:		current probabilities structure
+- * @cdfs_ndvc:		current mv probabilities structure
+- * @default_cdfs:	default probabilities structure
+- * @default_cdfs_ndvc:	default mv probabilties structure
+- * @cdfs_last:		stored probabilities structures
+- * @cdfs_last_ndvc:	stored mv probabilities structures
+- * @current_frame_index: index of the current in frame_refs array
+- */
+-struct hantro_av1_dec_hw_ctx {
+-	struct hantro_aux_buf db_data_col;
+-	struct hantro_aux_buf db_ctrl_col;
+-	struct hantro_aux_buf cdef_col;
+-	struct hantro_aux_buf sr_col;
+-	struct hantro_aux_buf lr_col;
+-	struct hantro_aux_buf global_model;
+-	struct hantro_aux_buf tile_info;
+-	struct hantro_aux_buf segment;
+-	struct hantro_aux_buf film_grain;
+-	struct hantro_aux_buf prob_tbl;
+-	struct hantro_aux_buf prob_tbl_out;
+-	struct hantro_aux_buf tile_buf;
+-	struct hantro_av1_dec_ctrls ctrls;
+-	struct hantro_av1_frame_ref frame_refs[AV1_MAX_FRAME_BUF_COUNT];
+-	u32 ref_frame_sign_bias[V4L2_AV1_TOTAL_REFS_PER_FRAME];
+-	unsigned int num_tile_cols_allocated;
+-	struct av1cdfs *cdfs;
+-	struct mvcdfs  *cdfs_ndvc;
+-	struct av1cdfs default_cdfs;
+-	struct mvcdfs  default_cdfs_ndvc;
+-	struct av1cdfs cdfs_last[NUM_REF_FRAMES];
+-	struct mvcdfs  cdfs_last_ndvc[NUM_REF_FRAMES];
+-	int current_frame_index;
+-};
+ /**
+  * struct hantro_postproc_ctx
+  *
+@@ -425,68 +138,29 @@ extern const struct hantro_postproc_ops hantro_g1_postproc_ops;
+ extern const struct hantro_postproc_ops hantro_g2_postproc_ops;
+ extern const struct hantro_postproc_ops rockchip_vpu981_postproc_ops;
+ 
+-extern const u32 hantro_vp8_dec_mc_filter[8][6];
+-
+-void hantro_watchdog(struct work_struct *work);
+-void hantro_run(struct hantro_ctx *ctx);
+-void hantro_irq_done(struct hantro_dev *vpu,
+-		     enum vb2_buffer_state result);
+-void hantro_start_prepare_run(struct hantro_ctx *ctx);
+-void hantro_end_prepare_run(struct hantro_ctx *ctx);
+-
+ irqreturn_t hantro_g1_irq(int irq, void *dev_id);
+ void hantro_g1_reset(struct hantro_ctx *ctx);
+-
+-int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx);
+-int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx);
+-void hantro_h1_jpeg_enc_done(struct hantro_ctx *ctx);
+-void rockchip_vpu2_jpeg_enc_done(struct hantro_ctx *ctx);
+-
+-dma_addr_t hantro_h264_get_ref_buf(struct hantro_ctx *ctx,
+-				   unsigned int dpb_idx);
+-u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx,
+-			    unsigned int dpb_idx);
+-int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx);
+-int rockchip_vpu2_h264_dec_run(struct hantro_ctx *ctx);
+ int hantro_g1_h264_dec_run(struct hantro_ctx *ctx);
+-int hantro_h264_dec_init(struct hantro_ctx *ctx);
+-void hantro_h264_dec_exit(struct hantro_ctx *ctx);
+-
+-int hantro_hevc_dec_init(struct hantro_ctx *ctx);
+-void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+-int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+-int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+-void hantro_hevc_ref_init(struct hantro_ctx *ctx);
+-dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
+-int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc,
+-			    dma_addr_t addr,
+-			    struct vb2_v4l2_buffer *vb2);
+-int hantro_hevc_get_ref_buf_index(struct hantro_ctx *ctx, s32 poc);
+-
+-int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx);
+-
+-size_t hantro_g2_chroma_offset(struct hantro_ctx *ctx);
+-
  int hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
- int rockchip_vpu2_mpeg2_dec_run(struct hantro_ctx *ctx);
-diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
-index e94d1ba5ef10..2409353c16e4 100644
---- a/drivers/media/platform/verisilicon/hantro_postproc.c
-+++ b/drivers/media/platform/verisilicon/hantro_postproc.c
-@@ -196,36 +196,11 @@ void hantro_postproc_free(struct hantro_ctx *ctx)
- 	}
- }
- 
--static unsigned int hantro_postproc_buffer_size(struct hantro_ctx *ctx)
--{
--	unsigned int buf_size;
+-int rockchip_vpu2_mpeg2_dec_run(struct hantro_ctx *ctx);
+-void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
+-				  const struct v4l2_ctrl_mpeg2_quantisation *ctrl);
+-int hantro_mpeg2_dec_init(struct hantro_ctx *ctx);
+-void hantro_mpeg2_dec_exit(struct hantro_ctx *ctx);
 -
--	buf_size = ctx->ref_fmt.plane_fmt[0].sizeimage;
--	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE)
--		buf_size += hantro_h264_mv_size(ctx->ref_fmt.width,
--						ctx->ref_fmt.height);
--	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME)
--		buf_size += hantro_vp9_mv_size(ctx->ref_fmt.width,
--					       ctx->ref_fmt.height);
--	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE) {
--		buf_size += hantro_hevc_mv_size(ctx->ref_fmt.width,
--						ctx->ref_fmt.height);
--		if (ctx->hevc_dec.use_compression)
--			buf_size += hantro_hevc_compressed_size(ctx->ref_fmt.width,
--								ctx->ref_fmt.height);
--	}
--	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_AV1_FRAME)
--		buf_size += hantro_av1_mv_size(ctx->ref_fmt.width,
--					       ctx->ref_fmt.height);
--
--	return buf_size;
--}
--
- static int hantro_postproc_alloc(struct hantro_ctx *ctx, int index)
- {
- 	struct hantro_dev *vpu = ctx->dev;
- 	struct hantro_aux_buf *priv = &ctx->postproc.dec_q[index];
--	unsigned int buf_size = hantro_postproc_buffer_size(ctx);
-+	unsigned int buf_size = ctx->ref_fmt.plane_fmt[0].sizeimage;
+ int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx);
+-int rockchip_vpu2_vp8_dec_run(struct hantro_ctx *ctx);
+-int hantro_vp8_dec_init(struct hantro_ctx *ctx);
+-void hantro_vp8_dec_exit(struct hantro_ctx *ctx);
+-void hantro_vp8_prob_update(struct hantro_ctx *ctx,
+-			    const struct v4l2_ctrl_vp8_frame *hdr);
  
- 	if (!buf_size)
- 		return -EINVAL;
-@@ -267,7 +242,7 @@ dma_addr_t
- hantro_postproc_get_dec_buf_addr(struct hantro_ctx *ctx, int index)
- {
- 	struct hantro_aux_buf *priv = &ctx->postproc.dec_q[index];
--	unsigned int buf_size = hantro_postproc_buffer_size(ctx);
-+	unsigned int buf_size = ctx->ref_fmt.plane_fmt[0].sizeimage;
- 	struct hantro_dev *vpu = ctx->dev;
- 	int ret;
++int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
++size_t hantro_g2_chroma_offset(struct hantro_ctx *ctx);
+ int hantro_g2_vp9_dec_run(struct hantro_ctx *ctx);
+ void hantro_g2_vp9_dec_done(struct hantro_ctx *ctx);
+-int hantro_vp9_dec_init(struct hantro_ctx *ctx);
+-void hantro_vp9_dec_exit(struct hantro_ctx *ctx);
+ void hantro_g2_check_idle(struct hantro_dev *vpu);
+ void hantro_g2_reset(struct hantro_ctx *ctx);
+ irqreturn_t hantro_g2_irq(int irq, void *dev_id);
  
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index fcf3bd9bcda2..bbc1e9e2840e 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -25,8 +25,12 @@
- #include <media/v4l2-mem2mem.h>
++int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx);
++void hantro_h1_jpeg_enc_done(struct hantro_ctx *ctx);
++
++int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx);
++void rockchip_vpu2_jpeg_enc_done(struct hantro_ctx *ctx);
++int rockchip_vpu2_h264_dec_run(struct hantro_ctx *ctx);
++int rockchip_vpu2_mpeg2_dec_run(struct hantro_ctx *ctx);
++int rockchip_vpu2_vp8_dec_run(struct hantro_ctx *ctx);
++
++int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx);
++
+ #endif /* HANTRO_HW_H_ */
+diff --git a/drivers/media/platform/verisilicon/hantro_mpeg2.c b/drivers/media/platform/verisilicon/hantro_mpeg2.c
+index 04e545eb0a83..e6ad39a2d18c 100644
+--- a/drivers/media/platform/verisilicon/hantro_mpeg2.c
++++ b/drivers/media/platform/verisilicon/hantro_mpeg2.c
+@@ -6,6 +6,7 @@
+  */
  
  #include "hantro.h"
-+#include "hantro_av1.h"
- #include "hantro_hw.h"
-+#include "hantro_h264.h"
-+#include "hantro_hevc.h"
++#include "hantro_mpeg2.h"
+ 
+ static const u8 zigzag[64] = {
+ 	0,   1,  8, 16,  9,  2,  3, 10,
+diff --git a/drivers/media/platform/verisilicon/hantro_mpeg2.h b/drivers/media/platform/verisilicon/hantro_mpeg2.h
+new file mode 100644
+index 000000000000..df86f5be3152
+--- /dev/null
++++ b/drivers/media/platform/verisilicon/hantro_mpeg2.h
+@@ -0,0 +1,27 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Hantro MPEG2 codec driver
++ *
++ * Copyright (C) 2026 Collabora Ltd.
++ */
++
++#ifndef _HANTRO_MPEG2_H_
++#define _HANTRO_MPEG2_H_
++
++#include "hantro_hw.h"
++
++/**
++ * struct hantro_mpeg2_dec_hw_ctx
++ *
++ * @qtable:		Quantization table
++ */
++struct hantro_mpeg2_dec_hw_ctx {
++	struct hantro_aux_buf qtable;
++};
++
++void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
++				  const struct v4l2_ctrl_mpeg2_quantisation *ctrl);
++int hantro_mpeg2_dec_init(struct hantro_ctx *ctx);
++void hantro_mpeg2_dec_exit(struct hantro_ctx *ctx);
++
++#endif
+diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+index bbc1e9e2840e..fdb15a8a85f2 100644
+--- a/drivers/media/platform/verisilicon/hantro_v4l2.c
++++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+@@ -26,13 +26,18 @@
+ 
+ #include "hantro.h"
+ #include "hantro_av1.h"
+-#include "hantro_hw.h"
+ #include "hantro_h264.h"
+ #include "hantro_hevc.h"
  #include "hantro_v4l2.h"
-+#include "hantro_vp9.h"
+ #include "hantro_vp9.h"
  
  #define  HANTRO_DEFAULT_BIT_DEPTH 8
++#define CBS_SIZE	16	/* compression table size in bytes */
++#define CBS_LUMA	8	/* luminance CBS is composed of 1 8x8 coded block */
++#define CBS_CHROMA_W	(8 * 2)	/* chrominance CBS is composed of two 8x4 coded
++				 * blocks, with Cb CB first then Cr CB following
++				 */
++#define CBS_CHROMA_H	4
  
-@@ -36,6 +40,9 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
- static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
- 			      struct v4l2_pix_format_mplane *pix_mp);
+ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
+ 			      struct v4l2_pix_format_mplane *pix_mp,
+diff --git a/drivers/media/platform/verisilicon/hantro_vp8.c b/drivers/media/platform/verisilicon/hantro_vp8.c
+index 381bc1d3bfda..e03ab933c9a3 100644
+--- a/drivers/media/platform/verisilicon/hantro_vp8.c
++++ b/drivers/media/platform/verisilicon/hantro_vp8.c
+@@ -6,6 +6,7 @@
+  */
  
-+static void hantro_mv_free(struct hantro_ctx *ctx);
-+static void hantro_rfc_free(struct hantro_ctx *ctx);
-+
- static const struct hantro_fmt *
- hantro_get_formats(const struct hantro_ctx *ctx, unsigned int *num_fmts, bool need_postproc)
- {
-@@ -362,26 +369,6 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
- 		/* Fill remaining fields */
- 		v4l2_fill_pixfmt_mp(pix_mp, fmt->fourcc, pix_mp->width,
- 				    pix_mp->height);
--		if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE &&
--		    !hantro_needs_postproc(ctx, fmt))
--			pix_mp->plane_fmt[0].sizeimage +=
--				hantro_h264_mv_size(pix_mp->width,
--						    pix_mp->height);
--		else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME &&
--			 !hantro_needs_postproc(ctx, fmt))
--			pix_mp->plane_fmt[0].sizeimage +=
--				hantro_vp9_mv_size(pix_mp->width,
--						   pix_mp->height);
--		else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE &&
--			 !hantro_needs_postproc(ctx, fmt))
--			pix_mp->plane_fmt[0].sizeimage +=
--				hantro_hevc_mv_size(pix_mp->width,
--						    pix_mp->height);
--		else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_AV1_FRAME &&
--			 !hantro_needs_postproc(ctx, fmt))
--			pix_mp->plane_fmt[0].sizeimage +=
--				hantro_av1_mv_size(pix_mp->width,
--						   pix_mp->height);
- 	} else if (!pix_mp->plane_fmt[0].sizeimage) {
- 		/*
- 		 * For coded formats the application can specify
-@@ -984,6 +971,9 @@ static void hantro_stop_streaming(struct vb2_queue *q)
- 			ctx->codec_ops->exit(ctx);
- 	}
+ #include "hantro.h"
++#include "hantro_vp8.h"
  
-+	hantro_mv_free(ctx);
-+	hantro_rfc_free(ctx);
+ /*
+  * probs table with packed
+diff --git a/drivers/media/platform/verisilicon/hantro_vp8.h b/drivers/media/platform/verisilicon/hantro_vp8.h
+new file mode 100644
+index 000000000000..0307d78380d2
+--- /dev/null
++++ b/drivers/media/platform/verisilicon/hantro_vp8.h
+@@ -0,0 +1,29 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Hantro VP8 codec driver
++ *
++ * Copyright (C) 2026 Collabora Ltd.
++ */
++#ifndef _HANTRO_VP8_H_
++#define _HANTRO_VP8_H_
 +
- 	/*
- 	 * The mem2mem framework calls v4l2_m2m_cancel_job before
- 	 * .stop_streaming, so there isn't any job running and
-@@ -1025,3 +1015,228 @@ const struct vb2_ops hantro_queue_ops = {
- 	.start_streaming = hantro_start_streaming,
- 	.stop_streaming = hantro_stop_streaming,
- };
++#include "hantro_hw.h"
 +
-+static void hantro_mv_free(struct hantro_ctx *ctx)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+	int i;
++extern const u32 hantro_vp8_dec_mc_filter[8][6];
 +
-+	for (i = 0; i < MAX_MV_BUFFERS; i++) {
-+		struct hantro_aux_buf *mv = &ctx->dec_mv[i];
++/**
++ * struct hantro_vp8_dec_hw_ctx
++ *
++ * @segment_map:	Segment map buffer.
++ * @prob_tbl:		Probability table buffer.
++ */
++struct hantro_vp8_dec_hw_ctx {
++	struct hantro_aux_buf segment_map;
++	struct hantro_aux_buf prob_tbl;
++};
 +
-+		if (!mv->cpu)
-+			continue;
-+
-+		dma_free_attrs(vpu->dev, mv->size, mv->cpu,
-+			       mv->dma, mv->attrs);
-+		mv->cpu = NULL;
-+	}
-+}
-+
-+static unsigned int hantro_mv_buffer_size(struct hantro_ctx *ctx)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+	int fourcc = ctx->vpu_src_fmt->fourcc;
-+	int width = ctx->ref_fmt.width;
-+	int height = ctx->ref_fmt.height;
-+
-+	switch (fourcc) {
-+	case V4L2_PIX_FMT_H264_SLICE:
-+		return hantro_h264_mv_size(width, height);
-+	case V4L2_PIX_FMT_VP9_FRAME:
-+		return hantro_vp9_mv_size(width, height);
-+	case V4L2_PIX_FMT_HEVC_SLICE:
-+		return hantro_hevc_mv_size(width, height, ctx->bit_depth);
-+	case V4L2_PIX_FMT_AV1_FRAME:
-+		return hantro_av1_mv_size(width, height);
-+	}
-+
-+	/* Should not happen */
-+	dev_warn(vpu->dev, "Invalid motion vectors size\n");
-+	return 0;
-+}
-+
-+static int hantro_mv_buffer_alloc(struct hantro_ctx *ctx, int index)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+	struct hantro_aux_buf *mv = &ctx->dec_mv[index];
-+	unsigned int buf_size = hantro_mv_buffer_size(ctx);
-+
-+	if (!buf_size)
-+		return -EINVAL;
-+
-+	/*
-+	 * Motion vectors buffers are only read and write by the
-+	 * hardware so no mapping is needed.
-+	 */
-+	mv->attrs = DMA_ATTR_NO_KERNEL_MAPPING;
-+	mv->cpu = dma_alloc_attrs(vpu->dev, buf_size, &mv->dma,
-+				  GFP_KERNEL, mv->attrs);
-+	if (!mv->cpu)
-+		return -ENOMEM;
-+	mv->size = buf_size;
-+
-+	return 0;
-+}
-+
-+dma_addr_t
-+hantro_mv_get_buf_addr(struct hantro_ctx *ctx, int index)
-+{
-+	struct hantro_aux_buf *mv = &ctx->dec_mv[index];
-+	unsigned int buf_size = hantro_mv_buffer_size(ctx);
-+	struct hantro_dev *vpu = ctx->dev;
-+	int ret;
-+
-+	if (mv->size < buf_size && mv->cpu) {
-+		/* buffer is too small, release it */
-+		dma_free_attrs(vpu->dev, mv->size, mv->cpu,
-+			       mv->dma, mv->attrs);
-+		mv->cpu = NULL;
-+	}
-+
-+	if (!mv->cpu) {
-+		/* buffer not already allocated, try getting a new one */
-+		ret = hantro_mv_buffer_alloc(ctx, index);
-+		if (ret)
-+			return 0;
-+	}
-+
-+	if (!mv->cpu)
-+		return 0;
-+
-+	return mv->dma;
-+}
-+
-+static inline size_t
-+hantro_hevc_luma_compressed_size(unsigned int width, unsigned int height)
-+{
-+	u32 pic_width_in_cbsy =
-+		round_up((width + CBS_LUMA - 1) / CBS_LUMA, CBS_SIZE);
-+	u32 pic_height_in_cbsy = (height + CBS_LUMA - 1) / CBS_LUMA;
-+
-+	return round_up(pic_width_in_cbsy * pic_height_in_cbsy, CBS_SIZE);
-+}
-+
-+static inline size_t
-+hantro_hevc_chroma_compressed_size(unsigned int width, unsigned int height)
-+{
-+	u32 pic_width_in_cbsc =
-+		round_up((width + CBS_CHROMA_W - 1) / CBS_CHROMA_W, CBS_SIZE);
-+	u32 pic_height_in_cbsc = (height / 2 + CBS_CHROMA_H - 1) / CBS_CHROMA_H;
-+
-+	return round_up(pic_width_in_cbsc * pic_height_in_cbsc, CBS_SIZE);
-+}
-+
-+static inline size_t
-+hantro_hevc_compressed_size(unsigned int width, unsigned int height)
-+{
-+	return hantro_hevc_luma_compressed_size(width, height) +
-+	       hantro_hevc_chroma_compressed_size(width, height);
-+}
-+
-+static void hantro_rfc_free(struct hantro_ctx *ctx)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+	int i;
-+
-+	for (i = 0; i < MAX_RFC_BUFFERS; i++) {
-+		struct hantro_aux_buf *rfc = &ctx->dec_rfc[i];
-+
-+		if (!rfc->cpu)
-+			continue;
-+
-+		dma_free_attrs(vpu->dev, rfc->size, rfc->cpu,
-+			       rfc->dma, rfc->attrs);
-+		rfc->cpu = NULL;
-+	}
-+}
-+
-+static unsigned int hantro_rfc_buffer_size(struct hantro_ctx *ctx)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+	int fourcc = ctx->vpu_src_fmt->fourcc;
-+	int width = ctx->ref_fmt.width;
-+	int height = ctx->ref_fmt.height;
-+
-+	switch (fourcc) {
-+	case V4L2_PIX_FMT_HEVC_SLICE:
-+		return hantro_hevc_compressed_size(width, height);
-+	}
-+
-+	/* Should not happen */
-+	dev_warn(vpu->dev, "Invalid rfc size\n");
-+	return 0;
-+}
-+
-+static int hantro_rfc_buffer_alloc(struct hantro_ctx *ctx, int index)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+	struct hantro_aux_buf *rfc = &ctx->dec_rfc[index];
-+	unsigned int buf_size = hantro_rfc_buffer_size(ctx);
-+
-+	if (!buf_size)
-+		return -EINVAL;
-+
-+	/*
-+	 * RFC buffers are only read and write by the
-+	 * hardware so no mapping is needed.
-+	 */
-+	rfc->attrs = DMA_ATTR_NO_KERNEL_MAPPING;
-+	rfc->cpu = dma_alloc_attrs(vpu->dev, buf_size, &rfc->dma,
-+				   GFP_KERNEL, rfc->attrs);
-+	if (!rfc->cpu)
-+		return -ENOMEM;
-+	rfc->size = buf_size;
-+
-+	return 0;
-+}
-+
-+dma_addr_t
-+hantro_rfc_get_luma_buf_addr(struct hantro_ctx *ctx, int index)
-+{
-+	struct hantro_aux_buf *rfc = &ctx->dec_rfc[index];
-+	unsigned int buf_size = hantro_rfc_buffer_size(ctx);
-+	struct hantro_dev *vpu = ctx->dev;
-+	int ret;
-+
-+	if (rfc->size < buf_size && rfc->cpu) {
-+		/* buffer is too small, release it */
-+		dma_free_attrs(vpu->dev, rfc->size, rfc->cpu,
-+			       rfc->dma, rfc->attrs);
-+		rfc->cpu = NULL;
-+	}
-+
-+	if (!rfc->cpu) {
-+		/* buffer not already allocated, try getting a new one */
-+		ret = hantro_rfc_buffer_alloc(ctx, index);
-+		if (ret)
-+			return 0;
-+	}
-+
-+	if (!rfc->cpu)
-+		return 0;
-+
-+	return rfc->dma;
-+}
-+
-+dma_addr_t
-+hantro_rfc_get_chroma_buf_addr(struct hantro_ctx *ctx, int index)
-+{
-+	dma_addr_t luma_addr = hantro_rfc_get_luma_buf_addr(ctx, index);
-+	struct hantro_dev *vpu = ctx->dev;
-+	int fourcc = ctx->vpu_src_fmt->fourcc;
-+	int width = ctx->ref_fmt.width;
-+	int height = ctx->ref_fmt.height;
-+
-+	if (!luma_addr)
-+		return -EINVAL;
-+
-+	switch (fourcc) {
-+	case V4L2_PIX_FMT_HEVC_SLICE:
-+		return luma_addr + hantro_hevc_luma_compressed_size(width, height);
-+	}
-+
-+	/* Should not happen */
-+	dev_warn(vpu->dev, "Invalid rfc chroma address\n");
-+	return 0;
-+}
++int hantro_vp8_dec_init(struct hantro_ctx *ctx);
++void hantro_vp8_dec_exit(struct hantro_ctx *ctx);
++void hantro_vp8_prob_update(struct hantro_ctx *ctx,
++			    const struct v4l2_ctrl_vp8_frame *hdr);
++#endif
 diff --git a/drivers/media/platform/verisilicon/hantro_vp9.h b/drivers/media/platform/verisilicon/hantro_vp9.h
-index 26b69275f098..fcdad2242f78 100644
+index fcdad2242f78..85633987d86e 100644
 --- a/drivers/media/platform/verisilicon/hantro_vp9.h
 +++ b/drivers/media/platform/verisilicon/hantro_vp9.h
-@@ -100,3 +100,21 @@ struct symbol_counts {
+@@ -5,6 +5,11 @@
+  * Copyright (C) 2021 Collabora Ltd.
+  */
  
++#ifndef _HANTRO_VP9_H_
++#define _HANTRO_VP9_H_
++
++#include "hantro_hw.h"
++
+ struct hantro_g2_mv_probs {
+ 	u8 joint[3];
+ 	u8 sign[2];
+@@ -101,6 +106,82 @@ struct symbol_counts {
  	u32 count_eobs[4][2][2][6][6];
  };
+ 
++/**
++ * struct hantro_vp9_frame_info
++ *
++ * @valid: frame info valid flag
++ * @frame_context_idx: index of frame context
++ * @reference_mode: inter prediction type
++ * @tx_mode: transform mode
++ * @interpolation_filter: filter selection for inter prediction
++ * @flags: frame flags
++ * @timestamp: frame timestamp
++ */
++struct hantro_vp9_frame_info {
++	u32 valid : 1;
++	u32 frame_context_idx : 2;
++	u32 reference_mode : 2;
++	u32 tx_mode : 3;
++	u32 interpolation_filter : 3;
++	u32 flags;
++	u64 timestamp;
++};
 +
-+static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
-+{
-+	return (dimension + 63) / 64;
-+}
++#define MAX_SB_COLS	64
++#define MAX_SB_ROWS	34
 +
-+static inline size_t
-+hantro_vp9_mv_size(unsigned int width, unsigned int height)
-+{
-+	int num_ctbs;
++/**
++ * struct hantro_vp9_dec_hw_ctx
++ *
++ * @tile_edge: auxiliary DMA buffer for tile edge processing
++ * @segment_map: auxiliary DMA buffer for segment map
++ * @misc: auxiliary DMA buffer for tile info, probabilities and hw counters
++ * @cnts: vp9 library struct for abstracting hw counters access
++ * @probability_tables: VP9 probability tables implied by the spec
++ * @frame_context: VP9 frame contexts
++ * @cur: current frame information
++ * @last: last frame information
++ * @bsd_ctrl_offset: bsd offset into tile_edge
++ * @segment_map_size: size of segment map
++ * @ctx_counters_offset: hw counters offset into misc
++ * @tile_info_offset: tile info offset into misc
++ * @tile_r_info: per-tile information array
++ * @tile_c_info: per-tile information array
++ * @last_tile_r: last number of tile rows
++ * @last_tile_c: last number of tile cols
++ * @last_sbs_r: last number of superblock rows
++ * @last_sbs_c: last number of superblock cols
++ * @active_segment: number of active segment (alternating between 0 and 1)
++ * @feature_enabled: segmentation feature enabled flags
++ * @feature_data: segmentation feature data
++ */
++struct hantro_vp9_dec_hw_ctx {
++	struct hantro_aux_buf tile_edge;
++	struct hantro_aux_buf segment_map;
++	struct hantro_aux_buf misc;
++	struct v4l2_vp9_frame_symbol_counts cnts;
++	struct v4l2_vp9_frame_context probability_tables;
++	struct v4l2_vp9_frame_context frame_context[4];
++	struct hantro_vp9_frame_info cur;
++	struct hantro_vp9_frame_info last;
 +
-+	/*
-+	 * There can be up to (CTBs x 64) number of blocks,
-+	 * and the motion vector for each block needs 16 bytes.
-+	 */
-+	num_ctbs = hantro_vp9_num_sbs(width) * hantro_vp9_num_sbs(height);
-+	return (num_ctbs * 64) * 16;
-+}
-diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-index 990a5e6b5531..2cf4233d6888 100644
---- a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-+++ b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-@@ -62,7 +62,7 @@ rockchip_vpu981_av1_dec_set_ref(struct hantro_ctx *ctx, int ref, int idx,
- 	const struct v4l2_ctrl_av1_frame *frame = ctrls->frame;
- 	struct hantro_dev *vpu = ctx->dev;
- 	struct hantro_decoded_buffer *dst;
--	dma_addr_t luma_addr, chroma_addr, mv_addr = 0;
-+	dma_addr_t luma_addr, chroma_addr = 0;
- 	int cur_width = frame->frame_width_minus_1 + 1;
- 	int cur_height = frame->frame_height_minus_1 + 1;
- 	int scale_width =
-@@ -120,11 +120,10 @@ rockchip_vpu981_av1_dec_set_ref(struct hantro_ctx *ctx, int ref, int idx,
- 	dst = vb2_to_hantro_decoded_buf(&av1_dec->frame_refs[idx].vb2_ref->vb2_buf);
- 	luma_addr = hantro_get_dec_buf_addr(ctx, &dst->base.vb.vb2_buf);
- 	chroma_addr = luma_addr + dst->av1.chroma_offset;
--	mv_addr = luma_addr + dst->av1.mv_offset;
- 
- 	hantro_write_addr(vpu, AV1_REFERENCE_Y(ref), luma_addr);
- 	hantro_write_addr(vpu, AV1_REFERENCE_CB(ref), chroma_addr);
--	hantro_write_addr(vpu, AV1_REFERENCE_MV(ref), mv_addr);
-+	hantro_write_addr(vpu, AV1_REFERENCE_MV(ref), dst->av1.mv_addr);
- 
- 	return (scale_width != (1 << AV1_REF_SCALE_SHIFT)) ||
- 		(scale_height != (1 << AV1_REF_SCALE_SHIFT));
-@@ -180,11 +179,10 @@ static void rockchip_vpu981_av1_dec_set_segmentation(struct hantro_ctx *ctx)
- 		if (idx >= 0) {
- 			dma_addr_t luma_addr, mv_addr = 0;
- 			struct hantro_decoded_buffer *seg;
--			size_t mv_offset = hantro_av1_chroma_size(ctx);
- 
- 			seg = vb2_to_hantro_decoded_buf(&av1_dec->frame_refs[idx].vb2_ref->vb2_buf);
- 			luma_addr = hantro_get_dec_buf_addr(ctx, &seg->base.vb.vb2_buf);
--			mv_addr = luma_addr + mv_offset;
-+			mv_addr = hantro_mv_get_buf_addr(ctx, seg->base.vb.vb2_buf.index);
- 
- 			hantro_write_addr(vpu, AV1_SEGMENTATION, mv_addr);
- 			hantro_reg_write(vpu, &av1_use_temporal3_mvs, 1);
-@@ -1345,22 +1343,20 @@ rockchip_vpu981_av1_dec_set_output_buffer(struct hantro_ctx *ctx)
- 	struct hantro_dev *vpu = ctx->dev;
- 	struct hantro_decoded_buffer *dst;
- 	struct vb2_v4l2_buffer *vb2_dst;
--	dma_addr_t luma_addr, chroma_addr, mv_addr = 0;
-+	dma_addr_t luma_addr, chroma_addr = 0;
- 	size_t cr_offset = hantro_av1_luma_size(ctx);
--	size_t mv_offset = hantro_av1_chroma_size(ctx);
- 
- 	vb2_dst = av1_dec->frame_refs[av1_dec->current_frame_index].vb2_ref;
- 	dst = vb2_to_hantro_decoded_buf(&vb2_dst->vb2_buf);
- 	luma_addr = hantro_get_dec_buf_addr(ctx, &dst->base.vb.vb2_buf);
- 	chroma_addr = luma_addr + cr_offset;
--	mv_addr = luma_addr + mv_offset;
- 
- 	dst->av1.chroma_offset = cr_offset;
--	dst->av1.mv_offset = mv_offset;
-+	dst->av1.mv_addr = hantro_mv_get_buf_addr(ctx, dst->base.vb.vb2_buf.index);
- 
- 	hantro_write_addr(vpu, AV1_TILE_OUT_LU, luma_addr);
- 	hantro_write_addr(vpu, AV1_TILE_OUT_CH, chroma_addr);
--	hantro_write_addr(vpu, AV1_TILE_OUT_MV, mv_addr);
-+	hantro_write_addr(vpu, AV1_TILE_OUT_MV, dst->av1.mv_addr);
++	unsigned int bsd_ctrl_offset;
++	unsigned int segment_map_size;
++	unsigned int ctx_counters_offset;
++	unsigned int tile_info_offset;
++
++	unsigned short tile_r_info[MAX_SB_ROWS];
++	unsigned short tile_c_info[MAX_SB_COLS];
++	unsigned int last_tile_r;
++	unsigned int last_tile_c;
++	unsigned int last_sbs_r;
++	unsigned int last_sbs_c;
++
++	unsigned int active_segment;
++	u8 feature_enabled[8];
++	s16 feature_data[8][4];
++};
++
+ static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
+ {
+ 	return (dimension + 63) / 64;
+@@ -118,3 +199,8 @@ hantro_vp9_mv_size(unsigned int width, unsigned int height)
+ 	num_ctbs = hantro_vp9_num_sbs(width) * hantro_vp9_num_sbs(height);
+ 	return (num_ctbs * 64) * 16;
  }
++
++int hantro_vp9_dec_init(struct hantro_ctx *ctx);
++void hantro_vp9_dec_exit(struct hantro_ctx *ctx);
++
++#endif
+diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+index fa4224de4b99..406a755634bc 100644
+--- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
++++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+@@ -12,6 +12,11 @@
+ #include "hantro_jpeg.h"
+ #include "hantro_g1_regs.h"
+ #include "hantro_g2_regs.h"
++#include "hantro_h264.h"
++#include "hantro_hevc.h"
++#include "hantro_mpeg2.h"
++#include "hantro_vp8.h"
++#include "hantro_vp9.h"
  
- int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx)
+ #define CTRL_SOFT_RESET		0x00
+ #define RESET_G1		BIT(1)
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c
+index 6da87f5184bc..0d86490a3a6e 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c
++++ b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c
+@@ -15,7 +15,7 @@
+ 
+ #include <media/v4l2-mem2mem.h>
+ 
+-#include "hantro_hw.h"
++#include "hantro_h264.h"
+ #include "hantro_v4l2.h"
+ 
+ #define VDPU_SWREG(nr)			((nr) * 4)
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_mpeg2_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_mpeg2_dec.c
+index 50a3a3eeaa00..355c4d7697a3 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_mpeg2_dec.c
++++ b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_mpeg2_dec.c
+@@ -9,7 +9,7 @@
+ #include <linux/bitfield.h>
+ #include <media/v4l2-mem2mem.h>
+ #include "hantro.h"
+-#include "hantro_hw.h"
++#include "hantro_mpeg2.h"
+ 
+ #define VDPU_SWREG(nr)			((nr) * 4)
+ 
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_vp8_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_vp8_dec.c
+index d079075448c9..819967de8e96 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_vp8_dec.c
++++ b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_vp8_dec.c
+@@ -14,9 +14,9 @@
+ 
+ #include <media/v4l2-mem2mem.h>
+ 
+-#include "hantro_hw.h"
+ #include "hantro.h"
+ #include "hantro_g1_regs.h"
++#include "hantro_vp8.h"
+ 
+ #define VDPU_REG_DEC_CTRL0			0x0c8
+ #define VDPU_REG_STREAM_LEN			0x0cc
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
+index f50a3e38097e..42176b0fd83c 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
++++ b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
+@@ -13,6 +13,9 @@
+ #include "hantro_jpeg.h"
+ #include "hantro_g1_regs.h"
+ #include "hantro_h1_regs.h"
++#include "hantro_h264.h"
++#include "hantro_mpeg2.h"
++#include "hantro_vp8.h"
+ #include "rockchip_vpu2_regs.h"
+ #include "rockchip_vpu981_regs.h"
+ 
+diff --git a/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c b/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
+index 833821120b20..1d317942daa5 100644
+--- a/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
++++ b/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
+@@ -11,6 +11,8 @@
+ #include "hantro.h"
+ #include "hantro_jpeg.h"
+ #include "hantro_h1_regs.h"
++#include "hantro_h264.h"
++#include "hantro_vp8.h"
+ 
+ /*
+  * Supported formats.
+diff --git a/drivers/media/platform/verisilicon/sunxi_vpu_hw.c b/drivers/media/platform/verisilicon/sunxi_vpu_hw.c
+index 02ce8b064a8f..2f95f9a681ee 100644
+--- a/drivers/media/platform/verisilicon/sunxi_vpu_hw.c
++++ b/drivers/media/platform/verisilicon/sunxi_vpu_hw.c
+@@ -8,6 +8,7 @@
+ #include <linux/clk.h>
+ 
+ #include "hantro.h"
++#include "hantro_vp9.h"
+ 
+ static const struct hantro_fmt sunxi_vpu_postproc_fmts[] = {
+ 	{
 -- 
 2.43.0
 
