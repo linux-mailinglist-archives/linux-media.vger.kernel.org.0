@@ -1,255 +1,243 @@
-Return-Path: <linux-media+bounces-58796-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58797-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MPoONUNO32mFRQAAu9opvQ
-	(envelope-from <linux-media+bounces-58796-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 10:37:23 +0200
+	id YMklGkRU32l1RwAAu9opvQ
+	(envelope-from <linux-media+bounces-58797-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 11:03:00 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 546654020F5
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 10:37:22 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3854402484
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 11:02:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 86F29301AF6F
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 08:33:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B04FE30FBAAA
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 08:57:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B156D3CCFB3;
-	Wed, 15 Apr 2026 08:33:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 725F23D5662;
+	Wed, 15 Apr 2026 08:57:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="VnsTWh19"
+	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="davqL1E/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11021120.outbound.protection.outlook.com [40.107.51.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4635C330B22
-	for <linux-media@vger.kernel.org>; Wed, 15 Apr 2026 08:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776242016; cv=none; b=WCMvmSskvM3zBPqviffQy7/5NBI2FK87CugAt3qoO6FNvm1kFQ6Nit4rmDZLIyGxE0HV0WkyqBfhjf03PlDncd4RtFlvzlY8+NqAh+cdbv7YqUtXbiM9744jkZotBjBYgAG1sJGwq1OmhosVZyFBCwXZZ/QMCDNYeHLnS0NPtdo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776242016; c=relaxed/simple;
-	bh=PbFdyRc6W1tFQtlnh/nO+EtitzegfkCLUZ5nqvug890=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QIzLyzadx9nkaqXNWfg+ChZf97pkn52IVAVkqPkw87IF+mQFn+ZZv0xGGE6/qMblQ7vYCIn2oDolTtKXmbQnYfFHBktfTEtNW1onT6UvCkIJQyHTFo5GVX3c1LPNvlnO+FKWKYczgYsjpKjsrAOsdSujAAZmZETXbqoF/Gp/uNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=VnsTWh19; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=NLmPC7PJ19+VFYXO6EqIDbW0xFBizdYedzYdR9XL1xs=; b=VnsTWh19bFxEBkY20wuXhRreo2
-	fUVtRkm6NotLiFnEehl+xPZsR5TaKgCivSQAMuSUTqFKlRB16VjzfM4S/eqYWKSZ9vnVjxgC+hvv+
-	YL0zzMTMSt90O1xhCrE3/WvpdxQiIzax7kwI1XblH3PUl9RUgalEC9jeXOzOz8pPJwwiESEtZz7Zw
-	e3oXOSrQakwQW0gCc+1/zb/VvRkXT1aYwe/jJwyWfFKp9Mq2ydPMe04D3mWGGbtoFpdmWHYkT8X4u
-	4d/QEnO0w3nk/CcQ2NN7KlWXdUXZ2OkaLWvVTnhAOAjZ3d1XjyE2MOSlQgyr2o8pOWp59RCx3epPo
-	LHTA92dQ==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1wCvgb-00GHcm-1v; Wed, 15 Apr 2026 10:33:25 +0200
-Message-ID: <dcd9e1e9-8297-4429-94be-af88c7b41399@igalia.com>
-Date: Wed, 15 Apr 2026 09:33:24 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E693BF66C;
+	Wed, 15 Apr 2026 08:57:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.51.120
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776243437; cv=fail; b=rtXMt9qCOanE8zHKM0E9E0MwYwX2kALKBsrEb1rXbGBjbPwywZXWDghq0sZLidhnNR2HRh6OzjnVk8wUCFCXtHEb7F8HHIpxhFI5ch7QCAArEoiwPMJs+WvQgi8UB5ZXLQiiSXyXj+uQ7AkEDot3EN8iWFpaqr/p66N7e0JJuks=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776243437; c=relaxed/simple;
+	bh=INmJR3VHhH1tsKIbfHt5lt1zSaNmkJf5gsXbwmkc1fM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Bz4oY2RLRtiViKRuRPimYVQ/R0j5CiKyfJoIWmIAxSIwduds8BgPk/DUwpVtBm9Jaido+Wp6XYCUb95R0nPjL6/H7DBq3AF021ycLVsTOmy8nGRMXPL9AnrW1DurLV0XoNE9SRPP7tjbmbUC3tM+qED3BAtTt7Cek2CvvK1JTbs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=davqL1E/; arc=fail smtp.client-ip=40.107.51.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wKWBq6VpE+EbJucpFWpRrqu+Vi40PUP18QWehAIv+3kyp2kPX0XRLrQ1tZOL9hfJarYdOG1ETc3JzcFhQpU7qRZL+1fDNczsTF/XDD3kd4WPXxULuwzUHsk0Ax5gObqaO6f4MCczRY3/HhrLFUqMYl8eD/pUbjwQWfPS9bNrJ6+BIAn5ave7u+pcu08Bd8iKG8y64Q1qju8XVW84hmVdWBqQuw7yWBzSFvBfUgfoC2rxUa/sUKgdjZJX4T17FUP973Ps9xrZCsTN/zzhz3hcuKBUoXehQIG6wXa5gGx6ulgJB784czd4fp4jEIARHfbYuD5BYs0fAHFuEIEp9W+hNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8XCwBgMGKhh+e3cOqycZLB0P1u3hMPk7924e3i01cdM=;
+ b=xKmbtTeE+4Urp0j3xS4M9p4FAeSJ/7S4CtgXkDvoEQEsm9txvyyGQofITv0dtL6V63mKeOB47Y8A8bWy5bxL2KhzMvHLLvfVCHCBSZdNBUzzcMbEy2y1XSshvvF0FocSlMvSXDywKrmXMUi+4TGb54Jt5ZotfmkxWWNfy9CbYSNmVUR7trWVuPy4yuhBPVTxZ3gAAsxQUqPQXIHnH5QV5OxSfdEk0gyzRh3UrB31rwYbYtdUD0BlW6gn4b2/LF3sbV8bEHfdo5ft7w57B+8KaY98NimWsEAJIlqHhckMYYnHwWJHk4OfBL0bjFiAOB63kkxgSJVawrLSX3zezeqeWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8XCwBgMGKhh+e3cOqycZLB0P1u3hMPk7924e3i01cdM=;
+ b=davqL1E/cmkWQw2SAiNJl2vuAUTz8EYiMaiMGIJvuoMnpPmERDQv/9PWHagtMU//zLdLCfHt/jIZO5MiT5rTOl+rbIOXeLGaFZihEtSkvsC3JSkBoUYX/dRVieSnrBtXPzVrduAaLsndE6y7Fd4Ghc20xGEB5lwCMLWrVTQPaxKkuZM1R7QjukglC9YRhh1443v8vFjzImyhb8b26xSrVbaJlJqDYvrZuYk9nRXlOSPAyD/+1oFP4cHM5GdvJYeGY/GRKTU3+ZSqEczzQVxkAODAbUD1f2Yew8RZTZ5StmSnIbe13YaDH99MDeFVmSNoVeqNEkFuoekpGtbwqY1dxA==
+Received: from MA0P287MB2178.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:11e::14)
+ by MAZP287MB0687.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:109::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Wed, 15 Apr
+ 2026 08:57:11 +0000
+Received: from MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
+ ([fe80::f8da:c075:cde1:e167]) by MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
+ ([fe80::f8da:c075:cde1:e167%3]) with mapi id 15.20.9769.046; Wed, 15 Apr 2026
+ 08:57:11 +0000
+From: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>, Tarang
+ Raval <tarang.raval@siliconsignals.io>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Hans Verkuil
+	<hverkuil+cisco@kernel.org>, Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Mehdi Djait
+	<mehdi.djait@linux.intel.com>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, Benjamin Mugnier
+	<benjamin.mugnier@foss.st.com>, Sylvain Petinot
+	<sylvain.petinot@foss.st.com>, Hardevsinh Palaniya
+	<hardevsinh.palaniya@siliconsignals.io>, Heimir Thor Sverrisson
+	<heimir.sverrisson@gmail.com>, Jingjing Xiong <jingjing.xiong@intel.com>,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>, Svyatoslav Ryhel
+	<clamor95@gmail.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add os02g10 sensor
+Thread-Topic: [PATCH v2 1/2] dt-bindings: media: i2c: Add os02g10 sensor
+Thread-Index: AQHcy+vO7zbNzbVU/Uaw9ny2779de7XfwlyAgAARPgs=
+Date: Wed, 15 Apr 2026 08:57:11 +0000
+Message-ID:
+ <MA0P287MB21785F11F1B93EEE827F767088222@MA0P287MB2178.INDP287.PROD.OUTLOOK.COM>
+References: <20260414084952.217215-1-elgin.perumbilly@siliconsignals.io>
+ <20260414084952.217215-2-elgin.perumbilly@siliconsignals.io>
+ <20260415-authentic-elastic-auk-eed0e6@quoll>
+In-Reply-To: <20260415-authentic-elastic-auk-eed0e6@quoll>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MA0P287MB2178:EE_|MAZP287MB0687:EE_
+x-ms-office365-filtering-correlation-id: a3b5f098-29da-470c-46ec-08de9accfb6e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|366016|7416014|56012099003|18002099003|22082099003|38070700021;
+x-microsoft-antispam-message-info:
+ yQrRU0rcd5cfLQ7b7PmXBivYE+xarSPNnmuShBDbz+ZGGs1U5Id+zfxuAt3OTpWx3m0sQogxAI1BBhMyLZB4Q2hwUsetQvH9qKnOpUaEnEYOODoK8KxRyvmINmEw4CGfPlrjKkcwy2pA3hSbLcR0Ft2/YKAd4ybej6XbTwc6X41WFur9YJkw4sev8vU8D0L5hZRlQjrwzBBsSlLIyzhBWdvrFxjiNQSYUwTaCTXEqwuiElZ5IqCLAIyUWTVayZXI5kA+TEeSn/1kJ3Pcm8FRuweYu0W3UhZ6bdAVdvEN/IRGh3i0idZvU+kE2fuOS1DyacTlMzxueRHkPXzboozs/aAzL58HBOhVb+fuk5ZKG1ih88hs20418qNTasO0JdVe4GQDyxNmtjWfw+wuhZTBCSbpoiMyuXe6vuAHwKvYvgcj1eZexGWIKfB2XFIIlmwt8Z3KmzDsdFasMCoVS1a7/fyhOfQ9A3lPe5ji6mej291XoKxsOn46L1sj1hILPbW/q8ru1LOTwDGQU8uMepT9HLyZcStheic3FkdQ/hVSW6SwNEHfyZ+cCu/xvwzUTBJVOB/UDe75YGt8c5GWXqeV4p7B+oFWP+cTd/goT1NkIXMDCj8FkLRscaZOpXIiMLk2SO3qDpxAd/xgxOJS9m/PGSDRHezabPG3DqEktvYnZIiVAol5zm0jm9VWI438lFn4D1DhJuZb0lFH9JbXTyxdQGaRqr8zjXTSG07jnB3qsuPXnpPOl+nMBptteLMWFgVZQVx6HgbjnKjrcVzkphaWvZEAV+DmlQQQQcaoRZMNMQQ=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MA0P287MB2178.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7416014)(56012099003)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?a+ENEfeOZaY91+zbuYH23Sj6eDp+V+L6+GcDCO2BEcq9dCmEmF10MURR/+?=
+ =?iso-8859-1?Q?zVJb+PU4FGNlxzbZkVSdhxU7shJyBHpibIIZYlM74mBd92rRzx8V8k4Gxm?=
+ =?iso-8859-1?Q?j62x/gTdMm3WFAEBHO88NH4zk6fg6z4fYDDjyshvCTRcxmaIMWY8ZATBnS?=
+ =?iso-8859-1?Q?uGziTZw1ThFj0HQKGF35d+HesQoznJnX8w219lfTdflGYdzk4yyp3AXPDo?=
+ =?iso-8859-1?Q?AHDgsE7xSouH89ap65vECHCLoOGkIQPr8p1HE0mHgLk4khfSUIZf/Jqa1Q?=
+ =?iso-8859-1?Q?b+9S8pYNT/2uaae+nSb8NnxbpGB9lzWuuoOLCCcjB5bRlQr75E/x78ZAyC?=
+ =?iso-8859-1?Q?eE21let8P/1cuOP/TLRnq7d+8whkgLXTs/FO/MZMD5fmFQ47pPRt22Qrym?=
+ =?iso-8859-1?Q?3z/RSfSlsLbn09QUbl/otdGU6STjpawNLBvkLXOx9mroR1G+cSUpPp/YpV?=
+ =?iso-8859-1?Q?dmk0Jz/2kI07tOJ17qhAqfLH15KtMwDsvcVM6zLBU5CKKSf04htF2schAg?=
+ =?iso-8859-1?Q?tiNlh1KZ3YyaSBJVPEMAtw7YaBW/6YICiALiSVyQ+e3qcvqkozRF3IGeWn?=
+ =?iso-8859-1?Q?3WqZS6eDNR/5jDx1K8Tr9jdJuzOqOtPgLLnMmQeVJCKs//X8TytcwToFdB?=
+ =?iso-8859-1?Q?OFcCALFDpRLQy0a7A1Bsd3kwz/ZM6gdYbkvswkurEhs2l/LCW32ku5sGfQ?=
+ =?iso-8859-1?Q?WdjxXEZmGsdgFdFziyEfz6YpWhdi/oJqU0CehmBXbDDQ6wrris1LiyTttd?=
+ =?iso-8859-1?Q?Tdy3lOSkdHMjXIXVxasfn5CeX7Gv7TgpY57K11vk3mmDgN5XxPqgtd18w1?=
+ =?iso-8859-1?Q?A4NzmyGGDxZN7ubysjfLycCi4cJBDRC0MGyHa3RPKymC2Fz9MPi32V8H90?=
+ =?iso-8859-1?Q?AYV0EOtbiPW+Rn/4PO3SCTLKIRn9Vp8+lVe1p2iNTGNLaFq9TCEPjh57Jo?=
+ =?iso-8859-1?Q?bM5vSucOoKW9mFPYJgnKSPS29XaVga9r4UcFgfVsd5WxHsLJ2iWefjvw/J?=
+ =?iso-8859-1?Q?NleGYldpJCCyged+FaKA4BX6sc+n7909aBXj6PoDEn5D07YA5OcAMfTLtP?=
+ =?iso-8859-1?Q?4yRLnkeukv8WoL5zwuMvTjIjpaoiR3JGdRNTP3j4BMFi46/a+SOJBgqanz?=
+ =?iso-8859-1?Q?MkmMItYC2GeAwXr39yegBCeR/Hk/E+51zy+KXa4kXy8KVHrNITK9quGK+i?=
+ =?iso-8859-1?Q?bb16YuJdqv/+muz3qj9eE4ug0al8J8n97jnV2LddGfza8FeN3s29Nyq2f/?=
+ =?iso-8859-1?Q?DrZtlL3zcJW1yszGd3wo3lhGYqzj5G0UhIY7fPi22agNe8DK0w/I7iLt+F?=
+ =?iso-8859-1?Q?lL3CNgZMvCapAwti9q6oNSZabPpIi34kJLAZrosuOVNVhg7sx8f7Fh+rJJ?=
+ =?iso-8859-1?Q?/945ezqoMpgQQaitCkzbVJLT2qR19glOLT5hziEFkx+WsJZy8F+fAzLbvn?=
+ =?iso-8859-1?Q?5dWbS0DVEUWJ+7K69VkdwdwWhnTMMhlZ+QTLE1RyeedQ4bqDttts4xc/vM?=
+ =?iso-8859-1?Q?06AV45lPSZEIjshKqjGFYC9ZlbWKAlKoRqbebtoRUJEL5ArbJzvq6dayCx?=
+ =?iso-8859-1?Q?EHfm/8+L59YqbArAs+nfqmdWtuRpI6pco8TiJsO435BbrLx71D961UmGl+?=
+ =?iso-8859-1?Q?SVUOVUSB90bZweVBF7yiNoiuhdf0UxUVhvupYorLLifN2lfPXHLa9uTKm1?=
+ =?iso-8859-1?Q?ey/xdwiEbz8qdf74DCOXnaypOv/4cxAV5ajtBba9zustdCgn+zj5Zs4rJ4?=
+ =?iso-8859-1?Q?FDVsuvg3ztusmX+RzyCP7mlrwJWBsOK6JTxYVtzi5t1nYMNiccUCS7cAt/?=
+ =?iso-8859-1?Q?EkbWpoEyhqIJG+98vQIKzxulw0fJ0e8=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dma-fence: Fix potential tracepoint null pointer
- dereferences
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Philipp Stanner <phasta@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20260414154928.32934-1-tvrtko.ursulin@igalia.com>
- <20260414154928.32934-2-tvrtko.ursulin@igalia.com>
- <650e835e-b60d-44fd-b212-47f8a9d18c15@amd.com>
- <5fea79b5-ab5a-4a98-95c8-6452b20e83c4@igalia.com>
- <b3b75077-878b-4d4e-b18e-4976765c63db@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <b3b75077-878b-4d4e-b18e-4976765c63db@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.36 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3b5f098-29da-470c-46ec-08de9accfb6e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2026 08:57:11.4989
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: At0dDJ52XCHLHI60JyQ6kY8XazrSXW6gYYgmQMo9yJeWcqmDx8np0OSdSph99yyASANiEYg6TQ0Lyk8cX9gZ5Fu06IRw+dvGoMusJPGXTbeKh6EthL2JkbeQfXs3X9kF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZP287MB0687
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[siliconsignals.io,quarantine];
+	R_DKIM_ALLOW(-0.20)[siliconsignals.io:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	TAGGED_FROM(0.00)[bounces-58796-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	URIBL_MULTI_FAIL(0.00)[siliconsignals.io:server fail,MA0P287MB2178.INDP287.PROD.OUTLOOK.COM:server fail,sea.lore.kernel.org:server fail];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58797-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[linux.intel.com,siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,ideasonboard.com,foss.st.com,gmail.com,intel.com,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
 	PRECEDENCE_BULK(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.949];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[elgin.perumbilly@siliconsignals.io,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[siliconsignals.io:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	NEURAL_HAM(-0.00)[-1.000];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 546654020F5
+X-Rspamd-Queue-Id: D3854402484
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-
-On 15/04/2026 09:13, Christian König wrote:
-> On 4/15/26 09:58, Tvrtko Ursulin wrote:
->>
->> On 14/04/2026 19:30, Christian König wrote:
->>> On 4/14/26 17:49, Tvrtko Ursulin wrote:
->>>> Trace_dma_fence_signaled, trace_dma_fence_wait_end and
->>>> trace_dma_fence_destroy can all currently dereference a null fence->ops
->>>> pointer after it has been reset on fence signalling.
->>>>
->>>> Lets use the safe string getters for most tracepoints to avoid this class
->>>> of a problem, while for the signal tracepoint we move it to before ops are
->>>> cleared to avoid losing the driver and timeline name information. Apart
->>>> from moving it we also need to add a new tracepoint class to bypass the
->>>> safe name getters since the signaled bit is already set.
->>>>
->>>> For dma_fence_init we also need to use the new tracepoint class since the
->>>> rcu read lock is not held there, and we can do the same for the enable
->>>> signaling since there we are certain the fence cannot be signaled while
->>>> we are holding the lock and have even validated the fence->ops.
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>> Fixes: 541c8f2468b9 ("dma-buf: detach fence ops on signal v3")
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Cc: Philipp Stanner <phasta@kernel.org>
->>>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
->>>> Cc: linux-media@vger.kernel.org
->>>> Cc: linaro-mm-sig@lists.linaro.org
->>>> ---
->>>>    drivers/dma-buf/dma-fence.c      |  3 ++-
->>>>    include/trace/events/dma_fence.h | 33 ++++++++++++++++++++++++++++----
->>>>    2 files changed, 31 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->>>> index a2aa82f4eedd..b3bfa6943a8e 100644
->>>> --- a/drivers/dma-buf/dma-fence.c
->>>> +++ b/drivers/dma-buf/dma-fence.c
->>>> @@ -363,6 +363,8 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>>>                          &fence->flags)))
->>>>            return;
->>>>    +    trace_dma_fence_signaled(fence);
->>>> +
->>>>        /*
->>>>         * When neither a release nor a wait operation is specified set the ops
->>>>         * pointer to NULL to allow the fence structure to become independent
->>>> @@ -377,7 +379,6 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>>>          fence->timestamp = timestamp;
->>>>        set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
->>>> -    trace_dma_fence_signaled(fence);
->>>
->>> I think this part here should be a separate patch.
->>
->> I had that in https://lore.kernel.org/dri-devel/20260330133623.17704-1-tvrtko.ursulin@igalia.com/ but the discussion fizzled out before an rb.
->>
->>>
->>>>          list_for_each_entry_safe(cur, tmp, &cb_list, node) {
->>>>            INIT_LIST_HEAD(&cur->node);
->>>> diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
->>>> index 3abba45c0601..9e0cb9ce2388 100644
->>>> --- a/include/trace/events/dma_fence.h
->>>> +++ b/include/trace/events/dma_fence.h
->>>> @@ -9,12 +9,37 @@
->>>>      struct dma_fence;
->>>>    +DECLARE_EVENT_CLASS(dma_fence,
->>>> +
->>>> +    TP_PROTO(struct dma_fence *fence),
->>>> +
->>>> +    TP_ARGS(fence),
->>>> +
->>>> +    TP_STRUCT__entry(
->>>> +        __string(driver, dma_fence_driver_name(fence))
->>>> +        __string(timeline, dma_fence_timeline_name(fence))
->>>> +        __field(unsigned int, context)
->>>> +        __field(unsigned int, seqno)
->>>> +    ),
->>>> +
->>>> +    TP_fast_assign(
->>>> +        __assign_str(driver);
->>>> +        __assign_str(timeline);
->>>> +        __entry->context = fence->context;
->>>> +        __entry->seqno = fence->seqno;
->>>> +    ),
->>>> +
->>>> +    TP_printk("driver=%s timeline=%s context=%u seqno=%u",
->>>> +          __get_str(driver), __get_str(timeline), __entry->context,
->>>> +          __entry->seqno)
->>>> +);
->>>> +
->>>
->>> Mhm, I'm strongly in favor to just use this approach for all trace points.
->>>
->>> The minimal extra overhead shouldn't really matter at all.
->>
->> Yeah, I am a bit on the fence. It would required a bit of an ugly rcu_read_lock around trace_dma_fence_signal_init
-> 
-> I think as long as we only grab the RCU read side lock when the tracepoint is actually enabled then that shouldn't matter.
-> 
-> I do remember patches flying by which optimized this use case for the whole trace subsystem but didn't took a closer look how to do that now.
-> 
->> and trace_dma_fence_signaled would lose the driver/timeline info _unless_ name helpers would also be changed to look at fence->ops instead of "is signaled". Those have no memory barriers so not sure I want to think about racyness and how to solve it.
-> 
-> Mhm, that is a bit more problematic.
-> 
-> ops is only set to NULL when neither free nor wait is specified, so checking is signaled is still the right thing to do for drivers which uses those callbacks but still want to have the RCU protection of the returned strings.
-
-Hm yes, that too.
-
-
-> Ok, feel free to go ahead with this approach for now but please add a /* TODO: clean that up when most drivers switched to independent fences */.
-
-Thank you, I've sent an updated version with a comment to this effect 
-placed to the event class definition. I put your r-b so please double 
-check if you are happy with that version.
-
-Regards,
-
-Tvrtko
->>>>    /*
->>>>     * Safe only for call sites which are guaranteed to not race with fence
->>>>     * signaling,holding the fence->lock and having checked for not signaled, or the
->>>>     * signaling path itself.
->>>>     */
->>>> -DECLARE_EVENT_CLASS(dma_fence,
->>>> +DECLARE_EVENT_CLASS(dma_fence_ops,
->>>>          TP_PROTO(struct dma_fence *fence),
->>>>    @@ -46,7 +71,7 @@ DEFINE_EVENT(dma_fence, dma_fence_emit,
->>>>        TP_ARGS(fence)
->>>>    );
->>>>    -DEFINE_EVENT(dma_fence, dma_fence_init,
->>>> +DEFINE_EVENT(dma_fence_ops, dma_fence_init,
->>>>          TP_PROTO(struct dma_fence *fence),
->>>>    @@ -60,14 +85,14 @@ DEFINE_EVENT(dma_fence, dma_fence_destroy,
->>>>        TP_ARGS(fence)
->>>>    );
->>>>    -DEFINE_EVENT(dma_fence, dma_fence_enable_signal,
->>>> +DEFINE_EVENT(dma_fence_ops, dma_fence_enable_signal,
->>>>          TP_PROTO(struct dma_fence *fence),
->>>>          TP_ARGS(fence)
->>>>    );
->>>>    -DEFINE_EVENT(dma_fence, dma_fence_signaled,
->>>> +DEFINE_EVENT(dma_fence_ops, dma_fence_signaled,
->>>>          TP_PROTO(struct dma_fence *fence),
->>>>    
->>>
->>
-> 
-
+Hi Krzysztof,                                                              =
+     =0A=
+                                                                           =
+     =0A=
+>On Tue, Apr 14, 2026 at 02:19:44PM +0530, Elgin Perumbilly wrote:         =
+     =0A=
+>> Add bindings for Omnivision OS02G10 sensor.                             =
+     =0A=
+>>                                                                         =
+     =0A=
+>> Signed-off-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>    =
+     =0A=
+>> ---                                                                     =
+     =0A=
+>>  .../bindings/media/i2c/ovti,os02g10.yaml      | 96 +++++++++++++++++++ =
+     =0A=
+>>  MAINTAINERS                                   |  7 ++                  =
+     =0A=
+>>  2 files changed, 103 insertions(+)                                     =
+     =0A=
+>                                                                          =
+     =0A=
+>Your changelog in cover letters says nothing changed here, so same        =
+     =0A=
+>comments as v1. Please go back to v1 and read the feedback carefully.     =
+     =0A=
+>                                                                          =
+     =0A=
+>Best regards,                                                             =
+     =0A=
+>Krzysztof                                                                 =
+     =0A=
+                                                                           =
+     =0A=
+I made the changes but forgot to include them in the changelog.            =
+     =0A=
+                                                                           =
+     =0A=
+Changes made:                                                              =
+     =0A=
+                                                                           =
+     =0A=
+- Corrected $id to ovti,os02g10.yaml                                       =
+     =0A=
+- Fixed data-lanes property structure to use proper items format           =
+     =0A=
+                                                                           =
+     =0A=
+Best regards,                                                              =
+     =0A=
+Elgin  =
 
