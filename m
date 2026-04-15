@@ -1,257 +1,115 @@
-Return-Path: <linux-media+bounces-58790-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58791-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2AkBCUxG32nzRAAAu9opvQ
-	(envelope-from <linux-media+bounces-58790-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 10:03:24 +0200
+	id QGHDMeVI32mFRQAAu9opvQ
+	(envelope-from <linux-media+bounces-58791-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 10:14:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749FD401A70
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 10:03:23 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6AEA401CD1
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 10:14:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BC3AD30C2454
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 07:58:36 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6908E305C19B
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 08:10:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F2E13B7751;
-	Wed, 15 Apr 2026 07:58:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 444473CE4BC;
+	Wed, 15 Apr 2026 08:10:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="hpdWBxB0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f3DLZyu8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE903909AE
-	for <linux-media@vger.kernel.org>; Wed, 15 Apr 2026 07:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A777740DFC9;
+	Wed, 15 Apr 2026 08:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776239915; cv=none; b=GFFmEvKkxMNt5Yah+15wVHRpxOysxR1FfLJzPwMzwDGg2K1WHqmqVEf3WyjHCJEbRFNSt6J43oDeV/drnBzqaL7eTrwlTVoKxY4gESot436sSJphE3WBedZsBFsiJ8QQPJ2uspqI867Z9kifVz/W9JsOJuyHF8sxgXrKDc+hJP0=
+	t=1776240618; cv=none; b=gFiHPTIktxq6nWK28NSlQj+9rWpK/YeDxSeqYwWkw8dNPul4Kt045hAYve0pEEYdi7erfNDbWppj4NaXYYVO1fSsxooRlJN5ker1ptVenGuG6AYHNhDCj6sknAjWd+J8VlLFsoDiVUBVyPU6v26NcoKtElFeMSL9FffzZ4YU7+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776239915; c=relaxed/simple;
-	bh=V2IrU9DH/s/Rn516HAK546ZeOlkdPnn8y14o7LMYLSA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OOy7PZTuGYHc8FjiBqOVy9VDfujnOKf8i6KypQI7GfiROSAeZG4hb6dAkPvjQRgaxWjXVjk8uLes156n6zy9err8prOBjLpNDmqggs7/o53OaDIJCY4l+rMlHrlDpDMgRcG/WdDWyNQdUZfcBc1UM6tGxmHfmOslPPMhHIaGnLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=hpdWBxB0; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=wk5fQOuSYbPGWBEXVmoIfB88ZJN8adqjqkyKfZo1h8c=; b=hpdWBxB0PPHM/7ZF0OzqSlg5ny
-	0QLJ9SBnmKhC/rWmpIKctGFBmiNdfY0ky4ji/v1EEoST+ef4iJAIOeonSRD34rGwIcevB3TLksFRZ
-	yR0yQPtfW24VWxKFKIjtjWkRTsy3yM+XEM4GEQNq4AzhRnhjcv1rD+TOGDpjUg+7Q9KD0ORuiB9Zx
-	sCNR3ZoJ1aOSD4egpytL73oZKRtXIzQiSDgmaY/oGBLAWcR155uhAaU9yzyRizpFF4UTUncG9wGjx
-	fwf3igGFupw8K0gZfxfLgR5FC5ZIFMmxAR2Imj+D9vwrFmof1BbL+9V6isvS6rYM/T3gKSOPfv9Xc
-	Ly/DaFkA==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1wCv8b-00GGKd-RO; Wed, 15 Apr 2026 09:58:17 +0200
-Message-ID: <5fea79b5-ab5a-4a98-95c8-6452b20e83c4@igalia.com>
-Date: Wed, 15 Apr 2026 08:58:16 +0100
+	s=arc-20240116; t=1776240618; c=relaxed/simple;
+	bh=I6eUDp4wTRJP5CSONuLda4AnlkaTkRvF/XhtVGrCOXs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pqm/ImGWkYQRvzkj1LV6BT/Bl/HiK6FscHe43ZJ6a8mLV7R/ERH0WULp4nbTfGPdWWlWNxuEXxAn/4C+yBRjjoEUDU0IWFvZEcfogGPboEUtjEgcs/Dr2IK8dw1VzmcS3nm7Xxqt1wo0EKAJ+bcy8tfErSa+MbGTg8TznYQ3kpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f3DLZyu8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D051FC19424;
+	Wed, 15 Apr 2026 08:10:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776240618;
+	bh=I6eUDp4wTRJP5CSONuLda4AnlkaTkRvF/XhtVGrCOXs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f3DLZyu8wclWP9+9yOvpttjvy+zqfD0qAV5MaRuHF9J1O8UwpI4uWV8qnSug3lX2w
+	 kPQIXfMqwh36ZO2coLxi2u6jRokNlRwhoEwAxIQ15NumsflWfytZ3O539wqYHLzMQA
+	 apBR8Lwl79DV7n4k8/SBFS0ue3GMZb37+qDKGA01GPmaAFRWVRzs3uQc3btQXZxhA3
+	 ThI3/I4JeR0GjzCPzyqH4sux85UmwK5LBii9LgahjwUtlHT6VDEM7htJ6/cx+I/+OC
+	 4TME98PO+5p1Gb9I01x3Ml1A3UkufM50/TCZv9NuvJKtz8NpIOJhPpoDOEVtOPp1ex
+	 lz01AVaghKcuQ==
+Date: Wed, 15 Apr 2026 10:10:16 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
+Cc: Michael Riesch <michael.riesch@collabora.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Frank Li <Frank.Li@nxp.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 4/5] media: dt-bindings: add NXP i.MX95 compatible string
+Message-ID: <20260415-glaring-premium-nuthatch-ce00fc@quoll>
+References: <20260415-csi2_imx95-v1-0-7d63f3508719@oss.nxp.com>
+ <20260415-csi2_imx95-v1-4-7d63f3508719@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dma-fence: Fix potential tracepoint null pointer
- dereferences
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Philipp Stanner <phasta@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20260414154928.32934-1-tvrtko.ursulin@igalia.com>
- <20260414154928.32934-2-tvrtko.ursulin@igalia.com>
- <650e835e-b60d-44fd-b212-47f8a9d18c15@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <650e835e-b60d-44fd-b212-47f8a9d18c15@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.36 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260415-csi2_imx95-v1-4-7d63f3508719@oss.nxp.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58790-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58791-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.959];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,amd.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,igalia.com:mid,igalia.com:email,collabora.com:email]
-X-Rspamd-Queue-Id: 749FD401A70
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E6AEA401CD1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On Wed, Apr 15, 2026 at 11:46:55AM +0800, Guoniu Zhou wrote:
+> The i.MX95 CSI-2 controller is nearly identical to i.MX93, with the
+> only difference being the use of IDI (Image Data Interface) instead
+> of IPI (Image Pixel Interface). The binding constraints are otherwise
+> the same.
 
-On 14/04/2026 19:30, Christian König wrote:
-> On 4/14/26 17:49, Tvrtko Ursulin wrote:
->> Trace_dma_fence_signaled, trace_dma_fence_wait_end and
->> trace_dma_fence_destroy can all currently dereference a null fence->ops
->> pointer after it has been reset on fence signalling.
->>
->> Lets use the safe string getters for most tracepoints to avoid this class
->> of a problem, while for the signal tracepoint we move it to before ops are
->> cleared to avoid losing the driver and timeline name information. Apart
->> from moving it we also need to add a new tracepoint class to bypass the
->> safe name getters since the signaled bit is already set.
->>
->> For dma_fence_init we also need to use the new tracepoint class since the
->> rcu read lock is not held there, and we can do the same for the enable
->> signaling since there we are certain the fence cannot be signaled while
->> we are holding the lock and have even validated the fence->ops.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Fixes: 541c8f2468b9 ("dma-buf: detach fence ops on signal v3")
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Philipp Stanner <phasta@kernel.org>
->> Cc: Boris Brezillon <boris.brezillon@collabora.com>
->> Cc: linux-media@vger.kernel.org
->> Cc: linaro-mm-sig@lists.linaro.org
->> ---
->>   drivers/dma-buf/dma-fence.c      |  3 ++-
->>   include/trace/events/dma_fence.h | 33 ++++++++++++++++++++++++++++----
->>   2 files changed, 31 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->> index a2aa82f4eedd..b3bfa6943a8e 100644
->> --- a/drivers/dma-buf/dma-fence.c
->> +++ b/drivers/dma-buf/dma-fence.c
->> @@ -363,6 +363,8 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>   				      &fence->flags)))
->>   		return;
->>   
->> +	trace_dma_fence_signaled(fence);
->> +
->>   	/*
->>   	 * When neither a release nor a wait operation is specified set the ops
->>   	 * pointer to NULL to allow the fence structure to become independent
->> @@ -377,7 +379,6 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>   
->>   	fence->timestamp = timestamp;
->>   	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
->> -	trace_dma_fence_signaled(fence);
-> 
-> I think this part here should be a separate patch.
+Nearly identical with some difference really, really suggests they are
+compatible. Express compatibility or explain why they are not compatible
+(difference between IDI and IPI unfortunately does not help me).
 
-I had that in 
-https://lore.kernel.org/dri-devel/20260330133623.17704-1-tvrtko.ursulin@igalia.com/ 
-but the discussion fizzled out before an rb.
-
-> 
->>   
->>   	list_for_each_entry_safe(cur, tmp, &cb_list, node) {
->>   		INIT_LIST_HEAD(&cur->node);
->> diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
->> index 3abba45c0601..9e0cb9ce2388 100644
->> --- a/include/trace/events/dma_fence.h
->> +++ b/include/trace/events/dma_fence.h
->> @@ -9,12 +9,37 @@
->>   
->>   struct dma_fence;
->>   
->> +DECLARE_EVENT_CLASS(dma_fence,
->> +
->> +	TP_PROTO(struct dma_fence *fence),
->> +
->> +	TP_ARGS(fence),
->> +
->> +	TP_STRUCT__entry(
->> +		__string(driver, dma_fence_driver_name(fence))
->> +		__string(timeline, dma_fence_timeline_name(fence))
->> +		__field(unsigned int, context)
->> +		__field(unsigned int, seqno)
->> +	),
->> +
->> +	TP_fast_assign(
->> +		__assign_str(driver);
->> +		__assign_str(timeline);
->> +		__entry->context = fence->context;
->> +		__entry->seqno = fence->seqno;
->> +	),
->> +
->> +	TP_printk("driver=%s timeline=%s context=%u seqno=%u",
->> +		  __get_str(driver), __get_str(timeline), __entry->context,
->> +		  __entry->seqno)
->> +);
->> +
-> 
-> Mhm, I'm strongly in favor to just use this approach for all trace points.
-> 
-> The minimal extra overhead shouldn't really matter at all.
-
-Yeah, I am a bit on the fence. It would required a bit of an ugly 
-rcu_read_lock around trace_dma_fence_signal_init and 
-trace_dma_fence_signaled would lose the driver/timeline info _unless_ 
-name helpers would also be changed to look at fence->ops instead of "is 
-signaled". Those have no memory barriers so not sure I want to think 
-about racyness and how to solve it.
-
-Regards,
-
-Tvrtko
-
-> 
-> Regards,
-> Christian.
-> 
->>   /*
->>    * Safe only for call sites which are guaranteed to not race with fence
->>    * signaling,holding the fence->lock and having checked for not signaled, or the
->>    * signaling path itself.
->>    */
->> -DECLARE_EVENT_CLASS(dma_fence,
->> +DECLARE_EVENT_CLASS(dma_fence_ops,
->>   
->>   	TP_PROTO(struct dma_fence *fence),
->>   
->> @@ -46,7 +71,7 @@ DEFINE_EVENT(dma_fence, dma_fence_emit,
->>   	TP_ARGS(fence)
->>   );
->>   
->> -DEFINE_EVENT(dma_fence, dma_fence_init,
->> +DEFINE_EVENT(dma_fence_ops, dma_fence_init,
->>   
->>   	TP_PROTO(struct dma_fence *fence),
->>   
->> @@ -60,14 +85,14 @@ DEFINE_EVENT(dma_fence, dma_fence_destroy,
->>   	TP_ARGS(fence)
->>   );
->>   
->> -DEFINE_EVENT(dma_fence, dma_fence_enable_signal,
->> +DEFINE_EVENT(dma_fence_ops, dma_fence_enable_signal,
->>   
->>   	TP_PROTO(struct dma_fence *fence),
->>   
->>   	TP_ARGS(fence)
->>   );
->>   
->> -DEFINE_EVENT(dma_fence, dma_fence_signaled,
->> +DEFINE_EVENT(dma_fence_ops, dma_fence_signaled,
->>   
->>   	TP_PROTO(struct dma_fence *fence),
->>   
-> 
+Best regards,
+Krzysztof
 
 
