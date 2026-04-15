@@ -1,152 +1,161 @@
-Return-Path: <linux-media+bounces-58819-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58820-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SDY2Cu+e32kEWwAAu9opvQ
-	(envelope-from <linux-media+bounces-58819-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 16:21:35 +0200
+	id oG6rDoui32miXAAAu9opvQ
+	(envelope-from <linux-media+bounces-58820-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 16:36:59 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E77405376
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 16:21:34 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8684055EA
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 16:36:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 82EF330E58F5
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 14:18:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A40B0308A584
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 14:35:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 025C93D4121;
-	Wed, 15 Apr 2026 14:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EFB43D3D1E;
+	Wed, 15 Apr 2026 14:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nxsrc5nx"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CiU2a4Ll"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3D53D3CF2
-	for <linux-media@vger.kernel.org>; Wed, 15 Apr 2026 14:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905E735DA40;
+	Wed, 15 Apr 2026 14:35:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776262681; cv=none; b=KW7b4mnnNAJVqYpBzF2ecabyArVpM8/jfGKFDiHvY78ODjAHsmQw4B7NN7tn3AeYHDXIb2d6PPrcotLSdApptpOaUBFdlV+MDVOb6GCstFQYdxR1KLyi3NZbo2vu+JEMaehsPnf2K7jbi7ANUju68W1PA0KfbsOO2yGH7+BCsvw=
+	t=1776263726; cv=none; b=qfmMpsX5M6IVWcc0ElqNOK6a2ZEuS4mGLBqvRNAqwzzLCRCkgwVFjOHaJgU1HkiWfGblxcdbbnd7z7K6AVGIESGzlg+4NK3f3dFXsSy86EilOM9Yoly63vFmX6KHUqSJFmRsSXzM0tkNuLxVD+TnIqH+DR53RyvyoEifkckK7bY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776262681; c=relaxed/simple;
-	bh=DbwPAjuzgcYKMgYknMMYLE6/2dJXLcBvek6pHyXOJ7E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GcZpnk0vHQ5i00n01TffFB89cnaSwr6HcdaqwhNifShmZ3lAcm0bY2/2gTZWmBOXamYpSn78RDNxZa7ZCp4F+c88asSpV8qezWQzLdg4NYATZNn/KfbAkGoD8buUBWtxU0XO1iJ5wGp1F0WNvuKwJqErJu0D+juTh9VP6AykZMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nxsrc5nx; arc=none smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1271257ae53so15023704c88.1
-        for <linux-media@vger.kernel.org>; Wed, 15 Apr 2026 07:17:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776262678; x=1776867478; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bw1VCi5nYgeb6iMtGug92GHg2lfm+h8hDV/KGM1mT+w=;
-        b=nxsrc5nxElTkbk+T89lw+BjVj32ljmKkwxAkuKtPtcmz0dlhwiUKtijP5dy88Rc0F1
-         kKw2TjUOUf1H11SuoAfLaZdxM+PMSKujsVQaQrTK5TpXuxpNN7la8Wp1f+6cRg2rBlaZ
-         aESINQBVlVlZF5Y+G8SEt19wWSNTURfBCL+S//H2/ZsILX+H4YKofm3fdRk5XiNWMwQL
-         /UsRUVkAzFf3NiX8deNqn5hak07do8QCWC12ihErHB6WGmq6NPzhbsAnOgWTrJNJT76l
-         RrVK34O1CkZurn787O7ALNS6Wv2C5TKFSQV81QlIiQ3pOW1hxT9SvZxkvi2XkKExC/Ho
-         VQTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776262678; x=1776867478;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bw1VCi5nYgeb6iMtGug92GHg2lfm+h8hDV/KGM1mT+w=;
-        b=IN+0JxCo2AlNOVY910zjSzCpARudx4IoVD4907p9zDSObWyzqDjNRHKnrxWnw1m+El
-         iF3wLFyOP2eoNt336AgqGMlRW+bvEtvV4Dv1TC6oLKIEHugAoi55Onxrsfz4Kpg15K1U
-         CWofvpcxYKem5RXP7IbZW0Tcj8h7c2F1G6DoQ+HtP67GsM7TvogNm9daxiHaF01nvszb
-         36njmzcpI55EtbexGpzNjshNbY9T/R7neCgmB90+9N/AMtsU+l+AtYVfgnqb05Is4sDt
-         6KqUgyYn5yRpWXvKuU7ZpQrDXLZeh+GWQhTZS3v0u4Zd2yLOXlQQOhbvT8W/QcdQYZCd
-         63DQ==
-X-Forwarded-Encrypted: i=1; AFNElJ80kmgCpkUixDBAU6iavW2CX1PHzooZrnQwAm81Ef5DtqhL9DERbJrh+RWY7CsmXRtME0+zwpUZxiTB4Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/+85z0x3J0w6k0Zo+EiJF5z9JhtMFp9iR81fro4y8Cv9Tf9XD
-	+l7e2CUR9qI/oKpv1SptffMyqW06GmUf3midiSyq9bS6P7L2QHehCFQ=
-X-Gm-Gg: AeBDieuQRG6fQtJSINfeahjOU20AHjh22R5YS90qHcFoeewvXVsthbtni2z3ZpjhqB1
-	VSLU54DahKStTiedzClTDhjqqHlpX+TgDuxn4zk00fIXDCFz2cxgxY3IJF8rym1nN7uPmfJl+el
-	zeqYHqeGLFNQyi34TuGXK1jOV+Fzj4C1AogLYwiCj5j3yK0alPePM9jzwgEVRlhFyAChiX0BtNx
-	LAr85K0bOqzFG1vRX3INaG7sMl9iIkg90piHh2vnSdVoinwIQDg6JAzU/LBYQ5ENy8urLsGRald
-	+gaJxQtinTXdPKQ7TgxvsmNb5AZX0ZkasFjQRhjbSaKUZwwF5HHba+CNdJR7Q+CpVnYilRImnOE
-	Fn8FaY1zrE7T6/OnKzjDH9m/xBpMjSi3CzUJTOVcdeFkrIYvjYQYInWloCA7N0xs7FGTRhPKYNW
-	yU8g6IjwjjD4C0N6prsPyg/bbZoF2FC6nDYnf4xbS35itEuMW+UKk04uEBddTP5EYSQMIJsmAS/
-	cfVuXBG2w==
-X-Received: by 2002:a05:7022:6189:b0:128:d450:bc76 with SMTP id a92af1059eb24-12c34eead86mr12476394c88.26.1776262677904;
-        Wed, 15 Apr 2026 07:17:57 -0700 (PDT)
-Received: from vilarmanjaro ([2804:29b8:50e0:3432:1ab7:b7ed:546a:3e8f])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c5f3f3d93sm1308436c88.15.2026.04.15.07.17.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 07:17:57 -0700 (PDT)
-From: Ramon Watson Vilar <watsonvilar@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ramon Watson Vilar <watsonvilar@gmail.com>
-Subject: [PATCH] staging: atomisp: use usleep_range instead of msleep for short delays
-Date: Wed, 15 Apr 2026 11:17:39 -0300
-Message-ID: <20260415141739.109259-1-watsonvilar@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1776263726; c=relaxed/simple;
+	bh=WnKn70BAZ4sIf6ZszM++Jo6mlB40fmv2BMBcceSDkYQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z++s0LbztiSphTPUD/WJq0szlb22wNQHoy8oiszUl5KtqqBK8GuJJh8XNgoJOC4v7DmffpzMXise3/8AxGivvu3gGJvuvhLqoHL80JyY1cxjvXjkE9GTFNF3lQE+pAgSaikLxPyDtqZceSK3jeSk2gcsoMoS/JfZOhyGTGE7Zlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CiU2a4Ll; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1776263723;
+	bh=WnKn70BAZ4sIf6ZszM++Jo6mlB40fmv2BMBcceSDkYQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CiU2a4LlRImsM5l+nSEb0eApmWCoCHT3iaWM5v++oJlHVdZJ14Yq0iKPj+AAo8Ec1
+	 z/WUs1E2sUwGuwt5MFKd6Hp6Wl7qHRLckSAKG6mNx+8q+1z616CD+WIyOY5+YPybAv
+	 YcHRl5SZ26CkGGotAlJE9rVWhVnf8dFirqvbzp+bTB/bViqqVLCvW5sENkkrP/17Ge
+	 uJ4bMQmmgUot7sTh2Dh+a7Zuly4E+TCX6OKPCHTvZUBNn5ZA9IDDDxZHO/N45m72yK
+	 z0UoigsfQj08VU3mrRJDtrseTZd0ZNn6vjwfEo8a3wH1VVWFUr1gDwnwjZoJ6RcxEZ
+	 dJ/JnSbRe6NYA==
+Received: from [100.64.1.43] (unknown [100.64.1.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4BEE517E0610;
+	Wed, 15 Apr 2026 16:35:23 +0200 (CEST)
+Message-ID: <fd663d6d-2380-41f9-8d03-8f7740cbd6ce@collabora.com>
+Date: Wed, 15 Apr 2026 16:35:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] media: verisilicon: Simplification and clean up
+To: nicolas.dufresne@collabora.com, p.zabel@pengutronix.de,
+ mchehab@kernel.org, Frank.Li@nxp.com, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, heiko@sntech.de,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@kernel.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ kernel@collabora.com
+References: <20260415140420.282084-1-benjamin.gaignard@collabora.com>
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <20260415140420.282084-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,vger.kernel.org,lists.linux.dev,gmail.com];
-	TAGGED_FROM(0.00)[bounces-58819-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-58820-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[watsonvilar@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[collabora.com,pengutronix.de,kernel.org,nxp.com,gmail.com,sntech.de,foss.st.com,sholland.org];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	TO_DN_NONE(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	NEURAL_HAM(-0.00)[-0.998];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[benjamin.gaignard@collabora.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 81E77405376
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linuxtv.org:url]
+X-Rspamd-Queue-Id: 9C8684055EA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Signed-off-by: Ramon Watson Vilar <watsonvilar@gmail.com>
----
- drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-index d3414312e1de..e0b0f09a5c26 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-@@ -433,7 +433,7 @@ static int power_up(struct v4l2_subdev *sd)
- 			goto fail_power;
- 	}
- 
--	msleep(5);
-+	usleep_range(5000, 10000);
- 	return 0;
- 
- fail_clk:
--- 
-2.53.0
+Le 15/04/2026 à 16:04, Benjamin Gaignard a écrit :
+> Simplify motion vectors and reference allocation with common helpers.
+> Since it requires to move some of codecs specific functions and
+> structure in codecs header files add a patch to finish the clean up.
 
+I forgot to mention that this series depends on
+https://patchwork.linuxtv.org/project/linux-media/patch/20260415073801.58369-1-benjamin.gaignard@collabora.com/
+
+>
+> Benjamin Gaignard (2):
+>    media: verisilicon: Simplify motion vectors and rfc buffers allocation
+>    media: verisilicon: Clean up messy include
+>
+>   drivers/media/platform/verisilicon/hantro.h   |  31 +-
+>   .../media/platform/verisilicon/hantro_av1.c   |   7 -
+>   .../media/platform/verisilicon/hantro_av1.h   | 100 +++-
+>   .../platform/verisilicon/hantro_g1_h264_dec.c |   1 +
+>   .../verisilicon/hantro_g1_mpeg2_dec.c         |   2 +-
+>   .../platform/verisilicon/hantro_g1_vp8_dec.c  |   2 +-
+>   .../media/platform/verisilicon/hantro_g2.c    |  36 --
+>   .../platform/verisilicon/hantro_g2_hevc_dec.c |  26 +-
+>   .../platform/verisilicon/hantro_g2_vp9_dec.c  |  12 +-
+>   .../media/platform/verisilicon/hantro_h264.c  |   2 +-
+>   .../media/platform/verisilicon/hantro_h264.h  |  98 ++++
+>   .../media/platform/verisilicon/hantro_hevc.c  |  37 +-
+>   .../media/platform/verisilicon/hantro_hevc.h  |  82 ++++
+>   .../media/platform/verisilicon/hantro_hw.h    | 446 +-----------------
+>   .../media/platform/verisilicon/hantro_mpeg2.c |   1 +
+>   .../media/platform/verisilicon/hantro_mpeg2.h |  27 ++
+>   .../platform/verisilicon/hantro_postproc.c    |  29 +-
+>   .../media/platform/verisilicon/hantro_v4l2.c  | 262 +++++++++-
+>   .../media/platform/verisilicon/hantro_vp8.c   |   1 +
+>   .../media/platform/verisilicon/hantro_vp8.h   |  29 ++
+>   .../media/platform/verisilicon/hantro_vp9.h   | 104 ++++
+>   .../media/platform/verisilicon/imx8m_vpu_hw.c |   5 +
+>   .../verisilicon/rockchip_vpu2_hw_h264_dec.c   |   2 +-
+>   .../verisilicon/rockchip_vpu2_hw_mpeg2_dec.c  |   2 +-
+>   .../verisilicon/rockchip_vpu2_hw_vp8_dec.c    |   2 +-
+>   .../verisilicon/rockchip_vpu981_hw_av1_dec.c  |  16 +-
+>   .../platform/verisilicon/rockchip_vpu_hw.c    |   3 +
+>   .../platform/verisilicon/stm32mp25_vpu_hw.c   |   2 +
+>   .../media/platform/verisilicon/sunxi_vpu_hw.c |   1 +
+>   29 files changed, 796 insertions(+), 572 deletions(-)
+>   create mode 100644 drivers/media/platform/verisilicon/hantro_h264.h
+>   create mode 100644 drivers/media/platform/verisilicon/hantro_hevc.h
+>   create mode 100644 drivers/media/platform/verisilicon/hantro_mpeg2.h
+>   create mode 100644 drivers/media/platform/verisilicon/hantro_vp8.h
+>
 
