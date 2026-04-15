@@ -1,225 +1,273 @@
-Return-Path: <linux-media+bounces-58837-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58838-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IMncDAnJ32nVYwAAu9opvQ
-	(envelope-from <linux-media+bounces-58837-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 19:21:13 +0200
+	id 6CkoG8nK32nVYwAAu9opvQ
+	(envelope-from <linux-media+bounces-58838-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 19:28:41 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F839406BF5
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 19:21:12 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C22406CB1
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 19:28:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2596132F5BA0
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 16:58:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B1D39315307F
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2026 17:15:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E625D3E51F7;
-	Wed, 15 Apr 2026 16:56:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B814D3E8C50;
+	Wed, 15 Apr 2026 17:15:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L2CO8yjU"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CjEdGEGN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7943E3D93
-	for <linux-media@vger.kernel.org>; Wed, 15 Apr 2026 16:56:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776272179; cv=pass; b=Wn62bAoN+BlCJJcWzwpaquGu/8aBycjDqVYOw9PJDfKBjoVAs8rAXaDjP+c/0aGO05/Be0DwzxBOngq2/XZ68oUVh716cO9SAvHoqTzoZ3cHUgRYHoPmhU+GbGQaGnyreh4pynPpcbzZO8w4VqKEC1bR2E+VwOM2eTMZdt/B/Zg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776272179; c=relaxed/simple;
-	bh=5epuAobbYmsxoedp3xAwQFuZrWLlYCQPKXraMn3SjRw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rbw7vDfln75hBVTIuL6SkWxRegHM9uHIc9CJ5uS2VN7zL/M5TaqSDjiluqaeartNZ8cOzAt7DnBjbGo6fCuOuTz8VO4R7y/v/yqYIBLfepVT6nv83FkSdp0qVVfGdF0QWCrPG7s3I38HzTwx/7dwYcIEWtExdErIJTppkjMKYR4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L2CO8yjU; arc=pass smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-6501c9903edso7864477d50.1
-        for <linux-media@vger.kernel.org>; Wed, 15 Apr 2026 09:56:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776272177; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UjxQ8w6IWcWtLa2Yu8GmkPyowrrI9uoaNFHjL3FGLyapCtfwo+7JQ6/f9Rou+oxf+K
-         pby6b72Y+c0sq2ImhcX+2Bc5ERpvdtk9DG5tF+j2xM1x6H/+kp8gLR6AK/Lf/M2phg22
-         sOM3/+PPkp1ZNiSeawBWXQaNlYZSIE+qpPwTMDy50zVdJnRuo7foZBkNa0GrBW6bKwOL
-         o/45d2D943gOXjp3f4BrRZKg5VvzRH2oGX/DJxpnVuwSZydtmtSGI5RDC2r+BnK7a12g
-         OgxY1JaHq1/EBJSefsaf+M4tCl2hxZiGr47dpZbSpec6bZjE8n+Gu8bdbWtDRoNFjOGi
-         PTUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=DxfxzTbLJENYe0fpAejm84GGliDjSkVvHXvgo3kQKiw=;
-        fh=BjK6ST/Jdgyfn44JWQfxXVPkUxaz4T7t3yDFOV5M4oE=;
-        b=O+hAc8AyARJYj1t4q7gqdS121CKliEp5G0ewtMiajMGQ04hurgBQaXg7SUMHmTEsSg
-         FXN7/MjLrmGkmaKN833FO4SfFEMApidmhAyi0Hpnz6JrBGuUDE4uSxVr+RylflO0TJTS
-         iOzFCP9vXv9iU4jL9xTEu9K+E2sm5TIU0PV7sFbO/KSJ35bi1S3aQFyO9M3nhyO/vsTC
-         v0ExjwVWbRsfnoi5sc7/EvZGwJeA2UG8DO7log19+mxzR2IJOZAeADrLfycA+POZbNAe
-         I/uu6EOowqOUYKZ58yeEHbvQqrjJ/uHiqZ+nWGM3y/QWybX17oZNm03XEHH+BrzNgCyg
-         AmyA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776272177; x=1776876977; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DxfxzTbLJENYe0fpAejm84GGliDjSkVvHXvgo3kQKiw=;
-        b=L2CO8yjUI0M9naLEKslWmmJBPwCOz84N7R44enYFAg4aaymGVs3R2iWZwhl6HuNNzN
-         bDJG3LXmj0sQ7AMmeZVgM7DU+rvWyL48LvN2QC3UiqqbDgZv3p6jW1A99GGyCSfg3T5/
-         t3VCdIgBgiKwpXjcTx8lvvHV1SUfQUhoHGWvt28dKy5KICpzDNr3w32fNisIXgnkxZyx
-         vOm9CE6AhCMkmA+zkBzYo/X9uyjMPLGv4tJkzPFapHWlbnn1N43KxiwGZaAJyhRtRJ+r
-         yg2ArFl20sKu7ACqJmBk/BgsItiBinreqUuKnCG9D54O4Nzv5zuxi1vA8CDWsaH7nYKl
-         9y1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776272177; x=1776876977;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DxfxzTbLJENYe0fpAejm84GGliDjSkVvHXvgo3kQKiw=;
-        b=WnUn2Zk9PnJq50VLux+NDDCk4Nb7S1MCF41bS13H9BHAkVIq5vhS2gO4m/v03XxXh3
-         qOYpW8JoMTmnzV88jTqnRkyySiKoGV+hmTPkxV5NQ00lPQPamaFdHkqU/SJpAeGEpPEL
-         wyqkXOw6w3SHxRuRzH7rr1nl2UfJiuOC5tCKfswjwa1RZKfc8gjDoR6gNhC/tzLh5lN4
-         BOiaoxnrcbjj0wSDfhWu4WOlS4JeFOjxAQH8AgzygDaPlbJ/dW9wv6B6rpIQyhua8GT5
-         1rtal27tINW8ce8jCIDm7zdSNbjNSxfvXZLiN64OXnkDqPtcHc6FidhBCGHZzX6x7k9a
-         q5pw==
-X-Forwarded-Encrypted: i=1; AFNElJ+aZaWyvC6myguKp2GD9oc4HG3+n7jwpzSXtWbWUun7wBGuuI1JeBVFp7fAF6ypRZpMeCtBEesdjkug6w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/92a117FubYyj+1uzHta+uGc3JdiSeqCHZR0gEXtgZJAUk7SP
-	33e7A8xxDKyAIAETroYuGB1Gzp2qSHs/3I8WZTU94dngca2lgswbabrjFEha2I+6HjIep4KjZP6
-	7ewxr4P7sKXov7w2kHjs6FE8NzdhRA9A=
-X-Gm-Gg: AeBDievwRV3b7FUy0+TdPjmdDPAcdUSMDB8pZTge4rftFiqNQC62rLqRPZt05b6NVZK
-	SN8j9brIKaAaEWRGZRz0jYXhr49GQrTB8tc+uOSfxo5Uys2dMXhVP16zNQkQxxvfSd0VyrvlLzD
-	dafapbrlGwm/RC6/p32m9+3gm7FsenH4u6zKsypCpD8WQRBwbtEHeeH+fnvgBR55nv9YaaK0gra
-	joAiTat9de24IYr4730PQQeKglksFcL4L2sp6ORFizUsX45AQdAhPcGQoIYw7PkunFv1yctxnmA
-	nrbmwLnkM5XcXCHmuT0=
-X-Received: by 2002:a05:690e:d47:b0:650:3bbc:5375 with SMTP id
- 956f58d0204a3-65198a6a25fmr20140207d50.17.1776272177023; Wed, 15 Apr 2026
- 09:56:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427E8372665
+	for <linux-media@vger.kernel.org>; Wed, 15 Apr 2026 17:15:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776273343; cv=none; b=FO0V8oeiMqD7DvYOG7FKKf9MUEW96gk4j3zz7LU5lESN78R+N2g1i/bX2/iQA4+JN1mbCRnciQsIRBBk3ZoSiG5dT5SM/97TZ+UZ2hyXjbuVlFmJmkK2k84IbKJmom7B7+ZaTeYtqzMrxyha6jXqEI4bZqRR4A3fBdYcOo0I3ps=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776273343; c=relaxed/simple;
+	bh=O1F2775dG0lVDsjLYbSXZ5V9rA45ikM5Plx534YJoPM=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=QTABIdVy5PEjlv5FYfzDdmRWV/FMf1syaFO4T/VE6KRMWeeU4mVKRYr/yrpYqpjuABvtVLLkjSE5Efdg7Zk+SO0pDMhdauMka2Palo6I4fcx8xFtlLQEPfPwi7XE6SeKElCgbaGuHy7IcYO3M7h2e4RfmIvih4F6wu4QzR7chwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CjEdGEGN; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c30:51df:7e0d:3bc9:3b1b:3f69])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2FA45DF3;
+	Wed, 15 Apr 2026 19:14:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1776273243;
+	bh=O1F2775dG0lVDsjLYbSXZ5V9rA45ikM5Plx534YJoPM=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=CjEdGEGNjSmnNlB3Z5g/POzxgm+/FM7tFcmMxdgRPJJyKlwKx2svH0U7CKSZc5loF
+	 0WdtxXxJXbvmWEmi45B0YGgS2gv5xOYmRdREaUvKBQ68AIkR3hqHL3L7vDTNItnElf
+	 lX9yFYeSI6o0YTnzSVbHcMqMSEWgGLIeLTmo4xLg=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260415154537.3451732-1-lgs201920130244@gmail.com> <75275f6e-8314-4dd6-a54e-95320c2224e2@linuxfoundation.org>
-In-Reply-To: <75275f6e-8314-4dd6-a54e-95320c2224e2@linuxfoundation.org>
-From: Guangshuo Li <lgs201920130244@gmail.com>
-Date: Thu, 16 Apr 2026 00:56:05 +0800
-X-Gm-Features: AQROBzDWvsozjNU7eDjvF9U_L-zmhpO2iMCzmTSGiAlkEe91aq-uxJImLxVv6s8
-Message-ID: <CANUHTR9j8-wHB8rE1zGLaUw4ZyNh2Mq3njFerBoUcVPWAh7w6A@mail.gmail.com>
-Subject: Re: [PATCH] media: vimc: fix reference leak on failed device registration
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
-	Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260408153939.969381-6-sakari.ailus@linux.intel.com>
+References: <20260408153939.969381-1-sakari.ailus@linux.intel.com> <20260408153939.969381-6-sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v4 05/29] media: imx219: Fix vertical blanking and exposure for analogue binning
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Tomi Valkeinen
+  <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, Rishikesh Donadkar <r-donadkar@ti.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Date: Wed, 15 Apr 2026 22:45:31 +0530
+Message-ID: <177627333160.489396.4707310040596157667@freya>
+User-Agent: alot/0.13.dev20+g31692a239
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58837-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58838-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linuxfoundation.org:email]
-X-Rspamd-Queue-Id: 8F839406BF5
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: C6C22406CB1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Shuah,
+Quoting Sakari Ailus (2026-04-08 21:09:14)
+> When vertical analogue binning is in use, the minimum frame length in
+> lines decreases to around half of the normal. In relation to the sensor's
+> output size this means vertical blanking can be negative but that's not an
+> issue as control values are signed. Remove the workaround for this
+> non-issue that doubled the pixel rate, frame length in lines and exposure
+> time.
+>=20
+> The resulting change also fixes the minimum, the maximum and the step
+> values for the control.
+>=20
+> Fixes: f513997119f4 ("media: i2c: imx219: Scale the pixel rate for analog=
+ binning")
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/imx219.c | 29 +++++++++--------------------
+>  1 file changed, 9 insertions(+), 20 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 6819a2fa3262..a72630ad1561 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -420,15 +420,6 @@ static void imx219_get_binning(struct v4l2_subdev_st=
+ate *state, u8 *bin_h,
+> =20
+>  }
+> =20
+> -static inline u32 imx219_get_rate_factor(struct v4l2_subdev_state *state)
+> -{
+> -       u8 bin_h, bin_v;
+> -
+> -       imx219_get_binning(state, &bin_h, &bin_v);
+> -
+> -       return (bin_h & bin_v) =3D=3D IMX219_BINNING_X2_ANALOG ? 2 : 1;
+> -}
+> -
+>  /* ---------------------------------------------------------------------=
+--------
+>   * Controls
+>   */
+> @@ -440,12 +431,10 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+>         struct i2c_client *client =3D v4l2_get_subdevdata(&imx219->sd);
+>         const struct v4l2_mbus_framefmt *format;
+>         struct v4l2_subdev_state *state;
+> -       u32 rate_factor;
+>         int ret =3D 0;
+> =20
+>         state =3D v4l2_subdev_get_locked_active_state(&imx219->sd);
+>         format =3D v4l2_subdev_state_get_format(state, 0);
+> -       rate_factor =3D imx219_get_rate_factor(state);
+> =20
+>         if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
+>                 int exposure_max, exposure_def;
+> @@ -478,7 +467,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+>                 break;
+>         case V4L2_CID_EXPOSURE:
+>                 cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
+> -                         ctrl->val / rate_factor, &ret);
+> +                         ctrl->val, &ret);
+>                 break;
+>         case V4L2_CID_DIGITAL_GAIN:
+>                 cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
+> @@ -495,7 +484,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+>                 break;
+>         case V4L2_CID_VBLANK:
+>                 cci_write(imx219->regmap, IMX219_REG_FRM_LENGTH_A,
+> -                         (format->height + ctrl->val) / rate_factor, &re=
+t);
+> +                         format->height + ctrl->val, &ret);
+>                 break;
+>         case V4L2_CID_HBLANK:
+>                 cci_write(imx219->regmap, IMX219_REG_LINE_LENGTH_A,
+> @@ -878,7 +867,6 @@ static int imx219_set_pad_format(struct v4l2_subdev *=
+sd,
+>         crop->top =3D (IMX219_NATIVE_HEIGHT - crop->height) / 2;
+> =20
+>         if (fmt->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE) {
+> -               unsigned int rate_factor =3D imx219_get_rate_factor(state=
+);
+>                 int exposure_max;
+>                 int exposure_def;
+>                 int llp_min;
+> @@ -886,15 +874,16 @@ static int imx219_set_pad_format(struct v4l2_subdev=
+ *sd,
+> =20
+>                 /* Update limits and set FPS to default */
+>                 ret =3D __v4l2_ctrl_modify_range(imx219->vblank,
+> -                                              IMX219_VBLANK_MIN * rate_f=
+actor,
+> -                                              (IMX219_FLL_MAX - mode->he=
+ight) *
+> -                                              rate_factor, rate_factor,
+> -                                              mode->fll_def - mode->heig=
+ht);
+> +                                              (int)(mode->height / binni=
+ng),
 
-Thanks for reviewing.
+This line seems to be the crux of the issue causing modes other than VGA to
+not work, and also restricting the FPS.
 
-On Thu, 16 Apr 2026 at 00:01, Shuah Khan <skhan@linuxfoundation.org> wrote:
->
+Vertical blanking control is defined relative to the output height. While
+the minimum value for FLL for analogue binning mode is:
 
->
-> Can you share your manual review?
->
-> Can other static analysis tools for example scripts/coccinelle support
-> your findings?
->
-> >
-> > Fixes: 4babf057c143f ("media: vimc: allocate vimc_device dynamically")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
-> > ---
-> >   drivers/media/test-drivers/vimc/vimc-core.c | 1 +
-> >   1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
-> > index 15167e127461..fee0c7a09c4f 100644
-> > --- a/drivers/media/test-drivers/vimc/vimc-core.c
-> > +++ b/drivers/media/test-drivers/vimc/vimc-core.c
-> > @@ -421,6 +421,7 @@ static int __init vimc_init(void)
-> >       if (ret) {
-> >               dev_err(&vimc_pdev.dev,
-> >                       "platform device registration failed (err=%d)\n", ret);
-> > +             platform_device_put(&vimc_pdev);
->
-> Where does platform_device_get() happen when platform_device_register() fails?
->
-> thanks,
-> -- Shuah
+    min_FLL =3D (mode->height / binning) + IMX219_VBLANK_MIN
 
-My manual review was based on the platform_device_register() call
-chain and its documented lifetime rules.
+So the minimum control value for vblank should be:
 
-The relevant code path is:
+    vblank_min =3D min_FLL - mode->height
 
-ret = platform_device_register(&vimc_pdev);
-if (ret) {
-dev_err(&vimc_pdev.dev,
-"platform device registration failed (err=%d)\n", ret);
-return ret;
-}
+Making that change I get the correct range for VBLANK control that leads to
+high FPS capture.
 
-and
+So we finally have something working. Now the debate is between these two
+models:
 
-int platform_device_register(struct platform_device *pdev)
-{
-device_initialize(&pdev->dev);
-setup_pdev_dma_masks(pdev);
-return platform_device_add(pdev);
-}
+1. PIXEL_RATE means the output rate of the PLL for the sensor's internal
+pixel clock. That would mean this special binning mode leads to negative
+blanking values, which breaks intuition for what blanking means, but lines
+up well with exposing sensor FLL/LLP registers directly for the new raw
+sensor model.
 
-If platform_device_add() fails, platform_device_register() returns an
-error, but the reference initialized by device_initialize() is still
-owned by the caller. The API documentation for platform_device_register()
-also explicitly says:
+2. H/V_BLANK are always positive and defined w.r.t source pad width/height.
+Thus special binning mode would need to have "double" the PIXEL_RATE, even
+though the sensor PLL is configured the same way. This aligns with what
+applications expect today.
 
-"Never directly free @pdev after calling this function, even if it
-returned an error! Always use platform_device_put() to give up the
-reference initialised in this function instead."
+Even "normal" binning mode on IMX219 and many other sensors does binning in
+the Analogue domain for one dimension. As we discussed before in [1].
 
-So there is no matching platform_device_get() on the failure path.
-The reference comes from device_initialize(), and platform_device_put()
-is needed to drop that initial reference when registration fails.
+Which makes the former a cleaner model to adopt for future. Now what we
+should do for existing sensors is a question that needs more discussion.
 
-That was also how I manually confirmed the issue after the tool report:
-I checked the platform_device_register() / platform_device_add()
-implementation and verified that the vimc failure path returns directly
-without calling platform_device_put().
+I am fine with both approaches, but this does mean fixing libcamera to work
+with negative blanking values (which it doesn't currently at least in my
+short test today) and breaks intuition for what blanking means (which is
+annoying).
 
-I found this issue using a tool I recently developed. The scan was run
-on kernel version v7.0-1262-g4fa12523f7bc.
+Jacopo & Laurent, what do you think?
 
 Thanks,
-Guangshuo
+    Jai
+
+[1]: https://lore.kernel.org/all/20260225-media-fps-docs-v2-1-5cb222d41e4d@=
+ideasonboard.com/
+
+> +                                              IMX219_FLL_MAX - mode->hei=
+ght, 1,
+> +                                              (int)(mode->fll_def / binn=
+ing) -
+> +                                              (int)mode->height);
+>                 if (ret)
+>                         return ret;
+> =20
+>                 ret =3D __v4l2_ctrl_s_ctrl(imx219->vblank,
+> -                                        mode->fll_def - mode->height);
+> +                                        (int)(mode->fll_def / binning) -
+> +                                        (int)mode->height);
+>                 if (ret)
+>                         return ret;
+> =20
+> @@ -931,7 +920,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *=
+sd,
+>                         return ret;
+> =20
+>                 /* Scale the pixel rate based on the mode specific factor=
+ */
+> -               pixel_rate =3D imx219_get_pixel_rate(imx219) * rate_facto=
+r;
+> +               pixel_rate =3D imx219_get_pixel_rate(imx219);
+>                 ret =3D __v4l2_ctrl_modify_range(imx219->pixel_rate, pixe=
+l_rate,
+>                                                pixel_rate, 1, pixel_rate);
+>                 if (ret)
+> --=20
+> 2.47.3
+>
 
