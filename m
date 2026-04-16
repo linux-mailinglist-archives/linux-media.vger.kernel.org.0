@@ -1,84 +1,83 @@
-Return-Path: <linux-media+bounces-58898-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58899-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0EwtAdnn4GnhnAAAu9opvQ
-	(envelope-from <linux-media+bounces-58898-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 15:44:57 +0200
+	id WCGpN+fo4GlInQAAu9opvQ
+	(envelope-from <linux-media+bounces-58899-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 15:49:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D666640F10A
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 15:44:56 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8644A40F2B0
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 15:49:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 089BA3031BC2
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 13:44:51 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E9DB73124ECE
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 13:44:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9B153CB2F0;
-	Thu, 16 Apr 2026 13:44:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 612E53CF685;
+	Thu, 16 Apr 2026 13:44:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GBzo9v3B"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U3KSvbNp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E7C3CCA15
-	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 13:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1813BAD89
+	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 13:44:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776347063; cv=none; b=VwAyV2gu4iHNR6CY6kYTBZoRVP1pfhpjom15Z6fkKyjvzDwE38nC0XMUF4VrwBseaN5lhLmrUh5jlxLojiUZl/+kFbDpirPRnjUstQMgaDHrAWFKVmxokr3xs5NgK/5LInRLN4KjdkJizad1N0/kBllmSinnyHOH/gCM9ULxk+k=
+	t=1776347071; cv=none; b=O43wfEBPUEh6s7mV2MqqWoiNDJ8DZYP4pDdFhuZisu+CLHduoSKblM9myC+J2JY8cZxFMJw9Xr5l8Dc4DSpBTyU2rQFT/LL9hXvksFmYYR1czmhGSVf4EF6ua1fMp4nVNHTB99VnCxzZYqNRGzIni/ne5AiznTo8Iv7M8vLMQWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776347063; c=relaxed/simple;
-	bh=bnP1qUzxxDgsBazJDYG2Zcd6T9gbhSvkb8cnNDpbGSY=;
+	s=arc-20240116; t=1776347071; c=relaxed/simple;
+	bh=YUBIHQ6vOyWADg6NA3iKgMyw3HPZcQRKnuaPJ5Oo6es=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZOj1PvYMsDO9mCKa0ZaytM69nu7XuVi35PLMube5IkvT4A5o2kstRbEGg2oeEqnFbsbT+5VpLbuO+Ud5fN/gux7Es76N5bYBeXx2I8CTxxJx9+owxz65LA+CgXG46UhVzCc9OcwlsaaCwYRrinFMUONcFmtl8eJH5/zdoRxanDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GBzo9v3B; arc=none smtp.client-ip=74.125.224.41
+	 In-Reply-To:To:Cc; b=f18H66usR/CFwEMrweuIbtJzkJgwd+GBbnT/nj7NMFeGJSXJ1rupU7ECKGI8QInzRe+jEDEJacZqmWVS5fFjaLE+zP5W76ziJH37qdA+R7CZTf0uRAcdQlmey1OlxS5cwWyOpKBGo9uhsdsNNKRCdZvGp3HHmrcq1FW1s3R5SZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U3KSvbNp; arc=none smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-650789b22e3so9265698d50.1
-        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 06:44:16 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-7991db3dc98so95262447b3.0
+        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 06:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776347053; x=1776951853; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776347058; x=1776951858; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=y32Ndil+CEYiAt6NbtKxMI4lGiTcdGiLMhKF4jZK8hQ=;
-        b=GBzo9v3BUxUCrUkmYKv7o+ezPH6SNBLplrx31NRm9n9yfQOFxPazhrA74TYAvrKDU3
-         qLuQbhDhWfA3MOTzHveNdr3oqRJqcySHroX5/OD2fQSTBLj3IolMTMNmIKcdqYJlrPe2
-         xNSP4W3pIJtMOnQndJJglO9lrA0M16joP5CnJibZ+pR8r5wfOI0x6EayutB33njbut7M
-         aKV+jkrn7MoczZgws6vf7I9Mji6dVAwjYBB6gSjHDvnUDOObk1DXR0DG7N7cLr+6KI8N
-         kRjjJtABPI26PHWj35H0xEIwzGj9mdXTaPm5OR5rQLA2LTlGo7P0LgkSsP5mo4Xw6wrL
-         fe3Q==
+        bh=XHqFPeZpSYzG3dQH+W5IiqOFDuI28gmjRaXhJvazaTg=;
+        b=U3KSvbNpp35twvtf3aPtv2dGsRzOTTM208QLC7aO3+2jMI5h0+oh1pkD4YiHStL23A
+         Qt3RlpZ9uU8/nrbFem4a6rPWqPfO5u3ABv6gKHuYdtMEA4aMkOzBrrsQVTmuAvOo/xQt
+         DYwbTtkUhQvpYkXEwZWzKgHsCC3m0EerIyeM+Umb4/tcfdXk3p8+rvCIoK4T+igsNRvb
+         5b+UhElNM2/4rWqpgYM6s+dUY/UhuuD5mv0DFeheXcSBu7/RCnptMJ1wjSGCVlmEyFz8
+         MLTMJp2qxRfbF+bcTnnO4GkP1Rl5QU/fpNC+iwkUkQGfQleHQyBdGy1ie5Gr5tPbglsU
+         nLIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776347053; x=1776951853;
+        d=1e100.net; s=20251104; t=1776347058; x=1776951858;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=y32Ndil+CEYiAt6NbtKxMI4lGiTcdGiLMhKF4jZK8hQ=;
-        b=Ob/dYPcs6EuRAo5AIxyOULvTEvk6Gf+zHvjO/Muwg/i8m4XLmUHR3mrKpG83+HarmK
-         L0fEsVZgYboJR08rAV8Ob0oum6TWeH1jh4rcoLhzO4XTfxmUTGF2Z/FhId04nwwGJUf7
-         GBHBhKnHPGuIFIM1B9U4oLBmqct4DKL9JZtUOON6x537kouM28gQxTy3K+itn/aG9+cZ
-         lGovK1Sh8Kr5PWw4QFJZ8Thg0ZUCMSWOizzlnGwTq0txUaug5kG3DeuiMkZAfqSNCryB
-         pf74GQK9PShoSdYGzVk5tZrr5+BK40PHR9H1y4Up8ZbeDeJv+EPXnp7Lc+ivpMsZEDHw
-         5yww==
-X-Gm-Message-State: AOJu0Yy3HDONnz5+U+uVKdOE7mdYh+YXUXySk+hXNpsFjLX3jvwfWom4
-	bw4Np3vQzXE3eWOH8XaikbTz/ybcSjYu0gxfVJUNqKcZH5WnKUsits3+94NXOJODE2U=
-X-Gm-Gg: AeBDievZC9baSdk42ZrJ8Bc2JeGpPa9dZ7W52RMUHIhfWzWMfyijDVVtlI/xDSiz82x
-	110Jg1i+152mefuxMFvZX+AN265SAVIdk+ENFRbtFbxwgBGUZmydk682WNP/b/7LHXcN4U4VulD
-	qVmdLoe/lT1Z2JCTSRzYzJf3RrXBAf+eAICKKAoXPurvZWlwX4xF1YhJvmYutaQsxR7OnLtanN6
-	GFeE7Pm/AAqDwn8i+b9pQmOztDRUtzvUcmiw3OZA8EHL940I32oZlkTtKiWOenseesdczBdPSrC
-	3gS6ij5UimpYmZZL++bCoLLdzhCLKJ8sKr/tp8eh414p9J7QBzFGAM4zr6IizoEHEOJLO4B6RPQ
-	TimJ6EfZpO7sf4F/aggMBQbhu9CJsQqOxUrGmR6yEAup0Eff+KmRtPnSWytWkeiOk2iKdjQEZB2
-	ulOv7hzl8qQzda5nV9FCkubTHJsg==
-X-Received: by 2002:a05:690c:6983:b0:7b3:a5ae:4213 with SMTP id 00721157ae682-7b3a5ae4e16mr158916767b3.50.1776347053547;
-        Thu, 16 Apr 2026 06:44:13 -0700 (PDT)
+        bh=XHqFPeZpSYzG3dQH+W5IiqOFDuI28gmjRaXhJvazaTg=;
+        b=j6h++VLcfv8Iq8l+I0QEzJiGEfJEk+C9d9Vhtt/NpDIacmuObBR/gPJ4+VM474IwE7
+         A/CMn+FpH921lVPFEBvrIx6cznmEyZC9qyQMSpShdubDc8Ew2f/Pxv65t6ah5usqmpyS
+         2+w92yldLFNbs78xcdcTKPz580mEscEp3ZW9AcbYwFO/YEodtYW0RgtBpLoyARUcyOzw
+         u2oBzGh4GL2LaB5gFdUEbErOuFJGXN08O3D6AFEv2o7mG+1UW8XCthBt/QMP1kXGP2pw
+         1tAwOPnhqmc0jV4Rrmd21DxbdCCVb1hMNTe/oEYZzLyMsF8WmK/vwQ7rJ5wDbwFHy6cu
+         QmTw==
+X-Gm-Message-State: AOJu0YzGFOeTGV3S4jNBbA8vr6GRPMK/kmahHI3SLK2fbcrpdBH8uqV/
+	qNgxoQVef9vAjc6hG2cg9xE+S7DYres6qa8tF+lQcUVgcHCdLpayYz8G
+X-Gm-Gg: AeBDieu0FpQGLfDu60soudFHAUtJyCXcu9x5WN0eVcdTQp1XYZtyLDEyjsLPy8wbbyv
+	F/NA+BfLhtDuPCRczT//8czuUz05DADdT7DQzP036eACkH5eiW+/kHeTpubmhcYHiR/TZZAPzNN
+	DfgHQVpcTTrIYz5DT2K+G0ru0YGDHPBqbH5iqMQt8jdpxwguYgAUqS749SNRYkyhent+4/mPZcX
+	peT6IN0YQ2RuQaDeyAN9WnrhTukPB9oJXwtTMxRqMdSOEiDQlXB6iL49urxIJgyDTYtcpFIBNOF
+	H+rZTy+6sO6LxmdxNPRC+rLvIJPR+uoa+NI4vN5FS/ZJglkVJQf9LqVdIZKK1xVY8SE3jDPjbKt
+	CgxjPX/tPoKChnWKywEgPYOc4AX9zjEKNCAN4W3pn+XyA0w/Rp/50zaj09MuPa5H9luNkk++PEl
+	xWrAtqNnErZEP7cYYly41cqGcKgbl9LLhGQ3ux
+X-Received: by 2002:a05:690c:6983:b0:7b4:378c:f72d with SMTP id 00721157ae682-7b4378cf8bamr136804687b3.42.1776347058339;
+        Thu, 16 Apr 2026 06:44:18 -0700 (PDT)
 Received: from [192.168.0.39] ([79.133.247.80])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b76931854esm23363737b3.37.2026.04.16.06.44.08
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b76931854esm23363737b3.37.2026.04.16.06.44.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 06:44:13 -0700 (PDT)
+        Thu, 16 Apr 2026 06:44:17 -0700 (PDT)
 From: Erikas Bitovtas <xerikasxx@gmail.com>
-Date: Thu, 16 Apr 2026 16:43:49 +0300
-Subject: [PATCH RFC 02/10] media: venus: add pmdomains to the struct based
- on the purpose of cores
+Date: Thu, 16 Apr 2026 16:43:50 +0300
+Subject: [PATCH RFC 03/10] media: venus: core: Add msm8939 resource struct
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,8 +85,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260416-msm8939-venus-rfc-v1-2-a09fcf2c23df@gmail.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260416-msm8939-venus-rfc-v1-3-a09fcf2c23df@gmail.com>
 References: <20260416-msm8939-venus-rfc-v1-0-a09fcf2c23df@gmail.com>
 In-Reply-To: <20260416-msm8939-venus-rfc-v1-0-a09fcf2c23df@gmail.com>
 To: Bryan O'Donoghue <bod@kernel.org>, 
@@ -111,11 +110,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58898-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58899-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -123,7 +122,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCPT_COUNT_TWELVE(0.00)[20];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
@@ -134,52 +133,80 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D666640F10A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[apitzsch.eu:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,0.0.0.30:email]
+X-Rspamd-Queue-Id: 8644A40F2B0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add vcodec0_pmdomains and vcodec1_pmdomains to indicate power domains
-for Venus cores.
+From: André Apitzsch <git@apitzsch.eu>
 
+Add msm8939 configuration data and related compatible.
+Cores on MSM8939 Venus are used for decoding, not encoding. Move them to
+vcodec0 so they can be enabled accordingly.
+
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
 Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
 ---
- drivers/media/platform/qcom/venus/core.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/media/platform/qcom/venus/core.c | 39 ++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 7506f5d0f609..e56ce740d1eb 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -80,6 +80,10 @@ struct venus_resources {
- 	const char * const vcodec0_clks[VIDC_VCODEC_CLKS_NUM_MAX];
- 	const char * const vcodec1_clks[VIDC_VCODEC_CLKS_NUM_MAX];
- 	unsigned int vcodec_clks_num;
-+	const char **vcodec0_pmdomains;
-+	unsigned int vcodec0_pmdomains_num;
-+	const char **vcodec1_pmdomains;
-+	unsigned int vcodec1_pmdomains_num;
- 	const char **vcodec_pmdomains;
- 	unsigned int vcodec_pmdomains_num;
- 	const char **opp_pmdomain;
-@@ -144,6 +148,8 @@ struct venus_format {
-  * @vcodec1_clks: an array of vcodec1 struct clk pointers
-  * @video_path: an interconnect handle to video to/from memory path
-  * @cpucfg_path: an interconnect handle to cpu configuration path
-+ * @vcodec0_pmdomans: a pointer to a list of pmdomains for vcodec0 cores
-+ * @vcodec1_pmdomans: a pointer to a list of pmdomains for vcodec1 cores
-  * @pmdomains:	a pointer to a list of pmdomains
-  * @opp_pmdomain: an OPP power-domain
-  * @resets: an array of reset signals
-@@ -198,6 +204,8 @@ struct venus_core {
- 	struct clk *vcodec1_clks[VIDC_VCODEC_CLKS_NUM_MAX];
- 	struct icc_path *video_path;
- 	struct icc_path *cpucfg_path;
-+	struct dev_pm_domain_list *vcodec0_pmdomains;
-+	struct dev_pm_domain_list *vcodec1_pmdomains;
- 	struct dev_pm_domain_list *pmdomains;
- 	struct dev_pm_domain_list *opp_pmdomain;
- 	struct reset_control *resets[VIDC_RESETS_NUM_MAX];
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 7e639760c41d..b67cf1628f1c 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -688,6 +688,44 @@ static const struct venus_resources msm8916_res = {
+ 	.enc_nodename = "video-encoder",
+ };
+ 
++static const struct freq_tbl msm8939_freq_table[] = {
++	{ 489600, 266670000 },	/* 1080p @ 60 */
++	{ 244800, 133330000 },	/* 1080p @ 30 */
++	{ 244800, 200000000 },	/* 1080p @ 30 */
++	{ 220800, 133330000 },	/* 720p @ 60 */
++	{ 108000, 133330000 },	/* 720p @ 30 */
++	{ 108000, 200000000 },	/* 720p @ 30 */
++	{ 72000, 133330000 },	/* VGA @ 60 */
++	{ 36000, 133330000 },	/* VGA @ 30 */
++};
++
++static const struct reg_val msm8939_reg_preset[] = {
++	{ 0xe0020, 0x0aaaaaaa },
++	{ 0xe0024, 0x0aaaaaaa },
++	{ 0x80124, 0x00000003 },
++};
++
++static const struct venus_resources msm8939_res = {
++	.freq_tbl = msm8939_freq_table,
++	.freq_tbl_size = ARRAY_SIZE(msm8939_freq_table),
++	.reg_tbl = msm8939_reg_preset,
++	.reg_tbl_size = ARRAY_SIZE(msm8939_reg_preset),
++	.clks = { "core", "iface", "bus", },
++	.clks_num = 3,
++	.vcodec0_clks = { "core0", "core1" },
++	.vcodec_clks_num = 2,
++	.vcodec0_pmdomains = (const char *[]) { "core0", "core1" },
++	.vcodec0_pmdomains_num = 2,
++	.max_load = 489600, /* 1080p@30 + 1080p@30 */
++	.hfi_version = HFI_VERSION_1XX,
++	.vmem_id = VIDC_RESOURCE_NONE,
++	.vmem_size = 0,
++	.vmem_addr = 0,
++	.dma_mask = 0xddc00000 - 1,
++	.fwname = "qcom/venus-1.8/venus.mbn",
++	.enc_nodename = "video-encoder",
++};
++
+ static const struct freq_tbl msm8996_freq_table[] = {
+ 	{ 1944000, 520000000 },	/* 4k UHD @ 60 (decode only) */
+ 	{  972000, 520000000 },	/* 4k UHD @ 30 */
+@@ -1121,6 +1159,7 @@ static const struct venus_resources qcm2290_res = {
+ 
+ static const struct of_device_id venus_dt_match[] = {
+ 	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
++	{ .compatible = "qcom,msm8939-venus", .data = &msm8939_res, },
+ 	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+ 	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
+ 	{ .compatible = "qcom,qcm2290-venus", .data = &qcm2290_res, },
 
 -- 
 2.53.0
