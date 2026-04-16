@@ -1,54 +1,53 @@
-Return-Path: <linux-media+bounces-58910-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58911-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SLdeH7Dw4Gl4ngAAu9opvQ
-	(envelope-from <linux-media+bounces-58910-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 16:22:40 +0200
+	id cBhmKnXx4GkZnwAAu9opvQ
+	(envelope-from <linux-media+bounces-58911-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 16:25:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E34C40F87B
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 16:22:39 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C1940F8BA
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 16:25:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 57683302CA52
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 14:22:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AA900302D095
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 14:25:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8336C3DF004;
-	Thu, 16 Apr 2026 14:22:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B6643DEAE0;
+	Thu, 16 Apr 2026 14:25:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="plw1pfwb"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GVSoh33F"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8A53DF000
-	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 14:22:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855433DDDBC
+	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 14:25:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776349343; cv=none; b=SIls6coIwJjW1w/A0xLL2lJ5UNRKzmFswvg7BWh8pQNRykcZX9SM178VyR4htxBalaypRGH8ZhZVkxyeiTHl/nHK9bL3cBhuk/NCL8gNhfZxMNqdmufUuDaGVz7Taavto/0y/U0tAE2o46dx2tO9lVhG/m670tzvSp8ITv8680g=
+	t=1776349550; cv=none; b=YG3od0xIDjbW05OLZu4nU7Sd1uJIAZ4aX0ukbLwvJ14xy78vASl3fUrxvtLURWJIbU7Z0YZzftXS495TLrTr1vHLXgMOszMBo2hCigYbyRxPkcZ4vU4ahOm9MseOCB9Z6X3tzAvL6eDQiaJzEVLozm+QVKKl4fp/2fd32+N+YuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776349343; c=relaxed/simple;
-	bh=OHTujtMYuv1Q5fTFjfBaCoLi/MEwRqst6ee3dREnrQA=;
+	s=arc-20240116; t=1776349550; c=relaxed/simple;
+	bh=MFbYWpupff0Cl0q8J3x6j+D/CwLaZ2PuwSlFwK4umIA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=thq1tg9+nO7jFz2QPqQO6SNQyqNF4wHtNhx4cIS/9f0RlOmZgmffQ2w46qMo4Whf3NtHJvFwnT+LyQT3qKzp2EZIMAd9k58TerC7nwMlRFDDO1RfP8AR1ukCWRiZIfKHEsq0/Y8vfwdQBUEy8g1xtF7ZQ5UEdyr9KHQG1ZAZSO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=plw1pfwb; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=I/EnVllT9PY6FuQsIusPxsEny9+gIP1/JdWFz4klsn5TDZx1GmAJy7irOrwkkpoAo7dM5ScdBFtuXrjdLJKUuJCB1T8zB5fEkRiAXbtoCDTtdvNEKK+nEYZt4MYgfCbp2Oi5CzFEkHtA9pXj+ybjRaBRAhOqokmSKPw4iUNqUPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GVSoh33F; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 368BE161;
-	Thu, 16 Apr 2026 16:20:43 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 813BE132;
+	Thu, 16 Apr 2026 16:24:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1776349243;
-	bh=OHTujtMYuv1Q5fTFjfBaCoLi/MEwRqst6ee3dREnrQA=;
+	s=mail; t=1776349450;
+	bh=MFbYWpupff0Cl0q8J3x6j+D/CwLaZ2PuwSlFwK4umIA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=plw1pfwbqjIEbvS6rUO11m4jvHP2hfs8uzR065wrRzfh1YD0LXXsKlJGDiwsjx8jP
-	 7Ex2NqC3oiRXfojjXEiBbIMriIqL/l+c3geOocV3zmCi6qduWq8FkZH4WqfhkhqA6F
-	 ZVa0AsHc/DjDDuGz3Zt1s/LztdmAe8iabl+zBnBk=
-Date: Thu, 16 Apr 2026 17:22:15 +0300
+	b=GVSoh33FEA+QRcUmUiV+erjR6kUP8gaI7yY+SMOaz3ska+Nt++ItAxqwyccR2dj+U
+	 0/ACfZLZ8fnHs/qgiNtARz5fWMKtJ8F1aQ/Cpa7aplZQi3XigizJLNOg/PbbbWx93N
+	 40/qExhXfa1XTElZ3544AG4RYYAYtvdRT4mH0T+4=
+Date: Thu, 16 Apr 2026 17:25:43 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, hans@jjverkuil.nl,
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
 	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Tommaso Merciai <tomm.merciai@gmail.com>,
@@ -68,18 +67,18 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Ricardo Ribalda Delgado <ribalda@kernel.org>,
 	Hans de Goede <hansg@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	David Plowman <david.plowman@raspberrypi.com>,
 	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v4 03/29] media: imx219: Set horizontal blanking on mode
- change
-Message-ID: <20260416142215.GD1775831@killaraus.ideasonboard.com>
+Subject: Re: [PATCH v4 07/29] media: imx219: Rename "binning" as "bin_hv" in
+ imx219_set_pad_format
+Message-ID: <20260416142543.GE1775831@killaraus.ideasonboard.com>
 References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-4-sakari.ailus@linux.intel.com>
- <adilL-DvNsZfELLe@zed>
+ <20260408153939.969381-8-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,21 +87,21 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <adilL-DvNsZfELLe@zed>
+In-Reply-To: <20260408153939.969381-8-sakari.ailus@linux.intel.com>
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58910-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58911-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,ideasonboard.com,nxp.com,apitzsch.eu,kernel.org,ti.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,ideasonboard.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
 	RCPT_COUNT_TWELVE(0.00)[30];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
@@ -113,93 +112,77 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[killaraus.ideasonboard.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email,ideasonboard.com:dkim,ideasonboard.com:email]
-X-Rspamd-Queue-Id: 1E34C40F87B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,intel.com:email,killaraus.ideasonboard.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 24C1940F8BA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Apr 10, 2026 at 09:27:34AM +0200, Jacopo Mondi wrote:
-> On Wed, Apr 08, 2026 at 06:39:12PM +0300, Sakari Ailus wrote:
-> > The driver UAPI is mode-based, allowing the user to choose a mode from a
-> > small list based on the output size. The vertical blanking is set based on
-> > the mode, do the same for horizontal blanking so the frame rate obtained
-> > is constant.
-> >
-> > Additionally, it's best to use a known-good horizontal blanking value as
-> > choosing the value freely may affect image quality. While the minimum
-> > value may not be the best value for horizontal blanking, at least it is
-> > constant rather than a minimum value of a different configuration.
-> 
-> As Dave suggested, we should probably better define the desired behaviour.
-> 
-> As far as I can see the driver doesn't specify a line lenght in the
-> supported_modes array, and I guess we're always running with the min
-> valid blanking. From a libcamera perspective only RPi changes the
-> HBLANK control value, all other pipelines use the default, so if
-> Dave's fine with this, I'm fine as well.
+Hi Sakari,
 
-Interactions between formats and controls are notoriously badly
-specified, so I'm all for improving that. That being said, this patch
-simplifies the behaviour of the driver and leads to more predictable
-results, so, until we have a formal spec,
+Thank you for the patch.
+
+On Wed, Apr 08, 2026 at 06:39:16PM +0300, Sakari Ailus wrote:
+> Rename "binning" as "bin_hv" in anticipation of having a variable called
+> "binning" for another purpose.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> ---
+>  drivers/media/i2c/imx219.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 > 
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> 
-> > ---
-> >  drivers/media/i2c/imx219.c | 15 +++------------
-> >  1 file changed, 3 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index 89061dc1842d..62a23541b1dc 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -837,11 +837,9 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  	struct v4l2_mbus_framefmt *format;
-> >  	struct v4l2_rect *crop;
-> >  	u8 bin_h, bin_v, binning;
-> > -	u32 prev_line_len;
-> >  	int ret;
-> >
-> >  	format = v4l2_subdev_state_get_format(state, 0);
-> > -	prev_line_len = format->width + imx219->hblank->val;
-> >
-> >  	/*
-> >  	 * Adjust the requested format to match the closest mode. The Bayer
-> > @@ -882,7 +880,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> >  		int exposure_max;
-> >  		int exposure_def;
-> > -		int hblank, llp_min;
-> > +		int llp_min;
-> >  		int pixel_rate;
-> >
-> >  		/* Update limits and set FPS to default */
-> > @@ -924,15 +922,8 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  					       llp_min - mode->width);
-> >  		if (ret)
-> >  			return ret;
-> > -		/*
-> > -		 * Retain PPL setting from previous mode so that the
-> > -		 * line time does not change on a mode change.
-> > -		 * Limits have to be recomputed as the controls define
-> > -		 * the blanking only, so PPL values need to have the
-> > -		 * mode width subtracted.
-> > -		 */
-> > -		hblank = prev_line_len - mode->width;
-> > -		ret = __v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
-> > +
-> > +		ret = __v4l2_ctrl_s_ctrl(imx219->hblank, llp_min - mode->width);
-> >  		if (ret)
-> >  			return ret;
-> >
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index ca6a5939773d..5a85d76af65a 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -825,7 +825,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>  	const struct imx219_mode *mode;
+>  	struct v4l2_mbus_framefmt *format;
+>  	struct v4l2_rect *crop;
+> -	u8 bin_h, bin_v, binning;
+> +	u8 bin_h, bin_v, bin_hv;
+>  	int ret;
+>  
+>  	format = v4l2_subdev_state_get_format(state, 0);
+> @@ -858,11 +858,11 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>  	bin_v = min(IMX219_VISIBLE_HEIGHT / format->height, 2U);
+>  
+>  	/* Ensure bin_h and bin_v are same to avoid 1:2 or 2:1 stretching */
+> -	binning = min(bin_h, bin_v);
+> +	bin_hv = min(bin_h, bin_v);
+>  
+>  	crop = v4l2_subdev_state_get_crop(state, 0);
+> -	crop->width = format->width * binning;
+> -	crop->height = format->height * binning;
+> +	crop->width = format->width * bin_hv;
+> +	crop->height = format->height * bin_hv;
+>  	crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
+>  	crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
+>  
+> @@ -872,15 +872,15 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>  
+>  		/* Update limits and set FPS to default */
+>  		ret = __v4l2_ctrl_modify_range(imx219->vblank,
+> -					       (int)(mode->height / binning),
+> +					       (int)(mode->height / bin_hv),
+>  					       IMX219_FLL_MAX - mode->height, 1,
+> -					       (int)(mode->fll_def / binning) -
+> +					       (int)(mode->fll_def / bin_hv) -
+>  					       (int)mode->height);
+>  		if (ret)
+>  			return ret;
+>  
+>  		ret = __v4l2_ctrl_s_ctrl(imx219->vblank,
+> -					 (int)(mode->fll_def / binning) -
+> +					 (int)(mode->fll_def / bin_hv) -
+>  					 (int)mode->height);
+>  		if (ret)
+>  			return ret;
 
 -- 
 Regards,
