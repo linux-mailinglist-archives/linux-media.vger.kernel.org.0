@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-58850-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58851-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eD0fA16C4GmgigAAu9opvQ
-	(envelope-from <linux-media+bounces-58850-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 08:31:58 +0200
+	id gCB0LPGE4GmmiwAAu9opvQ
+	(envelope-from <linux-media+bounces-58851-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 08:42:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB2340AAA6
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 08:31:55 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C3840ABB7
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 08:42:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AE07A307C3AA
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 06:31:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C4DC330DA58D
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 06:42:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEF9E346FC0;
-	Thu, 16 Apr 2026 06:31:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 483EA37B030;
+	Thu, 16 Apr 2026 06:42:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b="BtdEHkTb"
+	dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b="JhwoWQ+d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022080.outbound.protection.outlook.com [40.107.75.80])
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022116.outbound.protection.outlook.com [40.107.75.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C5E157487;
-	Thu, 16 Apr 2026 06:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F87F379996;
+	Thu, 16 Apr 2026 06:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.116
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776321105; cv=fail; b=glFRZhitMpCgdhM/kNRA8A70cgJv+qTiR0y6lGKC2dLY7zsMrlhiB3k11bRCp4T3eXATSdZ16LXdS7CbJv81Oj5X+Nb7gFidiSWRuf2fvhpWjDXbNplXZEEMjj4m7xPiH6QKJQTWGa1RdhFvNPE638+k4oXQA/w3rcFoMkIy2gw=
+	t=1776321745; cv=fail; b=XPG3n27QRgtq5mdLUxR5J2CwhRccqBo3zpvL/qJHaCzP4qB/JkRdgYOr50RwoS16DgGFxL74aWY0g/ertzSCJasw9OXlUz0MD6IzlkiCQW7DHuAkrFksCEKdKp1zwvYf5+DZe04lLZBbVOCCQdAyE6ciwHNV82jfX1KrQIk1uYA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776321105; c=relaxed/simple;
-	bh=IDkwMw4RFYGJ2cLF9jhrT0yC+Vf66OhQztDDW5Xbe40=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=fkovxqCwNri2o75xi9quMQFVaL24mkWMOvllkeosyNuQM/IdGDCEwcexjfU+6cgk7hNWnw1uLLCMy6jfZLmwdmBwdgJOPo6mOKMd0LAUf5UUK64Ir9fnDHfZyKUFGmwFPhuC1hvHm7d+gSnWvKjHUo3ieMCA6Qob2cd2DbVf/zw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg; spf=pass smtp.mailfrom=smu.edu.sg; dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b=BtdEHkTb; arc=fail smtp.client-ip=40.107.75.80
+	s=arc-20240116; t=1776321745; c=relaxed/simple;
+	bh=W90DjUrlXOgmSxnTwxGzNtN8Fa5pft1vxRxC40IVW/M=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=CMSakc0WEJCNJOLwY9GK8BJELb3mUhIQdCc/8wWXF6dLTyYg1uDlMsctX1cPEiWmz3tOD1Kr4EprMDaPAGFIXLdgL8TVVgiWdveybxEtzhP2DHn7MUv+Tt/27wJJ9JNZHfJCndjCvhDEAyW3g6qWEh632DG+Yk0szfm0OVXnzvM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg; spf=pass smtp.mailfrom=smu.edu.sg; dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b=JhwoWQ+d; arc=fail smtp.client-ip=40.107.75.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smu.edu.sg
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=H7flJ6RMg+i9Vv+y0X5bQ7kqwrg+eLVk3/0+0JTLezPId/05PitOPQ+7pHkx75sTwDxPf2+LX4dCJiXtWeNRHETknw8oZz+j4bVgzsunh5h7FTvpDqqzS47EtgP8sgl52dV0Uq3ELIWc84UvHrc+46+F+eYsc/bytx3U3HtJbqiVCYhstDmM1q6jSAJssJ1oPkP9Q6IDgObmIIydZJJmniBZ/q6lWw48fRnw/dFeIWLj1sVdcII2HGuYlUDFL4RH9qDsbFI7C7EiSjVmwTGQcjX426aim/K6jooIJZQxN7KEure+Yi5vVABzEOgQIrDKEpHNUgaIJZeiAB6XHsokjA==
+ b=pTrICWsK2uljuvY9W4GAYOovPb/4vnIDFkB3o48ZyJgPi9/g0lcbRliir720pnnRJ6pusxozXYFNizvj/EyB21Q5p+j3YAMkR61M+VLsb2jU1pUYFgo0wRjUHXII/WPGu+h1f2s18tN5A++3gQ0y++vATwWk0BVbTwFhrebdQ4EdSXymmjWcr0Yn41uecjPyeJNuKNB1VVvEXqq35wYeNAqjocw0qqBeRnhT7QrJzxudvYP8bAhvlBU5jdS4r9awtSVZTjMQMV5oG+EglrZJ5KQZVURX0OFD+F5dvveos2ETZfcyJ/FyA7SeOVZJjacqFBpsKtbdqxnYsfiElVfPBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xB/L4WN+jmCdRnNJ1mY9MF2JwT3uThu2CLfnDKgAac4=;
- b=uXTORpTS/DAC9XG9jqN/fLj7TSMQ3ojGmHd/6s7heb/U6LGbiZTBmM9lVhy3NrXN5jPefiy08sXFvwAGdwjbyKz6LMqonM3ki9nD4GrjHde0tdhZtEwVhQoNbk0DMSI2sxDLY1hEAqT4XX9SCvxB6RS/DEMGsrNoyEOya+P375ZOKKTiRdxHf2JnQsAOZqkNMIwmNQzvDXhtzH4cZ32VE9PcyQ0quOIBSBjQ3P/s09v54mG4khs8uQufHxDn1Yd2Wbkn12WrhLFkqAj9Ecxxrc/8d4DpGL4ml/NRV664Xg0cVeUTCzx4i7qE5nnqN7K5U+pnhRxf46EBeGSVKTSELw==
+ bh=vgDjqMWIrTrPGHU35q4qFN5BMoSKKTGHb/rhYpFsVsg=;
+ b=HlLH2Zcz4EIbjSMxNjhkLBTCIh3CjxOx26Pjm24fPe3ZTn4G6gteaZDQlTcvXNJCl9QLcACTS97aNWicqR1iDU+FdqN0isI/T85p8dlo1YEtXMqESfnWohaLLP28eb+UP72+SqYMhxbcsJcXcSRL6/7JyrGKiLtpV8WZutYeAT/InaS5oKBRcFKLMcipsDXIqrnCZf5Xqz5VWDHVDhGA0Do40zgvQ+2TULR1mIGb45lt40LOT/+Ga/1PeiZTr5H0pY1HeVHHuD8KUROAw3MTPygHk0ACK2nBquOA4I1gzuLX1sa5mbu6O4wTHN1dW1nrtLIW4bCHuP+rFyF4YZUi8g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=smu.edu.sg; dmarc=pass action=none header.from=smu.edu.sg;
  dkim=pass header.d=smu.edu.sg; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smu.edu.sg;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xB/L4WN+jmCdRnNJ1mY9MF2JwT3uThu2CLfnDKgAac4=;
- b=BtdEHkTbrbn6KV1x4dfqMhqzdp8klF5FHkso9hdAdtWzA0EPMIeC2slFWLjDnPMdj04SdT844b0R9hChhcED2y0PdSiBWHYRq6dLsD8S/PT8ceisX5EuStXVDFFZefdRjHXW0LmMopzH7Rxpojio6XsItQq67pbo4ZjCaiKIlmD65eDqAkliR2pkF2RcahGPebbUZ6aSBL9VNyHPwUwYb1Zb0Y0G/0ZGE+n95CbrIfj2f7QgsgxsFkL5e31QrxaECpPLWTWOgKTX3K21++uLvXIqJS6FCEMK70Vr2zEYUENcwpw1TC9sC7/yFdwHSuMZOTZxYx1weWoUaSpe004brw==
+ bh=vgDjqMWIrTrPGHU35q4qFN5BMoSKKTGHb/rhYpFsVsg=;
+ b=JhwoWQ+dSjFas4DEshfUnDDujfZWgXVwD/Wibb9yDc0vJ0ygicQXIeh3uz1Skkb1ChR0/dQmhK12WfgaXIkovcyBAUHzMhrFFUv1OkuIqOJhdI9Uy03GoUXomDZSU5wQqZN8OK/llaKOm92hpuolCff5IYd2XWJWAGNxn/HKZzM0PFjUA7HvJG0cwlTOa+ufjcNu0sYxDYyWmAQXlVM2Z2A+ORHnsL/o4BW9BJZBRfdGbHInveWefyUNq5R9ztc63HUmELJ2Lcln1RpQ2vUIwztWC7H4y3v5NJWHa9UtA3l/aHSUJDECxLZoSIldZd/6KBIdmEYVS2GkmuY9EYpq+A==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=smu.edu.sg;
 Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- (2603:1096:d10:3f::9) by SEZPR01MB5673.apcprd01.prod.exchangelabs.com
- (2603:1096:101:125::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.50; Thu, 16 Apr
- 2026 06:31:37 +0000
+ (2603:1096:d10:3f::9) by KUZPR01MB7890.apcprd01.prod.exchangelabs.com
+ (2603:1096:d10:57::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.21; Thu, 16 Apr
+ 2026 06:42:17 +0000
 Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
  ([fe80::6bd0:d704:7d90:a595]) by KUXPR01MB7791.apcprd01.prod.exchangelabs.com
  ([fe80::6bd0:d704:7d90:a595%5]) with mapi id 15.20.9769.046; Thu, 16 Apr 2026
- 06:31:37 +0000
+ 06:42:17 +0000
 From: Huihui Huang <hhhuang@smu.edu.sg>
 To: Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -69,14 +69,14 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Huihui Huang <hhhuang@smu.edu.sg>
-Subject: [PATCH] staging: media: atomisp: fix memory leak of raw_black_frame
-Date: Thu, 16 Apr 2026 14:30:58 +0800
-Message-ID: <20260416063058.2479566-1-hhhuang@smu.edu.sg>
+Subject: [PATCH] staging: media: atomisp: fix memory leak of dvs2_coeff
+Date: Thu, 16 Apr 2026 14:41:52 +0800
+Message-ID: <20260416064152.2482461-1-hhhuang@smu.edu.sg>
 X-Mailer: git-send-email 2.50.1
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SI2P153CA0021.APCP153.PROD.OUTLOOK.COM
- (2603:1096:4:190::20) To KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+X-ClientProxiedBy: SG2PR01CA0166.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:28::22) To KUXPR01MB7791.apcprd01.prod.exchangelabs.com
  (2603:1096:d10:3f::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -85,122 +85,123 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KUXPR01MB7791:EE_|SEZPR01MB5673:EE_
-X-MS-Office365-Filtering-Correlation-Id: e52db160-e85b-4a0f-70b2-08de9b81cfc8
+X-MS-TrafficTypeDiagnostic: KUXPR01MB7791:EE_|KUZPR01MB7890:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8c06cf6-7190-4984-c678-08de9b834d3a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|786006|366016|52116014|376014|1800799024|56012099003|18002099003|38350700014;
+	BCL:0;ARA:13230040|786006|366016|52116014|376014|1800799024|38350700014|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	6+gINlLteaCVq1WMuBq9+ruJg31v9wk3Fqd1c54YgByO7BCZqLKEBo9HJhIdHmF4ZQp8rdJlKE9X0SRPjcLrDAyN8c/Fn/8jpN48x61ftlXFt8q1WmhvOcrPvHFXEgVyI49t523AoobImzf8LNek+95ECFFHTfBmLr/CfoQirjKgOfI3GEZFYKUD58whOxnBX/Vbm18cZtNhsf+tRqoNjIXH/oKLjVi/M3bjmT2es092M0OFivqpY0Q11Ti9NXFvk0QxF7JBhvmj5oPpw2eHH+/F5hITkzVlP1V8Q8Ha93WHFJaDjKbaJSqqEp1v7kk6njbQ3/x1eLhzXpFMgQB6lHRzD5X/jrW8Bvmhty4mOdfnsMDA2KmX78+d8Sq/SxN68ewwFmm2IdkEt0bZ36TmI/HAMdp3jmIcK3jwSRTy41wBZeE6nVNxdAkw1rV9zLzwx2EebGFOoUmN5g4dbe7xKuXSjr8ZdaEkvMUJMwhiwGxYDGN+Hn9zazJ/dR4V0ri0usWhN9k3qkZswCxg8mE4ISSPferP8t7vivlqEU2tA4SewsO7j7DTh+02JcsWjpy2MRv225sp78RSHRq4WsS4rEKqFWAAiiAR5H2do76I0JA/XN5B/oKdpzBq6VvC1saI7cwwT8Dwv1a3hcWRLxPN2gj+J86zNesqtNM5ovJrBxGqtKeDGZ5bCN3oW0HvGrM8CA1T8+1ZwgCD9hrPjeFNbgpwaLDq9qRsW7id2wL/yU+5SD+I2vS0Ketdm+iea6j/0zhVpifehW+7kC714gX/tyiYLUDCox3LShRoEoDmi/g=
+	wiznsxhapv8ED6wKtsjhcJs7++wTIi+WQCROg/LYzCJoNIZND4khNDP8fD5hA0NQIAimua2KaDTUXDrepTVWzyCYFmqMRC+9f79yFbh/qiNSXehoQuVGnFYs6aMH4jysiNmhfzNQGHrb/4lxhAkBRGVyGc9SrpHWoWWtBLVuuUz3LEscO+hIBKR2CbIJb++DkH7gHgP1RMP5I1f9ukJ3v+XRYRHgU5KUpXpn52JgPdV24v0vokOXxiherVGp3cappgYz9OS+0zjFtX8ekNOaMVMQSxGiW+AWwiBUo1qV1Ba+MI6X9bj/KsXPe/T/cDxEbH8/3VmVx81e9s5F7kHDW7x5X1mdcpC+4qgsA1rH3kR4hQrmug/PCRjNkszTBBFFDBEXcheU+9Oxptidq55QSZJTnRIIcnI/Yv0Z/oHU7nKFo4OsMPxMXgKcYaryGnpVGoC4SOToO4hmlxuSPpV0JrhmpwzBU+D0f8araJkRVHWeN7Fd7p72KoOXgS3rt008Ie+djnI/EdRmNIBkdSR5eeqsN4ZLmzQy1qAF5L08/JXTWibG1YkBgoyzNnzo2yT3I108OoOdidXFlEQIxtC7kJSAJLj9Lg496BY3BLruB2GJSVRMsGF0myoL6+IrKAwdrXuGdV68udv23MPGEK55IZzGqv4DdtpJ3q9/2oXVrukSD2XNzcrxEM52Ec/z4c+2gFIyz6kaEQS761Ci96BSaKpH4EB4Vodixi+yTYZC5iEawCMFAXbb62s67G68s7vG7t9SBIosV7DL+oQ5uDILI/g7h89/LstWtTiYVpXdHp4=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KUXPR01MB7791.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(786006)(366016)(52116014)(376014)(1800799024)(56012099003)(18002099003)(38350700014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KUXPR01MB7791.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(786006)(366016)(52116014)(376014)(1800799024)(38350700014)(56012099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?m4vSpFaJWs9a+u7t1zwZdmaM/y1ty47udnToCzPc6WwpjyEX/pn5ssSjUUs6?=
- =?us-ascii?Q?8irVQ3PSd4Zz+om0yBKzsHgWgVxwdXszbFxo/bk1i/FarVE+aQQO0mysNJiv?=
- =?us-ascii?Q?6HD2zn3IyemvHyP2UPGd6+CuxMm/yrpXvRrh4YMLzTe/iNNl6vlMlCmYQE9K?=
- =?us-ascii?Q?j3tj8ChWJ00JQ2BHWSmyvY4chffnK0i/m3IczIY66tHCF+M8xXaaWb4EmPXt?=
- =?us-ascii?Q?Jt1b1BImj+wbphp1qFZE+y8qFsLIrSQ4MDcvXCURvu77Jhrl0czV725/p1hR?=
- =?us-ascii?Q?R9outTFvVxFlfX1Dw2+h6OAUtgq/uDd6lK2KdPI83+oQS6dDEnE9ClgruC3D?=
- =?us-ascii?Q?q3XupIlHgFc6mBQw3Gzsx8pMjxPGyM1OAWyZkIEeVNufxOXNN1L9ET/WsWsO?=
- =?us-ascii?Q?aDCrfsVReXKkGsaPvXbeITkiQy7Sz0PON90Y4y8MYJBPwrjG+Z5GwBokM/JK?=
- =?us-ascii?Q?kZCMIr8ZR2fLkjuqLVN9o4Lk4K5P5TqcDZ+9bOGbmuF6kNhCdEin/F2AWRva?=
- =?us-ascii?Q?PHCx369e/urUiTfzgbdblbP8QSgqOu5UMElU1I/3rL6JX37DPRemi9NQQ8mM?=
- =?us-ascii?Q?5LTzVXYi2y2oG+h2H3gF+b9Q8xj9mm+UlA6VlpmuXEG5ebgZAUunqct3JtGE?=
- =?us-ascii?Q?y30AHFImvJDNIDHVgEQ97OOtCJJzk4R15KFJwgxu7QBshdPeuiaSdRsTTarW?=
- =?us-ascii?Q?MsMs8wVJPORIB8P8Y4jps1m1Ts3T2nr7mtf6iwSA3T3Sd9Hb/g3KIJY1J4M5?=
- =?us-ascii?Q?I52w/VQNwz0T39oHbTt68hHwvOeox06bj2CNr4Hj1JWnV2bWZf051z/+KXiI?=
- =?us-ascii?Q?LQidxY5/yKg2pEODsjFtVeHSxgBWWK59Ods6imvX8qcP+s0lPylGO4OZvFjI?=
- =?us-ascii?Q?XowtUx93M8HIQ+NUCEGDi8Wz5/nFbQm1LolQOI5fbMAaZzjJYm6BLpeZIiDM?=
- =?us-ascii?Q?5m6yXnL9i4nDBrk2Q6Lf+uSAVZ+gBvcMkGX3GlrxdeGKRKlvwJ1mfIgBxCv8?=
- =?us-ascii?Q?dW/k+23PZUFNqopMTIY2i4DoKOZWUd4ciw7mvZd+P2UqL/aPDr44qsLwb9wI?=
- =?us-ascii?Q?hwuZaR4/gLzjAjB19Kd76v76shlJSw1jAeSIMmjdq1Tl5ipqu9C/98Hb9FCr?=
- =?us-ascii?Q?4vSpzOwdDxwsxs5/HU1fWE3sp4qYGdQ73zpFefaYdZnN4UPdlB2AEPAaT6VB?=
- =?us-ascii?Q?MBM+qcpgcFthsDO0HysVDOTxHnkJfUemE3ukZ2eMRWEX86SB0sl32EtBY4ws?=
- =?us-ascii?Q?fcxntyojrRdYW7U6x607BgAF3PTUOGNPqCDo+Da1s2+SUGkC2rQI4m2KmdUg?=
- =?us-ascii?Q?UTKuhtSn3D2kjjunh9k5jAuaqyMMBlD+Ez9WLFE4/N2MYJfkrtdezI5TaC4A?=
- =?us-ascii?Q?qiLrJ5fuMMFwLwXq68gHBw09ah14+frIt5Nwqs7c6GEAw7NGGv2pTmiShi26?=
- =?us-ascii?Q?+6SBcqPfLzyaC1qkM2MwtLxm5w8FaIgE+ybjuBQbUfwl9ttJyuFoIi+Qztcl?=
- =?us-ascii?Q?9FanDqt59U13fU+cv8ar0NE6CcJTlwf2JOdx2z8dOxXzpWOQChi6OEMWw26t?=
- =?us-ascii?Q?rV7f2VNHmJsKGl2FRGp0KPCmPU7gnkNXACq0C4QiJrT9NGbwM5NHIoGrOYFk?=
- =?us-ascii?Q?MTmxbYcwizE3RR68v51t0CLqnZ/pcYFl2VNokhhWzMpUnvmc2oJC3n9Odnzf?=
- =?us-ascii?Q?FhHd0XyKxItm2oYtO8BwUmYLix1+gkDzIsUqXID8C7K4kR07Ncny68e1jkCX?=
- =?us-ascii?Q?69lY2tLbRA=3D=3D?=
+	=?us-ascii?Q?PcPEpM+xUgpf92zTyRJjZQTPp8ixw8SpZb2olC5vlqQBDhGqo1nKNA2duNhC?=
+ =?us-ascii?Q?gSSz3XRmj+eKod2IqlpKB5RqqGAZ8LPope6ZnPTZo3hc6oy5a8RKqkrD1vQ9?=
+ =?us-ascii?Q?fFVWs21EExRLLOU370zk1M3/9hASYXixV4GirpgjmkvSIBkCJa+zCbQbwT5g?=
+ =?us-ascii?Q?nmsAhNSyQmhuAGF1m9Q5438kchzeMot0KWvCxyi9lvmtUnRPJDBdbGTwuEGl?=
+ =?us-ascii?Q?HgheeSuY0LQSpSBWvDhd3p0KrA7R3wZzX7zpeyS0meHEHGX7J6LI2ap7iLdA?=
+ =?us-ascii?Q?Ixw7QiVARWiEaib3HynkgwHUrBL2k9tuEzUJMWW9nW4vVZUfhmR0daX3sQSY?=
+ =?us-ascii?Q?pX+hH/AatvI8A2v7NPN3+F1osb3FgRZbwCNCPIohflXUh0SMjen2kQHNJ8xH?=
+ =?us-ascii?Q?AV37dZiIusbD5Sv1lyLqGKKvoFWfF2wIMT9F0iv0jW9Dp/yHWkVLaDdDIwvK?=
+ =?us-ascii?Q?Gbt8BEp50MD2woDAAfnl3IfDRUupK5FUsSsbn1kjcVKGgj7FJMgWGf5a9ZFz?=
+ =?us-ascii?Q?kAh8RT8MuOlgj0YtdVpFfIWB6DmUxZprzrcx0/2Qu7NXy8K8VoPIP6B9tCbZ?=
+ =?us-ascii?Q?8CtXXfhBY7qOXzG56YBu92/+hiUg7Acb5cTQHqsMMeYwf4MviXLgQuWXxci9?=
+ =?us-ascii?Q?htM5TK6KXraSW/CkBai0DWn1K5nOm2+13qZwfEsNDGP5nFUhh8PPImEvYOJ2?=
+ =?us-ascii?Q?1zjRJYiLp/6Gv/CgyhyJNkc7YtwhLWwLMNkYjjpdcnU+lPX1rUxroH6yiZXT?=
+ =?us-ascii?Q?Kujxa9sfulhR1fXYakff2E/aWz+mXu+vAFM5ZxQ6/vOgUYnNeKtsYhCpqft4?=
+ =?us-ascii?Q?w2L4gca/GFsgn9POWh5/YS1pAkYhsV3f9ZYAPqFzS9q4WfzSrZ9YWJ6Avshf?=
+ =?us-ascii?Q?7MzVQZg1sMYvzfbOj3xz1XTD8zk0dp5TrXrFPS97PmO1TmuJccZp1TEPuBIC?=
+ =?us-ascii?Q?Z1GQ3NjT9uhnLa8/FniT0Zn2eUnA90Af5HnXmq6nnD0IhshRD11ypNuM7fZZ?=
+ =?us-ascii?Q?hxLAMPP17eJIJzBRpks9cAsYvsCjUEKKhc0C3piv5gv/GbspCLibV5hu0HyF?=
+ =?us-ascii?Q?YSqOr642tw15YZ7DZ+tMaRX0YzgfKi/mmv+MoEXYSAAhzPaLdcgD5qeFEWP0?=
+ =?us-ascii?Q?yvoFyRg7qzSVDQRtRfv9gmRlpDPSu8feNJW5VaPmqz3VKfdqiEVRct7o7oZg?=
+ =?us-ascii?Q?R1S7a3LkfhudFtiQGNIy++4nRAAtui2aDVZk4h1J5prhPSNjwK3eRiB7hTDp?=
+ =?us-ascii?Q?auy6NbDOe9DtC2PGcCmjqgIovLEeVxobhqo/dsA3j+F3ULOpqsM5PfETnPrt?=
+ =?us-ascii?Q?Kz5MiBfYxr+Go/UL1q3RpVBa1wiFydjSmxbUTgpqjxcqhfnvYhlgRdCRITno?=
+ =?us-ascii?Q?gdirapc86AXj4k5h4PtbUVQIEhfByyM1fJWw5yFhqkrZSUMycocHOd7ssZxt?=
+ =?us-ascii?Q?hhILr4MJaMEeHalxKlTl5OMhemHAUTsxbpcrHSJO+lbqTodrAB24kKjsRflm?=
+ =?us-ascii?Q?jx0wDjYgXyohc1mE7ur2kaNw86wXA+voOqjFxbcBx+jdOm3tgdiKZKRZPp+3?=
+ =?us-ascii?Q?QeJZQJzxiaATSPzKu3A8lh/EckIiZ7slJttWhiqBNG5QgapISQntENDboGt0?=
+ =?us-ascii?Q?3szhyPxN0v7JRsdoEx8l6qF0Y8AEvk4W6e7sVt23YIj2uK7aEjVQNyLTrvKi?=
+ =?us-ascii?Q?LRtwleegWCc1TzDHyd/GqMl1Q35azEo4Q6RMYoHSFVst4O1IbUap9N4Qrzn5?=
+ =?us-ascii?Q?pQr6abvDmw=3D=3D?=
 X-OriginatorOrg: smu.edu.sg
-X-MS-Exchange-CrossTenant-Network-Message-Id: e52db160-e85b-4a0f-70b2-08de9b81cfc8
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8c06cf6-7190-4984-c678-08de9b834d3a
 X-MS-Exchange-CrossTenant-AuthSource: KUXPR01MB7791.apcprd01.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2026 06:31:37.4483
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2026 06:42:17.2998
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: c98a79ca-5a9a-4791-a243-f06afd67464d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: srUHJBhTb7VvIrr9fxWzoJyNuK7M2MgEuQmhToPfCpXenwT/53dcUc1+NzgJAQvwlBCaJAjtOHSNWkGvNQzOFw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR01MB5673
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9ZKsQvVSk+jCto98HTwXf+kqqnqltqmHglOr+G0rtdh84+a9Gw52xl+ehHqz68bJtF8c3+le6493BqVtU5KSgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KUZPR01MB7890
 X-Spamd-Result: default: False [1.34 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[smu.edu.sg,quarantine];
 	R_DKIM_ALLOW(-0.20)[smu.edu.sg:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ASN_FAIL(0.00)[1.2.3.5.c.f.2.1.0.0.0.0.0.0.0.0.b.d.0.0.1.0.0.e.a.0.c.3.0.0.6.2.asn6.rspamd.com:server fail];
-	TAGGED_FROM(0.00)[bounces-58850-lists,linux-media=lfdr.de];
+	ASN_FAIL(0.00)[10.253.234.172.asn.rspamd.com:server fail];
+	TAGGED_FROM(0.00)[bounces-58851-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[hhhuang@smu.edu.sg,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[smu.edu.sg:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,smu.edu.sg:email,smu.edu.sg:dkim,smu.edu.sg:mid]
-X-Rspamd-Queue-Id: 4BB2340AAA6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[smu.edu.sg:email,smu.edu.sg:dkim,smu.edu.sg:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 92C3840ABB7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Our code analyzer reported a memory leak in
-drivers/staging/media/atomisp/pci/atomisp_cmd.c.
+drivers/staging/media/atomisp/pci/atomisp_compat_css20.c.
 
-In atomisp_fixed_pattern_table(), raw_black_frame is allocated by
-atomisp_v4l2_framebuffer_to_css_frame(). If sh_css_set_black_frame()
-fails, the function returns -ENOMEM directly without freeing
-raw_black_frame. The allocated memory is only freed on the success
-path.
+In atomisp_alloc_dis_coef_buf(), dvs2_coeff is allocated by
+ia_css_dvs2_coefficients_allocate() and stored in
+asd->params.css_param.dvs2_coeff. If the subsequent
+ia_css_dvs2_statistics_allocate() for dvs_stat fails, the function
+returns -ENOMEM without freeing the previously allocated dvs2_coeff.
 
-My patch adds the missing ia_css_frame_free() call before the error
-return, to free raw_black_frame when sh_css_set_black_frame() fails.
+My patch adds the missing ia_css_dvs2_coefficients_free() call and
+sets the pointer to NULL before returning on the error path.
 
 Signed-off-by: Huihui Huang <hhhuang@smu.edu.sg>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index fec369575..3cacf16cb 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3365,8 +3365,10 @@ int atomisp_fixed_pattern_table(struct atomisp_sub_device *asd,
- 		return ret;
- 
- 	if (sh_css_set_black_frame(asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream,
--				   raw_black_frame) != 0)
-+				   raw_black_frame) != 0) {
-+		ia_css_frame_free(raw_black_frame);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index be5f37f4a..d3dc84e14 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -1363,8 +1363,11 @@ int atomisp_alloc_dis_coef_buf(struct atomisp_sub_device *asd)
+ 	/* DIS projections. */
+ 	asd->params.dis_proj_data_valid = false;
+ 	asd->params.dvs_stat = ia_css_dvs2_statistics_allocate(dvs_grid);
+-	if (!asd->params.dvs_stat)
++	if (!asd->params.dvs_stat) {
++		ia_css_dvs2_coefficients_free(asd->params.css_param.dvs2_coeff);
++		asd->params.css_param.dvs2_coeff = NULL;
  		return -ENOMEM;
 +	}
  
- 	ia_css_frame_free(raw_black_frame);
- 	return ret;
+ 	asd->params.dvs_hor_proj_bytes =
+ 	    dvs_grid->aligned_height * dvs_grid->aligned_width *
 -- 
 2.50.1
 
