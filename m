@@ -1,162 +1,281 @@
-Return-Path: <linux-media+bounces-58940-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58941-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GOq6C9wV4WnoogAAu9opvQ
-	(envelope-from <linux-media+bounces-58940-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 19:01:16 +0200
+	id 6CN7NzYd4WmmpAAAu9opvQ
+	(envelope-from <linux-media+bounces-58941-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 19:32:38 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC1A4123D2
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 19:01:15 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 312AB412C88
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 19:32:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E00743010743
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 17:01:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C76B83026587
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 17:30:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB77526056A;
-	Thu, 16 Apr 2026 17:00:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8A6232AACB;
+	Thu, 16 Apr 2026 17:30:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mbhw+e6Y"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NzwD8IBz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B39C52459CF
-	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 17:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9941F253B73
+	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 17:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776358858; cv=none; b=a2FK/FvB0OdDNSLtSdWbDOuJnyo1mDC+Mcyw7GBlgbGmmvR+P8Pbmyhjoryd4DGLDJMF/qkDTBtwWOcZh2PATWb4UytEDOow87KeYN/fRS0NQlr632vpVpQTxRNot6UablzrZciymaSgv06YP/jDUVrhTiGUEoK1+LwacxZdGgo=
+	t=1776360622; cv=none; b=PWtZ7ELwlF5S2F6A7S7esaEPLGQUAW3XqfNHO6NvLuOnO1uFpbUfKPC+IdnCUi0eO/zCj48KG+B5uXiTqWdyDqyu6NcBURAZ/BCKFujke6KLfGvX8aVGOyBUTUS9rbV+v5/CFf4RPRvkQwRT3QEPVMgBWOjnST1pr/TR45sJeHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776358858; c=relaxed/simple;
-	bh=1CZuCyQ4F7gIhJWlCZS7gOU94W9dFudind/rqbdZLnA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m6+wDkubF74E1JW6pMp+l7GSHzke1Pangb8XJxajQ/mlQhR6TXwy1ACy2oIP5oY/Joino8nzmSpcEKhblHuTZT6WHnFrguBi+E81XvUBGYgAsdoCDffY9poie7D8GXArHLmTevwJHU0vwNkVEfhFqVwaGs8DxpPyQviMDlTD/K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mbhw+e6Y; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-38ce8a5bc20so87544641fa.1
-        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 10:00:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776358855; x=1776963655; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2VpkNf2axxZW2MI3QuLeduQYZrK6zUSn2neT924zAFg=;
-        b=mbhw+e6YOzTXs0axvtFDK2+Shs5RZqoVEKCp4AiAgq+9DwRWx/afofi2IMKkEHUZCt
-         /v8DyZQ0NndvOt7baJCgUpaykGAuB7kSdhZ1em53Xy3V9QL1HrIjJz4VtQ3NksC87EkX
-         +k8GJ/l9vB9wD/9PVjyIxaONFjDDNBWg98iLXqHMRHZjF5FXAARbcwn1fCfj7Jpc5zGo
-         oK0REA0bewgZPuWYwIGYuA1msjcWuilTOCxj/F7TRN4jYV5mJwosrU+LnIloky3GzBSu
-         ZvbfgfFAfo8BTJ6UQag0K3iJQnhEwEjpiqFrE0WEoTYVztEZLi8tnTgoF2IqZw+bJH2d
-         Bc8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776358855; x=1776963655;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2VpkNf2axxZW2MI3QuLeduQYZrK6zUSn2neT924zAFg=;
-        b=RAiRjqB0QlOev207GcvqOoKhZleiXTT7qUIv14+2xm8uXuFmCV5iu+mwfDp/105dKM
-         gNPp/eezOV0nuttNsVUZbxnfDOP70YsKc8/vuWKu3euke7xubGJqTIAS/8jt7oOEIJhP
-         9/lXw80rji5sri8ouYEfdgPR+O+b2dkj2K4kSoDZtDkVqdYOsd3TETBUfiLLy3Nnye7b
-         q+zaHwDV8gI6ABOLsWZxPzvnvm0HkFlyVlHCosVHg2QeGUffnDSTAqeVqehwNOoKXffk
-         7DIiAKvWUlGA4D9HXn2gGIZttDe7jw5txVC9Sd3bQFLPLg8p+RAKph86luHjTMspeSwq
-         WD1g==
-X-Gm-Message-State: AOJu0YxaqeBKD5jJokPhhTnwpk+CakqICCtxfFcPbRe4Udt3XBchfsQG
-	Jnq1qoU6ZWs/knFAgJTUP1899eYZKQN/uvZMp52u6ul6Rb4pxy4OsNlV
-X-Gm-Gg: AeBDieuz59XYJHsQKpVenSJLIrsbTQjRcZYkbLYSgtI5OPzxSZQzchN7y+mY9iOYsS4
-	lwH+z22ya4FKd9IcQ8YcxCqI8tx0fmK7qZ9Qm1Y8c3GfRFWPAGTqlGaBBCtQHrCdxOmAOzHdeur
-	rdE5SieWRRnUxqllDVFfXBH2VbaEUAr1DNIyrQuXLj3BAYpiQII3IlgQEGjZksk5odwDz985iKU
-	+r0AbiOgGeqYdeWdJFZ9CYHQIH/eMXUF/Vt315f1SBRSGbkEyaFjVAhHs2+F3aABmpnkklQf63k
-	E/hbwOyWg0DfttL4XjrTgtq1ZtwPpkyHmCCzrkgxCXb0PI/hVfeqJtJfJNeVOuBJ7szn7Kvux40
-	t90ii00tE9mRkKcTH+WrlwUBAyxpqXSzP74JzgTZoxV2vB9YY4yspb+CQI9Oam7XckxXTuo1AVH
-	VXgcfFp1oGekcfgrgD55NdszOb9ByjZJvBVzSsjntvPzv1b2qE8P1dbUKmIDPlFDpzhUnwXGN7S
-	S0=
-X-Received: by 2002:a05:6512:3405:b0:5a3:fe5e:3d5f with SMTP id 2adb3069b0e04-5a415540f62mr51697e87.20.1776358854697;
-        Thu, 16 Apr 2026 10:00:54 -0700 (PDT)
-Received: from [10.29.244.82] (m-37-0-167-201.cust.tele2.lt. [37.0.167.201])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a40a272e14sm1416433e87.3.2026.04.16.10.00.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Apr 2026 10:00:53 -0700 (PDT)
-Message-ID: <6b8f767b-98c3-4e31-beb3-20988f764359@gmail.com>
-Date: Thu, 16 Apr 2026 20:00:49 +0300
+	s=arc-20240116; t=1776360622; c=relaxed/simple;
+	bh=lAW/aUEg2OF+ZmavU6KzNKdJ0tfVm8tnqv9gQ/yc6Hc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OioVZ5ngdxd0E8LqBXvqMSeMclTCMRa049+Ciwe7eJAdJZJ4msA8Pk4r8RemIm2SBYnXxyaXzZdPpSSqOW4WwM8uOlw8tP39n4qYsV7J3cAfHch/U/zBSUulY10uwh6SBBUH66um+gP13HhYkXJ8iofscDM+mPlfU0YGyGub7zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NzwD8IBz; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A5B5FB5;
+	Thu, 16 Apr 2026 19:28:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1776360522;
+	bh=lAW/aUEg2OF+ZmavU6KzNKdJ0tfVm8tnqv9gQ/yc6Hc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NzwD8IBzksQ3wJ7RG5f5F9OL5KTfuDEPqbVHF6oFGl7huHGo8s1zWuX1aC3zWdykv
+	 /10u/rZ8hexelA/uSF/VU1YEg93j+XUdsvG5A4IgZJCqjslXUNttWXdsCJqPXQ5w4q
+	 x4V2Fpk8U011X+d0+ohK8Cf7pQjnF/qUFCgaZ7xw=
+Date: Thu, 16 Apr 2026 20:30:15 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Rishikesh Donadkar <r-donadkar@ti.com>
+Subject: Re: [PATCH v4 25/29] media: v4l2-subdev: Move subdev client
+ capabilities into a new struct
+Message-ID: <20260416173015.GQ1775831@killaraus.ideasonboard.com>
+References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
+ <20260408153939.969381-26-sakari.ailus@linux.intel.com>
+ <adj0ToEep5Ny_NX7@zed>
+ <adylNdps7TZ6G3t-@kekkonen.localdomain>
+ <adzhW4uUYdGNJ9d8@zed>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 00/10] media: qcom: venus: add MSM8939 support
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Bryan O'Donoghue <bod@kernel.org>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org
-References: <20260416-msm8939-venus-rfc-v1-0-a09fcf2c23df@gmail.com>
- <b7b6c3e7-f8e6-4b73-b17a-e5e1691a54f8@oss.qualcomm.com>
-Content-Language: en-US
-From: Erikas Bitovtas <xerikasxx@gmail.com>
-In-Reply-To: <b7b6c3e7-f8e6-4b73-b17a-e5e1691a54f8@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <adzhW4uUYdGNJ9d8@zed>
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58940-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[xerikasxx@gmail.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-58941-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,ideasonboard.com,nxp.com,apitzsch.eu,kernel.org,ti.com];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 2FC1A4123D2
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email,nxp.com:email,killaraus.ideasonboard.com:mid]
+X-Rspamd-Queue-Id: 312AB412C88
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
->> 3. MSM8939 supports HEVC decoding, however, as the patchset is written
->>    now, it does not work. It can be enabled, however, it will result in
->>    breakage of Venus for faulty MSM8916 firmwares, because the code
->>    disabling HEVC for HFI v1 needs to be removed, and as per commit
->>    c50cc6dc6c48 ("media: venus: hfi_parser: Ignore HEVC encoding for V1"),
->>    this would break support for some MSM8916 devices. What could be the
->>    best way to work around this?
+On Mon, Apr 13, 2026 at 02:42:03PM +0200, Jacopo Mondi wrote:
+> On Mon, Apr 13, 2026 at 11:11:33AM +0300, Sakari Ailus wrote:
+> > On Fri, Apr 10, 2026 at 03:31:32PM +0200, Jacopo Mondi wrote:
+> > > On Wed, Apr 08, 2026 at 06:39:34PM +0300, Sakari Ailus wrote:
+> > > > Add struct v4l2_subdev_client_info to hold sub-device client capability
+> > > > bits that used to be stored in the client_caps field of struct
+> > > > v4l2_subdev_fh. The intent is to enable passing this struct to sub-device
+> > > > pad operation callbacks for capability information. The main reason why
+> > > > this is a new struct instead of a u64 field is that modifying the callback
+> > > > arguments requires touching almost every sub-device driver and that is
+> > > > desirable to avoid in the future, should more than the client capability bits
+> > > > need to be known to the callbacks.
+> > > >
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+> > > > ---
+> > > >  drivers/media/v4l2-core/v4l2-subdev.c |  8 ++++----
+> > > >  include/media/v4l2-subdev.h           | 12 ++++++++++--
+> > > >  2 files changed, 14 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > index 40b28e070726..eaa408832c6b 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > @@ -612,7 +612,7 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
+> > > >  	case VIDIOC_SUBDEV_S_FRAME_INTERVAL: {
+> > > >  		struct v4l2_subdev_frame_interval *fi = arg;
+> > > >
+> > > > -		if (!(subdev_fh->client_caps &
+> > > > +		if (!(subdev_fh->ci.client_caps &
+> > > >  		      V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH))
+> > > >  			fi->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> > > >
+> > > > @@ -652,7 +652,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> > > >  	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
+> > > >  	bool ro_subdev = test_bit(V4L2_FL_SUBDEV_RO_DEVNODE, &vdev->flags);
+> > > >  	bool streams_subdev = sd->flags & V4L2_SUBDEV_FL_STREAMS;
+> > > > -	bool client_supports_streams = subdev_fh->client_caps &
+> > > > +	bool client_supports_streams = subdev_fh->ci.client_caps &
+> > > >  				       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+> > > >  	int rval;
+> > > >
+> > > > @@ -1119,7 +1119,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> > > >  	case VIDIOC_SUBDEV_G_CLIENT_CAP: {
+> > > >  		struct v4l2_subdev_client_capability *client_cap = arg;
+> > > >
+> > > > -		client_cap->capabilities = subdev_fh->client_caps;
+> > > > +		client_cap->capabilities = subdev_fh->ci.client_caps;
+> > > >
+> > > >  		return 0;
+> > > >  	}
+> > > > @@ -1139,7 +1139,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> > > >  		client_cap->capabilities &= (V4L2_SUBDEV_CLIENT_CAP_STREAMS |
+> > > >  					     V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH);
+> > > >
+> > > > -		subdev_fh->client_caps = client_cap->capabilities;
+> > > > +		subdev_fh->ci.client_caps = client_cap->capabilities;
+> > >
+> > > I'm sorry for being annoying, but the discussion on v2 ended with the
+> > > question on why we can't propagate the client caps to the drivers
+> > > using the subdev state.
+> > >
+> > > I understand we have the active state which is stored in the subdev
+> > > and not per-file handle. But ioctls are called on a file handle and it
+> > > seems trivial to me copy the caps from the subdev_fh to the active
+> > > state.
+> > >
+> > > It would result in a much smaller set of changes.
+> > >
+> > > What am I missing ?
+> >
+> > I thought the discussion ended with the conclusion that we can't do that as
+> > the sub-device active state isn't bound to a file handle. :-)
 > 
-> if (!device_is_compatible(core->dev, "qcom,msm8939-venus"))?
+> Can you clarify why this can't happen in your opinion ?
 > 
-> Also, you mentioned HEVC *de*coding, while the commit you pointed to
-> disables *en*coding (decoding had been already disabled prior to that
-> commit)
+> Yes, the active state is not bound to any fh, but all ioctls
+> operations are issued on an fh, so it's trivial to copy the caps flags
+> in the active state before passing it to drivers.
 > 
-> Konrad
+> If this is not preferred because it feels like an hack I understand
+> it, it actually is, but I would like to think in perspective here.
 
-From the commit message I assumed HEVC decoding had already been
-disabled for the same reasons encoding was - faulty firmware reporting
-codecs it doesn't actually support.
+Storing the client caps in the state would be a hack indeed. The state
+is meant to be an object that represents the state of the device.
+
+Using it to store caps of a client means we'll need to ensure at least
+that no two clients will ever use the same state at the same time (which
+only applies to the active state), and that a state will always be
+associated with a client when a subdev operation is called.
+
+To ensure the former, we need to lock the active state before setting
+the caps field in the state, and keep it locked to call the subdev
+operation is called.
+
+The current implementation of the subdev ioctl handling code complies
+with those requirements.
+
+For the latter, it largely depends on which operation we're talking
+about. This series only adds the v4l2_subdev_client_info pointer to four
+operations: .get_fmt(), .set_fmt(), .get_selection() and
+.set_selection(). There are very few state-aware drivers calling the
+format operations manually on a subdev managed by a different driver,
+and even less calling the selection operations, and I don't expect that
+list to grow.
+
+Storing the caps in the state would be doable today, but I'm concerned
+it will cause issues later and restrict us in our ability to use subdev
+states. It could however be argued that introducing the new
+v4l2_subdev_client_info argument could be delayed to that point in time.
+
+All this being said, the only usage of client caps in subdev drivers
+today is conversion of existing sensor drivers to the new raw camera
+sensor model without breaking userspace. We have decided to propagate
+the V4L2_SUBDEV_CLIENT_CAP_COMMON_RAW_SENSOR capability to drivers to
+handle this, because we didn't find a way to handle it in the subdev
+core, but maybe there's a better solution we overlooked ?
+
+By the way, I don't think passing the client info pointer to the
+.get_fmt() operation is needed.
+
+> We want contexts, I think that's clear.
+> 
+> In the design I proposed the active state will be moved from the
+> subdev to the context (when available). A state lives in a context
+> which is bound to file handle. Getting the caps from a state is then a
+> matter of providing a helpers in the form of a chain of container_of.
+> 
+> The active_state which lives in the subdev will be used as a "default"
+> state, to support userspace application which are not context-aware.
+> 
+> Would it be so bad to populate a v4l2_subdev_fh * in the active state
+> stored in the subdev to indicate on which file handle an ioctl has
+> been called on and retrieve the caps from there, so that the same
+> (name tbd) v4l2_subdev_get_state_caps(struct v4l2_subdev_state *state)
+> could be used ?
+
+I think that will cause trouble. States can be accessed directly from a
+client context (e.g. when servicing a subdev ioctl), but also from other
+contexts (e.g. pipeline validation when starting streaming). In the
+latter case no operation requiring client caps should be called. If we
+store client caps in the state, I fear we'll start accessing them from
+places where they shouldn't be accessed, and it would become hard to
+untangle it later.
+
+> Adding the caps argument to driver's ioctl handlers to me pollutes the
+> interface diminishing the value of the state-centric interface we are
+> trying to implement.
+
+It's still state-centric.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
