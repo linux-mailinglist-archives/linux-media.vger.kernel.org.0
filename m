@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-58911-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58912-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cBhmKnXx4GkZnwAAu9opvQ
-	(envelope-from <linux-media+bounces-58911-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 16:25:57 +0200
+	id mKNtH6Tx4GkZnwAAu9opvQ
+	(envelope-from <linux-media+bounces-58912-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 16:26:44 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C1940F8BA
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 16:25:57 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6E2240F8D0
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 16:26:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id AA900302D095
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 14:25:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D39FA302D582
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 14:26:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B6643DEAE0;
-	Thu, 16 Apr 2026 14:25:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90E7C3DEFEA;
+	Thu, 16 Apr 2026 14:26:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GVSoh33F"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ep6CdnXB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855433DDDBC
-	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 14:25:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A233DEAD0
+	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 14:26:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776349550; cv=none; b=YG3od0xIDjbW05OLZu4nU7Sd1uJIAZ4aX0ukbLwvJ14xy78vASl3fUrxvtLURWJIbU7Z0YZzftXS495TLrTr1vHLXgMOszMBo2hCigYbyRxPkcZ4vU4ahOm9MseOCB9Z6X3tzAvL6eDQiaJzEVLozm+QVKKl4fp/2fd32+N+YuY=
+	t=1776349597; cv=none; b=mW5NURPM+OFkIkMQ9qAXu+M2BSkie+NgmpCV7nzp40I6BKz3WtPRQpzi/97qE+x3/RccZjsRGOGEKw/noh6MBkxVURBFVGVFb7fTsfEXhp2Pp+ZJSkq+tkpTJ7TQx7UNTREDHAaEKPBtqvahumbGnRQnR8pVvMYgNafAuMsh5J4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776349550; c=relaxed/simple;
-	bh=MFbYWpupff0Cl0q8J3x6j+D/CwLaZ2PuwSlFwK4umIA=;
+	s=arc-20240116; t=1776349597; c=relaxed/simple;
+	bh=liMcROrd+XfFb0OfzlTVB2CZpEnUjFm8/p7/s2mNc3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I/EnVllT9PY6FuQsIusPxsEny9+gIP1/JdWFz4klsn5TDZx1GmAJy7irOrwkkpoAo7dM5ScdBFtuXrjdLJKUuJCB1T8zB5fEkRiAXbtoCDTtdvNEKK+nEYZt4MYgfCbp2Oi5CzFEkHtA9pXj+ybjRaBRAhOqokmSKPw4iUNqUPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GVSoh33F; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=VGC6TQHDlg2So8DjG/pmsa0C33XCIMnqP1Ft3gCu0sSENwoF76b+XDSTkbQ8YFg/ANbKf2fwLtzDTR+42Vms0SzbBOI/GAL47Sn8OJs1Po1I8e+C44on4V/TRRkFMSqYiD1lvvx6N74aR9WYv/ylvv1ZtZLL+HdbvKAOuRiu8gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ep6CdnXB; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 813BE132;
-	Thu, 16 Apr 2026 16:24:10 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 06818BB;
+	Thu, 16 Apr 2026 16:25:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1776349450;
-	bh=MFbYWpupff0Cl0q8J3x6j+D/CwLaZ2PuwSlFwK4umIA=;
+	s=mail; t=1776349500;
+	bh=liMcROrd+XfFb0OfzlTVB2CZpEnUjFm8/p7/s2mNc3M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GVSoh33FEA+QRcUmUiV+erjR6kUP8gaI7yY+SMOaz3ska+Nt++ItAxqwyccR2dj+U
-	 0/ACfZLZ8fnHs/qgiNtARz5fWMKtJ8F1aQ/Cpa7aplZQi3XigizJLNOg/PbbbWx93N
-	 40/qExhXfa1XTElZ3544AG4RYYAYtvdRT4mH0T+4=
-Date: Thu, 16 Apr 2026 17:25:43 +0300
+	b=Ep6CdnXBOuCHoU9O/yvjpPwlFCzQjajsp8ytY3YC48vyh1yyzl5FJuXpu/Cyh4uug
+	 dJ1nmtXp9xhW7xMmfc+yZ0amMJvST3bd0ls+P4Ojs1bhBEL7+sFziCCdTrzDKFYZjD
+	 t2BFgyJuXFYNO1ebuuCbddx1h9yoYk1U7i1P1mMY=
+Date: Thu, 16 Apr 2026 17:26:32 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
@@ -74,11 +74,11 @@ Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v4 07/29] media: imx219: Rename "binning" as "bin_hv" in
- imx219_set_pad_format
-Message-ID: <20260416142543.GE1775831@killaraus.ideasonboard.com>
+Subject: Re: [PATCH v4 08/29] media: imx274: Remove redundant kernel-doc
+ comments
+Message-ID: <20260416142632.GF1775831@killaraus.ideasonboard.com>
 References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-8-sakari.ailus@linux.intel.com>
+ <20260408153939.969381-9-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,18 +87,18 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260408153939.969381-8-sakari.ailus@linux.intel.com>
+In-Reply-To: <20260408153939.969381-9-sakari.ailus@linux.intel.com>
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58911-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58912-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,ideasonboard.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
@@ -112,77 +112,96 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,intel.com:email,killaraus.ideasonboard.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 24C1940F8BA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,killaraus.ideasonboard.com:mid,intel.com:email]
+X-Rspamd-Queue-Id: E6E2240F8D0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Sakari,
-
-Thank you for the patch.
-
-On Wed, Apr 08, 2026 at 06:39:16PM +0300, Sakari Ailus wrote:
-> Rename "binning" as "bin_hv" in anticipation of having a variable called
-> "binning" for another purpose.
+On Wed, Apr 08, 2026 at 06:39:17PM +0300, Sakari Ailus wrote:
+> Remove kernel-doc comments from  regular callback functions. These
+> comments have no information value.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 > ---
->  drivers/media/i2c/imx219.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>  drivers/media/i2c/imx274.c | 38 --------------------------------------
+>  1 file changed, 38 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index ca6a5939773d..5a85d76af65a 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -825,7 +825,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->  	const struct imx219_mode *mode;
->  	struct v4l2_mbus_framefmt *format;
->  	struct v4l2_rect *crop;
-> -	u8 bin_h, bin_v, binning;
-> +	u8 bin_h, bin_v, bin_hv;
->  	int ret;
+> diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
+> index 8ec78b60bea6..241821572e03 100644
+> --- a/drivers/media/i2c/imx274.c
+> +++ b/drivers/media/i2c/imx274.c
+> @@ -897,14 +897,6 @@ static int imx274_regulators_get(struct device *dev, struct stimx274 *imx274)
+>  					imx274->supplies);
+>  }
 >  
->  	format = v4l2_subdev_state_get_format(state, 0);
-> @@ -858,11 +858,11 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->  	bin_v = min(IMX219_VISIBLE_HEIGHT / format->height, 2U);
+> -/**
+> - * imx274_s_ctrl - This is used to set the imx274 V4L2 controls
+> - * @ctrl: V4L2 control to be set
+> - *
+> - * This function is used to set the V4L2 controls for the imx274 sensor.
+> - *
+> - * Return: 0 on success, errors otherwise
+> - */
+>  static int imx274_s_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
+> @@ -1059,16 +1051,6 @@ static int __imx274_change_compose(struct stimx274 *imx274,
+>  	return 0;
+>  }
 >  
->  	/* Ensure bin_h and bin_v are same to avoid 1:2 or 2:1 stretching */
-> -	binning = min(bin_h, bin_v);
-> +	bin_hv = min(bin_h, bin_v);
+> -/**
+> - * imx274_get_fmt - Get the pad format
+> - * @sd: Pointer to V4L2 Sub device structure
+> - * @sd_state: Pointer to sub device state structure
+> - * @fmt: Pointer to pad level media bus format
+> - *
+> - * This function is used to get the pad format information.
+> - *
+> - * Return: 0 on success
+> - */
+>  static int imx274_get_fmt(struct v4l2_subdev *sd,
+>  			  struct v4l2_subdev_state *sd_state,
+>  			  struct v4l2_subdev_format *fmt)
+> @@ -1081,16 +1063,6 @@ static int imx274_get_fmt(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
 >  
->  	crop = v4l2_subdev_state_get_crop(state, 0);
-> -	crop->width = format->width * binning;
-> -	crop->height = format->height * binning;
-> +	crop->width = format->width * bin_hv;
-> +	crop->height = format->height * bin_hv;
->  	crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
->  	crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
+> -/**
+> - * imx274_set_fmt - This is used to set the pad format
+> - * @sd: Pointer to V4L2 Sub device structure
+> - * @sd_state: Pointer to sub device state information structure
+> - * @format: Pointer to pad level media bus format
+> - *
+> - * This function is used to set the pad format.
+> - *
+> - * Return: 0 on success
+> - */
+>  static int imx274_set_fmt(struct v4l2_subdev *sd,
+>  			  struct v4l2_subdev_state *sd_state,
+>  			  struct v4l2_subdev_format *format)
+> @@ -1423,16 +1395,6 @@ static void imx274_load_default(struct stimx274 *priv)
+>  	priv->ctrls.test_pattern->val = TEST_PATTERN_DISABLED;
+>  }
 >  
-> @@ -872,15 +872,15 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->  
->  		/* Update limits and set FPS to default */
->  		ret = __v4l2_ctrl_modify_range(imx219->vblank,
-> -					       (int)(mode->height / binning),
-> +					       (int)(mode->height / bin_hv),
->  					       IMX219_FLL_MAX - mode->height, 1,
-> -					       (int)(mode->fll_def / binning) -
-> +					       (int)(mode->fll_def / bin_hv) -
->  					       (int)mode->height);
->  		if (ret)
->  			return ret;
->  
->  		ret = __v4l2_ctrl_s_ctrl(imx219->vblank,
-> -					 (int)(mode->fll_def / binning) -
-> +					 (int)(mode->fll_def / bin_hv) -
->  					 (int)mode->height);
->  		if (ret)
->  			return ret;
+> -/**
+> - * imx274_s_stream - It is used to start/stop the streaming.
+> - * @sd: V4L2 Sub device
+> - * @on: Flag (True / False)
+> - *
+> - * This function controls the start or stop of streaming for the
+> - * imx274 sensor.
+> - *
+> - * Return: 0 on success, errors otherwise
+> - */
+>  static int imx274_s_stream(struct v4l2_subdev *sd, int on)
+>  {
+>  	struct stimx274 *imx274 = to_imx274(sd);
 
 -- 
 Regards,
