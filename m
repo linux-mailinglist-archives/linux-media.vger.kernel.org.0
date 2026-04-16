@@ -1,146 +1,165 @@
-Return-Path: <linux-media+bounces-58948-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58949-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yOyHDmFA4WmaqgAAu9opvQ
-	(envelope-from <linux-media+bounces-58948-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 22:02:41 +0200
+	id 9F2DBHxD4WlErAAAu9opvQ
+	(envelope-from <linux-media+bounces-58949-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 22:15:56 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8AF74146C4
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 22:02:40 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55612414837
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 22:15:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 33EC53028EF9
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 19:59:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C4BE6302D0BE
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 20:06:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EA143ED113;
-	Thu, 16 Apr 2026 19:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 570473ED5DD;
+	Thu, 16 Apr 2026 20:06:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="q5olt0JR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zd+CIbeu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1553EDAC3;
-	Thu, 16 Apr 2026 19:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776369540; cv=none; b=OJEwSJD+kBwOT4LELlYD/+bIQfItFIZ1I2l6NpjGKSLcTIFTt51wk2gS8gxzRu5aaFfUeye5ICR/oMbGfW7lTdNS5enTPMiDPxLm5btnBb0Wf3xSYG6WiwM6tPOgi9AJ4+LxluquxQULAU7kx84yW/Z81Ga7d9/zFWNE2jA2+Pw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776369540; c=relaxed/simple;
-	bh=OLYLo1fNABgrHy/L58BpPBLYtc+wZSkEaMxsZof2Oi4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SZY8jrCt7Cwc/FYelmb19y5mcQP/7rH6QbRugjigULLfsnCHqeeiclDFRrpYT7dczYlIYfcSwwE9bGCpF32+VgaJb/lZvBFDYeqq4P8OUdvbysnwsnfv/tnGKO5LsOEzkA8NuxkAcj2YBfI+tZtU3ynmfAYcLRjlUDgNUxUAU8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=q5olt0JR; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=BW6VYBfsI5981SCuWN9OSRVAoHdL0JQKHn2ThBxkJb4=; b=q5olt0JRQ0U/cuv/zuEltZw0cC
-	GdKhK28M+0I8WMDy+rKhOmLCYnqwMm43MJ+xoHI+vdi3fD0zdEFYAQ4hbEOpmjrcIHfNg7PJASoIq
-	B/XcPHz3ShLcB8+rLlni7Gvy6kebtf36beyf4ilUq+1I0NRTCUvrYOHGoMfZcDdG1bGZ5jPwn+//U
-	CdmmuyhQjE+e2/XL1DQZ9tyZqkLf19hK7/pUMU+bASFjFSjnoE6DgWHMbDd+J1ASNh34+7dy/D4h1
-	P2oSRNEP4QPTAKCFVfwiEtv45idAAGlRYxLr/UOYVugIS6YmKCslOREr3oVPptUWUu2eKU32P90kh
-	z6mWBgMw==;
-Received: from 177-136-88-193.vmaxnet.com.br ([177.136.88.193] helo=[192.168.1.54])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wDSrR-00H92z-MM; Thu, 16 Apr 2026 21:58:49 +0200
-From: Heitor Alves de Siqueira <halves@igalia.com>
-Date: Thu, 16 Apr 2026 16:57:01 -0300
-Subject: [PATCH] media: dvbdev: fix missing refcount update in
- dvb_generic_open()
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3FB3ED5DC
+	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 20:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776370007; cv=pass; b=E9BdhnFcdSUUTd0UHybk5NliXM3v7Cg7nVh8fKuZWj+UlzZ8nDhgi13fULW9kfOxkTQSwkT/tTBL3pXwxPs61Doa6EMSTr/C+QYtjmmyQ+drO+H78EzbUvkoPbG+NHYky3P2gEF42ZmtLPm/NI5Vt2LTZkXwAGK9Uk3WtgR0VMw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776370007; c=relaxed/simple;
+	bh=4teVBuNaxFxK+3ZcTnOIpvYaVeA0ijq9NRDf/er3lkM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=t7dB23FwODtr4kcK9Ode51Kq5+YrJeHqlAQy156v/wzduLH3G+MJWWmjksxNAltwJC7KCFWSt0gbzRgSbpGMs1gzdiyKi7H9Mu+ryvgWJ4BlYCJon5C+/8Rh8HggYVwqbWESb0+J5KYekT/zofQyahYybCyPzKmPeFDenkd1h6g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zd+CIbeu; arc=pass smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6720c7968e4so2331917a12.0
+        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 13:06:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776370000; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ODWuNhq/6uJywYFqzegrEgRmrs2TVY+h6G6DAeBGMt8H9O8iTm3w3JwBQVFp6/Xcd7
+         8etMRSZr/hJloSxx7MGKffZ1GhuTZVBXT+K5Jzqt7ukNydf6odHVoSq/uevAOvKjbWdx
+         1VOHwbgF39sLGanuC0VjE9WmnaK9mbQpzgu8j3gKUkREwD0f3htb3NvlstNMnuVd5oJm
+         W+/vmh3Uuxu7K/CiidR5QTse0I5AzjeT6ezZJYAE6duOWrnJwHBUCvp7r2dz3EsUGSuf
+         dP95QdlXm60JTQ88EWzn1h/6VP7+A09DOM/1j2LbyexpJAn1EOXSxRE62W3uHqkU7IzW
+         Zlug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4teVBuNaxFxK+3ZcTnOIpvYaVeA0ijq9NRDf/er3lkM=;
+        fh=4IUt8CRwE29+D4enDyCzL6jxphn6sgV77FCWISdEJfE=;
+        b=d6qZRXQdSmkpVAQVOPseVyzaforIwzd0142yX3pxqlJoU6oDToMawOykn+f1Uqx6LP
+         f0ESrizG8bQJYQkeySjHogBt3jwwHYr/w+wiaCh4VI5/Cd2E4mlPdM9mZJ4NJf66Tx8t
+         9wUdS6vwVwJIWhM+mqpsKBo47mvUnDRNev0cQ910puxt6+py9P2bC9UTklzNCCgaKD3Y
+         A+9QhpuhNES++Wq9F2+aXxeLOCmLoO4mq8bsCJRvv947CKk6VgDRCOTWKZ482J8XSuJ+
+         Eoe+zL1E6MjYNsBJ6OBTFl5fvIPA3K/mME6KMSt7jH88fB4MBLA0MtyQvR0eLULyr5ev
+         MvXQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776370000; x=1776974800; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4teVBuNaxFxK+3ZcTnOIpvYaVeA0ijq9NRDf/er3lkM=;
+        b=Zd+CIbeu4/WjhO14yihtoH2ozkWNKtdsRFjtrkof5hQbkyrJde/2mT15ekMmKPPier
+         GxDsd8LrfNs0oxq23h4PhGGmQwXjQWmG1qwvPY4ZERO+e9Stg24GzSzhfRglJkRflktU
+         cQ+647ZjplA1OeE3/7E9d+dZtWxBGtRbDNecq8RRMYSTJ5FJM76OHuZQu+Aw4ln9hx1Z
+         qH/ORGx0o1JH0V//Plo0NKbECoWpM6g0rjCRUB4Z3VkdjodRTIRsjh/J0ZJ1hPSmpBjH
+         Hbj1f0LQjNcXUfudYQoUvCZrHTyo0bnBiZIUlAuZe58+NXwKHyerZlXlP3bwz/9CIMVS
+         vsDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776370000; x=1776974800;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4teVBuNaxFxK+3ZcTnOIpvYaVeA0ijq9NRDf/er3lkM=;
+        b=Han9EmkRFcad3gy+t+f0FJnTPuRyDuylSGNIBWw9Qv29Iw5ViSBAD8g0NmlO+2935Y
+         1GcfdAReR1mKUCcVIzBOMfyTooniTzbbDgkVD9hVOuITo8tP1FZwrIydqE5RxVEOub/E
+         IoytXlogRkn1upNv37u6F+dTlFFy0SWv5xfEs90FsOFwCVDx8zPORJG0SiuyNUC3X80K
+         9fgkxXgw1CbM62QGxh/xOyOcyhfE7g+e/GbTQZgVBdZmoHDIFtMaEhg3S0gHy0f6b1Qa
+         yUhTezxG7kMOi4+lrWM1cm323CXcGKk8ZQd2MUB4qVG1wtW3zOhjcgGyJMy2b7rpRkpf
+         En6w==
+X-Forwarded-Encrypted: i=1; AFNElJ9in8/s145aVQml/jOaBsQW/u19C+T5tj0cvccUyoXn0+ALoeb7y9YkXbWOWpVf9DWwpmpSnp5WysqTXA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxbwafg+fggUA4FD1lz5Q/zGT2GYnbWB5Wcy0APvIm6lWVn9MaQ
+	C4/suZMDljPCOqae/NMawBxptS+ebbFpuF6i1+NIWt71ZBUmzFDBVmc1nuuxJy7U8mKyhnIxY/w
+	eANV4OcIzOzRTjsy69e83W+namvdW8Og=
+X-Gm-Gg: AeBDietkOSSLb6lbY36Sw1OXNUAeiV5fGkmwNGEkcl5aNVhj1qz5irBitwtRoOYiAaY
+	e6MMXfED/9QDOzU38eEM8wWezU5UC3Yyla+UZt/mwx+wwM+P/c83toUhS74MdBAciWj22tANCzn
+	W6hwgyFs58QDXwrHRE1R842O6OzYgdgow/FB/jH0s2/3nSACMuM0skdH3aWMjyXfoye2PY0Y4gR
+	i7gILv5mlfCZlPOtl9n4ZBSw6SJOlHE2rZDXqAS5dRHf/UJytPiXm0hDOfoWM/rLtMoQQEqZ6rN
+	utqTykjhF6FaDQDLg5nodipyHtgAsWNkR5gax9phVea4B7Bfeg==
+X-Received: by 2002:a05:6402:22d2:b0:670:7006:6053 with SMTP id
+ 4fb4d7f45d1cf-672bd030266mr234125a12.11.1776370000247; Thu, 16 Apr 2026
+ 13:06:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260416-dvbdev-refcount-v1-1-34b3f28cc390@igalia.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMSwqEMBRE0a3IGxvQ4K97K+LAJKW+HsQmMUEQ9
- 27U4aGoe5CHY3j6Zgc5RPa82oQyz0gvo50h2CSTLGRTVGUjTFQGUThMeg12E3X3UbptUUlMlF7
- /tPD+FPvhtQ/qB73dGTrPC4W42FdzAAAA
-X-Change-ID: 20260416-dvbdev-refcount-589bc77e42ef
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Lin Ma <linma@zju.edu.cn>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel-dev@igalia.com, 
- syzbot+ae466a728017ec940b41@syzkaller.appspotmail.com, 
- stable@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Spamd-Result: default: False [1.14 / 15.00];
+References: <20260416134214.130665-2-pontescpedro@gmail.com> <CAHp75VeyCRCdR4VD8+KM33zYv3OMBSRGaeSE5B2Wc5hn9Q9hEA@mail.gmail.com>
+In-Reply-To: <CAHp75VeyCRCdR4VD8+KM33zYv3OMBSRGaeSE5B2Wc5hn9Q9hEA@mail.gmail.com>
+From: Pedro Pontes <pontescpedro@gmail.com>
+Date: Thu, 16 Apr 2026 17:06:04 -0300
+X-Gm-Features: AQROBzC-EX1p-Maoxgj9JeHTXDGaZI_Q5teK_YMXo8FiyszicjSakN0eu5QKZWk
+Message-ID: <CAG1t-2LVK=QjcZ3pmikjt8k-x9-kqXvrDrbutXHp79Xmkv78Lw@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: use kmalloc_objs for array allocations
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: hansg@kernel.org, gregkh@linuxfoundation.org, mchehab@kernel.org, 
+	andy@kernel.org, sakari.ailus@linux.intel.com, kees@kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58948-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58949-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_SPAM(0.00)[0.945];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[halves@igalia.com,linux-media@vger.kernel.org];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,ae466a728017ec940b41];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,syzkaller.appspot.com:url,igalia.com:mid,igalia.com:email,appspotmail.com:email]
-X-Rspamd-Queue-Id: C8AF74146C4
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[pontescpedro@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com]
+X-Rspamd-Queue-Id: 55612414837
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-After introducing a reference counter to struct dvb_device, it's
-possible for a dvbdev to be prematurely freed by dvb_free_device(). This
-is due to a missing kref_get() in the dvb_generic_open() path, that was
-not balanced with the existing kref_put() in dvb_generic_release().
+> There is already a patch doing it in a slightly better way. Have you
+> followed the mailing list?
 
-Add dvb_device_get() to correctly increment the reference counter at the
-end of dvb_generic_open(). This also avoids incorrectly increasing the
-counter in case of EBUSY errors.
+I searched lore and patchwork but couldn=E2=80=99t find the patch you=E2=80=
+=99re referring to.
+Could you please point me to it?
 
-Fixes: 0fc044b2b5e2 ("media: dvbdev: adopts refcnt to avoid UAF")
-Reported-by: syzbot+ae466a728017ec940b41@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=ae466a728017ec940b41
-Tested-by: syzbot+ae466a728017ec940b41@syzkaller.appspotmail.com
-Cc: stable@vger.kernel.org
-Signed-off-by: Heitor Alves de Siqueira <halves@igalia.com>
----
- drivers/media/dvb-core/dvbdev.c | 1 +
- 1 file changed, 1 insertion(+)
+Are you referring to the patch I linked in my submission, or a different on=
+e?
 
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index d753d329502a..84575610253b 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -147,6 +147,7 @@ int dvb_generic_open(struct inode *inode, struct file *file)
- 		dvbdev->writers--;
- 	}
- 
-+	dvb_device_get(dvbdev);
- 	dvbdev->users--;
- 	return 0;
- }
+> Please, better to help with this driver is to subscribe to the mailing
+> list and review already
+> submitted ones.
 
----
-base-commit: 1d51b370a0f8f642f4fc84c795fbedac0fcdbbd2
-change-id: 20260416-dvbdev-refcount-589bc77e42ef
-
-Best regards,
---  
-Heitor Alves de Siqueira <halves@igalia.com>
-
+Understood, I=E2=80=99ll follow the list more closely and review related pa=
+tches.
+Thanks.
 
