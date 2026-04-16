@@ -1,434 +1,332 @@
-Return-Path: <linux-media+bounces-58935-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58936-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OF12ElwO4WnoogAAu9opvQ
-	(envelope-from <linux-media+bounces-58935-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 18:29:16 +0200
+	id cNUPFEMP4WnoogAAu9opvQ
+	(envelope-from <linux-media+bounces-58936-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 18:33:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0241411B4C
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 18:29:15 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC1C411B8A
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 18:33:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 33C2B305D4F7
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 16:29:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3A4273057635
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 16:29:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65C0C3A0B3D;
-	Thu, 16 Apr 2026 16:29:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D72639FCA0;
+	Thu, 16 Apr 2026 16:29:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="I1T62by5"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MT3yztTM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBCF93845A3;
-	Thu, 16 Apr 2026 16:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3524B3845A3
+	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 16:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776356949; cv=none; b=sNH2+NErJXnRinGQh4XG5HGkN9PLfFA4KGwZCEQGdhjgxyQEsiNe7Jfa++liCpwAToZt8iY5YsyZ2LQRB1ReO9T/eFEP5GYBBp6F6aokDG520hT/NhZK/t931gnBq75HspFknSMiZM0T8Yvhi3GcbU8lQ4dSUyejJiFX6eNzcWE=
+	t=1776356966; cv=none; b=mXB8zVCoPKU3CF/+3FVwFTZ19xE3gOm/L30HJY4QXje8BPs0BO3vFiiVg6Wr9DalqeJiWt/JYJAGX9Fv/39df9KKARWfhzYp7fwuibpqEUaGcHUFYbVk+fswe0oPW8hmCYB+XlLujShlJ2uDbUpOSM61Wg3/I9PjKyOhrLNarrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776356949; c=relaxed/simple;
-	bh=cI7oghsBOVa2cK0VJA7EsEiORXn0z8aYMgV++TNAhws=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WWISjlKe8AsHmoSvVh0dWhxnqlsRLHspEJNj2PwPiqOuMr0HxJaVfKrymY50Dw9o1SPMhBvSn6maQYf+7I3S8XjLhZ8f19/ri62A/+M9dqHaNqrAm9yq7w6r02N0geJbSRCZRZuSqt835luOOyCI/2XaEs4X+TVrWvv/OmraeV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=I1T62by5; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1776356946;
-	bh=cI7oghsBOVa2cK0VJA7EsEiORXn0z8aYMgV++TNAhws=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=I1T62by5DWIs0l1zheG4QygeZhtPiGccAPTHLP8utuBKsKPOvxcHxkmnfF5Ep8mY6
-	 am897OJ4rjkRIQ41369dzcXWW3tRSJY6EaKHW6iZmiI3XeQaoZsx7UTCTcwJdqAvzy
-	 VbsF5SNZMgkSNoMNa4fbSvuFZdFS1pD47OYO/waXWBuTSY46cnei6qPzauZYmBc1fx
-	 I4M5cMTpv5KFj+tpYzRazYRnpSBY8fbzCskn6p+nYM3i1Euc+6ZtMFjVAffC6ZO1y9
-	 z60eS2mHz6QqTysMvRQ34GInOx/78ZijdbW81+5i21q625FOsLQs4U6kXGxn/u1Hbu
-	 RI103OtFHyPOw==
-Received: from [100.64.1.43] (unknown [100.64.1.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id CE94D17E10A4;
-	Thu, 16 Apr 2026 18:29:05 +0200 (CEST)
-Message-ID: <a108f9f2-e274-4d81-8101-900fa629b4fb@collabora.com>
-Date: Thu, 16 Apr 2026 18:29:05 +0200
+	s=arc-20240116; t=1776356966; c=relaxed/simple;
+	bh=jkUYhWqGy/PwbwlHoa6FWaAKNmgyCz2+AcKM+mL1wy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EBpWvrUgLlV8/I6qOuXZbEkSrNznp4wUJxGtfFwZAhSLk1FIgHYKa5gWoQqo2J8kTQ3PGIMSliiRSjD2xARALO7KSZ7G5EFIGp/bC/SEOqIPhDW/yR0cdrhsBk5JK4hsq3o5exo38OyGP9tme30kiVgRn+2GyiDLd/KYjxpXFbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MT3yztTM; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id CCD8E132;
+	Thu, 16 Apr 2026 18:27:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1776356868;
+	bh=jkUYhWqGy/PwbwlHoa6FWaAKNmgyCz2+AcKM+mL1wy0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MT3yztTMTXehuGnRG6uGisLIyf4mr5cFM8G7u002plHX1/BJNMZAqrDEgvGIR9vaA
+	 8mv4AjQWcCc6JgRCqws7rMzcwpoURQ/a2LNvEqqwKcr/bTOoydDx8+fooVsGaCTyGv
+	 zRP5STys/YXYWsitkdiTKPOXK8nAPdrdSvr0FzIU=
+Date: Thu, 16 Apr 2026 19:29:20 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Rishikesh Donadkar <r-donadkar@ti.com>
+Subject: Re: [PATCH v4 22/29] media: mc: Add MEDIA_LNK_FL_VALIDATE_LATE
+Message-ID: <20260416162920.GF1823068@killaraus.ideasonboard.com>
+References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
+ <20260408153939.969381-23-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] media: Add AFBC pixel formats
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, mchehab@kernel.org,
- corbet@lwn.net, hverkuil+cisco@kernel.org,
- laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com
-References: <20260416124143.128412-1-benjamin.gaignard@collabora.com>
- <0407249c6dcceec5419af3870c7bb4defb230e5a.camel@ndufresne.ca>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <0407249c6dcceec5419af3870c7bb4defb230e5a.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260408153939.969381-23-sakari.ailus@linux.intel.com>
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58935-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[collabora.com:+];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-58936-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,ideasonboard.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.998];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[benjamin.gaignard@collabora.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,siliconimaging.com:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B0241411B4C
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[killaraus.ideasonboard.com:mid,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: AAC1C411B8A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On Wed, Apr 08, 2026 at 06:39:31PM +0300, Sakari Ailus wrote:
+> Add MEDIA_LNK_FL_VALIDATE_LATE flag to support late validation of links.
+> This is serving the use case where video devices are configured and
+> started streaming indepenently of each other but this sequence may be run
+> in series, in such a way that a video device in a pipeline starts
+> streaming before another one is configured.
+> 
+> Before this flag, drivers have resorted to implementing the link
+> validation separately for the video nodes as part of streaming start
+> sequence.
+> 
+> media_pipeline_start() shall be called on each leaf entity connected to
+> the graph with a link where MEDIA_LNK_FL_VALIDATE_LATE is set before
+> uphardware operation.
 
-Le 16/04/2026 à 17:23, Nicolas Dufresne a écrit :
-> Le jeudi 16 avril 2026 à 14:41 +0200, Benjamin Gaignard a écrit :
->> Add 8-bit and 10-bit YUV420 Arm Frame Buffer Compression (AFBC)
->> pixel formats.
->>
->> AFBC stride and image size computation needed to be done by
->> specific helpers functions which are also exported to be used
->> by drivers.
->>
->> Add documentation for each of the formats.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>   .../userspace-api/media/v4l/pixfmt-afbc.rst   |  64 +++++++++++
->>   .../userspace-api/media/v4l/pixfmt.rst        |   1 +
->>   drivers/media/v4l2-core/v4l2-common.c         | 104 ++++++++++++++++++
->>   drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +
->>   include/media/v4l2-common.h                   |   4 +
->>   include/uapi/linux/videodev2.h                |   6 +
->>   6 files changed, 183 insertions(+)
->>   create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-afbc.rst
->>
->> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-afbc.rst b/Documentation/userspace-api/media/v4l/pixfmt-afbc.rst
->> new file mode 100644
->> index 000000000000..2867e5d45810
->> --- /dev/null
->> +++ b/Documentation/userspace-api/media/v4l/pixfmt-afbc.rst
->> @@ -0,0 +1,64 @@
->> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
->> +
->> +.. afbc:
->> +
->> +*******************************************
->> +ARM Frame Buffer Compression formats (AFBC)
->> +*******************************************
->> +
->> +The AFBC format is a lossless compression format which can support
->> +up to four components. It could compress 8 bits to 64 bits per pixel.
->> +The internal superblock size could be:
->> +
->> +- 16x16 pixels
->> +
->> +- 32x8 pixels
->> +
->> +- 64x4 pixels.
->> +
->> +The memory layout is composed of a header block followed by payload data.
-> Because these format are so tied with the Graphics, I would avoid past mistakes
-> with QC formats, and up-front document their matching DRM format and modifiers.
+I don't like this much, especially given that there are no users in this
+series, so I can't check how it's used. Let's postpone it.
 
-sure, I can add a column with the matching DRM format + modifier
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  .../media/mediactl/media-ioc-setup-link.rst   |  4 +
+>  .../media/mediactl/media-types.rst            |  5 ++
+>  drivers/media/mc/mc-entity.c                  | 82 ++++++++++++++++++-
+>  include/uapi/linux/media.h                    |  1 +
+>  4 files changed, 88 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst b/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
+> index 23208300cb61..7c2bced57e77 100644
+> --- a/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
+> +++ b/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
+> @@ -49,6 +49,10 @@ Only links marked with the ``DYNAMIC`` link flag can be enabled/disabled
+>  while streaming media data. Attempting to enable or disable a streaming
+>  non-dynamic link will return an ``EBUSY`` error code.
+>  
+> +Pipeline validation may be delayed for links marked with the ``VALIDATE_LATE``
+> +flag until actual hardware operation even if the rest of the pipeline would be
+> +validated at an earlier point of time.
+> +
+>  If the specified link can't be found the driver returns with an ``EINVAL``
+>  error code.
+>  
+> diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+> index 6332e8395263..d6a690655a01 100644
+> --- a/Documentation/userspace-api/media/mediactl/media-types.rst
+> +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+> @@ -391,6 +391,7 @@ must be set for every pad.
+>  .. _MEDIA-LNK-FL-ENABLED:
+>  .. _MEDIA-LNK-FL-IMMUTABLE:
+>  .. _MEDIA-LNK-FL-DYNAMIC:
+> +.. _MEDIA-LNK-FL-VALIDATE-LATE:
+>  .. _MEDIA-LNK-FL-LINK-TYPE:
+>  
+>  .. flat-table:: Media link flags
+> @@ -410,6 +411,10 @@ must be set for every pad.
+>         -  The link enabled state can be modified during streaming. This flag
+>  	  is set by drivers and is read-only for applications.
+>  
+> +    *  -  ``MEDIA_LNK_FL_VALIDATE_LATE``
+> +       -  The validation of the link may be delayed up to until the start of
+> +	  hardware operation.
+> +
+>      *  -  ``MEDIA_LNK_FL_LINK_TYPE``
+>         -  This is a bitmask that defines the type of the link. The following
+>  	  link types are currently supported:
+> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> index 287eded356bb..5b0162f81425 100644
+> --- a/drivers/media/mc/mc-entity.c
+> +++ b/drivers/media/mc/mc-entity.c
+> @@ -771,7 +771,7 @@ static int media_pipeline_populate(struct media_pipeline *pipe,
+>  static int
+>  __media_pipeline_validate_one(struct media_pad *origin,
+>  			      struct media_pad *pad, struct media_link *link,
+> -			      bool *has_enabled_link)
+> +			      bool *has_enabled_link, bool skip_validation)
+>  {
+>  	struct media_device *mdev = origin->graph_obj.mdev;
+>  	struct media_entity *entity = pad->entity;
+> @@ -784,6 +784,9 @@ __media_pipeline_validate_one(struct media_pad *origin,
+>  	if (has_enabled_link)
+>  		*has_enabled_link = true;
+>  
+> +	if (skip_validation)
+> +		return 0;
+> +
+>  	/* Skip validation if the current pad isn't the sink pad of the link. */
+>  	if (link->sink != pad)
+>  		return 0;
+> @@ -825,11 +828,48 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
+>  		return -EINVAL;
+>  
+>  	/*
+> -	 * If the pipeline has already been started, it is guaranteed to be
+> -	 * valid, so just increase the start count.
+> +	 * Increase start count on pipelines that have been validated
+> +	 * earlier. Also check links with the VALIDATE_LATE flag here.
+>  	 */
+>  	if (pipe->start_count) {
+> +		struct media_link *link;
+> +
+> +		link = __media_entity_next_link(origin->entity, NULL,
+> +						MEDIA_LNK_FL_DATA_LINK);
+> +		if (link && link->flags & MEDIA_LNK_FL_VALIDATE_LATE) {
+> +			struct media_link *link2 =
+> +				__media_entity_next_link(origin->entity, link,
+> +							 MEDIA_LNK_FL_DATA_LINK);
+> +			bool has_enabled_link = false;
+> +
+> +			/*
+> +			 * Only a single pad is allowed for VALIDATE_LATE
+> +			 * links. That pad needs to have exactly one link.
+> +			 */
+> +			if (origin->entity->num_pads != 1)
+> +				return -EINVAL;
+> +
+> +			if (!link || link2)
+> +				return -EINVAL;
+> +
+> +			dev_dbg(mdev->dev,
+> +				"Validating pad '%s':%u late\n",
+> +				origin->entity->name, origin->index);
+> +
+> +			ret = __media_pipeline_validate_one(link->sink,
+> +							    link->sink, link,
+> +							    &has_enabled_link,
+> +							    false);
+> +			if (ret)
+> +				return ret;
+> +
+> +			if (origin->flags & MEDIA_PAD_FL_MUST_CONNECT &&
+> +			    !has_enabled_link)
+> +				return -ENOLINK;
+> +		}
+> +
+>  		pipe->start_count++;
+> +
+>  		return 0;
+>  	}
+>  
+> @@ -873,12 +913,19 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
+>  		 * the connected sink pad to avoid duplicating checks.
+>  		 */
+>  		for_each_media_entity_data_link(entity, link) {
+> +			/* Skip late-validated links not connected to origin. */
+> +			bool skip_validation =
+> +				link->flags & MEDIA_LNK_FL_VALIDATE_LATE &&
+> +				link->sink != origin &&
+> +				link->source != origin;
+> +
+>  			/* Skip links unrelated to the current pad. */
+>  			if (link->sink != pad && link->source != pad)
+>  				continue;
+>  
+>  			ret = __media_pipeline_validate_one(origin, pad, link,
+> -							    &has_enabled_link);
+> +							    &has_enabled_link,
+> +							    skip_validation);
+>  			if (ret)
+>  				goto error;
+>  		}
+> @@ -1158,6 +1205,33 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
+>  	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
+>  		return -EINVAL;
+>  
+> +	/*
+> +	 * With the late validate flag, either source or sink shall have exactly
+> +	 * one pad and no links before this one. Similarly, no links may be
+> +	 * added to entities with a single pad and an existing late-validated
+> +	 * link.
+> +	 */
+> +	if (flags & MEDIA_LNK_FL_VALIDATE_LATE) {
+> +		if (!(source->num_pads == 1 && !source->num_links) &&
+> +		    !(sink->num_pads == 1 && !sink->num_links))
+> +			return -EINVAL;
+> +	} else {
+> +		struct media_entity *entities[] = { source, sink };
+> +
+> +		for (unsigned int i = 0; i < ARRAY_SIZE(entities); i++) {
+> +			if (entities[i]->num_pads != 1)
+> +				continue;
+> +
+> +			struct media_link *__link =
+> +				__media_entity_next_link(entities[i], NULL,
+> +							 MEDIA_LNK_FL_DATA_LINK);
+> +
+> +			if (__link &&
+> +			    __link->flags & MEDIA_LNK_FL_VALIDATE_LATE)
+> +				return -EINVAL;
+> +		}
+> +	}
+> +
+>  	link = media_add_link(&source->links);
+>  	if (link == NULL)
+>  		return -ENOMEM;
+> diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
+> index 1c80b1d6bbaf..c96e2118ea99 100644
+> --- a/include/uapi/linux/media.h
+> +++ b/include/uapi/linux/media.h
+> @@ -219,6 +219,7 @@ struct media_pad_desc {
+>  #define MEDIA_LNK_FL_ENABLED			(1U << 0)
+>  #define MEDIA_LNK_FL_IMMUTABLE			(1U << 1)
+>  #define MEDIA_LNK_FL_DYNAMIC			(1U << 2)
+> +#define MEDIA_LNK_FL_VALIDATE_LATE		(1U << 3)
+>  
+>  #define MEDIA_LNK_FL_LINK_TYPE			(0xf << 28)
+>  #  define MEDIA_LNK_FL_DATA_LINK		(0U << 28)
 
->
-> While its documented in ./Documentation/userspace-api/dma-buf-alloc-exchange.rst
-> I would still document a bit the way we calculate a stride for this formats, or
-> cross-reference that documentation, but being explicit for this specific format
-> may avoid a lot of issues.
+-- 
+Regards,
 
-I don't see that in dma-buf-alloc-exchange.rst if you a place where it is
-documented I can add a link to it.
-
->> +AFBC Formats
->> +============
->> +
->> +.. tabularcolumns:: |p{5.2cm}|p{1.0cm}|p{1.5cm}|p{1.9cm}|p{1.2cm}|p{1.8cm}|
->> +
->> +.. flat-table:: Overview of AFBC formats
->> +    :header-rows:  1
->> +    :stub-columns: 0
->> +
->> +    * - Identifier
->> +      - Code
->> +      - Colorspace
->> +      - Bits per component
->> +      - Superblock size
->> +      - Compression parameters
->> +    * - V4L2_PIX_FMT_AFBC_YUV420_16x16
->> +      - 'A168'
->> +      - YUV420
->> +      - 8 bits
->> +      - 16x16
->> +      - Sparse, Split
->  From my accumulate knowledge, RK35xx RKVDEC produce non-split, and this one is
-> split. To make it easy for naming in the future, I'd rename this one.
->
-> 	V4L2_PIX_FMT_AFBC_YUV420_16x16_SPLIT
->
-> Or
->
-> 	V4L2_PIX_FMT_AFBC_YUV420_16x16_S
-> 	V4L2_PIX_FMT_AFBC_YUV420_16x16S
->
-> Other ideas, but it would be really hard to come up with a name for "not slip".
-> While non-sparse is very special, and not commonly used.
-
-Let's go for SPLIT it is more readable.
-
->
->> +    * - V4L2_PIX_FMT_AFBC_YUV420_32x8
->> +      - 'A328'
->> +      - YUV420
->> +      - 8 bits
->> +      - 32x8
->> +      - Sparse
->> +    * - V4L2_PIX_FMT_AFBC_YUV420_16x16_10
->> +      - 'A16a'
->> +      - YUV420
->> +      - 10 bits
->> +      - 16x16
->> +      - Sparse, Split
->> +    * - V4L2_PIX_FMT_AFBC_YUV420_32x8_10
->> +      - 'A32a'
->> +      - YUV420
->> +      - 10 bits
->> +      - 32x8
->> +      - Sparse
->> +
->> +.. _V4L2-PIX-FMT-AFBC-YUV420-16x16:
->> +.. _V4L2-PIX-FMT-AFBC-YUV420-32x8:
->> +.. _V4L2-PIX-FMT-AFBC-YUV420-16x16-10:
->> +.. _V4L2-PIX-FMT-AFBC-YUV420-32x8-10:
->> diff --git a/Documentation/userspace-api/media/v4l/pixfmt.rst b/Documentation/userspace-api/media/v4l/pixfmt.rst
->> index 71b29267488f..c6728b91b74f 100644
->> --- a/Documentation/userspace-api/media/v4l/pixfmt.rst
->> +++ b/Documentation/userspace-api/media/v4l/pixfmt.rst
->> @@ -26,6 +26,7 @@ see also :ref:`VIDIOC_G_FBUF <VIDIOC_G_FBUF>`.)
->>       pixfmt-indexed
->>       pixfmt-rgb
->>       pixfmt-bayer
->> +    pixfmt-afbc
->>       yuv-formats
->>       hsv-formats
->>       depth-formats
->> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
->> index 554c591e1113..9187cb18a4ef 100644
->> --- a/drivers/media/v4l2-core/v4l2-common.c
->> +++ b/drivers/media/v4l2-core/v4l2-common.c
->> @@ -332,6 +332,16 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
->>   		{ .format = V4L2_PIX_FMT_NV12MT_16X16,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 2, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 2,
->>   		  .block_w = { 16,  8, 0, 0 },	.block_h = { 16,  8, 0, 0 }},
->>   
->> +		/* AFBC formats */
->> +		{ .format = V4L2_PIX_FMT_AFBC_YUV420_16x16, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 4, 1, 1, 1 }, .hdiv = 1, .vdiv = 1,
->> +		  .block_w = { 16, 0, 0, 0 },	.block_h = { 16, 0, 0, 0 }},
->> +		{ .format = V4L2_PIX_FMT_AFBC_YUV420_32x8, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .bpp_div = { 4, 1, 1, 1 }, .hdiv = 1, .vdiv = 1,
->> +		  .block_w = { 32, 0, 0, 0 },	.block_h = { 8, 0, 0, 0 }},
->> +		{ .format = V4L2_PIX_FMT_AFBC_YUV420_16x16_10, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 15, 0, 0, 0 }, .bpp_div = { 8, 1, 1, 1 }, .hdiv = 1, .vdiv = 1,
->> +		   .block_w = { 16, 0, 0, 0 },	.block_h = { 16, 0, 0, 0 }},
->> +		{ .format = V4L2_PIX_FMT_AFBC_YUV420_32x8_10, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 15, 0, 0, 0 }, .bpp_div = { 8, 1, 1, 1 }, .hdiv = 1, .vdiv = 1,
->> +		   .block_w = { 32, 0, 0, 0 },	.block_h = { 8, 0, 0, 0 }},
->> +
->>   		/* Bayer RGB formats */
->>   		{ .format = V4L2_PIX_FMT_SBGGR8,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
->>   		{ .format = V4L2_PIX_FMT_SGBRG8,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
->> @@ -448,6 +458,97 @@ void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
->>   }
->>   EXPORT_SYMBOL_GPL(v4l2_apply_frmsize_constraints);
->>   
->> +size_t v4l2_pixfmt_afbc_header_size(int fourcc, int width, int height)
->> +{
->> +	int width_in_block, height_in_block;
->> +
->> +	if (!v4l2_is_format_afbc(fourcc))
->> +		return 0;
->> +
->> +	switch (fourcc) {
->> +	case V4L2_PIX_FMT_AFBC_YUV420_16x16:
->> +	case V4L2_PIX_FMT_AFBC_YUV420_16x16_10:
->> +		width_in_block = ALIGN(width, 16) >> 4;
->> +		height_in_block = ALIGN(height, 16) >> 4;
->> +		break;
->> +	case V4L2_PIX_FMT_AFBC_YUV420_32x8:
->> +	case V4L2_PIX_FMT_AFBC_YUV420_32x8_10:
->> +		width_in_block = ALIGN(width, 32) >> 5;
->> +		height_in_block = ALIGN(height, 8) >> 3;
->> +		break;
->> +	}
->> +
->> +	return ALIGN(width_in_block * 16 * height_in_block, 128);
->> +}
->> +EXPORT_SYMBOL_GPL(v4l2_pixfmt_afbc_header_size);
->> +
->> +size_t v4l2_pixfmt_afbc_payload_size(int fourcc, int width, int height)
->> +{
->> +	int width_in_block, height_in_block, block_payload_size;
->> +
->> +	if (!v4l2_is_format_afbc(fourcc))
->> +		return 0;
->> +
->> +	switch (fourcc) {
->> +	case V4L2_PIX_FMT_AFBC_YUV420_16x16:
->> +	case V4L2_PIX_FMT_AFBC_YUV420_16x16_10:
->> +		width_in_block = ALIGN(width, 16) >> 4;
->> +		height_in_block = ALIGN(height, 16) >> 4;
->> +		break;
->> +	case V4L2_PIX_FMT_AFBC_YUV420_32x8:
->> +	case V4L2_PIX_FMT_AFBC_YUV420_32x8_10:
->> +		width_in_block = ALIGN(width, 32) >> 5;
->> +		height_in_block = ALIGN(height, 8) >> 3;
->> +		break;
->> +	}
->> +
->> +	switch (fourcc) {
->> +	case V4L2_PIX_FMT_AFBC_YUV420_16x16:
->> +	case V4L2_PIX_FMT_AFBC_YUV420_32x8:
->> +		block_payload_size = 384;
->> +		break;
->> +	case V4L2_PIX_FMT_AFBC_YUV420_16x16_10:
->> +	case V4L2_PIX_FMT_AFBC_YUV420_32x8_10:
->> +		block_payload_size = 512;
->> +		break;
->> +	}
->> +
->> +	return ALIGN(block_payload_size * width_in_block * height_in_block, 128);
->> +}
->> +EXPORT_SYMBOL_GPL(v4l2_pixfmt_afbc_payload_size);
->> +
->> +static int v4l2_fill_pixfmt_afbc(struct v4l2_pix_format_mplane *pixfmt,
->> +				 const struct v4l2_format_info *info)
->> +{
->> +	struct v4l2_plane_pix_format *plane = &pixfmt->plane_fmt[0];
->> +	unsigned int width = pixfmt->width;
->> +	unsigned int height = pixfmt->height;
->> +	unsigned int aligned_width = ALIGN(width, v4l2_format_block_width(info, 0));
->> +	unsigned int stride = DIV_ROUND_UP(aligned_width, info->hdiv) *
->> +			      info->bpp[0] / info->bpp_div[0];
->> +	size_t header_size = v4l2_pixfmt_afbc_header_size(info->format, width, height);
->> +	size_t payload_size = v4l2_pixfmt_afbc_payload_size(info->format, width, height);
->> +
->> +	plane->bytesperline = stride;
->> +	plane->sizeimage = header_size + payload_size;
-> I want to give some more thought on this, its literally by-pass
-> v4l2_apply_frmsize_constraints(), and that I don't like much.
->
->> +
->> +	return 0;
->> +}
->> +
->> +bool v4l2_is_format_afbc(int fourcc)
->> +{
->> +	switch (fourcc) {
->> +	case V4L2_PIX_FMT_AFBC_YUV420_16x16:
->> +	case V4L2_PIX_FMT_AFBC_YUV420_32x8:
->> +	case V4L2_PIX_FMT_AFBC_YUV420_16x16_10:
->> +	case V4L2_PIX_FMT_AFBC_YUV420_32x8_10:
->> +		return true;
->> +	}
->> +
->> +	return false;
->> +}
->> +EXPORT_SYMBOL_GPL(v4l2_is_format_afbc);
-> Does that really need to be exported ?
-
-Yes it is useful to not duplicate it in all drivers.
-
->
->> +
->>   int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
->>   			u32 pixelformat, u32 width, u32 height)
->>   {
->> @@ -464,6 +565,9 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
->>   	pixfmt->pixelformat = pixelformat;
->>   	pixfmt->num_planes = info->mem_planes;
->>   
->> +	if (v4l2_is_format_afbc(info->format))
->> +		return v4l2_fill_pixfmt_afbc(pixfmt, info);
->> +
->>   	if (info->mem_planes == 1) {
->>   		plane = &pixfmt->plane_fmt[0];
->>   		plane->bytesperline = v4l2_format_plane_stride(info, 0, width);
->> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->> index a2b650f4ec3c..016d4244c9ee 100644
->> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->> @@ -1387,6 +1387,10 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->>   	case V4L2_PIX_FMT_YVU422M:	descr = "Planar YVU 4:2:2 (N-C)"; break;
->>   	case V4L2_PIX_FMT_YUV444M:	descr = "Planar YUV 4:4:4 (N-C)"; break;
->>   	case V4L2_PIX_FMT_YVU444M:	descr = "Planar YVU 4:4:4 (N-C)"; break;
->> +	case V4L2_PIX_FMT_AFBC_YUV420_16x16: descr = "AFBC 8-bit YUV420 16x16"; break;
-> Missing "split" in the descr, which will cause confusion in the future.
-
-Ok, just keep in mind that description field is limited to 32 bytes.
-
-Benjamin
-
->
-> Nicolas
->
->> +	case V4L2_PIX_FMT_AFBC_YUV420_32x8: descr = "AFBC 8-bit YUV420 32x8"; break;
->> +	case V4L2_PIX_FMT_AFBC_YUV420_16x16_10: descr = "AFBC 10-bit YUV420 16x16"; break;
->> +	case V4L2_PIX_FMT_AFBC_YUV420_32x8_10: descr = "AFBC 10-bit YUV420 32x8"; break;
->>   	case V4L2_PIX_FMT_SBGGR8:	descr = "8-bit Bayer BGBG/GRGR"; break;
->>   	case V4L2_PIX_FMT_SGBRG8:	descr = "8-bit Bayer GBGB/RGRG"; break;
->>   	case V4L2_PIX_FMT_SGRBG8:	descr = "8-bit Bayer GRGR/BGBG"; break;
->> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
->> index f8b1faced79c..d1a75e6a7d4c 100644
->> --- a/include/media/v4l2-common.h
->> +++ b/include/media/v4l2-common.h
->> @@ -549,6 +549,10 @@ static inline bool v4l2_is_format_bayer(const struct v4l2_format_info *f)
->>   	return f && f->pixel_enc == V4L2_PIXEL_ENC_BAYER;
->>   }
->>   
->> +bool v4l2_is_format_afbc(int fourcc);
->> +size_t v4l2_pixfmt_afbc_header_size(int fourcc, int width, int height);
->> +size_t v4l2_pixfmt_afbc_payload_size(int fourcc, int width, int height);
->> +
->>   const struct v4l2_format_info *v4l2_format_info(u32 format);
->>   void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
->>   				    const struct v4l2_frmsize_stepwise *frmsize);
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->> index eda4492e40dc..88fafadbe13c 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -698,6 +698,12 @@ struct v4l2_pix_format {
->>   #define V4L2_PIX_FMT_NV12M_8L128      v4l2_fourcc('N', 'A', '1', '2') /* Y/CbCr 4:2:0 8x128 tiles */
->>   #define V4L2_PIX_FMT_NV12M_10BE_8L128 v4l2_fourcc_be('N', 'T', '1', '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
->>   
->> +/* AFBC formats */
->> +#define V4L2_PIX_FMT_AFBC_YUV420_16x16    v4l2_fourcc('A', '1', '6', '8') /* AFBC containing 8-bit YUV420 in 16x16 blocks, sparse, split */
->> +#define V4L2_PIX_FMT_AFBC_YUV420_32x8     v4l2_fourcc('A', '3', '2', '8') /* AFBC containing 8-bit YUV420 in 32x8 blocks, sparse */
->> +#define V4L2_PIX_FMT_AFBC_YUV420_16x16_10 v4l2_fourcc('A', '1', '6', 'a') /* AFBC containing 10-bit YUV420 in 16x16 blocks, sparse, split */
->> +#define V4L2_PIX_FMT_AFBC_YUV420_32x8_10  v4l2_fourcc('A', '3', '2', 'a') /* AFBC containing 10-bit YUV420 in 32x8 blocks, sparse */
->> +
->>   /* Bayer formats - see http://www.siliconimaging.com/RGB%20Bayer.htm */
->>   #define V4L2_PIX_FMT_SBGGR8  v4l2_fourcc('B', 'A', '8', '1') /*  8  BGBG.. GRGR.. */
->>   #define V4L2_PIX_FMT_SGBRG8  v4l2_fourcc('G', 'B', 'R', 'G') /*  8  GBGB.. RGRG.. */
+Laurent Pinchart
 
