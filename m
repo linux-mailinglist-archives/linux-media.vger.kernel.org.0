@@ -1,128 +1,232 @@
-Return-Path: <linux-media+bounces-58852-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58853-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GBtcFq6J4GnFjQAAu9opvQ
-	(envelope-from <linux-media+bounces-58852-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 09:03:10 +0200
+	id uN2sHIiP4Gl6jwAAu9opvQ
+	(envelope-from <linux-media+bounces-58853-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 09:28:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DF140AD7F
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 09:03:01 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF57F40B06A
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 09:28:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3F30E3074043
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 07:02:59 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A2A8F308EF00
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 07:27:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 070A2378D74;
-	Thu, 16 Apr 2026 07:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8293A38AC62;
+	Thu, 16 Apr 2026 07:27:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="l2FHOJu+"
+	dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b="iwnrgp/P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022114.outbound.protection.outlook.com [40.107.75.114])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82ED978F39
-	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 07:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776322975; cv=none; b=hSzM9/KO2SKwvpkVOSK1mxFtus0qRKRqvqvmjQY/quhP792NHJioQQ6qxHXX0LPeochIE6wA4rTzIH0+LI9ntv8DczRuPiEtsloMpcCLFaHn8waj3MH2S9mtg3ceF14HPndk+8iMWBXs4nkcHwtTrV5tn4wB8YxJUims7kLZDQU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776322975; c=relaxed/simple;
-	bh=OJ0+3m5Bx10WGRhqapZBieHsYjUYqlv/U6oia9NF0mE=;
-	h=From:To:Subject:Mime-Version:Content-Type:Date:Message-ID:
-	 References:In-Reply-To; b=fJsHgkgKVMh3u/LVo4nD4kNjOqRmggXQziNUMDfs69LguZ0lHZ26j+PF3cFadVv6JSzAJUSqMmDLaIrGm5VuXbKE76aelaPkNZfFv06z0XhDGOf+QL34rIUVShLVsdmVjywRVt58/u6J0LRbfJS/bR1M0JemxR7IFNf0429vASE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=l2FHOJu+; arc=none smtp.client-ip=162.62.58.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1776322968; bh=OJ0+3m5Bx10WGRhqapZBieHsYjUYqlv/U6oia9NF0mE=;
-	h=From:To:Subject:Date:References:In-Reply-To;
-	b=l2FHOJu+wllcT+ySlTSRcdom+qRdER2y28vHT/Fd7N0MwNp1KznogwEif6/JaAvb6
-	 s3vf5rx2aY0Hz7BmG0GGuTkf7QVPpXLr/ei5KcrX5ds61uAFqVAhrY2csmzvYttpOW
-	 q84Ar8HkqC1f7g+0hPMwf9Y0q+MtB67dfG0+WmMI=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-QQ-XMAILINFO: MdmyWVu0InhAL/82fInHN6ZiDEg91lDSzmw5u40qgmQZ0lHxOWGAyySm9dmO45
-	 gzCtcOkcBIaXrHujSBd4TQ9FnZ/WRDnA9keMnpVu1Ah4B+tlGAd5rvHl0DRR8wtEZP9TONwVHdr81
-	 osO8rkzXMJlqGnhCdRhfmxnWgFxcbBz0gEqnljTMz6/9xiBFrjca+o9r+IhEGpUE2PHQuSgnSgQLT
-	 dtt0wVhQOgxnpP67WZX1l/gMe4Sb2BiQMyP83Zk0z4eaiqXKEaRKDkRRLg+HYbIR+kCg0/0Ci1Fkv
-	 8c9aciu1yyvS3zv9vOpiUddWnw1DKLwQH3TDwH9NhlLyNgjavAJl7l/3AGooP/dJNn5fyXUzziWxI
-	 FMErSZqd19wE8NXs0GFbe0DRc3edUVVeUOLxfkO9/gXH/1EpAjk9W0IOwtiqOsxvro0RZlCOfCnoZ
-	 4RdJlMFgn4sfobLAUAJHBaQbqyVu/Er5fRj6LIjtwpvm4CLUBM60SwPXkdDqBldypGOrUkNuJMlir
-	 EkQ1VAsV2xgO0MGIe0BozMHWejzT9az9PsYJ6AiZ5tDhU7tCmf0AdJ36eYwSoFCUOKI13qZg93yp2
-	 FzjGZ11m8U2BBCh09Q5ogycEmlORiVzj5cfO924abKkPTUlbZ/uA5ZKVAojf28NlA/cnUCzaVnbBd
-	 GfWXWiGsu3dSEJNBPQTw3nLIRJTHkN9o90RojGsCcFvLQohGarFmrMZZNAqDTNZLQIycO4Lnx7T3P
-	 nL/teHT390lNCptq7U05gJBiiR177BWsfd47Uhm6aEYKJLXGPH/nX8FpTA/5uQ8YaPkLawJMlsRMS
-	 LnyMn+P1O5QKSOrp1uB0MkOkO4DG+DZSPzuFqXb+sDn9Jv1W3Pm8196OZYv+MTrqpJ8UXdTK8am6K
-	 79OxBy6B+bqtbrMCAknYAaFHS3PzHkaj61MGK5K9s7+rkKcmV32szIVtde/PCWdkz8NbBfvM8Nomd
-	 rsOc6tEqy0W2zzUW4lzzj6FeMbYXbuzvMgpHlA3nK9E4Ad1QY7GE7M6+C/Yi9SyUnGoeIIwxsgLXq
-	 bbZXojfT3QRE/3c2XVecXQyEqcLooun3rvojS
-From: "=?utf-8?B?Wmhhb3lhbmcgWXU=?=" <2426767509@qq.com>
-To: "=?utf-8?B?bGludXgtbWVkaWE=?=" <linux-media@vger.kernel.org>
-Subject: Re: [v2] media: dm1105: fix missing error check for dma_alloc_coherent
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F383324B23;
+	Thu, 16 Apr 2026 07:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.114
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776324477; cv=fail; b=nhJet6kuoKQsv6hPL4t2j22beDotD48l6mu6SHgS3qr+frz8nsm2o6nCS223W6TIFjXI3gfPRpqFo8/kOVHVh26YBfv4+i7YOODqWl757yxgZ4BOX59yTTvRyXRfeAJjOCTegezPOcyvBDc+dhMLKhKO7opZ8+HjMcCQWqzq9C4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776324477; c=relaxed/simple;
+	bh=AkAX3P7mJO5x6LAezosEPZ9Hcukda8+XFtcWIRqFWgc=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=fbAkt0R1vrHeMU4e2br72crHlqFyl09DQC3xxpVwgpZCQDCdoQyrz+xsT50waV4sC5+PmanaEOBQDkcNPuFC941dggOCoMRcAk4rWQLuYjgozJoz3advwnqRlXW8yBbrXCAebdwpAR4eacu56YRAYHDBzjS5wIUn+kH9ivMlAHo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg; spf=pass smtp.mailfrom=smu.edu.sg; dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b=iwnrgp/P; arc=fail smtp.client-ip=40.107.75.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smu.edu.sg
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MrmM7FgsuF+wQ7Az8LDB+2ZrbBMaTJllBFfsHVVyiX6fPMi9QCiTGT4Sey/vzYeF33JqfLyQUWYtplu2fUdUa80VPoX0fc7riDVYBy5TZFJwAGoE8AVjD3PCUls7zX/FuBJLmCnV7BgwtyIMcwn00StdYbNv7OOdiiD3ZfNfPBUS/tYNrVixoL5TNzTo2e0QPs8x9W17uWXrQIr6ku7egvycEyDWWrasXLZSmecI3hedbNKCQHNLp409B9Wvc/mntKDcpEQ5U/bDLH5ZK0Qp4+YDO7GmgW31B+deGj1/H+DBLcKrhDFA/DR6V5sIEltXXtWxMaO0t9y+gCEgR6riTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I2YjnS1xLstN3/zh5SiSy7awO4FoIfJt8fk2BZuoxBk=;
+ b=u/kYgLmo/RKVVQAZbUSonJe+onlB28Qkpum/FN8xDnuR68Hq3JDwgC9UZgzTktX9W9qAXYu5MP/t4uCy0kBxzIJ4PhRcUJYDlAyTIrvdhdr0dLw/2/hAtGhucq5Pv4raLWTrFtRxo9EJgaPss4E1/Vz4hnAKQpQC1d/1chX27bg6ZBfZ3Ie1D9f3SKLzfZ8bzTNJWo/8g1Tcj8dP6MM9aDesVNowLuQqDgfBfKHp2LQOa3pBSJsdL6tvQ0Ex0z7ZHp+ny8gZ+zr0tJQNzMSkESbZwyFjFdl9G7IBKf96Nqneu6tKvQncZXF50qcu6dkCfcSJt2SjsKk5Z+SiAyZy+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=smu.edu.sg; dmarc=pass action=none header.from=smu.edu.sg;
+ dkim=pass header.d=smu.edu.sg; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smu.edu.sg;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I2YjnS1xLstN3/zh5SiSy7awO4FoIfJt8fk2BZuoxBk=;
+ b=iwnrgp/PkhCryzqpvZrPaMgX9w7c2ygcBLunQfdgDK2mGaAzyMA6rhaRilEjkiFQylfGHFoTpuPzsr5KaXBxiaO9igBd1S3iiEsRZ4F2fQTd03y4OLkv+rwZU2u00U2q9RztDqRIt6M67xbCjk8XdG1Fg0wph+wPpw8JbUvcAkiTh4wKr2CSMlgjW6PthgY0PIgXLDaOiiMJ+cRB0GHfqYpNuOQdkmi353bacrh0TnNZ4WpmGHr2XGMlxX8t/1cfFMot2FvmfkW/cdaPzKMV5reF0YjWYAphNP8sDrryS+kk9oAt2ksShdG2GLaO0+vqmbAql9PTDOYafzL+KmjTQw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=smu.edu.sg;
+Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ (2603:1096:d10:3f::9) by TY1PPFD994F6709.apcprd01.prod.exchangelabs.com
+ (2603:1096:408::355) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Thu, 16 Apr
+ 2026 07:27:46 +0000
+Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ ([fe80::6bd0:d704:7d90:a595]) by KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ ([fe80::6bd0:d704:7d90:a595%5]) with mapi id 15.20.9769.046; Thu, 16 Apr 2026
+ 07:27:45 +0000
+From: Huihui Huang <hhhuang@smu.edu.sg>
+To: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Huihui Huang <hhhuang@smu.edu.sg>
+Subject: [PATCH] staging: media: atomisp: fix map and vmap leaks in stat buffer allocation
+Date: Thu, 16 Apr 2026 15:27:31 +0800
+Message-ID: <20260416072731.2489513-1-hhhuang@smu.edu.sg>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR04CA0204.apcprd04.prod.outlook.com
+ (2603:1096:4:187::16) To KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ (2603:1096:d10:3f::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Thu, 16 Apr 2026 15:01:37 +0800
-X-Priority: 3
-Message-ID: <tencent_AA4E5254BF8D5B71B14350D4D7E2FB87DE09@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-References: <tencent_2F5A25B0AB50C4D77CFB3DDEA852BEBE6509@qq.com>
-	<69e083ba.050a0220.16ccf5.2b9b@mx.google.com>
-In-Reply-To: <69e083ba.050a0220.16ccf5.2b9b@mx.google.com>
-X-QQ-mid: xmsezb51-0t1776322897t49hdqupu
-X-Spamd-Result: default: False [2.44 / 15.00];
-	TO_EXCESS_BASE64(1.50)[];
-	FROM_EXCESS_BASE64(1.50)[];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qq.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[qq.com:s=s201512];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: KUXPR01MB7791:EE_|TY1PPFD994F6709:EE_
+X-MS-Office365-Filtering-Correlation-Id: 89b7e022-3391-498d-09e0-08de9b89a75b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|366016|376014|1800799024|786006|18002099003|38350700014|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	GKk+EIPLD5YEiaObRiFIdaEzTEAT8fqaldK7Zs+7ME0Ui6joPidy7JcZNIqZ7SlVXaUV5v9M/0uS9OMc3HK20tNFJTYvYwWcghjSjycVK1SchZ+IA1IBTVr4k8ZjJKlokcKkqnIWLC6IhlqyahN0XtGpQTy6cQBkRYhCoL2o1/O/PWjB51ImZqHL0PtSpDyKHJes1nHxQ8IsVppLVM5gAJm069uRaT0OUZMgnxtP2MtpKLpRg93DfZAlU1PcWcuqIftMXHbNxhRWBWJH5Y+b0Isv7r0Upy8JHVIUgNI+490iHH40qISBcihsIiGLf35seWbVZkfamfgs+L+8WX1CNMu/QKFwD1nKMAUoyUvL+DdADNYm24MY4SV5vzqKBD0u4dP+lgOXyLdFHY56Ub2XG4oTwt8HR76hdx9RcS6U1/7j9FA5qAhZHkP61Y44O705ZXBS104L3LG95uHccxl/l+wjMJCk/fNWEvcKKWNAbKa65tqnIQNDGp7moQYrdI6YII3/+1bwe4nAeHQS0UUi8zzCJ/yjXowSyNOCvM4yCtWmZPGs0a5JFE/cpozL/hDZbjRrDr4UJVKZvRoQ/w1Wrde1wD+FpNAIaNHzYwylwKGsM/y114oSITmPHUekkhRVY3cS7qvvgazRCLyygWPd8amlLVqpJ8fK5UYJq9DTyhFu54g74psDz+N3XV19Juk3jq/jfCGAVf6kqNq5v+RyDbciqlgERscgTVP7L6qSI5s/y4b2Vr8rw/8XjH7qllw1eyt+ddwlzKSNbRsq/kCPKZZXLW0oSAisoOjNHuB1BUk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KUXPR01MB7791.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(376014)(1800799024)(786006)(18002099003)(38350700014)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?ULEKUaPwaPwnHd8+KrUHr21ZeI5uwUshUZJ3n/UKHiavctYqQ+CYyRIoxccG?=
+ =?us-ascii?Q?ynBRniWkbsApDFjWux/yBFOjKnfT7XIBXyACxD5U3b1u5/Yauncr2KoIkWE6?=
+ =?us-ascii?Q?fEir94hQYjybzmN+gNaVlEasDhzpFE1e61nJRzAfN4U4IlcBVAJ0dJJOAu2I?=
+ =?us-ascii?Q?WzCLxGCiSoM4hL+x1POX1nZHtNYmhid/82IiERFN/OdefciYinBXyhYw5MDS?=
+ =?us-ascii?Q?N/4B0xFg5pYxeAhMyJY6YowVFLJfWza01YOTmDTGa+v2rgftc8T2M2o9KFXr?=
+ =?us-ascii?Q?C7XfS/6jW7YjyUT5LYXbElaEKXAV4fW+9g2cfux3aw1nTY4/x/E5FfZ6RrU6?=
+ =?us-ascii?Q?2I1n7ehxHhGaon9jT9DanVjv7H/RTKDgcfpPubS8HXLM1uqAwkHn/4IrjDwP?=
+ =?us-ascii?Q?9R9IUpw33Q4OdQf9In51efA6FQ+FW+aCpMeyRZGQR/sDCmZeUwnQ3wbbEMuV?=
+ =?us-ascii?Q?Wjf37yj/gNFUvtEHcFM6RnCoPNdhFIz2UIFgtbFt1NY5OwaWJPaetTAjYKi3?=
+ =?us-ascii?Q?+Z7ZtMzHJD6rzuwRp5ak2tjF/+B58sfwt5DN3TD57EyNnRC2jE9FyqT0VOxH?=
+ =?us-ascii?Q?Th4X0ImGVaDGauABv/Ozt+WHPnWLo4jNw2PvvoN8a0aD6kWIMT9Qk8vA3dIc?=
+ =?us-ascii?Q?xeU7J6UwsScbCDa3u4LhtcRGZIBGpjPTa1lCEqqgVcHN7WCo98vetIbbOaoo?=
+ =?us-ascii?Q?3n2WsYloB46+ax6z1yS0+NXxGck7F/0+2fFy4ULRJx7i3LO/BG9l94ubKHRi?=
+ =?us-ascii?Q?IK3KxH4SUh6XG04qE2GL1K7kWzCZRfuNHolp0kZziIg1cG+xMrDioDpQi611?=
+ =?us-ascii?Q?nYlcryRHaDM1FnLOAwOr+TU6uAxGDHQmnc9+WgZ1E0BQOrozqwcKtOEv6AQY?=
+ =?us-ascii?Q?gkXH9YSPU4Bgd0fS/8mKVOdW4vZT8R8uvwJUgOKFD67udk1rj7lbaLpBTVP6?=
+ =?us-ascii?Q?ULCxcx3aVTARGk8+s6a34fy7qm3tS036PvNrejWWYWoO7Y2a72fiE/7uIMyh?=
+ =?us-ascii?Q?ENtJLxZoiVjuMSmx1aQ5TcjTrXBiKn73Z73SCSs746A27Wl1KI1BPcLRiJvL?=
+ =?us-ascii?Q?E0LItJ9dVDvZwVrZR63M958vqhRIdnwcIeNzHdRijhMp+T1JJhf6/vdZLnVa?=
+ =?us-ascii?Q?39uUD6xD1/R4gEsw70juF44hQFzNQjjqpEUYC9KM2xaix/DMAbbX3OUlfSZv?=
+ =?us-ascii?Q?sNlcAkIhZIYZuIl2rNjr8quX6hYl9mPnKq9BamuZeAQIxUg5cg4H7BneyPcU?=
+ =?us-ascii?Q?I9pHEJAIxlr6dVff7yOXdS1gqAZfJBD0d5U3gKlzhf/3fmJghkmtbw5QbeJs?=
+ =?us-ascii?Q?xB9mYWKGTK2uzEIqF5bZhjiof7xYDvUGH7mRbMjVZBggBEOuvvNEMoLZBUiJ?=
+ =?us-ascii?Q?wNry5caS0AP9CeC4tOTJJfsONS/vIAPZc/lfeoxHHFIoJxChHtudTJybT3Tl?=
+ =?us-ascii?Q?jIuWOOKdSufiScv507MI7XDc5LWqWnANWkLa6FbUg0QduWocBUe/PGgHi4Ro?=
+ =?us-ascii?Q?wgQqyD9V0Di4Wt6M6eKlSDkfC7DCycXGljIESYFHADu4OJJW8z0y3BskvcGS?=
+ =?us-ascii?Q?hXY/rFrOvc+5ROJpXjdzcjoraIY8RcqdhQYmcVFzG5kG5tAjnNTtKg5M/NWV?=
+ =?us-ascii?Q?hOzOHLpbW0dTp4Wb6ChNDIVmYtPHR/8cw7ppkjVb1k6fLmAS+EET1nAs8cFX?=
+ =?us-ascii?Q?N6qOXquYqwY0fx5gnXdj5T6eUxepWHae8gL+A01PPv6TlhZN6zMrVdh8ZCKk?=
+ =?us-ascii?Q?crmwGPeY5A=3D=3D?=
+X-OriginatorOrg: smu.edu.sg
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89b7e022-3391-498d-09e0-08de9b89a75b
+X-MS-Exchange-CrossTenant-AuthSource: KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2026 07:27:45.5701
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c98a79ca-5a9a-4791-a243-f06afd67464d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6CHyamzObRJ2bh6SZFOsswBJirXDBgb7kkblIPzqLU4ZhA36JgILlQIABuLl6V7W0YBY0fLZZsVfuJ/qhrbp9Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PPFD994F6709
+X-Spamd-Result: default: False [1.34 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[smu.edu.sg,quarantine];
+	R_DKIM_ALLOW(-0.20)[smu.edu.sg:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
-	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RSPAMD_URIBL_FAIL(0.00)[qq.com:query timed out];
-	FREEMAIL_FROM(0.00)[qq.com];
-	RCPT_COUNT_ONE(0.00)[1];
-	ASN_FAIL(0.00)[114.105.105.172.asn.rspamd.com:server fail];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58852-lists,linux-media=lfdr.de];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[2426767509@qq.com,linux-media@vger.kernel.org];
-	TO_DN_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DKIM_TRACE(0.00)[qq.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_X_PRIO_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ASN_FAIL(0.00)[1.2.3.5.c.f.2.1.0.0.0.0.0.0.0.0.c.6.3.0.1.0.0.e.4.0.c.3.0.0.6.2.asn6.rspamd.com:server fail];
+	TAGGED_FROM(0.00)[bounces-58853-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hhhuang@smu.edu.sg,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[smu.edu.sg:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 34DF140AD7F
+X-Rspamd-Queue-Id: CF57F40B06A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-SGkgYWxsLAoKSXQgbG9va3MgbGlrZSB0aGUgQ0kgZmFpbGVkIGR1ZSB0byBhIHJ1bm5lciBp
-bmZyYXN0cnVjdHVyZS9uZXR3b3JrIGlzc3VlLCBub3QgYSBjb2RlIHByb2JsZW0uIFRoZSAi
-c3RhdGljIiBqb2IgbG9nIHNob3dzIGEgRG9ja2VyIGNvbm5lY3Rpb24gcmVzZXQ6CgpFUlJP
-UjogSm9iIGZhaWxlZCAoc3lzdGVtIGZhaWx1cmUpOiB3YWl0aW5nIGZvciBjb250YWluZXI6
-IGVycm9yIGR1cmluZyBjb25uZWN0OiBQb3N0ICJodHRwOi8vaW50ZXJuYWwudHVubmVsLmlu
-dmFsaWQvLi4uIjogc3NoIHR1bm5lbDogcmVhZCB0Y3AgLi4uIGNvbm5lY3Rpb24gcmVzZXQg
-YnkgcGVlcgoKQ291bGQgc29tZW9uZSB3aXRoIHRoZSBwcm9wZXIgcmlnaHRzIHBsZWFzZSBy
-ZS10cmlnZ2VyIHRoZSBDSSBqb2IgZm9yIHRoaXMgcGF0Y2g/IAoKVGhhbmsgeW91IQoKQmVz
-dCByZWdhcmRzLApaaGFveWFuZyBZdQ==
+Our code analyzer reported memory leaks in
+drivers/staging/media/atomisp/pci/atomisp_compat_css20.c.
+
+In atomisp_css_allocate_stat_buffers(), s3a_map is allocated by
+ia_css_isp_3a_statistics_map_allocate() and its backing memory is
+mapped via hmm_vmap(). When dis_buf allocation fails, the error path
+frees s3a_data but does not unmap or free s3a_map. Similarly, when
+md_buf allocation fails, neither s3a_map nor dvs_map (and their hmm
+vmaps) are freed.
+
+My patch adds the missing hmm_vunmap() and map free calls on both
+error paths, matching the cleanup order used in
+atomisp_css_free_3a_buffer() and atomisp_css_free_dis_buffer().
+
+Signed-off-by: Huihui Huang <hhhuang@smu.edu.sg>
+---
+ .../media/atomisp/pci/atomisp_compat_css20.c   | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index be5f37f4a..bfc845468 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -1116,8 +1116,12 @@ int atomisp_css_allocate_stat_buffers(struct atomisp_sub_device   *asd,
+ 					dvs_grid_info);
+ 		if (!dis_buf->dis_data) {
+ 			dev_err(isp->dev, "dvs buf allocation failed.\n");
+-			if (s3a_buf)
++			if (s3a_buf) {
++				hmm_vunmap(s3a_buf->s3a_data->data_ptr);
++				ia_css_isp_3a_statistics_map_free(s3a_buf->s3a_map);
++				s3a_buf->s3a_map = NULL;
+ 				ia_css_isp_3a_statistics_free(s3a_buf->s3a_data);
++			}
+ 			return -EINVAL;
+ 		}
+ 
+@@ -1131,10 +1135,18 @@ int atomisp_css_allocate_stat_buffers(struct atomisp_sub_device   *asd,
+ 		md_buf->metadata = ia_css_metadata_allocate(
+ 				       &asd->stream_env[stream_id].stream_info.metadata_info);
+ 		if (!md_buf->metadata) {
+-			if (s3a_buf)
++			if (s3a_buf) {
++				hmm_vunmap(s3a_buf->s3a_data->data_ptr);
++				ia_css_isp_3a_statistics_map_free(s3a_buf->s3a_map);
++				s3a_buf->s3a_map = NULL;
+ 				ia_css_isp_3a_statistics_free(s3a_buf->s3a_data);
+-			if (dis_buf)
++			}
++			if (dis_buf) {
++				hmm_vunmap(dis_buf->dis_data->data_ptr);
++				ia_css_isp_dvs_statistics_map_free(dis_buf->dvs_map);
++				dis_buf->dvs_map = NULL;
+ 				ia_css_isp_dvs2_statistics_free(dis_buf->dis_data);
++			}
+ 			dev_err(isp->dev, "metadata buf allocation failed.\n");
+ 			return -EINVAL;
+ 		}
+-- 
+2.50.1
 
 
