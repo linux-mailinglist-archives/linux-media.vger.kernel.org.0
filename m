@@ -1,216 +1,409 @@
-Return-Path: <linux-media+bounces-58868-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58869-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QPh/C6Ky4Gm8kwAAu9opvQ
-	(envelope-from <linux-media+bounces-58868-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 11:57:54 +0200
+	id SFdEJhC04Gn5kwAAu9opvQ
+	(envelope-from <linux-media+bounces-58869-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 12:04:00 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83CCA40CA83
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 11:57:53 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C28940CAE4
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 12:04:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C28133016916
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 09:57:48 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B63A7308DFAC
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 10:03:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 011A639BFF8;
-	Thu, 16 Apr 2026 09:57:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 879E939E6C7;
+	Thu, 16 Apr 2026 10:03:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="CyJJqhpz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ibfpUMIo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010001.outbound.protection.outlook.com [52.101.61.1])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1E538CFF1
-	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 09:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.1
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776333467; cv=fail; b=S5ypzc3dU4zboma9u+96uvZzxgSqQIu8jkkshimEyUsGutWwM+x7XWFhkiDaCwIpsImETjI+Cg6+c2hwUlgK3IJV3eqCZuJ9pGFMwIvRKbqzEp9w6Xj8pdGwiWTBjZdg9+7zho6NxMpKWAwSLa9KDbi0FXc500Vgww/nfhnbtts=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776333467; c=relaxed/simple;
-	bh=9CK3mWPhrMsYsQH07rFVVKtzOYqYD+DEmIO1XhvIrrQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZGns9iY31v5d09wtoMDHnUrRSmzl6ydK3PpYUVobix7QmkqByG6kWPqe0ARdnsO87jzigxMz+qMIno6EBar1gfDhhBA0b9/gV5CE+dVpyv1VMEoKO0Q/iBZVf7f9JdFQxx6UVcGI4M90dhFcihfZPrzCMVQuIIKaj+qXYR8QLoQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=CyJJqhpz; arc=fail smtp.client-ip=52.101.61.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RXXlVG1dQJLXjVrgGeZZq6HbdbICRjcBy69j7Rv1CieE0ppJVrUfy2Tr4T6sGD+LWaapRqDQc4spYq3kDRrb7OtINrXzNiLJQ/h3cPdzYoH9DCtAMU71z99WYgjTIFH56qq+st2RHazWl60PlE4vOsI5CQD7r8V5ojqElnh5P2A6tPJckELRq2jnitewB4KWvznNm6ue32J0prMijXxh4L7btAHV+oy934qN3V8ZAiBh7KfBImdQYdNhkQiqODigBRTWtnwziMLyKszstGUk59gEG1gxb1hGMupibgJq2FjEvb5y8qjP8gWiDtWm5yIZJmnijQq391tbcKucHVa57Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qsN0idFbzoo5Al6u3mb1og5Of2nRQw6pc/2+X8L36XM=;
- b=TUI2cjQOM/gDb7sTRpphCyoJRB0ZXhZYFrBcBg20ZAMZ7rXTmisGmrdK1yMZvz8UXpRE3vKirVSpLpWGRac3AfPYF/ho5D6IQ8DaBe5gLujf51NPJvE1OvCxAAChlKIejJRVnM4UdV2+NXjdtXuxAkkHAB2B/jp6nS/h70Ub1Hc8tJyk/90PwU0akoaVtnl+KidwzD5jS045gIeGANqLsVBYyQkXNYuzHMZKlOwVPrNfV/Fmp9v+dgQa2oggfOjTBw8z29Ne2igMw1xBJ+ICANfBooaL/iLVFsuIEm9a1TRwUueFsuar98eYinFZaWrV2YD48eVPd/R2Y83X2Ol88Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qsN0idFbzoo5Al6u3mb1og5Of2nRQw6pc/2+X8L36XM=;
- b=CyJJqhpzXmn2+iu5KpqNT3BVjwHOZ6ThAgEuZaUHQlhyHnR4XH223X6/vdB3/l3h1tRc8zCa2Wz99gTvY3jhGEMRupohCIdKHXNifUXF+oijjHwcURfKAekhgZjuUpOxV/O9aR6orUEa5G4NYbDfcL5Asi8/5q+o3BkUrPJR5ZE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by LV5PR12MB9778.namprd12.prod.outlook.com (2603:10b6:408:300::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Thu, 16 Apr
- 2026 09:57:43 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9818.017; Thu, 16 Apr 2026
- 09:57:43 +0000
-Message-ID: <b8d04414-18b5-40f7-9ea2-88b30ff5bea0@amd.com>
-Date: Thu, 16 Apr 2026 11:57:37 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: Pinned, non-revocable mappings of VRAM: will bad things happen?
-To: Demi Marie Obenour <demiobenour@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Xen developer discussion <xen-devel@lists.xenproject.org>,
- linux-media@vger.kernel.org
-Cc: Val Packett <val@invisiblethingslab.com>,
- Suwit Semal <sumit.semwal@linaro.org>
-References: <a06133f7-3093-4733-9786-bc46c1453e06@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <a06133f7-3093-4733-9786-bc46c1453e06@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4P288CA0019.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:d4::21) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF8E39D6C9;
+	Thu, 16 Apr 2026 10:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776333812; cv=none; b=SKQqXeN6CKq9I0Bw6/39uKuuM9B7XvFjZ6ABY3PCnRj8kCn0K9HLnPPg/dw5F6NsjJcM8YUmAleEAnTCWlTF9h7xVNgF/csYisezWk6gO7G3advhB2gjHk88LAxMtoGr82UG20QokOGxdKSjvbCnsYJULEzsHcJzX2vWgzknVko=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776333812; c=relaxed/simple;
+	bh=xU0YRBGwBriggxgLXjZw22QsJWm8fTnTLhFj5XHxyrU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bxlnwGotRF79nOwEdvtxyE86F9QR4XNQ+HTlkAnXKDm6ro5uzDdtmfI0ZE5OLRY57VoN9kbxLLxtHxQ95hruXPjvx1iJrY4V9o1hqPuDOTCR8CuGbvSx5SEzWYvpMTli68jxVGvw1FFxeFBZjU4R7n2rbowKLCy055jYB2zykro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ibfpUMIo; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA9745E;
+	Thu, 16 Apr 2026 12:01:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1776333713;
+	bh=xU0YRBGwBriggxgLXjZw22QsJWm8fTnTLhFj5XHxyrU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ibfpUMIoXosjkwCmbnsrs3znBqrF2uhU+DiI+npn2jWfluaze1I8wHgga3HUhgCvj
+	 oGYQstXOyYGW4BFmgIaa7xlrz50zJvYxmAoQddO48cIz8S+7FKmoY9AaEqrxKbl0gD
+	 GQxZR5AuX8rcdxAZ8QR9ebJbc7QedCvenmtAWM9c=
+Date: Thu, 16 Apr 2026 12:03:24 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Antoine Bouyer <antoine.bouyer@nxp.com>
+Cc: julien.vuillaumier@nxp.com, alexi.birlinger@nxp.com, 
+	daniel.baluta@nxp.com, peng.fan@nxp.com, frank.li@nxp.com, 
+	jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com, mchehab@kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	michael.riesch@collabora.com, anthony.mcgivern@arm.com, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	jai.luthra@ideasonboard.com, paul.elder@ideasonboard.com
+Subject: Re: [PATCH v1 02/11] media: uapi: v4l2-isp: Add v4l2 ISP extensible
+ statistics definitions
+Message-ID: <aeCscV9eJbfswiAY@zed>
+References: <20260413160331.2611829-1-antoine.bouyer@nxp.com>
+ <20260413160331.2611829-3-antoine.bouyer@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|LV5PR12MB9778:EE_
-X-MS-Office365-Filtering-Correlation-Id: c51b83ef-8ffe-43bb-880d-08de9b9e9a68
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|1800799024|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	ptIBcFwCh7uxp3YWoK17/bPQie2C69dn4TvYoltDKzWKEoIyDd8AqL8BW58hqMoG8gVr0MEhLZr0gie9rx9Sb2S+1cRY2ZzDijFmxMIVWq2yWrNtDcoV6RmgYN453Q2QpDmMYQJnm/O5N/QhfIV+gZ2waYUJ++lCC2/P6cVqug/7AxMh0hlt5q914MtRaww/We1VIC+qpLVaV+evn+SHAEhM9DAsv4I3fyMHtFeNh7TaFZrblkyn0IOhW8+qZ40Y1aVczI7VWZ1Ck9blxKK0ycVcBMlWSwRQRMoqFnabldpBtaHjZxEDEQLTPA3LlFk4+QTByDkzGi7Qo5kAeNH1TRo0YPfiapxFyLy9bbypb7LnvBfznSP48p+tCcBEBeptKF8XFbCSiVFe2M0wg4uzqEUzD6AdeKbqEmpjgRkPsbYbhXHM5qAVR37AXXWjGKUOP5Yn5y9NEsVIhJZVxYt//mI4Zc+8Gcm1Q4pGhldEAGuSC0MTd3YWhlNij46VCgT2zlMb2h/wT0+rlw1KEh4n9kHMVqlQ8OuYruHXDwWcqb/fukPk2PUg9csUiQbvmacbx+Sk7JSAP+w0r7vVnBhmKAiIMVWybFFZeBgWZF/55s0H+AHz4EVPG7i1uDXRYbgTt/Qj0FBgEVcfFg773uozZ+cY+5ActPYajWkiO2a2cOSDrzRRY9viA62p9HmMfeLmIfD4lGqNyJwjcPqTxePepqSsXdlwZRXJtAVLmUcVU6Y=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?d0NvTi9ON0ZuZTY3aDhTYy8xNHRoVXJCTlpkckJHeFVJYWVDWDVJcG1XU1VK?=
- =?utf-8?B?Y082K1Q5bXpiT3RNVHVUSnJRbWdlYzZlVkV0dXl4VHMyRUJvRmNaelY3ZFpJ?=
- =?utf-8?B?Uk1RQldWTlJmUXhQbGtYUTI5V0lYaWtFNGM3cmEvanFnbWNySGp6Yk5QQmtU?=
- =?utf-8?B?ZXBtc0Fnam5lSVB0RWI2eVJCM3RqSHJ4WDJxRzVNTVczZDFaNGhaWUpkNmFr?=
- =?utf-8?B?Vm9wWnBCYWVTN2l5YjFWUE1iK25RSklCZ1pYb1hjMkxMSk5CcE55eE5GR1E1?=
- =?utf-8?B?QlBSSk5jVHdXMjROaUNrck9iT2xwZ0I5dUZaL1BRd25KSUc4WHp1YlByRGwr?=
- =?utf-8?B?a0pNaXYrUEExcG5XbkJUTHVUV0JzMnNCT2o0U2FHZ3lzZ3BhQWw3dEZnNGZ4?=
- =?utf-8?B?aFVYWWRESFA1a2lSd0t1NURQME40ZGdtQ0Z5a2owRGtKZ3BhZ21KUC9Wekly?=
- =?utf-8?B?UkZrSU5qSWlOUGRBdDdzZXY5aTdoaWx4WGc5ZnUwb3JvcGowa2lNcCtDenFG?=
- =?utf-8?B?MVk0YWFFQjgwWGF0VUJVVlQ5Q2oxTm5ETEpXSkhYZnR6RVdJNjJBaHpQS3Uv?=
- =?utf-8?B?Z0lmYld3V3hZU3RBMXo1bXlUZDZCWnRmV0tXY3ozb3lETmJsOHdpbUF0YXdM?=
- =?utf-8?B?NmN4STE0eFk0M0lCM2JXb1hYL2tDOHZzWVVSbjdDeDR6TmQ5OW5HZzJKa2Nl?=
- =?utf-8?B?UXV6WVpjUDJPcHU1ODRtcTZQRThIa20zZE5jaFdPZG1MK3cxOGtXd2owdjl3?=
- =?utf-8?B?NUtsN24ralFqcU5vQVJFWFZpSW5TdDc4aml6SXR6N1NVNmlqMTZuSFIxQmJi?=
- =?utf-8?B?aEJzQ0NCdXRDOW9mNm1uQjI5M0NXb1lXQmppNldVSEVYdXMxNzlVUjN0NVNM?=
- =?utf-8?B?a2dwL2ZHU1FTYU9NdkVkV0N2Rm9pL0ZUSEJsNVcyeEJTMXdQcEhQK0YzYVlQ?=
- =?utf-8?B?WWV4cVN0bkZQS3hNWnBGeEtsV3BYekd4RG1WMW1GUTJUZmJhZzRlekdjYktX?=
- =?utf-8?B?bDZSTW5KajR3TEJMOVZ1eUVTT3pXRGJRU1FwRSsvMmpMMkI3R1B6R0gzNHVQ?=
- =?utf-8?B?UzhNWUo1aUhGRllya0ZYS3BTQ3FITVQraFdMclZXMFNyUU5VQ2VOTmdVam1k?=
- =?utf-8?B?akhVRHhPcWNoS0hhdklidW44MTdwenBvL3c3ZytmVXozUVRzL1MydHArMFRq?=
- =?utf-8?B?QWxTZXdYWWttS0ZHclFSOTVwYUFITkc3Y1ZCWXA0MjFrNXcxd0RNR0RNQ2lm?=
- =?utf-8?B?ZVdnVDZqZUsxb0xlWWNldkFOVC9CcGFWY0diSUxhejFLayt0dnR2WGY3bzd2?=
- =?utf-8?B?Z0VvSUVQQVdlV3pRR2lZekx0Rm96VW5KWkhwTEUzMlU1UnN4Z3VpT2dpTmpV?=
- =?utf-8?B?emFTbUVzZVZ5b1RDMTlIUFpZeFRlcHNsMFgybG5XZGNwbElnWFp6cHpsbm5U?=
- =?utf-8?B?TktZdnV0VmVmWDhXZE52NkRJNVppdFI4aC85Z2lSQzJSNnpWTllhcGVpejNJ?=
- =?utf-8?B?cmJ2eE1EbEUrM210b291b1Fkak9uS3NtR28xbk1uWjBxRGk2OEVmNnF6Zm5W?=
- =?utf-8?B?MDRNS3Vac1BjYWFkRWQ2S1ltRVhTeHMxSmRYZFcwTG5QaW13SWpkRWZGYzBz?=
- =?utf-8?B?SjAzSEtINmIyUEhwMUVhY3hFeUhNYlJ4d3dtK3Yzd3BRRis1bFcvMFZOOVRk?=
- =?utf-8?B?SThFV3E1SWVFNnBpalVmZDlTOU9RUTBITXVtZUhsVy84d0grUysyZm5TQ3g4?=
- =?utf-8?B?clBjdm1CYXQvOTZRUnVFei9YTi9ZcWRrQmpNVGdDak1zYTc2b3VObytsTXBn?=
- =?utf-8?B?Umo2cGQ3UDVpd1BlQUN4YTdaZUJ4WVNBV2xONEhiUk8vNE1IKzVITGdMNmZB?=
- =?utf-8?B?MmQxd1dJd3FVK3hoSGthTHQrU1VSYVlHV0Z0aHh5UE9mRC9iWUsyZHFnUENa?=
- =?utf-8?B?NDVWNXFvR3dPR2pwMjFxay9ZUGFTdDlZeVBrVXBnOVl2ZXF4cVdGZ1g4Nm93?=
- =?utf-8?B?ei9udmVWYVVuNmQ1YjJJZk9JTDJ0ZUkwTllhOTBsMFJCSDVnMzkzK3cwb2ds?=
- =?utf-8?B?OGYxb2p0NE95c0V2MzZIWTBzR0hISjliaUVVYjUrWXdUcnVpamdrRzdRSFUv?=
- =?utf-8?B?V3czVHZQc3BLMnV6TER6UG1PRW5vUlNJbU0zRjNnSFVBYllKMy9teXR4N0ky?=
- =?utf-8?B?RzM0MnppU1lBVnhCNnVnaDB3ZVpVU21Ob3VGTUdieVp5Wnh6NHUxMlVsVnRo?=
- =?utf-8?B?eExWUkVvVm9sd25kcnByUFBLdE1JOTlQTVJ4eVZpYVQzOWxubXJ5R2NJdkdv?=
- =?utf-8?Q?CVEtoCP9Vo79hTusMh?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c51b83ef-8ffe-43bb-880d-08de9b9e9a68
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2026 09:57:43.2392
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cypUYnP/gDSas/DR7hgdKggJ5QncsdlARt5R3FHs4O8mNuvGgY/xETSqkiCuOybC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV5PR12MB9778
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260413160331.2611829-3-antoine.bouyer@nxp.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58868-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,lists.freedesktop.org,lists.xenproject.org,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-58869-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[amd.com:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 83CCA40CA83
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4C28940CAE4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 4/16/26 01:27, Demi Marie Obenour wrote:
-> Is it safe to assume that if a dmabuf exporter cannot handle
-> non-revocable, pinned importers, it will fail the import?  Or is
-> using dma_buf_pin() unsafe if one does not know the exporter?
+Hello Antoine,
+   thanks for the update
 
-Neither.
+On Mon, Apr 13, 2026 at 06:03:22PM +0200, Antoine Bouyer wrote:
+> Extend the v4l2-isp extensible format introduced for isp parameters buffer
+> to the statistics buffer as well.
+>
+> Like for ISP configuration purpose, that will help supporting various ISP
+> hardware versions reporting different statistics data with less impact on
+> userspace.
+>
+> The `v4l2_isp_stats_buffer` reuses the `v4l2_isp_params_buffer` container
+> definitions, with similar header, versions and flags. V0 and V1 versions
+> are provided to match with params versions. On the other side, ENABLE and
+> DISABLE flags are not really meaningfull for statistics purpose. So VALID
+> and INVALID flags are introduced. Purpose is to force ISP driver to
+> validate a statistics buffer, before it is consumed by userspace.
 
-dma_buf_pin() makes sure that the importer doesn't get any invalidation notifications because the exporter moves the backing store of the buffer around for memory management.
+Is this a leftover ?
 
-But what is still possible is that the exporter is hot removed, in which case the importer should basically terminate it's DMA operation as soon as possible.
+I don't see VALID and INVALID in this patch and unless I've missed it
+badly I don't see them in the next patches.
 
-GPU drivers usually reject pin requests to VRAM from DMA-buf importers when that isn't restricted by cgroups for example, because that can otherwise easily result in a deny of service.
+I'm fine without them, I'm not sure how you intend to use them to
+force drivers to validate a statistics buffer.
 
-Amdgpu only recently started to allow pinning into VRAM to support RDMA without ODP (I think it was ODP, but could be that I mixed up the RDMA three letter code for that feature).
+>
+> Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
+> ---
+>  include/uapi/linux/media/v4l2-isp.h | 148 +++++++++++++++++++---------
+>  1 file changed, 100 insertions(+), 48 deletions(-)
+>
+> diff --git a/include/uapi/linux/media/v4l2-isp.h b/include/uapi/linux/media/v4l2-isp.h
+> index 779168f9058e..e84476280d43 100644
+> --- a/include/uapi/linux/media/v4l2-isp.h
+> +++ b/include/uapi/linux/media/v4l2-isp.h
+> @@ -13,25 +13,33 @@
+>  #include <linux/types.h>
+>
+>  /**
+> - * enum v4l2_isp_params_version - V4L2 ISP parameters versioning
+> + * enum v4l2_isp_version - V4L2 ISP serialization format versioning
+>   *
+> - * @V4L2_ISP_PARAMS_VERSION_V0: First version of the V4L2 ISP parameters format
+> - *				(for compatibility)
+> - * @V4L2_ISP_PARAMS_VERSION_V1: First version of the V4L2 ISP parameters format
+> + * @V4L2_ISP_VERSION_V0: First version of the V4L2 ISP serialization format
+> + *                       (for compatibility)
+> + * @V4L2_ISP_VERSION_V1: First version of the V4L2 ISP serialization format
+>   *
+>   * V0 and V1 are identical in order to support drivers compatible with the V4L2
+> - * ISP parameters format already upstreamed which use either 0 or 1 as their
+> - * versioning identifier. Both V0 and V1 refers to the first version of the
+> - * V4L2 ISP parameters format.
+> + * ISP format already upstreamed which use either 0 or 1 as their versioning
+> + * identifier. Both V0 and V1 refers to the first version of the V4L2 ISP
+> + * serialization format.
+>   *
+> - * Future revisions of the V4L2 ISP parameters format should start from the
+> + * Future revisions of the V4L2 ISP serialization format should start from the
+>   * value of 2.
+>   */
+> -enum v4l2_isp_params_version {
+> -	V4L2_ISP_PARAMS_VERSION_V0 = 0,
+> -	V4L2_ISP_PARAMS_VERSION_V1
+> +enum v4l2_isp_version {
+> +	V4L2_ISP_VERSION_V0 = 0,
+> +	V4L2_ISP_VERSION_V1
+>  };
+>
+> +/*
+> + * Compatibility with existing users of v4l2_isp_params which pre-date the
+> + * introduction of v4l2_isp_stats.
+> + */
+> +#define v4l2_isp_params_version			v4l2_isp_version
+> +#define V4L2_ISP_PARAMS_VERSION_V0		V4L2_ISP_VERSION_V0
+> +#define V4L2_ISP_PARAMS_VERSION_V1		V4L2_ISP_VERSION_V1
+> +
+>  #define V4L2_ISP_PARAMS_FL_BLOCK_DISABLE	(1U << 0)
+>  #define V4L2_ISP_PARAMS_FL_BLOCK_ENABLE		(1U << 1)
+>
+> @@ -39,64 +47,108 @@ enum v4l2_isp_params_version {
+>   * Reserve the first 8 bits for V4L2_ISP_PARAMS_FL_* flag.
+>   *
+>   * Driver-specific flags should be defined as:
+> - * #define DRIVER_SPECIFIC_FLAG0     ((1U << V4L2_ISP_PARAMS_FL_DRIVER_FLAGS(0))
+> - * #define DRIVER_SPECIFIC_FLAG1     ((1U << V4L2_ISP_PARAMS_FL_DRIVER_FLAGS(1))
+> + * #define DRIVER_SPECIFIC_FLAG0     ((1U << V4L2_ISP_FL_DRIVER_FLAGS(0))
+> + * #define DRIVER_SPECIFIC_FLAG1     ((1U << V4L2_ISP_FL_DRIVER_FLAGS(1))
+>   */
+> -#define V4L2_ISP_PARAMS_FL_DRIVER_FLAGS(n)       ((n) + 8)
+> +#define V4L2_ISP_FL_DRIVER_FLAGS(n)		((n) + 8)
+>
+>  /**
+> - * struct v4l2_isp_params_block_header - V4L2 extensible parameters block header
+> - * @type: The parameters block type (driver-specific)
+> + * struct v4l2_isp_block_header - V4L2 extensible block header
+> + * @type: The parameters or statistics block type (driver-specific)
+>   * @flags: A bitmask of block flags (driver-specific)
+> - * @size: Size (in bytes) of the parameters block, including this header
+> + * @size: Size (in bytes) of the block, including this header
+>   *
+> - * This structure represents the common part of all the ISP configuration
+> - * blocks. Each parameters block shall embed an instance of this structure type
+> - * as its first member, followed by the block-specific configuration data.
+> + * This structure represents the common part of all the ISP configuration or
+> + * statistic blocks. Each block shall embed an instance of this structure type
+> + * as its first member, followed by the block-specific configuration or
+> + * statistic data.
+>   *
+>   * The @type field is an ISP driver-specific value that identifies the block
+> - * type. The @size field specifies the size of the parameters block.
+> - *
+> - * The @flags field is a bitmask of per-block flags V4L2_PARAMS_ISP_FL_* and
+> - * driver-specific flags specified by the driver header.
+> + * type. The @size field specifies the size of the block, including this
+> + * header.
+>   */
+> -struct v4l2_isp_params_block_header {
+> +struct v4l2_isp_block_header {
+>  	__u16 type;
+>  	__u16 flags;
+>  	__u32 size;
+>  } __attribute__((aligned(8)));
+>
+>  /**
+> - * struct v4l2_isp_params_buffer - V4L2 extensible parameters configuration
+> - * @version: The parameters buffer version (driver-specific)
+> - * @data_size: The configuration data effective size, excluding this header
+> - * @data: The configuration data
+> + * v4l2_isp_params_block_header - V4L2 extensible parameters block header
+>   *
+> - * This structure contains the configuration parameters of the ISP algorithms,
+> - * serialized by userspace into a data buffer. Each configuration parameter
+> - * block is represented by a block-specific structure which contains a
+> - * :c:type:`v4l2_isp_params_block_header` entry as first member. Userspace
+> - * populates the @data buffer with configuration parameters for the blocks that
+> - * it intends to configure. As a consequence, the data buffer effective size
+> - * changes according to the number of ISP blocks that userspace intends to
+> - * configure and is set by userspace in the @data_size field.
+> - *
+> - * The parameters buffer is versioned by the @version field to allow modifying
+> - * and extending its definition. Userspace shall populate the @version field to
+> - * inform the driver about the version it intends to use. The driver will parse
+> - * and handle the @data buffer according to the data layout specific to the
+> - * indicated version and return an error if the desired version is not
+> + * This structure represents the common part of all the ISP configuration blocks
+> + * and is identical to :c:type:`v4l2_isp_block_header`.
+> + *
+> + * The @flags field is a bitmask of per-block flags V4L2_ISP_PARAMS_FL_* and
+> + * driver-specific flags specified by the driver header.
 
-> For context, Xen grant tables do not support revocation.  One can ask
-> the guest to unmap the grants, but if the guest doesn't obey the only
-> recourse is to ungracefully kill it.  They also do not support page
-> faults, so the pages must be pinned.  Right now, grant tables don't
-> support PCI BAR mappings, but that's fixable.
+What if we move this to the documentation of struct v4l2_isp_block_header
+and we only document the macro for compatibility reasons like you did
+for `v4l2_isp_params_version` ?
 
-That sounds like an use case for the DMA-buf pin interface.
+We could add the above to the documentation of `struct
+v4l2_isp_block_header`:
 
-> How badly is this going to break with dGPU VRAM, if at all?  I know
-> that AMDGPU has a fallback when the BAR isn't mappable.  What about
-> other drivers?  Supporting page faults the way KVM does is going to
-> be extremely hard, so pinned mappings and DMA transfers are vastly
-> preferable.
+ * The @flags field is a bitmask of per-block flags. If a block is used for
+ * configuration parameters this field can be a combination of
+ * V4L2_ISP_PARAMS_FL_ and driver-specific flags.
 
-Well if you only want to share a fixed amount of VRAM then that is pretty much ok.
+Depending on the answer on VALID/INVALID we can document the usage of
+flags for stats as:
 
-But when the client VM can trigger pinning on demand without any limitation you can pretty easily have deny of service against the host. That is usually a rather bad idea.
+ * The @flags field is a bitmask of per-block flags. If a block is used for
+ * configuration parameters this field can be a combination of
+ * V4L2_ISP_PARAMS_FL_ and driver-specific flags. If a block is used
+ * for statistics this fields is used to report optional
+ * driver-specific flags, if any.
 
-Regards,
-Christian.
+
+> + */
+> +#define v4l2_isp_params_block_header v4l2_isp_block_header
+
+If you accept the above suggestion we can simply document this
+
+/**
+ * v4l2_isp_params_block_header - V4L2 extensible parameters compatibility
+ *
+ * Compatibility with existing users of v4l2_isp_params_block_header
+ * which pre-date the introduction of v4l2_isp_block_header.
+ *.
+
+> +
+> +/**
+> + * v4l2_isp_stats_block_header - V4L2 extensible statistics block header
+> + *
+> + * This structure represents the common part of all the ISP statistics blocks
+> + * and is identical to :c:type:`v4l2_isp_block_header`.
+> + *
+> + * The @flags field is a bitmask of driver-specific flags specified by the
+> + * driver header, as there is no generic flags for statistics.
+> + */
+> +#define v4l2_isp_stats_block_header v4l2_isp_block_header
+
+Do we need this or should we use v4l2_isp_block_header unconditionally ?
+
+> +
+> +/**
+> + * struct v4l2_isp_buffer - V4L2 extensible buffer
+> + * @version: The extensible buffer version (driver-specific)
+> + * @data_size: The data effective size, excluding this header
+> + * @data: The configuration or statistics data
+> + *
+> + * This structure contains ISP configuration parameters or ISP hardware
+> + * statistics serialized into a data buffer. Each block is represented by a
+> + * block-specific structure which contains a :c:type:`v4l2_isp_block_header`
+> + * entry as first member.
+> + *
+> + * For a parameters block, userspace populates the @data buffer with
+
+Or:
+
+    * When used for ISP parameters userspace ..
+
+> + * configuration parameters for the blocks that it intends to configure.
+> + * As a consequence, the data buffer effective size changes according to the
+> + * number of ISP blocks that userspace intends to configure and is set by
+> + * userspace in the @data_size field.
+> + *
+> + * For a statistics block, behavior is the same as for parameters, except that
+
+Or:
+
+    * When used to report ISP statistics the driver populates the
+    * @data buffer with statistics for each supported measurement
+    * block. The buffer effective size is set by the driver in the
+    * @data_size field.
+
+> + * buffer is filled by the ISP driver.
+> + *
+> + * The buffer is versioned by the @version field to allow modifying
+> + * and extending its definition. The writer shall populate the @version field
+> + * to inform the reader about the version it intends to use. The reader will
+> + * parse and handle the @data buffer according to the data layout specific to
+> + * the indicated version and return an error if the desired version is not
+>   * supported.
+
+Ack, I think using "writer" and "reader" is clear enough to support
+both the params and stats use case. If we want more clarity we can add
+to "driver" and "userspace" a "(role)" in the two previous paragraph.
+Something like:
+
+    * When used for ISP parameters userspace (the writer) populates
+    * the @data buffer ...
+
+>   *
+> - * For each ISP block that userspace wants to configure, a block-specific
+> - * structure is appended to the @data buffer, one after the other without gaps
+> - * in between. Userspace shall populate the @data_size field with the effective
+> - * size, in bytes, of the @data buffer.
+> + * For each ISP block, a block-specific structure is appended to the @data
+> + * buffer, one after the other without gaps in between. The writer shall
+> + * populate the @data_size field with the effective size, in bytes, of the
+> + * @data buffer.
+
+If we want to describe @data_size here we can remove it from the above
+two paragraphs maybe. I think it's fine to have it here only.
+
+>   */
+> -struct v4l2_isp_params_buffer {
+> +struct v4l2_isp_buffer {
+>  	__u32 version;
+>  	__u32 data_size;
+>  	__u8 data[] __counted_by(data_size);
+>  };
+>
+> +/**
+> + * v4l2_isp_params_buffer - V4L2 extensible parameters configuration
+
+s/configuration/compatibility
+
+> + *
+> + * This structure contains the configuration parameters of the ISP algorithms,
+> + * serialized into a data buffer. It is identical to
+> + * :c:type:`v4l2_isp_buffer`.
+
+And here only
+
+ * Compatibility with existing users of v4l2_isp_params_buffer which
+ * pre-date the introduction of v4l2_isp_buffer
+
+> + */
+> +#define v4l2_isp_params_buffer v4l2_isp_buffer
+> +
+> +/**
+> + * v4l2_isp_stats_buffer - V4L2 extensible statistics buffer
+> + *
+> + * This structure contains the statistics data from the ISP hardware,
+> + * serialized into a data buffer. It is identical to
+> + * :c:type:`v4l2_isp_buffer`.
+> + */
+> +#define v4l2_isp_stats_buffer v4l2_isp_buffer
+
+Same question as per `v4l2_isp_stats_block_header`. Do we need it ?
+
+Thanks
+  j
+
+> +
+>  #endif /* _UAPI_V4L2_ISP_H_ */
+> --
+> 2.51.0
+>
 
