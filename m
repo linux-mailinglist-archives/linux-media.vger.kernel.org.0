@@ -1,167 +1,212 @@
-Return-Path: <linux-media+bounces-58924-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58925-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qF0dHob74GlloAAAu9opvQ
-	(envelope-from <linux-media+bounces-58924-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 17:08:54 +0200
+	id iEp8EAf+4GnzoAAAu9opvQ
+	(envelope-from <linux-media+bounces-58925-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 17:19:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2EF410441
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 17:08:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5C0410833
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 17:19:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1FA343055D63
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 15:06:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E8B6730DA31B
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 15:17:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82CBE3C6A56;
-	Thu, 16 Apr 2026 15:06:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE5DD3E314E;
+	Thu, 16 Apr 2026 15:17:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bU6BLyoo"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Cyiw650j";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MFa7woHw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D6122A1D4
-	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 15:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB373E2750
+	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 15:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776352017; cv=none; b=m3w5g+wQ/d/+jf7SPTqcXkAcNx15R5epZGNe0sAi5u03+zcLZlknJrJaHwZIY9oTfi5vX7ujjvIfHE9QnrSwd4dSjZkFhqki8b28e/mtBuJUVWe8ozeY3qm3JXq+gXrk/klVymw3o+L24DM/QSlw8DqJXoAJETcHkYcOh6M7ji4=
+	t=1776352653; cv=none; b=Qf/vUk5ID3RxLhjnKxmYUlDICXhmhPZG8fXMEiZOHZrIpsryNMDNL6vuxKW/sNpznW2mVBN7CI3PVznWdpiyCTdnN0Q95qU18a2+GRA87KEVf6Ucu1k3vtGpO5xOzML5JwPNrJp/bQbhJsbRGwP/Pe/vrARIM2FejR+BTyX/MP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776352017; c=relaxed/simple;
-	bh=6gdARcIuxE97CTNC0q/HieR2Yl5Nanl+XbJTdnkR3vg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JMMDOfnbRyiztH1YUVhI/xrgEAeX++heptvIovOOTInfZGnCezHe8P0EVWNLYr8rF9bhmuURg+c4YxUXR8vFMvWiReSuf8OuzrbDW/P7JG/talmGIk35kh882jCWXz6+f5ifQDRgckN8lTlibHUT/Vn4FrbF6CcSSeViYlqkh1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bU6BLyoo; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A97A5107;
-	Thu, 16 Apr 2026 17:05:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1776351918;
-	bh=6gdARcIuxE97CTNC0q/HieR2Yl5Nanl+XbJTdnkR3vg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bU6BLyooPKd6q7y6pAFBdaFqXteh7duuuk1NRQhWlzr5LcG6CM0snjcU1KFPXMysM
-	 1U++FzVNgcvHaEirLKkC5UYuBLoNS6QyNXckPnoIYX6T7Ns4n8xS+cCt+L7ZP9W+jj
-	 kfmLOxjzxQXaR6KzrjzuktsZIIR115V5bLPzhlCc=
-Date: Thu, 16 Apr 2026 18:06:51 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v4 17/29] media: v4l2-subdev: Allow accessing routes with
- STREAMS client capability
-Message-ID: <20260416150651.GO1775831@killaraus.ideasonboard.com>
-References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-18-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1776352653; c=relaxed/simple;
+	bh=OoDxQ6JnCdkvOIF3hQyinUzkThw8zBb3mtjvgZ2UdeQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ImNZt+gOoIUi755Pc+rY7hzX7CtqvEjV3LwhLFaxpeS+NYcU9SwaGZtSlKCOFtGRft2XaSD3egi3kY2EzZvujTLe2CgOnrUfO4fXsZnIifkom8JCSmTtdvzY1pzpVSa+HP65+xQTHP238tuE+3pPD9fvacu5G3LJT+vLzLD9oIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Cyiw650j; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MFa7woHw; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63GBp6AR1668258
+	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 15:17:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	alGNKkLw21+BrqlqmkPplSlaervhuZpi/jOw7KRz/LE=; b=Cyiw650jP1GvuZns
+	XT2bm1qDSlwzCTgSyeUxpj0iSWM+xmATXjOEN2tq5YX6sDQvk3ccCsjWRhy7Jkxl
+	dPo1WhG9TnHjt0o8vvLE42SY5m7WkyTaOnckdFWmfZLlYj24x4VJOuoWgi5UHWly
+	NkXJactehdyih9M4G7hZOH0RImh4lJo5XvGSyEtkzShm6y5wX5Qq33Y/wmeKoHo3
+	mEc96UxRtKC86B7yd8M9XLRwTpDCKbglUKXctifyp4/jj579uauva1oyzrtPrUbi
+	EbSVnJLCkK8kSstuTyY8YTRbG/Y+aR6JsSyJoTKICn2cqkK3xNWTxtN/XmOJnjDg
+	HrEuDQ==
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4djtd91wq3-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 15:17:25 +0000 (GMT)
+Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-6826de8e284so1466150eaf.0
+        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 08:17:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1776352644; x=1776957444; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=alGNKkLw21+BrqlqmkPplSlaervhuZpi/jOw7KRz/LE=;
+        b=MFa7woHwYGxeFHnhCebOngApdmzxgicc4v3jXPQyhwoKayqhWL9ON7I09tiIukrjF1
+         JlVC3rkno9sQFab03s4AlgpkCYlgifmTimdK6aemjSzk6XM3tTKPkBEv12eReJX7YzR/
+         wRBP5tTxLVjxfZlde9M0d2VmWD2PNnWYfZI7kRtXOa2KanupoC+SZw1y7lKDtbqOvj6g
+         ESZzI8hem6CBjRKdblXO/Hnw+syec1p3dvga4MVcFEfkqc2VvpFbuYtcgTH3YdmXOKnO
+         beM1Qq3/toeTseRA17IY5M7Vcr33DJddBs09SV1ndI4zcnRsBAC0j8moexzM4yNw+sX9
+         mbkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776352644; x=1776957444;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=alGNKkLw21+BrqlqmkPplSlaervhuZpi/jOw7KRz/LE=;
+        b=oQ6gms+kIQ9dAyRV0UoUEnZLVBCncr0TXNpgpToZ7mLkMVYURc70YIGmEFFL+HSBA+
+         KfVgCyHiy5ECcLl1LzU73eQVxJP+cG+VJWat2r7zcJ9xVA+Ea5G5L5V17ovhkLW1VGmA
+         MSXVBIZT05By8msoGXpcyqytfEXjVGS+u7f7ptmwgBfFU3VQtD0DOr812Rov+tdofIxC
+         UGeZtUOKoV7B8MCcYzPlYOI29uZUHCFhIhCTLhw7E6bAEG9Q3JNNrtJ/ENc/Ulu6MyVU
+         N5OUCQkzreg8fGPdGI58BDBFiUbaoaykVcZayWBb0IpU05dbWNOYyeKWAwwYbIPArxpr
+         2B+w==
+X-Gm-Message-State: AOJu0YywVINtbMK9b8HB277FmPryqJjoJ8WcbExESYO+x9aMKA4UIdIt
+	kwx1yPAj6BTx2A/QtjBDPZnltxnvpUFPejU0YpYbZgIlCxgxU1CL+IwolTFIi3ouhDHBdi4G/qI
+	RM5gxKQMYsgei8Wv9gTdZJJihlhJRiarywRCpHTUdxMPWNoUYrW523v2GkLYcxPz2QQ==
+X-Gm-Gg: AeBDievspqEPyBWh8VVpVR4VMPzt5a8oxeDJcG0RlXF5zAhM0ywZW/2EVKdS76zxQP+
+	ffOjw3s/kPgvYRm4HAEDqCiYYQkUfSDN6ioW6BJgDDtlJWtwWZMW5QbYtq6RiLFbSkG/pArxpjh
+	0MJi0QGsiRhhtJm3aysU0kdY0lMo/6o2Ys6eihPsh7sJt5cNYRpQrMxTqtgVM+ygfu/rFwxEIoD
+	nUgVcXPtl9Lo09HscYWfAsBjdZGLGT1Bh6KPcM+yZZ3q3kR5dWG+D6IeNri/Xwgb0tkZBqzMdvk
+	Xte0lCqF1bw236hk7sRhIBkQQ4pOEhrxgEsxsWvsW1+dIEoFeuvjQ/rIn946kC4fN/+rLkKFBKb
+	LnApGAXX6xD7hZBwZAUQ5fOf5QGqgE80gYUyTW8bkp1efGUpmfPvP94RYTIfxIfnSoQ6mmnF6Us
+	gGz9F8AAzsCKF6qg==
+X-Received: by 2002:a05:6808:2225:b0:459:f0c5:781d with SMTP id 5614622812f47-4798903ba3dmr901510b6e.5.1776352644398;
+        Thu, 16 Apr 2026 08:17:24 -0700 (PDT)
+X-Received: by 2002:a05:6808:2225:b0:459:f0c5:781d with SMTP id 5614622812f47-4798903ba3dmr901486b6e.5.1776352643869;
+        Thu, 16 Apr 2026 08:17:23 -0700 (PDT)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba299f51c01sm93170766b.4.2026.04.16.08.17.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Apr 2026 08:17:22 -0700 (PDT)
+Message-ID: <0a5f9bd6-d3ea-4819-8be3-cc5a06ec0339@oss.qualcomm.com>
+Date: Thu, 16 Apr 2026 17:17:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260408153939.969381-18-sakari.ailus@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 06/10] arm64: dts: qcom: msm8939-asus-z00t: add Venus
+To: Erikas Bitovtas <xerikasxx@gmail.com>, Bryan O'Donoghue <bod@kernel.org>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        phone-devel@vger.kernel.org
+References: <20260416-msm8939-venus-rfc-v1-0-a09fcf2c23df@gmail.com>
+ <20260416-msm8939-venus-rfc-v1-6-a09fcf2c23df@gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260416-msm8939-venus-rfc-v1-6-a09fcf2c23df@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE2MDE0NCBTYWx0ZWRfXypzXdfcMJ2JI
+ cBSQ30eS5vRD3RfUMvV1Ovm2Ivmp6AVfFytbvgMom44juSopohhOScDDXi91gR4aOAPsbWPJR1Y
+ IqtIgF9jxmhcDknxsuyjG0K/EIz25xL3hF6x7lf745fuAVjZa+oFqgvcE4bXJDQsig5BEkpZgnE
+ sMI9PGiiv6AyzqM3NIBycy4HkNOQDnMMUzrMpyhZamZtHzSOkCGU8OQiL85FurdkaF9RgsPvv7y
+ 36BduprTe2o7fIwVYKIkmFTnDwX+Q+XapX+h07g0DslhVx+fBzxRj1DkCaBq7m9Cr9PXqiujH3X
+ KxzYShat8jenu0jee145b+rB6AaVgMSnpikK8eVgEkth2NnXH2Skr4yC8w8bCXWHTFP4d80X0OB
+ 3sY/QSSslNgjYtNUUu5FNm3tWBIqUC45k+q1MIH39gBerheBbqvaplsYPCP6DakXz9izo8AlFmJ
+ SxmjDonLbj4Ltkw/UpA==
+X-Authority-Analysis: v=2.4 cv=avuCzyZV c=1 sm=1 tr=0 ts=69e0fd85 cx=c_pps
+ a=V4L7fE8DliODT/OoDI2WOg==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=pGLkceISAAAA:8 a=sGea1UAM9DjOSmaL17QA:9 a=QEXdDO2ut3YA:10
+ a=WZGXeFmKUf7gPmL3hEjn:22
+X-Proofpoint-GUID: C57rN8GGncnnX7J3lDnIcclGUb4q9bKt
+X-Proofpoint-ORIG-GUID: C57rN8GGncnnX7J3lDnIcclGUb4q9bKt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-16_03,2026-04-16_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 spamscore=0 bulkscore=0 priorityscore=1501
+ adultscore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604160144
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58924-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-58925-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,oss.qualcomm.com,apitzsch.eu,baylibre.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,ideasonboard.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
-	RCPT_COUNT_TWELVE(0.00)[30];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,killaraus.ideasonboard.com:mid,ideasonboard.com:dkim,ideasonboard.com:email,intel.com:email,collabora.com:email]
-X-Rspamd-Queue-Id: BC2EF410441
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 8B5C0410833
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Apr 08, 2026 at 06:39:26PM +0300, Sakari Ailus wrote:
-> Disable access to routes when the STREAMS client capability bit isn't set.
-> Routes aren't relevant otherwise anyway.
+On 4/16/26 3:43 PM, Erikas Bitovtas wrote:
+> Enable Venus video encoder/decoder for Asus ZenFone 2 Laser/Selfie.
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
-> Reviewed-by: Michael Riesch <michael.riesch@collabora.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
+> Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
 > ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index f8fde395a53a..647587c0499a 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1020,6 +1020,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
->  			return -ENOIOCTLCMD;
+> diff --git a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
+> index 90e966242720..231a3e9c1929 100644
+> --- a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
+> +++ b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
+> @@ -267,6 +267,14 @@ &usb_hs_phy {
+>  	extcon = <&usb_id>;
+>  };
 >  
-> +		if (!client_supports_streams)
-> +			return -EINVAL;
-> +
->  		memset(routing->reserved, 0, sizeof(routing->reserved));
->  
->  		copy_routes_state_to_routing(routing, state);
-> @@ -1041,6 +1044,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
->  			return -ENOIOCTLCMD;
->  
-> +		if (!client_supports_streams)
-> +			return -EINVAL;
-> +
->  		if (routing->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
->  			return -EPERM;
->  
+> +&venus {
+> +	status = "okay";
 
--- 
-Regards,
+You need a firmware path here
 
-Laurent Pinchart
+Konrad
 
