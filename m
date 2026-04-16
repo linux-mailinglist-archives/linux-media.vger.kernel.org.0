@@ -1,84 +1,83 @@
-Return-Path: <linux-media+bounces-58901-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58902-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2PXZFhPp4Gl/nQAAu9opvQ
-	(envelope-from <linux-media+bounces-58901-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 15:50:11 +0200
+	id yEPKC1Dp4Gl/nQAAu9opvQ
+	(envelope-from <linux-media+bounces-58902-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 15:51:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9CCA40F2EB
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 15:50:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D311340F33C
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 15:51:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D34F83141556
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 13:45:06 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 153403161D81
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 13:45:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D0613CFF57;
-	Thu, 16 Apr 2026 13:44:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A3C03CF68B;
+	Thu, 16 Apr 2026 13:44:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fDn48dsJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ortdAvMO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99553CF022
-	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 13:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3253CF68F
+	for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 13:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776347077; cv=none; b=sHZGEXhEA6S6RSd3RfW5GeFEvQFg1wRoSWNH+QhmbOMnbTyvHQxJXRXX1fEigFlZgPZByDjRawNfdS7b127sRDAP2dsxIdOVSmHNVkAPgzEn3biljUbCJlySBUyZ08/Vccl/slpGE31kYnXm+bJ1g0vdkvK3WomSZoCKYLsBOek=
+	t=1776347082; cv=none; b=kk/Bkfpa9XnZOtW9E4rqGAh/wFxMQMySdbEfk9G6p5rBvT1D4MwLdxd9FxGsnY6fkK8rpWwzSL1s8H3j5YHJpm4lnhOpLP+kb6mbY+KxIMq5bSLV+CjmDn9B2Ky/1vDixHGeq9vm5XTqS5R8vllF6IYOrN+GiPriN1uyG7t9v74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776347077; c=relaxed/simple;
-	bh=+qxk9YKyNyEiRkeW5Mgtu8HCNYz2EeeeSG35f/DmqEw=;
+	s=arc-20240116; t=1776347082; c=relaxed/simple;
+	bh=aI25nEi9VQ+DRbhHhvdWFYIwKb2dX/WGA5UFAotTP7c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A8HNuabAnIJzIz0q5ghGw8eF/uHWdhceXtZUPcireb4Dh8JGtsKR9qJ5qEwWAHgbmDAkRrxSsEekfeNQl85jlEcYzpMacPKUFVo4swgCdz+ttFzWjnNMedMW7FEHm/XvsGpLKGORmi51jVzjcuQQY6PlOwjf55pYWzNR3OQNyfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fDn48dsJ; arc=none smtp.client-ip=209.85.128.177
+	 In-Reply-To:To:Cc; b=Vs9vDlPhol5p9MqOA0PhBV8s9nSsUuW5+4eOt9Ox8PtrFoMjxcz2DyR4S3BGHfaQtmhzhvDIg5JXv3FmCc46S5rMga0OqTqY9OvXdqAFv2b5uOw+GbX2VBBaYBn1guEZjVV+ZHk7HO+Z372ExXpx5Gvfu7y54uCm7wzeJc+EgAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ortdAvMO; arc=none smtp.client-ip=209.85.128.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-7b37d84a6b3so46485647b3.2
-        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 06:44:31 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-79a60975dc5so93437867b3.0
+        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2026 06:44:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776347069; x=1776951869; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776347076; x=1776951876; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TpnkPSyCrrxqGvSDrOl9HhMQ28DTCCYBlLhEHVmZVf0=;
-        b=fDn48dsJPQKBWfJCXLRzNLCQdvybuIC2gXn2uRFqAs5hAX4KrIUdsXcYV72VqJFgLY
-         /nEjWzyCLmljGyR0SGhIWd6thkrMfJZQxzo+TZKHuEf7eN7QLlTTiv/L2bDHo6HgEcEt
-         v1mkmw5ELq0W7hTbyA8QbFNPW5y7MAg9SdRPRP0mxqfAn8oW1Ec266rVOuTc4zN8ONOa
-         LoFF9CAGUe8QPNBgP/qVpPpp2giALlc5XezBBsLWYHMprTFyuqM7BeNLgTRvGPNPbXBb
-         /lwmdmKd/UFJtMjR3uWavjJyPFuYDsl4Gk/Z7Wea8QgEtHIFw8t4zp71YNKYrWfzedft
-         C1Gw==
+        bh=T5R17ZLDIA+FBJrsZkOSCOpWtAhdlsU3PoFA3MU5Wuo=;
+        b=ortdAvMOHjNZzuwXYaOF+MpBmGjA4PYIp+AcueYVu02wYaZndZD8Ac0yiBExervz/e
+         r1hbnbLDc18OL9YMEugpCk+bnSWkb8ZKQ2fPOEl6TdDEK35H/4xLWhLExxLKxhxBwR0L
+         McY7HLTS2vAAZbtANuL24hb01lXRpWCfagaYvOFTwyiJZLDJX/fVep+fJFWPyWubNIah
+         3nv0DeukozxPVWHexBTvDNRGBn4XsM7bN2sU6gvttsoZ9Xn22Z037LyF03qizAESH+Ri
+         qHWEORYcpKM3oNHrSUCa0U6XTX5dAdNWfXRROcRwPMlOGOrz/LNfhwgK4i+EO80M9/sv
+         ZUDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776347069; x=1776951869;
+        d=1e100.net; s=20251104; t=1776347076; x=1776951876;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=TpnkPSyCrrxqGvSDrOl9HhMQ28DTCCYBlLhEHVmZVf0=;
-        b=a2TuMomTv31y1UYGw48t28T9jt08MlWlHLCNgRQ5kchjvkDvoPxbNhOcLzJKkydfCg
-         noSl9i32N312JiAuM0KG9wQBnLjWnPP1IY/WsP6u4tGXjYfvoqoJhErvOs42y/Taaaye
-         ig6Eyj7DxbFt25UE+CAy4YTxX1Cjl8FUJlJwofg73TmsBkw1jx+y+fcmAQFX8pDThCtG
-         uCDcp3yWjvPYHu2YMB0zPgEI4ugVz6+hSpKCq60sfmMMxNoy2Ex5yJymMPnQ2b6meHiI
-         Gu4b9FnuvAFG6AesiboIkMDFgCJ98vN7MGQVMIbChWO9xyqhy74YBLvuBPanS4Eh6fr6
-         XAmg==
-X-Gm-Message-State: AOJu0YxO/ymBazHXJGEuLNPLiyHMhj4i0NM4a0IPiZuv0jeEMupGdubf
-	zORbV9xk+iEO1DZL0Vjoj2MC+ZtvUtqCa2hON9D65UhB9F9z+Lb8wuJ6
-X-Gm-Gg: AeBDiesbE73n0+y5ZhrPUrBJUiY12cIKTp+ZmE93mWh6qa/Zzg1xFovOp8MGiZEqexZ
-	mU/uKachM560rQfi/xBFkIzl2wHVWdhA04b/Xb7Y6q01h8CLyfYisDW2ZLnDFya+mCzNZIePqbJ
-	Kr0DptAXXNQ3ZPyaCedLBeijNzP9AoFxNe0moaklQ0XHiLYvjAlXtKymDK3yHvx41KpZlQxziz2
-	v5ek3Hed3H+0+tGM+i7oap5PFbSEmN3+1N0UNGCCxkj7dXHRRSapvIDL0e+GhYLckAdA4dj6IJF
-	wVEbYpNUIq5zN9pmvN6VkIg2PEVbCnlU2fLej7ueIqMrE1lFD+1WlW5J1y/7LkbjZTXn8Hk4tqE
-	6nyAJ4ZeOPk4dSa6dBdQqMISDiDHA2r6Ol+df4iqzeF41b7lY0ANwQt+EDWH0NlBEyZj81RUtqK
-	9/4bdU1w+4xGdcKhKMwinNTzAJxg==
-X-Received: by 2002:a05:690c:6b01:b0:7b2:7dc9:35eb with SMTP id 00721157ae682-7b27dd88a12mr158996207b3.50.1776347069632;
-        Thu, 16 Apr 2026 06:44:29 -0700 (PDT)
+        bh=T5R17ZLDIA+FBJrsZkOSCOpWtAhdlsU3PoFA3MU5Wuo=;
+        b=GTZGwZoysU8DKMZNctAiaD1fvWr/O11uvtyOsrFSCq+7PXCcm2Na3A9t4jDafAd19v
+         vUrsK3BXxBIK94VmO/6HDfowqEgR0lOQwIYns0ibuGqm84iDFRxUSmy85eQP8Bvkdvwd
+         Hmhik/+Kcp9PktZlBiYcRHR1eXIjnQ/eZfAm8NwiIbMEcvbjrgd8tNoemdn9f++KI4Jx
+         4c9lhUXswoHxqRFKzM4yjDmv5mgKOYWv/63acrBz+H8hYi34EBI4oBGxATm5ssCpjv3G
+         l/nAexGgfmSRXKiZoehY7GPs8FvIrOM8BkGW7mB3AhLsZd4a7UeVxcNdfxiHDVbK6TsD
+         gXFQ==
+X-Gm-Message-State: AOJu0YyZfcG/kAr7U0pJTOvfUcovsC+ILZohJmUFZHEmm7MTAySwLd7E
+	F9goifTS4rItGVBLeycDaAFKF8yrZqmubaOzait2RdJqz1gQvyJmfVHx
+X-Gm-Gg: AeBDieu2DztclYQtjTyTbK+9NClvSu0B1qv59b2kmiFdstNz7E4r6A+CRJJc5Wknw1p
+	9dqcRPo5l96w7nwhvbi1LWKYd3PRH1KhSDZ8ao8CieZ7hmadj2AnxBDmlMzaDq438Onk0O0g6kX
+	95EShpv50DJAqJo7DyXN2HK5ooG1ITafrdn5KyInNxWa7P9P8kWBsIgO/eHcw1riKkGqSqHZ6VE
+	J+DpLfNnkfWYAhRynCHjgPoyZ/1brtAVbrvygEow76Ndzy0FoHQjsLi0BcBUNph9DVdzB2/z+Rc
+	2+CRg5bb+Jv4xQF9X2e5fGPFKCb1GSaVAMsLB8F78kvkKN/M55kwVVTqwN4/K7wa1WJKE2Z/3Lu
+	1xQEPe/nRvqMdd8VJXY3hF/fRZgnruKDJVYzevM4XtmxACCz8roZYM88h5Vb8s23m5KMQVf4WgA
+	rzFMM8Na9fyd/meLHfPjY1jKnePN3m2JGWJl59
+X-Received: by 2002:a05:690c:3481:b0:7b2:6177:2acc with SMTP id 00721157ae682-7b261773862mr189577217b3.46.1776347075855;
+        Thu, 16 Apr 2026 06:44:35 -0700 (PDT)
 Received: from [192.168.0.39] ([79.133.247.80])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b76931854esm23363737b3.37.2026.04.16.06.44.24
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b76931854esm23363737b3.37.2026.04.16.06.44.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 06:44:28 -0700 (PDT)
+        Thu, 16 Apr 2026 06:44:34 -0700 (PDT)
 From: Erikas Bitovtas <xerikasxx@gmail.com>
-Date: Thu, 16 Apr 2026 16:43:52 +0300
-Subject: [PATCH RFC 05/10] arm64: dts: qcom: msm8939-longcheer-l9100:
- Enable venus node
+Date: Thu, 16 Apr 2026 16:43:53 +0300
+Subject: [PATCH RFC 06/10] arm64: dts: qcom: msm8939-asus-z00t: add Venus
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,8 +85,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260416-msm8939-venus-rfc-v1-5-a09fcf2c23df@gmail.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260416-msm8939-venus-rfc-v1-6-a09fcf2c23df@gmail.com>
 References: <20260416-msm8939-venus-rfc-v1-0-a09fcf2c23df@gmail.com>
 In-Reply-To: <20260416-msm8939-venus-rfc-v1-0-a09fcf2c23df@gmail.com>
 To: Bryan O'Donoghue <bod@kernel.org>, 
@@ -115,7 +114,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-58901-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-58902-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -134,26 +133,23 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,apitzsch.eu:email]
-X-Rspamd-Queue-Id: C9CCA40F2EB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: D311340F33C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: André Apitzsch <git@apitzsch.eu>
+Enable Venus video encoder/decoder for Asus ZenFone 2 Laser/Selfie.
 
-Enable the venus node so that the video encoder/decoder will start
-working.
-
-Signed-off-by: André Apitzsch <git@apitzsch.eu>
+Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
 ---
- arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts | 8 ++++++++
+ arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts | 8 ++++++++
  1 file changed, 8 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts b/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-index 13422a19c26a..48514c3df718 100644
---- a/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-+++ b/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-@@ -314,6 +314,14 @@ &usb_hs_phy {
+diff --git a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
+index 90e966242720..231a3e9c1929 100644
+--- a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
++++ b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
+@@ -267,6 +267,14 @@ &usb_hs_phy {
  	extcon = <&usb_id>;
  };
  
