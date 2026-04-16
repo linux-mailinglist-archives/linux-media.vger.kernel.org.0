@@ -1,264 +1,207 @@
-Return-Path: <linux-media+bounces-58849-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-58850-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EF/SE/ly4GlkgwAAu9opvQ
-	(envelope-from <linux-media+bounces-58849-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 07:26:17 +0200
+	id eD0fA16C4GmgigAAu9opvQ
+	(envelope-from <linux-media+bounces-58850-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 08:31:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610EE40A5E9
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 07:26:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BB2340AAA6
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 08:31:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2A79A3052706
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 05:25:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AE07A307C3AA
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2026 06:31:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23D0A36683D;
-	Thu, 16 Apr 2026 05:25:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEF9E346FC0;
+	Thu, 16 Apr 2026 06:31:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="DzzIGpjX"
+	dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b="BtdEHkTb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SE2P216CU007.outbound.protection.outlook.com (mail-koreacentralazon11021140.outbound.protection.outlook.com [40.107.42.140])
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022080.outbound.protection.outlook.com [40.107.75.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BFE623BF9F;
-	Thu, 16 Apr 2026 05:25:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C5E157487;
+	Thu, 16 Apr 2026 06:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.80
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776317146; cv=fail; b=LytQUiTyHjJydxRU158b24Ug8P9rKOVMPMFQaB0TAGECc8acSU8x95V9et9Q+Y9/blO26RgrnaeiKUiokQafs2gY0DrSbNZAXZrE67LNEIW6AdxwgmCyg8fjiAZGffmNZsYCfsdqFqEn5EH4vspiyahZTT8PJjyMktSgqJawciU=
+	t=1776321105; cv=fail; b=glFRZhitMpCgdhM/kNRA8A70cgJv+qTiR0y6lGKC2dLY7zsMrlhiB3k11bRCp4T3eXATSdZ16LXdS7CbJv81Oj5X+Nb7gFidiSWRuf2fvhpWjDXbNplXZEEMjj4m7xPiH6QKJQTWGa1RdhFvNPE638+k4oXQA/w3rcFoMkIy2gw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776317146; c=relaxed/simple;
-	bh=uFgJ6GMv5D/Q8Q4S2P5logCH1hUIVmuaJuhWwLdggns=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=PnaX5iq+xn1z8Of+2KW57MsplvXq+fjrJV0d75WpflUCu7VZ1M+987fKSIcp/4vF4YZUqptjXBIqPM9DkyMJv16qqVbnSnQ2uo/LC/RBpBBI25TS234g99GoyhAdoqVhqLmdym8zIXdP8u0Zs5uckuQAlS0nApuKsyz0A1lYZkU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=DzzIGpjX; arc=fail smtp.client-ip=40.107.42.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
+	s=arc-20240116; t=1776321105; c=relaxed/simple;
+	bh=IDkwMw4RFYGJ2cLF9jhrT0yC+Vf66OhQztDDW5Xbe40=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=fkovxqCwNri2o75xi9quMQFVaL24mkWMOvllkeosyNuQM/IdGDCEwcexjfU+6cgk7hNWnw1uLLCMy6jfZLmwdmBwdgJOPo6mOKMd0LAUf5UUK64Ir9fnDHfZyKUFGmwFPhuC1hvHm7d+gSnWvKjHUo3ieMCA6Qob2cd2DbVf/zw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg; spf=pass smtp.mailfrom=smu.edu.sg; dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b=BtdEHkTb; arc=fail smtp.client-ip=40.107.75.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smu.edu.sg
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MqFDEhCI7zydtyiH/GCit2b94TFdwfA2UO2yrBRTsnV0+kHhkOoFsiEiaboX3pjJ3YbTgg1nQ+oZMorcHmKuRePrR/26KqErMOCA+M8rroqkHiULKcD62e2iIhJ/+WMr9ghgcnq0IGD17KuuQv8NkkKg320t1RSCxFGGhgmLh3NeNXt1gvv/JuJsonPbG70ro9ISWv9uSWkNshhlGfD0wZTCglLAvUqGeE1djm5XQVg24gvZE7LxS7GYnSjIpFxmlfDzRgK8nxLMMYa+ODAFMMhvuBwu6hkd/TBkqRo2WYrFJMdScZj6zIZIzCySPGm2cNBiq2WqaJJ8cZwXaYbvQQ==
+ b=H7flJ6RMg+i9Vv+y0X5bQ7kqwrg+eLVk3/0+0JTLezPId/05PitOPQ+7pHkx75sTwDxPf2+LX4dCJiXtWeNRHETknw8oZz+j4bVgzsunh5h7FTvpDqqzS47EtgP8sgl52dV0Uq3ELIWc84UvHrc+46+F+eYsc/bytx3U3HtJbqiVCYhstDmM1q6jSAJssJ1oPkP9Q6IDgObmIIydZJJmniBZ/q6lWw48fRnw/dFeIWLj1sVdcII2HGuYlUDFL4RH9qDsbFI7C7EiSjVmwTGQcjX426aim/K6jooIJZQxN7KEure+Yi5vVABzEOgQIrDKEpHNUgaIJZeiAB6XHsokjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uFgJ6GMv5D/Q8Q4S2P5logCH1hUIVmuaJuhWwLdggns=;
- b=DO99EmxI9WcPG+3DIpai1FosfADi0YoVT8ockt0gvylW2AFueP/goy7Hzj1NUGyrJZItieMVgKE+5FwWFg2Tcplu4f8v8XQwTY4zjk3b7SeJqajs+LCszYI2YdjW1ub1hD9kH1sDu6gqQPSttDjdNXNBEQ2leyqpiX8sQK9USLMLUXtRZPtF1wpGzeHfDKHgPmROxpz1kW+7FZm3ApRHOrxyM4rtqf/zH3H4OdfEOb0NUexrvpBpgpgzHZAfpTJc1PWcWFASjCm/ejdDg46jQ1HF0WClG+iX7MyzS7h0MR22a/p+j9VLA96VOXjKlxrtPTsyMASZWAE/fGHR5fp3ow==
+ bh=xB/L4WN+jmCdRnNJ1mY9MF2JwT3uThu2CLfnDKgAac4=;
+ b=uXTORpTS/DAC9XG9jqN/fLj7TSMQ3ojGmHd/6s7heb/U6LGbiZTBmM9lVhy3NrXN5jPefiy08sXFvwAGdwjbyKz6LMqonM3ki9nD4GrjHde0tdhZtEwVhQoNbk0DMSI2sxDLY1hEAqT4XX9SCvxB6RS/DEMGsrNoyEOya+P375ZOKKTiRdxHf2JnQsAOZqkNMIwmNQzvDXhtzH4cZ32VE9PcyQ0quOIBSBjQ3P/s09v54mG4khs8uQufHxDn1Yd2Wbkn12WrhLFkqAj9Ecxxrc/8d4DpGL4ml/NRV664Xg0cVeUTCzx4i7qE5nnqN7K5U+pnhRxf46EBeGSVKTSELw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ smtp.mailfrom=smu.edu.sg; dmarc=pass action=none header.from=smu.edu.sg;
+ dkim=pass header.d=smu.edu.sg; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smu.edu.sg;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uFgJ6GMv5D/Q8Q4S2P5logCH1hUIVmuaJuhWwLdggns=;
- b=DzzIGpjXGpEvA2EnHpIFI4eM2hIL3eHiHfEzO3TSxj2TJhfch9N+MsHJgxHgxQmt7G9NkWM0uNtXxUme3yLZf+wGOT088qCFIQbwJcpf+KVG+R6YQwpQM5AptxFWIlAYVuLuw6kmNV1bVZN0NkTGse595DR67RLDPTbCYkcJxJc=
-Received: from SL2P216MB2441.KORP216.PROD.OUTLOOK.COM (2603:1096:101:1b9::8)
- by SL2P216MB2974.KORP216.PROD.OUTLOOK.COM (2603:1096:101:287::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.21; Thu, 16 Apr
- 2026 05:25:38 +0000
-Received: from SL2P216MB2441.KORP216.PROD.OUTLOOK.COM
- ([fe80::f234:3bc6:9197:8232]) by SL2P216MB2441.KORP216.PROD.OUTLOOK.COM
- ([fe80::f234:3bc6:9197:8232%5]) with mapi id 15.20.9818.017; Thu, 16 Apr 2026
- 05:25:38 +0000
-From: Nas Chung <nas.chung@chipsnmedia.com>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
-	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
-	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"shawnguo@kernel.org" <shawnguo@kernel.org>, "s.hauer@pengutronix.de"
-	<s.hauer@pengutronix.de>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-imx@nxp.com" <linux-imx@nxp.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, jackson.lee
-	<jackson.lee@chipsnmedia.com>, lafley.kim <lafley.kim@chipsnmedia.com>,
-	"marek.vasut@mailbox.org" <marek.vasut@mailbox.org>, Ming Qian
-	<ming.qian@oss.nxp.com>
-Subject: RE: [PATCH v4 3/9] media: chips-media: wave6: Add Wave6 VPU interface
-Thread-Topic: [PATCH v4 3/9] media: chips-media: wave6: Add Wave6 VPU
- interface
-Thread-Index: AQHcQygbwPgPL4VUWk2ynBZ+eD7wh7UblwiAgMZnzJA=
-Date: Thu, 16 Apr 2026 05:25:38 +0000
-Message-ID:
- <SL2P216MB244147720D30CEA2730D459BFB232@SL2P216MB2441.KORP216.PROD.OUTLOOK.COM>
-References: <20251022074710.575-1-nas.chung@chipsnmedia.com>
-	 <20251022074710.575-4-nas.chung@chipsnmedia.com>
- <7306c00b626f4030d92b908022b9a39669b07bb7.camel@ndufresne.ca>
-In-Reply-To: <7306c00b626f4030d92b908022b9a39669b07bb7.camel@ndufresne.ca>
-Accept-Language: en-US, ko-KR
-Content-Language: ko-KR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SL2P216MB2441:EE_|SL2P216MB2974:EE_
-x-ms-office365-filtering-correlation-id: 90d48382-284a-4136-b280-08de9b789853
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|56012099003|22082099003|18002099003|38070700021;
-x-microsoft-antispam-message-info:
- ABD2LLgtRXogwXQGnD3ruFwOAI/eWN1t08iRsYZAoumsQtaeZvQMFlpnZepEvwc6JqbMn5JFQevWngobJwbcfeDhVVVAsXuOteSr0g/NTSwSdjMICJAfpGUp0PqnSEV19AM85AjUurZHDDpzZBlJ6BP7uBqUrYM80aycEMrt8Fe8XSf/wlG7d3OyruE1w2/Jaz8ldSHoHIu+5TL66V5quk1GgIPeElWocgOJwgKIw31JVeqXpzbWGpZ2DgmCV7QjP1gUDjfbThCGKjyYEZaStTNvj3cmWi/Q01LJYfmVguclityNg6wqyxSBqBllub6wwR42xPzFSih9waELOjlCGehmz2+W09DkUxOFhmd7dX+sY3wdAHUOVcILPdRfikvgTu/ham5NRBugbyiXZSM6LbliK85hetg67T9INmKw15lpt6uMHP2FQxZbPZn1PeD9ZxvUSCj0cxP+gtWRnZ2psZtxQvmg2eeoKlRcowG54LieBbW1vBS1UyIiqVzGira3lQplAwVXj1tFb73m1Ffh3nhLZnUXXreIacNjncP/nzXEbTwpbe2YeZxwMHZ0eNsv9JK7NC7gaNQ/DdIbWx52axD8ABM9g5AF2E+UbLJ4IzVGRj39f6OIdmjxgYWvbOoGFJL+ZD4krEmrnYCVE8jfa/0j67VFLDseuAJwwbu8JsZ5sP+U4venKXPZfvSsIj9Gpr/UVx8UTyg2HSi7vJi4IKoZk9q79+IvI6LVHm1DgRGkrSB+X/KENxJJxB+bqo/eoO9vaBE4TNzjd6gm0BAgrUjdJXrK0mbZzKNK03rOM8o=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:ko;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB2441.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(56012099003)(22082099003)(18002099003)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?h66ruLH5NwH+SAx7nlUAeOOY0XtB8GEXmYMaIjASjFGrHlUuy9kKOrOmou?=
- =?iso-8859-1?Q?3LJwY9Gf1LyMoP/HdZl2ybmwb9/v4XmVJJbP7W6caW/jpbycxYfX+K3oHp?=
- =?iso-8859-1?Q?E11iZLX1zcGbWoUAki7WpR2hZMCnx2yoTb6M+Ky3bh5RL2k/FJG35fdPTM?=
- =?iso-8859-1?Q?cPeYELpMc5R5kCOJlRdWNOrI6IA8M+7Umo0bRgKRIHOSWacyQ+P2VPHFZq?=
- =?iso-8859-1?Q?OnmaI2zrhUq1a4SRolDrDdd6/Th4kc9BBK+pggz/LSbY3vNNGvydev7rD8?=
- =?iso-8859-1?Q?PcRag8nKh1uH02dJc0eGZvb66OV95KMsQ/gnD7y553byHLfv8Ea3GMMoxR?=
- =?iso-8859-1?Q?GLTqwV2xIi7XB9105jJw8rWinBTgiey6oQxHMm82o09llmtaH/9IRRa5/a?=
- =?iso-8859-1?Q?PfWM55qLKY8TOON15qXNyTETlUOzeYUne/GFhEB7NihC9ET1T3v8PaussY?=
- =?iso-8859-1?Q?dsRyXlwmIwbDsJeLmE7TncUIt9PcLEEgt2fw9/fkO03dj9luMoOCj49O4y?=
- =?iso-8859-1?Q?6tiDSwqD5Qus5XD7ZSzhODvmmESQwEbvJEnxFH/jFvJdZoWYwC+OzCQ34B?=
- =?iso-8859-1?Q?wG3RhswbhZJTzCf7iQxo0gHe+OcOk8dEZAycIcqFvvinQBzNtwZvGIrToh?=
- =?iso-8859-1?Q?ZB0ETXAl2CDtpcfqlj+jWN0+o8b/VUmAbMn7FiVKsR6vtaqtExgE/L/9Xf?=
- =?iso-8859-1?Q?60AzUtbBZ2xnZnm6KJizChmlEuowheJh/dqdOF8DlTBu/YU4It4COpliYs?=
- =?iso-8859-1?Q?3FLpXNPqaRNK9xPEVsHFPeyOucd8TBtjWJOmGQ/kWhSOWvSCIxXr+BpEnS?=
- =?iso-8859-1?Q?apfbWyE/ezZDXoAUD5xYtcUrj7jB0TZ7Nt9QAQeXZVbs682r5QGzMOgmO6?=
- =?iso-8859-1?Q?vfZvFwFYwU5ccK/VH/irwoaafeRmlTFsz/seXalHc2WfWAketOUuW3BW3R?=
- =?iso-8859-1?Q?LQCICyuIqtRMHIHNGWqL0joamDbEQht7TA9CHj7L9CQnXBDHCXFDoeQhtj?=
- =?iso-8859-1?Q?zkJ4spCj66Ra+ke4DSSLEmJY1hzwoxpd4ywwuTHMOenhEbGv2lsKb6Zy7J?=
- =?iso-8859-1?Q?UkCavqJHZuGiSudayDt67dSjT0vqXMxNyRpwwv8/u5N83+0fOgW8clBbnG?=
- =?iso-8859-1?Q?c11HE9HoPETxWBkMBX21GGNWoZkUd5a/bytV+k9Osgc3A04ICyDmQ8CzqP?=
- =?iso-8859-1?Q?N2Pwn7kH+GKfJea/zkCRNXu6CxLqmADddOMUQQvIxemaZw7vlBn4HJtTaq?=
- =?iso-8859-1?Q?waZ5S5fRGAnJpgfGHbQ72zkIkxBjT4F/Z1R1w+iEIxQ7Tk7PHSNzYDz2TJ?=
- =?iso-8859-1?Q?srx2Itp9MqSu9pQiRRi2zk6D9n+kEqCJzdoaMV/aB2cGFzJTiL8oAnbWCn?=
- =?iso-8859-1?Q?G8JO8yeFG4NrwIdIJBF5pMwbSWlTbpUrdmlNQ6bDuTd/W9JP5jOfQGC7md?=
- =?iso-8859-1?Q?vY07qFlde5jv/sprSOEtVGxhzONGWwCRvs9IltBWjpJ7t4bB7oHTWYBRWL?=
- =?iso-8859-1?Q?xG0oRkKae+WZZHQjVWp+ZUTrMg8gS7cct/woodtxftMrdKFTor0ont8aI5?=
- =?iso-8859-1?Q?p8DOFfEmgOAjL+hsaZPtHc/iSyN1m7G/mFAAJ/WLWWUgMu42SxRLHKFHns?=
- =?iso-8859-1?Q?6ndq6Z1R+pLHUNQNgEpJvRaTlZ2Pr1QNludRODOcKB5cKU+UcKKj2rNrAX?=
- =?iso-8859-1?Q?szb1bkWVdqavTb3KizqaxR5zqIdKrx5uzVGdegfNc9gXjthvMLd8uwCRS/?=
- =?iso-8859-1?Q?qU8NWQ+LU5HJHOQU3ZSc3AeoYdVW2nNs+HbUP/d4m3fgD/KGwTQT6pQk7v?=
- =?iso-8859-1?Q?TIkwLC12Ig=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ bh=xB/L4WN+jmCdRnNJ1mY9MF2JwT3uThu2CLfnDKgAac4=;
+ b=BtdEHkTbrbn6KV1x4dfqMhqzdp8klF5FHkso9hdAdtWzA0EPMIeC2slFWLjDnPMdj04SdT844b0R9hChhcED2y0PdSiBWHYRq6dLsD8S/PT8ceisX5EuStXVDFFZefdRjHXW0LmMopzH7Rxpojio6XsItQq67pbo4ZjCaiKIlmD65eDqAkliR2pkF2RcahGPebbUZ6aSBL9VNyHPwUwYb1Zb0Y0G/0ZGE+n95CbrIfj2f7QgsgxsFkL5e31QrxaECpPLWTWOgKTX3K21++uLvXIqJS6FCEMK70Vr2zEYUENcwpw1TC9sC7/yFdwHSuMZOTZxYx1weWoUaSpe004brw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=smu.edu.sg;
+Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ (2603:1096:d10:3f::9) by SEZPR01MB5673.apcprd01.prod.exchangelabs.com
+ (2603:1096:101:125::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.50; Thu, 16 Apr
+ 2026 06:31:37 +0000
+Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ ([fe80::6bd0:d704:7d90:a595]) by KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ ([fe80::6bd0:d704:7d90:a595%5]) with mapi id 15.20.9769.046; Thu, 16 Apr 2026
+ 06:31:37 +0000
+From: Huihui Huang <hhhuang@smu.edu.sg>
+To: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Huihui Huang <hhhuang@smu.edu.sg>
+Subject: [PATCH] staging: media: atomisp: fix memory leak of raw_black_frame
+Date: Thu, 16 Apr 2026 14:30:58 +0800
+Message-ID: <20260416063058.2479566-1-hhhuang@smu.edu.sg>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2P153CA0021.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:190::20) To KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ (2603:1096:d10:3f::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: chipsnmedia.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: KUXPR01MB7791:EE_|SEZPR01MB5673:EE_
+X-MS-Office365-Filtering-Correlation-Id: e52db160-e85b-4a0f-70b2-08de9b81cfc8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|786006|366016|52116014|376014|1800799024|56012099003|18002099003|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	6+gINlLteaCVq1WMuBq9+ruJg31v9wk3Fqd1c54YgByO7BCZqLKEBo9HJhIdHmF4ZQp8rdJlKE9X0SRPjcLrDAyN8c/Fn/8jpN48x61ftlXFt8q1WmhvOcrPvHFXEgVyI49t523AoobImzf8LNek+95ECFFHTfBmLr/CfoQirjKgOfI3GEZFYKUD58whOxnBX/Vbm18cZtNhsf+tRqoNjIXH/oKLjVi/M3bjmT2es092M0OFivqpY0Q11Ti9NXFvk0QxF7JBhvmj5oPpw2eHH+/F5hITkzVlP1V8Q8Ha93WHFJaDjKbaJSqqEp1v7kk6njbQ3/x1eLhzXpFMgQB6lHRzD5X/jrW8Bvmhty4mOdfnsMDA2KmX78+d8Sq/SxN68ewwFmm2IdkEt0bZ36TmI/HAMdp3jmIcK3jwSRTy41wBZeE6nVNxdAkw1rV9zLzwx2EebGFOoUmN5g4dbe7xKuXSjr8ZdaEkvMUJMwhiwGxYDGN+Hn9zazJ/dR4V0ri0usWhN9k3qkZswCxg8mE4ISSPferP8t7vivlqEU2tA4SewsO7j7DTh+02JcsWjpy2MRv225sp78RSHRq4WsS4rEKqFWAAiiAR5H2do76I0JA/XN5B/oKdpzBq6VvC1saI7cwwT8Dwv1a3hcWRLxPN2gj+J86zNesqtNM5ovJrBxGqtKeDGZ5bCN3oW0HvGrM8CA1T8+1ZwgCD9hrPjeFNbgpwaLDq9qRsW7id2wL/yU+5SD+I2vS0Ketdm+iea6j/0zhVpifehW+7kC714gX/tyiYLUDCox3LShRoEoDmi/g=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KUXPR01MB7791.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(786006)(366016)(52116014)(376014)(1800799024)(56012099003)(18002099003)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?m4vSpFaJWs9a+u7t1zwZdmaM/y1ty47udnToCzPc6WwpjyEX/pn5ssSjUUs6?=
+ =?us-ascii?Q?8irVQ3PSd4Zz+om0yBKzsHgWgVxwdXszbFxo/bk1i/FarVE+aQQO0mysNJiv?=
+ =?us-ascii?Q?6HD2zn3IyemvHyP2UPGd6+CuxMm/yrpXvRrh4YMLzTe/iNNl6vlMlCmYQE9K?=
+ =?us-ascii?Q?j3tj8ChWJ00JQ2BHWSmyvY4chffnK0i/m3IczIY66tHCF+M8xXaaWb4EmPXt?=
+ =?us-ascii?Q?Jt1b1BImj+wbphp1qFZE+y8qFsLIrSQ4MDcvXCURvu77Jhrl0czV725/p1hR?=
+ =?us-ascii?Q?R9outTFvVxFlfX1Dw2+h6OAUtgq/uDd6lK2KdPI83+oQS6dDEnE9ClgruC3D?=
+ =?us-ascii?Q?q3XupIlHgFc6mBQw3Gzsx8pMjxPGyM1OAWyZkIEeVNufxOXNN1L9ET/WsWsO?=
+ =?us-ascii?Q?aDCrfsVReXKkGsaPvXbeITkiQy7Sz0PON90Y4y8MYJBPwrjG+Z5GwBokM/JK?=
+ =?us-ascii?Q?kZCMIr8ZR2fLkjuqLVN9o4Lk4K5P5TqcDZ+9bOGbmuF6kNhCdEin/F2AWRva?=
+ =?us-ascii?Q?PHCx369e/urUiTfzgbdblbP8QSgqOu5UMElU1I/3rL6JX37DPRemi9NQQ8mM?=
+ =?us-ascii?Q?5LTzVXYi2y2oG+h2H3gF+b9Q8xj9mm+UlA6VlpmuXEG5ebgZAUunqct3JtGE?=
+ =?us-ascii?Q?y30AHFImvJDNIDHVgEQ97OOtCJJzk4R15KFJwgxu7QBshdPeuiaSdRsTTarW?=
+ =?us-ascii?Q?MsMs8wVJPORIB8P8Y4jps1m1Ts3T2nr7mtf6iwSA3T3Sd9Hb/g3KIJY1J4M5?=
+ =?us-ascii?Q?I52w/VQNwz0T39oHbTt68hHwvOeox06bj2CNr4Hj1JWnV2bWZf051z/+KXiI?=
+ =?us-ascii?Q?LQidxY5/yKg2pEODsjFtVeHSxgBWWK59Ods6imvX8qcP+s0lPylGO4OZvFjI?=
+ =?us-ascii?Q?XowtUx93M8HIQ+NUCEGDi8Wz5/nFbQm1LolQOI5fbMAaZzjJYm6BLpeZIiDM?=
+ =?us-ascii?Q?5m6yXnL9i4nDBrk2Q6Lf+uSAVZ+gBvcMkGX3GlrxdeGKRKlvwJ1mfIgBxCv8?=
+ =?us-ascii?Q?dW/k+23PZUFNqopMTIY2i4DoKOZWUd4ciw7mvZd+P2UqL/aPDr44qsLwb9wI?=
+ =?us-ascii?Q?hwuZaR4/gLzjAjB19Kd76v76shlJSw1jAeSIMmjdq1Tl5ipqu9C/98Hb9FCr?=
+ =?us-ascii?Q?4vSpzOwdDxwsxs5/HU1fWE3sp4qYGdQ73zpFefaYdZnN4UPdlB2AEPAaT6VB?=
+ =?us-ascii?Q?MBM+qcpgcFthsDO0HysVDOTxHnkJfUemE3ukZ2eMRWEX86SB0sl32EtBY4ws?=
+ =?us-ascii?Q?fcxntyojrRdYW7U6x607BgAF3PTUOGNPqCDo+Da1s2+SUGkC2rQI4m2KmdUg?=
+ =?us-ascii?Q?UTKuhtSn3D2kjjunh9k5jAuaqyMMBlD+Ez9WLFE4/N2MYJfkrtdezI5TaC4A?=
+ =?us-ascii?Q?qiLrJ5fuMMFwLwXq68gHBw09ah14+frIt5Nwqs7c6GEAw7NGGv2pTmiShi26?=
+ =?us-ascii?Q?+6SBcqPfLzyaC1qkM2MwtLxm5w8FaIgE+ybjuBQbUfwl9ttJyuFoIi+Qztcl?=
+ =?us-ascii?Q?9FanDqt59U13fU+cv8ar0NE6CcJTlwf2JOdx2z8dOxXzpWOQChi6OEMWw26t?=
+ =?us-ascii?Q?rV7f2VNHmJsKGl2FRGp0KPCmPU7gnkNXACq0C4QiJrT9NGbwM5NHIoGrOYFk?=
+ =?us-ascii?Q?MTmxbYcwizE3RR68v51t0CLqnZ/pcYFl2VNokhhWzMpUnvmc2oJC3n9Odnzf?=
+ =?us-ascii?Q?FhHd0XyKxItm2oYtO8BwUmYLix1+gkDzIsUqXID8C7K4kR07Ncny68e1jkCX?=
+ =?us-ascii?Q?69lY2tLbRA=3D=3D?=
+X-OriginatorOrg: smu.edu.sg
+X-MS-Exchange-CrossTenant-Network-Message-Id: e52db160-e85b-4a0f-70b2-08de9b81cfc8
+X-MS-Exchange-CrossTenant-AuthSource: KUXPR01MB7791.apcprd01.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB2441.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90d48382-284a-4136-b280-08de9b789853
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Apr 2026 05:25:38.7064
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2026 06:31:37.4483
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: niHDSQkYdCLOOlA7/3clCDo2qYeRTCDdHmt9eemKrJNvFOxKOj8yXoW4L8xpPAhgxBFOaSrWb6AZuuEngWyxKJK0sRLQ89zinO6egU/gg8o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2P216MB2974
-X-Spamd-Result: default: False [1.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c98a79ca-5a9a-4791-a243-f06afd67464d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: srUHJBhTb7VvIrr9fxWzoJyNuK7M2MgEuQmhToPfCpXenwT/53dcUc1+NzgJAQvwlBCaJAjtOHSNWkGvNQzOFw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR01MB5673
+X-Spamd-Result: default: False [1.34 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[chipsnmedia.com:s=selector1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[smu.edu.sg,quarantine];
+	R_DKIM_ALLOW(-0.20)[smu.edu.sg:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-58849-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	ASN_FAIL(0.00)[114.105.105.172.asn.rspamd.com:server fail];
-	FREEMAIL_TO(0.00)[ndufresne.ca,kernel.org,xs4all.nl,pengutronix.de];
-	DMARC_NA(0.00)[chipsnmedia.com];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[chipsnmedia.com:+];
+	MIME_TRACE(0.00)[0:+];
+	ASN_FAIL(0.00)[1.2.3.5.c.f.2.1.0.0.0.0.0.0.0.0.b.d.0.0.1.0.0.e.a.0.c.3.0.0.6.2.asn6.rspamd.com:server fail];
+	TAGGED_FROM(0.00)[bounces-58850-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nas.chung@chipsnmedia.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hhhuang@smu.edu.sg,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[smu.edu.sg:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	NEURAL_HAM(-0.00)[-1.000];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chipsnmedia.com:dkim,chipsnmedia.com:email,infradead.org:email,ndufresne.ca:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mailbox.org:email]
-X-Rspamd-Queue-Id: 610EE40A5E9
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,smu.edu.sg:email,smu.edu.sg:dkim,smu.edu.sg:mid]
+X-Rspamd-Queue-Id: 4BB2340AAA6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi, Nicolas.
+Our code analyzer reported a memory leak in
+drivers/staging/media/atomisp/pci/atomisp_cmd.c.
 
-Sorry, I just realized that I never replied to your earlier email.
+In atomisp_fixed_pattern_table(), raw_black_frame is allocated by
+atomisp_v4l2_framebuffer_to_css_frame(). If sh_css_set_black_frame()
+fails, the function returns -ENOMEM directly without freeing
+raw_black_frame. The allocated memory is only freed on the success
+path.
 
->-----Original Message-----
->From: Nicolas Dufresne <nicolas@ndufresne.ca>
->Sent: Thursday, December 11, 2025 4:54 AM
->To: Nas Chung <nas.chung@chipsnmedia.com>; mchehab@kernel.org;
->hverkuil@xs4all.nl; robh@kernel.org; krzk+dt@kernel.org;
->conor+dt@kernel.org; shawnguo@kernel.org; s.hauer@pengutronix.de
->Cc: linux-media@vger.kernel.org; devicetree@vger.kernel.org; linux-
->kernel@vger.kernel.org; linux-imx@nxp.com; linux-arm-
->kernel@lists.infradead.org; jackson.lee <jackson.lee@chipsnmedia.com>;
->lafley.kim <lafley.kim@chipsnmedia.com>; marek.vasut@mailbox.org; Ming Qia=
-n
-><ming.qian@oss.nxp.com>
->Subject: Re: [PATCH v4 3/9] media: chips-media: wave6: Add Wave6 VPU
->interface
->
->Hi,
->
->Le mercredi 22 octobre 2025 =E0 16:47 +0900, Nas Chung a =E9crit=A0:
->> Add an interface layer to manage hardware register configuration
->> and communication with the Chips&Media Wave6 video codec IP.
->>
->> The interface provides low-level helper functions used by the
->> Wave6 core driver to implement video encoding and decoding operations.
->> It handles command submission to the firmware via MMIO registers,
->> and waits for a response by polling the firmware busy flag.
->>
->> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
->> Tested-by: Ming Qian <ming.qian@oss.nxp.com>
->> Tested-by: Marek Vasut <marek.vasut@mailbox.org>
->> ---
+My patch adds the missing ia_css_frame_free() call before the error
+return, to free raw_black_frame when sh_css_set_black_frame() fails.
 
-[...]
+Signed-off-by: Huihui Huang <hhhuang@smu.edu.sg>
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
->
->[...]
->
->stopping there for now. I feel like we did a big mistake in wave5 by
->allowing a
->heavy abstraction, its a lot harder to fix and it served no purpose since
->you
->went for a fresh driver for wave6. I think its proper to ask for a slimmer
->interface.
->
->The V4L2 API is the front-end, and where all the validation should take
->place.
->The HW interface should simply manage the HW in a readable and non-
->redundant
->way. In V4L2, strides and buffer size are part of the try/s/g_fmt API, so
->these
->should not be duplicated here and they should clearly use the common code.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index fec369575..3cacf16cb 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -3365,8 +3365,10 @@ int atomisp_fixed_pattern_table(struct atomisp_sub_device *asd,
+ 		return ret;
+ 
+ 	if (sh_css_set_black_frame(asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream,
+-				   raw_black_frame) != 0)
++				   raw_black_frame) != 0) {
++		ia_css_frame_free(raw_black_frame);
+ 		return -ENOMEM;
++	}
+ 
+ 	ia_css_frame_free(raw_black_frame);
+ 	return ret;
+-- 
+2.50.1
 
-I agree that the HW interface should be slimmer and should not duplicate
-validation handled in the V4L2 layer.
-
->
->I know its painful to ear, but you will be remove 50% of the code, which
->long
->term will be a massive win on maintenance.
-
-I am reworking the series to address your earlier feedback as well, and I w=
-ill
-include that in the next patch version.
-
-Thanks again for your feedback.
-
-Thanks.
-Nas.
-
->
->regards,
->Nicolas
 
