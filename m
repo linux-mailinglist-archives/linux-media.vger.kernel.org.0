@@ -1,287 +1,457 @@
-Return-Path: <linux-media+bounces-59046-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59047-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aDnYOq964mnh6AAAu9opvQ
-	(envelope-from <linux-media+bounces-59046-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 20:23:43 +0200
+	id 8GL5JkOC4mlE6wAAu9opvQ
+	(envelope-from <linux-media+bounces-59047-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 20:56:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CBF41DF3A
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 20:23:42 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BD6241E171
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 20:55:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3EA76300B044
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 18:23:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BA243303DD1B
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 18:54:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 261723A0B38;
-	Fri, 17 Apr 2026 18:23:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0136B3C8723;
+	Fri, 17 Apr 2026 18:54:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="N8xeBqhb";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BrABvKEY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NWdiac6v"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C848834E766
-	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 18:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6081535AC07;
+	Fri, 17 Apr 2026 18:54:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776450196; cv=none; b=uk1hwyfQz568v3Y9qbQI9SAtUwjJAmN8znEgTgZiQPW7CwwIyv6CFuW2DQ9I7edrO3OA7vlCwhcdeSTTViW4zUhX6ay5V7z5+CIXAXTlf20HesvUj7gjF++xSQJIdDR89pOPohSPSsLiEo+IR1GBXJAKA8wP8wDxZgduHcCCJ9o=
+	t=1776452089; cv=none; b=EixOntMXiiMBMWyrs06HccToFOtwDDlzaLFSMhGBZg7gpGO2iJCyT/x4D+PwCqFO9szwXmkXIlXkOGGwE61g3sEOnz/gm+ffAuxYKWnu4Fz217gKlJudOazAIeMp8a1fMLY8tX37V/uoy0CAkBbn7Q4mYS2OOMq1ytjOtcDh6+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776450196; c=relaxed/simple;
-	bh=FOVV8ytkXqNmDOPHJRES0xYYASo8VFa6Q/ljQtjPeWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j0X0VTBWl9PXm3O1Kmd05z2sSMJVGLmEBCkrcO54f/GajHj91j8XHjeVE+16HyZyBW2At93idf0b/CPeBza4tpTTgUCFG9P+NmSFzmWAXhnLKC47TaFzJK5cQgiA44OHS2zzbaTO0a5iwWTQJ0mFTglYsXMZzrhUsaxQCcxXOwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=N8xeBqhb; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BrABvKEY; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63HG4O1N1985526
-	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 18:23:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=c/Vo33zTig6JD1FHHp+ufQHh
-	3tG0Ic/BRrAC/lMpdIY=; b=N8xeBqhbKm7+PectbSVf9VmQT8daYMkUTkQinlTc
-	yiYnts6LdEzn7KFk1//jEFKrFjXIfySj6IlbbewU0TYuSRXecRrooi5hpI1VQ2qU
-	dvlM8iPQpf8BvQURfDvS22w9LoYh7AbtLWU1cHUX+ejPuuzNERCAlhlBRFUMdbQJ
-	HJ/6DTkfCx2MTQ6JOYW6d1MiajiDX0PqSSfLuM3+xJ5pfNYhy4zix4hY4toCnXv7
-	DPkgALxkL+J62K0JJbdVVcpHnHg9a752f5XT7Y66B1kejBYbM3V1g6/2b0GR2WH4
-	obL7+UbJwdEb2OcYJgCzoBzWzYLlgMSmOjLG0mjIWsgKig==
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com [209.85.217.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dkfyqtej7-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 18:23:11 +0000 (GMT)
-Received: by mail-vs1-f72.google.com with SMTP id ada2fe7eead31-610503b660bso504222137.1
-        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 11:23:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776450191; x=1777054991; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c/Vo33zTig6JD1FHHp+ufQHh3tG0Ic/BRrAC/lMpdIY=;
-        b=BrABvKEYTqlEVl6ekvCtT+PG1Nqax3EW/oqr1vahK2JjN3b6QhKxIelnzCnET/mZTe
-         up3oKzUZBhavBp4ObSYSumPvfXyBeLMDA1oAGbciRcKBQLvaVmrLjWPCyigYnGaKsA/y
-         U7o6GQmehIZIvG/pUQnYyzESkc2149Xlknl+L95l8hdui1FaZAP5hsnQZkz/8gg9D7HI
-         PXXgFucEia6gxeZA11ViFRgHERyFR5he2a3KEC/cDk0LhiUqMdRlzrWIaGkWNBCiTn6n
-         E4AsYqgycIC63FVb41dNlq6YNO5x5rNuRPVNGVIEAeheF+/11blV+nhYkUj07jz71rX6
-         CAQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776450191; x=1777054991;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=c/Vo33zTig6JD1FHHp+ufQHh3tG0Ic/BRrAC/lMpdIY=;
-        b=H+E+uGzX1JAosHUeu4iW+WjEQ5cag57sx+3HBSuq1FXmpdhYDy7kRPUQ2wj9mScZGn
-         LlYX+blUaD9iqTmvcaZo6XIEOq+GUem2UXMGsAquwy2KgL9tlIf546QnwRnzn2j8DC9r
-         jZ3+ls3dTCdZu/b5dB/V3Md9Ss/jHHE8CDRZSHq75frym7ofS3zif1lnk8tVIrKxuzVT
-         /esos5XDr4gMtlyg7a1Th4uRYuwEFYKPQDLlNgmA4zbQmPGXyFpDSyThuGTEniEc7dFT
-         HhyoiwTjK2y6EdDoaGGg97jEw61xi3jtxHSOFjpjTmkSvlwFnJg3vwvUauORJfRRi6DI
-         lJgQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/NxAeoGkAr+FoUnvkw9izlP380CBcwk6QRZnFdbN893qNwHEfHNk0DBDfn41jSi7BqHEF2WNoGHUuEDA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw26QlHodKY9e7ewjVw5dvJdsGQSfVnFn8JaGQkhx/gUyu5vy0U
-	oJ5RYxy7ZOC95W80ajV1JFR0ajVYWXp4TRBT8kR9q9Sv9bSmMi/7u/oueRLZrLie2b9kOQESzoJ
-	HrdhSycjftroA7afAh/EqI9gsdo95jz65NpBvMDK2jwQdX8jVPuXOadzCAwp/DI9Bbw==
-X-Gm-Gg: AeBDiev96h3Ja/Gl8FLxjDcDnJ6luMmmTpq4FQjLQLfc75swyFWK9wLpoG349FBlxjF
-	Lzg+kCtdJzxgjOnUVMOpe327xUDNni0dNOFx4ghrm+SEahDM1E/Uzg5WOviqmR65pocuEaaSH/X
-	CxnvSKrC/0AudxIg8GSGDYR35JsqN3v3qG9qjw470d3a83/KSCDnIWlMn5vZLA29lEI9i8oyvre
-	4eOBtkLPStwIVckAy+AGCpMasj6mPd5GRDCraLrWQpRD1l8/RE1h4irVNBrn0QnkZLzvhrKDQ28
-	oEpPabwGDH6DxXAhjiFK5czY4T5pzFuNrNz4q4ApHBsrmIY07xZY/L3FXGkv91e447U0oScImPD
-	LC0nnI5eRF312quKg6SEuXrRi8CR9iuScBzUxasPb3r8427bB8/DlZhH8EUOV8opaypWhHWBEmL
-	grV6AtTyVAFNxEcWV8MmBB0dutzh317fVgIuQ7ZajX8UQykw==
-X-Received: by 2002:a05:6102:38c9:b0:613:86e6:b2d with SMTP id ada2fe7eead31-616f7c5f0camr1810554137.21.1776450190335;
-        Fri, 17 Apr 2026 11:23:10 -0700 (PDT)
-X-Received: by 2002:a05:6102:38c9:b0:613:86e6:b2d with SMTP id ada2fe7eead31-616f7c5f0camr1810489137.21.1776450189831;
-        Fri, 17 Apr 2026 11:23:09 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38ecb763653sm5616471fa.42.2026.04.17.11.23.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 11:23:08 -0700 (PDT)
-Date: Fri, 17 Apr 2026 21:23:07 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-Cc: Bryan O'Donoghue <bod@kernel.org>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev
-Subject: Re: [PATCH 04/11] media: iris: Add helper to create a context bank
- device on iris vpu bus
-Message-ID: <sqg2db63gsjg3cxfdfbmndhxibzlprgviarbcl4l6isza36nc3@ljgg23nkuooi>
-References: <20260414-glymur-v1-0-7d3d1cf57b16@oss.qualcomm.com>
- <20260414-glymur-v1-4-7d3d1cf57b16@oss.qualcomm.com>
- <ie6dad3xewm25gdrqqne2fsroopu3jwgrqmu54sfzjliis6mo5@6qsgagvyynwx>
- <b0ba2172-3f66-c912-29e9-0a48b4480987@oss.qualcomm.com>
+	s=arc-20240116; t=1776452089; c=relaxed/simple;
+	bh=6aR7apEW/S1lKV2sWOZjVbWKxNbU41SLvM2DzmGLW9g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LItpHw9NHb95eCtbmqjmzAlqHTagceAualPlU6GHs78aT55JVsJnIsou5fZbnG0XVFXxAVmrKExHxZ9jlX9HmbYSe2LXolEnynY2MJ22wSiBcT1GhGLIC2j4oNCnCfQexMtolpbHHzvSEFbgwALATdbHjAnAAoNEyte3nKSPEpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NWdiac6v; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90942C19425;
+	Fri, 17 Apr 2026 18:54:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776452088;
+	bh=6aR7apEW/S1lKV2sWOZjVbWKxNbU41SLvM2DzmGLW9g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NWdiac6vElRNpVk3NgLnLfKz8otB/lnylnUsD1LbtOnmA3zoATVyvH8IjGfuzt7sI
+	 Cogzwu133gR6AFGC0nS7F9YWIqgZmDVYBAzjaKE/8j/RT3EaYi4PQMQbq/7XVIRod5
+	 3OZo6R8lOq+dEupsQfjHWxsQ72mHGrG9xgNLT7YKdtAqro+flfSfBUKZ5igFaCgsDB
+	 OSt0ENuwAJuyDmAyHZTsPGrwjlS2v9tZW1fj5FGnQT2pp2T8BTX6rFn6v+S76AxgP/
+	 9pRl2QSYXmWROXVq+cRr2BPK1yST1p9/soFU1fiX9B3RC2bbFhLn6P1nVyq0XhHFqW
+	 AVVfEPnbaYsYw==
+Message-ID: <5aa199d5-251d-4c98-a6ac-5038301a1644@kernel.org>
+Date: Fri, 17 Apr 2026 20:54:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b0ba2172-3f66-c912-29e9-0a48b4480987@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE3MDE4NCBTYWx0ZWRfX10OVyIYlBxAh
- DPn9jEYCaE2PxVCbOP4Yw9Qsdyyb+5fDLgS7dSd1D+HN4Uhddg1jpMggkqe6qWYQl6aY+kdLpvy
- 0St5236wcZEgvr5uwetciXPOUHfMkCHe+YyD1UcRrBv4CxHQ8xZwar+KG7oNgC1GQi9RTu7L4up
- +OFBBUT7UZByxslSbqDNb4S1e7gY5UhZ9dux+/aFGVIjjxi6ccrEWEuaYRMvykBfl3guvkhh1bY
- RdhR1XXaqPjYscwOfr3hwycnopQ/IHo/+JzUDA8NE8nM8C8r2M1wmRKTPflQ0bToOMGoCEwFequ
- SvRMRy5EUiss5p5XIFm9HBaDI0LbU/Z2tcZm4G1VBCYMS7RuF1lh/PHk52Gw8G1kk/Plt3yRc0Q
- keF5BooZDdMwTeShNAJQcrqpcfZhZBV41Xkg1qfJ9ncI8pPCMmSLrFAjkMuanKDj80XbuFKtamR
- HnQWhpw1kidLFI6iwuA==
-X-Authority-Analysis: v=2.4 cv=BZPoFLt2 c=1 sm=1 tr=0 ts=69e27a8f cx=c_pps
- a=DUEm7b3gzWu7BqY5nP7+9g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8
- a=qp5--WL1MiOyaZoWmgIA:9 a=CjuIK1q_8ugA:10 a=-aSRE8QhW-JAV6biHavz:22
-X-Proofpoint-ORIG-GUID: poZEZaUHiHI-ijrCROlLiXsXmobVGAMF
-X-Proofpoint-GUID: poZEZaUHiHI-ijrCROlLiXsXmobVGAMF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-17_01,2026-04-17_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 suspectscore=0 priorityscore=1501 spamscore=0
- clxscore=1015 bulkscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604170184
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/5] platform/x86: int3472: tps68470: add board data
+ for Dell Latitude 5285
+To: Thierry Chatard <tchatard@gmail.com>, linux-kernel@vger.kernel.org
+Cc: lee@kernel.org, platform-driver-x86@vger.kernel.org,
+ ilpo.jarvinen@linux.intel.com, djrscally@gmail.com,
+ linux-media@vger.kernel.org, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, jacopo.mondi@ideasonboard.com,
+ nicholas@rothemail.net
+References: <4ef5f305-0234-4193-a190-edbfe770ea04@kernel.org>
+ <20260417163252.15603-1-tchatard@gmail.com>
+ <20260417163252.15603-4-tchatard@gmail.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260417163252.15603-4-tchatard@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59046-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59047-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,linux.intel.com,gmail.com,ideasonboard.com,rothemail.net];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 35CBF41DF3A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2BD6241E171
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Apr 17, 2026 at 08:49:44PM +0530, Vishnu Reddy wrote:
+Hi,
+
+First of all, since I forget to mention that in my previous 2 reviews
+many thanks for your work on this!
+
+On 17-Apr-26 18:32, Thierry Chatard wrote:
+> The Dell Latitude 5285 2-in-1 has two cameras connected through a TPS68470
+> PMIC/clock/GPIO hub:
 > 
-> On 4/14/2026 8:48 PM, Dmitry Baryshkov wrote:
-> > On Tue, Apr 14, 2026 at 10:30:00AM +0530, Vishnu Reddy wrote:
-> > > From: Vikash Garodia<vikash.garodia@oss.qualcomm.com>
-> > > 
-> > > Add a helper function to allocate and register context bank (CB) device
-> > > on the iris vpu bus. The function ID associated with the CB is specified
-> > > from the platform data, allowing the bus dma_configure callback to apply
-> > > correct stream ID mapping when device is registered.
-> > > 
-> > > Signed-off-by: Vikash Garodia<vikash.garodia@oss.qualcomm.com>
-> > > Signed-off-by: Vishnu Reddy<busanna.reddy@oss.qualcomm.com>
-> > > ---
-> > >   drivers/media/platform/qcom/iris/iris_resources.c | 33 +++++++++++++++++++++++
-> > >   drivers/media/platform/qcom/iris/iris_resources.h |  1 +
-> > >   2 files changed, 34 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/platform/qcom/iris/iris_resources.c b/drivers/media/platform/qcom/iris/iris_resources.c
-> > > index 773f6548370a..a25e0f2e9d26 100644
-> > > --- a/drivers/media/platform/qcom/iris/iris_resources.c
-> > > +++ b/drivers/media/platform/qcom/iris/iris_resources.c
-> > > @@ -6,6 +6,7 @@
-> > >   #include <linux/clk.h>
-> > >   #include <linux/devfreq.h>
-> > >   #include <linux/interconnect.h>
-> > > +#include <linux/iris_vpu_bus.h>
-> > >   #include <linux/pm_domain.h>
-> > >   #include <linux/pm_opp.h>
-> > >   #include <linux/pm_runtime.h>
-> > > @@ -141,3 +142,35 @@ int iris_disable_unprepare_clock(struct iris_core *core, enum platform_clk_type
-> > >   	return 0;
-> > >   }
-> > > +
-> > > +static void iris_release_cb_dev(struct device *dev)
-> > > +{
-> > > +	kfree(dev);
-> > > +}
-> > > +
-> > > +struct device *iris_create_cb_dev(struct iris_core *core, const char *name, const u32 *f_id)
-> > Please move into the bus code and make it generic enough.
-> Do you suggest to add a wrapper to pass the varying inputs to the generic
-> bus, something like this
-> struct device* create_and_register_device(dma_mask, parent_dev, *release,
-> dev_name,...)
-
-Definitely not the release function. The devname is also not that
-important. The rest, yes, you are correct.
-
-> > > +{
-> > > +	struct device *dev;
-> > > +	int ret;
-> > > +
-> > > +	dev = kzalloc_obj(*dev);
-> > > +	if (!dev)
-> > > +		return ERR_PTR(-ENOMEM);
-> > > +
-> > > +	dev->release = iris_release_cb_dev;
-> > > +	dev->bus = &iris_vpu_bus_type;
-> > > +	dev->parent = core->dev;
-> > > +	dev->coherent_dma_mask = core->iris_platform_data->dma_mask;
-> > > +	dev->dma_mask = &dev->coherent_dma_mask;
-> > Would you also need to set the of_node? See
-> > device_set_of_node_from_dev()
+>   Front: OV5670 (ACPI INT3479) on I2C4
+>   Back:  OV8858 (ACPI INT3477) on I2C2, daisy-chained behind TPS68470
+>          S_I2C port (controlled by reg 0x43 S_I2C_CTL)
 > 
-> It might be needed for FastRPC as they are following sub node approach, Iris
-> does not need.
+> GPIO mapping (TPS68470):
+>   INT3479 (OV5670): GPIO3 = reset, GPIO4 = powerdown (both active-low)
+>   INT3477 (OV8858): GPIO9 = s_resetn, GPIO7 = s_enable (both active-low)
+>     GPIO9 and GPIO7 are the TPS68470 secondary-port GPIOs (SGPO reg 0x22
+>     bits 2 and 0), not regular GPDO outputs.
+> 
+> Regulator mapping:
+>   CORE  -> dvdd  / INT3477
+>   ANA   -> avdd  / INT3477
+>   VIO   -> dovdd / INT3477
+>   VSIO  -> avdd  / INT3479 and vsio / INT3477 (always_on: keeps S_I2C_CTL
+>            non-zero from boot so OV8858 is reachable on I2C2 at any time)
+>   AUX1  -> dvdd  / INT3479
+>   AUX2  -> dovdd / INT3479
 
-Wouldn't it save you from passing it to of_dma_configure_id()?
+This is wrong, VIO is always on if you look at:
 
-> > > +
-> > > +	dev_set_name(dev, "%s", name);
-> > > +	dev_set_drvdata(dev, (void *)f_id);
-> > > +
-> > > +	ret = device_register(dev);
-> > > +	if (ret) {
-> > > +		put_device(dev);
-> > > +		return ERR_PTR(ret);
-> > > +	}
-> > > +
-> > > +	return dev;
-> > > +}
-> > > diff --git a/drivers/media/platform/qcom/iris/iris_resources.h b/drivers/media/platform/qcom/iris/iris_resources.h
-> > > index 6bfbd2dc6db0..4a494627ff23 100644
-> > > --- a/drivers/media/platform/qcom/iris/iris_resources.h
-> > > +++ b/drivers/media/platform/qcom/iris/iris_resources.h
-> > > @@ -15,5 +15,6 @@ int iris_unset_icc_bw(struct iris_core *core);
-> > >   int iris_set_icc_bw(struct iris_core *core, unsigned long icc_bw);
-> > >   int iris_disable_unprepare_clock(struct iris_core *core, enum platform_clk_type clk_type);
-> > >   int iris_prepare_enable_clock(struct iris_core *core, enum platform_clk_type clk_type);
-> > > +struct device *iris_create_cb_dev(struct iris_core *core, const char *name, const u32 *f_id);
-> > >   #endif
-> > > 
-> > > -- 
-> > > 2.34.1
-> > > 
+drivers/regulator/tps68470-regulator.c
 
--- 
-With best wishes
-Dmitry
+you will see that enable_reg and enable_mask for that regulator
+are both set to 0, because there is no enable reg, as it is always
+on at the hardware level.
+
+VIO is used for the PMIC's own I2C upstream connection I believe.
+
+So the right mapping for the ov8858/INT3477 should be:
+
+CORE  -> dvdd  / INT3477
+ANA   -> avdd  / INT3477
+VSIO  -> dovdd / INT3477
+
+avoiding the need to add new "vsio" regulator support
+to the ov8858 driver.
+
+For the OV5670/INT3477 using VSIO for avdd also sounds
+wrong. The publicly available 2 page marketing datasheet
+of the ov5670 says the following about voltages:
+
+Core:   1.2V nominal
+analog: 2.8V nominal
+IO:     1.8V nominal
+
+You configure aux1 at 1.2V and aux2 at 1.8V volt and
+above you mention that the OV5670 is not behind the I2C
+pass through.
+
+So to me that suggests that the mappings for the OV5670/INT3477
+should be:
+
+AUX1  -> dvdd  / INT3479
+AUX2  -> dovdd / INT3479
+
+as they already were, but the VSIO -> avdd mapping is wrong
+since VSIO is 1.8V and avdd should be 2.8V, it does no harm
+since it will just enable VSIO / the passthrough. But it seems
+that instead there is some fixed 2.8V avdd source for the OV5670
+and we don't need to have a regulator at all.
+
+So my suggestion would be to use the following mappings
+(combined):
+
+CORE  -> dvdd  / INT3477
+ANA   -> avdd  / INT3477
+VSIO  -> dovdd / INT3477
+AUX1  -> dvdd  / INT3479
+AUX2  -> dovdd / INT3479
+
+and drop the double mapping of VSIO.
+
+If that does not work because the OV5670 turns out to be behind
+the i2c-passthrough too then indeed it would be best to as a hack
+map avdd (which the driver will try to get a regulator for and
+enable) from vsio. If that is necessary please add a comment about
+this hack.
+
+> Marking VSIO always_on ensures the TPS68470 S_I2C passthrough is active
+> from the moment the PMIC driver probes, eliminating a timing dependency
+> between TPS68470 and ov8858 probe ordering.
+
+This also seems wrong, vsio should not be marked as always on.
+
+Maybe the ov8865 driver needs a bigger delay after the regulator
+enable call there ?
+
+Anyways first please try the suggested updating mapping and assuming
+that works then as a separate step maybe try dropping the always-on
+from vsio.
+
+> A static clock consumer list is provided for both sensors (INT3477 and
+> INT3479) to work around the broken ACPI _DEP on INT3479 described in the
+> previous patch.
+
+Ack, this is good.
+
+> 
+> Signed-off-by: Thierry Chatard <tchatard@gmail.com>
+> ---
+>  .../x86/intel/int3472/tps68470_board_data.c   | 176 ++++++++++++++++++
+>  1 file changed, 176 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> index 71357a036..c1bf13faf 100644
+> --- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> +++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> @@ -287,6 +287,175 @@ static const struct int3472_tps68470_board_data dell_7212_tps68470_board_data =
+>  	},
+>  };
+>  
+> +/* Settings for Dell Latitude 5285 2-in-1 */
+> +
+> +/*
+> + * The BIOS leaves GNVS field C0TP at zero, which causes INT3479's _DEP to
+> + * resolve to PCI0 instead of the INT3472 device.  Provide a static clock
+> + * consumer list so probe registers MCLK lookups for both sensors regardless
+> + * of the broken _DEP traversal.
+> + */
+> +static const struct tps68470_clk_consumer dell_5285_clk_consumers[] = {
+> +	{ .consumer_dev_name = "i2c-INT3477:00" },	/* OV8858 rear camera  */
+> +	{ .consumer_dev_name = "i2c-INT3479:00" },	/* OV5670 front camera */
+> +};
+> +
+> +static struct regulator_consumer_supply dell_5285_int3477_ana_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("avdd", "i2c-INT3477:00"),
+> +};
+> +
+> +static struct regulator_consumer_supply dell_5285_int3477_core_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("dvdd", "i2c-INT3477:00"),
+> +};
+> +
+> +static struct regulator_consumer_supply dell_5285_int3477_vio_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("dovdd", "i2c-INT3477:00"),
+> +};
+> +
+> +static struct regulator_consumer_supply dell_5285_int3479_vsio_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("avdd", "i2c-INT3479:00"),
+> +	/* S_I2C_CTL: must be enabled for OV8858 I2C daisy-chain access */
+> +	REGULATOR_SUPPLY("vsio", "i2c-INT3477:00"),
+> +};
+> +
+> +static struct regulator_consumer_supply dell_5285_int3479_aux1_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("dvdd", "i2c-INT3479:00"),
+> +};
+> +
+> +static struct regulator_consumer_supply dell_5285_int3479_aux2_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("dovdd", "i2c-INT3479:00"),
+> +};
+> +
+> +static const struct regulator_init_data dell_5285_tps68470_core_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1200000,
+> +		.max_uV = 1200000,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3477_core_consumer_supplies),
+> +	.consumer_supplies = dell_5285_int3477_core_consumer_supplies,
+> +};
+> +
+> +static const struct regulator_init_data dell_5285_tps68470_ana_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 2815200,
+> +		.max_uV = 2815200,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3477_ana_consumer_supplies),
+> +	.consumer_supplies = dell_5285_int3477_ana_consumer_supplies,
+> +};
+> +
+> +static const struct regulator_init_data dell_5285_tps68470_vcm_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 2815200,
+> +		.max_uV = 2815200,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = 0,
+> +	.consumer_supplies = NULL,
+> +};
+> +
+> +static const struct regulator_init_data dell_5285_tps68470_vio_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1800600,
+> +		.max_uV = 1800600,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3477_vio_consumer_supplies),
+> +	.consumer_supplies = dell_5285_int3477_vio_consumer_supplies,
+> +};
+
+
+when I2C passthrough is used vio and vsio MUST have the exact same voltage,
+which you do correctly here. Also this regulator is always in the hardware
+and as such does not support REGULATOR_CHANGE_STATUS.
+
+And VIO should never have direct consumers, these all go through VSIO.
+
+Basically this should look identical to this:
+
+/* Ensure the always-on VIO regulator has the same voltage as VSIO */
+static const struct regulator_init_data surface_go_tps68470_vio_reg_init_data = {
+        .constraints = {
+                .min_uV = 1800600,
+                .max_uV = 1800600,
+                .apply_uV = true,
+                .always_on = true,
+        },
+};
+
+I think it would be best to start with an extra renaming the existing
+surface_go_tps68470_vio_reg_init_data to generic_tps68470_vio_reg_init_data
+and move it to the top of the file since it now no longer is surface
+specific.
+
+And then just use the new generic_tps68470_vio_reg_init_data for the Dell
+5285 too.
+
+And maybe a follow-up patch replacing the somewhat wrong vio_reg_init_data
+for the Dell 7212 with the new generic_tps68470_vio_reg_init_data too.
+
+> +
+
+Add a comment here that since I2C pass-through is used the vsio voltage must
+be the exact same voltage as the one from generic_tps68470_vio_reg_init_data.
+
+> +static const struct regulator_init_data dell_5285_tps68470_vsio_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1800600,
+> +		.max_uV = 1800600,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +		/*
+> +		 * Keep S_I2C_CTL enabled from boot so OV8858 I2C daisy-chain
+> +		 * is accessible before ov8858 driver probes.
+> +		 */
+> +		.always_on = 1,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3479_vsio_consumer_supplies),
+> +	.consumer_supplies = dell_5285_int3479_vsio_consumer_supplies,
+> +};
+> +> +static const struct regulator_init_data dell_5285_tps68470_aux1_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1213200,
+> +		.max_uV = 1213200,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3479_aux1_consumer_supplies),
+> +	.consumer_supplies = dell_5285_int3479_aux1_consumer_supplies,
+> +};
+> +
+> +static const struct regulator_init_data dell_5285_tps68470_aux2_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1800600,
+> +		.max_uV = 1800600,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3479_aux2_consumer_supplies),
+> +	.consumer_supplies = dell_5285_int3479_aux2_consumer_supplies,
+> +};
+> +
+> +static const struct tps68470_regulator_platform_data dell_5285_tps68470_pdata = {
+> +	.reg_init_data = {
+> +		[TPS68470_CORE] = &dell_5285_tps68470_core_reg_init_data,
+> +		[TPS68470_ANA]  = &dell_5285_tps68470_ana_reg_init_data,
+> +		[TPS68470_VCM]  = &dell_5285_tps68470_vcm_reg_init_data,
+> +		[TPS68470_VIO]  = &dell_5285_tps68470_vio_reg_init_data,
+> +		[TPS68470_VSIO] = &dell_5285_tps68470_vsio_reg_init_data,
+> +		[TPS68470_AUX1] = &dell_5285_tps68470_aux1_reg_init_data,
+> +		[TPS68470_AUX2] = &dell_5285_tps68470_aux2_reg_init_data,
+> +	},
+> +};
+> +
+> +static struct gpiod_lookup_table dell_5285_int3477_gpios = {
+> +	.dev_id = "i2c-INT3477:00",
+> +	.table = {
+> +		/*
+> +		 * TPS68470 GPIO9 = s_resetn (secondary camera reset, active-low)
+> +		 * TPS68470 GPIO7 = s_enable (secondary camera enable/powerdown)
+> +		 * These logic outputs are specifically designed for secondary
+> +		 * camera control on the TPS68470. Matches Surface Go pattern.
+> +		 */
+> +		GPIO_LOOKUP("tps68470-gpio", 9, "reset", GPIO_ACTIVE_LOW),
+> +		GPIO_LOOKUP("tps68470-gpio", 7, "powerdown", GPIO_ACTIVE_LOW),
+> +		{ }
+> +	}
+> +};
+> +
+> +static struct gpiod_lookup_table dell_5285_int3479_gpios = {
+> +	.dev_id = "i2c-INT3479:00",
+> +	.table = {
+> +		GPIO_LOOKUP("tps68470-gpio", 3, "reset", GPIO_ACTIVE_LOW),
+> +		GPIO_LOOKUP("tps68470-gpio", 4, "powerdown", GPIO_ACTIVE_LOW),
+> +		{ }
+> +	}
+> +};
+> +
+> +static const struct int3472_tps68470_board_data dell_5285_tps68470_board_data = {
+> +	.dev_name = "i2c-INT3472:05",
+> +	.tps68470_regulator_pdata = &dell_5285_tps68470_pdata,
+> +	.n_clk_consumers = ARRAY_SIZE(dell_5285_clk_consumers),
+> +	.clk_consumers = dell_5285_clk_consumers,
+> +	.n_gpiod_lookups = 2,
+> +	.tps68470_gpio_lookup_tables = {
+> +		&dell_5285_int3477_gpios,
+> +		&dell_5285_int3479_gpios,
+> +	},
+> +};
+> +
+>  static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+>  	{
+>  		.matches = {
+> @@ -316,6 +485,13 @@ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+>  		},
+>  		.driver_data = (void *)&dell_7212_tps68470_board_data,
+>  	},
+> +	{
+> +		.matches = {
+> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR,   "Dell Inc."),
+> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Latitude 5285"),
+> +		},
+> +		.driver_data = (void *)&dell_5285_tps68470_board_data,
+> +	},
+>  	{ }
+>  };
+>  
+
+Regards,
+
+Hans
+
+
+
+p.s.
+
+I would expect the OV8858 to have a variavble-focus lens with some VCM driver,
+bit we can add support for that later.
+
 
