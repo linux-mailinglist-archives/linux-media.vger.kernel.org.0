@@ -1,239 +1,179 @@
-Return-Path: <linux-media+bounces-59034-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59035-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MP8vHhNg4mnI5QAAu9opvQ
-	(envelope-from <linux-media+bounces-59034-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 18:30:11 +0200
+	id EAeZGClh4mnI5QAAu9opvQ
+	(envelope-from <linux-media+bounces-59035-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 18:34:49 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA3A41D220
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 18:30:10 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E64F941D2B0
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 18:34:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4D26131FFBE6
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 16:22:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 42C783059FD1
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 16:33:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3253D355F36;
-	Fri, 17 Apr 2026 16:22:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB8FA355049;
+	Fri, 17 Apr 2026 16:33:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oAjE8slq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DRycPtJy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922EB3491C4;
-	Fri, 17 Apr 2026 16:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2049A40DFBB
+	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 16:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776442929; cv=none; b=EEl8XalFnY08WR4FxILZJO5TYt5t0ZupldLZqt2cOqc7ns3K7jb/OMpOvRn3Dnlqbv5XayYOGwp3lR7tfoFCW426Po+e0PXAqcXrdzDs2ONH+6jmY4KJxsCM/EEZuXSp+odbjmAsCVMqjKwHuY5xsnpJPbvJYrDvztqrch/Wkq0=
+	t=1776443583; cv=none; b=DrIWLvY8QC7s2bZ8hp+g9BYnPwHMZ3B7E64BoxXqKGu1+YiNdHhBN4kSDQn0WoJNuHZJN9csPr9ccXE0rl8yOQEetLeBPj0dVIsI6NTMR58AKtA3YKaTCWDfSXbMQUkgTNEOdRq9NfQMnTxT5MOl/ZQyaa2CzKYTFJgnizatbt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776442929; c=relaxed/simple;
-	bh=egW6uHF4eK85Hi/etR9aA8Lh7/2sOL+cwSmZ8PG8Gr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R7i+YQJoyHZuMb8NnUlzdT0G8zjVl7Sjhoo1mVWXQMVdFKYDfhnohzdNbaFnLWu+fyEIVO46PLWswDXofPPWbPDdjrY3RfE8j+OdyxNULaIqoiBMWDJd6bikwXNptDVAwJuc0daveHZFDTncrhKVRMEz9ZKKflez371OaBgUCpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oAjE8slq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 164A1C2BCB4;
-	Fri, 17 Apr 2026 16:22:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776442929;
-	bh=egW6uHF4eK85Hi/etR9aA8Lh7/2sOL+cwSmZ8PG8Gr4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oAjE8slqT10r02Jkq/UXK6Kdkj3JB5VRdtK1k8ORy64oM77yRDN7qbQIKATWgsBN9
-	 +fFnVE+KdJzN2hV07uY06YSdkRVq9BNCLIXZnMagW1/zEM3zLHV6AIWjLqS7WJ0/GB
-	 jBbbvtgOljpAv+rS/hfMJR9TdU29LnbWcUMh1Jj5579VKSwMsE5yiJyDfxn8lMF3Ce
-	 LxH+hlSq9mfuiR0u91ZZ1Mxuvd4VYcRGW8Ch65vw5mgftnDUK+8YYALFEWrfScN36A
-	 COqa+LZTJWJSIA7Vf+rkptt0/xKAF7ocTbGkZ5/Ng6ycUkLHFi2Z1d1/KO+r2aQkRW
-	 +aMGlDsy+4ZCw==
-Date: Fri, 17 Apr 2026 17:22:03 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Jianhua Lin <jianhua.lin@mediatek.com>
-Cc: nicolas@ndufresne.ca, mchehab@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	sirius.wang@mediatek.com, vince-wl.liu@mediatek.com,
-	jh.hsu@mediatek.com
-Subject: Re: [PATCH v7 1/3] dt-bindings: media: mediatek-jpeg-decoder: add
- MT8189 compatible string
-Message-ID: <20260417-steersman-scowling-1b8923c3d6fc@spud>
-References: <20260417100519.1043-1-jianhua.lin@mediatek.com>
- <20260417100519.1043-2-jianhua.lin@mediatek.com>
+	s=arc-20240116; t=1776443583; c=relaxed/simple;
+	bh=J5OgcCFwnIrfrY1lDLbmiededcV0yPWST+7OK4/Q97s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=R18/o23JwPTW8NjxFsItJMN1uzki5f2dZ3uen9zjhP4NesdmkmuoZ9ZtsbwX7j7rheedElPBujreKjKATjr4sfKCyBcvRapPhyUnYIoBQwZgUVfgrtFFN5e1OH5wzuCmGcdfHpBlC7jVrtfGjwR10ZeR4iIEAkAryS0aCpUlrhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DRycPtJy; arc=none smtp.client-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-12c79c7ba8cso86778c88.1
+        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 09:33:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776443580; x=1777048380; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kC+iWM3xttVqCKTbazgg1uNec6BeUwe65zeKYKQox80=;
+        b=DRycPtJykx3+fBjkLXoJUeVKLb3ZfEToqWVnwHvIiZbQrHOmqn/hyeOILH/yDG7O8F
+         GJfNlgZEKlrHFpgi91jaf/obNPem5KxtX9zR/iCAgIE/xAXKVshF+RYMb8Gx2GYP7yjc
+         UKz/CS8m2giS8fwfu3tjwyz3dPctsfZWnJ/LCJejj3GlsZ+rfQxTKH8HuJAZeiayVc5N
+         NLCe3Afo+1Lz+OuBCQSYJpguXb56W0xnPNmeOFwTMs4WW96SIvCxYuIK+3+waOpEBPbz
+         /m9a2QPSz8az3b4lOMiIbGoTsi78akBghxeYkuWsry+5JOs0xEirWV3mxpBAagPKEpT+
+         XDBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776443580; x=1777048380;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=kC+iWM3xttVqCKTbazgg1uNec6BeUwe65zeKYKQox80=;
+        b=r/eEsO5f5gil4ssHa2u+imdCwnHuItysATsQbAT3UwN92hghTolHmfiuuqh0s4mc9h
+         I52gHSltP/BgeNvOijj7SE4TkZB40ecoARmihaSOsoXXP/WLrMJP5veKpDZ4z1ILHUSk
+         oPels8uXcGXMIx3fRp2jq0RSaDZzYMG0r6N49XWQ40phW9nBiNDeOurC5FnGXE00Twsx
+         hm5WcYs8+c4KKTBs2pbZb+IfnJ0AK5eUYFw+/HCDJQt/k9b110rXXpH0pTzJYyfeSWt7
+         XsGQgUPY90sgnG/t0qznsFAHnTjwySHoVycl887+LxRlCwqo0tPCEZ5rgiB8q2CBGhCh
+         9h3A==
+X-Forwarded-Encrypted: i=1; AFNElJ+1hw6LuXn/RiE6u3YBDpRceBYoXRHdjYIMZkw2vKv0JlaeQTf4FNkKb55ERAcWfMFfgxaxltnLRQ1NSQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz853rs5mxylfPLMTuH6IWZ26gGH1t7FrNJAr5ZWACAac+3AmwR
+	Yq9UiGXIsv5zbthn3uLyig4mjksz6pt3F0uPmHC4SGzgZETn60Jv5vcz
+X-Gm-Gg: AeBDieuQ3bkxxT5AigdwrbBoMCbI19G2FXBJWf41HwJUt/QvnzC6Iy04w2X2CDGu9Wy
+	xyD9iF8Lk2bin3P2BuW+A3SrBKyNSngECiBPa0KwIKVb4g5eT/sgwD3ULme49En13ZPf+5D+pPC
+	Xtpfx9EUAlhFFzSEQ60549Vz34GLsNv55xQT87acLUpiEcabCHzVNEHGlHfe1LsirLBZQ4C4+bx
+	HSOWU7oHqgVKrIjF7KCwSTtMMx56Ii6kjfUWly683fZ8318FOFv4++SQofMSkeot8NijbvtQOCG
+	GsHYyBKSQ3T+uVulTacFn2LGcx/ogTldXQrO4vhhp8c6qnYjSLUkRQFgUAGjoVaKj7Qmx5z+Blk
+	E5LsEFf2XzQx8yhQ+MdixksljwNeYPMcO8tv5QNrauh4eDo564FcxYpAMtcoVqKBVcAkjof8hv/
+	NpOMmaE57cS2AMtq6bMYbxfSG/fBUFQqClvCxviCGZXxhjN+W99GBnJayJ8IX/klce5A7zTLnNq
+	iQYgMh5
+X-Received: by 2002:a05:7022:4191:b0:12c:427:dacf with SMTP id a92af1059eb24-12c73b05ceamr1418713c88.10.1776443579756;
+        Fri, 17 Apr 2026 09:32:59 -0700 (PDT)
+Received: from TC-LAPTOP (23-93-157-142.fiber.dynamic.sonic.net. [23.93.157.142])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c749dc86bsm3603777c88.8.2026.04.17.09.32.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2026 09:32:58 -0700 (PDT)
+From: Thierry Chatard <tchatard@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: hansg@kernel.org,
+	lee@kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	ilpo.jarvinen@linux.intel.com,
+	djrscally@gmail.com,
+	linux-media@vger.kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	jacopo.mondi@ideasonboard.com,
+	nicholas@rothemail.net,
+	Thierry Chatard <tchatard@gmail.com>
+Subject: [PATCH v3 0/5] Enable cameras on Dell Latitude 5285 2-in-1
+Date: Fri, 17 Apr 2026 09:32:47 -0700
+Message-ID: <20260417163252.15603-1-tchatard@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <4ef5f305-0234-4193-a190-edbfe770ea04@kernel.org>
+References: <4ef5f305-0234-4193-a190-edbfe770ea04@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SI+6e7v0m6f8SmPK"
-Content-Disposition: inline
-In-Reply-To: <20260417100519.1043-2-jianhua.lin@mediatek.com>
-X-Spamd-Result: default: False [-2.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,linux.intel.com,gmail.com,ideasonboard.com,rothemail.net];
+	TAGGED_FROM(0.00)[bounces-59035-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59034-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_CC(0.00)[ndufresne.ca,kernel.org,gmail.com,collabora.com,vger.kernel.org,lists.infradead.org,mediatek.com];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[tchatard@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: EEA3A41D220
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E64F941D2B0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+This series enables the front (OV5670/INT3479) and rear (OV8858/INT3477)
+cameras on the Dell Latitude 5285 2-in-1 under Linux.
 
---SI+6e7v0m6f8SmPK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes since v2:
+- Patch 2: Replaced the GNVS AML scanner (rejected) with a static clock
+  consumer list in int3472_tps68470_board_data.  Adds n_clk_consumers and
+  clk_consumers fields to the struct; probe uses them when present instead
+  of for_each_acpi_consumer_dev().  All other platforms are unaffected.
+- Patch 3: Adds dell_5285_clk_consumers[] (INT3477 + INT3479) and wires it
+  into the Dell 5285 board_data entry.
+- Patches 1, 4, 5: Unchanged.
 
-On Fri, Apr 17, 2026 at 06:05:17PM +0800, Jianhua Lin wrote:
-> Add the compatible string for the JPEG decoder block found in the
-> MediaTek MT8189 SoC.
->=20
-> Compared to previous generation ICs, the MT8189 JPEG decoder requires
-> 34-bit IOVA address space support and only needs a single clock
-> ("jpgdec") instead of two. Therefore, it is added as a standalone
-> compatible string without falling back to older SoCs.
->=20
-> Update the binding schema to include the new compatible string and add
-> an `allOf` block with conditional checks. This enforces the single clock
-> requirement for MT8189 while preserving the two-clock requirement
-> ("jpgdec-smi", "jpgdec") for older SoCs.
->=20
-> Signed-off-by: Jianhua Lin <jianhua.lin@mediatek.com>
-> ---
->  .../bindings/media/mediatek-jpeg-decoder.yaml | 48 +++++++++++++++----
->  1 file changed, 40 insertions(+), 8 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-decode=
-r.yaml b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
-> index a4aacd3eb189..fd895688a038 100644
-> --- a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
-> +++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
-> @@ -15,10 +15,10 @@ description: |-
->  properties:
->    compatible:
->      oneOf:
-> -      - items:
-> -          - enum:
-> -              - mediatek,mt8173-jpgdec
-> -              - mediatek,mt2701-jpgdec
-> +      - enum:
-> +          - mediatek,mt2701-jpgdec
-> +          - mediatek,mt8173-jpgdec
-> +          - mediatek,mt8189-jpgdec
->        - items:
->            - enum:
->                - mediatek,mt7623-jpgdec
-> @@ -32,13 +32,20 @@ properties:
->      maxItems: 1
-> =20
->    clocks:
-> +    minItems: 1
->      maxItems: 2
-> -    minItems: 2
-> =20
->    clock-names:
-> -    items:
-> -      - const: jpgdec-smi
-> -      - const: jpgdec
-> +    oneOf:
-> +      - items:
-> +          - const: jpgdec
-> +      - items:
-> +          - const: jpgdec-smi
-> +          - const: jpgdec
-> +
-> +  mediatek,larb:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: a phandle to the smi_larb node.
+Background on the _DEP issue (patch 2):
+The BIOS leaves GNVS field C0TP at zero, causing INT3479's _DEP to resolve
+to PCI0 rather than the INT3472.  As Hans noted, the i2c-INT3479:00 client
+is created correctly by the ACPI+I2C core (PCI0 is available), so the device
+itself is present.  The only visible effect of the broken _DEP is that
+for_each_acpi_consumer_dev() on INT3472 misses INT3479, and its clock
+consumer lookup entry is never registered.  The static clk_consumers list in
+board_data fixes this directly.  Tested without any GNVS modification: both
+cameras are operational, confirming no ACPI table patching is needed.
 
-This should be restricted to only the new platform.
+Tested on Ubuntu 25.10, kernel 6.17.0-22-generic.  Both cameras working in
+Zoom, Chrome, and GNOME Camera via PipeWire.
 
-> =20
->    power-domains:
->      maxItems: 1
-> @@ -60,6 +67,31 @@ required:
->    - power-domains
->    - iommus
-> =20
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8189-jpgdec
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 1
-> +          maxItems: 1
+Thierry Chatard (5):
+  platform/x86: intel_lpss: add resource conflict quirk for Dell Latitude 5285
+  platform/x86: int3472: tps68470: fix clock consumer registration for Dell Latitude 5285
+  platform/x86: int3472: tps68470: add board data for Dell Latitude 5285
+  media: ipu-bridge: add sensor configuration for OV8858 (INT3477)
+  media: ov8858: add ACPI device ID INT3477 and vsio power supply
 
-Constraints that duplicate the outtermost ones don't need to
-be/shouldn't be repeated here. You only need the maxItems here and the
-minItems in the else.
-
-pw-bot: changes-requested
-
-Cheers,
-COnor.
-
-> +        clock-names:
-> +          minItems: 1
-> +          maxItems: 1
-> +      required:
-> +        - mediatek,larb
-> +    else:
-> +      properties:
-> +        clocks:
-> +          minItems: 2
-> +          maxItems: 2
-> +        clock-names:
-> +          minItems: 2
-> +          maxItems: 2
-> +
->  additionalProperties: false
-> =20
->  examples:
-> --=20
-> 2.45.2
->=20
-
---SI+6e7v0m6f8SmPK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaeJeKwAKCRB4tDGHoIJi
-0kqgAP97U/dCLPVLSL5QUuwO1PDi3nC/QrG3oONPZ0qzcA0Q5gEA41YDuwB2x+5b
-Kaq5lytA+wheHyQALeOAnjtKDlX3RgA=
-=5MTH
------END PGP SIGNATURE-----
-
---SI+6e7v0m6f8SmPK--
+ drivers/clk/clk-tps68470.c                        |   2 +-
+ drivers/media/i2c/ov8858.c                        |  23 ++-
+ drivers/platform/x86/intel/int3472/tps68470.c     |  35 +++--
+ drivers/platform/x86/intel/int3472/tps68470.h     |  13 +-
+ drivers/platform/x86/intel/int3472/tps68470_board_data.c | 176 ++++++++++++++++++++++
+ drivers/platform/x86/intel/lpss/intel_lpss_acpi.c |  16 ++
+ media/ipu-bridge.c                                 |   1 +
+ 7 files changed, 254 insertions(+), 11 deletions(-)
 
