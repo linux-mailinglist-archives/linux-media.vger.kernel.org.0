@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-59003-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59004-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yK8cJdsc4mlX1wAAu9opvQ
-	(envelope-from <linux-media+bounces-59003-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 13:43:23 +0200
+	id 8F9tM/gc4mlX1wAAu9opvQ
+	(envelope-from <linux-media+bounces-59004-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 13:43:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D4241ADFF
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 13:43:22 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D0C41AE27
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 13:43:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A91B93032F54
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 11:42:59 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0BFB1302238C
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 11:43:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04E27396B8E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E975E3988E4;
 	Fri, 17 Apr 2026 11:42:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U3Q+OsQr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qVN4u5g+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA2A396D0D
-	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 11:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5093947B6
+	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 11:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776426169; cv=none; b=Lt6ZFbECSYEIpXbQGc++/S5do5Yod9SZQQYXf2bHgEdacXXkzZLR8bnym2dQVYpBR1t0H1vffNyZ9LEqGfjT1HGFuadNeUTCYKnX6NPA/PovUYP2zaqC9Ql4Clr7D1MUbxaN9Fdfg49wyDPUnbBy9Uaid6vOEb6zZMZNoAC1G+k=
+	t=1776426170; cv=none; b=H6ttNZf8llxDvq8LWxGgeQ6TaRX2KClLNZMw/Kkuw32pDEz9Ge4OwIZRM3uron8N4gLGCv19nNmXO4QTyDUi0aOC1EjcxZm6lB+c+q4+BxGwxfDQegg7bUXTYFODYapW8gQ7R8+BzhCFsfrE2ZvNRIUz7AOWJGjstgXF4sydMVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776426169; c=relaxed/simple;
-	bh=2SoN076WkKPP9dslU6jI1ybrIMLHSTNOhkvnyADFEu0=;
+	s=arc-20240116; t=1776426170; c=relaxed/simple;
+	bh=Pji0/ofzjtQ63oZLWNDkDfpZTnQz3RIaDahYeQ6edfE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j7CN+YoX+YO9XS/x+/RBuBkiBcVszlFlE5WbaAlYrJX/vFA3VwT/a/L5t5xRKxL74sCSpZ6FCVZ0/EGxja+MYvkebTa1PATye2RuVifE96zT5nr6IeB7gOyc1e7U82bH6S+gQqSGM4b2h4Q20q+/icZelNKfFdHACdT2Nk+eG8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U3Q+OsQr; arc=none smtp.client-ip=209.85.167.42
+	 MIME-Version; b=exa4kpH3nXX8LSYobRXMdINRtrhIS2JfMt/lDxYDwc7rrQMPttPO8wG30n709Fmd2r+/itrqE5nsJ1h0BTcP3gJGHxsj9SxwUJoVsQWp/2PzKe9U+SOzLgXmiasLH8ggBztox0am/b+1hAxBVdaVukCaTnRToCEpgLVKUgtofDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qVN4u5g+; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a3d1561e38so477659e87.0
-        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 04:42:47 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a40d02b58bso515932e87.3
+        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 04:42:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776426166; x=1777030966; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776426167; x=1777030967; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aIsBkEhxNk5zSXNzbm4OjEaayYLvWVn1IlfYzqWmAY8=;
-        b=U3Q+OsQrqFj9zxxhBl6l+pnWu2fXBHRpsTivXAo2KmD6I6Fsl+1zwSkXerpJ3ipzoQ
-         kuTU0/5BJ1Mbwxao5kHb+iisUffH5NlLjfUHdryWZMTZ69QDqvGRTyfFrEEUkNs9Thax
-         pdwKThk8niYPRacMEtYiJVd4+/vKzs+MWoUnM8EgjHGEYQQozJUzu7V9Uby1I0hiwxcV
-         BS+q9cNcIBMGxg0euq7sSZQzSqnucIJMyD4ML5NqpyLoQYOLfsMXGTcbxFjYJGtXcmBE
-         NjfTjohpTdpUuWHXBxPcJqtBezN6Oa9nYT/XJ5I8EaTvigflklhEO4ukE8nuQX3INvCj
-         MDhA==
+        bh=bTztIzyLZUtX46/uC4DmLedmtQKgb/ItDKns9uW8WRo=;
+        b=qVN4u5g+HrPiZXYg85xntUJPHeFQd7o11O0U71PmH9ce4MtuET8xY0Hovmqm+3ifsA
+         uJ35nvO1sLB6BbR4G0N7JQWysH3JmNEmT+vF7ZHDMr0zX8DVVSlWY1FwniQkF1L9xTc9
+         OjW/v8Jm8A5IVfW/H/6RHIdt4HN/Z9VKtwQkjMwFpCMJaFtR9jzjHEnva3h4yWcR5Vdp
+         f4TXkV12SRr5+xcjBuaAz5eBbCGjHUFbDbmSalO2Sl2r5lSnsQgOLuQmw1dPsZ3Fryp0
+         1Z+DLHbBzEbcS1EQH7TMsdA7PjbnxR0xzeGJX9TrRAOej6AQJVJ3yQyL2TofUz0k0lCm
+         cSRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776426166; x=1777030966;
+        d=1e100.net; s=20251104; t=1776426167; x=1777030967;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=aIsBkEhxNk5zSXNzbm4OjEaayYLvWVn1IlfYzqWmAY8=;
-        b=Qwwhoak/HBDvLlOu++oioFFk0u1Qeg3dmYRIvJ9SuaDFTknM6SUBeLDukeYhsJEu/1
-         h28a1xy9Ra1mrS2Pi8ihcYF1ENk9ksDLMKcXlAHUCnpcUyxZJXmJ9ZyTC7scYf0CgroT
-         52brUvy0zrmdnSh9j+2znKCf30vsEJMBfyGaC9bH/f/3/q64BLgdvQfOVy3k20HyyH+o
-         ksM0ll29L7pwWTlfEzv2q8HUIusMlGyS3jxAEMKnqOznhEs96x1CF5u8Vw4aHVY4t0X5
-         bUOzlH57uiiC2uvX5VtLlhIlT/zkKkM0YrOfGr5jJHOFqmrnW2k/ctaqFRIIpytPcaMs
-         h4RA==
-X-Forwarded-Encrypted: i=1; AFNElJ9G47cAhOw0Uzr7DXn+Dro75UCcm9PnmDbBoDaJTaoO7FR3zk6l3rjpPQmkLE2aGJDdY3pEyam5Q3vDTA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9DIhiejy6RatMCpgcH4TKhMbEMsKDljJSvC6/yGWIM6CwtbB9
-	CPxULJoSJ2dtrhXZPQZ+lKpUdwSuXb3XLsN9ZppRJgn9YpRWG+k1QpKE
-X-Gm-Gg: AeBDietrkB4DPxBO2K7aWLu2tFDP0KamLj0SoW+1VguS8Vj1UnKea/nU4VigoZL34we
-	zV+EU7R6+wqRampgfMES5O3qyk2SIeN6M8mI8GMJy8lvtRFWCZa+vpZATz83xQLFzSqCyJDDwzy
-	RiL+HcjD/qN1thxvuZqGil6UBCAfMuytTdNCR0d/DIMcdlVSJ0Q5oyVNbd2GTUsKJuoeb1wnRCx
-	7FYcsygJkWiLZ1g0i/OHaBlCLVl/XFFWXDYI3GhxegfJ7PFUfrjF4JpgpO+0JtJleKFSLchB6XA
-	drFN6WIiXZXTid/ugICcN1i0LO9+2AL1k8TPpDHYzjWK/hhCcegbKj8fUINBdm8Fq5PeOps+48k
-	IYthrF3OBJaP7luQPhAEyMo2PuS+DdwourTZ5sQ3picz5HhbOJtFwodNR0c4Og26owxY9Ef++fJ
-	dXra5Phs7wpEyStZbcKx73ixk=
-X-Received: by 2002:a05:6512:3b8e:b0:5a3:ff73:29d6 with SMTP id 2adb3069b0e04-5a4172bb921mr657348e87.7.1776426165787;
-        Fri, 17 Apr 2026 04:42:45 -0700 (PDT)
+        bh=bTztIzyLZUtX46/uC4DmLedmtQKgb/ItDKns9uW8WRo=;
+        b=cCOCq6BcMpzFc+4LB93obuVLhE858YTLs5QKuOgd92HeUvLX8i+y+7TN/47X79MrpK
+         DgWWvVvlR6Z22+nScCrx55rKkhpanE/a5EciZv5k++L+YW52Aohv23T0MrPs6P/7mo8l
+         273+uVEa8aZc14aICZaKn2Z8ym8rdBt+Xc7Bfv8xOIShfC/mAktXSrofgXEBKL6fsap8
+         NkkPtFNQdjHAmiDeLjFhQ/ZJIBIuVQFJ2LDdPD337Odnp8oVCudIM2vVP3gmO+0q3KhS
+         mZk0bSRaONMEB+a/lLy5GhG7/OtPzj578Zeg5pu+iYdw8MbrO27A8sEHAAHG7v7l/Wfj
+         G+rA==
+X-Forwarded-Encrypted: i=1; AFNElJ9Z1zVzlHhbfAmZPR9VkqcroenTB52fpdEP6Yd2R//+Q44PxGJjmNfIFR2H5pQULKdj4lAQoL0WZdwHGw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnUVwozXXGsvuWkDz/5vHT5LpNIj/yD9pfLZqAIQoVo5g7yRs0
+	ToPKej9mD6dGzmKZ5f25BWzIUEOSgjdsb9PGII+7O8ICXcS+DYtD6q60
+X-Gm-Gg: AeBDietjB6/w6CYVF1FNMahxFkAQK9ckKcre1JrYAsYwFBZpSpY0JOtdEguzel43LCz
+	2a86s2Jm5R3sQDcWQ/uHU3sIZW5iF3snCfgVIdiOfgJaPMWJYLJ5XRXTTgDrlhbRJnXcIByqUT0
+	V6r8m+jdj8ZbopuHY9QuXLY+nfju49gHgjhnxczbV/iz3U/Ms5vUTD4M6oFe9ldLIJ56jMGXdCZ
+	nSr5uSxan4LyaVR2tduDIcVWH6VH9+VXMPFoNChprPxJWRAMygNaNjxEQQhSmyW+FVBC4VrJLql
+	tj0RbFZKDNn7o35tTrilc1c+H8B/TMt8GOjXEKsyZF3h8Cv6VOoR8fbu0E7o4/9kBhVbeSsBZll
+	OGy9ByQl4W+7XIJD7Piqlji0HVRn6u1WiFMxJk+FtEgMQ/s+NPicC4P9P/ecJaPofQcJpiHDNNy
+	ENs/ufppWFMtzsVxMPe86plEY=
+X-Received: by 2002:a05:6512:6d0:b0:5a2:b487:b945 with SMTP id 2adb3069b0e04-5a4172c67afmr809260e87.18.1776426166838;
+        Fri, 17 Apr 2026 04:42:46 -0700 (PDT)
 Received: from xeon ([188.163.112.56])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4185bc672sm338636e87.34.2026.04.17.04.42.44
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4185bc672sm338636e87.34.2026.04.17.04.42.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 04:42:45 -0700 (PDT)
+        Fri, 17 Apr 2026 04:42:46 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Lee Jones <lee@kernel.org>,
 	Pavel Machek <pavel@kernel.org>,
@@ -89,9 +89,9 @@ Cc: linux-leds@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH v1 1/5] media: lm3560: Add HWEN pin support
-Date: Fri, 17 Apr 2026 14:42:22 +0300
-Message-ID: <20260417114226.100033-2-clamor95@gmail.com>
+Subject: [PATCH v1 2/5] media: lm3560: Add IN supply support
+Date: Fri, 17 Apr 2026 14:42:23 +0300
+Message-ID: <20260417114226.100033-3-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260417114226.100033-1-clamor95@gmail.com>
 References: <20260417114226.100033-1-clamor95@gmail.com>
@@ -108,7 +108,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -116,7 +116,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-59003-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59004-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com];
@@ -128,72 +128,45 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	NEURAL_HAM(-0.00)[-0.994];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.995];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 95D4241ADFF
+X-Rspamd-Queue-Id: C1D0C41AE27
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add HWEN - logic high hardware enable input found in LM3560 to ensure its
-proper operation.
+Add IN supply (2.5V - 5.5V) found in LM3560 to ensure its proper work.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/media/i2c/lm3560.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/media/i2c/lm3560.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
-index f4cc844f4e3c..e6af61415821 100644
+index e6af61415821..a2674af6c9fb 100644
 --- a/drivers/media/i2c/lm3560.c
 +++ b/drivers/media/i2c/lm3560.c
-@@ -11,6 +11,7 @@
- 
- #include <linux/delay.h>
- #include <linux/module.h>
-+#include <linux/gpio.h>
- #include <linux/i2c.h>
+@@ -16,6 +16,7 @@
  #include <linux/slab.h>
  #include <linux/mutex.h>
-@@ -45,6 +46,7 @@ enum led_enable {
-  * @dev: pointer to &struct device
-  * @pdata: platform data
-  * @regmap: reg. map for i2c
-+ * @hwen_gpio: line connected to hwen pin
-  * @lock: muxtex for serial access.
-  * @led_mode: V4L2 LED mode
-  * @ctrls_led: V4L2 controls
-@@ -54,6 +56,7 @@ struct lm3560_flash {
- 	struct device *dev;
- 	struct lm3560_platform_data *pdata;
- 	struct regmap *regmap;
-+	struct gpio_desc *hwen_gpio;
- 	struct mutex lock;
+ #include <linux/regmap.h>
++#include <linux/regulator/consumer.h>
+ #include <linux/videodev2.h>
+ #include <media/i2c/lm3560.h>
+ #include <media/v4l2-ctrls.h>
+@@ -434,6 +435,11 @@ static int lm3560_probe(struct i2c_client *client)
+ 		return dev_err_probe(&client->dev, PTR_ERR(flash->hwen_gpio),
+ 				     "failed to get hwen gpio\n");
  
- 	enum v4l2_flash_led_mode led_mode;
-@@ -425,6 +428,12 @@ static int lm3560_probe(struct i2c_client *client)
- 	flash->dev = &client->dev;
- 	mutex_init(&flash->lock);
- 
-+	flash->hwen_gpio = devm_gpiod_get_optional(&client->dev, "enable",
-+						   GPIOD_OUT_HIGH);
-+	if (IS_ERR(flash->hwen_gpio))
-+		return dev_err_probe(&client->dev, PTR_ERR(flash->hwen_gpio),
-+				     "failed to get hwen gpio\n");
++	rval = devm_regulator_get_enable(&client->dev, "vin");
++	if (rval)
++		return dev_err_probe(&client->dev, rval,
++				     "failed to enable regulator\n");
 +
  	rval = lm3560_subdev_init(flash, LM3560_LED0, "lm3560-led0");
  	if (rval < 0)
  		return rval;
-@@ -452,6 +461,8 @@ static void lm3560_remove(struct i2c_client *client)
- 		v4l2_ctrl_handler_free(&flash->ctrls_led[i]);
- 		media_entity_cleanup(&flash->subdev_led[i].entity);
- 	}
-+
-+	gpiod_set_value_cansleep(flash->hwen_gpio, 0);
- }
- 
- static const struct i2c_device_id lm3560_id_table[] = {
 -- 
 2.51.0
 
