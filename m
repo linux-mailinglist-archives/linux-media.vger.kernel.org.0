@@ -1,210 +1,196 @@
-Return-Path: <linux-media+bounces-59042-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59043-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gJrSEhBp4mnk5gAAu9opvQ
-	(envelope-from <linux-media+bounces-59042-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 19:08:32 +0200
+	id QL5pM4dv4mnR5wAAu9opvQ
+	(envelope-from <linux-media+bounces-59043-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 19:36:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD3E541D6C0
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 19:08:31 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A59341D876
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 19:36:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BF9523023DD0
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 17:02:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 77689302515E
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 17:35:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F03F282F18;
-	Fri, 17 Apr 2026 17:02:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8995F3932C2;
+	Fri, 17 Apr 2026 17:35:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hRy2AMGv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hKOvcNke"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DEF73B0ACB
-	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 17:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776445320; cv=pass; b=ncqZ0at1kh43CffMiLLokuvhzsx6EfNvUXXJu7NXu6we2/qSROdxlow77fjDElse84UlNPav4/1B36G81XTKUpjnxXvDL7BU96CaWW53b9mv9uOe3Zc7GDH5zIcOiM7i5g2wmN8faNp/In41usUYFr2luaUoDoiGlWoUdqEWdWU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776445320; c=relaxed/simple;
-	bh=b78DnSlkUaTdHWKliqPNEL5HD6ix7is74cppKWHsCy8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g48K+F0wngA2jvaOhu9r+4QypDfaF4R70c9k15sOG9D9deuLcnlAFTDXyjDXG9ANiP1tO1uLbYkovLnp1cgzkVFiIAQhVodSlIjwOWiX0XQg9ukICkoZq4hoqOoSass9VXDc6+wp34xLB/kzxbxBqPIOGvAFvVWlgi0XMTIGNw0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hRy2AMGv; arc=pass smtp.client-ip=74.125.82.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-12c555f886dso1218536c88.0
-        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 10:01:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776445312; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fW5MGLtQxDryC+JNPG/6Kwjn5IXoDo9OobPLEziX3taaOuvpxIXpaUSgYYr5Gs9d24
-         POy+FdUM5jfVlkzHZU7f2uFNkhZazGK9AkXCUaRXeo5lhj4e/AleKlZ+ew0tDbPlPtZb
-         jNeUsQOr8nSrg5T0rDl8FSVXzLB5RGR4QhWrD/u11wcEcS4AAtmdDbOntrTOKZVXCV+V
-         wC+YtlyxKLO1IziKxPv2orOAOx+TMJp/TpIaNzjxLzMZX0s+6Jps5nzYRSJBQUGZTxUg
-         wjnpvQMVzvd9ukcn6ns6ew8BbeycDfolLQMFHhOYPozpboan8I8G4ZtwqihWbIH9MUpZ
-         Lwaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EdXbw8ruQnDuxyXud9pqLO7P6ne13TbWgACZPF9q6l4=;
-        fh=/0j1quBpIrctFMEmstdiWwYq4S21EtmCPOKAKofh008=;
-        b=a5DY1yCcaGNeQiau0UoY8Q8O0IZCLJq31v+RT51uM5//9mWIyef5hpZKAvbcqM8M6Y
-         CKfC1GUNtT72CvbM2xeUlv3otxiLE59qfpK6Beoz7zMfLiCam+ypmtCWr3+0DwdCKPQq
-         DXaDP2pdQwn5NI3EmyDaS6/2919DSehxfOq+lKAjTWWqAsDNafKDVCgdLr791Ix+vfWT
-         hlRqHS0MfCkWHJ7yMWsg7Z2dpbn8Brp8rDxLcIChvKgML0yMkXBt0lTXUhJYtZlD6ENC
-         YKPzCT1E2LB0WnzXl9JU1TamorWebcnwXMtfPA/NPHpio8HmQIkNX6k7agIpVti1vIAE
-         Y6JA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776445312; x=1777050112; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EdXbw8ruQnDuxyXud9pqLO7P6ne13TbWgACZPF9q6l4=;
-        b=hRy2AMGvo06jECQ4yw6+LjuIIHSgv00gDIrpDR1E9l8G6s19xBHKki2XAsjcX8fno1
-         IvFW0Wfty3DtpByq99DWnGacf3oOFWoYukKKryrN3vWh/iLp8SdA4Jcfhu6SyIlKEpnI
-         XJGJJVwxbHcEMKhV6zF5j5P3bADiud26P2vxZueF9X7Qv5FXXFjzZ6sEavJME4BwU+Gp
-         2Hkw/VhKcbzSVVYyyugURK96rGPq9LDrtV6ngyejJDCxW66M8ijCuGuRn7FZAaatLAl9
-         mw6ghNUOLRic5E6psnh1+CHY76b3X0DBXiGazoTtSAsGYvkSYcj57DYLZu58ZeG+0NIn
-         0lUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776445312; x=1777050112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EdXbw8ruQnDuxyXud9pqLO7P6ne13TbWgACZPF9q6l4=;
-        b=gRiiMxauFcbeUsUk7RPXvs0kcyDGNW3tS1bGdgLlXw8fIEygsjtBZcLP2gKQQBGSNz
-         +UrMqCeSLXJlfU+lGHkW7HK37W+K8shZC0AsRIzduwfqoT4faSpeRm8PqlyrWLuTkzgd
-         fUXqWuSv5zva7M6LEZ6/I+vRAPvXY3+tS+6MCFypLi9Gbe/3lwyjulwtpEMfsQb961EW
-         Lr221Qe7O3NLKR98XyUatMPsPzUqza1GARXvv6+8hO9wyyhwNFpeOEh9zqa/ZhaQTTjI
-         08yaRScOYJAUXSJl7IM19AIH/g2zkLvtk6wsDF5monQSshj33jbjtOYAzn60Kpl9Jdg1
-         yW5Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9542dSWmLi290+16dx6mLPFK3bU06eISOMMWfWBIaM1iD7KZR1vNYioWBt5Fx9DXyRlYQFU3euWOZDAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfhcbiEvtG5GMhKPcmaik4b3i4DWw/zZuhhdJrMB5GWhadjY1M
-	DEgYtZ+mLswbwcL6PPmh7Ssd99DsUwsqXKBUwU+g/FG6hoIKXgFxn+/Q+mZ/q0gyjbTiTwqMX1f
-	9hZ6j48REoGUb4naSRmdaYVdycJip/e8=
-X-Gm-Gg: AeBDiet5PvurUSgWchBrm/cTW7wHF9qZZT5u7ECMKcs5wbDPtdvTednG3Y2thSknXtA
-	tr6InJrxOl8QkiRap4fQiifTMPAQ3aL85f8sw/3glm2iVOoYrsxJP3gHTjZIJTXjA3XCLVcBBwR
-	SpS8foKbbnYsFUmwlscOgdDooVKr5W1GvPm0rcgsBK+bpemJp5aJ7v3O0AKw14UcatOg4KX/ZD+
-	FNAj6u3+ixCcNwDCRyrWqMBXIkvjnFf2S91NC3W1VCh4swM4Nr0eH0tfhpKmhJRfA9AhCeJmJqp
-	lNUlkclsHySVI743BAtieGnxK8Mui8dEXZab++OvYLeToY1O3hZSiS9PLCiCoq5+s8sGWkh/n6H
-	6Y1W77/5Fb1T101lKBDt7VayrX99RYN7IX5BMJqTjVUTWN4xN
-X-Received: by 2002:a05:7022:985:b0:128:d7a7:526b with SMTP id
- a92af1059eb24-12c73f957c5mr1805488c88.22.1776445311456; Fri, 17 Apr 2026
- 10:01:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBFF27E049;
+	Fri, 17 Apr 2026 17:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776447347; cv=none; b=Ol0ZRUqpnY9h/Q5C+NtJ+9otE3GMQotulO0PHunIolVQJE34kMu3YDUsCDxXMi2cKhq+KuzCnQeNveTJ48iF3nKg0OuGBppx4ZI3Ygw48JhILa0f7OMFwWlbhTJcuuZfSaPVPCDCGZZ4d5aXLcGX51Zj0mLKwl9cXzfHYCl2ep0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776447347; c=relaxed/simple;
+	bh=etaSjgYSz7HDYj1O9rGmEockmsB0IzvcoqxXzcaFVoM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ENSyxIi+wbaayW+IyMnSxsmuTHTZqX/mzhMp4+38Dm2ce9VShPZfPHZUyUa+SAVsvtg5N7FlqdxGyAbJsJM6bK1nbPuqPwXurrzbiMNwUHEefW3OJ/mZxhSXjRTTHmi2o8KxMfFARwkiNHVoRdmlz5JHeSB+PhOlYIfyROZXow0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hKOvcNke; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 138B7C19425;
+	Fri, 17 Apr 2026 17:35:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776447347;
+	bh=etaSjgYSz7HDYj1O9rGmEockmsB0IzvcoqxXzcaFVoM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hKOvcNkeu6dVzn15vPzWZxAco22k4XtiBigBvbUFAOcjMF0IEdFd89GTTWtiz4Xh3
+	 W1CVwnLPqCmJaLWpQRG9VwJ0R0zDQEw4NFwQ1NL5eFCWA9NBbaYyp7eLaoejFXFW/A
+	 4o4Zfaj6521YvYxG2s6oE7EBXdh452apH66OVIpWG6tZWA7Vo92e+8ASPOk7e96ukQ
+	 VRDNEQng7huNVSzvRd6tHtFFvpANJDJhQ+it9fKq14edqnMAjKK7v81MHS/08HuQ9G
+	 YHzFrCmxYCNPHlZ+vxvHf3S964qAr2s8KqlBmbbWve6BHWyxWM4xb+ENzZU/9ePLGh
+	 IJj/iU5Q5sTwA==
+Message-ID: <a5fd7f2e-bee3-41ff-a0ca-23f5e96f1c64@kernel.org>
+Date: Fri, 17 Apr 2026 19:35:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260330-job-submission-fixes-cleanup-v1-0-7de8c09cef8c@imgtec.com>
-In-Reply-To: <20260330-job-submission-fixes-cleanup-v1-0-7de8c09cef8c@imgtec.com>
-From: Robert Nelson <robertcnelson@gmail.com>
-Date: Fri, 17 Apr 2026 12:01:24 -0500
-X-Gm-Features: AQROBzAmoDifysD6gsakq-ejyyvsk094ITMTDrSQ37RcrzyThndYubnsOWLSElk
-Message-ID: <CAOCHtYg6_Gob1uQ3RBp_vrjunJ5F2qi_Yvd6Z0OpKktVXuSuXg@mail.gmail.com>
-Subject: Re: [PATCH 0/8] drm/imagination: Job submission fixes and cleanup
-To: Alessio Belle <alessio.belle@imgtec.com>
-Cc: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
-	Brajesh Gupta <brajesh.gupta@imgtec.com>, Alexandru Dadu <alexandru.dadu@imgtec.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Boris Brezillon <boris.brezillon@collabora.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/5] platform/x86: intel_lpss: add resource conflict
+ quirk for Dell Latitude 5285
+To: Thierry Chatard <tchatard@gmail.com>, linux-kernel@vger.kernel.org
+Cc: lee@kernel.org, platform-driver-x86@vger.kernel.org,
+ ilpo.jarvinen@linux.intel.com, djrscally@gmail.com,
+ linux-media@vger.kernel.org, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, jacopo.mondi@ideasonboard.com,
+ nicholas@rothemail.net
+References: <4ef5f305-0234-4193-a190-edbfe770ea04@kernel.org>
+ <20260417163252.15603-1-tchatard@gmail.com>
+ <20260417163252.15603-2-tchatard@gmail.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260417163252.15603-2-tchatard@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59042-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[imgtec.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.linaro.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-59043-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,linux.intel.com,gmail.com,ideasonboard.com,rothemail.net];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robertcnelson@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[rcn-ee.com:url,imgtec.com:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: BD3E541D6C0
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 6A59341D876
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Mar 30, 2026 at 3:21=E2=80=AFAM Alessio Belle <alessio.belle@imgtec=
-.com> wrote:
->
-> The first two commits fix rare bugs and should be backported to stable
-> branches.
+Hi,
 
-Yeap, that triggered on BeaglePlay v7.0.0, Mesa 26.1.0-rc1 and xserver
-21.1.20-1 overnight..  testing now (and updating xserver to 21.1.22 as
-more glamor changes)..
+On 17-Apr-26 18:32, Thierry Chatard wrote:
+> The Dell Latitude 5285 2-in-1 has a BIOS bug where the ACPI GEXP device
+> and the I2C4 controller (INT3446) both claim the same MMIO region via the
+> shared SB04 variable. This causes intel_lpss_acpi to fail binding to I2C4
+> with -EBUSY, preventing the front camera (OV5670) sensor from being
+> registered.
+> 
+> Add a DMI quirk that selects IGNORE_RESOURCE_CONFLICTS for INT3446 on this
+> machine, matching the existing pattern used by other LPSS quirks.
+> 
+> Signed-off-by: Thierry Chatard <tchatard@gmail.com>
 
-https://gist.github.com/RobertCNelson/5e1dcf4c648a5bffaaf970c5a50e5c96
+Thanks, patch looks good to me:
+
+Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
 
 Regards,
 
->
-> The rest is an attempt to cleanup and document the code to make it
-> a bit easier to understand.
->
-> Signed-off-by: Alessio Belle <alessio.belle@imgtec.com>
-> ---
-> Alessio Belle (8):
->       drm/imagination: Count paired job fence as dependency in prepare_jo=
-b()
->       drm/imagination: Fit paired fragment job in the correct CCCB
->       drm/imagination: Skip check on paired job fence during job submissi=
-on
->       drm/imagination: Rename pvr_queue_fence_is_ufo_backed() to reflect =
-usage
->       drm/imagination: Rename fence returned by pvr_queue_job_arm()
->       drm/imagination: Move repeated job fence check to its own function
->       drm/imagination: Update check to skip prepare_job() for fragment jo=
-bs
->       drm/imagination: Minor improvements to job submission code document=
-ation
->
->  drivers/gpu/drm/imagination/pvr_job.c              |   8 +-
->  drivers/gpu/drm/imagination/pvr_queue.c            | 154 +++++++++++++--=
-------
->  drivers/gpu/drm/imagination/pvr_queue.h            |   2 +-
->  .../gpu/drm/imagination/pvr_rogue_fwif_shared.h    |  10 +-
->  drivers/gpu/drm/imagination/pvr_sync.c             |   8 +-
->  drivers/gpu/drm/imagination/pvr_sync.h             |   2 +-
->  6 files changed, 110 insertions(+), 74 deletions(-)
-> ---
-> base-commit: 3bce3fdd1ff2ba242f76ab66659fff27207299f1
-> change-id: 20260330-job-submission-fixes-cleanup-83e01196c3e9
->
-> Best regards,
-> --
-> Alessio Belle <alessio.belle@imgtec.com>
->
->
+Hans
 
 
---=20
-Robert Nelson
-https://rcn-ee.com/
+> ---
+>  drivers/mfd/intel-lpss-acpi.c | 32 ++++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+> 
+> diff --git a/drivers/mfd/intel-lpss-acpi.c b/drivers/mfd/intel-lpss-acpi.c
+> index 63406026d..7d0964848 100644
+> --- a/drivers/mfd/intel-lpss-acpi.c
+> +++ b/drivers/mfd/intel-lpss-acpi.c
+> @@ -13,6 +13,8 @@
+>  #include <linux/ioport.h>
+>  #include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+> +#include <linux/acpi.h>
+> +#include <linux/dmi.h>
+>  #include <linux/pm.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/platform_device.h>
+> @@ -52,6 +54,15 @@ static const struct intel_lpss_platform_info spt_i2c_info = {
+>  	.swnode = &spt_i2c_node,
+>  };
+>  
+> +/* Same as spt_i2c_info but with QUIRK_IGNORE_RESOURCE_CONFLICTS for Dell 5285
+> + * where ACPI GEXP device conflicts with I2C4 (INT3446) MMIO resources.
+> + */
+> +static const struct intel_lpss_platform_info spt_i2c_info_ignore_conflicts = {
+> +	.clk_rate = 120000000,
+> +	.swnode = &spt_i2c_node,
+> +	.quirks = QUIRK_IGNORE_RESOURCE_CONFLICTS,
+> +};
+> +
+>  static const struct property_entry uart_properties[] = {
+>  	PROPERTY_ENTRY_U32("reg-io-width", 4),
+>  	PROPERTY_ENTRY_U32("reg-shift", 2),
+> @@ -172,6 +183,16 @@ static const struct acpi_device_id intel_lpss_acpi_ids[] = {
+>  };
+>  MODULE_DEVICE_TABLE(acpi, intel_lpss_acpi_ids);
+>  
+> +static const struct dmi_system_id dell5285_lpss_dmi[] = {
+> +	{
+> +		.matches = {
+> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Latitude 5285"),
+> +		},
+> +	},
+> +	{ }
+> +};
+> +
+>  static int intel_lpss_acpi_probe(struct platform_device *pdev)
+>  {
+>  	const struct intel_lpss_platform_info *data;
+> @@ -182,6 +203,17 @@ static int intel_lpss_acpi_probe(struct platform_device *pdev)
+>  	if (!data)
+>  		return -ENODEV;
+>  
+> +	/* Apply IGNORE_RESOURCE_CONFLICTS for I2C4 on Dell Latitude 5285.
+> +	 * The ACPI GEXP device conflicts with I2C4 (INT3446) MMIO resources
+> +	 * due to a BIOS bug where both use the same SB04 variable.
+> +	 */
+> +	if (data == &spt_i2c_info &&
+> +	    acpi_dev_hid_uid_match(ACPI_COMPANION(&pdev->dev), "INT3446", NULL) &&
+> +	    dmi_check_system(dell5285_lpss_dmi)) {
+> +		dev_info(&pdev->dev, "Dell 5285: applying IGNORE_RESOURCE_CONFLICTS for I2C4\n");
+> +		data = &spt_i2c_info_ignore_conflicts;
+> +	}
+> +
+>  	info = devm_kmemdup(&pdev->dev, data, sizeof(*info), GFP_KERNEL);
+>  	if (!info)
+>  		return -ENOMEM;
+
 
