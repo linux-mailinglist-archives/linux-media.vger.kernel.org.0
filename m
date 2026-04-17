@@ -1,272 +1,186 @@
-Return-Path: <linux-media+bounces-59019-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59020-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4OAjEa424mm13QAAu9opvQ
-	(envelope-from <linux-media+bounces-59019-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 15:33:34 +0200
+	id 0ANHFwND4mlh4AAAu9opvQ
+	(envelope-from <linux-media+bounces-59020-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 16:26:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB4141BB00
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 15:33:29 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A80AB41C056
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 16:26:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E9D4030BDF83
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 13:31:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0D4A930305C5
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 14:22:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 248F02DC78C;
-	Fri, 17 Apr 2026 13:31:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9753D3A3E63;
+	Fri, 17 Apr 2026 14:22:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="QaQAFChV"
+	dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b="dwhoKiQX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023078.outbound.protection.outlook.com [40.107.44.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C07B3A3E7D
-	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 13:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776432659; cv=none; b=Abzp2e0MXnS4P5obpP+SbnK4LU7EXDOkYy30TZBGpe1Wx0ST0FwK1/cVBlI6leuH8YDzmX0qsNkNEFFYcxzE2DEvXa7itt8cUpCt8S3UDCe9UmTui/122quxP7zzv+U2IvR+LQkAxQdvuqkZv0SzMf/hvpDZH+in4GV0DIqKxsg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776432659; c=relaxed/simple;
-	bh=yP43LVUbNS6gGNJtlMHBKpP7X3d/8IsFX56UHBlJ47E=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=U4kiZhILET4HaOuDbt3jlerFoXrxCyUDop5q1J09b13YVqQcOE+uvWDE498xGpF+r2L49pCiMM4HnV9jyo7UjO8jslPWZoGp0RhvelqXd8m1wQp+a5nmUfJdX/HfstC93PvPLCrp4LHQlZSDcRP1vWkUCxARMirLNeqwaJVKGQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=QaQAFChV; arc=none smtp.client-ip=74.125.224.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-651cfaa21e6so696475d50.0
-        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 06:30:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1776432657; x=1777037457; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=yP43LVUbNS6gGNJtlMHBKpP7X3d/8IsFX56UHBlJ47E=;
-        b=QaQAFChVYrJgYuXA9g6Qd+K2MbdvqsgmgkSlirdgPGGOmVGsl1ECS37oRtD7cycnmw
-         yItolkE109NJ1HRNcCi4AOaxNcEpgKNM7dLNuqSi7LeCY7ZaCN1Pujivl36IP0UI8OXY
-         mBqsltezb8tUvX7fucly5i5nhD6IYGeQ06Cn5v+mwYVOTYe2oLMzC+dHH97TkgLkR7NB
-         EjQ9nL4k0qjuf5bisQO1W5xm/w++jy+4ceci0U2LXoiEq4MMGdGgFtIKlVbp9R5tmmpb
-         ECy3cRKbyQSb+KeQBE6D0s+8NO88iD8EDw75lP6XX3sI4CRVIoo4WlfqZsO0HGeY9lFi
-         WQhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776432657; x=1777037457;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yP43LVUbNS6gGNJtlMHBKpP7X3d/8IsFX56UHBlJ47E=;
-        b=qqAOH0YPRPCRv7UQtSBRtsAg5RIDXaQinMZr4Vzb8zD6eY6UgITvtbXu8YAAiuiND8
-         zjD645osXrB45kmSEU2XSo2ql5gAT3OUJmIWlbIJNi5vLr7QyzZDlptCzmdqOSV4EOx4
-         2dKaGEz79uWRE1y9WZNUtMeXDF49RVcHYIrBrS78DaZscHAqvh5svWN7/UM1v7h3B5ly
-         uSV8h1JTTwVfkgEdzUq+q6APDIQlEckk6BBNsyyadYfZlFn+QF3hUDTsEK/hDQg/eDxA
-         V1M4sUWRZZJJQLrPKJSHCYMz04SASg1l+cX3xx3oFBWeI+dw3Qwnpc/QI7zo7Rh/jbpG
-         SeqA==
-X-Forwarded-Encrypted: i=1; AFNElJ/XrqpLmDOBBhj38efzTsTje+/nwFAEd3fdV+/BszVS0NpacknW5OTQ5/sCgN7ErVMo2XCeKZjqqc8Yuw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwwrwtgPQIa+qGoSNhgXSsy9x/YXcJWPKTvIrNKLkhAa+AXkWU
-	xleKzZjPW7wiVTU9Yu6b1Y4WcrIG+LNArv5EdBgTSbd5IB0DdIDOa9vTaP12O+jWFU0=
-X-Gm-Gg: AeBDieuU3UJDUHe0yI0g7UBEouUs/0DpnbSUJyptM5e0gQFC66cs5/wr7vg+V1Bn7S4
-	jWq9vpP872PegOwruV9hzYd8NkIFQXTGueooLFPguqk7CGt2UeBxLuKZlVo3o2fSmXp36Qv21uI
-	A5OQu0XGQar4Jx/JuKBWKDOckjkHe72mMFPScM8NVm0rEATIoycqXUZ/OizpcRvx3LkQrWcmdzT
-	LnkApfYm2Ifngj3ge0yTH4MA2grj0B9OpXM2zu5st7abXjGdJ1aOHSfIWpdb3e5eeQqsMpKCLx3
-	TokQ4kX3lEg529x+kOpo2fmsBfzvOYLxgCZgGhqQM7eNILFbns331OFAToTH11MhJxiVEHI7sCt
-	v8LPz2rfTVMCcG0n+CzgHatDyNuP1SepYYb+m0/EpX3NvHLrS8PfpC5APDtq00k1Y7F/ckGJdIy
-	Xt/P3O4Vh2ej9CAMXbTcyp5XZTObQIHcI2GuYQADs=
-X-Received: by 2002:a05:690e:4850:b0:64c:ec30:9dd8 with SMTP id 956f58d0204a3-65311c8b52fmr1160833d50.47.1776432656675;
-        Fri, 17 Apr 2026 06:30:56 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:e06b::c41? ([2606:6d00:15:e06b::c41])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02ac77546sm10334746d6.17.2026.04.17.06.30.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 06:30:55 -0700 (PDT)
-Message-ID: <5b4cf8f7951cc2766901b09f2e886ef73d48671b.camel@ndufresne.ca>
-Subject: Re: [PATCH v7 0/3] Mediatek MT8189 JPEG support
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Jianhua Lin <jianhua.lin@mediatek.com>, mchehab@kernel.org,
- robh@kernel.org, 	krzk+dt@kernel.org, conor+dt@kernel.org,
- matthias.bgg@gmail.com, 	angelogioacchino.delregno@collabora.com
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, 
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
- sirius.wang@mediatek.com, 	vince-wl.liu@mediatek.com, jh.hsu@mediatek.com
-Date: Fri, 17 Apr 2026 09:30:53 -0400
-In-Reply-To: <20260417100519.1043-1-jianhua.lin@mediatek.com>
-References: <20260417100519.1043-1-jianhua.lin@mediatek.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-Ge/8Q+z1/L/Ug2FhDTGi"
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BBF2877DE;
+	Fri, 17 Apr 2026 14:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.78
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776435765; cv=fail; b=OhxR2evE5o+KqgpBTLvarViysRTMlJm+jSGB58jwTI/UjoLVqDshHN/oHSBpGKo6kpIjARAn5KD+ixS978fRNyBhr0a4SEwPLltsbEcKdDd7qQJEbg5Q1C4F0spGBreMDYxhGy5uhAGJTqxC+wN1D+MCEJpq9oalrrTHBW5MDgU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776435765; c=relaxed/simple;
+	bh=LGgRQhk3RYQ1XscNHURHTRxHXw0Cs+N8T0NLiCEoDK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=CuSQAUu4bzK66MqgcHQGTdN2ET8ZRtnXliTYl1kNnL3sON0i+4+2N/XFlkmnjBqww5W+ayiOzziq6A+Xd8PHucY/SfvZTqct//lgUK76miJ9MBU7bXcdhMyM94Cfxj465RKjdYGEuz0MF81sP4BtFYa7edbFFhjvqc+CsBL4/iI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg; spf=pass smtp.mailfrom=smu.edu.sg; dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b=dwhoKiQX; arc=fail smtp.client-ip=40.107.44.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smu.edu.sg
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hkZ1GCfKEevkpjWs97G6U6XdtB5GXwvBwch1Oj5uEPXYLKL6Y8y1/ywy85FHl6D+iuQ1365voHbYaMyFZq0hHwXKEYx6bKjQg/P/+KulALZ75o3AIdoN0d/k8NZ8oeDytZTmpZ6doLlNmKYHNVX92pwfdOl+du1pNFRgY6+eBmOKI/Y35Pfzjc9SpBhHUUfdJy/knYfJOSfBAZp9H5JGiFd5fVrkDM1d3VtOpCYGFiTxHacTqEOWEuWl6dpt2/PnB+KFUS510syqZ37+UEKgn9gly8YveryfB8bzwqCytx2fA+mHnRKhoFUERsXAgFil8a/osu5H3rcqcYfLr0hgFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=82Jf0aQL6HbrSisugJKgTfIVsBoqdZwKvmyTuZCgKAs=;
+ b=KkY/Uym23hDAaB/sp8M68nrc5nXKDPl7p4DuN35kJVNoEMwJB6XshjVaa0aGtJwkpwWTLO3Jbvtqpy4H3twE5MG9zH8B3wVxN2z2ixiIOaZ7ClEUzmzE8I1HlI/PwD7VE8aCDgJBOwMLvIs7GjlsGW8fTQrJ3Hb2Jpe4bEyDnCOAwn9q/zH9JHFjBKj4/qq1a/C1AtyaekZ1fJOC+4vndTHKn7QGR8vWVSi9MJAVbb8qWQvunQ2G94/o11S6Mvz/WA0IWjEhqhjCsy5IxRKj3pxj5G2mpkNq+jwbi7CI2mkbaa3HbJ7t7tH6IrScFyAiWEdgC2O4MAg9A+GnCDmerA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=smu.edu.sg; dmarc=pass action=none header.from=smu.edu.sg;
+ dkim=pass header.d=smu.edu.sg; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smu.edu.sg;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=82Jf0aQL6HbrSisugJKgTfIVsBoqdZwKvmyTuZCgKAs=;
+ b=dwhoKiQXb73/Pc585cm2LBygYkc1MaGqz1HaWqU1m5+lFEA8hCq0wkkLxMAPq7bSXV+kQsvkR2rWGXqKoMKYWriJKweNWFnSSk74RuVdghTtoO++5jwSnrAoN5k4orQ7Qs4KGjIk1J6xXLSwrrxmyM21UAOmfWAw3oCIaI3Vbbb7mcuCSyxDmJHIHfX2PMxgKUS4wPlnN7rJAIBViWiEgWn6DX+CPhyPSvhEtVxfiy+JrgL2qaumxo0SkulUkgo6dw6dkrb92O5/LRYL1qRRn8baRX2ZIWY+bxqjbBWsgVloga0gd3rTaQFqZ/FPadGceFOuhCe6W52u9eM8Gn3RqQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=smu.edu.sg;
+Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ (2603:1096:d10:3f::9) by KL1PR01MB5091.apcprd01.prod.exchangelabs.com
+ (2603:1096:820:dc::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.21; Fri, 17 Apr
+ 2026 14:22:34 +0000
+Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ ([fe80::6bd0:d704:7d90:a595]) by KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ ([fe80::6bd0:d704:7d90:a595%5]) with mapi id 15.20.9818.023; Fri, 17 Apr 2026
+ 14:22:34 +0000
+From: Huihui Huang <hhhuang@smu.edu.sg>
+To: error27@gmail.com
+Cc: bingbu.cao@intel.com,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com
+Subject: Re: [v2] staging: media: ipu7: fix boot_config leak on queue_mem failure
+Date: Fri, 17 Apr 2026 22:22:28 +0800
+Message-ID: <20260417142228.2769150-1-hhhuang@smu.edu.sg>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <aeHzeuVMpcaPx6_x@stanley.mountain>
+References: <aeHzeuVMpcaPx6_x@stanley.mountain>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI1PR02CA0032.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::12) To KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ (2603:1096:d10:3f::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: KUXPR01MB7791:EE_|KL1PR01MB5091:EE_
+X-MS-Office365-Filtering-Correlation-Id: 99119e0a-b896-4cf0-69f9-08de9c8cc4c3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|52116014|366016|786006|1800799024|22082099003|18002099003|56012099003|18096099003|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	d14Y3Qn969IgRcRCX1lduj3+FyYU4tRi1ejUJl1izanne0xfJLj69Ds1jOQG0h/pDXo4+if4sU1wWSyuh5Q+SboO1yA+j1qZSKsxvf/FCZnnWSe6RIZGPGmyRrVi0k7+ZAQ15b3va8qD+WA1YplmyouZiMAvC553pntK9O9qmRb++A8gKjHl2fhX2dvgIRGCklUYKCWWaHE/IfdV88e4i/t+gJrC5owvJdRmrFu1PnMKyx6K7NnHUNBD7Odk7+Ourv63IuN2SK1jJK/2WE4Fu4VsPqgOqGhDPBb9o0oAlS49FSz2Gcrz4JrSg/9/aT1gDNhDH8Yx7K6hGGrD7MryXvPNak592EE1ltNF9xUyK69Py2P9K3cLLsh5WKLrlPqOB+lusD7F31MjsIcSamKnPY/DptVfv35nUP+Vd5lqGtTrqTFhxfYQa8INeLqWgTaCNp3orgfhaT7SclRK2NFqB4iaYqmAJYpWSY+CaStyl0YIRkyY/SocnjOD8rHur8dJKfpZnqNTXdJslIhh2ilzlOPtR6PH4GYoaQ2sW20WDxwlZsNHiFHZImgIf1HmTk7TIC7rUFhg5HjyXtKKmINEjio0ARMJWrahDbDKIWagh+VN8aGF3HqPQMcpteYh4pXocN/P3oFnk3X7KPZT6uyht3NIbl7q47uObpq0aFSPNzuthHplJcw97VKxNYj/+OBBcD1DDfhs7KbYj7iFxHt3Goann5Dps3qGBjuB9zF4vInD4NgEmbjNv0+t2TjMr1Z6HeEPUeVcoSFZ3r9X4usURmCZWtcwd3JQavKBq+uaxQw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KUXPR01MB7791.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(786006)(1800799024)(22082099003)(18002099003)(56012099003)(18096099003)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?IOWW0Bq747XwCNVfHKVvs8d7p8h/D7P4ppDCUk+4wyxJJgw0o1quGXqX/SOE?=
+ =?us-ascii?Q?8JB1sEndt2Wo1ltqshwmIu5i3pcmwsA3nYFhjRkLY3oMAh/FKXasL035maLo?=
+ =?us-ascii?Q?SKdBa3WYFS5rQn0l0E8inW3m6bzZTqCNa3rofHDqFsPlJmBPP6Ibp7nsqo7s?=
+ =?us-ascii?Q?14RlA98vQI0ub/Lmh5+OVLt3mSvdMrYanr2YV+oKYJVge+COb/nynHTO0L66?=
+ =?us-ascii?Q?j9uQrJ7tNU04S2iXIcXC3dMh6yEt7ETCifnXxphX3ZVmeYU+qhfPC/451eIO?=
+ =?us-ascii?Q?SsTua34L6cAMx64OphSaQriMdqVIrGA17XQw+Wvg3WWESd1e40Wi+cHbaCrB?=
+ =?us-ascii?Q?s90+ZbNBXX5DHqKLI6ypC8EhoAXXHOn7TAoNyvmT9AO68lRH2FlfyFfUXXPT?=
+ =?us-ascii?Q?/I3ayKK4LaerhNmhjUUiV5+CY/Cx6GYj7coP0yzJh7RXd44g/s4LHrt94Ujo?=
+ =?us-ascii?Q?QFY0MP1jglOyv5iWAa6gJ7clJkJVenGnJkqWDmvzSIhA5I55vrF48oO66y69?=
+ =?us-ascii?Q?WTEKoGDCvd3MkBOKV2jcY1qR1iuEkFIPUNNAoP61D+VXK2ww+CrY6xDPCau6?=
+ =?us-ascii?Q?OrxZ+8tX8hPXzv1c79dtK+95U6jQh2lXxaikFwvKYGXgp7eY1A3rMHIKzJxS?=
+ =?us-ascii?Q?QNkN1dCedP6pWfJS88OXDXgyQxwbQ7/zMpG6c8BaxQwGFZZkKoWvSZDvhf3D?=
+ =?us-ascii?Q?dyMyEgRZDZVMiP8G6xh8QcyuQIkixIajH0FbebM8VdkuBPjbb+o1ACGzPRJO?=
+ =?us-ascii?Q?G0BH2lWuBmmJpe4epSKnovMu5rE2AkrN/SEBhxQpxLw+ldbhPVNLtUq688Wa?=
+ =?us-ascii?Q?Q+nIsPeHAkztsDGbvMIOzTHfZZCE6a22JgDVC0uXhtcR+JhnTSAXGUJATNaR?=
+ =?us-ascii?Q?uSALYEPYRiXURc4ZzSUWxg1rkAjmBdTuJKPlCi2aZn7nzmlJygj2/pdBWKdc?=
+ =?us-ascii?Q?m5o3w8VdQwnBPyDWBPYPjfnevq0lwLd3/4LlVRXcOpsIbQXrAgVLBymvKMwD?=
+ =?us-ascii?Q?V5zN10xn6TiICCGTBmlduh2cZ/TWKSUnEQi6yVKYapgydTR7Dj84L94YsSnm?=
+ =?us-ascii?Q?TrVCypWt61tkGUaa+v7gTptnX+7IiD7ydpw0Y5EyIE8v8jP/VNkQlTCGQRE1?=
+ =?us-ascii?Q?eLEdnV8zq3RUe492IuJ6eb+4U6plR9aCZUPWRSLcMxpO9Z6GByFa0KFQLmu9?=
+ =?us-ascii?Q?rxc0ss5KcAbexvT7oCWd86xm9G8bLAvHwcXKg11DlR9rdZ7erfFa1toVORuK?=
+ =?us-ascii?Q?nH5nLPWGtOgrtwGQU90W/t299MtjoiGRBuTe9wdehnM1UrNd4o1PZr11NAxR?=
+ =?us-ascii?Q?Nw807kDAZT/zVDFwZcnBg0yZH+CW2rCZX2R6xdOzP4xrHVGM18vDa4ti89Ab?=
+ =?us-ascii?Q?Qgwll7+1QNToKfTkwnxqxtIBPjhL77JFhA7At0dmn8ues80t7FgyQRPajlMV?=
+ =?us-ascii?Q?nkftuXrMbmgpJCMISapvlWNETcRRAd3MEuojvmfe22fNkRiAwPP34riSeJ5E?=
+ =?us-ascii?Q?DE6buc5f0QoYDN8AZfYYuBEDzB1vGg/XoljXDtQyyefuDTj/P2P4csIwRWgP?=
+ =?us-ascii?Q?WzqhhIOhX/TKaZpcqYDXmSXnSKn42TmJK44gfqpwQvh5YlEBpvoDwaRcisTm?=
+ =?us-ascii?Q?Xmr3zQrsIxb4ios+tkDYbKucdNyTxOrMuPlGpzNwDCNsQjDkAXsG3K+AE32F?=
+ =?us-ascii?Q?9hQ8JiJO1cFBCyh4MbN2Bb4Juxmad+jejoNUGcIykGrHCpPAugFkUOzeRiyi?=
+ =?us-ascii?Q?nErnLbjE/A=3D=3D?=
+X-OriginatorOrg: smu.edu.sg
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99119e0a-b896-4cf0-69f9-08de9c8cc4c3
+X-MS-Exchange-CrossTenant-AuthSource: KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 14:22:34.5797
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c98a79ca-5a9a-4791-a243-f06afd67464d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YasTJM8zb+8nnVEO1hVZOP++pGrGN583gKmsMVdnFLWB3+5ZrhI4p3adsKirAC4BvC61jPVp7+la/mEiaPsUow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR01MB5091
+X-Spamd-Result: default: False [5.84 / 15.00];
+	SEM_URIBL(3.50)[smu.edu.sg:dkim];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
+	BAD_REP_POLICIES(0.10)[];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	DMARC_POLICY_ALLOW(0.00)[smu.edu.sg,quarantine];
+	GREYLIST(0.00)[pass,meta];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59019-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
-	FREEMAIL_TO(0.00)[mediatek.com,kernel.org,gmail.com,collabora.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-59020-lists,linux-media=lfdr.de];
+	R_DKIM_ALLOW(0.00)[smu.edu.sg:s=selector1];
+	DKIM_TRACE(0.00)[smu.edu.sg:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MIME_TRACE(0.00)[0:+];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ndufresne-ca.20251104.gappssmtp.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: BEB4141BB00
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[hhhuang@smu.edu.sg,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	NEURAL_HAM(-0.00)[-0.039];
+	R_SPF_ALLOW(0.00)[+ip6:2600:3c0a:e001:db::/64:c];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A80AB41C056
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On Fri, Apr 17, 2026 at 11:46:05AM +0300, Dan Carpenter wrote:
+> But this does free them along with isys->subsys_config.  Everything
+> works.
 
---=-Ge/8Q+z1/L/Ug2FhDTGi
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks for the analysis, Dan. You are right, there is no actual leak.
+Please disregard this patch.
 
-Hi,
-
-Le vendredi 17 avril 2026 =C3=A0 18:05 +0800, Jianhua Lin a =C3=A9crit=C2=
-=A0:
-> This series is based on tag: next-20260410, linux-next/master
-
-What dependencies justify not submitting based on media-committers/next as =
-usual
-? Its fine to say you tested against linux-next of course, and if its only
-working there, its really nice to explain why.
-
-Nicolas
-
->=20
-> Changes compared with v6:
-> - Patches 1/3 (dt-bindings: decoder):
-> =C2=A0 update the existing `allOf` condition for mediatek,mt8189-jpgdec t=
-o
-> =C2=A0 make the 'mediatek,larb' property strictly required for MT8189 SoC=
-.
-> - Patches 2/3 (dt-bindings: encoder):
-> =C2=A0 Add an `allOf` condition to enforce that the `mediatek,larb` prope=
-rty
-> =C2=A0 is strictly required when the compatible string contains
-> =C2=A0 mediatek,mt8189-jpgenc.
->=20
-> Changes compared with v5:
-> - Patches 1/3 (dt-bindings: decoder):
-> =C2=A0 - Drop top-level minItems/maxItems for clock-names per Krzysztof's
-> =C2=A0=C2=A0=C2=A0 review.
-> =C2=A0 - Refine allOf block to strictly enforce clock constraints.
->=20
-> Changes compared with v4:
-> - Refines the device tree bindings for JPEG decoder and encoder.
-> =C2=A0 - Patches 1/3 (dt-bindings: decoder):
-> =C2=A0=C2=A0=C2=A0 Moved the standalone compatible string mediatek,mt8189=
--jpgdec
-> =C2=A0=C2=A0=C2=A0 into the first oneOf entry along with mt2701 and mt817=
-3, as
-> =C2=A0=C2=A0=C2=A0 suggested by Rob Herring. This correctly groups all in=
-dependent
-> =C2=A0=C2=A0=C2=A0 ICs and removes the redundant items wrapper.
-> =C2=A0 - Patches 2/3 (dt-bindings: encoder):
-> =C2=A0=C2=A0=C2=A0 Applied the same logic suggested by Rob Herring to the=
- encoder
-> =C2=A0=C2=A0=C2=A0 binding. Restructured the compatible property to clear=
-ly
-> =C2=A0=C2=A0=C2=A0 distinguish between the standalone IC (mediatek,mt8189=
--jpgenc)
-> =C2=A0=C2=A0=C2=A0 and the ICs that must fallback to mediatek,mtk-jpgenc.
->=20
-> Changes compared with v3:
-> - The v4 is resending the cover-letter, because the v3 cover-letter was
-> =C2=A0 not sent successfully.
->=20
-> Changes compared with v2:
-> - Dropped the dts patch (arm64: dts: mt8188: update JPEG encoder/decoder
-> =C2=A0 compatible) as it belongs to a different tree/series.
-> - Patches 1/3 (dt-bindings: decoder):
-> =C2=A0 - Changed the MT8189 compatible to be a standalone `const` instead=
- of
-> =C2=A0=C2=A0=C2=A0 an `enum`.
-> =C2=A0 - Added an `allOf` block with conditional checks to enforce the si=
-ngle
-> =C2=A0=C2=A0=C2=A0 clock ("jpgdec") requirement for MT8189, while preserv=
-ing the
-> =C2=A0=C2=A0=C2=A0 two-clock requirement for older SoCs.
-> =C2=A0 - Updated commit message to reflect the schema structure changes a=
-nd
-> =C2=A0=C2=A0=C2=A0 hardware differences.
-> - Patches 2/3 (dt-bindings: encoder):
-> =C2=A0 - Changed the MT8189 compatible to be a standalone `const` instead=
- of
-> =C2=A0=C2=A0=C2=A0 an `enum` inside the `items` list, as it does not fall=
-back to
-> =C2=A0=C2=A0=C2=A0 "mediatek,mtk-jpgenc" due to 34-bit IOVA requirements.
-> =C2=A0 - Updated commit message to explain the standalone compatible desi=
-gn.
-> - Patches 3/3 (media: mediatek: jpeg):
-> =C2=A0 - Refined commit message for better clarity regarding 34-bit IOVA =
-and
-> =C2=A0=C2=A0=C2=A0 single clock configuration.
->=20
-> Changes compared with v1:
-> - Patches 1/4:
-> =C2=A0 - Updating commit message
-> - Patches 2/4, 3/4:=20
-> =C2=A0 - Updating commit message
-> =C2=A0 - Adjusted property descriptions acorrding to hardware requirement=
-s
-> =C2=A0 - Improved formatting for better readability and consistency
-> - Patches 4/4:
-> =C2=A0 - Updating commit message
->=20
-> Jianhua Lin (3):
-> =C2=A0 dt-bindings: media: mediatek-jpeg-decoder: add MT8189 compatible
-> =C2=A0=C2=A0=C2=A0 string
-> =C2=A0 dt-bindings: media: mediatek-jpeg-encoder: add MT8189 compatible
-> =C2=A0=C2=A0=C2=A0 string
-> =C2=A0 media: mediatek: jpeg: add compatible for MT8189 SoC
->=20
-> =C2=A0.../bindings/media/mediatek-jpeg-decoder.yaml | 48 +++++++++++++++-=
----
-> =C2=A0.../bindings/media/mediatek-jpeg-encoder.yaml | 29 ++++++++---
-> =C2=A0.../platform/mediatek/jpeg/mtk_jpeg_core.c=C2=A0=C2=A0=C2=A0 | 44 +=
-++++++++++++++++
-> =C2=A03 files changed, 107 insertions(+), 14 deletions(-)
-
---=-Ge/8Q+z1/L/Ug2FhDTGi
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaeI2DQAKCRDZQZRRKWBy
-9FAeAP9hNlBMJeDwrd4Q36uw0NTXVgqg2wu5S1txSqHzY2sxkgD/dIedXuzuO0AL
-3iduYnYusZ1QaDh8eK2hofWngg9wdAc=
-=4Pdh
------END PGP SIGNATURE-----
-
---=-Ge/8Q+z1/L/Ug2FhDTGi--
+Thanks,
+Huihui
 
