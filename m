@@ -1,337 +1,201 @@
-Return-Path: <linux-media+bounces-59016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59017-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mPD4HkYp4mmO2QAAu9opvQ
-	(envelope-from <linux-media+bounces-59016-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 14:36:22 +0200
+	id 4JIvJs8p4mmQ2QAAu9opvQ
+	(envelope-from <linux-media+bounces-59017-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 14:38:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B9341B405
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 14:36:17 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A1441B457
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 14:38:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 19779304F239
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 12:36:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B59643060370
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 12:38:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35D11396B7F;
-	Fri, 17 Apr 2026 12:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BDB739A041;
+	Fri, 17 Apr 2026 12:37:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FHmpc5kL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DKvfZEOF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82BA737187C;
-	Fri, 17 Apr 2026 12:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776429362; cv=none; b=q/dtHcfTv7fjKWEJPBAz+IkPDnAT9Kfyy4VZJ6kTRWB3CwMjeSezNcSAmYfOhMcO7vh1mSFUq5Uv0p0wDX8c7R77iNuQaXry8sQjnNuISlnlHWShcp8bIJPT4mjmIA+/HjyI2iOfFaDFEVMS8WmSqXRQHS7UXveRc/oBXmsdGOs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776429362; c=relaxed/simple;
-	bh=/w3dR8ZCpT4vjo3Uyh4otuAOLxMOYA7HdIN3qaecC1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dwWITKfxtEfs4LVTQwpn2tnFWpLT7VqG+ooIbmYU264Er0dMMiu9Dy+trLspanCCmIQBlAhzeXhtCCAI+8hEyGCfXOId9BvehrIgpUClbd9wlY+GJ+AOPIKxm/5Sf0/LlSCyVkynTMrX5R6uyY43Ddmi389iikY66W6ROhXMJmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FHmpc5kL; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776429360; x=1807965360;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=/w3dR8ZCpT4vjo3Uyh4otuAOLxMOYA7HdIN3qaecC1o=;
-  b=FHmpc5kLLm7xx7Qu2QqlkYYNAFKMJAO8SncNhNxk8V5jYVr34cZeRGcR
-   mIG6Lv/TKThuWFJDpMPbSkRZF5vy19pmrqC0ZJ/jnDeQ68sf+UGcLcbhQ
-   yy/Ih6rmjcgQ72p1mm2Ozhft38u7B4EmF5dzXENJsvv6wNwbOSm0D/UvI
-   g7Iy7FyC/uhbVJF7ItpPLTOE894+sI3kaW8ymQsQUqnpJUznCDJfZdxZ1
-   L4NFI9ECkOG0N1G+9QPiKoWFdnaJ13149YP27AiwuueD2T19M3nW+bpGF
-   aS0wpki7w7iphV5+6OfgP+rzVZY5FmSbQz0iCEPRDYlOcH1JFbvXqFY08
-   g==;
-X-CSE-ConnectionGUID: B5FjEawdRj+itNqRPpRW7A==
-X-CSE-MsgGUID: PM+KYKLISOe9HvQSmd8uzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="95009902"
-X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
-   d="scan'208";a="95009902"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 05:35:59 -0700
-X-CSE-ConnectionGUID: ugOC7ITITBmeR0Q7T5rgpA==
-X-CSE-MsgGUID: QoM5KGieQK2+nAcFq8FRNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
-   d="scan'208";a="230950099"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.170])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 05:35:56 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id E758E120E0E;
-	Fri, 17 Apr 2026 15:36:14 +0300 (EEST)
-Date: Fri, 17 Apr 2026 15:36:14 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v1 5/5] dt-bindings: leds: Document TI LM3560 Synchronous
- Boost Flash Driver
-Message-ID: <aeIpPvwpjJ1Q6eUl@kekkonen.localdomain>
-References: <20260417114226.100033-1-clamor95@gmail.com>
- <20260417114226.100033-6-clamor95@gmail.com>
- <aeIkBR4cx54OVmGo@kekkonen.localdomain>
- <CAPVz0n3wi2yzVc0noYe=5=VR2NWEeyXke3EPKJpSPm81qrpp4Q@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB1D39936E
+	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 12:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776429475; cv=pass; b=gNKMBbYlXXlF7Viyuy0f5VR5gNSvdJvB41EqepXWO9Xg2WbHaURKVuvwleUUhUs5l7U68XsgguOpsBfak6XuvBrtlyv0g/FgX1wkGyOcjDYPxgiG4F0N2mOj+vXrmhVr9CkC3taVMgP1r7jTCA4o/wCJ1A5cNx6xs0dKiC8KSD4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776429475; c=relaxed/simple;
+	bh=oIu6DN+Yo1GS9V6OFVEhLzwsWKEJ4+izexh3mPX7P/M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X6TQ+ywBXNkv6rGnxYTp+xfO4nHJNHtFmINwTpy12IdvK5oyozHp3ZimzrnduQ5QNeQuWVuLKjt6aPchIloYrKn+A3biE+DTim42m1FknaVXGat7sI4Ai4+/X3vU3WtpRRJ7NI7ktwEfptdKk5ExZEYK4Ic5w4dVANIWW+mFlwM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DKvfZEOF; arc=pass smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43d7a5e77b1so470926f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 05:37:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776429470; cv=none;
+        d=google.com; s=arc-20240605;
+        b=a8nrWI1xCHZS1YlIngVirGHsQE8vg2WzGakygQWxLjS8CcS6QKPRzF165CYrJ3TCdJ
+         SI9E/LMMIK0YacyWFaUpWIJ2HoO9inRwu3wki02yEpQYN4Rlk9Bwg5I/LqaMNow9V61w
+         QpK/N061MUiv1R+xhA0/yFmdZ1l2oitXXbzbkYEarQ9auDZqzWg6n/TAAU+Ti7RoCM88
+         UrKO2ztdBdMCL5IxVTdcWGrryvsFcHBdwvmi2fg+JHl4VP+2V6ZJSO3GZukeDI4FFa6P
+         pRHGx4gA4w5u4o01F8Ut76bA6bBzsssVIRp6267bccbWFgqKs+sTuIBgaPgM+uhZKFtx
+         PGtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8M8W+2/vzBUP6Rhy7Ku2bFhd+eWXXf0DKZ7ykkT4Jdw=;
+        fh=jlXlb4RcY2KrpOWRKIdNQMj1ZG+Sdm2cDvbSDavFnjs=;
+        b=F5lFhkcH2uzROj6oxDEp9T+ixYf43+slhVpKkJfDUe2Dbp689HDTWvD2zqxqEl1maS
+         6IScCnyayAI2cJcfcH6bkcITW6mATvVZtYoMmX9uhdrTnlQb2xSz2JnLPlEkKNdSqJLz
+         Y+NB697hMHZXrMNbbD5cQx1lRpyWQ/j3JcqdyW9moeHtIlg4Oxbcq1vnO8eMXA0OCO/h
+         FwArGSYk4xl+CotXg9fwFMnuarb5Os0VG+PFIeX6Bwt8qR14r1RsG15QsiHYnL4Yqe/J
+         xKP99bibQCZOTx7kDkM/DTDBQvD1cIRtTcQbxW8EHg4WAIFP/Ci46Q/DPTFCUex5Swiz
+         dWqg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776429470; x=1777034270; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8M8W+2/vzBUP6Rhy7Ku2bFhd+eWXXf0DKZ7ykkT4Jdw=;
+        b=DKvfZEOFlif43UowkBTiqnBqo4w51hQ1NFE+e3B9wKKJmkL4Dnk3gfxApDI3ObV9i1
+         RzS9mvQ3X/R7E+DPEnUSs2AhquNJuCPY7v4Fxdp8ID6l7VihnPSBXV/V2o7+atG/TYUa
+         g39OwaJop8TMOXSsDrdpQ3o+v2t1jlG4ca0YMuHBJs4c/CBiaquJ6nJka/DLSi7f3z3r
+         H7uduTF2cSl4ZGjxgWcMrkdG3VD0TrbK3IwHaBDau7r7ziu/S4aLEZO9lVqZxwmHLo7V
+         KB6FZ1EI9zs93NgzJjHfneT8GEXgZ5lwX8sbwzrv//QnhECprjlcu8U/PC7ctZzyjQ9W
+         Xjlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776429470; x=1777034270;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8M8W+2/vzBUP6Rhy7Ku2bFhd+eWXXf0DKZ7ykkT4Jdw=;
+        b=IQIGDtxg6rXhq1+iaoiH8wf2q/PBHJPPu8+Q78EBeBcfuU0diPS4eDLQ1h3h97i00b
+         wcpQu1bZpIK8EoyHZNVka5uWOyKaiAWanWHjED97NzsPtTZSdyKOe6IVR6wW5IlBaD1p
+         kXmNB37SE7dMMuazN5yzhSOx4eOdT/JMx+z7G+FC08HJmMb/WOW260AU/RqiavleZo9H
+         8806iSS5gBWeH3x95RL3HnpKfgVC0I1MgJtypIfU/UlLdIVcl2ZN1BHY6am4lTDOKSc6
+         6l9KJggGTWWN/qCriQEVK/25EtJu9cqDG/Ucsj2QcvzD7JVuIBQfila2EXbxghb3oTY/
+         uR9Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9Zh5H22R+xnQy/o/GRAMfZsKpE9r1f0TQTo4armiY+0JiVYN+Isa2so23i9s8ja5HyBmW7AL0/0cfBdQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwFngItZGjyB9TFMReNwLW13qOvMAusx/Qx1ft7q2bg7ADxvkp
+	ZXAd2yZivSVi7NFk0G/jXMGqeUxa7RMdmYN+MDZXk7sHdyO8hQW0/nP3l/qbkQgqsj5HJs40MkQ
+	QErBA9CjwNpqapPH/g8mqZMmMawq5ho4=
+X-Gm-Gg: AeBDieu7c0NXGSkDck45p1L2JqIrZFHuYZNElq+5wpUu+Gu9zioclKezXwZPqQvopf+
+	tl8yWX4UwA5kQhnWveVetDhIQfQY5qQx2skym/aEfY/PvNJDV3FEzXdRPqxr1hcazJPfHuI9tO2
+	zUGApiuJ4f1rUhlM8r3VPTPyxvZaorHnPSKojldwxc+bNLANRtiyuaDcAQtw+xl8DP3WEuBYno0
+	ZafaZF5tLn2rlkENhOBheF/ukDaVSnwQ/7Qy/WC70lrMq99aDWcPm4t4LWDiV6XAX62VzMesyV/
+	nQFQpL3ayNcb9MN01dY=
+X-Received: by 2002:a05:6000:1ac5:b0:43d:73d4:b1a with SMTP id
+ ffacd0b85a97d-43fe407c0d8mr4468477f8f.19.1776429470199; Fri, 17 Apr 2026
+ 05:37:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPVz0n3wi2yzVc0noYe=5=VR2NWEeyXke3EPKJpSPm81qrpp4Q@mail.gmail.com>
-X-Spamd-Result: default: False [3.34 / 15.00];
-	SEM_URIBL(3.50)[0.0.0.0:email];
+References: <20260417114226.100033-1-clamor95@gmail.com> <20260417114226.100033-3-clamor95@gmail.com>
+ <aeIk3z8f4dvjEXBQ@kekkonen.localdomain>
+In-Reply-To: <aeIk3z8f4dvjEXBQ@kekkonen.localdomain>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Fri, 17 Apr 2026 15:37:37 +0300
+X-Gm-Features: AQROBzCGajxfHOMdb-jAWC2IPNr-tHIUYgt6Ny8fWbZU1eaEM3yL-TGQmmJHhU0
+Message-ID: <CAPVz0n0vf_Re-4s4ygOP8aAMA+b=o7yM+UYVZiRUfkrJ931J2A@mail.gmail.com>
+Subject: Re: [PATCH v1 2/5] media: lm3560: Add IN supply support
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
-	BAD_REP_POLICIES(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[intel.com,none];
-	TAGGED_FROM(0.00)[bounces-59016-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
+	TAGGED_FROM(0.00)[bounces-59017-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	HAS_ORG_HEADER(0.00)[];
-	R_DKIM_ALLOW(0.00)[intel.com:s=Intel];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.891];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(0.00)[+ip4:172.234.253.10:c];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,kekkonen.localdomain:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,0.0.0.1:email,0.0.0.53:email,devicetree.org:url,0.0.0.0:email]
-X-Rspamd-Queue-Id: E7B9341B405
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: F1A1441B457
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Svyatoslav,
-
-On Fri, Apr 17, 2026 at 03:30:30PM +0300, Svyatoslav Ryhel wrote:
-> пт, 17 квіт. 2026 р. о 15:13 Sakari Ailus <sakari.ailus@linux.intel.com> пише:
+=D0=BF=D1=82, 17 =D0=BA=D0=B2=D1=96=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 15:1=
+7 Sakari Ailus <sakari.ailus@linux.intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> Hi Svyatoslav,
+>
+> On Fri, Apr 17, 2026 at 02:42:23PM +0300, Svyatoslav Ryhel wrote:
+> > Add IN supply (2.5V - 5.5V) found in LM3560 to ensure its proper work.
 > >
-> > Hi Svyatoslav,
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >  drivers/media/i2c/lm3560.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
 > >
-> > Thanks for the set.
+> > diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
+> > index e6af61415821..a2674af6c9fb 100644
+> > --- a/drivers/media/i2c/lm3560.c
+> > +++ b/drivers/media/i2c/lm3560.c
+> > @@ -16,6 +16,7 @@
+> >  #include <linux/slab.h>
+> >  #include <linux/mutex.h>
+> >  #include <linux/regmap.h>
+> > +#include <linux/regulator/consumer.h>
+> >  #include <linux/videodev2.h>
+> >  #include <media/i2c/lm3560.h>
+> >  #include <media/v4l2-ctrls.h>
+> > @@ -434,6 +435,11 @@ static int lm3560_probe(struct i2c_client *client)
+> >               return dev_err_probe(&client->dev, PTR_ERR(flash->hwen_gp=
+io),
+> >                                    "failed to get hwen gpio\n");
 > >
-> > This patch should be the first one in the set, or at least before those
-> > using the bindings defined here.
-> >
-> 
-> Maybe before conversion, but definitely not the first. I would like to
-> avoid patch multiplication caused by schema adjustments after every
-> single commit if possible.
+> > +     rval =3D devm_regulator_get_enable(&client->dev, "vin");
+>
+> I'd also enable this via runtime PM.
+>
+> Sensor drivers such as imx219 serve as a good example here.
+>
 
-You don't have to use all the properties defined but you can't use
-properties in drivers not yet defined in bindings.
+Would you mind if I squash adding hwen, vin and pm into single commit?
+It would be tricky to separate them from PM addition. I will add
+descriptions of what was changed.
 
-> 
-> > On Fri, Apr 17, 2026 at 02:42:26PM +0300, Svyatoslav Ryhel wrote:
-> > > Document TI LM3560 Synchronous Boost Flash Driver used for camera flash
-> > > LEDs.
-> > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > ---
-> > >  .../devicetree/bindings/leds/ti,lm3560.yaml   | 134 ++++++++++++++++++
-> > >  1 file changed, 134 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/leds/ti,lm3560.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/leds/ti,lm3560.yaml b/Documentation/devicetree/bindings/leds/ti,lm3560.yaml
-> > > new file mode 100644
-> > > index 000000000000..460ea1fbc1e5
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/leds/ti,lm3560.yaml
-> > > @@ -0,0 +1,134 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/leds/ti,lm3560.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: TI LM3560 Synchronous Boost Flash Driver
-> > > +
-> > > +maintainers:
-> > > +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> > > +
-> > > +description:
-> > > +  The LM3560 is a 2-MHz fixed frequency synchronous boost converter with two
-> > > +  1000-mA constant current drivers for high-current white LEDs. The dual high-
-> > > +  side current sources allow for grounded cathode LED operation and can be
-> > > +  tied together for providing flash currents at up to 2 A through a single LED.
-> > > +  An adaptive regulation method ensures the current for each LED remains in
-> > > +  regulation and maximizes efficiency.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - ti,lm3559
-> > > +      - ti,lm3560
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  '#address-cells':
-> > > +    const: 1
-> > > +
-> > > +  '#size-cells':
-> > > +    const: 0
-> > > +
-> > > +  enable-gpios:
-> > > +    description: GPIO connected to the HWEN pin.
-> > > +    maxItems: 1
-> > > +
-> > > +  vin-supply:
-> > > +    description: Supply connected to the IN line.
-> > > +
-> > > +  ti,peak-current-microamp:
-> > > +    description:
-> > > +      The LM3560 features 4 selectable current limits 1.6A, 2.3A, 3A, and 3.6A.
-> > > +      When the current limit is reached, the LM3560 stops switching for the
-> > > +      remainder of the switching cycle.
-> > > +    enum: [16000000, 23000000, 30000000, 36000000]
-> > > +    default: 36000000
-> > > +
-> > > +  ti,max-flash-timeout-ms:
-> > > +    description:
-> > > +      Maximum flash timeout in ms with step 32ms.
-> > > +    minimum: 32
-> > > +    maximum: 1024
-> > > +    default: 1024
-> > > +
-> > > +patternProperties:
-> > > +  '^led@[01]$':
-> > > +    description: LED control bank nodes.
-> > > +    $ref: /schemas/leds/common.yaml#
-> > > +    unevaluatedProperties: false
-> > > +
-> > > +    properties:
-> > > +      reg:
-> > > +        description: Control bank selection (0 = bank A, 1 = bank B).
-> > > +        maximum: 1
-> > > +
-> > > +      ti,max-flash-current-microamp:
-> > > +        description:
-> > > +          Maximum flash current in uA with step 62500uA.
-> > > +        minimum: 62500
-> > > +        maximum: 1000000
-> > > +        default: 1000000
-> > > +
-> > > +      ti,max-torch-current-microamp:
-> >
-> > Don't the LED flash bindings already have standardised properties for
-> > these?
-> >
-> 
-> Oh, they do! Thanks for pointing out. led-max-microamp,
-> flash-max-microamp and flash-max-timeout-us. Very nice, I will adjust
-> in the v2.
-
-Sounds good, thanks!
-
-I think it'd be worth standardising maximum input current, too, as other
-devices use it, too.
-
-> 
-> > > +        description:
-> > > +          Maximum flash current in uA with step 31250uA.
-> > > +        minimum: 31250
-> > > +        maximum: 250000
-> > > +        default: 250000
-> > > +
-> > > +    required:
-> > > +      - reg
-> >
-> > I'd say the max current properties are required as well, same for the
-> > timeouts. Or make the lowest the default. The lowest values are very seldom
-> > used in practice though.
-> >
-> 
-> I have transferred from the driver which uses maximum values as
-> default one. I can change to minimum if needed, that is not a big
-> deal.
-
-I'd just make these mandatory.
-
-> 
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - '#address-cells'
-> > > +  - '#size-cells'
-> > > +
-> > > +additionalProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/gpio/gpio.h>
-> > > +
-> > > +    i2c {
-> > > +        #address-cells = <1>;
-> > > +        #size-cells = <0>;
-> > > +
-> > > +        led-controller@53 {
-> > > +            compatible = "ti,lm3560";
-> > > +            reg = <0x53>;
-> > > +
-> > > +            enable-gpios = <&gpio 28 GPIO_ACTIVE_HIGH>;
-> > > +            vin-supply = <&vdd_3v3_sys>;
-> > > +
-> > > +            ti,peak-current-microamp = <16000000>;
-> > > +            ti,max-flash-timeout-ms = <1024>;
-> > > +
-> > > +            #address-cells = <1>;
-> > > +            #size-cells = <0>;
-> > > +
-> > > +            led@0 {
-> > > +                reg = <0>;
-> > > +
-> > > +                label = "white::flash";
-> > > +                linux,default-trigger = "flash";
-> > > +
-> > > +                ti,max-flash-current-microamp = <562500>;
-> > > +                ti,max-torch-current-microamp = <156250>;
-> > > +            };
-> > > +
-> > > +            led@1 {
-> > > +                reg = <1>;
-> > > +
-> > > +                label = "yellow::flash";
-> > > +                linux,default-trigger = "flash";
-> > > +
-> > > +                ti,max-flash-current-microamp = <562500>;
-> > > +                ti,max-torch-current-microamp = <156250>;
-> > > +            };
-> > > +        };
-> > > +    };
-> >
-> > --
-> > Kind regards,
-> >
-> > Sakari Ailus
-
--- 
-Kind regards,
-
-Sakari Ailus
+> > +     if (rval)
+> > +             return dev_err_probe(&client->dev, rval,
+> > +                                  "failed to enable regulator\n");
+> > +
+> >       rval =3D lm3560_subdev_init(flash, LM3560_LED0, "lm3560-led0");
+> >       if (rval < 0)
+> >               return rval;
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
 
