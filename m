@@ -1,79 +1,81 @@
-Return-Path: <linux-media+bounces-59002-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59003-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MF6BO5od4mlX1wAAu9opvQ
-	(envelope-from <linux-media+bounces-59002-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 13:46:34 +0200
+	id yK8cJdsc4mlX1wAAu9opvQ
+	(envelope-from <linux-media+bounces-59003-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 13:43:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702A141AE8A
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 13:46:30 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D4241ADFF
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 13:43:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6A95A3019F18
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 11:42:52 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A91B93032F54
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 11:42:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C82D9244694;
-	Fri, 17 Apr 2026 11:42:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04E27396B8E;
+	Fri, 17 Apr 2026 11:42:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EyGwe4Sw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U3Q+OsQr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED77390207
-	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 11:42:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA2A396D0D
+	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 11:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776426168; cv=none; b=kkljK0CvrkpAcJMxd74o7zu65xbu9Nx5pulO4BIQmSTLgdXHxDjViidPjLoINsJkUmSa5eUP73lsZ6WBg9KTIph2JAgy+/+J1tr6Mi+rnO8zQQ5vzq9rpC9MY4n4zojcGHGLt9jT+wAwT14Tj4xhYQeZ9hOKe/JyMCD8rYS86VA=
+	t=1776426169; cv=none; b=Lt6ZFbECSYEIpXbQGc++/S5do5Yod9SZQQYXf2bHgEdacXXkzZLR8bnym2dQVYpBR1t0H1vffNyZ9LEqGfjT1HGFuadNeUTCYKnX6NPA/PovUYP2zaqC9Ql4Clr7D1MUbxaN9Fdfg49wyDPUnbBy9Uaid6vOEb6zZMZNoAC1G+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776426168; c=relaxed/simple;
-	bh=m6BsFNYPJXLrBc7M3UqW63oYvoO7GXOCslzkSLEcFco=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S3heMQllerw8d+avPt5ssMYbWwvw3v4Ig345fwALDK7C8xmPvhTjXo54JSH0TA81btt4xAUGp6X01YK1exMllMyjgwfhId+yXRp4V8QvDagkZ1c2wXuhu8kEgt7kzyP25kdq7zN1SmO1XBhsKbx03ex3C4VJYZNUDZ9kjcDRlIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EyGwe4Sw; arc=none smtp.client-ip=209.85.167.46
+	s=arc-20240116; t=1776426169; c=relaxed/simple;
+	bh=2SoN076WkKPP9dslU6jI1ybrIMLHSTNOhkvnyADFEu0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=j7CN+YoX+YO9XS/x+/RBuBkiBcVszlFlE5WbaAlYrJX/vFA3VwT/a/L5t5xRKxL74sCSpZ6FCVZ0/EGxja+MYvkebTa1PATye2RuVifE96zT5nr6IeB7gOyc1e7U82bH6S+gQqSGM4b2h4Q20q+/icZelNKfFdHACdT2Nk+eG8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U3Q+OsQr; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a402dea4a5so655791e87.2
-        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 04:42:46 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a3d1561e38so477659e87.0
+        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 04:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776426165; x=1777030965; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BLdo2H6NxgwWwn5lBU5hwxF/LxLv45z/NMU53uF3AMw=;
-        b=EyGwe4Sw4bBq+wMZYeu/VWXhlarSvOzzDwAYF5IPsCAyZ7rB+YR1Z8p6KRoeVDEQec
-         8Z5ak0MKUgqVtHuLx5Ke8Kj75e72qgTl4mJwvsvIvC0BfQTzkvkQVGtwCTyC4j+OdNkB
-         kT7bxH0fji7uSjvXE7xfDnpnBjIorYpHwQ+UzdPsUfClHFrQDySt5tOhtnd0YHQ8/FoR
-         9NMjBK3hDz/DbqEx1fBkEqJqGpy+i02L+W3NQZN/2QG1K7J69POjQ5M4mr+11C7AXoEg
-         0BgyV6C9XVm9bt3Qxw+kOkyrjemx+5lJSdulLhJ9X3SSX3jDXSOWMeDtlzt3hDpw+WGv
-         XBGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776426165; x=1777030965;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776426166; x=1777030966; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BLdo2H6NxgwWwn5lBU5hwxF/LxLv45z/NMU53uF3AMw=;
-        b=rwJmIHYJzwlT9AUs1WL3A8wjKn7D8OlBOkWNAsLW7iPhDs90stIz290Ee3+icBmckw
-         bqOE/7JsO2oUKpgxACxaNZtrZvodN1AEYx917Xc/23z3VhcKETu7XvW1uaBRSaO8mf+/
-         SvHCKA8sG3+7ttRAjpimPFFKxVQ2o+xWdm+lMCpM3ZyQ8hDLAy0KIW8x8JSkdBBtQUag
-         DikYQFAGLr3RfgPD8v4oXlKkQ2aUCd2mZ75Wxoy/pa1TU7L7T7YWpHpsOlaPvVJ4P3YZ
-         zuQp5EOoAdlGU+HPkAQMxYByI93wwdpvfFiqnPLG22apDOJm7HWXwv/lLuAwKDQGeLzw
-         sKRw==
-X-Forwarded-Encrypted: i=1; AFNElJ9Im3THA/zdGTrQz0EX+PknWFS4NgmHKl/Gx9l1Z+nFjP6nS6CaXmhLyqUdkA49FCyzek+eg18J3N9Yag==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLfjQClPojfUz5H2wLpmoSPw/cFdcg7+yNJ7y6wuh6f3avp0tN
-	MZ9gZhBMz5NZBUjoEMEcZtYDjIRPF9aZe26dy7s4fVUslC/reHDdM7loc72aL6gw
-X-Gm-Gg: AeBDiet8H2Utluople60dXU6UoAnCxi1QOGydVAs2dQPXPOId1haGYTE8OwLWvv7uKU
-	bbpRJMtcSxVeKM+H1SrXrXrH+m+yJeCo8Xnhf3xd8JcwJlZMQ4wsNYqNDfeiWJdH749Cn80nus4
-	HKtb3fh1GT5BQfugdpKIU2XBnVuSn1xRVCHNa9DYnpB1ksUiqE8Qjjadge7KkT4FcI7O6MrJTl9
-	Bl3j3Dr98zBlZ4lX17PzS0c4PHtnRi8Lg/V5vlZNCPjT88yaLW+8lmol74geWgBJDpibvxozVTW
-	HeEXKjJjwHqXMjmvg0W/nF+Dcnzp3c/g+ABWfHKFrj8QSP3gTVZiqXLdZdj1wj0p95ezdaJAkWs
-	G5dkxTU6CJ7nk4yAYGcFfwZan+4F2btJ1d+Biu7/gTOAYbCALYMSMbNNBLT+4tw9sS5aAem1KiJ
-	D/OIGoV4fCvD2yr+v9g4aMacg=
-X-Received: by 2002:a05:6512:31d6:b0:5a3:f309:47e4 with SMTP id 2adb3069b0e04-5a4172eeb12mr744644e87.32.1776426164792;
-        Fri, 17 Apr 2026 04:42:44 -0700 (PDT)
+        bh=aIsBkEhxNk5zSXNzbm4OjEaayYLvWVn1IlfYzqWmAY8=;
+        b=U3Q+OsQrqFj9zxxhBl6l+pnWu2fXBHRpsTivXAo2KmD6I6Fsl+1zwSkXerpJ3ipzoQ
+         kuTU0/5BJ1Mbwxao5kHb+iisUffH5NlLjfUHdryWZMTZ69QDqvGRTyfFrEEUkNs9Thax
+         pdwKThk8niYPRacMEtYiJVd4+/vKzs+MWoUnM8EgjHGEYQQozJUzu7V9Uby1I0hiwxcV
+         BS+q9cNcIBMGxg0euq7sSZQzSqnucIJMyD4ML5NqpyLoQYOLfsMXGTcbxFjYJGtXcmBE
+         NjfTjohpTdpUuWHXBxPcJqtBezN6Oa9nYT/XJ5I8EaTvigflklhEO4ukE8nuQX3INvCj
+         MDhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776426166; x=1777030966;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=aIsBkEhxNk5zSXNzbm4OjEaayYLvWVn1IlfYzqWmAY8=;
+        b=Qwwhoak/HBDvLlOu++oioFFk0u1Qeg3dmYRIvJ9SuaDFTknM6SUBeLDukeYhsJEu/1
+         h28a1xy9Ra1mrS2Pi8ihcYF1ENk9ksDLMKcXlAHUCnpcUyxZJXmJ9ZyTC7scYf0CgroT
+         52brUvy0zrmdnSh9j+2znKCf30vsEJMBfyGaC9bH/f/3/q64BLgdvQfOVy3k20HyyH+o
+         ksM0ll29L7pwWTlfEzv2q8HUIusMlGyS3jxAEMKnqOznhEs96x1CF5u8Vw4aHVY4t0X5
+         bUOzlH57uiiC2uvX5VtLlhIlT/zkKkM0YrOfGr5jJHOFqmrnW2k/ctaqFRIIpytPcaMs
+         h4RA==
+X-Forwarded-Encrypted: i=1; AFNElJ9G47cAhOw0Uzr7DXn+Dro75UCcm9PnmDbBoDaJTaoO7FR3zk6l3rjpPQmkLE2aGJDdY3pEyam5Q3vDTA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9DIhiejy6RatMCpgcH4TKhMbEMsKDljJSvC6/yGWIM6CwtbB9
+	CPxULJoSJ2dtrhXZPQZ+lKpUdwSuXb3XLsN9ZppRJgn9YpRWG+k1QpKE
+X-Gm-Gg: AeBDietrkB4DPxBO2K7aWLu2tFDP0KamLj0SoW+1VguS8Vj1UnKea/nU4VigoZL34we
+	zV+EU7R6+wqRampgfMES5O3qyk2SIeN6M8mI8GMJy8lvtRFWCZa+vpZATz83xQLFzSqCyJDDwzy
+	RiL+HcjD/qN1thxvuZqGil6UBCAfMuytTdNCR0d/DIMcdlVSJ0Q5oyVNbd2GTUsKJuoeb1wnRCx
+	7FYcsygJkWiLZ1g0i/OHaBlCLVl/XFFWXDYI3GhxegfJ7PFUfrjF4JpgpO+0JtJleKFSLchB6XA
+	drFN6WIiXZXTid/ugICcN1i0LO9+2AL1k8TPpDHYzjWK/hhCcegbKj8fUINBdm8Fq5PeOps+48k
+	IYthrF3OBJaP7luQPhAEyMo2PuS+DdwourTZ5sQ3picz5HhbOJtFwodNR0c4Og26owxY9Ef++fJ
+	dXra5Phs7wpEyStZbcKx73ixk=
+X-Received: by 2002:a05:6512:3b8e:b0:5a3:ff73:29d6 with SMTP id 2adb3069b0e04-5a4172bb921mr657348e87.7.1776426165787;
+        Fri, 17 Apr 2026 04:42:45 -0700 (PDT)
 Received: from xeon ([188.163.112.56])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4185bc672sm338636e87.34.2026.04.17.04.42.43
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4185bc672sm338636e87.34.2026.04.17.04.42.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 04:42:44 -0700 (PDT)
+        Fri, 17 Apr 2026 04:42:45 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Lee Jones <lee@kernel.org>,
 	Pavel Machek <pavel@kernel.org>,
@@ -87,10 +89,12 @@ Cc: linux-leds@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH v1 0/5] media: lm3560: convert to use OF bindings
-Date: Fri, 17 Apr 2026 14:42:21 +0300
-Message-ID: <20260417114226.100033-1-clamor95@gmail.com>
+Subject: [PATCH v1 1/5] media: lm3560: Add HWEN pin support
+Date: Fri, 17 Apr 2026 14:42:22 +0300
+Message-ID: <20260417114226.100033-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260417114226.100033-1-clamor95@gmail.com>
+References: <20260417114226.100033-1-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -104,7 +108,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -112,7 +116,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-59002-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59003-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com];
@@ -124,30 +128,72 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	NEURAL_HAM(-0.00)[-0.984];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.994];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 702A141AE8A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 95D4241ADFF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add missing HWEN input pin and IN supply. Fix v4l2 subdev registration.
-Remove platform data and switch to OF device tree bindings.
+Add HWEN - logic high hardware enable input found in LM3560 to ensure its
+proper operation.
 
-Svyatoslav Ryhel (5):
-  media: lm3560: Add HWEN pin support
-  media: lm3560: Add IN supply support
-  media: lm3560: Fix v4l2 subdev registration
-  media: lm3560: convert to use OF bindings
-  dt-bindings: leds: Document TI LM3560 Synchronous Boost Flash Driver
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+---
+ drivers/media/i2c/lm3560.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
- .../devicetree/bindings/leds/ti,lm3560.yaml   | 134 +++++++++++++++++
- drivers/media/i2c/lm3560.c                    | 139 ++++++++++++++----
- include/media/i2c/lm3560.h                    |  15 --
- 3 files changed, 243 insertions(+), 45 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/leds/ti,lm3560.yaml
-
+diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
+index f4cc844f4e3c..e6af61415821 100644
+--- a/drivers/media/i2c/lm3560.c
++++ b/drivers/media/i2c/lm3560.c
+@@ -11,6 +11,7 @@
+ 
+ #include <linux/delay.h>
+ #include <linux/module.h>
++#include <linux/gpio.h>
+ #include <linux/i2c.h>
+ #include <linux/slab.h>
+ #include <linux/mutex.h>
+@@ -45,6 +46,7 @@ enum led_enable {
+  * @dev: pointer to &struct device
+  * @pdata: platform data
+  * @regmap: reg. map for i2c
++ * @hwen_gpio: line connected to hwen pin
+  * @lock: muxtex for serial access.
+  * @led_mode: V4L2 LED mode
+  * @ctrls_led: V4L2 controls
+@@ -54,6 +56,7 @@ struct lm3560_flash {
+ 	struct device *dev;
+ 	struct lm3560_platform_data *pdata;
+ 	struct regmap *regmap;
++	struct gpio_desc *hwen_gpio;
+ 	struct mutex lock;
+ 
+ 	enum v4l2_flash_led_mode led_mode;
+@@ -425,6 +428,12 @@ static int lm3560_probe(struct i2c_client *client)
+ 	flash->dev = &client->dev;
+ 	mutex_init(&flash->lock);
+ 
++	flash->hwen_gpio = devm_gpiod_get_optional(&client->dev, "enable",
++						   GPIOD_OUT_HIGH);
++	if (IS_ERR(flash->hwen_gpio))
++		return dev_err_probe(&client->dev, PTR_ERR(flash->hwen_gpio),
++				     "failed to get hwen gpio\n");
++
+ 	rval = lm3560_subdev_init(flash, LM3560_LED0, "lm3560-led0");
+ 	if (rval < 0)
+ 		return rval;
+@@ -452,6 +461,8 @@ static void lm3560_remove(struct i2c_client *client)
+ 		v4l2_ctrl_handler_free(&flash->ctrls_led[i]);
+ 		media_entity_cleanup(&flash->subdev_led[i].entity);
+ 	}
++
++	gpiod_set_value_cansleep(flash->hwen_gpio, 0);
+ }
+ 
+ static const struct i2c_device_id lm3560_id_table[] = {
 -- 
 2.51.0
 
