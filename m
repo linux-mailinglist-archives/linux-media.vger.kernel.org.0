@@ -1,125 +1,84 @@
-Return-Path: <linux-media+bounces-59056-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59057-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4C0iIxHF4mnN+AAAu9opvQ
-	(envelope-from <linux-media+bounces-59056-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 01:41:05 +0200
+	id OJubGPok42naCQEAu9opvQ
+	(envelope-from <linux-media+bounces-59057-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 08:30:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CF941F36C
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 01:41:04 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 666D14202D3
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 08:30:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BF310305C8E8
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2026 23:40:49 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id F32B5300C38A
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 06:30:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FF2037F8DC;
-	Fri, 17 Apr 2026 23:40:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7108B3537CD;
+	Sat, 18 Apr 2026 06:30:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="IR8r4Cnh";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EG2x6Wxm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NKOarh+x"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E6D34B1B0
-	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 23:40:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4973491C4;
+	Sat, 18 Apr 2026 06:30:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776469247; cv=none; b=TpsikBB4eTQzC75Fs8U1+bOV20Z57U6pGXBbwYbbuAmXnhV3S1SA8hlTxg7xT29EDvD7C2aQkNcaOz8zc04WCAsoVvcb1eB/OU1jlLRH776PnzWZ4w/hwY9MdTgnyeDcnZsM7lJ+g5/Q6CCfnbHGdflft/8Y+wzLFtSxxUyJOlw=
+	t=1776493806; cv=none; b=MHnvUMAw15OY/Y+1P7L1dhxIRMVoaIc6jnunvTE5C1EmfS8MoKEYVRapakxLia7jeOvg9qnt0/Zj0eMJHbWIc7zFZMyLlQ+biLWo1wBCXX995hG+VRq+Rt6kYzfFabeot7mcy6KBWluSXqsSSXWEWvlnepgWnTsV9gWE5muBX/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776469247; c=relaxed/simple;
-	bh=QLwLIyybGbuhb41Lgyr1BzNXP2BvhlqRdi9W1FpKYqE=;
+	s=arc-20240116; t=1776493806; c=relaxed/simple;
+	bh=HeAK1DpVxrbx8UpYi479tPTCELd8qJjKCkMljrNX8dM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s6gEbBDmFYGjbKPARcJieaubrPYA7XTEu0/9rwFRb+NZUg1FBc3y4H2hGog4y2wZsdiF1g39alPrOBnWQwf5a4U192ZWcKz7pdvhJQcWOmHVQhcvcmJcL2fP6zqLdBrg+N86Gf1liPI/ckY6NsN40vQf6xAYWt69xMfuTIFVs9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IR8r4Cnh; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=EG2x6Wxm; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63HIS0ll2434113
-	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 23:40:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=vqsleupIiijc5MZBwUfkwuWc
-	PF7CundACXwuw1EL1BU=; b=IR8r4Cnhs/pt4yc9JuNn9TtnARDPergZKPLO8E26
-	zk5f6A8g0IkEw65cHK8KVBWDYsdXjtwqW5NUqu2xpeDXoCC31IriX6D3rSCxziXq
-	/6zWA1Jiqm53KpxBSp6HXSOt75Ni5C5k5GUjB81WWydrtq153+Be7IOwibzm+edV
-	K8gZgXjPnaCxN06hMv4CF4eBf43Pgwy3iAdjcZsvQ7r6zv9IiJEXK6UmUoTtbToU
-	Z4sqT+09V9r7VS3CLUCX36k5M1WZvBEIdhxG+RlfiEJFb0JoiNEHrWEUqfz04iHl
-	37x/FvYuP3uw4UERu+JATakFw6cxDxXn3mh1uupCAWM6AQ==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dkt5mrp14-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 23:40:45 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50df4c130dbso35122581cf.1
-        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2026 16:40:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776469245; x=1777074045; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vqsleupIiijc5MZBwUfkwuWcPF7CundACXwuw1EL1BU=;
-        b=EG2x6WxmY8+h1xq3/34/Igd6BhET1LB9A2JrlBei59S1377NOHky4oqUxX9olyYhB+
-         eiFFSxnaPWoiTK+k6F3jwiT/6H1RHoZsxzTtxu0V1ImhtKRRJTHhPGjdpvdoLgfIS0x8
-         EjgEKmss2ZqlSC749kdTV4/MuTv/z4nO//kkCt+HqzoYSKXNQbzdRPm5kJ3+I+WGPexp
-         km+JrxW7Ym2cQV5f5wiHeitx362pyZFc+z4Ve911jMhnbI3fZTZM+J9MmLeLrFbfztLM
-         lxPtfTZ0RosgUDYl0LEme8vdNprfwcRAIpE857WIMdhuNihA3+ch1DxE1n2P+4KrSMKD
-         8A3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776469245; x=1777074045;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vqsleupIiijc5MZBwUfkwuWcPF7CundACXwuw1EL1BU=;
-        b=eXc92hZoa1pMryZkr6S8HjHx5WbXUPJm0JRi0OluK0vbxbeZv2y+wTwyd8HO2TiDc+
-         GTi1LBz7XAkYwDS+GJTI6yhweYLB9ImY5fS4IBgQSuD6BSBRP1CM9TWhlIUnMP/MBFci
-         HBEER06JxlY9QT8Pn7v296bixNw6bK/5ACwSzYga78YSCO/YIsjXc0aDo+5/iWFdyLeI
-         qkBP2O+0LqVykSOu+Wf7JElILjQcrhlieTlffOuObx8dC0TkSZ3gLuOQccVjup7XGH4V
-         0fgByR5LnF2xHyWwoz1coU3sAhx3tIhvG7JCJyef+fZr9U/FEG38RuIidpZ7b5hNZKCR
-         W2ow==
-X-Forwarded-Encrypted: i=1; AFNElJ9OiGE6cQktX5xbbi6/CUKeAm1GJEuKxRJ8nqWExKxob969rqsIGsLTCOc8mAwl4tJBhXmCJ18QWuPp7A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXDeLNbj1cY+y3sSqd8nMWIEwTuiqvBnFxr4de5y4MpJBRa1A8
-	qwByrID4ljqdIqb8yYK5Ga0VqIq4J/BB9l7IDlyzwfsUuXMDi+ZWvxSt7/+8zVs+UMajACcuyiU
-	gv9i7LLnrdydimlrQJN4fDg6EGsp0r5Ci3+DROSx2CsKURGvE5HcBAMSCePIeZEk3mQ==
-X-Gm-Gg: AeBDiesjVOo4u4nOYLtj8UNhfWihOojFyOTwLlrSaXDLDSoXsojxusSz0qnaJRkIfC4
-	E3hjWF+qpGAjLxdr5v8KGRTLCKnXsRIvln5Cd2y53us3/FYHjp2yXB7SxF82r3jgXZ+JAH3+SA3
-	WPrE/PrAKnfIkH2uz/TSutGmJHMaiSTRjRWnkanPwJ31EInd14TIfx0IU58or7dzxgANPZ58uan
-	HuDVqNwNh3HGBr42BZnigDZwOHO//MeqT3YYweZzEAbg00pKQMYEK4CCTIpKdR2XgiMGg76yYPk
-	fj+TSIjkCViFZS9ttJT6vtyl4yUOPoxkG3ynnrqEQRgiHQRjySGRdClgFKs8SrzFY0oJN+WuXdQ
-	wPHjsz1qbv13wq2Pc5/yIYQncokv4MfNpUbfAlfbnTV1qCxB7FMnmUv6/VWMN1Q1OtrX0GIjnIV
-	gTGi/WdUD7l8MVADGsfmDz7la7KLaW/lEunkLqa4eKoApOZw==
-X-Received: by 2002:ac8:5f95:0:b0:4ed:70d7:aa5a with SMTP id d75a77b69052e-50e36738d99mr63423621cf.25.1776469244638;
-        Fri, 17 Apr 2026 16:40:44 -0700 (PDT)
-X-Received: by 2002:ac8:5f95:0:b0:4ed:70d7:aa5a with SMTP id d75a77b69052e-50e36738d99mr63423301cf.25.1776469244210;
-        Fri, 17 Apr 2026 16:40:44 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4187e10e6sm816761e87.40.2026.04.17.16.40.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 16:40:43 -0700 (PDT)
-Date: Sat, 18 Apr 2026 02:40:41 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Erikas Bitovtas <xerikasxx@gmail.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Subject: Re: [PATCH RFC 06/10] arm64: dts: qcom: msm8939-asus-z00t: add Venus
-Message-ID: <37poakqgqhsuavvrm2dyzwk36syyq44o4cfdsylkzwsupbh2yt@ycdvyrxgnrcs>
-References: <20260416-msm8939-venus-rfc-v1-0-a09fcf2c23df@gmail.com>
- <20260416-msm8939-venus-rfc-v1-6-a09fcf2c23df@gmail.com>
- <0a5f9bd6-d3ea-4819-8be3-cc5a06ec0339@oss.qualcomm.com>
- <ad482bdd-2fb5-432f-be1d-dec25d9cbf5b@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mDMV8OcVPT6dTNT9lu3Q22nyf4710S0ZPlzYnl8w4+xqQtKFZqd3GgRXomjcjo5+GL1wqTz1ftTnhJGLAFRvStfvd0r9PnW0ipngWAdZikOA1ouXT+vDJMTeT+Xp/XRATgBzKXYnDt3JFe3DEKhf/Ir3PFIkC1bfIbO+cVQpVtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NKOarh+x; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776493804; x=1808029804;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HeAK1DpVxrbx8UpYi479tPTCELd8qJjKCkMljrNX8dM=;
+  b=NKOarh+xIKvX4bbCvS6mcPWrSvVpVK6Gd/BpalZNivKnvDDP22ukp1w9
+   A6u8LKagC0fzJn7al7kI3I8vpaWvmOkbsDDMPcOXscGCCVfwudH5Z+EWz
+   2dizvuFxlxwT4ULO0Fz0T+zxZ3qBVzR8jGu8bdSMDV5gtNCFqQugk8O/r
+   LwpfAnzkks3nAp92+8yZ/Tn8p1/6T0S7+aqQ1D8gF2Eb1qnd+d73MIqbq
+   ib85mWWLDETbv82xKdtpWFHX4zILNaSsgd/47VLm/KQcbWYosfpeZa1fk
+   DMwG4Z/plwFY5iU5/K/dkOFlzCzx68v0g1qOBKPFhKBL9nIMc+sfORUt2
+   g==;
+X-CSE-ConnectionGUID: +I77wMLiQsiRhjskT4zbBg==
+X-CSE-MsgGUID: fQTs1kE3Q/CPmNpLnz+c8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="65035195"
+X-IronPort-AV: E=Sophos;i="6.23,185,1770624000"; 
+   d="scan'208";a="65035195"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 23:30:03 -0700
+X-CSE-ConnectionGUID: 6KsNLANmTUyeNxay6xlfCQ==
+X-CSE-MsgGUID: 4SvRY4QNQ8KAoRC7PUvfjw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,185,1770624000"; 
+   d="scan'208";a="226548966"
+Received: from amilburn-desk.amilburn-desk (HELO kekkonen.fi.intel.com) ([10.245.245.232])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 23:30:01 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 80DCC121CD9;
+	Sat, 18 Apr 2026 09:29:58 +0300 (EEST)
+Date: Sat, 18 Apr 2026 09:29:58 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Thierry Chatard <tchatard@gmail.com>
+Cc: linux-kernel@vger.kernel.org, hansg@kernel.org, lee@kernel.org,
+	platform-driver-x86@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
+	djrscally@gmail.com, linux-media@vger.kernel.org,
+	mchehab@kernel.org, jacopo.mondi@ideasonboard.com,
+	nicholas@rothemail.net
+Subject: Re: [PATCH v3 2/5] platform/x86: int3472: tps68470: fix clock
+ consumer registration for Dell Latitude 5285
+Message-ID: <aeMk5s8u9DFJtqac@kekkonen.localdomain>
+References: <4ef5f305-0234-4193-a190-edbfe770ea04@kernel.org>
+ <20260417163252.15603-1-tchatard@gmail.com>
+ <20260417163252.15603-3-tchatard@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -128,100 +87,157 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ad482bdd-2fb5-432f-be1d-dec25d9cbf5b@gmail.com>
-X-Authority-Analysis: v=2.4 cv=AOj9hFqm c=1 sm=1 tr=0 ts=69e2c4fd cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=pGLkceISAAAA:8
- a=OHVz5xcZLeuoOJp_SuAA:9 a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-GUID: JktthJrDCI_vDUYJBQu0CBVCQE9g6z53
-X-Proofpoint-ORIG-GUID: JktthJrDCI_vDUYJBQu0CBVCQE9g6z53
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE3MDIzOCBTYWx0ZWRfXz4G11ajmTajG
- Ndckm+IWwpiKQYQPZjcRAjtPglR3OfIK/SuVtJrB9Ml51FaKUCUeOgUvGBCumG4t4nOY49j7jEL
- yf+AYu2L9sVQvhn7tcxJRwZfTOUyqix/S5pzaNAclPdHNG1C5kMmmubFz5S+YfGTU1yWVnz7agA
- o6ApT7Hfr+ZtagPjqChOq78A3nddRJHyp0bNXd0UYElecIH8yck+1N8l6QrfDEbAXXTqXQhA6U1
- QMPgloeiLoTLtpLIUqv+dx2ZPVIiUNO49nsBIOMWpuRrC/o6xQINHew06toVSSdsFpqQIFUfan6
- 6tOBF4wjDL9itO2ucYeFN3ZkscS2Oc0wyLtIo0vrS6IQWV2xRK/pqmldGh8eFIpY6Z4xFSrtn2y
- pLhPfY0XpZk+bT72L5H6cPEpN3lG3CtVqWsHqCsK8RZMe4S9JCdj7oTa8E0Wnn7uFryfpefU6Z1
- qRCyhVdy9t6YurRKCaQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-17_03,2026-04-17_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 priorityscore=1501 suspectscore=0 spamscore=0
- malwarescore=0 phishscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604170238
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+In-Reply-To: <20260417163252.15603-3-tchatard@gmail.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59056-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:dkim,qualcomm.com:dkim];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,linux.intel.com,gmail.com,ideasonboard.com,rothemail.net];
+	TAGGED_FROM(0.00)[bounces-59057-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: E2CF941F36C
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: 666D14202D3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Apr 16, 2026 at 07:57:30PM +0300, Erikas Bitovtas wrote:
-> 
-> 
-> On 4/16/26 6:17 PM, Konrad Dybcio wrote:
-> > On 4/16/26 3:43 PM, Erikas Bitovtas wrote:
-> >> Enable Venus video encoder/decoder for Asus ZenFone 2 Laser/Selfie.
-> >>
-> >> Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
-> >> ---
-> >>  arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts | 8 ++++++++
-> >>  1 file changed, 8 insertions(+)
-> >>
-> >> diff --git a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
-> >> index 90e966242720..231a3e9c1929 100644
-> >> --- a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
-> >> +++ b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
-> >> @@ -267,6 +267,14 @@ &usb_hs_phy {
-> >>  	extcon = <&usb_id>;
-> >>  };
-> >>  
-> >> +&venus {
-> >> +	status = "okay";
-> > 
-> > You need a firmware path here
-> 
-> When I tested Venus on my device, it loaded without one specified -
-> msm-firmware-loader creates a symbolic link from modem partition for
-> firmware. Additionally, none of the MSM8916 devices seem to include a
-> firmware name. Has something changed since then?
+Hi Thierry,
 
-Us becoming more strict? Or more caring? The default file paths are
-supposed to be used for unfused devices. So if they don't work with
-yours (most likely they don't), please add firmware-name:
+Thanks for the set.
 
-firmware-name = "qcom/msm8916/Asus/z00t/venus.mbn";
+On Fri, Apr 17, 2026 at 09:32:49AM -0700, Thierry Chatard wrote:
+> The BIOS on the Dell Latitude 5285 leaves GNVS field C0TP at zero.
+> With C0TP=0 the ACPI _DEP method on INT3479 (OV5670, front camera)
+> resolves to PCI0 instead of the INT3472 (TPS68470 PMIC) device.
+> 
+> Because for_each_acpi_consumer_dev() walks the _DEP reverse-mapping,
+> INT3479 is invisible to it: the clock consumer lookup entry for the
+> front camera is never registered with the tps68470-clk driver, and
+> the OV5670 sensor driver cannot acquire its MCLK.
+> 
+> Fix this without touching ACPI tables by adding optional static clock
+> consumer fields to struct int3472_tps68470_board_data:
+> 
+>   unsigned int n_clk_consumers;
+>   const struct tps68470_clk_consumer *clk_consumers;
+> 
+> When board data is present and n_clk_consumers is non-zero, probe uses
+> the static list instead of for_each_acpi_consumer_dev() to populate
+> tps68470-clk platform data.  Platforms that do not set these fields
+> continue to use the existing ACPI traversal path unchanged.
+> 
+> The board_data lookup is moved before the clock-pdata allocation so
+> that it is available for both the static and dynamic paths.
+> 
+> Signed-off-by: Thierry Chatard <tchatard@gmail.com>
+> ---
+>  drivers/platform/x86/intel/int3472/tps68470.c | 29 ++++++++++++++++---
+>  drivers/platform/x86/intel/int3472/tps68470.h | 10 +++++++
+>  2 files changed, 35 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/intel/int3472/tps68470.c b/drivers/platform/x86/intel/int3472/tps68470.c
+> index a496075c0..3364ef428 100644
+> --- a/drivers/platform/x86/intel/int3472/tps68470.c
+> +++ b/drivers/platform/x86/intel/int3472/tps68470.c
+> @@ -155,9 +155,31 @@ static int skl_int3472_tps68470_probe(struct i2c_client *client)
+>  	if (!adev)
+>  		return -ENODEV;
+>  
+> -	n_consumers = skl_int3472_fill_clk_pdata(&client->dev, &clk_pdata);
+> -	if (n_consumers < 0)
+> -		return n_consumers;
+> +	/*
+> +	 * Look up board data before building clock platform data.  On platforms
+> +	 * where a sensor's ACPI _DEP does not list the INT3472 device,
+> +	 * for_each_acpi_consumer_dev() misses that sensor and its clock consumer
+> +	 * entry is never registered.  Board data can supply a static consumer
+> +	 * list to use instead, bypassing the broken _DEP traversal.
+
+Please wrap to 80 characters.
+
+> +	 */
+> +	board_data = int3472_tps68470_get_board_data(dev_name(&client->dev));
+> +
+> +	if (board_data && board_data->n_clk_consumers) {
+> +		clk_pdata = devm_kzalloc(&client->dev,
+> +					 struct_size(clk_pdata, consumers,
+> +						     board_data->n_clk_consumers),
+> +					 GFP_KERNEL);
+> +		if (!clk_pdata)
+> +			return -ENOMEM;
+> +		clk_pdata->n_consumers = board_data->n_clk_consumers;
+> +		for (i = 0; i < (int)board_data->n_clk_consumers; i++)
+
+No need to cast -- instead declare i as unsigned int.
+
+> +			clk_pdata->consumers[i] = board_data->clk_consumers[i];
+> +		n_consumers = board_data->n_clk_consumers;
+> +	} else {
+> +		n_consumers = skl_int3472_fill_clk_pdata(&client->dev, &clk_pdata);
+> +		if (n_consumers < 0)
+> +			return n_consumers;
+> +	}
+>  
+>  	regmap = devm_regmap_init_i2c(client, &tps68470_regmap_config);
+>  	if (IS_ERR(regmap)) {
+> @@ -176,7 +198,6 @@ static int skl_int3472_tps68470_probe(struct i2c_client *client)
+>  	device_type = skl_int3472_tps68470_calc_type(adev);
+>  	switch (device_type) {
+>  	case DESIGNED_FOR_WINDOWS:
+> -		board_data = int3472_tps68470_get_board_data(dev_name(&client->dev));
+>  		if (!board_data)
+>  			return dev_err_probe(&client->dev, -ENODEV, "No board-data found for this model\n");
+>  
+> diff --git a/drivers/platform/x86/intel/int3472/tps68470.h b/drivers/platform/x86/intel/int3472/tps68470.h
+> index 35915e701..4aefb728e 100644
+> --- a/drivers/platform/x86/intel/int3472/tps68470.h
+> +++ b/drivers/platform/x86/intel/int3472/tps68470.h
+> @@ -12,11 +12,21 @@
+>  #define _INTEL_SKL_INT3472_TPS68470_H
+>  
+>  struct gpiod_lookup_table;
+> +struct tps68470_clk_consumer;
+>  struct tps68470_regulator_platform_data;
+>  
+>  struct int3472_tps68470_board_data {
+>  	const char *dev_name;
+>  	const struct tps68470_regulator_platform_data *tps68470_regulator_pdata;
+> +	/*
+> +	 * Static clock consumers.  When n_clk_consumers is non-zero these are
+> +	 * used in place of for_each_acpi_consumer_dev() to build the tps68470-clk
+> +	 * platform data.  Needed on platforms where a sensor's ACPI _DEP does not
+> +	 * list the INT3472 device, causing that sensor to be missed by the ACPI
+> +	 * dependency traversal.
+
+Please wrap this, too, to 80 characters.
+
+> +	 */
+> +	unsigned int n_clk_consumers;
+> +	const struct tps68470_clk_consumer *clk_consumers;
+>  	unsigned int n_gpiod_lookups;
+>  	struct gpiod_lookup_table *tps68470_gpio_lookup_tables[];
+>  };
 
 -- 
-With best wishes
-Dmitry
+Regards,
+
+Sakari Ailus
 
