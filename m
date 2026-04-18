@@ -1,93 +1,82 @@
-Return-Path: <linux-media+bounces-59074-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59070-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uN1xEQNd42mnFwEAu9opvQ
-	(envelope-from <linux-media+bounces-59074-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 12:29:23 +0200
+	id xFTqJCpQ42mbEwEAu9opvQ
+	(envelope-from <linux-media+bounces-59070-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 11:34:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9402E420A96
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 12:29:22 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id B760142092E
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 11:34:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 460BD30414A6
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 10:27:58 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B29E9300AB06
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 09:34:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 881DB34DB7B;
-	Sat, 18 Apr 2026 10:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D391C335554;
+	Sat, 18 Apr 2026 09:34:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zonnet.nl header.i=@zonnet.nl header.b="eFKoNNHZ";
-	dkim=pass (2048-bit key) header.d=zonnet.nl header.i=@zonnet.nl header.b="eFKoNNHZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T5DStEa5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out15-47.antispamcloud.com (out15-47.antispamcloud.com [185.201.19.47])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7A8254AFF;
-	Sat, 18 Apr 2026 10:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.201.19.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC4D1D5CD1
+	for <linux-media@vger.kernel.org>; Sat, 18 Apr 2026 09:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776508076; cv=none; b=g1CLahy6Iw5tfdu7HyweZJhPEE5Ia5PG3DGc+mocSZhjkCjja3fPQFMPH+c4BAy+txiD0GBryibZ40ayV5fDLmyATE5Hq3J2YWy7n8MbApuMyuWXxS5mzs/6Q+o4Gx9ZWWjWDGltdXF4BwarvyVUTn5vxFR3Efg+2K7EdsNpV/E=
+	t=1776504869; cv=none; b=pHCO+URjMwA2x0OWEUjHgKfJzkDhfX9n8I3iCj+hQWnSTHvFFA0WDjrJE03oq8nRxf+fHByanwxhTeiXkVLsAw9rwwWb/yRuOfYVBQ5q2a2aDlanDMIt5NOk2rBdzi5PWUabpZSz17+6FO/ZWwgeRTiTeb25ixMCCoy70l+mkwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776508076; c=relaxed/simple;
-	bh=KGW8J3b1FhpC2RTBqYbzXyAAjv2vOUF/t8HZ8pOwNhM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=txqluSLQNztiKub/toVvV7XXwj+JJUlw7Sgos083l5Vw1LD1boRTIPGOl4wI6lTbf6srUm7xGayURSw4bBPTgNc4nl1N/uEyjfX3O9omgENmZBZoX743rqBNsrGnOrlg2vEtgId1hPQ0C6noLzqhXIO/8Z4diBDuuaVVWxSW52g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zonnet.nl; spf=pass smtp.mailfrom=zonnet.nl; dkim=pass (2048-bit key) header.d=zonnet.nl header.i=@zonnet.nl header.b=eFKoNNHZ; dkim=pass (2048-bit key) header.d=zonnet.nl header.i=@zonnet.nl header.b=eFKoNNHZ; arc=none smtp.client-ip=185.201.19.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zonnet.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zonnet.nl
-Received: from mailout1.c3.isp-net.nl ([77.95.250.13])
-	by mx293.antispamcloud.com with esmtps  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <rn.mast@zonnet.nl>)
-	id 1wE1yY-007lr2-Si; Sat, 18 Apr 2026 11:28:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zonnet.nl;
-	s=mailout1; t=1776504506;
-	bh=zORXbSygtL9NS5t3tBfFPWCyfnbURH60OIba06W3+a4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eFKoNNHZHeNMuRmjEOJwZehX9HXrQ0GWENgvxzK0net8iRtc3sbAHDjVja3JTpQYa
-	 +8/7zPymVeV/R1Ys6wv7j7fnM91KNfjHHvxiyoh+kJwhB/4o87x7W/GoOOgEQJrvl8
-	 k0I7HCbToF8e1c8AuPLkoKdwbAjHHqkL32/NPDFd1IpZamM/4zjhmg3juM3ualT4lw
-	 DqKsLePKAwtXf7gH5YdXwefB2FMmfjZcaknBJ9B2iJKMlFo/ENi0taQyKmIMEiSqWu
-	 YtHmDyeITctDIlFxOL2ZrAKXz5NRQ5qE4QaOMgwdcOKFXN1bD8g4xCxjf3aQxP1V1c
-	 JITJ1p9f83YnA==
-Received: from localhost (localhost [127.0.0.1])
-	by mailout1.c3.isp-net.nl (Postfix) with ESMTP id B9BB384FED;
-	Sat, 18 Apr 2026 11:28:26 +0200 (CEST)
-X-Virus-Scanned: Debian amavis at mailout1.c3.isp-net.nl
-Received: from mailout1.c3.isp-net.nl ([127.0.0.1])
- by localhost (mailout1.c3.isp-net.nl [127.0.0.1]) (amavis, port 10024)
- with ESMTP id t5vafOORV6OI; Sat, 18 Apr 2026 11:28:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zonnet.nl;
-	s=mailout1; t=1776504506;
-	bh=zORXbSygtL9NS5t3tBfFPWCyfnbURH60OIba06W3+a4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eFKoNNHZHeNMuRmjEOJwZehX9HXrQ0GWENgvxzK0net8iRtc3sbAHDjVja3JTpQYa
-	 +8/7zPymVeV/R1Ys6wv7j7fnM91KNfjHHvxiyoh+kJwhB/4o87x7W/GoOOgEQJrvl8
-	 k0I7HCbToF8e1c8AuPLkoKdwbAjHHqkL32/NPDFd1IpZamM/4zjhmg3juM3ualT4lw
-	 DqKsLePKAwtXf7gH5YdXwefB2FMmfjZcaknBJ9B2iJKMlFo/ENi0taQyKmIMEiSqWu
-	 YtHmDyeITctDIlFxOL2ZrAKXz5NRQ5qE4QaOMgwdcOKFXN1bD8g4xCxjf3aQxP1V1c
-	 JITJ1p9f83YnA==
-Received: from 2001-1c04-390f-9300-d19d-7a59-d56b-16f7.dynamic.ziggo.nl (unknown [10.120.0.246])
-	(Authenticated sender: rn.mast@zonnet.nl)
-	by mailout1.c3.isp-net.nl (Postfix) with ESMTPSA id 2AD7C84FE7;
-	Sat, 18 Apr 2026 11:28:26 +0200 (CEST)
-From: Robert Mast <rn.mast@zonnet.nl>
-To: hdegoede@redhat.com
-Cc: mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com,
-	Robert Mast <rmast@live.nl>
-Subject: [PATCH 1/1] media: atomisp: mt9m114: Graceful teardown atomisp and mt9m114
-Date: Sat, 18 Apr 2026 11:26:51 +0200
-Message-ID: <20260418092651.7873-2-rn.mast@zonnet.nl>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260418092651.7873-1-rn.mast@zonnet.nl>
-References: <20260418092651.7873-1-rn.mast@zonnet.nl>
+	s=arc-20240116; t=1776504869; c=relaxed/simple;
+	bh=bws97b1kEda8E/QWvBGw+p35/oid8Kj5sNWSILzUwFg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LWqGdVGIKJpTk7tgxBEOtmmNDXJeLqzX3Fw5my9PxB+ePiwHJhUcq5zG398F+QBTTvIJx7CQGXHnsTnuBcW+LDczZeyRHDNojHHtV8twM5+fW7bQF+nUqNmq22tf9jMhf3GI4XGqxfuox1hG97LZmtVi2Am2TH0Vf+pW0nWmXhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T5DStEa5; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776504866; x=1808040866;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=bws97b1kEda8E/QWvBGw+p35/oid8Kj5sNWSILzUwFg=;
+  b=T5DStEa55cRMgqJsV661Q6MBUUdJRBKFhPsxUUxbpVWcoFCBbyBhMv1W
+   /jmyzVupHx8J7PcbTKem02iKIDlOGZuR8b/eOz+z1EnPmtw/4OGX01pdi
+   WCx6AFqB8ItF0FYpvXgY5TlSuVkRG140lzRKA6zNPByRCWv2jv1Ed+yXK
+   Zrd7+2kP7KLSgBIOUd3eajAG+4VktxfD82mbo8CBW/f7UYxO/0WJcD7W3
+   efN0m0deiglucr1SONXIRGgVwBYIvKuml1aVeGBnOimb8UZJ0cWaM4P7E
+   tFPSQZENBkRLf2ZbtOcnsCKeMmZ4LxUWEUbeY4ub6b+XlB4pZ1Ss4H2vF
+   Q==;
+X-CSE-ConnectionGUID: i013JprCQwapt/SD3sqknA==
+X-CSE-MsgGUID: BxluQRsHS9ewsjaf2wt4WQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="81373149"
+X-IronPort-AV: E=Sophos;i="6.23,186,1770624000"; 
+   d="scan'208";a="81373149"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2026 02:34:26 -0700
+X-CSE-ConnectionGUID: 47Qa2NNPQkqFkUEprZvL6Q==
+X-CSE-MsgGUID: T9TEmtaLQJSwF+SxUC2V6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,186,1770624000"; 
+   d="scan'208";a="228105310"
+Received: from amilburn-desk.amilburn-desk (HELO kekkonen.fi.intel.com) ([10.245.245.232])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2026 02:34:25 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id EAD0A12081C;
+	Sat, 18 Apr 2026 12:34:21 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1wE24C-000000000Zl-3aiV;
+	Sat, 18 Apr 2026 12:34:20 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 1/1] staging: media: atomisp: Update TODO file
+Date: Sat, 18 Apr 2026 12:34:20 +0300
+Message-ID: <20260418093420.2205-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -95,327 +84,113 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spampanel-Domain: zonnet.nl
-X-Spampanel-Username: 77.95.250.13
-Authentication-Results: antispamcloud.com; auth=pass smtp.auth=77.95.250.13@zonnet.nl
-X-Spampanel-Outgoing-Class: ham
-X-Spampanel-Outgoing-Evidence: SB/global_tokens (0.0030189507991)
-X-Recommended-Action: accept
-X-Filter-ID: 9kzQTOBWQUFZTohSKvQbgI7ZDo5ubYELi59AwcWUnuV68oZuLStXDJKNYz6QBREQ7kOjU+F/w2ST
- FVvAhNqojiu2SmbhJN1U9FKs8X3+Nt2LTcqLh1fYYSBrpo52T+cL08LSf6AHMaTqrYEKhfhw602t
- e2shgVRds+KAbyMclyvTdIb3vEpTBQwFqNzd9o3vCtmoQhY2xrBb8C+tWUvqrqBKsSdhvd/J5sX5
- daZjkYvf97og0NB52/5kO+HLq4D+zthz0vNkOX8Em4cj6D/wdRrf1ATe9RnqcLl6DFhnBF6WSPpc
- XGZyIXbjKlxA1QmXzO11BRKqT8B4uLrn7iz8ujemlCquzrJ0YZ1VzniO/xNwFnDSg8Na/uzow/Qd
- /TXu3FtekKBuIoGwD4N2LqZrB81WEz3zuqka4Leqo6VkfdEs9H9vRWZELOiK/O0f2DQLVURjAmVc
- O7GPdl1MHRX7SLy07hBcWj0BKGqBpIonq+x1zq/8OljXKf12zCteRMx4rUiU5DLmoujrRyxe6yL1
- HngHVYiBUNBJEOULy6r3eKn96E9abKy2DKGdd4EQX0spTsVxuB/KWyFY76KJquzPhc0b+zQK2eP/
- cabpS7lmkIJdPFg736Hj4qCv9Wq9HmRLkAN2VmdabrElrL4G7d/ON/94/DuYtVM8tLN7unVILUHK
- fQUeRGaWMGZzbvwIvEwD0uhawcy5AjT+AyM+taHGlB3MK1MyU14h/zRkUEqZC6MNhcVYBO0pL7Vi
- sZIMkjhNrPlHSQxalCRWbxomMAPKVB5g785DHeI6GKq1H3DyEHWVvI5mokCXQ1xZHeHlEIKl2GUj
- YWzDJQzVgHilvo2KHNURAkPSTc0ncHEjuMlYwGheED9tETFm86ttH+I93Z4mdyE9OTzW3XiML1h9
- V6LZ3+9GCRKz5zcN0AlCKTyvkM19yZZzgGDsL4LOLL+8pDgcShI19j9uMJtl5tGca6NT+/vg7iEF
- LP+SSY+Av5+AiC4YfoUC35O/gc1dD2o7o44fK6Dndp6V+2eThNroTfTeald2Vf4HU9BFQ3/qo+1I
- UsMLKJbs8pXeuqSkBxv7Sf5gKZFbT5tpjdMXEcQ2RQPf/QCD+awVcQPl/R1Q9os9obb9zL/chKlL
- L3sYIzjE/xZkOZ8RusRSAAjopxEebAs5is/IYnvEvoJfnI5HywAzrv95MiaEnjuef5dP0F/frgiA
- ZkwNlXyYhvILaPO57lVF0dXl1Kc2a+wlKs+ogYIxcMlp8nVGVZtIQs5tQhGxiOFjw6nIoDr0sXUZ
- 7YZoZ/GZ+raKWCMoBwVTOQcff8XD/MB0hzZSq8setTUBCFjDjE2hsRNdYxHZJiiOJYc7Hh86rYn5
- y/vcIKE4+MoDT8NV3zcf6JU4A0erOFE9xpQJz3MCyoPiRP57v4MMmH9Oxb+ODEKOY0lPdLj3y+UF
- UqDc9r0=
-X-Report-Abuse-To: spam@quarantine14.antispamcloud.com
-X-Complaints-To: abuse@master.antispamcloud.com
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[zonnet.nl,none];
-	R_DKIM_ALLOW(-0.20)[zonnet.nl:s=mailout1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,vger.kernel.org,lists.linux.dev,linuxfoundation.org,ideasonboard.com,live.nl];
-	TAGGED_FROM(0.00)[bounces-59074-lists,linux-media=lfdr.de];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[zonnet.nl:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FREEMAIL_FROM(0.00)[zonnet.nl];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rn.mast@zonnet.nl,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59070-lists,linux-media=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCPT_COUNT_THREE(0.00)[4];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linux.intel.com:mid];
 	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 9402E420A96
+X-Rspamd-Queue-Id: B760142092E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Robert Mast <rmast@live.nl>
+Update the TODO file to match the current state of affairs. Add sensor
+drivers and make adding ISP parameter support optional.
 
-Signed-off-by: Robert Mast <rmast@live.nl>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/mt9m114.c                   | 118 ++++++++++++++++--
- .../media/atomisp/pci/atomisp_csi2_bridge.c   |   1 +
- .../staging/media/atomisp/pci/atomisp_v4l2.c  |   3 +
- 3 files changed, 110 insertions(+), 12 deletions(-)
+ drivers/staging/media/atomisp/TODO | 36 ++++++++++++++++++------------
+ 1 file changed, 22 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-index 16b0ace15813..27432a9c683d 100644
---- a/drivers/media/i2c/mt9m114.c
-+++ b/drivers/media/i2c/mt9m114.c
-@@ -10,6 +10,8 @@
-  */
+diff --git a/drivers/staging/media/atomisp/TODO b/drivers/staging/media/atomisp/TODO
+index 82be275b4a0a..22a579eace2c 100644
+--- a/drivers/staging/media/atomisp/TODO
++++ b/drivers/staging/media/atomisp/TODO
+@@ -1,9 +1,10 @@
+ TODO
+ ====
  
- #include <linux/clk.h>
-+#include <linux/acpi.h>
-+#include <linux/completion.h>
- #include <linux/delay.h>
- #include <linux/errno.h>
- #include <linux/gpio/consumer.h>
-@@ -416,6 +418,7 @@ struct mt9m114 {
- 		unsigned int frame_rate;
+-1. Items which MUST be fixed before the driver can be moved out of staging:
++atomisp
++-------
  
- 		struct v4l2_ctrl *tpg[4];
-+		struct completion unregistered;
- 	} ifp;
- };
+-* Remove/disable private IOCTLs
++1. Items which MUST be fixed before the driver can be moved out of staging:
  
-@@ -1467,6 +1470,8 @@ static int mt9m114_pa_init(struct mt9m114 *sensor)
+ * Remove/disable custom v4l2-ctrls
  
- 	sd->ctrl_handler = hdl;
+@@ -11,19 +12,13 @@ TODO
  
-+	init_completion(&sensor->ifp.unregistered);
-+
- 	return 0;
+ * Remove abuse of priv field in various v4l2 userspace API structs
  
- error:
-@@ -2056,8 +2061,13 @@ static int mt9m114_ifp_set_selection(struct v4l2_subdev *sd,
- static void mt9m114_ifp_unregistered(struct v4l2_subdev *sd)
- {
- 	struct mt9m114 *sensor = ifp_to_mt9m114(sd);
-+	struct device *dev = &sensor->client->dev;
-+
-+	dev_dbg(dev, "ifp unregistered callback (ifp.v4l2_dev=%p, pa.v4l2_dev=%p)\n",
-+		sensor->ifp.sd.v4l2_dev, sensor->pa.sd.v4l2_dev);
- 
- 	v4l2_device_unregister_subdev(&sensor->pa.sd);
-+	complete(&sensor->ifp.unregistered);
- }
- 
- static int mt9m114_ifp_registered(struct v4l2_subdev *sd)
-@@ -2149,12 +2159,15 @@ static int mt9m114_ifp_init(struct mt9m114 *sensor)
- 			       V4L2_EXPOSURE_MANUAL, 0,
- 			       V4L2_EXPOSURE_AUTO);
- 
--	link_freq = v4l2_ctrl_new_int_menu(hdl, &mt9m114_ifp_ctrl_ops,
--					   V4L2_CID_LINK_FREQ,
--					   sensor->bus_cfg.nr_of_link_frequencies - 1,
--					   0, sensor->bus_cfg.link_frequencies);
--	if (link_freq)
--		link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	if (sensor->bus_cfg.nr_of_link_frequencies) {
-+		link_freq = v4l2_ctrl_new_int_menu(hdl, &mt9m114_ifp_ctrl_ops,
-+						   V4L2_CID_LINK_FREQ,
-+						   sensor->bus_cfg.nr_of_link_frequencies - 1,
-+						   0,
-+						   sensor->bus_cfg.link_frequencies);
-+		if (link_freq)
-+			link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	}
- 
- 	v4l2_ctrl_new_std(hdl, &mt9m114_ifp_ctrl_ops,
- 			  V4L2_CID_PIXEL_RATE,
-@@ -2339,14 +2352,19 @@ static const struct dev_pm_ops mt9m114_pm_ops = {
- static int mt9m114_verify_link_frequency(struct mt9m114 *sensor,
- 					 unsigned int pixrate)
- {
-+	u32 i;
- 	unsigned int link_freq = sensor->bus_cfg.bus_type == V4L2_MBUS_CSI2_DPHY
- 			       ? pixrate * 8 : pixrate * 2;
- 
--	if (sensor->bus_cfg.nr_of_link_frequencies != 1 ||
--	    sensor->bus_cfg.link_frequencies[0] != link_freq)
-+	if (!sensor->bus_cfg.nr_of_link_frequencies)
- 		return -EINVAL;
- 
--	return 0;
-+	for (i = 0; i < sensor->bus_cfg.nr_of_link_frequencies; i++) {
-+		if (sensor->bus_cfg.link_frequencies[i] == link_freq)
-+			return 0;
-+	}
-+
-+	return -EINVAL;
- }
- 
- /*
-@@ -2383,6 +2401,29 @@ static int mt9m114_clk_init(struct mt9m114 *sensor)
- 	unsigned int pixrate;
- 	int ret;
- 
-+	if (!sensor->bus_cfg.nr_of_link_frequencies) {
-+		/*
-+		 * ACPI fallback path: no reliable endpoint link frequency available.
-+		 * Use the default PLL target instead of EXTCLK bypass to avoid
-+		 * under-clocking the sensor and getting blank/timeout streams.
-+		 */
-+		sensor->pll.ext_clock = clk_get_rate(sensor->clk);
-+		sensor->pll.pix_clock = MT9M114_DEF_PIXCLOCK;
-+
-+		ret = aptina_pll_calculate(&sensor->client->dev, &limits,
-+					  &sensor->pll);
-+		if (ret)
-+			return ret;
-+
-+		sensor->pixrate = sensor->pll.ext_clock * sensor->pll.m
-+			/ (sensor->pll.n * sensor->pll.p1);
-+		sensor->bypass_pll = false;
-+
-+		dev_warn(&sensor->client->dev,
-+			 "no link-frequencies provided, using default PLL clocking\n");
-+		return 0;
-+	}
-+
- 	/*
- 	 * Calculate the pixel rate and link frequency. The CSI-2 bus is clocked
- 	 * for 16-bit per pixel, transmitted in DDR over a single lane. For
-@@ -2456,10 +2497,25 @@ static int mt9m114_identify(struct mt9m114 *sensor)
- 
- static int mt9m114_parse_dt(struct mt9m114 *sensor)
- {
--	struct fwnode_handle *fwnode = dev_fwnode(&sensor->client->dev);
-+	struct fwnode_handle *fwnode;
- 	struct fwnode_handle *ep;
- 	int ret;
- 
-+#if IS_ENABLED(CONFIG_ACPI)
-+	if (has_acpi_companion(&sensor->client->dev)) {
-+		/*
-+		 * On some reload sequences a stale software-node graph can be
-+		 * observed for this ACPI-enumerated sensor. Use the known safe
-+		 * default bus configuration and skip endpoint graph parsing.
-+		 */
-+		memset(&sensor->bus_cfg, 0, sizeof(sensor->bus_cfg));
-+		sensor->bus_cfg.bus_type = V4L2_MBUS_CSI2_DPHY;
-+		sensor->bus_cfg.bus.mipi_csi2.num_data_lanes = 1;
-+		goto read_slew_rate;
-+	}
-+#endif
-+	fwnode = dev_fwnode(&sensor->client->dev);
-+
- 	/*
- 	 * On ACPI systems the fwnode graph can be initialized by a bridge
- 	 * driver, which may not have probed yet. Wait for this.
-@@ -2468,6 +2524,9 @@ static int mt9m114_parse_dt(struct mt9m114 *sensor)
- 	 * to the ACPI core.
- 	 */
- 	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
-+	if (IS_ERR(ep))
-+		return dev_err_probe(&sensor->client->dev, PTR_ERR(ep),
-+				     "failed to get fwnode graph endpoint\n");
- 	if (!ep)
- 		return dev_err_probe(&sensor->client->dev, -EPROBE_DEFER,
- 				     "waiting for fwnode graph endpoint\n");
-@@ -2492,6 +2551,7 @@ static int mt9m114_parse_dt(struct mt9m114 *sensor)
- 		goto error;
- 	}
- 
-+read_slew_rate:
- 	sensor->pad_slew_rate = MT9M114_PAD_SLEW_DEFAULT;
- 	device_property_read_u32(&sensor->client->dev, "slew-rate",
- 				 &sensor->pad_slew_rate);
-@@ -2629,8 +2689,22 @@ static void mt9m114_remove(struct i2c_client *client)
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
- 	struct mt9m114 *sensor = ifp_to_mt9m114(sd);
- 	struct device *dev = &client->dev;
+-* Without a 3A library the capture behaviour is not very good. To take a good
+-  picture, the exposure/gain needs to be tuned using v4l2-ctl on the sensor
+-  subdev. To fix this, support for the atomisp needs to be added to libcamera.
 -
--	v4l2_async_unregister_subdev(&sensor->ifp.sd);
-+	bool ifp_async_registered = sensor->ifp.sd.async_list.next;
-+	bool ifp_bound = sensor->ifp.sd.v4l2_dev;
-+
-+	dev_dbg(dev,
-+		"remove start (ifp_bound=%u ifp_async_registered=%u ifp.v4l2_dev=%p pa.v4l2_dev=%p)\n",
-+		ifp_bound, ifp_async_registered,
-+		sensor->ifp.sd.v4l2_dev, sensor->pa.sd.v4l2_dev);
-+
-+	if (ifp_async_registered) {
-+		reinit_completion(&sensor->ifp.unregistered);
-+		v4l2_async_unregister_subdev(&sensor->ifp.sd);
-+		if (ifp_bound)
-+			wait_for_completion(&sensor->ifp.unregistered);
-+	} else {
-+		dev_warn(dev, "ifp async subdev already unregistered, skipping\n");
-+	}
+-  This MUST be done before moving the driver out of staging so that we can
+-  still make changes to e.g. the mediactl topology if necessary for
+-  libcamera integration. Since this would be a userspace API break, this
+-  means that at least proof-of-concept libcamera integration needs to be
+-  ready before moving the driver out of staging.
+-
++* Refactor the codebase (random cleanups won't achieve this)
  
- 	mt9m114_ifp_cleanup(sensor);
- 	mt9m114_pa_cleanup(sensor);
-@@ -2646,6 +2720,25 @@ static void mt9m114_remove(struct i2c_client *client)
- 	pm_runtime_set_suspended(dev);
- }
+ 2. Items which SHOULD also be fixed eventually:
  
-+static void mt9m114_shutdown(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct mt9m114 *sensor;
++* Support ISP parameter passing via parameter buffers (see
++  drivers/media/v4l2-core/v4l2-isp.c).
 +
-+	if (!sd)
-+		return;
-+
-+	sensor = ifp_to_mt9m114(sd);
-+
-+	if (sensor->streaming)
-+		mt9m114_stop_streaming(sensor);
-+
-+	pm_runtime_disable(&client->dev);
-+	if (!pm_runtime_status_suspended(&client->dev))
-+		mt9m114_power_off(sensor);
-+	pm_runtime_set_suspended(&client->dev);
-+}
-+
- static const struct of_device_id mt9m114_of_ids[] = {
- 	{ .compatible = "onnn,mt9m114" },
- 	{ /* sentinel */ },
-@@ -2667,6 +2760,7 @@ static struct i2c_driver mt9m114_driver = {
- 	},
- 	.probe		= mt9m114_probe,
- 	.remove		= mt9m114_remove,
-+	.shutdown	= mt9m114_shutdown,
- };
+ * The driver is intended to drive the PCI exposed versions of the device.
+   It will not detect those devices enumerated via ACPI as a field of the
+   i915 GPU driver (only a problem on BYT).
+@@ -33,10 +28,23 @@ TODO
  
- module_i2c_driver(mt9m114_driver);
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-index 2a90f86e515f..87f8ddcd6651 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-@@ -547,6 +547,7 @@ int atomisp_csi2_bridge_parse_firmware(struct atomisp_device *isp)
+ * Ensure that the driver will pass v4l2-compliance tests
  
- err_parse:
- 		fwnode_handle_put(ep);
-+		v4l2_async_nf_cleanup(&isp->notifier);
- 		return ret;
- 	}
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 900a67552d6a..32a1f85ab598 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -805,6 +805,9 @@ static void atomisp_unregister_entities(struct atomisp_device *isp)
- 	unsigned int i;
- 	struct v4l2_subdev *sd, *next;
- 
-+	v4l2_async_nf_unregister(&isp->notifier);
-+	v4l2_async_nf_cleanup(&isp->notifier);
+-* Fix not all v4l2 apps working, e.g. cheese does not work
++sensor drivers
++--------------
 +
- 	atomisp_subdev_unregister_entities(&isp->asd);
- 	for (i = 0; i < ATOMISP_CAMERA_NR_PORTS; i++)
- 		atomisp_mipi_csi2_unregister_entities(&isp->csi2_port[i]);
++* Use v4l2-cci for register access
++
++* Implement enable_streams and disable_streams pad ops (use s_stream
++  compat helper)
++
++* Implement Runtime PM support (see e.g. ov8856 driver)
+ 
+-* The atomisp code still has a lot of cruft which needs cleaning up
++* Use sub-device state and remove state related fields from device context
++  structs
+ 
++* Implement modern V4L2 camera sensor controls (see
++  Documentation/userspace-api/media/drivers/camera-sensor.rst) or even
++  Common Raw Sensor Model (which isn't in upsteam yet though; see
++  <URL:https://gitlab.freedesktop.org/linux-media/users/sailus/-/tree/metadata?ref_type=heads>).
+ 
+ Testing
+ =======
 -- 
-2.53.0
+2.47.3
 
 
