@@ -1,281 +1,193 @@
-Return-Path: <linux-media+bounces-59078-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59079-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UGL/L1N542lhHQEAu9opvQ
-	(envelope-from <linux-media+bounces-59078-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 14:30:11 +0200
+	id YBBMKqGk42nyJQEAu9opvQ
+	(envelope-from <linux-media+bounces-59079-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 17:34:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4906D421179
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 14:30:10 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2727D421788
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 17:34:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3FE0230046BF
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 12:30:06 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CBCB530269C4
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2026 15:34:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7326363C51;
-	Sat, 18 Apr 2026 12:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 366613033E6;
+	Sat, 18 Apr 2026 15:34:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OtOpggpK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e2sPNMUH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C801A36212E
-	for <linux-media@vger.kernel.org>; Sat, 18 Apr 2026 12:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621372FD1D0
+	for <linux-media@vger.kernel.org>; Sat, 18 Apr 2026 15:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776515403; cv=none; b=tZ7WJSEtJ/GM6hPNraXWb9RglkgTCxl43yCJKMyFRDYAlHctvrz6K+9Gp3ps9CRPFFIL8700u95KcytOFuiD2pRxyBUgO9q6VY8SvzR2tAW07LZN1B0twu3O/Ce4zpL5z9nULrF3PTEUuu2lAxVGj/rqmcM9ALnOpBWH/4Iksrs=
+	t=1776526484; cv=none; b=HofloDzIcI8CJ668neh6ouIGSOe8kISoGYcdU0M4ivnc4ZclBIhFUnBTReFg1U5dL5eKrbIWB43Y1c3mlNrPxrNPb32Jth14c4AFB+xwXJJ07gM//n3szk2whVGnggqSXwCDCEPlPJercvjQ6B8uXMICvRSBfkkLCj+zhIZCuF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776515403; c=relaxed/simple;
-	bh=qnFMo0nnrAaRyWqlMFgjRuO9WUObS2oXgFFjjYuhZ5U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=A5WbPXtIXIzFe4oSKZyILa9bfk4vk2b8bggko4dauI0nwNQ0AQfjHr/kAD/uKDSXf/NCuUMwfbr+S05BTeB3GlKD4Rzq1m6Br9OcD+JMnQQ7UFz6sXsKitrbfLDRj0+bT+CyADSbNMD53fvQK4fcR9QP++8UvdNhACbVSG/HCfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OtOpggpK; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776515400; x=1808051400;
-  h=date:from:to:cc:subject:message-id;
-  bh=qnFMo0nnrAaRyWqlMFgjRuO9WUObS2oXgFFjjYuhZ5U=;
-  b=OtOpggpKi8ByuTwEGGJIPFgCRmqQuILF9tV3VN/sZi9UJ9n/kkPtY8oG
-   rNAdDiDgfE1OqzW/94ekJPhprbU5yHaQhMsprg9U0we60uGifm2yTFUyZ
-   Y2792xzDN+IxuwuIjgXDNTJcdB4qI42eRzQRymAhV9AgVAoTxwgg8Z+FY
-   /yvkDyAUfnWbGJ6a0uIPIGUcvFW/szxc2YFSwi07vf7SB/9ahriCtw96t
-   rsdJcYVWybVSvPTJXijZ8pjPRy99KBxm2P4aCOjx93HU392zijkuGTGks
-   3kt8FLfgw7EwD2bNnlSLO+wHN4n20G7jbYQ0OTqp2DQOlT5oJXe+6KTfq
-   g==;
-X-CSE-ConnectionGUID: dOTTOm/3SMqtd6svGlCOvw==
-X-CSE-MsgGUID: GuYpoFpJR3Gqb93/kGMRmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="88122412"
-X-IronPort-AV: E=Sophos;i="6.23,186,1770624000"; 
-   d="scan'208";a="88122412"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2026 05:29:59 -0700
-X-CSE-ConnectionGUID: 0+NmU0GKRrSgtzyJSj3bYw==
-X-CSE-MsgGUID: 34ruQdmhSemQs7cavQd69w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,186,1770624000"; 
-   d="scan'208";a="254743809"
-Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Apr 2026 05:29:58 -0700
-Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wE4o7-000000001EG-2iTc;
-	Sat, 18 Apr 2026 12:29:55 +0000
-Date: Sat, 18 Apr 2026 20:29:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata-new] BUILD SUCCESS
- 7bb838184fdc0d716c2a06795fc6ef1f1fb8350b
-Message-ID: <202604182059.bYYP4rCu-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1776526484; c=relaxed/simple;
+	bh=TPzN5DMU8T/18hixWg+6FbE+3zhkzJJf8xccVhqSMfU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FKrrzi5SmhTzB/NWZdGWIDC8cRdnVEItP+nOVSdp0M1SgARx1jt1QaTKo/Qrzei3MLah3vTJk87lO7iOfNr0YDuABcE8vRHmBvT0SL8DwpH1LZ0lpywxfEXxK4FYQTbwdtIjI8oec28rP1q4HQoIcdbdCnvdSNDd9xCk3o2OojI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e2sPNMUH; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7b248750279so15155317b3.0
+        for <linux-media@vger.kernel.org>; Sat, 18 Apr 2026 08:34:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776526480; x=1777131280; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NhKODv+ebTXJdAnj2Ac0AlyQFoZRAIerJIUSEYuuE+s=;
+        b=e2sPNMUHwQKNFxBRt9bexCJ7KiZUbIjPEp2KZ0QTgLwoeUhdJAZDtlQ3wqLmm9ftq4
+         9AYQRdBbeOKzg2VMOaxw4iNCTkrADpJAY16VodX/oxhSX1kyXVRpTXSxPAUd5BCPhuJg
+         sAH8Ee24NG+6UJyXveWJywzJiyz22ktRBQsD98lLstJ1+yTdVXMZYuXRpHA++lp8mdK1
+         TfcziVZqgAtU7Jd57bx46JWaW3FQxYl8LG6ywgiI+EN1jyzQAaaS2GQ4BHFxESFoLElc
+         yaQiSwCXP/cqy3qlRAktz3Q+CuOx/uvso2i/HPRkQ8yh/a2auhOegn6U9ENP+FLKOvDQ
+         GdjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776526480; x=1777131280;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NhKODv+ebTXJdAnj2Ac0AlyQFoZRAIerJIUSEYuuE+s=;
+        b=mSkLFsw+ptaIxc7GGuklLdxnT9XvWhCMl816bxm4Vus7Ur//dTZnA/yaoLmHz62/vs
+         dGti4rMZNdhPfRAh/QX2Hr8kA3oZcB6ghxTX74n+BJScuaQdgsYCj5tpDfg6BhHb6lLd
+         qQmPCof/05lFwwiN6ayZoTx4lS/aKiFnRLgqZcn5kzegeFxIbDeep19MmPPC04kOvc8d
+         r5AhCKsWh4AuQ/hiyAESGJu8HIkfmqKkHjbFZaFAeAqxWCuczJJtKWU3YEOUK00UIerC
+         K6wj0PZ0el1irR4EYlJtX6bB0MNDQiS6WaImH7xc/N903vT3QL4ph3BViqRuf8GwsJX/
+         aXtA==
+X-Gm-Message-State: AOJu0YwOyCQ17f3s9drj6fz8dMv2D5uOFJLIDf8NWrMdPumAFw13b8k6
+	YGj7MWI+EP0ng7O3Gs8ATRWlMuOKHO7d06NcP78b/z1O2UxYNwWXx5E3
+X-Gm-Gg: AeBDies64ryj3I5LGgtsh0QXb/CRt0SA7e2ElSAdVzfA76eW8QrO/4jOGn5MloKdOcm
+	RAOJYFtAk9i6JTtFClFdR50w3CAlH0YmX4XCDpzlzdOLXKGA/7ER21GjY+p0Zt7VsmNixdsJ2eU
+	eJ9PfHfD0nUxZ9CSyH1dGg6JflV9tJctHrypeG80fHQP9KlgO7ZZBofl0VZSdZbfA45SpBaJ/sK
+	xp91CjF+ZWTCMeu7BGL9FthNEwSIu7YjDAzHKpjirxxwE0of/vTGWTgMIBUX1wEyySggoyyziMQ
+	DUnI06FbNIjt0ern5PXIdOg19Z2+xb3FJY7s/F9MFv0TVa/EOR23QFrB8rCprgGg6m0FbLz7taP
+	7jABooLPTK6j4fnvFnXvWFq6pTCXUfsVjh6WZGLrjcOIaAC6tPk3K5lW2eH7aoNWbKRJSpijf90
+	NX/FtrBvdY2AWwRyPaj3H+3cZKUpmWVkypddet
+X-Received: by 2002:a05:690c:e3cb:b0:7b2:9347:7be1 with SMTP id 00721157ae682-7b9ecf86543mr73129417b3.29.1776526480099;
+        Sat, 18 Apr 2026 08:34:40 -0700 (PDT)
+Received: from [192.168.0.39] ([79.133.247.80])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b9ee89aa91sm20380427b3.6.2026.04.18.08.34.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 18 Apr 2026 08:34:39 -0700 (PDT)
+Message-ID: <717459db-479a-4a68-84d1-a718c8ba5a54@gmail.com>
+Date: Sat, 18 Apr 2026 18:34:33 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 04/10] arm64: dts: qcom: msm8939: Add venus node
+To: Bryan O'Donoghue <bod@kernel.org>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
+References: <20260416-msm8939-venus-rfc-v1-0-a09fcf2c23df@gmail.com>
+ <KV8KCGTrLcQnaBrdbcO-8yqIObRcqYTBQgEYv3TaeT9dT0e9phTPowW1fza6BV9LfqNc6ZORybdss4WGdvnUTA==@protonmail.internalid>
+ <20260416-msm8939-venus-rfc-v1-4-a09fcf2c23df@gmail.com>
+ <ac54d018-78e2-4f8d-97f5-3cfdb5151aa0@kernel.org>
+Content-Language: en-US
+From: Erikas Bitovtas <xerikasxx@gmail.com>
+In-Reply-To: <ac54d018-78e2-4f8d-97f5-3cfdb5151aa0@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-59079-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59078-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-0.928];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 4906D421179
+	FROM_NEQ_ENVFROM(0.00)[xerikasxx@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2727D421788
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git metadata-new
-branch HEAD: 7bb838184fdc0d716c2a06795fc6ef1f1fb8350b  media: bcm2835-unicam: Support generic raw formats
 
-elapsed time: 733m
 
-configs tested: 156
-configs skipped: 4
+On 4/16/26 5:31 PM, Bryan O'Donoghue wrote:
+> On 16/04/2026 14:43, Erikas Bitovtas wrote:
+>> +            video-decoder {
+>> +                compatible = "venus-decoder";
+>> +                clocks = <&gcc GCC_VENUS0_CORE0_VCODEC0_CLK>,
+>> +                     <&gcc GCC_VENUS0_CORE1_VCODEC0_CLK>;
+>> +                clock-names = "core0", "core1";
+>> +                power-domains = <&gcc VENUS_CORE0_GDSC>,
+>> +                        <&gcc VENUS_CORE1_GDSC>;
+> 
+> This doesn't make sense.
+> 
+> You have two cores => assign one to encoder and the other to decoder.
+> 
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+This way during decode only one of the cores gets powered up instead of
+both, resulting in power collapse fails.
+Core clocks and power domains can be moved into Venus node instead of
+sub-nodes, like this:
+venus: video-codec@1d00000 {
+	compatible = "qcom,msm8939-venus";
+	reg = <0x01d00000 0xff000>;
+	interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
+	clocks = <&gcc GCC_VENUS0_VCODEC0_CLK>,
+		 <&gcc GCC_VENUS0_AHB_CLK>,
+		 <&gcc GCC_VENUS0_AXI_CLK>,
+		 <&gcc GCC_VENUS0_CORE0_VCODEC0_CLK>,
+		 <&gcc GCC_VENUS0_CORE1_VCODEC0_CLK>;
+	clock-names = "core",
+		      "iface",
+		      "bus",
+		      "core0",
+		      "core1";
+	power-domains = <&gcc VENUS_GDSC>,
+			<&gcc VENUS_C0RE0_GDSC>,
+			<&gcc VENUS_CORE1_GDSC>;
+	power-domain-names = "venus", "core0", "core1";
+};
 
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-alpha                               defconfig    gcc-15.2.0
-arc                              allmodconfig    gcc-15.2.0
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    gcc-15.2.0
-arc                                 defconfig    gcc-15.2.0
-arc                   randconfig-001-20260418    gcc-9.5.0
-arc                   randconfig-002-20260418    gcc-8.5.0
-arm                               allnoconfig    clang-23
-arm                              allyesconfig    gcc-15.2.0
-arm                                 defconfig    clang-23
-arm                   randconfig-001-20260418    gcc-8.5.0
-arm                   randconfig-002-20260418    gcc-11.5.0
-arm                   randconfig-003-20260418    clang-23
-arm                   randconfig-004-20260418    clang-20
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.2.0
-arm64                               defconfig    gcc-15.2.0
-arm64                 randconfig-001-20260418    clang-23
-arm64                 randconfig-002-20260418    gcc-8.5.0
-arm64                 randconfig-003-20260418    clang-23
-arm64                 randconfig-004-20260418    clang-23
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                                defconfig    gcc-15.2.0
-csky                  randconfig-001-20260418    gcc-15.2.0
-csky                  randconfig-002-20260418    gcc-15.2.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-23
-hexagon                             defconfig    clang-23
-hexagon               randconfig-001-20260418    clang-23
-hexagon               randconfig-002-20260418    clang-23
-i386                             allmodconfig    gcc-14
-i386                              allnoconfig    gcc-14
-i386                             allyesconfig    gcc-14
-i386        buildonly-randconfig-001-20260418    clang-20
-i386        buildonly-randconfig-002-20260418    gcc-14
-i386        buildonly-randconfig-003-20260418    clang-20
-i386        buildonly-randconfig-004-20260418    clang-20
-i386        buildonly-randconfig-005-20260418    gcc-14
-i386        buildonly-randconfig-006-20260418    gcc-14
-i386                                defconfig    clang-20
-i386                  randconfig-001-20260418    gcc-14
-i386                  randconfig-002-20260418    gcc-12
-i386                  randconfig-003-20260418    gcc-14
-i386                  randconfig-004-20260418    gcc-12
-i386                  randconfig-005-20260418    gcc-12
-i386                  randconfig-006-20260418    gcc-14
-i386                  randconfig-011-20260418    clang-20
-i386                  randconfig-012-20260418    clang-20
-i386                  randconfig-013-20260418    gcc-13
-i386                  randconfig-014-20260418    clang-20
-i386                  randconfig-015-20260418    gcc-14
-i386                  randconfig-016-20260418    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-23
-loongarch             randconfig-001-20260418    gcc-15.2.0
-loongarch             randconfig-002-20260418    gcc-15.2.0
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    gcc-15.2.0
-m68k                                defconfig    gcc-15.2.0
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-microblaze                          defconfig    gcc-15.2.0
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-nios2                            allmodconfig    gcc-11.5.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20260418    gcc-11.5.0
-nios2                 randconfig-002-20260418    gcc-11.5.0
-openrisc                         allmodconfig    gcc-15.2.0
-openrisc                          allnoconfig    gcc-15.2.0
-openrisc                            defconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    gcc-15.2.0
-parisc                           allyesconfig    gcc-15.2.0
-parisc                              defconfig    gcc-15.2.0
-parisc                randconfig-001-20260418    gcc-15.2.0
-parisc                randconfig-002-20260418    gcc-9.5.0
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    gcc-15.2.0
-powerpc               randconfig-001-20260418    clang-23
-powerpc               randconfig-002-20260418    gcc-12.5.0
-powerpc64             randconfig-001-20260418    gcc-10.5.0
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    gcc-15.2.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-23
-riscv                 randconfig-001-20260418    clang-23
-riscv                 randconfig-002-20260418    clang-23
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-15.2.0
-s390                                defconfig    clang-23
-s390                  randconfig-001-20260418    clang-19
-s390                  randconfig-002-20260418    gcc-8.5.0
-s390                       zfcpdump_defconfig    clang-23
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    gcc-15.2.0
-sh                               allyesconfig    gcc-15.2.0
-sh                                  defconfig    gcc-15.2.0
-sh                    randconfig-001-20260418    gcc-11.5.0
-sh                    randconfig-002-20260418    gcc-11.5.0
-sparc                             allnoconfig    gcc-15.2.0
-sparc                               defconfig    gcc-15.2.0
-sparc                 randconfig-001-20260418    gcc-15.2.0
-sparc                 randconfig-002-20260418    gcc-12.5.0
-sparc64                          allmodconfig    clang-23
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20260418    clang-23
-sparc64               randconfig-002-20260418    gcc-10.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-14
-um                                  defconfig    clang-23
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260418    gcc-12
-um                    randconfig-002-20260418    gcc-12
-um                           x86_64_defconfig    clang-23
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20260418    gcc-14
-x86_64      buildonly-randconfig-002-20260418    gcc-14
-x86_64      buildonly-randconfig-003-20260418    gcc-14
-x86_64      buildonly-randconfig-004-20260418    gcc-14
-x86_64      buildonly-randconfig-005-20260418    clang-20
-x86_64      buildonly-randconfig-006-20260418    gcc-14
-x86_64                              defconfig    gcc-14
-x86_64                randconfig-001-20260418    clang-20
-x86_64                randconfig-002-20260418    clang-20
-x86_64                randconfig-003-20260418    clang-20
-x86_64                randconfig-004-20260418    gcc-14
-x86_64                randconfig-005-20260418    clang-20
-x86_64                randconfig-006-20260418    clang-20
-x86_64                randconfig-011-20260418    gcc-14
-x86_64                randconfig-012-20260418    clang-20
-x86_64                randconfig-013-20260418    clang-20
-x86_64                randconfig-014-20260418    clang-20
-x86_64                randconfig-015-20260418    gcc-14
-x86_64                randconfig-016-20260418    clang-20
-x86_64                randconfig-071-20260418    clang-20
-x86_64                randconfig-072-20260418    gcc-14
-x86_64                randconfig-073-20260418    clang-20
-x86_64                randconfig-074-20260418    clang-20
-x86_64                randconfig-075-20260418    clang-20
-x86_64                randconfig-076-20260418    clang-20
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.2.0
-xtensa                           allyesconfig    gcc-15.2.0
-xtensa                randconfig-001-20260418    gcc-12.5.0
-xtensa                randconfig-002-20260418    gcc-13.4.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+And then they can be powered up regardless if the session is for
+encoding or decoding.
+My first question was actually about this - whether these cores should
+be powered up only decoding or for encoding as well. Bus configs
+downstream signify they are only for decoding:
+https://github.com/msm8916-mainline/linux-downstream/blob/b20608408caff817ec874f325127b07609fbaeb8/arch/arm/boot/dts/qcom/msm8939-common.dtsi#L1589
+https://github.com/msm8916-mainline/linux-downstream/blob/b20608408caff817ec874f325127b07609fbaeb8/Documentation/devicetree/bindings/media/video/msm-vidc.txt#L35
+Unfortunately, I couldn't test encoding on my device. It appears to be
+broken.
 
