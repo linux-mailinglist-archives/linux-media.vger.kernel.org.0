@@ -1,180 +1,189 @@
-Return-Path: <linux-media+bounces-59107-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59108-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eF88GU5B5WmhgAEAu9opvQ
-	(envelope-from <linux-media+bounces-59107-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 19 Apr 2026 22:55:42 +0200
+	id YPzxAZ9Z5WnCiQEAu9opvQ
+	(envelope-from <linux-media+bounces-59108-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 00:39:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 029E94257FF
-	for <lists+linux-media@lfdr.de>; Sun, 19 Apr 2026 22:55:41 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C0F425B5A
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 00:39:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 98A193029E40
-	for <lists+linux-media@lfdr.de>; Sun, 19 Apr 2026 20:55:22 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id D101E30060B9
+	for <lists+linux-media@lfdr.de>; Sun, 19 Apr 2026 22:39:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F53930DD2F;
-	Sun, 19 Apr 2026 20:55:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CFA9314A84;
+	Sun, 19 Apr 2026 22:39:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="v/uy9GLB"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dmn186nE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830471A6831;
-	Sun, 19 Apr 2026 20:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE402FB965
+	for <linux-media@vger.kernel.org>; Sun, 19 Apr 2026 22:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776632119; cv=none; b=YRRdEgp93Tp2XyY5sbZRwTa9m8DKGkmTQLNaHR/zrSS1gYo36bUh4rO273bGspX2y4AI/jp53ZhwZno+BsoACStjCAaKXfrKSIf8avmtKgSPbwFTlA+75WZgiGbA0FzMGRSL6RnjRsZDQZ+idRfKM/UsyWqjndrbyl8jMUBj2xE=
+	t=1776638353; cv=none; b=S8Lz7j55nSS7lg0n/Cfi6t0BEA2Piur78a3zKn7Ko+AM3Ik5+o+2dSKvaQvprH6X129ZqHFCgCviFwm/MKiz4LucL5EPBc3xCG3FhzyRSts4QVVWyHahefAgsah52JmXZ74Wk2JAQsJerGAk82XrqVtgycGeOPEdfJi38UkaduY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776632119; c=relaxed/simple;
-	bh=mMXd/kazajBIcAdcXmWmpbLcdsL3+deZiodDRu1n87w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Qn0uxqNcio/udnNp7VolRrDtq2lpFbfNd7M7YSRX60T4BV26H60gYBGDgjinKGtr6rx8CSJ1sSq3LiIjovcY6+1eFF6NdEFm04jrg7YM2w/qW5GBiX/3cP/QbfLX6iI50IjiNtPSbRYX2RocE2ANQrT5pqPbScH3vBWPIJN5S+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=v/uy9GLB; arc=none smtp.client-ip=168.119.26.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
-	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
-	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=8QJGLTOhJGOcLGXJwTPrhXHSouYTwqDUTTa8K1Pchto=; b=v/uy9GLBvVYkrWkA6SvLb0BA3b
-	OVOQMOxwGg8WTYnDAHcWZENwcIOTUsK7b33ebOC1PlFF1BgDGGrpMFW+i7urk9wrSnENETpWPkImJ
-	HuQr4OMQJcT59PG1LDbYS8uJjfTlhxcEOq36HiOrCQObErVWonlQrFZUFUSJ1PYjdOHX1knRTt2iT
-	R52hxwQtG9ix7UYLhmLdPSVOrRBbEFOQCVgOA52As38fbFpSxUxFk0lrmOPThRSFoawdk57jFlovg
-	4Sm3bGq97rT8s5rABh1dvuHdrPrLUvFlhMHXR/oJtCa3s74gkxWnXG/Vvu5iL+MDS22iPpQod7LsK
-	KdEDrucw==;
-Received: from sslproxy08.your-server.de ([78.47.166.52])
-	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <git@apitzsch.eu>)
-	id 1wEYjL-0006vf-2J;
-	Sun, 19 Apr 2026 22:26:59 +0200
-Received: from localhost ([127.0.0.1])
-	by sslproxy08.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <git@apitzsch.eu>)
-	id 1wEYjK-000FSx-0B;
-	Sun, 19 Apr 2026 22:26:58 +0200
-Message-ID: <a09485c54946b754741259540257393734b518c3.camel@apitzsch.eu>
-Subject: Re: [PATCH RFC 06/10] arm64: dts: qcom: msm8939-asus-z00t: add Venus
-From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Erikas Bitovtas
-	 <xerikasxx@gmail.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Bryan O'Donoghue	
- <bod@kernel.org>, Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley	 <conor+dt@kernel.org>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio	 <konradybcio@kernel.org>, Michael
- Turquette <mturquette@baylibre.com>,  Stephen Boyd <sboyd@kernel.org>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
-	phone-devel@vger.kernel.org
-Date: Sun, 19 Apr 2026 22:26:56 +0200
-In-Reply-To: <37poakqgqhsuavvrm2dyzwk36syyq44o4cfdsylkzwsupbh2yt@ycdvyrxgnrcs>
-References: <20260416-msm8939-venus-rfc-v1-0-a09fcf2c23df@gmail.com>
-	 <20260416-msm8939-venus-rfc-v1-6-a09fcf2c23df@gmail.com>
-	 <0a5f9bd6-d3ea-4819-8be3-cc5a06ec0339@oss.qualcomm.com>
-	 <ad482bdd-2fb5-432f-be1d-dec25d9cbf5b@gmail.com>
-	 <37poakqgqhsuavvrm2dyzwk36syyq44o4cfdsylkzwsupbh2yt@ycdvyrxgnrcs>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 
+	s=arc-20240116; t=1776638353; c=relaxed/simple;
+	bh=22Lj690Gzt9GJNADN9EbtC4X0CbXbhABySU67c5PTv8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=EtXjkeO5VUEV1qaRDOvDR4XkimKXcVw4tvTa0QKT/noA3gdMM5lfZNQMKmMS46Bl9kxGnvuFZM8pKA11RxBmiNRef3NDhyqdz1PCHV7rW1RPrUPJCOUOndjQngs0O5HeWTaoT7Dn3S1ZHmKhmdRYO5/3gDVX7t85qvc6q2g/MI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dmn186nE; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43fe608cb92so1498586f8f.2
+        for <linux-media@vger.kernel.org>; Sun, 19 Apr 2026 15:39:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1776638350; x=1777243150; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TQhdJsnkr0r1ZwZtJ8Tk3lop3elWReVVZAk8IPtXPWU=;
+        b=dmn186nETOcsIMnL7sU3Wf/XSxap//F0ppIeezrpHq3OUkTa+vVn+Vb1/4mVjPYIwj
+         q1UcukVAl3tOWKalP2IrEiOC+DzHBTvhuYTNM6QJG42iWNtT1FE/115rj3cTyC3VF0mO
+         3YMaOT7n+LArjUEvSPuO4K37ZAKwgGkqKEEx0BBTaWBOybvH+xD4QSUqCACkrMOmc7Qj
+         xGNDauTqZL+p5DNSfejF84WkKVQKJjPZcuAoqpAl6wA+rYfYiFGpkpz+CB7w73GqFEn6
+         sI4kDieGtoR3gut7xo2XTDaPGEWEIWkELkPrC2gY389a+22vlqnM3FhZwhf/ClAurFcX
+         nYrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776638350; x=1777243150;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TQhdJsnkr0r1ZwZtJ8Tk3lop3elWReVVZAk8IPtXPWU=;
+        b=fr1ML7Wx06irihhptq8Md01GhyiJgORr/9DJsrW0UX6b/XCvmdf/aXfTidB9PwL7C3
+         tRPxPcELBLRjaq6IRIPgcGfHmUszPfGejC/PBU/vPXcaDY663yZnA9cdNerPyFyG5tip
+         c0oncEhH0ZSSoPmB5KFqPzyjATqwPGGZU1/33heiSyJN9d0En3m73wj1mg4Bn4ctxxBN
+         acykRw8kXoR2GEvvziiVWSgvaiBaBfJ3jRdg20ksHJfzMODZn6NynMQ2kNm81Fqepobv
+         Tsuj09mojOaiRljd/QWQ35VBXM8eLUOC7gDOcZRyEOjgtoLBeVZnRsX5ZwHZXCFHpBEn
+         9I8Q==
+X-Gm-Message-State: AOJu0YyK8+7gtyKj37isr8lmGxrKvVRGjgqwwAWl7Y2kAj4jxUvXauf6
+	lT/ZA0gVqfcy7RdVYOjLwZ11Z5iUK3M4HTIMTyi09/hThpeXvt2gEezZOBmNKjF/QgILTro8euI
+	ppMjS
+X-Gm-Gg: AeBDieuXCe9T36YY4nlWjE4qovaTY4tVDtwX0kdgcwXC3fMhp/ZDJ1AyxlGRlvo7RK8
+	9gsFKdAZ+rzY3JEK9wWeye6qIz4l4JgPUdEDQZMc9Uys5/JwKCQ5pJ+k+shFi636AgV3Lecaa3p
+	PRQnyWkCIoLICcqV591bsnLQd1BJpGE0NqI6c83/lw7qKa4hcLp7kFVWvqsTzME3sr36niB4jvS
+	wAOkTjB6JyF/hkLEHXn2Y/6XDS/cp60y/36DbdaAuFDkTGjTPjaLQaUenXC/V+5aVKPmTab5uEC
+	k03alN0pIm56qCTEGdjCbewChhhZwDsxnVyxPniABuWmHh1znxeG0MTivHi3TJCY9Tx+rZ1fCoS
+	gxB2oV+c9nFoImpAQbt8sfp246VDhBm1+BozG7Ca4MlpGR7fHmlHLA8dV0ufnY/jwHW/ynlc6vm
+	vSqrqz0DXCPW2/rSTmqZkoEnGuS2hhnB+knBQFbCxyE3pyROxnY/xjHPd04BnjqUIqwjLziDN7P
+	cMOHsyB5bm1uzOBZJ7pzZc=
+X-Received: by 2002:adf:f148:0:b0:43f:e413:f6fe with SMTP id ffacd0b85a97d-43fe413f7b5mr11668013f8f.0.1776638349661;
+        Sun, 19 Apr 2026 15:39:09 -0700 (PDT)
+Received: from localhost (host86-170-11-80.range86-170.btcentralplus.com. [86.170.11.80])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cb1682sm25088519f8f.1.2026.04.19.15.39.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Apr 2026 15:39:09 -0700 (PDT)
+From: Christopher Obbard <christopher.obbard@linaro.org>
+Date: Sun, 19 Apr 2026 23:39:00 +0100
+Subject: [PATCH] media: venus: declare firmware files via MODULE_FIRMWARE
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Virus-Scanned: Clear (ClamAV 1.4.3/27976/Sun Apr 19 08:26:09 2026)
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260419-wip-obbardc-qcom-venus-firmware-v1-1-08a0d3cf056f@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAINZ5WkC/x3NMQ6DMAxA0asgz1gKoSC1V6kYnMQUDyTUEQEJc
+ fdGHd/y/wWZVTjDq7lAuUiWFCu6tgG/UPwwSqgGa+xoHt0TD9kwOUcaPH59WrFw3DPOoutBykg
+ uhH5wZiBroVY25VnO/+E93fcPSK7RlXEAAAA=
+X-Change-ID: 20260419-wip-obbardc-qcom-venus-firmware-abdd35b05a22
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
+ Bryan O'Donoghue <bod@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Christopher Obbard <christopher.obbard@linaro.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1588;
+ i=christopher.obbard@linaro.org; h=from:subject:message-id;
+ bh=22Lj690Gzt9GJNADN9EbtC4X0CbXbhABySU67c5PTv8=;
+ b=owEBbQKS/ZANAwAKAWNNxPBocEb4AcsmYgBp5VmH3F7n6CA1KM9RB//pKQblvm1Q0iLJgVD4t
+ lm7KZCZJJGJAjMEAAEKAB0WIQTxi9yLbCX5CqI9UXRjTcTwaHBG+AUCaeVZhwAKCRBjTcTwaHBG
+ +DOjD/4tpb10t1YhrA+qs7WvJq0/OXQhNa8zxjbhM9pG6sDeEwBIOO2bY/QNJ6YyW5W74AV6teo
+ OwOsD7HtGruOJ0g9XuAhEwNII0APkxpKnzfmG+1N/k1QIZTUEW0tzDZSF5D744Rlos65dIQvDnz
+ PNGdJXDBJTyuYDVG63JBOQLaN+F2KFqEnxYblLzZEIcKC1e4HX36AHtC+6iByQEX3rHRVds0z86
+ AGb9rrCUBHCCUJoJj0lzvbr0PRv1Q2DxU+S0OhHlCMyaTQggxmgJivIB/VGidipTqrfGY/020FW
+ ElhA38DSTT9hZKQOsTRzaJ0bXIKm2/dwcm9AJO9WqvXPBux26vgDsqth3Shofrpqe8LJnVn/dJ4
+ qvRurr+QoIlquJtFGank/D4+51jOdZ+U8iMSxIxTG9jsjBTYGICTDICYkYpW2ucYdKWNlglY+UN
+ EI6TnIKwEbgrfpVi0un6gUwEcP5GLIApQ+Ii0J0xTga7Gv5knnnOTEOhIAq56n2waJdS6EoyzC5
+ 7nIbGXffJ/5j8nAm38a9fwNPS3v2AU5UlxkfIlskfYwRJIIXo5F7JyFGkTmeJwnNR/egUT4YZlY
+ zHTx0P/3iS+ea19zUsK9AMx2ckt7SlGiraM68NWTh+I6h1MJNLgroUsjH14HIL+fenGMUE2i+96
+ 2QFbgKHsE55Wu7A==
+X-Developer-Key: i=christopher.obbard@linaro.org; a=openpgp;
+ fpr=F18BDC8B6C25F90AA23D5174634DC4F0687046F8
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[apitzsch.eu:s=default2410];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,gmail.com];
-	TAGGED_FROM(0.00)[bounces-59107-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	DMARC_NA(0.00)[apitzsch.eu];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-59108-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[git@apitzsch.eu,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[apitzsch.eu:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,apitzsch.eu:dkim,apitzsch.eu:mid]
-X-Rspamd-Queue-Id: 029E94257FF
+	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christopher.obbard@linaro.org,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 42C0F425B5A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Dmitry,
+The driver loads firmware blobs at runtime via request_firmware()
+but does not currently advertise the possible filenames. Add
+MODULE_FIRMWARE() entries for all known firmware variants so they are
+visible via modinfo and can be picked up by user space tooling.
 
-Am Samstag, dem 18.04.2026 um 02:40 +0300 schrieb Dmitry Baryshkov:
-> On Thu, Apr 16, 2026 at 07:57:30PM +0300, Erikas Bitovtas wrote:
-> >=20
-> >=20
-> > On 4/16/26 6:17 PM, Konrad Dybcio wrote:
-> > > On 4/16/26 3:43 PM, Erikas Bitovtas wrote:
-> > > > Enable Venus video encoder/decoder for Asus ZenFone 2
-> > > > Laser/Selfie.
-> > > >=20
-> > > > Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
-> > > > ---
-> > > > =C2=A0arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts | 8 ++++++++
-> > > > =C2=A01 file changed, 8 insertions(+)
-> > > >=20
-> > > > diff --git a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
-> > > > b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
-> > > > index 90e966242720..231a3e9c1929 100644
-> > > > --- a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
-> > > > +++ b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
-> > > > @@ -267,6 +267,14 @@ &usb_hs_phy {
-> > > > =C2=A0	extcon =3D <&usb_id>;
-> > > > =C2=A0};
-> > > > =C2=A0
-> > > > +&venus {
-> > > > +	status =3D "okay";
-> > >=20
-> > > You need a firmware path here
-> >=20
-> > When I tested Venus on my device, it loaded without one specified -
-> > msm-firmware-loader creates a symbolic link from modem partition
-> > for firmware. Additionally, none of the MSM8916 devices seem to
-> > include a firmware name. Has something changed since then?
->=20
-> Us becoming more strict? Or more caring? The default file paths are
-> supposed to be used for unfused devices. So if they don't work with
-> yours (most likely they don't), please add firmware-name:
->=20
-> firmware-name =3D "qcom/msm8916/Asus/z00t/venus.mbn";
+Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
+---
+ drivers/media/platform/qcom/venus/core.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-For BQ M5 (msm8939-longcheer-l9100), venus works with the firmware
-provided by linux-firmware [1] and the default path (here "qcom/venus-
-1.8/venus.mbn").
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 7e639760c41d..7ed7cffb333b 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -1119,6 +1119,16 @@ static const struct venus_resources qcm2290_res = {
+ 	.min_fw = &min_fw,
+ };
+ 
++MODULE_FIRMWARE("qcom/venus-1.8/venus.mbn");
++MODULE_FIRMWARE("qcom/venus-4.2/venus.mbn");
++MODULE_FIRMWARE("qcom/venus-4.4/venus.mbn");
++MODULE_FIRMWARE("qcom/venus-4.4/venus.mdt");
++MODULE_FIRMWARE("qcom/venus-5.2/venus.mbn");
++MODULE_FIRMWARE("qcom/venus-5.4/venus.mbn");
++MODULE_FIRMWARE("qcom/vpu-1.0/venus.mbn");
++MODULE_FIRMWARE("qcom/vpu-2.0/venus.mbn");
++MODULE_FIRMWARE("qcom/venus-6.0/venus.mbn");
++
+ static const struct of_device_id venus_dt_match[] = {
+ 	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+ 	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
 
-Just to be clear, should the firmware-name still be added in this case,
-even if it is the default one?
+---
+base-commit: 4f5b4b748ac75683d61c304ee3ee0db235e8f312
+change-id: 20260419-wip-obbardc-qcom-venus-firmware-abdd35b05a22
 
 Best regards,
-Andr=C3=A9
+-- 
+Christopher Obbard <christopher.obbard@linaro.org>
 
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware=
-.git/tree/qcom/venus-1.8
 
