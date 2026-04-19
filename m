@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-59097-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59098-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8KqTNYqi5GmUXgEAu9opvQ
-	(envelope-from <linux-media+bounces-59097-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 19 Apr 2026 11:38:18 +0200
+	id sGVYMt2h5Gl6XgEAu9opvQ
+	(envelope-from <linux-media+bounces-59098-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 19 Apr 2026 11:35:25 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685EE4238B7
-	for <lists+linux-media@lfdr.de>; Sun, 19 Apr 2026 11:38:18 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54DD642383E
+	for <lists+linux-media@lfdr.de>; Sun, 19 Apr 2026 11:35:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id F0BC7304B359
-	for <lists+linux-media@lfdr.de>; Sun, 19 Apr 2026 09:35:05 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 17216300ED83
+	for <lists+linux-media@lfdr.de>; Sun, 19 Apr 2026 09:35:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D9C137E2F7;
-	Sun, 19 Apr 2026 09:34:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A9B237B028;
+	Sun, 19 Apr 2026 09:34:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KKYD7h5t"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D5192/ac"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9484E37BE97
-	for <linux-media@vger.kernel.org>; Sun, 19 Apr 2026 09:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44E937D127
+	for <linux-media@vger.kernel.org>; Sun, 19 Apr 2026 09:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776591283; cv=none; b=kqgmXgx5HjRGk6npNXXfIFTy1SoT4W/y3BZr7ipjaQc1LHNn25TEU42Btdu0sI0l9UkMSDVkWC1aHPl9bXxetSpgoCZDhOduyYzCAX2ZIpCZNseuo/saYGywR2oQS//qyMBG2/bo0L5/Eb7AkAYwX9C54jYtaXmc481P0L5WifY=
+	t=1776591284; cv=none; b=Mqyr4en14zRgvF1BxhBCv9e2yo7nr4ZIdES7FN9Vt6CQyz5vY7AUxYJ4E+gC8BIHKacx/PZz0TJ9mD6KD76hNmXgKfJsoul8OiowQpT2fyYKfhHOhBuaGCQAWh7I7hXoPFhgfJMsfozVIhBXyucjjch1vjF+KDuT9Bc/7IWYYQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776591283; c=relaxed/simple;
-	bh=AaqElH9zuTNCv1HJ0+GB1hU2qCY3xf1+6Kn/cjf0+eU=;
+	s=arc-20240116; t=1776591284; c=relaxed/simple;
+	bh=ZK2PZapdmsACBN8s8mYncIJi9NrYgSvG33Qhg9WudsU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SIZILibTCPLcR+WIW0ypI+0BqrASS7LJUu/lrXtR6GgMdhHbm6l0arSu7Gk5AuF66z4FohO4IndpRtuBUQgvt0J2IqMK25yLz/ga3b9jbvXJZWKzJUXR+QH/hmpdHLOH6p6zI3q8aVDEVAbg50uwuVOyu5Bd4nW/FcRqDxnP4oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KKYD7h5t; arc=none smtp.client-ip=209.85.167.43
+	 MIME-Version; b=RXTV8eyxNpoPzu4tyeK8EN+x2JCBZrvNYw/XdT+6otnE2mU09bF/R31IfyOumx2+su9f0JQ0DKsefqrEYCMRBMxEDV7UhiIzg7Cfdk91zJ+hhbyThuh6IkNBp6g1L/h/u0WNelywGWokItbfwNn6jy7ftjttwOIs/9r3OJ//XLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D5192/ac; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a337552604so2144981e87.2
-        for <linux-media@vger.kernel.org>; Sun, 19 Apr 2026 02:34:41 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5a2c9c5ff87so2576919e87.0
+        for <linux-media@vger.kernel.org>; Sun, 19 Apr 2026 02:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776591280; x=1777196080; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776591281; x=1777196081; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eaoyCyrMENabXEPbF12o+TCRZ1+bwFFYGgCjy5VoZDY=;
-        b=KKYD7h5txO1H9kd7zkSNSeEt91dMvR7KBLUVn8I8MLa7b1Ocb5jD6BJp0neDROBHie
-         DNVmlPyzk4s4WESUYGuBE9HUIsIdmoegC+A8ywALAQFmdE77V7CTy3ukzXSQPBJwchQ8
-         qSTUVlLeXTmGdMD0r+di7eIIYqWF/DSVbzOTwDOmzDrIXE8lrdZqUye2mr0xApYnuRo/
-         KfdkCZGg05GKRN4RXif6K/v7umPGVZ3J9M5RFDAPl2os0P8pvywVGppNcAUwP+2+kaTh
-         QPS9drRFjcmrir0I56tFSV29uXlYNckP5c1IwPHfHCs2KRPK/jwizJd5qi+0oLCVVmYH
-         p2sA==
+        bh=duqXMxrwVP9xmPVimr0jG3GpsUd0+k6xNRj5bMFCO5o=;
+        b=D5192/acvcXgXI5a5s4MTKLlL+BGC4bK9KiHO9UOyo6wJRZG5WbpQXuUCJEE2JfPeA
+         ae0i1RwQCEtI3m8sKR5GdLBlGaOoYp/U7j9vjF5MgBsiiFk9FXIJwl5WLpH4vvMgfa6d
+         oips6zI18dmNpfDKATr/QVbsRwSREmJ8UoBsNtjeNW3KrHaoBKgg6Fii1FhYAUMhda5a
+         9gmXWxcUaL9F2DPdB77cc9UTOmEgiNxoJNdKZDZRInbjfoPm7cnbrDLgFRvNzwCLX6Tg
+         N83k+em9U7lztjX4TP+Pfg/DQqO6zGKjrG0JyG5lp0hy73iJEfU8Dbb9VsHdz8oMpCGf
+         /y/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776591280; x=1777196080;
+        d=1e100.net; s=20251104; t=1776591281; x=1777196081;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=eaoyCyrMENabXEPbF12o+TCRZ1+bwFFYGgCjy5VoZDY=;
-        b=m5g1NM0j2oD4sWa+EdkhQs02nrZ18I26kNIT2Ow6ShjmibmgGRjiqW4hqFb8vw+7BG
-         2+J9cdgme1BKcH6Qh0liU7WGKdQrU3RqyaB1BSr9tTgMWC/r7S4qVyApxtHb7JKlfQhX
-         esbPwUyoKjlkGI7oFfjGDPW6VFuKfyI12IDmWsjRMMSWl+Vt/82Pp0bgNpmlYQbdm8S6
-         F8ltaZgPvgT7wZeZxVQJDm3My1fChs5N+IhbTjjAzMMsW8RthLXD6+DmwF1Sy6oNqV9h
-         YBW/Pe/UEfBoaR0X2Z6Rw0+aqnForTExLDRx8/Q/wg+2t1cXFCvVXd3L3Z4jVVVw+DM9
-         nIoA==
-X-Forwarded-Encrypted: i=1; AFNElJ8z9XRRGAdZJ8osS3u3AzBMM0AUZvkIArz6KG8K2FAM3DeTsAh/Xrn40DzReri0hcGkPg3dwqXrGpssog==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/UzYd9eZ1liiXiE0pMvxH/4UfKSn6zK9Q17X5xujskk9wZ48+
-	d+xBtBLDCRiBDnKg6nzNKAmqYwGhRZ9/T26Afhx2rtVa/opjbN2K02RD
-X-Gm-Gg: AeBDietsIubLGfYDZUuOvjxWD3zqxcetHFeLI3VKPpCZkqdokM0GPYbZB/B/OJn+OlA
-	0JSqWq3opZUZ0nzQQgqzJb29oV0giNg+vzGc9oZQnJklUMl0sVuE65D6qeK/iJI/zP0Sk434yhe
-	Y68EvXxlhN9kKRphgvABW6cla4PfH5t4ouIUPlfR+lW1JchRTY16ACEiz6Y5uykgz2ijEfmZN8P
-	H/85ELEgXJJhQPXz2MMT2Zx5jRlJ6QibTOpL/srkNqprVJ69x7aMUHeISn29bUiEprZJEzwC3+2
-	a7meDbv/ZTyRL1jp0sdBljmScnh/o5psmSLAfD7L8WsCdio6Iiioc8DYrv5bgNLgAQyHRM8P/Z6
-	5EwE+hy9ODoGPsXMZGscd8cqd0JEBQIWMFSoTHmVFXsxGLokSgU/l/u561OtX6kIYRnjF5zLBjP
-	1dBdXNK+/U6r/eMjYwMx7plbCY5mETBHO9Ww==
-X-Received: by 2002:a05:6512:39cc:b0:5a4:ab6:81ac with SMTP id 2adb3069b0e04-5a417302144mr3422597e87.34.1776591279593;
-        Sun, 19 Apr 2026 02:34:39 -0700 (PDT)
+        bh=duqXMxrwVP9xmPVimr0jG3GpsUd0+k6xNRj5bMFCO5o=;
+        b=DU2qIuncj9yXu1a73JhEL5AWxyEEp8Z29P9IdAe4xiHOLSfIHfpeEpSAGYJ984fI8h
+         Pewg/jUSb3uFPKs0j6f+1KXso92nuCq1aU/Vls++gc5PekbomVCnN6e0qx6RKyWmT2f8
+         48uc0X2AXAurOZc82BrsePZXrVrCGngAeXmYyqB4UroeO0e7dFoZ059YjN7NMkYkrfqD
+         ksLtIrc+e3xfzw+PqQHsWw4rvH1Hi3W6MmEaR2eaZ2HW2V5WN1oLA1qB+/Ghw7icOZsb
+         lXC7i7jKyXRNM4dzVuEdPmuJnYbqKcye9SQx0wpOqQ9mdpHmK/agOXcfcmOM4SzoEx5W
+         fDww==
+X-Forwarded-Encrypted: i=1; AFNElJ+0dnyXbpfRmO6HmmbdgXu/hXOb1oFnS95NAPuHwcxwfsae/O7CQuxVq5Rf7XPoZff5PGkQbGabMn64/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2bO+gXK0Ecimejchagj/RMOQq1ezpJsbiGisB375uEf3vW2cj
+	ISUN5kdnb3UhCaB6Y/JR/5wWj9T/Pf5NVNDtIJc8hWEyB3zZONcqo8em
+X-Gm-Gg: AeBDiev+n5B0JgaclNf4Q6s/7lGERq18QeBaQCN1kYS+olHU7XlkRnL2ieFMfqPx+sS
+	uM6y4idUpNTNl9QpfnaUhVtCbF2Z9KYclLaEERvuHO9BACjYRSxbX8SwEv8daGf1gfPMAIctlyp
+	SEdnV6Z3+CxRtH07+9LAIv8klIAnHedECfJL6TFhAFSyRQPHcUYQRg84ifzQbgWhVxwfGZF7k5Z
+	erFpVohexcY0PA+NA58pukGRdBz+60LLe/KhamiAjgKxML536yKFbLAY3ebqCElt3IIacUoQoDQ
+	vnmZfvB2H0A1UC6do/c7vR+wF5DiQnOQWrgIs7Zy8YfIMTix8KpxbdKXFJdsQNrUcsSUBbI6NbF
+	ECSYYj3dbJQGAIlAaa3+x+u/HPB5UnF7vJZ2RPfWSwXvD2A5EWgIXcr8DovsFk1JFD1Hed9no/s
+	7cDZ9lyT8RrdxReiKdeZZvc58=
+X-Received: by 2002:a05:6512:159f:b0:5a3:f0f7:7da1 with SMTP id 2adb3069b0e04-5a4172cd17amr3379372e87.17.1776591280877;
+        Sun, 19 Apr 2026 02:34:40 -0700 (PDT)
 Received: from xeon ([188.163.112.56])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38ecb7613a9sm18221671fa.41.2026.04.19.02.34.38
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38ecb7613a9sm18221671fa.41.2026.04.19.02.34.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Apr 2026 02:34:38 -0700 (PDT)
+        Sun, 19 Apr 2026 02:34:40 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Lee Jones <lee@kernel.org>,
 	Pavel Machek <pavel@kernel.org>,
@@ -89,9 +89,9 @@ Cc: linux-leds@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH v2 4/5] media: i2c: lm3560: Convert to use OF bindings
-Date: Sun, 19 Apr 2026 12:34:11 +0300
-Message-ID: <20260419093412.40796-5-clamor95@gmail.com>
+Subject: [PATCH v2 5/5] media: i2c: lm3560: Add support for PM features
+Date: Sun, 19 Apr 2026 12:34:12 +0300
+Message-ID: <20260419093412.40796-6-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260419093412.40796-1-clamor95@gmail.com>
 References: <20260419093412.40796-1-clamor95@gmail.com>
@@ -106,285 +106,300 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59097-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-59098-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.995];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 685EE4238B7
+	NEURAL_HAM(-0.00)[-0.995];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 54DD642383E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Since there are no users of this driver via platform data, remove platform
-data and switch to using device tree bindings.
+Add support for power management features to better control the LM3560
+within the media framework. To achieve the desired PM support, the HWEN
+GPIO and VIN power supply were added and configured into power on/off
+sequences. Media device deregistration helpers were grouped into a
+separate function to simplify the probe/remove process. Added PM
+operations along with the PM configuration setup.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/media/i2c/lm3560.c | 112 ++++++++++++++++++++++++++-----------
- include/media/i2c/lm3560.h |  15 -----
- 2 files changed, 79 insertions(+), 48 deletions(-)
+ drivers/media/i2c/lm3560.c | 135 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 123 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
-index 5cd22c2fbb64..022a6a76befb 100644
+index 022a6a76befb..8f5156a80a99 100644
 --- a/drivers/media/i2c/lm3560.c
 +++ b/drivers/media/i2c/lm3560.c
-@@ -13,7 +13,9 @@
+@@ -11,12 +11,15 @@
+ 
+ #include <linux/delay.h>
  #include <linux/module.h>
++#include <linux/gpio/consumer.h>
  #include <linux/i2c.h>
  #include <linux/slab.h>
-+#include <linux/mod_devicetable.h>
+ #include <linux/mod_devicetable.h>
  #include <linux/mutex.h>
-+#include <linux/property.h>
++#include <linux/pm_runtime.h>
+ #include <linux/property.h>
  #include <linux/regmap.h>
++#include <linux/regulator/consumer.h>
  #include <linux/videodev2.h>
  #include <media/i2c/lm3560.h>
-@@ -43,22 +45,30 @@ enum led_enable {
-  * struct lm3560_flash
-  *
+ #include <media/v4l2-ctrls.h>
+@@ -47,6 +50,8 @@ enum led_enable {
   * @dev: pointer to &struct device
-- * @pdata: platform data
   * @regmap: reg. map for i2c
   * @lock: muxtex for serial access.
++ * @hwen_gpio: line connected to HWEN pin
++ * @vin_supply: line connected to IN supply (2.5V - 5.5V)
   * @led_mode: V4L2 LED mode
   * @ctrls_led: V4L2 controls
   * @subdev_led: V4L2 subdev
-+ * @peak: peak current
-+ * @max_flash_timeout: flash timeout
-+ * @max_flash_brt: flash mode led brightness
-+ * @max_torch_brt: torch mode led brightness
-  */
- struct lm3560_flash {
- 	struct device *dev;
--	struct lm3560_platform_data *pdata;
+@@ -60,6 +65,9 @@ struct lm3560_flash {
  	struct regmap *regmap;
  	struct mutex lock;
  
++	struct gpio_desc *hwen_gpio;
++	struct regulator *vin_supply;
++
  	enum v4l2_flash_led_mode led_mode;
  	struct v4l2_ctrl_handler ctrls_led[LM3560_LED_MAX];
  	struct v4l2_subdev subdev_led[LM3560_LED_MAX];
+@@ -172,12 +180,17 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+ 	struct lm3560_flash *flash = to_lm3560_flash(ctrl, led_no);
+ 	int rval = -EINVAL;
+ 
++	if (!pm_runtime_get_if_in_use(flash->dev))
++		return 0;
 +
-+	enum lm3560_peak_current peak;
-+	u32 max_flash_timeout;
+ 	if (ctrl->id == V4L2_CID_FLASH_FAULT) {
+ 		s32 fault = 0;
+ 		unsigned int reg_val;
+ 		rval = regmap_read(flash->regmap, REG_FLAG, &reg_val);
+-		if (rval < 0)
++		if (rval < 0) {
++			pm_runtime_put(flash->dev);
+ 			return rval;
++		}
+ 		if (reg_val & FAULT_SHORT_CIRCUIT)
+ 			fault |= V4L2_FLASH_FAULT_SHORT_CIRCUIT;
+ 		if (reg_val & FAULT_OVERTEMP)
+@@ -187,6 +200,8 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+ 		ctrl->cur.val = fault;
+ 	}
+ 
++	pm_runtime_put(flash->dev);
 +
-+	u32 max_flash_brt[LM3560_LED_MAX];
-+	u32 max_torch_brt[LM3560_LED_MAX];
- };
+ 	return rval;
+ }
  
- #define to_lm3560_flash(_ctrl, _no)	\
-@@ -269,8 +279,8 @@ static int lm3560_init_controls(struct lm3560_flash *flash,
- 				enum lm3560_led_id led_no)
- {
- 	struct v4l2_ctrl *fault;
--	u32 max_flash_brt = flash->pdata->max_flash_brt[led_no];
--	u32 max_torch_brt = flash->pdata->max_torch_brt[led_no];
-+	u32 max_flash_brt = flash->max_flash_brt[led_no];
-+	u32 max_torch_brt = flash->max_torch_brt[led_no];
- 	struct v4l2_ctrl_handler *hdl = &flash->ctrls_led[led_no];
- 	const struct v4l2_ctrl_ops *ops = &lm3560_led_ctrl_ops[led_no];
+@@ -196,6 +211,9 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+ 	u8 tout_bits;
+ 	int rval = -EINVAL;
  
-@@ -295,9 +305,9 @@ static int lm3560_init_controls(struct lm3560_flash *flash,
- 	/* flash strobe timeout */
- 	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_FLASH_TIMEOUT,
- 			  LM3560_FLASH_TOUT_MIN,
--			  flash->pdata->max_flash_timeout,
-+			  flash->max_flash_timeout,
- 			  LM3560_FLASH_TOUT_STEP,
--			  flash->pdata->max_flash_timeout);
-+			  flash->max_flash_timeout);
++	if (!pm_runtime_get_if_in_use(flash->dev))
++		return 0;
++
+ 	switch (ctrl->id) {
+ 	case V4L2_CID_FLASH_LED_MODE:
+ 		flash->led_mode = ctrl->val;
+@@ -241,6 +259,8 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+ 		break;
+ 	}
  
- 	/* flash brt */
- 	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_FLASH_INTENSITY,
-@@ -339,15 +349,18 @@ static const struct regmap_config lm3560_regmap = {
- };
++	pm_runtime_put(flash->dev);
++
+ 	return rval;
+ }
  
- static int lm3560_subdev_init(struct lm3560_flash *flash,
--			      enum lm3560_led_id led_no, char *led_name)
-+			      enum lm3560_led_id led_no,
-+			      struct fwnode_handle *fwnode)
- {
- 	struct i2c_client *client = to_i2c_client(flash->dev);
- 	int rval;
+@@ -403,6 +423,60 @@ static int lm3560_init_device(struct lm3560_flash *flash)
+ 	return rval;
+ }
  
- 	v4l2_i2c_subdev_init(&flash->subdev_led[led_no], client, &lm3560_ops);
- 	flash->subdev_led[led_no].flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
--	strscpy(flash->subdev_led[led_no].name, led_name,
--		sizeof(flash->subdev_led[led_no].name));
-+	snprintf(flash->subdev_led[led_no].name,
-+		 sizeof(flash->subdev_led[led_no].name),
-+		 "lm3560-led%d", led_no);
-+	flash->subdev_led[led_no].fwnode = fwnode;
- 	rval = lm3560_init_controls(flash, led_no);
- 	if (rval)
- 		goto err_out;
-@@ -377,7 +390,7 @@ static int lm3560_init_device(struct lm3560_flash *flash)
- 
- 	/* set peak current */
- 	rval = regmap_update_bits(flash->regmap,
--				  REG_FLASH_TOUT, 0x60, flash->pdata->peak);
-+				  REG_FLASH_TOUT, 0x60, flash->peak);
- 	if (rval < 0)
- 		return rval;
- 	/* output disable */
-@@ -393,8 +406,9 @@ static int lm3560_init_device(struct lm3560_flash *flash)
++static void lm3560_power_off(struct lm3560_flash *flash)
++{
++	gpiod_set_value_cansleep(flash->hwen_gpio, 0);
++	regulator_disable(flash->vin_supply);
++}
++
++static int lm3560_power_on(struct lm3560_flash *flash)
++{
++	int rval;
++
++	rval = regulator_enable(flash->vin_supply);
++	if (rval < 0) {
++		dev_err(flash->dev, "failed to enable vin power supply\n");
++		return rval;
++	}
++
++	gpiod_set_value_cansleep(flash->hwen_gpio, 1);
++
++	rval = lm3560_init_device(flash);
++	if (rval < 0) {
++		lm3560_power_off(flash);
++		return rval;
++	}
++
++	return 0;
++}
++
++static int __maybe_unused lm3560_pm_runtime_resume(struct device *dev)
++{
++	struct lm3560_flash *flash = dev_get_drvdata(dev);
++
++	return lm3560_power_on(flash);
++}
++
++static int __maybe_unused lm3560_pm_runtime_suspend(struct device *dev)
++{
++	struct lm3560_flash *flash = dev_get_drvdata(dev);
++
++	lm3560_power_off(flash);
++
++	return 0;
++}
++
++static void lm3560_subdev_cleanup(struct lm3560_flash *flash)
++{
++	unsigned int i;
++
++	for (i = LM3560_LED0; i < LM3560_LED_MAX; i++) {
++		v4l2_device_unregister_subdev(&flash->subdev_led[i]);
++		v4l2_ctrl_handler_free(&flash->ctrls_led[i]);
++		media_entity_cleanup(&flash->subdev_led[i].entity);
++	}
++}
++
  static int lm3560_probe(struct i2c_client *client)
  {
  	struct lm3560_flash *flash;
--	struct lm3560_platform_data *pdata = dev_get_platdata(&client->dev);
--	int rval;
-+	struct fwnode_handle *node;
-+	u32 peak_ua;
-+	int rval, reg;
- 
- 	flash = devm_kzalloc(&client->dev, sizeof(*flash), GFP_KERNEL);
- 	if (flash == NULL)
-@@ -406,36 +420,60 @@ static int lm3560_probe(struct i2c_client *client)
- 		return rval;
- 	}
- 
--	/* if there is no platform data, use chip default value */
--	if (pdata == NULL) {
--		pdata = devm_kzalloc(&client->dev, sizeof(*pdata), GFP_KERNEL);
--		if (pdata == NULL)
--			return -ENODEV;
--		pdata->peak = LM3560_PEAK_3600mA;
--		pdata->max_flash_timeout = LM3560_FLASH_TOUT_MAX;
--		/* led 1 */
--		pdata->max_flash_brt[LM3560_LED0] = LM3560_FLASH_BRT_MAX;
--		pdata->max_torch_brt[LM3560_LED0] = LM3560_TORCH_BRT_MAX;
--		/* led 2 */
--		pdata->max_flash_brt[LM3560_LED1] = LM3560_FLASH_BRT_MAX;
--		pdata->max_torch_brt[LM3560_LED1] = LM3560_TORCH_BRT_MAX;
--	}
--	flash->pdata = pdata;
+@@ -423,6 +497,17 @@ static int lm3560_probe(struct i2c_client *client)
  	flash->dev = &client->dev;
  	mutex_init(&flash->lock);
  
--	rval = lm3560_subdev_init(flash, LM3560_LED0, "lm3560-led0");
--	if (rval < 0)
--		return rval;
-+	flash->peak = LM3560_PEAK_1600mA;
-+	rval = device_property_read_u32(flash->dev,
-+					"ti,peak-current-microamp", &peak_ua);
-+	if (!rval) {
-+		switch (peak_ua) {
-+		case 16000000:
-+			flash->peak = LM3560_PEAK_1600mA;
-+			break;
-+		case 23000000:
-+			flash->peak = LM3560_PEAK_2300mA;
-+			break;
-+		case 30000000:
-+			flash->peak = LM3560_PEAK_3000mA;
-+			break;
-+		case 36000000:
-+			flash->peak = LM3560_PEAK_3600mA;
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+	}
++	flash->hwen_gpio = devm_gpiod_get_optional(&client->dev, "enable",
++						   GPIOD_OUT_LOW);
++	if (IS_ERR(flash->hwen_gpio))
++		return dev_err_probe(&client->dev, PTR_ERR(flash->hwen_gpio),
++				     "failed to get hwen gpio\n");
++
++	flash->vin_supply = devm_regulator_get(&client->dev, "vin");
++	if (IS_ERR(flash->vin_supply))
++		return dev_err_probe(&client->dev, PTR_ERR(flash->vin_supply),
++				     "failed to get vin-supply\n");
++
+ 	flash->peak = LM3560_PEAK_1600mA;
+ 	rval = device_property_read_u32(flash->dev,
+ 					"ti,peak-current-microamp", &peak_ua);
+@@ -450,10 +535,13 @@ static int lm3560_probe(struct i2c_client *client)
+ 				 &flash->max_flash_timeout);
+ 	flash->max_flash_timeout /= 1000;
  
--	rval = lm3560_subdev_init(flash, LM3560_LED1, "lm3560-led1");
--	if (rval < 0)
--		return rval;
-+	flash->max_flash_timeout = LM3560_FLASH_TOUT_MIN * 1000;
-+	device_property_read_u32(flash->dev, "flash-max-timeout-us",
-+				 &flash->max_flash_timeout);
-+	flash->max_flash_timeout /= 1000;
- 
- 	rval = lm3560_init_device(flash);
+-	rval = lm3560_init_device(flash);
++	rval = lm3560_power_on(flash);
  	if (rval < 0)
  		return rval;
  
-+	device_for_each_child_node(flash->dev, node) {
-+		fwnode_property_read_u32(node, "reg", &reg);
++	pm_runtime_set_active(flash->dev);
++	pm_runtime_enable(flash->dev);
 +
-+		if (reg == LM3560_LED0 || reg == LM3560_LED1) {
-+			flash->max_flash_brt[reg] = LM3560_FLASH_BRT_MIN;
-+			fwnode_property_read_u32(node, "flash-max-microamp",
-+						 &flash->max_flash_brt[reg]);
-+
-+			flash->max_torch_brt[reg] = LM3560_TORCH_BRT_MIN;
-+			fwnode_property_read_u32(node, "led-max-microamp",
-+						 &flash->max_torch_brt[reg]);
-+
-+			rval = lm3560_subdev_init(flash, reg, node);
-+			if (rval < 0)
-+				return dev_err_probe(flash->dev, rval,
-+						    "failed to register led%d\n",
-+						    reg);
-+		}
-+	}
-+
+ 	device_for_each_child_node(flash->dev, node) {
+ 		fwnode_property_read_u32(node, "reg", &reg);
+ 
+@@ -467,30 +555,53 @@ static int lm3560_probe(struct i2c_client *client)
+ 						 &flash->max_torch_brt[reg]);
+ 
+ 			rval = lm3560_subdev_init(flash, reg, node);
+-			if (rval < 0)
+-				return dev_err_probe(flash->dev, rval,
+-						    "failed to register led%d\n",
+-						    reg);
++			if (rval < 0) {
++				dev_err(flash->dev,
++					"failed to register led%d\n", reg);
++				goto error_clean;
++			}
+ 		}
+ 	}
+ 
  	i2c_set_clientdata(client, flash);
  
++	pm_runtime_set_autosuspend_delay(flash->dev, 1000);
++	pm_runtime_use_autosuspend(flash->dev);
++	pm_runtime_idle(flash->dev);
++
  	return 0;
-@@ -453,6 +491,13 @@ static void lm3560_remove(struct i2c_client *client)
++
++error_clean:
++	pm_runtime_disable(flash->dev);
++	pm_runtime_set_suspended(flash->dev);
++	lm3560_subdev_cleanup(flash);
++	lm3560_power_off(flash);
++
++	return rval;
+ }
+ 
+ static void lm3560_remove(struct i2c_client *client)
+ {
+ 	struct lm3560_flash *flash = i2c_get_clientdata(client);
+-	unsigned int i;
+ 
+-	for (i = LM3560_LED0; i < LM3560_LED_MAX; i++) {
+-		v4l2_device_unregister_subdev(&flash->subdev_led[i]);
+-		v4l2_ctrl_handler_free(&flash->ctrls_led[i]);
+-		media_entity_cleanup(&flash->subdev_led[i].entity);
++	lm3560_subdev_cleanup(flash);
++
++	/*
++	 * Disable runtime PM. In case runtime PM is disabled in the kernel,
++	 * make sure to turn power off manually.
++	 */
++	pm_runtime_disable(&client->dev);
++	if (!pm_runtime_status_suspended(&client->dev)) {
++		lm3560_power_off(flash);
++		pm_runtime_set_suspended(&client->dev);
  	}
  }
  
-+static const struct of_device_id lm3560_of_match[] = {
-+	{ .compatible = "ti,lm3559" },
-+	{ .compatible = "ti,lm3560" },
-+	{ }
++static const struct dev_pm_ops lm3560_pm_ops = {
++	SET_RUNTIME_PM_OPS(lm3560_pm_runtime_suspend,
++			   lm3560_pm_runtime_resume, NULL)
 +};
-+MODULE_DEVICE_TABLE(of, lm3560_of_match);
 +
- static const struct i2c_device_id lm3560_id_table[] = {
- 	{ LM3559_NAME },
- 	{ LM3560_NAME },
-@@ -465,6 +510,7 @@ static struct i2c_driver lm3560_i2c_driver = {
+ static const struct of_device_id lm3560_of_match[] = {
+ 	{ .compatible = "ti,lm3559" },
+ 	{ .compatible = "ti,lm3560" },
+@@ -509,7 +620,7 @@ MODULE_DEVICE_TABLE(i2c, lm3560_id_table);
+ static struct i2c_driver lm3560_i2c_driver = {
  	.driver = {
  		   .name = LM3560_NAME,
- 		   .pm = NULL,
-+		   .of_match_table = lm3560_of_match,
+-		   .pm = NULL,
++		   .pm = &lm3560_pm_ops,
+ 		   .of_match_table = lm3560_of_match,
  		   },
  	.probe = lm3560_probe,
- 	.remove = lm3560_remove,
-diff --git a/include/media/i2c/lm3560.h b/include/media/i2c/lm3560.h
-index 770d8c72c94a..b56c1ff8fd49 100644
---- a/include/media/i2c/lm3560.h
-+++ b/include/media/i2c/lm3560.h
-@@ -66,19 +66,4 @@ enum lm3560_peak_current {
- 	LM3560_PEAK_3600mA = 0x60
- };
- 
--/* struct lm3560_platform_data
-- *
-- * @peak :  peak current
-- * @max_flash_timeout: flash timeout
-- * @max_flash_brt: flash mode led brightness
-- * @max_torch_brt: torch mode led brightness
-- */
--struct lm3560_platform_data {
--	enum lm3560_peak_current peak;
--
--	u32 max_flash_timeout;
--	u32 max_flash_brt[LM3560_LED_MAX];
--	u32 max_torch_brt[LM3560_LED_MAX];
--};
--
- #endif /* __LM3560_H__ */
 -- 
 2.51.0
 
