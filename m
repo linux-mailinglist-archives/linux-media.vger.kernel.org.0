@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-59137-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59139-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kPxwOTss5ml4swEAu9opvQ
-	(envelope-from <linux-media+bounces-59137-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 15:38:03 +0200
+	id 4KCBEeAu5mliswEAu9opvQ
+	(envelope-from <linux-media+bounces-59139-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 15:49:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB5542C12D
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 15:38:03 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F367142C505
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 15:49:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 72028307F546
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 13:30:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7AA583172E0C
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 13:34:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6793E3D0938;
-	Mon, 20 Apr 2026 13:18:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D10933B3C01;
+	Mon, 20 Apr 2026 13:23:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ljBa6pMK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k7YOQgJ+"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F3F3A7598;
-	Mon, 20 Apr 2026 13:18:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35DE83B38AE;
+	Mon, 20 Apr 2026 13:23:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691084; cv=none; b=ryppU6B30sxN2Vh8qw+YHYYGP8Z2KIGYby95kHu4rq2tnwMaSlYfiFWqLgd2tCPhOA60BmLcJc0H/w+l4D5x+CiIfUaEF/czNGwGfzzwDjHkaPrQkmS3CVTMGXOYXfSBJGPKyxIGdotsKdqqVU121O4XJnhgmi4zpEvxP+O5ZXY=
+	t=1776691405; cv=none; b=XThZ+v+IJH1v4tIVk5629DA/BCA91Jurqhv2k96EZGMtwnGKuJjL62Gu2TbWbWAj1mxok1LBsHdFwkZL+Ew6+AMkougQRSQ7QBx0hLSmccFW19nAq+7mTwdNliT4VlxUZp/oelK56mDdW2+fJHxAm/oA49VoVlUHLBlzxVL2hhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691084; c=relaxed/simple;
+	s=arc-20240116; t=1776691405; c=relaxed/simple;
 	bh=7ofxjYHWB0NPbIZJ8ORMceUeVocMV5qWS6/KwcLJDUU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B6TBczbaj1qkKadHcJfnpQoNnNEtGsGti+A0eKbdB/u0dHOJzByuKD+jHqErcCwttdswtkgD0mGfRjmFh838GxNcwmRXH67WHkfQagWgtGtNIVqDKE9OWM9Exwg75tNzRaPByNbXjR4R0hCJx2VqXZY6yV5wzrUr7HXokGZb8F4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ljBa6pMK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A411C19425;
-	Mon, 20 Apr 2026 13:18:03 +0000 (UTC)
+	 MIME-Version:Content-Type; b=LFqfBAc46E0Ktp12g5GhdihFUyyhCGBLRxHqZWBY4vVvAAqsCJXfDVuPxMMR64UY5pWFOHzskFqILl9uVmLBRoAEeuG0iBG31uoXTauBI+2S5LGnjR9132oaZK8NzwA2sU5LF4hbdF+ex/BVXY+U2n9WgaimyUMoKiezXCDOduw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k7YOQgJ+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECE85C2BCB7;
+	Mon, 20 Apr 2026 13:23:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691084;
+	s=k20201202; t=1776691405;
 	bh=7ofxjYHWB0NPbIZJ8ORMceUeVocMV5qWS6/KwcLJDUU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ljBa6pMKhnCTEPVn32C9FSeSFhQ6cOJQwVJO7bzI/nb3+oJZ5XIA7Yv/pEdIlDNWA
-	 q3UNSHl/9VAhhg9f0pgXSV9123ioPDwdHgSPIuUAQRlMUabepiHg+GwFlDmqjGeObV
-	 qoPoXo5Oaou5peCY0eecq0lsuQChRS4dcqQuOnl1zfDvvziDDCQVn2lOytOiCZY4Ru
-	 fW0I6k/PhtC1B0dE2Ze2OEY+X0dGpSqu86zurU+NkOgMWAc79AnWvIkMXkvdu7ZBmA
-	 +RcRGUPw959RICBAtrwX0GVGqx40n7w4gOpUfrbOD4aWFYKUvMKgETJxIpUsU+Oxyg
-	 8dI6fp3O8IZKQ==
+	b=k7YOQgJ+uOvNXw6sGvl3Y5g4RfcQfqzSr7YBBsA4G1KD4fb4abNFIV6WLTQsXZ0x4
+	 cDgqKTanCeNhikkYHr4PLCfNftziz/vAN94nx0k+lAw+htiv2RlJJUp5p1OB2tNSSh
+	 maAR/mnWck8usuX1Qp+sQktFt5lS7XXGYNrXBbvWEYVOTnP1nAYeqcPwMGdCwFqG/o
+	 u+/0RPu3mssWDNde4XLupqTvU+86IcB3k2i1UTm2savzbfJO8XNBREML5i1YM9oKRB
+	 amFhPLnjsly025bu69IDrhCEPD/yA0vs0sDoZpv6j8R9BqndA3cz0V+n59tYBAmk9M
+	 +00tg/lG+FAkQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -56,11 +56,11 @@ Cc: Chen Ni <nichen@iscas.ac.cn>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: [PATCH AUTOSEL 7.0-5.10] media: i2c: mt9p031: Check return value of devm_gpiod_get_optional() in mt9p031_probe()
-Date: Mon, 20 Apr 2026 09:09:10 -0400
-Message-ID: <20260420131539.986432-84-sashal@kernel.org>
+Date: Mon, 20 Apr 2026 09:16:40 -0400
+Message-ID: <20260420132314.1023554-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260420131539.986432-1-sashal@kernel.org>
-References: <20260420131539.986432-1-sashal@kernel.org>
+In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
+References: <20260420132314.1023554-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,7 +77,7 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -85,10 +85,10 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59137-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59139-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
@@ -98,8 +98,8 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,huawei];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email,iscas.ac.cn:email]
-X-Rspamd-Queue-Id: 9DB5542C12D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,iscas.ac.cn:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,msgid.link:url]
+X-Rspamd-Queue-Id: F367142C505
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
