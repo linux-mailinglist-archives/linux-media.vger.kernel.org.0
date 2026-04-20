@@ -1,292 +1,367 @@
-Return-Path: <linux-media+bounces-59114-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59115-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +C2KHeG85Wk8ngEAu9opvQ
-	(envelope-from <linux-media+bounces-59114-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 07:42:57 +0200
+	id 4GJhH4LC5WmnnwEAu9opvQ
+	(envelope-from <linux-media+bounces-59115-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 08:06:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B03EF426E6D
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 07:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DB542703A
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 08:06:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EA0BB301FA4D
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 05:42:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 928AC301DB82
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 06:06:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CD593815CB;
-	Mon, 20 Apr 2026 05:42:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 107D83815D2;
+	Mon, 20 Apr 2026 06:06:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ObTY2T4k"
+	dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b="k2SKip8x"
 X-Original-To: linux-media@vger.kernel.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013012.outbound.protection.outlook.com [52.101.83.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1299229E114;
-	Mon, 20 Apr 2026 05:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776663766; cv=fail; b=q1dTQbJQS6lJb4FQSe/KdfUr9UflUa3j4lM8ac0W4tPGuCy7ORsy0yCvxSrdtbpIwHWpX3fHEQtMuEUF1ruz40DgAqcltZSGOQSTn1EGf53QG0IImDRZ/N9zJhCr3b2pNrvEBkRKggIkqB2yzPs8HL6FVUaAt8qGvzz3hl39OEc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776663766; c=relaxed/simple;
-	bh=HIvurB/n/tFI7yqID01qbIXpYoqAv/hfToFl24LhavM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=kpnrIIMWGSwMAafy/h6KYdJunX1VRJhCITBmcbizHE/lwsnwiiP7QTzMsEhrmYDwgVDsKbAeFC6+B9rOhbGuC9O4iZfPKBC0OMClb1Jz9PaZnyjnfKcmoFsP4dJi+McJa6kUCqyusaEGMfO7Xh9f3+PGz/pkCI7h14a/DswlE5M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ObTY2T4k; arc=fail smtp.client-ip=52.101.83.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Sv/4jaL6YMllCGrFTZbbGxI4/vfhH9ac9x/T6hlexv5QL89hd0fIOrhWstaUOwjzKPQB8oQsXtEnXcJBv+ESXiqqAcEr/9CSgOcuA1tN5qzyoy8dmiECHh+gkM8mkUWMZELfkWGkizOV0s4/JnCpw8Ml+1oH9hEwi0K6VKTc6qY+w8LbGl5IukpYQbqisTx7SMrcQ4KGQczeJGz8NYi60cCOOiNvQ1NqvSLEcOFStQvAb405tbndb70tmqA4i1N87NVU9LkBxAlrWWXh//E9V44KqpB5ZjKxoa6Cw6xgOS9HXVLVqK7CpEa5iPgjkR8bhclR0a/gkp6ngI7/RgkhAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P/hJFDc/OXO+z1G1aFVdYtqUeTMvbhXCQaiOW6aQ2jU=;
- b=d46+bqK2YEyxPtqXGYe15HvqpM0IvrTZBbsGjorqozYDZEukMLR4uJDQT5/dOmwpX7iVk3TLzKLPZkIozgAglyXXGiOrZWUpdQrt6n9249sUkm/1uTY7o/ZhGBuE4KOUduZNgALqKlW/i9W8sg+VLd2uGg8F2rLujU2oxrq3RMmfA7sip8u1tgi8HQPfOtZDdqT22gcJlqmx9KrZu27NXdlxb8/aUPmutYnpZl0a5nlXyLMf7kjq4B8drsACMCTCgTy/DHq32Sc96qE/CxPBwalYlLY+E/4EdcjMX9BBzb04IA69FAO36kNIQ2MgIqQ2AlCVPr6w4CXHkWGwx5oC3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P/hJFDc/OXO+z1G1aFVdYtqUeTMvbhXCQaiOW6aQ2jU=;
- b=ObTY2T4kwSIf5diyCIQ4DKUnH8PQfKNMO1PhjnyCEUxtHm4s2A6w5Dj/g+3gD6Zc4ojSwgS4jPYng9NFJ62dIZaMWFEcHnjCGtv+w1HxC/lMOiPoSABYb2T7TquEjzKQNLEEkLRZ4oHpwh4KNEr5RW+yxySTrHvDNiKnRY2O0hCnLSxYQYK70nyy3O7SI7EpqRE7LdmXQmrU7oSwHz6fJNve6q4fRyRDPnKsRcn3zSzzgj9mrlu7xeC37cPK+x7z3Sp272a7/1RZRL4RnuU8Wj+0eCj/swpZq9LYYKTBQANqV2FH4Q6UQws4xhmdg2Y4mw+kxI4rkHhKsIeOmh3Uig==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by DBAPR04MB7447.eurprd04.prod.outlook.com (2603:10a6:10:1b2::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.32; Mon, 20 Apr
- 2026 05:42:41 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9818.032; Mon, 20 Apr 2026
- 05:42:41 +0000
-Date: Mon, 20 Apr 2026 01:42:35 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
-Cc: Michael Riesch <michael.riesch@collabora.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2314940DFC4
+	for <linux-media@vger.kernel.org>; Mon, 20 Apr 2026 06:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776665203; cv=none; b=QKvWS8UFmLfBZhVknCSvMX7NvSk47bJC2UViKiEH0L7MuaBR+KZOi3ybcqGmxrhmZEbhu5neafJTpVKBFjTN0ArZxTUtcyYpPbj6e+TI9ISctZke5JQ9232lKjReGTCD7vk+UpYw+1B8zLj2KuiQZFRIsXCawh/9lSPktzCQ/qE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776665203; c=relaxed/simple;
+	bh=o9VyHHljdlNryQxgGpX/rIFtgqHL6AXLc8VCdQZtJUw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=j4lmH5KDrCfMvtddF6YkVh3mcgpmZwLZmj+33kiNk3wRtEoMLBQBEBoscaa/3d6QrbPyqP5QgNyAMGcVQX1ZZCMcy1qiAKbmNVFLZ71eNuONTGeic51Y67KwKDproVaLgPSX1O69kmdb6nBR0hY6d8c33D3PWoEoz0m7CNwl21w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr; spf=pass smtp.mailfrom=snu.ac.kr; dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b=k2SKip8x; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snu.ac.kr
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-35e576110adso1747597a91.0
+        for <linux-media@vger.kernel.org>; Sun, 19 Apr 2026 23:06:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=snu.ac.kr; s=google; t=1776665199; x=1777269999; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sbHCUNdavsi9m4FkYItkV2uwfkFJaRWF7u5PuSyGeu8=;
+        b=k2SKip8xU1lDGEOVv9gHsepsT/agF+sar6U9mGEnC7datNI8gbFlifYZK3c5+DEpLL
+         Yq3lgPs6uCO5FUbYM2CF3AwmDD4LrDKmO+PQh1V0BmzAdYb9c848zoSVPOnjDFDR+UEp
+         BvbTiu4D7xnNPIH9+TYPy6S6cIevgCYkgEtzI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776665199; x=1777269999;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sbHCUNdavsi9m4FkYItkV2uwfkFJaRWF7u5PuSyGeu8=;
+        b=B1mcayLCVVC52wpJQfTkplP0uwqERQGyR9rBb/neflFtmS4oXJlcPRAHhmTM6Pd/GG
+         uft5DYEOm8RpU7J4+2kuxE1WXpIfd9dI02HmJxTk8aZm8SiwEbEZdTLQoo6V4PSKOPaD
+         Q6SWJGNfoz/MBAmu1lk5R634le3ulQ+HI2duj6m2uIQzgAgQuYFEnRseAdvjx/RBrhEO
+         U61/2g7f5cOANaejBPxTHDNptS82S5yGd0NZax8KgrYp8njPFK24Mgon2Qdfco77pNsL
+         ZMCm8JXqYq2/FOK1Tfq1qLj+GVfA8tnZ6esKZuysA8/peDEPJYxenK6XIy3PJjC55pkw
+         Nryg==
+X-Gm-Message-State: AOJu0YzUhSxCRIbJYRqrIqNkUQTsrm+VDQuGfxIC7SdBel5xpsNlSsnn
+	QZ29NIicPPpuXxdJ5Axb9LQx46/3ajjMjLThNwFBt9YMYOPOhhyW8BLuw1M/UyJdgSk=
+X-Gm-Gg: AeBDiet4xgbi51COt7ohwk1YO4/ezd++ZQeoZjx/9K06ZejX8smSrSUa9v7STFQqt45
+	9W75SMkcWEKNgcmDed4wFpntwAbKgTTh8iptJ+q7x6of+4xwhNCgrHDVvMEejOcUeJI3t70J1M4
+	OfhuQ+xwpN3sakTYgqBHFNXb4WtA9foHmOiF+dAJjjAPp0iWtqYDaSXwtkhj/VjTM9cTF/G+pB6
+	9+cVUuqfzNFvN/+6a3x+Q72iQDutKNVf2aIZWa+K7ERBDz/5GsANuY4xUia6uzrgjqGsBJXq/EM
+	BTmyWOdjB/Gd+27QqXy60iz1POx4ebr3MwLX5xWFyA44wizpnR4TQ8A9ya1IR76bxtgjjXId2jb
+	HplzeGe+OAj2OC4MkkAkO1SdjF/ieX7HH0s/sNK7x2WTOEI1rK0emJhzcT0lz7EWfuP3Y1kR6ri
+	9+Pe7VhHp4i5zHqDZUqQpLkfH64kSHVcSPsRzzmlzbJXudhljoo9K7N9+Lle9taJaR+kaHDQ==
+X-Received: by 2002:a17:90b:1e10:b0:35f:c6bf:2bba with SMTP id 98e67ed59e1d1-36140299a0dmr12086964a91.11.1776665199511;
+        Sun, 19 Apr 2026 23:06:39 -0700 (PDT)
+Received: from nunu.. (nunu.snu.ac.kr. [147.46.112.82])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3614195a8f0sm9082277a91.12.2026.04.19.23.06.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Apr 2026 23:06:39 -0700 (PDT)
+From: Sangyun Kim <sangyun.kim@snu.ac.kr>
+To: Mike Isely <isely@pobox.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 2/5] media: synopsys: Add support for multiple streams
-Message-ID: <aeW8y9-Y-4yFKEZa@lizhi-Precision-Tower-5810>
-References: <20260415-csi2_imx95-v1-0-7d63f3508719@oss.nxp.com>
- <20260415-csi2_imx95-v1-2-7d63f3508719@oss.nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260415-csi2_imx95-v1-2-7d63f3508719@oss.nxp.com>
-X-ClientProxiedBy: SA1P222CA0125.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:3c5::19) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+	Hans Verkuil <hverkuil@kernel.org>,
+	Edward Adam Davis <eadavis@qq.com>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] media: pvrusb2: fix disconnect and teardown races
+Date: Mon, 20 Apr 2026 15:06:21 +0900
+Message-Id: <20260420060621.1627352-1-sangyun.kim@snu.ac.kr>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DBAPR04MB7447:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7efd2e80-d64b-4ee9-5881-08de9e9fa354
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|19092799006|366016|52116014|376014|7416014|1800799024|38350700014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
- IF1rZsg5cVaDgHWWdiZzDsM1LZWhstxp1P4jLQhmDP1E4KBEp5peGLxnxk367Y2KzjtuckMRwO4ivDsFSpb47DlPF/zHbYAyDHiQj0nHsAPNX1F/eFCJMLihTb1c/6sZ+hOKMoh8nVWsZOibkoI8Rq7LGU2JEx73QFW3bngd3ml5Lvx5OAiQY60G77LJpZzlrFwEDTaVk/YSrCaHcY7bhjuDs/8/OVabV3p7LF+EYXk7UbgIlxs07VeeTk7h6mvy2HuNd9C8aQc1A83Aw+820SbNIgoGjbdQV4o3pOYoTIV5h6qBczpaH878UC4h1O02Ohh2MgyJFhSh0Xhuk1l2vWMW/dhRmGeRJd+mEAHtbrJ7Pqp3edPqoxnBD0q+/z9aTE4cs9Ndf0eKUpaCEg9Z6ODAcWLW+BmdcNsR6dWxfhzctxVlms1AaGr2zyrKcwWGn6oKmeccnz9RLcoos2KAfR9ATsZN4zPzC0hL1VuF0tIhVrubN56eQAvCi05SdxL9xkDF5+Xk9vErdw7YLGYxqb3g5CZdk/DpGPYQz3mmXbKaRcZwUUCjQqM0iMvKxUIcmGMwzpHfUJlDYzWKB9AsMyE9QaIJO6Wkc4NN1wXE8QYB4cAOfX9QMp886ZwurJfVZnaLSwGzA2zHKZIPzn41hhPVo5zjnfhhZ3GjGFcSEeT/EvrwRQMd7LzCE7jGljEBug+ZAJ0qiLUmo1C5XXbyYexxNScVVtVH+eeEnOnOlZE8vgc8L39LiUs0O4aXjBZQE5FqgIBc3XXBW8BB6KpzHrad7X9ULsIg8WLLYT0rglo=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(52116014)(376014)(7416014)(1800799024)(38350700014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?fv081oeamM5EdWwjZ0cDObSB7B7BRZjhQUpxFXNGwr7AR3gQ6xfwI9vEEsGt?=
- =?us-ascii?Q?yfLZ7Dy76Pc+QEWoYn5IGmojD07jVU0lrRyrhgBsTYhfceTjJ4kihiJ2nEtY?=
- =?us-ascii?Q?y7CFwk1NELH/8YS6m23kA9V6BV1rD+YKHcMWZhJcz66z+4TGZNxUvq3WJltb?=
- =?us-ascii?Q?LqlqRhREQsLtjhOh4NnURwLOcLCv5ofbhhnBUSyPK8F2QS19tF+pinNvlb59?=
- =?us-ascii?Q?4KEPM0PT/4qoKCJXSZtZ3KDm31qqIEbHNUE5+U3onUF+aAqW/FMqneZbpQrw?=
- =?us-ascii?Q?Vk5cl+EkHrOA11j9nmMiCHfgDWeq4VBzIq1hDaEzWVcbN8JQh0zjO7qp5Xaf?=
- =?us-ascii?Q?VgwKng7FrKuCmIjq3kDBqTP8GbCRVmaLeJR7Didg/y11xXROCl6hF1n92hpP?=
- =?us-ascii?Q?l4f8rlWcIgtNE2xdQBCfuD550BRX1+au1pVltvA+Q3bWMzNkRVFF3PLBOx3+?=
- =?us-ascii?Q?RfY0Imka8stAodsZZOkuSo/HV4/zs3H9XNzyjYWSXYhUoBJ9JIOT5v7b0MkS?=
- =?us-ascii?Q?C/Jh4h3ez7T7/AC3WoviTCqZpj63jlu/MmMytlU06OPvVrBUbIsjSaknElop?=
- =?us-ascii?Q?xIIoU0tkGb63+FctG98mHxjJDLIFBWHE/JWR+RdIDDY8tq8ew7zt+hsR8n2j?=
- =?us-ascii?Q?ZCOlGHUyM3s1FFgbF4nqQ+r7KkLgszvjCHlrv+pzsJoa1DLBfka/P5INEJoS?=
- =?us-ascii?Q?ho6iZYXyihedrD74m4VTAyy+dwzQvbdhCfh3oNSg8x8i9Nfsg1Grkp9lOFhl?=
- =?us-ascii?Q?oqOliCj8sQbX7T92l1l2OsCRGFcXArr2iVwQWTatXl0xA5FUxGTIUth79M+9?=
- =?us-ascii?Q?ZSQyeGC+dRnPDoRNkR+AWRLXqeWfliPV24wo35A8fg0C8XCYM+QbnBa5wEwe?=
- =?us-ascii?Q?TFcM/yrlu1MFrajqwr4XCwB43qr8bRLCvJUw3udh+v9Fij1w9dGCCt2AYn7K?=
- =?us-ascii?Q?NMWrp4HuOsa17rTaHHRDZJdQnWryKcoxm5RxImJlJpEavzxL3AxeCudFMm1M?=
- =?us-ascii?Q?CNIguTOwhU1K02kF6TEaWzlbJha5EVNmzrsfDj6LB80+6sNZ0fxFtC4fzZkb?=
- =?us-ascii?Q?rFsdbOZIm64XDuKMGTdIoQqfwVyGcrFG3mtPzfI5zobMMcRY4Wp3dPuQCMA3?=
- =?us-ascii?Q?eCKOFf+npV/mLDVzF3suINcx+AO00U6NCF7L/DVNnjx7DvMlZET86sQHv7Uk?=
- =?us-ascii?Q?aFb9uEw8M7tjsG/PzD1omj39XuPNaNg3X14fvbDE6nKZfG8rzRIu5Cnmw6Mi?=
- =?us-ascii?Q?y8eJE1qlH3JscyTYtkL1urVcgUbJGHt8aiM/L1ktiubf++MB82viVNt1Nwjn?=
- =?us-ascii?Q?DwHittvDAZ16bTmPVE/drRs1W47F8mErbjVz5ewugn4cutmjT0LrBXOiz3ix?=
- =?us-ascii?Q?9aKPbby4PO9heUHoa8EcGZcBgLJ8/DIr4chdHQpBFKUiWrfX2xsHWLwJsCA3?=
- =?us-ascii?Q?XRXa0EdL1cgSPUuChbKYiYXG/eiezQu9KYJ/qvinVIZ9S/O6iKpsU+pjSwMq?=
- =?us-ascii?Q?FGR2ppKKuL078bfXXFphu009qA2lJuMyX6MYw1ik7NG41i+IGpeDTmiEOofe?=
- =?us-ascii?Q?xM9v5rR01ODFXY0Q45OZ6yvOuwLV3PF7tHQxT78Bcw69+F+eAdpaxKO1Nwws?=
- =?us-ascii?Q?2NwLtnV73tbfj/Fe/RgIZruPM+LXAY5AXlKLwvFF3Q6gnvCSXUaf6GOPmwBm?=
- =?us-ascii?Q?juP2lwNQ5pePif1L1RIFiLv8tmMhC9ME0wMVCsL87LRyzweo?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7efd2e80-d64b-4ee9-5881-08de9e9fa354
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 05:42:41.3646
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 310qd3gZJruAgEaTIFAuNywHrEvzVPjHe4fe22VLfYfGBtN9UQuJXKQ7KnL37rqwO78QOFML1RpFZ3yOdUhixA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7447
-X-Spamd-Result: default: False [1.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[snu.ac.kr,none];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	R_DKIM_ALLOW(-0.20)[snu.ac.kr:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59114-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[14];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59115-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[pobox.com,kernel.org,qq.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sangyun.kim@snu.ac.kr,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[nxp.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[snu.ac.kr:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,nxp.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B03EF426E6D
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: C3DB542703A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Apr 15, 2026 at 11:46:53AM +0800, Guoniu Zhou wrote:
-> The current driver only supports single stream operation. Add support
-> for multiple concurrent streams by tracking enabled streams with a
-> bitmask and only initializing the hardware once for the first stream.
->
-> This enables use cases such as surround view systems where multiple
-> camera streams need to be processed simultaneously through the same
-> CSI-2 receiver interface.
->
-> Signed-off-by: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
-> ---
->  drivers/media/platform/synopsys/dw-mipi-csi2rx.c | 45 ++++++++++++++----------
->  1 file changed, 27 insertions(+), 18 deletions(-)
->
-> diff --git a/drivers/media/platform/synopsys/dw-mipi-csi2rx.c b/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
-> index 46e2a4315ac2..85a2a95bf080 100644
-> --- a/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
-> +++ b/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
-> @@ -113,6 +113,7 @@ struct dw_mipi_csi2rx_device {
->
->  	enum v4l2_mbus_type bus_type;
->  	u32 lanes_num;
-> +	u64 enabled_streams;
->
->  	const struct dw_mipi_csi2rx_drvdata *drvdata;
->  };
-> @@ -528,28 +529,31 @@ static int dw_mipi_csi2rx_enable_streams(struct v4l2_subdev *sd,
->  					       DW_MIPI_CSI2RX_PAD_SRC,
->  					       &streams_mask);
->
+pvr2_context_disconnect() queues a notification to the pvrusb2-context
+kthread before it stores mp->disconnect_flag:
 
-It maybe simpler
+    pvr2_hdw_disconnect(mp->hdw);
+    if (!pvr2_context_shutok())
+        pvr2_context_notify(mp);
+    mp->disconnect_flag = !0;
 
-	u64 enabled_streams = csi2->enabled_streams;
+The context thread only destroys a context when disconnect_flag is set
+and mc_first is NULL. If the notification wakes the thread before the
+flag store becomes visible, the thread dequeues the context, runs
+pvr2_context_check() with disconnect_flag still observed as 0, decides
+that the destroy condition is not met yet, and goes back to sleep.
+Nothing wakes the thread again once the flag is finally stored, so the
+context stays on the global exist list forever and
+pvr2_context_global_done() blocks module unload. commit 0a0b79ea55de
+("media: pvrusb2: fix uaf in pvr2_context_set_notify") made this
+liveness failure easier to hit by moving the notify earlier in the
+disconnect path.
 
-	csi2->enabled_streams |= streams_mask;
+The same teardown sequence still contains a use-after-free.
+pvr2_context_exit() inspects disconnect_flag after releasing mp->mutex
+and may then call pvr2_context_notify(mp) after the context thread has
+already freed the object via pvr2_context_destroy()/kfree(). The hdw
+completion callback registered through pvr2_hdw_initialize() can race
+the same way. Reordering the disconnect path alone closes the unload
+hang, but it still leaves late notifiers able to touch freed memory.
 
-	if (!enabled_stream)
-		return 0;
+Fix both problems together:
 
+- Split pvr2_context_set_notify() into a locked helper
+  (pvr2_context_set_notify_locked()) and a wrapper that acquires
+  pvr2_context_mutex. This lets callers update several pieces of
+  related state inside a single critical section without relocking.
 
-....
+- In pvr2_context_disconnect(), set disconnect_flag and enqueue the
+  thread notification under pvr2_context_mutex. The context thread
+  manipulates the notify list under the same mutex, so when it observes
+  the queued entry it is guaranteed to observe disconnect_flag = 1 as
+  well and the destroy condition evaluates correctly. This eliminates
+  the original notify-before-flag liveness hole.
 
-err:
-	si2->enabled_streams &= ~streams_mask;
+- Add a per-context refcount_t. pvr2_context_create() initialises it to
+  1 (creator reference). pvr2_channel_init() and pvr2_channel_done()
+  take and drop a reference around each channel's lifetime.
+  pvr2_context_disconnect() takes a temporary reference across its body
+  so the context cannot be freed while disconnect is still touching it.
+  pvr2_context_destroy() no longer calls kfree() directly; it drops its
+  reference via pvr2_context_put(), and whichever caller drops the last
+  reference performs the actual kfree. This keeps the object alive
+  until disconnect and the final channel teardown finish, regardless of
+  how the context thread, channel close, and USB disconnect paths
+  interleave.
 
+- Add a destroying_flag that pvr2_context_destroy() sets under
+  pvr2_context_mutex before unlinking the context from the notify and
+  exist lists. pvr2_context_set_notify_locked() refuses to re-enqueue a
+  context whose destroying_flag is set, so a late notifier arriving
+  after destroy has started cannot resurrect the context on the notify
+  list. The dequeue path (fl == 0) still proceeds unconditionally
+  because destroy itself must be able to remove any still-queued entry.
 
-Frank
+- Update pvr2_context_exit() to enqueue through
+  pvr2_context_set_notify_locked() after releasing mp->mutex. The
+  caller (channel close or disconnect) always holds a reference, so the
+  object is stable across the mp->mutex / pvr2_context_mutex hand-off
+  and a concurrent destroy cannot free it under us. If destroy has
+  already won the race, destroying_flag short-circuits the enqueue into
+  a no-op.
 
-> -	ret = pm_runtime_resume_and_get(dev);
-> -	if (ret)
-> -		goto err;
-> +	if (!csi2->enabled_streams) {
-> +		ret = pm_runtime_resume_and_get(dev);
-> +		if (ret)
-> +			return ret;
->
-> -	ret = dw_mipi_csi2rx_start(csi2);
-> -	if (ret) {
-> -		dev_err(dev, "failed to enable CSI hardware\n");
-> -		goto err_pm_runtime_put;
-> +		ret = dw_mipi_csi2rx_start(csi2);
-> +		if (ret) {
-> +			pm_runtime_put(dev);
-> +			dev_err(dev, "failed to enable CSI hardware\n");
-> +			return ret;
-> +		}
->  	}
->
->  	ret = v4l2_subdev_enable_streams(remote_sd, remote_pad->index, mask);
-> -	if (ret)
-> -		goto err_csi_stop;
-> +	if (ret) {
-> +		if (!csi2->enabled_streams) {
-> +			dw_mipi_csi2rx_stop(csi2);
-> +			pm_runtime_put(dev);
-> +		}
-> +		return ret;
-> +	}
->
-> -	return 0;
-> +	csi2->enabled_streams |= streams_mask;
->
-> -err_csi_stop:
-> -	dw_mipi_csi2rx_stop(csi2);
-> -err_pm_runtime_put:
-> -	pm_runtime_put(dev);
-> -err:
-> -	return ret;
-> +	return 0;
->  }
->
->  static int dw_mipi_csi2rx_disable_streams(struct v4l2_subdev *sd,
-> @@ -572,10 +576,15 @@ static int dw_mipi_csi2rx_disable_streams(struct v4l2_subdev *sd,
->  					       &streams_mask);
->
->  	ret = v4l2_subdev_disable_streams(remote_sd, remote_pad->index, mask);
-> +	if (ret)
-> +		dev_err(dev, "failed to disable streams on remote subdev: %d\n", ret);
->
-> -	dw_mipi_csi2rx_stop(csi2);
-> +	csi2->enabled_streams &= ~streams_mask;
->
-> -	pm_runtime_put(dev);
-> +	if (!csi2->enabled_streams) {
-> +		dw_mipi_csi2rx_stop(csi2);
-> +		pm_runtime_put(dev);
-> +	}
->
->  	return ret;
->  }
->
-> --
-> 2.34.1
->
+Lock ordering: pvr2_context_mutex is only acquired after mp->mutex is
+released; no path holds pvr2_context_mutex while acquiring mp->mutex,
+so no AB/BA deadlock is introduced. wake_up() on
+pvr2_context_sync_data is moved outside pvr2_context_mutex in every
+path that grew a new locked section, matching the existing style.
+
+Fixes: 0a0b79ea55de ("media: pvrusb2: fix uaf in pvr2_context_set_notify")
+Cc: stable@vger.kernel.org
+Signed-off-by: Sangyun Kim <sangyun.kim@snu.ac.kr>
+---
+ drivers/media/usb/pvrusb2/pvrusb2-context.c | 56 ++++++++++++++++++---
+ drivers/media/usb/pvrusb2/pvrusb2-context.h |  3 ++
+ 2 files changed, 51 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-context.c b/drivers/media/usb/pvrusb2/pvrusb2-context.c
+index 93f5da65ead9..fb9bdbf5c886 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-context.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-context.c
+@@ -27,11 +27,19 @@ static int pvr2_context_cleaned_flag;
+ static struct task_struct *pvr2_context_thread_ptr;
+ 
+ 
+-static void pvr2_context_set_notify(struct pvr2_context *mp, int fl)
++static void pvr2_context_put(struct pvr2_context *mp)
++{
++	if (refcount_dec_and_test(&mp->refcount))
++		kfree(mp);
++}
++
++static int pvr2_context_set_notify_locked(struct pvr2_context *mp, int fl)
+ {
+ 	int signal_flag = 0;
+-	mutex_lock(&pvr2_context_mutex);
++
+ 	if (fl) {
++		if (mp->destroying_flag)
++			return 0;
+ 		if (!mp->notify_flag) {
+ 			signal_flag = (pvr2_context_notify_first == NULL);
+ 			mp->notify_prev = pvr2_context_notify_last;
+@@ -59,6 +67,15 @@ static void pvr2_context_set_notify(struct pvr2_context *mp, int fl)
+ 			}
+ 		}
+ 	}
++	return signal_flag;
++}
++
++static void pvr2_context_set_notify(struct pvr2_context *mp, int fl)
++{
++	int signal_flag = 0;
++
++	mutex_lock(&pvr2_context_mutex);
++	signal_flag = pvr2_context_set_notify_locked(mp, fl);
+ 	mutex_unlock(&pvr2_context_mutex);
+ 	if (signal_flag) wake_up(&pvr2_context_sync_data);
+ }
+@@ -66,10 +83,13 @@ static void pvr2_context_set_notify(struct pvr2_context *mp, int fl)
+ 
+ static void pvr2_context_destroy(struct pvr2_context *mp)
+ {
++	int signal_flag = 0;
++
+ 	pvr2_trace(PVR2_TRACE_CTXT,"pvr2_context %p (destroy)",mp);
+ 	pvr2_hdw_destroy(mp->hdw);
+-	pvr2_context_set_notify(mp, 0);
+ 	mutex_lock(&pvr2_context_mutex);
++	mp->destroying_flag = !0;
++	pvr2_context_set_notify_locked(mp, 0);
+ 	if (mp->exist_next) {
+ 		mp->exist_next->exist_prev = mp->exist_prev;
+ 	} else {
+@@ -83,10 +103,12 @@ static void pvr2_context_destroy(struct pvr2_context *mp)
+ 	if (!pvr2_context_exist_first) {
+ 		/* Trigger wakeup on control thread in case it is waiting
+ 		   for an exit condition. */
+-		wake_up(&pvr2_context_sync_data);
++		signal_flag = !0;
+ 	}
+ 	mutex_unlock(&pvr2_context_mutex);
+-	kfree(mp);
++	if (signal_flag)
++		wake_up(&pvr2_context_sync_data);
++	pvr2_context_put(mp);
+ }
+ 
+ 
+@@ -209,6 +231,7 @@ struct pvr2_context *pvr2_context_create(
+ 	pvr2_trace(PVR2_TRACE_CTXT,"pvr2_context %p (create)",mp);
+ 	mp->setup_func = setup_func;
+ 	mutex_init(&mp->mutex);
++	refcount_set(&mp->refcount, 1);
+ 	mutex_lock(&pvr2_context_mutex);
+ 	mp->exist_prev = pvr2_context_exist_last;
+ 	mp->exist_next = NULL;
+@@ -256,25 +279,41 @@ static void pvr2_context_enter(struct pvr2_context *mp)
+ static void pvr2_context_exit(struct pvr2_context *mp)
+ {
+ 	int destroy_flag = 0;
++	int signal_flag = 0;
+ 	if (!(mp->mc_first || !mp->disconnect_flag)) {
+ 		destroy_flag = !0;
+ 	}
+ 	mutex_unlock(&mp->mutex);
+-	if (destroy_flag) pvr2_context_notify(mp);
++	if (destroy_flag) {
++		mutex_lock(&pvr2_context_mutex);
++		signal_flag = pvr2_context_set_notify_locked(mp, !0);
++		mutex_unlock(&pvr2_context_mutex);
++		if (signal_flag)
++			wake_up(&pvr2_context_sync_data);
++	}
+ }
+ 
+ 
+ void pvr2_context_disconnect(struct pvr2_context *mp)
+ {
++	int signal_flag = 0;
++
++	refcount_inc(&mp->refcount);
+ 	pvr2_hdw_disconnect(mp->hdw);
+-	if (!pvr2_context_shutok())
+-		pvr2_context_notify(mp);
++	mutex_lock(&pvr2_context_mutex);
+ 	mp->disconnect_flag = !0;
++	if (!pvr2_context_shutok())
++		signal_flag = pvr2_context_set_notify_locked(mp, !0);
++	mutex_unlock(&pvr2_context_mutex);
++	if (signal_flag)
++		wake_up(&pvr2_context_sync_data);
++	pvr2_context_put(mp);
+ }
+ 
+ 
+ void pvr2_channel_init(struct pvr2_channel *cp,struct pvr2_context *mp)
+ {
++	refcount_inc(&mp->refcount);
+ 	pvr2_context_enter(mp);
+ 	cp->hdw = mp->hdw;
+ 	cp->mc_head = mp;
+@@ -318,6 +357,7 @@ void pvr2_channel_done(struct pvr2_channel *cp)
+ 	}
+ 	cp->hdw = NULL;
+ 	pvr2_context_exit(mp);
++	pvr2_context_put(mp);
+ }
+ 
+ 
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-context.h b/drivers/media/usb/pvrusb2/pvrusb2-context.h
+index 5840b2ce8f1e..4e06530eccb8 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-context.h
++++ b/drivers/media/usb/pvrusb2/pvrusb2-context.h
+@@ -7,6 +7,7 @@
+ #define __PVRUSB2_CONTEXT_H
+ 
+ #include <linux/mutex.h>
++#include <linux/refcount.h>
+ #include <linux/usb.h>
+ #include <linux/workqueue.h>
+ 
+@@ -33,9 +34,11 @@ struct pvr2_context {
+ 	struct pvr2_hdw *hdw;
+ 	struct pvr2_context_stream video_stream;
+ 	struct mutex mutex;
++	refcount_t refcount;
+ 	int notify_flag;
+ 	int initialized_flag;
+ 	int disconnect_flag;
++	int destroying_flag;
+ 
+ 	/* Called after pvr2_context initialization is complete */
+ 	void (*setup_func)(struct pvr2_context *);
+-- 
+2.34.1
+
 
