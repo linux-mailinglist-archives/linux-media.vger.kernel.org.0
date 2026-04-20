@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-59147-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59148-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MDGTGog85mlutgEAu9opvQ
-	(envelope-from <linux-media+bounces-59147-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:47:36 +0200
+	id kOaSLVw25mkGtgEAu9opvQ
+	(envelope-from <linux-media+bounces-59148-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:21:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C544D42D747
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:47:35 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4681642CEEF
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:21:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D343D327CBDD
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 14:08:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 64C7C31012B9
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 14:12:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A76A23A6F06;
-	Mon, 20 Apr 2026 13:29:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66FBB438FEF;
+	Mon, 20 Apr 2026 13:29:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eKX0B856"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvonJGhP"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F117D3CEB95;
-	Mon, 20 Apr 2026 13:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF34A43637E;
+	Mon, 20 Apr 2026 13:29:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691752; cv=none; b=jCIxD1ycGMZ0iHUzlrmBNmApmo+eFH00pmzdLom/JLXikrNtpq3Q3bHuYMsdkB+67ckKSWHaXXePmKv+tYgCxmtrraqEl4VO8GnLU4TnAr5yaQH0kjsotqbcZ5lsAudzhRiP0P6a6Hmv7BmEa1GoKQD49JOBPp2u26hNNZV15to=
+	t=1776691785; cv=none; b=VrLsIEPk0cJKWc5He+5duoBT7zSV2KSXe6IxZQNbwDzttwgZXiv/n/kUPwwN7Z8KG26aGbmOzCacwE4ELH9pMlIl7BiF4Ju6Ft3t3EMA6Vhyj0ZW0ET5nlmxPh0LY/s5KLY6X7RxNjC7bWK2U/NRcsCCqVAwg9tbMfEuQnvqaTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691752; c=relaxed/simple;
-	bh=ScQ6dAwJ3nJ1e211k15M5MBZcZrbS/VbzJqrbbcJTHk=;
+	s=arc-20240116; t=1776691785; c=relaxed/simple;
+	bh=lMCIDnWvyxnN2bFHV8mrTlQXqQoDegkQezmVLTiPYNo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oC7VS1LhqsiDOfPlTUV7NxXX5IAWXd8fnf7lSKkRBM/O7ZDAwUw7s5Ih4uaDMjbokpdL/6Z8fIh1HFKyfK9gObpQje8BzVol77wTnwXmmezR6XPyKQZRu78zfRfoPZ05i65r15AJBU+PSu7sogl5b28dlFMxHVvHkXdU1FiAt+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eKX0B856; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B2DFC2BCB6;
-	Mon, 20 Apr 2026 13:29:10 +0000 (UTC)
+	 MIME-Version; b=WwBlA982/uhcbkXrUt850Nvsw7YnCEF2o49cT4DsMXaUywTCSPmtNlZqa+q3V9KfW+xK4PpPEXOQx+K0Y+TiVLSTEdp5BGxX2qi6PuTFw6Sto6YCNRf+vZpX11+ngrKzyAZn6uf5W8TZ4wJNY/3/mVfAZTUyrUr/qnh/4B77eNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvonJGhP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F3B5C2BCC9;
+	Mon, 20 Apr 2026 13:29:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691751;
-	bh=ScQ6dAwJ3nJ1e211k15M5MBZcZrbS/VbzJqrbbcJTHk=;
+	s=k20201202; t=1776691785;
+	bh=lMCIDnWvyxnN2bFHV8mrTlQXqQoDegkQezmVLTiPYNo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eKX0B856ruMt1RXYsgZAxzKytIq77dfiapxsAX3qqkoW+4ZvbrowvTjK0v5AvLHL9
-	 YGNvefvjZcaqGNafDC6Bi+HcCNg5oAsGR9c2oWskj0Y0JNTe075z2cXXkP7FEYRz8b
-	 oVx6zt88FfPfpSP9pqzbNlx5UbIb5IIz40s3Q6Fn2HB3gh/Xjd0ONoN24pW8CVc+Cx
-	 BFeLzExyeGD47S9tnsoAD1ex6yuxY9WFJwAxdaoc2Ji6vLSBTgfBeTm8sNd0/3AVu1
-	 SqlNrPiNTzyzUU/wWEO1dL8N8aOZCHCNkGqOkd9Lr/l3SW+O12TatmvaNJnj54z7kp
-	 CU3cOEhNbxgRQ==
+	b=fvonJGhPT6YVd/jy9NU7l26Qyq06ZHjmyE9elteFAf07oXvZV4nQxSHOS2lbW4glg
+	 oxcRu2b+r4xmAaztM0IXwQM3XXSXWJ4Xu9YgEJy4aZFS5ru+iNv9EAeNodVa+sdppZ
+	 69VYjnmfPvRY2tNRa3EK67zC149vmBaGBGI34HBzLwZma5d1A8F2U8kS1Hqe1Tkxss
+	 fPDdbwY+rP6Wb6OwOmg8GwLbrPPBNWXBdfptlKAljhfy8UgBtkZQPdX40U4frWIb5g
+	 hvaAwiTFcEomNg/JX2Ount07Kt3lDucaCBxMYYlGib9Py+b9zUkntcRbY/ez0japHK
+	 9pGGCw5HkGPIQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
+Cc: Mark Brown <broonie@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	laurent.pinchart@ideasonboard.com,
-	kieran.bingham+renesas@ideasonboard.com,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
+	kernel@collabora.com,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.15] media: renesas: vsp1: histo: Fix code enumeration
-Date: Mon, 20 Apr 2026 09:19:26 -0400
-Message-ID: <20260420132314.1023554-172-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.18] media: synopsys: hdmirx: support use with sleeping GPIOs
+Date: Mon, 20 Apr 2026 09:19:46 -0400
+Message-ID: <20260420132314.1023554-192-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -72,370 +72,439 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59147-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59148-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.996];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,sgid.link:url,renesas.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,msgid.link:url]
-X-Rspamd-Queue-Id: C544D42D747
+	TAGGED_RCPT(0.00)[linux-media,huawei];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iu.edu:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email,spinics.net:url,sntech.de:email]
+X-Rspamd-Queue-Id: 4681642CEEF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+From: Mark Brown <broonie@kernel.org>
 
-[ Upstream commit a7985d28b3b13cd5e23f4271d702a46532f80424 ]
+[ Upstream commit 2fb0481fe0d7891420c1a3df2e4f9a70b1f77dbd ]
 
-The histogram media bus code enumeration does not check the index when
-operating on the source pad, resulting in an infinite loop if userspace
-keeps enumerating code without any loop boundary. Fix it by returning an
-error for indices larger than 0 as the pad supports a single format.
+The recent change in commit 20cf2aed89ac ("gpio: rockchip: mark the GPIO
+controller as sleeping") to mark the rockchip GPIO driver as sleeping
+has started triggering the warning at drivers/gpio/gpiolib.c:3523
+indicating that a sleepable GPIO was called via the non-sleeping APIs on
+the Rock 5B:
 
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> # HiHope RZ/G2M
-Link: https://patch.msgid.link/20260318235907.831556-10-laurent.pinchart+renesas@ideasonboard.com
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+<4>[   14.699308] Call trace:
+<4>[   14.699545]  gpiod_get_value+0x90/0x98 (P)
+<4>[   14.699928]  tx_5v_power_present+0x44/0xd0 [synopsys_hdmirx]
+<4>[   14.700446]  hdmirx_delayed_work_hotplug+0x34/0x128 [synopsys_hdmirx]
+<4>[   14.701031]  process_one_work+0x14c/0x28c
+<4>[   14.701405]  worker_thread+0x184/0x300
+<4>[   14.701756]  kthread+0x11c/0x128
+<4>[   14.702065]  ret_from_fork+0x10/0x20
+
+Currently the active use of the GPIO is all done from process context so
+can be simply converted to use gpiod_get_value_cansleep(). There is one use
+of the GPIO from hard interrupt context but this is only done so the status
+can be displayed in a debug print so can simply be deleted without any
+functional effect.
+
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+Acked-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have all the data needed for a thorough analysis. Let me compile
-the full assessment.
+Now I have all the information needed for a comprehensive analysis.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-**Step 1.1: Subject Line**
-Record: [media: renesas: vsp1: histo] [Fix] [Fix code enumeration —
-missing bounds check on index during mbus code enumeration on source
-pad]
+### Step 1.1: PARSE THE SUBJECT LINE
+- **Subsystem:** media: synopsys: hdmirx
+- **Action verb:** "support" (but this is functionally a fix - adapting
+  to an API change)
+- **Summary:** Switch GPIO calls to sleeping-capable variants after the
+  rockchip GPIO driver was marked as sleeping.
 
-**Step 1.2: Tags**
-- `Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>` —
-  tested on HiHope RZ/G2M hardware
-- `Link: https://patch.msgid.link/20260318235907.831556-10-
-  laurent.pinchart+renesas@ideasonboard.com` — this is patch **10** of a
-  series
-- `Signed-off-by: Laurent Pinchart` — original VSP1 driver author
-- `Signed-off-by: Hans Verkuil` — V4L2/media subsystem co-maintainer
+Record: [media: synopsys: hdmirx] [support/fix] [Use sleeping GPIO APIs
+to fix WARN_ON triggered by rockchip GPIO sleeping mark]
 
-Record: Patch 10 of a series. Tested on real hardware. Signed by
-subsystem maintainer and driver author. No Fixes: tag (expected). No
-syzbot.
+### Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
+- **Reviewed-by:** Heiko Stuebner (Rockchip platform maintainer)
+- **Acked-by:** Dmitry Osipenko (collabora, HDMIRX driver co-maintainer)
+- **Signed-off-by:** Mark Brown (well-known kernel developer,
+  SPI/ASoC/regulator subsystem maintainer)
+- **Signed-off-by:** Sakari Ailus (media subsystem maintainer)
+- **Signed-off-by:** Mauro Carvalho Chehab (media subsystem top-level
+  maintainer)
+- **No Fixes: tag** (expected for this review pipeline)
+- **No Cc: stable** (expected)
+- **No Reported-by** (author discovered it themselves via the WARN_ON)
 
-**Step 1.3: Commit Body**
-The message clearly describes: the source pad path in
-`histo_enum_mbus_code()` never checks `code->index`, so userspace
-calling `VIDIOC_SUBDEV_ENUM_MBUS_CODE` with incrementing indices loops
-infinitely. The pad supports a single format, so index > 0 should return
-`-EINVAL`.
+Record: Strong review chain - Reviewed by Rockchip maintainer, Acked by
+driver contributor, signed by both media maintainers.
 
-Record: Bug = infinite loop when enumerating codes on source pad.
-Symptom = userspace hangs. Root cause = missing bounds check.
+### Step 1.3: ANALYZE THE COMMIT BODY TEXT
+The commit explains:
+- Commit 20cf2aed89ac marked the rockchip GPIO driver as sleeping
+- This causes a `WARN_ON` at `drivers/gpio/gpiolib.c:3523` when
+  `gpiod_get_value()` is called on a sleeping GPIO
+- The warning occurs on Rock 5B hardware during HDMI hotplug detection
+- A stack trace is provided showing the exact call path:
+  `tx_5v_power_present()` -> `hdmirx_delayed_work_hotplug()` ->
+  workqueue
+- The fix: process context calls switched to
+  `gpiod_get_value_cansleep()`; the IRQ handler call was only for debug
+  logging and is simply removed
 
-**Step 1.4: Hidden Bug Fix Detection**
-Record: This is explicitly described as a bug fix. Not hidden at all.
+Record: Bug = WARN_ON triggered every time HDMI hotplug detection runs
+on Rock 5B. Symptom = kernel warning in dmesg. Root cause = rockchip
+GPIO driver now correctly marked as sleeping, exposing incorrect non-
+sleeping GPIO API usage.
 
----
+### Step 1.4: DETECT HIDDEN BUG FIXES
+This is a genuine bug fix despite "support" in the title. The
+`gpiod_get_value()` call in the IRQ handler is actually more than just a
+WARN_ON - calling a sleeping function from hard interrupt context could
+cause a sleep-in-atomic-context bug, which is a real correctness issue.
+The workqueue path triggers a warning on every HDMI hotplug event.
+
+Record: Yes, this is a real bug fix. The WARN_ON fires on every HDMI
+hotplug event on Rock 5B.
 
 ## PHASE 2: DIFF ANALYSIS
 
-**Step 2.1: Inventory**
-- 1 file changed: `drivers/media/platform/renesas/vsp1/vsp1_histo.c`
-- +3 lines added (index check + blank line), 1 line changed
-  (`MEDIA_BUS_FMT_FIXED` → `MEDIA_BUS_FMT_METADATA_FIXED`)
-- Function modified: `histo_enum_mbus_code()`
-- Scope: Single-file, single-function surgical fix
+### Step 2.1: INVENTORY THE CHANGES
+- **File:** `drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c`
+- **Lines changed:** +1, -5 (net: -4 lines)
+- **Functions modified:**
+  1. `tx_5v_power_present()` - 1 line changed
+  2. `hdmirx_5v_det_irq_handler()` - 4 lines removed
+- **Scope:** Single-file, surgical fix
 
-**Step 2.2: Code Flow Change**
-Before: When `code->pad == HISTO_PAD_SOURCE`, unconditionally set
-`code->code = MEDIA_BUS_FMT_FIXED` and return 0, regardless of
-`code->index`.
-After: When `code->pad == HISTO_PAD_SOURCE`, first check if `code->index
-> 0` and return `-EINVAL` (since only one format is supported). Then set
-`code->code = MEDIA_BUS_FMT_METADATA_FIXED` and return 0.
+Record: 1 file, -4 net lines. Two functions modified. Scope: minimal
+surgical fix.
 
-**Step 2.3: Bug Mechanism**
-This is a **logic/correctness fix** — missing bounds validation. The
-V4L2 enumeration API protocol requires callbacks to return `-EINVAL`
-when `code->index` exceeds the number of supported formats. Without
-this, the framework loops forever.
+### Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
+**Hunk 1 (tx_5v_power_present):**
+- Before: `gpiod_get_value()` called from workqueue context
+- After: `gpiod_get_value_cansleep()` called from workqueue context
+- This function is already sleeping (contains `usleep_range(1000,
+  1100)`), so `_cansleep` is correct.
 
-Reference: `vsp1_subdev_enum_mbus_code()` in `vsp1_entity.c` line 212
-correctly does `if (code->index) return -EINVAL;` for its source pad
-path. The histogram entity bypasses that function for the source pad and
-handles it locally, but forgot the check.
+**Hunk 2 (hdmirx_5v_det_irq_handler):**
+- Before: Read GPIO value and print debug message, then queue delayed
+  work
+- After: Just queue delayed work
+- The GPIO read was only used for a `v4l2_dbg()` print at debug level 3
+  - pure debug output, no functional effect.
 
-**Step 2.4: Fix Quality**
-- Obviously correct: follows the exact pattern used everywhere else in
-  the driver
-- Minimal and surgical
-- Very low regression risk: adding a bounds check cannot break anything
-- The `MEDIA_BUS_FMT_METADATA_FIXED` change is a secondary correctness
-  change (0x0001 → 0x7001) that changes the format code reported to
-  userspace
+Record: Hunk 1: API variant swap in already-sleeping context. Hunk 2:
+Remove debug-only GPIO read from hard IRQ context.
 
-Record: Fix is trivially correct. Index check = zero risk. Format
-constant change = minor behavioral change.
+### Step 2.3: IDENTIFY THE BUG MECHANISM
+This is a **sleep-in-wrong-context** bug:
+- Category (g) Logic/correctness fix + (h) Hardware workaround aspect
+- `gpiod_get_value()` on a sleeping GPIO controller triggers a `WARN_ON`
+  (verified at gpiolib.c line 3520)
+- In the IRQ handler, calling a potentially-sleeping function from hard
+  interrupt context is a more severe issue (sleep-in-atomic)
 
----
+Record: WARN_ON trigger on every HDMI hotplug; potential sleep-in-atomic
+in IRQ handler. Fix is API variant swap + debug code removal.
+
+### Step 2.4: ASSESS THE FIX QUALITY
+- **Obviously correct?** Yes. `tx_5v_power_present()` already calls
+  `usleep_range()`, confirming it's in sleeping context. Switching to
+  `_cansleep` is the textbook fix.
+- **Minimal?** Yes. 1 line changed, 4 lines removed.
+- **Regression risk?** Essentially zero. The `_cansleep` variant does
+  the same thing but without the WARN_ON check. Removing the debug print
+  from the IRQ handler has no functional impact.
+
+Record: Fix is obviously correct, minimal, and has essentially zero
+regression risk.
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-**Step 3.1: Blame**
-The buggy code was introduced in commit `99362e32332b5c` ("v4l: vsp1:
-Add histogram support") from September 2016, authored by Laurent
-Pinchart. This bug has been present since the histogram feature was
-first added, affecting all kernel versions from approximately v4.9
-onward.
+### Step 3.1: BLAME THE CHANGED LINES
+Both changed locations were introduced in commit `7b59b132ad4398`
+("media: platform: synopsys: Add support for HDMI input driver"), first
+appearing in v6.15-rc1.
 
-**Step 3.2: No Fixes: tag** — expected for autosel candidates.
+Record: Buggy code introduced in 7b59b132ad4398 (v6.15). The code wasn't
+"buggy" initially - it became incorrect when 20cf2aed89ac6 marked the
+rockchip GPIO as sleeping (v6.19-rc5).
 
-**Step 3.3: File History**
-The file has had 9 commits since v6.1. Recent changes are mostly
-refactoring (wrappers dropped, vb2_ops cleanup), not related to this
-bug.
+### Step 3.2: FOLLOW THE FIXES TAG
+No Fixes: tag present (expected). The implicit fix target is
+20cf2aed89ac6 ("gpio: rockchip: mark the GPIO controller as sleeping"),
+introduced in v6.19-rc5.
 
-**Step 3.4: Author**
-Laurent Pinchart is the **original author** of the entire VSP1 driver
-and is the de-facto maintainer. His fixes carry the highest possible
-authority for this code.
+Record: The bug exists in any tree that contains BOTH 7b59b132ad4398
+(HDMIRX driver, v6.15+) AND 20cf2aed89ac6 (sleeping GPIO, v6.19-rc5+).
+Therefore affected trees: v6.19.y, v7.0.y.
 
-**Step 3.5: Dependencies — CRITICAL FINDING**
-By examining the pre-patch blob (`d7843c170f944`), I confirmed that the
-diff was created against a state where:
-1. The `histo` local variable was already removed from
-   `histo_enum_mbus_code()`
-2. `vsp1_subdev_enum_mbus_code()` was already refactored to take 3
-   arguments (instead of the current tree's 5)
+### Step 3.3: CHECK FILE HISTORY
+The file has had 10 commits since creation. None appear to be
+prerequisites for this fix. The fix is standalone.
 
-The current v7.0 tree still has the 5-argument version with the `histo`
-variable. This means **a prior patch in the same series (patches 1-9)
-refactored the function signature**, and this patch depends on it. The
-patch will NOT apply cleanly to the current stable tree.
+Record: Standalone fix, no prerequisites needed.
 
-However, the core fix (the `code->index > 0` check) operates entirely
-within the `if (code->pad == HISTO_PAD_SOURCE)` block, which is
-unchanged between versions. A trivial manual backport would add just the
-index check.
+### Step 3.4: CHECK THE AUTHOR
+Mark Brown is a senior kernel maintainer (SPI, ASoC, regulator
+subsystems). The fix was reviewed by Heiko Stuebner (Rockchip
+maintainer) and acked by Dmitry Osipenko (HDMIRX driver contributor).
 
-Record: Depends on prior patches for clean apply. Core fix is self-
-contained and trivially adaptable.
+Record: Author is a highly trusted kernel maintainer. Reviews from
+appropriate people.
 
----
+### Step 3.5: CHECK FOR DEPENDENCIES
+No dependencies. The patch modifies only existing code with a simple API
+swap and deletion. Applies cleanly to the current 7.0 tree (confirmed:
+the file matches pre-patch state).
 
-## PHASE 4: MAILING LIST RESEARCH
+Record: No dependencies. Will apply cleanly.
 
-**Step 4.1-4.5:** Lore.kernel.org returned Anubis challenge pages,
-preventing access. The `b4 dig` command could not find the commit by the
-msgid fragment. The `Link:` tag in the commit message points to `patch.m
-sgid.link/20260318235907.831556-10-
-laurent.pinchart+renesas@ideasonboard.com`, confirming this is patch 10
-in a series. The series likely performs broader cleanup/fixes on the
-VSP1 histogram subdevice, with this specific patch addressing the
-infinite loop bug.
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-Record: Could not access lore discussion. From msgid, this is patch 10
-of a series.
+### Step 4.1: ORIGINAL PATCH DISCUSSION
+The patch went through 3 versions:
+- **v1:** Jan 8, 2026 - Original submission based on pre-v7.0 tree
+- **v2:** Feb 26, 2026 - Rebased onto v7.0-rc1, no functional changes
+- **v3:** Mar 2, 2026 - Only checkpatch noise fixed, no code changes
 
----
+Record: 3 versions, but no functional changes between them - just
+rebasing.
+
+### Step 4.2: REVIEWERS
+- Dmitry Osipenko: Acked-by on v1
+- Heiko Stuebner: Reviewed-by on v1
+- Both maintained their endorsements through v3
+- Sakari Ailus and Mauro Carvalho Chehab (media maintainers) signed off
+
+Record: Strong review from relevant maintainers.
+
+### Step 4.3: BUG REPORT
+No separate bug report - the author observed the WARN_ON directly. The
+same class of issue was fixed in `drm/rockchip: dw_hdmi_qp`
+(db8061bbb9b23), confirming it's a systematic problem caused by the
+rockchip sleeping GPIO change.
+
+Record: Same issue affected DRM rockchip driver, fixed separately.
+Systematic GPIO API usage issue.
+
+### Step 4.4: RELATED PATCHES
+The DRM fix (db8061bbb9b23) is the sibling fix for the same root cause
+in a different driver. No series dependency.
+
+### Step 4.5: STABLE DISCUSSION
+No specific stable discussion found. The DRM sibling fix (db8061bbb9b23)
+was already picked up for v6.19 stable.
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1: Functions Modified**
-`histo_enum_mbus_code()` — the only function changed.
+### Step 5.1: KEY FUNCTIONS
+1. `tx_5v_power_present()` - detects HDMI 5V power on the cable
+2. `hdmirx_5v_det_irq_handler()` - IRQ handler for HDMI detect pin
 
-**Step 5.2: Callers**
-`histo_enum_mbus_code` is registered as `.enum_mbus_code` in
-`histo_pad_ops` (line 376), which is set on the histogram subdevice.
-It's called via:
-- `v4l2_subdev_call(sd, pad, enum_mbus_code, ...)` →
-  `call_enum_mbus_code()` in `v4l2-subdev.c`
-- Triggered by `VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl (line 859 of
-  `v4l2-subdev.c`)
+### Step 5.2: CALLERS
+- `tx_5v_power_present()` is called from:
+  - `port_no_link()` (line 461)
+  - `hdmirx_wait_signal_lock()` (line 2146)
+  - `hdmirx_delayed_work_hotplug()` (line 2207)
+  - `hdmirx_delayed_work_res_change()` (line 2229)
+- All callers are in process context (workqueues or ioctl handlers).
 
-This is **directly reachable from userspace** via the subdevice node
-(e.g., `/dev/v4l-subdevX`).
+### Step 5.3-5.5: CALL CHAIN / SIMILAR PATTERNS
+The warning triggers on every HDMI cable plug/unplug event on Rock 5B
+hardware. This is a common user action.
 
-**Step 5.3-5.4: Call Chain**
-Userspace → `ioctl(fd, VIDIOC_SUBDEV_ENUM_MBUS_CODE, ...)` →
-`v4l2-subdev.c:subdev_do_ioctl_lock()` → `call_enum_mbus_code()` →
-`histo_enum_mbus_code()` → **bug: no index check → always returns 0 →
-caller loops forever**
+Record: Triggered by HDMI cable events - common real-world usage.
 
-**Step 5.5: Similar Patterns**
-The `histo_enum_frame_size()` at line 186 correctly returns `-EINVAL`
-for non-sink pads. `vsp1_subdev_enum_mbus_code()` at line 212 correctly
-checks `if (code->index) return -EINVAL;` for source pads. The histogram
-entity is the only one that bypasses the common helper and forgets the
-check.
+## PHASE 6: STABLE TREE ANALYSIS
 
----
+### Step 6.1: DOES THE BUGGY CODE EXIST IN STABLE?
+- HDMIRX driver: v6.15+ (present in 6.15.y, 6.18.y, 6.19.y, 7.0.y)
+- Rockchip sleeping GPIO: v6.19-rc5+ (present in 6.19.y, 7.0.y)
+- **Bug exists in: 6.19.y and 7.0.y** (both commits must be present)
 
-## PHASE 6: CROSS-REFERENCING
+Record: Bug affects 6.19.y and 7.0.y stable trees.
 
-**Step 6.1: Buggy code in stable trees**
-The buggy code (commit `99362e32332b5c`) has been present since ~v4.9
-(2016). It exists in ALL active stable trees (5.10.y, 5.15.y, 6.1.y,
-6.6.y, 6.12.y).
+### Step 6.2: BACKPORT COMPLICATIONS
+The patch applies cleanly - verified that the current code in 7.0
+matches the pre-patch state exactly.
 
-**Step 6.2: Backport Complications**
-The patch will NOT apply cleanly due to the function signature change
-(`vsp1_subdev_enum_mbus_code` 3-arg vs 5-arg) and the missing `histo`
-variable. Needs a trivial manual adaptation: just add the index check to
-the existing code.
+Record: Clean apply expected.
 
-**Step 6.3:** No related fix has been applied to stable for this issue.
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
----
+### Step 7.1: SUBSYSTEM CRITICALITY
+- Subsystem: media drivers (drivers/media/)
+- Sub-subsystem: HDMI RX driver for Rockchip RK3588 (Rock 5B)
+- Criticality: PERIPHERAL (specific hardware), but Rock 5B is a popular
+  SBC
 
-## PHASE 7: SUBSYSTEM CONTEXT
-
-**Step 7.1:** Renesas VSP1 video processing driver — used on Renesas
-R-Car SoC platforms common in automotive and embedded systems.
-Criticality: PERIPHERAL (specific hardware), but important in its niche.
-
-**Step 7.2:** Moderate activity — a handful of commits per release
-cycle. Mature driver, bug has persisted for ~10 years.
-
----
+Record: PERIPHERAL but popular hardware (Rock 5B).
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-**Step 8.1: Who is affected**
-Users of Renesas R-Car platforms with VSP1 hardware (automotive,
-embedded, industrial).
+### Step 8.1: WHO IS AFFECTED
+Users of Rock 5B (RK3588) with HDMI input functionality, running kernels
+6.19+.
 
-**Step 8.2: Trigger conditions**
-Any userspace program that calls `VIDIOC_SUBDEV_ENUM_MBUS_CODE` on the
-histogram source pad with incrementing index values. This is standard
-V4L2 API usage — tools like `v4l2-ctl --list-subdev-mbus-codes` would
-trigger this.
+### Step 8.2: TRIGGER CONDITIONS
+Every HDMI cable plug/unplug event triggers the WARN_ON. This is a
+normal, common user action.
 
-**Step 8.3: Failure mode**
-**Infinite loop** — the userspace process hangs, and the ioctl never
-returns. This is effectively a system hang for any V4L2 application that
-enumerates formats on this pad. Severity: **HIGH** (system hang / DoS,
-userspace triggerable).
+### Step 8.3: FAILURE MODE SEVERITY
+- WARN_ON in kernel log (MEDIUM) - fires every time, pollutes dmesg
+- The IRQ handler call to `gpiod_get_value()` on a sleeping GPIO is
+  actually a potential sleep-in-atomic-context issue, though in practice
+  the rockchip GPIO driver path may not actually sleep in this codepath
+  (the `can_sleep` flag is a capability flag, not a guarantee of
+  sleeping)
+- Severity: MEDIUM - persistent kernel warning on every HDMI hotplug
+  event
 
-**Step 8.4: Risk-Benefit**
-- BENEFIT: HIGH — prevents userspace-triggerable infinite loop on
-  affected hardware
-- RISK: VERY LOW — adding a single bounds check is trivially safe; the
-  format constant change is a minor behavioral fix
-- RATIO: Strongly favorable for backporting
-
----
+### Step 8.4: RISK-BENEFIT RATIO
+- **Benefit:** Eliminates persistent WARN_ON on every HDMI hotplug event
+  on Rock 5B. Fixes a potential sleep-in-atomic issue in IRQ handler.
+- **Risk:** Extremely low. 1 line API variant swap in already-sleeping
+  context, plus removal of 4 lines of debug-only code from IRQ handler.
+- **Ratio:** Very favorable.
 
 ## PHASE 9: FINAL SYNTHESIS
 
-**Evidence FOR backporting:**
-- Fixes a real, userspace-triggerable infinite loop (system hang)
-- Bug has been present since 2016 — affects all stable trees
-- Fix is surgical (3 lines added to one function)
-- Obviously correct — follows established patterns in the same driver
-- Author is the driver's original creator and maintainer
-- Tested on real hardware
-- Signed off by V4L2 subsystem maintainer
+### Step 9.1: EVIDENCE COMPILED
 
-**Evidence AGAINST backporting:**
-- Part of a larger series (patch 10); depends on prior patches for clean
-  application
-- Changes the format constant (`MEDIA_BUS_FMT_FIXED` →
-  `MEDIA_BUS_FMT_METADATA_FIXED`) which is a behavioral change
-- Affects only Renesas platform users (niche hardware)
+**FOR backporting:**
+- Fixes a real WARN_ON that fires on every HDMI hotplug event on Rock 5B
+- Extremely small and surgical (1 line changed, 4 lines removed)
+- Obviously correct - the function already sleeps (usleep_range)
+- Reviewed by Rockchip maintainer, acked by driver contributor
+- Author is a senior kernel maintainer (Mark Brown)
+- Sibling fix for the same root cause already applied in DRM subsystem
+- No dependencies, clean apply expected
+- Zero regression risk
 
-**Stable Rules Checklist:**
-1. Obviously correct? YES — trivially verifiable against sister
-   functions
-2. Fixes a real bug? YES — infinite loop from userspace
-3. Important issue? YES — system hang
-4. Small and contained? YES — 4 lines changed in 1 function
-5. No new features? CORRECT — pure bug fix
-6. Can apply to stable? Needs minor manual adaptation (the index check
-   itself applies trivially; the context differs)
+**AGAINST backporting:**
+- Only affects Rock 5B (RK3588) hardware with HDMI input
+- The WARN_ON is "only" a warning, not a crash (though the IRQ handler
+  issue is more concerning)
+- Only affects 6.19.y and 7.0.y (limited scope)
 
----
+### Step 9.2: STABLE RULES CHECKLIST
+1. Obviously correct and tested? **YES** - trivial API swap,
+   reviewed/acked by relevant maintainers
+2. Fixes a real bug? **YES** - WARN_ON on every hotplug event, potential
+   sleep-in-atomic
+3. Important issue? **YES** - persistent warning that fires on normal
+   hardware usage
+4. Small and contained? **YES** - 6 lines total, 1 file, 2 functions
+5. No new features or APIs? **YES** - only fixes existing code
+6. Can apply to stable? **YES** - clean apply confirmed
+
+### Step 9.3: EXCEPTION CATEGORIES
+This is a hardware-related fix (fixing GPIO API usage for specific
+hardware). It falls in the "hardware workaround/quirk" space.
+
+### Step 9.4: DECISION
+This is a small, obviously correct fix that eliminates a persistent
+kernel warning on common hardware (Rock 5B). It was reviewed by the
+right people, has zero regression risk, and applies cleanly. The fix is
+needed in any stable tree that contains both the HDMIRX driver (v6.15+)
+and the rockchip sleeping GPIO change (v6.19+).
 
 ## Verification
 
-- [Phase 1] Parsed tags: Tested-by from Renesas tester, Link to msgid
-  (patch 10/N), signed by maintainer and subsystem co-maintainer
-- [Phase 2] Diff analysis: +3 lines adding index bounds check in
-  `histo_enum_mbus_code()`, +1 line format constant change
-- [Phase 3] git blame: buggy code introduced in commit 99362e32332b5c
-  (2016, ~v4.9), present in all active stable trees
-- [Phase 3] Dependency check: pre-patch blob d7843c170f944 differs from
-  current tree — `vsp1_subdev_enum_mbus_code` has 3 args in diff vs 5 in
-  tree. Requires manual backport adaptation.
-- [Phase 4] Lore/b4: blocked by Anubis. From msgid, confirmed as patch
-  10 in a series.
-- [Phase 5] Traced call chain: userspace → VIDIOC_SUBDEV_ENUM_MBUS_CODE
-  ioctl → v4l2-subdev.c → histo_enum_mbus_code() — confirmed reachable
-  from userspace
-- [Phase 5] Verified sister function at vsp1_entity.c:212 properly
-  checks `if (code->index)` — confirms the fix pattern
-- [Phase 6] Buggy code exists in all active stable trees (v5.10+,
-  v5.15+, v6.1+, v6.6+, v6.12+)
-- [Phase 6] MEDIA_BUS_FMT_METADATA_FIXED introduced in commit
-  6ad253cc3436 (Oct 2020) — available in all active stable trees
-- [Phase 8] Failure mode: infinite loop = userspace hang, severity HIGH
-- UNVERIFIED: Could not access lore discussion to check if stable was
-  discussed by reviewers
-
-The fix addresses a real, long-standing, userspace-triggerable infinite
-loop in the V4L2 media enumeration path. The core fix (the index check)
-is trivially correct, minimal, and follows patterns used throughout the
-driver. While it needs minor manual adaptation for clean application to
-stable trees due to series dependencies, the fix itself is well within
-stable criteria.
+- [Phase 1] Parsed subject: "media: synopsys: hdmirx: support use with
+  sleeping GPIOs" - functional fix despite "support" wording
+- [Phase 1] Tags: Reviewed-by Heiko Stuebner, Acked-by Dmitry Osipenko,
+  SOBs from Mark Brown, Sakari Ailus, Mauro Carvalho Chehab
+- [Phase 2] Diff analysis: 1 line changed (`gpiod_get_value` ->
+  `gpiod_get_value_cansleep`), 4 lines removed (debug-only GPIO read
+  from IRQ handler)
+- [Phase 3] git blame: buggy code from 7b59b132ad4398 (v6.15), bug
+  triggered by 20cf2aed89ac6 (v6.19-rc5)
+- [Phase 3] git tag --contains: HDMIRX in v6.15+, sleeping GPIO in
+  v6.19-rc5+
+- [Phase 3] Verified current file state still has `gpiod_get_value` (fix
+  not yet in tree)
+- [Phase 4] Found v1 (lkml.iu.edu), v2 (spinics.net), v3 (spinics.net) -
+  all identical code change
+- [Phase 4] Dmitry Osipenko acked v1 immediately; Heiko Stuebner
+  reviewed v1 next day
+- [Phase 4] Sibling fix db8061bbb9b23 (DRM rockchip) for same root
+  cause, already in v6.19
+- [Phase 5] `tx_5v_power_present()` called from 4 sites, all process
+  context; already contains usleep_range()
+- [Phase 5] `hdmirx_5v_det_irq_handler()` is hard IRQ handler
+  (devm_request_irq with IRQF_TRIGGER_FALLING|RISING)
+- [Phase 6] Bug exists in 6.19.y and 7.0.y stable trees
+- [Phase 6] Patch applies cleanly - verified file content matches pre-
+  patch state
+- [Phase 7] gpiolib.c line 3520: `WARN_ON(desc->gdev->can_sleep)`
+  confirmed as the warning source
+- [Phase 8] Trigger: every HDMI plug/unplug on Rock 5B; severity MEDIUM
+  (persistent warning + potential sleep-in-atomic)
 
 **YES**
 
- drivers/media/platform/renesas/vsp1/vsp1_histo.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-index 390ea50f1595a..30e5f5ac09371 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-@@ -170,7 +170,10 @@ static int histo_enum_mbus_code(struct v4l2_subdev *subdev,
- 	struct vsp1_histogram *histo = subdev_to_histo(subdev);
+diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+index 9cceffa4ce250..61ad20b18b8d6 100644
+--- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
++++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+@@ -232,7 +232,7 @@ static bool tx_5v_power_present(struct snps_hdmirx_dev *hdmirx_dev)
  
- 	if (code->pad == HISTO_PAD_SOURCE) {
--		code->code = MEDIA_BUS_FMT_FIXED;
-+		if (code->index > 0)
-+			return -EINVAL;
-+
-+		code->code = MEDIA_BUS_FMT_METADATA_FIXED;
- 		return 0;
- 	}
+ 	for (i = 0; i < 10; i++) {
+ 		usleep_range(1000, 1100);
+-		val = gpiod_get_value(hdmirx_dev->detect_5v_gpio);
++		val = gpiod_get_value_cansleep(hdmirx_dev->detect_5v_gpio);
+ 		if (val > 0)
+ 			cnt++;
+ 		if (cnt >= detection_threshold)
+@@ -2252,10 +2252,6 @@ static void hdmirx_delayed_work_res_change(struct work_struct *work)
+ static irqreturn_t hdmirx_5v_det_irq_handler(int irq, void *dev_id)
+ {
+ 	struct snps_hdmirx_dev *hdmirx_dev = dev_id;
+-	u32 val;
+-
+-	val = gpiod_get_value(hdmirx_dev->detect_5v_gpio);
+-	v4l2_dbg(3, debug, &hdmirx_dev->v4l2_dev, "%s: 5v:%d\n", __func__, val);
  
+ 	queue_delayed_work(system_unbound_wq,
+ 			   &hdmirx_dev->delayed_work_hotplug,
 -- 
 2.53.0
 
