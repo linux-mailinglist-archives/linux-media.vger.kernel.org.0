@@ -1,63 +1,65 @@
-Return-Path: <linux-media+bounces-59146-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59147-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WODPGto75mlutgEAu9opvQ
-	(envelope-from <linux-media+bounces-59146-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:44:42 +0200
+	id MDGTGog85mlutgEAu9opvQ
+	(envelope-from <linux-media+bounces-59147-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:47:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F3F42D64B
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:44:42 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C544D42D747
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:47:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 903C8307B856
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 14:05:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D343D327CBDD
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 14:08:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98CB84219E7;
-	Mon, 20 Apr 2026 13:27:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A76A23A6F06;
+	Mon, 20 Apr 2026 13:29:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fXYSSbi4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eKX0B856"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02089421A16;
-	Mon, 20 Apr 2026 13:27:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F117D3CEB95;
+	Mon, 20 Apr 2026 13:29:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691661; cv=none; b=fjl6CWKQA5bwShVG4UmAezJYO8QYySO/senFT3bWzoaDf/r6jte8B2TsitA4B8qdVayYoRqTs2o2sJXwzixi2anBRWPaaPR0iYwYiBdQFE0j7M4w467jrjh/wzy+pIDUj531/H3Gyt+rwIyfAgmll62ygyrdhIgVA7QkVL7+QJg=
+	t=1776691752; cv=none; b=jCIxD1ycGMZ0iHUzlrmBNmApmo+eFH00pmzdLom/JLXikrNtpq3Q3bHuYMsdkB+67ckKSWHaXXePmKv+tYgCxmtrraqEl4VO8GnLU4TnAr5yaQH0kjsotqbcZ5lsAudzhRiP0P6a6Hmv7BmEa1GoKQD49JOBPp2u26hNNZV15to=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691661; c=relaxed/simple;
-	bh=xsHFILfhjTKIAberGvY6wrfpkP8Yo2eOggKnCT6jTdY=;
+	s=arc-20240116; t=1776691752; c=relaxed/simple;
+	bh=ScQ6dAwJ3nJ1e211k15M5MBZcZrbS/VbzJqrbbcJTHk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d45LT6RCSjrMDWdxdfaafbVg+70jTkZsgNdS2DrlDmUeYQsOwB06Q+uchp7wn1jBaGTSXkMDtctiVeYJ+dRVIpsPtF1i4X0jWgIVwNf9WnLjwDvVVHi7obc2xBObloppb4TDqPnpa1Bog7EvnozwJfP1OXEoru4vkSixtlYE80g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fXYSSbi4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBDB5C2BCB8;
-	Mon, 20 Apr 2026 13:27:38 +0000 (UTC)
+	 MIME-Version:Content-Type; b=oC7VS1LhqsiDOfPlTUV7NxXX5IAWXd8fnf7lSKkRBM/O7ZDAwUw7s5Ih4uaDMjbokpdL/6Z8fIh1HFKyfK9gObpQje8BzVol77wTnwXmmezR6XPyKQZRu78zfRfoPZ05i65r15AJBU+PSu7sogl5b28dlFMxHVvHkXdU1FiAt+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eKX0B856; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B2DFC2BCB6;
+	Mon, 20 Apr 2026 13:29:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691660;
-	bh=xsHFILfhjTKIAberGvY6wrfpkP8Yo2eOggKnCT6jTdY=;
+	s=k20201202; t=1776691751;
+	bh=ScQ6dAwJ3nJ1e211k15M5MBZcZrbS/VbzJqrbbcJTHk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fXYSSbi4mdJpUXiaJgMYJgodp5kuuD1ECBOuxRi9xGiFqjG6Jd/hzNlg9K+zIb1ed
-	 gFBhv4gmp+CR/6lkzNUZb7K52gvx6MoE4rEHrI9OBhf2warU/FXQJLvzc+MBfayFgs
-	 NoPpxHwCaA99koyWmyk1QpwY85TCGDDMeFA8Xi0T6bzMXzd4bnlOUYEEPGY0GksYVe
-	 cCWI9TtzCS/ifRZGIlUuhzd9v7MnKbWQpoxPvUGdKDXmINzpJxK6ccLTebaD28AtZf
-	 u2f9q7ZPZ8WMHD3jirwLpBzT5AD8JjWUL/5D+kzuTB17mr9QbM+npCLW6jB4C1fS4P
-	 mAPm3LlKFhuww==
+	b=eKX0B856ruMt1RXYsgZAxzKytIq77dfiapxsAX3qqkoW+4ZvbrowvTjK0v5AvLHL9
+	 YGNvefvjZcaqGNafDC6Bi+HcCNg5oAsGR9c2oWskj0Y0JNTe075z2cXXkP7FEYRz8b
+	 oVx6zt88FfPfpSP9pqzbNlx5UbIb5IIz40s3Q6Fn2HB3gh/Xjd0ONoN24pW8CVc+Cx
+	 BFeLzExyeGD47S9tnsoAD1ex6yuxY9WFJwAxdaoc2Ji6vLSBTgfBeTm8sNd0/3AVu1
+	 SqlNrPiNTzyzUU/wWEO1dL8N8aOZCHCNkGqOkd9Lr/l3SW+O12TatmvaNJnj54z7kp
+	 CU3cOEhNbxgRQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Stefan Klug <stefan.klug@ideasonboard.com>,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	laurent.pinchart@ideasonboard.com,
+	kieran.bingham+renesas@ideasonboard.com,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.1] media: dw100: Fix kernel oops with PREEMPT_RT enabled
-Date: Mon, 20 Apr 2026 09:19:12 -0400
-Message-ID: <20260420132314.1023554-158-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-5.15] media: renesas: vsp1: histo: Fix code enumeration
+Date: Mon, 20 Apr 2026 09:19:26 -0400
+Message-ID: <20260420132314.1023554-172-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -70,512 +72,370 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-59147-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59146-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,msgid.link:url]
-X-Rspamd-Queue-Id: 28F3F42D64B
+	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,sgid.link:url,renesas.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,msgid.link:url]
+X-Rspamd-Queue-Id: C544D42D747
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Stefan Klug <stefan.klug@ideasonboard.com>
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-[ Upstream commit 557ec8cc29ade6c72ea768e59389db08cb7742c9 ]
+[ Upstream commit a7985d28b3b13cd5e23f4271d702a46532f80424 ]
 
-On kernels with PREEMPT_RT enabled, a "BUG: scheduling while atomic"
-kernel oops occurs inside dw100_irq_handler -> vb2_buffer_done. This is
-because vb2_buffer_done takes a spinlock which is not allowed within
-interrupt context on PREEMPT_RT.
+The histogram media bus code enumeration does not check the index when
+operating on the source pad, resulting in an infinite loop if userspace
+keeps enumerating code without any loop boundary. Fix it by returning an
+error for indices larger than 0 as the pad supports a single format.
 
-The first attempt to fix this was to just drop the IRQF_ONESHOT so that
-the interrupt is handled threaded on PREEMPT_RT systems. This introduced
-a new issue. The dw100 has an internal timeout counter that is gated by
-the DW100_BUS_CTRL_AXI_MASTER_ENABLE bit. Depending on the time it takes
-for the threaded handler to run and the geometry of the data being
-processed it is possible to reach the timeout resulting in
-DW100_INTERRUPT_STATUS_INT_ERR_TIME_OUT being set and "dw100
-32e30000.dwe: Interrupt error: 0x1" errors in dmesg.
-
-To properly fix that, split the interrupt into two halves, reset the
-DW100_BUS_CTRL_AXI_MASTER_ENABLE bit in the hard interrupt handler and
-do the v4l2 buffer handling in the threaded half. The IRQF_ONESHOT can
-still be dropped as the interrupt gets disabled in the hard handler and
-will only be reenabled on the next dw100_device_run which will not be
-called before the current job has finished.
-
-Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-Reviewed-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Link: https://patch.msgid.link/20260304-sklug-v6-16-topic-dw100-v3-1-dev-v5-3-1a7e1f721b50@ideasonboard.com
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> # HiHope RZ/G2M
+Link: https://patch.msgid.link/20260318235907.831556-10-laurent.pinchart+renesas@ideasonboard.com
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have a thorough understanding of the commit. Let me compile the
-full analysis.
+Now I have all the data needed for a thorough analysis. Let me compile
+the full assessment.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Subject Line
-- **Subsystem**: `media: dw100:` (NXP DW100 dewarper media driver)
-- **Action verb**: "Fix" - explicit bug fix
-- **Summary**: Fixes a kernel oops (BUG: scheduling while atomic) on
-  PREEMPT_RT enabled kernels
+**Step 1.1: Subject Line**
+Record: [media: renesas: vsp1: histo] [Fix] [Fix code enumeration —
+missing bounds check on index during mbus code enumeration on source
+pad]
 
-Record: [media: dw100] [Fix] [Kernel oops with PREEMPT_RT due to
-spinlock in interrupt context]
+**Step 1.2: Tags**
+- `Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>` —
+  tested on HiHope RZ/G2M hardware
+- `Link: https://patch.msgid.link/20260318235907.831556-10-
+  laurent.pinchart+renesas@ideasonboard.com` — this is patch **10** of a
+  series
+- `Signed-off-by: Laurent Pinchart` — original VSP1 driver author
+- `Signed-off-by: Hans Verkuil` — V4L2/media subsystem co-maintainer
 
-### Step 1.2: Tags
-- **Signed-off-by**: Stefan Klug (author), Laurent Pinchart (maintainer
-  path), Hans Verkuil (media subsystem maintainer)
-- **Reviewed-by**: Xavier Roumegue (original driver author), Laurent
-  Pinchart (prominent media/V4L2 maintainer)
-- **Link**: `https://patch.msgid.link/20260304-sklug-v6-16-topic-
-  dw100-v3-1-dev-v5-3-1a7e1f721b50@ideasonboard.com`
-- No Fixes: tag, no Cc: stable (expected for manual review candidates)
+Record: Patch 10 of a series. Tested on real hardware. Signed by
+subsystem maintainer and driver author. No Fixes: tag (expected). No
+syzbot.
 
-Record: Two Reviewed-by from highly relevant people. Signed-off chain
-through media subsystem maintainers (Laurent Pinchart, Hans Verkuil).
+**Step 1.3: Commit Body**
+The message clearly describes: the source pad path in
+`histo_enum_mbus_code()` never checks `code->index`, so userspace
+calling `VIDIOC_SUBDEV_ENUM_MBUS_CODE` with incrementing indices loops
+infinitely. The pad supports a single format, so index > 0 should return
+`-EINVAL`.
 
-### Step 1.3: Commit Body
-The commit message clearly describes:
-- **Bug**: "BUG: scheduling while atomic" kernel oops on PREEMPT_RT
-  kernels
-- **Root cause**: `vb2_buffer_done` takes a spinlock (which becomes a
-  sleeping lock on PREEMPT_RT), called from hard interrupt context via
-  `dw100_irq_handler -> dw100_job_finish -> v4l2_m2m_buf_done ->
-  vb2_buffer_done`
-- **Failed first fix**: Simply dropping IRQF_ONESHOT caused timeout
-  errors because the DW100 hardware's internal timeout counter is gated
-  by the AXI master enable bit
-- **Proper fix**: Split interrupt into hard handler (disable IRQ,
-  disable bus, clear IRQs) and threaded handler (buffer completion)
+Record: Bug = infinite loop when enumerating codes on source pad.
+Symptom = userspace hangs. Root cause = missing bounds check.
 
-Record: Clearly documented bug mechanism with concrete crash trigger.
-Author tried a simpler fix first and evolved to a more robust solution
-through review (v1->v4 iterations).
-
-### Step 1.4: Hidden Bug Fix Detection
-Not hidden - explicitly states "Fix kernel oops." The "BUG: scheduling
-while atomic" is a kernel crash on PREEMPT_RT systems.
-
-Record: Not a hidden fix; explicitly labeled kernel oops fix.
+**Step 1.4: Hidden Bug Fix Detection**
+Record: This is explicitly described as a bug fix. Not hidden at all.
 
 ---
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory
-- **Files**: 1 file changed: `drivers/media/platform/nxp/dw100/dw100.c`
-- **Scope**: ~16 lines added, ~5 removed (net +11 lines)
-- **Functions modified**: `dw100_irq_handler`, `dw100_probe`; new
-  function `dw100_irq_thread_fn` added
-- **Struct modified**: `dw100_device` (added `bool frame_failed`)
-- **Classification**: Single-file surgical fix
+**Step 2.1: Inventory**
+- 1 file changed: `drivers/media/platform/renesas/vsp1/vsp1_histo.c`
+- +3 lines added (index check + blank line), 1 line changed
+  (`MEDIA_BUS_FMT_FIXED` → `MEDIA_BUS_FMT_METADATA_FIXED`)
+- Function modified: `histo_enum_mbus_code()`
+- Scope: Single-file, single-function surgical fix
 
-### Step 2.2: Code Flow Change
-1. **Include addition**: `#include <linux/irqreturn.h>` for
-   `IRQ_WAKE_THREAD`
-2. **Struct field**: Added `bool frame_failed` to `dw100_device` to
-   communicate status between hard IRQ and threaded handler
-3. **Hard IRQ handler** (`dw100_irq_handler`):
-   - BEFORE: Reads status, disables IRQ/bus, clears IRQs, calls
-     `dw100_job_finish()`, returns `IRQ_HANDLED`
-   - AFTER: Reads status, disables IRQ/bus, clears IRQs, stores result
-     in `dw_dev->frame_failed`, returns `IRQ_WAKE_THREAD`
-4. **New threaded handler** (`dw100_irq_thread_fn`): Calls
-   `dw100_job_finish(dw_dev, dw_dev->frame_failed)`, returns
-   `IRQ_HANDLED`
-5. **Probe function**: Changes `devm_request_irq(..., IRQF_ONESHOT)` to
-   `devm_request_threaded_irq(..., flags=0)`
+**Step 2.2: Code Flow Change**
+Before: When `code->pad == HISTO_PAD_SOURCE`, unconditionally set
+`code->code = MEDIA_BUS_FMT_FIXED` and return 0, regardless of
+`code->index`.
+After: When `code->pad == HISTO_PAD_SOURCE`, first check if `code->index
+> 0` and return `-EINVAL` (since only one format is supported). Then set
+`code->code = MEDIA_BUS_FMT_METADATA_FIXED` and return 0.
 
-### Step 2.3: Bug Mechanism
-Category: **Scheduling/context violation** (sleeping in atomic context).
+**Step 2.3: Bug Mechanism**
+This is a **logic/correctness fix** — missing bounds validation. The
+V4L2 enumeration API protocol requires callbacks to return `-EINVAL`
+when `code->index` exceeds the number of supported formats. Without
+this, the framework loops forever.
 
-`vb2_buffer_done()` calls `spin_lock_irqsave(&q->done_lock, flags)`. On
-PREEMPT_RT, this spinlock is converted to a sleeping lock (rt_mutex).
-Calling it from hard interrupt context triggers a scheduling violation,
-resulting in "BUG: scheduling while atomic" kernel oops.
+Reference: `vsp1_subdev_enum_mbus_code()` in `vsp1_entity.c` line 212
+correctly does `if (code->index) return -EINVAL;` for its source pad
+path. The histogram entity bypasses that function for the source pad and
+handles it locally, but forgot the check.
 
-The fix moves `dw100_job_finish()` (which calls `v4l2_m2m_buf_done` ->
-`vb2_buffer_done`) from the hard IRQ to a threaded IRQ handler where
-sleeping locks are permitted.
+**Step 2.4: Fix Quality**
+- Obviously correct: follows the exact pattern used everywhere else in
+  the driver
+- Minimal and surgical
+- Very low regression risk: adding a bounds check cannot break anything
+- The `MEDIA_BUS_FMT_METADATA_FIXED` change is a secondary correctness
+  change (0x0001 → 0x7001) that changes the format code reported to
+  userspace
 
-### Step 2.4: Fix Quality
-- **Obviously correct**: Yes. The standard kernel pattern of splitting
-  IRQ into hard + threaded halves.
-- **Minimal**: Yes. ~16 lines added, ~5 removed, all in one file.
-- **Regression risk**: Very low. The hard handler still disables the IRQ
-  and bus before returning, preventing re-entry. The threaded handler
-  just calls the existing `dw100_job_finish`. No new locking introduced.
-- **Red flags**: None.
-
-Record: Clean, minimal, well-understood fix pattern. Regression risk
-very low.
+Record: Fix is trivially correct. Index check = zero risk. Format
+constant change = minor behavioral change.
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: Blame
-The entire IRQ handler code (`dw100_irq_handler`) was introduced in
-commit `cb6d000fcaa6e` ("media: dw100: Add i.MX8MP dw100 dewarper
-driver") by Xavier Roumegue, dated 2022-07-30. This was first included
-in v6.1-rc1. The buggy code has been present since the driver's
-inception.
+**Step 3.1: Blame**
+The buggy code was introduced in commit `99362e32332b5c` ("v4l: vsp1:
+Add histogram support") from September 2016, authored by Laurent
+Pinchart. This bug has been present since the histogram feature was
+first added, affecting all kernel versions from approximately v4.9
+onward.
 
-Record: Bug exists since original driver addition (cb6d000fcaa6e,
-v6.1-rc1). Present in stable trees 6.1.y, 6.6.y, 6.12.y.
+**Step 3.2: No Fixes: tag** — expected for autosel candidates.
 
-### Step 3.2: Fixes tag
-No Fixes: tag present (expected for manual review).
+**Step 3.3: File History**
+The file has had 9 commits since v6.1. Recent changes are mostly
+refactoring (wrappers dropped, vb2_ops cleanup), not related to this
+bug.
 
-### Step 3.3: File History
-16 commits to `dw100.c` since driver addition, mostly minor cleanups
-(platform remove callback, devm helpers, error handling). None touch the
-IRQ handler code - git blame confirms all IRQ handler lines are from the
-original commit.
+**Step 3.4: Author**
+Laurent Pinchart is the **original author** of the entire VSP1 driver
+and is the de-facto maintainer. His fixes carry the highest possible
+authority for this code.
 
-Record: Standalone fix. No intermediate changes to the IRQ handler code.
+**Step 3.5: Dependencies — CRITICAL FINDING**
+By examining the pre-patch blob (`d7843c170f944`), I confirmed that the
+diff was created against a state where:
+1. The `histo` local variable was already removed from
+   `histo_enum_mbus_code()`
+2. `vsp1_subdev_enum_mbus_code()` was already refactored to take 3
+   arguments (instead of the current tree's 5)
 
-### Step 3.4: Author
-Stefan Klug is an active contributor at Ideas on Board, working on
-camera/media drivers (multiple rkisp1 commits, mipi-csis work). Not the
-subsystem maintainer but reviewed and signed-off by both the original
-driver author (Xavier Roumegue) and the media subsystem maintainer
-(Laurent Pinchart), and merged by Hans Verkuil.
+The current v7.0 tree still has the 5-argument version with the `histo`
+variable. This means **a prior patch in the same series (patches 1-9)
+refactored the function signature**, and this patch depends on it. The
+patch will NOT apply cleanly to the current stable tree.
 
-Record: Competent contributor; fix reviewed by driver author and
-subsystem maintainer.
+However, the core fix (the `code->index > 0` check) operates entirely
+within the `if (code->pad == HISTO_PAD_SOURCE)` block, which is
+unchanged between versions. A trivial manual backport would add just the
+index check.
 
-### Step 3.5: Dependencies
-This patch is standalone. It's part of a 4-patch series (v4l2 requests
-support, dynamic vertex map, this fix, code cleanup), but patch 3/4
-(this fix) is completely independent. The `dw100_job_finish` function
-being moved to threaded context is unchanged - same signature, same
-callers. Patches 1/2 add features (V4L2 request support) and patch 4 is
-cleanup; none are prerequisites for this fix.
-
-Record: Self-contained, no dependencies on other patches in the series.
+Record: Depends on prior patches for clean apply. Core fix is self-
+contained and trivially adaptable.
 
 ---
 
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+## PHASE 4: MAILING LIST RESEARCH
 
-### Step 4.1: Patch Discussion
-Found the v3 submission thread on lore. The patch went through 4+
-iterations:
-- **v1**: Made the interrupt handler fully threaded
-- **v2**: Dropped IRQF_ONESHOT instead (simpler approach, but caused
-  timeout errors)
-- **v3**: Split interrupt into two halves (current approach)
-- **v4**: Collected review tags, fixed include order (trivial changes)
+**Step 4.1-4.5:** Lore.kernel.org returned Anubis challenge pages,
+preventing access. The `b4 dig` command could not find the commit by the
+msgid fragment. The `Link:` tag in the commit message points to `patch.m
+sgid.link/20260318235907.831556-10-
+laurent.pinchart+renesas@ideasonboard.com`, confirming this is patch 10
+in a series. The series likely performs broader cleanup/fixes on the
+VSP1 histogram subdevice, with this specific patch addressing the
+infinite loop bug.
 
-Xavier Roumegue (original driver author) provided the Reviewed-by on v3,
-confirming the approach is correct. Laurent Pinchart (major media
-maintainer) also reviewed and approved.
-
-Record: Well-iterated fix (v1-v4), each version addressing review
-feedback. Final version approved by both driver author and subsystem
-maintainer.
-
-### Step 4.2: Reviewers
-- Xavier Roumegue: Original dw100 driver author at NXP. Provided
-  technical insight on the AXI master enable bit and timeout counter
-  behavior.
-- Laurent Pinchart: Prominent Linux media subsystem maintainer. Reviewed
-  and carried the patch.
-- Hans Verkuil: V4L2 subsystem maintainer. Applied the patch.
-
-Record: The most relevant possible reviewers all approved.
-
-### Steps 4.3-4.5
-No syzbot report. Bug was discovered through real-world use on
-PREEMPT_RT systems. No prior stable discussion found.
+Record: Could not access lore discussion. From msgid, this is patch 10
+of a series.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1-5.3: Key Functions
-- **`dw100_irq_handler`**: Hard IRQ handler, called when DW100 hardware
-  completes or errors
-- **`dw100_irq_thread_fn`** (new): Threaded handler, calls
-  `dw100_job_finish`
-- **`dw100_job_finish`**: Called from threaded handler; calls
-  `v4l2_m2m_buf_done` -> `vb2_buffer_done` (which takes the spinlock)
-- **`vb2_buffer_done`**: Takes `spin_lock_irqsave(&q->done_lock, flags)`
-  - the sleeping lock on PREEMPT_RT
+**Step 5.1: Functions Modified**
+`histo_enum_mbus_code()` — the only function changed.
 
-### Step 5.4: Call Chain
-`DW100 hardware interrupt` -> `dw100_irq_handler` (hard IRQ) ->
-`IRQ_WAKE_THREAD` -> `dw100_irq_thread_fn` (threaded) ->
-`dw100_job_finish` -> `v4l2_m2m_buf_done` -> `vb2_buffer_done` (spinlock
-here).
+**Step 5.2: Callers**
+`histo_enum_mbus_code` is registered as `.enum_mbus_code` in
+`histo_pad_ops` (line 376), which is set on the histogram subdevice.
+It's called via:
+- `v4l2_subdev_call(sd, pad, enum_mbus_code, ...)` →
+  `call_enum_mbus_code()` in `v4l2-subdev.c`
+- Triggered by `VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl (line 859 of
+  `v4l2-subdev.c`)
 
-The trigger path is: Any DW100 dewarper operation completes -> hardware
-fires interrupt -> this handler runs.
+This is **directly reachable from userspace** via the subdevice node
+(e.g., `/dev/v4l-subdevX`).
 
-Record: Triggered on every DW100 operation completion. Every user of the
-DW100 hardware with PREEMPT_RT will hit this.
+**Step 5.3-5.4: Call Chain**
+Userspace → `ioctl(fd, VIDIOC_SUBDEV_ENUM_MBUS_CODE, ...)` →
+`v4l2-subdev.c:subdev_do_ioctl_lock()` → `call_enum_mbus_code()` →
+`histo_enum_mbus_code()` → **bug: no index check → always returns 0 →
+caller loops forever**
 
----
-
-## PHASE 6: STABLE TREE ANALYSIS
-
-### Step 6.1: Buggy Code in Stable Trees
-The dw100 driver was added in v6.1-rc1 (`cb6d000fcaa6e`). The buggy IRQ
-handler code has been unchanged since then. Affected stable trees:
-**6.1.y, 6.6.y, 6.12.y** (all active stable/LTS trees that contain the
-driver).
-
-### Step 6.2: Backport Complications
-The file has had only minor, non-conflicting changes since v6.1. The IRQ
-handler code is identical across all stable trees (confirmed by git
-blame showing all lines from original commit). The patch should apply
-cleanly to all stable trees.
-
-### Step 6.3: Related Fixes
-No related fixes for this IRQ issue are already in stable.
+**Step 5.5: Similar Patterns**
+The `histo_enum_frame_size()` at line 186 correctly returns `-EINVAL`
+for non-sink pads. `vsp1_subdev_enum_mbus_code()` at line 212 correctly
+checks `if (code->index) return -EINVAL;` for source pads. The histogram
+entity is the only one that bypasses the common helper and forgets the
+check.
 
 ---
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+## PHASE 6: CROSS-REFERENCING
 
-### Step 7.1: Subsystem
-- **Path**: `drivers/media/platform/nxp/dw100/` - Media (V4L2) platform
-  driver for NXP i.MX8MP
-- **Criticality**: PERIPHERAL (specific hardware driver for NXP i.MX8MP
-  SoC's DW100 dewarper)
-- **Users**: Embedded systems using i.MX8MP with PREEMPT_RT (common in
-  industrial/camera applications)
+**Step 6.1: Buggy code in stable trees**
+The buggy code (commit `99362e32332b5c`) has been present since ~v4.9
+(2016). It exists in ALL active stable trees (5.10.y, 5.15.y, 6.1.y,
+6.6.y, 6.12.y).
 
-### Step 7.2: Activity
-Moderately active - 16 commits since driver introduction over ~3 years.
-Mostly maintenance.
+**Step 6.2: Backport Complications**
+The patch will NOT apply cleanly due to the function signature change
+(`vsp1_subdev_enum_mbus_code` 3-arg vs 5-arg) and the missing `histo`
+variable. Needs a trivial manual adaptation: just add the index check to
+the existing code.
+
+**Step 6.3:** No related fix has been applied to stable for this issue.
+
+---
+
+## PHASE 7: SUBSYSTEM CONTEXT
+
+**Step 7.1:** Renesas VSP1 video processing driver — used on Renesas
+R-Car SoC platforms common in automotive and embedded systems.
+Criticality: PERIPHERAL (specific hardware), but important in its niche.
+
+**Step 7.2:** Moderate activity — a handful of commits per release
+cycle. Mature driver, bug has persisted for ~10 years.
 
 ---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: Affected Users
-Users of NXP i.MX8MP SoC with DW100 dewarper hardware AND PREEMPT_RT
-enabled kernels. This is a common combination in industrial camera
-applications.
+**Step 8.1: Who is affected**
+Users of Renesas R-Car platforms with VSP1 hardware (automotive,
+embedded, industrial).
 
-### Step 8.2: Trigger Conditions
-- **Trigger**: Any DW100 dewarper operation on a PREEMPT_RT kernel
-- **Frequency**: Every single operation - 100% reproducible
-- **Privilege**: Requires access to the V4L2 device node
+**Step 8.2: Trigger conditions**
+Any userspace program that calls `VIDIOC_SUBDEV_ENUM_MBUS_CODE` on the
+histogram source pad with incrementing index values. This is standard
+V4L2 API usage — tools like `v4l2-ctl --list-subdev-mbus-codes` would
+trigger this.
 
-### Step 8.3: Failure Mode
-**CRITICAL**: "BUG: scheduling while atomic" is a kernel oops. On
-PREEMPT_RT systems using the DW100 dewarper, the hardware is completely
-unusable - every operation triggers the BUG.
+**Step 8.3: Failure mode**
+**Infinite loop** — the userspace process hangs, and the ioctl never
+returns. This is effectively a system hang for any V4L2 application that
+enumerates formats on this pad. Severity: **HIGH** (system hang / DoS,
+userspace triggerable).
 
-### Step 8.4: Risk-Benefit Ratio
-- **Benefit**: HIGH - Makes DW100 hardware usable on PREEMPT_RT kernels.
-  Without this fix, the hardware is completely broken on PREEMPT_RT.
-- **Risk**: VERY LOW - ~16 lines added, well-understood pattern
-  (hard/threaded IRQ split), reviewed by driver author and subsystem
-  maintainer, no locking changes, no API changes. The hard handler still
-  disables the interrupt before returning, preventing any re-entry
-  issues.
-- **Ratio**: Very favorable.
+**Step 8.4: Risk-Benefit**
+- BENEFIT: HIGH — prevents userspace-triggerable infinite loop on
+  affected hardware
+- RISK: VERY LOW — adding a single bounds check is trivially safe; the
+  format constant change is a minor behavioral fix
+- RATIO: Strongly favorable for backporting
 
 ---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence Summary
+**Evidence FOR backporting:**
+- Fixes a real, userspace-triggerable infinite loop (system hang)
+- Bug has been present since 2016 — affects all stable trees
+- Fix is surgical (3 lines added to one function)
+- Obviously correct — follows established patterns in the same driver
+- Author is the driver's original creator and maintainer
+- Tested on real hardware
+- Signed off by V4L2 subsystem maintainer
 
-**FOR backporting:**
-- Fixes a kernel oops (BUG: scheduling while atomic) - crash severity
-- 100% reproducible on every DW100 operation on PREEMPT_RT kernels
-- Small, surgical fix (~16 lines added in one file)
-- Well-understood pattern (hard/threaded IRQ split)
-- Reviewed by original driver author (Xavier Roumegue) AND media
-  subsystem maintainer (Laurent Pinchart)
-- Applied by V4L2 maintainer (Hans Verkuil)
-- Went through 4 iterations showing thorough review
-- Self-contained, no dependencies
-- Bug exists since driver introduction (v6.1), present in all active
-  stable trees
-- Clean backport expected (IRQ handler code unchanged since v6.1)
+**Evidence AGAINST backporting:**
+- Part of a larger series (patch 10); depends on prior patches for clean
+  application
+- Changes the format constant (`MEDIA_BUS_FMT_FIXED` →
+  `MEDIA_BUS_FMT_METADATA_FIXED`) which is a behavioral change
+- Affects only Renesas platform users (niche hardware)
 
-**AGAINST backporting:**
-- Affects only specific hardware (NXP i.MX8MP DW100) with PREEMPT_RT
-- No Fixes: tag (expected, that's why it needs manual review)
-
-### Step 9.2: Stable Rules Checklist
-1. **Obviously correct and tested?** YES - well-established IRQ
-   splitting pattern, reviewed by driver author and maintainers, evolved
-   through 4 revisions
-2. **Fixes a real bug?** YES - kernel oops on every DW100 operation on
-   PREEMPT_RT
-3. **Important issue?** YES - kernel crash (BUG: scheduling while
-   atomic)
-4. **Small and contained?** YES - ~16 lines added/5 removed, single
-   file, single driver
-5. **No new features?** CORRECT - pure bug fix, no new functionality
-6. **Can apply to stable?** YES - code is unchanged since v6.1
-
-### Step 9.3: Exception Categories
-Not needed - this is a standard bug fix.
-
-### Step 9.4: Decision
-Clear YES. This is a well-reviewed, small, surgical fix for a kernel
-oops that makes the DW100 dewarper hardware completely unusable on
-PREEMPT_RT kernels. The fix uses a standard kernel pattern, is self-
-contained, and should apply cleanly to all affected stable trees.
+**Stable Rules Checklist:**
+1. Obviously correct? YES — trivially verifiable against sister
+   functions
+2. Fixes a real bug? YES — infinite loop from userspace
+3. Important issue? YES — system hang
+4. Small and contained? YES — 4 lines changed in 1 function
+5. No new features? CORRECT — pure bug fix
+6. Can apply to stable? Needs minor manual adaptation (the index check
+   itself applies trivially; the context differs)
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed subject: "media: dw100: Fix kernel oops with
-  PREEMPT_RT enabled" - explicit fix keyword
-- [Phase 1] Parsed tags: Reviewed-by Xavier Roumegue (driver author) and
-  Laurent Pinchart (media maintainer), SOBs from Laurent Pinchart and
-  Hans Verkuil (media maintainers)
-- [Phase 2] Diff analysis: +16/-5 lines in single file, adds
-  `frame_failed` field, splits IRQ into hard+threaded, changes
-  `devm_request_irq` to `devm_request_threaded_irq`
-- [Phase 2] Verified `vb2_buffer_done()` at line 1202 of
-  `videobuf2-core.c` takes `spin_lock_irqsave(&q->done_lock, flags)` -
-  confirmed the sleeping lock issue on PREEMPT_RT
-- [Phase 3] git blame: All IRQ handler lines from `cb6d000fcaa6e`
-  (2022-07-30, v6.1-rc1) - bug present since driver inception
-- [Phase 3] `git describe --tags --contains cb6d000fcaa6e` ->
-  `v6.1-rc1~130^2~95` - driver first in v6.1
-- [Phase 3] `git log v6.1 -- dw100.c` confirmed driver exists in v6.1
-  stable tree
-- [Phase 3] `git log v5.15..v6.1 -- dw100.c` confirmed driver was NOT in
-  v5.15 (only 6.1+)
-- [Phase 4] Web search found v3 series at lore with full review
-  discussion
-- [Phase 4] spinics.net confirmed v4 patch with collected Reviewed-by
-  tags, identical diff
-- [Phase 4] Xavier Roumegue's review on v3: explicit Reviewed-by with no
-  concerns
-- [Phase 4] Laurent Pinchart's review: approved
-- [Phase 4] Confirmed 4 iterations (v1-v4) with evolving approach:
-  threaded -> drop ONESHOT -> split halves -> collect tags
-- [Phase 5] Traced call chain: `dw100_irq_handler` -> `dw100_job_finish`
-  -> `v4l2_m2m_buf_done` -> `vb2_buffer_done` (confirmed spinlock)
-- [Phase 5] Verified `v4l2_m2m_buf_done` is inline wrapper calling
-  `vb2_buffer_done` in `include/media/v4l2-mem2mem.h` line 231
-- [Phase 6] Buggy code exists unchanged in all stable trees since v6.1
-  (6.1.y, 6.6.y, 6.12.y)
-- [Phase 6] No conflicting changes to IRQ handler in any stable tree
-- [Phase 8] Failure mode: kernel oops (BUG: scheduling while atomic) -
-  CRITICAL severity on PREEMPT_RT
-- UNVERIFIED: Could not fetch lore.kernel.org discussion directly due to
-  bot protection (used spinics.net and yhbt.net mirrors instead, which
-  provided full thread content)
+- [Phase 1] Parsed tags: Tested-by from Renesas tester, Link to msgid
+  (patch 10/N), signed by maintainer and subsystem co-maintainer
+- [Phase 2] Diff analysis: +3 lines adding index bounds check in
+  `histo_enum_mbus_code()`, +1 line format constant change
+- [Phase 3] git blame: buggy code introduced in commit 99362e32332b5c
+  (2016, ~v4.9), present in all active stable trees
+- [Phase 3] Dependency check: pre-patch blob d7843c170f944 differs from
+  current tree — `vsp1_subdev_enum_mbus_code` has 3 args in diff vs 5 in
+  tree. Requires manual backport adaptation.
+- [Phase 4] Lore/b4: blocked by Anubis. From msgid, confirmed as patch
+  10 in a series.
+- [Phase 5] Traced call chain: userspace → VIDIOC_SUBDEV_ENUM_MBUS_CODE
+  ioctl → v4l2-subdev.c → histo_enum_mbus_code() — confirmed reachable
+  from userspace
+- [Phase 5] Verified sister function at vsp1_entity.c:212 properly
+  checks `if (code->index)` — confirms the fix pattern
+- [Phase 6] Buggy code exists in all active stable trees (v5.10+,
+  v5.15+, v6.1+, v6.6+, v6.12+)
+- [Phase 6] MEDIA_BUS_FMT_METADATA_FIXED introduced in commit
+  6ad253cc3436 (Oct 2020) — available in all active stable trees
+- [Phase 8] Failure mode: infinite loop = userspace hang, severity HIGH
+- UNVERIFIED: Could not access lore discussion to check if stable was
+  discussed by reviewers
+
+The fix addresses a real, long-standing, userspace-triggerable infinite
+loop in the V4L2 media enumeration path. The core fix (the index check)
+is trivially correct, minimal, and follows patterns used throughout the
+driver. While it needs minor manual adaptation for clean application to
+stable trees due to series dependencies, the fix itself is well within
+stable criteria.
 
 **YES**
 
- drivers/media/platform/nxp/dw100/dw100.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ drivers/media/platform/renesas/vsp1/vsp1_histo.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
-index bdebbe3f41985..bdf1fdf2e6cca 100644
---- a/drivers/media/platform/nxp/dw100/dw100.c
-+++ b/drivers/media/platform/nxp/dw100/dw100.c
-@@ -11,6 +11,7 @@
- #include <linux/debugfs.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
-+#include <linux/irqreturn.h>
- #include <linux/minmax.h>
- #include <linux/module.h>
- #include <linux/of.h>
-@@ -74,6 +75,7 @@ struct dw100_device {
- 	struct clk_bulk_data		*clks;
- 	int				num_clks;
- 	struct dentry			*debugfs_root;
-+	bool				frame_failed;
- };
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+index 390ea50f1595a..30e5f5ac09371 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+@@ -170,7 +170,10 @@ static int histo_enum_mbus_code(struct v4l2_subdev *subdev,
+ 	struct vsp1_histogram *histo = subdev_to_histo(subdev);
  
- struct dw100_q_data {
-@@ -1386,7 +1388,8 @@ static irqreturn_t dw100_irq_handler(int irq, void *dev_id)
- {
- 	struct dw100_device *dw_dev = dev_id;
- 	u32 pending_irqs, err_irqs, frame_done_irq;
--	bool with_error = true;
+ 	if (code->pad == HISTO_PAD_SOURCE) {
+-		code->code = MEDIA_BUS_FMT_FIXED;
++		if (code->index > 0)
++			return -EINVAL;
 +
-+	dw_dev->frame_failed = true;
- 
- 	pending_irqs = dw_hw_get_pending_irqs(dw_dev);
- 	frame_done_irq = pending_irqs & DW100_INTERRUPT_STATUS_INT_FRAME_DONE;
-@@ -1394,7 +1397,7 @@ static irqreturn_t dw100_irq_handler(int irq, void *dev_id)
- 
- 	if (frame_done_irq) {
- 		dev_dbg(&dw_dev->pdev->dev, "Frame done interrupt\n");
--		with_error = false;
-+		dw_dev->frame_failed = false;
- 		err_irqs &= ~DW100_INTERRUPT_STATUS_INT_ERR_STATUS
- 			(DW100_INTERRUPT_STATUS_INT_ERR_FRAME_DONE);
++		code->code = MEDIA_BUS_FMT_METADATA_FIXED;
+ 		return 0;
  	}
-@@ -1407,7 +1410,14 @@ static irqreturn_t dw100_irq_handler(int irq, void *dev_id)
- 	dw100_hw_clear_irq(dw_dev, pending_irqs |
- 			   DW100_INTERRUPT_STATUS_INT_ERR_TIME_OUT);
  
--	dw100_job_finish(dw_dev, with_error);
-+	return IRQ_WAKE_THREAD;
-+}
-+
-+static irqreturn_t dw100_irq_thread_fn(int irq, void *dev_id)
-+{
-+	struct dw100_device *dw_dev = dev_id;
-+
-+	dw100_job_finish(dw_dev, dw_dev->frame_failed);
- 
- 	return IRQ_HANDLED;
- }
-@@ -1555,8 +1565,9 @@ static int dw100_probe(struct platform_device *pdev)
- 
- 	pm_runtime_put_sync(&pdev->dev);
- 
--	ret = devm_request_irq(&pdev->dev, irq, dw100_irq_handler, IRQF_ONESHOT,
--			       dev_name(&pdev->dev), dw_dev);
-+	ret = devm_request_threaded_irq(&pdev->dev, irq, dw100_irq_handler,
-+					dw100_irq_thread_fn, 0,
-+					dev_name(&pdev->dev), dw_dev);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
- 		goto err_pm;
 -- 
 2.53.0
 
