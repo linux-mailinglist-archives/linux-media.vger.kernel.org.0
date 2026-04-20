@@ -1,61 +1,63 @@
-Return-Path: <linux-media+bounces-59155-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59156-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +NqhA1xG5mk+uAEAu9opvQ
-	(envelope-from <linux-media+bounces-59155-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 17:29:32 +0200
+	id kPbRKZtG5mk+uAEAu9opvQ
+	(envelope-from <linux-media+bounces-59156-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 17:30:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C06142E387
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 17:29:31 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC1142E3DB
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 17:30:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 43D3E31A648D
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 14:32:51 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2529D342ED31
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 14:33:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E21E03ACA6B;
-	Mon, 20 Apr 2026 13:32:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EB144BCAA3;
+	Mon, 20 Apr 2026 13:32:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AZyURW8p"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uEkm3Uxd"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C994ADD94;
-	Mon, 20 Apr 2026 13:32:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4C34BCAD6;
+	Mon, 20 Apr 2026 13:32:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691970; cv=none; b=nVDrA9JWmJ1kgfkC/IEyoU767l7bDow/qx2ZcoQ5tGmKO0QjReWt07364a5vaPijF42aW4tgiMgy4pAA+42s9sRzbXQe62RCBbGcLnm6k6+jmN3auZZ3gkqjnd/uUsPfB9GSMJvHDIM3VRs1hbtCaxamUosfffj8jCTo/RhCVuo=
+	t=1776691976; cv=none; b=AVD+YhrwoXVPlbKBDScz8BhsvX5aJxRkRY2Vqx5wMdDLqlKwCWpJgwPv8isdXxm9u2SMc+qCERv7WFt9JJXgTZdRE3TmQkaJoNrV+GB4y0xk3XQ9nkni/lxznSfkGvOeLK5T/RNY78dgTLjWXdsqKaHM0b3Hz+O7taBDFeuMHjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691970; c=relaxed/simple;
-	bh=r1ETDzZT8bR4ZGDRKLz16LoiMGU7USaV67F5PeK7gOw=;
+	s=arc-20240116; t=1776691976; c=relaxed/simple;
+	bh=IvUJlCETznTSwrL5b6NPiJOnk6Dh5DSfa4g9BCnzE1A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UeuVIwYBZupJpeDUSR5SGXoCeB5oIimzilmWeQ1dke94D64DpmUYee8WBE5DCxF6E7hosmDDCqp0+BTu3A0xL4kjF1vE1xk9Ykme5kfwq7TjsMT81LnRn4n6AbSeHMnKZpIZ9oEsgGTOJ90p1HpIhcjl+8fnnuYiZbB6M7wugsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AZyURW8p; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA7E2C2BCB8;
-	Mon, 20 Apr 2026 13:32:48 +0000 (UTC)
+	 MIME-Version:Content-Type; b=orq4RPL5d/2+NIVqj25fi1JJy/MzlvpM6SLPsBw2Kmg4GAMHosomcpj3+yd1xvEpVu9p+Wfnn6sm8H0l5GjICb0UKOSD+GFapFw3rCJkr51c4x6Dh0XW40VKeQ4j3bar5MjVnl8xcMEWj6C5tjQOutuUNZ1RQhrypIhrz4xBMGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uEkm3Uxd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23A7CC2BCB6;
+	Mon, 20 Apr 2026 13:32:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691970;
-	bh=r1ETDzZT8bR4ZGDRKLz16LoiMGU7USaV67F5PeK7gOw=;
+	s=k20201202; t=1776691976;
+	bh=IvUJlCETznTSwrL5b6NPiJOnk6Dh5DSfa4g9BCnzE1A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AZyURW8p60547rdcSgk1T4aSUnS6h01POJJZKEZT5wfEDl51CAr5wtyXdnBXQbyCF
-	 ApqrvNWTc56G9swXvUlSKGrPrdAd14QiNeIP4iI5Ye2EYp8HF9IBx5fqWaKRmXcCVR
-	 +ylUdQjhtmzrAuQ2FY4hxarrffCoMozux414yt8/7MZOXlwb9Pyt8j5RT/0i/9taOh
-	 B/WNUEaebr3ot1VzPIyNHmdOxajsJLlEBq3V0xWGSdh0dF0r1XeeSfRaZmLGZ69/Qg
-	 GYO3cpuri9Rowr9fUrO2UUFANqSSMvXFDWcBGuV8Cg9kGtkYhrFr874UGuv8X98vX/
-	 DIxJRwj9O8alQ==
+	b=uEkm3UxdHqPoRFLbSItgtqzKDxAQlmzreXCahsO2WcYyf9zpWD/xdlnMA/T8oI8t6
+	 QMhD1BvCn7zX1/Fk+8zO/CeiQyo4zvBTKI31eX5N3uLap2Z88kZKX4nY/48tztxiLR
+	 EN3DtuvtN5uFCcUT0Ii4J83gH8FH+ULpCBeLUHLPgkzWbnRCWDRd0jbODdLxhvmU61
+	 glKU7pGTTrfxq1iMyY5AOuiyswOgyyY2tITINUyajpvsWEZ8qWn88e6TvGrzjfIBcQ
+	 LT5GC/9OVtClpwZ2GwcCIpM5TArjvaaCbSpfGGPZ5gZfe7NNpmRbrqNTw58vdvwml1
+	 zCh+TigEdzEkg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Bradford Love <brad@nextdimension.cc>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
+Cc: Chen Ni <nichen@iscas.ac.cn>,
+	=?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.10] media: cx25840: Fix NTSC-J, PAL-N, and SECAM standards
-Date: Mon, 20 Apr 2026 09:21:31 -0400
-Message-ID: <20260420132314.1023554-297-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.1] media: i2c: ar0521: Check return value of devm_gpiod_get_optional() in ar0521_probe()
+Date: Mon, 20 Apr 2026 09:21:35 -0400
+Message-ID: <20260420132314.1023554-301-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -65,482 +67,441 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-59156-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59155-lists,linux-media=lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.996];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MIME_TRACE(0.00)[0:+];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,huawei];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 7C06142E387
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 3AC1142E3DB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Bradford Love <brad@nextdimension.cc>
+From: Chen Ni <nichen@iscas.ac.cn>
 
-[ Upstream commit 36200241f5a3dd28b95fdefb2885ca9fd52f6387 ]
+[ Upstream commit 46c2891cf12c767de031a248cbb1f96d203bd3f6 ]
 
-Formats did not correctly decode prior.
+The devm_gpiod_get_optional() function may return an error pointer
+(ERR_PTR) in case of a genuine failure during GPIO acquisition, not just
+NULL which indicates the legitimate absence of an optional GPIO.
 
-Modifications are based off cx25840 datasheet.
+Add an IS_ERR() check after the function call to catch such errors and
+propagate them to the probe function, ensuring the driver fails to load
+safely rather than proceeding with an invalid pointer.
 
-Signed-off-by: Bradford Love <brad@nextdimension.cc>
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+Acked-by: Krzysztof Hałasa <khalasa@piap.pl>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have all the information needed for a comprehensive analysis.
+Now I have all the information I need. Let me compile my full analysis.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Subject Line Analysis
-- **Subsystem**: `media: cx25840` - video decoder I2C driver (Conexant
-  CX25840)
-- **Action verb**: "Fix" - explicit bug fix
-- **Summary**: Fix incorrect decoding of NTSC-J, PAL-N, and SECAM video
-  standards
-- Record: [media: cx25840] [fix] [Fix incorrect video standard register
-  programming for three TV standards]
+### Step 1.1: Subject Line
+- **Subsystem:** `media: i2c: ar0521`
+- **Action verb:** "Check" (return value) — indicates adding a missing
+  safety check
+- **Summary:** Add IS_ERR() check for devm_gpiod_get_optional() in the
+  probe function
+
+Record: [media: i2c: ar0521] [Check/Add missing check] [Adds missing
+error check for optional GPIO acquisition]
 
 ### Step 1.2: Tags
-- **Signed-off-by**: Bradford Love <brad@nextdimension.cc> (author,
-  known Hauppauge/media contributor)
-- **Signed-off-by**: Hans Verkuil <hverkuil+cisco@kernel.org> (media
-  subsystem maintainer who merged it)
-- No Fixes: tag (expected for autosel candidates)
-- No Cc: stable tag (expected for autosel candidates)
-- No Reported-by (the author is a hardware vendor contributor who
-  presumably found this through device testing)
-- Record: Signed off by both the author and the media subsystem
-  maintainer. No Fixes: tag, no Reported-by.
+- **Signed-off-by:** Chen Ni (author), Sakari Ailus (media maintainer),
+  Mauro Carvalho Chehab (media subsystem maintainer)
+- **Acked-by:** Krzysztof Hałasa (original driver author)
+- No Fixes: tag (expected for this review pipeline)
+- No Reported-by: (proactive fix, not responding to a report)
+- No Link: to lore thread
+- No Cc: stable
+
+Record: Acked by original driver author. Merged through standard media
+maintainer chain (Sakari -> Mauro). No syzbot, no external report.
 
 ### Step 1.3: Commit Body
-- "Formats did not correctly decode prior" - describes a real user-
-  visible symptom (broken video decoding)
-- "Modifications are based off cx25840 datasheet" - the fix is grounded
-  in hardware specifications
-- The failure mode: video output from the CX25840 decoder chip is
-  incorrect when using NTSC-J (Japan), PAL-N (Argentina/Uruguay), or
-  SECAM (France/Russia/many other countries) standards
-- Record: Bug = incorrect video standard register programming. Symptom =
-  video does not decode correctly for NTSC-J, PAL-N, SECAM. Root cause =
-  missing register writes specified in cx25840 datasheet.
+The message explains that `devm_gpiod_get_optional()` can return ERR_PTR
+on genuine failure, not just NULL. Without the check, the driver
+proceeds with an invalid pointer.
+
+Record: Bug is a missing error check. Symptom would be driver proceeding
+with invalid pointer. No version info given. Root cause: original driver
+never checked for ERR_PTR.
 
 ### Step 1.4: Hidden Bug Fix Detection
-- This is an explicit bug fix, not disguised. The commit message says
-  "Fix" and the change adds required hardware register writes that were
-  missing.
-- Record: Not a hidden fix - explicitly a correctness fix against the
-  hardware datasheet.
+Yes, this is a genuine bug fix — "Add an IS_ERR() check" is clearly
+adding a missing safety check to prevent operating on an invalid
+pointer. The pattern of "missing error check on devm_* return" is a
+well-known kernel bug category.
+
+Record: [Genuine bug fix — adds missing error check]
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Changes Inventory
-- **Files**: 1 file - `drivers/media/i2c/cx25840/cx25840-core.c`
-- **Lines**: +27 / -2 (net +25 lines)
-- **Function modified**: `set_v4lstd()` only
-- **Scope**: Single function in a single file, surgical fix
-- Record: Single file, single function, +27/-2, scope = surgical
+### Step 2.1: Inventory
+- **Files changed:** 1 file (`drivers/media/i2c/ar0521.c`)
+- **Lines added:** 3
+- **Lines removed:** 0
+- **Function modified:** `ar0521_probe()`
+- **Scope:** Single-file, surgical, 3-line addition
+
+Record: [1 file, +3/-0, ar0521_probe() only, minimal scope]
 
 ### Step 2.2: Code Flow Change
-The `set_v4lstd()` function configures the CX25840 chip's registers when
-switching video standards. Changes:
+**Before:** `devm_gpiod_get_optional()` result is stored directly in
+`sensor->reset_gpio` with no validation. If it returns ERR_PTR, the
+invalid pointer is stored and the driver continues probe.
 
-1. **New variables**: `pal_n`, `ntsc_j`, `tmp_reg` added
-2. **NTSC-J**: Now also sets `ntsc_j = 0x80` (register 0x403 bit 7) -
-   was missing
-3. **PAL-N**: Now also sets `pal_n = 0x40` (register 0x403 bit 6) - was
-   missing
-4. **SECAM (fmt=0xc)**: New block toggles CKILLEN bit (register 0x401
-   bit 5) per datasheet step 9c - was completely missing
-5. **PAL formats (4-7)**: New block toggles CAGCEN (bit 6) and CKILLEN
-   (bit 5) in register 0x401 - was missing
-6. **Register 0x403**: Previously written unconditionally (clearing bits
-   0:1 for every standard even when pal_m=0). Now conditionally written
-   only when pal_m, pal_n, or ntsc_j is set, and with the correct
-   bitmask for each case.
-7. **Minor**: `~6` changed to `~0x6` (cosmetic, same value)
+**After:** An IS_ERR() check is added. If the GPIO call fails,
+`dev_err_probe()` logs the error and returns it (also handling
+EPROBE_DEFER cleanly), stopping the probe.
+
+Record: [Before: ERR_PTR stored unchecked -> After: ERR_PTR caught,
+probe fails cleanly]
 
 ### Step 2.3: Bug Mechanism
-- **Category**: Logic/correctness fix (hardware register
-  misconfiguration)
-- **Mechanism**: The cx25840 datasheet specifies that certain register
-  bits must be set for specific video standards. The driver was setting
-  the format register (0x400) but NOT setting companion configuration
-  bits in register 0x403 for NTSC-J and PAL-N, and NOT performing
-  required register toggles in 0x401 for SECAM and PAL. Additionally,
-  the old code unconditionally cleared bits 0:1 of register 0x403 on
-  every standard change, which could interfere with correct operation.
-- Record: Hardware register misconfiguration fix per datasheet. Three
-  standards (NTSC-J, PAL-N, SECAM) had missing register writes.
+Category: **Return value checking / NULL dereference prevention**. The
+fix adds a missing error check. If `devm_gpiod_get_optional()` returns
+ERR_PTR (e.g., -EPROBE_DEFER, -ENOMEM), the pointer is stored as
+`reset_gpio`. Later, when `if (sensor->reset_gpio)` evaluates as true
+(ERR_PTR is non-NULL), `gpiod_set_value_cansleep()` is called with the
+invalid pointer.
+
+However, I verified that `gpiod_set_value_cansleep()` uses
+`VALIDATE_DESC()` which calls `validate_desc()`:
+
+```377:388:drivers/gpio/gpiolib.c
+static int validate_desc(const struct gpio_desc *desc, const char *func)
+{
+        if (!desc)
+                return 0;
+        if (IS_ERR(desc)) {
+                pr_warn("%s: invalid GPIO (errorpointer: %pe)\n", func,
+desc);
+                return PTR_ERR(desc);
+        }
+        return 1;
+}
+```
+
+So gpiolib handles ERR_PTR gracefully: it prints a warning and returns
+without crashing. The actual impact is:
+1. **EPROBE_DEFER not propagated** — if GPIO provider loads after this
+   driver, the probe doesn't get deferred and retried, which is the most
+   impactful scenario
+2. **Warning spam** — `pr_warn` every time the GPIO is accessed
+3. **Reset line not toggled** — sensor may not initialize properly
+
+Record: [Missing return value check] [ERR_PTR stored, not crash but
+EPROBE_DEFER lost, warnings printed, GPIO operations silently fail]
 
 ### Step 2.4: Fix Quality
-- **Obviously correct?** Yes - changes are directly based on the cx25840
-  datasheet (referenced in both existing comments and the new code).
-  Register addresses, bit positions, and toggle sequences are specified.
-- **Minimal?** Yes - only touches the function that needs fixing, adds
-  only what the datasheet requires
-- **Regression risk?** Low - changes only affect the three specific
-  video standards that were broken. Other standards (NTSC-M, PAL
-  generic, etc.) take different code paths and are unaffected. The PAL
-  toggle sequence was already partially implemented in the existing
-  `input_change()` function at line 1296-1297.
-- Record: Fix is obviously correct (datasheet-based), minimal, and low
-  regression risk.
+- **Obviously correct:** Yes — follows the exact same pattern used for
+  `sensor->extclk` just above in the same function
+- **Minimal:** Yes — 3 lines, surgically placed
+- **Regression risk:** Essentially zero — only affects error cases
+- **Uses `dev_err_probe()`:** Properly handles EPROBE_DEFER logging
+
+Record: [Obviously correct, minimal, near-zero regression risk]
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
 ### Step 3.1: Blame
-The `set_v4lstd()` function was created by Hans Verkuil in commit
-`081b496a75fec1` ("V4L/DVB (7344): cx25840: better PAL-M and NTSC-KR
-handling") from **2008**. The format selection `if/else` chain and the
-register 0x403 write were added in that commit. The PAL ghosting fix
-(fmt >= 4 && fmt < 8) block came from commit `73dcddc583c40b` from
-**2006**. The code being fixed has been present since 2008, meaning the
-bug has existed for ~18 years.
-- Record: Buggy code introduced in 2008 (commit 081b496a75fec1), present
-  in ALL stable trees.
+`git blame` shows the buggy code (lines 1094-1096) was introduced in
+commit `852b50aeed153b` ("media: On Semi AR0521 sensor driver") by
+Krzysztof Hałasa, which was the initial driver addition. This commit
+first appeared in v6.0-rc1.
 
-### Step 3.2: No Fixes Tag
-- No Fixes: tag to follow. The bug was introduced in 2008, long before
-  the current stable trees branched.
-- Record: N/A - no Fixes: tag. Bug has been present since v2.6.26-era.
+Record: [Bug introduced by 852b50aeed153b in v6.0-rc1, the initial
+driver commit]
+
+### Step 3.2: Fixes Tag
+No Fixes: tag present. The correct Fixes: target would be
+`852b50aeed153b`.
+
+Record: [N/A — no Fixes: tag, but the target would be 852b50aeed153b
+(v6.0)]
 
 ### Step 3.3: File History
-Recent changes to the file are all unrelated cosmetic/cleanup changes:
-- email address updates
-- i2c_device_id initialization cleanup
-- DIF setup simplification
-- i2c probe API changes
-- No other standard-setting fixes in recent history.
-- Record: No related recent changes. This is a standalone fix.
+Recent history shows 8 changes between v6.6 and HEAD; 2 changes since
+v6.12. The file has moderate churn but the specific GPIO code has been
+unchanged since the initial driver commit.
 
-### Step 3.4: Author History
-Bradford Love (brad@nextdimension.cc) is a well-established media
-contributor with 80+ commits, primarily for Hauppauge devices. He
-previously contributed `038fd41410298` ("media: cx25840: Register
-labeling, chip specific correction") and many cx23885/cx231xx/em28xx
-fixes. He clearly has deep knowledge of these chips.
-- Record: Author is a domain expert (Hauppauge contributor), not a
-  drive-by contributor.
+Record: [Moderate file churn, but the specific buggy code unchanged
+since v6.0. Standalone fix.]
+
+### Step 3.4: Author
+Chen Ni (`nichen@iscas.ac.cn`) is a prolific submitter of mechanical
+bug-fix patches (missing error checks). Two other similar patches for
+the exact same pattern are in this tree (for `adin1110` and `max98390`).
+This is a systematic cleanup effort.
+
+Record: [Prolific mechanical fix author, not subsystem maintainer, but
+patch was acked by driver author]
 
 ### Step 3.5: Dependencies
-The patch modifies only the `set_v4lstd()` function which has not
-changed significantly since 2012. It uses `cx25840_and_or()` and
-`cx25840_read()` which are basic register access helpers present in all
-stable trees. No dependencies on other patches.
-- Record: Fully standalone, no prerequisites needed.
+No dependencies. The fix applies cleanly to any tree that has the ar0521
+driver (v6.0+). The code context is unchanged since the initial driver
+commit.
 
-## PHASE 4: MAILING LIST RESEARCH
+Record: [No dependencies, standalone fix, should apply cleanly to all
+stable trees ≥ v6.0]
 
-### Step 4.1: Patch Discussion
-Found on the linuxtv-commits mailing list (msg48550). The commit was
-applied directly by Hans Verkuil (media subsystem maintainer) to
-media.git/next. The adjacent commits in the commit stream (msg48547:
-si2168 fix, msg48551: vimc sensor addition) are unrelated, confirming
-this is a standalone fix.
-- Record: Applied directly by subsystem maintainer. Standalone patch.
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+
+### Step 4.1: Original Discussion
+Web search found the patch was discussed on linux-media. The original
+driver author Krzysztof Hałasa acked it, noting a minor style preference
+(all-caps "GPIO" in messages) but approving the fix.
+
+Record: [Found on lore, acked by original author, no objections]
 
 ### Step 4.2: Reviewers
-Hans Verkuil, the media subsystem maintainer, signed off on this patch
-and committed it directly.
-- Record: Subsystem maintainer accepted and merged the patch.
+Acked by Krzysztof Hałasa (driver author), signed-off by Sakari Ailus
+(media i2c maintainer) and Mauro Carvalho Chehab (media subsystem
+maintainer). Proper review chain.
+
+Record: [Full maintainer chain reviewed]
 
 ### Step 4.3: Bug Report
-No explicit bug report link. The fix likely came from the author's
-direct testing of Hauppauge devices with these video standards.
-- Record: No external bug report; author-discovered through hardware
-  testing.
+No external bug report — this is a proactive code audit fix.
 
-### Step 4.4-4.5: Related Patches / Stable Discussion
-This is a standalone fix, not part of a series. No stable-specific
-discussion found.
-- Record: Standalone fix, no series dependencies.
+Record: [No external report, proactive fix from code inspection]
+
+### Step 4.4: Related Patches
+This is one of a series of identical-pattern fixes by Chen Ni across
+multiple drivers. Each is standalone.
+
+Record: [Part of a systematic cleanup series, each patch independent]
+
+### Step 4.5: Stable Discussion
+No specific stable discussion found.
+
+Record: [No stable-specific discussion]
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
 ### Step 5.1: Functions Modified
-Only `set_v4lstd()` is modified.
+Only `ar0521_probe()` is modified.
 
 ### Step 5.2: Callers
-`set_v4lstd()` is called from exactly one place: `cx25840_s_std()` at
-line 2488, which is a V4L2 subdev operation (`.s_std` callback). This is
-invoked whenever userspace or a bridge driver sets the video standard on
-a CX25840-based capture device.
-- Record: Called via V4L2 s_std operation - triggered by userspace video
-  standard selection.
+`ar0521_probe()` is the I2C driver probe function, called during device
+enumeration when a matching device is found. Called once per device.
 
-### Step 5.3-5.4: Call Chain
-Userspace (e.g., v4l2-ctl, tvtime, VLC) -> VIDIOC_S_STD ioctl -> bridge
-driver (ivtv, cx23885, cx231xx, pvrusb2) -> cx25840_s_std() ->
-set_v4lstd(). This is a standard video capture path - very commonly
-exercised by users with these capture cards.
-- Record: Reachable from userspace VIDIOC_S_STD ioctl. Common operation
-  for analog video capture users.
+### Step 5.3: Callees
+After the fix point, the code proceeds to initialize
+`v4l2_i2c_subdev_init`, media entity, regulators, controls, and power
+on. The `reset_gpio` is later used in `__ar0521_power_off()` (line 844)
+and `ar0521_power_on()` (line 888) via `gpiod_set_value_cansleep()`.
+
+### Step 5.4: Call Chain
+The buggy code is reachable during device probe (boot time or module
+insertion). The `reset_gpio` ERR_PTR would be passed to
+`gpiod_set_value_cansleep()` during power management operations.
+
+Record: [Probe-time path, GPIO used during power on/off which happens at
+stream start/stop]
 
 ### Step 5.5: Similar Patterns
-The `input_change()` function (line 1283) already performs similar
-register toggles on 0x401 for bits 5:6, following the same datasheet
-section 3.16. The new code in `set_v4lstd()` is consistent with this
-existing pattern.
-- Record: Similar register toggle pattern already exists in
-  input_change(). Fix is consistent with existing code style.
+The same pattern exists in many other drivers. Chen Ni has fixed at
+least 2 others in this tree.
 
-## PHASE 6: CROSS-REFERENCING
+## PHASE 6: CROSS-REFERENCING AND STABLE TREE ANALYSIS
 
-### Step 6.1: Code Exists in Stable Trees
-The `set_v4lstd()` function is virtually identical across all stable
-trees (v5.4, v5.10, v5.15, v6.1, v6.6, v6.12). The buggy code has been
-present since 2008. The patch should apply cleanly to all active stable
-trees.
-- Record: Buggy code exists in ALL active stable trees. Patch should
-  apply cleanly.
+### Step 6.1: Buggy Code in Stable Trees
+The ar0521 driver was added in v6.0-rc1. It exists in all stable trees
+from 6.1 onward. The buggy code has been present since the driver's
+inception and is unchanged.
+
+Record: [Bug exists in stable trees 6.1.y, 6.6.y, 6.12.y]
 
 ### Step 6.2: Backport Complications
-The function hasn't changed in the relevant area since 2012. Changes
-between stable trees (email updates, cosmetic changes, DIF table
-additions) are all outside the `set_v4lstd()` function. The patch should
-apply cleanly.
-- Record: Clean apply expected in all stable trees.
+The fix should apply cleanly — the surrounding code context is unchanged
+since the initial driver commit.
 
-### Step 6.3: Related Fixes in Stable
-No related fixes for this specific issue have been applied to any stable
-tree.
-- Record: No prior fixes for this bug in stable.
+Record: [Clean apply expected]
 
-## PHASE 7: SUBSYSTEM CONTEXT
+### Step 6.3: Related Fixes Already in Stable
+No related fix for this specific issue found in stable.
+
+Record: [No related fix in stable]
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
 ### Step 7.1: Subsystem Criticality
-- **Subsystem**: `drivers/media/i2c/cx25840` - Video decoder driver for
-  Conexant CX25840 chip
-- **Criticality**: PERIPHERAL (specific hardware) - but the cx25840 is
-  used in many popular TV capture cards (Hauppauge, Yuan MPC622, etc.)
-- The affected standards serve large populations: NTSC-J (Japan), PAL-N
-  (Argentina, Uruguay, Paraguay), SECAM (France, Russia, North Africa,
-  Middle East, Eastern Europe)
-- Record: Peripheral driver, but widely used in popular capture
-  hardware; affected standards serve large geographic regions.
+`drivers/media/i2c/` — camera sensor driver. Criticality: PERIPHERAL.
+Affects users of AR0521 camera sensor hardware (industrial/embedded
+vision systems primarily).
+
+Record: [Media I2C sensor driver, PERIPHERAL criticality]
 
 ### Step 7.2: Subsystem Activity
-The cx25840 driver is mature/stable with minimal recent changes (all
-cosmetic). This means the fix addresses a long-standing bug that has
-been present for 18 years.
-- Record: Mature driver, very low activity. Bug has been present for ~18
-  years.
+Moderate activity in the file (8 changes since v6.6).
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
 ### Step 8.1: Affected Users
-Users with CX25840-based video capture devices (Hauppauge PVR, cx23885
-cards, cx231xx cards, pvrusb2 USB devices) who use NTSC-J, PAL-N, or
-SECAM video standards. This includes users in Japan, South America
-(Argentina, Uruguay, Paraguay), France, Russia, and many other
-countries.
-- Record: Users of CX25840-based capture devices using NTSC-J, PAL-N, or
-  SECAM standards.
+Users of the ON Semiconductor AR0521 image sensor. This is an
+industrial/embedded sensor. Limited but dedicated user base.
+
+Record: [Driver-specific, embedded/industrial camera users]
 
 ### Step 8.2: Trigger Conditions
-Triggered whenever a user selects NTSC-J, PAL-N, or SECAM standard on
-their capture device (VIDIOC_S_STD ioctl). 100% reproducible, no race
-conditions.
-- Record: Deterministic trigger - selecting the affected video standard
-  always triggers the bug.
+The bug triggers when `devm_gpiod_get_optional()` returns ERR_PTR, which
+happens when:
+- GPIO provider isn't ready yet (EPROBE_DEFER) — **most common scenario
+  on device-tree platforms**
+- GPIO subsystem returns error (ENOMEM, EINVAL, etc.) — less common
+
+Record: [EPROBE_DEFER is the most likely trigger; common on embedded
+platforms with probe ordering issues]
 
 ### Step 8.3: Failure Mode Severity
-The video does not decode correctly for these three standards. This is a
-functional failure - the device produces incorrect video output. It
-doesn't crash or corrupt data, but it renders the device effectively
-non-functional for users in affected regions.
-- **Severity**: MEDIUM-HIGH (device non-functional for specific
-  standards, no crash/corruption)
-- Record: Incorrect video decoding = device unusable for affected
-  standards. Severity: MEDIUM-HIGH.
+- **Not a crash** — gpiolib's `validate_desc()` handles ERR_PTR
+  gracefully
+- **EPROBE_DEFER swallowed** — driver doesn't retry probe, possibly
+  leaving sensor non-functional
+- **Warning messages** printed on every GPIO access
+- Severity: **MEDIUM** — driver malfunction, not crash or data
+  corruption
+
+Record: [MEDIUM severity — driver may not work properly on some
+platforms due to lost EPROBE_DEFER]
 
 ### Step 8.4: Risk-Benefit Ratio
-- **Benefit**: HIGH - fixes broken video decoding for three major TV
-  standards affecting users in many countries
-- **Risk**: VERY LOW - 27 lines added to a single function, changes are
-  datasheet-based, only affect the three broken standards, no impact on
-  working standards
-- Record: High benefit, very low risk.
+- **Benefit:** Moderate — fixes a real coding error, proper EPROBE_DEFER
+  handling, cleaner error reporting
+- **Risk:** Very low — 3-line addition, only affects error paths,
+  follows established pattern
+- **Ratio:** Favorable — very low risk for moderate benefit
+
+Record: [Moderate benefit, very low risk, favorable ratio]
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence Summary
+### Step 9.1: Evidence Compilation
 
 **FOR backporting:**
-- Fixes real user-visible bug: video standards don't decode correctly
-- Small, surgical fix: 1 file, 1 function, +27/-2 lines
-- Obviously correct: based directly on cx25840 hardware datasheet
-- Accepted by subsystem maintainer (Hans Verkuil)
-- Author is a domain expert (Bradford Love, Hauppauge contributor with
-  80+ commits)
-- Standalone: no dependencies on other patches
-- Affects users in many countries (Japan, France, Russia, Argentina,
-  etc.)
-- Code is identical across all active stable trees - clean apply
-  expected
-- Bug has existed since 2008 - all stable users affected
-- Consistent with existing register programming patterns in the driver
+- Fixes a real coding bug (missing error check on
+  devm_gpiod_get_optional)
+- 3-line fix, minimal and obviously correct
+- Follows the same pattern already used in the same function for extclk
+- Acked by original driver author
+- EPROBE_DEFER case is a real-world scenario on embedded platforms
+- Driver has been present since v6.0, affects all stable trees
+- Uses `dev_err_probe()` which properly handles EPROBE_DEFER
+- Clean apply expected
 
 **AGAINST backporting:**
-- No Reported-by tag (but author-discovered through hardware testing is
-  normal)
-- Not a crash/security/corruption bug (it's a functional correctness
-  issue)
-- Relatively niche hardware (CX25840-based capture cards)
-- The change is slightly larger than typical one-liner quirk additions
+- No crash — gpiolib handles ERR_PTR gracefully via VALIDATE_DESC
+- No user report or syzbot trigger
+- Proactive fix from code audit, not a response to real failure
+- PERIPHERAL subsystem (specific camera sensor)
+- Medium severity at best (no crash, corruption, or security issue)
 
 ### Step 9.2: Stable Rules Checklist
-1. **Obviously correct and tested?** YES - datasheet-based, maintainer-
-   accepted, author is hardware expert
-2. **Fixes a real bug?** YES - video standards decode incorrectly
-3. **Important issue?** MEDIUM-HIGH - device non-functional for affected
-   standards (not crash/security, but functional failure)
-4. **Small and contained?** YES - 27 lines in 1 function, 1 file
-5. **No new features?** CORRECT - fixes existing standard support
-6. **Can apply to stable?** YES - code unchanged across all stable trees
+1. Obviously correct and tested? **Yes** — acked by driver author,
+   merged through proper maintainer chain
+2. Fixes a real bug? **Yes** — missing error check causes EPROBE_DEFER
+   loss and invalid pointer storage
+3. Important issue? **Borderline** — not a crash/security/corruption,
+   but driver non-functionality on some platforms
+4. Small and contained? **Yes** — 3 lines, single file, single function
+5. No new features or APIs? **Correct** — pure fix
+6. Can apply to stable? **Yes** — should apply cleanly to all trees with
+   this driver
 
 ### Step 9.3: Exception Categories
-This is closest to a **hardware quirk/workaround** - it corrects the
-register programming to match what the hardware datasheet requires. This
-is the kind of fix that makes hardware work correctly.
+Not an exception category (not a device ID, quirk, DT, build fix, or doc
+fix).
 
 ### Step 9.4: Decision
-This is a well-contained, datasheet-based correctness fix for a real
-hardware issue affecting multiple video standards. It was written by a
-domain expert and accepted by the subsystem maintainer. It's small,
-obviously correct, standalone, and should apply cleanly to all stable
-trees. While it's not a crash or security fix, it fixes completely
-broken functionality for users of these standards.
+This is a borderline case. The fix is trivially correct and very low
+risk, but the actual impact is moderate — the gpiolib protects against a
+crash, so the consequence is a non-functional driver on platforms where
+GPIO probe ordering matters (EPROBE_DEFER). The EPROBE_DEFER case is
+real on embedded/device-tree platforms. Given the near-zero risk and the
+real (if moderate) benefit, this leans YES.
 
 ## Verification
 
-- [Phase 1] Parsed subject: "media: cx25840: Fix NTSC-J, PAL-N, and
-  SECAM standards" - explicit fix
-- [Phase 1] Parsed tags: Signed-off-by Bradford Love (author) and Hans
-  Verkuil (maintainer). No Fixes:, no Reported-by (expected).
-- [Phase 2] Diff analysis: +27/-2 in set_v4lstd() function, adds missing
-  register writes for 3 video standards per datasheet
-- [Phase 3] git blame: set_v4lstd() format selection chain from commit
-  081b496a75fec1 (2008, Hans Verkuil), present in ALL stable trees
-- [Phase 3] git log -- file: No related changes to set_v4lstd() in
-  recent history; patch is fully standalone
-- [Phase 3] Author check: Bradford Love has 80+ commits to
-  drivers/media/, including prior cx25840 work (038fd41410298)
-- [Phase 4] Found commit on mail-archive.com (linuxtv-commits msg48550),
-  confirmed standalone commit applied by Hans Verkuil
-- [Phase 4] Adjacent messages (msg48547, msg48551) are unrelated
-  patches, confirming no series dependency
-- [Phase 5] set_v4lstd() called from cx25840_s_std() (line 2488), which
-  is the V4L2 .s_std callback
-- [Phase 5] Similar register toggle pattern already in input_change() at
-  lines 1296-1297
-- [Phase 6] File changes between v6.6 and v7.0 are all cosmetic (email
-  updates, DIF tables) - unrelated to set_v4lstd()
-- [Phase 6] Identical set_v4lstd() code across v5.10, v5.15, v6.1, v6.6
-  stable trees
-- [Phase 8] Failure mode: incorrect video output for NTSC-J/PAL-N/SECAM,
-  severity MEDIUM-HIGH (device non-functional for those standards)
-- UNVERIFIED: Could not access lore.kernel.org directly (bot
-  protection). Used mail-archive.com instead.
-- UNVERIFIED: Could not verify exact kernel versions in stable trees
-  where this applies cleanly (but code hasn't changed since 2012 in this
-  function).
+- [Phase 1] Parsed tags: Acked-by from original driver author Krzysztof
+  Hałasa, merged through Sakari Ailus and Mauro Carvalho Chehab
+- [Phase 2] Diff analysis: 3 lines added to ar0521_probe(), adds IS_ERR
+  check + dev_err_probe return after devm_gpiod_get_optional()
+- [Phase 3] git blame: buggy code introduced in commit 852b50aeed153b
+  (v6.0-rc1), the initial driver commit
+- [Phase 3] git describe: confirmed 852b50aeed153b is in v6.0-rc1
+- [Phase 3] git log: verified ar0521.c exists in stable trees from v6.1
+  onward, specific GPIO code unchanged
+- [Phase 4] WebSearch: found lore thread, Krzysztof Hałasa acked the
+  patch with minor style note
+- [Phase 4] b4 dig on similar commit (a1d14d8364eac): confirmed Chen
+  Ni's mechanical fix pattern
+- [Phase 5] Grep: traced reset_gpio usage to __ar0521_power_off() (line
+  844) and ar0521_power_on() (line 888), both call
+  gpiod_set_value_cansleep() guarded by `if (sensor->reset_gpio)`
+- [Phase 5] Grep: verified gpiod_set_value_cansleep() uses VALIDATE_DESC
+  which calls validate_desc(), which handles ERR_PTR with pr_warn and
+  early return (no crash)
+- [Phase 6] Code exists in stable trees v6.1.y, v6.6.y, v6.12.y; buggy
+  code unchanged since initial commit
+- [Phase 8] Failure mode: NOT a crash (gpiolib handles ERR_PTR), but
+  EPROBE_DEFER is swallowed and driver may not work. Severity: MEDIUM
+- UNVERIFIED: Could not access lore.kernel.org directly (Anubis
+  protection), relied on web search summary for discussion details
 
 **YES**
 
- drivers/media/i2c/cx25840/cx25840-core.c | 29 ++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ar0521.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/i2c/cx25840/cx25840-core.c b/drivers/media/i2c/cx25840/cx25840-core.c
-index a863063043303..69d5cc648c0fc 100644
---- a/drivers/media/i2c/cx25840/cx25840-core.c
-+++ b/drivers/media/i2c/cx25840/cx25840-core.c
-@@ -1652,10 +1652,14 @@ static int set_v4lstd(struct i2c_client *client)
- 	struct cx25840_state *state = to_state(i2c_get_clientdata(client));
- 	u8 fmt = 0;	/* zero is autodetect */
- 	u8 pal_m = 0;
-+	u8 pal_n = 0;
-+	u8 ntsc_j = 0;
-+	u8 tmp_reg = 0;
+diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+index f156058500e3d..ed324c2d87aa2 100644
+--- a/drivers/media/i2c/ar0521.c
++++ b/drivers/media/i2c/ar0521.c
+@@ -1094,6 +1094,9 @@ static int ar0521_probe(struct i2c_client *client)
+ 	/* Request optional reset pin (usually active low) and assert it */
+ 	sensor->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+ 						     GPIOD_OUT_HIGH);
++	if (IS_ERR(sensor->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(sensor->reset_gpio),
++				     "failed to get reset gpio\n");
  
- 	/* First tests should be against specific std */
- 	if (state->std == V4L2_STD_NTSC_M_JP) {
- 		fmt = 0x2;
-+		ntsc_j = 0x80;
- 	} else if (state->std == V4L2_STD_NTSC_443) {
- 		fmt = 0x3;
- 	} else if (state->std == V4L2_STD_PAL_M) {
-@@ -1663,6 +1667,7 @@ static int set_v4lstd(struct i2c_client *client)
- 		fmt = 0x5;
- 	} else if (state->std == V4L2_STD_PAL_N) {
- 		fmt = 0x6;
-+		pal_n = 0x40;
- 	} else if (state->std == V4L2_STD_PAL_Nc) {
- 		fmt = 0x7;
- 	} else if (state->std == V4L2_STD_PAL_60) {
-@@ -1689,10 +1694,30 @@ static int set_v4lstd(struct i2c_client *client)
- 		/* Set format to NTSC-M */
- 		cx25840_and_or(client, 0x400, ~0xf, 1);
- 		/* Turn off LCOMB */
--		cx25840_and_or(client, 0x47b, ~6, 0);
-+		cx25840_and_or(client, 0x47b, ~0x6, 0);
-+	} else if (fmt == 0xc) { /* SECAM - Step 9c - toggle CKILLEN */
-+		tmp_reg = cx25840_read(client, 0x401);
-+		cx25840_and_or(client, 0x401, ~0x20, tmp_reg & 0x20 ? 0x00 : 0x20);
-+		cx25840_and_or(client, 0x401, ~0x20, tmp_reg & 0x20 ? 0x20 : 0x00);
- 	}
-+
- 	cx25840_and_or(client, 0x400, ~0xf, fmt);
--	cx25840_and_or(client, 0x403, ~0x3, pal_m);
-+
-+	if (fmt >= 4 && fmt < 8) {
-+		tmp_reg = cx25840_read(client, 0x401);
-+		cx25840_and_or(client, 0x401, ~0x40, tmp_reg & 0x40 ? 0x00 : 0x40); /* CAGCEN */
-+		cx25840_and_or(client, 0x401, ~0x40, tmp_reg & 0x40 ? 0x40 : 0x00);
-+		cx25840_and_or(client, 0x401, ~0x20, tmp_reg & 0x20 ? 0x00 : 0x20); /* CKILLEN */
-+		cx25840_and_or(client, 0x401, ~0x20, tmp_reg & 0x20 ? 0x20 : 0x00);
-+	}
-+
-+	if (pal_m)
-+		cx25840_and_or(client, 0x403, ~0x3, pal_m);
-+	else if (pal_n)         /* cx25840 datasheet table 3-19 */
-+		cx25840_and_or(client, 0x403, ~0x40, pal_n);
-+	else if (ntsc_j)        /* cx25840 datasheet table 3-19 */
-+		cx25840_and_or(client, 0x403, ~0x80, ntsc_j);
-+
- 	if (is_cx23888(state))
- 		cx23888_std_setup(client);
- 	else
+ 	v4l2_i2c_subdev_init(&sensor->sd, client, &ar0521_subdev_ops);
+ 
 -- 
 2.53.0
 
