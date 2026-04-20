@@ -1,62 +1,61 @@
-Return-Path: <linux-media+bounces-59149-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59150-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uOWgAhk95mlutgEAu9opvQ
-	(envelope-from <linux-media+bounces-59149-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:50:01 +0200
+	id +MIcBeQ95mlutgEAu9opvQ
+	(envelope-from <linux-media+bounces-59150-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:53:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53EF442D82C
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:50:00 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B2E542D913
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:53:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B27903676F8F
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 14:13:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5DB473228832
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 14:14:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3248E43637E;
-	Mon, 20 Apr 2026 13:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 456E23A16B0;
+	Mon, 20 Apr 2026 13:30:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cRR+ss4A"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d6QBTjA7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9123A43C05F;
-	Mon, 20 Apr 2026 13:29:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74E244103F;
+	Mon, 20 Apr 2026 13:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691793; cv=none; b=qMLH1z95TNQocCmlDxLiwUXIJFXpZzHBFrW0K7wByyvRBvo+syE1OB5nzHG1i9G/kuTFwH+MOPvmCNmKKwGXEGfwgd6yN+bNsihquGhGpDPXSGCQM8dH+f9ttoDBomycNrOWS+UNf7BDH/hRD72vcoJ75XM/u7/k//8DAF/kaVk=
+	t=1776691808; cv=none; b=gzN6W0Yk2lMGXSP43iUmn+K2fBR0xgNdujESn7gnOHYn7FOMbInCZYIqUQjXNPFvI5+dMm2MVEGNdfDXRNecMD2BIlmkMdB8TxUArDVbm9q+WU8pLJ4Xzl4Ibhg45RdfU4xSJiz5IvsPzS0vcXn8ZAfWPD5hUsVR+TfOjLHFDlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691793; c=relaxed/simple;
-	bh=Qxjq/FzQw6lO9c+b6rojdQouk4f6/GD8nNBGBgqf1u0=;
+	s=arc-20240116; t=1776691808; c=relaxed/simple;
+	bh=gQxHCg1wuez48H36quIMj/60iBO0hZvpUYv9AI3DYGA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n/HUnT2bYNOoN1aqkOOFIDCmk12sxVe2/eJubTRgH+ziRXfxcwXYUY7N0/hJLsaM0mvoBrBY99nQIUDYI783/BbH5vlgV+zXq9qovA9sTo3aOvx4bdwoPYet2r7HTaVbZrBde4jXe0jyDQnEsEiv4tPnxPsNOHlLLByEvUm3JkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cRR+ss4A; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45329C2BCB4;
-	Mon, 20 Apr 2026 13:29:52 +0000 (UTC)
+	 MIME-Version; b=QD5vqq1sMIE71nYaocuMWn0k05JrobZ67yqSJvAOjo6XhP6ZKVHuFt/laMy7nwVQ2VtOjZIoI/BwWNAyqdHit2/6LQMvy19qSnrTq2Jt+0+n0HvavAXWqsweL4KIFopD8QVgyz2bhNcgjhArvcduFD2BcDnCasiGRTTiDT4VsH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d6QBTjA7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A1B2C2BCB6;
+	Mon, 20 Apr 2026 13:30:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691793;
-	bh=Qxjq/FzQw6lO9c+b6rojdQouk4f6/GD8nNBGBgqf1u0=;
+	s=k20201202; t=1776691808;
+	bh=gQxHCg1wuez48H36quIMj/60iBO0hZvpUYv9AI3DYGA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cRR+ss4AWgFN4DAv5YXRJH/R2XpAjCjXSNV2TSFms/H5XEBYARSDuRfQIU/TcPjhK
-	 JJei5L3Ela3cew07hac+0mXQOexNMuuzF94BPb3fXK43O5gezzHEblCdDUBbIs8bxE
-	 pvpu5G5lyRW8IAaR/IiRlIXCA8xTGYnjLxjC/H6e0VB5LHrdsu9UKdTf98aGqixWXs
-	 32lg18ThWPluIAK3k2p3mjvzJwdYNo4BRsqt46XA1tkX76mgSx+bckwZ+XD4YUahtE
-	 hB2u4yAMgKfcUlwOPWeqBmMJbqDKx1Euf028ht7bfvHRpa9+IkQIrSoVaZ2Da6rUXw
-	 a4/TK3DtHz9Uw==
+	b=d6QBTjA7KFBLYkTmfbfHuVSbF08fOTq3/ZMSTbrv8J3hshHLcJe+hIT3Zxzu7ty4T
+	 nVdTa1q444soZAq+g6tV2LI1HQ8lx86p1NyZAPIfNvwW+dnvaaY5mM5i3hZtKoJAwe
+	 4Rovyt87IWUlH16H55Z/PVhpp/wyLOb1mXXP+rgFm53SqUTQbrcfKB/snhMlEt/eyi
+	 SpD0+ngW2Z+DosncUqMr/GNaM7Eka3uW0CvvI9cPkGTj1ntGsksXlwofb6bxufnIY3
+	 UTHSpw4/ND2L+jshG5QZSivp202xah6bq3Q3KP5ZjjPgg+5i+rTfUFg0E2W4TLfAQn
+	 Q1Gtz1CrLmtUw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc: Bradford Love <brad@nextdimension.cc>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.15] media: ccs-pll: Fix pre-PLL divider calculation for EXT_IP_PLL_DIVIDER flag
-Date: Mon, 20 Apr 2026 09:19:51 -0400
-Message-ID: <20260420132314.1023554-197-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-5.10] media: saa7164: Fix REV2 firmware filename
+Date: Mon, 20 Apr 2026 09:20:00 -0400
+Message-ID: <20260420132314.1023554-206-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -69,357 +68,386 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-59149-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59150-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,huawei];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,yhbt.net:url]
-X-Rspamd-Queue-Id: 53EF442D82C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nextdimension.cc:url,nextdimension.cc:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail-archive.com:url,linuxtv.org:email]
+X-Rspamd-Queue-Id: 6B2E542D913
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Alexander Shiyan <eagle.alexander923@gmail.com>
+From: Bradford Love <brad@nextdimension.cc>
 
-[ Upstream commit b7ef8bbb9fbd43d33ecb92e23aa7c5a55dab5513 ]
+[ Upstream commit ca3e8eaaa44e236413fd8d142231b5f03aefe55c ]
 
-When the CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER flag is set, odd pre-PLL divider
-values are allowed. However, in the operational timing branch the
-calculation of the minimum pre-PLL divider incorrectly uses clk_div_even_up,
-forcing the minimum value to be even, even if the flag is set. This prevents
-selecting a valid odd divider like 3, which may be required for certain
-sensor configurations.
+The wrong firmware file is listed, leading to non functional devices
+on REV2 models.
 
-Fix this by removing the forced even rounding from the minimum pre-PLL
-divider calculation. The loop later uses the flag to determine the step,
-so odd values will be considered when the flag is set.
-
-Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Bradford Love <brad@nextdimension.cc>
+Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have a comprehensive understanding. Let me compile the full
-analysis.
+I now have all the information needed for a comprehensive analysis. Let
+me compile the full report.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Parse Subject Line
-- **Subsystem:** `media: ccs-pll:` — MIPI CCS PLL calculator for camera
-  sensors
-- **Action verb:** "Fix" — explicit bug fix
-- **Summary:** Corrects pre-PLL divider calculation when
-  `EXT_IP_PLL_DIVIDER` flag is set
+### Step 1.1: PARSE THE SUBJECT LINE
+- **Subsystem**: `media: saa7164:`
+- **Action verb**: "Fix" - clearly a bug fix
+- **Summary**: Corrects the wrong firmware filename for REV2 model
+  SAA7164 devices
+Record: [media: saa7164] [Fix] [Corrects REV2 firmware filename to make
+REV2 devices functional]
 
-### Step 1.2: Parse Tags
-- **Signed-off-by:** Alexander Shiyan (author), Sakari Ailus (CCS
-  subsystem maintainer), Mauro Carvalho Chehab (media subsystem
-  maintainer)
-- No Fixes: tag, no Cc: stable, no Reported-by, no Link — expected for
-  autosel candidate
+### Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
+- **Signed-off-by**: Bradford Love <brad@nextdimension.cc> (author)
+- **Signed-off-by**: Hans Verkuil <hverkuil+cisco@kernel.org> (media
+  subsystem co-maintainer)
+- No Fixes: tag, Reported-by:, or Cc: stable (expected for this review
+  pipeline)
+Record: Patch authored by Bradford Love, signed off by Hans Verkuil
+(media subsystem maintainer). No Fixes: tag or formal Reported-by.
 
-### Step 1.3: Commit Body Analysis
-The bug: when `CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER` is set, odd pre-PLL
-dividers should be allowed. However, the initial minimum calculation
-uses `clk_div_even_up()`, unconditionally forcing the minimum to be
-even. This prevents selecting valid odd dividers (like 3). The loop step
-already respects the flag, but the minimum is pre-constrained to even
-values.
+### Step 1.3: ANALYZE THE COMMIT BODY TEXT
+"The wrong firmware file is listed, leading to non functional devices on
+REV2 models." This is a straightforward bug description: the wrong
+firmware filename causes complete device failure.
+Record: [Bug: wrong firmware filename for REV2] [Symptom: non-functional
+devices] [Root cause: firmware define incorrectly set to same file as
+REV3]
 
-### Step 1.4: Hidden Bug Detection
-This is explicitly labeled as a fix. The logic error is real and
-verifiable from the code.
+### Step 1.4: DETECT HIDDEN BUG FIXES
+This is not hidden at all - it's explicitly a bug fix. The word "Fix" is
+in the subject and the commit body describes non-functional hardware.
+Record: [Direct bug fix, not disguised]
 
 ---
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory
-- **File:** `drivers/media/i2c/ccs-pll.c` — 3 lines removed, 2 lines
-  added
-- **Function:** `ccs_pll_calculate()` — single function, single hunk
-- **Scope:** Single-file surgical fix
+### Step 2.1: INVENTORY THE CHANGES
+- **Files changed**: 1 (`drivers/media/pci/saa7164/saa7164-fw.c`)
+- **Lines changed**: 2 lines modified (2 `#define` values)
+- **Functions modified**: None - these are file-level macro definitions
+- **Scope**: Single-file, trivially surgical
+Record: [1 file, 2 lines changed, two #define macros modified, minimal
+scope]
 
-### Step 2.2: Code Flow Change
-**Before:** `min_op_pre_pll_clk_div` first calculation uses
-`clk_div_even_up(DIV_ROUND_UP(...))`, always forcing the frequency-based
-minimum to be even.
+### Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
+- **Before**: `SAA7164_REV2_FIRMWARE` = `"NXP7164-2010-03-10.1.fw"`,
+  size = 4019072 (same as REV3)
+- **After**: `SAA7164_REV2_FIRMWARE` = `"v4l-saa7164-1.0.2-3.fw"`, size
+  = 4038864 (different from REV3)
+- The firmware is loaded in `saa7164_downloadfirmware()` at line
+  203-209, where `chiprev == SAA7164_CHIP_REV2` selects REV2 firmware.
+  This fix ensures REV2 devices request the correct firmware file.
+Record: [Before: REV2 loads wrong firmware (same as REV3) -> device
+fails with "image corrupt". After: REV2 loads correct firmware -> device
+works.]
 
-**After:** `min_op_pre_pll_clk_div` first calculation uses raw
-`DIV_ROUND_UP(...)`, preserving odd values.
+### Step 2.3: IDENTIFY THE BUG MECHANISM
+This is a **logic/correctness fix** - wrong data values in firmware
+filename macros. The wrong firmware is loaded for REV2 hardware, causing
+the device to reject it ("image corrupt").
+Record: [Logic/data error: incorrect firmware filename constant.
+Mechanism: firmware mismatch causes device rejection.]
 
-The flag-based conditional even check at lines 846-847 then properly
-decides whether to force even.
-
-### Step 2.3: Bug Mechanism
-This is a **logic/correctness bug**. The `clk_div_even_up()` at line 827
-conflicts with the flag-based conditional check at line 846-847 (added
-by `660e613d05e449`). Since `max_t()` propagates the larger value, the
-unconditionally-even first calculation can become the binding
-constraint, defeating the flag check.
-
-### Step 2.4: Fix Quality
-- Minimal and surgical — removes one wrapper function call
-- Obviously correct — the VT tree equivalent code at lines 412-416 does
-  NOT use `clk_div_even_up()` for the analogous calculation
-- The flag check at 846-847 ensures sensors without the flag still get
-  even values
-- Zero regression risk for sensors without the flag
+### Step 2.4: ASSESS THE FIX QUALITY
+- **Obviously correct**: Yes - changes two `#define` values; REV3 is not
+  touched
+- **Minimal/surgical**: Yes - 2 lines, the smallest possible fix
+- **Regression risk**: Extremely low - only REV2 path is affected, REV3
+  is unchanged
+- **Red flags**: None
+Record: [Fix quality: excellent. Minimal, obviously correct, zero
+regression risk for non-REV2 devices.]
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: Blame
-From git blame:
-- Line 827 (`clk_div_even_up(`) traces to `6de1b143a45d3c` from **2012**
-  (originally `smiapp-pll.c`)
-- The `EXT_IP_PLL_DIVIDER` loop step support was added by
-  `4e1e8d240dff96` in **2020**
-- The flag check at lines 846-847 was added by `660e613d05e449` in
-  **February 2025**
+### Step 3.1: BLAME THE CHANGED LINES
+From git blame, the buggy code was introduced in commit `6d152c200e8630`
+(2010-07-31) by Steven Toth, "[media] saa7164: enforce the march 10th
+firmware is used". That commit changed both REV2 and REV3 to use the
+same firmware file `NXP7164-2010-03-10.1.fw`. Before that commit, REV2
+used `v4l-saa7164-1.0.2.fw` and REV3 used `v4l-saa7164-1.0.3.fw`.
+Record: [Bug introduced by 6d152c200e8630 (2010, v2.6.36 era). Code has
+been broken for ~16 years.]
 
-The inconsistency existed since 2020 when odd divider support was added
-but the initial min calculation wasn't updated.
+### Step 3.2: FOLLOW THE FIXES TAG
+No Fixes: tag is present. However, the implicit fix target is commit
+`6d152c200e8630`. This commit exists in all stable trees since it was
+from 2010.
+Record: [Implicit Fixes: 6d152c200e8630. That commit is present in all
+stable trees.]
 
-### Step 3.2: Related Commits
-- `660e613d05e449` ("Start OP pre-PLL multiplier search from correct
-  value") — added the flag check after the second min calculation. Has
-  `Cc: stable@vger.kernel.org`. This is the **prerequisite** for the
-  commit being analyzed, and it IS in 7.0.
-- `06d2d478b09e6` ("Start VT pre-PLL multiplier search from correct
-  value") — the VT tree equivalent fix, which correctly doesn't use
-  `clk_div_even_up()` for the initial min. Also has `Cc: stable`.
+### Step 3.3: CHECK FILE HISTORY
+Last 10 commits to `saa7164-fw.c` are all cleanup/style changes (SPDX,
+typo fixes, duplicate assignments removal). No recent functional
+changes. The firmware defines haven't been touched since 2010.
+Record: [File stable. No recent conflicting changes. Last functional
+change to firmware defines: 2010.]
 
-### Step 3.3: Author Context
-Alexander Shiyan is a community contributor, not the CCS subsystem
-maintainer. However, the patch was reviewed and signed off by Sakari
-Ailus (CCS maintainer) and Mauro Carvalho Chehab (media subsystem
-maintainer), giving it strong authority.
+### Step 3.4: CHECK THE AUTHOR
+Bradford Love is not the subsystem maintainer but appears to be
+associated with Hauppauge (nextdimension.cc). The patch was signed off
+by Hans Verkuil, who is the media subsystem co-maintainer.
+Record: [Author appears associated with Hauppauge hardware. Signed off
+by media subsystem maintainer.]
 
-### Step 3.5: Dependencies
-This commit requires `660e613d05e449` to be present (the flag check at
-line 846-847 is in the diff context). That commit IS in the 7.0 tree and
-was already Cc'd to stable.
+### Step 3.5: CHECK FOR DEPENDENCIES
+The fix is completely standalone - it only changes two `#define` values.
+No prerequisite commits needed.
+Record: [No dependencies. Fully standalone.]
 
 ---
 
-## PHASE 4: MAILING LIST RESEARCH
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-### Step 4.1: Original Discussion
-b4 dig could not find the commit (it's not yet in this tree). Web search
-did not find the specific patch thread. The AUTOSEL thread for 6.15
-found at yhbt.net/lore includes related CCS PLL patches from the same
-series of fixes by Sakari Ailus.
+### Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
+Found the commit notification at mail-archive.com: committed to
+media.git/next on March 12, 2026, by Hans Verkuil.
+Record: [Found at https://www.mail-archive.com/linuxtv-
+commits@linuxtv.org/msg48542.html. Committed by Hans Verkuil.]
 
-### Step 4.2: Reviewer Context
-Signed off by both the CCS subsystem maintainer (Sakari Ailus) and media
-subsystem maintainer (Mauro Carvalho Chehab), indicating proper review
-chain.
+### Step 4.2: WHO REVIEWED THE PATCH
+Hans Verkuil (media subsystem co-maintainer) signed off and committed
+the patch.
+Record: [Reviewed and committed by subsystem maintainer Hans Verkuil.]
+
+### Step 4.3: SEARCH FOR THE BUG REPORT
+Found a detailed bug report at GitHub (b-rad-NDi/Ubuntu-media-tree-
+kernel-builder#121) from December 2020:
+- User rb0135 reported HVR2200 revision 129 (REV2) devices were non-
+  functional
+- dmesg shows `saa7164_downloadimage() image corrupt` when loading
+  `NXP7164-2010-03-10.1.fw`
+- User had been manually patching the driver "for a few years" before
+  filing the report
+- The fix was verified to work by the user: "your patch worked
+  perfectly"
+Record: [GitHub issue #121 from 2020. User-verified fix. Bug existed for
+years with users manually patching.]
+
+### Step 4.4: RELATED PATCHES
+This is a standalone fix. No related series.
+Record: [Standalone fix.]
+
+### Step 4.5: STABLE MAILING LIST
+No specific stable discussion found, but no reason it was excluded
+either - it simply didn't have the Cc: stable tag.
+Record: [No stable-specific discussion found.]
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: Functions Modified
-- `ccs_pll_calculate()` — the main PLL calculator entry point
+### Step 5.1: KEY FUNCTIONS
+The `#define` values are used in `saa7164_downloadfirmware()` at lines
+203-209.
 
-### Step 5.2: Callers
-- Called from `ccs_pll_calculate()` in `ccs-core.c` (line 512) and
-  `imx214.c`
-- Called during sensor initialization — affects whether the camera
-  sensor can be configured
+### Step 5.2: TRACE CALLERS
+`saa7164_downloadfirmware()` is called during device initialization
+(probe path). This is the standard firmware loading path for all SAA7164
+devices.
 
-### Step 5.4: Call Chain
-`sensor probe → pll_calculate → ccs_pll_calculate()` — this is called
-during sensor initialization. If PLL calculation fails, the sensor
-cannot operate.
+### Step 5.3-5.4: CODE FLOW
+The firmware loading happens via `request_firmware(&fw, fwname,
+&dev->pci->dev)` (line 407). If the firmware file is the wrong one for
+the hardware revision, the device rejects it during boot verification
+with "image corrupt" (line 155).
+Record: [Firmware loading is on the critical probe path. All REV2 device
+users are affected.]
 
-### Step 5.5: Pattern Comparison
-The VT tree equivalent (lines 412-416) does NOT use `clk_div_even_up()`
-for the analogous min calculation, confirming the OP tree code is
-inconsistent.
+### Step 5.5: SIMILAR PATTERNS
+No similar pattern - this is a unique data error in the firmware
+filename.
 
 ---
 
 ## PHASE 6: STABLE TREE ANALYSIS
 
-### Step 6.1: Code Presence
-- The `clk_div_even_up()` at line 827 traces back to 2012
-  (`6de1b143a45d3c`, v3.8)
-- The `EXT_IP_PLL_DIVIDER` flag support was added in 2020
-  (`4e1e8d240dff96`, v5.10-rc6 era)
-- The prerequisite flag check (`660e613d05e449`) is in 7.0 tree and was
-  Cc'd to stable
-- The buggy code exists in all stable trees that have both the original
-  code and the flag support
+### Step 6.1: BUGGY CODE IN STABLE TREES?
+The buggy code was introduced in 2010 (commit 6d152c200e8630). It exists
+in **every** stable tree.
+Record: [Bug exists in all active stable trees - it's been present since
+v2.6.36.]
 
-### Step 6.2: Backport Complications
-The diff applies cleanly to 7.0 — the "before" state in the diff matches
-the current code exactly.
+### Step 6.2: BACKPORT COMPLICATIONS
+The fix changes two `#define` macros that haven't changed since 2010.
+The patch will apply cleanly to all stable trees.
+Record: [Clean apply expected in all stable trees.]
+
+### Step 6.3: RELATED FIXES IN STABLE
+No related fixes found in stable.
 
 ---
 
-## PHASE 7: SUBSYSTEM CONTEXT
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-### Step 7.1: Subsystem
-- **Subsystem:** drivers/media/i2c — camera sensor I2C driver
-  infrastructure
-- **Criticality:** PERIPHERAL — affects CCS-compatible camera sensors
-  with specific capabilities
-- The CCS PLL calculator is used by the CCS sensor driver and referenced
-  by other sensor drivers (imx214)
+### Step 7.1: SUBSYSTEM CRITICALITY
+- **Subsystem**: drivers/media/pci - PCI video capture driver
+- **Criticality**: PERIPHERAL (specific hardware)
+- However, for users with this hardware (Hauppauge HVR2200 REV2), the
+  device is completely non-functional
+Record: [drivers/media/pci - peripheral but total device failure for
+affected users]
+
+### Step 7.2: SUBSYSTEM ACTIVITY
+The saa7164 driver receives occasional cleanup patches. It's a mature
+driver.
+Record: [Mature driver, infrequent changes.]
 
 ---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: Affected Users
-Driver-specific: affects CCS-compatible sensors with
-`CCS_CLOCK_TREE_PLL_CAPABILITY_EXT_DIVIDER` capability
+### Step 8.1: WHO IS AFFECTED
+Users of Hauppauge WinTV-HVR2200 revision 2 boards
+(SAA7164_BOARD_HAUPPAUGE_HVR2200_2 and _3). Three board definitions use
+SAA7164_CHIP_REV2.
+Record: [Driver-specific: Hauppauge HVR2200 REV2 boards.]
 
-### Step 8.2: Trigger Conditions
-Triggered during sensor initialization when:
-1. The sensor has the EXT_DIVIDER capability
-2. The frequency constraint calculation produces an odd minimum divider
-3. That odd minimum is the binding constraint (larger than the
-   multiplier-based constraint)
+### Step 8.2: TRIGGER CONDITIONS
+Every device probe on REV2 hardware. 100% reproducible. No special
+conditions needed.
+Record: [Trigger: every boot with REV2 hardware. 100% reproducible.]
 
-### Step 8.3: Failure Mode
-- PLL calculation selects wrong divider or fails entirely
-- Result: camera sensor doesn't work or operates suboptimally
-- **Severity: MEDIUM** — non-working hardware, not crash/corruption
+### Step 8.3: FAILURE MODE SEVERITY
+The device is completely non-functional. Firmware loading fails with
+"image corrupt". The hardware cannot be used at all.
+Record: [Complete device failure. Severity: HIGH.]
 
-### Step 8.4: Risk-Benefit
-- **Benefit:** Enables correct PLL configuration for affected sensors
-- **Risk:** Negligible — the fix only changes behavior when
-  `EXT_IP_PLL_DIVIDER` flag is set; the flag check at 846-847 ensures
-  correct behavior for sensors without the flag
-- **Ratio:** Favorable — meaningful benefit with essentially zero
-  regression risk
+### Step 8.4: RISK-BENEFIT RATIO
+- **BENEFIT**: Very high for affected users - makes their hardware work
+- **RISK**: Extremely low - 2-line #define change, no code logic change,
+  REV3 unchanged
+Record: [Benefit: HIGH (enables hardware). Risk: VERY LOW (2-line define
+change). Excellent ratio.]
 
 ---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence Compilation
+### Step 9.1: EVIDENCE COMPILATION
 
 **FOR backporting:**
-- Real logic bug that prevents valid PLL configurations
-- Very small, surgical fix (remove one function wrapper)
-- Obviously correct — consistent with VT tree pattern
-- Signed off by both CCS and media subsystem maintainers
-- Prerequisite commit already in stable with Cc: stable tag
-- Applies cleanly to 7.0
-- Zero regression risk for sensors without the flag
+- Fixes completely non-functional hardware for REV2 SAA7164 users
+- 2-line change - minimal possible fix
+- Obviously correct - restores proper firmware name
+- Bug has existed since 2010, confirmed by real user reports since at
+  least 2020
+- Verified by user testing (GitHub issue #121)
+- Signed off by media subsystem co-maintainer Hans Verkuil
+- No risk of regression to REV3 devices
+- Will apply cleanly to all stable trees
 
 **AGAINST backporting:**
-- Niche user population (CCS sensors with specific capability)
-- No crash, security issue, or data corruption — functional correctness
-  only
-- No Fixes: tag or Cc: stable from author
-- No Reported-by: (no evidence of user reports)
+- No evidence against.
 
-### Step 9.2: Stable Rules Checklist
-1. **Obviously correct?** YES — removing unconditional even-rounding
-   that conflicts with conditional check
-2. **Fixes real bug?** YES — wrong PLL divider selection for sensors
-   with odd divider support
-3. **Important issue?** MEDIUM — non-working hardware for affected
-   sensors
-4. **Small and contained?** YES — 3 lines removed, 2 added in single
-   function
-5. **No new features?** YES — pure bug fix
-6. **Applies to stable?** YES — applies cleanly
+### Step 9.2: STABLE RULES CHECKLIST
+1. Obviously correct and tested? **YES** - 2-line define change, user-
+   tested
+2. Fixes a real bug? **YES** - completely non-functional hardware
+3. Important issue? **YES** - complete device failure
+4. Small and contained? **YES** - 2 lines in 1 file
+5. No new features or APIs? **YES** - just corrects firmware filename
+6. Can apply to stable? **YES** - clean apply expected
+
+### Step 9.3: EXCEPTION CATEGORIES
+This is effectively a hardware enablement fix (correcting firmware for
+specific hardware revision), similar in spirit to device ID additions
+and hardware quirks.
+
+### Step 9.4: DECISION
+This is a textbook stable backport candidate: tiny, obviously correct
+fix that makes real hardware work for real users.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed commit message: explicit "Fix" in subject, describes
-  logic error with EXT_IP_PLL_DIVIDER
-- [Phase 2] Diff analysis: removes `clk_div_even_up()` wrapper from
-  first `min_op_pre_pll_clk_div` calculation (line 827)
-- [Phase 3] git blame: `clk_div_even_up()` at line 827 from commit
-  `6de1b143a45d3c` (2012), flag support from `4e1e8d240dff96` (2020)
-- [Phase 3] git show `660e613d05e449`: confirmed prerequisite commit is
-  in 7.0 tree, has `Cc: stable`, adds flag check at lines 846-847
-- [Phase 3] git show `06d2d478b09e6`: confirmed VT tree equivalent fix
-  pattern doesn't use `clk_div_even_up()` for its min calculation
-- [Phase 3] git show `4e1e8d240dff96`: confirmed this is when
-  EXT_IP_PLL_DIVIDER loop step was added
-- [Phase 4] Web search: could not find specific patch thread; found
-  related AUTOSEL 6.15 series with CCS PLL fixes
-- [Phase 5] Grep callers: `ccs_pll_calculate()` called from `ccs-
-  core.c:512` during sensor setup
-- [Phase 5] Grep `CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER`: set in `ccs-
-  core.c:3506` based on sensor capability register
-- [Phase 6] Code present in 7.0 tree; diff applies cleanly; prerequisite
-  already present
-- [Phase 7] VT tree (lines 412-416) confirmed to NOT use
-  `clk_div_even_up()`, showing OP tree is inconsistent
-- UNVERIFIED: Exact mainline commit hash not found in this tree;
-  specific lore.kernel.org thread not accessible
-
----
-
-This is a small, obviously correct bug fix that removes an unconditional
-even-rounding operation that conflicts with a flag-based conditional
-check for sensors supporting odd PLL dividers. The fix makes the OP tree
-code consistent with the VT tree code. The prerequisite commit is
-already in stable trees. The risk is negligible and the fix enables
-correct hardware operation for affected sensors.
+- [Phase 1] Parsed tags: Signed-off-by Bradford Love (author) and Hans
+  Verkuil (media maintainer)
+- [Phase 2] Diff analysis: 2 #define lines changed - firmware name and
+  size for REV2
+- [Phase 3] git blame: buggy code introduced in commit 6d152c200e8630
+  (2010, v2.6.36), present in all stable trees
+- [Phase 3] git show 6d152c200e8630: confirmed it changed REV2 firmware
+  from `v4l-saa7164-1.0.2.fw` to `NXP7164-2010-03-10.1.fw` (same as
+  REV3), breaking REV2
+- [Phase 3] git log -- saa7164-fw.c: no conflicting recent changes;
+  firmware defines unchanged since 2010
+- [Phase 4] Found commit notification at mail-archive.com/linuxtv-
+  commits
+- [Phase 4] GitHub issue #121 (b-rad-NDi/Ubuntu-media-tree-kernel-
+  builder): User rb0135 confirmed non-functional REV2 hardware since
+  2020, had been patching manually "for a few years", confirmed fix
+  works
+- [Phase 4] dmesg in bug report shows "saa7164_downloadimage() image
+  corrupt" with wrong firmware
+- [Phase 5] Firmware loaded via request_firmware() in
+  saa7164_downloadfirmware(), called during probe - all REV2 users
+  affected
+- [Phase 5] Three board definitions use SAA7164_CHIP_REV2: UNKNOWN_REV2,
+  HVR2200_2, HVR2200_3
+- [Phase 6] Bug exists in all stable trees (introduced 2010). Clean
+  apply expected.
+- [Phase 8] Failure mode: complete device non-functionality; severity
+  HIGH; risk VERY LOW (2-line change)
 
 **YES**
 
- drivers/media/i2c/ccs-pll.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/media/pci/saa7164/saa7164-fw.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/ccs-pll.c b/drivers/media/i2c/ccs-pll.c
-index 4eb83636e1027..1605cfa5db19d 100644
---- a/drivers/media/i2c/ccs-pll.c
-+++ b/drivers/media/i2c/ccs-pll.c
-@@ -824,9 +824,8 @@ int ccs_pll_calculate(struct device *dev, const struct ccs_pll_limits *lim,
- 				   op_lim_fr->min_pll_ip_clk_freq_hz));
- 	min_op_pre_pll_clk_div =
- 		max_t(u16, op_lim_fr->min_pre_pll_clk_div,
--		      clk_div_even_up(
--			      DIV_ROUND_UP(pll->ext_clk_freq_hz,
--					   op_lim_fr->max_pll_ip_clk_freq_hz)));
-+		      DIV_ROUND_UP(pll->ext_clk_freq_hz,
-+				   op_lim_fr->max_pll_ip_clk_freq_hz));
- 	dev_dbg(dev, "pre-pll check: min / max op_pre_pll_clk_div: %u / %u\n",
- 		min_op_pre_pll_clk_div, max_op_pre_pll_clk_div);
+diff --git a/drivers/media/pci/saa7164/saa7164-fw.c b/drivers/media/pci/saa7164/saa7164-fw.c
+index cc9f384f7f1e9..341cef62452f1 100644
+--- a/drivers/media/pci/saa7164/saa7164-fw.c
++++ b/drivers/media/pci/saa7164/saa7164-fw.c
+@@ -10,8 +10,8 @@
  
+ #include "saa7164.h"
+ 
+-#define SAA7164_REV2_FIRMWARE		"NXP7164-2010-03-10.1.fw"
+-#define SAA7164_REV2_FIRMWARE_SIZE	4019072
++#define SAA7164_REV2_FIRMWARE		"v4l-saa7164-1.0.2-3.fw"
++#define SAA7164_REV2_FIRMWARE_SIZE	4038864
+ 
+ #define SAA7164_REV3_FIRMWARE		"NXP7164-2010-03-10.1.fw"
+ #define SAA7164_REV3_FIRMWARE_SIZE	4019072
 -- 
 2.53.0
 
