@@ -1,367 +1,183 @@
-Return-Path: <linux-media+bounces-59115-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59117-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4GJhH4LC5WmnnwEAu9opvQ
-	(envelope-from <linux-media+bounces-59115-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 08:06:58 +0200
+	id mK3LFhPJ5WlIoAEAu9opvQ
+	(envelope-from <linux-media+bounces-59117-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 08:34:59 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3DB542703A
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 08:06:57 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 614A94273FC
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 08:34:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 928AC301DB82
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 06:06:44 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 13B193005154
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 06:34:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 107D83815D2;
-	Mon, 20 Apr 2026 06:06:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EF9C382394;
+	Mon, 20 Apr 2026 06:34:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b="k2SKip8x"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kkkhNoIC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2314940DFC4
-	for <linux-media@vger.kernel.org>; Mon, 20 Apr 2026 06:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776665203; cv=none; b=QKvWS8UFmLfBZhVknCSvMX7NvSk47bJC2UViKiEH0L7MuaBR+KZOi3ybcqGmxrhmZEbhu5neafJTpVKBFjTN0ArZxTUtcyYpPbj6e+TI9ISctZke5JQ9232lKjReGTCD7vk+UpYw+1B8zLj2KuiQZFRIsXCawh/9lSPktzCQ/qE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776665203; c=relaxed/simple;
-	bh=o9VyHHljdlNryQxgGpX/rIFtgqHL6AXLc8VCdQZtJUw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=j4lmH5KDrCfMvtddF6YkVh3mcgpmZwLZmj+33kiNk3wRtEoMLBQBEBoscaa/3d6QrbPyqP5QgNyAMGcVQX1ZZCMcy1qiAKbmNVFLZ71eNuONTGeic51Y67KwKDproVaLgPSX1O69kmdb6nBR0hY6d8c33D3PWoEoz0m7CNwl21w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr; spf=pass smtp.mailfrom=snu.ac.kr; dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b=k2SKip8x; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snu.ac.kr
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-35e576110adso1747597a91.0
-        for <linux-media@vger.kernel.org>; Sun, 19 Apr 2026 23:06:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A7627B32C
+	for <linux-media@vger.kernel.org>; Mon, 20 Apr 2026 06:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776666886; cv=pass; b=B7OmlhFme2AicCbzyIsDYC3yARlSZKIJo0HQGHLF5N1E7HemXSw7U1fmd/euOWVPiNIQ/5Ht7iNVWkQJBYWYz7nsw6ENUyOsc44p3jb9+A11lgS1EG9HZDhofro2Eh/+VyidOmlbIIhC2Gsml2ScqjRS2HyDyDXlqaN70wJSQ78=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776666886; c=relaxed/simple;
+	bh=81PEkTTgJBxoeay/TLfhpVbql70yqz+B4ECmxiW0Wf0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bsS0o+Eqg1FhJQjG9FBtiglBo6z08ud9/SMHoEbybHRb55S6affz415Zk/UMaBPbIxyZIlmveAM4qpTLWPQJfFVLX/qXFlLZ9mT8BFG556A/0+ANqLBO3rrClzmi9FZk4IyrRwomONqgBJ+8r82WXMLa+XiGvvwFwvdZ4PdGAvg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kkkhNoIC; arc=pass smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ba6b39871a3so164281666b.0
+        for <linux-media@vger.kernel.org>; Sun, 19 Apr 2026 23:34:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776666883; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kF6oDU5esvtcq8jim0VO1OPG3VNhQY47HpRR2eFbWBKrPj4RnbzdLuISctlY/AeQpY
+         XolqQXHEG/h5sbM2caImDwKuCD1q+zCplnjVYDQGqT9V9dRYwLmOzOE1IBia0gO1k624
+         Cee/ji0Pmdq5q3VfeSfuEmTo2/fmQcC0E9UKpK+QCy6XJSXxxMK32IX8UVouoP7IjCyi
+         zmMDchILHiezzhY6Fe41izkt08tr7sFw0w0NDHe9Wk/lqNoFvylcNSkElkb5yWWkypny
+         zZgvepzlHe1Oy7AgbBgiQgM1JEv3ROYfkX/LpD9m1UAv6OCEsZ9Yh9k5BU2r2yMAHP0i
+         veEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=81PEkTTgJBxoeay/TLfhpVbql70yqz+B4ECmxiW0Wf0=;
+        fh=vUvXfJVceHFgWUpRt3hdStg8WNBVvvze/3gUGoS31Bc=;
+        b=FxJxOVyi7DnHy/6uVnKN7SaptJ4Fw3rEPPb91pKeQzVSytSU2DPsuOLjqv2BEKo+Jh
+         2eV8bYGMDXTL0FtYTLT7ACmMaG+CuBJ9Kw7TkiTPQySq5Zfcpf7Lli+lmshLj3rrcYUx
+         9CRFfEThAbFwXta6M0Hg5ajKnFzTcUbk6iiqIRqar8GPPKmxKJpoCDgNNZ4HCsknyKXH
+         phX2NPXj8EV7hu30pGNVqaEOd5YJ7rMGzWn7PuaRjFa0C3eiK3P2qEXSvhxnmHlars/0
+         e4QjTOUd/MASnITJFPXI1oTKqTnt3YdeLmYPq+yfSKzqkZ+pq1Mn5cflTMiZoaXp40En
+         MEgg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snu.ac.kr; s=google; t=1776665199; x=1777269999; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sbHCUNdavsi9m4FkYItkV2uwfkFJaRWF7u5PuSyGeu8=;
-        b=k2SKip8xU1lDGEOVv9gHsepsT/agF+sar6U9mGEnC7datNI8gbFlifYZK3c5+DEpLL
-         Yq3lgPs6uCO5FUbYM2CF3AwmDD4LrDKmO+PQh1V0BmzAdYb9c848zoSVPOnjDFDR+UEp
-         BvbTiu4D7xnNPIH9+TYPy6S6cIevgCYkgEtzI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776665199; x=1777269999;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776666883; x=1777271683; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sbHCUNdavsi9m4FkYItkV2uwfkFJaRWF7u5PuSyGeu8=;
-        b=B1mcayLCVVC52wpJQfTkplP0uwqERQGyR9rBb/neflFtmS4oXJlcPRAHhmTM6Pd/GG
-         uft5DYEOm8RpU7J4+2kuxE1WXpIfd9dI02HmJxTk8aZm8SiwEbEZdTLQoo6V4PSKOPaD
-         Q6SWJGNfoz/MBAmu1lk5R634le3ulQ+HI2duj6m2uIQzgAgQuYFEnRseAdvjx/RBrhEO
-         U61/2g7f5cOANaejBPxTHDNptS82S5yGd0NZax8KgrYp8njPFK24Mgon2Qdfco77pNsL
-         ZMCm8JXqYq2/FOK1Tfq1qLj+GVfA8tnZ6esKZuysA8/peDEPJYxenK6XIy3PJjC55pkw
-         Nryg==
-X-Gm-Message-State: AOJu0YzUhSxCRIbJYRqrIqNkUQTsrm+VDQuGfxIC7SdBel5xpsNlSsnn
-	QZ29NIicPPpuXxdJ5Axb9LQx46/3ajjMjLThNwFBt9YMYOPOhhyW8BLuw1M/UyJdgSk=
-X-Gm-Gg: AeBDiet4xgbi51COt7ohwk1YO4/ezd++ZQeoZjx/9K06ZejX8smSrSUa9v7STFQqt45
-	9W75SMkcWEKNgcmDed4wFpntwAbKgTTh8iptJ+q7x6of+4xwhNCgrHDVvMEejOcUeJI3t70J1M4
-	OfhuQ+xwpN3sakTYgqBHFNXb4WtA9foHmOiF+dAJjjAPp0iWtqYDaSXwtkhj/VjTM9cTF/G+pB6
-	9+cVUuqfzNFvN/+6a3x+Q72iQDutKNVf2aIZWa+K7ERBDz/5GsANuY4xUia6uzrgjqGsBJXq/EM
-	BTmyWOdjB/Gd+27QqXy60iz1POx4ebr3MwLX5xWFyA44wizpnR4TQ8A9ya1IR76bxtgjjXId2jb
-	HplzeGe+OAj2OC4MkkAkO1SdjF/ieX7HH0s/sNK7x2WTOEI1rK0emJhzcT0lz7EWfuP3Y1kR6ri
-	9+Pe7VhHp4i5zHqDZUqQpLkfH64kSHVcSPsRzzmlzbJXudhljoo9K7N9+Lle9taJaR+kaHDQ==
-X-Received: by 2002:a17:90b:1e10:b0:35f:c6bf:2bba with SMTP id 98e67ed59e1d1-36140299a0dmr12086964a91.11.1776665199511;
-        Sun, 19 Apr 2026 23:06:39 -0700 (PDT)
-Received: from nunu.. (nunu.snu.ac.kr. [147.46.112.82])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3614195a8f0sm9082277a91.12.2026.04.19.23.06.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Apr 2026 23:06:39 -0700 (PDT)
-From: Sangyun Kim <sangyun.kim@snu.ac.kr>
-To: Mike Isely <isely@pobox.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Edward Adam Davis <eadavis@qq.com>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] media: pvrusb2: fix disconnect and teardown races
-Date: Mon, 20 Apr 2026 15:06:21 +0900
-Message-Id: <20260420060621.1627352-1-sangyun.kim@snu.ac.kr>
-X-Mailer: git-send-email 2.34.1
+        bh=81PEkTTgJBxoeay/TLfhpVbql70yqz+B4ECmxiW0Wf0=;
+        b=kkkhNoICaD3FlCu1la2bUdGwojNDkLhrcno7cnQ19k+R9aHpg13ymMdsMjtazQpHQr
+         2LQbjbSGQ3hRnoSEhk04W78+R6gL147FWTo65CQyGZU3DBvbB/24NXkRiowTPMf6baMN
+         jlZXZxMpbUy3+W+2CHR6Ws0hnT4hrilYELdZFxFs4YgCRNJSm/YxBrsw1zkBl1dKYJ8p
+         nVqUlN3k1R8IyT/cJTjW6ntIY3DIrAhHR5B3zKDPsEqbhMdKLvylVIJRsfJ/hb48GbtH
+         BTsXhWZtQ/vDBYt7bPmOvKTECh2cSrR+9vDcFDyyHVhIC8SkXW1NwlV7eVJXdiwPlxkR
+         QBzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776666883; x=1777271683;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=81PEkTTgJBxoeay/TLfhpVbql70yqz+B4ECmxiW0Wf0=;
+        b=Vb+vAnSjnw2JWLEHeW1zR94kp7FJD/BqdCHGYRwPgG+cWryz8KkwL1naQN5VdIxvy2
+         d25N3KBkc7CKKFxGu4218v3Yp6OfaV4rIf722ffQrfsBTcTWnU1bRVSyIFuDVYLOhaa1
+         jH2+aehpx8ZZalTfoYOxsZZCVzj2L01tlEDiWtCa9i64RINcUDIXDJ53YJk6q2QgljJ0
+         pu3anyMYolnMKdl2pVKhR1OIS9ySB3EoqzhNvioJVzmBBt+SReFfTIS1vkCnBe0M2Bdc
+         mam9jAiYBWYSCyqGW2Ed00Y2b5ILz6uPmgf9h5op4V4OOvnGxdYA5EWCnX2VS9KOzXwu
+         5MkA==
+X-Forwarded-Encrypted: i=1; AFNElJ8t2ImG8PqlcNvtq6Ta1qIIAve8SCBJBVKz/GgMOf+oWBABEAL5U+JChvJWbz2b+gF7ODcfkZiyStO/ag==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywf+xbBGGnV4SJYDmhhEWZ3zO+OShYfjZjJ4b3HhSfNiCydc7BE
+	q09ofC0ZOHw3tqQe/+88MgJBKSIlbMsE3/7QMl5UgjZ5zPJEzNrlZUoufotDhiO3JTfmN1ZmyNk
+	D5ffftGeASQ9SlRylmvs3nQe0dCKC+S8=
+X-Gm-Gg: AeBDieuik4aB1vOPRuX5s52S6qKbV7A0Y7LDF3Bm05IzV75A+1yUIWsl1iTGzkLMTk+
+	QGg1KAjOc0GYqOTu2dDUuhQqgq1vrLn+Bmv0a6CN63q1CDHaMHpFlbmoxJr+AhNpM5Pkshz7eW8
+	3rLSDt2xFXkJVVFzrOzwdEvNakR4/D3Duj+rIZ0Yqtz3APZwdIRn2ddRROxBkcWtigJ9MgxzQ7B
+	JhmwJfw23zO6RmsR11WloOv1l4In0cL9WppXFnCpmqP9zMtw7LcX8ogmYnQ0f3WRdViDtP7jtwA
+	03kx+PsbokVwHvy6y9HK9WlKl63fVQuPTc4xBbqCpOGegGSK/5P2tApzbGys0OZcu4cdnbD4fm/
+	57vaYL0vOEbHF3PVjRHGTIEQlVtBjKQ==
+X-Received: by 2002:a17:906:c102:b0:b97:b88c:386b with SMTP id
+ a640c23a62f3a-ba4229d7784mr517181366b.29.1776666882701; Sun, 19 Apr 2026
+ 23:34:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[snu.ac.kr,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[snu.ac.kr:s=google];
+References: <20251126190026.37436-1-ayushkr0s@gmail.com> <aeQDxUI8F1b7Hy8s@valkosipuli.retiisi.eu>
+ <CAHp75VcyO4rJMyVyUP6aKLugEBik_FPsyO4cgbPkTgnKUzhG+A@mail.gmail.com> <aeTOgEq9X192XPgG@valkosipuli.retiisi.eu>
+In-Reply-To: <aeTOgEq9X192XPgG@valkosipuli.retiisi.eu>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 20 Apr 2026 09:34:06 +0300
+X-Gm-Features: AQROBzBewWjAdKOSwG5n3rKZavdSyvwChWgRt8qbEPE0icMpjbHA5j266FgrIVg
+Message-ID: <CAHp75VcHXFr3PrmxyE7FxvzTwkCrPpHKc+6e=ziXCGFrBY269g@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: coding style: Move trailing statements to
+ next line
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Ayush Kumar <ayushkr0s@gmail.com>, hansg@kernel.org, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, andy@kernel.org, gregkh@linuxfoundation.org, 
+	hverkuil@kernel.org, ribalda@chromium.org, abdelrahmanfekry375@gmail.com, 
+	santiagorr@riseup.net, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	kernel-newbies@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-59117-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59115-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[pobox.com,kernel.org,qq.com];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sangyun.kim@snu.ac.kr,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linux.intel.com,linuxfoundation.org,chromium.org,riseup.net,vger.kernel.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	PRECEDENCE_BULK(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[snu.ac.kr:+];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andyshevchenko@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: C3DB542703A
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 614A94273FC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-pvr2_context_disconnect() queues a notification to the pvrusb2-context
-kthread before it stores mp->disconnect_flag:
+On Sun, Apr 19, 2026 at 3:46=E2=80=AFPM Sakari Ailus <sakari.ailus@iki.fi> =
+wrote:
+> On Sun, Apr 19, 2026 at 11:32:45AM +0300, Andy Shevchenko wrote:
+> > On Sun, Apr 19, 2026 at 1:20=E2=80=AFAM Sakari Ailus <sakari.ailus@iki.=
+fi> wrote:
+> > > On Wed, Nov 26, 2025 at 07:00:26PM +0000, Ayush Kumar wrote:
+> > > > Adhering to Linux kernel coding style guidelines (Chapter 3: Indent=
+ation).
+> > > >
+> > > > Signed-off-by: Ayush Kumar <ayushkr0s@gmail.com>
+> > >
+> > > This has been addressed by commit 003c2c39ec77c84d704ee8effe170fd8658=
+fde0b
+> > > in my atomisp branch.
+> >
+> > Btw, can you rebase your branch and drop "staging" word from the
+> > Subject in all current patches?
+>
+> Good question. The staging: prefix has been used in the past for atomisp
+> patches and a lot of the rest appears to be doing that as well but
+> definitely not all. I don't really have an opinion but we should do that
+> consistently whichever is chosen.
 
-    pvr2_hdw_disconnect(mp->hdw);
-    if (!pvr2_context_shutok())
-        pvr2_context_notify(mp);
-    mp->disconnect_flag = !0;
+I believe you were Cc'ed to the (private) email response from Hans
+where he explained why it should be dropped. Let me find if I still
+have it and bounce to you.
 
-The context thread only destroys a context when disconnect_flag is set
-and mc_first is NULL. If the notification wakes the thread before the
-flag store becomes visible, the thread dequeues the context, runs
-pvr2_context_check() with disconnect_flag still observed as 0, decides
-that the destroy condition is not met yet, and goes back to sleep.
-Nothing wakes the thread again once the flag is finally stored, so the
-context stays on the global exist list forever and
-pvr2_context_global_done() blocks module unload. commit 0a0b79ea55de
-("media: pvrusb2: fix uaf in pvr2_context_set_notify") made this
-liveness failure easier to hit by moving the notify earlier in the
-disconnect path.
 
-The same teardown sequence still contains a use-after-free.
-pvr2_context_exit() inspects disconnect_flag after releasing mp->mutex
-and may then call pvr2_context_notify(mp) after the context thread has
-already freed the object via pvr2_context_destroy()/kfree(). The hdw
-completion callback registered through pvr2_hdw_initialize() can race
-the same way. Reordering the disconnect path alone closes the unload
-hang, but it still leaves late notifiers able to touch freed memory.
-
-Fix both problems together:
-
-- Split pvr2_context_set_notify() into a locked helper
-  (pvr2_context_set_notify_locked()) and a wrapper that acquires
-  pvr2_context_mutex. This lets callers update several pieces of
-  related state inside a single critical section without relocking.
-
-- In pvr2_context_disconnect(), set disconnect_flag and enqueue the
-  thread notification under pvr2_context_mutex. The context thread
-  manipulates the notify list under the same mutex, so when it observes
-  the queued entry it is guaranteed to observe disconnect_flag = 1 as
-  well and the destroy condition evaluates correctly. This eliminates
-  the original notify-before-flag liveness hole.
-
-- Add a per-context refcount_t. pvr2_context_create() initialises it to
-  1 (creator reference). pvr2_channel_init() and pvr2_channel_done()
-  take and drop a reference around each channel's lifetime.
-  pvr2_context_disconnect() takes a temporary reference across its body
-  so the context cannot be freed while disconnect is still touching it.
-  pvr2_context_destroy() no longer calls kfree() directly; it drops its
-  reference via pvr2_context_put(), and whichever caller drops the last
-  reference performs the actual kfree. This keeps the object alive
-  until disconnect and the final channel teardown finish, regardless of
-  how the context thread, channel close, and USB disconnect paths
-  interleave.
-
-- Add a destroying_flag that pvr2_context_destroy() sets under
-  pvr2_context_mutex before unlinking the context from the notify and
-  exist lists. pvr2_context_set_notify_locked() refuses to re-enqueue a
-  context whose destroying_flag is set, so a late notifier arriving
-  after destroy has started cannot resurrect the context on the notify
-  list. The dequeue path (fl == 0) still proceeds unconditionally
-  because destroy itself must be able to remove any still-queued entry.
-
-- Update pvr2_context_exit() to enqueue through
-  pvr2_context_set_notify_locked() after releasing mp->mutex. The
-  caller (channel close or disconnect) always holds a reference, so the
-  object is stable across the mp->mutex / pvr2_context_mutex hand-off
-  and a concurrent destroy cannot free it under us. If destroy has
-  already won the race, destroying_flag short-circuits the enqueue into
-  a no-op.
-
-Lock ordering: pvr2_context_mutex is only acquired after mp->mutex is
-released; no path holds pvr2_context_mutex while acquiring mp->mutex,
-so no AB/BA deadlock is introduced. wake_up() on
-pvr2_context_sync_data is moved outside pvr2_context_mutex in every
-path that grew a new locked section, matching the existing style.
-
-Fixes: 0a0b79ea55de ("media: pvrusb2: fix uaf in pvr2_context_set_notify")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sangyun Kim <sangyun.kim@snu.ac.kr>
----
- drivers/media/usb/pvrusb2/pvrusb2-context.c | 56 ++++++++++++++++++---
- drivers/media/usb/pvrusb2/pvrusb2-context.h |  3 ++
- 2 files changed, 51 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-context.c b/drivers/media/usb/pvrusb2/pvrusb2-context.c
-index 93f5da65ead9..fb9bdbf5c886 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-context.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-context.c
-@@ -27,11 +27,19 @@ static int pvr2_context_cleaned_flag;
- static struct task_struct *pvr2_context_thread_ptr;
- 
- 
--static void pvr2_context_set_notify(struct pvr2_context *mp, int fl)
-+static void pvr2_context_put(struct pvr2_context *mp)
-+{
-+	if (refcount_dec_and_test(&mp->refcount))
-+		kfree(mp);
-+}
-+
-+static int pvr2_context_set_notify_locked(struct pvr2_context *mp, int fl)
- {
- 	int signal_flag = 0;
--	mutex_lock(&pvr2_context_mutex);
-+
- 	if (fl) {
-+		if (mp->destroying_flag)
-+			return 0;
- 		if (!mp->notify_flag) {
- 			signal_flag = (pvr2_context_notify_first == NULL);
- 			mp->notify_prev = pvr2_context_notify_last;
-@@ -59,6 +67,15 @@ static void pvr2_context_set_notify(struct pvr2_context *mp, int fl)
- 			}
- 		}
- 	}
-+	return signal_flag;
-+}
-+
-+static void pvr2_context_set_notify(struct pvr2_context *mp, int fl)
-+{
-+	int signal_flag = 0;
-+
-+	mutex_lock(&pvr2_context_mutex);
-+	signal_flag = pvr2_context_set_notify_locked(mp, fl);
- 	mutex_unlock(&pvr2_context_mutex);
- 	if (signal_flag) wake_up(&pvr2_context_sync_data);
- }
-@@ -66,10 +83,13 @@ static void pvr2_context_set_notify(struct pvr2_context *mp, int fl)
- 
- static void pvr2_context_destroy(struct pvr2_context *mp)
- {
-+	int signal_flag = 0;
-+
- 	pvr2_trace(PVR2_TRACE_CTXT,"pvr2_context %p (destroy)",mp);
- 	pvr2_hdw_destroy(mp->hdw);
--	pvr2_context_set_notify(mp, 0);
- 	mutex_lock(&pvr2_context_mutex);
-+	mp->destroying_flag = !0;
-+	pvr2_context_set_notify_locked(mp, 0);
- 	if (mp->exist_next) {
- 		mp->exist_next->exist_prev = mp->exist_prev;
- 	} else {
-@@ -83,10 +103,12 @@ static void pvr2_context_destroy(struct pvr2_context *mp)
- 	if (!pvr2_context_exist_first) {
- 		/* Trigger wakeup on control thread in case it is waiting
- 		   for an exit condition. */
--		wake_up(&pvr2_context_sync_data);
-+		signal_flag = !0;
- 	}
- 	mutex_unlock(&pvr2_context_mutex);
--	kfree(mp);
-+	if (signal_flag)
-+		wake_up(&pvr2_context_sync_data);
-+	pvr2_context_put(mp);
- }
- 
- 
-@@ -209,6 +231,7 @@ struct pvr2_context *pvr2_context_create(
- 	pvr2_trace(PVR2_TRACE_CTXT,"pvr2_context %p (create)",mp);
- 	mp->setup_func = setup_func;
- 	mutex_init(&mp->mutex);
-+	refcount_set(&mp->refcount, 1);
- 	mutex_lock(&pvr2_context_mutex);
- 	mp->exist_prev = pvr2_context_exist_last;
- 	mp->exist_next = NULL;
-@@ -256,25 +279,41 @@ static void pvr2_context_enter(struct pvr2_context *mp)
- static void pvr2_context_exit(struct pvr2_context *mp)
- {
- 	int destroy_flag = 0;
-+	int signal_flag = 0;
- 	if (!(mp->mc_first || !mp->disconnect_flag)) {
- 		destroy_flag = !0;
- 	}
- 	mutex_unlock(&mp->mutex);
--	if (destroy_flag) pvr2_context_notify(mp);
-+	if (destroy_flag) {
-+		mutex_lock(&pvr2_context_mutex);
-+		signal_flag = pvr2_context_set_notify_locked(mp, !0);
-+		mutex_unlock(&pvr2_context_mutex);
-+		if (signal_flag)
-+			wake_up(&pvr2_context_sync_data);
-+	}
- }
- 
- 
- void pvr2_context_disconnect(struct pvr2_context *mp)
- {
-+	int signal_flag = 0;
-+
-+	refcount_inc(&mp->refcount);
- 	pvr2_hdw_disconnect(mp->hdw);
--	if (!pvr2_context_shutok())
--		pvr2_context_notify(mp);
-+	mutex_lock(&pvr2_context_mutex);
- 	mp->disconnect_flag = !0;
-+	if (!pvr2_context_shutok())
-+		signal_flag = pvr2_context_set_notify_locked(mp, !0);
-+	mutex_unlock(&pvr2_context_mutex);
-+	if (signal_flag)
-+		wake_up(&pvr2_context_sync_data);
-+	pvr2_context_put(mp);
- }
- 
- 
- void pvr2_channel_init(struct pvr2_channel *cp,struct pvr2_context *mp)
- {
-+	refcount_inc(&mp->refcount);
- 	pvr2_context_enter(mp);
- 	cp->hdw = mp->hdw;
- 	cp->mc_head = mp;
-@@ -318,6 +357,7 @@ void pvr2_channel_done(struct pvr2_channel *cp)
- 	}
- 	cp->hdw = NULL;
- 	pvr2_context_exit(mp);
-+	pvr2_context_put(mp);
- }
- 
- 
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-context.h b/drivers/media/usb/pvrusb2/pvrusb2-context.h
-index 5840b2ce8f1e..4e06530eccb8 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-context.h
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-context.h
-@@ -7,6 +7,7 @@
- #define __PVRUSB2_CONTEXT_H
- 
- #include <linux/mutex.h>
-+#include <linux/refcount.h>
- #include <linux/usb.h>
- #include <linux/workqueue.h>
- 
-@@ -33,9 +34,11 @@ struct pvr2_context {
- 	struct pvr2_hdw *hdw;
- 	struct pvr2_context_stream video_stream;
- 	struct mutex mutex;
-+	refcount_t refcount;
- 	int notify_flag;
- 	int initialized_flag;
- 	int disconnect_flag;
-+	int destroying_flag;
- 
- 	/* Called after pvr2_context initialization is complete */
- 	void (*setup_func)(struct pvr2_context *);
--- 
-2.34.1
-
+--=20
+With Best Regards,
+Andy Shevchenko
 
