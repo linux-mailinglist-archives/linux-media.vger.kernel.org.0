@@ -1,65 +1,62 @@
-Return-Path: <linux-media+bounces-59148-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59149-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kOaSLVw25mkGtgEAu9opvQ
-	(envelope-from <linux-media+bounces-59148-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:21:16 +0200
+	id uOWgAhk95mlutgEAu9opvQ
+	(envelope-from <linux-media+bounces-59149-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:50:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4681642CEEF
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:21:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53EF442D82C
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:50:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 64C7C31012B9
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 14:12:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B27903676F8F
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 14:13:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66FBB438FEF;
-	Mon, 20 Apr 2026 13:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3248E43637E;
+	Mon, 20 Apr 2026 13:29:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvonJGhP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cRR+ss4A"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF34A43637E;
-	Mon, 20 Apr 2026 13:29:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9123A43C05F;
+	Mon, 20 Apr 2026 13:29:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691785; cv=none; b=VrLsIEPk0cJKWc5He+5duoBT7zSV2KSXe6IxZQNbwDzttwgZXiv/n/kUPwwN7Z8KG26aGbmOzCacwE4ELH9pMlIl7BiF4Ju6Ft3t3EMA6Vhyj0ZW0ET5nlmxPh0LY/s5KLY6X7RxNjC7bWK2U/NRcsCCqVAwg9tbMfEuQnvqaTU=
+	t=1776691793; cv=none; b=qMLH1z95TNQocCmlDxLiwUXIJFXpZzHBFrW0K7wByyvRBvo+syE1OB5nzHG1i9G/kuTFwH+MOPvmCNmKKwGXEGfwgd6yN+bNsihquGhGpDPXSGCQM8dH+f9ttoDBomycNrOWS+UNf7BDH/hRD72vcoJ75XM/u7/k//8DAF/kaVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691785; c=relaxed/simple;
-	bh=lMCIDnWvyxnN2bFHV8mrTlQXqQoDegkQezmVLTiPYNo=;
+	s=arc-20240116; t=1776691793; c=relaxed/simple;
+	bh=Qxjq/FzQw6lO9c+b6rojdQouk4f6/GD8nNBGBgqf1u0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WwBlA982/uhcbkXrUt850Nvsw7YnCEF2o49cT4DsMXaUywTCSPmtNlZqa+q3V9KfW+xK4PpPEXOQx+K0Y+TiVLSTEdp5BGxX2qi6PuTFw6Sto6YCNRf+vZpX11+ngrKzyAZn6uf5W8TZ4wJNY/3/mVfAZTUyrUr/qnh/4B77eNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvonJGhP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F3B5C2BCC9;
-	Mon, 20 Apr 2026 13:29:43 +0000 (UTC)
+	 MIME-Version:Content-Type; b=n/HUnT2bYNOoN1aqkOOFIDCmk12sxVe2/eJubTRgH+ziRXfxcwXYUY7N0/hJLsaM0mvoBrBY99nQIUDYI783/BbH5vlgV+zXq9qovA9sTo3aOvx4bdwoPYet2r7HTaVbZrBde4jXe0jyDQnEsEiv4tPnxPsNOHlLLByEvUm3JkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cRR+ss4A; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45329C2BCB4;
+	Mon, 20 Apr 2026 13:29:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691785;
-	bh=lMCIDnWvyxnN2bFHV8mrTlQXqQoDegkQezmVLTiPYNo=;
+	s=k20201202; t=1776691793;
+	bh=Qxjq/FzQw6lO9c+b6rojdQouk4f6/GD8nNBGBgqf1u0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fvonJGhPT6YVd/jy9NU7l26Qyq06ZHjmyE9elteFAf07oXvZV4nQxSHOS2lbW4glg
-	 oxcRu2b+r4xmAaztM0IXwQM3XXSXWJ4Xu9YgEJy4aZFS5ru+iNv9EAeNodVa+sdppZ
-	 69VYjnmfPvRY2tNRa3EK67zC149vmBaGBGI34HBzLwZma5d1A8F2U8kS1Hqe1Tkxss
-	 fPDdbwY+rP6Wb6OwOmg8GwLbrPPBNWXBdfptlKAljhfy8UgBtkZQPdX40U4frWIb5g
-	 hvaAwiTFcEomNg/JX2Ount07Kt3lDucaCBxMYYlGib9Py+b9zUkntcRbY/ez0japHK
-	 9pGGCw5HkGPIQ==
+	b=cRR+ss4AWgFN4DAv5YXRJH/R2XpAjCjXSNV2TSFms/H5XEBYARSDuRfQIU/TcPjhK
+	 JJei5L3Ela3cew07hac+0mXQOexNMuuzF94BPb3fXK43O5gezzHEblCdDUBbIs8bxE
+	 pvpu5G5lyRW8IAaR/IiRlIXCA8xTGYnjLxjC/H6e0VB5LHrdsu9UKdTf98aGqixWXs
+	 32lg18ThWPluIAK3k2p3mjvzJwdYNo4BRsqt46XA1tkX76mgSx+bckwZ+XD4YUahtE
+	 hB2u4yAMgKfcUlwOPWeqBmMJbqDKx1Euf028ht7bfvHRpa9+IkQIrSoVaZ2Da6rUXw
+	 a4/TK3DtHz9Uw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Mark Brown <broonie@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+Cc: Alexander Shiyan <eagle.alexander923@gmail.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
-	kernel@collabora.com,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.18] media: synopsys: hdmirx: support use with sleeping GPIOs
-Date: Mon, 20 Apr 2026 09:19:46 -0400
-Message-ID: <20260420132314.1023554-192-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-5.15] media: ccs-pll: Fix pre-PLL divider calculation for EXT_IP_PLL_DIVIDER flag
+Date: Mon, 20 Apr 2026 09:19:51 -0400
+Message-ID: <20260420132314.1023554-197-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -72,67 +69,56 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_FROM(0.00)[bounces-59148-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-59149-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.996];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,huawei];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[iu.edu:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email,spinics.net:url,sntech.de:email]
-X-Rspamd-Queue-Id: 4681642CEEF
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,yhbt.net:url]
+X-Rspamd-Queue-Id: 53EF442D82C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Mark Brown <broonie@kernel.org>
+From: Alexander Shiyan <eagle.alexander923@gmail.com>
 
-[ Upstream commit 2fb0481fe0d7891420c1a3df2e4f9a70b1f77dbd ]
+[ Upstream commit b7ef8bbb9fbd43d33ecb92e23aa7c5a55dab5513 ]
 
-The recent change in commit 20cf2aed89ac ("gpio: rockchip: mark the GPIO
-controller as sleeping") to mark the rockchip GPIO driver as sleeping
-has started triggering the warning at drivers/gpio/gpiolib.c:3523
-indicating that a sleepable GPIO was called via the non-sleeping APIs on
-the Rock 5B:
+When the CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER flag is set, odd pre-PLL divider
+values are allowed. However, in the operational timing branch the
+calculation of the minimum pre-PLL divider incorrectly uses clk_div_even_up,
+forcing the minimum value to be even, even if the flag is set. This prevents
+selecting a valid odd divider like 3, which may be required for certain
+sensor configurations.
 
-<4>[   14.699308] Call trace:
-<4>[   14.699545]  gpiod_get_value+0x90/0x98 (P)
-<4>[   14.699928]  tx_5v_power_present+0x44/0xd0 [synopsys_hdmirx]
-<4>[   14.700446]  hdmirx_delayed_work_hotplug+0x34/0x128 [synopsys_hdmirx]
-<4>[   14.701031]  process_one_work+0x14c/0x28c
-<4>[   14.701405]  worker_thread+0x184/0x300
-<4>[   14.701756]  kthread+0x11c/0x128
-<4>[   14.702065]  ret_from_fork+0x10/0x20
+Fix this by removing the forced even rounding from the minimum pre-PLL
+divider calculation. The loop later uses the flag to determine the step,
+so odd values will be considered when the flag is set.
 
-Currently the active use of the GPIO is all done from process context so
-can be simply converted to use gpiod_get_value_cansleep(). There is one use
-of the GPIO from hard interrupt context but this is only done so the status
-can be displayed in a debug print so can simply be deleted without any
-functional effect.
-
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
-Acked-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
@@ -140,371 +126,300 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have all the information needed for a comprehensive analysis.
+Now I have a comprehensive understanding. Let me compile the full
+analysis.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: PARSE THE SUBJECT LINE
-- **Subsystem:** media: synopsys: hdmirx
-- **Action verb:** "support" (but this is functionally a fix - adapting
-  to an API change)
-- **Summary:** Switch GPIO calls to sleeping-capable variants after the
-  rockchip GPIO driver was marked as sleeping.
+### Step 1.1: Parse Subject Line
+- **Subsystem:** `media: ccs-pll:` — MIPI CCS PLL calculator for camera
+  sensors
+- **Action verb:** "Fix" — explicit bug fix
+- **Summary:** Corrects pre-PLL divider calculation when
+  `EXT_IP_PLL_DIVIDER` flag is set
 
-Record: [media: synopsys: hdmirx] [support/fix] [Use sleeping GPIO APIs
-to fix WARN_ON triggered by rockchip GPIO sleeping mark]
-
-### Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
-- **Reviewed-by:** Heiko Stuebner (Rockchip platform maintainer)
-- **Acked-by:** Dmitry Osipenko (collabora, HDMIRX driver co-maintainer)
-- **Signed-off-by:** Mark Brown (well-known kernel developer,
-  SPI/ASoC/regulator subsystem maintainer)
-- **Signed-off-by:** Sakari Ailus (media subsystem maintainer)
-- **Signed-off-by:** Mauro Carvalho Chehab (media subsystem top-level
+### Step 1.2: Parse Tags
+- **Signed-off-by:** Alexander Shiyan (author), Sakari Ailus (CCS
+  subsystem maintainer), Mauro Carvalho Chehab (media subsystem
   maintainer)
-- **No Fixes: tag** (expected for this review pipeline)
-- **No Cc: stable** (expected)
-- **No Reported-by** (author discovered it themselves via the WARN_ON)
+- No Fixes: tag, no Cc: stable, no Reported-by, no Link — expected for
+  autosel candidate
 
-Record: Strong review chain - Reviewed by Rockchip maintainer, Acked by
-driver contributor, signed by both media maintainers.
+### Step 1.3: Commit Body Analysis
+The bug: when `CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER` is set, odd pre-PLL
+dividers should be allowed. However, the initial minimum calculation
+uses `clk_div_even_up()`, unconditionally forcing the minimum to be
+even. This prevents selecting valid odd dividers (like 3). The loop step
+already respects the flag, but the minimum is pre-constrained to even
+values.
 
-### Step 1.3: ANALYZE THE COMMIT BODY TEXT
-The commit explains:
-- Commit 20cf2aed89ac marked the rockchip GPIO driver as sleeping
-- This causes a `WARN_ON` at `drivers/gpio/gpiolib.c:3523` when
-  `gpiod_get_value()` is called on a sleeping GPIO
-- The warning occurs on Rock 5B hardware during HDMI hotplug detection
-- A stack trace is provided showing the exact call path:
-  `tx_5v_power_present()` -> `hdmirx_delayed_work_hotplug()` ->
-  workqueue
-- The fix: process context calls switched to
-  `gpiod_get_value_cansleep()`; the IRQ handler call was only for debug
-  logging and is simply removed
+### Step 1.4: Hidden Bug Detection
+This is explicitly labeled as a fix. The logic error is real and
+verifiable from the code.
 
-Record: Bug = WARN_ON triggered every time HDMI hotplug detection runs
-on Rock 5B. Symptom = kernel warning in dmesg. Root cause = rockchip
-GPIO driver now correctly marked as sleeping, exposing incorrect non-
-sleeping GPIO API usage.
-
-### Step 1.4: DETECT HIDDEN BUG FIXES
-This is a genuine bug fix despite "support" in the title. The
-`gpiod_get_value()` call in the IRQ handler is actually more than just a
-WARN_ON - calling a sleeping function from hard interrupt context could
-cause a sleep-in-atomic-context bug, which is a real correctness issue.
-The workqueue path triggers a warning on every HDMI hotplug event.
-
-Record: Yes, this is a real bug fix. The WARN_ON fires on every HDMI
-hotplug event on Rock 5B.
+---
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: INVENTORY THE CHANGES
-- **File:** `drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c`
-- **Lines changed:** +1, -5 (net: -4 lines)
-- **Functions modified:**
-  1. `tx_5v_power_present()` - 1 line changed
-  2. `hdmirx_5v_det_irq_handler()` - 4 lines removed
-- **Scope:** Single-file, surgical fix
+### Step 2.1: Inventory
+- **File:** `drivers/media/i2c/ccs-pll.c` — 3 lines removed, 2 lines
+  added
+- **Function:** `ccs_pll_calculate()` — single function, single hunk
+- **Scope:** Single-file surgical fix
 
-Record: 1 file, -4 net lines. Two functions modified. Scope: minimal
-surgical fix.
+### Step 2.2: Code Flow Change
+**Before:** `min_op_pre_pll_clk_div` first calculation uses
+`clk_div_even_up(DIV_ROUND_UP(...))`, always forcing the frequency-based
+minimum to be even.
 
-### Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
-**Hunk 1 (tx_5v_power_present):**
-- Before: `gpiod_get_value()` called from workqueue context
-- After: `gpiod_get_value_cansleep()` called from workqueue context
-- This function is already sleeping (contains `usleep_range(1000,
-  1100)`), so `_cansleep` is correct.
+**After:** `min_op_pre_pll_clk_div` first calculation uses raw
+`DIV_ROUND_UP(...)`, preserving odd values.
 
-**Hunk 2 (hdmirx_5v_det_irq_handler):**
-- Before: Read GPIO value and print debug message, then queue delayed
-  work
-- After: Just queue delayed work
-- The GPIO read was only used for a `v4l2_dbg()` print at debug level 3
-  - pure debug output, no functional effect.
+The flag-based conditional even check at lines 846-847 then properly
+decides whether to force even.
 
-Record: Hunk 1: API variant swap in already-sleeping context. Hunk 2:
-Remove debug-only GPIO read from hard IRQ context.
+### Step 2.3: Bug Mechanism
+This is a **logic/correctness bug**. The `clk_div_even_up()` at line 827
+conflicts with the flag-based conditional check at line 846-847 (added
+by `660e613d05e449`). Since `max_t()` propagates the larger value, the
+unconditionally-even first calculation can become the binding
+constraint, defeating the flag check.
 
-### Step 2.3: IDENTIFY THE BUG MECHANISM
-This is a **sleep-in-wrong-context** bug:
-- Category (g) Logic/correctness fix + (h) Hardware workaround aspect
-- `gpiod_get_value()` on a sleeping GPIO controller triggers a `WARN_ON`
-  (verified at gpiolib.c line 3520)
-- In the IRQ handler, calling a potentially-sleeping function from hard
-  interrupt context is a more severe issue (sleep-in-atomic)
+### Step 2.4: Fix Quality
+- Minimal and surgical — removes one wrapper function call
+- Obviously correct — the VT tree equivalent code at lines 412-416 does
+  NOT use `clk_div_even_up()` for the analogous calculation
+- The flag check at 846-847 ensures sensors without the flag still get
+  even values
+- Zero regression risk for sensors without the flag
 
-Record: WARN_ON trigger on every HDMI hotplug; potential sleep-in-atomic
-in IRQ handler. Fix is API variant swap + debug code removal.
-
-### Step 2.4: ASSESS THE FIX QUALITY
-- **Obviously correct?** Yes. `tx_5v_power_present()` already calls
-  `usleep_range()`, confirming it's in sleeping context. Switching to
-  `_cansleep` is the textbook fix.
-- **Minimal?** Yes. 1 line changed, 4 lines removed.
-- **Regression risk?** Essentially zero. The `_cansleep` variant does
-  the same thing but without the WARN_ON check. Removing the debug print
-  from the IRQ handler has no functional impact.
-
-Record: Fix is obviously correct, minimal, and has essentially zero
-regression risk.
+---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: BLAME THE CHANGED LINES
-Both changed locations were introduced in commit `7b59b132ad4398`
-("media: platform: synopsys: Add support for HDMI input driver"), first
-appearing in v6.15-rc1.
+### Step 3.1: Blame
+From git blame:
+- Line 827 (`clk_div_even_up(`) traces to `6de1b143a45d3c` from **2012**
+  (originally `smiapp-pll.c`)
+- The `EXT_IP_PLL_DIVIDER` loop step support was added by
+  `4e1e8d240dff96` in **2020**
+- The flag check at lines 846-847 was added by `660e613d05e449` in
+  **February 2025**
 
-Record: Buggy code introduced in 7b59b132ad4398 (v6.15). The code wasn't
-"buggy" initially - it became incorrect when 20cf2aed89ac6 marked the
-rockchip GPIO as sleeping (v6.19-rc5).
+The inconsistency existed since 2020 when odd divider support was added
+but the initial min calculation wasn't updated.
 
-### Step 3.2: FOLLOW THE FIXES TAG
-No Fixes: tag present (expected). The implicit fix target is
-20cf2aed89ac6 ("gpio: rockchip: mark the GPIO controller as sleeping"),
-introduced in v6.19-rc5.
+### Step 3.2: Related Commits
+- `660e613d05e449` ("Start OP pre-PLL multiplier search from correct
+  value") — added the flag check after the second min calculation. Has
+  `Cc: stable@vger.kernel.org`. This is the **prerequisite** for the
+  commit being analyzed, and it IS in 7.0.
+- `06d2d478b09e6` ("Start VT pre-PLL multiplier search from correct
+  value") — the VT tree equivalent fix, which correctly doesn't use
+  `clk_div_even_up()` for the initial min. Also has `Cc: stable`.
 
-Record: The bug exists in any tree that contains BOTH 7b59b132ad4398
-(HDMIRX driver, v6.15+) AND 20cf2aed89ac6 (sleeping GPIO, v6.19-rc5+).
-Therefore affected trees: v6.19.y, v7.0.y.
+### Step 3.3: Author Context
+Alexander Shiyan is a community contributor, not the CCS subsystem
+maintainer. However, the patch was reviewed and signed off by Sakari
+Ailus (CCS maintainer) and Mauro Carvalho Chehab (media subsystem
+maintainer), giving it strong authority.
 
-### Step 3.3: CHECK FILE HISTORY
-The file has had 10 commits since creation. None appear to be
-prerequisites for this fix. The fix is standalone.
+### Step 3.5: Dependencies
+This commit requires `660e613d05e449` to be present (the flag check at
+line 846-847 is in the diff context). That commit IS in the 7.0 tree and
+was already Cc'd to stable.
 
-Record: Standalone fix, no prerequisites needed.
+---
 
-### Step 3.4: CHECK THE AUTHOR
-Mark Brown is a senior kernel maintainer (SPI, ASoC, regulator
-subsystems). The fix was reviewed by Heiko Stuebner (Rockchip
-maintainer) and acked by Dmitry Osipenko (HDMIRX driver contributor).
+## PHASE 4: MAILING LIST RESEARCH
 
-Record: Author is a highly trusted kernel maintainer. Reviews from
-appropriate people.
+### Step 4.1: Original Discussion
+b4 dig could not find the commit (it's not yet in this tree). Web search
+did not find the specific patch thread. The AUTOSEL thread for 6.15
+found at yhbt.net/lore includes related CCS PLL patches from the same
+series of fixes by Sakari Ailus.
 
-### Step 3.5: CHECK FOR DEPENDENCIES
-No dependencies. The patch modifies only existing code with a simple API
-swap and deletion. Applies cleanly to the current 7.0 tree (confirmed:
-the file matches pre-patch state).
+### Step 4.2: Reviewer Context
+Signed off by both the CCS subsystem maintainer (Sakari Ailus) and media
+subsystem maintainer (Mauro Carvalho Chehab), indicating proper review
+chain.
 
-Record: No dependencies. Will apply cleanly.
-
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-
-### Step 4.1: ORIGINAL PATCH DISCUSSION
-The patch went through 3 versions:
-- **v1:** Jan 8, 2026 - Original submission based on pre-v7.0 tree
-- **v2:** Feb 26, 2026 - Rebased onto v7.0-rc1, no functional changes
-- **v3:** Mar 2, 2026 - Only checkpatch noise fixed, no code changes
-
-Record: 3 versions, but no functional changes between them - just
-rebasing.
-
-### Step 4.2: REVIEWERS
-- Dmitry Osipenko: Acked-by on v1
-- Heiko Stuebner: Reviewed-by on v1
-- Both maintained their endorsements through v3
-- Sakari Ailus and Mauro Carvalho Chehab (media maintainers) signed off
-
-Record: Strong review from relevant maintainers.
-
-### Step 4.3: BUG REPORT
-No separate bug report - the author observed the WARN_ON directly. The
-same class of issue was fixed in `drm/rockchip: dw_hdmi_qp`
-(db8061bbb9b23), confirming it's a systematic problem caused by the
-rockchip sleeping GPIO change.
-
-Record: Same issue affected DRM rockchip driver, fixed separately.
-Systematic GPIO API usage issue.
-
-### Step 4.4: RELATED PATCHES
-The DRM fix (db8061bbb9b23) is the sibling fix for the same root cause
-in a different driver. No series dependency.
-
-### Step 4.5: STABLE DISCUSSION
-No specific stable discussion found. The DRM sibling fix (db8061bbb9b23)
-was already picked up for v6.19 stable.
+---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: KEY FUNCTIONS
-1. `tx_5v_power_present()` - detects HDMI 5V power on the cable
-2. `hdmirx_5v_det_irq_handler()` - IRQ handler for HDMI detect pin
+### Step 5.1: Functions Modified
+- `ccs_pll_calculate()` — the main PLL calculator entry point
 
-### Step 5.2: CALLERS
-- `tx_5v_power_present()` is called from:
-  - `port_no_link()` (line 461)
-  - `hdmirx_wait_signal_lock()` (line 2146)
-  - `hdmirx_delayed_work_hotplug()` (line 2207)
-  - `hdmirx_delayed_work_res_change()` (line 2229)
-- All callers are in process context (workqueues or ioctl handlers).
+### Step 5.2: Callers
+- Called from `ccs_pll_calculate()` in `ccs-core.c` (line 512) and
+  `imx214.c`
+- Called during sensor initialization — affects whether the camera
+  sensor can be configured
 
-### Step 5.3-5.5: CALL CHAIN / SIMILAR PATTERNS
-The warning triggers on every HDMI cable plug/unplug event on Rock 5B
-hardware. This is a common user action.
+### Step 5.4: Call Chain
+`sensor probe → pll_calculate → ccs_pll_calculate()` — this is called
+during sensor initialization. If PLL calculation fails, the sensor
+cannot operate.
 
-Record: Triggered by HDMI cable events - common real-world usage.
+### Step 5.5: Pattern Comparison
+The VT tree equivalent (lines 412-416) does NOT use `clk_div_even_up()`
+for the analogous min calculation, confirming the OP tree code is
+inconsistent.
+
+---
 
 ## PHASE 6: STABLE TREE ANALYSIS
 
-### Step 6.1: DOES THE BUGGY CODE EXIST IN STABLE?
-- HDMIRX driver: v6.15+ (present in 6.15.y, 6.18.y, 6.19.y, 7.0.y)
-- Rockchip sleeping GPIO: v6.19-rc5+ (present in 6.19.y, 7.0.y)
-- **Bug exists in: 6.19.y and 7.0.y** (both commits must be present)
+### Step 6.1: Code Presence
+- The `clk_div_even_up()` at line 827 traces back to 2012
+  (`6de1b143a45d3c`, v3.8)
+- The `EXT_IP_PLL_DIVIDER` flag support was added in 2020
+  (`4e1e8d240dff96`, v5.10-rc6 era)
+- The prerequisite flag check (`660e613d05e449`) is in 7.0 tree and was
+  Cc'd to stable
+- The buggy code exists in all stable trees that have both the original
+  code and the flag support
 
-Record: Bug affects 6.19.y and 7.0.y stable trees.
+### Step 6.2: Backport Complications
+The diff applies cleanly to 7.0 — the "before" state in the diff matches
+the current code exactly.
 
-### Step 6.2: BACKPORT COMPLICATIONS
-The patch applies cleanly - verified that the current code in 7.0
-matches the pre-patch state exactly.
+---
 
-Record: Clean apply expected.
+## PHASE 7: SUBSYSTEM CONTEXT
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+### Step 7.1: Subsystem
+- **Subsystem:** drivers/media/i2c — camera sensor I2C driver
+  infrastructure
+- **Criticality:** PERIPHERAL — affects CCS-compatible camera sensors
+  with specific capabilities
+- The CCS PLL calculator is used by the CCS sensor driver and referenced
+  by other sensor drivers (imx214)
 
-### Step 7.1: SUBSYSTEM CRITICALITY
-- Subsystem: media drivers (drivers/media/)
-- Sub-subsystem: HDMI RX driver for Rockchip RK3588 (Rock 5B)
-- Criticality: PERIPHERAL (specific hardware), but Rock 5B is a popular
-  SBC
-
-Record: PERIPHERAL but popular hardware (Rock 5B).
+---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: WHO IS AFFECTED
-Users of Rock 5B (RK3588) with HDMI input functionality, running kernels
-6.19+.
+### Step 8.1: Affected Users
+Driver-specific: affects CCS-compatible sensors with
+`CCS_CLOCK_TREE_PLL_CAPABILITY_EXT_DIVIDER` capability
 
-### Step 8.2: TRIGGER CONDITIONS
-Every HDMI cable plug/unplug event triggers the WARN_ON. This is a
-normal, common user action.
+### Step 8.2: Trigger Conditions
+Triggered during sensor initialization when:
+1. The sensor has the EXT_DIVIDER capability
+2. The frequency constraint calculation produces an odd minimum divider
+3. That odd minimum is the binding constraint (larger than the
+   multiplier-based constraint)
 
-### Step 8.3: FAILURE MODE SEVERITY
-- WARN_ON in kernel log (MEDIUM) - fires every time, pollutes dmesg
-- The IRQ handler call to `gpiod_get_value()` on a sleeping GPIO is
-  actually a potential sleep-in-atomic-context issue, though in practice
-  the rockchip GPIO driver path may not actually sleep in this codepath
-  (the `can_sleep` flag is a capability flag, not a guarantee of
-  sleeping)
-- Severity: MEDIUM - persistent kernel warning on every HDMI hotplug
-  event
+### Step 8.3: Failure Mode
+- PLL calculation selects wrong divider or fails entirely
+- Result: camera sensor doesn't work or operates suboptimally
+- **Severity: MEDIUM** — non-working hardware, not crash/corruption
 
-### Step 8.4: RISK-BENEFIT RATIO
-- **Benefit:** Eliminates persistent WARN_ON on every HDMI hotplug event
-  on Rock 5B. Fixes a potential sleep-in-atomic issue in IRQ handler.
-- **Risk:** Extremely low. 1 line API variant swap in already-sleeping
-  context, plus removal of 4 lines of debug-only code from IRQ handler.
-- **Ratio:** Very favorable.
+### Step 8.4: Risk-Benefit
+- **Benefit:** Enables correct PLL configuration for affected sensors
+- **Risk:** Negligible — the fix only changes behavior when
+  `EXT_IP_PLL_DIVIDER` flag is set; the flag check at 846-847 ensures
+  correct behavior for sensors without the flag
+- **Ratio:** Favorable — meaningful benefit with essentially zero
+  regression risk
+
+---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: EVIDENCE COMPILED
+### Step 9.1: Evidence Compilation
 
 **FOR backporting:**
-- Fixes a real WARN_ON that fires on every HDMI hotplug event on Rock 5B
-- Extremely small and surgical (1 line changed, 4 lines removed)
-- Obviously correct - the function already sleeps (usleep_range)
-- Reviewed by Rockchip maintainer, acked by driver contributor
-- Author is a senior kernel maintainer (Mark Brown)
-- Sibling fix for the same root cause already applied in DRM subsystem
-- No dependencies, clean apply expected
-- Zero regression risk
+- Real logic bug that prevents valid PLL configurations
+- Very small, surgical fix (remove one function wrapper)
+- Obviously correct — consistent with VT tree pattern
+- Signed off by both CCS and media subsystem maintainers
+- Prerequisite commit already in stable with Cc: stable tag
+- Applies cleanly to 7.0
+- Zero regression risk for sensors without the flag
 
 **AGAINST backporting:**
-- Only affects Rock 5B (RK3588) hardware with HDMI input
-- The WARN_ON is "only" a warning, not a crash (though the IRQ handler
-  issue is more concerning)
-- Only affects 6.19.y and 7.0.y (limited scope)
+- Niche user population (CCS sensors with specific capability)
+- No crash, security issue, or data corruption — functional correctness
+  only
+- No Fixes: tag or Cc: stable from author
+- No Reported-by: (no evidence of user reports)
 
-### Step 9.2: STABLE RULES CHECKLIST
-1. Obviously correct and tested? **YES** - trivial API swap,
-   reviewed/acked by relevant maintainers
-2. Fixes a real bug? **YES** - WARN_ON on every hotplug event, potential
-   sleep-in-atomic
-3. Important issue? **YES** - persistent warning that fires on normal
-   hardware usage
-4. Small and contained? **YES** - 6 lines total, 1 file, 2 functions
-5. No new features or APIs? **YES** - only fixes existing code
-6. Can apply to stable? **YES** - clean apply confirmed
+### Step 9.2: Stable Rules Checklist
+1. **Obviously correct?** YES — removing unconditional even-rounding
+   that conflicts with conditional check
+2. **Fixes real bug?** YES — wrong PLL divider selection for sensors
+   with odd divider support
+3. **Important issue?** MEDIUM — non-working hardware for affected
+   sensors
+4. **Small and contained?** YES — 3 lines removed, 2 added in single
+   function
+5. **No new features?** YES — pure bug fix
+6. **Applies to stable?** YES — applies cleanly
 
-### Step 9.3: EXCEPTION CATEGORIES
-This is a hardware-related fix (fixing GPIO API usage for specific
-hardware). It falls in the "hardware workaround/quirk" space.
-
-### Step 9.4: DECISION
-This is a small, obviously correct fix that eliminates a persistent
-kernel warning on common hardware (Rock 5B). It was reviewed by the
-right people, has zero regression risk, and applies cleanly. The fix is
-needed in any stable tree that contains both the HDMIRX driver (v6.15+)
-and the rockchip sleeping GPIO change (v6.19+).
+---
 
 ## Verification
 
-- [Phase 1] Parsed subject: "media: synopsys: hdmirx: support use with
-  sleeping GPIOs" - functional fix despite "support" wording
-- [Phase 1] Tags: Reviewed-by Heiko Stuebner, Acked-by Dmitry Osipenko,
-  SOBs from Mark Brown, Sakari Ailus, Mauro Carvalho Chehab
-- [Phase 2] Diff analysis: 1 line changed (`gpiod_get_value` ->
-  `gpiod_get_value_cansleep`), 4 lines removed (debug-only GPIO read
-  from IRQ handler)
-- [Phase 3] git blame: buggy code from 7b59b132ad4398 (v6.15), bug
-  triggered by 20cf2aed89ac6 (v6.19-rc5)
-- [Phase 3] git tag --contains: HDMIRX in v6.15+, sleeping GPIO in
-  v6.19-rc5+
-- [Phase 3] Verified current file state still has `gpiod_get_value` (fix
-  not yet in tree)
-- [Phase 4] Found v1 (lkml.iu.edu), v2 (spinics.net), v3 (spinics.net) -
-  all identical code change
-- [Phase 4] Dmitry Osipenko acked v1 immediately; Heiko Stuebner
-  reviewed v1 next day
-- [Phase 4] Sibling fix db8061bbb9b23 (DRM rockchip) for same root
-  cause, already in v6.19
-- [Phase 5] `tx_5v_power_present()` called from 4 sites, all process
-  context; already contains usleep_range()
-- [Phase 5] `hdmirx_5v_det_irq_handler()` is hard IRQ handler
-  (devm_request_irq with IRQF_TRIGGER_FALLING|RISING)
-- [Phase 6] Bug exists in 6.19.y and 7.0.y stable trees
-- [Phase 6] Patch applies cleanly - verified file content matches pre-
-  patch state
-- [Phase 7] gpiolib.c line 3520: `WARN_ON(desc->gdev->can_sleep)`
-  confirmed as the warning source
-- [Phase 8] Trigger: every HDMI plug/unplug on Rock 5B; severity MEDIUM
-  (persistent warning + potential sleep-in-atomic)
+- [Phase 1] Parsed commit message: explicit "Fix" in subject, describes
+  logic error with EXT_IP_PLL_DIVIDER
+- [Phase 2] Diff analysis: removes `clk_div_even_up()` wrapper from
+  first `min_op_pre_pll_clk_div` calculation (line 827)
+- [Phase 3] git blame: `clk_div_even_up()` at line 827 from commit
+  `6de1b143a45d3c` (2012), flag support from `4e1e8d240dff96` (2020)
+- [Phase 3] git show `660e613d05e449`: confirmed prerequisite commit is
+  in 7.0 tree, has `Cc: stable`, adds flag check at lines 846-847
+- [Phase 3] git show `06d2d478b09e6`: confirmed VT tree equivalent fix
+  pattern doesn't use `clk_div_even_up()` for its min calculation
+- [Phase 3] git show `4e1e8d240dff96`: confirmed this is when
+  EXT_IP_PLL_DIVIDER loop step was added
+- [Phase 4] Web search: could not find specific patch thread; found
+  related AUTOSEL 6.15 series with CCS PLL fixes
+- [Phase 5] Grep callers: `ccs_pll_calculate()` called from `ccs-
+  core.c:512` during sensor setup
+- [Phase 5] Grep `CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER`: set in `ccs-
+  core.c:3506` based on sensor capability register
+- [Phase 6] Code present in 7.0 tree; diff applies cleanly; prerequisite
+  already present
+- [Phase 7] VT tree (lines 412-416) confirmed to NOT use
+  `clk_div_even_up()`, showing OP tree is inconsistent
+- UNVERIFIED: Exact mainline commit hash not found in this tree;
+  specific lore.kernel.org thread not accessible
+
+---
+
+This is a small, obviously correct bug fix that removes an unconditional
+even-rounding operation that conflicts with a flag-based conditional
+check for sensors supporting odd PLL dividers. The fix makes the OP tree
+code consistent with the VT tree code. The prerequisite commit is
+already in stable trees. The risk is negligible and the fix enables
+correct hardware operation for affected sensors.
 
 **YES**
 
- drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/media/i2c/ccs-pll.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-index 9cceffa4ce250..61ad20b18b8d6 100644
---- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-+++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-@@ -232,7 +232,7 @@ static bool tx_5v_power_present(struct snps_hdmirx_dev *hdmirx_dev)
+diff --git a/drivers/media/i2c/ccs-pll.c b/drivers/media/i2c/ccs-pll.c
+index 4eb83636e1027..1605cfa5db19d 100644
+--- a/drivers/media/i2c/ccs-pll.c
++++ b/drivers/media/i2c/ccs-pll.c
+@@ -824,9 +824,8 @@ int ccs_pll_calculate(struct device *dev, const struct ccs_pll_limits *lim,
+ 				   op_lim_fr->min_pll_ip_clk_freq_hz));
+ 	min_op_pre_pll_clk_div =
+ 		max_t(u16, op_lim_fr->min_pre_pll_clk_div,
+-		      clk_div_even_up(
+-			      DIV_ROUND_UP(pll->ext_clk_freq_hz,
+-					   op_lim_fr->max_pll_ip_clk_freq_hz)));
++		      DIV_ROUND_UP(pll->ext_clk_freq_hz,
++				   op_lim_fr->max_pll_ip_clk_freq_hz));
+ 	dev_dbg(dev, "pre-pll check: min / max op_pre_pll_clk_div: %u / %u\n",
+ 		min_op_pre_pll_clk_div, max_op_pre_pll_clk_div);
  
- 	for (i = 0; i < 10; i++) {
- 		usleep_range(1000, 1100);
--		val = gpiod_get_value(hdmirx_dev->detect_5v_gpio);
-+		val = gpiod_get_value_cansleep(hdmirx_dev->detect_5v_gpio);
- 		if (val > 0)
- 			cnt++;
- 		if (cnt >= detection_threshold)
-@@ -2252,10 +2252,6 @@ static void hdmirx_delayed_work_res_change(struct work_struct *work)
- static irqreturn_t hdmirx_5v_det_irq_handler(int irq, void *dev_id)
- {
- 	struct snps_hdmirx_dev *hdmirx_dev = dev_id;
--	u32 val;
--
--	val = gpiod_get_value(hdmirx_dev->detect_5v_gpio);
--	v4l2_dbg(3, debug, &hdmirx_dev->v4l2_dev, "%s: 5v:%d\n", __func__, val);
- 
- 	queue_delayed_work(system_unbound_wq,
- 			   &hdmirx_dev->delayed_work_hotplug,
 -- 
 2.53.0
 
