@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-59141-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59142-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YOPgCC855mlutgEAu9opvQ
-	(envelope-from <linux-media+bounces-59141-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:33:19 +0200
+	id AGGZCiE15mkGtgEAu9opvQ
+	(envelope-from <linux-media+bounces-59142-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:16:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685A142D2F1
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:33:18 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4FF42CD26
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 16:16:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 336E131075D3
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 13:51:45 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 8E84A301AA87
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 13:56:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C654D3F165C;
-	Mon, 20 Apr 2026 13:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 282863FBEA5;
+	Mon, 20 Apr 2026 13:26:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pkz+hDod"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H3vGsSYo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0923F1649;
-	Mon, 20 Apr 2026 13:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811983FB7E3;
+	Mon, 20 Apr 2026 13:26:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691536; cv=none; b=nVW6FMy+iCmZWkR9+KNScADgSBd+HSLzQvvR+ziA0m+QflyTeGk+EJ3oo6W7U/8Ut08Y9lQMODAoX4wGH0TnSa+9kQHKHEs7Z/Oiywg0CMa3XZETrGJbx1P1Jyo9p9JJmSEonr/DHH0UrdqIsBhmQPaVvnvR9w0snwmcPA6vq4s=
+	t=1776691581; cv=none; b=JeaNvwym5FNVDU0zfiZPZeWO3Wsm3u8eMtdhiMlc2S95E9DUYaNr2KKLtYclEsRhrq4kRSdOod3hz6tykP0zcNJEv22maLlBXG5FTAY8F7wpccn4I+iCv0akT7J28aBbOpTIpxJVWEBl5BMnnL1cHzFmWCbIsTBEr22NW6KNLW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691536; c=relaxed/simple;
-	bh=5ZRIdiyYEkCzCtmFZLcDUi/KMHi73p0Bfxd9c4XMJww=;
+	s=arc-20240116; t=1776691581; c=relaxed/simple;
+	bh=fzKma1MMTkr/gNiJd5XPapfupPdsDWu34VNqy1vzaPU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r6ajVosTW8+NSC5utviWVb46G0OsxqHKfSjo2xJhts+4HFCXxEWiVMvrzhvOq3UF0qceo7lCKffDE3msrvpSIa5sJC/DNRrr5WNdlYm2iuz75TGe16ZMa+L7Q7+WBzFKjPRSoVkqMZh7sqUCVRQdokjsVLVcrCCoakPv4JPJJ4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pkz+hDod; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C0C0C19425;
-	Mon, 20 Apr 2026 13:25:35 +0000 (UTC)
+	 MIME-Version; b=EjG3I5/ZcFFPm1Q3v7tKy40JQsOObdCeDetvWcAblAKKlzxEeyniR7ycwALqrTDWM4u5cNYDdd9NLk4cEYFgfoFrjHsqt78QENOuRgs06eSisEq4oF1nQIhsRxiW2fid8LlHfBngsd7Qea5TVIhe7khtR7FjbIJZ/aWKSSPMLdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H3vGsSYo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46866C2BCB7;
+	Mon, 20 Apr 2026 13:26:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691536;
-	bh=5ZRIdiyYEkCzCtmFZLcDUi/KMHi73p0Bfxd9c4XMJww=;
+	s=k20201202; t=1776691581;
+	bh=fzKma1MMTkr/gNiJd5XPapfupPdsDWu34VNqy1vzaPU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pkz+hDodACeSPzJ3i1xZkSnvoRDeZQjnfGjJmoGqimS9XSC4I6NjnEV9ApY9WGRzq
-	 hisHjDZQXKNLlkGPr0FrXTFT6XcMrqKnPYcNaT5y9D/ukU2009qPSJr+xBd85rBfaJ
-	 bXMZYNzGqIHiWzZUhsDAigaJWhuwB0P4SneR87d/lFkQk2QDln8ayAXsaMJ4eYI3Et
-	 IaEIDgrdBMpxlOn9mYN81wAgtEQQEOmVZqq3dvZPHrnk0bE3HGuh4ZZtfZe/NgXQ8g
-	 HQ3VJrqojIl88iWS0KkEYjlRhsVx29Ms2nLK8f8y7vEk5pfT81wKQE3z/bXVM9DWjt
-	 I7QkL7Ve8Wx+Q==
+	b=H3vGsSYonB+0YrN/SotOgeWvNW+x91MYnXCzo1rEXnbZHNjkrP3NnEn4FmswlSU25
+	 Olhtqz4U0Hlw/UddIPRgHdYenHoUlPsRiScnzMtWvB2sBOTQzI544mTp456nWQUbn0
+	 flxtQ5VOohLnMXs5gceBsb3vEN3Vr7XVMsTEcLJXjlLzPzf+Qv6eDAFmagIlyQ/amq
+	 r2kX4JG/6LbkQWIynmU9ueyN6Faffvc6O2AcoZ4KTykEeihx4prEFQemFbFO/lJNam
+	 jC4aX6knCelehOmyHyRL31FyX9/CAW2uhz1Bto9hRp0Z5hKWbXAuLYt7K5CfGGxjr9
+	 ESzg0mypHg0xQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -53,9 +53,9 @@ Cc: Bradford Love <brad@nextdimension.cc>,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.15] media: em28xx: Add a variety of DualHD usb id
-Date: Mon, 20 Apr 2026 09:18:01 -0400
-Message-ID: <20260420132314.1023554-87-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.1] media: em28xx: remove tuner type from Hauppauge DVB DualHD
+Date: Mon, 20 Apr 2026 09:18:27 -0400
+Message-ID: <20260420132314.1023554-113-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -68,45 +68,55 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59141-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_FROM(0.00)[bounces-59142-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.984];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
 	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nextdimension.cc:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 685A142D2F1
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,nextdimension.cc:email]
+X-Rspamd-Queue-Id: BE4FF42CD26
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Bradford Love <brad@nextdimension.cc>
 
-[ Upstream commit 724e16b166534bd01d4f5bdf310310146bd4da56 ]
+[ Upstream commit a5dcbff7d50a89bf0376e7f2fb1ba3163a6dac0a ]
 
-Include possible vid:pid combination of DualHD models
-that are in the wild.
+This reverts a patch which was perhaps inadvertently added.
+
+This was changed during the 5.15-rc4 merge. The faulty commit appears
+lost in the pull request somehow, I cannot find it to check the
+explanation.
+
+commit c52e7b855b33 ("Merge tag 'v5.15-rc4' into media_tree")
+
+There was nothing wrong with this device and no reason to moodify the
+board profile. The DVB capabilities are added via dvb_module_probe.
+Additionally, the device contains *zero* analog inputs, so I'm not
+sure why one was added.
 
 Signed-off-by: Bradford Love <brad@nextdimension.cc>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
@@ -115,298 +125,330 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have enough information to complete the full analysis. Let me
-compile my findings.
+Now I have all the information needed. Let me compile the complete
+analysis.
 
 ---
 
-## Full Analysis: media: em28xx: Add a variety of DualHD usb id
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### PHASE 1: COMMIT MESSAGE FORENSICS
+### Step 1.1: Subject Line
+- **Subsystem**: `media: em28xx`
+- **Action verb**: "remove" (reverting an inadvertent change)
+- **Summary**: Remove incorrect tuner type and input from Hauppauge
+  WinTV-dualHD DVB board profile
+- Record: [media: em28xx] [remove/revert] [Restores correct board
+  profile for DVB-only device]
 
-**Step 1.1: Subject Line**
-- Subsystem: `media: em28xx:`
-- Action verb: "Add"
-- Summary: Adding new USB vid:pid entries for Hauppauge DualHD models to
-  the em28xx driver.
-- Record: [media: em28xx] [Add] [New USB device IDs for DualHD variants
-  in the wild]
-
-**Step 1.2: Tags**
-- `Signed-off-by: Bradford Love <brad@nextdimension.cc>` - Author; Brad
-  Love is a well-known contributor for Hauppauge em28xx devices (14+
-  commits to this driver).
-- `Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>` - Media
+### Step 1.2: Tags
+- **Signed-off-by**: Bradford Love (brad@nextdimension.cc) - author,
+  original Hauppauge em28xx developer
+- **Signed-off-by**: Hans Verkuil (hverkuil+cisco@kernel.org) - media
+  subsystem co-maintainer
+- No Fixes: tag (expected for candidates)
+- No Reported-by: tag
+- No Cc: stable
+- Record: Signed off by the subsystem expert (Brad Love is the original
+  author of multiple Hauppauge em28xx board entries) and the media
   subsystem maintainer.
-- No Fixes: tag (expected for device ID additions).
-- No Reported-by: tag.
-- No Cc: stable (expected — that's why we're reviewing it).
-- Record: Author is a repeat contributor to this exact subsystem. Signed
-  off by media maintainer.
 
-**Step 1.3: Commit Body**
-- "Include possible vid:pid combination of DualHD models that are in the
-  wild."
-- This describes real hardware variants already out in the field that
-  users own but cannot use because the kernel doesn't recognize the USB
-  IDs.
-- Record: Bug = hardware not recognized. Symptom = users with DualHD
-  variants cannot use them. Root cause = missing USB IDs.
+### Step 1.3: Commit Body
+The commit message explains:
+- This reverts a change that was "perhaps inadvertently added" during
+  the 5.15-rc4 merge into the media tree
+- References `c52e7b855b33` ("Merge tag 'v5.15-rc4' into media_tree") as
+  the source
+- The author says "There was nothing wrong with this device" and "no
+  reason to modify the board profile"
+- DVB capabilities are handled via `dvb_module_probe` (not via analog
+  tuner infrastructure)
+- The device has "zero analog inputs" so the added composite input was
+  bogus
+- Record: Bug is a merge-introduced corruption of a board profile.
+  Symptom is incorrect device configuration.
 
-**Step 1.4: Hidden Bug Fix Detection**
-- This is a device ID addition — a well-known exception category. While
-  it's "adding" code, it enables already-supported hardware. Without
-  these IDs, users cannot use their devices at all.
-- Record: This is an explicit hardware enablement fix via device IDs.
-  Classic stable material.
+### Step 1.4: Hidden Bug Fix Detection
+This is a clear bug fix disguised as "remove" - it reverts an
+inadvertent merge artifact that broke a device's board profile. The
+commit restores the original known-correct configuration.
+- Record: YES, this is a real bug fix - restoring a corrupted board
+  profile.
 
-### PHASE 2: DIFF ANALYSIS
+## PHASE 2: DIFF ANALYSIS
 
-**Step 2.1: Inventory**
-- Files changed: 1 (`drivers/media/usb/em28xx/em28xx-cards.c`)
-- Lines added: 12 (6 new USB_DEVICE entries, each 2 lines)
-- Lines removed: 0
-- Functions modified: None — changes are in the static
-  `em28xx_id_table[]` array.
-- Record: Single-file, 12-line addition. Data-only change to USB ID
-  table. Zero code logic change.
+### Step 2.1: Inventory
+- **Files changed**: 1 (`drivers/media/usb/em28xx/em28xx-cards.c`)
+- **Lines**: +1/-6 (net -5 lines)
+- **Functions modified**: None (data structure change only)
+- **Scope**: Single-file, single board entry modification
+- Record: Minimal change to one board profile entry in one file.
 
-**Step 2.2: Code Flow Change**
-- Before: The `em28xx_id_table[]` did not include PIDs 0x8269, 0x8278,
-  0x826e, 0x826f, 0x8270, 0x8271.
-- After: These 6 PIDs are mapped to existing board definitions
-  (`EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_DVB` and
-  `EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595`).
-- Effect: USB subsystem will now match these devices and bind the em28xx
-  driver.
-- Record: Pure data addition to USB match table. No behavior change for
-  existing devices.
+### Step 2.2: Code Flow Change
+**Hunk 1**: Changes `.tuner_type` from `TUNER_SI2157` back to
+`TUNER_ABSENT` and removes the bogus `.input` block.
 
-**Step 2.3: Bug Mechanism**
-- Category: Hardware workaround / device ID addition (category h).
-- The new IDs map to two existing board definitions that are fully
-  functional. The board definitions
-  (`EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_DVB` at line 2520,
-  `EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595` at line 2542) already
-  exist and have full driver support including DVB, dual transport
-  stream, I2C, tuner, and LED configurations.
-- Record: Missing USB IDs → device not recognized. Fix adds IDs mapping
-  to existing, tested board configs.
+Before: Board profile claims an Si2157 analog tuner and a composite
+video input
+After: Board profile correctly declares no analog tuner and no analog
+inputs
 
-**Step 2.4: Fix Quality**
-- Obviously correct: each new entry is a 2-line `USB_DEVICE` macro
-  mapping a vid:pid to an existing board definition. The pattern is
-  identical to existing entries.
-- Minimal/surgical: 12 lines of pure data, zero logic changes.
-- Regression risk: Effectively zero. These IDs are new — no existing
-  device will be affected. The only devices affected are ones that
-  previously weren't recognized.
-- Record: Perfect quality. Zero regression risk. Follows established
-  patterns exactly.
+### Step 2.3: Bug Mechanism
+This is a **hardware profile/data corruption fix** (category h -
+hardware workaround/device profile).
 
-### PHASE 3: GIT HISTORY INVESTIGATION
+The incorrect `TUNER_SI2157` value causes:
+1. **Unnecessary I2C bus probing**: `em28xx_v4l2_init()` (line
+   2589-2622) attempts to discover and configure an analog tuner via
+   I2C, potentially conflicting with the DVB tuner probe
+2. **Spurious error message**: The check at line 4057-4058 (`has_dual_ts
+   && tuner_type != TUNER_ABSENT`) triggers "We currently don't support
+   analog TV or stream capture on dual tuners"
+3. **Incorrect capability advertisement**: V4L2_CAP_TUNER would be
+   advertised (line 2758)
+4. **Bogus input listing**: A non-existent composite video input
+   referencing TVP5150 decoder
 
-**Step 3.1: Blame**
-- The DualHD DVB board support was added by Olli Salonen in commit
-  `11a2a949d05e9d` (2016, v4.7 timeframe).
-- The DualHD 01595 ATSC/QAM board support was added by Kevin Cheng in
-  commit `1586342e428d80` (2017, v4.11 timeframe).
-- Brad Love previously added bulk-mode PIDs (0x8265, 0x826d) in commit
-  `f2a326c928cca1` (2018, v4.16 timeframe).
-- Record: Board definitions have been stable since v4.7/v4.11. Exist in
-  ALL active stable trees.
+Record: Incorrect board profile data causing unnecessary I2C probing,
+spurious errors, and incorrect capability reporting.
 
-**Step 3.2: Fixes Tag** — Not applicable (no Fixes: tag, which is
-expected for device ID additions).
+### Step 2.4: Fix Quality
+- Obviously correct: Restores the original correct state (matches pre-
+  merge value and sibling board profile)
+- Minimal/surgical: Only changes the one affected board entry
+- Regression risk: Virtually zero - restoring known-good configuration
+- Record: Fix is trivially correct. Zero regression risk.
 
-**Step 3.3: File History**
-- The em28xx-cards.c file has had very few changes since v6.1 (only 4
-  commits, mostly treewide cleanups).
-- Record: File is stable, no conflicts expected. Standalone change.
+## PHASE 3: GIT HISTORY INVESTIGATION
 
-**Step 3.4: Author**
-- Brad Love has 14+ commits to the em28xx driver, including the original
-  DualHD bulk model support, dual transport stream fixes, disconnect
-  oops fixes, and other DualHD-related patches. He is effectively the
-  Hauppauge DualHD expert for em28xx.
-- Record: Author is a domain expert for this exact hardware. Very high
-  trust.
+### Step 3.1: Blame
+The original correct board entry (`TUNER_ABSENT`) was introduced by Olli
+Salonen in commit `11a2a949d05e9d` (2016). The incorrect change was
+introduced by merge commit `c52e7b855b33f` during the 5.15-rc4 merge
+into media_tree, attributed to Mauro Carvalho Chehab's merge resolution.
 
-**Step 3.5: Dependencies**
-- No dependencies. The board definitions already exist. The only change
-  is adding new entries to the USB ID table.
-- Record: Fully standalone. No prerequisites.
+Record: Buggy code introduced by merge artifact c52e7b855b33f (Oct
+2021), first appearing in v5.16. Correct code existed since 2016 (v4.7
+era).
 
-### PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+### Step 3.2: Fixes Tag
+No Fixes: tag present. The commit references `c52e7b855b33` as the
+source of the bug.
 
-**Step 4.1: Original Patch Discussion**
-- Found via mail-archive: committed to media.git/next on March 12, 2026.
-- Signed off by Hans Verkuil (media subsystem co-maintainer).
-- Record: Patch was submitted and merged through the normal media tree
-  path. Signed off by maintainer.
+Verified: `git diff v5.15..v5.16 -- drivers/media/usb/em28xx/em28xx-
+cards.c` confirms the TUNER_SI2157 and input changes were introduced
+between v5.15 and v5.16 via that merge.
 
-**Step 4.2: Reviewers**
-- Hans Verkuil signed off as maintainer. Brad Love is a trusted
-  contributor.
-- Record: Proper maintainer signoff.
+### Step 3.3: File History
+Recent commits to em28xx-cards.c are unrelated (MyGica UTV3 support,
+build system changes). No conflicting changes found.
+Record: Standalone fix, no prerequisites needed.
 
-**Step 4.3-4.5: Bug Report and Stable Discussion**
-- The commit message says "DualHD models that are in the wild" — these
-  are real devices owned by real users.
-- No explicit stable nomination found, but device ID additions are a
-  well-known automatic exception category.
-- Record: Real hardware in the field. No counter-indications found.
+### Step 3.4: Author
+Bradford Love (brad@nextdimension.cc) is the original Hauppauge em28xx
+developer who authored multiple board entries including `em28xx: Add pid
+for bulk revision of Hauppauge 461eV2`, `em28xx: Add pid for bulk
+revision of Hauppauge 461e`, `em28xx: Add support for Hauppauge USB
+QuadHD`, etc.
+Record: Author is the domain expert for Hauppauge em28xx devices.
 
-### PHASE 5: CODE SEMANTIC ANALYSIS
+### Step 3.5: Dependencies
+None. This is a standalone data change to a board profile. No code
+dependencies.
 
-**Step 5.1-5.5:** Not deeply applicable for a USB ID table addition. The
-`em28xx_id_table[]` is used by the USB core's `usb_match_id()` during
-device enumeration. This is a standard, well-tested kernel mechanism.
-The board definitions pointed to by these new IDs are already fully
-exercised by the existing IDs (0x0265, 0x8265, 0x026d, 0x826d).
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-Record: Zero code logic change. Data table addition only. Existing board
-configs are well-tested.
+### Step 4.1-4.5
+Lore.kernel.org was unavailable due to bot protection. B4 dig could not
+be used on the merge commit (it's a merge). The commit was signed off by
+Hans Verkuil (media maintainer), confirming proper review.
 
-### PHASE 6: CROSS-REFERENCING AND STABLE TREE ANALYSIS
+Record: Could not access lore discussion. Fix reviewed and accepted by
+media subsystem maintainer.
 
-**Step 6.1:** The board definitions
-(`EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_DVB` and
-`EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595`) have existed since v4.7
-and v4.11 respectively. They exist in ALL active stable trees (6.1.y,
-6.6.y, 6.12.y, etc.).
+## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 6.2:** The patch will apply cleanly to all stable trees. The USB
-ID table area has been very stable, with only occasional new ID
-additions.
+### Step 5.1-5.4: Key Code Paths Affected
+Verified the following code paths are affected by the incorrect
+`TUNER_SI2157`:
 
-**Step 6.3:** No related fixes already in stable for these specific
-PIDs.
+1. **`em28xx_v4l2_init()`** (em28xx-video.c:2589): When `tuner_type !=
+   TUNER_ABSENT`, probes I2C bus for analog tuner. The Si2157 DVB tuner
+   lives at I2C addresses 0x60/0x63 (from em28xx-dvb.c:1412). The analog
+   probe at line 2604-2612 uses `v4l2_i2c_tuner_addrs()` which could
+   overlap with these addresses.
 
-Record: Clean apply expected on all stable trees. Board support exists
-everywhere.
+2. **`em28xx_usb_probe()`** (em28xx-cards.c:4057-4066): Dual-TS check
+   with `tuner_type != TUNER_ABSENT` triggers error message and disables
+   video.
 
-### PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+3. **`em28xx_tuner_setup()`** (em28xx-video.c:2469): Attempts to
+   configure tuner type TUNER_SI2157 via V4L2 tuner subsystem.
 
-**Step 7.1:** Subsystem: `drivers/media/usb` — USB video capture
-devices. Criticality: PERIPHERAL (specific hardware), but USB media
-devices are commonly used consumer hardware.
+4. The sibling board `EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595`
+   correctly uses `TUNER_ABSENT` and has no input entry, confirming the
+   fix is correct.
 
-**Step 7.2:** The em28xx driver is mature and stable, with infrequent
-changes.
+Record: Bug affects I2C probing, capability reporting, and error message
+generation. DVB tuner is handled separately via `dvb_module_probe`, not
+the analog tuner infrastructure.
 
-### PHASE 8: IMPACT AND RISK ASSESSMENT
+## PHASE 6: STABLE TREE ANALYSIS
 
-**Step 8.1:** Affected users: Anyone with a Hauppauge WinTV-dualHD
-device with these specific PIDs. These are "in the wild" — real consumer
-products.
+### Step 6.1: Bug Exists in Stable Trees
+Verified: The buggy change entered mainline in v5.16 via merge
+`c52e7b855b33f`. All active stable trees (6.1.y, 6.6.y, 6.12.y) contain
+this bug. The v5.15.y LTS tree does NOT (bug was introduced after 5.15).
 
-**Step 8.2:** Trigger: Simply plugging in the device. Without the IDs,
-the device is completely non-functional under Linux.
+### Step 6.2: Backport Complications
+The change is to a data structure entry. It should apply cleanly to all
+affected stable trees as the board profile has not been modified since
+the merge.
 
-**Step 8.3:** Failure mode: Device not recognized by the kernel at all.
-Severity for affected users: COMPLETE (device unusable).
+### Step 6.3: No related fixes already in stable.
 
-**Step 8.4:**
-- BENEFIT: High — enables real hardware for real users. Without this,
-  the device is a paperweight on Linux.
-- RISK: Effectively zero — 12 lines of data-only additions to a match
-  table. No code logic changes. No regression possible for existing
-  users.
-- Record: Extremely favorable risk/benefit ratio.
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-### PHASE 9: FINAL SYNTHESIS
+### Step 7.1
+- **Subsystem**: drivers/media/usb (USB media capture device driver)
+- **Criticality**: PERIPHERAL (affects users of specific Hauppauge
+  WinTV-dualHD DVB USB device)
+- The Hauppauge WinTV-dualHD is a consumer DVB USB stick, commonly used
+  for DVB-T/T2 reception
 
-**Step 9.1: Evidence Summary**
+### Step 7.2
+The em28xx subsystem is mature and stable. The bug has been present
+since v5.16 (~4 years).
 
-FOR backporting:
-- Classic device ID addition — a well-documented exception category for
-  stable
-- 12 lines of pure data additions, zero logic changes
-- Maps to existing, well-tested board definitions (in tree since
-  v4.7/v4.11)
-- Author is the domain expert with 14+ commits to this driver
-- Signed off by media subsystem maintainer
-- Zero regression risk
-- Enables real hardware "in the wild" for real users
-- Applies cleanly to all stable trees
+## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-AGAINST backporting:
-- None identified.
+### Step 8.1: Affected Users
+Users of the Hauppauge WinTV-dualHD DVB (USB IDs 2040:0265 and
+2040:8265).
 
-**Step 9.2: Stable Rules Checklist**
-1. Obviously correct and tested? **YES** — trivial USB_DEVICE macro
-   entries mapping to existing boards.
-2. Fixes a real bug? **YES** — hardware not recognized without these
-   IDs.
-3. Important issue? **YES** — device completely non-functional without
-   these IDs.
-4. Small and contained? **YES** — 12 lines, 1 file, data only.
-5. No new features or APIs? **YES** — no new features, just new device
-   IDs for existing driver.
-6. Can apply to stable trees? **YES** — board definitions exist in all
-   stable trees.
+### Step 8.2: Trigger Conditions
+Every time the device is plugged in or the driver loads. 100%
+reproducible for affected hardware.
 
-**Step 9.3: Exception Category**
-This is a **NEW DEVICE ID** addition to an existing driver — explicitly
-listed as an exception category that is automatically YES for stable.
+### Step 8.3: Failure Mode
+- Spurious error message in dmesg: "We currently don't support analog TV
+  or stream capture on dual tuners" (MEDIUM)
+- Unnecessary I2C bus probing that could conflict with DVB tuner
+  (MEDIUM)
+- Incorrect V4L2 capability advertising (LOW)
+- Non-existent composite input exposed to userspace (LOW)
+- Overall severity: MEDIUM
 
-### Verification
+### Step 8.4: Risk-Benefit
+- **Benefit**: Fixes incorrect device behavior for all users of this
+  hardware, eliminates spurious errors, prevents potential I2C conflicts
+- **Risk**: Extremely low - 5-line change to a data structure, restoring
+  known-good values that existed for 5 years before the merge artifact
+- **Ratio**: HIGH benefit / VERY LOW risk
 
-- [Phase 1] Parsed tags: Signed-off-by author (Brad Love) and maintainer
-  (Hans Verkuil). No Fixes/Reported-by/Cc:stable (expected).
-- [Phase 2] Diff analysis: 12 lines added — 6 USB_DEVICE entries in
-  em28xx_id_table[]. Zero code logic changes.
-- [Phase 2] New IDs (0x8269, 0x8278, 0x826e, 0x826f, 0x8270, 0x8271)
-  confirmed NOT in current tree via grep.
-- [Phase 3] git blame: Board definitions introduced in v4.7
-  (11a2a949d05e9d) and v4.11 (1586342e428d80) — present in all active
-  stable trees.
-- [Phase 3] Author history: Brad Love has 14+ em28xx commits including
-  prior DualHD bulk model support (f2a326c928cca1).
-- [Phase 3] File history: em28xx-cards.c has had only 4 changes since
-  v6.1, all unrelated.
-- [Phase 4] Mail archive confirms commit was merged to media.git/next on
-  March 12, 2026, signed by Hans Verkuil.
-- [Phase 5] Change is data-only (USB ID table). No code flow analysis
-  needed.
-- [Phase 6] Board definitions exist in all stable trees (v5.15.y through
-  v6.12.y). Clean apply expected.
-- [Phase 8] Risk: zero (data-only). Benefit: enables completely non-
-  functional hardware for real users.
+## PHASE 9: FINAL SYNTHESIS
+
+### Step 9.1: Evidence
+**FOR backporting**:
+- Fixes an incorrect board profile caused by a merge artifact
+- Small (5 lines net), obviously correct, data-only change
+- Restores original known-good configuration (verified by blame)
+- Matches sibling device's correct profile
+- Author is the domain expert for this hardware
+- Reviewed by media subsystem maintainer (Hans Verkuil)
+- Bug affects all stable trees from 6.1.y through 6.12.y
+- Prevents spurious error messages and potential I2C bus conflicts
+- Clean apply expected (no conflicting changes to this entry)
+
+**AGAINST backporting**:
+- Bug has been present ~4 years without widespread reports (limited user
+  impact)
+- DVB functionality likely still works despite the incorrect profile
+- No syzbot/crash reports associated with this
+
+### Step 9.2: Stable Rules Checklist
+1. Obviously correct and tested? **YES** - restores pre-merge state,
+   signed off by domain expert and maintainer
+2. Fixes a real bug? **YES** - incorrect device profile from merge
+   artifact
+3. Important issue? **MEDIUM** - spurious errors, potential I2C
+   conflicts, incorrect capabilities
+4. Small and contained? **YES** - 5 lines in one file, one board entry
+5. No new features or APIs? **YES** - purely corrective
+6. Can apply to stable? **YES** - clean apply expected
+
+### Step 9.3: Exception Categories
+This falls into the **hardware quirk/device profile fix** category -
+correcting incorrect device data in an existing driver.
+
+### Step 9.4: Decision
+This is a small, obviously correct fix to a board profile that was
+corrupted by a merge artifact. It restores the original known-good
+configuration for a specific USB device, matching the sibling board's
+correct profile. It was written by the domain expert and reviewed by the
+media maintainer. The risk is minimal and the fix prevents incorrect
+driver behavior for users of this hardware.
+
+## Verification
+
+- [Phase 1] Parsed commit message: author explains merge-introduced
+  incorrect board profile
+- [Phase 2] Diff analysis: +1/-6 lines, changes `.tuner_type` from
+  TUNER_SI2157 to TUNER_ABSENT, removes 5-line bogus `.input` block
+- [Phase 3] git blame: Correct TUNER_ABSENT value existed since commit
+  11a2a949d05e9d (2016, Olli Salonen). Bug introduced by merge
+  c52e7b855b33f (Oct 2021)
+- [Phase 3] git diff v5.15..v5.16: Confirmed the TUNER_SI2157 and input
+  changes were introduced between v5.15 and v5.16 via the merge
+- [Phase 3] git blame tuner-types.c: TUNER_SI2157 entry was also added
+  by same merge c52e7b855b33f (stub entry with no parameters)
+- [Phase 3] git log --author: Brad Love is the Hauppauge em28xx expert
+  with multiple device contributions
+- [Phase 5] Grep for TUNER_SI2157 in em28xx: Only used in the one
+  incorrect board entry
+- [Phase 5] Code analysis em28xx-video.c:2589-2622: tuner_type !=
+  TUNER_ABSENT triggers I2C analog tuner probe
+- [Phase 5] Code analysis em28xx-cards.c:4057-4066: dual_ts + tuner !=
+  ABSENT triggers error message
+- [Phase 5] Code analysis em28xx-dvb.c:1384-1422: Si2157 tuner handled
+  via dvb_module_probe at fixed I2C addresses, not analog tuner
+  infrastructure
+- [Phase 5] Verified sibling board
+  EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595 correctly uses TUNER_ABSENT
+  with no input
+- [Phase 6] Bug introduced in v5.16, affects all active stable trees
+  (6.1.y, 6.6.y, 6.12.y)
+- [Phase 6] No conflicting changes to this board entry since v5.16
+- UNVERIFIED: Could not access lore.kernel.org discussion due to bot
+  protection
 
 **YES**
 
- drivers/media/usb/em28xx/em28xx-cards.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/media/usb/em28xx/em28xx-cards.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
-index 59a2e4db75b72..2d19f8ecd6857 100644
+index 2d19f8ecd6857..d7075ebabceb8 100644
 --- a/drivers/media/usb/em28xx/em28xx-cards.c
 +++ b/drivers/media/usb/em28xx/em28xx-cards.c
-@@ -2757,10 +2757,22 @@ struct usb_device_id em28xx_id_table[] = {
- 			.driver_info = EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_DVB },
- 	{ USB_DEVICE(0x2040, 0x8265),
- 			.driver_info = EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_DVB },
-+	{ USB_DEVICE(0x2040, 0x8269),
-+			.driver_info = EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_DVB },
-+	{ USB_DEVICE(0x2040, 0x8278),
-+			.driver_info = EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_DVB },
- 	{ USB_DEVICE(0x2040, 0x026d),
- 			.driver_info = EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595 },
- 	{ USB_DEVICE(0x2040, 0x826d),
- 			.driver_info = EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595 },
-+	{ USB_DEVICE(0x2040, 0x826e),
-+			.driver_info = EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595 },
-+	{ USB_DEVICE(0x2040, 0x826f),
-+			.driver_info = EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595 },
-+	{ USB_DEVICE(0x2040, 0x8270),
-+			.driver_info = EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595 },
-+	{ USB_DEVICE(0x2040, 0x8271),
-+			.driver_info = EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595 },
- 	{ USB_DEVICE(0x2040, 0x846d),
- 			.driver_info = EM2874_BOARD_HAUPPAUGE_USB_QUADHD },
- 	{ USB_DEVICE(0x0438, 0xb002),
+@@ -2522,17 +2522,12 @@ const struct em28xx_board em28xx_boards[] = {
+ 		.def_i2c_bus   = 1,
+ 		.i2c_speed     = EM28XX_I2C_CLK_WAIT_ENABLE |
+ 				 EM28XX_I2C_FREQ_400_KHZ,
+-		.tuner_type    = TUNER_SI2157,
++		.tuner_type    = TUNER_ABSENT,
+ 		.tuner_gpio    = hauppauge_dualhd_dvb,
+ 		.has_dvb       = 1,
+ 		.has_dual_ts   = 1,
+ 		.ir_codes      = RC_MAP_HAUPPAUGE,
+ 		.leds          = hauppauge_dualhd_leds,
+-		.input         = { {
+-			.type     = EM28XX_VMUX_COMPOSITE,
+-			.vmux     = TVP5150_COMPOSITE1,
+-			.amux     = EM28XX_AMUX_LINE_IN,
+-		} },
+ 	},
+ 	/*
+ 	 * 2040:026d Hauppauge WinTV-dualHD (model 01595 - ATSC/QAM) Isoc.
 -- 
 2.53.0
 
