@@ -1,223 +1,179 @@
-Return-Path: <linux-media+bounces-59116-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59118-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GJPLFfPI5WlIoAEAu9opvQ
-	(envelope-from <linux-media+bounces-59116-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 08:34:27 +0200
+	id KPpDHCzN5WlIoAEAu9opvQ
+	(envelope-from <linux-media+bounces-59118-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 08:52:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47B54273EB
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 08:34:26 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0AA24277A3
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 08:52:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 017B0300C035
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 06:34:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 93B363035D4B
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 06:47:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0077382360;
-	Mon, 20 Apr 2026 06:34:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37B6A382F16;
+	Mon, 20 Apr 2026 06:47:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ferli2cG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TOCEq/Ud"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3319F15746F;
-	Mon, 20 Apr 2026 06:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776666857; cv=none; b=GqWGqxKAbQbqB3YTji2ZoeDRjBtNjayjv19ADMwmxZUnuCkOFCdyA0A9JypBPvJCiAJkG13cRiJNZPtc520MGcedIjSKdK0Odd5Ud8L70r1kKihfcTQrWJsIZMaCFaD1PMThTN/rAAG+OGNsyoTyfRbZwXCjc2Vgm9Sic17aKBs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776666857; c=relaxed/simple;
-	bh=SIQzikZxZrp71GghANcUxQ34/VjF6aP3rRJUnE4qCP0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dNCmBYjDonjV8lZYWJfq9C+2/Y9rlN3o7n7n3/QnsvBrPJ5ZL9A8806lEOFh0g107wNddMd1WQPOwUWFAmfBslIYvBdWDfAMInwiQpKyGTLC1BbzLjqNoWZ9derbbScXr3VWCnaKtkB8kZhsUbCTbsp9Mrx2zHzLP/Uyx+MsH1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ferli2cG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DDE9C19425;
-	Mon, 20 Apr 2026 06:34:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776666856;
-	bh=SIQzikZxZrp71GghANcUxQ34/VjF6aP3rRJUnE4qCP0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ferli2cGr0NulEsabkChnw3zEB6FRv162hX/dUU+qBVnao9EBzZ/UbCTXcYJK95YT
-	 9hHCCNaUTp6TYIwUtfw/AsX3bZXymXbQR7MQMQ44aDjdx1ZlMpV8hUYMcujSEcR454
-	 J7ZWrp0TNt7d6tHYs9bZOu7qoXctDQuHXGZALhr+0sP5+ub98rzuAQeJj81AnLLNVG
-	 Pc0lHdaXgajlQCpnSTIWFrooAeIiupbYNMujX8uW6ZvCMUJmP5zJid9v2rvFE6KPgt
-	 fzL/CDnGdhfmxbLG3WsxnBM8SvFhNhAiyU4nC6/JtJF79tkLrIcNrSnSPqLXO9sbrv
-	 72pq1x20ubACQ==
-X-Mailer: emacs 30.2 (via feedmail 11-beta-1 I)
-From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-To: Jiri Pirko <jiri@resnulli.us>, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
-	linux-media@vger.kernel.org
-Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
-	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
-	christian.koenig@amd.com, m.szyprowski@samsung.com,
-	robin.murphy@arm.com, jgg@ziepe.ca, leon@kernel.org,
-	sean.anderson@linux.dev, ptesarik@suse.com,
-	catalin.marinas@arm.com, suzuki.poulose@arm.com,
-	steven.price@arm.com, thomas.lendacky@amd.com,
-	john.allen@amd.com, ashish.kalra@amd.com,
-	suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
-Subject: Re: [PATCH v5 1/2] dma-mapping: introduce DMA_ATTR_CC_SHARED for
- shared memory
-In-Reply-To: <20260325192352.437608-2-jiri@resnulli.us>
-References: <20260325192352.437608-1-jiri@resnulli.us>
- <20260325192352.437608-2-jiri@resnulli.us>
-Date: Mon, 20 Apr 2026 12:04:06 +0530
-Message-ID: <yq5atst6ywbl.fsf@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294A0382F09
+	for <linux-media@vger.kernel.org>; Mon, 20 Apr 2026 06:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776667639; cv=pass; b=OSMB7RqKeue3Bres7XZ3OJcb5+gjaHLvRclSflXjtCgJBeOS4dObTWf1s7LhZkI6nDDA5fOThSjEOp0Q99dpcEdfmPqnEPbEU4rBUt/aAbMthDEsC2PKvrYkdXslIsz3Uq38KUcrK1IFVcAoVKJwWFYv6tTNqkwboQu0s7Bmkl4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776667639; c=relaxed/simple;
+	bh=N1haeHF9uSlmHMWw+cJ4oHIeP1NSc5nux6yAR2Hd7gE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i4sk9ObIHYnyJjdHq3vYn2ZDnkr9wmsW7fVX/9TNv1FeGkzDXpx5dnMxMotEafSXiKuILxSQu+xFq+JNE3OO6Z3Ws6wgwzqLt6NAztXA/axypaVi4ED5kLIdLB+pNmwptEhhbom25qzz8uZIozjov1/77DXT253SNY1DmOWQaoA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TOCEq/Ud; arc=pass smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ba25fd27571so385317666b.0
+        for <linux-media@vger.kernel.org>; Sun, 19 Apr 2026 23:47:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776667636; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MA7HDghzyXmAOJSrYLMoph8kzZvjjdqU2Vp0oxKQNkGTxXAX4z57XEgkYcuTunjAfT
+         Jwiy6lODmATp4johqKfMOt4yuo9De+AswmXIZWklXqeoUbXeGqty+RfXTQotBDTYggzU
+         qAo+AXie1gv+muk/DVy7PwNoynCUxkwZbulmX/Fy6xuVbGIzRcxNNgwwQ9T9kHaN35WX
+         AIOlIUD0aplHoXJdnw+JfIXWwe0J0x+2azT9uxCZwb6Q1uvejQXy62jXz7Iv31blLUEI
+         s+P7M0DQoSSIn8EvAY4rXy5g9AThzHixNfjuBUDEYWOrd6+Jmkw73KQE75IpeOcZ8wBp
+         XKiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=N1haeHF9uSlmHMWw+cJ4oHIeP1NSc5nux6yAR2Hd7gE=;
+        fh=uTY92wr8RvGVvjnrYfRLecw10c1NtZNrVms8xNhcFF4=;
+        b=cfM0iv2og1hepnFmuDc2WvfvOFtQV6tdMGHqVQ1N9z1w5A8P3KLZJ9vNax58jQXCbu
+         0WEvrxGNHGK9UpAnLAyf5ZdUXcfjcjnJ7SeC4/zxnftGFMahP8XcQXSGR6477VmHzI5v
+         7q5rRoePH1swXBX6t6ByJqorhAKqEDb/gC5nRo4O5T+qSiSrSD3e802l+XAJr9vnsatF
+         zBQcsvo41LEQjoKC3bgxwt6pC1/+Fdms3dk8GsY2fqM90UFttlukeaY8u5WG47da/9MK
+         MjestPx3PUNYkS1z2Ra3y+eA6IwKOHfPNs5Fn/LvQiDlyQiXHxnNSNKwG+fEcMCPUAv5
+         FRDA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776667636; x=1777272436; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N1haeHF9uSlmHMWw+cJ4oHIeP1NSc5nux6yAR2Hd7gE=;
+        b=TOCEq/UdT2mpCNaUaQJ78z78SF65ZJTWfDQbk0FTVlAxzPUACM+oRtL2NpAb5FSVDZ
+         FNntrihkCvwdtNyndFJO1mz1/kZyu0b4sFdYSUhOP0dKafq22b+CuXCg9O8f3O2b3Onn
+         aDBucBDqreHriTtZnBNnsWbw4FdbcWUlZAMUscfnWfciz4zjjKXGmjSDjnLnALbEPEnj
+         y4cw3Wziq0eZTeUY8BFezYTKNRd5BtamoWhy5MMTrUTaIofikIVcL3B5qaFjiZ6M60U8
+         XRUxS6DO31v+Ej1p26ZkUT9Ag0HqTHkxq169TYDsP9T4WOiu2Wq962ESJOjxJ4O48K+C
+         Eldw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776667636; x=1777272436;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=N1haeHF9uSlmHMWw+cJ4oHIeP1NSc5nux6yAR2Hd7gE=;
+        b=gGQXcj8VULJa/HMadKBRihngYinaJ4fa6d4p6V+SQTNflycw1K/+vWqWjyfTCfmK0R
+         rSxZL752i+D77zkod536kiqbFZX4/qhR9BJD2blVVq6L8hBos18EzniUuvY65mXJLjNO
+         38hW3sD30HiRjh5X5Pkfc7uNzU9SI6Inck8N/kwxgSbdXhzuZhsh+jVAWbINBBbGwyYa
+         vfQZQS44+lYrJIBlBa7v7NI+lvs3evkyT9dKa4RILf3f3wj3ytf2FFXgUvl4K7l+6gf3
+         yAAMv3SgsSBDxuOL8g2tX22gwxSrGwbG7b/e0JJW3IWkSNIHOaMGUrfEOtPr592iGhuz
+         Vw6Q==
+X-Forwarded-Encrypted: i=1; AFNElJ//hmHPhv+N0NSr2Jg9dBtq3t7S5I5sEwk/R7486kY7OwzTupT6ymFN/OO1xAacK7r904r4ipDBYqYB7g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQs8gJN7Y/4t5WKfmSTXTEjnSEyxeXWPN8n/s0bcyjxhdDYQhz
+	biPo51lmOt19W42L++VYqQRrBx/+S1R+LNHur2NYOXRwTF2iaMt6k3VoZL8xu+bJXaVp/kuk7vr
+	JB+k4NV1mMx7pNXwVsVUf8xO6as2X5A8=
+X-Gm-Gg: AeBDiesJdzd/sIh9Oql++xvRdPyCn6q/stgmBnXW48AvNhCe5beFivXBJeXwsOXe5Hd
+	TFV/AnFRzEwqK+8b0o42hiK8Uu883N9Ut4fyTkr4vMaDsnaIAfAEXwYtVIMk0KBu/ht8rpnoxa0
+	7rR9uiu6x9FLbffIqoKqXWUekus7RpqCkYRCI/anMJaW7BjbgQnFXT/JPtyvCQuG1nTXqBf3Ttg
+	3U4V6ZTGAzXeHhOaS4rFFFlziGvk7m+jF1BqSsKUYIf0A9YKN5dua6WJ4rObvsiPmdYewW9b8qd
+	KJav/IkvR+Mp5Xi3fY+iAonHSrJBaZWliYJPW9zxMrfT8Tv5NttW7PKHnN9sfh/x8TjgOrXFxpV
+	0F5YyAt1GeRD5e+xupA==
+X-Received: by 2002:a17:907:3f11:b0:ba8:a829:e64a with SMTP id
+ a640c23a62f3a-ba8a82a9a1amr15950666b.23.1776667636060; Sun, 19 Apr 2026
+ 23:47:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20260420032701.33250-1-debjeetbanerjee48@gmail.com> <20260420043442.60982-1-debjeetbanerjee48@gmail.com>
+In-Reply-To: <20260420043442.60982-1-debjeetbanerjee48@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 20 Apr 2026 09:46:39 +0300
+X-Gm-Features: AQROBzDARcD5sLeznh1z-l3-bWrWKreTWgrMaYI-OYrDcqQB7Ms6YHfZhqQl0vc
+Message-ID: <CAHp75VfxwFW3nWLjKS6TXPHYJsqPJWB6G_M08t6eTkcodOj7zA@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: media: atomisp: csi2: Fix DPCM decompression
+ for source pad format
+To: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, 
+	andy@kernel.org, sakari.ailus@linux.intel.com, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59116-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59118-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aneesh.kumar@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andyshevchenko@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: B47B54273EB
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C0AA24277A3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Jiri Pirko <jiri@resnulli.us> writes:
+On Mon, Apr 20, 2026 at 7:35=E2=80=AFAM Debjeet Banerjee
+<debjeetbanerjee48@gmail.com> wrote:
+>
+> The CSI2 source pad format was set by blindly copying the sink pad
+> format, regardless of whether the sink pad is receiving a DPCM-compressed
+> mbus code. This was marked with a FIXME comment.
+>
+> When a sensor transmits DPCM-compressed data over MIPI CSI-2 (e.g.
+> MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8), the Atom ISP hardware decompresses it
+> before passing it to the ISP pipeline. Therefore the source pad must
+> expose the uncompressed format (e.g. MEDIA_BUS_FMT_SGRBG10_1X10), not
+> the compressed one.
+>
+> atomisp_subdev_uncompressed_code() already implements this mapping via
+> the compressed_codes[] table in atomisp_subdev.c, which pairs each
+> DPCM mbus code with its uncompressed counterpart. For codes that are not
+> DPCM-compressed, the function returns the code unchanged, so this change
+> is a no-op for all non-DPCM formats.
 
-> From: Jiri Pirko <jiri@nvidia.com>
->
-> Current CC designs don't place a vIOMMU in front of untrusted devices.
-> Instead, the DMA API forces all untrusted device DMA through swiotlb
-> bounce buffers (is_swiotlb_force_bounce()) which copies data into
-> shared memory on behalf of the device.
->
-> When a caller has already arranged for the memory to be shared
-> via set_memory_decrypted(), the DMA API needs to know so it can map
-> directly using the unencrypted physical address rather than bounce
-> buffering. Following the pattern of DMA_ATTR_MMIO, add
-> DMA_ATTR_CC_SHARED for this purpose. Like the MMIO case, only the
-> caller knows what kind of memory it has and must inform the DMA API
-> for it to work correctly.
->
-> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
-> ---
-> v4->v5:
-> - rebased on top od dma-mapping-for-next
-> - s/decrypted/shared/
-> v3->v4:
-> - added some sanity checks to dma_map_phys and dma_unmap_phys
-> - enhanced documentation of DMA_ATTR_CC_DECRYPTED attr
-> v1->v2:
-> - rebased on top of recent dma-mapping-fixes
-> ---
->  include/linux/dma-mapping.h | 10 ++++++++++
->  include/trace/events/dma.h  |  3 ++-
->  kernel/dma/direct.h         | 14 +++++++++++---
->  kernel/dma/mapping.c        | 13 +++++++++++--
->  4 files changed, 34 insertions(+), 6 deletions(-)
->
-> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-> index 677c51ab7510..db8ab24a54f4 100644
-> --- a/include/linux/dma-mapping.h
-> +++ b/include/linux/dma-mapping.h
-> @@ -92,6 +92,16 @@
->   * flushing.
->   */
->  #define DMA_ATTR_REQUIRE_COHERENT	(1UL << 12)
-> +/*
-> + * DMA_ATTR_CC_SHARED: Indicates the DMA mapping is shared (decrypted) f=
-or
-> + * confidential computing guests. For normal system memory the caller mu=
-st have
-> + * called set_memory_decrypted(), and pgprot_decrypted must be used when
-> + * creating CPU PTEs for the mapping. The same shared semantic may be pa=
-ssed
-> + * to the vIOMMU when it sets up the IOPTE. For MMIO use together with
-> + * DMA_ATTR_MMIO to indicate shared MMIO. Unless DMA_ATTR_MMIO is provid=
-ed
-> + * a struct page is required.
-> + */
-> +#define DMA_ATTR_CC_SHARED	(1UL << 13)
->=20=20
->  /*
->   * A dma_addr_t can hold any valid DMA or bus address for the platform. =
- It can
-> diff --git a/include/trace/events/dma.h b/include/trace/events/dma.h
-> index 63597b004424..31c9ddf72c9d 100644
-> --- a/include/trace/events/dma.h
-> +++ b/include/trace/events/dma.h
-> @@ -34,7 +34,8 @@ TRACE_DEFINE_ENUM(DMA_NONE);
->  		{ DMA_ATTR_PRIVILEGED, "PRIVILEGED" }, \
->  		{ DMA_ATTR_MMIO, "MMIO" }, \
->  		{ DMA_ATTR_DEBUGGING_IGNORE_CACHELINES, "CACHELINES_OVERLAP" }, \
-> -		{ DMA_ATTR_REQUIRE_COHERENT, "REQUIRE_COHERENT" })
-> +		{ DMA_ATTR_REQUIRE_COHERENT, "REQUIRE_COHERENT" }, \
-> +		{ DMA_ATTR_CC_SHARED, "CC_SHARED" })
->=20=20
->  DECLARE_EVENT_CLASS(dma_map,
->  	TP_PROTO(struct device *dev, phys_addr_t phys_addr, dma_addr_t dma_addr,
-> diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
-> index b86ff65496fc..7140c208c123 100644
-> --- a/kernel/dma/direct.h
-> +++ b/kernel/dma/direct.h
-> @@ -89,16 +89,24 @@ static inline dma_addr_t dma_direct_map_phys(struct d=
-evice *dev,
->  	dma_addr_t dma_addr;
->=20=20
->  	if (is_swiotlb_force_bounce(dev)) {
-> -		if (attrs & (DMA_ATTR_MMIO | DMA_ATTR_REQUIRE_COHERENT))
-> -			return DMA_MAPPING_ERROR;
-> +		if (!(attrs & DMA_ATTR_CC_SHARED)) {
-> +			if (attrs & (DMA_ATTR_MMIO | DMA_ATTR_REQUIRE_COHERENT))
-> +				return DMA_MAPPING_ERROR;
->=20=20
-> -		return swiotlb_map(dev, phys, size, dir, attrs);
-> +			return swiotlb_map(dev, phys, size, dir, attrs);
-> +		}
-> +	} else if (attrs & DMA_ATTR_CC_SHARED) {
-> +		return DMA_MAPPING_ERROR;
->  	}
->
+No, please spend your time first on learning the process. When sending
+patches like this, do not rush with the new versions, keep at least
+24h distance between them.
 
-What is this check for? If we are requesting a DMA mapping with
-DMA_ATTR_CC_SHARED, shouldn=E2=80=99t it be allowed? If not, how would we r=
-each
-the conditional below where we convert the physical address to a DMA
-address using phys_to_dma_unencrypted()?. Also, how is this supposed to
-interact with is_swiotlb_force_bounce()?=E2=80=9D
+...
 
->=20=20
->  	if (attrs & DMA_ATTR_MMIO) {
->  		dma_addr =3D phys;
->  		if (unlikely(!dma_capable(dev, dma_addr, size, false)))
->  			goto err_overflow;
-> +	} else if (attrs & DMA_ATTR_CC_SHARED) {
-> +		dma_addr =3D phys_to_dma_unencrypted(dev, phys);
-> +		if (unlikely(!dma_capable(dev, dma_addr, size, false)))
-> +			goto err_overflow;
->  	} else {
->  		dma_addr =3D phys_to_dma(dev, phys);
->  		if (unlikely(!dma_capable(dev, dma_addr, size, true)) ||
+Also, drop the "staging:" prefix from the Subject.
 
--aneesh
+--=20
+With Best Regards,
+Andy Shevchenko
 
