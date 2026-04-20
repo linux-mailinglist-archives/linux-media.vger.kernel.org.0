@@ -1,207 +1,168 @@
-Return-Path: <linux-media+bounces-59129-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59130-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EJ8tCmf+5WlEqAEAu9opvQ
-	(envelope-from <linux-media+bounces-59129-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 12:22:31 +0200
+	id eIlZEwgL5mluqwEAu9opvQ
+	(envelope-from <linux-media+bounces-59130-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 13:16:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778434294F9
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 12:22:30 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DEA429D68
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 13:16:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EF5663076176
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 10:20:49 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 5FE4B300C7C9
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 11:16:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15C72398917;
-	Mon, 20 Apr 2026 10:20:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BABDA399350;
+	Mon, 20 Apr 2026 11:16:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k0Cejczh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RnZtKkde"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687A9397E9F;
-	Mon, 20 Apr 2026 10:20:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5932345749;
+	Mon, 20 Apr 2026 11:16:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776680448; cv=none; b=WYdorCAtZYf9vDTg9lGgsmCHjL2cnoPyae5JFoHCsGO9N4lBb/wozSk5OuoZRW43Qcmwtt7IwrrjS7Jk9KJkBkofYI1piz1fGe99FLtTdp29knBsaBFebuTaeexN4oEWCGnJwpFpvyWbATg4Beo3V8hdrA5rRZto6LeJcByL1HA=
+	t=1776683777; cv=none; b=O3Eobf8KFEyqMSXNEl/D6EJ9uCdzOkGTpWgS9Bt/Cu286hGB2UZeZA2lMujnc+WVBGnyz13Zn31270oXi4p/QluHuvNx0KAwj5dW98KTN8lsgFIYM63B9ZRuQccUiHAMjPH5PbLobntuqDyNfkInpxDjB8iBu142n6Jr9HA1cz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776680448; c=relaxed/simple;
-	bh=jEOZxkvycRBfcI74UvSRLCf/r3sC5rcqRPHdwFEx8UU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eLiM1APgV7kKHVBCDxkzWqC3RaNWtdakn0qMCq5kHyqts7ZuODPpbDoShOxFE6iU+XicL6Zs58Cdgn8k5pnXYU2EwgIuWIOPUFhluU3Yo6iOwxf1rMObaEAa4hzDupTIXuYMIxWt4si9f1ev4ogK1sdSg++CLOB+Q4eHnvj16vY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k0Cejczh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB199C19425;
-	Mon, 20 Apr 2026 10:20:45 +0000 (UTC)
+	s=arc-20240116; t=1776683777; c=relaxed/simple;
+	bh=E3LCQG8HaN8tXHqYyryawmIyRQGzMvIjy3sviGum+9U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JrVIe/2aKV1KzfXuUpYNYnEshoCQmM1XEqwV9LJxhLVmPLXHnMxeVX2M3Nzk+9imeK0xAg/9fuiuY4SJpzE9J5qc71T9wQ+ihazuf9Hd/4YEFtSgNgKTtvSXBpuQOBIxcdiDbYbS7whNqwzlvuPpNBUQ+MJPIRRgtijweyqS4QM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RnZtKkde; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63DE8C19425;
+	Mon, 20 Apr 2026 11:16:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776680448;
-	bh=jEOZxkvycRBfcI74UvSRLCf/r3sC5rcqRPHdwFEx8UU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=k0CejczhMPCV1cle5DqSGttgtBMhv4Q6WLGck+pk6rNINRP/gy6p5FYs3XWGiVE5Y
-	 Izkcud3y5hMpMCyztRTCE6bJVkKmDO6Ie9bsID8uE7KzIQNLnUGeZKsEb0j3IHOtD7
-	 BgoFUgCKarJ/p5ftExH2HlAV8LCnAAmCqY5hfWWI+IDuaXDhPYSI0l9geHvR+aJLLU
-	 wC66BKsjH30ZdPmJ2Qe7Z8PC4pMhtQnE8Bsa3Kv8gD2WnzHVSW0Qstv+lrZs9UKONh
-	 79hj3S0LR7oU+vOkDqpLrAXkUrZ5VTjxnGfByJhcU3zsdS7Z9uv/V8tKTRgSkaYxmT
-	 j1qbgTgBQDYzQ==
-Message-ID: <b18d5f20-4013-47a3-bf43-06162682a65a@kernel.org>
-Date: Mon, 20 Apr 2026 11:20:44 +0100
+	s=k20201202; t=1776683777;
+	bh=E3LCQG8HaN8tXHqYyryawmIyRQGzMvIjy3sviGum+9U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RnZtKkde+IXoHiqqdX6/cgZKbjGiMKGRxerrJvhNSsGxdDYfIEG6RPHuMYetJSHRb
+	 W8uaiwYAqrE+WUwkvGC4RcGb4PQn3lx3FuM9joCA3MRsMlaLxTKpQKUEdGRUiUTEgE
+	 RePj60pzWk1GttZXACRCtiOEDMD0NXKD0wKULeJDzoKinHs0EW68l6NPmzc5jJDB00
+	 996ig5yBNJ9U0p0TTT0DeTL+AKUtmlieXoFkG3PRaEV+YWg0d5x93kW+7cdn2DO+b6
+	 8xGb5mS8SfLBKnpoh5595gRaMvo+oHLxXZRAbvqrB9bVB5RvKzmMLzeqNe9gCZEPFn
+	 G/keq3PM3MLQg==
+Date: Mon, 20 Apr 2026 12:16:11 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rishikesh Donadkar <r-donadkar@ti.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v3 2/2] media: dt-bindings: Drop starfive,jh7110-camss
+ from staging
+Message-ID: <20260420-very-cartel-645595ffd1c7@spud>
+References: <20260303-drop-starfive-camss-v3-0-8f44c07fb137@ideasonboard.com>
+ <20260303-drop-starfive-camss-v3-2-8f44c07fb137@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: venus: declare firmware files via MODULE_FIRMWARE
-To: Christopher Obbard <christopher.obbard@linaro.org>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <5RSTHU5_nsLp9gy49GbhT_8mHBjtBeKDsC6F1ABHCU9ZdpW9A8692UruVYnsCexIJGWsWiW2R5WtPULge31Gyw==@protonmail.internalid>
- <20260419-wip-obbardc-qcom-venus-firmware-v1-1-08a0d3cf056f@linaro.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bod@kernel.org>
-In-Reply-To: <20260419-wip-obbardc-qcom-venus-firmware-v1-1-08a0d3cf056f@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="90PYsgMjf7E0SKBf"
+Content-Disposition: inline
+In-Reply-To: <20260303-drop-starfive-camss-v3-2-8f44c07fb137@ideasonboard.com>
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59129-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59130-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.10:email,inspiron14p-linux:email,linaro.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 778434294F9
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,ideasonboard.com:email,starfivetech.com:email,1.46.188.0:email]
+X-Rspamd-Queue-Id: 63DEA429D68
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 19/04/2026 23:39, Christopher Obbard wrote:
-> The driver loads firmware blobs at runtime via request_firmware()
-> but does not currently advertise the possible filenames. Add
-> MODULE_FIRMWARE() entries for all known firmware variants so they are
-> visible via modinfo and can be picked up by user space tooling.
-> 
-> Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
-> ---
->   drivers/media/platform/qcom/venus/core.c | 10 ++++++++++
->   1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 7e639760c41d..7ed7cffb333b 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -1119,6 +1119,16 @@ static const struct venus_resources qcm2290_res = {
->   	.min_fw = &min_fw,
->   };
-> 
-> +MODULE_FIRMWARE("qcom/venus-1.8/venus.mbn");
-> +MODULE_FIRMWARE("qcom/venus-4.2/venus.mbn");
-> +MODULE_FIRMWARE("qcom/venus-4.4/venus.mbn");
-> +MODULE_FIRMWARE("qcom/venus-4.4/venus.mdt");
-> +MODULE_FIRMWARE("qcom/venus-5.2/venus.mbn");
-> +MODULE_FIRMWARE("qcom/venus-5.4/venus.mbn");
-> +MODULE_FIRMWARE("qcom/vpu-1.0/venus.mbn");
-> +MODULE_FIRMWARE("qcom/vpu-2.0/venus.mbn");
-> +MODULE_FIRMWARE("qcom/venus-6.0/venus.mbn");
-> +
->   static const struct of_device_id venus_dt_match[] = {
->   	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
->   	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
-> 
-> ---
-> base-commit: 4f5b4b748ac75683d61c304ee3ee0db235e8f312
-> change-id: 20260419-wip-obbardc-qcom-venus-firmware-abdd35b05a22
-> 
-> Best regards,
-> --
-> Christopher Obbard <christopher.obbard@linaro.org>
-> 
-> 
 
-What about the board dtsi files ?
+--90PYsgMjf7E0SKBf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-#( 04/20/26@10:29 )( deckard@inspiron14p-linux 
-):~/Development/linux@arm64-laptops-v7.1-rc6-camss✗✗✗
-    grep -r "venus.mbn" *
-arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-common.dtsi:	firmware-name 
-= "qcom/sm8250/xiaomi/elish/venus.mbn";
-arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts:	firmware-name = 
-"qcom/qcm6490/fairphone5/venus.mbn";
-arch/arm64/boot/dts/qcom/msm8996-xiaomi-gemini.dts:	firmware-name = 
-"qcom/msm8996/gemini/venus.mbn";
-arch/arm64/boot/dts/qcom/msm8996-oneplus3.dts:	firmware-name = 
-"qcom/msm8996/oneplus3/venus.mbn";
-arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama.dtsi:	firmware-name = 
-"qcom/sdm845/Sony/tama/venus.mbn";
-arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dts:	firmware-name = 
-"qcom/sdm845/Xiaomi/polaris/venus.mbn";
-arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo.dtsi:	firmware-name = 
-"qcom/sm8250/Sony/edo/venus.mbn";
-arch/arm64/boot/dts/qcom/sm8250-xiaomi-pipa.dts:	firmware-name = 
-"qcom/sm8250/xiaomi/pipa/venus.mbn";
-arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi:	firmware-name = 
-"qcom/sdm845/OnePlus/enchilada/venus.mbn";
-arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-scorpio.dts:	firmware-name = 
-"qcom/msm8996/scorpio/venus.mbn";
-arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi:	firmware-name = 
-"qcom/sdm845/Google/blueline/venus.mbn";
-arch/arm64/boot/dts/qcom/qcm6490-shift-otter.dts:	firmware-name = 
-"qcom/qcm6490/SHIFT/otter/venus.mbn";
-arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts:	firmware-name = 
-"qcom/sdm845/SHIFT/axolotl/venus.mbn";
-arch/arm64/boot/dts/qcom/msm8996-oneplus3t.dts:	firmware-name = 
-"qcom/msm8996/oneplus3t/venus.mbn";
-arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-common.dtsi: 
-firmware-name = "qcom/sdm845/Xiaomi/beryllium/venus.mbn";
-arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-natrium.dts:	firmware-name = 
-"qcom/msm8996/natrium/venus.mbn";
-drivers/media/platform/qcom/venus/core.c:	.fwname = 
-"qcom/venus-1.8/venus.mbn",
-drivers/media/platform/qcom/venus/core.c:	.fwname = 
-"qcom/venus-4.2/venus.mbn",
-drivers/media/platform/qcom/venus/core.c:	.fwname = 
-"qcom/venus-4.4/venus.mbn",
-drivers/media/platform/qcom/venus/core.c:	.fwname = 
-"qcom/venus-5.2/venus.mbn",
-drivers/media/platform/qcom/venus/core.c:	.fwname = 
-"qcom/venus-5.2/venus.mbn",
-drivers/media/platform/qcom/venus/core.c:	.fwname = 
-"qcom/venus-5.4/venus.mbn",
-drivers/media/platform/qcom/venus/core.c:	.fwname = 
-"qcom/vpu-1.0/venus.mbn",
-drivers/media/platform/qcom/venus/core.c:	.fwname = 
-"qcom/vpu-2.0/venus.mbn",
-drivers/media/platform/qcom/venus/core.c:	.fwname = 
-"qcom/vpu-2.0/venus.mbn",
-drivers/media/platform/qcom/venus/core.c:	.fwname = 
-"qcom/venus-6.0/venus.mbn",
-drivers/media/platform/qcom/venus/core.c:	.fwname = 
-"qcom/vpu-2.0/venus.mbn",
-drivers/media/platform/qcom/iris/iris_platform_gen1.c:	.fwname = 
-"qcom/vpu-1.0/venus.mbn",
+On Tue, Mar 03, 2026 at 02:54:07PM +0530, Jai Luthra wrote:
+> The starfive-camss driver is no longer being worked upon for destaging,
+> and will be dropped in a subsequent commit, so drop the DT bindings.
+>=20
+> Link: https://lore.kernel.org/all/ZQ0PR01MB13024A92926C415C187D2C18F29F2@=
+ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn/
+> Acked-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 
----
-bod
+In removing the binding, you should have also sent patches for removing
+the users of this:
+arch/riscv/boot/dts/starfive/jh7110-deepcomputing-fml13v01.dtb: /soc/isp@19=
+840000: failed to match any schema with compatible: ['starfive,jh7110-camss=
+']
+arch/riscv/boot/dts/starfive/jh7110-pine64-star64.dtb: /soc/isp@19840000: f=
+ailed to match any schema with compatible: ['starfive,jh7110-camss']
+arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: /soc/isp@19840000: fail=
+ed to match any schema with compatible: ['starfive,jh7110-camss']
+arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-lite.dtb: /soc/is=
+p@19840000: failed to match any schema with compatible: ['starfive,jh7110-c=
+amss']
+arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-lite-emmc.dtb: /s=
+oc/isp@19840000: failed to match any schema with compatible: ['starfive,jh7=
+110-camss']
+arch/riscv/boot/dts/starfive/jh7110-milkv-marscm-emmc.dtb: /soc/isp@1984000=
+0: failed to match any schema with compatible: ['starfive,jh7110-camss']
+arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: /soc/i=
+sp@19840000: failed to match any schema with compatible: ['starfive,jh7110-=
+camss']
+arch/riscv/boot/dts/starfive/jh7110-orangepi-rv.dtb: /soc/isp@19840000: fai=
+led to match any schema with compatible: ['starfive,jh7110-camss']
+arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: /soc/i=
+sp@19840000: failed to match any schema with compatible: ['starfive,jh7110-=
+camss']
+arch/riscv/boot/dts/starfive/jh7110-milkv-marscm-lite.dtb: /soc/isp@1984000=
+0: failed to match any schema with compatible: ['starfive,jh7110-camss']
+
+--90PYsgMjf7E0SKBf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaeYK+wAKCRB4tDGHoIJi
+0hIvAP9hKQGG7rJLPjsNy7XSnHE/RaeILkoi5O+cdU4aXry7QgD7BGYtB37H7KRy
+ZNbfoktS46J4D4KeEzTXG3pBYxbeAgA=
+=wgfX
+-----END PGP SIGNATURE-----
+
+--90PYsgMjf7E0SKBf--
 
