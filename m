@@ -1,83 +1,83 @@
-Return-Path: <linux-media+bounces-59199-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59200-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6L2lCUw+52no5QEAu9opvQ
-	(envelope-from <linux-media+bounces-59199-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 11:07:24 +0200
+	id GNJdMCdC52no5QEAu9opvQ
+	(envelope-from <linux-media+bounces-59200-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 11:23:51 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A4B438A25
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 11:07:22 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 558A6438C46
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 11:23:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 920E2302AB51
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 09:03:16 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E4820301A420
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 09:23:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 256663A4F57;
-	Tue, 21 Apr 2026 09:03:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6F1E3A5E65;
+	Tue, 21 Apr 2026 09:23:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lzpcVDNE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hCp2as9C"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CBD3A3834;
-	Tue, 21 Apr 2026 09:03:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D4C39E19A;
+	Tue, 21 Apr 2026 09:23:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776762183; cv=none; b=M1HGM2Or0hFkX0tUg5H4x/7OBaJ/mSglA+YdcRPT8vE86I1DULHKNorY53yZ/T4UE3fDEjjFJSRagu+BlAD+szEFPEeanXZcwV2u/84YU8gbYnIK7hJjnKqMKM7MXwFCwxtaFrbe7NmS9px/siK0nKbdgKYVA/Bv1ppXdNtqyy0=
+	t=1776763425; cv=none; b=JFNG0bO+772v65Aee3yx3ll30ZoCL3vNzsYvooG8y7qk7ouQjUwEYBghlAsSCL4b3JZA4/r8otq9VEpZmBSmsEuflb47TAo+k3phHpK9WF0SIZxW7kHPyde3pHWDbJbZsmM7HUSBJCol54dWZPhem/m/xR+GW1o1qG7OO/q9Qtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776762183; c=relaxed/simple;
-	bh=nUlhQ/hV1N+Lz94b5NSzp3RrArhMUFjEeidaDmUiTi8=;
+	s=arc-20240116; t=1776763425; c=relaxed/simple;
+	bh=4NWwJfaTTwZuyZsdccSHg8y0DvdVaMmBTLgFASyvys8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jWvhck1A8uotxSKAt0amtUxRtvMYSGFFqtMe9Azb8YR+4ar9NCH2N2lNXTnTLV/b1as571p8mIXnozKycCpQb1dj1GkvapGm0FULjI1WTU5BN0gb+fUdXyKexZg+H14c4SMznf97bv5h0WnZFyKjm3g4ZOz+ht75kacWJgK2Rpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lzpcVDNE; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=dBYPi5oki67D7wtPOOorJnU9EG2eIJRZLcB2nSD9wsi2KA7Ru7cycULfI14BaxSzvqH2ntNUIVydNz5F7uvtNsFo8TmF5NbrZeU5PDw2o0uOfKyVt5KutvyqiDV4BZBtoDqCD+aZvHZ3X4Xf0Mc/YgJcqkIg/Y9cg5OIslmjkkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hCp2as9C; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776762181; x=1808298181;
+  t=1776763421; x=1808299421;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nUlhQ/hV1N+Lz94b5NSzp3RrArhMUFjEeidaDmUiTi8=;
-  b=lzpcVDNEh28EylOoXL4JYt7oqwHSjcgSAnv07d8p33AbeI83wtglun3n
-   gyJ74aZjCOoAZd6Wae0gR/kOVN7kSrOclDIn1iqhSYHYxteFmXXseMIEE
-   6T49N/myOcF4d/u03A3sZZQZhIud7IV2mx3Zm4aXWuCpbX7RxjMFr4zCV
-   wcnz7O3XyUHl1P4BBuhrQ8rpan+P4N93/OrQGmUkOX4JmC3+PE4EWjbQz
-   E7QFzGD2QL6KJwYqhiZbZeYNwui+o2FagRO06JTbn7MHTeJF74YKv8u3M
-   yvFVIVJaSNcFAVmLkEAEmbM8TasSHyvpXpt0LVYJDt+Yx007jvShi6dHs
+  bh=4NWwJfaTTwZuyZsdccSHg8y0DvdVaMmBTLgFASyvys8=;
+  b=hCp2as9CgH0Qq6qYwjrNUl/ZUYt1DzpCYeLsC4i1yO+uZgcpic4xDjhw
+   A9jLAX60IpDG3UqcvQOUBMBYTjphQvPC4nQ72BMD+stTKBjV8twDRdv2n
+   maroMhb8RGXvpf8fObwhai034vrrR5aluedPcjrRrexYSZl+S4na7mQaD
+   CxZQdx+B1uMu+948oKf4DH+GrDXw9348WZFGeOmkkHQyzKrlE/SXwgrL0
+   yahU9D5RjHhkKnVOng892yWwmTCl+9MVkR994Jt7Ebo+GtB+nPZnisFfP
+   w71o24ElIEX27uxxtMf/qFxoSEJjBL5eApHsdrzeqFT/yOeAprvByWYDT
    w==;
-X-CSE-ConnectionGUID: IuEDwoEaRV+DA4TKh4pFdg==
-X-CSE-MsgGUID: F5zSRdFVS1iI6kTxI+GuSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="95248537"
+X-CSE-ConnectionGUID: Goo3F7M4T8Sfp2JxuzMiPA==
+X-CSE-MsgGUID: IC6L8ueQQl2AEBycghF5qQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="95249581"
 X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="95248537"
+   d="scan'208";a="95249581"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 02:03:00 -0700
-X-CSE-ConnectionGUID: IkNRJD3NSRaNWD3+XNfSUA==
-X-CSE-MsgGUID: WGdTrggqQUCNOZi1mSM3RA==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 02:23:40 -0700
+X-CSE-ConnectionGUID: K16wS2iXSbKraJGkuOUMdw==
+X-CSE-MsgGUID: uLQ//TifQd6p8KLbgqricA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="235997538"
+   d="scan'208";a="236000552"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.56])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 02:02:58 -0700
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 02:23:38 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id DB501120D05;
-	Tue, 21 Apr 2026 12:02:55 +0300 (EEST)
-Date: Tue, 21 Apr 2026 12:02:55 +0300
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 74FFA120D05;
+	Tue, 21 Apr 2026 12:23:35 +0300 (EEST)
+Date: Tue, 21 Apr 2026 12:23:35 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Cc: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Kate Hsuan <hpa@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Serin Yeh <serin.yeh@intel.com>, linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 2/2] media: i2c: imx471: Add Sony IMX471 image sensor
  driver
-Message-ID: <aec9Pzr_ZUD0zBcK@kekkonen.localdomain>
+Message-ID: <aedCF8LqEnl-IdhB@kekkonen.localdomain>
 References: <20260417083214.222189-1-hpa@redhat.com>
  <20260417083214.222189-3-hpa@redhat.com>
- <fc73e3b3-3eb7-46cc-b2af-162017fd473e@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,24 +86,24 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fc73e3b3-3eb7-46cc-b2af-162017fd473e@oss.qualcomm.com>
+In-Reply-To: <20260417083214.222189-3-hpa@redhat.com>
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59199-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59200-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
@@ -113,213 +113,1243 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,kekkonen.localdomain:mid,xs4all.nl:url]
-X-Rspamd-Queue-Id: 23A4B438A25
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,kekkonen.localdomain:mid]
+X-Rspamd-Queue-Id: 558A6438C46
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Hans,
+Hi Kate,
 
-On Fri, Apr 17, 2026 at 12:16:11PM +0200, Hans de Goede wrote:
-> Hi Kate,
-> 
-> On 17-Apr-26 10:32, Kate Hsuan wrote:
-> > Add a new driver for Sony imx471 camera sensor. It is based on
-> > Jimmy Su <jimmy.su@intel.com> implementation and the driver can be found
-> > in the following URL.
-> > https://github.com/intel/ipu6-drivers/commits/master/drivers/media/i2c/imx471.c
-> > 
-> > This sensor can be found on Lenovo X9-14 and X9-15 laptop and it is a part
-> > of IPU7 solution. The driver was tested on Lenovo X9-14 and X9-15 laptops.
-> > 
-> > Link: https://github.com/intel/ipu6-drivers/blob/master/drivers/media/i2c/imx471.c
-> > Link: https://bugzilla.redhat.com/show_bug.cgi?id=2454119
-> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> <snip>
-> 
-> > diff --git a/drivers/media/i2c/imx471.c b/drivers/media/i2c/imx471.c
-> > new file mode 100644
-> > index 000000000000..32a105a60731
-> > --- /dev/null
-> > +++ b/drivers/media/i2c/imx471.c
-> > @@ -0,0 +1,1047 @@
-> 
-> <snip>
-> 
-> > +static int imx471_update_flip(struct imx471_data *sensor, u32 value,
-> > +			      u8 flip_bit)
-> > +{
-> > +	int ret;
-> > +	u64 val = value ? flip_bit : 0;
-> > +
-> > +	if (sensor->streaming)
-> > +		return -EBUSY;
-> 
-> I see no reason why this could not be updated while streaming,
-> since the h/y offsets get adjusted the bayer pattern stays
-> the same so changing while streaming should be fine.
-> 
-> > +
-> > +	/* hflip */
-> > +	/*
-> > +	 * Some manufacturers mount the sensor upside-down (rotation == 180).
-> > +	 * V4L2 sets both h/vflip to 1 for 180-degree rotation, but only the
-> > +	 * vflip should actually be applied. Skip the initial hflip write to
-> > +	 * preserve correct orientation.
-> > +	 */
-> 
-> I was answering your off-list email about this, but now I see that you've
-> added this workaround here. I believe that this workaround is wrong, so
-> let me move answer things here instead of off-list:
-> 
-> > I filled in the DMI information in the table and I found v4l2 sets up
-> > both hflip=1 and vflip=1 when the rotation is 180.
-> 
-> Yes that is correct, note this is actually done by libcamera, in response
-> to the rotation property reporting 180 degrees rotation after adding the
-> laptop to the DMI table.
-> 
-> > In my case, I only
-> > need to set vflip then I can get a correct image.
-> 
-> First of all are you sure that you only need to set vflip? A camera is not
-> a mirror! If you say raise your right hand in front of the camera then on
-> the screen you should be seen raising the hand which is on the left for
-> "the you" looking at the screen because if you were to look at you from
-> the pov of the camera your right hand is on the left.
-> 
-> The easiest way to check this is to have something with some written text
-> on it. In a mirror you cannot (easily) read e.g. the text printed on
-> a T-shirt but with a camera you should be able to read this without
-> problems.
-> 
-> Also make sure you use qcam to test because qcam does not mirror/hflip.
-> Some apps hflip the image for you (esp. things like google meet) because
-> people are so used to seeing themselves in a mirror that they adjust
-> the view for you. Note e.g. google meet only mirrors your own preview
-> it sends out an unmirrored image to the people on the call (IIRC).
-> 
-> If after this long mansplaining (sorry) writeup about the difference
-> between a mirror and a camera you still think you only need vflip,
-> then that means that either the hflip ot the vflip control of
-> the sensor is inverted and the driver needs to invert it.
-> 
-> Are we sure the camera module is upside down? Maybe vflip is the one
-> which we need to invert and the module is not upside-down at all ?
-> 
-> Hmm, looking at other imx sensor drivers, unlike ov sensors where
-> sometimes hflip is inverted it seems the 2 flip controls are sofar
+Thanks for the patch.
 
-Generally this is historical or a driver bug. The flip controls should
-reflect sensor's configuration these days. The ROTATION control tells the
-mounting orientation. See
-<URL:https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html>.
+On Fri, Apr 17, 2026 at 04:32:14PM +0800, Kate Hsuan wrote:
+> Add a new driver for Sony imx471 camera sensor. It is based on
+> Jimmy Su <jimmy.su@intel.com> implementation and the driver can be found
+> in the following URL.
+> https://github.com/intel/ipu6-drivers/commits/master/drivers/media/i2c/imx471.c
+> 
+> This sensor can be found on Lenovo X9-14 and X9-15 laptop and it is a part
+> of IPU7 solution. The driver was tested on Lenovo X9-14 and X9-15 laptops.
+> 
+> Link: https://github.com/intel/ipu6-drivers/blob/master/drivers/media/i2c/imx471.c
+> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2454119
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> ---
+>  MAINTAINERS                |    7 +
+>  drivers/media/i2c/Kconfig  |   10 +
+>  drivers/media/i2c/Makefile |    1 +
+>  drivers/media/i2c/imx471.c | 1047 ++++++++++++++++++++++++++++++++++++
+>  4 files changed, 1065 insertions(+)
+>  create mode 100644 drivers/media/i2c/imx471.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1126fdd639ad..9a2b3cc799e1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -24735,6 +24735,13 @@ T:	git git://linuxtv.org/media.git
+>  F:	Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+>  F:	drivers/media/i2c/imx415.c
+>  
+> +SONY IMX471 SENSOR DRIVER
+> +M:	Kate Hsuan <hpa@redhat.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media.git
 
-> always straight forward on imx. Although some drivers only implement
-> vflip and have no hflip at all.
-> 
-> As you mention in the cover letter this is a cleaned up version of:
-> https://github.com/intel/ipu6-drivers/tree/master/drivers/media/i2c/imx471.c
-> 
-> Note that we've seen issues with mirroring / flipping from various
-> other drivers originating from Intel, they have not always got this
-> correct, especially when it comes to mirroring by default (when
-> the hflip control's value is 0) but also with vflipping by default
-> when the driver was developed on a laptop which had the module
-> upside-down, see e.g. :
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/drivers/media/i2c/ov02c10.c
-> 
-> where we needed to do quite a few flipping related fixes.
-> 
-> > +	if (flip_bit == IMX471_HFLIP_BIT) {
-> > +		if (sensor->rotation == 180 && !sensor->hflip_initialized) {
-> > +			sensor->hflip_initialized = true;
-> > +			return 0;
-> > +		}
-> 
-> This looks like you skip writing the hflip on the first start stream,
-> but what about subsequent streams ?
-> 
-> Also see my next comment below, I think this skipping only once
-> does point us in the right direction.
-> 
-> > +
-> > +		cci_update_bits(sensor->regmap, IMX471_REG_ORIENTATION,
-> > +				flip_bit, val, &ret);
-> > +
-> > +		return ret;
-> > +	}
-> > +
-> > +	/* vflip */
-> > +	cci_update_bits(sensor->regmap, IMX471_REG_ORIENTATION,
-> > +			flip_bit, val, &ret);
-> > +	if (ret)
-> > +		return ret;
-> 
-> Hmm, I wonder if the problem here is you doing 2 subsequent
-> cci_update_bits(). If the flip control registered is double-buffered
-> and the new value is latched as the actual value on the start
-> of the next frame; and this is combined with reading back
-> reading the active value, not the last written value then
-> the first time you do this the setting of the hflip bit will
-> be overwritten by the second cci_update_bits.
-> 
-> I think it would be better to do something similar to what
-> imx219.c and replace these 2 cci_update_bits() calls with:
-> 
->         cci_write(imx471->regmap, IMX471_REG_ORIENTATION,
->                   imx471->hflip->val | imx471->vflip->val << 1, &ret);
-> 
-> I believe this should work here too.
-> 
-> 
-> > +
-> > +	cci_write(sensor->regmap, IMX471_REG_V_WIN_OFFSET,
-> > +		  value ? 0xe0 : 0xeb, &ret);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	cci_update_bits(sensor->regmap, IMX471_REG_H_WIN_OFFSET, 1,
-> > +			value ? 0x01 : 0x00, &ret);
-> 
-> No need for cci_update_bits() here, the register is always
-> initialized to 0xc8 so this can just use hardcoded values
-> like the V_WIN_OFFSET path:
-> 
-> 	cci_write(sensor->regmap, IMX471_REG_H_WIN_OFFSET,
-> 		  value ? 0xc9 : 0xc8, &ret);
-> 
-> > +	return ret;
-> 
-> Updating both offsets here is wrong when hflip != vflip, you
-> should only update V_WIN_OFFSET when changing vflip and
-> H_WIN_OFFSET when changing hflip.
+Please drop T: as you have no commit access to the tree.
 
-The cropping configuration should reflect the values on the sensor's pixel
-array and should not be affected by flipping. At least the crop window
-needs to be adjusted accordingly by the driver. Is there a need to change
-flipping while streaming?
+> +F:	drivers/media/i2c/imx471.c
+> +
+>  SONY MEMORYSTICK SUBSYSTEM
+>  M:	Maxim Levitsky <maximlevitsky@gmail.com>
+>  M:	Alex Dubov <oakad@yahoo.com>
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 5eb1e0e0a87a..1c28c498a9f1 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -287,6 +287,16 @@ config VIDEO_IMX415
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called imx415.
+>  
+> +config VIDEO_IMX471
+> +		tristate "Sony IMX471 sensor support"
+> +		select V4L2_CCI_I2C
+> +		help
+> +		  This is a Video4Linux2 sensor driver for the Sony
+> +		  IMX471 camera.
+> +
+> +		  To compile this driver as a module, choose M here: the
+> +		  module will be called imx471.
+> +
+>  config VIDEO_MAX9271_LIB
+>  	tristate
+>  
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index a3a6396df3c4..0539e9171030 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -61,6 +61,7 @@ obj-$(CONFIG_VIDEO_IMX335) += imx335.o
+>  obj-$(CONFIG_VIDEO_IMX355) += imx355.o
+>  obj-$(CONFIG_VIDEO_IMX412) += imx412.o
+>  obj-$(CONFIG_VIDEO_IMX415) += imx415.o
+> +obj-$(CONFIG_VIDEO_IMX471) += imx471.o
+>  obj-$(CONFIG_VIDEO_IR_I2C) += ir-kbd-i2c.o
+>  obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
+>  obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
+> diff --git a/drivers/media/i2c/imx471.c b/drivers/media/i2c/imx471.c
+> new file mode 100644
+> index 000000000000..32a105a60731
+> --- /dev/null
+> +++ b/drivers/media/i2c/imx471.c
+> @@ -0,0 +1,1047 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// Copyright (C) 2025 Intel Corporation
+> +
+> +#include <linux/version.h>
 
-> 
-> I suggest dropping this function and instead in set_ctrl()
-> do this:
-> 
-> 	case V4L2_CID_HFLIP:
-> 		cci_write(imx471->regmap, IMX471_REG_ORIENTATION,
-> 			  imx471->hflip->val | imx471->vflip->val << 1, &ret);
-> 		cci_write(sensor->regmap, IMX471_REG_H_WIN_OFFSET,
-> 			  value ? 0xc9 : 0xc8, &ret);
-> 		break;
->         case V4L2_CID_VFLIP:
-> 		cci_write(imx471->regmap, IMX471_REG_ORIENTATION,
-> 			  imx471->hflip->val | imx471->vflip->val << 1, &ret);
-> 		cci_write(sensor->regmap, IMX471_REG_V_WIN_OFFSET,
-> 			  value ? 0xe0 : 0xeb, &ret);
-> 		break;
+Is this needed?
+
+> +#include <linux/unaligned.h>
+> +#include <linux/acpi.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/pm_runtime.h>
+> +#include <media/v4l2-cci.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-fwnode.h>
+
+Alphabetical order, please.
+
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +
+> +#define IMX471_REG_MODE_SELECT		CCI_REG8(0x0100)
+> +#define IMX471_MODE_STANDBY		0x00
+> +#define IMX471_MODE_STREAMING		0x01
+> +
+> +/* Chip ID */
+> +#define IMX471_REG_CHIP_ID		CCI_REG16(0x0016)
+> +#define IMX471_CHIP_ID			0x0471
+> +
+> +/* V_TIMING internal */
+> +#define IMX471_REG_FLL			CCI_REG16(0x0340)
+> +#define IMX471_FLL_MAX			0xffff
+> +
+> +/* Exposure control */
+> +#define IMX471_REG_EXPOSURE		CCI_REG16(0x0202)
+> +#define IMX471_EXPOSURE_MIN		1
+> +#define IMX471_EXPOSURE_STEP		1
+> +#define IMX471_EXPOSURE_DEFAULT		0x04f6
+> +
+> +/*
+> + *  the digital control register for all color control looks like:
+> + *  +-----------------+------------------+
+> + *  |      [7:0]      |       [15:8]     |
+> + *  +-----------------+------------------+
+> + *  |	  0x020f      |       0x020e     |
+> + *  --------------------------------------
+> + *  it is used to calculate the digital gain times value(integral + fractional)
+> + *  the [15:8] bits is the fractional part and [7:0] bits is the integral
+> + *  calculation equation is:
+> + *      gain value (unit: times) = REG[15:8] + REG[7:0]/0x100
+> + *  Only value in 0x0100 ~ 0x0FFF range is allowed.
+> + *  Analog gain use 10 bits in the registers and allowed range is 0 ~ 960
+> + */
+> +/* Analog gain control */
+> +#define IMX471_REG_ANALOG_GAIN			CCI_REG16(0x0204)
+> +#define IMX471_ANA_GAIN_MIN			0
+> +#define IMX471_ANA_GAIN_MAX			960
+> +#define IMX471_ANA_GAIN_STEP			1
+> +#define IMX471_ANA_GAIN_DEFAULT			0
+> +
+> +/* Digital gain control */
+> +#define IMX471_REG_DPGA_USE_GLOBAL_GAIN		CCI_REG16(0x3ff9)
+> +#define IMX471_REG_DIG_GAIN_GLOBAL		CCI_REG16(0x020e)
+> +#define IMX471_DGTL_GAIN_MIN			256
+> +#define IMX471_DGTL_GAIN_MAX			4095
+> +#define IMX471_DGTL_GAIN_STEP			1
+> +#define IMX471_DGTL_GAIN_DEFAULT		256
+> +
+> +#define IMX471_VALUE_08BIT			1
+> +
+> +/* HFLIP and VFLIP control */
+> +#define IMX471_REG_ORIENTATION			CCI_REG8(0x0101)
+> +#define IMX471_HFLIP_BIT			BIT(0)
+> +#define IMX471_VFLIP_BIT			BIT(1)
+> +
+> +/* Default exposure margin */
+> +#define IMX471_EXPOSURE_MARGIN			18
+> +
+> +/* Horizontal crop window offset */
+> +#define IMX471_REG_H_WIN_OFFSET			CCI_REG8(0x0409)
+> +
+> +/* Vertical crop window offset */
+> +#define IMX471_REG_V_WIN_OFFSET			CCI_REG8(0x034b)
+> +
+> +/* Test Pattern Control */
+> +#define IMX471_REG_TEST_PATTERN			CCI_REG8(0x0600)
+> +#define IMX471_TEST_PATTERN_DISABLED		0
+> +#define IMX471_TEST_PATTERN_SOLID_COLOR		1
+> +#define IMX471_TEST_PATTERN_COLOR_BARS		2
+> +#define IMX471_TEST_PATTERN_GRAY_COLOR_BARS	3
+> +#define IMX471_TEST_PATTERN_PN9			4
+> +
+> +/* default link frequency and external clock */
+> +#define IMX471_LINK_FREQ_DEFAULT		200000000LL
+> +#define IMX471_EXT_CLK				19200000
+> +#define IMX471_LINK_FREQ_INDEX			0
+> +
+> +#define to_imx471_data(_sd) container_of_const(_sd, \
+> +					       struct imx471_data, sd)
+> +
+> +/* Mode : resolution and related config&values */
+> +struct imx471_mode {
+> +	/* Frame width */
+> +	u32 width;
+> +	/* Frame height */
+> +	u32 height;
+> +
+> +	/* V-timing */
+> +	u32 fll_def;
+> +	u32 fll_min;
+> +
+> +	/* H-timing */
+> +	u32 llp;
+> +
+> +	/* index of link frequency */
+> +	u32 link_freq_index;
+> +
+> +	/* Default register values */
+> +	const struct cci_reg_sequence *default_mode_regs;
+> +	const int default_mode_regs_length;
+> +};
+> +
+> +struct imx471_data {
+> +	struct v4l2_subdev sd;
+> +	struct media_pad pad;
+> +
+> +	struct v4l2_ctrl_handler ctrl_handler;
+> +	/* V4L2 Controls */
+> +	struct v4l2_ctrl *link_freq;
+> +	struct v4l2_ctrl *pixel_rate;
+> +	struct v4l2_ctrl *vblank;
+> +	struct v4l2_ctrl *hblank;
+> +	struct v4l2_ctrl *exposure;
+> +
+> +	struct gpio_desc *reset_gpio;
+> +	struct regulator *avdd;
+> +	struct clk *img_clk;
+> +
+> +	struct device *dev;
+> +	struct regmap *regmap;
+> +
+> +	/* Current mode */
+> +	const struct imx471_mode *cur_mode;
+
+Could you rely on sub-device state instead?
+
+> +
+> +	int streaming;
+> +	int rotation;
+> +	int hflip_initialized;
+
+The controls that can't be changed while streaming can be grabbed. You can
+also access the control values (struct v4l2_ctrl field val).
+
+> +
+> +	/*
+> +	 * Mutex for serialized access:
+> +	 * Protect sensor set pad format and start/stop streaming safely.
+> +	 * Protect access to sensor v4l2 controls.
+> +	 */
+> +	struct mutex lock;
+
+Please rely on sub-device state instead of adding your own mutex. You can
+set the state mutex from the control handler; see imx219 for an example.
+
+> +
+> +	/* True if the device has been identified */
+> +	bool identified;
+> +};
+> +
+> +static const struct cci_reg_sequence imx471_global_regs[] = {
+> +	{ CCI_REG8(0x0136), 0x13 },
+> +	{ CCI_REG8(0x0137), 0x33 },
+> +	{ CCI_REG8(0x3c7e), 0x08 },
+> +	{ CCI_REG8(0x3c7f), 0x05 },
+> +	{ CCI_REG8(0x3e35), 0x00 },
+> +	{ CCI_REG8(0x3e36), 0x00 },
+> +	{ CCI_REG8(0x3e37), 0x00 },
+> +	{ CCI_REG8(0x3f7f), 0x01 },
+> +	{ CCI_REG8(0x4431), 0x04 },
+> +	{ CCI_REG8(0x531c), 0x01 },
+> +	{ CCI_REG8(0x531d), 0x02 },
+> +	{ CCI_REG8(0x531e), 0x04 },
+> +	{ CCI_REG8(0x5928), 0x00 },
+> +	{ CCI_REG8(0x5929), 0x2f },
+> +	{ CCI_REG8(0x592a), 0x00 },
+> +	{ CCI_REG8(0x592b), 0x85 },
+> +	{ CCI_REG8(0x592c), 0x00 },
+> +	{ CCI_REG8(0x592d), 0x32 },
+> +	{ CCI_REG8(0x592e), 0x00 },
+> +	{ CCI_REG8(0x592f), 0x88 },
+> +	{ CCI_REG8(0x5930), 0x00 },
+> +	{ CCI_REG8(0x5931), 0x3d },
+> +	{ CCI_REG8(0x5932), 0x00 },
+> +	{ CCI_REG8(0x5933), 0x93 },
+> +	{ CCI_REG8(0x5938), 0x00 },
+> +	{ CCI_REG8(0x5939), 0x24 },
+> +	{ CCI_REG8(0x593a), 0x00 },
+> +	{ CCI_REG8(0x593b), 0x7a },
+> +	{ CCI_REG8(0x593c), 0x00 },
+> +	{ CCI_REG8(0x593d), 0x24 },
+> +	{ CCI_REG8(0x593e), 0x00 },
+> +	{ CCI_REG8(0x593f), 0x7a },
+> +	{ CCI_REG8(0x5940), 0x00 },
+> +	{ CCI_REG8(0x5941), 0x2f },
+> +	{ CCI_REG8(0x5942), 0x00 },
+> +	{ CCI_REG8(0x5943), 0x85 },
+> +	{ CCI_REG8(0x5f0e), 0x6e },
+> +	{ CCI_REG8(0x5f11), 0xc6 },
+> +	{ CCI_REG8(0x5f17), 0x5e },
+> +	{ CCI_REG8(0x7990), 0x01 },
+> +	{ CCI_REG8(0x7993), 0x5d },
+> +	{ CCI_REG8(0x7994), 0x5d },
+> +	{ CCI_REG8(0x7995), 0xa1 },
+> +	{ CCI_REG8(0x799a), 0x01 },
+> +	{ CCI_REG8(0x799d), 0x00 },
+> +	{ CCI_REG8(0x8169), 0x01 },
+> +	{ CCI_REG8(0x8359), 0x01 },
+> +	{ CCI_REG8(0x9302), 0x1e },
+> +	{ CCI_REG8(0x9306), 0x1f },
+> +	{ CCI_REG8(0x930a), 0x26 },
+> +	{ CCI_REG8(0x930e), 0x23 },
+> +	{ CCI_REG8(0x9312), 0x23 },
+> +	{ CCI_REG8(0x9316), 0x2c },
+> +	{ CCI_REG8(0x9317), 0x19 },
+> +	{ CCI_REG8(0xb046), 0x01 },
+> +	{ CCI_REG8(0xb048), 0x01 },
+> +};
+> +
+> +static const struct cci_reg_sequence mode_1928x1088_regs[] = {
+> +	{ CCI_REG8(0x0101), 0x00 },
+> +	{ CCI_REG8(0x0112), 0x0a },
+> +	{ CCI_REG8(0x0113), 0x0a },
+> +	{ CCI_REG8(0x0114), 0x03 },
+> +	{ CCI_REG8(0x0342), 0x0a },
+> +	{ CCI_REG8(0x0343), 0x00 },
+> +	{ CCI_REG8(0x0340), 0x13 },
+> +	{ CCI_REG8(0x0341), 0xb0 },
+> +	{ CCI_REG8(0x0344), 0x00 },
+> +	{ CCI_REG8(0x0345), 0x00 },
+> +	{ CCI_REG8(0x0346), 0x01 },
+> +	{ CCI_REG8(0x0347), 0xbc },
+> +	{ CCI_REG8(0x0348), 0x12 },
+> +	{ CCI_REG8(0x0349), 0x2f },
+> +	{ CCI_REG8(0x034a), 0x0b },
+> +	{ CCI_REG8(0x034b), 0xeb },
+> +	{ CCI_REG8(0x0381), 0x01 },
+> +	{ CCI_REG8(0x0383), 0x01 },
+> +	{ CCI_REG8(0x0385), 0x01 },
+> +	{ CCI_REG8(0x0387), 0x01 },
+> +	{ CCI_REG8(0x0900), 0x01 },
+> +	{ CCI_REG8(0x0901), 0x22 },
+> +	{ CCI_REG8(0x0902), 0x08 },
+> +	{ CCI_REG8(0x3f4c), 0x81 },
+> +	{ CCI_REG8(0x3f4d), 0x81 },
+> +	{ CCI_REG8(0x0408), 0x00 },
+> +	{ CCI_REG8(0x0409), 0xc8 },
+> +	{ CCI_REG8(0x040a), 0x00 },
+> +	{ CCI_REG8(0x040b), 0x6c },
+> +	{ CCI_REG8(0x040c), 0x07 },
+> +	{ CCI_REG8(0x040d), 0x88 },
+> +	{ CCI_REG8(0x040e), 0x04 },
+> +	{ CCI_REG8(0x040f), 0x40 },
+> +	{ CCI_REG8(0x034c), 0x07 },
+> +	{ CCI_REG8(0x034d), 0x88 },
+> +	{ CCI_REG8(0x034e), 0x04 },
+> +	{ CCI_REG8(0x034f), 0x40 },
+> +	{ CCI_REG8(0x0301), 0x06 },
+> +	{ CCI_REG8(0x0303), 0x02 },
+> +	{ CCI_REG8(0x0305), 0x02 },
+> +	{ CCI_REG8(0x0306), 0x00 },
+> +	{ CCI_REG8(0x0307), 0x79 },
+> +	{ CCI_REG8(0x030b), 0x01 },
+> +	{ CCI_REG8(0x030d), 0x02 },
+> +	{ CCI_REG8(0x030e), 0x00 },
+> +	{ CCI_REG8(0x030f), 0x53 },
+> +	{ CCI_REG8(0x0310), 0x01 },
+> +	{ CCI_REG8(0x0202), 0x13 },
+> +	{ CCI_REG8(0x0203), 0x9e },
+> +	{ CCI_REG8(0x0204), 0x00 },
+> +	{ CCI_REG8(0x0205), 0x00 },
+> +	{ CCI_REG8(0x020e), 0x01 },
+> +	{ CCI_REG8(0x020f), 0x00 },
+> +	{ CCI_REG8(0x3f78), 0x01 },
+> +	{ CCI_REG8(0x3f79), 0x31 },
+> +	{ CCI_REG8(0x3ffe), 0x00 },
+> +	{ CCI_REG8(0x3fff), 0x8a },
+> +	{ CCI_REG8(0x5f0a), 0xb6 },
+> +};
+> +
+> +static const char * const imx471_test_pattern_menu[] = {
+> +	"Disabled",
+> +	"Solid Colour",
+> +	"Eight Vertical Colour Bars",
+> +	"Colour Bars With Fade to Grey",
+> +	"Pseudorandom Sequence (PN9)",
+> +};
+> +
+> +/*
+> + * When adding more than the one below, make sure the disallowed ones will
+> + * actually be disabled in the LINK_FREQ control.
+> + */
+> +static const s64 link_freq_menu_items[] = {
+> +	IMX471_LINK_FREQ_DEFAULT,
+> +};
+> +
+> +/* Mode configs */
+> +static const struct imx471_mode supported_modes[] = {
+> +	{
+> +		.width = 1928,
+> +		.height = 1088,
+> +		.fll_def = 1308,
+> +		.fll_min = 1308,
+> +		.llp = 2328,
+> +		.link_freq_index = IMX471_LINK_FREQ_INDEX,
+> +		.default_mode_regs = mode_1928x1088_regs,
+> +		.default_mode_regs_length = ARRAY_SIZE(mode_1928x1088_regs),
+> +	},
+> +};
+> +
+> +static int imx471_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> +{
+> +	struct imx471_data *sensor = to_imx471_data(sd);
+> +	struct v4l2_mbus_framefmt *try_fmt =
+> +				v4l2_subdev_state_get_format(fh->state, 0);
+> +
+> +	/* Initialize try_fmt */
+> +	try_fmt->width = sensor->cur_mode->width;
+> +	try_fmt->height = sensor->cur_mode->height;
+> +	try_fmt->code = MEDIA_BUS_FMT_SRGGB10_1X10;
+> +	try_fmt->field = V4L2_FIELD_NONE;
+
+Please implement init_state pad op instead.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx471_update_flip(struct imx471_data *sensor, u32 value,
+> +			      u8 flip_bit)
+> +{
+> +	int ret;
+> +	u64 val = value ? flip_bit : 0;
+> +
+> +	if (sensor->streaming)
+> +		return -EBUSY;
+> +
+> +	/* hflip */
+> +	/*
+> +	 * Some manufacturers mount the sensor upside-down (rotation == 180).
+> +	 * V4L2 sets both h/vflip to 1 for 180-degree rotation, but only the
+> +	 * vflip should actually be applied. Skip the initial hflip write to
+> +	 * preserve correct orientation.
+
+Why? It's up to the userspace to configure flipping.
+
+> +	 */
+> +	if (flip_bit == IMX471_HFLIP_BIT) {
+> +		if (sensor->rotation == 180 && !sensor->hflip_initialized) {
+> +			sensor->hflip_initialized = true;
+> +			return 0;
+> +		}
+> +
+> +		cci_update_bits(sensor->regmap, IMX471_REG_ORIENTATION,
+> +				flip_bit, val, &ret);
+> +
+> +		return ret;
+> +	}
+> +
+> +	/* vflip */
+> +	cci_update_bits(sensor->regmap, IMX471_REG_ORIENTATION,
+> +			flip_bit, val, &ret);
+> +	if (ret)
+> +		return ret;
+> +
+> +	cci_write(sensor->regmap, IMX471_REG_V_WIN_OFFSET,
+> +		  value ? 0xe0 : 0xeb, &ret);
+> +	if (ret)
+> +		return ret;
+> +
+> +	cci_update_bits(sensor->regmap, IMX471_REG_H_WIN_OFFSET, 1,
+> +			value ? 0x01 : 0x00, &ret);
+
+Both of these appear to be mode specific.
+
+> +	return ret;
+> +}
+> +
+> +static int imx471_set_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct imx471_data *sensor = container_of(ctrl->handler,
+> +						  struct imx471_data,
+> +						  ctrl_handler);
+> +	s64 max;
+> +	int ret;
+> +
+> +	/* Propagate change of current control to all related controls */
+> +	if (ctrl->id == V4L2_CID_VBLANK) {
+> +		/* Update max exposure while meeting expected vblanking */
+> +		max = sensor->cur_mode->height + ctrl->val -
+> +		      IMX471_EXPOSURE_MARGIN;
+> +		__v4l2_ctrl_modify_range(sensor->exposure,
+> +					 sensor->exposure->minimum,
+> +					 max, sensor->exposure->step, max);
+> +	}
+> +
+> +	/* V4L2 controls values will be applied only when power is already up */
+> +	if (!pm_runtime_get_if_in_use(sensor->dev))
+> +		return 0;
+> +
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_ANALOGUE_GAIN:
+> +		cci_write(sensor->regmap, IMX471_REG_ANALOG_GAIN,
+> +			  ctrl->val, &ret);
+> +		break;
+> +	case V4L2_CID_DIGITAL_GAIN:
+> +		cci_write(sensor->regmap, IMX471_REG_DIG_GAIN_GLOBAL,
+> +			  ctrl->val, &ret);
+> +		break;
+> +	case V4L2_CID_EXPOSURE:
+> +		cci_write(sensor->regmap, IMX471_REG_EXPOSURE,
+> +			  ctrl->val, &ret);
+> +		break;
+> +	case V4L2_CID_VBLANK:
+> +		/* Update FLL that meets expected vertical blanking */
+> +		cci_write(sensor->regmap, IMX471_REG_FLL,
+> +			  sensor->cur_mode->height + ctrl->val, &ret);
+> +		break;
+> +	case V4L2_CID_TEST_PATTERN:
+> +		cci_write(sensor->regmap, IMX471_REG_TEST_PATTERN,
+> +			  ctrl->val, &ret);
+> +		break;
+> +
+> +	case V4L2_CID_HFLIP:
+> +		ret = imx471_update_flip(sensor, ctrl->val, IMX471_HFLIP_BIT);
+> +		break;
+> +
+> +	case V4L2_CID_VFLIP:
+> +		ret = imx471_update_flip(sensor, ctrl->val, IMX471_VFLIP_BIT);
+> +		break;
+> +
+> +	default:
+> +		ret = -EINVAL;
+> +		dev_info(sensor->dev, "ctrl(id:0x%x,val:0x%x) is not handled",
+> +			 ctrl->id, ctrl->val);
+> +		break;
+> +	}
+> +
+> +	pm_runtime_put(sensor->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops imx471_ctrl_ops = {
+> +	.s_ctrl = imx471_set_ctrl,
+> +};
+> +
+> +static int imx471_enum_mbus_code(struct v4l2_subdev *sd,
+> +				 struct v4l2_subdev_state *sd_state,
+> +				 struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	if (code->index > 0)
+> +		return -EINVAL;
+> +
+> +	code->code = MEDIA_BUS_FMT_SRGGB10_1X10;
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx471_enum_frame_size(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_state *sd_state,
+> +				  struct v4l2_subdev_frame_size_enum *fse)
+> +{
+> +	if (fse->index >= ARRAY_SIZE(supported_modes))
+> +		return -EINVAL;
+> +
+> +	fse->min_width = supported_modes[fse->index].width;
+> +	fse->max_width = fse->min_width;
+> +	fse->min_height = supported_modes[fse->index].height;
+> +	fse->max_height = fse->min_height;
+> +
+> +	return 0;
+> +}
+> +
+> +static void imx471_update_pad_format(struct imx471_data *sensor,
+> +				     const struct imx471_mode *mode,
+> +				     struct v4l2_subdev_format *fmt)
+> +{
+> +	fmt->format.width = mode->width;
+> +	fmt->format.height = mode->height;
+> +	fmt->format.code = MEDIA_BUS_FMT_SRGGB10_1X10;
+> +	fmt->format.field = V4L2_FIELD_NONE;
+> +}
+> +
+> +static int
+> +imx471_set_pad_format(struct v4l2_subdev *sd,
+> +		      struct v4l2_subdev_state *sd_state,
+> +		      struct v4l2_subdev_format *fmt)
+> +{
+> +	struct imx471_data *sensor = to_imx471_data(sd);
+> +	const struct imx471_mode *mode;
+> +	s32 vblank_def;
+> +	s32 vblank_min;
+> +	s64 h_blank;
+> +	u64 pixel_rate;
+> +	u32 height;
+> +
+> +	fmt->format.code = MEDIA_BUS_FMT_SRGGB10_1X10;
+> +
+> +	mode = v4l2_find_nearest_size(supported_modes,
+> +				      ARRAY_SIZE(supported_modes),
+> +				      width, height,
+> +				      fmt->format.width, fmt->format.height);
+> +
+> +	imx471_update_pad_format(sensor, mode, fmt);
+> +
+> +	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
+> +
+> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+> +		return 0;
+> +
+> +	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE && sensor->streaming)
+
+You can use media_entity_is_streaming() here.
+
+> +		return -EBUSY;
+> +
+> +	sensor->cur_mode = mode;
+> +	pixel_rate = IMX471_LINK_FREQ_DEFAULT * 2 * 4;
+> +	do_div(pixel_rate, 10);
+> +	__v4l2_ctrl_s_ctrl_int64(sensor->pixel_rate, pixel_rate);
+> +
+> +	/* Update limits and set FPS to default */
+> +	height = sensor->cur_mode->height;
+> +	vblank_def = sensor->cur_mode->fll_def - height;
+> +	vblank_min = sensor->cur_mode->fll_min - height;
+> +	height = IMX471_FLL_MAX - height;
+> +
+> +	__v4l2_ctrl_modify_range(sensor->vblank, vblank_min, height, 1,
+> +				 vblank_def);
+> +	__v4l2_ctrl_s_ctrl(sensor->vblank, vblank_def);
+
+Note that these can fail, please check return values.
+
+> +	h_blank = mode->llp - sensor->cur_mode->width;
+> +	/*
+> +	 * Currently hblank is not changeable.
+> +	 * So FPS control is done only by vblank.
+> +	 */
+> +	__v4l2_ctrl_modify_range(sensor->hblank, h_blank,
+> +				 h_blank, 1, h_blank);
+
+Ditto.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx471_identify_module(struct imx471_data *sensor)
+> +{
+> +	int ret;
+> +	u64 val;
+> +
+> +	if (sensor->identified)
+> +		return 0;
+> +
+> +	ret = cci_read(sensor->regmap, IMX471_REG_CHIP_ID, &val, NULL);
+> +	if (ret)
+> +		return dev_err_probe(sensor->dev, ret,
+> +				     "failed to read chip id\n");
+> +
+> +	if (val != IMX471_CHIP_ID)
+> +		return dev_err_probe(sensor->dev, -EIO,
+> +				     "chip id mismatch: %x!=%llx\n",
+> +				     IMX471_CHIP_ID, val);
+> +
+> +	sensor->identified = true;
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx471_pm_suspend(struct device *dev)
+
+I'd call these imx471_power_o{ff,n}().
+
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct imx471_data *sensor = to_imx471_data(sd);
+> +
+> +	clk_disable_unprepare(sensor->img_clk);
+> +	gpiod_set_value_cansleep(sensor->reset_gpio, 1);
+> +	if (sensor->avdd)
+
+Don't you always have a dummy regulator here at least?
+
+> +		regulator_disable(sensor->avdd);
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx471_pm_resume(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct imx471_data *sensor = to_imx471_data(sd);
+> +	int ret;
+> +
+> +	if (sensor->avdd) {
+> +		ret = regulator_enable(sensor->avdd);
+> +		if (ret < 0) {
+> +			dev_err(dev, "failed to enable avdd: %d", ret);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	ret = clk_prepare_enable(sensor->img_clk);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to enable imaging clock: %d", ret);
+
+What happens to the regulator here?
+
+> +		return ret;
+> +	}
+> +
+> +	gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+> +
+> +	usleep_range(10000, 15000);
+> +
+> +	return 0;
+> +}
+> +
+> +/* Start streaming */
+> +static int imx471_enable_stream(struct v4l2_subdev *sd,
+> +				struct v4l2_subdev_state *state,
+> +				u32 pad, u64 streams_mask)
+> +{
+> +	struct imx471_data *sensor = to_imx471_data(sd);
+> +	int ret;
+> +
+> +	ret = pm_runtime_resume_and_get(sensor->dev);
+> +	if (ret) {
+> +		dev_err(sensor->dev, "power-up err.\n");
+
+The resume and suspend functions already print a specific error message.
+
+> +		goto error_powerdown;
+
+		return ret;
+
+> +	}
+> +
+> +	ret = imx471_identify_module(sensor);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Global Setting */
+> +	cci_multi_reg_write(sensor->regmap, imx471_global_regs,
+> +			    ARRAY_SIZE(imx471_global_regs), &ret);
+> +	if (ret) {
+> +		dev_err(sensor->dev, "failed to set global settings");
+> +		goto error_powerdown;
+> +	}
+> +
+> +	/* Apply default values of current mode */
+> +	cci_multi_reg_write(sensor->regmap, sensor->cur_mode->default_mode_regs,
+> +			    sensor->cur_mode->default_mode_regs_length, &ret);
+> +	if (ret) {
+> +		dev_err(sensor->dev, "failed to set mode");
+> +		goto error_powerdown;
+> +	}
+> +
+> +	/* set digital gain control to all color mode */
+> +	cci_write(sensor->regmap, IMX471_REG_DPGA_USE_GLOBAL_GAIN, 1, &ret);
+> +	if (ret)
+> +		goto error_powerdown;
+> +
+> +	/* Apply customized values from user */
+> +	ret =  __v4l2_ctrl_handler_setup(&sensor->ctrl_handler);
+> +	if (ret)
+> +		goto error_powerdown;
+> +
+> +	cci_write(sensor->regmap, IMX471_REG_MODE_SELECT,
+> +		  IMX471_MODE_STREAMING, &ret);
+> +	if (ret)
+> +		goto error_powerdown;
+> +
+> +	sensor->streaming = 1;
+> +
+> +	return ret;
+> +
+> +error_powerdown:
+> +	pm_runtime_put(sensor->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +/* Stop streaming */
+> +static int imx471_disable_stream(struct v4l2_subdev *sd,
+> +				 struct v4l2_subdev_state *state,
+> +				 u32 pad, u64 streams_mask)
+> +{
+> +	struct imx471_data *sensor = to_imx471_data(sd);
+> +	int ret;
+> +
+> +	cci_write(sensor->regmap, IMX471_REG_MODE_SELECT,
+> +		  IMX471_MODE_STANDBY, &ret);
+> +	pm_runtime_put(sensor->dev);
+> +	sensor->streaming = 0;
+> +	sensor->hflip_initialized = false;
+> +
+> +	if (ret)
+> +		dev_err(sensor->dev,
+> +			"failed to disable stream with return value: %d\n",
+> +			ret);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_core_ops imx471_subdev_core_ops = {
+> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> +};
+> +
+> +static const struct v4l2_subdev_video_ops imx471_video_ops = {
+> +	.s_stream = v4l2_subdev_s_stream_helper,
+> +};
+> +
+> +static const struct v4l2_subdev_pad_ops imx471_pad_ops = {
+> +	.enum_mbus_code = imx471_enum_mbus_code,
+> +	.get_fmt = v4l2_subdev_get_fmt,
+> +	.set_fmt = imx471_set_pad_format,
+> +	.enum_frame_size = imx471_enum_frame_size,
+> +	.enable_streams = imx471_enable_stream,
+> +	.disable_streams = imx471_disable_stream,
+> +};
+> +
+> +static const struct v4l2_subdev_ops imx471_subdev_ops = {
+> +	.core = &imx471_subdev_core_ops,
+> +	.video = &imx471_video_ops,
+> +	.pad = &imx471_pad_ops,
+> +};
+> +
+> +static const struct media_entity_operations imx471_subdev_entity_ops = {
+> +	.link_validate = v4l2_subdev_link_validate,
+
+This is redundant as the sensor doesn't have connected sink pads.
+
+> +};
+> +
+> +static const struct v4l2_subdev_internal_ops imx471_internal_ops = {
+> +	.open = imx471_open,
+> +};
+> +
+> +/* Initialize control handlers */
+> +static int imx471_init_controls(struct imx471_data *sensor)
+> +{
+> +	struct v4l2_ctrl_handler *ctrl_hdlr;
+> +	struct v4l2_fwnode_device_properties props;
+> +
+> +	s64 exposure_max;
+> +	s64 vblank_def;
+> +	s64 vblank_min;
+> +	s64 hblank;
+> +	u64 pixel_rate;
+> +	const struct imx471_mode *mode;
+> +	u32 max;
+> +	int ret;
+> +
+> +	ctrl_hdlr = &sensor->ctrl_handler;
+> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ctrl_hdlr->lock = &sensor->lock;
+> +	max = ARRAY_SIZE(link_freq_menu_items) - 1;
+
+No need for a temporary variable.
+
+> +	sensor->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, &imx471_ctrl_ops,
+> +						   V4L2_CID_LINK_FREQ, max, 0,
+> +						   link_freq_menu_items);
+> +	if (sensor->link_freq)
+> +		sensor->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +
+> +	/* pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
+> +	pixel_rate = IMX471_LINK_FREQ_DEFAULT * 2 * 4;
+> +	do_div(pixel_rate, 10);
+> +	/* By default, PIXEL_RATE is read only */
+> +	sensor->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
+> +					       V4L2_CID_PIXEL_RATE, pixel_rate,
+> +					       pixel_rate, 1, pixel_rate);
+> +
+> +	/* Initial vblank/hblank/exposure parameters based on current mode */
+> +	mode = sensor->cur_mode;
+> +	vblank_def = mode->fll_def - mode->height;
+> +	vblank_min = mode->fll_min - mode->height;
+> +	sensor->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
+> +					   V4L2_CID_VBLANK, vblank_min,
+> +					   IMX471_FLL_MAX - mode->height,
+> +					   1, vblank_def);
+
+I'd do the same here. You could wrap after '=' as well.
+
+> +
+> +	hblank = mode->llp - mode->width;
+> +	sensor->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
+> +					   V4L2_CID_HBLANK, hblank, hblank,
+> +					   1, hblank);
+> +	if (sensor->hblank)
+> +		sensor->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +
+> +	/* fll >= exposure time + adjust parameter (default value is 18) */
+> +	exposure_max = mode->fll_def - IMX471_EXPOSURE_MARGIN;
+> +	sensor->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
+> +					     V4L2_CID_EXPOSURE,
+> +					     IMX471_EXPOSURE_MIN, exposure_max,
+> +					     IMX471_EXPOSURE_STEP,
+> +					     IMX471_EXPOSURE_DEFAULT);
+> +
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
+> +			  IMX471_ANA_GAIN_MIN, IMX471_ANA_GAIN_MAX,
+> +			  IMX471_ANA_GAIN_STEP, IMX471_ANA_GAIN_DEFAULT);
+> +
+> +	/* Digital gain */
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
+> +			  IMX471_DGTL_GAIN_MIN, IMX471_DGTL_GAIN_MAX,
+> +			  IMX471_DGTL_GAIN_STEP, IMX471_DGTL_GAIN_DEFAULT);
+> +
+> +	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx471_ctrl_ops,
+> +				     V4L2_CID_TEST_PATTERN,
+> +				     ARRAY_SIZE(imx471_test_pattern_menu) - 1,
+> +				     0, 0, imx471_test_pattern_menu);
+> +
+> +	/* HFLIP & VFLIP */
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
+> +			  V4L2_CID_HFLIP, 0, 1, 1, 0);
+> +
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
+> +			  V4L2_CID_VFLIP, 0, 1, 1, 0);
+> +
+> +	if (ctrl_hdlr->error) {
+> +		ret = ctrl_hdlr->error;
+> +		dev_err(sensor->dev, "%s control init failed: %d",
+> +			__func__, ret);
+> +		goto error;
+> +	}
+> +
+> +	ret = v4l2_fwnode_device_parse(sensor->dev, &props);
+
+You could do this as first and do error handling for the control handler
+just once.
+
+> +	if (ret) {
+> +		dev_err(sensor->dev, "failed to parse fwnode: %d", ret);
+> +		return ret;
+
+		goto error;
+
+> +	}
+> +
+> +	sensor->rotation = props.rotation;
+> +
+> +	v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx471_ctrl_ops, &props);
+> +	if (ctrl_hdlr->error)
+> +		return ctrl_hdlr->error;
+
+		goto error;
+
+> +
+> +	sensor->sd.ctrl_handler = ctrl_hdlr;
+> +
+> +	return 0;
+> +
+> +error:
+> +	v4l2_ctrl_handler_free(ctrl_hdlr);
+> +
+> +	return ret;
+> +}
+> +
+> +static int imx471_get_pm_resources(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct imx471_data *sensor = to_imx471_data(sd);
+> +
+> +	sensor->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+> +						     GPIOD_OUT_HIGH);
+> +	if (IS_ERR(sensor->reset_gpio)) {
+> +		return dev_err_probe(dev, PTR_ERR(sensor->reset_gpio),
+> +				     "failed to get reset gpio\n");
+> +	}
+> +
+> +	fsleep(1000);
+
+This doesn't seem to belong here.
+
+> +
+> +	sensor->avdd = devm_regulator_get(dev, "avdd");
+> +	if (IS_ERR(sensor->avdd)) {
+> +		return dev_err_probe(dev, PTR_ERR(sensor->avdd),
+> +				     "failed to get avdd regulator\n");
+> +	}
+
+No need for braces.
+
+> +
+> +	sensor->img_clk = devm_clk_get_optional(dev, NULL);
+> +	if (IS_ERR(sensor->img_clk))
+> +		return dev_err_probe(dev, PTR_ERR(sensor->img_clk),
+> +				     "failed to get imaging clock\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx471_check_hwcfg(struct imx471_data *sensor)
+> +{
+> +	struct v4l2_fwnode_endpoint bus_cfg = {
+> +		.bus_type = V4L2_MBUS_CSI2_DPHY,
+> +	};
+> +	struct fwnode_handle *ep, *fwnode = dev_fwnode(sensor->dev);
+> +	unsigned long link_freq_bitmap;
+> +	int ret;
+> +	u32 ext_clk;
+> +
+> +	/*
+> +	 * The fwnode graph may be initialized by the bridge driver,
+> +	 * wait for this.
+> +	 */
+> +	ep = fwnode_graph_get_endpoint_by_id(fwnode, 0, 0, 0);
+> +	if (!ep)
+> +		return dev_err_probe(sensor->dev, -EPROBE_DEFER,
+> +				     "waiting for fwnode graph endpoint\n");
+
+You can omit this error check, but please parse the endpoint right after
+obtaining it.
+
+> +
+> +	ret = fwnode_property_read_u32(dev_fwnode(sensor->dev),
+> +				       "clock-frequency", &ext_clk);
+
+Please use devm_v4l2_sensor_clk_get().
+
+> +	if (ret) {
+> +		fwnode_handle_put(ep);
+> +		return dev_err_probe(sensor->dev, ret,
+> +				     "can't get clock frequency\n");
+> +	}
+> +
+> +	if (ext_clk != IMX471_EXT_CLK) {
+> +		fwnode_handle_put(ep);
+> +		return dev_err_probe(sensor->dev, -EINVAL,
+> +				     "external clock %u is not supported\n",
+> +				     ext_clk);
+> +	}
+> +
+> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> +	fwnode_handle_put(ep);
+> +	if (ret)
+> +		return dev_err_probe(sensor->dev, ret,
+> +				     "parsing endpoint failed");
+> +
+> +	ret = v4l2_link_freq_to_bitmap(sensor->dev, bus_cfg.link_frequencies,
+> +				       bus_cfg.nr_of_link_frequencies,
+> +				       link_freq_menu_items,
+> +				       ARRAY_SIZE(link_freq_menu_items),
+> +				       &link_freq_bitmap);
+> +
+> +	if (ret == -ENOENT)
+> +		goto check_hwcfg_error;
+
+	if (ret)
+		goto check_hwcfg_error;
+
+
+I'd call the label e.g. error_endpoint_free, too.
+
+> +
+> +	if (ret == -ENODATA)
+> +		goto check_hwcfg_error;
+> +
+> +check_hwcfg_error:
+> +	v4l2_fwnode_endpoint_free(&bus_cfg);
+> +
+> +	return ret;
+> +}
+> +
+> +static int imx471_probe(struct i2c_client *client)
+> +{
+> +	struct imx471_data *sensor;
+> +	bool full_power;
+> +	int ret;
+> +
+> +	sensor = devm_kzalloc(&client->dev, sizeof(*sensor), GFP_KERNEL);
+> +	if (!sensor)
+> +		return dev_err_probe(&client->dev, -ENOMEM,
+> +				     "failed to allocate memory\n");
+> +
+> +	sensor->dev = &client->dev;
+> +
+> +	/* Check HW config */
+> +	ret = imx471_check_hwcfg(sensor);
+> +	if (ret)
+> +		return dev_err_probe(sensor->dev, ret,
+> +				     "failed to check hwcfg: %d\n", ret);
+> +
+> +	mutex_init(&sensor->lock);
+> +
+> +	/* Initialize subdev */
+> +	v4l2_i2c_subdev_init(&sensor->sd, client, &imx471_subdev_ops);
+> +
+> +	ret = imx471_get_pm_resources(sensor->dev);
+> +	if (ret)
+> +		return dev_err_probe(sensor->dev, ret,
+> +				     "failed to get pm resources\n");
+> +
+> +	/* Initialize regmap */
+> +	sensor->regmap = devm_cci_regmap_init_i2c(client, 16);
+> +	if (IS_ERR(sensor->regmap))
+> +		return PTR_ERR(sensor->regmap);
+> +
+> +	ret = imx471_pm_resume(sensor->dev);
+> +	if (ret)
+> +		return dev_err_probe(sensor->dev, ret,
+> +				     "failed to power on\n");
+> +
+> +	/* Check module identity */
+> +	ret = imx471_identify_module(sensor);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to find sensor: %d", ret);
+> +		goto probe_error_power_off;
+> +	}
+> +
+> +	/* Set default mode to max resolution */
+> +	sensor->cur_mode = &supported_modes[0];
+> +
+> +	ret = imx471_init_controls(sensor);
+> +	if (ret) {
+> +		dev_err(sensor->dev, "failed to init controls: %d", ret);
+> +		goto probe_error_power_off;
+> +	}
+> +
+> +	/* Initialize subdev */
+> +	sensor->sd.internal_ops = &imx471_internal_ops;
+> +	sensor->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> +			    V4L2_SUBDEV_FL_HAS_EVENTS;
+> +	sensor->sd.entity.ops = &imx471_subdev_entity_ops;
+> +	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +
+> +	/* Initialize source pad */
+> +	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
+> +	ret = media_entity_pads_init(&sensor->sd.entity, 1, &sensor->pad);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to init entity pads: %d", ret);
+> +		goto probe_error_v4l2_ctrl_handler_free;
+> +	}
+> +
+> +	sensor->sd.state_lock = sensor->ctrl_handler.lock;
+> +	ret = v4l2_subdev_init_finalize(&sensor->sd);
+> +	if (ret < 0) {
+> +		dev_err(&client->dev, "failed to init subdev: %d", ret);
+> +		goto probe_error_media_entity_pm;
+> +	}
+> +
+> +	/* Set the device's state to active if it's in D0 state. */
+> +	if (full_power)
+
+Uh-oh.
+
+> +		pm_runtime_set_active(sensor->dev);
+> +	pm_runtime_enable(sensor->dev);
+> +	pm_runtime_idle(sensor->dev);
+> +
+> +	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
+> +	if (ret < 0)
+> +		goto probe_error_v4l2_subdev_cleanup;
+> +
+> +	return 0;
+> +
+> +probe_error_v4l2_subdev_cleanup:
+
+You can drop "probe_" from the labels.
+
+> +	pm_runtime_disable(sensor->dev);
+> +	pm_runtime_set_suspended(sensor->dev);
+> +	v4l2_subdev_cleanup(&sensor->sd);
+> +
+> +probe_error_media_entity_pm:
+> +	media_entity_cleanup(&sensor->sd.entity);
+> +
+> +probe_error_v4l2_ctrl_handler_free:
+> +	v4l2_ctrl_handler_free(sensor->sd.ctrl_handler);
+> +
+> +probe_error_power_off:
+> +	imx471_pm_suspend(sensor->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static void imx471_remove(struct i2c_client *client)
+> +{
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct imx471_data *sensor = to_imx471_data(sd);
+> +
+> +	v4l2_async_unregister_subdev(sd);
+> +	v4l2_subdev_cleanup(sd);
+> +	media_entity_cleanup(&sd->entity);
+> +	v4l2_ctrl_handler_free(sd->ctrl_handler);
+> +
+> +	pm_runtime_disable(&client->dev);
+> +
+> +	if (!pm_runtime_status_suspended(sensor->dev)) {
+> +		imx471_pm_suspend(sensor->dev);
+> +		pm_runtime_set_suspended(sensor->dev);
+> +	}
+> +}
+> +
+> +static DEFINE_RUNTIME_DEV_PM_OPS(imx471_pm_ops, imx471_pm_suspend,
+> +				 imx471_pm_resume, NULL);
+> +
+> +static const struct acpi_device_id imx471_acpi_ids[] __maybe_unused = {
+> +	{ "SONY471A" },
+> +	{ "TBE20A0"  },
+
+"TBE" isn't a valid PNP ID prefix. Where does this ID come from?
+
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(acpi, imx471_acpi_ids);
+> +
+> +static struct i2c_driver imx471_i2c_driver = {
+> +	.driver = {
+> +		.name = "imx471",
+> +		.acpi_match_table = ACPI_PTR(imx471_acpi_ids),
+> +		.pm = pm_sleep_ptr(&imx471_pm_ops),
+> +	},
+> +	.probe = imx471_probe,
+> +	.remove = imx471_remove,
+> +};
+> +module_i2c_driver(imx471_i2c_driver);
+> +
+> +MODULE_AUTHOR("Jimmy Su <jimmy.su@intel.com>");
+> +MODULE_AUTHOR("Serin Yeh <serin.yeh@intel.com>");
+> +MODULE_AUTHOR("Kate Hsuan <hpa@redhat.com>");
+> +MODULE_DESCRIPTION("Sony imx471 sensor driver");
+> +MODULE_LICENSE("GPL");
 
 -- 
-Regards,
+Kind regards,
 
 Sakari Ailus
 
