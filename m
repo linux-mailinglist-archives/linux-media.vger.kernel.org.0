@@ -1,207 +1,203 @@
-Return-Path: <linux-media+bounces-59184-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59185-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aMm2EoO95mlG0QEAu9opvQ
-	(envelope-from <linux-media+bounces-59184-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 01:57:55 +0200
+	id OOgVBqjR5mmz1AEAu9opvQ
+	(envelope-from <linux-media+bounces-59185-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 03:23:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073A0435028
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 01:57:54 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F126435409
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 03:23:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E3BE830146BA
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2026 23:57:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B42C2300CC2D
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 01:23:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1B4C3D1CA5;
-	Mon, 20 Apr 2026 23:57:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C96F2459C5;
+	Tue, 21 Apr 2026 01:23:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Eue2LcnH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BBVe641u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491DC393DE6;
-	Mon, 20 Apr 2026 23:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBAA1DB356;
+	Tue, 21 Apr 2026 01:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776729468; cv=none; b=ZlnAe+h8kWPDhpBcFugGISqe44Cc8+VHNUDEA9L91D1X0i6AMpneM2bVdzK1GcNWmSQkPtdxQhY8aL3mgIRQ/CZlzA3y7S5g38q7dV/ZjXQYLeczFPWcX22fnL3+hVRJxFZ3lOlxcgHleJBXL2BeQ9nwVkwGrAAFV/WpzVHITDo=
+	t=1776734615; cv=none; b=rgDYuekk5ccA44BYZQipKUiw5coMOvP3qejjRzlIt3KeCI0Z6Y2s2//QsezLmqVmfsu/IMeXm06Udh9qnxDsqkMygehHh8Md3T9qG+LzUfOzR+PgdD1xQ7VX8kVbYiuUGBWwH0gU8AoKdRQaqHkh9YtQEqKCLKDJCzGtISBTGAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776729468; c=relaxed/simple;
-	bh=W4P40brhDWvlFoMSRZqCEHOe8ip3yCTHhgXisxd8Q2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GeRvcH8BsZj9vBHQDxTqI/gQFOsQXWOusmNvIcU8qltrfh/ruH17BqxwGB9+I/NnAsyaRQYo7xkZH8DQwLiJT4l4VTXjOa4QN2kNCPgBNnvIG8rnW/iYaZJOnuGPvX3m6kbhJ53JrKSfbqEkuEBKdUOZBFaNZSdiBC+/+e5bTpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Eue2LcnH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D3DAA6DC;
-	Tue, 21 Apr 2026 01:56:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1776729367;
-	bh=W4P40brhDWvlFoMSRZqCEHOe8ip3yCTHhgXisxd8Q2s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Eue2LcnH1fDQg5b6lqnP93Md8CioNxXk3gG80Twr00xJxjgzjIWDAOiU7CK1rQl8u
-	 re5BDa8yh7IryYSxodheNoLiQKnJekozNft6wlS8g8tZ2hf+SoQCL5noMmOdxrDSBP
-	 K4KSVDQkyzr468r+qaloYUQeglAobcVVNwl4+BjM=
-Date: Tue, 21 Apr 2026 02:57:42 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v4 07/13] media: renesas: vsp1: brx: Fix format
- propagation
-Message-ID: <20260420235742.GA2315844@killaraus.ideasonboard.com>
-References: <20260318235907.831556-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260318235907.831556-8-laurent.pinchart+renesas@ideasonboard.com>
- <CA+V-a8t481xuwava0nb7uY9CUPqFWZ_8EP0xrK3BgumP7HDcLg@mail.gmail.com>
- <20260416211139.GC1824072@killaraus.ideasonboard.com>
+	s=arc-20240116; t=1776734615; c=relaxed/simple;
+	bh=e1BrCqTnesBf71s0tW30cIOodf3LkEmZ7dvipoEXL+0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f5twsl2ucAmhCYaLZ3jYx1a1eLBpoCCY+s4GtYHl8nxwTWnvAao72o43WThg/dXngIJbn+E2CfrHWvI/YTK/Rf5yRjuZGHCm89hCDsruDV2/GtNi5Vk7fJ0oFjn4AHNbnhSxpFZMvEYNoar3gek8wViIqIZZshLfnE5rj6ThkK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BBVe641u; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7AB7C19425;
+	Tue, 21 Apr 2026 01:23:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776734615;
+	bh=e1BrCqTnesBf71s0tW30cIOodf3LkEmZ7dvipoEXL+0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BBVe641usc3KetDWvfNA4wXAJjdGn/s9lUmgl8oq0FNTe+EnOxGT/LABSzok67/t+
+	 v8tB+SDtea5eIC1c7zCCxxWifqNyTBW6uhV1mbpXFcxoM+TJzXgWkDVvs7OkrzKl1C
+	 kVkeApzT3Gcirvvt1s+yWpj2R7zFzCt0fI78GLPqZDkMB6S/iyzcyhQt3pCVF25khf
+	 JbvqMczgoCi5ltn0Zw9a8EZDxWbEAPgYEzVEI4da1095KXxrT4PhEXDJXfN6K7Aw+c
+	 UDoddAXHXTWIWG8y27nF75te6SuHBXeSTwSSfnm0P012QD9lR0mOtX06X207lXhRN7
+	 kYlsY00jsM9sA==
+Message-ID: <148e8b79-25d9-471b-b3ac-35f944aae927@kernel.org>
+Date: Tue, 21 Apr 2026 02:23:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260416211139.GC1824072@killaraus.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: venus: declare firmware files via MODULE_FIRMWARE
+To: Christopher Obbard <christopher.obbard@linaro.org>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <5RSTHU5_nsLp9gy49GbhT_8mHBjtBeKDsC6F1ABHCU9ZdpW9A8692UruVYnsCexIJGWsWiW2R5WtPULge31Gyw==@protonmail.internalid>
+ <20260419-wip-obbardc-qcom-venus-firmware-v1-1-08a0d3cf056f@linaro.org>
+ <b18d5f20-4013-47a3-bf43-06162682a65a@kernel.org>
+ <5eH-TLTol5AO_JnG_lVOVn4jVL8Y9hFrmS5YgPznDbZXibbSfmVS2QTPl5TJT1IQ7ib7mfdqLz-VZSlRRTy7Cw==@protonmail.internalid>
+ <CACr-zFBV0p_61ZA6QDLXDqtUqnqajyqHhC9H2SFJ2kSZHevwVA@mail.gmail.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=bod@kernel.org; keydata=
+ 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
+In-Reply-To: <CACr-zFBV0p_61ZA6QDLXDqtUqnqajyqHhC9H2SFJ2kSZHevwVA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59184-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59185-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 073A0435028
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 6F126435409
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Apr 17, 2026 at 12:11:41AM +0300, Laurent Pinchart wrote:
-> On Thu, Apr 16, 2026 at 06:49:14PM +0100, Lad, Prabhakar wrote:
-> > On Wed, Mar 18, 2026 at 11:59 PM Laurent Pinchart wrote:
-> > >
-> > > The format width and height is never propagated to the BRX source pad,
-> > > leaving its initial configuration invalid. Propagate the whole format
-> > > from the first sink pad to the source pad instead of only propagating
-> > > the media bus code. This fixes compliance with the subdev format
-> > > propagation rules.
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > Reviewed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > > Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > ---
-> > >  drivers/media/platform/renesas/vsp1/vsp1_brx.c | 10 ++++++++--
-> > >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> > > index dd651cef93e4..911359faa600 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> > > @@ -156,14 +156,20 @@ static int brx_set_format(struct v4l2_subdev *subdev,
-> > >                 compose->height = format->height;
-> > >         }
-> > >
-> > > -       /* Propagate the format code to all pads. */
-> > > +       /*
-> > > +        * Propagate the format code to all pads, and the whole format to the
-> > > +        * source pad.
-> > > +        */
-> > >         if (fmt->pad == BRX_PAD_SINK(0)) {
-> > >                 unsigned int i;
-> > >
-> > > -               for (i = 0; i <= brx->entity.source_pad; ++i) {
-> > > +               for (i = 0; i < brx->entity.source_pad; ++i) {
-> > >                         format = v4l2_subdev_state_get_format(state, i);
-> > >                         format->code = fmt->format.code;
-> > >                 }
-> > > +
-> > > +               format = v4l2_subdev_state_get_format(state, i);
-> > > +               *format = fmt->format;
-> > 
-> > When running kms-test-plane-position.py (from [0]) on RZ/V2H EVK, Im
-> > getting vblank timeouts as seen below:
+On 20/04/2026 20:57, Christopher Obbard wrote:
+> Hi Bryan,
 > 
-> Oops :-/
+> The background for this was to ensure the firmware is available in a
+> system image
+> or copied into the initrd if the driver is built-in. This is done in a
+> CI environment without
+> access to the hardware.
 > 
-> I'm run the KMS tests on a R-Car board when I submitted the series. I'll
-> test again tomorrow.
+> Debian's initramfs-tools looks at MODULE_FIRWMARE and copies those
+> files into the
+> initrd if the driver is built-in. For now, a workaround for me could
+> be to just manually copy
+> the firmware into the initrd and drop this patch.
+> 
+> I didn't get to the bottom of modifying the firmware loading code to
+> make the driver
+> defer probe to when the rootfs was ready and instead just threw the
+> firmware into
+> the initrd, but that's another story.
+> 
+> On Mon, 20 Apr 2026 at 11:20, Bryan O'Donoghue <bod@kernel.org> wrote:
+>>
+>> On 19/04/2026 23:39, Christopher Obbard wrote:
+>>> The driver loads firmware blobs at runtime via request_firmware()
+>>> but does not currently advertise the possible filenames. Add
+>>> MODULE_FIRMWARE() entries for all known firmware variants so they are
+>>> visible via modinfo and can be picked up by user space tooling.
+>>
+>> What about the board dtsi files ?
+> 
+> I really am not keen on adding all of the firmware from the board dts files as
+> MODULE_FIRMWARE entries into the driver, it then becomes two lists to
+> maintain. What do you think?
+> 
+> BUT talking of two lists to maintain, I am essentially duplicating fwname in
+> MODULE_FIRMWARE, so perhaps my argument is moot.
+> 
+> For my use-case, it may make sense to "teach" the initrd generator to look at
+> the firmware-name entries from the dts files I am building for. But that is also
+> not ideal.
+> 
+> 
+> Cheers!
+> 
+> Chris
 
-I have been able to reproduce an issue with the same test script. It
-doesn't result in a vblank wait timeout, but in display output
-corruption. I'll investigate and fix it, and hopefully the fix will also
-address your issue.
+I think its reasonable to keep a list of firmware that is supplied in 
+linux-firmware in the MODULE_FIRMWARE() list.
 
-> > [   51.295849] ------------[ cut here ]------------
-> > [   51.300538] [CRTC:45:crtc-0] vblank wait timed out
-> > [   51.305514] WARNING: drivers/gpu/drm/drm_atomic_helper.c:1921 at drm_atomic_helper_wait_for_vblanks.part.0+0x248/0x27c [drm_kms_helper], CPU#1: python3/413
-> > [   51.319577] Modules linked in: sha256 cfg80211 bluetooth ecdh_generic kpp ecc rfkill snd_soc_hdmi_codec snd_soc_core snd_pcm_dmaengine snd_pcm snd_timer snd soundcore rzg2l_du_drm spi_rpc_if drm_client_lib vsp1 rzg2l_cru videobuf2_vmalloc drm_dma_helper videobuf2_dma_contig videobuf2_memops rcar_fcp rzg2l_csi2 videobuf2_v4l2 renesas_usbhs rzg2l_mipi_dsi ov5645 videobuf2_common adv7511 v4l2_cci phy_rzg3e_usb3 panfrost v4l2_fwnode reset_rzv2h_usb2phy v4l2_async drm_display_helper drm_shmem_helper videodev rtc_isl1208 cec gpu_sched rtc_renesas_rtca3 mc display_connector drm_kms_helper renesas_rpc_if drm fuse backlight
-> > [   51.374382] CPU: 1 UID: 0 PID: 413 Comm: python3 Not tainted 7.0.0-next-20260415-00258-gf9ef0131676a-dirty #340 PREEMPT
-> > [   51.385280] Hardware name: Renesas RZ/V2H EVK Board based on r9a09g057h44 (DT)
-> > [   51.392521] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> > [   51.399505] pc : drm_atomic_helper_wait_for_vblanks.part.0+0x248/0x27c [drm_kms_helper]
-> > [   51.407624] lr : drm_atomic_helper_wait_for_vblanks.part.0+0x248/0x27c [drm_kms_helper]
-> > [   51.415739] sp : ffff800083dbb9d0
-> > [   51.419067] x29: ffff800083dbba00 x28: 000000000000000a x27: 00000000000005c5
-> > [   51.426237] x26: 0000000000000000 x25: ffff0000ca4c0888 x24: 0000000000000001
-> > [   51.433406] x23: 0000000000000001 x22: 0000000000000000 x21: 0000000000000000
-> > [   51.440575] x20: ffff0000c7cb4980 x19: ffff0000c325e618 x18: 000000000000000a
-> > [   51.447743] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
-> > [   51.454911] x14: 0000000000000000 x13: ffff8000818c3ca0 x12: 00000000000001fc
-> > [   51.462079] x11: ffff0000c0fcd360 x10: ffff8000832bd200 x9 : ffff8000818c3ca0
-> > [   51.469248] x8 : 3fffffffffffefff x7 : ffff80008191bca0 x6 : 0000000000000000
-> > [   51.476416] x5 : ffff0003fdf93088 x4 : 0000000000000001 x3 : 0000000000000000
-> > [   51.483584] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000cc19af40
-> > [   51.490753] Call trace:
-> > [   51.493212]  drm_atomic_helper_wait_for_vblanks.part.0+0x248/0x27c [drm_kms_helper] (P)
-> > [   51.501336]  drm_atomic_helper_commit_tail_rpm+0xbc/0xd8 [drm_kms_helper]
-> > [   51.508237]  commit_tail+0xa4/0x1a4 [drm_kms_helper]
-> > [   51.513313]  drm_atomic_helper_commit+0x178/0x194 [drm_kms_helper]
-> > [   51.519605]  drm_atomic_commit+0x8c/0xd0 [drm]
-> > [   51.524307]  drm_mode_atomic_ioctl+0xac8/0xe00 [drm]
-> > [   51.529523]  drm_ioctl_kernel+0xc0/0x128 [drm]
-> > [   51.534217]  drm_ioctl+0x354/0x4c0 [drm]
-> > [   51.538389]  __arm64_sys_ioctl+0xa4/0xf4
-> > [   51.542342]  invoke_syscall.constprop.0+0x40/0x108
-> > [   51.547161]  el0_svc_common.constprop.0+0xb8/0xd8
-> > [   51.551892]  do_el0_svc+0x1c/0x28
-> > [   51.555229]  el0_svc+0x38/0x140
-> > [   51.558397]  el0t_64_sync_handler+0xa0/0xe4
-> > [   51.562603]  el0t_64_sync+0x198/0x19c
-> > [   51.566286] ---[ end trace 0000000000000000 ]---
-> > [   64.735886] rzg2l-du 16460000.display: [drm] *ERROR* flip_done timed out
-> > [   64.742630] rzg2l-du 16460000.display: [drm] *ERROR* [CRTC:45:crtc-0] commit wait timed out
-> > [   74.975884] rzg2l-du 16460000.display: [drm] *ERROR* flip_done timed out
-> > [   74.982639] rzg2l-du 16460000.display: [drm] *ERROR* [PLANE:40:plane-1] commit wait timed out
-> > [   75.999845] ------------[ cut here ]------------
-> > 
-> > Reverting this patch fixes the issue, but compliance might fail. On
-> > V2H media device is not registered for VSP.
-> > 
-> > [0] https://git.ideasonboard.com/renesas/kms-tests/src/branch/master/tests
+AFAIK paths such as "qcom/sdm845/SHIFT/axolotl/venus.mbn"; are not in 
+linux-firmware so .. we shoudln't expect tooling to populate them into 
+initrd.
 
--- 
-Regards,
+Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
 
-Laurent Pinchart
+---
+bod
 
