@@ -1,73 +1,52 @@
-Return-Path: <linux-media+bounces-59209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59210-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gG4ZOURV52nz6gEAu9opvQ
-	(envelope-from <linux-media+bounces-59209-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 12:45:24 +0200
+	id 6EFOFA1d52l87AEAu9opvQ
+	(envelope-from <linux-media+bounces-59210-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 13:18:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEAD8439B16
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 12:45:23 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B398443A054
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 13:18:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9A50630146A8
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 10:44:50 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B3398302D0AF
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 11:18:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A3852C11D5;
-	Tue, 21 Apr 2026 10:44:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4459C3BE624;
+	Tue, 21 Apr 2026 11:18:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bW5xDT1i"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WXNl6p0q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902893126BF
-	for <linux-media@vger.kernel.org>; Tue, 21 Apr 2026 10:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6725B2EE611
+	for <linux-media@vger.kernel.org>; Tue, 21 Apr 2026 11:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776768289; cv=none; b=KfWqd+kLUQGvKEwZdVqclVLMU9rc/8L0gnjeZwu1RFTh4rwT2ARasH0MagaIsJzZT+kuc8CSIwYgFQTy0LkuEXdA/txfjw832dvU/LFRT9/VTC8b74iz7FHGmDqtQQK5YIzZhigcLghs/7UeDDpD7rzCzEgXCYozlLbzWpxb080=
+	t=1776770312; cv=none; b=IIvAhXrQ+xUOWd9xU2OCRUqPFIBqUIUu5e7oE7MYplBTGgwyhY9+x8AQIstWMrKtEdbUMnrxpu8uB5Np+91/E7kW3XufiMqdRqRcn0JkwOL0naBHlN5r6GD/R0j0bQQZAgkD9lo4udkEoj5zU5hnwM2lUqzuRgkowy1KM3IGyO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776768289; c=relaxed/simple;
-	bh=GQend2Cgn5EM7xVdLjt3ih7b+wHBHkdLVANh50/gFF8=;
+	s=arc-20240116; t=1776770312; c=relaxed/simple;
+	bh=1GEchCh0FXJp6Quu5xOiB83HlfgA43AxZcryhUMWbYE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RwrZBezZFZUr3y1GUFbOFzTinxI9mMACifxOs2BfEiVGy0u8dOIxU0lKcT8Oj7PFUwFZwFSewQzlDoOyxOihX7QcCF/e1GQzSsWVT2L5bGy1OM4ERSoOSRIE3PTL8EjJkGKXMHg3IECbHEhTZlz7p2znu5r3p/plbsHH5v6rTH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bW5xDT1i; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776768286; x=1808304286;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GQend2Cgn5EM7xVdLjt3ih7b+wHBHkdLVANh50/gFF8=;
-  b=bW5xDT1iCbk9q6wQbj5d1wlVD9KtJVFoLUBaGD8LMq1EjvZGJ4A7bXop
-   Vrrf0Z8w6nIYv8SF+aN5AQRQtSoyivJxilzHCkW72R6BdTrbFDYMHv+dz
-   Kq8mdlXWzq5HR3Wu1C4x9rdpRixFLwtag4mpdb8gLTc55MNH6K0gBo04g
-   IPbRYyb927K6fvcirAU4P7SeZGjEQ5BCUSbCg3z/kQW5rd9VpIbdEPcbp
-   OF+RgXA7RQfjjnIciQ0hGZUeHO17FDgCBBQHf2gxRhh8QGmsYkyUOBGHY
-   LKbSeNG2yRhBJunlz4gy47m+a16H7hrhHTNndW9idu5M+YvSh+Gq3VElk
-   Q==;
-X-CSE-ConnectionGUID: jjJ4iWCNR0uieBmPyo09lg==
-X-CSE-MsgGUID: G7t5YW3PREiakV13VZOOJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="76860789"
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="76860789"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 03:44:45 -0700
-X-CSE-ConnectionGUID: ZFKYkPcNRlu/KdbZb7ULdg==
-X-CSE-MsgGUID: 78W3KSdVS0Wdk8fXwbkonQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="231908575"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.56])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 03:44:39 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id DAE5A120D05;
-	Tue, 21 Apr 2026 13:44:36 +0300 (EEST)
-Date: Tue, 21 Apr 2026 13:44:36 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=FMncZe9ySrwPL7mPG+vvZ5xZZsUCHujeGtQTn7zfJqGtucGze+FhG8/OMKBHAeENfB5URRdwjTfR8ZbKZtJxFjYmaUYMD+glefh70DjKYFyCdqNC2prjhSe/l1TQMG/lCVtSthRjtdfmOLa+YInu0vCLfjNXowLNn8WISm2PPTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WXNl6p0q; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 48A8A78E;
+	Tue, 21 Apr 2026 13:16:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1776770209;
+	bh=1GEchCh0FXJp6Quu5xOiB83HlfgA43AxZcryhUMWbYE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WXNl6p0qgowudNHQiSld/4Mi+fYx9KncAxZC1LvJ3LFO4RFZN35dbGyF0fdWI+LpK
+	 Lmqx2UGbB4HlfrgZZiiaFVS/1CyRXpAAKVLZmkFP+8zLVR7NfumbO56oMmHn1Wwbkx
+	 2usBtmARKdQ6b+/avHHc+Uj9695iDBF7kdVCGa14=
+Date: Tue, 21 Apr 2026 14:18:25 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
 	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
@@ -82,7 +61,7 @@ Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
 	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
 	Stefan Klug <stefan.klug@ideasonboard.com>,
 	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
 	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
@@ -95,114 +74,121 @@ Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v4 21/29] media: mc: Don't care about unsettable flags in
- MEDIA_IOC_LINK_SETUP
-Message-ID: <aedVFMLiINDWRh45@kekkonen.localdomain>
+Subject: Re: [PATCH v4 18/29] media: mc: Simplify link processing in
+ __media_pipeline_start()
+Message-ID: <20260421111825.GB2315844@killaraus.ideasonboard.com>
 References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-22-sakari.ailus@linux.intel.com>
- <20260416155917.GB1823068@killaraus.ideasonboard.com>
+ <20260408153939.969381-19-sakari.ailus@linux.intel.com>
+ <20260416143524.GM1775831@killaraus.ideasonboard.com>
+ <aedQUDOJtN72k7Pi@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260416155917.GB1823068@killaraus.ideasonboard.com>
+In-Reply-To: <aedQUDOJtN72k7Pi@kekkonen.localdomain>
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,ideasonboard.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
-	TAGGED_FROM(0.00)[bounces-59209-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59210-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,ideasonboard.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
 	RCPT_COUNT_TWELVE(0.00)[30];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:dkim,intel.com:email]
-X-Rspamd-Queue-Id: EEAD8439B16
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:email,intel.com:email,ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: B398443A054
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Laurent,
-
-On Thu, Apr 16, 2026 at 06:59:17PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Apr 08, 2026 at 06:39:30PM +0300, Sakari Ailus wrote:
-> > The implementation of MEDIA_IOC_LINK_SETUP currently requires that all
-> > flags that are set by the driver are correctly set as the driver expects.
-> > This poses a problem for adding new flags as programs could not work with
-> > links that have unknown flags even when the use of these flags wouldn't
-> > affect the program.
-> 
-> I suppose applications could be instructed to preserve the flags they
-> don't know about, but some existing applications probably don't do that.
-> 
-> > Ignore the non-settable link flags.
+On Tue, Apr 21, 2026 at 01:24:16PM +0300, Sakari Ailus wrote:
+> On Thu, Apr 16, 2026 at 05:35:24PM +0300, Laurent Pinchart wrote:
+> > On Wed, Apr 08, 2026 at 06:39:27PM +0300, Sakari Ailus wrote:
+> > > There are two conditions checking the ENABLED link flag in the loop
+> > > going through the links related to an entity. Drop the other one and
+> > > simplify the remaining code.
+> > > 
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > Reviewed-by: Michael Riesch <michael.riesch@collabora.com>
+> > > ---
+> > >  drivers/media/mc/mc-entity.c | 11 +++++------
+> > >  1 file changed, 5 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> > > index 3fa0bc687851..6bf4730b89d2 100644
+> > > --- a/drivers/media/mc/mc-entity.c
+> > > +++ b/drivers/media/mc/mc-entity.c
+> > > @@ -838,17 +838,16 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
+> > >  			if (link->sink != pad && link->source != pad)
+> > >  				continue;
+> > >  
+> > > -			/* Record if the pad has links and enabled links. */
+> > > -			if (link->flags & MEDIA_LNK_FL_ENABLED)
+> > > -				has_enabled_link = true;
+> > > -
+> > >  			/*
+> > > -			 * Validate the link if it's enabled and has the
+> > > -			 * current pad as its sink.
+> > > +			 * Ensure the link is enabled and if so, record
+> > > +			 * it. Proceed to the next link if the current pad isn't
+> > > +			 * the sink pad of the link.
 > > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/mc/mc-entity.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > You can reflow this;
 > > 
-> > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> > index 717569bd1a8c..287eded356bb 100644
-> > --- a/drivers/media/mc/mc-entity.c
-> > +++ b/drivers/media/mc/mc-entity.c
-> > @@ -1319,7 +1319,7 @@ static int __media_entity_setup_link_notify(struct media_link *link, u32 flags)
-> >  
-> >  int __media_entity_setup_link(struct media_link *link, u32 flags)
-> >  {
-> > -	const u32 mask = MEDIA_LNK_FL_ENABLED;
-> > +	const u32 settable_flags = MEDIA_LNK_FL_ENABLED;
-> >  	struct media_device *mdev;
-> >  	struct media_pad *source, *sink;
-> >  	int ret = -EBUSY;
-> > @@ -1327,9 +1327,9 @@ int __media_entity_setup_link(struct media_link *link, u32 flags)
-> >  	if (link == NULL)
-> >  		return -EINVAL;
-> >  
-> > -	/* The non-modifiable link flags must not be modified. */
-> > -	if ((link->flags & ~mask) != (flags & ~mask))
-> > -		return -EINVAL;
-> > +	/* Only allow changing user-settable flags. */
-> > +	flags &= settable_flags;
-> > +	flags |= link->flags & ~settable_flags;
+> > 			 * Ensure the link is enabled and if so, record it.
+> > 			 * Proceed to the next link if the current pad isn't the
+> > 			 * sink pad of the link.
+> > 
+> > but I find the new comment confusing.
+> > 
+> > I would keep the code as-is, I think it's more readable, and the
+> > compiler will deal with optimization.
 > 
-> Now that the link can be configured with different flags than the ones
-> set by userspace, I think the ioctl should return the actual link flags.
+> There's only one flag to test and I can't see how it'd be more readable to
+> do that twice in the same location. I can keep the comment as-is if you
+> prefer that.
 
-I'll do that for v5.
+The flag is tested twice for two different purposes, with two separate
+comments. A subsequent patch in the series further modifies this code,
+and makes things less readable as it inserts code in the middle while
+still keeping a single comment to explain the multiple operations. I'm
+sure we could expand the comment to explain things in more details (and
+bikeshed how to do so), but I think it will still be less readable than
+keeping those two steps separate with one comment each.
 
-> 
-> >  
-> >  	if (link->flags & MEDIA_LNK_FL_IMMUTABLE)
-> >  		return link->flags == flags ? 0 : -EINVAL;
-> 
+> > >  			 */
+> > >  			if (!(link->flags & MEDIA_LNK_FL_ENABLED))
+> > >  				continue;
+> > >  
+> > > +			has_enabled_link = true;
+> > > +
+> > >  			if (link->sink != pad)
+> > >  				continue;
+> > >  
 
 -- 
 Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
