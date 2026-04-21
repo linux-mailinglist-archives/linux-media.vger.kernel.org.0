@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-59224-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59225-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6GfzL1ma52kV+QEAu9opvQ
-	(envelope-from <linux-media+bounces-59224-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 17:40:09 +0200
+	id 4PlKMLWg52nw+QEAu9opvQ
+	(envelope-from <linux-media+bounces-59225-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 18:07:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11CE43CD96
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 17:40:08 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A63BE43D229
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 18:07:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 15E21304A9CF
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 15:35:18 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 237C0301BDA3
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 16:04:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCE5B2BD01B;
-	Tue, 21 Apr 2026 15:35:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0F76363C4C;
+	Tue, 21 Apr 2026 16:04:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hDuUItre"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C2xDMyHR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7153829D267
-	for <linux-media@vger.kernel.org>; Tue, 21 Apr 2026 15:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEB71E2614
+	for <linux-media@vger.kernel.org>; Tue, 21 Apr 2026 16:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776785716; cv=none; b=dBypwggvO4HRYc2OFiIlmsSZhSdWmRdYVi2Fp3B/iMuk7MGHn2x12ZpDflPHb8WAhBWsJSM1kKIa3njS5k50k021S3V4+v+apyFhnFN/0SrsDAyJ8DmxSqtVT+hZzuwzPLXfKhNJgmYGLTfTIOCtMxVpczgzT6ndfrMhpWcKqOE=
+	t=1776787477; cv=none; b=Q4+zCXgTQwxP2itc3mHWHEIq+HIj7MuWZHC9Bmfj3o7Vtund33pnSFvOA3WZ01qdGdbbRUVaSajZsj3Oq8g8RrouRkdbsoagrWFiZcquyG0eHAUPersi+tKm8JaNBYDEn/Oeq09TWYxdDOtYr097B40iMGPtr2yV+jDkTNskGFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776785716; c=relaxed/simple;
-	bh=fu97RcVB3I8cgcN8T32yl3gshZeoXvY/V3dz9NsAdMI=;
+	s=arc-20240116; t=1776787477; c=relaxed/simple;
+	bh=a3Byel0mi1wXY8UkUAeCgJ0uEsjJAgVU7204iXe9ROA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z9pf0DKRJ8atbPhvYhGjT3/oxP09aH5gfaMEGgEObN2pfAAje999Y8ZBFikWPKo0gNX1/uBECCxqT+PSr2SX8HjCnd8u0kkS2HKC8Xbwwolm9+1CMULFc4/g1FR70lXxAUVR1RiZDuWIgH1QdJ9T4uOxMBWJEyRjlMdsQos1hzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hDuUItre; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=PbieAyYyDtQNADb1Bkbcwj7IU3QYZ5SxfD9U3CDtwEFbDqyAvMbuDeg2ZXSYUwH0uXXgEcs4d0PaLQEe+RTOGbDGO5dkqAxfmjiF21rNyaFcUp++YRXPhYtzUzL7LQHMdxWCHjJw4UtF3tvwPkX2n7exaMfMggTRpO/vFjdjv48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C2xDMyHR; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776785714; x=1808321714;
+  t=1776787476; x=1808323476;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fu97RcVB3I8cgcN8T32yl3gshZeoXvY/V3dz9NsAdMI=;
-  b=hDuUItreUipitqevH+aY0dkFJVr6uZHgA/xk87O/jDYz2/I+gnahHCHB
-   jt7pAal7PkjbdTNsau5yKzy1uP2cu7k1ec5M8BiTMa4sMXPyEUDcofqtF
-   uUyVh+7ya6gL1gGHTljrJGL7X6X/qT550uGYj7DaJDA1VWVQR1tDcKxvW
-   enEOau7+A4mYhjMB9Ry5xA4txT9Fh431v8Br6s3olTJwDRRQoBiimxsSK
-   IgGXb+TdDpDZS1amIOMGfHRDIqxCHg4HaG4ZmkX5zf9w3s9DsRzGNEo8l
-   o0Ug452fZcAXFS3YaFpDZKn9M/sgBgwC0pjDgk681iuDkkfBXDT0LUVLM
-   g==;
-X-CSE-ConnectionGUID: vrR9QPwSRQaKwLaMcHEQ9A==
-X-CSE-MsgGUID: 4lsPmb/RQeGb5SoxiYaKLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77842964"
+  bh=a3Byel0mi1wXY8UkUAeCgJ0uEsjJAgVU7204iXe9ROA=;
+  b=C2xDMyHRuqK+ZmFM9Jb/G+kaPEb/ST3XGrk4egzhwpwQ2lHMX9e03v/b
+   nZXUWR0B9Si6ve5zx9Kf2OCpr8lscveKaMRWWBWCm5rVDmmiwvXf3MPKt
+   CoHcrieVnKsnTzYAos94Ue2k0Agt9FCXliaeup0vNEfTk6oBVp99ZFOZc
+   A5qLYTL8n7iil9Hu2TWth5MZv1B/0oE6FEKth9OxUbv1JvyHyX5SSAcU/
+   bv4PcdfZ4J80mhl/6/itGKgNI19U/T0wNhNK9eJdxdiv8v4BrBjOwPCMk
+   PN125MpbPPSdtRGsPP7hWHPofHL4VWXZ0aoanfzli31jaC2bOFpvWeI9N
+   A==;
+X-CSE-ConnectionGUID: QWBGtMu2TyK6xsHRLDYHBw==
+X-CSE-MsgGUID: protytrET6mH25VZ4NG0PQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="89195164"
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="77842964"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 08:35:13 -0700
-X-CSE-ConnectionGUID: eTUj090fTVm4ua6GfG/COA==
-X-CSE-MsgGUID: c7Ah61JiQNu9lBMLt2jSDg==
+   d="scan'208";a="89195164"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 09:04:36 -0700
+X-CSE-ConnectionGUID: sQHpPu2tSqy8Ev1cD2GpMw==
+X-CSE-MsgGUID: xUXTRC8nSHyrr/MAHNji9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="237053630"
+   d="scan'208";a="231939806"
 Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.135])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 08:35:07 -0700
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 09:04:29 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 5637E120D05;
-	Tue, 21 Apr 2026 18:35:05 +0300 (EEST)
-Date: Tue, 21 Apr 2026 18:35:05 +0300
+	by kekkonen.fi.intel.com (Postfix) with SMTP id DB724120D05;
+	Tue, 21 Apr 2026 19:04:26 +0300 (EEST)
+Date: Tue, 21 Apr 2026 19:04:26 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -95,12 +95,12 @@ Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v4 23/29] media: Improve enable_streams and
- disable_streams documentation
-Message-ID: <aeeZKTf4Rr7-Ht3E@kekkonen.localdomain>
+Subject: Re: [PATCH v4 27/29] media: v4l2-subdev: Add
+ v4l2_subdev_call_ci_active_state
+Message-ID: <aeegCr3fF5cb770c@kekkonen.localdomain>
 References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-24-sakari.ailus@linux.intel.com>
- <20260416154914.GA1823068@killaraus.ideasonboard.com>
+ <20260408153939.969381-28-sakari.ailus@linux.intel.com>
+ <20260416173821.GA1824072@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -109,18 +109,18 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260416154914.GA1823068@killaraus.ideasonboard.com>
+In-Reply-To: <20260416173821.GA1824072@killaraus.ideasonboard.com>
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,ideasonboard.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
-	TAGGED_FROM(0.00)[bounces-59224-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59225-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -136,61 +136,30 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kekkonen.localdomain:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nxp.com:email,ideasonboard.com:email]
-X-Rspamd-Queue-Id: F11CE43CD96
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kekkonen.localdomain:mid,intel.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A63BE43D229
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Hi Laurent,
 
-On Thu, Apr 16, 2026 at 06:49:14PM +0300, Laurent Pinchart wrote:
-> On Wed, Apr 08, 2026 at 06:39:32PM +0300, Sakari Ailus wrote:
-> > Document that enable_streams may start additional streams and
-> > disable_streams may not disable requested streams if other related streams
-> > are still enabled.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
-> > ---
-> >  include/media/v4l2-subdev.h | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index d256b7ec8f84..4588992b4417 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -814,6 +814,10 @@ struct v4l2_subdev_state {
-> >   *	V4L2_SUBDEV_CAP_STREAMS sub-device capability flag can ignore the mask
-> >   *	argument.
-> >   *
-> > + *	Starting the requested streams may require starting additional
-> > + *	streams. Streams that are started together due to hardware are called a
-> > + *	stream group.
-> > + *
-> >   * @disable_streams: Disable the streams defined in streams_mask on the given
-> >   *	source pad. Subdevs that implement this operation must use the active
-> >   *	state management provided by the subdev core (enabled through a call to
-> > @@ -823,6 +827,9 @@ struct v4l2_subdev_state {
-> >   *	Drivers that support only a single stream without setting the
-> >   *	V4L2_SUBDEV_CAP_STREAMS sub-device capability flag can ignore the mask
-> >   *	argument.
-> > + *
-> > + *	A stream group is disabled when one or more streams in the stream
-> > + *	group are disabled.
+On Thu, Apr 16, 2026 at 08:38:21PM +0300, Laurent Pinchart wrote:
+> On Wed, Apr 08, 2026 at 06:39:36PM +0300, Sakari Ailus wrote:
+> > Add v4l2_subdev_call_ci_active_state(), to call sub-device pad ops that
+> > take struct v4l2_subdev_client_info pointer as an argument.
 > 
-> This contradicts the commit message. Did you mean that a stream group
-> will be disabled when all the streams it contains are disabled ?
+> If we drop the client info parameter from .get_fmt(), the only driver
+> calling this new macro will be
+> drivers/media/platform/ti/cal/cal-video.c. I would just pass NULL
+> explicitly there and drop this patch.
 
-It was meant to say that a stream group will stop streaming once all
-streams have been disabled. I'll fix this for v5.
+That'd make the arguments for set_fmt and get_fmt different. I'm not sure
+if that'd be a problem in practice, perhaps not.
 
-> 
-> >   */
-> >  struct v4l2_subdev_pad_ops {
-> >  	int (*enum_mbus_code)(struct v4l2_subdev *sd,
-> 
+I could imagine in the end we'll need to include the client flags in more
+callbacks than set_fmt(). It might not be a bad idea to add them to all pad
+ops. Of course we could revisit this later when needed.
 
 -- 
 Regards,
