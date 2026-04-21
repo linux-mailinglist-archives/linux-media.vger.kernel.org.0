@@ -1,107 +1,108 @@
-Return-Path: <linux-media+bounces-59214-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59215-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8O+1IwVq52ke8AEAu9opvQ
-	(envelope-from <linux-media+bounces-59214-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 14:13:57 +0200
+	id gJ9YAI5r52ke8AEAu9opvQ
+	(envelope-from <linux-media+bounces-59215-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 14:20:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE2943A7D1
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 14:13:56 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3632043A8E1
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 14:20:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 65ACF3032F42
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 12:10:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CBE2630238F5
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 12:18:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0ACA3A9DAB;
-	Tue, 21 Apr 2026 12:10:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4783A3BD651;
+	Tue, 21 Apr 2026 12:18:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="DzpsIoD8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJFjY9Ol"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5783451C8
-	for <linux-media@vger.kernel.org>; Tue, 21 Apr 2026 12:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154672C234E
+	for <linux-media@vger.kernel.org>; Tue, 21 Apr 2026 12:18:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776773408; cv=none; b=RQARlBVr1L+5+QMnJuXBUEvtEgT+75/U+1kAe2JjRSBPOxvKjoBeu9TTyIysd7sr3XY7zBM4BsSReujgp4CqmMmB200EdXf8JTqA7IT0z5Ewvig85nfkG0prYOwsxusPV+ifl4ft9FfcK9IBze108REdbXesavlsgelbqRESh6U=
+	t=1776773918; cv=none; b=nb7mCb4+r7G/POu5Ce4T797CUUdh3PzBGDAmtk7gcwfT8D2lsQWiWB2qriFbKhFy9+3/9V6qOXrc6gFVMRu8Maw6ah0SCjFv/2Rh1HQMhs8Vrds/+06Fq7v+/dHzCFF5OfBv7GPmtjixXIrOq/qQMPR9rfkGI/gkDVKBCcBMUN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776773408; c=relaxed/simple;
-	bh=XbKdlZH8Wn5Q2Gv7aa3pDFxSc1M2qfNLzzDFE8v4jqo=;
+	s=arc-20240116; t=1776773918; c=relaxed/simple;
+	bh=HWqKQ6wDM6ivxgyLgvtqPTO78kh+Ylt0E6l7nSWDR80=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nSbH85dYQBqt/0usGiFeJxFq4gqBAtrs9UR8WVnksrdmHs4kxssWnNj07aaoCODjnNy4yq2Th80T5CBcWNOWsUPFAM+SRtPLRfW+FeZ2fyi40a3HPInFtjkyYR3Z2I6B7giXwzfi1S/NixMQyZbG/bbtfuamAUeGb0WocVWotXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=DzpsIoD8; arc=none smtp.client-ip=74.125.82.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-12c7212836bso10854245c88.0
-        for <linux-media@vger.kernel.org>; Tue, 21 Apr 2026 05:10:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1776773406; x=1777378206; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HpS1oVTR3rIZCafWVa+4FbkfcJKXjhWy8xb1rynP1OU=;
-        b=DzpsIoD8/M4qKwIMr5W+i0ydLNPvu1gZSlNjH0qksznwQ46MmDnPScTPC6PW2te0qm
-         MwSImABCeFOexqJQdF5JTb1psDiSFManlz8D/p2hwSGwvq9nsoDMJGsPtoWpH1/J4H0B
-         6LoOjdpFvOKDqSvut+qTfgSikZCC2A6lRTW0A83KWgbJXskhi33n+9pHsAhy/lxSbmRp
-         jy98qJvjNdzsJajTLvC+pyB8pbPYv175rW9VbL4XXd/qGH8DKrVdJT2sFxImf692Yulj
-         d/v+WozuCoYOcw/hTtQTcqHjK/ztxldgbE5C5nSK5XQ7nBVFsAGCjvNuUkO9yzGNdlGL
-         8Qug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776773406; x=1777378206;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HpS1oVTR3rIZCafWVa+4FbkfcJKXjhWy8xb1rynP1OU=;
-        b=gNq3zDSm7RXZbqi/ZVvQfrFdXs2JvAqGx7Iq8j/HEutfVLGEZ+jS1v+ICEmgkakhSL
-         tCbP9O4/os+ZZsH9iyNusWtVQoHoppI8utu8Xeuhli6UeVw2ukDLpCtsElqvGfb6hhvx
-         R+QmG5UImLgy35bl1T6w3ZFQ9kjCnmoGWjMr/dKSb89dpPJTqG1I7Ay/KN/0bw2hn66P
-         EJnZ7aiqKXWB8BeOSHG+U52LnYWp0ja38WtthtUuDgSTC8Fdnf7wvM3KiA32RRCAIYp4
-         IrjXAlfZif23InkFmep7ejrSCpUxRBjdWEwpCAsCZru7kRILmcjdgAilhn/9SzXoVu4E
-         LeGg==
-X-Forwarded-Encrypted: i=1; AFNElJ/n9ImIwnGdsSZnQ9kTwafkbkxFKGNN/Fx/PX78ay1tW75pmvgCd3WfQIUwUV+Q1czwKs0Sl/HpRl2M+Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlrznZY6yqzD6zYF5CGcXXoOOQMgVBNuxRM2ivNFFotk6IFYvD
-	5TGsT/36l5IMJrOEbnQNNs8kbCsL1/I0haM5MWduR+ZDGS4a+ZIQrZVyYhm9yRncNSw=
-X-Gm-Gg: AeBDievYSBUAoFd6pnQRPIG2hGW/TL46tkLtEpw2oTiCoF9ciuCnNGxgpGm+813nvab
-	DEnYER2A9kprsnrDpR6swGTWigxrZjsFRt5sG5kT2n3GkWPbyLYquJvTaOULSQ8mDgGI2WcRmmu
-	mU2FJy4fxLeU6Woa1QuNOeAukVNEIt6BkxmL2TQDNNWVfX6ePfMaPWcYKHDtwmFkDBOlENTVgqZ
-	MI+k3JZYpl/vzRKnPGgCw/cmgdHpo8kY9/Pyzef2/xTgEf1qq3+9jbSUM0eEDswlJIa+wHgQR45
-	uu730il8Txk7td1z426JlevdBckT7OqMx6RAjVo9rBgZsmGIkV5iDnwNZQgaurH44FvhC2ws9y+
-	ByD0WU2PXKZDLE8E+zwLP/hs9WuunKVVBHbYPo65jio/rYNv1Kbyy1vr82asIisZti2i2N7YVNM
-	q5zWYNFl4/x0qt1EKT1LQ=
-X-Received: by 2002:a05:7022:ff45:b0:128:ca6f:adf2 with SMTP id a92af1059eb24-12c73fae276mr12134183c88.32.1776773406031;
-        Tue, 21 Apr 2026 05:10:06 -0700 (PDT)
-Received: from ziepe.ca ([130.41.10.202])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c74a2ac32sm19260013c88.15.2026.04.21.05.10.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 05:10:05 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wF9vY-00000001ErI-0ePf;
-	Tue, 21 Apr 2026 09:10:04 -0300
-Date: Tue, 21 Apr 2026 09:10:04 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	iommu@lists.linux.dev, linux-media@vger.kernel.org,
-	sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
-	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
-	christian.koenig@amd.com, m.szyprowski@samsung.com,
-	robin.murphy@arm.com, leon@kernel.org, sean.anderson@linux.dev,
-	ptesarik@suse.com, catalin.marinas@arm.com, suzuki.poulose@arm.com,
-	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
-	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
-	linux-coco@lists.linux.dev
-Subject: Re: [PATCH v5 1/2] dma-mapping: introduce DMA_ATTR_CC_SHARED for
- shared memory
-Message-ID: <20260421121004.GA3611611@ziepe.ca>
-References: <20260325192352.437608-1-jiri@resnulli.us>
- <20260325192352.437608-2-jiri@resnulli.us>
- <yq5atst6ywbl.fsf@kernel.org>
- <4qdizkkoeke3cvkcf35upa7p7ick6s654eqlrizmi7ozkw5eze@tnpk2e34xgwl>
- <yq5awly0d504.fsf@kernel.org>
- <tteiecxfqy4k24wnzvp6ocxnuopyhmqtne2xwh5htwldlbzjnp@o6cbzdlurxld>
+	 Content-Type:Content-Disposition:In-Reply-To; b=KjghPaEwmZj/RkhVZU43N4U0WbDglYmM8aVdtrw6XSg4GIoV5B/Z1X9EtvPQBCBdwGWOpiniH4tUokzrgSxv0t6vFPSYUL7tcJAkZ352omrJXgQAao4tBSsY67goTQK3cjUsEA9G8Qq5sZxIhKESdSr1gznanq+aUiiSa9RerRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJFjY9Ol; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776773916; x=1808309916;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HWqKQ6wDM6ivxgyLgvtqPTO78kh+Ylt0E6l7nSWDR80=;
+  b=fJFjY9OlFGmM325OIPzcmUT7C2wqLLLyFdhZ79DaJNpx15mRoX3xCOEL
+   LgewFteSY2qF8kFEsSZq7rxECD0FP9cAbqtUTd+azqxKUxvV6NyKgVMYT
+   6x8IoHCCgCC86qv5EZ1Jlg59r2fVOtrkygbiSkUKTl9vka+J3x5RiYuX2
+   FBCKCcisttDHzrZFS3yxW7JDS7P7nFy4eS6JhCBVILJGOxwivmTPY1IIU
+   vqW62eqGbD/vVm4pppAZw/kxpRx95ihrht3fFwe77BnAFj308HUxP1Ryf
+   kRLopHB/wU8Frl2TWtzN450aZSpEEI6UzWIAPP3ci4KlGFFi8d+nkQtyj
+   g==;
+X-CSE-ConnectionGUID: g5TNRh1WQVi60xhrYkkFbg==
+X-CSE-MsgGUID: IrgaLFg+S/2ni2na+sHRPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77718689"
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="77718689"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 05:18:35 -0700
+X-CSE-ConnectionGUID: brtWEtFFQyGB6OYqfDX+4A==
+X-CSE-MsgGUID: B13aF3YqSCeu8T9M0qtTtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="255285982"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.56])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 05:18:29 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id D425C120D05;
+	Tue, 21 Apr 2026 15:18:26 +0300 (EEST)
+Date: Tue, 21 Apr 2026 15:18:26 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Rishikesh Donadkar <r-donadkar@ti.com>
+Subject: Re: [PATCH v4 24/29] media: v4l2-subdev: Introduce
+ v4l2_subdev_get_frame_desc()
+Message-ID: <aedrEm-Mh21TnJ4N@kekkonen.localdomain>
+References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
+ <20260408153939.969381-25-sakari.ailus@linux.intel.com>
+ <adjWaqk9qO7CWM5W@zed>
+ <adykK0JxoIoZjWUT@kekkonen.localdomain>
+ <20260416161654.GC1823068@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -110,62 +111,277 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tteiecxfqy4k24wnzvp6ocxnuopyhmqtne2xwh5htwldlbzjnp@o6cbzdlurxld>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+In-Reply-To: <20260416161654.GC1823068@killaraus.ideasonboard.com>
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59214-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
-	DMARC_NA(0.00)[ziepe.ca];
+	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
+	TAGGED_FROM(0.00)[bounces-59215-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[30];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[intel.com:+];
 	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ziepe.ca:dkim,ziepe.ca:mid]
-X-Rspamd-Queue-Id: EDE2943A7D1
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,kekkonen.localdomain:mid]
+X-Rspamd-Queue-Id: 3632043A8E1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Apr 21, 2026 at 01:53:31PM +0200, Jiri Pirko wrote:
-> >> You reach there when is_swiotlb_force_bounce(dev) is true and
-> >> DMA_ATTR_CC_SHARED is set. What am I missing?
-> >>
-> >
-> >So a swiotlb_force_bounce will not use swiotlb bouncing if
-> >DMA_ATTR_CC_SHARED is set ? 
+Hi Laurent,
+
+On Thu, Apr 16, 2026 at 07:16:54PM +0300, Laurent Pinchart wrote:
+> On Mon, Apr 13, 2026 at 11:07:07AM +0300, Sakari Ailus wrote:
+> > On Fri, Apr 10, 2026 at 12:53:42PM +0200, Jacopo Mondi wrote:
+> > > On Wed, Apr 08, 2026 at 06:39:33PM +0300, Sakari Ailus wrote:
+> > > > Introduce v4l2_subdev_get_frame_desc() in order to facilitate implementing
+> > > > drivers that need frame descriptors. If the remote sub-device does not
+> > > > support frame descriptors, v4l2_subdev_get_frame_desc() creates one (with
+> > > > a single entry) opportunistically, thus avoiding the need to add frame
+> > > > descriptor support to sensor drivers the device for which only generates a
 > 
-> Correct. Bouncing does not make sense in this case, as shared memory is
-> already being mapped.
+> s/the device for which/whose device/
 
-It is a little bit mangled, there are many reasons force_swiotlb can
-be set, but we loose them as it flows through - swiotlb_init()
-just has a simple SWIOTLB_FORCE
+I guess that'd work, too.
 
-Ideally DMA_ATTR_CC_SHARED would skip swiotlb only if it is being
-selected for CC reasons. For instance if you have the swiotlb force
-command line parameter I would still expect it bounce shared memory.
+> 
+> I think all sensor drivers should implement .get_frame_desc(), possibly
+> with a helper.
 
-Arguably I think this arch flow is misdesigned, the
-is_swiotlb_force_bounce() should not be used for CC. dma_capable() is
-the correct API to check if the device can DMA to the presented
-address, and it will trigger swiotlb_map() just the same without
-creating this gap.
+Is there a need to? It's largely just extra churn for more than 80 drivers
+-- this can also be extended to cover routes so few of these drivers would
+in the end need anything driver-specific. But the option for that needs to
+remain.
 
-Jason
+> 
+> > > > single stream, or managing the situation on the caller side.
+> 
+> That part I agree with, we currently need to manage the situation on the
+> caller side because not all subdevs implement the operation. That will
+> still be the case for a while, so this helper is useful.
+> 
+> Can you also replace manual calls to .get_frame_desc() with the helper ?
+> Some of the existing callers implement fallbacks, I fonud them at least
+> in
+> 
+> drivers/media/platform/broadcom/bcm2835-unicam.c
+> drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+> drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> drivers/media/platform/ti/cal/cal.c
+> 
+> (directly in the function that calls .get_frame_desc(), or in its
+> caller)
+> 
+> Replacing those will ensure the helper works as expected.
+
+Sure. I'll add more patches for that.
+
+> 
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >  drivers/media/v4l2-core/v4l2-subdev.c | 96 +++++++++++++++++++++++++++
+> > > >  include/media/v4l2-subdev.h           | 20 ++++++
+> > > >  2 files changed, 116 insertions(+)
+> > > >
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > index 647587c0499a..40b28e070726 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > @@ -20,6 +20,7 @@
+> > > >  #include <linux/version.h>
+> > > >  #include <linux/videodev2.h>
+> > > >
+> > > > +#include <media/mipi-csi2.h>
+> > > >  #include <media/v4l2-ctrls.h>
+> > > >  #include <media/v4l2-device.h>
+> > > >  #include <media/v4l2-event.h>
+> > > > @@ -2758,3 +2759,98 @@ void v4l2_subdev_put_privacy_led(struct v4l2_subdev *sd)
+> > > >  #endif
+> > > >  }
+> > > >  EXPORT_SYMBOL_GPL(v4l2_subdev_put_privacy_led);
+> > > > +
+> > > > +static int get_mipi_dt_for_mbus(u32 code)
+> 
+> v4l2_subdev_get_mipi_dt_for_mbus()
+> 
+> Or move the function to v4l2-common.c, name it mipi_csi2_dt_for_mbus()
+> and declare it in include/media/mipi-csi2.h.
+
+How about calling it mipi_csi2_dt_for_mbus()? I think it can be located in
+v4l2-common.c for now, no need to add a separate file just for this; all
+users would effectively be related to V4L2 anyway.
+
+> 
+> > > > +{
+> > > > +	switch (code) {
+> > > > +	case MEDIA_BUS_FMT_BGR888_1X24:
+> > > > +		return MIPI_CSI2_DT_RGB888;
+> > > > +	case MEDIA_BUS_FMT_Y8_1X8:
+> > > > +	case MEDIA_BUS_FMT_SBGGR8_1X8:
+> > > > +	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> > > > +	case MEDIA_BUS_FMT_SGRBG8_1X8:
+> > > > +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> > > > +		return MIPI_CSI2_DT_RAW8;
+> > > > +	case MEDIA_BUS_FMT_Y10_1X10:
+> > > > +	case MEDIA_BUS_FMT_SBGGR10_1X10:
+> > > > +	case MEDIA_BUS_FMT_SGBRG10_1X10:
+> > > > +	case MEDIA_BUS_FMT_SGRBG10_1X10:
+> > > > +	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> > > > +		return MIPI_CSI2_DT_RAW10;
+> > > > +	case MEDIA_BUS_FMT_Y12_1X12:
+> > > > +	case MEDIA_BUS_FMT_SBGGR12_1X12:
+> > > > +	case MEDIA_BUS_FMT_SGBRG12_1X12:
+> > > > +	case MEDIA_BUS_FMT_SGRBG12_1X12:
+> > > > +	case MEDIA_BUS_FMT_SRGGB12_1X12:
+> > > > +		return MIPI_CSI2_DT_RAW12;
+> > > > +	case MEDIA_BUS_FMT_Y14_1X14:
+> > > > +	case MEDIA_BUS_FMT_SBGGR14_1X14:
+> > > > +	case MEDIA_BUS_FMT_SGBRG14_1X14:
+> > > > +	case MEDIA_BUS_FMT_SGRBG14_1X14:
+> > > > +	case MEDIA_BUS_FMT_SRGGB14_1X14:
+> > > > +		return MIPI_CSI2_DT_RAW14;
+> > > > +	case MEDIA_BUS_FMT_Y16_1X16:
+> > > > +	case MEDIA_BUS_FMT_SBGGR16_1X16:
+> > > > +	case MEDIA_BUS_FMT_SGBRG16_1X16:
+> > > > +	case MEDIA_BUS_FMT_SGRBG16_1X16:
+> > > > +	case MEDIA_BUS_FMT_SRGGB16_1X16:
+> > > > +		return MIPI_CSI2_DT_RAW16;
+> > > > +	case MEDIA_BUS_FMT_SBGGR20_1X20:
+> > > > +	case MEDIA_BUS_FMT_SGBRG20_1X20:
+> > > > +	case MEDIA_BUS_FMT_SGRBG20_1X20:
+> > > > +	case MEDIA_BUS_FMT_SRGGB20_1X20:
+> > > > +		return MIPI_CSI2_DT_RAW20;
+> > > > +	default:
+> > > > +		return -EINVAL;
+> > > > +	}
+> > > > +}
+> > > > +
+> > > > +int v4l2_subdev_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> > > > +			       struct v4l2_mbus_frame_desc *desc)
+> > > > +{
+> > > > +	struct v4l2_subdev_format subdev_fmt = {
+> > > > +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> > > > +		.pad = pad,
+> > > > +	};
+> > > > +	int ret;
+> > > > +
+> > > > +	if (v4l2_subdev_has_op(sd, pad, get_frame_desc)) {
+> > > > +		unsigned int type = desc->type;
+> > > > +
+> > > > +		ret = v4l2_subdev_call(sd, pad, get_frame_desc, pad, desc);
+> > > > +
+> > > > +		if (desc->type != type)
+> > > > +			return -EINVAL;
+> 
+> I'd add a dev_err() here. There are .get_frame_desc() callers that check
+> if the returned type matches what they expect and log an error
+> otherwise. When using this helper the check can't be performed in the
+> callera any more, leading to possibly hard to debug issues if no message
+> is printed.
+
+dev_err_once()?
+
+> 
+> > > > +
+> > > > +		return ret;
+> > > > +	}
+> > > > +
+> > > > +	if (desc->type != V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL &&
+> > > > +	    desc->type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, NULL,
+> > > > +			       &subdev_fmt);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	struct v4l2_mbus_frame_desc_entry entry = {
+> > > > +		.pixelcode = subdev_fmt.format.code,
+> > > > +	};
+> > > > +
+> > > > +	if (desc->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
+> > > > +		int dt;
+> > > > +
+> > > > +		dt = get_mipi_dt_for_mbus(subdev_fmt.format.code);
+> > > > +		if (dt < 0)
+> > > > +			return dt;
+> > > > +
+> > > > +		entry.bus.csi2.dt = dt;
+> > > > +	}
+> > > > +
+> > > > +	desc->entry[0] = entry;
+> > > > +	desc->num_entries = 1;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +EXPORT_SYMBOL_GPL(v4l2_subdev_get_frame_desc);
+> > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > > > index 4588992b4417..93b672edd08e 100644
+> > > > --- a/include/media/v4l2-subdev.h
+> > > > +++ b/include/media/v4l2-subdev.h
+> > > > @@ -2058,4 +2058,24 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+> > > >   */
+> > > >  bool v4l2_subdev_is_streaming(struct v4l2_subdev *sd);
+> > > >
+> > > > +/**
+> > > > + * v4l2_subdev_get_frame_desc() - Get a pad's frame descriptor
+> > > > + * @sd: The sub-device
+> > > > + * @pad: The number of the pad in @sd from which to obtain the frame descriptor
+> > > > + * @desc: A pointer to a frame descriptor, with its type field set
+> > > > + *
+> > > > + * Obtain a frame descriptor from a sub-device. If the sub-device supports the
+> > > > + * get_frame_desc pad operation, its result is returned, just like calling it
+> > > > + * directly using v4l2_subdev_call(). If the sub-device driver does not support
+> > > > + * it, then one containing a single entry is created using the information from
+> 
+> s/one /a frame descriptor/
+
+Yes.
+
+> 
+> > > > + * the sub-device active state, which this function locks for the duration of
+> > > > + * the call to obtain it.
+> > > 
+> > > This doesn't seem to apply anymore...
+> > 
+> > I'll rephrase it.
+> > 
+> > > > + *
+> > > > + * The caller is required to set @desc->type to the expected bus type.
+> > > 
+> > > Is it worth mentioning that only V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL
+> > > and V4L2_MBUS_FRAME_DESC_TYPE_CSI2 are supported ?
+> > 
+> > I'll add that.
+> > 
+> > > > + *
+> > > > + * Return: %0 on success or negative error code on failure.
+> > > > + */
+> > > > +int v4l2_subdev_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> > > > +			       struct v4l2_mbus_frame_desc *desc);
+> > > 
+> > > With the documentation addressed
+> > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> 
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
