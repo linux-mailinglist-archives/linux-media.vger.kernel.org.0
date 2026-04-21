@@ -1,458 +1,309 @@
-Return-Path: <linux-media+bounces-59234-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59235-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SCPKHy2452mu/wEAu9opvQ
-	(envelope-from <linux-media+bounces-59234-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 19:47:25 +0200
+	id OHFhDpu452mu/wEAu9opvQ
+	(envelope-from <linux-media+bounces-59235-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 19:49:15 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B293C43E2AB
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 19:47:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E22743E2F1
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 19:49:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 59EB5306B399
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 17:41:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8807D3038A41
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 17:43:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF05C31F9BD;
-	Tue, 21 Apr 2026 17:41:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE11531F9BD;
+	Tue, 21 Apr 2026 17:43:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="hJ0Z4AyS"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="f+qv87RI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012047.outbound.protection.outlook.com [52.101.53.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5C72F25F5;
-	Tue, 21 Apr 2026 17:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776793292; cv=none; b=QsG2a6rCYJGVMKCnseR2Le3QrJDPmpXkfP0uG4kkhZddl8eCkt9+/d80hUCVFfHrSOG/9+guTwEFxjt4pnXwFrx/COSb6TIcdiDLnMgqgEXK483j5EZbv/eYEWVcb/tSOE3TgvgLcmx2UEYZ17wH4rtK8s8KJVOq5b8HsaIu0to=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776793292; c=relaxed/simple;
-	bh=SGmqOiYBy/o7ZxCDTqDSUSqr+/1vlLpstS7AntxNMao=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BbEidnLpuDU3gtygGwUl/wjGy++l7fzkdwkd3j7FnC0axikoI9pp/paVXN/F+PJA2U0pYRHs4L8hmcgiNzzmmlxJJpgg7VTll5lC7QTqwlUVOd5J/aZ08S5P695r+C1SaebyV1nGJSi1oRenK0SbCI4e3xJ6XUBuL2saZez7E98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=hJ0Z4AyS; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=2gETHwVWkoTzTuym+3MH71z1s/cHhLTFWYxxunQ69JI=; b=hJ0Z4AySTdobDyskjnI61LJ6nA
-	NomQPCRQxsT8tFAJ58c6Ed062zh/AKg4uXfFqra9CV3EE5iVpep5vsw9gZ74XZ83rjNDSP/u12M+T
-	hKVhOgxXbe5o/kG+y4EW/Hf7zffx0pFsOHtr5W0/LB7vZvYimOkd8YTKQnCtw5BIJcU2nctDr8aXA
-	Eed/RtcRJ66kLtca7ykDyXmvHFSJTnqH7UPrNgpncOF83BbscEqzziM+8e4OfPKQA2fqpOxSCsvoi
-	3kJxUTvASII7549veyRQ/55b8pEweQejeDhaeARtFLQALT36sdTtMCKBcVnffWdU1KQjcBHfn+SD7
-	Zfqc6x0Q==;
-Received: from 186-249-145-131.shared.desktop.com.br ([186.249.145.131] helo=[192.168.1.66])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wFF6C-0022HH-Ns; Tue, 21 Apr 2026 19:41:25 +0200
-From: Mauricio Faria de Oliveira <mfo@igalia.com>
-Date: Tue, 21 Apr 2026 14:41:12 -0300
-Subject: [PATCH v2] media: em28xx: fix use-after-free in
- em28xx_unregister_media_device()
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF2E31A046
+	for <linux-media@vger.kernel.org>; Tue, 21 Apr 2026 17:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776793431; cv=fail; b=UYV6a0e9D4NGkXytFSwwb6TjiajYaMHoRX+30+UWG23da6iicu5iVGk73Zxe8fbb5gV0GTPiIjoKeiL425QP4B5PznIWZejYsyoaZI2kOXE9ghMjpB9ftw8SlvYhJbAik7288Q5AIbagr8mxZiBR5fbglGeXBe6MmJ0N8yeq4mY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776793431; c=relaxed/simple;
+	bh=VP5XSo/mxkihAdnENH0YJSqMIqhh5BqsWIqQZr9dBzg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ii1pGUEkrCSSqN5V37BkkGK8e4+ISKdFJg9YGWyMg4g5qkhSq/nFBWvRFren5Hk9n+aD6m4yUOVIuWue2uR8I4EiFtmHfLVswad9FKs/oHAf0jGjmPPIcU77U9A9svQsMk/VS9almsidu8GDtND8qniRAIREf5tGX/5FrSIlBuw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=f+qv87RI; arc=fail smtp.client-ip=52.101.53.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SZwvTrAloADlkrK62GVftDHR9MlSoXn226+3QrUbKK1fA6E5NoNRybv+THU7lZrNk5et7u1FSkupo34azI4VJvGU2OigOazYliHJ/vTY9BhgQRepLvbQGYkgdaixWaWGi3KM9bF7PwR0HFXSb9Jj5GXj4vRFirIJ8eoqKk0eG4FV5fDC8OfTgP0Dl3+r3K4rVo1VClVawla7jEmZmgK+6gSwyZJp0Kf24mi4etsR9z2i9xRnGOY0x0YM45zLaLPEHDsTTS4FH0UmbwFCw39YxIJf/encmNd7/fd18uNblzCNHd3TitD+VkoXxLIwY/8KDsfztVaEo3kD7mWNzstgMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/d20sBKFlUaHRpoAKBBhzJ1Qu39OZv02Y2A0bpdBgCg=;
+ b=nZJx9pJTwYmVkb9qOQ2qQHz2cdcI5s105lKNSBoft/rCciaFLDHmuxb5LY9UyRLJxcZsqTHd5eNZn4DqWyod19MRXSGO/r7uEochmRSblWB41U7jTvIBv+uw4fXHKCw0KoCh9Ua9NJUy/BV0fcF9yYbrOXOol98EJV7PF0tLDFBOf4Hcyo4o7qT40BZ6Qeme2WWHcGdsaB7KjG1xicivcct/Dl8jaCC9hKUt96mZS83nKH3lnYuf0xYE2TyZ/xDrSnUuPqVquwrZJwLRx5SZSe4tnz/oTfmOiwna9W0I3jGsdrAt2sLJ7kcfE2SgX2J7qN9Al9n+wSBw9mBvnVu7LQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/d20sBKFlUaHRpoAKBBhzJ1Qu39OZv02Y2A0bpdBgCg=;
+ b=f+qv87RIhx6KVnFhweSYxVlB1nHVX9xOiFzGR7RfO20Aj9bjh5ENJ4Mv+JpFQyM3brlGxU6QDYCOMtbkNiMu50BiFThMmNAQcWwVjuw6DJt4JMNACxuGwfMbU0qPfSk5W54of/goMuW83VtODLPQS9JeZznBHagQotYiy3farao=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY8PR12MB9035.namprd12.prod.outlook.com (2603:10b6:930:77::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.16; Tue, 21 Apr
+ 2026 17:43:46 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9846.016; Tue, 21 Apr 2026
+ 17:43:46 +0000
+Message-ID: <e58a23d8-8cf8-41e8-ab87-d22eb04bbfde@amd.com>
+Date: Tue, 21 Apr 2026 19:43:42 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: Pinned, non-revocable mappings of VRAM: will bad things happen?
+To: Val Packett <val@invisiblethingslab.com>,
+ Demi Marie Obenour <demiobenour@gmail.com>, dri-devel@lists.freedesktop.org,
+ Xen developer discussion <xen-devel@lists.xenproject.org>,
+ linux-media@vger.kernel.org
+Cc: Suwit Semal <sumit.semwal@linaro.org>,
+ "Pelloux-Prayer, Pierre-Eric" <Pierre-eric.Pelloux-prayer@amd.com>
+References: <a06133f7-3093-4733-9786-bc46c1453e06@gmail.com>
+ <b8d04414-18b5-40f7-9ea2-88b30ff5bea0@amd.com>
+ <c7865b27-6bf1-4df1-9520-c9ef6b3ef368@gmail.com>
+ <4751cf03-d3c1-4d5d-af8e-39ad7c8ffb84@amd.com>
+ <7472bfcf-8c22-4ac7-b903-a883cdb8f1c6@gmail.com>
+ <8fe8b78b-5294-4319-af92-a4fb00527417@amd.com>
+ <8846bac5-77ff-4439-ac5c-c33cdb4a94e3@gmail.com>
+ <964c3670-fad3-44ce-bd93-2057bca2dcb8@amd.com>
+ <08ad2301-3163-4497-8869-fa4cea30b384@gmail.com>
+ <e5c00f2c-0819-48b4-b66e-71b9a40a7235@amd.com>
+ <686713fc-c762-4b1b-88b2-d486d4f38ac6@gmail.com>
+ <de6777c1-1165-4ace-a5a7-3004aa9ea8c5@invisiblethingslab.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <de6777c1-1165-4ace-a5a7-3004aa9ea8c5@invisiblethingslab.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0195.namprd13.prod.outlook.com
+ (2603:10b6:208:2be::20) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260421-em28xx-v4l-uaf-v2-1-7d5032b8c384@igalia.com>
-X-B4-Tracking: v=1; b=H4sIALe252kC/3XMyw6CMBCF4Vchs3YMU1oUV76HYdG0A0zCxbTaY
- AjvbmXv8j/J+TaIHIQj3IoNAieJssw51KkAN9i5ZxSfG1Sp6lJThTyp67pi0iO+bYfkqanZVN6
- ZEvLpGbiT9QAfbe5B4msJn8NP9Fv/UomQ0Chr7IV0Uzm+S29HsWe3TNDu+/4FJ0p/FK0AAAA=
-X-Change-ID: 20260413-em28xx-v4l-uaf-1d196e53dc50
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: kernel-dev@igalia.com, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- syzbot+07b93bb3189febcab189@syzkaller.appspotmail.com, 
- Mauricio Faria de Oliveira <mfo@igalia.com>
-X-Mailer: b4 0.14.2
-X-Spamd-Result: default: False [-0.36 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB9035:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4672b4d2-3c9f-49a1-b93e-08de9fcd89e3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|366016|18096099003|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	/G3WwiHIwoWF0esv1BdCSV0tuIc47JMPYYWVIvGPAQpX6LQOacaqlhlx0b9d3paD2RSZ4RBFEdyYHCHr/1tFWdgJVJHQ5vPCO4e7DH30dc3zALey4D/2qJu87PLGQgz5do4RAMyWrEfHfYtFikGxG9vOBwNjJgZ/7boBJeO4YmmbVocYSt2BtHX3P9T+F0JITFWlw73QYyCO+WgfkOATA4vx7dTcGqvPHG4ps8fmTF/HVhkVeWfJIs7B/AMP5hpVLoqvL+3AumwWQ0bDFs34VEk16Y+Gkda/qGQQQ713bbfeMP7EYNNL2LwOhTxcLlVgwUBKSM39eFqjBNdz/wPbgz0DDvhTp1edzSTZCu14COnBMddq6Nq3qAsLlqDw+Aymx23owXIxW05PHhbkJf3imQrYZ48ZS5Ea0Vds4ytjxqqtaZtuuacqQusxxPlb0ibS2nH5G9ofkWFOy/TAGgXYthce99XdOouwjKWu8hHk/0Lhv8cur57QdHPfgjYr0SDx4ewD9UKEWy4+/dmR2YzYV9NLZpexgWVTTR+GckQnycoGSRlhmXUjBomE8Y2SkdULut0Qut00L3cDn0ZMHChf9Fh4Ns6taZApQvwgZ2Bt83QTRqobZJZh4G7SMVtX17/jRlwpE8WIODFufey0HcWji5ZZ/6Nr2+oqfr+d2TiJ1CDkyB1xrUphCIpI/qwRIQJ3XN6csJ+dKYOkfK7FRJ/vThwBDvWQGHprXA0QY42PRJDjLp1XArtWPg3UyA2aTIPV
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(18096099003)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZkZ2MnEzMjdFL3hoWllEWSszMTc2OXlGdGFrclVERHVEMjJlY2kwRlZSM2xo?=
+ =?utf-8?B?MFBrdUEwUTBTQ0JBOCs1Zm9LVUJCazRkOXFxbWI1RzJ4U3dXTXVESU0vb0l5?=
+ =?utf-8?B?cERzY0diZ3M0KzdBOC8rL2hlZzZBRnoreDBWNmZZMHpXcFAxZGFnbHo5YUkw?=
+ =?utf-8?B?VjZxNStVa3JpaktXdStseGdJNWROY2krUUVwTUJZSTd2SmN6N0xsaTRQbVJz?=
+ =?utf-8?B?cmNRTkhXaDRLVlhncnFKbzVKRFlPd2hBdVZ0RnRZWlVreUZSK21vN0pSM1ZH?=
+ =?utf-8?B?YWg3WWV1eWQwcThPNXFpeXByTGdGMG5DcXBkUGpOTVdwK3lwMmtlS2tLMjlV?=
+ =?utf-8?B?Tm1uK3BFdThORUxqTWtzSVBzczVSN20xb3dJUkhjQVdvbzlYajgrV0dZOVpz?=
+ =?utf-8?B?QUcrN1l2ZDFGbE9RVitIRVgzZmxNdkt6UWdyMzlmalFacDltRVFPaWhDUll2?=
+ =?utf-8?B?dmxiSG5SMndjTkNsYzBGaCtoWEx6eTk1emZmVk1LVWlBdHNlYjBhSU9iaGI4?=
+ =?utf-8?B?eXJiKytWNU9RWmk0SkNvZUU2ZldpRmtqMUVETlpjZFFHeDR4WlNPWlZlQ1Qx?=
+ =?utf-8?B?bkZwTyttVHFrV00zQ0Zxa2FLdlo2bmpRZStXTVkxeGg5R0xucHZqMDh4bFlF?=
+ =?utf-8?B?MXJCK1JXWmVSeDI3eVFLL3ZObVlhRVhxVlZ5QnhNMWwyRGJEZTlLTzJtNnMr?=
+ =?utf-8?B?ZzlLVVlBcDhyZ3lONzY0bkZpTnhOWFR6aVhsalYxbkdLVlNFNVp0aWpSWjhv?=
+ =?utf-8?B?VXZ1VU4vVEI1cDA1Q0N3anRJSEFScmtJSVBUM0lwd1ZVSXlPaHJHcm5VRkdr?=
+ =?utf-8?B?TVhwLzhmMVl6R1FDd25ONWg3UGdDRzh3OExQa01JSzZBT0UzMjM4ejJrbjdT?=
+ =?utf-8?B?UFNSaUdVVEhjYldGR0t6M3lQYi9PUmVXZk0rY1VLd1ZlN3pQenpDL0VUSGFp?=
+ =?utf-8?B?NHRRcHp2bm5yb2k3RjNEd1BGZ3ZkdGtXWWFKQ2NWeFZjSnBQLzN6OG16UTlw?=
+ =?utf-8?B?eHcySE1VUUR5NnNQejZzckgyUHhJVlc3Y3YxK29IalBUTlZ5cmlXVnVJSCt0?=
+ =?utf-8?B?Q2U2Q3BTcStBNDF3UlF4ZDlzR2Z5ZlVOQm02L2dwdUhEVzNQeDBnVXB4QnBn?=
+ =?utf-8?B?d3pOQkNRQnBuS0hRT1I3VjJaMWJBQnVTYkdDdGNJL1RXajdJTXFmZGl5dFEr?=
+ =?utf-8?B?YjlnUmszY1ozUzZ5Q1J6b3JIelo5V0Z6M0pINGtBMXBGSVpGdjZtWTU2MmUr?=
+ =?utf-8?B?ZjJDZktaTUVzODQwTzgxU2FhbERTaTg5TmVkMGl0eU1INlBXQ3l6WXMrd2Z0?=
+ =?utf-8?B?QjhhV2NHdU52N1NIZWNqRkNPNUVoaEZwSzBOcEdWdS9NVHVTLzRuc0VRblIx?=
+ =?utf-8?B?eDhUR1NZNHlMU0phKzNFNlFaVHhZOFJ4eVhTQkc1bEt1bkpteS9QQUU2Tm1p?=
+ =?utf-8?B?VkI0amFPaHAzWS9NZ1JIL3E4L3IyNm5FQXdSY2U2c1M2Q2Nzekk4VkwrSU1k?=
+ =?utf-8?B?bXpmdkthaGZ5NlorV2p4MGxoRk5mdXZ2aHJVR3ZuNlhBL2Z3VXNUbVJkN2hw?=
+ =?utf-8?B?TTJKMGY4Qk9zK2J5ZWNLcHh3R1B0TUZCMTJEZDJUWVVhRDUvc283VnZaa1Zl?=
+ =?utf-8?B?dngzU0JjZ2pyNXpkLytibG1FNGt5Yzk4SWNBa3ZvVmFNMHp0TEVsYWZseTVH?=
+ =?utf-8?B?c1ZBR2lvL1NaOGsySGJpSEZuMlZCS1JxRTZVbzI3ZkhuelBVKytkVnFIUThG?=
+ =?utf-8?B?STBqMHRYU3hOQUZCcXlTbG1mWkt1bVR6bUVtcjdTTDVJaDFEdTBBRGVZMERZ?=
+ =?utf-8?B?WDcwN0NIVVRaMXF6aHNCT1I2YjdyQnFSUDVHbmE0VXlVYlYyd3JKc3M3UVNp?=
+ =?utf-8?B?QmJ5TERUTzNsQzA4V3QycTUzMnZKK2RjeXd4M3dwQjhPSGdwZWRhMXZybVJS?=
+ =?utf-8?B?QUVkL1JRb2tuNE13YlNSaXVVd0RFUVhyelFLdVJqRHZwcFNyQjgvOHpjYlRW?=
+ =?utf-8?B?ZWJoQnowTVB4L1BGNDdUci9BQWhZREZpNWJHNmJxMFBaSWhkRS9aR1Fudlh4?=
+ =?utf-8?B?djhZK3ByaGF4ZFZEOEM0c3BjeDZ4M3krUkc5TjBYZlh5U3hBYkFCQ0x6Q3hX?=
+ =?utf-8?B?d09vY0RrMWZVUmszbHVSb2g3SmNZQkRNV0V2eFdCY3lLdFphTFYxaFZzL1kv?=
+ =?utf-8?B?ZDUyR1BjbnhZazBqcnlaK09OZzdjZ0ZmK1E0YWNsbk9wZ3JkOVF2T21zNVF4?=
+ =?utf-8?B?MjBSYVU0NDFOdDNvMzF1VkpzSjFDekh2SUsraCsybC9UT0t5clhTenZaRUpq?=
+ =?utf-8?Q?E9DpzJSgtvpXsGeB+i?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4672b4d2-3c9f-49a1-b93e-08de9fcd89e3
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 17:43:46.5330
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qvBf2nc9gczw8QGiYqC+HvqaBWflgkmhXn2eq8uldEPT/CzX/jlMRI2lXoOIsVMs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB9035
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59234-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[mfo@igalia.com,linux-media@vger.kernel.org];
-	PRECEDENCE_BULK(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[invisiblethingslab.com,gmail.com,lists.freedesktop.org,lists.xenproject.org,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-59235-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[amd.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,07b93bb3189febcab189];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,igalia.com:email,syzbot.org:url,appspotmail.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,video_device.dev:url]
-X-Rspamd-Queue-Id: B293C43E2AB
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,amd.com:dkim,amd.com:mid]
+X-Rspamd-Queue-Id: 8E22743E2F1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-During a short probe/disconnect test, the em28xx driver may load the
-em28xx-v4l sub-driver asynchronously and em28xx-v4l may fail to init,
-releasing memory that may be used in the em28xx's disconnect handler
-if a video device was opened during init (eg, udev's v4l_id program)
-and remained open during disconnect, triggering an use-after-free.
+On 4/21/26 18:55, Val Packett wrote:
+> 
+> On 4/20/26 4:12 PM, Demi Marie Obenour wrote:
+>> On 4/20/26 14:53, Christian König wrote:
+>>> On 4/20/26 20:46, Demi Marie Obenour wrote:
+>>>> On 4/20/26 13:58, Christian König wrote:
+>>>>> On 4/20/26 19:03, Demi Marie Obenour wrote:
+>>>>>> On 4/20/26 04:49, Christian König wrote:
+>>>>>>> On 4/17/26 21:35, Demi Marie Obenour wrote:
+>>>>> ...
+>>>>>>>> Are any of the following reasonable options?
+>>>>>>>>
+>>>>>>>> 1. Change the guest kernel to only map (and thus pin) a small subset
+>>>>>>>>     of VRAM at any given time.  If unmapped VRAM is accessed the guest
+>>>>>>>>     traps the page fault, evicts an old VRAM mapping, and creates a
+>>>>>>>>     new one.
+>>>>>>> Yeah, that could potentially work.
+>>>>>>>
+>>>>>>> This is basically what we do on the host kernel driver when we can't resize the BAR for some reason. In that use case VRAM buffers are shuffled in and out of the CPU accessible window of VRAM on demand.
+>>>>>> How much is this going to hurt performance?
+>>>>> Hard to say, resizing the BAR can easily give you 10-15% more performance on some use cases.
+>>>>>
+>>>>> But that involves physically transferring the data using a DMA. For this solution we basically only have to we basically only have to transfer a few messages between host and guest.
+>>>>>
+>>>>> No idea how performant that is.
+>>>> In this use-case, 20-30% performance penalties are likely to be
+>>>> "business as usual".
+>>> Well that is quite a bit.
+>>>
+>>>> Close to native performance would be ideal, but
+>>>> to be useful it just needs to beat software rendering by a wide margin,
+>>>> and not cause data corruption or vulnerabilities.
+>>> That should still easily be the case, even trivial use cases are multiple magnitudes faster on GPUs compared to software rendering.
+>> Makes sense.  If only GPUs supported easy and flexible virtualization the way CPUs do :(.
+>>
+>>>>>>> But I have one question: When XEN has a problem handling faults from the guest on the host then how does that work for system memory mappings?
+>>>>>>>
+>>>>>>> There is really no difference between VRAM and system memory in the handling for the GPU driver stack.
+>>>>>>>
+>>>>>>> Regards,
+>>>>>>> Christian.
+>>>>>> Generally, Xen makes the frontend (usually an unprivileged VM)
+>>>>>> responsible for providing mappings to the backend (usually the host).
+>>>>>> That is possible with system RAM but not with VRAM, because Xen has
+>>>>>> no awareness of VRAM.  To Xen, VRAM is just a PCI BAR.
+>>>>> No, that doesn't work with system memory allocations of GPU drivers either.
+>>>>>
+>>>>> We already had it multiple times that people tried to be clever and incremented the page reference counter on driver allocated system memory and were totally surprised that this can result in security issues and data corruption.
+>>>>>
+>>>>> I seriously hope that this isn't the case here again. As far as I know XEN already has support for accessing VMAs with VM_PFN or otherwise I don't know how driver allocated system memory access could potentially work.
+>>>>>
+>>>>> Accessing VRAM is pretty much the same use case as far as I can see.
+>>>>>
+>>>>> Regards,
+>>>>> Christian.
+>>>> The Xen-native approach would be for system memory allocations to
+>>>> be made using the Xen driver and then imported into the virtio-GPU
+>>>> driver via dmabuf.  Is there any chance this could be made to happen?
+>>> That could be. Adding Pierre-Eric to comment since he knows that use much better than I do.
+>>>
+>>>> If it's a lost cause, then how much is the memory overhead of pinning
+>>>> everything ever used in a dmabuf?  It should be possible to account
+>>>> pinned host memory against a guest's quota, but if that leads to an
+>>>> unusable system it isn't going to be good.
+>>> That won't work at all.
+>>>
+>>> We have use cases where you *must* migrate a DMA-buf to VRAM or otherwise the GPU can't use it.
+>>>
+>>> A simple scanout to a monitor is such an use case for example, that is usually not possible from system memory.
+>> Direct scanout isn't a concern here.
+>>
+>>>> Is supporting page faults in Xen the only solution that will be viable
+>>>> long-term, considering the tolerance for very substantial performance
+>>>> overheads compared to native?  AAA gaming isn't the initial goal here.
+>>>> Qubes OS already supports PCI passthrough for that.
+>>> We have AAA gaming working on XEN through native context working for quite a while.
+>>>
+>>> Pierre-Eric can tell you more about that.
+>>>
+>>> Regards,
+>>> Christian.
+>> I've heard of that, but last I checked it required downstream patches
+>> to Xen, Linux, and QEMU.  I don't know if any of those have been
+>> upstreamed since, but I believe that upstreaming the Xen and Linux
+>> patches (or rewriting them and upstreaming the rewritten version) would
+>> be necessary.  Qubes OS (which I don't work for anymore but still want
+>> to help with this) almost certainly won't be using QEMU for GPU stuff.
+> 
+> Yeah, our plan is to use xen-vhost-frontend[1] + vhost-device-gpu, ported/extended/modified as necessary. (I already have xen-vhost-frontend itself working on amd64 PVH with purely xenbus-based hotplug/configuration, currently working on cleaning up and submitting the necessary patches.)
+> 
+> I'm curious to hear more details about how AMD has it working but last time I checked, there weren't any missing pieces in Xen or Linux that we'd need.. The AMD downstream changes were mostly related to QEMU.
+> 
+> As for the memory management concerns, I would like to remind everyone once again that the pinning of GPU dmabufs in regular graphics workloads would be *very* short-term. In GPU paravirtualization (native contexts or venus or whatever else) the guest mostly operates on *opaque handles* that refer to buffers owned by the host GPU process. The typical rendering process (roughly) only involves submitting commands to the GPU that refer to memory using these handles. Only upon mmap() would a buffer be pinned/granted to the guest, and those are typically only used for *uploads* where the guest immediately does its memcpy() and unmaps the buffer.
 
-Context:
+No that is not correct at all. CPU mapping a buffers for GPUs are pretty much permanent through the whole lifetime of the buffer.
+Otherwise you can completely forget running any halve way modern workloads.
 
-In em28xx_v4l2_init() once video_register_device() returns, a struct
-video_device (vdev) that is embedded in struct em28xx_v4l2 (v4l2) is
-referenced by the list struct media_device.entities, which is looped
-over when releasing resources in em28xx_usb_disconnect().
+> So I'm not worried about (unintentionally) pinning too much GPU driver memory.
+> 
+> In terms of deliberate denial-of-service attacks from the guest to the host, the only reasonable response is:
+> 
+> ¯\_(ツ)_/¯
+> 
+> CPU-mapping lots of GPU memory is far from the only DoS vector, the GPU commands themselves can easily wedge the GPU core in a million ways (and last time I checked amdgpu was noooot so good at recovering from hangs).
 
-This list entry is only removed when the last reference to the video
-device (struct video_device.dev) is put. However, this might occur
-*after* the containing struct em28xx_v4l2 (v4l2) is released in the
-error path of em28xx_v4l2_init() and *after* the disconnect handler
-loops over the list, leading to a use-after-free.
+Yeah that is certainly true :)
 
-Details:
+Regards,
+Christian.
 
-If the video device is opened right after em28xx_v4l2_init() calls
-video_register_device(), which adds the memory reference to the list,
-and remains open after em28xx_v4l2_init()'s error path releases the
-containing struct em28xx_v4l2 (as it does not find other references),
-the memory reference to the contained struct video_device is still in
-the list -- but it has been released!
-
-Then, if em28xx_usb_disconnect() is called, it proceeds to loop over the
-list, accessing the struct list_head's pointers in now released memory.
-
-Solution:
-
-In order to fix this, get references to struct em28xx_v4l2 (v4l2) when
-initializing its struct video_device fields (vdev, vbi_dev, radio_dev).
-
-Put these references in the new release callback for struct video_device
-or if video_register_device() fails (when the callback is not invoked).
-
-Even though this particular issue is specific to CONFIG_MEDIA_CONTROLLER
-at this time, it is reasonable to get/put references due to the embedded
-struct video_device fields in any case, for correctness (as a pointer to
-it has been passed) and future-proofing to a non-CONFIG_MEDIA_CONTROLLER
-case/issue that might happen in the future.
-
-Problematic code path/race condition:
-
-em28xx_usb_probe
-    em28xx_init_dev
-        em28xx_media_device_init(dev, ...)
-            mdev = kzalloc_obj(*mdev)
-            dev->media_dev = mdev
-
-    request_modules(dev)
-        INIT_WORK(&dev->request_module_wk, request_module_async)
-        schedule_work(&dev->request_module_wk)
-
-    media_device_register(dev->media_dev)
-
-request_module_async
-    request_module("em28xx-v4l") // em28xx-video.c
-
-module_init(em28xx_video_register)
-    em28xx_register_extension()
-        em28xx_v4l2_init()
-            v4l2 = kzalloc_obj(*v4l2)
-            video_register_device(&v4l2->vdev, ...)
-                __video_register_device(vdev = &v4l2->vdev, ...)
-                    vdev->dev.release = v4l2_device_release
-                    device_register(&vdev->dev)
-                    video_register_media_controller(vdev)
-                        media_device_register_entity(..., &vdev->entity)
-                            media_gobj_create(..., &entity->graph_obj)
-                                list_add_tail(&gobj->list,
-                                              &mdev->entities) // ref!
-
-        (*) /usr/lib/udev/v4l_id: open("/dev/video0")
-                // get_device(dev)
-
-            v4l2_mc_create_media_graph(dev->media_dev) // fails.
-                dev_err(..., "failed to create media graph\n")
-                goto unregister_dev;
-
-            unregister_dev:
-                video_unregister_device(&v4l2->vdev);
-                    device_unregister(dev = &vdev->dev);
-                        put_device(dev) // if open() happens before this
-                                        // no v4l2_device_release() yet.
-
-                kref_put(&v4l2->ref, em28xx_free_v4l2) // frees v4l2!
-
-em28xx_usb_disconnect
-    em28xx_release_resources
-        em28xx_unregister_media_device
-            if (dev->media_dev)
-                media_device_unregister(dev->media_dev)
-                    list_for_each_entry_safe(entity, next,
-                                             &mdev->entities, // ref!
-                                             graph_obj.list)
-                        // access to v4l2.vdev.entity.graph_object.list!
-
-        (*) /usr/lib/udev/v4l_id: close("/dev/video0")
-                // put_device(dev)
-                //     v4l2_device_release()
-                //         media_device_unregister_entity(&vdev->entity)
-                //             media_gobj_destroy(&entity->graph_obj)
-                //                 list_del(&gobj->list) // too late.
-
-Note: commit d4352f3639d7 ("[media] em28xx: embed video_device") created
-the problem of memory references to struct em28xx_v4l2's embedded fields
-in struct media_device.entities, but this use-after-free didn't happen yet
-as media_device_unregister() in the em28xx_usb_disconnect() path was added
-in commit 37ecc7b1278f ("[media] em28xx: add media controller support").
-
-Fixes: d4352f3639d7 ("[media] em28xx: embed video_device")
-Fixes: 37ecc7b1278f ("[media] em28xx: add media controller support")
-Reported-by: syzbot+07b93bb3189febcab189@syzkaller.appspotmail.com
-Closes: https://syzbot.org/bug?extid=07b93bb3189febcab189
-Signed-off-by: Mauricio Faria de Oliveira <mfo@igalia.com>
----
-It's possible to synthetically reproduce this bug with wait-for/delays
-in the driver's code paths exercised by syzbot's USB probe/disconnect.
-If you're interested in it, just let me know and I'll send it as well.
-
-Tested on next-20260420.
-
-Before:
-
-	[   33.348056] usb 1-1: new high-speed USB device number 2 using dummy_hcd
-	...
-	[   33.485616] em28xx 1-1:0.132: New device syz syz @ 480 Mbps (0413:6023, interface 132, class 132)
-	[   33.487493] em28xx 1-1:0.132: Video interface 132 found:
-	...
-	[   34.874703] em28xx 1-1:0.132: Registering V4L2 extension
-	...
-	[   34.950464] em28xx 1-1:0.132: failed to create media graph
-	[   34.951029] DBG Step 1 em28xx_v4l2_init(): Waiting for dev->v4l2 to be opened...
-	[   34.966574] DBG Step 2 em28xx_v4l2_open(): dev->v4l2 opened; waiting 5 seconds.
-	[   35.889389] usb 1-1: USB disconnect, device number 2
-	[   35.893686] em28xx 1-1:0.132: Disconnecting em28xx
-	[   35.981999] DBG Step 1 em28xx_v4l2_init(): Done.
-	[   35.983443] em28xx 1-1:0.132: V4L2 device video0 deregistered
-
-	(differences below)
-
-	[   35.988481] DBG Step 3 em28xx_free_v4l2(): Freeing dev->v4l2
-	[   35.991212] DBG Step 3 em28xx_free_v4l2(): Done
-	[   35.993331] DBG Step 4 em28xx_usb_disconnect(): Waiting for dev->v4l2 to be freed...
-	[   35.996234] DBG Step 4 em28xx_usb_disconnect(): Done.
-	[   35.999200] DBG Step 5 em28xx_unregister_media_device(): use-after-free expected...
-	[   36.004739] ==================================================================
-	[   36.008074] BUG: KASAN: slab-use-after-free in media_device_unregister+0x542/0x560
-	[   36.009908] Read of size 8 at addr ffff88800a1dc160 by task kworker/1:2/90
-	[   36.011677]
-	[   36.012045] CPU: 1 UID: 0 PID: 90 Comm: kworker/1:2 Not tainted 7.0.0-next-20260420-dirty #37 PREEMPT(lazy)
-	[   36.012065] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-	[   36.012075] Workqueue: usb_hub_wq hub_event
-	[   36.012097] Call Trace:
-	[   36.012106]  <TASK>
-	[   36.012114]  dump_stack_lvl+0x4d/0x70
-	[   36.012133]  print_report+0x153/0x4c6
-	[   36.012192]  kasan_report+0xda/0x110
-	[   36.012239]  media_device_unregister+0x542/0x560
-	[   36.012255]  em28xx_unregister_media_device.part.0+0x4f/0xf0
-	[   36.012273]  em28xx_release_resources+0xa1/0x1a0
-	[   36.012289]  em28xx_usb_disconnect.cold+0x280/0x323
-	[   36.012306]  usb_unbind_interface+0x154/0x690
-	[   36.012324]  device_release_driver_internal+0x36b/0x500
-	[   36.012354]  bus_remove_device+0x259/0x3e0
-	[   36.012408]  device_del+0x364/0xce0
-	[   36.012482]  usb_disable_device+0x270/0x4f0
-	[   36.012509]  usb_disconnect+0x26a/0x910
-	[   36.012523]  hub_event+0x966/0x3600
-	[   36.012589]  process_one_work+0x618/0xf20
-	[   36.012613]  worker_thread+0x422/0xbb0
-	[   36.012658]  kthread+0x2cb/0x3a0
-	[   36.012686]  ret_from_fork+0x338/0x520
-	[   36.012719]  ret_from_fork_asm+0x1a/0x30
-	[   36.012729]  </TASK>
-	[   36.012731]
-	[   36.036089] Allocated by task 24:
-	[   36.036416]  kasan_save_stack+0x30/0x50
-	[   36.036886]  kasan_save_track+0x14/0x30
-	[   36.037578]  __kasan_kmalloc+0x7f/0x90
-	[   36.037953]  em28xx_v4l2_init.cold+0xa7/0x39f0
-	[   36.038411]  em28xx_init_extension+0xfb/0x1c0
-	[   36.038864]  process_one_work+0x618/0xf20
-	[   36.039522]  worker_thread+0x422/0xbb0
-	[   36.039784]  kthread+0x2cb/0x3a0
-	[   36.039982]  ret_from_fork+0x338/0x520
-	[   36.040298]  ret_from_fork_asm+0x1a/0x30
-	[   36.040600]
-	[   36.040703] Freed by task 24:
-	[   36.040916]  kasan_save_stack+0x30/0x50
-	[   36.041265]  kasan_save_track+0x14/0x30
-	[   36.041586]  kasan_save_free_info+0x3b/0x70
-	[   36.041902]  __kasan_slab_free+0x47/0x70
-	[   36.042313]  kfree+0x16d/0x430
-	[   36.042612]  em28xx_free_v4l2+0x9c/0xc0
-	[   36.043024]  em28xx_v4l2_init.cold+0x306/0x39f0
-	[   36.043425]  em28xx_init_extension+0xfb/0x1c0
-	[   36.043765]  process_one_work+0x618/0xf20
-	[   36.044156]  worker_thread+0x422/0xbb0
-	[   36.044480]  kthread+0x2cb/0x3a0
-	[   36.044749]  ret_from_fork+0x338/0x520
-	[   36.045038]  ret_from_fork_asm+0x1a/0x30
-	[   36.045308]
-	...
-	[   36.059006] ==================================================================
-	...
-	[   36.060423] em28xx 1-1:0.132: Freeing device
-	[   40.078033] DBG Step 2 em28xx_v4l2_open(): Done.
-
-After:
-
-	[   22.624582] usb 1-1: new high-speed USB device number 2 using dummy_hcd
-	...
-	[   22.786600] em28xx 1-1:0.132: New device syz syz @ 480 Mbps (0413:6023, interface 132, class 132)
-	[   22.792225] em28xx 1-1:0.132: Video interface 132 found:
-	...
-	[   24.184584] em28xx 1-1:0.132: Registering V4L2 extension
-	...
-	[   24.262562] em28xx 1-1:0.132: failed to create media graph
-	[   24.263116] DBG Step 1 em28xx_v4l2_init(): Waiting for dev->v4l2 to be opened...
-	[   24.277644] DBG Step 2 em28xx_v4l2_open(): dev->v4l2 opened; waiting 5 seconds.
-	[   25.186376] usb 1-1: USB disconnect, device number 2
-	[   25.190080] em28xx 1-1:0.132: Disconnecting em28xx
-	[   25.295219] DBG Step 1 em28xx_v4l2_init(): Done.
-	[   25.299018] em28xx 1-1:0.132: V4L2 device video0 deregistered
-
-	(differences below)
-
-	[   25.308234] DBG Step 4 em28xx_usb_disconnect(): Waiting for dev->v4l2 to be freed...
-	[   29.326594] DBG Step 2 em28xx_v4l2_open(): Done.
-	[   29.328570] videodev: DBG v4l2_device_release(): removing dev->v4l2 media entity
-	[   29.332302] DBG Step 3 em28xx_free_v4l2(): Freeing dev->v4l2
-	[   29.333098] DBG Step 3 em28xx_free_v4l2(): Done
-	[   29.454556] DBG Step 4 em28xx_usb_disconnect(): Done.
-	[   29.455721] DBG Step 5 em28xx_unregister_media_device(): use-after-free expected...
-	[   29.460142] em28xx 1-1:0.132: Freeing device
-
-	(No use-after-free.)
----
-Changes in v2:
-- Fix/improve logic:
-  - Remove CONFIG_MEDIA_CONTROLLER guards of kref_{get,put}().
-  - Explain that in commit message.
-- Improve readability:
-  - Use em28xx_vdev_release() to kref_put() if video_register_device()
-    fails, as it pairs more clearly with em28xx_vdev_init().
-  - Simplify comments in em28xx_vdev_{init,release}().
-- Commit message:
-  - Rephrase it a bit.
-  - Add Fixes: tags and trailing note about Fixed commits.
-- Link to v1: https://lore.kernel.org/r/20260413-em28xx-v4l-uaf-v1-1-52a5a71493ce@igalia.com
----
- drivers/media/usb/em28xx/em28xx-video.c | 32 ++++++++++++++++++++++++++++++--
- 1 file changed, 30 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
-index 4a0ce9c5ee4b4abde681cc373e1c6db2f3b3af70..c95370f298c1f9967e6031ebafb773487b0e8c8b 100644
---- a/drivers/media/usb/em28xx/em28xx-video.c
-+++ b/drivers/media/usb/em28xx/em28xx-video.c
-@@ -2495,6 +2495,8 @@ static int em28xx_v4l2_close(struct file *filp)
- 	return 0;
- }
- 
-+static void em28xx_vdev_release(struct video_device *vfd);
-+
- static const struct v4l2_file_operations em28xx_v4l_fops = {
- 	.owner         = THIS_MODULE,
- 	.open          = em28xx_v4l2_open,
-@@ -2552,7 +2554,7 @@ static const struct v4l2_ioctl_ops video_ioctl_ops = {
- static const struct video_device em28xx_video_template = {
- 	.fops		= &em28xx_v4l_fops,
- 	.ioctl_ops	= &video_ioctl_ops,
--	.release	= video_device_release_empty,
-+	.release	= em28xx_vdev_release,
- 	.tvnorms	= V4L2_STD_ALL,
- };
- 
-@@ -2581,7 +2583,7 @@ static const struct v4l2_ioctl_ops radio_ioctl_ops = {
- static struct video_device em28xx_radio_template = {
- 	.fops		= &radio_fops,
- 	.ioctl_ops	= &radio_ioctl_ops,
--	.release	= video_device_release_empty,
-+	.release	= em28xx_vdev_release,
- };
- 
- /* I2C possible address to saa7115, tvp5150, msp3400, tvaudio */
-@@ -2619,6 +2621,29 @@ static void em28xx_vdev_init(struct em28xx *dev,
- 		 dev_name(&dev->intf->dev), type_name);
- 
- 	video_set_drvdata(vfd, dev);
-+
-+	/*
-+	 * Get a reference to struct em28xx_v4l2 as embedded struct video_device
-+	 * may be accessed from elsewhere after video_register_device() returns.
-+	 *
-+	 * If video_register_device() succeeds, this reference will be released
-+	 * automatically in em28xx_vdev_release(); on error it must be released
-+	 * explicitly.
-+	 */
-+	kref_get(&dev->v4l2->ref);
-+}
-+
-+static void em28xx_vdev_release(struct video_device *vfd)
-+{
-+	struct em28xx_v4l2 *v4l2;
-+
-+	/*
-+	 * Find struct em28xx_v4l2 with its embedded struct v4l2_device,
-+	 * as video_get_drvdata() returns dev and dev->v4l2 may be NULL
-+	 * (e.g., after em28xx_v4l2_init()'s error path).
-+	 */
-+	v4l2 = container_of(vfd->v4l2_dev, struct em28xx_v4l2, v4l2_dev);
-+	kref_put(&v4l2->ref, em28xx_free_v4l2);
- }
- 
- static void em28xx_tuner_setup(struct em28xx *dev, unsigned short tuner_addr)
-@@ -2961,6 +2986,7 @@ static int em28xx_v4l2_init(struct em28xx *dev)
- 	if (ret) {
- 		dev_err(&dev->intf->dev,
- 			"unable to register video device (error=%i).\n", ret);
-+		em28xx_vdev_release(&v4l2->vdev);
- 		goto unregister_dev;
- 	}
- 
-@@ -2995,6 +3021,7 @@ static int em28xx_v4l2_init(struct em28xx *dev)
- 		if (ret < 0) {
- 			dev_err(&dev->intf->dev,
- 				"unable to register vbi device\n");
-+			em28xx_vdev_release(&v4l2->vbi_dev);
- 			goto unregister_dev;
- 		}
- 	}
-@@ -3008,6 +3035,7 @@ static int em28xx_v4l2_init(struct em28xx *dev)
- 		if (ret < 0) {
- 			dev_err(&dev->intf->dev,
- 				"can't register radio device\n");
-+			em28xx_vdev_release(&v4l2->radio_dev);
- 			goto unregister_dev;
- 		}
- 		dev_info(&dev->intf->dev,
-
----
-base-commit: 97e797263a5e963da3d1e66e743fd518567dfe37
-change-id: 20260413-em28xx-v4l-uaf-1d196e53dc50
-
-Best regards,
--- 
-Mauricio Faria de Oliveira <mfo@igalia.com>
+> 
+> 
+> [1]: https://github.com/vireshk/xen-vhost-frontend
+> 
+> ~val
+> 
 
 
