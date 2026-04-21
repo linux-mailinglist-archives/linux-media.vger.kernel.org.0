@@ -1,374 +1,172 @@
-Return-Path: <linux-media+bounces-59249-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59250-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qJRlDbX352kVDgIAu9opvQ
-	(envelope-from <linux-media+bounces-59249-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 00:18:29 +0200
+	id gBZYKiUB6GlJEAIAu9opvQ
+	(envelope-from <linux-media+bounces-59250-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 00:58:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18504401BD
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 00:18:28 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E11C4405CA
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 00:58:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 365FF302CE88
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 22:18:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 48D783069632
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 22:52:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5558E3A4F34;
-	Tue, 21 Apr 2026 22:18:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CA9F3A6B74;
+	Tue, 21 Apr 2026 22:52:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lWntofWv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nlQgxJ2o"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D546F388E6E
-	for <linux-media@vger.kernel.org>; Tue, 21 Apr 2026 22:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0F93A75A7
+	for <linux-media@vger.kernel.org>; Tue, 21 Apr 2026 22:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776809903; cv=none; b=EnAygNMbXSMOngcCh6lc6hc5NVIZYtuFgL9HRj2kYAsvmmK52nmy7gCbzCJcGr52fryR++RZvXn5Zy1Sj4fgycbnHSaXUJ5U9toqmL9amjIX6dWJ6ecbCO1nLMcjHsq2GWx0aW81IxP9MBrdRBH9xRcsU+JtW3f5SdsfDHzETfw=
+	t=1776811954; cv=none; b=YqezVJVS6hLYxVSUNpAEQdqbr08+NEwlgFJoByCKNoFDvjAdhKgKW5CAEJOGw1ZIWSCMSlvLeoQlMtpwrrDNc+kn8f0Wmu+cx9oaiWfRcxneJxK3egPmiobk7ToK9kz0Ug6QjO1jacf6kQ3goBkLjEwfZJ+qF1Qij8DtYo9HDBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776809903; c=relaxed/simple;
-	bh=EKodlQvhYMGgEVsAbU63h1Bs3VsPdhEWy4MeCN0XPm8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=THeJHrM3GkmPQ5wFmgSKtA5gB3Z19uy6yKYIf6CjbyucakPdywC0mw9RZtNB/O4fQBWuW/JZC0REc8fZm9V8ch/MSbzq0F65EVW/LsB/FY+xffdkQJ3A/8mCXuCsCYS3Bj9xGhkBPkeLo/bKzOZkmfatsUyRkXiEqA0Fn1XIIaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lWntofWv; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DFE32D7;
-	Wed, 22 Apr 2026 00:16:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1776809800;
-	bh=EKodlQvhYMGgEVsAbU63h1Bs3VsPdhEWy4MeCN0XPm8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lWntofWvTt2n/CHKn6WDzD+TBjVM6/oJVIwswpxog0BU+0UGk4oxvbdekiO2v8e5b
-	 C8A6I8kH4C7174VPLeobDWby0jeN+qCi8cBSYOOfSV7smT4iyRRD8qg9byECUEPd0+
-	 n4qo7z4vHHsRSQdJ7YtvFhZB6Yj20/nm9i7j6kfg=
-Date: Wed, 22 Apr 2026 01:18:17 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v4 24/29] media: v4l2-subdev: Introduce
- v4l2_subdev_get_frame_desc()
-Message-ID: <20260421221817.GF2315844@killaraus.ideasonboard.com>
-References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-25-sakari.ailus@linux.intel.com>
- <adjWaqk9qO7CWM5W@zed>
- <adykK0JxoIoZjWUT@kekkonen.localdomain>
- <20260416161654.GC1823068@killaraus.ideasonboard.com>
- <aedrEm-Mh21TnJ4N@kekkonen.localdomain>
+	s=arc-20240116; t=1776811954; c=relaxed/simple;
+	bh=p4hpYbaaV2jAO91rm4XYUSpVwUAcL13OGh3u8xmVSKo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Ug+FhYVR3Q56IJmPxiHQUdBZzvSVjnLYCdXRYc8LW4MIx01BFNG2hzA2fdMP8Fo87u09PFQMK5S2/nVx0xmWxQkAeizt8kC22KZQO9F/swSe9L1Nn28XMP6FEUZfP8KEVvaodMt2BPZAsWp0BJlmkwueDl7vi7q59m9DbtdxBpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nlQgxJ2o; arc=none smtp.client-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2de831d2b20so397260eec.1
+        for <linux-media@vger.kernel.org>; Tue, 21 Apr 2026 15:52:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776811949; x=1777416749; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=52lKPT06xJB6S0hMXMshZr9YSqwMjyDFKuBVFDd9B08=;
+        b=nlQgxJ2opjNvu83bLd8aKVBBvJoqzj5pFQ+4168NZkyPsNdYp84jbr0udrDk7+hC4x
+         BXZffM0E2KxgkiYoPMLMRNQY14vfmuFavnEGDDXH4IGXAyzWWzz6v0jbmGLuHOl9dOix
+         Nkai5e1bPSb0iMm6ukejQ6q6k7VNZkVej7mSIl0f4WEQaPXdkyBiZVwUAb07LplOukjH
+         uQwSrjGNGXUE8L5pEBFcjbCJ95yDJPD4cccKl0QSTXURKMo9KvVQpAcYVYS9xsE9cRyd
+         d6VVrTQGzXqc5TP5dRo8I3vcxdiqnUWEFhR/P+8J+yYU3dwRBm6XxbwdRmddWu56sFSU
+         ihHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776811949; x=1777416749;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=52lKPT06xJB6S0hMXMshZr9YSqwMjyDFKuBVFDd9B08=;
+        b=sGPzpKTiS5kMs3Qx3QrgjBcvcJdO3R6vCWCqXhVtfzBY9ytg3IcWk3XmZZxkVTwuPt
+         CRnHZ3KpUYtLYOddQvp7HNAOdl426uxwJ1PfbCTnfI9bWECXvH6rJlXLBUMrt31qOcre
+         rAPNuoCcQ9ohplHjGfNuMTaAmB3pPe0B4u1uGqDPyT5PS2OHvo9qQurfeekU5sOkYhXH
+         z+yhlMIGZnE25rUHcnbJ+dvfycfjA3P83utvV32onK40LJyuqSstMFutrYmuqz3gG3Vu
+         UVPfwgoGARwVZS6PlGKRmAkEN6d73Na8Axe7+NXoLmW8KDHpzsF1QJ0Ja7cd3Pgf/S0v
+         hv5g==
+X-Forwarded-Encrypted: i=1; AFNElJ9N9/vGxCwxiQD8m2YDXKsrkKku5pyiA9AQZ26dwRlptZlaUgwRKjRUyjRZLuLP0qmIfCc/QP4jd86hdQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywu23QNu6NQl6cLzNB6ZHuCnKt0c3sfoZL397uPc06jYAs2ibkH
+	nRyXg6FiCVABOwFKziB6zMC1rKZ5DMln5yIGACfI4x49+MtPHLFvaqpo
+X-Gm-Gg: AeBDiesevxCjgi3+kCodvc5SLvoeVCc4V/bVQAVWT6jyPrPjOm4fQfpJaeFWgH+4iTN
+	lkysdU+QV4VhVLVnYs8l3t22Wo77AMFIqM30TsG5w/HgYSjJL5NKI/vPW4CRaapW3v1lF2cW/IE
+	TpbKmX6cTKnlEk50NACc+F7EbsMvezxOsSoMswwdQ4Yx11Gw+rZkJO42H9WsXJ+LZ9BZGKwqel5
+	BM4oNi53g77w7i8r6C4t/8/WrDJ5vQt6TEXC+tnhem927gT5F1GLwZzkm4TcjafwKDAVaSnhZkY
+	Bu1LY8rBopHVaVQqDZ8SS9NukbLEgaRkSJHvtPJYV72KbI0Op5zkstgymeLDjcwXYiXywpk/M2y
+	zRcitnhpWgUMZFq7AZyavTAU3j1Ri/nxp6EyVXMG7z0UBHTzCay2dYFWWC0YrHe0VJxjrhqYBaI
+	9YO62kKACHyktkmTyaMPx/GctWDBvpnpJz
+X-Received: by 2002:a05:7300:b58a:b0:2d4:62f0:b2d4 with SMTP id 5a478bee46e88-2e4786461b4mr11747692eec.13.1776811949190;
+        Tue, 21 Apr 2026 15:52:29 -0700 (PDT)
+Received: from TC-LAPTOP.lan ([209.76.64.37])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53a4a8018sm26145884eec.8.2026.04.21.15.52.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Apr 2026 15:52:28 -0700 (PDT)
+From: Thierry Chatard <tchatard@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: hansg@kernel.org,
+	lee@kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	ilpo.jarvinen@linux.intel.com,
+	djrscally@gmail.com,
+	linux-media@vger.kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	jacopo.mondi@ideasonboard.com,
+	nicholas@rothemail.net,
+	Thierry Chatard <tchatard@gmail.com>
+Subject: [PATCH v4 0/5] Enable cameras on Dell Latitude 5285 2-in-1
+Date: Tue, 21 Apr 2026 15:52:12 -0700
+Message-ID: <20260421225217.12472-1-tchatard@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <aeMvy5aL0hSNNmEd@kekkonen.localdomain>
+References: <aeMvy5aL0hSNNmEd@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aedrEm-Mh21TnJ4N@kekkonen.localdomain>
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59249-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,linux.intel.com,gmail.com,ideasonboard.com,rothemail.net];
+	TAGGED_FROM(0.00)[bounces-59250-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
-	RCPT_COUNT_TWELVE(0.00)[30];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tchatard@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email,ideasonboard.com:dkim,ideasonboard.com:email]
-X-Rspamd-Queue-Id: D18504401BD
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2E11C4405CA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Apr 21, 2026 at 03:18:26PM +0300, Sakari Ailus wrote:
-> On Thu, Apr 16, 2026 at 07:16:54PM +0300, Laurent Pinchart wrote:
-> > On Mon, Apr 13, 2026 at 11:07:07AM +0300, Sakari Ailus wrote:
-> > > On Fri, Apr 10, 2026 at 12:53:42PM +0200, Jacopo Mondi wrote:
-> > > > On Wed, Apr 08, 2026 at 06:39:33PM +0300, Sakari Ailus wrote:
-> > > > > Introduce v4l2_subdev_get_frame_desc() in order to facilitate implementing
-> > > > > drivers that need frame descriptors. If the remote sub-device does not
-> > > > > support frame descriptors, v4l2_subdev_get_frame_desc() creates one (with
-> > > > > a single entry) opportunistically, thus avoiding the need to add frame
-> > > > > descriptor support to sensor drivers the device for which only generates a
-> > 
-> > s/the device for which/whose device/
-> 
-> I guess that'd work, too.
-> 
-> > I think all sensor drivers should implement .get_frame_desc(), possibly
-> > with a helper.
-> 
-> Is there a need to? It's largely just extra churn for more than 80 drivers
-> -- this can also be extended to cover routes so few of these drivers would
-> in the end need anything driver-specific. But the option for that needs to
-> remain.
+This series enables the front (OV5670/INT3479) and rear (OV8858/INT3477)
+cameras on the Dell Latitude 5285 2-in-1 under Linux.
 
-I don't think it's much extra churn if the operation can be implemented
-with a helper. It would be a single additional line to plug the helper
-in the ops table, and it won't consume more memory.
+Changes since v3 (addressing feedback from Sakari Ailus and Hans de Goede):
+- Patch 1: Fix multi-line comment style (blank opening line).
+- Patch 2: Fix multi-line comment style; change n_consumers and loop
+  variable i from int to unsigned int; remove spurious (int) cast.
+- Patch 3: Rework regulator mapping per Hans's review:
+    * VIO has no enable register and is always-on at hardware level; it
+      must never have direct software consumers.  Rename
+      surface_go_tps68470_vio_reg_init_data to generic_tps68470_vio_reg_init_data
+      (used by both Surface Go and Dell 5285) and remove all VIO consumers.
+    * Map VSIO to dovdd/INT3477 instead of vsio/INT3477.  Enabling VSIO
+      sets S_I2C_CTL (reg 0x43) which opens the I2C passthrough to OV8858;
+      since ov8858 enables dovdd before any I2C transaction, the passthrough
+      is guaranteed to be active in time without marking VSIO always_on.
+    * Remove always_on from VSIO (was a workaround; no longer needed).
+    * Update commit message to reflect the new design.
+- Patch 5: Remove "vsio" from ov8858_supply_names[] (VSIO now maps to
+  "dovdd", which the driver already requests); remove ACPI_PTR() wrapper
+  (unnecessary when the ACPI table is declared unconditionally); update
+  commit message and title.
+- Patches 4: Unchanged.
 
-This is certainly not high on the todo list, and once we get there,
-maybe you will convinced me that handling missing .get_frame_desc() in
-v4l2_subdev_get_frame_desc() is the better option :-)
+Tested on Ubuntu 25.10, kernel 6.17.0-22-generic.  Both cameras working
+in Zoom, Chrome, and GNOME Camera via PipeWire.
 
-> > > > > single stream, or managing the situation on the caller side.
-> > 
-> > That part I agree with, we currently need to manage the situation on the
-> > caller side because not all subdevs implement the operation. That will
-> > still be the case for a while, so this helper is useful.
-> > 
-> > Can you also replace manual calls to .get_frame_desc() with the helper ?
-> > Some of the existing callers implement fallbacks, I fonud them at least
-> > in
-> > 
-> > drivers/media/platform/broadcom/bcm2835-unicam.c
-> > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-> > drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > drivers/media/platform/ti/cal/cal.c
-> > 
-> > (directly in the function that calls .get_frame_desc(), or in its
-> > caller)
-> > 
-> > Replacing those will ensure the helper works as expected.
-> 
-> Sure. I'll add more patches for that.
-> 
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > ---
-> > > > >  drivers/media/v4l2-core/v4l2-subdev.c | 96 +++++++++++++++++++++++++++
-> > > > >  include/media/v4l2-subdev.h           | 20 ++++++
-> > > > >  2 files changed, 116 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > > > index 647587c0499a..40b28e070726 100644
-> > > > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > > > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > > > @@ -20,6 +20,7 @@
-> > > > >  #include <linux/version.h>
-> > > > >  #include <linux/videodev2.h>
-> > > > >
-> > > > > +#include <media/mipi-csi2.h>
-> > > > >  #include <media/v4l2-ctrls.h>
-> > > > >  #include <media/v4l2-device.h>
-> > > > >  #include <media/v4l2-event.h>
-> > > > > @@ -2758,3 +2759,98 @@ void v4l2_subdev_put_privacy_led(struct v4l2_subdev *sd)
-> > > > >  #endif
-> > > > >  }
-> > > > >  EXPORT_SYMBOL_GPL(v4l2_subdev_put_privacy_led);
-> > > > > +
-> > > > > +static int get_mipi_dt_for_mbus(u32 code)
-> > 
-> > v4l2_subdev_get_mipi_dt_for_mbus()
-> > 
-> > Or move the function to v4l2-common.c, name it mipi_csi2_dt_for_mbus()
-> > and declare it in include/media/mipi-csi2.h.
-> 
-> How about calling it mipi_csi2_dt_for_mbus()? I think it can be located in
-> v4l2-common.c for now, no need to add a separate file just for this; all
-> users would effectively be related to V4L2 anyway.
+Thierry Chatard (5):
+  platform/x86: intel_lpss: add resource conflict quirk for Dell Latitude 5285
+  platform/x86: int3472: tps68470: fix clock consumer registration for Dell Latitude 5285
+  platform/x86: int3472: tps68470: add board data for Dell Latitude 5285
+  media: ipu-bridge: add sensor configuration for OV8858 (INT3477)
+  media: ov8858: add ACPI device ID INT3477
 
-Yes, that's what I proposed :-)
-
-> > > > > +{
-> > > > > +	switch (code) {
-> > > > > +	case MEDIA_BUS_FMT_BGR888_1X24:
-> > > > > +		return MIPI_CSI2_DT_RGB888;
-> > > > > +	case MEDIA_BUS_FMT_Y8_1X8:
-> > > > > +	case MEDIA_BUS_FMT_SBGGR8_1X8:
-> > > > > +	case MEDIA_BUS_FMT_SGBRG8_1X8:
-> > > > > +	case MEDIA_BUS_FMT_SGRBG8_1X8:
-> > > > > +	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > > > > +		return MIPI_CSI2_DT_RAW8;
-> > > > > +	case MEDIA_BUS_FMT_Y10_1X10:
-> > > > > +	case MEDIA_BUS_FMT_SBGGR10_1X10:
-> > > > > +	case MEDIA_BUS_FMT_SGBRG10_1X10:
-> > > > > +	case MEDIA_BUS_FMT_SGRBG10_1X10:
-> > > > > +	case MEDIA_BUS_FMT_SRGGB10_1X10:
-> > > > > +		return MIPI_CSI2_DT_RAW10;
-> > > > > +	case MEDIA_BUS_FMT_Y12_1X12:
-> > > > > +	case MEDIA_BUS_FMT_SBGGR12_1X12:
-> > > > > +	case MEDIA_BUS_FMT_SGBRG12_1X12:
-> > > > > +	case MEDIA_BUS_FMT_SGRBG12_1X12:
-> > > > > +	case MEDIA_BUS_FMT_SRGGB12_1X12:
-> > > > > +		return MIPI_CSI2_DT_RAW12;
-> > > > > +	case MEDIA_BUS_FMT_Y14_1X14:
-> > > > > +	case MEDIA_BUS_FMT_SBGGR14_1X14:
-> > > > > +	case MEDIA_BUS_FMT_SGBRG14_1X14:
-> > > > > +	case MEDIA_BUS_FMT_SGRBG14_1X14:
-> > > > > +	case MEDIA_BUS_FMT_SRGGB14_1X14:
-> > > > > +		return MIPI_CSI2_DT_RAW14;
-> > > > > +	case MEDIA_BUS_FMT_Y16_1X16:
-> > > > > +	case MEDIA_BUS_FMT_SBGGR16_1X16:
-> > > > > +	case MEDIA_BUS_FMT_SGBRG16_1X16:
-> > > > > +	case MEDIA_BUS_FMT_SGRBG16_1X16:
-> > > > > +	case MEDIA_BUS_FMT_SRGGB16_1X16:
-> > > > > +		return MIPI_CSI2_DT_RAW16;
-> > > > > +	case MEDIA_BUS_FMT_SBGGR20_1X20:
-> > > > > +	case MEDIA_BUS_FMT_SGBRG20_1X20:
-> > > > > +	case MEDIA_BUS_FMT_SGRBG20_1X20:
-> > > > > +	case MEDIA_BUS_FMT_SRGGB20_1X20:
-> > > > > +		return MIPI_CSI2_DT_RAW20;
-> > > > > +	default:
-> > > > > +		return -EINVAL;
-> > > > > +	}
-> > > > > +}
-> > > > > +
-> > > > > +int v4l2_subdev_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> > > > > +			       struct v4l2_mbus_frame_desc *desc)
-> > > > > +{
-> > > > > +	struct v4l2_subdev_format subdev_fmt = {
-> > > > > +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> > > > > +		.pad = pad,
-> > > > > +	};
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	if (v4l2_subdev_has_op(sd, pad, get_frame_desc)) {
-> > > > > +		unsigned int type = desc->type;
-> > > > > +
-> > > > > +		ret = v4l2_subdev_call(sd, pad, get_frame_desc, pad, desc);
-> > > > > +
-> > > > > +		if (desc->type != type)
-> > > > > +			return -EINVAL;
-> > 
-> > I'd add a dev_err() here. There are .get_frame_desc() callers that check
-> > if the returned type matches what they expect and log an error
-> > otherwise. When using this helper the check can't be performed in the
-> > callera any more, leading to possibly hard to debug issues if no message
-> > is printed.
-> 
-> dev_err_once()?
-
-Is there a need to limit it to printing the message once only ? It will
-only occur if an incompatible source is connected, which shouldn't
-happen in normal circumstances.
-
-> > > > > +
-> > > > > +		return ret;
-> > > > > +	}
-> > > > > +
-> > > > > +	if (desc->type != V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL &&
-> > > > > +	    desc->type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
-> > > > > +		return -EINVAL;
-> > > > > +
-> > > > > +	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, NULL,
-> > > > > +			       &subdev_fmt);
-> > > > > +	if (ret)
-> > > > > +		return ret;
-> > > > > +
-> > > > > +	struct v4l2_mbus_frame_desc_entry entry = {
-> > > > > +		.pixelcode = subdev_fmt.format.code,
-> > > > > +	};
-> > > > > +
-> > > > > +	if (desc->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
-> > > > > +		int dt;
-> > > > > +
-> > > > > +		dt = get_mipi_dt_for_mbus(subdev_fmt.format.code);
-> > > > > +		if (dt < 0)
-> > > > > +			return dt;
-> > > > > +
-> > > > > +		entry.bus.csi2.dt = dt;
-> > > > > +	}
-> > > > > +
-> > > > > +	desc->entry[0] = entry;
-> > > > > +	desc->num_entries = 1;
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +EXPORT_SYMBOL_GPL(v4l2_subdev_get_frame_desc);
-> > > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > > > > index 4588992b4417..93b672edd08e 100644
-> > > > > --- a/include/media/v4l2-subdev.h
-> > > > > +++ b/include/media/v4l2-subdev.h
-> > > > > @@ -2058,4 +2058,24 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
-> > > > >   */
-> > > > >  bool v4l2_subdev_is_streaming(struct v4l2_subdev *sd);
-> > > > >
-> > > > > +/**
-> > > > > + * v4l2_subdev_get_frame_desc() - Get a pad's frame descriptor
-> > > > > + * @sd: The sub-device
-> > > > > + * @pad: The number of the pad in @sd from which to obtain the frame descriptor
-> > > > > + * @desc: A pointer to a frame descriptor, with its type field set
-> > > > > + *
-> > > > > + * Obtain a frame descriptor from a sub-device. If the sub-device supports the
-> > > > > + * get_frame_desc pad operation, its result is returned, just like calling it
-> > > > > + * directly using v4l2_subdev_call(). If the sub-device driver does not support
-> > > > > + * it, then one containing a single entry is created using the information from
-> > 
-> > s/one /a frame descriptor/
-> 
-> Yes.
-> 
-> > > > > + * the sub-device active state, which this function locks for the duration of
-> > > > > + * the call to obtain it.
-> > > > 
-> > > > This doesn't seem to apply anymore...
-> > > 
-> > > I'll rephrase it.
-> > > 
-> > > > > + *
-> > > > > + * The caller is required to set @desc->type to the expected bus type.
-> > > > 
-> > > > Is it worth mentioning that only V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL
-> > > > and V4L2_MBUS_FRAME_DESC_TYPE_CSI2 are supported ?
-> > > 
-> > > I'll add that.
-> > > 
-> > > > > + *
-> > > > > + * Return: %0 on success or negative error code on failure.
-> > > > > + */
-> > > > > +int v4l2_subdev_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> > > > > +			       struct v4l2_mbus_frame_desc *desc);
-> > > > 
-> > > > With the documentation addressed
-> > > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
--- 
-Regards,
-
-Laurent Pinchart
 
