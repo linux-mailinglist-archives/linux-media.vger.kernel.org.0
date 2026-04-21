@@ -1,85 +1,110 @@
-Return-Path: <linux-media+bounces-59243-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59244-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oCpnNx3Z52kBBwIAu9opvQ
-	(envelope-from <linux-media+bounces-59243-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 22:07:57 +0200
+	id 1tDyGgrc52nJBwIAu9opvQ
+	(envelope-from <linux-media+bounces-59244-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 22:20:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FEAD43F424
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 22:07:57 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA2743F5C4
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 22:20:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4913B3075F02
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 20:05:47 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 293DB3029D6C
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2026 20:20:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 561843DD523;
-	Tue, 21 Apr 2026 20:05:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D4053DA5BB;
+	Tue, 21 Apr 2026 20:20:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RcGIgDKn"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="YgqFpHEj";
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="tcVwfYtr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AC73DD516;
-	Tue, 21 Apr 2026 20:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776801943; cv=none; b=KAyOAvJY4hcELdt4gQ34V5vsNYGQRCko3V8Hyl3WUMgGReqoH1KWOQv6VzofO8L7v63UljV119ZB3kVqOxh9XpZexoNspnc+OIOt59tmzKib9422PXeNMK9DuVXxzIygPWV+loywosOmze/EookPLPkCW6T90mYZ/Ob+q2dNxXc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776801943; c=relaxed/simple;
-	bh=a+PKflhvwXgyxw7sNE7y++DrWIq20QXiBZQ5d7tnocQ=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15FBC2264A9;
+	Tue, 21 Apr 2026 20:20:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776802820; cv=pass; b=I8FOUrtkfTut1LBX3/eBq4au69vHmdLCNVKq0+boFTV4KsagdWRd6Xfk1FMzecTtYKO5vRIIIu5PbXuJ1I/9//dpid7Ggz4mG572Q2OmqcJ3aVSZoMid6NIrg3azYjNwosU2Hkb1ZPs7nmQ73+Ee+AVcYevf9V0xJGWOIs0G7Zs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776802820; c=relaxed/simple;
+	bh=9rRne6dRJmCc69HTJqUW00ZembYBzQxKIVzwxZcCit0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kilVd8v59t5Yo1Nec7IF7b0uDjs5eqhPug9yHUlmJv9I4oQtQObU5e38DJA59ZfxJqFnX+pd8COxJvxeV0mXX4S9aIagROCG9lb5cYZ0SQyHd2oLk6IOT/OpUDbVj4usKhLZh5dJRQ2zpeysQ/ZFfqKJ0ujCMLIrQAaLJFCRfEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RcGIgDKn; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776801943; x=1808337943;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=a+PKflhvwXgyxw7sNE7y++DrWIq20QXiBZQ5d7tnocQ=;
-  b=RcGIgDKnps7bYsljTRO77AI93LCU1MCVyJJsRK+HjWaXEKNr2ME27q02
-   uhRTv9J/8iNHqGJVjL0Kbpe4Ws49+PPmG8bYR68x43iqbnFwg+xwlegsr
-   kVxuMQ+uxHWlYVhS5Xt8AxvoBheydJnPgYIBKNtOL4ZUtbL9fZUkTyadm
-   jk+MS3QZnDT+xiW+32hgPtN6gRdQIZYdr/0kSDWXCEF4zDAn/6rvmChM0
-   /HHqslcacRf6oS3vB/fH6wW4FCh8/tQFmExyuCDIAPCJAhfO+j9ZVwS/0
-   ydaaaT/owhAhgiEEaQl4vjqT+P2L/cHZqJHHdrlKdcc2J+gjjTAQpj+bh
-   A==;
-X-CSE-ConnectionGUID: IwcXGyO4Rze8KuVFyBBMgQ==
-X-CSE-MsgGUID: V3iDrJ99S0qm7NWFdn/0ag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77867863"
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="77867863"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 13:05:42 -0700
-X-CSE-ConnectionGUID: PyCWgZ9ISPqnaEII/7WqkA==
-X-CSE-MsgGUID: BpgasLn7QA2J3eiDM2cd9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="233910969"
-Received: from zzombora-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.164])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 13:05:40 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 315291201FC;
-	Tue, 21 Apr 2026 23:05:39 +0300 (EEST)
-Date: Tue, 21 Apr 2026 23:05:39 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Cc: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Serin Yeh <serin.yeh@intel.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: i2c: imx471: Add Sony IMX471 image sensor
- driver
-Message-ID: <aefYk9tbUOzNNdOk@kekkonen.localdomain>
-References: <20260417083214.222189-1-hpa@redhat.com>
- <20260417083214.222189-3-hpa@redhat.com>
- <fc73e3b3-3eb7-46cc-b2af-162017fd473e@oss.qualcomm.com>
- <aec9Pzr_ZUD0zBcK@kekkonen.localdomain>
- <07115433-dcfb-40a9-952a-5f841ee93947@oss.qualcomm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=tA+WRIOB2XcKd+QE5Odlu3Gwv3j6wdqqWsZtTGO1Ub4PyAWzQsc/jY4zB03weYlhYK4v5qSa4js1Bw6D50fX2jaKwy1uB7pdPA3JkU7F2ZxlPV9dKb9scZhzJSuhm0xO6cxKUqhrd63q9krlnWefXVZCHOWaPhoPoYJm5k7SFGI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=YgqFpHEj; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=tcVwfYtr; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPS id 4g0Yck0mSrz49PxH;
+	Tue, 21 Apr 2026 23:20:06 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1776802806;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Quk+6yL5S73tonW0p4lGYqnvA/Kd5ezRnjd7soGbLw=;
+	b=YgqFpHEjKpW13+1K1srIx9i6UFD36B7I23sHlEi77FoKTWNGSLNt5pJkwxoo+FP5navqpN
+	287rSSsxn1XGlEg+mB1S0EOaIKkNxoyKRlSbH8xXV3j4QEWtVnBi1CUc1POYlP+m+xnS3h
+	Jn1oSPYLwDAJNjtJiRSSfcpGsu1xN4cJAFT+UbMHB633lj7Uqc+jy6JUv6bwgoEPeAFJCZ
+	iZSObxBJtEE0g3E4v1v5rA/Ax7JdxgrnEYkV7mDSzHQDynGYoRqrB9Hwd91p2eYVdsYL8G
+	+tmYDyV/kCbe4OJKR9mmYZtL4IK+D9fC08JHgkvhTd5EGhCi84uAeUbgIxfhyA==
+Received: from hillosipuli.retiisi.eu (n18ws8cotq5gnfn8-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:938c:d2f4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4g0YcX0YnszyW5;
+	Tue, 21 Apr 2026 23:19:55 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1776802796;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Quk+6yL5S73tonW0p4lGYqnvA/Kd5ezRnjd7soGbLw=;
+	b=tcVwfYtrDRgRhEQHxjznI4Y66v9n3FYtBhwYLXRP8kcWuLkj1LOJ217xq4FYWVxcACx+S4
+	ehXA/jkjCBMfFTQnYXJ83XuPe5bC08p3ry5YE83rEkNIZl7hahXnjcu7gd+Y53DU+NOTWY
+	EZqRIFwbJji6LLZR4F3ZENys6JTnLdI=
+ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=meesny; cv=none; t=1776802796;
+	b=ui30DNWuWq+AuC6bnS6C4bfy8Ih9olEuW+hH3TTWrRYkLQnVdoAHXHk8sREAXdcpB1zUo7
+	CCF/rn16D3otN7AKVNy0+ZpwbE/tPo5mreY9ztXDUH076UVI8n83DISVL9tOHOsKrpRPtU
+	CqXcplGBaSm6snumctcoQy1IjV+q1Ng=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1776802796;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Quk+6yL5S73tonW0p4lGYqnvA/Kd5ezRnjd7soGbLw=;
+	b=MNa172NSypVTK21I4eYBHWeiltfwOUcBLQ929RvmZOnuJmF7UsyIlhBX2aSsLlUqUQF7fH
+	qQjqgRU5pknnfORFuEDFizL+fh4BP/oeFa/TiwzMleRKO6f3eE2+qY5dJSK9xVJYF6cEgu
+	O/8JLRBrXTGTRTvt0o2aT0swlwy0x+A=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 72181634C4E;
+	Tue, 21 Apr 2026 23:19:55 +0300 (EEST)
+Date: Tue, 21 Apr 2026 23:19:55 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: nekocwd@mainlining.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, david@ixit.cz,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
+	Vitalii Skorkin <nikroks@mainlining.org>,
+	Antonio Rische <nt8r@protonmail.com>
+Subject: Re: [PATCH v5 2/3] media: i2c: Add driver for LC898217XC VCM
+Message-ID: <aefb61B7QqdByNF4@valkosipuli.retiisi.eu>
+References: <20260411-media-i2c-lc898217xc-initial-driver-v5-0-c71ddcf40bad@mainlining.org>
+ <20260411-media-i2c-lc898217xc-initial-driver-v5-2-c71ddcf40bad@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,134 +113,422 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <07115433-dcfb-40a9-952a-5f841ee93947@oss.qualcomm.com>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+In-Reply-To: <20260411-media-i2c-lc898217xc-initial-driver-v5-2-c71ddcf40bad@mainlining.org>
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_DKIM_ALLOW(-0.20)[iki.fi:s=lahtoruutu,iki.fi:s=meesny];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59243-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59244-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[iki.fi];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,ixit.cz,vger.kernel.org,mainlining.org,protonmail.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DKIM_TRACE(0.00)[iki.fi:+];
 	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@iki.fi,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:dkim,kekkonen.localdomain:mid]
-X-Rspamd-Queue-Id: 5FEAD43F424
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: EDA2743F5C4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Hans, Kate,
+Hi Vasiliy,
 
-On Tue, Apr 21, 2026 at 11:47:12AM +0200, Hans de Goede wrote:
-> Hi Sakari, Kate,
-> 
-> On 21-Apr-26 11:02, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Fri, Apr 17, 2026 at 12:16:11PM +0200, Hans de Goede wrote:
-> 
-> ...
-> 
-> >>> +
-> >>> +		cci_update_bits(sensor->regmap, IMX471_REG_ORIENTATION,
-> >>> +				flip_bit, val, &ret);
-> >>> +
-> >>> +		return ret;
-> >>> +	}
-> >>> +
-> >>> +	/* vflip */
-> >>> +	cci_update_bits(sensor->regmap, IMX471_REG_ORIENTATION,
-> >>> +			flip_bit, val, &ret);
-> >>> +	if (ret)
-> >>> +		return ret;
-> >>
-> >> Hmm, I wonder if the problem here is you doing 2 subsequent
-> >> cci_update_bits(). If the flip control registered is double-buffered
-> >> and the new value is latched as the actual value on the start
-> >> of the next frame; and this is combined with reading back
-> >> reading the active value, not the last written value then
-> >> the first time you do this the setting of the hflip bit will
-> >> be overwritten by the second cci_update_bits.
-> >>
-> >> I think it would be better to do something similar to what
-> >> imx219.c and replace these 2 cci_update_bits() calls with:
-> >>
-> >>         cci_write(imx471->regmap, IMX471_REG_ORIENTATION,
-> >>                   imx471->hflip->val | imx471->vflip->val << 1, &ret);
-> >>
-> >> I believe this should work here too.
-> >>
-> >>
-> >>> +
-> >>> +	cci_write(sensor->regmap, IMX471_REG_V_WIN_OFFSET,
-> >>> +		  value ? 0xe0 : 0xeb, &ret);
-> >>> +	if (ret)
-> >>> +		return ret;
-> >>> +
-> >>> +	cci_update_bits(sensor->regmap, IMX471_REG_H_WIN_OFFSET, 1,
-> >>> +			value ? 0x01 : 0x00, &ret);
-> >>
-> >> No need for cci_update_bits() here, the register is always
-> >> initialized to 0xc8 so this can just use hardcoded values
-> >> like the V_WIN_OFFSET path:
-> >>
-> >> 	cci_write(sensor->regmap, IMX471_REG_H_WIN_OFFSET,
-> >> 		  value ? 0xc9 : 0xc8, &ret);
-> >>
-> >>> +	return ret;
-> >>
-> >> Updating both offsets here is wrong when hflip != vflip, you
-> >> should only update V_WIN_OFFSET when changing vflip and
-> >> H_WIN_OFFSET when changing hflip.
-> > 
-> > The cropping configuration should reflect the values on the sensor's pixel
-> > array and should not be affected by flipping. At least the crop window
-> > needs to be adjusted accordingly by the driver. Is there a need to change
-> > flipping while streaming?
-> 
-> Ah, that is a very valid question, no I don't think we do need to
-> set them while streaming.
-> 
-> Kate if you cannot get the start_x / start_y coordinate changes
-> when changing flipping to work to get a stable bayer output
-> pattern, then another way to fix this is to only allow changing
-> the flip controls while not streaming and return -EBUSY otherwise.
-> 
-> This can then be combined with reporting a flip-ctrl dependend
-> bayer-order so that userspace sees the right bayer-order after
-> flipping is applied as long as userspace reads the subdev format
-> after setting the controls (which libcamera does I believe).
+Thanks for the set.
 
-It's indeed currently a bit annoying to implement this. The common raw
-sensor model will make this easier as the driver just indicates the native
-pattern to userspace. I don't have an estimate currently when that set
-would be in so the wait could be very long. Libcamera will need changes,
-too.
+On Sat, Apr 11, 2026 at 04:13:09PM +0300, Vasiliy Doylov via B4 Relay wrote:
+> From: Vasiliy Doylov <nekocwd@mainlining.org>
+> 
+> LC898217XC is a 11 bit DAC, designed for linear control
+> of voice coil motor. This driver creates a V4L2 subdevice
+> and provides control to set the desired focus.
+> 
+> Tested on Oneplus 6 (oneplus-enchilada)
+
+Missing period.
 
 > 
-> For an example of an imx driver which reports a different
-> bayer order depending in flipping see: imx214.c and
-> the imx214_get_format_code() helper, a call to which should
-> be used to replace any hardcoded mbus-formats in the driver.
+> Signed-off-by: Vasiliy Doylov <nekocwd@mainlining.org>
+> ---
+>  drivers/media/i2c/Kconfig      |   9 ++
+>  drivers/media/i2c/Makefile     |   1 +
+>  drivers/media/i2c/lc898217xc.c | 289 +++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 299 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 8f2ba4121586..346dd4a14105 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -926,6 +926,15 @@ config VIDEO_DW9807_VCM
+>  	  capability. This is designed for linear control of
+>  	  voice coil motors, controlled via I2C serial interface.
+>  
+> +config VIDEO_LC898217XC
+> +	tristate "LC898217XC lens voice coil support"
+> +	select V4L2_CCI_I2C
+> +	help
+> +	  This is a driver for the LC898217XC camera lens voice coil.
+> +	  LC898217XC is a 11 bit DAC with 110mA output current sink
+> +	  capability. This is designed for linear control of
+> +	  voice coil motors, controlled via I2C serial interface.
+> +
+>  endif
+>  
+>  menu "Flash devices"
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index 90b276a7417a..f55c44feca53 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -64,6 +64,7 @@ obj-$(CONFIG_VIDEO_IMX415) += imx415.o
+>  obj-$(CONFIG_VIDEO_IR_I2C) += ir-kbd-i2c.o
+>  obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
+>  obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
+> +obj-$(CONFIG_VIDEO_LC898217XC) += lc898217xc.o
+>  obj-$(CONFIG_VIDEO_LM3560) += lm3560.o
+>  obj-$(CONFIG_VIDEO_LM3646) += lm3646.o
+>  obj-$(CONFIG_VIDEO_LT6911UXE) += lt6911uxe.o
+> diff --git a/drivers/media/i2c/lc898217xc.c b/drivers/media/i2c/lc898217xc.c
+> new file mode 100644
+> index 000000000000..cfac7e7ce3d6
+> --- /dev/null
+> +++ b/drivers/media/i2c/lc898217xc.c
+> @@ -0,0 +1,289 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +// Copyright (c) 2025 Vasiliy Doylov <nekocwd@mainlining.org>
+> +
+> +#include <linux/delay.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <media/v4l2-async.h>
+> +#include <media/v4l2-cci.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-fwnode.h>
+
+Do you need this?
+
+> +#include <media/v4l2-subdev.h>
+> +#include <media/v4l2-event.h>
+
+Alphabetical order, please.
+
+> +
+> +#define LC898217XC_NAME "lc898217xc"
+> +/* Actuator has 11 bit resolution */
+> +#define LC898217XC_MAX_FOCUS_POS (2048 - 1)
+> +#define LC898217XC_MIN_FOCUS_POS 0
+> +#define LC898217XC_FOCUS_STEPS 1
+> +#define LC898217XC_DAC_ADDR CCI_REG16(0x84)
+> +
+> +static const char *const lc898217xc_supply_names[] = {
+> +	"vdd",
+> +	"vana",
+> +};
+> +
+> +struct lc898217xc {
+> +	struct regulator_bulk_data supplies[ARRAY_SIZE(lc898217xc_supply_names)];
+> +	struct v4l2_ctrl_handler ctrls;
+> +	struct v4l2_subdev sd;
+> +	struct regmap *regmap;
+> +};
+> +
+> +static inline struct lc898217xc *sd_to_lc898217xc(struct v4l2_subdev *subdev)
+> +{
+> +	return container_of(subdev, struct lc898217xc, sd);
+> +}
+> +
+> +static int lc898217xc_set_dac(struct lc898217xc *lc898217xc, u16 val)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&lc898217xc->sd);
+
+Please instead do:
+
+	struct i2c_client *client = to_i2c_client(lc898217->sd.dev);
+
+as in the long run we should get rid of v4l2_get_subdevdata().
+
+> +	int ret;
+> +
+> +	ret = cci_write(lc898217xc->regmap, LC898217XC_DAC_ADDR, val, NULL);
+> +	if (ret)
+> +		dev_err(&client->dev, "failed to set DAC: %d\n", ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static int lc898217xc_power_on(struct lc898217xc *lc898217xc)
+> +{
+> +	int ret;
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(lc898217xc_supply_names),
+> +				    lc898217xc->supplies);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	usleep_range(8000, 10000);
+> +	return 0;
+> +}
+> +
+> +static int lc898217xc_power_off(struct lc898217xc *lc898217xc)
+> +{
+> +	regulator_bulk_disable(ARRAY_SIZE(lc898217xc_supply_names),
+> +			       lc898217xc->supplies);
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused lc898217xc_runtime_suspend(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct lc898217xc *lc898217xc = sd_to_lc898217xc(sd);
+> +
+> +	lc898217xc_power_off(lc898217xc);
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused lc898217xc_runtime_resume(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct lc898217xc *lc898217xc = sd_to_lc898217xc(sd);
+> +	int ret;
+> +
+> +	ret = lc898217xc_power_on(lc898217xc);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to enable regulators\n");
+> +		return ret;
+> +	}
+> +
+> +	__v4l2_ctrl_handler_setup(&lc898217xc->ctrls);
+> +
+> +	return ret;
+> +}
+> +
+> +static int lc898217xc_set_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct lc898217xc *lc898217xc = container_of(ctrl->handler,
+> +						     struct lc898217xc, ctrls);
+> +
+> +	if (ctrl->id == V4L2_CID_FOCUS_ABSOLUTE)
+> +		return lc898217xc_set_dac(lc898217xc, ctrl->val);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops lc898217xc_ctrl_ops = {
+> +	.s_ctrl = lc898217xc_set_ctrl,
+> +};
+> +
+> +static int lc898217xc_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> +{
+> +	return pm_runtime_resume_and_get(sd->dev);
+> +}
+> +
+> +static int lc898217xc_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> +{
+> +	pm_runtime_put_autosuspend(sd->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_internal_ops lc898217xc_int_ops = {
+> +	.open = lc898217xc_open,
+> +	.close = lc898217xc_close,
+> +};
+> +
+> +static const struct v4l2_subdev_core_ops lc898217xc_core_ops = {
+> +	.log_status = v4l2_ctrl_subdev_log_status,
+> +};
+> +
+> +static const struct v4l2_subdev_ops lc898217xc_ops = {
+> +	.core = &lc898217xc_core_ops,
+> +};
+> +
+> +static int lc898217xc_init_controls(struct lc898217xc *lc898217xc)
+> +{
+> +	struct v4l2_ctrl_handler *hdl = &lc898217xc->ctrls;
+> +	const struct v4l2_ctrl_ops *ops = &lc898217xc_ctrl_ops;
+> +
+> +	v4l2_ctrl_handler_init(hdl, 1);
+> +
+> +	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_FOCUS_ABSOLUTE,
+> +			  LC898217XC_MIN_FOCUS_POS,
+> +			  LC898217XC_MAX_FOCUS_POS,
+> +			  LC898217XC_FOCUS_STEPS, 0);
+> +
+> +	if (hdl->error)
+> +		return hdl->error;
+> +
+> +	lc898217xc->sd.ctrl_handler = hdl;
+> +
+> +	return 0;
+> +}
+> +
+> +static int lc898217xc_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct lc898217xc *lc898217xc;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	lc898217xc = devm_kzalloc(dev, sizeof(*lc898217xc), GFP_KERNEL);
+> +	if (!lc898217xc)
+> +		return -ENOMEM;
+> +
+> +	lc898217xc->regmap = devm_cci_regmap_init_i2c(client, 8);
+> +	if (IS_ERR(lc898217xc->regmap))
+> +		return dev_err_probe(dev, PTR_ERR(lc898217xc->regmap),
+> +				     "failed to initialize CCI\n");
+> +
+> +	/* Initialize subdev */
+> +	v4l2_i2c_subdev_init(&lc898217xc->sd, client, &lc898217xc_ops);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(lc898217xc_supply_names); i++)
+> +		lc898217xc->supplies[i].supply = lc898217xc_supply_names[i];
+> +
+> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(lc898217xc_supply_names),
+> +				      lc898217xc->supplies);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to get regulators\n");
+> +
+> +	ret = lc898217xc_power_on(lc898217xc);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to enable regulators\n");
+> +
+> +	ret = lc898217xc_init_controls(lc898217xc);
+> +	if (ret) {
+> +		dev_err_probe(dev, ret, "failed to init v4l2 controls\n");
+> +		goto err_power_off;
+> +	}
+> +
+> +	/* Initialize subdev */
+> +	lc898217xc->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	lc898217xc->sd.internal_ops = &lc898217xc_int_ops;
+> +
+> +	ret = media_entity_pads_init(&lc898217xc->sd.entity, 0, NULL);
+> +	if (ret < 0) {
+> +		dev_err_probe(dev, ret, "failed to init media entity pads");
+> +		goto err_free_handler;
+> +	}
+> +
+> +	lc898217xc->sd.entity.function = MEDIA_ENT_F_LENS;
+> +
+> +	/*
+> +	 * Enable runtime PM. As the device has been powered manually, mark it
+> +	 * as active, and increase the usage count without resuming the device.
+> +	 */
+> +	pm_runtime_set_active(dev);
+> +	pm_runtime_get_noresume(dev);
+
+You can drop this...
+
+> +	pm_runtime_enable(dev);
+> +
+> +	ret = v4l2_async_register_subdev(&lc898217xc->sd);
+> +	if (ret < 0) {
+> +		dev_err_probe(dev, ret, "failed to register V4L2 subdev\n");
+> +		goto err_pm;
+> +	}
+> +
+> +	/*
+> +	 * Finally, enable autosuspend and decrease the usage count. The device
+> +	 * will get suspended after the autosuspend delay, turning the power
+> +	 * off.
+> +	 */
+> +	pm_runtime_set_autosuspend_delay(dev, 1000);
+> +	pm_runtime_use_autosuspend(dev);
+> +	pm_runtime_put_autosuspend(dev);
+
+and use
+
+	pm_runtime_idle();
+
+here to achieve the same.
+
+> +
+> +	return 0;
+> +
+> +err_pm:
+> +	pm_runtime_disable(dev);
+> +	pm_runtime_put_noidle(dev);
+
+This can be then also dropped.
+
+> +	media_entity_cleanup(&lc898217xc->sd.entity);
+> +err_free_handler:
+> +	v4l2_ctrl_handler_free(&lc898217xc->ctrls);
+> +err_power_off:
+> +	lc898217xc_power_off(lc898217xc);
+
+A newline would be nice here, as would be empty lines above before labels.
+
+> +	return ret;
+> +}
+> +
+> +static void lc898217xc_remove(struct i2c_client *client)
+> +{
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct lc898217xc *lc898217xc = sd_to_lc898217xc(sd);
+> +	struct device *dev = &client->dev;
+> +
+> +	v4l2_async_unregister_subdev(&lc898217xc->sd);
+> +	v4l2_ctrl_handler_free(&lc898217xc->ctrls);
+> +	media_entity_cleanup(&lc898217xc->sd.entity);
+> +
+> +	/*
+> +	 * Disable runtime PM. In case runtime PM is disabled in the kernel,
+> +	 * make sure to turn power off manually.
+> +	 */
+> +	pm_runtime_disable(dev);
+> +	if (!pm_runtime_status_suspended(dev))
+> +		lc898217xc_power_off(lc898217xc);
+> +	pm_runtime_set_suspended(dev);
+> +}
+> +
+> +static const struct of_device_id lc898217xc_of_table[] = {
+> +	{ .compatible = "onnn,lc898217xc" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, lc898217xc_of_table);
+> +
+> +static const struct dev_pm_ops lc898217xc_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(lc898217xc_runtime_suspend,
+> +			   lc898217xc_runtime_resume, NULL)
+> +};
+> +
+> +static struct i2c_driver lc898217xc_i2c_driver = {
+> +	.driver = {
+> +		.name = LC898217XC_NAME,
+> +		.pm = &lc898217xc_pm_ops,
+> +		.of_match_table = lc898217xc_of_table,
+> +	},
+> +	.probe = lc898217xc_probe,
+> +	.remove = lc898217xc_remove,
+> +};
+> +module_i2c_driver(lc898217xc_i2c_driver);
+> +
+> +MODULE_AUTHOR("Vasiliy Doylov <nekocwd@mainlining.org>");
+> +MODULE_DESCRIPTION("Onsemi LC898217XC VCM driver");
+> +MODULE_LICENSE("GPL");
+> 
 
 -- 
-Regards,
+Kind regards,
 
 Sakari Ailus
 
