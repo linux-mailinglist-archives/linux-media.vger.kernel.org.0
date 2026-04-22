@@ -1,425 +1,227 @@
-Return-Path: <linux-media+bounces-59320-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59321-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wLUHLeay6GmIOwIAu9opvQ
-	(envelope-from <linux-media+bounces-59320-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 13:37:10 +0200
+	id 4IOxMLS26GmgPAIAu9opvQ
+	(envelope-from <linux-media+bounces-59321-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 13:53:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618484457B2
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 13:37:10 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DC14459A5
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 13:53:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id BEBD53018B6E
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 11:37:09 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id AEC3130046AA
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 11:53:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3D023D16F8;
-	Wed, 22 Apr 2026 11:37:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFF543D16FB;
+	Wed, 22 Apr 2026 11:53:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ursulin.net header.i=@ursulin.net header.b="PwV+QFIa"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="RWmDvS3S"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013051.outbound.protection.outlook.com [40.107.201.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB3F3C198A
-	for <linux-media@vger.kernel.org>; Wed, 22 Apr 2026 11:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776857827; cv=none; b=nYMtCW+RF/8s/QO/vpQBJ0Nsv7XWYY2tAyEsC1fkubIPEvixCiR1oMJBrA1aX0Zw8NzJMvK6Uw8zkOPP77ZPrPuQij1qbP+vUhtYlc4rUVqFG3JwpBZo6j8mQ1Es3jxfFZdVMIV9DfxF7o+AvwhdIoVakp4dHxYLa5AlVMpYsfA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776857827; c=relaxed/simple;
-	bh=bIcYa2SQS1YivblIbqaK6J+hNuY8yZGc05G9k9zQnaU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mUtAbQn4K+uultLFgHED+xJCcuUKADuQaiwC6JK4/9Yk4SFxA64CtpaUJagUklFOJer+QSKrJf3co3il2uxY4Mxb4j7Syl1HmxKIVVnQQB7IBxtRwTJ4ukNXpiwBaJdbVkjnL5JZc4cph0iNtNFHZgrX9/HHGTri4MRsMIPUQhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=pass smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin.net header.i=@ursulin.net header.b=PwV+QFIa; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ursulin.net
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso45128065e9.3
-        for <linux-media@vger.kernel.org>; Wed, 22 Apr 2026 04:37:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ursulin.net; s=google; t=1776857824; x=1777462624; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AAjkzDW3dUMmYnC6wUG2L3asSga3XbechqWM9IgW1us=;
-        b=PwV+QFIap2KhWkiwA9cMSFgv3E2frMQjBPQIyLFkgsK4Om+RKbc7ppycDAyvpIUjvk
-         2crryzTB/p1db15JF6YAOJirpKqzWADTwx3WvTNoXoXw1D4crJLLwN5FOGkQeqa2Mqvt
-         8zojYigbv4R+hyTKMLLouDWMrTkYrpf4NSlGBjtZqnj1R1UoxQdG7RA2iOYg/ZQeBd4P
-         HJXrZqLhHAHNsNfvrFsGrby6c8jH+Lum+qUFcWTm11L3RLTL614gMEEyIZpQwkDGvVJ+
-         bRSlnDpr7LYSYI0SSTLY4DZnd6SibstS66361wmg861SaQGNK8ewF12CPVLHpWF9KffT
-         +0RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776857824; x=1777462624;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AAjkzDW3dUMmYnC6wUG2L3asSga3XbechqWM9IgW1us=;
-        b=BBm5xoaRpWVD4QBnuVNbScfFQ0x1D0cr5nJNn66wF0e5K0D6fdKCUy3iypyGOcVrfV
-         WOPK4qyRzUHtmhB0GUrT3Pm2chXFmUBJ+sQiEQAHfWz79ExP3cgQeI3HHafn8VLcIR/k
-         JJ56A606/psZiuF6frFVTxm09diYIrucV8Wpu8XsVmTrfEdSE3lzrQvjzxSKYQTQjaNC
-         9R4ppUmjRJKTCNFjG0R2VKvz5tBa1T2fmoJj/85YngWuJBl/EmbjNPLdS/slLuxbUHnx
-         qfI3I15si7QLt8srUuz2z9nIkMAyYGKP1+gPA9fqKFaiMqZUhC05M2afSuR8ymlzTVGf
-         00Xg==
-X-Forwarded-Encrypted: i=1; AFNElJ/OKWJDPucT73uBDVo807fz/bs+ARSdmdIDnsLy4M5oPk6/f1CaYlJpPxQ1fqDmsuYLK4wI0P6NYC0eTg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOGssv3VzxzYR3SQaHOZraOuSv4FQq/feIAl4ufHlr6doPvf0i
-	8XuSu4MEUCaG9Zo3ZRMFqzhecbIIBtFtp44CHn5KI4Uy8vPbagYjX2V4AZI+7k9+E80eNN7RflK
-	lTCeSF8k=
-X-Gm-Gg: AeBDieu1OplRebuc3xnDA+n8is/iU7croFK+fpVZOrOBTlVVq+lQVB5akx/y9BrEZZL
-	VXHviXmm86sH0gPU5cHmeHft4GkiiNWlbCe/la3KjjNG9WrustFtRNtTr4HW2F+HVcMsAYDx9JQ
-	Rj4klvBjwkZlmrkJNd59r4TerecWlthZdpVBhY4IQHX7W8SG3QPJdrJWHiREQHbNPjrDbYV6sat
-	1jandh5Ue2KOYEqOtBHW4xEHC3sWAlB0XlLI+2evjkVREzELGslJEVXsyv/CnfngkB/JSLOfrAT
-	iiOwRnjxWMETUa5CCXKooc414vgpNWN+4lIwnWKhmqk3H84OFWWUuRHQOIFhIAND0rmAPAHNxiG
-	eErZbNAyCjVxEjXv4vnZQNWTaiRTW1v4tnlsUnk3Wa3IAM8UkDtQUChUVtzaUveEXrPw4aDXIQw
-	i/JOZlWiTW5zLYllL6r9/GB2jbgkJDVlI8ldtYlRqPyQImZn4O28bDN6w=
-X-Received: by 2002:a05:600c:6289:b0:488:f941:aab2 with SMTP id 5b1f17b1804b1-488fb78a561mr304825005e9.30.1776857823600;
-        Wed, 22 Apr 2026 04:37:03 -0700 (PDT)
-Received: from [192.168.0.101] ([90.240.106.137])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cc0d51sm44976014f8f.10.2026.04.22.04.37.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Apr 2026 04:37:03 -0700 (PDT)
-Message-ID: <5e15b5d8-8184-4496-8da0-793ccd592d10@ursulin.net>
-Date: Wed, 22 Apr 2026 12:37:02 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44D63B27E2
+	for <linux-media@vger.kernel.org>; Wed, 22 Apr 2026 11:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776858796; cv=fail; b=BQT3af94r6+/3EP4X45fZGTaeX7u3ONVHsQTWZrDuhuNzXb4nO32wx+C+n+ZBo7uittZ8niU7j6EjsGRhE3RlSdY0kPxdYakVoPZd3igL69eCv/eFjULrsK+QtsVsxHA1v6d6urpydG6F0Mv6I23r5TrtCcWksw0KbiYNLMpw7E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776858796; c=relaxed/simple;
+	bh=GuVzQZ9IP9z4babLv7FWL4G/Ut7Vm5gYhkQd7lksk+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=toxLolfJmzz/tQgx5LYVIa1LwColEYHvLyFxOcFmfOj99H+1k2s1E0vT/5hV6RPNkYy3A90xCh16RmK9FQZzsLs30SeQnMwDwUdMYIxQsSKQWtLWAa6YzxDkDLVbVtfJ1rgVTVo7xd3WCAivPga24uQNbycFUp5Ak/rq8BAhazg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=RWmDvS3S; arc=fail smtp.client-ip=40.107.201.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XHp46jk5SPF30RSoMwnTMVYGaG+judrZErOSSyTP5IRstHyflujkokptdK3bxZSPIzkju3cdupwUxtu07Nv0lkbalFHqx4c5nkFIBypb7ud2qnazMGs8HP9aJHJpDQVoM5kiHmgeejFk1YqyJBQkqDM2gMWZU1bcPM+coJe3QJUJgRIz964CtbjB/m9S2l8Z7PH4JmGYvrij7rG415Y39gFxS2dv03cUwdA5CbKTWiYookiR2BDJBoexzghSc7CNaB63FaT8CItrZbCZ0oFNI/3pEfxi9gjzf3EiXbz9sAOwEajC2I0NpwxfDA4niAp0F6P9LMlVvcbtrORx9uuRsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SkXjEdLMe9aJrz4ycb9wIOhpNsIq/d3xfhCWGB1vfLY=;
+ b=QDul7b93aAvi3kPPfBO62Z44sg7zUt0GI4Q219VlEOgUijp5UbwHgUUnvnLLnbdTe5Q9nzVk+hha0Ct8LTGWIOfb97RqWD0g0nhhGplv+sLJqI1IatrSpGTtjced9m7sQz1GittbpWXQYvOObeowgx8g6ZgPnlvYJtp0OpRU6X55S1B6MPpVi+ghTton5BUNCTxpOcnMOoNuodhLQU3YpBqpefMQlX2ZTZhigKV1scdBKiVScmhaQPrz+/iR4PSRp8smT3kZntfybNcrqphdvbCQA+udbUXQcK63GLp4K6UcbqeC9Z6tkyJhKilrTUFGpDQDcw6BVx1F8QXBmMmDdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SkXjEdLMe9aJrz4ycb9wIOhpNsIq/d3xfhCWGB1vfLY=;
+ b=RWmDvS3S1Ezj6A3ZkfYx2wROo6sZ5xrr9cwqZpcYQMeXV5zE27AVADTNph4746TidLtRKY2okMJkPeXHyNqdEhV3S1My658v4JJ7ZQMRcwWcYD7x3kyT8AZChVSXbWndvEh5gDWdkSLbfqsUdCUWpnnkn3OQX+ZaKv5X5KXNBhPsceBYX4c7u9V3tmSjy4AOwxrGd8qnFhEqf/ChrqHTXurRfRptOSlaX9Bj/oQmr8mNkx6RUhzyFhbGPV93yYHQmPHt6s6c54nbbU3cLDn9dJBqh5jGa7Yyx0mlxwUR2ekermsuBDKVEplEOmJ9qZ22qG6zsTHYb+auiTcjUeqzFA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by DM4PR12MB8475.namprd12.prod.outlook.com (2603:10b6:8:190::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.20; Wed, 22 Apr
+ 2026 11:53:08 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9846.019; Wed, 22 Apr 2026
+ 11:53:08 +0000
+Date: Wed, 22 Apr 2026 08:53:06 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>, dri-devel@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, iommu@lists.linux.dev,
+	Kevin Tian <kevin.tian@intel.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linaro-mm-sig@lists.linaro.org,
+	linux-media@vger.kernel.org,
+	Matthew Brost <matthew.brost@intel.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH RFC 21/26] dma-buf: Add the Physical Address List DMA
+ mapping type
+Message-ID: <20260422115306.GI3199414@nvidia.com>
+References: <21-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com>
+ <c413710b-4c28-4ed8-88ec-aeb8c4482011@amd.com>
+ <20260413121628.GE2588311@nvidia.com>
+ <f6d38a08-009c-4efe-9dc3-6bcf00ac35f7@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f6d38a08-009c-4efe-9dc3-6bcf00ac35f7@amd.com>
+X-ClientProxiedBy: YT4PR01CA0274.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:109::27) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dma-buf/dma_fence_array: optimize handling
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20260422103012.1647-1-christian.koenig@amd.com>
- <20260422103012.1647-2-christian.koenig@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20260422103012.1647-2-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DM4PR12MB8475:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae2328d1-e33d-49e9-ee0a-08dea065b85c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	9HvkVcbVkMR/o95wl2MQxxJaajL3BtCQddbKG4gX7dDGlBI3T1om4xzXTwOJmRbuwBEkIj6Ad1S8B5O8Htsp5IVyo1sLwpVEopuHO6AupvwJbWSfu4NHPhWDbS299rHrVYzsL96QGIJkmhYj6lgbQewz8DZuft57WGga7Hwqn1pQ1oYx1OGG2xXFDvz1Le6Tss4XJsSRlmO8C5KJ4YBrln4389NJhKntLJXomKcPudWxnt0N+PrVHA2rqsilHFXyw5uUI/R8PKHO+IWEvAttxqDmIvi3VdgzIFrUVIhtmpfla6xzueAH48YWSSq+YPu9+ejKiAf/ycD1awouNuwiqBle7TMVZROUbatxO6B4S7JdHsUYjyuCHSkna7NFPpfUkUhGgFm/THnZPrCifGIGe5HtWrI2NIWKtNl87HdZeqHz0zg19iwVFz+YeHee6WRwZdsUQMGRlNd851YsJLqvxmfliaGAxu2Zj3YlViu5noJ86td0XewhyQHbyHOLJ2FdZKHS/tRm1nddxSwcXS8irMawraauAGKpqCUwOkBoJfOnk5JIBgwNDYHUNH4rAZWAiu9rdf+1h7ffdX9RugKbDn1Htp1DocNtG442GtoA3XEOnjWa7OPVvTN9Br+QqyxAsxsaFwmyT7fPcUqUNOl7I0bvHEpv/w5wDq+cKIfW521lM52Fv1tpJw5V62fmfqaQg1n8xhbrHS4bFM12XVrkbDbdS0g+zyrJWT47nPUu6Fs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WmF2Vm0zTHlyM1E1R1Q3eG5EamthTnNLenV5SU85bENSODRPN2JodlNhU0h4?=
+ =?utf-8?B?ZXBpbVVwaGNFSEdZSXVYSzZMakxxVTZ3ZXZ1K2NVT3A2b21VUXJNU292VWo4?=
+ =?utf-8?B?cUpxbkg4ekVxMWVlUVJjTXhNeGhZaEdQVnVCbHRuNGJTbkJRTFlWNnRSazZN?=
+ =?utf-8?B?MVZDSUJOMlJ6b1lTYkNUWnBjaFAvU05Qc2ZrRTcyUk1obkhRU3VnVUd6dlp3?=
+ =?utf-8?B?V0lqU1hKRW05a1Ayc05xZ3p4TDhXQTMzbERUemptQ29CNVp4QkpQenJQOGxy?=
+ =?utf-8?B?V2VMd1RWQVJyYjY1QzZpenZXcm9CTUJ0dTBiMzZLTDc3TTFLSWNRdWdyQllL?=
+ =?utf-8?B?RDY3TUs2eWFKcmFSdmkvMFBqUHVWWUJrdnFmdnF3UnczMXlZU2RIejdDRnhs?=
+ =?utf-8?B?ZVo1ZzRGbDlnRnc4Uyt3Q3NGZ1VOZW9WSU1RdWxXMzRhTUtOY2NpL2ZqNW9q?=
+ =?utf-8?B?UW0vRzJ0QnlGUDN2Y2ZnaFVzWm40SkZHbm5FYlR2Q0ZMZkFPeGpIV2FMUmUw?=
+ =?utf-8?B?dnhQeGNkaUgwbnlVSWRUNXRqUHBxbVR1aDZyQmN3dUlZOXlKVG96S1Z5enJY?=
+ =?utf-8?B?YTRBUzA1bHJwdm5uQ2FiUlR6OE0xOURnUnpqUUZERVRVL1NIS2czRVQwN2RY?=
+ =?utf-8?B?Yjh1MHdONjVCWWhsc3FkdTAwait3SWVqVUFGRGJpRGNLbTVnTlN5NU9qazNh?=
+ =?utf-8?B?UGF0eDZxc3liL0hqb3VBZFZqVWN3YUsxRW9JWEo1V1ZhTnRqaFFsRUl0ekhK?=
+ =?utf-8?B?bUlYS1k2bzAxSUp0emZiTCtCMmRkTTRrUWE4bURFalpBYk1BVDUvc0E2bUVW?=
+ =?utf-8?B?N1p1aW5yaW4xeEtiblcrSzF1dDdnZlZlNGZteWFQYUYxYzZBcUJlU241eG15?=
+ =?utf-8?B?QURMMnRCQ1FFcFBFSkdMaUxjeWM2S0pEbFhTNndxWHZ3eE9NQzhnRERDalNU?=
+ =?utf-8?B?ZDBHbGxVSEZPd2tJLy9vMnRUNEFpZ0FoSnVzdG1VUXhiQzFiUFpFcEZJRitE?=
+ =?utf-8?B?aml6b2ZJS2tWbGZtd2dFY0VGWGw1K3MwdWl3dXlVTmN3WCtjU1k2elBFWEZR?=
+ =?utf-8?B?VXBqSFpiU2F4SWQvWkZoZ3R2cWZYbzBZMURwVlJkV3Z0TkVnNm0yQnVVSlBD?=
+ =?utf-8?B?L1MvWllOTFhqblIzTVVlRWRZcUY2eUl5STJEM3NaTFJrL2xSNE5qQkhnd0ZX?=
+ =?utf-8?B?QlBFUHdRY0FpcFZ0Ym1ZTUlkREhvVTBCNmdQUGw5dEcxcjV5WEpabFEyd1dO?=
+ =?utf-8?B?Q2RHZ3RYVjFIbFdQUXBEdmhHbUpiMkZPVjFZOS8rTmxOeGphc21sbUo5NldC?=
+ =?utf-8?B?N0pxYlEvVXljaXo1NEJ0ZnpIMHM5ZnFjbWM2N2xsYytKUVl1MlpUaGJ5R3dm?=
+ =?utf-8?B?STZnUnUvRFltR2R6S3NhN2lzdFYxb1FIZFhDUDBwYis4dCttNjdoZEwwanF4?=
+ =?utf-8?B?Z3VWbE1GVkFNWEVDNisyMzg1M3ZML3JJZnRORlR5L2VqaHZ1aWliT1BwTTQx?=
+ =?utf-8?B?M2hGQngrbHJPNUVOTDA5TFVGTFN2Nk52VHdVdlBsL0N6UFVaOEhnMHRpdlhx?=
+ =?utf-8?B?N0MwVWc4TFUrbmF3eEdmQlFaQmVPZUdZNGtuS3ZGQzBNL2dlYkN5STR6N1J3?=
+ =?utf-8?B?TndBZEdrd0FDWmdvTCtsdS9ubzFyR3BSQmYxdSt3SGZQSXpJWTRaQ0FXMnhS?=
+ =?utf-8?B?QXdETnFQa3h4OUU5akJDaWlLNitJemVNY0ZudGR3RHFPcXhlRTFLNzR2aHlT?=
+ =?utf-8?B?M0lwWXJZZWZ3V29YWGdTREdpWFh6MlBvMVpFeVRYTU1sMnFaMDFvbFZtUll2?=
+ =?utf-8?B?aC9Yb0ZBaGlOMkVhYnhRZGhvMi9LRXBmWDZwUWNwVHBnR2xqZUxydFhZbnFI?=
+ =?utf-8?B?cFlEOC9IYUVnSTBmblBvRXhuZnEyRDBOTHFZb1FEcTNpYitxQlRCS25UeGFW?=
+ =?utf-8?B?UEJvdGtIcGxzeGcvaW0yVVNhUVY1aTVyUXJWZWVXbFFvVlFLYXhLek9TVDUr?=
+ =?utf-8?B?V0pBVDRhenh1a2VYM0VnZVp5YnRFMmI2VFZCaEhiUW4zWVlKcXYwb3ZRTDVG?=
+ =?utf-8?B?UDBEd3hWZS9uWmZ1Ti9VMGFSbGRTdGh1cVFNUnZGaEo1Z2Q0SHZSdzlxQUZT?=
+ =?utf-8?B?cDVFREt2d3h4WC93TDFLZmtzWDhmblVJdnJMQ0N0Q0RSci93MzNHU2h4Y0tu?=
+ =?utf-8?B?dW8yUUR4S2xQRmNydi9hN3J4bW1VMkFObEh4TVAwRExvWm8yajBqN05GRXhz?=
+ =?utf-8?B?NVd3WkFXalZyZGJ6YkhrcWxmUDdCRjNhYVJxVDRKMU5qbm9ZWGUycFNzei90?=
+ =?utf-8?Q?Dk6CoztP4YAd+mJLq2?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae2328d1-e33d-49e9-ee0a-08dea065b85c
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 11:53:08.2007
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oxW9aM54Ix/5cMhO9OcmnlG2TuzqJ1+osPaI3SP8Mz/2avTAB0OZl5RYO1O93XRo
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8475
 X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59320-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59321-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,linaro.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[ursulin.net];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[ursulin.net:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCPT_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[jgg@nvidia.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ursulin.net:dkim,ursulin.net:mid]
-X-Rspamd-Queue-Id: 618484457B2
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C5DC14459A5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-
-On 22/04/2026 11:30, Christian König wrote:
-> Removing the signal on any feature allows to simplfy the dma_fence_array
-> code a lot and saves us from the need to install a callback on all fences
-> at the same time.
+On Wed, Apr 22, 2026 at 10:17:06AM +0200, Christian König wrote:
+> No, not even remotely. I clearly don't want such an interface in
+> DMA-buf at all.
 > 
-> This results in less memory and CPU overhead.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/dma-buf/dma-fence-array.c | 130 +++++++++++++-----------------
->   include/linux/dma-fence-array.h   |  22 ++---
->   2 files changed, 59 insertions(+), 93 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-> index 5e10e8df372f..f1b4b3296c87 100644
-> --- a/drivers/dma-buf/dma-fence-array.c
-> +++ b/drivers/dma-buf/dma-fence-array.c
-> @@ -42,97 +42,80 @@ static void dma_fence_array_clear_pending_error(struct dma_fence_array *array)
->   	cmpxchg(&array->base.error, PENDING_ERROR, 0);
->   }
->   
-> -static void irq_dma_fence_array_work(struct irq_work *wrk)
-> +static void dma_fence_array_cb_func(struct dma_fence *f,
-> +				    struct dma_fence_cb *cb)
->   {
-> -	struct dma_fence_array *array = container_of(wrk, typeof(*array), work);
-> +	struct dma_fence_array *array =
-> +		container_of(cb, struct dma_fence_array, callback);
->   
-> -	dma_fence_array_clear_pending_error(array);
-> +	irq_work_queue(&array->work);
-> +}
-> +
-> +static void dma_fence_array_arm_cb(struct dma_fence_array *array)
-> +{
-> +	while (array->num_pending) {
-> +		struct dma_fence *f = array->fences[array->num_pending - 1];
-> +
-> +		if (!dma_fence_add_callback(f, &array->callback,
-> +					    dma_fence_array_cb_func))
-> +			return;
-> +
-> +		dma_fence_array_set_pending_error(array, f->error);
-> +		WRITE_ONCE(array->num_pending, array->num_pending - 1);
+> You can do that as private iommufd interface, e.g. where iommufd
+> offers the functionality to say give me PFNs if you want that.
 
-Do you think the WRITE_ONCEs are needed? As the loop will restart with 
-un-annotated read anyway, but not just that, I don't think it can be 
-compiled away in the kernel with this usage pattern. Maybe I am mistaken.
+I'm not sure what a "private" interface means if VFIO and DRM/RDMA
+drivers need to implement the exporter side? That's not exactly
+private if it in so many drivers.
 
-> +	}
->   
->   	dma_fence_signal(&array->base);
->   	dma_fence_put(&array->base);
->   }
->   
-> -static void dma_fence_array_cb_func(struct dma_fence *f,
-> -				    struct dma_fence_cb *cb)
-> +static void dma_fence_array_irq_work(struct irq_work *wrk)
->   {
-> -	struct dma_fence_array_cb *array_cb =
-> -		container_of(cb, struct dma_fence_array_cb, cb);
-> -	struct dma_fence_array *array = array_cb->array;
-> -
-> -	dma_fence_array_set_pending_error(array, f->error);
-> +	struct dma_fence_array *array = container_of(wrk, typeof(*array), work);
->   
-> -	if (atomic_dec_and_test(&array->num_pending))
-> -		irq_work_queue(&array->work);
-> -	else
-> -		dma_fence_put(&array->base);
-> +	WRITE_ONCE(array->num_pending, array->num_pending - 1);
-> +	dma_fence_array_arm_cb(array);
+I've tried to make the importer side private, if you have better ideas
+how to make it more private please share them.
 
-So for x86 going from one irqwork latency to num_fences latencies is 
-probably passable but I am not sure how other architectures fare.
+> But when there is a DMA-buf interface even if it is limited to
+> iommufd then others will want that as well and that is not something
+> we should do again.
 
->   }
->   
->   static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
->   {
->   	struct dma_fence_array *array = to_dma_fence_array(fence);
-> -	struct dma_fence_array_cb *cb = array->callbacks;
-> -	unsigned i;
-> -
-> -	for (i = 0; i < array->num_fences; ++i) {
-> -		cb[i].array = array;
-> -		/*
-> -		 * As we may report that the fence is signaled before all
-> -		 * callbacks are complete, we need to take an additional
-> -		 * reference count on the array so that we do not free it too
-> -		 * early. The core fence handling will only hold the reference
-> -		 * until we signal the array as complete (but that is now
-> -		 * insufficient).
-> -		 */
-> -		dma_fence_get(&array->base);
-> -		if (dma_fence_add_callback(array->fences[i], &cb[i].cb,
-> -					   dma_fence_array_cb_func)) {
-> -			int error = array->fences[i]->error;
-> -
-> -			dma_fence_array_set_pending_error(array, error);
-> -			dma_fence_put(&array->base);
-> -			if (atomic_dec_and_test(&array->num_pending)) {
-> -				dma_fence_array_clear_pending_error(array);
-> -				return false;
-> -			}
-> -		}
-> -	}
->   
-> +	/*
-> +	 * As we may report that the fence is signaled before all
-> +	 * callbacks are complete, we need to take an additional
-> +	 * reference count on the array so that we do not free it too
-> +	 * early. The core fence handling will only hold the reference
-> +	 * until we signal the array as complete (but that is now
-> +	 * insufficient).
-> +	 */
-> +	dma_fence_get(&array->base);
-> +	dma_fence_array_arm_cb(array);
->   	return true;
+You can say no, that's the point of the export symbol restriciton.
 
-Are you sure it is safe to always return true?
+> Even for iommufd I think we don't need that. What iommufd does is
+> basically manipulating a specific IOMMU address space. So the
+> interface should be to give that address space to DMA-buf and say
+> hey please map you backing store at this address into this address
+> space.
 
-Regards,
+Isn't that pretty much exactly what this series is? Aren't you
+splitting hairs to say an "address space" requesting physical is OK
+but a "mapping type" requesting physical is not? The net result is
+exactly the same, physical addresess flow from exporter to importer.
 
-Tvrtko
+To be clear, there is no way, nor should there be a way, to use the
+DMA API to create a reliable dma_addr_t that is 1:1 with phys_addr_t.
 
->   }
->   
->   static bool dma_fence_array_signaled(struct dma_fence *fence)
->   {
->   	struct dma_fence_array *array = to_dma_fence_array(fence);
-> -	int num_pending;
-> +	int num_pending, error = 0;
->   	unsigned int i;
->   
->   	/*
-> -	 * We need to read num_pending before checking the enable_signal bit
-> -	 * to avoid racing with the enable_signaling() implementation, which
-> -	 * might decrement the counter, and cause a partial check.
-> -	 * atomic_read_acquire() pairs with atomic_dec_and_test() in
-> -	 * dma_fence_array_enable_signaling()
-> -	 *
-> -	 * The !--num_pending check is here to account for the any_signaled case
-> -	 * if we race with enable_signaling(), that means the !num_pending check
-> -	 * in the is_signalling_enabled branch might be outdated (num_pending
-> -	 * might have been decremented), but that's fine. The user will get the
-> -	 * right value when testing again later.
-> +	 * Reading num_pending without a memory barrier here is correct since
-> +	 * that is only for optimization, it is perfectly acceptable to have a
-> +	 * stale value for it. In all other cases num_pending is accessed by a
-> +	 * single call chain.
->   	 */
-> -	num_pending = atomic_read_acquire(&array->num_pending);
-> -	if (test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &array->base.flags)) {
-> -		if (num_pending <= 0)
-> -			goto signal;
-> -		return false;
-> -	}
-> +	num_pending = READ_ONCE(array->num_pending);
-> +	for (i = 0; i < num_pending; ++i) {
-> +		struct dma_fence *f = array->fences[i];
->   
-> -	for (i = 0; i < array->num_fences; ++i) {
-> -		if (dma_fence_is_signaled(array->fences[i]) && !--num_pending)
-> -			goto signal;
-> -	}
-> -	return false;
-> +		if (!dma_fence_is_signaled(f))
-> +			return false;
->   
-> -signal:
-> +		if (!error)
-> +			error = f->error;
-> +	}
-> +	dma_fence_array_set_pending_error(array, error);
->   	dma_fence_array_clear_pending_error(array);
->   	return true;
->   }
-> @@ -171,15 +154,12 @@ EXPORT_SYMBOL(dma_fence_array_ops);
->   
->   /**
->    * dma_fence_array_alloc - Allocate a custom fence array
-> - * @num_fences:		[in]	number of fences to add in the array
->    *
->    * Return dma fence array on success, NULL on failure
->    */
-> -struct dma_fence_array *dma_fence_array_alloc(int num_fences)
-> +struct dma_fence_array *dma_fence_array_alloc(void)
->   {
-> -	struct dma_fence_array *array;
-> -
-> -	return kzalloc_flex(*array, callbacks, num_fences);
-> +	return kzalloc_obj(struct dma_fence_array);
->   }
->   EXPORT_SYMBOL(dma_fence_array_alloc);
->   
-> @@ -203,10 +183,13 @@ void dma_fence_array_init(struct dma_fence_array *array,
->   	WARN_ON(!num_fences || !fences);
->   
->   	array->num_fences = num_fences;
-> +	array->num_pending = num_fences;
-> +	array->fences = fences;
-> +	array->base.error = PENDING_ERROR;
->   
->   	dma_fence_init(&array->base, &dma_fence_array_ops, NULL, context,
->   		       seqno);
-> -	init_irq_work(&array->work, irq_dma_fence_array_work);
-> +	init_irq_work(&array->work, dma_fence_array_irq_work);
->   
->   	/*
->   	 * dma_fence_array_enable_signaling() is invoked while holding
-> @@ -220,11 +203,6 @@ void dma_fence_array_init(struct dma_fence_array *array,
->   	 */
->   	lockdep_set_class(&array->base.inline_lock, &dma_fence_array_lock_key);
->   
-> -	atomic_set(&array->num_pending, num_fences);
-> -	array->fences = fences;
-> -
-> -	array->base.error = PENDING_ERROR;
-> -
->   	/*
->   	 * dma_fence_array objects should never contain any other fence
->   	 * containers or otherwise we run into recursion and potential kernel
-> @@ -265,7 +243,7 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
->   {
->   	struct dma_fence_array *array;
->   
-> -	array = dma_fence_array_alloc(num_fences);
-> +	array = dma_fence_array_alloc();
->   	if (!array)
->   		return NULL;
->   
-> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
-> index 1b1d87579c38..3ee55c0e2fa4 100644
-> --- a/include/linux/dma-fence-array.h
-> +++ b/include/linux/dma-fence-array.h
-> @@ -15,16 +15,6 @@
->   #include <linux/dma-fence.h>
->   #include <linux/irq_work.h>
->   
-> -/**
-> - * struct dma_fence_array_cb - callback helper for fence array
-> - * @cb: fence callback structure for signaling
-> - * @array: reference to the parent fence array object
-> - */
-> -struct dma_fence_array_cb {
-> -	struct dma_fence_cb cb;
-> -	struct dma_fence_array *array;
-> -};
-> -
->   /**
->    * struct dma_fence_array - fence to represent an array of fences
->    * @base: fence base class
-> @@ -33,18 +23,17 @@ struct dma_fence_array_cb {
->    * @num_pending: fences in the array still pending
->    * @fences: array of the fences
->    * @work: internal irq_work function
-> - * @callbacks: array of callback helpers
-> + * @callback: callback structure for signaling
->    */
->   struct dma_fence_array {
->   	struct dma_fence base;
->   
-> -	unsigned num_fences;
-> -	atomic_t num_pending;
-> +	unsigned int num_fences;
-> +	unsigned int num_pending;
->   	struct dma_fence **fences;
->   
->   	struct irq_work work;
-> -
-> -	struct dma_fence_array_cb callbacks[] __counted_by(num_fences);
-> +	struct dma_fence_cb callback;
->   };
->   
->   /**
-> @@ -78,11 +67,10 @@ to_dma_fence_array(struct dma_fence *fence)
->   	for (index = 0, fence = dma_fence_array_first(head); fence;	\
->   	     ++(index), fence = dma_fence_array_next(head, index))
->   
-> -struct dma_fence_array *dma_fence_array_alloc(int num_fences);
-> +struct dma_fence_array *dma_fence_array_alloc(void);
->   void dma_fence_array_init(struct dma_fence_array *array,
->   			  int num_fences, struct dma_fence **fences,
->   			  u64 context, unsigned seqno);
-> -
->   struct dma_fence_array *dma_fence_array_create(int num_fences,
->   					       struct dma_fence **fences,
->   					       u64 context, unsigned seqno);
+Can you be more specific please, I still have no idea what you are
+thinking in terms of an acceptable implementation.
 
+Jason
 
