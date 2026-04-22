@@ -1,182 +1,163 @@
-Return-Path: <linux-media+bounces-59288-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59289-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MPmgNcB26GmVKgIAu9opvQ
-	(envelope-from <linux-media+bounces-59288-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 09:20:32 +0200
+	id GAXXEJl76GlvKwIAu9opvQ
+	(envelope-from <linux-media+bounces-59289-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 09:41:13 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44ACC442E49
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 09:20:32 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0454430C8
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 09:41:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DE6163074A0C
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 07:15:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9277E303133F
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 07:34:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12B4B36F411;
-	Wed, 22 Apr 2026 07:15:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34215372B4B;
+	Wed, 22 Apr 2026 07:34:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EOdNn8O8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aAqD3sKH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5645236D9FE;
-	Wed, 22 Apr 2026 07:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7C02C3251;
+	Wed, 22 Apr 2026 07:34:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776842150; cv=none; b=JPGn56CsF60w4fLPjI/Qlq9/ptZCf8wzGMN+NueaqBUjJpYvFxKzNRkOowvFkwmLF07Tvvu/UR2vb/kETozOoVArrkqywBgTYU/uWqk9pmK6+QETQz+n7UDIKNX5R9c1wJjygP3h8xijCISnnR8ltCg+pYBPRfrGFfCNYzJYzE4=
+	t=1776843285; cv=none; b=vDJAazp/3CJJWXHHufzs3xY/h+dnVSFaEgh05ASpuMj4or6fBQk/js9zOIJcPgZ1FTaEe7EwWsCB1q05a6xvkigjinJB26Ou/9KOMOyuJpjDenMZPj7H2CibUC53X85e7yX4CmdNYtFT2q58lJEdz3h8dqj5y4tM1qgFm2LV8lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776842150; c=relaxed/simple;
-	bh=Gn2Jm42jqE9gFTv8djZxt7QP5Gn6bGlx1l4hDdnT+bQ=;
+	s=arc-20240116; t=1776843285; c=relaxed/simple;
+	bh=05WxGtzMdmiwqE6XcONX+oUDFFRR6Sb8327INIxDCS0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PLKkDXQQwAQzz2/qA0HTkz0bsrgbv0J01Tkf5f8iagkxCLotlsIU1+KWl10G+cOXQ+NO8d6tbaE33p2dR2NbdeUiyT3gtdR4BGO5Wuplx5WCgY3WRbENhHPxNhYGjTFiHVnbh/9Ev476ITdlisWXBUg5tBKkAPyF0GJUrfciZK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EOdNn8O8; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=OY7iOY3EBa0aPxGKES7iAcTyCaBxkiSBjvFFuI4oo1GNl8xIhrK6FEfSRKal/CW3rH3XWI1IRN1s4gMOOkni0IENOAfk8qGUkDf3Fmv/GXsW0PvkGaVwH9j4y+DBwXYOft3iwv4IQ/WCRrhHcbsli9+hcJhzQ6Aki0S73hdcTBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aAqD3sKH; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776842149; x=1808378149;
+  t=1776843284; x=1808379284;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Gn2Jm42jqE9gFTv8djZxt7QP5Gn6bGlx1l4hDdnT+bQ=;
-  b=EOdNn8O8moqZye3GPhuNBt/QL9QEwM6kuhPGYzbW8H1zYHEPv7mXPW6N
-   ajcFZGaxZIndJ2IkRpwYZTpVLFUSljYk4XpzbOFW89P5vdiX5wcTRblOX
-   S2948oPUfJzOvzfzdDbYm20Va6vGPA7XDhgvHuxSCN16Yqh3+oLYbQIYp
-   d7jxRC+sIeoq5wmPTkIkEFeAX0EJUWj6vXX4c/dUds3KXifX7ihGEP9Y5
-   3hv1mJVEUdtyQadFT5GaKHAkSuxH2oF1TAsGz+3MtnaPv/bLIf+ym1hfQ
-   Jl6uDf4vVPBQSCRUsbAO0FP4zB1vSuvRvOfl/bnOqqDLos33fnF77kxKz
-   Q==;
-X-CSE-ConnectionGUID: SHOfjdKFSLWJ6IzGCIvejw==
-X-CSE-MsgGUID: 5xBeKcTcTgS2MnmF81QPUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="100443695"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=05WxGtzMdmiwqE6XcONX+oUDFFRR6Sb8327INIxDCS0=;
+  b=aAqD3sKHSA1qjQUClm1VaX4wmRf4oWEHWH1KVzLZKVQrZcS0b4USLmGY
+   od8scjJTXMxRuFkylAENV+/GdqIGZP36InsQDSILpK/oqsynwjase0kMj
+   kXB2syfjWWZ9NlxEw+QVSsWjOPAaeXigTm0kruUVddaQ63pCNdpYFoyyG
+   yphdcEyXFcfVF5oWL/nWu/yq5tEQpsY+ySoiJ2CfVdTgx9KDS9jb2j/7i
+   x0ztlv3kRtVToKwljTGAMcCPHGLTMD5Z1tX3cbmnVx2VWhZw90I2OQZU/
+   sp4YsnAL516YXYGyELVxjJ7BU+zDhnnySGtfr1p1zAMeQPRoXxPhfpuJ+
+   w==;
+X-CSE-ConnectionGUID: IepQu+RuT0G4XhtTc2n1Ew==
+X-CSE-MsgGUID: rdXxCXaRQp2A3QQdJzigpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="81655807"
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="100443695"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 00:15:49 -0700
-X-CSE-ConnectionGUID: OWvqMF80S/muHJwqbrrQ2A==
-X-CSE-MsgGUID: P0ydl1sOSwyazY4mYuYC9Q==
+   d="scan'208";a="81655807"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 00:34:44 -0700
+X-CSE-ConnectionGUID: znrJKIjGSLSQm1SROwah8w==
+X-CSE-MsgGUID: 5eOc6QXPQkilE0Ihai1hfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="232181867"
+   d="scan'208";a="231389757"
 Received: from dhhellew-desk2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.208])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 00:15:47 -0700
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 00:34:41 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 4EDFC1201FC;
-	Wed, 22 Apr 2026 10:15:45 +0300 (EEST)
-Date: Wed, 22 Apr 2026 10:15:45 +0300
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 742891201FC;
+	Wed, 22 Apr 2026 10:34:39 +0300 (EEST)
+Date: Wed, 22 Apr 2026 10:34:39 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Thierry Chatard <tchatard@gmail.com>
-Cc: linux-kernel@vger.kernel.org, hansg@kernel.org, lee@kernel.org,
-	platform-driver-x86@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
-	djrscally@gmail.com, linux-media@vger.kernel.org,
-	mchehab@kernel.org, jacopo.mondi@ideasonboard.com,
-	nicholas@rothemail.net
-Subject: Re: [PATCH v4 5/5] media: ov8858: add ACPI device ID INT3477
-Message-ID: <aeh1obUwTJ7eIof9@kekkonen.localdomain>
-References: <aeMvy5aL0hSNNmEd@kekkonen.localdomain>
- <20260421225217.12472-1-tchatard@gmail.com>
- <20260421225217.12472-6-tchatard@gmail.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Conor Dooley <conor@kernel.org>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] dt-bindings: leds: Document TI LM3560 Synchronous
+ Boost Flash Driver
+Message-ID: <aeh6DwKm0_8L5GJu@kekkonen.localdomain>
+References: <20260419093412.40796-1-clamor95@gmail.com>
+ <20260419093412.40796-2-clamor95@gmail.com>
+ <20260420-affection-ferocious-e28cd29f360a@spud>
+ <aeZWgcARBqMQatrr@kekkonen.localdomain>
+ <CAPVz0n10Us=zU38v4ieqWXkQ2pXRKi=6M4i3k1Q5bJ4g2QQjgA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260421225217.12472-6-tchatard@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPVz0n10Us=zU38v4ieqWXkQ2pXRKi=6M4i3k1Q5bJ4g2QQjgA@mail.gmail.com>
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,linux.intel.com,gmail.com,ideasonboard.com,rothemail.net];
-	TAGGED_FROM(0.00)[bounces-59288-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	HAS_ORG_HEADER(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59289-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,kekkonen.localdomain:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 44ACC442E49
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kekkonen.localdomain:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,intel.com:email]
+X-Rspamd-Queue-Id: 9C0454430C8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Thierry,
+Hi Svyatoslav,
 
-On Tue, Apr 21, 2026 at 03:52:17PM -0700, Thierry Chatard wrote:
-> The Omnivision OV8858 appears in ACPI firmware under the HID INT3477 on
-> Intel IPU3-based platforms such as the Dell Latitude 5285 2-in-1. Add
-> INT3477 to the ACPI match table so the driver binds when instantiated by
-> ipu_bridge.
+On Wed, Apr 22, 2026 at 09:36:16AM +0300, Svyatoslav Ryhel wrote:
+> пн, 20 квіт. 2026 р. о 19:38 Sakari Ailus <sakari.ailus@linux.intel.com> пише:
+> >
+> > Hi Conor,
+> >
+> > On Mon, Apr 20, 2026 at 05:20:28PM +0100, Conor Dooley wrote:
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    enum:
+> > > > +      - ti,lm3559
+> > > > +      - ti,lm3560
+> > >
+> > > What differentiates these devices to the point that fallback compatibles
+> > > are not suitable?
+> >
+> > Good question.
+> >
+> > It seems the currents are different albeit the register values themselves
+> > are the same. The driver doesn't seem to handle that properly right now, so
+> > it's a driver bug.
+> >
+> > I'd keep the compatibles as-is as the current limit applied should be as
+> > specified in DT.
+> >
 > 
-> The supply names array already covers the regulators needed on this
-> platform: the TPS68470 board data maps VSIO to the "dovdd" supply of
-> INT3477, so enabling dovdd via regulator_bulk_enable() also activates the
-> S_I2C_CTL passthrough (reg 0x43) that gates I2C access to the sensor.
-> No additional supply name is required in the driver.
-
-I think you can drop this paragraph.
-
+> This is a valid point. Unfortunately, I don't have device with lm3559
+> to adjust driver accordingly and test.
 > 
-> Signed-off-by: Thierry Chatard <tchatard@gmail.com>
-> ---
->  drivers/media/i2c/ov8858.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
-> index 3f45f7fab..a1fa0be52 100644
-> --- a/drivers/media/i2c/ov8858.c
-> +++ b/drivers/media/i2c/ov8858.c
-> @@ -79,8 +79,8 @@
->  
->  static const char * const ov8858_supply_names[] = {
->  	"avdd",		/* Analog power */
-> -	"dovdd",	/* Digital I/O power */
->  	"dvdd",		/* Digital core power */
-> +	"dovdd",	/* Digital I/O power */
+> So, Conor, Sakari, what changes if any I should apply here in v3?
 
-Why?
-
->  };
->  
->  struct regval {
-> @@ -1981,11 +1981,18 @@ static const struct of_device_id ov8858_of_match[] = {
->  };
->  MODULE_DEVICE_TABLE(of, ov8858_of_match);
->  
-> +static const struct acpi_device_id ov8858_acpi_ids[] = {
-> +	{ "INT3477" },
-> +	{ /* sentinel */ },
-> +};
-> +MODULE_DEVICE_TABLE(acpi, ov8858_acpi_ids);
-> +
->  static struct i2c_driver ov8858_i2c_driver = {
->  	.driver = {
->  		.name = "ov8858",
->  		.pm = &ov8858_pm_ops,
->  		.of_match_table = ov8858_of_match,
-> +		.acpi_match_table = ov8858_acpi_ids,
->  	},
->  	.probe		= ov8858_probe,
->  	.remove		= ov8858_remove,
+I'd mention the different current limit in bindings. The driver would be
+nice to fix but 10 % too low current isn't a grave problem.
 
 -- 
 Regards,
