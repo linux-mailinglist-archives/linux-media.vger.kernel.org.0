@@ -1,293 +1,368 @@
-Return-Path: <linux-media+bounces-59285-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59286-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eBdBL1106GlCKgIAu9opvQ
-	(envelope-from <linux-media+bounces-59285-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 09:10:21 +0200
+	id d76gEs106GmVKgIAu9opvQ
+	(envelope-from <linux-media+bounces-59286-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 09:12:13 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6097C442C96
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 09:10:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9AA442CC0
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 09:12:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4322A301BA77
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 07:10:20 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B69AF3028003
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 07:11:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9900D36BCCA;
-	Wed, 22 Apr 2026 07:10:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D43836BCF5;
+	Wed, 22 Apr 2026 07:11:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="OL7lp+xI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VjCWRR9O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011014.outbound.protection.outlook.com [40.107.208.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3DA36923B;
-	Wed, 22 Apr 2026 07:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776841815; cv=fail; b=q8A1B1bJH/2Kc5hq/sWcptaE+/ABfjRenYEr+8gFzzn/DpycsO0ubbkafEtn756Fn8G9rvxXLj2bTQQWoB1NRKFWUo9zEAxb66ysDqLdynKrK6xc1VFY3aAsbsvmLYqTV/xCiSCwAZNNNYZ977yAJM/dbHHRPRmlMFADVA4ySK4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776841815; c=relaxed/simple;
-	bh=S64FM5qeK3u84bB20KTC2XndrZeSh2tY802xf+t60tU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=BsxE85+Q04jb1kdzgjz6kZNAvZvjrVwqU0vVMHwPOI/R0iBOzGpr6aOeeU6aSlZhkcqxwDpb+0Z+HufTZNyZF9GLC3IdffJsA9ivhNZJ979LowLaV7HA5x6fF5VZN5L+9XcvjhTsz5TFawQ+mfSXPRs4X4z8Jiy2wFq7LgPC1y4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=OL7lp+xI; arc=fail smtp.client-ip=40.107.208.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dthVVIERdlj1mFuE7Y/zMhw5JoLjOEDcdaYejbWtBHhyXKxQJDDzlP1DJq4P9liOW//tqH1HD++XpR/eJyrhxHutDzUpbETfOgeaC9T+bPquIS6HW0Zj5TMN6dqf3p3x9thB6PyjjgJcEDoVidGTqNPNLBSkmjXIKDEU9rWQhcdntYffiD3moiefYiJyyE7MguQ0PeqEU2CJ0ubMEL4Maq7awOEm+v2c7vbTcu4OLLok+USydcjGU+IAVWKIX2QOY/8q7aGa7bLqotkXgyS6Scl7edlDrbr8eUyXTApYsSaTp0j1+umTx3UOf+gnkLcTzSVEhdVEInar3rH9Z2OqXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1g4Ec19MTbsH0oDk7b4Z1+P9GZg8iPha3ZsaOisTSz4=;
- b=fiSeUrrvf/GiCB7VFqR/BWt2tolvAPdOO35hUgaOCVMqJjs5aQDUkWbVJZdq1mqmoP40r4vOs987oMFUiZtcU5azGAzkZuo6LdRmoUzwDO+w4flJgInyewRqtcyr99bcQo+Dj0UMxARhjuNv0UIMuRbxFeH1Xi2/kFDp9ABAmTMNCN8dzw4kAsBvmE1ddkD/6JU1qBuqc38nIn1MLeqCwjep1w+mYxM7zR/rikN4nxbEH6/y87yi/hAueHdRr+50P3luxts/motpWXiaB1LeWBAAJL9aBv24AameK2FaMvewHfIFz4gvMUk/vKp22kqdk9QnVW3L7ukWQz9sW51slA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1g4Ec19MTbsH0oDk7b4Z1+P9GZg8iPha3ZsaOisTSz4=;
- b=OL7lp+xIOSvAL7lL1ttATmtvS66gbdxT1UFpjIatgmj9Kek9j2+g3XAa92/B80zho9tDGSXqUidsg09vrA3VoUV1ZAy1Uyac1RYDydgPeTInqcDYRV5gIHj5boq7PFh5K+88NlNanLvrNM4L3Z4GK26t9Bw0PBIDlpP66KTR9bo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY8PR12MB7682.namprd12.prod.outlook.com (2603:10b6:930:85::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.18; Wed, 22 Apr
- 2026 07:10:10 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9846.016; Wed, 22 Apr 2026
- 07:10:10 +0000
-Message-ID: <9034246e-3971-4fad-94b7-80f4ad0e29db@amd.com>
-Date: Wed, 22 Apr 2026 09:10:03 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: system_heap: Optimize sg_table-to-pages
- conversion in vmap
-To: Barry Song <baohua@kernel.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Xueyuan Chen <Xueyuan.chen21@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>
-References: <20260406214938.24142-1-baohua@kernel.org>
- <a6d1c89a-3c71-4e06-adcb-56595071dcc2@amd.com>
- <CAGsJ_4xquCzQLbvpkC8arAN=9KhrAkdPdxnB=v85GvvQu23Xyg@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAGsJ_4xquCzQLbvpkC8arAN=9KhrAkdPdxnB=v85GvvQu23Xyg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0189.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a4::12) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE52D36AB72;
+	Wed, 22 Apr 2026 07:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776841866; cv=none; b=LKBcGU4z3yZbfpn39RhOO+eqHPfLQ00H9VNsnR+fVzZLG6N5XbQiTRj9pA4o1vc5w82lZAmjk2a6Wgcrrljp3zirbMEadCxp18wdQ/hmfDxpgfgv7OYfo5N5/VswwgD4Nh/xRGQlEj+g0Qg42kBZLWdyAiWJs2gT54OSC/ilaD0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776841866; c=relaxed/simple;
+	bh=Oltp+Vb3N8qstKmIA8Bo7G+pJICWJrQQelLJnZEWHyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pDyjWOf2JmnVmo1ElNsjtlCMEUBbBE+iH8h8wOpmErUeRIW/BuhYi1OgXWvchc0oN7yZ7io+eSZJvN0zwvGIAXpwlErAKImFDFA5CXQ7BjOHMjYSboZTExD7ZNsK3nCfSr9FyRShUk0iEGnIoDHjsKf+uCoAeip66ub5+3FNYNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VjCWRR9O; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776841865; x=1808377865;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Oltp+Vb3N8qstKmIA8Bo7G+pJICWJrQQelLJnZEWHyE=;
+  b=VjCWRR9O1LrAcc4FIsNFBPo9LUPbCBXb3W1EkWpD4XWd+xgj0ao8URc3
+   G0sQXCMOo40+iMzrWsRsvJhFrZUwTB3AqkYFfArWfdl1w1NY9ADKX9QaC
+   Nj0o2ArFhZm9oSGAF1Jfwcy/A98boYLxnAgVBVsMkZyzbI0VJ6b0Gpvj3
+   BkZrn9eU5hJ8Iw5jtezoNEsy7Ww6ILWSz2KbC/kbvdeIoD3KbWWH0ZpE6
+   XqH9b9kJy7QTiK99HtdIojTM3L2BTCDqUe8D583TCvBw1p6lo5GWMtBSM
+   3HMfDmplE7lLIp/JM77LfwuP7Lb0d4YPKnyOQldtPSmVOea6MATI/WN8u
+   Q==;
+X-CSE-ConnectionGUID: 6MgIXuXyQAiCwTxpZd755w==
+X-CSE-MsgGUID: J/1qQwl0SZGTswTZXHIghQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="88090252"
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="88090252"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 00:11:04 -0700
+X-CSE-ConnectionGUID: 9kLUeYaAQu+N1hDuHiIl3A==
+X-CSE-MsgGUID: B9OHudTCT1qNRokpw8u+ow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="232570268"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.208])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 00:11:02 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 762C51201FC;
+	Wed, 22 Apr 2026 10:11:00 +0300 (EEST)
+Date: Wed, 22 Apr 2026 10:11:00 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Thierry Chatard <tchatard@gmail.com>
+Cc: linux-kernel@vger.kernel.org, hansg@kernel.org, lee@kernel.org,
+	platform-driver-x86@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
+	djrscally@gmail.com, linux-media@vger.kernel.org,
+	mchehab@kernel.org, jacopo.mondi@ideasonboard.com,
+	nicholas@rothemail.net
+Subject: Re: [PATCH v4 3/5] platform/x86: int3472: tps68470: add board data
+ for Dell Latitude 5285
+Message-ID: <aeh0hAqjwJXq2c3M@kekkonen.localdomain>
+References: <aeMvy5aL0hSNNmEd@kekkonen.localdomain>
+ <20260421225217.12472-1-tchatard@gmail.com>
+ <20260421225217.12472-4-tchatard@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB7682:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7689d6db-51ea-4d19-b5c9-08dea03e30b9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	f9uQLdc8vu5UxmNPBWeNu8ORlTbDvV7qYkWz7YDMq7agJQLJnKMxK0YEhkxZMptMFmeEHD/XS2MqsDEzfBDpWJudTzKt9Oofye8vifAfZXBH8AlVObMubLNfsLqpvw9ITv52cdZ+NYWfnN5CHfQKepUJrWnMCWd8b24UHjNcCpLNK6WMcn4DDAr1+HIy4YsKvM4HeltUt7KF/FAu0hNhMr41l0GiOn3pjeZVZnFcDOdVP91/ATa12kebRGcKm2sdfxtJZu9AxZ/YOXDS8csY+HobH3CKMpIURJq5g3NgPmYs3u3U3tKNjm4VRJ2nxI30iuVD8GrqM8he6+WfR5Amv4mziRbQb2474VmWaXF7MR9LPIdv5EirGC03p7YS2Mi5eBlmUoNR/CFfDUQu9sUvUSRdwUSlTuBF8etwR3xTA3PZIf1+6y1eSvjlI7FHkHs4mypwiQ+rpDVLwnS5nZvsg8+BqdzQIhfuoJCnMQiXmVPA7FaD8jMY3Ji0AxCPQWTajUaot/Tt3GOBfPwQ5zGU2jh+giVYOgmzUELcDBFaoNQGXeFaFw8vtzhb3qW2tMFC/hQgCb0p4eDrb9+MGneeIhMhGHvy8FJZ/ZupX+85c3dFo9Wg7C4ylNNE94S+5VjLfg6OJg3er0XalvLm45HK/1CtHrygouK6OzTeI4ezXOWOoC9tXTI/PkjwIS9LpR4IpCrGSaoKbW4v2vVyvfpmXy2xIA5LhskNI8EHLtmlW+U=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZEpCaWV6TGRKQlQwSGc1bnpiWERpSm9EbkRhSzdlOXRubzc5UTM5dTQxS2dI?=
- =?utf-8?B?VXBRbHJ2SEIxS0FUWkM1MXdyaXlnRXgvcFE2S1Vqc1BDL1hXeFNaanZvMkc1?=
- =?utf-8?B?T3pmWlZMTGdYcXZmMTVIemh6MXA5WlNlTzFXTkFBZWIzTWVCVkNPdThqc2JX?=
- =?utf-8?B?eWlUTUFHTE9jYkFlM0YyUHBJWWE3T1RsYWVaZk9Hc01LUWhWMEkwUWdVT1Zs?=
- =?utf-8?B?MDdHQlZVcXAyYm1hM09jeCt4dU9SMWZBOHdjeXoxMzhTRHR6L0c4QlFNRGI5?=
- =?utf-8?B?VXNjRW9mcnZFNWJyeFN0Mm9jbmI0OUdwZUtiQ2xhZXVkaklHek1ZQTg5WUZi?=
- =?utf-8?B?R0w3MW5XY294cXRvY3k4QjZCMlVXWW5aUDEyd3RJcXdvQ284WStnV0pxcThD?=
- =?utf-8?B?a3AzUUxodnFSR3JTZXFpVjBmTjkxOWVtRi9jQkpXVDRPZXV4ZDJjbVdEOTF6?=
- =?utf-8?B?bVVYa2hxQWo0UktzYjRLVnkyL2xzOEUxc3FSQTA0VmIzalFWYmlMUnpxT3JL?=
- =?utf-8?B?YTJGNmVTUXl1NzhUSkJYcVd5QWdQK09yNXFnZXVqZU1FaU1ObWE4cnI3WkJ1?=
- =?utf-8?B?TFlwT0pFbFI4akVYcURFaVNYY3lscXptTFNEWnZVeXZTUzMxWmZqdXVtdDZm?=
- =?utf-8?B?VXlIUW1kR2NjYWIvaUNOZnR4WndzV01IMWFNcHVidlhiVkRPeDNxaWhRbkpE?=
- =?utf-8?B?S1RxV1FSV3Y3d0crMTY5Z3ZReURzeVlvSmdaRWtqNFVObDNYTlRrcjhWK2U3?=
- =?utf-8?B?dWt4c2ZGVkpoNStUTE9tcHJKaUEwQUZhU0p6V0lkRk9RcURWTEZSR2NGZEJl?=
- =?utf-8?B?RFFFbzhJb21JeHJlSlRwVjgvVnBUdENtS0FsYjBWTk4zQ0lKOC9SZlczRDZE?=
- =?utf-8?B?OHU4ckdRSTkwMkRJSzdrc1ZNUVNXMmFxYmVSU2IyUjFWVEtCSGJTdG9yS0h3?=
- =?utf-8?B?cTNkOXVQcFcxTWViMlI4MEROd3o3WTMxWWd3WkxVQjNIWUI2ayttOURwQzZr?=
- =?utf-8?B?TTNQUjBPZHY3dVNqeThrTnZxTlRCeWQrTUsza1FVZjQybi9KT0dBL2JDSHha?=
- =?utf-8?B?dVRXbFF6cU1qOFU1UStnZTVDNEtsdTNvaDBDeVFzNWpHdG5HUjJZMzMyRmI5?=
- =?utf-8?B?TVNGOEJFWCtPeHZpZWxjY3dRZFJLcWdQZDFDUVdoSlBVQ3JBR0FMU2VQQVAr?=
- =?utf-8?B?bFpjR0J5c2xqVjNQVXlxVTJPZ1lyaFQ5SG5Pb1hmS2J3WWl1QkhwZ3h0V0tS?=
- =?utf-8?B?dVRSREJna3pUOUpqMTFPczcyNEFjdjQ3bU9RYnpoSjNZYnlTbWZ0ZjdvbVh5?=
- =?utf-8?B?TE41RUhjUzNlUGxFVGNPZ0R0ZGlyV0F1QUNxb1JnZFF6SWk1aHBZa09kaWNr?=
- =?utf-8?B?WU9yZGRzc1BpRVZZR0l5Q2NRK2tDUGVPeFJMYjZrYXRSeHY0QkRpNS9JYzNO?=
- =?utf-8?B?VWJUaXEzenZRVk5KZEpBenJTQVkvREYybE5YUC9PNjBlVHYyMitweWdWZzlP?=
- =?utf-8?B?TzlGZExKNG42UnR2ZnZZY0h5bFhhZXpEeGJaMWV1alhrTjNaODRuUlNvcC9v?=
- =?utf-8?B?MFRvdG12TWFNZG1ISGlpTmI4dVpGblNiN2E3SVlWOVVFYXJCQW9GM2t3MjhT?=
- =?utf-8?B?eTViOXg1ZVJDTzlweFk1c1crQ0oyU0lkSmoveVFMek9QTDdkRWxVNURCTEl3?=
- =?utf-8?B?Y1hUd3dQNDlHZmdqL0J6Smp6WGJrb1NBdTFRT213NnlEaVlEUncvRnpNRE5t?=
- =?utf-8?B?bVBxQ2VlZEpiTlZQSzdpalBBK2ZWZmNUNWJ2cUx6R0xzV3ZPUGZVcU9DZm52?=
- =?utf-8?B?U01Jd1Qva1RLRDg3RGFCaVpTZVdxK2U3WllHL011blo4ZjVOOUo2THRtN2pk?=
- =?utf-8?B?TkRKbVBNNE9Ya2piRWt2WEhuajdHaDNZUTRwOE1zazJtNlVLWW1XTGwycXND?=
- =?utf-8?B?QzN5V1QyMTZxU1U4S1p3UGlVU1NvZzhzK3gwWnZIVG9FVndLUDNVekwvR0ls?=
- =?utf-8?B?U0VrWmM3Sm5vY1A2TDc2cDdVUUxhZWtjMlJCSkpEc2xRSWNia0pmb1ozdThu?=
- =?utf-8?B?LzNRVTBJd3kxVkx2WDhXTEFiN0M5elVlM3hkd1hiZEZEZ2ZlNmpOOC9TQ2xp?=
- =?utf-8?B?NDNGY3RGT1pxTThUU0F3M0NTaXM1NmJuQ1ErQU5sYU1KM1lDUjVXRHBtT0Rs?=
- =?utf-8?B?QUxOdlFMTnB5N1krbG1wNjdIbzFCMnMyREwzSGJRNFdMYjR0bFQ4am15SENL?=
- =?utf-8?B?VmFRbjFYSXhITFc0cGE4UFN2endzU25yS3dUeXNHekhIY21PdUlhMGZwYTZK?=
- =?utf-8?Q?FYAWNnUP68Jhcg5VQM?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7689d6db-51ea-4d19-b5c9-08dea03e30b9
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 07:10:10.1827
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RFuI70+QeGW0SdZoFSRKmzVPEBCVBgfjOIdSXisfGsn/TdnVNGNfp/8UQHVqLAU5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7682
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260421225217.12472-4-tchatard@gmail.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.linaro.org,gmail.com,linaro.org,collabora.com,arm.com,google.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,linux.intel.com,gmail.com,ideasonboard.com,rothemail.net];
+	TAGGED_FROM(0.00)[bounces-59286-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59285-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,amd.com:email,amd.com:dkim,amd.com:mid]
-X-Rspamd-Queue-Id: 6097C442C96
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,kekkonen.localdomain:mid]
+X-Rspamd-Queue-Id: EA9AA442CC0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 4/7/26 13:29, Barry Song wrote:
-> On Tue, Apr 7, 2026 at 3:58 PM Christian König <christian.koenig@amd.com> wrote:
->>
->> On 4/6/26 23:49, Barry Song (Xiaomi) wrote:
->>> From: Xueyuan Chen <Xueyuan.chen21@gmail.com>
->>>
->>> Replace the heavy for_each_sgtable_page() iterator in system_heap_do_vmap()
->>> with a more efficient nested loop approach.
->>>
->>> Instead of iterating page by page, we now iterate through the scatterlist
->>> entries via for_each_sgtable_sg(). Because pages within a single sg entry
->>> are physically contiguous, we can populate the page array with a in an
->>> inner loop using simple pointer math. This save a lot of time.
->>>
->>> The WARN_ON check is also pulled out of the loop to save branch
->>> instructions.
->>>
->>> Performance results mapping a 2GB buffer on Radxa O6:
->>> - Before: ~1440000 ns
->>> - After:  ~232000 ns
->>> (~84% reduction in iteration time, or ~6.2x faster)
->>
->> Well real question is why do you care about the vmap performance?
->>
->> That should basically only be used for fbdev emulation (except for VMGFX) and we absolutely don't care about performance there.
+Hi Thierry,
+
+On Tue, Apr 21, 2026 at 03:52:15PM -0700, Thierry Chatard wrote:
+> The Dell Latitude 5285 2-in-1 has two cameras connected through a TPS68470
+> PMIC/clock/GPIO hub:
 > 
-> I agree that in mainline, dma_buf_vmap is not used very often.
-> Here’s what I was able to find:
+>   Front: OV5670 (ACPI INT3479) on I2C4
+>   Back:  OV8858 (ACPI INT3477) on I2C2, daisy-chained behind TPS68470
+>          S_I2C port (controlled by reg 0x43 S_I2C_CTL)
 > 
->   1   1638  drivers/dma-buf/dma-buf.c <<dma_buf_vmap_unlocked>>
->              ret = dma_buf_vmap(dmabuf, map);
->    2    376  drivers/gpu/drm/drm_gem_shmem_helper.c
-> <<drm_gem_shmem_vmap_locked>>
->              ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
->    3     85  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> <<etnaviv_gem_prime_vmap_impl>>
->              ret = dma_buf_vmap(etnaviv_obj->base.import_attach->dmabuf, &map);
->    4    433  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c <<map_external>>
->              ret = dma_buf_vmap(bo->tbo.base.dma_buf, map);
->    5     88  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c <<vmw_gem_vmap>>
->              ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
+> GPIO mapping (TPS68470):
+>   INT3479 (OV5670): GPIO3 = reset, GPIO4 = powerdown (both active-low)
+>   INT3477 (OV8858): GPIO9 = s_resetn, GPIO7 = s_enable (both active-low)
+>     GPIO9 and GPIO7 are the TPS68470 secondary-port GPIOs (SGPO reg 0x22
+>     bits 2 and 0), not regular GPDO outputs.
 > 
-> However, in the Android ecosystem, system_heap and similar heaps
-> are widely used across camera, NPU, and media drivers. Many of these
-> drivers are not in mainline but do use vmap() in real code paths.
+> Regulator mapping:
+>   CORE  -> dvdd  / INT3477
+>   ANA   -> avdd  / INT3477
+>   VIO   -> generic (hardware always-on, no enable register, no consumers)
 
-Well out of tree drivers are not a justification to make an upstream changes.
+That is not what the datasheet says.
 
-Apart from a handful of workarounds which need to CPU access as fallback DMA-buf vmap is only used to provide fb dev emulation.
+>   VSIO  -> dovdd / INT3477: enabling VSIO sets S_I2C_CTL (reg 0x43),
+>            opening the I2C passthrough to OV8858; the ov8858 driver
+>            enables dovdd at probe time, which naturally activates the
+>            passthrough before any I2C transaction to the sensor.
+>   AUX1  -> dvdd  / INT3479
+>   AUX2  -> dovdd / INT3479
+> 
+> A static clock consumer list is provided for both sensors (INT3477 and
+> INT3479) to work around the broken ACPI _DEP on INT3479 described in the
+> previous patch.
+> 
+> Signed-off-by: Thierry Chatard <tchatard@gmail.com>
+> ---
+>  .../x86/intel/int3472/tps68470_board_data.c   | 169 +++++++++++++++++-
+>  1 file changed, 166 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> index 71357a036..b40ac4fc5 100644
+> --- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> +++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> @@ -74,8 +74,12 @@ static const struct regulator_init_data surface_go_tps68470_vcm_reg_init_data =
+>  	.consumer_supplies = int347a_vcm_consumer_supplies,
+>  };
+>  
+> -/* Ensure the always-on VIO regulator has the same voltage as VSIO */
+> -static const struct regulator_init_data surface_go_tps68470_vio_reg_init_data = {
+> +/*
+> + * VIO has no enable register (always on at hardware level) and must never
+> + * have direct consumers -- all outputs go through VSIO.  Its voltage must
+> + * exactly match VSIO on any board using the I2C pass-through.
+> + */
+> +static const struct regulator_init_data generic_tps68470_vio_reg_init_data = {
+>  	.constraints = {
+>  		.min_uV = 1800600,
+>  		.max_uV = 1800600,
+> @@ -122,7 +126,7 @@ static const struct tps68470_regulator_platform_data surface_go_tps68470_pdata =
+>  		[TPS68470_CORE] = &surface_go_tps68470_core_reg_init_data,
+>  		[TPS68470_ANA]  = &surface_go_tps68470_ana_reg_init_data,
+>  		[TPS68470_VCM]  = &surface_go_tps68470_vcm_reg_init_data,
+> -		[TPS68470_VIO] = &surface_go_tps68470_vio_reg_init_data,
+> +		[TPS68470_VIO] = &generic_tps68470_vio_reg_init_data,
+>  		[TPS68470_VSIO] = &surface_go_tps68470_vsio_reg_init_data,
+>  		[TPS68470_AUX1] = &surface_go_tps68470_aux1_reg_init_data,
+>  		[TPS68470_AUX2] = &surface_go_tps68470_aux2_reg_init_data,
+> @@ -287,6 +291,158 @@ static const struct int3472_tps68470_board_data dell_7212_tps68470_board_data =
+>  	},
+>  };
+>  
+> +/* Settings for Dell Latitude 5285 2-in-1 */
+> +
+> +/*
+> + * The BIOS leaves GNVS field C0TP at zero, which causes INT3479's _DEP to
+> + * resolve to PCI0 instead of the INT3472 device.  Provide a static clock
+> + * consumer list so probe registers MCLK lookups for both sensors regardless
+> + * of the broken _DEP traversal.
+> + */
+> +static const struct tps68470_clk_consumer dell_5285_clk_consumers[] = {
+> +	{ .consumer_dev_name = "i2c-INT3477:00" },	/* OV8858 rear camera  */
+> +	{ .consumer_dev_name = "i2c-INT3479:00" },	/* OV5670 front camera */
+> +};
+> +
+> +static struct regulator_consumer_supply dell_5285_int3477_ana_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("avdd", "i2c-INT3477:00"),
+> +};
+> +
+> +static struct regulator_consumer_supply dell_5285_int3477_core_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("dvdd", "i2c-INT3477:00"),
+> +};
+> +
+> +/*
+> + * VSIO controls the S_I2C_CTL passthrough.  Its voltage must match VIO
+> + * exactly (both 1800600 uV).  Mapping VSIO to dovdd/INT3477 means the
+> + * passthrough is enabled when the ov8858 driver enables its dovdd supply.
+> + */
+> +static struct regulator_consumer_supply dell_5285_int3477_vsio_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("dovdd", "i2c-INT3477:00"),
+> +};
+> +
+> +static struct regulator_consumer_supply dell_5285_int3479_aux1_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("dvdd", "i2c-INT3479:00"),
+> +};
+> +
+> +static struct regulator_consumer_supply dell_5285_int3479_aux2_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("dovdd", "i2c-INT3479:00"),
+> +};
+> +
+> +static const struct regulator_init_data dell_5285_tps68470_core_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1200000,
+> +		.max_uV = 1200000,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3477_core_consumer_supplies),
+> +	.consumer_supplies = dell_5285_int3477_core_consumer_supplies,
+> +};
+> +
+> +static const struct regulator_init_data dell_5285_tps68470_ana_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 2815200,
+> +		.max_uV = 2815200,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3477_ana_consumer_supplies),
+> +	.consumer_supplies = dell_5285_int3477_ana_consumer_supplies,
+> +};
+> +
+> +static const struct regulator_init_data dell_5285_tps68470_vcm_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 2815200,
+> +		.max_uV = 2815200,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = 0,
+> +	.consumer_supplies = NULL,
+> +};
+> +
+> +static const struct regulator_init_data dell_5285_tps68470_vsio_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1800600,
+> +		.max_uV = 1800600,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3477_vsio_consumer_supplies),
+> +	.consumer_supplies = dell_5285_int3477_vsio_consumer_supplies,
+> +};
+> +
+> +static const struct regulator_init_data dell_5285_tps68470_aux1_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1213200,
+> +		.max_uV = 1213200,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3479_aux1_consumer_supplies),
+> +	.consumer_supplies = dell_5285_int3479_aux1_consumer_supplies,
+> +};
+> +
+> +static const struct regulator_init_data dell_5285_tps68470_aux2_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1800600,
+> +		.max_uV = 1800600,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(dell_5285_int3479_aux2_consumer_supplies),
+> +	.consumer_supplies = dell_5285_int3479_aux2_consumer_supplies,
+> +};
+> +
+> +static const struct tps68470_regulator_platform_data dell_5285_tps68470_pdata = {
+> +	.reg_init_data = {
+> +		[TPS68470_CORE] = &dell_5285_tps68470_core_reg_init_data,
+> +		[TPS68470_ANA]  = &dell_5285_tps68470_ana_reg_init_data,
+> +		[TPS68470_VCM]  = &dell_5285_tps68470_vcm_reg_init_data,
+> +		[TPS68470_VIO]  = &generic_tps68470_vio_reg_init_data,
+> +		[TPS68470_VSIO] = &dell_5285_tps68470_vsio_reg_init_data,
+> +		[TPS68470_AUX1] = &dell_5285_tps68470_aux1_reg_init_data,
+> +		[TPS68470_AUX2] = &dell_5285_tps68470_aux2_reg_init_data,
+> +	},
+> +};
+> +
+> +static struct gpiod_lookup_table dell_5285_int3477_gpios = {
+> +	.dev_id = "i2c-INT3477:00",
+> +	.table = {
+> +		/*
+> +		 * TPS68470 GPIO9 = s_resetn (secondary camera reset, active-low)
+> +		 * TPS68470 GPIO7 = s_enable (secondary camera enable/powerdown)
+> +		 * These logic outputs are specifically designed for secondary
+> +		 * camera control on the TPS68470. Matches Surface Go pattern.
+> +		 */
+> +		GPIO_LOOKUP("tps68470-gpio", 9, "reset", GPIO_ACTIVE_LOW),
+> +		GPIO_LOOKUP("tps68470-gpio", 7, "powerdown", GPIO_ACTIVE_LOW),
+> +		{ }
+> +	}
+> +};
+> +
+> +static struct gpiod_lookup_table dell_5285_int3479_gpios = {
+> +	.dev_id = "i2c-INT3479:00",
+> +	.table = {
+> +		GPIO_LOOKUP("tps68470-gpio", 3, "reset", GPIO_ACTIVE_LOW),
+> +		GPIO_LOOKUP("tps68470-gpio", 4, "powerdown", GPIO_ACTIVE_LOW),
+> +		{ }
+> +	}
+> +};
+> +
+> +static const struct int3472_tps68470_board_data dell_5285_tps68470_board_data = {
+> +	.dev_name = "i2c-INT3472:05",
+> +	.tps68470_regulator_pdata = &dell_5285_tps68470_pdata,
+> +	.n_clk_consumers = ARRAY_SIZE(dell_5285_clk_consumers),
+> +	.clk_consumers = dell_5285_clk_consumers,
+> +	.n_gpiod_lookups = 2,
+> +	.tps68470_gpio_lookup_tables = {
+> +		&dell_5285_int3477_gpios,
+> +		&dell_5285_int3479_gpios,
+> +	},
+> +};
+> +
+>  static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+>  	{
+>  		.matches = {
+> @@ -316,6 +472,13 @@ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+>  		},
+>  		.driver_data = (void *)&dell_7212_tps68470_board_data,
+>  	},
+> +	{
+> +		.matches = {
+> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR,   "Dell Inc."),
+> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Latitude 5285"),
+> +		},
+> +		.driver_data = (void *)&dell_5285_tps68470_board_data,
+> +	},
+>  	{ }
+>  };
+>  
 
-The vmap interface has already given us quite a headache in the first place and there are a couple of unresolved problems regarding synchronization and coherency. 
-
-When a driver would be pushed upstream which makes so frequent use of the dma_buf_vmap function that it matters for the performance I think there would be push back on that and the driver developer would require a very good explanation why that is necessary.
-
-So for now I have to reject that patch.
-
+-- 
 Regards,
-Christian.
 
-> 
-> As I can show you some of them from MTK platforms:
-> 
-> 1:
-> [    6.689849] system_heap_vmap+0x17c/0x254 [system_heap
-> 8d35d4ce35bb30d8a623f0b9863998a2528e4175]
-> [    6.689859] dma_buf_vmap_unlocked+0xb8/0x130
-> [    6.689861] aov_core_init+0x310/0x718 [mtk_aov
-> 96e2e5e9457dcdacce3a7629b0600c5dbeca623b]
-> [    6.689873] mtk_aov_probe+0x434/0x5b4 [mtk_aov
-> 96e2e5e9457dcdacce3a7629b0600c5dbeca623b]
-> 
-> 2:
-> [  116.181643] __vmap_pages_range_noflush+0x7c4/0x814
-> [  116.181645] vmap+0xb4/0x148
-> [  116.181647] system_heap_vmap+0x17c/0x254 [system_heap
-> 8d35d4ce35bb30d8a623f0b9863998a2528e4175]
-> [  116.181651] dma_buf_vmap_unlocked+0xb8/0x130
-> [  116.181653] mtk_cam_vb2_vaddr+0xa0/0xfc [mtk_cam_isp8s
-> 0cf9be6c773a8f14aab9db9ebf53feacb499846a]
-> [  116.181682] vb2_plane_vaddr+0x5c/0x78
-> [  116.181684] mtk_cam_job_fill_ipi_frame+0xa8c/0x128c [mtk_cam_isp8s
-> 0cf9be6c773a8f14aab9db9ebf53feacb499846a]
-> 
-> 3:
-> [  116.306178] __vmap_pages_range_noflush+0x7c4/0x814
-> [  116.306183] vmap+0xb4/0x148
-> [  116.306187] system_heap_vmap+0x17c/0x254 [system_heap
-> 8d35d4ce35bb30d8a623f0b9863998a2528e4175]
-> [  116.306209] dma_buf_vmap_unlocked+0xb8/0x130
-> [  116.306212] apu_sysmem_alloc+0x168/0x360 [apusys
-> 8fb33cbce3b858d651b9da26fc370090a67cfb70]
-> [  116.306468] mdw_mem_alloc+0xd8/0x314 [apusys
-> 8fb33cbce3b858d651b9da26fc370090a67cfb70]
-> [  116.306591] mdw_mem_pool_chunk_add+0x11c/0x400 [apusys
-> 8fb33cbce3b858d651b9da26fc370090a67cfb70]
-> [  116.306712] mdw_mem_pool_create+0x190/0x2c8 [apusys
-> 8fb33cbce3b858d651b9da26fc370090a67cfb70]
-> [  116.306833] mdw_drv_open+0x21c/0x47c [apusys
-> 8fb33cbce3b858d651b9da26fc370090a67cfb70]
-> 
-> While we may want to encourage more of these drivers to upstream,
-> some aspects are beyond our control (different SoC vendors), but we
-> can at least contribute upstream ourselves.
-> 
-> Best Regards
-> Barry
-
+Sakari Ailus
 
