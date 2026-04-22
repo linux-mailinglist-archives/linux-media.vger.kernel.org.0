@@ -1,227 +1,234 @@
-Return-Path: <linux-media+bounces-59321-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59322-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4IOxMLS26GmgPAIAu9opvQ
-	(envelope-from <linux-media+bounces-59321-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 13:53:24 +0200
+	id iJgaM/W66GkHPgIAu9opvQ
+	(envelope-from <linux-media+bounces-59322-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 14:11:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DC14459A5
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 13:53:23 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35115445BC5
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 14:11:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id AEC3130046AA
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 11:53:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 66D71303CE89
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 12:09:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFF543D16FB;
-	Wed, 22 Apr 2026 11:53:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BB3B35F60F;
+	Wed, 22 Apr 2026 12:09:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="RWmDvS3S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nlPBnlWB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013051.outbound.protection.outlook.com [40.107.201.51])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44D63B27E2
-	for <linux-media@vger.kernel.org>; Wed, 22 Apr 2026 11:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776858796; cv=fail; b=BQT3af94r6+/3EP4X45fZGTaeX7u3ONVHsQTWZrDuhuNzXb4nO32wx+C+n+ZBo7uittZ8niU7j6EjsGRhE3RlSdY0kPxdYakVoPZd3igL69eCv/eFjULrsK+QtsVsxHA1v6d6urpydG6F0Mv6I23r5TrtCcWksw0KbiYNLMpw7E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776858796; c=relaxed/simple;
-	bh=GuVzQZ9IP9z4babLv7FWL4G/Ut7Vm5gYhkQd7lksk+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=toxLolfJmzz/tQgx5LYVIa1LwColEYHvLyFxOcFmfOj99H+1k2s1E0vT/5hV6RPNkYy3A90xCh16RmK9FQZzsLs30SeQnMwDwUdMYIxQsSKQWtLWAa6YzxDkDLVbVtfJ1rgVTVo7xd3WCAivPga24uQNbycFUp5Ak/rq8BAhazg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=RWmDvS3S; arc=fail smtp.client-ip=40.107.201.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XHp46jk5SPF30RSoMwnTMVYGaG+judrZErOSSyTP5IRstHyflujkokptdK3bxZSPIzkju3cdupwUxtu07Nv0lkbalFHqx4c5nkFIBypb7ud2qnazMGs8HP9aJHJpDQVoM5kiHmgeejFk1YqyJBQkqDM2gMWZU1bcPM+coJe3QJUJgRIz964CtbjB/m9S2l8Z7PH4JmGYvrij7rG415Y39gFxS2dv03cUwdA5CbKTWiYookiR2BDJBoexzghSc7CNaB63FaT8CItrZbCZ0oFNI/3pEfxi9gjzf3EiXbz9sAOwEajC2I0NpwxfDA4niAp0F6P9LMlVvcbtrORx9uuRsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SkXjEdLMe9aJrz4ycb9wIOhpNsIq/d3xfhCWGB1vfLY=;
- b=QDul7b93aAvi3kPPfBO62Z44sg7zUt0GI4Q219VlEOgUijp5UbwHgUUnvnLLnbdTe5Q9nzVk+hha0Ct8LTGWIOfb97RqWD0g0nhhGplv+sLJqI1IatrSpGTtjced9m7sQz1GittbpWXQYvOObeowgx8g6ZgPnlvYJtp0OpRU6X55S1B6MPpVi+ghTton5BUNCTxpOcnMOoNuodhLQU3YpBqpefMQlX2ZTZhigKV1scdBKiVScmhaQPrz+/iR4PSRp8smT3kZntfybNcrqphdvbCQA+udbUXQcK63GLp4K6UcbqeC9Z6tkyJhKilrTUFGpDQDcw6BVx1F8QXBmMmDdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SkXjEdLMe9aJrz4ycb9wIOhpNsIq/d3xfhCWGB1vfLY=;
- b=RWmDvS3S1Ezj6A3ZkfYx2wROo6sZ5xrr9cwqZpcYQMeXV5zE27AVADTNph4746TidLtRKY2okMJkPeXHyNqdEhV3S1My658v4JJ7ZQMRcwWcYD7x3kyT8AZChVSXbWndvEh5gDWdkSLbfqsUdCUWpnnkn3OQX+ZaKv5X5KXNBhPsceBYX4c7u9V3tmSjy4AOwxrGd8qnFhEqf/ChrqHTXurRfRptOSlaX9Bj/oQmr8mNkx6RUhzyFhbGPV93yYHQmPHt6s6c54nbbU3cLDn9dJBqh5jGa7Yyx0mlxwUR2ekermsuBDKVEplEOmJ9qZ22qG6zsTHYb+auiTcjUeqzFA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by DM4PR12MB8475.namprd12.prod.outlook.com (2603:10b6:8:190::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.20; Wed, 22 Apr
- 2026 11:53:08 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9846.019; Wed, 22 Apr 2026
- 11:53:08 +0000
-Date: Wed, 22 Apr 2026 08:53:06 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Dongwon Kim <dongwon.kim@intel.com>, dri-devel@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, iommu@lists.linux.dev,
-	Kevin Tian <kevin.tian@intel.com>,
-	Leon Romanovsky <leonro@nvidia.com>, linaro-mm-sig@lists.linaro.org,
-	linux-media@vger.kernel.org,
-	Matthew Brost <matthew.brost@intel.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH RFC 21/26] dma-buf: Add the Physical Address List DMA
- mapping type
-Message-ID: <20260422115306.GI3199414@nvidia.com>
-References: <21-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com>
- <c413710b-4c28-4ed8-88ec-aeb8c4482011@amd.com>
- <20260413121628.GE2588311@nvidia.com>
- <f6d38a08-009c-4efe-9dc3-6bcf00ac35f7@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f6d38a08-009c-4efe-9dc3-6bcf00ac35f7@amd.com>
-X-ClientProxiedBy: YT4PR01CA0274.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:109::27) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D95B3CFF79;
+	Wed, 22 Apr 2026 12:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776859789; cv=none; b=sPm62NXfzMSOoOlK9/PZJ4g2YLnEAGVihe3zW5JRzyMWSth6Wf3HqL2b27RGrLDMcvfwvsbEXTCcf/rBEdCZ0hh/GI0LWA/D8NCpC8j3TiCEc/bmGmT70XG7PnNOle4z2//VV9YQTx4pL0GzCIYyGcIge2SJCbQxeruCQ4F1YKE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776859789; c=relaxed/simple;
+	bh=bhwSG5VPmGAfBqUodcRjmwWLk0f8ADERTHFd1AcXWf8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LtnN8woY/xQl9jY7pHT7t8gv46sLdbz17dOnlAB5ZojafAiZNAitKKRKmtSyfDWWdWXcMN4M9TRzrs4AaY32j8MBM6l+196drEVEaPBhR14XazPBd3ZUL+UIBq+5rV4WZjRF/D9IflbRdeFt+JMbgXACI+PGdUkl70Q2n0Dp4rM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nlPBnlWB; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776859787; x=1808395787;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bhwSG5VPmGAfBqUodcRjmwWLk0f8ADERTHFd1AcXWf8=;
+  b=nlPBnlWBtluQrqgSMQGR+XH3BfXm9KqADUSe/eLNOB3aLd4/1OyR8Zx+
+   hSvuiHcrGZJ/PquV46w55pMSykc3aCeSONYJLlkP2ffiLiFUX15ta+On1
+   S/xWe6VSnyDl2qItj1rWTTMRvdBEVa/F2/hpltTLtAX0LO1NyTNbsGXkJ
+   1FqBWBShl/Al6i6ieRvaccuEHVjpJaXbLztdKE0xOxtJdq1FSMJC3+5E2
+   lv8Gu1kn+KoYN28EJ/cblTFBywsx2qVhZcXkD59yNEJqHK+NfbtmA1O6K
+   EDcO+yDG7HS7Eg53nSU56P3Y167Ql4BHize7nm+QwXq6POF9H5MWVERB/
+   g==;
+X-CSE-ConnectionGUID: CtNQUeUSQJOAudF9pAfA3Q==
+X-CSE-MsgGUID: Ety+VVJ2R2SX9lkXSRXmMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="76971803"
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="76971803"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 05:09:47 -0700
+X-CSE-ConnectionGUID: +fbxvhKlQXugR9WMdW43Vg==
+X-CSE-MsgGUID: RFof08oZQISyGa+8GE72vQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="255819306"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Apr 2026 05:09:43 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wFWOi-000000000eH-38qo;
+	Wed, 22 Apr 2026 12:09:40 +0000
+Date: Wed, 22 Apr 2026 20:09:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Robert Mast <rn.mast@zonnet.nl>, hdegoede@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, andy@kernel.org,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com, Robert Mast <rmast@live.nl>
+Subject: Re: [PATCH 1/1] media: atomisp: mt9m114: Graceful teardown atomisp
+ and mt9m114
+Message-ID: <202604222059.KIHN4WAF-lkp@intel.com>
+References: <20260418092651.7873-2-rn.mast@zonnet.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DM4PR12MB8475:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae2328d1-e33d-49e9-ee0a-08dea065b85c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	9HvkVcbVkMR/o95wl2MQxxJaajL3BtCQddbKG4gX7dDGlBI3T1om4xzXTwOJmRbuwBEkIj6Ad1S8B5O8Htsp5IVyo1sLwpVEopuHO6AupvwJbWSfu4NHPhWDbS299rHrVYzsL96QGIJkmhYj6lgbQewz8DZuft57WGga7Hwqn1pQ1oYx1OGG2xXFDvz1Le6Tss4XJsSRlmO8C5KJ4YBrln4389NJhKntLJXomKcPudWxnt0N+PrVHA2rqsilHFXyw5uUI/R8PKHO+IWEvAttxqDmIvi3VdgzIFrUVIhtmpfla6xzueAH48YWSSq+YPu9+ejKiAf/ycD1awouNuwiqBle7TMVZROUbatxO6B4S7JdHsUYjyuCHSkna7NFPpfUkUhGgFm/THnZPrCifGIGe5HtWrI2NIWKtNl87HdZeqHz0zg19iwVFz+YeHee6WRwZdsUQMGRlNd851YsJLqvxmfliaGAxu2Zj3YlViu5noJ86td0XewhyQHbyHOLJ2FdZKHS/tRm1nddxSwcXS8irMawraauAGKpqCUwOkBoJfOnk5JIBgwNDYHUNH4rAZWAiu9rdf+1h7ffdX9RugKbDn1Htp1DocNtG442GtoA3XEOnjWa7OPVvTN9Br+QqyxAsxsaFwmyT7fPcUqUNOl7I0bvHEpv/w5wDq+cKIfW521lM52Fv1tpJw5V62fmfqaQg1n8xhbrHS4bFM12XVrkbDbdS0g+zyrJWT47nPUu6Fs=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WmF2Vm0zTHlyM1E1R1Q3eG5EamthTnNLenV5SU85bENSODRPN2JodlNhU0h4?=
- =?utf-8?B?ZXBpbVVwaGNFSEdZSXVYSzZMakxxVTZ3ZXZ1K2NVT3A2b21VUXJNU292VWo4?=
- =?utf-8?B?cUpxbkg4ekVxMWVlUVJjTXhNeGhZaEdQVnVCbHRuNGJTbkJRTFlWNnRSazZN?=
- =?utf-8?B?MVZDSUJOMlJ6b1lTYkNUWnBjaFAvU05Qc2ZrRTcyUk1obkhRU3VnVUd6dlp3?=
- =?utf-8?B?V0lqU1hKRW05a1Ayc05xZ3p4TDhXQTMzbERUemptQ29CNVp4QkpQenJQOGxy?=
- =?utf-8?B?V2VMd1RWQVJyYjY1QzZpenZXcm9CTUJ0dTBiMzZLTDc3TTFLSWNRdWdyQllL?=
- =?utf-8?B?RDY3TUs2eWFKcmFSdmkvMFBqUHVWWUJrdnFmdnF3UnczMXlZU2RIejdDRnhs?=
- =?utf-8?B?ZVo1ZzRGbDlnRnc4Uyt3Q3NGZ1VOZW9WSU1RdWxXMzRhTUtOY2NpL2ZqNW9q?=
- =?utf-8?B?UW0vRzJ0QnlGUDN2Y2ZnaFVzWm40SkZHbm5FYlR2Q0ZMZkFPeGpIV2FMUmUw?=
- =?utf-8?B?dnhQeGNkaUgwbnlVSWRUNXRqUHBxbVR1aDZyQmN3dUlZOXlKVG96S1Z5enJY?=
- =?utf-8?B?YTRBUzA1bHJwdm5uQ2FiUlR6OE0xOURnUnpqUUZERVRVL1NIS2czRVQwN2RY?=
- =?utf-8?B?Yjh1MHdONjVCWWhsc3FkdTAwait3SWVqVUFGRGJpRGNLbTVnTlN5NU9qazNh?=
- =?utf-8?B?UGF0eDZxc3liL0hqb3VBZFZqVWN3YUsxRW9JWEo1V1ZhTnRqaFFsRUl0ekhK?=
- =?utf-8?B?bUlYS1k2bzAxSUp0emZiTCtCMmRkTTRrUWE4bURFalpBYk1BVDUvc0E2bUVW?=
- =?utf-8?B?N1p1aW5yaW4xeEtiblcrSzF1dDdnZlZlNGZteWFQYUYxYzZBcUJlU241eG15?=
- =?utf-8?B?QURMMnRCQ1FFcFBFSkdMaUxjeWM2S0pEbFhTNndxWHZ3eE9NQzhnRERDalNU?=
- =?utf-8?B?ZDBHbGxVSEZPd2tJLy9vMnRUNEFpZ0FoSnVzdG1VUXhiQzFiUFpFcEZJRitE?=
- =?utf-8?B?aml6b2ZJS2tWbGZtd2dFY0VGWGw1K3MwdWl3dXlVTmN3WCtjU1k2elBFWEZR?=
- =?utf-8?B?VXBqSFpiU2F4SWQvWkZoZ3R2cWZYbzBZMURwVlJkV3Z0TkVnNm0yQnVVSlBD?=
- =?utf-8?B?L1MvWllOTFhqblIzTVVlRWRZcUY2eUl5STJEM3NaTFJrL2xSNE5qQkhnd0ZX?=
- =?utf-8?B?QlBFUHdRY0FpcFZ0Ym1ZTUlkREhvVTBCNmdQUGw5dEcxcjV5WEpabFEyd1dO?=
- =?utf-8?B?Q2RHZ3RYVjFIbFdQUXBEdmhHbUpiMkZPVjFZOS8rTmxOeGphc21sbUo5NldC?=
- =?utf-8?B?N0pxYlEvVXljaXo1NEJ0ZnpIMHM5ZnFjbWM2N2xsYytKUVl1MlpUaGJ5R3dm?=
- =?utf-8?B?STZnUnUvRFltR2R6S3NhN2lzdFYxb1FIZFhDUDBwYis4dCttNjdoZEwwanF4?=
- =?utf-8?B?Z3VWbE1GVkFNWEVDNisyMzg1M3ZML3JJZnRORlR5L2VqaHZ1aWliT1BwTTQx?=
- =?utf-8?B?M2hGQngrbHJPNUVOTDA5TFVGTFN2Nk52VHdVdlBsL0N6UFVaOEhnMHRpdlhx?=
- =?utf-8?B?N0MwVWc4TFUrbmF3eEdmQlFaQmVPZUdZNGtuS3ZGQzBNL2dlYkN5STR6N1J3?=
- =?utf-8?B?TndBZEdrd0FDWmdvTCtsdS9ubzFyR3BSQmYxdSt3SGZQSXpJWTRaQ0FXMnhS?=
- =?utf-8?B?QXdETnFQa3h4OUU5akJDaWlLNitJemVNY0ZudGR3RHFPcXhlRTFLNzR2aHlT?=
- =?utf-8?B?M0lwWXJZZWZ3V29YWGdTREdpWFh6MlBvMVpFeVRYTU1sMnFaMDFvbFZtUll2?=
- =?utf-8?B?aC9Yb0ZBaGlOMkVhYnhRZGhvMi9LRXBmWDZwUWNwVHBnR2xqZUxydFhZbnFI?=
- =?utf-8?B?cFlEOC9IYUVnSTBmblBvRXhuZnEyRDBOTHFZb1FEcTNpYitxQlRCS25UeGFW?=
- =?utf-8?B?UEJvdGtIcGxzeGcvaW0yVVNhUVY1aTVyUXJWZWVXbFFvVlFLYXhLek9TVDUr?=
- =?utf-8?B?V0pBVDRhenh1a2VYM0VnZVp5YnRFMmI2VFZCaEhiUW4zWVlKcXYwb3ZRTDVG?=
- =?utf-8?B?UDBEd3hWZS9uWmZ1Ti9VMGFSbGRTdGh1cVFNUnZGaEo1Z2Q0SHZSdzlxQUZT?=
- =?utf-8?B?cDVFREt2d3h4WC93TDFLZmtzWDhmblVJdnJMQ0N0Q0RSci93MzNHU2h4Y0tu?=
- =?utf-8?B?dW8yUUR4S2xQRmNydi9hN3J4bW1VMkFObEh4TVAwRExvWm8yajBqN05GRXhz?=
- =?utf-8?B?NVd3WkFXalZyZGJ6YkhrcWxmUDdCRjNhYVJxVDRKMU5qbm9ZWGUycFNzei90?=
- =?utf-8?Q?Dk6CoztP4YAd+mJLq2?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae2328d1-e33d-49e9-ee0a-08dea065b85c
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 11:53:08.2007
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oxW9aM54Ix/5cMhO9OcmnlG2TuzqJ1+osPaI3SP8Mz/2avTAB0OZl5RYO1O93XRo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8475
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260418092651.7873-2-rn.mast@zonnet.nl>
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59321-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59322-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[lists.linux.dev,kernel.org,linux.intel.com,vger.kernel.org,linuxfoundation.org,ideasonboard.com,live.nl];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[zonnet.nl,redhat.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@nvidia.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C5DC14459A5
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[git-scm.com:url,intel.com:email,intel.com:dkim,intel.com:mid,01.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 35115445BC5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Apr 22, 2026 at 10:17:06AM +0200, Christian König wrote:
-> No, not even remotely. I clearly don't want such an interface in
-> DMA-buf at all.
-> 
-> You can do that as private iommufd interface, e.g. where iommufd
-> offers the functionality to say give me PFNs if you want that.
+Hi Robert,
 
-I'm not sure what a "private" interface means if VFIO and DRM/RDMA
-drivers need to implement the exporter side? That's not exactly
-private if it in so many drivers.
+kernel test robot noticed the following build warnings:
 
-I've tried to make the importer side private, if you have better ideas
-how to make it more private please share them.
+[auto build test WARNING on v7.0]
+[cannot apply to staging/staging-testing staging/staging-next staging/staging-linus linuxtv-media-pending/master sailus-media-tree/master linus/master sailus-media-tree/streams next-20260421]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> But when there is a DMA-buf interface even if it is limited to
-> iommufd then others will want that as well and that is not something
-> we should do again.
+url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Mast/media-atomisp-mt9m114-Graceful-teardown-atomisp-and-mt9m114/20260421-171953
+base:   v7.0
+patch link:    https://lore.kernel.org/r/20260418092651.7873-2-rn.mast%40zonnet.nl
+patch subject: [PATCH 1/1] media: atomisp: mt9m114: Graceful teardown atomisp and mt9m114
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260422/202604222059.KIHN4WAF-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604222059.KIHN4WAF-lkp@intel.com/reproduce)
 
-You can say no, that's the point of the export symbol restriciton.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604222059.KIHN4WAF-lkp@intel.com/
 
-> Even for iommufd I think we don't need that. What iommufd does is
-> basically manipulating a specific IOMMU address space. So the
-> interface should be to give that address space to DMA-buf and say
-> hey please map you backing store at this address into this address
-> space.
+All warnings (new ones prefixed by >>):
 
-Isn't that pretty much exactly what this series is? Aren't you
-splitting hairs to say an "address space" requesting physical is OK
-but a "mapping type" requesting physical is not? The net result is
-exactly the same, physical addresess flow from exporter to importer.
+   drivers/media/i2c/mt9m114.c: In function 'mt9m114_parse_dt':
+>> drivers/media/i2c/mt9m114.c:2554:1: warning: label 'read_slew_rate' defined but not used [-Wunused-label]
+    2554 | read_slew_rate:
+         | ^~~~~~~~~~~~~~
 
-To be clear, there is no way, nor should there be a way, to use the
-DMA API to create a reliable dma_addr_t that is 1:1 with phys_addr_t.
 
-Can you be more specific please, I still have no idea what you are
-thinking in terms of an acceptable implementation.
+vim +/read_slew_rate +2554 drivers/media/i2c/mt9m114.c
 
-Jason
+  2497	
+  2498	static int mt9m114_parse_dt(struct mt9m114 *sensor)
+  2499	{
+  2500		struct fwnode_handle *fwnode;
+  2501		struct fwnode_handle *ep;
+  2502		int ret;
+  2503	
+  2504	#if IS_ENABLED(CONFIG_ACPI)
+  2505		if (has_acpi_companion(&sensor->client->dev)) {
+  2506			/*
+  2507			 * On some reload sequences a stale software-node graph can be
+  2508			 * observed for this ACPI-enumerated sensor. Use the known safe
+  2509			 * default bus configuration and skip endpoint graph parsing.
+  2510			 */
+  2511			memset(&sensor->bus_cfg, 0, sizeof(sensor->bus_cfg));
+  2512			sensor->bus_cfg.bus_type = V4L2_MBUS_CSI2_DPHY;
+  2513			sensor->bus_cfg.bus.mipi_csi2.num_data_lanes = 1;
+  2514			goto read_slew_rate;
+  2515		}
+  2516	#endif
+  2517		fwnode = dev_fwnode(&sensor->client->dev);
+  2518	
+  2519		/*
+  2520		 * On ACPI systems the fwnode graph can be initialized by a bridge
+  2521		 * driver, which may not have probed yet. Wait for this.
+  2522		 *
+  2523		 * TODO: Return an error once bridge driver code will have moved
+  2524		 * to the ACPI core.
+  2525		 */
+  2526		ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+  2527		if (IS_ERR(ep))
+  2528			return dev_err_probe(&sensor->client->dev, PTR_ERR(ep),
+  2529					     "failed to get fwnode graph endpoint\n");
+  2530		if (!ep)
+  2531			return dev_err_probe(&sensor->client->dev, -EPROBE_DEFER,
+  2532					     "waiting for fwnode graph endpoint\n");
+  2533	
+  2534		sensor->bus_cfg.bus_type = V4L2_MBUS_UNKNOWN;
+  2535		ret = v4l2_fwnode_endpoint_alloc_parse(ep, &sensor->bus_cfg);
+  2536		fwnode_handle_put(ep);
+  2537		if (ret < 0) {
+  2538			dev_err(&sensor->client->dev, "Failed to parse endpoint\n");
+  2539			goto error;
+  2540		}
+  2541	
+  2542		switch (sensor->bus_cfg.bus_type) {
+  2543		case V4L2_MBUS_CSI2_DPHY:
+  2544		case V4L2_MBUS_PARALLEL:
+  2545			break;
+  2546	
+  2547		default:
+  2548			dev_err(&sensor->client->dev, "unsupported bus type %u\n",
+  2549				sensor->bus_cfg.bus_type);
+  2550			ret = -EINVAL;
+  2551			goto error;
+  2552		}
+  2553	
+> 2554	read_slew_rate:
+  2555		sensor->pad_slew_rate = MT9M114_PAD_SLEW_DEFAULT;
+  2556		device_property_read_u32(&sensor->client->dev, "slew-rate",
+  2557					 &sensor->pad_slew_rate);
+  2558	
+  2559		if (sensor->pad_slew_rate < MT9M114_PAD_SLEW_MIN ||
+  2560		    sensor->pad_slew_rate > MT9M114_PAD_SLEW_MAX) {
+  2561			dev_err(&sensor->client->dev, "Invalid slew-rate %u\n",
+  2562				sensor->pad_slew_rate);
+  2563			return -EINVAL;
+  2564		}
+  2565	
+  2566		return 0;
+  2567	
+  2568	error:
+  2569		v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
+  2570		return ret;
+  2571	}
+  2572	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
