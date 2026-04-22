@@ -1,266 +1,234 @@
-Return-Path: <linux-media+bounces-59342-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59343-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CDUxCnzV6GklQQIAu9opvQ
-	(envelope-from <linux-media+bounces-59342-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 16:04:44 +0200
+	id IOHkCs/d6GnOQwIAu9opvQ
+	(envelope-from <linux-media+bounces-59343-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 16:40:15 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA75444709E
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 16:04:38 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C7A4475A9
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 16:40:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1AADC30306E9
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 14:04:38 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C2053300B44B
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2026 14:38:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E077B3ECBC9;
-	Wed, 22 Apr 2026 14:04:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8582B3EE1FE;
+	Wed, 22 Apr 2026 14:37:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="PonzqXL3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gMRqXCdu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012046.outbound.protection.outlook.com [40.107.209.46])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089EA23AB9D
-	for <linux-media@vger.kernel.org>; Wed, 22 Apr 2026 14:04:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776866676; cv=fail; b=k1sstJwaAs/G+B0qwaPPbhOswkg/Kld0c6+n49kgFG5ngN8LKj/89Rxoz3APwGC+UDtMvYZq3kjdaTeOlgYHeMzwGaH3HRSvABs9SfpKuiNk/El/MPhjNoXcmrd+aVmjNkfHLA6oV45CmuSFAj364qwfnootZFGhklhfFmZ0468=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776866676; c=relaxed/simple;
-	bh=m+hXvwYSK5W8UcvzEYSofhdZQgdXspKgN96FUVxpXGs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=oC/JVMKE6X3bE2K9YtPdDqQHfpwfFUxalhl8mzRlJjMrqRuwS83djM8iU3qgi+n1jqqYMhy69uG9QH0e8jllXOUW9vOz+aadwGq6UsBdUSH63vP/b0u03mk3981Z9huwPe+BChHMIEXVNuiRJDIM6W+fpQDVNoaDpg5fUYIuY7I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=PonzqXL3; arc=fail smtp.client-ip=40.107.209.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NSNZspWzT7HiAGdzYO7kUJ6GuLsmtRMcoSt2lXTI6D44HqVjpabyObLKPjoNqBoy3DR98sdVCKjtJKB1Cy8DPvjRrVN7B1iEgWZFCXSSQGocJ6rC3cvztsOWuudnZDD7v3rx8dKYVI2XeC4Ih/pCy8VzeGXJI7rimHJG8sk55Wou+upJFF4Klh2pkSK3LmVxtPmXyiW8BmT+fBSHIbnNhbVIzBJjlN4bwUAd7QYf0ugWqMx4pNjX3FdweK/kp9zprR0Tz71kxSot3LJU/D3qQTAJPDiKZKnhcpKshihM+umhszIjtwGFw7RmxPN0BQn1J8ywKZti9waix83O6QwgNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W08rXg2JXb27CWxBq1GMWSPCrtSBOL1NfSnyWZ7xGtA=;
- b=dJpK2O6PcPEiGogFJmK/XNqx8HHbPV4cKtyQ2jPdK4jDUFvHZcFrY0EfDh8GaTC5ZVHpg+qkoveKLGB5k1n4bzEtv7iBd4JvwSq8ydp99VhOb7RBqgFN+HIqtvZ0DyuoLhlaiIFUZaHnA1j7qC59rc4ikM1K3WuCGggi0o8/XsU92lZbYNsqt+BIsdCubeVrkneOwVNEtwYwClUuvfgWMuHwk8gJJmTlCVDE/Jdfp3schUcH1cGzJq0HkgzXf4D+p7+BdCggWwM1ptC7Ynpj0IAw2McRjfJGXi3naxDZLuy5yf9UyjHs8y4AB0mBtLl7H8lrDFI+8umJuoeKWgQYNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W08rXg2JXb27CWxBq1GMWSPCrtSBOL1NfSnyWZ7xGtA=;
- b=PonzqXL3TshIhODa1WsJUq1aoOkcjCy7tFzxjUftIAc92b73Y12E2bkEixCBZj6wiN23yAEVCe2EiylNb2iQCNbrXe3Agcd1jwyP7Io9nVDCcIW3hvmCtyrjPS5zL+otF98TnrfFOaud5ULpKd/MMNulNez7i6azgbeIXZI+CoM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB6489.namprd12.prod.outlook.com (2603:10b6:510:1f7::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.12; Wed, 22 Apr
- 2026 14:04:31 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9846.016; Wed, 22 Apr 2026
- 14:04:29 +0000
-Message-ID: <e67426b9-4ded-4f6c-8309-7f847adb4540@amd.com>
-Date: Wed, 22 Apr 2026 16:04:19 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 21/26] dma-buf: Add the Physical Address List DMA
- mapping type
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Dongwon Kim <dongwon.kim@intel.com>, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, iommu@lists.linux.dev,
- Kevin Tian <kevin.tian@intel.com>, Leon Romanovsky <leonro@nvidia.com>,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- Matthew Brost <matthew.brost@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-References: <21-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com>
- <c413710b-4c28-4ed8-88ec-aeb8c4482011@amd.com>
- <20260413121628.GE2588311@nvidia.com>
- <f6d38a08-009c-4efe-9dc3-6bcf00ac35f7@amd.com>
- <20260422115306.GI3199414@nvidia.com>
- <fd8065ce-fd0e-4df5-9c80-8e9603657cfe@amd.com>
- <20260422131337.GJ3199414@nvidia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260422131337.GJ3199414@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9P223CA0030.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:408:10b::35) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDC93EDAAF;
+	Wed, 22 Apr 2026 14:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776868675; cv=none; b=IcR2V/NP2c2DByXmwG0bvsNjVZhdbRdP5roVAdUmBjlY7wweNXEs65dqvx3sNkYHvEsYMa2U6MnWjZo5H58IpvOF5i7PFb9ZEOxogjjliMGLQhB+MUb2xXhlQ3yzOZJcwNKB8ZtlTixTfP1W73mwsfGRt5jE5uTAn8znPX2dTMw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776868675; c=relaxed/simple;
+	bh=Q+/Y3uof2gboc2NflIGcvS3qG5DN4A4q7ebVhP1HFAM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hit52/u3GtAKfFd10GNIyGmvanR1XJ0SUFCQqk0iTA7fMGDou5x7kN7HDdFsiGVDQd/QOu9BsVPtLayzPHkcs4aIMpD3tM7S5YSV6uNMaXX3Yb4CS6SUazaWmPFMNgXYV/LYaIj3lYXyVl7R3yidryNiYpvbT//5n8N2PKtwnbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gMRqXCdu; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776868673; x=1808404673;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q+/Y3uof2gboc2NflIGcvS3qG5DN4A4q7ebVhP1HFAM=;
+  b=gMRqXCduoTjdrW2DuMMQFG1f46AQ8kwIP2kEr4FOWh6HM8otXkKe1n3I
+   X0JBLPqyI2LJIT5+wcDTlYFloMaHleRXsmaylA+yjx0/XoQsiEISmNGR8
+   23TKZsM7surL3c9TOJ2WEuPfJ19aUhntPk9ADZGqztHSR8Wv3JYzmzxgp
+   DICsZiKyCwwN/uCQUzSyg5S5k8A7tZWqklR96Sb2gxP/v2XKOtwx5voVc
+   vBL3Osl5wj1yslhI0eTBO5Q8ndQKMHqvKqt8Boh6JprVzkodibtk7XgLK
+   QBp8khH/WZ3UZcdFMbZ7xLQN5M1n44/V55/qHM3aRLxxO/j+kfj7hM56b
+   Q==;
+X-CSE-ConnectionGUID: 9iRp8fRSRH+DulDG6yHKcA==
+X-CSE-MsgGUID: CCxvdqWXRY+bXuj3iB+7MA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="78008464"
+X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
+   d="scan'208";a="78008464"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 07:37:52 -0700
+X-CSE-ConnectionGUID: arWDZk3mShGfbF0V6MIy8g==
+X-CSE-MsgGUID: SxTQrCKxRMKEolEt1bqF5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
+   d="scan'208";a="236366637"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 22 Apr 2026 07:37:49 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wFYi1-000000000jN-3gpb;
+	Wed, 22 Apr 2026 14:37:45 +0000
+Date: Wed, 22 Apr 2026 22:37:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Robert Mast <rn.mast@zonnet.nl>, hdegoede@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, andy@kernel.org,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com, Robert Mast <rmast@live.nl>
+Subject: Re: [PATCH 1/1] media: atomisp: mt9m114: Graceful teardown atomisp
+ and mt9m114
+Message-ID: <202604222246.sNhBwsBf-lkp@intel.com>
+References: <20260418092651.7873-2-rn.mast@zonnet.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB6489:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2add4dbd-da79-4f21-1627-08dea0781203
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|376014|366016|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	RfTLSNZT1IzYxVr1X548uhzClTsv0H8JOYGrUSRB57CYKAapoRXRPIYBEVuRb+Bs59j9/Ok8/D7xxEMptDFy2anjjsYUfV0Z8V/peW/1ZMzjxtuQktHgnHynghWj0ciLQsPbw889hT0F+ZlGA1w1B8SPTM60REd8qwnymOjZvfRWYCXQTX5TDX+bJmSVXZUwM1ybql4KG+65ACFn8YXrExYBwFtp/feYi5c+fY93AOiNGI90owQAy8gs2dbwax8JR3J8xw1HyrUv+jp3EsApUJ7uSncWx2bJsH7q+n15kVB1dW6YeCafUpJEkW2st35Dl3vy5pzYjxliHzs37FQ1mwv4B0MxfMAcOo0W9cp0AdKh1Fn6E4JNg1YQyvAI7VKE4wTA1QLuejQrJVDIfLPChIsihVsf3CQVJikS1qmcykhGWwXyVTYOfBYhviYuYhNiF0bEgGtQXOIqLXig6OJcP2rh081Sm95ROonK0gcYGdX2IHfBZA4c4vg3zCuuoSkjXJoOUSO1nmINPEHujb4JZmgOU8xcfMY4n9a1TPMhb7NpiQ4nGO67q3761SY2i2VUplff029jvxNJDeF4Jff4RYQqDR471Kui3SovTsoPLo7pO8lAxV5ChEiW265wB4LsZ7DKL0z2dXREMZLQjPihdhvZNqNEw0JSfLY3A+5dgZKZ2dIxLhXG/bqlVPG26B6K5czWgPUARZ48cEeUhch6FaONYy2zaY6cRH1ial+FtHQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SGkxNnhEdkdYK1FyL0xlTmx5K1R6N3NoUEVRTGpFT0VFbU4wLzFlYWVHMW44?=
- =?utf-8?B?S2oxUXQvSEIxbmZmNlFXZXN6SGltK1JBd251QmlWeVhCVjU2UXlPbGIxT3NM?=
- =?utf-8?B?UFluMm8zamZnTjJRSFpzNmhSUzh1L0dtU29EZHlNUkJEcVBOWHptZGtCcUpa?=
- =?utf-8?B?ZHJSaElHRmpMbXNJMkVJRmJVUnBOU2ljRGpDRzc4TWJKTmNVd2lHeW5EeE14?=
- =?utf-8?B?M0lyOEc3aU5iTkJndW5MMVYxa01yTktDTXIray9NdjJPS3VyYTBzZFZkaGxm?=
- =?utf-8?B?N1hxaG1zVFQ4NU5MVUExcjh1ZDBUdWJtRnFlUGkwUkZ6b3ZPaGhmcmNZQXFD?=
- =?utf-8?B?d3NvY3llVGR0U29iMGVoRjlwQTJJRzRMMVdRS1c2WEVOZjh4NjQvSktoSzVF?=
- =?utf-8?B?anpTYWVWdmpWekdIc1RWaWhjTFJ0b2RDdTlOTW1RdkxGeEpmTjcxUHNGUmlj?=
- =?utf-8?B?K3NSSC9xSXRwdC9rUnRITlhhQkwvdjM4QzBuYTVtaWtJM2pwd2oxUGo3dlZO?=
- =?utf-8?B?cTZnQXh1MUFZMDhad0dsUVhrd1V3a2dJM1JLOFM1OXpvQ3Q1TUF5aFd2eDhJ?=
- =?utf-8?B?MEp1a1BNcFZxK1lTY2lWWVFmNWRYTFJid0d1YllBUWVNcVZSZjZRdEFHK0hR?=
- =?utf-8?B?MzdFOHUvQnkzSFgzSGM1TDdtdmVvWlBnWEtzVkhKejUwY2JQM1ptY3JGaDVB?=
- =?utf-8?B?TklmOS94MFhRb0hKNkJCTzNsckJmK0Vidkt1ZFNFWXFqZ2hqRTdsd0RBU2t4?=
- =?utf-8?B?eC9ySElLbzNISlVKNU1qU3V3cmtLNkpia1N6VG9ZdmdSMlZJbHlWQ3BHR0xl?=
- =?utf-8?B?cUVudWV1amJvcXF0SVFyMVhObDBzdGQvS2poTHM3T0hYbHREM2ovcUxtOEdH?=
- =?utf-8?B?VUhuRjFxcUpLT2V2NzN6RGh0UHd1blVXQ0U2UjhUd3U2TWdhRzJPbEdKS1Y2?=
- =?utf-8?B?VjBRdzVMR1Q1WFpVWTNjUG9ZTjVKS1FyOEdoM0x3VG9YNG1FVjJsQ3RHRzNL?=
- =?utf-8?B?L0VrbVZ5ZEtJNTZTVGdJL2VteUVuZTU0bG9CL1lkclFQVkt3VWdFaVIycis2?=
- =?utf-8?B?NlBNV2dMcmpKN1VBYVF3a2I2dy9MR29uWVdHcWJVc2RRMURNVlZYRWlqbm1x?=
- =?utf-8?B?bmRNVG1lKytrVmp1TXVtTDV2UFVsOUxrSHY3STEzZlFmZVM1dEQxM1BFbHI1?=
- =?utf-8?B?Qi9sWC9od0IvZVhIeVhSUnFsUVlqb2FHaThFYU8vNitaRkx6RmlWR3ZucnV4?=
- =?utf-8?B?SXMzamtNTURyYnh0MFBwQ3RVQVovNUNibXdvMlh1Y0dwRW1tN0drdmtLTlE4?=
- =?utf-8?B?aGg1SVU1RXVub3hzZFBGMHZuMHgvWVc5UHBVR0hXUWxlMmluZkdwS0VLOFpl?=
- =?utf-8?B?RDcvNHFKUytLS2xmaEFDbVZjTm1wYUFpd0E0cHljTStNbVEzYmlKVkdBdTBr?=
- =?utf-8?B?LzgrSTdKcTR1dnBKVTVjOE9CSGV5bkpLT040S0hsL3piQkRuUjZyVHdsaE5T?=
- =?utf-8?B?ODY5akNTZWt6WFR0T0pFczZZcGtKZzk2cUdKREVWQi9LV2VmbDMxWm1KeFp2?=
- =?utf-8?B?aWNVbGVPRERkcWhzTnpFRExTcUVIOTQ4bVpVQktmT1BteVZUQkFPRXI3UE1J?=
- =?utf-8?B?TGRKZFJ3bFBub1hTYnltUm93OFVmMk92UlJwWWVTaEw4cCtTdmVrL1g5d3Rq?=
- =?utf-8?B?OHkwZHp5cXF5MEgvYXN4NnFkcTN2QnNtQ1pOSGZEa0pzN2t6UmU1cVlYVzRS?=
- =?utf-8?B?Y2FQZG1PT0JXQ3dGWGYvb3kxa0NvRklHMUxFQ0tyUWp6dWxWY1AvNWJDR3p0?=
- =?utf-8?B?Y0pkTHJVRldkWHAxaXVPci9ZWXphZTdWcTYrNXRibmdIeiswRlhOUFhzMUhU?=
- =?utf-8?B?MXZPNFhwM01TY2VaSXhDTjVhMGkzWDZhamNKWGlCNGlnRnNzaVFzLzZlOXkw?=
- =?utf-8?B?WUJjTmRmUm9aUUNjN0ZZYVVYeGZKLzdKYUIreUltdlM5R1daakVzRTlEbW1L?=
- =?utf-8?B?YXduamcxVjcrcW45QjRuTFRDVkNWbGk3dzNRSEhZcmdScEoxWlpZcG8vUHhX?=
- =?utf-8?B?bGNaOUhzYVhSb1hGSjBxeFRIV0JHVkw5dUI3MlNLckJqV2JnVXp0eWFYQnVQ?=
- =?utf-8?B?M3QrUkJ1aGNRSUx4UjY5bjFucVl5V0dORXZHWWdibGdmK0hUdHN3OVhuZ0Mv?=
- =?utf-8?B?czVIV1pGSFpiczM1dXVNY3ZDK1J0ZWQ4T3ZRak9zb2RjWFYvMXB3anhLbTJO?=
- =?utf-8?B?bGFrT0tPOHEydlVOMDBESXUxSTZ3bjg2bjh5R0dGRzhlVlhpUzJkMVh6QTFB?=
- =?utf-8?Q?rUVvXPDnWAmZtvr041?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2add4dbd-da79-4f21-1627-08dea0781203
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 14:04:29.6023
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /YzlEaNLvCAbzrECi/swVyGc0XqF4yBHARatujO3tXScsnHzDMMOgR+Ayn/j5IOf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6489
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260418092651.7873-2-rn.mast@zonnet.nl>
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59342-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59343-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[lists.linux.dev,kernel.org,linux.intel.com,vger.kernel.org,linuxfoundation.org,ideasonboard.com,live.nl];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[zonnet.nl,redhat.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	MAILSPIKE_FAIL(0.00)[2600:3c09:e001:a7::12fc:5321:query timed out];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CA75444709E
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,intel.com:email,intel.com:dkim,intel.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,git-scm.com:url]
+X-Rspamd-Queue-Id: 28C7A4475A9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 4/22/26 15:13, Jason Gunthorpe wrote:
-> On Wed, Apr 22, 2026 at 02:39:16PM +0200, Christian König wrote:
->>> Can you be more specific please, I still have no idea what you are
->>> thinking in terms of an acceptable implementation.
->>
->> Let me try to describe it differently:
->>
->> The iommufd deals with iommu_domain structures which userspace can map different things into.
->>
->> So of hand I would say that an interface to map DMA-buf into such an
->> iommu_domain should look something like this:
->>
->> dma_buf_map_attachment_iommu(struct dma_buf_attachment *attachment,
->>    struct iommu_domain *domain, unsigned long iova, unsigned long
->>    offset, size_t size, ...);
->>
->> The DMA buf exporter then maps the its data into the iommu_domain at
->> iova starting with offset from within the buffer and size number of
->> bytes.
-> 
-> Well, my first reaction is very negative, this suggestion is leaking
-> deep internal details like iommu_domain out of the single place that
-> needs them - iommufd - into about 6 exporter drivers. Not nice. I have
-> the mirror of your concern that I don't trust DRM drivers not to abuse
-> the iommu_domain pointer in some very creative way.
+Hi Robert,
 
-Yeah, of course that argument goes into both directions.
+kernel test robot noticed the following build warnings:
 
-The point is just that we have much more importers than exporters to handle, and from experience it was always the importer who messed things up.
+[auto build test WARNING on v7.0]
+[cannot apply to staging/staging-testing staging/staging-next staging/staging-linus linuxtv-media-pending/master sailus-media-tree/master linus/master sailus-media-tree/streams next-20260422]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Background is that the importer integrates the buffer into it's own handling which might not be made for the way the exporter is expecting things to be used.
+url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Mast/media-atomisp-mt9m114-Graceful-teardown-atomisp-and-mt9m114/20260421-171953
+base:   v7.0
+patch link:    https://lore.kernel.org/r/20260418092651.7873-2-rn.mast%40zonnet.nl
+patch subject: [PATCH 1/1] media: atomisp: mt9m114: Graceful teardown atomisp and mt9m114
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260422/202604222246.sNhBwsBf-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604222246.sNhBwsBf-lkp@intel.com/reproduce)
 
-The result ranged from extremely hard to debug data corruption issues all the way to security issues because somebody used vm_insert_page()/vm_insert_pfn() with a different address space object than the exporter expected to be used for it's memory.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604222246.sNhBwsBf-lkp@intel.com/
 
-> However. With a suitable helper we can largely isolate this to a
-> single function and yeah I can see making this functional.
+All warnings (new ones prefixed by >>):
 
-The important point is that the exporter should not need to expose it's physical data store and how it's housekeeping works.
+>> drivers/media/i2c/mt9m114.c:2554:1: warning: unused label 'read_slew_rate' [-Wunused-label]
+    2554 | read_slew_rate:
+         | ^~~~~~~~~~~~~~~
+   1 warning generated.
 
-As long as we can guarantee that I'm fine with it.
 
-> Not sure how this can work for KVM, but I'm getting the feeling the
-> way forward here is to "live and learn" together.
-> 
-> So, in the context of this series, your proposal is an iommu_domain
-> mapping type, to replace PAL. Yes?
+vim +/read_slew_rate +2554 drivers/media/i2c/mt9m114.c
 
-Something like that, yes.
+  2497	
+  2498	static int mt9m114_parse_dt(struct mt9m114 *sensor)
+  2499	{
+  2500		struct fwnode_handle *fwnode;
+  2501		struct fwnode_handle *ep;
+  2502		int ret;
+  2503	
+  2504	#if IS_ENABLED(CONFIG_ACPI)
+  2505		if (has_acpi_companion(&sensor->client->dev)) {
+  2506			/*
+  2507			 * On some reload sequences a stale software-node graph can be
+  2508			 * observed for this ACPI-enumerated sensor. Use the known safe
+  2509			 * default bus configuration and skip endpoint graph parsing.
+  2510			 */
+  2511			memset(&sensor->bus_cfg, 0, sizeof(sensor->bus_cfg));
+  2512			sensor->bus_cfg.bus_type = V4L2_MBUS_CSI2_DPHY;
+  2513			sensor->bus_cfg.bus.mipi_csi2.num_data_lanes = 1;
+  2514			goto read_slew_rate;
+  2515		}
+  2516	#endif
+  2517		fwnode = dev_fwnode(&sensor->client->dev);
+  2518	
+  2519		/*
+  2520		 * On ACPI systems the fwnode graph can be initialized by a bridge
+  2521		 * driver, which may not have probed yet. Wait for this.
+  2522		 *
+  2523		 * TODO: Return an error once bridge driver code will have moved
+  2524		 * to the ACPI core.
+  2525		 */
+  2526		ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+  2527		if (IS_ERR(ep))
+  2528			return dev_err_probe(&sensor->client->dev, PTR_ERR(ep),
+  2529					     "failed to get fwnode graph endpoint\n");
+  2530		if (!ep)
+  2531			return dev_err_probe(&sensor->client->dev, -EPROBE_DEFER,
+  2532					     "waiting for fwnode graph endpoint\n");
+  2533	
+  2534		sensor->bus_cfg.bus_type = V4L2_MBUS_UNKNOWN;
+  2535		ret = v4l2_fwnode_endpoint_alloc_parse(ep, &sensor->bus_cfg);
+  2536		fwnode_handle_put(ep);
+  2537		if (ret < 0) {
+  2538			dev_err(&sensor->client->dev, "Failed to parse endpoint\n");
+  2539			goto error;
+  2540		}
+  2541	
+  2542		switch (sensor->bus_cfg.bus_type) {
+  2543		case V4L2_MBUS_CSI2_DPHY:
+  2544		case V4L2_MBUS_PARALLEL:
+  2545			break;
+  2546	
+  2547		default:
+  2548			dev_err(&sensor->client->dev, "unsupported bus type %u\n",
+  2549				sensor->bus_cfg.bus_type);
+  2550			ret = -EINVAL;
+  2551			goto error;
+  2552		}
+  2553	
+> 2554	read_slew_rate:
+  2555		sensor->pad_slew_rate = MT9M114_PAD_SLEW_DEFAULT;
+  2556		device_property_read_u32(&sensor->client->dev, "slew-rate",
+  2557					 &sensor->pad_slew_rate);
+  2558	
+  2559		if (sensor->pad_slew_rate < MT9M114_PAD_SLEW_MIN ||
+  2560		    sensor->pad_slew_rate > MT9M114_PAD_SLEW_MAX) {
+  2561			dev_err(&sensor->client->dev, "Invalid slew-rate %u\n",
+  2562				sensor->pad_slew_rate);
+  2563			return -EINVAL;
+  2564		}
+  2565	
+  2566		return 0;
+  2567	
+  2568	error:
+  2569		v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
+  2570		return ret;
+  2571	}
+  2572	
 
-> Do you have a positive feeling about the general mapping type system
-> from the earlier patches?
-
-As far as I can see that goes into the right direction, yes.
-
-> 
-> I think if you want these kinds of APIs there are going to be several
-> mapping types required to exchange their very narrowly defined
-> details: scatterlist, scatterlist-ng, iommu_domain, the Intel vfio
-> thing, UALink, driver private interconnects, and whatever KVM needs.
-
-Plus those strange device to device interfaces you find on ARM/Android which people currently manage out of the upstream kernel and happen to break all the time.
-
-> Thus I think this is making a stronger case that we should have this
-> formal negotiation protocol between exporter and importer for the
-> mapping types. 
-
-Yes, absolutely.
-
-Regards,
-Christian.
-
-> 
-> Thanks,
-> Jason
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
