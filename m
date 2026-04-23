@@ -1,223 +1,150 @@
-Return-Path: <linux-media+bounces-59404-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59405-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cGb6JEkX6mlHtwIAu9opvQ
-	(envelope-from <linux-media+bounces-59404-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 14:57:45 +0200
+	id lRiuCs4Z6mkOuQIAu9opvQ
+	(envelope-from <linux-media+bounces-59405-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 15:08:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1920B45263A
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 14:57:45 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88CE84527E3
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 15:08:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3D53E30C1462
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 12:52:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 68C1E302FA19
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 13:05:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 975653EE1E0;
-	Thu, 23 Apr 2026 12:52:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2461C3EF0B7;
+	Thu, 23 Apr 2026 13:05:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NBIeCqv7"
+	dkim=pass (1024-bit key) header.d=cse.ust.hk header.i=@cse.ust.hk header.b="sTUshxCq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cse.ust.hk (cssvr7.cse.ust.hk [143.89.41.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A1D3EE1E5
-	for <linux-media@vger.kernel.org>; Thu, 23 Apr 2026 12:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776948764; cv=none; b=GAqyhAo5D+tSc5J125q8xpptL97KeDYd5H/asnuXcE9yAKRDvbFDGz0GBpR10nXAQmLzIqeczOrL9nk1HTI4Sa0hVpEbvMiaVhn647aE2laOOa8aQUL8J6DM8NlhWx7HjHxtizNJx8mg8055B9k1OPeTHYssGfLbU9ikiAR9xKM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776948764; c=relaxed/simple;
-	bh=LRYRTI1R6uFPtNm9boDuQ+J2WejITXqetBV3qvxnKrg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MNE6AMCZXzkI8g3wMEizBsgvx2aDBf2iEXgIHBISA2Z0KqZnSQzM0eMbgOdWiRpjW/UA119MQ0KFwo/YIgQrSytkN8No2f9hDjIm2Fo6TY0xbHx3c+FlRAmMfI+a+cvLLIu0C6rqwEDe2765q5msiwqea7ZIB5yTUsYLA3mfbS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NBIeCqv7; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8296dabef74so5593230b3a.1
-        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2026 05:52:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776948761; x=1777553561; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oWTak0AZpT5PAGRyOPrLhAfTDkzNQwl7PRRG7ggCKJA=;
-        b=NBIeCqv7SRrPuee/kwhnCo2cq8CHQyYdsAz8nHlaGU1zpCXTHjejbJ7vxwQnyQfDL0
-         1BXd8UjObTFx+pRY1vWettcV3q7M4/HiIZGaHSM3BH+pz5TD1aiXZsKUrwNqUzzxVhD2
-         oZKzrlh+qekGm4eFA5OlNAseLX1HXP8YYNRg7zk0eQRupM3ZIl4GVSoBWL1WCwh6BchD
-         KSFU1dhTLFOUk4sjJ8q9Pc9PxnlkZEyJR9rXHNaWhoeRvmNqlJ9KbAvrbxzEyd/qlHtC
-         roKcm2DuEzh6a4MRzFsxDuEGxgPl/PXWeUaaDlveOzij0dXLsi7E8rHCC3xpOGk5dTG7
-         UIfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776948761; x=1777553561;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=oWTak0AZpT5PAGRyOPrLhAfTDkzNQwl7PRRG7ggCKJA=;
-        b=bp6f7yjdh12Ahxr6a+n7HcRkhZ/llnoIrAyeFZl7fWHjjLYPkWYKlb7EL0U8OhN2I8
-         rsdfAcE/BWhMBsGEZtcdsX7KqvDFTf9OJ8xIrEWelEvhZ946My+8LoG5IxXX+vuNhy0V
-         ywCrWQWw70jnySyfAMJ6VBGoCTBR8n5GfYcj1wjvKcGQgfwAh6MNLChJTRfZrA6OySWj
-         0GvcqnN61mqz4jbw6MWbs/c5K328ACmrOAqVgPGFody4WkVk4Iks2FmbK1V2fZcEqOQa
-         mr6Jk+6CFFmZnW0zDKH9TjCHjqN2tX9G2EYPgcPsqchXECJh4sRhuchx7m6jAbDYYJdC
-         IeIg==
-X-Forwarded-Encrypted: i=1; AFNElJ+37eFZetqzidciXZyQ6o17Vk0K2vVJZglXIDH0coUspiTulg/Wn8WN9T/OP4gxKnke+Ok2pOHVS/OtPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHaKX3xVO9xrRuIAWBgaBAlgq/lUYQZQcuY3zo6kEQyf6sPeCj
-	kq6c4TaEUFm2FrnKmW0Ghac3yEUdaYwgEZ9yznsFOrXKnXco38YjlB1i
-X-Gm-Gg: AeBDievoqLlsqlQFVc/GRS5dhJZ8gRt6MEZT0lbhG/XrMIFo51lLCQAXbXBdYYJrvYi
-	nk0SibcABe1wlTdvsbDCd5pQ9KCx+Q1wCB5Wpe9INyHmBlr1KcOcuqu4cZUMLo3pOvWM53Seuyt
-	Iozd5SsWWbvfQyp5CqbgpMKKi1+DXVxa1RcwR9x/BvBNm0iJyeKui0y/tNAA0zv3j6bLCkM204L
-	qAK5dTeMzZeb5WbwTuhfbHNQHzZ2bB5b9304serv/ypejs5yYaQjQLGsv/pkOVCKl7aUKj1Jr3u
-	EM69yptpgAan3j6AnBuDEvq60RBd06dAo/CLePgoPaRnKc2gYzw2w/+TSpcnrsgAt53NoJvPdZW
-	CuERLdvg4ykI7/7JLuM2AFri3TVYACgidbDZcaLw+dScykRWDeh4YxcVtF7s4jLXu5kJq6F6CGF
-	SkBDBPCkgzzYFu5c1HZUEJu5L2Si9L9VwnRE6toGi9uDOr9H1GnGu7
-X-Received: by 2002:a05:6a00:3017:b0:82f:390a:69c7 with SMTP id d2e1a72fcca58-82f8c92c6f9mr27395845b3a.33.1776948761480;
-        Thu, 23 Apr 2026 05:52:41 -0700 (PDT)
-Received: from arch.localdomain ([103.182.132.254])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec0092bsm22043687b3a.50.2026.04.23.05.52.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 05:52:41 -0700 (PDT)
-From: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
-To: sakari.ailus@linux.intel.com
-Cc: andy.shevchenko@gmail.com,
-	andy@kernel.org,
-	debjeetbanerjee48@gmail.com,
-	gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org
-Subject: [PATCH v5 2/2] media: atomisp: Remove unused DPCM helper functions and declarations
-Date: Thu, 23 Apr 2026 18:22:16 +0530
-Message-ID: <20260423125216.19217-2-debjeetbanerjee48@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260423125216.19217-1-debjeetbanerjee48@gmail.com>
-References: <aejF4OlVJtKSknxg@kekkonen.localdomain>
- <20260423125216.19217-1-debjeetbanerjee48@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6ABE2FE071;
+	Thu, 23 Apr 2026 13:05:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=143.89.41.157
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776949545; cv=pass; b=ic2CWFct5kOK+iIQ5Fnn4Cl2wDG++vkekM3WtL2PEXKSW0zpXxFaed751ZN4nsTa7lP70NmR+K6smIrOpXKXRh7I1xB3qn1F6PEedxCOCBNc7Di7PI8kWRNSY7vFSH5rQYG2LYB5zZi73EFx9pBnQkCUe+uT2XU3j8SPq6t15dM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776949545; c=relaxed/simple;
+	bh=aLzDxBb1J1gWYmaPqd8pBCtC0DmGkFT/mAGECcwRLb8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CPER7BkHcGH5dgycLkEnVGHo9Y9PY7xIv15KcasRSFGDzCTju4reZeeRDp5qWlMhzhyXTwjAnWhTN5cSvtm3Psk7vXz5FMflc0I1ECLgvFe/cnzVEjdsPgTPbdVnJb9UHKTBnD5sOBVHGmzY0Jh1Z/o4+QBGjUyCNKegU8WVZMk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.ust.hk; spf=pass smtp.mailfrom=cse.ust.hk; dkim=pass (1024-bit key) header.d=cse.ust.hk header.i=@cse.ust.hk header.b=sTUshxCq; arc=pass smtp.client-ip=143.89.41.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.ust.hk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cse.ust.hk
+ARC-Seal: i=1; d=cse.ust.hk; s=arccse; a=rsa-sha256; cv=none; t=1776949519;
+	b=LMcPONrgpJECosOkMw7E+UsKR5GGRd928yfu2S/2BSesSsYZKKIifN/g+De+M4kgGUYM
+	 KTzSqW2AmUAEfGnmtdwAKK9cES2CW8BqxNu67tMf2cA4rKzIl34QBCaOc32nfE5OWzASs
+	 1WGjHoefp60ujJ9v3rrL4gs2UNgRnSVlqE=
+ARC-Message-Signature: i=1; d=cse.ust.hk; s=arccse; a=rsa-sha256;
+	c=relaxed/relaxed; t=1776949519;
+	h=DKIM-Signature:Date:From:To:Subject:Message-ID:MIME-Version;
+	bh=23v1ze6rB99pn8LU/e64hJMDAMlTqYXwzfV9f6HbCdY=;
+	b=PyW7woBqei60iw/6AavNOcBStpqqjVgN3+x106XGIvLE82FXet0guWo6UJNwZlbd0EWy
+	 9oswytIBq0pGhb2hX6dqkDuKonTJ3lCWzSKXPghbwBbT0lni/qygjDSl4RTQygTC9dOxw
+	 7M58pQ9vKH/9BJlMs8IFYUU+3tzNQkERWc=
+ARC-Authentication-Results: i=1; cse.ust.hk; arc=none smtp.remote-ip=143.89.191.45
+Received: from chcpu16 (191host045.mobilenet.cse.ust.hk [143.89.191.45])
+	(authenticated bits=0)
+	by cse.ust.hk (8.18.1/8.12.5) with ESMTPSA id 63ND2gN51722271
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 23 Apr 2026 21:05:19 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cse.ust.hk;
+	s=cseusthk; t=1776949519;
+	bh=23v1ze6rB99pn8LU/e64hJMDAMlTqYXwzfV9f6HbCdY=;
+	h=Date:From:To:Cc:Subject:From;
+	b=sTUshxCq/Uvbn7k9JrE5LPT64mopbJRjG+fZlGGTaEyUQnVZmx4nn2yr/ZePW+9/J
+	 whjWxPjZDawfs7+XqKoX7zTnu70bcEpBPRVSpG20+ONyq3kSpGetSCXjnVYJlRBEI0
+	 AqM6SBoSlRu2N+cgCFTTFhvW4CHjcW9xUEFN1S5w=
+Date: Thu, 23 Apr 2026 21:02:37 +0800
+From: Shuhao Fu <sfual@cse.ust.hk>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH] media: tw686x: hold dev->lock during streamoff DMA disable
+Message-ID: <20260423130237.GA1894228@chcpu16>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Env-From: sfual
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[cse.ust.hk,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[cse.ust.hk:s=cseusthk];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59404-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[debjeetbanerjee48@gmail.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-59405-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sfual@cse.ust.hk,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[cse.ust.hk:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1920B45263A
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,cse.ust.hk:dkim]
+X-Rspamd-Queue-Id: 88CE84527E3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Remove the DPCM-related helper functions and data structures that are no
-longer used after simplifying the CSI2 source pad format handling:
+tw686x_dma_delay() consumes and clears dev->pending_dma_en /
+dev->pending_dma_cmd under dev->lock before replaying that deferred DMA
+image to the hardware registers. tw686x_disable_channel() updates the
+same fields. Most call sites serialize tw686x_disable_channel() with
+dev->lock, but tw686x_stop_streaming() is the exception: it checks
+dev->pci_dev under dev->lock, drops the lock, and then calls
+tw686x_disable_channel().
 
-- atomisp_subdev_uncompressed_code() function
-- atomisp_subdev_is_compressed() function
-- atomisp_find_in_fmt_conv_compressed() declaration
-- compressed_codes[] array from atomisp_subdev.c
+If dma_delay_timer fires in that window, the timer path can race the
+streamoff disable path and consume stale or partially updated pending
+DMA state. This can leave deferred DMA programming out of sync with the
+requested stream stop, so STREAMOFF may not immediately reflect the
+intended channel-disable state.
 
-Since the driver does not support DPCM decompression, these functions
-were dead code and have been removed to clean up the codebase.
+Fix with holding dev->lock across the stop-side pci_dev check and
+tw686x_disable_channel() call, so VIDIOC_STREAMOFF follows the same
+locking contract as the other channel enable/disable paths.
 
-Signed-off-by: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
+Fixes: 704a84ccdbf1 ("[media] media: Support Intersil/Techwell TW686x-based video capture cards")
+Signed-off-by: Shuhao Fu <sfual@cse.ust.hk>
 ---
- .../media/atomisp/pci/atomisp_subdev.c        | 33 -------------------
- .../media/atomisp/pci/atomisp_subdev.h        |  3 --
- 2 files changed, 36 deletions(-)
+ drivers/media/pci/tw686x/tw686x-video.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index 9de9cd884d99..07189230c308 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -51,39 +51,6 @@ const struct atomisp_in_fmt_conv atomisp_in_fmt_conv[] = {
- 	{}
- };
+diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
+index 785dd797d921b5..19fb6196cf9c05 100644
+--- a/drivers/media/pci/tw686x/tw686x-video.c
++++ b/drivers/media/pci/tw686x/tw686x-video.c
+@@ -552,9 +552,9 @@ static void tw686x_stop_streaming(struct vb2_queue *vq)
+ 	/* Check device presence */
+ 	spin_lock_irqsave(&dev->lock, flags);
+ 	pci_dev = dev->pci_dev;
+-	spin_unlock_irqrestore(&dev->lock, flags);
+ 	if (pci_dev)
+ 		tw686x_disable_channel(dev, vc->ch);
++	spin_unlock_irqrestore(&dev->lock, flags);
  
--static const struct {
--	u32 code;
--	u32 compressed;
--} compressed_codes[] = {
--	{ MEDIA_BUS_FMT_SBGGR10_1X10, MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8 },
--	{ MEDIA_BUS_FMT_SGBRG10_1X10, MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8 },
--	{ MEDIA_BUS_FMT_SGRBG10_1X10, MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8 },
--	{ MEDIA_BUS_FMT_SRGGB10_1X10, MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8 },
--};
--
--u32 atomisp_subdev_uncompressed_code(u32 code)
--{
--	unsigned int i;
--
--	for (i = 0; i < ARRAY_SIZE(compressed_codes); i++)
--		if (code == compressed_codes[i].compressed)
--			return compressed_codes[i].code;
--
--	return code;
--}
--
--bool atomisp_subdev_is_compressed(u32 code)
--{
--	int i;
--
--	for (i = 0; i < ARRAY_SIZE(atomisp_in_fmt_conv) - 1; i++)
--		if (code == atomisp_in_fmt_conv[i].code)
--			return atomisp_in_fmt_conv[i].bpp !=
--			       atomisp_in_fmt_conv[i].depth;
--
--	return false;
--}
--
- const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv(u32 code)
- {
- 	int i;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index b12bb65be3f2..b399319ae2c9 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -296,8 +296,6 @@ struct atomisp_sub_device {
- 
- extern const struct atomisp_in_fmt_conv atomisp_in_fmt_conv[];
- 
--u32 atomisp_subdev_uncompressed_code(u32 code);
--bool atomisp_subdev_is_compressed(u32 code);
- const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv(u32 code);
- 
- /* ISP2400 */
-@@ -309,7 +307,6 @@ const struct atomisp_in_fmt_conv
- *atomisp_find_in_fmt_conv_by_atomisp_in_fmt(enum atomisp_input_format
- 	atomisp_in_fmt);
- 
--const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv_compressed(u32 code);
- bool atomisp_subdev_format_conversion(struct atomisp_sub_device *asd);
- 
- /* Get pointer to appropriate format */
+ 	spin_lock_irqsave(&vc->qlock, flags);
+ 	tw686x_clear_queue(vc, VB2_BUF_STATE_ERROR);
 -- 
-2.53.0
-
+2.43.0
 
