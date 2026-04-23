@@ -1,229 +1,248 @@
-Return-Path: <linux-media+bounces-59406-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59407-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EBmQGV0b6mmUuQIAu9opvQ
-	(envelope-from <linux-media+bounces-59406-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 15:15:09 +0200
+	id 4JGqFTAg6mntuQIAu9opvQ
+	(envelope-from <linux-media+bounces-59407-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 15:35:44 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E764529F0
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 15:15:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0009453061
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 15:35:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 460FD3048EC4
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 13:10:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 695B1300D92E
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 13:29:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DE6A3EF66A;
-	Thu, 23 Apr 2026 13:10:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2152936EAAE;
+	Thu, 23 Apr 2026 13:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cse.ust.hk header.i=@cse.ust.hk header.b="WCb77Kw1"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="q8VeNQfl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from cse.ust.hk (cssvr7.cse.ust.hk [143.89.41.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C883EF649;
-	Thu, 23 Apr 2026 13:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=143.89.41.157
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776949802; cv=pass; b=NiTJ8NxtbMQPbekEcofbsGJVANnrYoVebpLgAoTyJwb08W6etsO3Y/wfa0L2nz0QefL+xygsPA0ct82uYo7mz/UauuCSUyRWcuRxgU2MEL002Aa7x+dYD2bQ/IPSzZVmZPyrOfYto06mbscGG3QxXxq2YoWj1ef8PAD5cKPwwNk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776949802; c=relaxed/simple;
-	bh=ILHuQf/n09d4Jg9FCjdPE2wVeODXawLsyuECrjrv5rU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WOYD+fLF9U2ua9IWaVvB4+FAKZYU3SobH112259GROPjvmR8EKnVeENq1Hvb1kjvHAVsMtdbUn11zIKNPEd/aJX3AzA3uPWI96cjLhXpbTh/Fyx24kRfyc2UmWEsqTb35ChTXOMsikEACWItZ8HoWLu4fQHKa5Q2ZA7AsYGAB+8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.ust.hk; spf=pass smtp.mailfrom=cse.ust.hk; dkim=pass (1024-bit key) header.d=cse.ust.hk header.i=@cse.ust.hk header.b=WCb77Kw1; arc=pass smtp.client-ip=143.89.41.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.ust.hk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cse.ust.hk
-ARC-Seal: i=1; d=cse.ust.hk; s=arccse; a=rsa-sha256; cv=none; t=1776949791;
-	b=qpRVKkPqQgmC1sp8ZKCPrMvcb7QO93cfu/toIRHkypg9S/qe2wZiesCstWpP81WQHlZ2
-	 gI7NgdX/xTycj8wvZSPX92BaIPMal9v4DmFtz1FklvL2XlZYKwETRq4ufEzBOLLt2yRsN
-	 QL2GbAKLylJISsHIqiAnituv2wkpxOa9Go=
-ARC-Message-Signature: i=1; d=cse.ust.hk; s=arccse; a=rsa-sha256;
-	c=relaxed/relaxed; t=1776949791;
-	h=DKIM-Signature:Date:From:To:Subject:Message-ID:MIME-Version;
-	bh=/3CVjjoeHzmnp3Be+kyhiFiCjKIHnhlYRgWFn//PY2M=;
-	b=NBOR7PV4YynfNLwe6iabhkNvIGHVAMm9aXIpMC9LNQ4ztLMNiChZoDWr8zPSV0qIRVjL
-	 KjlDuRwejzypBfdiQ0P9xA31Jv5fXQe9OZrvlE57IK6+HlBH/Sz4XaFqapU+ZfgoEjKOC
-	 stcUjbJAsBXqE2R4oWFJuV3sKm3fj3J1Kw=
-ARC-Authentication-Results: i=1; cse.ust.hk; arc=none smtp.remote-ip=143.89.191.45
-Received: from chcpu16 (191host045.mobilenet.cse.ust.hk [143.89.191.45])
-	(authenticated bits=0)
-	by cse.ust.hk (8.18.1/8.12.5) with ESMTPSA id 63ND9gVf1723879
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 23 Apr 2026 21:09:50 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cse.ust.hk;
-	s=cseusthk; t=1776949791;
-	bh=/3CVjjoeHzmnp3Be+kyhiFiCjKIHnhlYRgWFn//PY2M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WCb77Kw183scZUlVVECv6hjhuzGx/7hqfMLE5GyQuQvNu0xZeeA4ZCrqRaO7wUSWo
-	 tPplrA7G1fviKySTxhjYEWYkYMKhjz8OubIifn9smytJmEAXxu3CxVuc4tnUVxp5pf
-	 SRDqLLZ/GjAEjeWRx9VvHgESjODlX2davyR12168=
-Date: Thu, 23 Apr 2026 21:09:37 +0800
-From: Shuhao Fu <sfual@cse.ust.hk>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: tw686x: hold dev->lock during streamoff DMA
- disable
-Message-ID: <20260423130937.GA1901524@chcpu16>
-References: <20260423130237.GA1894228@chcpu16>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0351E834B
+	for <linux-media@vger.kernel.org>; Thu, 23 Apr 2026 13:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776950964; cv=none; b=TbpIwF0J5dktNcslOoH3G1ecto6CJ7bblD/eju3vxbP7sJVvaQCx8C3l193l57n1DN/M1XDeDTBTNGVplgF6YqniK2duFe6H5Jvj6t7jJWX4mEVCDJsx0c32zClqgX6nFfUbiPWb2OCwjPuVcv401cnJB210D+j4xoIUtpTkuDY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776950964; c=relaxed/simple;
+	bh=PAkzXQ58lJzQKOEibF4UnbcevOR9SAAckb1YWr9Tk6Y=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=H67icSvlp5uRqu/zGGAIqGevEOVumSD36oA8VHSyK5Tl7Si8qzZk38iJcVi4fg4kJ1gxHr3ZnUGVPxHnFMsA01fpAlV5f2JvMnzp5paTLuYZlmKAFK42SP2ifGrKZDDGiOr2IZr9kBPiYx83E7bj/jlCXwUJf8T3sTGqlXC+v38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=q8VeNQfl; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8ef45a6d9dfso281251685a.0
+        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2026 06:29:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1776950962; x=1777555762; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vho0uIgMNPAyLeZ3YIouXu/S7NzkSmQrK1oUazVExTY=;
+        b=q8VeNQflyu03sSNXv17Zo5eLxgZh6Up66EAUci5I6f7eH6SysYYvjSuCkPwNZTPLrC
+         npPFwQinyZ169Wh7zWTFGwoEV2IqmyXdNLJ9mCjkiW7+Cge+TtjMWrrUpd46gULhNJgK
+         4pwFC55D42APB2+Rem5dauxhJI8FolqiCMgQjZRhRfApLEGqGPfwZq1xLrZ1mWVMjM9G
+         nLvXdyBJWxX6MhjP+it1P2iyBCKryH5csBQB4zknXkdylH7Qhy6zCXbB/ttqknbtlYAT
+         qH+pCWB908+56hahpxyBMPJlnKOst8g9YKmy8dsDreWoLDEtIjfDgNFNQW+/vJAJoOpc
+         0Phw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776950962; x=1777555762;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Vho0uIgMNPAyLeZ3YIouXu/S7NzkSmQrK1oUazVExTY=;
+        b=JtiEOvZ6/V1o3X4yZrYjLgriKcsV21FCSr8hX9Qd+UyEInpZYb+gPKAZ8ScAG4VfZm
+         zyuWwgppKdyEY4pWkobE+fUfSTJ+fP6ODYFhGHLXDMj5Vusqcj5gXvsvECXKab8TR/Nd
+         CZn2s21QITm7QcxN8ZTOfIecK9Azto8JVnLgA4jawcmplFuddfFGh0qT1hHLGEd+CZG5
+         cCDQkmM3RIh08F5tnmBHMpH2AS5wTK1oOHYrbm6F6Znplm4orAI6TPicFL+kTXs5Jmh+
+         vF6eF/1DiCdoYWN2WYSAfadCLlVac2xCuH5veLyjuI2qp+m9W6tjqC8uOypetFl9XS4R
+         rGxA==
+X-Forwarded-Encrypted: i=1; AFNElJ9Sj9yvKX6AFFUEDk7dDLG/LfTOnpl7XTOkC4OIfufl43ahdBIkBYspwN0KXEruuCEvFqyKRyIhwh6KtQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQfa2eptR/IxAb49H3FVPqqQI1rYxJxhUi9wt9KkVIcUQTmBAL
+	cobTUzC2y/9xzfQtKgrjNAhd5coG06zNw8NdqFO+42O3PhT3usnb3G4aAE3Ql3oZTXlb1BwRqqH
+	ZWhJG
+X-Gm-Gg: AeBDieu6ZsLxcPyty9vUoxYD/XKf4y+N/sW+xbDNjLurlBTw3HW7RuQOVgVT5Gf+VXf
+	6ZQOxgRRSs7rn6p6dg14WVkYsk8kY/GDgQmWv27a5IIR4hW+iyCJ9a1z0FykyiDu84cGi5I3Gqk
+	itH4eNbEoa29Eihyp4fp/qijxLqCl37c8dQJDry7aNClvUJEDC9yCRQtG+V74tq/p5/j7MO+dgi
+	lOnqcOjVb3iL0m87KphtjBOx/vwrAL4JJEEyZrxMQvdUYWTYLv17SVIUAZW8IcUp7xusxnAvoPp
+	rBKaDhIEVPIPyb11YcP5KAB2OyCbPa2QicUFrxB0dkB3zU0+R/yXyeE3TVpnKY4h+LooDbXQkgx
+	/dnA1m7a6uWNMEJ1o7ujcR006n+PfFAJ5u69jU3VjFV4jprYv5lky7c5CcbEiFiLoAj6NOpeQ9H
+	zcDFg1l7jtSqrNf3DY0FailTZA0pUJovdvYbLOuY8=
+X-Received: by 2002:a05:620a:a2c3:10b0:8e8:bedd:14b2 with SMTP id af79cd13be357-8e8bedd1701mr2353783185a.43.1776950961799;
+        Thu, 23 Apr 2026 06:29:21 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:15:e06b::5ac? ([2606:6d00:15:e06b::5ac])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8e7d64cce76sm1680070485a.14.2026.04.23.06.29.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2026 06:29:20 -0700 (PDT)
+Message-ID: <40fbd3af0b7f502ccbd05ff165ae2344f2019588.camel@ndufresne.ca>
+Subject: Re: [PATCH v4l-utils v2] v4l2-tracer: retrace: support all mplane
+ planes
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Esther Zilberberg <esty5664@gmail.com>, linux-media@vger.kernel.org
+Date: Thu, 23 Apr 2026 09:29:19 -0400
+In-Reply-To: <20260413094639.8615-1-esty5664@gmail.com>
+References: <20260413094639.8615-1-esty5664@gmail.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-rjoFtftU9EVDmJyNm4HO"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260423130237.GA1894228@chcpu16>
-X-Env-From: sfual
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[cse.ust.hk,none];
-	R_DKIM_ALLOW(-0.20)[cse.ust.hk:s=cseusthk];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59406-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59407-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCPT_COUNT_TWO(0.00)[2];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[cse.ust.hk:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
-	MAILSPIKE_FAIL(0.00)[172.105.105.114:query timed out];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sfual@cse.ust.hk,linux-media@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	NEURAL_HAM(-0.00)[-1.000];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MAILSPIKE_FAIL(0.00)[172.105.105.114:server fail];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: E2E764529F0
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ndufresne-ca.20251104.gappssmtp.com:dkim,ndufresne.ca:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:email]
+X-Rspamd-Queue-Id: D0009453061
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
 
-Below is the local KUnit/KCSAN setup I used to reproduce the TW686x
-warning.
+--=-rjoFtftU9EVDmJyNm4HO
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I do not have a TW686x board or a QEMU device model for this chip, so
-this is not a hardware-backed userspace repro. This setup is only my
-best-effort local reference for the race.
+Le lundi 13 avril 2026 =C3=A0 09:46 +0000, Esther Zilberberg a =C3=A9crit=
+=C2=A0:
+> For V4L2_BUF_TYPE_*_MPLANE buffers, retrace_v4l2_buffer()
+> only restored the first plane from the JSON trace.
+>=20
+> Restore all planes by iterating over the "planes" array and
+> reconstructing each struct v4l2_plane entry, assigning them
+> into a properly allocated array.
+>=20
+> This ensures consistency with trace output and prevents
+> incorrect buffer reconstruction for multiplanar formats.
+>=20
+> Signed-off-by: Esther Zilberberg <esty5664@gmail.com>
 
-To stay as close as possible to the real userspace trigger, I moved the
-writer side up to the same internal callback reached by
-VIDIOC_STREAMOFF: tw686x_stop_streaming(). The reader side stayed the
-real tw686x_dma_delay() timer callback, which consumes and clears
-pending_dma_en / pending_dma_cmd under dev->lock.
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Locally, I used the existing kernel/kcsan/tw686x_dma_race.kunitconfig
-setup, but rebuilt it with stricter KCSAN settings:
+> ---
+> v1 -> v2:
+> - allocate planes as a single array and populate it directly
+> - change retrace_v4l2_plane() to fill a provided struct instead of alloca=
+ting one
+> - fix indentation to use tabs instead of spaces
+> - add blank lines between scopes for readability
+> ---
+> =C2=A0utils/v4l2-tracer/retrace.cpp | 23 +++++++++++++++--------
+> =C2=A01 file changed, 15 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/utils/v4l2-tracer/retrace.cpp b/utils/v4l2-tracer/retrace.cp=
+p
+> index 010936c0..f4e4d3c7 100644
+> --- a/utils/v4l2-tracer/retrace.cpp
+> +++ b/utils/v4l2-tracer/retrace.cpp
+> @@ -199,10 +199,8 @@ void retrace_vidioc_reqbufs(int fd_retrace, json_obj=
+ect *ioctl_args)
+> =C2=A0	free(ptr);
+> =C2=A0}
+> =C2=A0
+> -struct v4l2_plane *retrace_v4l2_plane(json_object *plane_obj, __u32 memo=
+ry)
+> +void retrace_v4l2_plane(json_object *plane_obj, __u32 memory, struct v4l=
+2_plane *ptr)
+> =C2=A0{
+> -	struct v4l2_plane *ptr =3D (struct v4l2_plane *) calloc(1, sizeof(v4l2_=
+plane));
+> -
+> =C2=A0	json_object *bytesused_obj;
+> =C2=A0	json_object_object_get_ex(plane_obj, "bytesused", &bytesused_obj);
+> =C2=A0	ptr->bytesused =3D (__u32) json_object_get_int64(bytesused_obj);
+> @@ -222,8 +220,6 @@ struct v4l2_plane *retrace_v4l2_plane(json_object *pl=
+ane_obj, __u32 memory)
+> =C2=A0	json_object *data_offset_obj;
+> =C2=A0	json_object_object_get_ex(plane_obj, "data_offset", &data_offset_o=
+bj);
+> =C2=A0	ptr->data_offset =3D (__u32) json_object_get_int64(data_offset_obj=
+);
+> -
+> -	return ptr;
+> =C2=A0}
+> =C2=A0
+> =C2=A0struct v4l2_buffer *retrace_v4l2_buffer(json_object *ioctl_args)
+> @@ -284,9 +280,20 @@ struct v4l2_buffer *retrace_v4l2_buffer(json_object =
+*ioctl_args)
+> =C2=A0	=C2=A0=C2=A0=C2=A0 buf->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPL=
+ANE) {
+> =C2=A0		json_object *planes_obj;
+> =C2=A0		json_object_object_get_ex(m_obj, "planes", &planes_obj);
+> -		 /* TODO add planes > 0 */
+> -		json_object *plane_obj =3D json_object_array_get_idx(planes_obj, 0);
+> -		buf->m.planes =3D retrace_v4l2_plane(plane_obj, buf->memory);
+> +		buf->m.planes =3D (struct v4l2_plane *) calloc(buf->length, sizeof(str=
+uct v4l2_plane));
+> +
+> +		if (buf->m.planes =3D=3D nullptr) {
+> +			line_info("\n\tMemory allocation failed.");
+> +			free(buf);
+> +			return nullptr;
+> +		}
+> +
+> +		for (__u32 i =3D 0; i < buf->length; i++) {
+> +			json_object *plane_obj =3D json_object_array_get_idx(planes_obj, i);
+> +			if (plane_obj =3D=3D nullptr)
+> +				break;
+> +			retrace_v4l2_plane(plane_obj, buf->memory, &buf->m.planes[i]);
+> +		}
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	if (buf->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE ||
 
-- CONFIG_KCSAN_STRICT=y
-- CONFIG_KCSAN_INTERRUPT_WATCHER=y
-- CONFIG_KCSAN_REPORT_ONCE_IN_MS=0
-- CONFIG_KCSAN_SKIP_WATCH=100
-- CONFIG_KCSAN_SKIP_WATCH_RANDOMIZE=n
-- CONFIG_KCSAN_UDELAY_TASK=200
-- CONFIG_KCSAN_UDELAY_INTERRUPT=100
-- CONFIG_KCSAN_DELAY_RANDOMIZE=n
+--=-rjoFtftU9EVDmJyNm4HO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-The build command was:
+-----BEGIN PGP SIGNATURE-----
 
-  ./tools/testing/kunit/kunit.py build \
-    --arch=x86_64 \
-    --kunitconfig=kernel/kcsan/tw686x_dma_race.kunitconfig \
-    --build_dir=../out-tw686x-kcsan-kunit-strict \
-    --make_options CC=clang-20 \
-    --make_options LD=ld.bfd \
-    --make_options AR=llvm-ar-20 \
-    --make_options NM=llvm-nm-20 \
-    --make_options OBJCOPY=llvm-objcopy-20 \
-    --make_options READELF=llvm-readelf-20 \
-    --make_options LLVM_IAS=1 \
-    --jobs 8
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaeoerwAKCRDZQZRRKWBy
+9H7bAQDnkgTM2ZgxaSsB0Ysz8QmyRx8b+e+I3112g6JfqxIxiwEA01TaxwmxCcPh
+zufYogHQ3MJ+LP1BnKyWJ42vXBokzQo=
+=LWyg
+-----END PGP SIGNATURE-----
 
-Then I booted only the focused TW686x disable-vs-delay test under QEMU:
-
-  timeout 120 qemu-system-x86_64 \
-    -smp 8 \
-    -m 2048 \
-    -kernel out-tw686x-kcsan-kunit-strict/arch/x86/boot/bzImage \
-    -append 'kunit.filter_glob=kcsan.test_tw686x_pending_dma_disable_vs_delay kunit.enable=1 console=ttyS0 kunit_shutdown=reboot' \
-    -nographic \
-    -no-reboot
-
-The KUnit harness uses a fake tw686x_dev plus a minimal fake
-tw686x_video_channel and vb2_queue, so the writer side can call the
-real tw686x_stop_streaming() path instead of jumping straight into
-tw686x_disable_channel(). The internal call chain is:
-
-- writer side:
-  test_kernel_tw686x_stop_streaming()
-  -> test_tw686x_kunit_stop_streaming()
-  -> tw686x_stop_streaming()
-  -> tw686x_disable_channel()
-
-- reader side:
-  test_kernel_tw686x_dma_delay()
-  -> test_tw686x_kunit_dma_delay()
-  -> tw686x_dma_delay()
-
-With that setup I got repeated KCSAN reports of:
-
-  BUG: KCSAN: data-race in test_tw686x_kunit_dma_delay / tw686x_disable_channel
-
-The first clean hit in my local log was:
-
-  read to 0xffff8f55021d7910 of 4 bytes by interrupt on cpu 5:
-   test_tw686x_kunit_dma_delay+0x3c/0x110
-   test_kernel_tw686x_dma_delay+0x29/0x40
-   ...
-   tw686x_disable_channel+0x1e8/0x200
-   tw686x_stop_streaming+0x81/0x1e0
-   test_tw686x_kunit_stop_streaming+0x22/0x30
-   test_kernel_tw686x_stop_streaming+0x29/0x40
-
-  write to 0xffff8f55021d7910 of 4 bytes by task 83 on cpu 5:
-   tw686x_disable_channel+0x1e8/0x200
-   tw686x_stop_streaming+0x81/0x1e0
-   test_tw686x_kunit_stop_streaming+0x22/0x30
-   test_kernel_tw686x_stop_streaming+0x29/0x40
-
-I then saw the same pair again later in the same run, still with
-tw686x_stop_streaming() in the writer stack and
-test_tw686x_kunit_dma_delay() on the reader side.
-
-Again, this KUnit result is a local reference and best-effort proof of
-the overlap, not a claim of a full hardware-backed userspace repro.
-
-Thanks,
-Shuhao
-
-On Thu, Apr 23, 2026 at 09:05:42PM +0800, Shuhao Fu wrote:
-> tw686x_dma_delay() consumes and clears dev->pending_dma_en /
-> dev->pending_dma_cmd under dev->lock before replaying that deferred DMA
-> image to the hardware registers. tw686x_disable_channel() updates the
-> same fields. Most call sites serialize tw686x_disable_channel() with
-> dev->lock, but tw686x_stop_streaming() is the exception: it checks
-> dev->pci_dev under dev->lock, drops the lock, and then calls
-> tw686x_disable_channel().
-> 
-> If dma_delay_timer fires in that window, the timer path can race the
-> streamoff disable path and consume stale or partially updated pending
-> DMA state. This can leave deferred DMA programming out of sync with the
-> requested stream stop, so STREAMOFF may not immediately reflect the
-> intended channel-disable state.
-> 
-> Fix with holding dev->lock across the stop-side pci_dev check and
-> tw686x_disable_channel() call, so VIDIOC_STREAMOFF follows the same
-> locking contract as the other channel enable/disable paths.
+--=-rjoFtftU9EVDmJyNm4HO--
 
