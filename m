@@ -1,174 +1,225 @@
-Return-Path: <linux-media+bounces-59438-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59439-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SB4QEcB26mnTzgIAu9opvQ
-	(envelope-from <linux-media+bounces-59438-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 21:45:04 +0200
+	id QJkyF4536mnTzgIAu9opvQ
+	(envelope-from <linux-media+bounces-59439-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 21:48:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CBFA456E1C
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 21:45:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B637D456E76
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 21:48:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D07BC302615C
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 19:43:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2EDDF3058166
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 19:47:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37AE93446CC;
-	Thu, 23 Apr 2026 19:43:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 194AE351C3B;
+	Thu, 23 Apr 2026 19:47:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gsr.dev header.i=@gsr.dev header.b="h9KQQBs0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="J/AW1Lpm"
+	dkim=pass (1024-bit key) header.d=seagate.com header.i=@seagate.com header.b="HmbqTUv6";
+	dkim=pass (1024-bit key) header.d=seagate.com header.i=@seagate.com header.b="iRhToZYb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+Received: from esa.hc4959-67.iphmx.com (esa.hc4959-67.iphmx.com [216.71.153.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 312A023EA9B
-	for <linux-media@vger.kernel.org>; Thu, 23 Apr 2026 19:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776973428; cv=none; b=pJE2JcG2f+MVLNdnO5vsRCU50YJEkJySB6cWcn3O7gMvLkYn7L51z9b6xQWFHni66BdLJ2yn9qLKNYARGHMVVm80UggWtxtCjCIaVatSJX9hv4V6zmqh+WUd+m0tVXTnwt3LFk2SYlNL5rwXpoTYxJ+b8kWtoL9TPauNSFfU6hY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776973428; c=relaxed/simple;
-	bh=WBu7Jo8C1Lvb2PhGxEpK2DsbNMHNdUyrwu8IeLOKnRE=;
-	h=MIME-Version:Date:From:To:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=grKV1CkRsx2LZs4hxTIH2J9VIOosTRYS/M/Uc0EL+T9vB/OsEhhGN+mr+GciWeTJ26bVg0CyNvrcieaS8NUiGXpKV5GHr2nm/Y5aubyIaWI6YKm5YXEF73lV0iqhAwbdPDkprU8l92utjlt8wF5wsvZgzJUPbPqPenptdsxJjlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gsr.dev; spf=pass smtp.mailfrom=gsr.dev; dkim=pass (2048-bit key) header.d=gsr.dev header.i=@gsr.dev header.b=h9KQQBs0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=J/AW1Lpm; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gsr.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gsr.dev
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 62E9C1400171
-	for <linux-media@vger.kernel.org>; Thu, 23 Apr 2026 15:43:46 -0400 (EDT)
-Received: from phl-imap-17 ([10.202.2.105])
-  by phl-compute-03.internal (MEProxy); Thu, 23 Apr 2026 15:43:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gsr.dev; h=cc
-	:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1776973426;
-	 x=1777059826; bh=cmwPoLdoSdtePrxmb52SzE0HQmkxTc9at8PyhPJiIhY=; b=
-	h9KQQBs06SmMG0h79PoGqTXORwpY8UwjuTeK935INX+jhhNoh08OTrgiVs2Wem3e
-	XlJqPXdpX0sNnS3lempLwbTGgtkVSFxY824LHig5+UBnW2zSfx2fjblHuHMnveeZ
-	9MbbtmSRbjySrCPdlINJwqGc+G70hNh5Sc5LaMxPHW882BO+RJFDKKYF7FNZf0LT
-	KZHDgUW8EbtCqxGRyeJOG5DkMp9t4rvKKx7UlD1ds6yat9GCNbox5jXzBRr28s93
-	pwfyq5Br92Sb2J5KPQBZJRIkX/HbVpuT7/SwsI3XXWb/4kRn/G0oQYm4wJiRTzck
-	jtkzuBM5TB9k9Bb2HUeXTg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1776973426; x=1777059826; bh=c
-	mwPoLdoSdtePrxmb52SzE0HQmkxTc9at8PyhPJiIhY=; b=J/AW1Lpm51JJ9H6b6
-	s9RCvidoL1gti2IvQU4BXAik5chYBFf4TbWxCy1CrfO3AteSDcUl8wmumSPK5rFF
-	L1ldncURICIHrpa0RGhvVqO9Kz5OqLiCoJn3/dQV4+W2uoFnfoYsJGsXPBRdDR6p
-	AzqYQ1rL4Xa7IyWhcdgo9KOBeI9JCW0tw85YxjIu4s9mRtYdxMEq2cslxm5H9sXo
-	6Qg5IjJQ0IMccjX99aLUwC7uW4tgk1ZWKwlbw6vaG9w0mw/JpMIoaQPBFuJKzUlM
-	d4FSwFcsxJjK94JsN4l5dkO6Ph/mnePHX3VxU4FwVDebXehx/9g1aGN4nRuI5U9V
-	2LOCQ==
-X-ME-Sender: <xms:cnbqaVWLd58OilcO3uEIKhOcZMcCzqhfUnFb95KGs0ImohKP0UMC1w>
-    <xme:cnbqaQaF_1Aq6jkU1B72VU20Dj9InSJN7BdpwhCKKnSvV2rE4r6GmTAmmVq1CYneh
-    QfjHLKfjXLAUbtN3QsKRAanhS7b4_FwNk2h3hiEuhHzPJNA_DuwOy-W>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeikedtvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhepofggfffhvffkjghfufgtgfesthejredtre
-    dttdenucfhrhhomhepifgrsghrihgvlhcuoehgrggsrhhivghlsehgshhrrdguvghvqeen
-    ucggtffrrghtthgvrhhnpeeuieelgeelhfefkeefvdekteefiedtvdffkeejvdevfeettd
-    ehuedvgeffudffteenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpkhgv
-    rhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepghgrsghrihgvlhesghhsrhdruggvvhdpnhgspghrtghpthhtohepuddpmhho
-    uggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrd
-    hkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:cnbqaVHXsbFcxlcIwhrXqsPqAns16simhHPlamhnJGOxNJzpO3JMMA>
-    <xmx:cnbqaaT0TJVZWP5C0IzupXlnXswRIA4EEZ5cYoZECIZu50dJ9vImIw>
-    <xmx:cnbqaUB35BWA-yRmY6AzO4ieFEmeeffY388HOtDzYhwo4XwRU_VP7Q>
-    <xmx:cnbqaS0zFcYBqm5Wz-bNZPdA0hC0BUKmtY5d2DVmlZUKYmk9dIS2Mw>
-    <xmx:cnbqabbPF3FDo4qIJ-bAq2llM-vVJdgd41VhTvaxbrcqPJoZyA7JnxY1>
-Feedback-ID: i4f594605:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 30270C40072; Thu, 23 Apr 2026 15:43:46 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3D32DE6FF;
+	Thu, 23 Apr 2026 19:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=216.71.153.94
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776973668; cv=fail; b=NA5ck8HomeZWhRseiICXzHozg6HmjYNQIoi+D3KbkhPfdBbKG/QJddSeRtIjpXOIsDmq1TWGsCn78bjBInFBgXTRMyQP99I2D9Tlz+aMkda2SxLuHI60BJVXNhiheNHVBHt4w3pSV5MZZFFqao9dI+wfsEZQ8sEatgWjifQH5ag=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776973668; c=relaxed/simple;
+	bh=IjFxFnaLjOKsDSUOcGaDN6r5PXmhqhza7GnyvEhCjW8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rqsBsc14F+FVQ4zrMqdqbx5mfKBJsg3nY1fisTaJJY50a9ALGe4Loaw9LpYXaiWQVNXOTa6eo/9MzzeMJCkntfkaUM4C+rB67cK2LCeezFhzq9AAOQn2BFjUEKExkktu8+upe0WG9kaIbsRqEousHJIAkvIzncoA8K4ORtv2MwY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=seagate.com; spf=pass smtp.mailfrom=seagate.com; dkim=pass (1024-bit key) header.d=seagate.com header.i=@seagate.com header.b=HmbqTUv6; dkim=pass (1024-bit key) header.d=seagate.com header.i=@seagate.com header.b=iRhToZYb; arc=fail smtp.client-ip=216.71.153.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=seagate.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seagate.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=seagate.com; i=@seagate.com; q=dns/txt; s=stxiport;
+  t=1776973666; x=1808509666;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tTCFrlTKACkxm/RZ1ByxWrACgSApsM0syp2Zjhk+MIk=;
+  b=HmbqTUv6B1iN/EZwUwXiKR8x9EHQMqUuZnqTGw3iIe3Au6YvWfHY+8d3
+   REdSx2GFjTUHsiD5tM0EM+4Q++n8QsIpApcSDbLLgqb2kwsUT8uNj4Mqy
+   XH7mO9A09y/ps0SnUw5lJSf6NLkut+hcuehOcXlkAnnuik2b57bMyIfrJ
+   U=;
+X-CSE-ConnectionGUID: eqNuzYHdS8Wlgwp6dEt1hw==
+X-CSE-MsgGUID: eFVIpgg3TweFESjsSjV1uw==
+Received: from mail-ph0pr07cu00601.outbound.protection.outlook.com (HELO PH0PR07CU006.outbound.protection.outlook.com) ([40.93.23.89])
+  by ob1.hc4959-67.iphmx.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 23 Apr 2026 12:47:46 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MSxebQd6co3N7xOEJl5gD6+tnxR8sM97cHo5+MzdQDdBlJKNOJ2YYWsyREk84vTCezrMkdbs8C2V1/tncKr+Ygp7Dd5cFq6mxx4j0tVyMDsE0dbWYvIi05h8RXnVE9+Hwjo1TwMal9aKd9jjyN4jfW64J2BzhvcAdEzysOelicA7nRFuMNRVGVBq3a2DgSlcXnUnbFbxN80VhUJcyPcPkhoLghRGMEtofNCQ81aMKHI+xkbJ8N3UXlGV9lPcWj2IcQHJO058NwV1eEhP8Ic9Lv4YkGOF4aEJCKVCTtn7VNJu9zo5dAJmQ48Pg57vpzZAG66ma9dLWHmKiDTnju7pJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tTCFrlTKACkxm/RZ1ByxWrACgSApsM0syp2Zjhk+MIk=;
+ b=mzzwReiLIpkJyRYlzguQewF7DCZef7t2/rxvptyYZb3cdhKZUaEMfxPBL3GuLlQVW/E9AYpO7G2rHlC4KlMjWAb1cxqgWN+0re8y7uJ2XxGEKuz8mHUWlpZoTRsawcnoWmDcX7VBVjQjVI9tfaealYv0+jFIu/36oUz5OF7rtdCNPu8Zwz/IQfbjd1IZmoyw05cj6B3QjLTqEckqL5ukX13QH8CKnohDzjBg7guad09efZF1w+RroksxW5oElj5watRmIclrwHdh94Rip9LClw0pWe5KdbpPr3VMWuEwMMTBi0npD2PgQS1Ry2BQb5UTi5JGxswmZenSIxdeQO2KsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 134.204.222.52) smtp.rcpttodomain=vger.kernel.org
+ smtp.mailfrom=seagate.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=seagate.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seagate.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tTCFrlTKACkxm/RZ1ByxWrACgSApsM0syp2Zjhk+MIk=;
+ b=iRhToZYbjMA+l1e1HrtHTIO/20LVcTWar5Zpo6txgwPNRKDYvf5Etc9NGFX/ESrFrh6ZO5Pw/b7Pjtb6W4aILJgLDWz3Hnz8RSQXjXJtZmxZy9hICD2fvYHN4NgVxgAm7zHT1zz7ehWx7gtOM/WvCINVBQTFftcQa1YxsrvMZZ8=
+Received: from PH8P220CA0033.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:348::11)
+ by MW4PR20MB5589.namprd20.prod.outlook.com (2603:10b6:303:21a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.16; Thu, 23 Apr
+ 2026 19:47:43 +0000
+Received: from SA2PEPF000015C8.namprd03.prod.outlook.com
+ (2603:10b6:510:348:cafe::c8) by PH8P220CA0033.outlook.office365.com
+ (2603:10b6:510:348::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.22 via Frontend Transport; Thu,
+ 23 Apr 2026 19:47:43 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 134.204.222.52) smtp.mailfrom=seagate.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=seagate.com;
+Received: from lcopzesaa001.seagate.com (134.204.222.52) by
+ SA2PEPF000015C8.mail.protection.outlook.com (10.167.241.198) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9846.18 via Frontend Transport; Thu, 23 Apr 2026 19:47:41 +0000
+X-CSE-ConnectionGUID: vo7CGamWTI+jfr8W9FcO5A==
+X-CSE-MsgGUID: f9MQ0uutTwmd0AVubaEKvg==
+Received: from lcopiesaa01a.seagate.com ([10.230.120.56])
+  by lcopzesaa001.seagate.com with ESMTP; 23 Apr 2026 12:51:29 -0700
+X-CSE-ConnectionGUID: PXJRirQxTSqCApNjQ9nIfA==
+X-CSE-MsgGUID: jxnz/+3qSr+mQLyKGroODQ==
+X-IronPort-AV: E=Sophos;i="6.23,195,1770624000"; 
+   d="scan'208";a="737434"
+STX-Internal-Secure-Mailhost: TRUE
+Received: from nick-desk-ubuntu24.colo.seagate.com ([10.230.88.139])
+  by lcopiesaa01a.seagate.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 12:47:40 -0700
+From: Nick Spooner <nicholas.spooner@seagate.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Nick Spooner <nicholas.spooner@seagate.com>
+Subject: [PATCH v2] staging: media: atomisp: Use str_on_off() to fix Coccinelle warning
+Date: Thu, 23 Apr 2026 13:47:27 -0600
+Message-ID: <20260423194727.3200344-1-nicholas.spooner@seagate.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: ABfAGTZ89NhV
-Date: Thu, 23 Apr 2026 16:43:26 -0300
-From: Gabriel <gabriel@gsr.dev>
-To: linux-media@vger.kernel.org
-Message-Id: <2ef32e2d-0262-464f-a46f-b6884bd62b9c@app.fastmail.com>
-In-Reply-To: <69ea73c6.050a0220.2e08a.1ede@mx.google.com>
-References: <20260423181443.46566-1-gabriel@gsr.dev>
- <69ea73c6.050a0220.2e08a.1ede@mx.google.com>
-Subject: Re: media: atomisp: Use negation to check for NULL
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF000015C8:EE_|MW4PR20MB5589:EE_
 Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-1.65 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gsr.dev:s=fm2,messagingengine.com:s=fm2];
+X-MS-Office365-Filtering-Correlation-Id: ca291b1c-2955-46b0-51c9-08dea1712ec3
+STX-Hosted-IronPort-Oubound: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|36860700016|82310400026|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	y2AMi7AmKZ7Ua2LWcyS90poC3ErdySlB5Uqo8vRIgtIwVpjxVdpgrZZa1G8cwQcpbP7LSZc/PrVoFC3JY5Mt9UGb7LGe2/nTyewLUigRYkWwmIjg1JG/95aJWxNzve51jq4ZG6NtBdWpIFc8SX4vqxL3GMJIJ33HbbNZkLhXCBM9wYzJFCCEMAr6pMvlMkP4p8xTqy+MQ/USzPmKjsZkHXDpxw1V3nN7ByKuqYdBCSCbCGe0SW58jgLi2XYEyRZQu1MqK+ug2hBWvlfAYWXVf4ZzJimJQRwZvnqFbXyckOdQmGDEGFz7uMwHKwJ8Zo1Js3Uk6Rl1/Fp75mZlIKqizas/4hY2tWVgnGQCaosS8exawGqJC+sD+hgxH0naoIJzLQHM9e7jt9faMS8NSoYVn8Ih/yIBQygVserA+5+7gvlgbWQeK1mUvRcwZeblUpovVHmn8ECA512jICkNVMmMHTv7DMAM6MFSzBGQXRRXWHGKNN3ghpXyv1uGivPZcJAFQ5XHRAZnRGFcpvAfhOYYUz9PkPAIJHwJErjZeTGxhXa+/iTvh6GSljD0BQfAHSVQ0yB3wHlc1O0gXGMpBUwC+fW89B6ZOOCUeNcrlJziH2eCgu/cQeobm9MZEJgMOvbYNTu8qyeqNwxVbpq8ikZ3y2RYg+b64S/XHajamsYrglP63u2eCwRb67ZU638ueGOL2w0KmKyPfyzD9G47KqT+wAeyTfoabEXvJri0OnKfx7t0Fiu+/Np5/60BEXhpGJ/D8VNfV7SkFgk4GTCw/SHPjQ==
+X-Forefront-Antispam-Report:
+	CIP:134.204.222.52;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:lcopzesaa001.seagate.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700016)(82310400026)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	OJysjNFHRKmA6gqCrUG5rJcWclpp9m+gx2F/ewgRcRiKs0DlGiZj+JP/bQB4banYCB9AjUXvov0/thSozQy577EAuI2l4k5l8RE1ZYA7Mv9z3Qvx1wXrbBSNjXGoHcpgh2fLPcLgueDFo+FNzfZS1TIq4enIyAFcnvEOqB33ZwBrfTSg50N2HZBcOAHiY/qmVoelfouaa2Wh587uTksAH94YFlUm11nqpTKR6//gWioOiVeV0I7lhbJKw2Ctqygf4gSLg+7Jaz7kgSFAOt/4o/HmszabzGYUNr+nUCfbqYgHy5HcCwtOe9pFgDDkKiww3iMzSNrgeEu85BFxx0QRPP8YziwWvRqMYo7KruMFtlI0PE4eV+ZeQHr0BMzUN8S4wFLRjmMWbK/BHXDvSjf9zyvaVwOHK4JuPUrOgAGL3QRAMcx5ZYp8P1uXmJItXWlW
+X-Exchange-RoutingPolicyChecked:
+	lov4osORUWizXhNMs0UyFjeg/8Nl1M6Ygk84/QmQ5qr2OvCs8u/dW8stU07TTj0wHMo56Ij8EOM2/i2FGcRL0tB70cC0t0l2VHpX5EJXfiUKreHJoATTZageVWZIvZXcXlBXsvIdXWOYxL8OhJP7HVuUlDgx868QIU94smICfw52Vf9oz7TnALRYu17JM+45MvAQvQx4p+YcQOVc6Tvh/HdaotiWqQi8sfnoHHkL1X6W4hTb5Rz9iG+quYYwjkTHTfhkYWyBIQcqzE4iYC4MF25RqzY/HcwlzBwFGQXzkjBvBSAuv4SbosGt/3WaHgAn2cQel8Qg+hVj2mpjC9/1Fg==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	kGTyN8tkZv++yTEC501fqmSTNBZxuNiLq+ho9djS3fGbvdE7CUoRbPWzYjirUB6yq+05jmo7l6nu1AsrdqjA+NQIu0XTIgVInrwjpt3q/8XSB4Zi/KdAb7tz1poMKL6fsj5etQ/xEqhBGNdqxHJy9KRSVGB1bUxWzlJN7RS2tm4QI04pYJ3p8qdXIXly2UV/1juweRrrVhDs0i8YX2FeaKokD42mCbtNygD6GGI4qoPrc7yu1PeD5k010s/scrJMoNdYKhNQvz30KURqKdrnBIkO/6Q9lluOG7MJR2YBmqVdg/hN/WTazIoO2bgfj+Pk1Rpxf+26Veht3Uwh2rJjvXaYyt64GUkI9EVk1d5DUHa+tYhsWVJElA2RoptuVxMaMqhiczqSagP24KFHCemNivQzBHFNK3Py4zpuzT5mOsMfPGhBqTTcbjYKkKsmll9P62vUO9FdQDqfoPpYmOvXpCi/srDZVlSYaBIA7X/GPMeHMtyNWQXJTOxzdcSQFGLMU9wTttRSf8biud0C2cPCVSHf5xcWTTyGmoZyxrH8RbAVUH6KDUP+iMMMNxZtlF6UcExp0HTI9uoQiEimH0rQaAqcRbbUTikn9140k7WZfhjurY0VeAjoc1p8BzHvPBdP
+X-OriginatorOrg: seagate.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2026 19:47:41.8130
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca291b1c-2955-46b0-51c9-08dea1712ec3
+X-MS-Exchange-CrossTenant-Id: d466216a-c643-434a-9c2e-057448c17cbe
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d466216a-c643-434a-9c2e-057448c17cbe;Ip=[134.204.222.52];Helo=[lcopzesaa001.seagate.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF000015C8.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR20MB5589
+X-Spamd-Result: default: False [1.34 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[seagate.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_DKIM_ALLOW(-0.20)[seagate.com:s=stxiport,seagate.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59438-lists,linux-media=lfdr.de];
-	DMARC_NA(0.00)[gsr.dev];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[gsr.dev:+,messagingengine.com:+];
-	RCPT_COUNT_ONE(0.00)[1];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gabriel@gsr.dev,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-59439-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[seagate.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicholas.spooner@seagate.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,seagate.com:email,seagate.com:dkim,seagate.com:mid];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,gsr.dev:dkim,app.fastmail.com:mid,pages.freedesktop.org:url]
-X-Rspamd-Queue-Id: 5CBFA456E1C
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: B637D456E76
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Looks like a CI error:
+Fixes the following Coccinelle warning reported by string_choices.cocci:
 
-ERROR: Failed to remove container f9fa45e1527a49c9d421f98e82fd1cd23b249da7325fb34ad7b8a86bf35fcbed
-ERROR: Failed to remove container d79ed1127e9d8d8945eafad2585f86e05c503acb8a78d75991bda515b7a9f20a
-ERROR: Failed to cleanup volumes
-ERROR: Job failed (system failure): waiting for container: error during connect: Post "http://internal.tunnel.invalid/v1.47/containers/f9fa45e1527a49c9d421f98e82fd1cd23b249da7325fb34ad7b8a86bf35fcbed/wait?condition=not-running": ssh tunnel: read tcp 10.128.0.5:39928->10.128.0.121:22: read: connection reset by peer (%!s(<nil>))
+	opportunity for str_on_off(on)
 
-I'm not sure there's anything for me to fix in the patch, considering how simple and minimal it is...
+Signed-off-by: Nick Spooner <nicholas.spooner@seagate.com>
+---
+Changes in v2:
+  - Include "media" in the subject line.
 
-On Thu, Apr 23, 2026, at 16:32, Patchwork Integration wrote:
-> Dear Gabriel Sanches:
->
-> Thanks for your patches! Unfortunately the Media CI robot detected some
-> issues:
->
->
->
-> Please fix your series, and upload a new version. If you have a patchwork
-> account, do not forget to mark the current series as Superseded.
->
-> For more details, check the full report at:
-> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/98123422/artifacts/report.htm 
-> .
->
->
->
-> Best regards, and Happy Hacking!
-> Media CI robot on behalf of the linux-media community.
->
-> ---
-> Check the latest rules for contributing your patches at:
-> https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
->
-> If you believe that the CI is wrong, kindly open an issue at
-> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
-> to this message.
+ drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index 4026e98c5845..322eca4a3755 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -13,6 +13,7 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/gpio.h>
+ #include <linux/platform_device.h>
++#include <linux/string_choices.h>
+ #include "../../include/linux/atomisp_platform.h"
+ #include "../../include/linux/atomisp_gmin_platform.h"
+ 
+@@ -917,7 +918,7 @@ static int gmin_acpi_pm_ctrl(struct v4l2_subdev *subdev, int on)
+ 		return 0;
+ 
+ 	dev_dbg(subdev->dev, "Setting power state to %s\n",
+-		on ? "on" : "off");
++		str_on_off(on));
+ 
+ 	if (on)
+ 		ret = acpi_device_set_power(adev,
+@@ -930,7 +931,7 @@ static int gmin_acpi_pm_ctrl(struct v4l2_subdev *subdev, int on)
+ 		gs->clock_on = on;
+ 	else
+ 		dev_err(subdev->dev, "Couldn't set power state to %s\n",
+-			on ? "on" : "off");
++			str_on_off(on));
+ 
+ 	return ret;
+ }
 -- 
-Gabriel Sanches
+2.53.0
+
 
