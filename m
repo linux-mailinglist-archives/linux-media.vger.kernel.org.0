@@ -1,77 +1,73 @@
-Return-Path: <linux-media+bounces-59425-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59426-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IDMSHb4h6mnKuwIAu9opvQ
-	(envelope-from <linux-media+bounces-59425-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 15:42:22 +0200
+	id uBzsLwQq6mnfvgIAu9opvQ
+	(envelope-from <linux-media+bounces-59426-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 16:17:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69C84532A2
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 15:42:21 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D494538EC
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 16:17:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C77C03030E82
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 13:40:31 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 35BDF3014A1C
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 14:17:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 564DA2D836D;
-	Thu, 23 Apr 2026 13:40:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9940E3164A9;
+	Thu, 23 Apr 2026 14:17:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="d51b2ao5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EWWwm9HS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA04626E173;
-	Thu, 23 Apr 2026 13:40:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6859D2DC77F;
+	Thu, 23 Apr 2026 14:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776951629; cv=none; b=lQ7VSDRCKTNwbo/n6yfj81vmnwwXP3KKAcqhOe5czHSK34jmApT0marDEl9QWy3dFv3C2mpBbMWmzws26O9K8nyAyyFcypPSrZznqvcl/vMcQ/BIs/0nnYHNnd+JPI/XZ3GBMxzxcAJ8NGDS/F/qO947cN8m2eZskaf1Y/KXlog=
+	t=1776953858; cv=none; b=GN0CqZ5wJi5RRX+XTYBBqODf0+2amzBg18fKGDHWLvTtyK6rfqQk8M/DKtauTNynkjFtC+/Dt/etYysgG9QQzjca626wpEKJlTwaOFm1EBQABKx2Jhpd9mPiu97LUweZA5/Xto22bIJe7F5+GKiQFVBVggt5IbXifkch1beEU78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776951629; c=relaxed/simple;
-	bh=3KP4UVdXkAjUCLuoO/Zngx5JujLIt1ZAmsr3rv4yp5M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l/JRcLrJqFTLi/8W2HALgjlTFJqix7lh5b0jNf10175wOJAE8DghWyQfS3SuM8L3ri0DfdB5tkvEp///uUGmgYCxNL2hC9SKps5HKOLRX41Hzbk0bg/ep8rHIhFnnV8ZfprXpxW07+iZAEFtDIFP6ifibAI0Z1A9ByTFldJ7tc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=d51b2ao5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7DEBC2BCAF;
-	Thu, 23 Apr 2026 13:40:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776951629;
-	bh=3KP4UVdXkAjUCLuoO/Zngx5JujLIt1ZAmsr3rv4yp5M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d51b2ao5sf7XgHmfz7iMq57cj2OZF6xGfimWjCfRuSY0cxJxIeeynX8T6+uuCsAwQ
-	 QelMwuEkg4FlvKEstXscM6rkCKvWKSJS/rsmkYU1wU7PB/pRdg3xHq5U1ViGvA+c5o
-	 2ESF5wtWpLmggMSwRMhFBfaffFSNbnd27dGEbD6o=
-Date: Thu, 23 Apr 2026 15:40:26 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-Cc: Bryan O'Donoghue <bod@kernel.org>,
-	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Stefan Schmidt <stefan.schmidt@linaro.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-tegra@vger.kernel.org,
-	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Subject: Re: [PATCH v2 03/13] gpu: host1x: Migrate to generic dma context bus
-Message-ID: <2026042330-recopy-corner-07d9@gregkh>
-References: <20260423-glymur-v2-0-0296bccb9f4e@oss.qualcomm.com>
- <20260423-glymur-v2-3-0296bccb9f4e@oss.qualcomm.com>
+	s=arc-20240116; t=1776953858; c=relaxed/simple;
+	bh=VETspyH98064NNYkXWMMd4D5+ynedMe0AN4U3TeIW40=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZsbJeAu+KRdJpdHr23oXbq3p2p2QHgMerqs/1Uwkb1QyE6a80JdNno44cVA23P5y1pR3nT0tEYhJUzuPsePHeSiw2WtcyyToqzbldisV/tdgag1Zzveo8w/x17pVa9X6SLCyTvZ4VWivwdFJkhl5H17AJwr+AEBJapCObfXhhXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EWWwm9HS; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776953856; x=1808489856;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VETspyH98064NNYkXWMMd4D5+ynedMe0AN4U3TeIW40=;
+  b=EWWwm9HSNnVmvvxOQMwyQaNW0jZP3OR8WybgqqVA3P/3f52YPAd8AaNo
+   75iK5ZirhcoFzd/5dOphatA4qocY3iXdH8p3A5B/aZzrWyN6I8XAYU/CH
+   ZD4DzqHlIIU1yOkuMyAxjNh4g5P/EIkXM4OR/lB3IuESHLZUsMo5oCas/
+   Zyvo1n/Ka+c3309CypRzZUM+ubp/t6g4D/fvwr3frOIsjX2HbO7e83xU7
+   Kg0+jy8z+r6xpXqG92lQGwpqtsVpTtCPsafhYcV8uVnpYBmG2+TsKISlD
+   0laGryPHacgh1+LKjf9A8tAUIxQlSnXLkcfwNwUE9f3zO3JDhb0veGcC1
+   A==;
+X-CSE-ConnectionGUID: FnmfllMsTA6Su+2vnHoWiA==
+X-CSE-MsgGUID: hHqC6bnOQqqjWEu7BBv1GQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="88533657"
+X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
+   d="scan'208";a="88533657"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 07:17:34 -0700
+X-CSE-ConnectionGUID: 1uXB3uhYT8e8RQqNsGl4Sg==
+X-CSE-MsgGUID: srVysri8Qza8LI2KYs73zQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
+   d="scan'208";a="232509039"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.163])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 07:17:33 -0700
+Date: Thu, 23 Apr 2026 17:17:30 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mark Brown <broonie@kernel.org>, sakari.ailus@linux.intel.com,
+	hansg@kernel.org
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org,
+	Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: AtomISP tree for Linux Next
+Message-ID: <aeop-rkoHOgF2OgQ@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,58 +76,58 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260423-glymur-v2-3-0296bccb9f4e@oss.qualcomm.com>
-X-Spamd-Result: default: False [3.84 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-59426-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59425-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,8bytes.org,arm.com,linaro.org,nvidia.com,gmail.com,ffwll.ch,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MAILSPIKE_FAIL(0.00)[2600:3c0a:e001:db::12fc:5321:server fail];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linuxfoundation.org:dkim]
-X-Rspamd-Queue-Id: E69C84532A2
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linuxtv.org:url,intel.com:dkim]
+X-Rspamd-Queue-Id: C2D494538EC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Apr 23, 2026 at 06:59:32PM +0530, Vishnu Reddy wrote:
-> --- a/include/linux/host1x.h
-> +++ b/include/linux/host1x.h
-> @@ -462,7 +462,7 @@ struct host1x_memory_context {
->  	struct pid *owner;
->  
->  	struct device_dma_parameters dma_parms;
-> -	struct device dev;
-> +	struct device *dev;
+Hi, Mark!
 
-Ah, nice try, but no.  You can't use a "generic" device for this type of
-thing (i.e. your dma context bus device), as that's not what this device
-really is.  Add the needed logic to the bus this real device lives on,
-don't try to work around it.
+I think I will express the thought hanging in the air that AtomISP driver needs
+to be exposed in Linux Next tree. Currently it's being stored on linuxtv.org
+servers [1] which I think is not often appear in the Linux Next. So, for now
+can you add that tree to Linux next
 
-thanks,
+Also note, that one of the reasons behind this is a flow of patches against
+the driver that basically repeat each other or unapplicable due to newcomers
+have a hard time to realise that they need to be based on a niche tree.
 
-greg k-h
+[1]: https://git.linuxtv.org/sailus/media_tree.git/log/?h=atomisp
+
+Tree: git://linuxtv.org/sailus/media_tree.git
+      https://git.linuxtv.org/sailus/media_tree.git
+Branch: atomisp
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
