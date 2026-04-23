@@ -1,83 +1,51 @@
-Return-Path: <linux-media+bounces-59376-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59377-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IDKkHaXo6Wn+nAIAu9opvQ
-	(envelope-from <linux-media+bounces-59376-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 11:38:45 +0200
+	id WLnjN5/n6WnxmwIAu9opvQ
+	(envelope-from <linux-media+bounces-59377-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 11:34:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF9244FD14
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 11:38:42 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7067344FB9B
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 11:34:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 040EB3097EF5
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 09:23:59 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A6B3031AF5B9
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2026 09:25:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E1FF3E4C97;
-	Thu, 23 Apr 2026 09:23:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D9DD3E51D7;
+	Thu, 23 Apr 2026 09:25:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nnSAa6JA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BAz6DM2Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187463E4C65
-	for <linux-media@vger.kernel.org>; Thu, 23 Apr 2026 09:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C559E3E3C45;
+	Thu, 23 Apr 2026 09:25:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776936218; cv=none; b=LElWqua2LUFmaCuc5ApQoER6+rCNEnylHqs25S3aP4PI+J2pyUAnN2GKoPk7rjqZMZlZnEOhvnVdY2nlP1FathDoXq02JOFdj0kRy0cIgL1eTBaxOVIbsOlRGVBsyEISt+zsxIEfgEAftyNnVQECGCpfPSdW+lwzQzGSE2zvcEw=
+	t=1776936309; cv=none; b=H/ApQV3tD7vcjSGhjzw+CpzyrjjRPJW38NeBEGsPX6p++cTHVNrZJZBc1aSqfeBDD9aSa6PXr7YPfisW8pri2Y0fVv0lx3caAzMPRxX86fzl452TVNpnrdcSRJ2O7uaIXlEKH57LUEfT6FbQeNRlVzmKCGOXDeKqm9SAhRxH9CY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776936218; c=relaxed/simple;
-	bh=53ennj+hj5rWSokWbGEQbLWHb/17dqpf2YXvQKqdVmk=;
+	s=arc-20240116; t=1776936309; c=relaxed/simple;
+	bh=gPaOdhISRoLeVjVLLkrrMl9oXOxgjVoGbiyq8yrjmbk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jWPWx7e0aOgCNjPRUmkVYnNzzljvO9XNcGLOlc3bv1Nav4x4Ltexoy1Gs+htGZQXoIJk0ANdPukJvzeuFkvRKLB2nD9OFM2fRA9+phsDsdL4OPxrxyrPINuDYRqiw7EeAKw3az6IZRBpy6tsOdmGfJmrhYvKPaMUTyUsKsTWQF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nnSAa6JA; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso59302855e9.3
-        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2026 02:23:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1776936215; x=1777541015; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pL1SbrFnD2hMqCJhJcMRGY0Wdq8twCe13/ZvMTtbqsQ=;
-        b=nnSAa6JAkMlO9I+eelz2YY2WvP1fN6LDHtLdH6OLt3luUoJe7UnBphiQt2IYRiotgS
-         rjpGCh7kc90cyQdZ7XpF2QtVhsHEkG2hnZMBN7RgRqhUQaRuDxa36SUr4z5MSi4cAZlC
-         Dv4ZNggdFkO+tXFiAMd7P8n2lSUH8rGDpByGD5Cwygy4XytJT+UPgUbegZL40iHH++5R
-         DJA7fY6Q8dMxqF/cZo5IiR0rUDzXfBBuKbQ9rAo63Y20uhUbgtSibPBJx+t+qXALqdy/
-         jO0v88MJRa7dZ1oMPmQr88llgf0BdCJDvZKk741t/0/gQZ11OKpET728URYKD7MarIX8
-         Xg3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776936215; x=1777541015;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pL1SbrFnD2hMqCJhJcMRGY0Wdq8twCe13/ZvMTtbqsQ=;
-        b=eu9ytptD4/5ZfpeLbsRtau8CbPZh40ukUvpUlWkoO5bbvc48/sKljXdTGrJBmwH7uY
-         6E+AV7FJ7g4sQFRqID4O9+2Nelf0Vw/9hNTWzmuQ7j7H6N/aQWwE1l/XFIvyt6aluA5R
-         9O0lqOflWvn016jXCVwqphw3evB7CrFgpOGV67uywQX+ONH6tMWozhKp6yKkneGCK2jR
-         7RMyyctBdEWw+YDkVPdvzVxSx/G6l8V1V9v+MK4EID3cdgAlzGFLqVhHlwZgta88qaaR
-         AbckHoX4RCRcuT0y00C2ir1ivIJ8mhfJEw8mUu7qIkH6/aPIa6UMnJm0w/1GFP0VrCqW
-         MHtA==
-X-Gm-Message-State: AOJu0Yxg61DplT6Dhtgj6ucDUJLugrSnF++Wfn7LKQPiqXbEJ4iQ+wOQ
-	caEswogTexeoRgO67Agk5nAdJydKN1t2iP2zg0oGdgzxEYLlzsGQengZqtUGwRQVUn8=
-X-Gm-Gg: AeBDieu1I50y/e5DUrRjJOzuKAWJVLUuSRNtMITwdhNbMCcDuBlsgLz8L2ucJfXnKPA
-	CXjRdDiHLlytddp+0f6NeLJk8MtclAbkdbG/BXUAn0HLeV7xA/nepICxZR/mD29U91HOjIRzoRO
-	eGC1pFewYngU6k18q+BfqkJrTWrvu679H0gyfKVaAhLm75Wt60M9cbaWXWElXHHcxL1k1r5bKwh
-	2jwQDfCdHFJk3P5zRrV06ioDipSVSSBcEZeMX4T71rnarHziv2m9YExWekIUmTl7jaCYm4B2xnr
-	AcRXE0Cx7hKn+ZALCOHsWKiAwV+C3p4FmQmSEJf7sx9EyWyAifGylukjNNhPs91vkNU/HTrym/X
-	uUO45rLr1hDKc3BJ+BTD0sJltDKHsfnTniAQFqFnkQmTQDygr0ZFgrwBqpwtXhQJOCke5e2sJxq
-	mkP0+u8/WM9jQT+JqrLhInUpVSmJgv6zfyUqpac5Wodz5QpPWG/dUwAnc=
-X-Received: by 2002:a05:600c:5246:b0:487:219e:42d with SMTP id 5b1f17b1804b1-488fb750a1dmr369865355e9.11.1776936215211;
-        Thu, 23 Apr 2026 02:23:35 -0700 (PDT)
-Received: from [192.168.0.167] ([109.77.41.87])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a5d27d6casm20573705e9.27.2026.04.23.02.23.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Apr 2026 02:23:34 -0700 (PDT)
-Message-ID: <01851aef-6198-4fc7-8707-eca66bfab63f@linaro.org>
-Date: Thu, 23 Apr 2026 10:23:33 +0100
+	 In-Reply-To:Content-Type; b=BBNEoVipDI/GCfi7dV3YA94Az1QJmOKOlfkiFdVd5cAIm47JgxJHgO6WOadajQ/K9768AnOMlumZffUl0h4oec7ue120VGPbwSWENkpuHX3o5hC9VyrES88Yyw7Exp0eRbyWZ5eOkq0FKYd7v/B+yGALVTv4nlkZEAUmUBjQqTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BAz6DM2Y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B22DFC2BCAF;
+	Thu, 23 Apr 2026 09:25:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776936309;
+	bh=gPaOdhISRoLeVjVLLkrrMl9oXOxgjVoGbiyq8yrjmbk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BAz6DM2YD1dvrOIcgb5iMTlabwsviJFQglngNLEHnMkQhIHPhZzH9Mkw9TlkTMiNZ
+	 Mm1mOszW3i0ujAalrnNb6aP88T3ruvNAuR/A91y6cBm+4WWCgJSkKBHdfjxWjTBZJZ
+	 PzEjLAmySvUc+snaUm0Z0C+hr4He0tsU6Qiqy4jvRRrlFzeAUTHzj3DC7DL/eqljh2
+	 +qoaD8hCw/ROCumGgZGTORyJta2jTB/Gw679IqhOziNP3jhcYz6PL//CvjMJSo6Mhm
+	 nPe4w6l0S5meHu7+HsS1oyHK5j6J2eyu15YUSWckuDDgJg+Ds3JpCo7uCW/m+/C0Wo
+	 ccUo0mcjWNqmg==
+Message-ID: <bf19392b-7d48-44ec-93e9-4a2ced795174@kernel.org>
+Date: Thu, 23 Apr 2026 10:25:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,8 +53,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/7] media: qcom: iris: Fix bitmask test in
- iris_allow_cmd()
+Subject: Re: [PATCH 4/7] media: qcom: iris: Remove dead assignment in
+ iris_hfi_gen2_set_tier()
 To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
  Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
  Abhinav Kumar <abhinav.kumar@linux.dev>,
@@ -98,54 +66,122 @@ To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 References: <20260422-iris-code-improvement-v1-0-8e150482212d@oss.qualcomm.com>
- <lhU_SUvQxoQO3vywvJ-vpfeDCHbEr-433DdDVZOZoUSML8R5OW2p8QjArvT3YbMeIZeOqwV7tolz25aSOxnV-A==@protonmail.internalid>
- <20260422-iris-code-improvement-v1-3-8e150482212d@oss.qualcomm.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+ <pMR47_XdB_z0Q6ieCjXZ7n42_j8v68qYRmZdrDew6vKoTv40_GXztPIY1wFWEBr69JxwD8yDpCpzg2qhrw-IgA==@protonmail.internalid>
+ <20260422-iris-code-improvement-v1-4-8e150482212d@oss.qualcomm.com>
+From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
-In-Reply-To: <20260422-iris-code-improvement-v1-3-8e150482212d@oss.qualcomm.com>
+Autocrypt: addr=bod@kernel.org; keydata=
+ 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
+In-Reply-To: <20260422-iris-code-improvement-v1-4-8e150482212d@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59376-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[linaro.org:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59377-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linaro.org:email,linaro.org:dkim,linaro.org:mid]
-X-Rspamd-Queue-Id: 7CF9244FD14
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 7067344FB9B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On 22/04/2026 12:16, Dikshita Agarwal wrote:
-> iris_allow_cmd() incorrectly tests a single sub‑state bit using a scalar
-> comparison
+> Fold the ternary initialiser directly into the variable declaration,
+> removing the dead store that was immediately overwritten.
+> 
+> Fixes: 2af481a459a4 ("media: iris: Define AV1-specific platform capabilities and properties")
+> Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+> ---
+>   drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> index 30bfd90d423ba024caf6ececc827f7102e8f3324..06698fde639ec654ff9ec78a178271ab2284f5f0 100644
+> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> @@ -536,10 +536,9 @@ static int iris_hfi_gen2_set_tier(struct iris_inst *inst, u32 plane)
+>   {
+>   	u32 port = iris_hfi_gen2_get_port(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+>   	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
+> -	u32 tier = inst->fw_caps[TIER].value;
+> -
+> -	tier = (inst->codec == V4L2_PIX_FMT_AV1) ? inst->fw_caps[TIER_AV1].value :
+> +	u32 tier = (inst->codec == V4L2_PIX_FMT_AV1) ? inst->fw_caps[TIER_AV1].value :
+>   							inst->fw_caps[TIER].value;
+> +
+>   	inst_hfi_gen2->src_subcr_params.tier = tier;
+> 
+>   	return iris_hfi_gen2_session_set_property(inst,
+> 
+> --
+> 2.34.1
+> 
 
-I don't think scalar is the right term here. You're changing logical 
-comparison to bit-wise comparison.
+I don't get it.
 
-Otherwise
-
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+What's the bug ?
 
 ---
 bod
