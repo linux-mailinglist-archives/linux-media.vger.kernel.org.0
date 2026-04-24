@@ -1,144 +1,130 @@
-Return-Path: <linux-media+bounces-59492-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59493-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0NLrKhkl62kwJAAAu9opvQ
-	(envelope-from <linux-media+bounces-59492-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 10:08:57 +0200
+	id cFClF84m62muJAAAu9opvQ
+	(envelope-from <linux-media+bounces-59493-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 10:16:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 673A845B33C
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 10:08:56 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C944145B4B5
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 10:16:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C680F3003834
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 08:08:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D174E301C5AF
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 08:15:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6C9C377EB0;
-	Fri, 24 Apr 2026 08:08:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7848E386559;
+	Fri, 24 Apr 2026 08:15:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y16naCEe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eApoQHjc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9E5244687;
-	Fri, 24 Apr 2026 08:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA31C33D6C0
+	for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 08:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777018131; cv=none; b=HPg9fnIKyxGI6JcyeAoEfcqEmIuygOkirl4l1BpRZF3siSVFDbGIcLNbKrkDv+ECiO95JuhWIXeP2LP0TAzvwGPQ4IQFkfMSEhtvpGPWWIuLfTXDgkrNovdpTkMiYX2KGnr5mG+SHPqwaRztgA0MVa+QttSl1f94S98h0F+q/zc=
+	t=1777018500; cv=none; b=iIpN+0gObni0ElrpgBneb08dfgnBBMFFKjH3Ryh8Is5OpWzVKga1/yAkD1lTMY7kS0jUirr6Soogp2RP5vzQ7jJ436mVGpFAuW56LEDwRKLcouLON4SDzEOhfOr011b+Q9ZKkDWbF7a2Xbb7VZ2NZUg9eaY/3XKGGz4KfFfAiUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777018131; c=relaxed/simple;
-	bh=el6eAALVXVx8JxatyilzXF+lnYX3GZ0QJibHKHB+uhY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pTnU349rHTgM5K86g5nocpp2BUgtuq8IEikMIx8eG9k7lUblwzBfavtubL0Fr3vCiimXNqBZP6Q3C1AAFJVSi56n6mwbF9JNeSUpOGqU4XNdYQ5x/z4jjqDT+cv2ZFCoJqDRknzcudzMJZukzGem9Jg7Uw+5Px774o2FtPo4EL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y16naCEe; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777018130; x=1808554130;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=el6eAALVXVx8JxatyilzXF+lnYX3GZ0QJibHKHB+uhY=;
-  b=Y16naCEeRThmnicSuDOJEwa55NdoP5mquC+sFBNvlTEfDZza57d6Ui2t
-   jSg0iqZj/3HNs7OYTYbKm226FHlVsCdMYun72yD0/fEJ7tufrQtehAQ/8
-   Dv0w3kngGYXlsyQJ9H+QCRLMHrWoAODlDTLtYC5AmOiV14uslKe+6iSos
-   OWQXAYVKF+gspx0q/SXGug+2pBH8NLGQxXNiNpXpQQv1drre8s0MTLZ0f
-   djtV0YcB5ms6bqyndRmC6UNF547Mcx6t+vaL/wSy/zyh4MAQjG3egLkwv
-   /xAJithOXs4d5jszMDyjBQbbyOToHJWHfcTkKW1PqWqsjPv1KIVDS854h
-   A==;
-X-CSE-ConnectionGUID: dWLf9g35Qo61V5Ltsw7fDA==
-X-CSE-MsgGUID: Rc9bSL2QRcKBzF9zEpxQFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="80579870"
-X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
-   d="scan'208";a="80579870"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 01:08:49 -0700
-X-CSE-ConnectionGUID: VhiwT5QPRqmTmIfM6AQQaw==
-X-CSE-MsgGUID: KaLtWwHHQpucdZbsZz+EVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
-   d="scan'208";a="232799104"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.71])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 01:07:35 -0700
-Date: Fri, 24 Apr 2026 11:07:32 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: sakari.ailus@linux.intel.com, hansg@kernel.org,
-	linux-media@vger.kernel.org, mchehab@kernel.org,
-	Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: AtomISP tree for Linux Next
-Message-ID: <aeskxK7GODqMUNsH@ashevche-desk.local>
-References: <aeop-rkoHOgF2OgQ@ashevche-desk.local>
- <132d71a4-25d7-48b5-9705-0e7d7dfeef20@sirena.org.uk>
+	s=arc-20240116; t=1777018500; c=relaxed/simple;
+	bh=9fyu30Oftn9ohfIUdEzIbgQz3LjGLQmWulU0txjr59M=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XqKbR6Yq3K+T+q8ii3wUIUDJInYriAvq+z/rGofutMbJvtmNUveCS2dM9Cp4B3e6jKCknwjTYBwGFBmDBd8TbCvkFiQKjDxhHn3uOi8gCv4WvU819oBmV5bNRycf3ovdXRNVyLqBCvwFQFiLeDBXGWUdeV54W6zxFALs94zVkGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eApoQHjc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A0F0C2BCC6
+	for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 08:15:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777018500;
+	bh=9fyu30Oftn9ohfIUdEzIbgQz3LjGLQmWulU0txjr59M=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=eApoQHjchj5JBxhPcsli/ymo5qto9jxKmoRTtSM1ZfaKlGQ5p3MGGgwvIw6uVzybd
+	 2UfN6JnLEjhcKNd2jtlSVmRf+HhvSy3PFuHgzAwhMsggZNpG3+KZWqsEp7QNgFddLL
+	 zFxQ2U5bUmpMg2staGmksCrSaq2JpGgA2mudYitwJ64a+ekUltDi50D6JU0dxFIsYO
+	 tIasFL8q53DHSebCqKLcdHyoNvdRpEabVTJElAW4mni+0k2Jro0SBvc4zYsVwUuFsB
+	 eOKqt7I9YVmVr4rSfnF9Yh+T/8lBNt73MFZvqkqdfIe27RqW4yAosz5WELR0B+z+n6
+	 sMGxAYI3FmPmQ==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-38e7d984096so83288791fa.2
+        for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 01:15:00 -0700 (PDT)
+X-Gm-Message-State: AOJu0Ywb6shjHvwX3DuBH153d5tkx8OaMyf6mgrP8R5Z+lRnlV/KfJrb
+	GZl20JA7FYS6g5eHidTx2ohncEA1bJHuL4hmqTzwFoyuU8vuVfXmHREo3OtU7P8J289cOMEboDi
+	Mqmr4lYY5S7s37ce2mOth/vUaceo6TOb5+vvHpOEC9g==
+X-Received: by 2002:a05:651c:41d7:b0:38b:f632:e0fc with SMTP id
+ 38308e7fff4ca-38ec77f6762mr94772331fa.1.1777018499076; Fri, 24 Apr 2026
+ 01:14:59 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 24 Apr 2026 04:14:56 -0400
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 24 Apr 2026 04:14:56 -0400
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260424-ds90ub953-v6-3-7a84efbab316@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <132d71a4-25d7-48b5-9705-0e7d7dfeef20@sirena.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Rspamd-Queue-Id: 673A845B33C
+References: <20260424-ds90ub953-v6-0-7a84efbab316@oss.nxp.com> <20260424-ds90ub953-v6-3-7a84efbab316@oss.nxp.com>
+Date: Fri, 24 Apr 2026 04:14:56 -0400
+X-Gmail-Original-Message-ID: <CAMRc=Mc4OfNV5++4qAFsqqLc4DUeVK7fyZqHYtZQvSwmZnbnuw@mail.gmail.com>
+X-Gm-Features: AQROBzB5gvtfuPCI7WpxRRoySyjcEEuN-HwXoxfW5uWOp8T7YWLltn6XjRSIokA
+Message-ID: <CAMRc=Mc4OfNV5++4qAFsqqLc4DUeVK7fyZqHYtZQvSwmZnbnuw@mail.gmail.com>
+Subject: Re: [PATCH v6 3/4] media: i2c: ds90ub953: use devm_mutex_init() to
+ simplify code
+To: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev, linux-gpio@vger.kernel.org, 
+	Guoniu Zhou <guoniu.zhou@nxp.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: C944145B4B5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59492-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-59493-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,ideasonboard.com:email,mail.gmail.com:mid,nxp.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linuxtv.org:url,intel.com:dkim]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 
-On Thu, Apr 23, 2026 at 03:40:36PM +0100, Mark Brown wrote:
-> On Thu, Apr 23, 2026 at 05:17:30PM +0300, Andy Shevchenko wrote:
-> 
-> > I think I will express the thought hanging in the air that AtomISP driver needs
-> > to be exposed in Linux Next tree. Currently it's being stored on linuxtv.org
-> > servers [1] which I think is not often appear in the Linux Next. So, for now
-> > can you add that tree to Linux next
-> 
-> > Also note, that one of the reasons behind this is a flow of patches against
-> > the driver that basically repeat each other or unapplicable due to newcomers
-> > have a hard time to realise that they need to be based on a niche tree.
-> 
-> > [1]: https://git.linuxtv.org/sailus/media_tree.git/log/?h=atomisp
-> 
-> > Tree: git://linuxtv.org/sailus/media_tree.git
-> >       https://git.linuxtv.org/sailus/media_tree.git
-> > Branch: atomisp
-> 
-> That'd be totally fine of course if the people working on the tree are
-> happy with that - it looks like it's Sakari?
+On Fri, 24 Apr 2026 03:42:26 +0200, Guoniu Zhou <guoniu.zhou@oss.nxp.com> said:
+> From: Guoniu Zhou <guoniu.zhou@nxp.com>
+>
+> Use devm_mutex_init() to simplify the code. No functional change.
+>
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+> ---
+> Changes in v6:
+> - Added Reviewed-by tag from Tomi Valkeinen
+>
+> Changes in v2:
+> - Move PTR_ERR() in dev_err_probe();
+> ---
 
-He is the maintainer, I'm a reviewer. Sakari, can you confirm the inclusion of
-the tree into Linux Next daily integration/builds?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
