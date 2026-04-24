@@ -1,208 +1,344 @@
-Return-Path: <linux-media+bounces-59505-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59506-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OMJWGHw062nQJwAAu9opvQ
-	(envelope-from <linux-media+bounces-59505-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 11:14:36 +0200
+	id +PlbNNc162nRJwAAu9opvQ
+	(envelope-from <linux-media+bounces-59506-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 11:20:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158C245BFF2
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 11:14:35 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 376A945C123
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 11:20:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1F7C63002B3B
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 09:14:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1CD673039824
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 09:16:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31138386C37;
-	Fri, 24 Apr 2026 09:14:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE172387361;
+	Fri, 24 Apr 2026 09:16:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="THlHo0Gb"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gzisQckw";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="CbSzlfhu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3D830F7F8
-	for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 09:14:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA6735F197
+	for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 09:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777022070; cv=none; b=ATA1oFX7qz6WAyNTuR+adK1pufXaHLUzDt1leeduN8gjW/7R2eSQFPpp+2bw+EHSdbEZqM5IPvab9NvSPBVwd+GUglbZKlghaBva5EcmYMopNDYkTkq5/cX7GHG8UnXGDR5E35TwEbANDXNUL/YmtUmmZXBLamzpXWJtqsk8YeE=
+	t=1777022195; cv=none; b=A7sUteKV+dPHOokjHvyhRIzsaZZAwXpsqK0W/P37Lm3Uely7oz5Jf+3N/uRUgnVXW8fNocgCu+raNYhLYjUI/N+3ErPYrrv7ymTi9TySorue46VAYharVXq8tRt+DJqOtAML6qJqxBLkoA08pZik/SiSuIVNE6nsn4DJVoPkvrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777022070; c=relaxed/simple;
-	bh=hLKUufOKq2/TL+pONPnhEwc3yGdP/dz3A/DBg3KQZ/k=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ft7UNwaTuRDM22RrnC4XqgL+wiEvl3EBP63La3hQjF2kRJ9Xt8SM70gpwS7Mf4DD/uHxEDy5BqyVK8wmjkFIDjLLFKDftNski6s45lAe7RlrseC2hJlTj21JI5YHaUH7TjVUeRW2rnncUnTPeCe/48wZte3bq8zM5J6lz+Ef6Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=THlHo0Gb; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43d7213b6ebso4996764f8f.3
-        for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 02:14:29 -0700 (PDT)
+	s=arc-20240116; t=1777022195; c=relaxed/simple;
+	bh=g88rq/W6/jJt6g2zQBKGzuV5Xjn9aHoWAgxGMOp3QSQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=basS/egnA/rX0nQYLFAkVa8HeiuTEUwAJB0bKZOMvaaxXIuMv8ChkBFnDQ99KHObvh8e5SHMCeW4om34sbvn0A7kWB9VmwUyW4xTsxbftJ/hPEfB4CGIPpwIgTTDed969UwKyVw81TZZ2qcecYHVL+/8JjXwrt9Fg9+xjd9DPVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gzisQckw; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=CbSzlfhu; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63O36mfX756696
+	for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 09:16:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	b8MeOqbyQh64Wo6o3xnugk0LDSP6qrP343xhplxDA7M=; b=gzisQckwIpW7Vfoe
+	IQgkFQhU++XIGkW28WYvmYwrQcg+HooZ5OQmopgHt7WD1HF7iAZQ0mnoLmaVV9D6
+	Phj5IS9FXMriT12HiJvSbJeIV2eyXKBQAjrJ37XkWMQYXj0O2tHRsdUpkmX0a4jF
+	W65ky1g0mXiY9UIYBvXxYHwurew1PKHz9c9UKzv8dTVurQQx27nTLranfrIGQh//
+	IpCpe1NHB1rFDWJJTEJFzqNZx9GEy7/HIUiNaFeLQcfJr6PULnSXHGGabcfPzZRf
+	WZ/dyAu7cukhLJ2iqCRuxY+2k4u0uQBHfzvRX7GKWzHGwrwW469fsK/c0SHx6y25
+	DIq4cQ==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dqr4bk8w1-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 09:16:31 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-35da4795b3cso14808816a91.2
+        for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 02:16:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777022068; x=1777626868; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nSmDvRkfSjghcrtIGnXq0grda+xm9HI4mnGbjcUNF0k=;
-        b=THlHo0GbGR13/Zx5CTXsKXIHLyGZDJ3J5YBN7qbf6XpcMJiGDZfDBS4ofdxF1jpbZ1
-         n2f9Cek4RmVOeiFAkFjI91lX+uSXSeLL1iXDtmKNi+KV7y6SPRj/hRIdvBEhIWzkxoAy
-         XnsYFVrrrplmfJQ9B3sduLBsrz7pKF8zV5EZ1JHvRs9wIRSxOfQpa5th2Pn4B9JEakhb
-         CnVknD/IINyhwkiQ++JiUSUrxHSm5FcR0mRKm9JVkHvl2nHlCW2Td7aC/X9qN3UFnqfS
-         Nl2FjXB4xtd3+18lDweR2w/J2Qo1moGnkduchcVN7AifnrdnKgQoPn8HRixe9h7l0ps5
-         ytCQ==
+        d=oss.qualcomm.com; s=google; t=1777022191; x=1777626991; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=b8MeOqbyQh64Wo6o3xnugk0LDSP6qrP343xhplxDA7M=;
+        b=CbSzlfhuGlK7pcXlIk0hfPF7KMnR0R3V9HJTAj+VQ2KHtySVDMoaAxYQ5GpTF6JqpG
+         0E8Bl16SJxCi3FbQnINoD7R4iujqz44B2OhBrVClaKehoKvSIzbUsE1gIY602anoGFi3
+         8pcPESilDwPb3uq6v7CSsmhWy7mWOGrTD6Qeg35PnTljCk4Gi7H+nF7xzj1lsxKmTmGJ
+         OrjY5nI0EUlhZpzmIH0t7g5WCHO4Me6r9KYWbFOuw7qw4bigRokUMmaUeU/pEl9UCEMP
+         DILxw7E6DzfceUZlHl2zv4BWIq1ES7hwha6Md1tcvtRq+Z2mi3Ly+gv7jrSkdVRHNuQg
+         XkcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777022068; x=1777626868;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nSmDvRkfSjghcrtIGnXq0grda+xm9HI4mnGbjcUNF0k=;
-        b=alxRi+CwXZlKHK3e3QRhptAcI5djHegh31VJVS1i1XHxuT/9ua18sVNkjzoHY/DJ4T
-         tychRYcuD3rXmsDvI4X14ZzjtvR9voiHQ8wQN2ntI8eLcCq8MKYzUw2zf7I9US22n2xb
-         mw0Deiogg+MS4O6mcIit500fmOS7pSIgRQnC7RpQFo1CZCCTZTlYGPHRdahdjCnOaWcd
-         oHFvwOUDIUv3T0Mj3/YyZUxaxZbs7gMFubeyPKQ6uhlzPXUwp+5rBazOs2FicjsPJQ0K
-         IJNQkjyWs8HtZfXPQBnB9iaIrDGQnc7l0fbKnitmeWuCj5wYzgoZhoWThGysNurOtE5Q
-         zBEA==
-X-Forwarded-Encrypted: i=1; AFNElJ9aAjmo1vdjqXAlXaTwzcDkHKIKgnK/TzJcbIFbjdLe26zFLO9JmqjzLNKI2N+ZEKH2atqH6X56PyizGA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxppRqgUe2k19NOxsH6Z4MEWIS4G6AYuvd1H2UxeCa13N1qYQ3x
-	19xt3Ti7uD4UOQdF7HGXz6YglGKpu2/eNLtkBmpKPMcB56xEKahhLuHW
-X-Gm-Gg: AeBDietKi+KoOA6SdG09F5LUJgSF2u0Z9XbXfEpQfK5T8u7CewnZPmIhu95Zv/JjysD
-	4QG8rSyLO84kGnmK/QTHu4tzOmf5WqdqRT1R/Ko/hK2B1IBZIv2p7bJGAoWD1ckv5sXQO4vFPzQ
-	olo0REL80RuTujanjcp/fxmq+yLbvY2Y+vG00M6nwGs2DsutqVPFTp4LCd7D3w/NfrArC2KfI72
-	c6Alxn8o4wziUKWnzlkNS7CCp29G2EDe8O8w9g3F1DZqk48EAl1iGO5xK3qL9CIqdoCbfQKci2H
-	OFWqOR09U+//AOfN7/vG08HbubLuIRbLfbIWyXKJEvPxtzZ2swOmNZumfSnPQ5InqvPnaFPAx0t
-	01K8zkYaod/0Euwen3u0jbT0YTLdNBwRPBCrPEO6occrV7Gaw/LSMfaj4dSf9WhO+iXIRQtm5za
-	nViB3sDaEXfNFl34USDMvmwlvgT9MHFDgL/m94/T3Hus9ek6SbVABgG2hTXlnO8HMaVbpFz1XRs
-	eI=
-X-Received: by 2002:a5d:5f84:0:b0:43d:7783:c684 with SMTP id ffacd0b85a97d-43fe3e1e092mr49352860f8f.43.1777022067498;
-        Fri, 24 Apr 2026 02:14:27 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4412150a092sm23750898f8f.23.2026.04.24.02.14.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 02:14:27 -0700 (PDT)
-Date: Fri, 24 Apr 2026 10:14:25 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-Cc: maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
- chleroy@kernel.org, peterz@infradead.org, jpoimboe@kernel.org,
- jbaron@akamai.com, aliceryhl@google.com, rostedt@goodmis.org,
- ardb@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
- ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net,
- bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
- tmgross@umich.edu, dakr@kernel.org, nathan@kernel.org,
- nick.desaulniers+lkml@gmail.com, morbo@google.com, justinstitt@google.com,
- tamird@kernel.org, arnd@arndb.de, nsc@kernel.org, simona.vetter@ffwll.ch,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
- llvm@lists.linux.dev, Link Mauve <linkmauve@linkmauve.fr>
-Subject: Re: [PATCH V13 5/7] rust: Make __udivdi3() and __umoddi3() panic
-Message-ID: <20260424101425.6bde0e17@pumpkin>
-In-Reply-To: <20260424054742.45832-6-mkchauras@gmail.com>
-References: <20260424054742.45832-1-mkchauras@gmail.com>
-	<20260424054742.45832-6-mkchauras@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20251104; t=1777022191; x=1777626991;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b8MeOqbyQh64Wo6o3xnugk0LDSP6qrP343xhplxDA7M=;
+        b=dwqkrfwKA6TZz+0zdm40yHDGl8yInOETS3pwPSI+VcHV3oGk9rkWSYlLntKbiHUjH4
+         3fw+ee9meNUJuyWSr2JQ31a01pLtknW9K5jMmr/nBbjHIG5if2fFQQGQtCCfd+x2dROL
+         on2+pyfqkvURZFtL985kS4+qgO7FvprxN9mXdyRpSCbyzC6CqvvYppUr7ySF/fZJHE/r
+         QhLldUDHQbw1wNKYGN/Z7iU7JsP5xzjjS6CRDXQtJhemSg18QqSZKhsJz4bJ5sriMQ+X
+         ch0bsJ/vaPUTXID29LCF6R7f99NgwDfZQ6jNmrrZ4aW7M7p7O7NizGYhN11aFerOR4hS
+         FBAQ==
+X-Gm-Message-State: AOJu0YxWof+0fgjVffHC1oStX1sTvgnNtfJfODZqt16syeIVc/LHzebq
+	gOrCmD4oEJkl+PxYSKJyr6GTcrY29Kk0H6KP3kZxuVM7C+aTyfJyA23SGWqt72Vf2Jkg/jJ6h5J
+	SK53jh8XRy+jilRYMC380uQO3Q+vlCoazvTQRVsXqCKBqnCYM0OLNmn9vAwngOOEOjw==
+X-Gm-Gg: AeBDietMtg4NFw6ZxTH6e+CXhPK5Q2taFg+9IK5UnfOLzcrTiHO4fFmN3lBeErelBR8
+	LS7UmL148jymiXEfXZfW2iz6jCVt9v2AEaXsNCKCjcuiIjzZZk8c2kOS39cqfqon0aHnQJrTrdI
+	84pkNo6UB5inIQYYMaReO+xSHEeD3gF5Knp3JlSiiYepPTQUITmTh/jj1t7A7NBdjJJpvspw200
+	/xi1ujF6tfng1KA7Zxv5mAPDIbjisa/bHnohAN60lWbCX9rrPh04sqOGIR7V+DEPPjSNFI1XuTt
+	3x508Jesvcp1QNffldfk85CzFF2qMOBdfxyRHxtnbaSP30PU7GHy0hIPlwCKPod0WZLzgkYWKcx
+	wsKXY6IweEqeEba1Lh9fFbtV+Yf3ZzGWCkQzCTasb0x9+Yvo8PHmiB3xuynH79Ky+Bw==
+X-Received: by 2002:a17:90b:390d:b0:35c:30a8:319 with SMTP id 98e67ed59e1d1-36140222bbbmr32539518a91.0.1777022190780;
+        Fri, 24 Apr 2026 02:16:30 -0700 (PDT)
+X-Received: by 2002:a17:90b:390d:b0:35c:30a8:319 with SMTP id 98e67ed59e1d1-36140222bbbmr32539505a91.0.1777022190266;
+        Fri, 24 Apr 2026 02:16:30 -0700 (PDT)
+Received: from [192.168.29.100] ([49.43.194.239])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab0db13sm234364865ad.53.2026.04.24.02.16.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Apr 2026 02:16:29 -0700 (PDT)
+Message-ID: <dffbf0c6-a458-2dcd-1927-7495dc326d76@oss.qualcomm.com>
+Date: Fri, 24 Apr 2026 14:46:23 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] media: iris: optimize COMV buffer allocation for VPU3x
+ and VPU4x
+Content-Language: en-US
+To: Bryan O'Donoghue <bod@kernel.org>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <lWwJ9pbXoZXg350L9fA8Sx-qznLud6KXnJlBTFNBLZQXEwKZeI50KGzJPDq43FO2QtbisF9pyxxeVTXX-WvN0Q==@protonmail.internalid>
+ <20260421-optimize_comv_buffer-v1-1-7c9a24da3ad3@oss.qualcomm.com>
+ <c0a23200-e3f3-46ad-9057-4ee8723d2f43@kernel.org>
+From: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+In-Reply-To: <c0a23200-e3f3-46ad-9057-4ee8723d2f43@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 158C245BFF2
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI0MDA4NiBTYWx0ZWRfX53u/CqVzGtKH
+ uLOOB+uPOs5AmirtwpKNnDxbWS0ZgnLx490905CXO7zitlVktqOe7Yb5FU9R1heLRNCRZJAe5Tk
+ CWtbFeHiphTb3YjYOuaeqwahpMKE37IPaM52/EfJELVxmMaZ1hXTPc7NYiPosXv9e7vnkIBkeG1
+ E2MR4n0CQNIrFA7ibruDYRpwgYrghS17k2oOokF+aei7QuVNm5QZ0EIJpNjS9BCa4AW4QA8L6wc
+ ubCMt60w7w4UvJfPPInosDdiQhh1hYOqixmsNbX4hZgBdG5x5sYOvrDLrRkzS9ZaULgfw1bivxx
+ z5qdmEWFCtl09i/WXX8n6/Gys5ysTv03Ignc5gf4grWOz4nt/t9tdm2b7VExaW3tM8mFl0UUnnF
+ M0zAN5NwF4SGlqt/gP8hN51dYa6I+rsPvJYYhH46vIEjxAogaadGC1dqgE/I+2ylzVGvJUhCo8y
+ i5eUBxGiwAtW+dCqwZQ==
+X-Authority-Analysis: v=2.4 cv=TtnWQjXh c=1 sm=1 tr=0 ts=69eb34ef cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=gkiTcqCCC2T/77GpOVv7Jg==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=EUspDBNiAAAA:8 a=sxecAc6Fdml7H7xBZ-gA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-ORIG-GUID: 7AGH2sGHvkBfDTM-8HkPgqE3THUajMRY
+X-Proofpoint-GUID: 7AGH2sGHvkBfDTM-8HkPgqE3THUajMRY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-23_03,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 malwarescore=0 clxscore=1015 adultscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604240086
+X-Rspamd-Queue-Id: 376A945C123
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59505-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[linux.ibm.com,ellerman.id.au,gmail.com,kernel.org,infradead.org,akamai.com,google.com,goodmis.org,linaro.org,amd.com,garyguo.net,protonmail.com,umich.edu,arndb.de,ffwll.ch,lists.ozlabs.org,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev,linkmauve.fr];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,lkml];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linkmauve.fr:email]
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59506-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_SEVEN(0.00)[7]
 
-On Fri, 24 Apr 2026 11:17:40 +0530
-"Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com> wrote:
 
-> From: Link Mauve <linkmauve@linkmauve.fr>
->=20
-> The core crate currently depends on these two functions for i64/u64/
-> i128/u128/core::time::Duration formatting, but we shouldn=E2=80=99t use t=
-hat in
-> the kernel so let=E2=80=99s panic if they are ever called.
+On 4/21/2026 2:31 PM, Bryan O'Donoghue wrote:
+> On 21/04/2026 07:41, Vishnu Reddy wrote:
+>> The existing iris_vpu_dec_comv_size() used VIDEO_MAX_FRAME (32) as
+>> num_comv count unconditionally when calculating the COMV buffer size.
+>> This resulted in an oversized COMV buffer allocation throughout decode
+>> session, wasting memory regardless of actual number of buffers required.
+>
+> You should define what a COMV buffer is before talking about how you are
+> changing it, i.e. define the term Co-located Motion Vector (CMOV) and then use
+> the abbreviation CMOV liberally as you wish.
 
-Ugg.
-Surely you can make it a link-time failure?
-Or change the underlying code to avoid the divide.
+Ack, will update accordingly.
 
-	David
+>
+>> For VPU3x and VPU4x platforms, introduce iris_vpu3x_4x_dec_comv_size() to
+>> replace iris_vpu_dec_comv_size(). It derives num_comv dynamically, it
+>
+> "These derive num_cmove dynamically"
 
->=20
-> This doesn=E2=80=99t yet fix drm_panic_qr.rs, which also uses __udivdi3 w=
-hen
-> CONFIG_CC_OPTIMIZE_FOR_SIZE=3Dy, but at least makes the rest of the kernel
-> build on PPC32.
->=20
-> Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
-> Signed-off-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
-> ---
->  rust/Makefile             | 4 ++++
->  rust/compiler_builtins.rs | 6 ++++++
->  2 files changed, 10 insertions(+)
->=20
-> diff --git a/rust/Makefile b/rust/Makefile
-> index 2a5428a5503d..ee11fba7a03d 100644
-> --- a/rust/Makefile
-> +++ b/rust/Makefile
-> @@ -616,6 +616,10 @@ ifneq ($(or $(CONFIG_ARM64),$(and $(CONFIG_RISCV),$(=
-CONFIG_64BIT))),)
->  		__ashrti3 \
->  		__ashlti3 __lshrti3
->  endif
-> +ifdef CONFIG_PPC32
-> +	redirect-intrinsics +=3D \
-> +		__udivdi3 __umoddi3
-> +endif
-> =20
->  ifdef CONFIG_MODVERSIONS
->  cmd_gendwarfksyms =3D $(if $(skip_gendwarfksyms),, \
-> diff --git a/rust/compiler_builtins.rs b/rust/compiler_builtins.rs
-> index dd16c1dc899c..fc6b54636dd5 100644
-> --- a/rust/compiler_builtins.rs
-> +++ b/rust/compiler_builtins.rs
-> @@ -97,5 +97,11 @@ pub extern "C" fn $ident() {
->      __aeabi_uldivmod,
->  });
-> =20
-> +#[cfg(target_arch =3D "powerpc")]
-> +define_panicking_intrinsics!("`u64` division/modulo should not be used",=
- {
-> +    __udivdi3,
-> +    __umoddi3,
-> +});
-> +
->  // NOTE: if you are adding a new intrinsic here, you should also add it =
-to
->  // `redirect-intrinsics` in `rust/Makefile`.
+Ack.
 
+>
+>> uses inst->fw_min_count once the firmware has reported its minimum buffer
+>> requirements, and fallback to inst->buffers[BUF_OUTPUT].min_count during
+>> initialization before firmware has communicated its requirements. This
+>> aligns the COMV buffer size to the actual count needed rather than always
+>> allocating with fixed VIDEO_MAX_FRAME value.
+>>
+>> Additionally, during iris_vdec_inst_init(), fw_min_count was initialized
+>> to MIN_BUFFERS instead of 0. This masked the fallback logic and caused the
+>> COMV size calculation to use MIN_BUFFERS even before firmware had reported
+>> its actual requirements. Fix this by initializing fw_min_count to 0.
+>>
+>> During testing of 1080p AVC, it reduces the COMV buffer size from 32.89MB
+>> to 6.16MB per decode session, significantly reducing memory consumption.
+>
+> Cool nice fix.
+>
+
+Thanks!
+
+>>
+>> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+>> ---
+>>   drivers/media/platform/qcom/iris/iris_vdec.c       |  2 +-
+>>   drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 24 +++++++++++++++++++---
+>>   drivers/media/platform/qcom/iris/iris_vpu_buffer.h |  1 +
+>>   3 files changed, 23 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c
+>> b/drivers/media/platform/qcom/iris/iris_vdec.c
+>> index 719217399a30..f433065e08b2 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+>> @@ -24,7 +24,7 @@ int iris_vdec_inst_init(struct iris_inst *inst)
+>>       inst->fmt_src = kzalloc_obj(*inst->fmt_src);
+>>       inst->fmt_dst = kzalloc_obj(*inst->fmt_dst);
+>>
+>> -    inst->fw_min_count = MIN_BUFFERS;
+>> +    inst->fw_min_count = 0;
+>>
+>>       f = inst->fmt_src;
+>>       f->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+>> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+>> b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+>> index 9270422c1601..57237543b229 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+>> @@ -731,6 +731,23 @@ static u32 iris_vpu_dec_comv_size(struct iris_inst *inst)
+>>       u32 height = f->fmt.pix_mp.height;
+>>       u32 width = f->fmt.pix_mp.width;
+>>
+>> +    if (inst->codec == V4L2_PIX_FMT_H264)
+>> +        return hfi_buffer_comv_h264d(width, height, num_comv);
+>> +    else if (inst->codec == V4L2_PIX_FMT_HEVC)
+>> +        return hfi_buffer_comv_h265d(width, height, num_comv);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static u32 iris_vpu3x_4x_dec_comv_size(struct iris_inst *inst)
+>> +{
+>> +    struct v4l2_format *f = inst->fmt_src;
+>> +    u32 height = f->fmt.pix_mp.height;
+>> +    u32 width = f->fmt.pix_mp.width;
+>> +    u32 num_comv;
+>> +
+>> +    num_comv = inst->fw_min_count ? inst->fw_min_count :
+>> inst->buffers[BUF_OUTPUT].min_count;
+>
+> Please just if/else this though its far easier to read/understand that way.
+>
+
+Ack.
+
+Thank you
+Vishnu Reddy
+>> +
+>>       if (inst->codec == V4L2_PIX_FMT_H264)
+>>           return hfi_buffer_comv_h264d(width, height, num_comv);
+>>       else if (inst->codec == V4L2_PIX_FMT_HEVC)
+>> @@ -739,7 +756,8 @@ static u32 iris_vpu_dec_comv_size(struct iris_inst *inst)
+>>           if (inst->fw_caps[DRAP].value)
+>>               return 0;
+>>           else
+>> -            return hfi_buffer_comv_av1d(width, height, num_comv);
+>> +            return hfi_buffer_comv_av1d(width, height,
+>> +                            num_comv + AV1D_COMV_BUFFER_OVERHEAD);
+>>       }
+>>
+>>       return 0;
+>> @@ -2025,7 +2043,7 @@ u32 iris_vpu_buf_size(struct iris_inst *inst, enum
+>> iris_buffer_type buffer_type)
+>>
+>>       static const struct iris_vpu_buf_type_handle
+>> dec_internal_buf_type_handle[] = {
+>>           {BUF_BIN,         iris_vpu_dec_bin_size             },
+>> -        {BUF_COMV,        iris_vpu_dec_comv_size            },
+>> +        {BUF_COMV,        iris_vpu3x_4x_dec_comv_size       },
+>>           {BUF_NON_COMV,    iris_vpu_dec_non_comv_size        },
+>>           {BUF_LINE,        iris_vpu_dec_line_size            },
+>>           {BUF_PERSIST,     iris_vpu_dec_persist_size         },
+>> @@ -2098,7 +2116,7 @@ u32 iris_vpu4x_buf_size(struct iris_inst *inst, enum
+>> iris_buffer_type buffer_typ
+>>
+>>       static const struct iris_vpu_buf_type_handle
+>> dec_internal_buf_type_handle[] = {
+>>           {BUF_BIN,         iris_vpu_dec_bin_size         },
+>> -        {BUF_COMV,        iris_vpu_dec_comv_size        },
+>> +        {BUF_COMV,        iris_vpu3x_4x_dec_comv_size   },
+>>           {BUF_NON_COMV,    iris_vpu_dec_non_comv_size    },
+>>           {BUF_LINE,        iris_vpu4x_dec_line_size      },
+>>           {BUF_PERSIST,     iris_vpu4x_dec_persist_size   },
+>> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+>> b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+>> index 12640eb5ed8c..7a9cc1c92da3 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+>> @@ -110,6 +110,7 @@ struct iris_inst;
+>>   #define MAX_PE_NBR_DATA_LCU16_LINE_BUFFER_SIZE 96
+>>   #define AV1D_NUM_HW_PIC_BUF    16
+>>   #define AV1D_NUM_FRAME_HEADERS 16
+>> +#define AV1D_COMV_BUFFER_OVERHEAD 7
+>
+> Whats this ? Why is there a new seven byte overhead ? Does it represent a
+> header, an alignment ?
+>
+> An overhead can mean anything.
+>
+>>   #define SIZE_AV1D_SEQUENCE_HEADER 768
+>>   #define SIZE_AV1D_METADATA        512
+>>   #define SIZE_AV1D_FRAME_HEADER    1280
+>>
+>> ---
+>> base-commit: 4fbeef21f5387234111b5d52924e77757626faa5
+>> change-id: 20260421-optimize_comv_buffer-ae7107673609
+>>
+>> Best regards,
+>> -- 
+>> Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+>>
+>
+>
 
