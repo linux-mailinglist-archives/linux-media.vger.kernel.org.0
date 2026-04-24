@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-59485-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59486-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GOxaFNcb62l2IgAAu9opvQ
-	(envelope-from <linux-media+bounces-59485-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 09:29:27 +0200
+	id YMyfEHga62lTIgAAu9opvQ
+	(envelope-from <linux-media+bounces-59486-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 09:23:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B717545AB5C
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 09:29:26 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4155745AA90
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 09:23:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B99BA30143F4
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 07:23:02 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2D2AD3006D6A
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 07:23:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0B8037268D;
-	Fri, 24 Apr 2026 07:22:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71C83371CE4;
+	Fri, 24 Apr 2026 07:22:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RCdC0Kru"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rDn4JFzR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8DE36C9C1
-	for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 07:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA43370D56
+	for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 07:22:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777015373; cv=none; b=S5tIJxV8mfqMGrRrHMbIiGYTi3jIHsvDXHGUckmvDuZbe6y26FVYbtGpvxpN4dYPRbGjRqU47Lj6Y+Rwxlxjm28WiAeNtL5LJHu4DbIAnIgaq4fwi/KYFfll0LSkjOzPkY+CaOvINAt3MBI6LJQQfLbGzCD24EeRXAGzKp6JwzU=
+	t=1777015374; cv=none; b=OZHbFKM6SkVOjXEKq8CgVKRONBrS7cEeD11HtP7OuH6Dm8xJhDJc4jqwXkxs1V6dtxazCsq5u3JFLbek53ssebbrAfMiOn4j5O8DoOLDM66VdShNOCgvVC5Vfz8IVyROOhTnFoZ5xa5xsPAMraJVRTJXDVjhrQv+kn5ThuEiD7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777015373; c=relaxed/simple;
-	bh=bWAZFqT4Tb+5f7uG8o8PjY4H1stxGUURcl/qaAWT79w=;
+	s=arc-20240116; t=1777015374; c=relaxed/simple;
+	bh=NnTZhLTZnNfRAZTpInLPnO6pd8hHUs/jOhkVX7vXeK4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ugfc+oaf4FjA505Su3+SEeJH45ejTLs9semoBOaYITjKT0tg1MiuK1cC15nNjMZP6/sTnDU0ojSED8KGWo3LloNm50LyJOB5AU7THHV067dwqLaUbgbFNHh2im13nV+HVsPsp5s8HI8R/gXEM9KsZUoRHaxJeC51n6SFkWwFCNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RCdC0Kru; arc=none smtp.client-ip=209.85.208.176
+	 MIME-Version; b=LLVAKnSu7ugeIpxq4HYCtIad8dSo9vM0mFLz/inVnwh7dHHuxVAso/ROJmRAMwwZWGltSSHloB8CBvygO3K19YdX4UyUU8jVYnk0XDFbCaoBjfPw0nZdHDtwSn5K6j1rzOhUc7eT1zHJm4MgiM9pJcqWsLyLcheFz2GjB81Q/ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rDn4JFzR; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38e91b06006so62290691fa.2
-        for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 00:22:51 -0700 (PDT)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-59dcdf60427so6708006e87.3
+        for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 00:22:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777015370; x=1777620170; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777015371; x=1777620171; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mvT9+z0qrm3nOaQPxnVgMXtZ+9QDwe2OUg9PjPNYysQ=;
-        b=RCdC0Kru4royx0BZdUrMH9ls8fgbpqKDQkfQM+SNEgJNanwSN7adI30eNeo0pi56aM
-         d4jByxsFpZF0ewz/jJrawTZpXyT9edfXPFHXbx3qZXEtqziF0OD0bhkyyx0m952ayvip
-         K8hLsJmRDyPObHH/4OYmmAVipK/AQTbSFS0gEmdL+9iBkoGwUSbYsFs9i7zxHEgrBjWe
-         UyC557ivmy6SDLMTbTsfU6yE9HqWmkNefLaa2oY636yGW0rP+uX6zAOa+b92J2x3jBKT
-         xZ9dUTxuLCUWuginnzwRWG+nHu+F/TtB0wU4kEpFw6maYphcDQW+xhbp5cPiDMf2EFdj
-         KvEg==
+        bh=d0a97i72KVR1eeUiCzxnD93bJZC8Qqjf+srt6bZebIg=;
+        b=rDn4JFzRu2B+Ntr7IzOp2eSJ0UR30SsYAbEH962Iq+huak/sOJKRNI3gyMQe8Q8DpS
+         8WNSJH6VVa9d3AP3i60m+lks9JPVzrbptvpx2qKw1JA8jYXkG+FoDAy08+zBtPeJ4zYN
+         G6GooWMQCbwg9JYb4LZUpBQ+dQv5kKePE0QmKOxDwLcpQEYldOMZwUxGKvCjOATf+kvq
+         QB0QPCPKGS3XdUmIbCL3syLP40iLJdZeKBL1oqQeYeVi0x+e62/o+lkWGxecvsKUwqVh
+         4eKrASH3s70BQjLJyxY5Z7N9aVZSxXYtyR+9qwCFpVKXTH1XPFRdTAfGkXBz7xRvz8WT
+         wdKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777015370; x=1777620170;
+        d=1e100.net; s=20251104; t=1777015371; x=1777620171;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=mvT9+z0qrm3nOaQPxnVgMXtZ+9QDwe2OUg9PjPNYysQ=;
-        b=H5XY1KNN0zuqwpne3Okk6E4E/Zpsx03f2Y5qu9ki1CVSjvAJRuqXkJDGCucwyvA6R9
-         aLgTxMlxOpmUmPniOYQbYG6dSj2DdSmNIUNg2EVJF4HM38TqNLCS0WjfPkxzGzFXNmZy
-         g1+H1ws0JnFif7eYVK78WtNGi0mKHSlsztlUQwS3MbKKFBnjUYltg1ERqp8ZBIHSL7li
-         1Y2Oe7SKPwBq6H/eRcmpxzz533wzP9g3FMlspbAF0TRRA5g14H2h1Oe5WELA54QB3dIF
-         hvty+FwkNrmKofCkMMvukMFLLM885zS7kaa3yPr8xSTQdWZtalpl+HMqDtiocx26LN2p
-         CmkQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/e4lEevlkNQRv9v7tKi41GgKgC+9oBmxaXSvHt3neGXvL23EG8r7aDRpZL/jjjyui9w0RczpycIC6O6w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhPt3DkU9hr/NnS0BwqxMYDBlrEc2hB8uy0rOTDIMfB63odKu0
-	W9iJe8fcL72bsdF08BRK7JNFOtkHTVCwFF5ut1JGoNU6jiuhDAWJ/L6J
-X-Gm-Gg: AeBDieuKSHCz1gKniOmlTQn5vEYjmjhisniv7W+fGyPq3L0SQVSDOoJtfGcCtzIHX0h
-	We6/ZPzeFYjT2u8YfoC1t4/yqElhjq5nuU8LlczyzWiYJCgGqG3FLzwbyuNcT6mdQzELD9Sxfqn
-	RXXx+G/k47DACfqLT44EQ7HiS3w8pkrCw7HXBPKmDNFjM6rs+tLkpBiPKD4T33LW0WW3rkdaNoj
-	395IpHam6OaKFK9m2M5FBmOyMVoTu/Im/Net39l6guoLqzXeZuKeMxBsn9zGdLgZX2I0rOXuZQ3
-	C8redIND8h3UMdSerOlG7VI0FwPuqET54aa9fnniACqzzLgk+vDpDaKrH/Olv6S8xktUn7BwO31
-	D6awBQAajhXupCDBrYRG4rF1xh1hCllQRYtI7vhBPND0U9511AwoR/zKyCmtLrU+GGlXygPtS9w
-	rRM4+MB9y2R+i0H9cyAA7dbu8=
-X-Received: by 2002:a05:6512:3b26:b0:5a3:ffd1:fbcf with SMTP id 2adb3069b0e04-5a4172cb91emr12006284e87.17.1777015369570;
-        Fri, 24 Apr 2026 00:22:49 -0700 (PDT)
+        bh=d0a97i72KVR1eeUiCzxnD93bJZC8Qqjf+srt6bZebIg=;
+        b=ZzH0lRhzcNm8wX59I1KbRJD+RyjZlQKal5+FYDgZHTbOksC7yC75wd7wMDXoEjk6+t
+         g+nUVq90nRatjVxSb2t0ajC+HmOPEop2Jl84vLZHpr1iLV2AkmcZPvlRV/a1qDo+Zd3z
+         3gXxfUEGTRsvFdabCJDaG1VSsSoz2jDDdNKjTF4HqyeLo1Z3fvRq8OgmfmxhopTV/lzA
+         SAdyl8eUjyqHSf6XZucsG9UWCah0S9tRNLc8yTeRlsOv88kLzCR5l9ZpfK5yl2GpbYoU
+         0NELWd7Oo1MFPn4ds3nE8fgfLBYf1m/1+66RDtN3azh0UFEt1DIqyAoh3PH3RqkXzaVn
+         sJyQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9RqAIzcfO+AVuD2bIIsP0a3S7E57I0JmDOg86VnxvVg7z8hlcyIXprZs15qPwU5Evc6OJLPJWvqksIRA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw61g3ttQ3wmsPC0NM+LE/1H9UiDku2QsVUjmBj4oV6f9Uf3W7Z
+	+kTKTwJTGqwBpHSdMGEmXE7FN7lO9dngsToDrAPcXpWrQY5NjWiBuy0+
+X-Gm-Gg: AeBDieuPhVD0ksXQ/14bjgUTOrGhfTKuke5pvr0BjuIfarYkRsUEFp7GvXGDtLKN6pS
+	MXsM+7KJgvyhR9jpSYkQ/3u2vydAfjzmtuGj9m9bbxtWUF/tCf4aFFmioL6sL/JQWfFnKEhC+sY
+	5q84OcYMiY9MkifDLpbYn1TnyXSw74J8NmEwzmXeEifDZ7N2ABNlxp8sCyHsH0dQV/h2ECmzkza
+	ge/YO3xxhBmuXz5ZEuDE4RC1qefWxo82bTnxs4K7iv9H+H26Jut0rFDaI8WE7Hz4oqXgQjlWsb7
+	xePCoC+oBVlSSfumxzI/XHrM3MNv1z+YPiB5s2/v57pXbt996x/00/Aohz+a09t6FKO/nq+Aig9
+	4aNMJyYJX+h//DMMaOLnUlmTH83Kb37PqG9sXOV0nCV2xhU0yMvP/DrNWo+xKQL42b5NDj1/bVR
+	VRkzZNH48IylEfsTD9WsIBV6I=
+X-Received: by 2002:ac2:4c4b:0:b0:5a4:b0:a072 with SMTP id 2adb3069b0e04-5a4172ca655mr9466333e87.4.1777015370516;
+        Fri, 24 Apr 2026 00:22:50 -0700 (PDT)
 Received: from xeon ([188.163.112.56])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a41a238563sm5612550e87.55.2026.04.24.00.22.48
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a41a238563sm5612550e87.55.2026.04.24.00.22.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 00:22:49 -0700 (PDT)
+        Fri, 24 Apr 2026 00:22:50 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Lee Jones <lee@kernel.org>,
 	Pavel Machek <pavel@kernel.org>,
@@ -89,9 +89,9 @@ Cc: linux-leds@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH v3 1/5] dt-bindings: leds: Document TI LM3560 Synchronous Boost Flash Driver
-Date: Fri, 24 Apr 2026 10:22:26 +0300
-Message-ID: <20260424072230.90354-2-clamor95@gmail.com>
+Subject: [PATCH v3 2/5] media: i2c: lm3560: Fix v4l2 subdev registration
+Date: Fri, 24 Apr 2026 10:22:27 +0300
+Message-ID: <20260424072230.90354-3-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260424072230.90354-1-clamor95@gmail.com>
 References: <20260424072230.90354-1-clamor95@gmail.com>
@@ -101,194 +101,71 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: B717545AB5C
+X-Rspamd-Queue-Id: 4155745AA90
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [5.84 / 15.00];
-	SEM_URIBL(3.50)[0.0.0.0:email];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
-	BAD_REP_POLICIES(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59485-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	R_DKIM_ALLOW(0.00)[gmail.com:s=20251104];
-	GREYLIST(0.00)[pass,body];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_FROM(0.00)[bounces-59486-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media,dt];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
-	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
-	R_SPF_ALLOW(0.00)[+ip4:172.105.105.114:c];
-	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_SPAM(0.00)[0.158];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[devicetree.org:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,0.0.0.0:email,0.0.0.53:email,0.0.0.1:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
-Document TI LM3560 Synchronous Boost Flash Driver used for camera flash
-LEDs.
-
-The TI LM3559 documented in this schema requires a separate compatible, as
-it utilizes a different programming model — specifically regarding the
-handling of voltage ranges.
+The existing driver does not call media subdev registration, making it
+invisible to the media framework. Since the LM3560 supports two
+independent LEDs, register each LED as a separate media entity.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- .../devicetree/bindings/leds/ti,lm3560.yaml   | 131 ++++++++++++++++++
- 1 file changed, 131 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/ti,lm3560.yaml
+ drivers/media/i2c/lm3560.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/ti,lm3560.yaml b/Documentation/devicetree/bindings/leds/ti,lm3560.yaml
-new file mode 100644
-index 000000000000..c6c553ad23f9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/ti,lm3560.yaml
-@@ -0,0 +1,131 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/ti,lm3560.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: TI LM3560 Synchronous Boost Flash Driver
-+
-+maintainers:
-+  - Svyatoslav Ryhel <clamor95@gmail.com>
-+
-+description:
-+  The LM3560 is a 2-MHz fixed frequency synchronous boost converter with two
-+  1000-mA constant current drivers for high-current white LEDs. The dual high-
-+  side current sources allow for grounded cathode LED operation and can be
-+  tied together for providing flash currents at up to 2 A through a single LED.
-+  An adaptive regulation method ensures the current for each LED remains in
-+  regulation and maximizes efficiency.
-+
-+allOf:
-+  - $ref: /schemas/leds/common.yaml
-+
-+properties:
-+  compatible:
-+    enum:
-+      - ti,lm3559
-+      - ti,lm3560
-+
-+  reg:
-+    maxItems: 1
-+
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+  enable-gpios:
-+    description: GPIO connected to the HWEN pin.
-+    maxItems: 1
-+
-+  vin-supply:
-+    description: Supply connected to the IN line.
-+
-+  flash-max-timeout-us:
-+    minimum: 32000
-+    maximum: 1024000
-+    default: 32000
-+
-+  ti,peak-current-microamp:
-+    description:
-+      The LM3560 features 4 selectable current limits 1.6A, 2.3A, 3A, and 3.6A.
-+      When the current limit is reached, the LM3560 stops switching for the
-+      remainder of the switching cycle.
-+    enum: [16000000, 23000000, 30000000, 36000000]
-+    default: 16000000
-+
-+patternProperties:
-+  '^led@[01]$':
-+    description: LED control bank nodes.
-+    $ref: /schemas/leds/common.yaml#
-+    unevaluatedProperties: false
-+
-+    properties:
-+      reg:
-+        description: Control bank selection (0 = bank A, 1 = bank B).
-+        maximum: 1
-+
-+      flash-max-microamp:
-+        minimum: 62500
-+        maximum: 1000000
-+
-+      led-max-microamp:
-+        minimum: 31250
-+        maximum: 250000
-+
-+    required:
-+      - reg
-+      - flash-max-microamp
-+      - led-max-microamp
-+
-+required:
-+  - compatible
-+  - reg
-+  - '#address-cells'
-+  - '#size-cells'
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        led-controller@53 {
-+            compatible = "ti,lm3560";
-+            reg = <0x53>;
-+
-+            enable-gpios = <&gpio 28 GPIO_ACTIVE_HIGH>;
-+            vin-supply = <&vdd_3v3_sys>;
-+
-+            flash-max-timeout-us = <1024000>;
-+            ti,peak-current-microamp = <16000000>;
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            led@0 {
-+                reg = <0>;
-+
-+                label = "white::flash";
-+                linux,default-trigger = "flash";
-+
-+                flash-max-microamp = <562500>;
-+                led-max-microamp = <156250>;
-+            };
-+
-+            led@1 {
-+                reg = <1>;
-+
-+                label = "yellow::flash";
-+                linux,default-trigger = "flash";
-+
-+                flash-max-microamp = <562500>;
-+                led-max-microamp = <156250>;
-+            };
-+        };
-+    };
+diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
+index f4cc844f4e3c..085a0ef70e39 100644
+--- a/drivers/media/i2c/lm3560.c
++++ b/drivers/media/i2c/lm3560.c
+@@ -364,8 +364,15 @@ static int lm3560_subdev_init(struct lm3560_flash *flash,
+ 		goto err_out;
+ 	flash->subdev_led[led_no].entity.function = MEDIA_ENT_F_FLASH;
+ 
+-	return rval;
++	rval = v4l2_async_register_subdev(&flash->subdev_led[led_no]);
++	if (rval < 0) {
++		dev_err(flash->dev, "failed to register V4L2 subdev");
++		goto error_out_media;
++	}
+ 
++	return rval;
++error_out_media:
++	media_entity_cleanup(&flash->subdev_led[led_no].entity);
+ err_out:
+ 	v4l2_ctrl_handler_free(&flash->ctrls_led[led_no]);
+ 	return rval;
 -- 
 2.51.0
 
