@@ -1,82 +1,82 @@
-Return-Path: <linux-media+bounces-59476-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59477-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mEBqA4YE62m2HQAAu9opvQ
-	(envelope-from <linux-media+bounces-59476-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 07:49:58 +0200
+	id 2JwlM5IE62m2HQAAu9opvQ
+	(envelope-from <linux-media+bounces-59477-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 07:50:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E0145A0F1
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 07:49:57 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC53B45A0F8
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 07:50:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C9555301911B
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 05:48:36 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7E0163007209
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 05:48:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDF212C859;
-	Fri, 24 Apr 2026 05:48:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42776346E6D;
+	Fri, 24 Apr 2026 05:48:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kgq/AAuJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qr3x8mBC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39EF4344D81
-	for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 05:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9A3318B9D
+	for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 05:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777009713; cv=none; b=PxKk2i+cvLQDisNJu0HYPvoU8bOQcDEzYkGfiTHF5MR/bec5PBOj6DN9+9y2CaiqxIZpaEvm0SYMWxYQZi+0IAy789bIT9SmtM0NnRnFK6/1lti0u7DMS+o9IPoK8cURUcxY4eum35imTfUUuWohBPVWivyn7SlW8vcBNdxCNt8=
+	t=1777009722; cv=none; b=Kzr5z250zEH3/6OhqlU6BHcX4VJR66ehNLdvzzs2vdW2PrEKjCIvE39kD1Qz9qDpZQki1X8JLWKy4OQ7FnBC06b547d/FfbSLoUDXyqDwJJ7Wjydl7KifwvEKrfF7i2pEx3USo4Ty9rURKzx86k2xaHuNVUIzgd4gDi1m90L8J8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777009713; c=relaxed/simple;
-	bh=8WQ7jEq8bJBsdnlHGUXrbWXnXrrr5Xxc2+zvN+1cF+Y=;
+	s=arc-20240116; t=1777009722; c=relaxed/simple;
+	bh=g4L7C9uN0rpytwf/MlwodVI8K8mAxgIk4T8HtuH8eBk=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sdit5MdKtJhTXwxJptZ4WYUpBlz2dTykM3MTzxeMfylPjsJOjXb4rEv2159278pQI6GRiluL6GAmUN8yoCWUuA3rFPHXg5rPDy9JcT9U8HOgW/ZN6iaREUKcMRrp63TwDTGuqLbsQuLl02Vd4kkOjJ1MSurD5fjabJUWUzv5ywU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kgq/AAuJ; arc=none smtp.client-ip=209.85.214.175
+	 MIME-Version; b=d6ca1G+FtAr3+0A1BSsoCu1hlRj1bwZmoK1ekG5yhbUBPPVh8tGWCaEhwfS3tEIBzfDY2kUZA4nGChaEEYTxuLk3UIyIjx2mvD2vDLCxUAt5ctXIJWqbhqB3aPmayHlfumfM2WVpj637Fta7O4dmvZVjtcodcyk9b2g1NJOuFcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qr3x8mBC; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ad617d5b80so43610525ad.1
-        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2026 22:48:31 -0700 (PDT)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c795a47186bso3169819a12.0
+        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2026 22:48:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777009710; x=1777614510; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777009721; x=1777614521; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SIf376OZyXcpY0mdrIrP1nTWV/VE0v5g8114Fjjgl84=;
-        b=Kgq/AAuJfwXlMN6AnV68dG0YgWDXy/sx8PcSL0lMnGSevlqyBG9D1pc4jgzsr3iQMk
-         pX58MCHcEROMSVmWLsUrUOi1e3UOL60X2LgVoKji2jSZtgIimE42NXR8IbucUvDIjANQ
-         uvf4DxTjWhB/i0RVytg3e/oC49XowL60MpYaN/4chh7b1/E9Qp4mL1Z5NvuKibHiDKCW
-         /kRvQfuZxxMmct1N9CtBr8DbfpxhWFbZ+vQLNEppoAlMiLkRdB0tfXyfBLbetr5slSZV
-         IlKWCSqNzYbxApCiIp4PyM/bky3+Ngs1xLqdu7GBJjg3Dby2BL0v109qlwa/K4E6kPRb
-         fpag==
+        bh=uUmefGJqV+IRkFPz6sSuv3GYeINth0c7dueYg2gp07o=;
+        b=qr3x8mBChy13xrFs2CI618m0GGybqCQ3y7V2uDKDhW2FCCRvwFLoXceP1AG3dxHjg0
+         aYhokGCtCuYCWMYFQq8kwi+KBz/Pkl68vQFAGrOFh77BC3Q94wCtMLEunggzxc7DoWtj
+         Jy1up0zPtxiZySk2DzkoDJioXsry/7RjDbcARoRBFQae9HCkkcUKw3LicjvyD/T+iN2u
+         8vXt4ibmP2Ej9GQg0p77h26T39Rvmlsyw7vsz/b2ywyeIueiq7KXnqjep6HyJPlG24BW
+         3cozFqVWo0eNSkiSW5DGXjEdI0ooT3eTkYpulHn563zc5lrAKml8wmLWr8eelzj5i+db
+         MlRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777009710; x=1777614510;
+        d=1e100.net; s=20251104; t=1777009721; x=1777614521;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=SIf376OZyXcpY0mdrIrP1nTWV/VE0v5g8114Fjjgl84=;
-        b=OM5m+/w6Itye47ptH5F01j/RPNGaED805QztdyyCyikhcL3+ecq0MTmMDphr/M+hkp
-         hvZTXd7XveJ89tvr6YVeblEqoWhmbUXqUfjpbZKzKqEGD3jEAqYtLZE+iqcJnADLgpkv
-         T2D/ynix6Lhs/nIy41nqv/qGYZyIRkfDwrMa5HbBLU9hk9gEMIHY7Wb6jryvNJ6Sv9M2
-         DpvqKuRaPT1BYAhKiA3NouoHW16DRMAE63uW5S7Cwl3Su119XYEv8mS1PxPxyLI7f01C
-         HMk9DexjkbozNWh9YF/TNhN620KQRzX5gjb4UW54PPnBnOHJ9N8GQp9yxEB9OuPn60il
-         spew==
-X-Forwarded-Encrypted: i=1; AFNElJ/+2aMt02J9Dna4JGfe3hLMcOrcDPQIwhCcKi0oVTsgHQy0ccNZBCbMqY61Qww/Qnkqh1GO2DmulRGlaQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgY3xO9mjr6sXHbcUo6jAaD7iSt/j+uofZULFRJsqbBSYzkyZ4
-	Bi+DaYXk0cR7DQ8RULm40l8N09NNWCb3p1MgOaYynHZRpb+Ef9uJlRx6
-X-Gm-Gg: AeBDiet54Muky/Fv7y3Tza84ng98Eu4+KBDkFL5hx4TQ67cYOIVeJmPiZoz36cHRWWv
-	Ov5qGNEolVZ4kOTipcMmAZum2mNAe+wMnxzCF03+WMtFGGaBQK0r82bSQPTLfJUe4om0N04gn3P
-	9grL33w7tVm1fSOjgiIGlWe5/ZHBkM+dpI/e90aKliO0NYij7PrjQTOxTHKP68VglAnezzMy3oQ
-	9ks5j1bxhjOkd1W874u1x7HmkR6KE9Rx+UuLRIzRdirWy62/DtnINwj6h4Nddc1SW5yGfKH7TGJ
-	eGE1HN8EP0xYkujBOLikO4WQFm2XAGypzs20MGWN7hbXi3QrDjk7ZTYl4FtwoeHZCiK7xdfV8q2
-	Jn0oquoXOfnk6nqwCNDncxHbRx6le4rTWeOsZDYE+BGGDOm+KmPTyZS6FX68toQ3qtl79qUxHL1
-	q5nubxUefjmoKFR1mXCJyo5yms1AkRS2YGgrPo0Ojsk/zUYcsAAWavYcsoxJzDJWAzgEauBi8tk
-	QMKLzOhMiSBHnk=
-X-Received: by 2002:a17:903:1a88:b0:2b2:5ec6:dcf6 with SMTP id d9443c01a7336-2b5f9e85f20mr310774475ad.8.1777009710516;
-        Thu, 23 Apr 2026 22:48:30 -0700 (PDT)
+        bh=uUmefGJqV+IRkFPz6sSuv3GYeINth0c7dueYg2gp07o=;
+        b=R0IAJgxEp71Bm6VV0A7sGcpEDvlvM6kBYzRRXBs6jtQdKhxcsBugz2PCyqLdt6551K
+         ugXC9LQSjZvHYRwwWI4W6tqX9oOOBfmGsCcK1rVuMdPgDi//qFRrcph0h/OpE2jGEN7Y
+         w/3mlydk81QaR7+XT5zBC//qvhVMyR6aA6Id1QRcBUxTVqgA/nbX6rfiE6XQ4NqC36lh
+         a28KCQczEaPT5H8GuV4v+OVHbskkWJuCyPoL8bMskqlTBZAOLTCNhzMY4ytZeSE5q/Ie
+         4B41IXIN+AcE37EeGcG548pZhJVJUzKN6DmhXluqYt9X0RpItFJ3ayKMSn9qe3Zx7OUP
+         P+4g==
+X-Forwarded-Encrypted: i=1; AFNElJ9apKFWQEkSJMaO8sKzLCOSaDKxipvi0Mhsawy69DFqOJXsckIIhwy1Nc7bWNNDtwyhXj3ssEf2QbR73w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YztFk1kobembrFGYhCp2LWkU3+VW+YRRWWLjyV+/Bm4yPGC7VdA
+	qiTfADoxNwdVbp2S0gE0IRB2nsnkzCdkCbdCoNoHWjeykbCRrsq1dxj7
+X-Gm-Gg: AeBDievD62TbVDvjSjl3+uHD4Z8+300xPBFb2g5tr31PWXXp1NQSY75srOjDDQMIw8D
+	36WTAftK8CyzVHXyOCFa1h7KWIzFm3mB2zcjr/oDnyx62BEOjN4CRl8aO4nMoD07syY3KLW69rp
+	LjwmLMc8fR47UoQ9oQfyCthxK/RBX9xW8WzkEgtoQyIWerpHyOR2w1Sb0TJbQPk5rDmz8176MG1
+	I63oLFpVhd5ziyq61LWY6Dmwal6faZfIgbpU3jXCsbsMtvnRPK0QwcAjVKVrnIqiUnNFDL15l8x
+	lbFkxxA3q2WFWC9ZqEKYGSiBh6Tv2WIoUmKHfYkDbZJN6ikXQNXzaBbtODNsiemiN+HVj15vWWJ
+	ty6E6gwexBdjQsItySpS8oCCDmcSgBa7rF/37SCPneJ30xTSsIe7QFaW3DcdUoOHPV/vTaoKapD
+	RgcGHy8THVq5bA74BiFzOcZdqBM/bKxCl7atz3SfG1bgpyc7CTqFuLKFgji3euoP41/Ifdc0t3L
+	Xm2D60+UE11GQA=
+X-Received: by 2002:a17:902:b195:b0:2b2:4bbc:14b0 with SMTP id d9443c01a7336-2b5f9eb272fmr183181305ad.20.1777009720961;
+        Thu, 23 Apr 2026 22:48:40 -0700 (PDT)
 Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.bl1-in.ibm.com ([129.41.58.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5faa176e9sm208778245ad.20.2026.04.23.22.48.20
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5faa176e9sm208778245ad.20.2026.04.23.22.48.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 22:48:30 -0700 (PDT)
+        Thu, 23 Apr 2026 22:48:40 -0700 (PDT)
 From: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
 To: maddy@linux.ibm.com,
 	mpe@ellerman.id.au,
@@ -114,9 +114,9 @@ To: maddy@linux.ibm.com,
 	linaro-mm-sig@lists.linaro.org,
 	rust-for-linux@vger.kernel.org,
 	llvm@lists.linux.dev
-Subject: [PATCH V13 3/7] powerpc/jump_label: adjust inline asm to be consistent
-Date: Fri, 24 Apr 2026 11:17:38 +0530
-Message-ID: <20260424054742.45832-4-mkchauras@gmail.com>
+Subject: [PATCH V13 4/7] rust/powerpc: Set min rustc version for powerpc
+Date: Fri, 24 Apr 2026 11:17:39 +0530
+Message-ID: <20260424054742.45832-5-mkchauras@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260424054742.45832-1-mkchauras@gmail.com>
 References: <20260424054742.45832-1-mkchauras@gmail.com>
@@ -127,7 +127,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 72E0145A0F1
+X-Rspamd-Queue-Id: CC53B45A0F8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
@@ -137,18 +137,18 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_TWELVE(0.00)[36];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59476-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59477-lists,linux-media=lfdr.de];
 	FREEMAIL_TO(0.00)[linux.ibm.com,ellerman.id.au,gmail.com,kernel.org,infradead.org,akamai.com,google.com,goodmis.org,linaro.org,amd.com,garyguo.net,protonmail.com,umich.edu,arndb.de,ffwll.ch,lists.ozlabs.org,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
 	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[mkchauras@gmail.com,linux-media@vger.kernel.org];
@@ -159,67 +159,36 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TO_DN_NONE(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,lkml];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
-Added support for a new macro ARCH_STATIC_BRANCH_ASM in powerpc
-to avoid duplication of inline asm between C and Rust. This is
-inline with 'commit aecaf181651c ("jump_label: adjust inline asm to be consistent")'
+Minimum `rustc` version required for powerpc is 1.95 as some critical
+features required for compiling rust code for kernel is not there.
 
-Co-developed-by: Madhavan Srinivasan <maddy@linux.ibm.com>
-Signed-off-by: Madhavan Srinivasan <maddy@linux.ibm.com>
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-Reviewed-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
-Reviewed-by: Gary Guo <gary@garyguo.net>
-Link: https://github.com/Rust-for-Linux/linux/issues/105
-Link: https://github.com/linuxppc/issues/issues/451
+For e.g. Stable inline asm support which got merged in 1.95.
+
+Link: https://github.com/rust-lang/rust/pull/147996
 Signed-off-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
 ---
- arch/powerpc/include/asm/jump_label.h | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ scripts/min-tool-version.sh | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/arch/powerpc/include/asm/jump_label.h b/arch/powerpc/include/asm/jump_label.h
-index d4eaba459a0e..3016e9c8d6bc 100644
---- a/arch/powerpc/include/asm/jump_label.h
-+++ b/arch/powerpc/include/asm/jump_label.h
-@@ -15,14 +15,20 @@
- #define JUMP_ENTRY_TYPE		stringify_in_c(FTR_ENTRY_LONG)
- #define JUMP_LABEL_NOP_SIZE	4
- 
-+#define JUMP_TABLE_ENTRY(key, label)			\
-+	".pushsection __jump_table,  \"aw\"	\n\t"	\
-+	".long 1b - ., " label " - .		\n\t"	\
-+	JUMP_ENTRY_TYPE key " - .		\n\t"	\
-+	".popsection 				\n\t"
-+
-+#define ARCH_STATIC_BRANCH_ASM(key, label)		\
-+	"1:	nop				\n\t"	\
-+	JUMP_TABLE_ENTRY(key, label)
-+
- static __always_inline bool arch_static_branch(struct static_key *key, bool branch)
- {
--	asm goto("1:\n\t"
--		 "nop # arch_static_branch\n\t"
--		 ".pushsection __jump_table,  \"aw\"\n\t"
--		 ".long 1b - ., %l[l_yes] - .\n\t"
--		 JUMP_ENTRY_TYPE "%c0 - .\n\t"
--		 ".popsection \n\t"
-+	asm goto(
-+		 ARCH_STATIC_BRANCH_ASM("%c0", "%l[l_yes]")
- 		 : :  "i" (&((char *)key)[branch]) : : l_yes);
- 
- 	return false;
-@@ -34,10 +40,7 @@ static __always_inline bool arch_static_branch_jump(struct static_key *key, bool
- {
- 	asm goto("1:\n\t"
- 		 "b %l[l_yes] # arch_static_branch_jump\n\t"
--		 ".pushsection __jump_table,  \"aw\"\n\t"
--		 ".long 1b - ., %l[l_yes] - .\n\t"
--		 JUMP_ENTRY_TYPE "%c0 - .\n\t"
--		 ".popsection \n\t"
-+		 JUMP_TABLE_ENTRY("%c0", "%l[l_yes]")
- 		 : :  "i" (&((char *)key)[branch]) : : l_yes);
- 
- 	return false;
+diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
+index b96ec2d379b6..406895621511 100755
+--- a/scripts/min-tool-version.sh
++++ b/scripts/min-tool-version.sh
+@@ -31,7 +31,11 @@ llvm)
+ 	fi
+ 	;;
+ rustc)
+-	echo 1.85.0
++	if [ "$ARCH" = powerpc ]; then
++		echo 1.95.0
++	else
++		echo 1.85.0
++	fi
+ 	;;
+ bindgen)
+ 	echo 0.71.1
 -- 
 2.53.0
 
