@@ -1,527 +1,169 @@
-Return-Path: <linux-media+bounces-59548-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59549-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MAXdAfGt62lKQQAAu9opvQ
-	(envelope-from <linux-media+bounces-59548-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 19:52:49 +0200
+	id 8OybHYKv62mRQQAAu9opvQ
+	(envelope-from <linux-media+bounces-59549-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 19:59:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3AE46221C
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 19:52:48 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 797C64622DA
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 19:59:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7042E300A7D5
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 17:52:43 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A79B9300860F
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 17:59:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D278B22D4D3;
-	Fri, 24 Apr 2026 17:52:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEA91277C81;
+	Fri, 24 Apr 2026 17:59:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="nm8mYTb0";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="VP9RoJ5H"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KhQwLhzX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7788033555F;
-	Fri, 24 Apr 2026 17:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BAB3E7140;
+	Fri, 24 Apr 2026 17:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777053158; cv=none; b=ZxTxN1xFxuYV63TKvZzD1RlKU6CPGvkIouGeeuiyh9xhoHXKD5NczN8NklqJEel778EzGDtSOblaD4DMZn8idbau4pBBuJtK/VJWka6vjg9u/OMLCSBZe59yj/vVf9ldvQr5pCKYEJ2QB31V08siQDxwnvM0+BfgUgXKVz04Txw=
+	t=1777053560; cv=none; b=h+ZiJ6mDOPum8wvMwSvW22UvkxTw8mqqnab1BGET06noOjEcn5lOs29YPizZSfFnDOZ+pfAfgrD4acwSTf/gMtqCLiTnpPFMOwVlOOk9bMe7uaYSIoOALUzqDiWWbecBHJBB0kOSpp6N1fPZ4UDdiKACh5o7D3ZVWZbX7o3c+kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777053158; c=relaxed/simple;
-	bh=ZVw1cJ2t1degYNBFcX1lM5AjJWrP2Ykw4E8zWNS3NFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V1NDb2OzNBBXab1+27JGk51Hxogq8TuywY+IF4j0KHsKqQxIuHdDtWcIQCSgiUh6HN3Tx1k7HLhu1qUxzlA2KTielB8OEAr7Vfpr+Kc2XhXzf22OPsZYnB05sGxyaHucDBxwDAO8jHLzdeEvaE6ZN+rO24R23wggwXroHn9zfg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=nm8mYTb0; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VP9RoJ5H; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4g2LC5436Rz9v09;
-	Fri, 24 Apr 2026 19:52:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777053153;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ddmDedl83zXNIObRm6zW5Jzs9CzNkrFziMH4FhbMenE=;
-	b=nm8mYTb08t43c8nFpk+IRDk5KKB7zSBMPjW0nk9RsHy/dGY6NRqtEs3K6FsZjFqMFbRSxC
-	M7MVCDvX7nHEZDhNxHN7NIydNv4itYaaFq6draj8c1jeKmWxRBzdxqPIGe70K328h57TA2
-	jtuzWSb6mWRlwp9ObXdqnlrz14JQgHwAZPlSOy2ctUICLzh2JRcbl5yo/DgeAnvYSkfqFB
-	WiZZrYcVmqsR8IhZG6Wedms2WBv1+M3nuaPMv7l8sgonj4Anf68iRWzuOLkzZ3r0aFaMZ6
-	qQWkrv2wGPyYC+XeYCE+j936MiQrMlUvcnPtmj8KZL0wMn82qldZbQAwa8Rj0g==
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777053151;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ddmDedl83zXNIObRm6zW5Jzs9CzNkrFziMH4FhbMenE=;
-	b=VP9RoJ5HzPBvXr+IN02j+eHBaFjw8jTLH+Z/8lMFH/AIb3PN6GB/jRcbXvbwB8XXWHLhOc
-	04bj6PFdVnXFTbz+w2iFxeCTj4Ef8o4khj67l49mPuTCCqnpLF+ehxua9vcLq/FtY/4grQ
-	ehyAF5g92JeMqQWzrMVl0FBwk0an6qbuLAESSo8a1yb1OrYo6vo5TxpGHPjW3MAX+eprK9
-	AoSqmTQoJtNFqcMN7p5WIadPoQtPsjzKAtyr36y4d1T7P230OJXu4Qe7qLv+WJN7WoF095
-	iSNLCVoSTCbPaD/a0xaGHZKBCMxQSe+6O5BPa6tHI158/HfdoL8anburfKQgdQ==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Cc: Kees Cook <kees@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-sound@vger.kernel.org,
+	s=arc-20240116; t=1777053560; c=relaxed/simple;
+	bh=h5osORYQIcyPv6dVH/ARjSRhhP9JToHyEu3nT5rlBk0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QQwdPfYC167z9JOffp5rMedYAyprG8SaDI4PnnEALcySmaYwrR/sniCE1cZ56cypg6rtgY7tzWIhI3NlyquOneZ2uYAvomHgk1orrVAGUbpJdiWco2Ujydj15aNLtUkOfOCMgpT74FrC4oiX8WAdbx95tgYRvvzC9CjCd15QSlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KhQwLhzX; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from neptunite.hamster-moth.ts.net (unknown [IPv6:2404:7a81:160:2100:5216:c7b6:205:5f59])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 285E5103F;
+	Fri, 24 Apr 2026 19:57:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1777053456;
+	bh=h5osORYQIcyPv6dVH/ARjSRhhP9JToHyEu3nT5rlBk0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KhQwLhzXPaYptJaIv+/qz3T0c6tAsMlmel4yHcrbu1yryp5RZY1KFHeOxAwPX7unF
+	 Xr02Q1trChFFWXM1W6KLjtf3USySZsrIWZh0RkuZygx5AUuqbOAjo9TW+0mQJ2Tqbj
+	 s2v0cu6gFtvwGCf7r5YjdIEh9w6baGhYzkwl1HrQ=
+From: Paul Elder <paul.elder@ideasonboard.com>
+To: laurent.pinchart@ideasonboard.com
+Cc: Paul Elder <paul.elder@ideasonboard.com>,
+	michael.riesch@collabora.com,
+	xuhf@rock-chips.com,
+	stefan.klug@ideasonboard.com,
 	linux-media@vger.kernel.org,
-	linux-mm@kvack.org,
-	Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH v3 1/3] Documentation: adopt new coding style of type-aware kmalloc-family
-Date: Fri, 24 Apr 2026 19:51:40 +0200
-Message-ID: <20260424175141.258168-2-manuelebner@mailbox.org>
-In-Reply-To: <20260424174743.257951-2-manuelebner@mailbox.org>
-References: <20260424174743.257951-2-manuelebner@mailbox.org>
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/5] media: rockchip: rkisp2: Add driver for ISP on Rk3588
+Date: Sat, 25 Apr 2026 02:58:45 +0900
+Message-ID: <20260424175853.638202-1-paul.elder@ideasonboard.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 8820d89aad0e4e8209e
-X-MBO-RS-META: g45oidfyf1w6moxjguhzu5rkks79nhda
-X-Rspamd-Queue-Id: 7B3AE46221C
+X-Rspamd-Queue-Id: 797C64622DA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59548-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59549-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[manuelebner@mailbox.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[paul.elder@ideasonboard.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[]
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[]
 
-Update the documentation to reflect new type-aware kmalloc-family as
-suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
-and family")
+Hello everyone!
 
-ptr = kmalloc(sizeof(*ptr), gfp);
- -> ptr = kmalloc_obj(*ptr);
-ptr = kmalloc(sizeof(struct some_obj_name), gfp);
- -> ptr = kmalloc_obj(*ptr);
-ptr = kzalloc(sizeof(*ptr), gfp);
- -> ptr = kzalloc_obj(*ptr);
-ptr = kmalloc_array(count, sizeof(*ptr), gfp);
- -> ptr = kmalloc_objs(*ptr, count);
-ptr = kcalloc(count, sizeof(*ptr), gfp);
- -> ptr = kzalloc_objs(*ptr, count);
+This patch series adds a new rkisp2 driver that aims to support all
+Rockchip 2.x and 3.x series ISPs. Here we add support for the version on
+the RK3588, which as far as I'm aware is a 3.0.
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
----
- Documentation/core-api/kref.rst                      |  4 ++--
- Documentation/core-api/list.rst                      |  4 ++--
- Documentation/driver-api/mailbox.rst                 |  4 ++--
- Documentation/driver-api/media/v4l2-fh.rst           |  2 +-
- Documentation/kernel-hacking/locking.rst             |  4 ++--
- Documentation/locking/locktypes.rst                  |  4 ++--
- Documentation/process/coding-style.rst               |  8 ++++----
- .../sound/kernel-api/writing-an-alsa-driver.rst      | 12 ++++++------
- Documentation/spi/spi-summary.rst                    |  4 ++--
- .../translations/it_IT/kernel-hacking/locking.rst    |  4 ++--
- .../translations/it_IT/locking/locktypes.rst         |  4 ++--
- .../translations/it_IT/process/coding-style.rst      |  2 +-
- .../translations/sp_SP/process/coding-style.rst      |  2 +-
- Documentation/translations/zh_CN/core-api/kref.rst   |  4 ++--
- .../translations/zh_CN/process/coding-style.rst      |  2 +-
- .../zh_CN/video4linux/v4l2-framework.txt             |  2 +-
- .../translations/zh_TW/process/coding-style.rst      |  2 +-
- 18 files changed, 36 insertions(+), 36 deletions(-)
+Patches 1 and 2 add dt bindings and dt nodes; patches 3~5 add the actual
+driver.
 
-diff --git a/Documentation/core-api/kref.rst b/Documentation/core-api/kref.rst
-index 8db9ff03d952..1c14c036699d 100644
---- a/Documentation/core-api/kref.rst
-+++ b/Documentation/core-api/kref.rst
-@@ -40,7 +40,7 @@ kref_init as so::
- 
-      struct my_data *data;
- 
--     data = kmalloc(sizeof(*data), GFP_KERNEL);
-+     data = kmalloc_obj(*data);
-      if (!data)
-             return -ENOMEM;
-      kref_init(&data->refcount);
-@@ -100,7 +100,7 @@ thread to process::
- 	int rv = 0;
- 	struct my_data *data;
- 	struct task_struct *task;
--	data = kmalloc(sizeof(*data), GFP_KERNEL);
-+	data = kmalloc_obj(*data);
- 	if (!data)
- 		return -ENOMEM;
- 	kref_init(&data->refcount);
-diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
-index 241464ca0549..86cd0a1b77ea 100644
---- a/Documentation/core-api/list.rst
-+++ b/Documentation/core-api/list.rst
-@@ -112,7 +112,7 @@ list:
- 
-           /* State 1 */
- 
--          grock = kzalloc(sizeof(*grock), GFP_KERNEL);
-+          grock = kzalloc_obj(*grock);
-           if (!grock)
-                   return -ENOMEM;
-           grock->name = "Grock";
-@@ -123,7 +123,7 @@ list:
- 
-           /* State 2 */
- 
--          dimitri = kzalloc(sizeof(*dimitri), GFP_KERNEL);
-+          dimitri = kzalloc_obj(*dimitri);
-           if (!dimitri)
-                   return -ENOMEM;
-           dimitri->name = "Dimitri";
-diff --git a/Documentation/driver-api/mailbox.rst b/Documentation/driver-api/mailbox.rst
-index 463dd032b96c..4bcd73a99115 100644
---- a/Documentation/driver-api/mailbox.rst
-+++ b/Documentation/driver-api/mailbox.rst
-@@ -87,8 +87,8 @@ a message and a callback function to the API and return immediately).
- 		struct async_pkt ap;
- 		struct sync_pkt sp;
- 
--		dc_sync = kzalloc(sizeof(*dc_sync), GFP_KERNEL);
--		dc_async = kzalloc(sizeof(*dc_async), GFP_KERNEL);
-+		dc_sync = kzalloc_obj(*dc_sync);
-+		dc_async = kzalloc_obj(*dc_async);
- 
- 		/* Populate non-blocking mode client */
- 		dc_async->cl.dev = &pdev->dev;
-diff --git a/Documentation/driver-api/media/v4l2-fh.rst b/Documentation/driver-api/media/v4l2-fh.rst
-index a934caa483a4..38319130ebf5 100644
---- a/Documentation/driver-api/media/v4l2-fh.rst
-+++ b/Documentation/driver-api/media/v4l2-fh.rst
-@@ -42,7 +42,7 @@ Example:
- 
- 		...
- 
--		my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
-+		my_fh = kzalloc_obj(*my_fh);
- 
- 		...
- 
-diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
-index dff0646a717b..d02e62367c4f 100644
---- a/Documentation/kernel-hacking/locking.rst
-+++ b/Documentation/kernel-hacking/locking.rst
-@@ -442,7 +442,7 @@ to protect the cache and all the objects within it. Here's the code::
-     {
-             struct object *obj;
- 
--            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+            if ((obj = kmalloc_obj(*obj)) == NULL)
-                     return -ENOMEM;
- 
-             strscpy(obj->name, name, sizeof(obj->name));
-@@ -517,7 +517,7 @@ which are taken away, and the ``+`` are lines which are added.
-              struct object *obj;
-     +        unsigned long flags;
- 
--             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+             if ((obj = kmalloc_obj(*obj)) == NULL)
-                      return -ENOMEM;
-     @@ -63,30 +64,33 @@
-              obj->id = id;
-diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
-index 37b6a5670c2f..ac1ad722a9e7 100644
---- a/Documentation/locking/locktypes.rst
-+++ b/Documentation/locking/locktypes.rst
-@@ -498,7 +498,7 @@ allocating memory.  Thus, on a non-PREEMPT_RT kernel the following code
- works perfectly::
- 
-   raw_spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- But this code fails on PREEMPT_RT kernels because the memory allocator is
- fully preemptible and therefore cannot be invoked from truly atomic
-@@ -507,7 +507,7 @@ while holding normal non-raw spinlocks because they do not disable
- preemption on PREEMPT_RT kernels::
- 
-   spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- 
- bit spinlocks
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 35b381230f6e..a3bf75dc7c88 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -936,7 +936,7 @@ used.
- ---------------------
- 
- The kernel provides the following general purpose memory allocators:
--kmalloc(), kzalloc(), kmalloc_array(), kcalloc(), vmalloc(), and
-+kmalloc(), kzalloc(), kmalloc_objs(), kzalloc_objs(), vmalloc(), and
- vzalloc().  Please refer to the API documentation for further information
- about them.  :ref:`Documentation/core-api/memory-allocation.rst
- <memory_allocation>`
-@@ -945,7 +945,7 @@ The preferred form for passing a size of a struct is the following:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- The alternative form where struct name is spelled out hurts readability and
- introduces an opportunity for a bug when the pointer variable type is changed
-@@ -959,13 +959,13 @@ The preferred form for allocating an array is the following:
- 
- .. code-block:: c
- 
--	p = kmalloc_array(n, sizeof(...), ...);
-+	p = kmalloc_objs(*ptr, n, ...);
- 
- The preferred form for allocating a zeroed array is the following:
- 
- .. code-block:: c
- 
--	p = kcalloc(n, sizeof(...), ...);
-+	p = kzalloc_objs(*ptr, n, ...);
- 
- Both forms check for overflow on the allocation size n * sizeof(...),
- and return NULL if that occurred.
-diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-index 895752cbcedd..12433612aa9c 100644
---- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-+++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-@@ -266,7 +266,7 @@ to details explained in the following section.
-               ....
- 
-               /* allocate a chip-specific data with zero filled */
--              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+              chip = kzalloc_obj(*chip);
-               if (chip == NULL)
-                       return -ENOMEM;
- 
-@@ -628,7 +628,7 @@ After allocating a card instance via :c:func:`snd_card_new()`
-   err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
-                      0, &card);
-   .....
--  chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+  chip = kzalloc_obj(*chip);
- 
- The chip record should have the field to hold the card pointer at least,
- 
-@@ -747,7 +747,7 @@ destructor and PCI entries. Example code is shown first, below::
-                       return -ENXIO;
-               }
- 
--              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+              chip = kzalloc_obj(*chip);
-               if (chip == NULL) {
-                       pci_disable_device(pci);
-                       return -ENOMEM;
-@@ -1737,7 +1737,7 @@ callback::
-   {
-           struct my_pcm_data *data;
-           ....
--          data = kmalloc(sizeof(*data), GFP_KERNEL);
-+          data = kmalloc_obj(*data);
-           substream->runtime->private_data = data;
-           ....
-   }
-@@ -3301,7 +3301,7 @@ You can then pass any pointer value to the ``private_data``. If you
- assign private data, you should define a destructor, too. The
- destructor function is set in the ``private_free`` field::
- 
--  struct mydata *p = kmalloc(sizeof(*p), GFP_KERNEL);
-+  struct mydata *p = kmalloc_obj(*p);
-   hw->private_data = p;
-   hw->private_free = mydata_free;
- 
-@@ -3833,7 +3833,7 @@ chip data individually::
-           err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
-                              0, &card);
-           ....
--          chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+          chip = kzalloc_obj(*chip);
-           ....
-           card->private_data = chip;
-           ....
-diff --git a/Documentation/spi/spi-summary.rst b/Documentation/spi/spi-summary.rst
-index 6e21e6f86912..7ad6af76c247 100644
---- a/Documentation/spi/spi-summary.rst
-+++ b/Documentation/spi/spi-summary.rst
-@@ -249,7 +249,7 @@ And SOC-specific utility code might look something like::
- 	{
- 		struct mysoc_spi_data *pdata2;
- 
--		pdata2 = kmalloc(sizeof *pdata2, GFP_KERNEL);
-+		pdata2 = kmalloc_obj(*pdata2);
- 		*pdata2 = pdata;
- 		...
- 		if (n == 2) {
-@@ -373,7 +373,7 @@ a bus (appearing under /sys/class/spi_master).
- 			return -ENODEV;
- 
- 		/* get memory for driver's per-chip state */
--		chip = kzalloc(sizeof *chip, GFP_KERNEL);
-+		chip = kzalloc(*chip);
- 		if (!chip)
- 			return -ENOMEM;
- 		spi_set_drvdata(spi, chip);
-diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-index 4c21cf60f775..acca89a3743a 100644
---- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
-+++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-@@ -462,7 +462,7 @@ e tutti gli oggetti che contiene. Ecco il codice::
-     {
-             struct object *obj;
- 
--            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+            if ((obj = kmalloc_obj(*obj)) == NULL)
-                     return -ENOMEM;
- 
-             strscpy(obj->name, name, sizeof(obj->name));
-@@ -537,7 +537,7 @@ sono quelle rimosse, mentre quelle ``+`` sono quelle aggiunte.
-              struct object *obj;
-     +        unsigned long flags;
- 
--             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+             if ((obj = kmalloc_obj(*obj)) == NULL)
-                      return -ENOMEM;
-     @@ -63,30 +64,33 @@
-              obj->id = id;
-diff --git a/Documentation/translations/it_IT/locking/locktypes.rst b/Documentation/translations/it_IT/locking/locktypes.rst
-index 1c7056283b9d..d5fa36aa05cc 100644
---- a/Documentation/translations/it_IT/locking/locktypes.rst
-+++ b/Documentation/translations/it_IT/locking/locktypes.rst
-@@ -488,7 +488,7 @@ o rwlock_t. Per esempio, la sezione critica non deve fare allocazioni di
- memoria. Su un kernel non-PREEMPT_RT il seguente codice funziona perfettamente::
- 
-   raw_spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- Ma lo stesso codice non funziona su un kernel PREEMPT_RT perché l'allocatore di
- memoria può essere oggetto di prelazione e quindi non può essere chiamato in un
-@@ -497,7 +497,7 @@ trattiene un blocco *non-raw* perché non disabilitano la prelazione sui kernel
- PREEMPT_RT::
- 
-   spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- 
- bit spinlocks
-diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
-index c0dc786b8474..2a499412a2e3 100644
---- a/Documentation/translations/it_IT/process/coding-style.rst
-+++ b/Documentation/translations/it_IT/process/coding-style.rst
-@@ -943,7 +943,7 @@ Il modo preferito per passare la dimensione di una struttura è il seguente:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- La forma alternativa, dove il nome della struttura viene scritto interamente,
- peggiora la leggibilità e introduce possibili bachi quando il tipo di
-diff --git a/Documentation/translations/sp_SP/process/coding-style.rst b/Documentation/translations/sp_SP/process/coding-style.rst
-index 7d63aa8426e6..44c93d5f6beb 100644
---- a/Documentation/translations/sp_SP/process/coding-style.rst
-+++ b/Documentation/translations/sp_SP/process/coding-style.rst
-@@ -955,7 +955,7 @@ La forma preferida para pasar el tamaño de una estructura es la siguiente:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- La forma alternativa donde se deletrea el nombre de la estructura perjudica
- la legibilidad, y presenta una oportunidad para un error cuando se cambia
-diff --git a/Documentation/translations/zh_CN/core-api/kref.rst b/Documentation/translations/zh_CN/core-api/kref.rst
-index b9902af310c5..fcff01e99852 100644
---- a/Documentation/translations/zh_CN/core-api/kref.rst
-+++ b/Documentation/translations/zh_CN/core-api/kref.rst
-@@ -52,7 +52,7 @@ kref可以出现在数据结构体中的任何地方。
- 
-      struct my_data *data;
- 
--     data = kmalloc(sizeof(*data), GFP_KERNEL);
-+     data = kmalloc_obj(*data);
-      if (!data)
-             return -ENOMEM;
-      kref_init(&data->refcount);
-@@ -106,7 +106,7 @@ Kref规则
- 	int rv = 0;
- 	struct my_data *data;
- 	struct task_struct *task;
--	data = kmalloc(sizeof(*data), GFP_KERNEL);
-+	data = kmalloc_obj(*data);
- 	if (!data)
- 		return -ENOMEM;
- 	kref_init(&data->refcount);
-diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
-index 5a342a024c01..55d5da974d89 100644
---- a/Documentation/translations/zh_CN/process/coding-style.rst
-+++ b/Documentation/translations/zh_CN/process/coding-style.rst
-@@ -813,7 +813,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- 另外一种传递方式中，sizeof 的操作数是结构体的名字，这样会降低可读性，并且可能
- 会引入 bug。有可能指针变量类型被改变时，而对应的传递给内存分配函数的 sizeof
-diff --git a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-index f0be21a60a0f..ba43c5c4797c 100644
---- a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-+++ b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-@@ -799,7 +799,7 @@ int my_open(struct file *file)
- 
- 	...
- 
--	my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
-+	my_fh = kzalloc_obj(*my_fh);
- 
- 	...
- 
-diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
-index e2ba97b3d8bb..63c78982a1af 100644
---- a/Documentation/translations/zh_TW/process/coding-style.rst
-+++ b/Documentation/translations/zh_TW/process/coding-style.rst
-@@ -827,7 +827,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- 另外一種傳遞方式中，sizeof 的操作數是結構體的名字，這樣會降低可讀性，並且可能
- 會引入 bug。有可能指針變量類型被改變時，而對應的傳遞給內存分配函數的 sizeof
+All my discussion points/questions/progress-reports are in patch 3.
+
+The following two series [0] [1] will be helpful for testing the code,
+as they enable the VICAP module to work on the RK3588. I've tested this
+on the Orange Pi CM5 Base with an imx219. I have a branch here [2] for
+convenience. A libcamera branch will be coming soon too!
+
+[0] https://lore.kernel.org/all/20260216-rkcif-fixes-v2-0-ee40931fe0ff@collabora.com/
+[1] https://lore.kernel.org/all/20250430-rk3588-vicap-v3-0-e38e428868cc@collabora.com/
+[2] https://git.ideasonboard.com/epaul/linux/src/branch/epaul/v7.0/rk3588/rkisp2/upstream
+
+Paul Elder (3):
+  media: dt-bindings: Add rockchip rkisp2 bindings
+  media: rkisp2: Add parameters output video node
+  media: rkisp2: Add statistics capture video node
+
+Xu Hongfei (2):
+  arm64: dts: rockchip: add ISP nodes to rk3588
+  media: rockchip: rkisp2: Add rkisp2 driver
+
+ .../bindings/media/rockchip-isp2.yaml         |  127 +
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |   60 +
+ drivers/media/platform/rockchip/Kconfig       |    1 +
+ drivers/media/platform/rockchip/Makefile      |    1 +
+ .../media/platform/rockchip/rkisp2/Kconfig    |   19 +
+ .../media/platform/rockchip/rkisp2/Makefile   |   13 +
+ .../platform/rockchip/rkisp2/rkisp2-capture.c | 1979 ++++++++++
+ .../platform/rockchip/rkisp2/rkisp2-common.c  |  180 +
+ .../platform/rockchip/rkisp2/rkisp2-common.h  |  565 +++
+ .../platform/rockchip/rkisp2/rkisp2-debug.c   |  236 ++
+ .../platform/rockchip/rkisp2/rkisp2-dev.c     |  376 ++
+ .../platform/rockchip/rkisp2/rkisp2-dmarx.c   |  687 ++++
+ .../platform/rockchip/rkisp2/rkisp2-isp.c     |  917 +++++
+ .../platform/rockchip/rkisp2/rkisp2-params.c  | 1013 +++++
+ .../rockchip/rkisp2/rkisp2-regs-v2x.h         | 2625 +++++++++++++
+ .../rockchip/rkisp2/rkisp2-regs-v3x.h         | 3427 +++++++++++++++++
+ .../platform/rockchip/rkisp2/rkisp2-regs.h    | 1736 +++++++++
+ .../platform/rockchip/rkisp2/rkisp2-stats.c   |  482 +++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +
+ include/uapi/linux/rkisp1-config.h            |    1 +
+ include/uapi/linux/rkisp2-config.h            |  565 +++
+ include/uapi/linux/videodev2.h                |    4 +
+ 22 files changed, 15016 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip-isp2.yaml
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/Kconfig
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/Makefile
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/rkisp2-capture.c
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/rkisp2-common.c
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/rkisp2-common.h
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/rkisp2-debug.c
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/rkisp2-dev.c
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/rkisp2-dmarx.c
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/rkisp2-isp.c
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/rkisp2-params.c
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/rkisp2-regs-v2x.h
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/rkisp2-regs-v3x.h
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/rkisp2-regs.h
+ create mode 100644 drivers/media/platform/rockchip/rkisp2/rkisp2-stats.c
+ create mode 100644 include/uapi/linux/rkisp2-config.h
+
 -- 
-2.53.0
+2.47.2
 
 
