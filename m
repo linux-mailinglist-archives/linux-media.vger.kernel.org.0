@@ -1,193 +1,143 @@
-Return-Path: <linux-media+bounces-59546-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59547-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aLrNGfqk62nIPgAAu9opvQ
-	(envelope-from <linux-media+bounces-59546-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 19:14:34 +0200
+	id gFEDOn2t62nfQAAAu9opvQ
+	(envelope-from <linux-media+bounces-59547-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 19:50:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE50461B61
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 19:14:33 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BF14621E5
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 19:50:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3954B305BFCE
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 17:10:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8FC4D3023DFA
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 17:49:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE6AA3E4C64;
-	Fri, 24 Apr 2026 17:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E0103E717F;
+	Fri, 24 Apr 2026 17:49:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="McVb1jCS"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="sA7gH+Fn";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="SK+D8ac0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368DA33D6F9;
-	Fri, 24 Apr 2026 17:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75932C0F69;
+	Fri, 24 Apr 2026 17:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777050611; cv=none; b=nd0AFwLjLSOS6s18hqD+nKenr/WaoaN1bMfS05D/7uu+akWvEWjBQSZU32UkG5ybCGCxsk4aktl9q4Cn6p3E6n/WslxOU6PEEEl9kWhWKiFjU4qs+b12OlImQz5orgsByAyToQGr8IX8OU9Z57oHbQvqZa87aKHCE/mRkMGSk4I=
+	t=1777052942; cv=none; b=kr9zieINd+NLsvh/GquAy/Vjhi3gyoWvhYSV87U2qZmidAgw8ZQ1Kj8FWdt3evnFCy4rNVSBIGTIfIMnKB/akUBbYtpswLv4iWipT240Emyqtoz1A4Ccb1fQ8MxuoW/edntqrvlk1Vijj6y8l6SYugJgkomqw0ik6EhQMAL4bQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777050611; c=relaxed/simple;
-	bh=qfWKieCXbBYMdQxfYVMx55bUan7y1KqVLf5YR98KU/U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CyhJyzLbf6U1Cs0zCgrR0sOY63TCWW4k1944M5e8hFutG3jzb2cXtLjZoOGwIhO8vwNy1Zoe0V4gHyDdtVlBMO1kn4Fz0otafQxp6ADVub3jHlxk401ivayl2GYNMgdC4ZjeDec4sHZbBRx9i6W1N9W9yQwXNk1APwMDTA1uZ0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=McVb1jCS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDDA8C19425;
-	Fri, 24 Apr 2026 17:10:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777050610;
-	bh=qfWKieCXbBYMdQxfYVMx55bUan7y1KqVLf5YR98KU/U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=McVb1jCSeQDL6GZHyLDJ2PQApHyEvqB4NCRzPlDOBaol4jkgDY87LUqrl7GHRTp7r
-	 yZsjenRDFVlZ+sR5dhMN/4LCruSF/TNKIMgWDeZkSBSIKHUuvzQ0gdFRUauzMisay2
-	 pNY7gKRDNYpXRpdW/DkL8wI3ukGp6yh6K5tFtBzduHN1tT213Mg9fQeP+wZMMS4qOt
-	 kmf5YLu4bAI4A4Q5tVS7KtxKidW6D6SsWEd5XKgksJO10B1jvMWaZffRyyTQdTrxsj
-	 JNNoL3XRa2sFopN7gycuODNMkRQiZy3rYE5kMWkqqDE44ZxRJket3MzWbG6YkTK/t9
-	 hd3+qYdjPUOQw==
-Message-ID: <a9cacc9d-c7da-4803-8950-97511f8d927a@kernel.org>
-Date: Fri, 24 Apr 2026 19:09:58 +0200
+	s=arc-20240116; t=1777052942; c=relaxed/simple;
+	bh=kQpXIVgVCV4fISNoHIQtgbvP1EXllhQ2T3mIJ8cRNro=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HSJ9dKqfE7EBozwjIOKaNeHveC5IyTT39T0IH/Jo9Ao5NqgpxFrkjv+hyJJRyPLZ6inY+L62N4o+kaAyUMjQsvSh2mCE9Cba4koP4Z2xOtNxepIuTBYIByoIVd6QikRQdC/BdsRkkyMpKgSa3r6IjC3nCL5NnHZ3HpeHX7H2DlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=sA7gH+Fn; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=SK+D8ac0; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4g2L6x6Bt3z9spW;
+	Fri, 24 Apr 2026 19:48:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1777052937;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=kQpXIVgVCV4fISNoHIQtgbvP1EXllhQ2T3mIJ8cRNro=;
+	b=sA7gH+FngvczjarD1Tbb6PMFak20PWNxDbkqseniXZs+8QP3xpEuvgwReAG4J+PFdNl5GM
+	b89YykHJSGUcM7lC+lgj6zlTdRk54bZRiaxpMbW7DfWoR7XLIuq9ezyqo70QE4X05H8N4z
+	WK3gK4WK+HuJzJMh4Wsr86QsWnQUjLJr9+Mcic5BtOsW4+6zZbQfElWpmmVd19Rup6BxOF
+	G4826WZgodQbSmk/vi7l8Sg1c1N7JG8djJPql/xtRH8aG84T4s1lkwHWLo/U7Tw1GGzEDi
+	WrEamYqbj+UuOgCSj4UgnRkTId/5WRPnlzuuiHdKcMtwwz15Jpba+rHJbYgsvg==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1777052935;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=kQpXIVgVCV4fISNoHIQtgbvP1EXllhQ2T3mIJ8cRNro=;
+	b=SK+D8ac0yLSSdvohGV7owNyki6lMVoJQIzG6m1Nt3gyrX9dzmoQMlO2EsYgDh2KvmlR/3G
+	Ky/jgJTC6EvnCq3j41LrqGLzTORmrqq3+msayHySfXLGg4ZAEccf05anBIXzoeEf+uMT/1
+	fTzT7buEyY6zSICe5vhyLmnhOzFcr1WZJeI6x/8o9SiWSuGNcD/x9FmqjOuo1N2h9d2MRg
+	Y7QJHh2AYZ6wOFgZHJ3e5gYExnb6+Z+GH/P6nPvev2FoJvAFxlcpuGJAtAvvj4BetjDjNp
+	SGyH1RzYojU/NuSKy2z12Cm/2dklgBHerrwsnQqQ6kISt9SM9rxgx+2NLNL9cw==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	Kees Cook <kees@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mm@kvack.org,
+	Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH v3 0/3] Documentation: adopt new coding style of type-aware kmalloc-family
+Date: Fri, 24 Apr 2026 19:47:44 +0200
+Message-ID: <20260424174743.257951-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/13] dt-bindings: media: qcom,glymur-iris: Add glymur
- video codec
-To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
- Bryan O'Donoghue <bod@kernel.org>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Stefan Schmidt <stefan.schmidt@linaro.org>,
- Hans Verkuil <hverkuil@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Thierry Reding <thierry.reding@kernel.org>,
- Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, driver-core@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-References: <20260423-glymur-v2-0-0296bccb9f4e@oss.qualcomm.com>
- <20260423-glymur-v2-4-0296bccb9f4e@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260423-glymur-v2-4-0296bccb9f4e@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 1AE50461B61
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: fzthp35po1ukxbt6fwqeub7xbmjx4tas
+X-MBO-RS-ID: ce45d6f12d0da57349b
+X-Rspamd-Queue-Id: 63BF14621E5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59546-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,8bytes.org,arm.com,linaro.org,linuxfoundation.org,nvidia.com,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-59547-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[manuelebner@mailbox.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	TO_DN_SOME(0.00)[]
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_HAS_DN(0.00)[]
 
-On 23/04/2026 15:29, Vishnu Reddy wrote:
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - dma-coherent
-> +  - interconnects
-> +  - interconnect-names
-> +  - interrupts
-> +  - iommus
-> +  - memory-region
-> +  - power-domains
-> +  - power-domain-names
-> +  - resets
-> +  - reset-names
-> +
-> +unevaluatedProperties: false
-> +
-I think I commented around here but probably not specific enough. You
-miss here either reference to venus or usage of additionalProperties
-instead of unevaluatedProperties.
+Update the documentation to reflect new type-aware kmalloc-family as
+suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
+and family")
 
-If you intend not to use qcom,venus-common.yaml, then explain WHY in
-commit msg and switch to additionalProperties: false.
+On Tue, 2026-04-21 at 19:55 +0200, Manuel Ebner wrote:
+> I have also thought about adding a few cases to checkpatch.pl, but this
+> will take me more time, and i want to get this series finished.
+I can't do it, i don't have the knowledge in Perl and Regex.
 
-Otherwise, you miss $ref.
+ [v2] -> [v3]:
+remove obvious wrong replacements in [1/3]
+add Acked-by: Paul E. McKenney in [2/3]
+change how to mark the optional argument in [3/3]
+add recipants
+ --cc="linux-mm@kvack.org"
+ --to="Kees Cook"
+ --cc="Geert Uytterhoeven"
 
-Rest looked good.
+ [v1] -> [v2]:
+put RCU/* in a seperate patch [Patch 2/3]
+Omit optional argument (GFP_KERNEL) as suggested by https://lwn.net/Articles/1062856/
+deprecated.rst: change the argument gfp to optional [Patch 3/3]
 
-Best regards,
-Krzysztof
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 
