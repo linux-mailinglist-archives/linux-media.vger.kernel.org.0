@@ -1,182 +1,189 @@
-Return-Path: <linux-media+bounces-59518-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59519-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eAi9Oo1P62nkKwAAu9opvQ
-	(envelope-from <linux-media+bounces-59518-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 13:10:05 +0200
+	id YO/jHIxQ62nkKwAAu9opvQ
+	(envelope-from <linux-media+bounces-59519-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 13:14:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60ABC45D823
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 13:10:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA52545D8F5
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 13:14:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E863D301601A
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 11:09:58 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7A400301CD97
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 11:13:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3877B39A7F8;
-	Fri, 24 Apr 2026 11:09:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAD043AC0C7;
+	Fri, 24 Apr 2026 11:13:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WZQhFnen"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bmWYFYeG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E01D3A168C
-	for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 11:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19DDC3A962E;
+	Fri, 24 Apr 2026 11:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777028995; cv=none; b=dTTK6SdkI31A0/tF13dtr1MXtx0LSJm4rlpXKEjHfRIQ85e2+LxDM59gScFOPklRvpR0PsQh3RCBZ3pFdAe+YbR9e3aj2ohPJIvq8/SQcKT47AU4022L9GN435GyRcQ2SlPFniQXRAbvWEmrEKXz5KNXzrUkpNlh/BQ4WoVFTIM=
+	t=1777029211; cv=none; b=cBG2I7zV3gVdKRe3Hk1vCLvywVwH5BfAM0xbJmAOx8ZJdHUmfwxFSerGWRHhA8jM+FcvCaRy+0Q3U7r0SUJrNIN0dPy4XAF1nXOFwPElChpgvzvkqseJ5GRNKtqouIxqmRZUCSzJ/8CzSpWpyQe84jADnXGJ/gbORdWQjUJfZPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777028995; c=relaxed/simple;
-	bh=2m/skchHwc5eR3DekHbks6y2/UhAgeRXG9eMAJvaWJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S1ws2/ejEJEksoIWZvIB2a0F7xnnwtKNbHvFZhF/AlWjFZ6MpnqhGU5YUt/dPRwRpTgoF0v0ZD62uHua5clt3DHaiHqzWgKzbi3vdom+QMFyeK0leep22NyVD4VlRg39RRU+jsNzPVDEAvy0FSjrVC1lO4hBEwNqLuXBQ879R6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WZQhFnen; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43d6fbd0954so6063521f8f.1
-        for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 04:09:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777028992; x=1777633792; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FDKNX6OzlxA7jl/VimGCsLSHmvQn0nEFxj0ZFcUDDEc=;
-        b=WZQhFnenLpFmoian4wDUgJpJo0bgM8tJx9QmVT6XTuGZXb0nlyWyqBkgr7MPXk4vre
-         AUQqhNYjqusSl/EaTewN3KUmXEfmdjFE3TSjWy3NyQ+3Z9vGMIXmNIhmvRyVyv6we20z
-         yEPiVgtA9tuoghJV1jGo9ku6H69MEas9tQRs6WN06VTPAvFaB+QDWtkUjGXIHnZ9ru4A
-         b8AjgmPLwkMNqDNlel6MKlzsjlXfi/nFbZHK1PCoc0IX+2KCppmW2NBvE1qYue7wa8sv
-         UosYi3Xag3aKKUNjw0HNRXPWbjF+5Wo3AmcsnPSIBIqPR7BoSko4EONk2MOeBYmxcOJQ
-         AmfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777028992; x=1777633792;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FDKNX6OzlxA7jl/VimGCsLSHmvQn0nEFxj0ZFcUDDEc=;
-        b=BqSoCFOQt5U1jhKoW+4mZIWelycJQ/9BYZ/UQIltG2ykHu5Wj+8DEJjh5AtBQkfY2Q
-         TC5nvM6R7ol5CZYQx7NLsxKKFj+Rqrg80q7r8h6ybv3+pYqqC60vCIA484NcU5V5xp+k
-         FyjH2E8/BidE2cSaJc1kb/sKzHMtQfesaUCv2K4QpeNSbCupld6SU3N8YwP5MGA20KZW
-         a/+l8UQPkK/WtxGovcc9raEbfwcYGfZllRt8riqXod8Au9Aovx6DFPHodN+BiEz6huDT
-         EMXyLomvp7zM3q0U9/GZzea9uhdBGaVKDsoB240bYWCGIeVIbhixaVuMFiKNPCr0bJoO
-         W66g==
-X-Forwarded-Encrypted: i=1; AFNElJ9l60iKbKTgDHPBNVhf/caYaDeWLhk2E4bBkVqqqYWZYJe8rK/QiE+WJo09JBUpSOfeGF+p+hGcgZn61w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyt5zoOEcxSmDS2BPyaiCzfkbiLkPAA4TAcuXEQNY3OS+dsE2m5
-	l9uZezIKHpw8sQXWvIaosfFKcl/rauZw+M6vHs5zgUfejDdrrNrZtqMU
-X-Gm-Gg: AeBDieuYrdR27Yrw7ilpy3gqrpGiaC7QsmKJzdOtmgUxN7GvdFYEBvEUOgcvTz3Y/nB
-	gOGNBE6HQwuAhbe4zOb9jEmdAWgXUgiYn05kDJG6HIlJY4kPpK0vZYlMcUo0eelM4JBHCZAdPNE
-	8TwgnkD5d6OCTdtSuUT6EtPWg2U8GW2Yv7aWH4nuUDjGmrn7sBbwMmfTLyu1TUmtzlmMi829fFz
-	K/GD2SBpRB5kszJXEfbgsl1BKTLpcGmI2KZtfcEcKaSZ3mir+MBW5wdL4vDgVTzyijSZYTit3nR
-	hXp0gsGgFa007qLXqvJS3ufyba+vHGdXA6KT5Nmp+lb4GRTPKDH1RjngO9IvTc6+v8O055mgQ8D
-	tf03GHBOlul4fs0K/1+fyfnYNF2I3KqplFXQz1rX3+NknWDBVIv8II43CkZ9PbTQrQsgOReN/HP
-	E/AESe851PFv8WS33+x3Djjg7bNS+tUNAYV9JgajcV6/G4SXS6zOdTM6uc9zwORjO/IOUze+0v1
-	oCSDRL1ZO2a3A==
-X-Received: by 2002:a05:6000:1863:b0:43e:a69b:d818 with SMTP id ffacd0b85a97d-43fe3e0ab5dmr49306229f8f.38.1777028991633;
-        Fri, 24 Apr 2026 04:09:51 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cc0f31sm59174867f8f.12.2026.04.24.04.09.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 04:09:51 -0700 (PDT)
-Date: Fri, 24 Apr 2026 12:09:43 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Link Mauve <linkmauve@linkmauve.fr>
-Cc: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>,
- maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
- chleroy@kernel.org, peterz@infradead.org, jpoimboe@kernel.org,
- jbaron@akamai.com, aliceryhl@google.com, rostedt@goodmis.org,
- ardb@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
- ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net,
- bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
- tmgross@umich.edu, dakr@kernel.org, nathan@kernel.org,
- nick.desaulniers+lkml@gmail.com, morbo@google.com, justinstitt@google.com,
- tamird@kernel.org, arnd@arndb.de, nsc@kernel.org, simona.vetter@ffwll.ch,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
- llvm@lists.linux.dev
-Subject: Re: [PATCH V13 5/7] rust: Make __udivdi3() and __umoddi3() panic
-Message-ID: <20260424120943.4a65dd69@pumpkin>
-In-Reply-To: <aes7L3M1d_LvvGKa@luna>
-References: <20260424054742.45832-1-mkchauras@gmail.com>
-	<20260424054742.45832-6-mkchauras@gmail.com>
-	<20260424101425.6bde0e17@pumpkin>
-	<aes7L3M1d_LvvGKa@luna>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1777029211; c=relaxed/simple;
+	bh=GqTs5ygTosFneocKlPAOSsqLvTcgAi1JqGhpB7fqPO0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ahmXJ2clxcAt0tUIlGwsdSNVAtrDWE+Y2AJ0uwAU700b6pOT7VaJD21tPEhgEYc5oCjW1doMfEMnJ0TgTymxl1XPTEy99RwoKSHBJ9PqcxqnTp+CpGEkkHX/SU6GUe3hWzyL7F/GtGix9TGkifEolu9KylYE0N4UY9tbTht92ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bmWYFYeG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B317C19425;
+	Fri, 24 Apr 2026 11:13:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1777029210;
+	bh=GqTs5ygTosFneocKlPAOSsqLvTcgAi1JqGhpB7fqPO0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bmWYFYeGbYMYG+FurHRaKqSkn/WAjZM4tyqApKy29MaSa0pS2QhfJ7BhV2FWlS7R8
+	 +7naXHvd44tPIESI0DP0qLKtvg8i1pa7ncTFH6RgzPvrsurmEumHnN043jovr6nj5n
+	 gP/JSsNiCdL2v0v9kbUJE99lp8N7eJBBJJrsQH10=
+Date: Fri, 24 Apr 2026 13:13:28 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+Cc: Bryan O'Donoghue <bod@kernel.org>,
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Stefan Schmidt <stefan.schmidt@linaro.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+	driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-tegra@vger.kernel.org,
+	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v2 02/13] drivers: base: Add generic dma context bus
+Message-ID: <2026042422-deem-chemist-8d0f@gregkh>
+References: <20260423-glymur-v2-0-0296bccb9f4e@oss.qualcomm.com>
+ <20260423-glymur-v2-2-0296bccb9f4e@oss.qualcomm.com>
+ <2026042346-trustable-register-095a@gregkh>
+ <06c04947-e72e-679b-493b-e112d693f391@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 60ABC45D823
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <06c04947-e72e-679b-493b-e112d693f391@oss.qualcomm.com>
+X-Rspamd-Queue-Id: EA52545D8F5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [3.84 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
 	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59518-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[37];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,linux.ibm.com,ellerman.id.au,kernel.org,infradead.org,akamai.com,google.com,goodmis.org,linaro.org,amd.com,garyguo.net,protonmail.com,umich.edu,arndb.de,ffwll.ch,lists.ozlabs.org,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	TAGGED_FROM(0.00)[bounces-59519-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,8bytes.org,arm.com,linaro.org,nvidia.com,gmail.com,ffwll.ch,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,lkml];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[33];
 	TO_DN_SOME(0.00)[]
 
-On Fri, 24 Apr 2026 11:43:11 +0200
-Link Mauve <linkmauve@linkmauve.fr> wrote:
+On Fri, Apr 24, 2026 at 04:01:13PM +0530, Vishnu Reddy wrote:
+> 
+> On 4/23/2026 7:07 PM, Greg Kroah-Hartman wrote:
+> > On Thu, Apr 23, 2026 at 06:59:31PM +0530, Vishnu Reddy wrote:
+> >> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> >>
+> >> When a driver needs to create virtual device at runtime and map it to
+> >> an IOMMU context for memory isolation, there is no common bus available
+> >> for this purpose. Each driver ends up implementing its own bus type,
+> >> leading to duplicated logic across multiple drivers.
+> >>
+> >> host1x driver implemented its own bus type to attach an IOMMU context to
+> >> a dynamically created device. The Iris VPU driver now has the same
+> >> requirement. Rather than duplicating the same bus logic again, a shared
+> >> bus type is introduced under drivers/base that multiple drivers can use
+> >> directly.
+> >>
+> >> The bus takes care of creating a device and attaching the IOMMU context
+> >> to it based on the client inputs.
+> >>
+> >> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> >> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> >> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+> >> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+> >> ---
+> >>  drivers/base/Kconfig            |  3 ++
+> >>  drivers/base/Makefile           |  1 +
+> >>  drivers/base/dma_context_bus.c  | 77 +++++++++++++++++++++++++++++++++++++++++
+> >>  include/linux/dma_context_bus.h | 26 ++++++++++++++
+> >>  4 files changed, 107 insertions(+)
+> > as you can not have a device on multiple busses at the same time, this
+> > makes no sense to me at all.  "dma context" is a bus-specific thing, so
+> > please add it to the bus that you are wanting it for.  It can't be a
+> > generic bus as that just doesn't work.
+> >
+> > Or what am I missing here?
+> >
+> > And why is DMA somehow "special" here from any other hardware attribute?
+> 
+> Let me give brief information which was discussed, in the initial series,
+> the iris VPU used platform bus for dynamically created devices and we got
+> the comment/suggestion from Robin to implement a proper bus_type with a
+> .dma_configure callback.
+> 
+> https://lore.kernel.org/all/02b3d0f5-f94c-43cd-93af-97cfcf7751b1@arm.com/
+> 
+> based on the discussion, implemented the dma_context_bus and used for iris
+> VPU devices instead of platform bus.
 
-> On Fri, Apr 24, 2026 at 10:14:25AM +0100, David Laight wrote:
-> > On Fri, 24 Apr 2026 11:17:40 +0530
-> > "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com> wrote:
-> >  =20
-> > > From: Link Mauve <linkmauve@linkmauve.fr>
-> > >=20
-> > > The core crate currently depends on these two functions for i64/u64/
-> > > i128/u128/core::time::Duration formatting, but we shouldn=E2=80=99t u=
-se that in
-> > > the kernel so let=E2=80=99s panic if they are ever called. =20
-> >=20
-> > Ugg.
-> > Surely you can make it a link-time failure?
-> > Or change the underlying code to avoid the divide. =20
->=20
-> This is currently a link-time failure, which means if any of the core
-> crate or drm_panic_qr are linked in, the kernel will fail to link.
->=20
-> And since we rely on core, that means no kernel can be built on PowerPC
-> without this patch.
->=20
-> A possible solution would be to change the core crate to not divide
-> u64s, but the last time I tried to do that I couldn=E2=80=99t quite figur=
-e out
-> how to do formatting without it, maybe I will just open an issue against
-> Rust.
+Why not make a irus_vpu_bus where you can do what you want?
 
-If the problematic code is (effectively) printf("%lld", val) there are much
-better ways to generate the digit string than repeated 64bit divides.
-On particular you can use 'multiply by reciprocal' instead.
-For example see the latest (I think it'll be in 7.1-rc) version of
-tools/include/nolibc/stdlib.h
+> Here, the device have only one bus (dma_context_bus), not multiple buses.
+> 
+> Regarding the "DMA" naming, the core operation of this bus is its
+> .dma_configure callback, which calls of_dma_configure_id() to map the device
+> to a corresponding IOMMU stream ID. The name "dma_context" reflects this
+> purpose.
+> 
+> I am open to suggestions from you or Robin or anyone else, if there is a
+> better or preferred way to achieve this, I am happy to consider it and
+> rework the implementation accordingly.
 
-	David
+As there is only one user, just make this your own bus please and do all
+of the needed bus operations for your devices there (i.e. don't hang an
+"empty" device off of it.)
+
+thanks,
+
+greg k-h
 
