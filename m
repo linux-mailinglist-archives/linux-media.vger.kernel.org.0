@@ -1,234 +1,180 @@
-Return-Path: <linux-media+bounces-59534-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59531-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GH4GLPd362npNAAAu9opvQ
-	(envelope-from <linux-media+bounces-59534-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 16:02:31 +0200
+	id 2BDXNQ9y62nCMwAAu9opvQ
+	(envelope-from <linux-media+bounces-59531-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 15:37:19 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1DD45FF20
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 16:02:30 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E883D45F3D6
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 15:37:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 88AF93005320
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 14:02:25 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 407B63020EAE
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 13:36:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A834E3DB652;
-	Fri, 24 Apr 2026 14:02:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 046953D6494;
+	Fri, 24 Apr 2026 13:36:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eVrbBPSa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHIGHX9s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D1A3845CB;
-	Fri, 24 Apr 2026 14:02:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B510C3D6CAC
+	for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 13:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777039343; cv=none; b=QwqGNvsoSkUbh19EmdDdmaeoYvUoiFqmJalbYArGGi1ky/NKHmOFA5XpmrNn20EgTLQXs0O4ue+OccyvgLDTEll0zbWjxD/40o4wlMHkjI/mFjcRvb6H1PMqm+nfw25nejI88ZBRZeWNQ4uEGTrcskgIlmNwYuzwkGldAWI1mj4=
+	t=1777037780; cv=none; b=g8fO9ed7Lt4FlyDskiD459rS1cUE0PRNu5qgcQa+6ljU9mhPW/7lg3ZWE3s/heIpx35Q/viHX1u6yPfBjLUYsTyk/fiScvRj+oDhZ64Oq2d1IVdHfaRVLN1c3z1tx3iQ4mYvhMl5anzGojaSWWZKnPOmMxZF1pd+jBybFwWFVhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777039343; c=relaxed/simple;
-	bh=ack7mYbip6ZcuORQPpGdCVHFIO+2WE0qOIuDR99tjcI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sRoOebb+MrJ65ce4GV1vlcQOxqpjMMYEex+ohRjF59lHBiYNqKWetpbbNSIUlPv+gONPHAXDBQqsS2m63cSsxFnD56Zfh1qFcM3ba/54O9Ogj3/YxVYnmP0q1SNU1fBS7HbvC4abiRkLgDVyXm5kYHm3re82Qpg3Sp0zSXleqGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eVrbBPSa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 300E0C19425;
-	Fri, 24 Apr 2026 14:02:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777039342;
-	bh=ack7mYbip6ZcuORQPpGdCVHFIO+2WE0qOIuDR99tjcI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eVrbBPSay5lsKqpmLH1QRqkLYOnAbpPXdwffDswEX5wCx3OM8YNgFVoAszeWet41J
-	 N7en7QHUFyw55uVogTj/9asNhK9JcorV9woWHwY6p95kzbYb9NwfRCbUQ+iccUgFGa
-	 1atSKUuBQu1QGh/D5JqOoasZsOzablfgD/xYZz5k=
-Date: Fri, 24 Apr 2026 15:34:38 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-Cc: Bryan O'Donoghue <bod@kernel.org>,
-	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Stefan Schmidt <stefan.schmidt@linaro.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-tegra@vger.kernel.org,
-	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v2 02/13] drivers: base: Add generic dma context bus
-Message-ID: <2026042442-luxurious-antonym-f20c@gregkh>
-References: <20260423-glymur-v2-0-0296bccb9f4e@oss.qualcomm.com>
- <20260423-glymur-v2-2-0296bccb9f4e@oss.qualcomm.com>
- <2026042346-trustable-register-095a@gregkh>
- <06c04947-e72e-679b-493b-e112d693f391@oss.qualcomm.com>
- <2026042422-deem-chemist-8d0f@gregkh>
- <4c3fa710-f61a-4aad-622d-54909190cb9e@oss.qualcomm.com>
- <2026042428-blemish-helpline-7d8d@gregkh>
- <1e039dd5-da3f-19b2-ef98-29e64fdd925d@oss.qualcomm.com>
+	s=arc-20240116; t=1777037780; c=relaxed/simple;
+	bh=TRC/tdjltgF3C7bDXOYyS3SG6wFGJdaJUeuF/e++Wro=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LaR0XdSx0G4iNpsfUKmmRABvicPsi+NxliA8i4OymU7laEg/a5f6fd0GWeqsO6L6fdJLVcxYBTW7KpIeUxPWbdc8NW1W8nYML4wTuOTbM62C/1M55yYtnqZ8DO6LNLdZTDsbNQbZOe4uQk8KBXqKtBPrfsBGzl7a/uEjVytzPsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHIGHX9s; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777037777; x=1808573777;
+  h=date:from:to:cc:subject:message-id;
+  bh=TRC/tdjltgF3C7bDXOYyS3SG6wFGJdaJUeuF/e++Wro=;
+  b=JHIGHX9sHTW/2NV7hgW/QHxTZAD5oSwWqgPR/Cr90uQM/+TxiTJTiD1u
+   K86NwB2w9xW3hgl9lnyckHUSnWDXKD4brBpsV/Blv5w7AmlvWQJj+M7oA
+   tjEfVZVyTTb0Mgsz0cFX0Nyu1JfNDqmDSkd6x5YcQDEA52zyhCITMbEmw
+   2rFxX/TwUw93EHlaaf1k6O6DHNIQrSvPkMd/xqRFdHo1UEpxD3v2vZ94e
+   2NaemVs1DF9Y6i3rEmj7fVxrReQxeRezKD6vE5ffZQkUFGeExXoWyNgLF
+   bT0aqxo2YdgDqASRzSlpp4AmvPIWOgNwmDt0T7HNwIiDUBIPy9Hel7xUJ
+   A==;
+X-CSE-ConnectionGUID: 21jf2RqdQF+E9R3AKWYVNA==
+X-CSE-MsgGUID: +zTaTf5+TS2koMz+eauj0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="77893547"
+X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
+   d="scan'208";a="77893547"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 06:36:17 -0700
+X-CSE-ConnectionGUID: 0D5fRB4ASvKT4vgJ8mcilg==
+X-CSE-MsgGUID: e4AlsXikQ+2UQ2pi6B1gNA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
+   d="scan'208";a="271083678"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 24 Apr 2026 06:36:16 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wGGhZ-000000005j3-1qg1;
+	Fri, 24 Apr 2026 13:36:13 +0000
+Date: Fri, 24 Apr 2026 21:36:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:atomisp] BUILD SUCCESS
+ 874315b327d93d2d8208faeedfe2d1bf8b55f46c
+Message-ID: <202604242100.hXsEOWQy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1e039dd5-da3f-19b2-ef98-29e64fdd925d@oss.qualcomm.com>
-X-Rspamd-Queue-Id: 0D1DD45FF20
+X-Rspamd-Queue-Id: E883D45F3D6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.84 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59534-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[33];
-	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,8bytes.org,arm.com,linaro.org,nvidia.com,gmail.com,ffwll.ch,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59531-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linuxfoundation.org:dkim]
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-On Fri, Apr 24, 2026 at 06:12:09PM +0530, Vishnu Reddy wrote:
-> 
-> On 4/24/2026 5:25 PM, Greg Kroah-Hartman wrote:
-> > On Fri, Apr 24, 2026 at 05:15:02PM +0530, Vishnu Reddy wrote:
-> >> On 4/24/2026 4:43 PM, Greg Kroah-Hartman wrote:
-> >>> On Fri, Apr 24, 2026 at 04:01:13PM +0530, Vishnu Reddy wrote:
-> >>>> On 4/23/2026 7:07 PM, Greg Kroah-Hartman wrote:
-> >>>>> On Thu, Apr 23, 2026 at 06:59:31PM +0530, Vishnu Reddy wrote:
-> >>>>>> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-> >>>>>>
-> >>>>>> When a driver needs to create virtual device at runtime and map it to
-> >>>>>> an IOMMU context for memory isolation, there is no common bus available
-> >>>>>> for this purpose. Each driver ends up implementing its own bus type,
-> >>>>>> leading to duplicated logic across multiple drivers.
-> >>>>>>
-> >>>>>> host1x driver implemented its own bus type to attach an IOMMU context to
-> >>>>>> a dynamically created device. The Iris VPU driver now has the same
-> >>>>>> requirement. Rather than duplicating the same bus logic again, a shared
-> >>>>>> bus type is introduced under drivers/base that multiple drivers can use
-> >>>>>> directly.
-> >>>>>>
-> >>>>>> The bus takes care of creating a device and attaching the IOMMU context
-> >>>>>> to it based on the client inputs.
-> >>>>>>
-> >>>>>> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> >>>>>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-> >>>>>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-> >>>>>> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-> >>>>>> ---
-> >>>>>>  drivers/base/Kconfig            |  3 ++
-> >>>>>>  drivers/base/Makefile           |  1 +
-> >>>>>>  drivers/base/dma_context_bus.c  | 77 +++++++++++++++++++++++++++++++++++++++++
-> >>>>>>  include/linux/dma_context_bus.h | 26 ++++++++++++++
-> >>>>>>  4 files changed, 107 insertions(+)
-> >>>>> as you can not have a device on multiple busses at the same time, this
-> >>>>> makes no sense to me at all.  "dma context" is a bus-specific thing, so
-> >>>>> please add it to the bus that you are wanting it for.  It can't be a
-> >>>>> generic bus as that just doesn't work.
-> >>>>>
-> >>>>> Or what am I missing here?
-> >>>>>
-> >>>>> And why is DMA somehow "special" here from any other hardware attribute?
-> >>>> Let me give brief information which was discussed, in the initial series,
-> >>>> the iris VPU used platform bus for dynamically created devices and we got
-> >>>> the comment/suggestion from Robin to implement a proper bus_type with a
-> >>>> .dma_configure callback.
-> >>>>
-> >>>> https://lore.kernel.org/all/02b3d0f5-f94c-43cd-93af-97cfcf7751b1@arm.com/
-> >>>>
-> >>>> based on the discussion, implemented the dma_context_bus and used for iris
-> >>>> VPU devices instead of platform bus.
-> >>> Why not make a irus_vpu_bus where you can do what you want?
-> >> Initially iris_vpu_bus was introduced, and it was made generic based on the
-> >> discussion,
-> >>
-> >> https://lore.kernel.org/all/20260227-kaanapali-iris-v2-3-850043ac3933@oss.qualcomm.com/
-> > I don't really see that request here, I see a "make this better and more
-> > generic for other busses" but that does not mean "dump it into
-> > drivers/bus/ for someone else to maintain" :)
-> >
-> >>>> Here, the device have only one bus (dma_context_bus), not multiple buses.
-> >>>>
-> >>>> Regarding the "DMA" naming, the core operation of this bus is its
-> >>>> .dma_configure callback, which calls of_dma_configure_id() to map the device
-> >>>> to a corresponding IOMMU stream ID. The name "dma_context" reflects this
-> >>>> purpose.
-> >>>>
-> >>>> I am open to suggestions from you or Robin or anyone else, if there is a
-> >>>> better or preferred way to achieve this, I am happy to consider it and
-> >>>> rework the implementation accordingly.
-> >>> As there is only one user, just make this your own bus please and do all
-> >>> of the needed bus operations for your devices there (i.e. don't hang an
-> >>> "empty" device off of it.)
-> >> The reasoning behind to make it generic was to have more users - host1x,
-> >> Iris VPU, QDA on the generic context bus, instead of each of them having
-> >> their own. Let me know if you suggest to have the iris_vpu_bus.
-> > But you did not add such users here, so how would we know this?
-> >
-> > And still, I have no idea what this bus really is doing.  Is it dynamic?
-> > Is it self-describing?  Why not just use aux-bus?  What is it supposed
-> > to be doing and used for?
-> 
-> This bus will allow users to create a dynamic device and map to IOMMU stream
-> ID via .dma_configure callback which calls the of_dma_confgure_id() based on
-> the user inputs. This bus is under the iommu_buses list to register for bus
-> notifier callbacks for iommu_probe_device() and iommu_release_device() during
-> add and remove.
+tree/branch: git://linuxtv.org/sailus/media_tree.git atomisp
+branch HEAD: 874315b327d93d2d8208faeedfe2d1bf8b55f46c  media: atomisp: Use negation to check for NULL
 
-But a device is nothing on its own.  You can not just have a random
-'struct device' hanging out there that does nothing but iommu, right?
-It should be doing something else that is very "bus" specific.
+elapsed time: 940m
 
-Again, why not create a bus for your hardware type and have that control
-the bindings of drivers to the devices, like it should be done.  You
-better not be creating platform devices for these things :)
+configs tested: 55
+configs skipped: 2
 
-> auxilary bus don't have the .dma_callback and bus notifier callbacks where it
-> can do iommu_probe_device() and iommu_release_device(). iommu_release_device(),
-> being a static api, need to be called from bus notifier callbacks which should
-> be under the list of iommu_buses.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-True, because aux bus devices don't do that directly, they are "sharing"
-resources with their parent device and something has to mediate for it.
-So yes, you are right, that is not a good idea.  Make a custom bus type
-instead please.
+tested configs:
+alpha                   allnoconfig    gcc-15.2.0
+alpha                  allyesconfig    gcc-15.2.0
+arc                    allmodconfig    gcc-15.2.0
+arc                     allnoconfig    gcc-15.2.0
+arc                    allyesconfig    gcc-15.2.0
+arm                     allnoconfig    clang-23
+arm                    allyesconfig    gcc-15.2.0
+arm64                  allmodconfig    clang-19
+arm64                   allnoconfig    gcc-15.2.0
+csky                   allmodconfig    gcc-15.2.0
+csky                    allnoconfig    gcc-15.2.0
+hexagon                allmodconfig    clang-17
+hexagon                 allnoconfig    clang-23
+i386                    allnoconfig    gcc-14
+i386                   allyesconfig    gcc-14
+loongarch              allmodconfig    clang-19
+loongarch               allnoconfig    clang-23
+m68k                   allmodconfig    gcc-15.2.0
+m68k                    allnoconfig    gcc-15.2.0
+m68k                   allyesconfig    gcc-15.2.0
+microblaze              allnoconfig    gcc-15.2.0
+microblaze             allyesconfig    gcc-15.2.0
+mips                   allmodconfig    gcc-15.2.0
+mips                    allnoconfig    gcc-15.2.0
+mips                   allyesconfig    gcc-15.2.0
+nios2                  allmodconfig    gcc-11.5.0
+nios2                   allnoconfig    gcc-11.5.0
+openrisc               allmodconfig    gcc-15.2.0
+openrisc                allnoconfig    gcc-15.2.0
+parisc                 allmodconfig    gcc-15.2.0
+parisc                  allnoconfig    gcc-15.2.0
+parisc                 allyesconfig    gcc-15.2.0
+powerpc                allmodconfig    gcc-15.2.0
+powerpc                 allnoconfig    gcc-15.2.0
+riscv                  allmodconfig    clang-23
+riscv                   allnoconfig    gcc-15.2.0
+riscv                  allyesconfig    clang-16
+s390                   allmodconfig    clang-18
+s390                    allnoconfig    clang-23
+s390                   allyesconfig    gcc-15.2.0
+sh                     allmodconfig    gcc-15.2.0
+sh                      allnoconfig    gcc-15.2.0
+sh                     allyesconfig    gcc-15.2.0
+sparc                   allnoconfig    gcc-15.2.0
+sparc       randconfig-002-20260424    gcc-13.4.0
+sparc64                allmodconfig    clang-23
+um                     allmodconfig    clang-19
+um                      allnoconfig    clang-23
+um                     allyesconfig    gcc-14
+x86_64                 allmodconfig    clang-20
+x86_64                  allnoconfig    clang-20
+x86_64                 allyesconfig    clang-20
+x86_64                rhel-9.4-rust    clang-20
+xtensa                  allnoconfig    gcc-15.2.0
+xtensa          smp_lx200_defconfig    gcc-15.2.0
 
-thanks,
-
-greg k-h
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
