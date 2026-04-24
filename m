@@ -1,260 +1,177 @@
-Return-Path: <linux-media+bounces-59556-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59557-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4EVFIQ6x62mRQQAAu9opvQ
-	(envelope-from <linux-media+bounces-59556-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 20:06:06 +0200
+	id UMMEKYyz62kJQgAAu9opvQ
+	(envelope-from <linux-media+bounces-59557-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 20:16:44 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1B0462439
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 20:06:06 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B6D462543
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 20:16:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B5D8D3001D55
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 18:06:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9D22E303EC22
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2026 18:13:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D8C43ECBFD;
-	Fri, 24 Apr 2026 18:06:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A91BA3EDADA;
+	Fri, 24 Apr 2026 18:13:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aPnK2f76"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="flTNSQDk";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Mpn9sDid"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57213ECBC2;
-	Fri, 24 Apr 2026 18:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E775E3E8C4F
+	for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 18:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777053960; cv=none; b=I9CsdGzpN206+mFCxqZzsVgR1NlNs/w+1AxXuj8g1Octps9r9sReQKNipcVrLwCUyjYjZehXKhHNQbe6akhWBetoZzSbTcUHNXHOiZIUo5NO7DPkjVFY1WnY1Z4zDyM0rnZnUc3t2wSkkLtrwUFMX9tLg7udonWwg/h9qOxxVK4=
+	t=1777054435; cv=none; b=YGKGxgW27gHfJ2E8ixmECkJPmKlq3GYi0yCNqWIjmmdIYOxXy246wfDKz5TCRjJPujOQsVj8FTZxvJfaBC3tlEFNuw2RKKJepH/yLgABr+GOD8O3w/Kik4geuzOuy+7BaCsDRwepZmEbojvrQnM6jEQ0Rk4Fvo3PohTQLoBOTbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777053960; c=relaxed/simple;
-	bh=ejKEisanWsd8xl2Mc9rPlQCU5cbmJtb0L3OmLefF4Tg=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=pZVIkMrj9bkwjkYFPTP3snKBQl5uqsq9NGeJKZVXYwfH0WtSj2E5FSrBwVFwPGiD55AyXdQ1NWP77BmH7K8bwIsgLIGTTDC2lbisRKsN3wPS5a6LgIE1/9PNNBw/uOI2lX1/xxyFOdNlF/51ncfhVObdPyhn5CbBZoWWDIhttLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aPnK2f76; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from neptunite.rasen.tech (unknown [IPv6:2404:7a81:160:2100:5216:c7b6:205:5f59])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 6CFA8227;
-	Fri, 24 Apr 2026 20:04:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1777053856;
-	bh=ejKEisanWsd8xl2Mc9rPlQCU5cbmJtb0L3OmLefF4Tg=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=aPnK2f769Kq3yuTbeUBhlkIisCCCFu9ujppk9b0g2hlaHNf3gRgA7S5YWfS3CLOTk
-	 SEzb0ySjNcd7aHs6u+vG67DRL1i8VLSiDqqIDPhwS8DpzhprmbOwteuCIEk6aUgjhW
-	 rg/UGH6FP7Qk9D07JXD6JK6q9ZPWdHCkRCC1gOqU=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1777054435; c=relaxed/simple;
+	bh=OeQosteTdD6VM7jZXWeJNravgroMD7pnnDdWYomsqZs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=CbubpGarJOI8VKcZMQk8rX3VIcK/Q+QM1xt9SzNucGadN2h0QQA6ZI41TDVAZcso39VqSJNiel6/w0QrkPGbK/+zz350GvOBA2o5v3iyNX963/iFvtnWoMbL/8g0XX8gU0bUaYmXnrFV272+Dec6L4QH0csqI6s8OKkMmpMAwkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=flTNSQDk; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Mpn9sDid; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777054433;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OeQosteTdD6VM7jZXWeJNravgroMD7pnnDdWYomsqZs=;
+	b=flTNSQDk4iGEkK+XzM5UOP44uM8sB70PtTTtL0NOai7cYIce116BgAbxlWnAZaz4SfXOST
+	JgQlSNpXslPqR2G0CB20PJ71GQkumZyfdS7+nI/nSj7Zec8rb9j1kj7eHzy7rDyEBujvOK
+	EfJJ1LvxCauF/5jS8j2btPg4YJ6mZOg=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-500-BgyRiWRFOYOk6Wrf7KaDGg-1; Fri, 24 Apr 2026 14:13:51 -0400
+X-MC-Unique: BgyRiWRFOYOk6Wrf7KaDGg-1
+X-Mimecast-MFC-AGG-ID: BgyRiWRFOYOk6Wrf7KaDGg_1777054431
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-8a16036c90eso203475536d6.2
+        for <linux-media@vger.kernel.org>; Fri, 24 Apr 2026 11:13:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1777054431; x=1777659231; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=OeQosteTdD6VM7jZXWeJNravgroMD7pnnDdWYomsqZs=;
+        b=Mpn9sDidXpccfizsAWGr7qiOLr0TMB14XF93z7/nmAhNWHV2CqegNkKOxbp5GS/Shy
+         NWRS2cx0LicWKu2siJGQUTGmquH71byIN6bHqsViFnkdIqTssWcLZh6dZWmWE90uTzpZ
+         BVBHOe7yAp/9D8ekBfhcBrjcMS/V7U1DgzzxqW3j5KUENJIuKCSoudhCakob1ktt/5Ha
+         O7EKUq4QpAswDIa3nj54uxdduIl8B9KKh6vCytuedp4buahM5hGQoKJm8bcBH7G9s6pR
+         1MyY3NrGHH3i7QmX6sw+eu+taW15jDN7gy1LYkR2YKZ5fFtoN9qlQVayHSh0ECA/oeOV
+         1QLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777054431; x=1777659231;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OeQosteTdD6VM7jZXWeJNravgroMD7pnnDdWYomsqZs=;
+        b=h7NN5XbW+UHcpX6nt+C2SNdOrWJ0h7N9Ix40ydQgJHh98c1BPpL0CBAuvHZwol9NKv
+         LfqohLqd+Fbvo7fBBcy5yV0eineLT5YneDG4d9JuKSVaCvscTktkroheF0CrozIojBZX
+         wOVLJgDQVKRESNsbGPqIWhUbO8aem4GTxQtRqArCPRtpasSDcvPkYAxRCQSYI5Mg7a6T
+         rANL9Qgd/j2eHjI45hV2h4CARcApDeGmQZHXVrPlcOPfYmsNO2R1qYs5lUbISXy+Gv20
+         ofH2O2s4wnsZXJ9jwsEEomeXauHSGVH8qkrJmNBojXg0hSe66d2U+Lei/O7BYvjXpOI9
+         xEaw==
+X-Forwarded-Encrypted: i=1; AFNElJ/lCPKUaOO+CbQuG39T4txWDzxbZLv7OzHk/nKUA7Y09qU1mTHKjK8DFu8HTu9FgPh5kxJlf3DiIZGHnw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPJ/CAS1BrzzvYxBBgnPsL87ZLQ3flzupBVgLaZwhYQV2QriT5
+	YqjRdWKU9htqRDx8fK9mwgcW0gKvnPEUCE5MPDmx1bAZnG4V13rES1wattlEsmxFalQtlBrDibE
+	0/MZlndd/zTaivnAPvb6CrA/U/Socpj7e8EO3svk05FZxAGDCvzQe2jhWWrNbN6ZR
+X-Gm-Gg: AeBDietEhboNTWRYpIIVkUyUKyYUWPJMXWAsGzup9rnPM24/Q2tUEFpNqOg2rG0lLgw
+	LdffuADKIaMdnoxpqxpBgGf/ic/slUPzHKEpMYHFUGANSZsHKBLQtp2eQb/EfRBhm2AO93YfmWl
+	mOJF41cPlV9Rup9lEgfRURszrxkA1eRyQl2EHLg6/I5E3M54Wp+OtW6o6SUf/pfDSntvTO3bvSk
+	J5XXUNKp/5a+HSSQAr/7rUrnGq9DusyOP+Lzak2hqegojT0HyjH0S4Xuz/qLpddRkNNfpd6Rv/L
+	4SPIkt3r1F6qBHEVK8ltnx8l9kDNLYxvd/L1Jqk9iyodPQ7oWaIGdgr52mdmrVZ+fqJfZ/qfbfm
+	eQDF/MQw9QfGfcqo+BWNa1gIuMidK
+X-Received: by 2002:a05:6214:27c2:b0:8ac:ab30:fffa with SMTP id 6a1803df08f44-8b03addd7bdmr442488136d6.32.1777054431180;
+        Fri, 24 Apr 2026 11:13:51 -0700 (PDT)
+X-Received: by 2002:a05:6214:27c2:b0:8ac:ab30:fffa with SMTP id 6a1803df08f44-8b03addd7bdmr442487526d6.32.1777054430667;
+        Fri, 24 Apr 2026 11:13:50 -0700 (PDT)
+Received: from [192.168.8.4] ([100.0.180.93])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02ae86947sm253378776d6.37.2026.04.24.11.13.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Apr 2026 11:13:50 -0700 (PDT)
+Message-ID: <4bccf3d1ab49dfdff29a69b2040c4d0aef0e87e3.camel@redhat.com>
+Subject: Re: [PATCH v12 4/5] rust: drm: gem: Introduce shmem::SGTable
+From: lyude@redhat.com
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: nouveau@lists.freedesktop.org, Gary Guo <gary@garyguo.net>, Daniel
+ Almeida	 <daniel.almeida@collabora.com>, rust-for-linux@vger.kernel.org,
+ Danilo Krummrich <dakr@kernel.org>, dri-devel@lists.freedesktop.org,
+ Matthew Maurer <mmaurer@google.com>,  FUJITA Tomonori
+ <fujita.tomonori@gmail.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	christian.koenig@amd.com, Asahi Lina <lina@asahilina.net>, Miguel Ojeda	
+ <ojeda@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, Simona Vetter
+	 <simona@ffwll.ch>, Alice Ryhl <aliceryhl@google.com>, Boqun Feng	
+ <boqun@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Krishna Ketan
+ Rai	 <prafulrai522@gmail.com>, linux-media@vger.kernel.org, Shankari Anand	
+ <shankari.ak0208@gmail.com>, David Airlie <airlied@gmail.com>, Benno Lossin
+	 <lossin@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	linaro-mm-sig@lists.linaro.org, Asahi Lina <lina+kernel@asahilina.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kernel@vger.kernel.org
+Date: Fri, 24 Apr 2026 14:13:49 -0400
+In-Reply-To: <DI0MI6UF325Y.2TDWZGCN3WGIG@nvidia.com>
+References: <20260421235346.672794-1-lyude@redhat.com>
+	 <20260421235346.672794-5-lyude@redhat.com>
+	 <DI0MI6UF325Y.2TDWZGCN3WGIG@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260424175853.638202-2-paul.elder@ideasonboard.com>
-References: <20260424175853.638202-1-paul.elder@ideasonboard.com> <20260424175853.638202-2-paul.elder@ideasonboard.com>
-Subject: Re: [RFC PATCH 1/5] media: dt-bindings: Add rockchip rkisp2 bindings
-From: Paul Elder <paul.elder@ideasonboard.com>
-Cc: michael.riesch@collabora.com, xuhf@rock-chips.com, stefan.klug@ideasonboard.com, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>
-To: laurent.pinchart@ideasonboard.com
-Date: Sat, 25 Apr 2026 03:05:50 +0900
-Message-ID: <177705395057.43355.18439675795236129023@neptunite.rasen.tech>
-User-Agent: alot/0.0.0
-X-Rspamd-Queue-Id: 4D1B0462439
+X-Rspamd-Queue-Id: 04B6D462543
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.34 / 15.00];
-	SEM_URIBL(3.50)[0.0.0.0:email];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
-	BAD_REP_POLICIES(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_POLICY_ALLOW(0.00)[ideasonboard.com,none];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TAGGED_FROM(0.00)[bounces-59556-lists,linux-media=lfdr.de];
-	R_DKIM_ALLOW(0.00)[ideasonboard.com:s=mail];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,garyguo.net,collabora.com,vger.kernel.org,kernel.org,google.com,gmail.com,oracle.com,amd.com,asahilina.net,ffwll.ch,linaro.org,lists.linaro.org,linuxfoundation.org];
+	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,linux-media@vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	TAGGED_FROM(0.00)[bounces-59557-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NO_DN(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[paul.elder@ideasonboard.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.905];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	R_SPF_ALLOW(0.00)[+ip4:172.232.135.74:c];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,kernel];
+	RCPT_COUNT_TWELVE(0.00)[28];
 	TO_DN_SOME(0.00)[]
 
-Hi me,
-
-Quoting Paul Elder (2026-04-25 02:58:46)
-> Add documentation for the Rockchip rkisp2 bindings. This is meant to
-> support multiple versions of Rockchip ISPs going forward, including the
-> 2.x series and 3.x series. The current version only adds the compatible
-> for the RK3588, which is a 3.0.
+On Fri, 2026-04-24 at 00:01 +0900, Alexandre Courbot wrote:
 >=20
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> ---
->  .../bindings/media/rockchip-isp2.yaml         | 127 ++++++++++++++++++
->  1 file changed, 127 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/rockchip-isp2=
-.yaml
+> This fails on master:
 >=20
-> diff --git a/Documentation/devicetree/bindings/media/rockchip-isp2.yaml b=
-/Documentation/devicetree/bindings/media/rockchip-isp2.yaml
-> new file mode 100644
-> index 000000000000..f4ef089adf6e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/rockchip-isp2.yaml
-> @@ -0,0 +1,127 @@
-> +# SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/rockchip-isp2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Rockchip SoC Image Signal Processing unit v2
-> +
-> +maintainers:
-> +  - Paul Elder <paul.elder@ideasonboard.com>
-> +
-> +description: |
-> +  Rockchip ISP2 is the Camera interface for the Rockchip series of SoCs =
-which
-> +  contains image processing, scaling, and compression functions.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - rockchip,rk3588-isp
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    minItems: 3
-> +    maxItems: 3
+> =C2=A0=C2=A0=C2=A0 error[E0432]: unresolved import `crate::sync::ARef`
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --> ../rust/kernel/drm/gem/shmem.rs:36:5
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+> =C2=A0=C2=A0=C2=A0 36 |=C2=A0=C2=A0=C2=A0=C2=A0 sync::ARef,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0 ^^^^^^^^^^ no `A=
+Ref` in `sync`
+>=20
+> Importing `sync::aref::ARef` seems to be the correct way now.
 
-These should be 2.
+FWIW: as I mentioned in the cover letter, this series applies against
+drm-rust-next - not master.
 
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: isp_irq
-> +      - const: mi_irq
-> +
-> +  clocks:
-> +    minItems: 3
-> +    items:
-> +      - description: ISP AXI clock (aclk)
-> +      - description: ISP AHB clock (hclk)
-> +      - description: ISP core clock (isp)
-> +      # for rk3588
-> +      - description: ISP core clock (marvin)
-> +      - description: ISP core clock (vicap)
-> +
-> +  clock-names:
-> +    minItems: 3
-> +    items:
-> +      - const: aclk
-> +      - const: hclk
-> +      - const: clk_core
-> +      # for rk3588
-> +      - const: clk_core_marvin
-> +      - const: clk_core_vicap
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    minItems: 1
-
-This can be removed.
-
-> +    items:
-> +      - description: ISP power domain
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: connection point for VICAP in inline mode
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +    required:
-> +      - port@0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: rockchip,rk3588-isp
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 5
-> +        clock-names:
-> +          minItems: 5
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +
-> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/rk3588-power.h>
-> +
-> +    parent0: parent {
-> +        #address-cells =3D <2>;
-> +        #size-cells =3D <2>;
-> +
-> +        isp0: isp@fdcb0000 {
-> +            compatible =3D "rockchip,rk3588-isp";
-> +            reg =3D <0x0 0xfdcb0000 0x0 0x7f00>;
-> +            interrupts =3D <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH 0>,
-> +                         <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH 0>,
-> +                         <GIC_SPI 134 IRQ_TYPE_LEVEL_HIGH 0>;
-> +            interrupt-names =3D "isp_irq", "mi_irq";
-
-I removed the interrupt name and forgot to remove the interrupt.
-
-I think the same problem is present in the dt node in the next patch.
-
-
-Paul
-
-> +            clocks =3D <&cru ACLK_ISP0>, <&cru HCLK_ISP0>,
-> +                     <&cru CLK_ISP0_CORE>, <&cru CLK_ISP0_CORE_MARVIN>,
-> +                     <&cru CLK_ISP0_CORE_VICAP>;
-> +            clock-names =3D "aclk", "hclk", "clk_core",
-> +                        "clk_core_marvin", "clk_core_vicap";
-> +            power-domains =3D <&power RK3588_PD_VI>;
-> +            iommus =3D <&isp0_mmu>;
-> +        };
-> +    };
-> --=20
-> 2.47.2
->
 
