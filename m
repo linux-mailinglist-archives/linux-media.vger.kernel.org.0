@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-59598-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59599-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OLnGEKHs7GngdgAAu9opvQ
-	(envelope-from <linux-media+bounces-59598-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 25 Apr 2026 18:32:33 +0200
+	id ABB+MKjs7GngdgAAu9opvQ
+	(envelope-from <linux-media+bounces-59599-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 25 Apr 2026 18:32:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210AD466E6C
-	for <lists+linux-media@lfdr.de>; Sat, 25 Apr 2026 18:32:32 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7A8466E7A
+	for <lists+linux-media@lfdr.de>; Sat, 25 Apr 2026 18:32:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B8420300646F
-	for <lists+linux-media@lfdr.de>; Sat, 25 Apr 2026 16:32:23 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4DC65300AB30
+	for <lists+linux-media@lfdr.de>; Sat, 25 Apr 2026 16:32:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4998367F26;
-	Sat, 25 Apr 2026 16:32:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7AED369999;
+	Sat, 25 Apr 2026 16:32:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BRM/pyJF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HlGCA5xV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D478363C4A
-	for <linux-media@vger.kernel.org>; Sat, 25 Apr 2026 16:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F665358387
+	for <linux-media@vger.kernel.org>; Sat, 25 Apr 2026 16:32:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777134721; cv=none; b=lvUkoA0YL9LvT3w+ytWIFELhsj4h6OmiseKYD7c3artbZWcJp95MypbcfQddBNv/3MZNBqc3RNlgYj3rEnUJN2TSDsaEqsiItbzOgXqb4G8qh+f9qru/zSlsN2POwvdtTbN3hOeOA5YorcjWaPZPmALakIgKKhRMIUmCXEQNuSI=
+	t=1777134722; cv=none; b=fzoOWrEJJYYXuTT/576k3D/FCyC8LaXX4hyAPkbtNwK1XPET85L/r7N38rPTzq6eHQwERq0fa+tz0PdAujAxr/6KgazWnviaM2nXP5NAFC5o2XkwC3Lhm7E5gUlEugeeCBP8vWnBoosRtIIRenNKVduG6TaIXRDvuyIqNZwLEFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777134721; c=relaxed/simple;
-	bh=wde4TF8CgNzn8si/JL9P12OCZloroRuFEPIxq/TcvgI=;
+	s=arc-20240116; t=1777134722; c=relaxed/simple;
+	bh=JeFAGlclU046JIgSg4OVyBoSGPhLkEXsWzJ0ES221g0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CKCk0246pr21dgrj5Kz7YthAF4V0qpdtzOCxPFOVAB/XL/h/kokd4aBUKvasfH3z1S8NaSwnq+Zp+MVyOQGck24/QnQDve+HO9/n48KQscY3rM2DtXNwQ/OXthEZngwbpMbHKaIzIUupygfRpTTfi4DqcmgXi5LlR+NZM7wxVKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BRM/pyJF; arc=none smtp.client-ip=74.125.82.179
+	 MIME-Version; b=hOBJgCr6frYf3aOr1xccs01I8BwjYp3WvOyFXscfl0XQ4u9Cp7+kYyb0lbEoNAPrKQeIku6RVyJyagNkFGICyzkXBQQq/QEc56ijmfd26wIOIm6ITVjOzzqpI7dLpY1sRoKz+z8w8UTDqbXpcHtCYReR9N9H0QlA4ugSBGC1xIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HlGCA5xV; arc=none smtp.client-ip=74.125.82.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2e221a71e19so8653459eec.0
-        for <linux-media@vger.kernel.org>; Sat, 25 Apr 2026 09:31:59 -0700 (PDT)
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2de831d2b20so252823eec.1
+        for <linux-media@vger.kernel.org>; Sat, 25 Apr 2026 09:32:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777134718; x=1777739518; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777134720; x=1777739520; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TVHeDChmbK7H9JMCFb+9pqFytvxF0fdzrozCeGR4L7s=;
-        b=BRM/pyJF4Wc5DelUIb5mB3NelzylN5o7Pxtc+CnZcWyGGR2q4/0nLRf1rx6wjETAoD
-         +/x5Eks8WJ44n9nAnaLgQyTcxki8B2/Ea7nsUR+Wljuw556oHou1dnsblQ3OovU3Y2/l
-         TMFAEZV3w6ruazM7b/7MVb7nMKKZl6usJJWHiNjGZ0qIrAYvf2n700hWYUnKY0IqwZyC
-         Q6v504UtN7eAG0AdSAz8idUzP0UfN+WHB5kp/uVIx83kOmoWt0L6rP2POUqwU7rBbdGI
-         hI1QQ7hnFXJcRDgcM3Hw5gIeF6lHnzyHvE9ERn2OuTfPLzx0fBHaeqeNVpLbP/xj0r/D
-         mNXg==
+        bh=CDF8n/DtizrT4QllCHI1cUw7JqDkCzaU+Ja6VBXSysk=;
+        b=HlGCA5xVch97pywvv4d7rQOR/7J261BZd9UbKLz18Y+I9fB64uG06scuzCdEHgPXlS
+         D2sNts09R836qNfWLP/FefeZOHMhw6y1Ds2zfxw6CTJP3ZeomYmEr2+BEgCl5lDiCo0m
+         +Ph7Su17ZEC7BtXGaOr0l8s2R6XNUBKOI9A/IogqJWP85PBHlyyd/KsvIx/C+BkaBHu5
+         c5MC4sWuK6Sd5Xh9KZU3PlOLBw9v5OJUY2xvBLFxIMLphJcuOz4WSryQhb0f4JkGRpxT
+         8vRTIC94qV8bMPWKlc9nXvVQttnL7T7imaz/P27P3t5a5baoQO77Ou5AaQQ9PB3DiCjL
+         gUOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777134718; x=1777739518;
+        d=1e100.net; s=20251104; t=1777134720; x=1777739520;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=TVHeDChmbK7H9JMCFb+9pqFytvxF0fdzrozCeGR4L7s=;
-        b=JPO1+SbX2a1D8nbK8KmFw/xWgkSMyJK+3dBbfsSHtaoGAZ8imkhx+Q0K9QZLFlb3W+
-         gwIqmZhNzv8qHc7t3Hn1zQ+ysee4ytKqCxZMETkP62C1VEUgviwX/5/IZ5IaVPgY5xCu
-         lQf/K/y3eMCmWmXH42250ux//C8zO/nJzNQ52/xFpIdtB+ExzZLXAjEjbYfEX/3SxNuP
-         Mlv/Hu63bNtjKOQAdjwzOZ4neVXhtFoojJL4wvJK6b+wsHSFr4nnns9K0Q9c5ijP9oRP
-         /YLTsNg30ZV1jLovMf2Nu+znMv3QbKe3L36bmxL0mHPz15TEkr+11p45HIjx2nLz4nA+
-         aVcg==
-X-Forwarded-Encrypted: i=1; AFNElJ+ywA7Jqdg5wlYwEXR+2xz4mte6np6MkiCA6sbHqTeo7P3d4TB7eBqZg+Q2Ht/R1wGITLetFkQsPangTQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+29dj2Gu/L8V36tfsptXb14WXhvZf0NhD57XGG0D0eWY7Xzg/
-	GQoUjFfPnKKSHH8AJORpGbHwWhqXQI66fx+QlsFeucuKpgJLGyyOajXd
-X-Gm-Gg: AeBDietmuv/Fj36PHF0/mdgnKda8ps4LAbBeMtFOwpoG0wTMMcj4SNuYk7LgxeyHaXe
-	DyWj0NhC+8gfYh6RNOqactDI7A2H3iKrs16ShyhKtiKBz9pdpYUzMzt0DhdaVR88tW/sCeQEtRr
-	qK2+hOR1/wkKsqTGPKXI3paZgC6ADqZwopwpbxAU0m84rXf0IE0NSsijXxwFsYSYmrTqvHwwhjp
-	JbIP0LoFzmChUCshKMN9ZOqpJL1QAJmfC9VCwWh+V52NbDdqc1Z7jvI2uQy+UfgEhVH9qORQud8
-	6WPrWqok05KD3z2CK2OiWbM0DItIhNy4NNmPhVAlUX7zpVF/vYIeuVTGNlCgEI/s13fUxRQJkvq
-	OT62+iY+/iTCb1zhcCK7ebbGbFiGf++dqYg/V9zn3pOPkzfjq9pp8BewTZErn8a8o510splDHxI
-	Bw0AzqhVLgqhovHrvqhUB5LOtrVj6AzsEehmQ2P34ppbJ2
-X-Received: by 2002:a05:7300:2393:b0:2d9:6f2f:9f6f with SMTP id 5a478bee46e88-2e483d82ddbmr21223138eec.24.1777134718278;
-        Sat, 25 Apr 2026 09:31:58 -0700 (PDT)
+        bh=CDF8n/DtizrT4QllCHI1cUw7JqDkCzaU+Ja6VBXSysk=;
+        b=YLthbFvmXjv2rOHsyj9AT+IPseKnivc+ImamW4SejEphLaEf+W30ImOb0ghwoA8BqC
+         alb5PU6eqEg/27CIOQiB8M0eyJdqtbc2Lf4zB4zsTfwBCA/Rcnu6/yCFcW7WxS9Aow5B
+         8lhorZdyM67n7tM7MrRW7k3LoKHMV+jLbK1HR+IQKKpWD9AsRpENn5rg6IOXBjZa1dvG
+         wwEBBUSpgevZ+EvfdTQlxShTUQGdNyN/CKTR6Twim62t1IbQ+CKvmLU888MHC2b2n8KW
+         zVIvNUiPK4kODdPLI/UZ6v4z1NbdeaCkP4KqZ/yYnhKpTIGP6kboqeliQ/G/BzaDQM5g
+         F9BQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+cmQ6GRnJkXryQ+mfunSSa9Kx4IqGFIAagY8bmbspwaaJhrUCPRdsBEYjjOFaZq08Kw3XY7Op9WcjTjQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzt2NoIO226NlilR2lzPvij2k00VJ88z2PvWmnPYsL0rmZerdvT
+	QeVD9llRfX6aGy5J05XvR0gpPwScj67b26W/ruKbxOh8F/rrjU0Xct14
+X-Gm-Gg: AeBDietRvvvrbRmFR3feEFh9mbJ6sFJ7usFlENobIFwtNkppRphTpPMlzQ3NbDZlQ8x
+	gwBZpi/M9MocS9Yyh3h3ql/eJ4MIUgSJcTWj6qr75Ukuro0CBdmX3M2q4eQYfZfDwb9uuuV9HfW
+	eGrDRWv2is0Co0/aSDBlEMldvbnP94VgGwlwM9Db0p8S+R7hEsss5NnbYRKhB/hgqI3XJnhAWZf
+	DBzM8JTzPIUKJtyj1REA7f8nMW4XOpjLLCY7WK2zED0IOLec7atldcPDw4B6Dlj/bE0QzM7LWDY
+	htaXyUWnvkLSgsvxLKNwqGQew1hsW1bOK2FXaBjG+jDnQ7nsuwUlTqdj02VfCVavbnnqPUAOxvR
+	+b+Bv9KIE1TciIfb1ItPvgWivkoD+2nndT9r76I7V45ZKrPwCCivXy401S8pZpVsmL/q9Jzn5Gy
+	cUtwEG9aF0qxpwvMu2V8/1NqRHNIvSA7Tqgw==
+X-Received: by 2002:a05:7301:6096:b0:2e1:f72:3f18 with SMTP id 5a478bee46e88-2e4648c5f75mr22676084eec.1.1777134720156;
+        Sat, 25 Apr 2026 09:32:00 -0700 (PDT)
 Received: from TC-LAPTOP.lan ([66.143.226.29])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53a4a8bd2sm35922547eec.11.2026.04.25.09.31.57
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53a4a8bd2sm35922547eec.11.2026.04.25.09.31.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Apr 2026 09:31:58 -0700 (PDT)
+        Sat, 25 Apr 2026 09:31:59 -0700 (PDT)
 From: Thierry Chatard <tchatard@gmail.com>
 To: linux-kernel@vger.kernel.org
 Cc: hansg@kernel.org,
@@ -89,9 +89,9 @@ Cc: hansg@kernel.org,
 	jacopo.mondi@ideasonboard.com,
 	nicholas@rothemail.net,
 	Thierry Chatard <tchatard@gmail.com>
-Subject: [PATCH v6 4/5] media: ipu-bridge: add sensor configuration for OV8858 (INT3477)
-Date: Sat, 25 Apr 2026 09:31:44 -0700
-Message-ID: <20260425163145.8474-5-tchatard@gmail.com>
+Subject: [PATCH v6 5/5] media: ov8858: add ACPI device ID INT3477
+Date: Sat, 25 Apr 2026 09:31:45 -0700
+Message-ID: <20260425163145.8474-6-tchatard@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260425163145.8474-1-tchatard@gmail.com>
 References: <aehzn85IsUI-bcKW@kekkonen.localdomain>
@@ -103,7 +103,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 210AD466E6C
+X-Rspamd-Queue-Id: 5F7A8466E7A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -112,18 +112,18 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,linux.intel.com,gmail.com,ideasonboard.com,rothemail.net];
-	TAGGED_FROM(0.00)[bounces-59598-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59599-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[tchatard@gmail.com,linux-media@vger.kernel.org];
@@ -136,29 +136,53 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 
-The Omnivision OV8858 is used as the rear camera in several Intel
-IPU3-based devices (e.g. Dell Latitude 5285 2-in-1). Its ACPI HID is
-INT3477. Add a sensor configuration entry with a link frequency of
-360 MHz to allow ipu_bridge to create the firmware node for this sensor.
+The Omnivision OV8858 appears in ACPI firmware under the HID INT3477 on
+Intel IPU3-based platforms such as the Dell Latitude 5285 2-in-1. Add
+INT3477 to the ACPI match table so the driver binds when instantiated by
+ipu_bridge.
+
+The supply names are reordered to dvdd before dovdd so that core power is
+stable before the I2C passthrough opens (on this platform dovdd maps to
+the VSIO/S_I2C_CTL regulator, which gates I2C access to the sensor).
 
 Signed-off-by: Thierry Chatard <tchatard@gmail.com>
 ---
- drivers/media/pci/intel/ipu-bridge.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/i2c/ov8858.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index fc6608e33..f51749d0f 100644
---- a/drivers/media/pci/intel/ipu-bridge.c
-+++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -63,6 +63,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
- 	IPU_SENSOR_CONFIG("INT33F0", 1, 384000000),
- 	/* Omnivision OV2740 */
- 	IPU_SENSOR_CONFIG("INT3474", 1, 180000000),
-+	/* Omnivision OV8858 */
-+	IPU_SENSOR_CONFIG("INT3477", 1, 360000000),
- 	/* Omnivision OV5670 */
- 	IPU_SENSOR_CONFIG("INT3479", 1, 422400000),
- 	/* Omnivision OV8865 */
+diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
+index 3f45f7fab..a1fa0be52 100644
+--- a/drivers/media/i2c/ov8858.c
++++ b/drivers/media/i2c/ov8858.c
+@@ -79,8 +79,8 @@
+ 
+ static const char * const ov8858_supply_names[] = {
+ 	"avdd",		/* Analog power */
+-	"dovdd",	/* Digital I/O power */
+ 	"dvdd",		/* Digital core power */
++	"dovdd",	/* Digital I/O power */
+ };
+ 
+ struct regval {
+@@ -1981,11 +1981,18 @@ static const struct of_device_id ov8858_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, ov8858_of_match);
+ 
++static const struct acpi_device_id ov8858_acpi_ids[] = {
++	{ "INT3477" },
++	{ /* sentinel */ },
++};
++MODULE_DEVICE_TABLE(acpi, ov8858_acpi_ids);
++
+ static struct i2c_driver ov8858_i2c_driver = {
+ 	.driver = {
+ 		.name = "ov8858",
+ 		.pm = &ov8858_pm_ops,
+ 		.of_match_table = ov8858_of_match,
++		.acpi_match_table = ov8858_acpi_ids,
+ 	},
+ 	.probe		= ov8858_probe,
+ 	.remove		= ov8858_remove,
 -- 
 2.51.0
 
