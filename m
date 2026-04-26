@@ -1,200 +1,298 @@
-Return-Path: <linux-media+bounces-59616-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59617-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WO1ZFdda7WkniQAAu9opvQ
-	(envelope-from <linux-media+bounces-59616-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2026 02:22:47 +0200
+	id nXjrJt9b7WltiQAAu9opvQ
+	(envelope-from <linux-media+bounces-59617-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2026 02:27:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC3C4687B6
-	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2026 02:22:46 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 095914687DF
+	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2026 02:27:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id F361330071D6
-	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2026 00:22:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4370D301106D
+	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2026 00:27:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 848301B983F;
-	Sun, 26 Apr 2026 00:22:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E08621F131A;
+	Sun, 26 Apr 2026 00:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GjeyABAb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1E0187346
-	for <linux-media@vger.kernel.org>; Sun, 26 Apr 2026 00:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8971EEE6
+	for <linux-media@vger.kernel.org>; Sun, 26 Apr 2026 00:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777162961; cv=none; b=vAyqUx11VO1OjwSbMx8ui8Cvp6c3CjeRGOb9w6KhOwX/mAMSLwSf+bgddOCdlVcfV4/RpEhtKEAxspk2m3hOAGNKoGKMt7Bf9T+259UCOcpwMhIUa8iTqdB4TKg5f03xPwyGbeXdTBOyxyQRLlXP2dN0oYXzfhI0pw/+zMoru1s=
+	t=1777163225; cv=none; b=uZp10suzXkv8je4wT9e1Dg6p8tKugcrBr9asNBhnweFmPBXWKHOfqo7rfEdAfnCljfd9waFKJtShuOG+eUoJew2uR2jpOpi3DLd98QFVv4SQX+9S89X6J50ugRaILJ3qvULqEHOBRogMMkyEcGq5rPAeT017ROaTc8HnDg2hHNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777162961; c=relaxed/simple;
-	bh=WC0yS2RjY0llA/JyoM//jDlmFlQgInuDDBg8QRl+beI=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=bI3ejNXuLKy0vwedb7nmeHwHt7hOu+oHkCxI/v4bHBQQq5JRCXtK7Zphl7+JPBNxKJrbFE8ducXwbdlkYKDN/1PN+PN38xjPi1OqJwYW9goRSnlTGdqZ9QqCgM65Sk0kWj0uPcGpTI+9+feNaQnUgkDeHfpd1TV+HYR7Jfs3Vhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-694885643e1so12419670eaf.3
-        for <linux-media@vger.kernel.org>; Sat, 25 Apr 2026 17:22:39 -0700 (PDT)
+	s=arc-20240116; t=1777163225; c=relaxed/simple;
+	bh=YCLbslie3NiZPx9jQSuzjpl73nOvyJagEqFdIclfqOs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YVve3ZJJnFpF3PrYCifJJXjHBRGqAnwFfL1V3oYwN+FfqznuDq/k0VGBfU6c4+cimwHR/YvMLhmYlvMiO2lrqy6VmjjIZfdPM1Nv9bBHmhFAwWP/TWPeEQUjU0daukvh5n7a2c7DBVvow2vXrR1FJynMjU/iNQC4UtoCpXm7jbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GjeyABAb; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8e8c0c2d2bcso485084785a.1
+        for <linux-media@vger.kernel.org>; Sat, 25 Apr 2026 17:27:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777163222; x=1777768022; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kFNy+gHycOTnjB6H7mfknpfmC1xnEHBgISXSIOKUt5I=;
+        b=GjeyABAbd368JpYsErYDwm/CgpdmzNROjbi5aAbZ0KCw/HDkp9+BOx1jR1E6uQ7nqt
+         CIE15gBDoncgHr313xcgA/NEauikSqv96LBYZLH72frm7wnf2EL0nOl3luBHE5vb6ePK
+         F2RJ+oPE8FMh7iCS/c8OT5xTkqKiPtdpoBHuxRric+Dnm4SHEalh7J0IL9AvOowQqhie
+         45yNRn+Vzh1n0Nas58iyg8qeRqm2Qh62dAJnnGhnvtGZrweKESpnCNORuRgNP1vjA05v
+         +BuLWmWruGHoXdIDiqhDgaa1cCH79I+ScofkYAUBYn6qk1wHngiZaJjNKF0AXPrQvIHz
+         3vTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777162958; x=1777767758;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Tgb+pnNi01+0iTdNJ76I2ejbdSo1gSLQ+9z5prEdm44=;
-        b=cRGFtX0X557SQEnu66mNGzk29k1MmLBaV+c8pM+xBuyPk8qMo2utWkPNaBiA6opB8l
-         siSRftmhGnTuZ8s+LKGz5UurnbJm4NMK3DSe3isLkyMMR+0N69mkwyFShT5H5KRUeOV3
-         t4dDlQpeq8DNLN18dUbUVR9H3FXsXLboEhK47sS2EYzW5QoD1zDajLcqfeo9LdYg6lZf
-         zn0TnC0+CgJaLXazapSFATnMAaa40jQACl1FNWAfkHeK/cgIpT9JLQBMytrBzXMmOjs9
-         EZuw2Vs2Ax/0qdu47otI24rI56m8CSNNtQ2ewDF0HpE2wnMzHCTicR4Q9fc409Ircalg
-         wkYg==
-X-Forwarded-Encrypted: i=1; AFNElJ9gwIQBifD0gHbXo4dymOTaT/UIOn4OjeoG22N28M9UZj/hBbQKPKRLlxgASsrynl3q9RsEk6iFW5kYEg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfL1lkZqnD195knPVAWGDomANyq/Xp/zl2YyG8ZBeGmuFzXWor
-	T0Klqd1/eQVFxP+RbXSBd6R0o1RpGtA+/DVNtnEcBZQvCneYcoYclbHcoqTwu43XppapX9/iTE8
-	WN0po1f9geLoyN5Cp/tnZznxp8PQL8Av+/ysrxGTe8Teyys/Z+yhzAaLktDs=
+        d=1e100.net; s=20251104; t=1777163222; x=1777768022;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kFNy+gHycOTnjB6H7mfknpfmC1xnEHBgISXSIOKUt5I=;
+        b=C04r75RrlJvPTPbgvDQVDzvwYtPy2msa/8Y5XiuQwLkTRYS4NT1ED4tCULgns/ODfX
+         LQmFoWe4YQsE6R8FcEbjjQhTpwan43176qhN+a6wmDCWrzt4eDGyfu0GqSDtYLd1gUgL
+         3JQ/XhfzSXqZmWfun0VhTnh9u0r0nYXv+F7r8aNIex3eoyjr0byYlJbRdIRjfZKh+9Hv
+         P1UDTprRBybAnmTTincezJWAtb0p2S/RlSBAAIgBDq58LNxEmV3vsORDRgrCKDLLQArL
+         XfWy2xNE1xnPcqgqc6T2bUPWFAkMOseWRvrgiVGNe2auBXFteu8XeW/3aG7flsRftbpq
+         WQkQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8yYcCdZQ7/miiyV3Ul68v5z1GZk1rbiNZK5tBffCKNqdEESjx48W/qHuVyNpwIZ41KdrtsTfW7tlANpw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YybtpSrEz5TAWDx1yX54H3/oCPnks7yVzzFg3w8HHA872k83F/u
+	lJc7f3oqwSn5J5CYjIk4UB6kKKX2NL844KKpoWMNCEpzmDg3XAgXqxCR
+X-Gm-Gg: AeBDiesu51f/fp0aAGyGmZ2I5UjIWNBteixx05blAUBJ82ygHeKbDROAWDxPZ/LRi0Z
+	+PKjyiPuwKqZ27rEoc6Z1bKB8iwEGe0BNWbnxp2bE8RVRqrgSa+uJpLa0sx8hVwaUXv7bIqIobF
+	YwRVdcaJ+4OYTzq3+O8j7Sc7fAzQgBzKu/jz8p2JYkoO/OV7TgpIDjoiopD+O826k8VuqPAjppc
+	94phl4T5xaG9OucPcAzqOoXBs7XiT5QXJ5AS+OJNBcLd11li+Oa7rAFYadaLbZIZpZyLLe2AUdI
+	AfXLOsCpjbWiyP5RsMK/QmU/7tuYIGT24ovc7BNMVOLCKqx1tdrnnCNo2xN+SXYfJMgzikm4fyJ
+	CtldUjLpDR60xp3KbFMjW4Zrh7r/vwS5uGiVSDcbRo/Zun8rLY7BYZeyQGsQiHeE8UPSYIb4ANS
+	659Pos6RnABwUx8dYq/EvpTnjzhPwkCKhU8VdwHBH86mk4ukwwLBRS1fK4qQqAejIH8c1Jc3v9n
+	VuSUQsQIaxXybP5xPeLmWrVFOHC0BbAbV2S6sKo2AjjLg==
+X-Received: by 2002:a05:620a:708d:b0:8ed:d906:a8da with SMTP id af79cd13be357-8edd906ac96mr3551973485a.18.1777163221955;
+        Sat, 25 Apr 2026 17:27:01 -0700 (PDT)
+Received: from archlinux.tail090342.ts.net (h135-134-218-104.nwblwi.broadband.dynamic.tds.net. [135.134.218.104])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ef12122800sm1233988585a.18.2026.04.25.17.27.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Apr 2026 17:27:01 -0700 (PDT)
+From: Vickram Kapoor <vickramk.207@gmail.com>
+To: slongerbeam@gmail.com
+Cc: p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Vickram Kapoor <vickramk.207@gmail.com>
+Subject: [PATCH] media: imx: ic-prp: add FORMAT_TRY frame interval support
+Date: Sat, 25 Apr 2026 19:26:59 -0500
+Message-ID: <20260426002659.119625-1-vickramk.207@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:829:b0:696:2264:e1 with SMTP id
- 006d021491bc7-69622640544mr5921020eaf.25.1777162958710; Sat, 25 Apr 2026
- 17:22:38 -0700 (PDT)
-Date: Sat, 25 Apr 2026 17:22:38 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69ed5ace.170a0220.11de9.000b.GAE@google.com>
-Subject: [syzbot] [media?] memory leak in dvb_dmxdev_add_pid
-From: syzbot <syzbot+ba83b7db8e644b8b7c19@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: EDC3C4687B6
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 095914687DF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.36 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=9645c21cfd1d3e8f];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-59616-lists,linux-media=lfdr.de,ba83b7db8e644b8b7c19];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	SUBJECT_HAS_QUESTION(0.00)[];
-	REDIRECTOR_URL(0.00)[goo.gl];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59617-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[pengutronix.de,kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev,gmail.com];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_NONE(0.00)[];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vickramk207@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,googlegroups.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-Hello,
+Implement frame interval handling for V4L2_SUBDEV_FORMAT_TRY
+by storing and retrieving per-pad intervals from the subdev state.
+Also add a PRP-specific init_state callback to initialize TRY intervals
+from the active default, and move default interval initialization to
+prp_init().
 
-syzbot found the following issue on:
-
-HEAD commit:    27d128c1cff6 Merge tag 'trace-ring-buffer-v7.1-3' of git:/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=126522ce580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9645c21cfd1d3e8f
-dashboard link: https://syzkaller.appspot.com/bug?extid=ba83b7db8e644b8b7c19
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=108352d2580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=166522ce580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/7aa00f1165c2/disk-27d128c1.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/bba58839d563/vmlinux-27d128c1.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/6b9d69ada8d6/bzImage-27d128c1.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ba83b7db8e644b8b7c19@syzkaller.appspotmail.com
-
-BUG: memory leak
-unreferenced object 0xffff88810b771800 (size 32):
-  comm "syz.0.17", pid 5923, jiffies 4294942824
-  hex dump (first 32 bytes):
-    02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    08 00 56 05 00 c9 ff ff 08 00 56 05 00 c9 ff ff  ..V.......V.....
-  backtrace (crc 1a56a8d7):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4574 [inline]
-    slab_alloc_node mm/slub.c:4898 [inline]
-    __kmalloc_cache_noprof+0x371/0x480 mm/slub.c:5410
-    kmalloc_noprof include/linux/slab.h:950 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    dvb_dmxdev_add_pid+0x9c/0x160 drivers/media/dvb-core/dmxdev.c:897
-    dvb_dmxdev_pes_filter_set drivers/media/dvb-core/dmxdev.c:972 [inline]
-    dvb_demux_do_ioctl+0x3c6/0x7d0 drivers/media/dvb-core/dmxdev.c:1092
-    dvb_usercopy+0x116/0x2d0 drivers/media/dvb-core/dvbdev.c:996
-    dvb_demux_ioctl+0x29/0x40 drivers/media/dvb-core/dmxdev.c:1201
-    vfs_ioctl fs/ioctl.c:51 [inline]
-    __do_sys_ioctl fs/ioctl.c:597 [inline]
-    __se_sys_ioctl fs/ioctl.c:583 [inline]
-    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xee/0xf80 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-BUG: memory leak
-unreferenced object 0xffff8881297f65e0 (size 32):
-  comm "syz.0.18", pid 5934, jiffies 4294942829
-  hex dump (first 32 bytes):
-    02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    08 00 56 05 00 c9 ff ff 08 00 56 05 00 c9 ff ff  ..V.......V.....
-  backtrace (crc 1a56a8d7):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4574 [inline]
-    slab_alloc_node mm/slub.c:4898 [inline]
-    __kmalloc_cache_noprof+0x371/0x480 mm/slub.c:5410
-    kmalloc_noprof include/linux/slab.h:950 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    dvb_dmxdev_add_pid+0x9c/0x160 drivers/media/dvb-core/dmxdev.c:897
-    dvb_dmxdev_pes_filter_set drivers/media/dvb-core/dmxdev.c:972 [inline]
-    dvb_demux_do_ioctl+0x3c6/0x7d0 drivers/media/dvb-core/dmxdev.c:1092
-    dvb_usercopy+0x116/0x2d0 drivers/media/dvb-core/dvbdev.c:996
-    dvb_demux_ioctl+0x29/0x40 drivers/media/dvb-core/dmxdev.c:1201
-    vfs_ioctl fs/ioctl.c:51 [inline]
-    __do_sys_ioctl fs/ioctl.c:597 [inline]
-    __se_sys_ioctl fs/ioctl.c:583 [inline]
-    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xee/0xf80 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
-
-
+Signed-off-by: Vickram Kapoor <vickramk.207@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/staging/media/imx/imx-ic-prp.c | 89 +++++++++++++++++++-------
+ 1 file changed, 66 insertions(+), 23 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/drivers/staging/media/imx/imx-ic-prp.c b/drivers/staging/media/imx/imx-ic-prp.c
+index 2b80d54006b3..a5c17bd4f783 100644
+--- a/drivers/staging/media/imx/imx-ic-prp.c
++++ b/drivers/staging/media/imx/imx-ic-prp.c
+@@ -88,6 +88,18 @@ __prp_get_fmt(struct prp_priv *priv, struct v4l2_subdev_state *sd_state,
+ 		return &priv->format_mbus;
+ }
+ 
++static struct v4l2_fract *
++__prp_get_frame_interval(struct prp_priv *priv,
++			 struct v4l2_subdev_state *sd_state,
++			 unsigned int pad,
++			 enum v4l2_subdev_format_whence which)
++{
++	if (which == V4L2_SUBDEV_FORMAT_TRY)
++		return v4l2_subdev_state_get_interval(sd_state, pad);
++
++	return &priv->frame_interval;
++}
++
+ /*
+  * V4L2 subdev operations.
+  */
+@@ -398,22 +410,26 @@ static int prp_get_frame_interval(struct v4l2_subdev *sd,
+ 				  struct v4l2_subdev_frame_interval *fi)
+ {
+ 	struct prp_priv *priv = sd_to_priv(sd);
+-
+-	/*
+-	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
+-	 * subdev active state API.
+-	 */
+-	if (fi->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+-		return -EINVAL;
++	struct v4l2_fract *interval;
++	int ret = 0;
+ 
+ 	if (fi->pad >= PRP_NUM_PADS)
+ 		return -EINVAL;
+ 
+ 	mutex_lock(&priv->lock);
+-	fi->interval = priv->frame_interval;
++
++	interval = __prp_get_frame_interval(priv, sd_state, fi->pad,
++					    fi->which);
++	if (!interval) {
++		ret = -EINVAL;
++		goto out;
++	}
++
++	fi->interval = *interval;
++out:
+ 	mutex_unlock(&priv->lock);
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int prp_set_frame_interval(struct v4l2_subdev *sd,
+@@ -421,24 +437,51 @@ static int prp_set_frame_interval(struct v4l2_subdev *sd,
+ 				  struct v4l2_subdev_frame_interval *fi)
+ {
+ 	struct prp_priv *priv = sd_to_priv(sd);
+-
+-	/*
+-	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
+-	 * subdev active state API.
+-	 */
+-	if (fi->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+-		return -EINVAL;
++	struct v4l2_fract *interval;
++	int ret = 0;
+ 
+ 	if (fi->pad >= PRP_NUM_PADS)
+ 		return -EINVAL;
+ 
+ 	mutex_lock(&priv->lock);
+ 
++	interval = __prp_get_frame_interval(priv, sd_state, fi->pad,
++					    fi->which);
++	if (!interval) {
++		ret = -EINVAL;
++		goto out;
++	}
++
+ 	/* No limits on valid frame intervals */
+ 	if (fi->interval.numerator == 0 || fi->interval.denominator == 0)
+-		fi->interval = priv->frame_interval;
++		fi->interval = *interval;
+ 	else
+-		priv->frame_interval = fi->interval;
++		*interval = fi->interval;
++out:
++	mutex_unlock(&priv->lock);
++
++	return ret;
++}
++
++static int prp_init_state(struct v4l2_subdev *sd,
++			  struct v4l2_subdev_state *sd_state)
++{
++	struct prp_priv *priv = sd_to_priv(sd);
++	struct v4l2_fract *interval;
++	unsigned int pad;
++	int ret;
++
++	ret = imx_media_init_state(sd, sd_state);
++	if (ret)
++		return ret;
++
++	mutex_lock(&priv->lock);
++
++	for (pad = 0; pad < PRP_NUM_PADS; pad++) {
++		interval = v4l2_subdev_state_get_interval(sd_state, pad);
++		if (interval)
++			*interval = priv->frame_interval;
++	}
+ 
+ 	mutex_unlock(&priv->lock);
+ 
+@@ -450,10 +493,6 @@ static int prp_registered(struct v4l2_subdev *sd)
+ 	struct prp_priv *priv = sd_to_priv(sd);
+ 	u32 code;
+ 
+-	/* init default frame interval */
+-	priv->frame_interval.numerator = 1;
+-	priv->frame_interval.denominator = 30;
+-
+ 	/* set a default mbus format  */
+ 	imx_media_enum_ipu_formats(&code, 0, PIXFMT_SEL_YUV);
+ 
+@@ -487,7 +526,7 @@ static const struct v4l2_subdev_ops prp_subdev_ops = {
+ };
+ 
+ static const struct v4l2_subdev_internal_ops prp_internal_ops = {
+-	.init_state = imx_media_init_state,
++	.init_state = prp_init_state,
+ 	.registered = prp_registered,
+ };
+ 
+@@ -504,6 +543,10 @@ static int prp_init(struct imx_ic_priv *ic_priv)
+ 	ic_priv->task_priv = priv;
+ 	priv->ic_priv = ic_priv;
+ 
++	/* init default frame interval */
++	priv->frame_interval.numerator = 1;
++	priv->frame_interval.denominator = 30;
++
+ 	for (i = 0; i < PRP_NUM_PADS; i++)
+ 		priv->pad[i].flags = (i == PRP_SINK_PAD) ?
+ 			MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
+-- 
+2.53.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
 
