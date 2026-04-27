@@ -1,176 +1,180 @@
-Return-Path: <linux-media+bounces-59736-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59735-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wESUKord72lAHAEAu9opvQ
-	(envelope-from <linux-media+bounces-59736-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 00:04:58 +0200
+	id sOw6FOXb72kiHAEAu9opvQ
+	(envelope-from <linux-media+bounces-59735-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 23:57:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1324E47B1A3
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 00:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BA447AFEB
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 23:57:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A0B00302A68B
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 22:00:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A5C193024A73
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 21:57:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30EC23A1D0C;
-	Mon, 27 Apr 2026 22:00:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA4C93A16B6;
+	Mon, 27 Apr 2026 21:57:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ACGAWGcO"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sMyQxbao"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5D137F743
-	for <linux-media@vger.kernel.org>; Mon, 27 Apr 2026 22:00:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E503F27E056
+	for <linux-media@vger.kernel.org>; Mon, 27 Apr 2026 21:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777327237; cv=none; b=Nu4/b1Kloj7qPsUSb1sytH1GrMDXu9TBfXSYKA7xpWfA0rtA1EzH5IMrypsrA5QtE9Kfg6ZK4s1tTCLCVp2tsWfxe+cMkZvE8XX/1HG9POcFl7I6kAuH4f3MSV0RK3OtU4hrjHoNnI/abvb7KHbutkr0bWZGv6RLNGf4otV6vHs=
+	t=1777327056; cv=none; b=KaFBSamw9mG2Kz8blm5BY3nnj8QYha6roGgbD+w8DvKdMLcB+jb8JLEbW3TgOd68+YyjfpU0qVo++ateKM53h0lWSQqOB8v+UE+BXhOH6Vo6IL0GuXtZZPSuO8XlE4Q4fRzc2tE+LG3OyBZC6nNsJQA12BDpqXAgzcmCW7aFpME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777327237; c=relaxed/simple;
-	bh=7P7VU36hQu4iMsGekLZKiPL3rBFQOW0TOaXA+fXfycA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aDVJ5wRAu4UFe5YIS9V3smVDQsmEhtETSKAX4yP1s8nDJJkqaid17qKuW8hmmdXglRPtqhXDK1dSi8c9Rd66T+FVOlgk0oWvMi4tMr0eOCwDtJtPwEgHbg9vDrQLF+p0VdiX80RUtShqfIcw7YdYRm8gKgPodFQzKNj4cTwUvTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ACGAWGcO; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b9c3a9fe80fso1582163966b.3
-        for <linux-media@vger.kernel.org>; Mon, 27 Apr 2026 15:00:36 -0700 (PDT)
+	s=arc-20240116; t=1777327056; c=relaxed/simple;
+	bh=OFgtGCn1mfUaoCP8LhdAyM8uQwb3Te8gLBE/Ti+VRMI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D6ZDWjg1reI9mXyEtZEYPnxsR+7IcGJaQqqQtZxsNmSfAvnECfyZgOg5fCdbnA+/NcnLhbiguZLoY6MQa6ODWVyhMyag/KFfTdjPxIB8aa7WO/zfBiDm44F8d6RKP469kyKwrCftTmX9ZRSQcOgpG0/DeUVuBja3CDRVSMmN4/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sMyQxbao; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so63506285e9.1
+        for <linux-media@vger.kernel.org>; Mon, 27 Apr 2026 14:57:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1777327235; x=1777932035; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eodThUBj1SnOvacXe/3ftYxEWQMFbYqc4B0FCa9Alx4=;
-        b=ACGAWGcO4sGrvS6SWqmIXqGZDSAy58ZqEboMJhOpPb/l3p/l5gLuYgISlPJA44KtyR
-         Hwcdqn0dpfz+4AlxeIXu4pzSmw9QHm/v9KBd26EKxW7ETfiaAh8hcqI6Bg6ogEcwm3Rb
-         eOrOuHGnC6quTi/MOowYxDdu7CFLpAoVq5dWA=
+        d=linaro.org; s=google; t=1777327053; x=1777931853; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kV+WIZsj9AmJtT9rTaHxlweLR0VMyPyAnS2ki5QOUJg=;
+        b=sMyQxbaoFGJX/irParUdWhOOocCeUXvxFueNP6tsUkKMDA09z0L27fpY339j5ZCWOJ
+         eVzCjDzD7vnD2t2iCuSoLzQnv8USvbSt3L5MxtOEvVMMsKRrHEN7CIJ7Ulxt3yKHD9rU
+         ztw18e5W+kSqQHS/HYUdoXTEBfEYL5cNNw50k/MGVAFE2645Bh6ZHm8MLFtuOZPFXKs2
+         K8cp10m4Ix5aYnNASAg3qCMpay1gY4706zIWd6QX752KDNbqy1i0ZvFqGRtaPrll93QD
+         gr9BHek6wJpEQzL+mHVhiOaVsUl6npQ8cQJpWbOeGOtPrZG87br/DgVk19I4KrDSDGtY
+         eTQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777327235; x=1777932035;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eodThUBj1SnOvacXe/3ftYxEWQMFbYqc4B0FCa9Alx4=;
-        b=XVNLjD99/HEAmWdv4bjdt3lOCrQPkrAKPHzFdpXN6LFe5ZOx3FEzFEtV0oEc/LzjIP
-         7BT7gZfkclgFjhLjvhLNQ5NVzQy3DVpFqK8YJzNl26EDZ8NASM3nIkhftVySGXkFrGHK
-         xb7/WUamJNspDNGCOyYsj4txHdnaib8U2qWAGUPksMQDO2NK4hFToR4Qom4js0/Se4o5
-         xnrDaSpr2PPl7gsVaX1EuguhNBFT7QII9PjGgNDR30wt8YAGaZrAM/YuXCWjVt+SiMHa
-         xUu1zI9vWbMnLH/i+67jSHPhW5s9Z63E6KUSEm4ntDsxHs5jbp42H8X30SQVng4qqsMz
-         ZoVA==
-X-Forwarded-Encrypted: i=1; AFNElJ+VkrU1gBoUMLltA12c67CIFXHR/F8Fel3DZRr4VW2dVSesCF0TNgF7xrHE7+JXgu4rft2KX9aS2fCiTQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNck/MZdAuvz04kPS0MHMFSKs7ytpJdWPH21pEWjK6WtDnELw9
-	tf1/BudHwdBz2M4bBGQ3+3947mhHnp0pzn+0DnXcAx/pXtw7Ezmy1k22FT6sMHRDb72aTllAaBx
-	okzgJu0qbjg==
-X-Gm-Gg: AeBDiet/r9fr7RzYUNv8t1OhOIucCd2Lta7gapjuMQn1Y6eDB+rtQwgH3I92KY2sDO5
-	Fu0tXya//YK95zCzfShNlAa0HV0jJdx7yzgnIox+4FW+Ec7XYJ2SxrbR+IRAW2kfh7vNH8Z3YZV
-	zTsj56Hwv4883dFEZyTWv7xnyX7YurEPmS8F2/3ELSWQtx/8Cmug0mn4ZYt2lp2g02V5LImcjdj
-	jYR1oAnNETufeeuJpm9ITZls38xA+oFDZWeI/+nHT/TwnyZFBxJbP7G8fMNLjpJLmoLj5QkF8gX
-	MLNH1CagUjSxRDg0ei+uHMzEAq9JSke6uQPkYC7QJlFir523X/T+3Ac+K20cR8HAraUYQl7RDjA
-	vmstEYfFV3eoPPhpu6JeOaTn0oonDJxWEHkzetvzn/KiYi/281roBppo7Xm1Ww2IlqoteMIl0l1
-	AFgIn4bEK1CQ9Xdn0wUem0dg78n0bECzpeOKDndHbqBKDYWR/K+DFGiEavW15pUHNz6YQDsGtkR
-	0jtXy9+mdM=
-X-Received: by 2002:a17:907:928d:b0:b9c:b069:8ab6 with SMTP id a640c23a62f3a-bb80100e81bmr34036666b.7.1777327234793;
-        Mon, 27 Apr 2026 15:00:34 -0700 (PDT)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bb809023ecesm10984466b.26.2026.04.27.15.00.34
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20251104; t=1777327053; x=1777931853;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kV+WIZsj9AmJtT9rTaHxlweLR0VMyPyAnS2ki5QOUJg=;
+        b=P55B1ROiIlFAtl4spjzykPWNCfyBf06+A2ArGD/D3WHYjiudY9Y5WJ+r2U/gz255qk
+         tc6F8xcsJ4e3n4ghAnd4uE9/gb52/1xqJkOJdAun5SbBYkK61m9v76OKL4+Qr6H5VOU5
+         /jbvh82lPPqakmO5SrW7Do7/NKAE4pLQ7EZF8DEhUqN0M5QY+D7QmHO4GF/eK6H6B5y3
+         nu/yapAIc3196bJKWpWZwFXtvCPRI87wZq7Ij60oljfW5rWxoRvbVSsmdNHV5sJjjlOm
+         P3vtjKg78rWjFWsAxmiF2BnYJmXdoJ8XD/znWQiv1LvH6IQ91caxuvaCo7TxKWWWkCxA
+         Qxpg==
+X-Gm-Message-State: AOJu0YwDpxSFydcpefucBTEvZaUKdQxdyQClWeRtTUhJgTrh4lNGS5Tw
+	E8tB+4nMF5v3pnSpGdMzR7MMlmzYxAqGFBP9GOslp6KTtQ0nc7Bz664P5gM4czu+TM8=
+X-Gm-Gg: AeBDietOhQKO8x1nMZGkHyzw7wpeRM5G+52HqUJdze6G6X/Uu6CdYh0hwKb5w04pN2k
+	myjI+wT8fQgeRP9kNg1LFF5s13AQNZNotzdKJ0ZJQDqQVAOJeakoalaMqmQbQN2CfypUlj4bYi2
+	HROs+ZpSdqEQ9niQgz0eh72noX9JwJ10Ng3lhfk9fEnrkClmmbKeW9JIIT2E9oYAlI1k8KETY71
+	IEa0su3dwPFVigO8LqftYeI31oNaZf4GIEURAf/rL5a+ZrxVs23RCC0VPwUCq94Fdl9ZI+jqcn5
+	aDBfeHEzVgwYsvWltciQcZ4L3jLKp5l/QwaSqE2fUp0y8lGt8xC1lL064RY8YNXHrw4qPsg/+ao
+	WbaR6GVkdNwJqJJEgdOpvPPH2aDA4QkYcSv5GDAnHsDG8uiySFt8T/XPBI/W7DYB/vXkJ/IU3/P
+	zafF81QKxGskZLmxB1WBt2AO+zz3i2ncucb671p+8bMwUNubxT+j7OWQ==
+X-Received: by 2002:a05:600c:4f0b:b0:48a:55d8:7882 with SMTP id 5b1f17b1804b1-48a77ae6477mr5384895e9.9.1777327052826;
+        Mon, 27 Apr 2026 14:57:32 -0700 (PDT)
+Received: from [10.156.67.45] ([89.101.53.25])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a77609a82sm3993585e9.36.2026.04.27.14.57.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Apr 2026 15:00:34 -0700 (PDT)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-676e62faf2bso10762423a12.1
-        for <linux-media@vger.kernel.org>; Mon, 27 Apr 2026 15:00:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/2fAEI4/avYSX9cOkIendVIdNUCMywRhG7Ju64eKtggBxt3c0dFBsXnWTnOsRkADEh0sepfspjAdDIWA==@vger.kernel.org
-X-Received: by 2002:a05:6402:35c2:b0:677:270f:6f4b with SMTP id
- 4fb4d7f45d1cf-679bb04a8a7mr185115a12.1.1777326742385; Mon, 27 Apr 2026
- 14:52:22 -0700 (PDT)
+        Mon, 27 Apr 2026 14:57:32 -0700 (PDT)
+Message-ID: <1b914585-4c27-4f4d-8264-181340c27791@linaro.org>
+Date: Mon, 27 Apr 2026 22:57:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1777306795.git.chleroy@kernel.org> <0ee46bb228d97163fbdc14f2a7c52b93d8bc34ce.1777306795.git.chleroy@kernel.org>
- <ae-j2_QirCySZD02@yury> <63a4d0f6-0eb3-48cd-9f98-bf7b223b2606@kernel.org> <ae-2yLWSGnfeTvh1@yury>
-In-Reply-To: <ae-2yLWSGnfeTvh1@yury>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 27 Apr 2026 14:52:05 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgPrLy0FR3sEWBYQuNAac1axDASYMnTuPuxEU0WytzL7w@mail.gmail.com>
-X-Gm-Features: AVHnY4LQUFWo9ODz4M3q2vZC9Gn8nsdYr95Nd4ky5ERVHHxIyN_9ZXY5zjebfdc
-Message-ID: <CAHk-=wgPrLy0FR3sEWBYQuNAac1axDASYMnTuPuxEU0WytzL7w@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 7/9] x86: Add unsafe_copy_from_user()
-To: Yury Norov <ynorov@nvidia.com>
-Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Laight <david.laight.linux@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	linux-alpha@vger.kernel.org, Yury Norov <yury.norov@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
-	dmaengine@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-fsi@lists.ozlabs.org, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
-	linux-wpan@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org, 
-	ocfs2-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-mm@kvack.org, linux-x25@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org, 
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linux-sh@vger.kernel.org, linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: 1324E47B1A3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 12/14] media: uapi: Add CAMSS ISP configuration
+ definition
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Bryan O'Donoghue <bod@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+ devicetree@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ kieran.bingham@ideasonboard.com
+References: <20260427-camss-isp-ope-v2-0-f430e7485009@oss.qualcomm.com>
+ <20260427-camss-isp-ope-v2-12-f430e7485009@oss.qualcomm.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20260427-camss-isp-ope-v2-12-f430e7485009@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: E2BA447AFEB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59736-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59735-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[linux-foundation.org];
-	RCPT_COUNT_TWELVE(0.00)[49];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,gmail.com,linutronix.de,vger.kernel.org,lists.infradead.org,lists.ozlabs.org,lists.freedesktop.org,lists.linux.dev,lists.xenproject.org,googlegroups.com,kvack.org,alsa-project.org,lists.linux-m68k.org];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[torvalds@linux-foundation.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[linux-foundation.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linux-foundation.org:dkim,nvidia.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:mid]
 
-On Mon, 27 Apr 2026 at 12:19, Yury Norov <ynorov@nvidia.com> wrote:
->
-> This is what Linus said when added x86 implementation for copy_from_user()
-> in c512c69187197:
+On 27/04/2026 13:43, Loic Poulain wrote:
+> +/**
+> + * struct camss_params_wb_gain - White Balance gains
+> + *
+> + * @header:   generic block header; @header.type = CAMSS_PARAMS_WB_GAIN
+> + * @g_gain:   green channel gain (15uQ10)
+> + * @b_gain:   blue channel gain (15uQ10)
+> + * @r_gain:   red channel gain (15uQ10)
+> + */
+> +struct camss_params_wb_gain {
+> +	struct v4l2_isp_params_block_header header;
+> +	__u16 g_gain;
+> +	__u16 b_gain;
+> +	__u16 r_gain;
+> +	__u16 _pad;
+> +} __attribute__((aligned(8)));
 
-Note that some things have happily changed in the six+ years since...
+So I published a comprehensive list of these structures a few days ago.
 
->   That's partly because we have no current users of it, but also partly
->   because the copy_from_user() case is slightly different and cannot
->   efficiently be implemented in terms of a unsafe_get_user() loop (because
->   gcc can't do asm goto with outputs).
+https://lore.kernel.org/linux-media/20260426000418.1158716-1-bryan.odonoghue@linaro.org/T/#u
 
-now everybody can do asm goto with outputs.
+See:
 
-Yes, it's disabled on older versions, so it's not *always* available,
-but all modern versions do it. And if you care about performance, you
-won't be using an old compiler.
+struct camss_params_wb_gain - White balance gains and offsets
 
-             Linus
+The ICP/HFI structures - at least for the stats I believe are how 
+hardware writes data to memory.
+
+OTOH on the way in, the params ought to be pretty uniform as again 
+HFI/ICP needs to take that representation and either
+
+- Hand it over to CDM or
+- Pass it over HFI so that ICP can hand it over to CDM
+
+The ordering and precision is a resolved thing. I'm ~ sure OPE must 
+write and consume in the same format.
+
+---
+bod
 
