@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-59638-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59639-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eFmKIW8M72kq4wAAu9opvQ
-	(envelope-from <linux-media+bounces-59638-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 09:12:47 +0200
+	id aDHnFdkM72kq4wAAu9opvQ
+	(envelope-from <linux-media+bounces-59639-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 09:14:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEDFB46E298
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 09:12:46 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B076146E2FC
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 09:14:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8613E301B167
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 07:11:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D39AD300A625
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 07:12:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA2E03909B5;
-	Mon, 27 Apr 2026 07:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3EF839099B;
+	Mon, 27 Apr 2026 07:12:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FPGBPeG6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PkFpCpWV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E6D390991;
-	Mon, 27 Apr 2026 07:11:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE843659EB;
+	Mon, 27 Apr 2026 07:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777273879; cv=none; b=RpoKG3Mry/vuIMgKTr6gpyvtvPBoXFVQHK8M/3mDTcj5fAQyPi/vKbRQ9Qj8RMzEdpfMReN1paa/n+0drxE3T1l61LdgySxyVQq3x7JIskJHrnpwmzF1afoVJP4swloxct+JvuxBedRa4CiMCovo7kwRa12Tf5MkhJc9raEOT50=
+	t=1777273955; cv=none; b=e2UXag4A+3ygoj6zHwnGG9Rjk02cMKv4ozrIfeXbA5AFRFKii70C6wK1TVSVbzdGX/ejZWl2pEVQhwaSTVh/KrECRYbfuvmz//M6uFcpY78ZMtq5AOs0WjCaWnRYt+gE0BQWHsyEbSzLF4hksG20U0LhDKyDov26yWVD2jkrsPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777273879; c=relaxed/simple;
-	bh=ySJzayWuu8pA8XhVo8gOfKNeveBOndo7TY8qlXdbrbM=;
+	s=arc-20240116; t=1777273955; c=relaxed/simple;
+	bh=v8snRz3+q1xR+d3tuuZYjO1TmCzHCbOVOqZq98nWJss=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e1IiqpjDn/oGyzFADdtqwgZOEACuoTK6BFmQSB4Smz1EeOzJXmONMwWoaypPJJNk8JHe8TYkzdjPrAV51zYGYFgUyrF3QeIcvM8mbJunExKOwuYFAd+dQvSiRS2dT4/Sv/v42Jf1FDN9HC7Nbnk5G8p2Y/DrzWZbI4ueUgNBRiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FPGBPeG6; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=BuMOtVXm+G0ng9FaIwxQnG478IrcN5ILJA8eoYVLNAHOBU+Mt/tnYz/7j1SBjcqYIXMGqVgp0/muUPaz4lVXJoTQoBt5R8cW9GG1YeDeK7BVBgD+dhP0khl+vLKTudA4XqbhXFeLNeYtH5L9anPPKHK7Vq/HhCNyAAY072CeNIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PkFpCpWV; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777273878; x=1808809878;
+  t=1777273954; x=1808809954;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ySJzayWuu8pA8XhVo8gOfKNeveBOndo7TY8qlXdbrbM=;
-  b=FPGBPeG6AP7hBN52VvYMjr0upL0uM6GMhG7lJicym7n9THA7610HWmz/
-   Dd1l7f/fCLY4fDkGNk7L0r1Qlh10PmOdYHPZGlD6WeLgs8NThrs33A1Vp
-   54d58qOgfViz4bd++zVrD5te2CBM+QWIMA1NsgOA+MTnFczYBYBSEoyEy
-   k/6n9qM5yvO76raOvNbX2D4Uu94yXmQhpBmd2Im06dx8fMEoOoIdk4Atj
-   7YZTJhZmQ795zYHulVEzg65GtF95Aq9cWXCLgG+OsYLlgy32oBCgCU6ub
-   pDUgos9xmnQseE67mhqUa7+DoR734+fy2JWTbF/EB2ANMyxL6ZrTkbgLG
-   g==;
-X-CSE-ConnectionGUID: +FQSL2rxS+6ZQe3FWX+7ZQ==
-X-CSE-MsgGUID: MXykin+0QLin17mNrs/D2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="77179548"
+  bh=v8snRz3+q1xR+d3tuuZYjO1TmCzHCbOVOqZq98nWJss=;
+  b=PkFpCpWVyNQi88hqDDe46iCYu4hl4qn1XXO5IoHUuYFBkpAepXeQZXlg
+   +LLWQVKhRX56vpHM23vA3nGVb/u93vGEFA0UHNJuiFwxXASVWDClGERcg
+   h9dskcoHPE2KyDmxqRFuNOFomuZSoGdG9tHg58K+FBA/xCwPzeT0vya2Z
+   UEpR1/0L4dElCTtQnMjGloOuE87AoJziy45xRvO345raA1y0jfciV81QQ
+   C5+nR8flXqim1Cv56hgboSF+Yq92kllrEMlyzGh2/mfdEepCLo+QVRroM
+   21ilb//YpLq2rTImXjkx0DFTlww6AS4KkdAiZPo/ZH6OXPV4SIKRTb28e
+   A==;
+X-CSE-ConnectionGUID: vM7i5AGFTdSOzsOtL+h4JQ==
+X-CSE-MsgGUID: IxwqNxFYSnSqeokcCeTneg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="78266943"
 X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="77179548"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 00:11:17 -0700
-X-CSE-ConnectionGUID: VC5Vo7cMTUu5TNoa+QWg0Q==
-X-CSE-MsgGUID: PvCHKEAbSi2YwLrS/Tu8MA==
+   d="scan'208";a="78266943"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 00:12:33 -0700
+X-CSE-ConnectionGUID: F+O8yhb6TsSTVB2L5vC4/w==
+X-CSE-MsgGUID: Hw+qTukxRKihv4dnDwnEYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="230925811"
+   d="scan'208";a="256862067"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.2])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 00:11:15 -0700
-Date: Mon, 27 Apr 2026 10:11:12 +0300
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 00:12:31 -0700
+Date: Mon, 27 Apr 2026 10:12:29 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Tomasz Unger <tomasz.unger@yahoo.pl>
 Cc: Hans de Goede <hansg@kernel.org>,
@@ -69,12 +69,13 @@ Cc: Hans de Goede <hansg@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Andy Shevchenko <andy@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: fix typo "commmit" in comments
-Message-ID: <ae8MEA1kEa8Ag7Z3@ashevche-desk.local>
-References: <20260425-atomisp-fix-typo-v1-1-7ded6cd4bc97.ref@yahoo.pl>
- <20260425-atomisp-fix-typo-v1-1-7ded6cd4bc97@yahoo.pl>
+Subject: Re: [PATCH] staging: media: atomisp: fix typo "stablization" in
+ comments
+Message-ID: <ae8MXe9KwvrSu2xN@ashevche-desk.local>
+References: <20260425-atomisp-fix-typo-stabilization-v1-1-92f31b43ba63.ref@yahoo.pl>
+ <20260425-atomisp-fix-typo-stabilization-v1-1-92f31b43ba63@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,29 +84,29 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260425-atomisp-fix-typo-v1-1-7ded6cd4bc97@yahoo.pl>
+In-Reply-To: <20260425-atomisp-fix-typo-stabilization-v1-1-92f31b43ba63@yahoo.pl>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Rspamd-Queue-Id: EEDFB46E298
+X-Rspamd-Queue-Id: B076146E2FC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59638-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59639-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[yahoo.pl];
 	MIME_TRACE(0.00)[0:+];
 	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
@@ -115,17 +116,14 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,ashevche-desk.local:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,ashevche-desk.local:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-On Sat, Apr 25, 2026 at 12:15:08PM +0200, Tomasz Unger wrote:
-> Fix a repeated typo "commmit" -> "commit" in generated code comments
-> across five files. Found with codespell.
+On Sat, Apr 25, 2026 at 12:22:37PM +0200, Tomasz Unger wrote:
+> Fix a repeated typo "stablization" -> "stabilization" in comments
+> across three files. Found with codespell.
 
-This code is very unlikely is going to be re-generated (as it's coupled with
-all problems, including legal ones, to the associated firmware).
-
-That said, just drop that comment altogether instead of fixing typos in it.
-(Also drop the same where no typos were detected.)
+Is it the only spelling error found? (I know the answer and your other patch
+supports my knowledge). The one patch per one typo is not scalable solution.
 
 -- 
 With Best Regards,
