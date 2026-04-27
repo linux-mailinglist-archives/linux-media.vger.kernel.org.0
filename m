@@ -1,207 +1,219 @@
-Return-Path: <linux-media+bounces-59688-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59689-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iCCbDLB072mZBgEAu9opvQ
-	(envelope-from <linux-media+bounces-59688-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 16:37:36 +0200
+	id 0JzSBquN72mhCwEAu9opvQ
+	(envelope-from <linux-media+bounces-59689-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 18:24:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id E305A474825
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 16:37:35 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C274764E3
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 18:24:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 42568300F4C5
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 14:37:05 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E7E173045E89
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 16:05:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F29C230F535;
-	Mon, 27 Apr 2026 14:36:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B5E334D3BE;
+	Mon, 27 Apr 2026 16:05:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="uekKU/XQ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ujpzMDM7"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="LM+1WQZb";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rcp5e0Yz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC7E2F531F;
-	Mon, 27 Apr 2026 14:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865DB3385AC;
+	Mon, 27 Apr 2026 16:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777300613; cv=none; b=JP2B96Ft6ZDeQQOalxqCsqXnX7bFFqdToMsl8Tbicz9yriorYrBiXPpejsyA27FVRqcPqJif5J1Nf3XSnydM/dqIJJsizkfwrqiwl6e8GbsgbWJaAjG1QoWORIwEHibLwKEI7ZVZUUZPfAoETQRoCvRN3k08PRWpwmt5QfFPbv0=
+	t=1777305926; cv=none; b=hSFOSDkHantZUXnGOvEhVvsyfqxz3+8GbUdk1sJFDFOSlKWDqCwi0mY5ySmpSw9sIl/1jahUZRk88s2BZDVL82k1kKoddjuJ0qWDFjRAdNsm5CCgRMBXQ6s5Usoj/jLz/m+YwnyCTqPpY/eU5I5acNmp2xrIc7qE9EwG+nJkumw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777300613; c=relaxed/simple;
-	bh=9DRxDffdXvFA9S8m3u8VvuWFoR3YyyqhTaGBfq5zhlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EqTVf1zMMQYCAeFsTgISoRSfX0JyHjPnu0UTcj74jeUwmakl4bxTjebHzcN5vXM7iiFcTYCE6TpHveKjzcanPG1aPX2EQbe+ZDS6I8wdjCZFPflDRUhNPOEDNPLOtqoSve92u+Im63rBc29eLUMKOm8t/AwpZWIdQpcu7RFsdvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=uekKU/XQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ujpzMDM7; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 2FF497A01E1;
-	Mon, 27 Apr 2026 10:36:48 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Mon, 27 Apr 2026 10:36:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
+	s=arc-20240116; t=1777305926; c=relaxed/simple;
+	bh=vbZdqbw7FzAtu+e+zkTmT9zpbxiygvDKDe8SFC5BI+Q=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=LDlb0Wlgt63BgSF9Avw7B9cinJPqMGAEhdHh0LOCXGsQyuPyDqGHpy8R7gd5SjSgvWADcwcdxmwJeyHFn6ZuP5qlHP/5uzyu23x01o6ZSF5M07vJtg7hijtJd8IOfB1oZ93MKdz798ts5izHwtMDM2Z5bylIVha3ZgU464YHcME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=LM+1WQZb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=rcp5e0Yz; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id D7ECAEC0FC1;
+	Mon, 27 Apr 2026 12:05:24 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Mon, 27 Apr 2026 12:05:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1777300607;
-	 x=1777387007; bh=j3Ga1b+UElSKHH4tx3q9I//plz4ie3nieWxtnW8dRLw=; b=
-	uekKU/XQxj+fxDGaTUUCOJQMpbQSQa7hGgrgLQNRW5U40DjbcGKjWBpIZ3KdicKd
-	y7pEuUf3jkDqW4rYl4eVc8TWnDGK7QRNlBdCdmflEN292mkasG3BIVP4886b1EjD
-	7kCyY1RRL++bkkWZzOKmccVZYEkEXiDo2M3HkTwd9MVALGTY0yBRRQO9JoH124x7
-	JYKhQYDR0ESyBMCuCliTUTlvObzsatBYr49m1yWj579bxuX6JJAQEosk2Hxw49Mp
-	F44VDP/DNkHXpFL4Lbru9vr3fW968M48FB6N0cwWwfrHS4KjxgI2sHJlpJx5pVNV
-	WWL0i4jp+oi7xVrwyqJVkQ==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1777305924;
+	 x=1777392324; bh=ZCtou/cEXXCW2EAHTSeZgopr0M/VLaS4+NUan7nzjpo=; b=
+	LM+1WQZbjg5FBMii6wK/sxZP2lOaFxRnk3u5Y3RPRDCzwUmZITJVrJYqecL2ip3a
+	4zzSTLCelWjFhL013m4iJHoxS6Qryrlltr0l0KcnCsF0zd8QPA8q6pUln4acYa8M
+	54nuREiojIbbaBaMFMLGNK8a5NR9/kuocofwyDkZm5DW7GuZ/jmqkNE5M3f46zKo
+	5QaTkvQGYhoJdysVmGamXRQKrpuIz7P+dDEeMSCkxebmSIF11REtmkrF47cpziZe
+	zenSKG9DiD44E7jJxT04sOGvo0Hmconj/mNLbJlmwwqDLCfLgJ3JyiScecfLsZYk
+	HjdD77kIDYfokvaUaH6FTQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777300607; x=
-	1777387007; bh=j3Ga1b+UElSKHH4tx3q9I//plz4ie3nieWxtnW8dRLw=; b=u
-	jpzMDM7Of+yzDMJp7gBp7/QTT3XcoPpk0DHZsa5dQA3Iro8hqx6tE3WcjJIxrKJE
-	zmHDfM4LhB01TQQODBHq9B+mCCAY3XRYWYQL8ALxh3/1yxoA1H/s53et2LcTVzfI
-	YdP7sAGiloJ8fItlS9jCbzM8zwQRobNEJrDOtxNyspD9+syAjTfzUlsY36x8p0ee
-	UIXeiFfgj+TN7yEuiduaMPQtVE4U4x2/ITHXSPox5mM3XCnICGK8ypbNWJD2LE1H
-	9FRa212dvlxjrj/wBF69f+ct3hrJ2xgYiKrz3fKXxvpD4oACITnZB3yNy/jmX6EN
-	+dRkY/+/4Ug9zRJKHGAXA==
-X-ME-Sender: <xms:f3TvaRbiCYf8jFfQsS7mqKVkONIjBIKARj4rhOy8R2IzyyPKq_sCSQ>
-    <xme:f3TvaWzxDzS4RFBeIbKiuigKKKPlR3ntJC5EW1INUSk5Z-D2SkngckJKqUUVPnA-W
-    WgCYvUh0usdHkUlvbSASAc0K5jQRawStYYMHWey4HZ1sRQ_RqUS>
-X-ME-Received: <xmr:f3Tvaf-LrDBce0YILrh1y5cv2tUNImBCh7mzs6rBJyGruktuCh84-FmtyOI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejkeelhecutefuodetggdotefrod
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777305924; x=
+	1777392324; bh=ZCtou/cEXXCW2EAHTSeZgopr0M/VLaS4+NUan7nzjpo=; b=r
+	cp5e0YzGwabDnLbX/xXlbtzzv9e8OX0XRwm69dlgxbBAO3PGQDnv+gLQ9iNaw41t
+	wiog0CQMhPF+ACfM6DLMRENiyAYiJeJm1+ICJB+8quz+E31tQ6nPNQPc/XBiA0pw
+	n/cJg9b/IcMhSBopBJbLrEhhxyEQYKBBRMOIyStsB49kW1o929ihCOJ9oxPJS4yR
+	mklaN+1vMJ3XdBzCPiiHtUvU0bqlp9z4Q7AZjFEMVRW4SXSTRkvgkYb2ToIN4omR
+	5t/JFUxGzDJDq0qYmldtbIqsLrBi89KCkPrVSmT1gzvgREkXP55VsmGOAjNpoHa2
+	dL7fdzim8Bm97btgfIZ5Q==
+X-ME-Sender: <xms:Q4nvabvgD-Y0-q21rj0xIevp3vYtWZ1cxKFvIuxKRHMaTtQTxjGz5A>
+    <xme:Q4nvaXSFnWpwpLdH3gTHczIdKeqNIYEdHjDNHzryu4ch2F0apyFIXLg61RMHMZ-b3
+    304p_cMmvtBQBKrtHOzNpIgGPl-vyiY4uum6i7My8pPO5wY649nPVo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejleduvdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfgjfhfogggtgfesthejredtredtvdenucfhrhhomheptehlvgigucgh
-    ihhllhhirghmshhonhcuoegrlhgvgiesshhhrgiisghothdrohhrgheqnecuggftrfgrth
-    htvghrnhepkeehjeeitefffeeuieetjedtjeffvdelledvuedvffdvfeetgefhveekuedv
-    fedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrlhgvgiesshhhrgiisghothdrohhrghdp
-    nhgspghrtghpthhtohepvddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlvg
-    honheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhgghesnhhvihguihgrrdgtohhm
-    pdhrtghpthhtohepmhgrthhtvghvsehmvghtrgdrtghomhdprhgtphhtthhopegrmhgrsh
-    htrhhosehfsgdrtghomhdprhgtphhtthhopegthhhrihhsthhirghnrdhkohgvnhhighes
-    rghmugdrtghomhdprhgtphhtthhopehmnhhghigruggrmhesrghmrgiiohhnrdguvgdprh
-    gtphhtthhopegumhgrthhlrggtkhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepsghj
-    ohhrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhumhhithdrshgvmhifrghlse
-    hlihhnrghrohdrohhrgh
-X-ME-Proxy: <xmx:f3TvaSxMrrBIFQMhK9Oob_UuUIigDC2qkQVd3R06fMyCypFEKQvfow>
-    <xmx:f3TvaUsYAD2stHChwchFhVxdLQlR7HXPhlI3eOECV47EKD6RtLSCnA>
-    <xmx:f3TvaR1uEEilQ8PoAz_RQ9xF-gE8R4bRF7yX5OAliqvnbDdeZ71VHw>
-    <xmx:f3TvaQ7-YpmZviOmLTh2VAFMBXW9G-UQW3DwjxjzKK_xxziE3gC7Mg>
-    <xmx:f3TvaVQ3cavOKXSQKYAqQMsEkKr8c9nkl_JSkq9AQ1DZXHpH92ouBKE0>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Apr 2026 10:36:46 -0400 (EDT)
-Date: Mon, 27 Apr 2026 08:36:44 -0600
-From: Alex Williamson <alex@shazbot.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Matt Evans <mattev@meta.com>, Alex
- Mastro <amastro@fb.com>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Mahmoud Adam <mngyadam@amazon.de>, David
- Matlack <dmatlack@google.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Kevin Tian
- <kevin.tian@intel.com>, Ankit Agrawal <ankita@nvidia.com>, Pranjal
- Shrivastava <praan@google.com>, Alistair Popple <apopple@nvidia.com>, Vivek
- Kasireddy <vivek.kasireddy@intel.com>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org, alex@shazbot.org
-Subject: Re: [PATCH 9/9] vfio/pci: Add mmap() attributes to DMABUF feature
-Message-ID: <20260427083644.4ee174cd@shazbot.org>
-In-Reply-To: <20260426105215.GA440345@unreal>
-References: <20260416131815.2729131-1-mattev@meta.com>
-	<20260416131815.2729131-10-mattev@meta.com>
-	<20260424183153.GJ3444440@nvidia.com>
-	<20260426105215.GA440345@unreal>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+    hrpefoggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdetrhhnugcu
+    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+    hnpedvhfdvkeeuudevfffftefgvdevfedvleehvddvgeejvdefhedtgeegveehfeeljeen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeefjedpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdprhgtphhtthhopegthh
+    hrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopehmphgvsegv
+    lhhlvghrmhgrnhdrihgurdgruhdprhgtphhtthhopehsihhmohhnrgdrvhgvthhtvghrse
+    hffhiflhhlrdgthhdprhgtphhtthhopehgrghrhiesghgrrhihghhuohdrnhgvthdprhgt
+    phhtthhopegurghvihgurdhlrghighhhthdrlhhinhhugiesghhmrghilhdrtghomhdprh
+    gtphhtthhopehmkhgthhgruhhrrghssehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhi
+    tghkrdguvghsrghulhhnihgvrhhsodhlkhhmlhesghhmrghilhdrtghomhdprhgtphhtth
+    hopehnphhighhgihhnsehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:Q4nvacXMD2rgkFYfQT6xRfjCHHzuIur5ewWkYvLB3s1CPfPeONk9Yg>
+    <xmx:Q4nvaY2Is8kGpnqdtzP_bEIxpw2iOsohNjjdyy0uXHi_Xq7T0TrmMg>
+    <xmx:Q4nvaeM0ht2htEmAr3ZLvSR44Fg_2_9W52RbXTZcjuamGIomTUJOMg>
+    <xmx:Q4nvaQS7xdW9MU6arMT9qKha7QhqS-7qn5T0fzYzrfcy_Nars0aFfg>
+    <xmx:RInvaRzrTfYEHKqKGtWlisXUYFSpPribsTZQ5DAa5owond2lsXUold8G>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 3B6AE700065; Mon, 27 Apr 2026 12:05:23 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: E305A474825
+X-ThreadId: ADiin7Vigcc3
+Date: Mon, 27 Apr 2026 18:05:01 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Link Mauve" <linkmauve@linkmauve.fr>,
+ "David Laight" <david.laight.linux@gmail.com>
+Cc: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>,
+ "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Christophe Leroy" <chleroy@kernel.org>,
+ "Peter Zijlstra" <peterz@infradead.org>,
+ "Josh Poimboeuf" <jpoimboe@kernel.org>,
+ "Jason Baron" <jbaron@akamai.com>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Ard Biesheuvel" <ardb@kernel.org>,
+ "Sumit Semwal" <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, boqun@kernel.org,
+ "Gary Guo" <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ "Benno Lossin" <lossin@kernel.org>,
+ "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nick Desaulniers" <nick.desaulniers+lkml@gmail.com>,
+ "Bill Wendling" <morbo@google.com>,
+ "Justin Stitt" <justinstitt@google.com>, tamird@kernel.org,
+ "Nicolas Schier" <nsc@kernel.org>, simona.vetter@ffwll.ch,
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
+ llvm@lists.linux.dev
+Message-Id: <21348763-ff78-46c6-b0eb-eedce69a839a@app.fastmail.com>
+In-Reply-To: <aes7L3M1d_LvvGKa@luna>
+References: <20260424054742.45832-1-mkchauras@gmail.com>
+ <20260424054742.45832-6-mkchauras@gmail.com>
+ <20260424101425.6bde0e17@pumpkin> <aes7L3M1d_LvvGKa@luna>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH V13 5/7] rust: Make __udivdi3() and __umoddi3()
+ panic
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 22C274764E3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.65 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[shazbot.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[shazbot.org:s=fm2,messagingengine.com:s=fm2];
+	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm2,messagingengine.com:s=fm2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	TAGGED_FROM(0.00)[bounces-59688-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	XM_UA_NO_VERSION(0.01)[];
+	TAGGED_FROM(0.00)[bounces-59689-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[shazbot.org:+,messagingengine.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[linkmauve.fr,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[37];
 	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alex@shazbot.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,linux.ibm.com,ellerman.id.au,kernel.org,infradead.org,akamai.com,google.com,goodmis.org,linaro.org,amd.com,garyguo.net,protonmail.com,umich.edu,ffwll.ch,lists.ozlabs.org,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[shazbot.org:dkim,shazbot.org:mid,nvidia.com:email,meta.com:email,messagingengine.com:dkim]
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,lkml];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arndb.de:dkim,linkmauve.fr:email,app.fastmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,messagingengine.com:dkim]
 
-On Sun, 26 Apr 2026 13:52:15 +0300
-Leon Romanovsky <leon@kernel.org> wrote:
+On Fri, Apr 24, 2026, at 11:43, Link Mauve wrote:
+> On Fri, Apr 24, 2026 at 10:14:25AM +0100, David Laight wrote:
+>> On Fri, 24 Apr 2026 11:17:40 +0530
+>> "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com> wrote:
+>>=20
+>> > From: Link Mauve <linkmauve@linkmauve.fr>
+>> >=20
+>> > The core crate currently depends on these two functions for i64/u64/
+>> > i128/u128/core::time::Duration formatting, but we shouldn=E2=80=99t=
+ use that in
+>> > the kernel so let=E2=80=99s panic if they are ever called.
+>>=20
+>> Ugg.
+>> Surely you can make it a link-time failure?
+>> Or change the underlying code to avoid the divide.
+>
+> This is currently a link-time failure, which means if any of the core
+> crate or drm_panic_qr are linked in, the kernel will fail to link.
+>
+> And since we rely on core, that means no kernel can be built on PowerPC
+> without this patch.
+>
+> A possible solution would be to change the core crate to not divide
+> u64s, but the last time I tried to do that I couldn=E2=80=99t quite fi=
+gure out
+> how to do formatting without it, maybe I will just open an issue again=
+st
+> Rust.
 
-> On Fri, Apr 24, 2026 at 03:31:53PM -0300, Jason Gunthorpe wrote:
-> > On Thu, Apr 16, 2026 at 06:17:52AM -0700, Matt Evans wrote:  
-> > > A new field is reserved in vfio_device_feature_dma_buf.flags to
-> > > request CPU-facing memory type attributes for mmap()s of the buffer.
-> > > Add a flag VFIO_DEVICE_FEATURE_DMA_BUF_ATTR_WC, which results in WC
-> > > PTEs for the DMABUF's BAR region.
-> > > 
-> > > Signed-off-by: Matt Evans <mattev@meta.com>
-> > > ---
-> > >  drivers/vfio/pci/vfio_pci_dmabuf.c | 15 +++++++++++++--
-> > >  drivers/vfio/pci/vfio_pci_priv.h   |  1 +
-> > >  include/uapi/linux/vfio.h          | 12 +++++++++---
-> > >  3 files changed, 23 insertions(+), 5 deletions(-)  
-> > 
-> > Nice and simple
-> > 
-> > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> >   
-> > > @@ -1549,8 +1551,12 @@ struct vfio_region_dma_range {
-> > >  struct vfio_device_feature_dma_buf {
-> > >  	__u32	region_index;
-> > >  	__u32	open_flags;
-> > > -	__u32   flags;
-> > > -	__u32   nr_ranges;
-> > > +	__u32	flags;
-> > > +	/* Flags sub-field reserved for attribute enum */
-> > > +#define VFIO_DEVICE_FEATURE_DMA_BUF_ATTR_MASK		(0xfU << 28)
-> > > +#define VFIO_DEVICE_FEATURE_DMA_BUF_ATTR_UC		(0 << 28)
-> > > +#define VFIO_DEVICE_FEATURE_DMA_BUF_ATTR_WC		(1 << 28)
-> > > +	__u32	nr_ranges;  
-> 
-> Alex,
-> 
-> The TPH proposal extends the flags field in a similar way, but I suggested
-> a different approach to conserve bits. At the moment, we spend three bits
-> on a single feature, which feels wasteful.
-> 
-> What do you think?
-> https://lore.kernel.org/all/20260409120415.GF86584@unreal/
+I think you just need to rewrite the patch description, it appears
+that everyone misunderstands what you are doing in the patch:
 
-I already proposed a very different interface for TPH that decouples
-the dma-buf creation from setting the TPH values:
+Like on arm32, normal kernel code will continue to cause
+a link failure the same way in Rust as it does in C, and your
+patch does not change that. When you (or Link Mauve) "let's panic",
+I assume this is was just a mistake in summarizing the logic
+that turns the unreachable code from the Rust core crate
+into a runtime assertion since it would be impossible to link
+the kernel otherwise.
 
-https://lore.kernel.org/all/20260423132016.4a25e074@shazbot.org/
+Silently turning a 64-bit division into a panic() for normal
+code would of course be unacceptable, but that's not what
+you are doing here.
 
-This is overall less intrusive than the TPH change proposed, but it
-could still make sense to align this as an operation on the dma-buf,
-that can be probed as a separate feature.  Thanks,
-
-Alex
+    Arnd
 
