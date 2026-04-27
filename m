@@ -1,166 +1,280 @@
-Return-Path: <linux-media+bounces-59690-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59691-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0GJ8D/+Y72nQDAEAu9opvQ
-	(envelope-from <linux-media+bounces-59690-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 19:12:31 +0200
+	id qBpUL0Sa72kUDQEAu9opvQ
+	(envelope-from <linux-media+bounces-59691-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 19:17:56 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90A8476E58
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 19:12:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 570454770D2
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 19:17:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CA0B930B59D4
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 17:07:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 74A9F305660E
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 17:17:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E66AC3DD51D;
-	Mon, 27 Apr 2026 17:07:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EEC03E3C66;
+	Mon, 27 Apr 2026 17:17:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G2Byk7ap"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2+LLE02"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2B13ACF0C
-	for <linux-media@vger.kernel.org>; Mon, 27 Apr 2026 17:07:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7460E29405;
+	Mon, 27 Apr 2026 17:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777309659; cv=none; b=q/7db+yh7CmSP51kKcDGV94HSBTlrTpuARVP3hRGzIZcaFuRz6YubbDSsRxwMZgTTaqYr3JEWWs4mpC+ALipIPQVtnAA4fVNy/go0EYYtxJE/LT2C02tQ1Mt6zF/2jjIs3K5QAoDipNToPsaekaWoytlFkjrS815duU+DcLhHdQ=
+	t=1777310219; cv=none; b=lnKg7BoxsEj+KpDcf/oALBrXT1ccTPBpkTI3ECVX2s5+j9fNGEdNiRPFZQ8HHDtmvwK+7jcFnrgXz6RbeU/6P/VLAj5z8DPYqKu0fs6R/6tWQQ0otKZOoYGLjzORJyOu7yinHhzzi5Rz3N/XoPqxUmBTM7+3NcZDBN5Fa5hGw78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777309659; c=relaxed/simple;
-	bh=2BBIVyuBfJT/9Pa5JyxKH2ni54xydMVjGCoT+247qyE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TXJF4HACH7iSwxsb8wMjk9p+clDTLcKingLGAFkocwIGpw95w7n5SrWHjnCezdTP5tZpjl686Om9jMKzIanCGoQet6xOlatXD3ExEGw2nOG4McGUPGhoSsPRcQ1hhuSnpJRVMeooUdxN044PyEkt7ghxDWSum5/rqDMNwMcQW+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G2Byk7ap; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c795f441ff7so7255937a12.2
-        for <linux-media@vger.kernel.org>; Mon, 27 Apr 2026 10:07:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777309657; x=1777914457; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ERRqVYI8CFxrsUDJfV7VsWlDQmS0mSXaXFgBL1Geb4k=;
-        b=G2Byk7apIBIT0LvXdLobff/jvQvGG9DmOkQbLYs/kaTT/UyrbdY801rYoUzeiF45KM
-         Y2SRc7xU0T79OSU1gQ5EUNWXYdBwdHINSyFik3wAmMnduOnbkLL5Dbu4w7JymaY1Aabd
-         93QPRDvIPSqOWa91ITgR748EF9SHHD6r0fU294b8qlenwMofHCoTT8uPlCaALts7nDCI
-         hi5PYCzDB8aJ61DWbgUxlc8g3xM/pRARmy/Px9eaELxNXVLyA3gqw+6PP2B4U3+n4Rho
-         JV4BUXZVNAhtfGdF2/M1fGiogwSWGOTTUPCV2m7M7eG88TVe/R516EWo5qzm/ULbajB/
-         ld9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777309657; x=1777914457;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ERRqVYI8CFxrsUDJfV7VsWlDQmS0mSXaXFgBL1Geb4k=;
-        b=P6nlkZc1AeAowFL7bdRSX2tDTvpHZHheVnBSzUFYCaeegh1vytujzO9VrCGDfmuAJg
-         PJn69kcc9YpjJK5g/7WbTe7Yh/Lo/ULAxEKpQeDKHufMNFA9VsvOgP6SzfjxP9QBva0e
-         qqpKkYER8b3hME2AK9AalpjJ7MI2EgnMQvsngvXGEawytGsy5GlAPRGum4b96MAY7VFN
-         Pk/1+HF9xl4uMSMz9E8CgGF1i+vhRUiYFPTvVJGCQMtRzWWC9PnqMk12OEMGUHY2bDlW
-         V7yhmpAbS7EB/g57k1SrY/UzpUnQkQt7OC9/QRVaBbds+WuVPyvJkZr8yUenHvusSWua
-         hsIQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+8e0mY9M/X6SGkhiHeeb2PSCQaL55T/1HysFHKTD2/6/LUiGoIlBIFB1bo6PV/Hmf2edPQc97XoNwnWg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEMNJClr7J9v/LzLLoOJbhL7ugsR6WmUKLXErN6OY2hEWlA1EG
-	KSFHLp/bRCDBvTUOAcNVTX8yG43HTxhUOLOz6192kgDlt3lAnm2nspI1
-X-Gm-Gg: AeBDiestCMKGXsGqdIO5DxFVQpRIr8CDojIs2FmFyHE+UMYXREIlwAdjeo4wBS2OaFg
-	EYmdXMA6XYea6Fr4/f2ngyqnb0cyaJSSxLJZJUPQpx4G7jICX3yEKo8xBhuiSaVcOULdctX4JEC
-	fV985j0Tl+kR6v0gunacAa1+F+Htmh77BY3iW9hqYcsEsIegPwc8A2HMibPubh4DS61AdIjUt8W
-	t21cUG1c/HbDL6IGs9+Xmx0/1zJC7q9Ic4jxRMDZhFVIF2lUujRmeqL3dc9EWnok002KRHIHZsB
-	Sda1UfspTJRcyjmqV8fTV9burM2lsset6s8CQGh+xeXKaAEeIu4wDIy/lCH+FU1s6M7bGY+IdmK
-	hhbcwRF0vvs4jbuknESnR84Ii1cGYmnrwhrypz23edh+aRk3FbdiCV4YQm8VrLCQOnBGNinbuB2
-	SZcFa/B1ppNeV0PzuQrNXdoOZHxbDdKSomuBPMF8g8glG5rBl4/wm4oLrka7g5H8CTc/N7QuDmB
-	C2r6i9CF5P34LqnzWwDpSGmOZUtf5py
-X-Received: by 2002:a05:6a20:6a09:b0:39b:ba95:b127 with SMTP id adf61e73a8af0-3a398c117f6mr307416637.4.1777309657446;
-        Mon, 27 Apr 2026 10:07:37 -0700 (PDT)
-Received: from shyam-VMware-Virtual-Platform.localdomain ([223.181.114.98])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec04448sm39497551b3a.55.2026.04.27.10.07.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 10:07:36 -0700 (PDT)
-From: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-To: slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	s.hauer@pengutronix.de
-Cc: Frank.Li@nxp.com,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	imx@lists.linux.dev,
+	s=arc-20240116; t=1777310219; c=relaxed/simple;
+	bh=Gdo90UdOw5JDNcbBc6CTpgqBoS99tJWdzzhKt47HDkg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QCWJwhkgyQIPBwW36YBLsUTxKenVr8c/dnY28kBLLI5w/jdSgmUcTrI8h7IRMX6fYYCmnIiH5daNsx88sS8N05ODBVdWNquhCzzZoTW7kiY+fqoobv6Du/Xc5AYtVrf7QCsNShxs3Cx0dwSSwP+bsgcv8u6JdQAck3yTm/GilNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2+LLE02; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87FE1C2BCB4;
+	Mon, 27 Apr 2026 17:16:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777310218;
+	bh=Gdo90UdOw5JDNcbBc6CTpgqBoS99tJWdzzhKt47HDkg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=U2+LLE02v2RJdGrHn64GqYJdP4+hDdO9CRQcGon9U+fg19LBxhX5PBepS5h9HJCqe
+	 szqGGe/Sn0Ja8ufrVfKBRayklpg7ZNqhD3AjlJFyhWTD2cy+E9nyVtxoXvU6RVePwS
+	 nC/EKNFwPrGycTqEuaSwxvd9NLoS3iznsIjTk0KPgTVc+veLovfoR+uQQZvkXu6BEL
+	 XY5HSP+s8CkmcaZnZCCWlv0qtPkuKqPRoos+3EvmYxD3lbF+eVbofOW/u0ribOc9N6
+	 46gB4iCE7qS4DHXiu+LbPED9AO2rWWkmtG0xffEU92OaQJ+vWiy9PumgjbDE3AiKLE
+	 isfjlgjrnrghg==
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+To: Yury Norov <ynorov@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>
+Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	dmaengine@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-fsi@lists.ozlabs.org,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-wpan@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-spi@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-Subject: [PATCH] staging: media: imx: remove unnecessary braces from single statement if block
-Date: Mon, 27 Apr 2026 22:36:33 +0530
-Message-ID: <20260427170634.23072-1-shyamsunderreddypadira@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	linux-fsdevel@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev,
+	bpf@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	linux-x25@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	sound-open-firmware@alsa-project.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org,
+	linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-arch@vger.kernel.org
+Subject: [RFC PATCH v1 0/9] uaccess: Convert small fixed size copy_{to/from}_user() to scoped user access
+Date: Mon, 27 Apr 2026 19:13:41 +0200
+Message-ID: <cover.1777306795.git.chleroy@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7253; i=chleroy@kernel.org; h=from:subject:message-id; bh=Gdo90UdOw5JDNcbBc6CTpgqBoS99tJWdzzhKt47HDkg=; b=owGbwMvMwCV2d0KB2p7V54MZT6slMWS+nxkaMinl/6P42P3bc0Qj3v7nk1G4YbGg/rEse+BPv 7e7BNgWdJSyMIhxMciKKbIc/8+9a0bXl9T8qbv0YeawMoEMYeDiFICJRDExMmwV0vIK89sWnHjX Y4WN3O+gaTyvmP0m2koKTvi9YNORsocM/wPkn2xoM0q8N63lWvLNy/m/speGuG7LLGiQ1I6bVSB dxgQA
+X-Developer-Key: i=chleroy@kernel.org; a=openpgp; fpr=10FFE6F8B390DE17ACC2632368A92FEB01B8DD78
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: A90A8476E58
+X-Rspamd-Queue-Id: 570454770D2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59690-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[nxp.com,pengutronix.de,gmail.com,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[49];
+	FREEMAIL_TO(0.00)[nvidia.com,linux-foundation.org,gmail.com,linutronix.de];
+	TAGGED_FROM(0.00)[bounces-59691-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FREEMAIL_TO(0.00)[gmail.com,pengutronix.de,kernel.org,linuxfoundation.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[shyamsunderreddypadira@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[chleroy@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-Remove braces from a single statement if block to
-follow kernel coding style and improve readability.
+A lot of copy_from_user() and copy_to_user() perform copies of small
+fixed size pieces of data between kernel and userspace, and don't
+care about partial copies.
 
-No functional change.
+copy_from_user() and copy_to_user() are big functions optimised for
+copying large amount of data, with cache management, etc ... This is
+often overkill for small copies that could just be inlined instead.
 
-Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
----
- drivers/staging/media/imx/imx-media-of.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+What makes things a bit more tricky is that those copy functions
+are designed to handle partial copies in case of page fault. But among
+the 6000 callers of those functions, only 2% really care about the
+quantity of no-copied data that those functions return. All other ones
+fails as soon as the returned value is not 0, returning -EACCESS.
 
-diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging/media/imx/imx-media-of.c
-index bb28daa4d713..7413551052ae 100644
---- a/drivers/staging/media/imx/imx-media-of.c
-+++ b/drivers/staging/media/imx/imx-media-of.c
-@@ -57,9 +57,8 @@ int imx_media_add_of_subdevs(struct imx_media_dev *imxmd,
- 		of_node_put(csi_np);
- 		if (ret) {
- 			/* unavailable or already added is not an error */
--			if (ret == -ENODEV || ret == -EEXIST) {
-+			if (ret == -ENODEV || ret == -EEXIST)
- 				continue;
--			}
- 
- 			/* other error, can't continue */
- 			return ret;
+So first step in this series is to introduce variants called
+copy_from_user_partial() and copy_to_user_partial() which will be
+called by the 2% users that care about the partial copy, then the
+original copy_from_user() and copy_to_user() are changed to return
+-EFAULT when the copy fails.
+
+Then the second step is to implement copy of small fixed-size data
+with scoped user access instead of calling the arch specific heavy
+user copy functions.
+
+Patch 5, can be split in different patches for each archicture or
+subsystem, but let's get a first feedback and agree on the principle.
+
+Christophe Leroy (CS GROUP) (9):
+  uaccess: Split check_zeroed_user() out of usercopy.c
+  uaccess: Convert INLINE_COPY_{TO/FROM}_USER to kconfig and reduce
+    ifdefery
+  x86/umip: Be stricter in fixup_umip_exception()
+  uaccess: Introduce copy_{to/from}_user_partial()
+  uaccess: Switch to copy_{to/from}_user_partial() when relevant
+  uaccess: Change copy_{to/from}_user to return -EFAULT
+  x86: Add unsafe_copy_from_user()
+  arm64: Add unsafe_copy_from_user()
+  uaccess: Convert small fixed size copy_{to/from}_user() to scoped user
+    access
+
+ arch/alpha/Kconfig                            |   1 +
+ arch/alpha/kernel/osf_sys.c                   |   4 +-
+ arch/alpha/kernel/termios.c                   |   2 +-
+ arch/arc/include/asm/uaccess.h                |   3 -
+ arch/arc/kernel/disasm.c                      |   2 +-
+ arch/arm/include/asm/uaccess.h                |   2 -
+ arch/arm64/include/asm/gcs.h                  |   2 +-
+ arch/arm64/include/asm/uaccess.h              |  30 +++--
+ arch/arm64/kernel/signal32.c                  |   2 +-
+ arch/csky/Kconfig                             |   1 +
+ arch/hexagon/include/asm/uaccess.h            |   3 -
+ arch/loongarch/include/asm/uaccess.h          |   3 -
+ arch/m68k/include/asm/uaccess.h               |   3 -
+ arch/microblaze/include/asm/uaccess.h         |   2 -
+ arch/mips/include/asm/uaccess.h               |   3 -
+ arch/mips/kernel/rtlx.c                       |   8 +-
+ arch/mips/kernel/vpe.c                        |   2 +-
+ arch/nios2/include/asm/uaccess.h              |   2 -
+ arch/openrisc/include/asm/uaccess.h           |   2 -
+ arch/parisc/include/asm/uaccess.h             |   3 -
+ arch/powerpc/Kconfig                          |   1 +
+ arch/powerpc/kvm/book3s_64_mmu_hv.c           |   4 +-
+ arch/powerpc/kvm/book3s_64_mmu_radix.c        |   4 +-
+ arch/powerpc/kvm/book3s_hv.c                  |   2 +-
+ arch/riscv/Kconfig                            |   1 +
+ arch/riscv/kernel/signal.c                    |   2 +-
+ arch/s390/include/asm/idals.h                 |   8 +-
+ arch/s390/include/asm/uaccess.h               |   3 -
+ arch/sh/include/asm/uaccess.h                 |   2 -
+ arch/sparc/include/asm/uaccess_32.h           |   3 -
+ arch/sparc/include/asm/uaccess_64.h           |   2 -
+ arch/sparc/kernel/termios.c                   |   2 +-
+ arch/um/include/asm/uaccess.h                 |   3 -
+ arch/um/kernel/process.c                      |   2 +-
+ arch/x86/Kconfig                              |   1 +
+ arch/x86/include/asm/uaccess.h                |  29 ++++-
+ arch/x86/kernel/umip.c                        |   2 +-
+ arch/x86/lib/insn-eval.c                      |   2 +-
+ arch/x86/um/signal.c                          |   2 +-
+ arch/xtensa/include/asm/uaccess.h             |   2 -
+ drivers/android/binder_alloc.c                |   2 +-
+ drivers/comedi/comedi_fops.c                  |   4 +-
+ drivers/dma/idxd/cdev.c                       |   2 +-
+ drivers/firmware/efi/test/efi_test.c          |   2 +-
+ drivers/fsi/fsi-scom.c                        |   2 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |   2 +-
+ drivers/gpu/drm/i915/gt/intel_sseu.c          |   4 +-
+ drivers/gpu/drm/i915/i915_gem.c               |   4 +-
+ drivers/hwtracing/intel_th/msu.c              |   2 +-
+ drivers/misc/ibmvmc.c                         |   2 +-
+ drivers/misc/vmw_vmci/vmci_host.c             |   2 +-
+ drivers/most/most_cdev.c                      |   2 +-
+ drivers/net/ieee802154/ca8210.c               |   4 +-
+ drivers/net/wireless/ath/wil6210/debugfs.c    |   2 +-
+ .../intel/iwlwifi/pcie/gen1_2/trans.c         |   2 +-
+ drivers/net/wireless/ti/wlcore/debugfs.c      |   2 +-
+ drivers/ps3/ps3-lpm.c                         |   2 +-
+ drivers/s390/crypto/zcrypt_api.h              |   4 +-
+ drivers/spi/spidev.c                          |   2 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |   8 +-
+ drivers/tty/tty_ioctl.c                       |  14 +--
+ drivers/tty/vt/vc_screen.c                    |   4 +-
+ drivers/usb/gadget/function/f_hid.c           |   4 +-
+ drivers/usb/gadget/function/f_printer.c       |   2 +-
+ drivers/vfio/vfio_iommu_type1.c               |   4 +-
+ drivers/xen/xenbus/xenbus_dev_frontend.c      |   2 +-
+ fs/namespace.c                                |   2 +-
+ fs/ocfs2/dlmfs/dlmfs.c                        |   2 +-
+ fs/proc/base.c                                |   4 +-
+ include/asm-generic/uaccess.h                 |   2 -
+ include/linux/bpfptr.h                        |   2 +-
+ include/linux/sockptr.h                       |   4 +-
+ include/linux/uaccess.h                       | 107 ++++++++++++++----
+ ipc/msg.c                                     |   8 +-
+ ipc/sem.c                                     |   8 +-
+ ipc/shm.c                                     |  18 +--
+ kernel/regset.c                               |   2 +-
+ kernel/sys.c                                  |   4 +-
+ lib/Kconfig                                   |   3 +
+ lib/Makefile                                  |   4 +-
+ lib/kfifo.c                                   |   8 +-
+ lib/{usercopy.c => usercheck.c}               |  22 ----
+ lib/usercopy.c                                |  66 -----------
+ mm/kasan/kasan_test_c.c                       |   4 +-
+ mm/memory.c                                   |   2 +-
+ net/x25/af_x25.c                              |   2 +-
+ rust/helpers/uaccess.c                        |   6 +-
+ sound/pci/emu10k1/emufx.c                     |   4 +-
+ sound/pci/rme9652/hdsp.c                      |   6 +-
+ sound/soc/intel/avs/probes.c                  |   6 +-
+ sound/soc/sof/compress.c                      |  12 +-
+ sound/soc/sof/sof-client-probes.c             |   6 +-
+ 92 files changed, 269 insertions(+), 288 deletions(-)
+ copy lib/{usercopy.c => usercheck.c} (73%)
+
 -- 
-2.43.0
+2.49.0
 
 
