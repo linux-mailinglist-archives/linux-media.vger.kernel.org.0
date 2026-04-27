@@ -1,252 +1,122 @@
-Return-Path: <linux-media+bounces-59700-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59701-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qJG7HgCc72kbDQEAu9opvQ
-	(envelope-from <linux-media+bounces-59700-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 19:25:20 +0200
+	id +GJtDySd72kbDQEAu9opvQ
+	(envelope-from <linux-media+bounces-59701-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 19:30:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D5B47776A
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 19:25:20 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C53FC477A0D
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 19:30:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 60E053019386
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 17:21:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 80E8A30372E1
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2026 17:26:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D02D13E715E;
-	Mon, 27 Apr 2026 17:19:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39A753E3C40;
+	Mon, 27 Apr 2026 17:26:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k8kV5Zhk"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="syeXzU9Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC59339714;
-	Mon, 27 Apr 2026 17:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D583BC68D
+	for <linux-media@vger.kernel.org>; Mon, 27 Apr 2026 17:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777310365; cv=none; b=FMMCJWBZRrjjYSiA3eaR054EBybd+MBN+lSN3BN5CocSCcm8tIENJh1D+pCEesMt/NXdLvmDrgdKbTCry0Ws+gXSliqYGgAikUbOn+Q+F0KGjeL6CPBJrSP/6A4kIKVX2k8i7JaCo/d+VNC51IcRSJYDEqTpxQo1Wefcb3LD8UI=
+	t=1777310770; cv=none; b=OJ+tg8EgErZxuqxlIucKUXJCchYu4Dt2cIkOLx7AQdCAPFgTVyJahXeM2KgByiFx52QbYdIjdyc0VbGF56qJEKrDZzl/VclzgzA6WdjN+TIuWq+wZtxn1x5OQDSyR4wz34kwlXlxFoiRe8AFSVmPrpFHTx0BFzxk7nZErImOPyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777310365; c=relaxed/simple;
-	bh=xblTv37x9V4gU3cvmA9ILfz6xXNOv0sNe2zU9C6a5nw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XhQrdf7UOghUHj346nNBuNK4t8QKwv42weWTHzLB9J9H1Pg4KEcSn0eVYUQ5ec4lrY6ahBwiH6ofUxBY24/Bicz662twTEYvS8xMs3PQ8bMO23fNazIbxyRHabz7++ADrmyPHUUZtHt6Ieg+neofEfeiXp9GpsZ8FZ+KHzEUFP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k8kV5Zhk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A25EEC2BCB7;
-	Mon, 27 Apr 2026 17:19:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777310364;
-	bh=xblTv37x9V4gU3cvmA9ILfz6xXNOv0sNe2zU9C6a5nw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=k8kV5Zhk7HZbxy8X7mxqUL5UgTTJPPuuLtSKHKOe5PwbIiNodL9/7ESxRbcOMv4dB
-	 NN/pd897F5mMQZv6MW+RM/3mikWvqmJGQCtupbd6YHiobStaCQu79RRkwt3Bs1rL/A
-	 WmXtcy3vIzgejB2MGSu6MrKJ33itreKKdFlemNypyCUExoUHGXA1bHbqFqaNX4ujdd
-	 iXZiXWTV/w69yfgs2V8e+zdWAilhhtsvDDxzPIT8CbbievjXPmrPwVloE5aoqLKmYP
-	 ca2+sf92YJQm2mLHcpyNlGd6mMQP6QhUed6Hx8vk/CloBjO7tSgz4fayv+CeXka+Fz
-	 NwGM6tvALNVmQ==
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-To: Yury Norov <ynorov@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	dmaengine@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-fsi@lists.ozlabs.org,
-	amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-wpan@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux-spi@vger.kernel.org,
+	s=arc-20240116; t=1777310770; c=relaxed/simple;
+	bh=JG8mxS9i7QQZ6A/BJBB1M9zNmRM6umvWte7BVTi3Gos=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RcwH0I+eEjYFuC35GvtYknj1MyrZX5+lnwVAZ4x+uIyY016f3Fsfaj4Owk17HiX3cuXhbPtymCWiCd8A5hwov6uJpZ9zdHsr99dfkPyNE/vyOhfX41PzvlcQufj1CfnCUK6aoJJegcZ+o5Ucmro0xaNdD9sA19rXvmr/1PrwgC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=syeXzU9Q; arc=none smtp.client-ip=91.218.175.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1777310756;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0Wd0ztt1cxde3+fGD/1IJw2pKKT81J5P1qKg+eBGc9A=;
+	b=syeXzU9QyDJ8aW3SRcVjkxpVJYsA5gTo25Xq/O/czeK8DZT91hKz+8/wwADDGUF+FaoVZ5
+	rznbhciY+O99TZZfU0XZbwlCRBk966EhookPYX1LR+XsXvA8IhxG1OiAOV8NN0BXKNB/d0
+	GBsNCLrIOR0Ev4NGkkiuGwJBU5OilNw=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	xen-devel@lists.xenproject.org,
-	linux-fsdevel@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	bpf@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-x25@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	sound-open-firmware@alsa-project.org,
-	linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org,
-	linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Subject: [RFC PATCH v1 9/9] uaccess: Convert small fixed size copy_{to/from}_user() to scoped user access
-Date: Mon, 27 Apr 2026 19:13:50 +0200
-Message-ID: <8780eb2ef80575931a339e5225bc80eb13e9be6c.1777306795.git.chleroy@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1777306795.git.chleroy@kernel.org>
-References: <cover.1777306795.git.chleroy@kernel.org>
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] dma-buf: heaps: use max3() in dma_heap_ioctl
+Date: Mon, 27 Apr 2026 19:25:21 +0200
+Message-ID: <20260427172519.417333-3-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3638; i=chleroy@kernel.org; h=from:subject:message-id; bh=xblTv37x9V4gU3cvmA9ILfz6xXNOv0sNe2zU9C6a5nw=; b=owGbwMvMwCV2d0KB2p7V54MZT6slMWS+nxlr/n9yu2DE7uwkCZGbl0uCp6Y1JLvZTPpz+P/PY xNqPMoaOkpZGMS4GGTFFFmO/+feNaPrS2r+1F36MHNYmUCGMHBxCsBE9HwZ/ns82Ho9PV2Q+7Pp 5fqvs6O/v3YN+3EgL+Wk4b/co1rlkZ8YGVZxmDl7XFiUcmPSTPW14WGSHT6/1u4pcTY2cjD0U7P bzAkA
-X-Developer-Key: i=chleroy@kernel.org; a=openpgp; fpr=10FFE6F8B390DE17ACC2632368A92FEB01B8DD78
+X-Developer-Signature: v=1; a=openpgp-sha256; l=755; i=thorsten.blum@linux.dev; h=from:subject; bh=JG8mxS9i7QQZ6A/BJBB1M9zNmRM6umvWte7BVTi3Gos=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDJnvZ///y9p5yaFJ4GPc2SNFdnkX35UtEbH1sdt8sLGhL 0KQf0ZaRykLgxgXg6yYIsuDWT9m+JbWVG4yidgJM4eVCWQIAxenAEykvIaRoUFa4TD3y46q+Llz vjOeXFa80Kq9Z0HER8XzbfMfu4vUSDP8T/mpcPZx0cdCWea9s8uCDGrX8sYunnL80NbUvV0CVoG 9/AA=
+X-Developer-Key: i=thorsten.blum@linux.dev; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 66D5B47776A
+X-Migadu-Flow: FLOW_OUT
+X-Rspamd-Queue-Id: C53FC477A0D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[49];
-	FREEMAIL_TO(0.00)[nvidia.com,linux-foundation.org,gmail.com,linutronix.de];
-	TAGGED_FROM(0.00)[bounces-59700-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59701-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[linux.dev:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MISSING_XM_UA(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[chleroy@kernel.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[thorsten.blum@linux.dev,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,linux.dev:dkim,linux.dev:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-copy_{to/from}_user() is a heavy function optimised for copy of large
-blocs of memory between user and kernel space.
+Replace two nested max() calls with a single max3() in dma_heap_ioctl().
 
-When the number of bytes to be copied is known at build time and small,
-using scoped user access removes the burden of that optimisation.
-
-Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 ---
- include/linux/uaccess.h | 47 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ drivers/dma-buf/dma-heap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-index 33b7d0f5f808..3ac544527af2 100644
---- a/include/linux/uaccess.h
-+++ b/include/linux/uaccess.h
-@@ -50,6 +50,8 @@
-  #define mask_user_address(src) (src)
- #endif
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index ac5f8685a649..52eec2ebb2e8 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -153,7 +153,7 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+ 		in_size = 0;
+ 	if ((ucmd & kcmd & IOC_OUT) == 0)
+ 		out_size = 0;
+-	ksize = max(max(in_size, out_size), drv_size);
++	ksize = max3(in_size, out_size, drv_size);
  
-+#define SMALL_COPY_USER		64
-+
- /*
-  * Architectures should provide two primitives (raw_copy_{to,from}_user())
-  * and get rid of their private instances of copy_{to,from}_user() and
-@@ -191,6 +193,9 @@ _inline_copy_from_user(void *to, const void __user *from, unsigned long n)
- 	return res;
- }
- 
-+static __always_inline __must_check unsigned long
-+_small_copy_from_user(void *to, const void __user *from, unsigned long n);
-+
- extern __must_check unsigned long
- _copy_from_user(void *, const void __user *, unsigned long);
- 
-@@ -207,6 +212,9 @@ _inline_copy_to_user(void __user *to, const void *from, unsigned long n)
- 	return n;
- }
- 
-+static __always_inline __must_check unsigned long
-+_small_copy_to_user(void __user *to, const void *from, unsigned long n);
-+
- extern __must_check unsigned long
- _copy_to_user(void __user *, const void *, unsigned long);
- 
-@@ -215,6 +223,8 @@ copy_from_user_common(void *to, const void __user *from, unsigned long n, bool p
- {
- 	if (!check_copy_size(to, n, false))
- 		return n;
-+	if (!partial && __builtin_constant_p(n) && n <= SMALL_COPY_USER)
-+		return _small_copy_from_user(to, from, n);
- 	if (IS_ENABLED(ARCH_WANTS_NOINLINE_COPY_USER))
- 		return _copy_from_user(to, from, n);
- 	else
-@@ -239,6 +249,8 @@ copy_to_user_common(void __user *to, const void *from, unsigned long n, bool par
- 	if (!check_copy_size(from, n, true))
- 		return n;
- 
-+	if (!partial && __builtin_constant_p(n) && n <= SMALL_COPY_USER)
-+		return _small_copy_to_user(to, from, n);
- 	if (IS_ENABLED(ARCH_WANTS_NOINLINE_COPY_USER))
- 		return _copy_to_user(to, from, n);
- 	else
-@@ -838,6 +850,41 @@ for (bool done = false; !done; done = true)					\
- #define scoped_user_rw_access(uptr, elbl)				\
- 	scoped_user_rw_access_size(uptr, sizeof(*(uptr)), elbl)
- 
-+static __always_inline __must_check unsigned long
-+_small_copy_from_user(void *to, const void __user *from, unsigned long n)
-+{
-+	might_fault();
-+	instrument_copy_from_user_before(to, from, n);
-+	scoped_user_read_access_size(from, n, failed) {
-+		/*
-+		 * Ensure that bad access_ok() speculation will not lead
-+		 * to nasty side effects *after* the copy is finished:
-+		 */
-+		if (!can_do_masked_user_access())
-+			barrier_nospec();
-+		unsafe_copy_from_user(to, from, n, failed);
-+	}
-+	instrument_copy_from_user_after(to, from, n, 0);
-+	return 0;
-+failed:
-+	instrument_copy_from_user_after(to, from, n, n);
-+	return n;
-+}
-+
-+static __always_inline __must_check unsigned long
-+_small_copy_to_user(void __user *to, const void *from, unsigned long n)
-+{
-+	might_fault();
-+	if (should_fail_usercopy())
-+		return n;
-+	instrument_copy_to_user(to, from, n);
-+	scoped_user_write_access_size(to, n, failed)
-+		unsafe_copy_to_user(to, from, n, failed);
-+	return 0;
-+failed:
-+	return n;
-+}
-+
- /**
-  * get_user_inline - Read user data inlined
-  * @val:	The variable to store the value read from user memory
--- 
-2.49.0
-
+ 	/* If necessary, allocate buffer for ioctl argument */
+ 	if (ksize > sizeof(stack_kdata)) {
 
