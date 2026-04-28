@@ -1,173 +1,193 @@
-Return-Path: <linux-media+bounces-59857-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59858-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QG1eA9648GlQXwEAu9opvQ
-	(envelope-from <linux-media+bounces-59857-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 15:40:46 +0200
+	id OIa0Cii68GmFXwEAu9opvQ
+	(envelope-from <linux-media+bounces-59858-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 15:46:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BC63486133
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 15:40:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F8B486310
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 15:46:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1FD6B32929E3
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 13:34:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 71C7C3384990
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 13:39:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA5C844CAC9;
-	Tue, 28 Apr 2026 13:26:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0103044BCAE;
+	Tue, 28 Apr 2026 13:36:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="heLSEN2G"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQCh+V7X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F6644B686;
-	Tue, 28 Apr 2026 13:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5348044BCBE;
+	Tue, 28 Apr 2026 13:36:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777382813; cv=none; b=imuBQlUg3tP1nE2z8+f4us8Bkfm+9ZlasKazn/l5ulnw1SMm+PRSOwZLzLxMkwMIv80UWwxkaMvt+GcJY1nf9LTnjtbya3gxkuN2VjwG5w9par1l8NpQKTwJFx+b9X+FLH2dqW1HmbLG4nKANdmUmpyt/x+E8yjRu/zNX0iy4sA=
+	t=1777383413; cv=none; b=s0q+YgcpnhQkEAMPkQ9CRjTD9eS0bfs5NMZY2AEsYF3x7X+FoAboC+MrS+i2qT5B/YBA1IjH6YQdSsK6FVrRFJaDE29O+7h3WKua4usYxND5+WO4CIzf7OFvyRNhFewX0qLA7zzDFV8SHKvBulIWQqINoEVHMR2Y8XvTkFxqw3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777382813; c=relaxed/simple;
-	bh=oQfEbefBU76bTTDJ30vAsEyMuIeQfu4d7/r4PxQLcLM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VjSU3kQUnIATcoQAHZix9M8B4UMlCZfO8oea6uVzW+Rd04xasinmJ7cHwJ+GK/34YU4rF5wP+A3QcZ6Yja8jHISKwMvHT2oIDxSgjyMQjkAEmEmpm5lEMopC0p9u7VWu35HOohipAwh291Ryx4kI1hRwlW23+1mtlpIDnmXWeuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=heLSEN2G; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC82FE91;
-	Tue, 28 Apr 2026 15:25:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1777382708;
-	bh=oQfEbefBU76bTTDJ30vAsEyMuIeQfu4d7/r4PxQLcLM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=heLSEN2GPQYH8w/3e7p4/mpZkAOFw8Wk84o31LOs7aEr3L5Nck/knJ6LHKtrAkGkG
-	 RYEHsPtJnHDMHudlAv/x64NFq7Ei5iaqwOjnP4Y724kppE+s4AWirHRSkOXmvqwMZT
-	 faSkEXFce6IlWXzhewL0EuuxFVzYMkahYrpyHb3A=
-Date: Tue, 28 Apr 2026 16:26:49 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Keke Li <keke.li@amlogic.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH 6/6] media: amlogic-c3: Add validations for ae and awb
- config
-Message-ID: <20260428132649.GD120836@killaraus.ideasonboard.com>
-References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
- <20260428-smatch-7-1-v1-6-46890dffb611@chromium.org>
- <20260428131038.GA120836@killaraus.ideasonboard.com>
- <CANiDSCvaS-Jz9m5H2OHo2akD-o-sffsZyEw6_CrfUhD1BN+m2g@mail.gmail.com>
+	s=arc-20240116; t=1777383413; c=relaxed/simple;
+	bh=SV/abDQ9GHMF1r7JuRQf6ccezy9MHlopkSctJDFMcm0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lsBRdu2EFu4uRLs1qXusGK7Rad0ivK1niV3dZ3NdBfIDKT5S8kIDXK/SRN/VwrxzQ6c3nLEuSmaHt99oPovV3cGl0hCvShYvha83TUxN4O29whrP7OhxSZgRyYHdLPvwttbHxsMy1ved12kWBzXczCOHL6gj8CLw3mzg3I6a+is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQCh+V7X; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DD15C2BCAF;
+	Tue, 28 Apr 2026 13:36:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777383413;
+	bh=SV/abDQ9GHMF1r7JuRQf6ccezy9MHlopkSctJDFMcm0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TQCh+V7XkKalFjhqFLnZNoiER1cm/2IHx7i6qSIQhKboGz5cU13NVK2zoPg1a3Kgb
+	 rs2jpke3ulloLBQX+zWbcGmjrmRsQLZ1w6M0GpeyMWWfTrqHcX3r/oTMJQq5dUfzU+
+	 06ZCug4Hh5myP99JcCzJmdFYixP1RX+MS2ekstaMvfVq0rqWolWC2TfQYJUjav88Rx
+	 yXduw3391pgOvi4qnylT1CfZLoIWNA/b+1kXJfpwBm60Xtb1efuJiDCnwfWVATXvbe
+	 Q7iFO2tjk2MwkH6gYZRCW1TrP9h/h9JOJhvFDK+G/mZ5wqBD/s8/3SyasoxJwCslF6
+	 SzEZkfZkXLOtg==
+Message-ID: <2846fc60-bf8c-43b3-ae64-58faad6aed2f@kernel.org>
+Date: Tue, 28 Apr 2026 14:36:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCvaS-Jz9m5H2OHo2akD-o-sffsZyEw6_CrfUhD1BN+m2g@mail.gmail.com>
-X-Rspamd-Queue-Id: 6BC63486133
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v3 04/11] arm64: dts: qcom: msm8939: Add venus node
+To: Erikas Bitovtas <xerikasxx@gmail.com>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
+References: <20260427-msm8939-venus-rfc-v3-0-288195bb7917@gmail.com>
+ <Xfiq_WNTU9P-ThZLMs4plWE5hwtmwyVyKJc1bD5BKdhERGouucNpyuenIoKQiKfZKaRzP-PdamsNlQ8vezjrRg==@protonmail.internalid>
+ <20260427-msm8939-venus-rfc-v3-4-288195bb7917@gmail.com>
+ <56d609dd-62be-47eb-8ba3-c5d70d773113@kernel.org>
+ <QRkqY_zK7EC4e0ZMoLVyLUhgI9A5RrBcJLm22d69xKT17HzJMXsEDdz_qodBN9qogvuS1XqN4zdemqcoByY5CA==@protonmail.internalid>
+ <34627be5-75cc-469b-af23-f1f08ce29820@gmail.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bod@kernel.org>
+In-Reply-To: <34627be5-75cc-469b-af23-f1f08ce29820@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: C1F8B486310
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59857-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-59858-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,apitzsch.eu,baylibre.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,killaraus.ideasonboard.com:mid,ideasonboard.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pastebin.com:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-On Tue, Apr 28, 2026 at 03:14:21PM +0200, Ricardo Ribalda wrote:
-> On Tue, 28 Apr 2026 at 15:10, Laurent Pinchart wrote:
-> > On Tue, Apr 28, 2026 at 12:41:12PM +0000, Ricardo Ribalda wrote:
-> > > Avoid invalid memory access if the zones_num is bigger than
-> > > zone_weight.
-> > >
-> > > This patch fixes the following smatch errors:
-> > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-> > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-> > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-> > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-> > >
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > >  drivers/media/platform/amlogic/c3/isp/c3-isp-params.c | 4 ++++
-> > >  1 file changed, 4 insertions(+)
-> > >
-> > > diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > > index 6f9ca7a7dd88..42d780f684d1 100644
-> > > --- a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > > +++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > > @@ -104,6 +104,8 @@ static void c3_isp_params_awb_wt(struct c3_isp_device *isp,
-> > >       c3_isp_write(isp, ISP_AWB_BLK_WT_ADDR, 0);
-> > >
-> > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-> > > +     if (WARN_ON(zones_num > C3_ISP_AWB_MAX_ZONES))
-> >
-> > This is triggerable by userspace, it shouldn't result in a WARN_ON().
-> > Ideally the horiz_zones_num and vert_zones_num should be validated at
-> > buf prepare time, and an error should be returned to userspace. That
-> > will likely not fix your smatch issue though, I don't think it will be
-> > able to understand that the values have been validated.
+On 28/04/2026 10:47, Erikas Bitovtas wrote:
 > 
-> Based on the warnings from the other drivers I also suspect that if
-> you have validated the data somewhere else smatch will understand it.
 > 
-> Even if you add a validate function I would suggest to keep the
-> WARN_ON(), ideally it should never trigger, and if it triggers it will
-> get a lot more attention to get it fixed.
+> On 4/28/26 10:10 AM, Bryan O'Donoghue wrote:
+>> On 27/04/2026 18:58, Erikas Bitovtas wrote:
+>>> +            video-decoder {
+>>> +                compatible = "venus-decoder";
+>>> +                clocks = <&gcc GCC_VENUS0_CORE0_VCODEC0_CLK>,
+>>> +                     <&gcc GCC_VENUS0_CORE1_VCODEC0_CLK>;
+>>> +                clock-names = "core0", "core1";
+>>> +                power-domains = <&gcc VENUS_CORE0_GDSC>,
+>>> +                        <&gcc VENUS_CORE1_GDSC>;
+>>> +                power-domain-names = "core0", "core1";
+>>> +            };
+>>> +
+>>> +            video-encoder {
+>>> +                compatible = "venus-encoder";
+>>> +                clocks = <&gcc GCC_VENUS0_CORE0_VCODEC0_CLK>,
+>>> +                     <&gcc GCC_VENUS0_CORE1_VCODEC0_CLK>;
+>>> +                clock-names = "core0", "core1";
+>>> +                power-domains = <&gcc VENUS_CORE0_GDSC>,
+>>> +                        <&gcc VENUS_CORE1_GDSC>;
+>>> +                power-domain-names = "core0", "core1";
+>>> +            };
+>>
+>> So to be fair in this case you do have a reason to have an encoder and
+>> decoder compatible here _but_ it should be the case that one one of the
+>> sub-devices contains CORE0 related stuff and the other CORE1 related stuff.
+>>
+>> Because in that case the sub-devices actually represent individual
+>> hardware settings.
+>>
+>> So listing power-domains and clocks for both cores in each node like
+>> this militates against that.
+>>
+>> The other thing is to double check of the encoder and decoder are inter-
+>> changable here i.e. can either core be encoder or decoder or is it fixed ?
+>>
+>> I believe on older generations - perhaps not on 8939 it is not
+>> interchangable.
+>>
+> I found this in LA.BR.1.2.9.1_rb1.5:
+> https://github.com/msm8916-mainline/linux-downstream/blob/b20608408caff817ec874f325127b07609fbaeb8/arch/arm/boot/dts/qcom/msm8939-common.dtsi#L1589
+> Only decoder bits are being set in bus configs. This suggests that the
+> cores are not interchangeable.
+> Then again, I never managed to get encoding working on MSM8939. Testing
+> it with
+> gst-launch-1.0 videotestsrc ! videoconvert ! v4l2vp8enc ! queue !
+> v4l2vp8dec ! xvimagesink
+> Fails with the following log: https://pastebin.com/nmZcLgPV
+> And in dmesg it reports a firmware error:
+> [  784.461031] qcom-venus 1d00000.video-codec: no valid instance(pkt
+> session_id:dead, pkt:21001)
+> [  784.461126] qcom-venus-decoder 1d00000.video-codec:video-decoder:
+> dec: event session error 0
+> [  784.461200] qcom-venus-encoder 1d00000.video-codec:video-encoder:
+> enc: event session error 0
+> [  784.468799] qcom-venus 1d00000.video-codec: SFR message from FW:
+> QC_IMAGE_VERSION_STRING=VIDEO.VE.1.8-00099, Err_Fatal -
+> Z:\b\venus\utils\src\vbuffer.c:1319:
+> [  785.791641] qcom-venus 1d00000.video-codec: System error has
+> occurred, recovery failed to init HFI
+> [  787.018339] qcom-venus 1d00000.video-codec: System error has
+> occurred, recovery failed to init HFI
+> [  787.097253] qcom-venus 1d00000.video-codec: system error has occurred
+> (recovered)
+> This happens regardless of whether I enable the cores for encoding too
+> or not. The same errors were happening on MSM8916 as well. So I can't
+> tell if these cores are interchangeable just by testing.
 
-We could keep the WARN_ON() if we first validate the data, but the
-driver doesn't currently :-/ I expect there could be more similar
-issues.
+Right so if you swap around the definition of which core is encoder and 
+which decoder do you get the same or different result ?
 
-> > Jacopo, do we need to add a validate function pointer to
-> > v4l2_isp_params_block_type_info ?
-> >
-> > > +             zones_num = C3_ISP_AWB_MAX_ZONES;
-> > >
-> > >       /* Need to write 8 weights at once */
-> > >       for (i = 0; i < zones_num / 8; i++) {
-> > > @@ -220,6 +222,8 @@ static void c3_isp_params_ae_wt(struct c3_isp_device *isp,
-> > >       c3_isp_write(isp, ISP_AE_BLK_WT_ADDR, 0);
-> > >
-> > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-> > > +     if (WARN_ON(zones_num > C3_ISP_AE_MAX_ZONES))
-> > > +             zones_num = C3_ISP_AE_MAX_ZONES;
-> > >
-> > >       /* Need to write 8 weights at once */
-> > >       for (i = 0; i < zones_num / 8; i++) {
+i.e. is it because you are trying to get encoder running generally or 
+because of the core you are doing it on ?
 
--- 
-Regards,
+How about declaring both cores a decoder ?
 
-Laurent Pinchart
+---
+bod
 
