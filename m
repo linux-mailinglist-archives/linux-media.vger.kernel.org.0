@@ -1,145 +1,164 @@
-Return-Path: <linux-media+bounces-59761-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59762-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8D8OIZdV8GndRwEAu9opvQ
-	(envelope-from <linux-media+bounces-59761-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 08:37:11 +0200
+	id uPJjMldX8GkNSAEAu9opvQ
+	(envelope-from <linux-media+bounces-59762-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 08:44:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0051047E1EE
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 08:37:10 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D260D47E31E
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 08:44:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D465D3043523
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 06:35:51 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1DF053011539
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 06:43:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6414534EF04;
-	Tue, 28 Apr 2026 06:35:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDB12355F52;
+	Tue, 28 Apr 2026 06:43:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dN6IpnOh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dUmnJAPe"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FC3348883;
-	Tue, 28 Apr 2026 06:35:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5428534D4D6;
+	Tue, 28 Apr 2026 06:43:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777358149; cv=none; b=WFAwIVmZcqc/VaH4EZVg3AFWzsTrsTArzl+6nq36FGwiYSr6neGglNmV1UmVZwBsW1KCDY0dHDUJAaCLz0n6PQEhY1DVq+AnC57zY9VXWTPu28V00oMDUGY6VTqSQf1YSBhqgY8yeM7rBR4BO0rblmelz00xwPoHmgovjnaT2ss=
+	t=1777358623; cv=none; b=J8dvccPv4Jtqzr5j1IyhNWzDhl+iGLMRaFWLwC1ybHB1DnY1/9b9+BEDGHHmshnpx2JsomJeJRJ+3PmRakf8x5CYu+gAK8l0a5JtgrZn7auqTcToN0Q54OAu8/WQDIHKbFFNh+gkrTPdEs9emugV+fnFw2fMFhyod472BgmrYUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777358149; c=relaxed/simple;
-	bh=vz/Sb1hlBnsqaIN7hQ/T+8KinGrjDXu1ayrskd2xKrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DFPZ6WFirLgidTOID4BNcWfYHoTCEEZ2qTzWSlO1+sUonPwcbyYhQ44KHvMEK2wSVgU3xFWzxGm2778OEoGjdQUrV8RrhOkClotRZltuc9zK1OuWNphkRQS4r/5UEP12qDqYtaiECPwttU3nu16hHQTGB3LWAOHWCSjNDAuEkzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dN6IpnOh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7136C2BCB5;
-	Tue, 28 Apr 2026 06:35:48 +0000 (UTC)
+	s=arc-20240116; t=1777358623; c=relaxed/simple;
+	bh=+CJ9buDiat7Lfhg2e6SfgoWrCp1B/OwKO5DNBb27IQI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OSkbODHEgxKpBE2pr4cpJWzRnhLBI6FucnA6H8krFjZFOzGBQ7v8+N9aLtlWdphW5h7ZwpUhd6PXiyjNxJiVU+hyF0OEn2B0miPUYF2e3AdPH9PYKrtXN9TY36whtv8zBZLSU4pR2233zt4+417Pgw0vuAyXIkg4X/AiWIxOitY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dUmnJAPe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C85AEC2BCAF;
+	Tue, 28 Apr 2026 06:43:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777358149;
-	bh=vz/Sb1hlBnsqaIN7hQ/T+8KinGrjDXu1ayrskd2xKrA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dN6IpnOhoAGIEKdNAX2u+DsYtps6nSP7JtpjHEYxaJTFQDZxCIOCfEVaosRWGM+nn
-	 SNvghifzMRb9LIAeqwWVy9hxhvifBQbdpoVpajj28sCRJPVMbd57imH23fSJoHv7UJ
-	 2bTmVJIgqH0nBRTOESGjt1tdvxfhsGXSWJm+buheKVnF4j3H5OA4hdumUSf+xjeyZq
-	 4ai8jjI8fToPiD/ca5fGTxoQkz8bt/KNV5d0SQYaeeVEMZYDiPesxmaIA9kG0ysUtJ
-	 rSdEwHzhO8PtnPKXGHSbRvZKoSHfEtIPqEVNZ3xhLgBwdnBkyivrUw9Tz6SxLjWihV
-	 DFunPsGmgDang==
-Date: Tue, 28 Apr 2026 08:35:46 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Bryan O'Donoghue <bod@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, laurent.pinchart@ideasonboard.com, 
-	kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v2 11/14] dt-bindings: media: qcom,qcm2290-camss: Add OPE
- ISP subnode
-Message-ID: <20260428-demonic-albatross-of-enrichment-aa6f26@quoll>
-References: <20260427-camss-isp-ope-v2-0-f430e7485009@oss.qualcomm.com>
- <20260427-camss-isp-ope-v2-11-f430e7485009@oss.qualcomm.com>
+	s=k20201202; t=1777358622;
+	bh=+CJ9buDiat7Lfhg2e6SfgoWrCp1B/OwKO5DNBb27IQI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dUmnJAPej5wODNed8MUVSEzSdXZ1qCuVPAk5B7TlJJc32l80RMIdWy9TrZMAvPLrN
+	 9hjuDIo2tAw7UEWrMzSNMoA2BEKGmsoxra5Cshd2QFHY7gFjs4p2mbH1sSvu2BiYUm
+	 CCEsVV4LAs7RqhawR3rMYvVGh2SUhAk6D+9OpgZsDJ+OKXmsHC9e+ilVuG2v46IWZ7
+	 7Qt9UGpzDdUL95TxfkvQk4TVpyWQZaX7IgHTMF+Eos1/CWyppC1lxvwuuoB1IAtwDy
+	 b4giuvmcRpo3hBSjCRtpUJTRdABLehpx55Q0/sdQCUD1hb0W13qLMtnE0PBKyc2m7o
+	 N/bl204741qKw==
+Message-ID: <a6aff52d-6bf1-4f32-8b4f-cfba85b78964@kernel.org>
+Date: Tue, 28 Apr 2026 08:43:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260427-camss-isp-ope-v2-11-f430e7485009@oss.qualcomm.com>
-X-Rspamd-Queue-Id: 0051047E1EE
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/14] media: qcom: camss: Add support to populate
+ sub-devices
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Bryan O'Donoghue <bod@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+ devicetree@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ kieran.bingham@ideasonboard.com
+References: <20260427-camss-isp-ope-v2-0-f430e7485009@oss.qualcomm.com>
+ <20260427-camss-isp-ope-v2-1-f430e7485009@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260427-camss-isp-ope-v2-1-f430e7485009@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: D260D47E31E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59761-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-59762-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
-On Mon, Apr 27, 2026 at 02:43:38PM +0200, Loic Poulain wrote:
-> Extend the qcm2290 CAMSS binding to describe CAMSS as a simple bus by
-> allowing child ISP nodes. Add the required address and size cells, as
-> well as ranges, and validate ISP subnodes against the existing
-> qcom,qcm2290-camss-ope schema.
+On 27/04/2026 14:43, Loic Poulain wrote:
+> From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > 
-> On qcm2290 the OPE (Offline Processing Engine) is a memory-to-memory
-> ISP (Image Signal Processor).
+> Use devm_of_platform_populate() to populate subs in the tree.
 > 
-> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> ---
->  .../devicetree/bindings/media/qcom,qcm2290-camss.yaml       | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml b/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
-> index 391d0f6f67ef5fdfea31dd3683477561516b1556..d8b356028e24c3c5b2e9b7f20e220db7d491ad68 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
-> @@ -52,6 +52,14 @@ properties:
->        - const: vfe1
->        - const: vfe1_cphy_rx
->  
-> +  '#address-cells':
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
 
-Please use consistent quotes, either ' or "
-
-> +    const: 2
-
-This means the child will use 64-bit addressing, but does it need that?
-Or do you need that to have 36-bit DMA addressing? If there are true no
-needs for above, usually recommendation is to use narrowe address space
-for children, so only 32-bit.
-
-
-> +
-> +  '#size-cells':
-> +    const: 2
-
+There are no children in DTS and ABI does not allow them, so this is not
+really correct or you just missed proper order - bindings describing the
+ABI changes should be always before the actual change implementing it.
 Best regards,
 Krzysztof
-
 
