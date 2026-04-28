@@ -1,155 +1,151 @@
-Return-Path: <linux-media+bounces-59738-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59739-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id DgQ1BVII8Gn6NQEAu9opvQ
-	(envelope-from <linux-media+bounces-59738-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 03:07:30 +0200
+	id cPFkDNMU8GnXOAEAu9opvQ
+	(envelope-from <linux-media+bounces-59739-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 04:00:51 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7AD47C4C4
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 03:07:29 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 999BB47C952
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 04:00:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 987AF300BBA5
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 01:07:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0D61330247DF
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 01:58:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC6032367D9;
-	Tue, 28 Apr 2026 01:07:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0F882DECA8;
+	Tue, 28 Apr 2026 01:58:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IHCZp/qp"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="gmkBHsXQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4421D5174;
-	Tue, 28 Apr 2026 01:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499C32C0F69;
+	Tue, 28 Apr 2026 01:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777338443; cv=none; b=CAe1VXew/XCumKh6YOTeQIa0pnC8uChvC2Iw0nVq4wMSBt5LyD/DDPy812/mD5Wd8SzpN8dMuUlB0x2JkHQnMZZt2uU/Acr9DNdZEaOgWUJvmij5k7rjggA9VMKdzKOl0sEHsSYEtYS439aGEnY0pnxgd044p+UNzksSj+lFc6U=
+	t=1777341532; cv=none; b=E6LAhfQpPQti826ri5EvRvZ2mDL5Da7r3tVxsJTV1OYK2o7CoDi/dQN2Sk/PZf+kUF1MwK9DJx1EaFYAr28KSETl/AOJ53P4NiEpWloqabD+YAZAt87A/hKN/hw87lKrxJjTdDcYGHy5NyrJO67gAQGfethkHZ1muHIOadPPpJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777338443; c=relaxed/simple;
-	bh=LyI+lUUMCE1ZKBetq/FNJYQglULgm1bn/I/QPM9lZmc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=syHe9L9X2k6ovz2w9QLl8DUIdioYoQKyz44A9MSJlMEOJr0EaFnQ+3y8l4viEbWoBZDyHpycTxjj31/8eMgQ5dU4m2DUE5tLjnbXOOpAygdFg82T3Ym9Ed6dU8m68gAlDY1Zq3HsKN4wz2FxspXdCprE9rSmBBvcpZNqiPza69g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IHCZp/qp; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777338442; x=1808874442;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LyI+lUUMCE1ZKBetq/FNJYQglULgm1bn/I/QPM9lZmc=;
-  b=IHCZp/qp160NVtJWShpZ3bBD7MpAr5ThpF0H0o6G/jRhwL1Cxlf9G4V3
-   UK/Gnncl2HOQyT86fRTOEubyv278Bd/AgQrz5dQLQMxJUGOYZG5+frF4H
-   PKVI+uh5V7k+lCPltWGAGOlKuoJDTSqabs34lDtFsLm9sQUxahgKg1bos
-   3IL4fvX8zz/aprouTiUpccZB/GLOQdlLBwXUVR8BbM13XoBVDRkUcq4ph
-   cPDkjDq6B0gZMet+dyT+cVRUey+9W3s78XQs0ecomnpd7IalfIpdmRizA
-   sAikgduCKRlrkMyLkJKgM68DFpRz2SAJ60j34/hf0wY0tCsAbNPiyjXjU
-   w==;
-X-CSE-ConnectionGUID: puEzJldyTT+NMgKU6BcAag==
-X-CSE-MsgGUID: Xeipp4iSQOyrVyMIfwxHkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="77268543"
-X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
-   d="scan'208";a="77268543"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 18:07:21 -0700
-X-CSE-ConnectionGUID: cUspfWJsS1enucq7XWHW1Q==
-X-CSE-MsgGUID: YRH+pKAHSLKlEcSChXruGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
-   d="scan'208";a="233663659"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 27 Apr 2026 18:07:19 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wHWuw-000000009NQ-4Ayy;
-	Tue, 28 Apr 2026 01:07:14 +0000
-Date: Tue, 28 Apr 2026 09:07:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Agalakov Daniil <ade@amicon.ru>,
-	Steve Longerbeam <slongerbeam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Agalakov Daniil <ade@amicon.ru>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
-	Roman Razov <rrv@amicon.ru>
-Subject: Re: [PATCH] media: i2c: ov5640: Fix potential integer overflow in
- sysclk calculation
-Message-ID: <202604280813.SHiWrMhW-lkp@intel.com>
-References: <20260420154007.2877949-1-ade@amicon.ru>
+	s=arc-20240116; t=1777341532; c=relaxed/simple;
+	bh=NJd5GgoD+NpDQOZVGEsWKI5NWwOmiridCsA38gkHMZo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TCB27PvxM2p87/dscGZTGUyGdyVZdKakcA4fKK/G6Q69jfY1lv5APR1+s2/5nkR9QPCWz8nJyDVGQlRzZeg+LrrwC/vQdYpA2JQjkai/8/nP1mcRrnfrzLc4XELlzzoXC4tpowc49gsZ/w6LxhNCmjpJnUEcwdQog/445BpfhOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=gmkBHsXQ; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=V8UwvXyUMjLBtws4s7k7jbSM5GLv2sSezjqGQwVVv7c=; b=gmkBHsXQEbTXhEx6g2fcSwDDZB
+	vzbp26tODcpSFYCukuu3cZtW2oO/9J0mfmdLeHNAkTxqfjss0ft7rADvoqO2fyr2JJzMgfE2c/ZOy
+	o201LZD+v4bcnbRTVUlPKJu7RpX1VA32hMRZvr7IgCYvoSO9wovavfiRlf9RAZvewNnMpL0T9GXRV
+	FYdINzfmb4PZ9kSgkOvCkRS+7VB7TnvpIisv+GG/WbBDE0BsxbRhInwbUq+AZlq0zaUr3jyfEqhIQ
+	LVmYqGPVARH6UNr2W2YLC4ILdFd2WhsiXnpYd4TM85IURKqCMNUEh72YrkwXiF8qOd92TnlvQm8rx
+	Qnepm75w==;
+Received: from [179.221.49.249] (helo=[192.168.0.108])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1wHXij-003BUR-Gk; Tue, 28 Apr 2026 03:58:40 +0200
+Message-ID: <c624a91f-6ae2-441d-a6c4-c76cb2c816b3@igalia.com>
+Date: Mon, 27 Apr 2026 22:58:33 -0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260420154007.2877949-1-ade@amicon.ru>
-X-Rspamd-Queue-Id: 9A7AD47C4C4
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: atomisp: Use negation to check for NULL
+To: Andy Shevchenko <andriy.shevchenko@intel.com>,
+ Gabriel Sanches <gabriel@gsr.dev>
+Cc: linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
+ sakari.ailus@linux.intel.com, mchehab@kernel.org, hansg@kernel.org,
+ andy@kernel.org, ~lkcamp/patches@lists.sr.ht
+References: <20260423181443.46566-1-gabriel@gsr.dev>
+ <aesvvPPq35g2yHR0@ashevche-desk.local>
+Content-Language: en-US
+From: Helen Koike <koike@igalia.com>
+In-Reply-To: <aesvvPPq35g2yHR0@ashevche-desk.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 999BB47C952
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-59739-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59738-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[amicon.ru,gmail.com];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-0.810];
+	FROM_NEQ_ENVFROM(0.00)[koike@igalia.com,linux-media@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,igalia.com:mid]
 
-Hi Agalakov,
+Hi Gabriel,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch, please see my comments below.
 
-[auto build test ERROR on sailus-media-tree/master]
-[also build test ERROR on linus/master sailus-media-tree/streams v7.1-rc1 next-20260427]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 4/23/26 3:14 PM, Gabriel Sanches wrote:
+ > Fix checkpath error 'CHECK: Comparison to NULL could be written
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Agalakov-Daniil/media-i2c-ov5640-Fix-potential-integer-overflow-in-sysclk-calculation/20260426-101723
-base:   git://linuxtv.org/sailus/media_tree.git master
-patch link:    https://lore.kernel.org/r/20260420154007.2877949-1-ade%40amicon.ru
-patch subject: [PATCH] media: i2c: ov5640: Fix potential integer overflow in sysclk calculation
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260428/202604280813.SHiWrMhW-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260428/202604280813.SHiWrMhW-lkp@intel.com/reproduce)
+typo: checkpatch.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604280813.SHiWrMhW-lkp@intel.com/
+On 4/24/26 5:54 AM, Andy Shevchenko wrote:
+> On Thu, Apr 23, 2026 at 03:14:36PM -0300, Gabriel Sanches wrote:
+> 
+> ...
+> 
+>> Hey, this is my first patch ever. I would appreciate any
+>> feedback. Thanks!
+> 
+> Please, start reviewing others' patches for the same driver and read other
+> reviews and learn from them first.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Gabriel, fyi, you can check previous reviews on this driver on 
+lore.kernel.org, for instance: https://lore.kernel.org/all/?q=atomisp
 
->> ERROR: modpost: "__udivdi3" [drivers/media/i2c/ov5640.ko] undefined!
->> ERROR: modpost: "__divdi3" [drivers/media/i2c/ov5640.ko] undefined!
+> 
+> I'm not going to repeat what I said already several times on a patches like
+> this over the very same driver (atomisp).
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+You can see in the previous reviews a few comments to not fix just a 
+single occurrence of the issue on the driver, but to fix in a set of 
+files or in the entire driver.
+
+By running checkpatch recursively on the entire driver, I found 5 
+occurrences of this same problem.
+
+You can check with:
+
+   find drivers/staging/media/atomisp -name "*.c" -o -name "*.h" \
+     | xargs scripts/checkpatch.pl -f 2>&1 \
+     | grep -A3 "Comparison to NULL"
+
+I hope this helps.
+
+Regards,
+Helen
 
