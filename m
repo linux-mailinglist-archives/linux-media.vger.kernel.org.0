@@ -1,149 +1,221 @@
-Return-Path: <linux-media+bounces-59868-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59869-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6GjGMwjr8GmBbAEAu9opvQ
-	(envelope-from <linux-media+bounces-59868-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 19:14:48 +0200
+	id sP34IU3r8GmBbAEAu9opvQ
+	(envelope-from <linux-media+bounces-59869-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 19:15:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41584489BA4
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 19:14:48 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED21B489C05
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 19:15:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C7F6930A0CD3
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 16:50:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0880C3093038
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 16:54:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC45E331A7E;
-	Tue, 28 Apr 2026 16:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B7AF33D6D5;
+	Tue, 28 Apr 2026 16:54:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U8wtr39j"
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="gVFY5SGd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76043328E6
-	for <linux-media@vger.kernel.org>; Tue, 28 Apr 2026 16:50:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EABF33A9C1
+	for <linux-media@vger.kernel.org>; Tue, 28 Apr 2026 16:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777395020; cv=none; b=WEcf0UiC0O6UUB16waqP/qBAjMWQyJAFkTZhzeqodij1NJPJrAH7U4CPN0v985emLRBdrg3qUtHCEz4v5YXzbRll71lycws1Pd0oUAjnLN954bqu+A1Jb5Ln/7MOR4kwdIRZt2yqpxn5FTMzMark3s6pHmSV5HQUub2pB54AUys=
+	t=1777395247; cv=none; b=MA/Ap2YFipwtsivCLUUPgdWESBa/cfCzurUJiy+PPILfJeJ0WLsDyi60qok9Ow4Ll9usVk25/530nJooVaWw6/+Ma5hWZzkwqL84l5jk9vuB8E1xW/DFHwI3b4E972epgAGWCNiwdGIE3vv2F19UicK/OHlT+s6oxCQGfKzJ6l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777395020; c=relaxed/simple;
-	bh=uwCaXAikQcwcWv49E99orU1oLyDZe+ymr3yfkSGbxFQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MttQ04vuYHjDmm0hiNHOIYoeDy7pppfESVmAuoipdMHpTFF0luPwCqN3swP01JiAYzmikIfEP7b/FR+bPeb4GMGKQzV+YTowasMf/2tDERX9KJdmmXPGsFxHg6ezZ40H+Q+RqKcaGtnh1VxS3ONNZTLZBBKDv61fd6GXY+08Yjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U8wtr39j; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43d76dd4ee8so10341327f8f.2
-        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2026 09:50:18 -0700 (PDT)
+	s=arc-20240116; t=1777395247; c=relaxed/simple;
+	bh=rzWf/oQSHbkLcV8GwzpmrSWI0KfR0fCQpV3xi0rt5Og=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eOJzkMpXnS6BXFuqdaGHjBE5U4c12r2UFE3yxZ3zoOJxXirXpxuI2ODCcr9f3Gt+n7gRbZKdi3hhVhGO6bQgQPT0eaSpUairmrfGhacu8Pc/WrmGC0EuqwsxL/ZqXzlhAbBaOXWXWlLdydUwiOnw0uVzVRneIsw5cImQCfwWBEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=gVFY5SGd; arc=none smtp.client-ip=209.85.161.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-69498319ee7so11698eaf.1
+        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2026 09:54:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777395017; x=1777999817; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0P4jgSiiU7B+JwVmDaMNH4bNWiyKiRU0eieadFucCgk=;
-        b=U8wtr39jAnFGL7Y1BGwDF+6Rn7ijanX7xV5tDsa3rX++79fVLVtCgY4ajVAwpKk/7N
-         oJ5sDrI8eZ0tnONjGafiumFVSE9mw0mDWY+ytpdIyvaEjstB0m9kZ1tk11kO25wVjkHN
-         ESzkerozCTZ4s95970TJQRkOo944TLKVG1fPA05ljatkmXJvBfJ2mt/Jd/9wGlodio2V
-         wPO2hiLEGI2MF1lOkLGUTV6ljWonEASwDZR2SHuu5y/eeGQlfkEoej89IkVGrJmCrZi6
-         dpiL1aubT7KOjj6RbRKRqufEQ6WiqIcw5MqW6aMfuxjxRMpFZA/oeNdHOEDPLzIC+K/l
-         TOJg==
+        d=ieee.org; s=google; t=1777395244; x=1778000044; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=m3Z9r4IpEjJMUHPOqoRO6rW4qYst7QOqGLcntOF/K5A=;
+        b=gVFY5SGdeZ2JrpdQhfBOXtmU5OBrbNQbhEkaFelzzC8oIWbT3S+tNOJrkfLM9fewnq
+         Oh9d14toNjEhcJm8pUr4qhRqyuMFBdQBuJLymgs//dxzGjLfe2/k7B/8mJIT7/lci9eY
+         lJMTxKnO9jwE194fEOlgT0QYHkmt9cDMVFPYQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777395017; x=1777999817;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0P4jgSiiU7B+JwVmDaMNH4bNWiyKiRU0eieadFucCgk=;
-        b=OfL6t9lvP9/Xvp5/o+rH9nA142RB5fnGOIxsa8ceWhYH8xsOOlCITORv0Jo5ktnBzu
-         S3286GGq9djXqyV8BwdbVC4JYW0xZCrp+v+eXLzcba7cRxOjffk2P2LRTV4esGcrP8fw
-         uKKSxj8CiOP8UV+MGXORBa1Yd1KlqnzW0n/hnHDoxKiTgabhnsq8HHc7qzzZWf0XFbrs
-         nDe/12H9tWM5mgToY7nMA9kh+Kr+dxiyJp+o400UH9KvFGOWlhXpYgq8iWwkvrNDuEfZ
-         ecbEuOCvJVUAt8hkB+QKZNXQumqT0XB+xxvKska0TT4nlD0T+Oe3H1OqbNY8E08b8M3w
-         G0yw==
-X-Forwarded-Encrypted: i=1; AFNElJ+Gntdd5xTUAoVAY5uS6KdtMEnnWtFN7y9GvHS06EX/vQHgjroPbFQzTOh/CXdsoXRBboSZgnNselivGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhH/F6nyd3ruRhWUBQo477tXngRSsnPindeAoNa5fte50yVeT0
-	HNEbjAPGs3SH2KE0+rQ9+Ry1vzVyPZXaejJeEXhTwpGXIV6bcvt5166P
-X-Gm-Gg: AeBDievAmREklrfkgE/FvZdMxPW9GwVuwUvM/sCHfgM2A+nkSTTTtA+4q3n60ULunLd
-	28naSMNG8xRa8Lh+bi0ltc4pQqVI8X66TM+iE8ZI2axjgISI5ypsOMmdU3nB2o/IDRId1+BCDeD
-	l+FTxGR7LvUjbMnH2zcquNqhbdBjSnuwOKqhDtEyJtUfeVrjCydpT2b3QQ1Yje2e0Vko33vTeU6
-	zqsz8eOiMI9+aK2jdrij2vQfkh08VDnF+BJf1ThJzYbzC4mBzCEBXnzk2De5O3ezsMbNGWJY2Z+
-	FKm51mxQ/grT9Pb3bzIubVhm8xVX/jMJy6cArWnbU3dXcORBj6EzxqOy/fUPs0VP/8jLsXN1U5G
-	DtqK2mUIPdTyVj9VT6S+S+HVLL+k22leCFKujzRMBfPlqCWDibD67kMmlKkEIgRMecv8Tl2au3V
-	wdq+sS+Hddwjn8OgNWaJT+UeMW5eRlaA==
-X-Received: by 2002:a5d:64e3:0:b0:43b:498f:dceb with SMTP id ffacd0b85a97d-4464839c806mr6321421f8f.9.1777395017132;
-        Tue, 28 Apr 2026 09:50:17 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4463cb59ebasm7590675f8f.8.2026.04.28.09.50.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 09:50:16 -0700 (PDT)
-Date: Tue, 28 Apr 2026 19:50:13 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Mhanna112-code <marchanna111@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thierry.reding@kernel.org, jonathanh@nvidia.com,
-	skomatineni@nvidia.com, luca.ceresoli@bootlin.com,
-	mchehab@kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH] staging: tegra-video: Fix function argument alignment
-Message-ID: <afDlRSGwmZgjJadh@stanley.mountain>
-References: <20260428154022.6997-1-marchanna111@gmail.com>
+        d=1e100.net; s=20251104; t=1777395244; x=1778000044;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m3Z9r4IpEjJMUHPOqoRO6rW4qYst7QOqGLcntOF/K5A=;
+        b=Pqz1yJ6DMzm/9anRZ/cXeZeE5LLdvRjSdyK62+TOs4amH0a7qeXxtu+c0VH0keoU5O
+         rfvCMF/yWfULRpSfz3vccTFGbLlT0bb1dbSqS+m/nFkn6OOqxHXoTbnb83oSentCj/3w
+         RGly87KmL6iJVtf2LQrvZ7S2y0hZRMPEQ43q404DQygm1q7r/S68fFWOqiumhC2v79JH
+         uKSOoTnWgamirLrKryEC6k8PxSWXy09DXNBcU/kprw7pz0W2rUZoeNRcG7EAaMMoj4hB
+         LBg6VwmFGYbOrrmJATlZETTBO7D3k7bFbx4+EAHOapKEcW+9q8a8osqPhXbNVV5fdeFe
+         n2dg==
+X-Forwarded-Encrypted: i=1; AFNElJ9V6NJhfda+3xxhdNmldT6sJ3QYaNgy6TzSruTKYdVEN21o6s/wcbJrADqQyWOK1gmMSD6bcYdUoU+xow==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfeGbBthcQJy83oD0VVR0XVIpy/jhqHvJ5ra1qjr2W3P1zVUsy
+	JVX6GCGBJdUIURfU2K+gzzOoEOQTIB8ChvCY5FIzIfu1Ykm5unDJYhnWvkqL2lhlxA==
+X-Gm-Gg: AeBDietDB9jl+1wPXNQVLwUD1WAq2GN6ODgPIwgxNKCgRlFlkow5Hx+dK7B8fGwKBnd
+	qcWqfupyD55qBRgzk9TUp9+0X85DiBsgq07d5ta5yjAMUIkltzWq/bVKEZK1aMn800LLIKT0Sk1
+	8MLH16S/9lwH3GuzXl+YR8FYYFQgxCQ9mcCqGKxWTWIBhWRepvP8j1IDV+CFiBlmqskUq//H9gz
+	Zxp3bS53nxQJ5F3J7kMN6KYQHbltoG8917Kde9fXEc6wBYEpe+LTsPboAyMYFG3w3Wu3qV4ZEH+
+	uSV782ocWB8JXYVCZRdoz9b/jnyy7ZL9yKd/nocBOPd9Z+RoRMTlPwFpIlhdO/KGHhaMsr2DoUn
+	g4jJDroVG41DRUahFasozBP7//xzQI5mB/4gMEiaxo8NAy2n+nec6SaMIrDBBProTkWGEeVKpI8
+	f4ytEV24Q7BJlBiGFVUUAYGMdKyY447ghruKCYUiVm7Eqg39HILSlXDhLVRnAwt1iDO3VLsYRP2
+	FA71Rk=
+X-Received: by 2002:a05:6820:4b05:b0:696:13e9:6863 with SMTP id 006d021491bc7-6965c5ee294mr1871158eaf.2.1777395244239;
+        Tue, 28 Apr 2026 09:54:04 -0700 (PDT)
+Received: from [172.22.22.28] (c-75-72-117-212.hsd1.mn.comcast.net. [75.72.117.212])
+        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-433effdc79bsm2240677fac.18.2026.04.28.09.54.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Apr 2026 09:54:03 -0700 (PDT)
+Message-ID: <aa2b2823-05b2-49a6-bdd3-622523497a0d@ieee.org>
+Date: Tue, 28 Apr 2026 11:54:00 -0500
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260428154022.6997-1-marchanna111@gmail.com>
-X-Rspamd-Queue-Id: 41584489BA4
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 12/15] net: ipa: Switch to generic PAS TZ APIs
+To: Sumit Garg <sumit.garg@kernel.org>, andersson@kernel.org,
+ konradybcio@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-media@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
+ linux-remoteproc@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
+ akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ jesszhan0024@gmail.com, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
+ dikshita.agarwal@oss.qualcomm.com, bod@kernel.org, mchehab@kernel.org,
+ elder@kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ jjohnson@kernel.org, mathieu.poirier@linaro.org,
+ trilokkumar.soni@oss.qualcomm.com, mukesh.ojha@oss.qualcomm.com,
+ pavan.kondeti@oss.qualcomm.com, jorge.ramirez@oss.qualcomm.com,
+ tonyh@qti.qualcomm.com, vignesh.viswanathan@oss.qualcomm.com,
+ srinivas.kandagatla@oss.qualcomm.com, amirreza.zarrabi@oss.qualcomm.com,
+ jens.wiklander@linaro.org, op-tee@lists.trustedfirmware.org,
+ apurupa@qti.qualcomm.com, skare@qti.qualcomm.com,
+ linux-kernel@vger.kernel.org, Sumit Garg <sumit.garg@oss.qualcomm.com>
+References: <20260427095603.1157963-1-sumit.garg@kernel.org>
+ <20260427095603.1157963-13-sumit.garg@kernel.org>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20260427095603.1157963-13-sumit.garg@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: ED21B489C05
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[ieee.org,reject];
+	R_DKIM_ALLOW(-0.20)[ieee.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59868-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
+	DKIM_TRACE(0.00)[ieee.org:+];
+	TAGGED_FROM(0.00)[bounces-59869-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[elder@ieee.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_GT_50(0.00)[50];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[stanley.mountain:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,riscstar.com:email,qualcomm.com:email,ieee.org:dkim,ieee.org:mid]
 
-On Tue, Apr 28, 2026 at 10:40:22AM -0500, Mhanna112-code wrote:
-                                          ^^^^^^^^^^^^^^
-Your from header needs to be fixed.
-
-> Separate long function calls into multiple lines to comply with kernel formatting style.
+On 4/27/26 4:56 AM, Sumit Garg wrote:
+> From: Sumit Garg <sumit.garg@oss.qualcomm.com>
 > 
-> This fixes the following checkpatch warnings:
+> Switch ipa client driver over to generic PAS TZ APIs. Generic PAS TZ
+> service allows to support multiple TZ implementation backends like QTEE
+> based SCM PAS service, OP-TEE based PAS service and any further future TZ
+> backend service.
 > 
-> CHECK: Alignment should match open parenthesis
-  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This isn't what the patch does.
+> Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
 
+Looks good to me.
+
+Reviewed-by: Alex Elder <elder@riscstar.com>
+
+> ---
+>   drivers/net/ipa/Kconfig    |  2 +-
+>   drivers/net/ipa/ipa_main.c | 13 ++++++++-----
+>   2 files changed, 9 insertions(+), 6 deletions(-)
 > 
-> Signed-off-by: Marc Hanna <marchanna111@gmail.com>
-
-regards,
-dan carpenter
+> diff --git a/drivers/net/ipa/Kconfig b/drivers/net/ipa/Kconfig
+> index 01d219d3760c..a9aff1b7977d 100644
+> --- a/drivers/net/ipa/Kconfig
+> +++ b/drivers/net/ipa/Kconfig
+> @@ -6,7 +6,7 @@ config QCOM_IPA
+>   	depends on QCOM_RPROC_COMMON || (QCOM_RPROC_COMMON=n && COMPILE_TEST)
+>   	depends on QCOM_AOSS_QMP || QCOM_AOSS_QMP=n
+>   	select QCOM_MDT_LOADER
+> -	select QCOM_SCM
+> +	select QCOM_PAS
+>   	select QCOM_QMI_HELPERS
+>   	help
+>   	  Choose Y or M here to include support for the Qualcomm
+> diff --git a/drivers/net/ipa/ipa_main.c b/drivers/net/ipa/ipa_main.c
+> index 788dd99af2a4..3cd9e44680e9 100644
+> --- a/drivers/net/ipa/ipa_main.c
+> +++ b/drivers/net/ipa/ipa_main.c
+> @@ -14,7 +14,7 @@
+>   #include <linux/pm_runtime.h>
+>   #include <linux/types.h>
+>   
+> -#include <linux/firmware/qcom/qcom_scm.h>
+> +#include <linux/firmware/qcom/qcom_pas.h>
+>   #include <linux/soc/qcom/mdt_loader.h>
+>   
+>   #include "ipa.h"
+> @@ -624,10 +624,13 @@ static int ipa_firmware_load(struct device *dev)
+>   	}
+>   
+>   	ret = qcom_mdt_load(dev, fw, path, IPA_PAS_ID, virt, phys, size, NULL);
+> -	if (ret)
+> +	if (ret) {
+>   		dev_err(dev, "error %d loading \"%s\"\n", ret, path);
+> -	else if ((ret = qcom_scm_pas_auth_and_reset(IPA_PAS_ID)))
+> -		dev_err(dev, "error %d authenticating \"%s\"\n", ret, path);
+> +	} else {
+> +		ret = qcom_pas_auth_and_reset(IPA_PAS_ID);
+> +		if (ret)
+> +			dev_err(dev, "error %d authenticating \"%s\"\n", ret, path);
+> +	}
+>   
+>   	memunmap(virt);
+>   out_release_firmware:
+> @@ -758,7 +761,7 @@ static enum ipa_firmware_loader ipa_firmware_loader(struct device *dev)
+>   		return IPA_LOADER_INVALID;
+>   out_self:
+>   	/* We need Trust Zone to load firmware; make sure it's available */
+> -	if (qcom_scm_is_available())
+> +	if (qcom_pas_is_available())
+>   		return IPA_LOADER_SELF;
+>   
+>   	return IPA_LOADER_DEFER;
 
 
