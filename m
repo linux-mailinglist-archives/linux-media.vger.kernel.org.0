@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-59765-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59766-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wGkbEOta8GlQSAEAu9opvQ
-	(envelope-from <linux-media+bounces-59765-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 08:59:55 +0200
+	id WBoCGL1a8Gn/SAEAu9opvQ
+	(envelope-from <linux-media+bounces-59766-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 08:59:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB0047E5EC
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 08:59:54 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A1A47E5CF
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 08:59:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2893030B3139
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 06:56:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id F086C300AD72
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 06:59:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5F1B36404E;
-	Tue, 28 Apr 2026 06:56:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5420C374E4C;
+	Tue, 28 Apr 2026 06:59:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gDEoPrkX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XqIhq1Eu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384F6345751;
-	Tue, 28 Apr 2026 06:56:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B345D28B4E2;
+	Tue, 28 Apr 2026 06:59:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777359378; cv=none; b=VGzbAcYTpfid0VEWV+K+l35uP6AjXPStLOw9rFt+FBwRr1HfpiN+I6Wetw3sfo/pcfwZzEq+IC7G8zstxIjeSoU5MXdQSu50f3Wo6o8oaXMVoT50tD7gIteR24KNxXykwB/jbduWUAgLIbm/85YsufkxTrvJ20IwLnlbLAhvdvE=
+	t=1777359541; cv=none; b=f+DR9Yu1Q07cJnYZG/FEN8mI97KOkUfZh/nX2Lkr+tq8U1yRUmfmqY01g3UFaSZTIy9/X2kI20EbNAEG8kTo3ZPvN3LKx2+0v1AHvgG3z+O9wpFociSPAuCbGeMhyDISQ4tAeslCEz++IeLTgu8/zdKg6O8XIpGaAvvsqv6CclI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777359378; c=relaxed/simple;
-	bh=7+SAl/k9DPllFv+iTtdbtfjy2bQ9LA6XKa6rnbMRh3w=;
+	s=arc-20240116; t=1777359541; c=relaxed/simple;
+	bh=qcxwqNRAUHk1BYedxxBMnS+1rZxy6T0uDounlDb+gKw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jeSk1oGLwced/03mfpg4tsNIemeT2HJLv3xvn9Ot/43E072mJzu0dyJS2U99Rbn+HOjI/hyYoAIrE77bpyByFuH7Wx/mAxU34VuOq+kgxuCzMo++uSKl93agNo6+y03YzAT2OA7B+emEiksdOIWMKeptREAbji1jl4IEC2F1ZEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gDEoPrkX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26740C2BCB6;
-	Tue, 28 Apr 2026 06:56:13 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=jFy8PYablVds26tfTDry9wKq1xxOUFMmOT9mWDLg3JaiDemTB+AGgll95jFnPdUOk2tyPyZUfzrDt/NnCIpxQcyDIpv6Fpu9jvVAIfCn201LTBBLJiAf3tdxlzwfz88jI3b2mPQGm8I8rTp8MTwV8QlbS0jcFOA64lzsSpTEMXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XqIhq1Eu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BABDDC2BCAF;
+	Tue, 28 Apr 2026 06:58:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777359377;
-	bh=7+SAl/k9DPllFv+iTtdbtfjy2bQ9LA6XKa6rnbMRh3w=;
+	s=k20201202; t=1777359541;
+	bh=qcxwqNRAUHk1BYedxxBMnS+1rZxy6T0uDounlDb+gKw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gDEoPrkXa94mbIE4hZClYTiJ4Z0hMfIHuCqdz8vXSYh6Rs7sxLhJny0cVZ2MN5vqB
-	 aeKExetSf/pLkeXYGI+q8fW/h4qZRoskXiqac+ZejVpFwc61eG9jAwFzKZlbwWBl69
-	 sZrBgKzTohjfSc+CGPZZnjAchYrsK1QcAB4nrjxCW/DJhDU8sDjOaC02eKLnR/Dmfy
-	 ak5iwf7pyUU7oAtMNXSvvmLJHuE8YjqS82LEDVcglW7WrOelGMpb86oDzUYjzDK0s1
-	 A2lRoHB8z6OoHluw8Z1Yaa8eaIAhzWyFaeALmeBPEQOU+xY+TbmSnz8oTRx25EOj2Q
-	 vsPEAiXo2Qy4A==
-Message-ID: <d4f786a9-3cd0-40ec-b499-8185e867af44@kernel.org>
-Date: Tue, 28 Apr 2026 07:56:12 +0100
+	b=XqIhq1Euld1fDOmb0MGvSBXidGneSY/wEuWTxrW7X+nIfycos1HVmyntzqeZdVCWB
+	 tPB2GvWJ7pgyQH16X7SEjnIOqWLHCJGHKg/1NHImAGjhmhqJcWR/G3msxW0hn2YWkd
+	 19RU6zq1duXapSrYF0pGfRuZm++I+gt5fxEYNiC5ifNlJz9JOzuOAl6cqhoI7C28wl
+	 Zl1b4q0/EWVfLGjOFxmqjGcQYUBLaFX2FFNzINLhtOSKeKltK51TfvXUtVv4/TB9E4
+	 T+UDEH2S250p2ZrpredMQMukowbphOequ+9706V41vEGHrrci2iWMz144eTXwvTSHi
+	 Umt8hkM7NmYyQ==
+Message-ID: <2be69e97-94d5-4d63-8933-7a17c62788a0@kernel.org>
+Date: Tue, 28 Apr 2026 07:58:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,71 +53,73 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/14] media: qcom: camss: Add camss-isp-bufq helper
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
+Subject: Re: [PATCH RFC v3 01/11] media: dt-bindings: venus: Add qcom,msm8939
+ schema
+To: Erikas Bitovtas <xerikasxx@gmail.com>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
- devicetree@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- kieran.bingham@ideasonboard.com
-References: <20260427-camss-isp-ope-v2-0-f430e7485009@oss.qualcomm.com>
- <Ptwba7JmobZufdkgayhAhPOOjZhv-yUkZSIMcQYJbKrrBFOdsdG_QI2uUof0EibbexBxSGC4drfA8J1zV2zDRQ==@protonmail.internalid>
- <20260427-camss-isp-ope-v2-5-f430e7485009@oss.qualcomm.com>
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
+References: <20260427-msm8939-venus-rfc-v3-0-288195bb7917@gmail.com>
+ <YzZsuL4AkwyyqAf2UcNu45lsqxIN8DMPUA6OejoKVBCvmGnFPEFeaZEt8qPhdnZ_gqmZRJiTw2uh1oatvb9m8A==@protonmail.internalid>
+ <20260427-msm8939-venus-rfc-v3-1-288195bb7917@gmail.com>
 Content-Language: en-US
 From: Bryan O'Donoghue <bod@kernel.org>
-In-Reply-To: <20260427-camss-isp-ope-v2-5-f430e7485009@oss.qualcomm.com>
+In-Reply-To: <20260427-msm8939-venus-rfc-v3-1-288195bb7917@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: DCB0047E5EC
+X-Rspamd-Queue-Id: 52A1A47E5CF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59765-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-59766-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,apitzsch.eu,baylibre.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
-On 27/04/2026 13:43, Loic Poulain wrote:
-> Add a per-queue ready-buffer FIFO helper for CAMSS offline ISP drivers.
-> camss_isp_bufq provides N spinlock-protected FIFO lists of ready vb2
-> buffers, one per queue index. This can help multi-queues management
-> and synchronization in ISP context.
-> 
-> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> ---
->   drivers/media/platform/qcom/camss/Kconfig          |  14 +++
->   drivers/media/platform/qcom/camss/Makefile         |   5 +
->   drivers/media/platform/qcom/camss/camss-isp-bufq.c | 101 +++++++++++++++++++++
->   drivers/media/platform/qcom/camss/camss-isp-bufq.h |  85 +++++++++++++++++
-What is the purpose of this and the next three patches - why not just do 
-it inside the OPE ?
+On 27/04/2026 18:58, Erikas Bitovtas wrote:
+> +  video-encoder:
+> +    type: object
+> +
+> +    properties:
+> +      compatible:
+> +        const: venus-encoder
+
+This should be dropped.
+
+The new way is to declare encoder/decoder inline in the driver, I 
+pointed this out to you at the last revision.
 
 ---
 bod
