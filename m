@@ -1,172 +1,241 @@
-Return-Path: <linux-media+bounces-59847-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59849-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YB6TAoas8GnOWwEAu9opvQ
-	(envelope-from <linux-media+bounces-59847-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 14:48:06 +0200
+	id cAKzAsGv8GkfXQEAu9opvQ
+	(envelope-from <linux-media+bounces-59849-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 15:01:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BD848510F
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 14:48:05 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5855748570B
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 15:01:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7D98F30968D7
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 12:44:35 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B8B4B301AF1B
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 13:01:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 033ED449ECA;
-	Tue, 28 Apr 2026 12:41:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 236E832ED2E;
+	Tue, 28 Apr 2026 12:57:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="laPv0bTZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ErnTEDRi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1607A42DFEF
-	for <linux-media@vger.kernel.org>; Tue, 28 Apr 2026 12:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE80B4418DB
+	for <linux-media@vger.kernel.org>; Tue, 28 Apr 2026 12:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777380099; cv=none; b=ggwBtF1vfmPLj3f1buM30mDvrKq/epQv9/vO4qkLw7h2eJI+MjjuizKFts9KHNxU67kvebdZ8ORQowYhabm1mBJ1JhXPEdOZhc6ovPefxh8K9EvHmasFpZeJvvTbKmrgZXdObOUbMQfgrpzx9vzrhA/6z9YE8Cp02kJ4E0FfRFE=
+	t=1777381041; cv=none; b=OdE9kVatKfPe56fAX4HDfvdNgb1iA6/AiBNd6DwL0tDcyvGyyzDnKAJToHUywPJu4EPZDxpMS9/Yf+xASQTGD7xpiLaVbYlnZwsMlp+65SQGeHWYpjbGvsPGaBrxLq91RHziljIjKVpWupgw4F8HPc+P+dMUYUrJM2xVh9iuVbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777380099; c=relaxed/simple;
-	bh=GwGpe5Wt4f65zgUFFPN3Xc69ChmANQfroRnFxnuMqXY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RxZf0a3e82aNH97Yvfs0sybbM4WgBijQhEqAR7Qoi0n5yle1ZXEhAz23s3B81i/JA1RvSO7gAyiUaCFH/zhEedLP0Tl99visNT2/jwryVMFSZhLlY3cPpQFw1JT/mp0YTIAYNwMKKWpBhhr7r7muRUYV+y9rSSWyKw62/o0of5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=laPv0bTZ; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a283c44478so17833578e87.3
-        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2026 05:41:30 -0700 (PDT)
+	s=arc-20240116; t=1777381041; c=relaxed/simple;
+	bh=VqeLDQRLMKU7s+EZS+ig8a/zapOpnhK489qRigdsGcU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NTJWlhnEWSzi4qQvpEJvcZ76syf96lmVYZCBB6vokECSTSkgJHi255C2NPuDrT7Fal10GwqWIYggn9OcQyi1eZXhHonR4w8gvvhkmOT5KgperWvw3Akj6kLHBnGqdM+PRG30nkJxu4JqWxxj1EBlIlft+NgANSAzWWNqgC+fTU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ErnTEDRi; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2b24fcc2b5dso72322865ad.1
+        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2026 05:57:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1777380088; x=1777984888; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7jNyWZOzTH0keZ+Or/bxi1/4rkv0VzTqmw2qXTfXKYk=;
-        b=laPv0bTZsWTSUHsKrdkt8BEtSKsLDd6r/8OU07m8YbR5fD9r97wyRcvG+U3v1fLzgY
-         SGqe/xwPIVlMC1e697jZDDeRJn0KMICvVp8vWcsDHPZrPDdDlC4X/ybSyKjyNy6+j4KR
-         ew1stgf+KvUbsQAN2dG2ObtyH1QLqybTeHv3g=
+        d=gmail.com; s=20251104; t=1777381036; x=1777985836; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9ZBVJ20UhMxUS07PwK3D+4nyCgSd/sgxQDWyRFPlgUE=;
+        b=ErnTEDRiERA4qEU89zuDMOY8E+K0ICn72917+vcp5no0B2eiRCBOOcDQWNZpPrRJKe
+         aB3fjwkxkxUYhXiiHax7hjK1wnoDGnuee/sq2ui5NRJekBjqCKBQkqkXGjKgEIC8PRLf
+         Q58DDXHVBfwBBkqVO0fKW7iW6X31Bkv7YE82fPur4t08dYIqynf0iBZaNZqpSlJqZ9DI
+         5Lcbehv2RVY1C5A9RwDZGF0w/8nsSf/x9GdgxtYcuZhfwFBmnLmu7b0/tG2o8yY980RN
+         gUSKt1Wg8XYhnk8iEZbZvQXA/0/kiDPiFugnwZHvCu5Ok9Edbhg/a+tZya3OnNDs5iF0
+         1Qog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777380088; x=1777984888;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7jNyWZOzTH0keZ+Or/bxi1/4rkv0VzTqmw2qXTfXKYk=;
-        b=JqkBfy5n7ck4QyVEdnYs2HNiJgXbpfbK7oxGt98EiynWHwqiurlUQyDRzXE2aA6rCq
-         SWkHS5Kgla3HOFo2m245kb2VSQNcZ8r4q7ZNXGOfKBE9b9NwPGQwsaNMlShsk6pfzJpu
-         b85F7x2GrpDvJ1H3YbGl+Ht7lx4VB/luJeZtsC6vC4Aco6N+7HhHAzglMkjSpbNKnsgr
-         Ah3N0JAIPrOvGyP37OkKqUYi3WYfr6syI4KzlvgDURA9gFbGblPs+1eVBOBwan8FQ3Ca
-         pjNXbb2bt3Ku8HZHrFBRPzu/36yXitMX//uWjxRW3XtQHxk4JanFORXEyfm0SJTz7dtg
-         v34A==
-X-Gm-Message-State: AOJu0YzBHfduyn7ctkQUPU+bxvQnNffGSq8+4gJ5SGAP5hq8QlbU87ne
-	nyGWJbPo7j15YLJn2QBGqttZ9ER5uuFE5KFKaXrFB+136jBM3tXTBn+b02q5K4KZiQ==
-X-Gm-Gg: AeBDiev76lgCNuxVzpbUGwK02c9BTnqV/CWAmpwxe32lVL355xvT80I+7fR1Mv3TTrH
-	3Ow+/uNZZO0M1wkrEihzCoqaohSDdQjjHi9wmVEp4GpfqedFQdqqB9qJlTRYUW+dINytEdQ5m9G
-	07qVYDnQRpQd4FDztJBkphjLMhfqCO2GRUSImV5Ka8R87fzsJP62mk5gsUTHBtRN5LATKcbwmac
-	ppW8bdvBrZUV9+i3UbHbCJ8BaAOZaA3LXqQL7RJXg4C3wnYCrhv/l9uiN9IRPuKLmdUkuLpapph
-	tsQZ4OHIxAu/FqHOajLF8Jl7H0gKmUUPsLafV0ReniGrkIY6xUSHqZtz5v/mzPuQ9pWWZ8RCJcR
-	NdmZ4IddDUu0AAXyKxAhTMIi9gfxOmjvDGqC/FEAd4adsKJQd8EDVXitm8dGbw6ARK/DsnrogHT
-	yXiu4cfAmsKWvbBUAwVot7FD3Wsw7JeNrX/IlSNoh109j7ql8ThmM+2kbcGk8ru9qVisqMM0MNH
-	dmht9P0IC7SB3r04A==
-X-Received: by 2002:a05:6512:3502:b0:5a2:86a3:709f with SMTP id 2adb3069b0e04-5a74660cd3amr1254340e87.17.1777380087720;
-        Tue, 28 Apr 2026 05:41:27 -0700 (PDT)
-Received: from ribalda.c.googlers.com (52.163.228.35.bc.googleusercontent.com. [35.228.163.52])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a7463f5fb5sm594617e87.38.2026.04.28.05.41.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 05:41:26 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 28 Apr 2026 12:41:12 +0000
-Subject: [PATCH 6/6] media: amlogic-c3: Add validations for ae and awb
- config
+        d=1e100.net; s=20251104; t=1777381036; x=1777985836;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9ZBVJ20UhMxUS07PwK3D+4nyCgSd/sgxQDWyRFPlgUE=;
+        b=fNbf8L6QfaGarpV5iVvgpRa0fLhtRG6NB8AKPLmvGDftmFaQyIU8TSWR6DBqR336xR
+         fmzgDApz07PY4ZkB3w0ZCOIB7sOKiefrRs77Ts46W/Y08JdYYgQNceI8ePGpP8HU18vJ
+         uf74en6xACvKxTmgl7mTZZhcdtzZzZifQpSAmjRwzNr/NBSxYzOc8Y98eeBoObLocABs
+         +s0tcJPiyrLhAKaWhwiHxEoCOo0E7GqhCiDPpN/rQQsd2ywQVo28PsphKNQGH2LnE1Pn
+         6cZqnw2lSrwbHJnrcJXEyGUAJxa47cx3PrhMC64BcBODX05XszP3+F617EXYMOn/bcNz
+         ejlQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9W/KD1KOZ20bqu25OCvVoGC4ehBYk24x5aEE27GrwkacI3VN2HEiPoxV8Al3Pf3e5tnAC26xImxWNajQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9GXo5DdN+oYNhAdjqz+XoBv6T8Dmo6lBPARTgKDsdOrO3ETdL
+	FJ19jFORUBgoQ5CSXQF4xR+W4QsFRvBFY/A8bYSaHjbf1JKUQPTPXmU=
+X-Gm-Gg: AeBDiet4ONzlLnHXFFaVubIVVyxBX0hg+QeCg6PxYSPk3ocw2+LGO9DL+w14BlOAQFN
+	QPq7M+EgCaNMDA9OdiA4DENCbmKYJnPUvWBbS5PFuVTAVRi9wdCCx5lTEHTBwysN1VMfwxeTO0/
+	JY+uWWhnjvliH6X19M5NfOsSg+TJYkLD469FesVb0nTj0sYx4WVNkrzfHdgzwSX057tZxLxtkNX
+	ON2cNP+F+EixYzB2n7pX+4gIfVncJro1uazzEu0eBbzZ6rgW49/0c1SnjyahKnJiGVqPGY5k8my
+	wB1S5tWxgE/sPsOlyJIw1wZctlgnYnKkWcVGArymytBN2AMGlSY2XDd4N5IG/9dY0BwVFAdaG/8
+	sVXeu+YRh0IQAqFzO9FxFk8e4bUZ+2kKHveK1ozwtORP05X8jhHSHCExgg+U4MLO83Mp5n81Nop
+	pPde6lM4R5XmIu3O1oPZSbgwsM/yjknwnqhcd5PZtCfNQPpO7uAN0hLlu2lr+5eLrxV3mRE2WRh
+	dNhjFo1W6AVlYY=
+X-Received: by 2002:a17:903:1b2c:b0:2b2:a267:784a with SMTP id d9443c01a7336-2b97c47b88fmr29441165ad.24.1777381035694;
+        Tue, 28 Apr 2026 05:57:15 -0700 (PDT)
+Received: from localhost.localdomain ([1.226.165.54])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b97aca8b4esm26483825ad.73.2026.04.28.05.57.12
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 28 Apr 2026 05:57:15 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: Myeonghun Pak <mhun512@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH] media: rcar-vin: Clean up notifier on probe failure
+Date: Tue, 28 Apr 2026 21:57:04 +0900
+Message-ID: <20260428125708.93102-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260428-smatch-7-1-v1-6-46890dffb611@chromium.org>
-References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
-In-Reply-To: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>, 
- Jackson Lee <jackson.lee@chipsnmedia.com>, 
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Keke Li <keke.li@amlogic.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.3
-X-Rspamd-Queue-Id: 44BD848510F
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 5855748570B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	TAGGED_FROM(0.00)[bounces-59847-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,glider.be,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59849-lists,linux-media=lfdr.de];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mhun512@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,chromium.org:email,chromium.org:dkim,chromium.org:mid]
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 
-Avoid invalid memory access if the zones_num is bigger than
-zone_weight.
+rvin_group_notifier_init() initializes the group notifier before
+parsing the graph and adding async connections. If parsing fails
+after that point, the function returns without cleaning up the
+notifier, leaving the async connections and their fwnode references
+behind.
 
-This patch fixes the following smatch errors:
-drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+The Gen2/default probe path also fails to drop the group reference
+when rvin_group_notifier_init() returns an error after
+rvin_group_get() succeeded. Unlike a successful probe, .remove() is
+not called for this path, so the probe error path must unwind it
+directly.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Route notifier-init failures through a common cleanup path, clear
+the cached async connection pointers after cleanup, and make the
+default probe path mirror the CSI-2/ISP group unwind.
+
+Fixes: 856b49c71ae5 ("media: rcar-vin: Merge all notifiers")
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 ---
- drivers/media/platform/amlogic/c3/isp/c3-isp-params.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../media/platform/renesas/rcar-vin/rcar-core.c    | 32 ++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-index 6f9ca7a7dd88..42d780f684d1 100644
---- a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-+++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-@@ -104,6 +104,8 @@ static void c3_isp_params_awb_wt(struct c3_isp_device *isp,
- 	c3_isp_write(isp, ISP_AWB_BLK_WT_ADDR, 0);
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+index c8d564aa1e..8ba8d49c3e 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+@@ -318,6 +318,20 @@ static const struct v4l2_async_notifier_operations rvin_group_notify_ops = {
+ 	.complete = rvin_group_notify_complete,
+ };
  
- 	zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-+	if (WARN_ON(zones_num > C3_ISP_AWB_MAX_ZONES))
-+		zones_num = C3_ISP_AWB_MAX_ZONES;
++static void rvin_group_notifier_cleanup(struct rvin_group *group)
++{
++	v4l2_async_nf_cleanup(&group->notifier);
++
++	guard(mutex)(&group->lock);
++
++	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++)
++		if (group->vin[i])
++			group->vin[i]->parallel.asc = NULL;
++
++	for (unsigned int i = 0; i < ARRAY_SIZE(group->remotes); i++)
++		group->remotes[i].asc = NULL;
++}
++
+ static int rvin_group_parse_of(struct rvin_dev *vin, unsigned int port,
+ 			       unsigned int id)
+ {
+@@ -440,7 +454,7 @@ static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
+ 		/* Parse local subdevice. */
+ 		ret = rvin_parallel_parse_of(vin->group->vin[i]);
+ 		if (ret)
+-			return ret;
++			goto err_cleanup;
  
- 	/* Need to write 8 weights at once */
- 	for (i = 0; i < zones_num / 8; i++) {
-@@ -220,6 +222,8 @@ static void c3_isp_params_ae_wt(struct c3_isp_device *isp,
- 	c3_isp_write(isp, ISP_AE_BLK_WT_ADDR, 0);
+ 		/* Parse shared subdevices. */
+ 		for (id = 0; id < max_id; id++) {
+@@ -449,7 +463,7 @@ static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
  
- 	zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-+	if (WARN_ON(zones_num > C3_ISP_AE_MAX_ZONES))
-+		zones_num = C3_ISP_AE_MAX_ZONES;
+ 			ret = rvin_group_parse_of(vin->group->vin[i], port, id);
+ 			if (ret)
+-				return ret;
++				goto err_cleanup;
+ 		}
+ 	}
  
- 	/* Need to write 8 weights at once */
- 	for (i = 0; i < zones_num / 8; i++) {
-
+@@ -460,11 +474,14 @@ static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
+ 	ret = v4l2_async_nf_register(&vin->group->notifier);
+ 	if (ret < 0) {
+ 		vin_err(vin, "Notifier registration failed\n");
+-		v4l2_async_nf_cleanup(&vin->group->notifier);
+-		return ret;
++		goto err_cleanup;
+ 	}
+ 
+ 	return 0;
++
++err_cleanup:
++	rvin_group_notifier_cleanup(vin->group);
++	return ret;
+ }
+ 
+ /* -----------------------------------------------------------------------------
+@@ -1228,8 +1245,11 @@ static int rcar_vin_probe(struct platform_device *pdev)
+ 		break;
+ 	default:
+ 		ret = rvin_group_get(vin, rvin_parallel_setup_links, NULL);
+-		if (!ret)
++		if (!ret) {
+ 			ret = rvin_group_notifier_init(vin, 0, 0);
++			if (ret)
++				rvin_group_put(vin);
++		}
+ 
+ 		if (vin->info->scaler)
+ 			vin->scaler = vin->info->scaler;
+@@ -1264,7 +1284,7 @@ static void rcar_vin_remove(struct platform_device *pdev)
+ 
+ 	if (&vin->v4l2_dev == vin->group->notifier.v4l2_dev) {
+ 		v4l2_async_nf_unregister(&vin->group->notifier);
+-		v4l2_async_nf_cleanup(&vin->group->notifier);
++		rvin_group_notifier_cleanup(vin->group);
+ 	}
+ 
+ 	rvin_group_put(vin);
 -- 
-2.54.0.545.g6539524ca2-goog
-
+2.49.0
 
