@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-59773-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59774-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WLMOMedq8GkITAEAu9opvQ
-	(envelope-from <linux-media+bounces-59773-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 10:08:07 +0200
+	id 0HMtNOpq8GkITAEAu9opvQ
+	(envelope-from <linux-media+bounces-59774-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 10:08:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A1947F9F8
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 10:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC1547FA07
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 10:08:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 301283022D82
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 08:06:25 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id EC23130231FF
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2026 08:06:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38BFB34F48F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 810052D46A1;
 	Tue, 28 Apr 2026 08:06:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Aye0e1UH"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="AGDli7+k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C08433FE02;
-	Tue, 28 Apr 2026 08:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2D43451B3;
+	Tue, 28 Apr 2026 08:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777363573; cv=none; b=o2NlxmpDoWfPu52V/qnrpQZCWXRmZ5R2xuQzA4ZObsDZGwinBvAOJ88NdS+FAnqYEkT+2fyuZpsdDHL/lobJEeHs0sUwSFXbo1vkg5nPJwPKRUABh/qp21dRJbWT7Gvbeaa9d4o9+IBMTtf00Qxia+KYA6FXo2TCAI5X0pKbSk0=
+	t=1777363573; cv=none; b=uZZVcLuVnk6Vl1hyrtEJyxqB9xuFzzNHIQuOaHs11lvGOD/SPajF/N/+QDM7UeAEpC5RGyITZxdsvH9PdFT4w5m9ALXJGzV1o+dAH19e+PXuXUB1r7NC3zm3joQOszNc3H12XqtUW+5u5seRPq6tafFeuTlo/epN0HZQI4cZYSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1777363573; c=relaxed/simple;
-	bh=Icyu9mDyR5XC6EJ+fw6HwbZeEumToytyMGuJSUYBJjM=;
+	bh=OYob8fSUnpI9y6Gvd+dqzpKjsH6b68SDcumXg9R7qxQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IT+t/OQAh4/IrpS4LplmK/k2EATVtjneHjpH5zxR0xj59RvohAMPTb6Z2rYP4ock1WI9h6PI82vtzMg/IJKcyKdbOV/HD4sEqoOImzKbUVFXtSVTVFgL+EGd29F+GxRbizpxDb2jphdDw8hQDB4ndDN5B5kXm8as7boyvjhsMco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Aye0e1UH; arc=none smtp.client-ip=54.207.22.56
+	 MIME-Version; b=UQbaLpsgJOz2a7VIBdKb0F9BfnGL2sM3J8rGrczph2K3n5HK9ugZ3DeHGWsSTToAlxcFh7Dwvz4qqxz7+/gQglMKfZvE0m6ZzfQOqDuPCecIYGdPkGFZRSXqBtrFRhkCS9NPTJ8dC0vTAY2zbIBzb37vgMCLPJWE1uUkBy5TfMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=AGDli7+k; arc=none smtp.client-ip=54.206.34.216
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1777363550;
-	bh=1RR1YtVSBXfVSJxUBB2AKFR+yLwoFEUBMjDD17hxsj0=;
+	s=onoh2408; t=1777363555;
+	bh=zCCooQNkuhbrhVqN/DKbRXTuGY/qI92cGD/gbm9ZT8k=;
 	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=Aye0e1UHPypow8bO7Ki7AodHq8zTZuDSDKUM/cwcSnOumDOJsIGIVbV9F27/wPHcc
-	 RYUouvPMdqISa8wWAPmspoOCZNpMRbhBjv6KkYXTQSvUBTrOtcVJ5//TRL4bO4CT6T
-	 PSbDQ8S8Ie1XgzbY33zCUpKr8Odk30q3h+TFraZ4=
-X-QQ-mid: zesmtpip2t1777363545t07a96599
-X-QQ-Originating-IP: zOGsRQ4vEgqT/NE82VSDH4QQPothkDoKChOOIb4l5hM=
+	b=AGDli7+kqHXmhASE7qIhkAKrcfK1Ne0MZqIKJyOBygbrALo+tz9hO6oYJ/mXWO1/2
+	 STKX9N5QgYZ7jjaYIUdlqI6FezJlQ10ouLNW1Qu6mdeWsFIiyYOxOhlptrVnyfXHTl
+	 sIkKWcR8FBmO6loYrrrKVtOafd+JmRDKP86p06aM=
+X-QQ-mid: zesmtpip2t1777363550t3c09782c
+X-QQ-Originating-IP: D7QBc+Gq/wa23NcgnaXkDpaStXRKIJCGv/NNNT/U82I=
 Received: from localhost.localdomain ( [localhost])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 28 Apr 2026 16:05:23 +0800 (CST)
+	id ; Tue, 28 Apr 2026 16:05:47 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 9221135693376165927
+X-BIZMAIL-ID: 11922991574654543991
 EX-QQ-RecipientCnt: 10
 From: Haowen Tu <tuhaowen@uniontech.com>
 To: rafael@kernel.org
@@ -61,9 +61,9 @@ Cc: lenb@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Haowen Tu <tuhaowen@uniontech.com>
-Subject: [PATCH 1/2] PM: hibernate: add pm_hibernation_storing_image() helper
-Date: Tue, 28 Apr 2026 16:05:12 +0800
-Message-Id: <20260428080513.1833515-2-tuhaowen@uniontech.com>
+Subject: [PATCH 2/2] media: uvcvideo: skip resume when writing hibernation image
+Date: Tue, 28 Apr 2026 16:05:13 +0800
+Message-Id: <20260428080513.1833515-3-tuhaowen@uniontech.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20260428080513.1833515-1-tuhaowen@uniontech.com>
 References: <20260428080513.1833515-1-tuhaowen@uniontech.com>
@@ -76,25 +76,25 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: NuC7ko3X4dcAdQNq9HLYhUpihyKysUA6+YWdUUw6uk2TV/K61ZfnQPXT
-	PPXiriyUzNmpcg10jp6N7S7VB1vDFx2tSVIbOAX6umdR4ghBm4LyM0UA9wpV5tG1m/NmTfC
-	WX8I52/JZ2NFXVSMF8X29Jy8zaWnZwgJYIo4edNUbqrI/H56AZUuS+PXXcG3yWj24eJwpNX
-	4DNntdGHfhovxWy29vTEey5Het/ryW3msqIp7KgiebTTXkigbcvsOB0OE6StlRj/1e/YTFj
-	AE1V6RsCY5sCkq0EXWBzZDSd7DRvoFlqP1u7ACHqeAtcvrzx+dWWhxUOMvjAIzvg7JJyu+u
-	wT6SEt+r2v5/Hu0sEiC0WgwVoRQOMtnEcyPT91pCneXPvWbfiw7SkpCdGsM21TUfPI0FEu+
-	FtzoU6bY/liqIQV/U0HQH1Mm99FYd1byv8ikdytSFjm/w2TWBXA+olKSTfupkCZDRxDaF4v
-	ZiOeGFAY6WHc3598t1KDcqeNzjQ/6VH0miygdpmZSK8YBqJXSJrdy7kEzWZMTO5bH9PVX43
-	DR8/Pw5AiRJdYgOx4Y9khQxIRW2WW1bLmGPzMGCAsHsLfknAMZJ8pgOCg3peYO1OitnpjSD
-	QM/Bk3vc82W/nPxns883KUHcrAFTVNw8Y/RcbD31p+5TQtl0fCnt6ov1gW+vFE7OeM7Bdsb
-	97ZIjgIFWOmFquXGBhMU5Ij5kaRWm+21yAfkb6P/7PIyTPqY3ySzgriipz5Uf1++K7PD9Rr
-	0ltVtvTU279HozQsVX7mP43C61/vYB5jNX8x7bb3icw5biK3342VtysGKYxkTkfyhPjkVRR
-	sFev8YNe12N6FtxlqRu6QKC0X41nUsm2k6QsBWhefg5U82JHYC+1s3WA8O/64YHYAByco1b
-	+WSFn9zd3vy/8S3Aa2BX0Ttsgce8wKvcDINiqmGSwAfUobaNU5K0gRkl2PzmpCfZEeBU1jT
-	RL5igejYIujzQTjdKZCtzHWYcCofHDxc+aCFltS1ebXUG43LISrB0e4KQwopnkWET83e7Fd
-	IObcWZ7NEcjz/WfEDnNmbbj5uCaRfKe3bODhE+ez04rqLlhVIA
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-XMAILINFO: OUKBLrr/x8hbTTvrmt755Oqiyj63BMUepaw8In70Sh6KvjazYshk3JOo
+	ykx1+fjrRqjJXuYNR02Hxn39PcNxOjjt161UTro6TSzdgUo1vbtRSTIpPzzoHUpit+gTAbf
+	idUfyUMyeAvMLhxSi8PA1CELhmLN/RySXJ30I8s/d+i3ApyiQ1pIGd7X7PeIo6qyPEcxNbK
+	V8Ex4xBfHWtjEJUe/yUldqt3rMZZlRIYaKFB9da9XwVGgYP2CS/T3OjWOu3+ZYeR4V1B6lW
+	Zl/r/8/uhJrVeOU1eFWmeNcOJUwwjgS6iqLbhPZo7QJDFPFUIaBv31wS6mCdwDiGiYu646i
+	WIIFoXCjMp7q4qSytST+nu0muUAM6suhjlDVkpu/xoZmqYar9krpKm9w43pPu1Tb95rCKot
+	mW/I9mFi9xqREeafwNV7m26M3mWo2r2L4054cK3hO/uiS8FlOMMr3hAsPfDkgmugghH/WLM
+	GuQpt23I/ilqqXl2X8+eaEwAWpl+RzDa+YHbf+cYNV8YhLFOORlFuvg+Mf8LYcqTQRR5YPZ
+	FBy0QcJXADchH6YRJLKzXX/HjI4Rn7j1bW5aXIAf/Utm9nKXPQZ2ukbiOs5+GI2K5j5cDZJ
+	WMR3gp4uxmyOx953YMEM1SYvHNT+3f1AmtP1Lw3vCQIS1AxehCNOVMx95BG5msQPHiqxKvk
+	nimtVkpxfZzH8aLabs4FFIDBTd7csIEpJUm//jX18Q498nMAuOKg0VyaDZDlGJzhT+0dmN1
+	roFG2DTwS5t3J5UQbA1rLqLAvCiSw+sarFTYZaotjJOomzTWz+EBeRLR3g7lj1wtICJb/eB
+	fPvKs124otyTER+8SpEC0lSJR/GFyhoRgmIyuhxvJdNw+u8l05FOnSYjKZoedxEjdy65H5K
+	ph/8P/exUeEmivPJcw78T0x+FqgVm26zJi7ktVHVYJpmizF1gj2eEWw1j+yg9YpBk9YSlYe
+	PKd1rA9rOi2bqcpWQF1aObQDvZI34y208vIHYoM9uFk7NrubeT6sR0K2PkTTW8549RFPWCe
+	gq2xKvZBMbZUelMzOVA45/HpJs6Kkst6kXUbHREfXAlLqr75/iEKHUS6lSffQ=
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
 X-QQ-RECHKSPAM: 0
-X-Rspamd-Queue-Id: 64A1947F9F8
+X-Rspamd-Queue-Id: BDC1547FA07
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -111,7 +111,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59773-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59774-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[uniontech.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[];
@@ -124,79 +124,61 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,uniontech.com:email,uniontech.com:dkim,uniontech.com:mid]
 
-During hibernation, after create_image() saves the memory snapshot,
-the kernel resumes devices with PMSG_THAW solely to write the hibernation
-image to storage, then powers off.  Drivers for hardware not involved in
-storage I/O have no reason to reinitialize during this transient phase.
+When a UVC camera is in active use and the system enters S4 hibernation,
+the camera is suspended as part of the normal device freeze sequence.
+However, after create_image() saves the memory snapshot, the kernel
+briefly resumes all devices with PMSG_THAW to write the hibernation image
+to storage.  This causes uvc_video_resume() to run and reinitialize the
+camera hardware, which visibly turns on the camera indicator LED during
+this intermediate phase -- even though the system is about to power off.
 
-Some subsystems, such as USB, do not expose the hibernation PM message
-to driver resume callbacks, so drivers there need an explicit query to
-distinguish the image-write phase from the final restore path.  Export
-pm_hibernation_storing_image() for this purpose.
+The UVC device is not needed during the image-write window, where the
+system only needs devices required for writing the hibernation image.
+USB .resume callbacks do not receive pm_message_t (unlike .suspend),
+so use the PM-layer helper to detect this phase and return early from
+uvc_video_resume(), preventing the unnecessary hardware reinitialization
+and the spurious LED activation.
 
-The implementation returns !!in_suspend, which is set to 1 in
-create_image() just before swsusp_arch_suspend() and reset to 0 in
-hibernate() after swsusp_write() completes.  Because in_suspend is
-marked __nosavedata, it is not saved into the hibernation image; on the
-restore path the variable remains 0 throughout, so the helper correctly
-returns false during PMSG_RESTORE device resume.
+Skipping the THAW resume is safe: stream->frozen remains 1 (set during
+the earlier FREEZE suspend), the device is powered off immediately after
+swsusp_write() with no intervening suspend, and the subsequent
+PMSG_RESTORE resume on the restored kernel calls uvc_video_resume()
+with pm_hibernation_storing_image() returning false, performing the full
+reinitialization as normal.
 
 Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
 ---
- include/linux/suspend.h  |  2 ++
- kernel/power/hibernate.c | 19 +++++++++++++++++++
- 2 files changed, 21 insertions(+)
+ drivers/media/usb/uvc/uvc_video.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/include/linux/suspend.h b/include/linux/suspend.h
-index b02876f1ae38..28b454def83d 100644
---- a/include/linux/suspend.h
-+++ b/include/linux/suspend.h
-@@ -393,6 +393,7 @@ extern void hibernation_set_ops(const struct platform_hibernation_ops *ops);
- extern int hibernate(void);
- extern bool system_entering_hibernation(void);
- extern bool hibernation_available(void);
-+extern bool pm_hibernation_storing_image(void);
- asmlinkage int swsusp_save(void);
- extern struct pbe *restore_pblist;
- int pfn_is_nosave(unsigned long pfn);
-@@ -412,6 +413,7 @@ static inline void hibernation_set_ops(const struct platform_hibernation_ops *op
- static inline int hibernate(void) { return -ENOSYS; }
- static inline bool system_entering_hibernation(void) { return false; }
- static inline bool hibernation_available(void) { return false; }
-+static inline bool pm_hibernation_storing_image(void) { return false; }
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index f6c8e3223796..16a911b684d5 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -12,6 +12,7 @@
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
++#include <linux/suspend.h>
+ #include <linux/usb.h>
+ #include <linux/usb/hcd.h>
+ #include <linux/videodev2.h>
+@@ -2135,6 +2136,15 @@ int uvc_video_resume(struct uvc_streaming *stream, int reset)
+ {
+ 	int ret;
  
- static inline int hibernate_quiet_exec(int (*func)(void *data), void *data) {
- 	return -ENOTSUPP;
-diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-index af8d07bafe02..bc632cce40ff 100644
---- a/kernel/power/hibernate.c
-+++ b/kernel/power/hibernate.c
-@@ -113,6 +113,25 @@ bool hibernation_available(void)
- 		!secretmem_active() && !cxl_mem_active();
- }
- 
-+/**
-+ * pm_hibernation_storing_image - check if system is writing the hibernation image
-+ *
-+ * After create_image() saves a memory snapshot, the kernel briefly resumes
-+ * devices with PMSG_THAW to write the image to storage before final powerdown.
-+ * Drivers for hardware not involved in storage I/O may call this helper from
-+ * their resume callbacks to skip unnecessary hardware initialization during
-+ * that transient phase.
-+ *
-+ * Context: May be called from device PM callbacks.
-+ * Return: %true if a hibernation snapshot has been taken and the system is
-+ *         in the process of writing the image to persistent storage.
-+ */
-+bool pm_hibernation_storing_image(void)
-+{
-+	return !!in_suspend;
-+}
-+EXPORT_SYMBOL_GPL(pm_hibernation_storing_image);
++	/*
++	 * After taking the hibernation memory snapshot, the kernel briefly resumes
++	 * devices with PMSG_THAW to write the image to storage before powerdown.
++	 * The UVC device is not involved in storage I/O, so skip reinitializing
++	 * it to avoid unnecessary USB traffic during this transient phase.
++	 */
++	if (pm_hibernation_storing_image())
++		return 0;
 +
- /**
-  * hibernation_set_ops - Set the global hibernate operations.
-  * @ops: Hibernation operations to use in subsequent hibernation transitions.
+ 	/*
+ 	 * If the bus has been reset on resume, set the alternate setting to 0.
+ 	 * This should be the default value, but some devices crash or otherwise
 -- 
 2.20.1
 
