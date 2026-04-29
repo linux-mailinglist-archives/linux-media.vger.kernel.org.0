@@ -1,181 +1,221 @@
-Return-Path: <linux-media+bounces-59946-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59947-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wH9jNEvC8WkbkQEAu9opvQ
-	(envelope-from <linux-media+bounces-59946-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 10:33:15 +0200
+	id APDLFtLE8WkbkQEAu9opvQ
+	(envelope-from <linux-media+bounces-59947-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 10:44:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2EE49139D
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 10:33:14 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E226F4914D5
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 10:44:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 685B63082800
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 08:29:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 89479305679A
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 08:43:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C37D93B27CD;
-	Wed, 29 Apr 2026 08:29:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FFDF3B8BD1;
+	Wed, 29 Apr 2026 08:43:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nbjSYDWp"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="f16KYBLM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00123B2FD6
-	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 08:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AD03B2FFD
+	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 08:43:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777451367; cv=none; b=sUub9z8FDH+wft5L2tonoFyYU+fTa/xE/pg/hgybDLS0phvNJzsgr4w9JVhIixyKPbPsCpzd+KYIo1mV6CU9hnNjbpY40I9KU22B1PhYIlZAuFkqRMG++3VJXQ5bi5GtY8zOCMQlDpoc4TDmyHaSQ100key7iwCK+sj2UsrLP1U=
+	t=1777452186; cv=none; b=G1fX2lnG2vP8RgDnSOiBCT5sH+plGaebeM5jb0MV5ju2n1cjt9LcYGv2LUbIUy/63AOdRgbuaZxLeEAKc9duxpQPnin7J7duUKL80Hnz/OfGkSwnzMRNBqrjmFcD/t8Qhg6sJmB06JfethsQk6wkMe2RmLRMkMOqpaU37sZg6a0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777451367; c=relaxed/simple;
-	bh=qVj3Ep/cYjVWxLUl8DR8hKE1FQ4EOx1iqoIhcnbXjeA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TGkBruix1Y0jn56kA4tJshrKS+0/WFuAqhd8RGU/SBZNOb5KNqvcl9XrfVoo/JPnyS4a9UpcoDxE8FaQBocViIhEX3aEatYqxihO5yV8DVixHnx7dSoVCKvuqJ7PfotI1MoMIDgMAmKqtxl5jjzcWbyIsdiHMO/zDMfKu90WUsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nbjSYDWp; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777451366; x=1808987366;
-  h=date:from:to:cc:subject:message-id;
-  bh=qVj3Ep/cYjVWxLUl8DR8hKE1FQ4EOx1iqoIhcnbXjeA=;
-  b=nbjSYDWp8dN+E9irrKb4prwLtU40cKUy6EvKqAmT2QgIBtiJZ4LigA+i
-   SEA3nb0sO1ZwGf23tnswe53tmsmHbFKt6It2dIu4AFDCrNGPTWjTfAWhG
-   VWpXisoK1wZcV5WT5ZAkIWDGP4uZ4HHuhmX1keQMzAxg4Hs1ey3mnOWUK
-   6eBc+zpQUWW//ePxc4rIsKD+gSk0omGQm+DkkoNiD1R7/zT4tyW/yUTyq
-   cGti9tcy9FIwOGQuHWrE30tcV2H7dr1BaHsFoGgjs+EMXeK/YMMQRDf3d
-   JtzsdiJha4VSMY5kAhAe5U09/M1MkBxP5LK/D/B6x3+O8keOweZSfA8vq
-   w==;
-X-CSE-ConnectionGUID: Hqrs/6KoTqGwDUoVo9n51w==
-X-CSE-MsgGUID: WM3vvQB4Sza/LDyyMxtRHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="95793597"
-X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="95793597"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 01:29:25 -0700
-X-CSE-ConnectionGUID: Zp37nzjwTc6RJPcVzLRpPQ==
-X-CSE-MsgGUID: W3qG9V9iQ++FHrCCIukZzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="231551308"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 29 Apr 2026 01:29:24 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wI0IL-00000000ApA-0AUM;
-	Wed, 29 Apr 2026 08:29:21 +0000
-Date: Wed, 29 Apr 2026 16:28:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [sailus-media-tree:metadata 91/122]
- drivers/media/i2c/imx219.c:982:24: error: too many arguments to function
- 'v4l2_subdev_get_fmt'; expected 3, have 4
-Message-ID: <202604291638.d493kmZ2-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1777452186; c=relaxed/simple;
+	bh=tupiD11ATds5ekAH11VAwc8M0ubbtZCVy5mgO77Hq00=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=unVa1y1sZuY9KLG7rrMJMvZvasHktv2yI8fzAtncbV9oTeh3bJ1/8D0Ru7FWjnqTDJhjIAA5OkVrUbGEZuqnafFwHi1H1b1gSiXuviDCTV5ewnLGx4mcKitPWiGvSc+a6AUMs6Rsdi0cJ+74gMS/vAjRMkZde6q4AGg1IkYbzls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=f16KYBLM; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43d77f60944so8788263f8f.3
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 01:43:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1777452184; x=1778056984; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aEw2E2UxluXLM5FnKmomLkyyPldPWoTTdKM8dvkkUPc=;
+        b=f16KYBLMIzZYLjPY3dRyCZf1zyHDvtBrrzWgpNSuIqO3GcXITs6GeAqF0JvIrgqkOW
+         mX0wW+l86BtExzi1nnlBSa0GbxrigLA/1+FOKxZFU+9c9UjDQr6ZvA9jDjA+uV8fn4ns
+         KhAaNI6HSY1HC8QWkqRRNRXSFzE/UselxsNwC9h3S7iOUnLmRSaczB34jxi7vLGL1oRJ
+         S/dfS4BgGBgZq83+tKaPpycbUtul/xS/tABFk6t9VdkHUqjCWvX0vd7kCJrxNCB/bZD3
+         WhDJ5QXHc+0wBjsqdnj1zCUkp6C/UM6djT04HvAaWIrsdBp8uhA5a4Y7EId83T/DpVc1
+         /8jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777452184; x=1778056984;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aEw2E2UxluXLM5FnKmomLkyyPldPWoTTdKM8dvkkUPc=;
+        b=MIJMvNvq40QfnXNciXwEYMhcZ7zRXXxqrDwA0HBKmSUQWWe1S2mrhsE6T18zy6/ndS
+         l8spjBKWxB4CrXYT/GrswYV/8261FVnC7SELrbRuaamzhSwwNCG+n2mtG0eWOTNy3Wls
+         ubu9788uCSOd8ZrUesA8PW2Vgk4wHHWxkhEt8gFuwTO6HUh+U+7G6YiKA3cnaDTB1utc
+         eSsXnryCme+kNKrK5gZBFIdHk0CuQFtbnmj6U/Si7/LXJunVm9bcKFLJ3ZLS988PSzLZ
+         cDpBID1DAZoHccddVDAef2v8bQvkyEQTIPdPb2a14fLfdLt57W8ZccDp6APm4IVEdyBk
+         DYtA==
+X-Forwarded-Encrypted: i=1; AFNElJ+51gLdoVBVLGnxO+xM/UHSHbXiKVLS1B3jUFgjqzJ4O/YMHCupNd4f1znsH4h1HDXm8W7euP7pgDwaSw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvSpv7P2321YOyRRM2EAdBRaqFIoBv6/2IdjDp5aBkKGLcJbHC
+	vzhImwgwXuEKOS7BzOaKbpyisCJCv8a/TceGRhT12E594D84CUXSKUZyj0xDZsjOjLI=
+X-Gm-Gg: AeBDietZ3oxeFcgZxTmHFhP4OyHDcV3ksL1w6B/GU4KGHAG/WtjhD/axTTJqBAbObim
+	ABtylR56w4wZD8+J6Cpl3tHANfPNn11RCvzX6F4POvVRpA82dzeHSneYs+lT7NUw1N65w94QqdY
+	DdQCwdktZCTNxDe3V1vG4onH2nckx6WOkXRUy+W43RoJ+LtQuxlAwa96Cc6za94ShjFz4C1HD4p
+	l17cbnJ/PxWS9JtVLoP9dnWNn6wJ0tQ3b8TMm5Rs5nH3ilaB7eUd+ogA59jlop64YtobiYYk16S
+	bc354qjRN6D7dmGeLPTi497inwYyS6+k6viE71jfNxdfZTwOdH43gZ16rGth8QJrrMRPmfzJis3
+	WeaTUEw9V9yzeqqzEFurmXJPcuVaCKBP/Wx8hxnqDqUvB6hTo/sUe6Dn95dly6J5s5DtlKAMmYP
+	h6R7GLqvhrxaCYZQUGz20utPqv7mvo9MvJOQIr8c2LPdjQUQb/cZt/pL+FHR0qalnWsC9mUGAdr
+	qNruw==
+X-Received: by 2002:a5d:5d08:0:b0:43f:e7fe:421f with SMTP id ffacd0b85a97d-44790efd49fmr4716396f8f.40.1777452183598;
+        Wed, 29 Apr 2026 01:43:03 -0700 (PDT)
+Received: from ?IPV6:2001:a61:13a6:c701:bf3c:e2f0:87b2:c525? ([2001:a61:13a6:c701:bf3c:e2f0:87b2:c525])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b3d48131sm4260624f8f.3.2026.04.29.01.43.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2026 01:43:03 -0700 (PDT)
+Message-ID: <6d0f7bdc-bdb8-4d9c-887e-8a5f3d4c6b98@suse.com>
+Date: Wed, 29 Apr 2026 10:42:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Rspamd-Queue-Id: 4F2EE49139D
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] USB/PM: should USB interface drivers distinguish
+ hibernation THAW from RESTORE?
+To: Haowen Tu <tuhaowen@uniontech.com>, gregkh@linuxfoundation.org,
+ rafael@kernel.org
+Cc: linux-usb@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ laurent.pinchart@ideasonboard.com, hansg@kernel.org, mchehab@kernel.org,
+ pavel@kernel.org, lenb@kernel.org, oneukum@suse.com, kernel@uniontech.com
+References: <20260429033617.1954257-1-tuhaowen@uniontech.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20260429033617.1954257-1-tuhaowen@uniontech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: E226F4914D5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	SUBJECT_ENDS_QUESTION(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	TAGGED_FROM(0.00)[bounces-59947-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.com:+];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59946-lists,linux-media=lfdr.de];
-	RCPT_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[oneukum@suse.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,01.org:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,suse.com:dkim,suse.com:mid]
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   489ab6e79288be8d219b68525a13699fde0248ae
-commit: 0a4acc9d6279bb839202e8731d03c772e7cb0291 [91/122] media: imx219: Add internal pads, routes for common raw sensor model
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20260429/202604291638.d493kmZ2-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604291638.d493kmZ2-lkp@intel.com/reproduce)
+On 29.04.26 05:36, Haowen Tu wrote:
+  
+First, to which extent is the issue specific to USB? I suppose
+you'd see the same issue on a camera connected via PCI.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604291638.d493kmZ2-lkp@intel.com/
+> In the hibernation flow, after the memory snapshot has been created, the
+> kernel briefly resumes devices in order to write the image to storage.
 
-All errors (new ones prefixed by >>):
+Yes. But you cannot just restrict the thaw to storage devices.
+You also want
 
-   drivers/media/i2c/imx219.c: In function 'imx219_set_pad_format':
-   drivers/media/i2c/imx219.c:982:48: error: passing argument 2 of 'v4l2_subdev_get_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
-     982 |                 return v4l2_subdev_get_fmt(sd, ci, state, fmt);
-         |                                                ^~
-         |                                                |
-         |                                                const struct v4l2_subdev_client_info *
-   In file included from include/media/v4l2-device.h:13,
-                    from drivers/media/i2c/imx219.c:28:
-   include/media/v4l2-subdev.h:1477:75: note: expected 'struct v4l2_subdev_state *' but argument is of type 'const struct v4l2_subdev_client_info *'
-    1477 | int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
-         |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   drivers/media/i2c/imx219.c:982:52: error: passing argument 3 of 'v4l2_subdev_get_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
-     982 |                 return v4l2_subdev_get_fmt(sd, ci, state, fmt);
-         |                                                    ^~~~~
-         |                                                    |
-         |                                                    struct v4l2_subdev_state *
-   include/media/v4l2-subdev.h:1478:52: note: expected 'struct v4l2_subdev_format *' but argument is of type 'struct v4l2_subdev_state *'
-    1478 |                         struct v4l2_subdev_format *format);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
->> drivers/media/i2c/imx219.c:982:24: error: too many arguments to function 'v4l2_subdev_get_fmt'; expected 3, have 4
-     982 |                 return v4l2_subdev_get_fmt(sd, ci, state, fmt);
-         |                        ^~~~~~~~~~~~~~~~~~~                ~~~
-   include/media/v4l2-subdev.h:1477:5: note: declared here
-    1477 | int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
-         |     ^~~~~~~~~~~~~~~~~~~
+a) displays (to show the user what is going on)
+b) keyboards (sysrq key)
+c) anything used for logging
+d) devices for the visually impaired
+
+> On the successful hibernation path, the system is then powered off. For
+
+Keyword: successful
+
+> a USB camera that was actively streaming before hibernation, this means
+> the USB resume path runs during that intermediate THAW phase, even
+> though the final RESTORE path has not happened yet.
+
+Yes, though it will not happen if the writeout fails.
+
+>  From the driver's point of view, that THAW phase is not semantically the
+> same as the later RESTORE path after booting from the image.
+
+That is the key point. In the error case it is.
+  
+> The difficulty is that USB interface drivers currently get
+> 
+>      int (*suspend)(struct usb_interface *intf, pm_message_t message);
+> 
+> but resume-side callbacks are only
+> 
+>      int (*resume)(struct usb_interface *intf);
+>      int (*reset_resume)(struct usb_interface *intf);
+
+That depends on whether the device has lost state.
+  
+> so by the time a USB interface driver's resume path runs, it has no
+> direct way to distinguish a hibernation image-write THAW from the later
+> RESTORE path.
+
+That is not true. A thaw should call resume(). A restore after STD
+should call reset_resume().
+  
+> The immediate trigger here is UVC, where resuming the streaming path
+> during that THAW phase can turn the camera LED back on and cause other
+> visible device activity even though the system is about to power off.
+> More generally, review feedback on that patch was that solving this in
+> individual leaf drivers would not scale well if other USB interface
+> drivers ever need similar behavior.
+
+Storage and UAS devices need to thaw. As well as the devices listed above.
+
+> So the question is whether USB interface drivers should be able to
+> distinguish these two phases, and if so, what the right interface would
+> be.
+> 
+> Possible directions could include:
+> 
+>    1. Exposing the phase distinction to USB interface drivers
+>    2. Handling it inside usbcore
+
+Not possible. Some devices need to be thawed. Writing an image
+to a USB device must work. At the very minimum you need a flag
+and a mechanism to handle a failed writeout.
+
+>    3. Adding a USB-specific callback or other mechanism for this
+>       transition
+> 
+> I'm intentionally not proposing a concrete API in this RFC yet. I'd
+> first like to understand whether this should be considered a real USB PM
+> interface issue, and if so, which direction would be the least
+> intrusive and most maintainable.
+
+I am sorry, but your basic assumption that all USB devices can be handled
+in the same way is not correct.
+
+	Regards
+		Oliver
 
 
-vim +/v4l2_subdev_get_fmt +982 drivers/media/i2c/imx219.c
-
-   969	
-   970	static int imx219_set_pad_format(struct v4l2_subdev *sd,
-   971					 const struct v4l2_subdev_client_info *ci,
-   972					 struct v4l2_subdev_state *state,
-   973					 struct v4l2_subdev_format *fmt)
-   974	{
-   975		struct imx219 *imx219 = to_imx219(sd);
-   976		struct v4l2_mbus_framefmt *format;
-   977	
-   978		if (!(ci && ci->client_caps & V4L2_SUBDEV_CLIENT_CAP_COMMON_RAW_SENSOR))
-   979			return imx219_set_pad_format_compat(sd, state, fmt);
-   980	
-   981		if (fmt->pad != IMX219_PAD_SOURCE)
- > 982			return v4l2_subdev_get_fmt(sd, ci, state, fmt);
-   983	
-   984		format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
-   985	
-   986		format->code = fmt->format.code =
-   987			imx219_get_format_code(imx219, fmt->format.code);
-   988	
-   989		return 0;
-   990	}
-   991	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
