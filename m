@@ -1,138 +1,138 @@
-Return-Path: <linux-media+bounces-59905-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59906-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2OsjBCeB8WlYhQEAu9opvQ
-	(envelope-from <linux-media+bounces-59905-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 05:55:19 +0200
+	id AEGiOuaE8WkyhgEAu9opvQ
+	(envelope-from <linux-media+bounces-59906-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 06:11:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86EC748EDF7
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 05:55:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDFD48F02F
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 06:11:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 60F9B304D5E7
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 03:55:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DD89B3018BF4
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 04:11:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63704314D21;
-	Wed, 29 Apr 2026 03:55:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDDAE34A3D6;
+	Wed, 29 Apr 2026 04:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgpaWj+L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68763090D9;
-	Wed, 29 Apr 2026 03:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1E03090C1
+	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 04:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777434903; cv=none; b=XMSHIWyXQe7xTjifavfVhQIpPW3Dmn2/Uzh+jF12dTKNcAF6CpqB4IWiwnsrz3ebOl79YQzBUjqYCHZB2qsSSru0CJSSk5Xgry/GSWRuQtyGoMbonHri2RpUIWmO1Dv09BoHyCsXZuTt28ERteXX4okg4brevnAfjst2Ovdt72U=
+	t=1777435868; cv=none; b=VRmmFPKR0liZnuQt6AskeAZSwiYXbDkohhW4PH1im8Xxh88n7hqPkFzf+hjfD6YJc0I8Vzl+N+ZhmBTU81+uKdylWTQL9b03Lm+d89ugEGEAcz4nVHag3czLQzW3vM0xReKSwsk1ff2pQmuKgMZEkDDzLrDR04hA9PxzSKMCeGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777434903; c=relaxed/simple;
-	bh=jEUKmL8n+tguFRTgGv1kdnapvspoS5gXeKc/0eDui48=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UVD+h4HxvKPkuvVBX0C7DiJm2U0zTpw+hDX4WK1cWeO0x9N2+e6sA1LkFQx82F5w7pCn0ENsvt0hXlm7VFPG1NbsM/L418dMixZx6rdH5qmmeE7ro2LLkS2B3aZosrj7k2tyKcFMa/2a1HLwm+XwBu7xMj5kvKgvZTElq2XzsIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-03 (Coremail) with SMTP id rQCowAC3m+IHgfFpPt6FDw--.19926S2;
-	Wed, 29 Apr 2026 11:54:47 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] media: em28xx: Remove unneeded semicolon
-Date: Wed, 29 Apr 2026 11:52:40 +0800
-Message-Id: <20260429035240.1453636-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1777435868; c=relaxed/simple;
+	bh=XNBSS57VrD6IzsXS17vP/9EYnFIkDs4Rci5PXE7qOJo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rfGksyBZfzb9PH7UsWhTn/B9rjBN0X/mGtCxspr5c0Bhlw83RWeLOLIotI24644RrPkJ3TzDNbZKN3LJTajSGO6FYdJwpJI6ZFOwScirD9U4UBGxmB27e9pDpvTq/YzTBvLIP33cnD7l3+4zFxKrx4R2a5ojXQaBSLsU1JD9tdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgpaWj+L; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777435867; x=1808971867;
+  h=date:from:to:cc:subject:message-id;
+  bh=XNBSS57VrD6IzsXS17vP/9EYnFIkDs4Rci5PXE7qOJo=;
+  b=hgpaWj+Lm+TPPE31hb++ieMw8g/4bMDx/ghctFvZFzsCMbtVZ5FjVF6d
+   hYio3tqYWBDxhly85nmQZlnWukKLFOnQKpmlx+w5UIrqdFccRGDD3fGuz
+   k2wdsx4n9cEPpzDp18eFvg5MjZD+8H8I1EGMPGtKb/YcR6geP3JPTLpRo
+   JjSqvW+Um8cBwhmLhGGzSX+0aHHsERCMl1IgOhb+CkHZ5jTeMyYC+Hw9r
+   3qp3VTA8RyYvykDby6MGXSFEyuvNMYBPXlFvo9PsW4xn7DX3iE/PjULn0
+   ZhQbzf/W8b4a0arzoYugadbfk59bT7vlZ29WlME1y/9choAI3ibVo4J/A
+   Q==;
+X-CSE-ConnectionGUID: FhlVRd/pTf+TjqHhBHIzmw==
+X-CSE-MsgGUID: l29ZEvcoSgupy8w1Ntn3LQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="77387091"
+X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
+   d="scan'208";a="77387091"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 21:11:06 -0700
+X-CSE-ConnectionGUID: MqlU59jkQymtS4byNl9isA==
+X-CSE-MsgGUID: Dgb+rvhARpKhCDZLIerCGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
+   d="scan'208";a="238475576"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 28 Apr 2026 21:11:04 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wHwGL-00000000Ab6-3c5j;
+	Wed, 29 Apr 2026 04:11:01 +0000
+Date: Wed, 29 Apr 2026 12:10:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 26/122]
+ include/media/mipi-csi2.h:47:27: error: unknown type name 'u32'
+Message-ID: <202604291221.mpBYkuLv-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAC3m+IHgfFpPt6FDw--.19926S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7WFy8Ww4DtFyxuF47Jry5Arb_yoW8JF47pa
-	yDJFZ5AryUArsIvw1DZr45uFy5J3WvyFyUCry3Cw1vgr15Ja97J3sxJFW8ArsrtF9xXF9F
-	qryDt342yr4jvF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkq14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
-	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8
-	GwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r
-	1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij
-	64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr
-	0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
-	0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUj8uctUUUUU==
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
-X-Rspamd-Queue-Id: 86EC748EDF7
+X-Rspamd-Queue-Id: 5DDFD48F02F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59905-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[iscas.ac.cn];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59906-lists,linux-media=lfdr.de];
+	RCPT_COUNT_THREE(0.00)[3];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nichen@iscas.ac.cn,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.318];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,iscas.ac.cn:mid,iscas.ac.cn:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-Remove unnecessary semicolons reported by Coccinelle/coccicheck and the
-semantic patch at scripts/coccinelle/misc/semicolon.cocci.
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   489ab6e79288be8d219b68525a13699fde0248ae
+commit: 25d771fe2c1e03232e2c3764b3bd04b2d3ecdcb0 [26/122] media: v4l2-common: Add mipi_csi2_dt_for_mbus()
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260429/202604291221.mpBYkuLv-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604291221.mpBYkuLv-lkp@intel.com/reproduce)
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/media/usb/em28xx/em28xx-cards.c | 2 +-
- drivers/media/usb/em28xx/em28xx-core.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604291221.mpBYkuLv-lkp@intel.com/
 
-diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
-index fbfb74eab475..133bc1082d57 100644
---- a/drivers/media/usb/em28xx/em28xx-cards.c
-+++ b/drivers/media/usb/em28xx/em28xx-cards.c
-@@ -4082,7 +4082,7 @@ static void em28xx_check_usb_descriptor(struct em28xx *dev,
- 			dev->analog_ep_bulk = e->bEndpointAddress;
- 		}
- 		return;
--	};
-+	}
- }
- 
- /*
-diff --git a/drivers/media/usb/em28xx/em28xx-core.c b/drivers/media/usb/em28xx/em28xx-core.c
-index 5bbb082dbed9..d4197e37f637 100644
---- a/drivers/media/usb/em28xx/em28xx-core.c
-+++ b/drivers/media/usb/em28xx/em28xx-core.c
-@@ -632,7 +632,7 @@ void em2828X_decoder_vmux(struct em28xx *dev, unsigned int vin)
- 	default:
- 		dev_dbg(&dev->intf->dev, "EM2828X_SVIDEO\n");
- 		break;
--	};
-+	}
- 
- 	em28xx_write_reg(dev, 0x24, 0x00);
- 	em28xx_write_reg(dev, 0x25, 0x02);
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/media/platform/rockchip/rkisp1/rkisp1-common.c:8:
+>> include/media/mipi-csi2.h:47:27: error: unknown type name 'u32'
+      47 | int mipi_csi2_dt_for_mbus(u32 code);
+         |                           ^~~
+
+
+vim +/u32 +47 include/media/mipi-csi2.h
+
+    46	
+  > 47	int mipi_csi2_dt_for_mbus(u32 code);
+    48	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
