@@ -1,216 +1,141 @@
-Return-Path: <linux-media+bounces-59961-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59962-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0LJpCcHq8WmalQEAu9opvQ
-	(envelope-from <linux-media+bounces-59961-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 13:25:53 +0200
+	id oO1/OAbr8WmalQEAu9opvQ
+	(envelope-from <linux-media+bounces-59962-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 13:27:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B22AB4937C6
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 13:25:48 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87EFC49386E
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 13:27:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D32773030D4C
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 11:25:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 069B9302D588
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 11:26:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0144F3F20FE;
-	Wed, 29 Apr 2026 11:24:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 860EC3F23B2;
+	Wed, 29 Apr 2026 11:26:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DHJYPyLc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ejvHWE1z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2F63F0A9C
-	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 11:24:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777461891; cv=pass; b=iV9+Yj7N5mGMZJB9f9TRuPbn235I/HKG7PTd39u+uYgv33pruTDH2WgrcO4rW/6xBaewvVAdNJwfTsBooGdXyLy2nPm/FsIMntiTVmKhfSNkU9qKIGjXhzE6LMJMHNKQFCmank0fFg5agSQ84fWm5e4T67eZrdQMkUI4jS2l/jU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777461891; c=relaxed/simple;
-	bh=QbqXT4tTrrdjuTLkfmMqgyWw3/qNy/1JnUwKAJmmVXk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pC1ABfQMfS0cx0P72sbbQW33/VOOa39ff8iMGOvyQwyCvg1XAgAq0A89f+pd2sOcZ+68swg1VJJQIYOSkoq6LFO2ndEcn6TzJ33udy4e97XDCUP7epI4OVyhncem5iivRTjadFhbLsXhydujlWWGWSfr+JWKi2oXi+8cHl67P2c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DHJYPyLc; arc=pass smtp.client-ip=209.85.222.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-94ac8cbf3feso7662277241.0
-        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 04:24:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777461889; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZRUQ6ptpXVIJ5DRtHkaZEIOYh2ceZOdPZDUq4EZSUeovCioLy4QKMig5z+bdfUQkWd
-         Eu54wStttX9LBVbjwDAIQVP2hHdmpfXkX3knq8G+m/91QU+qKjQfd5j4Y6GqcdruT4Sn
-         K/HzmMaV9C5TQvZrfNwojPWjOOuaNMvUd5sCRFQlh/g441gUgPnNYY5WWGfV3sfArHUR
-         jVqQI49t9Z/qEJrA6kbSOppJ75MG0pVZi3QvCCBhQuGXHl82r0dA4juyeu7QtscPmWpR
-         6k2gm3Z4y5i+5t6GIAY6u9An2fCIvZ7VwK592/3TWrXMCozvTLlRYJaWB9eZc/HbnEY3
-         E0/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=7gz2/nVmfgvH8AxcwgS0YP5YxZm2HnbLT24tkQ8ZyMI=;
-        fh=PTegCI85ZmRo96CeyRM+pmqBUKq1+/byYbDEnhj9WnU=;
-        b=kXCcfXLHRybJsO4Pzbe//0QZenveb/v1o6Qkvbr8dY/IXZ5Gixd7vkmyyF9RFLWuR5
-         p75whSMdFu6BN4dMCsX4AMEkR1lVpHLQQ7RWYHXyzzi52WVsJBQA5oZVmOrv2z0YD4Fv
-         s/IHtjGUKjh5lDJnDzgl3BNz2uzllCC1r24CjMsKJDxkFyy22OAT6agWoIcuzeVtb4R/
-         zWtcUmm9s6lgAoks5ZlXwNhjE2n4BIe7r/HWaFcmxW4M37q5R240ihu5rvOyTewDC8RJ
-         EcNWOEiKAfX344IbQdcwsacNPsDnYPPTVnhzzOZdwXrwwUJUinOepGzummri0jNhRPzr
-         yqGA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777461889; x=1778066689; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7gz2/nVmfgvH8AxcwgS0YP5YxZm2HnbLT24tkQ8ZyMI=;
-        b=DHJYPyLcfCack5RDNBh/WbrKv+wXFEVM1ogNbJePRh65yBH+9P8v4lakenfWlxAmUG
-         gEqwnP4iem6/J2IU4ISlhomYEyM1i2P+F4X2ClbHh+mRSsCj5tigzw0i0OZx2MCW5fVi
-         d/w21fuXq16Ul2O7iJHGpkYMM1892ghWW9xpcwsf+4Ko+E1uxg9zj0OP0F/ytJUty35E
-         R2YtSCIep4y1iuIQbK+/mdMLVAcxU2TKIFPxihta1F9IJCzeTU509pBuMIMJStw6hDC3
-         CDgH3q6Oim510t4nrUkPPrBDNdVjt7Hryf5wT9jd4saWoqRoBMCEr+mVGFwEt9d9lSj7
-         XQ4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777461889; x=1778066689;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7gz2/nVmfgvH8AxcwgS0YP5YxZm2HnbLT24tkQ8ZyMI=;
-        b=SQf8OsRNq7hJAMp12klVciFvpHhbewMPmixE2cTnWr660E5AXrPN39b5ZLloKuD2GN
-         ejp362dX0x5l3+kUo4eOep2wmETTZupErIVWkl/Tzf7cxNcbhzO2pnTpdwDKAWyNKNGv
-         gSMOp7qd8gyypeDzTNeX/DYfanHbEqvVex8cFRaon+3dl+62VlwZnaRLL8dt/saHQjaf
-         lXp4MJhDXsaPnGxEcnqGlidPL09+IFIpqTsoMGjQTOpaGrlffNFM1JKFOoD+FhfPwbT+
-         K6IGpsqbwZeDNRqrKn5il73cgizJ9N2O+X9KTxcpm0POY9KLjnsJlOvym/ozMU5sZjmV
-         LLbQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9cQ5GVKOaRnSkMdpesP6CB+v+FJpfibUisGpiYWf2iDqtUagcUx2CPfMqux1VE1WRnZ+bvB7Ypl1MtAg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YydiQmbmiuO7d7w9TE3FuffB4KmMKdKNDfU49U9AtiNTHSzX52y
-	9TmrjzPC9/GZQsmugRA3BjndweO0BBDFdO4uRGUoo0XRQFZHGQB2MsmGkpmM86DmTsuTvQURDkP
-	V2Tl77NNaA2mvqKubbuhH/tc5/hVPnwQ=
-X-Gm-Gg: AeBDieukibo1KBcuszL9Yub1iZ3qMa/NIMl69L+muMiWx7aQT38Cb+tttvBQZVXC9rs
-	8dg6T7egpIf8abbw3GIlfZWRaWH9h6aUDJRMzifjHQTrX+NM9KGdMtBlk6h4R2YKzdx2q6UR6Rl
-	w8I/x5zCS9sf+78/y78zcMxxtMwMvLYS7BqeRR8+km7crKLoBN1cL8KXM12RPF/WGn659rRp60v
-	0k2eGXsT0gIqRjf64befIZiujklScc0pVyq9x16/LE7oEYtF3zrUua+7aFcykaAiGAfYtmRnrxU
-	KMvNCq/J07NARf7ccP9pQi6ngLD23ufngrTTF2Y8X0qMlxVoag==
-X-Received: by 2002:a05:6102:5e8c:b0:609:4d86:81b with SMTP id
- ada2fe7eead31-629278208bamr1936529137.27.1777461888827; Wed, 29 Apr 2026
- 04:24:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA70302750;
+	Wed, 29 Apr 2026 11:26:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777462002; cv=none; b=T4w88c8pfdui+uKTZ/A75N54vv5+ygt6XtOs+c3C834wo0jn3RKHbz8ymm034YMsyjybqeQRh4/Pkv4+hdKrXyhNd6+FeEmf1vc8g4TePtP2zeSpc7qPPwVv/agvMsclMeZvSkFsu2dIiPIE3NOV7HwPXDkT9IpDdJth3Fb3HrQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777462002; c=relaxed/simple;
+	bh=HgV0q/+gZ9n2giWTxhUD6P3yQ6wEmY66ZwCWQHhgQ2g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kKGPImIqofHhHWkrh4obt4PWgAsqITzuUZVnGNDkfXyNLSZcsDoFgpxWWpSmbc5g0edrzTytstBlWuiMROxKCSnCuFDN5vsyWoqKkpkiSdJCcn9sghnNkWFaAx9gXkuVuHeVxtZuU4tcBqXoQ9JIGTcKIDXLTkfHvbQdDMgSy0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ejvHWE1z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 158D1C19425;
+	Wed, 29 Apr 2026 11:26:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777462002;
+	bh=HgV0q/+gZ9n2giWTxhUD6P3yQ6wEmY66ZwCWQHhgQ2g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ejvHWE1zJ0tb1KwQu/gVCMj0KcNhlMqCOjLI4kQmWC01EPIO4HFDTFQg5PpNyMx2F
+	 7OMWgwbyfp16yd5ZKGLwfDDMuBlWK8CK9qcSIqUHZRxyhnWE4iAN+OK+xmr5WBtr4T
+	 BgqmCB7r/rsFvwFu/mT2z67QkDE/mDzOf7GDi68KHsQjYM3r7svy7TXqJDW5kWsfNa
+	 xYHmkznhflijvwvOUJkH6AcM42ZHWo8kZp7k26fwbFC82N/jHC8/F/rL8GlM8z6Ksh
+	 UMOZ5KVH94exo80oAIrmoHKOK/k/qke5mU8V2uOXUW3Mlxuf7JynBO/Edq8wMcfI5M
+	 twwrBSWDcoLLw==
+Date: Wed, 29 Apr 2026 12:26:30 +0100
+From: Will Deacon <will@kernel.org>
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: Yury Norov <ynorov@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+	dmaengine@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-fsi@lists.ozlabs.org, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev, bpf@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-mm@kvack.org,
+	linux-x25@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org,
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linux-sh@vger.kernel.org, linux-arch@vger.kernel.org,
+	catalin.marinas@arm.com
+Subject: Re: [RFC PATCH v1 8/9] arm64: Add unsafe_copy_from_user()
+Message-ID: <afHq5vyNUJzxVwDV@willie-the-truck>
+References: <cover.1777306795.git.chleroy@kernel.org>
+ <5b09e58a84c9edcfe5724db5cd57e45d96a96bfa.1777306795.git.chleroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260425105300.745044-1-mitltlatltl@gmail.com>
- <20260425105300.745044-4-mitltlatltl@gmail.com> <2134b8d1-70ca-4f97-afc4-bba0538f84cb@oss.qualcomm.com>
- <CAH2e8h6AvtaQjrwOu-QumeqYVoz6GyQPRR363JWfS8Wy-jNBkQ@mail.gmail.com> <652bf474-a524-4391-b8d1-7c0bbdc28b4d@oss.qualcomm.com>
-In-Reply-To: <652bf474-a524-4391-b8d1-7c0bbdc28b4d@oss.qualcomm.com>
-From: Pengyu Luo <mitltlatltl@gmail.com>
-Date: Wed, 29 Apr 2026 19:23:57 +0800
-X-Gm-Features: AVHnY4L7oPV5ZetIKykRzVLPFjvo6DuPoYEk-dDEME-xpa-a28o8EUMduxtFbTA
-Message-ID: <CAH2e8h4MNsaFiYmO_y8Pn8XVREGtGam5xY=yeFCK7p6BkD4y1g@mail.gmail.com>
-Subject: Re: [PATCH 3/4] arm64: dts: qcom: sc8280xp: gaokun3: add front camera
- sensor node
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Martin Kepplinger-Novakovic <martink@posteo.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: B22AB4937C6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b09e58a84c9edcfe5724db5cd57e45d96a96bfa.1777306795.git.chleroy@kernel.org>
+X-Rspamd-Queue-Id: 87EFC49386E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59961-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59962-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[nvidia.com,linux-foundation.org,gmail.com,linutronix.de,vger.kernel.org,lists.infradead.org,lists.ozlabs.org,lists.freedesktop.org,lists.linux.dev,lists.xenproject.org,googlegroups.com,kvack.org,alsa-project.org,lists.linux-m68k.org,arm.com];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mitltlatltl@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email,qccamfrontsensor_extension8280.cab:url,qccamfrontsensor_extension8280.cat:url,mail.gmail.com:mid]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[50];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[will@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-On Wed, Apr 29, 2026 at 6:08=E2=80=AFPM Konrad Dybcio
-<konrad.dybcio@oss.qualcomm.com> wrote:
->
-> On 4/29/26 8:36 AM, Pengyu Luo wrote:
-> > On Mon, Apr 27, 2026 at 9:00=E2=80=AFPM Konrad Dybcio
-> > <konrad.dybcio@oss.qualcomm.com> wrote:
-> >>
-> >> On 4/25/26 12:52 PM, Pengyu Luo wrote:
-> >>> Hi846 is found on my Gaokun3, descripting it.
-> >>>
-> >>> Note that it seems that only Goakun3(3.0GHz) version is equipped with
-> >>> Hi846. Goakun3(2.69GHz) version is equipped with S5K4H7.
-> >>
-> >> Are there any other noticeable hw differences between the two variants=
-,
-> >> that could warrant the DT to be split?
-> >>
-> >
-> > Except for the cameras and cpu, I think no.(But I couldn't tell all
-> > 3.0 variants are equipped with hi846) Before camera support, this DT
-> > worked for both of them.
->
-> Do the ACPI tables perhaps have some sort of a hwid mechanism? Perhaps
-> two nodes defined for both cameras and the _STA method referencing some
-> object?
->
+[+Catalin]
 
-No. It may poll sensormodule binarys, register lists are in
-sensormodule, the slave addr may be here too.
+On Mon, Apr 27, 2026 at 07:13:49PM +0200, Christophe Leroy (CS GROUP) wrote:
+> At the time being, x86 and arm64 are missing unsafe_copy_from_user().
+> 
+> Add it.
+> 
+> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+> ---
+>  arch/arm64/include/asm/uaccess.h | 29 ++++++++++++++++++++++++-----
+>  1 file changed, 24 insertions(+), 5 deletions(-)
 
-In qccamfrontsensor_extension8280.cab
+Why?
 
-CAMF_RES_MTP_ALT.bin
-CAMF_RES_MTP.bin
-CAMF_RES_QRD.bin
-com.qti.sensormodule.hlt_hi846.bin
-com.qti.sensormodule.xinli_s5k4h7.bin
-com.qti.tuned.default.bin # for hi846
-com.qti.tuned.hlt_hi846.bin
-com.qti.tuned.xinli_s5k4h7.bin
-qccamfrontsensor_extension8280.cat
-qccamfrontsensor_extension8280.inf
-SCF1_FRONT_MTP.bin
-SCFG_FRONT_MTP.bin
-SCFG_FRONT_QRD.bin
+And please cc the arm64 maintainers on arm64 patches next time. You've
+managed to cc most of the world apart from us.
 
-in SCFG_FRONT_QRD.bin
-
-Package ()
-{
-    "com.qti.sensormodule.hlt_hi846.bin",
-    "com.qti.tuned.hlt_hi846.bin",
-    0x0000000000150041,
-    0x0000000046080F16, # id, id_addr, this can be found in the binary too
-    0x0000000000000000,
-},
-
-If this fails, then try to load com.qti.sensormodule.xinli_s5k4h7.bin?
-
-Best wishes,
-Pengyu
-
-> Konrad
+Will
 
