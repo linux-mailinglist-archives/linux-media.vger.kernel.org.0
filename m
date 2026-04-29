@@ -1,51 +1,84 @@
-Return-Path: <linux-media+bounces-59941-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59942-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CO4/Bg668Wl1kAEAu9opvQ
-	(envelope-from <linux-media+bounces-59941-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:58:06 +0200
+	id AOAsKim78Wl1kAEAu9opvQ
+	(envelope-from <linux-media+bounces-59942-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 10:02:49 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5363490D99
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:58:05 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6C55490E70
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 10:02:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9D18C304F228
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 07:53:48 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AD8A33053890
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 08:00:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 646A23A5452;
-	Wed, 29 Apr 2026 07:53:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53AEC3A8736;
+	Wed, 29 Apr 2026 08:00:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r34iXuIG"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UtJa0cOJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E883A3E77;
-	Wed, 29 Apr 2026 07:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E363A75BB
+	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 08:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777449226; cv=none; b=agGHUEIgCJJD3JzyRBkDZcMcO02gYnrmMotTg8id6pSlN2dy/SoeTVIwiKvsrU9sx2uMGQMi60/BSVLdJ+llr4ASMEjkLD3Idw9gY6Cqdu8E+c2QPWJQFEBZT7v0cJIp5msjNIt/TE1ZONODYcVJP5016IDf6H3PmYn4fJxNxCI=
+	t=1777449648; cv=none; b=Vq/jMRcGSkR/iUrXt2xW9+EF4UM0KVNYNmM71MM/uSTc/OSoWVAJ4CffrQY8MbFdJ01ZC42B4n/RBQhGVsZvH9b0ph7Ibv5Ov7FLZ/vS3SKLFHr4+5WFz/WDWIYzUv5RtRD1blppeY2tV43WsxS2mZQBwFDQmkZ3mM7ViJ/5LSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777449226; c=relaxed/simple;
-	bh=l0FdvFxnREkwgkY6d6zbEIUX1bdgmbZ54xg2s0Irm5c=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=kRJS2PtzbzEZc1NKwg26S6UnRg+/GS/WAwRSAyLSFYLtJmTKnOGlwpzoIN2Qs6WWCbsXUlq+Kd4gKq4hMyhPE/mtlL0tHhB90HtqyTmXGLBW0xUQLQXdsdV4b88/rFQ2XXejbM/RbUufZTI0Cb2mlfkl8pK5yZSdOLBxO2QQ4YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r34iXuIG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A884C19425;
-	Wed, 29 Apr 2026 07:53:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777449226;
-	bh=l0FdvFxnREkwgkY6d6zbEIUX1bdgmbZ54xg2s0Irm5c=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=r34iXuIGzXOb7I0XeZZ58itr+0j9VFldO14O+gvmve1DwNwt9bp7FJxB1q9HijlYg
-	 qvwv8ubs5RY5ZFiKdITa2GE6K2IvygnAw03wXuF9jqIyl4NVqW2voax4WfNbPG/uPu
-	 2b4Y6uagVSJ8K9dKAl6X30nBfaNnNKc4TlbdcAiro+DMXjTAJhy8/kztEglntnaojm
-	 2vNlExHop2pe7bwl019icCrIvzKP1wwWud1FIIVHZLwMIr3m9dY4sxjtzJvqeKZKAW
-	 hHep+eAN3IxRHv6naopjB45PYFweNKveerYwlLasZCMieslvtNg/XwAYpr4/2YTGMK
-	 qCzw0ylxJ9rbw==
-Message-ID: <40d31660-73c1-417b-a00c-1a83079943e5@kernel.org>
-Date: Wed, 29 Apr 2026 09:53:41 +0200
+	s=arc-20240116; t=1777449648; c=relaxed/simple;
+	bh=jUfv7BY18i0hzz1iwaD/eeJ7LRQt53qdiERx2ReGrsE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g2oHXO/slLr1nj/Iqe2qQCxIBKLI7VMuwjDR386/NCRx6VqjbzHyKjd0fav3lxwP2OxJmuC327UrVfjmmwTcZOYzNY2dJuJNhjx9vRV3/ITbpeVy7wp2ce46+OAXFcAYR4srdAaJw4yNyzWayIGHe+geUlA/MrfF3P6fEzFbdRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UtJa0cOJ; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4462f8d2488so80859f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 01:00:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1777449646; x=1778054446; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sKt07qcPF1NidEM1dAs7s4kLamhrOjHwcNAU0l78/qI=;
+        b=UtJa0cOJ2Ik+0qnbSPe4O4cQakHmMhkItx+4s9ze5KogBaWHBGCr3JoawwPTy4Hr+o
+         OB/XHMKOdUenA/X7fvMpfos/E6HQiOKtKt4oefQ2kDl9oBu8hv8ZE4Wuw/Zfhv6rc0C0
+         J2QO7kjSssKqGhCqD6iQhV2wQNGp0xmwOhcKhBDYQOb0ML89QSI3WsJjvX2+ZX818dos
+         ry2TyQVwTC4xlTkqHrrEBKj+RvRwdCOaLks2dmtFPoqzc8e2wJggeOh3V0pLiT3IH4BU
+         PvxTVMpscT1CLsem8eCukS3Ny8wl7xO1WClUgsql0Txktgo+GOmjGCtz+WVvpazhGvwS
+         MvJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777449646; x=1778054446;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sKt07qcPF1NidEM1dAs7s4kLamhrOjHwcNAU0l78/qI=;
+        b=BoFfzA4aMXthfjSV/jwePdrzc3W3fFI2riPC9mRioVQ4kApiC0qu4m8+hVmnRdPiJB
+         YTclTxFk9vb7zqm+BVBCx1lE17pxWWwpBkII9JFdDmzJFVflhHiLQDuYhZV8/n6BAJle
+         Uhq/KVGJN5XdByu8UzO8gTaZFTQjNYGhrhxbIRtgo5wd4D0iPcGuPMueUV7P0Sow+0rh
+         mM1WE9CgBK0Iu15NpgKS1PbbqSR0PQCHB95tfK3EeAYiVzBSFvjSriwDXm60OmlRY4YJ
+         vMapqaAimhPm2sWh6Ec95ihurlX6BnDdc1WpgOiEx3pGZquFtiIMtI0+W4n4ShUHV5Mg
+         p5aA==
+X-Forwarded-Encrypted: i=1; AFNElJ8Ez1HGDs3CIX0egTwLX2PesfVNQLep7hKJzc5reZV4mxTMSXVPx3XWMjlSpQYS9De1ip7ad3yprSuYzw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyo/rG/Lgu5k7/Jch8ixjslECzcNLQFm+TQQdFAr5730+2rfcXZ
+	cmb+c+ogIKfoHQGZV2Pyfk4/PUCqwspPS6ZFmMpz5O5MMe0XKu7MqJcprxpvsiSYf0k=
+X-Gm-Gg: AeBDieu+vBoedj+O/uVDPAjB5Ix/k7fQwz+X6sSuZP/FD3kKaXcCFnAh51OJh794CuM
+	IjUAuI8oaV2ReVcKkOsVF3aAk0JMuw/j4j80SZvfxmMcqxS7c1dpdNbHpGgZ+dZcVnCySWFd9rJ
+	nK97zWdsWeUOj95ch2EXemn5YUQPAh3skEZ1oMJTUZdGQPHhmIuMCw2Qu3fYx1PWTlUss2P1/uS
+	NL8yoHybncAEcFCBl04KMyT7ZkAEb6sU9BHQWoM7FCcJVZ7OIFnpOe0f69hjV2cJWMpJkbDaNWU
+	2TDssejrW0/12FHpUz7M1P4jAya/fDwoWbQRgv1lxIGKsnnG8+6oZIdX3ngL4GXJZdj22YE4KuS
+	kVexJMcGSkRN6Jf6GU8w4h9D2AVQhFLjCdYx32mja4VR1R0uMomzDuqohrLVyknBCFQHCbGgYbt
+	+pmKYU0NnHpE8vF4AWfseZi+AxPutw3dzuFC/cDMbAt+c3USjrkcB3dgxvq4b9jSkYLD77
+X-Received: by 2002:a05:600c:3acd:b0:489:e696:127d with SMTP id 5b1f17b1804b1-48a76f82973mr58572165e9.5.1777449641184;
+        Wed, 29 Apr 2026 01:00:41 -0700 (PDT)
+Received: from ?IPV6:2001:1a48:8:903:1ed6:4f73:ce38:f9d4? ([2001:1a48:8:903:1ed6:4f73:ce38:f9d4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7c303c3bsm18098475e9.7.2026.04.29.01.00.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2026 01:00:40 -0700 (PDT)
+Message-ID: <78978a11-8345-4b84-bef7-90d17f4c581c@suse.com>
+Date: Wed, 29 Apr 2026 10:00:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,112 +86,69 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH 1/6] media: v4l2-dev: Add range check for vdev->minor
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>,
- Jackson Lee <jackson.lee@chipsnmedia.com>, Bingbu Cao
- <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Keke Li <keke.li@amlogic.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
- <20260428-smatch-7-1-v1-1-46890dffb611@chromium.org>
- <afG2hm-V9uUkUmXk@kekkonen.localdomain>
-Content-Language: en-US, nl
-In-Reply-To: <afG2hm-V9uUkUmXk@kekkonen.localdomain>
+Subject: Re: [PATCH v4 1/3] Documentation: adopt new coding style of
+ type-aware kmalloc-family
+Content-Language: en-US
+To: Manuel Ebner <manuelebner@mailbox.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Cc: Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mm@kvack.org
+References: <20260429070759.309110-3-manuelebner@mailbox.org>
+ <20260429071445.309733-2-manuelebner@mailbox.org>
+From: Vlastimil Babka <vbabka@suse.com>
+In-Reply-To: <20260429071445.309733-2-manuelebner@mailbox.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: A5363490D99
+X-Rspamd-Queue-Id: A6C55490E70
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59941-lists,linux-media=lfdr.de,cisco];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[suse.com:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59942-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,chromium.org:email]
+	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vbabka@suse.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,suse.com:dkim,suse.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-On 29/04/2026 09:43, Sakari Ailus wrote:
-> Hi Ricardo,
+On 4/29/26 09:14, Manuel Ebner wrote:
+> Update the documentation to reflect new type-aware kmalloc-family as
+> suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
+> and family")
 > 
-> On Tue, Apr 28, 2026 at 12:41:07PM +0000, Ricardo Ribalda wrote:
->> If the fixed minor ranges are not properly set we could end up in a
->> situation where the calculated minor is invalid. Add a check for this in
->> the code.
->>
->> This check also fixes the following smatch warning:
->>
->> drivers/media/v4l2-core/v4l2-dev.c:1036 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
->> drivers/media/v4l2-core/v4l2-dev.c:1043 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
->> drivers/media/v4l2-core/v4l2-dev.c:1101 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
->>
->> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->> ---
->>  drivers/media/v4l2-core/v4l2-dev.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
->> index 6ce623a1245a..a731ffdb91ee 100644
->> --- a/drivers/media/v4l2-core/v4l2-dev.c
->> +++ b/drivers/media/v4l2-core/v4l2-dev.c
->> @@ -1032,6 +1032,12 @@ int __video_register_device(struct video_device *vdev,
->>  	vdev->minor = i + minor_offset;
->>  	vdev->num = nr;
->>  
->> +	if (WARN_ON(vdev->minor >= VIDEO_NUM_DEVICES)) {
+> ptr = kmalloc(sizeof(*ptr), gfp);
+>  -> ptr = kmalloc_obj(*ptr);
+> ptr = kmalloc(sizeof(struct some_obj_name), gfp);
+>  -> ptr = kmalloc_obj(*ptr);
+> ptr = kzalloc(sizeof(*ptr), gfp);
+>  -> ptr = kzalloc_obj(*ptr);
+> ptr = kmalloc_array(count, sizeof(*ptr), gfp);
+>  -> ptr = kmalloc_objs(*ptr, count);
+> ptr = kcalloc(count, sizeof(*ptr), gfp);
+>  -> ptr = kzalloc_objs(*ptr, count);
 > 
-> Could this be combined with the should-not-happen case below? The error
-> handling is the same (releasing the mutex) and the error code could be as
-> well. I think the message can be just as well removed as we have a
-> WARN_ON() here anyway.
-> 
-> I wonder what Hans thinks.
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 
-I actually prefer to keep it separate. If you combine it, then it is hard
-to see which of the two possibilities is actually wrong (out of range or
-minor in use). And this function sits at the core of V4L2, so it's OK to
-be a bit more verbose.
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-I do agree that a pr_err after a WARN_ON is not needed.
-
-Regards,
-
-	Hans
-
-> 
->> +		mutex_unlock(&videodev_lock);
->> +		pr_err("invalid minor. Check ranges.\n");
->> +		return -EINVAL;
->> +	}
->> +
->>  	/* Should not happen since we thought this minor was free */
->>  	if (WARN_ON(video_devices[vdev->minor])) {
->>  		mutex_unlock(&videodev_lock);
->>
-> 
 
 
