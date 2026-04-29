@@ -1,183 +1,154 @@
-Return-Path: <linux-media+bounces-60003-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60004-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8KxpNcxI8mm1pQEAu9opvQ
-	(envelope-from <linux-media+bounces-60003-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 20:07:08 +0200
+	id KE4FOcBI8mnDpQEAu9opvQ
+	(envelope-from <linux-media+bounces-60004-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 20:06:56 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606E649895D
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 20:07:08 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6092949893F
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 20:06:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4F6083020EF8
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 18:05:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B21F930238CE
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 18:06:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB4A93FFAC1;
-	Wed, 29 Apr 2026 18:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1188341B367;
+	Wed, 29 Apr 2026 18:06:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="cmMDF5t+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kR3MnLio"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D6238D688;
-	Wed, 29 Apr 2026 18:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E668441B352
+	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 18:06:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777485936; cv=none; b=CqLnLoxYAOeek6l75TlykvZq92qm38bsOQ6Mh/UkROjWkuyMoErac6HeUvxV0Wui43phBFCCQ5YqI8HA1sPVi2oqsXUh7hMKhwZgNdXC8l3DACaucsl+3hvE6JrJcU3CfY4S1wxvS+8MW5rBQ22QAKGkeA3EqowLU42FjeXARnQ=
+	t=1777486001; cv=none; b=LUaIUWcxUixZXp/uoDRxIzfbVH0+a/zaNp4CRsaMpHBOrW8XW65DRYgN4nqRJHoNfc8V6d47RQOmnH2trfZsKjFjFMeKBZv3RaFyrE8o6zwLv2qFkTxctYMF6gX6yuL64gB1+HZ8MvnjEvyt7vF9bzs6Efi6khE02m2ZCE9XCM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777485936; c=relaxed/simple;
-	bh=yYtyo1irNYuef2+r6HTLsL49yeZR6MZaKC6kSkaB3RM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OIWcv1ffNUPCJR+1gYxcw1LrV3vzUPgb9cP51R0nYN7wESeRrBl4xCsHe6drNucEHZKdmXyuQkLXuClVjtW9KcE8flTBd5yFcO+Tjvsp34kLMWEFxkf3b13tH3/bO7XDeauVm/rjPXQ8BaS8FaeX9QcI1y+jiPC9JwDjsfg8S0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=cmMDF5t+; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1777485933;
-	bh=yYtyo1irNYuef2+r6HTLsL49yeZR6MZaKC6kSkaB3RM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=cmMDF5t+m5AgXJiOh6WpknkB03Q9k3AFiN0DClyDNQOTHQwfoz9hZSxa227JmWFZS
-	 EuertQdseT8TUYWb6TzOw4Q9gEJ7jmavgFyYQZC3B4toDhtEhhHPscZLB0ulmUQ7OF
-	 dPioRGpSgaEMbXmuT78vmAk4q0OFNteegrc/eMwrRYCjbvZyQI8zOyuQCE8DaFdiOj
-	 Lvq0GU4wTWjmWEQKJ4CH0ymcRdaXeUMr0D8c+x5yI0VxEZBtiiEkA0LzG/T8y2NQcD
-	 jRWglcK1zXGqrN+F29C7Sfa3BSxKea+Vb55qgi/+fZloaeblraTcw0ynOh9brvYI+2
-	 p1igoz6A3oi6g==
-Received: from [100.64.0.214] (unknown [100.64.0.214])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2BA4F17E0EBB;
-	Wed, 29 Apr 2026 20:05:32 +0200 (CEST)
-Message-ID: <425069f4bd9f79c5f5d094044cd291d4067b2157.camel@collabora.com>
-Subject: Re: [PATCH] media: verisilicon: Fix format enumeration when
- post-processor is mandatory
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	p.zabel@pengutronix.de, mchehab@kernel.org, hverkuil@kernel.org
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, kernel@collabora.com
+	s=arc-20240116; t=1777486001; c=relaxed/simple;
+	bh=yN3oOXGsU9m+O8FHXmbXOe06hln6+CoQ3Bfdi3kkpEk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nOOTo+Ukxke5j/QFr0cX+lbJZZqX2SXrjgV1DEMzNlkxYVyOmWcse4De4hSiJWrTgM1o7exiaIDoZjd5+b6rgQ4EjeifB1o55kxo2b1+TJVTAkMtAhZYG4CAKYrLAoG41ASv/+RRWvN/fNWzf+s8B6QIn2awLUdW1f/pAnxUHsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kR3MnLio; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-89f1e767f92so947236d6.2
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 11:06:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777485996; x=1778090796; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6xJocfIjpbzSjf6qOkZQhVpHOzyCK3XFmlbltimvCtc=;
+        b=kR3MnLio5ERP3KkaXZYqNaBqUGa42PyynXQRaeL8XaQSm9S68B8iZdEnf7qJdRD4nM
+         D6h/2Izc7LlQqrvD9YjsITOdyCh5krldbvTZWJL86rGgS8yJkOY/0ZOxT+PyYlSL0hbI
+         klMnbLUXQlsGneJBzRkDT1qACUd7PaJ9FOJ9ERoFV/Q6Wlkbfc8KiK8GT5tGdMm1RtFK
+         U7s8QJY9qSw8scmSELH3ZDGxZIzabklCNVzlzG0XbbUdqagkH0D+/yiRrGGOcrc8mMWf
+         Il0LQ9bq56GQULkxi5tuR4uqdwydXStu59W1jZPvcZNfHtRbjsjSWUFj/GCctz/yCdCZ
+         NHjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777485996; x=1778090796;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6xJocfIjpbzSjf6qOkZQhVpHOzyCK3XFmlbltimvCtc=;
+        b=GZcq+DoJMpJFROJlfYOTuw0wCwogq17sXZKqXgrBkh6L6K8OIwZkcflSJUFt+N3SI8
+         cSjKCoqeuLz9VuAWQwdY++I0ug3XABMUZMvSHDzaiWTg93e9uhAj8JOBVCrCuBmpjPBn
+         9FLn3P/7OD3HPuooV4ElyYHtDYzv7mpXFkkGtP07MU5sPoWgFpO98yjHAruUSQsqV/Zi
+         XBzUIuBRKIYTzYXvHpSUGbhHrIf8SwwTuzW9Ps+1ZN3F1gCFQH5PX5n15I2z6lWHeLuj
+         tnyihE5V0GiLe+5ZoO5bfKYGJkUx+G9+3eA/5qQKlvL+Pfw91ptbCgtDB945D+WIJJ7y
+         NUAw==
+X-Forwarded-Encrypted: i=1; AFNElJ+y1JhjKCjQnOUWG6WFU30XinSR2PUiGPwZyPCt1wujEA3CR9aWQqTwe7XqVJzBUAg35Bp6Is2Sq3p/Yw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWMFEOEdeNuWabP79JGda5SBm3CqyTkwpjvjHus+ImITzjeItq
+	xjQWHS0w3Pp6oesUeVVXyxuS9KTBqeNpW0VLlc+5Mopz9cqpQyO5McV8
+X-Gm-Gg: AeBDieseMjAt5AEec1vdz9wBTSPxzr2IhAIpVZRpwVW76R5beJa69kogUSySgLXduZL
+	c9Fky9Wvp8a9qMidvFF3R5aOsN7KyCVK9OyWthXDiFUGfr3EKqLHSCH3Pu5ridYarV+Nu75dD2x
+	zMcbkU10QSAnodEE71NDkyM0KKR1YA/TxFRXNOPRih1vPR0p8lB81FwK94+xo0rE+X0d5y4VnJe
+	dh84+axIHd4GjXYhSv9ZqLvrTl1Rap3EPI28QdGcuqeS9Xw56V7Cbp44t2CEdmL/tNcM6BEugKH
+	raVtojHnGm7fXN23nUBDHHhDp+i47pQH6fNS2ETj/f1X4/8XgNMRWT5FkQaqOBxFX8qcPZjGaXv
+	Q3KCAIJuEDYQX07n2WnJh57A/VPoEOAMlFkADZ9noppvaqwvbVrfZhkn1r691EY0mnxOWNrOyGY
+	yes1EpDIZQITX51oFO7ZkvKDw7N9z2LIUwU/eA0KSWEHws+yjtX+GGbETli4D1L9Y0DRf5
+X-Received: by 2002:a05:6214:6005:b0:899:fd8c:55c3 with SMTP id 6a1803df08f44-8b3edd0b7c8mr76575106d6.22.1777485996525;
+        Wed, 29 Apr 2026 11:06:36 -0700 (PDT)
+Received: from House.mynetworksettings.com ([2600:4040:2afb:6400:cdc9:3f29:858c:a856])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b3ef81731dsm24380276d6.38.2026.04.29.11.06.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 11:06:36 -0700 (PDT)
+From: Maha Maryam Javaid <mahamaryamjavaid@gmail.com>
+To: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org
+Cc: sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Maha Maryam Javaid <mahamaryamjavaid@gmail.com>
+Subject: [PATCH] staging: media: ia_css_event_public: fix typo in ia_css_event_public.h
 Date: Wed, 29 Apr 2026 14:05:30 -0400
-In-Reply-To: <20260428083723.54314-1-benjamin.gaignard@collabora.com>
-References: <20260428083723.54314-1-benjamin.gaignard@collabora.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-aLojBfI2sik/16q3qWnM"
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+Message-Id: <20260429180530.6944-1-mahamaryamjavaid@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 606E649895D
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 6092949893F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-4.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60003-lists,linux-media=lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,linuxfoundation.org,vger.kernel.org,lists.linux.dev,gmail.com];
+	TAGGED_FROM(0.00)[bounces-60004-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mahamaryamjavaid@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:email,collabora.com:dkim,collabora.com:mid]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
+Fix spelling mistake: Therefor ==> Therefore
 
---=-aLojBfI2sik/16q3qWnM
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Maha Maryam Javaid <mahamaryamjavaid@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/ia_css_event_public.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi Benjamin,
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_event_public.h b/drivers/staging/media/atomisp/pci/ia_css_event_public.h
+index f7215dd96739..8eec3b0af65e 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_event_public.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_event_public.h
+@@ -110,7 +110,7 @@ struct ia_css_event {
+ 	     until IA_CSS_MAX_EXPOSURE_ID is reached, after that they wrap
+ 	     around to IA_CSS_MIN_EXPOSURE_ID again.
+ 	     Note that in case frames are dropped, this will not be reflected
+-	     in the exposure IDs. Therefor applications should not use this
++	     in the exposure IDs. Therefore applications should not use this
+ 	     to detect frame drops. */
+ 	u32               fw_handle;
+ 	/** Firmware Handle for ACC_STAGE_COMPLETE event (not valid for other
+-- 
+2.34.1
 
-Le mardi 28 avril 2026 =C3=A0 10:37 +0200, Benjamin Gaignard a =C3=A9crit=
-=C2=A0:
-> When a post-processor pixel format is mandatory (i.e. when an AV1
-> bitstream use film grain feature) the driver must only enumerate
-> post-processed format.
-> Use the context format to know what is suppose to be enumerated.
->=20
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Fixes: 80c7373a456e ("media: verisilicon: Conditionally ignore native
-> formats")
-> ---
-> =C2=A0drivers/media/platform/verisilicon/hantro_v4l2.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> index fcf3bd9bcda2..f538d4562744 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -242,7 +242,7 @@ static int vidioc_enum_fmt(struct file *file, void *p=
-riv,
-> =C2=A0	 */
-> =C2=A0	skip_mode_none =3D capture =3D=3D ctx->is_encoder;
-> =C2=A0
-> -	formats =3D hantro_get_formats(ctx, &num_fmts, HANTRO_AUTO_POSTPROC);
-> +	formats =3D hantro_get_formats(ctx, &num_fmts, ctx->need_postproc);
-
-Looks like this is a subset of another of your patch, which was pending a c=
-ommit
-message fix.
-
-https://patchwork.linuxtv.org/project/linux-media/patch/20250624122938.6200=
-4-1-benjamin.gaignard@collabora.com/
-
-I've picked the other patch and applied my commit message suggestion.
-
-Nicolas
-
-> =C2=A0	for (i =3D 0; i < num_fmts; i++) {
-> =C2=A0		bool mode_none =3D formats[i].codec_mode =3D=3D HANTRO_MODE_NONE;
-> =C2=A0		fmt =3D &formats[i];
-
---=-aLojBfI2sik/16q3qWnM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCafJIagAKCRDZQZRRKWBy
-9CqzAP92uIQfrIIY/o0QVJ3lKYVfsBXuEtxg5zYf2BYhLZ4UEwD9E6kLYjD61Nzw
-fWTI22ZchZIg3qgYXNrB4rGqhOHfCwA=
-=dFmo
------END PGP SIGNATURE-----
-
---=-aLojBfI2sik/16q3qWnM--
 
