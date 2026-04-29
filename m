@@ -1,212 +1,211 @@
-Return-Path: <linux-media+bounces-59956-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59957-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mOWHBNPc8Wn3kwEAu9opvQ
-	(envelope-from <linux-media+bounces-59956-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 12:26:27 +0200
+	id YD3QMkve8Wn3kwEAu9opvQ
+	(envelope-from <linux-media+bounces-59957-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 12:32:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A2C492D9A
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 12:26:22 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B82A492FD2
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 12:32:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B967B300B1BC
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 10:25:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1D1F4302F9B0
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 10:31:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C551A3D16EC;
-	Wed, 29 Apr 2026 10:25:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B93AF3E4C94;
+	Wed, 29 Apr 2026 10:31:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="syDuJ2eb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eGGXGRcy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B9C3D171F;
-	Wed, 29 Apr 2026 10:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655D63E5594
+	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 10:31:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777458347; cv=none; b=Yd4jv0375oEqgk2TffT6ce+KbK5vUN5fJDzksDchYACegMs1N81whhx9nM9Vfyo73BfQbfd2hrwMrR+volUfmc2PcBoLmeHTzR5sB254mCi3Q65iBh6BiRFRXf7JeQOsyltwCvLHjL3JWnv7phEWn6FYLB7vbALi4GNRwQ7zJS0=
+	t=1777458673; cv=none; b=lLEq/OuoZKPnpvNFk1ijAqjDrrq3QpcC+Vn+uKpH2AyFnQNH4ELPocGMdiElAi70Y8jGCOpBmUTiiA9bpRmFT2BuJccW1nAMUXR7ce/jHrb3UcffHmY9GiiG8isidrWCuxYHzgG6Rt66Uf4/0ICq8SVCyJ6ApI7hUNvkA7MA5m8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777458347; c=relaxed/simple;
-	bh=uKx2BLK4SWtORQ3Y1X9QU+u3JmhryAfpmr007sf8OrM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Okk7xSo1DqiJWQ4y5ORbmodxvUqt3z7zCtusOnpvcI6F+PKzYOfkQFTyBq3bN+8mArFQu4WO1DwLu+GdJknoq6ExMfWw+ey3SzI8ikmr2WKk5gRRAHG4shfZhm7eYpkB/Od0XNzPxS+ybyprXAmLoGJxmb/B8NXg7JdOVW6Hp/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=syDuJ2eb; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777458333;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0ubnPqyEuUH+bb9tWP9+TOUp+n6C5onOR58LCuBDEiw=;
-	b=syDuJ2ebh9z2sjffREH58o0aT6Ajjew8W5I8ReEUtvp2EQkdghmYv8iT9JcU1iX87oMIbX
-	D+xmbMoFNHgWVKDoL6XEe6kPFjJgAeA5FQrv1tK/6uUbSyjmFqItMdxDS/n3eJA5ihtrWC
-	pDy1LXDxeyfrSgRVjezaD0bM6Fa+Scc=
-From: Usama Arif <usama.arif@linux.dev>
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	Yury Norov <ynorov@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	dmaengine@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-fsi@lists.ozlabs.org,
-	amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-wpan@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	xen-devel@lists.xenproject.org,
-	linux-fsdevel@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	bpf@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-x25@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	sound-open-firmware@alsa-project.org,
-	linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org,
-	linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Subject: Re: [RFC PATCH v1 7/9] x86: Add unsafe_copy_from_user()
-Date: Wed, 29 Apr 2026 03:25:19 -0700
-Message-ID: <20260429102520.1617327-1-usama.arif@linux.dev>
-In-Reply-To: <0ee46bb228d97163fbdc14f2a7c52b93d8bc34ce.1777306795.git.chleroy@kernel.org>
-References: 
+	s=arc-20240116; t=1777458673; c=relaxed/simple;
+	bh=IsPYo5A1NKgvPCB5OTEUwXERR7zAmjTkNZR4+UsSSBU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IHEXvEPeHLHA0ZrCUO/0tB15Z2jVLwZ0WuYkdvq6kveCmykFNvUYUkLiVjbDAxkp3mEb3seuk/ppC1av6nO5fbqSuQ3bjG31hXT2GU3Qs/cYbP8RBCuGpN94lyGdocHD75ka8VD79D/pct4EcXlg/rCE5YtsH3d2/GExYN1c0mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eGGXGRcy; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so89365565e9.0
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 03:31:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777458669; x=1778063469; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2n5GHFY1IUCVIi1ZttxoD6PyKrxGhAIV1l0a9WHxBdg=;
+        b=eGGXGRcyUpb8mpfFZHKsjFBQFzknnVKs9G4+uEZhUmXvAPeLUaqApncfo2YZfqjrmj
+         RyWntMDdcVctQCWdgUF92fHZunP/VuWMkZ5F+wlwJnJqeAdvSZ7vVMiZa4kzUlgxtjxT
+         ilQrKQeZXF9SKrQr3bXX73IOe7FJpYByR0LBIp3JeP73tm6+8+TsEYmC+DpukeZqB4sz
+         IBARE7UaJhhDeRPFN1idCxixuNSAYYsjpswtyz50ubMXroEIF1coe9f4+7elK6aEeJLo
+         UDWsnI3jxc9ZVOlZ93KbSBtNyYFOmvlXf3k2lIDHV10WjpU0OEIGn9JhxBWWFhr+aqXy
+         IZxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777458669; x=1778063469;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2n5GHFY1IUCVIi1ZttxoD6PyKrxGhAIV1l0a9WHxBdg=;
+        b=A9/cUk1SUHTZszGeJEV2o9X1Wz0OluFs1DWiFxIMZv3b+7u15sjomAwvi4K6l1l/Q0
+         TTNjs0cP8AyXRg/PagsDejrv3CqoIo3wTjaC+2xo/02sTwV62JHCwBzm6cFOwrwSwsZ2
+         ELaQ4VqyAZgtKoaGNPwyzTo7cltBZVeakrAnZDFkLv9s9F2sgi2az8HM1LyBBXz4jI0j
+         LLjfG0nbgDxN4R6eFK5G7PSXAAM9wicC4fwpsP5ZLWyYD7vKiv2/WDDeAn8pY9vYNKvl
+         D7JVfbq5E3/2npjUglXL1j34EZqNrJY3sR8JUyQzKEs3KFOSD1yMAsCo8rlu7QHGD0HF
+         OeKg==
+X-Forwarded-Encrypted: i=1; AFNElJ8HSVmjSVRiLBlk6xlDxWGWBFn5jPfqCbDK7o0Wqan+aKCB/gseNR9VPw3qhpxx9NRSx3TaxdG7/43ehQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJUgwEtqSDKks7ExWLy2POy5TLSkmRVvDs8MeCbvQLndVomoZX
+	6wbit5Q1oaG5Hdxr16ocRuUvsxPdvCI4OTWeXYgxACgU3FuVe8AQ/UcE
+X-Gm-Gg: AeBDietlO4UgaRwQXL8+YjMg6CmN3cut+rqEooYYK77bu17aG1hMjaUdSdBpXQ9vip2
+	UQoNFRjjuMIqf3fVhO1E6G7F0Vw3tWyS0BR+qyrwrN2tQxSaoipcCnahmGqiudSO5ROOqGHxgyU
+	aUHPqAy4lvTsTMssLWTmFjuwVbkGsl2tRvsAoQdnRClN3V7+e+JfoJumlDp9BOt+fB78ZHSi4Im
+	8VY+Yr1/2oDCqs3rCpkuQIFDOcVDuxeCzFZyMLCQ+drFz5nBq9FeFOaDxrbx52dkIvfa5B7fIj6
+	A0srXzdzl+Hn4KkSEvhHIOXnPGCuzwUiWMGw5t+IdVDuNgz1fArW2zba+bAQyKS5vKjDZxQ8aHB
+	t7sHA8PKDKc3bvQOlBuUsQK67iSVFjfMSwYx3e7E3CBOS1z5D/z5HdvrH1FFvFbrZGqtnujy4hP
+	jLDQOZjTOheGmYhW+6n1cf11NHsCBFXw==
+X-Received: by 2002:a05:600c:3b13:b0:488:c40b:c8a4 with SMTP id 5b1f17b1804b1-48a77add9cemr108962985e9.1.1777458669022;
+        Wed, 29 Apr 2026 03:31:09 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7c2ddc65sm23523735e9.4.2026.04.29.03.31.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 03:31:08 -0700 (PDT)
+Date: Wed, 29 Apr 2026 13:31:04 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Keke Li <keke.li@amlogic.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 0/6] media: Fix new smatch warnings
+Message-ID: <afHd6LT7rCPlqDQE@stanley.mountain>
+References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
+ <afC7qXCCkTTOS7jr@stanley.mountain>
+ <CANiDSCvn3EbrPUiGYzE1zDHp=kKPJLAgHx17OJvv7gWLZM9tBw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Rspamd-Queue-Id: C5A2C492D9A
+Content-Type: multipart/mixed; boundary="PCA+ff0wVcep1+Lo"
+Content-Disposition: inline
+In-Reply-To: <CANiDSCvn3EbrPUiGYzE1zDHp=kKPJLAgHx17OJvv7gWLZM9tBw@mail.gmail.com>
+X-Rspamd-Queue-Id: 0B82A492FD2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.56 / 15.00];
+	MIME_BAD_ATTACHMENT(1.60)[c:text/x-csrc];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-csrc];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linux.dev,nvidia.com,linux-foundation.org,gmail.com,linutronix.de,vger.kernel.org,lists.infradead.org,lists.ozlabs.org,lists.freedesktop.org,lists.linux.dev,lists.xenproject.org,googlegroups.com,kvack.org,alsa-project.org,lists.linux-m68k.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59956-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[usama.arif@linux.dev,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-59957-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	HAS_ATTACHMENT(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	RCPT_COUNT_GT_50(0.00)[50];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.997];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:dkim,linux.dev:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,stanley.mountain:mid]
 
-On Mon, 27 Apr 2026 19:13:48 +0200 "Christophe Leroy (CS GROUP)" <chleroy@kernel.org> wrote:
 
-> At the time being, x86 and arm64 are missing unsafe_copy_from_user().
-> 
-> Add it.
-> 
-> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
-> ---
->  arch/x86/include/asm/uaccess.h | 29 ++++++++++++++++++++++++-----
->  1 file changed, 24 insertions(+), 5 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
-> index 3a0dd3c2b233..10c458ffa399 100644
-> --- a/arch/x86/include/asm/uaccess.h
-> +++ b/arch/x86/include/asm/uaccess.h
-> @@ -598,7 +598,7 @@ _label:									\
->   * We want the unsafe accessors to always be inlined and use
->   * the error labels - thus the macro games.
->   */
-> -#define unsafe_copy_loop(dst, src, len, type, label)				\
-> +#define unsafe_put_loop(dst, src, len, type, label)				\
->  	while (len >= sizeof(type)) {						\
->  		unsafe_put_user(*(type *)(src),(type __user *)(dst),label);	\
->  		dst += sizeof(type);						\
-> @@ -611,10 +611,29 @@ do {									\
->  	char __user *__ucu_dst = (_dst);				\
->  	const char *__ucu_src = (_src);					\
->  	size_t __ucu_len = (_len);					\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
-> +} while (0)
-> +
-> +#define unsafe_get_loop(dst, src, len, type, label)				\
-> +	while (len >= sizeof(type)) {						\
-> +		unsafe_get_user(*(type __user *)(src),(type *)(dst),label);	\
+--PCA+ff0wVcep1+Lo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
-
-Just wanted to check if src and dst need to be swapped? Same for arm64 patch.
-
-> +		dst += sizeof(type);						\
-> +		src += sizeof(type);						\
-> +		len -= sizeof(type);						\
-> +	}
-> +
-> +#define unsafe_copy_from_user(_dst,_src,_len,label)			\
-> +do {									\
-> +	char *__ucu_dst = (_dst);					\
-> +	const char __user *__ucu_src = (_src);				\
-> +	size_t __ucu_len = (_len);					\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
->  } while (0)
->  
->  #ifdef CONFIG_CC_HAS_ASM_GOTO_OUTPUT
-> -- 
-> 2.49.0
+On Tue, Apr 28, 2026 at 03:58:08PM +0200, Ricardo Ribalda wrote:
 > 
-> 
+> The only one that deserves a complain is this one:
+> https://lore.kernel.org/linux-media/CANiDSCtm4Nh4Ub4rbEBvpjV8GXT9VQ5eFXZTHn=Wy=0RpR=3JA@mail.gmail.com/T/#m650723c33ec0318d8f32f1a6cc74c74a952ae11a
+
+Thanks.  I've written a fix for this.  Let me test it tonight
+and I'll push later.
+
+I've attached the validation/ test so you can look at the new
+ouput. ./smatch sm_mask1.c
+
+regards,
+dan carpenter
+
+--PCA+ff0wVcep1+Lo
+Content-Type: text/x-csrc; charset=us-ascii
+Content-Disposition: attachment; filename="sm_mask1.c"
+
+#include "check_debug.h"
+
+void func(int a, int b, int c, int d, int e)
+{
+	if (a < 65)
+		return;
+	if (b < 0 || b > 7)
+		return;
+	if (c < 7 || c > 17)
+		return;
+	if (d < 0)
+		return;
+
+	e &= 0xf0;
+
+	__smatch_implied(a);
+	__smatch_implied(a & ~7);
+	__smatch_implied(~7 & a);
+	__smatch_implied(b & ~7);
+	__smatch_implied(c & ~7);
+	__smatch_implied(d & 0xff);
+	__smatch_implied(d & 0xf0);
+	__smatch_implied(d & e);
+	__smatch_implied(d & (unsigned char)a);
+	__smatch_implied(b & (unsigned char)a);
+	__smatch_implied(c & (unsigned char)a);
+}
+
+/*
+ * check-name: smatch: mask #1
+ * check-command: ./smatch -I.. sm_mask1.c
+ *
+ * check-output-start
+sm_mask1.c:16 func() implied: a = '65-s32max'
+sm_mask1.c:17 func() implied: a & ~7 = '64-s32max'
+sm_mask1.c:18 func() implied: ~7 & a = '64-s32max'
+sm_mask1.c:19 func() implied: b & ~7 = '0'
+sm_mask1.c:20 func() implied: c & ~7 = '0,8-16'
+sm_mask1.c:21 func() implied: d & 255 = '0-255'
+sm_mask1.c:22 func() implied: d & 240 = '0,16-240'
+sm_mask1.c:23 func() implied: d & e = '0,16-240'
+sm_mask1.c:24 func() implied: d & a = '0-255'
+sm_mask1.c:25 func() implied: b & a = '0-7'
+sm_mask1.c:26 func() implied: c & a = '0-17'
+ * check-output-end
+ */
+
+--PCA+ff0wVcep1+Lo--
 
