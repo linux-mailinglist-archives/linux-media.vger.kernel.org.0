@@ -1,531 +1,302 @@
-Return-Path: <linux-media+bounces-59926-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59925-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0ND/BFSx8WmwjgEAu9opvQ
-	(envelope-from <linux-media+bounces-59926-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:20:52 +0200
+	id QMvJNBux8WmwjgEAu9opvQ
+	(envelope-from <linux-media+bounces-59925-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:19:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6457A4905D4
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A654905A0
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:19:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DC0A9308D243
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 07:16:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 38904303AB5B
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 07:16:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B59FA3A4531;
-	Wed, 29 Apr 2026 07:16:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E95E13A453F;
+	Wed, 29 Apr 2026 07:16:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hSjfXBbN";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ZkMnxYTP"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NZ+bXhEg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2065124BBF0;
-	Wed, 29 Apr 2026 07:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859AA3A3E97
+	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 07:16:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777447008; cv=none; b=eaVSG2BtOkAE4LA7Lxd6GzMeq1OenvXelEqiGw7lrbmzAtqrHTkpffNk+SDz2y+EQyO5rAyFUdajdMuo8ShXOUJ5c5MW+nq78H2GZJOH5v2elwXh19r8e9H1cxf+sbMpaakPlB9++gLwUuWRX5VNCXyURiqBni/1FEzaVNlPNcg=
+	t=1777446978; cv=none; b=L2dE8RY+spUCCOHmaXeJH1UR0ZN73OV+hKPAq7sFEF7tfbyEiS9jcBHPHba0TLtsmus4l9ZBhFiq2W+CYnPZ3hcroP3J4uSekPh1QIGFiaprohPjRVIDmEWi7GwQt3mrDP859SOzbLvK/g2Tt/1tAtz51uzbMdb68/lIoBw/LlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777447008; c=relaxed/simple;
-	bh=ZVw1cJ2t1degYNBFcX1lM5AjJWrP2Ykw4E8zWNS3NFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZcJ7x/HysL40IQDlY9RGHso+EaHHPduIpF9nfU0tw5Z8yUQEN/zrfvL34+wmqLCCwZFv3yLXH7hcZb+xR60ugFKL1Cvig/9u0QWEuQFA0XAzItrd15RSlg3R5or1lmTtaqUhNl5guj8F9P3TEBg3FiBVpyHKtkyoo9JZmGYQxgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hSjfXBbN; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ZkMnxYTP; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4g57s70mN2z9tF2;
-	Wed, 29 Apr 2026 09:16:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777447003;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ddmDedl83zXNIObRm6zW5Jzs9CzNkrFziMH4FhbMenE=;
-	b=hSjfXBbNcv1Bul3GBG7WOunoBmU1EveqfYaODSblTkd9IIZiIvQWZgMmubVe9vTrpbXWWR
-	hPqdggZH1VuoHhdA1nsbocTnGwxQ5VuyXGaANu6GL4RPyg3W9nNW40d6/xQmIwxdgXY/eu
-	r8eLQTBExbYXYJZM7OCXb7asVHc7evA5Vdp1taoZKdVpkjjyx4wdZ0toMC2TzG2xuh9ZrV
-	xFBC0yO1nrq6wwMxeJF+dBD23D17yMwRCI18kMewsskjk2fiLAUAhTX+r5UumJk/nL9+WQ
-	YDQ8CSnW2CtOz2aYpR5sKBTxQZG/aWuhW/gbDlSeYCeieKRkIif2ZusC8+gMJQ==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=ZkMnxYTP;
-	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777447001;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ddmDedl83zXNIObRm6zW5Jzs9CzNkrFziMH4FhbMenE=;
-	b=ZkMnxYTPKRDnB9LFBupPTA9YNC27kLxxpKdi5VcCXV2kbs3dPZnEw8+DYeAfzIWe5D2Qcf
-	quexWYdUjM7dS2rHdOZUI/4+yEJ8Bwr3mQF/rsYgthNfbgOvwCYUq8w8wRuaWyMcjmMkEE
-	Xj9nFIKQD3v8wGP8+7Cp8PkD+gT45K9BGguY55p/b+DwqqmsMRdWsxQpN9DVpkodfJnBur
-	eEGoV1/GvGA7omtv0NzbZpL5u5FYPINBX5SbO5zn9fTcfSYiKDg1LOZstM8qahj/gPb01b
-	fBi6BAqDWraUUTled8INTk1PKw5PXOV7z4bIqmYe99EQnrKwiDIcYao3pW8/Bw==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Cc: Kees Cook <kees@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mm@kvack.org,
-	Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH v4 1/3] Documentation: adopt new coding style of type-aware kmalloc-family
-Date: Wed, 29 Apr 2026 09:14:44 +0200
-Message-ID: <20260429071445.309733-2-manuelebner@mailbox.org>
-In-Reply-To: <20260429070759.309110-3-manuelebner@mailbox.org>
-References: <20260429070759.309110-3-manuelebner@mailbox.org>
+	s=arc-20240116; t=1777446978; c=relaxed/simple;
+	bh=xB2ti4ZBr1oXFjM8YFkh0Dg/OOaBcI02P4dFnj/2cbs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f1owdNL27rhYXriKp/zIceLnJhWjaWC/bIk0r4dS7E/swWQ7PQhf21R0VQa1x/y8z8enjTsKwWrzqYyTA9XpxXo/0wpzXsmTYjnPwF5hL5dtLW5/24n0gyoUXoMgVdLmRZQ8nIOth87kSOijpdTDPj4krRgcROcXUS/OpRIkSjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NZ+bXhEg; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-65c0891f4e9so20198565a12.1
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 00:16:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1777446974; x=1778051774; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zH4LOP+SlYMykRy8/Pf04NdQ0dQW87QZTuybjlYT/Nw=;
+        b=NZ+bXhEg8ragvfD27rI/bJ02O8g4LpFDkBCygapwEcF12EhngYipyPDnWuCVeSMLyW
+         iUZumlA0Zy+7boUR5uro043Jg4VrOWX7Nux1D8OOpmNEorkx3wOsHANsaclWfL0xCwtk
+         fdUdTJs1fOttlFirucBm1AHFulQcIotPMEJj8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777446974; x=1778051774;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zH4LOP+SlYMykRy8/Pf04NdQ0dQW87QZTuybjlYT/Nw=;
+        b=m6RIkJPum2cK5h5K94yT38KClXMcXfaOqI+O2YFZAn+OV5AJJBzdRKyCCLnEt1uJVw
+         llcBF4UsIvRlHGwToq1hvx+qTxFvSGgZ+q4zwK4hOoL8YN9ha1qsizU6ROYSwhtdP4bg
+         vukBw75xF0U/gbthdv1n8aSBSyJr2nEYiRck4elhV5zgCb9LxJzVZbJWNSppjvLALg4O
+         XluLKUa0IA00572hSkeqSP/FAdTMyypQzk8xX8lZ+1jACHb5Q5OIskggL4DonaIY5dvE
+         w/OUU+L5uDqHV1aC6Vj8PYaHX9+Ob/gVfwxTCsWJYOP3dPhu4mqeM+Xbzf2E0qcOwUGO
+         BoQw==
+X-Forwarded-Encrypted: i=1; AFNElJ+sAjLBw8tWu/8To1fVX1y2Ls6B+0A4cIk5byqmLc+vuFoXFYbxrW2ikxGd0+P/3dOUaYr0ND858iq9ag==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1jb/qWqJ290bKy80yciglE9DI1dbj6eYHVG9tMhVeti+cSKK2
+	t/G6zEWUPIgkBUzYx/jjcJ6dutU02zd0UBymARtqJxoFkBCJ/exwvDV0F4ijHwSFfBckc1hM/pY
+	oQxBeev4E
+X-Gm-Gg: AeBDieu8B94hOz6JKnyEdeJkJG4unrhNrZKWDo9uprkaiSu3l4NeBdsHfTn5IX+4kcv
+	gOjEGD7z3vfVAhe72A5JWf/4FVBCurv973xG9wi2KlPVnt6jd2iUZrixuOMBPla9HK+pc63xMn4
+	W913+REne6YqJISAo34jWjxGPhVNpPEp4BkESIMnyjSm4yI21iCJfXMwMQOR4S2DHaa1YPAF0cC
+	IqQEK+gZUlh38TwWid9wkAhoXWNrKjwwhTO8JTartCt69Wd8Oqp0oXKuZt8ez2tiUj8N+HHHt66
+	5sSZpsNy98lmEWeYFCtd5yS+77vYWOHTSs3PjfJC4Hu6WBgJbGM1fs6HYfFivpuzSvyD9ZLmIma
+	lV3n5hOk7ttLuPF3V/z6C1SZNI/yAyMgW2PQc5ulYK3Kn52rAIyFhlV4gUzKtl5lEb0zMgRtkgt
+	I9jKNeRPFY5gD95uYj5NRH1RDV95pOT+ZaIsY2lY9bljYYZRvP6y8F4HEGfapqG8Em3mtKBMo=
+X-Received: by 2002:a05:6402:5216:b0:671:eac2:d328 with SMTP id 4fb4d7f45d1cf-679bb04b10amr3233196a12.10.1777446974386;
+        Wed, 29 Apr 2026 00:16:14 -0700 (PDT)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com. [209.85.208.50])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-67b22165b31sm374661a12.23.2026.04.29.00.16.12
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2026 00:16:13 -0700 (PDT)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-65c0891f4e9so20198489a12.1
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 00:16:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8SdN7PtjMLAWQwQEfJk9/yJhx85lSrHMinSwWM715TmMAe14f1lzuEgcUjb+i74PED3Yp2dbw9VEpGZw==@vger.kernel.org
+X-Received: by 2002:a17:906:ef0c:b0:ba7:62f:9fa6 with SMTP id
+ a640c23a62f3a-bb8018de3eemr353915866b.2.1777446971661; Wed, 29 Apr 2026
+ 00:16:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: w7wzu7tun876byq4yzorb98hjrp9953b
-X-MBO-RS-ID: 7a55718844dc5d0adde
-X-Rspamd-Queue-Id: 6457A4905D4
+References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
+ <20260428-smatch-7-1-v1-6-46890dffb611@chromium.org> <20260428131038.GA120836@killaraus.ideasonboard.com>
+ <CANiDSCvaS-Jz9m5H2OHo2akD-o-sffsZyEw6_CrfUhD1BN+m2g@mail.gmail.com>
+ <20260428132649.GD120836@killaraus.ideasonboard.com> <CANiDSCv=sHfJAZNcmXkubAvjkMy4cL5Ez=zq9MRxTTRXRPECyQ@mail.gmail.com>
+ <afGgKdauTs8GFoWg@zed> <CANiDSCtr6RiuupmPjHphcxtCrU5iKzFyp+BF9JLyOpb2hc2-cw@mail.gmail.com>
+ <afGqxcABkv2D3DWG@zed>
+In-Reply-To: <afGqxcABkv2D3DWG@zed>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 29 Apr 2026 09:15:59 +0200
+X-Gmail-Original-Message-ID: <CANiDSCsj6yPX1s5WTKbbhT3QA+hhrJHNwjKb5ntaC4v2qo13KQ@mail.gmail.com>
+X-Gm-Features: AVHnY4Jqv-PVWRQnGBllidZi6sXJbggmK90XBD2px7fsJee02wPtsN-yZmn7sk4
+Message-ID: <CANiDSCsj6yPX1s5WTKbbhT3QA+hhrJHNwjKb5ntaC4v2qo13KQ@mail.gmail.com>
+Subject: Re: [PATCH 6/6] media: amlogic-c3: Add validations for ae and awb config
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>, 
+	Jackson Lee <jackson.lee@chipsnmedia.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+	Tianshu Qiu <tian.shu.qiu@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Keke Li <keke.li@amlogic.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 26A654905A0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-59926-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-59925-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[chromium.org:+];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[manuelebner@mailbox.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,mailbox.org:dkim,mailbox.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,chromium.org:dkim,chromium.org:email,ideasonboard.com:email]
 
-Update the documentation to reflect new type-aware kmalloc-family as
-suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
-and family")
+Hi Jacopo
 
-ptr = kmalloc(sizeof(*ptr), gfp);
- -> ptr = kmalloc_obj(*ptr);
-ptr = kmalloc(sizeof(struct some_obj_name), gfp);
- -> ptr = kmalloc_obj(*ptr);
-ptr = kzalloc(sizeof(*ptr), gfp);
- -> ptr = kzalloc_obj(*ptr);
-ptr = kmalloc_array(count, sizeof(*ptr), gfp);
- -> ptr = kmalloc_objs(*ptr, count);
-ptr = kcalloc(count, sizeof(*ptr), gfp);
- -> ptr = kzalloc_objs(*ptr, count);
+On Wed, 29 Apr 2026 at 08:55, Jacopo Mondi
+<jacopo.mondi@ideasonboard.com> wrote:
+>
+> Hi Ricardo
+>
+> On Wed, Apr 29, 2026 at 08:44:11AM +0200, Ricardo Ribalda wrote:
+> > Hi Jacopo
+> >
+> > On Wed, 29 Apr 2026 at 08:15, Jacopo Mondi
+> > <jacopo.mondi@ideasonboard.com> wrote:
+> > >
+> > > Hello
+> > >
+> > >    thank you Ricardo for the fix
+> > >
+> > > On Tue, Apr 28, 2026 at 03:49:49PM +0200, Ricardo Ribalda wrote:
+> > > > On Tue, 28 Apr 2026 at 15:26, Laurent Pinchart
+> > > > <laurent.pinchart@ideasonboard.com> wrote:
+> > > > >
+> > > > > On Tue, Apr 28, 2026 at 03:14:21PM +0200, Ricardo Ribalda wrote:
+> > > > > > On Tue, 28 Apr 2026 at 15:10, Laurent Pinchart wrote:
+> > > > > > > On Tue, Apr 28, 2026 at 12:41:12PM +0000, Ricardo Ribalda wrote:
+> > > > > > > > Avoid invalid memory access if the zones_num is bigger than
+> > > > > > > > zone_weight.
+> > > > > > > >
+> > > > > > > > This patch fixes the following smatch errors:
+> > > > > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
+> > > > > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
+> > > > > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+> > > > > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+> > > > > > > >
+> > > > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > > > > > ---
+> > > > > > > >  drivers/media/platform/amlogic/c3/isp/c3-isp-params.c | 4 ++++
+> > > > > > > >  1 file changed, 4 insertions(+)
+> > > > > > > >
+> > > > > > > > diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+> > > > > > > > index 6f9ca7a7dd88..42d780f684d1 100644
+> > > > > > > > --- a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+> > > > > > > > +++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+> > > > > > > > @@ -104,6 +104,8 @@ static void c3_isp_params_awb_wt(struct c3_isp_device *isp,
+> > > > > > > >       c3_isp_write(isp, ISP_AWB_BLK_WT_ADDR, 0);
+> > > > > > > >
+> > > > > > > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
+> > > > > > > > +     if (WARN_ON(zones_num > C3_ISP_AWB_MAX_ZONES))
+> > > > > > >
+> > > > > > > This is triggerable by userspace, it shouldn't result in a WARN_ON().
+> > > > > > > Ideally the horiz_zones_num and vert_zones_num should be validated at
+> > > > > > > buf prepare time, and an error should be returned to userspace. That
+> > > > > > > will likely not fix your smatch issue though, I don't think it will be
+> > > > > > > able to understand that the values have been validated.
+> > > > > >
+> > > > > > Based on the warnings from the other drivers I also suspect that if
+> > > > > > you have validated the data somewhere else smatch will understand it.
+> > > > > >
+> > > > > > Even if you add a validate function I would suggest to keep the
+> > > > > > WARN_ON(), ideally it should never trigger, and if it triggers it will
+> > > > > > get a lot more attention to get it fixed.
+> > > > >
+> > > > > We could keep the WARN_ON() if we first validate the data, but the
+> > > > > driver doesn't currently :-/ I expect there could be more similar
+> > > > > issues.
+> > > >
+> > > > Yep, I got that. I will let you or Jacopo figure out the best way to
+> > > > implement the validation in buf_prepare. If you do not have time to
+> > > > implement it now I will just remove the WARN_ON in the interim... but
+> > > > from my experience we only fix stuff if we get an oops.
+> > > >
+> > > > Regards!
+> > > >
+> > > > >
+> > > > > > > Jacopo, do we need to add a validate function pointer to
+> > > > > > > v4l2_isp_params_block_type_info ?
+> > >
+> > > To allow drivers to provide an additional per-block validation
+> > > function ? I think it could be nice indeed.
+> > >
+> > > Ricardo, could you spare this patch for the moment ? I think we can
+> > > WARN_ON() to please smatch but we should pre-validate the buffer (without
+> > > spamming the system log in case of errors) to make sure we actually
+> > > never hit the WARN_ON() :)
+> > >
+> > > I have some patches in the pipe for v4l2-isp to add support for
+> > > extensible stats, I could pile up a few more to give drivers a space
+> > > where to implement additional per-block validations
+> >
+> > Do you have any idea of the timeline for this?
+> >
+>
+> Give the change will likely come on top of extensible stats it might
+> slip this cycle
+>
+> > I would really like to land this in this cycle. If it is going to take
+> > long maybe i can just
+> >
+> > if (zones_num > C3_ISP_AE_MAX_ZONES)
+>
+> Fine by me
+>
+> >
+> > and then when you add your checks you can promote it to:
+> >
+> > if (WARN_ON(zones_num > C3_ISP_AE_MAX_ZONES))
+>
+> To be honest, if we pre-validate and silence the smatch warning with
+> the above
+>
+>         if (zones_num > C3_ISP_AE_MAX_ZONES)
+>
+> then there shouldn't be any need to WARN_ON() ?
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
----
- Documentation/core-api/kref.rst                      |  4 ++--
- Documentation/core-api/list.rst                      |  4 ++--
- Documentation/driver-api/mailbox.rst                 |  4 ++--
- Documentation/driver-api/media/v4l2-fh.rst           |  2 +-
- Documentation/kernel-hacking/locking.rst             |  4 ++--
- Documentation/locking/locktypes.rst                  |  4 ++--
- Documentation/process/coding-style.rst               |  8 ++++----
- .../sound/kernel-api/writing-an-alsa-driver.rst      | 12 ++++++------
- Documentation/spi/spi-summary.rst                    |  4 ++--
- .../translations/it_IT/kernel-hacking/locking.rst    |  4 ++--
- .../translations/it_IT/locking/locktypes.rst         |  4 ++--
- .../translations/it_IT/process/coding-style.rst      |  2 +-
- .../translations/sp_SP/process/coding-style.rst      |  2 +-
- Documentation/translations/zh_CN/core-api/kref.rst   |  4 ++--
- .../translations/zh_CN/process/coding-style.rst      |  2 +-
- .../zh_CN/video4linux/v4l2-framework.txt             |  2 +-
- .../translations/zh_TW/process/coding-style.rst      |  2 +-
- 18 files changed, 36 insertions(+), 36 deletions(-)
+I like WARN_ON in "sanity checks" because when they fail they give you
+a pretty verbose warning that will lead to resolution.
+But if you do not need/like it, it is also fine by me.
 
-diff --git a/Documentation/core-api/kref.rst b/Documentation/core-api/kref.rst
-index 8db9ff03d952..1c14c036699d 100644
---- a/Documentation/core-api/kref.rst
-+++ b/Documentation/core-api/kref.rst
-@@ -40,7 +40,7 @@ kref_init as so::
- 
-      struct my_data *data;
- 
--     data = kmalloc(sizeof(*data), GFP_KERNEL);
-+     data = kmalloc_obj(*data);
-      if (!data)
-             return -ENOMEM;
-      kref_init(&data->refcount);
-@@ -100,7 +100,7 @@ thread to process::
- 	int rv = 0;
- 	struct my_data *data;
- 	struct task_struct *task;
--	data = kmalloc(sizeof(*data), GFP_KERNEL);
-+	data = kmalloc_obj(*data);
- 	if (!data)
- 		return -ENOMEM;
- 	kref_init(&data->refcount);
-diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
-index 241464ca0549..86cd0a1b77ea 100644
---- a/Documentation/core-api/list.rst
-+++ b/Documentation/core-api/list.rst
-@@ -112,7 +112,7 @@ list:
- 
-           /* State 1 */
- 
--          grock = kzalloc(sizeof(*grock), GFP_KERNEL);
-+          grock = kzalloc_obj(*grock);
-           if (!grock)
-                   return -ENOMEM;
-           grock->name = "Grock";
-@@ -123,7 +123,7 @@ list:
- 
-           /* State 2 */
- 
--          dimitri = kzalloc(sizeof(*dimitri), GFP_KERNEL);
-+          dimitri = kzalloc_obj(*dimitri);
-           if (!dimitri)
-                   return -ENOMEM;
-           dimitri->name = "Dimitri";
-diff --git a/Documentation/driver-api/mailbox.rst b/Documentation/driver-api/mailbox.rst
-index 463dd032b96c..4bcd73a99115 100644
---- a/Documentation/driver-api/mailbox.rst
-+++ b/Documentation/driver-api/mailbox.rst
-@@ -87,8 +87,8 @@ a message and a callback function to the API and return immediately).
- 		struct async_pkt ap;
- 		struct sync_pkt sp;
- 
--		dc_sync = kzalloc(sizeof(*dc_sync), GFP_KERNEL);
--		dc_async = kzalloc(sizeof(*dc_async), GFP_KERNEL);
-+		dc_sync = kzalloc_obj(*dc_sync);
-+		dc_async = kzalloc_obj(*dc_async);
- 
- 		/* Populate non-blocking mode client */
- 		dc_async->cl.dev = &pdev->dev;
-diff --git a/Documentation/driver-api/media/v4l2-fh.rst b/Documentation/driver-api/media/v4l2-fh.rst
-index a934caa483a4..38319130ebf5 100644
---- a/Documentation/driver-api/media/v4l2-fh.rst
-+++ b/Documentation/driver-api/media/v4l2-fh.rst
-@@ -42,7 +42,7 @@ Example:
- 
- 		...
- 
--		my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
-+		my_fh = kzalloc_obj(*my_fh);
- 
- 		...
- 
-diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
-index dff0646a717b..d02e62367c4f 100644
---- a/Documentation/kernel-hacking/locking.rst
-+++ b/Documentation/kernel-hacking/locking.rst
-@@ -442,7 +442,7 @@ to protect the cache and all the objects within it. Here's the code::
-     {
-             struct object *obj;
- 
--            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+            if ((obj = kmalloc_obj(*obj)) == NULL)
-                     return -ENOMEM;
- 
-             strscpy(obj->name, name, sizeof(obj->name));
-@@ -517,7 +517,7 @@ which are taken away, and the ``+`` are lines which are added.
-              struct object *obj;
-     +        unsigned long flags;
- 
--             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+             if ((obj = kmalloc_obj(*obj)) == NULL)
-                      return -ENOMEM;
-     @@ -63,30 +64,33 @@
-              obj->id = id;
-diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
-index 37b6a5670c2f..ac1ad722a9e7 100644
---- a/Documentation/locking/locktypes.rst
-+++ b/Documentation/locking/locktypes.rst
-@@ -498,7 +498,7 @@ allocating memory.  Thus, on a non-PREEMPT_RT kernel the following code
- works perfectly::
- 
-   raw_spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- But this code fails on PREEMPT_RT kernels because the memory allocator is
- fully preemptible and therefore cannot be invoked from truly atomic
-@@ -507,7 +507,7 @@ while holding normal non-raw spinlocks because they do not disable
- preemption on PREEMPT_RT kernels::
- 
-   spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- 
- bit spinlocks
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 35b381230f6e..a3bf75dc7c88 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -936,7 +936,7 @@ used.
- ---------------------
- 
- The kernel provides the following general purpose memory allocators:
--kmalloc(), kzalloc(), kmalloc_array(), kcalloc(), vmalloc(), and
-+kmalloc(), kzalloc(), kmalloc_objs(), kzalloc_objs(), vmalloc(), and
- vzalloc().  Please refer to the API documentation for further information
- about them.  :ref:`Documentation/core-api/memory-allocation.rst
- <memory_allocation>`
-@@ -945,7 +945,7 @@ The preferred form for passing a size of a struct is the following:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- The alternative form where struct name is spelled out hurts readability and
- introduces an opportunity for a bug when the pointer variable type is changed
-@@ -959,13 +959,13 @@ The preferred form for allocating an array is the following:
- 
- .. code-block:: c
- 
--	p = kmalloc_array(n, sizeof(...), ...);
-+	p = kmalloc_objs(*ptr, n, ...);
- 
- The preferred form for allocating a zeroed array is the following:
- 
- .. code-block:: c
- 
--	p = kcalloc(n, sizeof(...), ...);
-+	p = kzalloc_objs(*ptr, n, ...);
- 
- Both forms check for overflow on the allocation size n * sizeof(...),
- and return NULL if that occurred.
-diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-index 895752cbcedd..12433612aa9c 100644
---- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-+++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-@@ -266,7 +266,7 @@ to details explained in the following section.
-               ....
- 
-               /* allocate a chip-specific data with zero filled */
--              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+              chip = kzalloc_obj(*chip);
-               if (chip == NULL)
-                       return -ENOMEM;
- 
-@@ -628,7 +628,7 @@ After allocating a card instance via :c:func:`snd_card_new()`
-   err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
-                      0, &card);
-   .....
--  chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+  chip = kzalloc_obj(*chip);
- 
- The chip record should have the field to hold the card pointer at least,
- 
-@@ -747,7 +747,7 @@ destructor and PCI entries. Example code is shown first, below::
-                       return -ENXIO;
-               }
- 
--              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+              chip = kzalloc_obj(*chip);
-               if (chip == NULL) {
-                       pci_disable_device(pci);
-                       return -ENOMEM;
-@@ -1737,7 +1737,7 @@ callback::
-   {
-           struct my_pcm_data *data;
-           ....
--          data = kmalloc(sizeof(*data), GFP_KERNEL);
-+          data = kmalloc_obj(*data);
-           substream->runtime->private_data = data;
-           ....
-   }
-@@ -3301,7 +3301,7 @@ You can then pass any pointer value to the ``private_data``. If you
- assign private data, you should define a destructor, too. The
- destructor function is set in the ``private_free`` field::
- 
--  struct mydata *p = kmalloc(sizeof(*p), GFP_KERNEL);
-+  struct mydata *p = kmalloc_obj(*p);
-   hw->private_data = p;
-   hw->private_free = mydata_free;
- 
-@@ -3833,7 +3833,7 @@ chip data individually::
-           err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
-                              0, &card);
-           ....
--          chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+          chip = kzalloc_obj(*chip);
-           ....
-           card->private_data = chip;
-           ....
-diff --git a/Documentation/spi/spi-summary.rst b/Documentation/spi/spi-summary.rst
-index 6e21e6f86912..7ad6af76c247 100644
---- a/Documentation/spi/spi-summary.rst
-+++ b/Documentation/spi/spi-summary.rst
-@@ -249,7 +249,7 @@ And SOC-specific utility code might look something like::
- 	{
- 		struct mysoc_spi_data *pdata2;
- 
--		pdata2 = kmalloc(sizeof *pdata2, GFP_KERNEL);
-+		pdata2 = kmalloc_obj(*pdata2);
- 		*pdata2 = pdata;
- 		...
- 		if (n == 2) {
-@@ -373,7 +373,7 @@ a bus (appearing under /sys/class/spi_master).
- 			return -ENODEV;
- 
- 		/* get memory for driver's per-chip state */
--		chip = kzalloc(sizeof *chip, GFP_KERNEL);
-+		chip = kzalloc(*chip);
- 		if (!chip)
- 			return -ENOMEM;
- 		spi_set_drvdata(spi, chip);
-diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-index 4c21cf60f775..acca89a3743a 100644
---- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
-+++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-@@ -462,7 +462,7 @@ e tutti gli oggetti che contiene. Ecco il codice::
-     {
-             struct object *obj;
- 
--            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+            if ((obj = kmalloc_obj(*obj)) == NULL)
-                     return -ENOMEM;
- 
-             strscpy(obj->name, name, sizeof(obj->name));
-@@ -537,7 +537,7 @@ sono quelle rimosse, mentre quelle ``+`` sono quelle aggiunte.
-              struct object *obj;
-     +        unsigned long flags;
- 
--             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+             if ((obj = kmalloc_obj(*obj)) == NULL)
-                      return -ENOMEM;
-     @@ -63,30 +64,33 @@
-              obj->id = id;
-diff --git a/Documentation/translations/it_IT/locking/locktypes.rst b/Documentation/translations/it_IT/locking/locktypes.rst
-index 1c7056283b9d..d5fa36aa05cc 100644
---- a/Documentation/translations/it_IT/locking/locktypes.rst
-+++ b/Documentation/translations/it_IT/locking/locktypes.rst
-@@ -488,7 +488,7 @@ o rwlock_t. Per esempio, la sezione critica non deve fare allocazioni di
- memoria. Su un kernel non-PREEMPT_RT il seguente codice funziona perfettamente::
- 
-   raw_spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- Ma lo stesso codice non funziona su un kernel PREEMPT_RT perché l'allocatore di
- memoria può essere oggetto di prelazione e quindi non può essere chiamato in un
-@@ -497,7 +497,7 @@ trattiene un blocco *non-raw* perché non disabilitano la prelazione sui kernel
- PREEMPT_RT::
- 
-   spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- 
- bit spinlocks
-diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
-index c0dc786b8474..2a499412a2e3 100644
---- a/Documentation/translations/it_IT/process/coding-style.rst
-+++ b/Documentation/translations/it_IT/process/coding-style.rst
-@@ -943,7 +943,7 @@ Il modo preferito per passare la dimensione di una struttura è il seguente:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- La forma alternativa, dove il nome della struttura viene scritto interamente,
- peggiora la leggibilità e introduce possibili bachi quando il tipo di
-diff --git a/Documentation/translations/sp_SP/process/coding-style.rst b/Documentation/translations/sp_SP/process/coding-style.rst
-index 7d63aa8426e6..44c93d5f6beb 100644
---- a/Documentation/translations/sp_SP/process/coding-style.rst
-+++ b/Documentation/translations/sp_SP/process/coding-style.rst
-@@ -955,7 +955,7 @@ La forma preferida para pasar el tamaño de una estructura es la siguiente:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- La forma alternativa donde se deletrea el nombre de la estructura perjudica
- la legibilidad, y presenta una oportunidad para un error cuando se cambia
-diff --git a/Documentation/translations/zh_CN/core-api/kref.rst b/Documentation/translations/zh_CN/core-api/kref.rst
-index b9902af310c5..fcff01e99852 100644
---- a/Documentation/translations/zh_CN/core-api/kref.rst
-+++ b/Documentation/translations/zh_CN/core-api/kref.rst
-@@ -52,7 +52,7 @@ kref可以出现在数据结构体中的任何地方。
- 
-      struct my_data *data;
- 
--     data = kmalloc(sizeof(*data), GFP_KERNEL);
-+     data = kmalloc_obj(*data);
-      if (!data)
-             return -ENOMEM;
-      kref_init(&data->refcount);
-@@ -106,7 +106,7 @@ Kref规则
- 	int rv = 0;
- 	struct my_data *data;
- 	struct task_struct *task;
--	data = kmalloc(sizeof(*data), GFP_KERNEL);
-+	data = kmalloc_obj(*data);
- 	if (!data)
- 		return -ENOMEM;
- 	kref_init(&data->refcount);
-diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
-index 5a342a024c01..55d5da974d89 100644
---- a/Documentation/translations/zh_CN/process/coding-style.rst
-+++ b/Documentation/translations/zh_CN/process/coding-style.rst
-@@ -813,7 +813,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- 另外一种传递方式中，sizeof 的操作数是结构体的名字，这样会降低可读性，并且可能
- 会引入 bug。有可能指针变量类型被改变时，而对应的传递给内存分配函数的 sizeof
-diff --git a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-index f0be21a60a0f..ba43c5c4797c 100644
---- a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-+++ b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-@@ -799,7 +799,7 @@ int my_open(struct file *file)
- 
- 	...
- 
--	my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
-+	my_fh = kzalloc_obj(*my_fh);
- 
- 	...
- 
-diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
-index e2ba97b3d8bb..63c78982a1af 100644
---- a/Documentation/translations/zh_TW/process/coding-style.rst
-+++ b/Documentation/translations/zh_TW/process/coding-style.rst
-@@ -827,7 +827,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- 另外一種傳遞方式中，sizeof 的操作數是結構體的名字，這樣會降低可讀性，並且可能
- 會引入 bug。有可能指針變量類型被改變時，而對應的傳遞給內存分配函數的 sizeof
+
+>
+> >
+> > ?
+> >
+> > Also it would be much easier to backport this change than a change in v4l2-isp.
+> >
+> > Regards!
+> >
+> > >
+> > > > > > >
+> > > > > > > > +             zones_num = C3_ISP_AWB_MAX_ZONES;
+> > > > > > > >
+> > > > > > > >       /* Need to write 8 weights at once */
+> > > > > > > >       for (i = 0; i < zones_num / 8; i++) {
+> > > > > > > > @@ -220,6 +222,8 @@ static void c3_isp_params_ae_wt(struct c3_isp_device *isp,
+> > > > > > > >       c3_isp_write(isp, ISP_AE_BLK_WT_ADDR, 0);
+> > > > > > > >
+> > > > > > > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
+> > > > > > > > +     if (WARN_ON(zones_num > C3_ISP_AE_MAX_ZONES))
+> > > > > > > > +             zones_num = C3_ISP_AE_MAX_ZONES;
+> > > > > > > >
+> > > > > > > >       /* Need to write 8 weights at once */
+> > > > > > > >       for (i = 0; i < zones_num / 8; i++) {
+> > > > >
+> > > > > --
+> > > > > Regards,
+> > > > >
+> > > > > Laurent Pinchart
+> > > >
+> > > >
+> > > >
+> > > > --
+> > > > Ricardo Ribalda
+> >
+> >
+> >
+> > --
+> > Ricardo Ribalda
+
+
+
 -- 
-2.53.0
-
+Ricardo Ribalda
 
