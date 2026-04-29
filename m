@@ -1,169 +1,169 @@
-Return-Path: <linux-media+bounces-59909-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59910-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IQWyIHmW8WkyigEAu9opvQ
-	(envelope-from <linux-media+bounces-59909-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 07:26:17 +0200
+	id KG+YKumb8WlfiwEAu9opvQ
+	(envelope-from <linux-media+bounces-59910-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 07:49:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF16748F6AA
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 07:26:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0421B48F894
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 07:49:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 91DC330329BB
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 05:26:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0C7C0303351F
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 05:49:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBE0F3890F7;
-	Wed, 29 Apr 2026 05:26:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F12A3385B9;
+	Wed, 29 Apr 2026 05:49:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hbYOEdpT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AlLIBNXG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6F733263E
-	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 05:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777440371; cv=none; b=IEoWWHiw/vJ0slVH7FoaroowAS+aL/WwpszCgZ97vSoN5gtIRyRWU5eF+jG5qW9sk33SCpebxqAlHxDpqJ8vEUpUPMVJHsz/EFCzv6JsbrIg+xJ9hAUkyq9akPetcLMqnxMPJZJIiIEnsv2AwU8MiBposTkkO58oeSk1b+binj4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777440371; c=relaxed/simple;
-	bh=iSTA9ut8ASNYA8HzP1hie6ztsu8wLv1j/2y4hcrj89M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=II4OW5C9W6xbNYlIzJOrc42PCfNLyvbZiDU/uMMcLG5U1SXVA8bXBoIxuFvgqrqiOvuVRFh+x4XytQHmlRg8TMuy7DR36lDRJ39C0+x63QlVu70NKnBhPPvLS4h90rjz9K9f6MC+d0kodRanxTTSNeN7YAe/O3WZFIPYbsOV6cY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hbYOEdpT; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777440370; x=1808976370;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=iSTA9ut8ASNYA8HzP1hie6ztsu8wLv1j/2y4hcrj89M=;
-  b=hbYOEdpTxptXPKrsNewRB7qSUSMtz712u+m8qCr8UyrTSBVo/uIpRk6S
-   BDWraOjz4TPVmDOuAkhkfR2HNnFWvS/L1OiB+s4hr9OPQ/t6uOyfkHxaN
-   SRxXVodiLYXNItixkhCCzb5tnrKbGPXOVePWACPWS4EYK+oCBsTXGJpC6
-   qEQHJu3W5g4uJAm9gnAQsGe6fAS7qUBuhDEvu4l2aQ2VQOG/+v8eoygjS
-   f5hTV1tSPUwNvnSlcAILHbmslIeeaINGDIRIZthB5lC2eAkJ5Tfu/9BdB
-   MvXfxj4zKqB4K9ur8k8ZQZtNyDArs/gO7jrtyFG8KZmoG7hsR5sEr0yDg
-   g==;
-X-CSE-ConnectionGUID: oMi55zjySoWUmHstcTYing==
-X-CSE-MsgGUID: OPyQZB2VSvWJXmz3mPgSkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="101023636"
-X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="101023636"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 22:26:09 -0700
-X-CSE-ConnectionGUID: lqzbJM3/SzSbyN2gJed6cQ==
-X-CSE-MsgGUID: gy8HDCV4Q1iCbz9HAUUGZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="272299827"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 28 Apr 2026 22:26:08 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wHxQz-00000000Ae0-2FM6;
-	Wed, 29 Apr 2026 05:26:05 +0000
-Date: Wed, 29 Apr 2026 13:25:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 30/122]
- drivers/staging/media/max96712/max96712.c:267:20: error: initialization of
- 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct
- v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer
- type 'int (*)(struct v4l2...
-Message-ID: <202604291336.ZjaAXBvo-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A246E27281E
+	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 05:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777441762; cv=pass; b=kmDJqArOJwGs5m8bnPr2gD827uUO85mmc6dK5xNCQA5FHGGbyXFdFDVHtEed12Ga9cP4j+L8xkEGIoUZTuSoDQzKep89j913jcS5aFmdnKnArarO7A7B95lseV794VRVeURCnF7kzSHT8D7sXG+QQh1KChnx3T72/7H9nY4oWSw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777441762; c=relaxed/simple;
+	bh=NwRV2kYrYdb7V4qwDjoqIgMCdFIe/qodIEPhLrCQ0dE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PedLn7K7KPQ6+rg/zzTywFc8O6sPJpBDwTVW3uUiWl5W4MrmXvy4NmDbUwYHQMr/0rvQ4jPF2AS2xNd1qqulOS6V+eQNDKqiTkv8FSNFb0Vio1P+su6zimKLcIg5rlXHVgxCsiTIQiAGNFBRtDyZa3JsxHQ7/E4BJH1LFRFOPJA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AlLIBNXG; arc=pass smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ba699316b42so1543834866b.3
+        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2026 22:49:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777441759; cv=none;
+        d=google.com; s=arc-20240605;
+        b=HFC63L4smc+UgOmsPEwSkPeGUZKPXrFJzyN3kZ3xanNMqCvGn7jiyqd/54pyhSu8Ff
+         d+Dy8jBw/xxbNUO1YsmzWceyyM7/M4IGavJELha0T5ZclFLjDGGuvRw73l14AXQwKuyK
+         GOq6f9B73LXPiDuYBLcbU9mpAZb/n8VHt99S/Gwzgxx1ykpLpPj2a52j+yfYk1lJC3Qp
+         3/yua0qxNhBNKm8ZzlK7f1XTGJNCkeN+Hb8sBXDsFkeFUytO1m/xirfve1/VE5s51Vjo
+         y5GQqfs5+yBLaqP1OxB0TIu3pvZjpRQOPzKxV1hE3uqsEZTbxKyNg+CZd6h8hHY2zA4G
+         L4kQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=NwRV2kYrYdb7V4qwDjoqIgMCdFIe/qodIEPhLrCQ0dE=;
+        fh=FoGomdC/m0jfD5hvw+iPZb9VrUuQLNlXFcPdxCN3QLU=;
+        b=CFcJjug0AEd8xtoyQIbbqNDQTPg09FYpIhPQkMRqJuitSo8teTndlaWZL/yTZJxx84
+         CALtRZFYajUduCHM7AAFjlS6w9HNl93rIpzLNOPx4DO136ZIzpD9UHlYP5xFO0xsfOQO
+         yWFXcdegRoU81/R/7y2OC10O8yqXm/W+f+2rnk0r4zIv6zsqCXw1QfIFXpGNsWFrRJRk
+         1erJjFXyNmMxTlFcpfWhBkAN5KIMF2GdG/n8j9h8gSE8lK/BsZ2qh4wawy/5AmMjmCXI
+         SsBPjh87wbpAF9Rj/q9d+f5Uk6x2vnXIwmpOJ912gr5fBUyAxJvuVjc+AGggMQ4/ad1B
+         3bow==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777441759; x=1778046559; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NwRV2kYrYdb7V4qwDjoqIgMCdFIe/qodIEPhLrCQ0dE=;
+        b=AlLIBNXGqNnuZlYL+p+bXH2B541jdet7Ic0zZoUCQ51ExDrxPFfJdMC61DGjYPMSyY
+         PDQO3AmmNuPcF0fc9nSCg2UtXhUlquP2w1mseYjJV/hcemB1fv5SsXg/NjJS97Tk/oeu
+         Tsyn07AFZyjEbhgL82VBaeNJUlooPTq9TI9xcXG3nOvIoVIZt06H5bA657bhR/vl+nQ6
+         ngm6fSzxQdk0BSxdxSV/7bRN4CKDiBXjiPihaAdmMepxwLQcj90jHToSewRF1cntdzcN
+         gU0p9yl0ssfl3suuNbRxVVjCzBt2s0DzEwYghN3+luu0/JJGwMpG2odbhSMHwimNDBvl
+         c1AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777441759; x=1778046559;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NwRV2kYrYdb7V4qwDjoqIgMCdFIe/qodIEPhLrCQ0dE=;
+        b=sAVOrHim+Zdo1XrTGidHLKG0yW591579gl+J7Bv2WEx8brlO892OAhz11io/+RbExx
+         Z4ZkPn0oIKgqE3M4Kzf9SIsiVPa/cMkq50o2FPzQFYCW0xmpPMxb4cxDUg+2suFeIs1X
+         2qq68Gya//0+BSSjnM7PjmTkS9RalCymNOms28+z3WJJezta+F9I3/fjojm0LipqTTlx
+         gqoE8eGpGg+Mxj89oINQCpehGmL88L6xoc4H7TlQcvm07oUh9jAJKmaAyt6BVl+30aPD
+         /sCHHvxCSGYxennHDSUCVhPbVsh7Ex6P+l5mGQFbZUIVomM3fMB29YT8BlQRMwI1Glgk
+         JgrA==
+X-Forwarded-Encrypted: i=1; AFNElJ8c4OoOpzcmHaBzPeHwcv5PUWbAJ4gH1+sgooXKSTSswTVHI6/o3V7zUXZrLnGA7KcPEQzrrre/L1mvfg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxu9d0NU8D/udfS1fFlQrYlztWG4MkVfWMpfw3vdxB/OJ7E0GjI
+	XM0vmp9rI5sEgZ6tT9v5HaDkq0mQp5Sa0+p+iVFQrVw83fXCTPtwVRqg2yKGDV8FJ2H/rW9Cv0T
+	sH8QyY3tyN55ZEuhHqNFReqB55iluJ1OhoXv2
+X-Gm-Gg: AeBDievXDRu80+rkFcHSoSgdDHx30tYytzkHgadQniskiGIEss6pqIDxp9RHFRPGqlw
+	iDMAMP5iO+nFWDo4x2hYnsvae/CIramjlE/mEBm7gIglP8uMcBt+HWXw9XQ9+VX5mE9WE8mzwgJ
+	ZUxbDEgEcl092Sf9pG0Te8+J0y6SnMQnuT5veSMuwGT/Gv5mmU0cPtmUFTwVMtR1cdZrYCydwtk
+	pp+yJ6MdCuBBVTWZl4LTiA7qSITt1yXuaTpJF6bZ1ZOw+UmvtCd1IFXQSOdS+Caa45FI2sgPB11
+	c+NkWGXWgy5VQ3p2UfoiQN1ct2KpT9x8Q5Gfnb5Q7457O0FGT9RfBgw0ah45+BvHek2Deiv3DBh
+	o4Pd7yfjqbzcra/7Ei+zvRm6zDAkiug==
+X-Received: by 2002:a17:906:8d8d:b0:b9c:b682:83bd with SMTP id
+ a640c23a62f3a-bb93c5a04e7mr141132366b.4.1777441758853; Tue, 28 Apr 2026
+ 22:49:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20260429020335.83143-1-skunkolee@gmail.com>
+In-Reply-To: <20260429020335.83143-1-skunkolee@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 29 Apr 2026 08:48:42 +0300
+X-Gm-Features: AVHnY4JLhSADkEpO7gqOKY11kHU9CSlehpegdwa7RODHETaXl32kSTomXjSuQnY
+Message-ID: <CAHp75Vcf2gOf_UK6x2=ZttqLE6ErGVO5tK3Cc5HszGfAVTUksw@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: ov2722: clean up ov2722_startup()
+To: auth <skunkolee@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Ingo Molnar <mingo@kernel.org>, 
+	"open list:INTEL MID (Mobile Internet Device) PLATFORM" <linux-kernel@vger.kernel.org>, 
+	"open list:STAGING - ATOMISP DRIVER" <linux-media@vger.kernel.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: BF16748F6AA
+X-Rspamd-Queue-Id: 0421B48F894
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.04 / 15.00];
-	LONG_SUBJ(2.21)[294];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	TO_DN_ALL(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59909-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-59910-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,ragnatech.se:email,intel.com:email,intel.com:dkim,intel.com:mid]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andyshevchenko@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   489ab6e79288be8d219b68525a13699fde0248ae
-commit: bdef7b84a4e74d1cef8cd5c1326c657cf4b86b3e [30/122] media: v4l2-subde=
-v: Add struct v4l2_subdev_client_info pointer to pad ops
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/2026042=
-9/202604291336.ZjaAXBvo-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260429/202604291336.ZjaAXBvo-lkp@intel.com/reproduce)
+On Wed, Apr 29, 2026 at 5:04=E2=80=AFAM auth <skunkolee@gmail.com> wrote:
+>
+> Replace misleading comment with description of the function's purpose. Al=
+so replace return ret with return 0 since ret is guaranteed to be zero at t=
+hat point.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604291336.ZjaAXBvo-lkp@i=
-ntel.com/
+First of all, wrap the commit message to the ~72 characters per line.
+Second, Why do you think the comment is misleading? It's a TODO item.
+Perhaps the better change is to address that?
 
-All errors (new ones prefixed by >>):
+> Signed-off-by: auth <skunkolee@gmail.com>
 
->> drivers/staging/media/max96712/max96712.c:267:20: error: initialization =
-of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, s=
-truct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible =
-pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, str=
-uct v4l2_subdev_format *)' [-Werror=3Dincompatible-pointer-types]
-     267 |         .set_fmt =3D v4l2_subdev_get_fmt,
-         |                    ^~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/max96712/max96712.c:267:20: note: (near initializa=
-tion for 'max96712_pad_ops.set_fmt')
-   cc1: some warnings being treated as errors
-
-
-vim +267 drivers/staging/media/max96712/max96712.c
-
-ce44dc1feab5f0 Niklas S=C3=B6derlund 2024-05-10  264 =20
-5814f32fef137e Niklas S=C3=B6derlund 2021-09-12  265  static const struct v=
-4l2_subdev_pad_ops max96712_pad_ops =3D {
-ce44dc1feab5f0 Niklas S=C3=B6derlund 2024-05-10  266  	.get_fmt =3D v4l2_su=
-bdev_get_fmt,
-ce44dc1feab5f0 Niklas S=C3=B6derlund 2024-05-10 @267  	.set_fmt =3D v4l2_su=
-bdev_get_fmt,
-5814f32fef137e Niklas S=C3=B6derlund 2021-09-12  268  };
-5814f32fef137e Niklas S=C3=B6derlund 2021-09-12  269 =20
-
-:::::: The code at line 267 was first introduced by commit
-:::::: ce44dc1feab5f038edb39dc443b32eae3ac1234d media: staging: max96712: S=
-tore format in subdev active state
-
-:::::: TO: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se>
-:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Last but not least, use your real name.
 
 --=20
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
 
