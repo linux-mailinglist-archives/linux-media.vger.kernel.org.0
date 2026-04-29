@@ -1,138 +1,177 @@
-Return-Path: <linux-media+bounces-59906-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59907-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AEGiOuaE8WkyhgEAu9opvQ
-	(envelope-from <linux-media+bounces-59906-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 06:11:18 +0200
+	id YG3sLKqF8WlEhgEAu9opvQ
+	(envelope-from <linux-media+bounces-59907-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 06:14:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DDFD48F02F
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 06:11:14 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F86B48F0A6
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 06:14:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DD89B3018BF4
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 04:11:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 8EE8A3014FD6
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 04:14:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDDAE34A3D6;
-	Wed, 29 Apr 2026 04:11:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56CDF383C83;
+	Wed, 29 Apr 2026 04:14:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgpaWj+L"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LWn5dkda"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1E03090C1
-	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 04:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5975347503;
+	Wed, 29 Apr 2026 04:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777435868; cv=none; b=VRmmFPKR0liZnuQt6AskeAZSwiYXbDkohhW4PH1im8Xxh88n7hqPkFzf+hjfD6YJc0I8Vzl+N+ZhmBTU81+uKdylWTQL9b03Lm+d89ugEGEAcz4nVHag3czLQzW3vM0xReKSwsk1ff2pQmuKgMZEkDDzLrDR04hA9PxzSKMCeGM=
+	t=1777436066; cv=none; b=dYmZBz89O14nFkpCog+3Mx1tFUaIHhlq/Ge4CT/a0t9ynopalgUrR11TWiEE+1xMWSbhNVN9I69/7hJB6l6pfO0M6EsqcbK25j9cSnQZ/y4FNIC8bl83RnxaNCuVPKOdPPJR1OpoHog0PpJF1VCrtK6OBt3l9xXo44eltmkV10w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777435868; c=relaxed/simple;
-	bh=XNBSS57VrD6IzsXS17vP/9EYnFIkDs4Rci5PXE7qOJo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rfGksyBZfzb9PH7UsWhTn/B9rjBN0X/mGtCxspr5c0Bhlw83RWeLOLIotI24644RrPkJ3TzDNbZKN3LJTajSGO6FYdJwpJI6ZFOwScirD9U4UBGxmB27e9pDpvTq/YzTBvLIP33cnD7l3+4zFxKrx4R2a5ojXQaBSLsU1JD9tdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgpaWj+L; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777435867; x=1808971867;
-  h=date:from:to:cc:subject:message-id;
-  bh=XNBSS57VrD6IzsXS17vP/9EYnFIkDs4Rci5PXE7qOJo=;
-  b=hgpaWj+Lm+TPPE31hb++ieMw8g/4bMDx/ghctFvZFzsCMbtVZ5FjVF6d
-   hYio3tqYWBDxhly85nmQZlnWukKLFOnQKpmlx+w5UIrqdFccRGDD3fGuz
-   k2wdsx4n9cEPpzDp18eFvg5MjZD+8H8I1EGMPGtKb/YcR6geP3JPTLpRo
-   JjSqvW+Um8cBwhmLhGGzSX+0aHHsERCMl1IgOhb+CkHZ5jTeMyYC+Hw9r
-   3qp3VTA8RyYvykDby6MGXSFEyuvNMYBPXlFvo9PsW4xn7DX3iE/PjULn0
-   ZhQbzf/W8b4a0arzoYugadbfk59bT7vlZ29WlME1y/9choAI3ibVo4J/A
-   Q==;
-X-CSE-ConnectionGUID: FhlVRd/pTf+TjqHhBHIzmw==
-X-CSE-MsgGUID: l29ZEvcoSgupy8w1Ntn3LQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="77387091"
-X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="77387091"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 21:11:06 -0700
-X-CSE-ConnectionGUID: MqlU59jkQymtS4byNl9isA==
-X-CSE-MsgGUID: Dgb+rvhARpKhCDZLIerCGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="238475576"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Apr 2026 21:11:04 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wHwGL-00000000Ab6-3c5j;
-	Wed, 29 Apr 2026 04:11:01 +0000
-Date: Wed, 29 Apr 2026 12:10:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 26/122]
- include/media/mipi-csi2.h:47:27: error: unknown type name 'u32'
-Message-ID: <202604291221.mpBYkuLv-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1777436066; c=relaxed/simple;
+	bh=0ZwZkqVJrw29/5iaSkv2Pk4a6yjdFhnMUB9Mo7b0o7M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ts/3nDMyr1p3Y+87Wn7Yogj5LiBQnsQweCPmUh+CT9xch9XRK6//TuyU8U/1ggTCMOs3NIHEovnkmeXCv86WAeMDHlZ7T2IVlQBXklbIiYLY7NN/WmAbF8fvLVM6EMeY5aJljNl9sTw+LKU+vHbIVroz68X9igfmZjDeKQk1pbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LWn5dkda; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97C5EC19425;
+	Wed, 29 Apr 2026 04:14:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777436066;
+	bh=0ZwZkqVJrw29/5iaSkv2Pk4a6yjdFhnMUB9Mo7b0o7M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=LWn5dkdaXbwjK8iHaKQk4PW31akmpHACgkfC63R42t66c0jpXYGNcvH3CDfsL69iD
+	 GOOfiH3DkKj5ZUwofhlRZtFdj3/aVKKPZ3IiKa6Lsh4tNgqsc7LumLnaUeu6+dE/w1
+	 MV/fX9arnwACG2wGG2ADpVU8HDKdm31kt1RwF4BacZSBT4dnVpe0cVisYWCudVoo3R
+	 aPPsLEyyWPgn+Ludvr+nhmFznZgDNS4nFLkUxrjdDVPbzuY96tizEYkLpFtBGnQugr
+	 DkFmYYwkWEY5XS26JFMekg0y0kBXMxy7AHLh2UwTW5nBYcxcI26a7GD1azSpBj310D
+	 +MpYvn6mEx0uA==
+Message-ID: <0ee6bf23-17a3-4a7c-93d2-276e97cc3a14@kernel.org>
+Date: Wed, 29 Apr 2026 05:14:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Rspamd-Queue-Id: 5DDFD48F02F
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v3 07/11] clk: qcom: gcc-msm8939: mark Venus core
+ GDSCs as hardware controlled
+To: Erikas Bitovtas <xerikasxx@gmail.com>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
+References: <20260427-msm8939-venus-rfc-v3-0-288195bb7917@gmail.com>
+ <9kBbj8Jr-f6eqC6XfnJPf3gKQD-3WfzXgzl4KEVKhRZlW2_GftgFBsijqUgEvGcgmeFqPwtVquMmibHUMaR_sQ==@protonmail.internalid>
+ <20260427-msm8939-venus-rfc-v3-7-288195bb7917@gmail.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bod@kernel.org>
+In-Reply-To: <20260427-msm8939-venus-rfc-v3-7-288195bb7917@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 4F86B48F0A6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59906-lists,linux-media=lfdr.de];
-	RCPT_COUNT_THREE(0.00)[3];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-59907-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,apitzsch.eu,baylibre.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   489ab6e79288be8d219b68525a13699fde0248ae
-commit: 25d771fe2c1e03232e2c3764b3bd04b2d3ecdcb0 [26/122] media: v4l2-common: Add mipi_csi2_dt_for_mbus()
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260429/202604291221.mpBYkuLv-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604291221.mpBYkuLv-lkp@intel.com/reproduce)
+On 27/04/2026 18:58, Erikas Bitovtas wrote:
+> Since in downstream kernel VENUS_CORE0_GDSC and VENUS_CORE1_GDSC have a
+> device tree property "qcom,supports-hw-trigger", add a HW_CTRL flag
+> to these GDSCs to indicate that they are hardware controlled.
+> 
+> Venus core clock cannot be enabled if Venus core GDSCs are switched off.
+> But since they are hardware controlled, they can be switched off at
+> any moment. Vote for the Venus core clock to enable it later when GDSCs
+> get turned on.
+> 
+> Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
+> ---
+>   drivers/clk/qcom/gcc-msm8939.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/clk/qcom/gcc-msm8939.c b/drivers/clk/qcom/gcc-msm8939.c
+> index 45193b3d714b..420997b00ae0 100644
+> --- a/drivers/clk/qcom/gcc-msm8939.c
+> +++ b/drivers/clk/qcom/gcc-msm8939.c
+> @@ -3664,6 +3664,7 @@ static struct clk_branch gcc_venus0_vcodec0_clk = {
+> 
+>   static struct clk_branch gcc_venus0_core0_vcodec0_clk = {
+>   	.halt_reg = 0x4c02c,
+> +	.halt_check = BRANCH_HALT_SKIP,
+>   	.clkr = {
+>   		.enable_reg = 0x4c02c,
+>   		.enable_mask = BIT(0),
+> @@ -3681,6 +3682,7 @@ static struct clk_branch gcc_venus0_core0_vcodec0_clk = {
+> 
+>   static struct clk_branch gcc_venus0_core1_vcodec0_clk = {
+>   	.halt_reg = 0x4c034,
+> +	.halt_check = BRANCH_HALT_SKIP,
+>   	.clkr = {
+>   		.enable_reg = 0x4c034,
+>   		.enable_mask = BIT(0),
+> @@ -3753,6 +3755,7 @@ static struct gdsc venus_core0_gdsc = {
+>   	.pd = {
+>   		.name = "venus_core0",
+>   	},
+> +	.flags = HW_CTRL,
+>   	.pwrsts = PWRSTS_OFF_ON,
+>   };
+> 
+> @@ -3761,6 +3764,7 @@ static struct gdsc venus_core1_gdsc = {
+>   	.pd = {
+>   		.name = "venus_core1",
+>   	},
+> +	.flags = HW_CTRL,
+>   	.pwrsts = PWRSTS_OFF_ON,
+>   };
+> 
+> 
+> --
+> 2.54.0
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604291221.mpBYkuLv-lkp@intel.com/
+The downstream opts to put the GDSC under hw control, which is not the 
+same thing as it being under hw control, its up to you to put it under 
+hw control.
 
-All errors (new ones prefixed by >>):
+So you might want to be more conservative especially given you have a 
+problem getting the encoder and decoder to run simultaneously - I might 
+try parking this patch and then see what happens.
 
-   In file included from drivers/media/platform/rockchip/rkisp1/rkisp1-common.c:8:
->> include/media/mipi-csi2.h:47:27: error: unknown type name 'u32'
-      47 | int mipi_csi2_dt_for_mbus(u32 code);
-         |                           ^~~
-
-
-vim +/u32 +47 include/media/mipi-csi2.h
-
-    46	
-  > 47	int mipi_csi2_dt_for_mbus(u32 code);
-    48	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+bod
 
