@@ -1,127 +1,136 @@
-Return-Path: <linux-media+bounces-60015-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60016-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IKUcLfJQ8mlGpgEAu9opvQ
-	(envelope-from <linux-media+bounces-60015-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 20:41:54 +0200
+	id 0FATIR9V8mnGpgEAu9opvQ
+	(envelope-from <linux-media+bounces-60016-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 20:59:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D5E499409
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 20:41:53 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D60F4996A3
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 20:59:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C60E430E82E3
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 18:37:38 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3F4DF3004688
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 18:59:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D553441C2F4;
-	Wed, 29 Apr 2026 18:37:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B33E421F12;
+	Wed, 29 Apr 2026 18:59:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bxXpW4gr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XKw6W9r7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3062EFDA4;
-	Wed, 29 Apr 2026 18:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB020413225
+	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 18:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777487857; cv=none; b=VFhwpULYHhF5ZzI8t23ER+QyA/Uy0G6IVupdEMZmWMQ9KfpBOz28R+KviBB1QEY8y9aJUWNxTKqHymsKlLpaodtmybGV5YeoDcS4I1za3sWRdWQ1E2O/WZmQFJ1rrSoIj4mkZPZ0f1BSNL/df5AkijHk/D7VZOfA/AdMG9uOqjU=
+	t=1777489170; cv=none; b=EBC7tAO0MGUiQmADWbUWh/ChX7eYAHJam6CF62IPbC6FN6qxsrNhKT+Bkmqn9oLPfq3HxkY1BQxk6vNsY1oYUgYX+/Nbib1c3/COjf1FYgkrAkc9PPy44P00mUJeduC9JIEtGwxrku4gbxxxTcUnZzJ0X/UK8nnL82Q2fGbzzDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777487857; c=relaxed/simple;
-	bh=fdqydFr6UgwZlUmyu9L7iYW2nMDkUiabLOY4TYmgGAI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PizEMZn8k9SpVhJ5UMjkSltoQRqqHsg779zkT1MNmjmVtBg8o36pqyljH+KnUhqUJashFvSZlzvJ0AICEEmx3mOtGskBOnXc6d+/7YGaNfor24JaGPfXNF9SuNEOkeAHMgzWILT1xRYoMUxmEnNLc2gS091+yAoz4m0Yjw0E32E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bxXpW4gr; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777487856; x=1809023856;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fdqydFr6UgwZlUmyu9L7iYW2nMDkUiabLOY4TYmgGAI=;
-  b=bxXpW4grkORA2bNiIrAMIPbHMaY+Yj0QEskQgf9xJewi4bofLkJd4YQD
-   LCwtntMXfo/RcMmi4n/SkFvP5qyynM11SMEeq9PLhL+B9ZZ2uW74SM/gj
-   24zHoIk0t8xzA1r00fwkQmdpjcK93rP2OilyHHcMp1BPFpQ6RFTdQ2QKU
-   aCdKIxqFZhC8bY0G16f/59AZP16j8Y9K/zlYeE7Xrp4JaI0wnmWPugC1v
-   OsUDvs5ncz6lOEGh4SuvCkV5YdEVpLPUKuH4O/xdt/9COpO2xQnyD06mv
-   WPpAeNltWJ9oY3TwVPHR1J/sAH64/uWKKXBllwWt8cCl8P3lez9nmjmJD
-   g==;
-X-CSE-ConnectionGUID: R89z6Ts7Si25fpuDV2P2zw==
-X-CSE-MsgGUID: qKzMIHOaSYOzmnxutOz6Ew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="95992199"
-X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="95992199"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 11:37:36 -0700
-X-CSE-ConnectionGUID: kf3AeNhRSs6SkjgsP8Pb+g==
-X-CSE-MsgGUID: zs8heGNrSIeKK5EAoNSGlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="231208079"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.141])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 11:37:33 -0700
-Date: Wed, 29 Apr 2026 21:37:31 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Maha Maryam Javaid <mahamaryamjavaid@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, andy@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: sh_css_mmu: fix typo in sh_css_mmu.c
-Message-ID: <afJP6wT3CvIfob5g@ashevche-desk.local>
-References: <20260429175509.6306-1-mahamaryamjavaid@gmail.com>
+	s=arc-20240116; t=1777489170; c=relaxed/simple;
+	bh=zI+qvV6MOur+CdXrL14JM+X8hUtIYE6gsYcxCeps8Hw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q5r/I1ZaYFWFw1dJoHD/+z9Ou0UxFikYNnLqbcXK8/Ak+zs2XiYkRVAEBmh2HkTJaE7ThJngyt2xzY9Kf4ZVFrvHWT6guQXDnkUAComc7pDM6NgIL1rUprzh5hIn6x4VFI6Tyo6ftfHH6W3zz94jVcLJExVCdPLf0oHLJm7XK/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XKw6W9r7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79197C2BCB3
+	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 18:59:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777489170;
+	bh=zI+qvV6MOur+CdXrL14JM+X8hUtIYE6gsYcxCeps8Hw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XKw6W9r7l56xqMERh1ZEkODnKE1fI7C+BnsOWhIiaB5ONQsmfMZXhKtk5LFJbvw+M
+	 bUV7pJZJsm+qDumpLB3US0b1kcaM+PM++bK+P1jUk1m26u73pK+5uKWnWDNOvlvh/j
+	 2HnGyIA9VDddDcJfGBY5EdcTQQSHgC2lDmpbvm9A7DC4oOPv69YJlqG+xq1Sdxj1/6
+	 Bzcl/cZTHzF56HuxGpojFls78pP5gadA3C9Oon1CidgdRlIUp2s/cXAwRyQ2TNK0TK
+	 mPZwwW3jmstjdnCjqmsa/+j6wcVN+JEi45kB55TcWdPuKHj1eSXwlFmMJrk7ppawgm
+	 5aBsJ74Bql02A==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a62f43b76aso50755e87.3
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 11:59:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9BZ4cR1wlvAfJ1A6VWt/W3d/XsLgFh0OVJd5cUfjHPteMSL1EoNv0x2lFVnpJn/WQrI1L46SgZoLsOuw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnlqnaGcKoIqd6ll8XnOkbHiTVybMSJQMKn1G12oCT4JAWZZWO
+	HGE/ZGI66GWw9Zh9w+BvPzXMzLAuG/rFD2nVRI3Inq7pX3GfEwv+pLOnPV7BQBSNdgH1IyINtm1
+	U7QnyPMLPZ3drB3YnNshXq+tLG3IxUDY=
+X-Received: by 2002:a05:6512:131a:b0:5a2:a174:8958 with SMTP id
+ 2adb3069b0e04-5a749d26eabmr1899066e87.35.1777489169147; Wed, 29 Apr 2026
+ 11:59:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260429175509.6306-1-mahamaryamjavaid@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Rspamd-Queue-Id: 16D5E499409
+References: <20260424-ds90ub953-v6-0-7a84efbab316@oss.nxp.com>
+ <20260424-ds90ub953-v6-1-7a84efbab316@oss.nxp.com> <CAD++jLmi1Q4sGeY6vK7fxw8AdCmiiW-8kdEi4OFkV1xep=Od_A@mail.gmail.com>
+ <AS8PR04MB9080113A71D87E952561FC53FA362@AS8PR04MB9080.eurprd04.prod.outlook.com>
+ <CAD++jLkuDWPd5KsKTpQ=htyupaXEwkPt_jV+RNngs+TTVkYSkw@mail.gmail.com>
+ <AS8PR04MB908082A6E403407A88D3978DFA372@AS8PR04MB9080.eurprd04.prod.outlook.com>
+ <3150bbb4-ff19-4c17-9431-35d33fa97223@ideasonboard.com>
+In-Reply-To: <3150bbb4-ff19-4c17-9431-35d33fa97223@ideasonboard.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 29 Apr 2026 20:59:16 +0200
+X-Gmail-Original-Message-ID: <CAD++jLkp4Ui1=Nq1fvW7SDuA9j-Yt8nzLc8_3itkY2Qq5-=8vQ@mail.gmail.com>
+X-Gm-Features: AVHnY4KZHY_CXJ3VQHsDcAl3E7o-mTAOifdpEvG7MhIvauZRCwtNuDngvnoopuA
+Message-ID: <CAD++jLkp4Ui1=Nq1fvW7SDuA9j-Yt8nzLc8_3itkY2Qq5-=8vQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] dt-bindings: media: ti,ds90ub953: Add support for
+ remote GPIO data source
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Frank Li <frank.li@nxp.com>, Vladimir Zapolskiy <vz@mleia.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, "G.N. Zhou" <guoniu.zhou@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 7D60F4996A3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60015-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60016-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ashevche-desk.local:mid,intel.com:dkim]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid]
 
-On Wed, Apr 29, 2026 at 01:55:09PM -0400, Maha Maryam Javaid wrote:
-> Fix spelling mistake: Suppres -> Suppress
+Hi Guoniu,
 
-NAK.
-Already explained why in the similar patches.
+after looking at your data and Tomi's reply my feeling is that the
+serializer/deserializer
+relationship need to be expressed clearly in the device tree, such as if the
+deserializer would have its own node in the device tree and the "GPIO"
+(serializer) need to reference it with e.g. a phandle telling which pins are
+connected to the deserializer.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Just adding some custom property seems to me like papering over the
+issue that the hardware is not properly modeled in the device tree.
 
+I know about the desire to get ahead quickly and get things done fast, but
+that is for prototyping, and when standardizing device tree bindings we take
+our time and do things properly. So I think this needs to go back to the
+drawing table and modeled in a clear and consistent way.
 
+Yours,
+Linus Walleij
 
