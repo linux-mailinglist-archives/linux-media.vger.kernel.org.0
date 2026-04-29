@@ -1,218 +1,240 @@
-Return-Path: <linux-media+bounces-60018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60021-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qBAJIDhX8mm5pwEAu9opvQ
-	(envelope-from <linux-media+bounces-60018-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 21:08:40 +0200
+	id GMfnAWFj8mmBqgEAu9opvQ
+	(envelope-from <linux-media+bounces-60021-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 22:00:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31F64998A4
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 21:08:39 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3570499F02
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 22:00:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BD41A305EE05
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 19:08:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B129930241BE
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 20:00:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2C97423177;
-	Wed, 29 Apr 2026 19:08:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 968B13845A8;
+	Wed, 29 Apr 2026 20:00:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="GUwG85sZ"
+	dkim=pass (2048-bit key) header.d=web04.chillydomains.com header.i=@web04.chillydomains.com header.b="1vj/rErK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from web04.chillydomains.com (web04.chillydomains.com [193.19.92.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B0E421EFE
-	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 19:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB00B37BE87
+	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 20:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.19.92.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777489687; cv=none; b=BIEEqx0Ru+KJpdos42+V+tzrMcsdhHA/Dc6iDWv/5h+VrUudXfG7DyH5IYjd5tDK+s7YPD9Ny2MZ84vFQtosYbizzfRh/YIlIJ1Ve7Muul7Pa503qXjM9Y58GqG+FW0SY5YeYZLYY0Euc3YMv2oYz7VnLfvuCwTo2IwLTnlvArw=
+	t=1777492808; cv=none; b=nIHKwe6/TmHf99F9q64k7JHzKbncvvA75ntFcFooQRhcYanOy69TQWvf4Du6LHWQFursFX3I3TmGl1HzdDFGO/iHuQrxcMcw/8ZrFc30X5iefmMo34zeVU7Wo6R6BmU5g8/tKfTYBdLurHUT2K1RM+08BqN+WO2WZJt6ESrJwAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777489687; c=relaxed/simple;
-	bh=7+Hvv4+54ohcqqP5bPt0lbTIfMcofDo1/arHFiSOaAE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DFTUm/qWxKbg40a5ZYGtKN2umNjr9QlV7+10MzrLWZNcaU/HCAWt7szxQT6sw9cKjVsxnEgEyPl/uDIQQ8lSyp6fk/cQzkPkHae7nogXb4F1SDE8uGOeVqmTRjFSjPu3ZTVvuPkTM2nZFEoiE49vE1eS3T2sENRzFQeaQJypUuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=GUwG85sZ; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8d4f78fc9f6so11296785a.3
-        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 12:08:05 -0700 (PDT)
+	s=arc-20240116; t=1777492808; c=relaxed/simple;
+	bh=a0u0xlHeswYn3DT9fcZIC7z5U8LjKNMFbrOTbQYu+fk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aqUwKZFC2gs05kIsv/VBH8+K3LeDoUqEvaMUDFU2f2H67NhGvy0Uxn7tGh/wCXlkB4AiIK4o1vsD0SR1hbJTU/5J6wJgyChd+/SVgIGFDpBRoMjgolOvrn8XhaCsG7zagP4eweFWT7FkWnaTARwUgi/BH4kQFUkcfUzQRxrN/pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reauktion.de; spf=none smtp.mailfrom=reauktion.de; dkim=pass (2048-bit key) header.d=web04.chillydomains.com header.i=@web04.chillydomains.com header.b=1vj/rErK; arc=none smtp.client-ip=193.19.92.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reauktion.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=reauktion.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1777489685; x=1778094485; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ysVs+tGOn7Mjhq3uiCYR8hMiyn+nHB8HC49fRVE07mw=;
-        b=GUwG85sZAEQn+CH3KIx4pYpsli4KMNjOSjV3xQGIXR1JI/KeuxKZ1tvVW71Z78x200
-         5oVuohzxxse+aDSD9UoX7IAQJy4ELZescDTbA3Aebi/580taARxrfFKNXigAwvLOuWGv
-         x0UCNl1fyNM5TJXpDywhOxQrD7SpBN0ap4Rx4qqrFViq3stRcEtcUA26qoJSACSyP3rB
-         sjUKrOEsbNFEmdKujd4w0dgDYTiab0ebcoWEY3SKz09Y2yZpxWqEcou1yumSR9e9GEm7
-         1RaT0a8I6EwsYCgarVV5cTScFt+9Vw8xG0acYRSDv7YvMCmwvejTWs8WqJWE7OxYZ0T0
-         IqBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777489685; x=1778094485;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ysVs+tGOn7Mjhq3uiCYR8hMiyn+nHB8HC49fRVE07mw=;
-        b=bwmphQ2BavdSISz8k/rUB6MJAJB2ze4w5jjS9Eh9jhgyqhs96z0mjoKBEwKoI9G2mw
-         YJzGISsd4XKUFSrxsjUgQh5A//En1dgrDYpO2wfA2wKnvyzAdSkyBblYv8X7L0LlaMTO
-         2C6nt4bNpUmFy2eIaXMBE7nm+2ai+BNAMdTo5b6vvQHg5sKlMaf8vfDSAbVgVF8/h6Ex
-         JzOeUM/jRU53qbRtf7iC9ECn6gD9DQKXpN9SebZ9KmpByhSM5zGnOcLOd1gpTTbokb4u
-         HS0PQjHVApk4iFzKfgKn1NNmHDvomp5JQY1Nvdehr3/7EoHxoYTIfClWQ5Pka55N4dRC
-         6e9Q==
-X-Gm-Message-State: AOJu0Yy5Kl3KHZ8FtCT3Rzz2lriAh2xx5KvyClISNfSq5Z81CYsXcWi7
-	lAJroqbKpkIoiXygrpcTJFnTnINI1ONppvW62pk3KGlmFCeOWowu3XlTO18699Grt5I=
-X-Gm-Gg: AeBDieuMvJKg47lSVSk3/Nc9FSqbYyKzf0/cvbnTg6pFEKtyo68eEDRbtNlys93CDqA
-	r6ExzsA5otEA2fxWsGCe6zbru5e+pcjZu+PGX6cLezs62eVC/v2w65RXatcVtwbAbNA4XJ2uB0Z
-	XMNCNAJ7qcSY/dqhZZs/ocx+LgwHbIiKC1e+JjeWutJFc/D4n5NeyFl5W1oqB+oKYWkfA6FYzt3
-	t7Tpq11doxvgW4/77Y2tXS/hkn1n2LJOoGXvrg6BXW8ILLEhtYK8PALwVZmsmYBta8ijBWrXY9n
-	+T5R2RzRODhQVE6d9CwZ+khhQwgp1qQ2Fxej7ffZqGjNHgS03RYTN54chQUNms90xQiHO7ZlsgI
-	/P4HbdL+MDGBZtksAxyBzOjAXGzJ0PdX/3LuzejCspXBF+XZRiLfUhIN+zyq/5cO/odLp/DUIVY
-	rZvQGukOiU/OsECK2nODC9qM/L2WoMR+j9xsvqbse/3V2Rx9ZR2A==
-X-Received: by 2002:ac8:7d51:0:b0:50d:6ee0:3822 with SMTP id d75a77b69052e-5100e0f4ed9mr120711691cf.4.1777489684869;
-        Wed, 29 Apr 2026 12:08:04 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:e06b::c41? ([2606:6d00:15:e06b::c41])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5101ae657d7sm23790771cf.21.2026.04.29.12.08.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 12:08:03 -0700 (PDT)
-Message-ID: <6b9544538177a833c7de635782c67f3fae0beef5.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: cedrus: clean up media device on probe failure
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: =?UTF-8?Q?=EB=B0=95=EB=AA=85=ED=9B=88?= <mhun512@gmail.com>, Maxime
- Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>, Mauro
- Carvalho Chehab	 <mchehab@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  Chen-Yu Tsai <wens@kernel.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland	 <samuel@sholland.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org, Ijae Kim
- <ae878000@gmail.com>
-Date: Wed, 29 Apr 2026 15:08:02 -0400
-In-Reply-To: <20260427100049.29034-1-pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
-References: 
-	<20260427100049.29034-1-pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-ArOwzQZ1bmZyT5qFP9QG"
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+	d=web04.chillydomains.com; s=dkim; h=From:To:Cc:Subject:Date:
+	Message-ID:X-Mailer:MIME-Version:Content-Type:
+	Content-Transfer-Encoding; bh=YdZ585r8V4E5fIuQnRHHEPO5/1uSUDu/m0
+	GZmLya3es=; b=1vj/rErKfLqdvPkaG7tQijNJlnMKzq3V9bInusLa5pAamfmMu6
+	cNuGkzACHYfNYN4jN0F2CaiOl/W7T6Q2fkOIuhNkjKF0iJnZHhOmlNr4w+JPyB5M
+	Gzkst5aqBPrurZmJaNlb7pJ7q3JSF3Qz33BJ4/f3Vq3Mll/4EghofNfHsevT1JQx
+	wJ0fv/V3BrzOSUyvo7j4mRHAOJLPKB2rSXEX9PSoY4zvmWs+ZL0Mkd46betkApbG
+	NVTpRCLv5ccro0DY7BCXh8gWJNXJhhUSzTeR7KJeUJNroOpZGc1Uu7144jPwsQ2f
+	q581v2KAPxqgF9wh2jnPqaiW4PgXFayBh2aw==
+Received: (qmail 2738904 invoked by uid 7799); 29 Apr 2026 21:53:22 +0200
+Received: by simscan 1.4.0 ppid: 2738885, pid: 2738893, t: 0.6424s
+         scanners: clamav: 0.103.9/m:62/d:27778
+Received: from 31.29.52.71.dynamic-pppoe.dt.ipv4.wtnet.de (HELO localhost) (automation@reauktion.de@31.29.52.71) by web04.chillydomains.com with SMTP [64555]; 29 Apr 2026 21:53:21 +0200
+From: Markus Fritsche <mfritsche@reauktion.de>
+To: Tomasz Figa <tfiga@chromium.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Heiko Stuebner <heiko@sntech.de>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH RFC 0/3] media: videobuf2: opt-in dma_resv producer fences for V4L2 dmabuf exports
+Date: Wed, 29 Apr 2026 19:53:03 +0000
+Message-ID: <20260429195306.239666-1-mfritsche@reauktion.de>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: D31F64998A4
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: D3570499F02
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[web04.chillydomains.com:s=dkim];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60018-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,sys-base.io,linuxfoundation.org,sholland.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,lists.infradead.org,gmail.com];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	MIME_TRACE(0.00)[0:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ndufresne-ca.20251104.gappssmtp.com:dkim]
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mfritsche@reauktion.de,linux-media@vger.kernel.org];
+	DMARC_NA(0.00)[reauktion.de];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60021-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[web04.chillydomains.com:+]
+
+Hi,
+
+This series proposes a small opt-in API in videobuf2-core that lets V4L2
+drivers populate a dma_resv exclusive write fence on the dmabufs they
+export to userspace, signalled when the buffer transitions to
+VB2_BUF_STATE_DONE. Two example drivers (hantro, rockchip-rga) opt in
+to demonstrate the call shape; the change is no-op for every other
+driver.
+
+Why
+---
+Modern Wayland compositors and any other userspace consumers that
+import V4L2-produced dmabufs and want to do implicit synchronization
+the spec-clean way (poll(POLLIN) on the dmabuf fd, or
+DMA_BUF_IOCTL_EXPORT_SYNC_FILE for a sync_file) currently get either:
+
+1. A stub fence from dma_buf_export_sync_file(), because the dmabuf's
+   dma_resv has no fences populated. The kernel substitutes
+   dma_fence_get_stub() which is permanently signalled. The compositor
+   "successfully" waits on a fence that represents nothing real about
+   the producer's state.
+2. A poll(POLLIN) on the dmabuf fd that returns immediately for the
+   same reason — dma_buf_poll_add_cb finds zero fences in the resv,
+   triggers the wake callback inline, and reports POLLIN ready before
+   the producer has actually said anything.
+
+Today this works as a happy accident on most paths because clients
+attach buffers after VIDIOC_DQBUF, which the userspace V4L2 contract
+guarantees only returns a buffer after the producer is done. So the
+implicit "the kernel's stub fence is fine because the buffer is
+already complete by the time anyone polls it" assumption has held.
+
+But:
+
+- It's a contract gap. The kernel claims to expose implicit sync; it
+  does not, for V4L2 producers.
+- It paid latency for nothing. Every Wayland frame from a V4L2
+  producer pays a DMA_BUF_IOCTL_EXPORT_SYNC_FILE round-trip for a
+  fence that's stub-signalled. On Mali-class hardware (RK3566 Wayland
+  chrome video playback), this contributed to compositor stalls.
+  Removing the wait at the compositor level is a workaround, not a
+  fix.
+- It blocks downstream consumers from doing the right thing. A
+  Wayland compositor that defensively waits on a sync_file gets a
+  stub-fence pass-through with no actual gating; if the V4L2 driver
+  ever has an out-of-band path that releases the buffer before
+  finishing the write, there is no fence to gate on.
+
+What
+----
+Patch 1 adds:
+
+- struct dma_fence *release_fence to struct vb2_buffer
+- u64 dma_resv_fence_context + atomic64_t dma_resv_fence_seqno +
+  spinlock_t dma_resv_fence_lock to struct vb2_queue
+- vb2_buffer_attach_release_fence(vb) — drivers call this from their
+  buf_queue callback. Allocates a dma_fence on the queue's fence
+  context, attaches it as DMA_RESV_USAGE_WRITE on each plane's
+  dmabuf->resv. No-op for buffers without exported dmabufs.
+- vb2_buffer_done() extended to signal+put the fence if attached,
+  so the producer's completion signal lands in the resv synchronously
+  with the userspace DQBUF wakeup.
+
+Patches 2 and 3 add a single call to the helper from hantro_buf_queue
+and rga_buf_queue respectively. Both are demonstration drivers; other
+vb2 drivers can opt in incrementally with the same one-line change.
+
+Tested on
+---------
+PineTab2 (RK3566 / Mali-G52 panfrost / mainline 6.19.10, this series
+backported), playing 1080p30 H.264 in chromium under KDE Plasma 6.6.4
+Wayland. The test harness is the chromium-fourier patch series at
+https://github.com/marfrit/fourier — chromium plus a KWin patch
+that *previously bypassed* Transaction::watchDmaBuf because the
+kernel-side fence was stub-signalled. With this series applied, the
+bypass becomes unnecessary; KWin's fence wait completes correctly
+because the fence now signals when hantro completes the capture
+buffer write.
+
+End-to-end result before the kernel patch (chromium + Qt 6 patches +
+KWin watchDmaBuf bypass): 1080p30 H.264 plays through, ~81% combined
+chrome CPU, but the watchDmaBuf bypass weakens KWin's defenses against
+misbehaving clients.
+
+End-to-end result after the kernel patch (chromium + Qt 6 patches +
+plain unmodified KWin): 1080p30 H.264 plays through with the same CPU
+profile, KWin's watchDmaBuf wait completes within microseconds against
+the now-real producer fence, no defenses weakened.
+
+What's missing in this RFC
+--------------------------
+- Other vb2-using drivers don't opt in. Each maintainer should look
+  at their driver and decide. The hantro + rga patches show the
+  shape; copying it to other drivers should be straightforward.
+- For drivers that have intermediate image-processor stages (e.g.
+  CSI -> ISP -> user), the fence semantics across stage boundaries
+  are out of scope here. This series only addresses the producer-to-
+  userspace edge.
+- No selftest. videobuf2 doesn't have a great in-tree selftest harness
+  for dmabuf flows; the validation is end-to-end at the userspace
+  consumer level (KWin, in our case).
+
+Reviews especially welcome on:
+
+- The decision to make this opt-in per driver vs. automatic for all
+  vb2-CAPTURE queues. Auto-on would force every driver to be audited;
+  opt-in is incremental and safer but leaves the contract gap for
+  drivers nobody touches.
+- Whether vb2_buffer_done is the right place to signal vs. an earlier
+  hook (e.g. immediately after DMA-from-device finishes). For hantro
+  the two are effectively the same; for drivers with asynchronous
+  post-processing they may differ.
+- The choice of DMA_RESV_USAGE_WRITE — we are emitting the producer's
+  write completion, so WRITE matches dma-buf documentation, but a
+  sanity check is welcome.
+
+Cheers,
+Markus
 
 
---=-ArOwzQZ1bmZyT5qFP9QG
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Markus Fritsche (3):
+  media: videobuf2: add dma_resv release-fence helper
+  media: hantro: attach dma_resv release fence at buf_queue
+  media: rockchip-rga: attach dma_resv release fence at buf_queue
 
-Le lundi 27 avril 2026 =C3=A0 19:00 +0900, =EB=B0=95=EB=AA=85=ED=9B=88 a =
-=C3=A9crit=C2=A0:
-> From: Myeonghun Pak <mhun512@gmail.com>
->=20
-> cedrus_probe() initializes the media device before registering the video
-> device, the media controller, and the media device. If any of those later
-> steps fails, probe returns without calling media_device_cleanup(), so the
-> media device internals initialized by media_device_init() are left behind=
-.
->=20
-> Add a media-device cleanup label to the probe unwind path and route video
-> registration failures through it as well.
->=20
-> Fixes: 50e761516f2b8c ("media: platform: Add Cedrus VPU decoder driver")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Ijae Kim <ae878000@gmail.com>
-> Signed-off-by: Ijae Kim <ae878000@gmail.com>
-> Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
-> ---
-> =C2=A0drivers/staging/media/sunxi/cedrus/cedrus.c | 4 +++-
-> =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.c
-> index 6600245dff..2c25654640 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -507,7 +507,7 @@ static int cedrus_probe(struct platform_device *pdev)
-> =C2=A0	ret =3D video_register_device(vfd, VFL_TYPE_VIDEO, 0);
-> =C2=A0	if (ret) {
-> =C2=A0		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
-> -		goto err_m2m;
-> +		goto err_media_cleanup;
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	v4l2_info(&dev->v4l2_dev,
-> @@ -533,6 +533,8 @@ static int cedrus_probe(struct platform_device *pdev)
-> =C2=A0	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
-> =C2=A0err_video:
-> =C2=A0	video_unregister_device(&dev->vfd);
-> +err_media_cleanup:
-> +	media_device_cleanup(&dev->mdev);
-> =C2=A0err_m2m:
+ .../media/common/videobuf2/videobuf2-core.c   | 95 +++++++++++++++++++
+ drivers/media/platform/rockchip/rga/rga-buf.c | 10 ++
+ .../media/platform/verisilicon/hantro_v4l2.c  | 12 +++
+ include/media/videobuf2-core.h                | 29 ++++++
+ 4 files changed, 146 insertions(+)
 
-This label is left unused. Can you fix this warning please.
+-- 
+2.47.3
 
-Nicolas
-
-> =C2=A0	v4l2_m2m_release(dev->m2m_dev);
-> =C2=A0err_v4l2:
-
---=-ArOwzQZ1bmZyT5qFP9QG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCafJXEgAKCRDZQZRRKWBy
-9Jb5AP0W2NO3lfYARP66qlgaOk81oBVFPzJbTkbCjtmBnCuWbQEAqCvyLm4BXXjp
-0DRDRSToJuHjR05VHYK2ozXTCeXXgQw=
-=JKEn
------END PGP SIGNATURE-----
-
---=-ArOwzQZ1bmZyT5qFP9QG--
 
