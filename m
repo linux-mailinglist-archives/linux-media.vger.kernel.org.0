@@ -1,161 +1,164 @@
-Return-Path: <linux-media+bounces-59939-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59941-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eJOwIEO48WngjwEAu9opvQ
-	(envelope-from <linux-media+bounces-59939-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:50:27 +0200
+	id CO4/Bg668Wl1kAEAu9opvQ
+	(envelope-from <linux-media+bounces-59941-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:58:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4437490C27
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:50:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5363490D99
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:58:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4AAF5302C6E1
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 07:45:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9D18C304F228
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 07:53:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12E763AE704;
-	Wed, 29 Apr 2026 07:44:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 646A23A5452;
+	Wed, 29 Apr 2026 07:53:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0xvXKoG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r34iXuIG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E91C3A6F0D;
-	Wed, 29 Apr 2026 07:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E883A3E77;
+	Wed, 29 Apr 2026 07:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777448673; cv=none; b=twDHjzE/jJP31bHsHg74Ws/KypUvt6OgFK6yfvWqN9fVuqLyAqJSdCdGrDbGuxPY1wuPQOVZ8qpCaKwmYbhprcuC2Mkp4+vmKBlGnvuaLsFgCirahsnNxdGIOQ4mx4ul5jQBOp2gCCNj/4ms2MIZmrZwSdYDcyAJadrsVIlB6vk=
+	t=1777449226; cv=none; b=agGHUEIgCJJD3JzyRBkDZcMcO02gYnrmMotTg8id6pSlN2dy/SoeTVIwiKvsrU9sx2uMGQMi60/BSVLdJ+llr4ASMEjkLD3Idw9gY6Cqdu8E+c2QPWJQFEBZT7v0cJIp5msjNIt/TE1ZONODYcVJP5016IDf6H3PmYn4fJxNxCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777448673; c=relaxed/simple;
-	bh=kIESDZ9Ioy/sjFgPJ+z7d8gjaGENBLVFHCubQpqh7g8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L8TACmMB3/F88dp/sSra7lzVdlQxsvJxg6wdU/FwHfa5uRTqm8axytsRlKGyvY6SW9c0xUu7Qe5Ov/2yVkhhY+P3iPBcKwJy3jrDnpfwwc9SJFCvyn+9Ne1eGC0ljmUJUHA+CE+x/eS3J7e42hDVEPpXrp52MQnd8Vje3M5FVfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O0xvXKoG; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777448671; x=1808984671;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kIESDZ9Ioy/sjFgPJ+z7d8gjaGENBLVFHCubQpqh7g8=;
-  b=O0xvXKoGVS6rLLNJZajcZyiddgp/Gezzu0hv54ZKOIIz1AtJK8Ird/ns
-   1PUf27rgMYojYo2x9Cx3E0AhuQ0Lw/yQNYAYFjMFEZbxsjQWLL+9YiUyy
-   TRNzl42oyS9BqbRWABpir5akeHIhlM46UZmilz//vlXiRocn8rrbEFJ5L
-   Y3hHuZy+LOLpaq3ViveJeb+jScB7zzYZk78ea9eGCZ6xPXmYuDunIcGGG
-   Q5rOLd8fe7oZT+apzgJ2leeCG1mPZccXleWjbuacv8yS3n83VrROVYtQ8
-   SDeoQ8rzuB93srdAQYdQe7Hkltvu6PiT1DObkLq7w4z31f7NWDnZcu9dS
-   Q==;
-X-CSE-ConnectionGUID: PABOSiWCRoCq2XJuyaCwTA==
-X-CSE-MsgGUID: Iy+MeZjBQ6isM8/rHx6zIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="78289725"
-X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="78289725"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 00:44:30 -0700
-X-CSE-ConnectionGUID: 5Ao5iiU6SYiEIc/hvF+Ggw==
-X-CSE-MsgGUID: GPcQ7FTMQwSEfd3CNgZswQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="231055114"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.150])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 00:44:29 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0ECD611FCDF;
-	Wed, 29 Apr 2026 10:44:34 +0300 (EEST)
-Date: Wed, 29 Apr 2026 10:44:34 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Pengyu Luo <mitltlatltl@gmail.com>
-Cc: Martin Kepplinger-Novakovic <martink@posteo.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: hi846: fix hi846_write_reg_16 handling
-Message-ID: <afG24mTIqU3jx0Bm@kekkonen.localdomain>
-References: <20260429070351.1307204-1-mitltlatltl@gmail.com>
- <20260429070351.1307204-2-mitltlatltl@gmail.com>
+	s=arc-20240116; t=1777449226; c=relaxed/simple;
+	bh=l0FdvFxnREkwgkY6d6zbEIUX1bdgmbZ54xg2s0Irm5c=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kRJS2PtzbzEZc1NKwg26S6UnRg+/GS/WAwRSAyLSFYLtJmTKnOGlwpzoIN2Qs6WWCbsXUlq+Kd4gKq4hMyhPE/mtlL0tHhB90HtqyTmXGLBW0xUQLQXdsdV4b88/rFQ2XXejbM/RbUufZTI0Cb2mlfkl8pK5yZSdOLBxO2QQ4YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r34iXuIG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A884C19425;
+	Wed, 29 Apr 2026 07:53:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777449226;
+	bh=l0FdvFxnREkwgkY6d6zbEIUX1bdgmbZ54xg2s0Irm5c=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=r34iXuIGzXOb7I0XeZZ58itr+0j9VFldO14O+gvmve1DwNwt9bp7FJxB1q9HijlYg
+	 qvwv8ubs5RY5ZFiKdITa2GE6K2IvygnAw03wXuF9jqIyl4NVqW2voax4WfNbPG/uPu
+	 2b4Y6uagVSJ8K9dKAl6X30nBfaNnNKc4TlbdcAiro+DMXjTAJhy8/kztEglntnaojm
+	 2vNlExHop2pe7bwl019icCrIvzKP1wwWud1FIIVHZLwMIr3m9dY4sxjtzJvqeKZKAW
+	 hHep+eAN3IxRHv6naopjB45PYFweNKveerYwlLasZCMieslvtNg/XwAYpr4/2YTGMK
+	 qCzw0ylxJ9rbw==
+Message-ID: <40d31660-73c1-417b-a00c-1a83079943e5@kernel.org>
+Date: Wed, 29 Apr 2026 09:53:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260429070351.1307204-2-mitltlatltl@gmail.com>
-X-Rspamd-Queue-Id: D4437490C27
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH 1/6] media: v4l2-dev: Add range check for vdev->minor
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>,
+ Jackson Lee <jackson.lee@chipsnmedia.com>, Bingbu Cao
+ <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Keke Li <keke.li@amlogic.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
+ <20260428-smatch-7-1-v1-1-46890dffb611@chromium.org>
+ <afG2hm-V9uUkUmXk@kekkonen.localdomain>
+Content-Language: en-US, nl
+In-Reply-To: <afG2hm-V9uUkUmXk@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: A5363490D99
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59939-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-59941-lists,linux-media=lfdr.de,cisco];
 	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	MAILSPIKE_FAIL(0.00)[2600:3c0a:e001:db::12fc:5321:query timed out];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,kekkonen.localdomain:mid]
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,chromium.org:email]
 
-Hi Pengyu,
-
-Thanks for the set.
-
-On Wed, Apr 29, 2026 at 03:03:50PM +0800, Pengyu Luo wrote:
-> hi846_write_reg_16() does not clear a positive *err value on success.
-> pm_runtime_get_if_in_use() returns a positive value when the device
-> is already in use. When hi846_set_ctrl() passes &ret holding this
-> positive value) to hi846_write_reg_16(), the function returns with ret
-> as is, the positive value propagates back as a return code, which
-> callers interpret as an error.
+On 29/04/2026 09:43, Sakari Ailus wrote:
+> Hi Ricardo,
 > 
-> Fix this by resetting *err to 0 only when it is positive.
+> On Tue, Apr 28, 2026 at 12:41:07PM +0000, Ricardo Ribalda wrote:
+>> If the fixed minor ranges are not properly set we could end up in a
+>> situation where the calculated minor is invalid. Add a check for this in
+>> the code.
+>>
+>> This check also fixes the following smatch warning:
+>>
+>> drivers/media/v4l2-core/v4l2-dev.c:1036 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+>> drivers/media/v4l2-core/v4l2-dev.c:1043 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+>> drivers/media/v4l2-core/v4l2-dev.c:1101 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+>>
+>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>> ---
+>>  drivers/media/v4l2-core/v4l2-dev.c | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+>> index 6ce623a1245a..a731ffdb91ee 100644
+>> --- a/drivers/media/v4l2-core/v4l2-dev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+>> @@ -1032,6 +1032,12 @@ int __video_register_device(struct video_device *vdev,
+>>  	vdev->minor = i + minor_offset;
+>>  	vdev->num = nr;
+>>  
+>> +	if (WARN_ON(vdev->minor >= VIDEO_NUM_DEVICES)) {
 > 
-> Fixes: 04fc06f6dc15 ("media: hi846: fix usage of pm_runtime_get_if_in_use()")
-> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
-> ---
->  drivers/media/i2c/hi846.c | 2 ++
->  1 file changed, 2 insertions(+)
+> Could this be combined with the should-not-happen case below? The error
+> handling is the same (releasing the mutex) and the error code could be as
+> well. I think the message can be just as well removed as we have a
+> WARN_ON() here anyway.
 > 
-> diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
-> index a3f77b8434ca..09c109f3fba9 100644
-> --- a/drivers/media/i2c/hi846.c
-> +++ b/drivers/media/i2c/hi846.c
-> @@ -1270,6 +1270,8 @@ static void hi846_write_reg_16(struct hi846 *hi846, u16 reg, u16 val, int *err)
->  
->  	if (*err < 0)
->  		return;
-> +	else
+> I wonder what Hans thinks.
 
-Else is useless here.
+I actually prefer to keep it separate. If you combine it, then it is hard
+to see which of the two possibilities is actually wrong (out of range or
+minor in use). And this function sits at the core of V4L2, so it's OK to
+be a bit more verbose.
 
-> +		*err = 0;
->  
->  	put_unaligned_be16(reg, buf);
->  	put_unaligned_be16(val, buf + 2);
+I do agree that a pr_err after a WARN_ON is not needed.
 
--- 
 Regards,
 
-Sakari Ailus
+	Hans
+
+> 
+>> +		mutex_unlock(&videodev_lock);
+>> +		pr_err("invalid minor. Check ranges.\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>>  	/* Should not happen since we thought this minor was free */
+>>  	if (WARN_ON(video_devices[vdev->minor])) {
+>>  		mutex_unlock(&videodev_lock);
+>>
+> 
+
 
