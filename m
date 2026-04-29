@@ -1,70 +1,73 @@
-Return-Path: <linux-media+bounces-59917-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59918-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qIFNFWer8WkAjgEAu9opvQ
-	(envelope-from <linux-media+bounces-59917-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 08:55:35 +0200
+	id wGMDKTes8WmGjgEAu9opvQ
+	(envelope-from <linux-media+bounces-59918-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 08:59:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF107490085
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 08:55:34 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F75E490127
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 08:59:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 05DB03017FBE
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 06:55:16 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 88E7E300E018
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 06:58:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9211939C012;
-	Wed, 29 Apr 2026 06:55:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F6C039E194;
+	Wed, 29 Apr 2026 06:58:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a6ZiDFzK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cuSlswfz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F64399002;
-	Wed, 29 Apr 2026 06:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACAD39D6F9;
+	Wed, 29 Apr 2026 06:58:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777445711; cv=none; b=k17SH6nAvy6QptvQ5Z4I1MkO/JDMMaiSbRPiO7ptB3rmzsuZyNP5CCJmmhzsNMc48FlYk31V4Ulo5wyyNJ5evxdiwly8s1vSVApd0gfBznejt0mV0Dxjp8JcklB4Ps3S0uB+CmaG58ws7YMFaKRuA8A0Sm93vyze0n5J93d2AJg=
+	t=1777445930; cv=none; b=Rn/YptPs2ZTVP90S54BZp1+14Gwm0YKr5QAIFWkt7Dn075/r8sInjuhNGNn7l8/ArzwrL8xricpvAoqG6mf7hKTR0crmm08EXU72Zv0oPRiSJkWl2fly41YcPe2zpUyFxLfx+FkmBTHejd7W0LMyTgVBUmBmxTvO23wnI+LrqQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777445711; c=relaxed/simple;
-	bh=cgpfcnNZ9AfOkq39Rj0OPvXmWarMkbcWiSuEL6ZWLNQ=;
+	s=arc-20240116; t=1777445930; c=relaxed/simple;
+	bh=u4Pfn5a/U0AlGb8AqkEdtAoy0eLj8UmNKcvMgCHYYec=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hSpnUkO6Bq5vwQW2GFVxaCwLmYIEQ0axA23U6wS0AaiGeY0CazeksC6UvikJdjUi5LZdvXuXymmuZkebkmvkJv8+FTkzYtHSkhPnpogGKHdgAi809j9xxOK0+YQ7lIBWgkLnrbnZnBtVIpAX2Q5v7f2mKDdlZ83bt4ZaeyUJA8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a6ZiDFzK; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A2429A0;
-	Wed, 29 Apr 2026 08:53:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1777445604;
-	bh=cgpfcnNZ9AfOkq39Rj0OPvXmWarMkbcWiSuEL6ZWLNQ=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=B/SCrNPrHImbFaGur/XhHpSTXVwcJUyZ6uzBYw5BtBfGJ2iT5xNXpenbjzpsmHvFSn77Q1QodZpQILoUQ4xqy+ucEwHzM8tO+AzGCCtTEutqd4b4+7PHzLaw3mk/2/A0x+pnmTd+w30PfAlqe4A+sZABTgk5lvATbjXRuR4t/ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cuSlswfz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B28B9C19425;
+	Wed, 29 Apr 2026 06:58:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777445930;
+	bh=u4Pfn5a/U0AlGb8AqkEdtAoy0eLj8UmNKcvMgCHYYec=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a6ZiDFzKIGTWtM0hvPZvIoaNMGz0YqpePU/0rfAGYlNXSglU98QoAoVpRxwbX7AoO
-	 PYe3UZlb0BAvMNy0YN4I/6ih9WfmpIE8OdrkmN7tW1J9rGUXeqfuBaZlS3svBuxLPD
-	 AbTfmNXTNzLRl/wRvxRsd6s+NcqVOMvuI8dBoG/s=
-Date: Wed, 29 Apr 2026 08:55:04 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@kernel.org>, 
-	Nas Chung <nas.chung@chipsnmedia.com>, Jackson Lee <jackson.lee@chipsnmedia.com>, 
-	Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Keke Li <keke.li@amlogic.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 6/6] media: amlogic-c3: Add validations for ae and awb
- config
-Message-ID: <afGqxcABkv2D3DWG@zed>
-References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
- <20260428-smatch-7-1-v1-6-46890dffb611@chromium.org>
- <20260428131038.GA120836@killaraus.ideasonboard.com>
- <CANiDSCvaS-Jz9m5H2OHo2akD-o-sffsZyEw6_CrfUhD1BN+m2g@mail.gmail.com>
- <20260428132649.GD120836@killaraus.ideasonboard.com>
- <CANiDSCv=sHfJAZNcmXkubAvjkMy4cL5Ez=zq9MRxTTRXRPECyQ@mail.gmail.com>
- <afGgKdauTs8GFoWg@zed>
- <CANiDSCtr6RiuupmPjHphcxtCrU5iKzFyp+BF9JLyOpb2hc2-cw@mail.gmail.com>
+	b=cuSlswfzB7iS01np7vobw5kDq/S0raz1Y/72kRLxRYcbyrLrEdn4ZOR8t2PNUMkzt
+	 u1OP4+iIAGHPqITBECrxxjDugEXnmIfRf/Rm2L831QdbQB4mH5TChRjrlBt78n/nO6
+	 PLrX9vFwp7OL6chDwF0DODIPk7lXFnIF5kHCyPz7HUAsnoMWuZza0o4BodA+a5/DNI
+	 HCpRZXJhV94y2RAWQ2wNfTDmS9Oiz7E4U7p4aYSIN6xUG4pv8jzCadXvGp6ki3hCg1
+	 oBkLSGLOP3wnrkXi6ai2/+5mCBUCrzxueCKz48RCeVHQd3OzLeRZnG8akIcBbxV/TO
+	 ISSB8xNmlZd/g==
+Date: Wed, 29 Apr 2026 08:58:47 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+	Bryan O'Donoghue <bod@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil@kernel.org>, Stefan Schmidt <stefan.schmidt@linaro.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, iommu@lists.linux.dev
+Subject: Re: [PATCH v3 02/12] dt-bindings: media: qcom,glymur-iris: Add
+ glymur video codec
+Message-ID: <20260429-calm-shark-of-tempest-3a7bcb@quoll>
+References: <20260428-glymur-v3-0-8f28930f47d3@oss.qualcomm.com>
+ <20260428-glymur-v3-2-8f28930f47d3@oss.qualcomm.com>
+ <20260428-nifty-quaint-hoatzin-6de65d@quoll>
+ <97aa5f18-d1d5-f082-9075-a385255f2e97@oss.qualcomm.com>
+ <7d775357-c7b1-4cf5-af90-012d1364e773@kernel.org>
+ <6ebe28dc-b8a3-db92-0e66-3f0541e23e13@oss.qualcomm.com>
+ <1f88a8eb-1725-4e6a-b4f3-287ec538ee7d@kernel.org>
+ <e39df722-3868-60d4-07f3-768d11762e12@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,181 +76,67 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CANiDSCtr6RiuupmPjHphcxtCrU5iKzFyp+BF9JLyOpb2hc2-cw@mail.gmail.com>
-X-Rspamd-Queue-Id: AF107490085
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <e39df722-3868-60d4-07f3-768d11762e12@oss.qualcomm.com>
+X-Rspamd-Queue-Id: 3F75E490127
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-59918-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59917-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,linux.dev,kernel.org,linaro.org,gmail.com,8bytes.org,arm.com,vger.kernel.org,lists.linux.dev];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,chromium.org:email]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 
-Hi Ricardo
-
-On Wed, Apr 29, 2026 at 08:44:11AM +0200, Ricardo Ribalda wrote:
-> Hi Jacopo
->
-> On Wed, 29 Apr 2026 at 08:15, Jacopo Mondi
-> <jacopo.mondi@ideasonboard.com> wrote:
+On Tue, Apr 28, 2026 at 05:46:55PM +0530, Vishnu Reddy wrote:
+> >> Glymur is the first platform where the common schema limits become a h=
+ard
+> >> blocker, unlike all prior platforms that happened to stay within those=
+ limits.
+> > Hard blocker? What? How? you are imagining some problems here which do
+> > not exist in any other devices, any other IP blocks.
 > >
-> > Hello
-> >
-> >    thank you Ricardo for the fix
-> >
-> > On Tue, Apr 28, 2026 at 03:49:49PM +0200, Ricardo Ribalda wrote:
-> > > On Tue, 28 Apr 2026 at 15:26, Laurent Pinchart
-> > > <laurent.pinchart@ideasonboard.com> wrote:
-> > > >
-> > > > On Tue, Apr 28, 2026 at 03:14:21PM +0200, Ricardo Ribalda wrote:
-> > > > > On Tue, 28 Apr 2026 at 15:10, Laurent Pinchart wrote:
-> > > > > > On Tue, Apr 28, 2026 at 12:41:12PM +0000, Ricardo Ribalda wrote:
-> > > > > > > Avoid invalid memory access if the zones_num is bigger than
-> > > > > > > zone_weight.
-> > > > > > >
-> > > > > > > This patch fixes the following smatch errors:
-> > > > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-> > > > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-> > > > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-> > > > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-> > > > > > >
-> > > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > > > ---
-> > > > > > >  drivers/media/platform/amlogic/c3/isp/c3-isp-params.c | 4 ++++
-> > > > > > >  1 file changed, 4 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > > > > > > index 6f9ca7a7dd88..42d780f684d1 100644
-> > > > > > > --- a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > > > > > > +++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > > > > > > @@ -104,6 +104,8 @@ static void c3_isp_params_awb_wt(struct c3_isp_device *isp,
-> > > > > > >       c3_isp_write(isp, ISP_AWB_BLK_WT_ADDR, 0);
-> > > > > > >
-> > > > > > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-> > > > > > > +     if (WARN_ON(zones_num > C3_ISP_AWB_MAX_ZONES))
-> > > > > >
-> > > > > > This is triggerable by userspace, it shouldn't result in a WARN_ON().
-> > > > > > Ideally the horiz_zones_num and vert_zones_num should be validated at
-> > > > > > buf prepare time, and an error should be returned to userspace. That
-> > > > > > will likely not fix your smatch issue though, I don't think it will be
-> > > > > > able to understand that the values have been validated.
-> > > > >
-> > > > > Based on the warnings from the other drivers I also suspect that if
-> > > > > you have validated the data somewhere else smatch will understand it.
-> > > > >
-> > > > > Even if you add a validate function I would suggest to keep the
-> > > > > WARN_ON(), ideally it should never trigger, and if it triggers it will
-> > > > > get a lot more attention to get it fixed.
-> > > >
-> > > > We could keep the WARN_ON() if we first validate the data, but the
-> > > > driver doesn't currently :-/ I expect there could be more similar
-> > > > issues.
-> > >
-> > > Yep, I got that. I will let you or Jacopo figure out the best way to
-> > > implement the validation in buf_prepare. If you do not have time to
-> > > implement it now I will just remove the WARN_ON in the interim... but
-> > > from my experience we only fix stuff if we get an oops.
-> > >
-> > > Regards!
-> > >
-> > > >
-> > > > > > Jacopo, do we need to add a validate function pointer to
-> > > > > > v4l2_isp_params_block_type_info ?
-> >
-> > To allow drivers to provide an additional per-block validation
-> > function ? I think it could be nice indeed.
-> >
-> > Ricardo, could you spare this patch for the moment ? I think we can
-> > WARN_ON() to please smatch but we should pre-validate the buffer (without
-> > spamming the system log in case of errors) to make sure we actually
-> > never hit the WARN_ON() :)
-> >
-> > I have some patches in the pipe for v4l2-isp to add support for
-> > extensible stats, I could pile up a few more to give drivers a space
-> > where to implement additional per-block validations
->
-> Do you have any idea of the timeline for this?
->
+> > Why is this special and GPU is not? Or display is not? Or anything else?
+> > Why standard rules of writing bindings do not apply here? What is
+> > exactly different? Write like this:
+>=20
+> The intent is not to treat Glymur as =E2=80=9Cspecial=E2=80=9D in the sen=
+se of resource
+> count alone. The key difference is architectural:
+>=20
+> The existing qcom,venus-common.yaml was originally written with single
+> Venus/Iris video core and its maxItems for clocks and power domains were
+> defined accordingly. All existing platforms fit within that assumption,
+> even if their exact counts differ slightly.
 
-Give the change will likely come on top of extensible stats it might
-slip this cycle
+I don't think that's anyhow relevant difference here. Just change the
+common binding and be 100% SURE that all devices have correct/fixed
+consrtaints.
 
-> I would really like to land this in this cycle. If it is going to take
-> long maybe i can just
->
-> if (zones_num > C3_ISP_AE_MAX_ZONES)
+Best regards,
+Krzysztof
 
-Fine by me
-
->
-> and then when you add your checks you can promote it to:
->
-> if (WARN_ON(zones_num > C3_ISP_AE_MAX_ZONES))
-
-To be honest, if we pre-validate and silence the smatch warning with
-the above
-
-        if (zones_num > C3_ISP_AE_MAX_ZONES)
-
-then there shouldn't be any need to WARN_ON() ?
-
->
-> ?
->
-> Also it would be much easier to backport this change than a change in v4l2-isp.
->
-> Regards!
->
-> >
-> > > > > >
-> > > > > > > +             zones_num = C3_ISP_AWB_MAX_ZONES;
-> > > > > > >
-> > > > > > >       /* Need to write 8 weights at once */
-> > > > > > >       for (i = 0; i < zones_num / 8; i++) {
-> > > > > > > @@ -220,6 +222,8 @@ static void c3_isp_params_ae_wt(struct c3_isp_device *isp,
-> > > > > > >       c3_isp_write(isp, ISP_AE_BLK_WT_ADDR, 0);
-> > > > > > >
-> > > > > > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-> > > > > > > +     if (WARN_ON(zones_num > C3_ISP_AE_MAX_ZONES))
-> > > > > > > +             zones_num = C3_ISP_AE_MAX_ZONES;
-> > > > > > >
-> > > > > > >       /* Need to write 8 weights at once */
-> > > > > > >       for (i = 0; i < zones_num / 8; i++) {
-> > > >
-> > > > --
-> > > > Regards,
-> > > >
-> > > > Laurent Pinchart
-> > >
-> > >
-> > >
-> > > --
-> > > Ricardo Ribalda
->
->
->
-> --
-> Ricardo Ribalda
 
