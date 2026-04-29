@@ -1,212 +1,156 @@
-Return-Path: <linux-media+bounces-59930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59931-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2Nr/BvK08WmjjwEAu9opvQ
-	(envelope-from <linux-media+bounces-59930-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:36:18 +0200
+	id QCJPEui18WmjjwEAu9opvQ
+	(envelope-from <linux-media+bounces-59931-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:40:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA0A4908B9
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:36:17 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F82490959
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 09:40:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0B945302C36B
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 07:35:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0C3593029AC5
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 07:38:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 256923A6411;
-	Wed, 29 Apr 2026 07:35:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81D2D3A5E7F;
+	Wed, 29 Apr 2026 07:38:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bx4pRaJa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KTk6xag1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053A2359A6D
-	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 07:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E755D3A4F23;
+	Wed, 29 Apr 2026 07:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777448122; cv=none; b=Z6qIzHxI+KIgJJULpb+x2WJmG4NxtFRraV3MDCdvnWGLZjJNE/0usor/zdqtywgVBS9C1K8/V8xqwBGhQ2TZI8AO1WeDdkH7ouccQea4ETBVdG8CBi4u++q6awL5TyNRe9xPsldTri2Th3KH0zWroCjGC+iYSAx1ESwhwLfD28M=
+	t=1777448322; cv=none; b=SwBhT0BsgUm6fIzMn91X+Ts+Ek2zd1iOJk9B5bI/Raj4A6L6bZ4NF7L1eBFKl9eXJyeoyq2D0snRagfyX+C0dd8T2VRcFySRclxq7Pf1oGtPT+rAChK5SVLAgAhgEXrbsg2zI5EGkpmSM6Mr+mTP6pntD0bpNAC8EG/r9KtJYbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777448122; c=relaxed/simple;
-	bh=I3TJhs9tOrf5vAYSpXpoa+xlvXb2xN5nzYyPHlYoWjI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OlfeDv/bG3bewYMZUY2y01AkbO6jivSWcurKoI4oPhgJio+Q775UvgZADHiLE8gVEni+6pLIdvAdk8ceADMhx8CiIhIsaNRSNadcyiR5YHTIXV1PlCScBq+X6gWUJhRt5rf3OIk0rRHzx7kuOi84+e3C623hvmr43JdfwPYgDs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bx4pRaJa; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777448120; x=1808984120;
-  h=date:from:to:cc:subject:message-id;
-  bh=I3TJhs9tOrf5vAYSpXpoa+xlvXb2xN5nzYyPHlYoWjI=;
-  b=Bx4pRaJa8Og7Vm+kPhZTUfpUkWayCfn/Lg/hd1rs4EstdMK0G7VHgxFe
-   /oeMKgDJoD8uqasEq4jw9yVc99n45aL/CNRu4iM5/B50k5e932p3TNjAW
-   CzigAe5DZoBoZ9MwrUd6vlH8wOemiovkHXVGn9RPfs4M8lcI+uCfiFgin
-   zqhT73Q33AqK956n5d3pwfNoXwcX69FAbHUTC3tl3AhsQuNyY2OMRLqDv
-   3kffBC+dhu3KJ4ZYzYrdUKRRpkvitO7R+CiVqOx6IxUQAVSIs3v0s5+ZP
-   pB5uUqLEdWHTbSGddEzQE6QZS/4UUWibzApIJHR1EZiy432aVCYsXshal
-   w==;
-X-CSE-ConnectionGUID: ijFUM/6RRMe4H6H9pVmz5A==
-X-CSE-MsgGUID: +IZ2JWeUSXOri1ihKJE5XA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="95937273"
-X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="95937273"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 00:35:19 -0700
-X-CSE-ConnectionGUID: MytCV6LoQO6f9apH7MHiiA==
-X-CSE-MsgGUID: 5uR59AVSQcSIfNYW4nqqHg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="238524080"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 29 Apr 2026 00:35:17 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wHzRy-00000000Akm-1x8v;
-	Wed, 29 Apr 2026 07:35:14 +0000
-Date: Wed, 29 Apr 2026 15:34:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 80/122]
- drivers/media/i2c/ccs/ccs-core.c:2486:24: error: too many arguments to
- function 'ccs_get_format'; expected 3, have 4
-Message-ID: <202604291554.jge9fFXX-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1777448322; c=relaxed/simple;
+	bh=l6HxjGtr1txeLKd6AVDc25uiFiMRpHcFs9qZ0EBcb9E=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=SXxtUfyO0gmjlFU3cnVMQ0awDTC5+PfDK4/Ox9WEA3JiTJxGTEUfrdjNPHt8vwg6sWL9ZDZ74Yyz4O1nS604syKoWjcHRPy0UqpvigHz/r05JAfOpWwNZCj0PbAhOLYYU0kxI99SQ6UWlkNxvLlgf83+N/pesvd3U7qlcC0IP6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KTk6xag1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AAD2C19425;
+	Wed, 29 Apr 2026 07:38:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777448321;
+	bh=l6HxjGtr1txeLKd6AVDc25uiFiMRpHcFs9qZ0EBcb9E=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=KTk6xag1JeMYQ+UeIIhqCYRyEO7XSNaTbqYXkzqYHaHSxJHxDUrCaiwLGEMRreMMm
+	 4QAosDrNVNiOldtFqhr1qEEzgq99Df34FzPWcGG4y4TwfwzLGugBj1gJlAg61uke3G
+	 yrxkCotnDEkvVuzjiYk1yTMh4w5qBBZG8C8VA0E1PF/QeS33oqWyfGHp8LwSGGYLjO
+	 Jm9P7Pdx3sSwDyHAjxyrhyIun+b/OT9WKzBUOM+03aIHkCkXMzjGBI2eL/MMlcokf+
+	 pdxRKjOwvdGMhQ+62MGLz51pTojkW5Py6OAnDkEWgTvVL9yiYfTNLRlKNv+u8kJalG
+	 9iCuvldPaLiyg==
+Message-ID: <b98e172f-ce29-4cfb-9632-393a5e833017@kernel.org>
+Date: Wed, 29 Apr 2026 09:38:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Rspamd-Queue-Id: 7BA0A4908B9
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH 1/6] media: v4l2-dev: Add range check for vdev->minor
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>,
+ Jackson Lee <jackson.lee@chipsnmedia.com>, Bingbu Cao
+ <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Keke Li <keke.li@amlogic.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
+ <20260428-smatch-7-1-v1-1-46890dffb611@chromium.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260428-smatch-7-1-v1-1-46890dffb611@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 87F82490959
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59931-lists,linux-media=lfdr.de,cisco];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59930-lists,linux-media=lfdr.de];
-	RCPT_COUNT_THREE(0.00)[3];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,chromium.org:email]
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   489ab6e79288be8d219b68525a13699fde0248ae
-commit: f3d14633599ac2e30aeb1e1af17db73b46682931 [80/122] media: ccs: Add support for embedded data stream
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20260429/202604291554.jge9fFXX-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604291554.jge9fFXX-lkp@intel.com/reproduce)
+On 28/04/2026 14:41, Ricardo Ribalda wrote:
+> If the fixed minor ranges are not properly set we could end up in a
+> situation where the calculated minor is invalid. Add a check for this in
+> the code.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604291554.jge9fFXX-lkp@intel.com/
+the code -> the code to make it more robust.
 
-All errors (new ones prefixed by >>):
+> 
+> This check also fixes the following smatch warning:
 
-   drivers/media/i2c/ccs/ccs-core.c: In function 'ccs_set_format':
-   drivers/media/i2c/ccs/ccs-core.c:2486:47: error: passing argument 2 of 'ccs_get_format' from incompatible pointer type [-Wincompatible-pointer-types]
-    2486 |                 return ccs_get_format(subdev, ci, sd_state, fmt);
-         |                                               ^~
-         |                                               |
-         |                                               const struct v4l2_subdev_client_info *
-   drivers/media/i2c/ccs/ccs-core.c:2299:53: note: expected 'struct v4l2_subdev_state *' but argument is of type 'const struct v4l2_subdev_client_info *'
-    2299 |                           struct v4l2_subdev_state *sd_state,
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
-   drivers/media/i2c/ccs/ccs-core.c:2486:51: error: passing argument 3 of 'ccs_get_format' from incompatible pointer type [-Wincompatible-pointer-types]
-    2486 |                 return ccs_get_format(subdev, ci, sd_state, fmt);
-         |                                                   ^~~~~~~~
-         |                                                   |
-         |                                                   struct v4l2_subdev_state *
-   drivers/media/i2c/ccs/ccs-core.c:2300:54: note: expected 'struct v4l2_subdev_format *' but argument is of type 'struct v4l2_subdev_state *'
-    2300 |                           struct v4l2_subdev_format *fmt)
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
->> drivers/media/i2c/ccs/ccs-core.c:2486:24: error: too many arguments to function 'ccs_get_format'; expected 3, have 4
-    2486 |                 return ccs_get_format(subdev, ci, sd_state, fmt);
-         |                        ^~~~~~~~~~~~~~                       ~~~
-   drivers/media/i2c/ccs/ccs-core.c:2298:12: note: declared here
-    2298 | static int ccs_get_format(struct v4l2_subdev *subdev,
-         |            ^~~~~~~~~~~~~~
+I'd say:
 
+This check also fixes the following false positive smatch warnings:
 
-vim +/ccs_get_format +2486 drivers/media/i2c/ccs/ccs-core.c
+> 
+> drivers/media/v4l2-core/v4l2-dev.c:1036 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+> drivers/media/v4l2-core/v4l2-dev.c:1043 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+> drivers/media/v4l2-core/v4l2-dev.c:1101 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-  2475	
-  2476	static int ccs_set_format(struct v4l2_subdev *subdev,
-  2477				  const struct v4l2_subdev_client_info *ci,
-  2478				  struct v4l2_subdev_state *sd_state,
-  2479				  struct v4l2_subdev_format *fmt)
-  2480	{
-  2481		struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-  2482		struct ccs_subdev *ssd = to_ccs_subdev(subdev);
-  2483		struct v4l2_rect *crop;
-  2484	
-  2485		if (ssd == sensor->src && fmt->pad == CCS_PAD_META)
-> 2486			return ccs_get_format(subdev, ci, sd_state, fmt);
-  2487	
-  2488		if (ssd == sensor->src && fmt->stream == CCS_STREAM_META) {
-  2489			ccs_set_format_meta(subdev, sd_state, &fmt->format);
-  2490	
-  2491			return 0;
-  2492		}
-  2493	
-  2494		if (fmt->pad == ssd->source_pad) {
-  2495			int rval;
-  2496	
-  2497			rval = ccs_set_format_source(subdev, NULL, sd_state, fmt);
-  2498			if (ccs_embedded_data_lines(sensor) && ssd == sensor->src)
-  2499				ccs_set_format_meta(subdev, sd_state, NULL);
-  2500	
-  2501			return rval;
-  2502		}
-  2503	
-  2504		/* Sink pad. Width and height are changeable here. */
-  2505		fmt->format.code = ccs_get_mbus_code(subdev, fmt->pad);
-  2506	
-  2507		fmt->format.width &= ~1;
-  2508		fmt->format.height &= ~1;
-  2509		fmt->format.field = V4L2_FIELD_NONE;
-  2510	
-  2511		fmt->format.width =
-  2512			clamp(fmt->format.width,
-  2513			      CCS_LIM(sensor, MIN_X_OUTPUT_SIZE),
-  2514			      CCS_LIM(sensor, MAX_X_OUTPUT_SIZE));
-  2515		fmt->format.height =
-  2516			clamp(fmt->format.height,
-  2517			      CCS_LIM(sensor, MIN_Y_OUTPUT_SIZE),
-  2518			      CCS_LIM(sensor, MAX_Y_OUTPUT_SIZE));
-  2519	
-  2520		crop = v4l2_subdev_state_get_crop(sd_state, ssd->sink_pad,
-  2521						  CCS_STREAM_PIXEL);
-  2522	
-  2523		crop->left = 0;
-  2524		crop->top = 0;
-  2525		crop->width = fmt->format.width;
-  2526		crop->height = fmt->format.height;
-  2527		ccs_propagate(subdev, sd_state, V4L2_SEL_TGT_CROP);
-  2528	
-  2529		return 0;
-  2530	}
-  2531	
+The code in __video_register_device is quite complex, so adding this check is
+worthwhile. So even though the warning is a false positive, it's a good change.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+	Hans
+
+> ---
+>  drivers/media/v4l2-core/v4l2-dev.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index 6ce623a1245a..a731ffdb91ee 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -1032,6 +1032,12 @@ int __video_register_device(struct video_device *vdev,
+>  	vdev->minor = i + minor_offset;
+>  	vdev->num = nr;
+>  
+> +	if (WARN_ON(vdev->minor >= VIDEO_NUM_DEVICES)) {
+> +		mutex_unlock(&videodev_lock);
+> +		pr_err("invalid minor. Check ranges.\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	/* Should not happen since we thought this minor was free */
+>  	if (WARN_ON(video_devices[vdev->minor])) {
+>  		mutex_unlock(&videodev_lock);
+> 
+
 
