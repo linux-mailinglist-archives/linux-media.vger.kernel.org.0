@@ -1,404 +1,239 @@
-Return-Path: <linux-media+bounces-59967-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59968-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YN4TEoP98WmElwEAu9opvQ
-	(envelope-from <linux-media+bounces-59967-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 14:45:55 +0200
+	id COr4Cpb98WmElwEAu9opvQ
+	(envelope-from <linux-media+bounces-59968-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 14:46:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A1449439C
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 14:45:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE11A4943C1
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 14:46:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A0BFB302F261
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 12:41:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 997B230D32D3
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 12:42:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6924F3F65F3;
-	Wed, 29 Apr 2026 12:41:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E91C3F7A8E;
+	Wed, 29 Apr 2026 12:42:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HtkdmN7Y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hYSUqybE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2A13EE1D7
-	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 12:41:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330783F6613
+	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 12:42:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777466508; cv=none; b=Vet/d1HlYYtKt1OOnSySmGcZvMGdGkL4s/BGhvMoOHP4NvyPPpJyj6FF+3Vw6Q33OkQvlWZ73g/dpUzcH+BBnTaBuAWjGOxdDaUjy1QgHd/wvsnyKwM9WRHahagjKd7hWOY9cKsR+r3ss992jYYkIiCOPqdoh9BsTjUg+unok0Y=
+	t=1777466536; cv=none; b=EfVoLS+a9Vc1a5D7UCxWlroSliaeaGD2WxrfkTXVyoAsm6qOlsoKf4WDV18RxTOSTG3TdLe15nvzMpA4fem39TP7VnLakj+8XIYofstkrpWkMILB867UjStXQDzc5QiGazX+LymeMt8l+EppZH7rWRh5Kddpcm5WTIqFmclMi/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777466508; c=relaxed/simple;
-	bh=sfPjPBjsypc5pN+TzIclX1/lXZxIDuz8vxUdQ0SWOYY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cBsZ+g9J1yeLhKpycQvPCsRFjLncuyytkWt8d1OA5XdnZ4lrcLHGt2RylSE2jQzjLq0SOSy4HKoDPmG3iqVvRiqBEYVFQ5OmfFVWItsvcdTlol4IbMWBWoLjp/2BMhAwU5p1aVInxe7omXailZa2uJY9jYNa3R7fYoJv6hQhaOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HtkdmN7Y; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777466506; x=1809002506;
-  h=date:from:to:cc:subject:message-id;
-  bh=sfPjPBjsypc5pN+TzIclX1/lXZxIDuz8vxUdQ0SWOYY=;
-  b=HtkdmN7YRs1XFmM8UKZJLMZqul25Yq5q6GIWEXo2VZH+Hxqc7uBhiDjj
-   w3iAHS41xHlttHA61LzS+WUxnynpFY+BdMk23v7k7O15CjCd1OeHlGk58
-   Ujbh9L2JOZxpzcvWYw+scYY76Y/PGCp9o0zeFWOlmh4PaKiJf1GQUVzSn
-   e561DT6F8/ghy0XISeHLzU+YEx0/U4rS09KX4DB5iERIFCrfg8QoPf6nR
-   9N4dtkr2nlUJ1kebtq4G6nPcY1esaboHvHCFjmPJ9U7B75aYTAkKIX2Po
-   9PfPE1Ac17MXDfMwnIm9ts0h3t2lm25G7BNWqx4uYsgLG113aF5NeMqU/
-   A==;
-X-CSE-ConnectionGUID: O3+BfAXrTlm88FRCCPp6Ug==
-X-CSE-MsgGUID: 0QAMLoUbRQ+j0bzqPFABQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78448910"
-X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="78448910"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 05:41:45 -0700
-X-CSE-ConnectionGUID: rlQKt3g6S4WgTBwYeRddYA==
-X-CSE-MsgGUID: irMiarQgRieuLYAN/vjfsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="233229700"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 29 Apr 2026 05:41:44 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wI4EX-00000000B2K-1alm;
-	Wed, 29 Apr 2026 12:41:41 +0000
-Date: Wed, 29 Apr 2026 20:41:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata] BUILD REGRESSION
- 489ab6e79288be8d219b68525a13699fde0248ae
-Message-ID: <202604292032.5ktAHJjm-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1777466536; c=relaxed/simple;
+	bh=1A2EDd/9ZFXW9B7wngZDMLHdvoHs8PLDGHjr5zxPytA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d8B3GcEqwEwFbHr/JDHTPTKVdQudWHfH4tXTSQGuqq+DjwqWag6uNS3stsPiZilnEcKGY83wiSp8pTXS/yKZXG18282dSO4p0tsYJPh2VMXoQ+n9hZvUU04/Br9eVAmhBpFOqLfr1prOnYjZfB6ID02rQMMB/wqWbfxZMOH0Q2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hYSUqybE; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so152499335e9.2
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 05:42:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777466534; x=1778071334; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tEWUzkm/84gIEBZKZ1aGJfvpThsAR0MsD57R0RvbGsU=;
+        b=hYSUqybEY414WCwF1ESX/JoRG/Ee+hysZc4svXr4q/NK1gS/DDqOE6UZG6dfOW9FGF
+         Xw7oasUBQQyRkiDdTzzTzy26cKjBGYZjoe7FWxLHZWeR7fToCZpehlBAALEUAAO+yXKE
+         UHe6LU7Gvh/Qz/8sUFfTKL2CIfQyA2GH5rEX6fgVsSPi9aj8dUjuAnzuqemDKBtC4JWF
+         LfyN6YyUWpyctIqyqnneMgpw0Q/9nuqYWlmYQxSD0BILHXnMV6cQTcLdA3yIx0Yev67H
+         A13wyX6NaneRygAWvHK59SkPUVA9PdD2i9J1VuWvxmkZnLGb1bV4Nt1Oeok/RJD9AQBc
+         9NlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777466534; x=1778071334;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tEWUzkm/84gIEBZKZ1aGJfvpThsAR0MsD57R0RvbGsU=;
+        b=m5tqRXc0e3n+8aF03h8i1y3KlXDMU1kqQ3vYU5QO3LTzepFrbkKG6Hm/i1O4BSmp5X
+         vmhQzE8RDmbwT8cu88cN7E6YJLuq2icXH59z73HnBNp4bj5tQQC1T9uWAp8bieB8c4Ya
+         pQLc8GqIEEFAtjDtlgAEKWpj/k3pxFFg2VeGG4+NS4cYKxaKb0LEm3RRN5JlDqUFspEP
+         WzC7Qj9oRljuPmIEKnr58sUWYhHmRs3iOi2eecLd8DRRqYHiXbzGod5fl1Oi8nRbFAUQ
+         ptKYfRe5Ze0XlW4lWDs+CxrPJAa3FmjcwyHDzgsGkIgf+UzpHDCjX6JkOgSUfsWDKije
+         yT2w==
+X-Gm-Message-State: AOJu0YwDgHaro4Cl6uZMtS1L5XnO2Qenqp5P+EfocacsmMBttJy9iGmE
+	35APqXsC18VLeCRIjJoPR1hqOttFpp7zE3THZYViLgOUi+rg7eyKm9DR
+X-Gm-Gg: AeBDieuuwTTxTdC6NPSUtQvwpC35uAkqZQFK6W0EnV0tk8iQ4sxP9VYAzu5KAFVW+gR
+	lx32ZAuzpnT18jzimd61ZyUUFwKqSv+Lt9wvAKzlYs82snkeTdE3OvBTc3f8l7NbdtuQtqu5pOW
+	Gq+Q/dH6GAVOI6MbA8iyzN3wiytsKaJxbkvgfLlCMe7WSP6YSsWG1pCiJyfvU7qOZSYc3FXt/j9
+	VWmAn9dfcHme06WXF185HoGCXl+uf3aZmX8D5dHjJqvR8y20oH0mSXqvY55G/fKjiiTklbUPovb
+	N+mlKN6vEkJJsDJwWUqr8ZBPGiw7BgZu6GfOe5P37JdbyoL3t0i5c0b3DTJDfsBu0fo4rTL2RlM
+	gKuywKqvavcL7TzF2SfJML33wvLEXlJaGzsaCpTp98GUq4t9pXd1VhME4m7wq57KUZKZwJBXhxV
+	1pJ1nR6DWep/rgOSHI3f6GEsWr4kjCcFsmixtpVAOnD7sVoZHJ2/HY1r07BzSNJce8Hj5qGSaWS
+	A==
+X-Received: by 2002:a05:600c:a11:b0:489:1a3a:9e45 with SMTP id 5b1f17b1804b1-48a77b1b405mr123401375e9.26.1777466533338;
+        Wed, 29 Apr 2026 05:42:13 -0700 (PDT)
+Received: from ?IPV6:2a00:f502:160:68fe:a26c:adcb:8da8:2? ([2a00:f502:160:68fe:a26c:adcb:8da8:2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7c31fb8asm17976745e9.30.2026.04.29.05.42.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2026 05:42:12 -0700 (PDT)
+Message-ID: <89f2b7ab-2335-4029-a074-4d9bf956c14f@gmail.com>
+Date: Wed, 29 Apr 2026 15:42:10 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Rspamd-Queue-Id: F3A1449439C
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v3 04/11] arm64: dts: qcom: msm8939: Add venus node
+To: Bryan O'Donoghue <bod@kernel.org>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
+References: <20260427-msm8939-venus-rfc-v3-0-288195bb7917@gmail.com>
+ <Xfiq_WNTU9P-ThZLMs4plWE5hwtmwyVyKJc1bD5BKdhERGouucNpyuenIoKQiKfZKaRzP-PdamsNlQ8vezjrRg==@protonmail.internalid>
+ <20260427-msm8939-venus-rfc-v3-4-288195bb7917@gmail.com>
+ <56d609dd-62be-47eb-8ba3-c5d70d773113@kernel.org>
+ <QRkqY_zK7EC4e0ZMoLVyLUhgI9A5RrBcJLm22d69xKT17HzJMXsEDdz_qodBN9qogvuS1XqN4zdemqcoByY5CA==@protonmail.internalid>
+ <34627be5-75cc-469b-af23-f1f08ce29820@gmail.com>
+ <2846fc60-bf8c-43b3-ae64-58faad6aed2f@kernel.org>
+Content-Language: en-US
+From: Erikas Bitovtas <xerikasxx@gmail.com>
+In-Reply-To: <2846fc60-bf8c-43b3-ae64-58faad6aed2f@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: AE11A4943C1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-59968-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59967-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[xerikasxx@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,pastebin.com:url]
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
-branch HEAD: 489ab6e79288be8d219b68525a13699fde0248ae  Documentation: media: Reword blanking control documentation
 
-Error/Warning (recently discovered and may have been fixed):
 
-    https://lore.kernel.org/oe-kbuild-all/202604291208.yqRwAWhO-lkp@intel.com
-    https://lore.kernel.org/oe-kbuild-all/202604291221.mpBYkuLv-lkp@intel.com
-    https://lore.kernel.org/oe-kbuild-all/202604291336.ZjaAXBvo-lkp@intel.com
-    https://lore.kernel.org/oe-kbuild-all/202604291444.xozszFSV-lkp@intel.com
-    https://lore.kernel.org/oe-kbuild-all/202604291512.J1OPGgas-lkp@intel.com
-    https://lore.kernel.org/oe-kbuild-all/202604291554.jge9fFXX-lkp@intel.com
-    https://lore.kernel.org/oe-kbuild-all/202604291638.d493kmZ2-lkp@intel.com
+On 4/28/26 4:36 PM, Bryan O'Donoghue wrote:
+> On 28/04/2026 10:47, Erikas Bitovtas wrote:
+>>
+>>
+>> On 4/28/26 10:10 AM, Bryan O'Donoghue wrote:
+>>> On 27/04/2026 18:58, Erikas Bitovtas wrote:
+>>>> +            video-decoder {
+>>>> +                compatible = "venus-decoder";
+>>>> +                clocks = <&gcc GCC_VENUS0_CORE0_VCODEC0_CLK>,
+>>>> +                     <&gcc GCC_VENUS0_CORE1_VCODEC0_CLK>;
+>>>> +                clock-names = "core0", "core1";
+>>>> +                power-domains = <&gcc VENUS_CORE0_GDSC>,
+>>>> +                        <&gcc VENUS_CORE1_GDSC>;
+>>>> +                power-domain-names = "core0", "core1";
+>>>> +            };
+>>>> +
+>>>> +            video-encoder {
+>>>> +                compatible = "venus-encoder";
+>>>> +                clocks = <&gcc GCC_VENUS0_CORE0_VCODEC0_CLK>,
+>>>> +                     <&gcc GCC_VENUS0_CORE1_VCODEC0_CLK>;
+>>>> +                clock-names = "core0", "core1";
+>>>> +                power-domains = <&gcc VENUS_CORE0_GDSC>,
+>>>> +                        <&gcc VENUS_CORE1_GDSC>;
+>>>> +                power-domain-names = "core0", "core1";
+>>>> +            };
+>>>
+>>> So to be fair in this case you do have a reason to have an encoder and
+>>> decoder compatible here _but_ it should be the case that one one of the
+>>> sub-devices contains CORE0 related stuff and the other CORE1 related
+>>> stuff.
+>>>
+>>> Because in that case the sub-devices actually represent individual
+>>> hardware settings.
+>>>
+>>> So listing power-domains and clocks for both cores in each node like
+>>> this militates against that.
+>>>
+>>> The other thing is to double check of the encoder and decoder are inter-
+>>> changable here i.e. can either core be encoder or decoder or is it
+>>> fixed ?
+>>>
+>>> I believe on older generations - perhaps not on 8939 it is not
+>>> interchangable.
+>>>
+>> I found this in LA.BR.1.2.9.1_rb1.5:
+>> https://github.com/msm8916-mainline/linux-downstream/blob/
+>> b20608408caff817ec874f325127b07609fbaeb8/arch/arm/boot/dts/qcom/
+>> msm8939-common.dtsi#L1589
+>> Only decoder bits are being set in bus configs. This suggests that the
+>> cores are not interchangeable.
+>> Then again, I never managed to get encoding working on MSM8939. Testing
+>> it with
+>> gst-launch-1.0 videotestsrc ! videoconvert ! v4l2vp8enc ! queue !
+>> v4l2vp8dec ! xvimagesink
+>> Fails with the following log: https://pastebin.com/nmZcLgPV
+>> And in dmesg it reports a firmware error:
+>> [  784.461031] qcom-venus 1d00000.video-codec: no valid instance(pkt
+>> session_id:dead, pkt:21001)
+>> [  784.461126] qcom-venus-decoder 1d00000.video-codec:video-decoder:
+>> dec: event session error 0
+>> [  784.461200] qcom-venus-encoder 1d00000.video-codec:video-encoder:
+>> enc: event session error 0
+>> [  784.468799] qcom-venus 1d00000.video-codec: SFR message from FW:
+>> QC_IMAGE_VERSION_STRING=VIDEO.VE.1.8-00099, Err_Fatal -
+>> Z:\b\venus\utils\src\vbuffer.c:1319:
+>> [  785.791641] qcom-venus 1d00000.video-codec: System error has
+>> occurred, recovery failed to init HFI
+>> [  787.018339] qcom-venus 1d00000.video-codec: System error has
+>> occurred, recovery failed to init HFI
+>> [  787.097253] qcom-venus 1d00000.video-codec: system error has occurred
+>> (recovered)
+>> This happens regardless of whether I enable the cores for encoding too
+>> or not. The same errors were happening on MSM8916 as well. So I can't
+>> tell if these cores are interchangeable just by testing.
+> 
+> Right so if you swap around the definition of which core is encoder and
+> which decoder do you get the same or different result ?
+> 
+If I set the core0 to be decoder, only HEVC decoding works. If I set
+core1, only non-HEVC decoding works. Encoding doesn't work regardless.>
+i.e. is it because you are trying to get encoder running generally or
+> because of the core you are doing it on ?
+> 
+> How about declaring both cores a decoder ?
+> 
+That is what I did on v1. Ideally we'd decide which core we want to
+power up based on what codec we are dealing with, but given there is no
+easy way to do so on mainline yet, it could work.> ---
+> bod
 
-    drivers/media/i2c/ccs/ccs-core.c:2486:24: error: too many arguments to function 'ccs_get_format'
-    drivers/media/i2c/ccs/ccs-core.c:2486:24: error: too many arguments to function 'ccs_get_format'; expected 3, have 4
-    drivers/media/i2c/ccs/ccs-core.c:2486:47: error: passing argument 2 of 'ccs_get_format' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/i2c/ccs/ccs-core.c:2486:47: error: passing argument 2 of 'ccs_get_format' from incompatible pointer type [-Wincompatible-pointer-types]
-    drivers/media/i2c/imx219.c:982:24: error: too many arguments to function 'v4l2_subdev_get_fmt'; expected 3, have 4
-    drivers/media/platform/renesas/sh_vou.c:716:8: error: too few arguments to function call, expected 4, have 3
-    drivers/media/platform/renesas/vsp1/vsp1_entity.c:302:5: error: conflicting types for 'vsp1_subdev_set_pad_format'; have 'int(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)'
-    drivers/media/platform/st/stm32/stm32-dcmi.c:741:9: error: too few arguments to function call, expected 4, have 3
-    drivers/staging/media/max96712/max96712.c:267:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-    drivers/staging/media/max96712/max96712.c:267:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    drivers/staging/media/max96712/max96712.c:267:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
-    drivers/staging/media/tegra-video/vi.c:480:72: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_selection' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/staging/media/tegra-video/vi.c:480:72: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_selection' from incompatible pointer type [-Wincompatible-pointer-types]
-    drivers/staging/media/tegra-video/vi.c:480:72: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->get_selection' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/staging/media/tegra-video/vi.c:480:72: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->get_selection' from incompatible pointer type [-Wincompatible-pointer-types]
-    drivers/staging/media/tegra-video/vi.c:480:7: error: too few arguments to function call, expected 4, have 3
-    include/media/mipi-csi2.h:47:27: error: unknown type name 'u32'
-    include/media/v4l2-device.h:356:33: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt'; expected 4, have 3
-    include/media/v4l2-device.h:356:33: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_selection'; expected 4, have 3
-    include/media/v4l2-subdev.h:1961:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->set_fmt'; expected 4, have 3
-    include/media/v4l2-subdev.h:1964:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt'; expected 4, have 3
-    include/media/v4l2-subdev.h:1985:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->get_selection'
-    include/media/v4l2-subdev.h:1985:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->get_selection'; expected 4, have 3
-    include/media/v4l2-subdev.h:1988:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_selection'
-    include/media/v4l2-subdev.h:1988:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_selection'; expected 4, have 3
-
-Error/Warning ids grouped by kconfigs:
-
-recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- arc-allmodconfig
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_set_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-staging-media-max96712-max96712.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatible
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- arc-allyesconfig
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- arm-allyesconfig
-|   |-- drivers-media-i2c-ccs-ccs-core.c:error:passing-argument-of-ccs_get_format-from-incompatible-pointer-type
-|   |-- drivers-media-i2c-ccs-ccs-core.c:error:too-many-arguments-to-function-ccs_get_format-expected-have
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_set_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-staging-media-max96712-max96712.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatible
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- arm64-allmodconfig
-|   |-- drivers-staging-media-tegra-video-vi.c:error:too-few-arguments-to-function-call-expected-have
-|   `-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|-- csky-allmodconfig
-|   |-- drivers-staging-media-max96712-max96712.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatible
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- hexagon-allmodconfig
-|   |-- drivers-staging-media-tegra-video-vi.c:error:too-few-arguments-to-function-call-expected-have
-|   `-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|-- i386-allmodconfig
-|   |-- drivers-media-i2c-ccs-ccs-core.c:error:passing-argument-of-ccs_get_format-from-incompatible-pointer-type
-|   |-- drivers-media-i2c-ccs-ccs-core.c:error:too-many-arguments-to-function-ccs_get_format
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_set_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-staging-media-max96712-max96712.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatible
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection
-|-- i386-allyesconfig
-|   |-- drivers-media-i2c-ccs-ccs-core.c:error:passing-argument-of-ccs_get_format-from-incompatible-pointer-type
-|   |-- drivers-media-i2c-ccs-ccs-core.c:error:too-many-arguments-to-function-ccs_get_format
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_set_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-staging-media-max96712-max96712.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatible
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection
-|-- loongarch-allmodconfig
-|   |-- drivers-staging-media-tegra-video-vi.c:error:too-few-arguments-to-function-call-expected-have
-|   `-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|-- m68k-allmodconfig
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- m68k-allyesconfig
-|   |-- drivers-staging-media-max96712-max96712.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatible
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- microblaze-allyesconfig
-|   |-- drivers-staging-media-max96712-max96712.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatible
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- mips-allmodconfig
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_set_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-staging-media-max96712-max96712.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatible
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- mips-allyesconfig
-|   |-- drivers-staging-media-max96712-max96712.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatible
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- nios2-allmodconfig
-|   |-- drivers-media-i2c-ccs-ccs-core.c:error:passing-argument-of-ccs_get_format-from-incompatible-pointer-type
-|   |-- drivers-media-i2c-ccs-ccs-core.c:error:too-many-arguments-to-function-ccs_get_format
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_set_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-staging-media-max96712-max96712.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatible
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection
-|-- openrisc-allmodconfig
-|   |-- drivers-media-i2c-ccs-ccs-core.c:error:too-many-arguments-to-function-ccs_get_format-expected-have
-|   |-- drivers-media-i2c-imx219.c:error:too-many-arguments-to-function-v4l2_subdev_get_fmt-expected-have
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-expected-have
-|-- parisc-allmodconfig
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_set_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-staging-media-max96712-max96712.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatible
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- powerpc-allmodconfig
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_set_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-staging-media-max96712-max96712.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatible
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- riscv-allmodconfig
-|   |-- drivers-staging-media-tegra-video-vi.c:error:too-few-arguments-to-function-call-expected-have
-|   `-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|-- riscv-allyesconfig
-|   |-- drivers-staging-media-max96712-max96712.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_su
-|   |-- drivers-staging-media-tegra-video-vi.c:error:too-few-arguments-to-function-call-expected-have
-|   `-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|-- s390-allyesconfig
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_set_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-staging-media-max96712-max96712.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatible
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- sh-allmodconfig
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-|-- sparc64-allmodconfig
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-staging-media-max96712-max96712.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_su
-|   `-- drivers-staging-media-tegra-video-vi.c:error:too-few-arguments-to-function-call-expected-have
-|-- um-allyesconfig
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-|   |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-|   |-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection
-|-- x86_64-allmodconfig
-|   |-- drivers-staging-media-max96712-max96712.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_su
-|   |-- drivers-staging-media-tegra-video-vi.c:error:too-few-arguments-to-function-call-expected-have
-|   `-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-|-- x86_64-allyesconfig
-|   |-- drivers-staging-media-max96712-max96712.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_su
-|   |-- drivers-staging-media-tegra-video-vi.c:error:too-few-arguments-to-function-call-expected-have
-|   `-- include-media-mipi-csi2.h:error:unknown-type-name-u32
-`-- xtensa-allyesconfig
-    |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-from-incompatible-pointer-type
-    |-- drivers-staging-media-tegra-video-vi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-from-incompatible-pointer-type
-    |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_selection-expected-have
-    `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_selection-expected-have
-
-elapsed time: 1065m
-
-configs tested: 61
-configs skipped: 1
-
-tested configs:
-alpha                   allnoconfig    gcc-15.2.0
-alpha                  allyesconfig    gcc-15.2.0
-arc                    allmodconfig    gcc-15.2.0
-arc                     allnoconfig    gcc-15.2.0
-arc                    allyesconfig    gcc-15.2.0
-arm                     allnoconfig    clang-23
-arm                    allyesconfig    gcc-15.2.0
-arm64                  allmodconfig    clang-19
-arm64                   allnoconfig    gcc-15.2.0
-csky                   allmodconfig    gcc-15.2.0
-csky                    allnoconfig    gcc-15.2.0
-hexagon                allmodconfig    clang-17
-hexagon                 allnoconfig    clang-23
-i386                   allmodconfig    gcc-14
-i386                    allnoconfig    gcc-14
-i386                   allyesconfig    gcc-14
-loongarch              allmodconfig    clang-19
-loongarch               allnoconfig    clang-23
-loongarch                 defconfig    clang-19
-m68k                   allmodconfig    gcc-15.2.0
-m68k                    allnoconfig    gcc-15.2.0
-m68k                   allyesconfig    gcc-15.2.0
-m68k                      defconfig    gcc-15.2.0
-microblaze              allnoconfig    gcc-15.2.0
-microblaze             allyesconfig    gcc-15.2.0
-microblaze                defconfig    gcc-15.2.0
-mips                   allmodconfig    gcc-15.2.0
-mips                    allnoconfig    gcc-15.2.0
-mips                   allyesconfig    gcc-15.2.0
-nios2                  allmodconfig    gcc-11.5.0
-nios2                   allnoconfig    gcc-11.5.0
-nios2                     defconfig    gcc-11.5.0
-openrisc               allmodconfig    gcc-15.2.0
-openrisc                allnoconfig    gcc-15.2.0
-parisc                 allmodconfig    gcc-15.2.0
-parisc                  allnoconfig    gcc-15.2.0
-parisc                 allyesconfig    gcc-15.2.0
-parisc      randconfig-002-20260429    gcc-8.5.0
-parisc64                  defconfig    gcc-15.2.0
-powerpc                allmodconfig    gcc-15.2.0
-powerpc                 allnoconfig    gcc-15.2.0
-riscv                  allmodconfig    clang-23
-riscv                   allnoconfig    gcc-15.2.0
-riscv                  allyesconfig    clang-16
-s390                   allmodconfig    clang-18
-s390                    allnoconfig    clang-23
-s390                   allyesconfig    gcc-15.2.0
-sh                     allmodconfig    gcc-15.2.0
-sh                      allnoconfig    gcc-15.2.0
-sh                     allyesconfig    gcc-15.2.0
-sparc                   allnoconfig    gcc-15.2.0
-sparc64                allmodconfig    clang-23
-um                     allmodconfig    clang-19
-um                      allnoconfig    clang-23
-um                     allyesconfig    gcc-14
-x86_64                 allmodconfig    clang-20
-x86_64                  allnoconfig    clang-20
-x86_64                 allyesconfig    clang-20
-x86_64                rhel-9.4-rust    clang-20
-xtensa                  allnoconfig    gcc-15.2.0
-xtensa                 allyesconfig    gcc-15.2.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
