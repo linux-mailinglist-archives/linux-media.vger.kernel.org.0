@@ -1,205 +1,236 @@
-Return-Path: <linux-media+bounces-59911-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59912-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cLISEQai8WmwjAEAu9opvQ
-	(envelope-from <linux-media+bounces-59911-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 08:15:34 +0200
+	id 9QCyH+ii8WnejAEAu9opvQ
+	(envelope-from <linux-media+bounces-59912-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 08:19:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA24948FAD2
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 08:15:30 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08D2748FB1B
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 08:19:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0B905302D5DD
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 06:15:19 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 21213300CA3E
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 06:19:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8479333EB1B;
-	Wed, 29 Apr 2026 06:15:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2823349B0D;
+	Wed, 29 Apr 2026 06:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UmwI/ks0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oCLFe86k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E1037999D;
-	Wed, 29 Apr 2026 06:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87981330644
+	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 06:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777443317; cv=none; b=hfdE/FbqDWgu8sbH2s4i9TFxTrUKvFaOLtBoxWzS9ZSAavVD+VzOq67V78wM412cQWTJbp7+n658gSiwe5zqWqNYfRLSLM6Pa0qySWx9oTvoJv5VsMKv4bH0FjFixz20Dtrr+xrcsIQ4D5icJpUPFdW1mOi5nLYiLrf/Yv0dAW8=
+	t=1777443555; cv=none; b=TVCMfXLV3Zz9keM3PjD9CXA6FQQXSwYahGvGFGvJNBlzhYZP/dCo6jpbz6sRo/t038S6cYjF31/Qthpb6MjpS/y9Zcn9J2mSZKAXautxhVA/8J3qjW0XHCk9+Vi/hTyZsM92CSxBaUo9f5p8akw0zKBLKnpytk3dLf/XDfviy3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777443317; c=relaxed/simple;
-	bh=E0rLcnJrp9Z37zcGd5gJlVqphBlGcRls1balcq+rPC8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g0AZa4XCVqc3ZH1TlOU2PSPWVH54tk3wI0ElulcwHbNdAL6L0OjTretOHEtpunowexEnf4IVf5GAkjJcBlabIW3/CA8ptzfsYhg9PUKoQGdI8SYuGf6GnkZyzmYbC6gEQzrYIewARWTCJEFLfY4zpasPqdu7ievY54NnnBPrA34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UmwI/ks0; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C79F227;
-	Wed, 29 Apr 2026 08:13:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1777443200;
-	bh=E0rLcnJrp9Z37zcGd5gJlVqphBlGcRls1balcq+rPC8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UmwI/ks0Jg6z+pZO9hSA9d71M6i/WyhbvfNyy9ntw6daWwcs9ZSnx3IU0KeQeq0ye
-	 JpoSO5QKqk6znkRtsvVcrAQlbosWhCF/dc/LcVB6OOp1IxdX6caQtbrrXcMEPdE1UL
-	 bzj3MNLmkCNfPm/yAK/VAYeLXAY+r9S9NsKTbvfE=
-Date: Wed, 29 Apr 2026 08:15:01 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>, 
-	Jackson Lee <jackson.lee@chipsnmedia.com>, Bingbu Cao <bingbu.cao@intel.com>, 
-	Tianshu Qiu <tian.shu.qiu@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Keke Li <keke.li@amlogic.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH 6/6] media: amlogic-c3: Add validations for ae and awb
- config
-Message-ID: <afGgKdauTs8GFoWg@zed>
-References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
- <20260428-smatch-7-1-v1-6-46890dffb611@chromium.org>
- <20260428131038.GA120836@killaraus.ideasonboard.com>
- <CANiDSCvaS-Jz9m5H2OHo2akD-o-sffsZyEw6_CrfUhD1BN+m2g@mail.gmail.com>
- <20260428132649.GD120836@killaraus.ideasonboard.com>
- <CANiDSCv=sHfJAZNcmXkubAvjkMy4cL5Ez=zq9MRxTTRXRPECyQ@mail.gmail.com>
+	s=arc-20240116; t=1777443555; c=relaxed/simple;
+	bh=VSJQvZbEKju+ro5/SpQsP8PXG4iO55GUAX54VJPmYW8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=I2eVOTKyMPGZfWl5arGWXtQ0ajjLrTKQXht5tuTRZG4FmREtab1uVOUEvyXhNNkTCJ+qYKstSFU+surw2db3egcHj7501JNfTPs4pzwCXTzgL+rsaO6rDY5ZfBumbwgFWF5NPEhGgU/rOTUm9vypig/K4+7kk03RBdpkFjlGzJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oCLFe86k; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777443553; x=1808979553;
+  h=date:from:to:cc:subject:message-id;
+  bh=VSJQvZbEKju+ro5/SpQsP8PXG4iO55GUAX54VJPmYW8=;
+  b=oCLFe86kG2CDJukmlu6fOs/ZVhBMnCrkSC3UYXmU2modlsy/TtvOdzNI
+   I6zXPPcwT25iKdZGs/I+D++2eJWphiMgkvBRGf0zVQdrvAGRbSRM7UUij
+   h9gQKmr/OBWf/31UMIXwcM9TghtGG32Zzz5ynW8npv8U1FioHUdpNo8Ul
+   0IdC1HU7qXuheZvcSYlCovdDFgpEb2QkYQvYwRyH09O3PzMto4ixC9MKL
+   pkpV0ySWR+sf66RyYJ49g+qbsHRwcPAgjZt5HpGfiafDuF733smJoFSYA
+   Oouo/H5JfQ6uizmwV9m2oXp+LvikFYUobgicTtLLcNxuDBWD88lwLY+9/
+   Q==;
+X-CSE-ConnectionGUID: yxenGpLaQ9GzUFAwhapotA==
+X-CSE-MsgGUID: Tn9TdhZ1Ra6GtMORF/hnqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="78380770"
+X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
+   d="scan'208";a="78380770"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 23:19:13 -0700
+X-CSE-ConnectionGUID: Hdv9++D3TReuA2yRuJg3yQ==
+X-CSE-MsgGUID: abbiYpX1QC6MdQji24ORBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
+   d="scan'208";a="234455134"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 28 Apr 2026 23:19:12 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wHyGK-00000000Ag4-32Gy;
+	Wed, 29 Apr 2026 06:19:08 +0000
+Date: Wed, 29 Apr 2026 14:18:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 32/122]
+ drivers/media/platform/renesas/vsp1/vsp1_entity.c:302:5: error: conflicting
+ types for 'vsp1_subdev_set_pad_format'; have 'int(struct v4l2_subdev *, const
+ struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct
+ v4l2_subdev_format *)'
+Message-ID: <202604291444.xozszFSV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCv=sHfJAZNcmXkubAvjkMy4cL5Ez=zq9MRxTTRXRPECyQ@mail.gmail.com>
-X-Rspamd-Queue-Id: AA24948FAD2
+X-Rspamd-Queue-Id: 08D2748FB1B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [1.45 / 15.00];
+	LONG_SUBJ(2.11)[281];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-59911-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59912-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCPT_COUNT_THREE(0.00)[3];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid]
 
-Hello
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   489ab6e79288be8d219b68525a13699fde0248ae
+commit: 66bc8bdd8684ee2b5ae46e66fb88e8c3474e69eb [32/122] media: v4l2-subdev: Add struct v4l2_subdev_client_info argument to pad ops
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260429/202604291444.xozszFSV-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604291444.xozszFSV-lkp@intel.com/reproduce)
 
-   thank you Ricardo for the fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604291444.xozszFSV-lkp@intel.com/
 
-On Tue, Apr 28, 2026 at 03:49:49PM +0200, Ricardo Ribalda wrote:
-> On Tue, 28 Apr 2026 at 15:26, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > On Tue, Apr 28, 2026 at 03:14:21PM +0200, Ricardo Ribalda wrote:
-> > > On Tue, 28 Apr 2026 at 15:10, Laurent Pinchart wrote:
-> > > > On Tue, Apr 28, 2026 at 12:41:12PM +0000, Ricardo Ribalda wrote:
-> > > > > Avoid invalid memory access if the zones_num is bigger than
-> > > > > zone_weight.
-> > > > >
-> > > > > This patch fixes the following smatch errors:
-> > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-> > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-> > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-> > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-> > > > >
-> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > ---
-> > > > >  drivers/media/platform/amlogic/c3/isp/c3-isp-params.c | 4 ++++
-> > > > >  1 file changed, 4 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > > > > index 6f9ca7a7dd88..42d780f684d1 100644
-> > > > > --- a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > > > > +++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > > > > @@ -104,6 +104,8 @@ static void c3_isp_params_awb_wt(struct c3_isp_device *isp,
-> > > > >       c3_isp_write(isp, ISP_AWB_BLK_WT_ADDR, 0);
-> > > > >
-> > > > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-> > > > > +     if (WARN_ON(zones_num > C3_ISP_AWB_MAX_ZONES))
-> > > >
-> > > > This is triggerable by userspace, it shouldn't result in a WARN_ON().
-> > > > Ideally the horiz_zones_num and vert_zones_num should be validated at
-> > > > buf prepare time, and an error should be returned to userspace. That
-> > > > will likely not fix your smatch issue though, I don't think it will be
-> > > > able to understand that the values have been validated.
-> > >
-> > > Based on the warnings from the other drivers I also suspect that if
-> > > you have validated the data somewhere else smatch will understand it.
-> > >
-> > > Even if you add a validate function I would suggest to keep the
-> > > WARN_ON(), ideally it should never trigger, and if it triggers it will
-> > > get a lot more attention to get it fixed.
-> >
-> > We could keep the WARN_ON() if we first validate the data, but the
-> > driver doesn't currently :-/ I expect there could be more similar
-> > issues.
->
-> Yep, I got that. I will let you or Jacopo figure out the best way to
-> implement the validation in buf_prepare. If you do not have time to
-> implement it now I will just remove the WARN_ON in the interim... but
-> from my experience we only fix stuff if we get an oops.
->
-> Regards!
->
-> >
-> > > > Jacopo, do we need to add a validate function pointer to
-> > > > v4l2_isp_params_block_type_info ?
+All errors (new ones prefixed by >>):
 
-To allow drivers to provide an additional per-block validation
-function ? I think it could be nice indeed.
+>> drivers/media/platform/renesas/vsp1/vsp1_entity.c:302:5: error: conflicting types for 'vsp1_subdev_set_pad_format'; have 'int(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)'
+     302 | int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/renesas/vsp1/vsp1_entity.c:22:
+   drivers/media/platform/renesas/vsp1/vsp1_entity.h:190:5: note: previous declaration of 'vsp1_subdev_set_pad_format' with type 'int(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)'
+     190 | int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Ricardo, could you spare this patch for the moment ? I think we can
-WARN_ON() to please smatch but we should pre-validate the buffer (without
-spamming the system log in case of errors) to make sure we actually
-never hit the WARN_ON() :)
 
-I have some patches in the pipe for v4l2-isp to add support for
-extensible stats, I could pile up a few more to give drivers a space
-where to implement additional per-block validations
+vim +302 drivers/media/platform/renesas/vsp1/vsp1_entity.c
 
-> > > >
-> > > > > +             zones_num = C3_ISP_AWB_MAX_ZONES;
-> > > > >
-> > > > >       /* Need to write 8 weights at once */
-> > > > >       for (i = 0; i < zones_num / 8; i++) {
-> > > > > @@ -220,6 +222,8 @@ static void c3_isp_params_ae_wt(struct c3_isp_device *isp,
-> > > > >       c3_isp_write(isp, ISP_AE_BLK_WT_ADDR, 0);
-> > > > >
-> > > > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-> > > > > +     if (WARN_ON(zones_num > C3_ISP_AE_MAX_ZONES))
-> > > > > +             zones_num = C3_ISP_AE_MAX_ZONES;
-> > > > >
-> > > > >       /* Need to write 8 weights at once */
-> > > > >       for (i = 0; i < zones_num / 8; i++) {
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
->
->
->
-> --
-> Ricardo Ribalda
+076e834fee91db drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  290  
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  291  /*
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  292   * vsp1_subdev_set_pad_format - Subdev pad set_fmt handler
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  293   * @subdev: V4L2 subdevice
+30d187cd74874a drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  294   * @sd_state: V4L2 subdev state
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  295   * @fmt: V4L2 subdev format
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  296   *
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  297   * This function implements the subdev set_fmt pad operation for entities that
+c247aa0b75d67c drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2026-03-19  298   * do not support scaling or cropping. It defaults to the first supported media
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  299   * bus code if the requested code isn't supported, clamps the size to the
+2cbf20a3fd8ffd drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2026-03-19  300   * entity's limits, and propagates the sink pad format to the source pad.
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  301   */
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27 @302  int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
+66bc8bdd8684ee drivers/media/platform/renesas/vsp1/vsp1_entity.c Sakari Ailus     2026-01-30  303  			       const struct v4l2_subdev_client_info *ci,
+0d346d2a6f54f0 drivers/media/platform/vsp1/vsp1_entity.c         Tomi Valkeinen   2021-06-10  304  			       struct v4l2_subdev_state *sd_state,
+2cbf20a3fd8ffd drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2026-03-19  305  			       struct v4l2_subdev_format *fmt)
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  306  {
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  307  	struct vsp1_entity *entity = to_vsp1_entity(subdev);
+30d187cd74874a drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  308  	struct v4l2_subdev_state *state;
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  309  	struct v4l2_mbus_framefmt *format;
+3d7899c21fbba1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  310  	struct v4l2_rect *selection;
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  311  	unsigned int i;
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  312  	int ret = 0;
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  313  
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  314  	mutex_lock(&entity->lock);
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  315  
+30d187cd74874a drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  316  	state = vsp1_entity_get_state(entity, sd_state, fmt->which);
+30d187cd74874a drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  317  	if (!state) {
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  318  		ret = -EINVAL;
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  319  		goto done;
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  320  	}
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  321  
+0aaf7db0872677 drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-12  322  	format = v4l2_subdev_state_get_format(state, fmt->pad);
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  323  
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  324  	if (fmt->pad == entity->source_pad) {
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  325  		/* The output format can't be modified. */
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  326  		fmt->format = *format;
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  327  		goto done;
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  328  	}
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  329  
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  330  	/*
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  331  	 * Default to the first media bus code if the requested format is not
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  332  	 * supported.
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  333  	 */
+c247aa0b75d67c drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2026-03-19  334  	for (i = 0; i < entity->num_codes; ++i) {
+c247aa0b75d67c drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2026-03-19  335  		if (fmt->format.code == entity->codes[i])
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  336  			break;
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  337  	}
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  338  
+c247aa0b75d67c drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2026-03-19  339  	format->code = i < entity->num_codes
+c247aa0b75d67c drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2026-03-19  340  		     ? entity->codes[i] : entity->codes[0];
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  341  	format->width = clamp_t(unsigned int, fmt->format.width,
+2cbf20a3fd8ffd drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2026-03-19  342  				entity->min_width, entity->max_width);
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  343  	format->height = clamp_t(unsigned int, fmt->format.height,
+2cbf20a3fd8ffd drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2026-03-19  344  				 entity->min_height, entity->max_height);
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  345  	format->field = V4L2_FIELD_NONE;
+d5e3bc24d5ce4c drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2025-04-30  346  
+d5e3bc24d5ce4c drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2025-04-30  347  	format->colorspace = fmt->format.colorspace;
+d5e3bc24d5ce4c drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2025-04-30  348  	format->xfer_func = fmt->format.xfer_func;
+d5e3bc24d5ce4c drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2025-04-30  349  	format->ycbcr_enc = fmt->format.ycbcr_enc;
+d5e3bc24d5ce4c drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2025-04-30  350  	format->quantization = fmt->format.quantization;
+d5e3bc24d5ce4c drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2025-04-30  351  
+d5e3bc24d5ce4c drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2025-04-30  352  	vsp1_entity_adjust_color_space(format);
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  353  
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  354  	fmt->format = *format;
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  355  
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  356  	/* Propagate the format to the source pad. */
+0aaf7db0872677 drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-12  357  	format = v4l2_subdev_state_get_format(state, entity->source_pad);
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  358  	*format = fmt->format;
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  359  
+23a99e80e3082b drivers/media/platform/vsp1/vsp1_entity.c         Kieran Bingham   2018-08-31  360  	/* Reset the crop and compose rectangles. */
+769d5fe4eb8e8f drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-12  361  	selection = v4l2_subdev_state_get_crop(state, fmt->pad);
+3d7899c21fbba1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  362  	selection->left = 0;
+3d7899c21fbba1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  363  	selection->top = 0;
+3d7899c21fbba1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  364  	selection->width = format->width;
+3d7899c21fbba1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  365  	selection->height = format->height;
+3d7899c21fbba1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  366  
+769d5fe4eb8e8f drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-12  367  	selection = v4l2_subdev_state_get_compose(state, fmt->pad);
+3d7899c21fbba1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  368  	selection->left = 0;
+3d7899c21fbba1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  369  	selection->top = 0;
+3d7899c21fbba1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  370  	selection->width = format->width;
+3d7899c21fbba1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  371  	selection->height = format->height;
+3d7899c21fbba1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  372  
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  373  done:
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  374  	mutex_unlock(&entity->lock);
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  375  	return ret;
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  376  }
+b4ccae1025f3c7 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2017-11-27  377  
+
+:::::: The code at line 302 was first introduced by commit
+:::::: b4ccae1025f3c7dac3c35019369627622ec01e94 media: v4l: vsp1: Share the CLU, LIF and LUT set_fmt pad operation code
+
+:::::: TO: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
