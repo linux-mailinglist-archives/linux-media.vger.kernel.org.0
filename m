@@ -1,169 +1,205 @@
-Return-Path: <linux-media+bounces-59910-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-59911-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KG+YKumb8WlfiwEAu9opvQ
-	(envelope-from <linux-media+bounces-59910-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 07:49:29 +0200
+	id cLISEQai8WmwjAEAu9opvQ
+	(envelope-from <linux-media+bounces-59911-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 08:15:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0421B48F894
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 07:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA24948FAD2
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 08:15:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0C7C0303351F
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 05:49:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0B905302D5DD
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2026 06:15:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F12A3385B9;
-	Wed, 29 Apr 2026 05:49:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8479333EB1B;
+	Wed, 29 Apr 2026 06:15:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AlLIBNXG"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UmwI/ks0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A246E27281E
-	for <linux-media@vger.kernel.org>; Wed, 29 Apr 2026 05:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777441762; cv=pass; b=kmDJqArOJwGs5m8bnPr2gD827uUO85mmc6dK5xNCQA5FHGGbyXFdFDVHtEed12Ga9cP4j+L8xkEGIoUZTuSoDQzKep89j913jcS5aFmdnKnArarO7A7B95lseV794VRVeURCnF7kzSHT8D7sXG+QQh1KChnx3T72/7H9nY4oWSw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777441762; c=relaxed/simple;
-	bh=NwRV2kYrYdb7V4qwDjoqIgMCdFIe/qodIEPhLrCQ0dE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PedLn7K7KPQ6+rg/zzTywFc8O6sPJpBDwTVW3uUiWl5W4MrmXvy4NmDbUwYHQMr/0rvQ4jPF2AS2xNd1qqulOS6V+eQNDKqiTkv8FSNFb0Vio1P+su6zimKLcIg5rlXHVgxCsiTIQiAGNFBRtDyZa3JsxHQ7/E4BJH1LFRFOPJA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AlLIBNXG; arc=pass smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ba699316b42so1543834866b.3
-        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2026 22:49:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777441759; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HFC63L4smc+UgOmsPEwSkPeGUZKPXrFJzyN3kZ3xanNMqCvGn7jiyqd/54pyhSu8Ff
-         d+Dy8jBw/xxbNUO1YsmzWceyyM7/M4IGavJELha0T5ZclFLjDGGuvRw73l14AXQwKuyK
-         GOq6f9B73LXPiDuYBLcbU9mpAZb/n8VHt99S/Gwzgxx1ykpLpPj2a52j+yfYk1lJC3Qp
-         3/yua0qxNhBNKm8ZzlK7f1XTGJNCkeN+Hb8sBXDsFkeFUytO1m/xirfve1/VE5s51Vjo
-         y5GQqfs5+yBLaqP1OxB0TIu3pvZjpRQOPzKxV1hE3uqsEZTbxKyNg+CZd6h8hHY2zA4G
-         L4kQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NwRV2kYrYdb7V4qwDjoqIgMCdFIe/qodIEPhLrCQ0dE=;
-        fh=FoGomdC/m0jfD5hvw+iPZb9VrUuQLNlXFcPdxCN3QLU=;
-        b=CFcJjug0AEd8xtoyQIbbqNDQTPg09FYpIhPQkMRqJuitSo8teTndlaWZL/yTZJxx84
-         CALtRZFYajUduCHM7AAFjlS6w9HNl93rIpzLNOPx4DO136ZIzpD9UHlYP5xFO0xsfOQO
-         yWFXcdegRoU81/R/7y2OC10O8yqXm/W+f+2rnk0r4zIv6zsqCXw1QfIFXpGNsWFrRJRk
-         1erJjFXyNmMxTlFcpfWhBkAN5KIMF2GdG/n8j9h8gSE8lK/BsZ2qh4wawy/5AmMjmCXI
-         SsBPjh87wbpAF9Rj/q9d+f5Uk6x2vnXIwmpOJ912gr5fBUyAxJvuVjc+AGggMQ4/ad1B
-         3bow==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777441759; x=1778046559; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NwRV2kYrYdb7V4qwDjoqIgMCdFIe/qodIEPhLrCQ0dE=;
-        b=AlLIBNXGqNnuZlYL+p+bXH2B541jdet7Ic0zZoUCQ51ExDrxPFfJdMC61DGjYPMSyY
-         PDQO3AmmNuPcF0fc9nSCg2UtXhUlquP2w1mseYjJV/hcemB1fv5SsXg/NjJS97Tk/oeu
-         Tsyn07AFZyjEbhgL82VBaeNJUlooPTq9TI9xcXG3nOvIoVIZt06H5bA657bhR/vl+nQ6
-         ngm6fSzxQdk0BSxdxSV/7bRN4CKDiBXjiPihaAdmMepxwLQcj90jHToSewRF1cntdzcN
-         gU0p9yl0ssfl3suuNbRxVVjCzBt2s0DzEwYghN3+luu0/JJGwMpG2odbhSMHwimNDBvl
-         c1AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777441759; x=1778046559;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NwRV2kYrYdb7V4qwDjoqIgMCdFIe/qodIEPhLrCQ0dE=;
-        b=sAVOrHim+Zdo1XrTGidHLKG0yW591579gl+J7Bv2WEx8brlO892OAhz11io/+RbExx
-         Z4ZkPn0oIKgqE3M4Kzf9SIsiVPa/cMkq50o2FPzQFYCW0xmpPMxb4cxDUg+2suFeIs1X
-         2qq68Gya//0+BSSjnM7PjmTkS9RalCymNOms28+z3WJJezta+F9I3/fjojm0LipqTTlx
-         gqoE8eGpGg+Mxj89oINQCpehGmL88L6xoc4H7TlQcvm07oUh9jAJKmaAyt6BVl+30aPD
-         /sCHHvxCSGYxennHDSUCVhPbVsh7Ex6P+l5mGQFbZUIVomM3fMB29YT8BlQRMwI1Glgk
-         JgrA==
-X-Forwarded-Encrypted: i=1; AFNElJ8c4OoOpzcmHaBzPeHwcv5PUWbAJ4gH1+sgooXKSTSswTVHI6/o3V7zUXZrLnGA7KcPEQzrrre/L1mvfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxu9d0NU8D/udfS1fFlQrYlztWG4MkVfWMpfw3vdxB/OJ7E0GjI
-	XM0vmp9rI5sEgZ6tT9v5HaDkq0mQp5Sa0+p+iVFQrVw83fXCTPtwVRqg2yKGDV8FJ2H/rW9Cv0T
-	sH8QyY3tyN55ZEuhHqNFReqB55iluJ1OhoXv2
-X-Gm-Gg: AeBDievXDRu80+rkFcHSoSgdDHx30tYytzkHgadQniskiGIEss6pqIDxp9RHFRPGqlw
-	iDMAMP5iO+nFWDo4x2hYnsvae/CIramjlE/mEBm7gIglP8uMcBt+HWXw9XQ9+VX5mE9WE8mzwgJ
-	ZUxbDEgEcl092Sf9pG0Te8+J0y6SnMQnuT5veSMuwGT/Gv5mmU0cPtmUFTwVMtR1cdZrYCydwtk
-	pp+yJ6MdCuBBVTWZl4LTiA7qSITt1yXuaTpJF6bZ1ZOw+UmvtCd1IFXQSOdS+Caa45FI2sgPB11
-	c+NkWGXWgy5VQ3p2UfoiQN1ct2KpT9x8Q5Gfnb5Q7457O0FGT9RfBgw0ah45+BvHek2Deiv3DBh
-	o4Pd7yfjqbzcra/7Ei+zvRm6zDAkiug==
-X-Received: by 2002:a17:906:8d8d:b0:b9c:b682:83bd with SMTP id
- a640c23a62f3a-bb93c5a04e7mr141132366b.4.1777441758853; Tue, 28 Apr 2026
- 22:49:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E1037999D;
+	Wed, 29 Apr 2026 06:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777443317; cv=none; b=hfdE/FbqDWgu8sbH2s4i9TFxTrUKvFaOLtBoxWzS9ZSAavVD+VzOq67V78wM412cQWTJbp7+n658gSiwe5zqWqNYfRLSLM6Pa0qySWx9oTvoJv5VsMKv4bH0FjFixz20Dtrr+xrcsIQ4D5icJpUPFdW1mOi5nLYiLrf/Yv0dAW8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777443317; c=relaxed/simple;
+	bh=E0rLcnJrp9Z37zcGd5gJlVqphBlGcRls1balcq+rPC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g0AZa4XCVqc3ZH1TlOU2PSPWVH54tk3wI0ElulcwHbNdAL6L0OjTretOHEtpunowexEnf4IVf5GAkjJcBlabIW3/CA8ptzfsYhg9PUKoQGdI8SYuGf6GnkZyzmYbC6gEQzrYIewARWTCJEFLfY4zpasPqdu7ievY54NnnBPrA34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UmwI/ks0; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C79F227;
+	Wed, 29 Apr 2026 08:13:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1777443200;
+	bh=E0rLcnJrp9Z37zcGd5gJlVqphBlGcRls1balcq+rPC8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UmwI/ks0Jg6z+pZO9hSA9d71M6i/WyhbvfNyy9ntw6daWwcs9ZSnx3IU0KeQeq0ye
+	 JpoSO5QKqk6znkRtsvVcrAQlbosWhCF/dc/LcVB6OOp1IxdX6caQtbrrXcMEPdE1UL
+	 bzj3MNLmkCNfPm/yAK/VAYeLXAY+r9S9NsKTbvfE=
+Date: Wed, 29 Apr 2026 08:15:01 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>, 
+	Jackson Lee <jackson.lee@chipsnmedia.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+	Tianshu Qiu <tian.shu.qiu@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Keke Li <keke.li@amlogic.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH 6/6] media: amlogic-c3: Add validations for ae and awb
+ config
+Message-ID: <afGgKdauTs8GFoWg@zed>
+References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
+ <20260428-smatch-7-1-v1-6-46890dffb611@chromium.org>
+ <20260428131038.GA120836@killaraus.ideasonboard.com>
+ <CANiDSCvaS-Jz9m5H2OHo2akD-o-sffsZyEw6_CrfUhD1BN+m2g@mail.gmail.com>
+ <20260428132649.GD120836@killaraus.ideasonboard.com>
+ <CANiDSCv=sHfJAZNcmXkubAvjkMy4cL5Ez=zq9MRxTTRXRPECyQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260429020335.83143-1-skunkolee@gmail.com>
-In-Reply-To: <20260429020335.83143-1-skunkolee@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 29 Apr 2026 08:48:42 +0300
-X-Gm-Features: AVHnY4JLhSADkEpO7gqOKY11kHU9CSlehpegdwa7RODHETaXl32kSTomXjSuQnY
-Message-ID: <CAHp75Vcf2gOf_UK6x2=ZttqLE6ErGVO5tK3Cc5HszGfAVTUksw@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: ov2722: clean up ov2722_startup()
-To: auth <skunkolee@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Ingo Molnar <mingo@kernel.org>, 
-	"open list:INTEL MID (Mobile Internet Device) PLATFORM" <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING - ATOMISP DRIVER" <linux-media@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 0421B48F894
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCv=sHfJAZNcmXkubAvjkMy4cL5Ez=zq9MRxTTRXRPECyQ@mail.gmail.com>
+X-Rspamd-Queue-Id: AA24948FAD2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-59910-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-59911-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andyshevchenko@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-On Wed, Apr 29, 2026 at 5:04=E2=80=AFAM auth <skunkolee@gmail.com> wrote:
+Hello
+
+   thank you Ricardo for the fix
+
+On Tue, Apr 28, 2026 at 03:49:49PM +0200, Ricardo Ribalda wrote:
+> On Tue, 28 Apr 2026 at 15:26, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > On Tue, Apr 28, 2026 at 03:14:21PM +0200, Ricardo Ribalda wrote:
+> > > On Tue, 28 Apr 2026 at 15:10, Laurent Pinchart wrote:
+> > > > On Tue, Apr 28, 2026 at 12:41:12PM +0000, Ricardo Ribalda wrote:
+> > > > > Avoid invalid memory access if the zones_num is bigger than
+> > > > > zone_weight.
+> > > > >
+> > > > > This patch fixes the following smatch errors:
+> > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
+> > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
+> > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+> > > > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+> > > > >
+> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > > ---
+> > > > >  drivers/media/platform/amlogic/c3/isp/c3-isp-params.c | 4 ++++
+> > > > >  1 file changed, 4 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+> > > > > index 6f9ca7a7dd88..42d780f684d1 100644
+> > > > > --- a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+> > > > > +++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+> > > > > @@ -104,6 +104,8 @@ static void c3_isp_params_awb_wt(struct c3_isp_device *isp,
+> > > > >       c3_isp_write(isp, ISP_AWB_BLK_WT_ADDR, 0);
+> > > > >
+> > > > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
+> > > > > +     if (WARN_ON(zones_num > C3_ISP_AWB_MAX_ZONES))
+> > > >
+> > > > This is triggerable by userspace, it shouldn't result in a WARN_ON().
+> > > > Ideally the horiz_zones_num and vert_zones_num should be validated at
+> > > > buf prepare time, and an error should be returned to userspace. That
+> > > > will likely not fix your smatch issue though, I don't think it will be
+> > > > able to understand that the values have been validated.
+> > >
+> > > Based on the warnings from the other drivers I also suspect that if
+> > > you have validated the data somewhere else smatch will understand it.
+> > >
+> > > Even if you add a validate function I would suggest to keep the
+> > > WARN_ON(), ideally it should never trigger, and if it triggers it will
+> > > get a lot more attention to get it fixed.
+> >
+> > We could keep the WARN_ON() if we first validate the data, but the
+> > driver doesn't currently :-/ I expect there could be more similar
+> > issues.
 >
-> Replace misleading comment with description of the function's purpose. Al=
-so replace return ret with return 0 since ret is guaranteed to be zero at t=
-hat point.
+> Yep, I got that. I will let you or Jacopo figure out the best way to
+> implement the validation in buf_prepare. If you do not have time to
+> implement it now I will just remove the WARN_ON in the interim... but
+> from my experience we only fix stuff if we get an oops.
+>
+> Regards!
+>
+> >
+> > > > Jacopo, do we need to add a validate function pointer to
+> > > > v4l2_isp_params_block_type_info ?
 
-First of all, wrap the commit message to the ~72 characters per line.
-Second, Why do you think the comment is misleading? It's a TODO item.
-Perhaps the better change is to address that?
+To allow drivers to provide an additional per-block validation
+function ? I think it could be nice indeed.
 
-> Signed-off-by: auth <skunkolee@gmail.com>
+Ricardo, could you spare this patch for the moment ? I think we can
+WARN_ON() to please smatch but we should pre-validate the buffer (without
+spamming the system log in case of errors) to make sure we actually
+never hit the WARN_ON() :)
 
-Last but not least, use your real name.
+I have some patches in the pipe for v4l2-isp to add support for
+extensible stats, I could pile up a few more to give drivers a space
+where to implement additional per-block validations
 
---=20
-With Best Regards,
-Andy Shevchenko
+> > > >
+> > > > > +             zones_num = C3_ISP_AWB_MAX_ZONES;
+> > > > >
+> > > > >       /* Need to write 8 weights at once */
+> > > > >       for (i = 0; i < zones_num / 8; i++) {
+> > > > > @@ -220,6 +222,8 @@ static void c3_isp_params_ae_wt(struct c3_isp_device *isp,
+> > > > >       c3_isp_write(isp, ISP_AE_BLK_WT_ADDR, 0);
+> > > > >
+> > > > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
+> > > > > +     if (WARN_ON(zones_num > C3_ISP_AE_MAX_ZONES))
+> > > > > +             zones_num = C3_ISP_AE_MAX_ZONES;
+> > > > >
+> > > > >       /* Need to write 8 weights at once */
+> > > > >       for (i = 0; i < zones_num / 8; i++) {
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+>
+>
+>
+> --
+> Ricardo Ribalda
 
