@@ -1,173 +1,155 @@
-Return-Path: <linux-media+bounces-60110-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60111-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2AAoItqg82ly5QEAu9opvQ
-	(envelope-from <linux-media+bounces-60110-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 20:35:06 +0200
+	id YAATLWm/82mw6gEAu9opvQ
+	(envelope-from <linux-media+bounces-60111-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 22:45:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B644A707F
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 20:35:05 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B98E54A7E29
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 22:45:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BC2B5305FFC4
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 18:34:00 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A790E30147AD
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 20:39:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD6F647D928;
-	Thu, 30 Apr 2026 18:33:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B6563A6EFE;
+	Thu, 30 Apr 2026 20:39:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IKYNxebG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/s9OLB2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3CB647CC78
-	for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 18:33:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667A62D7DC8;
+	Thu, 30 Apr 2026 20:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777574038; cv=none; b=Z33Q1VWx7W1k0Tmsdb0jBtk0p/7Hqg2tUhuU7A5ZmLBQwIOxBdO8f79/xYBQ3S8ZIuHfkXPnrbR2n85Ojqf2QapBMGwMuPmLNswnFquMl289dBVCK0FRpMzOshwIfZ4LDPpaoH4jaDQG7mx9819g+YIX5a1+THFJDhInRX0bzLg=
+	t=1777581574; cv=none; b=qFn1RGmmnIhMglNsOQ8fY8AdJ4LNfY3WZP991YcgG/OY9u4U9+4A6JuiWWvabMxWb/KN5AaBVEYAVpOlAuLpGsZHOoSgkeoDof1zXBWQbJ7Tlq+T43+mgAnG0XeAv2B8awr2p7/0Kn17ZP+VOTMA9oNuxIiCCam3qVX1RRsVuwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777574038; c=relaxed/simple;
-	bh=/jhj+TskCXODG9hKampnDGfknOGVmEGixC/boL6nPuc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hW8Dip1bPHFThC6u+/vEB2pOAHxyaHB5Nkv3HFPb61R/fVj62iusIZfiwefNLC76X69HdOfWYGmkUUdgRs5uk3AIOrBOtiC7DW8JNF6tFDVO1EYruD65Q9GmfxvJ/Bb4Ymjdn2RstOA1w2pKHES9LMjcae6L1RDu6Aih8/SJrYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IKYNxebG; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-445795cf6f1so825303f8f.1
-        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 11:33:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777574035; x=1778178835; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NXLg+nrr3M9M+FT0+QCr6ZD6pc/R7QelMFoBuHbRWoU=;
-        b=IKYNxebG99rJmgJdnK+STw62yP2P2cdaJBZG/cigckDb5MYyuKKqqi+dTFU2d9cFZy
-         qhJhEBM2t2gYyYxeD5XqrpJttoMPpfwDkqQGaWge8r5FKsdQAdayH4cS/hC2kxIHEYq6
-         tGmHwVFWfDn2FZp49tR0EcsXlAigU9Sqe8yADo0AbxH22Zw75c684dLC6hfRE0EgxQSm
-         HB1ngLvlfAIWqWDd9zNtUSfCDyoND4JMJTyGyjU3XxM4J+M97HrqUqLRf+QYygwaj1mC
-         Ogr8gZjOmeYK1nNMGlcIaHaGVz3S2JshItziqGxqT+GC883q+Byb/VWR9AJNIaDrVgN5
-         mk/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777574035; x=1778178835;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NXLg+nrr3M9M+FT0+QCr6ZD6pc/R7QelMFoBuHbRWoU=;
-        b=Sma+NfeRkvqQDCvhrg2+lDgBWnJvPR+pvX+0FfXib4nouTygx4emoVeyP59XHzyJsW
-         zwrqI/Ok8d3iqIp1jGABcwv0RAUSBavbAc2oxOG1PIKg0C42VKYvp/CKyEx95yPgF08Y
-         XEjZtqf1OawRKX6VWA+jjkUFjALRPLjQyb/uYTQtqWQatzr6hi4DmNIGu7WRZZgn8Zq+
-         0OoPNNElTU2nB9SuXTrOwKu5lzqssW4IiVkZ6G7qBBE3u8ausg9kr6Bgr/+rmQst5bF+
-         dkqWbTUdWhuWy+OLGXlsZOC/+tIkfOpJVZKFoZPesbF4tWhOtk/7d86ngL9mtXT22Y4p
-         hWUw==
-X-Forwarded-Encrypted: i=1; AFNElJ9lpMw8bbB+XnWl9peludm83YYpy/hKZpb/sS0YDbgbnS+23ptobKOXGGRYkhx8Fx4lQXeeRD/UJ55b3w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHH2aNQ5QDj4HQKgVCICLDvDnK/74clYvKaJnegGsrr0FPk6Xn
-	U/umWOlAEP1TmDBreLffx7g4lxc92DY5BMc1j3UkZlQxar8iWHDBo1Zi
-X-Gm-Gg: AeBDievWU7J+5boPClN6flaaKe7LQvgDZzLvshTJuL/VnqQG3+x2emGFjc4PE+ISsrH
-	OTcchM9LHHw6cwJcZ/Z9kjggtQOs1BqN6+0OncUxdZ/ohVtx+w0R3Qz3w9jtSJoi2nkwFnoDJz0
-	KT+dF5k8GzzrKYVKy0+hywF+6u/9DpBlrd54pRAZp1BDpktxufquTKkTqCznhvT2UYzDjICOrmX
-	A5J7mp6YIQKzOUcqost1nkt8FVvYG0gmAi/lC6hmEeZ6IJJQSjzSFNHbpxbq95k7cqJYLwdXwWS
-	Xd/CeJaKsWYgSGaXXtZOfoyROPMZHiLd9bQPPcoMkIQPquQAuc1gpIfPZHWF3bJJ5Y2CqMx3xuy
-	tt5Al3iSIu3XGhJ3Hgb4GgagTXnqCOMnsQJgKVuGldJbIHM05wRzdOJTc0++tmwHoFQCOyX7h42
-	tGIW7AC3COLRq57nXVA3ns3IK/xV/Gp/WYsIv0zig89Zhq8y2h1SOlusZOhkrThp41A8n8Kccsx
-	YAnA+v2Uimo2ptM4BENS3frx6cjf61GHtfwFNhCveLt4AupqvLvd0e59lR/2DzagLx8Scsa25uA
-	TA==
-X-Received: by 2002:a05:6000:1a8a:b0:43d:77a8:3baf with SMTP id ffacd0b85a97d-4493fa01beamr7079438f8f.32.1777574035154;
-        Thu, 30 Apr 2026 11:33:55 -0700 (PDT)
-Received: from [10.109.92.8] (net-2-37-141-89.cust.vodafonedsl.it. [2.37.141.89])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b4216eecsm13579672f8f.9.2026.04.30.11.33.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2026 11:33:54 -0700 (PDT)
-Message-ID: <6cce2f4d-7400-4618-82ce-cbd5004c92a4@gmail.com>
-Date: Thu, 30 Apr 2026 19:33:39 +0100
+	s=arc-20240116; t=1777581574; c=relaxed/simple;
+	bh=XV0KlKpJGNkkyuqPoU+JgbjdJ7HJ8S7BPFQklxCb1OQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=caYcaGPscsY5eLqY/rcfax2Y+7+xCQTB/NOAPQox/h7ndhmKvNwF/SX53ZfBC7UuALVixgYqCl9XnqMVh37j89Qd3xBFlgCjrAtsTgkSW9pwLHrcXXfRdpGMu6rHjzBUSIJR1lioFweiQK2woo6ggLjQZMvVQG1xnYj+5jEC8YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/s9OLB2; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777581573; x=1809117573;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XV0KlKpJGNkkyuqPoU+JgbjdJ7HJ8S7BPFQklxCb1OQ=;
+  b=i/s9OLB2RPW7zRzpEzvJdsSRmNqGHOmXVoql01enkAxcIQZlXUncF8Au
+   wkhDscgL2bDGelJ1n1Rmt1Xt8apuDt6BrP/dFwFqEC+3AkIJCZDEMIWUk
+   bjZbKjuBU8ro9GCJLhegBlzzzl6oEHPV9DBPO+AXFEkJACUkDqzz6oA0U
+   EQRQhaIdA5U8fzudy0xgaANXcz5BOtZg2Oe62bdQrYfx02jGNa65vwSne
+   Y3kCZLYkLlv5B8i8WKM6vO2bubdlceAgoLlQxNahD2lpsrRQKUz2g/jve
+   ofsCAfXXkkElrlE4LaTeqCcFpdxy87GJs5/YSZ5L7YHMlmxfetjf7oq7s
+   Q==;
+X-CSE-ConnectionGUID: ydf39g2FTIG24xjLkOt9FA==
+X-CSE-MsgGUID: ih0PNN1zQmaUc/FxByjrng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="82402534"
+X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
+   d="scan'208";a="82402534"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 13:39:32 -0700
+X-CSE-ConnectionGUID: FVXuOmnKQeK0SGZNTwPwEg==
+X-CSE-MsgGUID: iDbhXFaxS8CFdZsBMG++Kw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
+   d="scan'208";a="239698255"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.197])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 13:39:30 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id AC3C8121CC0;
+	Thu, 30 Apr 2026 23:39:34 +0300 (EEST)
+Date: Thu, 30 Apr 2026 23:39:34 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Pengyu Luo <mitltlatltl@gmail.com>
+Cc: Martin Kepplinger-Novakovic <martink@posteo.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: hi846: Add 6MP and 8MP modes support
+Message-ID: <afO-Bg5PrPn9mnnp@kekkonen.localdomain>
+References: <20260429070351.1307204-1-mitltlatltl@gmail.com>
+ <20260429070351.1307204-3-mitltlatltl@gmail.com>
+ <afHI29SDHDggH2Wt@kekkonen.localdomain>
+ <CAH2e8h5mGfYZiG+Uy05xp9cDxy_7uAZ46ywHYrK5VYavLyLtrQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/10] file: add callback for creating long-term dmabuf
- maps
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Cc: Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi
- <joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>,
- Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <ae941457cf6cacb9d4c16b6ec904da9ef7fed97f.1777475843.git.asml.silence@gmail.com>
- <f0dd8f89-835e-4331-b593-4405ec59f4fe@amd.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <f0dd8f89-835e-4331-b593-4405ec59f4fe@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: D3B644A707F
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAH2e8h5mGfYZiG+Uy05xp9cDxy_7uAZ46ywHYrK5VYavLyLtrQ@mail.gmail.com>
+X-Rspamd-Queue-Id: B98E54A7E29
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60110-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60111-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[asmlsilence@gmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,intel.com:dkim,kekkonen.localdomain:mid]
 
-On 4/30/26 07:03, Christian König wrote:
-> On 4/29/26 17:25, Pavel Begunkov wrote:
->> Introduce a new file callback that allows creating long-term dma
->> mapping. All necessary information together with a dmabuf will be passed
->> in the second argument of type struct io_dmabuf_token, which will be
->> defined in following patches.
+On Fri, May 01, 2026 at 12:18:09AM +0800, Pengyu Luo wrote:
+> > > @@ -1042,9 +1142,11 @@ static const char * const hi846_test_pattern_menu[] = {
+> > >
+> > >  #define FREQ_INDEX_640       0
+> > >  #define FREQ_INDEX_1280      1
+> > > +#define FREQ_INDEX_3264      2
+> > >  static const s64 hi846_link_freqs[] = {
+> > >       [FREQ_INDEX_640] = 80000000,
+> > >       [FREQ_INDEX_1280] = 200000000,
+> > > +     [FREQ_INDEX_3264] = 288000000,
+> >
+> > Looking at the driver, the PLL configuration is present in the lane number
+> > specific register list so the link frequency is in fact the same for all
+> > modes. This problem isn't introduced by this patch but I think this needs
+> > to be fixed before adding further modes to the driver.
+> >
 > 
-> Well first of all the naming is probably not the best. Maybe rather call that dma-buf attachment or context or mappping.
+> TBH, I didn't investigate the calculations. I just searched the
+> datasheet for it. They are exactly wrong. Thans for pointing out this.
+> 
+> I can fix it, but the question is this driver was writing against
+> 25Mhz mclk, but the typical value from datasheet is 24Mhz, and one
+> device is using 25Mhz as the clock rate, my device is using 24Mhz,
+> 25Mhz is unsupported on my platform. It seems that making the list not
+> be runtime is not allowed as nobody did like this.
 
-"Mapping" or "attachment" would be confusing as maps are created lazily
-together with struct io_dmabuf_map. I can name it create_dmabuf_ctx(),
-but I decided to use "token" not to collide with dmabuf terminology.
-e.g. I wouldn't be surprised to see some dmabuf ctx in the dmabuf
-implementation code. Maybe "*io_ctx" would be better.
+What do you mean?
 
-> Then the patch should probably define the full interface and not just add the callback here and then the structure in a follow up patch.
-
-I strongly prefer splitting patches so that they touch one tree at
-a time whenever possible. tbh, I don't see much of a problem it being
-not defined as it's just forwarded in first patches, but I can shuffle
-it around in the series so that definitions come first.
+PLL configuration calculated from platform and runtime configuration is
+definitely preferred over hard-coded configuration, albeit much harder to
+implement. It also helps to prevent problems such as the one above.
 
 -- 
-Pavel Begunkov
-
+Sakari Ailus
 
