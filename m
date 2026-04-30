@@ -1,364 +1,259 @@
-Return-Path: <linux-media+bounces-60062-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60063-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oJf1BKY282lgygEAu9opvQ
-	(envelope-from <linux-media+bounces-60062-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 13:01:58 +0200
+	id 2MlQNc4082nvyQEAu9opvQ
+	(envelope-from <linux-media+bounces-60063-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 12:54:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9804A131C
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 13:01:56 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6C44A112B
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 12:54:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7F57C300E5D0
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 10:49:45 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 19013300B46A
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 10:53:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C9DA3B47E0;
-	Thu, 30 Apr 2026 10:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 900663B4EB0;
+	Thu, 30 Apr 2026 10:53:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bbInM4mY"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="anWNTmEu";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Nzp4Zo57"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CA13921D8
-	for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 10:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E223B3BEC
+	for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 10:53:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777546181; cv=none; b=oQzHYEfpAwtBrrr/GwlRUHiGnULrZIxy4HdJgnQT48avBVijFRgwbHBVC96sSxJ+yGaRJswYqVJpquQwkTEh1NQg5e+yC4VORD2hmaugMEj8OqTawlqfmz1PZj2AiN9rcoueh7e3Mb+qwuXapgbSEV/OIdMStgXkzV0U6WqAHFY=
+	t=1777546437; cv=none; b=YK1RcCPPfedh1+00mxssshAHtQt9RVHmz0XUZGMeSYlkxW5ZarrmnFy3kUitEumMsEwoQ2prQU/IPnE4fItwd0HvpGWuituN/YmZhSbm1vRT4VEv+veoefebck9/J6Mdu6pGMUz/cHjFOpzTAuT4d6+6N2FGjwV1LD2tYnn1JaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777546181; c=relaxed/simple;
-	bh=9ExJAewyRTdinJlKoHCm99hH0XRD1SnaeObHp3MJn4I=;
+	s=arc-20240116; t=1777546437; c=relaxed/simple;
+	bh=kYdI5l4GBJqpYn6R+hCQX/thjSx8hd591kFqo8rU/Ao=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rnGqqLmY0B+O558z76weGTIJaPc/fTRkqXMRfWJXjyxaolUJey4MsDpzBFADW2cPMsK2ZQcm10NSK1EiPSkAAoEFDAD2zwZ2YE8Wn8kae69YsYZGdz8uZS84vvNLYelwpnR2BqcaeoJPOAJtRATO+qf3k/FdFGK4oCPz795BzU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bbInM4mY; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-38e7af339ecso636891fa.3
-        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 03:49:39 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=suIkbYiLqjHHlRInFIV/cLyBB/FHq60Q/ugdrKc9ZZgKPVghHmBrVVlm6J6xOo9bJgMXiKTxlNlUVfxukRy91mRZ7+ai+/uqE12pZ4pR1TsrLaDHlqUoBpbNGiAuar1pHn1SKAUc6MUKsZonqIqEs1IKJKcVi7oZ31mFBrnJ4P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=anWNTmEu; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Nzp4Zo57; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63UANrsp1277700
+	for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 10:53:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	VvQoY5V0MZI8XGYTkLu2HUsdKc19JDiJ99j4fREKgB0=; b=anWNTmEuJ1B9AugJ
+	Z0a6hWJFWmn8nIzaeD5P5rEXiS+JQhHdnlnwWtIOOh8BkmZcoJnWqgghu3nXguDy
+	mXGMLDLCUZsVdNqWrpVcIYLxr+A/pXPfB7Rt52yUfv8uMXLPTNmf25qaEGb0dMMU
+	Nijqiu86J8vMBcw/eCaZYrW/sibQj2Sl/JOX76S9oBvfjr7+sKOBgsXFWbYmk5f1
+	3xgDmi0Lmz1RG1/K26tWl0e2lX40oqD8UnbQX+ZdQYU7R6QYYPBXasjNTm0WFGzY
+	BQU26w+Tj6aa0l0rEtFjQ8ny38bx0U9MUObfiE48mTJ/W+7leD83AWIyT45zmjIO
+	GbMfHQ==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dv2cq0w3j-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 10:53:54 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2b9a6d84522so6740275ad.2
+        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 03:53:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1777546178; x=1778150978; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cmyJ53pHqLwHEKIa38JSRjFXiWvFtp6uO7lzOz7NoBI=;
-        b=bbInM4mYXpXSlFbqXBUU3X8qqVzl8+dJpt/BFx2kMGgmLEQdMEH0knopdaJuWXg0DI
-         G7MADJp7xROGpLhRqw5FaopA5SHjL6C73KNAPaMfdv3+C3Wo9VcD4h0XenV2toM1abT9
-         wPyv7qECTGe71Qi8OEjzRMQ0nbAuTLxexwDKsJacelJ6U6JYQDiPH0CrbRzuIOLm37q7
-         wPwsFtf3Ur9ej9UAlGbFZk1hhvqzJJ7jjpEY7R2buCt5cHK8DB9/4//4DRxP2jjzV5Hc
-         rJYvieZE8pz/nWAkRDehm/oyW7E6cMK8EMnClkr+d8paBrYlpcupOZwLPUQ6trVBkPN0
-         Pz1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777546178; x=1778150978;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+        d=oss.qualcomm.com; s=google; t=1777546420; x=1778151220; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=cmyJ53pHqLwHEKIa38JSRjFXiWvFtp6uO7lzOz7NoBI=;
-        b=Klwv48vWAEfkyrk+i0C8RHY1+8uTA4VPjAfI8IEDR/SeWUA3N0owksIFzKdp4oUz4Y
-         Vv2cZegrlcA74Zus9MkzLBTqml13cjYnooML8xH8t221ZwbFXL+vN1F723lG1BgtwGNf
-         cRBeli8mxmEhtmJgVJWS4SAwIkxfzBPQg+VB8/VYiqZJ6Zhv9dE2VWNUR7MJOwiEva+1
-         AOLa6rUQg+ljMmFy63/OXMkoAFo9QS0LibdGqWxn4WpBWtD/2iRYAWnJSHxEdSdBIcTY
-         8myRKIxSPoZPdIIFiLThuWoOAomtWeFOBhApQkLLAexn7ndiwSNTxcib4nPM9cjy1T9s
-         PmIg==
-X-Forwarded-Encrypted: i=1; AFNElJ8YRx7L5WVPEf4O55bdoaOuICs09FeYsjXvM9ywWt2MdHJLWKdjnLDcL9qQYGJFCs8NggsUcW3aUH/rwg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxi7uW7tv6DqrJ/HE8/ao01EdBRiEvqdv6NMutaA/+O/RvyjkNQ
-	iakOvXP8bJzH932JOVKRrtwLNkrpRI4SUq0+9YDy5jBQpbLsRTeMp6dXtjCVYv/lJXhmqixghyN
-	CXdl4
-X-Gm-Gg: AeBDietdudoM8drINag/M2HMEzJBVeGPK6hbYjyFdqal5S73zYIupg7Wa2ugtEzgv9g
-	7nwWcB2IAGvZszVO/tKmKm6TRo/tbnIJ+nC9T19y/NWAepP0lsILfszAwhtbeGuz0tK3m8dUWmk
-	C18E6dhdw4KEUka91si7fIt8Br1Yx/deL7QD+8OpnMdhIb6OTJBgo7UMSultXatal/mDhXXV5Xi
-	N9FQIxY3Vc+K2hhNGCmrt5zPhT/3ROV1zYAHsoIeZQKahG7MEymAB71dxox3QoybYN9KX0ChuDB
-	909vcZPWcFUzBRDtWLP4WsBRG97NAOph2mPS7sctMa0OCc+SJ1fWbFRiipHQHBhlDNud3T0tGHH
-	ZiSvg34cfT2DoqIM74jZG3BQh6naSl7IxRpEIZDeJkmoXxDO9qOYJGBEG6aovPbrlZ+yZB6Q6CD
-	hNrjOabDTEPX/ouC77a97/R+UFCkr0zCaTYHTcMBVQOcGH3OfLvbenpiFVL6AmSL6vI9OOdzd3R
-	dJKglq+QSBM04NC
-X-Received: by 2002:a05:6512:10d6:b0:5a4:1977:dcfe with SMTP id 2adb3069b0e04-5a8522acbdcmr330857e87.2.1777546177941;
-        Thu, 30 Apr 2026 03:49:37 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3934f9c15e5sm4763751fa.11.2026.04.30.03.49.37
+        bh=VvQoY5V0MZI8XGYTkLu2HUsdKc19JDiJ99j4fREKgB0=;
+        b=Nzp4Zo578sWAv3nqvSrHU0s/2Kqa2B/eIKe11+MdBmZr3sQcWqHE6bF3998kzvDkSa
+         Lyka2dmohbmgmENC5MaVoKBezVxrGqnivEnrQFnIfUbPbc16vINGAA61kdH0bQYBycDD
+         uhsjmCaJKrkstYFW6PIHkEq+IX3ai4HBbWAPuAPVb8x4sxQdnNLbjbAjDr99Wf+37DJl
+         Mz0LNyAOxXHmQ2NeYQhx0O63QKgkjgxTB428TxWh8wwC7HWKfDq697W7egYS92XAhakv
+         uYc9NRoQ63su5m8lyiroGULMm8kqnkgGMAMnQL2ekuZcZJ6/sU5OgjMzmJch/+X6on0/
+         7Vfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777546420; x=1778151220;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VvQoY5V0MZI8XGYTkLu2HUsdKc19JDiJ99j4fREKgB0=;
+        b=gkZgasKgEqknW1CLoKscAJPjbuUOUfQaWAm89eh0AMZYSim2DEc1Aa1Wly7/5IyfxE
+         dSRUEfcHNoUg6nhkKR/cmgZK3GeHAPt3dAwtqhAjiDlTqo5zLma8G+TTtdrEu6BVh6QI
+         4pdaJj4aR2tMFy/lcUtvRb5zcu6ZHRCKJn2vVSxsuCSRvprNNPnLCbKcA0JkPFdBF03w
+         5FN0EZwOHnPvFpVGlsBxULo0tsyFzLRK7kPAsLWlCkGas3dXdWOS/g69v8GxzNHc2BW3
+         ozYy/QOjXgr4sPZKy1kntrtM/Ekpwl77z65fJP04c/PPu2yoDdiuTgrSOcBoGCSsHzvw
+         zidQ==
+X-Gm-Message-State: AOJu0YyM0iVKHLtNW6oR052zvLyRQ5g0C2x1YPCjcoo1NEuVz0tEuzb1
+	M/w2XnBzUpPAXNelb93MwQ7uw+6sUm1VGKNjXqztOQ10h863ZlbjlDiXyw/KqYCwAOIH3kqLi+T
+	jVThaaAJtv7TdYEGa3NksDTFfK5Q4WYEjnyH4P1ksHe8TxUoJLT3iWqvKwFDg9NasZQ==
+X-Gm-Gg: AeBDiesxIkwscXVvF0wf7lrbLtOMnr0dIY/9cwj0Y8wuuXJ9R9T0pXYeHEgpMAc8eEX
+	ItsuKR7XzXyv/douK27IJQ+2IHxS8TpfMwT0wl6tBIJ+Y2HVtJfmHCU5XJ1e5Pz/ZtH3uu/yGbD
+	AG4HrYvSW2FvtiXBWbmXnJvT6YSWM2XCsASSHt35HcglL5PPbWsu9dzuJeqRs9IlkIbIY7c9lV0
+	Mz1EyP2ALo2a31hJ4q/KT+vEqGEsi8cDrWpgViDpWzpkE7h0Ymy8MiRwMADxweHi05jJ4f17PJj
+	sIgCU2Ysi7rUA7V+VJQI/v9wP4CqvqOpEknUaND2uAdRjcnaLR8aAj4Bg79LEqNl98ogaXJ+G3g
+	zeTIqqdrUuaEjD7ybyWtiulGxFPcV3bb1HG+Srx0uxdMLRL29Fjn+3PKh5/qJlyE=
+X-Received: by 2002:a17:903:368c:b0:2b7:88f9:9c3d with SMTP id d9443c01a7336-2b9a232f847mr17204925ad.12.1777546419683;
+        Thu, 30 Apr 2026 03:53:39 -0700 (PDT)
+X-Received: by 2002:a17:903:368c:b0:2b7:88f9:9c3d with SMTP id d9443c01a7336-2b9a232f847mr17204605ad.12.1777546419204;
+        Thu, 30 Apr 2026 03:53:39 -0700 (PDT)
+Received: from [10.0.0.4] ([106.222.229.64])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b98893f3e2sm61448125ad.38.2026.04.30.03.53.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2026 03:49:37 -0700 (PDT)
-Message-ID: <c26246c1-0f90-499f-ba32-34159baa5dfb@linaro.org>
-Date: Thu, 30 Apr 2026 13:49:25 +0300
+        Thu, 30 Apr 2026 03:53:38 -0700 (PDT)
+Message-ID: <09969567-b791-2502-4028-46cae13db3d0@oss.qualcomm.com>
+Date: Thu, 30 Apr 2026 16:23:33 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] arm64: dts: qcom: sc8280xp: gaokun3: add front camera
- sensor node
-To: Pengyu Luo <mitltlatltl@gmail.com>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Martin Kepplinger-Novakovic <martink@posteo.de>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>,
- Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20260425105300.745044-1-mitltlatltl@gmail.com>
- <20260425105300.745044-4-mitltlatltl@gmail.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20260425105300.745044-4-mitltlatltl@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v5 3/5] media: iris: Add platform data for X1P42100
+Content-Language: en-US
+To: Wangao Wang <wangao.wang@oss.qualcomm.com>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260429-enable_iris_on_purwa-v5-0-438fa96da248@oss.qualcomm.com>
+ <20260429-enable_iris_on_purwa-v5-3-438fa96da248@oss.qualcomm.com>
+From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+In-Reply-To: <20260429-enable_iris_on_purwa-v5-3-438fa96da248@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: CB9804A131C
+X-Proofpoint-GUID: P90lV-pgSzlDJNLoyA-FAATImvrLM9hK
+X-Authority-Analysis: v=2.4 cv=aYRRWxot c=1 sm=1 tr=0 ts=69f334c2 cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=sQGdqEwRzC/zEhaLYLcr+w==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=_kvchVDP8_-l7kQr3B0A:9 a=QEXdDO2ut3YA:10
+ a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDMwMDExMCBTYWx0ZWRfX4/h5Z23V2pnH
+ EzrAKzb1wgBXO3+rLpNegbX/+JZnXgbQNXe6t0ubcKE3mQlDkgoz/DNKMKjQkWpPETmEWSHWCt+
+ nqiBkXWsNVLrzY8QHmKOZYDZso7TPY92bqEySq/Tz1VScxoY2h6ZAHAuTsIcRgP2B72Gysd6SnT
+ 8etUZO/uJz9Fr4uGJWeQYz/PIFkd/RrBliSDdCSpxl7QkPIgK5qhkRKADhFXfYzLmNCCzIGdOZO
+ 9hJ3pQQRZX+j37/ZhJOefR4nRe2qNcRLybgH8NZg+7Imn4hFxwyO2kyy9dX4JvTYC48HDlZk0eb
+ ZZmp/uCN0JES+yHWkJ+P52KMHel0R2aepIlbgAVj/eTWYLgsKUfLmD5UpLoJ9ccjppadnhpfG9c
+ jUUnG5UH6snKi3q/0v+FtA48TfUZjDQi/rJU/NnPIa9BIlt2Mu1TmoCXfuOn8LTkfRC/rz5wntZ
+ RLRXUTP80WxyhKtF75Q==
+X-Proofpoint-ORIG-GUID: P90lV-pgSzlDJNLoyA-FAATImvrLM9hK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-30_04,2026-04-28_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0 clxscore=1015 phishscore=0 spamscore=0
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 impostorscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2604300110
+X-Rspamd-Queue-Id: 7B6C44A112B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [4.84 / 15.00];
-	SEM_URIBL(3.50)[0.0.0.0:email];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	BAD_REP_POLICIES(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60062-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	R_DKIM_ALLOW(0.00)[linaro.org:s=google];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,posteo.de,linux.intel.com,puri.sm];
-	GREYLIST(0.00)[pass,body];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	DMARC_POLICY_ALLOW(0.00)[linaro.org,none];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	TAGGED_FROM(0.00)[bounces-60063-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	NEURAL_SPAM(0.00)[0.438];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dikshita.agarwal@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	R_SPF_ALLOW(0.00)[+ip6:2600:3c04:e001:36c::/64:c];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:mid,2d:email,c6200000:email,0.0.0.50:email,0.0.0.0:email,0.0.0.20:email,0.0.0.3:email]
+	RCVD_COUNT_SEVEN(0.00)[7]
 
-On 4/25/26 13:52, Pengyu Luo wrote:
-> Hi846 is found on my Gaokun3, descripting it.
 
-To the best of my knowledege there is no 'descripting' word.
 
-Say it simpler like
-
-	Describe Hi846 camera sensor found on Gaokun3.
-
+On 4/29/2026 1:13 PM, Wangao Wang wrote:
+> Introduce platform data for X1P42100, derived from SM8550 but using a
+> different clock configuration and a dedicated OPP setup.
 > 
-> Note that it seems that only Goakun3(3.0GHz) version is equipped with
-> Hi846. Goakun3(2.69GHz) version is equipped with S5K4H7.
-> 
-> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+> Signed-off-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
 > ---
->   .../boot/dts/qcom/sc8280xp-huawei-gaokun3.dts | 128 ++++++++++++++++++
->   1 file changed, 128 insertions(+)
+>  .../platform/qcom/iris/iris_platform_common.h      |  1 +
+>  .../media/platform/qcom/iris/iris_platform_gen2.c  | 97 ++++++++++++++++++++++
+>  .../platform/qcom/iris/iris_platform_x1p42100.h    | 22 +++++
+>  drivers/media/platform/qcom/iris/iris_probe.c      |  4 +
+>  4 files changed, 124 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dts b/arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dts
-> index 9819454abe13..39e559e91289 100644
-> --- a/arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dts
-> +++ b/arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dts
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> index 5a489917580eb10022fdcb52f7321a915e8b239d..2e97360ddcd56a4b61fb296782b0c914b6154784 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> @@ -47,6 +47,7 @@ extern const struct iris_platform_data sm8250_data;
+>  extern const struct iris_platform_data sm8550_data;
+>  extern const struct iris_platform_data sm8650_data;
+>  extern const struct iris_platform_data sm8750_data;
+> +extern const struct iris_platform_data x1p42100_data;
+>  
+>  enum platform_clk_type {
+>  	IRIS_AXI_CLK, /* AXI0 in case of platforms with multiple AXI clocks */
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+> index 5da90d47f9c6eab4a7e6b17841fdc0e599397bf7..e8b1b92a6329266d22b06e84c47c477d1a9d742e 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
 > @@ -15,6 +15,7 @@
->   #include <dt-bindings/gpio/gpio.h>
->   #include <dt-bindings/input/gpio-keys.h>
->   #include <dt-bindings/input/input.h>
-> +#include <dt-bindings/leds/common.h>
->   #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
->   #include <dt-bindings/phy/phy.h>
->   
-> @@ -27,6 +28,7 @@ / {
->   	compatible = "huawei,gaokun3", "qcom,sc8280xp";
->   
->   	aliases {
-> +		i2c2 = &cci2_i2c1;
+>  #include "iris_platform_qcs8300.h"
+>  #include "iris_platform_sm8650.h"
+>  #include "iris_platform_sm8750.h"
+> +#include "iris_platform_x1p42100.h"
+>  
+>  #define VIDEO_ARCH_LX 1
+>  #define BITRATE_MAX				245000000
+> @@ -1317,3 +1318,99 @@ const struct iris_platform_data qcs8300_data = {
+>  	.enc_op_int_buf_tbl = sm8550_enc_op_int_buf_tbl,
+>  	.enc_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_enc_op_int_buf_tbl),
+>  };
 
-I don't think that it makes big sense to add this I2C alias, please
-consider to remove it.
-
->   		i2c4 = &i2c4;
->   		i2c15 = &i2c15;
->   		serial1 = &uart2;
-> @@ -47,6 +49,21 @@ framebuffer0: framebuffer@c6200000 {
->   		};
->   	};
->   
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		pinctrl-0 = <&cam_indicator_en>;
-> +		pinctrl-names = "default";
-> +
-> +		privacy_led: privacy-led {
-> +			function = LED_FUNCTION_INDICATOR;
-> +			color = <LED_COLOR_ID_WHITE>;
-> +			gpios = <&tlmm 34 GPIO_ACTIVE_HIGH>;
-> +			default-state = "off";
-> +			panic-indicator;
-> +		};
-> +	};
-> +
->   	wcd938x: audio-codec {
->   		compatible = "qcom,wcd9380-codec";
->   
-> @@ -98,6 +115,20 @@ switch-mode {
->   		};
->   	};
->   
-> +	vreg_camf_1p2: regulator-camf-1p2 {
-> +		compatible = "regulator-fixed";
-> +
-> +		regulator-name = "vreg_camf_1p2";
-> +		regulator-min-microvolt = <1200000>;
-> +		regulator-max-microvolt = <1200000>;
-> +
-> +		gpio = <&tlmm 44 GPIO_ACTIVE_HIGH>;
-> +		enable-active-high;
-> +
-> +		pinctrl-0 = <&camf_1p2_reg_en>;
-> +		pinctrl-names = "default";
-> +	};
-> +
->   	vreg_misc_3p3: regulator-misc-3p3 {
->   		compatible = "regulator-fixed";
->   
-> @@ -462,6 +493,13 @@ vreg_l8c: ldo8 {
->   						   RPMH_REGULATOR_MODE_HPM>;
->   		};
->   
-> +		vreg_l11c: ldo11 {
-> +			regulator-name = "vreg_l11c";
-> +			regulator-min-microvolt = <2800000>;
-> +			regulator-max-microvolt = <2800000>;
-> +			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-> +		};
-> +
->   		vreg_l12c: ldo12 {
->   			regulator-name = "vreg_l12c";
->   			regulator-min-microvolt = <1800000>;
-> @@ -577,6 +615,66 @@ vreg_l10d: ldo10 {
->   	};
->   };
->   
-> +&camss {
-> +	vdda-phy-supply = <&vreg_l6b>;
-> +	vdda-pll-supply = <&vreg_l3b>;
-> +
-> +	status = "okay";
-> +
-> +	ports {
-> +		port@3 {
-> +			csiphy3_ep: endpoint@0 {
-> +				reg = <0>;
-> +
-> +				clock-lanes = <7>;
-
-Please remove 'clock-lanes' property from above.
-
-> +				data-lanes = <0 1 2 3>;
-> +				remote-endpoint = <&hi846_ep>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&cci2 {
-> +	status = "okay";
-> +};
-> +
-> +&cci2_i2c1 {
-> +	/* On Goakun3(2.69GHz), S5K4H7@2d, image quality is better than hi846 */
-> +	camera_front: camera@20 {
-
-'camera_front' label is unused and should be removed.
-
-> +		compatible = "hynix,hi846";
-> +		reg = <0x20>;
-> +
-> +		pinctrl-0 = <&camf_rgb_default>;
-> +		pinctrl-names = "default";
-> +
-> +		clocks = <&camcc CAMCC_MCLK3_CLK>;
-> +
-> +		assigned-clocks = <&camcc CAMCC_MCLK3_CLK>;
-> +		assigned-clock-rates = <24000000>;
-> +
-> +		reset-gpios = <&tlmm 15 GPIO_ACTIVE_LOW>;
-> +		vddio-supply = <&vreg_l2c>;
-> +		vdda-supply = <&vreg_l11c>;
-> +		vddd-supply = <&vreg_camf_1p2>;
-> +
-> +		leds = <&privacy_led>;
-> +		led-names = "privacy";
-> +
-> +		orientation = <0>;	/* Front facing */
-> +		rotation = <0>;
-
-Both properties above can be removed as the default ones.
+Add a comment to mention what is different from sm8550 data.
 
 > +
-> +		port {
-> +			hi846_ep: endpoint {
-> +				data-lanes = <1 2 3 4>;
-> +				link-frequencies = /bits/ 64 <80000000 144000000 200000000 288000000>;
-> +				remote-endpoint = <&csiphy3_ep>;
-> +			};
-> +		};
-> +	};
-> +
-> +	/* actuator???@58, Goakun3(2.69GHz) only, eeprom@50 */
-> +};
-> +
->   &dispcc0 {
->   	status = "okay";
->   };
-> @@ -1318,6 +1416,36 @@ hstp-sw-ctrl-pins {
->   		};
->   	};
->   
-> +	cam_indicator_en: cam-indicator-en-state {
-> +		pins = "gpio34";
-> +		function = "gpio";
-> +		drive-strength = <2>;
-> +		bias-disable;
-> +	};
-> +
-> +	camf_1p2_reg_en: camf-1p2-reg-en-state {
-> +		pins = "gpio44";
-> +		function = "gpio";
-> +		drive-strength = <2>;
-> +		bias-disable;
-> +	};
-> +
-> +	camf_rgb_default: camf-rgb-default-state {
-> +		mclk-pins {
-> +			pins = "gpio17";
-> +			function = "cam_mclk";
-> +			drive-strength = <6>;
-> +			bias-disable;
-> +		};
+> +const struct iris_platform_data x1p42100_data = {
+> +	.get_instance = iris_hfi_gen2_get_instance,
+> +	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
+> +	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
+> +	.get_vpu_buffer_size = iris_vpu_buf_size,
+> +	.vpu_ops = &iris_vpu3_ops,
+> +	.set_preset_registers = iris_set_sm8550_preset_registers,
+> +	.icc_tbl = sm8550_icc_table,
+> +	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
+> +	.clk_rst_tbl = sm8550_clk_reset_table,
+> +	.clk_rst_tbl_size = ARRAY_SIZE(sm8550_clk_reset_table),
+> +	.bw_tbl_dec = sm8550_bw_table_dec,
+> +	.bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
+> +	.pmdomain_tbl = sm8550_pmdomain_table,
+> +	.pmdomain_tbl_size = ARRAY_SIZE(sm8550_pmdomain_table),
+> +	.opp_pd_tbl = sm8550_opp_pd_table,
+> +	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
+> +	.clk_tbl = x1p42100_clk_table,
+> +	.clk_tbl_size = ARRAY_SIZE(x1p42100_clk_table),
+> +	.opp_clk_tbl = x1p42100_opp_clk_table,
+> +	/* Upper bound of DMA address range */
+> +	.dma_mask = 0xe0000000 - 1,
+> +	.fwname = "qcom/vpu/vpu30_p4.mbn",
 
-cam_mclk pad function descriptions on all 8 pads supporting this function
-shall be added to the platform in a separate commit to sc8280xp.dtsi
+is this the correct firmware? shouldn't it be vpu30_p1.mbn?
 
-> +
-> +		sc-rgb-xshut-n-pins {
-> +			pins = "gpio15";
-> +			function = "gpio";
-> +			drive-strength = <2>;
-> +			bias-disable;
-> +		};
-> +	};
-> +
->   	i2c4_default: i2c4-default-state {
->   		pins = "gpio171", "gpio172";
->   		function = "qup4";
-
--- 
-Best wishes,
-Vladimir
+Thanks,
+Dikshita
 
