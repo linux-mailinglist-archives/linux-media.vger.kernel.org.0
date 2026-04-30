@@ -1,384 +1,285 @@
-Return-Path: <linux-media+bounces-60101-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60102-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yMKZIQCB82ni4gEAu9opvQ
-	(envelope-from <linux-media+bounces-60101-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 18:19:12 +0200
+	id 8OWxHeWI82mS4wEAu9opvQ
+	(envelope-from <linux-media+bounces-60102-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 18:52:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213764A58F2
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 18:19:12 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E17AD4A6094
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 18:52:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 71D0B3003353
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 16:19:11 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 522163057C73
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2026 16:48:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00B034611E8;
-	Thu, 30 Apr 2026 16:19:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5AA6364E85;
+	Thu, 30 Apr 2026 16:47:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qznVMYUt"
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="VmzmDuLo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DE9344D9D
-	for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 16:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777565946; cv=pass; b=jiU8V4bRf7Vhl+SOaYxJf8QYkvWOgR+0KxqE7xjoLc6L/vUQb1n0WXcnS0qKzfhm3bFI2CRUBGyG+m1yZsIMmY5YqVAfOjcO5TBw66BnsjeDeH4eqDjvfpRnyFPn1FMV/xEghf8POUn5x4XMrDBbQEu2S5t/IOoHJwWZxEKQyDE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777565946; c=relaxed/simple;
-	bh=Ibn6LshxBxBGw1H4D7uycE6iwE28tRGUjg3ZNaPJT7M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YwqkjY38e/S1QfSu+oDX90kyt2aJr9KXa1NnJSbKkStfj/FPEfWnSw8P3M6PJLJJ0gGFRR1/67cKzYtdkqrEkgeKhQmkzLZst65x+tzmXzXGv/8wI6+UKjs/OHTeBZSz8mz71MpJ1dyvIOV1AgpePfGQXST5FKJ9WC8rhBWO80I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qznVMYUt; arc=pass smtp.client-ip=209.85.222.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-94b07fddecbso710389241.1
-        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 09:19:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777565943; cv=none;
-        d=google.com; s=arc-20240605;
-        b=a8CAICXzYsUW4o/+s3DYFwY8u6ADFNhBw2j8jEJqnrH9dOVAg0ChM8rAkjS9KRjxrQ
-         Vfv+LS8U7UOa5qNKrYYY38WgLj62siAubKnCRPh7QhwD7UaEZyExvi3EwQcwWn7P0iir
-         uCAf8iBNA7xb746VHV/m8R5Kqcb3017FoZEFoPzwYC5uyRuzPT1dzz0ljIJH/HNQS0IY
-         oUQOLbJPGxP50WxwkdvyO1j/9kayooFBmFS9n54xYKzHqNjAYjcyynxDDYhJyRVXudOG
-         SwJZTsbrk5a1QS6KVNFeo8VGfJUZgWte9uV37u5TsevbeOpqyYmS2wpbncBVF5nWXTmd
-         Qttg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8blcYQdSkW/3Gh5cr1K0Y1kWzFwMeRmTqNthM1mNKKc=;
-        fh=roKN6aRIi+bmlmIt4itrbAZ79o+BcxpB4aP4h01ioqU=;
-        b=R21ZgB/po2/n7YQXCK08nnPVPoMyQVEiYrXm9MYns8Peg0NkmKKjkgFcSJDHmQEX0n
-         Nmv7EtCdgb7J91mG44FQpdCUcl4LQT/IAj8P8EcQo8PwjrWq3fTmZlNoEe9xn+9pEWyO
-         zHrqB8rbgo5T+GzBxvsvwhSmE8u885Tdaus68uA6KRR+akZKjt7+UnADwpcKtJBy4Rwh
-         ZOwRkhX1x/CL80ePpieo/wnmJI7OMHdOlYX3FUTenF5AzSKCrvLSOuD31m3qtCHW2N6R
-         cUMk5YTGH8FpZyTnj5HGBV4O6fzO0uhNN2yOoeynzUllwsvcHt9NiJkWiCoo/4LN2Ed/
-         8W9Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777565943; x=1778170743; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8blcYQdSkW/3Gh5cr1K0Y1kWzFwMeRmTqNthM1mNKKc=;
-        b=qznVMYUt/52QBfY1dzOU03ZbNv2kjGphiFU8Zb53aVlNKYvRsyEJfLkpHeZMWzMivW
-         7ZSQZILnJVkVetYkc9vK4uJCgrodXReVqnztaOuPET8fLT8Ncq8RrRc3uN8egmGeKyrn
-         /ZD17Wes2ukCTxQ6vsbvt1MvWYjDCbzRAsnNewU/1FfcdWdBswrBtDBYfUs7IscEUiTK
-         d25b8PcKOa7knoV7fhsDpb6P5zOgdPS+5q4ds00V5zJlo5mImhQmm1llR4KDr1v6mfBW
-         7KkF/0xIGzeon8+DWkAYKC+mZYMkLcKZRAyrNX89IJ4LRJt/TxosTnxasfP7DrxKBpJj
-         xZbg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CAEB3446A7
+	for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 16:47:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777567678; cv=none; b=Yy09Y7xh3hy+zmdQUMD4WWLR1tGEANY1+W/bG8Kk5/sK8zL+ymMkRHirzzHXKrruzQvEFhBsLAcncTxflGFEozuqSnpZ0Mw3cTRFkIoRpH60KniTZ5xaLah5i7RisCDR/dBTpBHEDanofRwQtGQJV6xzjEDEyDdvqOYtWhfR6HE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777567678; c=relaxed/simple;
+	bh=cSGNZ8wgbO7X87rwVZjWUPh3PFb7JnuVVs+4c9CzkS4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SicY7uwk3xhN6pL09WcGhrTedQ5gb7j5kEE5Lz08cNSEGNmJ4mVojFNMjmlf9ux7MG/tQ/N910g2eXXuNm/YgjmBU43Xr44ypJuB0GnRmUSabRGj/oiEr/sF2e00hpgeFHwcFDRsfhxHdgrWeyxNnz8xEy7aEHec4b1ksoAmoGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=VmzmDuLo; arc=none smtp.client-ip=67.231.145.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63UDAkD23597327
+	for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 09:47:55 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
+	 bh=CXvj6rmLtU+yqG7K5nb8uAhPCFMrTB1Lg0tTO/8UY38=; b=VmzmDuLofwCN
+	XcDBoa+sLJlHhfy6vjpvEjX9zOHYSohipMJKuWABb0/tFAgCYvUKYRmq1VYJYrm+
+	YyffbepmXjCagGPySLIrmaJ5SWJEIM+OBHitW/S1gBzRFsRT6oc2SxOGzvzDzjUw
+	92vNwrtouQ3cYeinUfudEAWZWLyl6zwoda8rflkF4cjAWAFZesr61T3Px2BTqwDf
+	hF6OXYCAbJd2TYHTf+LHNX+8OiYQxHtTHKnZa33UUllCmQi1/95LKvMZ1J2xd6Ve
+	2O6g8ywmcBylHs0F9CFe3Ys6hZVRNSwGu5ttT4tnlutyOtT7x9qVVAEtvsvTkoVC
+	pXi+P7srPw==
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4drrx63bdm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 09:47:55 -0700 (PDT)
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-488e097a270so7303655e9.1
+        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2026 09:47:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777565943; x=1778170743;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8blcYQdSkW/3Gh5cr1K0Y1kWzFwMeRmTqNthM1mNKKc=;
-        b=JOFEbdD00Sx/umCpHiEiYwMrLsC+1/nkEHpMLibzXoig+YGSAUUamtGvwIjnVdDEkl
-         T/ZW2z3bMwqUtenyLDXkjpQgbxbKARyldNbHuBM51XrOWTbVEEPlbyFufeQ9xFwlrKIn
-         9jED7QYxtHT9BUqJwWsm7sXm+bPncodKE37ycu8nY93nY9sU1RJ8UQdkkVBYR/vFxtJP
-         NVzdFqjFMm3uAumcs+f5r+9oX0EHxXpmqBQYHkBXIK/6/9tfjkdir4G6+Qkac1AhoJJF
-         HnWW20Idaj9cG7NuoEr74lh4V0VOjT3ER4Tc7v/gv5i0O4XXQOV6s0hseiT804GWU5UT
-         Wlhw==
-X-Forwarded-Encrypted: i=1; AFNElJ+R/R1S6gDisOJpdPmyfuzwfNWkWhBuFN2BxMnrJgj9b+/8iLF5WVeV4ma3XZZQ+a+/+rf4bLWy7qc8aw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSLpO4uav+FacKF0GkYD8ao0aoQq71uAaitCJ0qK6m0KEtOX/L
-	ibq8kY/J0GLP8si3I1lYm/HXAynRwBJMCErcViAJWQJuDfyY1gxodX4KZEUFfHRA01mRJZ3/rV+
-	+j7FomztQaZRUO6D7+FlBFOHNgZqGX0w=
-X-Gm-Gg: AeBDieuNgR7zK2acxBVjN/DMFuKOGzSR/+BnR9V7fldDI3hjPTSh2wCnU8QMUdcJ1Pt
-	atn8JFoX7jR/9QqQpxpZi+tdlhTOw9fLOSZibAmYzrq+btubUCdHvU2blwFASES14y1S37QCqud
-	e+vBLYO6IKcbcsc8HsyB9AIzyK0Ghdh9ZMN9JWZ1QwmVK6hoyjGHqwKok/m9ErzFdvTZ0ZzEcOn
-	tt16oyWO/5toZ/GcYerllHTiXWv05tdbJPHz2s1sJaRS62DOQkVSGVErjeLGPH0Fxz9h3H+PYhj
-	CaRRDdaxqxXLvheJwzA=
-X-Received: by 2002:a05:6102:4b13:b0:610:2912:adc9 with SMTP id
- ada2fe7eead31-62ad55ceee2mr2475484137.28.1777565942954; Thu, 30 Apr 2026
- 09:19:02 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777567674; x=1778172474;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CXvj6rmLtU+yqG7K5nb8uAhPCFMrTB1Lg0tTO/8UY38=;
+        b=UNQib9xF7Rl87bkOOJydoUmaiMx/hbpPb0gTcgqzL6wc/LL+ARBYoxCtwIPmle+RVC
+         XovaAxBCBn5UMGLDKIiOUxU9Ll/6UKFuhuBJzFgqQyegmp+RRUj0eURTznWIaq3LH+3c
+         Go60E62YA+UJfO+JIkQsa3s3XOB2qyQecuRD3VLTujQYtJk68HWWbKcG2rbtRmvTWWu+
+         zEMhRcL9C++l5eUT6ynRYq89Dg8tW9hRB2uhfGWji2x63VymY2uUXnJx3i9gl3AN7Jhz
+         hHIqF2hRZ+icCDK6V3LdfPyN4rFzmPKNsjkazDHbmTNiZ9t72QnBZII9sM8YgLQeUoqz
+         4/8g==
+X-Forwarded-Encrypted: i=1; AFNElJ89jmgX76hvDnrHk0k2f6T0JhBmrcndtawrDtmCEErC7XIG3SLN8U5abEKNzM+IY6DxkXy0OC1VMzjVnw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgI+iIPjUL9bDwdPcpKFxMDhbEHiZu9A1ZBe3RPeRc4uqJyQeg
+	vXKurRqyzT0cxMTblfb6py/Ut1RO6rswKsMwXkCa18lF8ng3hnnrTLANg4lN3ho/WTMUaTeZBaf
+	ui/QOHYh7bod0dIuSdJyAlbL1qK1MShvop6FncTn34c7PNxanRzFaHDEaj4UPIOk=
+X-Gm-Gg: AeBDieskYn9JWD0NFXY4VA2a3WdLr2tGRtw6tvSEU+uz2UUy/Ggnzt19iVbLwaqtsH/
+	Y9vApHp8wrtQ5GLtr0WMs9KTv/Me2Zl2W7DrKxQJMUvDBLFCAkhK222OmD/TvU0MgyDyXjvffbj
+	2IbP6qoMiQLvDTUkLaVMSxiJUL63xP0srUzMqHqU1WQYSYsoKq8Q2wYFr3elyLsW/aW5syBCjwF
+	kJo/s7NUsDscD/QrAvPs+Uilf6JespdN5lFi+FNh5Uu7Vs+GKRnf3GSm7Ktm2hIEmdi/6R3gZzz
+	AcMKxZlTm1fXkwLAO8T3MiuMB87b3W9mzhRdDop8DF0lBb/Dfp6zsUYb1Bq7R4TkInJoiD3iBo4
+	od3fldnyCj0mzdjw/tvf2znep/QRseqsyyLA0LMeF4DfvQBoBRlTYnX7Ukd8GagWwrgfKHfBaas
+	NT
+X-Received: by 2002:a05:600c:8483:b0:487:2671:fb8f with SMTP id 5b1f17b1804b1-48a83d73324mr65498655e9.8.1777567673933;
+        Thu, 30 Apr 2026 09:47:53 -0700 (PDT)
+X-Received: by 2002:a05:600c:8483:b0:487:2671:fb8f with SMTP id 5b1f17b1804b1-48a83d73324mr65498015e9.8.1777567673394;
+        Thu, 30 Apr 2026 09:47:53 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1126:4:10fb:be93:502f:b7be? ([2620:10d:c092:500::4:5cf3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a822c82f2sm75353315e9.11.2026.04.30.09.47.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2026 09:47:52 -0700 (PDT)
+Message-ID: <c598a21e-ee50-42d9-98dc-2959e84ace50@meta.com>
+Date: Thu, 30 Apr 2026 17:47:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260429070351.1307204-1-mitltlatltl@gmail.com>
- <20260429070351.1307204-3-mitltlatltl@gmail.com> <afHI29SDHDggH2Wt@kekkonen.localdomain>
-In-Reply-To: <afHI29SDHDggH2Wt@kekkonen.localdomain>
-From: Pengyu Luo <mitltlatltl@gmail.com>
-Date: Fri, 1 May 2026 00:18:09 +0800
-X-Gm-Features: AVHnY4KkiOYjvdAIVqFYihZrsquUrTAR1YygxVNEZF-RwX-El0Aekdrg1Wc220Y
-Message-ID: <CAH2e8h5mGfYZiG+Uy05xp9cDxy_7uAZ46ywHYrK5VYavLyLtrQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: hi846: Add 6MP and 8MP modes support
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Martin Kepplinger-Novakovic <martink@posteo.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 213764A58F2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/9] vfio/pci: Add a helper to create a DMABUF for a
+ BAR-map VMA
+Content-Language: en-GB
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
+        Alex Mastro <amastro@fb.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+        Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+ <bjorn@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Kevin Tian <kevin.tian@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
+        Pranjal Shrivastava <praan@google.com>,
+        Alistair Popple
+ <apopple@nvidia.com>,
+        Vivek Kasireddy <vivek.kasireddy@intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        kvm@vger.kernel.org
+References: <20260416131815.2729131-1-mattev@meta.com>
+ <20260416131815.2729131-4-mattev@meta.com>
+ <20260424182426.GG3444440@nvidia.com>
+From: Matt Evans <mattev@meta.com>
+In-Reply-To: <20260424182426.GG3444440@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDMwMDE3MiBTYWx0ZWRfXz0C/plRNtyL0
+ izBhN13o8kxvNL23N2KuJPA4bd8z8IFrfSZPe5tvtDE8p0/v9zX4oB+4dG8oTWCZ9UzvXfNlhPG
+ gMZO+vb/uDYkLbXDDW+vX2tnQaVJ4jz/EBX5MIUdPsj6rBXKzffkyt60NHlDfkcLqm4LY+4aiKR
+ L4aZqVMIWS20Knt+S/MVVu0GVteb1zm1IzIDe6teTI3GKNDar8FWppCTh6I0BkyNENtJ1xFIgH/
+ yM3UwLY9bUkTvH5VP5R81giQlKSO9eo7RcqmGlxNICl/EhD8o6ILGaYi/CHltFVmX1Hupq8aFF3
+ tWmV7yTmmY7sKga3bECjn5k6Y238Tz17EwEO7bEhR9ySpcPWYiJDEUFDHUK9H4UR5XlJeKV1Lie
+ 1wWFOoxWhsHz8xbJZESlgeXcPKrNGYwrVCl8qfOzXqnlTTeiguNosLXHyBCB2XRo9rPtFVvKkoW
+ CLOY3QlBxsDqnn01mWg==
+X-Proofpoint-GUID: 6PnL4fU0VHIRvCrmU7fi9Evsu7KXpbeD
+X-Proofpoint-ORIG-GUID: 6PnL4fU0VHIRvCrmU7fi9Evsu7KXpbeD
+X-Authority-Analysis: v=2.4 cv=ZZUt8MVA c=1 sm=1 tr=0 ts=69f387bb cx=c_pps
+ a=Ech0Gv1thIkdqUNjVc2Ehg==:117 a=Dv35txUGz5gI0hTa:21 a=xqWC_Br6kY4A:10
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7x6HtfJdh03M6CCDgxCd:22 a=8elwO82fXORLTBIkMd32:22 a=nxdftAbHouV8PAc5HfQA:9
+ a=QEXdDO2ut3YA:10 a=cZgK7WzY9ta9U-6s7oqD:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-30_04,2026-04-30_02,2025-10-01_01
+X-Rspamd-Queue-Id: E17AD4A6094
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[meta.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[meta.com:s=s2048-2025-q2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-60101-lists,linux-media=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	TAGGED_FROM(0.00)[bounces-60102-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[meta.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,meta.com:dkim,meta.com:mid];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mitltlatltl@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[mattev@meta.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,mail.gmail.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 
-On Wed, Apr 29, 2026 at 5:01=E2=80=AFPM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Pengyu,
->
-> On Wed, Apr 29, 2026 at 03:03:51PM +0800, Pengyu Luo wrote:
-> > Hi846 is an 8MP sensor, but the upstream driver has only supported 2MP
-> > mode for years. This patch adds 6MP and 8MP modes to maximize sensor
-> > utilization.
-> >
-> > Note that these modes require 4-lane MIPI CSI-2, as the downstream
-> > driver only exposes 2MP, 6MP, and 8MP configurations in 4-lane
-> > operation on the target device. The register sequences are extracted
-> > from the downstream Windows driver.
-> >
-> > Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
-> > ---
-> >  drivers/media/i2c/hi846.c | 154 +++++++++++++++++++++++++++++++++++++-
-> >  1 file changed, 153 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
-> > index 09c109f3fba9..b8ae7344f1a0 100644
-> > --- a/drivers/media/i2c/hi846.c
-> > +++ b/drivers/media/i2c/hi846.c
-> > @@ -1027,6 +1027,106 @@ static const struct hi846_reg mode_1632x1224_mi=
-pi_4lane[] =3D {
-> >       {HI846_REG_TG_ENABLE,                   0x0100},
-> >  };
-> >
-> > +static const struct hi846_reg mode_3264x1836_config[] =3D {
-> > +     {HI846_REG_MODE_SELECT,                 0x0000},
-> > +     {HI846_REG_Y_ODD_INC_FOBP,              0x1111},
-> > +     {HI846_REG_Y_ODD_INC_VACT,              0x1111},
-> > +     {HI846_REG_Y_ADDR_START_VACT_H,         0x0172},
-> > +     {HI846_REG_Y_ADDR_END_VACT_H,           0x089d},
-> > +     {HI846_REG_UNKNOWN_005C,                0x2101},
-> > +     {HI846_REG_FLL,                         0x09de},
-> > +     {HI846_REG_LLP,                         0x0ed8},
-> > +     {HI846_REG_BINNING_MODE,                0x0022},
-> > +     {HI846_REG_HBIN_MODE,                   0x0000},
-> > +     {HI846_REG_UNKNOWN_0A24,                0x0000},
-> > +     {HI846_REG_X_START_H,                   0x0000},
-> > +     {HI846_REG_X_OUTPUT_SIZE_H,             0x0cc0},
-> > +     {HI846_REG_Y_OUTPUT_SIZE_H,             0x072c},
-> > +     {HI846_REG_EXPOSURE,                    0x09d8},
-> > +
-> > +     /* For OTP */
-> > +     {HI846_REG_UNKNOWN_021C,                0x0001},
-> > +     {HI846_REG_UNKNOWN_021E,                0x0235},
-> > +
-> > +     {HI846_REG_ISP_EN_H,                    0x014a},
-> > +     {HI846_REG_UNKNOWN_0418,                0x023e},
-> > +     {HI846_REG_UNKNOWN_0B02,                0xe04d},
-> > +     {HI846_REG_UNKNOWN_0B10,                0x6821},
-> > +     {HI846_REG_UNKNOWN_0B12,                0x0120},
-> > +     {HI846_REG_UNKNOWN_0B14,                0x0001},
-> > +     {HI846_REG_UNKNOWN_2008,                0x38fd},
-> > +     {HI846_REG_UNKNOWN_326E,                0x0000},
-> > +};
-> > +
-> > +static const struct hi846_reg mode_3264x1836_mipi_4lane[] =3D {
-> > +     {HI846_REG_UNKNOWN_0900,                0x0300},
-> > +     {HI846_REG_MIPI_TX_OP_MODE,             0xc319},
-> > +     {HI846_REG_UNKNOWN_0914,                0xc109},
-> > +     {HI846_REG_TCLK_PREPARE,                0x061a},
-> > +     {HI846_REG_UNKNOWN_0918,                0x0407},
-> > +     {HI846_REG_THS_ZERO,                    0x0a0b},
-> > +     {HI846_REG_TCLK_POST,                   0x0e08},
-> > +     {HI846_REG_UNKNOWN_091E,                0x0a00},
-> > +     {HI846_REG_UNKNOWN_090C,                0x0427},
-> > +     {HI846_REG_UNKNOWN_090E,                0x0059},
-> > +     {HI846_REG_UNKNOWN_0954,                0x0089},
-> > +     {HI846_REG_UNKNOWN_0956,                0x0000},
-> > +     {HI846_REG_UNKNOWN_0958,                0xca80},
-> > +     {HI846_REG_UNKNOWN_095A,                0x9240},
-> > +     {HI846_REG_PLL_CFG_MIPI2_H,             0x4124},
-> > +     {HI846_REG_TG_ENABLE,                   0x0100},
-> > +};
-> > +
-> > +static const struct hi846_reg mode_3264x2448_config[] =3D {
-> > +     {HI846_REG_MODE_SELECT,                 0x0000},
-> > +     {HI846_REG_Y_ODD_INC_FOBP,              0x1111},
-> > +     {HI846_REG_Y_ODD_INC_VACT,              0x1111},
-> > +     {HI846_REG_Y_ADDR_START_VACT_H,         0x0040},
-> > +     {HI846_REG_Y_ADDR_END_VACT_H,           0x09cf},
-> > +     {HI846_REG_UNKNOWN_005C,                0x2101},
-> > +     {HI846_REG_FLL,                         0x09de},
-> > +     {HI846_REG_LLP,                         0x0ed8},
-> > +     {HI846_REG_BINNING_MODE,                0x0022},
-> > +     {HI846_REG_HBIN_MODE,                   0x0000},
-> > +     {HI846_REG_UNKNOWN_0A24,                0x0000},
-> > +     {HI846_REG_X_START_H,                   0x0000},
-> > +     {HI846_REG_X_OUTPUT_SIZE_H,             0x0cc0},
-> > +     {HI846_REG_Y_OUTPUT_SIZE_H,             0x0990},
-> > +     {HI846_REG_EXPOSURE,                    0x09d8},
-> > +
-> > +     /* For OTP */
-> > +     {HI846_REG_UNKNOWN_021C,                0x0001},
-> > +     {HI846_REG_UNKNOWN_021E,                0x0235},
-> > +
-> > +     {HI846_REG_ISP_EN_H,                    0x014a},
-> > +     {HI846_REG_UNKNOWN_0418,                0x0000},
-> > +     {HI846_REG_UNKNOWN_0B02,                0xe04d},
-> > +     {HI846_REG_UNKNOWN_0B10,                0x6821},
-> > +     {HI846_REG_UNKNOWN_0B12,                0x0120},
-> > +     {HI846_REG_UNKNOWN_0B14,                0x0001},
-> > +     {HI846_REG_UNKNOWN_2008,                0x38fd},
-> > +     {HI846_REG_UNKNOWN_326E,                0x0000},
-> > +};
-> > +
-> > +static const struct hi846_reg mode_3264x2448_mipi_4lane[] =3D {
-> > +     {HI846_REG_UNKNOWN_0900,                0x0300},
-> > +     {HI846_REG_MIPI_TX_OP_MODE,             0xc319},
-> > +     {HI846_REG_UNKNOWN_0914,                0xc109},
-> > +     {HI846_REG_TCLK_PREPARE,                0x061a},
-> > +     {HI846_REG_UNKNOWN_0918,                0x0407},
-> > +     {HI846_REG_THS_ZERO,                    0x0a0b},
-> > +     {HI846_REG_TCLK_POST,                   0x0e08},
-> > +     {HI846_REG_UNKNOWN_091E,                0x0a00},
-> > +     {HI846_REG_UNKNOWN_090C,                0x0427},
-> > +     {HI846_REG_UNKNOWN_090E,                0x0059},
-> > +     {HI846_REG_UNKNOWN_0954,                0x0089},
-> > +     {HI846_REG_UNKNOWN_0956,                0x0000},
-> > +     {HI846_REG_UNKNOWN_0958,                0xca80},
-> > +     {HI846_REG_UNKNOWN_095A,                0x9240},
-> > +     {HI846_REG_PLL_CFG_MIPI2_H,             0x4124},
-> > +     {HI846_REG_TG_ENABLE,                   0x0100},
-> > +};
-> > +
-> >  static const char * const hi846_test_pattern_menu[] =3D {
-> >       "Disabled",
-> >       "Solid Colour",
-> > @@ -1042,9 +1142,11 @@ static const char * const hi846_test_pattern_men=
-u[] =3D {
-> >
-> >  #define FREQ_INDEX_640       0
-> >  #define FREQ_INDEX_1280      1
-> > +#define FREQ_INDEX_3264      2
-> >  static const s64 hi846_link_freqs[] =3D {
-> >       [FREQ_INDEX_640] =3D 80000000,
-> >       [FREQ_INDEX_1280] =3D 200000000,
-> > +     [FREQ_INDEX_3264] =3D 288000000,
->
-> Looking at the driver, the PLL configuration is present in the lane numbe=
-r
-> specific register list so the link frequency is in fact the same for all
-> modes. This problem isn't introduced by this patch but I think this needs
-> to be fixed before adding further modes to the driver.
->
+Hi Jason,
 
-TBH, I didn't investigate the calculations. I just searched the
-datasheet for it. They are exactly wrong. Thans for pointing out this.
+On 24/04/2026 19:24, Jason Gunthorpe wrote:
+> 
+> On Thu, Apr 16, 2026 at 06:17:46AM -0700, Matt Evans wrote:
+>> +int vfio_pci_core_mmap_prep_dmabuf(struct vfio_pci_core_device *vdev,
+>> +				   struct vm_area_struct *vma,
+>> +				   u64 phys_start, u64 req_len,
+>> +				   unsigned int res_index)
+>> +{
+>> +	struct vfio_pci_dma_buf *priv;
+>> +	const unsigned int nr_ranges = 1;
+>> +	int ret;
+>> +
+>> +	priv = kzalloc_obj(*priv);
+>> +	if (!priv)
+>> +		return -ENOMEM;
+>> +
+>> +	priv->phys_vec = kzalloc_obj(*priv->phys_vec);
+>> +	if (!priv->phys_vec) {
+>> +		ret = -ENOMEM;
+>> +		goto err_free_priv;
+>> +	}
+>> +
+>> +	/*
+>> +	 * The mmap() request's vma->vm_offs might be non-zero, but
+>> +	 * the DMABUF is created from _offset zero_ of the BAR.  The
+>> +	 * portion between zero and the vm_offs is inaccessible
+>> +	 * through this VMA, but this approach keeps the
+>> +	 * /proc/<pid>/maps offset somewhat consistent with the
+>> +	 * pre-DMABUF code.  Size includes the offset portion.
+> 
+> I'm not sure I understand this comment?
+> 
+> For the old path vm_pgoff for byte 0 of the bar starts at some large
+> offset
+> 
+> For the new path vm_pgoff for byte 0 of the first range starts at 0
 
-I can fix it, but the question is this driver was writing against
-25Mhz mclk, but the typical value from datasheet is 24Mhz, and one
-device is using 25Mhz as the clock rate, my device is using 24Mhz,
-25Mhz is unsupported on my platform. It seems that making the list not
-be runtime is not allowed as nobody did like this.
+Glad you asked.  :)
 
-Best wishes,
-Pengyu
+This is trying to achieve keeping /proc/<pid>/maps (or similar) somewhat
+as informative as pre-DMABUF BAR mmap, in terms of keeping the VMA
+vm_offs column useful.  Before this patch, say you mmap() two slices A
+and B of the same BAR:
+
+  struct vfio_region_info bar_region;
+
+  vm_a = mmap(0, 0x1000, ..., device_fd, bar_region.offset + 0);
+  vm_b = mmap(0, 0x1000, ..., device_fd, bar_region.offset + 0x4000);
+
+...you'd see something like this in /proc/blah/maps:
+
+fffff4000000-fffff4001000 rw-s 10000000000 00:07 148     /dev/vfio/devices/vfio0
+fffff5000000-fffff5001000 rw-s 10000004000 00:07 148     /dev/vfio/devices/vfio0
+
+It's nice being able to tell the actual BAR offset (within the
+VFIO_PCI_OFFSET_MASK, i.e I _don't_ mean the synthetic region index
+offset).
+
+For vm_b, if we create the DMABUF to begin from the start of the
+actually-mapped slice
+
+   phys = pci_resource_start(pdev, index) + (vma->vm_pgoff << PAGE_SHIFT)
+
+then the VMA's vm_offs would need to be thunked back down to 0 (since
+the fault handler then treats vm_b + 0 as the first byte of the DMABUF).
+That works/adds up, but then the vm_offs of both VMAs A & B both have
+offset 0, and it's harder to differentiate in /proc/blah/maps.
+
+An example from the later patch "vfio/pci: Provide a user-facing name
+for BAR mappings" naming is:
+
+ffffb8070000-ffffbc040000 rw-s 00030000 00:0b 5         /dmabuf:vfio0:0000:00:03.0/1
+ffffbc140000-ffffbc240000 rw-s 00000000 00:0b 2         /dmabuf:vfio0:0000:00:03.0/0
+
+We could possibly stash the original offset somewhere and then render it
+in the name string, but the name's already about the max size and using
+the existing vm_offs column is nicer IMO, doesn't need a new field, etc.
+
+I need to work on this comment then!  What this is trying to say is that
+the DMABUF is made artificially larger than the part that is visible
+through the VMA.
+
+I.e. the DMABUF starts at the beginning of the BAR and so an mmap for
+offset +0x4000 for 0x1000 bytes starts at 0 and the VMA sees
+0x4000-0x5000.
+
+>> +	 * This differs from an mmap() of an explicitly-exported
+>> +	 * DMABUF which is an arbitrary slice of the BAR, would be
+>> +	 * created with the desired offset+size, and would usually be
+>> +	 * mmap()ed with pgoff = 0.
+>> +	 *
+>> +	 * Both are equivalent and vfio_pci_dma_buf_find_pfn() finds
+>> +	 * the same PFNs.
+>> +	 */
+>> +	priv->vdev = vdev;
+>> +	priv->nr_ranges = nr_ranges;
+>> +	priv->size = (vma->vm_pgoff << PAGE_SHIFT) + req_len;
+> 
+> And why is size being calculated from pgoff ?
+
+This is the part that makes the size the requested size plus the
+invisible portion before the VMA starts (equal to an extra 0x4000 in the
+example above, distance from offset 0).
 
 
-> The pixel rate is likely incorrect as well.
->
-> >  };
-> >
-> >  static const struct hi846_reg_list hi846_init_regs_list_2lane =3D {
-> > @@ -1134,7 +1236,57 @@ static const struct hi846_mode supported_modes[]=
- =3D {
-> >                       .width =3D 1632 * 2,
-> >                       .height =3D 1224 * 2,
-> >               },
-> > -     }
-> > +     },
-> > +     {
-> > +             .width =3D 3264,
-> > +             .height =3D 1836,
-> > +             .link_freq_index =3D FREQ_INDEX_3264,
-> > +             .fps =3D 30,
-> > +             .frame_len =3D 2526,
-> > +             .llp =3D HI846_LINE_LENGTH,
-> > +             .reg_list_config =3D {
-> > +                     .num_of_regs =3D ARRAY_SIZE(mode_3264x1836_config=
-),
-> > +                     .regs =3D mode_3264x1836_config,
-> > +             },
-> > +             .reg_list_2lane =3D {
-> > +                     .num_of_regs =3D 0,
-> > +             },
-> > +             .reg_list_4lane =3D {
-> > +                     .num_of_regs =3D ARRAY_SIZE(mode_3264x1836_mipi_4=
-lane),
-> > +                     .regs =3D mode_3264x1836_mipi_4lane,
-> > +             },
-> > +             .crop =3D {
-> > +                     .left =3D 0x46,
-> > +                     .top =3D 0x172,
-> > +                     .width =3D 3264,
-> > +                     .height =3D 1836,
-> > +             },
-> > +     },
-> > +     {
-> > +             .width =3D 3264,
-> > +             .height =3D 2448,
-> > +             .link_freq_index =3D FREQ_INDEX_3264,
-> > +             .fps =3D 30,
-> > +             .frame_len =3D 2526,
-> > +             .llp =3D HI846_LINE_LENGTH,
-> > +             .reg_list_config =3D {
-> > +                     .num_of_regs =3D ARRAY_SIZE(mode_3264x2448_config=
-),
-> > +                     .regs =3D mode_3264x2448_config,
-> > +             },
-> > +             .reg_list_2lane =3D {
-> > +                     .num_of_regs =3D 0,
-> > +             },
-> > +             .reg_list_4lane =3D {
-> > +                     .num_of_regs =3D ARRAY_SIZE(mode_3264x2448_mipi_4=
-lane),
-> > +                     .regs =3D mode_3264x2448_mipi_4lane,
-> > +             },
-> > +             .crop =3D {
-> > +                     .left =3D 0x46,
-> > +                     .top =3D 0x40,
-> > +                     .width =3D 3264,
-> > +                     .height =3D 2448,
-> > +             },
-> > +     },
-> >  };
-> >
-> >  struct hi846_datafmt {
->
-> --
-> Regards,
->
-> Sakari Ailus
+Thanks,
+
+
+Matt
+
+PS: Thanks also for the other reviews!
 
