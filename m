@@ -1,157 +1,165 @@
-Return-Path: <linux-media+bounces-60118-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60120-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kFaMMpNu9GltBQIAu9opvQ
-	(envelope-from <linux-media+bounces-60118-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 11:12:51 +0200
+	id xjAYEwh59GmLBgIAu9opvQ
+	(envelope-from <linux-media+bounces-60120-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 11:57:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF204AB307
-	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 11:12:51 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1DA14AB6F4
+	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 11:57:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9101A3022910
-	for <lists+linux-media@lfdr.de>; Fri,  1 May 2026 09:12:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1F50F30146B6
+	for <lists+linux-media@lfdr.de>; Fri,  1 May 2026 09:57:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64F5237E30B;
-	Fri,  1 May 2026 09:12:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAAC7383C96;
+	Fri,  1 May 2026 09:57:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="d6mfZaEz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pMqGUJlu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDB8325495;
-	Fri,  1 May 2026 09:12:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01696347514
+	for <linux-media@vger.kernel.org>; Fri,  1 May 2026 09:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777626758; cv=none; b=qLCu/hcNmdvFx0fyr+RZVJfVAcn9gt54B/p/IKYpE1lGOZ4JvWPLrNpvkPH/7a2UM13IKESNOGF/7iYxUAXs8ZCfAkCO+xvdYCpS9MC8gwR8peoggaNpuzr/5ZzgY5YEATPSke0AxwcXtFkg1M9uS/LnMUxcoO5X0O8TduOqWdQ=
+	t=1777629440; cv=none; b=HebNX323gpj+TXt34fZp9XVwdX/2ZT6KGINL1+Ibd+WrmljkqGHDJaGZ2AZVaFb4ZeLwFmqQ8ZgRCCGnsfZAQx8JBW5i9xV8RhHOVyrdXV+gBZ32G325C/MxlWVnX0dzUzYWNnPikKIl12+xfP8EGxUH6/YAqdsIbFKz/yURMVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777626758; c=relaxed/simple;
-	bh=nzcV1M+T8FfAi4DN2fJXrFtPXcwkXnprEF+h9z3CYic=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NZxFtO3CmStDyxNShedVGSv/p2M8MP9RGAqu/OulKGn5K7nFPZ/dbwevkARUVFGxebjIfUpEJ89x2grL3+MERM+/YYYk4Qa0mwUohQI10jWhmPazrrr117leNDiqa5Moanl0g3KgzRuN+/U43G8QD5szXk6Lz0Mg17zPyKEEBwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=d6mfZaEz; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4g6QKk5fV9z9tZv;
-	Fri,  1 May 2026 11:12:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777626746;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nzcV1M+T8FfAi4DN2fJXrFtPXcwkXnprEF+h9z3CYic=;
-	b=d6mfZaEzzOCM3NS1kzxxqsUjUjR+v4/Hln7mczKvYRdqiHkeUBLQqikdnP51UodlkpYl02
-	Fjt+94cV97IR1snj76vWJ3VBrqUimKwe0r89jetTL3NmH9PjEskVCasfFsq9AX+VdW62qj
-	5/vn/eTrNj+3ocpIXzkJSVKHSlj1J32Ru6j2bwwUx2eBdZRfK+7FjnMePEqV+k4Cw2jukq
-	uviIKZlM3pLETwFsfkWqkTHTC6OiPzDg1081dax4Rxw2Z75pfVK127mJtXu2VoIZ+/9EXi
-	uSxnBlKrjHKZgTfc8nrkNZWhri76a7TeJ+TA/QH50fYPGAexBmsSBaSZ5g6Muw==
-Message-ID: <755c37fa985eb3112322ac77be661d6e3614ba44.camel@mailbox.org>
-Subject: Re: [PATCH v4 1/3] Documentation: adopt new coding style of
- type-aware kmalloc-family
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  linux-doc@vger.kernel.org, Kees Cook
- <kees@kernel.org>,  linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org,  linux-sound@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mm@kvack.org
-Date: Fri, 01 May 2026 11:12:22 +0200
-In-Reply-To: <20260430010013.113971-1-sj@kernel.org>
-References: <20260430010013.113971-1-sj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1777629440; c=relaxed/simple;
+	bh=XL4uV6GkgD4RcOl+wpvrwdX7d246PTROEpd1HxkSjpA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d1ByluZEFiGxg7wY4vtyrCWvQOWennim/8wU4zSQL4gRF4dVmIxj9sNt18am65HGwKpG3M4tPVNweiKltMpRKFZHCYkfTDReUocpX+fyNt8G+Jd9P34gI/uWG1sbdj1uFawPlnLYxjWPhairaLEoeO5ileFjnelwNNd4lvqmrkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pMqGUJlu; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c6dd5b01e14so689138a12.0
+        for <linux-media@vger.kernel.org>; Fri, 01 May 2026 02:57:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777629437; x=1778234237; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KJvh/XpegIBYrHOJk7E96WpmL8EapMHXqu052w960x0=;
+        b=pMqGUJlu25T4TEHj0avnhGmcW8vNRkmGZL1ndvRnDk/PNnWBUWCp+Mklf0G3Qa636m
+         TBUdiVywJ/VJnQDd7KeX0HCHT3MwNjPATvwH2dzcxllcKjqyZIwpPNFkSgT0B565Q6D/
+         GL83D1bh3ZL6/ESrcMPE7+EpiVVdow4KwLwytPwqEKwvOxu12ahZNeptR53zMI32VoQo
+         pJf1/H0RHBC16MmHiF25JpghprMHTTvjCO9Kf7fWYhxDfQRowKjKdUl0MdaTks5MDazw
+         wadSOViqfHPgHnXbyfvkrIYC5Z6CqFGvs5lP338MaFtN38ATlR3J3L6/nLPnJL15Ob1P
+         43Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777629437; x=1778234237;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KJvh/XpegIBYrHOJk7E96WpmL8EapMHXqu052w960x0=;
+        b=FEOrmIcpzwAoA++MXIZR6XPf+cbF/wGEduAVQwuMkafnQN2Tvoeb6pBjY7TMMjfflU
+         hfULV8RlWT82i60/IqEu1UQ3dqOACeXFw/GFni/enuEgfyWF0lvQYxljKVWgdaaXEZg+
+         YGjNZdUc7+oNKiXoKfjhlkPyA5UuEUkC85dXTu2KAdyHCF46ef+T7f7MwXIqLSRVEOGK
+         fjIFTqxf/QQT676J/aDyPr9RP1cIX/cv5uDMh7PVdlJGVtcsKJGCvwmEClKjE1mFaIY+
+         iIKayZ5dgZoX7xLLOoII0oSg3ky27rfrT/Yl429qzVremqHYy0E/ptiQKnDFLJOCZhfl
+         RqIw==
+X-Forwarded-Encrypted: i=1; AFNElJ+VyiGutqTgEc++jl1xS8R7E9qYUocX9O2lYXVu9d1TVFfA/IW1xyASs7VLBfbbftZQh4ADQdlBBk8QuA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwoOkmyb9tBsFebyx49mJP4A4eAcGpFlNs9iiDJ+J1FOFnYXel
+	DOlkmICJbp7cKUwEODFBTUetexVflVsERvLEldeI+/IL7ewFkq//yI+p
+X-Gm-Gg: AeBDieuR7BP9i4gW9B7on5soD5NSnQ8pCVf6S/ntvdBy4yDg6tgusHAnIwRGNNYgIko
+	aCEnsuXeQC0f8rpi8IubbMytufpBfGLtzTAZ9k/5840ZVLijcQWmqYWrNX32rMrjUajR2gB73k9
+	8DF8W/K5j5Ti0mzUE0tjzjk++XnedN0SOgcCvPWsOXHMgL1chMCN/IGZQlV+GmPL+YlgbsSXhML
+	03mZNgVzfjZqOBdsQZvtetHZUz3zxXC1unf9d39l3BU8THxm5w3jIDWLLsZbUgJLCQgrkE7yEnE
+	tnir2bPWfO3eM+inv7H+KdIhq6CfWjlgYBZ3nwROKU5/+KbD+a842uIA48I6HFegSC+miPRlX2w
+	MU4wuG0pKewfc8ew2S0u8T2ji/d+iANKm6APIr0DY/ARpr2qLbTnwON5usfKabUwulTNIrTltsk
+	BBP8dP+rE8GqYgWA==
+X-Received: by 2002:a05:6a20:6a0b:b0:3a2:c683:fa84 with SMTP id adf61e73a8af0-3a3cf77ba41mr7322916637.27.1777629436989;
+        Fri, 01 May 2026 02:57:16 -0700 (PDT)
+Received: from nuvole ([2409:8a34:5f36:7c14::f7f])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7ffbcac2cfsm1731381a12.32.2026.05.01.02.57.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 02:57:16 -0700 (PDT)
+From: Pengyu Luo <mitltlatltl@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Martin Kepplinger-Novakovic <martink@posteo.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Pengyu Luo <mitltlatltl@gmail.com>
+Subject: [PATCH v2 0/4] fix and improve for Hi846
+Date: Fri,  1 May 2026 17:54:29 +0800
+Message-ID: <20260501095433.1609309-1-mitltlatltl@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: ud4ynx1w8xxoao3kkt6yo7rw19de15cu
-X-MBO-RS-ID: 634a2d56e1f2b8232cd
-X-Rspamd-Queue-Id: 2EF204AB307
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: D1DA14AB6F4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60118-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,lists.infradead.org,gmail.com];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-60120-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,nxp.com,pengutronix.de,gmail.com,linux.intel.com,posteo.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[manuelebner@mailbox.org,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,mailbox.org:dkim,mailbox.org:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	FROM_NEQ_ENVFROM(0.00)[mitltlatltl@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-On Wed, 2026-04-29 at 18:00 -0700, SeongJae Park wrote:
-> On Wed, 29 Apr 2026 17:53:36 -0700 SeongJae Park <sj@kernel.org> wrote:
->=20
-> > On Wed, 29 Apr 2026 09:14:44 +0200 Manuel Ebner <manuelebner@mailbox.or=
-g>
-> > wrote:
-> >=20
-> > > Update the documentation to reflect new type-aware kmalloc-family as
-> > > suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
-> > > and family")
-> > >=20
-> > > ptr =3D kmalloc(sizeof(*ptr), gfp);
-> > > =C2=A0-> ptr =3D kmalloc_obj(*ptr);
-> > > ptr =3D kmalloc(sizeof(struct some_obj_name), gfp);
-> > > =C2=A0-> ptr =3D kmalloc_obj(*ptr);
-> > > ptr =3D kzalloc(sizeof(*ptr), gfp);
-> > > =C2=A0-> ptr =3D kzalloc_obj(*ptr);
-> > > ptr =3D kmalloc_array(count, sizeof(*ptr), gfp);
-> > > =C2=A0-> ptr =3D kmalloc_objs(*ptr, count);
-> > > ptr =3D kcalloc(count, sizeof(*ptr), gfp);
-> > > =C2=A0-> ptr =3D kzalloc_objs(*ptr, count);
->=20
-> Forgot asking this, sorry.=C2=A0 Shouldn't 'gfp' parameters be kept?
+This series fixes a error blocking Hi846 driver function, fixes
+link frequency and supports 6MP and 8MP modes on Hi846.
 
-Yes, i should have kept it, like so:
+Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+---
+Changes in v2:
+- remove uncessary `else` (Sakari)
+- fix link frequency (Sakari)
+- correct link frequency for DT
+- Link to v1: https://lore.kernel.org/linux-media/20260429070351.1307204-1-mitltlatltl@gmail.com
 
-eg. ptr =3D kmalloc_obj(*ptr, gfp);
- -> ptr =3D kmalloc_obj(*ptr [, gfp] );
+Pengyu Luo (4):
+  media: hi846: fix hi846_write_reg_16 handling
+  media: hi846: fix link frequency handling
+  media: hi846: Add 6MP and 8MP modes support
+  arm64: dts: imx8mq-librem5: Correct link frequency list
 
-same in [Patch 2/3]
+ .../boot/dts/freescale/imx8mq-librem5.dtsi    |   2 +-
+ drivers/media/i2c/hi846.c                     | 226 +++++++++++++++---
+ 2 files changed, 190 insertions(+), 38 deletions(-)
 
-> >=20
-
-> > > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> >=20
-> > Acked-by: SeongJae Park <sj@kernel.org>
->=20
-> My Acked-by: is still valid regardless of your answer to my trivial quest=
-ion.
-
-Thanks
- Manuel
-
->=20
-> Thanks,
-> SJ
->=20
-> [...]
+-- 
+2.54.0
 
 
