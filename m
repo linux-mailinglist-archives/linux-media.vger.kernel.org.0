@@ -1,249 +1,260 @@
-Return-Path: <linux-media+bounces-60156-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60157-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8B2dGO3N9GkAFQIAu9opvQ
-	(envelope-from <linux-media+bounces-60156-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 17:59:41 +0200
+	id eOVQCyXf9Gn8FQIAu9opvQ
+	(envelope-from <linux-media+bounces-60157-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 19:13:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFED4ADD50
-	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 17:59:40 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B264AE68F
+	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 19:13:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 27FDE307362D
-	for <lists+linux-media@lfdr.de>; Fri,  1 May 2026 15:55:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 42713304BC8A
+	for <lists+linux-media@lfdr.de>; Fri,  1 May 2026 17:08:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 734FD3D6696;
-	Fri,  1 May 2026 15:54:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79393406261;
+	Fri,  1 May 2026 17:08:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MMngYb3a"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nJHiCfSX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D586E3D7D91
-	for <linux-media@vger.kernel.org>; Fri,  1 May 2026 15:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777650885; cv=pass; b=dCxvLmcuVow8xQZsG+fUC6mZuUKYC5XxTgkQdb3U6/KjlqLQ7xIYyBNF1Z2TPtu3jo1FxUGzyum8YjQqUTWhNf3Sfqz1wXmr3dJIOEgI+D33u3ME/0qIHhXmbmJrrzqhZP1Dsz2wm+vWgF1Qsziz9bjtFT7CXDC4IqGanPfqHG0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777650885; c=relaxed/simple;
-	bh=6F6wYU18yxg4ylsZFJ3NklBJq4gHY1P9YinU+KyOCWw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HWNgxRWqWNvdvwxIkZtY2QdIN/LHJU0ZR7vHo26Tq/NnYc8c4+xioefEqNcseKgfy+b8iI3dMv5ROTzwmjMvfotWNu8iQ6bmbTYTD88t+jO7jYaaRWh1ix3xDNkDECN+22pz4QX2mmH3LpVotVi0JGCvycuUJeZj7jCIxZGXQKs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MMngYb3a; arc=pass smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4891b4934ffso117925e9.0
-        for <linux-media@vger.kernel.org>; Fri, 01 May 2026 08:54:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777650882; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Ii41tmrrDdJIOMT+9hcNc6fYF/MNmNkmP1dGbnR3DDsaa924HITzg/WwihzKKoyQ3w
-         kTFXRMNvCC+4a9UruSn7uz9nVjB7FrO6vLjoxcazNUYwhCliji66Uir/Foje5yMI3dcj
-         DynFw0iDN1E673qmvI2fRjatiKMJHdCsW6om8EcAW7tWF8LKcivlSyoIKpHYhxNpdxyp
-         n0Nx0Q24CRvqdy/uGGS3tuQMN9rIC1c58QLYW7X23yKO9i5hjILZ7iDry65ZENZHpJgy
-         RjajbjpJf7U2FV54yfBbEBBn/yPEnCslDScAHfgBXiD4r11e6CG30NmoukNILCCrAAiO
-         kVhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jwUF0jTP/NOVRMHfd02ulbOWRiSGddGMyJftTXYHjDU=;
-        fh=A91k+eFb1zCVFkuQupsMVllnbO6SaGmi00Mxwqynb7w=;
-        b=HP1fIhYKGtc8t28Jo/r10OcCnK5OJVe7LDkssOIdiKl01jZObUSa0eNghU16zrid6Z
-         CcV2zZEduMEhOI+uYCLYADMiS+G0WQF1OrI1AuDEiJLCO57AY1eTB7IyFnoRHa2mh9Qy
-         u4er0u8YIgsor1gVsVB1nZkvbbUY7vjcEtdxvwzek/Y5DVNZgUlBdsOPo+mFRdp9jR+/
-         LPgJ1cUdZx3OhCWhWbdB4vPvX9VW+1oBdvklrWfjBl3ZfOWhMOHjPZXqp2MFYpTKWobF
-         sqQdgkdK1YWLyStcJC0+l1K3bR5NCUxLAa8I92EWaTrVvjFoXk+cQmBfjdZxVBssnN2g
-         /SkA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602A73D8910
+	for <linux-media@vger.kernel.org>; Fri,  1 May 2026 17:08:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777655317; cv=none; b=Hlmx6Zpj0gt7naOp+c9h8Kj4XUhIoku6q7UvPpt1bkQT++JU+yOd8/bzkWtBd7I5EFzptdekHDYcpttCcIWXOIxAElKJW8TKC5uBYYsCsgd9a+kKeVDQdl/9731rGI956SQl2hZcL0mmjE/CASl+8hXdqj5gDaHqhzelHf42DDE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777655317; c=relaxed/simple;
+	bh=5YlxqVUZMmAu7OzHvewNrtOrDhqyNa39uWLh5eD7InY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CB5Hzb0LxgUUZ5gk+A9fsB8uUE8lQu2WgiSTeuVMt013a2vHeN2sdLlopxMIExbwF35jzoJWVIWqGpHZWF0PviZx5/khWIkwikl7aWXvyidx9FSX9ck/X8KGBjyTl08af1TORPJ1kqkEIGx9dv6dF7jaSArOktekJaqGvvFnazk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nJHiCfSX; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82748257f5fso2393955b3a.1
+        for <linux-media@vger.kernel.org>; Fri, 01 May 2026 10:08:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777650882; x=1778255682; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jwUF0jTP/NOVRMHfd02ulbOWRiSGddGMyJftTXYHjDU=;
-        b=MMngYb3aml9EvfMFSqihGenHoRBqR+kQ5UIvNf4ibhU9wwi9wh8/cLjQh/uf2mrHwp
-         AkXd+YOjm4FoH0TUvc1EOwsYYRTOAMSDTYn2UuDybpKTsFicQ6oUlM39GKzoq0w+ghSA
-         dcEp36123NioidDn3tVaFFNM6Q9+Rm+AuISJCLgx25C0erTK5429CtQ8mXGgeJYQZMox
-         em1p5wzq8pFRg9b209uKiG3qR/U4J4mP6t0qVFa8FgLo/t0dXUwmZ4ApgvOg3tT092sF
-         lBlzIQzhzC94gTOHerlKVhqRoKoe7oYj8d/lyP3LG8dg7hUUcU+gg6wuuxFGmCD/ATjt
-         YhpQ==
+        d=gmail.com; s=20251104; t=1777655315; x=1778260115; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r3jBh2i5QcfKLncxdlwHNU4owYDErQsEOr4uUJaqJO4=;
+        b=nJHiCfSX9Bel0aEnZu8dmMiiqSt3wwpyxndDM3NQzJ7h/8DxORcU9dAe5uqRSARDKB
+         jPMXzAC0rM+lki9r7QCwGAQdAQGDdHwCMz8ITOTWv9smNHL/OGj+6SRsqHhSpZ1Kc8jg
+         4vAkrR/YB2d7S76wQmX9krueggMZqR1IJF1NvYs2AVRPtBj/tXRHMp3PcAUxBVbrWE+K
+         x+UI9j/w3PKSOtyvB9ZF+vOkiUC6e1RPRwGWNEsXRkksfZVnWrFyG3pZyxCRXQRWCaN/
+         ykF2VPcJJXojX6SRNGLkiUOH07+7OMVpiJN7VPib/n0vjeZyEcmQKcaK4azW+bOjkA8H
+         xCbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777650882; x=1778255682;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jwUF0jTP/NOVRMHfd02ulbOWRiSGddGMyJftTXYHjDU=;
-        b=gBEmmpoaNDnsnCqCeWOdqEIfrXeLbwr9nkyD6hoCldo+t1LRL8CYqSGc8UKFVq/k+9
-         uh9+mGups5SkxJ+jcvUToWf/xHh6aPaiN2dFxURzEjkQ5J4bX1vARagTGh6HupZZN9sL
-         AxUSL0E9MrYSLO54kxzVEPhsnO2swTimU8/9Bcamvd2+lvCbF0zafCWjW5RCeJkZmnxO
-         QdDaCF/DZHdl6erpM8hsPUx1BoMGnWlohMZ4TCXwZaSS2f3TpTZptQNWIVxK9GPZcTX/
-         RlhHje6gAiAW39imbBlV4cO1b4A3jrqTTUdCtxD9BC+mxb9MD2pRJpR7IUtwMVOZFauw
-         Gbqg==
-X-Forwarded-Encrypted: i=1; AFNElJ+DGXVtz0VOvKz0lZp+Gx9jLDVaj5nJYVdW7FZiyUSdqPaIhwWXo8v7poX7uBW1oZMu5ZmeUH/kH4TESw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHv6PsAmOHndXagPNZvSkhFBf0YLmRuAbJvDFTpgrY0OcDAQwy
-	EyFLg6Xltrc3ULKE/o68omfcS5N5vepYF5njIUS+ZV/TtCFqnsodJO17OPKCJDu7huTVzdMkBuQ
-	Y2uE1y+0ug8rGNoakj/HDidh1lI1UQvSssTo41ls5
-X-Gm-Gg: AeBDieu16Su2h60jgGNW2dZbrbZVejkFIkZNnD1fy186qmN8wsry9U24VU0MEuXmNra
-	eOYCjQ5VUnNLJnkTnPGegKAaa7/xUwYO0igsN/NGSUDY2H32Iv+fxOd4ZMrD481DjkNbiBvPrvb
-	V+/d/+8UtiJ6mc7wGXUTD3DC1Fu92Wp7ghLeaRzZfzEOoxFqjGcghBP+Jcwp8C6r2tKcn0R+384
-	OE6N4CJmNcuj7bBpjlkeQmZD+OzWBA2fgxAJL6h9bhDVPgRWl4LjWM+gCz+xjtUX8QK/DVN3sTm
-	DuHIeUqobOR6TumWdBjEufxLRO83DUs4m8gXp13GWTih07kikrUSvQFomSs=
-X-Received: by 2002:a05:600c:588a:b0:48a:55dc:9c1e with SMTP id
- 5b1f17b1804b1-48a8dbd8581mr1073235e9.10.1777650881744; Fri, 01 May 2026
- 08:54:41 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777655315; x=1778260115;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r3jBh2i5QcfKLncxdlwHNU4owYDErQsEOr4uUJaqJO4=;
+        b=mEXU86WoDX/T/68BvAN9KBqajTBDXoPqmNudt0lU3MoyVJrn2IrudDKIim2UVVmyxR
+         odm1GQYkSQ78H+TWOwA180CcPJ57s5ljR6AD8EoFtZqigOfSbh3JgK9y/bKGusPmqOWz
+         O6rDDEye0m+yqsmlnMA6H95jbPzXRloa3uVSiYgIIhtyvkxzZoNTa2RefCKudtusoWR6
+         /bXZ0ZY22DHOFWIls6qB8/TPRJ5HZVsng54kKj53WrNxhgDunfR+ljzXQen/hqYEgWbw
+         bWqJvZtOehXL+6L6buWQBgAS+WrXQWO9+N5DJ5wxqT0BUcLON7Q7J8SCo4c1DNm8bJCH
+         lWEQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+memMyKDYThz6uD1Zby/HHa/XgZ9qr07VDQhf7i3KE3Bmf8dbFwIu27jG6rSX1yUniezEx1tobtwCQBA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuNDrZhGcPaygZ+1CpT4o6HhMCG7wmchge8fdb0eLpXgxL/fo2
+	VezuguosiZ/8WOu+tbbj18rIc3NY/3CPqJd485WHaECE78V9nRpfwUnM
+X-Gm-Gg: AeBDieuuTAI2FlYcMlNYVGzzLW6ZNQBTCkKN33y3OoWi8qp7lQdvvBgs+DSX4mvT9my
+	GpiCGVfthBTXzrfoqy7lx7hlwImrY4Wzk1p6DbkUT87YXxKP7UFVgzR/LsFfyL2II1ZWOhGpsUP
+	TrvSKVt148/J9E5SXToOhwIbDRVNtzfKQl1xJAJS5a1MzcAzeeyiuf6T4sEpmvrPvZHR0SO5/or
+	381fgekfZo2zj5PgGdaBDX2Zf8Rp9i3iyh2qXsD5y3xBWk8s3HfUXNfFXckyS7HgPTAGJ4DVOJF
+	TbStbxPl7Qo/0BLYGo+zFsfJeFyIuBy4M6NHgxYxlNUlCg6QgnsLAZzX15fIieT04J6r2pPBmeQ
+	NKGTWDiJY9cpL1UZSbp427D37XYOGGIa+pqab6kQBbqdR377mci70uP6p7N7OQo6i1jrVj6nLUh
+	oDICkuzwp4ai5mkXg/VCN3Mp5/BDw=
+X-Received: by 2002:a05:6a00:b488:b0:7a9:d8a8:992a with SMTP id d2e1a72fcca58-834fff38ebfmr7018376b3a.13.1777655314499;
+        Fri, 01 May 2026 10:08:34 -0700 (PDT)
+Received: from localhost ([2409:40d1:ac:8595:d46b:293a:655a:c877])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83515b87869sm3368321b3a.61.2026.05.01.10.08.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 10:08:34 -0700 (PDT)
+From: Ansh Bagga <ansh.bagga.linux@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ansh Bagga <ansh.bagga.linux@gmail.com>
+Subject: [PATCH] staging: media: atomisp: fix block comment formatting
+Date: Fri,  1 May 2026 22:38:02 +0530
+Message-ID: <20260501170802.554963-1-ansh.bagga.linux@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260406214938.24142-1-baohua@kernel.org> <a6d1c89a-3c71-4e06-adcb-56595071dcc2@amd.com>
- <CAGsJ_4xquCzQLbvpkC8arAN=9KhrAkdPdxnB=v85GvvQu23Xyg@mail.gmail.com>
- <9034246e-3971-4fad-94b7-80f4ad0e29db@amd.com> <CAGsJ_4z5EZoNMBVnu6sCkThyi9VTCeCH29buVecuySuv_Ry8fw@mail.gmail.com>
-In-Reply-To: <CAGsJ_4z5EZoNMBVnu6sCkThyi9VTCeCH29buVecuySuv_Ry8fw@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Fri, 1 May 2026 08:54:29 -0700
-X-Gm-Features: AVHnY4K9IQcLD4rvVzmAGkjSkrXkB2IVyJxFSBLPqAnQQvgeGWt-GzWKe8Eu21c
-Message-ID: <CABdmKX3baqmBkZxMB6PTG6Sj5S9qi+RwVvwpmkLqKkqvfeZAUw@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: system_heap: Optimize sg_table-to-pages
- conversion in vmap
-To: Barry Song <baohua@kernel.org>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
-	Xueyuan Chen <Xueyuan.chen21@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: CBFED4ADD50
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: D4B264AE68F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[amd.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,gmail.com,linaro.org,collabora.com,arm.com,google.com];
-	TAGGED_FROM(0.00)[bounces-60156-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tjmercier@google.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
+	TAGGED_FROM(0.00)[bounces-60157-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,vger.kernel.org,lists.linux.dev,gmail.com];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,amd.com:email,mail.gmail.com:mid]
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[anshbaggalinux@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.992];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-On Thu, Apr 30, 2026 at 9:15=E2=80=AFPM Barry Song <baohua@kernel.org> wrot=
-e:
->
-> On Wed, Apr 22, 2026 at 3:10=E2=80=AFPM Christian K=C3=B6nig
-> <christian.koenig@amd.com> wrote:
-> >
-> > On 4/7/26 13:29, Barry Song wrote:
-> > > On Tue, Apr 7, 2026 at 3:58=E2=80=AFPM Christian K=C3=B6nig <christia=
-n.koenig@amd.com> wrote:
-> > >>
-> > >> On 4/6/26 23:49, Barry Song (Xiaomi) wrote:
-> > >>> From: Xueyuan Chen <Xueyuan.chen21@gmail.com>
-> > >>>
-> > >>> Replace the heavy for_each_sgtable_page() iterator in system_heap_d=
-o_vmap()
-> > >>> with a more efficient nested loop approach.
-> > >>>
-> > >>> Instead of iterating page by page, we now iterate through the scatt=
-erlist
-> > >>> entries via for_each_sgtable_sg(). Because pages within a single sg=
- entry
-> > >>> are physically contiguous, we can populate the page array with a in=
- an
-> > >>> inner loop using simple pointer math. This save a lot of time.
-> > >>>
-> > >>> The WARN_ON check is also pulled out of the loop to save branch
-> > >>> instructions.
-> > >>>
-> > >>> Performance results mapping a 2GB buffer on Radxa O6:
-> > >>> - Before: ~1440000 ns
-> > >>> - After:  ~232000 ns
-> > >>> (~84% reduction in iteration time, or ~6.2x faster)
-> > >>
-> > >> Well real question is why do you care about the vmap performance?
-> > >>
-> > >> That should basically only be used for fbdev emulation (except for V=
-MGFX) and we absolutely don't care about performance there.
-> > >
-> > > I agree that in mainline, dma_buf_vmap is not used very often.
-> > > Here=E2=80=99s what I was able to find:
-> > >
-> > >   1   1638  drivers/dma-buf/dma-buf.c <<dma_buf_vmap_unlocked>>
-> > >              ret =3D dma_buf_vmap(dmabuf, map);
-> > >    2    376  drivers/gpu/drm/drm_gem_shmem_helper.c
-> > > <<drm_gem_shmem_vmap_locked>>
-> > >              ret =3D dma_buf_vmap(obj->import_attach->dmabuf, map);
-> > >    3     85  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> > > <<etnaviv_gem_prime_vmap_impl>>
-> > >              ret =3D dma_buf_vmap(etnaviv_obj->base.import_attach->dm=
-abuf, &map);
-> > >    4    433  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c <<map_external>>
-> > >              ret =3D dma_buf_vmap(bo->tbo.base.dma_buf, map);
-> > >    5     88  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c <<vmw_gem_vmap>>
-> > >              ret =3D dma_buf_vmap(obj->import_attach->dmabuf, map);
-> > >
-> > > However, in the Android ecosystem, system_heap and similar heaps
-> > > are widely used across camera, NPU, and media drivers. Many of these
-> > > drivers are not in mainline but do use vmap() in real code paths.
-> >
-> > Well out of tree drivers are not a justification to make an upstream ch=
-anges.
-> >
-> > Apart from a handful of workarounds which need to CPU access as fallbac=
-k DMA-buf vmap is only used to provide fb dev emulation.
-> >
-> > The vmap interface has already given us quite a headache in the first p=
-lace and there are a couple of unresolved problems regarding synchronizatio=
-n and coherency.
-> >
-> > When a driver would be pushed upstream which makes so frequent use of t=
-he dma_buf_vmap function that it matters for the performance I think there =
-would be push back on that and the driver developer would require a very go=
-od explanation why that is necessary.
-> >
-> > So for now I have to reject that patch.
->
-> Well, it doesn=E2=80=99t seem to increase complexity, and the code is qui=
-te easy
-> to understand.
+Fix checkpatch warnings regarding block comment alignment.
+Block comments should use a trailing '*/' on a separate line to
+adhere to the kernel coding style guidelines.
 
-I agree with this. This change introduces basically no downsides for
-upstream, even if it primarily benefits a rare use case. Since
-dma_buf_vmap is exported for driver use, why not enhance the
-performance for all callers?
+Signed-off-by: Ansh Bagga <ansh.bagga.linux@gmail.com>
+---
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 41 ++++++++++++-------
+ 1 file changed, 26 insertions(+), 15 deletions(-)
 
--T.J.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index fec369575d88..37ccc95076a7 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -1380,8 +1380,10 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
+ 	if (atomisp_css_get_grid_info(asd, pipe_id))
+ 		return;
+ 
+-	/* We must free all buffers because they no longer match
+-	   the grid size. */
++	/*
++	 * We must free all buffers because they no longer match
++	 * the grid size.
++	 */
+ 	atomisp_css_free_stat_buffers(asd);
+ 
+ 	err = atomisp_alloc_css_stat_bufs(asd, ATOMISP_INPUT_STREAM_GENERAL);
+@@ -1394,7 +1396,8 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
+ 		/* Failure for 3A buffers does not influence DIS buffers */
+ 		if (asd->params.s3a_output_bytes != 0) {
+ 			/* For SOC sensor happens s3a_output_bytes == 0,
+-			 * using if condition to exclude false error log */
++			 * using if condition to exclude false error log
++			 */
+ 			dev_err(isp->dev, "Failed to allocate memory for 3A statistics\n");
+ 		}
+ 		goto err;
+@@ -1687,8 +1690,9 @@ int atomisp_3a_stat(struct atomisp_sub_device *asd, int flag,
+ 
+ 	if (atomisp_compare_grid(asd, &config->grid_info) != 0) {
+ 		/* If the grid info in the argument differs from the current
+-		   grid info, we tell the caller to reset the grid size and
+-		   try again. */
++		 * grid info, we tell the caller to reset the grid size and
++		 * try again
++		 */
+ 		return -EAGAIN;
+ 	}
+ 
+@@ -2463,8 +2467,9 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
+ 		    memcmp(&coefs->grid, cur, sizeof(coefs->grid))) {
+ 			dev_err(asd->isp->dev, "dvs grid mismatch!\n");
+ 			/* If the grid info in the argument differs from the current
+-			grid info, we tell the caller to reset the grid size and
+-			try again. */
++			 * grid info, we tell the caller to reset the grid size and
++			 * try again.
++			 */
+ 			return -EAGAIN;
+ 		}
+ 
+@@ -2519,8 +2524,9 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
+ 		    memcmp(&dvs2_coefs.grid, cur, sizeof(dvs2_coefs.grid))) {
+ 			dev_err(asd->isp->dev, "dvs grid mismatch!\n");
+ 			/* If the grid info in the argument differs from the current
+-			grid info, we tell the caller to reset the grid size and
+-			try again. */
++			 * grid info, we tell the caller to reset the grid size and
++			 * try again.
++			 */
+ 			return -EAGAIN;
+ 		}
+ 
+@@ -3027,7 +3033,8 @@ int atomisp_param(struct atomisp_sub_device *asd, int flag,
+ 
+ 		/* We always return the resolution and stride even if there is
+ 		 * no valid metadata. This allows the caller to get the
+-		 * information needed to allocate user-space buffers. */
++		 * information needed to allocate user-space buffers.
++		 */
+ 		config->metadata_config.metadata_height = asd->
+ 			stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream_info.
+ 			metadata_info.resolution.height;
+@@ -3278,7 +3285,8 @@ atomisp_bytesperline_to_padded_width(unsigned int bytesperline,
+ 	case IA_CSS_FRAME_FORMAT_RGBA888:
+ 		return bytesperline / 4;
+ 	/* The following cases could be removed, but we leave them
+-	   in to document the formats that are included. */
++	 * in to document the formats that are included.
++	 */
+ 	case IA_CSS_FRAME_FORMAT_NV11:
+ 	case IA_CSS_FRAME_FORMAT_NV12:
+ 	case IA_CSS_FRAME_FORMAT_NV16:
+@@ -3315,8 +3323,9 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
+ 			   arg->fmt.bytesperline, sh_format);
+ 
+ 	/* Note: the padded width on an ia_css_frame is in elements, not in
+-	   bytes. The RAW frame we use here should always be a 16bit RAW
+-	   frame. This is why we bytesperline/2 is equal to the padded with */
++	 * bytes. The RAW frame we use here should always be a 16bit RAW
++	 * frame. This is why we bytesperline/2 is equal to the padded with
++	 */
+ 	if (ia_css_frame_allocate(&res, arg->fmt.width, arg->fmt.height,
+ 				       sh_format, padded_width, 0)) {
+ 		ret = -ENOMEM;
+@@ -3926,7 +3935,8 @@ static inline int atomisp_set_sensor_mipi_to_isp(
+ 	}
+ 
+ 	/* Compatibility for sensors which provide no media bus code
+-	 * in s_mbus_framefmt() nor support pad formats. */
++	 * in s_mbus_framefmt() nor support pad formats.
++	 */
+ 	if (mipi_info && mipi_info->input_format != -1) {
+ 		bayer_order = mipi_info->raw_bayer_order;
+ 
+@@ -4385,7 +4395,8 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 			V4L2_SEL_TGT_CROP);
+ 
+ 	/* Try to enable YUV downscaling if ISP input is 10 % (either
+-	 * width or height) bigger than the desired result. */
++	 * width or height) bigger than the desired result.
++	 */
+ 	if (!IS_MOFD ||
+ 	    isp_sink_crop.width * 9 / 10 < f->fmt.pix.width ||
+ 	    isp_sink_crop.height * 9 / 10 < f->fmt.pix.height ||
+-- 
+2.54.0
 
-> It would be great if the community could be more welcoming
-> to developers who are just getting involved, rather than discouraging the=
-m.
->
-> Apparently, no one can control whether the source code of those kernel
-> modules will be upstreamed except the vendors themselves, but products
-> can still benefit from the common kernel.
->
-> Best Regards
-> Barry
 
