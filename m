@@ -1,227 +1,172 @@
-Return-Path: <linux-media+bounces-60160-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60161-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iPFSAWz09GnJFwIAu9opvQ
-	(envelope-from <linux-media+bounces-60160-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 20:43:56 +0200
+	id iNiYOGn29GklGQIAu9opvQ
+	(envelope-from <linux-media+bounces-60161-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 20:52:25 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA104AEEAD
-	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 20:43:55 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B9064AEF40
+	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 20:52:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 529F43017241
-	for <lists+linux-media@lfdr.de>; Fri,  1 May 2026 18:43:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0C62B3015476
+	for <lists+linux-media@lfdr.de>; Fri,  1 May 2026 18:52:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8902B3DA7DB;
-	Fri,  1 May 2026 18:43:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 368DA410D1F;
+	Fri,  1 May 2026 18:52:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="XGON0lWH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pr1G0MLF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC89935DA78
-	for <linux-media@vger.kernel.org>; Fri,  1 May 2026 18:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777661027; cv=none; b=ajBIA2/g1Rmabfap76RqOJ1+0ZsiNw+3lFDdGPkcNPaVZtStMUpFq7UDPdFenHMpdscGqHLw1+ecHXbo3Pf/giueMz+8LHgQkY7cskTumY4y04UMFADpIjapTiy1+KhFpLjcsxpUNbEOhCqOR/oDLt6qwQ1GR7pQyBgPeOmN+Pg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777661027; c=relaxed/simple;
-	bh=2dFQtxEBStWKwzBnikgKADbJcEf1D54n3gMLhcCj368=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lhX0W/rWwBlQeygXxFj0c8HP82P5Zek89c8hqAra+eYJH5ACo+MlnkVD6+MvlMaOsukrqbtk+7qm46xf/6qEwPxhDbKYjxKYh2fzMfbETvaneZcG5nNHyBxWlBTbc8owNPdwLBKrDTMxY4gK4JdAgrNRvKpDlzpazDmQq1Ju5ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=XGON0lWH; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-50d75bfb259so14584511cf.1
-        for <linux-media@vger.kernel.org>; Fri, 01 May 2026 11:43:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514F33CBE7C
+	for <linux-media@vger.kernel.org>; Fri,  1 May 2026 18:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777661531; cv=pass; b=LjonRhEYM9tR3vZgsyeMGnKJFKEti1CgRhfjdLAC0bB4XTXysqIJs75lHSS3c2uZXfy9Miow1T4ZY/9hX27HP9nN/jdAx7TR2imbaXd1ZARTHQIhUc7O0b/3uAbsLmFQx6rPrzjgUTK0JzyvXY6lQEQB5vC1S8ptYNCsDzBnPDg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777661531; c=relaxed/simple;
+	bh=3VIb4Pf0NAkkWRr1YIHvaBV90/pW2+lmTFPT/UOcM+0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WvXBCmYlDnjDh8Ow9C1q7bmrZGS5G6w7WYQqCZm7s29eIB4MYeE0I8xO42mzxssTHnEISm7orZffiZdJV4QKztMrjm0yb+PcIFpnd0bVa7eQQ5dxbWYRF47I/LlHL+Bd8Ag4N+IBGst7xnhyDUFlwdnSBJi+jvD9BGOLxvGSaaQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pr1G0MLF; arc=pass smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ba36357195bso280792266b.0
+        for <linux-media@vger.kernel.org>; Fri, 01 May 2026 11:52:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777661529; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UDLQNd/2Bblj20c1DMHPxR5sqA9icb32PA1SZ3PS7K528W8FVzzLNTDn7dxNkHdKC8
+         Sc65OzmakOaS7q9oTfPEqK24BHilr00UOjNpORpyxLbvW5aTK1hh4ayVb75dln0q/Eya
+         xgUILrgv/8zth3MKIIQkyYDqJTEGztizgsuKrc9f98eHWrgbg/D14mcRrw8tQ8BroYaZ
+         hdAgb3s1/8EBSlqb0VbvTdLxu62TofTZZXQF52+NrttLxjKaQyeHXg6mloPqzNtMDk4C
+         G6Iwg8cFhU7AiTdYq0Kdzx9Nmg4kaqY4z2OwhA/r0tXCLu1SwQmeus8bNGDY+dLOPRdF
+         IBXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=SUoP+m/IYi7RcPZ6iuZOVHJ/w4zAYIZg82II4m9RBjs=;
+        fh=Iuflp3kqMay9Wd/werC0AhFSK2FylOZFcIJ8qqEVDV0=;
+        b=cPdRTm1rx7961JauF5pHVkDfDhNmeyBI3jIYT25tLXk4SfvBPFhgQ5J8buw65Ftndd
+         zkfkl6qwsMwM023noJhEqscOwiJP9XCUooI6Ddv9DQtYX+dfHkcgYcfVr75RYSFK+cMW
+         9DGtF85X6/oCBiB2KoO+8P7UxK3zZjBCNpsMHP05rnQgL/ylhfiLUCI3sl1eSTJwDEiO
+         /EKT0TtG5nvXy++eI/1HzOeocyEj1lWuD8LNhr6FRoilfbe3nMGhZJrZnDgvoocsRQkm
+         ECsTwSHspvpY6Nd+WAnZfDkTmHnZX/6KwgbPkIb18v6r3Mm9TfM68HsB+2Xc4motSMoX
+         Q4Jw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1777661025; x=1778265825; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ulsFcfU93D70Sa+J1hAyL4OPSDEMDmywDdF1UctN/Y4=;
-        b=XGON0lWHdpT77nm9b4LnkHRFGZCpv0393vDSYZgAl7hMVphUKPy7RfzqlCDVv7obFD
-         tONvKkUnRfLgdavbynPitxU/FhO+GYdKPgtfv520Wc8EIcBvDJlM+ziVeY9yIa+bVw0W
-         StfDR1n3S7F0+KbnlsfmbDNw/ESX0Fz5WVoK18dWZliMgiqzLPKVtJ1JfBJRPpMjMslZ
-         VQMNJyDjqePY8xLyuIBoBLdKEc74L+KElVlKDzf9DGpN1oeAmj37pUfi8CH90CaJERs6
-         PO/IY9rHBb316DNwH//OdbfP4W+4DnrEII1fs/CcU2BmEnZw+5m7YUru4V3aMdgsJkBV
-         azgQ==
+        d=gmail.com; s=20251104; t=1777661529; x=1778266329; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SUoP+m/IYi7RcPZ6iuZOVHJ/w4zAYIZg82II4m9RBjs=;
+        b=pr1G0MLFmr4b/gAKTzD0AyupsnJO7xBufFXhHCqPLmC+Nn3IN4TKox1Dz+ZYz4hv36
+         fVoApd5qTh3+opYUo03Bw5JEXvoMrFDBuhWfHO9VXhA9yp+8FQbB7C7GdKuzBZe6O4Ps
+         2dhUr8G0gxnpKhf8FVkb4FVECsiMJLFZF5WDLyLB+552yqbtoLf8lIcC6KWud0y/iG0S
+         wyx/zUt4AxZNuEpE4tjfbvhIc3JRIMNKxSxQHFumvf1DfKv+rkg5Wd4CcOTmHMQnt7SI
+         T8rY/RvIl03drPznCrlznT7a+zfHpmZyXD/+6XwPVvoYTDXTKvBFQ7ZSdT1RalB58yAW
+         fGkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777661025; x=1778265825;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ulsFcfU93D70Sa+J1hAyL4OPSDEMDmywDdF1UctN/Y4=;
-        b=CreOEi6OIPTLulJV+qZjvdaW+mJ1wqoBCvqAz71BeNa1v/7yhUMrlMBnS8PX6WtTfB
-         BEeMHPh3nYI1K8bQPELqB6KMyeFhbWcLXzmAY/WskrOqPWHAMT2q6qO0IgSvmTwUHcJ0
-         Zzfc7fNgHpMeL6QB6b/bvjczutdI8H1Ik5/oH6zzmVtM20jDF2LnNYEM/lGpGn8OS0ab
-         1FT+j83wauvHoG8H5Mp9Gf1nFpcZttwl3XtUkOVJro/514zUl//XFNEMLb4sm1slULgP
-         pDT3IK85DIqeyMXGUJKmHJ/RWTh5YKoYRvaZsmR/isVZzcb34uT5sRTi0hupLEMT+yPo
-         wPcQ==
-X-Gm-Message-State: AOJu0Yz7xl2edp6W226pxwhxN71kJbH0YbP4v4x03N0NbF+HuzhGNiqA
-	H5gPg/6FqZH+VlikfkHu+Fs4EyHyk1oZfM8CwEsiEXVP8haUnVeiYffjTP4xzsQ07+g=
-X-Gm-Gg: AeBDiesuwGFlGUCOXn4csPy6VMCOhj4haBV9jQ+QhuI+qm/QTBVzddg5Le89kTLGbcU
-	YYWotiH9UMXOU26BnTk1V3EiySjEXbAkR9PbdF+2+B8PH1KxN3KnOKovKNzuY0XMHDAMAEP/kVN
-	4Ql6qX7DOoC45smt407OSlqRul/cmdVsC+hGH9N9c3oZRh96PJIcYlX8hAUYcR38p8ZXtlOM0MS
-	kFG6Px4bQNj+l4Q8Ik/el2S0tD6cTeUhbEHUbiigQoxXsNe7WrvfBzz8AUMWRD9HB5LUmtoFihH
-	1m0G1Z3pJyHsTkhSps8gpa5h+WXyfP9wfkAzerUqjvu9VdTNv8q1KH7J5pP9zSSADS4+KzJVhrt
-	iFWrZYvolnKxqYIzytE0vnBWVrxeBzEz/X886QurVl10ppC0WcZJ0NgWlcAOzCL70CU8cve4HsG
-	1HtZMOTVSEPnZwrFdM2TV9QxasFbXhuxAjt05m4QhmmqcEzxSUzcBjbA==
-X-Received: by 2002:a05:622a:4805:b0:50e:5ffd:dec2 with SMTP id d75a77b69052e-5104be45024mr6935901cf.1.1777661024659;
-        Fri, 01 May 2026 11:43:44 -0700 (PDT)
-Received: from [192.168.42.160] (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51041ddb598sm18992271cf.13.2026.05.01.11.43.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2026 11:43:43 -0700 (PDT)
-Message-ID: <fae38f0f4ab8e8176cb6c5a37246e7aa5b5409d8.camel@ndufresne.ca>
-Subject: Re: [PATCH v2] media: mediatek: vcodec: free working buf in
- vdec_vp9_slice_setup_single()
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, tiffany.lin@mediatek.com, 
-	andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com, mchehab@kernel.org, 
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
-	laurent.pinchart@ideasonboard.com, hverkuil+cisco@kernel.org, 
-	p.zabel@pengutronix.de, benjamin.gaignard@collabora.com, 
-	xiaoyong.lu@mediatek.com, mingjia.zhang@mediatek.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	stable@vger.kernel.org
-Date: Fri, 01 May 2026 14:43:42 -0400
-In-Reply-To: <20260429070119.181876-1-lihaoxiang@isrc.iscas.ac.cn>
-References: <20260429070119.181876-1-lihaoxiang@isrc.iscas.ac.cn>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-aMrOnipeNucjfzPvuk1Q"
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+        d=1e100.net; s=20251104; t=1777661529; x=1778266329;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SUoP+m/IYi7RcPZ6iuZOVHJ/w4zAYIZg82II4m9RBjs=;
+        b=ZYvrmoNBlgEE06+OiOXy5pK84mw0rQgdSlsMWPkIs5QeKm39af+TkgvBSEJREkOg8s
+         /gxtmKXVqVI72LJTbyNVBvet9NCeQ46znVH9o2MXJZj8w+cy+4hLgg48fqyiqIuPkByo
+         s9PefSZbapgMYs/8fGtT2WpaXb2BkgPGiw+o9saH4VbGZ3yQzsya2GMePTN0KcdnZHvJ
+         Spy0dnHAJjKECCbqENrD9adU+ZLfuAiGzt4UNMUY0EegW7PWjG4lKNJ9iSywpyI3n+sT
+         a6QtPJHguTe8BKiEQPDrIR10dOLCd0xKP79w0BUC202onwvlzWj+DScc2djDnbIAc8hs
+         WKpg==
+X-Forwarded-Encrypted: i=1; AFNElJ9fV1PiQuk0nFkfoJGXf59NCN24dmLJ+e0soivPWIWqysgX2x063fUPeug+I49G0WmJ2cxjOCgCHENeCw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEesHps82h4Luj2z+FQB2DSTT4UnLdw8D42F1oYFlBm2rMWVdU
+	PppOeZ5SMJBOJXGw5cvg8b3dCHuWpJiSMbl1+98ZNK67UHknkXU88Sr3Jixa8TsFAx1m8A0ZQPZ
+	gQiKF42X0kyJBYL8EDmP6VOUxioleuxw=
+X-Gm-Gg: AeBDietm1xHlC1aiIq2RZf/1S+TVbDdUZRLkihZC2AcvD2nbS0gMMsS8OkiYsl4wVX3
+	2IGoXpBZZHYBSi/41MLQ+tIqxFJkzMsQi64oO9LmY9JE49rXGjQrglU7qZuNJasPwceCvXhS4K1
+	U6g2tJxwkI7YfiH/XoBLYlI5/CgSg2TzD0Wwv0sl9LxjHKJXmmkWh6V+YglYWbiwh/iONpg2u79
+	xsj5c/PT0TP3nBrWcqnSCqegZ3XzKUfiWYaitiMcT5UTyPUpkBHLrShfVr8bm6oyeiCyNypphZC
+	7dN0zxosQl2BaQ7NeusXlOuIYpdLAcMnU+3d/OFKspWmbX3yUOg5YjUpFDNuExXp79OxsuKfhMk
+	f8XTrFBFC58zh/CXdEg==
+X-Received: by 2002:a17:907:c0a:b0:bab:f5c7:23ca with SMTP id
+ a640c23a62f3a-bbffd9c998amr12816266b.38.1777661528535; Fri, 01 May 2026
+ 11:52:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 6AA104AEEAD
-X-Rspamd-Action: no action
-X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
-	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
-	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60160-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_TO(0.00)[isrc.iscas.ac.cn,mediatek.com,kernel.org,gmail.com,collabora.com,ideasonboard.com,pengutronix.de];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ndufresne.ca:mid,ndufresne-ca.20251104.gappssmtp.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,iscas.ac.cn:email]
-
-
---=-aMrOnipeNucjfzPvuk1Q
+References: <20260501170802.554963-1-ansh.bagga.linux@gmail.com>
+In-Reply-To: <20260501170802.554963-1-ansh.bagga.linux@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 1 May 2026 21:51:32 +0300
+X-Gm-Features: AVHnY4IeP4wRWGdM6MdAS6gK_dVXnOJLSf1QB_ljovXpfgedZLB4-6OLCIE0ihI
+Message-ID: <CAHp75VeJHWMMQKPEiBsNt1afYms155mFDuBt_2PjUAEWNvAByw@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: fix block comment formatting
+To: Ansh Bagga <ansh.bagga.linux@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, 
+	sakari.ailus@linux.intel.com, andy@kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 4B9064AEF40
+X-Rspamd-Action: no action
+X-Rspamd-Server: lfdr
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
+	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60161-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andyshevchenko@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-Le mercredi 29 avril 2026 =C3=A0 15:01 +0800, Haoxiang Li a =C3=A9crit=C2=
-=A0:
-> Add an error path label in vdec_vp9_slice_setup_single()
-> and call vdec_vp9_slice_free_working_buffer() to free
-> working buffer.
->=20
-> Fixes: b0f407c19648 ("media: mediatek: vcodec: add vp9 decoder driver for
-> mt8186")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
-> ---
-> Changes in v2:
-> =C2=A0- Remove vdec_vp9_slice_setup_prob_buffer()'s return
-> =C2=A0=C2=A0 value, since it never fails. Thanks, Nicolas!
-> ---
-> =C2=A0.../mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c=C2=A0=C2=A0 =
-| 9 ++++-----
-> =C2=A01 file changed, 4 insertions(+), 5 deletions(-)
->=20
-> diff --git
-> a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if=
-.c
-> b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if=
-.c
-> index cd1935014d76..d034d84ad7f1 100644
-> ---
-> a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if=
-.c
-> +++
-> b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if=
-.c
-> @@ -1808,17 +1808,16 @@ static int vdec_vp9_slice_setup_single(struct
-> vdec_vp9_slice_instance *instance,
-> =C2=A0
-> =C2=A0	vdec_vp9_slice_setup_single_buffer(instance, pfc, vsi, bs, fb);
-> =C2=A0	vdec_vp9_slice_setup_seg_buffer(instance, vsi, &instance->seg[0]);
-> -
-> -	ret =3D vdec_vp9_slice_setup_prob_buffer(instance, vsi);
+On Fri, May 1, 2026 at 8:08=E2=80=AFPM Ansh Bagga <ansh.bagga.linux@gmail.c=
+om> wrote:
+>
+> Fix checkpatch warnings regarding block comment alignment.
+> Block comments should use a trailing '*/' on a separate line to
+> adhere to the kernel coding style guidelines.
 
-Same as previous patch.
 
-regards,
-Nicolas
 
-> -	if (ret)
-> -		goto err;
-> +	vdec_vp9_slice_setup_prob_buffer(instance, vsi);
-> =C2=A0
-> =C2=A0	ret =3D vdec_vp9_slice_setup_tile_buffer(instance, vsi, bs);
-> =C2=A0	if (ret)
-> -		goto err;
-> +		goto alloc_err;
-> =C2=A0
-> =C2=A0	return 0;
-> =C2=A0
-> +alloc_err:
-> +	vdec_vp9_slice_free_working_buffer(instance);
-> =C2=A0err:
-> =C2=A0	return ret;
-> =C2=A0}
+...
 
---=-aMrOnipeNucjfzPvuk1Q
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+> +       /*
+> +        * We must free all buffers because they no longer match
+> +        * the grid size.
+> +        */
 
------BEGIN PGP SIGNATURE-----
+The style of this one is correct, the rest are wrong.
+Better if you spend your time on doing real patches.
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCafT0XwAKCRDZQZRRKWBy
-9DtqAQC1Dg6Zdwpp1TbLyQpoV3dfXpp0ZnEkO20SH8pEBubrUgD+MoWNudTp/uFM
-Wq9Gi27dGGRSf9vDASBpXnzMdkgrVQQ=
-=o8rD
------END PGP SIGNATURE-----
 
---=-aMrOnipeNucjfzPvuk1Q--
+--=20
+With Best Regards,
+Andy Shevchenko
 
