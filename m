@@ -1,55 +1,80 @@
-Return-Path: <linux-media+bounces-60133-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60134-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IIpBMkaY9GnTCgIAu9opvQ
-	(envelope-from <linux-media+bounces-60133-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 14:10:46 +0200
+	id 4I5xKUKq9GlWDQIAu9opvQ
+	(envelope-from <linux-media+bounces-60134-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 15:27:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A5A4AC407
-	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 14:10:46 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 099934ACB7A
+	for <lists+linux-media@lfdr.de>; Fri, 01 May 2026 15:27:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 74F49301843F
-	for <lists+linux-media@lfdr.de>; Fri,  1 May 2026 12:10:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 04E6130247E6
+	for <lists+linux-media@lfdr.de>; Fri,  1 May 2026 13:27:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 832933A1687;
-	Fri,  1 May 2026 12:10:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1718B3A7855;
+	Fri,  1 May 2026 13:27:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="Ud2P/54Z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ks9s1mZI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A628839E6C9
-	for <linux-media@vger.kernel.org>; Fri,  1 May 2026 12:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.243.27.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71DCF33EF;
+	Fri,  1 May 2026 13:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777637441; cv=none; b=XS+yKzhUuUA8XE3U98TMxLMBTM3BwlbBAIIarcYcwrWeo33mvxNtPsGqpSwGoJ8Epkd2oi3iiXze7yykBjuaBGvU8OheWh6+V3ROWttyfh5B9KMaPtRQ5W0HzQsnG/C5CehZPrrYl9ReuQMDgbEbm6blLIy5KIf+vDoJWYUGKS4=
+	t=1777642028; cv=none; b=BREC5jtlhomovGqd9l6K9zD5H9kDE8Hdt1HQSp99qobhGwleY/7zvacF8m8jbvA0VwUc0UO6Oz4imarLa5HOx+dwvSTl96V+aBuxAJkrsWvdfV3fNizlhNKJXij2oZ3a6BQV6tLqvCdGqVKKx76YV/xKmD2lsJG8wOwD4vv328w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777637441; c=relaxed/simple;
-	bh=ZMdIxlvI3YK3JOmnzXINozQOFM3ZXEhQtChewYDGhuI=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TIGfCfXEDRxNjcWxHAu0/AAC197g+czlWTWG/kWErEgm1A/m3rEWQzYxUTm5UU/Mxn2OzO5F5LVmsNndWwo636gj0oFxm44iAKU+PM9tAkUhcuU9NKHwUMXXdgueB3ImXzhZd4TNRWth2eLMAzVvxvVFZ3bfWW4YcJglB7x8elE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=Ud2P/54Z; arc=none smtp.client-ip=92.243.27.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1777637437; bh=ZMdIxlvI3YK3JOmnzXINozQOFM3ZXEhQtChewYDGhuI=;
-	h=Date:From:To:Subject:From;
-	b=Ud2P/54ZeLScZlIdf32vcp9hNMRdi6/5P8y6a5nAz/pNwYt6LFCOfInoQOXrStzti
-	 mLTzO/YMDSPyiM1lLu/+cWVPIYogLtlKX9wURxvOTDNX7cEEIE/U/PHfgE+ANQIJaR
-	 MsuE1xKI67dX6D1xeIAMW2Q8t2NFk3GJRkbpSDcnYDwrFjClXKzsX8ghxmQUKvrVAg
-	 fHwM88KqiAMNvKRzoh5vMM5KcBXnXvfZSIQI82dhOrwCYLpjmVR0yoLhXtVK8IbjBJ
-	 JRUtpUX6ef7xgFgnjDqFZ+o7a6bU1jFJEpRBW1V3Jh+Wsg5gy8MWIQoxvvWplbZK7N
-	 w6b4GWR2Kg/cw==
-Received: by extorris.mess.org (Postfix, from userid 1001)
-	id CF4E240176; Fri, 01 May 2026 13:10:37 +0100 (BST)
-Date: Fri, 1 May 2026 13:10:37 +0100
-From: Sean Young <sean@mess.org>
-To: linux-media@vger.kernel.org
-Subject: [GIT FIXES FOR 7.1] ttusbir fix
-Message-ID: <afSYPT3TJTWsxg3_@extorris.mess.org>
+	s=arc-20240116; t=1777642028; c=relaxed/simple;
+	bh=cecY22npZ8O09cZUaB8M0VENwxo6jF899E2WK/sGM8U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=THfRSWzYKQdnMnc5FNa7S+Vjzn1hQfl2fslwufIumWFF2b8SqKWCrSk0pf6CV9zHgD/+fdIA3L9QTBDHs9AciGMztiIXF52bisv2RzpbuD7huiwASTMsT+rFaARq3uT2jfueX4ZUSxJhKWiLEbqM0kVdzghArdLPyoYBlO1skWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ks9s1mZI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A09DDC2BCB4;
+	Fri,  1 May 2026 13:26:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777642028;
+	bh=cecY22npZ8O09cZUaB8M0VENwxo6jF899E2WK/sGM8U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ks9s1mZIkV8HxwO4Mq2+M0rNhz33rtPZ+PEpQg8O0T7agTQM/ie+qo1rwFzMc+b+A
+	 VqDH4/+JcAgC//FSDTXVNeTLY3ZnVf6ao0PPeE2eDyKLB70fqAtG1BZGKK4J4NwVYM
+	 OfaQriqJVci3Be7SKDrYFRY61OXwF0wXPYEyzsVt5ayiFhEFxMW1q5daFboq3L7XMO
+	 64Cx2hTxZcYCLazmmG5vv2hGIZnAcTrMTjhtB+7TrKmtFgXcpfm7HFnitN26O/Gx8U
+	 JOUfHUQd9G+45ryjeV+BQBCvFltUxfgmsGCNc+KFS0VD58QfpBufJUzuhvutKP50DW
+	 4FZ/nGOcO+OnA==
+Date: Fri, 1 May 2026 18:56:50 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: andersson@kernel.org, konradybcio@kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	robin.clark@oss.qualcomm.com, sean@poorly.run,
+	akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+	jesszhan0024@gmail.com, marijn.suijten@somainline.org,
+	airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
+	dikshita.agarwal@oss.qualcomm.com, bod@kernel.org,
+	mchehab@kernel.org, elder@kernel.org, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, jjohnson@kernel.org, mathieu.poirier@linaro.org,
+	trilokkumar.soni@oss.qualcomm.com, pavan.kondeti@oss.qualcomm.com,
+	jorge.ramirez@oss.qualcomm.com, tonyh@qti.qualcomm.com,
+	vignesh.viswanathan@oss.qualcomm.com,
+	srinivas.kandagatla@oss.qualcomm.com,
+	amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
+	op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
+	skare@qti.qualcomm.com, linux-kernel@vger.kernel.org,
+	Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH v4 11/15] media: qcom: Switch to generic PAS TZ APIs
+Message-ID: <afSqGp-yzZip7q-j@sumit-xelite>
+References: <20260427095603.1157963-1-sumit.garg@kernel.org>
+ <20260427095603.1157963-12-sumit.garg@kernel.org>
+ <20260428193714.sg5n3tntww2nuquu@hu-mojha-hyd.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -58,64 +83,234 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Rspamd-Queue-Id: 43A5A4AC407
+In-Reply-To: <20260428193714.sg5n3tntww2nuquu@hu-mojha-hyd.qualcomm.com>
+X-Rspamd-Queue-Id: 099934ACB7A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mess.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[mess.org:s=2020];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60133-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60134-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[mess.org:+];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_ONE(0.00)[1];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sean@mess.org,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_NONE(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[49];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.freedesktop.org,lists.infradead.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,gitlab.freedesktop.org:url]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email]
 
-Hi Hans, Mauro,
+On Wed, Apr 29, 2026 at 01:07:14AM +0530, Mukesh Ojha wrote:
+> On Mon, Apr 27, 2026 at 03:25:59PM +0530, Sumit Garg wrote:
+> > From: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > 
+> > Switch qcom media client drivers over to generic PAS TZ APIs. Generic PAS
+> > TZ service allows to support multiple TZ implementation backends like QTEE
+> > based SCM PAS service, OP-TEE based PAS service and any further future TZ
+> > backend service.
+> > 
+> > Along with that pass proper PAS ID to set_remote_state API. As per testing
+> > the SCM backend just ignores it while OP-TEE makes use of it to for proper
+> > book keeping purpose.
+> 
+> When we use 'Along with' or 'while at it', patch is doing two things and
+> not one.
 
-Please merge this single commit into the fixes branch for v7.1, it
-fixes the ttusbir driver which currently does not probe at all on v7.1-rc1.
+Okay, I will split this into 2.
 
-Thanks,
+> 
+> > 
+> > Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > ---
+> >  drivers/media/platform/qcom/iris/Kconfig      | 25 ++++++++++---------
+> >  .../media/platform/qcom/iris/iris_firmware.c  |  9 ++++---
+> >  drivers/media/platform/qcom/venus/Kconfig     |  1 +
+> >  drivers/media/platform/qcom/venus/firmware.c  | 11 ++++----
+> >  4 files changed, 25 insertions(+), 21 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/qcom/iris/Kconfig b/drivers/media/platform/qcom/iris/Kconfig
+> > index 3c803a05305a..f54b759c18aa 100644
+> > --- a/drivers/media/platform/qcom/iris/Kconfig
+> > +++ b/drivers/media/platform/qcom/iris/Kconfig
+> > @@ -1,13 +1,14 @@
+> >  config VIDEO_QCOM_IRIS
+> > -        tristate "Qualcomm iris V4L2 decoder driver"
+> > -        depends on VIDEO_DEV
+> > -        depends on ARCH_QCOM || COMPILE_TEST
+> > -        select V4L2_MEM2MEM_DEV
+> > -        select QCOM_MDT_LOADER if ARCH_QCOM
+> > -        select QCOM_SCM
+> > -        select VIDEOBUF2_DMA_CONTIG
+> > -        help
+> > -          This is a V4L2 driver for Qualcomm iris video accelerator
+> > -          hardware. It accelerates decoding operations on various
+> > -          Qualcomm SoCs.
+> > -          To compile this driver as a module choose m here.
+> > +	tristate "Qualcomm iris V4L2 decoder driver"
+> > +	depends on VIDEO_DEV
+> > +	depends on ARCH_QCOM || COMPILE_TEST
+> > +	select V4L2_MEM2MEM_DEV
+> > +	select QCOM_MDT_LOADER if ARCH_QCOM
+> > +	select QCOM_SCM
+> > +	select QCOM_PAS
+> > +	select VIDEOBUF2_DMA_CONTIG
+> > +	help
+> > +	  This is a V4L2 driver for Qualcomm iris video accelerator
+> > +	  hardware. It accelerates decoding operations on various
+> > +	  Qualcomm SoCs.
+> > +	  To compile this driver as a module choose m here.
+> 
+> Here, Space replaced by Tabs just for one line.., should be fine.
 
-Sean
+Yeah, spaces aren't meant here.
 
-The following changes since commit 23c39cb598977f10909a2387c5e5f34afc1d6933:
+> 
+> 
+> > diff --git a/drivers/media/platform/qcom/iris/iris_firmware.c b/drivers/media/platform/qcom/iris/iris_firmware.c
+> > index 5f408024e967..856fa6a79064 100644
+> > --- a/drivers/media/platform/qcom/iris/iris_firmware.c
+> > +++ b/drivers/media/platform/qcom/iris/iris_firmware.c
+> > @@ -4,6 +4,7 @@
+> >   */
+> >  
+> >  #include <linux/firmware.h>
+> > +#include <linux/firmware/qcom/qcom_pas.h>
+> >  #include <linux/firmware/qcom/qcom_scm.h>
+> >  #include <linux/of_address.h>
+> >  #include <linux/of_reserved_mem.h>
+> > @@ -79,7 +80,7 @@ int iris_fw_load(struct iris_core *core)
+> >  		return -ENOMEM;
+> >  	}
+> >  
+> > -	ret = qcom_scm_pas_auth_and_reset(core->iris_platform_data->pas_id);
+> > +	ret = qcom_pas_auth_and_reset(core->iris_platform_data->pas_id);
+> >  	if (ret)  {
+> >  		dev_err(core->dev, "auth and reset failed: %d\n", ret);
+> >  		return ret;
+> > @@ -93,7 +94,7 @@ int iris_fw_load(struct iris_core *core)
+> >  						     cp_config->cp_nonpixel_size);
+> >  		if (ret) {
+> >  			dev_err(core->dev, "qcom_scm_mem_protect_video_var failed: %d\n", ret);
+> > -			qcom_scm_pas_shutdown(core->iris_platform_data->pas_id);
+> > +			qcom_pas_shutdown(core->iris_platform_data->pas_id);
+> >  			return ret;
+> >  		}
+> >  	}
+> > @@ -103,10 +104,10 @@ int iris_fw_load(struct iris_core *core)
+> >  
+> >  int iris_fw_unload(struct iris_core *core)
+> >  {
+> > -	return qcom_scm_pas_shutdown(core->iris_platform_data->pas_id);
+> > +	return qcom_pas_shutdown(core->iris_platform_data->pas_id);
+> >  }
+> >  
+> >  int iris_set_hw_state(struct iris_core *core, bool resume)
+> >  {
+> > -	return qcom_scm_set_remote_state(resume, 0);
+> > +	return qcom_pas_set_remote_state(resume, core->irisi_platform_data->pas_id);
+> 
+> 
+> Should be a separate change for qcom_pas_set_remote_state()
+> 
+> >  }
+> > diff --git a/drivers/media/platform/qcom/venus/Kconfig b/drivers/media/platform/qcom/venus/Kconfig
+> > index ffb731ecd48c..574172724e8f 100644
+> > --- a/drivers/media/platform/qcom/venus/Kconfig
+> > +++ b/drivers/media/platform/qcom/venus/Kconfig
+> > @@ -6,6 +6,7 @@ config VIDEO_QCOM_VENUS
+> >  	select OF_DYNAMIC if ARCH_QCOM
+> >  	select QCOM_MDT_LOADER if ARCH_QCOM
+> >  	select QCOM_SCM
+> > +	select QCOM_PAS
+> >  	select VIDEOBUF2_DMA_CONTIG
+> >  	select V4L2_MEM2MEM_DEV
+> >  	help
+> > diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+> > index 1de7436713ed..3c0727ea137d 100644
+> > --- a/drivers/media/platform/qcom/venus/firmware.c
+> > +++ b/drivers/media/platform/qcom/venus/firmware.c
+> > @@ -12,6 +12,7 @@
+> >  #include <linux/of_reserved_mem.h>
+> >  #include <linux/platform_device.h>
+> >  #include <linux/of_device.h>
+> > +#include <linux/firmware/qcom/qcom_pas.h>
+> >  #include <linux/firmware/qcom/qcom_scm.h>
+> >  #include <linux/sizes.h>
+> >  #include <linux/soc/qcom/mdt_loader.h>
+> > @@ -58,7 +59,7 @@ int venus_set_hw_state(struct venus_core *core, bool resume)
+> >  	int ret;
+> >  
+> >  	if (core->use_tz) {
+> > -		ret = qcom_scm_set_remote_state(resume, 0);
+> > +		ret = qcom_pas_set_remote_state(resume, VENUS_PAS_ID);
+> 
+> This too..
+> 
+> >  		if (resume && ret == -EINVAL)
+> >  			ret = 0;
+> >  		return ret;
+> > @@ -218,7 +219,7 @@ int venus_boot(struct venus_core *core)
+> >  	int ret;
+> >  
+> >  	if (!IS_ENABLED(CONFIG_QCOM_MDT_LOADER) ||
+> > -	    (core->use_tz && !qcom_scm_is_available()))
+> > +	    (core->use_tz && !qcom_pas_is_available()))
+> >  		return -EPROBE_DEFER;
+> >  
+> >  	ret = of_property_read_string_index(dev->of_node, "firmware-name", 0,
+> > @@ -236,7 +237,7 @@ int venus_boot(struct venus_core *core)
+> >  	core->fw.mem_phys = mem_phys;
+> >  
+> >  	if (core->use_tz)
+> > -		ret = qcom_scm_pas_auth_and_reset(VENUS_PAS_ID);
+> > +		ret = qcom_pas_auth_and_reset(VENUS_PAS_ID);
+> >  	else
+> >  		ret = venus_boot_no_tz(core, mem_phys, mem_size);
+> >  
+> > @@ -259,7 +260,7 @@ int venus_boot(struct venus_core *core)
+> >  						     res->cp_nonpixel_start,
+> >  						     res->cp_nonpixel_size);
+> >  		if (ret) {
+> > -			qcom_scm_pas_shutdown(VENUS_PAS_ID);
+> > +			qcom_pas_shutdown(VENUS_PAS_ID);
+> >  			dev_err(dev, "set virtual address ranges fail (%d)\n",
+> >  				ret);
+> >  			return ret;
+> > @@ -274,7 +275,7 @@ int venus_shutdown(struct venus_core *core)
+> >  	int ret;
+> >  
+> >  	if (core->use_tz)
+> > -		ret = qcom_scm_pas_shutdown(VENUS_PAS_ID);
+> > +		ret = qcom_pas_shutdown(VENUS_PAS_ID);
+> >  	else
+> >  		ret = venus_shutdown_no_tz(core);
+> >  
+> > -- 
+> > 2.51.0
+> 
+> with above change
+> 
+> Reviewed-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> 
 
-  media: qcom: camss: avoid format string warning (2026-04-27 08:41:22 +0200)
+Thanks.
 
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/linux-media/users/seanyoung/ tags/v7.1b
-
-for you to fetch changes up to 8ee96c474f306cdc534bdbbb873481614b66c86c:
-
-  media: rc: ttusbir: fix inverted error logic (2026-05-01 11:36:50 +0100)
-
-----------------------------------------------------------------
-v7.1b
-
-----------------------------------------------------------------
-Oliver Neukum (1):
-      media: rc: ttusbir: fix inverted error logic
-
- drivers/media/rc/ttusbir.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+-Sumit
 
