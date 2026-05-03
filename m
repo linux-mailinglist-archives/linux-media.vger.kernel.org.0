@@ -1,200 +1,231 @@
-Return-Path: <linux-media+bounces-60189-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60190-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ONfTDWjZ9mnMZAIAu9opvQ
-	(envelope-from <linux-media+bounces-60189-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 03 May 2026 07:13:12 +0200
+	id GK4oJQIH92l7bQIAu9opvQ
+	(envelope-from <linux-media+bounces-60190-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 03 May 2026 10:27:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A64F4B479F
-	for <lists+linux-media@lfdr.de>; Sun, 03 May 2026 07:13:11 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD814B4E1D
+	for <lists+linux-media@lfdr.de>; Sun, 03 May 2026 10:27:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D1A9930073EF
-	for <lists+linux-media@lfdr.de>; Sun,  3 May 2026 05:13:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 42213300C922
+	for <lists+linux-media@lfdr.de>; Sun,  3 May 2026 08:27:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFA0838553F;
-	Sun,  3 May 2026 05:13:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E8F93AD535;
+	Sun,  3 May 2026 08:27:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="INWgKeJQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OQD3CjrZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2337C2C21EE
-	for <linux-media@vger.kernel.org>; Sun,  3 May 2026 05:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777785180; cv=pass; b=eIXoj9cOPSiLCjsZMlLuRgvsBmWbXDbMhvqs8tsjJhB6v0NrGCY8uzkqGRf4YcuqFepv3vxJdVqhVSsSvonUUK1GzFSgHbgoshE71e9t2dpxwD501YbxD8uZRtpAw3Pm7DJK2NXpE/rrq1D9fR7rw0wz7SqFACKwG+wnPk5DaS0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777785180; c=relaxed/simple;
-	bh=VQI5a42Ek+RqQPHOII4Y06s79MSK8X4Zu/WHg2CNknQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=vGZTSbqy4hMPJEvuBcBbX6zUJe8cW265xQrDJfVGrmKlTvNv2KoP50V74iy12nq4+T4fOr51Bzu5rXczeEPEU1Lb4bS+BlcqksH6RmSrGw2lBNW7MY4jKNhd4ythZ/DPBq0M9BcXqyX0IHi42rfFCUivrFT8cpKy1ox+ZozmrdM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=INWgKeJQ; arc=pass smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7b248750279so30141447b3.0
-        for <linux-media@vger.kernel.org>; Sat, 02 May 2026 22:12:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777785178; cv=none;
-        d=google.com; s=arc-20240605;
-        b=P2+lj6/mXeJcCrQY6C6JIMak4I3YZo0DzBxhyjJD4u+ygn1plBFhSt7yIQRk0zrwio
-         OeUCUskQiDCzCVgbBCQvRCilaMXVlybVres0QKNEBSbIe0FhN9umcJ3lC1yrpMI4vrVw
-         +KpfqU/ibeMudt/KLFPo+Xci9OQqF5hJydShu1++m5Cx3pdKilJbp/3kR8LHZ0kcOs7/
-         X4IKprRHhHdEdcaQMGD1yEOH+E5RXLiHhOO80zYI8gxw4Efiz+vswInkw1Q+InGVjLep
-         Mv/CwUZZtXSc94rOASPCFD7TjJ5dBtA4wKilGBEkI7yHRrt2QkbgTnhGoJv/29MUBkdf
-         NKZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=MX6+eljwst5hAwzbMT82717o/7NySMaTnB5zbbXnmlY=;
-        fh=AM9V08wixBy8dI77uM08XuaSsaSM9hkE+YhSSJlmcfI=;
-        b=gontNAZUvEbjHavH6lyqwMdpMch3b+alhibY+UWi0y1IJerVVtBkvvjFHe2pdXBL0m
-         fnD3O+DLBnFoU+XYx73U1u8slK1lVQftht4FYZO9Ax196tuUx1Bku41qmDO3yfazOS+C
-         aJpv8sWr7kSymsVGh3Id8j0AY/vkaMq0M2xWPyZH1olX8pxD5nl2cCVg6m3HoGRbm7pi
-         0vTmJ2r/AsYnYkz4mF8JIGIXBeP92b9LquceMtgqQtCUfd2/gpnI9Ad+TrsUJb/bDfc/
-         LRqRDN0wItsl55Y4yOeWdwSf6RaXG3q5vAlRpmD5xLPHEsRoYmzlKSN09AFLoQV9/ZYD
-         eBsA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777785178; x=1778389978; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MX6+eljwst5hAwzbMT82717o/7NySMaTnB5zbbXnmlY=;
-        b=INWgKeJQa6uajOqGq5FW7LT+LcLdcNfXGvLfvrh/JENzSxZzYK2m6exrV5uPvpXrez
-         FiV+cfmGh3VpZ5wLeRi4J32FVvcmbJ12sTpWdL8GEZ8VqomH/YLXztadERQPu1eKe2Nv
-         tO8f2RBfEnJNYgOOFmLz0qbByozSuBw/DSJA4ibErrUS0pLmgwPOiEci+jEJe0lpkV0r
-         kGBjIrqiHg0DgoQ/xxuEDD47OALII9FbNbigfnJlVbmUeJWf/ghDjjRroqLTVyVw+Xgu
-         cw9qaiaUBXVJxel7AObLtNf0yhxcmVpBGkyyHN6WrvjAykv4LGeP82QvcoFB9c7qMyqB
-         ZCAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777785178; x=1778389978;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MX6+eljwst5hAwzbMT82717o/7NySMaTnB5zbbXnmlY=;
-        b=dL7A7uvjk/IX9Ribrk3Lbwe9CABn1VaqPMx1yuC0P8o765yqMiZOE3ZUTRypbqtVLB
-         QtKPbeu2zH3ulrUda6KRy7PwQj3gXakpkItSY3IULT6TtXi7laFWHNmOgmfARg/id/To
-         y5/oMHo+St1oYb/fxIpkwQe6iqbW+Er1xtqHzBiSq5BtYp79SQDCbt8tgv640AgRAZ+f
-         EO56/ZodIwUXEP4/1bDq98/ZVPld3kH/vNFiG83qi2gLSoF3fsagG3CJKbS2gho2N+wN
-         bDcqrNppr9AjEhajVTuJgVcmEDDd5rJ7Xgv1L+YEPoUgUyF/4ilSHJH0/3dc3OiqV78l
-         d/Hw==
-X-Forwarded-Encrypted: i=1; AFNElJ9pVWfVrRFtz0e5fZ1r9cnww4OqwZ+Z8iJDN9MyjbZhIvawcLLN3B9wZmQevdcy6W5DJdL46bV3CDv+3w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcjfMApwI+Ui6wLgS1LTO24jYqWqaPgCp96XPOiyFqkhpxdSWR
-	B6t9FLuZ6cUfY9kKeGmPI2BXFOEwZm9pXC6E1tY11x8h1aUNXgmdGSQKRT8N+031lUliO8umWCY
-	FJk66kC96smQD5qMe6c6qELEEmdpVIjg=
-X-Gm-Gg: AeBDietkghbX+VUnT1SAgzd7zY5OwbMC1HSyPwo2aAd9lI0I+ItNUFrTdN+FoPGB9Tr
-	PtTWBg0RBQrMGv1eGcEUmpofKRiMQHaUGpz7RqhKacqdppPdKpg1QhnrANBEDnl67eKEXvAh7Iz
-	HTNeOA3VyGTrQyo3PcZda/CA01zzvR/dqIitwP/b7Ltn1VBpQIym1qekqTfhhIoo5DuNK5KNMzS
-	48u3WntPVgWsuv5HYHMZ2fHch20PPhq3qn+bIqyRRnlu7RJBgaHGY0uunWQhnp8q6za24nE/GYt
-	w+bc96ujvZBFT1q3kuNdgnf0ECo5z3ig6Eqa3oXbt16dTxo9YkiB9ouD3yw4bSakboI2VBEqVrn
-	6vWImqXU=
-X-Received: by 2002:a05:690c:9d:b0:7bd:5af0:3bed with SMTP id
- 00721157ae682-7bd77003e53mr52333397b3.21.1777785178050; Sat, 02 May 2026
- 22:12:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6770383C93;
+	Sun,  3 May 2026 08:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777796854; cv=none; b=KoFm2wOiBDa1FUBG4rPBAzBAqUhs+wynAGb9g934jSaTUjpWJx8ZrcUOQUA+cC/a+fStJ7uoq/UoYGxZFymtQvGhn9rNpXFatlVpTaEg/47evi0mGsAXo5AF/Sy5UVPgGb4dSAaaBVohzWrSBanapNPAEvWx8za5uvGLZCm70gg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777796854; c=relaxed/simple;
+	bh=aOJPRty6ZPD2MUyv+rgFs7MC2mTzB8Tb1pC83m3vXr8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jbIJnN2/rmHT8KStjzJjrxNkozS7ejlhT4bSVBv9fHdDCneLnM0ANTp0D2orEsiGHuBw1imyvKaZAU99sR1xnvnQm89uLwm0FI9mQD0/LGmwFWfuRfOpAtLWyJTqejeyCLawFX9qkA/4rw33WY7cm4GQbB/7QP44F8ICi+4bNsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OQD3CjrZ; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777796853; x=1809332853;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aOJPRty6ZPD2MUyv+rgFs7MC2mTzB8Tb1pC83m3vXr8=;
+  b=OQD3CjrZAu3ZCa9Xv7YHs9k3dNZGnC7z8HPIq0QxBOKzWecv2O+xZ8Zw
+   HWVJ4sl6r6WiNBbN9AZRwbpWFHHQ8qy0nTOTMx1vPMz7o2rjKg37B0gEv
+   knhRXh7B45YZJOM8nJGeyfj+b29EAcc+W2gFiQK8ble43NBnaheyHhkPH
+   CmjV7823QPkCfZcZBXKaQZosf0icuapLrG+mS9rfB86dwDD5dePvl5z2I
+   gd4jR6fDhb/BhqCexnCIzlttD6fNSh0QFBk/W8eJimxBR4HUuWUgwuMxz
+   BTdeRX7yDm7VID4wdWe18/BeonpEs51Rgzuuu4MFV7nDDZUndo35EyxiM
+   Q==;
+X-CSE-ConnectionGUID: C2vW/FdASGuLQHBHjxfkuQ==
+X-CSE-MsgGUID: p3qrBruZRLG1CanGk83nNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="89379370"
+X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
+   d="scan'208";a="89379370"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 01:27:32 -0700
+X-CSE-ConnectionGUID: uQnNaEeWSaeW3rZqP4a07A==
+X-CSE-MsgGUID: v9e4KFUqSSWLdt2WOeSJcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
+   d="scan'208";a="234215372"
+Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 03 May 2026 01:27:29 -0700
+Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wJSAg-000000002MD-3IUC;
+	Sun, 03 May 2026 08:27:26 +0000
+Date: Sun, 3 May 2026 16:26:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Guangshuo Li <lgs201920130244@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Guangshuo Li <lgs201920130244@gmail.com>
+Subject: Re: [PATCH] media: staging/ipu7: Fix pdata double free in init error
+ paths
+Message-ID: <202605031607.jGN5iKun-lkp@intel.com>
+References: <20260430053820.446080-1-lgs201920130244@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260324015539.1451660-1-kartikey406@gmail.com>
-In-Reply-To: <20260324015539.1451660-1-kartikey406@gmail.com>
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-Date: Sun, 3 May 2026 10:42:46 +0530
-X-Gm-Features: AVHnY4IWh3MZLwFApCupnMNXGyC5GEFz_oe-ppOy2nxNl-bFO3x8fJRsVpn3Anc
-Message-ID: <CADhLXY4meyw0JuXjwhTjPEh4saZprqQfdO6GBdYBjANXsGUm+w@mail.gmail.com>
-Subject: Re: [PATCH v2] media: ec168: fix slab-out-of-bounds in ec168_i2c_xfer
-To: mchehab@kernel.org
-Cc: harperchen1110@gmail.com, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	syzbot+64485d3659c4c07111b4@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 9A64F4B479F
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260430053820.446080-1-lgs201920130244@gmail.com>
+X-Rspamd-Queue-Id: 2AD814B4E1D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60189-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60190-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,syzkaller.appspotmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,intel.com,kernel.org,linuxfoundation.org,lists.linux.dev,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kartikey406@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,64485d3659c4c07111b4];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,intel.com:email,intel.com:dkim,intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-On Tue, Mar 24, 2026 at 7:25=E2=80=AFAM Deepanshu Kartikey
-<kartikey406@gmail.com> wrote:
->
-> The WRITE_DEMOD path in ec168_i2c_xfer() checks msg[i].len < 1
-> before accessing the buffer, but then reads both buf[0] (register)
-> and buf[1] (value). If userspace supplies a 1-byte I2C message,
-> the read of buf[1] goes out of bounds, triggering a KASAN
-> slab-out-of-bounds error.
->
-> Fix by checking msg[i].len < 2 and returning -EOPNOTSUPP if the
-> buffer is too short to contain both register and value bytes.
->
-> Fixes: a6dcefcc08ec ("media: dvb-usb-v2: ec168: fix null-ptr-deref in ec1=
-68_i2c_xfer()")
-> Cc: stable@vger.kernel.org
-> Reported-by: syzbot+64485d3659c4c07111b4@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D64485d3659c4c07111b4
-> Tested-by: syzbot+64485d3659c4c07111b4@syzkaller.appspotmail.com
-> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
-> ---
-> Changes in v2:
->   - Fix author email case (Kartikey406 -> kartikey406)
->   - Add Cc: stable@vger.kernel.org as the Fixes tag points
->     to a commit present in the stable tree
-> ---
->  drivers/media/usb/dvb-usb-v2/ec168.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/usb/dvb-usb-v2/ec168.c b/drivers/media/usb/dvb=
--usb-v2/ec168.c
-> index 973b32356b17..ebfb02826b20 100644
-> --- a/drivers/media/usb/dvb-usb-v2/ec168.c
-> +++ b/drivers/media/usb/dvb-usb-v2/ec168.c
-> @@ -135,7 +135,7 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap, s=
-truct i2c_msg msg[],
->                         }
->                 } else {
->                         if (msg[i].addr =3D=3D ec168_ec100_config.demod_a=
-ddress) {
-> -                               if (msg[i].len < 1) {
-> +                               if (msg[i].len < 2) {
->                                         i =3D -EOPNOTSUPP;
->                                         break;
->                                 }
-> --
-> 2.43.0
->
+Hi Guangshuo,
 
-Gentle ping on this patch. Please let me know the status of this patch
+kernel test robot noticed the following build errors:
 
-Thanks
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-staging-ipu7-Fix-pdata-double-free-in-init-error-paths/20260501-032323
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260430053820.446080-1-lgs201920130244%40gmail.com
+patch subject: [PATCH] media: staging/ipu7: Fix pdata double free in init error paths
+config: x86_64-randconfig-076-20260503 (https://download.01.org/0day-ci/archive/20260503/202605031607.jGN5iKun-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605031607.jGN5iKun-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605031607.jGN5iKun-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/staging/media/ipu7/ipu7.c:2176:19: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const void *' [-Wint-conversion]
+    2176 |                 return ERR_CAST(ret);
+         |                                 ^~~
+   include/linux/err.h:102:64: note: passing argument to parameter 'ptr' here
+     102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
+         |                                                                ^
+   drivers/staging/media/ipu7/ipu7.c:2221:19: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const void *' [-Wint-conversion]
+    2221 |                 return ERR_CAST(ret);
+         |                                 ^~~
+   include/linux/err.h:102:64: note: passing argument to parameter 'ptr' here
+     102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
+         |                                                                ^
+   2 errors generated.
+
+
+vim +2176 drivers/staging/media/ipu7/ipu7.c
+
+  2125	
+  2126	static struct ipu7_bus_device *
+  2127	ipu7_isys_init(struct pci_dev *pdev, struct device *parent,
+  2128		       const struct ipu_buttress_ctrl *ctrl, void __iomem *base,
+  2129		       const struct ipu_isys_internal_pdata *ipdata,
+  2130		       unsigned int nr)
+  2131	{
+  2132		struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
+  2133		struct ipu7_bus_device *isys_adev;
+  2134		struct device *dev = &pdev->dev;
+  2135		struct ipu7_isys_pdata *pdata;
+  2136		int ret;
+  2137	
+  2138		ret = ipu7_isys_check_fwnode_graph(fwnode);
+  2139		if (ret) {
+  2140			if (fwnode && !IS_ERR_OR_NULL(fwnode->secondary)) {
+  2141				dev_err(dev,
+  2142					"fwnode graph has no endpoints connection\n");
+  2143				return ERR_PTR(-EINVAL);
+  2144			}
+  2145	
+  2146			ret = ipu_bridge_init(dev, ipu_bridge_parse_ssdb);
+  2147			if (ret) {
+  2148				dev_err_probe(dev, ret, "IPU bridge init failed\n");
+  2149				return ERR_PTR(ret);
+  2150			}
+  2151		}
+  2152	
+  2153		pdata = kzalloc_obj(*pdata);
+  2154		if (!pdata)
+  2155			return ERR_PTR(-ENOMEM);
+  2156	
+  2157		pdata->base = base;
+  2158		pdata->ipdata = ipdata;
+  2159	
+  2160		isys_adev = ipu7_bus_initialize_device(pdev, parent, pdata, ctrl,
+  2161						       IPU_ISYS_NAME);
+  2162		if (IS_ERR(isys_adev)) {
+  2163			dev_err_probe(dev, PTR_ERR(isys_adev),
+  2164				      "ipu7_bus_initialize_device isys failed\n");
+  2165			kfree(pdata);
+  2166			return ERR_CAST(isys_adev);
+  2167		}
+  2168	
+  2169		isys_adev->mmu = ipu7_mmu_init(dev, base, ISYS_MMID,
+  2170					       &ipdata->hw_variant);
+  2171		if (IS_ERR(isys_adev->mmu)) {
+  2172			ret = PTR_ERR(isys_adev->mmu);
+  2173			dev_err_probe(dev, ret,
+  2174				      "ipu7_mmu_init(isys_adev->mmu) failed\n");
+  2175			put_device(&isys_adev->auxdev.dev);
+> 2176			return ERR_CAST(ret);
+  2177		}
+  2178	
+  2179		isys_adev->mmu->dev = &isys_adev->auxdev.dev;
+  2180		isys_adev->subsys = IPU_IS;
+  2181	
+  2182		ret = ipu7_bus_add_device(isys_adev);
+  2183		if (ret)
+  2184			return ERR_PTR(ret);
+  2185	
+  2186		return isys_adev;
+  2187	}
+  2188	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
