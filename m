@@ -1,73 +1,73 @@
-Return-Path: <linux-media+bounces-60226-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60228-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eCwTAg3y92mjoQIAu9opvQ
-	(envelope-from <linux-media+bounces-60226-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 03:10:37 +0200
+	id sCPbHjbz92mjoQIAu9opvQ
+	(envelope-from <linux-media+bounces-60228-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 03:15:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA704B7E38
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 03:10:33 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D70014B7EE5
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 03:15:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 913333014504
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 01:09:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A5F873058085
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 01:09:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BD711E832A;
-	Mon,  4 May 2026 01:09:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B190321257E;
+	Mon,  4 May 2026 01:09:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="wYweQt2K";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PfZeOHO5"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="SKnBN4cC";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qo0EcE+H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459B41C84BB;
-	Mon,  4 May 2026 01:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0FAC1C84CB;
+	Mon,  4 May 2026 01:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777856967; cv=none; b=RV4OMEiduhcPJP4dxl+FSp5Kmfed9ZnbDW1Q/PbT3FguZH2tqSM4sfqxtFHJQih2JE7SDSuDY8nSxB5zq0EZelXd+lW/S+ujbKm4Yq6w4ElF4SZdre97Gy/J3cFAepjcCE0fyxR0ifE0aC6mpI2SHe1Buq7lgaH7gjNWGo75wG8=
+	t=1777856970; cv=none; b=qe9gprXa9Ut4aw7IargRGskZl7aCwAKTk8/nOLPVJe3T2Al8xcCNv5A0yNGuiIpKPcDsdq094KzGUyqvH/MiCtO99e6pCmxZXmOU4+IxzUBfc3gqn2VEbBQbvcVBpNRoXaRSWez25dXRMjR20ShUd3l+eZkHSkECJJEvuMc3Smw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777856967; c=relaxed/simple;
-	bh=1JOx4buRaqy7ZCKbFNddsStC5O64q+nBTD/mNssUk34=;
+	s=arc-20240116; t=1777856970; c=relaxed/simple;
+	bh=8LpN/LTVegctm2dg0EX+wOqjuxMbVFyYF71Yo4jrcf8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oEA3OclidhkZ5DwLrQ+xBECpDcnpdLVJV2n5qYJm4wc97+mvwgi+vgYSvi6Jj11RxVSKrY61b87CQUL2cuQdNQuPOS3gubG4aRII03Xgq7fOx/qkG65kwo+pSWdVpkR0wAoX7q4bYGRVTD1h8SLLbdW7pHPTQclFadyVwAhV6DA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=wYweQt2K; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PfZeOHO5; arc=none smtp.client-ip=202.12.124.154
+	 MIME-Version:Content-Type; b=PF+rIb45BH4JQm7ah1WXpSj4xv7sNbkFOjGWi98gc8Sdmo7KfzidA9ej83Q9Y4yywmX8/RcM+E618kZ9A50uKdd6ifkQ38xHlpAEwABPsbluPj7SJvgYADO9ZZSQrDT7BKmoQFNqwFFcGFd1Gzd7FGYXNKZbuBu5p24lRaq9zo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=SKnBN4cC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qo0EcE+H; arc=none smtp.client-ip=202.12.124.147
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 697DF7A00AF;
-	Sun,  3 May 2026 21:09:21 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Sun, 03 May 2026 21:09:21 -0400
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 31F641D000A1;
+	Sun,  3 May 2026 21:09:24 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Sun, 03 May 2026 21:09:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1777856961;
-	 x=1777943361; bh=7oZ4icoRWnKqdCHZ6th+2SLLP2ppq2IGfqgYbvI+JLQ=; b=
-	wYweQt2Kh/764uCysuBU2SDRYoBMMLg5b4ZqIusQiXBAm6jenxErnOGFg77EXDMA
-	iy7j9SaaV9uL564nTtfmGy2/rYqb1I1Za/gZoqUg9vuTBGjwwWp20qr1K7amtkha
-	VNqat5vIufJBcyf2UePzY0Qf3ez35BC/wHYIgmQll4YzqJGXuRRlfG5Iz++tHnOr
-	JPbNfWafCFaanpzvNPXSkYfmjqnET5pTm2+gSe86erxLgie/IZzN83WRtswhV//a
-	99A1k912LwqUxgq5XZTJXbvg19U+Q5n21O3nfyM5fYBhQ32bvwyRU77yqRzbUpQa
-	MuQHSgGyN5Ghp1fleZsAsA==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1777856964;
+	 x=1777943364; bh=ml9IWa3W1zLifz8HPYdHvhsOylHzyNCbsPf8Tk3UM4Q=; b=
+	SKnBN4cC0jYA5Sa+ZpyH4ZejXKIWC66X743kKGj7h/Rpc6Lyu1QSf5Kl1mmqMuj2
+	studpVXHevBa5Wg5zcif8Oyanc58epn9BwxfCywB9MaZlJV+m7FTXlS3P7ZiqV91
+	+5vg5xDuqo8BXnePt2ZFtNvQcuVeyjDZbUAXxhAO3lQ0ykky1h3vdfHfiAmQ6ALb
+	4iWED4wqIcroU0MpF7exA4SQ8qUllkFzj7Sg0SMC6KitHb5QUD1bdHWJ4VpNvsAR
+	CCagOA9muCVT+5Rj5h40Yzc8Cl00WCeT4sprLlFpRnGzKsRkmWqhM0g8tXjJ0VNI
+	ctkw8FU+1qHJMND9UG4FWA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777856961; x=
-	1777943361; bh=7oZ4icoRWnKqdCHZ6th+2SLLP2ppq2IGfqgYbvI+JLQ=; b=P
-	fZeOHO5715S/7qEziJmSDCD4O0/C9orOaqPpeO2sFq+C6myxoCST5p13tFHRjDej
-	kF32LB5aStd8F8J3KelrFjAnFaE+TngxzrjD5hJVSYELmqr7e3xmyq0wJqeoXlkt
-	YmkvNei/LgBhakGszodG1c46Au6Dt0P3K6Kx3ZVmGu70UWfQGmBdfgFf1R1wsI5O
-	oWHpzIIbm6f0eL2jSObL0AEQ0ERYwuxPUyoGaRZ6r5U2p2Sx+Isyf/5n/2D4Rs74
-	XvkNceQYlc6H6eTiQFcbKvi9/vzMiA5XIlDA2sNIy/XVrHu6IylhnMPAWDPhNNG1
-	KwuWO8WHpnkuE4gNiNvXw==
-X-ME-Sender: <xms:wfH3aXacO4mAizGJ4pzOdi8fSMO211fII5pMLL1QWSSXdVXMa39_sg>
-    <xme:wfH3aW1YXZ82QhfWU8OM5n5-46KYc0vW21fpu9DPwsIK66BC_AW0E6dBnFv3enkZX
-    0HPp-CeoPSV_sXi1q7sK2O5TfLe_S-ebVAuOg69XThw3f2g5qqA8A>
-X-ME-Received: <xmr:wfH3aaqQs4sbdKSQpXuX_aIpPkVavV3D9Z48BkTlo9IM7SetuQ1_sqjzA_ajKzMRJkmNMt_D6QYLt27WrPVO9Kz3eXEwSKgYeUqJ>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777856964; x=
+	1777943364; bh=ml9IWa3W1zLifz8HPYdHvhsOylHzyNCbsPf8Tk3UM4Q=; b=q
+	o0EcE+HjY0Iu3BKpovyLDDva28NTYvj7co3kJzTG+xNR/S7V9ZcmvrNYM16ofsxN
+	FonhxPDv+jsbiJOlEIL7CR6riSsp0iG92Jt6wuyCZZGx2qqj+lRvXPSkoJJg327n
+	ozZMqZ3PymO46KAQ7jvGwr0lEpuXCRp87zwTGQc+5qKJIXY8QMFYmYnKVUjg1TMC
+	rzIHuoZhFM4mBzaHzBGTS53mM+M3WixBkiRvpOoBcOvnxxjlym96PjoKepp0w3wz
+	v4HReZYysDRmkkbODJ656opjBF9g6mdK1g4IPRLLk5W3/d4Yf1U/MnbGSeOOVYYE
+	g0c5czZGseelnktBA+NTQ==
+X-ME-Sender: <xms:w_H3aZzK4CCRmRYdkjn-na6gBJLltIczEr3_geIAl6hCPnWXO5V6kQ>
+    <xme:w_H3aa1olc5Q5YVNwyda_0k2t50jngezhdYLbVPpn1RtzBPERbHh3_FMNXwWYShHR
+    LmS4Ce3NMYwBMZ7ipeDVMvz8a5deYcYsKlBXptkLaIie0ocbAD_Kg4>
+X-ME-Received: <xmr:w_H3aZrm8C6zbhyCznqkWqKEO5RZC4ScyCO7cjdLqSHLt4wiKDahRR0wIOlM_P0qQiL5kiC9H2TWZoJgjrS4maIs1JHOXp5jicHT>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeljeegkecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
@@ -75,7 +75,7 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeljeegkecutefuodetgg
     ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
     hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheeigfeuveeutdef
     hfehgeekvedtleeuueekveefudehhffhjeffgfegffelfeegnecuvehluhhsthgvrhfuih
-    iivgepgeenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
     nhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepledpmhhouggvpehsmh
     htphhouhhtpdhrtghpthhtohepjhgrihdrlhhuthhhrhgrodhrvghnvghsrghssehiuggv
     rghsohhnsghorghrugdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlh
@@ -87,14 +87,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeljeegkecutefuodetgg
     shgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuh
     igqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhk
     lhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:wfH3aVM78Q8QCf6aDG4iep6gdkkVwTb6x5NMRtiBPqOGL-eGJcWzsQ>
-    <xmx:wfH3aToNLaM6v2wwWG1zvTzl3mbBv29U4sI-A-P97TdiujanpV_Jxg>
-    <xmx:wfH3aQu__aFNSNI5HqPznYGwtISeJDf0TTPT4-5nDSfrqg3wcxzRsw>
-    <xmx:wfH3aa0R8Pb10aS9hlcOcfsqNoEjDB4DRW1sSBLWJ6Db8-5bjPXFFQ>
-    <xmx:wfH3abXN9n6vWKlRgpx_OIhoKvKWF9sf_fVw6yrpPw9rdQL60trtsJt_>
+X-ME-Proxy: <xmx:w_H3aXXEXgFiJcZpkNSQ_7fChHv6rv2wjQlZdLO6yzA3nnOTyz42Ow>
+    <xmx:w_H3aSrFK3wt4OeqSuN_7vA5xaaKB-j7yF3jVdXa-YPE1xPNIKy0JA>
+    <xmx:w_H3aeCGnLzkrJ42WvCe37n3joBF1RluVqyNnHv7Dk1_uoKs3L1-gA>
+    <xmx:w_H3aegkVV8IsjgkZL7aMX2DtWikpnA7rm44V0yG5eUYpgAAiUjdhA>
+    <xmx:xPH3aQOmYVpT4telMUnv-sTZjlw3m1AAYDPOgRtNKBUGVqDE-tC-pbo->
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 3 May 2026 21:09:20 -0400 (EDT)
+ 3 May 2026 21:09:22 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -105,9 +105,9 @@ To: Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [v8 12/14] media: rppx1: db: Add support for debayering filters
-Date: Mon,  4 May 2026 03:05:54 +0200
-Message-ID: <20260504010556.2796398-13-niklas.soderlund+renesas@ragnatech.se>
+Subject: [v8 13/14] media: rppx1: bd: Add support for bilateral denoising
+Date: Mon,  4 May 2026 03:05:55 +0200
+Message-ID: <20260504010556.2796398-14-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260504010556.2796398-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20260504010556.2796398-1-niklas.soderlund+renesas@ragnatech.se>
@@ -119,7 +119,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: DBA704B7E38
+X-Rspamd-Queue-Id: D70014B7EE5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -127,7 +127,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
 	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -135,7 +135,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60226-lists,linux-media=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-60228-lists,linux-media=lfdr.de,renesas];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
@@ -143,14 +143,14 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,messagingengine.com:dkim,ragnatech.se:email,ragnatech.se:dkim,ragnatech.se:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ragnatech.se:email,ragnatech.se:dkim,ragnatech.se:mid,messagingengine.com:dkim]
 
-Extend the RPPX1 driver to allow setting the debayering filters
+Extend the RPPX1 driver to allow setting the bilateral denoising
 configuration parameters. It uses the RPPX1 framework for parameters and
 its writer abstraction to allow the user to control how, and when,
 configuration is applied to the RPPX1.
@@ -159,230 +159,347 @@ Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 Co-developed-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
 Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
 ---
- .../platform/dreamchip/rppx1/rpp_module.h     |  2 +
- .../platform/dreamchip/rppx1/rpp_params.c     |  7 ++
- .../media/platform/dreamchip/rppx1/rppx1_db.c | 82 +++++++++++++++++++
- .../uapi/linux/media/dreamchip/rppx1-config.h | 58 ++++++++++++-
- 4 files changed, 148 insertions(+), 1 deletion(-)
+ .../platform/dreamchip/rppx1/rpp_module.h     |   1 +
+ .../platform/dreamchip/rppx1/rpp_params.c     |   5 +
+ .../media/platform/dreamchip/rppx1/rppx1_bd.c | 119 +++++++++++++++
+ .../uapi/linux/media/dreamchip/rppx1-config.h | 141 +++++++++++++++++-
+ 4 files changed, 265 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-index 830ef0df7228..064da13082fe 100644
+index 064da13082fe..136ec4d48054 100644
 --- a/drivers/media/platform/dreamchip/rppx1/rpp_module.h
 +++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-@@ -88,6 +88,8 @@ union rppx1_params_block {
+@@ -88,6 +88,7 @@ union rppx1_params_block {
  	struct rppx1_bls_params bls;
  	struct rppx1_lsc_params lsc;
  	struct rppx1_awbg_params awbg;
-+	struct rppx1_db_demosaic_params db_demosaic;
-+	struct rppx1_db_filter_params db_filter;
++	struct rppx1_bd_params bd;
+ 	struct rppx1_db_demosaic_params db_demosaic;
+ 	struct rppx1_db_filter_params db_filter;
  	struct rppx1_ccor_params ccor;
- 	struct rppx1_hist_params hist;
- 	struct rppx1_exm_params exm;
 diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-index 317ed715f1de..3320ca3998bd 100644
+index 3320ca3998bd..edea25293d64 100644
 --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
 +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
 @@ -22,6 +22,8 @@ rppx1_ext_params_blocks_info[] = {
  	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE2, lsc),
  	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE1, awbg),
  	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE2, awbg),
-+	RPPX1_PARAMS_BLOCK_INFO(DB_DEMOSAIC_POST, db_demosaic),
-+	RPPX1_PARAMS_BLOCK_INFO(DB_FILTER_POST, db_filter),
++	RPPX1_PARAMS_BLOCK_INFO(BD_PRE1, bd),
++	RPPX1_PARAMS_BLOCK_INFO(BD_PRE2, bd),
+ 	RPPX1_PARAMS_BLOCK_INFO(DB_DEMOSAIC_POST, db_demosaic),
+ 	RPPX1_PARAMS_BLOCK_INFO(DB_FILTER_POST, db_filter),
  	RPPX1_PARAMS_BLOCK_INFO(CCOR_POST, ccor),
- 	RPPX1_PARAMS_BLOCK_INFO(HIST_PRE1, hist),
- 	RPPX1_PARAMS_BLOCK_INFO(HIST_PRE2, hist),
-@@ -74,6 +76,11 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
+@@ -76,6 +78,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
  		case RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE1:
  			module = &rpp->pre1.awbg;
  			break;
-+		case RPPX1_PARAMS_BLOCK_TYPE_DB_DEMOSAIC_POST:
-+		case RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST:
-+			/* Both types handled by the same block. */
-+			module = &rpp->post.db;
++		case RPPX1_PARAMS_BLOCK_TYPE_BD_PRE1:
++			module = &rpp->pre1.bd;
 +			break;
- 		case RPPX1_PARAMS_BLOCK_TYPE_CCOR_POST:
- 			module = &rpp->post.ccor;
- 			break;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_db.c b/drivers/media/platform/dreamchip/rppx1/rppx1_db.c
-index 5e233896cfc8..5571b3a9562d 100644
---- a/drivers/media/platform/dreamchip/rppx1/rppx1_db.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_db.c
-@@ -39,6 +39,88 @@ static int rppx1_db_probe(struct rpp_module *mod)
+ 		case RPPX1_PARAMS_BLOCK_TYPE_DB_DEMOSAIC_POST:
+ 		case RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST:
+ 			/* Both types handled by the same block. */
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
+index acbfbcd59591..08f9eca80b4d 100644
+--- a/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
+@@ -47,6 +47,125 @@ static int rppx1_bd_probe(struct rpp_module *mod)
  	return 0;
  }
  
 +static int
-+rppx1_db_fill_params_demosaic(struct rpp_module *mod,
-+			      const union rppx1_params_block *block,
-+			      rppx1_reg_write write, void *priv)
-+{
-+	const struct rppx1_db_demosaic_params *cfg = &block->db_demosaic;
-+
-+	/* If the modules is disabled, simply bypass it. */
-+	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + DEMOSAIC_REG, 0x400);
-+		return 0;
-+	}
-+
-+	/* Native threshold is at RPP 16-bit precision. */
-+	write(priv, mod->base + DEMOSAIC_REG, cfg->demosaic_th);
-+
-+	return 0;
-+}
-+
-+static int
-+rppx1_db_fill_params_filter(struct rpp_module *mod,
-+			    const union rppx1_params_block *block,
-+			    rppx1_reg_write write, void *priv)
-+{
-+	const struct rppx1_db_filter_params *cfg = &block->db_filter;
-+
-+	/* If the modules is disabled, simply bypass it. */
-+	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + FILT_MODE_REG, 0);
-+		return 0;
-+	}
-+
-+	/* Native values are at RPP 18-bit precision. */
-+	write(priv, mod->base + FILT_THRESH_BL0_REG, cfg->thresh_bl0);
-+	write(priv, mod->base + FILT_THRESH_BL0_REG, cfg->thresh_bl1);
-+	write(priv, mod->base + FILT_THRESH_SH0_REG, cfg->thresh_sh0);
-+	write(priv, mod->base + FILT_THRESH_SH1_REG, cfg->thresh_sh1);
-+
-+	/* Native values are at RPP 8-bit precision. */
-+	write(priv, mod->base + FILT_FAC_BL0_REG, cfg->fac_bl0);
-+	write(priv, mod->base + FILT_FAC_BL1_REG, cfg->fac_bl1);
-+	write(priv, mod->base + FILT_FAC_MID_REG, cfg->fac_mid);
-+	write(priv, mod->base + FILT_FAC_SH0_REG, cfg->fac_sh0);
-+	write(priv, mod->base + FILT_FAC_SH1_REG, cfg->fac_sh1);
-+
-+	/*
-+	 * The lum_weight field is provided in RPP register format:
-+	 *
-+	 * 31		unused
-+	 * 30:28	lum_weight_gain
-+	 * 27:24	unused
-+	 * 23:12	lum_weight_kink
-+	 * 11:0		lum_weight_min
-+	 */
-+	write(priv, mod->base + FILT_LUM_WEIGHT_REG, cfg->lum_weight);
-+
-+	write(priv, mod->base + FILT_MODE_REG,
-+	      (cfg->chr_v_mode << 4) |
-+	      (cfg->chr_h_mode << 6) |
-+	      (cfg->grn_stage1 << 8) |
-+	      (cfg->mode ? FILT_MODE_FILT_MODE : 0) |
-+	      FILT_MODE_FILT_ENABLE);
-+
-+	return 0;
-+}
-+
-+static int
-+rppx1_db_fill_params(struct rpp_module *mod,
++rppx1_bd_fill_params(struct rpp_module *mod,
 +		     const union rppx1_params_block *block,
 +		     rppx1_reg_write write, void *priv)
 +{
-+	switch (block->header.type) {
-+	case RPPX1_PARAMS_BLOCK_TYPE_DB_DEMOSAIC_POST:
-+		return rppx1_db_fill_params_demosaic(mod, block, write, priv);
-+	case RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST:
-+		return rppx1_db_fill_params_filter(mod, block, write, priv);
++	const struct rppx1_bd_params *cfg = &block->bd;
++	unsigned int isp_dpf_mode, spatial_coeff;
++
++	/* If the modules is disabled, simply bypass it. */
++	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
++		write(priv, mod->base + DPF_MODE_REG, 0);
++		return 0;
 +	}
 +
-+	return -EINVAL;
++	/* Module version 5 adds shadowing for mode and spatial weights. */
++	write(priv, mod->base + DPF_STRENGTH_R_REG, cfg->strength.r);
++	write(priv, mod->base + DPF_STRENGTH_G_REG, cfg->strength.g);
++	write(priv, mod->base + DPF_STRENGTH_B_REG, cfg->strength.b);
++
++	/*
++	 * RPP DB module version 4 and later removed the AWB_GAIN_COMP bit.
++	 * Always use programmed nf-gains for gain compensation. Emulate the
++	 * old behavior by programming default gains when gain compensation
++	 * is not requested.
++	 */
++	bool awb_gain_comp = false;
++
++	switch (cfg->gain.mode) {
++	case RPPX1_BD_GAIN_USAGE_NF_GAINS:
++		awb_gain_comp = true;
++		isp_dpf_mode = DPF_MODE_USE_NF_GAIN;
++		break;
++	case RPPX1_BD_GAIN_USAGE_LSC_GAINS:
++		isp_dpf_mode = DPF_MODE_LSC_GAIN_COMP;
++		break;
++	case RPPX1_BD_GAIN_USAGE_NF_LSC_GAINS:
++		awb_gain_comp = true;
++		isp_dpf_mode = DPF_MODE_USE_NF_GAIN | DPF_MODE_LSC_GAIN_COMP;
++		break;
++	case RPPX1_BD_GAIN_USAGE_AWB_GAINS:
++		awb_gain_comp = true;
++		isp_dpf_mode = 0;
++		break;
++	case RPPX1_BD_GAIN_USAGE_AWB_LSC_GAINS:
++		awb_gain_comp = true;
++		isp_dpf_mode = DPF_MODE_LSC_GAIN_COMP;
++		break;
++	case RPPX1_BD_GAIN_USAGE_DISABLED:
++	default:
++		isp_dpf_mode = 0;
++		break;
++	}
++
++	/* NOTE: Hardware bit for scale_mode is inverted compared to RkISP1. */
++	if (cfg->nll.scale_mode == RPPX1_BD_SCALE_LINEAR)
++		isp_dpf_mode |= DPF_MODE_NLL_SEGMENTATION;
++	if (cfg->rb_flt.fltsize == RPPX1_BD_FILTERSIZE_9x9)
++		isp_dpf_mode |= DPF_MODE_RB_FILTER_SIZE;
++	if (!cfg->rb_flt.r_enable)
++		isp_dpf_mode |= DPF_MODE_R_FILTER_OFF;
++	if (!cfg->rb_flt.b_enable)
++		isp_dpf_mode |= DPF_MODE_B_FILTER_OFF;
++	if (!cfg->g_flt.gb_enable)
++		isp_dpf_mode |= DPF_MODE_GB_FILTER_OFF;
++	if (!cfg->g_flt.gr_enable)
++		isp_dpf_mode |= DPF_MODE_GR_FILTER_OFF;
++
++	isp_dpf_mode |= DPF_MODE_DPF_ENABLE;
++
++	if (awb_gain_comp) {
++		write(priv, mod->base + DPF_NF_GAIN_B_REG, cfg->gain.nf_b_gain);
++		write(priv, mod->base + DPF_NF_GAIN_R_REG, cfg->gain.nf_r_gain);
++		write(priv, mod->base + DPF_NF_GAIN_GB_REG, cfg->gain.nf_gb_gain);
++		write(priv, mod->base + DPF_NF_GAIN_GR_REG, cfg->gain.nf_gr_gain);
++	} else {
++		write(priv, mod->base + DPF_NF_GAIN_B_REG, 0x100);
++		write(priv, mod->base + DPF_NF_GAIN_R_REG, 0x100);
++		write(priv, mod->base + DPF_NF_GAIN_GB_REG, 0x100);
++		write(priv, mod->base + DPF_NF_GAIN_GR_REG, 0x100);
++	}
++
++	for (unsigned int i = 0; i < RPPX1_BD_NLF_COEFFS_MAX; i++) {
++		write(priv, mod->base + DPF_NLL_G_COEFF_REG(i), cfg->nll.coeff[i]);
++		write(priv, mod->base + DPF_NLL_RB_COEFF_REG(i), cfg->nll.coeff[i]);
++	}
++
++	spatial_coeff = cfg->g_flt.spatial_coeff[0] |
++			(cfg->g_flt.spatial_coeff[1] << 8) |
++			(cfg->g_flt.spatial_coeff[2] << 16) |
++			(cfg->g_flt.spatial_coeff[3] << 24);
++	write(priv, mod->base + DPF_S_WEIGHT_G_1_4_REG, spatial_coeff);
++
++	spatial_coeff = cfg->g_flt.spatial_coeff[4] |
++			(cfg->g_flt.spatial_coeff[5] << 8);
++	write(priv, mod->base + DPF_S_WEIGHT_G_5_6_REG, spatial_coeff);
++
++	spatial_coeff = cfg->rb_flt.spatial_coeff[0] |
++			(cfg->rb_flt.spatial_coeff[1] << 8) |
++			(cfg->rb_flt.spatial_coeff[2] << 16) |
++			(cfg->rb_flt.spatial_coeff[3] << 24);
++	write(priv, mod->base + DPF_S_WEIGHT_RB_1_4_REG, spatial_coeff);
++
++	spatial_coeff = cfg->rb_flt.spatial_coeff[4] |
++			(cfg->rb_flt.spatial_coeff[5] << 8);
++	write(priv, mod->base + DPF_S_WEIGHT_RB_5_6_REG, spatial_coeff);
++
++	/*
++	 * Bilateral Denoising does not react on RPP_HDR_UPD::regs_gen_cfg_upd
++	 * (see Table 25). A change in configuration needs write of 1 to
++	 * RPP_HDR_UPD::regs_cfg_upd.
++	 */
++	write(priv, 4, 1);
++
++	write(priv, mod->base + DPF_MODE_REG, isp_dpf_mode);
++
++	return 0;
 +}
 +
- const struct rpp_module_ops rppx1_db_ops = {
- 	.probe = rppx1_db_probe,
-+	.fill_params = rppx1_db_fill_params,
+ const struct rpp_module_ops rppx1_bd_ops = {
+ 	.probe = rppx1_bd_probe,
++	.fill_params = rppx1_bd_fill_params,
  };
 diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
-index d173c0c1bfc0..378b18dbc48d 100644
+index 378b18dbc48d..0246e9af1d1d 100644
 --- a/include/uapi/linux/media/dreamchip/rppx1-config.h
 +++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
-@@ -91,6 +91,8 @@ enum rppx1_meas_chan {
-  * @RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2: PRE2 Lens Shading Correction
-  * @RPPX1_PARAMS_BLOCK_TYPE_GA_HV: Human Vision Pipe Gamma Out Correction
+@@ -93,6 +93,8 @@ enum rppx1_meas_chan {
   * @RPPX1_PARAMS_BLOCK_TYPE_GA_MV: Machine Vision Gamma Out Correction
-+ * @RPPX1_PARAMS_BLOCK_TYPE_DB_DEMOSAIC_POST: Debayer demosaicing
-+ * @RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST: Debayer filtering
+  * @RPPX1_PARAMS_BLOCK_TYPE_DB_DEMOSAIC_POST: Debayer demosaicing
+  * @RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST: Debayer filtering
++ * @RPPX1_PARAMS_BLOCK_TYPE_BD_PRE1: PRE1 pipe De-noise Pre-Filter
++ * @RPPX1_PARAMS_BLOCK_TYPE_BD_PRE2: PRE2 pipe De-noise Pre-Filter
   */
  enum rppx1_params_block_type {
  	RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST,
-@@ -109,6 +111,8 @@ enum rppx1_params_block_type {
- 	RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2,
- 	RPPX1_PARAMS_BLOCK_TYPE_GA_HV,
+@@ -113,6 +115,8 @@ enum rppx1_params_block_type {
  	RPPX1_PARAMS_BLOCK_TYPE_GA_MV,
-+	RPPX1_PARAMS_BLOCK_TYPE_DB_DEMOSAIC_POST,
-+	RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST,
+ 	RPPX1_PARAMS_BLOCK_TYPE_DB_DEMOSAIC_POST,
+ 	RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST,
++	RPPX1_PARAMS_BLOCK_TYPE_BD_PRE1,
++	RPPX1_PARAMS_BLOCK_TYPE_BD_PRE2,
  };
  
  /**
-@@ -544,6 +548,56 @@ struct rppx1_ga_params {
- 	__u32 gamma_y[RPPX1_GA_MAX_SAMPLES];
+@@ -598,6 +602,139 @@ struct rppx1_db_filter_params {
+ 	__u32 fac_bl1;
  };
  
 +/**
-+ * struct rppx1_db_demosaic_params - Debayer demosaic configuration
++ * struct rppx1_bd_strength - Bilateral filter strength configuration
 + *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_DB_DEMOSAIC_POST)
-+ * @demosaic_th: threshold for texture detection, 16-bit
++ * @r: filter strength for RED
++ * @g: filter strength for GREEN
++ * @b: filter strength for BLUE
 + */
-+struct rppx1_db_demosaic_params {
-+	struct v4l2_isp_params_block_header header;
-+	__u16 demosaic_th;
++struct rppx1_bd_strength {
++	__u8 r;
++	__u8 g;
++	__u8 b;
 +};
 +
 +/**
-+ * struct rppx1_db_filter_params - Debayer filter (denoise) configuration
++ * enum rppx1_bd_gain_mode - Bilateral filter noise function gain usage mode
 + *
-+ * RPP-X1 thresholds are 18-bit and factors are 8-bit.
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST)
-+ * @mode: filter mode
-+ * @grn_stage1: green filter stage 1 select (range 0x0...0x8)
-+ * @chr_h_mode: chroma filter horizontal mode
-+ * @chr_v_mode: chroma filter vertical mode
-+ * @thresh_bl0: If thresh_bl1 < sum_grad < thresh_bl0 then fac_bl0 is selected (blurring th)
-+ * @thresh_bl1: If sum_grad < thresh_bl1 then fac_bl1 is selected (blurring th)
-+ * @thresh_sh0: If thresh_sh0 < sum_grad < thresh_sh1 then thresh_sh0 is selected (sharpening th)
-+ * @thresh_sh1: If thresh_sh1 < sum_grad then thresh_sh1 is selected (sharpening th)
-+ * @lum_weight: luminance weight, min (bits 0:11), kink (bits 12:23), gain (bits 28:30)
-+ * @fac_sh1: filter factor for sharp1 level
-+ * @fac_sh0: filter factor for sharp0 level
-+ * @fac_mid: filter factor for mid level and for static filter mode
-+ * @fac_bl0: filter factor for blur0 level
-+ * @fac_bl1: filter factor for blur1 level (max blur)
++ * @RPPX1_BD_GAIN_USAGE_DISABLED: gain not used
++ * @RPPX1_BD_GAIN_USAGE_NF_GAINS: use noise function gains
++ * @RPPX1_BD_GAIN_USAGE_LSC_GAINS: use LSC gains
++ * @RPPX1_BD_GAIN_USAGE_NF_LSC_GAINS: use noise function and LSC gains
++ * @RPPX1_BD_GAIN_USAGE_AWB_GAINS: use AWB gains
++ * @RPPX1_BD_GAIN_USAGE_AWB_LSC_GAINS: use AWB and LSC gains
 + */
-+struct rppx1_db_filter_params {
-+	struct v4l2_isp_params_block_header header;
++enum rppx1_bd_gain_mode {
++	RPPX1_BD_GAIN_USAGE_DISABLED,
++	RPPX1_BD_GAIN_USAGE_NF_GAINS,
++	RPPX1_BD_GAIN_USAGE_LSC_GAINS,
++	RPPX1_BD_GAIN_USAGE_NF_LSC_GAINS,
++	RPPX1_BD_GAIN_USAGE_AWB_GAINS,
++	RPPX1_BD_GAIN_USAGE_AWB_LSC_GAINS,
++};
++
++/**
++ * struct rppx1_bd_gain - Bilateral filter noise function gain configuration
++ *
++ * @mode: gain usage mode (from enum rppx1_bd_gain_mode)
++ * @nf_r_gain: noise function gain replacing AWB gain for red
++ * @nf_b_gain: noise function gain replacing AWB gain for blue
++ * @nf_gr_gain: noise function gain replacing AWB gain for green-in-red
++ * @nf_gb_gain: noise function gain replacing AWB gain for green-in-blue
++ */
++struct rppx1_bd_gain {
 +	__u32 mode;
-+	__u8 grn_stage1;
-+	__u8 chr_h_mode;
-+	__u8 chr_v_mode;
-+	__u32 thresh_bl0;
-+	__u32 thresh_bl1;
-+	__u32 thresh_sh0;
-+	__u32 thresh_sh1;
-+	__u32 lum_weight;
-+	__u32 fac_sh1;
-+	__u32 fac_sh0;
-+	__u32 fac_mid;
-+	__u32 fac_bl0;
-+	__u32 fac_bl1;
++	__u16 nf_r_gain;
++	__u16 nf_b_gain;
++	__u16 nf_gr_gain;
++	__u16 nf_gb_gain;
++};
++
++#define RPPX1_DB_SPATIAL_COEFFS_MAX 6
++
++/**
++ * struct rppx1_bd_g_flt - Bilateral filter green filter configuration
++ *
++ * @spatial_coeff: spatial weight coefficients
++ * @gr_enable: enable filter for green-in-red pixels
++ * @gb_enable: enable filter for green-in-blue pixels
++ */
++struct rppx1_bd_g_flt {
++	__u8 spatial_coeff[RPPX1_DB_SPATIAL_COEFFS_MAX];
++	__u8 gr_enable;
++	__u8 gb_enable;
++};
++
++/**
++ * enum rppx1_bd_filtersize - Bilateral filter red/blue filter kernel size
++ *
++ * @RPPX1_BD_FILTERSIZE_13x9: 13x9 filter size
++ * @RPPX1_BD_FILTERSIZE_9x9: 9x9 filter size
++ */
++enum rppx1_bd_filtersize {
++	RPPX1_BD_FILTERSIZE_13x9,
++	RPPX1_BD_FILTERSIZE_9x9,
++};
++
++/**
++ * struct rppx1_bd_rb_flt - Bilateral filter red/blue filter configuration
++ *
++ * @fltsize: filter kernel size (from enum rppx1_bd_filtersize)
++ * @spatial_coeff: spatial weight coefficients
++ * @r_enable: enable filter for red pixels
++ * @b_enable: enable filter for blue pixels
++ */
++struct rppx1_bd_rb_flt {
++	__u32 fltsize;
++	__u8 spatial_coeff[RPPX1_DB_SPATIAL_COEFFS_MAX];
++	__u8 r_enable;
++	__u8 b_enable;
++};
++
++#define RPPX1_BD_NLF_COEFFS_MAX 17
++
++/**
++ * enum rppx1_bd_scale_mode - Bilateral filter noise level lookup scale mode
++ *
++ * @RPPX1_BD_SCALE_LINEAR: linear scaling
++ * @RPPX1_BD_SCALE_LOGARITHMIC: logarithmic scaling
++ */
++enum rppx1_bd_scale_mode {
++	RPPX1_BD_SCALE_LINEAR,
++	RPPX1_BD_SCALE_LOGARITHMIC,
++};
++
++/**
++ * struct rppx1_bd_nll - Bilateral filter noise level lookup
++ *
++ * @coeff: noise level lookup coefficients
++ * @scale_mode: noise level lookup scale mode (from enum rppx1_bd_scale_mode)
++ */
++struct rppx1_bd_nll {
++	__u16 coeff[RPPX1_BD_NLF_COEFFS_MAX];
++	__u32 scale_mode;
++};
++
++/**
++ * struct rppx1_bd_params - De-noising Pre-Filter configuration
++ *
++ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_BD)
++ * @strength: colour filter strength
++ * @gain: noise function gain
++ * @g_flt: green filter configuration
++ * @rb_flt: red/blue filter configuration
++ * @nll: noise level lookup
++ */
++struct rppx1_bd_params {
++	struct v4l2_isp_params_block_header header;
++	struct rppx1_bd_strength strength;
++	struct rppx1_bd_gain gain;
++	struct rppx1_bd_g_flt g_flt;
++	struct rppx1_bd_rb_flt rb_flt;
++	struct rppx1_bd_nll nll;
 +};
 +
  /**
   * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
   *
-@@ -566,7 +620,9 @@ struct rppx1_ga_params {
- 	sizeof(struct rppx1_lsc_params)				+	\
- 	sizeof(struct rppx1_lsc_params)				+	\
+@@ -622,7 +759,9 @@ struct rppx1_db_filter_params {
  	sizeof(struct rppx1_ga_params)				+	\
--	sizeof(struct rppx1_ga_params))
-+	sizeof(struct rppx1_ga_params)				+	\
-+	sizeof(struct rppx1_db_demosaic_params)			+	\
-+	sizeof(struct rppx1_db_filter_params))
+ 	sizeof(struct rppx1_ga_params)				+	\
+ 	sizeof(struct rppx1_db_demosaic_params)			+	\
+-	sizeof(struct rppx1_db_filter_params))
++	sizeof(struct rppx1_db_filter_params)			+	\
++	sizeof(struct rppx1_bd_params)				+	\
++	sizeof(struct rppx1_bd_params))
  
  /* ---------------------------------------------------------------------------
   * Statistics Structures
