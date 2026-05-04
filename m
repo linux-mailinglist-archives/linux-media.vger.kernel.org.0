@@ -1,185 +1,132 @@
-Return-Path: <linux-media+bounces-60256-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60257-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MEgQCUtX+GnTtAIAu9opvQ
-	(envelope-from <linux-media+bounces-60256-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 10:22:35 +0200
+	id h367JFBX+GkgtQIAu9opvQ
+	(envelope-from <linux-media+bounces-60257-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 10:22:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FED4BA1CC
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 10:22:34 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C834BA1DD
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 10:22:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 40B413010EE4
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 08:22:32 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6060A30120F0
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 08:22:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19735329E5D;
-	Mon,  4 May 2026 08:22:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A470F329C60;
+	Mon,  4 May 2026 08:22:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TI84OB9a"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sUB+1/F8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4994C328616;
-	Mon,  4 May 2026 08:22:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D74314A84;
+	Mon,  4 May 2026 08:22:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777882950; cv=none; b=Ii/gYo96Mzcp6/5iDMLzOneuBqol90ukiOGUNTe2HN1XKxBCQ6MdZ4L4M+V5jHmPVHqeaeOtzD/BpU+Lg3wwTjQk1bk1krIXw0g4kD3fHEH7/6Okxk14r8e/+mEtVQ+frmvQtPHZC4iHmuKqz7WNGKii04HY0CwyrixKAu9Wx5A=
+	t=1777882954; cv=none; b=D0Z3eY7n6fHKkvfXSFIM8mU3hViHCqNzFBStglTirv0OU2BMcJwAFt9VU5OUk2ivONmDY1GeojIJbhLuCkYJ1Dt7TCqIZvuOnyeMpK+L7vsalzJAfhiiDQnzYr7nk5LjUTx1XD13mM+I3/p2EQk2YCHGmmwwc2sbh6TZlzmtM/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777882950; c=relaxed/simple;
-	bh=ZIQDkX/cvyL0xNjSSic8qAT8zD4NaIC2T3Yp1s4yTic=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dkwTIn+v7sklCVx3uMVV1Exj2rxuckXzf6Qj4VAAIVi+ml/oFLotobhgu1ckv9OYV5ocDgy7xd8uwZka7/+NguP46wyox6jKa3+smUXnJzJVNQsPLSEKRwKQ0hORJ8yzdK1ID7rxBY+aT5lg8ia/XtV0Px+5hFGCAGOjFISSEoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TI84OB9a; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777882949; x=1809418949;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZIQDkX/cvyL0xNjSSic8qAT8zD4NaIC2T3Yp1s4yTic=;
-  b=TI84OB9aTg+BfEoKpPCi9/j3Zy5YE8Yzg6VH9yg/SIHKZwm+jspU/y8Z
-   xIMNYUeEWc9SIueF04gtFasrVfxhu5INKjkWaD7jdyu/YWSqQ8livZdW6
-   Y2RM1wILFWpA/po8a+LGtYf8rvRHJQzgzrYCUK8M+xF4EmR27FXKL0krH
-   2TXPVdrIXKi4VVFG+ZdW0dGqxFr5CP6KvPEj1Phh4K/19Dmy4XZe9C6RZ
-   DMPvmZ9QLErqDnG8wtN4iwfNKOAYg3fw9H7csHUMfy1z/EEpceqENuF11
-   zfBZ6Xm6Z01S6i/1IpmUhwY39dnCKymYdEJyNCtVifj7u9TLygZlXy1v4
-   g==;
-X-CSE-ConnectionGUID: eShhhG9iRNSCq1Ve0unngA==
-X-CSE-MsgGUID: JAiR7YmIRv6KQ6ULyIohOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="66267917"
-X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="66267917"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 01:22:28 -0700
-X-CSE-ConnectionGUID: IeblzqfFSCaWSKGT56oHgA==
-X-CSE-MsgGUID: wp0kBrMXSH+Yc1eYFiHnRg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="235515020"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.114])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 01:22:25 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 23E5F121CC4;
-	Mon, 04 May 2026 11:22:24 +0300 (EEST)
-Date: Mon, 4 May 2026 11:22:24 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Keke Li <keke.li@amlogic.com>, Yong Zhi <yong.zhi@intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] media: staging: ipu3-imgu: Add range check for
- imgu_css_cfg_acc_stripe
-Message-ID: <afhXQOcJn11-UGCq@kekkonen.localdomain>
-References: <20260501-smatch-7-1-v2-0-a2fcfb2531ac@chromium.org>
- <20260501-smatch-7-1-v2-5-a2fcfb2531ac@chromium.org>
+	s=arc-20240116; t=1777882954; c=relaxed/simple;
+	bh=z7gV2Oq5UMFy5eEaIsIUP6LHbMBxzGLX91H0C7I+3iU=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=eJYfG4413iFsSFzber7n/5dwmsT4aOjo8bIpfSztePV0dvYTi6V7a67WcXQDYOSDwK01hOtHuGlg/QZ4+WbKb3ei/+iDFdYX4o/VpD9WlFjyxwbZPzHjhSc94Mw455qz2iI+rogabEWFqPc2fc9sEMf6M7grSzyoHbxckLTdS1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sUB+1/F8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04988C2BCB9;
+	Mon,  4 May 2026 08:22:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777882953;
+	bh=z7gV2Oq5UMFy5eEaIsIUP6LHbMBxzGLX91H0C7I+3iU=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=sUB+1/F8PDC2dZc1AGZLVUTSBt0Ckqel+jRJY2/3GpPIB6rmz8lEFoQHkYHiL7Xdi
+	 l8ORvUHf7Qwie7kRyZFbJYU/pWsw94kdZSu9f7PueLzS/CbnRGyFCWgEnCBL33Kirq
+	 9LIwnQU7j6CKe+hrDXeOFadEvPWZRMEnGb7USk4xUm6syfLatyIL/cZxHBAys1Jpbm
+	 Oh5sJdCWY1AUPv4++6EinWCRRGr0VmBUD6X+aW5h6E/sSlxzwVwEtdMQ0W4IBBBck/
+	 jXqW6vs06bhJR3VTPJX1TLRaHUdmkBspqYeMY5RMlxO6+hwhiVV1svwL8lMJSttOqS
+	 g8bZqHu80OOlg==
+Message-ID: <d3c50ea8-234c-4565-b8b5-1aa9f0492330@kernel.org>
+Date: Mon, 4 May 2026 10:22:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260501-smatch-7-1-v2-5-a2fcfb2531ac@chromium.org>
-X-Rspamd-Queue-Id: 89FED4BA1CC
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH] staging: media: meson: fix typo in codec files
+To: Maha Maryam Javaid <mahamaryamjavaid@gmail.com>,
+ neil.armstrong@linaro.org, mchehab@kernel.org
+Cc: gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260429151858.28761-1-mahamaryamjavaid@gmail.com>
+Content-Language: en-US, nl
+In-Reply-To: <20260429151858.28761-1-mahamaryamjavaid@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 49C834BA1DD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60256-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60257-lists,linux-media=lfdr.de,cisco];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com,linaro.org,kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media,samsung];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,chromium.org:email,kekkonen.localdomain:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-Hi Ricardo,
+Hi Maha,
 
-On Fri, May 01, 2026 at 11:32:50AM +0000, Ricardo Ribalda wrote:
-> If the driver's stripe information is invalid it can result in an integer
-> overflow. Add a range check with a WARN_ON to expose this kind of
-> error.
+On 29/04/2026 17:18, Maha Maryam Javaid wrote:
+> Fix spelling mistake: substracted -> subtracted
 
-This would be an underflow, not overflow. There's also no longer a
-WARN_ON() here.
+Please combine this patch and the other meson typo patch in a single patch.
 
-I presume this might not be the only such issue in the driver.
+There is no point in splitting them up.
 
-> 
-> This patch fixes the following smatch error:
-> drivers/staging/media/ipu3/ipu3-css-params.c:1792 imgu_css_cfg_acc_stripe() warn: 'acc->stripe.bds_out_stripes[0]->width - 2 * f' 4294967168 can't fit into 65535 'acc->stripe.bds_out_stripes[1]->offset'
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: e11110a5b744 ("media: staging/intel-ipu3: css: Compute and program ccs")
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/staging/media/ipu3/ipu3-css-params.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-> index 2c48d57a3180..92cce31e35c5 100644
-> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
-> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-> @@ -1770,6 +1770,8 @@ static int imgu_css_cfg_acc_stripe(struct imgu_css *css, unsigned int pipe,
->  		acc->stripe.bds_out_stripes[0].width =
->  			ALIGN(css_pipe->rect[IPU3_CSS_RECT_BDS].width, f);
->  	} else {
-> +		u32 offset;
-> +
->  		/* Image processing is divided into two stripes */
->  		acc->stripe.bds_out_stripes[0].width =
->  			acc->stripe.bds_out_stripes[1].width =
-> @@ -1788,8 +1790,10 @@ static int imgu_css_cfg_acc_stripe(struct imgu_css *css, unsigned int pipe,
->  			acc->stripe.bds_out_stripes[1].width += f;
->  		}
->  		/* Overlap between stripes is IPU3_UAPI_ISP_VEC_ELEMS * 4 */
-> -		acc->stripe.bds_out_stripes[1].offset =
-> -			acc->stripe.bds_out_stripes[0].width - 2 * f;
-> +		offset = acc->stripe.bds_out_stripes[0].width - 2 * f;
-> +		if (offset > 65535)
-> +			return -EINVAL;
-> +		acc->stripe.bds_out_stripes[1].offset = offset;
->  	}
->  
->  	acc->stripe.effective_stripes[0].height =
-> 
-
--- 
 Regards,
 
-Sakari Ailus
+	Hans
+
+> 
+> Signed-off-by: Maha Maryam Javaid <mahamaryamjavaid@gmail.com>
+> ---
+>  drivers/staging/media/meson/vdec/codec_mpeg12.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/meson/vdec/codec_mpeg12.c b/drivers/staging/media/meson/vdec/codec_mpeg12.c
+> index 76e9ca7191ab..ab4374e3b2ef 100644
+> --- a/drivers/staging/media/meson/vdec/codec_mpeg12.c
+> +++ b/drivers/staging/media/meson/vdec/codec_mpeg12.c
+> @@ -12,7 +12,7 @@
+>  #include "vdec_helpers.h"
+>  
+>  #define SIZE_WORKSPACE		SZ_128K
+> -/* Offset substracted by the firmware from the workspace paddr */
+> +/* Offset subtracted by the firmware from the workspace paddr */
+>  #define WORKSPACE_OFFSET	(5 * SZ_1K)
+>  
+>  /* map firmware registers to known MPEG1/2 functions */
+
 
