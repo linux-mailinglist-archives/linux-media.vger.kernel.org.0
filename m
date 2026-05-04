@@ -1,292 +1,238 @@
-Return-Path: <linux-media+bounces-60269-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60270-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2H1wFi93+GlavgIAu9opvQ
-	(envelope-from <linux-media+bounces-60269-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 12:38:39 +0200
+	id 0L+NFPp2+GlavgIAu9opvQ
+	(envelope-from <linux-media+bounces-60270-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 12:37:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9423F4BBD72
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 12:38:38 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id B75E84BBD4B
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 12:37:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 89AA9306FC23
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 10:26:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 45C713015A48
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 10:37:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5756139A7E1;
-	Mon,  4 May 2026 10:25:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26CFE3A545B;
+	Mon,  4 May 2026 10:37:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="m+ahxMvQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WxUaVRnG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119F537703B;
-	Mon,  4 May 2026 10:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7581C38A73B
+	for <linux-media@vger.kernel.org>; Mon,  4 May 2026 10:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777890358; cv=none; b=GbPsQf+MFz8i0NZiSKfdtnMYB6ldrPSU+YI3ag4VZHb89flAoU+9yacNO1YnXP9MZ7oz4+61B7/LOzYdPO1XMjZmhAXCtdTePld3Jd+7sv0IlhWNNnCuQ82KVjj8muVVUnpeXG3uIYfsroExdjRdB85uvljepO83gbAKWRBdqhs=
+	t=1777891057; cv=none; b=SvK2YjgTvG1G8rYI0yYAVovqa65+Slco4fYNlQlioMkYkkUvgdUqqjouJZAtidPUOnywSwabAqgIoHKdzc7ov3LpSeTMaNr8oVvICBpzz+TkrmKOgCAlWGphzO1nBYAn34SWqGaDl0uQ/jHig1VE+Eqyl6/47vWvm3OV5BzFygc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777890358; c=relaxed/simple;
-	bh=fjaSYhZE4oRr9d4UaGHL4ThyVOGWeqOjO28JE4crRLo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZUHHrjeOZcsOtbwqGJ8B5ADV2An8xrS3BMLcGSBYxxcGMYgvw06gRW8qDRln6t3v17/i1vWZbzMTcoyMdqXdDwKxa1JJivysExLWpwThRsIxSPqsH+ocv9T9RI3OfPhTbCPQqpZ+GQOeHHc1PCq5QY9ouXfh/ubQQPk3sm0mxdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=m+ahxMvQ; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1777890355;
-	bh=fjaSYhZE4oRr9d4UaGHL4ThyVOGWeqOjO28JE4crRLo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=m+ahxMvQWuVt3kHngI21TEZjivfCGliowz1eIGVTxtsJJvR/gc7NVYlM35vbMI8Bx
-	 i+7JQuNoOnD78k61oLohXy7UIqvuTvbRxbW1QHKORRwOmNf/XJyLP4azeZ6ObLXWFo
-	 ekujQFqDnhQwKhUSxOTlI/FuS0mcpLr+ySOYAQPCX8Let6t4Qkmnc5c55bM1q3zs+y
-	 qhxtZwdqqapMWvnSFSkZcZKAOLCZLZtBOHGnOiBbgEzTdVh6IaixVqoTlz6637GWzj
-	 cz64JExVd2/4RMr13BWiHXo+AbAA9nWfEUA3JnVYdzmF/DAWxahrAULEeuy2DF/W9s
-	 GXw81I9KOEP4w==
-Received: from [100.64.1.43] (unknown [100.64.1.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id CD2E217E12EB;
-	Mon,  4 May 2026 12:25:54 +0200 (CEST)
-Message-ID: <da591ba8-9563-4e89-88c2-bf18d41d1bee@collabora.com>
-Date: Mon, 4 May 2026 12:25:54 +0200
+	s=arc-20240116; t=1777891057; c=relaxed/simple;
+	bh=9tAaz20Ae5udo+1KfEibhpKitw73uVxHmbWSDrohfFU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P73q7OXXDQpHJ4OrjAJQ2qSLtGwl9DtTqHXv2blDDwsSWiXpu18HTzuSO5cz1JT1XyZgW8lkiYruakE9J2EzsihkYXPaLRZikyMOSEqx2k0U2TNNLM3vTUrO28MM33fYRvT6nTf8EPgCnMBQWsrnrgn68dU9k3qQx2dzt+UsAlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WxUaVRnG; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ab46931cf1so28701525ad.0
+        for <linux-media@vger.kernel.org>; Mon, 04 May 2026 03:37:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777891056; x=1778495856; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zwBefue+sqPVaGbAyP7uY++EiQcB2m+LSHBlyeXzufA=;
+        b=WxUaVRnGVtJ/nkSLoArfAH2PsBO9ziasYwEAWVU5ZDpPMoOqb/x6EmNTQfeSGCIJ3V
+         c0xZ3/9BaNT85CgF42WCXJNsQmG435jxKHpbi3Bnc0svTUhHWUOGl2PAUbxyrBAN5sIe
+         1Zd0LNSuCXZR4sao8ppNfdaBIb5CRagdk/AL/U2GHZDDhhY4ClSZrmDiFpF5MNppacVD
+         B+GnK2U2STP72HF4lRwfk9/Ednrf6VcCLMm4dMeLAcL0Dn4zCTyR6g6FMwhk2E90OKUl
+         DIZeXGucnenklZ3R/nIEemXqoqgnM5EojXtOimGKbkVF6TSVCfafk+XPeufDhFLuSjzi
+         cbXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777891056; x=1778495856;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zwBefue+sqPVaGbAyP7uY++EiQcB2m+LSHBlyeXzufA=;
+        b=BKjxDOzKen2fgXJ9k5dKctqIqiBHSfCo3dEg85pqB+6P27xxDregd/T5hwWu/8tvsB
+         5m5zm0Zn8Mi1yr2sgLitDnZwmu5gx4kfequkrVZRykdzeeb3fdSe8WP+rD4FVP9deTIt
+         zbu+j9fFJXwjh7lPCxAkMPmb8FB3ZRAB9GHsXBbSga8QHf8R2q5cu193LHOnsbk1I9Yv
+         OvCa8RAyWo2cCDmvU6PbPpTUmh1VViM3IdlMfqNFPqatNWKjIaghdOUmp+fu5dm40mvh
+         K5mxYABUjoo6c8BRlr9ccBP1pcH42wpzsyWszEaDdgU9blMPKH1Iz1Np04uf+psiSiLi
+         5HrA==
+X-Forwarded-Encrypted: i=1; AFNElJ8+B6Zu7+CLi/9FOWrHYgTNS+cKR5atOIcToO7ZbaqJiyT/cwtDCdnm7GegpBsyV5O/AhCnqLLjkA2HKw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6UR3XNsEJGtIY68Ad9ER0ibPhm1E4P17BXdxRHl5r58IJ4kJG
+	CqkRLcafNHxUa3JsBtmJq87cl5n+ZpE+IN6rf8D229C/eg/LmD8mM1y3
+X-Gm-Gg: AeBDievT9QtIxAcShjoBlrnPvZbA3YnoiWiwRwd/MgHuDiT1ozxoeGutf1Gh13GV4RK
+	FdPqEYNRMAoy/bdWbI2WwjLSmaNmDIjMRuSZAWcscbOyKxX63X4oIiNMThqsRn4WQvEzla3eQmo
+	1EkhxTyxQ8olr+EfZz4rzm3pkXdWLfYu+Bj+zbJ7xo6ZIaYpHkfH5EuKpp1msRv5fk161kEvG1R
+	GQNziBLyww3jAPN0VtHZJRtd9zM7fnM/n8VjIABDWxVoNZsyV8zmc5nqSojcq0Qb08CApk/MY6x
+	m7o+D05Q4biHJFcRhrMbK3KFrItllsVshrrvSzbXSgsWP1DuF2rl1v2/6LYSO29dXMAvmIxHZdi
+	zAFaWmfa40SxmL4Vm5rkIXIXwQDXdEAIqoh9NUGBN5NT2sHYiBfcqfvQf8hJV6kuMsXOzUOShEe
+	UJx1kgEJIHpDG9VxZAsgoKSrHvWcUPJKsdiWK/Hfn6NKYID4U6XTPxPJCsEKLkOO1yFGyox2Bx/
+	nyfAVBjLK2qQP64wkXgPY4UXJjOQF7XOjTGvu/nusX7
+X-Received: by 2002:a17:903:120f:b0:2b2:4bbc:14b0 with SMTP id d9443c01a7336-2b9a44e3639mr144821845ad.20.1777891055673;
+        Mon, 04 May 2026 03:37:35 -0700 (PDT)
+Received: from shyam-VMware-Virtual-Platform.localdomain ([223.181.112.102])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ba41784313sm13194525ad.40.2026.05.04.03.37.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2026 03:37:35 -0700 (PDT)
+From: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+To: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: sakari.ailus@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+Subject: [PATCH v2] staging: media: atomisp: drop unnecessary else block after return/break
+Date: Mon,  4 May 2026 16:06:56 +0530
+Message-ID: <20260504103656.32945-1-shyamsunderreddypadira@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] media: verisilicon: Create AV1 helper library
-To: Hans Verkuil <hverkuil+cisco@kernel.org>, nicolas.dufresne@collabora.com,
- p.zabel@pengutronix.de, mchehab@kernel.org, heiko@sntech.de
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com
-References: <20260415073801.58369-1-benjamin.gaignard@collabora.com>
- <8f29d271-da7d-4456-9427-2fb66136747a@kernel.org>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <8f29d271-da7d-4456-9427-2fb66136747a@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 9423F4BBD72
-X-Rspamd-Action: add header
+X-Rspamd-Queue-Id: B75E84BBD4B
+X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [8.84 / 15.00];
-	URIBL_BLACK(7.50)[aomediacodec.github.io:url];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	BAD_REP_POLICIES(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60269-lists,linux-media=lfdr.de];
-	R_DKIM_ALLOW(0.00)[collabora.com:s=mail];
-	FROM_HAS_DN(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[collabora.com,none];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[linux.intel.com,vger.kernel.org,lists.linux.dev,gmail.com];
+	TAGGED_FROM(0.00)[bounces-60270-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	GREYLIST(0.00)[pass,body];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_SPAM(0.00)[0.504];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[benjamin.gaignard@collabora.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	FROM_NEQ_ENVFROM(0.00)[shyamsunderreddypadira@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-0.998];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	R_SPF_ALLOW(0.00)[+ip6:2600:3c0a:e001:db::/64:c];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,aomediacodec.github.io:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Spam: Yes
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
+Remove redundant else blocks following return or break statements.
+As control flow exits in these cases, the else branch is
+unnecessary. Dropping it improves code readability.
 
-Le 04/05/2026 à 09:20, Hans Verkuil a écrit :
-> Hi Benjamin,
->
-> I have a few comments about this:
->
-> On 15/04/2026 09:38, Benjamin Gaignard wrote:
->> Regroup all none hardware related AV1 functions into a helper library.
->> The goal is to avoid code duplication for futur AV1 codecs.
-> futur -> future
->
->> Tested on rock 5b board Fluster score remains the same 204/241.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->> ---
->> changes in version 3:
->>   - Remove useless wrapper functions.
->>
->>   drivers/media/platform/verisilicon/Makefile   |   7 +-
->>   .../media/platform/verisilicon/hantro_av1.c   | 780 +++++++++++++++
->>   .../media/platform/verisilicon/hantro_av1.h   |  62 ++
->>   ...entropymode.c => hantro_av1_entropymode.c} |  18 +-
->>   ...entropymode.h => hantro_av1_entropymode.h} |  18 +-
->>   ...av1_filmgrain.c => hantro_av1_filmgrain.c} |  82 +-
->>   .../verisilicon/hantro_av1_filmgrain.h        |  44 +
->>   .../media/platform/verisilicon/hantro_hw.h    |   7 +-
->>   .../verisilicon/rockchip_av1_filmgrain.h      |  36 -
->>   .../verisilicon/rockchip_vpu981_hw_av1_dec.c  | 935 ++----------------
->>   .../platform/verisilicon/rockchip_vpu_hw.c    |   7 +-
->>   11 files changed, 1041 insertions(+), 955 deletions(-)
->>   create mode 100644 drivers/media/platform/verisilicon/hantro_av1.c
->>   create mode 100644 drivers/media/platform/verisilicon/hantro_av1.h
->>   rename drivers/media/platform/verisilicon/{rockchip_av1_entropymode.c => hantro_av1_entropymode.c} (99%)
->>   rename drivers/media/platform/verisilicon/{rockchip_av1_entropymode.h => hantro_av1_entropymode.h} (95%)
->>   rename drivers/media/platform/verisilicon/{rockchip_av1_filmgrain.c => hantro_av1_filmgrain.c} (92%)
->>   create mode 100644 drivers/media/platform/verisilicon/hantro_av1_filmgrain.h
->>   delete mode 100644 drivers/media/platform/verisilicon/rockchip_av1_filmgrain.h
->>
-> <snip>
->
->> diff --git a/drivers/media/platform/verisilicon/hantro_av1.c b/drivers/media/platform/verisilicon/hantro_av1.c
->> new file mode 100644
->> index 000000000000..5a51ac877c9c
->> --- /dev/null
->> +++ b/drivers/media/platform/verisilicon/hantro_av1.c
->> @@ -0,0 +1,780 @@
-> <snip>
->
->> +
->> +int hantro_av1_tile_log2(int target)
->> +{
->> +	int k;
->> +
->> +	/*
->> +	 * returns the smallest value for k such that 1 << k is greater
->> +	 * than or equal to target
->> +	 */
->> +	for (k = 0; (1 << k) < target; k++);
-> Checkpatch gives:
->
-> ERROR: trailing statements should be on next line
-> #637: FILE: drivers/media/platform/verisilicon/hantro_av1.c:568:
-> +       for (k = 0; (1 << k) < target; k++);
->
-> Just move the ';' to the next line.
+No functional change.
 
-OK I will do that.
+Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+---
+Changes in v2:
+- Fixed grammar and added missing spaces after punctuation.
+- Consolidated dev_err() call to occupy only two lines.
 
->
->> +
->> +	return k;
->> +}
->> +
-> <snip>
->
->> diff --git a/drivers/media/platform/verisilicon/hantro_av1_filmgrain.h b/drivers/media/platform/verisilicon/hantro_av1_filmgrain.h
->> new file mode 100644
->> index 000000000000..5593e84114d0
->> --- /dev/null
->> +++ b/drivers/media/platform/verisilicon/hantro_av1_filmgrain.h
->> @@ -0,0 +1,44 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +
->> +#ifndef _HANTRO_AV1_FILMGRAIN_H_
->> +#define _HANTRO_AV1_FILMGRAIN_H_
->> +
->> +#include <linux/types.h>
->> +
->> +struct hantro_av1_film_grain {
->> +	u8 scaling_lut_y[256];
->> +	u8 scaling_lut_cb[256];
->> +	u8 scaling_lut_cr[256];
->> +	s16 cropped_luma_grain_block[4096];
->> +	s16 cropped_chroma_grain_block[1024 * 2];
->> +};
-> This struct is not used in hantro_av1_filmgrain.c/h.
->
-> Does this belong here?
+ .../staging/media/atomisp/pci/atomisp_fops.c  | 18 +++++-------
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 29 +++++++++----------
+ 2 files changed, 21 insertions(+), 26 deletions(-)
 
-The same structure can used for future Verisilicon hardware block so I would prefer to
-keep it here.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index c7aef066f209..1aee082d34bf 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -125,10 +125,8 @@ static int atomisp_q_one_metadata_buffer(struct atomisp_sub_device *asd,
+ 					     stream_id, css_pipe_id)) {
+ 		list_add(&metadata_buf->list, metadata_list);
+ 		return -EINVAL;
+-	} else {
+-		list_add_tail(&metadata_buf->list,
+-			      &asd->metadata_in_css[md_type]);
+ 	}
++	list_add_tail(&metadata_buf->list, &asd->metadata_in_css[md_type]);
+ 	asd->metadata_bufs_in_css[stream_id][css_pipe_id]++;
+ 
+ 	return 0;
+@@ -165,11 +163,10 @@ static int atomisp_q_one_s3a_buffer(struct atomisp_sub_device *asd,
+ 		/* got from head, so return back to the head */
+ 		list_add(&s3a_buf->list, s3a_list);
+ 		return -EINVAL;
+-	} else {
+-		list_add_tail(&s3a_buf->list, &asd->s3a_stats_in_css);
+-		if (s3a_list == &asd->s3a_stats_ready)
+-			dev_dbg(asd->isp->dev, "drop one s3a stat with exp_id %d\n", exp_id);
+ 	}
++	list_add_tail(&s3a_buf->list, &asd->s3a_stats_in_css);
++	if (s3a_list == &asd->s3a_stats_ready)
++		dev_dbg(asd->isp->dev, "drop one s3a stat with exp_id %d\n", exp_id);
+ 
+ 	asd->s3a_bufs_in_css[css_pipe_id]++;
+ 	return 0;
+@@ -206,11 +203,10 @@ static int atomisp_q_one_dis_buffer(struct atomisp_sub_device *asd,
+ 		list_add_tail(&dis_buf->list, &asd->dis_stats);
+ 		spin_unlock_irqrestore(&asd->dis_stats_lock, irqflags);
+ 		return -EINVAL;
+-	} else {
+-		spin_lock_irqsave(&asd->dis_stats_lock, irqflags);
+-		list_add_tail(&dis_buf->list, &asd->dis_stats_in_css);
+-		spin_unlock_irqrestore(&asd->dis_stats_lock, irqflags);
+ 	}
++	spin_lock_irqsave(&asd->dis_stats_lock, irqflags);
++	list_add_tail(&dis_buf->list, &asd->dis_stats_in_css);
++	spin_unlock_irqrestore(&asd->dis_stats_lock, irqflags);
+ 
+ 	asd->dis_bufs_in_css++;
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 900a67552d6a..32b07834d66d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -467,22 +467,21 @@ static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
+ 			__func__, irq);
+ 		spin_unlock_irqrestore(&isp->lock, flags);
+ 		return -EAGAIN;
+-	} else {
+-		pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+-		irq &= BIT(INTR_IIR);
+-		pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
+-
+-		pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+-		if (!(irq & BIT(INTR_IIR))) {
+-			atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
+-			goto done;
+-		}
+-		dev_err(isp->dev,
+-			"%s: error in iunit interrupt. status reg=0x%x\n",
+-			__func__, irq);
+-		spin_unlock_irqrestore(&isp->lock, flags);
+-		return -EAGAIN;
+ 	}
++	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
++	irq &= BIT(INTR_IIR);
++	pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
++
++	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
++	if (!(irq & BIT(INTR_IIR))) {
++		atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
++		goto done;
++	}
++	dev_err(isp->dev, "%s: error in iunit interrupt. status reg=0x%x\n",
++		__func__, irq);
++	spin_unlock_irqrestore(&isp->lock, flags);
++	return -EAGAIN;
++
+ done:
+ 	/*
+ 	 * MRFLD WORKAROUND:
+-- 
+2.43.0
 
->
->> +
->> +void hantro_av1_generate_luma_grain_block(s32 (*luma_grain_block)[73][82],
->> +					  s32 bitdepth,
->> +					  u8 num_y_points,
->> +					  s32 grain_scale_shift,
->> +					  s32 ar_coeff_lag,
->> +					  s32 (*ar_coeffs_y)[24],
->> +					  s32 ar_coeff_shift,
->> +					  s32 grain_min,
->> +					  s32 grain_max,
->> +					  u16 random_seed);
->> +
->> +void hantro_av1_generate_chroma_grain_block(s32 (*luma_grain_block)[73][82],
->> +					    s32 (*cb_grain_block)[38][44],
->> +					    s32 (*cr_grain_block)[38][44],
->> +					    s32 bitdepth,
->> +					    u8 num_y_points,
->> +					    u8 num_cb_points,
->> +					    u8 num_cr_points,
->> +					    s32 grain_scale_shift,
->> +					    s32 ar_coeff_lag,
->> +					    s32 (*ar_coeffs_cb)[25],
->> +					    s32 (*ar_coeffs_cr)[25],
->> +					    s32 ar_coeff_shift,
->> +					    s32 grain_min,
->> +					    s32 grain_max,
->> +					    u8 chroma_scaling_from_luma,
->> +					    u16 random_seed);
->> +
-> I get a lot of checkpatch warnings of this type:
->
-> WARNING: function definition argument 's32' should also have an identifier name
-> #1205: FILE: drivers/media/platform/verisilicon/hantro_av1_filmgrain.h:16:
-> +void hantro_av1_generate_luma_grain_block(s32 (*luma_grain_block)[73][82],
-> Looking at how it is used in rockchip_vpu981_av1_dec_set_fgs() I think this
-> can be done a lot easier if you add a new struct here containing those
-> arrays. E.g.:
->
-> struct hantro_av1_coeffs_grain_block {
->          s32 ar_coeffs_y[24];
->          s32 ar_coeffs_cb[25];
->          s32 ar_coeffs_cr[25];
->          s32 luma_grain_block[73][82];
->          s32 cb_grain_block[38][44];
->          s32 cr_grain_block[38][44];
-> };
->
-> Then in rockchip_vpu981_av1_dec_set_fgs you can just kzalloc that struct
-> and pass it to these filmgrain functions.
-
-I will do that.
-
->
-> Also consider using #defines for the array sizes.
-
-Chapter "7.18.3.3. Generate grain process" of AV1 spec doesn't define/name
-these values so keep them like this make the code more easy to review with
-the spec.
-
-https://aomediacodec.github.io/av1-spec/#generate-grain-process
-
-That said I'm always for naming values so good suggestion are welcome.
-
-Thanks,
-Benjamin
-
->
-> If you decide not to use a struct, then you can at least change simply use
-> 's32 luma_grain_block[73][82]' as arguments to these helper functions. There
-> is no need to complicate the function prototypes.
->
-> But I think creating a struct is a cleaner approach.
->
-> Regards,
->
-> 	Hans
->
 
