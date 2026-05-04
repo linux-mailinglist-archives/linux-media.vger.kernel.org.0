@@ -1,93 +1,84 @@
-Return-Path: <linux-media+bounces-60304-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60281-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KNCdI4Ke+GnHxAIAu9opvQ
-	(envelope-from <linux-media+bounces-60304-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 15:26:26 +0200
+	id WPqJHoSS+Gl8wgIAu9opvQ
+	(envelope-from <linux-media+bounces-60281-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 14:35:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC434BDDB6
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 15:26:25 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB584BCF45
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 14:35:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 100BA303C0D7
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 13:22:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1EDC6301A70E
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 12:35:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 002DD3DA7E3;
-	Mon,  4 May 2026 13:21:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEDD33CE4BA;
+	Mon,  4 May 2026 12:35:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eETDozoa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hUQ6y/II"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D423DBD52
-	for <linux-media@vger.kernel.org>; Mon,  4 May 2026 13:21:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A95D389E16
+	for <linux-media@vger.kernel.org>; Mon,  4 May 2026 12:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777900917; cv=none; b=uXsVQZjmJYqQzQpZW1y6B1j4xNBtQTvHgfFceiHh1xlE3L8xBSqgZBvJ7NKALPX1nZvpXjknQ7xxaEDyAQRPHTiQ0k7UyLu3KtMSRHfLiRRS+xIdoWAOoXynZKmFjCIzHYni/14gPgvvMvwY2S+CVFTV0uz0iHdXEX4ss5YS0gg=
+	t=1777898110; cv=none; b=nNiujXCpCiVWbZNy6G/GDLAVToYt8B/7dVtDsgMbou7l7PSLRn5bEt9GKRrpw+yB3dnWa6AOH/RzgPzndiKCUFSqgTR1B4WKKZPi1y9acYhwox54uCpGNKIRT4l0cgC2ajg1+t5rPOX2q2iXxQr1EqQ+Xshlfg9G5RaATtXYPxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777900917; c=relaxed/simple;
-	bh=r9eQVf4VASyFYaE/ZIlyDRbmFOv6clE/O8XKlS0U8ZE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u4ttZisKRceDbyxEOPJeG6CQ/2SqzjajMnG2vxuNRQ7Xaptq/Sg/hjulhXYIj5xH+uH4mzy+h9NpXmeT6XFSWAIvewQN3wdLj5jkYb2WMjnyp7q6vGDCl5AIzl0swL1DPWbNFqwLwC6zy0hZ2jVxvxsQEST1YyxXrWXoCp5Jxos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eETDozoa; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38ec6e3de84so3921731fa.1
-        for <linux-media@vger.kernel.org>; Mon, 04 May 2026 06:21:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777900914; x=1778505714; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NzTvXmtIHVqLoOxlkNflVv2HMvkwESIZVj/UhIYYlUU=;
-        b=eETDozoa2mte/9xI3UtGg89nJVlTKs7Qu/8AoSV1SwSNjOwY5q3AcZ+7exyGlhg96Y
-         7lRiBZHauBw5UrZMeBoyLHmS75s4DkElYjmhnLplzIN3tqVUhQVZgpD1ISrXRblGm2+b
-         tEixkQl+vzbArzT6Kp3MNx+Vs1/ghuTpq3y0nXlpqTCUtlXwwdeWXrmiN+z8jzSUT4cM
-         lL/+mt3XlZhRttmSXzCFbmbB4uELjrY6BIMoJ3O5zdfioK5VbLFiNWFnbfZno2+kZr6k
-         N/UdfGd0FtVchvVjVm6t5s5EnzW+3IZdCA2z2vJZDB1l8r+2tnnhnlh3Fg6hXnABAw1L
-         L4BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777900914; x=1778505714;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NzTvXmtIHVqLoOxlkNflVv2HMvkwESIZVj/UhIYYlUU=;
-        b=mDZrb4QKGZVOgLUtjIjNhxoCVkFpvOduIj+pKtiq4iM6/E5EXDdadnH7i3TY2WCWKG
-         YfbZxTPcm8tkRZxUAFRJk7v9DFWOQl09r7sruwBkrJW74gIltWjdpWVr9w5hKzRV6CUU
-         3boPBvufBV5v9rZUIsMMd+l8OWy7tuOnWBYkPGLeDnQFzqJadftHWPAYKba68MhXHG0u
-         5lci04bdZHeHKy3XBMOUwQMjmyV4xofDPK2ftIIaS4ndpx2FPbEdxsI84VU00gD2IoAB
-         yUDw4o6De7FAx9nBczwWB469DivtXJB9iqzGnZ6WeZ+p/gGQN/N6A0/r2FMuKbt9mcwX
-         dmpg==
-X-Forwarded-Encrypted: i=1; AFNElJ+EclhCeBPuO+i7BpteeUonGiN0dEep+uJovWSv8hpO9yLkFU2jZ2I8NOXLNiYaN3qCupmySP2HNp3L1w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyS5qKFqvxMGygJixOZgXuM7LjGHacLDSKD5kzuqJWpqwiNKXsG
-	i5BnCeoZCXw44hacAWarmIcvatAUl9p9dK7qFBA1YnIBVzyj46EdWenv
-X-Gm-Gg: AeBDiesfRdZCLUBRLUfr4UX/wdpVnfUilfJ1C642UvrcrKbEOf2UOVQpmcXJ9C4DPWP
-	D2IPgtxWziXYZSlA+VXQdUsmsNBZYTIR06GGA7mwsPPpuwtMYNroOfutGRqt8OkNNdkT/c55lHH
-	5On7uuQyzifO/afZW8llWqvweLYbGX+igBCtF4fO7ExrSK2QRhUkZGUtpGFeixbciqRYmtJ1qlo
-	mLhNhDJCCPRfWuStC1BPLCu0/HxsnYE7M5ML6K29i+/BCczEkZ/5MbNcf6LaInJWv0zZfRdSJ7K
-	FdXAOtffk5aqp4h+Uo2lCtynYZLjPtRxjZpPQMglUQfUDt3qAv9nToSOKXEMustA8QuGXgJ4TBo
-	j4dvEryk2a/UkxghN/U/w40tyo+IVG8k/zCXMAJlE1jD6lnST9WuyypSQOHgeEYv4YJfWCShhuF
-	u7d95MUUlbOJs61Gb2KCRk/PzXF8zjLNAZC3i8Qb0TGm8GlP2NRhHcLg==
-X-Received: by 2002:a05:651c:505:b0:393:a31a:ab30 with SMTP id 38308e7fff4ca-393a31ac91cmr4741351fa.0.1777900913930;
-        Mon, 04 May 2026 06:21:53 -0700 (PDT)
-Received: from localhost.localdomain ([94.158.58.95])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393610ba631sm31780481fa.12.2026.05.04.06.21.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 06:21:53 -0700 (PDT)
-From: Stepan Ionichev <sozdayvek@gmail.com>
-To: mchehab@kernel.org
-Cc: gregkh@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	aadarshmandal9354@gmail.com,
-	luka.gejak@linux.dev,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Stepan Ionichev <sozdayvek@gmail.com>
-Subject: [PATCH] staging: media: av7110: remove dead av7110_reset_arm()
-Date: Mon,  4 May 2026 17:21:05 +0500
-Message-Id: <20260504122105.1428-1-sozdayvek@gmail.com>
-X-Mailer: git-send-email 2.33.0.windows.2
+	s=arc-20240116; t=1777898110; c=relaxed/simple;
+	bh=dJ1rCw2AJeqI7XmfDieveHBn75GsqkHPx1rx5J8kOHo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gStkTkP6nI/mQCPiZgwERDs+k/kSXWQbLz12Hkjl8BkLAJ4Iad8ypeQvvFHez9HFAE5dSC3R5VRvpgY9YhGtbKaf9aVAOiW1CR+GGm96YDwPSMB4C9nl+D60UOHQHjTY/A8K8kIwse+EPeuP7Hr8T9ehbD5gB/blt0Rlic8bslI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hUQ6y/II; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777898108; x=1809434108;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dJ1rCw2AJeqI7XmfDieveHBn75GsqkHPx1rx5J8kOHo=;
+  b=hUQ6y/IImpD98fM8+9BaKm7YZynOt850gmAaToMy5+vh8WKBx8zzrxIO
+   dBQbwEFvcmtsdMArFV39d/F7SP3281Fi7WshWBgKVqpOldoUrgBzo5rap
+   fPGt9XMval5Zkt8N8YdVRPw7UmgU6L28kUrCpEYlAPv8DkxaluzQnlei2
+   RDGQPZ7gDfhtWuqCRnEFNz2wInjnX9AcmK9zfEJ0ElKSMAJhnpJBMgJNA
+   jeQZmbPlkLlI6vcvs2m3yLMCCOwBvBBWlxIVVC6snwV/h8D1CX1EOCZZk
+   6SwEeYzy6NBfLLotKH79Ji7GciTjW8cDUOQ6Ef5QeRABSpZCe5/HL+kIK
+   A==;
+X-CSE-ConnectionGUID: 42MFBobtS3CYMDsDhOWYVg==
+X-CSE-MsgGUID: 3fETG+TXST2/HG86BOjL/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="78852522"
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="78852522"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 05:35:07 -0700
+X-CSE-ConnectionGUID: lRrvCg/DTBGN+UY4+G7oZQ==
+X-CSE-MsgGUID: BQWB3oh6RkiV5jBpDOI2RA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="232356257"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.114])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 05:35:06 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id BE8E6121CC4;
+	Mon, 04 May 2026 15:35:04 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1wJsVr-00000001kUi-3ufn;
+	Mon, 04 May 2026 15:35:03 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	David Heidelberg <david@ixit.cz>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: [PATCH 1/1] media: v4l2-subdev: Fail {enable,disable}_streams and s_streaming nicely
+Date: Mon,  4 May 2026 15:35:03 +0300
+Message-ID: <20260504123503.417044-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -95,97 +86,74 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 2EC434BDDB6
+X-Rspamd-Queue-Id: CFB584BCF45
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,linaro.org,gmail.com,linux.dev,vger.kernel.org,lists.linux.dev];
-	TAGGED_FROM(0.00)[bounces-60304-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
+	HAS_ORG_HEADER(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60281-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sozdayvek@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,intel.com:email];
+	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
 	NEURAL_HAM(-0.00)[-0.998];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
 
-The av7110_reset_arm() function in av7110_hw.c is wrapped in an
-"#if 0 / #endif" block and therefore not compiled into the driver.
-The function name is not referenced from anywhere else in the
-av7110 driver tree:
+If a sub-device does not set enable_streams() and disable_streams() pad
+ops while it sets the s_stream() video op to
+v4l2_subdev_s_stream_helper(), enabling or disabling streaming either way
+on the sub-device will result calling v4l2_subdev_s_stream_helper() and
+v4l2_subdev_{enable,disable}_streams() recursively, exhausting the stack.
+Return -ENOIOCTLCMD in this case to handle the situation gracefully.
 
-  $ git grep -n av7110_reset_arm drivers/staging/media/av7110/
-  (no results after this change)
-
-The actual ARM boot path is implemented by av7110_bootarm(), so the
-disabled av7110_reset_arm() is leftover code with no remaining
-purpose. Drop it; "#if 0" blocks are dead code and should be
-removed rather than kept around (see coding-style.rst, section 21,
-"Conditional Compilation").
-
-The "/* av7110 ARM core boot stuff */" section comment is kept,
-since it still applies to the helpers that follow (waitdebi(),
-load_dram(), av7110_bootarm()).
-
-No functional change.
-
-Signed-off-by: Stepan Ionichev <sozdayvek@gmail.com>
+Reported-by: David Heidelberg <david@ixit.cz>
+Fixes: b62949ddaa52 ("media: subdev: Support single-stream case in v4l2_subdev_enable/disable_streams()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/staging/media/av7110/av7110_hw.c | 21 ---------------------
- 1 file changed, 21 deletions(-)
+since v2:
 
-diff --git a/drivers/staging/media/av7110/av7110_hw.c b/drivers/staging/media/av7110/av7110_hw.c
-index 49ce29577..3cd0988db 100644
---- a/drivers/staging/media/av7110/av7110_hw.c
-+++ b/drivers/staging/media/av7110/av7110_hw.c
-@@ -96,27 +96,6 @@ u32 av7110_debiread(struct av7110 *av7110, u32 config, int addr, unsigned int co
- }
+- Move the check, with checking the pad ops, to
+  v4l2_subdev_s_stream_helper().
+
+ drivers/media/v4l2-core/v4l2-subdev.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 831c69c958b8..3b726f044d3f 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -2504,6 +2504,10 @@ int v4l2_subdev_s_stream_helper(struct v4l2_subdev *sd, int enable)
+ 	u64 source_mask = 0;
+ 	int pad_index = -1;
  
- /* av7110 ARM core boot stuff */
--#if 0
--void av7110_reset_arm(struct av7110 *av7110)
--{
--	saa7146_setgpio(av7110->dev, RESET_LINE, SAA7146_GPIO_OUTLO);
--
--	/* Disable DEBI and GPIO irq */
--	SAA7146_IER_DISABLE(av7110->dev, MASK_19 | MASK_03);
--	SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);
--
--	saa7146_setgpio(av7110->dev, RESET_LINE, SAA7146_GPIO_OUTHI);
--	msleep(30);	/* the firmware needs some time to initialize */
--
--	ARM_ResetMailBox(av7110);
--
--	SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);
--	SAA7146_IER_ENABLE(av7110->dev, MASK_03);
--
--	av7110->arm_ready = 1;
--	dprintk(1, "reset ARM\n");
--}
--#endif  /*  0  */
- 
- static int waitdebi(struct av7110 *av7110, int adr, int state)
- {
++	if (WARN_ON_ONCE(!v4l2_subdev_has_op(sd, pad, enable_streams) ||
++			 !v4l2_subdev_has_op(sd, pad, disable_streams)))
++		return -ENOIOCTLCMD;
++
+ 	/*
+ 	 * Find the source pad. This helper is meant for subdevs that have a
+ 	 * single source pad, so failures shouldn't happen, but catch them
 -- 
-2.33.0.windows.2
+2.47.3
 
 
