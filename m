@@ -1,362 +1,319 @@
-Return-Path: <linux-media+bounces-60227-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60229-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mEQJGj/z92mjoQIAu9opvQ
-	(envelope-from <linux-media+bounces-60227-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 03:15:43 +0200
+	id 0Dd/KEwb+GnCpwIAu9opvQ
+	(envelope-from <linux-media+bounces-60229-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 06:06:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4F84B7EED
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 03:15:43 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22ECF4B8496
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 06:06:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 957DF3057D61
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 01:09:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 20611300A111
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 04:06:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91DCA1D5ABA;
-	Mon,  4 May 2026 01:09:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C204278F4F;
+	Mon,  4 May 2026 04:06:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="v/X4YP2A";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Fwu5hJSB"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fDkn2F09";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gIO+qw1a"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4528C1C2324;
-	Mon,  4 May 2026 01:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DE7126F3B
+	for <linux-media@vger.kernel.org>; Mon,  4 May 2026 04:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777856969; cv=none; b=pTj+iV/CfyElAkmoEiiY0mSKy+zkeiJzBr9Ok02f1sPexBqZcjcWSt0GR3YAk6BwgoJ8dHRvlxFTbOzAqn7yO84VfoBJzn8cGyJqXCD/x9Uf6RqG9fpnI/5xNbq6QPuY33GEePcf0USaS5JAT9l+EJMBq01JaJZXS/AYfSSTALU=
+	t=1777867592; cv=none; b=mz98/dbclFf2IsB0rRfwreLBf+vE0iq02iXLYsYzj1K4mtTlNAiYfDYER4eEXzOUfmugYYwHaZd6jVdThUcUAlfHEAUludSsrIy6s/x2jDbJ8UzU73a2W7GGY/iTI8N6mX67apDQ36miWd0Ra0pca0x36KPODFjv1xI33uGq8A4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777856969; c=relaxed/simple;
-	bh=xxOlNRhTYS3KW8d2XN+BLjiBVOdj9CFMr4miUr5CH7I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bc9EoFOeEQKSmJa33V0w7TOuMEBvIVyJz0JVEsNMeR04UCBAV7YGPjOU2efIDlsvbKcNfdn6SrvEYQ6Zxir0MJFubPbO0BYCFA5zC44DC1JVRc0gG01wMy51LobxYQBublhIUDYbSzsjM5RkrI3imm4Mwc8dvYCd/j4CC3UKkng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=v/X4YP2A; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Fwu5hJSB; arc=none smtp.client-ip=202.12.124.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id 74D031D000AA;
-	Sun,  3 May 2026 21:09:26 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Sun, 03 May 2026 21:09:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1777856966;
-	 x=1777943366; bh=KO+zXsiDEQdPM69zo1W6+Ooum3g9XlqZXXEyMTfn+7s=; b=
-	v/X4YP2Aw+Yydbs/2ECpuwir4K0+6H33IN/8qrvXftUtTWB5btbLPfEnVCd6r+Bt
-	TkhYtQerp8SpygkOTXE9/9Hy5w7v85n4LGD7aiRkO1DxXVrZWvgrLaylxgkboHT7
-	7KMgR5mcGC1g+Q5rsyj5pa2hKFjSz4PKHnU7QF9pkOQi9ZEW5HzEocioiPdJLJph
-	8bMxSKxSI3DVFVPK7LHxnDuqZe/dJjaYN+1VKzO1A13YpXKeNvDhFesWVmH9bwTt
-	iB0aZuqYqZt7xVDwdKJVKMrHN0PymWqc5yZ4nsrH6SubLGE7oqWq+thMhxCMlt65
-	Hqz9ykQMPWsrROyfDPyNfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777856966; x=
-	1777943366; bh=KO+zXsiDEQdPM69zo1W6+Ooum3g9XlqZXXEyMTfn+7s=; b=F
-	wu5hJSBGlbKD5IVwKtSs28Uc8LZ8ubDvsCyGQ1ribFeJ2I5amJkvv1wuVFtyitwa
-	oSYsoUqI13u95tsP8Vh/8vl+XxWjs5TicFRWXmQKjuZV9F9zsfW39jeivvYLW6/i
-	u0gLmxofor6X6XR5bTHSpJUiFMqn4YUixVPdNzLmni0W4kSt7k1X57onLxCMUFH5
-	4kjlQlcVWqPqVzY5vL2Rb0yB9/rFB2P5rmrBKeEjMDqhUjMGeRU4qbOI6JG6/A0q
-	SSu1Ko9pnS37tFkHRlW1cIsNVvGOUf+0e4z6AT63EtaVu4Lpva+/rwW8JY7ifj1Q
-	hQCMljo1fKSaHWltxDnrw==
-X-ME-Sender: <xms:xvH3aUa7PIckPYvyQve91k2ibVpwn-1EabwPKOXuR8nwxqANy_ghjQ>
-    <xme:xvH3aVYYp1aAwxHSPJyTJfo9HPzu28P3u9_XYjthp2rghX4SRdj-jWGGaBV2UhHf1
-    M6wKttW7QAP_k_-Y3wX4Dop9gyH5elSurtSF-LvE4ks8gUBpLvlXcg>
-X-ME-Received: <xmr:xvH3aZwJC5zyH7Ao2GJODpMEdbxEKEWyKVmCi0Xpx2mKawPrI-WfoJMjvk2enI76aS_LLs4R5kpS4m0_x0I6kwc1ZaWDd8wnFOmq>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeljeegkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomheppfhikhhlrghs
-    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
-    hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheeigfeuveeutdef
-    hfehgeekvedtleeuueekveefudehhffhjeffgfegffelfeegnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
-    nhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepuddtpdhmohguvgepsh
-    hmthhpohhuthdprhgtphhtthhopehjrghirdhluhhthhhrrgdorhgvnhgvshgrshesihgu
-    vggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohepkhhunhhinhhorhhirdhmohhrihhmohhtohdrghigsehr
-    vghnvghsrghsrdgtohhmpdhrtghpthhtohepjhgrtghophhordhmohhnughisehiuggvrg
-    hsohhnsghorghrugdrtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghr
-    thesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvug
-    hirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghn
-    vghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
-    hugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhgr
-    ihdrlhhuthhhrhgrsehiuggvrghsohhnsghorghrugdrtghomh
-X-ME-Proxy: <xmx:xvH3aRdQl0FlPPsRSlq6Exb_w0BstFax_q1jP11DCLrZSQhERkc6gA>
-    <xmx:xvH3ae6FEDBkDNLPwxo6KVa-4yq4L5mCS5OOQKexzGX86wyKa8fR3A>
-    <xmx:xvH3aWJgPY01U7MTMhUeFAho8VM-wjgv8QjWpENpoAIfVTEdv7puug>
-    <xmx:xvH3aWxZYBXKm1Sz__PB13X1xOKaPBexs5fo_wmDoxKlDOaj6T9Piw>
-    <xmx:xvH3aT9L2BFttGwReL5c0EOLo06EbI8yGGPRe9CqvGi3d0J7qX9yyS9E>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 3 May 2026 21:09:25 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jai Luthra <jai.luthra@ideasonboard.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [v8 14/14] media: rppx1: lin: Add support for gamma sensor linearization
-Date: Mon,  4 May 2026 03:05:56 +0200
-Message-ID: <20260504010556.2796398-15-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260504010556.2796398-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20260504010556.2796398-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1777867592; c=relaxed/simple;
+	bh=12pRirn1zk1xj1elPFSKYdiBh1v8/jVlyKYve51i0pk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=GfN/PsCY2Ui+HgRBAraJAvMDfXeryXqSbgqxzwOQ9hVgGq202drUtzFphFwHr0ugp3wjvvlG0FGM0nQGH2/veJd9TTkMHvKduKTTqanm3lliyvGHNxKXozwNdDvh7dlMhcTzt5V8hG4uqT8ErJQgjZmc0Ts92ZBX0RhJUnkdXYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fDkn2F09; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gIO+qw1a; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6443o1gU3243260
+	for <linux-media@vger.kernel.org>; Mon, 4 May 2026 04:06:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=3zhF01JXEYpr/3XOfnPCDP
+	F1pYnEF63r+hp7fuv2gmo=; b=fDkn2F09kvBji05y1QOvbiCy4WuzXBvfsHZZMw
+	lyMMSflfgKp81lMpt69nPbu+OPm86sR/xmW/+JeHUL/3RArxrAW36a8Pyllb7trm
+	cCzacKlPe57ROTZexSmsn6nPjbeMezaRXRvVG04n5BYPx6o2QipPHN2DbYrOMGWz
+	QBM/vsVgxQ4n6zyaU5HMC5GCW4Z5uO5H0NBo5xNke4E8Gf5Z7dEY8RQjndMnasDZ
+	+LSUdrg++39PwMnBvJalPzzpkeni7fuSYLZtGAL6yJLPdXFYLxlhYjJgq8Xig0GG
+	K1ep3pLr3fNX6KBwTn3mj95OE6RB1AUAQPo6IBVLZt7BdeCg==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dw6mpce36-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 04 May 2026 04:06:29 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-83565161a6eso278398b3a.1
+        for <linux-media@vger.kernel.org>; Sun, 03 May 2026 21:06:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1777867589; x=1778472389; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3zhF01JXEYpr/3XOfnPCDPF1pYnEF63r+hp7fuv2gmo=;
+        b=gIO+qw1acnnlpigxebC2LOupP1mFN1WdhwuMBEcFwFQEKKcKiwIKYvasDwNI2Ipw4o
+         zzSPV3lu0flrsOl2AwUDY5KMj+4ozVTAZ1Y1Y9J6bpnk+fa0zuvE5rEt1oLOZ1P2eCqH
+         uAgmitWWHbAK/DW3y/1xTk5Mn9013GVqhs4bFzaFhWor/V3tAS18nQ+mAVY9HbgbhfOx
+         jlfYhoEarHmdVuIJIBAeSfBrd6R0FT0cReUjzluAoCs6+ttNVA2IC0VY9C687OK3vSw7
+         7D8B5X1qUuO76DkLf2yG7ArjdMT2XjHEimtNtfdOcWXr3Gnp9u/iel5YN2ONN2RYUQR9
+         TVxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777867589; x=1778472389;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3zhF01JXEYpr/3XOfnPCDPF1pYnEF63r+hp7fuv2gmo=;
+        b=sRVJq9F4KbVlhnj7T5VNP1aiAORardxIvbc1STdJun2ABKz8nCPmosnFlogk6mcieH
+         POuHiQGjTTvFRNsrL/+YlNft62WcURW4TDzRQdbmRsdI5+UOhhzQ1o/ROn4xhcjmCctB
+         QFmd/Lvny6ekYHo4X6w0ThnRKjkLYJWWPnyzpLhhtOIrk81Og5RcY1s1ToMRB/Ptb1P0
+         RSRTZulcwpPge/g8itWH8oPlF+kkD2LQUiW1xBMo8+AzyBENILyIRploN4+Q3DL9OV5A
+         5IyJlvKMpF6vObPER0aBajyrhdN0ciRrMWsnBC5+s59LVxQ/DS34l9ZlahFA8hX0DiTY
+         mGBw==
+X-Gm-Message-State: AOJu0YxQJ0cVtYxSVyCbbNSBY4nOm1JyJNomAVmyU+Jmd9u+I+3VtWQe
+	nVfwDhGDg/4hdwhCiCPJBQHU2n6VUgezHltxbwxMiGNx/r1mXDVAAi2I8k0GAyNNZf3Wf02pKEk
+	pdH5LVV0fE/S2AeFwghvd9C7i57ySq7l1/Mvqo9ikzGwNmXpXjk5d5qhS2iNAIrrR+Q==
+X-Gm-Gg: AeBDietJq0yd01fovNfFNEKtkY8l83hJm7xmgewl7BT4Ws0/FDV9cRcrf74Nnci0I6q
+	5ti8yG8uKmhb5dRsHTM2oN1pxwNo6OYva3jdmPLtPZ2rT42ZDtJ60wymrxYnoEhKXULx4Qoskcw
+	8bVqlH8Yu7GMT4fKXtTPG6jEE7JdPUJeTDHgkOgK0r/a19QtP8tvT5FEba45ZkFhm5Eppkul0Th
+	DxIi7oxC9a6zqY/ilyvsSj97GEGyKBvhv9epSt6Aonnqra/S2Q0ao1kQdP6ePXHKtKELG+Ao5Ry
+	Oo7kmrbmRH+7kDWN7lqVLO16gV411KOY3oaT2XUZOBuQ3J85QrVQ2YeCJLQQG4Iw/qSCoUO2XIf
+	i4QtpaQar1kmtdxOaw9xpa7uElruvOnUB3d9bsok9RYWd3QaC86faIhfyzwBnkH9kFA==
+X-Received: by 2002:a05:6a00:b85:b0:82f:9a88:9092 with SMTP id d2e1a72fcca58-835001ab087mr13431548b3a.33.1777867588566;
+        Sun, 03 May 2026 21:06:28 -0700 (PDT)
+X-Received: by 2002:a05:6a00:b85:b0:82f:9a88:9092 with SMTP id d2e1a72fcca58-835001ab087mr13431519b3a.33.1777867588086;
+        Sun, 03 May 2026 21:06:28 -0700 (PDT)
+Received: from hu-bvisredd-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8351582dc36sm11086428b3a.6.2026.05.03.21.06.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 May 2026 21:06:27 -0700 (PDT)
+From: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+Date: Mon, 04 May 2026 09:35:47 +0530
+Subject: [PATCH v2] media: iris: optimize COMV buffer allocation for VPU3x
+ and VPU4x
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 0A4F84B7EED
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260504-optimize_comv_buffer-v2-1-69379a59e17d@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIABob+GkC/4WNTQ6CMBCFr0JmbUlbSBtceQ9DSC2DTCIUW2hU0
+ rtbuYCbl3wv72eHgJ4wwLnYwWOkQG7OIE8F2NHMd2TUZwbJpeK1FMwtK030wc66KXa3bRjQM4N
+ acK10pXgDubp4HOh1zF7bzCOF1fn38RLFz/0zGAUTTNvGyLo3lemriwuhfG7mkVNTmQXalNIXo
+ XRDbr8AAAA=
+X-Change-ID: 20260421-optimize_comv_buffer-ae7107673609
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777867584; l=5920;
+ i=busanna.reddy@oss.qualcomm.com; s=20260216; h=from:subject:message-id;
+ bh=12pRirn1zk1xj1elPFSKYdiBh1v8/jVlyKYve51i0pk=;
+ b=GJluqoVPIgFjhGqPFJi2MOWMxUP41SONq7ntZOcFcQo+biTqegs9fmQUpHj9RaCaeU+q8n9iI
+ J2kEMYoSp9qBZqIIx7TV7jfN5lFgV1SNOWXaTr51GwwqvVFqIIyQfWg
+X-Developer-Key: i=busanna.reddy@oss.qualcomm.com; a=ed25519;
+ pk=9vmy9HahBKVAa+GBFj1yHVbz0ey/ucIs1hrlfx+qtok=
+X-Authority-Analysis: v=2.4 cv=H6rrBeYi c=1 sm=1 tr=0 ts=69f81b45 cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=1JcM8n5T7VQChgOHro0A:9 a=QEXdDO2ut3YA:10
+ a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA0MDA0MSBTYWx0ZWRfX/XNtJr/Qb4Ec
+ FAofYlbMP3tLAWQFrH2ijg8jrxD6rPp1OEVEloCqGLg/q5YwMbSppQ6qroM8GB9g69iCDwOHb8b
+ pfcJI3gd3Io/yO572gdzgzub5s5+a8hZzrVM8mixeJe8K7DQgRN0GGn6wBR2uiwYn8Bwq8O3svs
+ kSzZVbwNEN8eh/VZHJwmff8zqibVXucgaTZd8n2sSwm5hj4cTeGB+L4CPnvEVp+NlvmbNeB08Ex
+ 0kRIPXEGeqVm9YcJ72VsiNLZi7y+GkNcxSRrgc/YjM+YDdW9XxzWopb0HlVK7pTFcLfDEOmXY8Y
+ o9H5v2SKC/yufsq+iLgRt6pD+vPkLol99IgAYsq4a7hF6encDj8yjQyL7uvv2283f4newWdVjyu
+ iyvJvuE/22ZUYd6CLZDXwoLQZgcHyCXRO7Dm1BjOwRyTLDQ/JdMdHOzVKLRda47O7nUcgWQBdMy
+ 7N1cEiIulbbLNxwQjHg==
+X-Proofpoint-GUID: 6SFae_d8DtsMB-_c5-jHpEud9ALswo5d
+X-Proofpoint-ORIG-GUID: 6SFae_d8DtsMB-_c5-jHpEud9ALswo5d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-04_02,2026-04-30_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 phishscore=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 bulkscore=0 impostorscore=0 adultscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2605040041
+X-Rspamd-Queue-Id: 22ECF4B8496
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
-	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
-	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60227-lists,linux-media=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-60229-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ragnatech.se:email,ragnatech.se:dkim,ragnatech.se:mid,messagingengine.com:dkim]
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_COUNT_SEVEN(0.00)[7]
 
-From: Jai Luthra <jai.luthra@ideasonboard.com>
+The existing iris_vpu_dec_comv_size() used VIDEO_MAX_FRAME (32) as
+num_comv count unconditionally when calculating the co-located motion
+vector (COMV) buffer size. This resulted in an oversized COMV buffer
+allocation throughout decode session, wasting memory regardless of
+actual number of buffers required.
 
-Extend the RPPX1 driver to allow setting the gamma sensor linearization
-configuration parameters. It uses the RPPX1 framework for parameters and
-its writer abstraction to allow the user to control how, and when,
-configuration is applied to the RPPX1.
+For VPU3x and VPU4x platforms, introduce iris_vpu3x_4x_dec_comv_size() to
+replace iris_vpu_dec_comv_size(). These derive num_comv dynamically, it
+uses inst->fw_min_count once the firmware has reported its buffer
+requirements, and fallback to output count during initialization before
+firmware has communicated its requirements. This aligns the COMV buffer
+size to the actual count needed rather than always allocating with fixed
+VIDEO_MAX_FRAME value.
 
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Additionally, during iris_vdec_inst_init(), fw_min_count was initialized
+to MIN_BUFFERS instead of 0. This masked the fallback logic and caused the
+COMV size calculation to use MIN_BUFFERS even before firmware had reported
+its actual requirements. Fix this by initializing fw_min_count to 0.
+
+During testing of 1080p AVC, it reduces the COMV buffer size from 32.89MB
+to 6.16MB per decode session, significantly reducing memory consumption.
+
+Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
 ---
- .../platform/dreamchip/rppx1/rpp_module.h     |  1 +
- .../platform/dreamchip/rppx1/rpp_params.c     |  5 ++
- .../platform/dreamchip/rppx1/rppx1_lin.c      | 55 +++++++++++++++++++
- .../uapi/linux/media/dreamchip/rppx1-config.h | 48 +++++++++++++++-
- 4 files changed, 108 insertions(+), 1 deletion(-)
+Changes in v2:
+- Update commit description (Bryan)
+- Update hfi comv buffer count value to use actual num_comv count which
+  used for buffer calculation to avoid any overhead or fixed values (Vikash)
+- Link to v1: https://lore.kernel.org/r/20260421-optimize_comv_buffer-v1-1-7c9a24da3ad3@oss.qualcomm.com
+---
+ .../platform/qcom/iris/iris_hfi_gen2_command.c     |  9 +-------
+ drivers/media/platform/qcom/iris/iris_vdec.c       |  2 +-
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 26 ++++++++++++++++++++--
+ 3 files changed, 26 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-index 136ec4d48054..27235fdfb749 100644
---- a/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-@@ -86,6 +86,7 @@ void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
- union rppx1_params_block {
- 	struct v4l2_isp_params_block_header header;
- 	struct rppx1_bls_params bls;
-+	struct rppx1_lin_params lin;
- 	struct rppx1_lsc_params lsc;
- 	struct rppx1_awbg_params awbg;
- 	struct rppx1_bd_params bd;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-index edea25293d64..1995a80890f4 100644
---- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-@@ -18,6 +18,8 @@ static const struct v4l2_isp_block_type_info
- rppx1_ext_params_blocks_info[] = {
- 	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE1, bls),
- 	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE2, bls),
-+	RPPX1_PARAMS_BLOCK_INFO(LIN_PRE1, lin),
-+	RPPX1_PARAMS_BLOCK_INFO(LIN_PRE2, lin),
- 	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE1, lsc),
- 	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE2, lsc),
- 	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE1, awbg),
-@@ -72,6 +74,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
- 		case RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1:
- 			module = &rpp->pre1.bls;
- 			break;
-+		case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1:
-+			module = &rpp->pre1.lin;
-+			break;
- 		case RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1:
- 			module = &rpp->pre1.lsc;
- 			break;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-index f595f56a292e..cc8efe3b3f2c 100644
---- a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-@@ -24,6 +24,11 @@
- #define LIN_B_Y_REG_NUM				17
- #define LIN_B_Y_REG(n)				(0x0098 + (4 * (n)))
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+index 30bfd90d423b..3ade359f21e5 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+@@ -10,7 +10,6 @@
  
-+#define LIN_PRE1_DEGAMMA_CURVE_MASK		GENMASK(23, 0)
-+#define LIN_PRE1_SAMPLE_POINTS_MASK		GENMASK(3, 0)
-+#define LIN_PRE2_DEGAMMA_CURVE_MASK		GENMASK(11, 0)
-+#define LIN_PRE2_SAMPLE_POINTS_MASK		GENMASK(2, 0)
-+
- static int rppx1_lin_probe(struct rpp_module *mod)
- {
- 	/* Version check. */
-@@ -52,7 +57,57 @@ static int rppx1_lin_start(struct rpp_module *mod,
- 	return 0;
- }
+ #define UNSPECIFIED_COLOR_FORMAT 5
+ #define NUM_SYS_INIT_PACKETS 8
+-#define NUM_COMV_AV1 18
  
-+static int rppx1_lin_fill_params(struct rpp_module *mod,
-+				 const union rppx1_params_block *block,
-+				 rppx1_reg_write write, void *priv)
-+{
-+	const struct rppx1_lin_params *cfg = &block->lin;
-+	u8 sample_mask;
-+	u32 mask;
-+
-+	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + LIN_ENABLE_REG, 0);
-+		return 0;
-+	}
-+
-+	switch (cfg->header.type) {
-+	case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1:
-+		mask = LIN_PRE1_DEGAMMA_CURVE_MASK;
-+		sample_mask = LIN_PRE1_SAMPLE_POINTS_MASK;
-+		break;
-+	case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2:
-+		mask = LIN_PRE2_DEGAMMA_CURVE_MASK;
-+		sample_mask = LIN_PRE2_SAMPLE_POINTS_MASK;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	u32 dx_lo = 0;
-+	u32 dx_hi = 0;
-+
-+	for (unsigned int i = 0; i < 8; ++i) {
-+		dx_lo |= (cfg->dx[i] & sample_mask) << 4 * i;
-+		dx_hi |= (cfg->dx[i + 8] & sample_mask) << 4 * i;
-+	}
-+
-+	write(priv, mod->base + LIN_DX_LO_REG, dx_lo);
-+	write(priv, mod->base + LIN_DX_HI_REG, dx_hi);
-+
-+	for (unsigned int i = 0; i < RPPX1_LIN_DEGAMMA_CURVE_NUM; i++) {
-+		write(priv, mod->base + LIN_R_Y_REG(i), cfg->curve_r[i] & mask);
-+		write(priv, mod->base + LIN_G_Y_REG(i), cfg->curve_g[i] & mask);
-+		write(priv, mod->base + LIN_B_Y_REG(i), cfg->curve_b[i] & mask);
-+	}
-+
-+	if ((cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_ENABLE))
-+		write(priv, mod->base + LIN_ENABLE_REG, LIN_ENABLE_GAMMA_IN_EN);
+ #define SYS_INIT_PKT_SIZE (sizeof(struct iris_hfi_header) + \
+ 	NUM_SYS_INIT_PACKETS * (sizeof(struct iris_hfi_packet) + sizeof(u32)))
+@@ -1212,13 +1211,7 @@ static int iris_set_num_comv(struct iris_inst *inst)
+ 	u32 num_comv;
+ 
+ 	caps = core->iris_platform_data->inst_caps;
+-
+-	/*
+-	 * AV1 needs more comv buffers than other codecs.
+-	 * Update accordingly.
+-	 */
+-	num_comv = (inst->codec == V4L2_PIX_FMT_AV1) ?
+-				NUM_COMV_AV1 : caps->num_comv;
++	num_comv = caps->num_comv;
+ 
+ 	return core->hfi_ops->session_set_property(inst,
+ 						   HFI_PROP_COMV_BUFFER_COUNT,
+diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
+index 719217399a30..f433065e08b2 100644
+--- a/drivers/media/platform/qcom/iris/iris_vdec.c
++++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+@@ -24,7 +24,7 @@ int iris_vdec_inst_init(struct iris_inst *inst)
+ 	inst->fmt_src = kzalloc_obj(*inst->fmt_src);
+ 	inst->fmt_dst = kzalloc_obj(*inst->fmt_dst);
+ 
+-	inst->fw_min_count = MIN_BUFFERS;
++	inst->fw_min_count = 0;
+ 
+ 	f = inst->fmt_src;
+ 	f->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+index 9270422c1601..924b210cc4cd 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
++++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+@@ -731,6 +731,28 @@ static u32 iris_vpu_dec_comv_size(struct iris_inst *inst)
+ 	u32 height = f->fmt.pix_mp.height;
+ 	u32 width = f->fmt.pix_mp.width;
+ 
++	if (inst->codec == V4L2_PIX_FMT_H264)
++		return hfi_buffer_comv_h264d(width, height, num_comv);
++	else if (inst->codec == V4L2_PIX_FMT_HEVC)
++		return hfi_buffer_comv_h265d(width, height, num_comv);
 +
 +	return 0;
 +}
 +
- const struct rpp_module_ops rppx1_lin_ops = {
- 	.probe = rppx1_lin_probe,
- 	.start = rppx1_lin_start,
-+	.fill_params = rppx1_lin_fill_params,
- };
-diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
-index 0246e9af1d1d..e743e11d11e9 100644
---- a/include/uapi/linux/media/dreamchip/rppx1-config.h
-+++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
-@@ -95,6 +95,8 @@ enum rppx1_meas_chan {
-  * @RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST: Debayer filtering
-  * @RPPX1_PARAMS_BLOCK_TYPE_BD_PRE1: PRE1 pipe De-noise Pre-Filter
-  * @RPPX1_PARAMS_BLOCK_TYPE_BD_PRE2: PRE2 pipe De-noise Pre-Filter
-+ * @RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1: PRE1 pipe Linearization (Sensor De-gamma)
-+ * @RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2: PRE2 pipe Linearization (Sensor De-gamma)
-  */
- enum rppx1_params_block_type {
- 	RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST,
-@@ -117,6 +119,8 @@ enum rppx1_params_block_type {
- 	RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST,
- 	RPPX1_PARAMS_BLOCK_TYPE_BD_PRE1,
- 	RPPX1_PARAMS_BLOCK_TYPE_BD_PRE2,
-+	RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1,
-+	RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2,
- };
- 
- /**
-@@ -735,6 +739,46 @@ struct rppx1_bd_params {
- 	struct rppx1_bd_nll nll;
- };
- 
-+/* Linearization (Sensor De-gamma) */
-+#define RPPX1_LIN_SAMPLE_POINTS_NUM 16
-+#define RPPX1_LIN_DEGAMMA_CURVE_NUM 17
++static u32 iris_vpu3x_4x_dec_comv_size(struct iris_inst *inst)
++{
++	u32 num_comv = iris_vpu_buf_count(inst, BUF_OUTPUT);
++	struct v4l2_format *f = inst->fmt_src;
++	u32 height = f->fmt.pix_mp.height;
++	u32 width = f->fmt.pix_mp.width;
++	struct platform_inst_caps *caps;
 +
-+/**
-+ * struct rppx1_lin_params - Linearization (Sensor De-gamma) configuration
-+ *
-+ * The RPP-X1 linearization module is available on the PRE1 and PRE2 pre-fusion
-+ * pipes. Userspace selects which pipe to operate by setting the @header.type
-+ * field to RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1 or
-+ * RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2.
-+ *
-+ * The LIN module applies the per-color channel de-gamma linearization curves
-+ * @curve_r, @curve_g and @curve_b defined on the input sampling points @dx.
-+ *
-+ * For the PRE1 pipe the de-gamma curves values are 24-bits, for the PRE2 pipe
-+ * the de-gamma curve values are 12-bits.
-+ *
-+ * For the PRE1 pipe de-gamma module sampling points @dx values are in the range
-+ * [0, 15] (4 bits). For the PRE2 pipe de-gamma module sampling points values
-+ * are in the range [0, 7] (3 bits).
-+ *
-+ * Userspace is expected to provide the curve values and sampling points with a
-+ * bit-depth matching the one of pipe in use.
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1 or
-+ *	    RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2)
-+ * @curve_r: de-gamma linearization curve for red channel
-+ * @curve_g: de-gamma linearization curve for green channel
-+ * @curve_b: de-gamma linearization curve for blue channel
-+ * @dx: input sampling points
-+ */
-+struct rppx1_lin_params {
-+	struct v4l2_isp_params_block_header header;
-+	__u32 curve_r[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-+	__u32 curve_g[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-+	__u32 curve_b[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-+	__u8 dx[RPPX1_LIN_SAMPLE_POINTS_NUM];
-+};
++	if (inst->fw_min_count)
++		num_comv = inst->fw_min_count;
 +
- /**
-  * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
-  *
-@@ -761,7 +805,9 @@ struct rppx1_bd_params {
- 	sizeof(struct rppx1_db_demosaic_params)			+	\
- 	sizeof(struct rppx1_db_filter_params)			+	\
- 	sizeof(struct rppx1_bd_params)				+	\
--	sizeof(struct rppx1_bd_params))
-+	sizeof(struct rppx1_bd_params)				+	\
-+	sizeof(struct rppx1_lin_params)				+	\
-+	sizeof(struct rppx1_lin_params))
++	caps = inst->core->iris_platform_data->inst_caps;
++	caps->num_comv = num_comv;
++
+ 	if (inst->codec == V4L2_PIX_FMT_H264)
+ 		return hfi_buffer_comv_h264d(width, height, num_comv);
+ 	else if (inst->codec == V4L2_PIX_FMT_HEVC)
+@@ -2025,7 +2047,7 @@ u32 iris_vpu_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type)
  
- /* ---------------------------------------------------------------------------
-  * Statistics Structures
+ 	static const struct iris_vpu_buf_type_handle dec_internal_buf_type_handle[] = {
+ 		{BUF_BIN,         iris_vpu_dec_bin_size             },
+-		{BUF_COMV,        iris_vpu_dec_comv_size            },
++		{BUF_COMV,        iris_vpu3x_4x_dec_comv_size       },
+ 		{BUF_NON_COMV,    iris_vpu_dec_non_comv_size        },
+ 		{BUF_LINE,        iris_vpu_dec_line_size            },
+ 		{BUF_PERSIST,     iris_vpu_dec_persist_size         },
+@@ -2098,7 +2120,7 @@ u32 iris_vpu4x_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_typ
+ 
+ 	static const struct iris_vpu_buf_type_handle dec_internal_buf_type_handle[] = {
+ 		{BUF_BIN,         iris_vpu_dec_bin_size         },
+-		{BUF_COMV,        iris_vpu_dec_comv_size        },
++		{BUF_COMV,        iris_vpu3x_4x_dec_comv_size   },
+ 		{BUF_NON_COMV,    iris_vpu_dec_non_comv_size    },
+ 		{BUF_LINE,        iris_vpu4x_dec_line_size      },
+ 		{BUF_PERSIST,     iris_vpu4x_dec_persist_size   },
+
+---
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+change-id: 20260421-optimize_comv_buffer-ae7107673609
+
+Best regards,
 -- 
-2.54.0
+Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
 
 
