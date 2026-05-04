@@ -1,276 +1,251 @@
-Return-Path: <linux-media+bounces-60251-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60252-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yBY5Go5P+GmQsQIAu9opvQ
-	(envelope-from <linux-media+bounces-60251-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 09:49:34 +0200
+	id CF4lOG1R+GmQsQIAu9opvQ
+	(envelope-from <linux-media+bounces-60252-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 09:57:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042584B99F9
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 09:49:33 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id E502C4B9BA0
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 09:57:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 692883004DFF
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 07:49:33 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C19AE30086B5
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 07:56:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDFFA3101A6;
-	Mon,  4 May 2026 07:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39358314B73;
+	Mon,  4 May 2026 07:56:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="IdahbNtE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LrXLITtU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010035.outbound.protection.outlook.com [52.101.61.35])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00263002CF;
-	Mon,  4 May 2026 07:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777880970; cv=fail; b=VUdJyMoP7GdT5vsYSC818j39Fp15NKX5BfUg0qVkgORj9PBwZyQdiPHDnY5/4qNCamNHtDPXzvwstSfOEfP7Q8dH2WoYz9QNOyN4YFvO+e47cWACy0KQZ5fNbCNJx9Kmv1q1g6YZmYvLoBnZMruvR3lm55Y/WsreXd4Y9oDCViA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777880970; c=relaxed/simple;
-	bh=9INDeJ+e0k0OriwSMzNWyPHBgkfKwE0ZkKVHGS8zPpA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=O/Z2kyURE+LoZ1SabMahjYWIp7bDArvK4FbeFbdsTYyzKPBqI43pSxqnrDL+E4rHSqTiO4IsCdrP4WTJquZ2ACfihrm8/2dhhcZX9c6oh8QaKT9TkV1jbiCvPKF6SJZYiXyLaJYZXYjSU0mv/F0X7q+wTs03pLC4ToK4IR+B1hk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=IdahbNtE; arc=fail smtp.client-ip=52.101.61.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Usz9fuTu+9tU8uPV//YDY14fftwgRsH5e5C5x6BEsMIt/7Jis1hOcUPBzqpBCnJipHrxjyammL0aZ5v3LqsifZD0pplra5dJz42qob4y8MIBmdpEHpU+dSbc0NJXx64dfiTpgA9ZNautfcYkJtWGCv5nsqxa7KWx2cngvTEPbTOF9M5kRQ5+fPVgYntwF0gdOvEJ5j+64Ju+LOCo4BRaMVf90xg7C0y8ALlMH9lNp0ZD+q/9rUW8hck8BHB8iTHgGe4LTwrHa8YJgsmp2v4ECwnw7FbLbvJCMCyye4Nodc/vMytOtNRrrNXiMSCT/fJWhM/15F3wI4ZP3r+EKEca9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d0xcKJkFbFaYT1KQdPIlpEkD4K7meX9f46DKUFjINbk=;
- b=rrqqqTZIC3jVrOX02IbvKWveyM5/8wSGqah40CEsOd+oahRlfsqMdN25EXDDBXKcx6LLRfAsnryT5Zo8E6g/jw3l86c3wzousNeitZqSkO29DfjEnNCEfpLK/RDFACYVwTSL/gH8A73PckKSPUDCz8MYLzJpdrmWgqApyd8W8clqf4RJzLtu8rRWtBR2PvNQbOix1MSIqJpGFnzzsVvjR9nEN9L3t2F+2h+u1BgGp9nGyISIkPAT8g3Yb9Iuz6kP419ZE3WVEMz2HYUCh6yrW/EbooQ/E1XEhhdH5bZVz2Uk5mWdMq/O3bIBx6GM2vuiCw1DDASkMfP1/HZVUhnODA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d0xcKJkFbFaYT1KQdPIlpEkD4K7meX9f46DKUFjINbk=;
- b=IdahbNtEMkjeuf9ulw87mxdUNfsbd0QIxmISkSseVSowEtBHZc1uzoKJ3zpr4dXsZpWSGW0+pVT8jOd8HjHBb4jvJQjCRWHKkdyTh5tFq0hvh2a/P7vGCNd5/cBV0FEpx1ikknnY1SOeTQnbI3da3SaUseXQEVfUB0w3Mk/DMYc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM4PR12MB6448.namprd12.prod.outlook.com (2603:10b6:8:8a::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9870.25; Mon, 4 May 2026 07:49:25 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9870.023; Mon, 4 May 2026
- 07:49:25 +0000
-Message-ID: <bc74694b-9cbc-4cbb-9dcd-9e25960d3b97@amd.com>
-Date: Mon, 4 May 2026 09:49:15 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: system_heap: Optimize sg_table-to-pages
- conversion in vmap
-To: "T.J. Mercier" <tjmercier@google.com>, Barry Song <baohua@kernel.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Xueyuan Chen <Xueyuan.chen21@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>
-References: <20260406214938.24142-1-baohua@kernel.org>
- <a6d1c89a-3c71-4e06-adcb-56595071dcc2@amd.com>
- <CAGsJ_4xquCzQLbvpkC8arAN=9KhrAkdPdxnB=v85GvvQu23Xyg@mail.gmail.com>
- <9034246e-3971-4fad-94b7-80f4ad0e29db@amd.com>
- <CAGsJ_4z5EZoNMBVnu6sCkThyi9VTCeCH29buVecuySuv_Ry8fw@mail.gmail.com>
- <CABdmKX3baqmBkZxMB6PTG6Sj5S9qi+RwVvwpmkLqKkqvfeZAUw@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CABdmKX3baqmBkZxMB6PTG6Sj5S9qi+RwVvwpmkLqKkqvfeZAUw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR05CA0056.namprd05.prod.outlook.com
- (2603:10b6:208:236::25) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADB33033D6;
+	Mon,  4 May 2026 07:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777881400; cv=none; b=TNQOFLWxc9GobZLBNU4EMbePqIUOCTaazIr8huD5wCBorcX6oduEcghk8u/jiGVmBBrXK+aCb+OAEwu+Li7eG7laYEnzJBu64csosg1OFk/gjPf62BJorIMmN39BQv9UJsk0nyIaxqfzJPWQ6ng/vvSMv7dVvAdazsPLjT9u9gY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777881400; c=relaxed/simple;
+	bh=EU6GNMPxyqZpjatfpAqkrmjlNPcqAxcQGexzOkAfu0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ESSl03gMzroynf7IX4DcywvuygrBH7bphw+YmOSq01Ged/WhiM5hMf6wZTWaRD0OgYWJEUq8J2m1uuGwJUi5y9OQ38fFE/BCoAY8YJa8SpleWFg1s10u0lB8v8s4mDwBwjDW5gbV8Al3QSh4GpUDi05LfphMexXOYTS0rDtnPcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LrXLITtU; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777881400; x=1809417400;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=EU6GNMPxyqZpjatfpAqkrmjlNPcqAxcQGexzOkAfu0w=;
+  b=LrXLITtUxdHC4SWJ/MEhJWbn4KLyvQS1GeetJRLWcpyXOtDGWKqvA8sh
+   b3O5XS233WdtJCrqLr4Pexw9+QLKEzWqGaPgL+wJzlBVbafSGnXImTOD3
+   C55eYmWtGG3hz60u91mj5lo9tg6du9JLqoqP+CWhJNdgEObQ0LB0g/Kze
+   xYmmko+8x9D8CNQ8gKp1JKSradRi9l52t/JdyFjdvpfwQLUpRYIefOIRx
+   TeAAdBXSd8NWtiROuBewxEtbk14NouM/Gdd+V2VAP1xqcsxIduIk7lIq9
+   v2CVpxwM/blXDsZeEI928C9ut5iDImqV13ZfEddKnbQxVWWnvzbLdp4Ki
+   w==;
+X-CSE-ConnectionGUID: X6hIBdWnRWSufaSfY57znQ==
+X-CSE-MsgGUID: N60SBKrgTaijisu7eI4eXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="78441258"
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="78441258"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 00:56:39 -0700
+X-CSE-ConnectionGUID: lCvPEamETZq0u/3UJ7xUqg==
+X-CSE-MsgGUID: pT1gv9KjQPilMC7nT4onIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="235705935"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.114])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 00:56:36 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id A7621121CC4;
+	Mon, 04 May 2026 10:56:34 +0300 (EEST)
+Date: Mon, 4 May 2026 10:56:34 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 3/6] media: i2c: lm3560: Optimize mutex lock usage
+Message-ID: <afhRMmtzOwQllJ6-@kekkonen.localdomain>
+References: <20260503164445.215540-1-clamor95@gmail.com>
+ <20260503164445.215540-4-clamor95@gmail.com>
+ <afg8JPS3KGMO4xj9@kekkonen.localdomain>
+ <CAPVz0n1JjHY2R3fEhkt4Ejwq81K=uHVrZQjkJ5dUDYJOFN_mmQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6448:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0f4f0df3-3181-4d56-baaf-08dea9b1a952
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	YxSbS3cCdzuv0A0U+ZdrHkbCDGpnQe3u0jIAIp43IHpc7JfNDOt8K4QCH4u7BaTL+Ty4o6z94aalHgJuhk6v3/2OjKrWHhVyiAoBjYH71/ctxAFbYllgBTiNkZZ60g4YiW2LT16fQGKwLG/3sFKYlXHVUhqtehY2V2FePj3b2mFYnzAS4KHycqGhvPS623ugyScru/b3hSB2FnyfZtopAlBCHihENZKHEy998wI7BKf9c1hlzu/X73Q9P02hpAufKd76uxolAla09Fv4fiAhtBqQnggVedZtr4t12F3tVzJGI0/qWVU+9OokyqCbLecFtfu4UtrYUKpvQxLWvSTAmFEe/xef+C7E8kdMLP/UtTOTiub+JIK9l9hD1NQIWonZAg32hSuYv8XfDncUBwTJT8+9F8fB7vNsFc0fHenH5tuMRhVMXqwqg1jDd+xK0ruPoHiyUqlzKwfT/cmZoHcNI/YdSLi1QS1nW+/lc7TcuCyf4TCMoaKs9iYnrlLuO3W+6Y6eaTuVwqqVE3DzJRhTbQvH+v3dMRlZ9jERIpRex8ixYnBMX1UqpPC6wqxSBN1NtFZB0B+z5TfImGUhhak34QG5P4GaDnA3Bahb9qo+d/hM6YsnZeESupFtDBmTAJ7IBWJcVopMiVvg/ZyvNAhFpAoduyfeMijH4TY1hwQPLFgNL91Ry5hZbbl6FhkqSkQb
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?R281UEM0TkRkZEQrcUUzMHJ2dFFBNUJ0MzlUQ2NMTEpiQ0FBTkFsakRJb1Ez?=
- =?utf-8?B?UDFNU1FmWEdXcVBuOStTa1RUVUlIazh5UUZqZHo1SlFwYXFHbmx2M3poWnNt?=
- =?utf-8?B?T0V3L1JFbERYV3BDeFpPTENsdml4Q2NhUEk1eHRJYW1iN1owTDZ3aFBwTWQy?=
- =?utf-8?B?bDF5OWFzMG1PK3NUK1VFQVduQzV1U3lxeGRGTXJzSm5MMFc4Z0JrY0FMOWtY?=
- =?utf-8?B?R3YxbTFKY25jdGYwM3JNZy9CalI4YWJxZXgvWllXZ05yNFFxa2s3aGpxRER2?=
- =?utf-8?B?V2pQOUJjeFlScTRhNHUxeFk3MkdVZ0tOcG4zTkdzWXltVUlGZmRoTnRBaHo5?=
- =?utf-8?B?Y1N5bDdqa3lNZEFGSkJMZnhVWWlJRlVMc1dXRU9UMFJtZUNCMGozdkVuV2pu?=
- =?utf-8?B?cm93MGNQa3hFSzFHV0djbTltbXMxZ0Z5alkxMUtFaVY0Vjhmam5RNlFuc29T?=
- =?utf-8?B?STJhZFFQR0dZcUFVT3FDRmJQK2pQOEJHVTd6cG5VWTljd3JydGFUNHBoL3hu?=
- =?utf-8?B?Nit0bGlUb2xXUjJHcmh1UFN6WjdqV1pJdWtBYjNUQ0pHazV5SFFvNTlUSVZF?=
- =?utf-8?B?blcrY1BoYkNSdUZRMURrY2NsV0F1dHVVZTRtNEkveFRhakE0T2Z4aXdtelVo?=
- =?utf-8?B?T0JSd0F0NVBaWVJPMUFpbzhjSHJxdVVoOE9kTFNpQmE1cEh0M3ZkYjVRYmJ0?=
- =?utf-8?B?ejdyQ2Nwd3EwMG9UOXVUOGN4Nm5UUUVlZGxzR2dzcFB5c1pLNyswbU9TcW9L?=
- =?utf-8?B?amdWdmRHWWprNVpzQ1c2YmNsY2ZQQk1Ea3hqelNtcmoyS0NCY3hUd3FxbGg2?=
- =?utf-8?B?S1h4T0lKWnJWdnlsSnBydkpXL0RWY0w1ZlphcERmVkxreEltL0I3Ui9aLzl3?=
- =?utf-8?B?TGlqK3puZWV3dnBTemEvc0dWQ2pUQmRQcEFhemlzUWlBeWttb0ZjS2ZBNERX?=
- =?utf-8?B?ak5IQjFzUzlKZGgwNXd5bkJ1UW9aR1NvQmdoSUc0dlJCVmxib01HaS9WZkh4?=
- =?utf-8?B?b1Z5d2ZNWUJFd25yQ3ZpZEpUZW5IOXAyN1Q5SzdpNzRWOTl0dVZKS1hpM0ph?=
- =?utf-8?B?Tjdrdi9RQVFNcnFPOW1jZkpranVaR2hTU0RqWkJONnM0RzJLbHpvbTIzYXNE?=
- =?utf-8?B?SkdLUWtwNERFcmgrZXF0YjJTSTBuZnltNXlKajBSaDJMaVBxaXF3WHMzNkY1?=
- =?utf-8?B?dU5IQk1pdW5QbDVQQ3ZrTGtDRWhSYzR0dnBTUDZmdS9uSmNkeGNqOXltU0Mz?=
- =?utf-8?B?d2htU0VlNTh4Z0lmNHJxTWF4U1NvUUEzdlZ4T2RHbEg5RnM1RmtNSHVvZVRO?=
- =?utf-8?B?M2FZL2FwT25abGt4ZHdWWGpLQ1MyMFFNZnhUMDR6MVkwblJLMHBDUEJ6T2d3?=
- =?utf-8?B?aFNsbjROKzN3R3RNQTN5RnlISndiUS9sdzZCRmFWUGtjb1M5UHJZelZkalJB?=
- =?utf-8?B?TnVZeTdoYmhkeEk5bnBLSXVNK1Q2RTE4OXgxbDQydlBOb1Z6Y3pPTEZ3UWky?=
- =?utf-8?B?QTNuNkc4OTYvdHdLcU9XNUdmQTJPKzRJVVpoSzNtdzZsNjV4eCtYb1p0K01Q?=
- =?utf-8?B?cWdrN0Q1dGhrM0x1ak85U3ZzenBHSVUyZWZWUmhOamoyMGFDa1BiR1d6WlJu?=
- =?utf-8?B?OGM0RHlWR2xadnFMTm5xVTJFNGc0ZHVFU2pnWVNTY00zNnYzQmw1WEh2c2ZV?=
- =?utf-8?B?Yzdxd1lmeDFOUnZ4TVlFTTJocFZ0WXRpNEMyWnRXdFFZOUE3TTEvamp6WnZS?=
- =?utf-8?B?emYrL2RNVnhtU00xYWxuV2RZb3ZNY2cvck1YV3NhK0prQmI5Vk4rOVY3R2RL?=
- =?utf-8?B?WXlLUHovTmJxQnpGdXI2UHRXWmZwTjVTbm9vV3d2bmFTdWFONXFNSEtaMmpo?=
- =?utf-8?B?bjNITWYyZ1ljVk1yaWFBOG5HRlRPTU54NER1OHFVMnpQeXZrNzhoZFczL08v?=
- =?utf-8?B?U3lXMmlTUUNHTkwzci9vTXpCczZOS3AzR1YvTkpjZEdOZHdWUXdYaDQ3RHJQ?=
- =?utf-8?B?N1lSY0k5UUFOM3hNWFlRa3lkVUoyQ2VpTTVMcTJIS1FkekdPdk9aaHhNRmlV?=
- =?utf-8?B?a2NObTJKbXBXdmFJV0d1Z3Z3Q0JLTlVHUUZIQmdnbnR5Z1lUV0dKTkplOTc4?=
- =?utf-8?B?bnpyU0dEenlkRjRHRUQ4QzZkUTljV2JVVUZHaFVnNEcvbFRKc0pBdHpMNng2?=
- =?utf-8?B?K2FBVmZDQmovQmZ5RS9MSEg4eTBRM2xsMTlrS28rZEhrMXYyOXduZUxXbTVS?=
- =?utf-8?B?SWozN3M3bnN0QmtVWnNFT1AwNytwdXpWa1RNL3Qreksrb2JuTXlwRmZaRmxS?=
- =?utf-8?Q?ChHrLgWwDDhMD59UQ8?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f4f0df3-3181-4d56-baaf-08dea9b1a952
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2026 07:49:25.0316
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 08IXILGD0Nq1GyTLzUWUmctNfbPW1i7r9OlOitB2vjsGgjvN9Z1t9v507RS0sekK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6448
-X-Rspamd-Queue-Id: 042584B99F9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPVz0n1JjHY2R3fEhkt4Ejwq81K=uHVrZQjkJ5dUDYJOFN_mmQ@mail.gmail.com>
+X-Rspamd-Queue-Id: E502C4B9BA0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.linaro.org,gmail.com,linaro.org,collabora.com,arm.com,google.com];
 	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60252-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60251-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_FIVE(0.00)[5];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[]
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kekkonen.localdomain:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,intel.com:dkim,intel.com:email]
 
-On 5/1/26 17:54, T.J. Mercier wrote:
-> On Thu, Apr 30, 2026 at 9:15 PM Barry Song <baohua@kernel.org> wrote:
->>
->> On Wed, Apr 22, 2026 at 3:10 PM Christian König
->> <christian.koenig@amd.com> wrote:
->>>
->>> On 4/7/26 13:29, Barry Song wrote:
->>>> On Tue, Apr 7, 2026 at 3:58 PM Christian König <christian.koenig@amd.com> wrote:
->>>>>
->>>>> On 4/6/26 23:49, Barry Song (Xiaomi) wrote:
->>>>>> From: Xueyuan Chen <Xueyuan.chen21@gmail.com>
->>>>>>
->>>>>> Replace the heavy for_each_sgtable_page() iterator in system_heap_do_vmap()
->>>>>> with a more efficient nested loop approach.
->>>>>>
->>>>>> Instead of iterating page by page, we now iterate through the scatterlist
->>>>>> entries via for_each_sgtable_sg(). Because pages within a single sg entry
->>>>>> are physically contiguous, we can populate the page array with a in an
->>>>>> inner loop using simple pointer math. This save a lot of time.
->>>>>>
->>>>>> The WARN_ON check is also pulled out of the loop to save branch
->>>>>> instructions.
->>>>>>
->>>>>> Performance results mapping a 2GB buffer on Radxa O6:
->>>>>> - Before: ~1440000 ns
->>>>>> - After:  ~232000 ns
->>>>>> (~84% reduction in iteration time, or ~6.2x faster)
->>>>>
->>>>> Well real question is why do you care about the vmap performance?
->>>>>
->>>>> That should basically only be used for fbdev emulation (except for VMGFX) and we absolutely don't care about performance there.
->>>>
->>>> I agree that in mainline, dma_buf_vmap is not used very often.
->>>> Here’s what I was able to find:
->>>>
->>>>   1   1638  drivers/dma-buf/dma-buf.c <<dma_buf_vmap_unlocked>>
->>>>              ret = dma_buf_vmap(dmabuf, map);
->>>>    2    376  drivers/gpu/drm/drm_gem_shmem_helper.c
->>>> <<drm_gem_shmem_vmap_locked>>
->>>>              ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
->>>>    3     85  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->>>> <<etnaviv_gem_prime_vmap_impl>>
->>>>              ret = dma_buf_vmap(etnaviv_obj->base.import_attach->dmabuf, &map);
->>>>    4    433  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c <<map_external>>
->>>>              ret = dma_buf_vmap(bo->tbo.base.dma_buf, map);
->>>>    5     88  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c <<vmw_gem_vmap>>
->>>>              ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
->>>>
->>>> However, in the Android ecosystem, system_heap and similar heaps
->>>> are widely used across camera, NPU, and media drivers. Many of these
->>>> drivers are not in mainline but do use vmap() in real code paths.
->>>
->>> Well out of tree drivers are not a justification to make an upstream changes.
->>>
->>> Apart from a handful of workarounds which need to CPU access as fallback DMA-buf vmap is only used to provide fb dev emulation.
->>>
->>> The vmap interface has already given us quite a headache in the first place and there are a couple of unresolved problems regarding synchronization and coherency.
->>>
->>> When a driver would be pushed upstream which makes so frequent use of the dma_buf_vmap function that it matters for the performance I think there would be push back on that and the driver developer would require a very good explanation why that is necessary.
->>>
->>> So for now I have to reject that patch.
->>
->> Well, it doesn’t seem to increase complexity, and the code is quite easy
->> to understand.
+Hi Svyatoslav,
+
+On Mon, May 04, 2026 at 10:37:40AM +0300, Svyatoslav Ryhel wrote:
+> пн, 4 трав. 2026 р. о 09:26 Sakari Ailus <sakari.ailus@linux.intel.com> пише:
+> >
+> > Hi Svyatoslav,
+> >
+> > On Sun, May 03, 2026 at 07:44:42PM +0300, Svyatoslav Ryhel wrote:
+> > > Pass the device's own mutex lock to the control handler so that the media
+> > > framework can handle control access instead of managing it manually. The
+> > > lock must be common to both sub-devices since they share same hardware,
+> > > so the individual sub-device locks will not work here.
+> > >
+> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > ---
+> > >  drivers/media/i2c/lm3560.c | 19 ++++++-------------
+> > >  1 file changed, 6 insertions(+), 13 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
+> > > index edfb07587cab..5b568ed9536b 100644
+> > > --- a/drivers/media/i2c/lm3560.c
+> > > +++ b/drivers/media/i2c/lm3560.c
+> > > @@ -162,14 +162,12 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+> > >       struct lm3560_flash *flash = to_lm3560_flash(ctrl, led_no);
+> > >       int rval = -EINVAL;
+> > >
+> > > -     mutex_lock(&flash->lock);
+> > > -
+> > >       if (ctrl->id == V4L2_CID_FLASH_FAULT) {
+> > >               s32 fault = 0;
+> > >               unsigned int reg_val;
+> > >               rval = regmap_read(flash->regmap, REG_FLAG, &reg_val);
+> > >               if (rval < 0)
+> > > -                     goto out;
+> > > +                     return rval;
+> > >               if (reg_val & FAULT_SHORT_CIRCUIT)
+> > >                       fault |= V4L2_FLASH_FAULT_SHORT_CIRCUIT;
+> > >               if (reg_val & FAULT_OVERTEMP)
+> > > @@ -179,8 +177,6 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+> > >               ctrl->cur.val = fault;
+> > >       }
+> > >
+> > > -out:
+> > > -     mutex_unlock(&flash->lock);
+> > >       return rval;
+> > >  }
+> > >
+> > > @@ -190,8 +186,6 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+> > >       u8 tout_bits;
+> > >       int rval = -EINVAL;
+> > >
+> > > -     mutex_lock(&flash->lock);
+> > > -
+> > >       switch (ctrl->id) {
+> > >       case V4L2_CID_FLASH_LED_MODE:
+> > >               flash->led_mode = ctrl->val;
+> > > @@ -202,14 +196,12 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+> > >       case V4L2_CID_FLASH_STROBE_SOURCE:
+> > >               rval = regmap_update_bits(flash->regmap,
+> > >                                         REG_CONFIG1, 0x04, (ctrl->val) << 2);
+> > > -             if (rval < 0)
+> > > -                     goto err_out;
+> > >               break;
+> > >
+> > >       case V4L2_CID_FLASH_STROBE:
+> > >               if (flash->led_mode != V4L2_FLASH_LED_MODE_FLASH) {
+> > >                       rval = -EBUSY;
+> > > -                     goto err_out;
+> > > +                     break;
+> > >               }
+> > >               flash->led_mode = V4L2_FLASH_LED_MODE_FLASH;
+> > >               rval = lm3560_mode_ctrl(flash);
+> > > @@ -218,7 +210,7 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+> > >       case V4L2_CID_FLASH_STROBE_STOP:
+> > >               if (flash->led_mode != V4L2_FLASH_LED_MODE_FLASH) {
+> > >                       rval = -EBUSY;
+> > > -                     goto err_out;
+> > > +                     break;
+> > >               }
+> > >               flash->led_mode = V4L2_FLASH_LED_MODE_NONE;
+> > >               rval = lm3560_mode_ctrl(flash);
+> > > @@ -239,8 +231,6 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+> > >               break;
+> > >       }
+> > >
+> > > -err_out:
+> > > -     mutex_unlock(&flash->lock);
+> > >       return rval;
+> > >  }
+> > >
+> > > @@ -328,6 +318,8 @@ static int lm3560_init_controls(struct lm3560_flash *flash,
+> > >       if (fault != NULL)
+> > >               fault->flags |= V4L2_CTRL_FLAG_VOLATILE;
+> > >
+> > > +     hdl->lock = &flash->lock;
+> > > +
+> > >       if (hdl->error)
+> > >               return hdl->error;
+> > >
+> > > @@ -363,6 +355,7 @@ static int lm3560_subdev_init(struct lm3560_flash *flash,
+> > >       if (rval < 0)
+> > >               goto err_out;
+> > >       flash->subdev_led[led_no].entity.function = MEDIA_ENT_F_FLASH;
+> > > +     flash->subdev_led[led_no].state_lock = &flash->lock;
+> >
+> > I must have missed it earlier but you can use the control handler's mutex
+> > here. As a result, I believe you can drop the driver's own mutex
+> > altogether.
+> >
 > 
-> I agree with this. This change introduces basically no downsides for
-> upstream, even if it primarily benefits a rare use case. Since
-> dma_buf_vmap is exported for driver use, why not enhance the
-> performance for all callers?
+> Control handler mutexes are per device, but both devices share the
+> same hardware so those mutexes will not prevent simultaneous access
+> from both devices. For this reason driver's own mutex is used.
 
-Because we essentially want to restrict the vmap interface to only the fb dev emulation use case and not promote or even expand it.
+Right. You could still use one for the other handler.
 
-When this matters performance wise the caller is clearly doing something wrong and by improving the performance we just paper over the issue instead of fixing it.
-
-Regards,
-Christian.
+Feel free to keep it as-is, too.
 
 > 
-> -T.J.
-> 
->> It would be great if the community could be more welcoming
->> to developers who are just getting involved, rather than discouraging them.
->>
->> Apparently, no one can control whether the source code of those kernel
->> modules will be upstreamed except the vendors themselves, but products
->> can still benefit from the common kernel.
->>
->> Best Regards
->> Barry
+> > >
+> > >       rval = v4l2_async_register_subdev(&flash->subdev_led[led_no]);
+> > >       if (rval < 0) {
+> >
 
+-- 
+Sakari Ailus
 
