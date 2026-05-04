@@ -1,176 +1,146 @@
-Return-Path: <linux-media+bounces-60303-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60305-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iE57Fxid+GmdxAIAu9opvQ
-	(envelope-from <linux-media+bounces-60303-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 15:20:24 +0200
+	id mIIuIJ+e+GnHxAIAu9opvQ
+	(envelope-from <linux-media+bounces-60305-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 15:26:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514214BDC59
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 15:20:23 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB424BDDD8
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 15:26:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 834213050E00
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 13:11:51 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5FDF8303EB6A
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 13:22:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E3193DBD7D;
-	Mon,  4 May 2026 13:10:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E4583D9DB5;
+	Mon,  4 May 2026 13:22:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Klttelft"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u+gbxfDK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E103D905D;
-	Mon,  4 May 2026 13:10:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CD93C456D
+	for <linux-media@vger.kernel.org>; Mon,  4 May 2026 13:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777900258; cv=none; b=HtipxA9EWgCJaes3n97JXd1JeaC+veDl7ZF6dpKW6XmXKv6/UtUpuve11bZKUr/EOVxXVKyzoqP4vvy823Sv30HjG7bU8mGPdZrzrAyonFoIVF18hMVNROyPmWhy5b1C5SmKi5W8OaGz0LN17w5SEQl5Nyu2kGO+l8gY1BS/UkA=
+	t=1777900939; cv=none; b=GDo2wCruO3UxVLNSs7RgNTIGM/EsKj/yegFSKgXuWWaGY/kMNbU3jwmW6ymirHKixkGEnmShf8Eb9iUMLUZo1iCJEdwaLbW62CtOEYgMzF7QGoSPxV2qDiyQuONRt/G90bFmSgfnzZ6wKdV6LNkSEDufCTcbfLCjQT+tjBY6kLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777900258; c=relaxed/simple;
-	bh=yEIG92a1FH3cEp3tne1pDeDmYK3WLKv3UmItU7XJzvM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jqzPRW7EH/hYHB2i7cC+d1/49eXZaQ0MEk/sCvdD2zp72iPICN/UFS/7N8OR4gkJWMPaLPe74OHq+ZX1tPIi7Ny57WCURJ7cCE4OytuOk/FiNsS45UrB2uHNpSXqubU/oEcDVy0osL1vSjUO3WC+1Zxx3MZIRav5t4qC9+xuvJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Klttelft; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C82DAC2BCF6;
-	Mon,  4 May 2026 13:10:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777900258;
-	bh=yEIG92a1FH3cEp3tne1pDeDmYK3WLKv3UmItU7XJzvM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KlttelftMEAGNl3q+360mgAzcyVvmU34bbpMluj32cKTCau3DK/sbxn8fpW74pzXO
-	 dChkaJEDMf7qi3WNTJiw7fPK3qlUl3gqEPCdZkaVMdvCy7CRFBjbetn6HkBCNfopT5
-	 iVtoam8Q8qMO84y64dakq8hwf1nIh0U9UIpIG9NSR04oClnz1jdl6MjPQWZuEBGKwf
-	 2W6r4AhtR+l+eSstKslWpjBQUDjawjywNOcgQxvHQl2Z6D5g+Zu8znl5SNmSmR76S1
-	 LIk/Y/xyRH7kQotIJfQ+eqZmci4Pb3A7Zz1ancn0/JVhWKwpr7MuBkwLCJ/QDSIF2r
-	 DueZoHEiJlckA==
-From: Sumit Garg <sumit.garg@kernel.org>
-To: andersson@kernel.org,
-	konradybcio@kernel.org
-Cc: linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	ath12k@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	robin.clark@oss.qualcomm.com,
-	sean@poorly.run,
-	akhilpo@oss.qualcomm.com,
-	lumag@kernel.org,
-	abhinav.kumar@linux.dev,
-	jesszhan0024@gmail.com,
-	marijn.suijten@somainline.org,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	vikash.garodia@oss.qualcomm.com,
-	dikshita.agarwal@oss.qualcomm.com,
-	bod@kernel.org,
-	mchehab@kernel.org,
-	elder@kernel.org,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	jjohnson@kernel.org,
-	mathieu.poirier@linaro.org,
-	trilokkumar.soni@oss.qualcomm.com,
-	mukesh.ojha@oss.qualcomm.com,
-	pavan.kondeti@oss.qualcomm.com,
-	jorge.ramirez@oss.qualcomm.com,
-	tonyh@qti.qualcomm.com,
-	vignesh.viswanathan@oss.qualcomm.com,
-	srinivas.kandagatla@oss.qualcomm.com,
-	amirreza.zarrabi@oss.qualcomm.com,
-	jens.wiklander@linaro.org,
-	op-tee@lists.trustedfirmware.org,
-	apurupa@qti.qualcomm.com,
-	skare@qti.qualcomm.com,
-	linux-kernel@vger.kernel.org,
-	Sumit Garg <sumit.garg@oss.qualcomm.com>
-Subject: [PATCH v5 16/16] MAINTAINERS: Add maintainer entry for Qualcomm PAS TZ service
-Date: Mon,  4 May 2026 18:36:03 +0530
-Message-ID: <20260504130603.1474043-17-sumit.garg@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260504130603.1474043-1-sumit.garg@kernel.org>
-References: <20260504130603.1474043-1-sumit.garg@kernel.org>
+	s=arc-20240116; t=1777900939; c=relaxed/simple;
+	bh=W3CN97qP6afD4yAvPDQST1Pd9/ZzjfuD1DjcKlTqkzg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=khPEsIhKtHH+VCNzXm76d2JSZAcVwj6hrBKCq+wCAP9R+0u6DB6Hts0CeOIaRfVmC2ZSN8hOF+wO0I7fH5FLyjcI4DSBvUkx+foVex9EGEFi2R7EbD3dhsQ9/K8oyBRbiX75jr2BCzWfqSG8dHpRIKqL0i9OdHcQWfQGEk+GeSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=u+gbxfDK; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BE399C;
+	Mon,  4 May 2026 15:22:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1777900934;
+	bh=W3CN97qP6afD4yAvPDQST1Pd9/ZzjfuD1DjcKlTqkzg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u+gbxfDKkGiuuV+daWhi8gI1qOtijL4wzs0GPGpCb+uQNvvkgJSDHp9Sq7vVudwL6
+	 f6tiy5OoHVRXO/7q3goROJRY+3KaIn+akk34GFMAYfilvYSRc8Kb63lwtNdOX4sDKo
+	 jL79G/MFo5uBLiC7ZUR0JvohkO7nxa3UnaZ7ZDXY=
+Date: Mon, 4 May 2026 16:22:14 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, David Heidelberg <david@ixit.cz>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH 1/1] media: v4l2-subdev: Fail {enable,disable}_streams
+ and s_streaming nicely
+Message-ID: <20260504132214.GA1371451@killaraus.ideasonboard.com>
+References: <20260504123503.417044-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 514214BDC59
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260504123503.417044-1-sakari.ailus@linux.intel.com>
+X-Rspamd-Queue-Id: 1CB424BDDD8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60305-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[49];
-	TAGGED_FROM(0.00)[bounces-60303-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.998];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linaro.org:email]
+	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email]
 
-From: Sumit Garg <sumit.garg@oss.qualcomm.com>
+On Mon, May 04, 2026 at 03:35:03PM +0300, Sakari Ailus wrote:
+> If a sub-device does not set enable_streams() and disable_streams() pad
+> ops while it sets the s_stream() video op to
+> v4l2_subdev_s_stream_helper(), enabling or disabling streaming either way
+> on the sub-device will result calling v4l2_subdev_s_stream_helper() and
+> v4l2_subdev_{enable,disable}_streams() recursively, exhausting the stack.
+> Return -ENOIOCTLCMD in this case to handle the situation gracefully.
+> 
+> Reported-by: David Heidelberg <david@ixit.cz>
+> Fixes: b62949ddaa52 ("media: subdev: Support single-stream case in v4l2_subdev_enable/disable_streams()")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> since v2:
+> 
+> - Move the check, with checking the pad ops, to
+>   v4l2_subdev_s_stream_helper().
+> 
+>  drivers/media/v4l2-core/v4l2-subdev.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 831c69c958b8..3b726f044d3f 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -2504,6 +2504,10 @@ int v4l2_subdev_s_stream_helper(struct v4l2_subdev *sd, int enable)
+>  	u64 source_mask = 0;
+>  	int pad_index = -1;
+>  
+> +	if (WARN_ON_ONCE(!v4l2_subdev_has_op(sd, pad, enable_streams) ||
+> +			 !v4l2_subdev_has_op(sd, pad, disable_streams)))
 
-Add Sumit Garg as the maintainer for the Qualcomm generic Peripheral
-Authentication Service (PAS) as well as the PAS TEE backend driver.
+Is this indicates a clear bug, I would use WARN_ON() instead of
+WARN_ON_ONCE(). Up to you.
 
-Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2fb1c75afd16..6d3fc5145f0a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22007,6 +22007,15 @@ F:	Documentation/devicetree/bindings/media/*qcom*
- F:	drivers/media/platform/qcom
- F:	include/dt-bindings/media/*qcom*
- 
-+QUALCOMM PAS TZ SERVICE
-+M:	Sumit Garg <sumit.garg@oss.qualcomm.com>
-+L:	linux-arm-msm@vger.kernel.org
-+S:	Maintained
-+F:	drivers/firmware/qcom/qcom_pas.c
-+F:	drivers/firmware/qcom/qcom_pas.h
-+F:	drivers/firmware/qcom/qcom_pas_tee.c
-+F:	include/linux/firmware/qcom/qcom_pas.h
-+
- QUALCOMM SMB CHARGER DRIVER
- M:	Casey Connolly <casey.connolly@linaro.org>
- L:	linux-arm-msm@vger.kernel.org
+> +		return -ENOIOCTLCMD;
+> +
+>  	/*
+>  	 * Find the source pad. This helper is meant for subdevs that have a
+>  	 * single source pad, so failures shouldn't happen, but catch them
+
 -- 
-2.51.0
+Regards,
 
+Laurent Pinchart
 
