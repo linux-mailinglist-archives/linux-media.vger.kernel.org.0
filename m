@@ -1,304 +1,162 @@
-Return-Path: <linux-media+bounces-60283-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60284-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uEdsFhGU+GnRwgIAu9opvQ
-	(envelope-from <linux-media+bounces-60283-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 14:41:53 +0200
+	id 0A+kHEqV+Gn0wgIAu9opvQ
+	(envelope-from <linux-media+bounces-60284-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 14:47:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0181C4BD0AD
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 14:41:52 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E26C94BD30A
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 14:47:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0650B30078B1
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 12:41:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2D852307A368
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 12:43:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 704203D4102;
-	Mon,  4 May 2026 12:41:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 845FB3D6696;
+	Mon,  4 May 2026 12:43:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Xw/Adgw1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wVW5UZvp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250C83D5658
-	for <linux-media@vger.kernel.org>; Mon,  4 May 2026 12:41:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F6C3D566B;
+	Mon,  4 May 2026 12:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777898509; cv=none; b=rgyCtNuqWtvsgjUqKR3tXP5R6b3AELAIONe5ZbZ3izGFvlPRJmQ0BratdyEVOhIbbaw6o/j3sBg40tPMi58DQQZvHlOc7llj6KH/uwPRaEVTO2DQiKd1gauiFKFo5D8whlAIsJSGJHutoLXRCBLLebz07Iqq+FoTy17G1jEWO+U=
+	t=1777898609; cv=none; b=kstUzddS9xZpL0bP1oEH+lQiD23ao9dID2pSt8/UhnIHR85AQxmjyLVxT2vkh0mJxqq7vgd+N/l19Stui8XOJWrT3yHQ7B0iLuC3sWq6JM+7DXbpY1letOcDSfkPIzwvnfBowH3nyueFlS9+d9v0+GAj3Gd/20+X10c588LNCY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777898509; c=relaxed/simple;
-	bh=E3Rua8iy0aaFHdNAKti1LoNQ7HNl+VJH5S2Ri9GuaA8=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BZv6SiQGXmK9EN1rfRyEwi9HSLrOP29835lZvxOfx0kTIKTUz62VinXTKcD60gYGT5Y8mr1VmEuwoFCAs+MJJx7FJxqMXE5Bt6w8TzU7iMDuI24fEw34JNkazJRyF6KIDJ9R74o5P59tw+UlSTWGDP9HyCplBDh5CKOCR00fV68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Xw/Adgw1; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1777898502;
-	bh=E3Rua8iy0aaFHdNAKti1LoNQ7HNl+VJH5S2Ri9GuaA8=;
-	h=Subject:From:To:Date:In-Reply-To:References:From;
-	b=Xw/Adgw14lq7oSpqyu+guL1HGj/ru5c0rQjuxdWFI3kcWxZCuw/yBXNOrjP0x7cPw
-	 baTsO8L3kNSgE+aSSMqBPgQaIAgAelRzDBdR/PV9qtPNMIU79tm7ERw+ezmwwMv09A
-	 XkgtdOAn3X+WrIe6Nvt01Y3vJFvS+Sitq3dGS4KA4jqYsNMrltrPIEZUM0pSV3d7Xh
-	 4ForFSg0gov0bhDl1uM3Y9ij1KX1f+Nf/wiIYV+/nMK3pwx440xye8URP0+VS9tqzQ
-	 YICNwIT2OD5y0w7qngm9gbmrLBbdEGTod1Z/CVu7LAkXdZEBRztz11khE4EElBsS3D
-	 +qyNxDTQ8/PhA==
-Received: from [100.64.0.214] (unknown [100.64.0.214])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 32B8B17E05B5;
-	Mon,  4 May 2026 14:41:40 +0200 (CEST)
-Message-ID: <7f09d9899ace6ba3b0ed8b07bef2859fdbca2780.camel@collabora.com>
-Subject: Re: [GIT PULL FOR 7.2] Media codec for 7.2 2026-05-03
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org
-Date: Mon, 04 May 2026 08:41:37 -0400
-In-Reply-To: <d3801f35-96ec-4b66-a43a-39923a8ef421@kernel.org>
-References: <06ca2e5f94b207d693e7959d8912cfb8694ce08f.camel@collabora.com>
-	 <d3801f35-96ec-4b66-a43a-39923a8ef421@kernel.org>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-NrPb+AkiyxQxkJoqmqXK"
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+	s=arc-20240116; t=1777898609; c=relaxed/simple;
+	bh=y1Ns9tniI8yyUBh0uJQ7AF5iGdQDvxidGWK5W187M8E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rXMbvBdMu75pXtd4nPH1CgFi6SR+NwbFOAPDfxEjTHUybAgkvlbZhGepPylaeBGBoSEWo5sbsDnTgfujCeFo4kyOD37lQ1SMBgbL2vyCGBtbQQRfrowc7VNEQiWU67mersAiL/BzeULGUn+IZkgsqe3AALBTKQ8m/2A+2aozDYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wVW5UZvp; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.182] (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 766C1175;
+	Mon,  4 May 2026 14:43:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1777898603;
+	bh=y1Ns9tniI8yyUBh0uJQ7AF5iGdQDvxidGWK5W187M8E=;
+	h=From:Date:Subject:To:Cc:From;
+	b=wVW5UZvpTFoy7hXxYjoj+qqgrIsijh7YhsJrR6r2pclUotB/RaHy9RO99QhfcqRrE
+	 Z2IyRhOVSUVzMpAPHR8dsZE1vjxKR4ifUsqdKAIvXdRBARc/AFtRLtf5URlUstsVmE
+	 f7kp/rig8XAITl0WZUWRFWOQ7c2RQe91L8o0sQ/Y=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Date: Mon, 04 May 2026 14:43:14 +0200
+Subject: [PATCH] media: rcar-vin: Drop min_queued_buffers
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 0181C4BD0AD
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260504-rcar-vin-min-queued-buffs-v1-1-59d20ad5cd2d@ideasonboard.com>
+X-B4-Tracking: v=1; b=H4sIAGGU+GkC/x2MuwqEMBAAf0W2voUkatD7lcPCx65uYfQ2RATx3
+ w0WU0wxc0EkFYrwLS5QOiTKFrLYTwHj0oeZUKbs4IzzpjYV6tgrHhJwzfwTJZpwSMwRS9u0lp3
+ zTB5yvyuxnO/71933A6N5krlrAAAA
+X-Change-ID: 20260504-rcar-vin-min-queued-buffs-31891f226fe6
+To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jai Luthra <jai.luthra@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1400;
+ i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
+ bh=8Yj8Ur+YbVRHkLx84XIR+VsUL5gMoy591rONA8jVFS4=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBp+JRsz+XHQBrcgx+MWTjYQwURxOTc2trjN6i48
+ ikjFxOeoeeJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCafiUbAAKCRByNAaPFqFW
+ PPFuD/9O4m6rVLqr4A5lTvnBRJ6PG8f2VhFDaoyktyvjBl6sSyCokjR7na72a9hBC5I2noJhcUb
+ pRC8Ii0I/8wmAAqlHpLJ/G9sCM/NOJ4S3LNlm9HaoEvA47jeuoDyWFPODgNXULGVhSKszMJ2+vx
+ JPpBnIhDjGwu0fvyfbqQeeSlhqWJUBp7xL/DQ/tJ9tROrdZrhzkZjeWOdZIdhGjrWPGX529MF0d
+ 0eu+4a1/iMr57ZSi1PKEdCBZXR0WwBeDkfdAWuMCP53oosqp1wEsJOEQhUB0PRjXYE/tRFCEFmA
+ dKPriage5kYUqX3xddO4XAzN2SFgcAfLZ0YAINrtdWnwJhMocgzsyT8o5gQxQCdZvRifQOwppWE
+ IrVwjY/dJgW3/LRO+8OI35AJ2MAYD2TqlGINOmI8Fx4mYx8X1ZvmtyQK/ySf6D3tLZ8FRzvueZH
+ /LpeVWww0gn2SQmWBC7RPtyatREXK25q2vta7wwIHOLgeqjN1LRWQsrHwXg43bOf749kzz3JQ7y
+ JbhvbNQ7nRDlNAKd6jsYHRsz62hdw6dpZOQaCIlgBAxLx3lq31UzMfoNGFILcr2RJP5GFhGuv74
+ B3SJYwaweuxkH9qimEQAQgI/508phScODB17n44z2/kjVV+GeaQGq6J8V1gezhg9Oxg6RZSg5Og
+ Fsvp3JAmnKU2vjw==
+X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
+ fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
+X-Rspamd-Queue-Id: E26C94BD30A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-4.16 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
-	MIME_BASE64_TEXT(0.10)[];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60283-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-60284-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[ragnatech.se,ideasonboard.com,kernel.org,glider.be,gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,ideasonboard.com:dkim,ideasonboard.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
+From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
---=-NrPb+AkiyxQxkJoqmqXK
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+The R-Car VIN driver already uses a scratch buffer to sustain capture
+operations in absence of a frame buffer provided by userspace.
 
-TGUgbHVuZGkgMDQgbWFpIDIwMjYgw6AgMDk6NDYgKzAyMDAsIEhhbnMgVmVya3VpbCBhIMOpY3Jp
-dMKgOgo+IEhpIE5pY29sYXMsCj4gCj4gT24gMDMvMDUvMjAyNiAxNzo1MCwgTmljb2xhcyBEdWZy
-ZXNuZSB3cm90ZToKPiA+IEhpIE1hdXJvLCBIYW5zLAo+ID4gCj4gPiBCZW5qYW1pbiBHYWlnbmFy
-ZCAoMik6Cj4gPiDCoMKgwqDCoMKgIG1lZGlhOiB2ZXJpc2lsaWNvbjogQ3JlYXRlIEFWMSBoZWxw
-ZXIgbGlicmFyeQo+IAo+IEknbSBkcm9wcGluZyB0aGlzIHBhdGNoIGZyb20gdGhpcyBQUi4gVGhl
-IG90aGVycyBsb29rIGdvb2QgdG8gbWUsIGJ1dCB0aGlzCj4gb25lIG5lZWRzIGEgYml0IG1vcmUg
-d29yayBJTUhPLgoKTm8gd29ycmllcywgdGhlIHJlcG9ydGVkIGlzc3VlcyBmZWx0IGxpa2UgbW9z
-dGx5IGZhbHNlIHBvc2l0aXZlIHRvIG1lLCBJIGRpZCBhc2sKb24gSVJDIGFib3V0IGl0LCBidXQg
-bm8tb25lIHJlcGxpZWQuIFRoaXMgcGF0Y2ggaXMgbm90IHVyZ2VudCBpbiBhbnkgd2F5cy4KCmNo
-ZWVycywKTmljb2xhcwoKPiAKPiBSZWdhcmRzLAo+IAo+IAlIYW5zCj4gCj4gPiDCoMKgwqDCoMKg
-IG1lZGlhOiB2ZXJpc2lsaWNvbjogRXhwb3J0IG9ubHkgbmVlZGVkIHBpeGVscyBmb3JtYXRzCj4g
-PiAKPiA+IEJyYW5kb24gQnJuaWNoICgzKToKPiA+IMKgwqDCoMKgwqAgbWVkaWE6IGNoaXBzLW1l
-ZGlhOiB3YXZlNTogTW92ZSBzcmNfYnVmIFJlbW92YWwgdG8gZmluaXNoX2VuY29kZQo+ID4gwqDC
-oMKgwqDCoCBtZWRpYTogY2hpcHMtbWVkaWE6IHdhdmU1OiBSZWxlYXNlIG0ybV9jdHggYWZ0ZXIg
-SW5zdGFuY2UgUmVtb3ZlZCBmcm9tCj4gPiBMaXN0Cj4gPiDCoMKgwqDCoMKgIG1lZGlhOiBjaGlw
-cy1tZWRpYTogd2F2ZTU6IEZpeCBSZXBvcnRzIGZyb20gS2VybmVsIExvY2sgVmFsaWRhdG9yCj4g
-PiAKPiA+IENoZW4tWXUgVHNhaSAoMSk6Cj4gPiDCoMKgwqDCoMKgIGR0LWJpbmRpbmdzOiBtZWRp
-YTogc3VuNGktYTEwLXZpZGVvLWVuZ2luZTogQWRkIGludGVyY29ubmVjdAo+ID4gcHJvcGVydGll
-cwo+ID4gCj4gPiBEZXRsZXYgQ2FzYW5vdmEgKDQpOgo+ID4gwqDCoMKgwqDCoCBtZWRpYTogcmt2
-ZGVjOiBJbnRyb2R1Y2UgYSBnbG9iYWwgYml0d3JpdGVyIGhlbHBlcgo+ID4gwqDCoMKgwqDCoCBt
-ZWRpYTogcmt2ZGVjOiBVc2UgdGhlIGdsb2JhbCBiaXR3cml0ZXIgaW5zdGVhZCBvZiBsb2NhbCBv
-bmUKPiA+IMKgwqDCoMKgwqAgbWVkaWE6IHJrdmRlYzogY29tbW9uOiBEcm9wIGJpdGZpZWxkcyBm
-b3IgdGhlIGJpdHdyaXRlcgo+ID4gwqDCoMKgwqDCoCBtZWRpYTogcmt2ZGVjOiB2ZHB1MzgzOiBE
-cm9wIGJpdGZpZWxkcyBmb3IgdGhlIGJpdHdyaXRlcgo+ID4gCj4gPiBGcml0eiBLb2VuaWcgKDEp
-Ogo+ID4gwqDCoMKgwqDCoCBEb2N1bWVudGF0aW9uOiBtZWRpYTogRml4IHY0bDJfdnA5X3NlZ21l
-bnRhdGlvbgo+ID4gCj4gPiBKYWNrc29uIExlZSAoNCk6Cj4gPiDCoMKgwqDCoMKgIG1lZGlhOiB2
-NGwyLWNvbnRyb2xzOiBBZGQgY29udHJvbCBmb3IgYmFja2dyb3VuZCBkZXRlY3Rpb24KPiA+IMKg
-wqDCoMKgwqAgbWVkaWE6IGNoaXBzLW1lZGlhOiB3YXZlNTogQWRkIHN1cHBvcnQgZm9yIGJhY2tn
-cm91bmQgZGV0ZWN0aW9uCj4gPiDCoMKgwqDCoMKgIG1lZGlhOiBjaGlwcy1tZWRpYTogd2F2ZTU6
-IFN1cHBvcnQgQ0JQIHByb2ZpbGUKPiA+IMKgwqDCoMKgwqAgbWVkaWE6IGNoaXBzLW1lZGlhOiB3
-YXZlNTogQWRkIFN1cHBvcnQgZm9yIFBhY2tlZCBZVVY0MjIgRm9ybWF0cwo+ID4gCj4gPiBMb3Vp
-cy1BbGV4aXMgRXlyYXVkICgxKToKPiA+IMKgwqDCoMKgwqAgbWVkaWE6IG10ay1qcGVnOiBjYW5j
-ZWwgd29ya3F1ZXVlIG9uIHJlbGVhc2UgZm9yIHN1cHBvcnRlZCBwbGF0Zm9ybXMKPiA+IG9ubHkK
-PiA+IAo+ID4gTmFzIENodW5nICgxKToKPiA+IMKgwqDCoMKgwqAgbWVkaWE6IHY0bDItY29tbW9u
-OiBBZGQgWVVWMjQgZm9ybWF0IGluZm8KPiA+IAo+ID4gUGVuZ3BlbmcgSG91ICgyKToKPiA+IMKg
-wqDCoMKgwqAgbWVkaWE6IHY0bDItY3RybHM6IHZhbGlkYXRlIEhFVkMgYWN0aXZlIHJlZmVyZW5j
-ZSBjb3VudHMKPiA+IMKgwqDCoMKgwqAgbWVkaWE6IGNlZHJ1czogc2tpcCBpbnZhbGlkIEguMjY0
-IHJlZmVyZW5jZSBsaXN0IGVudHJpZXMKPiA+IAo+ID4gUm91dmVuIEN6ZXJ3aW5za2kgKDEpOgo+
-ID4gwqDCoMKgwqDCoCBtZWRpYTogdmVyaXNpbGljb246IHJlbW92ZSBoYW50cm9fcnVuIGRlY2xh
-cmF0aW9uCj4gPiAKPiA+IFNhbXVlbCBIb2xsYW5kICgyKToKPiA+IMKgwqDCoMKgwqAgbWVkaWE6
-IGNlZHJ1czogRml4IG1pc3NpbmcgY2xlYW51cCBpbiBlcnJvciBwYXRoCj4gPiDCoMKgwqDCoMKg
-IG1lZGlhOiBjZWRydXM6IEZpeCBmYWlsdXJlIHRvIGNsZWFuIHVwIGhhcmR3YXJlIG9uIHByb2Jl
-IGZhaWx1cmUKPiA+IAo+ID4gwqBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVk
-aWEvYWxsd2lubmVyLHN1bjRpLWExMC12aWRlby0KPiA+IGVuZ2luZS55YW1swqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCB8wqAgMTAgKysKPiA+IMKgRG9jdW1lbnRhdGlvbi91c2Vyc3BhY2Ut
-YXBpL21lZGlhL3Y0bC9leHQtY3RybHMtY29kZWMtCj4gPiBzdGF0ZWxlc3MucnN0wqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDIgKy0KPiA+IMKg
-RG9jdW1lbnRhdGlvbi91c2Vyc3BhY2UtYXBpL21lZGlhL3Y0bC9leHQtY3RybHMtCj4gPiBjb2Rl
-Yy5yc3TCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCB8wqDCoCA2ICsrCj4gPiDCoGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0v
-Y2hpcHMtbWVkaWEvd2F2ZTUvd2F2ZTUtCj4gPiBoZWxwZXIuY8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDC
-oCA0ICstCj4gPiDCoGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY2hpcHMtbWVkaWEvd2F2ZTUvd2F2
-ZTUtCj4gPiBoZWxwZXIuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAyICstCj4gPiDCoGRyaXZlcnMv
-bWVkaWEvcGxhdGZvcm0vY2hpcHMtbWVkaWEvd2F2ZTUvd2F2ZTUtCj4gPiBody5jwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgfMKgwqAgNyArLQo+ID4gwqBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL2No
-aXBzLW1lZGlhL3dhdmU1L3dhdmU1LXZwdS0KPiA+IGRlYy5jwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNDcg
-KysrKysrKy0tLQo+ID4gwqBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL2NoaXBzLW1lZGlhL3dhdmU1
-L3dhdmU1LXZwdS0KPiA+IGVuYy5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNzMgKysrKysrKysrLS0tLS0t
-Cj4gPiDCoGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY2hpcHMtbWVkaWEvd2F2ZTUvd2F2ZTUtCj4g
-PiB2cHVhcGkuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAyICsKPiA+IMKgZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS9tZWRpYXRlay9qcGVnL210a19qcGVnX2NvcmUuY8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIHzCoMKgIDMgKy0KPiA+IMKgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9yb2NrY2hpcC9y
-a3ZkZWMvcmt2ZGVjLQo+ID4gYml0d3JpdGVyLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMzkgKysrKysrKysK
-PiA+IMKgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9yb2NrY2hpcC9ya3ZkZWMvcmt2ZGVjLWgyNjQt
-Cj4gPiBjb21tb24uY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDUxICstLS0tLS0tLS0KPiA+IMKgZHJpdmVycy9tZWRp
-YS9wbGF0Zm9ybS9yb2NrY2hpcC9ya3ZkZWMvcmt2ZGVjLWgyNjQtCj4gPiBjb21tb24uaMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfMKgIDQwICsrLS0tLS0tCj4gPiDCoGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcm9ja2NoaXAv
-cmt2ZGVjL3JrdmRlYy0KPiA+IGgyNjQuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDEwOSArKysr
-KysrKystLS0tLS0tLS0tLS0tCj4gPiDCoGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcm9ja2NoaXAv
-cmt2ZGVjL3JrdmRlYy1oZXZjLQo+ID4gY29tbW9uLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA5MyArKysrLS0tLS0t
-LS0tLS0tLS0tCj4gPiDCoGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcm9ja2NoaXAvcmt2ZGVjL3Jr
-dmRlYy1oZXZjLQo+ID4gY29tbW9uLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA1NyArKystLS0tLS0tLS0KPiA+IMKg
-ZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9yb2NrY2hpcC9ya3ZkZWMvcmt2ZGVjLQo+ID4gaGV2Yy5j
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMTcxICsrKysrKysrKysrKysrKy0tLS0tLS0tLQo+ID4g
-LS0tLS0tLS0tLQo+ID4gwqBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL3JvY2tjaGlwL3JrdmRlYy9y
-a3ZkZWMtdmRwdTM4My0KPiA+IGgyNjQuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMzUxICsrKysrKysrKysrKysrKysrKysr
-KysrKysrKy0tLS0tCj4gPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4g
-PiDCoGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcm9ja2NoaXAvcmt2ZGVjL3JrdmRlYy12ZHB1Mzgz
-LQo+ID4gaGV2Yy5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgfCA1MDIKPiA+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiA+IC0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0KPiA+IMKgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS92ZXJpc2lsaWNv
-bi9NYWtlZmlsZcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzC
-oMKgIDcgKy0KPiA+IMKgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS92ZXJpc2lsaWNvbi9oYW50cm9f
-YXYxLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCA3ODAKPiA+ICsrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysKPiA+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiA+IMKgZHJpdmVycy9tZWRp
-YS9wbGF0Zm9ybS92ZXJpc2lsaWNvbi9oYW50cm9fYXYxLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgfMKgIDYyICsrKysrKysrKysrKysKPiA+IMKgZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS92ZXJpc2lsaWNvbi97cm9ja2NoaXBfYXYxX2VudHJvcHltb2RlLmMgPT4KPiA+IGhh
-bnRyb19hdjFfZW50cm9weW1vZGUuY30gfMKgIDE4ICsrLS0KPiA+IMKgZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS92ZXJpc2lsaWNvbi97cm9ja2NoaXBfYXYxX2VudHJvcHltb2RlLmggPT4KPiA+IGhh
-bnRyb19hdjFfZW50cm9weW1vZGUuaH0gfMKgIDE4ICsrLS0KPiA+IMKgZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS92ZXJpc2lsaWNvbi97cm9ja2NoaXBfYXYxX2ZpbG1ncmFpbi5jID0+Cj4gPiBoYW50
-cm9fYXYxX2ZpbG1ncmFpbi5jfcKgwqDCoMKgIHzCoCA4MiArKysrKysrKy0tLS0tLS0tCj4gPiDC
-oGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vdmVyaXNpbGljb24vaGFudHJvX2F2MV9maWxtZ3JhaW4u
-aMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+ID4gwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgfMKgIDQ0ICsrKysrKysrKwo+ID4gwqBkcml2ZXJzL21lZGlhL3Bs
-YXRmb3JtL3ZlcmlzaWxpY29uL2hhbnRyb19ody5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgfMKgwqAgOCArLQo+ID4gwqBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL3Zlcmlz
-aWxpY29uL2hhbnRyb192NGwyLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzC
-oMKgIDYgKy0KPiA+IMKgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS92ZXJpc2lsaWNvbi9yb2NrY2hp
-cF9hdjFfZmlsbWdyYWluLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+ID4gwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDM2IC0tLS0tLS0tCj4gPiDCoGRyaXZl
-cnMvbWVkaWEvcGxhdGZvcm0vdmVyaXNpbGljb24vcm9ja2NoaXBfdnB1OTgxX2h3X2F2MV9kZWMu
-Y8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgfCA5MzUgKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0KPiA+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiA+IC0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ID4gwqBkcml2ZXJzL21lZGlhL3Bs
-YXRmb3JtL3ZlcmlzaWxpY29uL3JvY2tjaGlwX3ZwdV9ody5jwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgfMKgwqAgNyArLQo+ID4gwqBkcml2ZXJzL21lZGlhL3Y0bDItY29yZS92NGwyLQo+ID4g
-Y29tbW9uLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfMKgwqAgMSArCj4gPiDCoGRyaXZlcnMvbWVkaWEvdjRsMi1jb3JlL3Y0bDItY3RybHMtCj4g
-PiBjb3JlLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAx
-MyArKysKPiA+IMKgZHJpdmVycy9tZWRpYS92NGwyLWNvcmUvdjRsMi1jdHJscy0KPiA+IGRlZnMu
-Y8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgMiArCj4g
-PiDCoGRyaXZlcnMvc3RhZ2luZy9tZWRpYS9zdW54aS9jZWRydXMvY2VkcnVzLmPCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgCj4g
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCA1ICstCj4gPiDCoGRyaXZl
-cnMvc3RhZ2luZy9tZWRpYS9zdW54aS9jZWRydXMvY2VkcnVzX2gyNjQuY8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+ID4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgMyArCj4gPiDCoGluY2x1ZGUvdWFwaS9saW51eC92
-NGwyLQo+ID4gY29udHJvbHMuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAyICsKPiA+IMKgMzcgZmlsZXMgY2hhbmdlZCwgMTc0
-NCBpbnNlcnRpb25zKCspLCAxODU0IGRlbGV0aW9ucygtKQo+ID4gwqBjcmVhdGUgbW9kZSAxMDA2
-NDQgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9yb2NrY2hpcC9ya3ZkZWMvcmt2ZGVjLQo+ID4gYml0
-d3JpdGVyLmgKPiA+IMKgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0v
-dmVyaXNpbGljb24vaGFudHJvX2F2MS5jCj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJz
-L21lZGlhL3BsYXRmb3JtL3ZlcmlzaWxpY29uL2hhbnRyb19hdjEuaAo+ID4gwqByZW5hbWUgZHJp
-dmVycy9tZWRpYS9wbGF0Zm9ybS92ZXJpc2lsaWNvbi97cm9ja2NoaXBfYXYxX2VudHJvcHltb2Rl
-LmMgPT4KPiA+IGhhbnRyb19hdjFfZW50cm9weW1vZGUuY30gKDk5JSkKPiA+IMKgcmVuYW1lIGRy
-aXZlcnMvbWVkaWEvcGxhdGZvcm0vdmVyaXNpbGljb24ve3JvY2tjaGlwX2F2MV9lbnRyb3B5bW9k
-ZS5oID0+Cj4gPiBoYW50cm9fYXYxX2VudHJvcHltb2RlLmh9ICg5NSUpCj4gPiDCoHJlbmFtZSBk
-cml2ZXJzL21lZGlhL3BsYXRmb3JtL3ZlcmlzaWxpY29uL3tyb2NrY2hpcF9hdjFfZmlsbWdyYWlu
-LmMgPT4KPiA+IGhhbnRyb19hdjFfZmlsbWdyYWluLmN9ICg5MiUpCj4gPiDCoGNyZWF0ZSBtb2Rl
-IDEwMDY0NAo+ID4gZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS92ZXJpc2lsaWNvbi9oYW50cm9fYXYx
-X2ZpbG1ncmFpbi5oCj4gPiDCoGRlbGV0ZSBtb2RlIDEwMDY0NAo+ID4gZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS92ZXJpc2lsaWNvbi9yb2NrY2hpcF9hdjFfZmlsbWdyYWluLmgKPiA+IAo=
+There is no reason to require 4 buffers queued at all times for the
+driver to operate. Drop min_queued_buffers from the VIN driver to allow
+single-frame capture operations.
 
+Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+---
+This allows to capture a single frame when the R-Car VIN is used
+to feed the R-Car ISP on R-Car V4H.
 
---=-NrPb+AkiyxQxkJoqmqXK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+---
+ drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 1 -
+ 1 file changed, 1 deletion(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+index f9af9177e02f..73cda0e2d45a 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+@@ -1494,7 +1494,6 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
+ 	q->ops = &rvin_qops;
+ 	q->mem_ops = &vb2_dma_contig_memops;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	q->min_queued_buffers = 4;
+ 	q->dev = vin->dev;
+ 
+ 	ret = vb2_queue_init(q);
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCafiUAgAKCRDZQZRRKWBy
-9HfFAP0flgPNn/nka9ABm04fZoODNE+2qNwXS9hbFM3+k27n4gD/Zz/wHZgQdQJL
-Y4TwqAAuWOya/SOZXIgKJombEhgoAQ8=
-=9u0T
------END PGP SIGNATURE-----
+---
+base-commit: d9c8c4adf23d17549c0ec9c85b99d85a0ee6cf18
+change-id: 20260504-rcar-vin-min-queued-buffs-31891f226fe6
 
---=-NrPb+AkiyxQxkJoqmqXK--
+Best regards,
+-- 
+Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
 
