@@ -1,378 +1,191 @@
-Return-Path: <linux-media+bounces-60234-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60235-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8CWJKaA++GkxrwIAu9opvQ
-	(envelope-from <linux-media+bounces-60234-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 08:37:20 +0200
+	id KE5UF6hC+Gn9rwIAu9opvQ
+	(envelope-from <linux-media+bounces-60235-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 08:54:32 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921904B8F59
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 08:37:20 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D083E4B90B9
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 08:54:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C2FD030010F7
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 06:37:19 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2BA0C300CFE6
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 06:54:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47E8F2C0294;
-	Mon,  4 May 2026 06:37:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12C392D9796;
+	Mon,  4 May 2026 06:54:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VsbHWmRp"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nWA2HPew"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BACA27380A;
-	Mon,  4 May 2026 06:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3A82D1914
+	for <linux-media@vger.kernel.org>; Mon,  4 May 2026 06:54:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777876634; cv=none; b=Yvh8lwQJz8ajG26QNfDWaJ/jhvzIZ62vCV3JHCyYGuhSygygOitdC6sj02JbKUhzq+9/8AC/E4eOWUeF3KvU5M8NEA+tuQ+t50Z82XqSwGHpt2UBaFhbih3enYZ9//7tGz1u0ceH5GUIscRStpKnAJetj8h2RjAEjRPbdgTdOng=
+	t=1777877650; cv=none; b=gj50xFRCwluCDfldXOJcK5IVQw/k/k6Fzi8d4DjaoSXKnLv1ikYjviCrgjhdyuA95cxUhw4/A0Ap+LlHsuAhUPJNL7CyNC+78SsaSSVBaDGhAlOE9ySkKpQXNbzybHCYe6rRl1SDMuZtuBKG9UAF5FzkG6RD3IAPRTAK81/E3o4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777876634; c=relaxed/simple;
-	bh=VtoRALB7sC9UgeWTtrvjstB79Q/ifbeHt78WAQUTn8k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XsMAHrC+p/rSYH7F8RG8n2igh+R9WlNfaOS9hZi3UHq+9nSrIgPhaBOXnttB/t6WNDI0pejvGbAGufJoyLJ8LbAy4CCtTVWckgdZCKs7v6DS7a+4klgiZ7nQ+Wg8CyKpQMjkBQFHyxv6FVIvL/HyMcji29mmX6PbHlRLnc3/TOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VsbHWmRp; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777876634; x=1809412634;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VtoRALB7sC9UgeWTtrvjstB79Q/ifbeHt78WAQUTn8k=;
-  b=VsbHWmRpuw4KgB/rISmacdXY3I9+OEXObwIEIk9UCeorngJDmhHe0ZIF
-   i5qWl7nqcNu0q02E2/YvlAgmXeT59kYb0BTNpvRT9VmlRFmD5y2w6x2ov
-   CsTO6VkzhXfhuQcViFZTZwEqN1rYUKLf55/MGZS0i3PD+XQ5j+C0p6rUo
-   ssNFThGtrx0w7LEUOwvSsujewOsIIEO68soAZYFRewQX1tXa6N7KxA+dE
-   2sgaVRTbwtVYFfFM4U1VLmgKv36HWLbEtkY4JhVqyqHt6nA7L2RM6SP5C
-   H3Pc9GAU8V7LIhxny2r7YgD0Aaw2iBah0ofiaJBdiCzKjoNO37QaZdyFI
-   g==;
-X-CSE-ConnectionGUID: GjHeBl/uTTu4diwu3wQaOw==
-X-CSE-MsgGUID: tgQnKXjLRCahGEu+LGrcWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="89037125"
-X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="89037125"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 23:37:13 -0700
-X-CSE-ConnectionGUID: 5mCGxOw4Q8SjdVIBV20oqg==
-X-CSE-MsgGUID: 6bZPOJqrSaSBuYhPeCuVNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="265778467"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.114])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 23:37:10 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 3F69B121CC4;
-	Mon, 04 May 2026 09:37:09 +0300 (EEST)
-Date: Mon, 4 May 2026 09:37:09 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 5/6] media: i2c: lm3560: Add support for PM features
-Message-ID: <afg-ldFd7hockYn-@kekkonen.localdomain>
-References: <20260503164445.215540-1-clamor95@gmail.com>
- <20260503164445.215540-6-clamor95@gmail.com>
+	s=arc-20240116; t=1777877650; c=relaxed/simple;
+	bh=wypT3/f64K5sDq91Et+10pxdZ4d+e//SJTgpXTubmZ4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ex50oZ/SEliQ7/gfwa1QG7T83+D6zrmddIHJyXJQB/tK2pzADmxJnPYtb52EuZRK/bDcwjhIPfEXjhf+udiQyzgsDMzUgpQteljGYZCv7b64GW5ktIg1vcl/k6rWo89K2wz4K1kv3xicRebvmeArC1oBt9TosPa0XmZqT/jwa7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nWA2HPew; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5a40b2bc96dso3999049e87.3
+        for <linux-media@vger.kernel.org>; Sun, 03 May 2026 23:54:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1777877647; x=1778482447; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6uQAiVepCGgf4BwN62I0/iFSFpiKXW39s5/tMjTrHDw=;
+        b=nWA2HPewWy6Na0/hJqfUCfuyYSLnoiUSbluNT83B1JKfPsxe+Yy7+Yy2rd+XI+lXeY
+         Mt3vnmDPABfogISesuYiZP6CzSltl9JMDMdTpUoV6RdEcsaO5BmX69iYLwO7FPpqVcz/
+         Phcx8LHdVoZBBl/wCJYHrkDnqU+xg5oy0VHDw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777877647; x=1778482447;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6uQAiVepCGgf4BwN62I0/iFSFpiKXW39s5/tMjTrHDw=;
+        b=T3uiW2/2D3tISkZJKINCO9fnJ89twDJTk6HDyQgSRU83c8m9kO/+hei2ZaCqwbRljH
+         xbE9xXYYhFPMpoUr1GThbcGxZVTGJBfFShtR2EMaYyvaa5o0y5JjR3MUmMIVBHwL1092
+         f7nAFhG346GKsklyvEDvhAhRa4rRP+1lJPCFgjycEBbhKnF9/MTnEsBx6j7IMD1XEER4
+         ZPPmIMGN/+AYzAJqJNTPvYpX0Es8u7tq9ctpGvh969nPRSugvMT0gvCD3G/qdAYzN1Bf
+         e6PKEXIy7bEDfiGXRnq8kafg3agmaqgAb5/gqXhkO+FrgArqeAguYilEnLNGSu1Kf9aF
+         6QRw==
+X-Gm-Message-State: AOJu0YxRJGsvcwDftGIzePADucKMT1HBeYW1RdMyfg0HNE2B5cCP5C5O
+	HuiTxfSDXjZTFy+5ZC2OJDMJy7btu46wY+BQdvL+DVkbzDWpVC4BZVUhY7YPj6rifmCaFISxIDg
+	y8Zw=
+X-Gm-Gg: AeBDiethjSfjrxfS1hJwXzKwK5jKXPb3xlkiLIMngtZOSnyu1f3G3H+mfZA/XX0JZcp
+	AdckOELs6dGgpudcSgJrokcSSNsZXjxA4syYKan0/TtRnC/RXn0rpCygU9+iNonvkop5SSL4s/2
+	z/BXCpkNmSrgV7JtifUilEQb8Uy1QKitaWV/wb76YSLWkOkQ453wLM0IdFCrfjbau8CExyKOvpN
+	WA3y9rd0ebasIXo1+maSluIzkQ4CDXrfVZJ9SAiPZ1JWhN/BRYfYrBOeEmrR65EtGWeY7c96kDC
+	DErfyjI5hRvwl7XGuWSS5t7awLO1K8uedh4e4hRWDY2sr7Ao1EYp/zNLhKcHXgn7d9xEzepFoWU
+	UuSmHnCXX2S8+HjF/F1w/7SJ41huqOSD+tSA1ktrhDlhRojv/VgE3VeRcSg4JXWijwT7jGnvgOz
+	zPXr3X2uhuUMSFZKgLP9xaWdqzzndhoiUPQzT+Vt76DHm2qKrdaJhVRxD3MogsiLJeoCA0RWc6q
+	sZXxcCfECh+d0Ho0g==
+X-Received: by 2002:a05:6512:a89:b0:5a2:bedb:2119 with SMTP id 2adb3069b0e04-5a8631bdaa2mr2838842e87.26.1777877646839;
+        Sun, 03 May 2026 23:54:06 -0700 (PDT)
+Received: from ribalda.c.googlers.com (52.163.228.35.bc.googleusercontent.com. [35.228.163.52])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a85c22e1d4sm2674579e87.9.2026.05.03.23.54.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 May 2026 23:54:05 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v3 0/6] media: Fix new smatch warnings
+Date: Mon, 04 May 2026 06:54:03 +0000
+Message-Id: <20260504-smatch-7-1-v3-0-fda125c30058@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260503164445.215540-6-clamor95@gmail.com>
-X-Rspamd-Queue-Id: 921904B8F59
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAItC+GkC/23MSw6CMBSF4a2Qjq3pvUCljtyHcVD6oB1ATYuNh
+ rB3CxOjcXhO8v0LSSZ6k8i5Wkg02ScfpjLqQ0WUk9NgqNdlE2TIWYMdTaOclaMnClQLLlAIrWt
+ lSQH3aKx/7rHrrWzn0xzia29n2N6/mQyU0YZ3gmlrew5wUS6G0T/GY4gD2UoZP7pl8KWxaIlW2
+ R7bGqT60eu6vgFk5t5q5QAAAA==
+X-Change-ID: 20260428-smatch-7-1-d969299dd3cf
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>, 
+ Jackson Lee <jackson.lee@chipsnmedia.com>, 
+ Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Keke Li <keke.li@amlogic.com>, Yong Zhi <yong.zhi@intel.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, 
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
+ Ricardo Ribalda <ribalda@chromium.org>, 
+ Hans Verkuil <hverkuil+cisco@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Rspamd-Queue-Id: D083E4B90B9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60234-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[intel.com:+];
 	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60235-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[chromium.org:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	FORGED_SENDER_MAILLIST(0.00)[]
+	TAGGED_RCPT(0.00)[linux-media,samsung,cisco];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,chromium.org:dkim,chromium.org:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-Hi Svyatoslav,
+Current version of smatch triggers some warnings for the media tree.
+Most of them are inoffensive, but we would like to have zero smatch
+warnings.
 
-On Sun, May 03, 2026 at 07:44:44PM +0300, Svyatoslav Ryhel wrote:
-> Add support for power management features to better control the LM3560
-> within the media framework. To achieve the desired PM support, the HWEN
-> GPIO and VIN power supply were added and configured into power on/off
-> sequences. Added PM operations along with the PM configuration setup.
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  drivers/media/i2c/lm3560.c | 117 ++++++++++++++++++++++++++++++++++---
->  1 file changed, 110 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
-> index ce4b09d1f208..15741ea5684f 100644
-> --- a/drivers/media/i2c/lm3560.c
-> +++ b/drivers/media/i2c/lm3560.c
-> @@ -12,13 +12,16 @@
->  #include <linux/bitmap.h>
->  #include <linux/delay.h>
->  #include <linux/module.h>
-> +#include <linux/gpio/consumer.h>
->  #include <linux/i2c.h>
->  #include <linux/slab.h>
->  #include <linux/mod_devicetable.h>
->  #include <linux/mutex.h>
->  #include <linux/of.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/property.h>
->  #include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
->  #include <linux/videodev2.h>
->  #include <media/i2c/lm3560.h>
->  #include <media/v4l2-ctrls.h>
-> @@ -49,6 +52,8 @@ enum led_enable {
->   * @dev: pointer to &struct device
->   * @regmap: reg. map for i2c
->   * @lock: muxtex for serial access.
-> + * @hwen_gpio: line connected to HWEN pin
-> + * @vin_supply: line connected to IN supply (2.5V - 5.5V)
->   * @led_mode: V4L2 LED mode
->   * @ctrls_led: V4L2 controls
->   * @subdev_led: V4L2 subdev
-> @@ -63,6 +68,9 @@ struct lm3560_flash {
->  	struct regmap *regmap;
->  	struct mutex lock;
->  
-> +	struct gpio_desc *hwen_gpio;
-> +	struct regulator *vin_supply;
-> +
->  	enum v4l2_flash_led_mode led_mode;
->  	struct v4l2_ctrl_handler ctrls_led[LM3560_LED_MAX];
->  	struct v4l2_subdev subdev_led[LM3560_LED_MAX];
-> @@ -177,12 +185,17 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
->  	struct lm3560_flash *flash = to_lm3560_flash(ctrl, led_no);
->  	int rval = -EINVAL;
->  
-> +	if (!pm_runtime_get_if_in_use(flash->dev))
-> +		return 0;
-> +
->  	if (ctrl->id == V4L2_CID_FLASH_FAULT) {
->  		s32 fault = 0;
->  		unsigned int reg_val;
->  		rval = regmap_read(flash->regmap, REG_FLAG, &reg_val);
-> -		if (rval < 0)
-> +		if (rval < 0) {
-> +			pm_runtime_put(flash->dev);
->  			return rval;
-> +		}
->  		if (reg_val & FAULT_SHORT_CIRCUIT)
->  			fault |= V4L2_FLASH_FAULT_SHORT_CIRCUIT;
->  		if (reg_val & FAULT_OVERTEMP)
-> @@ -192,6 +205,8 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
->  		ctrl->cur.val = fault;
->  	}
->  
-> +	pm_runtime_put(flash->dev);
-> +
->  	return rval;
->  }
->  
-> @@ -201,6 +216,9 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
->  	u8 tout_bits;
->  	int rval = -EINVAL;
->  
-> +	if (!pm_runtime_get_if_in_use(flash->dev))
+drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
+drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
+drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+drivers/media/v4l2-core/v4l2-dev.c:1036 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+drivers/media/v4l2-core/v4l2-dev.c:1043 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+drivers/media/v4l2-core/v4l2-dev.c:1101 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+drivers/media/platform/chips-media/wave5/wave5-vpuapi.c:588 wave5_vpu_dec_get_output_info() error: buffer overflow 'inst->frame_buf' 64 <= 127
+drivers/staging/media/ipu3/ipu3-css-params.c:1792 imgu_css_cfg_acc_stripe() warn: 'acc->stripe.bds_out_stripes[0]->width - 2 * f' 4294967168 can't fit into 65535 'acc->stripe.bds_out_stripes[1]->offset'
+drivers/media/i2c/adv7604.c:3672 adv76xx_probe() error: buffer overflow 'state->pads' 7 <= 4294967294
+drivers/media/i2c/adv7604.c:3673 adv76xx_probe() error: buffer overflow 'state->pads' 7 <= u32max
+drivers/media/i2c/mt9p031.c:799 mt9p031_s_ctrl() warn: assigning (-1952) to unsigned variable 'data'
 
-This should be pm_runtime_get_if_active().
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v3:
+- Rewrite mt9p031's bitmask to keep ~7
+- Link to v2: https://lore.kernel.org/r/20260501-smatch-7-1-v2-0-a2fcfb2531ac@chromium.org
 
-> +		return 0;
-> +
->  	switch (ctrl->id) {
->  	case V4L2_CID_FLASH_LED_MODE:
->  		flash->led_mode = ctrl->val;
-> @@ -246,6 +264,8 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
->  		break;
->  	}
->  
-> +	pm_runtime_put(flash->dev);
-> +
->  	return rval;
->  }
->  
-> @@ -409,6 +429,38 @@ static int lm3560_init_device(struct lm3560_flash *flash)
->  	return rval;
->  }
->  
-> +static int __maybe_unused lm3560_power_off(struct device *dev)
-> +{
-> +	struct lm3560_flash *flash = dev_get_drvdata(dev);
-> +
-> +	gpiod_set_value_cansleep(flash->hwen_gpio, 0);
-> +	regulator_disable(flash->vin_supply);
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused lm3560_power_on(struct device *dev)
-> +{
-> +	struct lm3560_flash *flash = dev_get_drvdata(dev);
-> +	int rval;
-> +
-> +	rval = regulator_enable(flash->vin_supply);
-> +	if (rval < 0) {
-> +		dev_err(flash->dev, "failed to enable vin power supply\n");
-> +		return rval;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(flash->hwen_gpio, 1);
-> +
-> +	rval = lm3560_init_device(flash);
-> +	if (rval < 0) {
-> +		lm3560_power_off(dev);
-> +		return rval;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static void lm3560_subdev_cleanup(struct lm3560_flash *flash)
->  {
->  	int led_no;
-> @@ -442,6 +494,17 @@ static int lm3560_probe(struct i2c_client *client)
->  
->  	bitmap_zero(flash->led_id, LM3560_LED_MAX);
->  
-> +	flash->hwen_gpio = devm_gpiod_get_optional(flash->dev, "enable",
-> +						   GPIOD_OUT_LOW);
-> +	if (IS_ERR(flash->hwen_gpio))
-> +		return dev_err_probe(flash->dev, PTR_ERR(flash->hwen_gpio),
-> +				     "failed to get hwen gpio\n");
-> +
-> +	flash->vin_supply = devm_regulator_get(flash->dev, "vin");
-> +	if (IS_ERR(flash->vin_supply))
-> +		return dev_err_probe(flash->dev, PTR_ERR(flash->vin_supply),
-> +				     "failed to get vin-supply\n");
-> +
->  	flash->peak = LM3560_PEAK_1600mA;
->  	rval = device_property_read_u32(flash->dev,
->  					"ti,peak-current-microamp", &peak_ua);
-> @@ -469,9 +532,19 @@ static int lm3560_probe(struct i2c_client *client)
->  				 &flash->max_flash_timeout);
->  	flash->max_flash_timeout /= 1000;
->  
-> +	rval = regulator_enable(flash->vin_supply);
-> +	if (rval < 0)
-> +		return dev_err_probe(flash->dev, rval,
-> +				     "failed to enable vin power supply\n");
-> +
-> +	gpiod_set_value_cansleep(flash->hwen_gpio, 1);
-> +
->  	rval = lm3560_init_device(flash);
->  	if (rval < 0)
-> -		return rval;
-> +		goto error_disable;
-> +
-> +	pm_runtime_set_active(flash->dev);
-> +	pm_runtime_enable(flash->dev);
->  
->  	for_each_available_child_of_node(dev_of_node(flash->dev), node) {
->  		u32 reg;
-> @@ -492,10 +565,10 @@ static int lm3560_probe(struct i2c_client *client)
->  
->  			rval = lm3560_subdev_init(flash, reg, node);
->  			if (rval < 0) {
-> -				lm3560_subdev_cleanup(flash);
-> -				return dev_err_probe(flash->dev, rval,
-> -						    "failed to register led%d\n",
-> -						    reg);
-> +				dev_err(flash->dev,
-> +					"failed to register led%d: %d\n",
-> +					reg, rval);
-> +				goto error_clean;
->  			}
->  
->  			set_bit(reg, flash->led_id);
-> @@ -504,7 +577,23 @@ static int lm3560_probe(struct i2c_client *client)
->  
->  	i2c_set_clientdata(client, flash);
->  
-> +	pm_runtime_set_autosuspend_delay(flash->dev, 1000);
-> +	pm_runtime_use_autosuspend(flash->dev);
-> +	pm_runtime_idle(flash->dev);
-> +
->  	return 0;
-> +
-> +error_clean:
-> +	pm_runtime_disable(flash->dev);
-> +	pm_runtime_set_suspended(flash->dev);
-> +
-> +	lm3560_subdev_cleanup(flash);
-> +
-> +error_disable:
-> +	gpiod_set_value_cansleep(flash->hwen_gpio, 0);
-> +	regulator_disable(flash->vin_supply);
-> +
-> +	return rval;
->  }
->  
->  static void lm3560_remove(struct i2c_client *client)
-> @@ -512,8 +601,22 @@ static void lm3560_remove(struct i2c_client *client)
->  	struct lm3560_flash *flash = i2c_get_clientdata(client);
->  
->  	lm3560_subdev_cleanup(flash);
-> +
-> +	/*
-> +	 * Disable runtime PM. In case runtime PM is disabled in the kernel,
-> +	 * make sure to turn power off manually.
-> +	 */
-> +	pm_runtime_disable(&client->dev);
-> +	if (!pm_runtime_status_suspended(&client->dev)) {
-> +		lm3560_power_off(&client->dev);
-> +		pm_runtime_set_suspended(&client->dev);
-> +	}
->  }
->  
-> +static const struct dev_pm_ops lm3560_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(lm3560_power_off, lm3560_power_on, NULL)
-> +};
-> +
->  static const struct of_device_id lm3560_of_match[] = {
->  	{ .compatible = "ti,lm3559" },
->  	{ .compatible = "ti,lm3560" },
-> @@ -532,7 +635,7 @@ MODULE_DEVICE_TABLE(i2c, lm3560_id_table);
->  static struct i2c_driver lm3560_i2c_driver = {
->  	.driver = {
->  		   .name = LM3560_NAME,
-> -		   .pm = NULL,
-> +		   .pm = pm_ptr(&lm3560_pm_ops),
->  		   .of_match_table = lm3560_of_match,
->  		   },
->  	.probe = lm3560_probe,
+Changes in v2:
+- Remove WARN_ON() in user triggerable checks.
+- Add fixes for user triggerable errors.
+- Remove pr_err in v4l-dev
+- Link to v1: https://lore.kernel.org/r/20260428-smatch-7-1-v1-0-46890dffb611@chromium.org
 
+---
+Ricardo Ribalda (6):
+      media: v4l2-dev: Add range check for vdev->minor
+      media: i2c: mt9p031: Rewrite assignment to make smatch happy
+      media: i2c: adv7604: Add range checks for chip info
+      media: chips-media: wave5: Add range checks for dec_output_info
+      media: staging: ipu3-imgu: Add range check for imgu_css_cfg_acc_stripe
+      media: amlogic-c3: Add validations for ae and awb config
+
+ drivers/media/i2c/adv7604.c                             |  6 ++++++
+ drivers/media/i2c/mt9p031.c                             |  3 ++-
+ drivers/media/platform/amlogic/c3/isp/c3-isp-params.c   |  4 ++++
+ drivers/media/platform/chips-media/wave5/wave5-vpuapi.c | 11 +++++++++--
+ drivers/media/v4l2-core/v4l2-dev.c                      |  5 +++++
+ drivers/staging/media/ipu3/ipu3-css-params.c            |  8 ++++++--
+ 6 files changed, 32 insertions(+), 5 deletions(-)
+---
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+change-id: 20260428-smatch-7-1-d969299dd3cf
+
+Best regards,
 -- 
-Kind regards,
+Ricardo Ribalda <ribalda@chromium.org>
 
-Sakari Ailus
 
