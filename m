@@ -1,299 +1,457 @@
-Return-Path: <linux-media+bounces-60253-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60254-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4DnXCbZS+GmQsQIAu9opvQ
-	(envelope-from <linux-media+bounces-60253-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 10:03:02 +0200
+	id GKRBLy5V+GmltAIAu9opvQ
+	(envelope-from <linux-media+bounces-60254-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 10:13:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FD64B9D69
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 10:03:01 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E914B9FD6
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 10:13:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 165D730492B3
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 07:58:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1D88D304226C
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 08:08:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EBC5313E15;
-	Mon,  4 May 2026 07:57:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 481762D238F;
+	Mon,  4 May 2026 08:08:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="LBxmIe4j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WaSdUhi/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011049.outbound.protection.outlook.com [40.107.130.49])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6B228C2BF;
-	Mon,  4 May 2026 07:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777881476; cv=fail; b=YYHi7Tq/B0Jnqi8DjvXrzmJQfEUmQg1e9CvFJwNQg10Z+aq3bimjlu8G2oafl5UKxxY09mPjahCozYWtk+VcixNmqF+6J3EVHGP3Qk2+WG8Z0awZBqOdp1TPhLFCHKyRALDN/R3pADM+hrNXFY7Xl1LfCCM6CJvvIFI34eO3Ni0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777881476; c=relaxed/simple;
-	bh=FI5XCipd6lQkpvf6m9PRM3D5ko1TWpCFe9sg3srFwz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=FIyvOZOW5LBRyZQaLTCjV91N9UsXXwxJ+/KATjwWHD4qG+rMN2GocwNILlVY8QwCA8s0Le0Olh7Vn4Px/mPxRBIbYtEnlmxCPKYdd2wH1Ee6BySC+wwacvIIUkFhsyp7/M2XjyqvYLsEp/wanfGgn5CqW+mdXKNHJvWRXm1ydtQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=LBxmIe4j; arc=fail smtp.client-ip=40.107.130.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pNnSjlgqQ9mu64HM93qhv+j/BPmjKWq06Vw5FUl/MpiJK7O48Y5ZkdGpeDr+RLAsG3bD4m1MQj++jsqYHDhFLmSZ5zpMQ8jqAy3ZTKLMriPOi6faQk2E6kzM96L7OPWSvp+JWM085Q1lmk5RRrQOeSLk0xO4OiU7sqhrtqXPyJv2769muBydBuIzOb+Y2T+yCqqNpX1pq6fqhbmZCdZYovkoMLuMKF4YDRe44t5cNGg4sMDtGk6GXjcFlUhFIQuH5ZRhfaUs/tszMI47wKm5VvrDOVSo3B251R8iTs24txl8YlwZcJss91IFDm1kJbf+3HrOefgLyrqZ3jbW2NXd6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mIyqoNMaqF7PcSsq3Vf4/2r/EknapHaMFFAC23Z0fWk=;
- b=u/5vHVU/ZwWk0vXcfhC+ZvVj8TSqXPilWXe4zkw8nJXsnptXkI4ThoxIr0qjkFcBaQrdNu3mgiq0LeVT7yP8R6450cWoARy9vT0s0FG6X1duwz1EmElLoN4b7Xu2ubhZ5ZVowjf2F2KcMlQlzrG4OQDlFwzRW3vJWVV4e/2+A0jL79gLCNsXVMdUW3e7PHOZzud3P2DXNv59hKBqcDMJDgKnD5ysdtOX27rA7t+RVsOZ0Kllrj/49y6yCyEqm4Faqh0KjsN1o/xAx/+iowsYAG6TSrNh9u/i+qZiOs3lJmEggz4Oxil30mlSG8yW5FEo36P9vhUhX4+fr8ujas7lJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mIyqoNMaqF7PcSsq3Vf4/2r/EknapHaMFFAC23Z0fWk=;
- b=LBxmIe4j4c0f8XCDOmIwHQsDwUevTUlG2XSG5rVjJwhpeujlIC35stBUnSYac3YgUbfWXU/Ium9MufmIzh/C+KhNrkBY1ZDnp4CYpRingmBtEGzB3SfBK52lARJku8VclM7COSg7ZsWfCvgZk2E4fYFebSvxLc+Q/yrR1Gl4kGJAEQloY9aurINdIdFPw0k9ZA36UuM5EBsnJtQcc9n4cbBYLXGLUsYbsmVfktuWW/kofa4hS2LLo7iYd9kWfAeKOQ6906aMVPLLYIP+Mi37NRoNNzDN/ToqimoCrHJ/Jbmdpw03gWsxeJwcgrSHG/XQtN77oHVntlLQXVY5+pxblQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
- by GV2PR04MB11800.eurprd04.prod.outlook.com (2603:10a6:150:2d1::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Mon, 4 May
- 2026 07:57:48 +0000
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9870.023; Mon, 4 May 2026
- 07:57:46 +0000
-Date: Mon, 4 May 2026 10:57:42 +0300
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: linux-phy@lists.infradead.org, Bjorn Helgaas <bhelgaas@google.com>
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7FB2E8B83;
+	Mon,  4 May 2026 08:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777882118; cv=none; b=f/X3DlDcCCXX3WiSGq3D9h0V8xAOb0lB3uDvk7q88DGGAqAtjB8XxFsqX0KOZCXvIkuFlJullTIj3+H73djh30hYsLYzu++HOTmugBI3SSMfLsNeWyQ49FhCDbJ0TndruDo1NqykJkRdulpMFhPvWHrwHVZ03NIrvkd8M+/pSgE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777882118; c=relaxed/simple;
+	bh=tLsBX+m8gP/K8gBVV15xtOcviHYjmI7E7XgYAG2bLbY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oQKwgM4sf8WXpq/bxTaLw2tFb0SLjcVjnlGla74jds8meL3+yyFFgo+E5mjxniGOr91yHMkCyFDbZOyOna0/RvwMqKrJRkGLKVYq/g//Dgx91AyS5D44bND3u5P7sNGsrkCKkwZ6Xflfzw2oNAiMPlCKKrcDVKU5LQuPvqDDL6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WaSdUhi/; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777882116; x=1809418116;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=tLsBX+m8gP/K8gBVV15xtOcviHYjmI7E7XgYAG2bLbY=;
+  b=WaSdUhi/jORrMtck9ZvzXTJS2zFFq7X0ViSzqfslchDoxe8DNSrtZw8D
+   WuzXJ4ZjLRBl137MCTBZxz5EBGN9OBH4selaJY42oJ8ZGpIUv6DG+CY0/
+   vyFnpOHS63n6D2/dP/oq83B/Ki2FYTl8R9XY8VlHGJ/pY/Rzz04wcOIDx
+   q3YrJeg0GjOGl3R1jYzVWWS+YcOtSDdOVyjPatqah92MxTa0Zg8IOapaa
+   TN24yDJv6MRlx5411FSm3kLu6B/orMi675+2PU5c38L2nMgWIUke8z/Qw
+   xxqSYp1irSyxM5FCoLJbyEP/QjMfe0lDqWDWELVtQ85vsaKB46g0EkBhC
+   g==;
+X-CSE-ConnectionGUID: 6oALWWPVRPC0QRG0ngCc0w==
+X-CSE-MsgGUID: A3kZzS6DSn+Q6whihEWV4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="66266873"
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="66266873"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 01:08:36 -0700
+X-CSE-ConnectionGUID: aQ186U18TC6KYz7SbTEzMQ==
+X-CSE-MsgGUID: VbU7FiFjQdqPYAV5e4rrDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="232805044"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.114])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 01:08:33 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 48264121CC4;
+	Mon, 04 May 2026 11:08:33 +0300 (EEST)
+Date: Mon, 4 May 2026 11:08:33 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
 	Rob Herring <robh@kernel.org>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Siddharth Vadapalli <s-vadapalli@ti.com>
-Subject: Re: [PATCH v7 phy-next 08/27] PCI: Remove device links to PHY
-Message-ID: <20260504075742.ixt7phu4cpp433q5@skbuf>
-References: <20260430110652.558622-1-vladimir.oltean@nxp.com>
- <20260430110652.558622-1-vladimir.oltean@nxp.com>
- <20260430110652.558622-9-vladimir.oltean@nxp.com>
- <20260430110652.558622-9-vladimir.oltean@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260430110652.558622-9-vladimir.oltean@nxp.com>
- <20260430110652.558622-9-vladimir.oltean@nxp.com>
-X-ClientProxiedBy: WA2PEPF000008AF.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d8::657) To AM9PR04MB8585.eurprd04.prod.outlook.com
- (2603:10a6:20b:438::13)
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 4/6] media: i2c: lm3560: Convert to use OF bindings
+Message-ID: <afhUAYVWkJ4OiH8B@kekkonen.localdomain>
+References: <20260503164445.215540-1-clamor95@gmail.com>
+ <20260503164445.215540-5-clamor95@gmail.com>
+ <afg-Xl7A7E0qowHR@kekkonen.localdomain>
+ <CAPVz0n0YwUZ0TPSQV-Yb_4e7Di12ZWPVaKdde1v+7gHtWT1nuQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|GV2PR04MB11800:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4c875e1e-ca31-4828-710b-08dea9b2d44c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|19092799006|7416014|376014|10070799003|1800799024|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	HEAXu0UJ9P3VzL00TQ5M3z2crujXl382jiCiUZ8AjCp92Sg3OB/js+tp8eYXGFCwTg4KC58dkU749B4w9rSUDmOeHKbS0d1VunRrO+0OtdmhVfIDbyWfd68zd/UwthW2bRoM12WmYcfW+QITvv60QYEZ3Kg4C9ooCFWab7uNzFwTYCMVln/v4nDI7PA+84MsJRghdBRjtrzVdqUpokYrKrv/vPQ8UdETapxfYG4x02T8oJJuR8rwqlgl1y/1JCDwDYxOrDpVfe+N/b9b2OMuKXyU8kTLFDV2up3MVC5GOnlCnnlwO+8ZalNICpxGxx4yrr9ReK56HR7wQ+EleiGOwqmjXSseI4g7FzN/Bm4ILnOoxXySX1YImvrFAsqP2ONeZCRRLqDcEN2K+zjhQYoc9vIaUwwAH1owrJMiNqLPK1BBMV6XA4WG3u1dohQzwWRk9J6ZB3Mq9zeKK39RKMh7AVi9wOOTuYnE26otczBMnVKu7BD58vY6ONRIqYZiqnt/i1+rsMLaDWvZTybIZj8YOv22IJFCrUZq8pvT2T2vn4k5ykcL4wBm5+ReTtYtHnCrP7+s6kJjJcCVv/9pxQ51KpGJL1D7rMiYVbvAYjGTnZjLEkc3qSGjgZbvixZN6L75/bYZOjGOt6ePctFGSO6QX6HJX8OyaoKsPtRjRZPN33ZGE71bvSFRxzkCOrB5x2Bz
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(7416014)(376014)(10070799003)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?RsEOHz6cOvr61ub/jxNnNVotOrCIljo7elUReRA064caS/5whesT2J9KGG1W?=
- =?us-ascii?Q?0L4rUUrOsc6Ddsc0U9zeiJJ6LTVI5b1GVFb8eTU0+6LuW5h/yQgVUJr1EInh?=
- =?us-ascii?Q?h3qoiM4jWG/uDASftINhtbByfh3a6xoV/kg8gRbeKBjVV2gNyAry3SA5nj4N?=
- =?us-ascii?Q?KCjDY+RNqRFoI4CzsYBaA8Xtc3HoOPpWw4m7TCLeoVjN0SnCPZPUiHzUe0Ku?=
- =?us-ascii?Q?uEdZbRJoc0TSiSmy/v1wQ94hyS0eGVKAgbCemhE32p7jBBUgtIA0m8eTnakr?=
- =?us-ascii?Q?m0cP7Dg2Rgwdxn7Htvb29f2qN+h6gLjG+Z664xypN2PMh3YLasYwpaSw2/TU?=
- =?us-ascii?Q?bw5aX6pbPDj21gqqtcD307swHztnNZfL/1dTTTOyGSIk+QiGf5HJV3w0Mpry?=
- =?us-ascii?Q?JpJarUj9oRVOjrGtKp/vY9tpuo9YY3vnT8M3X+nfOsxTlKWyquIqkJPWpVmz?=
- =?us-ascii?Q?VOavSuUc4gC6hW7c9IcLsof89g+BkZd5zg5T5ERE7Ospd/knF6e9NLD5mTR7?=
- =?us-ascii?Q?jBOgYJoaUrf15GXhmW74pfE25hnfa9hP4J2aVQ5pwuTWEeN0LJqZRS39I129?=
- =?us-ascii?Q?3rIi4E5g5x4hDYkpoRt7001EdShWNGsyOkDcJ9H/+0syBS/du94bxvTKwLPH?=
- =?us-ascii?Q?Q4GnTHTU+7TxqRDrsv1QcAQIzI7jqQ3fT9B11Au82fQ8GuGLcpmBkRg+vut9?=
- =?us-ascii?Q?pH4YLzfQ95YVVl5v0/TYyT1S3CA/lQJ25Yqqug07H0lHJnmtxejGsraBekx5?=
- =?us-ascii?Q?y41Rcf2cbgkltnYu4p1dF0uMYh39FoeWXDtpN+ZIPtfJIwEcmcK2nptUQ4sW?=
- =?us-ascii?Q?3DzsXI4fwDver+dSZUKzoxLnMgBGix83Nz4yP3H591HzSGqCJq4Ahq6aoTwO?=
- =?us-ascii?Q?vdkKRgJFouBysTNrWXm3Dhzk4TnLnT9odECnZdpEQXPDPHJR3IP9bVK+zT1J?=
- =?us-ascii?Q?fLAVSpZnuQEMH5z5QzO/tQlLnYggNWfN/av4tmiEG5CnEop8o28JSu7G4Awa?=
- =?us-ascii?Q?up8YeGzW63waghEtGCWWKM/nzOeGz5zZpKi9SP/1pyp60N4GqqN22qQyhYzp?=
- =?us-ascii?Q?aCKS10hT18/N0yhdpk7jCf4i+yQ6DEEAq2pIERPpC84+uRhnZvl3ORsF/2K7?=
- =?us-ascii?Q?mWhMQBv5m16eu1/7qrqQY/YIG+HpoNDlyao1iUd1MlUjvKA9pYYsn0zBnzEr?=
- =?us-ascii?Q?r1/1FKCk64nnJ3XoYYg1n3aWkPPcrSSmZ/1bVrtxagz/tGXcS/mMFYMiVeag?=
- =?us-ascii?Q?wHnhQh64Gzqb3nJPvIkn36Fh08SWpSAziFlLTy0HZcxRbhHAkSGjGzUhuPYt?=
- =?us-ascii?Q?mGgO74dOzXOaE/PgSGHRsgx+VcvSa9fvXYMfTz4uqunO/H45oI6UyCu3J3ob?=
- =?us-ascii?Q?rYOgwDx7iyA4v/06pCB+/WSx3UQJn6x7h/Lbra8FvBlwTHLti7Tlf768GM91?=
- =?us-ascii?Q?zStbCV1u7IAwq7cFLKsf0tCdwLMzckOHhgor23phsP229u+/oB1kKARQWlsE?=
- =?us-ascii?Q?F4CeMARInjuQNYzC3iRUYHMZwA1WmAc34VPcgN/mRwZXJsRUKcY8Yf8fFdyL?=
- =?us-ascii?Q?1Gg/0tnWaNA7RjxqS5Tx9Ovad5xiHpTKJPEPofz6T7e0SU+svwcatycFidc/?=
- =?us-ascii?Q?HPIpeq7CsTfPh2qupxa/DBLR+lZiUAxA3J4I759eadMjgtywW2aXkJ9oQ5zX?=
- =?us-ascii?Q?7PG6hJ42ZnL1f97rlTIMOg5vJghuNVEfuxia/ORrTh1o5pTLCr87B8hulxXf?=
- =?us-ascii?Q?mpHVVmdt5W3ZcR65RWqjhzxD83ghUIQ56YzAk+fEVJPF4Vwe2/hEMHSwv46x?=
-X-MS-Exchange-AntiSpam-MessageData-1: qAbWhMSQ+tDz/g==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c875e1e-ca31-4828-710b-08dea9b2d44c
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2026 07:57:46.6958
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MKHLfxUQD4j6O1JnGXUiro3PKaKtFhDedU9fqi7AkBqWytZKCuHAp76HHMA+3Egs5mL1VqDhZ+adhJvqpx+FhQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11800
-X-Rspamd-Queue-Id: B1FD64B9D69
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPVz0n0YwUZ0TPSQV-Yb_4e7Di12ZWPVaKdde1v+7gHtWT1nuQ@mail.gmail.com>
+X-Rspamd-Queue-Id: 21E914B9FD6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60253-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60254-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.oltean@nxp.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,nxp.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,ti.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,kekkonen.localdomain:mid]
 
-Sashiko says:
-> commit e4f495a9118b40f8a77e8dc097821d2c846ed1fc
-> Author: Vladimir Oltean <vladimir.oltean@nxp.com>
-> 
-> PCI: Remove device links to PHY
-> This commit removes device links between the PCIe controllers and PHY
-> providers across several drivers, since the PHY core already creates consumer
-> device links.
-> 
-> > diff --git a/drivers/pci/controller/cadence/pcie-cadence-plat.c b/drivers/pci/controller/cadence/pcie-cadence-plat.c
-> > index b067a3296dd37..fc39c01b79648 100644
-> > --- a/drivers/pci/controller/cadence/pcie-cadence-plat.c
-> > +++ b/drivers/pci/controller/cadence/pcie-cadence-plat.c
-> [ ... ]
-> > @@ -122,9 +121,6 @@ static int cdns_plat_pcie_probe(struct platform_device *pdev)
-> >  	pm_runtime_put_sync(dev);
-> >  	pm_runtime_disable(dev);
-> >  	cdns_pcie_disable_phy(cdns_plat_pcie->pcie);
-> > -	phy_count = cdns_plat_pcie->pcie->phy_count;
-> > -	while (phy_count--)
-> > -		device_link_del(cdns_plat_pcie->pcie->link[phy_count]);
+On Mon, May 04, 2026 at 10:40:11AM +0300, Svyatoslav Ryhel wrote:
+> пн, 4 трав. 2026 р. о 09:36 Sakari Ailus <sakari.ailus@linux.intel.com> пише:
 > >
-> >  	return 0;
+> > Hi Svyatoslav,
+> >
+> > On Sun, May 03, 2026 at 07:44:43PM +0300, Svyatoslav Ryhel wrote:
+> > > Since there are no users of this driver via platform data, remove the
+> > > platform data support and switch to using Device Tree bindings.
+> > >
+> > > Converting to Device Tree assumes dynamic and independent registration of
+> > > LEDs. To monitor the configured LEDs, a bitmap has been added. This makes
+> > > LED cleanup more robust and less context dependent.
+> > >
+> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > ---
+> > >  drivers/media/i2c/lm3560.c | 143 ++++++++++++++++++++++++++-----------
+> > >  include/media/i2c/lm3560.h |  15 ----
+> > >  2 files changed, 102 insertions(+), 56 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
+> > > index 5b568ed9536b..ce4b09d1f208 100644
+> > > --- a/drivers/media/i2c/lm3560.c
+> > > +++ b/drivers/media/i2c/lm3560.c
+> > > @@ -9,11 +9,15 @@
+> > >   *                   Ldd-Mlp <ldd-mlp@list.ti.com>
+> > >   */
+> > >
+> > > +#include <linux/bitmap.h>
+> > >  #include <linux/delay.h>
+> > >  #include <linux/module.h>
+> > >  #include <linux/i2c.h>
+> > >  #include <linux/slab.h>
+> > > +#include <linux/mod_devicetable.h>
+> > >  #include <linux/mutex.h>
+> > > +#include <linux/of.h>
+> > > +#include <linux/property.h>
+> > >  #include <linux/regmap.h>
+> > >  #include <linux/videodev2.h>
+> > >  #include <media/i2c/lm3560.h>
+> > > @@ -43,22 +47,33 @@ enum led_enable {
+> > >   * struct lm3560_flash
+> > >   *
+> > >   * @dev: pointer to &struct device
+> > > - * @pdata: platform data
+> > >   * @regmap: reg. map for i2c
+> > >   * @lock: muxtex for serial access.
+> > >   * @led_mode: V4L2 LED mode
+> > >   * @ctrls_led: V4L2 controls
+> > >   * @subdev_led: V4L2 subdev
+> > > + * @led_id: LED status holder
+> > > + * @peak: peak current
+> > > + * @max_flash_timeout: flash timeout
+> > > + * @max_flash_brt: flash mode led brightness
+> > > + * @max_torch_brt: torch mode led brightness
+> > >   */
+> > >  struct lm3560_flash {
+> > >       struct device *dev;
+> > > -     struct lm3560_platform_data *pdata;
+> > >       struct regmap *regmap;
+> > >       struct mutex lock;
+> > >
+> > >       enum v4l2_flash_led_mode led_mode;
+> > >       struct v4l2_ctrl_handler ctrls_led[LM3560_LED_MAX];
+> > >       struct v4l2_subdev subdev_led[LM3560_LED_MAX];
+> > > +
+> > > +     DECLARE_BITMAP(led_id, LM3560_LED_MAX);
+> > > +
+> > > +     enum lm3560_peak_current peak;
+> > > +     u32 max_flash_timeout;
+> > > +
+> > > +     u32 max_flash_brt[LM3560_LED_MAX];
+> > > +     u32 max_torch_brt[LM3560_LED_MAX];
+> > >  };
+> > >
+> > >  #define to_lm3560_flash(_ctrl, _no)  \
+> > > @@ -269,8 +284,8 @@ static int lm3560_init_controls(struct lm3560_flash *flash,
+> > >                               enum lm3560_led_id led_no)
+> > >  {
+> > >       struct v4l2_ctrl *fault;
+> > > -     u32 max_flash_brt = flash->pdata->max_flash_brt[led_no];
+> > > -     u32 max_torch_brt = flash->pdata->max_torch_brt[led_no];
+> > > +     u32 max_flash_brt = flash->max_flash_brt[led_no];
+> > > +     u32 max_torch_brt = flash->max_torch_brt[led_no];
+> > >       struct v4l2_ctrl_handler *hdl = &flash->ctrls_led[led_no];
+> > >       const struct v4l2_ctrl_ops *ops = &lm3560_led_ctrl_ops[led_no];
+> > >
+> > > @@ -295,9 +310,9 @@ static int lm3560_init_controls(struct lm3560_flash *flash,
+> > >       /* flash strobe timeout */
+> > >       v4l2_ctrl_new_std(hdl, ops, V4L2_CID_FLASH_TIMEOUT,
+> > >                         LM3560_FLASH_TOUT_MIN,
+> > > -                       flash->pdata->max_flash_timeout,
+> > > +                       flash->max_flash_timeout,
+> > >                         LM3560_FLASH_TOUT_STEP,
+> > > -                       flash->pdata->max_flash_timeout);
+> > > +                       flash->max_flash_timeout);
+> > >
+> > >       /* flash brt */
+> > >       v4l2_ctrl_new_std(hdl, ops, V4L2_CID_FLASH_INTENSITY,
+> > > @@ -339,15 +354,18 @@ static const struct regmap_config lm3560_regmap = {
+> > >  };
+> > >
+> > >  static int lm3560_subdev_init(struct lm3560_flash *flash,
+> > > -                           enum lm3560_led_id led_no, char *led_name)
+> > > +                           enum lm3560_led_id led_no,
+> > > +                           struct device_node *np)
+> > >  {
+> > >       struct i2c_client *client = to_i2c_client(flash->dev);
+> > >       int rval;
+> > >
+> > >       v4l2_i2c_subdev_init(&flash->subdev_led[led_no], client, &lm3560_ops);
+> > >       flash->subdev_led[led_no].flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > > -     strscpy(flash->subdev_led[led_no].name, led_name,
+> > > -             sizeof(flash->subdev_led[led_no].name));
+> > > +     snprintf(flash->subdev_led[led_no].name,
+> > > +              sizeof(flash->subdev_led[led_no].name),
+> > > +              "lm3560-led%d", led_no);
+> > > +     flash->subdev_led[led_no].fwnode = of_fwnode_handle(np);
+> > >       rval = lm3560_init_controls(flash, led_no);
+> > >       if (rval)
+> > >               goto err_out;
+> > > @@ -378,7 +396,7 @@ static int lm3560_init_device(struct lm3560_flash *flash)
+> > >
+> > >       /* set peak current */
+> > >       rval = regmap_update_bits(flash->regmap,
+> > > -                               REG_FLASH_TOUT, 0x60, flash->pdata->peak);
+> > > +                               REG_FLASH_TOUT, 0x60, flash->peak);
+> > >       if (rval < 0)
+> > >               return rval;
+> > >       /* output disable */
+> > > @@ -391,18 +409,22 @@ static int lm3560_init_device(struct lm3560_flash *flash)
+> > >       return rval;
+> > >  }
+> > >
+> > > -static void lm3560_subdev_cleanup(struct lm3560_flash *flash,
+> > > -                               enum lm3560_led_id led_no)
+> > > +static void lm3560_subdev_cleanup(struct lm3560_flash *flash)
+> > >  {
+> > > -     v4l2_async_unregister_subdev(&flash->subdev_led[led_no]);
+> > > -     v4l2_ctrl_handler_free(&flash->ctrls_led[led_no]);
+> > > -     media_entity_cleanup(&flash->subdev_led[led_no].entity);
+> > > +     int led_no;
+> > > +
+> > > +     for_each_set_bit(led_no, flash->led_id, LM3560_LED_MAX) {
+> > > +             v4l2_async_unregister_subdev(&flash->subdev_led[led_no]);
+> > > +             v4l2_ctrl_handler_free(&flash->ctrls_led[led_no]);
+> > > +             media_entity_cleanup(&flash->subdev_led[led_no].entity);
+> > > +     }
+> > >  }
+> > >
+> > >  static int lm3560_probe(struct i2c_client *client)
+> > >  {
+> > >       struct lm3560_flash *flash;
+> > > -     struct lm3560_platform_data *pdata = dev_get_platdata(&client->dev);
+> > > +     struct device_node *node;
+> > > +     u32 peak_ua;
+> > >       int rval;
+> > >
+> > >       flash = devm_kzalloc(&client->dev, sizeof(*flash), GFP_KERNEL);
+> > > @@ -415,36 +437,69 @@ static int lm3560_probe(struct i2c_client *client)
+> > >               return rval;
+> > >       }
+> > >
+> > > -     /* if there is no platform data, use chip default value */
+> > > -     if (pdata == NULL) {
+> > > -             pdata = devm_kzalloc(&client->dev, sizeof(*pdata), GFP_KERNEL);
+> > > -             if (pdata == NULL)
+> > > -                     return -ENODEV;
+> > > -             pdata->peak = LM3560_PEAK_3600mA;
+> > > -             pdata->max_flash_timeout = LM3560_FLASH_TOUT_MAX;
+> > > -             /* led 1 */
+> > > -             pdata->max_flash_brt[LM3560_LED0] = LM3560_FLASH_BRT_MAX;
+> > > -             pdata->max_torch_brt[LM3560_LED0] = LM3560_TORCH_BRT_MAX;
+> > > -             /* led 2 */
+> > > -             pdata->max_flash_brt[LM3560_LED1] = LM3560_FLASH_BRT_MAX;
+> > > -             pdata->max_torch_brt[LM3560_LED1] = LM3560_TORCH_BRT_MAX;
+> > > -     }
+> > > -     flash->pdata = pdata;
+> > >       flash->dev = &client->dev;
+> > >       mutex_init(&flash->lock);
+> > >
+> > > +     bitmap_zero(flash->led_id, LM3560_LED_MAX);
+> > > +
+> > > +     flash->peak = LM3560_PEAK_1600mA;
+> > > +     rval = device_property_read_u32(flash->dev,
+> > > +                                     "ti,peak-current-microamp", &peak_ua);
+> > > +     if (!rval) {
+> > > +             switch (peak_ua) {
+> > > +             case 1600000:
+> > > +                     flash->peak = LM3560_PEAK_1600mA;
+> > > +                     break;
+> > > +             case 2300000:
+> > > +                     flash->peak = LM3560_PEAK_2300mA;
+> > > +                     break;
+> > > +             case 3000000:
+> > > +                     flash->peak = LM3560_PEAK_3000mA;
+> > > +                     break;
+> > > +             case 3600000:
+> > > +                     flash->peak = LM3560_PEAK_3600mA;
+> > > +                     break;
+> > > +             default:
+> > > +                     return -EINVAL;
+> > > +             }
+> > > +     }
+> > > +
+> > > +     flash->max_flash_timeout = LM3560_FLASH_TOUT_MIN * 1000;
+> > > +     device_property_read_u32(flash->dev, "flash-max-timeout-us",
+> > > +                              &flash->max_flash_timeout);
+> > > +     flash->max_flash_timeout /= 1000;
+> > > +
+> > >       rval = lm3560_init_device(flash);
+> > >       if (rval < 0)
+> > >               return rval;
+> > >
+> > > -     rval = lm3560_subdev_init(flash, LM3560_LED0, "lm3560-led0");
+> > > -     if (rval < 0)
+> > > -             return rval;
+> > > +     for_each_available_child_of_node(dev_of_node(flash->dev), node) {
+> >
+> > device_for_each_child_node(), please.
+> >
+> > > +             u32 reg;
+> > >
+> > > -     rval = lm3560_subdev_init(flash, LM3560_LED1, "lm3560-led1");
+> > > -     if (rval < 0) {
+> > > -             lm3560_subdev_cleanup(flash, LM3560_LED0);
+> > > -             return rval;
+> > > +             rval = of_property_read_u32(node, "reg", &reg);
+> >
+> > device_property_read_u32() here and elsewhere.
+> >
 > 
-> This isn't a bug introduced by your patch, but I noticed the error path in
-> cdns_plat_pcie_probe() returns 0.
-> Does this cause the driver core to consider the probe successful even when
-> host or endpoint setup steps fail? It looks like the device would be left
-> in an uninitialized and disabled state while still being bound to the driver.
-> Should this return ret instead?
-> 
+> I have switched to OF equivalent deliberately because if I use
+> device_for_each_child_node I found no sane way to pass fwnode to
+> subdev_led since device_for_each_child_node releases fwnode handle it
+> uses and I cannot assign it to subdev_led.fwnode since it will result
+> in NULL pointer on loop exit
 
-The condition does not appear intentional. Commit bd22885aa188 ("PCI:
-cadence: Refactor driver to use as a core library") changed
-cdns_pcie_host_probe() which properly returned ret on error with
-cdns_plat_pcie_probe() which doesn't.
+device_for_each_child_node() is indeed meant the be functionally equivalent
+to for_each_available_child_of_node().
 
-I will add a preparatory patch which replaces "return 0" with "return ret"
-in cdns_plat_pcie_probe(), blaming that commit.
+If you need to hold a reference to the child node -- as I think you do --
+you'll need to call fwnode_handle_get() on it, as you'd call of_node_get()
+on OF API.
 
-> >  }
-> > diff --git a/drivers/pci/controller/dwc/pci-dra7xx.c b/drivers/pci/controller/dwc/pci-dra7xx.c
-> > index cd904659c3216..9c1aef4d0bd1c 100644
-> > --- a/drivers/pci/controller/dwc/pci-dra7xx.c
-> > +++ b/drivers/pci/controller/dwc/pci-dra7xx.c
-> [ ... ]
-> > @@ -852,10 +840,6 @@ static int dra7xx_pcie_probe(struct platform_device *pdev)
-> >  	pm_runtime_disable(dev);
-> >  	dra7xx_pcie_disable_phy(dra7xx);
-> >
-> > -err_link:
-> > -	while (--i >= 0)
-> > -		device_link_del(link[i]);
-> > -
-> >  	return ret;
-> >  }
 > 
-> This isn't a bug introduced by your changes, but looking closely at the error
-> path right above this hunk, there is a call to pm_runtime_put(dev) immediately
-> followed by pm_runtime_disable(dev):
-> err_gpio:
-> err_get_sync:
-> 	pm_runtime_put(dev);
-> 	pm_runtime_disable(dev);
-> Does this sequence create a power management race condition? The pending
-> asynchronous idle/suspend work can be abruptly cancelled by
-> pm_runtime_disable(), leaving the hardware in an incorrect or unpredictable
-> power state.
-> Should this use pm_runtime_put_sync() instead?
-> 
-> > diff --git a/drivers/pci/controller/dwc/pci-keystone.c b/drivers/pci/controller/dwc/pci-keystone.c
-> > index fe4836925c4e3..cab9fad212add 100644
-> > --- a/drivers/pci/controller/dwc/pci-keystone.c
-> > +++ b/drivers/pci/controller/dwc/pci-keystone.c
-> [ ... ]
-> > @@ -1337,25 +1321,18 @@ static int ks_pcie_probe(struct platform_device *pdev)
-> >  	pm_runtime_disable(dev);
-> >  	ks_pcie_disable_phy(ks_pcie);
+> > > +             if (rval < 0)
+> > > +                     /* We care only about nodes with reg property */
+> > > +                     continue;
+> > > +
+> > > +             if (reg == LM3560_LED0 || reg == LM3560_LED1) {
+> > > +                     flash->max_flash_brt[reg] = LM3560_FLASH_BRT_MIN;
+> > > +                     of_property_read_u32(node, "flash-max-microamp",
+> > > +                                          &flash->max_flash_brt[reg]);
+> > > +
+> > > +                     flash->max_torch_brt[reg] = LM3560_TORCH_BRT_MIN;
+> > > +                     of_property_read_u32(node, "led-max-microamp",
+> > > +                                          &flash->max_torch_brt[reg]);
+> > > +
+> > > +                     rval = lm3560_subdev_init(flash, reg, node);
+> > > +                     if (rval < 0) {
+> > > +                             lm3560_subdev_cleanup(flash);
+> > > +                             return dev_err_probe(flash->dev, rval,
+> > > +                                                 "failed to register led%d\n",
+> > > +                                                 reg);
+> > > +                     }
+> > > +
+> > > +                     set_bit(reg, flash->led_id);
+> > > +             }
+> > >       }
+> > >
+> > >       i2c_set_clientdata(client, flash);
+> > > @@ -455,12 +510,17 @@ static int lm3560_probe(struct i2c_client *client)
+> > >  static void lm3560_remove(struct i2c_client *client)
+> > >  {
+> > >       struct lm3560_flash *flash = i2c_get_clientdata(client);
+> > > -     unsigned int i;
+> > >
+> > > -     for (i = LM3560_LED0; i < LM3560_LED_MAX; i++)
+> > > -             lm3560_subdev_cleanup(flash, i);
+> > > +     lm3560_subdev_cleanup(flash);
+> > >  }
+> > >
+> > > +static const struct of_device_id lm3560_of_match[] = {
+> > > +     { .compatible = "ti,lm3559" },
+> > > +     { .compatible = "ti,lm3560" },
+> > > +     { }
+> > > +};
+> > > +MODULE_DEVICE_TABLE(of, lm3560_of_match);
+> > > +
+> > >  static const struct i2c_device_id lm3560_id_table[] = {
+> > >       { LM3559_NAME },
+> > >       { LM3560_NAME },
+> > > @@ -473,6 +533,7 @@ static struct i2c_driver lm3560_i2c_driver = {
+> > >       .driver = {
+> > >                  .name = LM3560_NAME,
+> > >                  .pm = NULL,
+> > > +                .of_match_table = lm3560_of_match,
+> > >                  },
+> > >       .probe = lm3560_probe,
+> > >       .remove = lm3560_remove,
+> > > diff --git a/include/media/i2c/lm3560.h b/include/media/i2c/lm3560.h
+> > > index 770d8c72c94a..b56c1ff8fd49 100644
+> > > --- a/include/media/i2c/lm3560.h
+> > > +++ b/include/media/i2c/lm3560.h
+> > > @@ -66,19 +66,4 @@ enum lm3560_peak_current {
+> > >       LM3560_PEAK_3600mA = 0x60
+> > >  };
+> > >
+> > > -/* struct lm3560_platform_data
+> > > - *
+> > > - * @peak :  peak current
+> > > - * @max_flash_timeout: flash timeout
+> > > - * @max_flash_brt: flash mode led brightness
+> > > - * @max_torch_brt: torch mode led brightness
+> > > - */
+> > > -struct lm3560_platform_data {
+> > > -     enum lm3560_peak_current peak;
+> > > -
+> > > -     u32 max_flash_timeout;
+> > > -     u32 max_flash_brt[LM3560_LED_MAX];
+> > > -     u32 max_torch_brt[LM3560_LED_MAX];
+> > > -};
+> > > -
+> > >  #endif /* __LM3560_H__ */
 > >
-> > -err_link:
-> > -	while (--i >= 0 && link[i])
-> > -		device_link_del(link[i]);
-> > -
-> > +err:
-> >  	return ret;
-> >  }
+> > --
+> > Kind regards,
 > >
-> >  static void ks_pcie_remove(struct platform_device *pdev)
-> >  {
-> >  	struct keystone_pcie *ks_pcie = platform_get_drvdata(pdev);
-> > -	struct device_link **link = ks_pcie->link;
-> > -	int num_lanes = ks_pcie->num_lanes;
-> >  	struct device *dev = &pdev->dev;
-> >
-> >  	pm_runtime_put(dev);
-> >  	pm_runtime_disable(dev);
-> 
-> Similar to the question above, is it possible this asynchronous put causes
-> a race when immediately followed by pm_runtime_disable() during removal?
-> 
-> >  	ks_pcie_disable_phy(ks_pcie);
-> > -	while (num_lanes--)
-> > -		device_link_del(link[num_lanes]);
-> >  }
+> > Sakari Ailus
 
-It seems plausible that the pm_runtime_put() -> pm_runtime_disable()
-pattern is ineffective, i.e. one of two things can happen: either
-pm_runtime_put() runs to completion by chance, or pm_runtime_disable()
-cancels it. However I am not very familiar with the runtime PM API and
-its effects, and unless a maintainer tells me to, I would prefer leaving
-these code paths alone.
+-- 
+Sakari Ailus
 
