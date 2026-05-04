@@ -1,531 +1,223 @@
-Return-Path: <linux-media+bounces-60277-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60278-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YFmYAxmI+GkZwQIAu9opvQ
-	(envelope-from <linux-media+bounces-60277-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 13:50:49 +0200
+	id AImiOFiI+GkZwQIAu9opvQ
+	(envelope-from <linux-media+bounces-60278-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 13:51:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6306E4BCA15
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 13:50:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 538224BCA3A
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 13:51:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3FC4C3033A9E
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 11:48:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0F82B302BE99
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 11:50:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9177A3C1991;
-	Mon,  4 May 2026 11:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 959183C13FE;
+	Mon,  4 May 2026 11:50:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="dYbtJvg7"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="bZ/guL58"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012007.outbound.protection.outlook.com [52.101.66.7])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010020.outbound.protection.outlook.com [52.101.69.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17AD212FAD;
-	Mon,  4 May 2026 11:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57F531E84A;
+	Mon,  4 May 2026 11:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.20
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777895318; cv=fail; b=o8/XzwYye3d7+sHsOBbEy+3Fk7ypN3qw962rhv4n8WCkNEEWie6kqQPw6QwW+E+4ToyV+JUsMm4dowNAp5q2bMyMI5f3Q7XqG+PRxve/M5Gmdm6s3Qo2ODU+H3a8hzEqlyNJ6/9C3SIeFqyw0JOm0OWWSF5ajxKwDNd12ht/VP0=
+	t=1777895411; cv=fail; b=qKJoZynarh3LrWxMGiDth6DtuD7i5jDJd6+jbsTTxLIoj8KxcpdwYQY7zESuMEhJ/aZoz0b5YWtIvkbc795x3QblMmKFBrsKXjxCqGNFNjHGEY8iyIWnxjkdAZ+KQ3OXp1pZxIirSDaq9uohBM+mT6zWeOLp1pFiL9nK6+/Z5uI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777895318; c=relaxed/simple;
-	bh=0z0usvvJxmIeP0lSVniP1a86lhKtOVSjXfvDBLv1V4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=niPo/JmrbfmIAVwLgNfmagRz4pRtH13Q9FGq0/fKAo6Bt/6xmYYeIi6MRBvFBWwsFunLTVXQgsARJyUZwjIrVe/VQ9jlXF/S+4DbRtAR0pi78G1162WHqwfTFoopzbzZ2+Wk6O/m48k8YhEbw4BxjUQtDzwCX+w4AHa9LGbJRRs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=dYbtJvg7; arc=fail smtp.client-ip=52.101.66.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	s=arc-20240116; t=1777895411; c=relaxed/simple;
+	bh=cbZQ9EedmcGO9TVIU0Ur9GmKJED1OSy0sEbFwkVzGpI=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VIlASKQC5qajWCjhgZDY+TdNRuYPTMihj4nokFwT1DkU+No05YxehNXPdMhXbghcSYLkLjmU1XWzOpD1MEJuVjp+r7y9SmYWhBRzd7UxWA/wWJdr4d+zG53+cGZ0oz9L1DePT2shAXn0PdqPAoCmBF9JCEJZMNNajWnyXjstvjA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=bZ/guL58; arc=fail smtp.client-ip=52.101.69.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bQJulNwV79eiJkukHZtU177gTLEEzbXtSPnDwgYMvyne3+Mh8AQXCXx1dwJyVFeAcqpdKJ537BAq1bVtfJQkeiXQkbu5+yaGzI3cRfztQE0MVDPFa1gaNHRfFmp0E8WBnE1X6QVkBfcy8LdkcEBm388ADdHtB+g706Hz2ZyF5XCrjM5eF5O9lvEFLYaDCbHzPVcJFWtm5AnMmuK6eT3/GE9rlKPDnS6jJ6r+elcHDAZMO0OjIddJp7dPVKikPDK6jLndrGP9OwUgcjyvYNF/JPQ2XV4FdZiXKoVmfv/ahXiHXIUneSSdMyEuydzsgRRcHM+9hjjNL/BRNyloB484tQ==
+ b=vIrhhXvKkrYMrkKto5TCceaZS1eepRBLPp+Op322zREXKl60BtB0unR9pT0Hsq6pm7T8haN3fruDS58a5l4DbK7BukiupxZIaGmAJr0bNy92zmcEb5J/+3Gz1/y4tYPXsfXZvIsREpWl/sGqNv0HHjvDOh74bwn4DlnJCYzhrlGCXGL0dm2VSXNPKRG0P4q0jf3sGpPhDXnoZcMg3fpufI8xhZ8qZKlfbIybfwWGWnH6svwD2TJzkfWvVgrBB1xwpzvBRNktWAIds07mS+FSy3DYJGQZ5bD8Mo6ATfPcyngoiFuNbQYa+WeDXw0O9xqMARCDxXY5YCRpvm+2unOevg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kuJ5TrsI/7xa0NUQqdrHUy+n3N/zC1iSMjSRl4BbBNs=;
- b=uWmBYV8wL6vN/aaTb0heieb4Ntd7G3A9WXZUtaa2ueos5GMMffFcCCed8F75DOG1v6usXYwOyt/s8WZvpWz5Uo2IzhZPBR4cNWU7vrolT4esPg4L4Mv9J9bsVyCaoKSyQyIgLTvc9n/dB+lnN7x99bNKSjJ9pkueDeAHJeT/EL/++61MVyBW7ZfjCaWUYsxKYBmTht09rBt9eMiI5m/SO77TBef7PsNKPmtNvyYtRnFJRF9Qktj0S2kdz8WDHHEfLecKIZFrGnUaDmppwP/tp2tvXNgN1H6yFbzI61V5exyFXqP/714DSpW0Xs9wpJR/rSXTRlWOcBZ5X6988rec/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ bh=zcoNVnqpoRp4lUINw02TRaJLlaizuUuGQxPscEfzY9I=;
+ b=j8TRYdrmYCgEkwxBw9/YbeNNSedZavopgukdSvxF+o2foX9KLRYemzcRHehlM6j128BzGWHhgXIqoc79C8fzcD0ODj+ar60Kr4BwjLPnRzFFJEdsZPLq6v4adsPJRVCcRy5IJBZK9kPBcL57G2QYlHkNuog7vWxNkGzIKZP5xZPZUkGEA1FH2op+893IJnYEyss1O9Jm1waL+YF9moYcWc2quSyHvRv89ULkDzZQA3MsxcOMpXFcCg2p3J+U/fDjIrycB5yKUV8gLMCPHbn15RgpalsVDfMeHValavbcD88Z3a6/tvP3tGR1gxNIoS73Gm8G7zXVULSgu4RH50pNpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.60) smtp.rcpttodomain=kernel.org smtp.mailfrom=foss.st.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kuJ5TrsI/7xa0NUQqdrHUy+n3N/zC1iSMjSRl4BbBNs=;
- b=dYbtJvg77mI8SWmWDrlL7pWGMAg96UvtIle1GKLgLMaNYc3UfmEaCPrVKCq5qOJ/pW6UXWZQTLwUhJNCd6eXodFZ0hnAHvGjXUOHg+jhnmsV45U7qU3L2QqpsP1GHw+mc4judm1guQy3i4SD7Ef/36Twlp1eZLQSgZ4gPN9J1CGoPq1C9L1ZnHaCqIp3lgKpqe+/sVGwQk3N11VtwkptDylaoCqCEHrNYj/c97b57icmY4SG/oH9xfG/SxC/yYz710AsBixGJkQP2H+r5dGBdKiqTAv/PV9VU1GfEPcLBIbUA0Sy35hnNEZOwN1bw+gHNaLtWKOGV8sMHbEKpET6xA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
- by VI2PR04MB10286.eurprd04.prod.outlook.com (2603:10a6:800:21e::13) with
+ bh=zcoNVnqpoRp4lUINw02TRaJLlaizuUuGQxPscEfzY9I=;
+ b=bZ/guL58MjRyRZst7TzOVvPn61mVOpBMCKqCDwiJA25ZGY651ZE/Vqtuvlryw57HbpRvCG5lF4y62ObFlgUfCkwgZp6tDMEOdhl9D8EAeaWT/yfAFrahEI0HQAOmjKugLf3//MTtkxE4dlo0XTens+rtIUKJCHDTVGfDCTZhGD6ZoRsJcDNkMrdXoI5JvmKaK0fMyvnXbHuBku2EH2zoTXIldVjcgUEpywwEsmQJPFup8Xd3r0GHGuivrNhfTgbDWf9n2CF3CYIuk3LsWYI1yxClWxaveKssVKlhHcJx+9+/b9LLY04Q9RW1qKwdyLjBBCp4ee+Olhm6jvJLUfnPNg==
+Received: from CWLP123CA0172.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:19b::7)
+ by AMBPR10MB9925.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:75e::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Mon, 4 May
- 2026 11:48:32 +0000
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9870.023; Mon, 4 May 2026
- 11:48:32 +0000
-Date: Mon, 4 May 2026 14:48:28 +0300
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
-	Bart Van Assche <bvanassche@acm.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Chanho Park <chanho61.park@samsung.com>
-Subject: Re: [PATCH v7 phy-next 09/27] scsi: ufs: exynos: stop poking into
- struct phy guts
-Message-ID: <20260504114828.n7r7kujaegusdkbw@skbuf>
-References: <20260430110652.558622-1-vladimir.oltean@nxp.com>
- <20260430110652.558622-10-vladimir.oltean@nxp.com>
-Content-Type: multipart/mixed; boundary="oquvkzttypru676v"
-Content-Disposition: inline
-In-Reply-To: <20260430110652.558622-10-vladimir.oltean@nxp.com>
-X-ClientProxiedBy: VIXP296CA0008.AUTP296.PROD.OUTLOOK.COM
- (2603:10a6:800:2a9::7) To AM9PR04MB8585.eurprd04.prod.outlook.com
- (2603:10a6:20b:438::13)
+ 2026 11:50:03 +0000
+Received: from AM3PEPF0000A79B.eurprd04.prod.outlook.com
+ (2603:10a6:400:19b:cafe::f) by CWLP123CA0172.outlook.office365.com
+ (2603:10a6:400:19b::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.25 via Frontend Transport; Mon,
+ 4 May 2026 11:50:03 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.60)
+ smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.60; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.60) by
+ AM3PEPF0000A79B.mail.protection.outlook.com (10.167.16.106) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9891.9 via Frontend Transport; Mon, 4 May 2026 11:50:03 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
+ (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Mon, 4 May
+ 2026 13:53:19 +0200
+Received: from gnbcxd0016.gnb.st.com (10.130.77.119) by STKDAG1NODE2.st.com
+ (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Mon, 4 May
+ 2026 13:50:02 +0200
+Date: Mon, 4 May 2026 13:49:53 +0200
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: Hugues Fruchet <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, "Alexandre
+ Torgue" <alexandre.torgue@foss.st.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH 00/13] media: stm32: dcmipp: add support for MP2x pixel
+ pipes
+Message-ID: <afiH4cNyG_vb2Dwf@gnbcxd0016.gnb.st.com>
+References: <20260202-stm32-dcmipp-pixel-pipes-support-v1-0-8d8d51f5e014@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260202-stm32-dcmipp-pixel-pipes-support-v1-0-8d8d51f5e014@foss.st.com>
+X-Disclaimer: ce message est personnel / this message is private
+X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To STKDAG1NODE2.st.com
+ (10.75.128.133)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|VI2PR04MB10286:EE_
-X-MS-Office365-Filtering-Correlation-Id: fad5a451-f99b-4b4e-5a49-08dea9d310da
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-TrafficTypeDiagnostic: AM3PEPF0000A79B:EE_|AMBPR10MB9925:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2dd2bb67-7975-48bf-913f-08dea9d3478c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|6049299003|19092799006|7416014|376014|10070799003|1800799024|4053099003|56012099003|18002099003|22082099003;
+	BCL:0;ARA:13230040|82310400026|30052699003|1800799024|36860700016|7416014|376014|18002099003|22082099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
- qDLPZu5qYj9KN27LUIv3EUhwOORB6LjoJgGq88OqyxSbx4QbMN6GWl4xaxhh7CBm6Paj9Nb3+Fb0q6S8UhgFEti0SUMIINjAafDJWeUWD9OPiVrlPEeFeLW7IRyshjpySWcoFlTOLOXGA6jTmV8r9Ri4YOBI9hP060w0ViigKdG0vp9owYHWlpRQ3/fPWwpPfK3CrmUr+ZwmfrTE+OduX3EjD3fVoV7y5nJZ4H5jgAMN9YikY0LCVj87hKi5gqoiEdcs4STC9WZEHeOuUA9uuqGcYgYmIH6Xc6CP2E7NFo/t+5TXCSEfTtnx0MS1mf3Jm2WZrd9vySsMe6mWHJBwoFC2HebuAWSEvSF57fbSp/HdDSiD0Lm9q54Irea2rnSwUItMSJMFz4xt68ZGiayi+a/qHWF7Pa2kRUMaLkoZe2doMtXvSuWRYpH2IDOL6zb/6sMwSWUXjESKQNciEcCyqjQZwfFNOdeWVoB8S523MMUvqOBRvqrQcAjvj3RnN5EGeDHh/5+1AzA5Qiuppwa7Omge/+17eAjJUGKkvwNkuJzEz5etCinwDvwJo2kyXS0cSxrw/PnozTkX6xtaVb16u6LQwDKypVszkDZJza17dx++i09FW4qClFDT2zaHPO+L/J3M/dp8ILU+ANb/MThLmMu7a0OZWp4Cp11PqVuIyGG6iMrKUxxz4Ez+8nbyKELh
+	QrHujKkZgm0W5OvoBExyjsKiK8GOHgGT00Y4QX4wS3Bjr2Z5/Jks9U9GIWiFlTmWFbWlKz95yWWLoP8/f/EcW80jQU5AMFG++b8d0bPhBftSh67xCylqlB2wl6JA3TP1QQZf3iY8fJSjJM+8681DT67uchxyDiW+H//VsFcIPzmvja1P8vLnaMUgsQXXyn4GuKjR64821sK0qHZGEfiQzGgNzB3Jj/s0IyzrtIj42w3JenRwCTr6E2CRmjlqhL/hOFGCVnrrek8LSq1LvHydr96SwxyHCB5gDzu11nqYFyuH0NKfVut8GK1FiEhSMN8d7Wh7LxgQnr9TlrXP3ayyai6HUWU5XgRikDFmA9MZ2OPEeBIYliRpQ/D3cLXZall5uxX/DuLnt9ZssrS0KfnxiCdywZrjueAJC47LGgrs1a8oSONDv5BV0I+7v2X/Q10XTTsOH7vl+gDtCUKR49ugAghwWUhbAXFmAdsmkG2dwm27XShbo/P8Sx9AtgLBQcswi6piSDoX+GhjlvhX/sjZfWjQB6bzxI7RsZuv1NbobTme6mMxL/zzLFV4spmX+jb9qh/nfcyp64WDKO4+5Jpe9cUqkVSFq91W62n31E9vxUJxHLvEOyoOX03Iiu4xqBi5mzFK5wPLY4GISz/IVGCIpWU7VXHE7dIBCgxWRZ6xUfL0XQGfgY2V5Z2aMOwvnbCaDeNaw2sHLh66qVP+Es9NramS/bJIeXEnhouksRF7XZE=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(6049299003)(19092799006)(7416014)(376014)(10070799003)(1800799024)(4053099003)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(30052699003)(1800799024)(36860700016)(7416014)(376014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?b+vjs4nLpKCTHK7OBy8RtNuxJBaaLoShYtumy2aCVMblYmFrZR86GQUXpSK6?=
- =?us-ascii?Q?oepI6W2vxB8SANoZEkfaWJcwYFznGh3Kom6KmvFkPXhQnsAJyyG9i4YXt6Nq?=
- =?us-ascii?Q?H4eheO3rSp2c/XcceJJMWETW3qOppAAa87+4exocQPiKkmo6EG9Dtl2Ap4iG?=
- =?us-ascii?Q?QTSR5XHeOaphAHzwNbeq2dBObQh2aiM9vbtSvmDdHBYkz8zxVSdgxmXkbEQ6?=
- =?us-ascii?Q?9Wn63hI2PBL+dHzHMqn3xET61VSq63SElL8bctKPNFg1n2RJz2+KSONlGiIo?=
- =?us-ascii?Q?kpM6k+QoDqqIQw5DqMEpeg3hIkinVNDZEOwsFpqPlAObq9/KSRrBBIWNlD5e?=
- =?us-ascii?Q?/ymSAT9uUjVL6fsIy/qT8B+7d91L2uNyDeNxI3F9MARXODDF0xsZ4fnVOJ8V?=
- =?us-ascii?Q?jsUwMLLrmxB28Vcu5ZSAlmkCrW7QLnEFAKTb/dF0BRoh6fMBMACMHp/TVFM3?=
- =?us-ascii?Q?WC+Sxw3PFtHLNw9/DA43E47HY2gUv2T5pVwsk48CqZjBnd7QZVPlewf8ezw7?=
- =?us-ascii?Q?iov1MplVQc2xgtTOnbT425h0UBUzaVW0WWnbwc5Pa0lQDbOazNqhxU/ha0UM?=
- =?us-ascii?Q?imlUpbK7NPmZYv/p9mQXW+uQiVaT94AFeE0Mz2ZkZKeJqJbZnI3ZcYJ77w2B?=
- =?us-ascii?Q?pGm7J26qYV2KtPekkjSHAz+v79JyEn+V1PbzJFdZc2vaiAh+tcmWdG/6066p?=
- =?us-ascii?Q?chBIdIkiexDzS1SxRQzkMZelQIUAH54/ZF7SJOd4mWQmABasusKuLF2zmXrI?=
- =?us-ascii?Q?ivBquIRIIRE3pKLQBaYaGxTU+HeiZzN9DknUbUglEYFLGOMeEOnTz3DzdAl2?=
- =?us-ascii?Q?CYH/Cd9JBo4iiDQ+9mywmQNKV1kz5mDAKh3u4StYUPXJac2m6iZP6qWup8o2?=
- =?us-ascii?Q?lI2rlbxGekw4lqz0Q2agXYCrbsJwrjh9BWh1RhFG1bgH2Ra3upFgxSFYU+PM?=
- =?us-ascii?Q?UDQoORL7wdHFEGIxukdtX7kIsr8cfRoYVpKupKwXOR6u3/SYQS9oW9ceJVJe?=
- =?us-ascii?Q?QpEZFHQlA4UpOX7eUu9iFrVwFTNIFaJ0VxZQXB2Q6SSBUkbhmpZRlEal0Dff?=
- =?us-ascii?Q?VtHJZH2SnaXnVAc1Rl1LmBimecCaaRwuZEpX19UvE5T575uX7/xmxL2ufTaf?=
- =?us-ascii?Q?pydJBEyiayWk2nJ8FGEwVsJUUwTu+FEXFJXYHRlH2uQQG9JtRPI3oGhX8iF1?=
- =?us-ascii?Q?AWNsvlmlc91oCSzaLRziIxFVXIkwhdTANxxEOkBcSbeOOBq4zyv+iRyi+eJ1?=
- =?us-ascii?Q?69F092bXIedwiwJmbBErphD3pJQmdRLPgjOiE6c71m84kHFPX8IYVLXOC0bb?=
- =?us-ascii?Q?cUvwfcYoN7HNS+eQQsfn3ugl5y1et5fCagCoN7eu7y1VgLrRDOEzO5hFwqRg?=
- =?us-ascii?Q?NmSbNCDXn7PCT9v+xwy8wX2TnGG+Y2jhh6k6KnLhh090Y3pdy4xA02iwGvcH?=
- =?us-ascii?Q?SXwWQ+Jchp1vOBpe091eSo6khn84VTZci0nSN7RmtoamNSsV3+mb7HZLf2Qm?=
- =?us-ascii?Q?PPSCAgQfySin78HBVuaCJwsQC+saeTnat3ZNB121ZMrfYtItvBqGO8qMe9xz?=
- =?us-ascii?Q?EzjOtmJU5T4nud/PxzZHWVILtmitdCI1XV88i4IzMvuf3tt3HyQ3GWav8Qn3?=
- =?us-ascii?Q?g2lrLaEXN8UUxfWO2ocs6QvLAE3Rpg1vf0Hw1kvgRrjNoR2ZTRh29dOxjZb+?=
- =?us-ascii?Q?/26ERto3tUOVzlIX793VFUu55jjQzzN0jVig9a2um6+MyRV6NF0ECiWjh1Jn?=
- =?us-ascii?Q?wyjbhu/w9kEhsWkUq8XmeXThly4hrxUfLU1Mn1w+u419+L7DI3v23aMbEj92?=
-X-MS-Exchange-AntiSpam-MessageData-1: po77R0ECpxvMqA==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fad5a451-f99b-4b4e-5a49-08dea9d310da
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2026 11:48:32.1691
+	48rVSUdkvRs86m+yTOVOj87quZpDAqdx0QdRVOwxqfvroXngvEgJQYGr7nVVH02Pp2wehIzJb/WIXGYORg9Kvgyn/g6p/0ccIWCecxdlRn+xZjjPfSxYRHhRUdn0PCsrm3zP3Hlfxo6snTzkLk9PS6oOF9GrY7Ej23s+YZlk/3b2zXbJ29GXwxtPL6tMrKrdEeCb2/q/1nWK56TMcUNyPpkyHy+POzLoHrnmUhmuqokr708tBdAo/Oj0zTMs4Okfz0lqoynPLgysRLp+kbSVTPgWWZdn0T2CCmCkrayLlxOlFv0dSte5Q3XSQDx341EXEBxn9IUc7K9CCY/T4nHaM1gBKiTOlVWa6nvPlEhj/13jsIAkoaddQ8cr6C71a8pMVOE7L0SplMDRhqHKftn2QtOHsoopIDD/nw80n9Yd7aOKbUrOTvoywm1jw1F6jx6V
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2026 11:50:03.5869
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: owIwq/kM2PqBPikT4lRxifucAefCEGeCRaQpBogOvxGbkXJcadWu7qrGZ9IJTp3cZ8/zuiJ1tGZGUaYa6Mx+pQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR04MB10286
-X-Rspamd-Queue-Id: 6306E4BCA15
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2dd2bb67-7975-48bf-913f-08dea9d3478c
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM3PEPF0000A79B.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR10MB9925
+X-Rspamd-Queue-Id: 538224BCA3A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	DMARC_POLICY_ALLOW(-0.50)[foss.st.com,none];
+	R_DKIM_ALLOW(-0.20)[foss.st.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-diff];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-60278-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60277-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:+];
+	FREEMAIL_TO(0.00)[foss.st.com,kernel.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	DKIM_TRACE(0.00)[nxp.com:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,foss.st.com:dkim,gnbcxd0016.gnb.st.com:mid,st.com:email];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.oltean@nxp.com,linux-media@vger.kernel.org];
-	HAS_ATTACHMENT(0.00)[];
-	NEURAL_HAM(-0.00)[-0.994];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[alain.volmat@foss.st.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[foss.st.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email,samsung.com:email,sashiko.dev:url,oracle.com:email,acm.org:email]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[8]
 
---oquvkzttypru676v
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hello,
 
-Sashiko says:
-> commit 76ded6c0290bdb192c2ae1af9a2e6a47fc39c9a1
-> Author: Vladimir Oltean <vladimir.oltean@nxp.com>
+Gentle ping. Would it be possible to have this serie reviewed ?
+
+Regards,
+Alain
+
+On Mon, Feb 02, 2026 at 02:57:25PM +0100, Alain Volmat wrote:
+> This series add support for the main & aux pixel pipes
+> available on the MP2x. In addition to the byte pipe
+> already available, the DCMIPP is able to process two
+> other streams in parallel, including ISP operations
+> such as demosaicing, exposure etc, post-processing operations
+> such as cropping, downscaling and various pixel formats
+> output.
 > 
-> scsi: ufs: exynos: stop poking into struct phy guts
-> This commit modifies the Exynos UFS driver to stop directly accessing the
-> generic PHY's power_count. Instead, it tracks the PHY power state internally
-> using a new phy_powered_on flag to properly handle link retries and
-> suspend/resume operations.
+> This series introduces the whole DCMIPP pipelines including
+> static configuration of the ISP part (such as demosaicing).
+> Dynamic control of the ISP as well as statistic extraction
+> part will be added on top of this serie via usage of 2 other
+> video devices (input & output) for statistics extraction and
+> dynamic ISP parameter injection.
 > 
-> > diff --git a/drivers/ufs/host/ufs-exynos.c b/drivers/ufs/host/ufs-exynos.c
-> > --- a/drivers/ufs/host/ufs-exynos.c
-> > +++ b/drivers/ufs/host/ufs-exynos.c
-> [ ... ]
-> > @@ -1513,6 +1516,9 @@ static void exynos_ufs_exit(struct ufs_hba *hba)
-> >  {
-> >  	struct exynos_ufs *ufs = ufshcd_get_variant(hba);
-> >
-> > +	if (!ufs->phy_powered_on)
-> > +		return;
-> > +
-> >  	phy_power_off(ufs->phy);
-> >  	phy_exit(ufs->phy);
-> >  }
+> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+> ---
+> Alain Volmat (13):
+>       media: stm32: dcmipp: share struct dcmipp_device among subdevs
+>       media: stm32: dcmipp: make dcmipp_state & cmsr2 read common
+>       media: stm32: dcmipp: bytecap: protect CMIER register access
+>       media: stm32: dcmipp: move common structures in dcmipp-common.h
+>       media: stm32: dcmipp: correct swap in YUYV data with parallel input
+>       media: stm32: dcmipp: configure csi input of all pipes on stm32mp25
+>       media: stm32: dcmipp: introduce a dcmipp global media_pipeline
+>       media: stm32: dcmipp: add pixel pipes helper functions
+>       media: stm32: dcmipp: addition of a dcmipp-isp subdev
+>       media: stm32: dcmipp: pixelproc: addition of dcmipp-pixelproc subdev
+>       media: stm32: dcmipp: add pixel-pipe support in bytecap
+>       media: stm32: dcmipp: rename bytecap into capture
+>       media: stm32: dcmipp: instantiate & link stm32mp25 subdevs
 > 
-> Does this introduce a regression where initialization resources are leaked
-> if the driver is unbound while suspended?
-> Looking at exynos_ufs_suspend(), the PHY is powered off and phy_powered_on
-> is set to false, but phy_exit() is intentionally not called so the PHY
-> remains initialized:
-> exynos_ufs_suspend()
->         if (!ufshcd_is_link_active(hba) && ufs->phy_powered_on) {
->                 phy_power_off(ufs->phy);
->                 ufs->phy_powered_on = false;
->         }
-> If an unbind or fatal error occurs while in this suspended state,
-> exynos_ufs_exit() will see phy_powered_on as false and return immediately.
-> The initialization reference and any resources allocated by phy_init()
-> would never be released since phy_exit() is completely skipped.
-> [ ... ]
-
-I think I've been looking at this issue all wrong, not considering why
-the UFS HCD driver calls phy_exit() -> phy_init() at runtime and what
-can be done about that.
-
-I have replaced this patch with the one attached, which I will be sending
-for v8.
-
---oquvkzttypru676v
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0001-scsi-ufs-exynos-use-dedicated-API-for-updating-PHY-b.patch"
-
-From c687a8568c6c7837bb0bd539bf14343d7d0c63a1 Mon Sep 17 00:00:00 2001
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-Date: Mon, 4 May 2026 14:00:51 +0300
-Subject: [PATCH] scsi: ufs: exynos: use dedicated API for updating PHY bus
- width
-
-I am trying to get rid of code instances where PHY consumers (like the
-Exynos UFS HCD) poke inside struct phy fields, in order to further turn
-struct phy into an opaque data structure.
-
-The ufs-exynos.c driver interacts with phy-samsung-ufs.c in order to
-power it on and to update the lane count. For the later purpose, it
-(ab)uses phy_set_bus_width().
-
-The phy_set_bus_width() function is a PHY provider function, not a
-consumer one, and I am calling its use from ufs-exynos.c an abuse
-because
-(1) commit 8feed347d33b ("phy: add phy_get_bus_width()/phy_set_bus_width()
-    calls") clearly states so.
-(2) phy_set_bus_width() only alters phy->attrs.bus_width, and does not
-    call into phy_ops at all. So a consumer that makes a call to
-    phy_set_bus_width() will not produce any hardware change in the
-    provider at all.
-
-This is where the Exynos UFS HCD driver decided to be creative and
-hijacked phy_init() to pick up the bus_width attribute.
-
-This requires a very careful dance where the PHY consumer needs to
-simultaneously juggle two requirements:
-- the UFS PHY needs to pick up the updated lane count in its
-  samsung_ufs_phy_init() handler for the phy_init() call
-- phy_init() calls need to be balanced with phy_exit(), otherwise
-  subsequent phy_init() calls don't make it into samsung_ufs_phy_init()
-  and just leave the PHY with an elevated init_count
-- phy_power_on() can't be called without phy_init()
-
-This is why the following bug fix commits exist:
-3d73b200f989 ("scsi: ufs: ufs-exynos: Change ufs phy control sequence")
-7f05fd9a3b6f ("scsi: ufs: exynos: Ensure consistent phy reference counts")
-
-Currently the UFS HCD driver tries to keep the PHY init_count and
-power_count in tight lockstep, but even this is error-prone. For
-example, if exynos_ufs_suspend() runs and then exynos_ufs_exit(),
-the PHY power_count will underflow.
-
-If we address the root issue first (phy_init() abused to pick up new
-lane count) by introducing a new PHY consumer method which actually does
-call into the PHY provider driver, then we are able to absorb the entire
-UFS HCD dance and update the lane count without altering the PHY
-init_count or power_count.
-
-Then we are much more free to call phy_init() from wherever we want, and
-same goes for phy_power_on().
-
-It is typical to call phy_init() right after phy_get(), and doing so
-will naturally balance it with phy_exit().
-
-We can also leave the phy_power_on() call to be on demand, placed inside
-exynos_ufs_pre_link(). Because this call can be made multiple times and
-is not balanced with anything else, we need a consumer-specific "bool
-phy_powered_on" which ensures that we call phy_power_on() at most once,
-and that exynos_ufs_exit() only calls phy_power_off() if phy_power_on()
-was previously called. Using the phy->power_count for this purpose is
-undesirable because
-(a) it is going away
-(b) the PHY API supports multiple consumers for the same provider, so it
-    cannot offer an equivalent helper because it doesn't want consumers
-    to interfere with each other
-
-Inside the new samsung_ufs_phy_request_bus_width(), I've sanity checked
-that the bus width is either 1 or 2 lanes. This coincides with
-samsung_ufs_phy_config() which only configures LANE_0 and LANE_1.
-
-Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
----
-Cc: Alim Akhtar <alim.akhtar@samsung.com>
-Cc: Bart Van Assche <bvanassche@acm.org>
-Cc: Peter Griffin <peter.griffin@linaro.org>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Chanho Park <chanho61.park@samsung.com>
-
-v7->v8:
-- rewrote commit after Sashiko pointed out the new handling is still
-  not correct:
-  https://sashiko.dev/#/patchset/20260430110652.558622-1-vladimir.oltean@nxp.com
-- removed Reviewed-by, Tested-by and Acked-by tags from Alim, Bart and
-  Peter
-v6->v7: collect tags from Martin and Peter
-v5->v6: collect tags from Alim Akhtar
-v4->v5: collect tag, add "scsi: " prefix to commit title
-v3->v4: none
-v2->v3:
-- add Cc Chanho Park, author of commit 3d73b200f989 ("scsi: ufs:
-  ufs-exynos: Change ufs phy control sequence")
-v1->v2:
-- add better ufs->phy_powered_on handling in exynos_ufs_exit(),
-  exynos_ufs_suspend() and exynos_ufs_resume() which ensures we won't
-  enter a phy->power_count underrun condition
----
- drivers/phy/phy-core.c                | 18 +++++++++++
- drivers/phy/samsung/phy-samsung-ufs.c | 30 ++++++++++++------
- drivers/ufs/host/ufs-exynos.c         | 45 ++++++++++++++++++++++-----
- drivers/ufs/host/ufs-exynos.h         |  1 +
- 4 files changed, 77 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/phy/phy-core.c b/drivers/phy/phy-core.c
-index 21aaf2f76e53..6305efe210d6 100644
---- a/drivers/phy/phy-core.c
-+++ b/drivers/phy/phy-core.c
-@@ -606,6 +606,24 @@ int phy_validate(struct phy *phy, enum phy_mode mode, int submode,
- }
- EXPORT_SYMBOL_GPL(phy_validate);
- 
-+int phy_request_bus_width(struct phy *phy, int bus_width)
-+{
-+	int ret;
-+
-+	if (!phy)
-+		return -EINVAL;
-+
-+	if (!phy->ops->request_bus_width)
-+		return -EOPNOTSUPP;
-+
-+	mutex_lock(&phy->mutex);
-+	ret = phy->ops->request_bus_width(phy, bus_width);
-+	mutex_unlock(&phy->mutex);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(phy_request_bus_width);
-+
- /**
-  * _of_phy_get() - lookup and obtain a reference to a phy by phandle
-  * @np: device_node for which to get the phy
-diff --git a/drivers/phy/samsung/phy-samsung-ufs.c b/drivers/phy/samsung/phy-samsung-ufs.c
-index 00e570d699f3..5d7b842bff1a 100644
---- a/drivers/phy/samsung/phy-samsung-ufs.c
-+++ b/drivers/phy/samsung/phy-samsung-ufs.c
-@@ -161,16 +161,6 @@ static int samsung_ufs_phy_clks_init(struct samsung_ufs_phy *phy)
- 	return devm_clk_bulk_get(phy->dev, num_clks, phy->clks);
- }
- 
--static int samsung_ufs_phy_request_bus_width(struct phy *phy, int bus_width)
--{
--	if (bus_width != 1 && bus_width != 2)
--		return -EINVAL;
--
--	ss_phy->lane_cnt = phy->attrs.bus_width;
--
--	return 0;
--}
--
- static int samsung_ufs_phy_init(struct phy *phy)
- {
- 	struct samsung_ufs_phy *ss_phy = get_samsung_ufs_phy(phy);
-@@ -213,6 +203,26 @@ static int samsung_ufs_phy_power_off(struct phy *phy)
- 	return 0;
- }
- 
-+static int samsung_ufs_phy_request_bus_width(struct phy *phy, int bus_width)
-+{
-+	struct samsung_ufs_phy *ss_phy = get_samsung_ufs_phy(phy);
-+
-+	if (bus_width != 1 && bus_width != 2)
-+		return -EINVAL;
-+
-+	ss_phy->lane_cnt = phy->attrs.bus_width;
-+
-+	if (phy->init_count)
-+		samsung_ufs_phy_init(phy);
-+
-+	if (phy->power_count) {
-+		samsung_ufs_phy_power_off(phy);
-+		return samsung_ufs_phy_power_on(phy);
-+	}
-+
-+	return 0;
-+}
-+
- static int samsung_ufs_phy_set_mode(struct phy *generic_phy,
- 				    enum phy_mode mode, int submode)
- {
-diff --git a/drivers/ufs/host/ufs-exynos.c b/drivers/ufs/host/ufs-exynos.c
-index fb616d1599eb..b90876b268db 100644
---- a/drivers/ufs/host/ufs-exynos.c
-+++ b/drivers/ufs/host/ufs-exynos.c
-@@ -959,6 +959,40 @@ static void exynos_ufs_phy_exit(struct exynos_ufs *ufs)
- 	phy_exit(ufs->phy);
- }
- 
-+static int exynos_ufs_phy_power_on(struct exynos_ufs *ufs)
-+{
-+	int ret;
-+
-+	if (ufs->phy_powered_on)
-+		return 0;
-+
-+	ret = phy_power_on(ufs->phy);
-+	if (ret) {
-+		dev_err(ufs->hba->dev, "Failed to power on PHY: %pe\n",
-+			ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	ufs->phy_powered_on = true;
-+
-+	return 0;
-+}
-+
-+static void exynos_ufs_phy_power_off(struct exynos_ufs *ufs)
-+{
-+	int ret;
-+
-+	if (!ufs->phy_powered_on)
-+		return;
-+
-+	ret = phy_power_off(ufs->phy);
-+	if (ret)
-+		dev_warn(ufs->hba->dev, "Failed to power off PHY: %pe\n",
-+			 ERR_PTR(ret));
-+
-+	ufs->phy_powered_on = false;
-+}
-+
- static int exynos_ufs_phy_update_bus_width(struct exynos_ufs *ufs)
- {
- 	struct ufs_hba *hba = ufs->hba;
-@@ -979,10 +1013,7 @@ static int exynos_ufs_phy_update_bus_width(struct exynos_ufs *ufs)
- 	if (ret)
- 		return ret;
- 
--	if (generic_phy->power_count)
--		phy_power_off(generic_phy);
--
--	return phy_power_on(generic_phy);
-+	return exynos_ufs_phy_power_on(ufs);
- }
- 
- static void exynos_ufs_config_unipro(struct exynos_ufs *ufs)
-@@ -1524,7 +1555,7 @@ static void exynos_ufs_exit(struct ufs_hba *hba)
- {
- 	struct exynos_ufs *ufs = ufshcd_get_variant(hba);
- 
--	phy_power_off(ufs->phy);
-+	exynos_ufs_phy_power_off(ufs);
- 	exynos_ufs_phy_exit(ufs);
- }
- 
-@@ -1739,7 +1770,7 @@ static int exynos_ufs_suspend(struct ufs_hba *hba, enum ufs_pm_op pm_op,
- 		ufs->drv_data->suspend(ufs);
- 
- 	if (!ufshcd_is_link_active(hba))
--		phy_power_off(ufs->phy);
-+		exynos_ufs_phy_power_off(ufs);
- 
- 	return 0;
- }
-@@ -1749,7 +1780,7 @@ static int exynos_ufs_resume(struct ufs_hba *hba, enum ufs_pm_op pm_op)
- 	struct exynos_ufs *ufs = ufshcd_get_variant(hba);
- 
- 	if (!ufshcd_is_link_active(hba))
--		phy_power_on(ufs->phy);
-+		exynos_ufs_phy_power_on(ufs);
- 
- 	exynos_ufs_config_smu(ufs);
- 	exynos_ufs_fmp_resume(hba);
-diff --git a/drivers/ufs/host/ufs-exynos.h b/drivers/ufs/host/ufs-exynos.h
-index abe7e472759e..683b9150e2ba 100644
---- a/drivers/ufs/host/ufs-exynos.h
-+++ b/drivers/ufs/host/ufs-exynos.h
-@@ -227,6 +227,7 @@ struct exynos_ufs {
- 	int avail_ln_rx;
- 	int avail_ln_tx;
- 	int rx_sel_idx;
-+	bool phy_powered_on;
- 	struct ufs_pa_layer_attr dev_req_params;
- 	struct ufs_phy_time_cfg t_cfg;
- 	ktime_t entry_hibern8_t;
--- 
-2.34.1
-
-
---oquvkzttypru676v--
+>  .../media/platform/st/stm32/stm32-dcmipp/Makefile  |   3 +-
+>  .../st/stm32/stm32-dcmipp/dcmipp-byteproc.c        |  27 +-
+>  .../{dcmipp-bytecap.c => dcmipp-capture.c}         | 593 +++++++++----
+>  .../platform/st/stm32/stm32-dcmipp/dcmipp-common.h |  98 ++-
+>  .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   | 124 ++-
+>  .../platform/st/stm32/stm32-dcmipp/dcmipp-input.c  | 113 ++-
+>  .../platform/st/stm32/stm32-dcmipp/dcmipp-isp.c    | 482 +++++++++++
+>  .../st/stm32/stm32-dcmipp/dcmipp-pixelcommon.c     | 180 ++++
+>  .../st/stm32/stm32-dcmipp/dcmipp-pixelcommon.h     |  41 +
+>  .../st/stm32/stm32-dcmipp/dcmipp-pixelproc.c       | 937 +++++++++++++++++++++
+>  10 files changed, 2322 insertions(+), 276 deletions(-)
+> ---
+> base-commit: eb4ee870747c3a77a9c3c84d84efb64bd481013a
+> change-id: 20251219-stm32-dcmipp-pixel-pipes-support-b42924c0b4e5
+> 
+> Best regards,
+> -- 
+> Alain Volmat <alain.volmat@foss.st.com>
+> 
 
