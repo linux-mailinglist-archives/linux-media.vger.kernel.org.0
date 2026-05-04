@@ -1,245 +1,393 @@
-Return-Path: <linux-media+bounces-60242-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60243-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MD4RF1JH+GmJsAIAu9opvQ
-	(envelope-from <linux-media+bounces-60242-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 09:14:26 +0200
+	id 6GnLBW5H+GmesAIAu9opvQ
+	(envelope-from <linux-media+bounces-60243-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 09:14:54 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394B54B938B
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 09:14:26 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 185D74B93B0
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 09:14:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A64E93002B31
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 07:14:24 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id EFDC63004D37
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 07:14:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7E324C97;
-	Mon,  4 May 2026 07:14:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 422332DAFDF;
+	Mon,  4 May 2026 07:14:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="XZjDas2O"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="lTj1Zsc+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011005.outbound.protection.outlook.com [40.107.208.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92D22BEC27;
-	Mon,  4 May 2026 07:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777878858; cv=fail; b=Ucl42y/wu+TQN/ka9UzeXSMGo9nW8Te7H/e8zUEHlz8ul8hDHsNl43q4TeHtl1ODp13nVwUYMyFFt1NZvnFoM2fw1NR8U0sOxM2BPZY98Z9Z1FNox+14e4qUWTLvtbbO2ERotYPun677kyXGC8jCkxlEk/PMen03FB6x7fPTu9E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777878858; c=relaxed/simple;
-	bh=NgXU1M5PncPzsomB/XcjGdC0ZLGNvx7d3snwYW0GNrw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=SZo2nPhVCemETd7taYodEdzvwome6mGuDhSW7pMgN7pVXEzIMVMoUL85xglJmgqNjzKv/HEkXXIbgbb6gftdcfgisgY5yvqNcdwompdOreLzX9mbWYXjiY9beR1D/kd4/vUvms8OcW4v4ibR/OwGnRXRZ7uSdX+/ixa/LM0XNbQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=XZjDas2O; arc=fail smtp.client-ip=40.107.208.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gq10awCoJJKWUeWc0PE5Ip6Ml365LQ++qnr00yQsnBisU2/RPCUfyrZzToMpRjFmwTS2JfFzq7H5NDgovSVz9KUT8AfI4ky1pR+o6iSjjjMx3mjL5j+ZULRDcHQgKUSJUmVuhkkPcd7fTc5x4d7HolkJfpmWdZ6d7OPyoR/BCQyK/1+pOBjAU+qS/QXQdqMjX/rtdPppY9YERtmZe5WQvKQF2hdluCSit34qyZfU6MNTGHUheUwbIEwighMllJj9PtzHjavDGz8tojiHzM4EExHMF+dgmIgpoYYwa+7hHOYa9w+zfwN7lFqSc0XXs2gcbAzrqalyGmg79uWQMpSzBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LNbYfKTDh8lupKfUI5nB6tm8EchhiVPSTMZ6+Xt9Ad0=;
- b=cdxDma+p9Ref/w1byHoWwxoYH+pA9Et1nXiXdrzoMk6vL8WJ4s8ViQUtZDXEbyoE41pq9jBYQiwncckOl+ibZGpnVR2bJm0efgsTKf8sATUe9HpAfY46b9001u3K8hFP/1r1PbEkIn/AIoMioyCW3pzkdmrJtESEMPShXT/L/UgbwMdjxGZUOPIvXZiQqHeW5cZJMLoI/6wejmEtUWBUIgjvd5RxDOzhX22r3TVEbvPO4H6SyllrmhQaozezLwZ2egT8YawGhVCUyCXdPY2zJUlj8zEn1baYhjh1Mnj5CqzyBJUhiaFF+FxDF0KCHjxX9uCUSuWmKSW7Aunjscd+bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LNbYfKTDh8lupKfUI5nB6tm8EchhiVPSTMZ6+Xt9Ad0=;
- b=XZjDas2OOov17NjE+Vb4hDNp3tO/LS5Aj4QW/Fwwr3rI99iW5uectTpPMQ31q3EgGYnn0utZd5ZUuvlB0udmWuXtDE96DhL3XSd0R/LynX+7M6E+iHJocfS2JeBAegEc1J2MuBp45OtaKavg+Kt0XZlbfgAm8jwT+JwGoSCAvzA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH8PR12MB7375.namprd12.prod.outlook.com (2603:10b6:510:215::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Mon, 4 May
- 2026 07:14:13 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9870.023; Mon, 4 May 2026
- 07:14:13 +0000
-Message-ID: <4c9c9840-944d-4736-a55a-74f5c05b528c@amd.com>
-Date: Mon, 4 May 2026 09:14:04 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/10] file: add callback for creating long-term dmabuf
- maps
-To: Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Cc: Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi
- <joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>,
- Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <ae941457cf6cacb9d4c16b6ec904da9ef7fed97f.1777475843.git.asml.silence@gmail.com>
- <f0dd8f89-835e-4331-b593-4405ec59f4fe@amd.com>
- <6cce2f4d-7400-4618-82ce-cbd5004c92a4@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <6cce2f4d-7400-4618-82ce-cbd5004c92a4@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0060.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cc::20) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D5F2DF144
+	for <linux-media@vger.kernel.org>; Mon,  4 May 2026 07:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777878863; cv=none; b=rKAJ52+MexUgpthd+4sVOSCzINz3dagjQNbZGVDkGZVhLkLq4Uz5VexhIoIU306Ik6WSvXkaINaju4CvYudjMtRfSyAJbd48c/GY791FeIDrNkUize1FmgPAbdl2ipqJZ3CQ4gYQehblli7+6KIEXC3WmkoGI2zEDxsrywXSNtw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777878863; c=relaxed/simple;
+	bh=pv9jAeuFRhkHKpIR5bfO5WT9b7wRC1Arsl11qQKhKHw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=GJ1T2puF4TgQoclSk8vexfEqOYeaz3I/3FpZ7479KzSYrwt7JOy98rOtmBSQ2kjoErATJMO4N0RrGEOY3wR+Z7bn7btPQoV6r/ECNUpKBPmvTHHAXY+vVTODRUVKn4mCHbXwMagdH3Jj6deI5M0o3QQTtzHfQVDGrnotVq3bXdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=lTj1Zsc+; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48984d29fe3so55241335e9.0
+        for <linux-media@vger.kernel.org>; Mon, 04 May 2026 00:14:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1777878860; x=1778483660; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u5o9x9GYyoZ+AFvL1xpCIK5IQIqCECCAGULCOqSDjJ8=;
+        b=lTj1Zsc+UslpaIjsXlwi4PGhDnO/95Qaclv3/mAxtumYFdmv/JPb90/eJkIdeixXrZ
+         yjeKp/rJcYc9S3NuR55zGyOc3ViC9ijxPuhmO2yM08wultpNL5MLiMqjjZbIa/tN2fAa
+         Lkbnk4c/+/g1DcX1SGFe2nf/5VvAeuTvktbx7d+Z7Y+KixFt+nLPdBHRF/HycVVAiLEO
+         OXX3U/TwLX4rNWfJMNQTFbaVx8EME+yQoRl3uwijHG0CumqO2J+1rAuCUgvQ8Jju3UJP
+         FxqMivKosFBDnc0cp9h1a9Hr00al/q4TDzL0LG9GxPbwQrrsI9pQ6Eh02V4eSqmypEwn
+         wvjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777878860; x=1778483660;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=u5o9x9GYyoZ+AFvL1xpCIK5IQIqCECCAGULCOqSDjJ8=;
+        b=YSXoRzl3XRrNBSmj5NkvS42DYdLYMpyNFxMStXR+O+npWw586O+n/ACGPJQqpML+gp
+         izl1G2F0tmTxaxOmt6q30/RI80wuz6f5AmBlc+OXyUIUl4ytTMa/xQSF9y4GpphVGGL1
+         IvRYZi2JGyub3y+Kf1cx/c1t5cXqki7eK8xoZx/7BmSuCxnJf3nyi8ol1V/h36yEpC//
+         iWWNyrRcbBZwjSDDbKybrfuCEv9HNLLmkF7/mJGjcD354BY9KiSeWsN3uoTlz3VETZS2
+         Pj/+EydwSbHtiRuYwQFJmM05lSjjcAss11YridVAi46Dizl7vX0ogfZbD5QO1fFlt2el
+         8VDg==
+X-Forwarded-Encrypted: i=1; AFNElJ/1R7hJ3ELyPiuejGrT8SLx/sxf+WLUnIjd8R7NYoIYGQ9bcNfQGjwmu8yPqgmQVsLifv3+KFR7sUQOyA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzON6HEhsKkAocyoQSHQbDqocnABV5Io/QsEIy0vQ6rNpY/f84C
+	hh0krpNF3jLavUtGxD9ien6tvDt3+HDujOEaTN//X3o2JndMaIpdfHjA2SJwQIZgkGo=
+X-Gm-Gg: AeBDievxcIY41fHmGvJkzJy/g6Ayv6ygacRxQ+z2q/A4RWmApio6pyHVZot9IvV6Eju
+	kbOk2taR6vZ7i7dfBZm8i8Ud+bpQqV1gDV0pn8mmBV2+nYt5den0feDo3c1uXruHLzyNEkQmPcV
+	KTuJIlG5sH7+pXhTqBs/QeMt7UK7UwTJJHvnDX8C3Fa9Gs5JnKZll4JrHwnbGxKTSMg0+QGGkba
+	6DbvisczKuciD0vzrwHv/ZC2loCYOh1SVHUo+xf7B1+jrt6NTPszIt66b21tDFc/bQFuEftNylD
+	Lwzlo8KoEkn+bZ/I9+pZ6FWQPZbADO4OIQ7993nLVwF4DRv82fAkozJwQiFbsnq0zc1D7QBzaHG
+	7YlWFBTpHcTdJdMr4hxOJfnY6p8QTbCbxK7hRimdpTakoVe7jEYdtjJJMx5r0W/8AfdGvhZqyIW
+	OGfFGUTNYXFf/ZONM3+r0NBA6h+8o4d4wHrFSSWSSv+fZ3TFlcFrLKVs2HqBB8/WBtSbtXTcP0B
+	A61uR4lMw==
+X-Received: by 2002:a05:600c:8903:b0:487:1fb4:7e1 with SMTP id 5b1f17b1804b1-48a98663f36mr111227975e9.22.1777878860050;
+        Mon, 04 May 2026 00:14:20 -0700 (PDT)
+Received: from localhost (046124194177.public.t-mobile.at. [46.124.194.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a81ed6b89sm305101835e9.1.2026.05.04.00.14.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 May 2026 00:14:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB7375:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ca7ef87-0d2d-4c0a-88b1-08dea9acbe65
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|18002099003|921020|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	2r9jki0x8EOX/9SyWv65hye/iYyg2KP34dx3y5KvqmRMEStLAOPDrJzhJKeMdSVKF1xdzu0Rw1LXoEOJ39LDHpxEBfVXot9D88Ig/b1V+sRECoI3kSL1WShfWTeI6++YvB4LEgpomagrNITjY6S+wW3bZKD2eOmdQ8ZZzgoLOAQSQjUFPvJF0Y/cdzoIkyQ8Ec09nKZqfOtdAgo/1QbroHc3Xgf+iPa5PG5oxCTTfyYG1WPvpWHKivHMCd2BExKlsCxvducIYEpY2YGksuBWemnigytY7QdUsTwHy6AgxcDzEXF4RgMcCgm7/amBCYuP+icjFr0PNYyLFaieR+W6XXFAuGLQlQLcdwxd4t7HVn6KF6bbPaLB7h+9CZU51XtLfpr86+H5UPxZej75UdaRKwMq+BE+lwo36uAulKwR3TAPPhNiQoVOgw3poSEKjKhAd0eIGtOd76eBI4CPyPRAJW68P/hXE0hNOqlhrCIi73kebNfcFiCg4EuY1C7LnbRRgOfUv5wsHiDuzH8/55coDs6nx7hyOmmXZaKBrn3X9oZQFjUkogQxdUHuukWco/eEIOzTsPxageMt+zHIc21shI2SZ+SMCCOd5aXu/nq+z3w3jKF29LsbdeUkiAY5273/3fyy7ViIdfdLTRbqTkeYCrsCQHmD2xZ66mcGIk/cYkT/0+JAbnc5nR45rH3z2M79Z1Xi+jEqaiSVy2J1B95awYr+WfXjs64fWKm7//AjwFw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(18002099003)(921020)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eWs4QXBYbm53VTErcE1OODQxTWlEZmhzaWZiZDJUcnNnajl3UXhhcW1iRGk2?=
- =?utf-8?B?cjVLVWkvMlNZRHJvWm5VNzVpZzlyMHNkYi9DSTBwb1pWQngwRFFFM2ZZc3JS?=
- =?utf-8?B?UTJoUHdmQm5EM2kzWDRaU0tGNzhFVC9Rb3Eyb1F1cW81MjFCWE9yR1JMeFoz?=
- =?utf-8?B?S2Rqbk9DWGJuNXFzRGE3V2RyRi95ODlZeGRHUVoreHM1N0NLTmJCTHNmNnEz?=
- =?utf-8?B?cW9qdDZraEdKSFUzZVlQd1hObWxCSzJBQVJjZFBpdk9rTlhxWjZNM3lpblBP?=
- =?utf-8?B?TDNrRktwblpoU1Z4T3RrcGhWK1ROaWRMYm9ucUdiQXBMWnBLU2R1d2hlRllw?=
- =?utf-8?B?WW1HWUZNekVDUVF4WnFYOUw5L1dKMlVBc2ZWeG1jdXhDQUZHSCtneWFoUGw2?=
- =?utf-8?B?RWdQLzdQVGxJS0ptS3RLYlBrMHNEb3hBekl6MHkraUZ4L0p5Q1hnM0Fqcmll?=
- =?utf-8?B?dEJ5U1Q3alF1bUF1UVVDaWtiUmhNRHEvNVdRQ0tsTFVnaXdaaFEvSTN2WGZO?=
- =?utf-8?B?NThQMmFlazlkNlZ1eEFpcEc2Y3YrWkxoOTFnQVBZTFBYTjZjZi96S2s1d0Fy?=
- =?utf-8?B?NDNvaURjTWcrelVjSHdvOUswOTcvNk4xNDE1TEwrdTZHcHh0Z21lckkwY2Rw?=
- =?utf-8?B?eW5weFlmVzc1WVQ5NVE3NlhJOWl3M1ErMVNQUzNreUhnakgxLytKTHZDZEVj?=
- =?utf-8?B?aFE0NFdxZnBibGNyYjNLSUdhZWlGR2t1ek1WVGRzSG9MRmMrZk00MlgrT0tI?=
- =?utf-8?B?V3RteU8xQzlWU2h3THFkdFpHMHEzV3BpSE5hY0VjYVQyMkU1MjY4UW4rWUk3?=
- =?utf-8?B?NjRncURsZWdUVVJ0VlBiTFc2SzhTVitMV2VmbDllU1ZZWWU5aHg2a3VFOSsr?=
- =?utf-8?B?cVc5SXQ2SFVMdjBwQ0hpeFc1T2xsYlJKVDZ3TGFyc1kyaXFwVXp2NXV2MTJQ?=
- =?utf-8?B?YWkrWmszcVpDelpEWEFhTDRDb2RBQlVaT0lxWTVnQjJmZ1M2eWdkcTZIRm9J?=
- =?utf-8?B?ZXVyTGxMOXIwdFgxMmhVY2g3a2UvNFBOcmxqUFZiY25QaHoveDRmdGtlQ29p?=
- =?utf-8?B?UXFJK2k0ZXFRUk95L0dNeW5JSlBKVHFDa3FSSVR0VzF4VmVXNlhwTjZLRnZK?=
- =?utf-8?B?QTZSRWFTZTlqRHFLcUFiOTFlTjl5eWlrK3l6VUZHdnloL3hKZGo3UFlmNmZr?=
- =?utf-8?B?eFdOUFBhVDFGY3hNbGp1ZHpERExvWXVpQlhoVDIzL0dQSjFKdng2a29NdkZz?=
- =?utf-8?B?QWVScVVrMk03Y1BWSzlPc2tGbndwSkRGc09jQXZ6ei94Um4raFc4NlpoRkkw?=
- =?utf-8?B?dmh3SXYrVEZGMk9MbFUrY3dEUUF5cS9pTU9mdHYwTUV3M1hkYnZkeEYvNW9Q?=
- =?utf-8?B?WkFXY0tPL3pscm9oK3hvTnNPaFlwQnZnNlhYQTM2ejZxbEpWbEpleW5ibVNQ?=
- =?utf-8?B?V2JnUnF2bGk5YjB3QXhhZTBmLzBTaUtiSFEwMkZNZFlQRjJZQ3hWTVNoWWZW?=
- =?utf-8?B?RllwZFQ4ekczMDRiNGpVRlJMRE1aWFRaZTJ5ZlN4K0RtdHEraTk2cVJEN2J1?=
- =?utf-8?B?VGVCTGg3d1prNzhSaWNYVk0xQmpjaDgrd1VCZWtXcE5OQTFZdk9EdG45SUhD?=
- =?utf-8?B?NFl3aVJPOGNSTkoybUUyUDVkNGpta0d6V0kwQUdJaVNsWjk0VVBlWFVHeGpJ?=
- =?utf-8?B?M0dHRWNMZ0FGNEpxSmg0KzUwM1JEZyt3MmRVU1dhQW1xSk5ZWTlJN3ZSbFdk?=
- =?utf-8?B?KzRzSWFTMElGMDNYUW1CdlRHUHNXNmtxTnArdmhLS3NyajByQVhzazVWWmta?=
- =?utf-8?B?eW5JbXNac0VRamNobWZCMUpGWVFOYW93UUhXYnFoUXdYWmxscXF5SlVCUS9s?=
- =?utf-8?B?U0d4NjRVWWJPc2FIbkFLUUpraDdGdjZjQXU5SUk5YXBKWmoyYlJlUjRDekU5?=
- =?utf-8?B?RGhQNE9MRXZzSFA0SlRMUWtYZW5UTnZJb3RuSXM5VW02T2pndWRjWWp2bWNV?=
- =?utf-8?B?V3JTSUR1alNhUTdQK0RUY25kZjVKdnJRM2EybVJ1WlJDWEJuaXhOUnNFOE5n?=
- =?utf-8?B?SFBlcEgzZWZyS0NKbTVxVDdPcUswdEdNbXZKS20yMGRHZlV5NS90YVNOQ1Ba?=
- =?utf-8?B?UzJJT2dDYm1XdlVhcUg1S21VMEdTT1NHcXpMcitvZ1h1eHE3T0hIaVNDcXdh?=
- =?utf-8?B?aGgyVTNMVUFCRFFDUHB5aHlUYzRiTFQ0L1pFTHo4cTNoUmdHWXI0UmxlVmZU?=
- =?utf-8?B?SnJEb21ucVVOUHBuTW9iejM3R01oRTFLc2gzd3ZsV2pSbW51RVdjSDN5Zi9t?=
- =?utf-8?Q?lRCiD467FpyX1dqcfx?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ca7ef87-0d2d-4c0a-88b1-08dea9acbe65
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2026 07:14:12.9675
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: atoJyTpYzmKoD0wWHoKmRA5jtrN7JUjk5umOY7ZM0839xrt752Z9O+2B30jxhv5W
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7375
-X-Rspamd-Queue-Id: 394B54B938B
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 04 May 2026 09:14:17 +0200
+Message-Id: <DI9PGFY950VK.3VURRR6215P75@fairphone.com>
+Subject: Re: [PATCH v4 0/3] Add CAMSS support for SM6350
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, "Luca Weiss"
+ <luca.weiss@fairphone.com>, "Bryan O'Donoghue" <bod@kernel.org>, "Vladimir
+ Zapolskiy" <vladimir.zapolskiy@linaro.org>
+Cc: "Konrad Dybcio" <konradybcio@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Robert Foss" <rfoss@kernel.org>,
+ <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski@oss.qualcomm.com>, "Todor Tomov"
+ <todor.too@gmail.com>, "Mauro Carvalho Chehab" <mchehab@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Bjorn Andersson" <andersson@kernel.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260216-sm6350-camss-v4-0-b9df35f87edb@fairphone.com>
+ <2a108976-374a-46e1-968d-7befa4369a74@linaro.org>
+ <4SLDL62Oin3XdiLjUEC_YAVA-m1dKV4j_8_RolU6NJFWCIWtem6e6sCb9n7OIHbcIWBfWdXx_vZy5mXCAbWUDg==@protonmail.internalid> <DHJD7P2TXQTH.1TQ4YQQ21A6CS@fairphone.com> <c87d229c-137c-4e59-99cc-a97ef04f6e1b@kernel.org> <DI79CX4PU08J.2M2V0U4PTOVEU@fairphone.com> <108ecc23-c821-4387-a324-5e3c20c3cc5e@linaro.org>
+In-Reply-To: <108ecc23-c821-4387-a324-5e3c20c3cc5e@linaro.org>
+X-Rspamd-Queue-Id: 185D74B93B0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[fairphone.com,quarantine];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[fairphone.com:s=fair];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-60242-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.dk,kernel.org,lst.de,grimberg.me,zeniv.linux.org.uk,linux-foundation.org,linaro.org,vger.kernel.org,lists.infradead.org,lists.freedesktop.org,lists.linaro.org];
+	FREEMAIL_CC(0.00)[kernel.org,lists.sr.ht,vger.kernel.org,oss.qualcomm.com,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60243-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[fairphone.com:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[amd.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[luca.weiss@fairphone.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
 
-On 4/30/26 20:33, Pavel Begunkov wrote:
-> On 4/30/26 07:03, Christian König wrote:
->> On 4/29/26 17:25, Pavel Begunkov wrote:
->>> Introduce a new file callback that allows creating long-term dma
->>> mapping. All necessary information together with a dmabuf will be passed
->>> in the second argument of type struct io_dmabuf_token, which will be
->>> defined in following patches.
->>
->> Well first of all the naming is probably not the best. Maybe rather call that dma-buf attachment or context or mappping.
-> 
-> "Mapping" or "attachment" would be confusing as maps are created lazily
-> together with struct io_dmabuf_map. I can name it create_dmabuf_ctx(),
-> but I decided to use "token" not to collide with dmabuf terminology.
-> e.g. I wouldn't be surprised to see some dmabuf ctx in the dmabuf
-> implementation code. Maybe "*io_ctx" would be better.
+Hi Bryan,
 
-Context or ctx sounds fine to me. IIRC we don't have a context in the DMA-buf subsystem yet.
+On Sat May 2, 2026 at 12:32 AM CEST, Bryan O'Donoghue wrote:
+> On 01/05/2026 11:12, Luca Weiss wrote:
+>> Hi Bryan,
+>>=20
+>> On Fri Apr 3, 2026 at 5:07 PM CEST, Bryan O'Donoghue wrote:
+>>> On 03/04/2026 09:09, Luca Weiss wrote:
+>>>> Hi Vladimir,
+>>>>
+>>>> On Tue Mar 31, 2026 at 12:49 AM CEST, Vladimir Zapolskiy wrote:
+>>>>> Hi Luca,
+>>>>>
+>>>>> On 2/16/26 10:54, Luca Weiss wrote:
+>>>>>> Add bindings, driver and dts to support the Camera Subsystem on the
+>>>>>> SM6350 SoC.
+>>>>>>
+>>>>>> These patches were tested on a Fairphone 4 smartphone with WIP senso=
+r
+>>>>>> drivers (Sony IMX576 and IMX582), the camera pipeline works properly=
+ as
+>>>>>> far as I can tell.
+>>>>>>
+>>>>>> Though when stopping the camera stream, the following clock warning
+>>>>>> appears in dmesg. But it does not interfere with any functionality,
+>>>>>> starting and stopping the stream works and debugcc is showing 426.4 =
+MHz
+>>>>>> while the clock is on, and 'off' while it's off.
+>>>>>>
+>>>>>> Any suggestion how to fix this, is appreciated.
+>>>>>
+>>>>> I've looked at CAMCC recently, and I do notice that SM6350 CAMCC does=
+ not
+>>>>> set '.use_rpm =3D true' flag for whatever reason.
+>>>>>
+>>>>> If you find a free minute, can you test the change below?..
+>>>>
+>>>> Unfortunately that change does not resolve the "gcc_camera_axi_clk
+>>>> status stuck at 'on'" warning.
+>>>>
+>>>> fairphone-fp4:~$ cat /sys/bus/platform/drivers/sm6350-camcc/ad00000.cl=
+ock-controller/power/runtime_status
+>>>> active
+>>>>
+>>>> fairphone-fp4:~$ cat /sys/bus/platform/drivers/sm6350-camcc/ad00000.cl=
+ock-controller/power/runtime_status
+>>>> suspended
+>>>>
+>>>>>
+>>>>> ----8<----
+>>>>> diff --git a/drivers/clk/qcom/camcc-sm6350.c b/drivers/clk/qcom/camcc=
+-sm6350.c
+>>>>> index 7df12c1311c6..ba880e4edcaf 100644
+>>>>> --- a/drivers/clk/qcom/camcc-sm6350.c
+>>>>> +++ b/drivers/clk/qcom/camcc-sm6350.c
+>>>>> @@ -1880,6 +1880,7 @@ static const struct qcom_cc_desc camcc_sm6350_d=
+esc =3D {
+>>>>>     	.num_clks =3D ARRAY_SIZE(camcc_sm6350_clocks),
+>>>>>     	.gdscs =3D camcc_sm6350_gdscs,
+>>>>>     	.num_gdscs =3D ARRAY_SIZE(camcc_sm6350_gdscs),
+>>>>> +	.use_rpm =3D true,
+>>>>>     };
+>>>>>
+>>>>>     static const struct of_device_id camcc_sm6350_match_table[] =3D {
+>>>>> ----8<----
+>>>>>
+>>>>> This change could be considered to be included in any case, I believe=
+.
+>>>>
+>>>> I guess this change is now the way to enable pm_runtime, I had this
+>>>> series 3 years ago in February 2023:
+>>>> https://lore.kernel.org/linux-arm-msm/20230213-sm6350-camcc-runtime_pm=
+-v3-0-d35e0d833cc4@fairphone.com/
+>>>>
+>>>> But I never followed up due to me not understanding pm_runtime well an=
+d
+>>>> no direct need for it.
+>>>>
+>>>> But I guess reviving that with use_rpm =3D true, add power-domains &
+>>>> required-opps to dt-bindings and sm6350.dtsi should be a good idea?
+>>>>
+>>>> Regards
+>>>> Luca
+>>>>
+>>>>>
+>>>>>> [ 5738.590980] ------------[ cut here ]------------
+>>>>>> [ 5738.591009] gcc_camera_axi_clk status stuck at 'on'
+>>>>>> [ 5738.591049] WARNING: CPU: 0 PID: 6918 at drivers/clk/qcom/clk-bra=
+nch.c:87 clk_branch_toggle+0x170/0x190
+>>>>>> [ 5738.591081] Modules linked in:
+>>>>>> [ 5738.591099] CPU: 0 UID: 10000 PID: 6918 Comm: plasma-camera Taint=
+ed: G        W           6.17.0-00057-ge6b67db49622 #71 NONE
+>>>>>> [ 5738.591118] Tainted: [W]=3DWARN
+>>>>>> [ 5738.591126] Hardware name: Fairphone 4 (DT)
+>>>>>> [ 5738.591136] pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS=
+ BTYPE=3D--)
+>>>>>> [ 5738.591150] pc : clk_branch_toggle+0x170/0x190
+>>>>>> [ 5738.591164] lr : clk_branch_toggle+0x170/0x190
+>>>>>> [ 5738.591177] sp : ffff800086ed3980
+>>>>>> [ 5738.591184] x29: ffff800086ed3990 x28: 0000000000000001 x27: ffff=
+800086ed3cd8
+>>>>>> [ 5738.591208] x26: 0000000000000000 x25: ffffda14fcfbd250 x24: 0000=
+000000000000
+>>>>>> [ 5738.591230] x23: 0000000000000000 x22: ffffda14fc38bce0 x21: 0000=
+000000000000
+>>>>>> [ 5738.591252] x20: ffffda14fd33e618 x19: 0000000000000000 x18: 0000=
+0000000064c8
+>>>>>> [ 5738.591274] x17: 0000000000000000 x16: 00001ae003667e9e x15: ffff=
+da14fd2a07b0
+>>>>>> [ 5738.591295] x14: 0000000000000000 x13: 6f27207461206b63 x12: 7574=
+732073757461
+>>>>>> [ 5738.591317] x11: 0000000000000058 x10: 0000000000000018 x9 : ffff=
+da14fd2a0838
+>>>>>> [ 5738.591338] x8 : 0000000000057fa8 x7 : 0000000000000a16 x6 : ffff=
+da14fd2f8838
+>>>>>> [ 5738.591360] x5 : ffff0001f6f59788 x4 : 0000000000000a15 x3 : ffff=
+25ecf9d7e000
+>>>>>> [ 5738.591381] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff=
+0000baf5c100
+>>>>>> [ 5738.591403] Call trace:
+>>>>>> [ 5738.591412]  clk_branch_toggle+0x170/0x190 (P)
+>>>>>> [ 5738.591429]  clk_branch2_disable+0x1c/0x30
+>>>>>> [ 5738.591445]  clk_core_disable+0x5c/0xb4
+>>>>>> [ 5738.591462]  clk_disable+0x38/0x60
+>>>>>> [ 5738.591478]  camss_disable_clocks+0x44/0x78
+>>>>>> [ 5738.591496]  vfe_put+0x7c/0xc0
+>>>>>> [ 5738.591512]  vfe_set_power+0x40/0x50
+>>>>>> [ 5738.591528]  pipeline_pm_power_one+0x14c/0x150
+>>>>>> [ 5738.591546]  pipeline_pm_power+0x74/0xf4
+>>>>>> [ 5738.591561]  v4l2_pipeline_pm_use+0x54/0x9c
+>>>>>> [ 5738.591577]  v4l2_pipeline_pm_put+0x14/0x40
+>>>>>> [ 5738.591592]  video_unprepare_streaming+0x18/0x24
+>>>>>> [ 5738.591608]  __vb2_queue_cancel+0x4c/0x314
+>>>>>> [ 5738.591626]  vb2_core_streamoff+0x24/0xc8
+>>>>>> [ 5738.591643]  vb2_ioctl_streamoff+0x58/0x98
+>>>>>> [ 5738.591657]  v4l_streamoff+0x24/0x30
+>>>>>> [ 5738.591672]  __video_do_ioctl+0x430/0x4a8
+>>>>>> [ 5738.591689]  video_usercopy+0x2ac/0x680
+>>>>>> [ 5738.591705]  video_ioctl2+0x18/0x40
+>>>>>> [ 5738.591720]  v4l2_ioctl+0x40/0x60
+>>>>>> [ 5738.591734]  __arm64_sys_ioctl+0x90/0xf0
+>>>>>> [ 5738.591750]  invoke_syscall.constprop.0+0x40/0xf0
+>>>>>> [ 5738.591769]  el0_svc_common.constprop.0+0x38/0xd8
+>>>>>> [ 5738.591785]  do_el0_svc+0x1c/0x28
+>>>>>> [ 5738.591801]  el0_svc+0x34/0xe8
+>>>>>> [ 5738.591820]  el0t_64_sync_handler+0xa0/0xe4
+>>>>>> [ 5738.591838]  el0t_64_sync+0x198/0x19c
+>>>>>> [ 5738.591854] ---[ end trace 0000000000000000 ]---
+>>>>>>
+>>>>>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+>>>>>> ---
+>>>>>> Changes in v4:
+>>>>>> - Update power-domain-names order (Krzysztof)
+>>>>>> - Make hex numbers lower case in init seq (David)
+>>>>>> - Pick up tags
+>>>>>> - Link to v3: https://lore.kernel.org/r/20260213-sm6350-camss-v3-0-3=
+0a845b0b7cc@fairphone.com
+>>>>>
+>>>>> Should find some time myself to issue RBs, sorry for the delay.
+>>>>>
+>>>>>> Changes in v3:
+>>>>>> - Update dt-bindings to include everything related to camss
+>>>>>> - Update regulator names
+>>>>>> - Remove slow_ahb_src
+>>>>>> - Link to v2: https://lore.kernel.org/r/20251114-sm6350-camss-v2-0-d=
+1ff67da33b6@fairphone.com
+>>>>>>
+>>>>>> Changes in v2:
+>>>>>> - Remove prefix from interconnect-names
+>>>>>> - Move 'top' power-domain to the top of list
+>>>>>> - Update regulator supply names
+>>>>>> - Link to v1: https://lore.kernel.org/r/20251024-sm6350-camss-v1-0-6=
+3d626638add@fairphone.com
+>>>>>>
+>>>>>> ---
+>>>>>> Luca Weiss (3):
+>>>>>>          dt-bindings: media: camss: Add qcom,sm6350-camss
+>>>>>>          media: qcom: camss: Add SM6350 support
+>>>>>>          arm64: dts: qcom: sm6350: Add CAMSS node
+>>>>>>
+>>>>>>     .../bindings/media/qcom,sm6350-camss.yaml          | 471 +++++++=
+++++++++++++++
+>>>>>>     arch/arm64/boot/dts/qcom/sm6350.dtsi               | 233 +++++++=
++++
+>>>>>>     .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 125 ++++++
+>>>>>>     drivers/media/platform/qcom/camss/camss-vfe.c      |   2 +
+>>>>>>     drivers/media/platform/qcom/camss/camss.c          | 261 +++++++=
++++++
+>>>>>>     drivers/media/platform/qcom/camss/camss.h          |   1 +
+>>>>>>     6 files changed, 1093 insertions(+)
+>>>>>> ---
+>>>>>> base-commit: 3daf23347bb5f4a375d0101ed29c97ce1a99721b
+>>>>>> change-id: 20251024-sm6350-camss-9c404bf9cfdd
+>>>>>>
+>>>>>> Best regards,
+>>>>
+>>>
+>>> What about taking the clock out of hardware gated mode ?
+>>>
+>>> =E2=94=8C=E2=94=80[deckard@sagittarius-a] - [~/Development/qualcomm/qlt=
+-kernel] - [Fri
+>>> Apr 03, 16:05]
+>>> =E2=94=94=E2=94=80[$]> git diff
+>>> diff --git a/drivers/clk/qcom/gcc-sm6350.c b/drivers/clk/qcom/gcc-sm635=
+0.c
+>>> index a4d6dff9d0f7f..f98cb35bcd408 100644
+>>> --- a/drivers/clk/qcom/gcc-sm6350.c
+>>> +++ b/drivers/clk/qcom/gcc-sm6350.c
+>>> @@ -909,8 +909,6 @@ static struct clk_branch gcc_camera_ahb_clk =3D {
+>>>    static struct clk_branch gcc_camera_axi_clk =3D {
+>>>           .halt_reg =3D 0x17018,
+>>>           .halt_check =3D BRANCH_HALT,
+>>> -       .hwcg_reg =3D 0x17018,
+>>> -       .hwcg_bit =3D 1,
+>>=20
+>> Unfortunately this change has no effect, still getting the same error
+>>=20
+>> [  192.154311] ------------[ cut here ]------------
+>> [  192.154339] gcc_camera_axi_clk status stuck at 'on'
+>> [  192.154364] WARNING: drivers/clk/qcom/clk-branch.c:87 at clk_branch_t=
+oggle+0x170/0x190, CPU#5: CameraManager/5996
+>> [  192.154387] Modules linked in:
+>> [  192.154403] CPU: 5 UID: 10000 PID: 5996 Comm: CameraManager Tainted: =
+G        W           7.0.0-00074-gb9262f98394c-dirty #31 PREEMPTLAZY
+>>=20
+>> Regards
+>> Luca
+>
+> Sorry wait a second did you say you had a fix for this around CX ?
+>
+> https://lore.kernel.org/linux-arm-msm/20230213-sm6350-camcc-runtime_pm-v3=
+-2-d35e0d833cc4@fairphone.com/
+>
+> Is this series adding or missing power-domains =3D <CX> ?
+>
+> Shouldn't this be in the gcc node ?
+>
+> +			power-domains =3D <&rpmhpd SM6350_CX>;
+> +			required-opps =3D <&rpmhpd_opp_low_svs>;
 
-But we do have the terminology context in other subsystems and components which build on top of DMA-buf similar to this patch set here. So I think that is a pretty good match.
+In this thread I've tried ".use_rpm =3D true" for *camcc* - which I
+believe is the modern equivalent to all the code added in the linked
+series.
 
-> 
->> Then the patch should probably define the full interface and not just add the callback here and then the structure in a follow up patch.
-> 
-> I strongly prefer splitting patches so that they touch one tree at
-> a time whenever possible.
+For gcc I don't believe I've tried adding anything.
 
-Exactly that is what you should *not* do and is the background reason why I ask.
+But practically, isn't CX always on anyways, especially with screen on
+and everthing, so practically it shouldn't make any difference?
 
-Making changes in a core header like include/linux/fs.h to add a new interface and then only later on explaining how that interface works is usually a pretty clear no-go for upstreaming.
-
-Each patch should make one consistent change and upstream maintainers sometimes even require that you give an user for the interface in the same patch.
-
-> tbh, I don't see much of a problem it being
-> not defined as it's just forwarded in first patches, but I can shuffle
-> it around in the series so that definitions come first.
-
-That is not really a good idea either.
-
-As far as I can see a good organization of the patches would look something like this:
-
-1. The API between higher level and filesystem. Including all the functions, structures, enums etc.. necessary to give everybody reviewing it a solid picture of the general idea.
-
-2. The higher level/frontend/uAPI. Again including all the stuff necessary to get a solid picture.
-
-3. Eventually the glue code between #1 and #2. Depends on if you need it or not to understand those patches individually.
-
-4. The backend implementation, which enables the new feature for a specific fs and/or storage device.
-
-5. Updating Documentation/filesystems/api-summary.rst and eventually adding a new file to explain how the DMA-buf interaction with the fs layer works.
-
-Regards,
-Christian.
+Regards
+Luca
 
