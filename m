@@ -1,165 +1,189 @@
-Return-Path: <linux-media+bounces-60271-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60272-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2JwHOCJ7+Gn+vwIAu9opvQ
-	(envelope-from <linux-media+bounces-60271-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 12:55:30 +0200
+	id 8FVjLmF/+GmXwAIAu9opvQ
+	(envelope-from <linux-media+bounces-60272-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 13:13:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4308A4BC068
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 12:55:29 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1792A4BC40A
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 13:13:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 981043022A9F
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 10:55:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 75C193038B95
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 11:11:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18ABA3A6B97;
-	Mon,  4 May 2026 10:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aHCG4sEt"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6A1D3A7F4A;
+	Mon,  4 May 2026 11:11:14 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FBC5282F10
-	for <linux-media@vger.kernel.org>; Mon,  4 May 2026 10:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB863A758C
+	for <linux-media@vger.kernel.org>; Mon,  4 May 2026 11:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777892109; cv=none; b=fVLNm71s8iYfGfjBm8qaZGe05iIdoCcFfhhHcW/xXU5JkL9zLCjDtfVW+/PtOPI1O8xumXSleAP2efW6RO5nd3tPtc90hZzHGSfvDDArQoIaOjvsrvhPoGetQqNY9FhS4LRn8G1ilTyeEGRNJQIyIZsrppU5AT4WdqhFya8RzeI=
+	t=1777893074; cv=none; b=glR3Wqk+xzAXfBhvn1BsxLfQVuQkt/ZbpGld/A/zps+zGTnm2JGXI5RbH3nwyYJu3vLKA09ObmtMhRd61pOX+XDnQO4ieN4Dlt7aMw87jTxpPodR6I4Mc+fzFt+9qTh5OdVn5PckJZw31/6vUJnqatd4Mw1Blw07W0mLcTNpnEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777892109; c=relaxed/simple;
-	bh=+dgffLgBiEP6ZBRGedun1KaOTrk/q8XcHD/7lgiAyQE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jCjsubEXPxqsrROIkxIOumkFwvSOpV3GKtYWsckuUC+v4fPlsNJS7+qDdL8rBZl2n/dE5f7L7l5sL9FkkXhxn5A8zBGoZsYWtWEL0e+g2FE6Wt3n4igxN1fxcv45JFqQ5Q6sm3GtWI6W4SFEJACOTM0D0UUxZXGMy+OtUAVzomU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=aHCG4sEt; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39389398838so12998531fa.3
-        for <linux-media@vger.kernel.org>; Mon, 04 May 2026 03:55:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1777892105; x=1778496905; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZcDLjx4hLgTrt8Ve4u4lIZsmkmGxyF9I6wHEUsyYi7c=;
-        b=aHCG4sEtExwCG0zgv0l48pTohS4tt2KR1AyCDBSxrEuVHN68AnRzO9OYWsotnCZ6fY
-         7jIQDGyHAMcp3bzt5j125jPvikl0GmkCLEaCw5NquWK7xAnE/UYrU8PDTCZB0V6hlEES
-         DHGi1HB6dvI960WOJKTOQIqRliCMeoKMx5elk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777892105; x=1778496905;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZcDLjx4hLgTrt8Ve4u4lIZsmkmGxyF9I6wHEUsyYi7c=;
-        b=ACNwjksLOxJGd8FJ8eweM67tAat/YhqhMd9gTVvydoUjoM0mXqEUGFBQhfN+k0JaTo
-         q18+orYFUTEURYTI5tJq6INI8q2mmCNvuy9ZFk7FT3/6C93ijNEhzZ875MHjByNluSGH
-         lHdtyB9V1YuE6G7Q0/Ue0EI+3Ki3BZ+3Uac1SxD6xevsM++zcbtl6LmHncQzO7fKmcbA
-         s4ekGPkJFKOgmJviin74weIPz4TQZcr6bdZsoPR72jGzryWVUKNLRP529S9Sra0u056H
-         UKm2lulCnDMPi04NkMneEJV4Sly8R7zb2Tn6oVNImmtQaKcHdV5ZlQ3fnke7E7oDKSMc
-         8dIA==
-X-Forwarded-Encrypted: i=1; AFNElJ9afA004IjwqVne1yaFUIS/3hprpl16f94EtQnTHaLXQLyK5u2uGKO9sIDrR8zI7dhECZyTssDvqLWYAQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+N/TbgU+QUDr9X2qRQZ/+no7qxPkCwD9levmDC0/yf8aEDAoS
-	u3+aQH5lw0GXhiBEwtDo4G0dYAMT9bX26P1DoqELEt4POq2BsNIWDGFjnCE1FGbI9Qtew0UV0O1
-	Jni35+h+w
-X-Gm-Gg: AeBDiesQx1npKa9qjOz+LINqvdzh7leMaLqRnaBbnz4/5n98SyvabWyPDJ+nbJFWPEB
-	ykPYm7tGMDFYFK9O7Sz+o5535DZGuTKY9q2l+NoVcjXGlY9rd5ewasxgh++rtotsj/HTjlyxSrh
-	Epl5kJK03/2dyO/ITbD3gWwgy7OWRc180V86tEKt9/3i3km3jqhRPHZIBJXYg4p9AxIZHbzjL9F
-	2wkCs7NbINQmYwtih31ZWYMge5Lyyd1dXW5jk2oWk6AXrQ53SFEiMpzXVVfgemPLydBJnJNwX2T
-	vj/9I0iJH90rIZ4WD8TxAw6vTUbk9WDzMAag8tOUX0pEgEMC5cN7PyaRjuig91+rzWoDPvZne/T
-	me9luZ8WcIs113OUJ3avtMjQLuj3l01x/CkcQT+yiaOy/WqIEnG8Tnv4/IzphH3cQ7Do8slu7jh
-	Jw6WVjPgJ0AUrNvl5u/3tNngU9EFiyITsA4iCCepVa0+QFssSafHhM4XU/iMfAgDSHwT3v1TMMQ
-	LAlT4h1C5eWiFEP8w==
-X-Received: by 2002:a05:651c:2116:b0:38a:45d6:c246 with SMTP id 38308e7fff4ca-393783ef512mr33168221fa.8.1777892105339;
-        Mon, 04 May 2026 03:55:05 -0700 (PDT)
-Received: from ribalda.c.googlers.com (52.163.228.35.bc.googleusercontent.com. [35.228.163.52])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39361323c56sm28904411fa.29.2026.05.04.03.55.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 03:55:04 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 04 May 2026 10:55:03 +0000
-Subject: [PATCH] Input: atmel_mxt_ts - Set byte_offset as signed
+	s=arc-20240116; t=1777893074; c=relaxed/simple;
+	bh=/OPboIEOOBeWaJTEg7Sh2XiRQBst3W+E3byqKwAO40Y=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DrrW32E4y9gdAx1GbBdo7bQgBC0Kwl3Th+YStQrD+QDuxZDCslf/Fy7IHyQ81VEQCOaYI2kP2sqswoJaYErS1LLcv7FzHicNZgcJHXzbHsyaKwi3QveR0OKFvgdhpISvzLVB7iNjwTQN7nqqcCQsJ/EROF0haxKFbbpSZ6ECdYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <m.tretter@pengutronix.de>)
+	id 1wJrCY-000165-73; Mon, 04 May 2026 13:11:02 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <m.tretter@pengutronix.de>)
+	id 1wJrCX-000On2-0w;
+	Mon, 04 May 2026 13:11:01 +0200
+Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
+	(envelope-from <m.tretter@pengutronix.de>)
+	id 1wJrCX-0000000Gbea-2V4Y;
+	Mon, 04 May 2026 13:11:01 +0200
+Date: Mon, 4 May 2026 13:11:01 +0200
+From: Michael Tretter <m.tretter@pengutronix.de>
+To: Frank Li <Frank.li@nxp.com>, Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>, linux-media@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 0/3] media: imx-csi: cleanup media pipeline start
+Message-ID: <afh-xcWC2p62-QvN@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+	Frank Li <Frank.li@nxp.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>, linux-media@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-staging@lists.linux.dev
+References: <20251218-media-imx-cleanup-v2-0-9e3e3c269f7f@pengutronix.de>
+ <aXOoc0lvAtPt0fAL@pengutronix.de>
+ <aco5Ei1B4vJWKMMj@pengutronix.de>
+ <acqK9Ms_eRxg59Xa@lizhi-Precision-Tower-5810>
+ <adffNaI6hQbc1mAO@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260504-fix-sparse-v1-1-1071137cd280@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAAZ7+GkC/x2MQQqAIBAAvyJ7TjBLD30lOqy11l5MXIhA/HvSc
- RhmKggVJoFFVSj0sPCdOoyDgv3CdJLmozNYY71xZtaRXy0Zi5CeQkQf0FtyAXqQC3X7z9attQ9
- RBWiQXAAAAA==
-X-Change-ID: 20260504-fix-sparse-3bfa6ba62e5b
-To: Nick Dyer <nick@shmanahar.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.3
-X-Rspamd-Queue-Id: 4308A4BC068
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <adffNaI6hQbc1mAO@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: m.tretter@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Rspamd-Queue-Id: 1792A4BC40A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60271-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[shmanahar.org,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60272-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
+	DMARC_NA(0.00)[pengutronix.de];
+	FREEMAIL_TO(0.00)[nxp.com,kernel.org,gmail.com,pengutronix.de,linuxfoundation.org,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[m.tretter@pengutronix.de,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.984];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,chromium.org:dkim,chromium.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,msgid.link:url]
 
-The calculations done to obtain byte_offset can result into a negative
-number, fix its type.
+Hi Frank,
 
-This patch fixes the following sparse error:
+On Thu, 09 Apr 2026 19:17:41 +0200, Michael Tretter wrote:
+> On Mon, 30 Mar 2026 10:38:44 -0400, Frank Li wrote:
+> > On Mon, Mar 30, 2026 at 10:49:22AM +0200, Michael Tretter wrote:
+> > > Hi Hans,
+> > >
+> > > On Fri, 23 Jan 2026 17:57:23 +0100, Michael Tretter wrote:
+> > > > On Thu, 18 Dec 2025 10:23:48 +0100, Michael Tretter wrote:
+> > > > > The imx media device currently assumes that there is only a single media
+> > > > > pipeline. However, the media graph has multiple imx capture devices.
+> > > > > These may be started separately on media pipelines if they don't cause
+> > > > > conflicts in the media graph.
+> > > > >
+> > > > > Move the media pipeline from the media device to the capture devices to
+> > > > > properly track and handle multiple media pipelines for the imx-csi.
+> > > > > Refactor the code to start the media pipeline from the driver to help
+> > > > > the reader.
+> > > >
+> > >
+> > > Could you take a look and apply this series for the imx-media driver,
+> > > too? The patches are already reviewed by Frank Li and Philipp Zabel.
+> > 
+> > Sorry, I will take care imx's stage driver. I already sent pull-request,
+> > which included your other two patches.
+> 
+> Thanks for taking care! I found the other two patches in the
+> media-committers repository.
 
-drivers/input/touchscreen/atmel_mxt_ts.c:1481:44: warning: unsigned value that used to be signed checked against zero?
-drivers/input/touchscreen/atmel_mxt_ts.c:1479:49: signed value source
+Ping. Would it be possible to include this series in the pull request
+for Linux v7.2?
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/input/touchscreen/atmel_mxt_ts.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I couldn't find the patches neither in media nor in media-committers.
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 87c6a10381f2..26ba82fb60b6 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -1397,7 +1397,8 @@ static int mxt_prepare_cfg_mem(struct mxt_data *data, struct mxt_cfg *cfg)
- {
- 	struct device *dev = &data->client->dev;
- 	struct mxt_object *object;
--	unsigned int type, instance, size, byte_offset;
-+	unsigned int type, instance, size;
-+	int byte_offset;
- 	int offset;
- 	int ret;
- 	int i;
+Michael
 
----
-base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
-change-id: 20260504-fix-sparse-3bfa6ba62e5b
-
-Best regards,
--- 
-Ricardo Ribalda <ribalda@chromium.org>
-
+> > > >
+> > > > >
+> > > > > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> > > > > ---
+> > > > > Changes in v2:
+> > > > > - Improve code readability in Patch 2
+> > > > > - Update commit message of Patch 3 as suggested by Frank Li
+> > > > > - Link to v1: https://patch.msgid.link/20251107-media-imx-cleanup-v1-0-f82a693c28f4@pengutronix.de
+> > > > >
+> > > > > ---
+> > > > > Michael Tretter (3):
+> > > > >       media: imx-csi: move media_pipeline to video device
+> > > > >       media: imx-csi: explicitly start media pipeline on pad 0
+> > > > >       media: imx-csi: use media_pad_is_streaming helper
+> > > > >
+> > > > >  drivers/staging/media/imx/imx-media-capture.c |  8 ++++----
+> > > > >  drivers/staging/media/imx/imx-media-utils.c   | 12 ++++++++----
+> > > > >  drivers/staging/media/imx/imx-media.h         |  7 ++++---
+> > > > >  3 files changed, 16 insertions(+), 11 deletions(-)
+> > > > > ---
+> > > > > base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> > > > > change-id: 20251107-media-imx-cleanup-9022d941ae44
 
