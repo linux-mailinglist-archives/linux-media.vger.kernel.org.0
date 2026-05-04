@@ -1,73 +1,73 @@
-Return-Path: <linux-media+bounces-60224-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60225-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qOxLAeXy92mjoQIAu9opvQ
-	(envelope-from <linux-media+bounces-60224-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 03:14:13 +0200
+	id ePx+G+/x92mjoQIAu9opvQ
+	(envelope-from <linux-media+bounces-60225-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 03:10:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9A14B7ECC
-	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 03:14:11 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BC684B7E05
+	for <lists+linux-media@lfdr.de>; Mon, 04 May 2026 03:10:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 68F25300B608
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 01:09:25 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2B5A3300845D
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2026 01:09:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE99D1A9FAA;
-	Mon,  4 May 2026 01:09:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FEA01A76BB;
+	Mon,  4 May 2026 01:09:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="HmoE3Mk9";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="u0X+wvnU"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Rz1mTB4I";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RU/3l38u"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83CDA1AB6F1;
-	Mon,  4 May 2026 01:09:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77081ACEDF;
+	Mon,  4 May 2026 01:09:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777856959; cv=none; b=QlIEmOWSzi1n95Mjpt409Wq9cKDEiRwk/mW804I+GnojQdTBSS8GRjLehTedt92Ehy0Vn0M/hGAUyopEt+/fcEu6k1PXmgiPz2XxmMU8feqLLNLSvuUdGp9CBIbGqIyJnpnFNaNCpN9OAhqtfrU2faoVmgFeQlyC4iHp/QPFp4I=
+	t=1777856964; cv=none; b=NItThNxdzcXZlj3XiHfz//xdwNt2QFodHA7eQ85IwoJsm12NIPKXaWDcmoeed6rQz3MKaoPNrKP2B+pw9sy3S6k4oNEJ57K+aNeadOo4iLcHXOwKNEKMzzDUdmCiC5AMjA16hsVQ2iMip6KPdsKBn35f4pCl9dAlWnS9L4+shdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777856959; c=relaxed/simple;
-	bh=S2OkpvKlb9ApCcWNB2sLnOggw1iQaTMUJyjUW54cN+w=;
+	s=arc-20240116; t=1777856964; c=relaxed/simple;
+	bh=zD2SFvMoPMdpABmDVxu//bvNmn2dZJiRebnXy2wOxfI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FlPw+YX3DrqtWbGBQL42kvfMz0yItokZrQdPkr5xjcNvKwm+rKjIPB5AciqIG4cD1ZDRZlc2gnGObDFuG11UPTJglGab10nSNL1EtQLJQZgJJ/mkAIylX3Aum9IPj63RDL1eH2VcZKWE3+6FEcWmhOM+w4TkrV1nAl6hvxal+8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=HmoE3Mk9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=u0X+wvnU; arc=none smtp.client-ip=202.12.124.154
+	 MIME-Version:Content-Type; b=NnstbWRIk5QH9/Z9IAv5RxnZF1xWAe5HY0SHJAYZfVlrhi1hJwQXolSIzwjH3tlhNQn8YVyYCIzdxRYB2FtbJKlqBWQUUATymyOhHKytM52zbN47hjv/A6Ogjc8cSANeW0KkxknZ1LoXcQgCPJfxo843jQ6DM/Ya3PNUfwsc8IE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Rz1mTB4I; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RU/3l38u; arc=none smtp.client-ip=202.12.124.154
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id BC6CB7A00AA;
-	Sun,  3 May 2026 21:09:16 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Sun, 03 May 2026 21:09:17 -0400
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 2EBF77A0072;
+	Sun,  3 May 2026 21:09:19 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Sun, 03 May 2026 21:09:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1777856956;
-	 x=1777943356; bh=PyBNG5NCVmhrgcUbOX7wW2R85glu1nDLPWfnid44Ttw=; b=
-	HmoE3Mk9atEqKGqgJPZnJMyB/svSiycGIqVZEdXLlx+UMI1c61RSY3/uzi7oyFZG
-	9X/sXOQP2a25JXlwVHOqAGelzONX8DUtYlyuOdawvWt2PiQ+WHkJYpYjJNigcHYo
-	iWfp2AkBrt8BFMiSpFv011x5LpSxhEtP2410tL3tQgdvfxmnRqiPj0t4ZoVH3RbV
-	jYawZTx6A581blukI1kJ1HI6Hgr0+mYVda8EpEplyj9i3xjuKY0B8Kru3SLVdTQh
-	34D8x8ChTttvFp/S2uyByH6j0YbMlMPoX6mjOSCsGaBXbp+LNnp/MDNneVftMuy3
-	FtK8lKAiD+eAHP7eubrNsw==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1777856959;
+	 x=1777943359; bh=yKvr7QwSN0OSQnGGbQ2zuI/BgM9VaBL8pOubiPkpjuI=; b=
+	Rz1mTB4IS2ClxMvmlajDy0O0geq/1oe8k23SbTYRdpVJUywvGePxkLUvIGWfWOUj
+	jXUYu4ldO5V79cZ2YWmb6QbRhs6HWUEX7CDvuz7WZ1ZpRMh2AuK+H4ui3KBCp/gC
+	SOfxbyb6IXwLTPYjZaHZ2rdLRZhQo4ODJ0566+qMvKD4/VmUMCjw58BnlVQRHhw7
+	72t2+nwiePqbsh/cBt7lEUuY7c6c++i9t9Ps1+9YnT2pAQIOzctoaiiDXSS5v5hn
+	IkP8yYR+JGik9iMOqrMianen97zQ+x0gY55Gh1G4x/UfRQ1I/IqBhyEY+Ne8ElU/
+	7E9rES1i7rDCMJ2lmtN/wg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777856956; x=
-	1777943356; bh=PyBNG5NCVmhrgcUbOX7wW2R85glu1nDLPWfnid44Ttw=; b=u
-	0X+wvnUSXOmeDDZ7tX+eEjfrvoSl4nf3yKJjJxPjcDXp4zsByF+d+T8vvi0JDfzh
-	8fhKFzhorG/qnHsgGdG94ZR0cGmoCwLUpcqLrzeVyVvjlJS8zo1NA9nmbCdU6Ta+
-	qeqlZmAbxE13obNdGnS+/Yg6Q6iyLXG70dAaM6w2cSUbpc8r2K4phy3gEsc3gWsw
-	KWeTBw4y6thqGbNdma1uEW04FmDtXHTVBug8osupjRnJCP6e6O76xFBhHOb3RTan
-	HigTszeRIwQltS4O1YLS75Mp+OpyK4s/Lc6yS6Wbod5xZ6fOLSMpfcVD7T4uWyX8
-	V20hV/n5wNllM+vjhIgXw==
-X-ME-Sender: <xms:vPH3aYKgk23k0SZqt0CUwJtHTbfjRs3gNyg7YAAfLjYfLHzjTeSJSQ>
-    <xme:vPH3aYnZiQ-pI7Fegu7XS-XwlMaVive5tBamQmJBUbYkseXOscOV6ybybZCWtt-2e
-    Xdg8Ht8GlkIMZLF8yN-wl7lpOQtKIo6ZbG_QvOvDrryuwZuVdRISw>
-X-ME-Received: <xmr:vPH3aZaxdZitPXxHntpxlP3oVTqbYydxXMHNiffORb4Ax5aSaLiUJlgXv_n48rxk86bZkJWtC8CvQhNj3D1vOT4WWN1aZSiH3U64>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777856959; x=
+	1777943359; bh=yKvr7QwSN0OSQnGGbQ2zuI/BgM9VaBL8pOubiPkpjuI=; b=R
+	U/3l38uqG2123Rrpu0Zqzsr4cAQCJXF3HUJIzDlLydeNbKOsseOrWidWZsF0HmfJ
+	Cyuoy+eOoEdlOJbpI4F4rI0aN3s5IVAH0a0afNkhoLTBV54w94gNKnsjXxPrISbm
+	IgeWRk68+QwZhTqYgJBlfpA+l5pYUdhGuML6EdLkduDYYxaUvPlmzX7c9aX/FO+4
+	v+UgcOmrBWynM4QQB9/Cdh59sVaczaiUGDrMCHMHKxqJcIgkFmlF7hnKPvIcG9FQ
+	a/fQ0jcui1Kffq9yE/bVOWJv7EdzfThdrAm6LgGMk3U2tFpIvl3L5AEfjr9tBgz3
+	i4I9u4tNwE2VDzgG6rNfQ==
+X-ME-Sender: <xms:vvH3ac_uP70XMUW_LsF-8ABBULCWO8OkkpH7d1cT_c1toHYmQNTLfA>
+    <xme:vvH3aWSkoXZ5dG1vo3BMiNvkVi0uhQ2zJwfJuwzbmRn-rzPDRJtIHI_q-gCkDEqxa
+    pe3bwk28Q9APEIGKJx6wFfZKKZjs82Hx8JPcqEKDXTNaqfDn_GNE8Q>
+X-ME-Received: <xmr:vvH3aYW9gHjkS6hblSF6qifPF4nT2vKKLyX-OZOMQNQSG0-6-y3AjJG6XSulEr5jl8QmKFtHvrbeY_8lX2iFfYeUXJH_wg5UwmLV>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeljeegkecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
@@ -87,14 +87,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeljeegkecutefuodetgg
     shgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuh
     igqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhk
     lhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:vPH3ac9HvelcpKxMPnvV803P-01ucu20CDBX8UVdNqQSy5XAEYyCFw>
-    <xmx:vPH3aQbGlbxt0pl7BbzUQdIGRiOdE4ibMAIxsiJeYXbgVndiYRWgjw>
-    <xmx:vPH3aee1q83W0IuFbywltZ3Fh_v1at2xAsKBgyXKSGGekJZPkg0ksA>
-    <xmx:vPH3aVnVmzbPXLI1qBzEcQZBZcdJFmk6lCyi_wMF7R8hbX3aEOnMwA>
-    <xmx:vPH3aVHSP1cFufkinvqztl8lviiLsMuotofMdAg_9fcum8NZrO3YWLnF>
+X-ME-Proxy: <xmx:vvH3aYRoWHlv_0KOGkDzEnsSL4gzwFbxQHjCtmN77t05ju2IH0v_eg>
+    <xmx:vvH3aY0ZsBqV84PNg9cYyqvTrT81CoJUtgEE2x5H_KU9bHgNFHdUTg>
+    <xmx:vvH3aQdnCcR8cCs6--GXx-slwM2A3Y7W82WiSxd4fob8Og53FJkGeg>
+    <xmx:vvH3aYOfB9Bn41ZxzbBtJaCM-eJYV3BUTc8goKmwPXxoG9h3L0T58Q>
+    <xmx:v_H3aZrwYZrrC7v2zVI6RkN32ibaz0cpSbcO9XZRPZSB--iekaAV_iJt>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 3 May 2026 21:09:15 -0400 (EDT)
+ 3 May 2026 21:09:18 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -105,9 +105,9 @@ To: Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [v8 10/14] media: rppx1: lsc: Add support for lens shade correction
-Date: Mon,  4 May 2026 03:05:52 +0200
-Message-ID: <20260504010556.2796398-11-niklas.soderlund+renesas@ragnatech.se>
+Subject: [v8 11/14] media: rppx1: ga: Add support for gamma out correction
+Date: Mon,  4 May 2026 03:05:53 +0200
+Message-ID: <20260504010556.2796398-12-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260504010556.2796398-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20260504010556.2796398-1-niklas.soderlund+renesas@ragnatech.se>
@@ -119,7 +119,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 5D9A14B7ECC
+X-Rspamd-Queue-Id: 6BC684B7E05
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -127,7 +127,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
 	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -135,7 +135,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60224-lists,linux-media=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-60225-lists,linux-media=lfdr.de,renesas];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
@@ -143,14 +143,14 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ragnatech.se:email,ragnatech.se:dkim,ragnatech.se:mid,messagingengine.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ideasonboard.com:email,ragnatech.se:email,ragnatech.se:dkim,ragnatech.se:mid,messagingengine.com:dkim]
 
-Extend the RPPX1 driver to allow setting the lens shade correction
+Extend the RPPX1 driver to allow setting the gamma out correction
 configuration parameters. It uses the RPPX1 framework for parameters and
 its writer abstraction to allow the user to control how, and when,
 configuration is applied to the RPPX1.
@@ -159,267 +159,193 @@ Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 Co-developed-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
 Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
 ---
- .../platform/dreamchip/rppx1/rpp_module.h     |   1 +
- .../platform/dreamchip/rppx1/rpp_params.c     |   5 +
- .../platform/dreamchip/rppx1/rppx1_lsc.c      | 119 ++++++++++++++++++
- .../uapi/linux/media/dreamchip/rppx1-config.h |  54 +++++++-
- 4 files changed, 178 insertions(+), 1 deletion(-)
+ .../platform/dreamchip/rppx1/rpp_module.h     |  1 +
+ .../platform/dreamchip/rppx1/rpp_params.c     |  5 ++
+ .../media/platform/dreamchip/rppx1/rppx1_ga.c | 43 ++++++++++++++-
+ .../uapi/linux/media/dreamchip/rppx1-config.h | 53 ++++++++++++++++++-
+ 4 files changed, 100 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-index 121fea99b237..11c38ea843f4 100644
+index 11c38ea843f4..830ef0df7228 100644
 --- a/drivers/media/platform/dreamchip/rppx1/rpp_module.h
 +++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-@@ -86,6 +86,7 @@ void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
- union rppx1_params_block {
- 	struct v4l2_isp_params_block_header header;
- 	struct rppx1_bls_params bls;
-+	struct rppx1_lsc_params lsc;
- 	struct rppx1_awbg_params awbg;
- 	struct rppx1_ccor_params ccor;
+@@ -92,6 +92,7 @@ union rppx1_params_block {
  	struct rppx1_hist_params hist;
+ 	struct rppx1_exm_params exm;
+ 	struct rppx1_wbmeas_params wbmeas;
++	struct rppx1_ga_params ga;
+ };
+ 
+ union rppx1_stats_block {
 diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-index 57829e3b533d..f66640aff5b7 100644
+index f66640aff5b7..317ed715f1de 100644
 --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
 +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-@@ -18,6 +18,8 @@ static const struct v4l2_isp_block_type_info
- rppx1_ext_params_blocks_info[] = {
- 	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE1, bls),
- 	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE2, bls),
-+	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE1, lsc),
-+	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE2, lsc),
- 	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE1, awbg),
- 	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE2, awbg),
- 	RPPX1_PARAMS_BLOCK_INFO(CCOR_POST, ccor),
-@@ -64,6 +66,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
- 		case RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1:
- 			module = &rpp->pre1.bls;
- 			break;
-+		case RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1:
-+			module = &rpp->pre1.lsc;
-+			break;
- 		case RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE1:
- 			module = &rpp->pre1.awbg;
- 			break;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
-index e8acdf744956..541efbae379b 100644
---- a/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
-@@ -54,6 +54,10 @@
- #define LSC_TABLE_SEL_REG	0x00a8
- #define LSC_STATUS_REG		0x00ac
+@@ -29,6 +29,8 @@ rppx1_ext_params_blocks_info[] = {
+ 	RPPX1_PARAMS_BLOCK_INFO(EXM_PRE1, exm),
+ 	RPPX1_PARAMS_BLOCK_INFO(EXM_PRE2, exm),
+ 	RPPX1_PARAMS_BLOCK_INFO(WBMEAS_POST, wbmeas),
++	RPPX1_PARAMS_BLOCK_INFO(GA_HV, ga),
++	RPPX1_PARAMS_BLOCK_INFO(GA_MV, ga),
+ };
  
-+#define LSC_R_TABLE_DATA_VALUE(v1, v2) (((v1) & 0xfff) | (((v2) & 0xfff) << 12))
-+#define LSC_GRAD_VALUE(v1, v2) (((v1) & 0xfff) | (((v2) & 0xfff) << 16))
-+#define LSC_SIZE_VALUE(v1, v2) (((v1) & 0x1ff) | (((v2) & 0x1ff) << 16))
+ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
+@@ -84,6 +86,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
+ 		case RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST:
+ 			module = &rpp->post.wbmeas;
+ 			break;
++		case RPPX1_PARAMS_BLOCK_TYPE_GA_HV:
++			module = &rpp->hv.ga;
++			break;
+ 		default:
+ 			module = NULL;
+ 			break;
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
+index d6c7f951cf29..5dec868c1ed7 100644
+--- a/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
+@@ -14,9 +14,11 @@
+ #define GAMMA_OUT_MODE_REG			0x0008
+ #define GAMMA_OUT_MODE_GAMMA_OUT_EQU_SEGM	BIT(0)
+ 
+-#define GAMMA_OUT_Y_REG_NUM			17
+ #define GAMMA_OUT_Y_REG(n)			(0x000c + (4 * (n)))
+ 
++#define GAMMA_OUT_HV_GAMMA_CURVE_MASK		GENMASK(11, 0)
++#define GAMMA_OUT_MV_GAMMA_CURVE_MASK		GENMASK(23, 0)
 +
- static int rppx1_lsc_probe(struct rpp_module *mod)
+ static int rppx1_ga_probe(struct rpp_module *mod)
  {
  	/* Version check. */
-@@ -63,6 +67,121 @@ static int rppx1_lsc_probe(struct rpp_module *mod)
+@@ -43,7 +45,46 @@ static int rppx1_ga_start(struct rpp_module *mod,
  	return 0;
  }
  
 +static int
-+rppx1_lsc_fill_params(struct rpp_module *mod,
-+		      const union rppx1_params_block *block,
-+		      rppx1_reg_write write, void *priv)
++rppx1_ga_fill_params(struct rpp_module *mod,
++		     const union rppx1_params_block *block,
++		     rppx1_reg_write write, void *priv)
 +{
-+	const struct rppx1_lsc_params *cfg = &block->lsc;
-+	const __u16 *v;
++	const struct rppx1_ga_params *cfg = &block->ga;
++	u32 mask;
 +
-+	/* Always disable module as it needs be disabled before configuring. */
-+	write(priv, mod->base + LSC_CTRL_REG, 0);
-+	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE)
++	/* If the modules is disabled, simply bypass it. */
++	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
++		write(priv, mod->base + GAMMA_OUT_ENABLE_REG, 0);
 +		return 0;
-+
-+	/*
-+	 * Program the color correction sectors.
-+	 *
-+	 * There are two tables to one can program and switch between. As the
-+	 * RPPX1 supports preparing a buffer of commands to be applied later
-+	 * only use table 0. This works as long as the ISP is not used in
-+	 * inline-mode.
-+	 *
-+	 * For inline-mode support using DMA for configuration is not possible
-+	 * so this is not an issue, but needs to be address if inline-mode
-+	 * support is added to the driver.
-+	 */
-+
-+	/* Start writing at beginning of table 0. */
-+	write(priv, mod->base + LSC_R_TABLE_ADDR_REG, 0);
-+	write(priv, mod->base + LSC_GR_TABLE_ADDR_REG, 0);
-+	write(priv, mod->base + LSC_B_TABLE_ADDR_REG, 0);
-+	write(priv, mod->base + LSC_GB_TABLE_ADDR_REG, 0);
-+
-+	/* Program data tables. */
-+	for (unsigned int i = 0; i < RPPX1_LSC_SAMPLES_MAX; i++) {
-+		const __u16 *r = cfg->r_data[i];
-+		const __u16 *gr = cfg->gr_data[i];
-+		const __u16 *b = cfg->b_data[i];
-+		const __u16 *gb = cfg->gb_data[i];
-+		unsigned int j;
-+
-+		for (j = 0; j < RPPX1_LSC_SAMPLES_MAX - 1; j += 2) {
-+			write(priv, mod->base + LSC_R_TABLE_DATA_REG,
-+			      LSC_R_TABLE_DATA_VALUE(r[j], r[j + 1]));
-+			write(priv, mod->base + LSC_GR_TABLE_DATA_REG,
-+			      LSC_R_TABLE_DATA_VALUE(gr[j], gr[j + 1]));
-+			write(priv, mod->base + LSC_B_TABLE_DATA_REG,
-+			      LSC_R_TABLE_DATA_VALUE(b[j], b[j + 1]));
-+			write(priv, mod->base + LSC_GB_TABLE_DATA_REG,
-+			      LSC_R_TABLE_DATA_VALUE(gb[j], gb[j + 1]));
-+		}
-+
-+		write(priv, mod->base + LSC_R_TABLE_DATA_REG,
-+		      LSC_R_TABLE_DATA_VALUE(r[j], 0));
-+		write(priv, mod->base + LSC_GR_TABLE_DATA_REG,
-+		      LSC_R_TABLE_DATA_VALUE(gr[j], 0));
-+		write(priv, mod->base + LSC_B_TABLE_DATA_REG,
-+		      LSC_R_TABLE_DATA_VALUE(b[j], 0));
-+		write(priv, mod->base + LSC_GB_TABLE_DATA_REG,
-+		      LSC_R_TABLE_DATA_VALUE(gb[j], 0));
 +	}
 +
-+	/* Activate table 0. */
-+	write(priv, mod->base + LSC_TABLE_SEL_REG, 0);
++	switch (cfg->header.type) {
++	case RPPX1_PARAMS_BLOCK_TYPE_GA_HV:
++		mask = GAMMA_OUT_HV_GAMMA_CURVE_MASK;
++		break;
++	case RPPX1_PARAMS_BLOCK_TYPE_GA_MV:
++		mask = GAMMA_OUT_MV_GAMMA_CURVE_MASK;
++		break;
++	default:
++		return -EINVAL;
++	}
 +
-+	/*
-+	 * Program X- and Y- sizes, and gradients.
-+	 */
++	write(priv, mod->base + GAMMA_OUT_MODE_REG, cfg->mode);
 +
-+	v = cfg->x_grad;
-+	write(priv, mod->base + LSC_XGRAD_01_REG, LSC_GRAD_VALUE(v[0], v[1]));
-+	write(priv, mod->base + LSC_XGRAD_23_REG, LSC_GRAD_VALUE(v[2], v[3]));
-+	write(priv, mod->base + LSC_XGRAD_45_REG, LSC_GRAD_VALUE(v[4], v[5]));
-+	write(priv, mod->base + LSC_XGRAD_67_REG, LSC_GRAD_VALUE(v[6], v[7]));
-+	write(priv, mod->base + LSC_XGRAD_89_REG, LSC_GRAD_VALUE(v[8], v[9]));
-+	write(priv, mod->base + LSC_XGRAD_1011_REG, LSC_GRAD_VALUE(v[10], v[11]));
-+	write(priv, mod->base + LSC_XGRAD_1213_REG, LSC_GRAD_VALUE(v[12], v[13]));
-+	write(priv, mod->base + LSC_XGRAD_1415_REG, LSC_GRAD_VALUE(v[14], v[15]));
-+
-+	v = cfg->y_grad;
-+	write(priv, mod->base + LSC_YGRAD_01_REG, LSC_GRAD_VALUE(v[0], v[1]));
-+	write(priv, mod->base + LSC_YGRAD_23_REG, LSC_GRAD_VALUE(v[2], v[3]));
-+	write(priv, mod->base + LSC_YGRAD_45_REG, LSC_GRAD_VALUE(v[4], v[5]));
-+	write(priv, mod->base + LSC_YGRAD_67_REG, LSC_GRAD_VALUE(v[6], v[7]));
-+	write(priv, mod->base + LSC_YGRAD_89_REG, LSC_GRAD_VALUE(v[8], v[9]));
-+	write(priv, mod->base + LSC_YGRAD_1011_REG, LSC_GRAD_VALUE(v[10], v[11]));
-+	write(priv, mod->base + LSC_YGRAD_1213_REG, LSC_GRAD_VALUE(v[12], v[13]));
-+	write(priv, mod->base + LSC_YGRAD_1415_REG, LSC_GRAD_VALUE(v[14], v[15]));
-+
-+	v = cfg->x_sect_size;
-+	write(priv, mod->base + LSC_XSIZE_01_REG, LSC_GRAD_VALUE(v[0], v[1]));
-+	write(priv, mod->base + LSC_XSIZE_23_REG, LSC_GRAD_VALUE(v[2], v[3]));
-+	write(priv, mod->base + LSC_XSIZE_45_REG, LSC_GRAD_VALUE(v[4], v[5]));
-+	write(priv, mod->base + LSC_XSIZE_67_REG, LSC_GRAD_VALUE(v[6], v[7]));
-+	write(priv, mod->base + LSC_XSIZE_89_REG, LSC_GRAD_VALUE(v[8], v[9]));
-+	write(priv, mod->base + LSC_XSIZE_1011_REG, LSC_GRAD_VALUE(v[10], v[11]));
-+	write(priv, mod->base + LSC_XSIZE_1213_REG, LSC_GRAD_VALUE(v[12], v[13]));
-+	write(priv, mod->base + LSC_XSIZE_1415_REG, LSC_GRAD_VALUE(v[14], v[15]));
-+
-+	v = cfg->y_sect_size;
-+	write(priv, mod->base + LSC_YSIZE_01_REG, LSC_GRAD_VALUE(v[0], v[1]));
-+	write(priv, mod->base + LSC_YSIZE_23_REG, LSC_GRAD_VALUE(v[2], v[3]));
-+	write(priv, mod->base + LSC_YSIZE_45_REG, LSC_GRAD_VALUE(v[4], v[5]));
-+	write(priv, mod->base + LSC_YSIZE_67_REG, LSC_GRAD_VALUE(v[6], v[7]));
-+	write(priv, mod->base + LSC_YSIZE_89_REG, LSC_GRAD_VALUE(v[8], v[9]));
-+	write(priv, mod->base + LSC_YSIZE_1011_REG, LSC_GRAD_VALUE(v[10], v[11]));
-+	write(priv, mod->base + LSC_YSIZE_1213_REG, LSC_GRAD_VALUE(v[12], v[13]));
-+	write(priv, mod->base + LSC_YSIZE_1415_REG, LSC_GRAD_VALUE(v[14], v[15]));
++	for (unsigned int i = 0; i < RPPX1_GA_MAX_SAMPLES; i++)
++		write(priv, mod->base + GAMMA_OUT_Y_REG(i),
++		      cfg->gamma_y[i] & mask);
 +
 +	/* Enable module. */
-+	write(priv, mod->base + LSC_CTRL_REG, LSC_CTRL_LSC_EN);
++	write(priv, mod->base + GAMMA_OUT_ENABLE_REG,
++	      GAMMA_OUT_ENABLE_GAMMA_OUT_EN);
 +
 +	return 0;
 +}
 +
- const struct rpp_module_ops rppx1_lsc_ops = {
- 	.probe = rppx1_lsc_probe,
-+	.fill_params = rppx1_lsc_fill_params,
+ const struct rpp_module_ops rppx1_ga_ops = {
+ 	.probe = rppx1_ga_probe,
+ 	.start = rppx1_ga_start,
++	.fill_params = rppx1_ga_fill_params,
  };
 diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
-index 3030369a2fbc..e9d8c379bd50 100644
+index e9d8c379bd50..d173c0c1bfc0 100644
 --- a/include/uapi/linux/media/dreamchip/rppx1-config.h
 +++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
-@@ -87,6 +87,8 @@ enum rppx1_meas_chan {
-  * @RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1: PRE1 pipe Black Level Subtraction
-  * @RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE2: PRE2 pipe Black Level Subtraction
+@@ -89,6 +89,8 @@ enum rppx1_meas_chan {
   * @RPPX1_PARAMS_BLOCK_TYPE_CCOR_POST: POST pipe Color Correction
-+ * @RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1: PRE1 pipe Lens Shading Correction
-+ * @RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2: PRE2 Lens Shading Correction
+  * @RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1: PRE1 pipe Lens Shading Correction
+  * @RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2: PRE2 Lens Shading Correction
++ * @RPPX1_PARAMS_BLOCK_TYPE_GA_HV: Human Vision Pipe Gamma Out Correction
++ * @RPPX1_PARAMS_BLOCK_TYPE_GA_MV: Machine Vision Gamma Out Correction
   */
  enum rppx1_params_block_type {
  	RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST,
-@@ -101,6 +103,8 @@ enum rppx1_params_block_type {
- 	RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1,
- 	RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE2,
+@@ -105,6 +107,8 @@ enum rppx1_params_block_type {
  	RPPX1_PARAMS_BLOCK_TYPE_CCOR_POST,
-+	RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1,
-+	RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2,
+ 	RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1,
+ 	RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2,
++	RPPX1_PARAMS_BLOCK_TYPE_GA_HV,
++	RPPX1_PARAMS_BLOCK_TYPE_GA_MV,
  };
  
  /**
-@@ -445,6 +449,52 @@ struct rppx1_ccor_params {
- 	__u32 offset[3];
+@@ -495,6 +499,51 @@ struct rppx1_lsc_params {
+ 	__u16 y_sect_size[RPPX1_LSC_NUM_SECTORS];
  };
  
-+/* Lens Shade Correction */
-+#define RPPX1_LSC_SAMPLES_MAX 17
-+#define RPPX1_LSC_NUM_SECTORS 16
++/* Gamma Out */
++#define RPPX1_GA_MAX_SAMPLES 17
 +
 +/**
-+ * struct rppx1_lsc_params - Lens Shading Correction configuration
++ * enum rppx1_ga_seg_mode - Gamma out curve segmentation mode
 + *
-+ * The RPP-X1 Lens shading correction module is available on the PRE1 and PRE2
-+ * pre-fusion pipes. Userspace selects which pipe to operate by setting the
-+ * @header.type field to RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1 or
-+ * RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2.
++ * Segmentation mode of the 16 input sampling points for the Gamma Out
++ * Correction module.
 + *
-+ * The module applies per-color channel correction factors @r_data, @gr_data,
-+ * @gb_data and @b_data as a 16x16 grid mapped on the image. The size of each
-+ * grid segment is expressed by the @x_sect_size and @y_sect_size arrays.  Each
-+ * segment shall be at least 8 pixels in size and the sum of all horizontal
-+ * segments @x_sect_size shall match the input frame size width.
-+ *
-+ * The correction factors values are expressed as unsigned Q2.10 integers
-+ * ranging from 1 to 3.999.
-+ *
-+ * Pre-calculated interpolation factors shall be provided in the @x_grad
-+ * and @y_grad fields, expressed as 12 bits integer values.
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_LSC)
-+ * @r_data: correction factors for the red channel in Q2.10 format
-+ * @gr_data: correction factors for the green (red) channel in Q2.10 format
-+ * @gb_data: correction factors for the green (blue) channel in Q2.10 format
-+ * @b_data: correction factors for the blue channel in Q2.10 format
-+ * @x_grad: Interpolation gradients for each horizontal sector (12 bits)
-+ * @y_grad: Interpolation gradients for each vertical sector (12 bits)
-+ * @x_sect_size: Horizontal sectors sizes
-+ * @y_sect_size: Vertical sectors sizes
++ * @RPPX1_GA_SEG_MODE_LOGARITHMIC: logarithmic-like segmentation mode
++ * @RPPX1_GA_SEG_MODE_EQUIDISTANT: equidistant segmentation mode
 + */
-+struct rppx1_lsc_params {
++enum rppx1_ga_seg_mode {
++	RPPX1_GA_SEG_MODE_LOGARITHMIC,
++	RPPX1_GA_SEG_MODE_EQUIDISTANT
++};
++
++/**
++ * struct rppx1_ga_params - Gamma Out Correction configuration
++ *
++ * The Gamma Out Correction module is available on the Human Vision Output
++ * Pipe (HV) and the Machine Vision Output Pipe (MV). Userspace selects
++ * which pipe to operate by setting the @header.type field to
++ * RPPX1_PARAMS_BLOCK_TYPE_GA_HV or RPPX1_PARAMS_BLOCK_TYPE_GA_MV.
++ *
++ * The module allows to apply a @gamma_y gamma correction curve to RGB data
++ * represented as a table of 16 entries. The 16 input sampling points can be
++ * equidistant or segmented using a logarithmic scale according to the value of
++ * @mode.
++ *
++ * The gamma curve values are 12 bits on the HV output pipe and 24 bits on the
++ * MV output pipe. Userspace is expected to provide the curve values with a
++ * bit-depth matching the one of pipe in use.
++ *
++ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_GA_HV or
++ *	    type = RPPX1_PARAMS_BLOCK_TYPE_GA_MV)
++ * @mode: gamma curve input segmentation mode (see rppx1_ga_seg_mode)
++ * @gamma_y: gamma out curve y-axis values
++ */
++struct rppx1_ga_params {
 +	struct v4l2_isp_params_block_header header;
-+	__u16 r_data[RPPX1_LSC_SAMPLES_MAX][RPPX1_LSC_SAMPLES_MAX];
-+	__u16 gr_data[RPPX1_LSC_SAMPLES_MAX][RPPX1_LSC_SAMPLES_MAX];
-+	__u16 gb_data[RPPX1_LSC_SAMPLES_MAX][RPPX1_LSC_SAMPLES_MAX];
-+	__u16 b_data[RPPX1_LSC_SAMPLES_MAX][RPPX1_LSC_SAMPLES_MAX];
-+	__u16 x_grad[RPPX1_LSC_NUM_SECTORS];
-+	__u16 y_grad[RPPX1_LSC_NUM_SECTORS];
-+	__u16 x_sect_size[RPPX1_LSC_NUM_SECTORS];
-+	__u16 y_sect_size[RPPX1_LSC_NUM_SECTORS];
++	__u8 mode;
++	__u32 gamma_y[RPPX1_GA_MAX_SAMPLES];
 +};
 +
  /**
   * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
   *
-@@ -463,7 +513,9 @@ struct rppx1_ccor_params {
- 	sizeof(struct rppx1_hist_params)			+	\
+@@ -515,7 +564,9 @@ struct rppx1_lsc_params {
  	sizeof(struct rppx1_bls_params)				+	\
- 	sizeof(struct rppx1_bls_params)				+	\
--	sizeof(struct rppx1_ccor_params))
-+	sizeof(struct rppx1_ccor_params)			+	\
+ 	sizeof(struct rppx1_ccor_params)			+	\
+ 	sizeof(struct rppx1_lsc_params)				+	\
+-	sizeof(struct rppx1_lsc_params))
 +	sizeof(struct rppx1_lsc_params)				+	\
-+	sizeof(struct rppx1_lsc_params))
++	sizeof(struct rppx1_ga_params)				+	\
++	sizeof(struct rppx1_ga_params))
  
  /* ---------------------------------------------------------------------------
   * Statistics Structures
