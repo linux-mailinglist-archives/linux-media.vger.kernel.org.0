@@ -1,82 +1,82 @@
-Return-Path: <linux-media+bounces-60457-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60458-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GJARAGkZ+mlYJQMAu9opvQ
-	(envelope-from <linux-media+bounces-60457-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 18:23:05 +0200
+	id 0LjLN68Z+mm5JQMAu9opvQ
+	(envelope-from <linux-media+bounces-60458-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 18:24:15 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF224D1320
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 18:23:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8076A4D1366
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 18:24:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0F4FE30C1BE4
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 16:16:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AC08C30A0EB1
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 16:17:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 856C148BD24;
-	Tue,  5 May 2026 16:16:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03DC536EA8A;
+	Tue,  5 May 2026 16:17:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BAlq6bVm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H4FF23A3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3476A48BD31
-	for <linux-media@vger.kernel.org>; Tue,  5 May 2026 16:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AEE7322A1F
+	for <linux-media@vger.kernel.org>; Tue,  5 May 2026 16:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777997754; cv=none; b=fNB7vV6gBGAW8/On/jVDZULdiXDUz/I+Dzud/tyn3jLqIOEWm+qEtsdYux4Ad54LAJXPo6VDQc5NERksa6ipx8FxfmPs2tqNgBMfAqGrZd0WGtzqlBeI7bK9nIF93MzTm4+Pcb7ZyttWmaNktRZMBfJGNwW+zOfpoTS+qr5zeYg=
+	t=1777997827; cv=none; b=WBT43CApqk6aaNscuz7IXS9F0/6/zhwZGRNlaDyblkaypYxt0gyTP8XVmQ7b/I5fqD8VFUlhWntBYiFsOqvqK+x3CpS0q9Ft5JJLvlKB24+qGijHTj6qJmjM19U6f0mcJuqtoFYTGQrUlZEgTZ/6L89LToIfpLWBv9Vd4jxg6t4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777997754; c=relaxed/simple;
-	bh=DOcATmiBxnRGKjoFpcAJ5nk3hnXYfVYBXXI94JUx4Kk=;
+	s=arc-20240116; t=1777997827; c=relaxed/simple;
+	bh=JC3hYS6liihf96hKFXCRKLPQmhVUOWHZUk/IiD0r11M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RtYG+rJGstz3KLb/TKJJDGh5Q9BDJ/trntkSAfjfGfLaVNLAZpqUm6c9ulplEZ79zYTmkK2yME6bIwHRRot5ZhOCYVgV9xxJEwpkx5JZD1kLuGDbI6bLF9EhhzkAuoQZD8+heMImZWbvnfAgkWZPUXZYmrfUbxc5GOm2aa+GvlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BAlq6bVm; arc=none smtp.client-ip=209.85.128.41
+	 MIME-Version:Content-Type; b=mymEybHaH3V0hKKWv4Nmclcd5yJMRfcI0WFPNSZZjHBkajB46AvuJUUjU/6U/4+M7vBk0nZwVE8R8URC/lIYLQHoRR1JNLENtOu6RKi+rrqzbYotzmAdudPRAd9tBD+W17jk1I1/owSqJdhcGsE8E+Kxh4bRRaCMGCwwXOwtbp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H4FF23A3; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488ab2db91aso64935765e9.3
-        for <linux-media@vger.kernel.org>; Tue, 05 May 2026 09:15:49 -0700 (PDT)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-67be871ed3fso6134334a12.1
+        for <linux-media@vger.kernel.org>; Tue, 05 May 2026 09:17:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777997745; x=1778602545; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777997821; x=1778602621; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rwCwPqassmdFa5GP4LZDb8M62stClOb1kWRYWVT4ujQ=;
-        b=BAlq6bVmCwVK50yS2UmyWp0kTy0toOfYXvJJoZ4MDUSYRFfM7IFM4qmvVl1acKEOYO
-         RqTfcL2CQpo8NsyZE3Bz+eG9iZP3pmnA0Uyh0brnwT4Az7qvYfdjy424uMufC3Xy3h53
-         u0L3EgIc9Br/5As50dAB6Ydty8VhkVl/+RcgoF70jGGg2XrHVvawxcKx0fQLbwdCFig7
-         X+rOGS1s3C9n0Tx7x07YZSg50ekhs4IAxqZewB4vHP2YQnuQ0mRvsCoshGDC1tH8xIX/
-         joqVcL+9RN2i89cLF/DCGm54sLI1zlMo5xZKXvK0k656rSGmQUApwiCGgY/UhEenZy9/
-         WYDQ==
+        bh=JC3hYS6liihf96hKFXCRKLPQmhVUOWHZUk/IiD0r11M=;
+        b=H4FF23A3p2afd2RFIiyHCJdqHSn/Vku7Xr9oyuxlaiKJpXhoLjYAnoXWNnjpBQBryf
+         lXPV3muouLMnaiD4NNoMnYeRzCS4AiTBnmkguIc6lPX+cec+VzgFHrdGrkujWhEUiHCw
+         dNQVaZi0bOVQxKA2FEx/Is6UZYhyuevcFG6E+Nlhk9r9H7FXHUzF9E1DQT8jZ8e0yAHT
+         Bc3dOU7GZ1S4p5qH/Y1jP5q1DngcbiO1oIhvi5krARgImr+HAtY4CCbz78Br0Jf9XtrI
+         220YCNJaFamyJq6OwZwAb2zi1jazVVih8SXd1kjzvjmpukEUlvTyYEly925tTFL6Wkjk
+         cZcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777997745; x=1778602545;
+        d=1e100.net; s=20251104; t=1777997821; x=1778602621;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=rwCwPqassmdFa5GP4LZDb8M62stClOb1kWRYWVT4ujQ=;
-        b=kMQJNJAHXwjBOIujnfRaffXnvztMrflN0rnryJJ7QvsadtgEou9Ax4c1CnLd6pGmo0
-         9dZk7uxwyz81Tc7wqERi0H1DM9bov329Upvd1BW21lfZFiiGhDGTZp29/s5FVZQMOwJw
-         a5UOPFrsepvVt8QzbgjwetsqEkzcvo479MSl+zpXOTJw8Md/EtxpotTX5/6DaBCwVTxF
-         u9NBckWrjufxSw4FscCSlUKudQRTdSZSxVj7/JcCb0uJKtke6y448GpaYb8JvZCCNkWx
-         xot0DPyJVjdNDiMkIf0oXHnLcJAw2hQvjOKasSA6oUJiMRPHY6ytDteqJVxuiluSeIau
-         UZMw==
-X-Forwarded-Encrypted: i=1; AFNElJ/3Exc3UlKNRCaTmGKf5JDTHME4Q9Z2Ps+QV5NBL3OzlgNlOkM4SfQdkUSWK/q73qT5N0ZqTEdQK3HD6Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yycoc/lgxIl/DGdzrUoJgnf06Lv4Ptj7PZUQVbZzi6TQ0biO+oU
-	eWxgG4RnQryXUiIr8dWvLzQXJafBYlokv87AsjyWl2rpf0+QqQLEguvP
-X-Gm-Gg: AeBDietDTLlcW+yAU7q06hXNm/dI3T6o/hdtz/LB/di5qFvD5GgovtXXpJwunmHhiSP
-	7Z5Y44jYli+BlgvTc8kKFJ6aP+43viR8WCBr+0tHUc3d/Q9UWmWkIXCBHe3nvuaekeGW0Qqhbdd
-	V2ikJgy35MvzyS/xaXIcc14dm2XEe6hB4cUOGVgX/SAFkzZwem0fnUgT9uSq427nnyhhqSH0YrT
-	l4aUU7OQ11JUsJLsL5XdmX/2vK69K28XuTwmXbTlMScVwqEuStDnNrj3ak8Dp4k5tEN4vgNl2rG
-	FFW16pT/41DYBqbYJ5HvMytSjs3kT5pRWo1CQOuax5dfcBJV7+BLc35xi3rAUGayus+axX7ud/c
-	diIHXuTnntAJ5sqwO1Ulg4vMzayASLox6fMJCMiI1eOPu0sxXJs2dRIXTYVPkdxzi0iHKgK0ZWk
-	1FpDelXXN6bWeD/4Ny4etUoHU9nZBoWcqczDYGwEp8T2r7U8mrVEXUgxWQ6JdnU/c0ZnwNetjry
-	pWeIkU9hdwUv6hQG/zAOypf5kkr
-X-Received: by 2002:a05:600c:3513:b0:489:c57:7836 with SMTP id 5b1f17b1804b1-48e51d6c8cfmr1051235e9.27.1777997744843;
-        Tue, 05 May 2026 09:15:44 -0700 (PDT)
+        bh=JC3hYS6liihf96hKFXCRKLPQmhVUOWHZUk/IiD0r11M=;
+        b=aWOF6gh+t2BLcWTlX6NylMeb4q4r81GPDSnoF4+ZWRYj8slUnNatgyGSbz4cfz900q
+         A8AUbEKe8OtAKAAbhF0f5KihtUD0JFZRHvMY7V3kxFf6nsoKzHzc5I9hPW1ZYb85DclO
+         TupMK+HgQveTDUgZQBMsE7mhFQxqP84qczJpt2ZV9XOPJAebmWKece4KPVrK2DCjIgO6
+         Zpg9kmtWqfSWkz+3XiSznlYr/BR8SjNa2YfQvt1LuBWG8OWl/D5suo0s9sc06heKx4Ri
+         wwOTpYQJecwa8YZZ7QyduSdFeYMgW9bj7r0CgT6TG8b4VsrGD+NRRLllr4qI1giMpsp9
+         tYYg==
+X-Forwarded-Encrypted: i=1; AFNElJ88yA/pSJppwJslJzD/mKsdWerBZMywjZRvQSJ4Rud+b/vKOULMBt01TjCfdf0jGhCdJFuTvBL77DQSbw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx++cJIW8Sh7qzUTnfuKufXFdOWh+e9CvSpz93k0MyR4a3UcRB7
+	8taGFL/YyKmPTsG/D/sjE4JkmCA0GBzzLnNoAvwkhNbDbjC+chmv2lWV
+X-Gm-Gg: AeBDieslK+m23Q0LIeglA3w3BwFo3x3p3Z7wPH9KkFckDfbuOfMmg163Bi8o0/LOamT
+	b0tn8DnASR9CIvs2n5e/MfVKtVP5d9b/eNLmXJFbPmUhphsedPnPYZgTrS0B8tltHNP/bCskuOn
+	OuWjhJDhS+nqB/EWFxfyjrwPBKDjQm5AP89CT6lL5OSHxJN23leE0acILGX6Qx4kZsoYhA9dQDj
+	H4SUGfwf+SCxFwamDWbPwiiVT3hlbinuxa9TbsR/nj8HX8omG2qxKvkAB+MX59Y+hv5tq8es8gJ
+	Nd7Ueb/peD6G4H5ITMuF4K1HqmFMJumZTEDSAXh7MNE71vLVx2+UZO71fmwgJzlOu0GDFvOe0XF
+	HzqJjzjgYXHpnZwluV2qM/j9hpu0MQ7QIyJrakC/psc1h786jWPR6qm5MPMlqBW/1gnTjYwr2wS
+	vzNJ9hYZbSm9UWHahOdlpfEQrBliGzrfbKVYnjmmPUcGNTYy8Zsy8LqJKH9A8UhZZpaymVMvwni
+	GEVGu6LxVatUBdhRMo=
+X-Received: by 2002:aa7:d319:0:b0:677:866c:6bb2 with SMTP id 4fb4d7f45d1cf-67c1a2e5f85mr5124227a12.16.1777997820593;
+        Tue, 05 May 2026 09:17:00 -0700 (PDT)
 Received: from jernej-laptop.localnet (46-150-62-216.dynamic.telemach.net. [46.150.62.216])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a820c8556sm402657765e9.4.2026.05.05.09.15.43
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-67cd91d5727sm554894a12.29.2026.05.05.09.16.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 09:15:44 -0700 (PDT)
+        Tue, 05 May 2026 09:16:59 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
@@ -88,14 +88,14 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH 2/7] dt-bindings: media: sun4i-a10-video-engine: Fix SRAM count
- for H6
-Date: Tue, 05 May 2026 18:15:42 +0200
-Message-ID: <A3ZnAVmNS1uZyanwbLT-hg@gmail.com>
-In-Reply-To: <20260505134812.408316-3-wens@kernel.org>
+ Re: [PATCH 3/7] dt-bindings: media: sun4i-a10-video-engine: Add H616
+ compatible
+Date: Tue, 05 May 2026 18:16:56 +0200
+Message-ID: <GgrksnDEQem0uehnTU2lzw@gmail.com>
+In-Reply-To: <20260505134812.408316-4-wens@kernel.org>
 References:
  <20260505134812.408316-1-wens@kernel.org>
- <20260505134812.408316-3-wens@kernel.org>
+ <20260505134812.408316-4-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -104,7 +104,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-X-Rspamd-Queue-Id: 8FF224D1320
+X-Rspamd-Queue-Id: 8076A4D1366
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -116,7 +116,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60457-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60458-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -137,68 +137,18 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-Dne torek, 5. maj 2026 ob 15:48:06 Srednjeevropski poletni =C4=8Das je Chen=
+Dne torek, 5. maj 2026 ob 15:48:07 Srednjeevropski poletni =C4=8Das je Chen=
 =2DYu Tsai napisal(a):
-> On the H6, the SRAM C region includes an alias of part of the VE SRAM
-> used by the video engine. This region should also be claimed so that no
-> access happens through the alias window.
+> The H616 contains a video engine similar to past SoCs.
+
+Maybe add that it's first to support VP9?
+
 >=20
-> Add a second SRAM region phandle to the video engine for the H6.
+> Add a new compatible for it.
 >=20
 > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> ---
->  .../allwinner,sun4i-a10-video-engine.yaml     | 21 ++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-=
-video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i=
-=2Da10-video-engine.yaml
-> index 932043d7f0cc..818d815d4732 100644
-> --- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-e=
-ngine.yaml
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-e=
-ngine.yaml
-> @@ -48,11 +48,15 @@ properties:
-> =20
->    allwinner,sram:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    minItems: 1
->      items:
->        - items:
->            - description: phandle to SRAM
->            - description: register value for device
-> -    description: Phandle to the device SRAM
-> +      - items:
-> +          - description: phandle to SRAM alias
-> +          - description: register value for device
-> +    description: Phandle to the device SRAM(s)
-> =20
->    iommus:
->      minItems: 1
-> @@ -101,6 +105,21 @@ allOf:
->          iommus:
->            maxItems: 1
-> =20
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - allwinner,sun50i-h6-video-engine
-> +    then:
-> +      properties:
-> +        allwinner,sram:
-> +          minItems: 2
-> +    else:
-> +      properties:
-> +        allwinner,sram:
-> +          maxItems: 1
-> +
->  additionalProperties: false
-> =20
->  examples:
->=20
 
+Either way:
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
