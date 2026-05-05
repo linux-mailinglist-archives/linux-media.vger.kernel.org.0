@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-60495-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60496-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SL7LHiFy+mkDPAMAu9opvQ
-	(envelope-from <linux-media+bounces-60495-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 00:41:37 +0200
+	id YKF+L1p5+mlOPQMAu9opvQ
+	(envelope-from <linux-media+bounces-60496-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 01:12:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5724D46D3
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 00:41:36 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C444D4971
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 01:12:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B65FB3052B6B
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 22:41:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id ECB20305616F
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 23:12:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB09B3264F5;
-	Tue,  5 May 2026 22:41:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5818931C56D;
+	Tue,  5 May 2026 23:12:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="N2FdDZC7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="V1RQrstE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EF51DE894;
-	Tue,  5 May 2026 22:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75EB63358C2;
+	Tue,  5 May 2026 23:12:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778020887; cv=none; b=dYiLAvgGelW7QDL5wxXpf++F3evByL/3mX8BiFIDzpLU3PxZelJLgEeHOyy3XdfXzu9vZSI4JUKKLtVLXI+GgYyWePGKTFX/XHqd1sZ5VUGWAauXaCFJhdEC98Vj9eZ2NTXVuHAF00WDXcNTaK+p+Xv7KoG4E6FROimiDqNIY8c=
+	t=1778022735; cv=none; b=mKV/cvdG7vn6vPR7FUmheUUqO5quMaNLNdW/02M0SsGFIJ1a3yT4IbmEZvJHsm2FnRqnWidg6mQLajGe3UZOAW5RI5eIq1aZaDAYv9mlAHba1tPlQSMDqrskm1Xbb38QAriOtRI7TKiPRLelecP7PqIWavD5MnWPC4y6JCBnO+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778020887; c=relaxed/simple;
-	bh=whhdB0jSlNvIcCn4yTQh1IWX+0kZn4kDL5bgL/kWPXU=;
+	s=arc-20240116; t=1778022735; c=relaxed/simple;
+	bh=yjFbwx4a27WgqwEzpXDAmrlWG7G7Bo3QCHm5UD3y+PU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XI8L0FmC8oKmdRfKFiGRIs+auBx4m/NKhHAV0oBuibAIIY5Z2OogUgCL1C7bUlefjmc4RXzpw1fQUxwFCHd3dyiK1KHbXZ944cr/FM8ZAWks6WsBC6PzEvtrfkR56PQH5swA95/SHqpofifXnDLsdOaC37d3xunQp+5rZpUpBwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=N2FdDZC7; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=WWqexojXjYldFsey1CdHCbYk9oTGu60ED1nYdIX5tuMNQlKe+CNAolF/OxI96xISttYN/rbGYxfrKVTczov7rXnL/96cGRIqANVYm4Im8w1BjrjBH062TKPpP2A7fSTzB08BbQS3xz2sgXwClyjN+tR/0DySJxsnorjxM5BsMUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=V1RQrstE; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 645875B2;
-	Wed,  6 May 2026 00:41:21 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A270B5B2;
+	Wed,  6 May 2026 01:12:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1778020881;
-	bh=whhdB0jSlNvIcCn4yTQh1IWX+0kZn4kDL5bgL/kWPXU=;
+	s=mail; t=1778022729;
+	bh=yjFbwx4a27WgqwEzpXDAmrlWG7G7Bo3QCHm5UD3y+PU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N2FdDZC7vLPJArLf0fbyGhKPzHWf3fyR+jP6pUJ2cCvcMLOiZ9ruKzWEs6MoLG5wA
-	 bGA0e6n1qC+P2ARixooOQIRp5AvWXpjzibSpNa33b8RVZHMPUNYfFy8YScU9queoUh
-	 lFgeB3Kj7CVM8eNJLHvr/hZH6pcgh7DiImZ0e1FE=
-Date: Wed, 6 May 2026 01:41:23 +0300
+	b=V1RQrstEbX6MuMjwKIodxr6WqTUQt5hzxR8BGaJPhLvAUtlmhLIqJ+p7OleR64884
+	 TeLsIG1s5j61Z5CPKQPQWnK5NjIwyPBw5hLqzzFdFYsuMLZ5RhSHnTOduZkChtNuTu
+	 faI55vHmrw03bQ76J5979ARXSaNIVpQPzEur54RI=
+Date: Wed, 6 May 2026 02:12:11 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Ricardo Ribalda <ribalda@chromium.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -60,11 +60,10 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: Re: [PATCH v3 2/6] media: i2c: mt9p031: Rewrite assignment to make
- smatch happy
-Message-ID: <20260505224123.GD1598374@killaraus.ideasonboard.com>
+Subject: Re: [PATCH v3 1/6] media: v4l2-dev: Add range check for vdev->minor
+Message-ID: <20260505231211.GE1598374@killaraus.ideasonboard.com>
 References: <20260504-smatch-7-1-v3-0-fda125c30058@chromium.org>
- <20260504-smatch-7-1-v3-2-fda125c30058@chromium.org>
+ <20260504-smatch-7-1-v3-1-fda125c30058@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,8 +72,8 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260504-smatch-7-1-v3-2-fda125c30058@chromium.org>
-X-Rspamd-Queue-Id: CA5724D46D3
+In-Reply-To: <20260504-smatch-7-1-v3-1-fda125c30058@chromium.org>
+X-Rspamd-Queue-Id: 34C444D4971
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -82,12 +81,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60495-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60496-lists,linux-media=lfdr.de];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -104,38 +103,59 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,samsung];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,killaraus.ideasonboard.com:mid,ideasonboard.com:dkim,ideasonboard.com:email,chromium.org:email]
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,killaraus.ideasonboard.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email]
 
-On Mon, May 04, 2026 at 06:54:05AM +0000, Ricardo Ribalda wrote:
-> The current code makes smatch a bit uncomfortable:
-> drivers/media/i2c/mt9p031.c:799 mt9p031_s_ctrl() warn: assigning (-1952) to unsigned variable 'data'
+On Mon, May 04, 2026 at 06:54:04AM +0000, Ricardo Ribalda wrote:
+> If the fixed minor ranges are not properly set we could end up in a
+> situation where the calculated minor is invalid. Add a check for this in
+> the code to make it more robust.
+
+If it was just for that, we could define the ranges in a way that could
+not lead to future programmatic errors.
+
+> This check also fixes the following false positive smatch warning:
 > 
-> Probably because smatch is not clever enough (yet). Do a simple rewrite
-> to make sure that smatch understands what we are doing here.
+> drivers/media/v4l2-core/v4l2-dev.c:1036 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+> drivers/media/v4l2-core/v4l2-dev.c:1043 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+> drivers/media/v4l2-core/v4l2-dev.c:1101 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  drivers/media/i2c/mt9p031.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/media/v4l2-core/v4l2-dev.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-> index ea5d43d925ff..8dc57eeba606 100644
-> --- a/drivers/media/i2c/mt9p031.c
-> +++ b/drivers/media/i2c/mt9p031.c
-> @@ -796,7 +796,8 @@ static int mt9p031_s_ctrl(struct v4l2_ctrl *ctrl)
->  			data = (1 << 6) | (ctrl->val >> 1);
->  		} else {
->  			ctrl->val &= ~7;
-> -			data = ((ctrl->val - 64) << 5) | (1 << 6) | 32;
-> +			data = ((ctrl->val - 64) >> 3) & 0x7f;
-> +			data = (data << 8) | (1 << 6) | 32;
->  		}
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index 6ce623a1245a..5516b2bbb08f 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -1032,6 +1032,11 @@ int __video_register_device(struct video_device *vdev,
+>  	vdev->minor = i + minor_offset;
+>  	vdev->num = nr;
 >  
->  		return mt9p031_write(client, MT9P031_GLOBAL_GAIN, data);
+> +	if (WARN_ON(vdev->minor >= VIDEO_NUM_DEVICES)) {
+> +		mutex_unlock(&videodev_lock);
+
+I may get tempted to convert code to using scoped guards at some point.
+
+> +		return -EINVAL;
+> +	}
+> +
+
+I'm annoyed by the proliferation of workarounds for smatch false
+positives that generate useless code :-/ This is in particular is not a
+big deal though, so
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+but I don't want to continue in this direction with every new kernel
+release. We need a way to tell smatch that this is safe with incurring
+an runtime cost.
+
+>  	/* Should not happen since we thought this minor was free */
+>  	if (WARN_ON(video_devices[vdev->minor])) {
+>  		mutex_unlock(&videodev_lock);
+> 
 
 -- 
 Regards,
