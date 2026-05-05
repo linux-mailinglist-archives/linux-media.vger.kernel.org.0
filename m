@@ -1,190 +1,216 @@
-Return-Path: <linux-media+bounces-60409-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60410-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cDjTEPjp+WkLFQMAu9opvQ
-	(envelope-from <linux-media+bounces-60409-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 15:00:40 +0200
+	id uAUpI0rq+WkLFQMAu9opvQ
+	(envelope-from <linux-media+bounces-60410-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 15:02:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4328C4CE17D
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 15:00:39 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 293464CE1C7
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 15:02:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B1126300FC24
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 12:50:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A7ABC307B8FB
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 13:00:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A345353EF3;
-	Tue,  5 May 2026 12:50:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B9DE421EFB;
+	Tue,  5 May 2026 13:00:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="IzlUt7Tf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GoeIVUHj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E38F32D7FF;
-	Tue,  5 May 2026 12:49:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.243.27.206
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777985399; cv=none; b=ggpDvMadyCtthmBrqKc8jHgYazy8K9cOutyvNOXWWE3PTu45siFvHhUXUo/4d822HLYj70mfE9iA2GhOG/5wi6fHGhv7XfXFnA5q3LZ85WoOZ2hepYhFUdGbtTshu3XWkaV68jVxQ1Y9vXNlbjt2bVHeNR3poVwO4YozPYsuVvw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777985399; c=relaxed/simple;
-	bh=L/4GGOOFt4rtjaCNpGcKVSPms8rNL5zZIUfkl8iSijM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fq1zx39Rr/Ru5ERnxaYEIFA9IpK6i/Ulhpl91X4m2PcgKpTFEayjIaNeKDXnqSukGirqAOhGf+Qi6yoOkgKvFfdt2dLyBJLTuQEkdghDmr+ulCNIfW9TwiVd9VsjgyyP5PPp+VINOajTbl7qdI9NhDG0ikbwiXmEWlqOqShOEuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=IzlUt7Tf; arc=none smtp.client-ip=92.243.27.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1777985396; bh=L/4GGOOFt4rtjaCNpGcKVSPms8rNL5zZIUfkl8iSijM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IzlUt7TfMUUbPpIkH/VQDPKNx5GAIyOx25hyT3quLDFQM2akkXiDO4YLCyff6yXXA
-	 Uy3nUfRgq0f69eBF1r0T7/GskWx3fTMra00/fuZxqHb2i74uBcyj3BJ/4EdMtEgl0V
-	 yq7UYp/u+5j63wCU7TkkqCNXGzPwoD82AFhvhBJr2qhIN+5VSPMo8ZLOq35gCUNtRO
-	 bglscsY0IzTROFENN1oBPf+paGAuByS4/qGsqk/XurRa2FeVKsrxuuy7D36+defPDx
-	 Vgk1RuoxKh4nBLLOd2hSnVa2vb9seD0P1cQkuOCEuVD6zsvuKHz6ZV/5w3ghjbKM0O
-	 ZTv+7NLKtjKhg==
-Received: by extorris.mess.org (Postfix, from userid 1001)
-	id 32F0241CDC; Tue, 05 May 2026 13:49:56 +0100 (BST)
-Date: Tue, 5 May 2026 13:49:56 +0100
-From: Sean Young <sean@mess.org>
-To: Wenyuan Li <2063309626@qq.com>
-Cc: Andy Walls <awalls@md.metrocast.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Markus Elfring <Markus.Elfring@web.de>, gszhai@bjtu.edu.cn,
-	25125332@bjtu.edu.cn, 25125283@bjtu.edu.cn, 23120469@bjtu.edu.cn,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v4] media: ivtv: ir-i2c: check I2C transfer errors in
- get_key_adaptec()
-Message-ID: <afnndDiYeNmHEjTE@extorris.mess.org>
-References: <tencent_820AAE865CAC3FB7596055F016FD7503210A@qq.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E39E426D37
+	for <linux-media@vger.kernel.org>; Tue,  5 May 2026 13:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777986006; cv=pass; b=ZxbDFnxUFo8LgkAdb/xTQpTUQK2Y6NrVtiIGjI7xXH7RX6yGZkGtpImjBxn6XddbypE7BK0IdAfbtIefGLrAbY19SsZvdGEp2oyiO3w4YHob41j3Av3uQmEJT4LUjqlzyhMqwCNfrkoiXN+Qk/O4IJZkbxhU8PaR+Rvg+thHc/8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777986006; c=relaxed/simple;
+	bh=hIDRLg2eWaFSrnAvJdPT6cUXbRWnjBe9GRrwIz05WwM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TphUZBgwUZn6kv0dHRN1U+irQ7Mv6BldoIlTVV+snzR/P0FYQ8nYeSs/+zZS5mhw7A9QFCzy4pyN8nwuw08jfEIJDOZNDY8YBzBF0GjocAM6l8n5qyYyg3b9Ky2sV4CXzbOnA8fIo+JMgHkCVKGgOtNsG+nNXD9HoXmIu8x83FI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GoeIVUHj; arc=pass smtp.client-ip=74.125.224.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-651c366f7efso4988065d50.1
+        for <linux-media@vger.kernel.org>; Tue, 05 May 2026 06:00:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777986004; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PfY1bi4q4olmlLA0lS698LwyxhqD3YsH607Wo5ZnELxHgLHvCkRpiyldT+nOELQXS/
+         1CNcZd8Rqte1Y/OZHkYYwsFIRMi+KO+ED2w3kY2w3aqrTllWAaOVJaRMaXPKJzjpxR44
+         RcLAo5Adj8hjbnISarCWvzw7hpdMoaer7QZgeyr57QULPcbqb07jkRicVoBOHK1zFHPS
+         K5k9PeysO9TlubIfCHOHEHMImkfcYgzQZbKMd34EH1ilzx18s06zHPv3EbvZERnwODWS
+         BOIPL+KOSs66DBjRVQt0E4s5IL7J56ZBLaYvpL1lUBMHy6lJmbDwBiANeCqzg+wAp30O
+         Ct/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hIDRLg2eWaFSrnAvJdPT6cUXbRWnjBe9GRrwIz05WwM=;
+        fh=gaE3G09tubm/pBu5POXjmisojtbZrTvP4eAd9le0pLs=;
+        b=BEpiWMhIEegq9LrdvxltdLZNDfRxM62vAJgB8Pc7i88Hyj3fN3zbPH7hskn8ziIhYx
+         2Y8jksf2DXo+XlrKXJWn40qjSdWHr9Xw5cz3auX2Lqs61M8CkiibyQWUxJwoums7yqkY
+         BipmtX10gmUqSOifzeAgHHEKFhUzzLmUeXhUGneL0IXo7IEO7nIJuHLQyGoxSFaFV642
+         2epusiXnYPhQ1VSeu+jJKVa1WomxXEvFhtEQz0prU7eHYNF2iCvjTI0ZrexZHVwjKtVy
+         mbBgZWnXiLIV+yXCEugKREUne5trF+qRGaxG8tjzK3+H6mbZ1CR3zynBUOMWD+oRrQyv
+         jHvA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777986004; x=1778590804; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hIDRLg2eWaFSrnAvJdPT6cUXbRWnjBe9GRrwIz05WwM=;
+        b=GoeIVUHj2GRSwE5ou/UpPYcxlhjdEJHZaLKeWxmSqxeY3lNYSU4g8NHXz9ch6gB13a
+         N4881PESspPKYX7E6LA+og9JEsQmJ5FCzOkU1w0Br+bAxaVIAHxGlkaVyl7pwEpElV7n
+         5tX7T+qJ0kGHEVpkrtFk+q2HbU7+uO8YxCHcTa065vmMr5IlCtu+opdibqqNY3W5kiiy
+         CH6Nb0rXM7zV2EI6CMLznwU6jaAkCMpNMSocPol0FKzv8vHo+2YfNflPeor2pvlIAKo5
+         HnVtVTBhsmqM/8aPfgyxo4uRdt2IJLBtFOuQSMjN4mc4fzAuvTruMKDmvKJosgGWB9Kt
+         f9uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777986004; x=1778590804;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hIDRLg2eWaFSrnAvJdPT6cUXbRWnjBe9GRrwIz05WwM=;
+        b=qSIA+Rj8H90cH8ud+J/5DXhp8RWPLpmloWoAY6WjH0DnPktLPA19KmFFLeDIIc4szv
+         O+7XTv7cN9mSUpTQN0+MK/Z38EIIoJoHGf2R+/bF6NOSlYhWUsRSsktL+7kTF2LEfzaz
+         P0cFMTHbpTRCuihr9FmKC0OhsPuf7dNPKuoZzf82mn7qVOfpaCPHS6ZuMV1bdoYO/K78
+         JjYZb5w8lVsydYOZKukSPgl3zBDuKQqjpdMZ88rlJE/7K3OjK0So6v9cmSrMowFkIvt0
+         JbBgUGZ+h4MmNB4zf+Wsq2pE9NyGCU3xI1f6JEqc3osYtUKbdiNif5LXjxfdfIZuMWem
+         uwaQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8nJCxNbXTwjeDjCzBghByu1wrljsWPOITDw7LDqNl2oerPBGinnQ4Da7dZ3oD3FLaiEqJ3KX4D61rv2A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxtsv8k7BGlrqSB5KDu8QBIGB/LMfXWlfXMjV+jt4vyl1y5BCCV
+	79iRGIIcA6Hj479Wh4vZ32Dinv2MeqY172ZmWIOrJU1uHN4APFHAWggjkSSrYW/m8TxEX4H2B9Y
+	Xb2RdO/dv2LlTH5BgOwHj9x+8yqleDtQ=
+X-Gm-Gg: AeBDiesJhkIhhb80CmDvUANrL1Ke/j8xai6gcgWdWNQgZu3+ibLtgdAfuNbXjE73O6O
+	I77ImDAZoHRx7sJjhJsIpMnYjvh0yXVnSk339Aphzmhm94I/u/u5LaEzzFKfBCdqCkujf9ohD5f
+	LtSCV7cF3gc3qFBqpdsZAUttRNNXUAW5rydyWGNRW3pVPeP0584qvyFOPMWqibaY9hcQvv0dP0X
+	lpWR/BvS/271rOinhHzZeZvxD0DYTrlNMBFqeICoYjlNzZDMaOMPedZyxAFIKMcto7n18m8RZVX
+	h+M2FLdkJJV90RfY+dFa9NdEFjbjDqmrS49nFDNgVldsAJhKYe/GIIgNcO7HHSnVIgAHTg==
+X-Received: by 2002:a05:690e:4184:b0:650:4a79:f3b2 with SMTP id
+ 956f58d0204a3-65c3da71099mr12790430d50.28.1777986004285; Tue, 05 May 2026
+ 06:00:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_820AAE865CAC3FB7596055F016FD7503210A@qq.com>
-X-Rspamd-Queue-Id: 4328C4CE17D
+References: <CAHijbEXhuVRgkkPA2dAC=njGBU7vpAbxAbsSmxvvPznO-ckVRA@mail.gmail.com>
+ <cf945dda-f526-4544-bc43-22f70acb28f5@amd.com>
+In-Reply-To: <cf945dda-f526-4544-bc43-22f70acb28f5@amd.com>
+From: Julian Orth <ju.orth@gmail.com>
+Date: Tue, 5 May 2026 14:59:52 +0200
+X-Gm-Features: AVHnY4LkH-1c7-8LjQHE1WeKKibV23GXxWelkIeQtvvCstfkg90iy7cF21RDMuQ
+Message-ID: <CAHijbEXQfm4QDDfo1yiVBV9mVvogGqt_BAu2ipnhqa-EDOKteg@mail.gmail.com>
+Subject: Re: Regression due to /sys/kernel/dmabuf/buffers removal
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: "T.J. Mercier" <tjmercier@google.com>, corbet@lwn.net, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	Sumit Semwal <sumit.semwal@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 293464CE1C7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mess.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[mess.org:s=2020];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60409-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[md.metrocast.net,kernel.org,vger.kernel.org,web.de,bjtu.edu.cn];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[qq.com];
+	TAGGED_FROM(0.00)[bounces-60410-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[mess.org:+];
-	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[juorth@gmail.com,linux-media@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sean@mess.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[extorris.mess.org:mid,qq.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,amd.com:email]
 
-On Sun, Mar 29, 2026 at 08:41:28PM +0800, Wenyuan Li wrote:
-> In get_key_adaptec(), a command byte (0x00) is sent via
-> i2c_master_send() to initiate a key read, but the return value is not
-> checked.
-> 
-> If the transfer fails, the IR chip may not receive the command and the
-> subsequent i2c_master_recv() may return stale or invalid data. In this
-> case, the driver silently reports "no key", making such failures hard
-> to diagnose.
-> 
-> Check the return values of both i2c_master_send() and
-> i2c_master_recv(), and log errors using dev_err_ratelimited().
-> Short transfers are converted to -EIO while preserving existing
-> kernel error codes.
-> 
-> On error, still return 0 to keep the current behavior (no key
-> reported), but emit a diagnostic message to aid debugging.
-> 
-> Fixes: e1e2c5756563 ("[media] ivtv: Add Adaptec Remote Controller")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Wenyuan Li <2063309626@qq.com>
-> 
-> ---
-> v4:
-> - Reword commit message to improve clarity and rationale
-> - No functional changes
-> 
-> v3:
-> - Add correct Fixes tag
-> - No functional changes
-> 
-> v2:
-> - Add error handling for i2c_master_send()
-> - Extend checking to i2c_master_recv()
-> - Use dev_err_ratelimited()
-> - Clarify error handling behavior
-> ---
->  drivers/media/pci/ivtv/ivtv-i2c.c | 21 +++++++++++++++++++--
->  1 file changed, 19 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/pci/ivtv/ivtv-i2c.c b/drivers/media/pci/ivtv/ivtv-i2c.c
-> index 28cb22d6a892..c011f2246add 100644
-> --- a/drivers/media/pci/ivtv/ivtv-i2c.c
-> +++ b/drivers/media/pci/ivtv/ivtv-i2c.c
-> @@ -138,11 +138,28 @@ static int get_key_adaptec(struct IR_i2c *ir, enum rc_proto *protocol,
->  			   u32 *scancode, u8 *toggle)
->  {
->  	unsigned char keybuf[4];
-> +	int ret;
->  
->  	keybuf[0] = 0x00;
-> -	i2c_master_send(ir->c, keybuf, 1);
-> +
-> +	ret = i2c_master_send(ir->c, keybuf, 1);
-> +	if (ret != 1) {
-> +		int err = ret < 0 ? ret : -EIO;
-> +
-> +		dev_err_ratelimited(&ir->c->dev, "i2c_master_send failed: %pe\n", ERR_PTR(err));
+On Tue, May 5, 2026 at 2:41=E2=80=AFPM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
+>
+> Hi Julian,
+>
+> On 5/5/26 14:25, Julian Orth wrote:
+> > In ab4c3dcf9a71582503b4fb25aeab884c696cab25 ("dma-buf: Remove DMA-BUF
+> > sysfs stats") the /sys/kernel/dmabuf/buffer directory was removed.
+> >
+> > I've been using this interface, specifically the exporter_name file,
+> > to detect dmabufs created via udmabuf. Such dmabufs show "udmabuf" in
+> > exporter_name. I've been doing this for two reasons: 1) to detect that
+> > mmap on such buffers will be fast and 2) to detect that GPU access to
+> > such buffers will be slow.
+>
+> Crap, I really hoped that Android was the only user of that sysfs interfa=
+ce since that approach turned out to be quite broken.
+>
+> It's number one rule on Linux that we don't break userspace. So I hope th=
+at you don't insist on bringing that interface back, but if you do I will j=
+ust revert the removal until we found a better solution.
 
+Bringing it back shouldn't be necessary.
 
-get_key_adaptec() is called from ir_key_poll(), which already logs errors
-with dev_warn(). Other i2c key handlers simply return an error and let
-ir_key_poll() log the error code. That's better than duplicating a dev_err()
-or dev_warn() here.
+>
+> > With the removal of that file, that detection mechanism no longer works=
+.
+> >
+> > I'm not particularly fond of that mechanism but it was the only one
+> > providing that functionality that I could find at the time. If there
+> > is another one, ideally an ioctl on the dmabuf, please let me know.
+>
+> The virtual fdinfo file you can find under /proc/$pid/fdinfo/$fd also con=
+tains the exporter name for the DMA-buf.
+>
+> You can find the full documentation here: https://docs.kernel.org/filesys=
+tems/proc.html#dma-buffer-files
+>
+> Is that sufficient?
 
-> +
-> +		/* Preserve existing behavior: treat error as no key */
-> +		return 0;
-> +	}
+I think that is sufficient. I probably didn't use fdinfo initially
+because 1) it's a lot more work to parse and 2) I wasn't sure if it
+was intended to be machine-readable or if there could sometimes be
+newlines in the values and such.
 
-Simply return the error.
-> +
->  	/* poll IR chip */
-> -	if (i2c_master_recv(ir->c, keybuf, sizeof(keybuf)) != sizeof(keybuf)) {
-> +	ret = i2c_master_recv(ir->c, keybuf, sizeof(keybuf));
-> +	if (ret != sizeof(keybuf)) {
-> +		int err = ret < 0 ? ret : -EIO;
-> +
-> +		dev_err_ratelimited(&ir->c->dev, "i2c_master_recv failed: %pe\n", ERR_PTR(err));
-> +
-> +		/* Preserve existing behavior */
->  		return 0;
+>
+> Additional to that the debugfs for DMA-buf also contains that information=
+ and I'm open to the suggestion with the IOCTL.
 
-Same here - simply return the error (or -EIO if rc >= 0).
+My application runs as a regular user so it cannot access /sys/kernel/debug=
+.
 
-Thanks,
+Having an IOCTL would be ideal if it is not too much work. I'll fall
+back to fdinfo for now.
 
-Sean
+Thanks, Julian
+
+>
+> Regards,
+> Christian.
+>
+> >
+> > Shipping an entire BPF compiler in my application, which the original
+> > patch suggests as the replacement, is not an option when the removed
+> > alternative was simply reading a file.
+> >
+> > Thanks, Julian
+>
 
