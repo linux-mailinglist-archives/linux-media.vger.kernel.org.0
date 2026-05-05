@@ -1,207 +1,190 @@
-Return-Path: <linux-media+bounces-60408-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60409-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QMbTLxrm+Wl1FAMAu9opvQ
-	(envelope-from <linux-media+bounces-60408-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 14:44:10 +0200
+	id cDjTEPjp+WkLFQMAu9opvQ
+	(envelope-from <linux-media+bounces-60409-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 15:00:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167984CDCC1
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 14:44:09 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4328C4CE17D
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 15:00:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D18B33046F92
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 12:43:32 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B1126300FC24
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 12:50:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6788D436370;
-	Tue,  5 May 2026 12:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A345353EF3;
+	Tue,  5 May 2026 12:50:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GMrdL2dU"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="IzlUt7Tf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49AE313550;
-	Tue,  5 May 2026 12:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E38F32D7FF;
+	Tue,  5 May 2026 12:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.243.27.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777985011; cv=none; b=ACS/g/NeDxDxqMHJsNYqZojJrxWZb+MbCDcNYghS/T3d0F3LociNdXrKdHzjBLoJPypVvyP7XIx8uuLLaoSl6zdsmWNK6p+lnlDRf6ynuj/4+Of3QaAxXHJIAF7h5OaQaVA36v25g9cyb91ztQBQNgel5AgIca67iARkhvh2IKw=
+	t=1777985399; cv=none; b=ggpDvMadyCtthmBrqKc8jHgYazy8K9cOutyvNOXWWE3PTu45siFvHhUXUo/4d822HLYj70mfE9iA2GhOG/5wi6fHGhv7XfXFnA5q3LZ85WoOZ2hepYhFUdGbtTshu3XWkaV68jVxQ1Y9vXNlbjt2bVHeNR3poVwO4YozPYsuVvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777985011; c=relaxed/simple;
-	bh=RRFrNkOQz3XsDjXV2ZqAeXaXDFjrJW31GWWurgjfvfI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qth+g0RT5pQH6ju2rO3wVXYUVU9HP1kOxuZQ57ZsNM+PCnxbV/KCy07cGV6vmg+Oc7Uq7lhU7c2Eh8FsVJidjbduHYIxf8GL454/sDnbHDA/XrA1GR1LIbFBFRHOWNM8RIDNEHFtIW24Zpq7iQreSbWBbDjv4XQDLssHmV9ft90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GMrdL2dU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00AEAC2BCB9;
-	Tue,  5 May 2026 12:43:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777985011;
-	bh=RRFrNkOQz3XsDjXV2ZqAeXaXDFjrJW31GWWurgjfvfI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GMrdL2dUbXiR3Dp7iC3H5WssTbXGbccCKDf6DHtUJfIyupoN4/C1d2V9LfYMccDNF
-	 VEeJlqhD7tHgE0AuYWspvO2FPaGCoMBw14jGcRX+h8BbYfGw9WcBPnk2S5M0AThKcr
-	 Hj2xDsviqtd1GZMyE93TSu35fUn6k5xPLZ2HW4zoheXoh8405wuyRtiELKb5jLHJWz
-	 iRHWVlH32gX1LoabadE3nOUPcb9+Y0yXNMnUpvLiSH/26mc+hO9Yr5aiU0DZnhCupF
-	 uQfqcoACXbmEidz567vY4/t2JovYH2axbsiB2h0+GtFaD1hL4Aq3GORg0fOi8bkf/L
-	 x5ZBDqXdOkxZg==
-Message-ID: <936a9b7d-0602-49d1-992f-abf620b37836@kernel.org>
-Date: Tue, 5 May 2026 14:43:28 +0200
+	s=arc-20240116; t=1777985399; c=relaxed/simple;
+	bh=L/4GGOOFt4rtjaCNpGcKVSPms8rNL5zZIUfkl8iSijM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fq1zx39Rr/Ru5ERnxaYEIFA9IpK6i/Ulhpl91X4m2PcgKpTFEayjIaNeKDXnqSukGirqAOhGf+Qi6yoOkgKvFfdt2dLyBJLTuQEkdghDmr+ulCNIfW9TwiVd9VsjgyyP5PPp+VINOajTbl7qdI9NhDG0ikbwiXmEWlqOqShOEuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=IzlUt7Tf; arc=none smtp.client-ip=92.243.27.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1777985396; bh=L/4GGOOFt4rtjaCNpGcKVSPms8rNL5zZIUfkl8iSijM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IzlUt7TfMUUbPpIkH/VQDPKNx5GAIyOx25hyT3quLDFQM2akkXiDO4YLCyff6yXXA
+	 Uy3nUfRgq0f69eBF1r0T7/GskWx3fTMra00/fuZxqHb2i74uBcyj3BJ/4EdMtEgl0V
+	 yq7UYp/u+5j63wCU7TkkqCNXGzPwoD82AFhvhBJr2qhIN+5VSPMo8ZLOq35gCUNtRO
+	 bglscsY0IzTROFENN1oBPf+paGAuByS4/qGsqk/XurRa2FeVKsrxuuy7D36+defPDx
+	 Vgk1RuoxKh4nBLLOd2hSnVa2vb9seD0P1cQkuOCEuVD6zsvuKHz6ZV/5w3ghjbKM0O
+	 ZTv+7NLKtjKhg==
+Received: by extorris.mess.org (Postfix, from userid 1001)
+	id 32F0241CDC; Tue, 05 May 2026 13:49:56 +0100 (BST)
+Date: Tue, 5 May 2026 13:49:56 +0100
+From: Sean Young <sean@mess.org>
+To: Wenyuan Li <2063309626@qq.com>
+Cc: Andy Walls <awalls@md.metrocast.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Markus Elfring <Markus.Elfring@web.de>, gszhai@bjtu.edu.cn,
+	25125332@bjtu.edu.cn, 25125283@bjtu.edu.cn, 23120469@bjtu.edu.cn,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v4] media: ivtv: ir-i2c: check I2C transfer errors in
+ get_key_adaptec()
+Message-ID: <afnndDiYeNmHEjTE@extorris.mess.org>
+References: <tencent_820AAE865CAC3FB7596055F016FD7503210A@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] staging: media: av7110: coding style fixes: too many
- tabs
-To: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>, mchehab@kernel.org,
- gregkh@linuxfoundation.org, error27@gmail.com
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260401191743.26951-1-ss22.kern.dev@gmail.com>
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20260401191743.26951-1-ss22.kern.dev@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 167984CDCC1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_820AAE865CAC3FB7596055F016FD7503210A@qq.com>
+X-Rspamd-Queue-Id: 4328C4CE17D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[mess.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[mess.org:s=2020];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60408-lists,linux-media=lfdr.de,cisco];
+	TAGGED_FROM(0.00)[bounces-60409-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[md.metrocast.net,kernel.org,vger.kernel.org,web.de,bjtu.edu.cn];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linuxfoundation.org];
+	FREEMAIL_TO(0.00)[qq.com];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DKIM_TRACE(0.00)[mess.org:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[sean@mess.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,checkpatch.pl:url]
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[extorris.mess.org:mid,qq.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
-On 4/1/26 21:17, Sudarshan Srinivasan wrote:
-> Fix warning reported by checkpatch.pl
-> "WARNING: Too many leading tabs - consider code refactoring"
+On Sun, Mar 29, 2026 at 08:41:28PM +0800, Wenyuan Li wrote:
+> In get_key_adaptec(), a command byte (0x00) is sent via
+> i2c_master_send() to initiate a key read, but the return value is not
+> checked.
 > 
-> Signed-off-by: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
+> If the transfer fails, the IR chip may not receive the command and the
+> subsequent i2c_master_recv() may return stale or invalid data. In this
+> case, the driver silently reports "no key", making such failures hard
+> to diagnose.
+> 
+> Check the return values of both i2c_master_send() and
+> i2c_master_recv(), and log errors using dev_err_ratelimited().
+> Short transfers are converted to -EIO while preserving existing
+> kernel error codes.
+> 
+> On error, still return 0 to keep the current behavior (no key
+> reported), but emit a diagnostic message to aid debugging.
+> 
+> Fixes: e1e2c5756563 ("[media] ivtv: Add Adaptec Remote Controller")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Wenyuan Li <2063309626@qq.com>
+> 
 > ---
 > v4:
->   - Added the missing check for  "feed->ts_type"
->   - Removed initialization of 'ret'
->   - handle_ts_memory_fe() accepts only "feed", "demux" and "av7110" extracted thereafter
->   - demux->playing assigned to int, instead of bool to maintain original style
+> - Reword commit message to improve clarity and rationale
+> - No functional changes
+> 
 > v3:
->   - Removed the additional tabs in handle_ts_memory_fe() as indicated by Greg KH
->   - Retained the original code style as suggested by Dan Carpenter
+> - Add correct Fixes tag
+> - No functional changes
+> 
 > v2:
->   - Refactored change by adding function handle_ts_memory_fe
+> - Add error handling for i2c_master_send()
+> - Extend checking to i2c_master_recv()
+> - Use dev_err_ratelimited()
+> - Clarify error handling behavior
+> ---
+>  drivers/media/pci/ivtv/ivtv-i2c.c | 21 +++++++++++++++++++--
+>  1 file changed, 19 insertions(+), 2 deletions(-)
 > 
-> v2: https://lore.kernel.org/linux-staging/20260318191149.109616-1-ss22.kern.dev@gmail.com/
-> v1: https://lore.kernel.org/linux-staging/20260316152340.238100-1-ss22.kern.dev@gmail.com/
-> 
->  drivers/staging/media/av7110/av7110.c | 36 +++++++++++++++++++--------
->  1 file changed, 26 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-> index 607992100baf..486dd8010e7f 100644
-> --- a/drivers/staging/media/av7110/av7110.c
-> +++ b/drivers/staging/media/av7110/av7110.c
-> @@ -932,6 +932,31 @@ static int dvb_feed_stop_pid(struct dvb_demux_feed *dvbdmxfeed)
->  	return ret;
->  }
-> 
-> +static int handle_ts_memory_fe(struct dvb_demux_feed *feed)
-> +{
-> +	struct dvb_demux *demux = feed->demux;
-> +	struct av7110 *av7110 = demux->priv;
-> +	int ret;
-> +
-> +	if (!(feed->ts_type & TS_DECODER))
-> +		return 0;
-> +
-> +	if (feed->pes_type >= 2)
-> +		return 0;
-> +
-> +	if ((demux->pids[0] & 0x8000) || (demux->pids[1] & 0x8000))
-> +		return 0;
-> +
-> +	dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
-> +	dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
-> +
-> +	ret = av7110_av_start_play(av7110, RP_AV);
-> +	if (!ret)
-> +		demux->playing = 1;
-> +
-> +	return ret;
-> +}
-> +
->  static int av7110_start_feed(struct dvb_demux_feed *feed)
+> diff --git a/drivers/media/pci/ivtv/ivtv-i2c.c b/drivers/media/pci/ivtv/ivtv-i2c.c
+> index 28cb22d6a892..c011f2246add 100644
+> --- a/drivers/media/pci/ivtv/ivtv-i2c.c
+> +++ b/drivers/media/pci/ivtv/ivtv-i2c.c
+> @@ -138,11 +138,28 @@ static int get_key_adaptec(struct IR_i2c *ir, enum rc_proto *protocol,
+>  			   u32 *scancode, u8 *toggle)
 >  {
->  	struct dvb_demux *demux = feed->demux;
-> @@ -951,16 +976,7 @@ static int av7110_start_feed(struct dvb_demux_feed *feed)
->  		    (feed->pes_type <= DMX_PES_PCR)) {
->  			switch (demux->dmx.frontend->source) {
->  			case DMX_MEMORY_FE:
-> -				if (feed->ts_type & TS_DECODER)
-> -					if (feed->pes_type < 2 &&
-> -					    !(demux->pids[0] & 0x8000) &&
-> -					    !(demux->pids[1] & 0x8000)) {
-> -						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
-> -						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
-> -						ret = av7110_av_start_play(av7110, RP_AV);
-> -						if (!ret)
-> -							demux->playing = 1;
-> -					}
+>  	unsigned char keybuf[4];
+> +	int ret;
+>  
+>  	keybuf[0] = 0x00;
+> -	i2c_master_send(ir->c, keybuf, 1);
+> +
+> +	ret = i2c_master_send(ir->c, keybuf, 1);
+> +	if (ret != 1) {
+> +		int err = ret < 0 ? ret : -EIO;
+> +
+> +		dev_err_ratelimited(&ir->c->dev, "i2c_master_send failed: %pe\n", ERR_PTR(err));
 
-If you rework this as follows:
 
-				if (!(feed->ts_type & TS_DECODER))
-					break;
-				if (feed->pes_type >= 2)
-					break;
-				if ((demux->pids[0] & 0x8000) ||
-				    (demux->pids[1] & 0x8000))
-					break;
-				dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
-				dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
-				ret = av7110_av_start_play(av7110, RP_AV);
-				if (!ret)
-					demux->playing = 1;
+get_key_adaptec() is called from ir_key_poll(), which already logs errors
+with dev_warn(). Other i2c key handlers simply return an error and let
+ir_key_poll() log the error code. That's better than duplicating a dev_err()
+or dev_warn() here.
 
-Does that fix the warning?
+> +
+> +		/* Preserve existing behavior: treat error as no key */
+> +		return 0;
+> +	}
 
-I prefer that over creating a new function. If this doesn't help,
-then I can take this patch as-is.
+Simply return the error.
+> +
+>  	/* poll IR chip */
+> -	if (i2c_master_recv(ir->c, keybuf, sizeof(keybuf)) != sizeof(keybuf)) {
+> +	ret = i2c_master_recv(ir->c, keybuf, sizeof(keybuf));
+> +	if (ret != sizeof(keybuf)) {
+> +		int err = ret < 0 ? ret : -EIO;
+> +
+> +		dev_err_ratelimited(&ir->c->dev, "i2c_master_recv failed: %pe\n", ERR_PTR(err));
+> +
+> +		/* Preserve existing behavior */
+>  		return 0;
 
-Regards,
+Same here - simply return the error (or -EIO if rc >= 0).
 
-	Hans
+Thanks,
 
-> +				ret = handle_ts_memory_fe(feed);
->  				break;
->  			default:
->  				ret = dvb_feed_start_pid(feed);
-> --
-> 2.43.0
-> 
-> 
-
+Sean
 
