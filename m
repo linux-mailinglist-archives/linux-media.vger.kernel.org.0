@@ -1,185 +1,168 @@
-Return-Path: <linux-media+bounces-60479-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60480-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aG6RM6RS+mkJMgMAu9opvQ
-	(envelope-from <linux-media+bounces-60479-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 22:27:16 +0200
+	id 0ErZFdVS+mkJMgMAu9opvQ
+	(envelope-from <linux-media+bounces-60480-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 22:28:05 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354334D3A63
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 22:27:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1154D3A81
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 22:28:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 744373097331
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 20:24:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 98D7930C9706
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 20:24:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 560583CC9F3;
-	Tue,  5 May 2026 20:24:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CADC93CBE7D;
+	Tue,  5 May 2026 20:24:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="D7d2gnWG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bd30qzXF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B96D3009D4;
-	Tue,  5 May 2026 20:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398583BED44;
+	Tue,  5 May 2026 20:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778012676; cv=none; b=EQC72+3tRK6j5Gpl2fU/L10Q32NjEQjFvfkM956sXa9cge7hrkRN5AVGcDh4MT7/LexOzZrIMhgyXK801XTgBy49O8QlZhvYKvbKbUDVEfr9+l6BNmzzJVpeTluoDFNWIMsnpyYcgaGARgpPfGd6d5itT7jKapoBlwYSpFdExbE=
+	t=1778012685; cv=none; b=VMX3ynr9zoCdBL1554NmkdgnfEVmJEvs0d7BWZ0uFjqz6GGE8pt7Q/w2lwT8VC5LrH1FyuLnKBoL01YDL042+kJhd1p5cmO7QWZFbfdoXKqxG6FlWicusF8fB+iFLo9RJpOjmXczdNthD3E9USVX2Qvw+iTYu3/gh21sbqeit7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778012676; c=relaxed/simple;
-	bh=ZzegL40rK3i06/+AwUHwCmciL8JKX0ntLCm7lSA+SCI=;
+	s=arc-20240116; t=1778012685; c=relaxed/simple;
+	bh=zjpAZYlprpwUIIh/iR+U647UXby/sCyGHeatL0h07XA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hbPZyf1kmtp/MKmoUCtA3/f6lw9Ajgl6L3rCq9kCeepGhVMX2mM0lmnLyJqEIurEeEGbc1Q3D+vqWYP6YcQORqOJjevnjwX3oSqQSC9UCLK4BO69qXHSpivDGiJ1Pv8/KAjaZ/ooGSzBvTPsium5sh/DeOjRPiYfCPiut2vPd1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=D7d2gnWG; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76935BE;
-	Tue,  5 May 2026 22:24:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1778012670;
-	bh=ZzegL40rK3i06/+AwUHwCmciL8JKX0ntLCm7lSA+SCI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D7d2gnWGDPs5J3lFS0/RgBtyd+WjoV9Yu+k4mbvWPdUvIFQPkfc2H5WaAxpR0pZUX
-	 g9+1KCXOuV6FNgb5rLcg88nw+ZEQSShZg2rY8I8X7Emg70T6tuLYDTmKU85ubBzn0E
-	 tFPxR4C5LSdb/7/wgRVyYompYOsAkFje+eyR72f8=
-Date: Tue, 5 May 2026 23:24:31 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
-	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=egpQRR7GhTWtJ5hUGiXVKTEhFR4BIsVKMgKZjaT4QanS2SZVXjjaGWT+/xSQ3vc8i+WSHcqYxmaBSPHf4Up1r+TYvO05gKQ0apynJ8GrOCdUOHraV2btZCIdDQ1e/fw/cNxfCcrkndXMsSkq75qzgdoyyiIHw0bibg/7Sr9MPU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bd30qzXF; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778012683; x=1809548683;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zjpAZYlprpwUIIh/iR+U647UXby/sCyGHeatL0h07XA=;
+  b=Bd30qzXFP2VkzbTpRP1YmM0e0i81C76OTic9XhHDR6Qj22nUCcIpeyjx
+   fGiDHGUqjxr6PPc/HuydaaA8kvomVs9UT/DJ3gUNmYJgLAbK2QZ4POv8w
+   pignUJ55ZddmBHRvMY53mBgGgrWZvNM/5ii7okyCIQUkIWTPWhtrt0NYk
+   RgYei7fktu3gkjvNIriVH4dJcMIItDjtqZ1tBPcFL/VG/ev/5TsQ6C2E6
+   xa1jyEtx4EpHzevrH3Y7gJBAyAHXPkTiFCumTZ3of3avKioSRLMBasDFf
+   PxCC39IEupqo7t0IEdcPW4KTAyY2I/sPVjKD0wpOPvgnWALmdKoellb1w
+   Q==;
+X-CSE-ConnectionGUID: PBSS3UuyTzecTsjo5x+7FQ==
+X-CSE-MsgGUID: F5W0ZUaSQAu68cHKKPc5AA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="78945717"
+X-IronPort-AV: E=Sophos;i="6.23,218,1770624000"; 
+   d="scan'208";a="78945717"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 13:24:42 -0700
+X-CSE-ConnectionGUID: Ar2fmW10Sa6Z2460pbd/yw==
+X-CSE-MsgGUID: SX+N1SmZQ+CocHOS2q0t3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,218,1770624000"; 
+   d="scan'208";a="235782163"
+Received: from amilburn-desk.amilburn-desk (HELO kekkonen.fi.intel.com) ([10.245.244.139])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 13:24:36 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 8DB53120B10;
+	Tue, 05 May 2026 23:24:38 +0300 (EEST)
+Date: Tue, 5 May 2026 23:24:38 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
+To: Bin Du <Bin.Du@amd.com>
+Cc: "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+	"laurent.pinchart+renesas@ideasonboard.com" <laurent.pinchart+renesas@ideasonboard.com>,
+	"bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
+	"prabhakar.mahadev-lad.rj@bp.renesas.com" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] media: i2c: add os02g10 image sensor driver
-Message-ID: <20260505202431.GA1598374@killaraus.ideasonboard.com>
-References: <20260414084952.217215-1-elgin.perumbilly@siliconsignals.io>
- <20260414084952.217215-3-elgin.perumbilly@siliconsignals.io>
- <20260414092758.GE4061@killaraus.ideasonboard.com>
- <MA0P287MB2178FAA81D07B561FA68014988252@MA0P287MB2178.INDP287.PROD.OUTLOOK.COM>
- <20260414095727.GF4061@killaraus.ideasonboard.com>
- <PN3P287MB1829155B216E557C7DF7B6778B252@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <20260414103315.GA1023076@killaraus.ideasonboard.com>
- <MA0P287MB217836B81A73F23289CCF190883E2@MA0P287MB2178.INDP287.PROD.OUTLOOK.COM>
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"sultan@kerneltoast.com" <sultan@kerneltoast.com>,
+	"Nirujogi, Pratap" <Pratap.Nirujogi@amd.com>,
+	"Chan, Benjamin (Koon Pan)" <Benjamin.Chan@amd.com>,
+	"Li, King" <King.Li@amd.com>,
+	"gjorgji.rosikopulos@amd.com" <gjorgji.rosikopulos@amd.com>,
+	"Jawich, Phil" <Phil.Jawich@amd.com>,
+	"Antony, Dominic" <Dominic.Antony@amd.com>,
+	"Gong, Richard" <Richard.Gong@amd.com>,
+	"Tsao, Anson" <anson.tsao@amd.com>
+Subject: Re: [PATCH v10 0/7] Add AMD ISP4 driver
+Message-ID: <afpSBiF8sUqulE-7@kekkonen.localdomain>
+References: <20260320084146.200988-1-Bin.Du@amd.com>
+ <7d5d52bf-b0dc-47d4-8cb8-d6099fd05c57@amd.com>
+ <470a9fbc-c4c2-4bde-a91d-a22f1c730b31@amd.com>
+ <LV9PR12MB982900FA14329B742FF64BBE875EA@LV9PR12MB9829.namprd12.prod.outlook.com>
+ <adSlwqPVF81feLHx@kekkonen.localdomain>
+ <21dfb3d2-d838-4325-8a6a-6024b851cbc5@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <MA0P287MB217836B81A73F23289CCF190883E2@MA0P287MB2178.INDP287.PROD.OUTLOOK.COM>
-X-Rspamd-Queue-Id: 354334D3A63
+In-Reply-To: <21dfb3d2-d838-4325-8a6a-6024b851cbc5@amd.com>
+X-Rspamd-Queue-Id: AF1154D3A81
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	FROM_DN_EQ_ADDR(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60479-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-60480-lists,linux-media=lfdr.de];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[amd.com,kernel.org,xs4all.nl,ideasonboard.com,linaro.org,bp.renesas.com,vger.kernel.org,kerneltoast.com];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	BLOCKLISTDE_FAIL(0.00)[2600:3c0a:e001:db::12fc:5321:server fail,100.90.174.1:server fail,2001:14ba:703d:e500::2a1:server fail,213.167.242.64:server fail];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	BLOCKLISTDE_FAIL(0.00)[100.90.174.1:server fail,172.234.253.10:server fail,10.64.159.148:server fail,192.198.163.14:server fail];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,siliconsignals.io:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,killaraus.ideasonboard.com:mid]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[checkpatch.pl:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,kekkonen.localdomain:mid,intel.com:dkim]
 
-On Tue, May 05, 2026 at 02:42:21PM +0000, Elgin Perumbilly wrote:
-> > On Tue, Apr 14, 2026 at 10:19:23AM +0000, Tarang Raval wrote:                  
-> >> > On Tue, Apr 14, 2026 at 09:43:32AM +0000, Elgin Perumbilly wrote:          
-> >> > > > On Tue, Apr 14, 2026 at 02:19:45PM +0530, Elgin Perumbilly wrote:      
-> >> > > > > Add a v4l2 subdevice driver for the Omnivision os02g10 sensor.       
-> >> > > > >                                                                      
-> >> > > > > The Omnivision os02g10 is a CMOS image sensor with an active array size of
-> >> > > > > 1920 x 1080.                                                         
-> >> > > > >                                                                      
-> >> > > > > The following features are supported:                                
-> >> > > > > - Manual exposure an gain control support                            
-> >> > > > > - vblank/hblank control support                                      
-> >> > > > > - vflip/hflip control support                                        
-> >> > > > > - Test pattern control support                                       
-> >> > > > > - Supported resolution: 1920 x 1080 @ 30fps (SBGGR10)                
-> >> > > > >                                                                      
-> >> > > > > Signed-off-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io> 
-> >> > > > > Reviewed-by: Tarang Raval <tarang.raval@siliconsignals.io>           
-> >> > > > > ---                                                                  
-> >> > > > >  MAINTAINERS                 |    1 +                                
-> >> > > > >  drivers/media/i2c/Kconfig   |   10 +                                
-> >> > > > >  drivers/media/i2c/Makefile  |    1 +                                
-> >> > > > >  drivers/media/i2c/os02g10.c | 1039 +++++++++++++++++++++++++++++++++++
-> >> > > > >  4 files changed, 1051 insertions(+)                                 
-> >> > > > >  create mode 100644 drivers/media/i2c/os02g10.c                      
-> >> > >                                                                          
-> >> > > I have added a new function, os02g10_set_framefmt, which dynamically sets
-> >> > > the mode register.                                                       
-> >> > >                                                                          
-> >> > > Please let me know if I have missed anything or if further changes are   
-> >> > > needed.                                                                  
-> >> >                                                                            
-> >> > You also need to drop the supported_modes array, and implement support     
-> >> > for .set_selection().                                                      
-> >>                                                                              
-> >> Are you suggesting that we should drop the array below?                      
-> >                                                                               
-> > Correct.                                                                       
-> >                                                                               
-> >> static const struct os02g10_mode supported_modes[] = {                       
-> >>     {                                                                        
-> >>         .width = 1920,                                                       
-> >>         .height = 1080,                                                      
-> >>         .vts_def = 1246,                                                     
-> >>         .hts_def = 1082,                                                     
-> >>         .exp_def = 1100,                                                     
-> >>         .x_start = 2,                                                        
-> >>         .y_start = 6,                                                        
-> >>     },                                                                       
-> >> };                                                                           
-> >>                                                                              
-> >> If we remove this, how would we provide mode-specific parameters such as VTS?
-> >                                                                               
-> > Those should be computed by the driver based on the format and crop            
-> > rectangle configured by userspace.                                             
->                                                                                 
-> Could you please take a look at the latest v3 patch?   
+Hi Bin,
 
-I'm short on time at the moment, but v3 is still in my inbox, I haven't
-dropped it.
+On Tue, Apr 07, 2026 at 03:19:20PM +0800, Bin Du wrote:
+> Hi Sakari,
+> 
+> Thank you very much for picking up the series and for updating Patchwork. I
+> really appreciate your help and support. It means a lot to us.
+> Yes, that's right. <20260303224433.87242-1-kinncj@gmail.com> is no longer
+> needed.
+
+The Media CI indeed does check there are no warnings from e.g. static
+checkers such as smatch, and this lead to build failure earlier. If the set
+would be merged, this same smatch warning would pop up as an error
+elsewhere. So in practice it doesn't matter that the smatch warning is a
+false positive, it needs to be addressed. You should check smatch is happy
+with the updated code.
+
+While you're sending a new version, can you address the new checkpatch.pl
+warnings, too? They're trivial.
+
+The best summary is here
+<URL:https://gitlab.freedesktop.org/linux-media/media-committers/-/merge_requests/278>
+I believe.
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
 
