@@ -1,198 +1,208 @@
-Return-Path: <linux-media+bounces-60327-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60328-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id /JNLFFtw+Wmu8gIAu9opvQ
-	(envelope-from <linux-media+bounces-60327-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 06:21:47 +0200
+	id yHlQCW+A+Wn/9AIAu9opvQ
+	(envelope-from <linux-media+bounces-60328-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 07:30:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66584C6567
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 06:21:46 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2D74C6E66
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 07:30:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D9C4A30158B9
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 04:21:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 550203028833
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 05:29:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 060923AEF3B;
-	Tue,  5 May 2026 04:21:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C37E3BF693;
+	Tue,  5 May 2026 05:29:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=q-lab.dev header.i=@q-lab.dev header.b="Rmsi5hSm";
-	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="G8N2TVBp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y84FU50h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BC3214813
-	for <linux-media@vger.kernel.org>; Tue,  5 May 2026 04:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777954899; cv=none; b=ESfI55CeZ6kBjLK1TtLV5Ld40RqkxdJSBAL4RR6lYdDnyD4dTm2uLjk5uLtIhUz5BePEqnAKt1XN6P9iIXhGSJP4EsoITwMC8E/piFH37XPMqED/Jhb2hlQxuDmi01W3WArt/BAYTWettWq/wkTOiWMj05LCijuEmnY1cdtdLJ8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777954899; c=relaxed/simple;
-	bh=rsbtrwoNteIeG4Ft1aA7m24bGGBadiqhJUwN9fwPGzA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y90eZ6RPHQupCg01NQX1Qaed3ILjedw6ok3/pb8QPhcCIlM9neI4Oe8inJEhn9ByZTNs73202owpMbVbCSxlB1z3g8IcuQZgJ+liinMXK4ZkSaPwHoSflVQ0aC5os7q9VHugxpyB9013f45B6o+qZft+dNTY3aPH0jzfaRbdT4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=q-lab.dev; spf=pass smtp.mailfrom=q-lab.dev; dkim=pass (2048-bit key) header.d=q-lab.dev header.i=@q-lab.dev header.b=Rmsi5hSm; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=G8N2TVBp; arc=none smtp.client-ip=34.202.193.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=q-lab.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=q-lab.dev
-DKIM-Signature: a=rsa-sha256; b=Rmsi5hSmFq9CEojmDWWkJLoIzThtwjpm3jQDUanzKMUfYD8sMldRxedFF7KmO28C0vNkiUxeCf6PFHV2TvNzvfD49aEXSpfffT5j4oUs8VExJuRzoTaj2YviWqkPmFRyui94gsqYjS6z5dpHknv0N4r9zT5ddOpME06Eu4fr9JZh3Jb9/WkwodmEs/mY073KC1Hxbxa3U6KA43qS+PgOwusG+cupHsI5tm54C3cJ+9lOwTm4flqEBg6c4DO7wzHuvVVO8lFhKaqDlhgk1eHd3BL89I1ttqAk6uWb2Rt9w8mmKOnUx0Jvl5JQTRjxHWS/MiXxSQ5PAU1CEKgHQ+GTYQ==; s=purelymail3; d=q-lab.dev; v=1; bh=rsbtrwoNteIeG4Ft1aA7m24bGGBadiqhJUwN9fwPGzA=; h=Received:Date:Subject:To:From;
-DKIM-Signature: a=rsa-sha256; b=G8N2TVBpRdlKrvfoFlpLUGmRKiThzebKH/CWFyqWJL4e+f8RRpa6WckXXpqG42+yjVNKeTH74t7zQFyB/D5o/dQsvDgI9VxpnIccTODuQx/VCKcMU1TBbutAkXa6+8wIkPUSOWMXHgj1NVH4IuJ3+hXe1lsc8HUJo02+C7BguJRwlfdFHGPGj9J0G/ukBOQ51O0vlVSYG9eUqoYdHEGX2hnh9rn3OuwKYf01QhqNJkyxb5Co798U5tTKED05QEf7xztSMIeUFu0j2oD6yB32HtF3M4PyhBOpWlA86sQ+csypNRv4tTypEKkczaNasdDFCIDwdx/knXo5H7mpsO9DNQ==; s=purelymail3; d=purelymail.com; v=1; bh=rsbtrwoNteIeG4Ft1aA7m24bGGBadiqhJUwN9fwPGzA=; h=Feedback-ID:Received:Date:Subject:To:From;
-Feedback-ID: 284201:25281:null:purelymail
-X-Pm-Original-To: linux-media@vger.kernel.org
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -864377277;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Tue, 05 May 2026 04:21:29 +0000 (UTC)
-Message-ID: <9bda558f-8ddd-49e1-ac5f-1f64a37fefb7@q-lab.dev>
-Date: Mon, 4 May 2026 21:21:27 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08163BF66E
+	for <linux-media@vger.kernel.org>; Tue,  5 May 2026 05:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777958985; cv=pass; b=qaUQ8m8BMh5Y0YU2CY9hBUrvBqgka4OJX9JPgop0VVrWkoY1Z+bYf7X92MyHxPOHSRpRW9M0mXU3s1NYkXcCT2I4k9aCCcZbhlEN4eud/HethLooeqzvYPXkZT4hxlo56GqQ/nQUOPl4i22YLEfE+AFBH+EPItt0z+WYW2X5F2U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777958985; c=relaxed/simple;
+	bh=V6Zurul8OIpaOamfisEiMCOrAsq2ljuPtO2RRKE9ogE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oGytEpsNNeoFYKQu0/6J2jrqF+tPjIAQQItckkbJFeP8DNwl49S+/EPwywFnLmpBBtBRVMqFBFyJp4gGZZc6WW8ZeAS5tyB9AMbYs3k4sOWlazWzVd5MEfYxvlRE4OmmfZt5yyRQNHTbWqgG8HNWfRAIcTwm1/zazoj1hHcmwGk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y84FU50h; arc=pass smtp.client-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2ba895adfeaso5223015eec.0
+        for <linux-media@vger.kernel.org>; Mon, 04 May 2026 22:29:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777958982; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fGn0pYTDcXFdveO29VOVTFca8MHCTdo3tg0jKUSgOwyjPSW0TZay4zQwM+/YqOZZFY
+         8EHuNz4rRYb3Z967oxOFsFDKKutuMqY3f16IqjlwU/OGdZSRhGflNqnwAl8H52ngilj7
+         MMbDDgR4q60humoJPF9TBLSp2ABDETevTWR9RSHAy9JSY2yDHriN+Eyw2l+Y/wlH8UCp
+         yNbi9IYNFMW0N1itVisySkEV0TWHCKmLqqAqlyiqKT0GwWKqWHjCxEqaXznbzcJdervB
+         RBKnVT1akevsDHfbyf7VaC8dU08GzX8cPbBImIveVsWHN2jgNWXm4+FGkrzBrpw2Xzgj
+         Mq7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=BZApAq4QIa2b+bU+TsGN5Lrz7zDguSXpX0ChfXxim/U=;
+        fh=OaxvWQQkGLSJ7PSR77P+oXN7x1DPv1GeJTEmvv0GCeg=;
+        b=WCXACNiXvR4WxwsP6z9cwmRT9TEcrO6PrcNWrgNBJMLoQh75f9qnzV/D11TVVDMR85
+         yLYGvy4ftRpGIhdYd0YCbRSYyNvH/JoDWYV+CXYPJPChGQPedRv66vZPKaEmW9q8ybBB
+         Eh15G1RKwzxaS3HbFE1Bn/j3BfIJQ4sbQ/hwdZEncArBdaRibWsN2JmLq69adYb2/d66
+         MsF8DpJ+aurae4MKP/mmm6b+tdLRswo4eXjhugDPM3JtFxpFJDSAy8sY6/1yA7XFcIbr
+         8tA2oMAJoA/RcGFYe0vR47ZeuocE/eYN5KQ1WTEmbJN4CfsmioVuQyWKQD/fSCIhZ/8t
+         ia0g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777958982; x=1778563782; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BZApAq4QIa2b+bU+TsGN5Lrz7zDguSXpX0ChfXxim/U=;
+        b=Y84FU50hfQe/MtMC4bS0CsgqkSV/29O1v1Y4QHOjE7ff57FC/bGbUP2h7sYq3Lq/RV
+         kCXGlEdEmzjeOY+FSNG/mee0AkrtxQJ+mhrrsswjP98DT4NnBWXSWj8ABQOWt+K/497M
+         seDe+PuoH6/UOoMr4TuRITx79L/l47el6YVaaSTDg7eICPQWzxkHtjF68FvKKXa0zc3c
+         NIzDpoCJYeucD4Cdu6hNdp7Q/tdz36yv3P9FUh6Y3metdK3xjgzjKWf+8I0JCz33G/Qj
+         XtiCahmRNPyslapIwqwQxHar8+8Qo3M/X+94kiA+D3snGff6J963rDK9rFxuCytLyCdF
+         sZKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777958982; x=1778563782;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BZApAq4QIa2b+bU+TsGN5Lrz7zDguSXpX0ChfXxim/U=;
+        b=gEXBfk0NvqelCBboxwPXinFayiGt7BsyL5+LIVPP9IAx6mFodOU1kcQX76MyD7wEyL
+         YkJp/70nicoJsNV9jVr6/8a8mahGnfATo5hCDxAeykuhdvglWuzn+5jU89A4jRxPHyQ3
+         Z5jjALGAu925KrM1S4a2EPiTjnu/rgp3PgcJ1dXf57Xtax74OfEQCEF0al31DQnORC+Y
+         uyH0SuPvHxULEHJsEpvs5x2tuzgmHSeuN2jjpg6dVgoEjWKhf2JneuV6YKtxRq4uPBOs
+         6ANxLVjxsIOIdbGAH2La9SkyooeifWQDYa6jU2wLHoEMZVkxNyz/2i2thFQ66qE1/Sf0
+         NYhw==
+X-Forwarded-Encrypted: i=1; AFNElJ8CbR1fbC8zVsNmY9txaZH6rU5FhNW0kay569p1dMYBZj8amrfMbQIVOjovltOkjAVeoCkYxMuUiEOdOA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvMe527F7VXfeMjzpkyTuvVhRNzqDWgzO2kTYew66DhekCSFVD
+	jIViTDzz2o470E5q21FbwZO98ItECmTtLX254LAi9uWmhfhGOe3emT/6ITZGX8BdFc8Sbgmep17
+	Pw/+llYMBxlu4liFyZcoQc8hJ3HzUyglCBJqh
+X-Gm-Gg: AeBDievFoAT491QIHo8hFTMByF6jRL/bwG8Gt9hhyJIec6qEetsh1HinIIlduzMWOTq
+	YHswy9BaIch4koQeB0QVb/5QL5lc3YBbqTtlgxIqHVh2KCmkfpr3ZTWVmg9tyuXv44vgN+wecyM
+	O7GrXPgYIwwRArAzWG/gG62Fqolx5pNgXuC6UKqNoiv+McobhmJfAtcHF0KeUHLxO/pYrBDeB2B
+	soHwIy6Dzuj/FASpof3hNlpmW1u9hvW4PDA09hirKZ84hVwORPaA4HSe1Sx+CYZheAMMYOiPUEJ
+	+arkbIQW5RHXuXYePa9Vlygw+2qIvQ==
+X-Received: by 2002:a05:7301:678f:b0:2cf:3de7:22ad with SMTP id
+ 5a478bee46e88-2efba28ad10mr6432810eec.27.1777958981772; Mon, 04 May 2026
+ 22:29:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [RFC PATCH v3 2/2] media: i2c: Add onsemi AR0234 image sensor
- driver
-To: Alexander Shiyan <eagle.alexander923@gmail.com>,
- linux-media@vger.kernel.org
-Cc: Isaac Scott <isaac.scott@ideasonboard.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Dongcheng Yan <dongcheng.yan@intel.com>, devicetree@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil@kernel.org>,
- Hans de Goede <johannes.goede@oss.qualcomm.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Jingjing Xiong <jingjing.xiong@intel.com>,
- Svyatoslav Ryhel <clamor95@gmail.com>
-References: <20260306103614.3208182-1-eagle.alexander923@gmail.com>
- <20260306103614.3208182-3-eagle.alexander923@gmail.com>
-Content-Language: en-US
-From: Quentin Freimanis <quentin@q-lab.dev>
-In-Reply-To: <20260306103614.3208182-3-eagle.alexander923@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: A66584C6567
+References: <20260406081330.30362-1-clamor95@gmail.com> <20260406081330.30362-2-clamor95@gmail.com>
+ <20260416214025.GG1824072@killaraus.ideasonboard.com>
+In-Reply-To: <20260416214025.GG1824072@killaraus.ideasonboard.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Tue, 5 May 2026 08:29:30 +0300
+X-Gm-Features: AVHnY4IqOphoy4i60hIX9XKC-SiiHCkMxyeKQqhZZfL3LpieJyG94SWDZIgtJGg
+Message-ID: <CAPVz0n0uEsJg94GUky8cF7LNpejfpYxY9vLCY1iv5HYoxE_WeQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] dt-bindings: media: mt9m114: document common video
+ device properties
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, Rob Herring <robh@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 7B2D74C6E66
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.65 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[q-lab.dev,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
-	R_DKIM_ALLOW(-0.20)[q-lab.dev:s=purelymail3,purelymail.com:s=purelymail3];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	TAGGED_FROM(0.00)[bounces-60327-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60328-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[q-lab.dev:+,purelymail.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[quentin@q-lab.dev,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[ideasonboard.com,raspberrypi.com,intel.com,vger.kernel.org,kernel.org,linux.intel.com,oss.qualcomm.com,linaro.org,foss.st.com,gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[purelymail.com:dkim,q-lab.dev:email,q-lab.dev:dkim,q-lab.dev:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email]
 
-Hi Alexander,
+=D0=BF=D1=82, 17 =D0=BA=D0=B2=D1=96=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 00:4=
+0 Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Mon, Apr 06, 2026 at 11:13:30AM +0300, Svyatoslav Ryhel wrote:
+> > Document common video interface device properties, such as rotation and
+> > orientation.
+> >
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> > ---
+> >  .../devicetree/bindings/media/i2c/onnn,mt9m114.yaml          | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.y=
+aml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> > index e896f4db2421..2b39614f5cbf 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> > @@ -15,6 +15,9 @@ description: |-
+> >    an I2C interface and outputs image data over a 8-bit parallel or 1-l=
+ane MIPI
+> >    CSI-2 connection.
+> >
+> > +allOf:
+> > +  - $ref: /schemas/media/video-interface-devices.yaml#
+> > +
+> >  properties:
+> >    compatible:
+> >      enum:
+> > @@ -90,7 +93,7 @@ required:
+> >    - vaa-supply
+> >    - port
+> >
+> > -additionalProperties: false
+> > +unevaluatedProperties: false
+> >
+> >  examples:
+> >    - |
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-On 2026-03-06 2:36 a.m., Alexander Shiyan wrote:
-> +static int ar0234_identify_module(struct ar0234 *ar0234)
-> +{
-> +	u64 id, rev;
-> +	int ret;
-> +
-> +	ret = cci_read(ar0234->regmap, AR0234_REG_CHIP_VERSION, &id, NULL);
-> +	ret = cci_read(ar0234->regmap, AR0234_REG_REVISION_NUMBER, &rev, &ret);
-> +	if (ret)
-> +		return dev_err_probe(ar0234->dev, ret,
-> +				     "Failed to read chip id\n");
-> +
-> +	if (id == AR0234_CHIP_ID_MONO)
-> +		ar0234->variant = AR0234_VARIANT_MONO;
-> +	else if (id == AR0234_CHIP_ID)
-> +		ar0234->variant = AR0234_VARIANT_COLOUR;
-> +	else
-> +		return dev_err_probe(ar0234->dev, -ENODEV,
-> +				     "Invalid chip id: 0x%04x\n", (u16)id);
-> +
-> +	dev_info(ar0234->dev, "Success reading chip id: 0x%04x, Rev.%lld\n",
-> +		 (u16)id, (rev >> 12) & 0xf);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ar0234_power_on(struct device *dev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ar0234 *ar0234 = to_ar0234(sd);
-> +	int ret;
-> +
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(ar0234->supplies),
-> +				    ar0234->supplies);
-> +	if (ret) {
-> +		dev_err(ar0234->dev, "Failed to enable regulators\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = clk_prepare_enable(ar0234->clk);
-> +	if (ret) {
-> +		dev_err(ar0234->dev, "Failed to enable clock\n");
-> +		regulator_bulk_disable(ARRAY_SIZE(ar0234->supplies),
-> +				       ar0234->supplies);
-> +		return ret;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(ar0234->reset, 1);
+I am looping in Sakari since they are i2c media devices maintainer and
+this patch touches i2c camera binding (get_maintainer for some reason
+did not include them).
 
-should be 0 to de-assert the reset pin to power on
+Hello Sakari, Rob!
 
-> +	/* ~160000 EXTCLKs */
-> +	usleep_range(27000, 28000);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ar0234_power_off(struct device *dev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ar0234 *ar0234 = to_ar0234(sd);
-> +
-> +	gpiod_set_value_cansleep(ar0234->reset, 0);
+This patch hangs in the LKML for quite a while, and if no one has any
+objections may it be applied?
 
-1 to assert reset to power off
-
-> +	regulator_bulk_disable(ARRAY_SIZE(ar0234->supplies), ar0234->supplies);
-> +	clk_disable_unprepare(ar0234->clk);
-> +	/* 100ms PwrDown until next PwrUp */
-> +	usleep_range(100000, 110000);
-> +
-> +	return 0;
-> +}
-> +
-after fixing the reset polarity locally I got the driver working with a 
-rgb ar0234cs in 4-lane 10bit mode using a 24mhz extclk and a 448MHz link 
-frequency.
-
-Tested-by: Quentin Freimanis <quentin@q-lab.dev>
-(after the reset fix)
-
-- Quentin
+Best regards,
+Svyatoslav R.
 
