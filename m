@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-60335-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60336-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6IrgC1uP+WlN9wIAu9opvQ
-	(envelope-from <linux-media+bounces-60335-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 08:34:03 +0200
+	id GIy4B02Q+WlN9wIAu9opvQ
+	(envelope-from <linux-media+bounces-60336-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 08:38:05 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C584C73B9
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 08:34:02 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89F9B4C7459
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 08:38:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 35605301CFB0
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 06:33:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5BB92302FEBD
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 06:36:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A618C3C1966;
-	Tue,  5 May 2026 06:33:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D41433CF02B;
+	Tue,  5 May 2026 06:36:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JLPOPueQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sKIsscmI"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0F3282F1F
-	for <linux-media@vger.kernel.org>; Tue,  5 May 2026 06:33:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0173C9EFB
+	for <linux-media@vger.kernel.org>; Tue,  5 May 2026 06:36:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777962831; cv=none; b=JKlhh5HLCxo7b7NRpO4f3cezbKYa6WrypK4rjZRCKXTCSadaj8euLfwQ7mOQTWd7avcNltSLY529DCTiGR55li39A6OY1SUOf0/q4C5lChHSL+2PorF1SUZBGCBDwIWi8f9DfPLL/5/jLr+GtkIks2T6FI4fpDOdcz6BwaxKWQo=
+	t=1777963012; cv=none; b=EAWNHinWVsbJwPmmZX0lMzrEjcf54XNC3euEtQQQvdIN34MNq7MUz9WDMob0dJ4eKhf8sLRhMra71uyZwAreqx8AyPsh9zufEDF7WOrfkppjjMWVOAdLd36MPaAfuBVNPgE4XVHUNpI6Z9hYQGfWEHbq/RHcOqLESCmzh9o0QoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777962831; c=relaxed/simple;
-	bh=QPV+RLpgGZs7TEEIW8+YoXp/qWEO+LNijZEAnqFVbBc=;
+	s=arc-20240116; t=1777963012; c=relaxed/simple;
+	bh=O5uwHimYJHm13VjLekuKgi8rsruWb449G3MH24HyLtc=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=eMmqvFpnA5u5iWWGVphGoLoxM1PUvnKAdF+7227b04f8GctbqrqNzvewHhcTS9s+YVnLc03m2hzTQ8FoYi04iv7BR2gFTJ6YLo9MYdfBx0q9jkv4/+9mOyxdwvqr/OS9UVHFXOtuHs3r7j5Mkirn4ts4Kq0liAAOta9CFjdYYho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JLPOPueQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08D95C2BCB4;
-	Tue,  5 May 2026 06:33:44 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=tEBewDPWvgWuqCX8Zbd3el5SoXxx5EJHriR9O+CapOc+CoLEhP3WB1x3Lr4IgT2+7vZvGGmkWqCGiHZeiFVwMJhoWnj3rsaX79F9wlYXte9qb0+qA9dArTkNQkIkbhzmbTmZeJwxFCN+xKbyiwZTfup7XwSl0fZVUWbUdT2ooNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sKIsscmI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9E5C2BCB4;
+	Tue,  5 May 2026 06:36:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777962830;
-	bh=QPV+RLpgGZs7TEEIW8+YoXp/qWEO+LNijZEAnqFVbBc=;
+	s=k20201202; t=1777963011;
+	bh=O5uwHimYJHm13VjLekuKgi8rsruWb449G3MH24HyLtc=;
 	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=JLPOPueQ4+86OSLfLkT/phB1T4R13otX/TIhH1MtBcj54oytiCC7liyMB7H37SLWg
-	 93Re9a4jrREQpCWQ0GMDSeZPJE2Zw4BvIhbxuQxR/IpJR6XssaNObaHw8S3p1FTpSG
-	 Q0G+T7pdeb6To+fgSMgS84GQopK0q7aRn4F0ySsJBmwZ43pImhyw/E//rSOy8bKAUj
-	 EXFI4vm4twuF9znRHnasvknYhrv2UdQ1SRA4jfY/YyWWyzjlpNnQRRw93X8vrs5ypt
-	 gHV6qJGTYE4P3nAv34w7I53luESsn/hbDXUfWu1Io0g0nz78O+SJTnbDnqfTQf2zdA
-	 PNVuJ0kelGOsA==
-Message-ID: <a5520b2c-b290-481d-a02c-36a2272bb41f@kernel.org>
-Date: Tue, 5 May 2026 08:33:43 +0200
+	b=sKIsscmI0qEAktdaSjPWHmHEKc5EAWgRrcd228pKTMtVm8n9ehvDsoR3wjuhVsmHP
+	 bYrEeMwV0pqLZiO3jsRlsa2kH2b4eVpn3lr3wSYSkjHdOwazowmimUbgH04nOb4coE
+	 LxNBJLMocjo82ZWc0IVhzWK4Hi0Zek7qco+A0H4K0kbH16KUmCIhgDXJF+MYBOTPuh
+	 vgOZ2s9vWgFtpSVXWdMcS5bBjfhmJ8sV9qJeQxmQTXoc8xVqpeiN0DLNPrm3fA4F7z
+	 ge8RlIKnFlSgki9/xvFFsL+cQlPmEl6HPzKHmTDXOeU7luDuf2ihEnIYQVoVh/8vEN
+	 F+vKjEri0FT3g==
+Message-ID: <e3b9b553-af2b-4b9a-bc01-a9f859e4c319@kernel.org>
+Date: Tue, 5 May 2026 08:36:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,7 +54,8 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v4 20/29] media: uapi: Bump the STREAMS bit a little
+Subject: Re: [PATCH v4 21/29] media: mc: Don't care about unsettable flags in
+ MEDIA_IOC_LINK_SETUP
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: laurent.pinchart@ideasonboard.com, Prabhakar
  <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
@@ -81,12 +82,12 @@ Cc: laurent.pinchart@ideasonboard.com, Prabhakar
  <khai.wen.ng@intel.com>, Jai Luthra <jai.luthra@ideasonboard.com>,
  Rishikesh Donadkar <r-donadkar@ti.com>
 References: <20260408153939.969381-1-sakari.ailus@linux.intel.com>
- <20260408153939.969381-21-sakari.ailus@linux.intel.com>
+ <20260408153939.969381-22-sakari.ailus@linux.intel.com>
 Content-Language: en-US, nl
-In-Reply-To: <20260408153939.969381-21-sakari.ailus@linux.intel.com>
+In-Reply-To: <20260408153939.969381-22-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 84C584C73B9
+X-Rspamd-Queue-Id: 89F9B4C7459
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -94,11 +95,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60335-lists,linux-media=lfdr.de,cisco];
+	TAGGED_FROM(0.00)[bounces-60336-lists,linux-media=lfdr.de,cisco];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -115,24 +116,20 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email]
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
 On 08/04/2026 17:39, Sakari Ailus wrote:
-> Bump the V4L2_SUBDEV_CAP_STREAMS by one bit up, order to avoid confusing
-> libcamera with streams that has moved forward from the original libcamera
-> implementation. The bit can presumably be taken into use but only after
-> the other free bits.
+> The implementation of MEDIA_IOC_LINK_SETUP currently requires that all
+> flags that are set by the driver are correctly set as the driver expects.
+> This poses a problem for adding new flags as programs could not work with
+> links that have unknown flags even when the use of these flags wouldn't
+> affect the program.
+> 
+> Ignore the non-settable link flags.
 
-The commit log must explain why this is safe to do. In this case because
-v4l2_subdev_enable_streams_api is currently always false, which means
-that this capability is always removed.
-
-It's also not clear to me why this is important for libcamera. Since
-the streams API is still disabled, any libcamera code depending on it
-should be purely for testing, right?
-
-Regardless, this uAPI change needs to be documented a lot better.
+Doesn't this require an uAPI documentation change as well, clarifying how
+flags are handled?
 
 Regards,
 
@@ -141,25 +138,34 @@ Regards,
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  include/uapi/linux/v4l2-subdev.h | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  drivers/media/mc/mc-entity.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-> index 2347e266cf75..6160c3e21436 100644
-> --- a/include/uapi/linux/v4l2-subdev.h
-> +++ b/include/uapi/linux/v4l2-subdev.h
-> @@ -196,8 +196,11 @@ struct v4l2_subdev_capability {
->  /* The v4l2 sub-device video device node is registered in read-only mode. */
->  #define V4L2_SUBDEV_CAP_RO_SUBDEV		0x00000001
+> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> index 717569bd1a8c..287eded356bb 100644
+> --- a/drivers/media/mc/mc-entity.c
+> +++ b/drivers/media/mc/mc-entity.c
+> @@ -1319,7 +1319,7 @@ static int __media_entity_setup_link_notify(struct media_link *link, u32 flags)
 >  
-> +/* Reserved, old STREAMS bit libcamera used before API stabilisation. */
-> +/* #define V4L2_SUBDEV_CAP_STREAMS_PRELIMINARY	0x00000002 */
-> +
->  /* The v4l2 sub-device supports routing and multiplexed streams. */
-> -#define V4L2_SUBDEV_CAP_STREAMS			0x00000002
-> +#define V4L2_SUBDEV_CAP_STREAMS			0x00000004
+>  int __media_entity_setup_link(struct media_link *link, u32 flags)
+>  {
+> -	const u32 mask = MEDIA_LNK_FL_ENABLED;
+> +	const u32 settable_flags = MEDIA_LNK_FL_ENABLED;
+>  	struct media_device *mdev;
+>  	struct media_pad *source, *sink;
+>  	int ret = -EBUSY;
+> @@ -1327,9 +1327,9 @@ int __media_entity_setup_link(struct media_link *link, u32 flags)
+>  	if (link == NULL)
+>  		return -EINVAL;
 >  
->  /*
->   * Is the route active? An active route will start when streaming is enabled
+> -	/* The non-modifiable link flags must not be modified. */
+> -	if ((link->flags & ~mask) != (flags & ~mask))
+> -		return -EINVAL;
+> +	/* Only allow changing user-settable flags. */
+> +	flags &= settable_flags;
+> +	flags |= link->flags & ~settable_flags;
+>  
+>  	if (link->flags & MEDIA_LNK_FL_IMMUTABLE)
+>  		return link->flags == flags ? 0 : -EINVAL;
 
 
