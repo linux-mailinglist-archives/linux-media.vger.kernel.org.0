@@ -1,317 +1,268 @@
-Return-Path: <linux-media+bounces-60444-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60445-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kEnwOokC+ml1HAMAu9opvQ
-	(envelope-from <linux-media+bounces-60444-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 16:45:29 +0200
+	id OP52Ed0C+ml1HAMAu9opvQ
+	(envelope-from <linux-media+bounces-60445-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 16:46:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496014CFAA4
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 16:45:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7F54CFAEA
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 16:46:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0CA6B3048140
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 14:42:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E858C3015E0C
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 14:44:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4201643C067;
-	Tue,  5 May 2026 14:42:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C117F43CED3;
+	Tue,  5 May 2026 14:44:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="iATTgGeL"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="J4ju9Jj8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11021098.outbound.protection.outlook.com [40.107.51.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2992264A9;
-	Tue,  5 May 2026 14:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.51.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B9B24677B
+	for <linux-media@vger.kernel.org>; Tue,  5 May 2026 14:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777992148; cv=fail; b=kHyjOgYT/OHWhajb2tXI4I9QkK5vhYUVyJLtVWBDds2zHA3P9bSh1IGe2UqD5If6Nop0HbjjlHcQOj9HwpAfo8iUkeuyYmraAeg/JMxcfSpOc3ZCJWXD6GzaEguXHbscnlqhMRddb0U9tcQSwegOmw/R9teS+m0ec2kOfu3hLNg=
+	t=1777992260; cv=pass; b=i5OVyC2eRMgC5NskzWJVpp5yg2qTXJz3sulfscO9PtPqnYPfbnnVCb9e/huH2N+RaOaOmhv3CzQwv2zeXHjw9GSKm+Haa+wmr7ZiFKCsDwjvS/tUlMSDy1vGQCd5SP5RVSxNFQsC5MDTnGg/5zPp2U2zS8PY3L2PqwdoS/eXdbM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777992148; c=relaxed/simple;
-	bh=Sz1jPlZBySZiTKxyQN9KDz+U1zg5fdNY2UgAD4hEXIk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=A/mpSGzQL3KFwGOdLPGkGHN4n+NAZSGdazTWQNvW7wojyKCKS9JHBwr9wVrTqtPAyRzJ843Mt6eQrLrmLKVyObujE4xuf6pUGPuRnusT1tQMVGqAvh2XFwWC/mgNU+FCJHGrPyiQu47SFyu2OacbxYPm76gWAjSiMXpp6+zJY9U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=iATTgGeL; arc=fail smtp.client-ip=40.107.51.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CcYA4ocE0htxw/F6uKYZEYqBec63/J98LgTF1GeAfEDNoZqdq4KWTTiwYPE/4AloaSTvA5HtBkNeZCcy/uNWUco3QL/Aq9wcaW2k4yXJaE4i0rTJ6JR+1C9NXvhsUQODPv81WTMKT9aDR6wGHTE+zxwy+LqWMPN1evF1PGtogMn8h3MgDajC4dR4bZAj1/Iywdie1byrT7CuYgnZG4njf4/HsDphLM46lcQV48JRa2u9NhZQdCJ2Cm90daLLvO+cYbi8rW32/QdUJvFW69J+piUrbcWyZMJDhxM9xMi+LDhEOau8BKNMBWKymNtXIUzFPdgxZz846hOqj+hHLZf5NA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R2bQCKAQnQppifFdPQhwLlrwVpDH74kYKm95r8p6xlM=;
- b=qfQBKbvWD0OKux5tbtvOHsGyqTWs0Jon4CSFb5ddR8fZ6Op5DlN3gbix7cYBTJRTzIJljKGmhNLqGvFBaxyYWv5S/LFEc1rdbbQsWEBAAQC+UOQLbz4ktTlgv4gzk3MBpWhgdjd18KZWsOh7BVFs8lnUaY79zb+XpCrwt5wuL5DCpl5qNzyrB86FDUqCAK/ugGcvk3raHxPKdIWs8DtmyVtRLejsKHRPCQjn8GMJkEkU0YtgDXrkk9H23T70d3thsVS+lObvp7AUd5eeiTN/2d2pCXMh74sm2P+7LzIzmdJWx7KR+gi/FjeE4ZiY2sPgKhOFViR/1B9uA351QJxPVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R2bQCKAQnQppifFdPQhwLlrwVpDH74kYKm95r8p6xlM=;
- b=iATTgGeLcoyI1g6ZrYe3aT4FrqEfU9XonhTUTLnoquDYtlMqA0HqNSrrZfpUFg+8rQWxE5y5kRzB3OUKkDBWOb+rHkukxrMLWyYdOEXV0qXTl+xxFNvXx+FUDVLoaBm2MP7xNx72ULBcdEGb9GeQrbEJeGxVV33yPev8fF5MXiTBYberrq3LE6N2OdKddFYutjLWJ2fl9RQSWemdmDdgQGva0cbk9hMAJd+++7t85x1Md51zIcLmffEnpRAfpTKTQyNrWUYVfxcYNUOIqdbHycEi49OntRWtdrKCOWi25fP4gPJSwWlHsh1MpxKUFAuT0QoihJas0Ggf0Hh06WWXWw==
-Received: from MA0P287MB2178.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:11e::14)
- by PN3P287MB0210.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:d3::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Tue, 5 May
- 2026 14:42:21 +0000
-Received: from MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
- ([fe80::f8da:c075:cde1:e167]) by MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
- ([fe80::f8da:c075:cde1:e167%6]) with mapi id 15.20.9870.023; Tue, 5 May 2026
- 14:42:21 +0000
-From: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Tarang Raval
-	<tarang.raval@siliconsignals.io>
-CC: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>, Hans de Goede
-	<johannes.goede@oss.qualcomm.com>, Vladimir Zapolskiy
-	<vladimir.zapolskiy@linaro.org>, Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot
-	<sylvain.petinot@foss.st.com>, Hardevsinh Palaniya
-	<hardevsinh.palaniya@siliconsignals.io>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] media: i2c: add os02g10 image sensor driver
-Thread-Topic: [PATCH v2 2/2] media: i2c: add os02g10 image sensor driver
-Thread-Index:
- AQHcy+vUWjhtsErO5ki07Rsg8wgvDrXeSh4AgAAEK/CAAAQSgIAABiGAgAAD4ICAIUQssA==
-Date: Tue, 5 May 2026 14:42:21 +0000
-Message-ID:
- <MA0P287MB217836B81A73F23289CCF190883E2@MA0P287MB2178.INDP287.PROD.OUTLOOK.COM>
-References: <20260414084952.217215-1-elgin.perumbilly@siliconsignals.io>
- <20260414084952.217215-3-elgin.perumbilly@siliconsignals.io>
- <20260414092758.GE4061@killaraus.ideasonboard.com>
- <MA0P287MB2178FAA81D07B561FA68014988252@MA0P287MB2178.INDP287.PROD.OUTLOOK.COM>
- <20260414095727.GF4061@killaraus.ideasonboard.com>
- <PN3P287MB1829155B216E557C7DF7B6778B252@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <20260414103315.GA1023076@killaraus.ideasonboard.com>
-In-Reply-To: <20260414103315.GA1023076@killaraus.ideasonboard.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MA0P287MB2178:EE_|PN3P287MB0210:EE_
-x-ms-office365-filtering-correlation-id: 6f0370cc-3358-4f58-3d2b-08deaab483f8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700021|22082099003|56012099003|18002099003;
-x-microsoft-antispam-message-info:
- Sh6X/a3enjDN8cQvI1G7wDxaYFCh8R+jiJpCvqN7/UikLUxvz3460SaebOAPU144Jc8eKIjnKxhymM5P7DjnHdgJGy6RnUd2Od1l8uO+fy8ZBTAwZaKNHjWCx1Y57iqyFKWaxZ/rf/oR3U9O2vIE4EpVUvnbW6WxPH8Y95/ngGYl1SVbaoXu+o/GLjUT+GY5aVBHI+4Hhvz3lOw+eJYtIMgC2Vm5pXe0kBh3XYoumOjALYnn+YewDtkIQVEccOXgGAR7dlDYp0/ja62JfPjejCUBW+6nxmCEQ8Fw8gStfI5KjUfiWz+h21YQlcv22yUm3ZNYBdpw+U596JntXkrcWCH2iDy8RkBIiEDtcPGaZLwHz+flZ526nQlWuBveKhMpSvXsepgPWg6XUbekWSY8DQL+gT82bBHqtjxf9zZ/AMWHSkTO/D1vJg+vGcXD7dxBPTuHZkcw4+QUQJ76diC9POiDccUSOx7bJ9ef6WcQ0qc1bkatsAIELuzE4i4Zw47/5VxeKF1xGnC09f8DY5XE22fDuTE/ix1YMombKtWQK6IlYziQd8Q5CA8wYnb56zJ34P11YyRCrW4I2Vj8LwfauDqBvWHpOjvZs9/jXIAaQvlhnvIFmDHoE+KURngIY/rzeh5LHK/qkC6NefV8n/GTaaOe2Vu/P3URDPi4LZAYu8KnjvwR6v88G6gCb4O3VUJ/Rv2g54+oqJ6sCyoHOZxK+mYHRDWs4pxfW7rTSwlgh297Ps72YY7zqFp6+c4U8s4s
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MA0P287MB2178.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700021)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?LTF2tTlu082yNzirCiSSCSmFm6Aq9/rL3JrRbqJ61tZuZcsGCCc+zPzDGv?=
- =?iso-8859-1?Q?a3lvI9Mnwf7BUrq+0e+GD47fAqrdTciwBoUnmQ1GZjuPKy4zFDzDYWyrJf?=
- =?iso-8859-1?Q?z2fAe681f4d2iptNNk+/8dAwpqKn5xn7BelO1ipZmWAZKJjp5KpHCt4A7A?=
- =?iso-8859-1?Q?QZdVDJkQtB8kMONGIlnJoLkR72RA22aZF+0aUpbXtVDRPYXf35pP5w6zr1?=
- =?iso-8859-1?Q?bSKuvMjB+TR8ZjTeMCw10y/UzGYb6X6USlUshbCcyVbrVXcIEFSVbOq/aw?=
- =?iso-8859-1?Q?RgJ7lAQLi+R52NfwKqprvpNptgeR+li8eoZT3+6X9cImMXQ2OsU1Izwk8x?=
- =?iso-8859-1?Q?ksLo0bIlMP2tSfCnmhEaB+2ryRvPAs2t+x882JX4ak7qUlpWtRYWJ1G/hP?=
- =?iso-8859-1?Q?wkiwPBnJuUM63oyDIJkGUa/EM0RRq9X63l6m6b4F4had87DLxW75/Lywh1?=
- =?iso-8859-1?Q?occzqMAho1mZv8k5fDQEEIGhKD6enuXNVDu96LomZummnb19mrTksTujYZ?=
- =?iso-8859-1?Q?raG51URjUiovMTPyZSWCJ4TExLVAApE3e27RZuUX1brazf6EMNAMRz8qr8?=
- =?iso-8859-1?Q?DZHKHk+gNLWSe0iPx+Fgu3J5sG/ix0VOzP7P/tig3kyuWkAOdDatd/2Oiv?=
- =?iso-8859-1?Q?LZIniQUMFft5MLzB50ZYLD3XQIkuJTbosDiNwsUyVzYqBFO7+fBeUwCtSW?=
- =?iso-8859-1?Q?7r44mNOrvV5HfkpqPmKVmTqcZbUSjXIFwzwE9QaJdrHWhxT3f18JE9CXzm?=
- =?iso-8859-1?Q?ukDIOuyKCY7MwQimY+uhdTHmqayRyoP4/9UtYvTDUj6nXsU7WXXyNoMQq1?=
- =?iso-8859-1?Q?nhyWf+kJNeZ5ikfejNOx3aAbW0qvEy+3vys8XGnOcSfaInXAARAToA4ffo?=
- =?iso-8859-1?Q?sDl/Xa4lUNOMBv6q4RZ8xt3PzSaA+tOoTfuvV/y8aPmpd9KidG9pTgVSOX?=
- =?iso-8859-1?Q?lo74JJdO8YpzqVplS52cvgSBzhpCs2LekIeDuyEnNI6blz4W+GfGE0r/8A?=
- =?iso-8859-1?Q?0fSBYory4pUUu7sXR9UmSpJrk4LMKEgu++zTk0c0LWABgdbdTQxESfAjyn?=
- =?iso-8859-1?Q?xe44r+nesLYThKbURNoclAaiTbpXLsbftUY7o7yAnly4LhLq+8v8dDqf6g?=
- =?iso-8859-1?Q?PQVm3BuaJALxw7D4AVb1ls08HuCFnTOF+M/fRaPFecVxYshahNw8EW/bVc?=
- =?iso-8859-1?Q?BmHQ2FQMP7hYHz7UKcmJ4AchQHICyigvxuGS/C2i9rHdnveYuJ8FyB78rB?=
- =?iso-8859-1?Q?uo7/kxVX9e6+Z+qDMaHRxiwPoV/NLWqA1Lja1wO+PbjdK4oPDOiC7JVvl9?=
- =?iso-8859-1?Q?WrdZIUz4tPVryb5VuUGggJ/zHHsN4AZVxLCBSYfB0lI+oMjMYa0jDDgFpY?=
- =?iso-8859-1?Q?ugcquKf6o2apQgsw9uchK7gySpvDTGgBsvwx4lGsGwMsWEEUwpNtLGmcwm?=
- =?iso-8859-1?Q?RODOy82LZKoeQMpV3PXSRfc3PlWiytcGGe0f1GL5Bp5tYuuaZ/IleE0PZm?=
- =?iso-8859-1?Q?NrrcWsmWtesR6JCuQ7nnALSBYJ7cBboU58iDnf0+q46fYKHtDHLXpRazTg?=
- =?iso-8859-1?Q?pjDcD3+92OnEhfYAjZgif2iTzm99RXvGK//9k8SN/023vSFDH67Rj2tRfH?=
- =?iso-8859-1?Q?pvFROhlWyyUtjyCwz9uWCjGQqT1WiizS/+dntjyoYQuvV6pgJN7oacC8We?=
- =?iso-8859-1?Q?j4QPlLJk+hItI/lGk96wZlFwwoLxQ+rJH/Hv0Bf+puD7CzFZo28ThaG2Ru?=
- =?iso-8859-1?Q?MNW+MVL4QB83sTMJHKNQMNOGNgh4ibyJJtxSfjb19FV+ArrhrqMWWCYvKD?=
- =?iso-8859-1?Q?rNYYqdINNJ/Yakqf1TjvE8TDAZrVDPM=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1777992260; c=relaxed/simple;
+	bh=QTwdeXWt3ptb32NCdI5XCl+KM/0lGfsIOy4C/KdIodE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dITBlShyVSPUGqra0LwffKPawtauXQS7Fp2fsVJ5vLJaQWO5yaMz3uqDSDWpRqIJuEGVgENdultA+Nqg24QKwfdW7t9uTXzIaqjWGch7iY7yvk2GiyhhmtTP+bACLqBzQ/nt8NvZgxpMXsbWgGMTTybHAW5ZWU13w+2x4t+qwa8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=J4ju9Jj8; arc=pass smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488940ccfa6so96755e9.1
+        for <linux-media@vger.kernel.org>; Tue, 05 May 2026 07:44:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777992257; cv=none;
+        d=google.com; s=arc-20240605;
+        b=d35/thFyLfOUKRwK/EoJNu3zNewYvm2uA5o7ggfzNWPdzAkArq6LxbykghcehL6a7o
+         Kk9DrFvqdhq4a3T1IbR08o/ME6xFzHwieHEXtsobayucVSDaffVhOBiMKXi2kboEpum0
+         MJMVqyqCI8Nn+Yx//R+HYd4uIIZ1+UGbyXNGfKX+2f87cOmeAl0BdWa2OXFadwTd8DVE
+         BCjnfnaV+nKItmUjqp0oK9E9OtUDpuCRov3/nFm1D7RmpnLuCG3XwQI/3YbFiYfvtiEz
+         gc63iRdvf6ZyiYMfnqOCK2U2N5SZ/LJ8MDnwYitnQngyJHMjJjoURHIBEJN8rY0x0DfD
+         08bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=xImKjLpphistWNUhM/BMGUgvs4K16/nDs7wCf3O5gxg=;
+        fh=tq0NvDRmXY8IlaoSUx8EMf9dyQ09T4NczLJy7Fv6/oc=;
+        b=H6xBNKwhOL6FzHzEBfnxjH3g7TYNQ0YUHGwfYW/1IphfDapoF89MFfZv5uZMV0czvH
+         sbQYfYl2Hd3yhnI81uNo7jZEO0em+dU8sn87GH6ICDmrvECTb5WagsnFPzGaJG7y+M0Z
+         KrDckl1JY51ajTv6Ly5v5STH9+wCGhRoQuRMgHOVcbypb5xQ9S9Q2O+7VdN8iKnMPuxz
+         dUFSmQw0PP5rsx50yTkNlW5lH3zdjdnq8vhaLum5Aykj4Wf/JncF4VwrBkItLLj55i/i
+         UMTApb6VYaRyZBLxUapFNyLdD4YzUR4zJTYDPGLzAJvt0xrSO9hiclC2gnA2ZDF7MXwt
+         jCGA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1777992257; x=1778597057; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xImKjLpphistWNUhM/BMGUgvs4K16/nDs7wCf3O5gxg=;
+        b=J4ju9Jj8YtPE7F0X0aJCMFx0cHofKdqOYQsSWZ0MN2NCNBJ6DeXVcfr4HEYc8Fv3Vs
+         vkil0/b1H2BkzScmq+m4yndlq+JlWnXsi58WJvbSaJy+vk9+/z218axaStnAWYPymM59
+         oM7dt2mJfbk7FQjKN4xjw61MXhaxaA/Ts8WNaIyLZDNu0dU8zn6yDE6Of7pKZ89+XOAE
+         XsuaoS9gW52gQt8/r/nFCJjw7LU56WFA/j/Friu191PyR4WBLCUF7lYC18Am52+/o5e5
+         8Wlye/d3r/xE9Mys3pKEWg5JR5Vro7PP3OMBxwFd3QUpp1UPK4QAJA2cX4pie5Fy7dPU
+         7Jnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777992257; x=1778597057;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xImKjLpphistWNUhM/BMGUgvs4K16/nDs7wCf3O5gxg=;
+        b=Mj5srPYh7CE+Ck71UTLFKL8deUK26VS5KzBnaDKfY5pD2CL3fWPxW6iQsWuULoffMj
+         On2c+Beiw/Tqk5EVAj0nm4sJmUC3RjwPPNJfUTb7QoP65aULXhBqvJAL0kgJSW1TqN3M
+         KZgZBWjJDmwKNxY1ymJCDvVsgSQHmSuP3FYM1cKeYVMgBNVhAhE8yaknMJadfWff4/Bc
+         /rbCrifCqfm9BaTgNQtA+jpbcQpU6WcZqiqLbd1wrOiA7zv+vIKEX6pRrqkVrhAWO9al
+         TjSUUPagx99xc08pZQqVkOszhpYN40IFud+WBZLqhwZi4AsP8yIfIfpKhQ2TX+T1WI8P
+         cOAw==
+X-Forwarded-Encrypted: i=1; AFNElJ/czuSSinRAOmV6ElYN4UgbN3SJzCrkJSXy3QI6y2Cn3qikpjc5AECJbQEjgOb50BWyxZ10w6BAJGi1fQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMYcGbIInme7D2ZYZS5S2gNlPsNE+TroJNBTAjMz3AzYCdkE3n
+	D/86EzlBStWn9xvaqDImCNURUZS5MnNrbGueqrJfoM23NMLwhzaxm74tXjHLbZ5/Z0Aqcrnhlyp
+	UmNtuJOR2kRnMuweABxoUlPW/KgEz29UhxmNh7jUl
+X-Gm-Gg: AeBDievzz2+Bzo3faP6EfUVdK0BMwq7NiTenjKh8cbnTeAY7QZakQyVI4O5XzfFNzK4
+	siY46IL2r0LNT3VVZJBwsNCt2+sFMGpOQ72LJafu6sInJxwfURsvgJySzkiNzPfecjH9ZXeui/B
+	688rViuaov+dGIGLuLJJarPLSLgOb0yGkDafYZ8t03GIfNpWCErdUBy3evbtbIBzFraWrH1Bs4o
+	45+MMBwxP5oMfUNnuKPbLfXa2Pc6EqJ2T68UWre/zTkao0KDyPxdxd9/aMoHEZa07AqW8gF1Gh9
+	4IsRKx6of/7gqJ4HbvN4tDrgLvOIAkx2wT1GSvXXvebH2jpD4msaDa09CSsH
+X-Received: by 2002:a05:600c:4fd3:b0:485:1a54:9407 with SMTP id
+ 5b1f17b1804b1-48d14696188mr1306875e9.0.1777992256465; Tue, 05 May 2026
+ 07:44:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f0370cc-3358-4f58-3d2b-08deaab483f8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 May 2026 14:42:21.7985
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6FhGZPCTTQJIwD0CNIt3ECx+lymA00FgWNKPpChV9pelXoVK3MnxcKlYB9t+CQ2zzKRV/UvQf+AlJbv6oIRLpLjJX06fvwutyxJExlbgmE+tdaD99GVNfh9AdOLWLMTI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3P287MB0210
-X-Rspamd-Queue-Id: 496014CFAA4
+References: <20260406214938.24142-1-baohua@kernel.org> <a6d1c89a-3c71-4e06-adcb-56595071dcc2@amd.com>
+ <CAGsJ_4xquCzQLbvpkC8arAN=9KhrAkdPdxnB=v85GvvQu23Xyg@mail.gmail.com>
+ <9034246e-3971-4fad-94b7-80f4ad0e29db@amd.com> <CAGsJ_4z5EZoNMBVnu6sCkThyi9VTCeCH29buVecuySuv_Ry8fw@mail.gmail.com>
+ <CABdmKX3baqmBkZxMB6PTG6Sj5S9qi+RwVvwpmkLqKkqvfeZAUw@mail.gmail.com> <bc74694b-9cbc-4cbb-9dcd-9e25960d3b97@amd.com>
+In-Reply-To: <bc74694b-9cbc-4cbb-9dcd-9e25960d3b97@amd.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 5 May 2026 07:44:03 -0700
+X-Gm-Features: AVHnY4KKm8ChPu7Yq7OfV6LJFs9X7Wuvyr_qOd_TfzJJJ5G91zdYSk83n0ma0pE
+Message-ID: <CABdmKX39gWcPy2PWxZ-bJBgXEQrk8Y7JWdFhkcS=LkOmU2v4zA@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: system_heap: Optimize sg_table-to-pages
+ conversion in vmap
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Barry Song <baohua@kernel.org>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel@vger.kernel.org, Xueyuan Chen <Xueyuan.chen21@gmail.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 8C7F54CFAEA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[siliconsignals.io,quarantine];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[siliconsignals.io:s=selector1];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60444-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[siliconsignals.io:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[elgin.perumbilly@siliconsignals.io,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,gmail.com,linaro.org,collabora.com,arm.com,google.com];
+	TAGGED_FROM(0.00)[bounces-60445-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tjmercier@google.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
 
-Hi Laurent,                                                                =
-     =0A=
-                                                                           =
-     =0A=
->On Tue, Apr 14, 2026 at 10:19:23AM +0000, Tarang Raval wrote:             =
-     =0A=
->> > On Tue, Apr 14, 2026 at 09:43:32AM +0000, Elgin Perumbilly wrote:     =
-     =0A=
->> > > > On Tue, Apr 14, 2026 at 02:19:45PM +0530, Elgin Perumbilly wrote: =
-     =0A=
->> > > > > Add a v4l2 subdevice driver for the Omnivision os02g10 sensor.  =
-     =0A=
->> > > > >                                                                 =
-     =0A=
->> > > > > The Omnivision os02g10 is a CMOS image sensor with an active arr=
-ay size of=0A=
->> > > > > 1920 x 1080.                                                    =
-     =0A=
->> > > > >                                                                 =
-     =0A=
->> > > > > The following features are supported:                           =
-     =0A=
->> > > > > - Manual exposure an gain control support                       =
-     =0A=
->> > > > > - vblank/hblank control support                                 =
-     =0A=
->> > > > > - vflip/hflip control support                                   =
-     =0A=
->> > > > > - Test pattern control support                                  =
-     =0A=
->> > > > > - Supported resolution: 1920 x 1080 @ 30fps (SBGGR10)           =
-     =0A=
->> > > > >                                                                 =
-     =0A=
->> > > > > Signed-off-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals=
-.io> =0A=
->> > > > > Reviewed-by: Tarang Raval <tarang.raval@siliconsignals.io>      =
-     =0A=
->> > > > > ---                                                             =
-     =0A=
->> > > > >  MAINTAINERS                 |    1 +                           =
-     =0A=
->> > > > >  drivers/media/i2c/Kconfig   |   10 +                           =
-     =0A=
->> > > > >  drivers/media/i2c/Makefile  |    1 +                           =
-     =0A=
->> > > > >  drivers/media/i2c/os02g10.c | 1039 ++++++++++++++++++++++++++++=
-+++++++=0A=
->> > > > >  4 files changed, 1051 insertions(+)                            =
-     =0A=
->> > > > >  create mode 100644 drivers/media/i2c/os02g10.c                 =
-     =0A=
->> > >                                                                     =
-     =0A=
->> > > I have added a new function, os02g10_set_framefmt, which dynamically=
- sets=0A=
->> > > the mode register.                                                  =
-     =0A=
->> > >                                                                     =
-     =0A=
->> > > Please let me know if I have missed anything or if further changes a=
-re   =0A=
->> > > needed.                                                             =
-     =0A=
->> >                                                                       =
-     =0A=
->> > You also need to drop the supported_modes array, and implement support=
-     =0A=
->> > for .set_selection().                                                 =
-     =0A=
->>                                                                         =
-     =0A=
->> Are you suggesting that we should drop the array below?                 =
-     =0A=
->                                                                          =
-     =0A=
->Correct.                                                                  =
-     =0A=
->                                                                          =
-     =0A=
->> static const struct os02g10_mode supported_modes[] =3D {                =
-       =0A=
->>     {                                                                   =
-     =0A=
->>         .width =3D 1920,                                                =
-       =0A=
->>         .height =3D 1080,                                               =
-       =0A=
->>         .vts_def =3D 1246,                                              =
-       =0A=
->>         .hts_def =3D 1082,                                              =
-       =0A=
->>         .exp_def =3D 1100,                                              =
-       =0A=
->>         .x_start =3D 2,                                                 =
-       =0A=
->>         .y_start =3D 6,                                                 =
-       =0A=
->>     },                                                                  =
-     =0A=
->> };                                                                      =
-     =0A=
->>                                                                         =
-     =0A=
->> If we remove this, how would we provide mode-specific parameters such as=
- VTS?=0A=
->                                                                          =
-     =0A=
->Those should be computed by the driver based on the format and crop       =
-     =0A=
->rectangle configured by userspace.                                        =
-     =0A=
->                                                                          =
-     =0A=
->--                                                                        =
-     =0A=
->Regards,                                                                  =
-     =0A=
->                                                                          =
-     =0A=
->Laurent Pinchart                                                          =
-     =0A=
-                                                                           =
-     =0A=
-Could you please take a look at the latest v3 patch?   =
+On Mon, May 4, 2026 at 12:49=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> On 5/1/26 17:54, T.J. Mercier wrote:
+> > On Thu, Apr 30, 2026 at 9:15=E2=80=AFPM Barry Song <baohua@kernel.org> =
+wrote:
+> >>
+> >> On Wed, Apr 22, 2026 at 3:10=E2=80=AFPM Christian K=C3=B6nig
+> >> <christian.koenig@amd.com> wrote:
+> >>>
+> >>> On 4/7/26 13:29, Barry Song wrote:
+> >>>> On Tue, Apr 7, 2026 at 3:58=E2=80=AFPM Christian K=C3=B6nig <christi=
+an.koenig@amd.com> wrote:
+> >>>>>
+> >>>>> On 4/6/26 23:49, Barry Song (Xiaomi) wrote:
+> >>>>>> From: Xueyuan Chen <Xueyuan.chen21@gmail.com>
+> >>>>>>
+> >>>>>> Replace the heavy for_each_sgtable_page() iterator in system_heap_=
+do_vmap()
+> >>>>>> with a more efficient nested loop approach.
+> >>>>>>
+> >>>>>> Instead of iterating page by page, we now iterate through the scat=
+terlist
+> >>>>>> entries via for_each_sgtable_sg(). Because pages within a single s=
+g entry
+> >>>>>> are physically contiguous, we can populate the page array with a i=
+n an
+> >>>>>> inner loop using simple pointer math. This save a lot of time.
+> >>>>>>
+> >>>>>> The WARN_ON check is also pulled out of the loop to save branch
+> >>>>>> instructions.
+> >>>>>>
+> >>>>>> Performance results mapping a 2GB buffer on Radxa O6:
+> >>>>>> - Before: ~1440000 ns
+> >>>>>> - After:  ~232000 ns
+> >>>>>> (~84% reduction in iteration time, or ~6.2x faster)
+> >>>>>
+> >>>>> Well real question is why do you care about the vmap performance?
+> >>>>>
+> >>>>> That should basically only be used for fbdev emulation (except for =
+VMGFX) and we absolutely don't care about performance there.
+> >>>>
+> >>>> I agree that in mainline, dma_buf_vmap is not used very often.
+> >>>> Here=E2=80=99s what I was able to find:
+> >>>>
+> >>>>   1   1638  drivers/dma-buf/dma-buf.c <<dma_buf_vmap_unlocked>>
+> >>>>              ret =3D dma_buf_vmap(dmabuf, map);
+> >>>>    2    376  drivers/gpu/drm/drm_gem_shmem_helper.c
+> >>>> <<drm_gem_shmem_vmap_locked>>
+> >>>>              ret =3D dma_buf_vmap(obj->import_attach->dmabuf, map);
+> >>>>    3     85  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> >>>> <<etnaviv_gem_prime_vmap_impl>>
+> >>>>              ret =3D dma_buf_vmap(etnaviv_obj->base.import_attach->d=
+mabuf, &map);
+> >>>>    4    433  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c <<map_external>>
+> >>>>              ret =3D dma_buf_vmap(bo->tbo.base.dma_buf, map);
+> >>>>    5     88  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c <<vmw_gem_vmap>>
+> >>>>              ret =3D dma_buf_vmap(obj->import_attach->dmabuf, map);
+> >>>>
+> >>>> However, in the Android ecosystem, system_heap and similar heaps
+> >>>> are widely used across camera, NPU, and media drivers. Many of these
+> >>>> drivers are not in mainline but do use vmap() in real code paths.
+> >>>
+> >>> Well out of tree drivers are not a justification to make an upstream =
+changes.
+> >>>
+> >>> Apart from a handful of workarounds which need to CPU access as fallb=
+ack DMA-buf vmap is only used to provide fb dev emulation.
+> >>>
+> >>> The vmap interface has already given us quite a headache in the first=
+ place and there are a couple of unresolved problems regarding synchronizat=
+ion and coherency.
+> >>>
+> >>> When a driver would be pushed upstream which makes so frequent use of=
+ the dma_buf_vmap function that it matters for the performance I think ther=
+e would be push back on that and the driver developer would require a very =
+good explanation why that is necessary.
+> >>>
+> >>> So for now I have to reject that patch.
+> >>
+> >> Well, it doesn=E2=80=99t seem to increase complexity, and the code is =
+quite easy
+> >> to understand.
+> >
+> > I agree with this. This change introduces basically no downsides for
+> > upstream, even if it primarily benefits a rare use case. Since
+> > dma_buf_vmap is exported for driver use, why not enhance the
+> > performance for all callers?
+>
+> Because we essentially want to restrict the vmap interface to only the fb=
+ dev emulation use case and not promote or even expand it.
+>
+> When this matters performance wise the caller is clearly doing something =
+wrong and by improving the performance we just paper over the issue instead=
+ of fixing it.
+
+Ack, I understand your position.
+
+> Regards,
+> Christian.
+>
+> >
+> > -T.J.
+> >
+> >> It would be great if the community could be more welcoming
+> >> to developers who are just getting involved, rather than discouraging =
+them.
+> >>
+> >> Apparently, no one can control whether the source code of those kernel
+> >> modules will be upstreamed except the vendors themselves, but products
+> >> can still benefit from the common kernel.
+> >>
+> >> Best Regards
+> >> Barry
+>
 
