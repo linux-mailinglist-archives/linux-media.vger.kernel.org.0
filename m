@@ -1,671 +1,257 @@
-Return-Path: <linux-media+bounces-60469-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60470-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OMOhCIoq+mkhKgMAu9opvQ
-	(envelope-from <linux-media+bounces-60469-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 19:36:10 +0200
+	id mBsfFG4z+mlLKwMAu9opvQ
+	(envelope-from <linux-media+bounces-60470-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 20:14:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DEA24D2245
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 19:36:09 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 024454D287F
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 20:14:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 97D1930DD917
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 17:32:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id F1BBB300E5D7
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 18:14:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A01054A33F2;
-	Tue,  5 May 2026 17:32:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E1274A340A;
+	Tue,  5 May 2026 18:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bymI5B2f";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="f6wqxUB2"
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="s2knLRbe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4850E4A2E26
-	for <linux-media@vger.kernel.org>; Tue,  5 May 2026 17:32:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4483E3DB7
+	for <linux-media@vger.kernel.org>; Tue,  5 May 2026 18:13:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778002375; cv=none; b=SOsePZHPxZ/uLEN+JDsKmLQSuNokhrirTZgKdItfApYFKK/4uCilsnpslelZLqqKOUw4lLjvUZJPtw9N3L35DLFJTC3KopCskUugxIzPKBYlYR3hBuI4FTau10rDpUhi4lGleBgm05DmPW0GkejBTkJyg+77D5Ceice3YDyNdWk=
+	t=1778004839; cv=none; b=pWiNuMw0F8Pb8kwD0Kxv8MebcrPzYdDQeH6nb7MDkXS4TLLn0/ERttKlppXPz7JA9Mq2YgfksRKn5EiTR3yJgEkv0nhqWdtdrqcypEZbmYIgdn0xI/pjQKE5W+9mkLL//7gh9KoEUZn5ew7oELQJvrfEgY+vSEU1sHqCVFWGVPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778002375; c=relaxed/simple;
-	bh=1XDWE6ATqSyHs0VObzq/IhCFzSnOOqXQttYbSW7p+8I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KknsYJzQjon1VTi4J+UTJ1vR+y9ATqnZ+gcKAXwrvdxrygYsUltBZi0C3gisRnfgrXEVB60apZFhA5wQx9lUs/3xDuiX6KXHylsiLcQpmsIARFq9NJMe1ldygxwuxH+BwF6MICS6SRxLzTTcUkfDnUd9WhPvD8cm25dMBjBZ0Y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bymI5B2f; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=f6wqxUB2; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 645F7KWD4028238
-	for <linux-media@vger.kernel.org>; Tue, 5 May 2026 17:32:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=NktNNT+blem0C8DB93BySTft
-	eXu91gdwwaZsrQR4k2s=; b=bymI5B2fLLzns/GkH6H2wcDxIwbGdyD2Y9jW0dC3
-	AqLuVpoRQ5rhtwz+GMcmrpUNaWgUPh84wPSnhdtH957NJ0aytiKtxKGEOOLDgBJU
-	cjL1FwOUYZlFv7DlWWiV/cLXjJyJxefWON860T9KyXrTwFPSuRgAjH58gIUjQLvi
-	Hl4JlYTw/aLXdkXcPPMsyP1hmpq3p95Rrj5JeAM5ZiEu8mx4w4z4ZE6bmDvRBKfj
-	MS8YALfHQlnbcyCv/d1aFFnOdsCDg+weY+OdQSMcIeT9IX1jYm36/yPQBlCCpmbo
-	KdLn98K0VMh+1Sshjc8XML/QYu/aRItlaGIzXJICVRhj+w==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dydm6t339-1
+	s=arc-20240116; t=1778004839; c=relaxed/simple;
+	bh=3b27KxuKQlB4Xmy1kkKEdcO+WaPnuhruIPgcAT3CJvE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mPdjNRCGlZiajp6LaK3rxyOM9Vv2C/DyqgOhde/63m6f8UGiOeZKsyDQDAnfc4RkAqZ/59SkkMISSpMEhc9YJ4JmlOplwY6JjStusACzhpnxzhRTUappMjHVBhTJ2LQAUjaD7UGh7shSiCALGQoang5fThVbZaUbaQM4UhVDZno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=s2knLRbe; arc=none smtp.client-ip=67.231.153.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 645EFnWL2795328
+	for <linux-media@vger.kernel.org>; Tue, 5 May 2026 11:13:57 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
+	 bh=n/8Evrp0/Cs5xE91fVKhf/YUdfmd3rQjcqs7sGTTtLk=; b=s2knLRbegq9X
+	RCpDDJ/hBxKjw2pRkecpdWzz2gHGLBfGVyowgs8mooCbRWX5MHpJSEhh8YVlH6AQ
+	8RJ4/8+pU0ux8fOyIJoDPGbyaMfqNNhuUfCBWb+L+6lEdCNzSvCxg1fBEoqSc2+V
+	EbmQz+k9tHe0F2aoDYv3pCDhVCvsHHbhW/6qRUBFrMHrkZVXCYrRkaY7BYYwJhni
+	o1DNwr+CwfydLAJE+CuHn63B/ToXKcgo18Id141iN/gmxjPmOMMEzF5gNaollCf6
+	s+rXyR2Cnq0QDf7k1BVwbMqmN9WyJoH39FmoZTvdqbFOhWUbt8KRnCrHywPFKfuB
+	XIvDNHkjbQ==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4dxtp224xj-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 05 May 2026 17:32:50 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2b7aba0af02so52687245ad.2
-        for <linux-media@vger.kernel.org>; Tue, 05 May 2026 10:32:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1778002370; x=1778607170; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NktNNT+blem0C8DB93BySTfteXu91gdwwaZsrQR4k2s=;
-        b=f6wqxUB2pSK+As5ZFYfwTjZ3KX1ODdt0XHl1XqlhBRoMOMaT3whKfF3aaVRSjAIdrI
-         zBF6D4WZRiX0kHyiVB8800uN/3zJyXR6zWyghs2ty9YrqBF3H8XuIkGq17q8PxbUnhYH
-         s9v71jhWs7GWVMVV46ek70M3AVdHmAQ1XQ18acAVi5CK9lOvnsHbhiY5jhInsYgFvHX5
-         rcn67aWzb1qh1WSYtQ7KqfNYd2YdPC3BFWAcWA17woocmBosvUdg3a3HmOUO3/k9ETBm
-         GzKPczQnEqMWOZhRhuCJNJ0gmZekHDVC/T/iW2E3xV3Fif5bq/rsYAb9C+npQyJ3WBFr
-         Haww==
+	for <linux-media@vger.kernel.org>; Tue, 05 May 2026 11:13:57 -0700 (PDT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-2f3ec2e8d07so1054232eec.1
+        for <linux-media@vger.kernel.org>; Tue, 05 May 2026 11:13:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778002370; x=1778607170;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NktNNT+blem0C8DB93BySTfteXu91gdwwaZsrQR4k2s=;
-        b=MeXTla9C3YSkNO9fVIpgeBsVi+05GhnWhNxlP1+BZP3alelAOhsE3eYiNDNxyYS4ZR
-         nyYO85EHNNYe6akwRRkjUBNuZBdAAN+on+6C4e/VFUfkor61EDzmAn3WTqEkCAOy/4Oo
-         vEC13IeAdj28QdZAMZl0A4rSotthDBEEpU65Bj96r5WRnmMXq/6zmNR+XEyKeUR5aZD4
-         v17djdoE40kpzliU0GIIVdu2UqZ0BPzAb032gYjtKVjaRSceH0XmYKCep4ImQaO/Ko/0
-         +1HW37vVjkAIxHNW22vbCUOq/MY02cIaNeh0Pkis5jP6oE2FhgLg/Osn+4enVUU61Bte
-         2ITQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8AZIL618V+ovu6tHxYKW3LL7G14t/LsB7Sn42XtChfNSrZ7kafNSfestexwDOsowZuj3DL6yvld2Aq0Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YydOQp+dnf5Dtszfribjbq3hV1sbN8FqdkjVWYv98uPSZ7ohRg0
-	8c0QLJEzdsexNBQeUAgygVnUt5m/dQMc27wsVsvVKeGs2sJ5TTYmQJ6QQQBMIOU/3cDoHQ79fOu
-	+Ax8tDVSDeBFzNrbVzpJAieUYOSp5rIJdehtQe/rjSdoR8hjnK/Uuzy27id9m5RHIXg==
-X-Gm-Gg: AeBDiet6DDVGh6B2twjNd1C+epBeRLhvizz8xCb7P1cojjmMR6oJ3yDxfypxpKzVbLD
-	L+XMBwX5y7ANj0aJPwF088oR1C2zxDtcu0dMS5V0w5mtLnIMZJ5V9OuBYXHnvBWRZgTEKhH0t/w
-	NWcWUPqZlYgH4SCmv0wfrEcZdv0i6xM/Q3H762Zfsjme9GrcUpIGS3KBKeTAFnbDOSeQsKBSNQi
-	E3j0DCA3pr6+r2RiJoQMpscEPbFFljc5sRityajN6+UEHDR/HayTXHwiurJPoLtOrhPg4SGYcjk
-	IdvMhvit27hWgO4pgAh2Z8PmI6LvJ6DNye6Ov03Gh/ribDq5q27qAtpa+KXR9cFa0DR6JYpXq75
-	5Z1g1EYVRaVeAJ89B29HxBc3FrUWqjdi+z8AR2dFJm0ZySUSBll81M5TEQOg=
-X-Received: by 2002:a17:902:f54c:b0:2b4:5e7e:34ce with SMTP id d9443c01a7336-2b9f285cc57mr141237975ad.39.1778002369382;
-        Tue, 05 May 2026 10:32:49 -0700 (PDT)
-X-Received: by 2002:a17:902:f54c:b0:2b4:5e7e:34ce with SMTP id d9443c01a7336-2b9f285cc57mr141237075ad.39.1778002368437;
-        Tue, 05 May 2026 10:32:48 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9caaaec82sm146854565ad.24.2026.05.05.10.32.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 10:32:47 -0700 (PDT)
-Date: Tue, 5 May 2026 23:02:32 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Sumit Garg <sumit.garg@kernel.org>
-Cc: andersson@kernel.org, konradybcio@kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-        conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
-        akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
-        jesszhan0024@gmail.com, marijn.suijten@somainline.org,
-        airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
-        dikshita.agarwal@oss.qualcomm.com, bod@kernel.org, mchehab@kernel.org,
-        elder@kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        jjohnson@kernel.org, mathieu.poirier@linaro.org,
-        trilokkumar.soni@oss.qualcomm.com, pavan.kondeti@oss.qualcomm.com,
-        jorge.ramirez@oss.qualcomm.com, tonyh@qti.qualcomm.com,
-        vignesh.viswanathan@oss.qualcomm.com,
-        srinivas.kandagatla@oss.qualcomm.com,
-        amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
-        op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
-        skare@qti.qualcomm.com, linux-kernel@vger.kernel.org,
-        Sumit Garg <sumit.garg@oss.qualcomm.com>,
-        Harshal Dev <harshal.dev@oss.qualcomm.com>
-Subject: Re: [PATCH v5 02/16] firmware: qcom: Add a generic PAS service
-Message-ID: <20260505173232.6bvtccowckwsatb4@hu-mojha-hyd.qualcomm.com>
-References: <20260504130603.1474043-1-sumit.garg@kernel.org>
- <20260504130603.1474043-3-sumit.garg@kernel.org>
+        d=1e100.net; s=20251104; t=1778004836; x=1778609636;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n/8Evrp0/Cs5xE91fVKhf/YUdfmd3rQjcqs7sGTTtLk=;
+        b=VJmzZqoYnc9CkBCU1AE9H+o7cJ6iIMGt0Yezlua2tFB5cDk6KKdyC+vly0VwZJWSYo
+         mLKvhHJmIvehT+SuOt9YZKNzj/k+7fiWK8psxbkNq/YAcHTJ3oGTYyLL0ndWuE6UmTAI
+         V09XqQCg/lGLSl1Pn9t3cVVzT+6TohzVMHH0I+i5ZzKcVvOEH7sXQY5038+L9hnnhLpp
+         2oWxk7fL1CZFvKR+Q1wPaWE0ZiUKNqvIzW51NKYMn+WYyj6K4CI20TeKf9yjUjthtUyX
+         MgQWISHDhiPF012SQEAZivmA+9kZb78rrZbbY27f5IGK/RAHnT+MHJoAHLK/eELlUbA6
+         khLA==
+X-Forwarded-Encrypted: i=1; AFNElJ9sXp6snEscz3VWq1Uv7Ji+0eEwry4FmLB7WWIGlR+7dLDm6nkdFMF8QdJtZTLetlhltpMomlQIX52pqQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKmJnuDjaTTTJX0WgP7LEc5gVQPlMH4YStw7UjiWNV2OCG7RpB
+	Q9kh9HsTHtqc5SdawmLjllOUkUvqnhnEpyTqiDbKxOp62M1eZlnF+apCro9A7QjYE/ZLnkHR2sf
+	RFN+lFB1WnstjWc2IppoR9Ln10K5Vvg5+0qSWAndoZX0NgRDuf94v61zZ6oWqE2w=
+X-Gm-Gg: AeBDieu7Vmc4IVmnsmMGYknzli2s9jTNYPlqSSQ4W7Ogx5v+oHuDTcKS+fDfWZj7Ljb
+	srESXsBiSlFq10z/OGX49LdflwSwYcSysh5/FGKDleVaMndHtLXxcr548+r/E6zmL6S19smEWZw
+	wT34vSJ0FzXHiX+nywW+BiSSKTS1xU8hxUuqlQnzF8qR5MKeaHGAby+tcQQhZ9jqtkUv34GjgIQ
+	RWLtrdcpdaYGwJBivEsyYZfPlb4sycRVOXA3kbSkwiXVazc7U1ctyAiJlF/ha98TEIrfLwQ2Bl3
+	drGCusGadVbGa/FWaYRa1H7RCRbzeQ/lQjGt+UaS0/zWgdBqzmpydYupbICyacGylV41XNQOFAT
+	+IBdxJcP/TVcp/s0QHqXjKjNF5W9c0moOVXdn8Sgg
+X-Received: by 2002:a05:693c:300b:b0:2f2:32bc:788a with SMTP id 5a478bee46e88-2f54b465ca5mr163911eec.25.1778004836049;
+        Tue, 05 May 2026 11:13:56 -0700 (PDT)
+X-Received: by 2002:a05:693c:300b:b0:2f2:32bc:788a with SMTP id 5a478bee46e88-2f54b465ca5mr163886eec.25.1778004835478;
+        Tue, 05 May 2026 11:13:55 -0700 (PDT)
+Received: from [10.0.40.29] ([51.52.155.79])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee3bc6a79esm25025486eec.26.2026.05.05.11.13.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 May 2026 11:13:54 -0700 (PDT)
+Message-ID: <2d0eb275-64ef-4710-806b-36f6b32f7122@meta.com>
+Date: Tue, 5 May 2026 19:13:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260504130603.1474043-3-sumit.garg@kernel.org>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA1MDE3MCBTYWx0ZWRfX8pSGfL5GPEz5
- 6/5Gp0OFNTCIXigBFuLEhM41r40KOl8n1hMAhVlIw9U3Tfr9u2oNwZ5VJavYeLzt4eH6FpUPt6y
- Xzj71XXCoBm0/QsFAPxiR/0V9AJc5Ek1vhlV7ZzAl2J2YsvTwdqh+CVgocRRm7qMvh7AEzfJ1cF
- 774bSn2+2GIP4xbuO4TCg5oob3IpOum7SKiuP4zq2oIspllPUlj/1VR0bOsV1HHCAjpFd8cukfP
- VGbHwXKhHu2dUWzP/XETCnCLYdbjldAqHxzW6SR0TU9eY0J4pT1ovdUjrbeBUbd3DZoGJcNLvx0
- vdrDO2TvM2++VsxPsVdkK65Al5wgxOGmlhj17F4x5I/ydACwSGeZOLdqkHfLPZVUVoSFLII6g1N
- bpWNUqETRT/GGaosVahu8rRcZ8vkL0qHEOhaph+ElpxW5JIlSI1/5CHgnyCYJ4fYmMDG3DL3zqu
- KDLhcOqsBpu8ZIdjC7w==
-X-Authority-Analysis: v=2.4 cv=K4AS2SWI c=1 sm=1 tr=0 ts=69fa29c2 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=EUspDBNiAAAA:8 a=B9m6UvTZno2CEb395rQA:9 a=CjuIK1q_8ugA:10
- a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-GUID: 0_MWxNn4ExaJu68ZqKrDJ213948ZsAEW
-X-Proofpoint-ORIG-GUID: 0_MWxNn4ExaJu68ZqKrDJ213948ZsAEW
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/9] vfio/pci: Add a helper to create a DMABUF for a
+ BAR-map VMA
+Content-Language: en-GB
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
+        Alex Mastro <amastro@fb.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+        Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+ <bjorn@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Kevin Tian <kevin.tian@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
+        Pranjal Shrivastava <praan@google.com>,
+        Alistair Popple
+ <apopple@nvidia.com>,
+        Vivek Kasireddy <vivek.kasireddy@intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        kvm@vger.kernel.org
+References: <20260416131815.2729131-1-mattev@meta.com>
+ <20260416131815.2729131-4-mattev@meta.com>
+ <20260424182426.GG3444440@nvidia.com>
+ <c598a21e-ee50-42d9-98dc-2959e84ace50@meta.com>
+ <20260430171106.GA6829@nvidia.com>
+From: Matt Evans <mattev@meta.com>
+In-Reply-To: <20260430171106.GA6829@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 0FX_DUyg46eUAR1LL7uI5a6uRhIV9CRF
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA1MDE3NyBTYWx0ZWRfX9NthfVj4Pu66
+ faGuYIwvqfXCLRdaQrE6iLmv0atbrgx83dZiyq+Ms8Icl/T+tlIaXcJWS/X2h4rZ/9wMDb+yb9k
+ FtjycOmTjceeSqBnaAVrFQm8Qif+s9y5YFpXctE8T/w6G4cDRtD8SlU933vnHdeyMRujmNzSom/
+ RbfWmi+pQlv1Z9SaiRE1mAvufod34k8DreXrW0ceUzZkDZQhIEiofqTzE/YTansc3wAFvODMQnh
+ 1W1X5oPel6mBmc5+8T6HDTm3ETQhvPmOpqqDNxmck1aZvTvqPyoGJlJ0FTcXKLZ7blHFhIkD0qa
+ QrC6w0nFtqWFGxM0Di3ic1dh7IlMGGfYo1eHtFMJc3kmjx+iPQqhVxGsRevcTLsSymdTpXKYPAv
+ 5Dgw5E33NamESsDydI6SCkETupZVu/PJENpI5UfkkuN9qxG5PRQLXCkDgxmFwKTD494Sg5M/KxQ
+ D4MiGZf9cZhyP+Xdoyw==
+X-Authority-Analysis: v=2.4 cv=SsmgLvO0 c=1 sm=1 tr=0 ts=69fa3365 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=2UbFsIa4v//lIgRL4kGwwA==:17
+ a=Dv35txUGz5gI0hTa:21 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=JnKecZnUtZousrUlYMGU:22
+ a=znC_9Zf_qiuKpCydwTIA:9 a=QEXdDO2ut3YA:10 a=scEy_gLbYbu1JhEsrz4S:22
+X-Proofpoint-GUID: 0FX_DUyg46eUAR1LL7uI5a6uRhIV9CRF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-05_02,2026-04-30_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 malwarescore=0 phishscore=0 suspectscore=0
- lowpriorityscore=0 adultscore=0 impostorscore=0 spamscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605050170
-X-Rspamd-Queue-Id: 6DEA24D2245
+X-Rspamd-Queue-Id: 024454D287F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[meta.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[meta.com:s=s2048-2025-q2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.freedesktop.org,lists.infradead.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
-	TAGGED_FROM(0.00)[bounces-60469-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60470-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[meta.com:+];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[hu-mojha-hyd.qualcomm.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mukesh.ojha@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCPT_COUNT_GT_50(0.00)[50];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mattev@meta.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
 	RCVD_COUNT_SEVEN(0.00)[7]
 
-On Mon, May 04, 2026 at 06:35:49PM +0530, Sumit Garg wrote:
-> From: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> 
-> Qcom platforms has the legacy of using non-standard SCM calls
-> splintered over the various kernel drivers. These SCM calls aren't
-> compliant with the standard SMC calling conventions which is a
-> prerequisite to enable migration to the FF-A specifications from Arm.
-> 
-> OP-TEE as an alternative trusted OS to Qualcomm TEE (QTEE) can't
-> support these non-standard SCM calls. And even for newer architectures
-> using S-EL2 with Hafnium support, QTEE won't be able to support SCM
-> calls either with FF-A requirements coming in. And with both OP-TEE
-> and QTEE drivers well integrated in the TEE subsystem, it makes further
-> sense to reuse the TEE bus client drivers infrastructure.
-> 
-> The added benefit of TEE bus infrastructure is that there is support
-> for discoverable/enumerable services. With that client drivers don't
-> have to manually invoke a special SCM call to know the service status.
-> 
-> So enable the generic Peripheral Authentication Service (PAS) provided
-> by the firmware. It acts as the common layer with different TZ
-> backends plugged in whether it's an SCM implementation or a proper
-> TEE bus based PAS service implementation.
-> 
-> Reviewed-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> Tested-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com> # Lemans
-> Reviewed-by: Harshal Dev <harshal.dev@oss.qualcomm.com>
-> Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> ---
->  drivers/firmware/qcom/Kconfig          |   8 +
->  drivers/firmware/qcom/Makefile         |   1 +
->  drivers/firmware/qcom/qcom_pas.c       | 291 +++++++++++++++++++++++++
->  drivers/firmware/qcom/qcom_pas.h       |  50 +++++
->  include/linux/firmware/qcom/qcom_pas.h |  43 ++++
->  5 files changed, 393 insertions(+)
->  create mode 100644 drivers/firmware/qcom/qcom_pas.c
->  create mode 100644 drivers/firmware/qcom/qcom_pas.h
->  create mode 100644 include/linux/firmware/qcom/qcom_pas.h
-> 
-> diff --git a/drivers/firmware/qcom/Kconfig b/drivers/firmware/qcom/Kconfig
-> index b477d54b495a..8653639d06db 100644
-> --- a/drivers/firmware/qcom/Kconfig
-> +++ b/drivers/firmware/qcom/Kconfig
-> @@ -6,6 +6,14 @@
->  
->  menu "Qualcomm firmware drivers"
->  
-> +config QCOM_PAS
-> +	tristate
-> +	help
-> +	  Enable the generic Peripheral Authentication Service (PAS) provided
-> +	  by the firmware. It acts as the common layer with different TZ
-> +	  backends plugged in whether it's an SCM implementation or a proper
-> +	  TEE bus based PAS service implementation.
-> +
->  config QCOM_SCM
->  	select QCOM_TZMEM
->  	tristate
-> diff --git a/drivers/firmware/qcom/Makefile b/drivers/firmware/qcom/Makefile
-> index 0be40a1abc13..dc5ab45f906a 100644
-> --- a/drivers/firmware/qcom/Makefile
-> +++ b/drivers/firmware/qcom/Makefile
-> @@ -8,3 +8,4 @@ qcom-scm-objs += qcom_scm.o qcom_scm-smc.o qcom_scm-legacy.o
->  obj-$(CONFIG_QCOM_TZMEM)	+= qcom_tzmem.o
->  obj-$(CONFIG_QCOM_QSEECOM)	+= qcom_qseecom.o
->  obj-$(CONFIG_QCOM_QSEECOM_UEFISECAPP) += qcom_qseecom_uefisecapp.o
-> +obj-$(CONFIG_QCOM_PAS)		+= qcom_pas.o
-> diff --git a/drivers/firmware/qcom/qcom_pas.c b/drivers/firmware/qcom/qcom_pas.c
-> new file mode 100644
-> index 000000000000..025308adf553
-> --- /dev/null
-> +++ b/drivers/firmware/qcom/qcom_pas.c
-> @@ -0,0 +1,291 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2010,2015,2019 The Linux Foundation. All rights reserved.
-> + * Copyright (C) 2015 Linaro Ltd.
-> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> + */
-> +
-> +#include <linux/device/devres.h>
-> +#include <linux/firmware/qcom/qcom_pas.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +
-> +#include "qcom_pas.h"
-> +
-> +static struct qcom_pas_ops *ops_ptr;
-> +
-> +/**
-> + * devm_qcom_pas_context_alloc() - Allocate peripheral authentication service
-> + *				   context for a given peripheral
-> + *
-> + * PAS context is device-resource managed, so the caller does not need
-> + * to worry about freeing the context memory.
-> + *
-> + * @dev:	  PAS firmware device
-> + * @pas_id:	  peripheral authentication service id
-> + * @mem_phys:	  Subsystem reserve memory start address
-> + * @mem_size:	  Subsystem reserve memory size
-> + *
-> + * Return: The new PAS context, or ERR_PTR() on failure.
-> + */
-> +struct qcom_pas_context *devm_qcom_pas_context_alloc(struct device *dev,
-> +						     u32 pas_id,
-> +						     phys_addr_t mem_phys,
-> +						     size_t mem_size)
-> +{
-> +	struct qcom_pas_context *ctx;
-> +
-> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-> +	if (!ctx)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	ctx->dev = dev;
-> +	ctx->pas_id = pas_id;
-> +	ctx->mem_phys = mem_phys;
-> +	ctx->mem_size = mem_size;
-> +
-> +	return ctx;
-> +}
-> +EXPORT_SYMBOL_GPL(devm_qcom_pas_context_alloc);
-> +
-> +/**
-> + * qcom_pas_init_image() - Initialize peripheral authentication service state
-> + *			   machine for a given peripheral, using the metadata
-> + * @pas_id:	peripheral authentication service id
-> + * @metadata:	pointer to memory containing ELF header, program header table
-> + *		and optional blob of data used for authenticating the metadata
-> + *		and the rest of the firmware
-> + * @size:	size of the metadata
-> + * @ctx:	optional pas context
-> + *
-> + * Return: 0 on success.
-> + *
-> + * Upon successful return, the PAS metadata context (@ctx) will be used to
-> + * track the metadata allocation, this needs to be released by invoking
-> + * qcom_pas_metadata_release() by the caller.
-> + */
-> +int qcom_pas_init_image(u32 pas_id, const void *metadata, size_t size,
-> +			struct qcom_pas_context *ctx)
-> +{
-> +	if (!ops_ptr)
-> +		return -ENODEV;
-> +
-> +	return ops_ptr->init_image(ops_ptr->dev, pas_id, metadata, size, ctx);
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_pas_init_image);
-> +
-> +/**
-> + * qcom_pas_metadata_release() - release metadata context
-> + * @ctx:	pas context
-> + */
-> +void qcom_pas_metadata_release(struct qcom_pas_context *ctx)
-> +{
-> +	if (!ops_ptr || !ctx || !ctx->ptr)
-> +		return;
-> +
-> +	ops_ptr->metadata_release(ops_ptr->dev, ctx);
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_pas_metadata_release);
-> +
-> +/**
-> + * qcom_pas_mem_setup() - Prepare the memory related to a given peripheral
-> + *			  for firmware loading
-> + * @pas_id:	peripheral authentication service id
-> + * @addr:	start address of memory area to prepare
-> + * @size:	size of the memory area to prepare
-> + *
-> + * Return: 0 on success.
-> + */
-> +int qcom_pas_mem_setup(u32 pas_id, phys_addr_t addr, phys_addr_t size)
-> +{
-> +	if (!ops_ptr)
-> +		return -ENODEV;
-> +
-> +	return ops_ptr->mem_setup(ops_ptr->dev, pas_id, addr, size);
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_pas_mem_setup);
-> +
-> +/**
-> + * qcom_pas_get_rsc_table() - Retrieve the resource table in passed output buffer
-> + *			      for a given peripheral.
-> + *
-> + * Qualcomm remote processor may rely on both static and dynamic resources for
-> + * its functionality. Static resources typically refer to memory-mapped
-> + * addresses required by the subsystem and are often embedded within the
-> + * firmware binary and dynamic resources, such as shared memory in DDR etc.,
-> + * are determined at runtime during the boot process.
-> + *
-> + * On Qualcomm Technologies devices, it's possible that static resources are
-> + * not embedded in the firmware binary and instead are provided by TrustZone.
-> + * However, dynamic resources are always expected to come from TrustZone. This
-> + * indicates that for Qualcomm devices, all resources (static and dynamic) will
-> + * be provided by TrustZone PAS service.
-> + *
-> + * If the remote processor firmware binary does contain static resources, they
-> + * should be passed in input_rt. These will be forwarded to TrustZone for
-> + * authentication. TrustZone will then append the dynamic resources and return
-> + * the complete resource table in output_rt_tzm.
-> + *
-> + * If the remote processor firmware binary does not include a resource table,
-> + * the caller of this function should set input_rt as NULL and input_rt_size
-> + * as zero respectively.
-> + *
-> + * More about documentation on resource table data structures can be found in
-> + * include/linux/remoteproc.h
-> + *
-> + * @ctx:	    PAS context
-> + * @pas_id:	    peripheral authentication service id
-> + * @input_rt:       resource table buffer which is present in firmware binary
-> + * @input_rt_size:  size of the resource table present in firmware binary
-> + * @output_rt_size: TrustZone expects caller should pass worst case size for
-> + *		    the output_rt_tzm.
-> + *
-> + * Return:
-> + *  On success, returns a pointer to the allocated buffer containing the final
-> + *  resource table and output_rt_size will have actual resource table size from
-> + *  TrustZone. The caller is responsible for freeing the buffer. On failure,
-> + *  returns ERR_PTR(-errno).
-> + */
-> +struct resource_table *qcom_pas_get_rsc_table(struct qcom_pas_context *ctx,
-> +					      void *input_rt,
-> +					      size_t input_rt_size,
-> +					      size_t *output_rt_size)
-> +{
-> +	if (!ops_ptr)
-> +		return ERR_PTR(-ENODEV);
-> +	if (!ctx)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	return ops_ptr->get_rsc_table(ops_ptr->dev, ctx, input_rt,
-> +				      input_rt_size, output_rt_size);
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_pas_get_rsc_table);
-> +
-> +/**
-> + * qcom_pas_auth_and_reset() - Authenticate the given peripheral firmware
-> + *			       and reset the remote processor
-> + * @pas_id:	peripheral authentication service id
-> + *
-> + * Return: 0 on success.
-> + */
-> +int qcom_pas_auth_and_reset(u32 pas_id)
-> +{
-> +	if (!ops_ptr)
-> +		return -ENODEV;
-> +
-> +	return ops_ptr->auth_and_reset(ops_ptr->dev, pas_id);
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_pas_auth_and_reset);
-> +
-> +/**
-> + * qcom_pas_prepare_and_auth_reset() - Prepare, authenticate, and reset the
-> + *				       remote processor
-> + *
-> + * @ctx:	Context saved during call to qcom_scm_pas_context_init()
+Hi Jason,
 
-devm_qcom_pas_context_alloc()
-
-> + *
-> + * This function performs the necessary steps to prepare a PAS subsystem,
-> + * authenticate it using the provided metadata, and initiate a reset sequence.
-> + *
-> + * It should be used when Linux is in control setting up the IOMMU hardware
-> + * for remote subsystem during secure firmware loading processes. The
-> + * preparation step sets up a shmbridge over the firmware memory before
-> + * TrustZone accesses the firmware memory region for authentication. The
-> + * authentication step verifies the integrity and authenticity of the firmware
-> + * or configuration using secure metadata. Finally, the reset step ensures the
-> + * subsystem starts in a clean and sane state.
-> + *
-> + * Return: 0 on success, negative errno on failure.
-> + */
-> +int qcom_pas_prepare_and_auth_reset(struct qcom_pas_context *ctx)
-> +{
-> +	if (!ops_ptr)
-> +		return -ENODEV;
-> +	if (!ctx)
-> +		return -EINVAL;
-> +
-> +	return ops_ptr->prepare_and_auth_reset(ops_ptr->dev, ctx);
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_pas_prepare_and_auth_reset);
-> +
-> +/**
-> + * qcom_pas_set_remote_state() - Set the remote processor state
-> + * @state:	peripheral state
-> + * @pas_id:	peripheral authentication service id
-> + *
-> + * Return: 0 on success.
-> + */
-> +int qcom_pas_set_remote_state(u32 state, u32 pas_id)
-> +{
-> +	if (!ops_ptr)
-> +		return -ENODEV;
-> +
-> +	return ops_ptr->set_remote_state(ops_ptr->dev, state, pas_id);
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_pas_set_remote_state);
-> +
-> +/**
-> + * qcom_pas_shutdown() - Shut down the remote processor
-> + * @pas_id:	peripheral authentication service id
-> + *
-> + * Return: 0 on success.
-> + */
-> +int qcom_pas_shutdown(u32 pas_id)
-> +{
-> +	if (!ops_ptr)
-> +		return -ENODEV;
-> +
-> +	return ops_ptr->shutdown(ops_ptr->dev, pas_id);
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_pas_shutdown);
-> +
-> +/**
-> + * qcom_pas_supported() - Check if the peripheral authentication service is
-> + *			  available for the given peripheral
-> + * @pas_id:	peripheral authentication service id
-> + *
-> + * Return: true if PAS is supported for this peripheral, otherwise false.
-> + */
-> +bool qcom_pas_supported(u32 pas_id)
-> +{
-> +	if (!ops_ptr)
-> +		return false;
-> +
-> +	return ops_ptr->supported(ops_ptr->dev, pas_id);
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_pas_supported);
-> +
-> +bool qcom_pas_is_available(void)
-> +{
-> +	/*
-> +	 * The barrier for ops_ptr is intended to synchronize the data stores
-> +	 * for the ops data structure when client drivers are in parallel
-> +	 * checking for PAS service availability.
-> +	 *
-> +	 * Once the PAS backend becomes available, it is allowed for multiple
-> +	 * threads to enter TZ for parallel bringup of co-processors during
-> +	 * boot.
-> +	 */
-> +	return !!smp_load_acquire(&ops_ptr);
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_pas_is_available);
-> +
-> +void qcom_pas_ops_register(struct qcom_pas_ops *ops)
-> +{
-> +	if (!qcom_pas_is_available())
-> +		/* Paired with smp_load_acquire() in qcom_pas_is_available() */
-> +		smp_store_release(&ops_ptr, ops);
-> +	else
-> +		pr_err("qcom_pas: ops already registered by %s\n",
-> +		       ops_ptr->drv_name);
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_pas_ops_register);
-> +
-> +void qcom_pas_ops_unregister(void)
-> +{
-> +	/* Paired with smp_load_acquire() in qcom_pas_is_available() */
-> +	smp_store_release(&ops_ptr, NULL);
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_pas_ops_unregister);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("Qualcomm generic TZ PAS driver");
-> diff --git a/drivers/firmware/qcom/qcom_pas.h b/drivers/firmware/qcom/qcom_pas.h
-> new file mode 100644
-> index 000000000000..8643e2760602
-> --- /dev/null
-> +++ b/drivers/firmware/qcom/qcom_pas.h
-> @@ -0,0 +1,50 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> + */
-> +
-> +#ifndef __QCOM_PAS_INT_H
-> +#define __QCOM_PAS_INT_H
-> +
-> +struct device;
-> +
-> +/**
-> + * struct qcom_pas_ops - Qcom Peripheral Authentication Service (PAS) ops
-> + * @drv_name:			PAS driver name.
-> + * @dev:			PAS device pointer.
-> + * @supported:			Peripheral supported callback.
-> + * @init_image:			Peripheral image initialization callback.
-> + * @mem_setup:			Peripheral memory setup callback.
-> + * @get_rsc_table:		Peripheral get resource table callback.
-> + * @prepare_and_auth_reset:	Peripheral prepare firmware authentication and
-> + *				reset callback.
-> + * @auth_and_reset:		Peripheral firmware authentication and reset
-> + *				callback.
-> + * @set_remote_state:		Peripheral set remote state callback.
-> + * @shutdown:			Peripheral shutdown callback.
-> + * @metadata_release:		Image metadata release callback.
-> + */
-> +struct qcom_pas_ops {
-> +	const char *drv_name;
-> +	struct device *dev;
-> +	bool (*supported)(struct device *dev, u32 pas_id);
-> +	int (*init_image)(struct device *dev, u32 pas_id, const void *metadata,
-> +			  size_t size, struct qcom_pas_context *ctx);
-> +	int (*mem_setup)(struct device *dev, u32 pas_id, phys_addr_t addr,
-> +			 phys_addr_t size);
-> +	void *(*get_rsc_table)(struct device *dev, struct qcom_pas_context *ctx,
-> +			       void *input_rt, size_t input_rt_size,
-> +			       size_t *output_rt_size);
-> +	int (*prepare_and_auth_reset)(struct device *dev,
-> +				      struct qcom_pas_context *ctx);
-> +	int (*auth_and_reset)(struct device *dev, u32 pas_id);
-> +	int (*set_remote_state)(struct device *dev, u32 state, u32 pas_id);
-> +	int (*shutdown)(struct device *dev, u32 pas_id);
-> +	void (*metadata_release)(struct device *dev,
-> +				 struct qcom_pas_context *ctx);
-> +};
-> +
-> +void qcom_pas_ops_register(struct qcom_pas_ops *ops);
-> +void qcom_pas_ops_unregister(void);
-> +
-> +#endif /* __QCOM_PAS_INT_H */
-> diff --git a/include/linux/firmware/qcom/qcom_pas.h b/include/linux/firmware/qcom/qcom_pas.h
-> new file mode 100644
-> index 000000000000..65b1c9564458
-> --- /dev/null
-> +++ b/include/linux/firmware/qcom/qcom_pas.h
-> @@ -0,0 +1,43 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2010-2015, 2018-2019 The Linux Foundation. All rights reserved.
-> + * Copyright (C) 2015 Linaro Ltd.
-> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> + */
-> +
-> +#ifndef __QCOM_PAS_H
-> +#define __QCOM_PAS_H
-> +
-> +#include <linux/err.h>
-> +#include <linux/types.h>
-> +
-> +struct qcom_pas_context {
-> +	struct device *dev;
-> +	u32 pas_id;
-> +	phys_addr_t mem_phys;
-> +	size_t mem_size;
-> +	void *ptr;
-> +	dma_addr_t phys;
-> +	ssize_t size;
-> +	bool use_tzmem;
-> +};
-> +
-> +bool qcom_pas_is_available(void);
-> +struct qcom_pas_context *devm_qcom_pas_context_alloc(struct device *dev,
-> +						     u32 pas_id,
-> +						     phys_addr_t mem_phys,
-> +						     size_t mem_size);
-> +int qcom_pas_init_image(u32 pas_id, const void *metadata, size_t size,
-> +			struct qcom_pas_context *ctx);
-> +struct resource_table *qcom_pas_get_rsc_table(struct qcom_pas_context *ctx,
-> +					      void *input_rt, size_t input_rt_size,
-> +					      size_t *output_rt_size);
-> +int qcom_pas_mem_setup(u32 pas_id, phys_addr_t addr, phys_addr_t size);
-> +int qcom_pas_auth_and_reset(u32 pas_id);
-> +int qcom_pas_prepare_and_auth_reset(struct qcom_pas_context *ctx);
-> +int qcom_pas_set_remote_state(u32 state, u32 pas_id);
-> +int qcom_pas_shutdown(u32 pas_id);
-> +bool qcom_pas_supported(u32 pas_id);
-> +void qcom_pas_metadata_release(struct qcom_pas_context *ctx);
-> +
-> +#endif /* __QCOM_PAS_H */
-> -- 
-> 2.51.0
+On 30/04/2026 18:11, Jason Gunthorpe wrote:
 > 
+> On Thu, Apr 30, 2026 at 05:47:49PM +0100, Matt Evans wrote:
+>>> On Thu, Apr 16, 2026 at 06:17:46AM -0700, Matt Evans wrote:
+>>>> +int vfio_pci_core_mmap_prep_dmabuf(struct vfio_pci_core_device *vdev,
+>>>> +				   struct vm_area_struct *vma,
+>>>> +				   u64 phys_start, u64 req_len,
+>>>> +				   unsigned int res_index)
+>>>> +{
+>>>> +	struct vfio_pci_dma_buf *priv;
+>>>> +	const unsigned int nr_ranges = 1;
+>>>> +	int ret;
+>>>> +
+>>>> +	priv = kzalloc_obj(*priv);
+>>>> +	if (!priv)
+>>>> +		return -ENOMEM;
+>>>> +
+>>>> +	priv->phys_vec = kzalloc_obj(*priv->phys_vec);
+>>>> +	if (!priv->phys_vec) {
+>>>> +		ret = -ENOMEM;
+>>>> +		goto err_free_priv;
+>>>> +	}
+>>>> +
+>>>> +	/*
+>>>> +	 * The mmap() request's vma->vm_offs might be non-zero, but
+>>>> +	 * the DMABUF is created from _offset zero_ of the BAR.  The
+>>>> +	 * portion between zero and the vm_offs is inaccessible
+>>>> +	 * through this VMA, but this approach keeps the
+>>>> +	 * /proc/<pid>/maps offset somewhat consistent with the
+>>>> +	 * pre-DMABUF code.  Size includes the offset portion.
+>>>
+>>> I'm not sure I understand this comment?
+>>>
+>>> For the old path vm_pgoff for byte 0 of the bar starts at some large
+>>> offset
+>>>
+>>> For the new path vm_pgoff for byte 0 of the first range starts at 0
+>>
+>> Glad you asked.  :)
+>>
+>> This is trying to achieve keeping /proc/<pid>/maps (or similar) somewhat
+>> as informative as pre-DMABUF BAR mmap, in terms of keeping the VMA
+>> vm_offs column useful.  Before this patch, say you mmap() two slices A
+>> and B of the same BAR:
+>>
+>>   struct vfio_region_info bar_region;
+>>
+>>   vm_a = mmap(0, 0x1000, ..., device_fd, bar_region.offset + 0);
+>>   vm_b = mmap(0, 0x1000, ..., device_fd, bar_region.offset + 0x4000);
+>>
+>> ...you'd see something like this in /proc/blah/maps:
+>>
+>> fffff4000000-fffff4001000 rw-s 10000000000 00:07 148     /dev/vfio/devices/vfio0
+>> fffff5000000-fffff5001000 rw-s 10000004000 00:07 148     /dev/vfio/devices/vfio0
+> 
+> 
+>> then the VMA's vm_offs would need to be thunked back down to 0 (since
+>> the fault handler then treats vm_b + 0 as the first byte of the DMABUF).
+>> That works/adds up, but then the vm_offs of both VMAs A & B both have
+>> offset 0, and it's harder to differentiate in /proc/blah/maps.
+> 
+> Yes, and that would be correct.
+> 
+> The VMA output of lspci should show the exact pgoff passed to mmap and
+> nothing else. Do not mangle it for "debugging".
+> 
+> pgoff is not to be used to show random internal FD details..
+> 
+>> We could possibly stash the original offset somewhere and then render it
+>> in the name string, but the name's already about the max size and using
+>> the existing vm_offs column is nicer IMO, doesn't need a new field, etc.
+> 
+>> I need to work on this comment then!  What this is trying to say is that
+>> the DMABUF is made artificially larger than the part that is visible
+>> through the VMA.
+> 
+> Yuk, that's another reason not to do this.
 
--- 
--Mukesh Ojha
+OK, fair enough.  I'll rework this and remove this one weird trick, 
+thanks for the input.
+
+Matt
+
 
