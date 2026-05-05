@@ -1,114 +1,188 @@
-Return-Path: <linux-media+bounces-60471-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60472-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KFotMmo2+mlLKwMAu9opvQ
-	(envelope-from <linux-media+bounces-60471-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 20:26:50 +0200
+	id CDThBWA++mmjLAMAu9opvQ
+	(envelope-from <linux-media+bounces-60472-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 21:00:48 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C3D4D2A13
-	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 20:26:50 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0FD4D2FB1
+	for <lists+linux-media@lfdr.de>; Tue, 05 May 2026 21:00:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E5BCF300B878
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 18:26:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D20C530AE06C
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2026 18:51:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC9B92D5A19;
-	Tue,  5 May 2026 18:26:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 596794A3419;
+	Tue,  5 May 2026 18:50:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UUDSvEN8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i4NCLeUN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B23A4A340F;
-	Tue,  5 May 2026 18:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694413CF025
+	for <linux-media@vger.kernel.org>; Tue,  5 May 2026 18:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778005606; cv=none; b=XaQPRU/44R3ZOtMupVtf8xO8K8kK5YC3N0ENY1/EVrgnu9i4AIlb++WX1lCZp714Uac/Y6hr2Zi2wVrpa8981srCopKiOZMgOPpzs2o5PnMYu4EQlAqd1BKum8sxSsCkrusNhk8lskObYHdztCakvYIQOMQho3xQyqzbOOMUyQM=
+	t=1778007058; cv=none; b=NP9N7ALwJJmcC33j58J6ZQfXvoedzfwcgoPqZR4ycwpLgJZO3oHrO2my7vnhu9+rQubm5iTLEr3EstuAHjbEfy0jAoA+spdy6vkFVt1DV2ryiCVLNRJzPKXPFN//VGwEUv35U7dmxo0uLVyuSDH/XaQIJqPrIVa1NcO7Wm+iT0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778005606; c=relaxed/simple;
-	bh=n4xdm3hZWOVJUr0wEoAMQVT9d8uBoB2TbdyZ2Fuc91k=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=SJzaOkM5jmdLxEaU8BY1KQS+/W2VsfvS0/VO7u2TL31E9mL2oWJ+pTreMv+0FfO/91eSe97fy+lggVgnNYmSHkOKuT1tfYzqaYUVOSMZXyV0lRFBQQkj9sWL8EqUVQeSRJPsM1EH8ezU6RFVlyFPm/PJYh98KPsx8SV0XsAmRKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UUDSvEN8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F4EBC2BCB4;
-	Tue,  5 May 2026 18:26:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778005606;
-	bh=n4xdm3hZWOVJUr0wEoAMQVT9d8uBoB2TbdyZ2Fuc91k=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=UUDSvEN8VV7FV6H/sq5oqCmr1OkmcEu0OJD5MOJeflogcb/3AJDmS8VYlUPG/iFL6
-	 +1QdyCPsOxh4Q1z1ztisIxyR1RtN7rwMnZH+K85NapK+TkXL3/2fYm/hlWmdJWqSh2
-	 C5P8M6RzcR7w+ujWKaBqIbnzgFCT6GsVCnkLahFMtVRczCiVU6WVeuXRMXFNkkP18B
-	 /I3LwLaR7viR8mf018mFnp/ldJF9sDk3ztQPploIGnGEpCvNEtYvdBeQhAo7cQq222
-	 n0l+atoPZP/pgm8Yw3xpe/A4pM+c/vWnPz/jK23g3BtPKAserezJuMfYgdT9qz/UfL
-	 G1fBDd+cHkAeg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id BA0883930198;
-	Tue,  5 May 2026 18:25:57 +0000 (UTC)
-Subject: Re: [GIT PULL for v7.1-rc3] media fixes
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260505132501.1cbb9d20@foz.lan>
-References: <20260505132501.1cbb9d20@foz.lan>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260505132501.1cbb9d20@foz.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git media/v7.1-2
-X-PR-Tracked-Commit-Id: 23c39cb598977f10909a2387c5e5f34afc1d6933
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4e386547138864d4ded1c39ff75517b89e187964
-Message-Id: <177800555637.2215775.14999880540732990537.pr-tracker-bot@kernel.org>
-Date: Tue, 05 May 2026 18:25:56 +0000
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Linux Media Mailing List <linux-media@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Hans Verkuil <hverkuil+cisco@kernel.org>
+	s=arc-20240116; t=1778007058; c=relaxed/simple;
+	bh=v8iGX/lK8aQ2P7nXaRjT3kEbed4ilCzF/7HTS4aXDT0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EDcbQasCqGtBynlj/iLjv8Ss+pFDMilQTp41UeurxenwfHQDOTgI6ty8pNRuaN0r4dRi34/rs8z+q7l+PxIBZT/8ngnhCeW3GYlK3LNfrRE6r2Ezl9bOXBBvbFpIP2RkbFbzP7BE5JFe1t39iZKT8BcjPfNj+/SZMQeRpr7xXKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=i4NCLeUN; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38e9653b53cso4622461fa.3
+        for <linux-media@vger.kernel.org>; Tue, 05 May 2026 11:50:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1778007056; x=1778611856; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zWfIK+4R3Bk95cHMFqzFQqOhwZinnDbYjtH4XgP9PxA=;
+        b=i4NCLeUNUHr0E0M+OteFwvdviHFXUnCieUEXLc7fp4Y3I/hZK0Rml77Oi4TIW3j+l9
+         lTp9/O8Nox4tvn/RV5mCbkrasbXsiAEKEvFW1jjAForIpFfPxv/SbdwxnmPsCQIt6dcp
+         0UWH4REYIL53UT014m85NV/BO4spok40cjv335Ycd/64yAqbYLy6t2vTEhycLuShNGht
+         rlNqZhXBR755+3ww2ftkC2+ej/RmNfwECpTYFIq1MUTrOBrTB5ussG9orij9Dak+e9oM
+         0gDnFiEFeaeoCa8cmnRvm6GUDoCGgilWbnnRTg1K/+e6H6tkea0q0bZHaONcJlQFcdmv
+         KG6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778007056; x=1778611856;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zWfIK+4R3Bk95cHMFqzFQqOhwZinnDbYjtH4XgP9PxA=;
+        b=G9xUVuR+4NcYfxRj+w4sggDmzAxEC6WEfxVWPjd+W2WfBerD0k15EGYn4bRGIwFEVn
+         f1Ai1E+6KePhKVwdftVN0iT9o/2pczoSVr8TwBG+XigKwLridmli+6tjx2jIctDy80VL
+         l3nLycfd1+J7XC+0uMrIN1uvxRvb17Gfbra8CO2VQUxnWXmR0Fetl/12cgVr7mLniQyg
+         1GS1hl4uD35roGhdZe8+QceyggVxKFGFRXhkDJN+8YFc4oE80NbgvXrkg9V4aZV8YgQE
+         Jx+NXYsLZMCOghPAZw3bMvBVyQqYP18wOeOn/kY1IaYDnIAJw2QsNij3g0SxHS2nIAet
+         cF8A==
+X-Forwarded-Encrypted: i=1; AFNElJ+MJSGyxzw6VC5726cKedoJM9IiHQnyR3is1OLKaaEFf2kzBRUIXP71AfgbbhsN0efzUTsqHd5+go66WQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVb7IHTPNzgYi7i5o8NHdiPL0MuA6jB2FsxOIv2gc3DcbE90AI
+	LFAXmkdACzEiAxZY3s073Z3TBoPqzYDivx4WmJMMzSLAad1eVT27EQB5RsnjdUdrubI=
+X-Gm-Gg: AeBDiesvZyTyab44Ryqfvuj389krHnOrglBXlL0FoL4Ze79aqud7c50g7JrCEuVNbks
+	HwSqCGmHSAEEWpqRq0cIkSFrIGW/6LjL2JINz7jqXEWmsisWzGvcuHfz01stmN3ClaNk7L7cvtE
+	5QfXhuH2FnUc0qt7hTQm6G+5vCCydOxR51AKq9kuSWx/gG1KEf3yDa3o4WwZS/E47+cSc+GiZKD
+	CCWd5LTeODUMbJaSLnwJsL1ZYY5peNCjXHJCR0CsAKinLUZ3CbR25QFw1M2uOEeqmjt1PjG1BSS
+	NB9neOkakQqT6CVPKkaE/ITPxcsKHsrCvGXT8xJF+JGIySe8hIMK9YFohvBU120BJqykE9kgyEd
+	+eQeqBFYXjegSjMtnxyTr6H9d6eWRYiO4IaUwmMWi81A8M7xTXYcyz7aaLhdxfK4Ogu1bR2SKdu
+	TmRxwYQQ8KjfchdA8jGYjy5e8ZlA3iPOH7fU2pe38k6OOf8nLduPkOX/5RDPDwXCIIAZGkTDa2J
+	IBPq6R353AWta7m
+X-Received: by 2002:a05:651c:4103:b0:393:c17d:9cfa with SMTP id 38308e7fff4ca-393c435d22cmr388041fa.5.1778007055403;
+        Tue, 05 May 2026 11:50:55 -0700 (PDT)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3936135e578sm45101711fa.38.2026.05.05.11.50.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 May 2026 11:50:55 -0700 (PDT)
+Message-ID: <eaff3bd9-0b75-409c-bc5a-5013f9ce1495@linaro.org>
+Date: Tue, 5 May 2026 21:50:48 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Rspamd-Queue-Id: 76C3D4D2A13
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] arm64: dts: qcom: sc8280xp: gaokun3: add front camera
+ sensor node
+To: Pengyu Luo <mitltlatltl@gmail.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Martin Kepplinger-Novakovic <martink@posteo.de>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Martin Kepplinger <martin.kepplinger@puri.sm>,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20260425105300.745044-1-mitltlatltl@gmail.com>
+ <20260425105300.745044-4-mitltlatltl@gmail.com>
+ <c26246c1-0f90-499f-ba32-34159baa5dfb@linaro.org>
+ <CAH2e8h4Y-x_4BAcgjytNj_NxZKnF1=y9GuaUnWdjzJ-MQLyCng@mail.gmail.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <CAH2e8h4Y-x_4BAcgjytNj_NxZKnF1=y9GuaUnWdjzJ-MQLyCng@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 6D0FD4D2FB1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [4.84 / 15.00];
+	SEM_URIBL(3.50)[0.0.0.0:email];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	BAD_REP_POLICIES(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60471-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60472-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TO_DN_ALL(0.00)[];
+	R_DKIM_ALLOW(0.00)[linaro.org:s=google];
+	FREEMAIL_TO(0.00)[gmail.com];
+	GREYLIST(0.00)[pass,body];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_POLICY_ALLOW(0.00)[linaro.org,none];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	FROM_NO_DN(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	NEURAL_SPAM(0.00)[0.156];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pr-tracker-bot@kernel.org,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,huawei,cisco];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	R_SPF_ALLOW(0.00)[+ip4:172.234.253.10:c];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	TO_DN_SOME(0.00)[]
 
-The pull request you sent on Tue, 5 May 2026 13:25:01 +0200:
+On 5/2/26 15:48, Pengyu Luo wrote:
+> On Thu, Apr 30, 2026 at 6:49 PM Vladimir Zapolskiy
+> <vladimir.zapolskiy@linaro.org> wrote:
+>>
+>> On 4/25/26 13:52, Pengyu Luo wrote:
+>>> Hi846 is found on my Gaokun3, descripting it.
+>>
+>> To the best of my knowledege there is no 'descripting' word.
+>>
+>> Say it simpler like
+>>
+>>          Describe Hi846 camera sensor found on Gaokun3.
+>>
+> 
+> Ack
+> 
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git media/v7.1-2
+...
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4e386547138864d4ded1c39ff75517b89e187964
+>>> +&camss {
+>>> +     vdda-phy-supply = <&vreg_l6b>;
+>>> +     vdda-pll-supply = <&vreg_l3b>;
+>>> +
+>>> +     status = "okay";
+>>> +
+>>> +     ports {
+>>> +             port@3 {
+>>> +                     csiphy3_ep: endpoint@0 {
+>>> +                             reg = <0>;
+>>> +
+>>> +                             clock-lanes = <7>;
+>>
+>> Please remove 'clock-lanes' property from above.
+>>
+> 
+> Is it unused? I saw it on some devices and v4l2 related source file.
+> 
 
-Thank you!
+It is unused, and its selected value here is bogus.
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Best wishes,
+Vladimir
 
