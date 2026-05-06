@@ -1,252 +1,226 @@
-Return-Path: <linux-media+bounces-60642-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60643-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eKZ0JqNc+2mUaAMAu9opvQ
-	(envelope-from <linux-media+bounces-60642-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:22:11 +0200
+	id CKwZI5Rc+2nbaAMAu9opvQ
+	(envelope-from <linux-media+bounces-60643-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:21:56 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 881384DD188
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:22:10 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDB564DD179
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:21:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 214243048F2C
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 15:16:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 603773035B58
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 15:20:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECE4F48BD3B;
-	Wed,  6 May 2026 15:15:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DC80393DF5;
+	Wed,  6 May 2026 15:20:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="n/VwO3gu";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="a76mmv1j"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="a1+q1uJj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6FB47AF68
-	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 15:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778080553; cv=none; b=gVn1U7T58ew6uk9w1Soo8PlvG9HqU5x+96cGajsA5hX2JaYgYAbxNLCDicBEYUOnluQC/pbTAvuhV+5FEF7BPZEipWaxACPK39pJQ3af2mp+yXDtTNN9dQe/jX4aX9bnMeyqQJg3+mxxzYs2OjScQsde9UKT+vRkhDA/U8SE0DQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778080553; c=relaxed/simple;
-	bh=RhXRCgMNScIf77wnkS151xUmWJL1ppbZupG/e8th0Wo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r/GUHNjvkZC8BJ0HY1ScPiNTHMUMRYEmBK6uRo5j51V3aQWjYWk2TQ2jzjAPeNSGMhDj3H5JABw9t6DwagxMBKeBRokRyRAIjAj5SDTzGgK6MaJfs8FdU7iqwxqGUdMJ78VbEoZLlN65FiY+6rvcrxiY+uO6RHZ4b03EJtR4e5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=n/VwO3gu; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=a76mmv1j; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 646A4giI3524219
-	for <linux-media@vger.kernel.org>; Wed, 6 May 2026 15:15:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	l/4qDhc3xqA5oi78owxsgPypqoMvOhzYxv2FjuGz/0A=; b=n/VwO3guoR+gbKM1
-	vb0fnDr6mJk5eh7Iu4Pb2rehc1/6B0SVyZwPzmokdVjmrT8XUkkGo1LD2LUHZ04Q
-	tG22UnrMqoEzNOZApoH3mapGqv5Hwee9CyqQpytgakTfwbG0E+whoET0gqlMKs3s
-	mO4SRSIPPrKdkw7EbeZRx3Ux744J6zKBgWNIqNq1/QTcrvDfBQ8+NCukHkeiGaIT
-	kTCgHg/Gxc0+jtAASUiSJaDqXNiCYxQTu1P8B6VDmSyD/TRPbwHzl5OjVx1oSLlr
-	dLOwLeqlm3Wa3ldEbRcqqdmHu5amea0mG1rREAEc3q+ePIZY7VH0yw+/+5839/Md
-	Oly30Q==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e03jws56y-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 06 May 2026 15:15:48 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-35e56ed5d5bso1332677a91.0
-        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 08:15:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1778080548; x=1778685348; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=l/4qDhc3xqA5oi78owxsgPypqoMvOhzYxv2FjuGz/0A=;
-        b=a76mmv1jqYRv5tEMLtRZgwP+sEyFnT7uag5eD3+TVweFMbOY0KF+rsNiRNHpBrJdqS
-         0gpwXmiqj+M0RZqMTbsQYILISJxR4cgkZw+t7bQ8tn2Ys34RtklFZhu2dDEzLKaetXnh
-         9OZ4+EtlRQekqgbNVJ1Wb3SXTaGmbWo+O9RGpRZ+95Ti7ZeqpAIePL0cqA7ZGHnjRN7r
-         INehhDIqrWhIOE1pjnUZSusm06H1U7Ew9ATFpm1CBucCqkPwGWK+7v/10JOl2aNNK0wx
-         5cOIqqUsHsG051Bl+/JvufEKcjAVu6TM6w1zfEw2ocwXdFRnrqrwY7wfufeXMMPO2d6n
-         3qNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778080548; x=1778685348;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l/4qDhc3xqA5oi78owxsgPypqoMvOhzYxv2FjuGz/0A=;
-        b=mureh51Xl4lFzxTnPfh8+Yqzxfak6oVkHhcqAZLgOr8qhTB7YGAQOvOk66D0Khhg69
-         c5DL8MHUKjngmT/k4EgH76ILY+KF0V6M6QNE4rVA9LdqC1bZ9a+gQGtyZ1nKT3xr/Ygh
-         y97XhQi1Z4MG6VWzFyufJ8dQ3VZslMVzKuaHh4+ks2scT+dYt6Cu87V6kdYxG3I2Qd0q
-         TNXTteMKdN43Dk8ET2dWUUsiTmZAD0BtreeRuNTvT8HmuO9/H05Y/Oals6YOF1/4dvxg
-         B6EJiGYPmXHEzT8zWBmRJazN2daNS6kytKuoSzKzHubsC35fTK8x5z7SfBF3mDFS+y7S
-         6sgQ==
-X-Gm-Message-State: AOJu0Yzv1a2Kuz5huTHbmQP1ZP+EqSDRXsyoAyo0XrSRSVk2VqgxC/0F
-	Rm8B4PMc/iufglK0eEVdyJaJ0Z/gagyZOH7GMtTPH/lAZAEMVrsHYw9eVpZXhrBaD05ZXJWAyX2
-	3pShj9aUmOu41kM9lCmyTSpF7erms5RsIazLVheg3EEFPO6QrzaVSUSME8gStQVadOg==
-X-Gm-Gg: AeBDieuZfL9T3ALeGZsGztU2c1AW7lWYvUYJwST2dehq/2W/kD6ZxzXVx1Ha4v+UzSg
-	da70O0dJEh9ixBYKWpTmFKjo4Nb60KDi3QTbbu3TSddsATjTtNI6951IvwGaryt1kAuV9CVi0ih
-	WyOesmNaRU6mpi1C1nuZt+dm/LZVuzYP1/6TnVFijKPwwpAo2R48AxdxTspdCbq+Dl3LUDJ9I+D
-	c8FA8FFSUNKINgZoK+yOQY9TH3VfAh/jZ2XxDP33YAlfY2ygXM5iy4fHHcGNHG34ZkgldYQjUWh
-	vEhT/xcvS62Ld/abBDFyOpUxVDwEAKSNEWX4f2qElxujaWacudtnoc9226jJdJ/5rAxj2wRk2Ic
-	mp90wZnCcLKUWOnEsJL0XgrEDDJGwfj4vZSjNFbsjytPPLkVZhmNLsowTb62v2MpF
-X-Received: by 2002:a17:90a:e7d1:b0:35f:bc9f:e1b6 with SMTP id 98e67ed59e1d1-365a96b6eb6mr2734366a91.1.1778080547426;
-        Wed, 06 May 2026 08:15:47 -0700 (PDT)
-X-Received: by 2002:a17:90a:e7d1:b0:35f:bc9f:e1b6 with SMTP id 98e67ed59e1d1-365a96b6eb6mr2734310a91.1.1778080546676;
-        Wed, 06 May 2026 08:15:46 -0700 (PDT)
-Received: from [10.204.101.47] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-365b4f70e8asm4011790a91.11.2026.05.06.08.15.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 08:15:46 -0700 (PDT)
-Message-ID: <734e8ad0-54e0-4fcd-a3b4-8e99fb521ea1@oss.qualcomm.com>
-Date: Wed, 6 May 2026 20:45:38 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250FE48164A;
+	Wed,  6 May 2026 15:20:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778080824; cv=pass; b=t81Cjn/0RDYGx+MmaQVVwViNYr1oJCx5jT1q3L8+s8ctJrO+L7mMA1h/sYX0SKsY51IQG3rgaDF3xlxcZCcV1YnbAd/O1IAUHqrGZiAoxKP0mv3Dn7RAjIWje5YMr/FzMuayXGti7o+55BsgLKVU1zgC/ayxG3BSSmqoMS2v45g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778080824; c=relaxed/simple;
+	bh=TD5DrDF/PNHtUKtnEDme07uq3/ox9HTubup/SfMf0UI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=slOmwA/5TzanlPFvlVkl+w03eQY2csp+71YEDKL7lWR0wJYhXSd/BokOESrGPo0qXCklDT4qUR5ygn4eW0w39zv2EhkibUEwnEtRcQ+r9Q3/84fb5Lq7nm+uA3zuhOotigggtaFzWD5iwTNgmkn+Az1D5W1kWJuQRzKUs9R8G6c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=a1+q1uJj; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1778080805; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ccnp9lLYXkWiV/1a8ryN+Ss+TqSFhqUNh4xFO9aotk0X82kVW8Ojoni4EJ2xNiF2A2rXf4G2584cVJ4hsrsxJtggfW1yh5RpN6c927Jy8ipbP5WNgqx+xOkgFGeCrFK56ewfx2qvh+auKmH2y34E7FbfHvZEuH7/L11fnRDo4a8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1778080805; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=mtMZ9EQALc5pJHEUStF4pqAx6HGSH8n0LEuG9ncFJTU=; 
+	b=iU3j/vbKEdsrSbNtgJ6C+GLOD4u4f+kFAelbsvnv7Pkwnzh7u5DvLEAUkiGHoZpGSM4yE9QVBXpRqzVdCcm3kWpPwMhDAxS2Cm+mz70h2EkC+3fOv4DkubupCd3nqzOkK7LvxBJqP+76Ph9yrC46mg4mf3Lj21euUEdyHDMUiBA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778080805;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=mtMZ9EQALc5pJHEUStF4pqAx6HGSH8n0LEuG9ncFJTU=;
+	b=a1+q1uJjtnu7tN3y0mSCBvEXsb6m92i5aw/ypTWX4AuH0ylRG+IZBKipgKyU0wVQ
+	YU/XUO9ejPyQUJK6Qz/lV8pTkPVp6Iod7wXlhPeMa5D5GS0KAegwkvza33LvTJue/ZZ
+	NFUsYI83RhQktEHqC1XFSvyMNbkKj1WX+gIm9LdU=
+Received: by mx.zohomail.com with SMTPS id 177808080434751.147007267912386;
+	Wed, 6 May 2026 08:20:04 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Steven Price <steven.price@arm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject:
+ Re: [PATCH 1/4] drm/panthor: Add freed_sz parameter to reclaim_priv_bos
+Date: Wed, 06 May 2026 17:19:59 +0200
+Message-ID: <uhheTk9bTneBzwQGdN_KPA@collabora.com>
+In-Reply-To: <ed1b0be1-cf6e-4318-b040-12d315eae3f0@arm.com>
+References:
+ <20260506-panthor-explicit-reclaim-v1-0-44f82ac147ce@collabora.com>
+ <20260506-panthor-explicit-reclaim-v1-1-44f82ac147ce@collabora.com>
+ <ed1b0be1-cf6e-4318-b040-12d315eae3f0@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 10/13] media: iris: Add power sequence for Glymur
-To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        iommu@lists.linux.dev
-References: <20260505-glymur-v4-0-17571dbd1caa@oss.qualcomm.com>
- <20260505-glymur-v4-10-17571dbd1caa@oss.qualcomm.com>
-Content-Language: en-US
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <20260505-glymur-v4-10-17571dbd1caa@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=J4CaKgnS c=1 sm=1 tr=0 ts=69fb5b24 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=4ZKAssT4AknkAVwkBooA:9 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDE1MCBTYWx0ZWRfXxtdJrbi3WtDM
- OwCzOT9x1PP5BNTgh9WxJG0UY846IV+A9N0KjqC21LQi0KXEcA0Q1EgqfNA4sDiGTbWMBPsuJYa
- OKzzkqT44O0oB32Clohw2ZM+3AktbfEEHqdS88rPCJ/1dJVverAxAWFY5wM297ORKsismdropr5
- mefZSe/j4fLliaIQL0mLVNg8qvAo/TrruBIBD/aiTGNuQUFzJklDquC7eE+iJ85e3dKe69LnA82
- QVXCOWyiF2bq4y8AsHa8a5xwyXigGHeneik/vR7rTmd/4rd8/qI3oRyQVdn15WqKWR0NzfzICa6
- 4LouFmbWHL9bK7jAoDk/eKNQ48KEL4JXDTqAd6/Ac2wvETrpCfM9+Nkr1bWjIQFMoCyGj188YJQ
- Qpcemd8WSw4EWDipNEDZBB2CGekqYHARdYKcbco+vHcpRNBTaUsLSsR59+68wcezb/sHRZ+DSJ4
- LWmiZq5Ax+yrXDzpctg==
-X-Proofpoint-GUID: VRbgmqD6XcG4FJPD9h2covZ18a36vL5E
-X-Proofpoint-ORIG-GUID: VRbgmqD6XcG4FJPD9h2covZ18a36vL5E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-06_01,2026-05-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 impostorscore=0 adultscore=0
- phishscore=0 suspectscore=0 spamscore=0 bulkscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605060150
-X-Rspamd-Queue-Id: 881384DD188
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-Rspamd-Queue-Id: DDB564DD179
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	CTE_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60642-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,linux.dev,kernel.org,linaro.org,gmail.com,8bytes.org,arm.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	FREEMAIL_TO(0.00)[collabora.com,arm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
+	TAGGED_FROM(0.00)[bounces-60643-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:email,collabora.com:dkim,collabora.com:mid]
 
-
-
-On 5/5/2026 12:29 PM, Vishnu Reddy wrote:
-> Glymur has a secondary video codec core (vcodec1), equivalent to the
-> primary core (vcodec0), but with independent power domains, clocks,
-> and reset lines. Reuse the existing code wherever possible and add
-> power sequence for vcodec1.
+On Wednesday, 6 May 2026 17:06:57 Central European Summer Time Steven Price wrote:
+> On 06/05/2026 11:45, Nicolas Frattaroli wrote:
+> > panthor_mmu_reclaim_priv_bos returns the number of freed pages. However,
+> > how many bytes of freed memory this translates to can't generally be
+> > deduced from the number of pages, as the page size is a per-VM property.
+> > 
+> > It may be useful to know the exact number of bytes that have been freed
 > 
-> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-> ---
->   .../platform/qcom/iris/iris_platform_common.h      |   4 +
->   drivers/media/platform/qcom/iris/iris_vpu3x.c      | 137 +++++++++++++++++++++
->   drivers/media/platform/qcom/iris/iris_vpu_common.h |   1 +
->   .../platform/qcom/iris/iris_vpu_register_defines.h |   7 ++
->   4 files changed, 149 insertions(+)
+> The "useful" aspect seems to just be a drm_dbg() message from what I can
+> see with this series?
+
+Correct.
+
+> Am I missing something or is it not actually that useful?
+
+I wanted to know how much memory I'm actually reclaiming without
+making any assumptions about page sizes, and figured the change is
+innocent enough. If it's deemed too pointless, then I'll just drop
+the size in bytes from the debug message.
+
+Kind regards,
+Nicolas Frattaroli
+
 > 
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> index 7d59e6364e9d..8995136ad29e 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> @@ -61,6 +61,9 @@ enum platform_clk_type {
->   	IRIS_VPP0_HW_CLK,
->   	IRIS_VPP1_HW_CLK,
->   	IRIS_APV_HW_CLK,
-> +	IRIS_AXI_VCODEC1_CLK,
-> +	IRIS_VCODEC1_CLK,
-> +	IRIS_VCODEC1_FREERUN_CLK,
->   };
->   
->   struct platform_clk_data {
-> @@ -210,6 +213,7 @@ enum platform_pm_domain_type {
->   	IRIS_VPP0_HW_POWER_DOMAIN,
->   	IRIS_VPP1_HW_POWER_DOMAIN,
->   	IRIS_APV_HW_POWER_DOMAIN,
-> +	IRIS_VCODEC1_POWER_DOMAIN,
->   };
->   
->   struct platform_pd_data {
-> diff --git a/drivers/media/platform/qcom/iris/iris_vpu3x.c b/drivers/media/platform/qcom/iris/iris_vpu3x.c
-> index 13fbb21c2182..0d0a239f9feb 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vpu3x.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vpu3x.c
-> @@ -27,6 +27,16 @@ static bool iris_vpu3x_hw_power_collapsed(struct iris_core *core)
->   	return pwr_status ? false : true;
->   }
->   
-> +static bool iris_vpu36_hw1_power_collapsed(struct iris_core *core)
-> +{
-> +	u32 value, pwr_status;
-> +
-> +	value = readl(core->reg_base + WRAPPER_CORE_POWER_STATUS);
-> +	pwr_status = value & BIT(4);
+> Thanks,
+> Steve
+> 
+> > for observability and debugging purposes. To that end, add a new
+> > parameter "freed_sz", which is a pointer to a size_t where this
+> > information will be stored. It may be NULL, in which case the
+> > information isn't stored at all.
+> > 
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_gem.c |  3 ++-
+> >  drivers/gpu/drm/panthor/panthor_mmu.c | 12 ++++++++++--
+> >  drivers/gpu/drm/panthor/panthor_mmu.h |  1 +
+> >  3 files changed, 13 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> > index 13295d7a593d..80e82238f3c5 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> > @@ -1511,7 +1511,8 @@ panthor_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+> >  		goto out;
+> >  
+> >  	freed += panthor_mmu_reclaim_priv_bos(ptdev, sc->nr_to_scan - freed,
+> > -					      &remaining, panthor_gem_try_evict);
+> > +					      &remaining, NULL,
+> > +					      panthor_gem_try_evict);
+> >  	if (freed >= sc->nr_to_scan)
+> >  		goto out;
+> >  
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > index a7ee14986849..b81388b35a58 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -3127,13 +3127,18 @@ int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm
+> >  unsigned long
+> >  panthor_mmu_reclaim_priv_bos(struct panthor_device *ptdev,
+> >  			     unsigned int nr_to_scan, unsigned long *remaining,
+> > +			     size_t *freed_sz,
+> >  			     bool (*shrink)(struct drm_gem_object *,
+> >  					    struct ww_acquire_ctx *))
+> >  {
+> > +	unsigned long newly_freed;
+> >  	unsigned long freed = 0;
+> >  	LIST_HEAD(remaining_vms);
+> >  	LIST_HEAD(vms);
+> >  
+> > +	if (freed_sz)
+> > +		*freed_sz = 0;
+> > +
+> >  	mutex_lock(&ptdev->reclaim.lock);
+> >  	list_splice_init(&ptdev->reclaim.vms, &vms);
+> >  
+> > @@ -3152,8 +3157,11 @@ panthor_mmu_reclaim_priv_bos(struct panthor_device *ptdev,
+> >  
+> >  		mutex_unlock(&ptdev->reclaim.lock);
+> >  
+> > -		freed += drm_gem_lru_scan(&vm->reclaim.lru, nr_to_scan - freed,
+> > -					  remaining, shrink, NULL);
+> > +		newly_freed = drm_gem_lru_scan(&vm->reclaim.lru, nr_to_scan - freed,
+> > +					       remaining, shrink, NULL);
+> > +		if (freed_sz)
+> > +			*freed_sz += panthor_vm_page_size(vm) * newly_freed;
+> > +		freed += newly_freed;
+> >  
+> >  		mutex_lock(&ptdev->reclaim.lock);
+> >  
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
+> > index 3522fbbce369..12b18b5f90e1 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
+> > @@ -52,6 +52,7 @@ int panthor_vm_evict_bo_mappings_locked(struct panthor_gem_object *bo);
+> >  unsigned long
+> >  panthor_mmu_reclaim_priv_bos(struct panthor_device *ptdev,
+> >  			     unsigned int nr_to_scan, unsigned long *remaining,
+> > +			     size_t *freed_sz,
+> >  			     bool (*shrink)(struct drm_gem_object *,
+> >  					    struct ww_acquire_ctx *));
+> >  int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec,
+> > 
+> 
+> 
 
-define these bits position
 
-#define VCODEC0_POWER_STATUS BIT(1)
-#define VCODEC1_POWER_STATUS BIT(4)
 
-with this,
 
-Reviewed-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
 
