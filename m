@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-60519-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60520-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8N0GF9jk+mmGTgMAu9opvQ
-	(envelope-from <linux-media+bounces-60519-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 08:51:04 +0200
+	id GJavJO3k+mmGTgMAu9opvQ
+	(envelope-from <linux-media+bounces-60520-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 08:51:25 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F9A4D6CD3
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 08:51:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 336334D6D01
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 08:51:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 78B8A307EF4E
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 06:49:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EBC763059C70
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 06:49:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FAAE36CDEB;
-	Wed,  6 May 2026 06:49:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A341B369203;
+	Wed,  6 May 2026 06:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ioIPtAWd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YwEXz4Pz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA57336B04E
-	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 06:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6305736C598
+	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 06:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778050150; cv=none; b=GCh2Od7+gzmO3makrmhpfuNKYBBZtsZs1nfg37w0zoise49EYNqJQk8ceAm6lFQ8W/TsR9cl4Uh5OIq3B5VKxeYD2bbAUjgyiOXXDsyrpQy0sIB084GgEeSldyI+e16mZvODXIX3ckQWQ1YPuxLtGHufQztsZopnRSsvWKYZeZ0=
+	t=1778050152; cv=none; b=AVaYxrWBwc2/WlZ9vv1zB4VwEycZAO0oFvxK2A8sjRLvEL4NE++lsmRD+C2rEDd6OxeYxr7jVoB36E7q19IkoDMX0p8l1waoVU+C4rSreZjmQyrA4s5MlyeQL9y8NQfBjih5RzIfKp8AxAeaCyLMhlq4jwkG3XLs3MNCdgHCFXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778050150; c=relaxed/simple;
-	bh=/aTZ7FfNJUxGAerV0GyNvRYzlJf90me3mmU4zDgewOs=;
+	s=arc-20240116; t=1778050152; c=relaxed/simple;
+	bh=LRXlNS9x02z8g+CGxmATU/6gvHvDK0YuBVqtECCU2ME=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qMqobYASXI9dO8VMuDIRUCtn01UlxqFfFGSepNqdquU4nGJImT5Ct+PzoVARzexBLFyfsck9oq/zjuR+p2VHhmqsehbHqeyO01ieGfZfOcgU18zXXTAjHteQn9FKNn/tblSpzvfpZ6z299AzuWMHOsEjF9Yc7CQVy3PA5WqK4k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ioIPtAWd; arc=none smtp.client-ip=209.85.128.47
+	 MIME-Version; b=Oj79d4g73BsBp1so07X54rI+ey2IOdCUA30teTYA26tDmJ2lyFAFHvdbbfDM2gAm8cvSUzyv4GX6kYWdA3BkJ0zwijLIkuMzmppR5K6otw59rHR0LfsGrZHgqnEWpf2jMjYAC8Gtm/FlP8GxTuaDXbze7Fj9c0CFGCFesEKlqaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YwEXz4Pz; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48896199cbaso52755455e9.1
-        for <linux-media@vger.kernel.org>; Tue, 05 May 2026 23:49:08 -0700 (PDT)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43d7badbd7dso2794561f8f.2
+        for <linux-media@vger.kernel.org>; Tue, 05 May 2026 23:49:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778050147; x=1778654947; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778050149; x=1778654949; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qqEpiDmgYxnJFJBZV5oyq8iX4ijdqmclDgeEbjUzvZU=;
-        b=ioIPtAWdgpZO/HahDRHEtmCPXbnoFdJHICYIPBbqRhmIe2dtghDjWcdCcQY95MJ7bd
-         g6MMnSHIx1n7/PZ18GV1YUY6HvyiNrAz63CKKSlxyBFOspkLcJuk4Rloee5eyC1vuZlk
-         TRElA42ngbe+yp8QMptnbUzKqxVFsjIWtKtCHibbolAP90DEDFfj8fHv8QBt72z/RnQp
-         H1t7VcTtTOVxr/hRTVY3wM0E+XGKbvPEnadNHUnjZ00RBw0msSFJ3Mu1nnBh8W6FoT3c
-         KwcbFbUqXRfMkbqEsMzCfNlcSP2XVNMq7BRx+d3eRydGb++jWlJLBP/A2VMuPyeJHjBe
-         5XjA==
+        bh=2KGU01Qq2W7EXZE5uDuHFOzhjoXBSa5CoF8m94VBiMo=;
+        b=YwEXz4Pzty/l82umOVfQLn1ytJucYokbpH7jLwYuugLDPyvHkirQUCYwncQZpvqWQQ
+         jCbAv27Mv6yFUm90kCMHtAxRM80+coU5/ZSPClG3zP/aCcW+O1m50DSxxaMPPVAaojjT
+         sraGyH4Qu7XOvxb7WO1st01yK7bgAjjT23GfhWivW8Mjx/TMX8O9ipFlVL6rnm8YsAiA
+         utJYo2PTfj5K0Te4sfmqUe3YFiQ/5pP3uxt4iAYiuqwYASrlYs+shLvTm6rzvSNHFtVy
+         r5Xx1nkpLrdpvpziZr/09uB9rBdiDysPlVZIXp13lyAToN1oapuBQc7yKHQ1M1UAARkn
+         SNtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778050147; x=1778654947;
+        d=1e100.net; s=20251104; t=1778050149; x=1778654949;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=qqEpiDmgYxnJFJBZV5oyq8iX4ijdqmclDgeEbjUzvZU=;
-        b=DoWb66rUhfFhHbwUNe8nMb69tZ22qYw7aNWTvvhNaIGkJT4Y+h+DAgIo0PFbfMLSOi
-         rmeZep18BCw6UMl2BN5WyeWRaKNjbkg5xpT/cgcyVCpdMlSQcCg11pSUonzaF4kpxoWr
-         30Btlk6fP5kGctJTG7wpIUUCjUmx2tXqEQMDlJRmsk41TDTupF4Uyu0aEDEF8n+C2ffB
-         ZHursbld6nhf2QtjqqRDGfgcS8rj4hEOyHFUKjG0S+Hby2jQb1LJJVJ0gJyJ3OZnt8Kt
-         XTYuzrD1MsmVjfn20zp4UF3Zh6RYxvmp1T3gZGGaK8sx/jGesNgA2cJQT2aCU76mjpXJ
-         yVGQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8MHFXZI+8z34lE2Z+M9IzzB8LOURfsCm4pwTp4kauOPbkA3dEvQBYBSQ2tmxSV7tQic+hLib9Ow4RJaA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjE3HDVta1d2UkcSyKEBrNiVOv7PAnnIJgvp3+6BRLCAk2ktII
-	fWYafIe9iWdjlr16oZTBOEU6izpiRXDcMhQlJiCDVGgKjPkAfL+ZSTX5
-X-Gm-Gg: AeBDievaBJBe2L9NtfqchjJ7iVBQYRl0F13D43fjeImyHhoTMy9rxOTb1MTLK3WQpUv
-	Drp7AxO8O5CprR30RzYLYFV1f15gCwBa52YeSwOUk7/bLhrpl8CF42QkKbjqb0QaaYAZSM5DqjF
-	Jtq7dT8dHsXP8C8XdkXL8CuSHVsel+wfQsoPYFVUTHW9J0DGzvmX/11Rq5J3OkvQCSopEj/wlgp
-	25yBQVbfUIkNc/fFGh640sjF1631Nr4BPmZov2pZJric8n/dHmPxJzu+CVey/ilCfMSA5qPMKqV
-	lVtaUmdEVRYmUkq0vis/1UHDL/REvnMz8pIH0rVKHb4S8MoHpYbsznb+TPiqXUJMCy6i7IzEOJ3
-	IxoTW3OSG16GE0elgkmm7z3+yQMDAigWpymAVixzwg7aFPPMKrHqp4O8if7eApuvcTg2hpDAQkF
-	JhD5FVZMHw4x2aW8rYQxfGMvY=
-X-Received: by 2002:a05:600c:3e05:b0:488:9ed3:1492 with SMTP id 5b1f17b1804b1-48e51f2a997mr38200825e9.10.1778050147183;
-        Tue, 05 May 2026 23:49:07 -0700 (PDT)
+        bh=2KGU01Qq2W7EXZE5uDuHFOzhjoXBSa5CoF8m94VBiMo=;
+        b=RkZ215JWnDPng3xaPch5JOzUTq07g0L0CDwwrvpk6wI8BBMLyn12n4D7OrQMDX2aTJ
+         wKqpWcfQ3/F0VQjKbFbetIP+P8BWfUcz5/aX6W5mWGpjYh+SVWtuJ+MM4HlXT2521xgx
+         qKinC7Vto8ZSjPG2hAggJBxplSfws2XC2+3EX2JQyb+ugKWJS/+kfk3Y6GdBNQdmXuFD
+         cep4JV6Cynevolnj7/KjyyCLLTd6GWsd1s+H+Pgex15zNOxQxpeYPpxxkFN/gq3faD87
+         iAF97+JS/hJ4TnwjYHA96xDnbST/IVxAQeIaM5mFqe8D0HlngIGChmIVi37Q5/JoanOd
+         jyhw==
+X-Forwarded-Encrypted: i=1; AFNElJ9tCJ0CYHqmuCmLJJPGIKUV59Z5Tb2F+UZGI9ww7icCT6f64llv2almp7d7uYFV71KgxfZeDAYjv9m8mQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPkTqp5LVlTIuFlPEUi4PiSxa7DKsHl+/H2QStxKlIY8rsIvRl
+	08iAYZwKU2Xh2P+JlHXjJGL4aQLmdmVapiZNG4pohL4ljYAcPOv2SN4z
+X-Gm-Gg: AeBDievKvp21INHfhWAtx0HYT/JkXs936Acdpo91Bz31D8+mPprJ5KzJ4ZKNIeVXDrq
+	Unu/N1PDyXCHJXbSFNFiT5H5BV+bWwsbDi/kEwF7EdEw30SWa916AU4glCQiTnpeXwm1y+YTFNz
+	lG0E/quJveQSx8X8vp3hg2HZMQhO9/EbeD4QtuU9v8AFE+ssIqrJWWrxDJBZ3dDeislssGB8SRj
+	eXK6spt/W2L1DruI+rbUIYG2RIo1MLypuQ/sh1a/lJkt/g8tTla3ONElKYpT7LmTjy0LS/iTyFR
+	VPyu6fJYIjKm8St6ExeFOBMOJ1YXXzCxv4iUZ7mXDtfvITE2vk+vMdycjUW84x/ED+Jb2lwvSvJ
+	Lj3Oc/5ksFfxXF1jhOZi/1TdIVZNjL4p7dq5tj11CreCDSgJgHRxHbr+yPkj8iU5oQGSQ5YL3Jx
+	qHy1S9UFwN8KKsufHWgy0tSiU=
+X-Received: by 2002:a05:600c:608f:b0:489:1ba8:5be9 with SMTP id 5b1f17b1804b1-48e51f4b0e1mr36256855e9.29.1778050148544;
+        Tue, 05 May 2026 23:49:08 -0700 (PDT)
 Received: from xeon ([188.163.112.56])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e53891d62sm38398835e9.1.2026.05.05.23.49.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e53891d62sm38398835e9.1.2026.05.05.23.49.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 23:49:06 -0700 (PDT)
+        Tue, 05 May 2026 23:49:08 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Lee Jones <lee@kernel.org>,
 	Pavel Machek <pavel@kernel.org>,
@@ -89,9 +89,9 @@ Cc: linux-leds@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH v6 2/6] media: i2c: lm3560: Fix v4l2 subdev registration
-Date: Wed,  6 May 2026 09:48:43 +0300
-Message-ID: <20260506064847.37795-3-clamor95@gmail.com>
+Subject: [PATCH v6 3/6] media: i2c: lm3560: Optimize mutex lock usage
+Date: Wed,  6 May 2026 09:48:44 +0300
+Message-ID: <20260506064847.37795-4-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260506064847.37795-1-clamor95@gmail.com>
 References: <20260506064847.37795-1-clamor95@gmail.com>
@@ -102,7 +102,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: D0F9A4D6CD3
+X-Rspamd-Queue-Id: 336334D6D01
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
@@ -111,7 +111,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -119,7 +119,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-60519-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60520-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com];
@@ -136,97 +136,105 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-The existing driver does not call media subdev registration, making it
-invisible to the media framework. Since the LM3560 supports two
-independent LEDs, register each LED as a separate media entity.
-
-Because registering LEDs before device initialization may cause access
-attempts before the hardware is ready, lm3560_init_device has been moved
-before the subdevice initializations.
-
-An additional helper, lm3560_subdev_cleanup, was added to release LED0 if
-the initialization of LED1 fails, and to deregister both LEDs in the
-remove function.
+Pass the device's own mutex lock to the control handler so that the media
+framework can handle control access instead of managing it manually. The
+lock must be common to both sub-devices since they share same hardware,
+so the individual sub-device locks will not work here.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/media/i2c/lm3560.c | 34 ++++++++++++++++++++++++----------
- 1 file changed, 24 insertions(+), 10 deletions(-)
+ drivers/media/i2c/lm3560.c | 19 ++++++-------------
+ 1 file changed, 6 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
-index f4cc844f4e3c..edfb07587cab 100644
+index edfb07587cab..5b568ed9536b 100644
 --- a/drivers/media/i2c/lm3560.c
 +++ b/drivers/media/i2c/lm3560.c
-@@ -364,8 +364,15 @@ static int lm3560_subdev_init(struct lm3560_flash *flash,
+@@ -162,14 +162,12 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+ 	struct lm3560_flash *flash = to_lm3560_flash(ctrl, led_no);
+ 	int rval = -EINVAL;
+ 
+-	mutex_lock(&flash->lock);
+-
+ 	if (ctrl->id == V4L2_CID_FLASH_FAULT) {
+ 		s32 fault = 0;
+ 		unsigned int reg_val;
+ 		rval = regmap_read(flash->regmap, REG_FLAG, &reg_val);
+ 		if (rval < 0)
+-			goto out;
++			return rval;
+ 		if (reg_val & FAULT_SHORT_CIRCUIT)
+ 			fault |= V4L2_FLASH_FAULT_SHORT_CIRCUIT;
+ 		if (reg_val & FAULT_OVERTEMP)
+@@ -179,8 +177,6 @@ static int lm3560_get_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+ 		ctrl->cur.val = fault;
+ 	}
+ 
+-out:
+-	mutex_unlock(&flash->lock);
+ 	return rval;
+ }
+ 
+@@ -190,8 +186,6 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+ 	u8 tout_bits;
+ 	int rval = -EINVAL;
+ 
+-	mutex_lock(&flash->lock);
+-
+ 	switch (ctrl->id) {
+ 	case V4L2_CID_FLASH_LED_MODE:
+ 		flash->led_mode = ctrl->val;
+@@ -202,14 +196,12 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+ 	case V4L2_CID_FLASH_STROBE_SOURCE:
+ 		rval = regmap_update_bits(flash->regmap,
+ 					  REG_CONFIG1, 0x04, (ctrl->val) << 2);
+-		if (rval < 0)
+-			goto err_out;
+ 		break;
+ 
+ 	case V4L2_CID_FLASH_STROBE:
+ 		if (flash->led_mode != V4L2_FLASH_LED_MODE_FLASH) {
+ 			rval = -EBUSY;
+-			goto err_out;
++			break;
+ 		}
+ 		flash->led_mode = V4L2_FLASH_LED_MODE_FLASH;
+ 		rval = lm3560_mode_ctrl(flash);
+@@ -218,7 +210,7 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+ 	case V4L2_CID_FLASH_STROBE_STOP:
+ 		if (flash->led_mode != V4L2_FLASH_LED_MODE_FLASH) {
+ 			rval = -EBUSY;
+-			goto err_out;
++			break;
+ 		}
+ 		flash->led_mode = V4L2_FLASH_LED_MODE_NONE;
+ 		rval = lm3560_mode_ctrl(flash);
+@@ -239,8 +231,6 @@ static int lm3560_set_ctrl(struct v4l2_ctrl *ctrl, enum lm3560_led_id led_no)
+ 		break;
+ 	}
+ 
+-err_out:
+-	mutex_unlock(&flash->lock);
+ 	return rval;
+ }
+ 
+@@ -328,6 +318,8 @@ static int lm3560_init_controls(struct lm3560_flash *flash,
+ 	if (fault != NULL)
+ 		fault->flags |= V4L2_CTRL_FLAG_VOLATILE;
+ 
++	hdl->lock = &flash->lock;
++
+ 	if (hdl->error)
+ 		return hdl->error;
+ 
+@@ -363,6 +355,7 @@ static int lm3560_subdev_init(struct lm3560_flash *flash,
+ 	if (rval < 0)
  		goto err_out;
  	flash->subdev_led[led_no].entity.function = MEDIA_ENT_F_FLASH;
++	flash->subdev_led[led_no].state_lock = &flash->lock;
  
--	return rval;
-+	rval = v4l2_async_register_subdev(&flash->subdev_led[led_no]);
-+	if (rval < 0) {
-+		dev_err(flash->dev, "failed to register V4L2 subdev");
-+		goto error_out_media;
-+	}
- 
-+	return rval;
-+error_out_media:
-+	media_entity_cleanup(&flash->subdev_led[led_no].entity);
- err_out:
- 	v4l2_ctrl_handler_free(&flash->ctrls_led[led_no]);
- 	return rval;
-@@ -391,6 +398,14 @@ static int lm3560_init_device(struct lm3560_flash *flash)
- 	return rval;
- }
- 
-+static void lm3560_subdev_cleanup(struct lm3560_flash *flash,
-+				  enum lm3560_led_id led_no)
-+{
-+	v4l2_async_unregister_subdev(&flash->subdev_led[led_no]);
-+	v4l2_ctrl_handler_free(&flash->ctrls_led[led_no]);
-+	media_entity_cleanup(&flash->subdev_led[led_no].entity);
-+}
-+
- static int lm3560_probe(struct i2c_client *client)
- {
- 	struct lm3560_flash *flash;
-@@ -425,17 +440,19 @@ static int lm3560_probe(struct i2c_client *client)
- 	flash->dev = &client->dev;
- 	mutex_init(&flash->lock);
- 
--	rval = lm3560_subdev_init(flash, LM3560_LED0, "lm3560-led0");
-+	rval = lm3560_init_device(flash);
- 	if (rval < 0)
- 		return rval;
- 
--	rval = lm3560_subdev_init(flash, LM3560_LED1, "lm3560-led1");
-+	rval = lm3560_subdev_init(flash, LM3560_LED0, "lm3560-led0");
- 	if (rval < 0)
- 		return rval;
- 
--	rval = lm3560_init_device(flash);
--	if (rval < 0)
-+	rval = lm3560_subdev_init(flash, LM3560_LED1, "lm3560-led1");
-+	if (rval < 0) {
-+		lm3560_subdev_cleanup(flash, LM3560_LED0);
- 		return rval;
-+	}
- 
- 	i2c_set_clientdata(client, flash);
- 
-@@ -447,11 +464,8 @@ static void lm3560_remove(struct i2c_client *client)
- 	struct lm3560_flash *flash = i2c_get_clientdata(client);
- 	unsigned int i;
- 
--	for (i = LM3560_LED0; i < LM3560_LED_MAX; i++) {
--		v4l2_device_unregister_subdev(&flash->subdev_led[i]);
--		v4l2_ctrl_handler_free(&flash->ctrls_led[i]);
--		media_entity_cleanup(&flash->subdev_led[i].entity);
--	}
-+	for (i = LM3560_LED0; i < LM3560_LED_MAX; i++)
-+		lm3560_subdev_cleanup(flash, i);
- }
- 
- static const struct i2c_device_id lm3560_id_table[] = {
+ 	rval = v4l2_async_register_subdev(&flash->subdev_led[led_no]);
+ 	if (rval < 0) {
 -- 
 2.51.0
 
