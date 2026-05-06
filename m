@@ -1,210 +1,210 @@
-Return-Path: <linux-media+bounces-60645-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60646-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kA51I4lh+2kuaQMAu9opvQ
-	(envelope-from <linux-media+bounces-60645-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:43:05 +0200
+	id uAnoCr1k+2kuaQMAu9opvQ
+	(envelope-from <linux-media+bounces-60646-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:56:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1DB4DD79B
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:43:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5504DDB41
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:56:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id ED7023004046
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 15:29:49 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0329E307B82E
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 15:43:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 142C848AE0E;
-	Wed,  6 May 2026 15:29:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C80CC4949E1;
+	Wed,  6 May 2026 15:43:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="STDn1RSW"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="fYyFlf7s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEFA47B426;
-	Wed,  6 May 2026 15:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778081384; cv=none; b=YJp1QwQi1t9nl6jc66uH0BizIKtYS1lUuOympclC7M1ZRLwLmGKT5pPbqBc0AmvFgOh7+j019KGwpPS5kd7mYqGT9YFi1qNEJFYMAN0TtqCbwXBP7Bt9JMLDDmsduCRKoXlycri21c+Kmt11476aUVNkoyBIkcmn2aHjkZM5zjY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778081384; c=relaxed/simple;
-	bh=UzMH2u1MU8F8phCcA9cvtgS+wSBo2orCoIMTn8w+YRI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A5+6YE0fUR7gkuKcF7JN9ULhcHHjqFXPNy9x8Id3ZxPAVrBANnoJ0CooF+0ysw53u11hU+0Er0FjBR7tWzTRRplQ6u6uAOL9xF8RXDxzpOE2yZ+fWaNF2Cfq7KHrkyt4/jiTcRuxyTb09tAvSSQAJgXSQ8QJAIs3M2bPFkFL8wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=STDn1RSW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97DBCC2BCC7;
-	Wed,  6 May 2026 15:29:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778081383;
-	bh=UzMH2u1MU8F8phCcA9cvtgS+wSBo2orCoIMTn8w+YRI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=STDn1RSWQtQf5vQAmkckEpHw+vLcrntjTrcGNB2Vatv/Z6fCUX2vp9pfzwOUSuFu7
-	 +mdGkigx/ldWmmEm+YSTEzOjCANn8lR6dtfuu1cBebE1lJDWyqzF32ynbLILRxumZ/
-	 115NwbwoMhlAIz1AIAjb2v8dc+P+ohamlniLb15kqZEMaZgzCa4P+42sgnNmy4coZz
-	 VQRB7/nPKpidYRftVvm9evvu37ksRbGq7zqZZMNxL+bHFMKD7k60VO8NLebkXOMw2L
-	 o7CQ0+rY8nrjlfXaFym19/+wafjPVLYQFcUjcFzaPq326lovpu5sJuS9aLX8TgrTqd
-	 eEnWjzOAqtXBw==
-Date: Wed, 6 May 2026 18:29:37 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Matt Evans <mattev@meta.com>
-Cc: Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>,
-	Alex Mastro <amastro@fb.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Mahmoud Adam <mngyadam@amazon.de>,
-	David Matlack <dmatlack@google.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	kvm@vger.kernel.org,
-	Carlos =?iso-8859-1?Q?L=F3pez?= <clopez@suse.de>
-Subject: Re: [PATCH 1/9] vfio/pci: Fix vfio_pci_dma_buf_cleanup() double-put
-Message-ID: <20260506152937.GJ11063@unreal>
-References: <20260416131815.2729131-1-mattev@meta.com>
- <20260416131815.2729131-2-mattev@meta.com>
- <20260501131236.278ac431@shazbot.org>
- <9304aada-ee84-4cf2-a1d7-82313eda07aa@meta.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142E848124F;
+	Wed,  6 May 2026 15:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778082221; cv=pass; b=jcO0RGVzgR2Ub6PIJJRP9Ovo947HQNPogWSrxDI+mNVUHPfwHGsw9NRQ6lU3WVNA5EzozZBkokEQx05tn1EgtULLCkTN+9/0D/laRVxqnh1Dy/lHjIzz1aqy0Xnl4Gq5w5A/p3knCYzScTTMGDNBfNui0/SMQqfytW95vdkDvlc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778082221; c=relaxed/simple;
+	bh=ioz2sc60a4LVa0PGherPbFFlNYnhX9sEsgxmwq4Bkzs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tEMGvRp0YSsttMf+OVRRvfBx3i0lN4kSRR82WtG4ynBj+PQgyTSWO4O2V+boQ2KGhX8K/SZmGi1BQ2GC9D2MxEf23UTIegl7p5OKG55nZvXE+jBRVL44EdAdbZTpQ6k2FnBFc2mqruhNSMibQ29GPiwLDcpngF70MdcDKgl/uv0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=fYyFlf7s; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1778082204; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=fdZH5j80Z+w5iKIl1C69yOFF3BMAxZ6YJBVntLffDu/PLXSXtflWSPdzmDsjRz1H5ll8Lxj6XcJNrD2Uy3ugy/2fgOhUsIonApZ45nOnLMOKeT7SHymtM/6mQrHdCyyJ+6RRkyGs+FZPHajMoYXv1nIjWjEy3nYBF1N5CJVqx+M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1778082204; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=zpLoZnJSSvx/I/AHhCM0A94vwhGcJxh2mbqqLYmrIIc=; 
+	b=bP0za7HMejDuoXD6AnuqTkSVSPbxrDfNaqm12VxhnwU4oY17uibwc+GH3CjWXJ1BU75Vl7OXyZWE00TYDC+slIWlcffYTwrPfdp5xoSCg8uvPRkrQvnqRjODMZl/PxcrFJcf9rwt5TBfezrJZQbOTxhEk11ay5M2p2Eevc6Q8ts=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778082204;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=zpLoZnJSSvx/I/AHhCM0A94vwhGcJxh2mbqqLYmrIIc=;
+	b=fYyFlf7sPC0AsGLtJsiynyxfwIzc1AcoecIXj0E7+u7mWfShV52O6lBF98xwzqos
+	A+tkDgjgxTGvbxvTiZAoyW9nm0Yx6BCCcGj16wxRh9rTW7AO/rBAV4/U02R17fr0hZf
+	uoTz5gpe7jtMuTvQRNXDdln/13TlGoVPJnFs6zGo=
+Received: by mx.zohomail.com with SMTPS id 1778082202486120.18991077078181;
+	Wed, 6 May 2026 08:43:22 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Steven Price <steven.price@arm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 0/4] Let userspace explicitly trigger memory reclaims
+Date: Wed, 06 May 2026 17:43:18 +0200
+Message-ID: <qxAaM8FMQLuQt09qti64IA@collabora.com>
+In-Reply-To: <829b8887-48de-4cfa-8bb2-79db1471bb8d@arm.com>
+References:
+ <20260506-panthor-explicit-reclaim-v1-0-44f82ac147ce@collabora.com>
+ <829b8887-48de-4cfa-8bb2-79db1471bb8d@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9304aada-ee84-4cf2-a1d7-82313eda07aa@meta.com>
-X-Rspamd-Queue-Id: AF1DB4DD79B
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-Rspamd-Queue-Id: 1F5504DDB41
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	CTE_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[collabora.com,arm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
+	TAGGED_FROM(0.00)[bounces-60646-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60645-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,meta.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,collabora.com:email,collabora.com:dkim,collabora.com:mid]
 
-On Wed, May 06, 2026 at 02:53:31PM +0100, Matt Evans wrote:
-> Hi Alex,
+On Wednesday, 6 May 2026 17:06:56 Central European Summer Time Steven Price wrote:
+> On 06/05/2026 11:45, Nicolas Frattaroli wrote:
+> > RAM is not, in fact, cheap. Especially on embedded systems with a low
+> > amount of memory, but known and well-defined userspace, more explicit
+> > resource management can lead to better utilisation patterns. As an
+> > example, a resource manager process on a purpose-built device may wish
+> > to launch, and then explicitly swap out, memory of processes that are
+> > kept "warm", to improve perceived startup latency of individual
+> > full-screen applications without making the kernel figure out the usage
+> > pattern from observation alone in order to swap out the right pages.
 > 
-> On 01/05/2026 20:12, Alex Williamson wrote:
+> Have you considered memory control groups (memcg) for this purpose?
+> Imposing a lower limit than currently allocated should trigger reclaim,
+> so 'background' applications could have the limit lowered and then
+> restored when moved to the foreground.
+
+This is a suggestion in line with what I've made to the entity for
+whom I am adding this, but was told that for them they really do want
+tight control without having to use cgroups into technically doing it
+by dynamically adjusting the limits of them.
+
+I do think that writing 0 to `memory.high` to swap it out and `"max"`
+to allow it to swap back in might work, though that'll then apply to
+all of the process' memory, not just the GPU resources.
+
+I will ask for clarification internally.
+
+> 
+> > To allow for this explicit control in the context of panthor's GPU
+> > memory, add two new sysfs knobs. The first, mem_reclaim, runs an
+> > explicit priv BO reclaim cycle on the TGID written to it.
 > > 
-> > On Thu, 16 Apr 2026 06:17:44 -0700
-> > Matt Evans <mattev@meta.com> wrote:
-> > 
-> > > vfio_pci_dma_buf_cleanup() assumed all VFIO device DMABUFs need to be
-> > > revoked.  However, if vfio_pci_dma_buf_move() revokes DMABUFs before
-> > > the fd/device closes, then vfio_pci_dma_buf_cleanup() would do a
-> > > second/underflowing kref_put() then wait_for_completion() on a
-> > > completion that never fires.  Fixed by predicating on revocation
-> > > status.
-> > > 
-> > > This could happen if PCI_COMMAND_MEMORY is cleared before closing the
-> > > device fd (but the scenario is more likely to hit when future commits
-> > > add more methods to revoke DMABUFs).
-> > > 
-> > > Fixes: 1a8a5227f2299 ("vfio: Wait for dma-buf invalidation to complete")
-> > > Signed-off-by: Matt Evans <mattev@meta.com>
-> > > ---
-> > > 
-> > > (Just a fix, but later "vfio/pci: Convert BAR mmap() to use a DMABUF"
-> > > and "vfio/pci: Permanently revoke a DMABUF on request" depend on this
-> > > context, so including in this series.)
-> > 
-> > We really need a fix for this split out from this series, It's already
-> > been shown[1] that this is trivially reachable.  Carlos proposed[2] a
-> > similar solution to the one below.  I was concurrently working on the
-> > issued and suggested an alternative[3].  Let's pick a solution for
-> > 7.1-rc.  Thanks,
+> > The second, mem_claim, does the opposite: it swaps BOs back into active
+> > memory.
 > 
-> It looks like [3] is progressing, so I'll drop this one when I can rebase
-> onto it.
-> 
-> I noticed [3] removes the dma_resv_lock(priv->dmabuf->resv) around the
-> priv->vdev = NULL, and this series' vfio_pci_mmap_huge_fault() relies on
-> vdev only changing whilst resv is held to resolve a race between a fault and
-> cleanup (see patch 7 of this series).  The handler takes resv so that it can
-> stably test vdev in order to take memory_lock.
+> How necessary is this mem_claim for performance? Have you done any
+> benchmarking of explicitly claiming vs just allowing it to happen
+> naturally? My gut feeling is that mem_claim should be unnecessary in
+> most situations, but I'm prepared to be proved wrong.
 
-I think that you should rely on priv->revoked and not on priv->vdev.
+I've done no benchmarking, but can do so if you have any preferred
+workloads for this. Since we have to keep entire groups either in
+memory or out of memory right now AFAIK, I don't expect this to be
+very beneficial at all. At most we avoid a single fault I think.
 
-Thanks
+I can drop the mem_claim part, though it may become relevant if we
+ever have more fine-grained memory eviction where a single job or
+group can run into multiple faults before everything it needs to
+render a new frame is back in memory. In that case, it will be
+beneficial, because it avoids doing the swap-in dance several
+times while the user wonders why the UI is rendering at powerpoint
+speeds as it touches memory pages that are still swapped out during
+subsequent frames.
 
 > 
-> Must your fix change vdev outside of holding resv?  I'm still sketching
-> alternatives; at first glance perhaps the fault handler could rely on vdev
-> being valid if !revoked, which can be tested holding [only] resv.
-> 
+> I'm not saying this series is necessarily the wrong approach - but I
+> think we need a bit more justification for adding a new API for this.
 > 
 > Thanks,
+> Steve
+
+Kind regards,
+Nicolas Frattaroli
+
 > 
-> Matt
-> 
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > ---
+> > Nicolas Frattaroli (4):
+> >       drm/panthor: Add freed_sz parameter to reclaim_priv_bos
+> >       MAINTAINERS: Add sysfs ABI docs to list of panthor files
+> >       drm/panthor: Add explicit memory reclaim sysfs knob
+> >       drm/panthor: Add explicit memory claim sysfs knob
 > > 
-> > Alex
+> >  Documentation/ABI/testing/sysfs-driver-panthor-mem | 34 ++++++++
+> >  MAINTAINERS                                        |  1 +
+> >  drivers/gpu/drm/panthor/panthor_drv.c              | 93 ++++++++++++++++++++++
+> >  drivers/gpu/drm/panthor/panthor_gem.c              |  7 +-
+> >  drivers/gpu/drm/panthor/panthor_gem.h              |  1 +
+> >  drivers/gpu/drm/panthor/panthor_mmu.c              | 70 +++++++++++++++-
+> >  drivers/gpu/drm/panthor/panthor_mmu.h              |  4 +
+> >  7 files changed, 205 insertions(+), 5 deletions(-)
+> > ---
+> > base-commit: 2c4b906cd135bbb44855287d0d0eff0ee0b47afe
+> > change-id: 20260506-panthor-explicit-reclaim-3dffed028d8c
 > > 
-> > [1]https://lore.kernel.org/all/GVXPR02MB12019AA6014F27EF5D773E89BFB372@GVXPR02MB12019.eurprd02.prod.outlook.com/
-> > [2]https://lore.kernel.org/all/20260429182736.409323-2-clopez@suse.de/
-> > [3]https://lore.kernel.org/all/20260429142242.70f746b4@nvidia.com/
-> > 
-> > > drivers/vfio/pci/vfio_pci_dmabuf.c | 9 +++++++--
-> > >   1 file changed, 7 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> > > index 281ba7d69567..04478b7415a0 100644
-> > > --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
-> > > +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> > > @@ -395,20 +395,25 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
-> > >   	down_write(&vdev->memory_lock);
-> > >   	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
-> > > +		bool was_revoked;
-> > > +
-> > >   		if (!get_file_active(&priv->dmabuf->file))
-> > >   			continue;
-> > >   		dma_resv_lock(priv->dmabuf->resv, NULL);
-> > >   		list_del_init(&priv->dmabufs_elm);
-> > >   		priv->vdev = NULL;
-> > > +		was_revoked = priv->revoked;
-> > >   		priv->revoked = true;
-> > >   		dma_buf_invalidate_mappings(priv->dmabuf);
-> > >   		dma_resv_wait_timeout(priv->dmabuf->resv,
-> > >   				      DMA_RESV_USAGE_BOOKKEEP, false,
-> > >   				      MAX_SCHEDULE_TIMEOUT);
-> > >   		dma_resv_unlock(priv->dmabuf->resv);
-> > > -		kref_put(&priv->kref, vfio_pci_dma_buf_done);
-> > > -		wait_for_completion(&priv->comp);
-> > > +		if (!was_revoked) {
-> > > +			kref_put(&priv->kref, vfio_pci_dma_buf_done);
-> > > +			wait_for_completion(&priv->comp);
-> > > +		}
-> > >   		vfio_device_put_registration(&vdev->vdev);
-> > >   		fput(priv->dmabuf->file);
-> > >   	}
+> > Best regards,
+> > --  
+> > Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 > > 
 > 
+> 
+
+
+
+
 
