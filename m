@@ -1,168 +1,234 @@
-Return-Path: <linux-media+bounces-60570-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60571-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mJ89NT4T+2lLWQMAu9opvQ
-	(envelope-from <linux-media+bounces-60570-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 12:09:02 +0200
+	id CEDqGAQV+2lLWQMAu9opvQ
+	(envelope-from <linux-media+bounces-60571-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 12:16:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE7A4D924B
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 12:09:00 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C144D9362
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 12:16:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 61DA9300D476
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 10:08:35 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D78BD3014FC8
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 10:16:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CF223F23DD;
-	Wed,  6 May 2026 10:08:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 059494014BC;
+	Wed,  6 May 2026 10:16:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oFkGu383"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cAMIPBph"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852F336308F;
-	Wed,  6 May 2026 10:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96EF401491
+	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 10:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778062108; cv=none; b=q6Bv4Tn/QNkDoGu41Ta3ehteAQl+/7KoaeSpFdjhm/J4F6AQPv+Rmt08wJUbOB2nszE3i5wqDXmkiaF1o+hn+Ut80RYrYWcmtFuOA9537N+Lof9ZdYsZXtzVBR/Q05bc5FSEIGTtC134Tg2BwG2aI8HWbLr00rWxrVMXV1aTCrc=
+	t=1778062582; cv=none; b=Zwgzyot3LLT46yV3YMxwFa25iIaR41oUeoreHRwWjc8tZRU3HGIGPQG67BEROur7R0fS0K5RIcWuNmNuJ+2cT4d437x1gcMXAEKVCHl7bcQ9qf+CIyWjz6m8GMdfDXaiiFvaMul7bzWK5YOIPHkAIYnWKu8zj32kRLDhDjnJvaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778062108; c=relaxed/simple;
-	bh=nZfzghg9raBxGwuKMfOIWHSA+G1JIUmQ1fcBxRlBfWg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X4qxCxkqymZeOgt4oyasKMtGkzB8mU5H8YqrQMX5W4bDZ9bH5DBNSmOT3Nc1d7jnlDyGMS0QNTCl/LfhBFcV6M1/twr5+7l/1S/LoOsqJMplFsFyBGsgZSkI00zDHql0zzYglt+aNdwekcN1wiaXAKM8R5Z6SXLeSBDxjd4T+sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oFkGu383; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B330C2BCB8;
-	Wed,  6 May 2026 10:08:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778062107;
-	bh=nZfzghg9raBxGwuKMfOIWHSA+G1JIUmQ1fcBxRlBfWg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oFkGu383UAaW75R93fVSjEMMqQxImk1WhOeGq3XmlMxt3RERxCCOKdijAT1RgWjwe
-	 NFjFSQngx3fbEzsXhnmCnXPtSylbKo9eCMB+/LRQuBa0CcExkEyZWs0RgjPaXMuwhl
-	 eJ59DOUK79ncDdnxtDrKxY6BhzuUfjrhrspnaSoR/WmLGuGYOIBOZEwcsEbn+2fKQq
-	 xC+abC70rOGVB21uZSMyBO7wohlbnIoDcgGfIUdfxOX0zV+m58rS2m8QXHy61U92i+
-	 wPkQx+daa9KbhlV/w/3PvD+t9QVJi4QwlKwjXeZ+uD8foC+z9XaE5Tp+z5L7dEB0MX
-	 a3qn6yw6o+Yjw==
-Date: Wed, 6 May 2026 12:08:24 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Ketil Johnsen <ketil.johnsen@arm.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Florent Tomasin <florent.tomasin@arm.com>
-Subject: Re: [PATCH 4/8] drm/panthor: Add support for protected memory
- allocation in panthor
-Message-ID: <20260506-energetic-azure-pig-2b6ec4@houat>
-References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
- <20260505140516.1372388-5-ketil.johnsen@arm.com>
+	s=arc-20240116; t=1778062582; c=relaxed/simple;
+	bh=XHAbCn/groQfldwxdeD5Eyl+5lyhV01Ox5pQ7n8CcYg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eFRbw20iPsSG3Y0rZrvsrq+Cl+DzuwLITO391v0IAthu+IDCiAj/3PT+CL9P7Z5sAqNHGK9Mu6HcDjrik8Bws4VIE2u97+XECuW5mVQUEp7/IvoJ8Ctq07ze+EB/B8z+wYSBIKlZIh0EgjuOqi6rlWt45g4TKu0QtUWTbPv3quw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cAMIPBph; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-44a14580111so4063924f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 03:16:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778062575; x=1778667375; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MP5zUKceXITgWBoyT5sfmWgOMBr2j3wdzx/KXPcZhWU=;
+        b=cAMIPBphJHWJxDFDTWPUXNVXs0VWMNEXBeuA7JOHOKXe9hJMJy0IQtO6680AnEHH7j
+         Tvb3In1d4aF/qGkx5t7cchChhQoby6y5wsXmdThsRSRI7C9P0F25ihjokCohMVOLFcPw
+         aFZ9Kuq3se+nFO5vpkm2CnYbygvlQpjtpG7/uTYCJ+bszzzTY+OMyJXsvQwrMF1LfI0w
+         hjG18jwO33PEH7yPHFQc41PzYN1/pSgbfFZXgWQU+lSuUALSf7+t08orkdMTuAObbcH2
+         u43LPRazt8rzNkawTIRq8qfcq208P2uK22dFtRRS24KjoVSSPEq+Cyflryxhekbz8gEv
+         EEnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778062575; x=1778667375;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MP5zUKceXITgWBoyT5sfmWgOMBr2j3wdzx/KXPcZhWU=;
+        b=remYDiASEmcJxiiePAQpj/oQ8Atm5cTOVjzr1aQy0pI9iZ358nJ/TBrfLIj52fhOgj
+         6mFczLR8zWyjaoMGpOA7zRO0hBCvO8k+lltoyte9+dhN/C3MxdZu0TsCjDKZpb3BDAds
+         1LrRUk64cH3V3XgOZJZTI7DC8UUeyJW8hEX6k4VN0+Bn3N5REJpzjHy0V+zZH+Uvu+gx
+         6wEmDLJW1iwnkaf9mvZPus/7rloG+LHkGO26QcLS0bSNEaqiqDDAvpesWsRMT/UuRMs6
+         6gyJxkpSoAdEc/ziGNDEJ74cgT66NdWgWLNjI5M7O9mYmehHFlk/YclzFa9lrQvpLSwW
+         2WRg==
+X-Forwarded-Encrypted: i=1; AFNElJ8QkYMmfdr/GjYCehISfSdt3Pgriit1R5TB0W56vsXiaQKqz4DV/2gGer/nZr5iPFwejUqwYSVq4qbzzQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8KEieJNk0gi1PNeuYLRObxlAVfs57dY+st24k6oCfeGZdcR/+
+	QX6sA8y6c3hx3LQrSdskGdWmgIjAejR6V0x/Nz2Xe94BtgLsOWPsWfM2
+X-Gm-Gg: AeBDieu2mIfZn8TPPMpmReC9/p2mOeRIbikCqQm1tG48Zs9DfwNzNf8wKMUEDiLUfJu
+	figh+bujhu7otxsZOEp+8LMV9htx/CF8+Nwi17l7pkb6ulUaXziPTgHLAkcGVjtz46mcXIN4ieo
+	WPMibjnZbJZEJMR73UgOok55mZs+bf3om9i0gf6pl5zD8aCEhVAhe7ni3QdzYAXSlmUrK+XtbPS
+	Ga9yYdo8C8g/aJgdkG2Md/OwybN4lznUmydMiji2kFLEiwD57ifcyUbsIsLFvDLQd35oqjCuCex
+	7QjBZ40+zVehFZP/yWPBMRRQTnpaYH6jtlWZnHex2gUCUKy1ojypGXZzXgq+7t59Q9NOd00NC2S
+	iRb+qd5Vd09utuGVA9Xx86aAAYKED9xPk09X+5Dscc0w2b9N5dcNR6HybRcE/7SdYqMfUp+bKJ0
+	u6HWVYriHASpLP360qaj3KIR8iF1u33O/JHOPgYD/bWxuOT8bUs3k1PnlVReWWfVlJlj4I55nKx
+	Uwmft+p
+X-Received: by 2002:a05:6000:2681:b0:441:1e41:194 with SMTP id ffacd0b85a97d-4515b525426mr4784852f8f.17.1778062575284;
+        Wed, 06 May 2026 03:16:15 -0700 (PDT)
+Received: from ?IPV6:2a02:8109:8617:d700:a1d:902c:85c8:d272? ([2a02:8109:8617:d700:a1d:902c:85c8:d272])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4504f4857ffsm11043763f8f.0.2026.05.06.03.16.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 May 2026 03:16:14 -0700 (PDT)
+Message-ID: <37aa90a3-7909-4605-a0be-1545db1fadb0@gmail.com>
+Date: Wed, 6 May 2026 12:16:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="bm3tokjqjresnbu6"
-Content-Disposition: inline
-In-Reply-To: <20260505140516.1372388-5-ketil.johnsen@arm.com>
-X-Rspamd-Queue-Id: 1BE7A4D924B
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] media: i2c: alvium: Fix controls for WB/AWB
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: martin.hecht@avnet.eu, michael.roeder@avnet.eu, stable@vger.kernel.org,
+ Tommaso Merciai <tomm.merciai@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260505142513.1551721-1-mhecht73@gmail.com>
+ <afsJz1vVdd3o-pe9@kekkonen.localdomain>
+Content-Language: en-US
+From: Martin Hecht <mhecht73@gmail.com>
+In-Reply-To: <afsJz1vVdd3o-pe9@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 03C144D9362
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60570-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,linux.intel.com,suse.de,lwn.net,linuxfoundation.org,linaro.org,collabora.com,arm.com,google.com,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linaro.org,lists.infradead.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[avnet.eu,vger.kernel.org,gmail.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-60571-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[mhecht73@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 
+Hi Sakari,
 
---bm3tokjqjresnbu6
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 4/8] drm/panthor: Add support for protected memory
- allocation in panthor
-MIME-Version: 1.0
+thank you for the comments.
 
-Hi,
+On 5/6/26 11:28, Sakari Ailus wrote:
+> Hi Martin,
+> 
+> Thanks for the patch.
+> 
+> On Tue, May 05, 2026 at 04:25:10PM +0200, Martin Hecht wrote:
+>> With that patch the controls for red-balance and blue-balance were created
+>> only if the particular camera supports that. Otherwise the pointers on
+>> the control variable are initialized with NULL to prevent side effects for
+>> clustering with AWB control.
+>>
+>> Fixes: 0a7af872915e ("media: i2c: Add support for alvium camera")
+>> Signed-off-by: Martin Hecht <mhecht73@gmail.com>
+>> ---
+>>   drivers/media/i2c/alvium-csi2.c | 37 ++++++++++++++++++++-------------
+>>   1 file changed, 22 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+>> index b62b45a4f2fc..4c6934e9e177 100644
+>> --- a/drivers/media/i2c/alvium-csi2.c
+>> +++ b/drivers/media/i2c/alvium-csi2.c
+>> @@ -2108,26 +2108,33 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
+>>   						  0, 0, &alvium->link_freq);
+>>   	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> 
+> This is a problem. Can you move setting the flags after checking the
+> handler's error status? The functions adding controls may fail and this is
+> simply a missing error check.
+> 
+> Can you submit a fix, with a Fixes: tag and this patch should be rebased on
+> the fix, please?
 
-On Tue, May 05, 2026 at 04:05:10PM +0200, Ketil Johnsen wrote:
-> From: Florent Tomasin <florent.tomasin@arm.com>
->=20
-> This patch allows Panthor to allocate buffer objects from a
-> protected heap. The Panthor driver should be seen as a consumer
-> of the heap and not an exporter.
->=20
-> Protected memory buffers needed by the Panthor driver:
-> - On CSF FW load, the Panthor driver must allocate a protected
->   buffer object to hold data to use by the FW when in protected
->   mode. This protected buffer object is owned by the device
->   and does not belong to a process.
-> - On CSG creation, the Panthor driver must allocate a protected
->   suspend buffer object for the FW to store data when suspending
->   the CSG while in protected mode. The kernel owns this allocation
->   and does not allow user space mapping. The format of the data
->   in this buffer is only known by the FW and does not need to be
->   shared with other entities.
->=20
-> The driver will retrieve the protected heap using the name of the
-> heap provided to the driver as module parameter.
+I'm preparing a separate fix for that issue. It's the same situation 
+also  for some other controls like pixel_rate and link_frequency but not 
+only. Can I combine that into one patch for fix only that in 
+alvium_ctrl_init?
 
-I know it's what dma_heap_find asks for, but I wonder if it wouldn't be
-better in the device tree and lookup through the device node? heaps are
-going to have a node anyway, right?
+> 
+>>   
+>> +	if (alvium->avail_ft.whiteb) {
+>> +		ctrls->blue_balance = v4l2_ctrl_new_std(hdl, ops,
+>> +							V4L2_CID_BLUE_BALANCE,
+>> +							alvium->min_bbalance,
+>> +							alvium->max_bbalance,
+>> +							alvium->inc_bbalance,
+>> +							alvium->dft_bbalance);
+>> +		ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops,
+>> +						       V4L2_CID_RED_BALANCE,
+>> +						       alvium->min_rbalance,
+>> +						       alvium->max_rbalance,
+>> +						       alvium->inc_rbalance,
+>> +						       alvium->dft_rbalance);
+>> +	} else {
+>> +		/* set to NULL for v4l2_ctrl_auto_cluster if not existing */
+>> +		ctrls->blue_balance	= NULL;
+>> +		ctrls->red_balance = NULL;
+> 
+> Aren't the two NULL already before this?
 
-This would allow you to have a default that works and not mess to much
-with the kernel parameters that aren't always easy to change for
-end-users.
+You are right. It's zeroed before because __GFP_ZERO in devm_kzalloc. 
+Will remove that redundant code.
 
-Maxime
+> 
+>> +	}
+>> +
+>>   	/* Auto/manual white balance */
+>>   	if (alvium->avail_ft.auto_whiteb) {
+>>   		ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
+>>   						   V4L2_CID_AUTO_WHITE_BALANCE,
+>>   						   0, 1, 1, 1);
+>> -		v4l2_ctrl_auto_cluster(3, &ctrls->auto_wb, 0, false);
+>> -	}
+>> -
+>> -	ctrls->blue_balance = v4l2_ctrl_new_std(hdl, ops,
+>> -						V4L2_CID_BLUE_BALANCE,
+>> -						alvium->min_bbalance,
+>> -						alvium->max_bbalance,
+>> -						alvium->inc_bbalance,
+>> -						alvium->dft_bbalance);
+>> -	ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops,
+>> -					       V4L2_CID_RED_BALANCE,
+>> -					       alvium->min_rbalance,
+>> -					       alvium->max_rbalance,
+>> -					       alvium->inc_rbalance,
+>> -					       alvium->dft_rbalance);
+>> +
+>> +		v4l2_ctrl_auto_cluster(3, &ctrls->auto_wb, 0, true);
+>> +	}
+>>   
+>>   	/* Auto/manual exposure */
+>>   	if (alvium->avail_ft.auto_exp) {
+> 
 
---bm3tokjqjresnbu6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCafsTGAAKCRAnX84Zoj2+
-dscNAYCT5tPA6wlA50913tROdb0/8GBVIaNWCZzIVCmmtw6XdanUV+Ek43qdrnbM
-nAndNMcBgJJ8V9DZNE2zzCU0FXXXjTfOFOjGy0zdjmyQH3dGoy80XCbxq4XUI4fe
-u8+zbKdHWA==
-=zppB
------END PGP SIGNATURE-----
-
---bm3tokjqjresnbu6--
+BR Martin
 
