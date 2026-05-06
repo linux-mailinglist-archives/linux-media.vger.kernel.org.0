@@ -1,203 +1,320 @@
-Return-Path: <linux-media+bounces-60652-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60653-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iEj/Fphm+2kbawMAu9opvQ
-	(envelope-from <linux-media+bounces-60652-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:04:40 +0200
+	id +iASD/Fm+2llawMAu9opvQ
+	(envelope-from <linux-media+bounces-60653-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:06:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F03754DDD03
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D464DDD75
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:06:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 888FB30C9898
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 15:57:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8A334303BB98
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 15:58:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0A4E48AE30;
-	Wed,  6 May 2026 15:56:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E093B495526;
+	Wed,  6 May 2026 15:58:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lUxvZK/P";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jIKjr2P7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YrtBsmd7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13223ED136
-	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 15:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA3E4657E2;
+	Wed,  6 May 2026 15:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778083003; cv=none; b=J81vZG/WKMn5Xgmp5sSVw+POV2xItkFFBmyao+jtCMkKcAihDNskm6N3nE6j/Fy8XtANWGnZ4j5sSlsN6DxtXhziYfuXSZ/iGuxu6hWjqkzpgKPiTUhu95ftVwg2PL/upQG65oW95JMWGgK5fbs42hACRVcVjnCl5KLlEs8dmWI=
+	t=1778083078; cv=none; b=jjkbtbLflqtc35ozRqbkJnyZLfP44KHLOgpwPsB63HzBGgD0Yp74pQQBpVdpi+RFv80baVXk6gmvNtyb+xXoi9uSaP8HE/HQyzEl62bLnNKlcHj70eU3ZR6PI8ZI6LMNFdRr/RAqeJ3TjQxDHKhQz/RB6iIYq1G3oCxN4X+4ntk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778083003; c=relaxed/simple;
-	bh=slFlcG18qKmRJPdDvfi5FDwm64deTGUrtGeGdyAySDI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sLDL/qaiqMHCEVCP9P22KOxSlYrMhKxSfX/+D4/W0LAber+g2vQmvmZQHpPN+ZNua6FhJdDfO3p2+L97me3U3lfxL4pBr3xUi2J8dBf4h7rpI1tHe7z83vGi8r/XY4QV5mzbyo630oAKpEXbl2D3cduIJuldFYmW949Jwo554/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lUxvZK/P; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jIKjr2P7; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 646DJhrH529231
-	for <linux-media@vger.kernel.org>; Wed, 6 May 2026 15:56:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	0hbrdNEm+roBJyCislrqsmK+OlBVhAX1OhZtfM4e7C4=; b=lUxvZK/PdTXLb89b
-	kOoFZzfSwhMEpLuomTDMDCEb9V9gM+reKqMbt8imv00LFL4ox2+0XRRxQQKYs4H/
-	NETs2OgFotrUI2GcCrm7MF+nNG4n0jtg7T7bvOAZuMSXHRJO+7I0Ap2ACljVhWsI
-	3yk+jVM3ctQiYEa2TFQR/v2V0wb/DS9nkAU2PlK8Dg0TqRLSTlO0wAWbN58oJyjI
-	yRpcUQDms2KpkQk5y7fVN0D4TpOkiK+tRcE3nDm+ezn4J175nyy+POEhuepbYwjX
-	7ILtgxrunRAwI1Vk/7/V5qzBGZU3w8n/0FS4FbXUqyywjAhnMywFnbo+musI0766
-	x90uCA==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e015xa247-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 06 May 2026 15:56:38 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-35fc22424d9so15340012a91.2
-        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 08:56:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1778082998; x=1778687798; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0hbrdNEm+roBJyCislrqsmK+OlBVhAX1OhZtfM4e7C4=;
-        b=jIKjr2P722tkurHjHV7xJofcCGFSsSiVhkBLM9r7JX2TYjtVT2va5NbJDtA6cvRNy0
-         /odua52NzkOUhW4cUmSUxUKD0W4jj6Zo4EwSNLzWCp98vpG8X152kq7zRAmucmqmXAg6
-         3akokDbb10zFfQrWPGBK9CoDoReRwLaHX3+FfBYup50lgedc1R9NTSZGTnEBra1HrYWT
-         uvjTt+gc1yBOTuot6dIrKINR0y+fSn3CB8f7iAjZBooRO59n1Lt55io+Fa9QaxrHWiua
-         g1Gde9ziCYWVDGkfHLrmiifdedEqLnRj/r5JTGvkfLtftG/wK1mmk3cmKqiEKfWBRe35
-         zuwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778082998; x=1778687798;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0hbrdNEm+roBJyCislrqsmK+OlBVhAX1OhZtfM4e7C4=;
-        b=XcsgnqEU85ZmwWjElX5jz6vuaXgwIBmcCmPdEQelcVE/CFIkORRuOQDErtjjSmJ1fV
-         /lMsjTbNWzUuntvaxAbO0AyCvYZy4yvybWwjgziDgIy+etiY1yrbklXjwksXhQX7z3u9
-         uxhT9qJqOLW9Im1j5ZFXGdYNuItZPT4VAtmMac3R0dPc20Qr9uN48Vt1bv8prZFDPPG4
-         PoQBvrKqoy1lrNUE2NSvIbuIQdQQwBWJLZcCEFsG9jLqUO/ge8K8G0gfIePrNKSOQRDl
-         3TAp2u+YBhOPkLuJQVBmePjOhwbHHw6qN1c6YDRb5cXq2UOfXnrLjrh2cDBwTLo23XJe
-         M1Ag==
-X-Gm-Message-State: AOJu0YxwnMkvcJ7bzic/1EYpUcmmP5fFQ8RlXxGuOLzXV2j8qGUpqJJA
-	rbw1Kd3piG5qOYoP7rj8cFBirotXqBsIZggWqINLjvZ7DS+D5JtFox/bziNXABeCusYXTC6x+MY
-	MD+EMz0M54IZUx/E8bFDqQDsqokQYYchTxMh2uuwiXaKpUSofF6L5Bit/rB8IvtloXw==
-X-Gm-Gg: AeBDiev0/GA9nvi1VSqvKUhSqLgXNY0bYyD697AILms7ukZMlg0qFRPQHjwalqHMgfy
-	S0yzzR+CfOHoKsfCofWJkWkbaJJMMuuuXXaKAJrxhYFk2cDfmdm54RbRBjj5MFuJXBth354xW5+
-	PBbjDUOm6Eb6mqeG35SkE3zKU0mWeSJzjkZzciRxjgcr7ZoIBEEDyTAEZwhEL2OSkWcHiPLwqVB
-	443B88s7sIe7CA3JGwaepXYrgwGliPW7MZu0WF3YaYKfvuGeVXg1AgmpmWuFpNngnZQebqySDzj
-	CxplJG6858XPqc21rXSJiAK8rkWDKNb5j78VEBB0Mufj0IAU4WDKBockKpv2xnLniiHyMXjEPwA
-	1j7vbyveBxWiavmeWX/hq1wxSLmv7AodNtlRBxbC7V+DVIPh8VgW2qlE0/iYavxo9
-X-Received: by 2002:a17:90b:520b:b0:35f:b293:7ac6 with SMTP id 98e67ed59e1d1-365ab3e6379mr4145706a91.6.1778082997922;
-        Wed, 06 May 2026 08:56:37 -0700 (PDT)
-X-Received: by 2002:a17:90b:520b:b0:35f:b293:7ac6 with SMTP id 98e67ed59e1d1-365ab3e6379mr4145671a91.6.1778082997424;
-        Wed, 06 May 2026 08:56:37 -0700 (PDT)
-Received: from [10.204.101.47] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-365b4bd8debsm2886209a91.2.2026.05.06.08.56.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 08:56:36 -0700 (PDT)
-Message-ID: <47413644-1c3e-4668-980c-e60f7b8c1352@oss.qualcomm.com>
-Date: Wed, 6 May 2026 21:26:29 +0530
+	s=arc-20240116; t=1778083078; c=relaxed/simple;
+	bh=OWuZqJYF2TnMs5gVPN/obOTQDAKJkWQhVJV3NE/LIlg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cDPjoJBwbnFKM0Xw77IEHMkEdoCgmk1ePhXSWkjwD/ckmKXXLHjtMz5ktOoPJNQpORbAva04itccdiFJS2ccUBDx2X6b6GqDWnyfFjgKAY9gfxlLaSuP1Bc8krX42EgRAjpKgdR7sVHf2AvWLIGaeSjEeyqkHdRvyrzscFbVoYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YrtBsmd7; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49E09DA;
+	Wed,  6 May 2026 17:57:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1778083069;
+	bh=OWuZqJYF2TnMs5gVPN/obOTQDAKJkWQhVJV3NE/LIlg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YrtBsmd758u4EGTX+aABd3n7bvjLLluc/oWtXdS5hjgAxcMWs/ACYqJ+vwMn14RyR
+	 CJBaM5LjABjo6woHX2gCahqA8+L4BxfUquf+TrV6ukIb0W85PAAgauF18bP6+QBeJu
+	 e6G1HpVr/73/3T9UiPqAt97FVY4jjxi4u0kw783g=
+Date: Wed, 6 May 2026 17:57:49 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Jai Luthra <jai.luthra+renesas@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jai Luthra <jai.luthra@ideasonboard.com>
+Subject: Re: [v8 14/14] media: rppx1: lin: Add support for gamma sensor
+ linearization
+Message-ID: <aftkY_BuG0E_e0qC@zed>
+References: <20260504010556.2796398-1-niklas.soderlund+renesas@ragnatech.se>
+ <20260504010556.2796398-15-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 12/13] media: iris: Add platform data for glymur
-To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        iommu@lists.linux.dev
-References: <20260505-glymur-v4-0-17571dbd1caa@oss.qualcomm.com>
- <20260505-glymur-v4-12-17571dbd1caa@oss.qualcomm.com>
-Content-Language: en-US
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <20260505-glymur-v4-12-17571dbd1caa@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Os1/DS/t c=1 sm=1 tr=0 ts=69fb64b6 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=EUspDBNiAAAA:8 a=2SVvIUmmVaN44YnEgAEA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-GUID: jC93_KtCh9qVGGFhfHSAgUSW2NAOJapL
-X-Proofpoint-ORIG-GUID: jC93_KtCh9qVGGFhfHSAgUSW2NAOJapL
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDE1NyBTYWx0ZWRfX2P8KoWiAwd4O
- ZUn/HSh3/QgF7mP5WEbwlEaa2Vq8/PS7FudM4gtC/pGNmUtFRlE8hCYjkJWHL7kLI8QMkWv6W5R
- qJWw+byEuKc21WX2DquhZnPN0Hr29LPY4OGr2eQwhutnqpbBp9YH1+tXdtCDpJVVMKpDE6zzIJ6
- 0RVEmTHc5QA4DG7DAnIZBA7WxuVqICOzveJCuP+LlNZUtFO6JXRM7Is9QTQKEYgtswisXKEnDt6
- jdPjwFCYfPBlHE4BzDgJ/XbcsHR8yXcpUc6TUoiHSpw70kI0Rf31EPelyFJSbBgjJvbMcQ2zpiv
- BPvI1GNRtfWbJhnCsYRi+jIEMD06cCBb3N6QQwShGnNARTVg8qJx9Igf1STVa5/vgzM0NQ3zkDo
- bujLGhnx9ZETMT/YAykAQ4CTiCcJ9V3SFPLCu8GARWk9zk0TKPT/Sw5c+8B18R9KDCR5mCcrqCs
- mmpc82cDZ87bdesG0gg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-06_01,2026-05-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 priorityscore=1501 spamscore=0 clxscore=1015
- malwarescore=0 lowpriorityscore=0 adultscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605060157
-X-Rspamd-Queue-Id: F03754DDD03
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260504010556.2796398-15-niklas.soderlund+renesas@ragnatech.se>
+X-Rspamd-Queue-Id: D8D464DDD75
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60652-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:dkim,qualcomm.com:email];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,linux.dev,kernel.org,linaro.org,gmail.com,8bytes.org,arm.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60653-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
+Hi Niklas,
 
-On 5/5/2026 12:29 PM, Vishnu Reddy wrote:
-> On glymur platform, the iris core shares most properties with the
-> iris core on the SM8550 platform. The major difference is that glymur
-> integrates two codec cores (vcodec0 and vcodec1), while SM8550 has only
-> one. Add glymur specific platform data, reusing SM8550 definitions
-> wherever applicable.
-> 
-> Signed-off-by: Vishnu Reddy<busanna.reddy@oss.qualcomm.com>
+On Mon, May 04, 2026 at 03:05:56AM +0200, Niklas Söderlund wrote:
+> From: Jai Luthra <jai.luthra@ideasonboard.com>
+>
+> Extend the RPPX1 driver to allow setting the gamma sensor linearization
+> configuration parameters. It uses the RPPX1 framework for parameters and
+> its writer abstraction to allow the user to control how, and when,
+> configuration is applied to the RPPX1.
+>
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
+>  .../platform/dreamchip/rppx1/rpp_module.h     |  1 +
+>  .../platform/dreamchip/rppx1/rpp_params.c     |  5 ++
+>  .../platform/dreamchip/rppx1/rppx1_lin.c      | 55 +++++++++++++++++++
+>  .../uapi/linux/media/dreamchip/rppx1-config.h | 48 +++++++++++++++-
+>  4 files changed, 108 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> index 136ec4d48054..27235fdfb749 100644
+> --- a/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> +++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> @@ -86,6 +86,7 @@ void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
+>  union rppx1_params_block {
+>  	struct v4l2_isp_params_block_header header;
+>  	struct rppx1_bls_params bls;
+> +	struct rppx1_lin_params lin;
+>  	struct rppx1_lsc_params lsc;
+>  	struct rppx1_awbg_params awbg;
+>  	struct rppx1_bd_params bd;
+> diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> index edea25293d64..1995a80890f4 100644
+> --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> @@ -18,6 +18,8 @@ static const struct v4l2_isp_block_type_info
+>  rppx1_ext_params_blocks_info[] = {
+>  	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE1, bls),
+>  	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE2, bls),
+> +	RPPX1_PARAMS_BLOCK_INFO(LIN_PRE1, lin),
+> +	RPPX1_PARAMS_BLOCK_INFO(LIN_PRE2, lin),
+>  	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE1, lsc),
+>  	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE2, lsc),
+>  	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE1, awbg),
+> @@ -72,6 +74,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
+>  		case RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1:
+>  			module = &rpp->pre1.bls;
+>  			break;
+> +		case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1:
+> +			module = &rpp->pre1.lin;
+> +			break;
+>  		case RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1:
+>  			module = &rpp->pre1.lsc;
+>  			break;
+> diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
+> index f595f56a292e..cc8efe3b3f2c 100644
+> --- a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
+> +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
+> @@ -24,6 +24,11 @@
+>  #define LIN_B_Y_REG_NUM				17
+>  #define LIN_B_Y_REG(n)				(0x0098 + (4 * (n)))
+>
+> +#define LIN_PRE1_DEGAMMA_CURVE_MASK		GENMASK(23, 0)
+> +#define LIN_PRE1_SAMPLE_POINTS_MASK		GENMASK(3, 0)
+> +#define LIN_PRE2_DEGAMMA_CURVE_MASK		GENMASK(11, 0)
+> +#define LIN_PRE2_SAMPLE_POINTS_MASK		GENMASK(2, 0)
+> +
+>  static int rppx1_lin_probe(struct rpp_module *mod)
+>  {
+>  	/* Version check. */
+> @@ -52,7 +57,57 @@ static int rppx1_lin_start(struct rpp_module *mod,
+>  	return 0;
+>  }
+>
+> +static int rppx1_lin_fill_params(struct rpp_module *mod,
+> +				 const union rppx1_params_block *block,
+> +				 rppx1_reg_write write, void *priv)
+> +{
+> +	const struct rppx1_lin_params *cfg = &block->lin;
+> +	u8 sample_mask;
+> +	u32 mask;
+> +
+> +	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
+> +		write(priv, mod->base + LIN_ENABLE_REG, 0);
+> +		return 0;
+> +	}
+> +
+> +	switch (cfg->header.type) {
+> +	case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1:
+> +		mask = LIN_PRE1_DEGAMMA_CURVE_MASK;
+> +		sample_mask = LIN_PRE1_SAMPLE_POINTS_MASK;
+> +		break;
+> +	case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2:
+> +		mask = LIN_PRE2_DEGAMMA_CURVE_MASK;
+> +		sample_mask = LIN_PRE2_SAMPLE_POINTS_MASK;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	u32 dx_lo = 0;
+> +	u32 dx_hi = 0;
 
-Reviewed-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+I was clearly over-excited by the modernity of C99 that allows mixing
+declarations and code. However this is still a discouraged practice
+unless there are good reasons to do so. Probably in this case there
+aren't enough.
+
+> +
+> +	for (unsigned int i = 0; i < 8; ++i) {
+> +		dx_lo |= (cfg->dx[i] & sample_mask) << 4 * i;
+> +		dx_hi |= (cfg->dx[i + 8] & sample_mask) << 4 * i;
+> +	}
+> +
+> +	write(priv, mod->base + LIN_DX_LO_REG, dx_lo);
+> +	write(priv, mod->base + LIN_DX_HI_REG, dx_hi);
+> +
+> +	for (unsigned int i = 0; i < RPPX1_LIN_DEGAMMA_CURVE_NUM; i++) {
+> +		write(priv, mod->base + LIN_R_Y_REG(i), cfg->curve_r[i] & mask);
+> +		write(priv, mod->base + LIN_G_Y_REG(i), cfg->curve_g[i] & mask);
+> +		write(priv, mod->base + LIN_B_Y_REG(i), cfg->curve_b[i] & mask);
+> +	}
+> +
+> +	if ((cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_ENABLE))
+> +		write(priv, mod->base + LIN_ENABLE_REG, LIN_ENABLE_GAMMA_IN_EN);
+> +
+> +	return 0;
+> +}
+> +
+>  const struct rpp_module_ops rppx1_lin_ops = {
+>  	.probe = rppx1_lin_probe,
+>  	.start = rppx1_lin_start,
+> +	.fill_params = rppx1_lin_fill_params,
+>  };
+> diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
+> index 0246e9af1d1d..e743e11d11e9 100644
+> --- a/include/uapi/linux/media/dreamchip/rppx1-config.h
+> +++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
+> @@ -95,6 +95,8 @@ enum rppx1_meas_chan {
+>   * @RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST: Debayer filtering
+>   * @RPPX1_PARAMS_BLOCK_TYPE_BD_PRE1: PRE1 pipe De-noise Pre-Filter
+>   * @RPPX1_PARAMS_BLOCK_TYPE_BD_PRE2: PRE2 pipe De-noise Pre-Filter
+> + * @RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1: PRE1 pipe Linearization (Sensor De-gamma)
+> + * @RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2: PRE2 pipe Linearization (Sensor De-gamma)
+>   */
+>  enum rppx1_params_block_type {
+>  	RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST,
+> @@ -117,6 +119,8 @@ enum rppx1_params_block_type {
+>  	RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST,
+>  	RPPX1_PARAMS_BLOCK_TYPE_BD_PRE1,
+>  	RPPX1_PARAMS_BLOCK_TYPE_BD_PRE2,
+> +	RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1,
+> +	RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2,
+>  };
+>
+>  /**
+> @@ -735,6 +739,46 @@ struct rppx1_bd_params {
+>  	struct rppx1_bd_nll nll;
+>  };
+>
+> +/* Linearization (Sensor De-gamma) */
+> +#define RPPX1_LIN_SAMPLE_POINTS_NUM 16
+> +#define RPPX1_LIN_DEGAMMA_CURVE_NUM 17
+> +
+> +/**
+> + * struct rppx1_lin_params - Linearization (Sensor De-gamma) configuration
+> + *
+> + * The RPP-X1 linearization module is available on the PRE1 and PRE2 pre-fusion
+> + * pipes. Userspace selects which pipe to operate by setting the @header.type
+> + * field to RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1 or
+> + * RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2.
+> + *
+> + * The LIN module applies the per-color channel de-gamma linearization curves
+> + * @curve_r, @curve_g and @curve_b defined on the input sampling points @dx.
+> + *
+> + * For the PRE1 pipe the de-gamma curves values are 24-bits, for the PRE2 pipe
+> + * the de-gamma curve values are 12-bits.
+> + *
+> + * For the PRE1 pipe de-gamma module sampling points @dx values are in the range
+> + * [0, 15] (4 bits). For the PRE2 pipe de-gamma module sampling points values
+> + * are in the range [0, 7] (3 bits).
+> + *
+> + * Userspace is expected to provide the curve values and sampling points with a
+> + * bit-depth matching the one of pipe in use.
+> + *
+> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1 or
+> + *	    RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2)
+> + * @curve_r: de-gamma linearization curve for red channel
+> + * @curve_g: de-gamma linearization curve for green channel
+> + * @curve_b: de-gamma linearization curve for blue channel
+> + * @dx: input sampling points
+> + */
+> +struct rppx1_lin_params {
+> +	struct v4l2_isp_params_block_header header;
+> +	__u32 curve_r[RPPX1_LIN_DEGAMMA_CURVE_NUM];
+> +	__u32 curve_g[RPPX1_LIN_DEGAMMA_CURVE_NUM];
+> +	__u32 curve_b[RPPX1_LIN_DEGAMMA_CURVE_NUM];
+> +	__u8 dx[RPPX1_LIN_SAMPLE_POINTS_NUM];
+> +};
+> +
+>  /**
+>   * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
+>   *
+> @@ -761,7 +805,9 @@ struct rppx1_bd_params {
+>  	sizeof(struct rppx1_db_demosaic_params)			+	\
+>  	sizeof(struct rppx1_db_filter_params)			+	\
+>  	sizeof(struct rppx1_bd_params)				+	\
+> -	sizeof(struct rppx1_bd_params))
+> +	sizeof(struct rppx1_bd_params)				+	\
+> +	sizeof(struct rppx1_lin_params)				+	\
+> +	sizeof(struct rppx1_lin_params))
+>
+>  /* ---------------------------------------------------------------------------
+>   * Statistics Structures
+> --
+> 2.54.0
+>
+>
 
