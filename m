@@ -1,204 +1,369 @@
-Return-Path: <linux-media+bounces-60556-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60557-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yPPbJswD+2mbVQMAu9opvQ
-	(envelope-from <linux-media+bounces-60556-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 11:03:08 +0200
+	id cKtMC6gG+2mbVQMAu9opvQ
+	(envelope-from <linux-media+bounces-60557-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 11:15:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E524D8470
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 11:03:07 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 917AB4D86F8
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 11:15:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0BA243008E04
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 09:02:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5B1DA3012305
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 09:15:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 710EE3E275C;
-	Wed,  6 May 2026 09:02:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 038483E3DB9;
+	Wed,  6 May 2026 09:15:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KGAPdKzL"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DVsaldBt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0883D524E
-	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 09:02:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595A418D636;
+	Wed,  6 May 2026 09:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778058151; cv=none; b=WeKuujeZADLKXTV+vJOl1T0lVQHXPYVOffupJZnO2KwG/xQ1Xq1ZQHZcXRLk9834ca3hTkN74hJc7rQ8ZXekZXFJQOpxEucEwpnCESwwVVSgFhc+qqG/YcsJiOAbyGdJ0HOJKgbU7YG8IUQkbdlbaC+p4YcjrWbK58ZczWJaKrk=
+	t=1778058907; cv=none; b=QSPHpEQLBGR4lxum7gaxdwFIGAynsuaHWhtwhbeJzdAK24BxaQseEgpgodQNNA4qMdUpp0nmPs40UUcTXn1YDc/SDVXqcvR6+9Q+9Q4so7uZavVDj6APo/mPMQSeTcrX4I8sUMTrMFs7gxIaK6qHbArB7xhQOv/jAHnaFpXRDj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778058151; c=relaxed/simple;
-	bh=nLSZKCR0woXtN6W5cyzs5oEHO2Ts0XPwdeXwd60CnUg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZV2aHYLiCjFT31FYB57wfuoyx/le5os2r0I/zRnGJtqAU2h+PqNaATH67KdZd0XQp7QdK4+aNAwK6RYPKThTmO77URSeLwuWH9WD6mhatfVw1DGLI8BkQr6WEv1zxzepVuBsLQ9dCUKhcZ77DWz7AwmMq5hBpqeihOcsU3ZWzek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KGAPdKzL; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso54603675e9.2
-        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 02:02:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778058143; x=1778662943; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mmaZWXsqMxYY1SXzoardDG6u5dyIRaJ/iULJJHwbN+E=;
-        b=KGAPdKzLk3vJJ86/+9JWb0pewVd+eSoidY3lk7EZPts94uHo4N/VRkoM9t57Na8hZU
-         ohCDqtJlErkxUgfhc1xF31gaTTxEEV9aQTpYdnIYJw5UqkLIvfOYXMVeC0yFRnX/MHe4
-         HmgeTl6uAbvaO7lSltkxovg9zHAEVQVtWdlJLq+MyigLOHJOPN3xooUX/QlPsg9aezCX
-         fcFIH2ULFXdTlkzGp+Ry1SgKQ1i2euO26Gf6Maw6yBVWA69E1LILuSHMu5h7drw4GBsF
-         YHnLv0r1kzhMzpzHNEVk53axTY4nfGL7MMB052P2FX+fuI9Xsu9HaT6ntUkADcXIzcaX
-         fiPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778058143; x=1778662943;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mmaZWXsqMxYY1SXzoardDG6u5dyIRaJ/iULJJHwbN+E=;
-        b=RSOLBZuhGt+rczek6zCOpMrJxPnhrSSe36rvhm3vPjA5eZrqGLisQj4z1+JiKf4F1c
-         ss0Rz/UyUfP+Y/BEhU0CSeQZ5D+Y4hQguI0/7WwF5oRvxdR33/GaLufljfYNu3ADw/Lu
-         u1lY84818LJ3cMl6tOP2aBgDM5vRiPf4uUB0ks8sy0kl3+7BlawQs1GHTg+KzIX5s3EW
-         Sbqga6aPBQHOGZYefASIw8Jsn/G4aRJnwTbjPfI5UMHFQyPChPxwpksLffBAuRwmBusN
-         HN+pgwarRjtziv56sXAB7Ox3Godkab8/7JBdze3fDpFQdyXlGejEmHqDEas3ri0EUj2y
-         G14w==
-X-Forwarded-Encrypted: i=1; AFNElJ+C4ZdoXeastqvLbvo97xgeKGlExslLjU2QIKFz9L0pxYX0TLemrmuKSWYWV8YlyLWIqmOOgmPnbDN4uA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzK12/y1PNIwqn3PPhtEcknfCgLFhB0FN0Jdf4JwS66565qRpeZ
-	PMk1x1WeyCxTYx1T0NXZ/eQT90WUsieZvKPOwgZHeJ1dXLOkbnqq+TY8
-X-Gm-Gg: AeBDieu9fTjk8W9+JUQQxrry/5zEfW8GdV2hsJDZVe17wMtSvu8h8TnvD1EJSJNs8sl
-	gq6TGjN9zDXflW00tXovuUSpJZyAla9AFNUiZqTM0/rEwodWUWY/zrlXGpqaj1SULt1WW/dB2MN
-	72AeqDhp/AOfPEEQlmdeUUGDL8YaSZ2z1GzZPmqUMTlphk5qHpVBu1qkpjjD+BdEjOzxSXfDolf
-	N+vZBf0LQr70R+w6/cvmeAK/HwqZY0WwsPsDJ40zOVtJYDOeG4h0MZDm7/DeEKI2KcPjVBNATKy
-	op3AeX1oci4Y3gymZbj47l19ZHvXmf9kNlxmE/kPkc7ARjKJraGX+39LKDYiJiAyr1occFZFosO
-	T6xY2YhikG4QDZn4X8JFRRqAiwkiGbJim/39kqMS9AmS94hN9SVxvvsSufRuXTLkVajdLQczIre
-	eAKBhkAnfnHd01dzSUSdBmW5/M3W/pqxbcWwZEr0Nv+EjfpxAgoR7JOiJb7qWhku74c7hWpdYww
-	7Q2IqE3POGCcAZ6qznwnCeaeq8S9b0nM36R7DWOHg==
-X-Received: by 2002:a05:600c:2e0c:b0:489:1c2d:211e with SMTP id 5b1f17b1804b1-48e51e0c833mr25734095e9.5.1778058142476;
-        Wed, 06 May 2026 02:02:22 -0700 (PDT)
-Received: from [10.109.92.22] ([86.33.71.194])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e52f5c1cfsm21365215e9.0.2026.05.06.02.02.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 02:02:21 -0700 (PDT)
-Message-ID: <6873d617-c904-45f3-bad9-e1ae39cfecd2@gmail.com>
-Date: Wed, 6 May 2026 10:02:11 +0100
+	s=arc-20240116; t=1778058907; c=relaxed/simple;
+	bh=06C2qHH59OhXzqVMBdMq/suIja8tImr+yasYlUa5fI8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QolCmFY8xfufJszqbdBjZRM54sdieeLKZ+JJZvH2FProQkwwcDIFXSCRQw/S4T1qDf03slMJhPbUL//m1lktyPXD8kIM04bsxPLLp6ayt1v63+P3BNkGQ7PhFjXkhnNNLxL3HP89ZtAcyZ4uQjI9GVkzSzL+PWOod3LCmBRsDvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=DVsaldBt; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1778058901;
+	bh=06C2qHH59OhXzqVMBdMq/suIja8tImr+yasYlUa5fI8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DVsaldBtO6Cm41DSMAvyFjU2Qn9rmDgR+Tv/wv7rF8hnNrvb5wffdwNG3nrbHUNBl
+	 2IW12heqWSfFUGLOoFx3+nq+LcBcolYjNeUKURcdBfh0XBCSG9nTNnpBwmORWeNpCQ
+	 pGAVT2ViRzhK4qj8NQopsGR8QcMwbXWDfbXliWKoxOdNJnMi7ythH4QYOMf/sZVV7q
+	 MLWscdAGpmjrrZIuvwG0dAwFi2SGU1hXIopcX5Et59FVo/IHPLRMt6VAyRZkbSa/fN
+	 Fwiqcscz2IhFU5YVzMqMpOFe0nGE1zPxHWp9mdjWJfFGgdCupCp8Y3NL3F3urgynhG
+	 DCAhfAb/K9/aQ==
+Received: from fedora (unknown [100.64.0.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id CD44617E1525;
+	Wed,  6 May 2026 11:15:00 +0200 (CEST)
+Date: Wed, 6 May 2026 11:14:56 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Ketil Johnsen <ketil.johnsen@arm.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Alice Ryhl <aliceryhl@google.com>, Matthias
+ Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 8/8] drm/panthor: Expose protected rendering features
+Message-ID: <20260506111456.70721b13@fedora>
+In-Reply-To: <20260505140516.1372388-9-ketil.johnsen@arm.com>
+References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
+	<20260505140516.1372388-9-ketil.johnsen@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/10] Add dmabuf read/write via io_uring
-To: Ming Lei <tom.leiming@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <afi7c-VUJWOLlC1m@fedora>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <afi7c-VUJWOLlC1m@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 00E524D8470
+X-Rspamd-Queue-Id: 917AB4D86F8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60556-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60557-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[27];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,lwn.net,linuxfoundation.org,linaro.org,collabora.com,arm.com,google.com,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linaro.org,lists.infradead.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[asmlsilence@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:dkim,arm.com:email]
 
-Hey Ming,
+On Tue,  5 May 2026 16:05:14 +0200
+Ketil Johnsen <ketil.johnsen@arm.com> wrote:
 
-On 5/4/26 16:29, Ming Lei wrote:
-> On Wed, Apr 29, 2026 at 04:25:46PM +0100, Pavel Begunkov wrote:
->> The patch set allows to register a dmabuf to an io_uring instance for
->> a specified file and use it with io_uring read / write requests. The
->> infrastructure is not tied to io_uring and there could be more users
->> in the future. A similar idea was attempted some years ago by Keith [1],
->> from where I borrowed a good number of changes, and later was brough up
->> by Tushar and Vishal from Intel.
->>
->> It's an opt-in feature for files, and they need to implement a new
->> file operation to use it. Only NVMe block devices are supported in this
->> series. The user API is built on top of io_uring's "registered buffers",
->> where a dmabuf is registered in a special way, but after it can be used
->> as any other "registered buffer" with IORING_OP_{READ,WRITE}_FIXED
->> requests. It's created via a new file operation and the resulted map is
->> then passed through the I/O stack in a new iterator type. There is some
->> additional infrastructure to bind it all, which also counts requests
->> using a dmabuf map and managing lifetimes, which is used to implement
->> map invalidation.
->>
->> It was tested for GPU <-> NVMe transfers. Also, as it maintains a
->> long-term dma mapping, it helps with the IOMMU cost. The numbers
->> below are for udmabuf reads previously run by Anuj for different
->> IOMMU modes:
+> Add query for protected rendering capability.
+> Add flag to group creation to specify need for protected rendering.
+> Bump panthor version number.
 > 
-> Plain registered buffer is long-live too, which raises question: does this
-> framework need to take it into account from beginning?
+> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c   | 21 +++++++++++-
+>  drivers/gpu/drm/panthor/panthor_sched.c | 21 +++++++-----
+>  include/uapi/drm/panthor_drm.h          | 45 +++++++++++++++++++++++--
+>  3 files changed, 76 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 73fc983dc9b44..817df17f31f15 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -177,6 +177,7 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_csif_info, pad), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_timestamp_info, current_timestamp), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_group_priorities_info, pad), \
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_protected_info, features), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
+> @@ -928,12 +929,20 @@ static void panthor_query_group_priorities_info(struct drm_file *file,
+>  	}
+>  }
+>  
+> +static void panthor_query_protected_info(struct panthor_device *ptdev,
+> +					 struct drm_panthor_protected_info *arg)
+> +{
+> +	arg->features =
+> +		ptdev->protm.heap ? DRM_PANTHOR_PROTECTED_FEATURE_BASIC : 0;
+> +}
+> +
+>  static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct drm_file *file)
+>  {
+>  	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
+>  	struct drm_panthor_dev_query *args = data;
+>  	struct drm_panthor_timestamp_info timestamp_info;
+>  	struct drm_panthor_group_priorities_info priorities_info;
+> +	struct drm_panthor_protected_info protected_info;
+>  	int ret;
+>  
+>  	if (!args->pointer) {
+> @@ -954,6 +963,10 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
+>  			args->size = sizeof(priorities_info);
+>  			return 0;
+>  
+> +		case DRM_PANTHOR_DEV_QUERY_PROTECTED_INFO:
+> +			args->size = sizeof(protected_info);
+> +			return 0;
+> +
+>  		default:
+>  			return -EINVAL;
+>  		}
+> @@ -984,6 +997,11 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
+>  		panthor_query_group_priorities_info(file, &priorities_info);
+>  		return PANTHOR_UOBJ_SET(args->pointer, args->size, priorities_info);
+>  
+> +	case DRM_PANTHOR_DEV_QUERY_PROTECTED_INFO:
+> +		panthor_query_protected_info(ptdev, &protected_info);
+> +		return PANTHOR_UOBJ_SET(args->pointer, args->size,
+> +					protected_info);
+> +
+>  	default:
+>  		return -EINVAL;
+>  	}
+> @@ -1779,6 +1797,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+>   *       - adds DRM_IOCTL_PANTHOR_BO_QUERY_INFO ioctl
+>   *       - adds drm_panthor_gpu_info::selected_coherency
+>   * - 1.8 - extends DEV_QUERY_TIMESTAMP_INFO with flags
+> + * - 1.9 - adds DEV_QUERY_PROTECTED_INFO query
 
-Not sure I follow, mind expanding on what should be accounted?
-Are you suggesting that we might want to use normal registered
-buffers in a similar way? I.e. giving the driver an ability to
-pre-register them?
+It's adding more than just DEV_QUERY_PROTECTED_INFO (it also adds a new
+flags field to group_create and a flag that tells that the group intends
+to use protected mode).
 
-> BTW, inspired by this approach, I adds similar feature to ublk via UBLK_IO_F_SHMEM_ZC
-> which can maintain long-term vfio dma mapping over registered user-place aligned buffer.
+>   */
+>  static const struct drm_driver panthor_drm_driver = {
+>  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+> @@ -1792,7 +1811,7 @@ static const struct drm_driver panthor_drm_driver = {
+>  	.name = "panthor",
+>  	.desc = "Panthor DRM driver",
+>  	.major = 1,
+> -	.minor = 8,
+> +	.minor = 9,
+>  
+>  	.gem_prime_import_sg_table = panthor_gem_prime_import_sg_table,
+>  	.gem_prime_import = panthor_gem_prime_import,
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index acb04250c7def..0e8a1059de589 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -3868,6 +3868,7 @@ static void add_group_kbo_sizes(struct panthor_device *ptdev,
+>  }
+>  
+>  #define MAX_GROUPS_PER_POOL		128
+> +#define GROUP_CREATE_FLAGS DRM_PANTHOR_GROUP_CREATE_PROTECTED
+>  
+>  int panthor_group_create(struct panthor_file *pfile,
+>  			 const struct drm_panthor_group_create *group_args,
+> @@ -3882,10 +3883,10 @@ int panthor_group_create(struct panthor_file *pfile,
+>  	u32 gid, i, suspend_size;
+>  	int ret;
+>  
+> -	if (group_args->pad)
+> +	if (group_args->priority >= PANTHOR_CSG_PRIORITY_COUNT)
+>  		return -EINVAL;
+>  
+> -	if (group_args->priority >= PANTHOR_CSG_PRIORITY_COUNT)
+> +	if (group_args->flags & ~GROUP_CREATE_FLAGS)
+>  		return -EINVAL;
+>  
+>  	if ((group_args->compute_core_mask & ~ptdev->gpu_info.shader_present) ||
+> @@ -3937,12 +3938,16 @@ int panthor_group_create(struct panthor_file *pfile,
+>  		goto err_put_group;
+>  	}
+>  
+> -	suspend_size = csg_iface->control->protm_suspend_size;
+> -	group->protm_suspend_buf = panthor_fw_alloc_protm_suspend_buf_mem(ptdev, suspend_size);
+> -	if (IS_ERR(group->protm_suspend_buf)) {
+> -		ret = PTR_ERR(group->protm_suspend_buf);
+> -		group->protm_suspend_buf = NULL;
+> -		goto err_put_group;
+> +	if (group_args->flags & DRM_PANTHOR_GROUP_CREATE_PROTECTED) {
+> +		suspend_size = csg_iface->control->protm_suspend_size;
+> +		group->protm_suspend_buf =
+> +			panthor_fw_alloc_protm_suspend_buf_mem(ptdev,
+> +							       suspend_size);
+> +		if (IS_ERR(group->protm_suspend_buf)) {
+> +			ret = PTR_ERR(group->protm_suspend_buf);
+> +			group->protm_suspend_buf = NULL;
+> +			goto err_put_group;
+> +		}
+>  	}
+>  
+>  	group->syncobjs = panthor_kernel_bo_create(ptdev, group->vm,
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index 0e455d91e77d4..914110003bcd1 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -253,6 +253,11 @@ enum drm_panthor_dev_query_type {
+>  	 * @DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO: Query allowed group priorities information.
+>  	 */
+>  	DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO,
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_DEV_QUERY_PROTECTED_INFO: Query supported protected rendering information.
+> +	 */
+> +	DRM_PANTHOR_DEV_QUERY_PROTECTED_INFO,
+>  };
+>  
+>  /**
+> @@ -504,6 +509,28 @@ struct drm_panthor_group_priorities_info {
+>  	__u8 pad[3];
+>  };
+>  
+> +/**
+> + * enum drm_panthor_protected_feature_flags - Supported protected rendering features
 
-Interesting, just too a glance, and it looks like what David Wei
-was thinking to add to fuse, but IIUC he gave up exactly because the
-client will need to cooperate and that could be troublesome.
+Protected rendering is a bit vague, especially since it's usually
+referred as protected memory/content in graphics APIs. Maybe we should
+have a short paragraph explaining what we mean by that (access of
+protected memory from the GPU).
 
-Should we try to push everything under the same interface instead of
-keeping a ublk specific one? Again to the point that it requires
-a cooperative client, but if it's something more generic, the user
-might just try to use it as a general optimisation. In the same way
-it'll be helpful to fuse, and as a bonus you wouldn't need tree look
-ups (but mandates clients using registered buffers as a downside).
+> + *
+> + * Place new types at the end, don't re-order, don't remove or replace.
+> + */
+> +enum drm_panthor_protected_feature_flags {
+> +	/** @DRM_PANTHOR_PROTECTED_FEATURE_BASIC: Protected rendering available */
+> +	DRM_PANTHOR_PROTECTED_FEATURE_BASIC = 1 << 0,
 
-It'd need to shaped to somehow work better with host memory as I
-assume you want to be able to map it into server in common case.
-Switch case'ing if it's a udmabuf is not the greatest approach,
-but maybe we can figure out something else.
-  
--- 
-Pavel Begunkov
+I'm not a huge fan of this _BASIC specifier, since it doesn't
+tell much about the actual implementation, and what the UMD
+has to do to access protected memory from the GPU. Given the
+feature/CS-instruction is named _PROTM, I'd go for
+
+	/**
+	 * @DRM_PANTHOR_PROTECTED_FEATURE_PROTM: Protected memory access
+	 * based on PROTM CS instructions
+	 *
+	 * This is currently the only option to access protected
+	 * memory from the GPU. Other modes or advanced features might
+	 * be added at some point.
+	 */
+	DRM_PANTHOR_PROTECTED_FEATURE_PROTM = 1 << 0,
+> +};
+> +
+> +/**
+> + * struct drm_panthor_protected_info - protected support information
+> + *
+> + * Structure grouping all queryable information relating to the allowed group priorities.
+> + */
+> +struct drm_panthor_protected_info {
+> +	/**
+> +	 * @features: Combination of enum drm_panthor_protected_feature_flags flags.
+> +	 */
+> +	__u32 features;
+> +};
+> +
+>  /**
+>   * struct drm_panthor_dev_query - Arguments passed to DRM_PANTHOR_IOCTL_DEV_QUERY
+>   */
+> @@ -843,6 +870,18 @@ enum drm_panthor_group_priority {
+>  	PANTHOR_GROUP_PRIORITY_REALTIME,
+>  };
+>  
+> +/**
+> + * enum drm_panthor_group_create_flags - Group create flags
+> + */
+> +enum drm_panthor_group_create_flags {
+
+s/drm_panthor_group_create_flags/drm_panthor_group_feature_flags/
+
+> +	/**
+> +	 * @DRM_PANTHOR_GROUP_CREATE_PROTECTED: Support protected mode
+> +	 *
+> +	 * Enable protected rendering work to be executed on this group.
+> +	 */
+> +	DRM_PANTHOR_GROUP_CREATE_PROTECTED = 1 << 0,
+
+I'd go directly DRM_PANTHOR_GROUP_FEATURE_PROTM, since this is the
+instruction the group will use to enter protected mode. If we ever have
+multiple ways to do protected rendering, I guess it would materialize
+as a different flag, allowing the KMD to know exactly the way
+protected rendering is going to be done.
+
+> +};
+> +
+>  /**
+>   * struct drm_panthor_group_create - Arguments passed to DRM_IOCTL_PANTHOR_GROUP_CREATE
+>   */
+> @@ -877,8 +916,10 @@ struct drm_panthor_group_create {
+>  	/** @priority: Group priority (see enum drm_panthor_group_priority). */
+>  	__u8 priority;
+>  
+> -	/** @pad: Padding field, MBZ. */
+> -	__u32 pad;
+> +	/**
+> +	 * @flags: Flags. Must be a combination of drm_panthor_group_create_flags flags.
+> +	 */
+> +	__u32 flags;
+>  
+>  	/**
+>  	 * @compute_core_mask: Mask encoding cores that can be used for compute jobs.
 
 
