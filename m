@@ -1,469 +1,308 @@
-Return-Path: <linux-media+bounces-60534-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60535-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6E9eChL2+mk1UwMAu9opvQ
-	(envelope-from <linux-media+bounces-60534-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 10:04:34 +0200
+	id 2PJaDPT3+mmlUwMAu9opvQ
+	(envelope-from <linux-media+bounces-60535-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 10:12:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609B34D7975
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 10:04:27 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D094D7B1B
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 10:12:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 78631300FEC1
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 08:04:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2860A303C035
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 08:11:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E1E83DEAC8;
-	Wed,  6 May 2026 08:04:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 202133E2779;
+	Wed,  6 May 2026 08:11:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ursulin.net header.i=@ursulin.net header.b="BaStjEbR"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Va0a8dr7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013004.outbound.protection.outlook.com [40.107.162.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F492C027C
-	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 08:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778054661; cv=none; b=AFvJcXUsmNh9bxv5u5jU7KU00wnms2lfzuZAS3c9rRhAszYb9rK4bPw/6K34tCaZdLtc42F1BZMyLEYIECqRxMoDLXovHGNnPxoKUq7Rnl2jEbDB2vxD9R3AKZxshEJMb7aHXCDlp+asXAk4oqgx/+xvknUOJc2rcgGUIllGAQA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778054661; c=relaxed/simple;
-	bh=xYge8ahKJlPO/1LHrX+hOkymiMs+juEK+zcACZkbLx8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=G2Mw8mzPiccacP1wrSEJQqr6aIOs8xGQ2S3saW7Vwn77Wmf6Jhf8sSaAd6dL8TRusAt83AupTpqoSBZhbtjg1+mtxYNlDJFR9VAllEv3PhLs4KZcL8uTU8Dd0OS4HTN0Qcleymgeo4dfsRe+eUxirRt3oVSGxrraHDzJvfeUdWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=pass smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin.net header.i=@ursulin.net header.b=BaStjEbR; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ursulin.net
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4891d7164ddso33123185e9.3
-        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 01:04:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ursulin.net; s=google; t=1778054658; x=1778659458; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LiS/ij6r165ba7gZt06iVY0/MOUwEsreAaIASyC63GA=;
-        b=BaStjEbRQ2YzTleh6Dy2CINbEYW6v29q9A/V8PUZG3tlr/e2DqODhf0913r8gG/51i
-         ZwJLS9yI0725MIbwyvUMuGy0jj4K3yPfIGnlwL4CX8zrEgxWk/2CijWBLOf9S84B9Ybm
-         4ml6Xo78D2UZzsw/kKxoGITV5Lel4nts/xHtBEttIrQcQxt35YZ5YioqI8L1SvrR6CXh
-         /IDcFAF2Ng0uMuAFGKwp58YqqhwJ3PERLw2Ud78qetN/2Xrif/+VVKGb0BdFEYRH8quK
-         D0IAD2QVsy23qY03tHO/n2yx39XOZs87ONFm0TzbQvy2heHMkhf1c8dFMhOPNjFo3mHx
-         zrNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778054658; x=1778659458;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LiS/ij6r165ba7gZt06iVY0/MOUwEsreAaIASyC63GA=;
-        b=B9bjtiN+J3b+eUHRHp54AROvQ2RECzhR8z6SwbYjP46fWFzAd4gMk/Gho1PMhYbolJ
-         Tk5ZAPJOGMvRenayNQ7Jsq9PLRFTgdqFfMOsA6kz/v3cO4al/hHheA5v9fpJMYq5sdl3
-         OVmNLDsnuAzJEOMAZipqjehoe6aFA/KXzFRaInLoaZp/rY/jUg3W34H+ikwGjE/ow4EN
-         s0Y8NPNi/LVT6kEFoYui1mjpzfwXDm60Chr+64o4reu+T1nFwVIBIOzxfRoNVanKoR1D
-         vsO/pdqXQr51/jpcOr68/FdGUI1wfTbN+8U+K/ZuRoPKc2FVIIS3Cd5NoeAwIGnlXLu6
-         JEjQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8I/dDWMl0YydMd6ARr6G6tzQE460gMDudeoMpRgbjpI6VLGZIas4xPSFDIbsF1Ed5Q7dwTBJmFton4NA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8B9Ijrdxfv6PAi8XoEb5xtPg0qwpQ3HLaH5dkfUJtQyAM4prZ
-	6dGh73gNjqGhTKjqk0VimMYTghFfTuqFT2vkVZ2o9tlDfEyoHoRrzFRoGms0284c/yA=
-X-Gm-Gg: AeBDiesIqplEWkETh10831uqCFN5qFCbI6EHqty4EivlBbnXNsMO+Vknl9Srz84YhuO
-	39b71xW85gFFyWGDB3ABYhZIpGGo2JaXR/zY73+iRf7Ew+NbtvwpCWAB/KbVe1ijTWotFGjx3ys
-	7NHiszQqvGdLeMQLYNwlE5mu/SPwoI1uYSSSCvB+CkmCKb5o/IXdP1O+SzEn6x8xSzhfLSpEeC+
-	jXDnPBi20CIeijqlYYgt9jrnHq4vOTpj5v63ba25nCyNiZDeY1TYW8IrtrHjnlFYz6c2azeUZ4T
-	w4uGTbEIpQNVU2A6AHQ6oNjZi8Ea7VrrETJQDh37aOD9Qb+hDS4wNkf/M0yOT3Y+0YA8NU4tJDW
-	/p11oM7y//x1w769KkOWEN9CMsuO0oGsoPZIdp+D58lQDK7xT6wiJOTWaG44OckcXMjKv9gHXfY
-	oXBmUZCqyVeRA2w+qHNY/qpGxQk3CZ4bVb2aUQX+PFh7BqZ0kCTDdEFdOY4ODssuGQng==
-X-Received: by 2002:a05:600c:a08b:b0:489:1ba8:5bf0 with SMTP id 5b1f17b1804b1-48e51f4119bmr39672925e9.21.1778054657634;
-        Wed, 06 May 2026 01:04:17 -0700 (PDT)
-Received: from [192.168.0.101] ([90.240.106.137])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e530cf964sm19380375e9.1.2026.05.06.01.04.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 01:04:17 -0700 (PDT)
-Message-ID: <21121a6f-4431-497a-a8ff-61219cb00ad6@ursulin.net>
-Date: Wed, 6 May 2026 09:04:16 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CFD23E320;
+	Wed,  6 May 2026 08:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.4
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778055092; cv=fail; b=ZaLW7jQpAzDkj0FcQJ76EfgtlmyLkxztDesXxojEbm15ucrkf2FPGHC3rn43QhHYAf8LlKPAnVX4TIhBaL3MxatbK6UXBkw7haHUMYlPgKVZBoqMk1LcR+ves+XTS+jFj0DhJcxpT5uhdB+sAdf5du8u3dQNO26yoUrQ3Y4k2WM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778055092; c=relaxed/simple;
+	bh=36qAai0RJhfwSJ+rc6zcpKEhOdRPO5WZ2hRV05QYQ/k=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=AQ9OAjQDqsSA/eLtE0A/T+bqGesOkwApD19vCXXq9Pzl4XRQBcnPsIve6lQnL+eZFI4PaG3nn9mfhW3gSGV/pT46462AURo+eF+U4Q6SPE18ee0e8nh+NqThnt8LFrAEjimYorGtdCjh9RMkiyT8CXr/Q35dVJi2IQlCFqI6j0U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Va0a8dr7; arc=fail smtp.client-ip=40.107.162.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WuKRPqVoVMAGibbNZrYpVukkjlltRiWuwn52OVJjVtQzDhz4n9mKu1kcgm5vu+gztzAb7LU6sXhuXLk+kaZeWs3KfyqKdA9VRQhb+j2fJW3vsnwXrtfa9gnK5097MrAfr6+Zxv1SWf7yrPcdsaPZFYBkvW1N/2PqXhrWCm43qFgeOks0RkgXtdOggGR3IgLH5W+uQfHDJDK+P1Q+CGFWHjhFLBq80rqOxd9cNtMHYr32uLzzCir4x2WX4G8mRcfN8HjysWRQ6quUX/nm9UOQiGXq0Lh+eOHBoNPGd1IccSeLnMYvyrkBzlTAN/9b5QSZSlB68dUSFxcQMGy3duTxnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Hp/EyiPNw4N3bV6HArqeId33JgWLgg6PowjNBd66Rgw=;
+ b=jkBp1Aa6YAC8juZGiPzDFpdmRNUC25NG5eE7UNwAhukOK9fgrEdN9OZ3L1ggo/VXbf8fMp3DUb9ZnicgbmkngR0NxKgtgYX/eBki9MbBvjELFU48MJZJoI6CLCHWv2muZ43CmqIxcfsCRcZG3l01yCNlJrE6qn+Kd7+kn/gaPrbqUzLT0xIJ8x7YyNriVDxrLlVL5RRDvwkB7ONc1LvPOJTwXSGPkste2763vE+xMXqfkHcZALBvppLinraCxgch3PTvjvV6qPUdSssidoj2Ool0hT1hMiVgYMHBqLGNA2adC/IjF6PvwNKIBe44gQUwNGOHPPA7N1gYERtj69vLKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Hp/EyiPNw4N3bV6HArqeId33JgWLgg6PowjNBd66Rgw=;
+ b=Va0a8dr7iZV8af/1isbi2cEUHdRNyIEizLiVQyoU1jsH/KwKdmrONwRdLuOtPx0Z5cMsReEewqTGF/PpaqVAG7xolYQx7w5Uh49/8Pfwv0IbsVoHmGEfR9eSjBUDtwMrireo7kMUlcTQ6PX+EqufoTtFCiqWG+z2mdeNMDLGXh7rwCYaGYZrfLr1VTRUuPSrlmBuZGNXKaWR0iJQxPCGs3fS4VlwWjIiyVCCpI8IcqpuunytDqmyoPID/QjIOSqZmUGCXiScGuwbX8dT1jwk6C4kBaOKfMOOLGKq03++VuAEhUDBY0D3KbLRX8T8cdsPu5WVu+svIxlvxa3CKQTLNQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
+ (2603:10a6:102:516::16) by GV1PR04MB9197.eurprd04.prod.outlook.com
+ (2603:10a6:150:28::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Wed, 6 May
+ 2026 08:11:26 +0000
+Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
+ ([fe80::d3f0:3c24:f717:4989]) by PA6PR04MB11910.eurprd04.prod.outlook.com
+ ([fe80::d3f0:3c24:f717:4989%4]) with mapi id 15.20.9870.023; Wed, 6 May 2026
+ 08:11:26 +0000
+Message-ID: <b8c24929-449b-4394-afe3-d3517c64427e@nxp.com>
+Date: Wed, 6 May 2026 10:11:31 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/6] media: v4l2-isp: Rename v4l2_isp_params_buffer_size
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Daniel Scally <dan.scally@ideasonboard.com>, Keke Li <keke.li@amlogic.com>,
+ Jai Luthra <jai.luthra@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260505-extensible-stats-v1-0-e16f326b8dad@ideasonboard.com>
+ <20260505-extensible-stats-v1-3-e16f326b8dad@ideasonboard.com>
+Content-Language: en-US
+From: Antoine Bouyer <antoine.bouyer@nxp.com>
+In-Reply-To: <20260505-extensible-stats-v1-3-e16f326b8dad@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0145.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b8::18) To PA6PR04MB11910.eurprd04.prod.outlook.com
+ (2603:10a6:102:516::16)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf/dma_fence_array: optimize handling v2
-To: christian.koenig@amd.com, sumit.semwal@linaro.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20260505110828.1574-1-christian.koenig@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20260505110828.1574-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 609B34D7975
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA6PR04MB11910:EE_|GV1PR04MB9197:EE_
+X-MS-Office365-Filtering-Correlation-Id: 10708416-d0fd-401e-4ef5-08deab4711e8
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|376014|1800799024|7416014|19092799006|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+ isDwa3yzwZ1R56WG4im35IK5r/OlmPgKcrvTK+QnlqoHZet5GKZ2rKv8qRasfPYyfo8ikPgJOHViRr4t8oi/qP9zSnwogl/qWyRm/mC4/pDzx/KVhDdJ2d20aXlHcwU5oZdqrlOJFJhIVwBFlwUESsra86B3i9Ww4og5Vr9BS5PkKBtob2EMv3ngvNelOVZEsxBjJgV/nXuoivKSGNv+CZXNwx/oo/evCoDbBCaKlJOq8frokfUbgwB8S+8A2emDHiEkCX0efmk2wCgy4R9PWWaZ8ZUvjVKAFuKSfk7Nm0xxboCZdNG5nw0gBJicFnQV2xW9uO5xjEkGziylH8jfS95gfWQVr1aGZPdq6ijDr7KADVzvFs5BLsq0WMuCYJUcPoMQSB1eFsCacNtcjHycIwaApgIdOBcZUxn/krklAkLyA08JXBISYK+3YSJVhpopCglaJAqYZ4hCNWmrS00BEhxrhGY/Mov+d+T0ff2rOOthh2TfpOiQWbiXtjj3N4zPyPD7UmfNCdOZryggxPb9+O6N+5Bj2g3rZtAbCu0E/okXkR3NELboO45mtDRO1FR1C44+JCRLgVrPUdCy8Gr/4NeGuWL9oe9FgNAf8Xxe6vGiX2V+PtSaXrhvFlUou+A3E4VKTuGoeLhjyCf6U/lYBzsxhASOlV4HnAGR53x0iATFQcTRHIJhIPBZxK80qY/r
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR04MB11910.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(19092799006)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?M3lkaStjNXdtSzNzbW5uWC9yUzVSMmg2Qm1ZalgxNVRQemFjSFdQTDVydE9l?=
+ =?utf-8?B?ZThtR2pUU1gvaFZIRDNmc00yNmJ4YllKMi9JZ2w5STg5aUtRL1g2Y0Y1UnNT?=
+ =?utf-8?B?S0puUElmR0xacnJlbit2L3AwamU1dmZEeG9MM0JKVUkvRmYrODVZdXI4cGRn?=
+ =?utf-8?B?OSsyVlROb0hnenlyNWFEdk9SU1VXWnlTZ2xSQkRHMlB0aG8raUd3MlByeXo3?=
+ =?utf-8?B?cHNXajliMjFxYUtaUnd0Z244VmlKbnNQTzE4TXcyWXlVMFdPdU1zc0d5UEtr?=
+ =?utf-8?B?YjZuWnVSNlBBL2ZOYzhSdGdiMXQ1ckF3aWhXMW9PVFF2VUdvdWpGaVQ3N21G?=
+ =?utf-8?B?WGVVaER5eU1xU1hNUU9BV0tCOTllbGNCc285YTBWL1JtUEFwNTBwbXV3dDVh?=
+ =?utf-8?B?N29QMEFIRzVVWUxwa0IwdjVqWlhZdlhnS2ppL0lLc0FpNGY5YnJiaTc5TmIy?=
+ =?utf-8?B?MSt1VzhKU3laRExPSHFHUDlNdVE4WWNhMWZ0OW1JdDYxbDdWSHd3NVVWU2Mz?=
+ =?utf-8?B?cG9Kb2lKOTF3M3JzOExPVGdBQ0txbHlZRFR5NGtNMVhFbldzd25MK3ViWW5x?=
+ =?utf-8?B?dzF0TDY3VzBoL1JvZkFLTFVLem0zQUlvYlF6cVdxT2VmOGdkRGUxY0VwdFl0?=
+ =?utf-8?B?T1A4Mk15SlpvTC9SNzdIYkZNYWY1aFNFc1ltU2xrZ2xSV2psOHZFOCtSc3Nk?=
+ =?utf-8?B?dHZOV0RoblNiNmRMMTlrL1YxalhHUWhEMGVRMHgwQmxUbDF5bFR3ZjNwWkVE?=
+ =?utf-8?B?bys4WjQzYmRJY1N2c2pGNndFQ1lsTGxaeUZzRW03UzNZSStxS3dwbDg4YWRq?=
+ =?utf-8?B?TDlIbk1EYmx1N2FzOTE3M29KZWtqK0V2VGorU1BEejNWZHc0V3ZXbFQrMzNq?=
+ =?utf-8?B?dFJmMG9vT0tXeGNKdkhoakZha1VxRTlRV2prR2h1cFZaaGdWcUtxbkdRSTFu?=
+ =?utf-8?B?T1RRUUs1TThsRDNNRDgyTnJvdVNmeE4vRHhicEkrV0prRTNMYU5qMU0rbktN?=
+ =?utf-8?B?YXEvV1JVeXF6bkpkZ2cvdDdSR3dFRjgzMkpvRnFXSFR5WlpwQWQ1YnUvYVo0?=
+ =?utf-8?B?eVMvTTZ3T0ZSUENOWDRBMEx1d0dMSjJBVDFaWlgxR29rUFFMNXlYR2piS096?=
+ =?utf-8?B?dE40UlFONjYrNUNyYjB4ZlNXcVBhM29lTFFxN3kvYmZJREtoVHpnd2Flc0Er?=
+ =?utf-8?B?SlJxWEFpaUowdGFiMHdCMjJkUXhyRkIxNGprWGUweXZ6bDdLWUVncmZyV2lo?=
+ =?utf-8?B?c1J0VkszWjQxbEhqT0VZa3UxZVhEdWJpLzc3L2xTUUxBdDBKeVNZOEhlR2RT?=
+ =?utf-8?B?WVYwS0Rpem04SFpuaTFHS3JDSHd0ck4zU3dZd2lYNkczTlhkVlk4clp3Z1ZX?=
+ =?utf-8?B?WStqeEpkQ2d2UnhrcStNTndJdU9RWVFWbWZhdG5sOVM4RXBGY0hjQWpwMGpQ?=
+ =?utf-8?B?ZFlleldROWRwRDBMeTBtcVplUWUzOFB1R0ZiMWsxNExYQSszWXpaOENkNnZa?=
+ =?utf-8?B?V0cxTkVkcW5tWWRiSWdSR3oyLzJtdXpQdnQ1bDM0eE4wUUhLQUZXZEgydnNO?=
+ =?utf-8?B?NHVMZnZjc2E2aEY5d3B4RXBoa21aTGNWNDlNNU9vVzBGUWlCVmlETHZUMmtT?=
+ =?utf-8?B?Y25vMkJ2SlpKTzd3MjhtR01ZM1A4bitKUnk1MFhKT2tyY25Jd2Zic3YwRDhu?=
+ =?utf-8?B?RjFYclJvVG1xNjJoNVFLWU13NVdFbDh3MDV2Mi9ob3N1VE5vSHpRQTYydDli?=
+ =?utf-8?B?OWNZRXg2NTlUdHp1UGJvTUZTUWxxSFFsL2FnaXlCMzV4aE45dWVMUzRPWXJL?=
+ =?utf-8?B?c1FDQ00vVEQ2RjBRL1NpNzVZOEowZzZuQUxXWkVQekZRTXlmL2ZjdEU5K1dC?=
+ =?utf-8?B?L2ZrbVY3V3RnemVlUENkQ2owSlI1dUlERTVqcXpJeHBPZURucTZGdVRybG1k?=
+ =?utf-8?B?dmMyNXplb1pJQ2d3SUNqbXFyUFFmdjN1V2JaelNycjY3RG9NNEwrSUlTL2tZ?=
+ =?utf-8?B?bjRVelgybXFoL25BMWVieFF2a1FEOU9XWWk4MGFCUWJhZDUwcW5LQmhSY0Fs?=
+ =?utf-8?B?aWlERDdTM3lqWUJodmlBMHNBRDU4YXBHRTg5OFp3YVVGN21ZRDFleXppWWxj?=
+ =?utf-8?B?bTcxN3FsZlNsYy9WYVJFZ3NZSHQvcDJzaU9IdlpIWDFaKzRoWllKelh0ZTRa?=
+ =?utf-8?B?U1FVVXdudEdOQStPLzJiWi85NmlzMnY4L01mdjhSSmE3MUUwbEY4bDVPcXB2?=
+ =?utf-8?B?aXp4cm5SOWJ4OWxweFN0UG9MM0xRRE0rRlBDc09lSElyK2lRRk1UZjhRL1dr?=
+ =?utf-8?B?RGJuN3hJRW9EcFU3VXZPMTJOazFVQlUwNkF0VFdRUWVjRFBZaUpVdz09?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10708416-d0fd-401e-4ef5-08deab4711e8
+X-MS-Exchange-CrossTenant-AuthSource: PA6PR04MB11910.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2026 08:11:26.6191
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2EZuOF2RZtO41kqlsQRVz3PE2lAXeHfnRQHrjQPkWSo6NBLHDOcW1FU8EBECEVa2Kmu3Nd1y0VopjJFmM55nNg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9197
+X-Rspamd-Queue-Id: 36D094D7B1B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ursulin.net:+];
-	SEM_URIBL_UNKNOWN_FAIL(0.00)[ursulin.net:query timed out,amd.com:query timed out];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-60534-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	TAGGED_FROM(0.00)[bounces-60535-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[ursulin.net];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	SEM_URIBL_FRESH15_UNKNOWN_FAIL(0.00)[amd.com:query timed out,ursulin.net:query timed out];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	RBL_SEM_FAIL(0.00)[172.234.253.10:query timed out];
-	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ursulin.net:dkim,ursulin.net:mid,amd.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[antoine.bouyer@nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,nxp.com:dkim,nxp.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-
-On 05/05/2026 12:08, Christian König wrote:
-> Removing the signal on any feature allows to simplfy the dma_fence_array
-> code a lot and saves us from the need to install a callback on all fences
-> at the same time.
+On 5/5/26 4:12 PM, Jacopo Mondi wrote:
 > 
-> This results is less memory and CPU overhead.
-
-Code looks good but I still worry about the new potential for num_fences 
-irq work latencies whereas the existing implementation only has one.
-
-Also, whether or not current or this implementation uses less or more 
-CPU overhead depends on the signalling pattern (time distribution) of 
-the fences in the array.
-
-Apart from more latency it could even be more CPU usage in the 
-pathological case.
-
-It would be less if, when the last fence in the array signals, all 
-others have already signaled. Although it would still need to go through 
-all dma_fence_add_callback() calls so that part is the same as the 
-current implementation. Only the CPU cycles from the signaling side 
-would be saved.
-
-But in the pathological case, where fences signal one by one from the 
-first to last, and are spaced more in time than a single irq work 
-latency, the new implementation needs more CPU time and more latency.
-
-I do agree it would be nice to be able to drop the callbacks array but 
-for the above reasons I am worried whether it is safe.
-
-Some other minor comments below.
-
-> v2: fix potential double locking pointed out by Tvrtko
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Rename v4l2_isp_params_buffer_size() to v4l2_isp_buffer_size() to
+> support statistics.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > ---
->   drivers/dma-buf/dma-fence-array.c | 134 +++++++++++++-----------------
->   drivers/gpu/drm/xe/xe_vm.c        |   2 +-
->   include/linux/dma-fence-array.h   |  22 ++---
->   3 files changed, 66 insertions(+), 92 deletions(-)
+>   .../media/platform/arm/mali-c55/mali-c55-params.c  | 12 ++++++------
+
+Hi Jacopo
+
+Is it ok to meld driver and include changes and remove all occurrences of
+v4l2_isp_params_buffer_size ? Of course it prevents build errors, but 
+what if pending changes are already using this macro ?
+  >   include/media/v4l2-isp.h                           | 22 
++++++++++++++---------
+>   2 files changed, 19 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-> index 5e10e8df372f..8b94c6287482 100644
-> --- a/drivers/dma-buf/dma-fence-array.c
-> +++ b/drivers/dma-buf/dma-fence-array.c
-> @@ -42,97 +42,88 @@ static void dma_fence_array_clear_pending_error(struct dma_fence_array *array)
->   	cmpxchg(&array->base.error, PENDING_ERROR, 0);
->   }
->   
-> -static void irq_dma_fence_array_work(struct irq_work *wrk)
-> +static void dma_fence_array_cb_func(struct dma_fence *f,
-> +				    struct dma_fence_cb *cb)
+> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+> index de0e9d898db7..dc483f0322d6 100644
+> --- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+> @@ -487,7 +487,7 @@ static int mali_c55_params_g_fmt_meta_out(struct file *file, void *fh,
 >   {
-> -	struct dma_fence_array *array = container_of(wrk, typeof(*array), work);
-> -
-> -	dma_fence_array_clear_pending_error(array);
-> +	struct dma_fence_array *array =
-> +		container_of(cb, struct dma_fence_array, callback);
->   
-> -	dma_fence_signal(&array->base);
-> -	dma_fence_put(&array->base);
-> +	irq_work_queue(&array->work);
+>          static const struct v4l2_meta_format mfmt = {
+>                  .dataformat = V4L2_META_FMT_MALI_C55_PARAMS,
+> -               .buffersize = v4l2_isp_params_buffer_size(MALI_C55_PARAMS_MAX_SIZE),
+> +               .buffersize = v4l2_isp_buffer_size(MALI_C55_PARAMS_MAX_SIZE),
+>          };
+> 
+>          f->fmt.meta = mfmt;
+> @@ -540,13 +540,13 @@ mali_c55_params_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
+>          if (*num_planes && *num_planes > 1)
+>                  return -EINVAL;
+> 
+> -       if (sizes[0] && sizes[0] < v4l2_isp_params_buffer_size(MALI_C55_PARAMS_MAX_SIZE))
+> +       if (sizes[0] && sizes[0] < v4l2_isp_buffer_size(MALI_C55_PARAMS_MAX_SIZE))
+>                  return -EINVAL;
+> 
+>          *num_planes = 1;
+> 
+>          if (!sizes[0])
+> -               sizes[0] = v4l2_isp_params_buffer_size(MALI_C55_PARAMS_MAX_SIZE);
+> +               sizes[0] = v4l2_isp_buffer_size(MALI_C55_PARAMS_MAX_SIZE);
+> 
+>          return 0;
 >   }
->   
-> -static void dma_fence_array_cb_func(struct dma_fence *f,
-> -				    struct dma_fence_cb *cb)
-> +static bool dma_fence_array_try_add_cb(struct dma_fence_array *array)
->   {
-> -	struct dma_fence_array_cb *array_cb =
-> -		container_of(cb, struct dma_fence_array_cb, cb);
-> -	struct dma_fence_array *array = array_cb->array;
-> +	while (array->num_pending) {
-> +		struct dma_fence *f = array->fences[array->num_pending - 1];
-
-Maybe add above this line something like:
-
-/*
-  * Install callbacks from the reverse so the check in
-  * dma_fence_array_signaled() can be optimized.
-  */
-
->   
-> -	dma_fence_array_set_pending_error(array, f->error);
-> +		if (!dma_fence_add_callback(f, &array->callback,
-> +					    dma_fence_array_cb_func))
-> +			return true;
->   
-> -	if (atomic_dec_and_test(&array->num_pending))
-> -		irq_work_queue(&array->work);
-> -	else
-> +		dma_fence_array_set_pending_error(array, f->error);
-> +		--array->num_pending;
-> +	}
-> +	return false;
-> +}
-> +
-> +static void dma_fence_array_irq_work(struct irq_work *wrk)
-> +{
-> +	struct dma_fence_array *array = container_of(wrk, typeof(*array), work);
-> +
-> +	--array->num_pending;
-> +	if (!dma_fence_array_try_add_cb(array)) {
-> +		dma_fence_signal(&array->base);
->   		dma_fence_put(&array->base);
-> +	}
->   }
->   
->   static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
->   {
->   	struct dma_fence_array *array = to_dma_fence_array(fence);
-> -	struct dma_fence_array_cb *cb = array->callbacks;
-> -	unsigned i;
->   
-> -	for (i = 0; i < array->num_fences; ++i) {
-> -		cb[i].array = array;
-> +	/*
-> +	 * As we may report that the fence is signaled before all
-> +	 * callbacks are complete, we need to take an additional
-> +	 * reference count on the array so that we do not free it too
-> +	 * early. The core fence handling will only hold the reference
-> +	 * until we signal the array as complete (but that is now
-> +	 * insufficient).
-> +	 */
-> +	dma_fence_get(&array->base);
-> +	if (!dma_fence_array_try_add_cb(array)) {
->   		/*
-> -		 * As we may report that the fence is signaled before all
-> -		 * callbacks are complete, we need to take an additional
-> -		 * reference count on the array so that we do not free it too
-> -		 * early. The core fence handling will only hold the reference
-> -		 * until we signal the array as complete (but that is now
-> -		 * insufficient).
-> +		 * When all fences are already signaled we can drop the reference again
-> +		 * and report to the caller that the array can be signaled as well.
-
-Optional nit - above two lines end up only lines over 80 in the file.
-
-Regards,
-
-Tvrtko
-
->   		 */
-> -		dma_fence_get(&array->base);
-> -		if (dma_fence_add_callback(array->fences[i], &cb[i].cb,
-> -					   dma_fence_array_cb_func)) {
-> -			int error = array->fences[i]->error;
-> -
-> -			dma_fence_array_set_pending_error(array, error);
-> -			dma_fence_put(&array->base);
-> -			if (atomic_dec_and_test(&array->num_pending)) {
-> -				dma_fence_array_clear_pending_error(array);
-> -				return false;
-> -			}
-> -		}
-> +		dma_fence_put(&array->base);
-> +		return false;
->   	}
-> -
->   	return true;
->   }
->   
->   static bool dma_fence_array_signaled(struct dma_fence *fence)
->   {
->   	struct dma_fence_array *array = to_dma_fence_array(fence);
-> -	int num_pending;
-> +	int num_pending, error = 0;
->   	unsigned int i;
->   
->   	/*
-> -	 * We need to read num_pending before checking the enable_signal bit
-> -	 * to avoid racing with the enable_signaling() implementation, which
-> -	 * might decrement the counter, and cause a partial check.
-> -	 * atomic_read_acquire() pairs with atomic_dec_and_test() in
-> -	 * dma_fence_array_enable_signaling()
-> -	 *
-> -	 * The !--num_pending check is here to account for the any_signaled case
-> -	 * if we race with enable_signaling(), that means the !num_pending check
-> -	 * in the is_signalling_enabled branch might be outdated (num_pending
-> -	 * might have been decremented), but that's fine. The user will get the
-> -	 * right value when testing again later.
-> +	 * Reading num_pending without a memory barrier here is correct since
-> +	 * that is only for optimization, it is perfectly acceptable to have a
-> +	 * stale value for it. In all other cases num_pending is accessed by a
-> +	 * single call chain.
->   	 */
-> -	num_pending = atomic_read_acquire(&array->num_pending);
-> -	if (test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &array->base.flags)) {
-> -		if (num_pending <= 0)
-> -			goto signal;
-> -		return false;
-> -	}
-> +	num_pending = READ_ONCE(array->num_pending);
-> +	for (i = 0; i < num_pending; ++i) {
-> +		struct dma_fence *f = array->fences[i];
->   
-> -	for (i = 0; i < array->num_fences; ++i) {
-> -		if (dma_fence_is_signaled(array->fences[i]) && !--num_pending)
-> -			goto signal;
-> -	}
-> -	return false;
-> +		if (!dma_fence_is_signaled(f))
-> +			return false;
->   
-> -signal:
-> +		if (!error)
-> +			error = f->error;
-> +	}
-> +	dma_fence_array_set_pending_error(array, error);
->   	dma_fence_array_clear_pending_error(array);
->   	return true;
->   }
-> @@ -171,15 +162,12 @@ EXPORT_SYMBOL(dma_fence_array_ops);
->   
+> @@ -556,7 +556,7 @@ static int mali_c55_params_buf_init(struct vb2_buffer *vb)
+>          struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>          struct mali_c55_params_buf *buf = to_mali_c55_params_buf(vbuf);
+> 
+> -       buf->config = kvmalloc(v4l2_isp_params_buffer_size(MALI_C55_PARAMS_MAX_SIZE),
+> +       buf->config = kvmalloc(v4l2_isp_buffer_size(MALI_C55_PARAMS_MAX_SIZE),
+>                                 GFP_KERNEL);
+>          if (!buf->config)
+>                  return -ENOMEM;
+> @@ -583,7 +583,7 @@ static int mali_c55_params_buf_prepare(struct vb2_buffer *vb)
+>          int ret;
+> 
+>          ret = v4l2_isp_params_validate_buffer_size(mali_c55->dev, vb,
+> -                       v4l2_isp_params_buffer_size(MALI_C55_PARAMS_MAX_SIZE));
+> +                       v4l2_isp_buffer_size(MALI_C55_PARAMS_MAX_SIZE));
+>          if (ret)
+>                  return ret;
+> 
+> @@ -593,7 +593,7 @@ static int mali_c55_params_buf_prepare(struct vb2_buffer *vb)
+>           * changed to the buffer content whilst the driver processes it.
+>           */
+> 
+> -       memcpy(buf->config, config, v4l2_isp_params_buffer_size(MALI_C55_PARAMS_MAX_SIZE));
+> +       memcpy(buf->config, config, v4l2_isp_buffer_size(MALI_C55_PARAMS_MAX_SIZE));
+> 
+>          return v4l2_isp_params_validate_buffer(mali_c55->dev, vb, buf->config,
+>                                                 mali_c55_params_block_types_info,
+> diff --git a/include/media/v4l2-isp.h b/include/media/v4l2-isp.h
+> index f3a6d0edcb24..d70ed6b431e7 100644
+> --- a/include/media/v4l2-isp.h
+> +++ b/include/media/v4l2-isp.h
+> @@ -15,17 +15,21 @@ struct device;
+>   struct vb2_buffer;
+> 
 >   /**
->    * dma_fence_array_alloc - Allocate a custom fence array
-> - * @num_fences:		[in]	number of fences to add in the array
+> - * v4l2_isp_params_buffer_size - Calculate size of v4l2_isp_params_buffer
+> - * @max_params_size: The total size of the ISP configuration blocks
+> + * v4l2_isp_buffer_size - Calculate size of v4l2_isp_buffer
+> + * @max_size: The total size of the ISP configuration or statistics blocks
+> + *
+> + * Users of v4l2-isp will have differing sized data arrays for parameters and
+> + * statistics, depending on their specific blocks. Drivers need to be able to
+> + * calculate the appropriate size of the buffer to accommodate all ISP blocks
+> + * supported by the platform. This macro provides a convenient tool for the
+> + * calculation.
+> + *
+> + * The intended users of this function are drivers initializing the size
+> + * of their metadata (parameters and statistics) buffers.
 >    *
->    * Return dma fence array on success, NULL on failure
+> - * Users of the v4l2 extensible parameters will have differing sized data arrays
+> - * depending on their specific parameter buffers. Drivers and userspace will
+> - * need to be able to calculate the appropriate size of the struct to
+> - * accommodate all ISP configuration blocks provided by the platform.
+> - * This macro provides a convenient tool for the calculation.
 >    */
-> -struct dma_fence_array *dma_fence_array_alloc(int num_fences)
-> +struct dma_fence_array *dma_fence_array_alloc(void)
->   {
-> -	struct dma_fence_array *array;
-> -
-> -	return kzalloc_flex(*array, callbacks, num_fences);
-> +	return kzalloc_obj(struct dma_fence_array);
->   }
->   EXPORT_SYMBOL(dma_fence_array_alloc);
->   
-> @@ -203,10 +191,13 @@ void dma_fence_array_init(struct dma_fence_array *array,
->   	WARN_ON(!num_fences || !fences);
->   
->   	array->num_fences = num_fences;
-> +	array->num_pending = num_fences;
-> +	array->fences = fences;
-> +	array->base.error = PENDING_ERROR;
->   
->   	dma_fence_init(&array->base, &dma_fence_array_ops, NULL, context,
->   		       seqno);
-> -	init_irq_work(&array->work, irq_dma_fence_array_work);
-> +	init_irq_work(&array->work, dma_fence_array_irq_work);
->   
->   	/*
->   	 * dma_fence_array_enable_signaling() is invoked while holding
-> @@ -220,11 +211,6 @@ void dma_fence_array_init(struct dma_fence_array *array,
->   	 */
->   	lockdep_set_class(&array->base.inline_lock, &dma_fence_array_lock_key);
->   
-> -	atomic_set(&array->num_pending, num_fences);
-> -	array->fences = fences;
-> -
-> -	array->base.error = PENDING_ERROR;
-> -
->   	/*
->   	 * dma_fence_array objects should never contain any other fence
->   	 * containers or otherwise we run into recursion and potential kernel
-> @@ -265,7 +251,7 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
->   {
->   	struct dma_fence_array *array;
->   
-> -	array = dma_fence_array_alloc(num_fences);
-> +	array = dma_fence_array_alloc();
->   	if (!array)
->   		return NULL;
->   
-> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> index 62a87a051be7..8f472911469d 100644
-> --- a/drivers/gpu/drm/xe/xe_vm.c
-> +++ b/drivers/gpu/drm/xe/xe_vm.c
-> @@ -3370,7 +3370,7 @@ static struct dma_fence *ops_execute(struct xe_vm *vm,
->   		goto err_trace;
->   	}
->   
-> -	cf = dma_fence_array_alloc(n_fence);
-> +	cf = dma_fence_array_alloc();
->   	if (!cf) {
->   		fence = ERR_PTR(-ENOMEM);
->   		goto err_out;
-> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
-> index 1b1d87579c38..3ee55c0e2fa4 100644
-> --- a/include/linux/dma-fence-array.h
-> +++ b/include/linux/dma-fence-array.h
-> @@ -15,16 +15,6 @@
->   #include <linux/dma-fence.h>
->   #include <linux/irq_work.h>
->   
-> -/**
-> - * struct dma_fence_array_cb - callback helper for fence array
-> - * @cb: fence callback structure for signaling
-> - * @array: reference to the parent fence array object
-> - */
-> -struct dma_fence_array_cb {
-> -	struct dma_fence_cb cb;
-> -	struct dma_fence_array *array;
-> -};
-> -
+> -#define v4l2_isp_params_buffer_size(max_params_size) \
+> -       (offsetof(struct v4l2_isp_params_buffer, data) + (max_params_size))
+> +#define v4l2_isp_buffer_size(max_size)                 \
+> +       (offsetof(struct v4l2_isp_buffer, data) + (max_size))
+
+Shouldn't we keep v4l2_isp_params_buffer_size for compatibility ?
+
+BR
+Antoine
+
+> 
 >   /**
->    * struct dma_fence_array - fence to represent an array of fences
->    * @base: fence base class
-> @@ -33,18 +23,17 @@ struct dma_fence_array_cb {
->    * @num_pending: fences in the array still pending
->    * @fences: array of the fences
->    * @work: internal irq_work function
-> - * @callbacks: array of callback helpers
-> + * @callback: callback structure for signaling
->    */
->   struct dma_fence_array {
->   	struct dma_fence base;
->   
-> -	unsigned num_fences;
-> -	atomic_t num_pending;
-> +	unsigned int num_fences;
-> +	unsigned int num_pending;
->   	struct dma_fence **fences;
->   
->   	struct irq_work work;
-> -
-> -	struct dma_fence_array_cb callbacks[] __counted_by(num_fences);
-> +	struct dma_fence_cb callback;
->   };
->   
->   /**
-> @@ -78,11 +67,10 @@ to_dma_fence_array(struct dma_fence *fence)
->   	for (index = 0, fence = dma_fence_array_first(head); fence;	\
->   	     ++(index), fence = dma_fence_array_next(head, index))
->   
-> -struct dma_fence_array *dma_fence_array_alloc(int num_fences);
-> +struct dma_fence_array *dma_fence_array_alloc(void);
->   void dma_fence_array_init(struct dma_fence_array *array,
->   			  int num_fences, struct dma_fence **fences,
->   			  u64 context, unsigned seqno);
-> -
->   struct dma_fence_array *dma_fence_array_create(int num_fences,
->   					       struct dma_fence **fences,
->   					       u64 context, unsigned seqno);
+>    * v4l2_isp_params_validate_buffer_size - Validate a V4L2 ISP buffer sizes
+> 
+> --
+> 2.53.0
+> 
+
 
 
