@@ -1,63 +1,64 @@
-Return-Path: <linux-media+bounces-60622-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60623-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KBzYM31Q+2mSZQMAu9opvQ
-	(envelope-from <linux-media+bounces-60622-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 16:30:21 +0200
+	id UPzbDp5Z+2kuZwMAu9opvQ
+	(envelope-from <linux-media+bounces-60623-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:09:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4105A4DC352
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 16:30:21 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4084DCE6D
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:09:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BDE3630CE065
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 14:19:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 674E5312E98B
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 14:22:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7361480348;
-	Wed,  6 May 2026 14:19:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 595EF48034A;
+	Wed,  6 May 2026 14:22:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QdkgGNsG"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dWFsteE5"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDA747F2E3;
-	Wed,  6 May 2026 14:19:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E79C47ECEF;
+	Wed,  6 May 2026 14:21:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778077148; cv=none; b=eSAZP2ZHFf4AKdiz5CdneyTO6ky1vE/7NSsWE1ht9d+Hba6tnq0ZbSJv+V+WNBQifCctiKWCfdjPk7nB08AMFrys9YuuzBPBqxC9ZcCNXD9SWCWOCr8/xqmA1oINAsbS7E+qxOsDbkgo0utrXluwtDvCBdA7OhlbMhXtwidrtnM=
+	t=1778077319; cv=none; b=SHujzg8+SNQm4T29M0RerxKxGNfCkvJr0uN0oS3mniyaXF2gmtmN3eSDZp9EAcAAh0aS9c7dgJLEs3tEPG3ofqBgh0ZhYGdS7Sp0VFNEqtylRMlCuqdJO+7Qehblq5hNxqPbFthVWIwTumhkCbGZCWu+qRLbMucwiwRtz4jh8ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778077148; c=relaxed/simple;
-	bh=faLeW0wtzD3frY5Q7ZoepRa1sIizw1jaytAj9zqKE5I=;
+	s=arc-20240116; t=1778077319; c=relaxed/simple;
+	bh=0Uq1YugYUXzi8pj8HXdSH3+9q4grpd3YGFD2ihnyGEM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jZSR7WdmZupByh8kFl35kzZJJs1slw76sDeEzWZM41Lz91gHjfdg4widg2LzDvj9DW7VzO4H4NGoDTIKm+h2csdC6nfJKZB/PuMU+1Lezkx1vFegZYmW7kx6CPfEfiw0lWz0LVpOOa5P/UVGc62tCb0vwn6F7gRZzrlW3tCHfsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QdkgGNsG; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=RhOzrs6ldd6G7j7Jlqmim6xhhwnsyKJ4ixLPrBBeHglDVGZCYvJA6iz5XeiHAQiY1yyeN9xOlsCMB/7VzqQN5ekvC74BMrdgy8sbecO3vFr7ZPU1le/hEfrjr/aIewuU+IMKA/0cBQvR95b1FG773X0EWP1ZAK9tYlhviN1v40c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dWFsteE5; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 423B463D;
-	Wed,  6 May 2026 16:19:00 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 64FFE63D;
+	Wed,  6 May 2026 16:21:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1778077140;
-	bh=faLeW0wtzD3frY5Q7ZoepRa1sIizw1jaytAj9zqKE5I=;
+	s=mail; t=1778077313;
+	bh=0Uq1YugYUXzi8pj8HXdSH3+9q4grpd3YGFD2ihnyGEM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QdkgGNsGh0t/g9DtHJ+l3yZR9k8jmOHAsxfu2OsdU3z+PWu0lxW3INXfnW7jIR6zH
-	 qxo1709JWCey5XCpOAaPpqg+kv4EZt9A/vSwuHzTyl5QRlAF1OlMXHuDntNWer2brp
-	 nGbvCRjF/dqU1k1azSc3NrT2RCYadvVoau0s7ED4=
-Date: Wed, 6 May 2026 17:19:02 +0300
+	b=dWFsteE5Yud9FRc62Ue8FUO1vdIwK1vF//+75iUC2X7IJ1qEGI5wf7uLMVSqUixQL
+	 CYkQY5kk6D7xRaLVAInGyyQB7WpzGQiea6RSDdQasbUA8cRbp62zKd8B/r+vafVkbC
+	 XaHtZPTfgKXiZBHn4Bu0KHJZEpO9vq4rEUHNlxPM=
+Date: Wed, 6 May 2026 17:21:55 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Xiaolei Wang <xiaolei.wang@windriver.com>
-Cc: mchehab@kernel.org, Frank.li@nxp.com, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, aisheng.dong@nxp.com,
-	jacopo@jmondi.org, guoniu.zhou@nxp.com, s.riedmueller@phytec.de,
-	linux-media@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] media: imx8-isi: clean up already-initialized
- pipes on probe failure
-Message-ID: <20260506141902.GQ1598374@killaraus.ideasonboard.com>
-References: <20260506031210.2769998-1-xiaolei.wang@windriver.com>
- <20260506031210.2769998-5-xiaolei.wang@windriver.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Robby Cai <robby.cai@nxp.com>, Frank.Li@nxp.com, martink@posteo.de,
+	rmfrfs@gmail.com, kernel@puri.sm, mchehab@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+	martin.kepplinger@puri.sm, imx@lists.linux.dev,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: dt-bindings: nxp,imx8mq-mipi-csi2: Fix example
+ endpoint label typo
+Message-ID: <20260506142155.GR1598374@killaraus.ideasonboard.com>
+References: <20260506090124.2960477-1-robby.cai@nxp.com>
+ <5ad1e2df-85f3-4f9a-ab9d-b6ae34eebed3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,73 +67,78 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260506031210.2769998-5-xiaolei.wang@windriver.com>
-X-Rspamd-Queue-Id: 4105A4DC352
+In-Reply-To: <5ad1e2df-85f3-4f9a-ab9d-b6ae34eebed3@kernel.org>
+X-Rspamd-Queue-Id: 8D4084DCE6D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [4.84 / 15.00];
+	SEM_URIBL(3.50)[0.0.0.0:email];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	BAD_REP_POLICIES(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,nxp.com,pengutronix.de,gmail.com,jmondi.org,phytec.de,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	TAGGED_FROM(0.00)[bounces-60622-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60623-lists,linux-media=lfdr.de];
+	R_DKIM_ALLOW(0.00)[ideasonboard.com:s=mail];
 	RCVD_COUNT_THREE(0.00)[4];
+	GREYLIST(0.00)[pass,body];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_CC(0.00)[nxp.com,posteo.de,gmail.com,puri.sm,kernel.org,pengutronix.de,lists.linux.dev,vger.kernel.org,lists.infradead.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MISSING_XM_UA(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[ideasonboard.com,none];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	R_SPF_ALLOW(0.00)[+ip4:172.234.253.10:c];
+	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	NEURAL_SPAM(0.00)[0.225];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,windriver.com:email]
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,ideasonboard.com:dkim,0.0.0.0:email,killaraus.ideasonboard.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-Hello Xiaolei,
-
-Thank you for the patch.
-
-On Wed, May 06, 2026 at 11:12:10AM +0800, Xiaolei Wang wrote:
-> When mxc_isi_pipe_init() fails partway through the channel loop or
-> when mxc_isi_v4l2_init() fails, the already initialized pipes are
-> not cleaned up.
+On Wed, May 06, 2026 at 03:33:57PM +0200, Krzysztof Kozlowski wrote:
+> On 06/05/2026 11:01, Robby Cai wrote:
+> > The example in imx8mq-mipi-csi2.yaml uses imx8mm_mipi_csi_{in,out} endpoint
+> > labels, which is confusing for an i.MX8MQ binding. Rename the labels to
+> > imx8mq_mipi_csi_{in,out} for consistency.
+> > 
+> > Fixes: 37255747ecbd ("media: dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and controller")
 > 
-> Fix this by calling mxc_isi_pipe_cleanup() for each already-initialized
-> pipe in the err_xbar error path.
+> Nothing to fix here. Otherwise explain the bug.
 > 
-> Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
-> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c | 2 ++
->  1 file changed, 2 insertions(+)
+> > Signed-off-by: Robby Cai <robby.cai@nxp.com>
+> > ---
+> >  .../devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml       | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> > index 4fcfc4fd3565..71f79651dd96 100644
+> > --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> > +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> > @@ -220,7 +220,7 @@ examples:
+> >              port@0 {
+> >                  reg = <0>;
+> >  
+> > -                imx8mm_mipi_csi_in: endpoint {
+> > +                imx8mq_mipi_csi_in: endpoint {
 > 
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> index 2b76fb9c18f6..8533a979d60a 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> @@ -539,6 +539,8 @@ static int mxc_isi_probe(struct platform_device *pdev)
->  	return 0;
->  
->  err_xbar:
-> +	while (i--)
-> +		mxc_isi_pipe_cleanup(&isi->pipes[i]);
->  	mxc_isi_crossbar_cleanup(&isi->crossbar);
->  
->  	return ret;
+> Drop the labels instead - they are not used.
+
+I think the label has value, it improves readability of the example by
+making the purpose of the endpoints more explicit. I won't fight for it
+though, I know it's hard to change your mind.
+
+> This is just churn and for sure not a fix.
+> 
+> NAK
 
 -- 
 Regards,
