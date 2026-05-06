@@ -1,52 +1,53 @@
-Return-Path: <linux-media+bounces-60612-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60613-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wNUyHhVG+2lPYgMAu9opvQ
-	(envelope-from <linux-media+bounces-60612-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 15:45:57 +0200
+	id 4G2HB2hG+2lPYgMAu9opvQ
+	(envelope-from <linux-media+bounces-60613-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 15:47:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA304DB437
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 15:45:56 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3D24DB4C0
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 15:47:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BAD49309731B
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 13:42:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 315B430AEC40
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 13:42:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F2C747D947;
-	Wed,  6 May 2026 13:42:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98F7647D951;
+	Wed,  6 May 2026 13:42:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Erbupagc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q8VZAc1j"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACAF47A0BE;
-	Wed,  6 May 2026 13:42:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E321547D934;
+	Wed,  6 May 2026 13:42:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778074952; cv=none; b=h/jbraw/XsYBdbTbdRHjo92Sbfws9XyHPfwPGcyvG8J8J9Ztlp/jyXura34jc7+XrghDpJIooiIpmqFaYZbfnKZ4JKAs5Nm1lxtb2eZqNkzmbfcYjM6d11piPHlO5ICgOl6pyZcmrs/R10fw2Kj+/kKbnqfxIZO/LtG15/FbzDQ=
+	t=1778074956; cv=none; b=XsIh849Pu1n+btV0Eq7CofDCK07D6kXLrm6fmLlyK/diisR7uFLo5c8tusVkMZQF0YWKumBHpbbHqYLlMFpyH0v7TClRaqamtYBjLbGkCGZEBlddTNGu+1APrnpzRqzAJVvpQnSDLsI3L9AnvdtCkh+PqbK3sy26bGCbuYcW1eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778074952; c=relaxed/simple;
-	bh=/Dwzo/puqQx4aqXdp4eoDtcbjc2mbw6uNmOMRrS8AgY=;
+	s=arc-20240116; t=1778074956; c=relaxed/simple;
+	bh=YMBtIgkv/0vd1T2Q/REmFWl7B9kwD1JjOym1CYgrerA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HfKD4iwdMlP+NCUiPYrJ1StIjSXs05Nt8buy3YhPEnhBhEVeN1NmOpd6S13Ua5X26TwaKL4q3HzGeTdzoo3wX+PxWhlUX4gzNoF+tf9bKsiRqo2KEjy8SUMdGiwg/QppLeB/jC2z+ZPYVZGt5LAWbIpd2lTE0QUDvUpXOvrY2rU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Erbupagc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FDF1C2BCC9;
-	Wed,  6 May 2026 13:42:31 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=GuJkdovncR6Pm8PFfbboui+Tr/kQnMl78/AUyZkJJhZDaDDv/B0W0D70c5FVupq0ClhnV96k73hHEgVPNXf5sPmhbA947N8TDMqhAlB02LxDG/QJYCKYMke44VhZdz7lcJVwHAguM7P9WXaAYcYxbKzShCZDCYe2iyKcJrH05j8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q8VZAc1j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00DFCC2BCC4;
+	Wed,  6 May 2026 13:42:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778074951;
-	bh=/Dwzo/puqQx4aqXdp4eoDtcbjc2mbw6uNmOMRrS8AgY=;
+	s=k20201202; t=1778074955;
+	bh=YMBtIgkv/0vd1T2Q/REmFWl7B9kwD1JjOym1CYgrerA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ErbupagchoYysG/5Mic6W9/FxVP4EkCRqNgj+nOQ5/oyyIOvAu9y+jVntJiX4EOWP
-	 qX3YNOXM3J11a2ggGn6Ob0wSGX+TIjNi2MH9uBjZNnbidRL3mqa9yTAi6I/FvrJk8w
-	 x36BP8Ze9RLEHu8WwXMABmJ7MyBUhPYA4LAOL3krDNc6IoJoq0r6AcLOhpqmhKmL2B
-	 spxjC5z7Jyh7jtfFugqRgDPIEaTGe5YAxbdsfJJnRg1a1Tu556HOEwMSZc3k3q+YJX
-	 3b9ADud9BuNiwSy9DSkbuOMsOU8AOPk9RbhBoSLgvO5dLWDL3SKRS6qxwpaUs0pvKE
-	 7SVHAC0lazJjw==
+	b=q8VZAc1jKjhYkUce5aTh0zexq4y8C1u0/kYwDMq/fi4b5/BGgGyEcabyeYJr2ikps
+	 tbpHkK4690619IA7Seo//dI++5K1FUI3MmCTv0/vzsBwZEXPOqSrLvrdbiVu7Mx8gh
+	 6yKGnfFXcHTtCbFFKM/SjKiOJJvhnL8mk4DfpMTNViV3MWj0ZemPBcQT4+6rZv3khS
+	 3oY/zdjZjDFl89TJNF69XmL51iMVurwGfhOUV6G88SCgKYU99B7tsnIhky3MMB8qLU
+	 nWnHmzlT8Dy78VVc2SxQV8y/kc8NqAZVOezC+KtmDYUdzgjp6Da2lA63wKF4f7Z+je
+	 qJzoK1/Nxy0PA==
 From: Thierry Reding <thierry.reding@kernel.org>
-Date: Wed, 06 May 2026 15:41:56 +0200
-Subject: [PATCH 5/9] PCI: tegra: Explicitly specify PMC instance to use
+Date: Wed, 06 May 2026 15:41:57 +0200
+Subject: [PATCH 6/9] usb: xhci: tegra: Explicitly specify PMC instance to
+ use
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260506-pmc-v1-5-a6de5da7216b@nvidia.com>
+Message-Id: <20260506-pmc-v1-6-a6de5da7216b@nvidia.com>
 References: <20260506-pmc-v1-0-a6de5da7216b@nvidia.com>
 In-Reply-To: <20260506-pmc-v1-0-a6de5da7216b@nvidia.com>
 To: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
@@ -80,30 +81,30 @@ Cc: linux-ide@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-pci@vger.kernel.org, linux-usb@vger.kernel.org, 
  Thierry Reding <treding@nvidia.com>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2848; i=treding@nvidia.com;
- h=from:subject:message-id; bh=CYr96E6ms2Tk8ZDR+mP5HFZviPNyyl97Fe72pEjoZuw=;
- b=owEBbQKS/ZANAwAKAd0jrNd/PrOhAcsmYgBp+0UwxL3VvzItqN2RUEDLi5k9l0Y21sq4kNtrK
- qnl9jDEtjmJAjMEAAEKAB0WIQSI6sMIAUnM98CNyJ/dI6zXfz6zoQUCaftFMAAKCRDdI6zXfz6z
- ofMMD/0eaFvDXeIaU/iJrk/ytzSRyQdrahoL/bFCGo1OX82cfER4LwQC6h01yPnCRfaPgB9EMy6
- +CH8w/uVW2W1ZBpIrcfsl3kPKaLOlVeLXbY+A0iqY6vjxo2bH2AqnxpprUK/G9AO7oDeTZaOvdT
- LpzXOyzMOgr0YNTTI8iGg4OoRuz6al8myVgv88eBTdI18op304dE7dpjFbxgsxe+CVcUhm05Y9j
- X/HuIvzVGxaOkhFIYUpLZfaSOeufkfxOjyAhi4j0XWIyGJ2eqk+/rZujKIWWnZCNbj5CQbp7GIB
- 8DjffrNzntPo2TtFqM4ENhBu0r6UowLe3t3sEoqrAS7wBUGCbVAztRG2g6vkBpy3GfozfpWp39y
- kSULfGPUuDg1khofowoLEXTS7RZEOX1KyEBKtqyONnNbIGE8CIVYBsvnJtDoF7p5b2BBc1sigjR
- OZ5o/S78nK668Kr/PM99OCnDkKnjB3F/bmoQAL0TP7OUBKnrWRm3At6SgRTGNE1pGtEhSWvPKZU
- pfAk9gELQMzSyDhljS1nNXbScYiUSki26vIewOMAde0XnFIIUga2sFx2L0pgkLH1wEwe6I2k7U6
- fC5CfKU9DjCPQ9mu8mSYRof9LHRFnqZzmU19VFET7c5hkSuDzdjy6KSMYmoI+DXV5BgVYTETzNG
- fgN6bB+QAB/82/g==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3100; i=treding@nvidia.com;
+ h=from:subject:message-id; bh=59LKaPbdXc/3cXqAypoqqQT4hvZBv70PYCPPUxuHdSE=;
+ b=owEBbQKS/ZANAwAKAd0jrNd/PrOhAcsmYgBp+0Uwjf/7ylsfyp/FAMe7OvIMjXJRmECcGvqVZ
+ UdgOe3ty+OJAjMEAAEKAB0WIQSI6sMIAUnM98CNyJ/dI6zXfz6zoQUCaftFMAAKCRDdI6zXfz6z
+ oUr/D/oDRCFAmlPpPBjksDR0c4WYjTIIgAxZyXVTwR/BZIayR2+hDUes+Ers37L4X+dcwam6dP1
+ Mh/NYLYivVsc8JPA2s4Sh8AnPMZDnR73dmYHAkjioFdvHKQ9kCPf6VDL9LuJ8iHM5ml+5lNy1Cd
+ LEE9AWIbrzoUTUxwgy4XQVyUOomYhY3vukCkUqteP4y4BGfUhevwYGzQFbHCV4vyZAT4+urTydX
+ 2b2k1jShmK+uEkkYXm7WUTIF5BUVdAn6d/IKzSBt21YmXtDXpaX6Tzn+8a17jB3R6wsdi2kNpnH
+ MLP4k1/ipPn21FyY5bWaNkTBeOkW+rF3KSSf7E99TqvZQCJHFEvtGMeDxq112bFWeAu6Vim9TIP
+ JivdrWQUbK2iZb+US3DF3Hiey/aSvj1ttSAQPOoMG6CdRr19XJZKfufMvYkjowSHTfwbwhNMeTj
+ RDh7pJoTmia0m+gfXVGJyvu/1iWbTk0kWTQWuPqAwsCmQUJaArldYdeLColaKSwzr4p14oLhGeE
+ +9jWHeQtlhstICfUV296Vsv9hYdp7inn9h/qimHAe24rzHd8Zszs7xDWkcgxHPZkNIUOna/FwXp
+ +7hy6gArw+JwkdIuoFtay+dwoxXVMNRoYw+h/Nta0GmCYAqeutmeXlwpl2+fAHui33MG3YOA3iE
+ pWK00Z5pZRkvs6w==
 X-Developer-Key: i=treding@nvidia.com; a=openpgp;
  fpr=88EAC3080149CCF7C08DC89FDD23ACD77F3EB3A1
-X-Rspamd-Queue-Id: EBA304DB437
+X-Rspamd-Queue-Id: AB3D24DB4C0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -111,7 +112,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,redhat.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,google.com,intel.com,linuxfoundation.org,pengutronix.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60612-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60613-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[31];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
@@ -123,7 +124,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:mid,nvidia.com:email]
 
 From: Thierry Reding <treding@nvidia.com>
@@ -134,79 +135,93 @@ PMC APIs.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/pci/controller/pci-tegra.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ drivers/usb/host/xhci-tegra.c | 38 ++++++++++++++++++++++++++------------
+ 1 file changed, 26 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-index 512309763d1f..2c6c521e6901 100644
---- a/drivers/pci/controller/pci-tegra.c
-+++ b/drivers/pci/controller/pci-tegra.c
-@@ -340,6 +340,8 @@ struct tegra_pcie {
- 	struct reset_control *afi_rst;
- 	struct reset_control *pcie_xrst;
+diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
+index d2214d309e96..122b711929ef 100644
+--- a/drivers/usb/host/xhci-tegra.c
++++ b/drivers/usb/host/xhci-tegra.c
+@@ -292,6 +292,7 @@ struct tegra_xusb {
+ 	struct reset_control *host_rst;
+ 	struct reset_control *ss_rst;
  
 +	struct tegra_pmc *pmc;
-+
- 	bool legacy_phy;
- 	struct phy *phy;
- 
-@@ -1165,7 +1167,7 @@ static void tegra_pcie_power_off(struct tegra_pcie *pcie)
- 	clk_disable_unprepare(pcie->afi_clk);
- 
- 	if (!dev->pm_domain)
--		tegra_powergate_power_off(TEGRA_POWERGATE_PCIE);
-+		tegra_pmc_powergate_power_off(pcie->pmc, TEGRA_POWERGATE_PCIE);
- 
- 	err = regulator_bulk_disable(pcie->num_supplies, pcie->supplies);
- 	if (err < 0)
-@@ -1183,7 +1185,7 @@ static int tegra_pcie_power_on(struct tegra_pcie *pcie)
- 	reset_control_assert(pcie->pex_rst);
- 
- 	if (!dev->pm_domain)
--		tegra_powergate_power_off(TEGRA_POWERGATE_PCIE);
-+		tegra_pmc_powergate_power_off(pcie->pmc, TEGRA_POWERGATE_PCIE);
- 
- 	/* enable regulators */
- 	err = regulator_bulk_enable(pcie->num_supplies, pcie->supplies);
-@@ -1191,12 +1193,14 @@ static int tegra_pcie_power_on(struct tegra_pcie *pcie)
- 		dev_err(dev, "failed to enable regulators: %d\n", err);
- 
- 	if (!dev->pm_domain) {
--		err = tegra_powergate_power_on(TEGRA_POWERGATE_PCIE);
-+		err = tegra_pmc_powergate_power_on(pcie->pmc,
-+						   TEGRA_POWERGATE_PCIE);
- 		if (err) {
- 			dev_err(dev, "failed to power ungate: %d\n", err);
- 			goto regulator_disable;
+ 	struct device *genpd_dev_host;
+ 	struct device *genpd_dev_ss;
+ 	bool use_genpd;
+@@ -1188,20 +1189,23 @@ static int tegra_xusb_unpowergate_partitions(struct tegra_xusb *tegra)
+ 			return rc;
  		}
--		err = tegra_powergate_remove_clamping(TEGRA_POWERGATE_PCIE);
-+		err = tegra_pmc_powergate_remove_clamping(pcie->pmc,
-+							  TEGRA_POWERGATE_PCIE);
- 		if (err) {
- 			dev_err(dev, "failed to remove clamp: %d\n", err);
- 			goto powergate;
-@@ -1234,7 +1238,7 @@ static int tegra_pcie_power_on(struct tegra_pcie *pcie)
- 	clk_disable_unprepare(pcie->afi_clk);
- powergate:
- 	if (!dev->pm_domain)
--		tegra_powergate_power_off(TEGRA_POWERGATE_PCIE);
-+		tegra_pmc_powergate_power_off(pcie->pmc, TEGRA_POWERGATE_PCIE);
- regulator_disable:
- 	regulator_bulk_disable(pcie->num_supplies, pcie->supplies);
+ 	} else {
+-		rc = tegra_powergate_sequence_power_up(TEGRA_POWERGATE_XUSBA,
+-							tegra->ss_clk,
+-							tegra->ss_rst);
++		rc = tegra_pmc_powergate_sequence_power_up(tegra->pmc,
++							   TEGRA_POWERGATE_XUSBA,
++							   tegra->ss_clk,
++							   tegra->ss_rst);
+ 		if (rc < 0) {
+ 			dev_err(dev, "failed to enable XUSB SS partition\n");
+ 			return rc;
+ 		}
  
-@@ -1432,6 +1436,12 @@ static int tegra_pcie_get_resources(struct tegra_pcie *pcie)
- 		return err;
+-		rc = tegra_powergate_sequence_power_up(TEGRA_POWERGATE_XUSBC,
+-							tegra->host_clk,
+-							tegra->host_rst);
++		rc = tegra_pmc_powergate_sequence_power_up(tegra->pmc,
++							   TEGRA_POWERGATE_XUSBC,
++							   tegra->host_clk,
++							   tegra->host_rst);
+ 		if (rc < 0) {
+ 			dev_err(dev, "failed to enable XUSB Host partition\n");
+-			tegra_powergate_power_off(TEGRA_POWERGATE_XUSBA);
++			tegra_pmc_powergate_power_off(tegra->pmc,
++						      TEGRA_POWERGATE_XUSBA);
+ 			return rc;
+ 		}
  	}
+@@ -1228,18 +1232,21 @@ static int tegra_xusb_powergate_partitions(struct tegra_xusb *tegra)
+ 			return rc;
+ 		}
+ 	} else {
+-		rc = tegra_powergate_power_off(TEGRA_POWERGATE_XUSBC);
++		rc = tegra_pmc_powergate_power_off(tegra->pmc,
++						   TEGRA_POWERGATE_XUSBC);
+ 		if (rc < 0) {
+ 			dev_err(dev, "failed to disable XUSB Host partition\n");
+ 			return rc;
+ 		}
  
-+	pcie->pmc = devm_tegra_pmc_get(dev);
-+	if (IS_ERR(pcie->pmc)) {
-+		dev_err_probe(dev, PTR_ERR(pcie->pmc), "failed to get PMC\n");
-+		return err;
-+	}
+-		rc = tegra_powergate_power_off(TEGRA_POWERGATE_XUSBA);
++		rc = tegra_pmc_powergate_power_off(tegra->pmc,
++						   TEGRA_POWERGATE_XUSBA);
+ 		if (rc < 0) {
+ 			dev_err(dev, "failed to disable XUSB SS partition\n");
+-			tegra_powergate_sequence_power_up(TEGRA_POWERGATE_XUSBC,
+-							  tegra->host_clk,
+-							  tegra->host_rst);
++			tegra_pmc_powergate_sequence_power_up(tegra->pmc,
++							      TEGRA_POWERGATE_XUSBC,
++							      tegra->host_clk,
++							      tegra->host_rst);
+ 			return rc;
+ 		}
+ 	}
+@@ -1733,6 +1740,13 @@ static int tegra_xusb_probe(struct platform_device *pdev)
+ 				err);
+ 			goto put_padctl;
+ 		}
 +
- 	if (soc->program_uphy) {
- 		err = tegra_pcie_phys_get(pcie);
- 		if (err < 0) {
++		tegra->pmc = devm_tegra_pmc_get(&pdev->dev);
++		if (IS_ERR(tegra->pmc)) {
++			err = dev_err_probe(&pdev->dev, PTR_ERR(tegra->pmc),
++					    "failed to get PMC\n");
++			goto put_padctl;
++		}
+ 	} else {
+ 		err = tegra_xusb_powerdomain_init(&pdev->dev, tegra);
+ 		if (err)
 
 -- 
 2.52.0
