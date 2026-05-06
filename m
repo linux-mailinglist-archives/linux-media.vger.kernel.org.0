@@ -1,252 +1,252 @@
-Return-Path: <linux-media+bounces-60641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60642-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gDQ3BQ9c+2mUaAMAu9opvQ
-	(envelope-from <linux-media+bounces-60641-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:19:43 +0200
+	id eKZ0JqNc+2mUaAMAu9opvQ
+	(envelope-from <linux-media+bounces-60642-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:22:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4395D4DD0C7
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:19:42 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 881384DD188
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 17:22:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EFA233026C0E
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 15:15:28 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 214243048F2C
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 15:16:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59320481642;
-	Wed,  6 May 2026 15:15:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECE4F48BD3B;
+	Wed,  6 May 2026 15:15:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="KVpt6Hx6"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="n/VwO3gu";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="a76mmv1j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C171B3EF65E;
-	Wed,  6 May 2026 15:15:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778080525; cv=pass; b=RjY2nU+mZVMxa01hsIqUiB/e7R91JvYxn7LtiAliSBhW2ehTQFqQpULaJ0HplKMPLFO51gnnlJkc3OvtXoLV5RvnnL1WQgnl+RcB2KmgoFyTInbPzFD2eeWXYFGF9NFD78Bwr1gX4aed22YjOwYbZBneWn+o3pYer4JRu0Vte3w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778080525; c=relaxed/simple;
-	bh=yzjWpdl2MAFZ9M5ei25/VfpUboYndj1bJ4ZgFPsDjrw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aqvxJPKICpr19ohCfKQ2/xFdx/a5Ku5ypoa/L5zxm0DuwibIjckCE1dWiaWob+K/YATG8KUVIKrUOMcf5wcRrE1T0pcz/DMt3uKkrhOPE3lYQOoF9iol+G2/Jndyv/PRbdOCs3lCInX+n+QC8iZmIaeeDg6u8lS0MXAXkT8aPwY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=KVpt6Hx6; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1778080494; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=ixS5eLvs7I2dnfRcs+L+HtR6kGENPZFsVABEe4tsnh2HUo5IJt2fCYZ7shtqrsWQuf626cIXVW5wO/YeBr7Ncnx5RUaKXld9ONSi3PEiNpCRb6hh89p06Cw9AA1Kx1+VODFvEZR+VA5YHzDYsYthhK6b8lMoO1hn5ncKhjn6wjI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1778080494; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=bFMYULcpZyad3lOGrB5sIpSUs1w1oVFnhviqEt0JPQ4=; 
-	b=Q0O59o3IB0rqq6w26v2iWVbikXTNZIo+zRhSCvugTq2aqKDdwhwECflKwpJO5iJnCx1mBiATr2/th+yxNNsjCTRJOM0xabfYmHixQG3Y0T3CrBuskPYsIOJLh4z0rEtAcU2IQiJdIA6lUnoM9TUQPc+WOgYi3YkakGrazdz0Z2w=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778080494;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=bFMYULcpZyad3lOGrB5sIpSUs1w1oVFnhviqEt0JPQ4=;
-	b=KVpt6Hx66oRhBOLlcguyPd8qg8/xaTUSp/8d1rw/uMMKYqnqKqp1p+Vy88lTEFZp
-	vQlQ21VlfSYQwE8pXCYkeiwCQ2OV4y3CCBMuEy2BQUDZKTgTRyQCTHSCQBPOy3kHc6J
-	J769PGroPn+YM5DmZ+m5aGqUQE/pRB4cbNVvURyI=
-Received: by mx.zohomail.com with SMTPS id 177808049351924.671974264945334;
-	Wed, 6 May 2026 08:14:53 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Alice Ryhl <aliceryhl@google.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>, Ketil Johnsen <ketil.johnsen@arm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 6/8] drm/panthor: Explicit expansion of locked VM region
-Date: Wed, 06 May 2026 17:14:45 +0200
-Message-ID: <kC1hpRBAS8uGaw7vVFyW2g@collabora.com>
-In-Reply-To: <20260505140516.1372388-7-ketil.johnsen@arm.com>
-References:
- <20260505140516.1372388-1-ketil.johnsen@arm.com>
- <20260505140516.1372388-7-ketil.johnsen@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6FB47AF68
+	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 15:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778080553; cv=none; b=gVn1U7T58ew6uk9w1Soo8PlvG9HqU5x+96cGajsA5hX2JaYgYAbxNLCDicBEYUOnluQC/pbTAvuhV+5FEF7BPZEipWaxACPK39pJQ3af2mp+yXDtTNN9dQe/jX4aX9bnMeyqQJg3+mxxzYs2OjScQsde9UKT+vRkhDA/U8SE0DQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778080553; c=relaxed/simple;
+	bh=RhXRCgMNScIf77wnkS151xUmWJL1ppbZupG/e8th0Wo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r/GUHNjvkZC8BJ0HY1ScPiNTHMUMRYEmBK6uRo5j51V3aQWjYWk2TQ2jzjAPeNSGMhDj3H5JABw9t6DwagxMBKeBRokRyRAIjAj5SDTzGgK6MaJfs8FdU7iqwxqGUdMJ78VbEoZLlN65FiY+6rvcrxiY+uO6RHZ4b03EJtR4e5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=n/VwO3gu; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=a76mmv1j; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 646A4giI3524219
+	for <linux-media@vger.kernel.org>; Wed, 6 May 2026 15:15:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	l/4qDhc3xqA5oi78owxsgPypqoMvOhzYxv2FjuGz/0A=; b=n/VwO3guoR+gbKM1
+	vb0fnDr6mJk5eh7Iu4Pb2rehc1/6B0SVyZwPzmokdVjmrT8XUkkGo1LD2LUHZ04Q
+	tG22UnrMqoEzNOZApoH3mapGqv5Hwee9CyqQpytgakTfwbG0E+whoET0gqlMKs3s
+	mO4SRSIPPrKdkw7EbeZRx3Ux744J6zKBgWNIqNq1/QTcrvDfBQ8+NCukHkeiGaIT
+	kTCgHg/Gxc0+jtAASUiSJaDqXNiCYxQTu1P8B6VDmSyD/TRPbwHzl5OjVx1oSLlr
+	dLOwLeqlm3Wa3ldEbRcqqdmHu5amea0mG1rREAEc3q+ePIZY7VH0yw+/+5839/Md
+	Oly30Q==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e03jws56y-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 06 May 2026 15:15:48 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-35e56ed5d5bso1332677a91.0
+        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 08:15:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778080548; x=1778685348; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l/4qDhc3xqA5oi78owxsgPypqoMvOhzYxv2FjuGz/0A=;
+        b=a76mmv1jqYRv5tEMLtRZgwP+sEyFnT7uag5eD3+TVweFMbOY0KF+rsNiRNHpBrJdqS
+         0gpwXmiqj+M0RZqMTbsQYILISJxR4cgkZw+t7bQ8tn2Ys34RtklFZhu2dDEzLKaetXnh
+         9OZ4+EtlRQekqgbNVJ1Wb3SXTaGmbWo+O9RGpRZ+95Ti7ZeqpAIePL0cqA7ZGHnjRN7r
+         INehhDIqrWhIOE1pjnUZSusm06H1U7Ew9ATFpm1CBucCqkPwGWK+7v/10JOl2aNNK0wx
+         5cOIqqUsHsG051Bl+/JvufEKcjAVu6TM6w1zfEw2ocwXdFRnrqrwY7wfufeXMMPO2d6n
+         3qNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778080548; x=1778685348;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l/4qDhc3xqA5oi78owxsgPypqoMvOhzYxv2FjuGz/0A=;
+        b=mureh51Xl4lFzxTnPfh8+Yqzxfak6oVkHhcqAZLgOr8qhTB7YGAQOvOk66D0Khhg69
+         c5DL8MHUKjngmT/k4EgH76ILY+KF0V6M6QNE4rVA9LdqC1bZ9a+gQGtyZ1nKT3xr/Ygh
+         y97XhQi1Z4MG6VWzFyufJ8dQ3VZslMVzKuaHh4+ks2scT+dYt6Cu87V6kdYxG3I2Qd0q
+         TNXTteMKdN43Dk8ET2dWUUsiTmZAD0BtreeRuNTvT8HmuO9/H05Y/Oals6YOF1/4dvxg
+         B6EJiGYPmXHEzT8zWBmRJazN2daNS6kytKuoSzKzHubsC35fTK8x5z7SfBF3mDFS+y7S
+         6sgQ==
+X-Gm-Message-State: AOJu0Yzv1a2Kuz5huTHbmQP1ZP+EqSDRXsyoAyo0XrSRSVk2VqgxC/0F
+	Rm8B4PMc/iufglK0eEVdyJaJ0Z/gagyZOH7GMtTPH/lAZAEMVrsHYw9eVpZXhrBaD05ZXJWAyX2
+	3pShj9aUmOu41kM9lCmyTSpF7erms5RsIazLVheg3EEFPO6QrzaVSUSME8gStQVadOg==
+X-Gm-Gg: AeBDieuZfL9T3ALeGZsGztU2c1AW7lWYvUYJwST2dehq/2W/kD6ZxzXVx1Ha4v+UzSg
+	da70O0dJEh9ixBYKWpTmFKjo4Nb60KDi3QTbbu3TSddsATjTtNI6951IvwGaryt1kAuV9CVi0ih
+	WyOesmNaRU6mpi1C1nuZt+dm/LZVuzYP1/6TnVFijKPwwpAo2R48AxdxTspdCbq+Dl3LUDJ9I+D
+	c8FA8FFSUNKINgZoK+yOQY9TH3VfAh/jZ2XxDP33YAlfY2ygXM5iy4fHHcGNHG34ZkgldYQjUWh
+	vEhT/xcvS62Ld/abBDFyOpUxVDwEAKSNEWX4f2qElxujaWacudtnoc9226jJdJ/5rAxj2wRk2Ic
+	mp90wZnCcLKUWOnEsJL0XgrEDDJGwfj4vZSjNFbsjytPPLkVZhmNLsowTb62v2MpF
+X-Received: by 2002:a17:90a:e7d1:b0:35f:bc9f:e1b6 with SMTP id 98e67ed59e1d1-365a96b6eb6mr2734366a91.1.1778080547426;
+        Wed, 06 May 2026 08:15:47 -0700 (PDT)
+X-Received: by 2002:a17:90a:e7d1:b0:35f:bc9f:e1b6 with SMTP id 98e67ed59e1d1-365a96b6eb6mr2734310a91.1.1778080546676;
+        Wed, 06 May 2026 08:15:46 -0700 (PDT)
+Received: from [10.204.101.47] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-365b4f70e8asm4011790a91.11.2026.05.06.08.15.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 May 2026 08:15:46 -0700 (PDT)
+Message-ID: <734e8ad0-54e0-4fcd-a3b4-8e99fb521ea1@oss.qualcomm.com>
+Date: Wed, 6 May 2026 20:45:38 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Rspamd-Queue-Id: 4395D4DD0C7
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 10/13] media: iris: Add power sequence for Glymur
+To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        iommu@lists.linux.dev
+References: <20260505-glymur-v4-0-17571dbd1caa@oss.qualcomm.com>
+ <20260505-glymur-v4-10-17571dbd1caa@oss.qualcomm.com>
+Content-Language: en-US
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <20260505-glymur-v4-10-17571dbd1caa@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=J4CaKgnS c=1 sm=1 tr=0 ts=69fb5b24 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=EUspDBNiAAAA:8 a=4ZKAssT4AknkAVwkBooA:9 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDE1MCBTYWx0ZWRfXxtdJrbi3WtDM
+ OwCzOT9x1PP5BNTgh9WxJG0UY846IV+A9N0KjqC21LQi0KXEcA0Q1EgqfNA4sDiGTbWMBPsuJYa
+ OKzzkqT44O0oB32Clohw2ZM+3AktbfEEHqdS88rPCJ/1dJVverAxAWFY5wM297ORKsismdropr5
+ mefZSe/j4fLliaIQL0mLVNg8qvAo/TrruBIBD/aiTGNuQUFzJklDquC7eE+iJ85e3dKe69LnA82
+ QVXCOWyiF2bq4y8AsHa8a5xwyXigGHeneik/vR7rTmd/4rd8/qI3oRyQVdn15WqKWR0NzfzICa6
+ 4LouFmbWHL9bK7jAoDk/eKNQ48KEL4JXDTqAd6/Ac2wvETrpCfM9+Nkr1bWjIQFMoCyGj188YJQ
+ Qpcemd8WSw4EWDipNEDZBB2CGekqYHARdYKcbco+vHcpRNBTaUsLSsR59+68wcezb/sHRZ+DSJ4
+ LWmiZq5Ax+yrXDzpctg==
+X-Proofpoint-GUID: VRbgmqD6XcG4FJPD9h2covZ18a36vL5E
+X-Proofpoint-ORIG-GUID: VRbgmqD6XcG4FJPD9h2covZ18a36vL5E
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-06_01,2026-05-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 malwarescore=0 impostorscore=0 adultscore=0
+ phishscore=0 suspectscore=0 spamscore=0 bulkscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605060150
+X-Rspamd-Queue-Id: 881384DD188
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60641-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,lwn.net,linuxfoundation.org,linaro.org,collabora.com,arm.com,google.com,amd.com];
+	TAGGED_FROM(0.00)[bounces-60642-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,linux.dev,kernel.org,linaro.org,gmail.com,8bytes.org,arm.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[29];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:mid,arm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 
-On Tuesday, 5 May 2026 16:05:12 Central European Summer Time Ketil Johnsen =
-wrote:
-> Currently the panthor_vm_lock_region() function will implicitly expand
-> an already locked VM region. This can be problematic because the caller
-> do not reliably know if it needs to call panthor_vm_unlock_region()
-> or not.
->=20
-> Worth noting, there is currently no known issues with this as the code
-> is written today.
->=20
-> This change introduces panthor_vm_expand_region() which will only work
-> if there is already a locked VM region. This again means that the
-> original lock and unlock functions can work as a pair. This pairing is
-> needed for subsequent protected memory changes.
->=20
-> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+
+
+On 5/5/2026 12:29 PM, Vishnu Reddy wrote:
+> Glymur has a secondary video codec core (vcodec1), equivalent to the
+> primary core (vcodec0), but with independent power domains, clocks,
+> and reset lines. Reuse the existing code wherever possible and add
+> power sequence for vcodec1.
+> 
+> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 69 +++++++++++++++++++--------
->  1 file changed, 50 insertions(+), 19 deletions(-)
->=20
+>   .../platform/qcom/iris/iris_platform_common.h      |   4 +
+>   drivers/media/platform/qcom/iris/iris_vpu3x.c      | 137 +++++++++++++++++++++
+>   drivers/media/platform/qcom/iris/iris_vpu_common.h |   1 +
+>   .../platform/qcom/iris/iris_vpu_register_defines.h |   7 ++
+>   4 files changed, 149 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> index 7d59e6364e9d..8995136ad29e 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> @@ -61,6 +61,9 @@ enum platform_clk_type {
+>   	IRIS_VPP0_HW_CLK,
+>   	IRIS_VPP1_HW_CLK,
+>   	IRIS_APV_HW_CLK,
+> +	IRIS_AXI_VCODEC1_CLK,
+> +	IRIS_VCODEC1_CLK,
+> +	IRIS_VCODEC1_FREERUN_CLK,
+>   };
+>   
+>   struct platform_clk_data {
+> @@ -210,6 +213,7 @@ enum platform_pm_domain_type {
+>   	IRIS_VPP0_HW_POWER_DOMAIN,
+>   	IRIS_VPP1_HW_POWER_DOMAIN,
+>   	IRIS_APV_HW_POWER_DOMAIN,
+> +	IRIS_VCODEC1_POWER_DOMAIN,
+>   };
+>   
+>   struct platform_pd_data {
+> diff --git a/drivers/media/platform/qcom/iris/iris_vpu3x.c b/drivers/media/platform/qcom/iris/iris_vpu3x.c
+> index 13fbb21c2182..0d0a239f9feb 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vpu3x.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vpu3x.c
+> @@ -27,6 +27,16 @@ static bool iris_vpu3x_hw_power_collapsed(struct iris_core *core)
+>   	return pwr_status ? false : true;
+>   }
+>   
+> +static bool iris_vpu36_hw1_power_collapsed(struct iris_core *core)
+> +{
+> +	u32 value, pwr_status;
+> +
+> +	value = readl(core->reg_base + WRAPPER_CORE_POWER_STATUS);
+> +	pwr_status = value & BIT(4);
 
-While trying this series, I attempted my usual
-`modprobe -r panthor && modprobe panthor protected_heap_name=3Ddefault_cma_=
-region`.
+define these bits position
 
-Unfortunately, it oopses when attempting to unmap the sg for a bo labeled
-"FW section" on panthor module unload, and I bisected it to this patch.
+#define VCODEC0_POWER_STATUS BIT(1)
+#define VCODEC1_POWER_STATUS BIT(4)
 
-The oops:
+with this,
 
-[  598.515550] Unable to handle kernel paging request at virtual address 00=
-00000000400267
-[  598.516864] Mem abort info:
-[  598.517676]   ESR =3D 0x0000000096000004
-[  598.518560]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
-[  598.520414]   SET =3D 0, FnV =3D 0
-[  598.521275]   EA =3D 0, S1PTW =3D 0
-[  598.522099]   FSC =3D 0x04: level 0 translation fault
-[  598.523069] Data abort info:
-[  598.524311]   ISV =3D 0, ISS =3D 0x00000004, ISS2 =3D 0x00000000
-[  598.525566]   CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
-[  598.526850]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
-[  598.527905] user pgtable: 4k pages, 48-bit VAs, pgdp=3D0000000104056000
-[  598.529019] [0000000000400267] pgd=3D0000000000000000, p4d=3D00000000000=
-00000
-[  598.530170] Internal error: Oops: 0000000096000004 [#1]  SMP
-[  598.531158] Modules linked in: btusb btrtl btmtk btintel btbcm bluetooth=
- ecdh_generic ecc kpp snd_soc_hdmi_codec cfg80211 r8169 rfkill_gpio pwm_fan=
- rfkill snd_soc_es8316 rtc_hym8563 rk805_pwrkey at24 fusb302 tcpm aux_hpd_b=
-ridge display_connector snd_soc_simple_card phy_rockchip_samsung_hdptx phy_=
-rockchip_usbdp rockchip_thermal typec phy_rockchip_naneng_combphy rockchip_=
-saradc industrialio_triggered_buffer kfifo_buf rockchipdrm inno_hdmi dw_dp =
-hantro_vpu rockchip_vdec dw_mipi_dsi2 v4l2_jpeg v4l2_vp9 rockchip_rga dw_mi=
-pi_dsi v4l2_h264 synopsys_hdmirx v4l2_dv_timings spi_rockchip_sfc videobuf2=
-_dma_contig videobuf2_dma_sg v4l2_mem2mem videobuf2_memops dw_hdmi_qp onboa=
-rd_usb_dev analogix_dp videobuf2_v4l2 videobuf2_common snd_soc_rockchip_i2s=
-_tdm dw_hdmi videodev mc drm_display_helper nvme cec panthor(-) drm_gpuvm d=
-rm_exec gpu_sched drm_dp_aux_bus drm_dma_helper drm_client_lib nvme_core dr=
-m_kms_helper drm pci_endpoint_test backlight snd_soc_audio_graph_card snd_s=
-oc_simple_card_utils fuse dm_mod
-[  598.541237] CPU: 6 UID: 0 PID: 806 Comm: modprobe Not tainted 7.1.0-rc2-=
-00726-g8ab0a3092b56-dirty #2 PREEMPT
-[  598.542733] Hardware name: Radxa ROCK 5T (DT)
-[  598.543746] pstate: 80400009 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=
-=3D--)
-[  598.544991] pc : dma_unmap_sg_attrs (kernel/dma/mapping.c:0)
-[  598.546021] lr : panthor_gem_free_object (include/linux/dma-mapping.h:56=
-5 drivers/gpu/drm/panthor/panthor_gem.c:308 drivers/gpu/drm/panthor/panthor=
-_gem.c:469) panthor
-[  598.547180] sp : ffff80008835bb90
-[  598.548123] x29: ffff80008835bb90 x28: ffff00012610bf00 x27: 00000000000=
-00000
-[  598.549412] x26: 0000000000000000 x25: 0000000000000000 x24: 00000000000=
-00000
-[  598.550696] x23: ffff000127194600 x22: ffff0001271943d0 x21: ffff0001186=
-71000
-[  598.551984] x20: ffff000127194200 x19: ffff000127194600 x18: 00000000002=
-ab980
-[  598.553273] x17: 00000000002ab980 x16: ffffa39a6b372a04 x15: 00000000000=
-00000
-[  598.554568] x14: 0000000000000010 x13: 0000000000000000 x12: 00000000000=
-0003c
-[  598.555864] x11: 0000000000000002 x10: ffff000100a5d000 x9 : ffff0001186=
-71000
-[  598.557164] x8 : ffff000102f8b490 x7 : ffff000149569000 x6 : ffff0001495=
-69000
-[  598.558461] x5 : ffff000100faa7e8 x4 : 0000000000000000 x3 : 00000000000=
-00000
-[  598.559763] x2 : 0000000000000010 x1 : ffff000127194000 x0 : 00000000004=
-0000f
-[  598.561069] Call trace:
-[  598.561961]  dma_unmap_sg_attrs (kernel/dma/mapping.c:0) (P)
-[  598.563038] panthor_gem_free_object (include/linux/dma-mapping.h:565 dri=
-vers/gpu/drm/panthor/panthor_gem.c:308 drivers/gpu/drm/panthor/panthor_gem.=
-c:469) panthor
-[  598.564218] drm_gem_object_free (drivers/gpu/drm/drm_gem.c:1148) drm
-[  598.565386] panthor_kernel_bo_destroy (include/linux/kref.h:65 include/d=
-rm/drm_gem.h:565 include/drm/drm_gem.h:578 drivers/gpu/drm/panthor/panthor_=
-gem.c:1317) panthor
-[  598.566575] panthor_fw_unplug (drivers/gpu/drm/panthor/panthor_fw.c:1306=
-) panthor
-[  598.567705] panthor_device_unplug (drivers/gpu/drm/panthor/panthor_devic=
-e.c:103) panthor
-[  598.568878] panthor_remove (drivers/gpu/drm/panthor/panthor_drv.c:1846) =
-panthor
-[  598.569991]  platform_remove (drivers/base/platform.c:1435)
-[  598.571029]  device_release_driver_internal (drivers/base/dd.c:619 drive=
-rs/base/dd.c:1352 drivers/base/dd.c:1375)
-[  598.572209]  driver_detach (drivers/base/dd.c:1438)
-[  598.573237]  bus_remove_driver (drivers/base/bus.c:825)
-[  598.574304]  driver_unregister (drivers/base/driver.c:277)
-[  598.575363]  platform_driver_unregister (drivers/base/platform.c:920)
-[  598.576494] cleanup_module (drivers/gpu/drm/panthor/panthor_devfreq.c:13=
-4) panthor
-[  598.577617]  __arm64_sys_delete_module (kernel/module/main.c:863 kernel/=
-module/main.c:804 kernel/module/main.c:804)
-[  598.578751]  invoke_syscall (arch/arm64/kernel/syscall.c:35 arch/arm64/k=
-ernel/syscall.c:49)
-[  598.579794]  el0_svc_common (arch/arm64/kernel/syscall.c:121)
-[  598.580842]  do_el0_svc (arch/arm64/kernel/syscall.c:140)
-[  598.581862]  el0_svc (arch/arm64/kernel/entry-common.c:723)
-[  598.582853]  el0t_64_sync_handler (arch/arm64/kernel/entry-common.c:742)
-[  598.583949]  el0t_64_sync (arch/arm64/kernel/entry.S:594)
-
-Kind regards,
-Nicolas Frattaroli
-
-
+Reviewed-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
 
