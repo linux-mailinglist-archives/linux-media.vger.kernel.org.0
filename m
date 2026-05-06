@@ -1,51 +1,103 @@
-Return-Path: <linux-media+bounces-60651-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60652-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AO6sN1xm+2kzawMAu9opvQ
-	(envelope-from <linux-media+bounces-60651-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:03:40 +0200
+	id iEj/Fphm+2kbawMAu9opvQ
+	(envelope-from <linux-media+bounces-60652-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:04:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1B94DDCBF
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:03:40 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F03754DDD03
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:04:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0347330C0602
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 15:56:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 888FB30C9898
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 15:57:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BBF949690E;
-	Wed,  6 May 2026 15:55:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0A4E48AE30;
+	Wed,  6 May 2026 15:56:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="OP8+PNR9"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lUxvZK/P";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jIKjr2P7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0E04494A19;
-	Wed,  6 May 2026 15:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13223ED136
+	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 15:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778082952; cv=none; b=XqinJXXWDLdTiVeVALVXnhsC8fM/PJfnUKSxwLJbK6tAEyBwLX+GOaNN1cwQ+oCiPFkLz8ZnG3Bimu19lQQhdKUGG3hug9iazSq0+G47//eDWeYZw2iHilCsGjR8QZdKwjDZNMwFU3eWdkLWuz+d9h2R4F5H7bmLlnjuhh/X8O4=
+	t=1778083003; cv=none; b=J81vZG/WKMn5Xgmp5sSVw+POV2xItkFFBmyao+jtCMkKcAihDNskm6N3nE6j/Fy8XtANWGnZ4j5sSlsN6DxtXhziYfuXSZ/iGuxu6hWjqkzpgKPiTUhu95ftVwg2PL/upQG65oW95JMWGgK5fbs42hACRVcVjnCl5KLlEs8dmWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778082952; c=relaxed/simple;
-	bh=yx44QsR+dr0wp1FGWIHshhf2FouszWxeHYwpeS2FZdA=;
+	s=arc-20240116; t=1778083003; c=relaxed/simple;
+	bh=slFlcG18qKmRJPdDvfi5FDwm64deTGUrtGeGdyAySDI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i3i/c7kNlyWU+PIlqYOQo06YctKoTlhnoJVRamepVhKhcDOuaZWK4zJ/iNVAchF3tay0ADUoAagEnNS5E9TtFOUViIkCjk2pVRqqBboG02irBZ9wv2vyDGpl4A5009ud7ecAoR3eSGoQUzPD/OTZCxdVA5GjHu702QepHd+cIUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=OP8+PNR9; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F74D1A00;
-	Wed,  6 May 2026 08:55:42 -0700 (PDT)
-Received: from [10.57.69.49] (unknown [10.57.69.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DAE7A3F7B4;
-	Wed,  6 May 2026 08:55:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778082947; bh=yx44QsR+dr0wp1FGWIHshhf2FouszWxeHYwpeS2FZdA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OP8+PNR9HAAL7fsQC1pkWVwQFHDeoeuWGPOUMiDIZm2DfhnHN1KIfEHs0OrIRvYaz
-	 xZSj4xf4c/FtDLNgS6E19u5T/pdKEJmw6oI8rUcTk9jiwZCAJ5g1QeRXU4zdbx5elF
-	 cN/N/QgEV5oR424hZ7qnkvgDAFMaE0jWBZz6r+J8=
-Message-ID: <b3c98120-2493-46a5-a48c-d90c31cf25c0@arm.com>
-Date: Wed, 6 May 2026 16:55:38 +0100
+	 In-Reply-To:Content-Type; b=sLDL/qaiqMHCEVCP9P22KOxSlYrMhKxSfX/+D4/W0LAber+g2vQmvmZQHpPN+ZNua6FhJdDfO3p2+L97me3U3lfxL4pBr3xUi2J8dBf4h7rpI1tHe7z83vGi8r/XY4QV5mzbyo630oAKpEXbl2D3cduIJuldFYmW949Jwo554/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lUxvZK/P; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jIKjr2P7; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 646DJhrH529231
+	for <linux-media@vger.kernel.org>; Wed, 6 May 2026 15:56:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	0hbrdNEm+roBJyCislrqsmK+OlBVhAX1OhZtfM4e7C4=; b=lUxvZK/PdTXLb89b
+	kOoFZzfSwhMEpLuomTDMDCEb9V9gM+reKqMbt8imv00LFL4ox2+0XRRxQQKYs4H/
+	NETs2OgFotrUI2GcCrm7MF+nNG4n0jtg7T7bvOAZuMSXHRJO+7I0Ap2ACljVhWsI
+	3yk+jVM3ctQiYEa2TFQR/v2V0wb/DS9nkAU2PlK8Dg0TqRLSTlO0wAWbN58oJyjI
+	yRpcUQDms2KpkQk5y7fVN0D4TpOkiK+tRcE3nDm+ezn4J175nyy+POEhuepbYwjX
+	7ILtgxrunRAwI1Vk/7/V5qzBGZU3w8n/0FS4FbXUqyywjAhnMywFnbo+musI0766
+	x90uCA==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e015xa247-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 06 May 2026 15:56:38 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-35fc22424d9so15340012a91.2
+        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 08:56:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778082998; x=1778687798; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0hbrdNEm+roBJyCislrqsmK+OlBVhAX1OhZtfM4e7C4=;
+        b=jIKjr2P722tkurHjHV7xJofcCGFSsSiVhkBLM9r7JX2TYjtVT2va5NbJDtA6cvRNy0
+         /odua52NzkOUhW4cUmSUxUKD0W4jj6Zo4EwSNLzWCp98vpG8X152kq7zRAmucmqmXAg6
+         3akokDbb10zFfQrWPGBK9CoDoReRwLaHX3+FfBYup50lgedc1R9NTSZGTnEBra1HrYWT
+         uvjTt+gc1yBOTuot6dIrKINR0y+fSn3CB8f7iAjZBooRO59n1Lt55io+Fa9QaxrHWiua
+         g1Gde9ziCYWVDGkfHLrmiifdedEqLnRj/r5JTGvkfLtftG/wK1mmk3cmKqiEKfWBRe35
+         zuwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778082998; x=1778687798;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0hbrdNEm+roBJyCislrqsmK+OlBVhAX1OhZtfM4e7C4=;
+        b=XcsgnqEU85ZmwWjElX5jz6vuaXgwIBmcCmPdEQelcVE/CFIkORRuOQDErtjjSmJ1fV
+         /lMsjTbNWzUuntvaxAbO0AyCvYZy4yvybWwjgziDgIy+etiY1yrbklXjwksXhQX7z3u9
+         uxhT9qJqOLW9Im1j5ZFXGdYNuItZPT4VAtmMac3R0dPc20Qr9uN48Vt1bv8prZFDPPG4
+         PoQBvrKqoy1lrNUE2NSvIbuIQdQQwBWJLZcCEFsG9jLqUO/ge8K8G0gfIePrNKSOQRDl
+         3TAp2u+YBhOPkLuJQVBmePjOhwbHHw6qN1c6YDRb5cXq2UOfXnrLjrh2cDBwTLo23XJe
+         M1Ag==
+X-Gm-Message-State: AOJu0YxwnMkvcJ7bzic/1EYpUcmmP5fFQ8RlXxGuOLzXV2j8qGUpqJJA
+	rbw1Kd3piG5qOYoP7rj8cFBirotXqBsIZggWqINLjvZ7DS+D5JtFox/bziNXABeCusYXTC6x+MY
+	MD+EMz0M54IZUx/E8bFDqQDsqokQYYchTxMh2uuwiXaKpUSofF6L5Bit/rB8IvtloXw==
+X-Gm-Gg: AeBDiev0/GA9nvi1VSqvKUhSqLgXNY0bYyD697AILms7ukZMlg0qFRPQHjwalqHMgfy
+	S0yzzR+CfOHoKsfCofWJkWkbaJJMMuuuXXaKAJrxhYFk2cDfmdm54RbRBjj5MFuJXBth354xW5+
+	PBbjDUOm6Eb6mqeG35SkE3zKU0mWeSJzjkZzciRxjgcr7ZoIBEEDyTAEZwhEL2OSkWcHiPLwqVB
+	443B88s7sIe7CA3JGwaepXYrgwGliPW7MZu0WF3YaYKfvuGeVXg1AgmpmWuFpNngnZQebqySDzj
+	CxplJG6858XPqc21rXSJiAK8rkWDKNb5j78VEBB0Mufj0IAU4WDKBockKpv2xnLniiHyMXjEPwA
+	1j7vbyveBxWiavmeWX/hq1wxSLmv7AodNtlRBxbC7V+DVIPh8VgW2qlE0/iYavxo9
+X-Received: by 2002:a17:90b:520b:b0:35f:b293:7ac6 with SMTP id 98e67ed59e1d1-365ab3e6379mr4145706a91.6.1778082997922;
+        Wed, 06 May 2026 08:56:37 -0700 (PDT)
+X-Received: by 2002:a17:90b:520b:b0:35f:b293:7ac6 with SMTP id 98e67ed59e1d1-365ab3e6379mr4145671a91.6.1778082997424;
+        Wed, 06 May 2026 08:56:37 -0700 (PDT)
+Received: from [10.204.101.47] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-365b4bd8debsm2886209a91.2.2026.05.06.08.56.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 May 2026 08:56:36 -0700 (PDT)
+Message-ID: <47413644-1c3e-4668-980c-e60f7b8c1352@oss.qualcomm.com>
+Date: Wed, 6 May 2026 21:26:29 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,171 +105,99 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Let userspace explicitly trigger memory reclaims
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20260506-panthor-explicit-reclaim-v1-0-44f82ac147ce@collabora.com>
- <829b8887-48de-4cfa-8bb2-79db1471bb8d@arm.com>
- <qxAaM8FMQLuQt09qti64IA@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <qxAaM8FMQLuQt09qti64IA@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v4 12/13] media: iris: Add platform data for glymur
+To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        iommu@lists.linux.dev
+References: <20260505-glymur-v4-0-17571dbd1caa@oss.qualcomm.com>
+ <20260505-glymur-v4-12-17571dbd1caa@oss.qualcomm.com>
+Content-Language: en-US
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <20260505-glymur-v4-12-17571dbd1caa@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 7C1B94DDCBF
+X-Authority-Analysis: v=2.4 cv=Os1/DS/t c=1 sm=1 tr=0 ts=69fb64b6 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=2SVvIUmmVaN44YnEgAEA:9 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-GUID: jC93_KtCh9qVGGFhfHSAgUSW2NAOJapL
+X-Proofpoint-ORIG-GUID: jC93_KtCh9qVGGFhfHSAgUSW2NAOJapL
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDE1NyBTYWx0ZWRfX2P8KoWiAwd4O
+ ZUn/HSh3/QgF7mP5WEbwlEaa2Vq8/PS7FudM4gtC/pGNmUtFRlE8hCYjkJWHL7kLI8QMkWv6W5R
+ qJWw+byEuKc21WX2DquhZnPN0Hr29LPY4OGr2eQwhutnqpbBp9YH1+tXdtCDpJVVMKpDE6zzIJ6
+ 0RVEmTHc5QA4DG7DAnIZBA7WxuVqICOzveJCuP+LlNZUtFO6JXRM7Is9QTQKEYgtswisXKEnDt6
+ jdPjwFCYfPBlHE4BzDgJ/XbcsHR8yXcpUc6TUoiHSpw70kI0Rf31EPelyFJSbBgjJvbMcQ2zpiv
+ BPvI1GNRtfWbJhnCsYRi+jIEMD06cCBb3N6QQwShGnNARTVg8qJx9Igf1STVa5/vgzM0NQ3zkDo
+ bujLGhnx9ZETMT/YAykAQ4CTiCcJ9V3SFPLCu8GARWk9zk0TKPT/Sw5c+8B18R9KDCR5mCcrqCs
+ mmpc82cDZ87bdesG0gg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-06_01,2026-05-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 priorityscore=1501 spamscore=0 clxscore=1015
+ malwarescore=0 lowpriorityscore=0 adultscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605060157
+X-Rspamd-Queue-Id: F03754DDD03
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60651-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[collabora.com,arm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
+	TAGGED_FROM(0.00)[bounces-60652-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:dkim,qualcomm.com:email];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,linux.dev,kernel.org,linaro.org,gmail.com,8bytes.org,arm.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[arm.com:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[steven.price@arm.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:dkim,arm.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:email]
+	RCVD_COUNT_SEVEN(0.00)[7]
 
-On 06/05/2026 16:43, Nicolas Frattaroli wrote:
-> On Wednesday, 6 May 2026 17:06:56 Central European Summer Time Steven Price wrote:
->> On 06/05/2026 11:45, Nicolas Frattaroli wrote:
->>> RAM is not, in fact, cheap. Especially on embedded systems with a low
->>> amount of memory, but known and well-defined userspace, more explicit
->>> resource management can lead to better utilisation patterns. As an
->>> example, a resource manager process on a purpose-built device may wish
->>> to launch, and then explicitly swap out, memory of processes that are
->>> kept "warm", to improve perceived startup latency of individual
->>> full-screen applications without making the kernel figure out the usage
->>> pattern from observation alone in order to swap out the right pages.
->>
->> Have you considered memory control groups (memcg) for this purpose?
->> Imposing a lower limit than currently allocated should trigger reclaim,
->> so 'background' applications could have the limit lowered and then
->> restored when moved to the foreground.
-> 
-> This is a suggestion in line with what I've made to the entity for
-> whom I am adding this, but was told that for them they really do want
-> tight control without having to use cgroups into technically doing it
-> by dynamically adjusting the limits of them.
-> 
-> I do think that writing 0 to `memory.high` to swap it out and `"max"`
-> to allow it to swap back in might work, though that'll then apply to
-> all of the process' memory, not just the GPU resources.
-> 
-> I will ask for clarification internally.
 
-Thanks, it would be good to have a better understanding of why GPU
-memory is special (and needs to be paged out) and the process' other
-memory can be kept.
-
->>
->>> To allow for this explicit control in the context of panthor's GPU
->>> memory, add two new sysfs knobs. The first, mem_reclaim, runs an
->>> explicit priv BO reclaim cycle on the TGID written to it.
->>>
->>> The second, mem_claim, does the opposite: it swaps BOs back into active
->>> memory.
->>
->> How necessary is this mem_claim for performance? Have you done any
->> benchmarking of explicitly claiming vs just allowing it to happen
->> naturally? My gut feeling is that mem_claim should be unnecessary in
->> most situations, but I'm prepared to be proved wrong.
+On 5/5/2026 12:29 PM, Vishnu Reddy wrote:
+> On glymur platform, the iris core shares most properties with the
+> iris core on the SM8550 platform. The major difference is that glymur
+> integrates two codec cores (vcodec0 and vcodec1), while SM8550 has only
+> one. Add glymur specific platform data, reusing SM8550 definitions
+> wherever applicable.
 > 
-> I've done no benchmarking, but can do so if you have any preferred
-> workloads for this. Since we have to keep entire groups either in
-> memory or out of memory right now AFAIK, I don't expect this to be
-> very beneficial at all. At most we avoid a single fault I think.
+> Signed-off-by: Vishnu Reddy<busanna.reddy@oss.qualcomm.com>
+> ---
 
-Yes the memory should be brought back in as soon as a job is submitted.
-I've no particular workloads in mind - but it would be nice to be able
-to point to something that actually improves by adding this feature.
-
-> I can drop the mem_claim part, though it may become relevant if we
-> ever have more fine-grained memory eviction where a single job or
-> group can run into multiple faults before everything it needs to
-> render a new frame is back in memory. In that case, it will be
-> beneficial, because it avoids doing the swap-in dance several
-> times while the user wonders why the UI is rendering at powerpoint
-> speeds as it touches memory pages that are still swapped out during
-> subsequent frames.
-
-We don't want to be faulting memory in a page at a time for exactly the
-reasons you state. So even if we do make things more fine-grained we're
-going to have to implement some form of read-ahead. Otherwise it's
-"powerpoint time" after any even that causes memory pressure.
-
-A possible justification is if the system can tell an application is
-about to be used and can "pre-fault" things before rendering starts. But
-it's a rare system design where it has this form of precognition.
-
-Thanks,
-Steve
-
->>
->> I'm not saying this series is necessarily the wrong approach - but I
->> think we need a bit more justification for adding a new API for this.
->>
->> Thanks,
->> Steve
-> 
-> Kind regards,
-> Nicolas Frattaroli
-> 
->>
->>> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
->>> ---
->>> Nicolas Frattaroli (4):
->>>       drm/panthor: Add freed_sz parameter to reclaim_priv_bos
->>>       MAINTAINERS: Add sysfs ABI docs to list of panthor files
->>>       drm/panthor: Add explicit memory reclaim sysfs knob
->>>       drm/panthor: Add explicit memory claim sysfs knob
->>>
->>>  Documentation/ABI/testing/sysfs-driver-panthor-mem | 34 ++++++++
->>>  MAINTAINERS                                        |  1 +
->>>  drivers/gpu/drm/panthor/panthor_drv.c              | 93 ++++++++++++++++++++++
->>>  drivers/gpu/drm/panthor/panthor_gem.c              |  7 +-
->>>  drivers/gpu/drm/panthor/panthor_gem.h              |  1 +
->>>  drivers/gpu/drm/panthor/panthor_mmu.c              | 70 +++++++++++++++-
->>>  drivers/gpu/drm/panthor/panthor_mmu.h              |  4 +
->>>  7 files changed, 205 insertions(+), 5 deletions(-)
->>> ---
->>> base-commit: 2c4b906cd135bbb44855287d0d0eff0ee0b47afe
->>> change-id: 20260506-panthor-explicit-reclaim-3dffed028d8c
->>>
->>> Best regards,
->>> --  
->>> Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
->>>
->>
->>
-> 
-> 
-> 
-> 
-
+Reviewed-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
 
