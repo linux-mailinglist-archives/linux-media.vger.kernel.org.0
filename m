@@ -1,234 +1,195 @@
-Return-Path: <linux-media+bounces-60571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60572-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CEDqGAQV+2lLWQMAu9opvQ
-	(envelope-from <linux-media+bounces-60571-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 12:16:36 +0200
+	id GBqJEggZ+2mYWgMAu9opvQ
+	(envelope-from <linux-media+bounces-60572-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 12:33:44 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C144D9362
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 12:16:35 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCBE54D9581
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 12:33:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D78BD3014FC8
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 10:16:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 99463301A1C4
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 10:33:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 059494014BC;
-	Wed,  6 May 2026 10:16:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64FA14014A4;
+	Wed,  6 May 2026 10:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cAMIPBph"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dHhX2DDE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96EF401491
-	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 10:16:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6839335294E;
+	Wed,  6 May 2026 10:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778062582; cv=none; b=Zwgzyot3LLT46yV3YMxwFa25iIaR41oUeoreHRwWjc8tZRU3HGIGPQG67BEROur7R0fS0K5RIcWuNmNuJ+2cT4d437x1gcMXAEKVCHl7bcQ9qf+CIyWjz6m8GMdfDXaiiFvaMul7bzWK5YOIPHkAIYnWKu8zj32kRLDhDjnJvaU=
+	t=1778063602; cv=none; b=AGHqlbtHd7SG9WwJa+qRxN4ZK/osfGGYjI94zCkGONaKM9oHKQg3ZWFxF3ruIMEz6TGBfzXRYSsFBmf5ls7xMTjzVSerzeRUgCug1VvfM04gygLf75mRxwFsXnoF7uRnkNJ8qAY61rdQV571FiplmfnrLyhAIh5uztxVhuO3q+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778062582; c=relaxed/simple;
-	bh=XHAbCn/groQfldwxdeD5Eyl+5lyhV01Ox5pQ7n8CcYg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eFRbw20iPsSG3Y0rZrvsrq+Cl+DzuwLITO391v0IAthu+IDCiAj/3PT+CL9P7Z5sAqNHGK9Mu6HcDjrik8Bws4VIE2u97+XECuW5mVQUEp7/IvoJ8Ctq07ze+EB/B8z+wYSBIKlZIh0EgjuOqi6rlWt45g4TKu0QtUWTbPv3quw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cAMIPBph; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-44a14580111so4063924f8f.0
-        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 03:16:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778062575; x=1778667375; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MP5zUKceXITgWBoyT5sfmWgOMBr2j3wdzx/KXPcZhWU=;
-        b=cAMIPBphJHWJxDFDTWPUXNVXs0VWMNEXBeuA7JOHOKXe9hJMJy0IQtO6680AnEHH7j
-         Tvb3In1d4aF/qGkx5t7cchChhQoby6y5wsXmdThsRSRI7C9P0F25ihjokCohMVOLFcPw
-         aFZ9Kuq3se+nFO5vpkm2CnYbygvlQpjtpG7/uTYCJ+bszzzTY+OMyJXsvQwrMF1LfI0w
-         hjG18jwO33PEH7yPHFQc41PzYN1/pSgbfFZXgWQU+lSuUALSf7+t08orkdMTuAObbcH2
-         u43LPRazt8rzNkawTIRq8qfcq208P2uK22dFtRRS24KjoVSSPEq+Cyflryxhekbz8gEv
-         EEnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778062575; x=1778667375;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MP5zUKceXITgWBoyT5sfmWgOMBr2j3wdzx/KXPcZhWU=;
-        b=remYDiASEmcJxiiePAQpj/oQ8Atm5cTOVjzr1aQy0pI9iZ358nJ/TBrfLIj52fhOgj
-         6mFczLR8zWyjaoMGpOA7zRO0hBCvO8k+lltoyte9+dhN/C3MxdZu0TsCjDKZpb3BDAds
-         1LrRUk64cH3V3XgOZJZTI7DC8UUeyJW8hEX6k4VN0+Bn3N5REJpzjHy0V+zZH+Uvu+gx
-         6wEmDLJW1iwnkaf9mvZPus/7rloG+LHkGO26QcLS0bSNEaqiqDDAvpesWsRMT/UuRMs6
-         6gyJxkpSoAdEc/ziGNDEJ74cgT66NdWgWLNjI5M7O9mYmehHFlk/YclzFa9lrQvpLSwW
-         2WRg==
-X-Forwarded-Encrypted: i=1; AFNElJ8QkYMmfdr/GjYCehISfSdt3Pgriit1R5TB0W56vsXiaQKqz4DV/2gGer/nZr5iPFwejUqwYSVq4qbzzQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8KEieJNk0gi1PNeuYLRObxlAVfs57dY+st24k6oCfeGZdcR/+
-	QX6sA8y6c3hx3LQrSdskGdWmgIjAejR6V0x/Nz2Xe94BtgLsOWPsWfM2
-X-Gm-Gg: AeBDieu2mIfZn8TPPMpmReC9/p2mOeRIbikCqQm1tG48Zs9DfwNzNf8wKMUEDiLUfJu
-	figh+bujhu7otxsZOEp+8LMV9htx/CF8+Nwi17l7pkb6ulUaXziPTgHLAkcGVjtz46mcXIN4ieo
-	WPMibjnZbJZEJMR73UgOok55mZs+bf3om9i0gf6pl5zD8aCEhVAhe7ni3QdzYAXSlmUrK+XtbPS
-	Ga9yYdo8C8g/aJgdkG2Md/OwybN4lznUmydMiji2kFLEiwD57ifcyUbsIsLFvDLQd35oqjCuCex
-	7QjBZ40+zVehFZP/yWPBMRRQTnpaYH6jtlWZnHex2gUCUKy1ojypGXZzXgq+7t59Q9NOd00NC2S
-	iRb+qd5Vd09utuGVA9Xx86aAAYKED9xPk09X+5Dscc0w2b9N5dcNR6HybRcE/7SdYqMfUp+bKJ0
-	u6HWVYriHASpLP360qaj3KIR8iF1u33O/JHOPgYD/bWxuOT8bUs3k1PnlVReWWfVlJlj4I55nKx
-	Uwmft+p
-X-Received: by 2002:a05:6000:2681:b0:441:1e41:194 with SMTP id ffacd0b85a97d-4515b525426mr4784852f8f.17.1778062575284;
-        Wed, 06 May 2026 03:16:15 -0700 (PDT)
-Received: from ?IPV6:2a02:8109:8617:d700:a1d:902c:85c8:d272? ([2a02:8109:8617:d700:a1d:902c:85c8:d272])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4504f4857ffsm11043763f8f.0.2026.05.06.03.16.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 03:16:14 -0700 (PDT)
-Message-ID: <37aa90a3-7909-4605-a0be-1545db1fadb0@gmail.com>
-Date: Wed, 6 May 2026 12:16:13 +0200
+	s=arc-20240116; t=1778063602; c=relaxed/simple;
+	bh=M5o+/YaupNYZyxmeKf2QjXgCKV0qcMjr7DPzv7F8Sv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HtRb59Sv8iCsc1N7bIHBwPt/jjYCsWSIYzEd2ZnFE/Kmla/SBEMSgJWYGsgy4Y3uR/RrCbE3a8ryueRSTceC7lnkzGoZaz2ShugdLbha+lSlutoF5XQ8Q3y6jbu2ineRqEym5A3Jr69ax3TJCCmF4JaZyYMWsMkh62oL6TmL+RU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dHhX2DDE; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1778063599;
+	bh=M5o+/YaupNYZyxmeKf2QjXgCKV0qcMjr7DPzv7F8Sv0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=dHhX2DDEb+wKn+xBlaCHlq6jRa1HZj+2R0vY7hAlUA+C+Zoap/YG7alIUX6QF2JuH
+	 iGWo984ywb6LITJ7cafk4pbvn2DS/7wUBPMhH0nXlMzQqSjx/ELpj6PTtYAsCFnprr
+	 gHgGF7r77Z50yxDgoF7V15ATETV17WYz10R+IypMMoEHxmYpyVhUW9244GtR4aZMrr
+	 px8CHnxYwp40tbLvffOrKczuvdf6qie1oISR6ZEtvS5p0MbMQKQPIaTW3bZYPYkoSG
+	 N1SjfcJWB9w5YQr31HrOSqFKu4oT6y4u7ppxfzDwvm3pdxYZGHcoyntDpuvIYjP6BP
+	 Jn9toahZwrSNw==
+Received: from fedora (unknown [100.64.0.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 64F3617E1227;
+	Wed,  6 May 2026 12:33:18 +0200 (CEST)
+Date: Wed, 6 May 2026 12:33:14 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Ketil Johnsen <ketil.johnsen@arm.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Alice Ryhl <aliceryhl@google.com>, Matthias
+ Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Florent Tomasin <florent.tomasin@arm.com>
+Subject: Re: [PATCH 5/8] drm/panthor: Minor scheduler refactoring
+Message-ID: <20260506123314.0f1c01cb@fedora>
+In-Reply-To: <20260505140516.1372388-6-ketil.johnsen@arm.com>
+References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
+	<20260505140516.1372388-6-ketil.johnsen@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] media: i2c: alvium: Fix controls for WB/AWB
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: martin.hecht@avnet.eu, michael.roeder@avnet.eu, stable@vger.kernel.org,
- Tommaso Merciai <tomm.merciai@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260505142513.1551721-1-mhecht73@gmail.com>
- <afsJz1vVdd3o-pe9@kekkonen.localdomain>
-Content-Language: en-US
-From: Martin Hecht <mhecht73@gmail.com>
-In-Reply-To: <afsJz1vVdd3o-pe9@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 03C144D9362
+X-Rspamd-Queue-Id: DCBE54D9581
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[avnet.eu,vger.kernel.org,gmail.com,kernel.org];
-	TAGGED_FROM(0.00)[bounces-60571-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60572-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,lwn.net,linuxfoundation.org,linaro.org,collabora.com,arm.com,google.com,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linaro.org,lists.infradead.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mhecht73@gmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,arm.com:email]
 
-Hi Sakari,
+On Tue,  5 May 2026 16:05:11 +0200
+Ketil Johnsen <ketil.johnsen@arm.com> wrote:
 
-thank you for the comments.
+> From: Florent Tomasin <florent.tomasin@arm.com>
+> 
+> Refactor parts of the group scheduling logic into new helper functions.
+> This will simplify addition of the protected mode feature.
+> 
+> Remove redundant assignments of csg_slot.
+> 
+> Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
+> Co-developed-by: Ketil Johnsen <ketil.johnsen@arm.com>
+> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_sched.c | 135 +++++++++++++++---------
+>  1 file changed, 86 insertions(+), 49 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 5ee386338005c..987072bd867c4 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -1934,6 +1934,12 @@ static void csgs_upd_ctx_init(struct panthor_csg_slots_upd_ctx *ctx)
+>  	memset(ctx, 0, sizeof(*ctx));
+>  }
+>  
+> +static void csgs_upd_ctx_ring_doorbell(struct panthor_csg_slots_upd_ctx *ctx,
+> +				       u32 csg_id)
+> +{
+> +	ctx->update_mask |= BIT(csg_id);
+> +}
+> +
+>  static void csgs_upd_ctx_queue_reqs(struct panthor_device *ptdev,
+>  				    struct panthor_csg_slots_upd_ctx *ctx,
+>  				    u32 csg_id, u32 value, u32 mask)
+> @@ -1944,7 +1950,8 @@ static void csgs_upd_ctx_queue_reqs(struct panthor_device *ptdev,
+>  
+>  	ctx->requests[csg_id].value = (ctx->requests[csg_id].value & ~mask) | (value & mask);
+>  	ctx->requests[csg_id].mask |= mask;
+> -	ctx->update_mask |= BIT(csg_id);
+> +
+> +	csgs_upd_ctx_ring_doorbell(ctx, csg_id);
+>  }
+>  
+>  static int csgs_upd_ctx_apply_locked(struct panthor_device *ptdev,
+> @@ -1961,8 +1968,12 @@ static int csgs_upd_ctx_apply_locked(struct panthor_device *ptdev,
+>  	while (update_slots) {
+>  		struct panthor_fw_csg_iface *csg_iface;
+>  		u32 csg_id = ffs(update_slots) - 1;
+> +		u32 req_mask = ctx->requests[csg_id].mask;
+>  
+>  		update_slots &= ~BIT(csg_id);
+> +		if (!req_mask)
+> +			continue;
 
-On 5/6/26 11:28, Sakari Ailus wrote:
-> Hi Martin,
-> 
-> Thanks for the patch.
-> 
-> On Tue, May 05, 2026 at 04:25:10PM +0200, Martin Hecht wrote:
->> With that patch the controls for red-balance and blue-balance were created
->> only if the particular camera supports that. Otherwise the pointers on
->> the control variable are initialized with NULL to prevent side effects for
->> clustering with AWB control.
->>
->> Fixes: 0a7af872915e ("media: i2c: Add support for alvium camera")
->> Signed-off-by: Martin Hecht <mhecht73@gmail.com>
->> ---
->>   drivers/media/i2c/alvium-csi2.c | 37 ++++++++++++++++++++-------------
->>   1 file changed, 22 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
->> index b62b45a4f2fc..4c6934e9e177 100644
->> --- a/drivers/media/i2c/alvium-csi2.c
->> +++ b/drivers/media/i2c/alvium-csi2.c
->> @@ -2108,26 +2108,33 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
->>   						  0, 0, &alvium->link_freq);
->>   	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> 
-> This is a problem. Can you move setting the flags after checking the
-> handler's error status? The functions adding controls may fail and this is
-> simply a missing error check.
-> 
-> Can you submit a fix, with a Fixes: tag and this patch should be rebased on
-> the fix, please?
+Looks like something that should be in patch 7, where you update the
+doorbell_req register, and then call csgs_upd_ctx_ring_doorbell(),
+meaning req_mask can be zero. The other option would be to teach
+panthor_csg_slots_upd_ctx about CS doorbells, and let
+csgs_upd_ctx_apply_locked() toggle the doorbell_req.
 
-I'm preparing a separate fix for that issue. It's the same situation 
-also  for some other controls like pixel_rate and link_frequency but not 
-only. Can I combine that into one patch for fix only that in 
-alvium_ctrl_init?
-
-> 
->>   
->> +	if (alvium->avail_ft.whiteb) {
->> +		ctrls->blue_balance = v4l2_ctrl_new_std(hdl, ops,
->> +							V4L2_CID_BLUE_BALANCE,
->> +							alvium->min_bbalance,
->> +							alvium->max_bbalance,
->> +							alvium->inc_bbalance,
->> +							alvium->dft_bbalance);
->> +		ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops,
->> +						       V4L2_CID_RED_BALANCE,
->> +						       alvium->min_rbalance,
->> +						       alvium->max_rbalance,
->> +						       alvium->inc_rbalance,
->> +						       alvium->dft_rbalance);
->> +	} else {
->> +		/* set to NULL for v4l2_ctrl_auto_cluster if not existing */
->> +		ctrls->blue_balance	= NULL;
->> +		ctrls->red_balance = NULL;
-> 
-> Aren't the two NULL already before this?
-
-You are right. It's zeroed before because __GFP_ZERO in devm_kzalloc. 
-Will remove that redundant code.
-
-> 
->> +	}
->> +
->>   	/* Auto/manual white balance */
->>   	if (alvium->avail_ft.auto_whiteb) {
->>   		ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
->>   						   V4L2_CID_AUTO_WHITE_BALANCE,
->>   						   0, 1, 1, 1);
->> -		v4l2_ctrl_auto_cluster(3, &ctrls->auto_wb, 0, false);
->> -	}
->> -
->> -	ctrls->blue_balance = v4l2_ctrl_new_std(hdl, ops,
->> -						V4L2_CID_BLUE_BALANCE,
->> -						alvium->min_bbalance,
->> -						alvium->max_bbalance,
->> -						alvium->inc_bbalance,
->> -						alvium->dft_bbalance);
->> -	ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops,
->> -					       V4L2_CID_RED_BALANCE,
->> -					       alvium->min_rbalance,
->> -					       alvium->max_rbalance,
->> -					       alvium->inc_rbalance,
->> -					       alvium->dft_rbalance);
->> +
->> +		v4l2_ctrl_auto_cluster(3, &ctrls->auto_wb, 0, true);
->> +	}
->>   
->>   	/* Auto/manual exposure */
->>   	if (alvium->avail_ft.auto_exp) {
-> 
-
-BR Martin
+> +
+>  		csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
+>  		panthor_fw_update_reqs(csg_iface, req,
+>  				       ctx->requests[csg_id].value,
+> @@ -1979,6 +1990,9 @@ static int csgs_upd_ctx_apply_locked(struct panthor_device *ptdev,
+>  		int ret;
+>  
+>  		update_slots &= ~BIT(csg_id);
+> +		if (!req_mask)
+> +			continue;
+> +
+>  		csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
+>  
+>  		ret = panthor_fw_csg_wait_acks(ptdev, csg_id, req_mask, &acked, 100);
 
