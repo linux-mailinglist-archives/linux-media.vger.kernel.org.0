@@ -1,320 +1,364 @@
-Return-Path: <linux-media+bounces-60653-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60654-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +iASD/Fm+2llawMAu9opvQ
-	(envelope-from <linux-media+bounces-60653-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:06:09 +0200
+	id cDUqDbJm+2kzawMAu9opvQ
+	(envelope-from <linux-media+bounces-60654-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:05:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D464DDD75
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:06:08 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F6EA4DDD2A
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:05:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8A334303BB98
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 15:58:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3C2443054F52
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 16:02:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E093B495526;
-	Wed,  6 May 2026 15:58:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2B753EF0D1;
+	Wed,  6 May 2026 16:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YrtBsmd7"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NMjbqf09";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TzXCLKvv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA3E4657E2;
-	Wed,  6 May 2026 15:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B3E4963D2
+	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 16:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778083078; cv=none; b=jjkbtbLflqtc35ozRqbkJnyZLfP44KHLOgpwPsB63HzBGgD0Yp74pQQBpVdpi+RFv80baVXk6gmvNtyb+xXoi9uSaP8HE/HQyzEl62bLnNKlcHj70eU3ZR6PI8ZI6LMNFdRr/RAqeJ3TjQxDHKhQz/RB6iIYq1G3oCxN4X+4ntk=
+	t=1778083348; cv=none; b=W95f1M2YrNAyB/Hce8JIYY5nHbeAh0rSeLkTLdqmclUg72RxFzT9Ji2sRmf0nUL46+jy4yUMxAw3zURPfzEjZ1JSozbeRGXfoAa4rAct8cr2i/wvDLgsRBoYO054d3tNn48sr2u5hmw1rMSMfpBRIVslV0j9iHYABipd0qB6bW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778083078; c=relaxed/simple;
-	bh=OWuZqJYF2TnMs5gVPN/obOTQDAKJkWQhVJV3NE/LIlg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cDPjoJBwbnFKM0Xw77IEHMkEdoCgmk1ePhXSWkjwD/ckmKXXLHjtMz5ktOoPJNQpORbAva04itccdiFJS2ccUBDx2X6b6GqDWnyfFjgKAY9gfxlLaSuP1Bc8krX42EgRAjpKgdR7sVHf2AvWLIGaeSjEeyqkHdRvyrzscFbVoYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YrtBsmd7; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49E09DA;
-	Wed,  6 May 2026 17:57:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1778083069;
-	bh=OWuZqJYF2TnMs5gVPN/obOTQDAKJkWQhVJV3NE/LIlg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YrtBsmd758u4EGTX+aABd3n7bvjLLluc/oWtXdS5hjgAxcMWs/ACYqJ+vwMn14RyR
-	 CJBaM5LjABjo6woHX2gCahqA8+L4BxfUquf+TrV6ukIb0W85PAAgauF18bP6+QBeJu
-	 e6G1HpVr/73/3T9UiPqAt97FVY4jjxi4u0kw783g=
-Date: Wed, 6 May 2026 17:57:49 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Jai Luthra <jai.luthra+renesas@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: Re: [v8 14/14] media: rppx1: lin: Add support for gamma sensor
- linearization
-Message-ID: <aftkY_BuG0E_e0qC@zed>
-References: <20260504010556.2796398-1-niklas.soderlund+renesas@ragnatech.se>
- <20260504010556.2796398-15-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1778083348; c=relaxed/simple;
+	bh=IOTEW2qQ5N89NXwb1CeAN1Uhwjjf6nKKdaqAgo1Twjw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BKGcUp1Omas6RCJ7NCskc2HdBk0LxcPotgK6AvgOaPBeF6fPK12yXSpfYsJ3Ef0QW7wAgfJjKMmpuOcnxXKGDzaGDVrAGO21jITTlnxuu9lHbEdR37QSLkNNIOa93k8G51G4VGT5RmfyTQ9tK/pUoyBMehTRDnbUCZEhNvq+Qx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NMjbqf09; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TzXCLKvv; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6469xumv1985555
+	for <linux-media@vger.kernel.org>; Wed, 6 May 2026 16:02:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	TGZ1h1/OF53J3gFzAIo0xWBAkfLlfizlmwek520L4Rk=; b=NMjbqf09KRZ3cMc5
+	/KHw2mkkI9Ijj7nU+6NObGB8gY8snyi0I3TFsEk36Zv7Y07/4oUJ3y3OJpeX1lE2
+	ygAKbC6Zwh2UjQ6K3s8lsKc2cFPyUH0xYmQkAZpx3/Syc7Bv5uOvjTks/wlcZ+iH
+	/Fgl5pgY1fMor5jsGIzCAbu9CtrJrdM21LGgafmvJRQf1UbmpSZZup8Qcc1TxLzM
+	K4sv9ZV5lrpwuzaEOAV/Qa1r9R8YNacZ0PUs1qiELmDHitpQ3ekOdFcjo2TF/ARr
+	J0U9z0DC8eS4oRrtwDaOucDXFgYyu8QTVwvHeTT4AjYFnEeNUEoI41ntb7WzPk7y
+	A5g0Gg==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e03gp1ahp-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 06 May 2026 16:02:19 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2b2eba42b8dso60667645ad.0
+        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 09:02:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778083338; x=1778688138; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TGZ1h1/OF53J3gFzAIo0xWBAkfLlfizlmwek520L4Rk=;
+        b=TzXCLKvvwt6v4AiV6Vpyt52x+n1YYUsPWPJM5k+H2yni8hPKFgyKL1B//eQhXHOeYI
+         zUzGA4ik4F08Xv/pHAW1kCMzRrFrSwLiw1LosC1HtJS3Dv4nakrmq9UJt+A5UL/eYtS0
+         54ceUAGsfYwh9CVGmqBILitRSZeLrOMv5GT3496GGQeXH6Sez1CJ7u4AZ7IqAB3TQcFS
+         2bnAWZl7VM9IozU7Q+6MPOdhu2+oVFXqrSm+DUcqeVLd0Kwpmd3dFvUfz94Wdy6HZn/1
+         TnB75vMJm9eWuyaPZSqU7qPKLmlGQXQhyXYhWV1wwo/OTqRGL8gi30k2rCIIJ998WPhQ
+         TeEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778083338; x=1778688138;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TGZ1h1/OF53J3gFzAIo0xWBAkfLlfizlmwek520L4Rk=;
+        b=Od83/lyXpozKzmYxeO++Mr568yjGWVuuMsW95KWIserUEEbkdInJ7rIj3SrKOljSy6
+         MRdyyTL4nY73eEKNmcL5hw/oSk70A/rGLiwW4FtXFaaX5L8Uf3RcoEiZgxnCBPMCFHtY
+         zepeL/80PM2gudSzf9CzhVhEFJrqiYy50k7SUOiYoslseNGJD0lz10KEnGkj452Nd3+N
+         +JmOUfZutxPLp9rIQnJfW4UgonPhVfigCSK6xRcYlpEDSmKIudhZIpw+YeV40pAshzhC
+         Fx+4t0IGaHPUw+nrF8m6YrcU97YtTLjruwWM7b1zhk7jorkd5uv2OuSxft+AX1I36Hn3
+         MOsg==
+X-Gm-Message-State: AOJu0Yy9/TzLlkHR6F2Qr/3eYF4g+ZnIbeTw6mtO81gaQUoGC/jbj9f2
+	V8HvVfYFgALpoIUGJgVlIpKT0YH3i+tt60Z+mTaszZMwDVM6h78/7CyGnMJqpdIaTZd96TNGFfA
+	+luc209lP7mp/ON50xNyUDTfxQyC3dWBJSh/30t0YQ+jGXH3FD5S3TUuzlKhF2vIRBQ==
+X-Gm-Gg: AeBDiesAHtZ5enUitZT3yih684ktFIAStiAdgGi9e013SWUCdSG4zsU4NzEm+LFUZYB
+	13mIOSxa0iiOXb1Bx4HLepBcozhb6h61tZpyYpCfDuaQF7X+8rA2aPEnXudH/dH+4vcsnyIdids
+	FQMF8fSLiq3FUYG989z3PxV5mi6hwZfB5Hq8w2pGnVDQSmNCZebxIqcHoy3kDfDne9YYg7rxCRc
+	FeiCNdZGm18liGc+YnAhnh5zU4vdwjpVAsl84Ue9/iPMjSwVwP3gzu3zswhBdnQGIUG68BUIzNx
+	4Er0iO8HqYE0GZ05JCt1ya+TTHHJS+rWz2z+D2KLDvBu8SKUKli1JdaCISxjM/Q/KepooHDAblb
+	lGo9XK32w7aflF6U08uMxgXn/wz7KM8dhiENiQBY3uRphjjYJ26oh9L7/oobsmChZ
+X-Received: by 2002:a17:902:da87:b0:2b2:ebed:7afc with SMTP id d9443c01a7336-2ba7a33354emr44077515ad.27.1778083337859;
+        Wed, 06 May 2026 09:02:17 -0700 (PDT)
+X-Received: by 2002:a17:902:da87:b0:2b2:ebed:7afc with SMTP id d9443c01a7336-2ba7a33354emr44076295ad.27.1778083337057;
+        Wed, 06 May 2026 09:02:17 -0700 (PDT)
+Received: from [10.204.101.47] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ba849032bfsm23120095ad.44.2026.05.06.09.02.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 May 2026 09:02:16 -0700 (PDT)
+Message-ID: <2b4ff288-1068-4411-bfbf-d007740710ae@oss.qualcomm.com>
+Date: Wed, 6 May 2026 21:32:09 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260504010556.2796398-15-niklas.soderlund+renesas@ragnatech.se>
-X-Rspamd-Queue-Id: D8D464DDD75
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 13/13] arm64: dts: qcom: glymur: Add iris video node
+To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        iommu@lists.linux.dev
+References: <20260505-glymur-v4-0-17571dbd1caa@oss.qualcomm.com>
+ <20260505-glymur-v4-13-17571dbd1caa@oss.qualcomm.com>
+Content-Language: en-US
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <20260505-glymur-v4-13-17571dbd1caa@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDE1OCBTYWx0ZWRfX2LMkZg7ZTeJy
+ 9xmRMRwP0Y+zIYWmowL3E9Zbp3hGN5DJh82M7837bssZUGxJ80rx9ss7VLhbYM3RJVW/u4By+9y
+ /YXZaJ8qHAQ8b96j63AU5YW/0wCbC3rVqMVEID++G7yCtRIPV0OIxABf9cEgKzamvquUb/w0Hca
+ XNp4E8oGSpp/YUNwjXV7DH2c+oxDZVcyxsJnaXHfqixoQyP0x4s+6fDtFlkiIfUM90b0F2OrL8O
+ VOnyfNZ9BjeIknmzE1d2skBsDnHfcVT5oMk9wxCdZedlhI2DHes1jG4tohUrNsFLVNxrDYfVUoI
+ yPQFfYF8eaeyONBjZESKr6eyhVvyOaJO6Jmem6aTtJ00KyGa5hVQT7itzcgv1EZZE0haP0fxfu8
+ PPqiz73j8ApuV2VQyfWi0eE+zJqkHsTrwCsZ4iuUTBhGWKokLgbIRtbXoZ+DKPbQQJ1NooGdVjk
+ tPImkBdrnqLLGlZT14A==
+X-Proofpoint-ORIG-GUID: zfTdf3DNm4wLoQMmnh5VJgk4PWj-8mLi
+X-Proofpoint-GUID: zfTdf3DNm4wLoQMmnh5VJgk4PWj-8mLi
+X-Authority-Analysis: v=2.4 cv=W8wIkxWk c=1 sm=1 tr=0 ts=69fb660b cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=EUspDBNiAAAA:8 a=glmcflYCJT591w8RKWQA:9 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-06_01,2026-05-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0 adultscore=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605060158
+X-Rspamd-Queue-Id: 9F6EA4DDD2A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60653-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60654-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,linux.dev,kernel.org,linaro.org,gmail.com,8bytes.org,arm.com];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[aa00000:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,ae00000:email];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_PROHIBIT(0.00)[0.0.0.47:email];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCVD_COUNT_SEVEN(0.00)[7]
 
-Hi Niklas,
 
-On Mon, May 04, 2026 at 03:05:56AM +0200, Niklas Söderlund wrote:
-> From: Jai Luthra <jai.luthra@ideasonboard.com>
->
-> Extend the RPPX1 driver to allow setting the gamma sensor linearization
-> configuration parameters. It uses the RPPX1 framework for parameters and
-> its writer abstraction to allow the user to control how, and when,
-> configuration is applied to the RPPX1.
->
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+On 5/5/2026 12:29 PM, Vishnu Reddy wrote:
+> Add iris video codec to glymur SoC, which comes with significantly
+> different powering up sequence than previous platforms, thus different
+> clocks and resets.
+> 
+> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
 > ---
->  .../platform/dreamchip/rppx1/rpp_module.h     |  1 +
->  .../platform/dreamchip/rppx1/rpp_params.c     |  5 ++
->  .../platform/dreamchip/rppx1/rppx1_lin.c      | 55 +++++++++++++++++++
->  .../uapi/linux/media/dreamchip/rppx1-config.h | 48 +++++++++++++++-
->  4 files changed, 108 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-> index 136ec4d48054..27235fdfb749 100644
-> --- a/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-> +++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-> @@ -86,6 +86,7 @@ void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
->  union rppx1_params_block {
->  	struct v4l2_isp_params_block_header header;
->  	struct rppx1_bls_params bls;
-> +	struct rppx1_lin_params lin;
->  	struct rppx1_lsc_params lsc;
->  	struct rppx1_awbg_params awbg;
->  	struct rppx1_bd_params bd;
-> diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-> index edea25293d64..1995a80890f4 100644
-> --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-> +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-> @@ -18,6 +18,8 @@ static const struct v4l2_isp_block_type_info
->  rppx1_ext_params_blocks_info[] = {
->  	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE1, bls),
->  	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE2, bls),
-> +	RPPX1_PARAMS_BLOCK_INFO(LIN_PRE1, lin),
-> +	RPPX1_PARAMS_BLOCK_INFO(LIN_PRE2, lin),
->  	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE1, lsc),
->  	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE2, lsc),
->  	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE1, awbg),
-> @@ -72,6 +74,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
->  		case RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1:
->  			module = &rpp->pre1.bls;
->  			break;
-> +		case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1:
-> +			module = &rpp->pre1.lin;
-> +			break;
->  		case RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1:
->  			module = &rpp->pre1.lsc;
->  			break;
-> diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-> index f595f56a292e..cc8efe3b3f2c 100644
-> --- a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-> +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-> @@ -24,6 +24,11 @@
->  #define LIN_B_Y_REG_NUM				17
->  #define LIN_B_Y_REG(n)				(0x0098 + (4 * (n)))
->
-> +#define LIN_PRE1_DEGAMMA_CURVE_MASK		GENMASK(23, 0)
-> +#define LIN_PRE1_SAMPLE_POINTS_MASK		GENMASK(3, 0)
-> +#define LIN_PRE2_DEGAMMA_CURVE_MASK		GENMASK(11, 0)
-> +#define LIN_PRE2_SAMPLE_POINTS_MASK		GENMASK(2, 0)
-> +
->  static int rppx1_lin_probe(struct rpp_module *mod)
->  {
->  	/* Version check. */
-> @@ -52,7 +57,57 @@ static int rppx1_lin_start(struct rpp_module *mod,
->  	return 0;
->  }
->
-> +static int rppx1_lin_fill_params(struct rpp_module *mod,
-> +				 const union rppx1_params_block *block,
-> +				 rppx1_reg_write write, void *priv)
-> +{
-> +	const struct rppx1_lin_params *cfg = &block->lin;
-> +	u8 sample_mask;
-> +	u32 mask;
-> +
-> +	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
-> +		write(priv, mod->base + LIN_ENABLE_REG, 0);
-> +		return 0;
-> +	}
-> +
-> +	switch (cfg->header.type) {
-> +	case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1:
-> +		mask = LIN_PRE1_DEGAMMA_CURVE_MASK;
-> +		sample_mask = LIN_PRE1_SAMPLE_POINTS_MASK;
-> +		break;
-> +	case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2:
-> +		mask = LIN_PRE2_DEGAMMA_CURVE_MASK;
-> +		sample_mask = LIN_PRE2_SAMPLE_POINTS_MASK;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	u32 dx_lo = 0;
-> +	u32 dx_hi = 0;
-
-I was clearly over-excited by the modernity of C99 that allows mixing
-declarations and code. However this is still a discouraged practice
-unless there are good reasons to do so. Probably in this case there
-aren't enough.
-
-> +
-> +	for (unsigned int i = 0; i < 8; ++i) {
-> +		dx_lo |= (cfg->dx[i] & sample_mask) << 4 * i;
-> +		dx_hi |= (cfg->dx[i + 8] & sample_mask) << 4 * i;
-> +	}
-> +
-> +	write(priv, mod->base + LIN_DX_LO_REG, dx_lo);
-> +	write(priv, mod->base + LIN_DX_HI_REG, dx_hi);
-> +
-> +	for (unsigned int i = 0; i < RPPX1_LIN_DEGAMMA_CURVE_NUM; i++) {
-> +		write(priv, mod->base + LIN_R_Y_REG(i), cfg->curve_r[i] & mask);
-> +		write(priv, mod->base + LIN_G_Y_REG(i), cfg->curve_g[i] & mask);
-> +		write(priv, mod->base + LIN_B_Y_REG(i), cfg->curve_b[i] & mask);
-> +	}
-> +
-> +	if ((cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_ENABLE))
-> +		write(priv, mod->base + LIN_ENABLE_REG, LIN_ENABLE_GAMMA_IN_EN);
-> +
-> +	return 0;
-> +}
-> +
->  const struct rpp_module_ops rppx1_lin_ops = {
->  	.probe = rppx1_lin_probe,
->  	.start = rppx1_lin_start,
-> +	.fill_params = rppx1_lin_fill_params,
->  };
-> diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
-> index 0246e9af1d1d..e743e11d11e9 100644
-> --- a/include/uapi/linux/media/dreamchip/rppx1-config.h
-> +++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
-> @@ -95,6 +95,8 @@ enum rppx1_meas_chan {
->   * @RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST: Debayer filtering
->   * @RPPX1_PARAMS_BLOCK_TYPE_BD_PRE1: PRE1 pipe De-noise Pre-Filter
->   * @RPPX1_PARAMS_BLOCK_TYPE_BD_PRE2: PRE2 pipe De-noise Pre-Filter
-> + * @RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1: PRE1 pipe Linearization (Sensor De-gamma)
-> + * @RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2: PRE2 pipe Linearization (Sensor De-gamma)
->   */
->  enum rppx1_params_block_type {
->  	RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST,
-> @@ -117,6 +119,8 @@ enum rppx1_params_block_type {
->  	RPPX1_PARAMS_BLOCK_TYPE_DB_FILTER_POST,
->  	RPPX1_PARAMS_BLOCK_TYPE_BD_PRE1,
->  	RPPX1_PARAMS_BLOCK_TYPE_BD_PRE2,
-> +	RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1,
-> +	RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2,
->  };
->
->  /**
-> @@ -735,6 +739,46 @@ struct rppx1_bd_params {
->  	struct rppx1_bd_nll nll;
->  };
->
-> +/* Linearization (Sensor De-gamma) */
-> +#define RPPX1_LIN_SAMPLE_POINTS_NUM 16
-> +#define RPPX1_LIN_DEGAMMA_CURVE_NUM 17
-> +
-> +/**
-> + * struct rppx1_lin_params - Linearization (Sensor De-gamma) configuration
-> + *
-> + * The RPP-X1 linearization module is available on the PRE1 and PRE2 pre-fusion
-> + * pipes. Userspace selects which pipe to operate by setting the @header.type
-> + * field to RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1 or
-> + * RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2.
-> + *
-> + * The LIN module applies the per-color channel de-gamma linearization curves
-> + * @curve_r, @curve_g and @curve_b defined on the input sampling points @dx.
-> + *
-> + * For the PRE1 pipe the de-gamma curves values are 24-bits, for the PRE2 pipe
-> + * the de-gamma curve values are 12-bits.
-> + *
-> + * For the PRE1 pipe de-gamma module sampling points @dx values are in the range
-> + * [0, 15] (4 bits). For the PRE2 pipe de-gamma module sampling points values
-> + * are in the range [0, 7] (3 bits).
-> + *
-> + * Userspace is expected to provide the curve values and sampling points with a
-> + * bit-depth matching the one of pipe in use.
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1 or
-> + *	    RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2)
-> + * @curve_r: de-gamma linearization curve for red channel
-> + * @curve_g: de-gamma linearization curve for green channel
-> + * @curve_b: de-gamma linearization curve for blue channel
-> + * @dx: input sampling points
-> + */
-> +struct rppx1_lin_params {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u32 curve_r[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-> +	__u32 curve_g[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-> +	__u32 curve_b[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-> +	__u8 dx[RPPX1_LIN_SAMPLE_POINTS_NUM];
+>   arch/arm64/boot/dts/qcom/glymur-crd.dts |   4 ++
+>   arch/arm64/boot/dts/qcom/glymur.dtsi    | 118 ++++++++++++++++++++++++++++++++
+>   2 files changed, 122 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/glymur-crd.dts b/arch/arm64/boot/dts/qcom/glymur-crd.dts
+> index 35aaf09e4e2b..8d6ea857634b 100644
+> --- a/arch/arm64/boot/dts/qcom/glymur-crd.dts
+> +++ b/arch/arm64/boot/dts/qcom/glymur-crd.dts
+> @@ -198,6 +198,10 @@ ptn3222_1: redriver@47 {
+>   	};
+>   };
+>   
+> +&iris {
+> +	status = "okay";
 > +};
 > +
->  /**
->   * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
->   *
-> @@ -761,7 +805,9 @@ struct rppx1_bd_params {
->  	sizeof(struct rppx1_db_demosaic_params)			+	\
->  	sizeof(struct rppx1_db_filter_params)			+	\
->  	sizeof(struct rppx1_bd_params)				+	\
-> -	sizeof(struct rppx1_bd_params))
-> +	sizeof(struct rppx1_bd_params)				+	\
-> +	sizeof(struct rppx1_lin_params)				+	\
-> +	sizeof(struct rppx1_lin_params))
->
->  /* ---------------------------------------------------------------------------
->   * Statistics Structures
-> --
-> 2.54.0
->
->
+
+generally board enablement change goes as separate patch, not sure on 
+this though.
+
+>   &mdss {
+>   	status = "okay";
+>   };
+> diff --git a/arch/arm64/boot/dts/qcom/glymur.dtsi b/arch/arm64/boot/dts/qcom/glymur.dtsi
+> index f23cf81ddb77..c47443174f97 100644
+> --- a/arch/arm64/boot/dts/qcom/glymur.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/glymur.dtsi
+> @@ -13,6 +13,7 @@
+>   #include <dt-bindings/interconnect/qcom,glymur-rpmh.h>
+>   #include <dt-bindings/interrupt-controller/arm-gic.h>
+>   #include <dt-bindings/mailbox/qcom-ipcc.h>
+> +#include <dt-bindings/media/qcom,glymur-iris.h>
+>   #include <dt-bindings/phy/phy-qcom-qmp.h>
+>   #include <dt-bindings/power/qcom,rpmhpd.h>
+>   #include <dt-bindings/power/qcom-rpmpd.h>
+> @@ -4163,6 +4164,123 @@ usb_mp: usb@a400000 {
+>   			status = "disabled";
+>   		};
+>   
+> +		iris: video-codec@aa00000 {
+> +			compatible = "qcom,glymur-iris";
+> +			reg = <0x0 0xaa00000 0x0 0xf0000>;
+> +
+> +			clocks = <&gcc GCC_VIDEO_AXI0_CLK>,
+> +				 <&videocc VIDEO_CC_MVS0C_CLK>,
+> +				 <&videocc VIDEO_CC_MVS0_CLK>,
+> +				 <&gcc GCC_VIDEO_AXI0C_CLK>,
+> +				 <&videocc VIDEO_CC_MVS0C_FREERUN_CLK>,
+> +				 <&videocc VIDEO_CC_MVS0_FREERUN_CLK>,
+> +				 <&gcc GCC_VIDEO_AXI1_CLK>,
+> +				 <&videocc VIDEO_CC_MVS1_CLK>,
+> +				 <&videocc VIDEO_CC_MVS1_FREERUN_CLK>;
+> +			clock-names = "iface",
+> +				      "core",
+> +				      "vcodec0_core",
+> +				      "iface1",
+> +				      "core_freerun",
+> +				      "vcodec0_core_freerun",
+> +				      "iface2",
+> +				      "vcodec1_core",
+> +				      "vcodec1_core_freerun";
+> +
+> +			dma-coherent;
+> +
+> +			interconnects = <&hsc_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
+> +					 &config_noc SLAVE_VENUS_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
+> +					<&mmss_noc MASTER_VIDEO QCOM_ICC_TAG_ALWAYS
+> +					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
+> +			interconnect-names = "cpu-cfg",
+> +					     "video-mem";
+> +
+> +			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +			iommus = <&apps_smmu 0x1940 0x0>,
+> +				 <&apps_smmu 0x1943 0x0>,
+> +				 <&apps_smmu 0x1944 0x0>,
+> +				 <&apps_smmu 0x19e0 0x0>;
+> +
+> +			iommu-map = <IOMMU_FID_IRIS_FIRMWARE &apps_smmu 0x19e2 0x1>;
+> +
+> +			memory-region = <&video_mem>;
+> +
+> +			operating-points-v2 = <&iris_opp_table>;
+> +
+> +			power-domains = <&videocc VIDEO_CC_MVS0C_GDSC>,
+> +					<&videocc VIDEO_CC_MVS0_GDSC>,
+> +					<&rpmhpd RPMHPD_MXC>,
+> +					<&rpmhpd RPMHPD_MMCX>,
+> +					<&videocc VIDEO_CC_MVS1_GDSC>;
+> +			power-domain-names = "venus",
+> +					     "vcodec0",
+> +					     "mxc",
+> +					     "mmcx",
+> +					     "vcodec1";
+> +
+> +			resets = <&gcc GCC_VIDEO_AXI0_CLK_ARES>,
+> +				 <&gcc GCC_VIDEO_AXI0C_CLK_ARES>,
+> +				 <&videocc VIDEO_CC_MVS0C_FREERUN_CLK_ARES>,
+> +				 <&videocc VIDEO_CC_MVS0_FREERUN_CLK_ARES>,
+> +				 <&gcc GCC_VIDEO_AXI1_CLK_ARES>,
+> +				 <&videocc VIDEO_CC_MVS1_FREERUN_CLK_ARES>;
+> +			reset-names = "bus0",
+> +				      "bus1",
+> +				      "core",
+> +				      "vcodec0_core",
+> +				      "bus2",
+> +				      "vcodec1_core";
+> +
+> +			/*
+> +			 * IRIS firmware is signed by vendors, only
+> +			 * enable on boards where the proper signed firmware
+> +			 * is available.
+> +			 */
+> +			status = "disabled";
+> +
+> +			iris_opp_table: opp-table {
+> +				compatible = "operating-points-v2";
+> +
+> +				opp-240000000 {
+> +					opp-hz = /bits/ 64 <240000000 240000000 360000000>;
+> +					required-opps = <&rpmhpd_opp_svs>,
+> +							<&rpmhpd_opp_low_svs>;
+> +				};
+> +
+> +				opp-338000000 {
+> +					opp-hz = /bits/ 64 <338000000 338000000 507000000>;
+> +					required-opps = <&rpmhpd_opp_svs>,
+> +							<&rpmhpd_opp_svs>;
+> +				};
+> +
+> +				opp-366000000 {
+> +					opp-hz = /bits/ 64 <366000000 366000000 549000000>;
+> +					required-opps = <&rpmhpd_opp_svs_l1>,
+> +							<&rpmhpd_opp_svs_l1>;
+> +				};
+> +
+> +				opp-444000000 {
+> +					opp-hz = /bits/ 64 <444000000 444000000 666000000>;
+> +					required-opps = <&rpmhpd_opp_svs_l1>,
+> +							<&rpmhpd_opp_nom>;
+> +				};
+> +
+> +				opp-533333334 {
+> +					opp-hz = /bits/ 64 <533333334 533333334 800000000>;
+> +					required-opps = <&rpmhpd_opp_svs_l1>,
+> +							<&rpmhpd_opp_turbo>;
+> +				};
+> +
+> +				opp-655000000 {
+> +					opp-hz = /bits/ 64 <655000000 655000000 982000000>;
+> +					required-opps = <&rpmhpd_opp_nom>,
+> +							<&rpmhpd_opp_turbo_l1>;
+> +				};
+> +			};
+> +		};
+> +
+>   		mdss: display-subsystem@ae00000 {
+>   			compatible = "qcom,glymur-mdss";
+>   			reg = <0x0 0x0ae00000 0x0 0x1000>;
+> 
+
+otherwise, LGTM
+
+Reviewed-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
 
