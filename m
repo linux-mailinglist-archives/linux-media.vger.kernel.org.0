@@ -1,93 +1,51 @@
-Return-Path: <linux-media+bounces-60650-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60651-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UEgdCQdm+2kbawMAu9opvQ
-	(envelope-from <linux-media+bounces-60650-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:02:15 +0200
+	id AO6sN1xm+2kzawMAu9opvQ
+	(envelope-from <linux-media+bounces-60651-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:03:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CEDE4DDC5D
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:02:13 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1B94DDCBF
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 18:03:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8F4BA30B1945
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 15:56:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0347330C0602
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 15:56:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E6183EE1E9;
-	Wed,  6 May 2026 15:55:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BBF949690E;
+	Wed,  6 May 2026 15:55:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="V5KJ2Qsv"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="OP8+PNR9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A6C481A9F
-	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 15:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0E04494A19;
+	Wed,  6 May 2026 15:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778082936; cv=none; b=RM+Pz/p2FfxBnKnv+pgsXBPU7vJzgF4OwygJ4bfmbN+3KYgnJXzO2Bt5CTtqzh5BtdN46AatjHMGUvXpaAxRRMtTMSPtKRZRgpJ5jjTENzm7Wv50eTmoaruGO3duXg+W8I8mqA5RfPQf4dvA0/PQptu7HvfB4bfi0A8mwcKETZs=
+	t=1778082952; cv=none; b=XqinJXXWDLdTiVeVALVXnhsC8fM/PJfnUKSxwLJbK6tAEyBwLX+GOaNN1cwQ+oCiPFkLz8ZnG3Bimu19lQQhdKUGG3hug9iazSq0+G47//eDWeYZw2iHilCsGjR8QZdKwjDZNMwFU3eWdkLWuz+d9h2R4F5H7bmLlnjuhh/X8O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778082936; c=relaxed/simple;
-	bh=yAE/Ym57GFy/KISCQT6Y8a/+2nm5BztVchD6EC2QOxQ=;
+	s=arc-20240116; t=1778082952; c=relaxed/simple;
+	bh=yx44QsR+dr0wp1FGWIHshhf2FouszWxeHYwpeS2FZdA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u6sW5Cash9UTooLxGlgqkKG+7/yyz2fnTQyUYXnsUr5rRAKtJktiCglF6lI5CzBGrjysnQTBqXAOctJheEjXZM8umdhfdZryxP3BY36ln/2f7VwwN6dxBm+neI20/kklTFCDsY+tNIc2b+CWcDAr8iNyPL6qoaXl0yk3MdRL7KI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=V5KJ2Qsv; arc=none smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 646BaxX42104282
-	for <linux-media@vger.kernel.org>; Wed, 6 May 2026 08:55:31 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=Utn027AUC8UDDUJXMpqeQ33wB0VHRXSGiBE+zdS1lww=; b=V5KJ2QsvDqXI
-	jsaAHALFGR6sjzWQOy2R8fDT1m2z8Vp+BEzdkIo2E0PzKZT3MoRqQ2oxFN/cf+RI
-	zNdxXgZ/yC9TXtV3oASmSQ58occoBlUXUmIfLY3rEyKedGP+G26q9XfNbpy/cyyL
-	ATxSfUlKU+0cbiv5isn7bvGMH98bzLSc6Cor0iZ7DZsrSsJL5Y4HlAHYbDQh47an
-	JgHWaoOdPrg/9kinsjy7I1FZDdWBQ1dYEjz8FgwQ2xDR3PrtkNygxgXG3PaHOc5k
-	UAwldnK7l+6FDmkB2j0Yjq5S7uSzqNd6Utnc2cINNmewbNDHUuno2cDWgkWZsFdm
-	9itz8d4OIQ==
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4dwf37935m-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 06 May 2026 08:55:31 -0700 (PDT)
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-43d7a5b9678so5524740f8f.2
-        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 08:55:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778082930; x=1778687730;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Utn027AUC8UDDUJXMpqeQ33wB0VHRXSGiBE+zdS1lww=;
-        b=adq/jp9gCJNWX+SwBJD74NmkZcT2/YJbYDp0eYFhaIQjNG1pouXfj2jAnoccfYz3od
-         Cyi1LwzSSzLk/jw1rdeCY76VccdWUFZwhF/Psrjrukv1ytKmhk+w36ds5uxVz1/XLEfw
-         OSXHkH7Td5Bh65ZqP9H+ofYW3KSFp+mkowcL+rSwXr3ORZmn0692nQpp+5S1HA9ZAqxs
-         P6CaS31mNfJrH6JOYki4h3fr4FxrfpfUvCHPeh98KCXFu6AVfZPR5DFEchI05GoQc5mN
-         +rzrFufG9JiRZN1vZRZnpZOdNazL2AzLl4RbjG1tU0zM+Mb8zjEIdEmSiKHYdmLJEoaa
-         8hhQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+32LiX/+OhhCmrv0/cCpAk0SnWHJiswmgeDbIjZpKYDaiwDSE385rPMm9KiNkl34hfCmuqZDI7GDEkXQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTPg5xoAyDmkQLX155GpBl827YNMSiXT+aaVcxd0mmH+xbwrNa
-	nLzem7cfx+wdQYZ10oVkP/b8a3YZlVugcW9cTwOKdFurTaTV+JcSN/8KBK4H4e3sPywvdC0fgr1
-	i5BQiBYnnyUnY+445axMA6nxgpPn7dLbdOfoQOKQEfMP++6YKQeOhp1cPPOwZW5U=
-X-Gm-Gg: AeBDieuXkjctz2vDI6PVr+1ETrfATVe7RDItvAS5a6sagKTruTa1I11Jj9PoSOHhkR6
-	ba+lQTK3CdRsyHzW4BucoJheccpzAvH/b/R5IJ2/l6+KYTSSgDRhTeofmnB7ZWFRq8mK1yFxQ8M
-	fflxTux96SodgIZ+e9IQ1iVl2PSm1GVLPwnRWYkqgA3VEFFGOXg2pkIRTPiNT2YKMe5B+7nzZin
-	NdgD+p+btuNmnKZ+2Akugwtpxl1XF7E61qA99qeISmkvpLyYBzITRQyMbt8b8WW+rs5Nszq35Bz
-	LregkldHtp+ANtaaNO+ZF7wTYHjnE9vuy0SMT/VEsj+To/yChJcEOTDgYNuRoIH26WgCA0DaPOb
-	RB8YT999ZvmOmE7Et56PjnyiX4ly0GQInqdnQq2LO48TkrT5iLljIOWWxWb47waeAFn7f43lC62
-	GzID6fd59SE/4ZQAcjGl6eUGS6PSub3+7mLqeUHaGGjB30+0PJZfQ5N6NJOCZG79LRWMp2YD7EO
-	kbvBN4K6NB9X+TrDhu8Dj28Koi/JbjCgQ==
-X-Received: by 2002:a05:6000:2082:b0:441:1c18:f779 with SMTP id ffacd0b85a97d-4515da967c3mr6651388f8f.37.1778082929984;
-        Wed, 06 May 2026 08:55:29 -0700 (PDT)
-X-Received: by 2002:a05:6000:2082:b0:441:1c18:f779 with SMTP id ffacd0b85a97d-4515da967c3mr6651329f8f.37.1778082929442;
-        Wed, 06 May 2026 08:55:29 -0700 (PDT)
-Received: from ?IPV6:2001:8b0:8b6:13d4:102e:f2af:e074:5cde? (e.d.c.5.4.7.0.e.f.a.2.f.e.2.0.1.4.d.3.1.6.b.8.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:8b6:13d4:102e:f2af:e074:5cde])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45052483166sm13251331f8f.7.2026.05.06.08.55.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 08:55:28 -0700 (PDT)
-Message-ID: <c0bd0e23-712c-483e-a809-47126ab6e9e9@meta.com>
-Date: Wed, 6 May 2026 16:55:27 +0100
+	 In-Reply-To:Content-Type; b=i3i/c7kNlyWU+PIlqYOQo06YctKoTlhnoJVRamepVhKhcDOuaZWK4zJ/iNVAchF3tay0ADUoAagEnNS5E9TtFOUViIkCjk2pVRqqBboG02irBZ9wv2vyDGpl4A5009ud7ecAoR3eSGoQUzPD/OTZCxdVA5GjHu702QepHd+cIUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=OP8+PNR9; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F74D1A00;
+	Wed,  6 May 2026 08:55:42 -0700 (PDT)
+Received: from [10.57.69.49] (unknown [10.57.69.49])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DAE7A3F7B4;
+	Wed,  6 May 2026 08:55:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1778082947; bh=yx44QsR+dr0wp1FGWIHshhf2FouszWxeHYwpeS2FZdA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OP8+PNR9HAAL7fsQC1pkWVwQFHDeoeuWGPOUMiDIZm2DfhnHN1KIfEHs0OrIRvYaz
+	 xZSj4xf4c/FtDLNgS6E19u5T/pdKEJmw6oI8rUcTk9jiwZCAJ5g1QeRXU4zdbx5elF
+	 cN/N/QgEV5oR424hZ7qnkvgDAFMaE0jWBZz6r+J8=
+Message-ID: <b3c98120-2493-46a5-a48c-d90c31cf25c0@arm.com>
+Date: Wed, 6 May 2026 16:55:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -95,191 +53,171 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/9] vfio/pci: Fix vfio_pci_dma_buf_cleanup() double-put
+Subject: Re: [PATCH 0/4] Let userspace explicitly trigger memory reclaims
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20260506-panthor-explicit-reclaim-v1-0-44f82ac147ce@collabora.com>
+ <829b8887-48de-4cfa-8bb2-79db1471bb8d@arm.com>
+ <qxAaM8FMQLuQt09qti64IA@collabora.com>
+From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>,
-        Alex Mastro <amastro@fb.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>,
-        Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Kevin Tian <kevin.tian@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
-        Pranjal Shrivastava <praan@google.com>,
-        Alistair Popple
- <apopple@nvidia.com>,
-        Vivek Kasireddy <vivek.kasireddy@intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        kvm@vger.kernel.org, =?UTF-8?Q?Carlos_L=C3=B3pez?= <clopez@suse.de>
-References: <20260416131815.2729131-1-mattev@meta.com>
- <20260416131815.2729131-2-mattev@meta.com>
- <20260501131236.278ac431@shazbot.org>
- <9304aada-ee84-4cf2-a1d7-82313eda07aa@meta.com>
- <20260506152937.GJ11063@unreal>
-From: Matt Evans <mattev@meta.com>
-In-Reply-To: <20260506152937.GJ11063@unreal>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <qxAaM8FMQLuQt09qti64IA@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDE1NiBTYWx0ZWRfX21C20H/X5wuz
- 27Zc4LrBygzBAlynLZMTZOc2YWSH9UXu6PSXZb8D7Qs5oul/6YWX448hYaWUYMvQoXY7nJ2erxU
- jCmuN8BTadFK06MNhXftNHfSM9oG9PrABYdQOciEwPW2XjaC+T/3upvpysDcB79UkzlKvpUBkj9
- /OYOg9QGmhGTRxEv7fs3qEC9NkOcsLvqJXZ48sQ59X6KO0axl4scjpIiTim/H6ihzCTsQYphsJS
- j6MgU4UtJtFF4llOXQev7wery80ekF+MeWmyD9OfhyBQGKPPYhWkNfWtK/WrbJLkVeenJNzqw/T
- 5Zc05plq5+qSzvJSu1E/5OfxJIOaAPmtFbvRoNmYM0Ka2q8pjT8yOGOxch7DJAsW50FXNCC+UBw
- nmRkspXEF6lGk1wN3Mm38mno1Gw1WLfCF5L5NR+k6gwn8L7S+20rg7uqc0sAJITh44IAVbkb/pV
- ZaNsQOdtjzTnZDp81bw==
-X-Proofpoint-GUID: hLa4K_e3jnfrrGmcBMLG58L0StresFgT
-X-Authority-Analysis: v=2.4 cv=GKs41ONK c=1 sm=1 tr=0 ts=69fb6473 cx=c_pps
- a=I6ewnrIBtnKHmb6SxpX7Vg==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=wpfVPzegXHpEFt3DAXn9:22 a=VwQbUJbxAAAA:8 a=UqCG9HQmAAAA:8 a=Ikd4Dj_1AAAA:8
- a=VabnemYjAAAA:8 a=bm6tUXqWTanbjDFH1akA:9 a=QEXdDO2ut3YA:10
- a=MqNruPmfsT8GavliLQMe:22 a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-ORIG-GUID: hLa4K_e3jnfrrGmcBMLG58L0StresFgT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-06_01,2026-05-06_01,2025-10-01_01
-X-Rspamd-Queue-Id: 5CEDE4DDC5D
+X-Rspamd-Queue-Id: 7C1B94DDCBF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[meta.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[meta.com:s=s2048-2025-q2];
+	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	TAGGED_FROM(0.00)[bounces-60650-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60651-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[meta.com:+];
+	FREEMAIL_TO(0.00)[collabora.com,arm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[arm.com:+];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[meta.com:email,meta.com:dkim,meta.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mattev@meta.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[steven.price@arm.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:dkim,arm.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:email]
 
-Hi Leon,
-
-On 06/05/2026 16:29, Leon Romanovsky wrote:
-> 
-> On Wed, May 06, 2026 at 02:53:31PM +0100, Matt Evans wrote:
->> Hi Alex,
+On 06/05/2026 16:43, Nicolas Frattaroli wrote:
+> On Wednesday, 6 May 2026 17:06:56 Central European Summer Time Steven Price wrote:
+>> On 06/05/2026 11:45, Nicolas Frattaroli wrote:
+>>> RAM is not, in fact, cheap. Especially on embedded systems with a low
+>>> amount of memory, but known and well-defined userspace, more explicit
+>>> resource management can lead to better utilisation patterns. As an
+>>> example, a resource manager process on a purpose-built device may wish
+>>> to launch, and then explicitly swap out, memory of processes that are
+>>> kept "warm", to improve perceived startup latency of individual
+>>> full-screen applications without making the kernel figure out the usage
+>>> pattern from observation alone in order to swap out the right pages.
 >>
->> On 01/05/2026 20:12, Alex Williamson wrote:
+>> Have you considered memory control groups (memcg) for this purpose?
+>> Imposing a lower limit than currently allocated should trigger reclaim,
+>> so 'background' applications could have the limit lowered and then
+>> restored when moved to the foreground.
+> 
+> This is a suggestion in line with what I've made to the entity for
+> whom I am adding this, but was told that for them they really do want
+> tight control without having to use cgroups into technically doing it
+> by dynamically adjusting the limits of them.
+> 
+> I do think that writing 0 to `memory.high` to swap it out and `"max"`
+> to allow it to swap back in might work, though that'll then apply to
+> all of the process' memory, not just the GPU resources.
+> 
+> I will ask for clarification internally.
+
+Thanks, it would be good to have a better understanding of why GPU
+memory is special (and needs to be paged out) and the process' other
+memory can be kept.
+
+>>
+>>> To allow for this explicit control in the context of panthor's GPU
+>>> memory, add two new sysfs knobs. The first, mem_reclaim, runs an
+>>> explicit priv BO reclaim cycle on the TGID written to it.
 >>>
->>> On Thu, 16 Apr 2026 06:17:44 -0700
->>> Matt Evans <mattev@meta.com> wrote:
->>>
->>>> vfio_pci_dma_buf_cleanup() assumed all VFIO device DMABUFs need to be
->>>> revoked.  However, if vfio_pci_dma_buf_move() revokes DMABUFs before
->>>> the fd/device closes, then vfio_pci_dma_buf_cleanup() would do a
->>>> second/underflowing kref_put() then wait_for_completion() on a
->>>> completion that never fires.  Fixed by predicating on revocation
->>>> status.
->>>>
->>>> This could happen if PCI_COMMAND_MEMORY is cleared before closing the
->>>> device fd (but the scenario is more likely to hit when future commits
->>>> add more methods to revoke DMABUFs).
->>>>
->>>> Fixes: 1a8a5227f2299 ("vfio: Wait for dma-buf invalidation to complete")
->>>> Signed-off-by: Matt Evans <mattev@meta.com>
->>>> ---
->>>>
->>>> (Just a fix, but later "vfio/pci: Convert BAR mmap() to use a DMABUF"
->>>> and "vfio/pci: Permanently revoke a DMABUF on request" depend on this
->>>> context, so including in this series.)
->>>
->>> We really need a fix for this split out from this series, It's already
->>> been shown[1] that this is trivially reachable.  Carlos proposed[2] a
->>> similar solution to the one below.  I was concurrently working on the
->>> issued and suggested an alternative[3].  Let's pick a solution for
->>> 7.1-rc.  Thanks,
+>>> The second, mem_claim, does the opposite: it swaps BOs back into active
+>>> memory.
 >>
->> It looks like [3] is progressing, so I'll drop this one when I can rebase
->> onto it.
->>
->> I noticed [3] removes the dma_resv_lock(priv->dmabuf->resv) around the
->> priv->vdev = NULL, and this series' vfio_pci_mmap_huge_fault() relies on
->> vdev only changing whilst resv is held to resolve a race between a fault and
->> cleanup (see patch 7 of this series).  The handler takes resv so that it can
->> stably test vdev in order to take memory_lock.
+>> How necessary is this mem_claim for performance? Have you done any
+>> benchmarking of explicitly claiming vs just allowing it to happen
+>> naturally? My gut feeling is that mem_claim should be unnecessary in
+>> most situations, but I'm prepared to be proved wrong.
 > 
-> I think that you should rely on priv->revoked and not on priv->vdev.
+> I've done no benchmarking, but can do so if you have any preferred
+> workloads for this. Since we have to keep entire groups either in
+> memory or out of memory right now AFAIK, I don't expect this to be
+> very beneficial at all. At most we avoid a single fault I think.
 
-Needs both unfortunately, as the fault handler ultimately needs to take
-vdev->memory_lock.
+Yes the memory should be brought back in as soon as a job is submitted.
+I've no particular workloads in mind - but it would be nice to be able
+to point to something that actually improves by adding this feature.
 
+> I can drop the mem_claim part, though it may become relevant if we
+> ever have more fine-grained memory eviction where a single job or
+> group can run into multiple faults before everything it needs to
+> render a new frame is back in memory. In that case, it will be
+> beneficial, because it avoids doing the swap-in dance several
+> times while the user wonders why the UI is rendering at powerpoint
+> speeds as it touches memory pages that are still swapped out during
+> subsequent frames.
 
-Matt
+We don't want to be faulting memory in a page at a time for exactly the
+reasons you state. So even if we do make things more fine-grained we're
+going to have to implement some form of read-ahead. Otherwise it's
+"powerpoint time" after any even that causes memory pressure.
 
-> 
-> Thanks
-> 
+A possible justification is if the system can tell an application is
+about to be used and can "pre-fault" things before rendering starts. But
+it's a rare system design where it has this form of precognition.
+
+Thanks,
+Steve
+
 >>
->> Must your fix change vdev outside of holding resv?  I'm still sketching
->> alternatives; at first glance perhaps the fault handler could rely on vdev
->> being valid if !revoked, which can be tested holding [only] resv.
->>
+>> I'm not saying this series is necessarily the wrong approach - but I
+>> think we need a bit more justification for adding a new API for this.
 >>
 >> Thanks,
+>> Steve
+> 
+> Kind regards,
+> Nicolas Frattaroli
+> 
 >>
->> Matt
->>
+>>> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+>>> ---
+>>> Nicolas Frattaroli (4):
+>>>       drm/panthor: Add freed_sz parameter to reclaim_priv_bos
+>>>       MAINTAINERS: Add sysfs ABI docs to list of panthor files
+>>>       drm/panthor: Add explicit memory reclaim sysfs knob
+>>>       drm/panthor: Add explicit memory claim sysfs knob
 >>>
->>> Alex
+>>>  Documentation/ABI/testing/sysfs-driver-panthor-mem | 34 ++++++++
+>>>  MAINTAINERS                                        |  1 +
+>>>  drivers/gpu/drm/panthor/panthor_drv.c              | 93 ++++++++++++++++++++++
+>>>  drivers/gpu/drm/panthor/panthor_gem.c              |  7 +-
+>>>  drivers/gpu/drm/panthor/panthor_gem.h              |  1 +
+>>>  drivers/gpu/drm/panthor/panthor_mmu.c              | 70 +++++++++++++++-
+>>>  drivers/gpu/drm/panthor/panthor_mmu.h              |  4 +
+>>>  7 files changed, 205 insertions(+), 5 deletions(-)
+>>> ---
+>>> base-commit: 2c4b906cd135bbb44855287d0d0eff0ee0b47afe
+>>> change-id: 20260506-panthor-explicit-reclaim-3dffed028d8c
 >>>
->>> [1]https://lore.kernel.org/all/GVXPR02MB12019AA6014F27EF5D773E89BFB372@GVXPR02MB12019.eurprd02.prod.outlook.com/
->>> [2]https://lore.kernel.org/all/20260429182736.409323-2-clopez@suse.de/
->>> [3]https://lore.kernel.org/all/20260429142242.70f746b4@nvidia.com/
->>>
->>>> drivers/vfio/pci/vfio_pci_dmabuf.c | 9 +++++++--
->>>>    1 file changed, 7 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
->>>> index 281ba7d69567..04478b7415a0 100644
->>>> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
->>>> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
->>>> @@ -395,20 +395,25 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
->>>>    	down_write(&vdev->memory_lock);
->>>>    	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
->>>> +		bool was_revoked;
->>>> +
->>>>    		if (!get_file_active(&priv->dmabuf->file))
->>>>    			continue;
->>>>    		dma_resv_lock(priv->dmabuf->resv, NULL);
->>>>    		list_del_init(&priv->dmabufs_elm);
->>>>    		priv->vdev = NULL;
->>>> +		was_revoked = priv->revoked;
->>>>    		priv->revoked = true;
->>>>    		dma_buf_invalidate_mappings(priv->dmabuf);
->>>>    		dma_resv_wait_timeout(priv->dmabuf->resv,
->>>>    				      DMA_RESV_USAGE_BOOKKEEP, false,
->>>>    				      MAX_SCHEDULE_TIMEOUT);
->>>>    		dma_resv_unlock(priv->dmabuf->resv);
->>>> -		kref_put(&priv->kref, vfio_pci_dma_buf_done);
->>>> -		wait_for_completion(&priv->comp);
->>>> +		if (!was_revoked) {
->>>> +			kref_put(&priv->kref, vfio_pci_dma_buf_done);
->>>> +			wait_for_completion(&priv->comp);
->>>> +		}
->>>>    		vfio_device_put_registration(&vdev->vdev);
->>>>    		fput(priv->dmabuf->file);
->>>>    	}
+>>> Best regards,
+>>> --  
+>>> Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 >>>
 >>
+>>
+> 
+> 
+> 
+> 
 
 
