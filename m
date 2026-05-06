@@ -1,221 +1,204 @@
-Return-Path: <linux-media+bounces-60555-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60556-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OJz3GjIH+2mbVQMAu9opvQ
-	(envelope-from <linux-media+bounces-60555-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 11:17:38 +0200
+	id yPPbJswD+2mbVQMAu9opvQ
+	(envelope-from <linux-media+bounces-60556-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 11:03:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE8F4D8782
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 11:17:36 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E524D8470
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 11:03:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id F211A3047273
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 08:59:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0BA243008E04
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 09:02:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A17A73E2774;
-	Wed,  6 May 2026 08:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 710EE3E275C;
+	Wed,  6 May 2026 09:02:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="kLtS140u"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KGAPdKzL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013055.outbound.protection.outlook.com [52.101.72.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89762877DE;
-	Wed,  6 May 2026 08:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778057967; cv=fail; b=sJW41Ij/LtM1nK93kTWs8r0K4HenByKsiHFp7ZnLz4FUAbAsw8GvPichtFKhcLNwq3jPWQKtkxyUMXoAFZZcRD2aPJXA1/SEYbdOytrh4xHAW8aKq1giWWHqXKQwErw+VFTVDURbBnLTvYqQSXH8BpMqtgv9KKn4r239asIoysU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778057967; c=relaxed/simple;
-	bh=FjXo1hF6Rbu3KiNJLD3WSxWUAZr8qaV85cJqAvFsrIA=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=aaXtzWipKwhyAd+e426EvhxCWzre310lNLtrJ9M9OS9drDYfytmcVfnaxQ6VuVYDWaXFfv4mdcaDbAivJnyRmfgfR88+hXbSpjggbF521mQ7C6jFMX3nu4hDNeD06dPK6MUdSivFdnX4HCIpu3AMdZid3nrAqPOXzyee1FehU6c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=kLtS140u; arc=fail smtp.client-ip=52.101.72.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JcOYr0/mOlhLEhryoKiYvAfFgJRXfv2erGQqKTxaLWXwBN8BwFSSFtiCsqV1Ku1OJsnRLZQxKkz3bcQ/wHhFkkiAI53cl5/PCJXJDVEUFHt/s/klMZtgcCa/iYXt2s3TxRy5+Jl34g07Znjw1PvUZnTd2Qei72kBgTX7qihPIlU7MguT86VGZlXr+vFs+OoATXXQVR7k4zTB0ZWwFVHCR+gYcGR4TWeeHaequ7ZrGh3oLu1e6heiGS3ZY8Z6Ah3Dxah8CUTA2K9chBCx4hg0NTmJ/jEGP2AeCM18V66ouzhwBzNCgYXk+/1kIffi9SNG6Cu3auVgc9D5wUkR2PKTDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i5+Tl/zgsVwD9/kCdwVAFUSzbATI/y+YyCX93snTxj0=;
- b=F1mL7rlFThxY95WqCYeFkvqBAF/TZXTupdXcNA4diBrPEZtzx09V9wjqX0kIlcmxESwADJTNHw3QssY3BQ8F6kKl8UCMsM2CIoKH1jCP5GF4T64jm9FrGWtppt2s86F8UG4SanOMZfe5WLTYwfYqN3ycwIoUFpZoXAQ7jCVhW6oTn00Tpn3vI73jf0fKyc64bRU0iXPbwaJy8mKs3TncabI5+d61YTbTim8x41tdsXrxSfRomPWZLRx5m/7CJ7GC0sm52nvbZi7KjNMaIJIobhJXZvbjT9isp3Z2Swc+5sieDyvWy0Clj9w3ED8jR0hQzekW3meNgJwSXwsXkXFf4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i5+Tl/zgsVwD9/kCdwVAFUSzbATI/y+YyCX93snTxj0=;
- b=kLtS140upRkm6IWy54d7Y7PRLiBrHEjJJv9ZABKoxeP6fcWiYtyVpA65zzocKf7ZjGktC1ZC9EimldsEx05awVpUONLeSKpxGq02DCuSel1umitMsznesIiZsIEAiNaFJXrlFfHu0JzrkssCpCB6EHqoURxqA46RdqycJemcmoIEvfEt+mRXZ4S+4fEYs3iGUCpeYrhAwQcY+8tyqiDosQ5i6d7xxHg6Ov5cUi4zwRV6o5TZKafJjWxKQgnNXv1pcMMkNGABW7gFdn/ewGLyDuQ4nrkvPLZCVaqbPQL9ZwcjwlsSaioLGrnYnkP68XyS49y/YhzinztnqN8+YjOGzg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB7821.eurprd04.prod.outlook.com (2603:10a6:102:c5::5)
- by DUZPR04MB10040.eurprd04.prod.outlook.com (2603:10a6:10:4dd::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Wed, 6 May
- 2026 08:59:22 +0000
-Received: from PA4PR04MB7821.eurprd04.prod.outlook.com
- ([fe80::67dc:4bd2:8552:9b50]) by PA4PR04MB7821.eurprd04.prod.outlook.com
- ([fe80::67dc:4bd2:8552:9b50%5]) with mapi id 15.20.9891.008; Wed, 6 May 2026
- 08:59:22 +0000
-From: Robby Cai <robby.cai@nxp.com>
-To: laurent.pinchart@ideasonboard.com,
-	Frank.Li@nxp.com,
-	martink@posteo.de,
-	rmfrfs@gmail.com,
-	kernel@puri.sm,
-	mchehab@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	martin.kepplinger@puri.sm
-Cc: imx@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: dt-bindings: nxp,imx8mq-mipi-csi2: Fix example endpoint label typo
-Date: Wed,  6 May 2026 17:01:24 +0800
-Message-Id: <20260506090124.2960477-1-robby.cai@nxp.com>
-X-Mailer: git-send-email 2.37.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MAXP287CA0024.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a00:49::32) To PA4PR04MB7821.eurprd04.prod.outlook.com
- (2603:10a6:102:c5::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0883D524E
+	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 09:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778058151; cv=none; b=WeKuujeZADLKXTV+vJOl1T0lVQHXPYVOffupJZnO2KwG/xQ1Xq1ZQHZcXRLk9834ca3hTkN74hJc7rQ8ZXekZXFJQOpxEucEwpnCESwwVVSgFhc+qqG/YcsJiOAbyGdJ0HOJKgbU7YG8IUQkbdlbaC+p4YcjrWbK58ZczWJaKrk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778058151; c=relaxed/simple;
+	bh=nLSZKCR0woXtN6W5cyzs5oEHO2Ts0XPwdeXwd60CnUg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZV2aHYLiCjFT31FYB57wfuoyx/le5os2r0I/zRnGJtqAU2h+PqNaATH67KdZd0XQp7QdK4+aNAwK6RYPKThTmO77URSeLwuWH9WD6mhatfVw1DGLI8BkQr6WEv1zxzepVuBsLQ9dCUKhcZ77DWz7AwmMq5hBpqeihOcsU3ZWzek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KGAPdKzL; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso54603675e9.2
+        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 02:02:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778058143; x=1778662943; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mmaZWXsqMxYY1SXzoardDG6u5dyIRaJ/iULJJHwbN+E=;
+        b=KGAPdKzLk3vJJ86/+9JWb0pewVd+eSoidY3lk7EZPts94uHo4N/VRkoM9t57Na8hZU
+         ohCDqtJlErkxUgfhc1xF31gaTTxEEV9aQTpYdnIYJw5UqkLIvfOYXMVeC0yFRnX/MHe4
+         HmgeTl6uAbvaO7lSltkxovg9zHAEVQVtWdlJLq+MyigLOHJOPN3xooUX/QlPsg9aezCX
+         fcFIH2ULFXdTlkzGp+Ry1SgKQ1i2euO26Gf6Maw6yBVWA69E1LILuSHMu5h7drw4GBsF
+         YHnLv0r1kzhMzpzHNEVk53axTY4nfGL7MMB052P2FX+fuI9Xsu9HaT6ntUkADcXIzcaX
+         fiPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778058143; x=1778662943;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mmaZWXsqMxYY1SXzoardDG6u5dyIRaJ/iULJJHwbN+E=;
+        b=RSOLBZuhGt+rczek6zCOpMrJxPnhrSSe36rvhm3vPjA5eZrqGLisQj4z1+JiKf4F1c
+         ss0Rz/UyUfP+Y/BEhU0CSeQZ5D+Y4hQguI0/7WwF5oRvxdR33/GaLufljfYNu3ADw/Lu
+         u1lY84818LJ3cMl6tOP2aBgDM5vRiPf4uUB0ks8sy0kl3+7BlawQs1GHTg+KzIX5s3EW
+         Sbqga6aPBQHOGZYefASIw8Jsn/G4aRJnwTbjPfI5UMHFQyPChPxwpksLffBAuRwmBusN
+         HN+pgwarRjtziv56sXAB7Ox3Godkab8/7JBdze3fDpFQdyXlGejEmHqDEas3ri0EUj2y
+         G14w==
+X-Forwarded-Encrypted: i=1; AFNElJ+C4ZdoXeastqvLbvo97xgeKGlExslLjU2QIKFz9L0pxYX0TLemrmuKSWYWV8YlyLWIqmOOgmPnbDN4uA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzK12/y1PNIwqn3PPhtEcknfCgLFhB0FN0Jdf4JwS66565qRpeZ
+	PMk1x1WeyCxTYx1T0NXZ/eQT90WUsieZvKPOwgZHeJ1dXLOkbnqq+TY8
+X-Gm-Gg: AeBDieu9fTjk8W9+JUQQxrry/5zEfW8GdV2hsJDZVe17wMtSvu8h8TnvD1EJSJNs8sl
+	gq6TGjN9zDXflW00tXovuUSpJZyAla9AFNUiZqTM0/rEwodWUWY/zrlXGpqaj1SULt1WW/dB2MN
+	72AeqDhp/AOfPEEQlmdeUUGDL8YaSZ2z1GzZPmqUMTlphk5qHpVBu1qkpjjD+BdEjOzxSXfDolf
+	N+vZBf0LQr70R+w6/cvmeAK/HwqZY0WwsPsDJ40zOVtJYDOeG4h0MZDm7/DeEKI2KcPjVBNATKy
+	op3AeX1oci4Y3gymZbj47l19ZHvXmf9kNlxmE/kPkc7ARjKJraGX+39LKDYiJiAyr1occFZFosO
+	T6xY2YhikG4QDZn4X8JFRRqAiwkiGbJim/39kqMS9AmS94hN9SVxvvsSufRuXTLkVajdLQczIre
+	eAKBhkAnfnHd01dzSUSdBmW5/M3W/pqxbcWwZEr0Nv+EjfpxAgoR7JOiJb7qWhku74c7hWpdYww
+	7Q2IqE3POGCcAZ6qznwnCeaeq8S9b0nM36R7DWOHg==
+X-Received: by 2002:a05:600c:2e0c:b0:489:1c2d:211e with SMTP id 5b1f17b1804b1-48e51e0c833mr25734095e9.5.1778058142476;
+        Wed, 06 May 2026 02:02:22 -0700 (PDT)
+Received: from [10.109.92.22] ([86.33.71.194])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e52f5c1cfsm21365215e9.0.2026.05.06.02.02.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 May 2026 02:02:21 -0700 (PDT)
+Message-ID: <6873d617-c904-45f3-bad9-e1ae39cfecd2@gmail.com>
+Date: Wed, 6 May 2026 10:02:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7821:EE_|DUZPR04MB10040:EE_
-X-MS-Office365-Filtering-Correlation-Id: 823e44b4-d1a9-4e44-ad90-08deab4dc401
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|7416014|376014|19092799006|366016|52116014|1800799024|18002099003|56012099003|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
- 8qrNNtGcEqEPXz9V9+R7i2FWfi+b5vFPgmr9GoIAHV/ZKeRd/O5gOCWD8n5WcuRHeIv8niPHHBVjHddW4lChUFytZJtVhXhr8XoRvLO1pXA4hXCMmCaqQvJ76YjhF9O9EICulmkwLkmWSCcrYixXx8ilbcrEiNtOjmtmiKvB+P+b4IcZ1QFWUGbWzfJj4LcrBbrlpdckv5U4yTvDrb6SpOXdh5gvFNpTI3fHodQVv6f3vCcsj6sVeOKBWeo3sEyGOhfHrBHCbNePdbZ67RYxYADDhz2WqNekbZYMkTn/f/VESx7b/MV0q2i0Lxa61mfIUFVpbVgCuwLDiXojeFe0VEIfQwfXwsm68aZwSQWgijEowvpiaGESG8qmwVVTx9mPv6/7eSrShBG3sblZTHS7n1gR02GNx+EMj6I9Kk5xdEsDKni0bRxaRJ7VnO67KpNWIgF9se74zvkpmfQ9B86kE4ICTLCuYbPP+SMY/7rglLV8MNv0l9asTrnM5M/aaaM394rdzear7GAw3jaSiWc6ItAMQm0KemJnY+7/a5GgkYL/Kp2GsPZ0CMq/rFi5/at9V1MUNP0FB+cpnlk4AIxHeCkX3x+5VzHUx6OzRyd7OsPX83EYy05mwOZSiNKAMujgD6KbhL+g0VxvhTI2taG556GRPuPpE8mxswlRXygobRbmGrMtbjwMkc1reSnqsVIQQzu8KDD3wEhULI8hQLMAxKSrKdwdBfWRqzbBwLxc5D9ZsTLl1c5zP98LXaMR44f1Qq1tOwkSS5YgxFjdaDXdGg==
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7821.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(19092799006)(366016)(52116014)(1800799024)(18002099003)(56012099003)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?zU9WqH2NNUU0HWaLInud+0l530sgi80lkvuYdMTLmeioBsuB30bORLLiF2bR?=
- =?us-ascii?Q?ORsxMwPdX1nEZhSuP60s0zIof72IXtgeFyR8HoiXl5qrEK0jtYHT7+0OQF5k?=
- =?us-ascii?Q?maY8M0LUs5bCiyFDDmsjUJHwAHP8Jw8OIq8YMQ80rd1sZNNmgNnILS2Cgkmc?=
- =?us-ascii?Q?Pi1fm0b5Zy6aDdO/eZr7L73o0EC8n4yFjvl8upv8waSrKzTmrLDg1kXYq4cm?=
- =?us-ascii?Q?mQv7/HvEK23d+vGBpdCf833ynwtGM/aL81nGHpYxZlHz/iD0ZbbSFVjpJnL+?=
- =?us-ascii?Q?VruM27GgzYB43DR4kBdyyRZKoSbxK8Z4e0X9FUmNF0EdfVmI+WDmwaphB1YM?=
- =?us-ascii?Q?vIeeVvJtCUs90+RwVauEYAv2GPT6gmcbCvsYwYGImN960Tn0RXO5o3LpDMLo?=
- =?us-ascii?Q?e+HTv6GinExw/6rIaK8qITxMRHq8GKczpa64/7Epuq/ZfhZ4xTXxAF5PBnyB?=
- =?us-ascii?Q?zyu05ncTbqJsKH8JN1kX3iWF8GJtXLDO1i2/wjphSBXibI3g5hUWXHpw1Ozm?=
- =?us-ascii?Q?X+47WDIFb44wBQGsBxKdnXY0KAt9MhXEVpRtaMjkA4/g3jsScGZtKaG6JUTi?=
- =?us-ascii?Q?EHFUusArqRoqXh4eLYHXlti081Yp2lFsgcNSr6KjPRU1DSEPPRAubErngXRN?=
- =?us-ascii?Q?/ORVnrGL2ChGO6qVDdgPFz7AyT4awVwEVna9/uBHWayvDe4Eo7Amz69J9KIQ?=
- =?us-ascii?Q?Koi2U8gR0pFTxSmOU9oDTA72FdV3JWfS4ULNTdUsGoa+5uXbHPE5L3b50czA?=
- =?us-ascii?Q?m5p7B0RjcrDgrXzxGgjVE4EWuHWo3INkCHiKzNLe06fS2sUGIH93becF0F0Q?=
- =?us-ascii?Q?QCA8WQlXgXVhISXD2Bclhdr3B8UdQ4yOlKTSNzKBG6J/xHC7EKFnhPA4njah?=
- =?us-ascii?Q?8vkpcBFdkZC6vWS2p5eWTtVKPqSWiiglSciT+fj3Clqym3nk7GyEwx9Fky/e?=
- =?us-ascii?Q?30Nr5cUwfciDBOxrkQI/o2038QjZhyGF3SgZO6tWQEJcgGWu+4500U3zEbo9?=
- =?us-ascii?Q?yzD/njLUuOqboLHFkLmzAOQq4NbDSs8iVyzgOhA5+gCZwMC+1LteXXrBikgp?=
- =?us-ascii?Q?+gLjbWCz8SixBQJyX9LDiTQ7nV2H80b4jW1U5/juJvdHQOZC0QdgPsCHPKrk?=
- =?us-ascii?Q?lgyfOielLwqEljDt78/sWNc8RGHYw75yU8w0poNGqXHxugT4EfrnSAv/tjvu?=
- =?us-ascii?Q?/KTmwQEHKegXJH4K9pSs4WpD8kv+4ZYs/5YYCMxpIfPlX1wP2oUO7R2h5BRD?=
- =?us-ascii?Q?hEi8FvQmqOAAirnUxnvqRic6ycJ4W1AoP07ksLMHVzJ06VFQDc8EZ4aUKvNB?=
- =?us-ascii?Q?Uw52yarO4uYNf0PwMrx7yv9oc1uwt7dA4cHla8eokKUOyyGWdhA0TjyVx8oj?=
- =?us-ascii?Q?o21w8OcwK9dIjstTOiRkzrREUt6B6/F7XMUjIXcsgaKs3WzyM5cnuR+XVypl?=
- =?us-ascii?Q?D78TYza1wmqzC/kQ+Q/eCXHK4Gey1AKEJWcmN4A38Dl90QDJgB61Qdjd5UZU?=
- =?us-ascii?Q?VJlUQYKOnbbmIbkciAc8/Rnf2FlNbv5ux2K5uNpV3O/ZDAf57XnEfFJt/jVJ?=
- =?us-ascii?Q?xQSTc1rrcA3dLpscX/LS2/jFQW6002H88tH446frmblL1TLH0YC5EBLK+HM0?=
- =?us-ascii?Q?o+E9rzftzwk2L9hPEy9Bc3GPTiIGdPter4NXHE1TL7BmoSAt1mtf2rRH8MTn?=
- =?us-ascii?Q?gFzqoSqjfWyvE3Ni553zQQhCmhh9OGLnDWya+Dso3zHBcBALwXCOVceLhKOt?=
- =?us-ascii?Q?JrKstmzthw=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 823e44b4-d1a9-4e44-ad90-08deab4dc401
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7821.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2026 08:59:22.4088
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kmCk9yn3ONrHvdenBPmsUNMGm/rye7qY3leLab0z4tsoHTz/S2G96bPaTuyI6bym9fn/dM/hb5gaehZMOI/pYg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB10040
-X-Rspamd-Queue-Id: 6AE8F4D8782
-X-Rspamd-Action: add header
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/10] Add dmabuf read/write via io_uring
+To: Ming Lei <tom.leiming@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
+References: <cover.1777475843.git.asml.silence@gmail.com>
+ <afi7c-VUJWOLlC1m@fedora>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <afi7c-VUJWOLlC1m@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 00E524D8470
+X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [7.34 / 15.00];
-	SEM_URIBL(3.50)[0.0.0.0:email];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_MISSING_CHARSET(0.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
-	BAD_REP_POLICIES(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	R_DKIM_ALLOW(0.00)[nxp.com:s=selector1];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-60555-lists,linux-media=lfdr.de];
-	GREYLIST(0.00)[pass,body];
-	FREEMAIL_TO(0.00)[ideasonboard.com,nxp.com,posteo.de,gmail.com,puri.sm,kernel.org,pengutronix.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[nxp.com,none];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	PRECEDENCE_BULK(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[robby.cai@nxp.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-60556-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	TO_DN_NONE(0.00)[];
-	R_SPF_ALLOW(0.00)[+ip4:104.64.211.4:c];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	NEURAL_SPAM(0.00)[0.804];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,nxp.com:email,nxp.com:dkim,nxp.com:mid,0.0.0.0:email,0.0.0.1:email]
-X-Spam: Yes
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[asmlsilence@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-The example in imx8mq-mipi-csi2.yaml uses imx8mm_mipi_csi_{in,out} endpoint
-labels, which is confusing for an i.MX8MQ binding. Rename the labels to
-imx8mq_mipi_csi_{in,out} for consistency.
+Hey Ming,
 
-Fixes: 37255747ecbd ("media: dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and controller")
-Signed-off-by: Robby Cai <robby.cai@nxp.com>
----
- .../devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml       | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 5/4/26 16:29, Ming Lei wrote:
+> On Wed, Apr 29, 2026 at 04:25:46PM +0100, Pavel Begunkov wrote:
+>> The patch set allows to register a dmabuf to an io_uring instance for
+>> a specified file and use it with io_uring read / write requests. The
+>> infrastructure is not tied to io_uring and there could be more users
+>> in the future. A similar idea was attempted some years ago by Keith [1],
+>> from where I borrowed a good number of changes, and later was brough up
+>> by Tushar and Vishal from Intel.
+>>
+>> It's an opt-in feature for files, and they need to implement a new
+>> file operation to use it. Only NVMe block devices are supported in this
+>> series. The user API is built on top of io_uring's "registered buffers",
+>> where a dmabuf is registered in a special way, but after it can be used
+>> as any other "registered buffer" with IORING_OP_{READ,WRITE}_FIXED
+>> requests. It's created via a new file operation and the resulted map is
+>> then passed through the I/O stack in a new iterator type. There is some
+>> additional infrastructure to bind it all, which also counts requests
+>> using a dmabuf map and managing lifetimes, which is used to implement
+>> map invalidation.
+>>
+>> It was tested for GPU <-> NVMe transfers. Also, as it maintains a
+>> long-term dma mapping, it helps with the IOMMU cost. The numbers
+>> below are for udmabuf reads previously run by Anuj for different
+>> IOMMU modes:
+> 
+> Plain registered buffer is long-live too, which raises question: does this
+> framework need to take it into account from beginning?
 
-diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-index 4fcfc4fd3565..71f79651dd96 100644
---- a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-+++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-@@ -220,7 +220,7 @@ examples:
-             port@0 {
-                 reg = <0>;
- 
--                imx8mm_mipi_csi_in: endpoint {
-+                imx8mq_mipi_csi_in: endpoint {
-                     remote-endpoint = <&imx477_out>;
-                     data-lanes = <1 2 3 4>;
-                 };
-@@ -229,7 +229,7 @@ examples:
-             port@1 {
-                 reg = <1>;
- 
--                imx8mm_mipi_csi_out: endpoint {
-+                imx8mq_mipi_csi_out: endpoint {
-                     remote-endpoint = <&csi_in>;
-                 };
-             };
+Not sure I follow, mind expanding on what should be accounted?
+Are you suggesting that we might want to use normal registered
+buffers in a similar way? I.e. giving the driver an ability to
+pre-register them?
+
+> BTW, inspired by this approach, I adds similar feature to ublk via UBLK_IO_F_SHMEM_ZC
+> which can maintain long-term vfio dma mapping over registered user-place aligned buffer.
+
+Interesting, just too a glance, and it looks like what David Wei
+was thinking to add to fuse, but IIUC he gave up exactly because the
+client will need to cooperate and that could be troublesome.
+
+Should we try to push everything under the same interface instead of
+keeping a ublk specific one? Again to the point that it requires
+a cooperative client, but if it's something more generic, the user
+might just try to use it as a general optimisation. In the same way
+it'll be helpful to fuse, and as a bonus you wouldn't need tree look
+ups (but mandates clients using registered buffers as a downside).
+
+It'd need to shaped to somehow work better with host memory as I
+assume you want to be able to map it into server in common case.
+Switch case'ing if it's a udmabuf is not the greatest approach,
+but maybe we can figure out something else.
+  
 -- 
-2.37.1
+Pavel Begunkov
 
 
