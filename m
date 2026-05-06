@@ -1,285 +1,169 @@
-Return-Path: <linux-media+bounces-60584-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60585-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mJ4wEVYw+2lxXQMAu9opvQ
-	(envelope-from <linux-media+bounces-60584-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 14:13:10 +0200
+	id YHk/Cuoy+2nfXgMAu9opvQ
+	(envelope-from <linux-media+bounces-60585-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 14:24:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAFFF4DA01C
-	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 14:13:09 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB6E4DA263
+	for <lists+linux-media@lfdr.de>; Wed, 06 May 2026 14:24:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 93B6C30164BC
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 12:13:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 68BDE3030E87
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2026 12:19:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 622D743E4AE;
-	Wed,  6 May 2026 12:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OnHHZKsn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77B9F449ED7;
+	Wed,  6 May 2026 12:19:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3327132BF5A
-	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 12:13:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACCF4418D7
+	for <linux-media@vger.kernel.org>; Wed,  6 May 2026 12:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778069586; cv=none; b=qcCiL5YZeA+PcJ/H3JdY2Q6mw0nlyvtcqIFnctdCOxxgzdwf3MNcsNtzPjDDLxXFqCgc8pa4FiNhD6xy1g85rNk+CKUwp+XuwtnpWuKRJOw5qtESUpKdh9w0g1NrvD6j9GVgUH8EY8DY2wjJsFx4tbUZDZ7F1I6PDVzClsJHbFw=
+	t=1778069983; cv=none; b=qGQK/4ozDE8Wvte2a4EH8N3DW6t9XCxS1ShMG6Muwi1K//mrRiNUT4kHafg8IVw9C/JW0OO6JFH33YjEqDOWGwCkp08HHgqmtMWMmwkvE55ecDGRwqbAsFyHyEBWB6PQHw0vMQowVmUQn29ERjXdjNFoJZDOkGMmYdDAJmE+dxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778069586; c=relaxed/simple;
-	bh=25EStH+ZKY3S23pfBiuDiZcfYIT3PHSSztxBuJUVBwY=;
+	s=arc-20240116; t=1778069983; c=relaxed/simple;
+	bh=OGgIA55BZAFXmu80rcWgjfY/+756SJIACznmErfcp5I=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FK0PcB4nZS2KJFuut6h75gTbfUj0DV9mPOncJ0v+vMltchrIF5w6ruS/fKfT5AVk8g/aF34rZ8p5rruMtTNniLqr+WU1RQi/vOFwvdxAQJBEzFZ2tJNGc9cVd3aJDlR55v+Bljvi0+0Bg7KilSJhcv/CwdXNZbYVx/BpnRkro98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OnHHZKsn; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-bc23bebd345so148310266b.1
-        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 05:13:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1778069583; x=1778674383; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yVjlbnqQSsjSh+3tnbsmuYby63Qhu3djg55a/YfzcUs=;
-        b=OnHHZKsnX7upE62UPrWzVrhjfx3qmtFb/pI17rETlSKcIa8C4X7gioxAdx66QX9anF
-         APDTAK8Tb9fKdcfTMPFcyCSn+XVYrNmVQx8mzhqiVTmbvFwDPwq3N68xVnm9nymSvqDl
-         PBWElafZlviJsxOoQ5L53Dqw1jr4NKrvrPwh4=
+	 To:Cc:Content-Type; b=GP4O5kfmWms41tsViQh1RG3lk+GvlWSYG3/1AVOI87JNtOT6r/WjkF/1cqfP2rvDSQmneTQLNXljO91lc6qDIkXHkwnSKCbqUHkj13Rrcf1Cua+GO8N1wlE8w4nHQhFl3mUhWJ33Z2jO0utinBMtihQg4FQimHlUoldGDnrWu18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-948029fb1f2so1926959241.0
+        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 05:19:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778069583; x=1778674383;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yVjlbnqQSsjSh+3tnbsmuYby63Qhu3djg55a/YfzcUs=;
-        b=T82aiO15LLKq0ZpgcIbxgRsTVxNSH34obUb0PynFoY/XEHkXGt8aacDxL4x0jM7uWu
-         52ZTQJC54dZKhrzxKkVQa/y4hOpnW6eipuCJBR0UqbiWq9QeCrdBOsL2gz8FtW1OixiC
-         3fCCZpvC9OFyJbUZJvO3RrDKvYEJ5nL9waEtb8xQdOk0BUOQyxUuc7UFDODyojmaMDTc
-         u1zZ3076O5dgxNs918h6nG9YY/RINSp1XFZKLh5BDCmjybaC8fSEXDS0g5RELQDmBsDf
-         r+7WRuXK1dOwFza2ouaxU7fHvVUaUDaoO6/DSEcJ7DR0wuMLUt1gk9WwkILoQLFg2aWK
-         QDew==
-X-Forwarded-Encrypted: i=1; AFNElJ8+sQLum71CygShuZoQW0+aVYi96yNvPn2p4fvWsH0I43Is8hkk53SBgXMwl6rB4vsyPUq/ZJ4oGZNVUg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywmho6c/nrnOcxvUVW2PBkDiUT+3B7p1tftf24HCPdr66mrpg21
-	EYPu4s30qEOkgOuuQyCeSqOshKN4p4PwR4xfc0OL6tJwSJSVgupUOjxyI2GYaO14oLegM0ZZXf/
-	VHcSGeJzl
-X-Gm-Gg: AeBDieurVkK7d7ws+i6pPHS+1TYX4NTCyuBLmEQBD+2rx+Q+qtFRSfYM77mKKHLZHN5
-	fsnTwp+Xi8iRtIyC3W2NMtEscylZ6TDOWB8slXPhn5cIFfb5vUh9XwBBAjNF6I3W0VPxdxF7r86
-	BqZr1DUaOdICactsjOhXCwKzf57RxfhuWaqa79Z8ABsLywEMcc+SntuJtURMz3OjkxJNPD8p3Nx
-	rPJGv3YTa9lLx/LDEjwSCbZpU9VjROh6IfbHzXe8L94aUxnI5bLDwlfBqTVb5alUyXpaF+r39Pj
-	ZDAmt3ZqdulUZI4qQeAyVftf1qdXouu68+z558bXWOJq8Hclw9+L1+fRsf0Kl3De4+s+/PnwP1Y
-	0yXUsdCkHUvz7Ak7VSVFDZVtM6wSwJvA838nd//7dZaXTo600SF5kZJnMyd0s4YYSP4Ov1B4/Mx
-	qvWuxZUg/2/tjy8XKdA+xCjeiypg5iDS+kpHlz5FRMx1Kwszr6ai9M+0ZlJIw660zFe/y6Hi8=
-X-Received: by 2002:a17:906:12d6:b0:bc4:b981:d6eb with SMTP id a640c23a62f3a-bc4b981d733mr207068566b.29.1778069582904;
-        Wed, 06 May 2026 05:13:02 -0700 (PDT)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com. [209.85.218.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bc55f710d56sm76992566b.61.2026.05.06.05.13.01
+        d=1e100.net; s=20251104; t=1778069981; x=1778674781;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zWnsycWbumXvHAbUFrY0DhwMzBvdavZ86zhUbzNKa2s=;
+        b=spLl/6K0aIFZSXLKj7s5EOe5hKPQonfcNsEW4hHpv2R/KVzjXxG++Ze3e/21HgIA/W
+         PvozHcRskCre7CN4TofaSzIrhH9eXPefSba9sJdCK55EErx2NvPHif5tYAN61/tH8gJa
+         XBEkaEyQEKgH9S4jwE/8ljK+Kh0X03/bkx0txLUFo26IojRuW0jRTVd1I1yiwhGOSVip
+         17CkLSfYr74odf8o0DRTWsoi8gO8syZ1lAH2Cw6h/uSxJVItsoa+8k4AYaf49EWtiJx5
+         yXWXjAonNk5Un3Hcite9HmMjycJ6SrT/vweI8LOk3CsoyNoBOAqDm4yvWS7Ige0ATsBz
+         tIYQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9OP5zfV00A4qmoXrl3y2UHFK9sRXGjkKsUKHWv+NmaWwTmjAncj9BXybJBOeI1Md5NA7mOInweQebL6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9hFkN/2e/eQ6zrqP9qcKkQzsIlj8jLla4ooYbbr24LIZEViZa
+	BR6INvQ1GvkPI2UtpbwktjkZItxCiru6sNwBnuCMtVvEzEAFB/7KR68/LOONFiuwL0s=
+X-Gm-Gg: AeBDiesBeAcp5EQwpbtkzJEmh87P8FWeXXvUqA7PH4siB5POjx1mYpFDfC38WnwBasi
+	tsZX1fQR2sMSeCjucGx6DxIBOFZAGZnIslPWydBFkxd1iEbPjPQHkdAf4Cc1rVcI3e0hUmDWvVv
+	+8uXN4vNX0slBXJN19w0kgQMjge11rm1CGC2KvW/qO7qeukWHOfvMZobRG6HpPdewPo+liCscMq
+	ILRW0Uq9H66gsGunrZUzM8h8bdq/LkSzxBgbJq+I7AiSADZo5QmbVQ0IL6faiIq2WmCw7KMbXW4
+	WAS9YkbTDs0hTNob95ctu9so9FngoFBNMGHj2XZtkBQZpuptvgOtnwu4/in+QXYcB0HVu2cqUyc
+	GI+4m5mvbtnYlUSKJCgySnddP78gIpQru7BA4SFg/AXnBfU7BpYMgqJYEWRfsumaEUatt8NcUt3
+	FzVcz/Gestndb1oPWHgWAsqkYVetiQ2sCFVLbPnXLoW5eDzlDFGtOACzdPKMnOCQPxL2D+/jI=
+X-Received: by 2002:a05:6102:4429:b0:602:8ad9:1f6f with SMTP id ada2fe7eead31-630f901b15amr1029149137.5.1778069980786;
+        Wed, 06 May 2026 05:19:40 -0700 (PDT)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95ce08972bdsm8496029241.1.2026.05.06.05.19.40
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 05:13:01 -0700 (PDT)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ba3115fe0d5so159371266b.1
-        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 05:13:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9qb3r+3ZC94DwKnAYtFBFKrKBh55Rjq9Cq6uKkfpPmjX332cyuorz6hWSYOdoR/r/AA7+fIqDyX7QTgw==@vger.kernel.org
-X-Received: by 2002:a17:906:f587:b0:ba9:13e2:ddd1 with SMTP id
- a640c23a62f3a-bc549911f7cmr165900866b.4.1778069580078; Wed, 06 May 2026
- 05:13:00 -0700 (PDT)
+        Wed, 06 May 2026 05:19:40 -0700 (PDT)
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-95cd9a5f24cso1673662241.2
+        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 05:19:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9mu6QNi2WL76MCNqJ0vPywbL7n9V9mJXSPQK1HjJ/dsEQwxI8ceYZqkUGDSsrREE/+mP+zX3RGLIY1UA==@vger.kernel.org
+X-Received: by 2002:a67:e102:0:b0:630:2428:7abd with SMTP id
+ ada2fe7eead31-630f90815d4mr936479137.11.1778069980279; Wed, 06 May 2026
+ 05:19:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260504-smatch-7-1-v3-0-fda125c30058@chromium.org>
- <20260504-smatch-7-1-v3-1-fda125c30058@chromium.org> <20260505231211.GE1598374@killaraus.ideasonboard.com>
- <CANiDSCtwPC1ihe5u=HuDG0f261zq76=TL90oMqfP8VQ6UK771g@mail.gmail.com> <20260506111838.GL1598374@killaraus.ideasonboard.com>
-In-Reply-To: <20260506111838.GL1598374@killaraus.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 6 May 2026 14:12:47 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvo_J+jTUAjWAMhoVWnkvaYFH_=LJ+TBovfDhcskaooOA@mail.gmail.com>
-X-Gm-Features: AVHnY4IQkpK3-5RS14A7VUMwQMw6jxPGx8jG3XavvTzh8GHEisq1RNp9k2xsYIg
-Message-ID: <CANiDSCvo_J+jTUAjWAMhoVWnkvaYFH_=LJ+TBovfDhcskaooOA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] media: v4l2-dev: Add range check for vdev->minor
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>, 
-	Jackson Lee <jackson.lee@chipsnmedia.com>, Bingbu Cao <bingbu.cao@intel.com>, 
-	Tianshu Qiu <tian.shu.qiu@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Keke Li <keke.li@amlogic.com>, Yong Zhi <yong.zhi@intel.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+References: <20260504010556.2796398-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20260504010556.2796398-1-niklas.soderlund+renesas@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 6 May 2026 14:19:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUGo0G1ZjuXa=PA_2fa8JpU+z6gbp-Dh4FWPK69V4SvJQ@mail.gmail.com>
+X-Gm-Features: AVHnY4IG9JEePlz9NMSwqaWGbq3mPYkZd51IDr_wNWH5wl5ZacHtWP2K2qU7iv4
+Message-ID: <CAMuHMdUGo0G1ZjuXa=PA_2fa8JpU+z6gbp-Dh4FWPK69V4SvJQ@mail.gmail.com>
+Subject: Re: [v8 00/14] media: Add support for R-Car ISP using Dreamchip RPPX1 ISP
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Jai Luthra <jai.luthra+renesas@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: AAFFF4DA01C
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 9EB6E4DA263
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60584-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-60585-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,samsung];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,ideasonboard.com:email]
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,linux-m68k.org:email]
 
-Hi Laurent
+Hi Niklas,
 
-On Wed, 6 May 2026 at 13:18, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Wed, May 06, 2026 at 08:48:06AM +0200, Ricardo Ribalda wrote:
-> > On Wed, 6 May 2026 at 01:12, Laurent Pinchart wrote:
-> > > On Mon, May 04, 2026 at 06:54:04AM +0000, Ricardo Ribalda wrote:
-> > > > If the fixed minor ranges are not properly set we could end up in a
-> > > > situation where the calculated minor is invalid. Add a check for this in
-> > > > the code to make it more robust.
-> > >
-> > > If it was just for that, we could define the ranges in a way that could
-> > > not lead to future programmatic errors.
-> > >
-> > > > This check also fixes the following false positive smatch warning:
-> > > >
-> > > > drivers/media/v4l2-core/v4l2-dev.c:1036 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
-> > > > drivers/media/v4l2-core/v4l2-dev.c:1043 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
-> > > > drivers/media/v4l2-core/v4l2-dev.c:1101 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
-> > > >
-> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > ---
-> > > >  drivers/media/v4l2-core/v4l2-dev.c | 5 +++++
-> > > >  1 file changed, 5 insertions(+)
-> > > >
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> > > > index 6ce623a1245a..5516b2bbb08f 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-dev.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> > > > @@ -1032,6 +1032,11 @@ int __video_register_device(struct video_device *vdev,
-> > > >       vdev->minor = i + minor_offset;
-> > > >       vdev->num = nr;
-> > > >
-> > > > +     if (WARN_ON(vdev->minor >= VIDEO_NUM_DEVICES)) {
-> > > > +             mutex_unlock(&videodev_lock);
-> > >
-> > > I may get tempted to convert code to using scoped guards at some point.
-> > >
-> > > > +             return -EINVAL;
-> > > > +     }
-> > > > +
-> > >
-> > > I'm annoyed by the proliferation of workarounds for smatch false
-> > > positives that generate useless code :-/ This is in particular is not a
-> > > big deal though, so
-> > >
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > >
-> > > but I don't want to continue in this direction with every new kernel
-> > > release. We need a way to tell smatch that this is safe with incurring
-> > > an runtime cost.
-> >
-> > To provide some context, in this release alone we have found two "Fixes:".
-> >
-> > Do you have any data regarding the runtime cost of these new checks?
-> > Most of the time, the compiler simply optimizes them out, so the
-> > impact is either zero or minimal.
->
-> If the compiler can optimize them out, then I expect the static analysis
-> tools to also get the ability to avoid those false positives.
+On Mon, 4 May 2026 at 03:08, Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> This series adds support for two different devices that together enable
+> ISP support on Renesas R-Car Gen4 ISP processing. The first driver added
+> is for Dreamchip RPPX1 ISP, this device purely deals with image
+> processing algorithms, statistics and image conversion; but have no DMA
+> engines. The second driver is for the R-Car ISP CORE, this device
+> deals with DMA to/from the RPPX1 ISP and provides a V4L2 user-space
+> interface for the ISP.
 
-Ideally yes, but LLVM/gcc has hundreds (maybe thousands?) of
-contributors and sparse/smatch are maintained by a handful group of
-heroic warriors.
+Thanks for your series!
 
->
-> > The added checks make the code more robust for future refactoring and
-> > serve as useful documentation.
->
-> In this specific case, if we want to make the code more robust, I think
-> we should have an array of minor offsets and calculate the minor ranges
-> based on that. It would avoid offsets and ranges getting out of sync. I
-> don't think it's worth it though, because I don't foresee we will ever
-> change ranges for the fixed minors case.
->
-> > Furthermore, when false positives occur
-> > in new code, they force the author to write more idiomatic code, which
-> > improves maintainability.
->
-> Up to a point only. Sometimes guarantees are provided in a very remote
-> place. For instance, control values have ranges that are set when
-> creating the control, and enforced by the control framework. Adding
-> range checks to .s_ctrl() is redundant, but I don't expect static
-> analysis tools to be able to understand that the value is guaranteed to
-> be within the range (especially given that we support modifying ranges
-> at runtime). How can we avoid those redundant checks (or mask
-> operations, as in the mt9p031 patch in this series) ?
+> This series depends on the ISP extensible statistics definitions
+> out-of-tree patches.
 
-It depends on the nature of the range check and the consequences of
-failing it. We can decide case by case and worst case scenario we can
-ignore specific errors.
+So that is:
+  1. "[PATCH v1 00/11] media: Add iMX95 neoisp driver"
+     https://lore.kernel.org/20260413160331.2611829-1-antoine.bouyer@nxp.co=
+m/
+     for v4l2_isp_block_header,
+  2. Jacopo's reply https://lore.kernel.org/aeHd0G_JDaROMWDd@zed/
+     for v4l2_isp_buffer_size.
+
+However, that still leaves me with undefined struct v4l2_isp_block_type_inf=
+o,
+and lore couldn't help in locating the patch series that adds it :-(
+
+Where can I find it? Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 
-The mt9p031 patch in this series is special, the issue is not the
-range check, but that smatch did not properly handle a mask operation.
-Dan is working to fix it.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-
-
->
-> > We have a deficit of maintainers, not
-> > authors.
-> >
-> > So, I DO want to continue in this direction. I am very grateful for
-> > these static analysis tools; they truly make our code more
-> > maintainable.
->
-> I do like smatch a lot, it points out real issues. My concern is that we
-> have code that offers guarantees in ways that are not visible to static
-> analysis tools (or to compilers), and having to add more runtime checks
-> everywhere to silence warning is not nice. Those checks can over time
-> become redundant (because tools improve, or because we remove the code),
-> and will likely not be removed because nobody notices.
->
-> There's a broader question here of how to connect pieces of code where
-> one piece offers a guarantee that the other piece depends on, in a way
-> that can be exposed to tools.
-
-I agree with the idea, but this might not the right forum. It would be
-a great topic for the Kernel Summit, though.
-
-The "rust people" would love to have some annotations about the
-guarantees of the C code.
-
-But until we have those annotations the best we can do is runtime
-checks where they make sense and keep track of where they do not make
-sense (allow lists). That will make future discussions more
-productive.
-
->
-> > > >       /* Should not happen since we thought this minor was free */
-> > > >       if (WARN_ON(video_devices[vdev->minor])) {
-> > > >               mutex_unlock(&videodev_lock);
-> > > >
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
-
--- 
-Ricardo Ribalda
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
