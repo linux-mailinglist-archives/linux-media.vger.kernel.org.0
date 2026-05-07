@@ -1,199 +1,170 @@
-Return-Path: <linux-media+bounces-60772-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60773-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UEFLBcFZ/GndOQAAu9opvQ
-	(envelope-from <linux-media+bounces-60772-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 11:22:09 +0200
+	id sNLCBWVe/Gm7OwAAu9opvQ
+	(envelope-from <linux-media+bounces-60773-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 11:41:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9BF94E5B87
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 11:22:08 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 768A54E628C
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 11:41:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E7A02300680C
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 09:22:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E5259305814D
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 09:34:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7220C3BED27;
-	Thu,  7 May 2026 09:22:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E85C3C5546;
+	Thu,  7 May 2026 09:34:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OdQ1tfLs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kM+ePJPQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B7F3B8939;
-	Thu,  7 May 2026 09:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374F438E5C4;
+	Thu,  7 May 2026 09:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778145714; cv=none; b=kMeB3TvJ40nC4FbGcVN2Xby5Ojw2mlwKZudRCv2V+zNEfEOfiFeCDX9D13jQ3t5Nl1+DopcqVt3pWUsE83mpJWfFEO1vMs2sYb6L0s0il5Gl5SvzevacQNuX6AUw2rtM1SxSwLLG3EEUVVY8BD6eL0jQYZmqyYeKC5bvz6YrWys=
+	t=1778146450; cv=none; b=m4jF67QMNJmT6xrMJlO+IywV0vIjOAIQ7xc0i3rCRRU4UVHFuwy/73zcCQPzOzJtDcP4OT8EbSwS+7z9kplrVwjZRvYkepRVFB45pQi3+612ELtUv2MkFisV//fwxaFfdtnwdrRmFdxKxfRruN9xd9OJ/+wm10I3oO/ZWPQXO6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778145714; c=relaxed/simple;
-	bh=WIv4qrJIYeBj2gwII3FA4uTYKA0g/+q+WhKHGSNvcB4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L6WRDD41ICfYGjEGH0so8981/F8ghYrV/VHjVDkqj7LlXija+MGhGZ8PPQJK7hkMk1RmNIm8ywZmQ5Kh2n6FF0FrraCvUlOqLd6vd8NU0Vnq7tOwN7YSQ0dPgKNFdkPVeu8l0eTs8PwxcglUwd7V9zGSLiOkM3DCdd/cGNnAQWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OdQ1tfLs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EB6CC2BCB2;
-	Thu,  7 May 2026 09:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778145713;
-	bh=WIv4qrJIYeBj2gwII3FA4uTYKA0g/+q+WhKHGSNvcB4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OdQ1tfLsxasSAMlCYWQ/wV/xoPWIQ2iuAwtAY2GomijEzDKjNLOqja5/XlAdgs+T9
-	 1KxImNlfGwtjE1HS4O3YXGUYD3GdwwwCpgpMzBV1eTqKN/WPrAWtTuY6JZO/SQPRQs
-	 Nlwp4rDfCBkfJ5qg5uqwxoQRzTO1hgKC3wB3B3uNWjFb6xsHF1Mbz7O45VwpzoNkZM
-	 gA3+3iYxLDgieIOZIi4TcSurdaIAiSlaezHNDNX3pK0RrUik7foDYsMaxzZY/jQ/J4
-	 JS+jasV/iBRv8uA3kvri/8BaoKiwSO7rH3q+LPBOGEpdxyBc0eTcfE9xJr20maqMt9
-	 pWw65dZGW983A==
-Message-ID: <9d80272f-34af-4423-9e86-a153cb219388@kernel.org>
-Date: Thu, 7 May 2026 10:21:47 +0100
+	s=arc-20240116; t=1778146450; c=relaxed/simple;
+	bh=+IsxBelrVscsrj/ZB3DL/7ohGnaZniFOEBK2aRoy74g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JvxZk7ooHyXgGGQUbVGHcXVWyRSF3oa7bdoGBZiYJaYM/hPPvrXTXydXa7VuVac5NUT4YqS/S7M4zHYklE4F5DhgL9NKTxXxsOlYK3DjjrYQgO0m4z3ZsB2j6wqCh+u33JP+uhwnpIG/XlmjtvZzoUX6MvOvWQE8e6vAm0gfnNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kM+ePJPQ; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778146449; x=1809682449;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+IsxBelrVscsrj/ZB3DL/7ohGnaZniFOEBK2aRoy74g=;
+  b=kM+ePJPQuN8IR4sSFw1VBzGuSUKl/1Wd6dbtUtmt3fySxUksBxlUKRha
+   eQumLjGyOHZzP5MEP4VThiYw+GU9yr+rkqKMTvlr/nFYFXikkN67Ymy4Y
+   +gpUnwXa4QevwYcRCAh3R+fzuOjxrXLErVEUaYUSGZFWovW6N5QA+DXV6
+   LG8AzLcrBoSwpvex/2EIVAHITfVFZlWbME8X8EwMtptc0DvBwicpWNCv8
+   Nya4ZZ5m/Mv+8ep0fAEeAT7g8NNX2QinvqrdRnSXn/K9TiRVjFSqqVglJ
+   kc2gjUF8qNedLenZJ+cp6RI8kR3ebWinDMnwAgCR3n8tGhekdobRYtkQH
+   g==;
+X-CSE-ConnectionGUID: xQV+G35qQsy0egeel97gkA==
+X-CSE-MsgGUID: oY31H1ibSWCUAxr+0e/D5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="101767994"
+X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
+   d="scan'208";a="101767994"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 02:34:08 -0700
+X-CSE-ConnectionGUID: lHL32NqeS1ur1KHr/Hp3fQ==
+X-CSE-MsgGUID: PXicovokRkeUd7amrg0uAA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
+   d="scan'208";a="241411414"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.99])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 02:34:04 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 1E89C121CCD;
+	Thu, 07 May 2026 12:34:02 +0300 (EEST)
+Date: Thu, 7 May 2026 12:34:02 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
+To: Bin Du <Bin.Du@amd.com>
+Cc: "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+	"laurent.pinchart+renesas@ideasonboard.com" <laurent.pinchart+renesas@ideasonboard.com>,
+	"bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
+	"prabhakar.mahadev-lad.rj@bp.renesas.com" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"sultan@kerneltoast.com" <sultan@kerneltoast.com>,
+	"Nirujogi, Pratap" <Pratap.Nirujogi@amd.com>,
+	"Chan, Benjamin (Koon Pan)" <Benjamin.Chan@amd.com>,
+	"Li, King" <King.Li@amd.com>,
+	"gjorgji.rosikopulos@amd.com" <gjorgji.rosikopulos@amd.com>,
+	"Jawich, Phil" <Phil.Jawich@amd.com>,
+	"Antony, Dominic" <Dominic.Antony@amd.com>,
+	"Gong, Richard" <Richard.Gong@amd.com>,
+	"Tsao, Anson" <anson.tsao@amd.com>
+Subject: Re: [PATCH v10 0/7] Add AMD ISP4 driver
+Message-ID: <afxcirtLHxeiaqF7@kekkonen.localdomain>
+References: <20260320084146.200988-1-Bin.Du@amd.com>
+ <7d5d52bf-b0dc-47d4-8cb8-d6099fd05c57@amd.com>
+ <470a9fbc-c4c2-4bde-a91d-a22f1c730b31@amd.com>
+ <LV9PR12MB982900FA14329B742FF64BBE875EA@LV9PR12MB9829.namprd12.prod.outlook.com>
+ <adSlwqPVF81feLHx@kekkonen.localdomain>
+ <21dfb3d2-d838-4325-8a6a-6024b851cbc5@amd.com>
+ <afpSBiF8sUqulE-7@kekkonen.localdomain>
+ <21140553-f207-468a-9357-a0ae08aa28c4@amd.com>
+ <f68addf9-eb16-4c87-b281-b4f1dcc4cc63@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 8/8] media: qcom: venus: Enable HEVC decoding for
- MSM8939
-To: Erikas Bitovtas <xerikasxx@gmail.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org
-References: <20260507-msm8939-venus-rfc-v5-0-d7b5ea2ce591@gmail.com>
- <fZnRy9sgUV1-FCQCS3YiWC9r2U6dDgZvq6Cs3zMNFDdL4gFLl1JQqbxp3KYtWRvlZcr7F9wvteURLBFZOMGAVQ==@protonmail.internalid>
- <20260507-msm8939-venus-rfc-v5-8-d7b5ea2ce591@gmail.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <20260507-msm8939-venus-rfc-v5-8-d7b5ea2ce591@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: A9BF94E5B87
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f68addf9-eb16-4c87-b281-b4f1dcc4cc63@amd.com>
+X-Rspamd-Queue-Id: 768A54E628C
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	FROM_DN_EQ_ADDR(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60772-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,apitzsch.eu,baylibre.com,redhat.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	TAGGED_FROM(0.00)[bounces-60773-lists,linux-media=lfdr.de];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_CC(0.00)[amd.com,kernel.org,xs4all.nl,ideasonboard.com,linaro.org,bp.renesas.com,vger.kernel.org,kerneltoast.com];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim]
 X-Rspamd-Action: no action
 
-On 07/05/2026 09:32, Erikas Bitovtas wrote:
-> MSM8939 supports HEVC decoding. Do not disable the HEVC codec HFI bit
-> and add it to codec type converter method so it can be recognized.
-> 
-> Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
-> ---
->   drivers/media/platform/qcom/venus/core.c       | 2 ++
->   drivers/media/platform/qcom/venus/hfi_parser.c | 3 ++-
->   2 files changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 6ad20d58dda2..89798ad1087b 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -178,6 +178,8 @@ static void venus_sys_error_handler(struct work_struct *work)
->   static u32 to_v4l2_codec_type(u32 codec)
->   {
->   	switch (codec) {
-> +	case HFI_VIDEO_CODEC_HEVC:
-> +		return V4L2_PIX_FMT_HEVC;
->   	case HFI_VIDEO_CODEC_H264:
->   		return V4L2_PIX_FMT_H264;
->   	case HFI_VIDEO_CODEC_H263:
-> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
-> index 92765f9c8873..178274d10c02 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
-> @@ -207,7 +207,8 @@ static int parse_codecs(struct venus_core *core, void *data)
->   	core->enc_codecs = codecs->enc_codecs;
-> 
->   	if (IS_V1(core)) {
-> -		core->dec_codecs &= ~HFI_VIDEO_CODEC_HEVC;
-> +		if (!device_is_compatible(core->dev, "qcom,msm8939-venus"))
-> +			core->dec_codecs &= ~HFI_VIDEO_CODEC_HEVC;
-Stylistically I think this should be a flag in a struct.
+Hi Bin,
 
-I'm not a big fan of doing a bunch of strstr()/strcmp() generally. If 
-you extend the struct venus_resource in some way - I think this will 
-work better and be more runtime friendly.
+On Thu, May 07, 2026 at 02:44:32PM +0800, Bin Du wrote:
+> Hi Sakari,
+> 
+> I'm not sure which Smatch version is used in Media CI. Here are some
+> findings from my local tests for reference.
+> 
+> For v10, I could reproduce the false positive with an older Smatch snapshot
+> built from upstream commit URL:https://repo.or.cz/smatch.git/commit/bc575c7a0c5c7a2d4fefd0e1d8b0dc9ccacdd1a6,
+> which is a pre-1.74 snapshot.
+> 
+> I could not reproduce the same false positive with a newer Smatch snapshot
+> based on upstream commit URL:https://repo.or.cz/smatch.git/commit/bcc58b9ccf06d28ab6be4f0992bc74f462aa12f8,
+> which is a post-1.75 snapshot.
+> 
+> For v11, neither Smatch snapshot reports the warning.
 
-u32 dec_codecs_blacklist; perhaps
+That's nice. Smatch is updated weekly so we should get the new smatch in
+soon and you could post a patch to remove the workaround. The code would be
+nicer without that.
 
----
-bod
+The patches themselves were merged earlier today to the media committers
+tree.
+
+-- 
+Regards,
+
+Sakari Ailus
 
