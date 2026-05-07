@@ -1,105 +1,104 @@
-Return-Path: <linux-media+bounces-60867-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60868-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8K/7J3sX/WlLXgAAu9opvQ
-	(envelope-from <linux-media+bounces-60867-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 00:51:39 +0200
+	id Upd5FpQX/WlYXgAAu9opvQ
+	(envelope-from <linux-media+bounces-60868-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 00:52:04 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9E3B4EFF00
-	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 00:51:38 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 504674EFF0F
+	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 00:52:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 21B943014A0A
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 22:50:41 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B74FD3016D93
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 22:50:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 184663D333D;
-	Thu,  7 May 2026 22:50:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31AC03D525F;
+	Thu,  7 May 2026 22:50:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aEqAB1J2";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RX84c+y5"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="nKPm5gka";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WcTOHfri"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2D73D3331
-	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 22:50:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B5439B48E
+	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 22:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778194220; cv=none; b=m5HVEVuPlWNitM8m9IsdmRUAhrYkkzixn1NZFPPzkFvfQRSBIEBE0qjdpAAfW6jxiCHE3GL/U2XmmrQx4sWaVl1Eijac/3+jXPsGLbbSosQmlSlZD+9JgLeLXQxQfSli1b9A1gByMWeo1ELlPf9pgvAjbydztirUTxWhSpxa6wI=
+	t=1778194224; cv=none; b=nKU5Ksu5gJGCj8NHr3cX+kOYcEL4C8LvlVUe8zT6O0VTgrGFfjbRlvwewzlcq+re5N9x4wGrBR7W3aov+MqnOWxEaQZu5q+OyUqUOo8aAJq2w75YCFHpcZ7aYU0oPYT80gzb+qG8mXInHrPgWTyV97dLmG4arxOUJ02h0fio+uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778194220; c=relaxed/simple;
-	bh=7Krz7pN0WV1WEwE+SM/17Byvte7UfrNb2WulyP8M938=;
+	s=arc-20240116; t=1778194224; c=relaxed/simple;
+	bh=tpFWk8SAVs3UFv/o3uYrm+TV/zcL6UrJjTCyzPTfeK4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KL2t4vweDo/aOsNxR4glQE8iILSWoUnqRDKGWPmY5p4CLgCZ3wUq0c3vVQ0K1pSYCBOKQYCCssVIewR5BRHkWt8zGp13Oitut34N5h8nFyz1sw4S8ej/h8nNA5cKndPAOglkF+PHOO06S7vonMCceDeWhDYsttQnlE4FYdk1aDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aEqAB1J2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=RX84c+y5; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=OH2sJ2GIRvyMPOmedw+1C/YRimSgFDWTv0uF5Qf8lbpSRLyPmyl9U9hOZMP1/6IbDFbfP3BBk/DuCDd37rlHpjmqoT92oN25zKJFyrGO3535AAcXynaysKjGJRDJO77ObwR2iu6Q5bNv7s3C3t+wQDhrVLb5MSlxzx9qMb/p0nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=nKPm5gka; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WcTOHfri; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 647JrI3i2198979
-	for <linux-media@vger.kernel.org>; Thu, 7 May 2026 22:50:18 GMT
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 647HgUj21971787
+	for <linux-media@vger.kernel.org>; Thu, 7 May 2026 22:50:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	9MkPXhNFKpgj51RT3nXElFSkq09L7clUycFsPNU23WU=; b=aEqAB1J2DNsPcjx9
-	jt6JhCscOwesf++9Opc/65eYqOp9+o9pH0P1OK0YX/DoQqFuGZkL6bKiMGyaGhBi
-	PYIOBMk0+NKRy4Tc07QkEyMlUq3vNYLvjqJlmqHqwyLedYLUVGDy+dQOmVNMKj8m
-	mHIa4qdfP9dcDxyrE0L0g8y0WhLJqpqMsJXW0Qa6W0Xw9uljkJ70x37gxigrp2ft
-	MWo7nnRtFniQQMFnz7b2w6pA/+EYUq6F3cOvgdwXrb/ykr7CJPqHJdgbVw3MtgEu
-	f4MPSYU8hA8KqaF7+CZV4meeTP7ow9Lss4NxwzHZVs3JtFCKDBC67E7ukK5cG97Y
-	1N8SRQ==
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com [209.85.222.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e119sgg6h-1
+	MSAAlTqOMhQg/xg1nez/7uASR3nN13lqXsz4IVOsiYY=; b=nKPm5gkawbLOk5Z0
+	ZqxmELOEv7QG8jjjc0nwUHYSDF7Ljg57YvUC917rGOJy8bZRwEk8NZ7ayR15fwJc
+	D/Tw4qIHOuyJWpc84eg2BVvHYqThSh+3lAp0OSV+WaJW0kMdpfJwi/mXY/sztVQH
+	6Es2aXaZGHJJz6RNDLgTKU5D5e5gnCLWewX99HaqbfBftlBpCWqqmoVA3IvpHUgd
+	lkzag7ynbw3hT/KErl2s8UQ7LLYFgtra+KtAD0bUAqmfEc2XDDZhO9Y7IQw1aORT
+	CuR9ZnV/Sb6tsG7LHUcbnkWgtRXMw5l83nViwA2tybgGa32HwFAXRb2kZlUN/Vlp
+	mEMQXg==
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com [209.85.217.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e0tejaces-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 07 May 2026 22:50:17 +0000 (GMT)
-Received: by mail-ua1-f69.google.com with SMTP id a1e0cc1a2514c-95cc77982c5so4277156241.1
-        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 15:50:17 -0700 (PDT)
+	for <linux-media@vger.kernel.org>; Thu, 07 May 2026 22:50:21 +0000 (GMT)
+Received: by mail-vs1-f72.google.com with SMTP id ada2fe7eead31-62e59da69d7so1315362137.1
+        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 15:50:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1778194217; x=1778799017; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1778194221; x=1778799021; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9MkPXhNFKpgj51RT3nXElFSkq09L7clUycFsPNU23WU=;
-        b=RX84c+y5180DBXRSkor5q/VBH98Zc5SnwB7x3xKVbxIEayRsx2JSYC434xN7OfTAIw
-         8LQfeJ4544XSoh7IjBObFTtokzYachdLfh0OWVhN9JY9GjTh/4xTO/WtchVoe7aYY7u/
-         WnZDkuDD/IrgMlikceSRDEBlwYfk6Ds+qWoBPvfTca6VtFlw73m1d8i3H4rfiyEaEcqD
-         Kr7750m/nM3SNPwBvlPzhQRBeb0ipLHI9ftOcLYCkrGZihec5OpvYCTGUK7eUHPV9KyX
-         4L3KV/VZJOXbowAZYvi0whJeHfltGeRqj+ya4Texw35MYLJyroyeBJ6AhF7qg8ydOifF
-         Q4Dw==
+        bh=MSAAlTqOMhQg/xg1nez/7uASR3nN13lqXsz4IVOsiYY=;
+        b=WcTOHfribNfV/QmSwO4gRzv2V8kTTFQbYjABM4DX7DvGdPTKMBgXj52TP0WlwrZ7n2
+         OWXm3oqmxwnn6F2In9Jr6fQqCUO2JDiq6CpAjW9iyFGZn+OSasTBq0PZBDmL4Luxv/gt
+         cZJ7u/TkQal2vQOXeH8yAuD9YzzpFnOwwHAG7Q4CBs0fWyTNfNiOazTBAdd9xuyxQkRH
+         /iG4zAklvPejh+trHGL6lljeLSaeCmpDcwvF8E91KVKX70Z3QHOBoS1EBSkDX/DG9/nX
+         qz0Ozwajw8iGem2IN4AxxZZ2GNSQqRGA8RiJvWoCV+OVwb/UVeXf7Jybs1naJjgE3Z73
+         1R+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778194217; x=1778799017;
+        d=1e100.net; s=20251104; t=1778194221; x=1778799021;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=9MkPXhNFKpgj51RT3nXElFSkq09L7clUycFsPNU23WU=;
-        b=OCarvkmKUb1CpGqsAEko1zgT8VvQRWiSQ18DNmpdT9WypaLcizPMYF25Nhce7iHZgU
-         3OllZ3xte/9nTr9wdospSjnCoU/CormQIWYcHrSrXQlfi/Eb5b+cFB7X4ggYbxgHzE11
-         kKI2EllNXDFbLgeHUqvP7tO8/GxwAu+aEz1To1u3mXKOW0+lfuCVs0ZUKJJMNE9CsnSv
-         sHt3jILktoQxl+dIGLWqDm8S+vj3YjyBT3/RY5N6QWZI5+qI0iJfAZbgBbx0u58zK/1r
-         wX7yWheecXtenEXp0mI5/cHFgrQkdpQ+L1BM1Kxr8J7nv0Paq9EQsCyHQQe1iX1cug63
-         RJdg==
-X-Gm-Message-State: AOJu0YwsJ4N6oNjC5Fkh9f5NNK++nB8TyvOUH/PMDmRfvRX50IJlXcrg
-	KrUBSSYWSjVNXwO5j4OCTuE7yjCfbnt6V6gG9oJ8z9SoTFmXvM8+rdieqDDdzLpfwufuYTZQVAD
-	Yv0Rxa9NPln7/qr2l/6cOAo4EjIO9mGCb7o9CGt7NfkejCIHgOeJpHHrUZlWLLlNUj7f/LRbQ3g
-	==
-X-Gm-Gg: AeBDieteCRVWPXK19AsctGU5BrmMPAO/vrSKMN44l3EOUsQDiFqdP0XEwBpjCs9TJjJ
-	bRIVRRZBGXgjqbAGdWSdfODgInTOL9osuM47xQxObkqGOkWRxS+ZxDk8pz85RuFqkDwj2brYqeb
-	VYkmIZ5BS8c1sAE7NKGPMrWa0w8J/GYHC1kVd9d4WB6jHRMzjpJqQCkOG7rAQlVgo8YojaRYMMk
-	GQMrdrbMIJbmFSEcZMP7kLZdz6g5d1zZf/LEkZrE92a/WnKSv288OlP0NM66jzC4A2JVqNy3j/L
-	oDnbexZujNhfZiaZPSN6IsDen5J0IUf/U3uf9piL2WNi/d26hid9ILqCrHNOJW8G5/IctDv8E1f
-	ZLnhCdCV4qL5TbA/CgSr+2vrtEbUynr2b+AO8apLv+YXzwZtAcQ7QZ3o/TkPyoeliiSfl/MN/LP
-	5PGmw0aLmkIMnPh8denk+lf6Sqzok=
-X-Received: by 2002:a05:6102:1497:b0:62f:4854:8c53 with SMTP id ada2fe7eead31-63115f8712cmr2441538137.12.1778194217103;
-        Thu, 07 May 2026 15:50:17 -0700 (PDT)
-X-Received: by 2002:a05:6102:1497:b0:62f:4854:8c53 with SMTP id ada2fe7eead31-63115f8712cmr2441524137.12.1778194216623;
-        Thu, 07 May 2026 15:50:16 -0700 (PDT)
+        bh=MSAAlTqOMhQg/xg1nez/7uASR3nN13lqXsz4IVOsiYY=;
+        b=hWCa7Tt8BwEV8XZ+nX4nHudPGqfUm0ONxqhVzsQdm6649DgnZj7HgBmS4H++N6Tfjh
+         Upnegbcq5g0s04VoriecZ7P1Ufdyk/DKSeky211w8Vw2RX9D6xd0fqK5poR2AzKt7Pzz
+         By53QykIIMuL0n6Q+2CtawljkXdkYPPEiMQBU9qHEseR98XVjxa2gqFsvHZo6F6WxLZB
+         y120Qvmgrro95wtQ40Wu9zy1gKS90WJkiXnX5KPHWFwRYGuT/Kl8Eygy7P3xdTdb+D7u
+         nCDDe6JedAz1WTSTMsjHjx7DgBNWmaeBCxToYOXpWVuPi5O96/716xPDIMVrOoXQQd4t
+         DHLw==
+X-Gm-Message-State: AOJu0YxRP5NG2BqW+dHdU9HRAs+r/UhuxhLJIej2zDvurgDAzEA/Gnt5
+	dftB/j/jz3OZi7QD6k4pt7ObN4J6EjubmpbHyp9m1Tdlduc7nIvDDUzESt888naNvLo9QLc6h7x
+	HoY9j/QtB+ldTydaTwUQJj/OuKCHNR84Z6mSQP/TPn5Wd2wAdze5da783r/UXCbgxbg==
+X-Gm-Gg: AeBDievbMJ9Mm9grmj0KPV00nQ1mCU/6f3rL0hFnzdhfQmcJV5dwrasVOlp12QZwx4J
+	6NykQuPAp3pqn6/Wzez4ePhjvEASnBWViEFjjkaw1looq+wDzI2BwSiAM3S7EpJZG/zdzdqks5a
+	HtFyOQWsCXTHQQx0FPEyeoxgpCiVjk09QKEUvkRtp/ru+BiaPyS6VECCrjjmQvytty3C4EMwLRS
+	0V06dgaPUoIIGxAAPqAYHhh0RUY2orSGQrpWpbaEzCYwTiOGJU3iCyExlB2r9BG7EQeoJvtD9AF
+	nBtQ77SGJRv1j/EIYNGEf4bgUBRO5ZwbTPpQ3AoaV6eSqjFDrj19a8pEmTJzYxASVFGneCdWJm/
+	o/t0Zp7Pl7YFE36BSxCzNWjHGYXu4m5EGPrIWk+lMEXMXn2YszWEDHWRxrGK5i8h1o689wEE9B/
+	UR/c/treH2NyxfmmHF
+X-Received: by 2002:a05:6102:8499:10b0:631:28c1:155c with SMTP id ada2fe7eead31-63128c11e98mr1893175137.7.1778194220492;
+        Thu, 07 May 2026 15:50:20 -0700 (PDT)
+X-Received: by 2002:a05:6102:8499:10b0:631:28c1:155c with SMTP id ada2fe7eead31-63128c11e98mr1893159137.7.1778194220003;
+        Thu, 07 May 2026 15:50:20 -0700 (PDT)
 Received: from QCOM-eG0v1AUPpu.na.qualcomm.com ([2a01:e0a:830:450:b16a:3475:ec42:bcfa])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcac4359dbesm102466b.48.2026.05.07.15.50.13
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcac4359dbesm102466b.48.2026.05.07.15.50.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 15:50:15 -0700 (PDT)
+        Thu, 07 May 2026 15:50:18 -0700 (PDT)
 From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Fri, 08 May 2026 00:49:19 +0200
-Subject: [PATCH v3 04/15] media: qcom: camss: Add camss-isp-bufq helper
+Date: Fri, 08 May 2026 00:49:20 +0200
+Subject: [PATCH v3 05/15] media: qcom: camss: Add camss-isp-sched helper
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -108,7 +107,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260508-camss-isp-ope-v3-4-bb1055274603@oss.qualcomm.com>
+Message-Id: <20260508-camss-isp-ope-v3-5-bb1055274603@oss.qualcomm.com>
 References: <20260508-camss-isp-ope-v3-0-bb1055274603@oss.qualcomm.com>
 In-Reply-To: <20260508-camss-isp-ope-v3-0-bb1055274603@oss.qualcomm.com>
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
@@ -127,41 +126,41 @@ Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, laurent.pinchart@ideasonboard.com,
         kieran.bingham@ideasonboard.com, johannes.goede@oss.qualcomm.com
 X-Mailer: b4 0.14.2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDIzMSBTYWx0ZWRfXwArhFL1JNh2r
- QO+Fmvhimo0YpoUbSDmUwAi6yKCukOb1l6yUVRZc5OQPZ73YygYEVAX6LOVHserYRUtkwn7tGK+
- Sl1nGEQLcHEBozuL9JuDoPZRoERn/HrgsOUxBQO5CKPKtdcXU4Ywnrp1JpNw0Qsbbj4uDoK8156
- g6qzl9x0TY7uYhofJ7xgaxWe0hOeL6Bkp3qlK6141jhHIyJ21OxEQD+/A2gyDGgpcmJQYJS1ObO
- HZ3pta6NikWnTSjXdGBrVlu8xLzw9AWtTithSNevh9MF2gmReV0FQnTdgE7251yzBR3wVAkAjWM
- A8f8lbEnfrdTEbpOKv4O/8ffMOGWL/ZYObRJsjM1cAA0o3VnU0vZkRJSFmBZODL/sKHabIS8Qpn
- VZ6rScpp3yi/P15oXBeiHBKXE9wSzdbn2P30TJWXGHQ+cSnXJ7UX3hcI+yM0nUhkdRnFnTCrUX2
- QMbM/96EiVeUwqjSfxQ==
-X-Proofpoint-ORIG-GUID: -iL4bCgeErfIQ7bB0BE8GA6aKpumg9iV
-X-Proofpoint-GUID: -iL4bCgeErfIQ7bB0BE8GA6aKpumg9iV
-X-Authority-Analysis: v=2.4 cv=Dd4nbPtW c=1 sm=1 tr=0 ts=69fd1729 cx=c_pps
- a=UbhLPJ621ZpgOD2l3yZY1w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDIzMSBTYWx0ZWRfX8Au0jlirebwj
+ X3oMhx6nvg9Z9gDAvn4uFjSKVbyj+ZpuhP1KWFmRkW4NwLLfpcoYZDXIooEmXfRFNSwyGHVNOdC
+ 54so3C48ZJ03pClKrNcXKIOPVEu5OSZxI2c33Fuoiu6uaYvQtqqBJgEiES6C6nxHeKnlOlhU8+Q
+ qgDjeMg48xKyBPSFDrAkx/Hx4+yaDN6k/kLPmLOfjsYkwG7h9V7o2m7KcNYXs1TIgT1zW7SPd7y
+ lXe3pgW0wnLmtLxqEuDnf35j+mrwrufXuEOflCi8qd2U/j8Sl9OfxBchuqjcvDqDrBbTKCvUPGG
+ vq85T2HQyNwZlHgAwl2Tm1y4LzOj8KFjaHSL4/cBcVbvQnAIAY4ko9LRifkQaSPaHelv4dLPCjs
+ snVGCCUHXrAUXi71VLCf4vYEJSPwBUbEE7QdAa5zo45G82hjYDcURI4JbTqQgk6WDNiRtyI4eB+
+ 9kZoHh9/tVKa/hPUs1w==
+X-Proofpoint-GUID: JCH6EnHcnQ8tJ7P9ualqfHfDVgEXhcOO
+X-Authority-Analysis: v=2.4 cv=VNbtWdPX c=1 sm=1 tr=0 ts=69fd172d cx=c_pps
+ a=DUEm7b3gzWu7BqY5nP7+9g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8
- a=Rj2g1MzNgR17_EpZbusA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=TOPH6uDL9cOC6tEoww4z:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8
+ a=LvVHALaGuq2LPpMeDEoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=-aSRE8QhW-JAV6biHavz:22
+X-Proofpoint-ORIG-GUID: JCH6EnHcnQ8tJ7P9ualqfHfDVgEXhcOO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-07_02,2026-05-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
- suspectscore=0 spamscore=0 impostorscore=0 phishscore=0 priorityscore=1501
+ clxscore=1015 spamscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
+ bulkscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605070231
-X-Rspamd-Queue-Id: B9E3B4EFF00
+X-Rspamd-Queue-Id: 504674EFF0F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60867-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60868-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -174,7 +173,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[loic.poulain@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
@@ -182,289 +181,442 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-Add a per-queue ready-buffer FIFO helper for CAMSS offline ISP drivers.
-camss_isp_bufq provides N spinlock-protected FIFO lists of ready vb2
-buffers, one per queue index. This can help multi-queues management
-and synchronization in ISP context.
+Add a job scheduler for CAMSS offline ISP drivers which serialises
+job execution, tracks which context is currently running on hardware,
+and provides cancel/suspend/resume operations. Jobs carry optional
+ready/run/abort callbacks via camss_isp_job_ops, allowing the
+scheduler to gate submission on hardware and buffer availability.
 
 Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
 ---
- drivers/media/platform/qcom/camss/Kconfig          |  14 +++
- drivers/media/platform/qcom/camss/Makefile         |   5 +
- drivers/media/platform/qcom/camss/camss-isp-bufq.c | 101 +++++++++++++++++
- drivers/media/platform/qcom/camss/camss-isp-bufq.h | 122 +++++++++++++++++++++
- 4 files changed, 242 insertions(+)
+ drivers/media/platform/qcom/camss/Makefile         |   3 +-
+ .../media/platform/qcom/camss/camss-isp-sched.c    | 223 +++++++++++++++++++++
+ .../media/platform/qcom/camss/camss-isp-sched.h    | 174 ++++++++++++++++
+ 3 files changed, 399 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/camss/Kconfig b/drivers/media/platform/qcom/camss/Kconfig
-index 4eda48cb1adf049a7fb6cb59b9da3c0870fe57f4..d77482f3f5eadc65856806b9b237d65ea484f267 100644
---- a/drivers/media/platform/qcom/camss/Kconfig
-+++ b/drivers/media/platform/qcom/camss/Kconfig
-@@ -7,3 +7,17 @@ config VIDEO_QCOM_CAMSS
- 	select VIDEO_V4L2_SUBDEV_API
- 	select VIDEOBUF2_DMA_SG
- 	select V4L2_FWNODE
-+
-+config VIDEO_QCOM_CAMSS_ISP
-+	tristate "Qualcomm CAMSS ISP common helpers"
-+	depends on VIDEO_DEV
-+	depends on MEDIA_CONTROLLER
-+	select V4L2_ISP
-+	select VIDEOBUF2_CORE
-+	help
-+	  Common helper library for Qualcomm CAMSS offline ISP drivers.
-+	  Provides buffer queue management, job scheduling, MC pipeline
-+	  topology builder, and ISP parameter buffer parsing.
-+
-+	  This module is selected automatically by drivers that need it.
-+
 diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
-index 5e349b4915130c71dbff90e73102e46dfede1520..bfc05db0eada1d801839ceb8a3b157baae613053 100644
+index bfc05db0eada1d801839ceb8a3b157baae613053..f13c9f326cf81962bd165dc8dd2bb60207cd54a7 100644
 --- a/drivers/media/platform/qcom/camss/Makefile
 +++ b/drivers/media/platform/qcom/camss/Makefile
-@@ -29,3 +29,8 @@ qcom-camss-objs += \
- 		camss-format.o \
+@@ -30,7 +30,8 @@ qcom-camss-objs += \
  
  obj-$(CONFIG_VIDEO_QCOM_CAMSS) += qcom-camss.o
-+
-+qcom-camss-isp-objs := camss-isp-bufq.o
-+
-+obj-$(CONFIG_VIDEO_QCOM_CAMSS_ISP) += qcom-camss-isp.o
-+
-diff --git a/drivers/media/platform/qcom/camss/camss-isp-bufq.c b/drivers/media/platform/qcom/camss/camss-isp-bufq.c
+ 
+-qcom-camss-isp-objs := camss-isp-bufq.o
++qcom-camss-isp-objs := camss-isp-bufq.o \
++		camss-isp-sched.o
+ 
+ obj-$(CONFIG_VIDEO_QCOM_CAMSS_ISP) += qcom-camss-isp.o
+ 
+diff --git a/drivers/media/platform/qcom/camss/camss-isp-sched.c b/drivers/media/platform/qcom/camss/camss-isp-sched.c
 new file mode 100644
-index 0000000000000000000000000000000000000000..b1dcf60afcc63d112eee7bd143f08a7b4aac9a18
+index 0000000000000000000000000000000000000000..6940087f94d00570a82666e882ffc8b38891736b
 --- /dev/null
-+++ b/drivers/media/platform/qcom/camss/camss-isp-bufq.c
-@@ -0,0 +1,101 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/drivers/media/platform/qcom/camss/camss-isp-sched.c
+@@ -0,0 +1,223 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
-+ * camss-isp-bufq.c
-+ *
-+ * CAMSS ISP per-queue ready-buffer FIFO.
++ * CAMSS ISP scheduler helper — ISP job scheduling
 + *
 + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 + */
 +
-+#include <linux/module.h>
 +#include <linux/slab.h>
++#include <linux/module.h>
 +
-+#include "camss-isp-bufq.h"
++#include "camss-isp-sched.h"
 +
-+struct camss_isp_bufq *camss_isp_bufq_init(unsigned int num_queues)
++/* Job state flags */
++#define ISP_JOB_QUEUED		BIT(0)
++#define ISP_JOB_RUNNING		BIT(1)
++#define ISP_JOB_ABORT		BIT(2)
++
++/* Scheduler flags */
++#define ISP_SCHED_PAUSED	BIT(0)
++
++/* -------- Internal helpers -------- */
++
++static void isp_sched_try_run(struct camss_isp_sched *sched)
 +{
-+	struct camss_isp_bufq *bufq;
-+	unsigned int i;
++	void (*run_fn)(void *priv, bool ctx_changed);
++	struct camss_isp_job *job;
++	unsigned long flags;
++	bool ctx_changed;
++	void *priv;
 +
-+	bufq = kzalloc(struct_size(bufq, entries, num_queues), GFP_KERNEL);
-+	if (!bufq)
-+		return ERR_PTR(-ENOMEM);
++	spin_lock_irqsave(&sched->lock, flags);
 +
-+	bufq->num_queues = num_queues;
-+
-+	for (i = 0; i < num_queues; i++) {
-+		INIT_LIST_HEAD(&bufq->entries[i].rdy_queue);
-+		spin_lock_init(&bufq->entries[i].rdy_spinlock);
++	if (sched->curr_job || list_empty(&sched->pending) ||
++	    (sched->flags & ISP_SCHED_PAUSED)) {
++		spin_unlock_irqrestore(&sched->lock, flags);
++		return;
 +	}
 +
-+	return bufq;
-+}
-+EXPORT_SYMBOL_GPL(camss_isp_bufq_init);
++	job = list_first_entry(&sched->pending, struct camss_isp_job, queue);
++	job->flags |= ISP_JOB_RUNNING;
++	sched->curr_job = job;
++	run_fn = job->ops ? job->ops->run : NULL;
++	priv   = job->priv;
++	ctx_changed = (sched->prev_job != job);
 +
-+void camss_isp_bufq_release(struct camss_isp_bufq *bufq)
-+{
-+	kfree(bufq);
-+}
-+EXPORT_SYMBOL_GPL(camss_isp_bufq_release);
++	spin_unlock_irqrestore(&sched->lock, flags);
 +
-+void camss_isp_bufq_queue(struct camss_isp_bufq *bufq, unsigned int queue_idx,
-+			  struct vb2_v4l2_buffer *vbuf)
++	run_fn(priv, ctx_changed);
++	sched->prev_job = job;
++}
++
++static void isp_sched_work(struct work_struct *work)
 +{
-+	struct camss_isp_buf *buf =
-+		container_of(vbuf, struct camss_isp_buf, vb);
-+	struct camss_isp_bufq_entry *entry = &bufq->entries[queue_idx];
++	struct camss_isp_sched *sched =
++		container_of(work, struct camss_isp_sched, work);
++
++	isp_sched_try_run(sched);
++}
++
++/* -------- Public API -------- */
++
++void camss_isp_sched_init(struct camss_isp_sched *sched)
++{
++	sched->curr_job = NULL;
++	sched->prev_job = NULL;
++	INIT_LIST_HEAD(&sched->pending);
++	spin_lock_init(&sched->lock);
++	INIT_WORK(&sched->work, isp_sched_work);
++	sched->flags = 0;
++}
++EXPORT_SYMBOL_GPL(camss_isp_sched_init);
++
++void camss_isp_sched_destroy(struct camss_isp_sched *sched)
++{
++	cancel_work_sync(&sched->work);
++}
++EXPORT_SYMBOL_GPL(camss_isp_sched_destroy);
++
++void camss_isp_job_init(struct camss_isp_job *job,
++		       const struct camss_isp_job_ops *ops,
++		       void *priv)
++{
++	INIT_LIST_HEAD(&job->queue);
++	job->flags = 0;
++	job->ops   = ops;
++	job->priv  = priv;
++	init_waitqueue_head(&job->finished);
++}
++EXPORT_SYMBOL_GPL(camss_isp_job_init);
++
++void camss_isp_sched_try_run(struct camss_isp_sched *sched,
++			     struct camss_isp_job *job)
++{
 +	unsigned long flags;
 +
-+	spin_lock_irqsave(&entry->rdy_spinlock, flags);
-+	list_add_tail(&buf->list, &entry->rdy_queue);
-+	entry->num_rdy++;
-+	spin_unlock_irqrestore(&entry->rdy_spinlock, flags);
-+}
-+EXPORT_SYMBOL_GPL(camss_isp_bufq_queue);
++	if (job->ops && job->ops->ready && !job->ops->ready(job->priv))
++		return;
 +
-+struct vb2_v4l2_buffer *camss_isp_bufq_next(struct camss_isp_bufq *bufq, unsigned int queue_idx)
-+{
-+	struct camss_isp_bufq_entry *entry = &bufq->entries[queue_idx];
-+	struct camss_isp_buf *buf;
-+	unsigned long flags;
++	spin_lock_irqsave(&sched->lock, flags);
 +
-+	spin_lock_irqsave(&entry->rdy_spinlock, flags);
-+	buf = list_first_entry_or_null(&entry->rdy_queue,
-+				       struct camss_isp_buf, list);
-+	spin_unlock_irqrestore(&entry->rdy_spinlock, flags);
-+
-+	return buf ? &buf->vb : NULL;
-+}
-+EXPORT_SYMBOL_GPL(camss_isp_bufq_next);
-+
-+struct vb2_v4l2_buffer *camss_isp_bufq_remove(struct camss_isp_bufq *bufq, unsigned int queue_idx)
-+{
-+	struct camss_isp_bufq_entry *entry = &bufq->entries[queue_idx];
-+	struct camss_isp_buf *buf;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&entry->rdy_spinlock, flags);
-+	buf = list_first_entry_or_null(&entry->rdy_queue,
-+				       struct camss_isp_buf, list);
-+	if (buf) {
-+		list_del(&buf->list);
-+		entry->num_rdy--;
++	if (job->flags & (ISP_JOB_ABORT | ISP_JOB_QUEUED | ISP_JOB_RUNNING)) {
++		spin_unlock_irqrestore(&sched->lock, flags);
++		return;
 +	}
-+	spin_unlock_irqrestore(&entry->rdy_spinlock, flags);
 +
-+	return buf ? &buf->vb : NULL;
++	list_add_tail(&job->queue, &sched->pending);
++	job->flags |= ISP_JOB_QUEUED;
++
++	spin_unlock_irqrestore(&sched->lock, flags);
++
++	isp_sched_try_run(sched);
 +}
-+EXPORT_SYMBOL_GPL(camss_isp_bufq_remove);
++EXPORT_SYMBOL_GPL(camss_isp_sched_try_run);
 +
-+void camss_isp_bufq_drain(struct camss_isp_bufq *bufq, unsigned int queue_idx,
-+			  enum vb2_buffer_state state)
++void camss_isp_sched_job_finish(struct camss_isp_sched *sched,
++				struct camss_isp_job *job,
++				bool requeue)
 +{
-+	struct vb2_v4l2_buffer *vbuf;
++	unsigned long flags;
 +
-+	while ((vbuf = camss_isp_bufq_remove(bufq, queue_idx)))
-+		camss_isp_buf_done(vbuf, state);
++	spin_lock_irqsave(&sched->lock, flags);
++
++	if (sched->curr_job != job) {
++		/*
++		 * curr_job may have been cleared by a racing cancel/streamoff.
++		 * If this job is still marked RUNNING, clear it and wake any
++		 * waiter in camss_isp_sched_cancel() so it can unblock.
++		 */
++		if (job->flags & ISP_JOB_RUNNING) {
++			job->flags &= ~(ISP_JOB_QUEUED | ISP_JOB_RUNNING);
++			wake_up(&job->finished);
++		}
++		spin_unlock_irqrestore(&sched->lock, flags);
++		return;
++	}
++
++	list_del(&job->queue);
++	job->flags &= ~(ISP_JOB_QUEUED | ISP_JOB_RUNNING);
++	wake_up(&job->finished);
++	sched->curr_job = NULL;
++
++	if (requeue && !(job->flags & ISP_JOB_ABORT)) {
++		job->flags |= ISP_JOB_QUEUED;
++		list_add(&job->queue, &sched->pending);
++	}
++
++	spin_unlock_irqrestore(&sched->lock, flags);
++
++	schedule_work(&sched->work);
 +}
-+EXPORT_SYMBOL_GPL(camss_isp_bufq_drain);
++EXPORT_SYMBOL_GPL(camss_isp_sched_job_finish);
 +
-+MODULE_DESCRIPTION("CAMSS ISP per-queue ready-buffer FIFO");
++void camss_isp_sched_cancel(struct camss_isp_sched *sched,
++			    struct camss_isp_job *job)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&sched->lock, flags);
++	job->flags |= ISP_JOB_ABORT;
++
++	if (job->flags & ISP_JOB_RUNNING) {
++		spin_unlock_irqrestore(&sched->lock, flags);
++		if (job->ops && job->ops->abort)
++			job->ops->abort(job->priv);
++		wait_event(job->finished, !(job->flags & ISP_JOB_RUNNING));
++	} else if (job->flags & ISP_JOB_QUEUED) {
++		list_del(&job->queue);
++		job->flags &= ~(ISP_JOB_QUEUED | ISP_JOB_RUNNING);
++		spin_unlock_irqrestore(&sched->lock, flags);
++	} else {
++		spin_unlock_irqrestore(&sched->lock, flags);
++	}
++
++	/* Clear abort flag so the job can be reused after cancel */
++	spin_lock_irqsave(&sched->lock, flags);
++	job->flags &= ~ISP_JOB_ABORT;
++	spin_unlock_irqrestore(&sched->lock, flags);
++}
++EXPORT_SYMBOL_GPL(camss_isp_sched_cancel);
++
++void camss_isp_sched_suspend(struct camss_isp_sched *sched)
++{
++	struct camss_isp_job *curr;
++	unsigned long flags;
++
++	spin_lock_irqsave(&sched->lock, flags);
++	sched->flags |= ISP_SCHED_PAUSED;
++	curr = sched->curr_job;
++	spin_unlock_irqrestore(&sched->lock, flags);
++
++	if (curr)
++		wait_event(curr->finished, !(curr->flags & ISP_JOB_RUNNING));
++}
++EXPORT_SYMBOL_GPL(camss_isp_sched_suspend);
++
++void camss_isp_sched_resume(struct camss_isp_sched *sched)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&sched->lock, flags);
++	sched->flags &= ~ISP_SCHED_PAUSED;
++	spin_unlock_irqrestore(&sched->lock, flags);
++
++	isp_sched_try_run(sched);
++}
++EXPORT_SYMBOL_GPL(camss_isp_sched_resume);
++
++bool camss_isp_sched_is_running(struct camss_isp_sched *sched,
++				struct camss_isp_job *job)
++{
++	unsigned long flags;
++	bool running;
++
++	spin_lock_irqsave(&sched->lock, flags);
++	running = (sched->curr_job == job);
++	spin_unlock_irqrestore(&sched->lock, flags);
++
++	return running;
++}
++EXPORT_SYMBOL_GPL(camss_isp_sched_is_running);
++
++MODULE_DESCRIPTION("CAMSS ISP job scheduler");
 +MODULE_LICENSE("GPL");
-diff --git a/drivers/media/platform/qcom/camss/camss-isp-bufq.h b/drivers/media/platform/qcom/camss/camss-isp-bufq.h
+diff --git a/drivers/media/platform/qcom/camss/camss-isp-sched.h b/drivers/media/platform/qcom/camss/camss-isp-sched.h
 new file mode 100644
-index 0000000000000000000000000000000000000000..1a8bc7b112a1b039233cfc7be573f1f40fcda7c9
+index 0000000000000000000000000000000000000000..5b6034976de65be57581ccaa92d1f15d7cb4a688
 --- /dev/null
-+++ b/drivers/media/platform/qcom/camss/camss-isp-bufq.h
-@@ -0,0 +1,122 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
++++ b/drivers/media/platform/qcom/camss/camss-isp-sched.h
+@@ -0,0 +1,174 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * camss-isp-bufq.h
++ * CAMSS ISP scheduler helper — ISP job scheduling
 + *
-+ * CAMSS ISP per-queue ready-buffer FIFO.
++ * Tracks which context is currently running on the hardware and
++ * serialises job execution. This is a pure helper: it has no knowledge
++ * of buffers, vb2 queues, or the uAPI.  Drivers call these functions
++ * explicitly from their own code paths.
 + *
-+ * Provides N spinlock-protected FIFO lists of ready vb2 buffers, one per
-+ * queue index.  Drivers call these helpers from their vb2 ops and job
-+ * completion paths.
++ * Usage pattern:
++ *   - Embed struct camss_isp_sched in the driver's device struct.
++ *   - Call camss_isp_sched_init() at probe time.
++ *   - Call camss_isp_job_init() with ready_fn/run_fn/abort_fn/priv.
++ *   - Call camss_isp_sched_try_run() from buf_queue / streamon to start jobs.
++ *   - Call camss_isp_sched_job_finish() from the IRQ handler when done.
++ *   - Call camss_isp_sched_cancel() from streamoff / release.
 + *
 + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 + */
 +
-+#ifndef CAMSS_ISP_BUFQ_H
-+#define CAMSS_ISP_BUFQ_H
++#ifndef _CAMSS_ISP_SCHED_H
++#define _CAMSS_ISP_SCHED_H
 +
 +#include <linux/list.h>
 +#include <linux/spinlock.h>
-+#include <linux/types.h>
-+#include <media/videobuf2-v4l2.h>
++#include <linux/wait.h>
++#include <linux/workqueue.h>
 +
 +/**
-+ * struct camss_isp_buf - vb2 buffer wrapper
++ * struct camss_isp_job_ops - per-job operation callbacks
 + *
-+ * Use as vb2_queue.buf_struct_size so buffers can be placed on the
-+ * ready lists managed by camss_isp_bufq.
-+ *
-+ * @vb:   The vb2 V4L2 buffer — must be first.
-+ * @list: Entry in the per-queue ready list.
++ * @ready:  Optional; return %true if the job can be submitted to hardware.
++ *          Called outside the scheduler spinlock.  May be NULL (always ready).
++ * @run:    Start the hardware for this job.  Called from workqueue context.
++ *          @ctx_changed is %true when this job differs from the previously
++ *          run job (i.e. first run ever, or a different context took over).
++ * @abort:  Optional; abort a running job (e.g. trigger a HW reset).
++ *          Called from process context during camss_isp_sched_cancel().
++ *          May be NULL.
 + */
-+struct camss_isp_buf {
-+	struct vb2_v4l2_buffer	vb;	/* must be first */
-+	struct list_head	list;
++struct camss_isp_job_ops {
++	bool	(*ready)(void *priv);
++	void	(*run)(void *priv, bool ctx_changed);
++	void	(*abort)(void *priv);
 +};
 +
 +/**
-+ * struct camss_isp_bufq_entry - per-queue ready-buffer state (opaque)
++ * struct camss_isp_job - per-context scheduler state
++ *
++ * Embed one of these in the driver's per-context struct.
++ * Initialise with camss_isp_job_init().
++ *
++ * @queue:     Entry in the scheduler's pending-job list.
++ * @flags:     Internal state flags (ISP_JOB_*).
++ * @finished:  Wait queue signalled when the running job completes.
++ * @ops:   Job operation callbacks (ready/run/abort).
++ * @priv:  Opaque pointer passed to all callbacks.
 + */
-+struct camss_isp_bufq_entry {
-+	struct list_head	rdy_queue;
-+	spinlock_t		rdy_spinlock;
-+	u32			num_rdy;
++struct camss_isp_job {
++	struct list_head	queue;
++	unsigned long		flags;
++	wait_queue_head_t	finished;
++	const struct camss_isp_job_ops *ops;
++	void			*priv;
 +};
 +
 +/**
-+ * struct camss_isp_bufq - multi-queue ready-buffer state
++ * struct camss_isp_sched - ISP job scheduler
 + *
-+ * Allocate with camss_isp_bufq_init(), free with camss_isp_bufq_release().
++ * Embed one of these in the driver's device struct.
++ * Initialise with camss_isp_sched_init().
 + *
-+ * @num_queues: Number of entries in @entries.
-+ * @entries:    Per-queue state; flexible array.
++ * @curr_job:    Job currently running on hardware (NULL if idle).
++ * @prev_job:    Job that ran most recently (never dereferenced, pointer only).
++ * @pending:     List of jobs waiting to run.
++ * @lock:        Protects @curr_job, @pending, and @flags.
++ * @work:        Work item used to run jobs from non-atomic context.
++ * @flags:       Scheduler-level flags (ISP_SCHED_PAUSED).
 + */
-+struct camss_isp_bufq {
-+	unsigned int			num_queues;
-+	struct camss_isp_bufq_entry	entries[] __counted_by(num_queues);
++struct camss_isp_sched {
++	struct camss_isp_job	*curr_job;
++	struct camss_isp_job	*prev_job;
++	struct list_head	pending;
++	spinlock_t		lock;
++	struct work_struct	work;
++	unsigned long		flags;
 +};
 +
 +/**
-+ * camss_isp_bufq_init() - allocate a multi-queue ready-buffer state
-+ * @num_queues: number of per-queue FIFO lists to create
++ * camss_isp_sched_init() - initialise a scheduler
++ * @sched: scheduler to initialise
++ */
++void camss_isp_sched_init(struct camss_isp_sched *sched);
++
++/**
++ * camss_isp_sched_destroy() - destroy a scheduler (waits for any running job)
++ * @sched: scheduler to destroy
++ */
++void camss_isp_sched_destroy(struct camss_isp_sched *sched);
++
++/**
++ * camss_isp_job_init() - initialise per-context job state
++ * @job:  job to initialise
++ * @ops:  operation callbacks (run is required; ready and abort may be NULL)
++ * @priv: opaque pointer passed to all callbacks
++ */
++void camss_isp_job_init(struct camss_isp_job *job,
++		       const struct camss_isp_job_ops *ops,
++		       void *priv);
++
++/**
++ * camss_isp_sched_try_run() - enqueue a job and try to start it
++ * @sched: scheduler
++ * @job:   job to enqueue; callbacks and @priv are taken from the job.
 + *
-+ * Returns a pointer to the new bufq or ERR_PTR on allocation failure.
++ * Calls @job->ready_fn (if set); returns immediately if it returns %false.
++ * Otherwise enqueues the job and starts it if the hardware is idle.
++ * Safe to call from atomic context.
 + */
-+struct camss_isp_bufq *camss_isp_bufq_init(unsigned int num_queues);
++void camss_isp_sched_try_run(struct camss_isp_sched *sched,
++			     struct camss_isp_job *job);
 +
 +/**
-+ * camss_isp_bufq_release() - free a bufq allocated with camss_isp_bufq_init()
-+ * @bufq: bufq to free
-+ */
-+void camss_isp_bufq_release(struct camss_isp_bufq *bufq);
-+
-+/**
-+ * camss_isp_bufq_queue() - append a buffer to the ready list for @queue_idx
-+ * @bufq:      target bufq
-+ * @queue_idx: queue index (must be < bufq->num_queues)
-+ * @vbuf:      buffer to enqueue; must be embedded in a &struct camss_isp_buf
-+ */
-+void camss_isp_bufq_queue(struct camss_isp_bufq *bufq, unsigned int queue_idx,
-+			   struct vb2_v4l2_buffer *vbuf);
-+
-+/**
-+ * camss_isp_bufq_next() - peek at the head of the ready list without removing
-+ * @bufq:      target bufq
-+ * @queue_idx: queue index
++ * camss_isp_sched_job_finish() - signal that the current job has completed
++ * @sched: scheduler
++ * @job:   job that just finished (must be the currently running job)
++ * @requeue: if %true and the job's ready_fn passes, immediately re-enqueue
++ *           the job so the next frame starts as soon as the workqueue runs.
 + *
-+ * Returns the head buffer or NULL if the list is empty.
++ * Clears the running state, wakes any waiter in camss_isp_sched_cancel(),
++ * and schedules the next pending job via the work queue.
++ * Safe to call from atomic/IRQ context.
 + */
-+struct vb2_v4l2_buffer *camss_isp_bufq_next(struct camss_isp_bufq *bufq,
-+					     unsigned int queue_idx);
++void camss_isp_sched_job_finish(struct camss_isp_sched *sched,
++				struct camss_isp_job *job,
++				bool requeue);
 +
 +/**
-+ * camss_isp_bufq_remove() - dequeue and return the head of the ready list
-+ * @bufq:      target bufq
-+ * @queue_idx: queue index
++ * camss_isp_sched_cancel() - cancel a pending or running job and wait
++ * @sched: scheduler
++ * @job:   job to cancel; @job->abort_fn is called if the job is running.
 + *
-+ * Returns the dequeued buffer or NULL if the list is empty.
++ * If the job is queued but not yet running, it is simply removed.
++ * If the job is running, @job->abort_fn is called (if set) and the
++ * function blocks until camss_isp_sched_job_finish() is called.
++ * Must be called from process context (may sleep).
 + */
-+struct vb2_v4l2_buffer *camss_isp_bufq_remove(struct camss_isp_bufq *bufq,
-+					       unsigned int queue_idx);
++void camss_isp_sched_cancel(struct camss_isp_sched *sched,
++			    struct camss_isp_job *job);
 +
 +/**
-+ * camss_isp_bufq_drain() - return all ready buffers with the given state
-+ * @bufq:      target bufq
-+ * @queue_idx: queue index
-+ * @state:     vb2 state to pass to vb2_buffer_done() for each buffer
++ * camss_isp_sched_suspend() - pause the scheduler and wait for current job
++ * @sched: scheduler
++ *
++ * No new jobs will be started until camss_isp_sched_resume() is called.
++ * Blocks until any currently running job finishes.
 + */
-+void camss_isp_bufq_drain(struct camss_isp_bufq *bufq, unsigned int queue_idx,
-+			   enum vb2_buffer_state state);
++void camss_isp_sched_suspend(struct camss_isp_sched *sched);
 +
-+static inline u32 camss_isp_bufq_num_ready(struct camss_isp_bufq *bufq,
-+					    unsigned int queue_idx)
-+{
-+	return bufq->entries[queue_idx].num_rdy;
-+}
++/**
++ * camss_isp_sched_resume() - resume the scheduler
++ * @sched: scheduler
++ */
++void camss_isp_sched_resume(struct camss_isp_sched *sched);
 +
-+static inline void camss_isp_buf_done(struct vb2_v4l2_buffer *vbuf,
-+				       enum vb2_buffer_state state)
-+{
-+	vb2_buffer_done(&vbuf->vb2_buf, state);
-+}
++/**
++ * camss_isp_sched_is_running() - check if a job is currently running
++ * @sched: scheduler
++ * @job:   job to check
++ */
++bool camss_isp_sched_is_running(struct camss_isp_sched *sched,
++				struct camss_isp_job *job);
 +
-+#endif /* CAMSS_ISP_BUFQ_H */
++#endif /* _CAMSS_ISP_SCHED_H */
 
 -- 
 2.34.1
