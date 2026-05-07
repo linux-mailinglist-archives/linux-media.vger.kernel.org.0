@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-60765-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60766-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ALxnNjxU/GlOOAAAu9opvQ
-	(envelope-from <linux-media+bounces-60765-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 10:58:36 +0200
+	id OLunI1JV/GlOOAAAu9opvQ
+	(envelope-from <linux-media+bounces-60766-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 11:03:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A685A4E556F
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 10:58:36 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 346D54E5762
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 11:03:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3B9CD300F779
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 08:57:08 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 26DE73049BC4
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 09:00:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC2943B2FDC;
-	Thu,  7 May 2026 08:54:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF5673B47E9;
+	Thu,  7 May 2026 08:59:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gnB/MgOX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqpVYeUK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAC83B3896;
-	Thu,  7 May 2026 08:54:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCA23AA182;
+	Thu,  7 May 2026 08:59:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778144087; cv=none; b=gFo7NMdKpTaZKO84JBwq8XaztWb74pB6lQfT9vbOZ6Vgfc4NFKKnRPS/de8dWM2d1XzVK8qwu62HMqLt35Tm+o5j+6EuggSJueAWJVzN3ZSslMLAjwxKC8D3kajrsHyxj4gP2hYu4s1Yhulp5A07kPppY4hNnrjP5pS7BtT62hc=
+	t=1778144385; cv=none; b=YcyXceZ3PQcQ0zSmc77inSHr1HqPkXwqNRQGhnBCZ6yfEMklqnL189ifgY4T6pXStxG9n/L7oom5WOCk42gesb/fVfH6X76BQ9lmwjLdxfVjGOugYaq1RZ8IVpV+wRbz33sjqpDP4pAVhHvA9hIzRJExbTXCOT0boUfei0lCeRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778144087; c=relaxed/simple;
-	bh=9I/b7IRfwwWi99bjyBFU/nqYZGroxFsK28KayedLwfM=;
+	s=arc-20240116; t=1778144385; c=relaxed/simple;
+	bh=A+oGwPL1XNUh0c0Two5S73J+Xy3VSTABP8fVm0BZ18g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A7MiS8TEXoheCgpE1xL1SrmEOomlpMJXm9ua/OCrVbO8nzi2eNsAxVW73XDYtDomTRcl0c7d74pQwH9RLbA0QlApgBvBGvTNtP4IAHJOEybItR6yLMyW54wQ8KoKTr8+VjdX5HypTw/49tjOGq1IhJ1WB8HhVNHg58GqemybLTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gnB/MgOX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A60DC2BCB8;
-	Thu,  7 May 2026 08:54:42 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Ty2744RAuZgjaIBZd62dhgLw/MsAoGNe6SCtC6JlrSrzsng3oFIr1OVx6G0gaoUeCHLUXnJRJH0+8xafGCQVuOYcGS0qYSW4zPQvuCDXilDMZ7bTAK0eS61RIA2nZljPfLLIEExY/jdqF+QrJKYpoK5ZruAYQrOC/BDhBubUCNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqpVYeUK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6A21C2BCB8;
+	Thu,  7 May 2026 08:59:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778144087;
-	bh=9I/b7IRfwwWi99bjyBFU/nqYZGroxFsK28KayedLwfM=;
+	s=k20201202; t=1778144383;
+	bh=A+oGwPL1XNUh0c0Two5S73J+Xy3VSTABP8fVm0BZ18g=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gnB/MgOXV01G4EpeJhMg4wmQYMD1aLB3aRXXRBy1IiX4kV9AGRRJj3MV9fX+aVDVR
-	 ZczRzfgVAYfR/bBTk7z0mW82VgeqldyD4modZC5EK/XaWLslB1429cqQAq4NvaWIi4
-	 TSwJPO6Kekc8HEwDMe9/RS2AI7dSwdnDZEF8HF8FHf6ti5FHhQnod0cedalBLffuAO
-	 /iN/88Hl5tINjM9rzqgfK/NB53ipNK0CFvoGOTomHPxtDJv1GK7aRqqwOWOmT7sxKt
-	 la1To9AdTIyNt4sLYjSy74ywlMvvNzgflkXBiteJ4lbQE9FOaNsm0UQmCfwJjrDtDr
-	 +Nq1HwB+YgH5A==
-Message-ID: <5d55e1c7-ec2f-4ad4-93b9-4dc821cb2f22@kernel.org>
-Date: Thu, 7 May 2026 09:54:42 +0100
+	b=mqpVYeUKMg1GCNQNW19NUjQzk41//TXoMseX/4a1IFBtkWKEZ01RBBmd3zmkNRRe2
+	 BFQvkcA+Hy5jjgYMpeYYDSVUBUtSTjuStSVW1tBs5o0Ajl69nP5utxciFzXG5pY4nP
+	 2wFV2rljw4xdvNOBqufYoBVRIhHxW8D4mtMhNMZM9BwvQremNgpIye3Y3Ho0NaMTZx
+	 g74nSu/CwlbIEir6oTcgqgpZnS4t7QD/ZMs2sG0ZfIYeJGR3I1xYk5aD57YZrkezI3
+	 RuK2S6FcMYJy+JHppzGjDHVwzsxEhsHiXBMzQfHFLumT51UNyYsJx8/Ga/Gl7n/DeX
+	 e+R4wKJQf5ARg==
+Message-ID: <17c4626e-8926-4cad-842d-a1b171d1e962@kernel.org>
+Date: Thu, 7 May 2026 09:59:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +53,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/8] arm64: dts: qcom: msm8939-asus-z00t: add Venus
+Subject: Re: [PATCH v5 5/8] clk: qcom: gcc-msm8939: mark Venus core GDSCs as
+ hardware controlled
 To: Erikas Bitovtas <xerikasxx@gmail.com>,
  Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
  Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
@@ -69,8 +70,8 @@ Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
  phone-devel@vger.kernel.org
 References: <20260507-msm8939-venus-rfc-v5-0-d7b5ea2ce591@gmail.com>
- <biMH8X_chA16K-MAiAtASagmIW1M0rIiBC_MViD0_XltZKnZCxDWSWPk_qZiZXV_qc3zrf9qjf7p3oltpAdqng==@protonmail.internalid>
- <20260507-msm8939-venus-rfc-v5-4-d7b5ea2ce591@gmail.com>
+ <f5TsKnC12rLsH63vAi01aN4oXUFLrfgIhn14IQFDb9gcac6anLzzhJdkGNdQ2dRs4vYbFKUptfEgWuKdgIgGsQ==@protonmail.internalid>
+ <20260507-msm8939-venus-rfc-v5-5-d7b5ea2ce591@gmail.com>
 From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=bod@kernel.org; keydata=
@@ -116,29 +117,30 @@ Autocrypt: addr=bod@kernel.org; keydata=
  LKSGEglMpiX07M1AotgvylN5C8fjbouoK+/RAMsXkk8jba6rPfuuXPaDjCyyKn6zSVHETnHW
  3AJbgVY50T8STpnxayBQvWbCvu+6NOEjXCbyaOJig+5l0zlGN9XHjdANXC5HnwmyaGRL9YDq
  Jh2nVXVJDincOdQRdKcJjYLqaOAoWrYWSDi1iZGspHBTDrnOvfMQzzHY
-In-Reply-To: <20260507-msm8939-venus-rfc-v5-4-d7b5ea2ce591@gmail.com>
+In-Reply-To: <20260507-msm8939-venus-rfc-v5-5-d7b5ea2ce591@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: A685A4E556F
+X-Rspamd-Queue-Id: 346D54E5762
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60765-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60766-lists,linux-media=lfdr.de];
 	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,apitzsch.eu,baylibre.com,redhat.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
@@ -146,43 +148,85 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	TO_DN_SOME(0.00)[]
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
 On 07/05/2026 09:32, Erikas Bitovtas wrote:
-> Enable Venus video encoder/decoder for Asus ZenFone 2 Laser/Selfie.
-> 
-> Default firmware paths work on Asus ZenFone 2 Laser/Selfie, which
-> means firmware-name property can be left out.
+> Since in downstream kernel VENUS_CORE0_GDSC and VENUS_CORE1_GDSC have a
+> device tree property "qcom,supports-hw-trigger", add a HW_CTRL flag
+> to these GDSCs to indicate that they are hardware controlled.
+
+This is a misreading/misunderstanding - supports-hw-trigger means the 
+GDSC is capable of being configured this way - not that it _must_ be 
+configured this way.
+
+Which leads me back to my previous point/feedback to you in the previous 
+cycle.
+
+If you _don't_ apply this patch, do you get different behaviour when 
+trying to switch on the encoder ?
+
+> Venus core clock cannot be enabled if Venus core GDSCs are switched off.
+
+True.
+
+> But since they are hardware controlled
+
+False. Your patch makes it so.
+
+The question is, is that change actually required and/or beneficial here ?
+
+  they can be switched off at
+> any moment. Vote for the Venus core clock to enable it later when GDSCs
+> get turned on.
+
+
 > 
 > Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
 > ---
->   arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts | 8 ++++++++
->   1 file changed, 8 insertions(+)
+>   drivers/clk/qcom/gcc-msm8939.c | 4 ++++
+>   1 file changed, 4 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
-> index 90e966242720..231a3e9c1929 100644
-> --- a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
-> +++ b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
-> @@ -267,6 +267,14 @@ &usb_hs_phy {
->   	extcon = <&usb_id>;
+> diff --git a/drivers/clk/qcom/gcc-msm8939.c b/drivers/clk/qcom/gcc-msm8939.c
+> index 45193b3d714b..420997b00ae0 100644
+> --- a/drivers/clk/qcom/gcc-msm8939.c
+> +++ b/drivers/clk/qcom/gcc-msm8939.c
+> @@ -3664,6 +3664,7 @@ static struct clk_branch gcc_venus0_vcodec0_clk = {
+> 
+>   static struct clk_branch gcc_venus0_core0_vcodec0_clk = {
+>   	.halt_reg = 0x4c02c,
+> +	.halt_check = BRANCH_HALT_SKIP,
+>   	.clkr = {
+>   		.enable_reg = 0x4c02c,
+>   		.enable_mask = BIT(0),
+> @@ -3681,6 +3682,7 @@ static struct clk_branch gcc_venus0_core0_vcodec0_clk = {
+> 
+>   static struct clk_branch gcc_venus0_core1_vcodec0_clk = {
+>   	.halt_reg = 0x4c034,
+> +	.halt_check = BRANCH_HALT_SKIP,
+>   	.clkr = {
+>   		.enable_reg = 0x4c034,
+>   		.enable_mask = BIT(0),
+> @@ -3753,6 +3755,7 @@ static struct gdsc venus_core0_gdsc = {
+>   	.pd = {
+>   		.name = "venus_core0",
+>   	},
+> +	.flags = HW_CTRL,
+>   	.pwrsts = PWRSTS_OFF_ON,
 >   };
 > 
-> +&venus {
-> +	status = "okay";
-> +};
-> +
-> +&venus_mem {
-> +	status = "okay";
-> +};
-> +
->   &wcnss {
->   	status = "okay";
+> @@ -3761,6 +3764,7 @@ static struct gdsc venus_core1_gdsc = {
+>   	.pd = {
+>   		.name = "venus_core1",
+>   	},
+> +	.flags = HW_CTRL,
+>   	.pwrsts = PWRSTS_OFF_ON,
 >   };
+> 
 > 
 > --
 > 2.54.0
 > 
-Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
+
 
