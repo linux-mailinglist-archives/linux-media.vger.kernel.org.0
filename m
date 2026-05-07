@@ -1,276 +1,282 @@
-Return-Path: <linux-media+bounces-60826-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60827-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SKCEAVWp/GkNSgAAu9opvQ
-	(envelope-from <linux-media+bounces-60826-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 17:01:41 +0200
+	id +MOQA7+q/GkNSgAAu9opvQ
+	(envelope-from <linux-media+bounces-60827-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 17:07:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AABA54EAB8C
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 17:01:35 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5384EACC6
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 17:07:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E27D430B2E96
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 14:55:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C353A3011C78
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 15:03:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8A603A8752;
-	Thu,  7 May 2026 14:55:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05EF339A7E7;
+	Thu,  7 May 2026 15:03:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="biSdJiwe"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="gvmUglMs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAC5392814;
-	Thu,  7 May 2026 14:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37803BBA0F
+	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 15:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.172
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778165704; cv=pass; b=bBCwi/xYSotILPcEFVKPNHA7IGonfAQSVDvONTvXeScpD1Hh6K81x0EG8d5WLiYgV/Ignp4lGPb0iShVpZxjsy9cZ2zyn6q/FlPuxnSeW1sNlhyXupKDt76DsoBCKeAxpQY63poAwGGvQ2D4at5zyq7aWJh5RIyBIgArgl8LOes=
+	t=1778166200; cv=pass; b=gdTdqNeaXrNFz3O7oIlVnLdpzSepJjp7fNvnEDQXCCn/HB32lewLPiwa01EW/AnoZKxfpNtJ2DKS/g6AysiI+vJNdjc4QdjPc+HpoSuTFBKbVd6Mt40LP0VznMxE3qcGZbI4rrhH6fqDAKhBTK66TR5vyY//DrEVt7oRex7BlHk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778165704; c=relaxed/simple;
-	bh=pqd/CyDVGUc5B44/qWXRjpdss9q6LFyyid1Yucmtxf8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YDYHGM4Hi2tpKP8FcGMxKUOGEETAWTKsEgYqUL9xs221SaeprqdJ8K2Gb+zn1jS8QuqICs9KbH9M40R5GhTwnbY3QnSa9ZVEiSj5mrOLK46uEfsFkgH9tE5W9X8fQ9gn0osORaO5HJhg6iLX2T0KhkFjwxtQZNuwz+I//BKQsR8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=biSdJiwe; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1778165671; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=T8Ex0I6R6Kc95dgWSzf49Nw5eDqQnUIdIobggoG+yhFnDI14pX3v/So6Ofta8XQ7LfDF+jMnt/vJzzybHqvSTMUz3qGpHhFWlc78ZOCDxTyWC8obSsd/FiEBkw+9C1sBr14sbDYwjfXzN/UFY4UZx25trcMM7jq5bNfMBa1okZI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1778165671; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=tNetuxkRt+N+4b2uSrH5ou0P5bOjAaDGsQRXbP0f+Xw=; 
-	b=bbqTPH4v2MNwkXrRMOvT0NWaeya0EUs1bWLuGn9FHYPtY7NKv8+qoDv+Wu1u3OTOzB+pfGI7shTRh/o/1Yy/9QUs7y6INH9nHZLxiVkanOIuPyKOx6U7ayAD5juPBknsuu49KXFo0X+IaqhcdMypji6BLWRnUofWiFm7FV6tKl4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778165671;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=tNetuxkRt+N+4b2uSrH5ou0P5bOjAaDGsQRXbP0f+Xw=;
-	b=biSdJiwecFJhgMX9AlCKB0S+0fCEKx89Auy+BkwYYsIwiTPt4cXifAV3ZgPlscQS
-	vZwoGuYKPiNTxB3P3zMTUv/yR+zGXHbBxmZlnO4BYgCTo20ErY1EehOIAYv+1qwv5w2
-	ay8jEoqxvcEtC+f4kjHZ5A9yJ7sqJWMPdn99460M=
-Received: by mx.zohomail.com with SMTPS id 1778165669942952.534754209186;
-	Thu, 7 May 2026 07:54:29 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Alice Ryhl <aliceryhl@google.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>, Ketil Johnsen <ketil.johnsen@arm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 6/8] drm/panthor: Explicit expansion of locked VM region
-Date: Thu, 07 May 2026 16:54:21 +0200
-Message-ID: <vq-4uSFHRCWR0Whm98eJ2Q@collabora.com>
-In-Reply-To: <kC1hpRBAS8uGaw7vVFyW2g@collabora.com>
-References:
- <20260505140516.1372388-1-ketil.johnsen@arm.com>
- <20260505140516.1372388-7-ketil.johnsen@arm.com>
- <kC1hpRBAS8uGaw7vVFyW2g@collabora.com>
+	s=arc-20240116; t=1778166200; c=relaxed/simple;
+	bh=fNSUD6gfyQpm8dL2XlWPPsMjWhde1zQklXgWHZVOhrA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L6r6YEPwnjuzUa/O2UCBWdbkLskMQH+qW152Nmf4RIxxrusQUmB5aWcTyQErsgPnUdY9t3Dlet2EcyuIyZKKbpiZ6OGGbjFuzW3dEb6Xl7OuNp4n7cVmK4/H9BdbCeJ/jElRhqEbPGJ50JGcK+i6TeXOnUDm5EOoxlflCQBP15U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=gvmUglMs; arc=pass smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7bdf83185bbso9999587b3.2
+        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 08:03:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778166194; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ITCrOrr3etyuJ9dFAIaokOrk5p6luDAPbZGUIUZ8AuWOoU9aeVJ9Bu9U1Eu2ySsgVY
+         Is5FJtOfW5oGq408DU5Y2sKZz9tI3aiDeuDUzOLNW0O9c7JoYz2A3fIHnPzv+1XbA7BH
+         U6zW30hnVxliEW692h9PzhS6ty68odi9+XEI2FDdP0DVtd7cHElYDj6ui3AnqFRDrrXg
+         gfZ04herr26InhAk6K/NSMCiygmxvmxQ/OIjvrovSV2oePDZkFOLaFBB21DLRiFNUtwN
+         kDRmw7vcRIJ139/KeJAGOyZF19opO5+s/XIsiie1B1dV/qkM48FVL8I7sAHSadBts7IZ
+         vqvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=hfwL0IR2TBH/E3PXnQJJzUTG0JVNK5KPPKWisd5788M=;
+        fh=5LHz7nwk7sifAu0B8rFqHe3vwXR0z2GAgSW23Ds5oIk=;
+        b=XoqnTvIVr/VoQNzVEYiSEYYtGTkEk38aIQxdDWvAV3qKeo3+3RYsjA3eJLsJXHmoBy
+         jtFlFBJdu2CvVGBr2IwjirkwPP8OnwCrzRzHMzI8OiWiymilbToIIL6Rv5rJCxqOiepB
+         fJzm8q0YF65Uwhq3kfKIwo9GxAWjuQA2atsHw+vswUDSHRaQEAJwUbx+mCqQZENIeXYj
+         KT/sSNvtq5lHOAHipkIBSO0lirGn1zUlM8iNdLWTKRvVO7jUT/svsYRTmxGCaa9KnmLU
+         KglVqc02jd3mrDw7BvWCpAUVGuePvQTKod3NFpO/7R0OZt7/ADu3GtTowJCev0ChQqVy
+         8tWg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1778166194; x=1778770994; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hfwL0IR2TBH/E3PXnQJJzUTG0JVNK5KPPKWisd5788M=;
+        b=gvmUglMsfBXFCLTvgNocqQMZIo2e5xfCjPuESptL20cf4mchLlKFNLL07HGycowske
+         eBAhPsg0xg2W12k6IR3dYFmTrcl5SUNEHYldh7s7OY3GKR3/+FkKKj/GPjuSSUSpB9tC
+         NnnnsR5ZtACUUHhaBzd8yAnXJC9OGeOkHOuogvP8WfW5FB2xkhWwvdMxZY/zYg671mD0
+         odT4TmKk3OcfLY9KuLhFuA+IV88vbxvn+z3h4Rnf7e8etz4PBzNLqpxTm1fTaRCZsbut
+         6rVY5eGvwapFx/zsVp8MXlVRSNGyHjoI6v8YPfuGrAEDM3nxMM6ZVoDqPMdVbG6GDUwc
+         1NEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778166194; x=1778770994;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hfwL0IR2TBH/E3PXnQJJzUTG0JVNK5KPPKWisd5788M=;
+        b=fq1i+9ZHOPveEP3I3DndWsaBORY0eMGL1fl6WP7Y2JpgFEE0T4UuD1/Sk1UMel8nY6
+         wR1aPfjSBrG48cdUr0FPhBYExmoqWw6p1vm54DbMyQO7lM/g9RvFOLNsqfDR9VUflxDd
+         /6XEvl7YSvqQI8BANaYJuzlY/xW4cTv4wg7B8KHrAabG9v9KrTnjZVCv0pIalCY7v3dZ
+         C44yat2Ni/RBjs/DgOYm3ofmRufi/UJQA2/tJp0r5jiWEBGR//vLv2HF/nEwXdgryrkm
+         tue8G0spC/ZhneHq6kYf5O5cgvTjO/tLhVLfDcm/aDA1WC0+HqVbPsJFPxFlP+wRyQRK
+         hS8g==
+X-Forwarded-Encrypted: i=1; AFNElJ9U1Kzw9HGOLxtvA6vhYQ0bCdfBFQD2evRSX7Q10zHEhz6E/ZhVsmKT+XRrS5TmPhv/ADNJ9dI15gUP+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlHyTkRMSCY0fnMzCPdNulqLiCEOPyYKdn3Af6mMSoYX/toWU8
+	+TOykz6/q2+I1n5u0pKXHRMMDw8j7SN2xfieuiIYO/optxOp3owfuPuvj4MvEZIhDm24LWABMG4
+	vjL1AbWr+K9kqd4S7axzcwXF8AYMHmf0jzdTORBTfeg==
+X-Gm-Gg: Acq92OEsJg8O7IeiGmsS6OMhSEXW705f+PJts21C7ECYRrnhY32JfcxqH67zoiExXva
+	H3S5UUbM0gGWHrfb7k55ieDwsl7Sji/h4j3B3deZWQQzJaIJUEEYFQvFYkeXpUrXTvi+Q4KRm3V
+	WiMbNWWYy70CNvYBrI/aGe9auyJQkohmTCTUtTkcGwXImZqKdaEY5mZH2ylolrOz/PlVkLbl8fE
+	sthByajmKDVS7H5bvxYVFKRppgRrlIJtrfSoEJfYEKHOOP5A3cUqzViL4Sva/NkjdCo6G982GL/
+	Kmwb2xMCAfRe5SfKwzzyiBUCxk8KJb62VAVeH2dJZz8HTl7P76nGud7tnY1OZcIFfj64bPvxcFb
+	fZeZKmEMsGebnUdpW0/UxQ5C0gXEzRqR60lnGNGS6oBKAAQ==
+X-Received: by 2002:a05:690c:e642:b0:7be:3f86:e763 with SMTP id
+ 00721157ae682-7be3f86ebe5mr42151397b3.1.1778166192338; Thu, 07 May 2026
+ 08:03:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Rspamd-Queue-Id: AABA54EAB8C
+References: <20260506-media-imx355-v1-0-660685030455@raspberrypi.com>
+ <20260506-media-imx355-v1-10-660685030455@raspberrypi.com> <afyjZ-wSfwm4jgnH@zed>
+In-Reply-To: <afyjZ-wSfwm4jgnH@zed>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 7 May 2026 16:02:53 +0100
+X-Gm-Features: AVHnY4JXdRLJZx1qCcgl2owYV56PaXuD0E7YZ5C_c5NkJTEIgfVq2k0ecapnoAE
+Message-ID: <CAPY8ntDXXGiTxVj81X1iaZ2CpSj6HuYSo0idic5XqRDLDodPDw@mail.gmail.com>
+Subject: Re: [PATCH 10/13] media: imx355: Add support for get_selection
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, David Heidelberg <david@ixit.cz>
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 7B5384EACC6
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
+	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60826-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,lwn.net,linuxfoundation.org,linaro.org,collabora.com,arm.com,google.com,amd.com];
-	RSPAMD_URIBL_FAIL(0.00)[arm.com:query timed out];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	SEM_URIBL_UNKNOWN_FAIL(0.00)[collabora.com:query timed out];
-	RSPAMD_EMAILBL_FAIL(0.00)[ketil.johnsen.arm.com:server fail];
+	TAGGED_FROM(0.00)[bounces-60827-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[raspberrypi.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:mid,collabora.com:dkim]
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,ideasonboard.com:email,raspberrypi.com:email,raspberrypi.com:dkim]
 X-Rspamd-Action: no action
 
-On Wednesday, 6 May 2026 17:14:45 Central European Summer Time Nicolas Frat=
-taroli wrote:
-> On Tuesday, 5 May 2026 16:05:12 Central European Summer Time Ketil Johnse=
-n wrote:
-> > Currently the panthor_vm_lock_region() function will implicitly expand
-> > an already locked VM region. This can be problematic because the caller
-> > do not reliably know if it needs to call panthor_vm_unlock_region()
-> > or not.
-> >=20
-> > Worth noting, there is currently no known issues with this as the code
-> > is written today.
-> >=20
-> > This change introduces panthor_vm_expand_region() which will only work
-> > if there is already a locked VM region. This again means that the
-> > original lock and unlock functions can work as a pair. This pairing is
-> > needed for subsequent protected memory changes.
-> >=20
-> > Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+Hi Jacopo
+
+Thanks for all your reviews
+
+On Thu, 7 May 2026 at 15:42, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
+>
+> On Wed, May 06, 2026 at 07:23:48PM +0100, Dave Stevenson wrote:
+> > Provide all the cropping information via get_selection.
+>
+> I think this could be simplified if the driver is ported to use the
+> active state.
+> See df3ef05b51e02ef9386346288c1e63f366372f5b
+>
+> I'm afraid usage of the active state is warmly suggested nowadays,
+> especially if you're adding code that has to deal with ACTIVE/TRY or
+> initializes per-fh data in open().
+>
+> Is it too much yak shaving to ask ?
+
+As this was an existing driver and I can't test on the original
+hardware, I was taking a softly softly approach to ensure nothing
+broke for the existing users.
+
+Tianshu's email address is bouncing, so I guess Sakari would be the
+one to know if Intel still care about IMX355.
+If Intel no longer care, then I'll see if I can find the time to swap
+it to active state.
+
+  Dave
+
+> >
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > > ---
-> >  drivers/gpu/drm/panthor/panthor_mmu.c | 69 +++++++++++++++++++--------
-> >  1 file changed, 50 insertions(+), 19 deletions(-)
-> >=20
->=20
-> While trying this series, I attempted my usual
-> `modprobe -r panthor && modprobe panthor protected_heap_name=3Ddefault_cm=
-a_region`.
->=20
-> Unfortunately, it oopses when attempting to unmap the sg for a bo labeled
-> "FW section" on panthor module unload, and I bisected it to this patch.
-
-Okay, so this one is due to the iomem access rework having landed
-in drm-misc-next already, but this series being based on something
-before that, so now all the new gpu_read(_.*)? and gpu_write.* calls
-pass a panthor_device to something that expects the iomem. Since the
-iomem uses void pointers, this wasn't caught by the compiler.
-
-So, no "real" bug here, just an incredible dice roll for luck from my side.
-
-Kind regards
-Nicolas Frattaroli
-
->=20
-> The oops:
->=20
-> [  598.515550] Unable to handle kernel paging request at virtual address =
-0000000000400267
-> [  598.516864] Mem abort info:
-> [  598.517676]   ESR =3D 0x0000000096000004
-> [  598.518560]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
-> [  598.520414]   SET =3D 0, FnV =3D 0
-> [  598.521275]   EA =3D 0, S1PTW =3D 0
-> [  598.522099]   FSC =3D 0x04: level 0 translation fault
-> [  598.523069] Data abort info:
-> [  598.524311]   ISV =3D 0, ISS =3D 0x00000004, ISS2 =3D 0x00000000
-> [  598.525566]   CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
-> [  598.526850]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
-> [  598.527905] user pgtable: 4k pages, 48-bit VAs, pgdp=3D0000000104056000
-> [  598.529019] [0000000000400267] pgd=3D0000000000000000, p4d=3D000000000=
-0000000
-> [  598.530170] Internal error: Oops: 0000000096000004 [#1]  SMP
-> [  598.531158] Modules linked in: btusb btrtl btmtk btintel btbcm bluetoo=
-th ecdh_generic ecc kpp snd_soc_hdmi_codec cfg80211 r8169 rfkill_gpio pwm_f=
-an rfkill snd_soc_es8316 rtc_hym8563 rk805_pwrkey at24 fusb302 tcpm aux_hpd=
-_bridge display_connector snd_soc_simple_card phy_rockchip_samsung_hdptx ph=
-y_rockchip_usbdp rockchip_thermal typec phy_rockchip_naneng_combphy rockchi=
-p_saradc industrialio_triggered_buffer kfifo_buf rockchipdrm inno_hdmi dw_d=
-p hantro_vpu rockchip_vdec dw_mipi_dsi2 v4l2_jpeg v4l2_vp9 rockchip_rga dw_=
-mipi_dsi v4l2_h264 synopsys_hdmirx v4l2_dv_timings spi_rockchip_sfc videobu=
-f2_dma_contig videobuf2_dma_sg v4l2_mem2mem videobuf2_memops dw_hdmi_qp onb=
-oard_usb_dev analogix_dp videobuf2_v4l2 videobuf2_common snd_soc_rockchip_i=
-2s_tdm dw_hdmi videodev mc drm_display_helper nvme cec panthor(-) drm_gpuvm=
- drm_exec gpu_sched drm_dp_aux_bus drm_dma_helper drm_client_lib nvme_core =
-drm_kms_helper drm pci_endpoint_test backlight snd_soc_audio_graph_card snd=
-_soc_simple_card_utils fuse dm_mod
-> [  598.541237] CPU: 6 UID: 0 PID: 806 Comm: modprobe Not tainted 7.1.0-rc=
-2-00726-g8ab0a3092b56-dirty #2 PREEMPT
-> [  598.542733] Hardware name: Radxa ROCK 5T (DT)
-> [  598.543746] pstate: 80400009 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYP=
-E=3D--)
-> [  598.544991] pc : dma_unmap_sg_attrs (kernel/dma/mapping.c:0)
-> [  598.546021] lr : panthor_gem_free_object (include/linux/dma-mapping.h:=
-565 drivers/gpu/drm/panthor/panthor_gem.c:308 drivers/gpu/drm/panthor/panth=
-or_gem.c:469) panthor
-> [  598.547180] sp : ffff80008835bb90
-> [  598.548123] x29: ffff80008835bb90 x28: ffff00012610bf00 x27: 000000000=
-0000000
-> [  598.549412] x26: 0000000000000000 x25: 0000000000000000 x24: 000000000=
-0000000
-> [  598.550696] x23: ffff000127194600 x22: ffff0001271943d0 x21: ffff00011=
-8671000
-> [  598.551984] x20: ffff000127194200 x19: ffff000127194600 x18: 000000000=
-02ab980
-> [  598.553273] x17: 00000000002ab980 x16: ffffa39a6b372a04 x15: 000000000=
-0000000
-> [  598.554568] x14: 0000000000000010 x13: 0000000000000000 x12: 000000000=
-000003c
-> [  598.555864] x11: 0000000000000002 x10: ffff000100a5d000 x9 : ffff00011=
-8671000
-> [  598.557164] x8 : ffff000102f8b490 x7 : ffff000149569000 x6 : ffff00014=
-9569000
-> [  598.558461] x5 : ffff000100faa7e8 x4 : 0000000000000000 x3 : 000000000=
-0000000
-> [  598.559763] x2 : 0000000000000010 x1 : ffff000127194000 x0 : 000000000=
-040000f
-> [  598.561069] Call trace:
-> [  598.561961]  dma_unmap_sg_attrs (kernel/dma/mapping.c:0) (P)
-> [  598.563038] panthor_gem_free_object (include/linux/dma-mapping.h:565 d=
-rivers/gpu/drm/panthor/panthor_gem.c:308 drivers/gpu/drm/panthor/panthor_ge=
-m.c:469) panthor
-> [  598.564218] drm_gem_object_free (drivers/gpu/drm/drm_gem.c:1148) drm
-> [  598.565386] panthor_kernel_bo_destroy (include/linux/kref.h:65 include=
-/drm/drm_gem.h:565 include/drm/drm_gem.h:578 drivers/gpu/drm/panthor/pantho=
-r_gem.c:1317) panthor
-> [  598.566575] panthor_fw_unplug (drivers/gpu/drm/panthor/panthor_fw.c:13=
-06) panthor
-> [  598.567705] panthor_device_unplug (drivers/gpu/drm/panthor/panthor_dev=
-ice.c:103) panthor
-> [  598.568878] panthor_remove (drivers/gpu/drm/panthor/panthor_drv.c:1846=
-) panthor
-> [  598.569991]  platform_remove (drivers/base/platform.c:1435)
-> [  598.571029]  device_release_driver_internal (drivers/base/dd.c:619 dri=
-vers/base/dd.c:1352 drivers/base/dd.c:1375)
-> [  598.572209]  driver_detach (drivers/base/dd.c:1438)
-> [  598.573237]  bus_remove_driver (drivers/base/bus.c:825)
-> [  598.574304]  driver_unregister (drivers/base/driver.c:277)
-> [  598.575363]  platform_driver_unregister (drivers/base/platform.c:920)
-> [  598.576494] cleanup_module (drivers/gpu/drm/panthor/panthor_devfreq.c:=
-134) panthor
-> [  598.577617]  __arm64_sys_delete_module (kernel/module/main.c:863 kerne=
-l/module/main.c:804 kernel/module/main.c:804)
-> [  598.578751]  invoke_syscall (arch/arm64/kernel/syscall.c:35 arch/arm64=
-/kernel/syscall.c:49)
-> [  598.579794]  el0_svc_common (arch/arm64/kernel/syscall.c:121)
-> [  598.580842]  do_el0_svc (arch/arm64/kernel/syscall.c:140)
-> [  598.581862]  el0_svc (arch/arm64/kernel/entry-common.c:723)
-> [  598.582853]  el0t_64_sync_handler (arch/arm64/kernel/entry-common.c:74=
-2)
-> [  598.583949]  el0t_64_sync (arch/arm64/kernel/entry.S:594)
->=20
-> Kind regards,
-> Nicolas Frattaroli
->=20
->=20
->=20
-
-
-
-
+> >  drivers/media/i2c/imx355.c | 58 ++++++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 58 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
+> > index 5a3bfcd0f51c..d8d7cc0ceab9 100644
+> > --- a/drivers/media/i2c/imx355.c
+> > +++ b/drivers/media/i2c/imx355.c
+> > @@ -88,6 +88,11 @@
+> >  /* number of data lanes */
+> >  #define IMX355_DATA_LANES            4
+> >
+> > +#define IMX355_PIXEL_ARRAY_TOP               0
+> > +#define IMX355_PIXEL_ARRAY_LEFT              0
+> > +#define IMX355_PIXEL_ARRAY_WIDTH     3280
+> > +#define IMX355_PIXEL_ARRAY_HEIGHT    2464
+> > +
+> >  struct imx355_reg {
+> >       u16 address;
+> >       u8 val;
+> > @@ -671,6 +676,7 @@ static int imx355_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> >       struct imx355 *imx355 = to_imx355(sd);
+> >       struct v4l2_mbus_framefmt *try_fmt =
+> >               v4l2_subdev_state_get_format(fh->state, 0);
+> > +     struct v4l2_rect *crop = v4l2_subdev_state_get_crop(fh->state, 0);
+> >
+> >       mutex_lock(&imx355->mutex);
+> >
+> > @@ -680,6 +686,11 @@ static int imx355_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> >       try_fmt->code = imx355_get_format_code(imx355);
+> >       try_fmt->field = V4L2_FIELD_NONE;
+> >
+> > +     crop->left = imx355->cur_mode->x_add_start;
+> > +     crop->top = imx355->cur_mode->y_add_start;
+> > +     crop->width = imx355->cur_mode->width;
+> > +     crop->height = imx355->cur_mode->height;
+> > +
+> >       mutex_unlock(&imx355->mutex);
+> >
+> >       return 0;
+> > @@ -886,6 +897,52 @@ imx355_set_pad_format(struct v4l2_subdev *sd,
+> >       return 0;
+> >  }
+> >
+> > +static void
+> > +__imx355_get_pad_crop(struct imx355 *imx355,
+> > +                   struct v4l2_subdev_state *sd_state, unsigned int pad,
+> > +                   enum v4l2_subdev_format_whence which, struct v4l2_rect *r)
+> > +{
+> > +     switch (which) {
+> > +     case V4L2_SUBDEV_FORMAT_TRY:
+> > +             *r = *v4l2_subdev_state_get_crop(sd_state, pad);
+> > +             break;
+> > +     case V4L2_SUBDEV_FORMAT_ACTIVE:
+> > +             r->left = imx355->cur_mode->x_add_start;
+> > +             r->top = imx355->cur_mode->y_add_start;
+> > +             r->width = imx355->cur_mode->width;
+> > +             r->height = imx355->cur_mode->height;
+> > +             break;
+> > +     }
+> > +}
+> > +
+> > +static int imx355_get_selection(struct v4l2_subdev *sd,
+> > +                             struct v4l2_subdev_state *sd_state,
+> > +                             struct v4l2_subdev_selection *sel)
+> > +{
+> > +     switch (sel->target) {
+> > +     case V4L2_SEL_TGT_CROP:
+> > +             struct imx355 *imx355 = to_imx355(sd);
+> > +
+> > +             mutex_lock(&imx355->mutex);
+> > +             __imx355_get_pad_crop(imx355, sd_state, sel->pad, sel->which,
+> > +                                   &sel->r);
+> > +             mutex_unlock(&imx355->mutex);
+> > +
+> > +             return 0;
+> > +     case V4L2_SEL_TGT_CROP_DEFAULT:
+> > +     case V4L2_SEL_TGT_CROP_BOUNDS:
+> > +     case V4L2_SEL_TGT_NATIVE_SIZE:
+> > +             sel->r.top = IMX355_PIXEL_ARRAY_TOP;
+> > +             sel->r.left = IMX355_PIXEL_ARRAY_LEFT;
+> > +             sel->r.width = IMX355_PIXEL_ARRAY_WIDTH;
+> > +             sel->r.height = IMX355_PIXEL_ARRAY_HEIGHT;
+> > +
+> > +             return 0;
+> > +     }
+> > +
+> > +     return -EINVAL;
+> > +}
+> > +
+> >  /* Start streaming */
+> >  static int imx355_start_streaming(struct imx355 *imx355)
+> >  {
+> > @@ -1062,6 +1119,7 @@ static const struct v4l2_subdev_pad_ops imx355_pad_ops = {
+> >       .get_fmt = imx355_get_pad_format,
+> >       .set_fmt = imx355_set_pad_format,
+> >       .enum_frame_size = imx355_enum_frame_size,
+> > +     .get_selection = imx355_get_selection,
+> >  };
+> >
+> >  static const struct v4l2_subdev_ops imx355_subdev_ops = {
+> >
+> > --
+> > 2.34.1
+> >
+> >
 
