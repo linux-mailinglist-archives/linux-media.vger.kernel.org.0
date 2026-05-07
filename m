@@ -1,282 +1,167 @@
-Return-Path: <linux-media+bounces-60827-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60828-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +MOQA7+q/GkNSgAAu9opvQ
-	(envelope-from <linux-media+bounces-60827-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 17:07:43 +0200
+	id uLxmM3ms/GkNSgAAu9opvQ
+	(envelope-from <linux-media+bounces-60828-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 17:15:05 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5384EACC6
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 17:07:42 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1DF4EADDF
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 17:15:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C353A3011C78
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 15:03:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 344C1300FF84
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 15:15:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05EF339A7E7;
-	Thu,  7 May 2026 15:03:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD39F4014A0;
+	Thu,  7 May 2026 15:14:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="gvmUglMs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sy+/4wzW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37803BBA0F
-	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 15:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778166200; cv=pass; b=gdTdqNeaXrNFz3O7oIlVnLdpzSepJjp7fNvnEDQXCCn/HB32lewLPiwa01EW/AnoZKxfpNtJ2DKS/g6AysiI+vJNdjc4QdjPc+HpoSuTFBKbVd6Mt40LP0VznMxE3qcGZbI4rrhH6fqDAKhBTK66TR5vyY//DrEVt7oRex7BlHk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778166200; c=relaxed/simple;
-	bh=fNSUD6gfyQpm8dL2XlWPPsMjWhde1zQklXgWHZVOhrA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L6r6YEPwnjuzUa/O2UCBWdbkLskMQH+qW152Nmf4RIxxrusQUmB5aWcTyQErsgPnUdY9t3Dlet2EcyuIyZKKbpiZ6OGGbjFuzW3dEb6Xl7OuNp4n7cVmK4/H9BdbCeJ/jElRhqEbPGJ50JGcK+i6TeXOnUDm5EOoxlflCQBP15U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=gvmUglMs; arc=pass smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7bdf83185bbso9999587b3.2
-        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 08:03:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778166194; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ITCrOrr3etyuJ9dFAIaokOrk5p6luDAPbZGUIUZ8AuWOoU9aeVJ9Bu9U1Eu2ySsgVY
-         Is5FJtOfW5oGq408DU5Y2sKZz9tI3aiDeuDUzOLNW0O9c7JoYz2A3fIHnPzv+1XbA7BH
-         U6zW30hnVxliEW692h9PzhS6ty68odi9+XEI2FDdP0DVtd7cHElYDj6ui3AnqFRDrrXg
-         gfZ04herr26InhAk6K/NSMCiygmxvmxQ/OIjvrovSV2oePDZkFOLaFBB21DLRiFNUtwN
-         kDRmw7vcRIJ139/KeJAGOyZF19opO5+s/XIsiie1B1dV/qkM48FVL8I7sAHSadBts7IZ
-         vqvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=hfwL0IR2TBH/E3PXnQJJzUTG0JVNK5KPPKWisd5788M=;
-        fh=5LHz7nwk7sifAu0B8rFqHe3vwXR0z2GAgSW23Ds5oIk=;
-        b=XoqnTvIVr/VoQNzVEYiSEYYtGTkEk38aIQxdDWvAV3qKeo3+3RYsjA3eJLsJXHmoBy
-         jtFlFBJdu2CvVGBr2IwjirkwPP8OnwCrzRzHMzI8OiWiymilbToIIL6Rv5rJCxqOiepB
-         fJzm8q0YF65Uwhq3kfKIwo9GxAWjuQA2atsHw+vswUDSHRaQEAJwUbx+mCqQZENIeXYj
-         KT/sSNvtq5lHOAHipkIBSO0lirGn1zUlM8iNdLWTKRvVO7jUT/svsYRTmxGCaa9KnmLU
-         KglVqc02jd3mrDw7BvWCpAUVGuePvQTKod3NFpO/7R0OZt7/ADu3GtTowJCev0ChQqVy
-         8tWg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCAC3ED11B
+	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 15:14:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778166896; cv=none; b=Uw6Kx7OyeyiXKb3HIMyJkVuxLXbHyzndNfsrgMgVeXkBkaQUhF3Ox/1zgVr2Rk/DW17Ckd99uwyQHOPdnmlioYCX3LtzJlef2MlXAHVTZ159PYNpwikGV6MUlTlIzTCIQZ+bnMZK0ku5sM976dlNBg3Vjhw6qHYHxirCWN1phFU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778166896; c=relaxed/simple;
+	bh=xFS5J5u77pt3Y7Hf4FpTk5D9ePHHCptoA+oAHM0seJg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rv9x8UnSxAPHHAPmkxJstWhfxp8+gjHMKQ9We47lbr+iHmoZ9cWc2rObvHrSieLgEaC7I4ri3+bqOjDmGXFH7iad/fCdrhPf4rCHjueGxJTvrxcWYYIrI711quk1ZWoQSmPbVomR7d/txHdQWKUj36BoM3aiPgyXd1Lzm0xGwVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sy+/4wzW; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ba21d32776so7337755ad.2
+        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 08:14:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1778166194; x=1778770994; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hfwL0IR2TBH/E3PXnQJJzUTG0JVNK5KPPKWisd5788M=;
-        b=gvmUglMsfBXFCLTvgNocqQMZIo2e5xfCjPuESptL20cf4mchLlKFNLL07HGycowske
-         eBAhPsg0xg2W12k6IR3dYFmTrcl5SUNEHYldh7s7OY3GKR3/+FkKKj/GPjuSSUSpB9tC
-         NnnnsR5ZtACUUHhaBzd8yAnXJC9OGeOkHOuogvP8WfW5FB2xkhWwvdMxZY/zYg671mD0
-         odT4TmKk3OcfLY9KuLhFuA+IV88vbxvn+z3h4Rnf7e8etz4PBzNLqpxTm1fTaRCZsbut
-         6rVY5eGvwapFx/zsVp8MXlVRSNGyHjoI6v8YPfuGrAEDM3nxMM6ZVoDqPMdVbG6GDUwc
-         1NEA==
+        d=gmail.com; s=20251104; t=1778166894; x=1778771694; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EkKYvF0OF++20NLzTdvDQYF9J4JuHMfHvRom9bmio3E=;
+        b=sy+/4wzWyAJXHC4nPhMfkerT6SSBP85rIpAcIVwwScBhd5e6nKkGWLvQBp67hWKTgU
+         lWShrJRedf+toQ6lSmySTzsW2qsd9Ra3donLDrvda5wmymnGblSL6tU32eRjVx9ksmpO
+         9x0RqmSPhACWgSGxIKmndG19eoEF5kU7PMbS6SMqQm4aMfqL08lY/QxHpnswvCbD5bLo
+         +y7+TaF/g4VrGjWLCB+pc2Df7GY1t3bJI+0PLbA5q+/ZHALLkjN2DW2udfhjMFZYOtEm
+         9usVjQzAZJ05STXIHopakukGTAInzUsUKMvQGlD4BKDBGJEhp5r4LyZIzBBBPi8lQSXt
+         tgtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778166194; x=1778770994;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1778166894; x=1778771694;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hfwL0IR2TBH/E3PXnQJJzUTG0JVNK5KPPKWisd5788M=;
-        b=fq1i+9ZHOPveEP3I3DndWsaBORY0eMGL1fl6WP7Y2JpgFEE0T4UuD1/Sk1UMel8nY6
-         wR1aPfjSBrG48cdUr0FPhBYExmoqWw6p1vm54DbMyQO7lM/g9RvFOLNsqfDR9VUflxDd
-         /6XEvl7YSvqQI8BANaYJuzlY/xW4cTv4wg7B8KHrAabG9v9KrTnjZVCv0pIalCY7v3dZ
-         C44yat2Ni/RBjs/DgOYm3ofmRufi/UJQA2/tJp0r5jiWEBGR//vLv2HF/nEwXdgryrkm
-         tue8G0spC/ZhneHq6kYf5O5cgvTjO/tLhVLfDcm/aDA1WC0+HqVbPsJFPxFlP+wRyQRK
-         hS8g==
-X-Forwarded-Encrypted: i=1; AFNElJ9U1Kzw9HGOLxtvA6vhYQ0bCdfBFQD2evRSX7Q10zHEhz6E/ZhVsmKT+XRrS5TmPhv/ADNJ9dI15gUP+g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlHyTkRMSCY0fnMzCPdNulqLiCEOPyYKdn3Af6mMSoYX/toWU8
-	+TOykz6/q2+I1n5u0pKXHRMMDw8j7SN2xfieuiIYO/optxOp3owfuPuvj4MvEZIhDm24LWABMG4
-	vjL1AbWr+K9kqd4S7axzcwXF8AYMHmf0jzdTORBTfeg==
-X-Gm-Gg: Acq92OEsJg8O7IeiGmsS6OMhSEXW705f+PJts21C7ECYRrnhY32JfcxqH67zoiExXva
-	H3S5UUbM0gGWHrfb7k55ieDwsl7Sji/h4j3B3deZWQQzJaIJUEEYFQvFYkeXpUrXTvi+Q4KRm3V
-	WiMbNWWYy70CNvYBrI/aGe9auyJQkohmTCTUtTkcGwXImZqKdaEY5mZH2ylolrOz/PlVkLbl8fE
-	sthByajmKDVS7H5bvxYVFKRppgRrlIJtrfSoEJfYEKHOOP5A3cUqzViL4Sva/NkjdCo6G982GL/
-	Kmwb2xMCAfRe5SfKwzzyiBUCxk8KJb62VAVeH2dJZz8HTl7P76nGud7tnY1OZcIFfj64bPvxcFb
-	fZeZKmEMsGebnUdpW0/UxQ5C0gXEzRqR60lnGNGS6oBKAAQ==
-X-Received: by 2002:a05:690c:e642:b0:7be:3f86:e763 with SMTP id
- 00721157ae682-7be3f86ebe5mr42151397b3.1.1778166192338; Thu, 07 May 2026
- 08:03:12 -0700 (PDT)
+        bh=EkKYvF0OF++20NLzTdvDQYF9J4JuHMfHvRom9bmio3E=;
+        b=e+kJIv46KuNfWilxY9FK7/3ctTO1HBOiJbT1Creq8HREVWo6rWavGnWNCF9srrd/oY
+         cj/Ofyn9LUmdAt8tkGM5AQIfMqG7QJ0SW2lsPfOTYo9BL1d/DNraxDRAhynZbXffRTdb
+         lwUpUltuoF/RF8wbsZdWbjLIaRuX6EMghicdaWE+WYq9OqDFMvTCUwt9zR/X6S/vpjJE
+         YGGx2PNXwyDJe88JY9SghuM7MvdEXhJiBhy8yx8oCQfs/0tFvG5mG73qbYZ2tsxSL4y+
+         P2k9YRqKg1V/dpOC8Nl9w4vCsjNRLn/MrE6gpIZHU7lrDeF0JGJRM4Q19LlRYK+BAC7l
+         h5Pw==
+X-Forwarded-Encrypted: i=1; AFNElJ8fp9yue2li3X+MV/6v1ACMbMselBrKoJhesZMY+y16KHYdLvsjnTyPzuWr6BA1BEZ4XFkga1fVdLanZg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzxi9e/g8lGep/tiAOOJgZM5mACH3camXmEVwEyKPu6RapQqvRu
+	KpU+FsuxVMpOGxNran7Rd3wOmYBNg+2lG9A+6e4tkavHUiJnXzoDdS7jCJu/zQ==
+X-Gm-Gg: AeBDietiQ60g2bcsaeG5IqdHNrp93BsQ8rplqO0rH3nqesGo35BLtIWZRjB1wGH3fug
+	Ka58VGuST/UpMJL2WQvSFUkHA/BbCKTFjpWqTrEXAmfNFl7lGesIbnYzV0WZymO+z57Ae/kLEqI
+	b6aD+r/gyAn5x20XvjngtIsypG2J1jjfPkIL5XlMOrWGqGqYhjs6K2BkJSbUmtxlTbMEuF2Rw2V
+	eT4MWTVZkdeQzgGFdCV4P7oW8R9HS8ktq31MC0hIFuleK+pjSE/nHx5Pqbj8cFULlssoDSIlDi5
+	LXae0QcrODVIZ4Z5fdXlaSVAQPMrCm3XNrNlw0s9UF0xiHGVciAOwlUyELETNE8xWUyBkH874nL
+	Vgj9ztG89CL5fDt+e2vzUrB4jP1b65cOQgZGWAPrbWc9mO1M9yFc7P0Sw025EHYtFgurpTn1VFq
+	4C4/nOcGQKrEmMsGl9vA+efLt4yh9o/E4GKVbgDZs=
+X-Received: by 2002:a17:902:e54e:b0:2ba:4eee:6c1e with SMTP id d9443c01a7336-2ba78e40c8fmr87801885ad.15.1778166894387;
+        Thu, 07 May 2026 08:14:54 -0700 (PDT)
+Received: from localhost ([2405:4802:1bf7:b0a0:33c8:3ea:357a:8f94])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bae78544ddsm112945ad.56.2026.05.07.08.14.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2026 08:14:54 -0700 (PDT)
+From: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: media: ipu7: Remove unused struct ia_gofo_secondary_boot_config
+Date: Thu,  7 May 2026 22:14:27 +0700
+Message-ID: <20260507151446.153614-1-nguyenhaiphu06@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260506-media-imx355-v1-0-660685030455@raspberrypi.com>
- <20260506-media-imx355-v1-10-660685030455@raspberrypi.com> <afyjZ-wSfwm4jgnH@zed>
-In-Reply-To: <afyjZ-wSfwm4jgnH@zed>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 7 May 2026 16:02:53 +0100
-X-Gm-Features: AVHnY4JXdRLJZx1qCcgl2owYV56PaXuD0E7YZ5C_c5NkJTEIgfVq2k0ecapnoAE
-Message-ID: <CAPY8ntDXXGiTxVj81X1iaZ2CpSj6HuYSo0idic5XqRDLDodPDw@mail.gmail.com>
-Subject: Re: [PATCH 10/13] media: imx355: Add support for get_selection
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, David Heidelberg <david@ixit.cz>
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: 7B5384EACC6
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4B1DF4EADDF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
-	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60827-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,intel.com,kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60828-lists,linux-media=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	FROM_NEQ_ENVFROM(0.00)[nguyenhaiphu06@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,ideasonboard.com:email,raspberrypi.com:email,raspberrypi.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Hi Jacopo
+The struct ia_gofo_secondary_boot_config in abi/ipu7_fw_boot_abi.h is
+not used in the driver. Remove it to cleanup the ABI headers.
 
-Thanks for all your reviews
+Signed-off-by: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>
+---
+v2: fix subject line prefix
 
-On Thu, 7 May 2026 at 15:42, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
->
-> On Wed, May 06, 2026 at 07:23:48PM +0100, Dave Stevenson wrote:
-> > Provide all the cropping information via get_selection.
->
-> I think this could be simplified if the driver is ported to use the
-> active state.
-> See df3ef05b51e02ef9386346288c1e63f366372f5b
->
-> I'm afraid usage of the active state is warmly suggested nowadays,
-> especially if you're adding code that has to deal with ACTIVE/TRY or
-> initializes per-fh data in open().
->
-> Is it too much yak shaving to ask ?
+ drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-As this was an existing driver and I can't test on the original
-hardware, I was taking a softly softly approach to ensure nothing
-broke for the existing users.
+diff --git a/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h b/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
+index a1519c4fe661..21d1ff7ab29a 100644
+--- a/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
++++ b/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
+@@ -91,17 +91,6 @@ struct ia_gofo_boot_config {
+ 	struct syscom_config_s syscom_context_config;
+ };
+ 
+-struct ia_gofo_secondary_boot_config {
+-	u32 length;
+-	struct ia_gofo_version_s config_version;
+-	struct ia_gofo_msg_version_list client_version_support;
+-	u8 reserved1[IA_GOFO_BOOT_SECONDARY_RESERVED_FIELDS];
+-	u16 checksum;
+-	u8 padding[2];
+-	u32 reserved2[IA_GOFO_BOOT_SECONDARY_RESERVED_SIZE];
+-	struct syscom_config_s syscom_context_config;
+-};
+-
+ #pragma pack(pop)
+ 
+ #define IA_GOFO_WDT_TIMEOUT_ERR			0xdead0401U
+-- 
+2.54.0
 
-Tianshu's email address is bouncing, so I guess Sakari would be the
-one to know if Intel still care about IMX355.
-If Intel no longer care, then I'll see if I can find the time to swap
-it to active state.
-
-  Dave
-
-> >
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > ---
-> >  drivers/media/i2c/imx355.c | 58 ++++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 58 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-> > index 5a3bfcd0f51c..d8d7cc0ceab9 100644
-> > --- a/drivers/media/i2c/imx355.c
-> > +++ b/drivers/media/i2c/imx355.c
-> > @@ -88,6 +88,11 @@
-> >  /* number of data lanes */
-> >  #define IMX355_DATA_LANES            4
-> >
-> > +#define IMX355_PIXEL_ARRAY_TOP               0
-> > +#define IMX355_PIXEL_ARRAY_LEFT              0
-> > +#define IMX355_PIXEL_ARRAY_WIDTH     3280
-> > +#define IMX355_PIXEL_ARRAY_HEIGHT    2464
-> > +
-> >  struct imx355_reg {
-> >       u16 address;
-> >       u8 val;
-> > @@ -671,6 +676,7 @@ static int imx355_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> >       struct imx355 *imx355 = to_imx355(sd);
-> >       struct v4l2_mbus_framefmt *try_fmt =
-> >               v4l2_subdev_state_get_format(fh->state, 0);
-> > +     struct v4l2_rect *crop = v4l2_subdev_state_get_crop(fh->state, 0);
-> >
-> >       mutex_lock(&imx355->mutex);
-> >
-> > @@ -680,6 +686,11 @@ static int imx355_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> >       try_fmt->code = imx355_get_format_code(imx355);
-> >       try_fmt->field = V4L2_FIELD_NONE;
-> >
-> > +     crop->left = imx355->cur_mode->x_add_start;
-> > +     crop->top = imx355->cur_mode->y_add_start;
-> > +     crop->width = imx355->cur_mode->width;
-> > +     crop->height = imx355->cur_mode->height;
-> > +
-> >       mutex_unlock(&imx355->mutex);
-> >
-> >       return 0;
-> > @@ -886,6 +897,52 @@ imx355_set_pad_format(struct v4l2_subdev *sd,
-> >       return 0;
-> >  }
-> >
-> > +static void
-> > +__imx355_get_pad_crop(struct imx355 *imx355,
-> > +                   struct v4l2_subdev_state *sd_state, unsigned int pad,
-> > +                   enum v4l2_subdev_format_whence which, struct v4l2_rect *r)
-> > +{
-> > +     switch (which) {
-> > +     case V4L2_SUBDEV_FORMAT_TRY:
-> > +             *r = *v4l2_subdev_state_get_crop(sd_state, pad);
-> > +             break;
-> > +     case V4L2_SUBDEV_FORMAT_ACTIVE:
-> > +             r->left = imx355->cur_mode->x_add_start;
-> > +             r->top = imx355->cur_mode->y_add_start;
-> > +             r->width = imx355->cur_mode->width;
-> > +             r->height = imx355->cur_mode->height;
-> > +             break;
-> > +     }
-> > +}
-> > +
-> > +static int imx355_get_selection(struct v4l2_subdev *sd,
-> > +                             struct v4l2_subdev_state *sd_state,
-> > +                             struct v4l2_subdev_selection *sel)
-> > +{
-> > +     switch (sel->target) {
-> > +     case V4L2_SEL_TGT_CROP:
-> > +             struct imx355 *imx355 = to_imx355(sd);
-> > +
-> > +             mutex_lock(&imx355->mutex);
-> > +             __imx355_get_pad_crop(imx355, sd_state, sel->pad, sel->which,
-> > +                                   &sel->r);
-> > +             mutex_unlock(&imx355->mutex);
-> > +
-> > +             return 0;
-> > +     case V4L2_SEL_TGT_CROP_DEFAULT:
-> > +     case V4L2_SEL_TGT_CROP_BOUNDS:
-> > +     case V4L2_SEL_TGT_NATIVE_SIZE:
-> > +             sel->r.top = IMX355_PIXEL_ARRAY_TOP;
-> > +             sel->r.left = IMX355_PIXEL_ARRAY_LEFT;
-> > +             sel->r.width = IMX355_PIXEL_ARRAY_WIDTH;
-> > +             sel->r.height = IMX355_PIXEL_ARRAY_HEIGHT;
-> > +
-> > +             return 0;
-> > +     }
-> > +
-> > +     return -EINVAL;
-> > +}
-> > +
-> >  /* Start streaming */
-> >  static int imx355_start_streaming(struct imx355 *imx355)
-> >  {
-> > @@ -1062,6 +1119,7 @@ static const struct v4l2_subdev_pad_ops imx355_pad_ops = {
-> >       .get_fmt = imx355_get_pad_format,
-> >       .set_fmt = imx355_set_pad_format,
-> >       .enum_frame_size = imx355_enum_frame_size,
-> > +     .get_selection = imx355_get_selection,
-> >  };
-> >
-> >  static const struct v4l2_subdev_ops imx355_subdev_ops = {
-> >
-> > --
-> > 2.34.1
-> >
-> >
 
