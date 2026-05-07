@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-60764-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60765-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0AFSMQtZ/GnMOQAAu9opvQ
-	(envelope-from <linux-media+bounces-60764-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 11:19:07 +0200
+	id ALxnNjxU/GlOOAAAu9opvQ
+	(envelope-from <linux-media+bounces-60765-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 10:58:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD904E5AD6
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 11:19:07 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id A685A4E556F
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 10:58:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6D221314C778
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 08:56:35 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3B9CD300F779
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 08:57:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 174DE3B2FE6;
-	Thu,  7 May 2026 08:54:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC2943B2FDC;
+	Thu,  7 May 2026 08:54:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MGOV1Phq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gnB/MgOX"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA3F39A7F6;
-	Thu,  7 May 2026 08:54:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAC83B3896;
+	Thu,  7 May 2026 08:54:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778144079; cv=none; b=fDeoQ7sfKlGiD9WMwpsXHktg4PNETdyUNr/UqdunceCw7igPQQO3Y4y0kGL3vQz8tgkCxgPGlSZmw5ZYOEKhGbRfoJP6mt7ySBeQIH1Xze40wrrdix/Yh48ceJjqGMDvoeiOWqubF+WNNm1FyNz4WO+OVtjfabZYqQtVtBJPao0=
+	t=1778144087; cv=none; b=gFo7NMdKpTaZKO84JBwq8XaztWb74pB6lQfT9vbOZ6Vgfc4NFKKnRPS/de8dWM2d1XzVK8qwu62HMqLt35Tm+o5j+6EuggSJueAWJVzN3ZSslMLAjwxKC8D3kajrsHyxj4gP2hYu4s1Yhulp5A07kPppY4hNnrjP5pS7BtT62hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778144079; c=relaxed/simple;
-	bh=urONxchRf/ZjdPAu8izYAO+APv82EaZknbaxav60WB0=;
+	s=arc-20240116; t=1778144087; c=relaxed/simple;
+	bh=9I/b7IRfwwWi99bjyBFU/nqYZGroxFsK28KayedLwfM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sRke5QZrtopeu1xdAP2+ZZ0dgEu3HlWoyHDL4yC9B4gaFNbEb2Xg5LUXdmcgCh0WgMnVD7cLmJDA+33YFpT0jFBX91UPqSLzEPdKwtDz/aam7n/fxtsqTY9sv6VxCJq1gxGmphiSDVKj6J2LNM2SY8M8eKK4VBlO9RosqJKH8g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MGOV1Phq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 813D9C2BCB2;
-	Thu,  7 May 2026 08:54:34 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=A7MiS8TEXoheCgpE1xL1SrmEOomlpMJXm9ua/OCrVbO8nzi2eNsAxVW73XDYtDomTRcl0c7d74pQwH9RLbA0QlApgBvBGvTNtP4IAHJOEybItR6yLMyW54wQ8KoKTr8+VjdX5HypTw/49tjOGq1IhJ1WB8HhVNHg58GqemybLTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gnB/MgOX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A60DC2BCB8;
+	Thu,  7 May 2026 08:54:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778144078;
-	bh=urONxchRf/ZjdPAu8izYAO+APv82EaZknbaxav60WB0=;
+	s=k20201202; t=1778144087;
+	bh=9I/b7IRfwwWi99bjyBFU/nqYZGroxFsK28KayedLwfM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MGOV1Phq9Gmo4+Sb+sN09pX/mIaI8/FnfOVJcuUNJq5FpXdSRK74oO5c5WvTwEI9+
-	 gXzXxe4lkJ6M7b9i8jl7Qj0E9x2b2JCxkQ42L7DIFXO5lCm03+qRDDNgGOaP+znESt
-	 ETlIBtv6ASOqEovmNeWT7puxfDkk+6adHYX1mmcTljXKbArHVqDJxcePbo1CI0NZ7C
-	 2kOFEaRLdjXxYlElN0XHKp8PPHdryKvb7MglPabDe+zA78SMEm/0cOrYmwxCw/0t07
-	 7yr0Zjc42j8Ufh1e8lnbzRG3B87ONCXLwZZg+AYTxXUl6NAi3DQ/tXN5FvirI++UUI
-	 TGU2NnNZvyLlg==
-Message-ID: <25f8658b-05a0-441b-ba0f-dc89a3ab39b4@kernel.org>
-Date: Thu, 7 May 2026 09:54:34 +0100
+	b=gnB/MgOXV01G4EpeJhMg4wmQYMD1aLB3aRXXRBy1IiX4kV9AGRRJj3MV9fX+aVDVR
+	 ZczRzfgVAYfR/bBTk7z0mW82VgeqldyD4modZC5EK/XaWLslB1429cqQAq4NvaWIi4
+	 TSwJPO6Kekc8HEwDMe9/RS2AI7dSwdnDZEF8HF8FHf6ti5FHhQnod0cedalBLffuAO
+	 /iN/88Hl5tINjM9rzqgfK/NB53ipNK0CFvoGOTomHPxtDJv1GK7aRqqwOWOmT7sxKt
+	 la1To9AdTIyNt4sLYjSy74ywlMvvNzgflkXBiteJ4lbQE9FOaNsm0UQmCfwJjrDtDr
+	 +Nq1HwB+YgH5A==
+Message-ID: <5d55e1c7-ec2f-4ad4-93b9-4dc821cb2f22@kernel.org>
+Date: Thu, 7 May 2026 09:54:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,8 +53,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/8] arm64: dts: qcom: msm8939-longcheer-l9100: Enable
- venus node
+Subject: Re: [PATCH v5 4/8] arm64: dts: qcom: msm8939-asus-z00t: add Venus
 To: Erikas Bitovtas <xerikasxx@gmail.com>,
  Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
  Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
@@ -70,8 +69,8 @@ Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
  phone-devel@vger.kernel.org
 References: <20260507-msm8939-venus-rfc-v5-0-d7b5ea2ce591@gmail.com>
- <fBabe3YPtgJx-KG3cZUo5PloBYvInS0ksdk2RTkpbX5kT-6ZvgLbUf5Q2rve7Hi4k1BmVzK8libBCbJYh8_c3A==@protonmail.internalid>
- <20260507-msm8939-venus-rfc-v5-3-d7b5ea2ce591@gmail.com>
+ <biMH8X_chA16K-MAiAtASagmIW1M0rIiBC_MViD0_XltZKnZCxDWSWPk_qZiZXV_qc3zrf9qjf7p3oltpAdqng==@protonmail.internalid>
+ <20260507-msm8939-venus-rfc-v5-4-d7b5ea2ce591@gmail.com>
 From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=bod@kernel.org; keydata=
@@ -117,28 +116,28 @@ Autocrypt: addr=bod@kernel.org; keydata=
  LKSGEglMpiX07M1AotgvylN5C8fjbouoK+/RAMsXkk8jba6rPfuuXPaDjCyyKn6zSVHETnHW
  3AJbgVY50T8STpnxayBQvWbCvu+6NOEjXCbyaOJig+5l0zlGN9XHjdANXC5HnwmyaGRL9YDq
  Jh2nVXVJDincOdQRdKcJjYLqaOAoWrYWSDi1iZGspHBTDrnOvfMQzzHY
-In-Reply-To: <20260507-msm8939-venus-rfc-v5-3-d7b5ea2ce591@gmail.com>
+In-Reply-To: <20260507-msm8939-venus-rfc-v5-4-d7b5ea2ce591@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4DD904E5AD6
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: A685A4E556F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60764-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60765-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,apitzsch.eu,baylibre.com,redhat.com];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
@@ -152,24 +151,21 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 X-Rspamd-Action: no action
 
 On 07/05/2026 09:32, Erikas Bitovtas wrote:
-> From: André Apitzsch <git@apitzsch.eu>
+> Enable Venus video encoder/decoder for Asus ZenFone 2 Laser/Selfie.
 > 
-> Enable the venus node so that the video encoder/decoder will start
-> working.
+> Default firmware paths work on Asus ZenFone 2 Laser/Selfie, which
+> means firmware-name property can be left out.
 > 
-> Default paths for firmware work on BQ Aquaris M5, which means
-> firmware-name property can be left out.
-> 
-> Signed-off-by: André Apitzsch <git@apitzsch.eu>
+> Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
 > ---
->   arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts | 8 ++++++++
+>   arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts | 8 ++++++++
 >   1 file changed, 8 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts b/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-> index 13422a19c26a..48514c3df718 100644
-> --- a/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-> +++ b/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-> @@ -314,6 +314,14 @@ &usb_hs_phy {
+> diff --git a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
+> index 90e966242720..231a3e9c1929 100644
+> --- a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
+> +++ b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
+> @@ -267,6 +267,14 @@ &usb_hs_phy {
 >   	extcon = <&usb_id>;
 >   };
 > 
