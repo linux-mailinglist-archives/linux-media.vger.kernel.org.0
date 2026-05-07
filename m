@@ -1,84 +1,93 @@
-Return-Path: <linux-media+bounces-60843-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60844-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IPcJIPXA/GnSTAAAu9opvQ
-	(envelope-from <linux-media+bounces-60843-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 18:42:29 +0200
+	id GBBtEE/E/GnSTAAAu9opvQ
+	(envelope-from <linux-media+bounces-60844-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 18:56:47 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B72B4EC5F4
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 18:42:28 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0752D4EC8A9
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 18:56:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8C0F4301BF4B
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 16:42:21 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 0DFE3301AA56
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 16:56:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69AD6428833;
-	Thu,  7 May 2026 16:42:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9F21451044;
+	Thu,  7 May 2026 16:56:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SYo6HLmc"
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="qL/Obi5d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7336F3BED23
-	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 16:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC7A3E6DED
+	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 16:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778172139; cv=none; b=aurwNlRUbMaGiGskViZ/dSzkICVgUj4qHKPVAFgaCVn+5wgCoozCI1zaa7OVAzkYWpPJuIxtWocHe5r86OY0S7r/HPQrr00GMXLH5Az2QNoYcauW3lzyWIH5fhZAB/SJZukcNcdJoKieNXM8MZJMMb/1A25wuEg+Ug6d2AmhLqg=
+	t=1778172977; cv=none; b=A9tDXJK98JjCkEi8YE+ij27FLME+RpfnDyUfWY6CRdT93uvbw0ZDM1eeZ2u2X0Jh2SLnj43NPRjQCCSOCBmjB6VvhKOYeaAgcXfuNvLJ/6tzcGfe6PBkbIpjjq6PUOC8JLCeL9HquPfbz+0Stv0qYtLLcImy2hF8tyy5SGFOcyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778172139; c=relaxed/simple;
-	bh=u3ror31K/SolR44VKWPc2Q+Mua5QNfnvH8pM9AFqtMo=;
+	s=arc-20240116; t=1778172977; c=relaxed/simple;
+	bh=+2wx6vKDw+c0VU0AZTmqbnZRdl3cwkeppMWHRhyO0Go=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Winw0YWnj8Z7FP4VLm2wLB97ZwIDZ9BE7ZQ/98vJXE+P4Km0vSK2Y+tlTJZcAHgZvBE+4g4BP+11jWmfAszDZPXr5MFxZMWwXElwCP5cz3IvlqVQGY9cFtAGrA103+dXVJnVWSrxSK1AJaca8r48rdoKTi5SXxMkY4XXZxiXQI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SYo6HLmc; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-453903ee4adso603687f8f.3
-        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 09:42:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778172137; x=1778776937; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DkH5pLwd4aVz/xgL9vdbm3vW9Cqx7RecqkkEDJ2Qoyw=;
-        b=SYo6HLmcA/7cUnwilfUm6/CtbKmXwozCBUWp2IaNRmX/NhSO0flDRhIVU40qmuDRXA
-         G6ax/sog78LNnmRqkSbUZ6fF6njKMC09dcMDFDgzOtjGJ9ZTP/m5OMEFlx9J8l7WWaOt
-         T7n1p1pfneAeSea3eYFItA9dSEoAZ98J/s2uI3wOzT2E3NQALy+C7ddDl8gJQoK1NUPb
-         l7KLUce7yWSiR/5LFiHRvfWefJt000+ijd8+2+9RBlekbob3rClAhbwcnNpKKZLj/5er
-         09IZaNNBTPDCmpfhglVhYoyX2ojRKjuMeFS/FtJr3yLRT4jZwO/ICnaqtx5uyP5oA8mu
-         ELlA==
+	 In-Reply-To:Content-Type; b=a/tZ2SyxTeSZWB0HU+320157lxDkGioCrQSBRPVjFTgSfk3jZLTfXMa7wb06uEpgtMY91BI5WhlVUMsXFhyT7oHfP8ROctr7IFaBKoUjNGVBcldzplFNUgLOyzxADyYvav09JArJkeY7TNZi7WeVNctEA5p2dPNnEnXhFqb9haM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=qL/Obi5d; arc=none smtp.client-ip=67.231.145.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 646M9uBL2489306
+	for <linux-media@vger.kernel.org>; Thu, 7 May 2026 09:56:15 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
+	 bh=AStKs7gIf+H7qi7ZzQdIOFiCgW57yK3MpNAkRUF2is0=; b=qL/Obi5dvBwt
+	i9c2sv9SNtqXpLw63YE0iVFyLwL6b4BaMhACgc6cvxDCuo+iXEgY5AqcK8DYXOfG
+	Oy2Cy3R2kU+21KVGKEdcKnO+JORfiteK8SES7tlFIxyrNJzXgNQnK5HgJvFp3gp9
+	ZnR3EfXRenjXlRDNZApwgtgRy4IabZdUKVivNibPvjxRcMi9IvB0Db0W3LQCsLet
+	oDdCWe82S8Q9Od6e/B0LJxAkBUtfBo3NK8J9ZB1phV+Om3BTlNLhHQh4kwQdPjrt
+	Yeq/XkO+njD2M7PWY6DdNkD4qHPoIjFPhOFiwolRaAFuyZWZzKXpW4t5P5TGgTnF
+	1qzC6F8MXg==
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4dwck21gj6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 07 May 2026 09:56:15 -0700 (PDT)
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-48d104d1d8aso5959295e9.3
+        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 09:56:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778172137; x=1778776937;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20251104; t=1778172974; x=1778777774;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DkH5pLwd4aVz/xgL9vdbm3vW9Cqx7RecqkkEDJ2Qoyw=;
-        b=SA1gyoLu3yd0G525KVfLDZ4OLKwG0XYJAL2A2a4YnYrjGGCGJvT0ZnyD20Nep8mypz
-         D4fUciAsSKix9gzSonooe1X6SJPmCg0NUprWNPZ8mdmERtKHk20UiXM/2ih3xaSLcFyd
-         XYjz8c9lCbAvUKR2bi88O0oM9R70u30ByKzmrA3hgoDXmGxXB8WJQ8d80YuJw5xa1fkz
-         Y8PpXBIekh9h/PN3XjUEQg+4Qkme2EFLqIJ4Ja455OToKmaWMHBKYJ9UrbgsX9yNY8+l
-         SKHneRI4SZ2lzqpAycKyFKB+S/ShNqIsdSCAcVW6a9+hqmwPdlTHpCe4p3Dc2ttMEFo1
-         oV6A==
-X-Forwarded-Encrypted: i=1; AFNElJ/oFq60MvMAMO56ZL1yvXqQwZ4x04dcu/pHW0hfLLTHT52KQwWYh41Ek+RRk0Sjq+2w/NUxUpSCxOqzAg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyH2+6CJQtAf44cZ8FVKcpO/ZJhR8y+C44BSbr0kDeW6Zv6Rl/K
-	w3nVgK8dnRRtKVZ/mVUiWGbfa8JcuaXYPkpUDO5nZDgFIAx9F3uyOvdY
-X-Gm-Gg: AeBDiev7vsgv7U/5bXfu+Sa69njpV9IvaeGJ0xqHcypdttvMnADLoj69KGBrfCWUIFn
-	wBUcRCHAnuQGTTxD534FSdRMg8fA5lIKCybRN0j22tdgB4QoPs4RCt3Yc05vB/DYteuGrMQgqCC
-	hAdNjtA+yQPVfkHQwASsax9UcbpMiWYIIbIhSAGlwBDiW9SUho8mWHtAnJJ8ANP7FCVIB+mi3Fx
-	Gi0/1ag0rfrLlFhkOZzGCheZe4MaI5PBG+VAYv99XB47jgEIakygax0fAKyVcOCjlvID4JOwID0
-	q4pD3J4CJObkIj5xA5/8ZtjxFzvYYQbdoMRCBNkM60Rt/AdD9XnbV3XjDPZpW0ebSh/PEm1r9AD
-	U5ai9OBp7br5zKXQlEmY1bxuQcIK+JAx4OhRfeDtNFFooOL2xNioFcb5fcHcu9YkkNNM2VOge85
-	xVf5EgcarMwD4Sw5WCmpSoOQ6pYQAQsSw864WYIYPHVME6bI+X8bZxvwkCxkO4RwFw6XUmAADT
-X-Received: by 2002:a5d:5f48:0:b0:43b:498f:dceb with SMTP id ffacd0b85a97d-4515b056b4dmr14242651f8f.9.1778172136625;
-        Thu, 07 May 2026 09:42:16 -0700 (PDT)
-Received: from ?IPV6:2a02:8109:8617:d700:d9bb:cdec:69e5:2f8e? ([2a02:8109:8617:d700:d9bb:cdec:69e5:2f8e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45412820340sm309996f8f.2.2026.05.07.09.42.15
+        bh=AStKs7gIf+H7qi7ZzQdIOFiCgW57yK3MpNAkRUF2is0=;
+        b=PP2q+jNS4TK5y47iYkk3qpn+gi3izUn2XDmkGcTCRDzMULw6FU2cKJIBPvLwEo6T9y
+         X4xV0du6169gW2Hj1+e7/kpGmfY848TovwmLu6KasbTM+5FRWmV92RPrVERbb505lEqE
+         oZ79+D4tt2YzQqjI0EBjCEu8P0x94Xl45d/LnKDo1+aWtrHJKNVDKWcklCDx3wk2Ikld
+         aX9xwNGaRDm35dW0lIf8htfhEuHPZuGxxiSUGNci6bXOsmiphElZyO3qGIwP0mOIKhCR
+         dODEci0kEbX4MD3cxjxqEWCQ2hoHPBHRw0y+ED8mRurQ0IMB4yRB/7PiF6xe8sQYO8KP
+         3FLg==
+X-Forwarded-Encrypted: i=1; AFNElJ/sddURnv5g7e2Vzv21Tc6QrH8CEVwb1EU+Pb4Nm1TRkJqfuYYumZZlLm3AB5PjekHyaYVy6fFG3Ec4XA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/dz7dlKTl0L9JSDglEuEHvLL+MLIsAXcBvda4DTQjAlMU/6f0
+	2Qu6P6LrmyKBOLQBg/g2vo82eqnTrhtb5JyfFOeIvUKwKpw+Y2xaAg9/VxrV+NZ5HAILGfzedlD
+	sckuzp83SislGfKpPhm9YoMiOuBQ2lO/8nIz5L69Hsav6PqyDYEtQ04QLzdknMPE=
+X-Gm-Gg: AeBDieue78V0RBt1ztRmIkhSRK9TQYPbW7OX3vHdrXAuCyOhkj+h0kA/MgIv0VyOV4b
+	6i04ruzwYrx4OuBZzpgL8Gs+blJ1X/Snb0PoZ1//VUitmXfr1/SQLQ5RJA65oj+hV/nDRJjJPvY
+	hOgGZHyyT4dGkXxmoTFYw2Zy5ddEqOKCt2ca/7fZaeBE1rtJgCBIDOwvX/5wa6m5/NIoRuPc2gr
+	ga09Tel1JtbOde0eZjd+T/h/hivJz3ak/vsLppkMztTTrduq2LxX6gf0qHTJtg9Lf1T4bIO0tVE
+	jj/D8pXQexKWG2D+6i7w0CPNIudEjuecJKXcdLvbBMAwCG6DN8JiG741kMdClXeeRJ6kW89hvDg
+	jyLULQSo6ino+sk6CMc+l8lGXFOcLlZa/CXHGQal9P3MWiU0DsmiC7VYW2WOxvXtJoz4B9oLpoV
+	bpQPuRo3JJ6w2nV0VytBBQFmnauJi6EPlJd3SV1HyeTqRUUCzsg2JA6CT/CceLKwG2VxkMBYLtI
+	5geTjMBfziHxbs/6XRId6o=
+X-Received: by 2002:a05:600c:4e0c:b0:48a:55d8:7882 with SMTP id 5b1f17b1804b1-48e51e16e58mr154923265e9.9.1778172973516;
+        Thu, 07 May 2026 09:56:13 -0700 (PDT)
+X-Received: by 2002:a05:600c:4e0c:b0:48a:55d8:7882 with SMTP id 5b1f17b1804b1-48e51e16e58mr154922585e9.9.1778172973017;
+        Thu, 07 May 2026 09:56:13 -0700 (PDT)
+Received: from ?IPV6:2001:8b0:8b6:13d4:102e:f2af:e074:5cde? (e.d.c.5.4.7.0.e.f.a.2.f.e.2.0.1.4.d.3.1.6.b.8.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:8b6:13d4:102e:f2af:e074:5cde])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e642f8d32sm369175e9.25.2026.05.07.09.56.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 May 2026 09:42:16 -0700 (PDT)
-Message-ID: <7a353450-770a-4820-ad23-8066b736d87e@gmail.com>
-Date: Thu, 7 May 2026 18:42:15 +0200
+        Thu, 07 May 2026 09:56:12 -0700 (PDT)
+Message-ID: <7d370a5d-3730-42f0-8656-14ad9c0da682@meta.com>
+Date: Thu, 7 May 2026 17:56:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,106 +95,152 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] media: i2c: alvium: Fix controls for WB/AWB
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: martin.hecht@avnet.eu, michael.roeder@avnet.eu, stable@vger.kernel.org,
- Tommaso Merciai <tomm.merciai@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260505142513.1551721-1-mhecht73@gmail.com>
- <afsJz1vVdd3o-pe9@kekkonen.localdomain>
- <37aa90a3-7909-4605-a0be-1545db1fadb0@gmail.com>
- <afsh2tmV5AFlMCML@kekkonen.localdomain>
-Content-Language: en-US
-From: Martin Hecht <mhecht73@gmail.com>
-In-Reply-To: <afsh2tmV5AFlMCML@kekkonen.localdomain>
+Subject: Re: [PATCH 5/9] vfio/pci: Provide a user-facing name for BAR mappings
+Content-Language: en-GB
+To: Alex Williamson <alex@shazbot.org>
+Cc: Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
+        Alex Mastro <amastro@fb.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+        Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+ <bjorn@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Kevin Tian <kevin.tian@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
+        Pranjal Shrivastava <praan@google.com>,
+        Alistair Popple
+ <apopple@nvidia.com>,
+        Vivek Kasireddy <vivek.kasireddy@intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        kvm@vger.kernel.org
+References: <20260416131815.2729131-1-mattev@meta.com>
+ <20260416131815.2729131-6-mattev@meta.com>
+ <20260501164430.5d3ea683@shazbot.org>
+From: Matt Evans <mattev@meta.com>
+In-Reply-To: <20260501164430.5d3ea683@shazbot.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 0B72B4EC5F4
+X-Proofpoint-ORIG-GUID: 3BY5OVHOWjKUggjlmG5Z_K7tUfymrh01
+X-Proofpoint-GUID: 3BY5OVHOWjKUggjlmG5Z_K7tUfymrh01
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDE3MCBTYWx0ZWRfX06F43wgT+0MZ
+ ONN+yv3rEfmmFvWucHmv2iV3MXTMvBhtmWmLH339fI7bSwakJ5dqhpx2H4RbIVzl/FcQEHPuW1M
+ 7pnSor86vYfb1Gk21qHtn/qRET2xnrmu6sa34Nro6pns3veFFUxdBFWYZDjr4VBIkRjnNSNTWMp
+ jAUfnewXp0mgVr1fdNRRdt7PI5W4HM9/umXmXMJV2iAai1L+/JI6X4UFZn6A3DdslNvBjz8WKBt
+ 4XyKAUfri7zlJLNsEu4AvRkmbsVGAslvaFbYsZFHnQAfpNaWCOJNmCmwJY2IcLRiyR2GTGAWrLP
+ 0fp6fZf3SZ8nhTvA3mrodGrvuYrhFg1AcNN6HBid4kb5zVNo+qzIbur2+g5Hr2JOTQHihKo71dT
+ qXwdyHoO3qYC84PG4U11Adx74CoSePH3eKVVTtfpc+1fPPnUKob4OZpDFeb5NBtoZcrVY3Bv2PP
+ /pjmKEZKL5q8koWRkcw==
+X-Authority-Analysis: v=2.4 cv=Pu+jqQM3 c=1 sm=1 tr=0 ts=69fcc42f cx=c_pps
+ a=ocXdEHcuFBd2kx0v6vcWqw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=8elwO82fXORLTBIkMd32:22 a=VwQbUJbxAAAA:8 a=VabnemYjAAAA:8
+ a=L20xLjZDwgROH_O_AugA:9 a=QEXdDO2ut3YA:10 a=XRP02QYyWapGEjE7oHHB:22
+ a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-07_02,2026-05-06_01,2025-10-01_01
+X-Rspamd-Queue-Id: 0752D4EC8A9
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[meta.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[meta.com:s=s2048-2025-q2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FREEMAIL_CC(0.00)[avnet.eu,vger.kernel.org,gmail.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-60844-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60843-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[meta.com:+];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mhecht73@gmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[mattev@meta.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-Hi,
+Hi Alex,
 
-that patch has been superseded by patch 
-20260507163443.39794-1-mhecht73@gmail.com what addresses more critical 
-issues.
-
-Martin
-
-On 5/6/26 13:11, Sakari Ailus wrote:
-> Hi Martin,
+On 01/05/2026 23:44, Alex Williamson wrote:
 > 
-> On Wed, May 06, 2026 at 12:16:13PM +0200, Martin Hecht wrote:
->> Hi Sakari,
->>
->> thank you for the comments.
->>
->> On 5/6/26 11:28, Sakari Ailus wrote:
->>> Hi Martin,
->>>
->>> Thanks for the patch.
->>>
->>> On Tue, May 05, 2026 at 04:25:10PM +0200, Martin Hecht wrote:
->>>> With that patch the controls for red-balance and blue-balance were created
->>>> only if the particular camera supports that. Otherwise the pointers on
->>>> the control variable are initialized with NULL to prevent side effects for
->>>> clustering with AWB control.
->>>>
->>>> Fixes: 0a7af872915e ("media: i2c: Add support for alvium camera")
->>>> Signed-off-by: Martin Hecht <mhecht73@gmail.com>
->>>> ---
->>>>    drivers/media/i2c/alvium-csi2.c | 37 ++++++++++++++++++++-------------
->>>>    1 file changed, 22 insertions(+), 15 deletions(-)
->>>>
->>>> diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
->>>> index b62b45a4f2fc..4c6934e9e177 100644
->>>> --- a/drivers/media/i2c/alvium-csi2.c
->>>> +++ b/drivers/media/i2c/alvium-csi2.c
->>>> @@ -2108,26 +2108,33 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
->>>>    						  0, 0, &alvium->link_freq);
->>>>    	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>>
->>> This is a problem. Can you move setting the flags after checking the
->>> handler's error status? The functions adding controls may fail and this is
->>> simply a missing error check.
->>>
->>> Can you submit a fix, with a Fixes: tag and this patch should be rebased on
->>> the fix, please?
->>
->> I'm preparing a separate fix for that issue. It's the same situation also
->> for some other controls like pixel_rate and link_frequency but not only. Can
->> I combine that into one patch for fix only that in alvium_ctrl_init?
+> On Thu, 16 Apr 2026 06:17:48 -0700
+> Matt Evans <mattev@meta.com> wrote:
 > 
-> Please do.
+>> Since converting BAR mmap()s to using DMABUFs, we lose the original
+>> device path in /proc/<pid>/maps, lsof, etc.  Generate a debug-oriented
+>> synthetic 'filename' based on the cdev, plus BDF, plus resource index.
+>>
+>> This applies only to BAR mappings via the VFIO device fd, as
+>> explicitly-exported DMABUFs are named by userspace via the
+>> DMA_BUF_SET_NAME ioctl.
+>>
+>> Signed-off-by: Matt Evans <mattev@meta.com>
+>> ---
+>>   drivers/vfio/pci/vfio_pci_dmabuf.c | 27 +++++++++++++++++++++++++--
+>>   1 file changed, 25 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+>> index a12432825e5e..04c7733fe712 100644
+>> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+>> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+>> @@ -4,6 +4,7 @@
+>>   #include <linux/dma-buf-mapping.h>
+>>   #include <linux/pci-p2pdma.h>
+>>   #include <linux/dma-resv.h>
+>> +#include <uapi/linux/dma-buf.h>
+>>   
+>>   #include "vfio_pci_priv.h"
+>>   
+>> @@ -467,6 +468,7 @@ int vfio_pci_core_mmap_prep_dmabuf(struct vfio_pci_core_device *vdev,
+>>   {
+>>   	struct vfio_pci_dma_buf *priv;
+>>   	const unsigned int nr_ranges = 1;
+>> +	char *bufname;
+>>   	int ret;
+>>   
+>>   	priv = kzalloc_obj(*priv);
+>> @@ -479,6 +481,20 @@ int vfio_pci_core_mmap_prep_dmabuf(struct vfio_pci_core_device *vdev,
+>>   		goto err_free_priv;
+>>   	}
+>>   
+>> +	bufname = kzalloc(DMA_BUF_NAME_LEN, GFP_KERNEL);
+>> +	if (!bufname) {
+>> +		ret = -ENOMEM;
+>> +		goto err_free_phys;
+>> +	}
+>> +
+>> +	/*
+>> +	 * Maximum size of the friendly debug name is
+>> +	 * vfio1234567890:ffff:ff:3f.7-9 = 30, which fits within
+>> +	 * DMA_BUF_NAME_LEN.
+>> +	 */
+>> +	snprintf(bufname, DMA_BUF_NAME_LEN, "%s:%s/%x",
+>> +		 dev_name(&vdev->vdev.device), pci_name(vdev->pdev), res_index);
 > 
+> Comment suggests 9 is the max res_index that can be printed, but mmap
+> only directly supports standard BARs 0-5.  Comment also uses a '-'
+> while the code uses a '/'.  Thanks,
 
+Right you are.  Fixed, but, since...
+https://lore.kernel.org/kvm/52162da4-e1cc-4f90-a95a-218d6089cd71@meta.com/
+
+...I'm keeping the resource index encoded in the vm_pgoffs and as that's
+in /proc/<pid>/maps it doesn't need to be in the name. I.e., an example
+mapping of BAR 2 looks like:
+
+ffffa9330000-ffffad300000 rw-s 20000030000 00:0b 12 /dmabuf:vfio0:0000:00:03.0
+
+Thanks,
+
+Matt
 
