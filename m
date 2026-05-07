@@ -1,219 +1,203 @@
-Return-Path: <linux-media+bounces-60882-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60883-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CDyADgsg/WlTYAAAu9opvQ
-	(envelope-from <linux-media+bounces-60882-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 01:28:11 +0200
+	id KEHVL8sh/WmGYAAAu9opvQ
+	(envelope-from <linux-media+bounces-60883-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 01:35:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F170C4F0151
-	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 01:28:09 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF8C4F025D
+	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 01:35:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B54433046E99
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 23:27:31 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 98F443047755
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 23:35:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C464D35DA56;
-	Thu,  7 May 2026 23:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="o2PziQfx"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88375372691;
+	Thu,  7 May 2026 23:35:24 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27DC2C21C5
-	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 23:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FEC34F27B
+	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 23:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778196450; cv=none; b=sA1kGoRZAFK3dwnY+xZl20QUHrVd/8uKzzSb/rXdfx7BTkEJFuUeklgVqKG9oyBSyQdNc1U8qwsNW/J09nXJV28wSLorA33Bq1xRKqVKFnE2MBUvTzhrbUmaBJuakki8mzFBe8pg+Pv73Y37TLIAFbYhQ2meg7Qxeb8aFXySD74=
+	t=1778196924; cv=none; b=QdMvUb1wdo2wHu7cNU/kmZsg6wGrwSzhsTK2QQIJcBeh39puXChJqWCszF5Rww74rf88UspzXNY0rz6QuHL30AA6QoC4qucraOi4ToxIwj0Gl7glDk8VL5ZMAPxj9TFMLWr9RpRPzP9R9lx7IFBoUSZ/rv+xmHPnaJR0q2+IJLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778196450; c=relaxed/simple;
-	bh=yL3ozqXIvNHQL09rzJqznkF0RKFhQNFidnZSc4uHoEg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=H9kPUZi0em/nbez8+PDWxZf3q27xboQmctW9hCtD4dYl2gX3pWF4nNCX9gGzWH0ZAj3g0TzxaCr3qSnobKNpORz5rLcvLO1oeytvLrBpb9dZ9/PyoMW4fdonZ+huFeHeL6J7eu4WQaBZEisbnfN4KJNHkjuLaXMdJ29tLfvswfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=o2PziQfx; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-8acb09ddbf6so19795686d6.2
-        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 16:27:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1778196448; x=1778801248; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=b6U2uX4TwvjS/3Q0UsrL7npn0f3jqdHzvW4G7Vy/bgI=;
-        b=o2PziQfxEBqYHyZYXBh+8XjFezWv8IHNgKmoRh+JnwZwuZTHtO6zayqMaaRvBjE0hx
-         bZYSyknVQt6UwbtmXxFkMAI9SmZiudgFAejZmKXggycy4ICx1irhykzBh77CJ1CW5uTA
-         1u9z7pijicY5JyZxUxbUwEM9iCz54Ny5lR0hKWxpH2UWOSWcLUtCAA811/Zm5YO+NOoY
-         jBolf7AuNEVJ0+8R6+jn4CSUBqG4p0dsA/DNue2WSq+iYsF5XSAPIoffv8wUIPMcEQqS
-         Hlp3zv+vbA2Q71BiAS/CaeFjSV/ZGoQfWoFl3la/3eGNSkeZf8AVi2FAJBHnpcUCIrRu
-         eCXA==
+	s=arc-20240116; t=1778196924; c=relaxed/simple;
+	bh=0jcXSgK9EzbfmTGwMq5P+fViuFcffSQgIB4fQNAs8q4=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=qhzVPzXGioZ1woVQRgZ+MSGDnEzGIER+hisnM8NkOt3t1ArRs2stH3OICYc3i72daGpH2Kia9t81r3TD/h+C1lk3Lbc2hP5Vt8RwQv0UWbg1/rY1RBqJONB6OMVK6HZ6vDYatatlVdMNCLvoSXfpKaQUW+zGDJOxJlQTwJMEzkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-6963482e03dso1919137eaf.3
+        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 16:35:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778196448; x=1778801248;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b6U2uX4TwvjS/3Q0UsrL7npn0f3jqdHzvW4G7Vy/bgI=;
-        b=g9BMx+w0sZ+khPfOlAr0M+kG64nixuikD5MogLA4mv+fEr2e2jh5zkXOuVracwJTbr
-         Twvda44PNLNlv9/evdxPE0y5QJT7BZk/8Il1B1uqBMmQyCjyf6vRnOqqNBdDKEeNIZ40
-         Q9Mgfn9robapvJvuIhL5rS+qU4n4WD9EKLyfvxD8VSEtclfBRH9+yiUDGpg8IlAg2hDL
-         WJ2EHJUU/W06REttPB0r0yWem7AuT0ubGh0A0w5/SHGzXe+rTUYM4Jf+ttT26IyCwCSE
-         UCQ+wpKB33qFxwmbqcNkP3UezdXFodyy77AgA+cSF+zzI0xj7iwzR3bEZd+FLcsE8fHR
-         Di3A==
-X-Gm-Message-State: AOJu0YzjfstxlmyD8h9xzRK6mF9uw4PGlMZK/GFUNexcOLT4f6VdaaML
-	XGONKSj2NQB029IXKyca5mDzB86nibB4w9mvyQ4sQG50591bWo9HTa0eN47Y4ff0cXKpd/44lHu
-	v8GJ2aVif+A==
-X-Gm-Gg: Acq92OHfav8KgSsmhUqH4eY7OwaO+7W9+nE1CL3KT7Rg4lIXhZQxNV3ltKZ3wv8gE52
-	5MGCRF7J/uqTqnsJxtEokQue/XruOPxIusqA0ZyB+h1Hdj7cn/lPhlCanp2l8OoW20u9M+jE5MQ
-	oGAsPtFojKFEiY8g8LhUkbqII4nMwiQunBdA4d4ri2Q9ilVQeTB2cbfx7+HSdB69QZLA6hrpcQv
-	I/9sKh7+Q4/H4X+PCru3I+t2abczgJXwlN+3+GHg5/yacCaMHZ0UztmElPtoPHO4P3LzcCTMFwQ
-	9q58hSRnMT6sw5WsDngqawnKOSKPb+iDRv6ZwndRgzt6s1G/wk8mmGlla+FsHJPq+g5N2u/hWqB
-	g5d5oguNwAhXt2z8UW9art1UrSmj2K5LYnhK+avJnSlH7ToSpnR7Yt6+bGJL7wtHtfE5Gk9nlCJ
-	/CGnpFfx4EumCVQmVHVyfp4t1AS7j3
-X-Received: by 2002:a05:6214:627:b0:8ac:a689:34ce with SMTP id 6a1803df08f44-8bc4600fe8bmr158890996d6.45.1778196447798;
-        Thu, 07 May 2026 16:27:27 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:e06b::c41? ([2606:6d00:15:e06b::c41])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8bf3a43636fsm2179986d6.21.2026.05.07.16.27.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 16:27:26 -0700 (PDT)
-Message-ID: <2e891600319c2fd4219ed32d884c2b5bd975c3d0.camel@ndufresne.ca>
-Subject: Re: [PATCH v4 4/6] media: chips-media: wave5: Add range checks for
- dec_output_info
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Ricardo Ribalda <ribalda@chromium.org>, Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-  Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil
- <hverkuil@kernel.org>, Nas Chung	 <nas.chung@chipsnmedia.com>, Jackson Lee
- <jackson.lee@chipsnmedia.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Keke Li <keke.li@amlogic.com>, Yong Zhi
- <yong.zhi@intel.com>,  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, Mauro Carvalho Chehab
- <mchehab+samsung@kernel.org>
-Date: Thu, 07 May 2026 19:27:24 -0400
-In-Reply-To: <20260507-smatch-7-1-v4-4-cc195f142167@chromium.org>
-References: <20260507-smatch-7-1-v4-0-cc195f142167@chromium.org>
-	 <20260507-smatch-7-1-v4-4-cc195f142167@chromium.org>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-kS8qr0UdOx8Un+zOSSmW"
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+        d=1e100.net; s=20251104; t=1778196922; x=1778801722;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wTkF5cAciGoUUa9iLMmC3lX7goyt44Nm5xF/oDm9lMk=;
+        b=NZxpo+MXk0bDHLxNzxD0HjrPbHyrvbv8Ecf35as6ltT04wknpDyA95+6j8Gzp19ev8
+         R2TinI8dOXtVqYSnoZhEe7PmI4NoMLA9C+/uisD6L6arK4MDRFlEnjSmeKQz2GJYR6JY
+         Eidv0aQlT++MmCIOdWUL+N2vl+05qw3tcAsjYCFFtt8oQnNKTkldRmzzRXecFm3zWTn/
+         L5Dixtk1Ic2X+rXEzCvh1mrr2wta+poDoX2ZiXavWd4PLXol23FZbmBREBpzqn8EBEDM
+         v/UzT2af/iCI9y00nefsMepyWkiM9GM33V76EPmq7cUG+VEPjyNVC6PyaZ6ltL3w6K24
+         Zigw==
+X-Forwarded-Encrypted: i=1; AFNElJ+iTZZuJ4FPrODsjqLUs/V9vIS1LfXZVg9+qqxbe+GBVv57aBKO5sc/FpnyHDSLc18egGA8l6CPcOg1mw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8x4B9t+3wH+9eqakmtmPwtQXjJgrS1eu4XF+Ub+sCuNRhRYDk
+	xV8LG0ukOTZ0WiRIuj0AaBwPu0YnHhYCNld6kXfxgLexjp0hUpSVHHyYQhWtcJQKnnyUtuXv+Zv
+	4pP4ZYiTTg7r4Zkk7gWLac6p+VXtA3QbnxE3cy4LzBaQuZtMkq6fJjKWHSVg=
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: F170C4F0151
+X-Received: by 2002:a05:6820:2d05:b0:696:7d51:79dd with SMTP id
+ 006d021491bc7-69998d175eamr5444927eaf.28.1778196921815; Thu, 07 May 2026
+ 16:35:21 -0700 (PDT)
+Date: Thu, 07 May 2026 16:35:21 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69fd21b9.050a0220.3cf765.0360.GAE@google.com>
+Subject: [syzbot] [dri?] [media?] WARNING in dma_resv_add_fence
+From: syzbot <syzbot+72bd3dd3a5d5f39a0271@syzkaller.appspotmail.com>
+To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 3BF8C4F025D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=59da38148f3a3d24];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60882-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TAGGED_FROM(0.00)[bounces-60883-lists,linux-media=lfdr.de,72bd3dd3a5d5f39a0271];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,googlegroups.com:email,goo.gl:url,storage.googleapis.com:url,syzkaller.appspot.com:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
+	REDIRECTOR_URL(0.00)[goo.gl];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_NONE(0.00)[];
+	R_DKIM_NA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,samsung];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,chromium.org:email,ndufresne.ca:mid,ndufresne-ca.20251104.gappssmtp.com:dkim]
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	SUBJECT_HAS_QUESTION(0.00)[]
 X-Rspamd-Action: no action
 
+Hello,
 
---=-kS8qr0UdOx8Un+zOSSmW
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+syzbot found the following issue on:
 
-Le jeudi 07 mai 2026 =C3=A0 20:58 +0000, Ricardo Ribalda a =C3=A9crit=C2=A0=
-:
-> If the driver's dec_output_info contains invalid data the driver can
-> write in invalid memory. Add a range check for that.
->=20
-> This fixes this smatch error:
-> drivers/media/platform/chips-media/wave5/wave5-vpuapi.c:588
-> wave5_vpu_dec_get_output_info() error: buffer overflow 'inst->frame_buf' =
-64 <=3D
-> 127
->=20
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+HEAD commit:    fcee7d82f27d Merge tag 'net-7.1-rc3' of git://git.kernel.o..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1107ddba580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=59da38148f3a3d24
+dashboard link: https://syzkaller.appspot.com/bug?extid=72bd3dd3a5d5f39a0271
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13dfca73980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1599bb26580000
 
-It theoretical, but considering its a warn_on, I'm fine with it.
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-fcee7d82.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a5dee9aef2ac/vmlinux-fcee7d82.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/7b1a8dd09a15/bzImage-fcee7d82.xz
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+72bd3dd3a5d5f39a0271@syzkaller.appspotmail.com
 
-> ---
-> =C2=A0drivers/media/platform/chips-media/wave5/wave5-vpuapi.c | 11 ++++++=
-+++--
-> =C2=A01 file changed, 9 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> index d26ffc942219..f77abd5e122a 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> @@ -584,8 +584,15 @@ int wave5_vpu_dec_get_output_info(struct vpu_instanc=
-e
-> *inst, struct dec_output_i
-> =C2=A0		p_dec_info->num_of_decoding_fbs : p_dec_info-
-> >num_of_display_fbs;
-> =C2=A0
-> =C2=A0	if (info->index_frame_display >=3D 0 &&
-> -	=C2=A0=C2=A0=C2=A0 info->index_frame_display < (int)max_dec_index)
-> -		info->disp_frame =3D inst->frame_buf[val + info-
-> >index_frame_display];
-> +	=C2=A0=C2=A0=C2=A0 info->index_frame_display < (int)max_dec_index) {
-> +		u32 idx =3D val + info->index_frame_display;
-> +
-> +		if (WARN_ON(idx >=3D MAX_REG_FRAME)) {
-> +			ret =3D -EINVAL;
-> +			goto err_out;
-> +		}
-> +		info->disp_frame =3D inst->frame_buf[idx];
-> +	}
-> =C2=A0
-> =C2=A0	info->rd_ptr =3D p_dec_info->stream_rd_ptr;
-> =C2=A0	info->wr_ptr =3D p_dec_info->stream_wr_ptr;
+R13: 00007f7755215fac R14: 00007f7755215fa0 R15: 00007f7755215fa0
+ </TASK>
+------------[ cut here ]------------
+debug_locks && !(lock_is_held(&(&(obj)->lock.base)->dep_map) != 0)
+WARNING: drivers/dma-buf/dma-resv.c:296 at dma_resv_add_fence+0x71e/0x840 drivers/dma-buf/dma-resv.c:296, CPU#2: syz.0.17/5919
+Modules linked in:
+CPU: 2 UID: 0 PID: 5919 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:dma_resv_add_fence+0x71e/0x840 drivers/dma-buf/dma-resv.c:296
+Code: 44 24 08 be ff ff ff ff 48 8d 78 60 e8 db 3b 33 05 31 ff 89 c3 89 c6 e8 e0 58 b1 fb 85 db 0f 85 26 fa ff ff e8 23 5e b1 fb 90 <0f> 0b 90 e9 18 fa ff ff e8 15 5e b1 fb be 03 00 00 00 4c 89 e7 e8
+RSP: 0018:ffffc9000448f168 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff865734f0
+RDX: ffff8880261ea500 RSI: ffffffff865734fd RDI: ffff8880261ea500
+RBP: ffff88802d439f70 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000001 R12: ffff88802d439f00
+R13: ffff88802d439f00 R14: 1ffff92000891e39 R15: ffff88802853e800
+FS:  00005555690ac500(0000) GS:ffff8880d6572000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b32a63fff CR3: 000000003fb78000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ virtio_gpu_array_add_fence+0xcd/0x140 drivers/gpu/drm/virtio/virtgpu_gem.c:257
+ virtio_gpu_queue_ctrl_sgs drivers/gpu/drm/virtio/virtgpu_vq.c:410 [inline]
+ virtio_gpu_queue_fenced_ctrl_buffer+0x578/0xfb0 drivers/gpu/drm/virtio/virtgpu_vq.c:500
+ virtio_gpu_cursor_plane_update+0x411/0xbc0 drivers/gpu/drm/virtio/virtgpu_plane.c:463
+ drm_atomic_helper_commit_planes+0x497/0xf10 drivers/gpu/drm/drm_atomic_helper.c:3038
+ drm_atomic_helper_commit_tail+0x7f/0x130 drivers/gpu/drm/drm_atomic_helper.c:1989
+ commit_tail+0x338/0x430 drivers/gpu/drm/drm_atomic_helper.c:2074
+ drm_atomic_helper_commit+0x303/0x380 drivers/gpu/drm/drm_atomic_helper.c:2312
+ drm_atomic_commit+0x230/0x300 drivers/gpu/drm/drm_atomic.c:1789
+ drm_atomic_helper_update_plane+0x314/0x400 drivers/gpu/drm/drm_atomic_helper.c:3438
+ __setplane_atomic+0x22d/0x350 drivers/gpu/drm/drm_plane.c:1101
+ drm_mode_cursor_universal+0x5e9/0xe20 drivers/gpu/drm/drm_plane.c:1256
+ drm_mode_cursor_common+0x308/0x970 drivers/gpu/drm/drm_plane.c:1315
+ drm_mode_cursor_ioctl+0xd4/0x110 drivers/gpu/drm/drm_plane.c:1365
+ drm_ioctl_kernel+0x1f3/0x3e0 drivers/gpu/drm/drm_ioctl.c:804
+ drm_ioctl+0x5e6/0xc60 drivers/gpu/drm/drm_ioctl.c:901
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl fs/ioctl.c:583 [inline]
+ __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x10b/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7754f9cdd9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd0c03a0b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f7755215fa0 RCX: 00007f7754f9cdd9
+RDX: 0000200000000100 RSI: 00000000c01c64a3 RDI: 0000000000000003
+RBP: 00007ffd0c03a120 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000002
+R13: 00007f7755215fac R14: 00007f7755215fa0 R15: 00007f7755215fa0
+ </TASK>
 
---=-kS8qr0UdOx8Un+zOSSmW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
 
------BEGIN PGP SIGNATURE-----
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaf0f3AAKCRDZQZRRKWBy
-9CNGAP9gRqo81pnTjYo/Dv0B+1g35GzQWjGMHtczGWARA6nZpQEAt4GJoVEZNftD
-pcOsX6aYlBZ5WpmmaVt+Vnn1wqk5ZAg=
-=l+59
------END PGP SIGNATURE-----
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
---=-kS8qr0UdOx8Un+zOSSmW--
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
