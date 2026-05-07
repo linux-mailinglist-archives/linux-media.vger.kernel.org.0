@@ -1,268 +1,458 @@
-Return-Path: <linux-media+bounces-60781-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60782-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UOjRLCp5/GkQQgAAu9opvQ
-	(envelope-from <linux-media+bounces-60781-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 13:36:10 +0200
+	id uFmAJ6x+/GnXQgAAu9opvQ
+	(envelope-from <linux-media+bounces-60782-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 13:59:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584DB4E78CD
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 13:36:09 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BB64E7E32
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 13:59:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 981163024A17
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 11:36:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EF112302F0E1
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 11:50:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9513B3E866D;
-	Thu,  7 May 2026 11:35:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB9E53ED5A3;
+	Thu,  7 May 2026 11:50:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="eZgwNX7W"
+	dkim=pass (2048-bit key) header.d=edgeble-ai.20251104.gappssmtp.com header.i=@edgeble-ai.20251104.gappssmtp.com header.b="DzJSxsSN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010064.outbound.protection.outlook.com [52.101.201.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD173DCD88;
-	Thu,  7 May 2026 11:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9323EBF36
+	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 11:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.174
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778153756; cv=fail; b=UdqmZ8DQiAIa3HTsLtWzsl6ca5EsjGVJrbfmwRNgNWkxF0lHdnsdOV7d9VmN3q9fYxrmqcUXwnv/x+GpxQsp5jYWAj4WJf8Rsv2uft1AFwi8dravT3Hv6YPrH1YY5NjG5EtSscrM4HdShMGKWo3mQcXSI5+/+7/ws9joVw9DZvY=
+	t=1778154634; cv=pass; b=St0oiC4nmX6Tw+FkqJTCELmAbu0G4Zv/RCgMaQd5xguvEC4saU9Kh9oGXdBofPHYjk2V70TWYAhyRK4pQ8jkADFNgH9W07ELFNYR9j3zi8pQsSM2qc0jF+6l7c9JvTzM8V0MfKV5Fo0aZYdcmZxx/VuNoYdE0cJlq0+VcDm+xwM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778153756; c=relaxed/simple;
-	bh=9xUUXI9or4CYy3J4FtjJOd6IG1/4viHpa7PprGt99m0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Nt2QcFSSXLfDHmGTSkXF9YBFGUK+1a19y3PNfFCtpddJK/z7o2wfne6Xwkue4nuFIpkwP0X24wdWZK1XJ3vNr1VyagT8O4EQ208Pw5H/Rt4gKuueBxi9nQHB3skXydr6jibKCoYoXxdvvmeobFiME5b4oAqTHfnm9O5K4o/3bfQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=eZgwNX7W; arc=fail smtp.client-ip=52.101.201.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cCV76/VbIpeabubopHgNT5KmDt/N0e1pLQihRJsumL1QE5tiSq3BjHle2fhE0ZpxezsLdB5Xlg3J2BYxphn3o57gIek2GcrefcBKDES60Lw2ev2wm02QQ3x7b5NR0bXFOUlCNdRaFXwH7Ku7wvTJKxj1iHQe6UvCU/pKNs85jqkpJa2fkHxAtElWaXLDGBmYg8IcDTvKtbsII0O2l1opcB+ZSL+0t2fL1hHdcdlpTDFPoVshL+e9QGGWfydDk8r7+YvuV1k7vx7cq95Q5sBFf+CgJ7BrihAEtQe6x1FP6TlmhO2eZ+K5VR1CoQxl7xTX+ngHKBAErIxeH84Fkm6xiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3tZ9Df+6xyGXnbdwce84lyz3ti1TvdAdikpWhLyEGoM=;
- b=UUWC69Mvo5Ikab51eHRKkySwZ90Ip+Q7C6aQW9jtBfNg5sjIzJVwO1JoYskeNFaeCmjUy4H8uu6Yonef54SytoARJVtdKVS2ia737ZLAeK1pUUS16y4S+w0Y6oEx/KYWe25jkuGdAW/Md23ex1LCfMLunKhQG/MKVTDAfFiqc/w5yCEkIWCXjrjqaZFhE7ONPjNsv9/PrzhboVetaZuTnoEogoAsH2SC7lggX4GpZyuhJss0cNjEYaxkXuheEKpqjEzradTYz4kxiYHS/vqMqHj/Cd5HnnDGow8skG1LtTKTfJqpHXhrHvYU9Sdc1dF5OIJjrnMUc5T9xliIppCqjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3tZ9Df+6xyGXnbdwce84lyz3ti1TvdAdikpWhLyEGoM=;
- b=eZgwNX7W9Dkxu39b+Fd8VTZjllf5vKg1bQpN2eJBi7ZOviYqI2d5kuhG5NB/Zx9+e74+NXTEWRO+CoabCK2wYvM9hRwYVZjNutiw9XT9uOsLwLZ9raIPHTycbRDrArC2VVplshrdbSE++Gp+pEFh1IW8wA5dtHJYOQEm++lpLVs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW4PR12MB6949.namprd12.prod.outlook.com (2603:10b6:303:208::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.18; Thu, 7 May
- 2026 11:35:51 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9870.023; Thu, 7 May 2026
- 11:35:50 +0000
-Message-ID: <b9c1b7a3-12a8-4104-b98f-a1e57b343046@amd.com>
-Date: Thu, 7 May 2026 13:35:44 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: Regression due to /sys/kernel/dmabuf/buffers removal
-To: "T.J. Mercier" <tjmercier@google.com>, Julian Orth <ju.orth@gmail.com>
-Cc: corbet@lwn.net, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>
-References: <CAHijbEXhuVRgkkPA2dAC=njGBU7vpAbxAbsSmxvvPznO-ckVRA@mail.gmail.com>
- <cf945dda-f526-4544-bc43-22f70acb28f5@amd.com>
- <CAHijbEXQfm4QDDfo1yiVBV9mVvogGqt_BAu2ipnhqa-EDOKteg@mail.gmail.com>
- <CABdmKX1pDc7wpLVQzM0ihH6AfW+=KWdyaZuorMqWCbC80Y7-Bw@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CABdmKX1pDc7wpLVQzM0ihH6AfW+=KWdyaZuorMqWCbC80Y7-Bw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0081.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::8) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	s=arc-20240116; t=1778154634; c=relaxed/simple;
+	bh=hJUpkJFy4pFgHUpAc4l5g4rVqSQXJgujCikzsRw1LI0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UL/jHQuDIadQm1vB0WjWqscHGDfOXawVo2jvBbLMFZYPZ7FyyeAL0w6rao05SXyOE2DtA6LoJHR+U+20++AqHTYgSoOymNtx0zLBQ1HOY8sqeY+PAr46AlGLXBMFT1DEcnp1r1jXarnwFYQXzQSfLj5gPNxbJXWYVUHsSm70PKM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=edgeble.ai; spf=none smtp.mailfrom=edgeble.ai; dkim=pass (2048-bit key) header.d=edgeble-ai.20251104.gappssmtp.com header.i=@edgeble-ai.20251104.gappssmtp.com header.b=DzJSxsSN; arc=pass smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=edgeble.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=edgeble.ai
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ba21d32776so5076275ad.2
+        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 04:50:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778154632; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kztvkgVveMR6fQHFoY6sEukWVs0pEpZo0BQ/rlGP+7mgWHXq5SbqRzQ5K8Vg5fZhGJ
+         5vF2Ncmvtjh+BD6TNnYGAhcnY38LkjK/Lce7y134GNj9EqTbe4f5Ta7uRr+8EuT16iPX
+         khAm2wog4AQHgr9zMrgm386A3Sw1nH5zXz9RV43VIZR8sx9ZzPw+hcdkSeHlmzYEwptZ
+         oFFMV6P20qiENYkn/GAjHm1x3VOU6jxLhw9WHHikGQyO5K8GSbZ2iRxjpvqkvjc/RYC1
+         bvAW/d1hdst44dnM617bRdL9I9F63d3+NgOqU7rfqRJlXEcT2tayAZTZe5wQyFwgBhlT
+         n5xQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=BvJ38BsT9fMouXvjyZnoiUSCRKuA5x8AFeU1cGImlEE=;
+        fh=QNAEce5ss/CglxwfNWNA/9dazO5mkS5ecG/9SpdJ79A=;
+        b=ACGknFymnAVrqkVUmqvMJ3ZOAJt6+d3Eh6cbRWalZX3S8DekCoV8UyQqjFt4ylWcsS
+         kIKeGG6QFXknVPIHfr5QzUzJ/G8LDq/7YwHa5I+SBjwaGvj0MoWqVGh/qA4bVdblBEn4
+         0p/aqYxNnbU8l8shwEvKlvu1U2lX9Fcu/zL3spFZ6XFPtrsdkxGYgq3mzmgS63B8L6vX
+         A4rWoC+iid+TTpp0z9P3skelJIhKmzRvDdaECTQHS0As+yyCwwhQY0sTYMv2X09b+Etv
+         Hw8RaqdPDfWZ++kuuuSf6B3B3mUzU3j6J02Rvd136Qem5YPZxFW39gaj9V9UDSVxdAdT
+         yehw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=edgeble-ai.20251104.gappssmtp.com; s=20251104; t=1778154632; x=1778759432; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BvJ38BsT9fMouXvjyZnoiUSCRKuA5x8AFeU1cGImlEE=;
+        b=DzJSxsSNP/VWY5lK6umxFg1DGouQ86rOkTJYFr2Ns/8EdanrJbwUbsr5bvp8I061Vw
+         e6COf4HrXiFqHU3HRrSH7sM45Xe5egV0ldwdROslQ0YFINjxqEw6NcR7CLyRPfCaN4GV
+         ScxEepF3FgKzZERcz8a4iEaS4vjPLuap84GhyLodYO2d0ItcTjJk3+X1VuJeCkCCwAh1
+         NQDyxUSsSgvMui6fKAX3sDaeAp4F+dYVLnlyikJblL7PLzi/JRAP978NmdvtOGtLkQTw
+         vFKn4lDry7qwexNyxILBRZLvD9F5o4gmEN6x1U2IqlwiEnQ1t2+zGLr8WoYblzIHw44S
+         xepQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778154632; x=1778759432;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BvJ38BsT9fMouXvjyZnoiUSCRKuA5x8AFeU1cGImlEE=;
+        b=QuVqktcF1X93pqzbh335Hwd77NXDtXkOCE2HWvzorta4QQO9EhbuMr7rpyJy1GJqNb
+         XugFewCmEHUWnA7Ur1Qjxa4bOOGoY4JxBcJ0txO0o+kzokIiA7dvhTY+Nes5zDy0CU6a
+         fh3p81B1pEvR53AwW8Rco00vQZRFRrL5ozunF4Vxur9TZsoptQsXeAjqSU2sI0AqJTln
+         FYZ7dxaaRptoRtQW6UZSNIOXCWZkf7lFY/hZez2flyco/Jl9TQ6CLnNw/0HQwVuhO97V
+         Jxj9duoa/ubM9ykIIOVMb0ONMKW2HzGX5jjSEJOURVBbZUcwVkDudvj+e39XWJwM28xc
+         lfGw==
+X-Forwarded-Encrypted: i=1; AFNElJ+JKU3wmQMroGIxM2oQQPFSyAu/fknIQmMCQVN3RgIJLIJRI+7mmoeI4ClWSf7GGC27aTEnZRqpeAeS/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yza+O80nt6tgpgdEKe8o0ZIKigBfWGGAdgvWUXcd94DROoiDHvx
+	T600x2Fg0kvOeHqE9wuWZ1f0pCEdfvDyDYBWS5PK1k3s93RPDonBOWp23WKkcY+XhDvKMVTU7Ly
+	tsi14TO0X2P0UZivq9IpWzpPRcJOkEV7vrfyTvnfcBw==
+X-Gm-Gg: AeBDievOyEepfk34XNlRcMK234czfAdXy08F9O2gv3Ki4sNgRpJdPp7b/2gsQLcmm9y
+	hWuIc6UOtkGcwZ1Dqtpj8/hlMXIF6i1JB4MlqJLm6QosaB9Lixnfb9VYHvJGH6wXnCbur7w/1dp
+	wJ916gbfOGpuy+jvbQA7XzGusUypDRiPfjEXDFpUpbQRbpy0os1nH+JJbnzg6JvM97Y010wQGW/
+	idSBjFffG9hOo4FOPLPOmhu/z3KGrqfkRwdSxfJwCYGa3y+1UnolAesFGzXyhTTBi3qX0+/T4Vl
+	BXvn/j4779dbDUR8goHCthQtTRYrYxB9Eox291q/WPN8KqqxXV+V5DLifchtdprImANqmq5y95j
+	oQ2LA2WKvM1ORrGcMN1JWnnMOcWm+Z9BhfWydYmVrx6dVn9y403uVShHS+ZkZNviyA17js95iRn
+	pMcs9a
+X-Received: by 2002:a17:903:32d0:b0:2ad:9b86:ddc2 with SMTP id
+ d9443c01a7336-2ba79287840mr74956165ad.22.1778154631740; Thu, 07 May 2026
+ 04:50:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB6949:EE_
-X-MS-Office365-Filtering-Correlation-Id: 648388ac-2848-439f-f835-08deac2cca35
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|366016|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	A2yBIx8ZtxB/sBvYr1/X/VX+dqZNMZLQOdY4TTCowSAuh6ZVSwB987KEASY378E29NtOr0F2H5mlIvdBJw2L0x8scYu/5wzXcfeua+4Wzh5DOgBYCVNQQugzKbD/7koX6EO0K1ZZpBSqaH2R2LBwfK6Dilwz8CC/gEgvbmdK8HAHxO0TTOwZv4cAVHnObcMdRqAKuuDvdoXxY1E5pqGm3At4xTyoq4q6a/SXbTRv6XYQg/imXuJVQVkDzbkgTNnxKr2LLfbTwDKN1n2PN/I/YSikRyXo4HU8ehMrjw6fW/t9iCff4Vpd/SYx7/NTiSyMKwDT8L7qDCaXC+J8skMRQiKS5vVbfLM5OgRIFK7hNeC17hdhuYv5Ts1HzznuuZzz2QXxrYvwdBFdAYpgQb+0T77FXRuIYP1JCiIxi7D/qqGbLzn06wNzlx3yT0KEQVeW22huepLOwVgqA6aziMu8YBzrD5/UFf/lpn7iLvPbupHbUureEih1YzQa9s9ie/dDNjZ5OwW9H1hI7LyTJNMNXCWseIZRKo9FyF4yuHCwyvrS+yikcxGKWGtZFBZD9Um76Do3uPkzHfuA4w9A3ZakXazGUZfmqTBIzId5bQA4G4l4ZndlJpue11rL8O7Hc8dZDrKt13TUq1kaBXlbnD4vREQhI8nCjUyBfAtP2Ppf1w4C68ZZ/T392wAWcIcPDW9qiciPqHkxUDCBDKcWj4cIpQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TU4vTnhBUzlsSEQ0NXdROWZ6WWRQeW5aZnMyaUZYaFA0NDUxdXJNY2RKWW13?=
- =?utf-8?B?T3kwbDJJNkRYRzNNMmtMa1Y3ZWcyL1p2L3FVWEpHSjh1SWllakk1b0orOW9R?=
- =?utf-8?B?cnFLOTc1ZFVjVTk4VFVkc3hpV2x5TWVRSm84cVhKQmc4amtMa2NzL0NCSi9p?=
- =?utf-8?B?cWx1ZkZCNGZtMkFuOHhKTGtwbitYenhSZmhqS2dFNC9JYWU3enMveGVKSDg5?=
- =?utf-8?B?cmFZNm9DdHZRczhGLzVCdzBoYWx5YksyUHJkNkxvZjRwdE5wS2llNFFEQ3Z4?=
- =?utf-8?B?SVd6cHFoNXU3Q0k2T1lYWVBleGYyYjEvdGcwRjljUlBRUXdXNllJYjdpcTBx?=
- =?utf-8?B?a1EvLzZHSXdmbmc5M3h2VTU0aUdXTlhsVkVtQzdHUVJ3Z21JdFd2bGtLcGIw?=
- =?utf-8?B?NnVFckpuU242MGxnTXZVL3l6VGhTS2JuSVJuSU8zM0Zkci8vMzlGWGVFY0Ro?=
- =?utf-8?B?UUNaMWpIZjZyZXdQVDJrNUROOXFQbVBUNVRha0dVWlB5NG9EemF2NzdoT3Yw?=
- =?utf-8?B?cEpydjRNaVdSZDlNMGlWY0hodW1nWWU1dHlMTUFIRVNuYVUvaGxGZlFaRk54?=
- =?utf-8?B?RTA4dzhoU3AwclRxMDFxckhkOEZyYURQRTQ1YmgyYUpiZkozQlpqbmp3cmtP?=
- =?utf-8?B?bSt2bkRTa2NIcUZVdGdSKzBHOTRVbmJKNWZqeHloaklpQVdFNEpnSnphOVE4?=
- =?utf-8?B?bHlaUWxkMzhnQ0hud3gxZ3FNRE9HQktHN0pvanZxaWNuWVZVT3JHMGdzOHBv?=
- =?utf-8?B?cEI5MG45MXcwYUZqK0FWUGdtMWNpUThPZXhnRHM0WU05ZzZmc1BlSmxEY2I0?=
- =?utf-8?B?VWlzRldXL3FiRGRPMFFmQWRJWDZNdUluNlJUNXdJS3Evb0ZwV3ZhTUtCRXly?=
- =?utf-8?B?TFlWczdXZXpPVGE3OUtQTStKSjVnNzNEajNySURKSHU2dUJ5UUc3ODdWbm41?=
- =?utf-8?B?L29nMmliQUxYOUp4UmR3aVIxcXZIK3lJd1Y0R3Ywa2xob2NadWNNRjdPUXg4?=
- =?utf-8?B?NkU4UXdaRDVybWZZdWRDT1E2dTlmVUlxVFo0STFTZEFSajRuRHdKeDFyRGFS?=
- =?utf-8?B?aU5RYVczTXVzR01wK0lMOEJRdjhxZ3BGdml2cXlhR0lUTk5YaU5CYWpuaFFy?=
- =?utf-8?B?ZjVuNE16K1dObGJ2Z3NjTzR6RTN6eTdBM0FjSkFjVGFmRHVEODAzaVYwTkV5?=
- =?utf-8?B?aGNkaE5aS3JxNmxMR0g4dHhsWjRkcHYyeUk3M3g1ZEhLWk4zcUpyc0tpRE9L?=
- =?utf-8?B?MFM2QmYrcVJwblV0a0J6RXZ1NUx0aUtPVitJSmI5OXBBeGpJcmRsbTFuQUNi?=
- =?utf-8?B?NFBSYm01UjFvYS9JSVZLQjE2STlVZ0lhS1lZZlM5ZUdTancwdXZZa1huWE5T?=
- =?utf-8?B?cm0rVTRvQnN4QWdXQk9wL0pSTjQzTmZBUDRhcW9BYy8rdjZ6emFoYkhpeTlv?=
- =?utf-8?B?ZGNnc3dQYUNrZzNIVG5LN3g5Vk56TzZVVk9qN3JHdkZJSVFrR2xsK0xQN2Nw?=
- =?utf-8?B?S2poSzZpNDdvZjVpT0ZKUDZVQ0M2cFR4c0NwU0FWaXQybk5PK3ZQa1BEbWJF?=
- =?utf-8?B?S1BwUk12UTA2ODhENnI2RGo4YmNvWmdxT1FvYVNkN21VOWJkeGRWMGxzYnpa?=
- =?utf-8?B?dG1yREJlc0ZKWnhHZDhZdStvUUVzbUV0cUxDUSt4OFIrYWlYOHdJNGJKcTdW?=
- =?utf-8?B?cDBYRG85STRTdHhnN1lFTmE1cFhTSysrYzNVWVFnYzhDVkp6OVNmYWp2SEd6?=
- =?utf-8?B?ajJHRm5RVGJJOXBPS1J5b0FaNW1HL0FuR2tvN2VrYXdEdVgwMkVzaE1ybWRJ?=
- =?utf-8?B?Z0Q0WlhCTVFJRWg0bk9xOVFwc3lKZmZaYXNyY3ZhNGowTGRBbjJiSVYyZ1BK?=
- =?utf-8?B?OGtJK3JkU3doNktPcmF5QU9LVHpDNWNSNGIzOEVIS082aWJFYUYvWVo4RXpL?=
- =?utf-8?B?dTRwTEtjbkszcXNLRjJGS0tpc1E2dUQ2Z1pUalJsZUJveEFudEdEVndVUDlJ?=
- =?utf-8?B?NC9USC9GSDBkaVdGZFFBMU0reTdnMzdUK2ZNUk5HOXI0VitGWUg1eitUcE14?=
- =?utf-8?B?b0NSYzdseWxBMUYwMGdGVUxjQVN1Y3VGY0FsdTl5aGd5NnV2MXJZQ1JicVc3?=
- =?utf-8?B?c21zbVg0TkNhZlZhOVFTaVNnZlEvdHBSUlhwQnBMUkR2S29HcEF5WDVYa2xM?=
- =?utf-8?B?RExadm42S2ZMWVF1VnJUZjBabnFuc1Y0RmI0NWhkT1NNQTlDdmRSaVFvYWtt?=
- =?utf-8?B?UmtpaFJtWE5OaVRVejlubkU5aXFIam5SSVZpdTlXdWYwekFZOHk5S0h5N3FQ?=
- =?utf-8?Q?qsp8PVuzb6K3iI51Tn?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 648388ac-2848-439f-f835-08deac2cca35
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 11:35:50.7876
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vQZM9jgkvd0DN+xErr6aDyLCjjVz2BqssdPKbKEJBrzgcJ33eOzxTYKXRdiXBSRY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6949
-X-Rspamd-Queue-Id: 584DB4E78CD
+References: <20260406-gmsl2-3_serdes-v10-0-645560fedca5@analog.com>
+In-Reply-To: <20260406-gmsl2-3_serdes-v10-0-645560fedca5@analog.com>
+From: Jagan Teki <jagan@edgeble.ai>
+Date: Thu, 7 May 2026 17:20:18 +0530
+X-Gm-Features: AVHnY4ImNfDSCtiszfUjpZiS_xnG2D7LfpDRWViLHXt-m2rR-PMYp3ZtRPQUAUI
+Message-ID: <CA+VMnFwV6gH+W=5UdpPJ2t8J=C0hpZ8M_gmKok_DpmCkJOWo=g@mail.gmail.com>
+Subject: Re: [PATCH v10 00/22] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+To: dumitru.ceclan@analog.com
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Cosmin Tanislav <cosmin.tanislav@analog.com>, 
+	mitrutzceclan@gmail.com, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Martin Hecht <Martin.Hecht@avnet.eu>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Cosmin Tanislav <demonsingur@gmail.com>, Vivekananda Dayananda <vivekana@amd.com>, Cory Keitz <ckeitz@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 25BB64E7E32
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [4.84 / 15.00];
+	SEM_URIBL(3.50)[0.0.0.0:email];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	BAD_REP_POLICIES(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60781-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[google.com,gmail.com];
+	TAGGED_FROM(0.00)[bounces-60782-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	R_DKIM_ALLOW(0.00)[edgeble-ai.20251104.gappssmtp.com:s=20251104];
+	DMARC_NA(0.00)[edgeble.ai];
+	GREYLIST(0.00)[pass,body];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,linux.intel.com,collabora.com,ragnatech.se,linuxfoundation.org,analog.com,gmail.com,vger.kernel.org,lists.linux.dev,avnet.eu,amd.com,amazon.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:mid,amd.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	TO_DN_SOME(0.00)[];
+	DBL_PROHIBIT(0.00)[0.0.0.42:email,0.0.0.1:email];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jagan@edgeble.ai,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[edgeble-ai.20251104.gappssmtp.com:+];
+	R_SPF_ALLOW(0.00)[+ip6:2600:3c0a:e001:db::/64];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	NEURAL_SPAM(0.00)[0.813];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,0.0.0.37:email,0.0.0.2:email,4c:email]
 X-Rspamd-Action: no action
 
-On 5/5/26 16:32, T.J. Mercier wrote:
-> On Tue, May 5, 2026 at 6:00 AM Julian Orth <ju.orth@gmail.com> wrote:
->>
->> On Tue, May 5, 2026 at 2:41 PM Christian König <christian.koenig@amd.com> wrote:
->>>
->>> Hi Julian,
->>>
->>> On 5/5/26 14:25, Julian Orth wrote:
->>>> In ab4c3dcf9a71582503b4fb25aeab884c696cab25 ("dma-buf: Remove DMA-BUF
->>>> sysfs stats") the /sys/kernel/dmabuf/buffer directory was removed.
->>>>
->>>> I've been using this interface, specifically the exporter_name file,
->>>> to detect dmabufs created via udmabuf. Such dmabufs show "udmabuf" in
->>>> exporter_name. I've been doing this for two reasons: 1) to detect that
->>>> mmap on such buffers will be fast and 2) to detect that GPU access to
->>>> such buffers will be slow.
->>>
->>> Crap, I really hoped that Android was the only user of that sysfs interface since that approach turned out to be quite broken.
->>>
->>> It's number one rule on Linux that we don't break userspace. So I hope that you don't insist on bringing that interface back, but if you do I will just revert the removal until we found a better solution.
->>
->> Bringing it back shouldn't be necessary.
->>
->>>
->>>> With the removal of that file, that detection mechanism no longer works.
->>>>
->>>> I'm not particularly fond of that mechanism but it was the only one
->>>> providing that functionality that I could find at the time. If there
->>>> is another one, ideally an ioctl on the dmabuf, please let me know.
->>>
->>> The virtual fdinfo file you can find under /proc/$pid/fdinfo/$fd also contains the exporter name for the DMA-buf.
->>>
->>> You can find the full documentation here: https://docs.kernel.org/filesystems/proc.html#dma-buffer-files
->>>
->>> Is that sufficient?
->>
->> I think that is sufficient. I probably didn't use fdinfo initially
->> because 1) it's a lot more work to parse and 2) I wasn't sure if it
->> was intended to be machine-readable or if there could sometimes be
->> newlines in the values and such.
->>
->>>
->>> Additional to that the debugfs for DMA-buf also contains that information and I'm open to the suggestion with the IOCTL.
->>
->> My application runs as a regular user so it cannot access /sys/kernel/debug.
->>
->> Having an IOCTL would be ideal if it is not too much work. I'll fall
->> back to fdinfo for now.
->>
->> Thanks, Julian
-> 
-> Phew, I'm glad fdinfo suits your needs.
+On Tue, 7 Apr 2026 at 01:47, Dumitru Ceclan via B4 Relay
+<devnull+dumitru.ceclan.analog.com@kernel.org> wrote:
+>
+> This series adds new drivers for multiple Maxim GMSL2 and GMSL3 devices,
+> replacing the few GMSL2 drivers already in upstream, and introducing a
+> common framework that can be used to implement such GMSL chips, which
+> avoids code duplication while also adding support for previously
+> unsupported features.
+>
+> While the normally acceptable and polite way would be to extend the
+> current mainline drivers, the choice was made here to add a totally new
+> set of drivers. The current drivers support only a small subset of the
+> possible features, and only a few devices, so the end result after
+> extending them would in any case be essentially fully rewritten, new
+> drivers.
+>
+> This series depends on support for internal pads, for which a patch has
+> been added.
+>
+> The previous version is at:
+> v9: https://lore.kernel.org/r/20260311-gmsl2-3_serdes-v9-0-41499f09004f@analog.com
+>
+> Since the previous series, Cosmin has left Analog Devices.
+> Because included changes from previous version are trivial, his sign-off
+> and tags were retained.
+>
+> The following deserializers are supported:
+> * MAX96712 (already exists in staging)
+> * MAX96714 (already exists)
+> * MAX96714F (already exists)
+> * MAX96714R (GMSL2)
+> * MAX96716 (GMSL2)
+> * MAX96724 (already exists as part of existing MAX96712 driver)
+> * MAX96724F (GMSL2)
+> * MAX96724R (GMSL2)
+> * MAX9296A (GMSL2)
+> * MAX96792A (GMSL3)
+>
+> The following serializers are supported:
+> * MAX96717 (already exists)
+> * MAX9295A (GMSL2)
+> * MAX96793 (GMSL3)
+>
+> The following list enumerates new features that are supported by the
+> common framework and their respective chip-specific drivers:
+> * Full Streams API support. Most deserializers have support for more
+> than one link, and more than one PHY. Streams support allows
+> configuration of routing between these links and PHYs.
+>
+> * .get_frame_desc() support. Both the serializers and deserializers
+> implement this to query and provide frame descriptor data. This is
+> used in features explained in-depth below.
+>
+> * .get_mbus_config() support. The deserializers implement this to allow
+> upstream devices to query the link frequency of its pads.
+>
+> * Address translation with I2C ATR for the serializers.
+>
+> * I2C ATR translation - some deserializers cannot do muxing since I2C
+> communication channel masking is not available per-link, and the only
+> other way to select links is to turn them off, causing link resets.
+> For such cases, I2C ATR is used to change the address of the
+> serializers at probe time.
+>
+> * Automatic GMSL link version negotiation between GMSL3, GMSL2 6Gbps, GMSL2
+> 3Gbps.
+>
+> * Automatic stream id selection for deserializers which need serializers to
+> stream on unique stream ids.
+>
+> * Automatic VC remapping on the deserializers. VCs are picked so that
+> if they were unique on the sink pad, they will end up as unique on
+> the source pad they are routed to too, prioritizing using the same
+> VC ID as the sink pad, to facilitate the possibility of using tunnel
+> mode.
+>
+> * Automatic pixel mode / tunnel mode selection. Tunnel mode is used
+> when VC IDs do not need to be changed and all hardware supports
+> tunnel mode, otherwise, pixel mode is used. The serializers are
+> automatically switched between the two by using a private API.
+>
+> * Automatic double mode selection. In pixel mode, double mode can be
+> used to pack two pixels into a single data unit, optimizing bandwidth
+> usage. The serializers are automatically set up to support the double
+> modes determined by the deserializers using a private API.
+>
+> * Automatic data padding. In pixel mode, if the data being transferred
+> uses two different BPPs, data needs to be padded. The serializers
+> automatically set this up depending on the configured double mode
+> settings and incoming data types.
+>
+> * Logging. Both the deserializers and serializers implement the V4L2
+> .log_status() ops to allow debugging of the internal state and
+> important chip status registers.
+>
+> * PHY modes. Deserializer chips commonly have more than a single PHY.
+> The firmware ports are parsed to determine the modes in which to
+> configure the PHYs (2x4, 4x2, 1x4+2x2, 2x2+1x4, and variations using
+> fewer lanes).
+>
+> * Serializer pinctrl. Serializers implement pinctrl to allow setting
+> configs which would otherwise be inaccessible through GPIO: TX/RX via
+> GMSL link, pull-up & pull-down (with strength), open-drain &
+> push-pull, slew rate, RCLK pin selection.
+>
+> * TPG with selectable formats, resolutions and framerates for both
+> serializers and deserializers.
+>
+> The drivers have been tested on the following hardware combinations, but
+> further testing is welcome to ensure no / minimal breakage:
+> * Raspberry Pi 5 + MAX9296A + 2xMAX96717 + 2xIMX219
+> * Raspberry Pi 5 + MAX96714 + 1xMAX96717 + 1xIMX219
 
-Yeah, exactly my thinking as well :)
+Thanks for the series. For validation, could you share the DT binding
+used while testing this configuration (Raspberry Pi 5 + MAX96714 +
+1xMAX96717 + 1xIMX219)?
 
-A college questioned me this week how to find DMA-buf stats for debugging and it turned out that Google points to the outdated DMA-buf sysfs documentation instead of the debugfs one.
+I used the same with imx415 but, cannot detect the sensor ID.
 
-No idea why, maybe we need to improve the documentation here a bit.
+[   12.768891] max9296a 7-004c: DT source ports parsed
+[   12.768903] max9296a 7-004c: DT physical configuration selected: 0
+[   12.768909] max9296a 7-004c: DT pipe defaults initialized
+[   12.768919] max9296a 7-004c: DT sink port 0 present
+[   12.768926] max9296a 7-004c: Looking up port0-poc-supply from device tree
+[   12.768978] max9296a 7-004c: DT sink port 0 enabled
+[   12.768989] max9296a 7-004c: DT sink ports parsed
+[   12.768995] max9296a 7-004c: Initializing deserializer core
+[   12.769000] max9296a 7-004c: Applying RLMS adjust sequence (2 regs)
+[   12.770660] max9296a 7-004c: Enabled link A remote control channel
+[   12.771745] max9296a 7-004c: Enabled on-die LDO2
+[   12.771755] max9296a 7-004c: Skipping TPG init for this variant
+[   12.771762] max9296a 7-004c: Disabling deserializer output during init
+[   12.793066] max9296a 7-004c: Link 0 serializer xlate start:
+power-up 0x42 alias 0x40
+[   12.793081] max9296a 7-004c: Selecting links mask 0x1
+[   12.796294] max9296a 7-004c: Selected links mask 0x1, waiting for settle
+[   13.108806] max9296a 7-004c: Link 0 serializer responded at 0x40 before reset
+[   13.216637] max9296a 7-004c: Link 0 serializer xlate complete: 0x42 -> 0x40
+[   13.216817] max9296a 7-004c: Selecting links mask 0x1
+[   13.219683] max9296a 7-004c: Selected links mask 0x1, waiting for settle
+[   13.425486] max9296a 7-004c: Consider updating driver max9296a to
+match on endpoints
+[   13.425503] rockchip-csi2-dphy csi2-dcphy0: dphy0 matches max9296a
+7-004c:bus type 5
+[   13.499022] max96717 10-0042: Allocated serializer core state
+[   13.499081] max96717 10-0042: Parsed serializer DT
+[   13.524495] max96717 10-0042: Initialized serializer core state
+[   13.524511] max96717 10-0042: Initializing serializer i2c-atr adapter
+[   13.527562] max96717 10-0042: Initialized serializer child I2C adapter
+[   13.527587] max96717 10-0042: Registering serializer notifier
+[   13.527598] max96717 10-0042: Added serializer source notifier for phy 0
+[   13.527607] max96717 10-0042: Registered serializer notifier
+[   13.527619] max96717 10-0042: Consider updating driver max96717 to
+match on endpoints
+[   13.527635] max96717 10-0042: Registered serializer V4L2 subdevice
+[   13.540303] imx415 11-0037: detect imx415 lane 4
+[   13.540310] imx415 11-0037: current mode 2, cfg_num 12
+[   13.540356] imx415 11-0037: Failed to get reset-gpios
+[   13.540369] imx415 11-0037: Failed to get power-gpios
+[   13.540377] imx415 11-0037: no pinctrl
+[   13.540385] imx415 11-0037: Looking up dvdd-supply from device tree
+[   13.540450] imx415 11-0037: Looking up dovdd-supply from device tree
+[   13.540495] imx415 11-0037: Looking up avdd-supply from device tree
+[   13.580898] imx415 11-0037: Requested xvclk=24000000 actual=24000000
+[   13.630800] imx415 11-0037: Read chip ID reg 0x311a = 0x00 (ret=0)
+[   13.630815] imx415 11-0037: Sensor state: 0x3000=0x00 0x3001=0x00
+0x311b=0x00 0x311c=0x00 0x311d=0x00
+[   13.630825] imx415 11-0037: Unexpected sensor id(000000), ret(0)
 
-> Adding an ioctl would introduce new UAPI so I think we'd want to avoid
-> that unless absolutely necessary.
+DT:
+&i2c7 {
+    #address-cells = <1>;
+    #size-cells = <0>;
+    status = "okay";
 
-CRIU has some similar requirements, e.g. they need to know the exporting driver of a DMA-buf.
+    max96718_dcphy0: deserializer@4c {
+        compatible = "maxim,max96718";
+        reg = <0x4c>;
 
-Not sure if the fdinfo file will be sufficient for that case or not. But yeah I agree that we only need this if actually necessary.
+        port0-poc-supply = <&vcc_3v3_adapter>;
+        i2c-alias-pool = <0x40>;
 
-Regards,
-Christian.
+        ports {
+            #address-cells = <1>;
+            #size-cells = <0>;
 
-> 
-> Thanks,
-> T.J.
-> 
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> Shipping an entire BPF compiler in my application, which the original
->>>> patch suggests as the replacement, is not an option when the removed
->>>> alternative was simply reading a file.
->>>>
->>>> Thanks, Julian
->>>
+            port@0 {
+                reg = <0>;
 
+                max96718_link0_in: endpoint {
+                    remote-endpoint = <&max96717_gmsl_out>;
+                };
+            };
+
+            port@2 {
+                reg = <2>;
+
+                max96718_csi_out: endpoint {
+                    remote-endpoint = <&mipidcphy0_in>;
+                    data-lanes = <1 2 3 4>;
+                    link-frequencies = /bits/ 64 <400000000>;
+                };
+            };
+        };
+
+        i2c-atr {
+            #address-cells = <1>;
+            #size-cells = <0>;
+
+            i2c@0 {
+                #address-cells = <1>;
+                #size-cells = <0>;
+                reg = <0>;
+
+                max96717_0: serializer@42 {
+                    compatible = "maxim,max96717f";
+                    reg = <0x42>;
+                    gpio-controller;
+                    #gpio-cells = <2>;
+                    #clock-cells = <0>;
+                    i2c-alias-pool = <0x11 0x12>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&max96717_0_pwen_pins
+&max96717_0_rclkout_pins>;
+
+                    max96717_0_pwen_pins: pwen-pins {
+                        function = "gpio";
+                        pins = "mfp0";
+                        drive-push-pull;
+                        bias-disable;
+                        output-high;
+                    };
+
+                    max96717_0_rclkout_pins: rclkout-pins {
+                        function = "rclkout";
+                        pins = "mfp4";
+                    };
+
+                    ports {
+                        #address-cells = <1>;
+                        #size-cells = <0>;
+
+                        port@0 {
+                            reg = <0>;
+
+                            max96717_csi_in: endpoint {
+                                remote-endpoint = <&imx415_0_out0>;
+                                data-lanes = <1 2 3 4>;
+                            };
+                        };
+
+                        port@1 {
+                            reg = <1>;
+
+                            max96717_gmsl_out: endpoint {
+                                remote-endpoint = <&max96718_link0_in>;
+                            };
+                        };
+                    };
+
+                    i2c-atr {
+                        #address-cells = <1>;
+                        #size-cells = <0>;
+
+                        i2c@0 {
+                            #address-cells = <1>;
+                            #size-cells = <0>;
+                            reg = <0>;
+
+                            sensor@37 {
+                                compatible = "sony,imx415";
+                                reg = <0x37>;
+                                rpi-global-reg-list;
+                                clocks = <&max96717_0>;
+                                clock-names = "xvclk";
+                                avdd-supply = <&avdd_2v9_cam0>;
+                                dovdd-supply = <&dovdd_1v8_cam0>;
+                                dvdd-supply = <&dvdd_1v1_cam0>;
+
+                                port {
+                                    imx415_0_out0: endpoint {
+                                        remote-endpoint = <&max96717_csi_in>;
+                                        data-lanes = <1 2 3 4>;
+                                    };
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    };
+};
+
+Did I miss anything on the sensor side or in the DT?
+
+Thanks,
+Jagan.
 
