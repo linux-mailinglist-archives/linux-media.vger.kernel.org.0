@@ -1,204 +1,167 @@
-Return-Path: <linux-media+bounces-60768-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60770-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cBICJolX/GmvOQAAu9opvQ
-	(envelope-from <linux-media+bounces-60768-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 11:12:41 +0200
+	id 0NbZH1hb/GndOQAAu9opvQ
+	(envelope-from <linux-media+bounces-60770-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 11:28:56 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04EC94E5950
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 11:12:40 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D65604E5E4A
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 11:28:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DE0993067EFD
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 09:10:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 99090309EA58
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 09:10:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 003D43A1699;
-	Thu,  7 May 2026 09:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0307C38D6B5;
+	Thu,  7 May 2026 09:10:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="sMRXE5kR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A9OYY5/z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C61739478D
-	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 09:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091F537EFE1;
+	Thu,  7 May 2026 09:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778145018; cv=none; b=V950pCxwvxng2abLXFiv9JmlvfRWSjvXKTfZXj1hLbFi+QPWcI/x4ix6vvpYXzYNzIXKAQnW8VSY6X0VXA/74lJxrIq5KPO3YGJD4MfDpNiZ00tPcaDyW8XHwVHsCcaIji1jSIf4ArLA/Yx6yyrjrUM76h3zwMSlJSVYF3wpKhQ=
+	t=1778145045; cv=none; b=n0n8ddZf1YT5KJ2pgmk2qEk2xv3L7yYXIYvZ7Xx5ZSg9LhCPxmqxsWNj/1jKCwpTDJKYw1MmfnL2ubQJlwIFvKUBRCfCdu+zORZP4aHxEF4SpA7KfCh42ZTMzoXXZuGK9McTRo+ZxcgRYMSa6HqHhk54rxfNB3Sv/FaOYoKjgyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778145018; c=relaxed/simple;
-	bh=Es88Yu65wUMSaQFE/UCCEK51UDHvc52tu88+CMwtra0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ANgPjer1uI+is3jBpm1CqbdbVoBlQ2uwghJZafaQNWuk/SLBJFFU4RajG8IDgHZ+NBPkJCAIwVU8iq9yL32y2/2Khk21ePiuDgB4f7nlNlB+tzbS17yTa2QKuhr+THt816PS7VZlk7KcXgpWclHOl57C5zluc8iYfaPDqqmnXKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=sMRXE5kR; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48d146705b4so7324565e9.3
-        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 02:10:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778145009; x=1778749809; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uX2uw4njESM6FzmX10EYIOdBZeyEmnMqBSR/sN4F+u8=;
-        b=sMRXE5kRrh9Q2R5SKbjPPWCadZ1HXfaMk9vvk375asxFqe93JbrN7tfl53VD4K8yi0
-         wIDH/91iJ/FDJuyU15wHBlSOJ6guXiwQUBJHTwlpo7i3cap3oSD8CfH5G0h/VCPU0wNN
-         qEBeiARstbhCl89aPWJNdUnM4VWrnOmCXyk0+mdPLF+1zYmxNnZLaLJ6PMTglcRs+7TJ
-         96SR+20BQ8rG50feCsKTma4q7OK4GqPH5q+noD4zNoMmgcSME7yJT5N6CWwyK4OQ+VLx
-         KqY8Ku/gig5N8xR0ofwSMBc3IRp1QXlcVrhh+3fD9YvNocON4z2JJRNde6uxtjyuJN7m
-         L+sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778145009; x=1778749809;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uX2uw4njESM6FzmX10EYIOdBZeyEmnMqBSR/sN4F+u8=;
-        b=DGZJyks/1c/c/GqcwDj5vT4/6wxXfYoYZIcgWGMGUIIUik3l69mk2VtQZxI+zuVMSk
-         bCEjbUPdf5gwiwYw5+LVutd3+6XjZQqK9b9qMxCSOixB+SbV/wFTgyjxM0VbwH9YMAvA
-         Cif+pHTV9yyvyM5JMwBd2Rz5+pFu4qd4sL2n7oQDHoJS+9MMJyOZDkt9JyJrQcQLQlmo
-         PgiRlG0fWS7BGpHEtDy+ERCsd6mDgvGPwM2yj6DydNTjczgrpp+ly61/5zuY5+892Syp
-         JPfWP4AGyFF1jWuXHd78evjFTiKz4YCFNRh2Gst4+c8dvOrxmgzVGtRTVcLN5Q2CQyEZ
-         qFdQ==
-X-Gm-Message-State: AOJu0Yy7jRNooPj2y1epPUdvrnc8Hamm1zSntRS0jRbh6oMxoB/EGL0k
-	fpFKmAgBcZiJxzKHYcYZPozk2JJkkt65M/4Grd5aphX+SHieUNwA0KPXJo5sirFmOsY=
-X-Gm-Gg: AeBDiesdm9zJgsLj21W14EEFt5QkjFSi0MmZvT5xdGt8nO7sZRDUn0iqINEecHGBZ+R
-	m02YM1mw1NMJcbpkAT+5jGgVVb2fglM10/JB6yKammKdcClFfp5pmB2SSfDEIALW3vjmmR6Hdhh
-	cJf2WG+i2WH8oPtdhKSu1iypXCBJhia9TpgehzLo3kBhlkuG9tL0bm5RkMruP7l58CXrCn2rf6N
-	/WuhmQPzHyW6gFei2fkAu9749aVPGRflwLaLgUGqwluagMoJnGKm1ot4lchRl8dkC/daZEty3/s
-	v7ACWp27Bq/qXcEE3NeO0eSjA4q5EyZg/+36B48AyCTCB1yeSttHTCs1Q3ZgBQzkHSOLO4JtN3K
-	OuGQSc/Gt+/FyCK4Lo9hCs+oS2TijD2aLyhx1mFEQUA6Kec2qWX/owOW4pJY6hWJQX0oBgK5/6P
-	k2TpLyAveFiPW80PJZ2sCTOPE2TFWp/5MLAYWQ1D6O1ffcnLbi2UXSobccYCPNr/KIGiwIXrJQr
-	4E5FRT61xW9eSynQGeFtlVzG4h7+AKe91W8
-X-Received: by 2002:a05:600c:a405:b0:489:1a3a:9e45 with SMTP id 5b1f17b1804b1-48e51f54230mr99031915e9.26.1778145009073;
-        Thu, 07 May 2026 02:10:09 -0700 (PDT)
-Received: from localhost (p200300f65f114e08ac341e0bb79e5496.dip0.t-ipconnect.de. [2003:f6:5f11:4e08:ac34:1e0b:b79e:5496])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-48e538d2878sm174760185e9.15.2026.05.07.02.10.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 02:10:08 -0700 (PDT)
-Date: Thu, 7 May 2026 11:10:07 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Subject: Re: media: pci: Use PCI_DEVICE macros and drop zeros from
- pci_device_id arrays
-Message-ID: <afxV1qkHJaHbmtk2@monoceros>
-References: <20260506174412.2606010-2-u.kleine-koenig@baylibre.com>
- <69fbbba5.050a0220.1ee6cd.0145@mx.google.com>
+	s=arc-20240116; t=1778145045; c=relaxed/simple;
+	bh=KrOWVyklxktWUvuewCX59mvY1PbJ8FeIsvjCSRqvlPc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K9fQ5VIBWHu3YPKozj2GTlcUwmUu8IXMETRigGxDfzbjYdzduhMWGhMo77fAqWEFWeMss01BhELZnLwN9Hkvldpgpg8iplCFXgRgPdc7/IeSngm8pSQvwqQaOvEAcQ1AK67emsnrvASGFc8F9QrcIFycHzuL7JA5KHX202BkkP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A9OYY5/z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2D67C2BCB2;
+	Thu,  7 May 2026 09:10:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778145044;
+	bh=KrOWVyklxktWUvuewCX59mvY1PbJ8FeIsvjCSRqvlPc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=A9OYY5/zu2m0DD+/b0kTfHy/pYdA1QeAHmZfnVpZQ9jYFytL0FsWvRZFZGGC7QGOD
+	 9E+Tis7KzBLQAfNwo8/RiSGHw2MoD4QBnr/5rSSfAsAQI1Z8GOZ98+N7JdmG4ZOA0t
+	 7DNA9p6aUWrDrPMkpk72/j6N5BVonIc1gcZJfxtLnZpxLH9+9xe0kOOtkjCSgWtaqL
+	 kJrW21IRkNMYPybSU7mBad1JWuOZ20+h/JPRyzr27kXq0Fj0pImv+Qg7ax++XgdH1Y
+	 GtsY6iBnGPzDCGP35phY+BZEMkCI0JhuA7kvx5G0R2xqT4DtzmiNINskb+8GwA1M9Z
+	 LZ3/Z6NLEbHnA==
+Message-ID: <91ef405e-28c8-470c-af8f-ead3fbb310b9@kernel.org>
+Date: Thu, 7 May 2026 10:10:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="amcqlxpotrw4kcn4"
-Content-Disposition: inline
-In-Reply-To: <69fbbba5.050a0220.1ee6cd.0145@mx.google.com>
-X-Rspamd-Queue-Id: 04EC94E5950
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 6/8] media: qcom: venus: add power domain enable logic
+ for Venus cores
+To: Erikas Bitovtas <xerikasxx@gmail.com>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
+References: <20260507-msm8939-venus-rfc-v5-0-d7b5ea2ce591@gmail.com>
+ <NKDr05opwdmbkLx617QRk-R0foXgb0E2_3_RD2qymAYEMnCYw8dD-dsSmj2Lrknh9Edo-M5KNzSxk91GWgtNZQ==@protonmail.internalid>
+ <20260507-msm8939-venus-rfc-v5-6-d7b5ea2ce591@gmail.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=bod@kernel.org; keydata=
+ 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
+In-Reply-To: <20260507-msm8939-venus-rfc-v5-6-d7b5ea2ce591@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: D65604E5E4A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[baylibre-com.20251104.gappssmtp.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60768-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWO(0.00)[2];
+	TAGGED_FROM(0.00)[bounces-60770-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,apitzsch.eu,baylibre.com,redhat.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[baylibre.com];
-	DKIM_TRACE(0.00)[baylibre-com.20251104.gappssmtp.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,linux-media@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TO_DN_SOME(0.00)[]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
+On 07/05/2026 09:32, Erikas Bitovtas wrote:
+> Attach power domains for vdec and venc cores and power them up if a vdec
+> or venc session is started.
+> 
+> Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
+This looks fine to me but, will need to be tested/verified on 8916 to 
+make sure nothing explodes there prior to hitting -next.
 
---amcqlxpotrw4kcn4
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: media: pci: Use PCI_DEVICE macros and drop zeros from
- pci_device_id arrays
-MIME-Version: 1.0
+Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
 
-Hello,
-
-On Wed, May 06, 2026 at 03:07:33PM -0700, Patchwork Integration wrote:
-> Dear Uwe Kleine-K=F6nig (The Capable Hub):
->=20
-> Thanks for your patches! Unfortunately the Media CI robot detected some
-> issues:
->=20
-> # Test media-patchstyle:./0001-media-pci-Use-PCI_DEVICE-macros-and-drop-z=
-eros-from-.patch media style
-> ERROR: ./0001-media-pci-Use-PCI_DEVICE-macros-and-drop-zeros-from-.patch:=
- Missing committer Ricardo Ribalda <ribalda@chromium.org> Signed-off-by
-
-I don't understand that one. Ricardo has nothing to do with creating and
-applying the patch so far, so why should there be an S-o-b by them?
-
-> # Test checkpatch:./0001-media-pci-Use-PCI_DEVICE-macros-and-drop-zeros-f=
-rom-.patch checkpatch
-> CHECK: No space is necessary after a cast
-> #2473: FILE: drivers/media/pci/saa7146/hexium_gemini.c:365:
-> +.driver_data =3D (unsigned long) &hexium_gemini_4bnc,
->=20
-> CHECK: No space is necessary after a cast
-> #2486: FILE: drivers/media/pci/saa7146/hexium_gemini.c:369:
-> +.driver_data =3D (unsigned long) &hexium_gemini_dual_4bnc,
->=20
-> CHECK: No space is necessary after a cast
-> #2524: FILE: drivers/media/pci/saa7146/hexium_orion.c:429:
-> +.driver_data =3D (unsigned long) &hexium_hv_pci6,
->=20
-> CHECK: No space is necessary after a cast
-> #2527: FILE: drivers/media/pci/saa7146/hexium_orion.c:432:
-> +.driver_data =3D (unsigned long) &hexium_orion_1svhs_3bnc,
->=20
-> CHECK: No space is necessary after a cast
-> #2530: FILE: drivers/media/pci/saa7146/hexium_orion.c:435:
-> +.driver_data =3D (unsigned long) &hexium_orion_4bnc,
-
-I didn't introduce these, but can cleanup that en passant. IMHO it's ok
-to leave it as is because I will touch these lines in the (hopefully
-near) future anyhow to make them
-
-	.driver_data_ptr =3D &hexium_orion_4bnc,
-
-=2E
-
-Please tell me about your expectations here.
-
-Best regards
-Uwe
-
---amcqlxpotrw4kcn4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmn8Vu0ACgkQj4D7WH0S
-/k4bCggAr6kUztCDlPfTJ3dKcgh1HttWu+iP9pb2L2Id3JZzoojPf7mdAaNMbCdc
-LkD/2Zzpow9mnvUdo/PBS2wYDbzzUJZPLrKEXZJ+IIzsGvI6HTv78iR6iwP2rY2q
-eIojG83Ei3tzhjwplkeH9aRqCLFdtTc9FZQCs9KoO/abgKovaJ9MZCQL7jB2PQKS
-VVqVpTYgLK/EumGHbkbH6H3wBcg7vm4BbXXLwEP+5UbPhthuTCQNvuLB3sTbQQcU
-J/IKRDmWO5CVXmT2ceA4trQJhK554R4sKQa6xFSaM63yDiYxmfuKozPKpavK6Kbr
-eQ9vJHHtZ+jfpNBQ0mEcr9+praIpEg==
-=0tiY
------END PGP SIGNATURE-----
-
---amcqlxpotrw4kcn4--
+---
+bod
 
