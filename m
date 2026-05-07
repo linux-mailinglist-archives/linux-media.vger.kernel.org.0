@@ -1,416 +1,221 @@
-Return-Path: <linux-media+bounces-60805-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60806-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +FTCHaGU/Gn3RQAAu9opvQ
-	(envelope-from <linux-media+bounces-60805-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 15:33:21 +0200
+	id KMxQKdOV/Gn3RQAAu9opvQ
+	(envelope-from <linux-media+bounces-60806-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 15:38:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF1E84E94E2
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 15:33:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02DFA4E95F3
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 15:38:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DCEB43038F60
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 13:28:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 131043026F33
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 13:35:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB3183B95E7;
-	Thu,  7 May 2026 13:28:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 824F63F54D8;
+	Thu,  7 May 2026 13:35:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PYVvGTvE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ljck0YhJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6190F3B3C1C
-	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 13:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778160517; cv=none; b=gm6a+r+oIMcCRE8MBr5ZCHJgsu5BymRSp/aKO6GOv8V0tREMmsHb2JFrqfQdyvlGb/U2Wa5FI/25qqRrCaQU1JQPt9X84A3oteNKpbW36vkAFBhZf6Q4ZuW7N7WEMyEGkajsSsma4YLnJFhiYm+4bbwF5suEJE9MBJIdRvFxQwQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778160517; c=relaxed/simple;
-	bh=hlHQ9E+g3DT+tolHgrTMxJgYobmt4sMvy7LoLTXw63A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZxpIMiSvwmA73d2eIuA7WSZgTC6tciYPVoR83tqHLj3kFCvfMPlfkreneznadooYHtYkpMUgZ9nG9nCpqWmLLwtiyvK50EkH3RSPsDfZ0Sr4yLYlqRESkAZRiudQMKajAHuZnNih9cL+VxLBQ+vt3FZCVWKo/nr7lzbIsQGXjNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PYVvGTvE; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D00159CE;
-	Thu,  7 May 2026 15:28:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1778160510;
-	bh=hlHQ9E+g3DT+tolHgrTMxJgYobmt4sMvy7LoLTXw63A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PYVvGTvErrev6U1JxRlo7OLlak5feI4LasEUI9mVwL0m5TQH0suABdv7Z2fP5I9yZ
-	 UikM0XZSqqskuhokJCSUHkJQMNrJPiXMRZxPWebki7njY1lcj02GsnrWSY5QYpNIyW
-	 Df84stYb8H1UOkoPN3qC6M30XNVV2FxMU8Xg/uzQ=
-Date: Thu, 7 May 2026 16:28:32 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: arash golgol <arash.golgol@gmail.com>, linux-media@vger.kernel.org,
-	mchehab@kernel.org, wens@kernel.org, jernej.skrabec@gmail.com,
-	samuel@sholland.org, linux-sunxi@lists.linux.dev,
-	sakari.ailus@linux.intel.com
-Subject: Re: [PATCH v3] media: sun6i-mipi-csi2: Use V4L2 subdev active state
-Message-ID: <20260507132832.GE1938994@killaraus.ideasonboard.com>
-References: <20260214050943.6306-1-arash.golgol@gmail.com>
- <CAMxPZkhkjqd2Y91TUpZsTJT2SppPqLrQpdYi5LWmzM8tLxV8Tg@mail.gmail.com>
- <aejCrrf_XA7CkINS@shepard>
- <20260424144227.GA3182467@killaraus.ideasonboard.com>
- <afx_KO5aRXgqwS66@collins>
- <20260507131941.GD1938994@killaraus.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8413F9F27
+	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 13:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778160940; cv=pass; b=S591yUJWClFcWn+rmw08AdN4RY7MTu0UJY9yColzcVTDncnxJyyeqf3CT61dSNv8nVsbu82DxBrbtTHSGZwJbHazbjFWv+bWoJDCn0nVsw7LyVaycElhnmuuxOGyJhneHKSuSkBXdW1UcWbp2GUe3oQXmDLRW/x1GL7PIaslQMs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778160940; c=relaxed/simple;
+	bh=zFi37WOHMnD2fGFA1dmfFCncgxAuI+BdsH4IGYbGfXI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CE8IQdtd+6IF2yDNNrkJSQ0hU9TKx3elsadzS/4hABAu2GmC3Zc1sEP5nF83VO+uUC5GTnB7c6MGnBCzl+ZktCn8uwbuJ3k8fXqf9ZzzBJcJF4BlfjhW/XhAgxm9do6HFx4tuUYck/TdL8MwODrcV1fXUX+G+RsKKCGxe3CZ+rk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ljck0YhJ; arc=pass smtp.client-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-12ddbe104ccso844364c88.0
+        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 06:35:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778160936; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KgIcDhRiPO9Kss74wAA0dH7keJtFr6Q7Wt0uluYiUuAXL8cEOscfq+CyGpskDYXsvW
+         nDp8OZjbe6cQ5GRS1RIwhbx9ILTsVJ+R01WxPMHF1LNOeKS6Cq/mGG1va0M0tudxMdzA
+         fOjDNR3ADA2w8NZZj7b6uZcvsg4OKIqLNx3yrurAxr088ri6xqYgDoW2ZwZjL0wlO0VG
+         Ed372FCORXsgCZjj9Sp12ege/E+99TDcyvrSmS/C3VR1/yHpir3CtMUpKuRy/Ago/3Z/
+         OU6oTIZxJ1aLOFjsxuaB8KTUtLxJ9H+ABETTotkGlVGLK7k1nqJu352MeEoSPRYtEnl5
+         wVfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yIW74LfJcqNSSJkFrqdk8Y22u7WmxHTRMdFEB1r680I=;
+        fh=bYv+NfbmzQlR8G9Uqieqkz89JZ13hbqixLpsx0iLL54=;
+        b=FvzQgeulvm4PvU42lr1nRlQjJ1g5T9gjJE1W9qcUzAtNPlmJLBEuobRTi4bb+rNCIR
+         vtvDZ/GIO5V+KL9HkIXUPf9z/U6jkbVk5t0MGs593MxHhcUYRm7XyTVxcZmZ5IHLw6B6
+         KCrv86QaAAiSqQ55Yc/9W6lqvI3D8Ax0bTUjAYzSdpDK32DBFGLIEFk0IvnAl83IR2bK
+         jzhs9PnJMK8Lu4I5FVgcvyE9OjNWKYspk8C/sICMQTGjS/5MGZPkBXydJFuYzaCjxf9Y
+         XLo67JRBelxA+XcjOaT7uzOmyYetc0t51PitGX2eT0JGF1lyLYgMRTedqqCmvsaHbLOs
+         We8g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778160936; x=1778765736; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yIW74LfJcqNSSJkFrqdk8Y22u7WmxHTRMdFEB1r680I=;
+        b=ljck0YhJ6PgNTKHHNhYGp8ZVBVhPRKrxuKWDtBXq6xr0GiiSUwrGBZOCnjpPfB9CZR
+         sJhWW44QBzzenUEL7wpy5pjkUw9q3zzGg2E14hxx0TTZ7pUbhZJzhXUm6C2Nm+XHLuEN
+         iAuZ1TGZxgLk5NiifXh5dyixCqnKMAxJ6U4IQgCRvClCj+m3K0EXyajfAqapcUgPWGIm
+         TRg7OGjKBynBrMKsMnWswakxtkJRqWCysvZ7UkWBjMJCgEoWP6ASucD3dep6w10Rr7ld
+         4tsA1kyfaBpDKhyqDKpYP3ExZANIFyqgV44BR8p7saBo+eTE7Ir5e0bulzq9Ky3X6Cgl
+         8QwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778160936; x=1778765736;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yIW74LfJcqNSSJkFrqdk8Y22u7WmxHTRMdFEB1r680I=;
+        b=T1E83r4Gnb6oU1CwBNp21Ir6MqL4Tzr0x1ad0o1GH+ASjqlC/WvnpPa3+7mHvQoa/2
+         KNRDCa8+Jp5vIka+lCVh/EvInjWqezuQorKFAiJ7ZNyeRnRisdY7VPFHuu9c4KG19dz7
+         yY+GoeABvtThvODdX3ElnD8kXQ2/e9hiIJDeLKBz/flmecyafzJ3NZTX0gLNUZNkmO1T
+         BdqGDMw9v5hrdKRmqGwgZduk5YXpfOzu1iAiZO3VF/pFGgF34D9tkbFVc3KwIZUuC/KY
+         OfQP4ZkuM8SXrdD2bIxLJ269aDLB24oeWutbDHg04sNKOwFw6LN73zx4nF6qVmpEa54G
+         4Mig==
+X-Gm-Message-State: AOJu0YxgDHJ2kH+79wvE9Eq8ZKyar4cW/gfmZudMt9eRq9tBVMN6PZOv
+	Lzm7t6pYl1Wkni181yR2QKB7E/qrBKVazJRkJqnspZaycIbrxMvuxnRET9oIk0NVNaYKF0Fp53B
+	Z+7FDBKBEo28mZ9kht5iVcRBoapevl8s=
+X-Gm-Gg: AeBDietH/JSUZPhJ3NXIptl5rS5viR/wYHbkPVkl0cK6DMDYlICiTSLCmkVXHs6JioK
+	GfYlRdIose5ilSfV0w5fsrpeLZnvned+0dHTe0Yb8KjByofPjyG8azKhLzvli1q0t2wBu/OZYCe
+	mrAmLHLoTQmVKQVCo63QID1SlUsaKRAZmlp3/l8bz6H+FDr8xTndTXdpIycw56CSCMoZgUUUC39
+	8gInfYq6WrjUoPl7g+aFs1BrmjFJg3sgeGeh6QFDDUGkzl+nGE6cdHV/9MKOQCj2wpMHdSSXYs9
+	HIQdi2sHdJ9bkgZF2BhRk4cUxDbFHA==
+X-Received: by 2002:a05:7023:b07:b0:12d:de3f:d84a with SMTP id
+ a92af1059eb24-1318eb41b81mr3610865c88.35.1778160935629; Thu, 07 May 2026
+ 06:35:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260507131941.GD1938994@killaraus.ideasonboard.com>
-X-Rspamd-Queue-Id: CF1E84E94E2
+References: <20260306103614.3208182-1-eagle.alexander923@gmail.com>
+ <20260306103614.3208182-3-eagle.alexander923@gmail.com> <20260505161135.GD1547435@killaraus.ideasonboard.com>
+In-Reply-To: <20260505161135.GD1547435@killaraus.ideasonboard.com>
+From: Alexander Shiyan <eagle.alexander923@gmail.com>
+Date: Thu, 7 May 2026 16:35:23 +0300
+X-Gm-Features: AVHnY4JSoQPxSG1_-AH3TDVcV5vCvXQD6fKsE-bVCV2z1QwTxgZHx1yruhmxMl4
+Message-ID: <CAP1tNvQtDSCtJ8UmmtdMK=Prbbs=s490WU=H=3_O5tJbmO6mqA@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 2/2] media: i2c: Add onsemi AR0234 image sensor driver
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Dongcheng Yan <dongcheng.yan@intel.com>, 
+	devicetree@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@kernel.org>, 
+	Hans de Goede <johannes.goede@oss.qualcomm.com>, 
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Svyatoslav Ryhel <clamor95@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 02DFA4E95F3
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,kernel.org,sholland.org,lists.linux.dev,linux.intel.com];
-	TAGGED_FROM(0.00)[bounces-60805-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60806-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_CC(0.00)[vger.kernel.org,raspberrypi.com,intel.com,kernel.org,linux.intel.com,oss.qualcomm.com,linaro.org,foss.st.com,gmail.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[eaglealexander923@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email,ideasonboard.com:dkim,killaraus.ideasonboard.com:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,gitlab.com:url]
 X-Rspamd-Action: no action
 
-On Thu, May 07, 2026 at 04:19:42PM +0300, Laurent Pinchart wrote:
-> On Thu, May 07, 2026 at 02:01:44PM +0200, Paul Kocialkowski wrote:
-> > Le Fri 24 Apr 26, 17:42, Laurent Pinchart a écrit :
-> > > On Wed, Apr 22, 2026 at 02:44:30PM +0200, Paul Kocialkowski wrote:
-> > > > On Wed 22 Apr 26, 08:23, arash golgol wrote:
-> > > > > I was hoping this patch would make its way into media-tree, but it seems
-> > > > > it hasn't been applied yet.
-> > > > > 
-> > > > > Is there anything missing or any modifications needed from my side?
-> > > > > I'd appreciate any feedback.
-> > > > 
-> > > > I would like to test this patch before it gets in, but didn't manage to find
-> > > > the time. The same should probably also apply to the a83t mipi csi-2 driver,
-> > > > which is structured the same way.
-> > > 
-> > > Do you think you would have time to test it in the next few weeks ? It
-> > > would be good to merge this for v7.2.
-> > 
-> > Finally took some time to test this patch and the sun6i-csi series.
-> > I must apologize again for the delay here.
-> > 
-> > Both series are working fine with my test setup (an Olimex S3-OLinuXino with
-> > a mipi csi-2 imx219 sensor).
-> 
-> Thank you for testing. Can we add a Tested-by tag ?
+Hello Laurent.
 
-Ah I see you've replied separately. Thank you.
+> On Fri, Mar 06, 2026 at 01:36:14PM +0300, Alexander Shiyan wrote:
+> > Add driver for the onsemi AR0234 CMOS image sensor.
+...
+> > +enum ar0234_link_freq_index {
+> > +     AR0234_LINK_FREQ_IDX_BPP_8,
+> > +     AR0234_LINK_FREQ_IDX_BPP_10,
+> > +     AR0234_LINK_FREQ_IDX_MAX
+> > +};
+> > +
+> > +struct ar0234_mode {
+> > +     u8 bpp_in;
+> > +     u8 bpp_out;
+> > +     u8 dpcm;
+> > +     u8 mipi_dt;
+> > +     int link_freq_index;
+>
+> I think you can drop this. The driver already uses the CCS PLL
+> calculator, so it should be able to deal with user-selectable link
+> frequencies.
+>
+> This would require testing all frequencies specified in DT at probe time
+> to map them to bus formats, and restricting the formats accepted by the
+> driver based on the current link frequency. The CCS driver implements
+> such logic, and there's also an implementation in the ar0830 driver I'm
+> working on (see [1]). Note to myself (and to Sakari too): this is a good
+> candidate for a helper.
+>
+> [1] https://gitlab.com/ideasonboard/nxp/linux/-/blob/v7.0/dev/rpi-cam/ar0=
+830/drivers/media/i2c/ar0830.c?ref_type=3Dheads
 
-> > > > > On Sat, Feb 14, 2026 at 8:40 AM Arash Golgol <arash.golgol@gmail.com> wrote:
-> > > > > >
-> > > > > > Use the V4L2 subdev active state API to store the active format.
-> > > > > > This simplifies the driver not only by dropping the bridge mbus_format
-> > > > > > field, but it also allows dropping the bridge lock, replaced with
-> > > > > > the state lock.
-> > > > > >
-> > > > > > The sun6i-mipi-csi2 hardware does not perform any format conversion.
-> > > > > > Enforce identical formats on the sink and source pads in the set_fmt()
-> > > > > > and init_state() callbacks.
-> > > > > >
-> > > > > > Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
-> > > > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > > ---
-> > > > > > Changes in v3:
-> > > > > >     - link to v2: https://patchwork.kernel.org/project/linux-media/patch/20260209055529.16644-1-arash.golgol@gmail.com/
-> > > > > >     - Keep error path jumping to error_v4l2_notifier_cleanup on
-> > > > > >     bridge setup failure
-> > > > > >
-> > > > > > Changes in v2:
-> > > > > >     - link to v1: https://patchwork.kernel.org/project/linux-media/patch/20260206123455.46476-1-arash.golgol@gmail.com/
-> > > > > >     - Simplify control flow by dropping the else at end of s_stream()
-> > > > > >     - Call v4l2_subdev_cleanup() on bridge setup failure before
-> > > > > >     notifier registration
-> > > > > >
-> > > > > >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 107 +++++++++---------
-> > > > > >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
-> > > > > >  2 files changed, 53 insertions(+), 56 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> > > > > > index b06cb73015cd..682bdd82098c 100644
-> > > > > > --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> > > > > > +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> > > > > > @@ -95,12 +95,12 @@ static void sun6i_mipi_csi2_disable(struct sun6i_mipi_csi2_device *csi2_dev)
-> > > > > >                            SUN6I_MIPI_CSI2_CTL_EN, 0);
-> > > > > >  }
-> > > > > >
-> > > > > > -static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi2_dev)
-> > > > > > +static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi2_dev,
-> > > > > > +                                      const struct v4l2_mbus_framefmt *mbus_format)
-> > > > > >  {
-> > > > > >         struct regmap *regmap = csi2_dev->regmap;
-> > > > > >         unsigned int lanes_count =
-> > > > > >                 csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
-> > > > > > -       struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
-> > > > > >         const struct sun6i_mipi_csi2_format *format;
-> > > > > >         struct device *dev = csi2_dev->dev;
-> > > > > >         u32 version = 0;
-> > > > > > @@ -173,7 +173,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
-> > > > > >         struct v4l2_subdev *source_subdev = csi2_dev->bridge.source_subdev;
-> > > > > >         union phy_configure_opts dphy_opts = { 0 };
-> > > > > >         struct phy_configure_opts_mipi_dphy *dphy_cfg = &dphy_opts.mipi_dphy;
-> > > > > > -       struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
-> > > > > > +       struct v4l2_subdev_state *state;
-> > > > > > +       const struct v4l2_mbus_framefmt *mbus_format;
-> > > > > >         const struct sun6i_mipi_csi2_format *format;
-> > > > > >         struct phy *dphy = csi2_dev->dphy;
-> > > > > >         struct device *dev = csi2_dev->dev;
-> > > > > > @@ -183,8 +184,12 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
-> > > > > >         unsigned long pixel_rate;
-> > > > > >         int ret;
-> > > > > >
-> > > > > > -       if (!source_subdev)
-> > > > > > -               return -ENODEV;
-> > > > > > +       state = v4l2_subdev_lock_and_get_active_state(subdev);
-> > > > > > +
-> > > > > > +       if (!source_subdev) {
-> > > > > > +               ret = -ENODEV;
-> > > > > > +               goto unlock;
-> > > > > > +       }
-> > > > > >
-> > > > > >         if (!on) {
-> > > > > >                 v4l2_subdev_call(source_subdev, video, s_stream, 0);
-> > > > > > @@ -196,7 +201,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
-> > > > > >
-> > > > > >         ret = pm_runtime_resume_and_get(dev);
-> > > > > >         if (ret < 0)
-> > > > > > -               return ret;
-> > > > > > +               goto unlock;
-> > > > > >
-> > > > > >         /* Sensor Pixel Rate */
-> > > > > >
-> > > > > > @@ -222,6 +227,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
-> > > > > >                 goto error_pm;
-> > > > > >         }
-> > > > > >
-> > > > > > +       mbus_format = v4l2_subdev_state_get_format(state,
-> > > > > > +                                                  SUN6I_MIPI_CSI2_PAD_SINK);
-> > > > > >         format = sun6i_mipi_csi2_format_find(mbus_format->code);
-> > > > > >         if (WARN_ON(!format)) {
-> > > > > >                 ret = -ENODEV;
-> > > > > > @@ -260,7 +267,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
-> > > > > >
-> > > > > >         /* Controller */
-> > > > > >
-> > > > > > -       sun6i_mipi_csi2_configure(csi2_dev);
-> > > > > > +       sun6i_mipi_csi2_configure(csi2_dev, mbus_format);
-> > > > > >         sun6i_mipi_csi2_enable(csi2_dev);
-> > > > > >
-> > > > > >         /* D-PHY */
-> > > > > > @@ -277,7 +284,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
-> > > > > >         if (ret && ret != -ENOIOCTLCMD)
-> > > > > >                 goto disable;
-> > > > > >
-> > > > > > -       return 0;
-> > > > > > +       ret = 0;
-> > > > > > +       goto unlock;
-> > > > > >
-> > > > > >  disable:
-> > > > > >         phy_power_off(dphy);
-> > > > > > @@ -286,6 +294,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
-> > > > > >  error_pm:
-> > > > > >         pm_runtime_put(dev);
-> > > > > >
-> > > > > > +unlock:
-> > > > > > +       v4l2_subdev_unlock_state(state);
-> > > > > >         return ret;
-> > > > > >  }
-> > > > > >
-> > > > > > @@ -308,21 +318,23 @@ sun6i_mipi_csi2_mbus_format_prepare(struct v4l2_mbus_framefmt *mbus_format)
-> > > > > >  static int sun6i_mipi_csi2_init_state(struct v4l2_subdev *subdev,
-> > > > > >                                       struct v4l2_subdev_state *state)
-> > > > > >  {
-> > > > > > -       struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
-> > > > > > -       unsigned int pad = SUN6I_MIPI_CSI2_PAD_SINK;
-> > > > > > -       struct v4l2_mbus_framefmt *mbus_format =
-> > > > > > -               v4l2_subdev_state_get_format(state, pad);
-> > > > > > -       struct mutex *lock = &csi2_dev->bridge.lock;
-> > > > > > +       unsigned int pad;
-> > > > > >
-> > > > > > -       mutex_lock(lock);
-> > > > > > +       /*
-> > > > > > +        * This subdev does not perform format conversion,
-> > > > > > +        * initialize both pads identically.
-> > > > > > +        */
-> > > > > > +       for (pad = 0; pad < subdev->entity.num_pads; pad++) {
-> > > > > > +               struct v4l2_mbus_framefmt *mbus_format;
-> > > > > >
-> > > > > > -       mbus_format->code = sun6i_mipi_csi2_formats[0].mbus_code;
-> > > > > > -       mbus_format->width = 640;
-> > > > > > -       mbus_format->height = 480;
-> > > > > > +               mbus_format = v4l2_subdev_state_get_format(state, pad);
-> > > > > >
-> > > > > > -       sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
-> > > > > > +               mbus_format->code = sun6i_mipi_csi2_formats[0].mbus_code;
-> > > > > > +               mbus_format->width = 640;
-> > > > > > +               mbus_format->height = 480;
-> > > > > >
-> > > > > > -       mutex_unlock(lock);
-> > > > > > +               sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
-> > > > > > +       }
-> > > > > >
-> > > > > >         return 0;
-> > > > > >  }
-> > > > > > @@ -340,53 +352,32 @@ sun6i_mipi_csi2_enum_mbus_code(struct v4l2_subdev *subdev,
-> > > > > >         return 0;
-> > > > > >  }
-> > > > > >
-> > > > > > -static int sun6i_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
-> > > > > > -                                  struct v4l2_subdev_state *state,
-> > > > > > -                                  struct v4l2_subdev_format *format)
-> > > > > > -{
-> > > > > > -       struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
-> > > > > > -       struct v4l2_mbus_framefmt *mbus_format = &format->format;
-> > > > > > -       struct mutex *lock = &csi2_dev->bridge.lock;
-> > > > > > -
-> > > > > > -       mutex_lock(lock);
-> > > > > > -
-> > > > > > -       if (format->which == V4L2_SUBDEV_FORMAT_TRY)
-> > > > > > -               *mbus_format = *v4l2_subdev_state_get_format(state,
-> > > > > > -                                                            format->pad);
-> > > > > > -       else
-> > > > > > -               *mbus_format = csi2_dev->bridge.mbus_format;
-> > > > > > -
-> > > > > > -       mutex_unlock(lock);
-> > > > > > -
-> > > > > > -       return 0;
-> > > > > > -}
-> > > > > > -
-> > > > > >  static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
-> > > > > >                                    struct v4l2_subdev_state *state,
-> > > > > >                                    struct v4l2_subdev_format *format)
-> > > > > >  {
-> > > > > > -       struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
-> > > > > > -       struct v4l2_mbus_framefmt *mbus_format = &format->format;
-> > > > > > -       struct mutex *lock = &csi2_dev->bridge.lock;
-> > > > > > +       struct v4l2_mbus_framefmt *fmt;
-> > > > > >
-> > > > > > -       mutex_lock(lock);
-> > > > > > +       /* The format on the source pad always matches the sink pad. */
-> > > > > > +       if (format->pad != SUN6I_MIPI_CSI2_PAD_SINK)
-> > > > > > +               return v4l2_subdev_get_fmt(subdev, state, format);
-> > > > > >
-> > > > > > -       sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
-> > > > > > +       sun6i_mipi_csi2_mbus_format_prepare(&format->format);
-> > > > > >
-> > > > > > -       if (format->which == V4L2_SUBDEV_FORMAT_TRY)
-> > > > > > -               *v4l2_subdev_state_get_format(state, format->pad) =
-> > > > > > -                       *mbus_format;
-> > > > > > -       else
-> > > > > > -               csi2_dev->bridge.mbus_format = *mbus_format;
-> > > > > > +       /* Set the format on the sink pad. */
-> > > > > > +       fmt = v4l2_subdev_state_get_format(state, format->pad);
-> > > > > > +       *fmt = format->format;
-> > > > > >
-> > > > > > -       mutex_unlock(lock);
-> > > > > > +       /* Propagate the format to the source pad. */
-> > > > > > +       fmt = v4l2_subdev_state_get_format(state, SUN6I_MIPI_CSI2_PAD_SOURCE);
-> > > > > > +       *fmt = format->format;
-> > > > > >
-> > > > > >         return 0;
-> > > > > >  }
-> > > > > >
-> > > > > >  static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_pad_ops = {
-> > > > > >         .enum_mbus_code = sun6i_mipi_csi2_enum_mbus_code,
-> > > > > > -       .get_fmt        = sun6i_mipi_csi2_get_fmt,
-> > > > > > +       .get_fmt        = v4l2_subdev_get_fmt,
-> > > > > >         .set_fmt        = sun6i_mipi_csi2_set_fmt,
-> > > > > >  };
-> > > > > >
-> > > > > > @@ -502,8 +493,6 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
-> > > > > >         bool notifier_registered = false;
-> > > > > >         int ret;
-> > > > > >
-> > > > > > -       mutex_init(&bridge->lock);
-> > > > > > -
-> > > > > >         /* V4L2 Subdev */
-> > > > > >
-> > > > > >         v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
-> > > > > > @@ -532,6 +521,12 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
-> > > > > >         if (ret)
-> > > > > >                 return ret;
-> > > > > >
-> > > > > > +       /* V4L2 Subdev finalize */
-> > > > > > +
-> > > > > > +       ret = v4l2_subdev_init_finalize(subdev);
-> > > > > > +       if (ret < 0)
-> > > > > > +               goto error_media_entity_cleanup;
-> > > > > > +
-> > > > > >         /* V4L2 Async */
-> > > > > >
-> > > > > >         v4l2_async_subdev_nf_init(notifier, subdev);
-> > > > > > @@ -565,6 +560,9 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
-> > > > > >  error_v4l2_notifier_cleanup:
-> > > > > >         v4l2_async_nf_cleanup(notifier);
-> > > > > >
-> > > > > > +       v4l2_subdev_cleanup(subdev);
-> > > > > > +
-> > > > > > +error_media_entity_cleanup:
-> > > > > >         media_entity_cleanup(&subdev->entity);
-> > > > > >
-> > > > > >         return ret;
-> > > > > > @@ -579,6 +577,7 @@ sun6i_mipi_csi2_bridge_cleanup(struct sun6i_mipi_csi2_device *csi2_dev)
-> > > > > >         v4l2_async_unregister_subdev(subdev);
-> > > > > >         v4l2_async_nf_unregister(notifier);
-> > > > > >         v4l2_async_nf_cleanup(notifier);
-> > > > > > +       v4l2_subdev_cleanup(subdev);
-> > > > > >         media_entity_cleanup(&subdev->entity);
-> > > > > >  }
-> > > > > >
-> > > > > > diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-> > > > > > index 24b15e34b5e8..d72dfbd6a993 100644
-> > > > > > --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-> > > > > > +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-> > > > > > @@ -32,8 +32,6 @@ struct sun6i_mipi_csi2_bridge {
-> > > > > >         struct media_pad                pads[SUN6I_MIPI_CSI2_PAD_COUNT];
-> > > > > >         struct v4l2_fwnode_endpoint     endpoint;
-> > > > > >         struct v4l2_async_notifier      notifier;
-> > > > > > -       struct v4l2_mbus_framefmt       mbus_format;
-> > > > > > -       struct mutex                    lock; /* Mbus format lock. */
-> > > > > >
-> > > > > >         struct v4l2_subdev              *source_subdev;
-> > > > > >  };
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+I reworked the driver to iterate over all link frequencies from the device =
+tree
+and validate them against each mode using the CCS PLL calculator, as you
+suggested and as implemented in the ar0830 driver. The PLL calculations
+themselves succeed for both the 360=E2=80=AFMHz and 450=E2=80=AFMHz frequen=
+cies with
+both the 8=E2=80=91bpp and 10=E2=80=91bpp modes - the resulting bitmask was=
+ valid for
+all combinations.
 
--- 
-Regards,
+Unfortunately, real=E2=80=91hardware testing showed that the 8=E2=80=91bpp =
+mode does not
+produce a correct image (MIPI errors) at 450=E2=80=AFMHz, and the 10=E2=80=
+=91bpp mode
+fails similarly at 360=E2=80=AFMHz. The issue appears to be that the sensor=
+ requires
+different MIPI timing configurations (frame/line preambles, D=E2=80=91PHY t=
+imings, etc.)
+for different lane rates, which are not yet implemented.
+Since the PLL calculation alone is not sufficient to guarantee a
+working pipeline,
+the automatic selection of any frequency for any mode leads to
+unstable operation.
 
-Laurent Pinchart
+For the time being I plan to revert the link frequency handling to the earl=
+ier
+approach where the device tree provides two specific frequencies and the
+driver maps them directly to the respective modes.
+The DT binding will remain unchanged, so when proper MIPI timing configurat=
+ion
+is added later we will be able to adopt the fully dynamic model without bre=
+aking
+existing device trees.
+
+Thanks!
 
