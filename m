@@ -1,339 +1,196 @@
-Return-Path: <linux-media+bounces-60710-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60711-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6D7HNNEe/GkCLwAAu9opvQ
-	(envelope-from <linux-media+bounces-60710-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 07:10:41 +0200
+	id awKgATsf/GkfLwAAu9opvQ
+	(envelope-from <linux-media+bounces-60711-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 07:12:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72FF14E303B
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 07:10:41 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6873E4E3053
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 07:12:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3550B301D977
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 05:10:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B3A11301D321
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 05:12:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53FA2272816;
-	Thu,  7 May 2026 05:10:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A594326928;
+	Thu,  7 May 2026 05:12:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCmrOM89"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mb8PNbMz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61023264FB;
-	Thu,  7 May 2026 05:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778130632; cv=none; b=i561lQw6SeC6NP4aTLRQr+RcoKX7X1j8OOalzP/9pG+wmDNoYAwCSYYVB9vl+HI2Y7VmBJ5Tk2VsUePSqSMQSYlYvBdQkLhGpNPo3Kn4b28UVw88saXdqXMv5JN/U/dt/ZKP8BGFtItRU47xGjLnP5ow027vZSnBmJbCK47VLCk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778130632; c=relaxed/simple;
-	bh=rhHqq9QOJUcYWnAhSTCZoNodlZt4AlyKXe796kzQmyA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=iUnuTQZYjyi/h2A9RXhHuhNzZsOdm0CIRnGvzSO815Atm5uL3BSDzAnW0i1EugOPhWLdI9Nmyx1I6aGPiP/d4yH4do+nyYTjlhZKRKd8I5mKz3avCedJjLOWULxnMDeGOdVdDgylBUBfptp/sebKoIhjpFEqyNmxbUj8DbkYhj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCmrOM89; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 074FFC2BCB8;
-	Thu,  7 May 2026 05:10:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778130632;
-	bh=rhHqq9QOJUcYWnAhSTCZoNodlZt4AlyKXe796kzQmyA=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=nCmrOM89xdsuJjky3xh9MzjQh7SEk2+h6C3Tg98pb7FVaqovANcnlDpEizFLklMGZ
-	 jW9sUeMrVGe7TCcGEO/2Fxb6NdRR0G4U5H9GmceiTtzkD7b7mTtKwDLM5hWDmpz6tN
-	 +NLkcDe1Qlx9yP3yBGsdJ3hPh0Tjx1O/Xig0+bcl+UWDPfRfGrW09TvTTzg64Q979Z
-	 yKsdy8oZDEQivqU/N7R9b1odCgH3Vb67VFA4AKWXAZPTGO05PGnyZBxgCIheXrO1o0
-	 5povcRjpVzD6Hfrr4VSuZwFx+ILP5K96okniyYaNE+mRjRYxr6Tsa4kem9Y8QZD2sh
-	 ZQEYxEmoJNVfA==
-Message-ID: <0e668d98-9a7b-4422-86cf-8f9163d768d0@kernel.org>
-Date: Thu, 7 May 2026 07:10:29 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD4126ED41
+	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 05:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778130740; cv=pass; b=MO7Gbwx06BkZBa6XUbs2ZcYp3ByxX8v2tg/PenD66Hc9rjHi1X1wB0alyz6Eu/bwlSVZpjkm3M/EZqt8i/nhabQuQoWT5D92dQiBKe1Hn7bwGdWcQgEbJ33l/XPTMDeL0a7j5oF9rC0QsL7n7oznKj/0m2Foeppa9wJ9oMiJazo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778130740; c=relaxed/simple;
+	bh=fbncoqMIGmGj0iqGTDtQInjZuGNvpnBJ0wDBdv7POrk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=DiIOso7CW4fkn3mNCv3senA+Ge6pe4aYChNr1H7Bl+ew57EYczfI+YcFFgTQ1OdNbixERe0dftEYmUnS2wlWyrTVGsosJvs7/uoRa5sc1P/lEuqIDjtGFL//38RhxE6ayGNkbu+b9pN89jYUewxbdWsdsNeyA50ixBIi57cNDaw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mb8PNbMz; arc=pass smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43d73422431so331115f8f.2
+        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 22:12:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778130737; cv=none;
+        d=google.com; s=arc-20240605;
+        b=j5lZT/RjQM1sAAXZqgcLM8rxPnujVJtV/X25OQQuy2KVwPPe/UKl8USpm6qaj8YbFC
+         uDmRgOYOyePKEGdx5KuAGyd6L1KXc56U0rMYd4Zkj0IRO0fWBSlc1tPvnHDlY61s7vhR
+         4forMunBYUf7sXCvYVgaxIto8139WtC4bH5ssfYnQNts6l8vsICXCibDeZk6t/PVA9fF
+         xVBNjgbyTSObI+wNmG58e5qgn7cz96rqM2pBf4zw0LXipMae1VvsdPR1CVQ/vGtT84wA
+         npw5BQ/ClFYMwIlD3Tse8ofxdlOg2IJR3mEgilf0IMHLegPV2paNa7iabmEmZMbhUFGm
+         DpzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=fbncoqMIGmGj0iqGTDtQInjZuGNvpnBJ0wDBdv7POrk=;
+        fh=RpYxnnRW5A5FvuL86z7f7YWfE0tvaTrs4Vecbev4fLA=;
+        b=TotCVe+ywbZ4fX9MdwtcUAXw4dzsFn6WU3WRfTPIqeiM2+MaAbFv+x8K1gMNR72jgI
+         RG6n3AZZlfq4uE8KDwdfZzzpXdcuP60tek2wfm++i2F8eIXKVD9V+ljeqDe7hg4vhL1i
+         S7zRGHhCTebyftgYVzXM4BP9rJhdxhLmwUFz7zfOelCxGHYpVxGiHlr375IGEkHt617P
+         cXarigiEEQKrF8MgXEFBp8L6cB2cr1FikThEtogbZWwKohaZl8KLi3Y2GqiGqYBmpdqy
+         VV4ceI8OkERC21IJgpnjW3yM5Z9iOydQbbJx4KIG1+86Fd08iAfLMdGHg/lle3o2gf+S
+         ljuQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778130737; x=1778735537; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fbncoqMIGmGj0iqGTDtQInjZuGNvpnBJ0wDBdv7POrk=;
+        b=Mb8PNbMzLpfajUfBxDCDcMMX3upJbgFjqdacG9pBhVzhwf4zrJGcea4q/FciyjFcWZ
+         KXhaeBMrpjOhxwbaix6nQ16A7MjkfNVhpTf4A4IfMFGYmmTrP33CI3d0SFGo9ttpnp3s
+         LcM7nC0NiSw1mJuNTrTgWFY6Y8YWcrUvH/CKqhHsbVBy0a03a6gjB6FMrN1iPR0xkYXS
+         3gFNjbk8Gxvr7svXtVGgOdJjQYzdqAZV0cyuV5UTXpZEmAppHOjlvIUBwnZbwZ+NYM7+
+         Yh6enSgK5V5BtOAleA0IXt1qHo/ZOL6gCsq3W/ZQ3IK/Hg3Za/2rJTvjzd3Y49EXYGRr
+         kjlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778130737; x=1778735537;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fbncoqMIGmGj0iqGTDtQInjZuGNvpnBJ0wDBdv7POrk=;
+        b=BV2Mf3Xm9WHsMQRDZqzO0BoMy1DgoMCOtA+4dWkVAvWKi9VtGGCU21RRRHmI2CH+jS
+         ztCRrFDdA6rCdDJUfWuAaheFbBfu5zM04n3KqL9KiCq/4Rp3O1Di6SM2C5m7k8nyLnpy
+         YPHiauSzexFlJUEYqDglVRVyp0Li1tjp7IFDmGESuVM45zEOaRJV61a5GFxFwqrgEL4E
+         OZ6eEoe7xHVbmuWK8iAYGH7YOzXKvTfThNkfFshrAtmeqJxnNM6tU77gdt4cTLgKlTdo
+         pcmWm6kWaMHAXPH/MOQg+1mhB+FWuApAGhn6bItwrpib4iZjVeYez9SHiAUYU6Om9rLA
+         XMtw==
+X-Gm-Message-State: AOJu0Yx40bxdLIIWiqUsZfe9Vqt5uY+gt8j0CTuGsptLNUYi+A4CKnlR
+	zH0Vlq0qp0WXHLTOOvqVez/Jp4EnQHkXS2/yHx+bn5pe7FoRhR2zDAUo/oGdp86ZY3GnJNEZlG1
+	BAEE2USMwLy45+BBmkCoMaF+aLyT2lW1kkFVILk0=
+X-Gm-Gg: AeBDiev5OEUt2O9WzgwQRCPTMBmz+bufwTHzdWjM7aF+aoSdws+mwd/DCIySn49Z9Rl
+	D4cIhAnEGaWktj4+760ViV9MwP14HulX4yh8TPOOQ5LqhvYMo//Smd1KMjwT950neMqdEAsKpej
+	34Al82IZ8g43nJGqeCQUhaULhjRfT/+oCAkji0bGfZkzhfZRdAxLA6cDbGjowz8k0WPlE/weyZ1
+	UafqwDE3Kbmp51eu2H4POXj929ni7F9/2YnneSbBJXgos9wF1VfdUHhAKWcuMrX2+BUMKLBtoWh
+	/FeZ8FDIAHw5H9VotUjoe9juQuVByw==
+X-Received: by 2002:a5d:5c84:0:b0:43d:1bf6:30f7 with SMTP id
+ ffacd0b85a97d-4515b9f3935mr10441329f8f.18.1778130737316; Wed, 06 May 2026
+ 22:12:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v5] media: pci: add AVMatrix HWS capture driver
-To: Ben Hoff <hoff.benjamin.k@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- mchehab@kernel.org, kernel test robot <lkp@intel.com>
-References: <20260330233636.381969-1-hoff.benjamin.k@gmail.com>
- <20260403135709.46163-1-hoff.benjamin.k@gmail.com>
- <336b8ec9-f3e3-4850-9261-752392a898ac@kernel.org>
- <CAMSzxxSt5JsV3_4V-R=zQc3Zck-3u8MiJgKq6fmFWm26kp+6Jg@mail.gmail.com>
-Content-Language: en-US, nl
-In-Reply-To: <CAMSzxxSt5JsV3_4V-R=zQc3Zck-3u8MiJgKq6fmFWm26kp+6Jg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 72FF14E303B
+References: <20260503150027.107173-1-shyamsunderreddypadira@gmail.com>
+ <69fba4ea.050a0220.3a85f6.7024@mx.google.com> <CALx+fbYMwJCvRvGMirfDHeA=z9_SG1EJKse2z7MZJBhSsFbxFQ@mail.gmail.com>
+In-Reply-To: <CALx+fbYMwJCvRvGMirfDHeA=z9_SG1EJKse2z7MZJBhSsFbxFQ@mail.gmail.com>
+From: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+Date: Thu, 7 May 2026 10:42:05 +0530
+X-Gm-Features: AVHnY4L-dfXKN_PVi6xRUwIL5M30kOZgCyUOrtbQYwWQ37HKWKvF8d9txYM__1c
+Message-ID: <CALx+fbafjkQ3TEfFKpzdg7wCh-HVFc9_GiejnV4B5n3_aY=7qg@mail.gmail.com>
+Subject: Re: staging: media: imx: remove unnecessary out-of-memory error message
+To: linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 6873E4E3053
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60710-lists,linux-media=lfdr.de,cisco];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_FROM(0.00)[bounces-60711-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_ONE(0.00)[1];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_NONE(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[shyamsunderreddypadira@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,media-ci.org:email]
 X-Rspamd-Action: no action
 
-On 06/05/2026 21:43, Ben Hoff wrote:
-> Hi Hans,
-> 
-> Thanks for the review.
-> 
-> I posted an updated version here:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/patch/20260506192618.35384-1-hoff.benjamin.k@gmail.com/
-> This version removes the unnecessary `(void)` casts and fixes
-> the`sizeimage` handling in `queue_setup()`.
-> 
-> `queue_setup()` no longer tries to rebuild `vid->pix.sizeimage` on the
-> fly. The driver initializes the default format state during channel
-> setup, and format/timing changes update `vid->pix.sizeimage` through
-> `hws_calc_sizeimage()` before the queue is used.
-> 
-> I also removed the inconsistent `PAGE_ALIGN()` handling from
-> `queue_setup()`. The requested plane size is now checked against
-> `vid->pix.sizeimage`, and new buffers are sized to that same logical
-> V4L2 `sizeimage` value. If the hardware path later needs additional
-> padding, then that should be reflected in `pix.sizeimage` itself. This
-> behavior is consistent with the original driver.
-> 
-> Not sure where that crept in, but I had multiple allocation paths in
-> this driver at one point that I consolidated down for ease of
-> maintaining, so guessing during that shuffle.
-> 
-> Finally, `alloc_sizeimage` was only used as a debug/accounting value,
-> so I removed it entirely.
-> 
-> Thanks again for catching this.
+Hi,
 
-Thank you for the quick turnaround.
+I noticed the CI reported a missing Signed-off-by from Ricardo
+Ribalda. So, I wanted to confirm whether I should add any additional
+tag or if this is a false positive.
 
-I hope to review v6 soon (hopefully early next week), so unless I find something
-else I should be able to merge it for v7.2.
+Please let me know how to proceed.
 
-One request: can you do another run with v4l2-compliance and post the output?
+Thanks,
+Shyam
 
-If possible, please compile v4l2-compliance from the git repository (git://linuxtv.org/v4l-utils.git)
-so you test with the latest version.
 
-Regards,
-
-	Hans
-
-> 
-> Best,
-> Ben
-> 
-> On Tue, May 5, 2026 at 6:37 AM Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
+On Thu, 7 May 2026 at 02:42, Shyam Sunder Reddy Padira
+<shyamsunderreddypadira@gmail.com> wrote:
+>
+> Hi,
+>
+> I noticed the CI reported a missing Signed-off-by from Ricardo Ribalda. So, I wanted to confirm whether I should add any additional tag or if this is a false positive.
+>
+> Please let me know how to proceed.
+>
+> Thanks,
+> Shyam
+>
+> On Thu, 7 May, 2026, 02:00 Patchwork Integration, <patchwork@media-ci.org> wrote:
 >>
->> Hi Ben,
+>> Dear Shyam Sunder Reddy Padira:
 >>
->> While reviewing v5 I discovered some issues, one of them (sizeimage handling)
->> important enough to warrant a v6.
+>> Thanks for your patches! Unfortunately the Media CI robot detected some
+>> issues:
 >>
->> On 4/3/26 15:57, hoff.benjamin.k@gmail.com wrote:
->>> From: Ben Hoff <hoff.benjamin.k@gmail.com>
->>>
->>> Add an in-tree AVMatrix HWS PCIe capture driver. The driver supports
->>> up to four HDMI inputs and exposes the video capture path through
->>> V4L2 with vb2-dma-contig streaming, DV timings, and per-input
->>> controls. Audio support is intentionally omitted from this
->>> submission.
->>>
->>> This patch also adds the MAINTAINERS entry for the new driver.
->>>
->>> This driver is derived from a GPL out-of-tree driver.
->>>
->>> Changes since v4:
->>> - replace plain 64-bit elapsed-time divisions in debug logging with
->>>   div_u64() so i386 module builds do not emit __udivdi3 references
->>>
->>> Changes since v3:
->>> - fold the MAINTAINERS update into this patch so per-patch CI sees the
->>>   new file pattern
->>> - wrap the validation text for checkpatch
->>>
->>> Changes since v2:
->>> - keep scratch DMA allocation on a single probe-owned path
->>> - avoid double-freeing V4L2 control handlers on register unwind
->>> - drop the extra per-node resolution sysfs ABI
->>> - turn live geometry changes into explicit SOURCE_CHANGE renegotiation
->>> - report live DV timings and reject attempts to retime a live source
->>> - stop advertising RESOLUTION source changes for fps-only updates
->>> - keep live fps state across harmless S_FMT restarts
->>> - stop exposing an unvalidated DV RX power-present signal
->>> - clean the imported sources for checkpatch and W=1 builds
->>>
->>> Validation:
->>> - build-tested with W=1 against a local kernel build tree
->>> - compiled the driver with ARCH=i386 allmodconfig and verified the
->>>   resulting hws_pci.o, hws_video.o, and hws.o do not reference
->>>   __udivdi3
->>> - v4l2-compliance 1.32.0 on /dev/video1: 51 tests succeeded,
->>>   0 failed, 1 warning
->>>
->>> DV_RX_POWER_PRESENT is intentionally left unsupported in this revision
->>> because current hardware evidence does not expose a validated
->>> receiver-side power-detect signal distinct from active video presence.
->>>
->>> Reported-by: kernel test robot <lkp@intel.com>
->>> Closes: https://lore.kernel.org/oe-kbuild-all/202604020522.z22eZuW8-lkp@intel.com/
->>> Signed-off-by: Ben Hoff <hoff.benjamin.k@gmail.com>
->>> ---
->>>  MAINTAINERS                            |    6 +
->>>  drivers/media/pci/Kconfig              |    1 +
->>>  drivers/media/pci/Makefile             |    1 +
->>>  drivers/media/pci/hws/Kconfig          |   12 +
->>>  drivers/media/pci/hws/Makefile         |    4 +
->>>  drivers/media/pci/hws/hws.h            |  174 +++
->>>  drivers/media/pci/hws/hws_irq.c        |  271 +++++
->>>  drivers/media/pci/hws/hws_irq.h        |   10 +
->>>  drivers/media/pci/hws/hws_pci.c        |  865 ++++++++++++++
->>>  drivers/media/pci/hws/hws_reg.h        |  136 +++
->>>  drivers/media/pci/hws/hws_v4l2_ioctl.c |  924 +++++++++++++++
->>>  drivers/media/pci/hws/hws_v4l2_ioctl.h |   36 +
->>>  drivers/media/pci/hws/hws_video.c      | 1506 ++++++++++++++++++++++++
->>>  drivers/media/pci/hws/hws_video.h      |   29 +
->>>  14 files changed, 3975 insertions(+)
->>>  create mode 100644 drivers/media/pci/hws/Kconfig
->>>  create mode 100644 drivers/media/pci/hws/Makefile
->>>  create mode 100644 drivers/media/pci/hws/hws.h
->>>  create mode 100644 drivers/media/pci/hws/hws_irq.c
->>>  create mode 100644 drivers/media/pci/hws/hws_irq.h
->>>  create mode 100644 drivers/media/pci/hws/hws_pci.c
->>>  create mode 100644 drivers/media/pci/hws/hws_reg.h
->>>  create mode 100644 drivers/media/pci/hws/hws_v4l2_ioctl.c
->>>  create mode 100644 drivers/media/pci/hws/hws_v4l2_ioctl.h
->>>  create mode 100644 drivers/media/pci/hws/hws_video.c
->>>  create mode 100644 drivers/media/pci/hws/hws_video.h
->>>
+>> # Test media-patchstyle:./0001-staging-media-imx-remove-unnecessary-out-of-memory-e.patch media style
+>> ERROR: ./0001-staging-media-imx-remove-unnecessary-out-of-memory-e.patch: Missing committer Ricardo Ribalda <ribalda@chromium.org> Signed-off-by
 >>
->> <snip>
 >>
->>> diff --git a/drivers/media/pci/hws/hws_v4l2_ioctl.c b/drivers/media/pci/hws/hws_v4l2_ioctl.c
->>> new file mode 100644
->>> index 000000000000..9c0826c0f9f9
->>> --- /dev/null
->>> +++ b/drivers/media/pci/hws/hws_v4l2_ioctl.c
->>> @@ -0,0 +1,924 @@
 >>
->> <snip>
+>> Please fix your series, and upload a new version. If you have a patchwork
+>> account, do not forget to mark the current series as Superseded.
 >>
->>> +/* Query the *current detected* DV timings on the input.
->>> + * If you have a real hardware detector, call it here; otherwise we
->>> + * derive from the cached pix state and map to the closest supported DV mode.
->>> + */
->>> +int hws_vidioc_query_dv_timings(struct file *file, void *fh,
->>> +                             struct v4l2_dv_timings *timings)
->>> +{
->>> +     struct hws_video *vid = video_drvdata(file);
->>> +     u32 w, h;
->>> +     u32 fps;
->>> +     bool interlace;
->>> +
->>> +     if (!timings)
->>> +             return -EINVAL;
->>> +
->>> +     w = vid->pix.width;
->>> +     h = vid->pix.height;
->>> +     interlace = vid->pix.interlaced;
->>> +     (void)hws_get_live_dv_geometry(vid, &w, &h, &interlace);
+>> For more details, check the full report at:
+>> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/99166179/artifacts/report.htm .
 >>
->> No need to cast to (void). I've seen it several times in this patch, just drop it.
 >>
->>> +     fps = hws_get_live_fps(vid);
->>> +     if (!fps)
->>> +             fps = vid->current_fps ? vid->current_fps :
->>> +                   hws_pick_fps_from_mode(w, h, interlace);
->>> +
->>> +     return hws_fill_dv_timings(w, h, interlace, fps, timings);
->>> +}
 >>
->> <snip>
+>> Best regards, and Happy Hacking!
+>> Media CI robot on behalf of the linux-media community.
 >>
->>> diff --git a/drivers/media/pci/hws/hws_video.c b/drivers/media/pci/hws/hws_video.c
->>> new file mode 100644
->>> index 000000000000..9c81af6e7d7f
->>> --- /dev/null
->>> +++ b/drivers/media/pci/hws/hws_video.c
->>> @@ -0,0 +1,1506 @@
+>> ---
+>> Check the latest rules for contributing your patches at:
+>> https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
 >>
->> <snip>
+>> If you believe that the CI is wrong, kindly open an issue at
+>> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
+>> to this message.
 >>
->>> +static int hws_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
->>> +                        unsigned int *nplanes, unsigned int sizes[],
->>> +                        struct device *alloc_devs[])
->>> +{
->>> +     struct hws_video *vid = q->drv_priv;
->>> +
->>> +     (void)num_buffers;
->>> +     (void)alloc_devs;
->>
->> This shouldn't be needed.
->>
->>> +
->>> +     if (!vid->pix.sizeimage) {
->>
->> Why would this ever be 0? At probe time this should be set to something
->> sane.
->>
->>> +             vid->pix.bytesperline = ALIGN(vid->pix.width * 2, 64);
->>
->> Apparently vid->pix.width/height are valid (non-0), so why would sizeimage
->> be 0? vid->pix should always have sane consistent data.
->>
->>> +             vid->pix.sizeimage = vid->pix.bytesperline * vid->pix.height;
->>> +     }
->>> +     if (*nplanes) {
->>> +             if (sizes[0] < vid->pix.sizeimage)
->>
->> If PAGE_ALIGN is used below, then it should also be used here.
->> This can cause memory overwrite if you pass a buffer with VIDIOC_CREATEBUF
->> that is of size 'sizeimage' when it should be 'PAGE_ALIGN(sizeimage)'.
->>
->>> +                     return -EINVAL;
->>> +     } else {
->>> +             *nplanes = 1;
->>> +             sizes[0] = PAGE_ALIGN(vid->pix.sizeimage);
->>
->> But if you need PAGE_ALIGN, why isn't vid->pix.sizeimage set with PAGE_ALIGN
->> in the first place?
->>
->>> +     }
->>> +
->>> +     vid->alloc_sizeimage = PAGE_ALIGN(vid->pix.sizeimage);
->>
->> What is alloc_sizeimage used for? I see it used only in a v4l2_dbg message.
->>
->>> +     return 0;
->>> +}
->> Regards,
->>
->>         Hans
-> 
-
 
