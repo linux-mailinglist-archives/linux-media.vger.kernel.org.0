@@ -1,131 +1,130 @@
-Return-Path: <linux-media+bounces-60711-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60712-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id awKgATsf/GkfLwAAu9opvQ
-	(envelope-from <linux-media+bounces-60711-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 07:12:27 +0200
+	id IJf2EBwh/GlcLwAAu9opvQ
+	(envelope-from <linux-media+bounces-60712-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 07:20:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6873E4E3053
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 07:12:25 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 976D74E3130
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 07:20:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B3A11301D321
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 05:12:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1EEB53019523
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 05:20:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A594326928;
-	Thu,  7 May 2026 05:12:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC67232AAAB;
+	Thu,  7 May 2026 05:20:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mb8PNbMz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TPubjAYK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD4126ED41
-	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 05:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C705330EF7B
+	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 05:20:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778130740; cv=pass; b=MO7Gbwx06BkZBa6XUbs2ZcYp3ByxX8v2tg/PenD66Hc9rjHi1X1wB0alyz6Eu/bwlSVZpjkm3M/EZqt8i/nhabQuQoWT5D92dQiBKe1Hn7bwGdWcQgEbJ33l/XPTMDeL0a7j5oF9rC0QsL7n7oznKj/0m2Foeppa9wJ9oMiJazo=
+	t=1778131207; cv=pass; b=NYUSfQ5Qo4rr8oQRj1NreKDvrvBrC3vjNn14unTPNNAf1g8BbOu45H3FZRsaU7N60CJfB0haT12dTPsgJditWtpdOFVHEfxz9Xybz8Z79/mxe2n4F2/eUYKUNmlcGU6jvRbwQAtA48GKIToDy7nVgwWEfCNSDggCoDboeMErw2M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778130740; c=relaxed/simple;
-	bh=fbncoqMIGmGj0iqGTDtQInjZuGNvpnBJ0wDBdv7POrk=;
+	s=arc-20240116; t=1778131207; c=relaxed/simple;
+	bh=zqkCtEjU5mU0lQRD/RRWlfiy61nVU15hs104pUJNWGs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=DiIOso7CW4fkn3mNCv3senA+Ge6pe4aYChNr1H7Bl+ew57EYczfI+YcFFgTQ1OdNbixERe0dftEYmUnS2wlWyrTVGsosJvs7/uoRa5sc1P/lEuqIDjtGFL//38RhxE6ayGNkbu+b9pN89jYUewxbdWsdsNeyA50ixBIi57cNDaw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mb8PNbMz; arc=pass smtp.client-ip=209.85.221.46
+	 To:Content-Type; b=Koq3RbNZu5dxU26/cdJkEKB9kuvAbhFeKWZMsRBPnRVK1jDIpIMzgZPbh4OPD0FCw6vPxPs4IQR2uHTBJUDRsE/MhU1iyKkktvoRe40ki1pZUXoy5uTYvWrL81O6+qMO3m5gb4YCCj4VVyMbt8Pr8SwNqzvM1tusBa+fXo3q490=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TPubjAYK; arc=pass smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43d73422431so331115f8f.2
-        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 22:12:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778130737; cv=none;
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43d77f6092eso236588f8f.2
+        for <linux-media@vger.kernel.org>; Wed, 06 May 2026 22:20:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778131204; cv=none;
         d=google.com; s=arc-20240605;
-        b=j5lZT/RjQM1sAAXZqgcLM8rxPnujVJtV/X25OQQuy2KVwPPe/UKl8USpm6qaj8YbFC
-         uDmRgOYOyePKEGdx5KuAGyd6L1KXc56U0rMYd4Zkj0IRO0fWBSlc1tPvnHDlY61s7vhR
-         4forMunBYUf7sXCvYVgaxIto8139WtC4bH5ssfYnQNts6l8vsICXCibDeZk6t/PVA9fF
-         xVBNjgbyTSObI+wNmG58e5qgn7cz96rqM2pBf4zw0LXipMae1VvsdPR1CVQ/vGtT84wA
-         npw5BQ/ClFYMwIlD3Tse8ofxdlOg2IJR3mEgilf0IMHLegPV2paNa7iabmEmZMbhUFGm
-         DpzA==
+        b=VoTHlRY4TA2I9KeGAMNNQIlAcS+WGcXg04vBBl34OzGMjTn2dvuifVME8oyptHrG2H
+         MXrcpYDhhCfkwT+MaS/K2t/m5Fh4eX3sKlBEt5W4xhWtysQGKaTU+kjl54L4Jvd47lOK
+         hIfIbYdI4f5iIZ49a2i48oMHZ9bSVtuUs1IRIZVNday+FfmsmriVOtAZfQ7m6PAN3/nG
+         o1cR2n0dbrouYvcuMiY8PfUMleUOEJl/+5sjurYS34Olj9hbRoY4qnP13M0DvKBwwIqZ
+         o6iNrmVBNacX2D3Ef7oC388lWdn5wWWT77skyPZuLHuq5txSZyamHQZtuSAXU9Z1x2Wf
+         1E4A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=to:subject:message-id:date:from:in-reply-to:references:mime-version
          :dkim-signature;
-        bh=fbncoqMIGmGj0iqGTDtQInjZuGNvpnBJ0wDBdv7POrk=;
+        bh=zqkCtEjU5mU0lQRD/RRWlfiy61nVU15hs104pUJNWGs=;
         fh=RpYxnnRW5A5FvuL86z7f7YWfE0tvaTrs4Vecbev4fLA=;
-        b=TotCVe+ywbZ4fX9MdwtcUAXw4dzsFn6WU3WRfTPIqeiM2+MaAbFv+x8K1gMNR72jgI
-         RG6n3AZZlfq4uE8KDwdfZzzpXdcuP60tek2wfm++i2F8eIXKVD9V+ljeqDe7hg4vhL1i
-         S7zRGHhCTebyftgYVzXM4BP9rJhdxhLmwUFz7zfOelCxGHYpVxGiHlr375IGEkHt617P
-         cXarigiEEQKrF8MgXEFBp8L6cB2cr1FikThEtogbZWwKohaZl8KLi3Y2GqiGqYBmpdqy
-         VV4ceI8OkERC21IJgpnjW3yM5Z9iOydQbbJx4KIG1+86Fd08iAfLMdGHg/lle3o2gf+S
-         ljuQ==;
+        b=EQ0jnpQkd98iGt8OsOYK6lCnz2b5yNhaWpycb6LFldaLzHymJN0kpkIEwKJuWvfraZ
+         wzZZuYUGzLgCX8+MszjUwxcPp7UFUzacO+WGnZI8n36MowtD9XwIOd1NA5vfSebYkZlV
+         ApRfzwpgWWgJj5bhYYe3vnjBDCHjUecV/RYu1RpQzfPgdyQQppwV8+ueMIUgJqlztkjZ
+         JbdZ/GVdbxbZkOPZN9kyxnWJLPc0BeS3HLUa6xK3WyF4WCGgfEcwvRm1kYLwBOTRsHD7
+         5FIvW0Mgl7g5VFNRwyzUDEEFCwbHWuvfD9QA7S+2U3EBHUaYosEBzTMrmp/G8E+7LzS2
+         uxsQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778130737; x=1778735537; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778131204; x=1778736004; darn=vger.kernel.org;
         h=to:subject:message-id:date:from:in-reply-to:references:mime-version
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=fbncoqMIGmGj0iqGTDtQInjZuGNvpnBJ0wDBdv7POrk=;
-        b=Mb8PNbMzLpfajUfBxDCDcMMX3upJbgFjqdacG9pBhVzhwf4zrJGcea4q/FciyjFcWZ
-         KXhaeBMrpjOhxwbaix6nQ16A7MjkfNVhpTf4A4IfMFGYmmTrP33CI3d0SFGo9ttpnp3s
-         LcM7nC0NiSw1mJuNTrTgWFY6Y8YWcrUvH/CKqhHsbVBy0a03a6gjB6FMrN1iPR0xkYXS
-         3gFNjbk8Gxvr7svXtVGgOdJjQYzdqAZV0cyuV5UTXpZEmAppHOjlvIUBwnZbwZ+NYM7+
-         Yh6enSgK5V5BtOAleA0IXt1qHo/ZOL6gCsq3W/ZQ3IK/Hg3Za/2rJTvjzd3Y49EXYGRr
-         kjlg==
+        bh=zqkCtEjU5mU0lQRD/RRWlfiy61nVU15hs104pUJNWGs=;
+        b=TPubjAYKou8FiI7hQFYqQFP8K/9LSY7lT36c+2k1EXoDfLU4KgJ258CBrpVN/YxZFA
+         GWI1XM7ky7LzbAqhZ0slkjGDAdU+N8wiMAR8137PhJcc1IQlkWCwyRYzgE209NJZIEe/
+         z5EZwW/PpqD2jpPCsnR89hQy/8bUaSweY/k3Zb9tUPpJlvBVZLZMduBDZOOYnXoImT2u
+         qjEqnbxKUf2KkUEygYdFONxeYpGT7ZMeD1yn2+WhFgHW2/7AMwpU9emmnzvhY6e20BjP
+         kjqOmWquNLC6YaGio0C+pY/XyEFz8LUFXxMa6Fpdwl+Fgx/JFXyFCue50nR6ghVq83Mj
+         hBEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778130737; x=1778735537;
+        d=1e100.net; s=20251104; t=1778131204; x=1778736004;
         h=to:subject:message-id:date:from:in-reply-to:references:mime-version
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fbncoqMIGmGj0iqGTDtQInjZuGNvpnBJ0wDBdv7POrk=;
-        b=BV2Mf3Xm9WHsMQRDZqzO0BoMy1DgoMCOtA+4dWkVAvWKi9VtGGCU21RRRHmI2CH+jS
-         ztCRrFDdA6rCdDJUfWuAaheFbBfu5zM04n3KqL9KiCq/4Rp3O1Di6SM2C5m7k8nyLnpy
-         YPHiauSzexFlJUEYqDglVRVyp0Li1tjp7IFDmGESuVM45zEOaRJV61a5GFxFwqrgEL4E
-         OZ6eEoe7xHVbmuWK8iAYGH7YOzXKvTfThNkfFshrAtmeqJxnNM6tU77gdt4cTLgKlTdo
-         pcmWm6kWaMHAXPH/MOQg+1mhB+FWuApAGhn6bItwrpib4iZjVeYez9SHiAUYU6Om9rLA
-         XMtw==
-X-Gm-Message-State: AOJu0Yx40bxdLIIWiqUsZfe9Vqt5uY+gt8j0CTuGsptLNUYi+A4CKnlR
-	zH0Vlq0qp0WXHLTOOvqVez/Jp4EnQHkXS2/yHx+bn5pe7FoRhR2zDAUo/oGdp86ZY3GnJNEZlG1
-	BAEE2USMwLy45+BBmkCoMaF+aLyT2lW1kkFVILk0=
-X-Gm-Gg: AeBDiev5OEUt2O9WzgwQRCPTMBmz+bufwTHzdWjM7aF+aoSdws+mwd/DCIySn49Z9Rl
-	D4cIhAnEGaWktj4+760ViV9MwP14HulX4yh8TPOOQ5LqhvYMo//Smd1KMjwT950neMqdEAsKpej
-	34Al82IZ8g43nJGqeCQUhaULhjRfT/+oCAkji0bGfZkzhfZRdAxLA6cDbGjowz8k0WPlE/weyZ1
-	UafqwDE3Kbmp51eu2H4POXj929ni7F9/2YnneSbBJXgos9wF1VfdUHhAKWcuMrX2+BUMKLBtoWh
-	/FeZ8FDIAHw5H9VotUjoe9juQuVByw==
-X-Received: by 2002:a5d:5c84:0:b0:43d:1bf6:30f7 with SMTP id
- ffacd0b85a97d-4515b9f3935mr10441329f8f.18.1778130737316; Wed, 06 May 2026
- 22:12:17 -0700 (PDT)
+        bh=zqkCtEjU5mU0lQRD/RRWlfiy61nVU15hs104pUJNWGs=;
+        b=ObuYIH7n8tZq34VP93NWsh6pcDp2UAVLTmmJ8KiNk8bE+t//8G45mRYcdvbONNSnI9
+         UkE6x07YfiKGkmBQty6GPFGPHdUQlmt+JjAo3emE2byLpy+YSgqc+67K50fAiXMnRpoq
+         9UeUe7VZAvJcYx9GUmNkfNFogOJzvCQGjqwV8DIFsDNQVutbpocNkUgkZtFgyVAD/btt
+         x/5Gxw7WyMBJFGqf4ueoqENqawM5Q+Wkjv1R7lQDEnOdoYhlt8Z7LU6vRC6Z5uZgWcN4
+         4chAXtlqxw6hDaYa7MXPzobw/Guk4/Z+SE2AXDfMNtL5dRosMnbh8PaPROzivBhxHcSk
+         Gc/A==
+X-Gm-Message-State: AOJu0YwC+BhhyZwulyYsrlzVcx+1giDBrwAg8Fhq4Q0HhvarVE99N6/p
+	mLc4mMyMMrZxGdPKi3NcWfKP6tJsSS11rC/TP2dA8fPRMNc3gnyctO4N4lRGYw87I6GZI8Uz7Ic
+	9q2EYvodBMG0iDHQxio5iJpLkAuFqB5GRKvtajLQ=
+X-Gm-Gg: AeBDieuy4ZkTDAmoOz34xVEuLyI2I5QyHWWbVY6r7Qjr1sAbd23t2lVkaDcM5BYgiTc
+	kXiky4plU5kVc6y9dl7ea/Kgqw8J5tIZqClfdvm7KspbcKIRwE9GShfr79kyuyRApzPdg3qpV4i
+	pGdWKU34xZB6NHNKDkgjbkQiJPf0+0amy8Y7873h2Yftf1sNNYBLtEaTkDS+Ys2GcBMmGamIWiJ
+	cEYp4PeIIBUnpS/ZKHuGX0XycGd5t4yErfTgil7Zkf995uQF45QsvUUePir/GVnMipg3rPlDcEV
+	1rtmPno3kUEuG1wU8U0=
+X-Received: by 2002:a05:6000:2dc6:b0:439:c661:3245 with SMTP id
+ ffacd0b85a97d-4515cc31e43mr10856106f8f.34.1778131203654; Wed, 06 May 2026
+ 22:20:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260503150027.107173-1-shyamsunderreddypadira@gmail.com>
- <69fba4ea.050a0220.3a85f6.7024@mx.google.com> <CALx+fbYMwJCvRvGMirfDHeA=z9_SG1EJKse2z7MZJBhSsFbxFQ@mail.gmail.com>
-In-Reply-To: <CALx+fbYMwJCvRvGMirfDHeA=z9_SG1EJKse2z7MZJBhSsFbxFQ@mail.gmail.com>
+References: <20260504103656.32945-1-shyamsunderreddypadira@gmail.com> <69fbbd91.050a0220.15ac9b.9d7b@mx.google.com>
+In-Reply-To: <69fbbd91.050a0220.15ac9b.9d7b@mx.google.com>
 From: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-Date: Thu, 7 May 2026 10:42:05 +0530
-X-Gm-Features: AVHnY4L-dfXKN_PVi6xRUwIL5M30kOZgCyUOrtbQYwWQ37HKWKvF8d9txYM__1c
-Message-ID: <CALx+fbafjkQ3TEfFKpzdg7wCh-HVFc9_GiejnV4B5n3_aY=7qg@mail.gmail.com>
-Subject: Re: staging: media: imx: remove unnecessary out-of-memory error message
+Date: Thu, 7 May 2026 10:49:52 +0530
+X-Gm-Features: AVHnY4I2Ol4U2X4oP0CEzZ-k8tv0u27EdYteKfqq7lEbwXvqMY7-hvVSH2lnwUg
+Message-ID: <CALx+fbb9=s4w8f-_uaD4RHFpu_WsaQEYnrxdoU0ydcWoF-m_Xg@mail.gmail.com>
+Subject: Re: [v2] staging: media: atomisp: drop unnecessary else block after return/break
 To: linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: 6873E4E3053
+X-Rspamd-Queue-Id: 976D74E3130
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60711-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60712-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_ONE(0.00)[1];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
 	TO_DN_NONE(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -135,7 +134,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,media-ci.org:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[media-ci.org:email,mail.gmail.com:mid,chromium.org:email,pages.freedesktop.org:url]
 X-Rspamd-Action: no action
 
 Hi,
@@ -149,48 +148,36 @@ Please let me know how to proceed.
 Thanks,
 Shyam
 
-
-On Thu, 7 May 2026 at 02:42, Shyam Sunder Reddy Padira
-<shyamsunderreddypadira@gmail.com> wrote:
+On Thu, 7 May 2026 at 03:45, Patchwork Integration
+<patchwork@media-ci.org> wrote:
 >
-> Hi,
+> Dear Shyam Sunder Reddy Padira:
 >
-> I noticed the CI reported a missing Signed-off-by from Ricardo Ribalda. So, I wanted to confirm whether I should add any additional tag or if this is a false positive.
+> Thanks for your patches! Unfortunately the Media CI robot detected some
+> issues:
 >
-> Please let me know how to proceed.
+> # Test media-patchstyle:./0001-staging-media-atomisp-drop-unnecessary-else-block-af.patch media style
+> ERROR: ./0001-staging-media-atomisp-drop-unnecessary-else-block-af.patch: Missing committer Ricardo Ribalda <ribalda@chromium.org> Signed-off-by
 >
-> Thanks,
-> Shyam
 >
-> On Thu, 7 May, 2026, 02:00 Patchwork Integration, <patchwork@media-ci.org> wrote:
->>
->> Dear Shyam Sunder Reddy Padira:
->>
->> Thanks for your patches! Unfortunately the Media CI robot detected some
->> issues:
->>
->> # Test media-patchstyle:./0001-staging-media-imx-remove-unnecessary-out-of-memory-e.patch media style
->> ERROR: ./0001-staging-media-imx-remove-unnecessary-out-of-memory-e.patch: Missing committer Ricardo Ribalda <ribalda@chromium.org> Signed-off-by
->>
->>
->>
->> Please fix your series, and upload a new version. If you have a patchwork
->> account, do not forget to mark the current series as Superseded.
->>
->> For more details, check the full report at:
->> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/99166179/artifacts/report.htm .
->>
->>
->>
->> Best regards, and Happy Hacking!
->> Media CI robot on behalf of the linux-media community.
->>
->> ---
->> Check the latest rules for contributing your patches at:
->> https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
->>
->> If you believe that the CI is wrong, kindly open an issue at
->> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
->> to this message.
->>
+>
+> Please fix your series, and upload a new version. If you have a patchwork
+> account, do not forget to mark the current series as Superseded.
+>
+> For more details, check the full report at:
+> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/99166082/artifacts/report.htm .
+>
+>
+>
+> Best regards, and Happy Hacking!
+> Media CI robot on behalf of the linux-media community.
+>
+> ---
+> Check the latest rules for contributing your patches at:
+> https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
+>
+> If you believe that the CI is wrong, kindly open an issue at
+> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
+> to this message.
+>
 
