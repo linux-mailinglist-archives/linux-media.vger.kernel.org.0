@@ -1,263 +1,191 @@
-Return-Path: <linux-media+bounces-60842-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60843-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YD9JA5K//GnSTAAAu9opvQ
-	(envelope-from <linux-media+bounces-60842-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 18:36:34 +0200
+	id IPcJIPXA/GnSTAAAu9opvQ
+	(envelope-from <linux-media+bounces-60843-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 18:42:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622A84EC50D
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 18:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B72B4EC5F4
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 18:42:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BC2EB30528AA
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 16:34:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8C0F4301BF4B
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 16:42:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0FD93EFD15;
-	Thu,  7 May 2026 16:34:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69AD6428833;
+	Thu,  7 May 2026 16:42:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CLmlj65e"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SYo6HLmc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BE6428833
-	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 16:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7336F3BED23
+	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 16:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778171695; cv=none; b=kJ3SK8gl83DIeUu6EiVwUchrS0HHTNOM70xDG4+ehLzukLtYEwuH3v33vlRAsP2hmVSE9wIKQPiqmr8iKIVtCubGmSdAS6rMwULLCps9WLGNB2KxTlEsjmZuad+s9Riv0MELcBQW8LcS/9njpvTb1DDQi5cft5noUs8FherGqLk=
+	t=1778172139; cv=none; b=aurwNlRUbMaGiGskViZ/dSzkICVgUj4qHKPVAFgaCVn+5wgCoozCI1zaa7OVAzkYWpPJuIxtWocHe5r86OY0S7r/HPQrr00GMXLH5Az2QNoYcauW3lzyWIH5fhZAB/SJZukcNcdJoKieNXM8MZJMMb/1A25wuEg+Ug6d2AmhLqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778171695; c=relaxed/simple;
-	bh=67jMIhxSZ6IpyO4o5D89+eoatcvd8leasbTpm1BcyGI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GdcZld9C7OYKwzh4C15cb9Wt+tdG1kxXgWdf+sKtaCqZKl82iqUyU6KONTUiHy8uiHBV3ItSOpxmrKzfu+nUF3MFvQruRK1g+jnw7DkvHfLwZ3VFxJBk/znCfrvwyxmysO968tzkaN1TvCQl1+9SUsiwdfugXex4fF+9c2Qp09E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CLmlj65e; arc=none smtp.client-ip=209.85.208.45
+	s=arc-20240116; t=1778172139; c=relaxed/simple;
+	bh=u3ror31K/SolR44VKWPc2Q+Mua5QNfnvH8pM9AFqtMo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Winw0YWnj8Z7FP4VLm2wLB97ZwIDZ9BE7ZQ/98vJXE+P4Km0vSK2Y+tlTJZcAHgZvBE+4g4BP+11jWmfAszDZPXr5MFxZMWwXElwCP5cz3IvlqVQGY9cFtAGrA103+dXVJnVWSrxSK1AJaca8r48rdoKTi5SXxMkY4XXZxiXQI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SYo6HLmc; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-67389cf78b0so2044548a12.2
-        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 09:34:53 -0700 (PDT)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-453903ee4adso603687f8f.3
+        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 09:42:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778171691; x=1778776491; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gG5C6gXZ/LiIqxaLiBv5dvLMMivS9UIn2zta7LN39yI=;
-        b=CLmlj65ewinVQn5Sg45tMrPfXYD+5JiXKJuvYgKSk7rag090lkITNnWveSfUK/1Moi
-         3R6jvEalAQtptfJ/apDs0ywpPB5diEg6xim+XqZ0XCY1iv0uOizS+d8++QFa+amLFtRp
-         ZUcvSORoT6Qd0lYUHcdQl0rrwOAvy5qgiw3SKYakAuwAavRFq49NCk59Ub+tWBaGC46K
-         cMOhK1GchPUlgDB7QYeKJHCTsNbdSCnYJ8rd+XLECK/aKXU2hqk69HFPWpmfW6e6ZYvJ
-         RaozdZe0myr1gIWVR3C9VHPRPcZPUG1T6TlX2jV4wdi2YPXiqocgHdIkozDbz/8JcRvs
-         gUcQ==
+        d=gmail.com; s=20251104; t=1778172137; x=1778776937; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DkH5pLwd4aVz/xgL9vdbm3vW9Cqx7RecqkkEDJ2Qoyw=;
+        b=SYo6HLmcA/7cUnwilfUm6/CtbKmXwozCBUWp2IaNRmX/NhSO0flDRhIVU40qmuDRXA
+         G6ax/sog78LNnmRqkSbUZ6fF6njKMC09dcMDFDgzOtjGJ9ZTP/m5OMEFlx9J8l7WWaOt
+         T7n1p1pfneAeSea3eYFItA9dSEoAZ98J/s2uI3wOzT2E3NQALy+C7ddDl8gJQoK1NUPb
+         l7KLUce7yWSiR/5LFiHRvfWefJt000+ijd8+2+9RBlekbob3rClAhbwcnNpKKZLj/5er
+         09IZaNNBTPDCmpfhglVhYoyX2ojRKjuMeFS/FtJr3yLRT4jZwO/ICnaqtx5uyP5oA8mu
+         ELlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778171691; x=1778776491;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gG5C6gXZ/LiIqxaLiBv5dvLMMivS9UIn2zta7LN39yI=;
-        b=Zp/uY/P3oK+tXBwbvB/tIiXFJI5ET3+bEwSTzLpoDJcrdM1n3Xy3dw4dSt79k9AQZE
-         eLrmz4LPXY9DFUeNCs+St+Xl29N75D4rn7FyEn2RwTn/cyLylIy9PhaVoibSHwVUCuE3
-         nX3ln/MXkND79NikHfCkO+F+P49XzLh3ixBcyjx4nBSeIA/PdFx3bzNrXgwfWUFaK24Q
-         03HpM/iHyHEeMRdSfgj8i23eEAyIlKOAJZ1xNiqLtpoTRONGKF7cIh157a7+eazFLmA0
-         lF+EiKiEDb/0+RYgnTEZ9csE07Est01ynVox1Yjf0hv7rPNgIEo+JWGx1AlDzGd1Ere/
-         6mGA==
-X-Forwarded-Encrypted: i=1; AFNElJ8Hynbqb/igJLJTW+PI1kira5meJ09sDV/JmD3RbSDLLBK7N/gidBoPIgXhu2eimUYzm/e8FHnAb0OFcQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YybsbpQdBIjJTq7nBYMk/rGD2h+FRv/ePSTo5Weo/kjtKTe0QLN
-	uHMUJNZXZ8fkYFTrnnK7AshM3Z8Exnnp08/Qn0UbdwJ3Au7AjhZmH0C5NRPrDOX4
-X-Gm-Gg: AeBDiesjlmK06NrBi+c4h3vzBuRWroQK1jZCDLVzRqgGjbUfeUfKLZUbFbto8e71JV/
-	K0xbZuBmQ1yqFQfV++TACkInLXqdMsvknjmqSTZttXhdhgQ7XKAjgHRlU4PsB701vjVh+JYZnN7
-	EAilNg0zqKVrrt4BSemAmebALSBsOt+3JCjeDJQjRS+hX9q1npv3NkO2qud7gl/mY65wSOh3C78
-	iWoT2ifTwLW7y9iU+PMHBE4r09MouxZmQn7akC12o4ioVyzhGhHWU+D/IO2B/Wc6JIJ/B99y+Tr
-	obn+hmeQjptMv4zs4V8jYzdhym8mK2m36uM/JiYpnmlyc0sHMTsT36Y99Z8bS2iuQ5azUisEUKq
-	Ap8N4MQgOz1dPOzKQJfacjCOZh74YeJUYmlmWrRR8ZhuLea+DXRV7xB20mfTeQK4c8FXfCdnddM
-	79Qe5pTupcdtmXEMFYQqZqQF941xXA2PMUMQ==
-X-Received: by 2002:a17:907:3f24:b0:bc6:2bd3:8176 with SMTP id a640c23a62f3a-bc62bd388e2mr413967366b.35.1778171691229;
-        Thu, 07 May 2026 09:34:51 -0700 (PDT)
-Received: from avt74j0.. ([2a02:8109:8617:d700:d9bb:cdec:69e5:2f8e])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-67eb34dd33fsm8765a12.31.2026.05.07.09.34.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 09:34:50 -0700 (PDT)
-From: Martin Hecht <mhecht73@gmail.com>
-To: 
-Cc: sakari.ailus@linux.intel.com,
-	martin.hecht@avnet.eu,
-	michael.roeder@avnet.eu,
-	stable@vger.kernel.org,
-	Martin Hecht <mhecht73@gmail.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1] media: i2c: alvium: fix critical pointer access in alvium_ctrl_init
-Date: Thu,  7 May 2026 18:34:30 +0200
-Message-ID: <20260507163443.39794-1-mhecht73@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1778172137; x=1778776937;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DkH5pLwd4aVz/xgL9vdbm3vW9Cqx7RecqkkEDJ2Qoyw=;
+        b=SA1gyoLu3yd0G525KVfLDZ4OLKwG0XYJAL2A2a4YnYrjGGCGJvT0ZnyD20Nep8mypz
+         D4fUciAsSKix9gzSonooe1X6SJPmCg0NUprWNPZ8mdmERtKHk20UiXM/2ih3xaSLcFyd
+         XYjz8c9lCbAvUKR2bi88O0oM9R70u30ByKzmrA3hgoDXmGxXB8WJQ8d80YuJw5xa1fkz
+         Y8PpXBIekh9h/PN3XjUEQg+4Qkme2EFLqIJ4Ja455OToKmaWMHBKYJ9UrbgsX9yNY8+l
+         SKHneRI4SZ2lzqpAycKyFKB+S/ShNqIsdSCAcVW6a9+hqmwPdlTHpCe4p3Dc2ttMEFo1
+         oV6A==
+X-Forwarded-Encrypted: i=1; AFNElJ/oFq60MvMAMO56ZL1yvXqQwZ4x04dcu/pHW0hfLLTHT52KQwWYh41Ek+RRk0Sjq+2w/NUxUpSCxOqzAg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyH2+6CJQtAf44cZ8FVKcpO/ZJhR8y+C44BSbr0kDeW6Zv6Rl/K
+	w3nVgK8dnRRtKVZ/mVUiWGbfa8JcuaXYPkpUDO5nZDgFIAx9F3uyOvdY
+X-Gm-Gg: AeBDiev7vsgv7U/5bXfu+Sa69njpV9IvaeGJ0xqHcypdttvMnADLoj69KGBrfCWUIFn
+	wBUcRCHAnuQGTTxD534FSdRMg8fA5lIKCybRN0j22tdgB4QoPs4RCt3Yc05vB/DYteuGrMQgqCC
+	hAdNjtA+yQPVfkHQwASsax9UcbpMiWYIIbIhSAGlwBDiW9SUho8mWHtAnJJ8ANP7FCVIB+mi3Fx
+	Gi0/1ag0rfrLlFhkOZzGCheZe4MaI5PBG+VAYv99XB47jgEIakygax0fAKyVcOCjlvID4JOwID0
+	q4pD3J4CJObkIj5xA5/8ZtjxFzvYYQbdoMRCBNkM60Rt/AdD9XnbV3XjDPZpW0ebSh/PEm1r9AD
+	U5ai9OBp7br5zKXQlEmY1bxuQcIK+JAx4OhRfeDtNFFooOL2xNioFcb5fcHcu9YkkNNM2VOge85
+	xVf5EgcarMwD4Sw5WCmpSoOQ6pYQAQsSw864WYIYPHVME6bI+X8bZxvwkCxkO4RwFw6XUmAADT
+X-Received: by 2002:a5d:5f48:0:b0:43b:498f:dceb with SMTP id ffacd0b85a97d-4515b056b4dmr14242651f8f.9.1778172136625;
+        Thu, 07 May 2026 09:42:16 -0700 (PDT)
+Received: from ?IPV6:2a02:8109:8617:d700:d9bb:cdec:69e5:2f8e? ([2a02:8109:8617:d700:d9bb:cdec:69e5:2f8e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45412820340sm309996f8f.2.2026.05.07.09.42.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 May 2026 09:42:16 -0700 (PDT)
+Message-ID: <7a353450-770a-4820-ad23-8066b736d87e@gmail.com>
+Date: Thu, 7 May 2026 18:42:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 622A84EC50D
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] media: i2c: alvium: Fix controls for WB/AWB
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: martin.hecht@avnet.eu, michael.roeder@avnet.eu, stable@vger.kernel.org,
+ Tommaso Merciai <tomm.merciai@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260505142513.1551721-1-mhecht73@gmail.com>
+ <afsJz1vVdd3o-pe9@kekkonen.localdomain>
+ <37aa90a3-7909-4605-a0be-1545db1fadb0@gmail.com>
+ <afsh2tmV5AFlMCML@kekkonen.localdomain>
+Content-Language: en-US
+From: Martin Hecht <mhecht73@gmail.com>
+In-Reply-To: <afsh2tmV5AFlMCML@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 0B72B4EC5F4
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,avnet.eu,vger.kernel.org,gmail.com,kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60842-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[avnet.eu,vger.kernel.org,gmail.com,kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60843-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[mhecht73@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
+	FREEMAIL_FROM(0.00)[gmail.com]
 X-Rspamd-Action: no action
 
-The current implementation of alvium_ctrl_init creates several controls
-in function alvium_ctrl_init and uses the returned pointer without
-check. That can cause write access over NULL-pointer for several
-controls.
-The reworked code checks the pointers before adding flags and also it
-creates controls for V4L2_CID_BLUE_BALANCE and V4L2_CID_RED_BALANCE only
-if supported by the particular camera model.
+Hi,
 
-Fixes: 0a7af872915e ("media: i2c: Add support for alvium camera")
-Cc: stable@vger.kernel.org
-Signed-off-by: Martin Hecht <mhecht73@gmail.com>
----
- drivers/media/i2c/alvium-csi2.c | 72 +++++++++++++++++++--------------
- 1 file changed, 42 insertions(+), 30 deletions(-)
+that patch has been superseded by patch 
+20260507163443.39794-1-mhecht73@gmail.com what addresses more critical 
+issues.
 
-diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
-index b62b45a4f2fc..947b32950efa 100644
---- a/drivers/media/i2c/alvium-csi2.c
-+++ b/drivers/media/i2c/alvium-csi2.c
-@@ -2100,34 +2100,41 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
- 					      V4L2_CID_PIXEL_RATE, 0,
- 					      ALVIUM_DEFAULT_PIXEL_RATE_MHZ, 1,
- 					      ALVIUM_DEFAULT_PIXEL_RATE_MHZ);
--	ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	if (ctrls->pixel_rate)
-+		ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
- 	/* Link freq is fixed */
- 	ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops,
- 						  V4L2_CID_LINK_FREQ,
- 						  0, 0, &alvium->link_freq);
--	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
--
--	/* Auto/manual white balance */
-+	if (ctrls->link_freq)
-+		ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	/* manual white balance */
-+	if (alvium->avail_ft.whiteb) {
-+		ctrls->blue_balance = v4l2_ctrl_new_std(hdl, ops,
-+							V4L2_CID_BLUE_BALANCE,
-+							alvium->min_bbalance,
-+							alvium->max_bbalance,
-+							alvium->inc_bbalance,
-+							alvium->dft_bbalance);
-+
-+		ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops,
-+						       V4L2_CID_RED_BALANCE,
-+						       alvium->min_rbalance,
-+						       alvium->max_rbalance,
-+						       alvium->inc_rbalance,
-+						       alvium->dft_rbalance);
-+	}
-+
-+	/* Auto white balance */
- 	if (alvium->avail_ft.auto_whiteb) {
- 		ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
- 						   V4L2_CID_AUTO_WHITE_BALANCE,
- 						   0, 1, 1, 1);
--		v4l2_ctrl_auto_cluster(3, &ctrls->auto_wb, 0, false);
--	}
--
--	ctrls->blue_balance = v4l2_ctrl_new_std(hdl, ops,
--						V4L2_CID_BLUE_BALANCE,
--						alvium->min_bbalance,
--						alvium->max_bbalance,
--						alvium->inc_bbalance,
--						alvium->dft_bbalance);
--	ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops,
--					       V4L2_CID_RED_BALANCE,
--					       alvium->min_rbalance,
--					       alvium->max_rbalance,
--					       alvium->inc_rbalance,
--					       alvium->dft_rbalance);
-+		if (ctrls->auto_wb)
-+			v4l2_ctrl_auto_cluster(3, &ctrls->auto_wb, 0, false);
-+	}
- 
- 	/* Auto/manual exposure */
- 	if (alvium->avail_ft.auto_exp) {
-@@ -2136,7 +2143,9 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
- 					       V4L2_CID_EXPOSURE_AUTO,
- 					       V4L2_EXPOSURE_MANUAL, 0,
- 					       V4L2_EXPOSURE_AUTO);
--		v4l2_ctrl_auto_cluster(2, &ctrls->auto_exp, 1, true);
-+		if (ctrls->auto_exp)
-+			v4l2_ctrl_auto_cluster(2, &ctrls->auto_exp,
-+					       V4L2_EXPOSURE_MANUAL, true);
- 	}
- 
- 	ctrls->exposure = v4l2_ctrl_new_std(hdl, ops,
-@@ -2145,15 +2154,8 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
- 					    alvium->max_exp,
- 					    alvium->inc_exp,
- 					    alvium->dft_exp);
--	ctrls->exposure->flags |= V4L2_CTRL_FLAG_VOLATILE;
--
--	/* Auto/manual gain */
--	if (alvium->avail_ft.auto_gain) {
--		ctrls->auto_gain = v4l2_ctrl_new_std(hdl, ops,
--						     V4L2_CID_AUTOGAIN,
--						     0, 1, 1, 1);
--		v4l2_ctrl_auto_cluster(2, &ctrls->auto_gain, 0, true);
--	}
-+	if (ctrls->exposure)
-+		ctrls->exposure->flags |= V4L2_CTRL_FLAG_VOLATILE;
- 
- 	if (alvium->avail_ft.gain) {
- 		ctrls->gain = v4l2_ctrl_new_std(hdl, ops,
-@@ -2162,7 +2164,17 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
- 						alvium->max_gain,
- 						alvium->inc_gain,
- 						alvium->dft_gain);
--		ctrls->gain->flags |= V4L2_CTRL_FLAG_VOLATILE;
-+		if (ctrls->gain)
-+			ctrls->gain->flags |= V4L2_CTRL_FLAG_VOLATILE;
-+	}
-+
-+	/* Auto/manual gain */
-+	if (alvium->avail_ft.auto_gain) {
-+		ctrls->auto_gain = v4l2_ctrl_new_std(hdl, ops,
-+						     V4L2_CID_AUTOGAIN,
-+						     0, 1, 1, 1);
-+		if (ctrls->auto_gain)
-+			v4l2_ctrl_auto_cluster(2, &ctrls->auto_gain, 0, true);
- 	}
- 
- 	if (alvium->avail_ft.sat)
--- 
-2.43.0
+Martin
+
+On 5/6/26 13:11, Sakari Ailus wrote:
+> Hi Martin,
+> 
+> On Wed, May 06, 2026 at 12:16:13PM +0200, Martin Hecht wrote:
+>> Hi Sakari,
+>>
+>> thank you for the comments.
+>>
+>> On 5/6/26 11:28, Sakari Ailus wrote:
+>>> Hi Martin,
+>>>
+>>> Thanks for the patch.
+>>>
+>>> On Tue, May 05, 2026 at 04:25:10PM +0200, Martin Hecht wrote:
+>>>> With that patch the controls for red-balance and blue-balance were created
+>>>> only if the particular camera supports that. Otherwise the pointers on
+>>>> the control variable are initialized with NULL to prevent side effects for
+>>>> clustering with AWB control.
+>>>>
+>>>> Fixes: 0a7af872915e ("media: i2c: Add support for alvium camera")
+>>>> Signed-off-by: Martin Hecht <mhecht73@gmail.com>
+>>>> ---
+>>>>    drivers/media/i2c/alvium-csi2.c | 37 ++++++++++++++++++++-------------
+>>>>    1 file changed, 22 insertions(+), 15 deletions(-)
+>>>>
+>>>> diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+>>>> index b62b45a4f2fc..4c6934e9e177 100644
+>>>> --- a/drivers/media/i2c/alvium-csi2.c
+>>>> +++ b/drivers/media/i2c/alvium-csi2.c
+>>>> @@ -2108,26 +2108,33 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
+>>>>    						  0, 0, &alvium->link_freq);
+>>>>    	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>>>
+>>> This is a problem. Can you move setting the flags after checking the
+>>> handler's error status? The functions adding controls may fail and this is
+>>> simply a missing error check.
+>>>
+>>> Can you submit a fix, with a Fixes: tag and this patch should be rebased on
+>>> the fix, please?
+>>
+>> I'm preparing a separate fix for that issue. It's the same situation also
+>> for some other controls like pixel_rate and link_frequency but not only. Can
+>> I combine that into one patch for fix only that in alvium_ctrl_init?
+> 
+> Please do.
+> 
 
 
