@@ -1,359 +1,282 @@
-Return-Path: <linux-media+bounces-60831-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60832-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qMJiKDGu/GkNSgAAu9opvQ
-	(envelope-from <linux-media+bounces-60831-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 17:22:25 +0200
+	id AJCGObqw/GnlSgAAu9opvQ
+	(envelope-from <linux-media+bounces-60832-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 17:33:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 215664EAEF2
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 17:22:24 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8E34EB1F7
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 17:33:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B0B50300E3C4
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 15:22:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3B51A3023534
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 15:33:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56CC942EED1;
-	Thu,  7 May 2026 15:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E8953FD124;
+	Thu,  7 May 2026 15:33:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="O/535ZfZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IMik015O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D67E3ED12B
-	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 15:22:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778167337; cv=pass; b=J+zcVGdq5xCOaWHAxUy4aoyp4R5mX8NviHE2508CTamxkbelGuN0JzfTA7+fk5nZbjHjf/+4niVba8ILmgoa/urN548GzlsxnGKdV27KHKntEpBFUuunrG1V8r11HNO9v1ZrDbcMIK4gOuJ0ZXBS5sf2Z2118167mFJPMGAYfag=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778167337; c=relaxed/simple;
-	bh=qk3B6x7RwXBT+9WjDuhL5HM1eQcvGA54Xq+g9RLd7QM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p133StH6Op5QcpguFt2NJG7Hc4PvKO5r9KEfafSpwZAcJj1N1zGr0ztlKGBqYk7KQ4CP12TqUBTdboCOO6b5SOGdsRhHmDCvzQ2BJNCLzTFIvP2fC7ufHeNb9nHelJpWe6OKWZVWimQO7ygTK5mKmtE7QwgWwELOssUHDOSGT7o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=O/535ZfZ; arc=pass smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-79a535e7c00so11843347b3.3
-        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 08:22:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778167335; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ERjlb0fz3SgCSMaWBpyk/INnivJLqW9NRjT5MhuHP7LbOVlUcHA4sri9/2Ta3rEOi9
-         4eDCcVz9p/zJi6WOv5hxVOFdxCe7eBrmxr0lQTFjX9JFCAqg8PQwDcwCBP6L4CBLN7WW
-         teVAKiydwbRzqqCx045IHiBEX2a7ybhOpMkbBacEDvGyLt5EE9XmjdHsiDP90HRXF3DX
-         tcteRfx/3rT5sHDLB0jjph2I+icgZSlwPiUiPnBN/oQGnV3QPDHhxM8kF11kWZjJwj4P
-         gAd6OrvI9cyINJX0F+GQ8pySYd7R08NNtZFiZbPYROG+Fox85PZ9TQp+BYo6jbEni7gM
-         cH5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0tgovNQZ6tf7aljtc1gHD8qdjoMmQrXrksXNmY7C50A=;
-        fh=KTk+qJmALp2vvvuDh0aOANPNVszbkuM6ql9zr4bWkBQ=;
-        b=hlwqfCIXuPpfu8cJimMmFv7aR7WxNvm1nW3GA6W4vGqgiljao/0rdnMo1JUfj+gbFR
-         jBfSAIhZNkrBGuHKaP2+8miWzCqjKjY2k/bCWkEtWtSww6qQXf5YPOAd/I9WR5YTXoQI
-         2nHFPstVwNwNj+Af9bh1fcY8twK9egrC2yqJ/CsLBArypS8zgr0MyqKm1Zc3aB6rE5y7
-         IKSZTsORpz60ckuYp0n/1MGQftknhc/XRLHZ3H8J+NVaelHk29zD7Z1SnPRcqewdx6RW
-         TGCL+VWUY4Fy1yi+kDqKkmK0cw8ToFmPcD5XG0uTditax7VzR5h43jtSczdCOdzOmTMg
-         4m/g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1778167335; x=1778772135; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0tgovNQZ6tf7aljtc1gHD8qdjoMmQrXrksXNmY7C50A=;
-        b=O/535ZfZ/LDsnLsb8Irj4IMjVMBIVOWk7DAwS9g567gZVNv6hn5BgPoGCI/E9WwLrF
-         aXeiM5dWb+fPON5Lu8BrEufezFVvMf5J4YM/44SgmHwbU7OwmEU1C24bDhE+HuhEyoep
-         7xyc9G3ewGvaU25B+sIh5H7zt1kE4dgmriGmLiUVtMZyFz5W0fjAWBn0m0OzgZwQfmsq
-         2JRPV17bUCWIQi78mxdxyg7ULjVzoFkyWmBb0uPEw9yhVRsGlAofUu+E0P0cOLSwwing
-         wVuLoUEihb12BNPTDU3wdzWZd5rdxneFQZHVw9iEdSp6lmtNJlKq8vsJsuDBzL3T/d+A
-         f8WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778167335; x=1778772135;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0tgovNQZ6tf7aljtc1gHD8qdjoMmQrXrksXNmY7C50A=;
-        b=nUBp+sdi1BCNdZ/ljTpWm8q6R6fjJZmgabFuO1COTbV61sNvNByq+I+BRN4SXXYmra
-         WQdHaPspgkw81vGg0TGBukBOMETXLGJIfPpGsvfT0pHrWTT4GqopQ132MOmMITXAzDCg
-         DzZ8bj+0RwcZfJSCPu7dUgaT4d+HWph6T23IxBHV7MaTRXSgBlRoB9K88Hl/ijjehNI8
-         E/HPDrrFcWHC7WaAYdBAcruJp9xhMIPvGyn9hLB9Mu47XtR2D8a93KSnNJXZKtpatVmF
-         TXBh6dxEDJ4KIH7BHjRGmddKa348iUusHSXveIJPkV07Avg7211ZL9phvYIlMlsJ/IRR
-         KUnA==
-X-Forwarded-Encrypted: i=1; AFNElJ/vc2WZf/3s19vP0VOjVNRmD9J8lbV0+hbHhO4nYGFFCdRjA0RYDhpoaoim5cQN8/YoKAJpEfeE8A3JcA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXtxx5aCV+YIBg8ETBuLP20dT78SwKEUMVYrQCRHxYznF2ofVD
-	k6JNoBz7gjzvWlFcbeIxQJWlsoV6u9AF/jmvmUlYiP3WjVO9djTAq8uq3zIbSFqZSc+MgzoggVb
-	zaWkoIm5tLGBWwVsrb/he0fj1bnuN1aLPxysKeHpYog==
-X-Gm-Gg: Acq92OH3r8QmlRS3viDClmcMTzbeSK5FILuXEFAwvZDNV2ALQJGjcQNFQs8ZsS8QgCQ
-	VP1DWEIAowbE9mjZMvqGL8Sc/A50sjs1OD3fTyYY8C7y5eS0fr6SnHqfExyiFEW0WQSRDNG6C3L
-	djASKeIiC+uXU6a/TPCBAj3i+iXLMWxJqUxhu6qONrPt30hiC8QzVgJBNr/DRzEFAOANcuehUQG
-	nL6iVthBYmqkUha3tzxbBtCm14YgCQF0rURV8/XUT/hk5uuXpF64CxXP3xr1zIJQQagL2m6Wv7V
-	ljMPle+GE+Z2LCp9vKdaBLE0oQSPaawgZcqUSoDbZVnpcvzEPk1i81Eu2HHRU+fJjGPJ+l4nK22
-	UxnC+wy+qvfBeyyQr2eDi0KQOcFme27k6DfA=
-X-Received: by 2002:a05:690c:9:b0:7bb:712:a755 with SMTP id
- 00721157ae682-7bdf5d6b898mr96910397b3.7.1778167335090; Thu, 07 May 2026
- 08:22:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F071D5ADE;
+	Thu,  7 May 2026 15:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778167983; cv=none; b=SClAE3D0YnbQ/KMFKJPPxgAo4QuUmeXoTMD+SUxQYM4s/1DDVLkyf7RDH97XpuD6SkGCvj8aYcpiyoNP0oV7OyvBvdTrMZXUrte5vULWJ+sB7uQTKCNUmO/0FHSuVhnbQnxx9BsjK770eDL8j0+GTGAXleu+qqkjm1Bsi6s3tww=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778167983; c=relaxed/simple;
+	bh=bGFuzFNBmWQ++Cqr0wCwwrQj4yFByartBwvFLjKOROA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mVzv2RBppxlTGJ6uE5G6M26CkUA95gwhK5dux8hUeJWASfOsu6ojJoMP66bUmmWKEVUxr6mWQmS6zj1LzYRJspcyJUPs9gT7iTkQGqdgqswg+7wM1BniYiBI599RCygv8R8KGHMeKV59drzqW+v10lN4vyhna8fN9yHm/1/pKG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IMik015O; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF0FCC2BCB2;
+	Thu,  7 May 2026 15:33:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778167983;
+	bh=bGFuzFNBmWQ++Cqr0wCwwrQj4yFByartBwvFLjKOROA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IMik015OizlxxJ9XrdK5XDZRfGoJ1MW6WAIBT/JbrAuUsDAvrD5ploKjLWx8K6cHU
+	 UJSMihXALFzKXaWpBDaGQXcUqx1djJgGXUUvBOgFpYSGv1o9kD+BZ7N7ieyVqctdVC
+	 2oYOOayiJ+i4u28RgQqNq9Hb+AGpPio/J+QchYfICPqKGmkOBHl958t10kHzUMyEGk
+	 DumUEtyVhCWDSL5xRnPym2izxf4O7buZXuX1lzEpMW2y2KgIGrb+tM0BF15MX0wr0X
+	 tIwZnCh5D8zC3eUjdPy43M1TdPLyxuxOBIoZmLdjsHuh3lk3qctVTD8Yae2+z8LVFS
+	 2tTRTg59vdluw==
+Date: Thu, 7 May 2026 17:33:00 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Ketil Johnsen <ketil.johnsen@arm.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	Yong Wu <yong.wu@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, 
+	Florent Tomasin <florent.tomasin@arm.com>
+Subject: Re: [PATCH 1/8] dma-heap: Add proper kref handling on dma-buf heaps
+Message-ID: <20260507-strict-raptor-of-glee-2fd0df@houat>
+References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
+ <20260505140516.1372388-2-ketil.johnsen@arm.com>
+ <20260505172048.1c48e030@fedora>
+ <20260505-spaniel-of-scientific-warranty-ca075e@houat>
+ <20260505184021.3676f9af@fedora>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260506-media-imx355-v1-0-660685030455@raspberrypi.com>
- <20260506-media-imx355-v1-9-660685030455@raspberrypi.com> <afyhY2WmfjZ2OxrY@zed>
-In-Reply-To: <afyhY2WmfjZ2OxrY@zed>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 7 May 2026 16:21:57 +0100
-X-Gm-Features: AVHnY4L_MK_F3jFHW4IjEwBiSrTXhO3wFJq7jfDq1jANSJTPOr3kSwMsOljR9LI
-Message-ID: <CAPY8ntBA1n6=mJeE6k1FXnsbbAfsUsDb2w7stGjCnZvvkLABeg@mail.gmail.com>
-Subject: Re: [PATCH 09/13] media: imx355: Remove redundant fll_min, and
- implement fixed offset
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, David Heidelberg <david@ixit.cz>
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: 215664EAEF2
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="lt53jirsatoosmgv"
+Content-Disposition: inline
+In-Reply-To: <20260505184021.3676f9af@fedora>
+X-Rspamd-Queue-Id: 7E8E34EB1F7
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
-	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60831-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-60832-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	FREEMAIL_CC(0.00)[arm.com,gmail.com,ffwll.ch,linux.intel.com,suse.de,lwn.net,linuxfoundation.org,linaro.org,collabora.com,google.com,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linaro.org,lists.infradead.org,mediatek.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,raspberrypi.com:email,raspberrypi.com:dkim,ideasonboard.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mediatek.com:email]
 X-Rspamd-Action: no action
 
-Hi Jacopo
 
-On Thu, 7 May 2026 at 15:29, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
->
-> Hi Dave
->
-> On Wed, May 06, 2026 at 07:23:47PM +0100, Dave Stevenson wrote:
-> > fll_min (Frame Length Lines) is set to the same value as fll_def
-> > for all modes, which makes it redundant.
-> >
-> > The actual value is also erroneous as sensor works in all the
-> > defined modes with FLL set at the mode height + 20 lines, so
-> > set the vblank control minimum to 20 rather than varying it.
-> > This also improves the maximum frame rate achievable.
-> >
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > ---
-> >  drivers/media/i2c/imx355.c | 27 +++++----------------------
-> >  1 file changed, 5 insertions(+), 22 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-> > index 12005bc40f36..5a3bfcd0f51c 100644
-> > --- a/drivers/media/i2c/imx355.c
-> > +++ b/drivers/media/i2c/imx355.c
-> > @@ -33,6 +33,8 @@
-> >  /* V_TIMING internal */
-> >  #define IMX355_REG_FLL                       0x0340
-> >  #define IMX355_FLL_MAX                       0xffff
-> > +/* Number of lines above frame height that are required. */
-> > +#define IMX355_FLL_OFFSET            20
->
-> I would have called it FFL_MIN, but it's probably just a matter of
-> taste
+--lt53jirsatoosmgv
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/8] dma-heap: Add proper kref handling on dma-buf heaps
+MIME-Version: 1.0
 
-It's not the minimum value for the FFL register though as that
-includes the image height.
-It could be IMX355_VBLANK_MIN if preferred.
+On Tue, May 05, 2026 at 06:40:21PM +0200, Boris Brezillon wrote:
+> On Tue, 5 May 2026 17:39:13 +0200
+> Maxime Ripard <mripard@kernel.org> wrote:
+>=20
+> > Hi Boris,
+> >=20
+> > On Tue, May 05, 2026 at 05:20:48PM +0200, Boris Brezillon wrote:
+> > > Hi Ketil,
+> > >=20
+> > > On Tue,  5 May 2026 16:05:07 +0200
+> > > Ketil Johnsen <ketil.johnsen@arm.com> wrote:
+> > >  =20
+> > > > From: John Stultz <jstultz@google.com>
+> > > >=20
+> > > > Add proper reference counting on the dma_heap structure. While
+> > > > existing heaps are built-in, we may eventually have heaps loaded
+> > > > from modules, and we'll need to be able to properly handle the
+> > > > references to the heaps =20
+> > >=20
+> > > It's weird that this "heap as module" thing is mentioned here, but
+> > > actual robustness to make this safe is not added in the commit or any
+> > > of the following ones.
+> > >  =20
+> > > >=20
+> > > > Signed-off-by: John Stultz <jstultz@google.com>
+> > > > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > > > [Yong: Just add comment for "minor" and "refcount"]
+> > > > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> > > > [Yunfei: Change reviewer's comments]
+> > > > Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
+> > > > [Florent: Rebase]
+> > > > Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+> > > > [Ketil: Rebase]
+> > > > ---
+> > > >  drivers/dma-buf/dma-heap.c | 29 +++++++++++++++++++++++++++++
+> > > >  include/linux/dma-heap.h   |  2 ++
+> > > >  2 files changed, 31 insertions(+)
+> > > >=20
+> > > > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> > > > index ac5f8685a6494..9fd365ddbd517 100644
+> > > > --- a/drivers/dma-buf/dma-heap.c
+> > > > +++ b/drivers/dma-buf/dma-heap.c
+> > > > @@ -12,6 +12,7 @@
+> > > >  #include <linux/dma-heap.h>
+> > > >  #include <linux/err.h>
+> > > >  #include <linux/export.h>
+> > > > +#include <linux/kref.h>
+> > > >  #include <linux/list.h>
+> > > >  #include <linux/nospec.h>
+> > > >  #include <linux/syscalls.h>
+> > > > @@ -31,6 +32,7 @@
+> > > >   * @heap_devt:		heap device node
+> > > >   * @list:		list head connecting to list of heaps
+> > > >   * @heap_cdev:		heap char device
+> > > > + * @refcount:		reference counter for this heap device
+> > > >   *
+> > > >   * Represents a heap of memory from which buffers can be made.
+> > > >   */
+> > > > @@ -41,6 +43,7 @@ struct dma_heap {
+> > > >  	dev_t heap_devt;
+> > > >  	struct list_head list;
+> > > >  	struct cdev heap_cdev;
+> > > > +	struct kref refcount;
+> > > >  };
+> > > > =20
+> > > >  static LIST_HEAD(heap_list);
+> > > > @@ -248,6 +251,7 @@ struct dma_heap *dma_heap_add(const struct dma_=
+heap_export_info *exp_info)
+> > > >  	if (!heap)
+> > > >  		return ERR_PTR(-ENOMEM);
+> > > > =20
+> > > > +	kref_init(&heap->refcount);
+> > > >  	heap->name =3D exp_info->name;
+> > > >  	heap->ops =3D exp_info->ops;
+> > > >  	heap->priv =3D exp_info->priv;
+> > > > @@ -313,6 +317,31 @@ struct dma_heap *dma_heap_add(const struct dma=
+_heap_export_info *exp_info)
+> > > >  }
+> > > >  EXPORT_SYMBOL_NS_GPL(dma_heap_add, "DMA_BUF_HEAP");
+> > > > =20
+> > > > +static void dma_heap_release(struct kref *ref)
+> > > > +{
+> > > > +	struct dma_heap *heap =3D container_of(ref, struct dma_heap, refc=
+ount);
+> > > > +	unsigned int minor =3D MINOR(heap->heap_devt);
+> > > > +
+> > > > +	mutex_lock(&heap_list_lock);
+> > > > +	list_del(&heap->list);
+> > > > +	mutex_unlock(&heap_list_lock);
+> > > > +
+> > > > +	device_destroy(dma_heap_class, heap->heap_devt);
+> > > > +	cdev_del(&heap->heap_cdev);
+> > > > +	xa_erase(&dma_heap_minors, minor);
+> > > > +
+> > > > +	kfree(heap); =20
+> > >=20
+> > > That's actually problematic, because cdev_del() doesn't guarantee that
+> > > all opened FDs have been closed [1], it just guarantees that no new o=
+nes
+> > > can materialize. In order to make that safe, we'd need a
+> > >=20
+> > > 1. kref_get_unless_zero() in dma_heap_open(), with proper locking aro=
+und
+> > >    the xa_load() to protect against the heap removal that's happening
+> > >    here
+> > > 2. a dma_heap_put() in a new dma_heap_close() implementation
+> > > 3. a guarantee that heap implementations won't go away until the last
+> > >    ref is dropped, which means ops and all the data needed for this h=
+eap
+> > >    to satisfy ioctl()s (and more generally every passed at
+> > >    dma_heap_add() time) have to stay valid until the last ref is
+> > >    dropped. Alternatively, we could restrict this only to in-flight
+> > >    ioctl()s, and have the ops replaced by some dummy ops using RCU or=
+ a
+> > >    rwlock. But I guess live dmabufs allocated on this heap have to
+> > >    retain the heap and its implementation anyway.
+> > >=20
+> > > For record, #3 is already not satisfied by the current tee_heap
+> > > implementation (tee_dma_heap objects can vanish before the dma_heap
+> > > object is gone). The other implementations seem to be fine because th=
+ey
+> > > are statically linked, and they either have exp_info.priv set to NULL,
+> > > or something that's never released. =20
+> >=20
+> > That statement won't hold for long, see:
+> > https://lore.kernel.org/r/20260427-dma-buf-heaps-as-modules-v5-0-b6f567=
+8feefc@kernel.org
+> >=20
+> > However, all upstream heaps can be loaded as module, but not unloaded.
+> > So once you get a reference to it, you can assume it will live forever.
+> > That's why we didn't merge that patch before, even though it was discus=
+sed:
+> >=20
+> > https://lore.kernel.org/all/CANDhNCqk9Uk4aXHhUsL4hR1GHNmWZnH3C9Np-A02wd=
+i+J3D7tA@mail.gmail.com/
+>=20
+> Hm, not too sure that makes the tee_heap implementation sane WRT
+> tee_heap removal though, unless we have a guarantee that
+> tee_device_unregister() will never be called...
 
-  Dave
+I missed that part. You're totally right then :)
 
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->
-> >
-> >  #define IMX355_REG_LLP                       0x0342
-> >  #define IMX355_LLP_MAX                       0xffff
-> > @@ -105,7 +107,6 @@ struct imx355_mode {
-> >
-> >       /* V-timing */
-> >       u32 fll_def;
-> > -     u32 fll_min;
-> >
-> >       /* H-timing */
-> >       u32 llp;
-> > @@ -360,7 +361,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 3280,
-> >               .height = 2464,
-> >               .fll_def = 2615,
-> > -             .fll_min = 2615,
-> >               .llp = 3672,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_3280x2464_regs),
-> > @@ -376,7 +376,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 3268,
-> >               .height = 2448,
-> >               .fll_def = 2615,
-> > -             .fll_min = 2615,
-> >               .llp = 3672,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_3268x2448_regs),
-> > @@ -392,7 +391,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 3264,
-> >               .height = 2448,
-> >               .fll_def = 2615,
-> > -             .fll_min = 2615,
-> >               .llp = 3672,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_3264x2448_regs),
-> > @@ -408,7 +406,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 1940,
-> >               .height = 1096,
-> >               .fll_def = 1306,
-> > -             .fll_min = 1306,
-> >               .llp = 3672,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_1940x1096_regs),
-> > @@ -424,7 +421,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 1936,
-> >               .height = 1096,
-> >               .fll_def = 1306,
-> > -             .fll_min = 1306,
-> >               .llp = 3672,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_1936x1096_regs),
-> > @@ -440,7 +436,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 1924,
-> >               .height = 1080,
-> >               .fll_def = 1306,
-> > -             .fll_min = 1306,
-> >               .llp = 3672,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_1924x1080_regs),
-> > @@ -456,7 +451,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 1920,
-> >               .height = 1080,
-> >               .fll_def = 1306,
-> > -             .fll_min = 1306,
-> >               .llp = 3672,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
-> > @@ -472,7 +466,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 1640,
-> >               .height = 1232,
-> >               .fll_def = 1306,
-> > -             .fll_min = 1306,
-> >               .llp = 1836,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_1640x1232_regs),
-> > @@ -488,7 +481,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 1640,
-> >               .height = 922,
-> >               .fll_def = 1306,
-> > -             .fll_min = 1306,
-> >               .llp = 1836,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_1640x922_regs),
-> > @@ -504,7 +496,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 1300,
-> >               .height = 736,
-> >               .fll_def = 1306,
-> > -             .fll_min = 1306,
-> >               .llp = 1836,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_1300x736_regs),
-> > @@ -520,7 +511,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 1296,
-> >               .height = 736,
-> >               .fll_def = 1306,
-> > -             .fll_min = 1306,
-> >               .llp = 1836,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_1296x736_regs),
-> > @@ -536,7 +526,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 1284,
-> >               .height = 720,
-> >               .fll_def = 1306,
-> > -             .fll_min = 1306,
-> >               .llp = 1836,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_1284x720_regs),
-> > @@ -552,7 +541,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 1280,
-> >               .height = 720,
-> >               .fll_def = 1306,
-> > -             .fll_min = 1306,
-> >               .llp = 1836,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_1280x720_regs),
-> > @@ -568,7 +556,6 @@ static const struct imx355_mode supported_modes[] = {
-> >               .width = 820,
-> >               .height = 616,
-> >               .fll_def = 652,
-> > -             .fll_min = 652,
-> >               .llp = 3672,
-> >               .reg_list = {
-> >                       .num_of_regs = ARRAY_SIZE(mode_820x616_regs),
-> > @@ -857,7 +844,6 @@ imx355_set_pad_format(struct v4l2_subdev *sd,
-> >       const struct imx355_mode *mode;
-> >       struct v4l2_mbus_framefmt *framefmt;
-> >       s32 vblank_def;
-> > -     s32 vblank_min;
-> >       s64 h_blank;
-> >       u32 height;
-> >
-> > @@ -882,10 +868,9 @@ imx355_set_pad_format(struct v4l2_subdev *sd,
-> >               /* Update limits and set FPS to default */
-> >               height = imx355->cur_mode->height;
-> >               vblank_def = imx355->cur_mode->fll_def - height;
-> > -             vblank_min = imx355->cur_mode->fll_min - height;
-> >               height = IMX355_FLL_MAX - height;
->
-> re-using 'height' here is not nice, but I understand it was there
-> already
->
-> > -             __v4l2_ctrl_modify_range(imx355->vblank, vblank_min, height, 1,
-> > -                                      vblank_def);
-> > +             __v4l2_ctrl_modify_range(imx355->vblank, IMX355_FLL_OFFSET,
-> > +                                      height, 1, vblank_def);
-> >               __v4l2_ctrl_s_ctrl(imx355->vblank, vblank_def);
-> >               h_blank = mode->llp - imx355->cur_mode->width;
-> >               /*
-> > @@ -1146,7 +1131,6 @@ static int imx355_init_controls(struct imx355 *imx355)
-> >       struct v4l2_ctrl_handler *ctrl_hdlr;
-> >       s64 exposure_max;
-> >       s64 vblank_def;
-> > -     s64 vblank_min;
-> >       s64 hblank;
-> >       u64 pixel_rate;
-> >       const struct imx355_mode *mode;
-> > @@ -1176,9 +1160,8 @@ static int imx355_init_controls(struct imx355 *imx355)
-> >       /* Initialize vblank/hblank/exposure parameters based on current mode */
-> >       mode = imx355->cur_mode;
-> >       vblank_def = mode->fll_def - mode->height;
-> > -     vblank_min = mode->fll_min - mode->height;
-> >       imx355->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx355_ctrl_ops,
-> > -                                        V4L2_CID_VBLANK, vblank_min,
-> > +                                        V4L2_CID_VBLANK, IMX355_FLL_OFFSET,
-> >                                          IMX355_FLL_MAX - mode->height,
-> >                                          1, vblank_def);
-> >
-> >
-> > --
-> > 2.34.1
-> >
-> >
+Maxime
+
+--lt53jirsatoosmgv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCafywrAAKCRAnX84Zoj2+
+dlrEAYDUWefxt16Ub+Wp0zpIpxumXimJURzQDBuzgGyAiEJHfEPu5vzqZ+lW0o0v
+HuXvVd8BgN4T3DXXQhia3Am5Yv8L2DwsJgJ/x/u6CyeDO7mD4McOqe5R0yPZ9LZW
+06tk6Ye0qA==
+=poOT
+-----END PGP SIGNATURE-----
+
+--lt53jirsatoosmgv--
 
