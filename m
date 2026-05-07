@@ -1,81 +1,82 @@
-Return-Path: <linux-media+bounces-60854-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60855-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UD0zF8n9/GmxVwAAu9opvQ
-	(envelope-from <linux-media+bounces-60854-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 23:02:01 +0200
+	id qCDEMdr9/GmxVwAAu9opvQ
+	(envelope-from <linux-media+bounces-60855-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 23:02:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085494EF16A
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 23:02:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C8254EF172
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 23:02:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 21F563079095
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 20:58:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 29003306465E
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 20:58:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72422340286;
-	Thu,  7 May 2026 20:58:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ABC833F8B7;
+	Thu,  7 May 2026 20:58:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DLTF2boo"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Niv6IERJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427ED33F5AA
-	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 20:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27BB73382E5
+	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 20:58:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778187495; cv=none; b=FYU8+Q0TB0JYXWI+WNHGK7lMFXGgTmoKK9v8E6vGB0w28+pNhbYmpfaS9R6zyMNZX9f+YiEUuTtlJY8EQKE0sRhD3+R+fGbExVZfCjGLoTc3JQDJ2xJjFzHXQyvJyFIOTE8es0IehthPqrg7FT/aSrOUKUP8nsiVSiT43ETPhdY=
+	t=1778187496; cv=none; b=bDuxlrW16Hfm2xauZnARHzBlqdQmsE3O14uTRQBZmbw5vpGV/McKurHD+HxUYwYRnWoX6z0fk/m4nZEkjFJxnsqNk0kP8Fg9wZrPOdisBqSxrQTqiZfl9YS+PmaGV+cZjnmw5DmxIMXcBABxn3oM8EraloV7G7/7YvNoSmeSJH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778187495; c=relaxed/simple;
-	bh=o1JBoNSnmeENnVyJCFBJK54WhchLIrjvMvIxsKS/SXc=;
+	s=arc-20240116; t=1778187496; c=relaxed/simple;
+	bh=uz/gROx+rjRO7Y7pLi9uXLD8lzDUoRiVHf25jEK7m7c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eSLPPrckQHIoiD0h50osbEsT9asf6L/GvpnysfH3LbGoJ1efnU3K5Zz8MVUSWSN/mIItWNG4x0n96k5rmTNpwBerEyKFTi1ZLZvJ+FB3NuKDzujAt3bZrkBQBWPqyay3brGhsBKNdf0KiRjwnhNuoi3c7GGYU2N0wP0KdhyGsBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DLTF2boo; arc=none smtp.client-ip=209.85.208.172
+	 In-Reply-To:To:Cc; b=ssRKE3yx9QGkp1Pln16CN1cPidoGSB5Rhr6iMHkWEu4kAVMpZhOt765dcTdL/1kMNVxEnzDQPuBwGfEV9ksrkX/rKswyArFaDAf0wVIAylSKxfQe1j3QplObDO0jLA6640L9+5aWN3wW8K6J26HtTKZHj+kfN2qXrJWHE80Z5Es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Niv6IERJ; arc=none smtp.client-ip=209.85.208.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-38e7b0903cdso11902981fa.3
-        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 13:58:13 -0700 (PDT)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38e8292423fso9942471fa.0
+        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 13:58:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1778187492; x=1778792292; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1778187493; x=1778792293; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cK+Nktca7F+6iN68JEbLhEZKpbc6Uv2OrCKSJ0NIVg8=;
-        b=DLTF2booHQxiOylxu1wdqSJbHWDN8qX8MtjuaWwV8OopM/pBRNAhJU0clXm+NNfFKi
-         aq77bVfKQu2lnCOzYskWa+n8+EEJ9thddp+YwnZejg2dtckwSJUPSONx1rjBqdzSpzg0
-         hpBGxVIcIUecj4mAqvU6PQxvDWCpyX+tuNLn4=
+        bh=wsiVHzLscfDV0/HZD1Y9rxslOuv9oKsD+zQVHA3Vk98=;
+        b=Niv6IERJPUAEOnXDdoAiac4Ssp/Z2t3fvstgiqlqsxT3+nnOJCXri7ABwzIGtVIu6m
+         87SVZU4bb+MLdPBzJD40Xk/eF46+NxC6ARu9iQfdQbhpyD7XVrANL/FR+dTxntqreSfm
+         mL0cXYyg25jWZsk9k+klLuYsRH1oqGmJsK38Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778187492; x=1778792292;
+        d=1e100.net; s=20251104; t=1778187493; x=1778792293;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=cK+Nktca7F+6iN68JEbLhEZKpbc6Uv2OrCKSJ0NIVg8=;
-        b=pT6m58VS2WOw6OJGFK8t0x7Ci9qpyIfKvVUWMH/2FvfyNXf8rqbTUTuoMypWw3XHp4
-         +CWCzAvyYIqvnQT4OpBe/g9cm+eSzZQiXHtEEXneemJ/IiIXhJ4+x4RM2x6vfxClPTH3
-         Ig92EkW6wXuJfelINxv21PQ12nJm2txZn2V5NzEFugb4SPvZCMr0IvLmWEgm2Qus5BsP
-         nkKVhRdZXJfeZD4gVTGAKwEgcPFUmm6TARNP71gB/vtK6g4+EnmwjvmlgEX0wsHZ0wKj
-         kIOqwQiXVPAty3dU9uzR4NVaTSxF0+fSosoChsMbQ8bpQYuojoH5lYL8Zv8wGtX7gSDI
-         GGgA==
-X-Gm-Message-State: AOJu0YydGPsOVSkJfmxLEcnwgIlmzMQcNtcnqWRuvZBzLD57HxUxu9f3
-	c/KAKPqhU+W8RN7sQnD6HrIOuO9pedGgn/c7YyM5ffbf5eL962ksLkeFMIW9KXIDpw==
-X-Gm-Gg: AeBDievL5zlWZeAvckWPl5LZ15mS+C591LeIVBClimWhiEtxJmmewcH+KPk759mVbgU
-	vyj9DVnZpPF/Qda9MF5f5uIuOmpAGzT/j1jOKQwzwR9Wm7ypppEVh0Yrj/N3UGBSZ5v4HayiljV
-	VC0eptspBKQERNaf8y04khMlO3I5fIMiHDLg2wXOUJ7goavS7XlK+ShoJqaQl94v/FsDcng/K6p
-	7h1jhzSYrNIA6b65RXpXm4U4WV8+mQlg9wWr+RiJngPNiUb/EgE84BqZKShRTZXndnBclt87tph
-	UvjZ3TYFNhYHfhPkA6AjoSurbLM2Xz66qd6wp6FNfUk/5pR6QUJ81Ool/8TaVUf0vox0Tzlkw9+
-	0dviwHlRpZfrYsAuzG8zeUd1s/GIgOJpMEr7jwqoJPNNtLQcDpmVa4BeS2TwXGUeje9lVRkOW3X
-	azfcgq3JrlsLywP3XDdq/nMT+Nzuh1Cb0OsG+imaAk6xcvJp12whKtlXLP6cyngasptBzXUtaMI
-	uR/yiRPXuQL3JVa0A==
-X-Received: by 2002:a2e:a273:0:b0:38c:de21:3e14 with SMTP id 38308e7fff4ca-393c41c97demr25930941fa.19.1778187492474;
-        Thu, 07 May 2026 13:58:12 -0700 (PDT)
+        bh=wsiVHzLscfDV0/HZD1Y9rxslOuv9oKsD+zQVHA3Vk98=;
+        b=APNvzdNuxDh1k/qmgjcJX+TqNQnK4FziCMLtniI7Qxwzm8GOvJO1tOle/+O9H5b3Pu
+         VNnmlOsVzHY3F90W7D90IVYOPH8kqAbTBjlZydnZtbsVlUvhRi5wv1dVuRYbdOkl3xuQ
+         MGaiZbrWo0JmhKZt2Ei5/y7+dLR9kcWbFH7jk0Lmk433W3oCPTX4l7eYuJ8YNl9wNLQS
+         r7MX+gTtGQBTgnQOaBgUdVqF2I/2uWqTkaq7+xBZFUHW3pVhlaB1Biil5aERiwAeyZVY
+         x3qSfuOkNiTcxFhu1uVDbD8EGAdwvldppsddkwkWrpn31kxESvkxuLnUkYE4Sa4TvE9Y
+         ggOw==
+X-Gm-Message-State: AOJu0YwrJN6KJ39eY5p+1fUO3rjZzW+Lzx+D3KFXdMZ9a7PQfjGJGw4k
+	9eyHWs1Fh4HyqIEBZ0a5UPdPX7wL4g9v9wax/Br6fXTTUc6Pez2NIPdnZ9L73wNFdg==
+X-Gm-Gg: AeBDieubK2RG0/QO6dcBAv9zN9IO4eYVTd3S0GNyhellssVKI7vnu+YdybczoFLxfLJ
+	41jc934nAnwNWp9/RnR7POXxSIo54HZGt83HVka2AEJt+GtgbfYyHkkWkSo1x4NRrhvq/nGizzd
+	s2FEbIMs8qrBhIcsFDjKJ+ahUL+inlynQXOTYcOe8YOexySpk6W0obRg2kExOYr/8lNALsIxEFA
+	KibEFw24Ultk06e1hDSFnlMGetZEoOrmSkxPfJ9JrE1BZ69EBW44+pwncpZo5AVybmqZ2mgmzmM
+	E1UfK89hUZmbPvknr2R/guQGAFqekE6D2sEhGyTvgojzsvx+aQ1L8f4lFfI0eci/mi13H74Llue
+	5UrOTqSmN8vDfpj247vvtfTPXA2aedyC37Swfqex5ESXKM3oFbyYg0H7exKmcKfJA8yLSKFao7R
+	24WCfBeFPy2Z0NCHVcUsdteLplFn95R9Jv+ttkV6xX/x11cQbG1zj0z+TJn/dHiyQtXFzfkPItB
+	shot+w=
+X-Received: by 2002:a2e:9bd1:0:b0:38e:36c2:9bd1 with SMTP id 38308e7fff4ca-393c40fe441mr24746121fa.11.1778187493409;
+        Thu, 07 May 2026 13:58:13 -0700 (PDT)
 Received: from ribalda.c.googlers.com (52.163.228.35.bc.googleusercontent.com. [35.228.163.52])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393eee53655sm2325571fa.0.2026.05.07.13.58.09
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393eee53655sm2325571fa.0.2026.05.07.13.58.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 13:58:10 -0700 (PDT)
+        Thu, 07 May 2026 13:58:12 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 07 May 2026 20:58:06 +0000
-Subject: [PATCH v4 1/6] media: v4l2-dev: Add range check for vdev->minor
+Date: Thu, 07 May 2026 20:58:07 +0000
+Subject: [PATCH v4 2/6] media: i2c: mt9p031: Rewrite assignment to make
+ smatch happy
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,7 +85,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260507-smatch-7-1-v4-1-cc195f142167@chromium.org>
+Message-Id: <20260507-smatch-7-1-v4-2-cc195f142167@chromium.org>
 References: <20260507-smatch-7-1-v4-0-cc195f142167@chromium.org>
 In-Reply-To: <20260507-smatch-7-1-v4-0-cc195f142167@chromium.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -98,10 +99,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-staging@lists.linux.dev, 
  Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
- Ricardo Ribalda <ribalda@chromium.org>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+ Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.3
-X-Rspamd-Queue-Id: 085494EF16A
+X-Rspamd-Queue-Id: 3C8254EF172
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -115,56 +115,49 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TAGGED_FROM(0.00)[bounces-60854-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60855-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[chromium.org:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,samsung,renesas];
+	TAGGED_RCPT(0.00)[linux-media,samsung];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-If the fixed minor ranges are not properly set we could end up in a
-situation where the calculated minor is invalid. Add a check for this in
-the code to make it more robust.
+The current code makes smatch a bit uncomfortable:
+drivers/media/i2c/mt9p031.c:799 mt9p031_s_ctrl() warn: assigning (-1952) to unsigned variable 'data'
 
-This check also fixes the following false positive smatch warning:
+Probably because smatch is not clever enough (yet). Do a simple rewrite
+to make sure that smatch understands what we are doing here.
 
-drivers/media/v4l2-core/v4l2-dev.c:1036 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
-drivers/media/v4l2-core/v4l2-dev.c:1043 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
-drivers/media/v4l2-core/v4l2-dev.c:1101 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
-
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/v4l2-core/v4l2-dev.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/media/i2c/mt9p031.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index 6ce623a1245a..5516b2bbb08f 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -1032,6 +1032,11 @@ int __video_register_device(struct video_device *vdev,
- 	vdev->minor = i + minor_offset;
- 	vdev->num = nr;
+diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
+index ea5d43d925ff..8dc57eeba606 100644
+--- a/drivers/media/i2c/mt9p031.c
++++ b/drivers/media/i2c/mt9p031.c
+@@ -796,7 +796,8 @@ static int mt9p031_s_ctrl(struct v4l2_ctrl *ctrl)
+ 			data = (1 << 6) | (ctrl->val >> 1);
+ 		} else {
+ 			ctrl->val &= ~7;
+-			data = ((ctrl->val - 64) << 5) | (1 << 6) | 32;
++			data = ((ctrl->val - 64) >> 3) & 0x7f;
++			data = (data << 8) | (1 << 6) | 32;
+ 		}
  
-+	if (WARN_ON(vdev->minor >= VIDEO_NUM_DEVICES)) {
-+		mutex_unlock(&videodev_lock);
-+		return -EINVAL;
-+	}
-+
- 	/* Should not happen since we thought this minor was free */
- 	if (WARN_ON(video_devices[vdev->minor])) {
- 		mutex_unlock(&videodev_lock);
+ 		return mt9p031_write(client, MT9P031_GLOBAL_GAIN, data);
 
 -- 
 2.54.0.563.g4f69b47b94-goog
