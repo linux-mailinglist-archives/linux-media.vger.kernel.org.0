@@ -1,194 +1,192 @@
-Return-Path: <linux-media+bounces-60776-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60777-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0IE9KmRk/GkqPgAAu9opvQ
-	(envelope-from <linux-media+bounces-60776-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 12:07:32 +0200
+	id MIYpEYFl/GmGPgAAu9opvQ
+	(envelope-from <linux-media+bounces-60777-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 12:12:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F9E4E67B5
-	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 12:07:32 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A54E34E687A
+	for <lists+linux-media@lfdr.de>; Thu, 07 May 2026 12:12:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 172DF301C10F
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 10:07:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9D7FD301158E
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2026 10:08:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A1083D34BA;
-	Thu,  7 May 2026 10:07:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27D093D3CE0;
+	Thu,  7 May 2026 10:08:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fGX7RyqN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Knl7cu33"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F623CAE93;
-	Thu,  7 May 2026 10:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F12D3D349C
+	for <linux-media@vger.kernel.org>; Thu,  7 May 2026 10:08:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778148425; cv=none; b=nSQQagO8Hyz8kuE0Xtg9x8Es2E8ZO67q0u4I1hzUfUEHCEStmNNZb3B82JWn0KyvHRQuNOlEZlZI1nSptiJH7RZpVx3qXmsFhtEGFoDYXHdSNYtWDAJBh90gNY4kiUJuhSojSx7JMll/kLEYyJJYW8CnHnZlx5wAE5m5PHU9HHw=
+	t=1778148525; cv=none; b=pFyFiNaLPg02ebomK0Wz9efGkvJTxdS6X64rfMCSKzhX4O6IvHfFbXtUdfxWHJPTswYEjutLsmWja86lBB+cv+N7sJWa4fm0WDMHMQ3nfW+QRWn46TJl4YNafIOw13XK1qfXQfYeFPsgbuJADH6e2JvtgBlf/D8YVB5kbk500q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778148425; c=relaxed/simple;
-	bh=vpHvtJlf6Pa1uoVLAAbDJTx1AYNqnAZ4JYMq4T1u/E4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fXqMyeF+3R0ZlPudWswTZ1vbB8OggTlCW9bictq0vhqiTCOaM1iyXZaM/KpqWdx8ezxZF/vmGaopDIJ7xudfSDQ/mfTR5KLBSUwnSaOhF+lk+E7uoMo1y33etjDomTeNTZIULsDFq+4aPmyfQvhiRLDdsZoiICMhOyzNwlN2N70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fGX7RyqN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 466E8C2BCB2;
-	Thu,  7 May 2026 10:07:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778148425;
-	bh=vpHvtJlf6Pa1uoVLAAbDJTx1AYNqnAZ4JYMq4T1u/E4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fGX7RyqN5hWZC+9GDuLZOj+nLDKrskYBXPZGB0z+V532o+z5iFfmGBojZCI4EG/EA
-	 6hIT50uay+fPsLiKPx0rB+SWzVl4yl++PP8JyZ9W4AIMRZDcFx2FuRmoazZLpMTVgd
-	 GBAD8Kf0d6P/Il/7/tVVxnym4e4IDGgIhioa7bX9uc/rqSAiss27MeodYr5UwBOVOJ
-	 QflZMLR61vNEMDnq5tIc4Qxazvfc9RLmGSAtlAeRqUZtHZiBhBGMHYzv/MSHNsOQe1
-	 M2zHypc4p30RkNa8Slwf5B+xwkWTHwK7kfMRVXOw2klYDB++03JLvJwXQfu4+Y+tKS
-	 tBuXqM40eotQQ==
-Message-ID: <7df3bff7-b872-4b20-8e7c-698157a41f33@kernel.org>
-Date: Thu, 7 May 2026 11:06:58 +0100
+	s=arc-20240116; t=1778148525; c=relaxed/simple;
+	bh=/HH7adGee9bl8735GG/Nez990NQxLbcqQokXJsgDxwE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rhRPWHrG7YGgM4WJC0+Ic42u0ypeR06Wmru3KG8SScjTYPgg3E3A7LTXPNKh3wEGCZd7tBXt5AGkUllL7sz/Kxe31Vtu5/3c/9kYsfnP3GTXr+YaFQ6dFr4iF76CCNHzaJKPDYuGDeEI5QrTEAN83Z6Y/DGNjNB/AWQG81B0T5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Knl7cu33; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778148524; x=1809684524;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/HH7adGee9bl8735GG/Nez990NQxLbcqQokXJsgDxwE=;
+  b=Knl7cu33jQjDyLEsAvYeWfclVO2QftTvKndj2tsyhQr3b83p+qJt53Vy
+   zvZK+93pQYaIDvu1WRQgAPY5t8DM0co2xgpP4vTbdPyF2MJ+606vZK1i8
+   bFIzqtexnnqYlqvmfxKdAYfPyo7+/3iN3MsFvMIC9pDiOSZoH5u0d+WXM
+   Ws/FwvY4smtQbr02H7G7Kij91dHMRvOEFPUQJvdux6x7Z3vN5kKQZG073
+   gp5pB8WbkFo8vGWvjAj4e3JYMf8uQEwLjJIQFVcjpwmLiowCQq+8Rpdhd
+   XakTOKyrhHp4ui31hrj75YA4ts7IApYmrWyZayHrkP/jEbWRhJKRcZc+v
+   A==;
+X-CSE-ConnectionGUID: HIFFBQvCT9Kc9aCuyZfT8A==
+X-CSE-MsgGUID: edMPJzmFSkul+XP4AzBhxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="96663002"
+X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
+   d="scan'208";a="96663002"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 03:08:34 -0700
+X-CSE-ConnectionGUID: U6sI5lyGQVSxX+nOj2YEHw==
+X-CSE-MsgGUID: ZuMDR5xvRpiUF1T/cebYLA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
+   d="scan'208";a="274565955"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.99])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 03:08:25 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 6936D121CCD;
+	Thu, 07 May 2026 13:08:22 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1wKvgy-00000000NAy-2x8r;
+	Thu, 07 May 2026 13:10:52 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>
+Subject: [PATCH v5 1/1] media: Documentation: Improve LINK_FREQ documentation
+Date: Thu,  7 May 2026 13:10:52 +0300
+Message-ID: <20260507101052.89080-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/8] clk: qcom: gcc-msm8939: mark Venus core GDSCs as
- hardware controlled
-To: Erikas Bitovtas <xerikasxx@gmail.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org
-References: <20260507-msm8939-venus-rfc-v5-0-d7b5ea2ce591@gmail.com>
- <f5TsKnC12rLsH63vAi01aN4oXUFLrfgIhn14IQFDb9gcac6anLzzhJdkGNdQ2dRs4vYbFKUptfEgWuKdgIgGsQ==@protonmail.internalid>
- <20260507-msm8939-venus-rfc-v5-5-d7b5ea2ce591@gmail.com>
- <17c4626e-8926-4cad-842d-a1b171d1e962@kernel.org>
- <CYaHtccGOWlaUtl3QIKva44ybJiRHsPOZmHEkl2KKGmnDxJ8vTH-SVNMGbL7bjkYjI692nplORzOhpfjs3XJfg==@protonmail.internalid>
- <4f1ab5b8-3bfe-43a6-8b91-317456188544@gmail.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <4f1ab5b8-3bfe-43a6-8b91-317456188544@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 27F9E4E67B5
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: A54E34E687A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60776-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,apitzsch.eu,baylibre.com,redhat.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-60777-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,nxp.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.intel.com:mid,ideasonboard.com:email];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-0.999];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-On 07/05/2026 10:53, Erikas Bitovtas wrote:
-> Running the following ffmpeg command:
-> ffmpeg -i Videos/big_buck_bunny_1080p_H264_AAC_25fps_7200K.mp4
-> -input_format h264 -c:v vp8_v4l2m2m -pix_fmt nv12
-> big_buck_bunny_1080p_H264_AAC_25fps_7200K.vp8.mp4
-> 
-> Fails with:
-> [vp8_v4l2m2m @ 0xffffb0386870] Using device /dev/video1
-> [vp8_v4l2m2m @ 0xffffb0386870] driver 'qcom-venus' on card 'Qualcomm
-> Venus video encoder' in mplane mode
-> [vp8_v4l2m2m @ 0xffffb0386870] requesting formats: output=NV12/nv12
-> capture=VP80/none
-> [mp4 @ 0xffffb4b3b7e0] Could not find tag for codec vp8 in stream #0,
-> codec not currently supported in container
-This is an ffmpeg error, rejecting saving vp8 in an mp4 file. Anyway 
-this would do nothing on the encoder /dev/video1 is 'Qualcomm Venus 
-video encoder' above
+Add a reference to the LINK_FREQ control and clarify the meaning of the
+control as for C-PHY the matter is less obvious.
 
-Try:
-
-v4l2-ctl --verbose 
---set-fmt-video-out=width=1280,height=720,pixelformat=NV12 
---set-selection-output target=crop,top=0,left=0,width=1280,height=720 
---set-fmt-video=pixelformat=H264 --stream-mmap --stream-out-mmap 
---stream-from=/media/cyclists_1280x720_92frames.yuv 
---stream-to=/tmp/cyclists_1280x720_92frames.h264 -d /dev/video1
-
-v4l2-ctl --verbose 
---set-fmt-video-out=width=1280,height=720,pixelformat=NV12 
---set-selection-output target=crop,top=0,left=0,width=1280,height=720 
---set-fmt-video=pixelformat=HEVC --stream-mmap --stream-out-mmap 
---stream-from=/media/cyclists_1280x720_92frames.yuv 
---stream-to=/tmp/cyclists_1280x720_92frames.hevc -d /dev/video1
-
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
-bod
+I'm posting this separately from the metadata preparation series.
+
+since v4 metadata preparation:
+
+- Add the dependency to UI for CSI-2.
+
+ Documentation/driver-api/media/tx-rx.rst                     | 3 ++-
+ .../userspace-api/media/v4l/ext-ctrls-image-process.rst      | 5 ++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
+index 22e1b13ecde9..7df2407817b3 100644
+--- a/Documentation/driver-api/media/tx-rx.rst
++++ b/Documentation/driver-api/media/tx-rx.rst
+@@ -93,7 +93,8 @@ where
+    * - variable or constant
+      - description
+    * - link_freq
+-     - The value of the ``V4L2_CID_LINK_FREQ`` integer64 menu item.
++     - The value of the :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` integer64
++       menu item.
+    * - nr_of_lanes
+      - Number of data lanes used on the CSI-2 link.
+    * - 2
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+index 6d516f041ca2..57c2baf34acf 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+@@ -24,7 +24,10 @@ Image Process Control IDs
+ .. _v4l2-cid-link-freq:
+ 
+ ``V4L2_CID_LINK_FREQ (integer menu)``
+-    The frequency of the data bus (e.g. parallel or CSI-2).
++    The fundamental frequency of the operating symbol rate (serial interfaces
++    such as CSI-2) or the sampling rate (parallel interfaces such as DVP or
++    Bt.565) of the data interface. For CSI-2, the frequency is equal to
++    _1 / (2 * UI)_.
+ 
+ .. _v4l2-cid-pixel-rate:
+ 
+-- 
+2.47.3
+
 
