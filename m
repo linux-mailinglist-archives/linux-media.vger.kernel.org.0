@@ -1,202 +1,185 @@
-Return-Path: <linux-media+bounces-60930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60931-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qE88NX8L/mm2mQAAu9opvQ
-	(envelope-from <linux-media+bounces-60930-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 18:12:47 +0200
+	id eOWGApIM/mm2mQAAu9opvQ
+	(envelope-from <linux-media+bounces-60931-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 18:17:22 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 395344F943B
-	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 18:12:47 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 003BC4F94F9
+	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 18:17:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3D7C8304C625
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2026 16:10:26 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A6847300809D
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2026 16:17:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70F9A3D75B1;
-	Fri,  8 May 2026 16:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48FD037DEAF;
+	Fri,  8 May 2026 16:17:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Jxzzvv6G"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PflXPhw4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013031.outbound.protection.outlook.com [40.107.162.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E16D238150
-	for <linux-media@vger.kernel.org>; Fri,  8 May 2026 16:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778256624; cv=fail; b=k5dAFX5U90c7HlfY1W1sogB5BBDvcieNuav/aelPjS9xQWQa4miUnsukdtUUKJFSsaZp0isOutzS0M4B+E8NF/Ijk5HS7yUE+fXR0hRarxQ69P/QWTPl0VykEYlphzI//1knim3Eh+Bio+sgvIU3w4xXACN4tgMiBOU6avSVDag=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778256624; c=relaxed/simple;
-	bh=JVdtmrymK5vZCPx4aaJppRtXaDBkfnROEQ0nNIAQ/Wc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=tJXwo+aaFAh8yt6pIXHO5ijrULVbuQkSLSeyUVlPvYaaBbLzQaWK3G7PxE6j32QCbU3rEFFJtG34QbhTp0oZbkGWNGcViB9Cyl/JuD8O9dQOUdE7huXQvfZaxz9ADrjUpSqpFUxAjg1Wtw2GFUGSfiEvpTFreIP06hX1Lf3kEW8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Jxzzvv6G; arc=fail smtp.client-ip=40.107.162.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k+ANu/o4wCLK6X2E/UZFvjddLE1gC+Z9OL4/wYpkg3lDsiZp2Rad4bpRpnnh+jYgHSL/eVjDxi0N+hLHrx9gb3wwbFn7sJ5KcE57QbYugIkpYgBhSxTRoUmxGEOgoMl8Jgr0n+z+rWlHuLfgJUIQMXkmAg7lcOmUg8kZNJTVo7hULRyFPTR9XuXwrG0HVGWwXPMgMtsTSHTHepLxrCpP1uMuUM2sqgIbNavStjPoiXMMjzTv7Q8tJJKiFTep2lSKeTtT3fbgdIEPXnYoJrZ6xSzT7YOVjp69PYxjhRACkSpOmpcYbBdgnLTn5B8gLN49ULckaDLASL3R2dYI7zkPWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KZSEANkmfEJGi42Eb+G+O3pD5cJoTSGnI5WKs7TGi/E=;
- b=JC/RjGnrRX6F74lel7H3i+njc/m5W3hP4LlK0jrkZfE3qY/tQ+AaeoXDz5EdQEMqvpP/61gCg4t27fOScJpEG9K/YaQt198CwRt+XvsbqaWy2BhoTmkxOr0GWwfjRM/w549oWYjKtQtu5D0si/LxQYSID8kZHop0au3xSy3P6iH85kt4skEyFPC0Daz6MCKuGrg2i/eUWWjdGjaHIoHsMoEM9Q5cFpSZKlkbUYSzvN+8zhr5sSrBP8mQcuP7KIRspwiYso02bNP1tglk8OfgqMQ6jBZC9G//8l5nZowSreQn/jkkDkuEFOQenNsXCWpfqoSY40M6MrYt1BkZq6HHTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KZSEANkmfEJGi42Eb+G+O3pD5cJoTSGnI5WKs7TGi/E=;
- b=Jxzzvv6G4DY2hST5ETi3KvSBlcZS9mXXktw6SN3GWHGjXhQnWFtGjhu1X+ojjrTDmh3pEPMvlxJskJUlBqH0ok7zD+VlQTsNXsOTSstZgl7BNW6VcGqlWYC4Ja7yVEH/aKYbFg4coA2KQsqFbVuPrWVrIZDh6T5yoUBl+mOs/a9DvVGChWnNjr3n1fqwlVzOz/XlzBH/PMqqGNvp/mt13+KKPdy7hFB4qx1GYWE8CBVWMeTlFiLZtB0XasyJWxkXwV+Wp6N3l6vFZqum2iRfkklTHX3O4PBA0KZVCjGPnP5ZiPcyArYxiNO3MxMAfe/QVyxervELjO921t2OPooSmg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by DBAPR04MB7463.eurprd04.prod.outlook.com (2603:10a6:10:1ad::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Fri, 8 May
- 2026 16:10:20 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%3]) with mapi id 15.20.9891.019; Fri, 8 May 2026
- 16:10:18 +0000
-Date: Fri, 8 May 2026 12:10:13 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH 1/2] media: mc-entity: Fix documentation typo in function
- name
-Message-ID: <af4K5RFxKAWkAcwf@lizhi-Precision-Tower-5810>
-References: <20260506165438.1767378-1-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260506165438.1767378-1-laurent.pinchart@ideasonboard.com>
-X-ClientProxiedBy: PH8PR20CA0005.namprd20.prod.outlook.com
- (2603:10b6:510:23c::13) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588A7351C09
+	for <linux-media@vger.kernel.org>; Fri,  8 May 2026 16:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778257033; cv=none; b=bKKWWppg6anOdsFvX86/7OKi1MSZ6Yr+qODwNnyg6oqEWyexKZDOuAv4q0uiJAe+nhOXp9pf5RXQy3ji8pMLFTZKhYJz76GSNWRq7jbykQiL6Kazr9LTLUJDQmp78kKaJBhgoa/aQ+eXVnGcEmZ+9E8G3vo20ZGxdXttzRtoxV4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778257033; c=relaxed/simple;
+	bh=a2/iVMjW+vZHe02Y/Zy/BS8miYOFJ/XZDHc3xm5Anzk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f2UTP/yXlj6o08pk+D6YTwWEYBeTCH4NjC0lY/3FxZ7Z8im4HjafD/zyvc4LqSR8++WyGmvy20SL5hMDmCipF6PNPmeTDB2w8sGmk3+R8QN9Z3ae+O2oQQxNCY0iXo0MRJ+iSZ2jbl1nBqPcoin3Tvp3d98PgIhPcQjmkuV0IyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PflXPhw4; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43d73352cf2so1770854f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 08 May 2026 09:17:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778257031; x=1778861831; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cmUxS4Q9Tzyin8+N6iP92awnxvWebVH+uapUMeaf/ko=;
+        b=PflXPhw43aGBOH29hl+Va7RmIhgHKlkA7rigvJ9c91JIgKBHugrR/aQr2mDcICgP5L
+         lDudeuxj7J20yZovRUrFfomOG4Bp+5FNvMq/aWKuZ3U+3X2jG1q/ClzZwukuQ1eylPYA
+         vU+sXK/MNn+RzHRqglpX1hzzycgBRhMuRt8eaVGyQhygLYOAohhMwJxyJo4AOZqH8YVl
+         lfHkSTjvKxbEcWoeDhqsQLWBHEGV/kjJoUgvQ0VWaEqgYZBu5HxuD3nkT09ewkHFeCNf
+         7vK4KE2eV2PXKi78c1mXPTwxvlwbuaBfH93S9+oOrV+fe4YVAns8AT3hHK1o45rbmKBA
+         VkVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778257031; x=1778861831;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cmUxS4Q9Tzyin8+N6iP92awnxvWebVH+uapUMeaf/ko=;
+        b=DkGnKETGoeWQ6NoJlpuV/5r4M2OiMjx65uHZHvMMxDF3Qo812Vb0ObFgx3LTf4s/hL
+         P2GaCUmt0Sax89adqUc9d7MtOvRy+QuUTr4gQqGJ1ozSrhef8qflxebw6L1jIIMG+OtX
+         p0ZfHZ4yfg2x1r7HOw41eUAIiTXVqW9Yvvz4OhavwCIGoUBGPq51MAEETv7/I4DhWIA4
+         3RPQlGtFgUdeATfekjal68YGRIxZM/vWv7+E6CJW/kNc8tFbB8LMvrQYvP9ne9P654fT
+         jFnp9QJnch+PRqBD5aOovZnWDM3MpS74m+6bYw3A4/UytXwnkRi5/n404L68mhq+NdtS
+         74YQ==
+X-Gm-Message-State: AOJu0Yyn+EgDaIxFWCXfefFazzEPJMf0GU0XBFslKb6i3rc243T6KXh4
+	QGiSPu3qPayMfsLEKxbT9buFdIupigHLV/UWb9SQf0U18DppwRf9LhzB
+X-Gm-Gg: Acq92OGHXtxqO/7fBPRRyivzUQU5kO1QaBhos0xVfeVTSh14wvddvLtgx4MAZSbSpwV
+	PdO3ZONOGRNqR/3bbQEuRD+7IgITKxRygLHWBH0BfEo3x0Jbx7VS1gKlQ5eQ6Wjf2j9SUuQnCdR
+	IvGqgZ9/JWZMlCR3nrWyZH1pJGtrPh8EA7aPb6mAAm7W2pYtao9QPlGMMN0VP7QMaD3i4E0eV3u
+	G4IECfbZsVffozhVc9pTOUFiO2RUVlvHczjuMZ/C3p6sVZDn8HT/KX0ClvXovFNj269899lUsba
+	SRwHMB6pmkIlZhUwg03d6C/1ixiExOUumX9MiA/aHfoP8Mku8iZb0TTVqEwrOQP2q4arBfWeCyR
+	4GFNEBKYXYtb8DwHA3rB+DM/JW8VP6KSj6BgkjA824j+2jIMNBzkmBvBJdw8Pn3VOJTr2DyaqSG
+	MXoeOLv9XUt5rNcx7J0AHtGwpZTijydus1D5relhP5rRz+GUshRBy2KVQd0225yIMwXjSu90tCD
+	+e+MspNF96z5RPuYxE3
+X-Received: by 2002:a05:6000:4210:b0:43d:73de:abd2 with SMTP id ffacd0b85a97d-4515ce1c4demr20464240f8f.26.1778257028011;
+        Fri, 08 May 2026 09:17:08 -0700 (PDT)
+Received: from thinkpad ([46.164.92.151])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491e94c0fsm5500124f8f.32.2026.05.08.09.17.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2026 09:17:07 -0700 (PDT)
+From: Arash Golgol <arash.golgol@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: yong.deng@magewell.com,
+	paulk@sys-base.io,
+	mchehab@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	laurent.pinchart@ideasonboard.com,
+	sakari.ailus@linux.intel.com,
+	Arash Golgol <arash.golgol@gmail.com>
+Subject: [PATCH v2 0/3] media: sun6i-csi: Convert to active state and improve MC support
+Date: Fri,  8 May 2026 19:47:18 +0330
+Message-Id: <20260508161721.94285-1-arash.golgol@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DBAPR04MB7463:EE_
-X-MS-Office365-Filtering-Correlation-Id: 364520dc-9fc6-460f-8292-08dead1c4c45
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|1800799024|52116014|376014|19092799006|18002099003|38350700014|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
- 6i+64/2zPYtgCBcwhFf06YGA9uAC42J8tE7gN5W5MZCZRlJP3dAIaX5BtdWpPm9e40YsdDbuhVNPp2pqNOZUz1rcagr+cgvuAuVaTWXnMdhcvuMZ3ZDABi8CYilLhQOp0VuGoxrQJdhTAUeorlnEb/DnwzBjnOXPw8Y3aSfcOFuqw/hzjWwetLc8BODx9kThx795+3RtpGyLLvuWmI0U6850s8fEvc2k4Cgvuln0HtNu670gmr/r7SWG9QxbPOsqmAvwWpcToK6MvtzyMKmfCKM/7ddffRN+h7RdQ6I8ta6Zzby4zdT1LS8M4fd3/7iSoifo61vmk0s3UGsYmt1ZwyprU3WMpPmNQWCSQRtfwgJeaPgWfCp9FWobPDHHQ0tyv0L8aH0/KbpsojCbPg4g3BTzUZ2tr3pQ6xODqSJCPxbzaHza/RAuAnWhb1Jo026yMy7pShPkIJ/yxKCV968Xwh57rS42Yg7wFRfbFB3SU96lzrSs5hqX3VqecHhGQI8VNdrQf8owUDCZdXuwESzc8v3xihW9aIhAbqQVEMPLbCOGJ4d5HTddzG2nbfXOF4t1O1JPcYT6U3aaKt8g/NhPXcPERQDtGrGUsDw50/+hXErzhZjYspyJnnOnMBpjzaWdt+vu8gFp6EpL2bqzcokvzvBk0lUDmgMDvv8uXVuMgOa5xxAAYtTzcLDHQYBi+komsp5aOJqENYl1IIjZYAblH3+eZh9pzkCMSmRSx8JHbpelwfKQxBBQi+60AxHSqm0D
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(19092799006)(18002099003)(38350700014)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?hOFZbxO6JebJxioJBUKRAtivw8V3KmctqEX622N/b6eiUjJWaCtkhQ7rY31F?=
- =?us-ascii?Q?sE93cWjk5+tqaCfvyVgYVUPUaUkykJbLaSN39hxWv1Govk2dVygNfW8De9Sv?=
- =?us-ascii?Q?dlhgQY4OZF89s+Q+6s9BNfLZzYlrl4CI+rDWSuCPAyo42vbnraFBUnI/mfNe?=
- =?us-ascii?Q?jfvGoaJ4hd/SScmIqczLAtwmolE2LrNE2akPQY8nRbeEzmWGZW+yHAEIsR1H?=
- =?us-ascii?Q?JHTKcwlcivh6r6t2ypTb4Aq2JvOisOSnmK4GKkecH/6u8LFmdWwQyzo6njaV?=
- =?us-ascii?Q?eDxORVIVAzX6lmvsynKW1W3Wt/v3PaoDWhqZ+wt8eufuVmneWlpG+Urr6WPp?=
- =?us-ascii?Q?klh1KTXnHzEOG6h76YVPgLanQUl6v/tNlj1ZVmP8cBaK0hHhmgVFXcjtEJ3C?=
- =?us-ascii?Q?IMbMUnDBm/c2H3KSDN/kxA5urY4+4xeu0v2CHJ2wq33RDxM/QVTtviWW8IsU?=
- =?us-ascii?Q?sw0rs3YPGkRDikEkVGSEazcPy51s1hVLet4J4luA2AX7SRe99burNMRK1lOK?=
- =?us-ascii?Q?QkPLm9W+/Rk4hg1PQMO/VLRojDw7wAMIYjo+y8cvYGOzKcyQNe/AytNdW7O4?=
- =?us-ascii?Q?lN/K7+DNxAlnmd/PxL1Vel89UfB2pVQBo4/c0vdGRwRpP542hFk9RORcZbLO?=
- =?us-ascii?Q?eHbOGXDG1qlw4VQAMEx9rmnn1AWT7slm8c8F/5fwk4e4QYSKjDrKgD2rRj5D?=
- =?us-ascii?Q?lrjPAH/ptTvZSPDozprtxWbdhhLxc2F+YEcoWoPr0HTstjJwJZYdhnZ3v2Wz?=
- =?us-ascii?Q?48Hv+lpmFJXBNleKKWaWSf3b6mleYzvdfj4z07sy9LQXBnZKn/s5VsSP7PSa?=
- =?us-ascii?Q?EBjB4afZus5fm4OxAT9k9jHwKxbghlcgYMOzvCuQhoH7Bu9oG3VirquoA+MT?=
- =?us-ascii?Q?YHS5v7i2G0mpqo9DxArVpPmW9b8t1h/d8zYPdY2z/puU+Ce9xnEQ/rlU70vz?=
- =?us-ascii?Q?ewkoUNcbalnje6XmGB7b2+zEldi+jh59xMyIeidvVKTg9fTPmJvDT5j8uIOX?=
- =?us-ascii?Q?cpEengoyPmyiyDE4eV4aKnmHfBj8fxjuUyXUw7vTod61mpJnD2gGfnPvieKW?=
- =?us-ascii?Q?lrhH45+NiQoXdt7lGqfwGFsgGPQR5Vbikqpo9fA28RKUvEfK7dkNeKKw28Jq?=
- =?us-ascii?Q?kPuehVvkpEBo0cYobQzhnMM2ziAROovBioRWXqA1LzpVCVkp4+RDPI4RzwQf?=
- =?us-ascii?Q?uuC/l7BK/ZpKzfrdiUUa6HS0VojGs769p8Ra6/0c5+gBY7fSv7mpWAegAnGh?=
- =?us-ascii?Q?4qaQkl18NplQAxLtuvtp0k7hyE8ph13+bQuqZsdeVd1vJy0AesAd6zR+Dpd3?=
- =?us-ascii?Q?7jI9zeOJHgOXfEX6GAtxdKNzd/cTCU1avHwdrkTchagAD2hSmjUOBbNncMGa?=
- =?us-ascii?Q?5nNw4RYBAYyED3iqWMmfumEOojM7VwTz9jaQmb/+v1u9sm4G5pyFm96zbZwR?=
- =?us-ascii?Q?tkxpgXfrkAWWAl0T1B3dPpvJHwP4Zk+r+fEset1t0N6dAuzDaoCLCdiWngh7?=
- =?us-ascii?Q?1hMxvimkwImfhcPaF6y0jGMWMLx3YklaAP9hOtb2zPYsitpwW7Y4jyUC51wi?=
- =?us-ascii?Q?NsPILq6YDY42u/hlYKUyFFnCaTyhGf0Tq/fw2DSHsmX7aWmHZ+vndUeqYCPf?=
- =?us-ascii?Q?iP8htdk0OxEhZL7I/FPhFltaTNQuNXrCw257pIk1oFcIi/uhQ3BkyNMLBZHU?=
- =?us-ascii?Q?LJ0uYdubfvO1N/dj5fIZPLzNHq8YxOMQ6Xp9KNzsvfI83RXBWNhq39pFXuLr?=
- =?us-ascii?Q?NFZRLk6rCg=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 364520dc-9fc6-460f-8292-08dead1c4c45
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 16:10:18.5484
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4q04VzPHEblIgsUHKzEbVwgY5ApyvRNYNjygcNeTwFmMfhWwK7c66qVP8GY1tXwd18zxRXNjTS3KAPYLUbetwg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7463
-X-Rspamd-Queue-Id: 395344F943B
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 003BC4F94F9
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_CC(0.00)[magewell.com,sys-base.io,kernel.org,gmail.com,sholland.org,lists.infradead.org,lists.linux.dev,ideasonboard.com,linux.intel.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-60930-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60931-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[arashgolgol@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[3];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Wed, May 06, 2026 at 07:54:37PM +0300, Laurent Pinchart wrote:
-> The media_entity_pads_init() function name is misspelled. Fix it.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hi,
 
-Nit: suggest put real functions name in subject.
+This series modernizes the sun6i-csi driver by aligning the bridge and
+capture components with the V4L2 subdev active state API and improving
+media controller integration.
 
-documentation typo in media_entity_pads_init()
+The first patch migrates the bridge driver to the V4L2 subdev active
+state framework. The private mbus_format field and its associated lock
+are removed, with the framework-managed state becoming the single
+source of truth. As part of this change, the capture driver no longer
+accesses bridge-private data directly and instead resolves the active
+format through the subdev pad API. Since the hardware does not perform
+format conversion, identical formats are enforced on both pads.
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+The second patch implements vidioc_enum_framesizes for the capture
+device, reporting a stepwise range of even frame sizes within the
+hardware limits.
 
-> ---
->  include/media/media-entity.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> index b91ff6f8c3bb..904f61c14dc1 100644
-> --- a/include/media/media-entity.h
-> +++ b/include/media/media-entity.h
-> @@ -726,7 +726,7 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
->   * the entity (currently, it does nothing).
->   *
->   * Calling media_entity_cleanup() on a media_entity whose memory has been
-> - * zeroed but that has not been initialized with media_entity_pad_init() is
-> + * zeroed but that has not been initialized with media_entity_pads_init() is
->   * valid and is a no-op.
->   */
->  #if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
->
-> base-commit: 3cd9b7011519c3fffffb7b6752fc7603be52dc1d
-> --
-> Regards,
->
-> Laurent Pinchart
->
+The final patch adds MC-centric format enumeration support by filtering
+pixel formats based on the provided mbus code and advertises
+V4L2_CAP_IO_MC to reflect the intended usage within a media graph.
+
+Hardware testing performed on LicheePi Zero Dock (Allwinner V3s):
+
+  - Parallel pipeline (csi1):
+    ov7670 -> sun6i-csi-bridge -> sun6i-csi-capture
+
+  - MIPI pipeline (csi0):
+    ov5647 -> sun6i-mipi-csi2 -> sun6i-csi-bridge -> sun6i-csi-capture
+
+---
+Changes in v2:
+  - Fix indentation in link validation path
+  - Return pixelformat directly instead of a pointer
+  - Link to v1: https://patchwork.kernel.org/project/linux-media/list/?series=1054768
+
+
+Arash Golgol (3):
+  media: sun6i-csi: bridge: Use V4L2 subdev active state
+  media: sun6i-csi: capture: Implement vidioc_enum_framesizes
+  media: sun6i-csi: capture: Support MC-centric format enumeration
+
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 154 ++++++++----------
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   9 -
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  88 ++++++++--
+ 3 files changed, 143 insertions(+), 108 deletions(-)
+
+-- 
+2.34.1
+
 
