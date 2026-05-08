@@ -1,231 +1,210 @@
-Return-Path: <linux-media+bounces-60904-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60905-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IPpeMX6p/WmEhAAAu9opvQ
-	(envelope-from <linux-media+bounces-60904-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 11:14:38 +0200
+	id CCQRNsSq/WmEhAAAu9opvQ
+	(envelope-from <linux-media+bounces-60905-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 11:20:04 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB2C4F41F5
-	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 11:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F434F42BA
+	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 11:20:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1BD343038BA7
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2026 09:10:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 13635303C63F
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2026 09:18:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D68C389455;
-	Fri,  8 May 2026 09:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="gAbiJgrP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD48C37BE7D;
+	Fri,  8 May 2026 09:18:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012071.outbound.protection.outlook.com [40.93.195.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A1E388E5E;
-	Fri,  8 May 2026 09:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778231413; cv=fail; b=kowoer/gwEmfh8YIAohHVPVZwhtYhhvhzLQDcxoY6IQQK+AmD3KHWyYF1UWaKAJneWGIcg1HFvUGNL0GvmgSaoCfvPOJCn2fLPmTEk9elkGbvdpT2jF/Jx/7U/5NodHBn7Nmh1k+eRO11rHOrgMfT/cUnfsD2JAecNyYSX+UoRU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778231413; c=relaxed/simple;
-	bh=Ezt4+4uVa302xhuact1oWrcF4Q6ai5b6H/uoFG/cCr4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=aWw1KCOpOAYeUxkR48VVLe2xGQ+WcKTy30y8uL+S3TaHwEl86M92mYxHdG1CHzltfKhmbVk7mKQ653QC8gBLPaiILTblu4vJlWRZ6gVqdHM5e2RfRZveCZR/Ift6edfvzDOQsmaL4DZ4yOCvExCKM+nftwstOR7CkJM9vyQ/jZc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=gAbiJgrP; arc=fail smtp.client-ip=40.93.195.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OIvIOAPZe4jEaj/lEloOO2wIgwrh4JoINpLGcRU4qlvLBuQq33IKSqaKd/wYa0FLr7u0VpwNL398O4okI1uCdpBaLpowqTLYFTCqjAkEE7T3i5dnncbORVmepuyUahnsgr+cGFhfTNq+TKKKbQgYsxbRSu82aCx7SqQIWHYn7P2WVHP68+gwJcHcMhq0XMcuNnOpXRdcdeYqSQjX9jljHEjP6YheZfGE1gOj+9HnP/9ycTviYFznRCl7Q0hVw5hiIwUFY1HB5N/HoX0swkDbqDdESD0AQyvzDZcO3tFmDHTtAlMSNd4fRVUbwZ0n01LUCK6K3yuMV9Y8ne0RwDmV1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GC+/l6OKL48st+7Lob/Nb09OCKTkeo6oPtZkJbhw16M=;
- b=ekqKh4Bhazc9uq9eStHv8M0QTmqlgZrtSK6SGBXOdyRjwsevsOxP7O2PizmehBZpCb+cYgem2WtLxelb5oMUxdJcKpHzL2qNLZIcpdLDhBo8tD80VPqnCz84AqolmmFakZrtW4LP4H6lTJ1Ga/DYEkG4mtcdjc99B4xomVlIQ7QZeOPQEWVenraDYuLa3g0d0eLn/WtJsHzxwc8hjHUc5BTgyDMCLYRXKDrL+Caal0sS3ilHEmQi/ziEd7Yo8x4YXpZSzxfPx+XlaSTqzRu28gG/1DbU3WyGIyUx7/WqQz8a+XzDr7U0LI/2aWGL0RfuKQK9vE4dxeBPthV7CJ7GqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GC+/l6OKL48st+7Lob/Nb09OCKTkeo6oPtZkJbhw16M=;
- b=gAbiJgrPPL6Y5lMNTMWLnk9/lIbHr4g+YH6ykIba3ENZwpJoORPfTdTx2+/yHZXm+Lz85U5y/IetCI/YrFKaBnTkSuj8MNm50Vab2/xyTnrO+ZkwcTR3XM8XsLZHHRyKBP0JQ4oyL4RFXwPlDkQKAM5rVltm3F/ykqbsmyaIYBQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from LV9PR12MB9829.namprd12.prod.outlook.com (2603:10b6:408:2eb::9)
- by PH0PR12MB7789.namprd12.prod.outlook.com (2603:10b6:510:283::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Fri, 8 May
- 2026 09:10:06 +0000
-Received: from LV9PR12MB9829.namprd12.prod.outlook.com
- ([fe80::2bc0:451f:661a:ac32]) by LV9PR12MB9829.namprd12.prod.outlook.com
- ([fe80::2bc0:451f:661a:ac32%6]) with mapi id 15.20.9891.019; Fri, 8 May 2026
- 09:10:06 +0000
-Message-ID: <e5910426-032b-4c34-9f48-d3b5aefdcbf6@amd.com>
-Date: Fri, 8 May 2026 17:09:58 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: platform: amd: avoid -Wformat-security warning
-To: Arnd Bergmann <arnd@kernel.org>, Nirujogi Pratap
- <pratap.nirujogi@amd.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sultan Alsawaf <sultan@kerneltoast.com>,
- Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260508075926.3698178-1-arnd@kernel.org>
-Content-Language: en-US
-From: Bin Du <Bin.Du@amd.com>
-In-Reply-To: <20260508075926.3698178-1-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI1PR02CA0045.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::16) To LV9PR12MB9829.namprd12.prod.outlook.com
- (2603:10b6:408:2eb::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158C833DED9
+	for <linux-media@vger.kernel.org>; Fri,  8 May 2026 09:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778231887; cv=none; b=EGcxWFgHHHCq8x7+2hmoxPaMrBf6mUdOU+jveA2U6jv+G8DKuaUzgD+t3Mb9HdAI6Mo6fOfwdtsd/YB14tj5DcSw3huUvJPqF0TFxppyQEv+FfmfaWB44lwXlsA4UtoLRm6tOsCj7jXj6ccRbWllJOk06XJukd2VLxLfpX86TPY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778231887; c=relaxed/simple;
+	bh=Xc5j9CDKlFuLtIb9mG1NWd0Wa+Ic7rYDHKf0WsXQawY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L2Ge+OexiFKcFWBUB7nyWM8lWj8k5/EWC2Ur2kJkehqWOzfGHvma62EpGXaTqrsQVnq0y5hAjIpddMElf4MtSAgV4HJu4WBRXWaJ48gSWpaBLT55yJCXlk1ELPCaEkJsHD1ozCIXncudVOKoRRBL9VZZ/hayKLQ627e/2dLoqeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-479dc6d26e3so1004580b6e.0
+        for <linux-media@vger.kernel.org>; Fri, 08 May 2026 02:18:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778231885; x=1778836685;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=freA64yN3LTk8GeI+Wxty1utrJRjkdarC4+05051tIg=;
+        b=Yi7/ZPT7pOm18OARL5aoBIOregH8T5lo3JkukjXxRmrdAR9Ji9TDs+qWVg2xPfMjGB
+         i3Het4mnic1aRn4FQ6aH85lmDvnzcUgaWyMlSaKs2hZkd9eDrjl3xyPa/eNbEQO2PLZ5
+         1+b75mEBrc0ZjpWu2ISuUz96glxUHuMxXAn8/8QuA/BLxgW6eSKe7OkaNY1uwELmF6P1
+         0VEuUCyrfbQZKTgg8rm2jCiMU34ITtwtAcGWzWYrazL91v6RsuDqjHFBgJre7IFRhGJR
+         8NgqKvZlogfOzHJmp2J17LsYlLdGw0DN3nL+c4BduyWvZsvqvogXFkh07wlfXDZVsrVx
+         gkIA==
+X-Forwarded-Encrypted: i=1; AFNElJ9rKdp5oU/T8aN3LTBFp3tuy/xHcbeegHp88FH/0yH0TN2YRkz2XZqCfHVGuviHw46fZnUOzkRP1jJySw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzshK7y4xibMM6bBsY4fX0IurOMjCnopWtO4vBia01+gltASlwu
+	Krbt8HuQzpK4juWPOLAwhfSsCp0eE5A1TJ3xzsovafvwa6ti5940xiyrikeAH0qSX5c=
+X-Gm-Gg: AeBDiesLTpie+71RGg7RskoRW6sWrV7bA3hfi5XQnZNdqsDKdQkL3vFipfwZk6na273
+	xyafNude/D64JtOVsapEFYuC/5vGhunpmwIOF6lxOyoHpbbAqjgdTLaBziIc6zPpo6iZ1cErXnG
+	Tb+/e2Amfwp6DdHdX7WBnWk5a2ODYmXaD5vIqALsiWjp5u6vlQObieSUh7KEvLA45Wao77d7j4j
+	kAQEMVnEwtgidzAuHJIypoVtuNM5VtyI35ViVuvQQuiaIBUdsjX4dxL+qRcvU53nCPbKhf1dP/O
+	PRN1ZWdaL358U8/AKVt3VTt1VvBJLlv7FXzrxesmMK65rsRzrgnXbm4UeAWgYufsbLX7THPry9H
+	Pqs0x8mQGEkt8FiU7pn6sTgniOfnULrs7kOIMLgSAQMgZI/ecoy+mNSx1kwn+UaGg9/OUA+4Y3E
+	cFVlbOS5FHHN828gIOsEyMSp+HzPMHM0bDafSTtyTketPa0C9XwfsUc1SqtG5U9oDXJpyKkMNx/
+	k6cseYuvA==
+X-Received: by 2002:a05:6808:191d:b0:479:ead7:2a5b with SMTP id 5614622812f47-480421e5991mr6711137b6e.16.1778231884908;
+        Fri, 08 May 2026 02:18:04 -0700 (PDT)
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com. [209.85.161.43])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-47c763b2c87sm14506076b6e.4.2026.05.08.02.18.04
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 May 2026 02:18:04 -0700 (PDT)
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-6967fd0416bso1010582eaf.3
+        for <linux-media@vger.kernel.org>; Fri, 08 May 2026 02:18:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/CTIpzBIyDRXausp9hL/Zl5DiNDu4xXEdJsPaiS+PIpd5XH2iRJaXiVStNoFiV6LvxS5yInJSqrsdA8w==@vger.kernel.org
+X-Received: by 2002:a05:6102:854d:20b0:631:2f82:c3ce with SMTP id
+ ada2fe7eead31-6312f82cdadmr1563743137.10.1778231440310; Fri, 08 May 2026
+ 02:10:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV9PR12MB9829:EE_|PH0PR12MB7789:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe61667c-814c-4603-d3f4-08deace19892
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|366016|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	h7yFIeD6CcL3GH2P0Q70MGjtGcaWnOmVgAfSaa8eFhLzd2TFU5dzEX1ep0KxwWciai8I4RKKvTkcqGU7fBp5GPC7wOCVB8k9QftrAsK8GrY0FlQToMLIfnZMlkZfOPWuak6nNbtSlwbo5WWxIMf2TbasaE7tedhMd/nGVLNtAzLkSIN97liqUfhlCEFfDO6gQ++24EXR+xN3VtHFQ+I/FBVdBT86rotNMgjHx7Wui0JaLrwhjPdIq0MsH7IIoEz4uKaA1pDjh/74XjhD2GotmnLgJhXyNOO+IY+dQ+BoO2rFYkbjRs9bgy8KDcYgP9sAkBkUZw0fPJAuQ8yPQRAKDfaitmjWIZDq48m7sUjEjRxm+4hQ43t0VydNMUugiSdAcCmgrfhhRcVnYXPJ98osytwbdBffKWyw3O0CwWNPm64BjtWPKtBMNiZLSPzEdie060q7mSmrF+S/WR6grmjMV7AzrovJSWPHzDrlxmGPbPwW9tkriIuvp9FhxS+DEj3OKoG9tTDr3lZ0Hxf3dKrE4KfjUSHmOhT0qEb1/bTKU5XCryKqnKC6YcNxNJm8cEF3m1mmkK2V+qwXqbMzGdpH8SyRcJBb7o1IADWKLwzoj3h4QIXmq+1W7QHa7kA/fBRnusYOqA00TnXG+VFmcwf4isG5CKJ6wW7JJyrqjg6kNIwJxmvdHB4IrXoe8zAQanCv
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV9PR12MB9829.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TDhRTVJHUHg0b0dUb3d0VnZveGs3UlhBZUtIQnZvWTdCOFpIWkFja3Zsc21T?=
- =?utf-8?B?bjRORG9YRUltMGw4R3BQM3FiMlJ6d2N4ckUzZVhnQ2ZVT0xkb002cExuOUFq?=
- =?utf-8?B?Ym96bTBPNk9nMDgxRitWb3gwcnByaG55bEh5MzVuRUkyN0h5Tm9mcjhzdk1C?=
- =?utf-8?B?QzVRQjI3bDhaZGRkVkFvbjFkRnRPNTFBcEVNS1dScVF0RllleklBbEtBbGR0?=
- =?utf-8?B?a3dXcC9qMTZIQSs3d0VrRzROckxGREs3SU9iQU1mblErSEw1R3k4UWZNV0hW?=
- =?utf-8?B?VVJ1VTUwUGkyQmJta25vOGhySVRWUUVZbHd6a3lPYXQ1K3RhdU1vVmQweUNq?=
- =?utf-8?B?STRLcVJQVEY0TlE3NkIrM01FSUUydWdHR3c1NlY4T3hvR05qZnlGZFdmc01G?=
- =?utf-8?B?alE2aWtHWndyQUhzNGVCSW43aitPSDFaMHJXR1hqSSs1N0psM1NSaXAxOGw0?=
- =?utf-8?B?bUhUK1VPZUVMV0tXN1dqYkdFVWVHZjQ0NG5qeklDNFM4cTlPWEpWbkc5YlBK?=
- =?utf-8?B?UTdZeFo0MTlTMEw2cGo3TkluS0U5ajdwOSs5eGlTMzdCb05iQXBibWlZMEh1?=
- =?utf-8?B?N0d0Q2xTNUZXUWczM0NtWDFhRXJ1UWZEanBMOWRsQ3A5bGJlSEVndG5ncXZ2?=
- =?utf-8?B?bys0bnUvZDkzajU3K3NtdFNtT3BxTjYrVHZjS2lHZ2FhekJyUUgxYWx5MXNX?=
- =?utf-8?B?Z3owWDJTUm1rcHhSYjlqeWp3aFc3NkZiMEVLN3VqY1lydmJjVi9qVk5Qemkz?=
- =?utf-8?B?WmJLNUpKc2x0b1BpNWdaNk92QmtqVlliVjJjVkUzVmNOMWZJNTFrQm1yMnBV?=
- =?utf-8?B?dUtTOVRsRGFFNForYjRTNWpUWTdJZlNaN2xQSnV2Qk5GaUNYZFhxZnMrMVVE?=
- =?utf-8?B?RU52RFVKaWRjSS80VzBKZXlpQkpOdXdTTm5qcDdnMmthWkJ3U2x0NVRhbUJD?=
- =?utf-8?B?Z252VkxJSjl5ZFd0aGtYUGsvTFJSc0R5L1RzekNTZE5zUTdoMWJITGlkdnBX?=
- =?utf-8?B?Z0NCcHkyUWtKay9TUFcvS2gyMnJ1Qk5MSEpwTjlHeEpaMW9KT2tuRm5LejIw?=
- =?utf-8?B?ekI0OEsxd3NYUE8vMEVGMmZPZnBZNE1Ra2NRZHlQMHlJbEpNRzdaNHFIRjIz?=
- =?utf-8?B?N3E0M3YxL0w0N3RuL2ZaaWJCcFBoTi9jLzJra1hYbEZlTnh0T3JUQjVZY08r?=
- =?utf-8?B?T1l3ZWdBNWxjMXhpeVhkWThrbXozcWJCd1lLN2Z5M09DeXdQOXUwcEt3Tm9L?=
- =?utf-8?B?QzRvZHNQdUdqNXd4U0N4YTB0ZnVaNUEwMDcvRDNMdGt0QjV3UXdjUlkxMWlX?=
- =?utf-8?B?QnFOaU9sM2pDVzYvZFVJS2s5cHhDSE9pUWtQUENXU29jbVFOVzh1b0Q4WUw1?=
- =?utf-8?B?UDV5S3lIOEVDY2hjYXdNV2oxTUdGOHNmMHpHNGo0VzA5S09WL0I0aGh4UlAx?=
- =?utf-8?B?K3VWMUV1cDdrUFNXRVJYU0R1SWxGTVVJV2o2YVJ0VEFEV3I4b0NNS2RpU2VS?=
- =?utf-8?B?L25QV3JLa1ptZlgraENydkRCOUZFSkdicGkvaE1QYVdPN1YrRnJkTFNRNjdY?=
- =?utf-8?B?VllQY1ZuY3BUN0p2WlJKMmtxNzhZUzBPcEhneDdCbXdCK2tsVmhxWW5FZEJD?=
- =?utf-8?B?NkhJOXczaCs4RThheWVsN0lhQ2NwQUNDRWpsLzBPdVJueG16UGRHOTdBL1ZF?=
- =?utf-8?B?RmhJR1NxbW5TNHd1TTV5eWZJT3BEYVN4MUtqaFpRRzVtMmdPQjhiVDRURGdY?=
- =?utf-8?B?ZXNKQXVJSUpkRzQ4UkpsWFAvcnBLKzRtVDVOMmxibTAvNmdHT2paNnNUM3JF?=
- =?utf-8?B?ZE9EcS9GOXhVaTc1RHlXcVdWZWdjc21FcnJNcTB6M1FqOFZManh1OWtBOUpl?=
- =?utf-8?B?Z29saVRZM0dSSDM4MldSM0dDeHNiSEUvQTFKYlU2OGhuVnVSOS9zVi9SVTlw?=
- =?utf-8?B?ZGFXWGJTY2ZHNjViN05XYllyQWJudHBwdGZvay9PRkxnMGpvVTN2NDVZRFE3?=
- =?utf-8?B?Zlk4K3NWcUI2N2dvdnBQS1VJZWRVejFXSlgvMDhEQWRlbElDem9XSUp1cHNQ?=
- =?utf-8?B?aE1RN00zdXdobWlyTnRJdzQzTUowSlpTUjdkSkdMYzFaVmZIaXlDVVYvUVhs?=
- =?utf-8?B?a1pSK2tXcGxRc3FGMHl1VlBjQ0Q2bXlobytqRjkzWXV5WXJreGtpQW9PVS9H?=
- =?utf-8?B?S3lpbU1jaktGenMraVFXQjlnM0ZhZGdFZ0hHZjJBbGVwQlpxY3gwU05QUHVB?=
- =?utf-8?B?bnV6MjI0aUMvZk1BUGhKVWNKdGNVSDExRzUzVkRhTEsreS9Kb0FSeThrNjBI?=
- =?utf-8?Q?FTITrCvzHW2iPDqnOZ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe61667c-814c-4603-d3f4-08deace19892
-X-MS-Exchange-CrossTenant-AuthSource: LV9PR12MB9829.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 09:10:06.3571
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Css0xvspgymUBo9ITZVICBUOqMoFuZ2FYj6PDjzS7Xf7RLt8vJRWDMjlMPBhVaXF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7789
-X-Rspamd-Queue-Id: 5BB2C4F41F5
+References: <20260413160331.2611829-1-antoine.bouyer@nxp.com>
+ <20260413160331.2611829-10-antoine.bouyer@nxp.com> <CAMuHMdXrvn+kwBsc96SQxWMABZv3Y6EPc3FLU7f-pOi2+J+S1A@mail.gmail.com>
+ <96bff2f9-04ef-4272-b408-fefc7d1d5e11@nxp.com>
+In-Reply-To: <96bff2f9-04ef-4272-b408-fefc7d1d5e11@nxp.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 8 May 2026 11:10:27 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX_O-75kxbqEjLKQ1=5OZpvyCkuWo8CBzpvymzj0i2uUA@mail.gmail.com>
+X-Gm-Features: AVHnY4LHFQ2cNB28JlB_QeYS4eHTz1eigCbditGi6HUZBbCkr7_rXaltq2vUwkU
+Message-ID: <CAMuHMdX_O-75kxbqEjLKQ1=5OZpvyCkuWo8CBzpvymzj0i2uUA@mail.gmail.com>
+Subject: Re: [PATCH v1 09/11] media: platform: Add NXP Neoisp Image Signal Processor
+To: Antoine Bouyer <antoine.bouyer@nxp.com>
+Cc: julien.vuillaumier@nxp.com, alexi.birlinger@nxp.com, daniel.baluta@nxp.com, 
+	peng.fan@nxp.com, frank.li@nxp.com, jacopo.mondi@ideasonboard.com, 
+	laurent.pinchart@ideasonboard.com, mchehab@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, michael.riesch@collabora.com, 
+	anthony.mcgivern@arm.com, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	ai.luthra@ideasonboard.com, paul.elder@ideasonboard.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 36F434F42BA
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+X-Spamd-Result: default: False [0.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[amd.com:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	TAGGED_FROM(0.00)[bounces-60905-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60904-lists,linux-media=lfdr.de];
+	DMARC_NA(0.00)[linux-m68k.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	REDIRECTOR_URL(0.00)[aka.ms];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Bin.Du@amd.com,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,aka.ms:url,amd.com:email,amd.com:mid,amd.com:dkim]
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.981];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-Hi Arnd,
+Hi Antoine,
 
+On Thu, 7 May 2026 at 15:48, Antoine Bouyer <antoine.bouyer@nxp.com> wrote:
+> Le 06/05/2026 =C3=A0 16:26, Geert Uytterhoeven a =C3=A9crit :
+> > On Mon, 13 Apr 2026 at 18:10, Antoine Bouyer <antoine.bouyer@nxp.com> w=
+rote:
+> >> First NXP neoisp driver version with the following contents:
+> >>
+> >> This driver was initially inspired from raspberrypi pisp_be driver. It
+> >> reuses same approach for ISP job scheduling.
+> >>
+> >> The Neoisp driver supports:
+> >> * 8, 10, 12, 14 and 16-bits RAW Bayer images input.
+> >> * Monochrome sensors input.
+> >> * RGB/YUV, IR and Greyscale output formats.
+> >>
+> >> The neoisp features are:
+> >> * Provides single context to limit amount of v4l2 devices.
+> >> * Supports M2M operations.
+> >> * Support SDR and HDR modes.
+> >> * Supports generic v4l2-isp framework for extensible Parameters and
+> >> Statistics buffers.
+> >> * Provides a `core_media_register` API to register neoisp's media enti=
+ties
+> >> into another media graph.
+> >> * A module parameter to run in standalone mode with its own media devi=
+ce.
+> >>
+> >> Co-developed-by: Alexi Birlinger <alexi.birlinger@nxp.com>
+> >> Signed-off-by: Alexi Birlinger <alexi.birlinger@nxp.com>
+> >> Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
 
-Thanks for the fix. I applied it on top of my current branch and 
-verified that
-it resolves the -Wformat-security warning in the ISP4 driver build here.
+> >> +#define NEO_AUTOFOCUS_FIL0_COEFFS0_CAM0_COEFF2_MASK GENMASK(23, 16)
+> >> +#define NEO_AUTOFOCUS_FIL0_COEFFS0_CAM0_COEFF2_SET(x) (((x) & GENMASK=
+(7, 0)) << 16)
+> >> +#define NEO_AUTOFOCUS_FIL0_COEFFS0_CAM0_COEFF2_GET(x) (((x) >> 16) & =
+ GENMASK(7, 0))
+> >
+> > What about just:
+> >
+> >      #define NEO_AUTOFOCUS_FIL0_COEFFS0_CAM0_COEFF2 GENMASK(23, 16)
+> >
+> > and using the helpers from include/linux/bitfield.h in the driver code?
+> >
+> >      FIELD_PREP(NEO_AUTOFOCUS_FIL0_COEFFS0_CAM0_COEFF2, val)
+> >      FIELD_GET(NEO_AUTOFOCUS_FIL0_COEFFS0_CAM0_COEFF2, reg)
+>
+> That file was auto generated, so I did not want to change it.
 
+Oh, the pleasure of auto-generated files ;-)
+Perhaps you can fix the generator?
 
-Tested-by: Bin Du <Bin.Du@amd.com>
+Here you have 3 definitions per field, which is worse than the
+auto-generated AMD header files, which have only two (MASK + SHIFT), and
+have been dominating the changed-lines-of-code statistics recently...
 
-On 5/8/2026 3:52 PM, Arnd Bergmann wrote:
-> [You don't often get email from arnd@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The newly added kthread_run() call passes a string variable as an sprintf()
-> style format, which gcc warns about when -Wformat-security is enabled:
->
-> drivers/media/platform/amd/isp4/isp4_subdev.c: In function 'isp4sd_start_resp_proc_threads':
-> include/linux/kthread.h:71:16: error: format not a string literal and no format arguments [-Werror=format-security]
->     71 |         struct task_struct *__k                                            \
->        |                ^~~~~~~~~~~
-> drivers/media/platform/amd/isp4/isp4_subdev.c:596:38: note: in expansion of macro 'kthread_run'
->    596 |                 thread_ctx->thread = kthread_run(isp4sd_fw_resp_thread,
->        |                                      ^~~~~~~~~~~
->
-> Use an indirect "%s" format to do this safely, avoiding the warning.
->
-> Fixes: 4e5e7a7ddb4a ("media: platform: amd: isp4 subdev and firmware loading handling added")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->   drivers/media/platform/amd/isp4/isp4_subdev.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/amd/isp4/isp4_subdev.c b/drivers/media/platform/amd/isp4/isp4_subdev.c
-> index 48deea79ce6c..86680ec8730d 100644
-> --- a/drivers/media/platform/amd/isp4/isp4_subdev.c
-> +++ b/drivers/media/platform/amd/isp4/isp4_subdev.c
-> @@ -595,7 +595,7 @@ static int isp4sd_start_resp_proc_threads(struct isp4_subdev *isp_subdev)
->
->                  thread_ctx->thread = kthread_run(isp4sd_fw_resp_thread,
->                                                   &isp_subdev->isp_resp_para[i],
-> -                                                isp4sd_thread_name[i]);
-> +                                                "%s", isp4sd_thread_name[i]);
->                  if (IS_ERR(thread_ctx->thread)) {
->                          dev_err(dev, "create thread [%d] fail\n", i);
->                          thread_ctx->thread = NULL;
-> --
-> 2.39.5
->
+> But I agree, these macro would help to save a couple of lines, and
+> probably ease readability too. I need to double check the impact, making
+> sure there is no regression with such update.
+
+You can compare the generated assembler code, it should be more or
+less the same before/after.
+
+> Could that wait for a v3 ? as I was about to send a v2 with other
+> changes first.
+
+Sure, thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
