@@ -1,340 +1,207 @@
-Return-Path: <linux-media+bounces-60983-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60984-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KFzfN8Rt/mmlqgAAu9opvQ
-	(envelope-from <linux-media+bounces-60983-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 01:12:04 +0200
+	id YGHLHcx3/mk8rQAAu9opvQ
+	(envelope-from <linux-media+bounces-60984-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 01:54:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7E44FCA33
-	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 01:12:04 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE8F4FCEF7
+	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 01:54:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CD8F9300D342
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2026 23:12:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EC171303A8D6
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2026 23:54:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A7C13AE6FC;
-	Fri,  8 May 2026 23:12:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DC7736C0CF;
+	Fri,  8 May 2026 23:54:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="jpLexh6W"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lqAva3Jo";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BFcOFUUv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1823C39EF22
-	for <linux-media@vger.kernel.org>; Fri,  8 May 2026 23:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2363436829D
+	for <linux-media@vger.kernel.org>; Fri,  8 May 2026 23:54:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778281919; cv=none; b=CpG5e6Rqwu/0dUTqogcx5KXlt3aZz0ZcgnoEIphwhjY5xHVOPg9BBt3/D6WtUu572i/r5o2FZijnloQfsF50PnC8ut3wTCIxDJo50DOc9oi3ymU/cg5ngz/WfSsaDc0XNfcxxs0rH2wkxQf74/tdMRyLzT0wO+p6DqNeE3k8OFo=
+	t=1778284454; cv=none; b=ZuOh0NnL3AlED+QC14jus4wKGxBuVRTr06y6PWvGCw3HzWvkqI63XiigaMo1/0X1nw5ZPzIw4Mseof1jhF8XLKIgpmVVbHZ2MQ9n+4YriT8wvT1Ps8TQhm8kK1w/Opt+xIbVO2/JJk69r8vxTcYh3DsKtSbO93dHXcq883YsKOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778281919; c=relaxed/simple;
-	bh=NQljLf3eomaZ/2T5R92LipgbO5FdwqAfK9cyU8nO+0k=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LlCjc7RFvnrl1oA/uzq6O915R6Du5ZkuZKrG8DrNxNkXemxfLUsB+SHEnbllNnQa8Ams2RtZet42+eZMfoxA4neM/UoO1XUbupzFQl4HTkUkgT0+6R2xHWL5jZqszIA95vnhojqW21d/ZBANvObEmLcejvTOdKOTG4ByA5c17sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=jpLexh6W; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-50e594413c2so16799351cf.0
-        for <linux-media@vger.kernel.org>; Fri, 08 May 2026 16:11:57 -0700 (PDT)
+	s=arc-20240116; t=1778284454; c=relaxed/simple;
+	bh=M+irl09BB3lpaeKwpF9y+VIsDUUpMsVxXvjsUgdWUqk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fPc8Jz1Q39j1UGCktypXgWbthJu+lCN5ptUQonir+VPOYDJvk29TBFwYtyryN6vekQctltVFaOUCbp+l7zOLCmx4MUPEgNzX29rQijtYULLfdpNtEj/UpTSOh/dd7v0To8YBL9qkxF310SOo5Br+oDe0viIKtMZMHIO/sS22DTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lqAva3Jo; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BFcOFUUv; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 648G3Bbn725210
+	for <linux-media@vger.kernel.org>; Fri, 8 May 2026 23:54:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=U/y3XlxsK17A/ooTr1YrUKH/
+	737x87wh9dKRfPzZz/0=; b=lqAva3JoUFBU9P+C0Ml+j8gYnNhFiFc4GcfrBw+P
+	1Br3PBFnhgd2J/28iJNuOVg3yzCWJ0yXdoEqmFwWo3vU6y0WUgUmJ5n2ybbYmqCa
+	VzEcnExd7j7kcY4CVsobvZ8jD88fjcow8e1rydxfbRHrviHGHn4HATI9XUyLFUkX
+	bLbFNs85gQa+70lp0VDf6axj8ajhYDgmLNz86OuN4zyTJ7k9CS9ZZQ5KSq1NpRej
+	DUND+xAGgqWKUjBrw1yU6AwD02KR93lWUNyyA7Bih+wMDEMfvJtdifv7V9CB8Qes
+	Ypz2qATIOGnilaWGipCM0WMu1RdONUd3kaoPgMQKTEeOFA==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e1k0uhc90-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 08 May 2026 23:54:10 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50e67a4f642so57834521cf.0
+        for <linux-media@vger.kernel.org>; Fri, 08 May 2026 16:54:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1778281917; x=1778886717; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=a61U6DoScQKwSeDx7PQ4jXrr3w68CY6nBE7kzjfUuOs=;
-        b=jpLexh6W9PzSqXKtJj+jqwSH1p1VgGFUPAR3XG7QNAytn4q1mVdksFQRcuG+mPVkm2
-         T2RRb7rw4Pyk7xLjd1+0PtE+T7A4lamXxJ5ya5nE9qRAGxP4bwgiP70Zp7HIYaxhGNJP
-         EzbeZZOHZppSOjojwPMafgyDu6rM1yLgurrtPN9w9V85jDOIOeGF6imEkrpCHJB6bQ2k
-         CAcZAjY9H9Y67fpemd7yGhWlnkUDy9+E5iUkPDunfU7ruc5HaRN6FgBBuQQB1FcjeXM5
-         R9Kwm6DGtg8/57P+KPPZQEYOR0WmKcGxPfih08F7FDgV9E2C2qYAt2xncuz8uHZMcWgU
-         ST5Q==
+        d=oss.qualcomm.com; s=google; t=1778284450; x=1778889250; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=U/y3XlxsK17A/ooTr1YrUKH/737x87wh9dKRfPzZz/0=;
+        b=BFcOFUUvbCPN5A4umTLabOgFAG+TrOIkFYBzxv2O4PG5Vo7czHUlJlojXhvOfBkvyI
+         xQ4IBJMxtZyZZlh8S3aXlLtnh4uB0KSxS2fr3St4L7V494FHSweLcx7iFUZ9hYuO+1WR
+         aVkoduV1M+eH7ZIgaTYCH/LO5IT94a5xH9cBk17P6Dwt3z19wW2caCxEeS/zk5o+DsmN
+         DI6kpMQlGNrhGllFe5oaUDodJXAT2Y3VXJyNGxjUK3zeum/jULp8SEKDobHfa5hJq1//
+         A2xkObA7Hfb6VikZqZQLWRaETqCrOZVgq+A6XZ3/jkM4jcruuHuuWV61TtGvPWsTjcc9
+         Is6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778281917; x=1778886717;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20251104; t=1778284450; x=1778889250;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=a61U6DoScQKwSeDx7PQ4jXrr3w68CY6nBE7kzjfUuOs=;
-        b=AlXmAHw13G2Umprk8fIj+qAI3oOHGyI8DI7lPZl6BHj/psrfIwvFe1q+FtwBQRz0DY
-         GAmNLDBR/+PmylBbo4jBQc24OKMdoirhhf3Q4mQkXUGj+LHTSU9X+wLBiHCjgTtZ2cCO
-         oussfAzvyjXPJIBj+hXrXoFVVuNTg3O6M9oYsCSmYEH4yTQe6BU3SyI9UxF3IHYip6p9
-         L5XUQ8EvNYyLWcWTFcoL/KT+8V3flVLD3YKFiVIO1wlP/ziTqbUzsNKXk7MmaofhkDbn
-         oXtKYiq4KgHyZQ+H4lDhWkox1Yqbr/JbWLDj1ay7rql43GEqw/DhLcX0AMeso+ZUCy0F
-         YNvw==
-X-Gm-Message-State: AOJu0YzOFtaKgZbdnrbKGO7t8qIzK51rMOY5OXXYW3j4dpOdu19fCHUV
-	qxyzg3/amc0LliFzrh1liUhqml3tRbIQ4l8d+XXr5xmdfZ82V4Xi3fUDlyDDswjvpmU=
-X-Gm-Gg: AeBDietOAtXy6zaR1axUeAz/FaM2h2I/FDfg+YWb/dQsSjMvCud5ETIhokLyQF5L+CK
-	4SRWq4c5otGcApSyVASsoSnugukYbNNvp6EfPawiOYGTDw1aaV3ZrNMsI0Vu4tqOvKAzVI2UhCv
-	aGxS+POaz8TLwbyg5ZIqP3dXuHw8+juC8jc2f9kcXygw6Ah/U3Od2LP7nKuuDFZqBkR0iVjA/+6
-	Q4Xs4jyKPA5dTSAaXmiR5XIeQoAzQeSW9ejCqmT3oTf0VkUSO0NTCZkdgB94WAiqG4GQkEFNInN
-	FMq/4pE/vfF85E/6BzbuxDM2/D7XzzFFclOzn2QUP/Yr7nIKvz6eGapiWQB1qtDmmqR9FcfZl+1
-	I4EnbnrcCvgNY3uCswfjEgolygQxzwc3c3X/n7KEmiNUZHNsm81ordMeu5e224KMtGy/CR+trdR
-	xP6l5jtlY2HdomaR9Hlrf0Bx4O6u/q
-X-Received: by 2002:a05:622a:2c8:b0:50e:5755:913d with SMTP id d75a77b69052e-514755feb11mr119461611cf.0.1778281916899;
-        Fri, 08 May 2026 16:11:56 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:e06b::5ac? ([2606:6d00:15:e06b::5ac])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5148fa78723sm24900771cf.3.2026.05.08.16.11.54
+        bh=U/y3XlxsK17A/ooTr1YrUKH/737x87wh9dKRfPzZz/0=;
+        b=dlDgqCbJspzoz+bvpHKYEUj057V3cmAWgknavFHEuLuU4QbUCY05Bdu2/NjjLlQnNg
+         kmcE0b7It7WK5/6lmXoT6rV2oFSzT+VXu1wDmQLbrQc67KxsIhgO7kQueaA+O89MJX1i
+         o4/bQ36Fqujqn69PoFssdkQa3bu/XHnZQ1y2HmDQrTr7YCoc+4K3LDd8qXH8S7DvPnpP
+         hfIN/76XiTuOgShX7yGou0JArn9A1ISPfcqHsk5Dm0H1R/5KYS1+cjR2QCneK9pz1SEt
+         Cz7Lv2IwgDutRbhfszB4ym4YJVuhmKnstYrOkYfieHEQFYxwAJPFPddTuAebwfsy6D6M
+         DuZw==
+X-Forwarded-Encrypted: i=1; AFNElJ8zD/nHFibf5xwhdShxA2IzjreiszQDTy3rWgzt66WG5bQElyqT3gAOHanuP7bzdmc/KLPYyuj+YXekIQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkgD86PXBHjzSdQoLbudM5WfSuL5vbv4gmXdaCrnCFaOIcKtH0
+	jFEJSzH/o9b+Rly6PCgjz47C3R+o+KVVDLUYnY/VLewiWH4DF1KooOhMFA2p/IzOQH9WqOXG+Hc
+	R+gc/znxi2liOyNwPAh5KWvoTvYy4tiG9Vl3EKm7b+6M2mrugRUwJacC/kciDaC1NbA==
+X-Gm-Gg: AeBDieukK/oirc7lhPsQVio+mllPgdmSXMZzXUVZHgs1xD0/pP89tvd5CeoumTuyYSq
+	c/MvIu9fdlfpuN/Y6yvK6BHIOyqPsA7JyJA3L/ghe8zagUmwLyoXNTTmanYMlA/fhguX1gz5YKr
+	1psUT8x1QNBPvo09jTVwHzG+kbQTr9saFG0Bm51XNdxHz+/gxQsStgYznt9iY4efmxatujh9KUt
+	WwtiALzCb6MYcproaHU3dETf6rOwzTW6NwsVtuFWk6cPEEPzwR9S4rhyyeBX9vb3GY0GJhbHplQ
+	966q6yohd9jgby2tFQP84zPdb2ShK6UeG8P8DHKRC5Q3I8iCD1PA2QTme1rD9dC5kHi/1h4PKNt
+	cMIFkrahlRWPjH16YNmfskKfNJwUwiMy2j+W9HyPtaFhIJlMSjOonwELiz406evDvp5iuoE5d8y
+	+Td9dY/SSuHAjga9wStb+DrNGfz8gfXDjvANDoKGhJ5ca3xQ==
+X-Received: by 2002:ac8:7f01:0:b0:50d:8050:a358 with SMTP id d75a77b69052e-51461fcf281mr213549901cf.47.1778284450347;
+        Fri, 08 May 2026 16:54:10 -0700 (PDT)
+X-Received: by 2002:ac8:7f01:0:b0:50d:8050:a358 with SMTP id d75a77b69052e-51461fcf281mr213549431cf.47.1778284449855;
+        Fri, 08 May 2026 16:54:09 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393fa029671sm7049111fa.36.2026.05.08.16.54.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 16:11:55 -0700 (PDT)
-Message-ID: <67c2e5b74340a3a33a5e1e377e88298250a6d3c5.camel@ndufresne.ca>
-Subject: Re: [PATCH v5 18/29] media: rockchip: rga: check scaling factor
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
-	 <jacob-chen@iotwrt.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Mauro Carvalho Chehab
-	 <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Rob Herring
-	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	 <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, kernel@pengutronix.de, 
-	sebastian.reichel@collabora.com
-Date: Fri, 08 May 2026 19:11:53 -0400
-In-Reply-To: <20260428-spu-rga3-v5-18-eb7f5d019d86@pengutronix.de>
-References: <20260428-spu-rga3-v5-0-eb7f5d019d86@pengutronix.de>
-	 <20260428-spu-rga3-v5-18-eb7f5d019d86@pengutronix.de>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-6phmHvyO9kAPRIT/1Osz"
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+        Fri, 08 May 2026 16:54:07 -0700 (PDT)
+Date: Sat, 9 May 2026 02:54:04 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
+        Del Regno <angelogioacchino.delregno@collabora.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        iommu@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v5 14/14] arm64: dts: qcom: glymur-crd: Enable iris video
+ codec node
+Message-ID: <676tz2xvipbhm25djmbqokfemscjjwwjethvglycvzqqtsf2uj@xlqiuzyqyfax>
+References: <20260509-glymur-v5-0-7fbb340c5dbd@oss.qualcomm.com>
+ <20260509-glymur-v5-14-7fbb340c5dbd@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 6B7E44FCA33
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260509-glymur-v5-14-7fbb340c5dbd@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=dIqWXuZb c=1 sm=1 tr=0 ts=69fe77a2 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8
+ a=MCItce8SuK6p_Dj8i7MA:9 a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-ORIG-GUID: DG-31bVVQgrkeIxp2yz9XG_0nu_vZaje
+X-Proofpoint-GUID: DG-31bVVQgrkeIxp2yz9XG_0nu_vZaje
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDIzNiBTYWx0ZWRfX3TI8C5VfGN/g
+ JbRe9vUcYxAo+QqDdyesYPlvwkI8Cw7q34CGfASrlk6WrO9nNsB4YjHUQQIa1bvTbnZ7BOdcPvf
+ RPEMBJRidj7Uv5fFiH54aqInvtN/mgB+oXXdVkVObbMfLVpTmx6c2+Vx+ezW9CHMHio405qmtnk
+ Csj7bzGAsXHEqjSp3rewr2/lz0LBltWkTRvUw5uYq9i/CSScsJ4mIRTsvBl0iiCf0FRt5em2U4W
+ pKbQtEggb89wG0K0BuF2heudXU01r25HCMFW729d3fJTC0gsgHi/EJg49xdmHl43eCdx5+mrMW4
+ w3wwHoPw8c2DF3ktxLJyOqpkaOY0PElwOrQOOsr7dsqOghbxXxNr/HaY8rdKcSsAoNo7hvfxAbv
+ U91fT+A4WJN5vadnBXD70zELQU3gw1aFn1Yy9l7Es1mHL67RwS0M/3yU56cGBeR2oLRhKYk7FAv
+ nZx2B4hmyC1Rlw6wwEw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-07_02,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0
+ clxscore=1015 lowpriorityscore=0 adultscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605080236
+X-Rspamd-Queue-Id: EFE8F4FCEF7
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60983-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[bounces-60984-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ndufresne.ca:mid,pengutronix.de:email,ndufresne-ca.20251104.gappssmtp.com:dkim]
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-
---=-6phmHvyO9kAPRIT/1Osz
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Le mardi 28 avril 2026 =C3=A0 11:00 +0200, Sven P=C3=BCschel a =C3=A9crit=
-=C2=A0:
-> Check the scaling factor to avoid potential problems. This is relevant
-> for the upcoming RGA3 support, as it can hang when the scaling factor
-> is exceeded.
->=20
-> There are two relevant scenarios that have to be considered to protect
-> against invalid scaling values:
->=20
-> When the output or capture is already streaming, setting the format on
-> the other side should consider the max scaling factor and clamp it
-> accordingly. This is only done in the streaming case, as it otherwise
-> may unintentionally clamp the value when the application sets the first
-> format (due to a default format on the other side).
->=20
-> When the format is set on both sides first, then the format won't be
-> corrected by above means. Therefore the second streamon call has to
-> check the scaling factor and fail otherwise.
->=20
-> As try functions should only be state aware if specified, the scaling
-> limitation is only done in s_fmt.
->=20
-> Signed-off-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
+On Sat, May 09, 2026 at 12:30:03AM +0530, Vishnu Reddy wrote:
+> The iris hardware block is described in the glymur SoC DTSI, and enabling
+> it here allows the media iris driver to probe and use the video codec
+> functionality.
+> 
+> Reviewed-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
 > ---
-> =C2=A0drivers/media/platform/rockchip/rga/rga-hw.c |=C2=A0 1 +
-> =C2=A0drivers/media/platform/rockchip/rga/rga-hw.h |=C2=A0 1 +
-> =C2=A0drivers/media/platform/rockchip/rga/rga.c=C2=A0=C2=A0=C2=A0 | 47 ++=
-++++++++++++++++++++++++++
-> =C2=A0drivers/media/platform/rockchip/rga/rga.h=C2=A0=C2=A0=C2=A0 |=C2=A0=
- 1 +
-> =C2=A04 files changed, 50 insertions(+)
->=20
-> diff --git a/drivers/media/platform/rockchip/rga/rga-hw.c b/drivers/media=
-/platform/rockchip/rga/rga-hw.c
-> index 11079477a3008..11a1a914668f6 100644
-> --- a/drivers/media/platform/rockchip/rga/rga-hw.c
-> +++ b/drivers/media/platform/rockchip/rga/rga-hw.c
-> @@ -595,6 +595,7 @@ const struct rga_hw rga2_hw =3D {
-> =C2=A0	.max_width =3D MAX_WIDTH,
-> =C2=A0	.min_height =3D MIN_HEIGHT,
-> =C2=A0	.max_height =3D MAX_HEIGHT,
-> +	.max_scaling_factor =3D MAX_SCALING_FACTOR,
-> =C2=A0	.stride_alignment =3D 4,
-> =C2=A0
-> =C2=A0	.setup_cmdbuf =3D rga_hw_setup_cmdbuf,
-> diff --git a/drivers/media/platform/rockchip/rga/rga-hw.h b/drivers/media=
-/platform/rockchip/rga/rga-hw.h
-> index c2e34be751939..805ec23e5e3f4 100644
-> --- a/drivers/media/platform/rockchip/rga/rga-hw.h
-> +++ b/drivers/media/platform/rockchip/rga/rga-hw.h
-> @@ -14,6 +14,7 @@
-> =C2=A0
-> =C2=A0#define MIN_WIDTH 34
-> =C2=A0#define MIN_HEIGHT 34
-> +#define MAX_SCALING_FACTOR 16
-> =C2=A0
-> =C2=A0#define RGA_TIMEOUT 500
-> =C2=A0
-> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/pl=
-atform/rockchip/rga/rga.c
-> index d111b348255e2..75d05c86b1c00 100644
-> --- a/drivers/media/platform/rockchip/rga/rga.c
-> +++ b/drivers/media/platform/rockchip/rga/rga.c
-> @@ -405,10 +405,36 @@ static int vidioc_s_fmt(struct file *file, void *pr=
-iv, struct v4l2_format *f)
-> =C2=A0	struct v4l2_pix_format_mplane *pix_fmt =3D &f->fmt.pix_mp;
-> =C2=A0	struct rga_ctx *ctx =3D file_to_rga_ctx(file);
-> =C2=A0	struct rockchip_rga *rga =3D ctx->rga;
-> +	const struct rga_hw *hw =3D rga->hw;
-> =C2=A0	struct vb2_queue *vq;
-> =C2=A0	struct rga_frame *frm;
-> =C2=A0	int ret =3D 0;
-> =C2=A0	int i;
-> +	struct rga_frame *limit_frm =3D NULL;
-> +
-> +	/* Limit before try_fmt to avoid recalculating the stride */
-> +	if (V4L2_TYPE_IS_OUTPUT(f->type) &&
-> +	=C2=A0=C2=A0=C2=A0 v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)->streaming)
-> +		limit_frm =3D &ctx->out;
+>  arch/arm64/boot/dts/qcom/glymur-crd.dts | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
 
-If you need to, use helpers such as vb2_is_streaming(), though in this case=
-, I
-think you want to use vb2_is_busy(), which protects against changing the fo=
-rmat
-of a queue that is already allocated. This is needed because drivers, excep=
-t vp9
-and av1 stateless decoders, don't track the format per buffer.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-> +	if (V4L2_TYPE_IS_CAPTURE(f->type) &&
-> +	=C2=A0=C2=A0=C2=A0 v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)->streaming)
 
-Same.
-
-> +		limit_frm =3D &ctx->in;
-> +	if (limit_frm) {
-> +		const struct v4l2_frmsize_stepwise frmsize =3D {
-> +			.min_width =3D DIV_ROUND_UP(limit_frm->pix.width,
-> +						=C2=A0 hw->max_scaling_factor),
-> +			.max_width =3D
-> +				limit_frm->pix.width * hw->max_scaling_factor,
-
-Shouldn't you control the absolute min/max for this IP ?
-
-> +			.min_height =3D DIV_ROUND_UP(limit_frm->pix.height,
-> +						=C2=A0=C2=A0 hw->max_scaling_factor),
-> +			.max_height =3D
-> +				limit_frm->pix.height * hw->max_scaling_factor,
-> +			.step_width =3D 1,
-> +			.step_height =3D 1,
-
-Shouldn't that step match the subsampling like you did earlier ?
-
-Nicolas
-
-> +		};
-> +		v4l2_apply_frmsize_constraints(&pix_fmt->width,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &pix_fmt->height, &frmsize);
-> +	}
-> =C2=A0
-> =C2=A0	/* Adjust all values accordingly to the hardware capabilities
-> =C2=A0	 * and chosen format.
-> @@ -568,12 +594,33 @@ static int vidioc_s_selection(struct file *file, vo=
-id *priv,
-> =C2=A0	return ret;
-> =C2=A0}
-> =C2=A0
-> +static bool check_scaling(const struct rga_hw *hw, u32 src_size, u32 dst=
-_size)
-> +{
-> +	if (src_size < dst_size)
-> +		return src_size * hw->max_scaling_factor >=3D dst_size;
-> +	else
-> +		return dst_size * hw->max_scaling_factor >=3D src_size;
-> +}
-> +
-> =C2=A0static int vidioc_streamon(struct file *file, void *priv,
-> =C2=A0			=C2=A0=C2=A0 enum v4l2_buf_type type)
-> =C2=A0{
-> =C2=A0	struct rga_ctx *ctx =3D file_to_rga_ctx(file);
-> =C2=A0	const struct rga_hw *hw =3D ctx->rga->hw;
-> =C2=A0
-> +	if ((V4L2_TYPE_IS_OUTPUT(type) &&
-> +	=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)->streamin=
-g) ||
-> +	=C2=A0=C2=A0=C2=A0 (V4L2_TYPE_IS_CAPTURE(type) &&
-> +	=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)->streamin=
-g)) {
-> +		/*
-> +		 * As the other side is already streaming,
-> +		 * check that the max scaling factor isn't exceeded.
-> +		 */
-> +		if (!check_scaling(hw, ctx->in.pix.width, ctx->out.pix.width) ||
-> +		=C2=A0=C2=A0=C2=A0 !check_scaling(hw, ctx->in.pix.height, ctx->out.pix=
-.height))
-> +			return -EINVAL;
-> +	}
-> +
-> =C2=A0	hw->setup_cmdbuf(ctx);
-> =C2=A0
-> =C2=A0	return v4l2_m2m_streamon(file, ctx->fh.m2m_ctx, type);
-> diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/pl=
-atform/rockchip/rga/rga.h
-> index c741213710b32..454af283b1694 100644
-> --- a/drivers/media/platform/rockchip/rga/rga.h
-> +++ b/drivers/media/platform/rockchip/rga/rga.h
-> @@ -150,6 +150,7 @@ struct rga_hw {
-> =C2=A0	size_t cmdbuf_size;
-> =C2=A0	u32 min_width, min_height;
-> =C2=A0	u32 max_width, max_height;
-> +	u8 max_scaling_factor;
-> =C2=A0	u8 stride_alignment;
-> =C2=A0
-> =C2=A0	void (*setup_cmdbuf)(struct rga_ctx *ctx);
-
---=-6phmHvyO9kAPRIT/1Osz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaf5tuQAKCRDZQZRRKWBy
-9MrfAQDVqv8LNnmDgVligHcx7MKd8IXEllWPqnCGg6qVCKnTEAEA/sEZbAClzfwv
-w2zcIFiT48t98hMAoqNwJkqNZHa0Kgk=
-=zf12
------END PGP SIGNATURE-----
-
---=-6phmHvyO9kAPRIT/1Osz--
+-- 
+With best wishes
+Dmitry
 
