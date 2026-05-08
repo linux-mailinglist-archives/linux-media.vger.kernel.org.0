@@ -1,82 +1,81 @@
-Return-Path: <linux-media+bounces-60982-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60983-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sLOCFOxf/mnCpwAAu9opvQ
-	(envelope-from <linux-media+bounces-60982-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 00:13:00 +0200
+	id KFzfN8Rt/mmlqgAAu9opvQ
+	(envelope-from <linux-media+bounces-60983-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 01:12:04 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A74664FC354
-	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 00:12:59 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7E44FCA33
+	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 01:12:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 89680301F4AB
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2026 22:11:38 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id CD8F9300D342
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2026 23:12:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09E6733F59C;
-	Fri,  8 May 2026 22:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A7C13AE6FC;
+	Fri,  8 May 2026 23:12:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="kbYYsQnM"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="jpLexh6W"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F2333D4F8
-	for <linux-media@vger.kernel.org>; Fri,  8 May 2026 22:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1823C39EF22
+	for <linux-media@vger.kernel.org>; Fri,  8 May 2026 23:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778278296; cv=none; b=dFMwvFDLQwNCICbdImCrzjoIyzKCVboe2wpktEY40uZzz9KL5ZG1XdMksOnc1Jr7EXUxILtp4Cxdc9PCrtDnIqQn6bBme4YXPm7lfuAQV1nc4Niq2NpZX7N+k9MTor86mZVRzO1u0YfCUpSokssFdUhkc66HhQUlYjdn457KkrY=
+	t=1778281919; cv=none; b=CpG5e6Rqwu/0dUTqogcx5KXlt3aZz0ZcgnoEIphwhjY5xHVOPg9BBt3/D6WtUu572i/r5o2FZijnloQfsF50PnC8ut3wTCIxDJo50DOc9oi3ymU/cg5ngz/WfSsaDc0XNfcxxs0rH2wkxQf74/tdMRyLzT0wO+p6DqNeE3k8OFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778278296; c=relaxed/simple;
-	bh=N93+oVBLzf4PuI4STk7zWzRO4FnwKeBdOBwpGSgDFVs=;
+	s=arc-20240116; t=1778281919; c=relaxed/simple;
+	bh=NQljLf3eomaZ/2T5R92LipgbO5FdwqAfK9cyU8nO+0k=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XmRxRMxn/7+eTkgDak0Iv7SBegN9Yp3WWLCxkEWym/S8uBf2mSAjsEw9MoYiu08g+Jw+5kDQFgHnAKCGeGFB4QEM9QL+VAayK7YwWMzblViJm+m71tz9P7/ugx303iU7owrndgxQZnc/tVmltgR3gm25JJ3hrdSuUXxRH2yzKdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=kbYYsQnM; arc=none smtp.client-ip=209.85.219.53
+	 Content-Type:MIME-Version; b=LlCjc7RFvnrl1oA/uzq6O915R6Du5ZkuZKrG8DrNxNkXemxfLUsB+SHEnbllNnQa8Ams2RtZet42+eZMfoxA4neM/UoO1XUbupzFQl4HTkUkgT0+6R2xHWL5jZqszIA95vnhojqW21d/ZBANvObEmLcejvTOdKOTG4ByA5c17sU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=jpLexh6W; arc=none smtp.client-ip=209.85.160.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8b7ec7bedcbso11390076d6.2
-        for <linux-media@vger.kernel.org>; Fri, 08 May 2026 15:11:34 -0700 (PDT)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-50e594413c2so16799351cf.0
+        for <linux-media@vger.kernel.org>; Fri, 08 May 2026 16:11:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1778278294; x=1778883094; darn=vger.kernel.org;
+        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1778281917; x=1778886717; darn=vger.kernel.org;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=423hWhSi5+hijWcsdmhIbZKRcVhHLdzm80D5vMOt0CA=;
-        b=kbYYsQnMwYHbInkiA+Yc/kSG8D2mtY0soup/MxxcP2RL7g4SX4M3ffSTvOrH5u3QZM
-         7Krq3/NQjGhqlsLsH3OV95zu/2E3DSWf5QW6Hm+XS8I5Q/PjwcN09xAHbL0BzZ+bhQti
-         2SCkTVS02bhZ5S/6jrrPu05ZWAx6V3JZ7SCfXvW8qRlX0NwPeW11Q5Drgm+td3VktYdM
-         9NMUAxrWeE2dUf8xmIl5D4QkP3OFrVnCpyabUdSMxHcuo5b67+jL23I6Tkb7UiN80I2B
-         AsH2G4AshcjsnD/NR+nDE+NwFg4R7GNGO2B5slMNNpSlh5F+/oaz7cvrB59pJ3pqwayZ
-         XHwg==
+        bh=a61U6DoScQKwSeDx7PQ4jXrr3w68CY6nBE7kzjfUuOs=;
+        b=jpLexh6W9PzSqXKtJj+jqwSH1p1VgGFUPAR3XG7QNAytn4q1mVdksFQRcuG+mPVkm2
+         T2RRb7rw4Pyk7xLjd1+0PtE+T7A4lamXxJ5ya5nE9qRAGxP4bwgiP70Zp7HIYaxhGNJP
+         EzbeZZOHZppSOjojwPMafgyDu6rM1yLgurrtPN9w9V85jDOIOeGF6imEkrpCHJB6bQ2k
+         CAcZAjY9H9Y67fpemd7yGhWlnkUDy9+E5iUkPDunfU7ruc5HaRN6FgBBuQQB1FcjeXM5
+         R9Kwm6DGtg8/57P+KPPZQEYOR0WmKcGxPfih08F7FDgV9E2C2qYAt2xncuz8uHZMcWgU
+         ST5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778278294; x=1778883094;
+        d=1e100.net; s=20251104; t=1778281917; x=1778886717;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=423hWhSi5+hijWcsdmhIbZKRcVhHLdzm80D5vMOt0CA=;
-        b=Gfn0loJVOepevVvxJYX+LfWqy7IEZeP2AIzYbQGOeFSCOuuWXONKOtFLtNECFH9kqZ
-         iQwEUPKV2SwClCh/StXbJImu0+DWi6678CEDneC6ad4myJv42timtM5KldJCm0g9J6YT
-         DLUlKLUUtdKZWjvWQFywfQCQDHCV+BIbWG401iDt1SCBy4HJuVudUa7kpWDInsvBjWDS
-         novzSdQ3DEi1XnTUJ/RhuGvA9G0pIlmjarBG4KlK5QytFoG78LUiyq7SGILqfoTkklTN
-         3PsVi3C+YEwFmlyiuQ51h8AnGfDjAFxTPDLmAunBKECZquj7C5VrDdVq1m3xpvpXKW3Y
-         ctpg==
-X-Gm-Message-State: AOJu0Ywt11qcGMLOB+aXZDuhHLhU6M1iR67oE9sKVvdFt8EnaKgGkovj
-	tzPiBkrXirMCMULiwErGxdoYIe53n+HgvfPsKQEFE8vQBdcUF9IKSVP6JbwLVLo2G1A=
-X-Gm-Gg: Acq92OH27SJO754pV4xS3YKtvz2X4uRch/c81T3DjNyZayDFhkVTZXA6wzahxYRwaiQ
-	bplm55Ly3X9r5wNuT7CnmmvOpOsZE90A9NTYceEFtpaYaju1pqaAPGq2XyJ0ZKUQuUkMdmkcxVo
-	ec6iQU1ETD8fcEdULLLlTeuhsfrlVxxkKQ5qMYSf14MjRcL1rTi4y1wZl2nmba3zGniSsrtac3v
-	hTN2bZmrPaSDaujzYSpE19WKgQE5FAqmn3Zj9HL3kCFHd1xeVkb0p/v6hwUeG4AvHCuXp2ZXd7T
-	iBodDCSn9qIkiazfwlrUD83XtWDbY0rv2S7zyy3RG9cMC2AkvZjzZZKmMXmHSDQulQHpn95STUY
-	mbGxnRQOiZHnbvbVyoKr94+RjfhSKZXQq9Lj+lnVDuRWowg6HA/IW0TlQs3d4JM047R7BJ0vWyG
-	f/gXiyHmjkHYVJ4hB14ruNp0O1AC82
-X-Received: by 2002:a05:6214:8082:b0:8ac:b1ce:3244 with SMTP id 6a1803df08f44-8bc42f522e5mr198672566d6.19.1778278293937;
-        Fri, 08 May 2026 15:11:33 -0700 (PDT)
+        bh=a61U6DoScQKwSeDx7PQ4jXrr3w68CY6nBE7kzjfUuOs=;
+        b=AlXmAHw13G2Umprk8fIj+qAI3oOHGyI8DI7lPZl6BHj/psrfIwvFe1q+FtwBQRz0DY
+         GAmNLDBR/+PmylBbo4jBQc24OKMdoirhhf3Q4mQkXUGj+LHTSU9X+wLBiHCjgTtZ2cCO
+         oussfAzvyjXPJIBj+hXrXoFVVuNTg3O6M9oYsCSmYEH4yTQe6BU3SyI9UxF3IHYip6p9
+         L5XUQ8EvNYyLWcWTFcoL/KT+8V3flVLD3YKFiVIO1wlP/ziTqbUzsNKXk7MmaofhkDbn
+         oXtKYiq4KgHyZQ+H4lDhWkox1Yqbr/JbWLDj1ay7rql43GEqw/DhLcX0AMeso+ZUCy0F
+         YNvw==
+X-Gm-Message-State: AOJu0YzOFtaKgZbdnrbKGO7t8qIzK51rMOY5OXXYW3j4dpOdu19fCHUV
+	qxyzg3/amc0LliFzrh1liUhqml3tRbIQ4l8d+XXr5xmdfZ82V4Xi3fUDlyDDswjvpmU=
+X-Gm-Gg: AeBDietOAtXy6zaR1axUeAz/FaM2h2I/FDfg+YWb/dQsSjMvCud5ETIhokLyQF5L+CK
+	4SRWq4c5otGcApSyVASsoSnugukYbNNvp6EfPawiOYGTDw1aaV3ZrNMsI0Vu4tqOvKAzVI2UhCv
+	aGxS+POaz8TLwbyg5ZIqP3dXuHw8+juC8jc2f9kcXygw6Ah/U3Od2LP7nKuuDFZqBkR0iVjA/+6
+	Q4Xs4jyKPA5dTSAaXmiR5XIeQoAzQeSW9ejCqmT3oTf0VkUSO0NTCZkdgB94WAiqG4GQkEFNInN
+	FMq/4pE/vfF85E/6BzbuxDM2/D7XzzFFclOzn2QUP/Yr7nIKvz6eGapiWQB1qtDmmqR9FcfZl+1
+	I4EnbnrcCvgNY3uCswfjEgolygQxzwc3c3X/n7KEmiNUZHNsm81ordMeu5e224KMtGy/CR+trdR
+	xP6l5jtlY2HdomaR9Hlrf0Bx4O6u/q
+X-Received: by 2002:a05:622a:2c8:b0:50e:5755:913d with SMTP id d75a77b69052e-514755feb11mr119461611cf.0.1778281916899;
+        Fri, 08 May 2026 16:11:56 -0700 (PDT)
 Received: from ?IPv6:2606:6d00:15:e06b::5ac? ([2606:6d00:15:e06b::5ac])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8bf3a43636fsm29335326d6.21.2026.05.08.15.11.32
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5148fa78723sm24900771cf.3.2026.05.08.16.11.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 15:11:33 -0700 (PDT)
-Message-ID: <ebe5cd6689923eb1e2124e177f694895383fba54.camel@ndufresne.ca>
-Subject: Re: [PATCH v5 16/29] media: rockchip: rga: split flip and rotate
- into separate function
+        Fri, 08 May 2026 16:11:55 -0700 (PDT)
+Message-ID: <67c2e5b74340a3a33a5e1e377e88298250a6d3c5.camel@ndufresne.ca>
+Subject: Re: [PATCH v5 18/29] media: rockchip: rga: check scaling factor
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
 To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
 	 <jacob-chen@iotwrt.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
@@ -88,10 +87,10 @@ Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
 	devicetree@vger.kernel.org, kernel@pengutronix.de, 
 	sebastian.reichel@collabora.com
-Date: Fri, 08 May 2026 18:11:31 -0400
-In-Reply-To: <20260428-spu-rga3-v5-16-eb7f5d019d86@pengutronix.de>
+Date: Fri, 08 May 2026 19:11:53 -0400
+In-Reply-To: <20260428-spu-rga3-v5-18-eb7f5d019d86@pengutronix.de>
 References: <20260428-spu-rga3-v5-0-eb7f5d019d86@pengutronix.de>
-	 <20260428-spu-rga3-v5-16-eb7f5d019d86@pengutronix.de>
+	 <20260428-spu-rga3-v5-18-eb7f5d019d86@pengutronix.de>
 Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -106,7 +105,7 @@ Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-lVlR1XuC3qO6FqUNpkDq"
+	protocol="application/pgp-signature"; boundary="=-6phmHvyO9kAPRIT/1Osz"
 User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -114,7 +113,7 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: A74664FC354
+X-Rspamd-Queue-Id: 6B7E44FCA33
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	SIGNED_PGP(-2.00)[];
@@ -122,11 +121,11 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-60982-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60983-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[16];
 	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
@@ -138,181 +137,204 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ndufresne.ca:mid,ndufresne-ca.20251104.gappssmtp.com:dkim,pengutronix.de:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ndufresne.ca:mid,pengutronix.de:email,ndufresne-ca.20251104.gappssmtp.com:dkim]
 X-Rspamd-Action: no action
 
 
---=-lVlR1XuC3qO6FqUNpkDq
+--=-6phmHvyO9kAPRIT/1Osz
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Le mardi 28 avril 2026 =C3=A0 11:00 +0200, Sven P=C3=BCschel a =C3=A9crit=
 =C2=A0:
-> Split the flip and rotate command configuration into a separate
-> function in preparation of filling the command stream at streamon.
-> As the userspace can change the flipping and rotation controls while
-> streaming, we have to update them with each new frame to prevent the
-> user being unable to change them while streaming.
+> Check the scaling factor to avoid potential problems. This is relevant
+> for the upcoming RGA3 support, as it can hang when the scaling factor
+> is exceeded.
+>=20
+> There are two relevant scenarios that have to be considered to protect
+> against invalid scaling values:
+>=20
+> When the output or capture is already streaming, setting the format on
+> the other side should consider the max scaling factor and clamp it
+> accordingly. This is only done in the streaming case, as it otherwise
+> may unintentionally clamp the value when the application sets the first
+> format (due to a default format on the other side).
+>=20
+> When the format is set on both sides first, then the format won't be
+> corrected by above means. Therefore the second streamon call has to
+> check the scaling factor and fail otherwise.
+>=20
+> As try functions should only be state aware if specified, the scaling
+> limitation is only done in s_fmt.
 >=20
 > Signed-off-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
-
-For code point of view, everything seems fine, but the commit message leave=
- me a
-bit wondering. Any rotation that isn't 180 degree will cause the width and
-height to be reversed, and a new stride is needed to present the buffer
-correctly. Meaning the capture format can be affected by this change.
-
-To stick with the spec, the capture format needs to be updated, and it need=
-s to
-happen in a way user can be able to read it back for the correct frame if
-userspace make use of the queues. I see 3 options, let me know what you thi=
-nk,
-or what is later implemented if you already thought about that.
-
-1. Synchronously update the capture format width/height, document in the
-respective control this behaviour, leaving to userspace to remember which f=
-rames
-the change will apply to.
-
-This works nicely for this type of HW, but would be a bit complicated for a
-deinterlacer, since the buffering might be HW specific. It also make usage =
-of
-queues harder, less independent.
-
-2. Force a drain/stop/start for any 90 degree rotation
-
-This might impose a longer idle time for the converter core, and is kind of
-opposite of your commit message. But requires no spec work.
-
-3. Emit SRC_CH, implement the drain procedure typical to decoder resolution
-change.
-
-Typically it means userspace can keep buffering on the OUTPUT queue, and on=
-ce
-the LAST buffer is met, it can simply read the new format (and new stride, =
-since
-due to alignment, this might be hardware specific) and toggle streamoff/on =
-only
-on capture queue to reactivate the processing.
-
-The 3. is more complex for the driver, but its a proven race-free method fo=
-r
-decoders already. 2 would be statusquo to get this series in, and we could =
-post-
-poned more advance work for seamless 90degree rorations. 1., I don't really=
- like
-that solution, it not quite generic enough.
-
-feedback welcome,
-Nicolas
-
 > ---
-> =C2=A0drivers/media/platform/rockchip/rga/rga-hw.c | 57 +++++++++++++++++=
------------
-> =C2=A01 file changed, 34 insertions(+), 23 deletions(-)
+> =C2=A0drivers/media/platform/rockchip/rga/rga-hw.c |=C2=A0 1 +
+> =C2=A0drivers/media/platform/rockchip/rga/rga-hw.h |=C2=A0 1 +
+> =C2=A0drivers/media/platform/rockchip/rga/rga.c=C2=A0=C2=A0=C2=A0 | 47 ++=
+++++++++++++++++++++++++++
+> =C2=A0drivers/media/platform/rockchip/rga/rga.h=C2=A0=C2=A0=C2=A0 |=C2=A0=
+ 1 +
+> =C2=A04 files changed, 50 insertions(+)
 >=20
 > diff --git a/drivers/media/platform/rockchip/rga/rga-hw.c b/drivers/media=
 /platform/rockchip/rga/rga-hw.c
-> index dac3cb6aa17d3..6c1956b04f6ba 100644
+> index 11079477a3008..11a1a914668f6 100644
 > --- a/drivers/media/platform/rockchip/rga/rga-hw.c
 > +++ b/drivers/media/platform/rockchip/rga/rga-hw.c
-> @@ -156,7 +156,38 @@ static void rga_cmd_set_dst_addr(struct rga_ctx *ctx=
-, dma_addr_t dma_addr)
-> =C2=A0	dest[reg >> 2] |=3D 0x7 << 8;
+> @@ -595,6 +595,7 @@ const struct rga_hw rga2_hw =3D {
+> =C2=A0	.max_width =3D MAX_WIDTH,
+> =C2=A0	.min_height =3D MIN_HEIGHT,
+> =C2=A0	.max_height =3D MAX_HEIGHT,
+> +	.max_scaling_factor =3D MAX_SCALING_FACTOR,
+> =C2=A0	.stride_alignment =3D 4,
+> =C2=A0
+> =C2=A0	.setup_cmdbuf =3D rga_hw_setup_cmdbuf,
+> diff --git a/drivers/media/platform/rockchip/rga/rga-hw.h b/drivers/media=
+/platform/rockchip/rga/rga-hw.h
+> index c2e34be751939..805ec23e5e3f4 100644
+> --- a/drivers/media/platform/rockchip/rga/rga-hw.h
+> +++ b/drivers/media/platform/rockchip/rga/rga-hw.h
+> @@ -14,6 +14,7 @@
+> =C2=A0
+> =C2=A0#define MIN_WIDTH 34
+> =C2=A0#define MIN_HEIGHT 34
+> +#define MAX_SCALING_FACTOR 16
+> =C2=A0
+> =C2=A0#define RGA_TIMEOUT 500
+> =C2=A0
+> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/pl=
+atform/rockchip/rga/rga.c
+> index d111b348255e2..75d05c86b1c00 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.c
+> +++ b/drivers/media/platform/rockchip/rga/rga.c
+> @@ -405,10 +405,36 @@ static int vidioc_s_fmt(struct file *file, void *pr=
+iv, struct v4l2_format *f)
+> =C2=A0	struct v4l2_pix_format_mplane *pix_fmt =3D &f->fmt.pix_mp;
+> =C2=A0	struct rga_ctx *ctx =3D file_to_rga_ctx(file);
+> =C2=A0	struct rockchip_rga *rga =3D ctx->rga;
+> +	const struct rga_hw *hw =3D rga->hw;
+> =C2=A0	struct vb2_queue *vq;
+> =C2=A0	struct rga_frame *frm;
+> =C2=A0	int ret =3D 0;
+> =C2=A0	int i;
+> +	struct rga_frame *limit_frm =3D NULL;
+> +
+> +	/* Limit before try_fmt to avoid recalculating the stride */
+> +	if (V4L2_TYPE_IS_OUTPUT(f->type) &&
+> +	=C2=A0=C2=A0=C2=A0 v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)->streaming)
+> +		limit_frm =3D &ctx->out;
+
+If you need to, use helpers such as vb2_is_streaming(), though in this case=
+, I
+think you want to use vb2_is_busy(), which protects against changing the fo=
+rmat
+of a queue that is already allocated. This is needed because drivers, excep=
+t vp9
+and av1 stateless decoders, don't track the format per buffer.
+
+> +	if (V4L2_TYPE_IS_CAPTURE(f->type) &&
+> +	=C2=A0=C2=A0=C2=A0 v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)->streaming)
+
+Same.
+
+> +		limit_frm =3D &ctx->in;
+> +	if (limit_frm) {
+> +		const struct v4l2_frmsize_stepwise frmsize =3D {
+> +			.min_width =3D DIV_ROUND_UP(limit_frm->pix.width,
+> +						=C2=A0 hw->max_scaling_factor),
+> +			.max_width =3D
+> +				limit_frm->pix.width * hw->max_scaling_factor,
+
+Shouldn't you control the absolute min/max for this IP ?
+
+> +			.min_height =3D DIV_ROUND_UP(limit_frm->pix.height,
+> +						=C2=A0=C2=A0 hw->max_scaling_factor),
+> +			.max_height =3D
+> +				limit_frm->pix.height * hw->max_scaling_factor,
+> +			.step_width =3D 1,
+> +			.step_height =3D 1,
+
+Shouldn't that step match the subsampling like you did earlier ?
+
+Nicolas
+
+> +		};
+> +		v4l2_apply_frmsize_constraints(&pix_fmt->width,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &pix_fmt->height, &frmsize);
+> +	}
+> =C2=A0
+> =C2=A0	/* Adjust all values accordingly to the hardware capabilities
+> =C2=A0	 * and chosen format.
+> @@ -568,12 +594,33 @@ static int vidioc_s_selection(struct file *file, vo=
+id *priv,
+> =C2=A0	return ret;
 > =C2=A0}
 > =C2=A0
-> -static void rga_cmd_set_trans_info(struct rga_ctx *ctx)
-> +static void rga_cmd_set_flip_rotate_info(struct rga_ctx *ctx)
+> +static bool check_scaling(const struct rga_hw *hw, u32 src_size, u32 dst=
+_size)
 > +{
-> +	u32 *dest =3D ctx->cmdbuf_virt;
-> +	union rga_src_info src_info;
-> +
-> +	src_info.val =3D dest[(RGA_SRC_INFO - RGA_MODE_BASE_REG) >> 2];
-> +
-> +	if (ctx->vflip)
-> +		src_info.data.mir_mode |=3D RGA_SRC_MIRR_MODE_X;
-> +
-> +	if (ctx->hflip)
-> +		src_info.data.mir_mode |=3D RGA_SRC_MIRR_MODE_Y;
-> +
-> +	switch (ctx->rotate) {
-> +	case 90:
-> +		src_info.data.rot_mode =3D RGA_SRC_ROT_MODE_90_DEGREE;
-> +		break;
-> +	case 180:
-> +		src_info.data.rot_mode =3D RGA_SRC_ROT_MODE_180_DEGREE;
-> +		break;
-> +	case 270:
-> +		src_info.data.rot_mode =3D RGA_SRC_ROT_MODE_270_DEGREE;
-> +		break;
-> +	default:
-> +		src_info.data.rot_mode =3D RGA_SRC_ROT_MODE_0_DEGREE;
-> +		break;
-> +	}
-> +
-> +	dest[(RGA_SRC_INFO - RGA_MODE_BASE_REG) >> 2] =3D src_info.val;
+> +	if (src_size < dst_size)
+> +		return src_size * hw->max_scaling_factor >=3D dst_size;
+> +	else
+> +		return dst_size * hw->max_scaling_factor >=3D src_size;
 > +}
 > +
-> +static void rga_cmd_set_format_scale_info(struct rga_ctx *ctx)
+> =C2=A0static int vidioc_streamon(struct file *file, void *priv,
+> =C2=A0			=C2=A0=C2=A0 enum v4l2_buf_type type)
 > =C2=A0{
-> =C2=A0	struct rockchip_rga *rga =3D ctx->rga;
-> =C2=A0	u32 *dest =3D ctx->cmdbuf_virt;
-> @@ -219,27 +250,6 @@ static void rga_cmd_set_trans_info(struct rga_ctx *c=
-tx)
-> =C2=A0		}
-> =C2=A0	}
+> =C2=A0	struct rga_ctx *ctx =3D file_to_rga_ctx(file);
+> =C2=A0	const struct rga_hw *hw =3D ctx->rga->hw;
 > =C2=A0
-> -	if (ctx->vflip)
-> -		src_info.data.mir_mode |=3D RGA_SRC_MIRR_MODE_X;
-> -
-> -	if (ctx->hflip)
-> -		src_info.data.mir_mode |=3D RGA_SRC_MIRR_MODE_Y;
-> -
-> -	switch (ctx->rotate) {
-> -	case 90:
-> -		src_info.data.rot_mode =3D RGA_SRC_ROT_MODE_90_DEGREE;
-> -		break;
-> -	case 180:
-> -		src_info.data.rot_mode =3D RGA_SRC_ROT_MODE_180_DEGREE;
-> -		break;
-> -	case 270:
-> -		src_info.data.rot_mode =3D RGA_SRC_ROT_MODE_270_DEGREE;
-> -		break;
-> -	default:
-> -		src_info.data.rot_mode =3D RGA_SRC_ROT_MODE_0_DEGREE;
-> -		break;
-> -	}
-> -
-> =C2=A0	/*
-> =C2=A0	 * Calculate the up/down scaling mode/factor.
-> =C2=A0	 *
-> @@ -431,7 +441,8 @@ static void rga_cmd_set(struct rga_ctx *ctx,
+> +	if ((V4L2_TYPE_IS_OUTPUT(type) &&
+> +	=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)->streamin=
+g) ||
+> +	=C2=A0=C2=A0=C2=A0 (V4L2_TYPE_IS_CAPTURE(type) &&
+> +	=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)->streamin=
+g)) {
+> +		/*
+> +		 * As the other side is already streaming,
+> +		 * check that the max scaling factor isn't exceeded.
+> +		 */
+> +		if (!check_scaling(hw, ctx->in.pix.width, ctx->out.pix.width) ||
+> +		=C2=A0=C2=A0=C2=A0 !check_scaling(hw, ctx->in.pix.height, ctx->out.pix=
+.height))
+> +			return -EINVAL;
+> +	}
+> +
+> =C2=A0	hw->setup_cmdbuf(ctx);
 > =C2=A0
-> =C2=A0	rga_cmd_set_src_info(ctx, &src->offset);
-> =C2=A0	rga_cmd_set_dst_info(ctx, &dst->offset);
-> -	rga_cmd_set_trans_info(ctx);
-> +	rga_cmd_set_format_scale_info(ctx);
-> +	rga_cmd_set_flip_rotate_info(ctx);
+> =C2=A0	return v4l2_m2m_streamon(file, ctx->fh.m2m_ctx, type);
+> diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/pl=
+atform/rockchip/rga/rga.h
+> index c741213710b32..454af283b1694 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.h
+> +++ b/drivers/media/platform/rockchip/rga/rga.h
+> @@ -150,6 +150,7 @@ struct rga_hw {
+> =C2=A0	size_t cmdbuf_size;
+> =C2=A0	u32 min_width, min_height;
+> =C2=A0	u32 max_width, max_height;
+> +	u8 max_scaling_factor;
+> =C2=A0	u8 stride_alignment;
 > =C2=A0
-> =C2=A0	rga_write(rga, RGA_CMD_BASE, ctx->cmdbuf_phy);
-> =C2=A0
+> =C2=A0	void (*setup_cmdbuf)(struct rga_ctx *ctx);
 
---=-lVlR1XuC3qO6FqUNpkDq
+--=-6phmHvyO9kAPRIT/1Osz
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iHQEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaf5fkwAKCRDZQZRRKWBy
-9LC3APdmFKAFkqTp6qEPlQCir+NJJOXQVBYZ7bHoVHuXUem7AQC4zPYGkGqV7x4I
-JShJJJ7CiYN1opexRldmsDpBBgQYCA==
-=Cg+D
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaf5tuQAKCRDZQZRRKWBy
+9MrfAQDVqv8LNnmDgVligHcx7MKd8IXEllWPqnCGg6qVCKnTEAEA/sEZbAClzfwv
+w2zcIFiT48t98hMAoqNwJkqNZHa0Kgk=
+=zf12
 -----END PGP SIGNATURE-----
 
---=-lVlR1XuC3qO6FqUNpkDq--
+--=-6phmHvyO9kAPRIT/1Osz--
 
