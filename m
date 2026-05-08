@@ -1,295 +1,231 @@
-Return-Path: <linux-media+bounces-60903-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60904-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YE2ML/Gn/WmEhAAAu9opvQ
-	(envelope-from <linux-media+bounces-60903-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 11:08:01 +0200
+	id IPpeMX6p/WmEhAAAu9opvQ
+	(envelope-from <linux-media+bounces-60904-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 11:14:38 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8604F40D0
-	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 11:08:01 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB2C4F41F5
+	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 11:14:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B205A3016D34
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2026 09:08:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1BD343038BA7
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2026 09:10:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86C9537F75E;
-	Fri,  8 May 2026 09:07:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D68C389455;
+	Fri,  8 May 2026 09:10:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="nU/9cy4E"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="gAbiJgrP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012071.outbound.protection.outlook.com [40.93.195.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D27282F3B;
-	Fri,  8 May 2026 09:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A1E388E5E;
+	Fri,  8 May 2026 09:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.71
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778231275; cv=pass; b=ftuppO2ADPXHGdycqwyvA/cKW2R+B0U/wPCp5mkAxdOVdkilqHCzt/7tYIoz5RrqS0yhw/AzqZ5Y2yzS4C7lEAoSnKgeLzGTkgLrcjej56a8e/D1KHVRV4qtT2VVVCl+tH2YE2ZXkbfVPIxHJap0AYnHH42NB00M4aykCbaW65k=
+	t=1778231413; cv=fail; b=kowoer/gwEmfh8YIAohHVPVZwhtYhhvhzLQDcxoY6IQQK+AmD3KHWyYF1UWaKAJneWGIcg1HFvUGNL0GvmgSaoCfvPOJCn2fLPmTEk9elkGbvdpT2jF/Jx/7U/5NodHBn7Nmh1k+eRO11rHOrgMfT/cUnfsD2JAecNyYSX+UoRU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778231275; c=relaxed/simple;
-	bh=8QESIfAkLwRyfBMFA+U8dqcWKqxKicm7MCiktn08o8M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=joQZw4/BS+3M41dE3ZDAC8cqfffSo3PVa5AAblIJtm+bhhou9YTVWh0gsbbyloyqDFA2auZpYxeici7qEBqWUbznTWj9YgqEeqkC1h8xHZvEVMCrpswwKbeqYDRBjx1ksbxuZ7cnTC/bV0tSM5z8Awedz79HKV9sz1UoHNOICso=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=nU/9cy4E; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (n18ws8cotq5gnfn8-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:938c:d2f4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4gBjv45K8QzyRd;
-	Fri, 08 May 2026 12:07:44 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1778231265;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cUghrcim4Oev3eFxnDWf3UNGZyra7wdiWZt/JGnfUSw=;
-	b=nU/9cy4E9oML0Z5Vs/faX/xjqubp/ozcrQ1vFl1R69U46q+MoF1NZ1Uf96K2UkdsmVo9bL
-	zliWH0vvEVfU5u/ot0kTi4ZbyhM9BW+o/eJgJ0M8tUds6P4SbK8DuLq5dx97diZOjEKIxf
-	7BiIQaybpJ71qD6na1TEbTa44s8EtCI=
-ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=meesny; cv=none; t=1778231265;
-	b=up8ItQjZi80SxhScElwB5PJ97rtNSC5eOR3WNzvwesyVwUDnTK88vfPS6/+/iYYq9SDA/q
-	1PNvBQeb2BVxIn0bpZGgmDensw6iFtUm1jwZKvEYmuaVX69JkmeTFCMOWAKd4YsDa+gmLv
-	iIf1XQMtCXMYjqcDWNnr0Tv8R7h7NDg=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1778231265;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cUghrcim4Oev3eFxnDWf3UNGZyra7wdiWZt/JGnfUSw=;
-	b=cq8d/mWnu/V8ouB0yqSwJErh+oLmkbLyvvyjal5WJfj6axpyyA4sLJFRxq3kC7pdjMppcE
-	QP4Y6mu70TqNOuiBduhAHYUcRo4e0wRKRx0eznhUxdHRdJRey+HW13h+3Rb/3b3RnEkoVK
-	KO28S002Yb32qY9aSSE46qHq87GJF8U=
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E3D07634C4E;
-	Fri, 08 May 2026 12:07:43 +0300 (EEST)
-Date: Fri, 8 May 2026 12:07:43 +0300
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Kate Hsuan <hpa@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Serin Yeh <serin.yeh@intel.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: i2c: imx471: Add Sony IMX471 image sensor
- driver
-Message-ID: <af2n3z8B73d9zuvU@valkosipuli.retiisi.eu>
-References: <20260505061327.286700-1-hpa@redhat.com>
- <20260505061327.286700-3-hpa@redhat.com>
- <afrpUZBxIT5ugGQV@valkosipuli.retiisi.eu>
- <CAEth8oHg3ERKPfRrLH8rqpTbZW7g460+x_miCXE1nN4vh9rzcQ@mail.gmail.com>
+	s=arc-20240116; t=1778231413; c=relaxed/simple;
+	bh=Ezt4+4uVa302xhuact1oWrcF4Q6ai5b6H/uoFG/cCr4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=aWw1KCOpOAYeUxkR48VVLe2xGQ+WcKTy30y8uL+S3TaHwEl86M92mYxHdG1CHzltfKhmbVk7mKQ653QC8gBLPaiILTblu4vJlWRZ6gVqdHM5e2RfRZveCZR/Ift6edfvzDOQsmaL4DZ4yOCvExCKM+nftwstOR7CkJM9vyQ/jZc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=gAbiJgrP; arc=fail smtp.client-ip=40.93.195.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OIvIOAPZe4jEaj/lEloOO2wIgwrh4JoINpLGcRU4qlvLBuQq33IKSqaKd/wYa0FLr7u0VpwNL398O4okI1uCdpBaLpowqTLYFTCqjAkEE7T3i5dnncbORVmepuyUahnsgr+cGFhfTNq+TKKKbQgYsxbRSu82aCx7SqQIWHYn7P2WVHP68+gwJcHcMhq0XMcuNnOpXRdcdeYqSQjX9jljHEjP6YheZfGE1gOj+9HnP/9ycTviYFznRCl7Q0hVw5hiIwUFY1HB5N/HoX0swkDbqDdESD0AQyvzDZcO3tFmDHTtAlMSNd4fRVUbwZ0n01LUCK6K3yuMV9Y8ne0RwDmV1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GC+/l6OKL48st+7Lob/Nb09OCKTkeo6oPtZkJbhw16M=;
+ b=ekqKh4Bhazc9uq9eStHv8M0QTmqlgZrtSK6SGBXOdyRjwsevsOxP7O2PizmehBZpCb+cYgem2WtLxelb5oMUxdJcKpHzL2qNLZIcpdLDhBo8tD80VPqnCz84AqolmmFakZrtW4LP4H6lTJ1Ga/DYEkG4mtcdjc99B4xomVlIQ7QZeOPQEWVenraDYuLa3g0d0eLn/WtJsHzxwc8hjHUc5BTgyDMCLYRXKDrL+Caal0sS3ilHEmQi/ziEd7Yo8x4YXpZSzxfPx+XlaSTqzRu28gG/1DbU3WyGIyUx7/WqQz8a+XzDr7U0LI/2aWGL0RfuKQK9vE4dxeBPthV7CJ7GqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GC+/l6OKL48st+7Lob/Nb09OCKTkeo6oPtZkJbhw16M=;
+ b=gAbiJgrPPL6Y5lMNTMWLnk9/lIbHr4g+YH6ykIba3ENZwpJoORPfTdTx2+/yHZXm+Lz85U5y/IetCI/YrFKaBnTkSuj8MNm50Vab2/xyTnrO+ZkwcTR3XM8XsLZHHRyKBP0JQ4oyL4RFXwPlDkQKAM5rVltm3F/ykqbsmyaIYBQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from LV9PR12MB9829.namprd12.prod.outlook.com (2603:10b6:408:2eb::9)
+ by PH0PR12MB7789.namprd12.prod.outlook.com (2603:10b6:510:283::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Fri, 8 May
+ 2026 09:10:06 +0000
+Received: from LV9PR12MB9829.namprd12.prod.outlook.com
+ ([fe80::2bc0:451f:661a:ac32]) by LV9PR12MB9829.namprd12.prod.outlook.com
+ ([fe80::2bc0:451f:661a:ac32%6]) with mapi id 15.20.9891.019; Fri, 8 May 2026
+ 09:10:06 +0000
+Message-ID: <e5910426-032b-4c34-9f48-d3b5aefdcbf6@amd.com>
+Date: Fri, 8 May 2026 17:09:58 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: platform: amd: avoid -Wformat-security warning
+To: Arnd Bergmann <arnd@kernel.org>, Nirujogi Pratap
+ <pratap.nirujogi@amd.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sultan Alsawaf <sultan@kerneltoast.com>,
+ Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260508075926.3698178-1-arnd@kernel.org>
+Content-Language: en-US
+From: Bin Du <Bin.Du@amd.com>
+In-Reply-To: <20260508075926.3698178-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI1PR02CA0045.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::16) To LV9PR12MB9829.namprd12.prod.outlook.com
+ (2603:10b6:408:2eb::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEth8oHg3ERKPfRrLH8rqpTbZW7g460+x_miCXE1nN4vh9rzcQ@mail.gmail.com>
-X-Rspamd-Queue-Id: 5E8604F40D0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV9PR12MB9829:EE_|PH0PR12MB7789:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe61667c-814c-4603-d3f4-08deace19892
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|366016|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	h7yFIeD6CcL3GH2P0Q70MGjtGcaWnOmVgAfSaa8eFhLzd2TFU5dzEX1ep0KxwWciai8I4RKKvTkcqGU7fBp5GPC7wOCVB8k9QftrAsK8GrY0FlQToMLIfnZMlkZfOPWuak6nNbtSlwbo5WWxIMf2TbasaE7tedhMd/nGVLNtAzLkSIN97liqUfhlCEFfDO6gQ++24EXR+xN3VtHFQ+I/FBVdBT86rotNMgjHx7Wui0JaLrwhjPdIq0MsH7IIoEz4uKaA1pDjh/74XjhD2GotmnLgJhXyNOO+IY+dQ+BoO2rFYkbjRs9bgy8KDcYgP9sAkBkUZw0fPJAuQ8yPQRAKDfaitmjWIZDq48m7sUjEjRxm+4hQ43t0VydNMUugiSdAcCmgrfhhRcVnYXPJ98osytwbdBffKWyw3O0CwWNPm64BjtWPKtBMNiZLSPzEdie060q7mSmrF+S/WR6grmjMV7AzrovJSWPHzDrlxmGPbPwW9tkriIuvp9FhxS+DEj3OKoG9tTDr3lZ0Hxf3dKrE4KfjUSHmOhT0qEb1/bTKU5XCryKqnKC6YcNxNJm8cEF3m1mmkK2V+qwXqbMzGdpH8SyRcJBb7o1IADWKLwzoj3h4QIXmq+1W7QHa7kA/fBRnusYOqA00TnXG+VFmcwf4isG5CKJ6wW7JJyrqjg6kNIwJxmvdHB4IrXoe8zAQanCv
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV9PR12MB9829.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TDhRTVJHUHg0b0dUb3d0VnZveGs3UlhBZUtIQnZvWTdCOFpIWkFja3Zsc21T?=
+ =?utf-8?B?bjRORG9YRUltMGw4R3BQM3FiMlJ6d2N4ckUzZVhnQ2ZVT0xkb002cExuOUFq?=
+ =?utf-8?B?Ym96bTBPNk9nMDgxRitWb3gwcnByaG55bEh5MzVuRUkyN0h5Tm9mcjhzdk1C?=
+ =?utf-8?B?QzVRQjI3bDhaZGRkVkFvbjFkRnRPNTFBcEVNS1dScVF0RllleklBbEtBbGR0?=
+ =?utf-8?B?a3dXcC9qMTZIQSs3d0VrRzROckxGREs3SU9iQU1mblErSEw1R3k4UWZNV0hW?=
+ =?utf-8?B?VVJ1VTUwUGkyQmJta25vOGhySVRWUUVZbHd6a3lPYXQ1K3RhdU1vVmQweUNq?=
+ =?utf-8?B?STRLcVJQVEY0TlE3NkIrM01FSUUydWdHR3c1NlY4T3hvR05qZnlGZFdmc01G?=
+ =?utf-8?B?alE2aWtHWndyQUhzNGVCSW43aitPSDFaMHJXR1hqSSs1N0psM1NSaXAxOGw0?=
+ =?utf-8?B?bUhUK1VPZUVMV0tXN1dqYkdFVWVHZjQ0NG5qeklDNFM4cTlPWEpWbkc5YlBK?=
+ =?utf-8?B?UTdZeFo0MTlTMEw2cGo3TkluS0U5ajdwOSs5eGlTMzdCb05iQXBibWlZMEh1?=
+ =?utf-8?B?N0d0Q2xTNUZXUWczM0NtWDFhRXJ1UWZEanBMOWRsQ3A5bGJlSEVndG5ncXZ2?=
+ =?utf-8?B?bys0bnUvZDkzajU3K3NtdFNtT3BxTjYrVHZjS2lHZ2FhekJyUUgxYWx5MXNX?=
+ =?utf-8?B?Z3owWDJTUm1rcHhSYjlqeWp3aFc3NkZiMEVLN3VqY1lydmJjVi9qVk5Qemkz?=
+ =?utf-8?B?WmJLNUpKc2x0b1BpNWdaNk92QmtqVlliVjJjVkUzVmNOMWZJNTFrQm1yMnBV?=
+ =?utf-8?B?dUtTOVRsRGFFNForYjRTNWpUWTdJZlNaN2xQSnV2Qk5GaUNYZFhxZnMrMVVE?=
+ =?utf-8?B?RU52RFVKaWRjSS80VzBKZXlpQkpOdXdTTm5qcDdnMmthWkJ3U2x0NVRhbUJD?=
+ =?utf-8?B?Z252VkxJSjl5ZFd0aGtYUGsvTFJSc0R5L1RzekNTZE5zUTdoMWJITGlkdnBX?=
+ =?utf-8?B?Z0NCcHkyUWtKay9TUFcvS2gyMnJ1Qk5MSEpwTjlHeEpaMW9KT2tuRm5LejIw?=
+ =?utf-8?B?ekI0OEsxd3NYUE8vMEVGMmZPZnBZNE1Ra2NRZHlQMHlJbEpNRzdaNHFIRjIz?=
+ =?utf-8?B?N3E0M3YxL0w0N3RuL2ZaaWJCcFBoTi9jLzJra1hYbEZlTnh0T3JUQjVZY08r?=
+ =?utf-8?B?T1l3ZWdBNWxjMXhpeVhkWThrbXozcWJCd1lLN2Z5M09DeXdQOXUwcEt3Tm9L?=
+ =?utf-8?B?QzRvZHNQdUdqNXd4U0N4YTB0ZnVaNUEwMDcvRDNMdGt0QjV3UXdjUlkxMWlX?=
+ =?utf-8?B?QnFOaU9sM2pDVzYvZFVJS2s5cHhDSE9pUWtQUENXU29jbVFOVzh1b0Q4WUw1?=
+ =?utf-8?B?UDV5S3lIOEVDY2hjYXdNV2oxTUdGOHNmMHpHNGo0VzA5S09WL0I0aGh4UlAx?=
+ =?utf-8?B?K3VWMUV1cDdrUFNXRVJYU0R1SWxGTVVJV2o2YVJ0VEFEV3I4b0NNS2RpU2VS?=
+ =?utf-8?B?L25QV3JLa1ptZlgraENydkRCOUZFSkdicGkvaE1QYVdPN1YrRnJkTFNRNjdY?=
+ =?utf-8?B?VllQY1ZuY3BUN0p2WlJKMmtxNzhZUzBPcEhneDdCbXdCK2tsVmhxWW5FZEJD?=
+ =?utf-8?B?NkhJOXczaCs4RThheWVsN0lhQ2NwQUNDRWpsLzBPdVJueG16UGRHOTdBL1ZF?=
+ =?utf-8?B?RmhJR1NxbW5TNHd1TTV5eWZJT3BEYVN4MUtqaFpRRzVtMmdPQjhiVDRURGdY?=
+ =?utf-8?B?ZXNKQXVJSUpkRzQ4UkpsWFAvcnBLKzRtVDVOMmxibTAvNmdHT2paNnNUM3JF?=
+ =?utf-8?B?ZE9EcS9GOXhVaTc1RHlXcVdWZWdjc21FcnJNcTB6M1FqOFZManh1OWtBOUpl?=
+ =?utf-8?B?Z29saVRZM0dSSDM4MldSM0dDeHNiSEUvQTFKYlU2OGhuVnVSOS9zVi9SVTlw?=
+ =?utf-8?B?ZGFXWGJTY2ZHNjViN05XYllyQWJudHBwdGZvay9PRkxnMGpvVTN2NDVZRFE3?=
+ =?utf-8?B?Zlk4K3NWcUI2N2dvdnBQS1VJZWRVejFXSlgvMDhEQWRlbElDem9XSUp1cHNQ?=
+ =?utf-8?B?aE1RN00zdXdobWlyTnRJdzQzTUowSlpTUjdkSkdMYzFaVmZIaXlDVVYvUVhs?=
+ =?utf-8?B?a1pSK2tXcGxRc3FGMHl1VlBjQ0Q2bXlobytqRjkzWXV5WXJreGtpQW9PVS9H?=
+ =?utf-8?B?S3lpbU1jaktGenMraVFXQjlnM0ZhZGdFZ0hHZjJBbGVwQlpxY3gwU05QUHVB?=
+ =?utf-8?B?bnV6MjI0aUMvZk1BUGhKVWNKdGNVSDExRzUzVkRhTEsreS9Kb0FSeThrNjBI?=
+ =?utf-8?Q?FTITrCvzHW2iPDqnOZ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe61667c-814c-4603-d3f4-08deace19892
+X-MS-Exchange-CrossTenant-AuthSource: LV9PR12MB9829.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 09:10:06.3571
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Css0xvspgymUBo9ITZVICBUOqMoFuZ2FYj6PDjzS7Xf7RLt8vJRWDMjlMPBhVaXF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7789
+X-Rspamd-Queue-Id: 5BB2C4F41F5
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[iki.fi:s=meesny];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[iki.fi:+];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[amd.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60903-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[iki.fi];
+	TAGGED_FROM(0.00)[bounces-60904-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	REDIRECTOR_URL(0.00)[aka.ms];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@iki.fi,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[Bin.Du@amd.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[iki.fi:email,iki.fi:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email]
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,aka.ms:url,amd.com:email,amd.com:mid,amd.com:dkim]
 X-Rspamd-Action: no action
 
-Hi Kate,
+Hi Arnd,
 
-On Fri, May 08, 2026 at 04:51:03PM +0800, Kate Hsuan wrote:
-> Hi Sakari,
-> 
-> Thank you for reviewing the patch.
-> 
-> On Wed, May 6, 2026 at 3:15 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> >
-> > Hi Kate,
-> >
-> > Thanks for the update. Please see my comments below.
-> >
-> > On Tue, May 05, 2026 at 02:13:27PM +0800, Kate Hsuan wrote:
-> > > Add a new driver for Sony imx471 camera sensor. It is based on
-> > > Jimmy Su <jimmy.su@intel.com> implementation and the driver can be found
-> > > in the following URL.
-> > > https://github.com/intel/ipu6-drivers/commits/master/drivers/media/i2c/imx471.c
-> > >
-> > > This sensor can be found on Lenovo X9-14 and X9-15 laptop and it is a part
-> > > of IPU7 solution. The driver was tested on Lenovo X9-14 and X9-15 laptops.
-> > >
-> > > Link: https://github.com/intel/ipu6-drivers/blob/master/drivers/media/i2c/imx471.c
-> > > Link: https://bugzilla.redhat.com/show_bug.cgi?id=2454119
-> >
-> > I'm not sure we need these links. But the extra newline here should go in
-> > any case.
-> If these links are unnecessary, I'll drop them.
 
-Please.
+Thanks for the fix. I applied it on top of my current branch and 
+verified that
+it resolves the -Wformat-security warning in the ISP4 driver build here.
 
-...
 
-> > > +static const struct cci_reg_sequence imx471_global_regs[] = {
-> > > +     { CCI_REG8(0x0136), 0x13 },
-> > > +     { CCI_REG8(0x0137), 0x33 },
-> > > +     { CCI_REG8(0x3c7e), 0x08 },
-> > > +     { CCI_REG8(0x3c7f), 0x05 },
-> > > +     { CCI_REG8(0x3e35), 0x00 },
-> > > +     { CCI_REG8(0x3e36), 0x00 },
-> > > +     { CCI_REG8(0x3e37), 0x00 },
-> > > +     { CCI_REG8(0x3f7f), 0x01 },
-> >
-> > A lot of these appear to be 16-bit registers. It'd make sense to write them
-> > to the sensor as such.
-> >
-> > Quite a few of these registers also have a name, please use the names
-> > instead of numerical values.
-> Ok.
-> >
-> > The sensor is probably CCS compliant to some (unknown?) degree.
-> It's pretty similar to imx214. I'll try my best to find the names of
-> the registers.
+Tested-by: Bin Du <Bin.Du@amd.com>
 
-If there's no name for a register, which generally is the case for the MSRs
-starting at 0x3000, just use the numerical value.
-
-...
-
-> > > +static int imx471_get_regulators(struct device *dev, struct imx471_data *sensor)
-> > > +{
-> > > +     unsigned int i;
-> > > +
-> > > +     for (i = 0; i < IMX471_NUM_SUPPLIES; i++)
-> >
-> > You could declare i here.
-> Something like that?
-> for (unsigned int i = 0; i < IMX471_NUM_SUPPLIES; i++)
-
-Yes, please.
-
-...
-
-> > > +     case V4L2_CID_HFLIP:
-> > > +     case V4L2_CID_VFLIP:
-> > > +             if (sensor->streaming)
-> >
-> > Please grab the controls when starting streaming and ungrab them when
-> > stopping it.
->  v4l2_ctrl_grab() will be used to manage it when starting or stopping
-> the stream.
-
-You'll need __v4l2_ctrl_grab() as the mutex is already acquired.
-
-...
-
-> > > +static int imx471_set_pad_format(struct v4l2_subdev *sd,
-> > > +                              struct v4l2_subdev_state *sd_state,
-> > > +                              struct v4l2_subdev_format *fmt)
-> > > +{
-> > > +     struct imx471_data *sensor = to_imx471_data(sd);
-> > > +     const struct imx471_mode *mode;
-> > > +
-> > > +     mode = v4l2_find_nearest_size(imx471_modes,
-> > > +                                   ARRAY_SIZE(imx471_modes),
-> > > +                                   width, height,
-> > > +                                   fmt->format.width, fmt->format.height);
-> > > +
-> > > +     imx471_update_pad_format(sensor, mode, fmt);
-> > > +
-> > > +     *v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
-> > > +
-> > > +     if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> > > +             return 0;
-> > > +
-> > > +     if (media_entity_is_streaming(&sensor->sd.entity))
-> > > +             return -EBUSY;
-> > > +
-> > > +     if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> >
-> > You can omit this check.
-> Ok, since it is always an active state.
-> >
-> > > +             int h_blank;
-> > > +             u64 pixel_rate;
-> > > +
-> > > +             pixel_rate = IMX471_LINK_FREQ_DEFAULT * 2 * 4;
-> > > +             do_div(pixel_rate, 10);
-> >
-> > You could use div_u64() here.
-> Okay
-> >
-> > > +             __v4l2_ctrl_modify_range(sensor->pixel_rate,
-> > > +                                      V4L2_CID_PIXEL_RATE,
-> > > +                                      pixel_rate, 1, pixel_rate);
-> > > +
-> > > +             __v4l2_ctrl_modify_range(sensor->vblank,
-> > > +                                      mode->fll_min - mode->height,
-> > > +                                      IMX471_FLL_MAX - mode->height,
-> > > +                                      1,
-> > > +                                      mode->fll_def - mode->height);
-> > > +
-> > > +             h_blank = mode->llp - mode->width;
-> > > +             /*
-> > > +              * Currently hblank is not changeable.
-> > > +              * So FPS control is done only by vblank.
-> > > +              */
-> > > +             __v4l2_ctrl_modify_range(sensor->hblank, h_blank,
-> > > +                                      h_blank, 1, h_blank);
-> > > +     }
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static int imx471_init_state(struct v4l2_subdev *sd,
-> > > +                          struct v4l2_subdev_state *sd_state)
-> > > +{
-> > > +     struct v4l2_subdev_format fmt = { };
-> > > +
-> > > +     fmt.which =
-> > > +             sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
-> >
-> > sd_state is always non-NULL here.
-> I'll change to fmt.which=V4L2_SUBDEV_FORMAT_ACTIVE; here.
-
-I'd just call imx471_update_pad_format() with imx471_modes[0].
-
--- 
-Kind regards,
-
-Sakari Ailus
+On 5/8/2026 3:52 PM, Arnd Bergmann wrote:
+> [You don't often get email from arnd@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The newly added kthread_run() call passes a string variable as an sprintf()
+> style format, which gcc warns about when -Wformat-security is enabled:
+>
+> drivers/media/platform/amd/isp4/isp4_subdev.c: In function 'isp4sd_start_resp_proc_threads':
+> include/linux/kthread.h:71:16: error: format not a string literal and no format arguments [-Werror=format-security]
+>     71 |         struct task_struct *__k                                            \
+>        |                ^~~~~~~~~~~
+> drivers/media/platform/amd/isp4/isp4_subdev.c:596:38: note: in expansion of macro 'kthread_run'
+>    596 |                 thread_ctx->thread = kthread_run(isp4sd_fw_resp_thread,
+>        |                                      ^~~~~~~~~~~
+>
+> Use an indirect "%s" format to do this safely, avoiding the warning.
+>
+> Fixes: 4e5e7a7ddb4a ("media: platform: amd: isp4 subdev and firmware loading handling added")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   drivers/media/platform/amd/isp4/isp4_subdev.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/amd/isp4/isp4_subdev.c b/drivers/media/platform/amd/isp4/isp4_subdev.c
+> index 48deea79ce6c..86680ec8730d 100644
+> --- a/drivers/media/platform/amd/isp4/isp4_subdev.c
+> +++ b/drivers/media/platform/amd/isp4/isp4_subdev.c
+> @@ -595,7 +595,7 @@ static int isp4sd_start_resp_proc_threads(struct isp4_subdev *isp_subdev)
+>
+>                  thread_ctx->thread = kthread_run(isp4sd_fw_resp_thread,
+>                                                   &isp_subdev->isp_resp_para[i],
+> -                                                isp4sd_thread_name[i]);
+> +                                                "%s", isp4sd_thread_name[i]);
+>                  if (IS_ERR(thread_ctx->thread)) {
+>                          dev_err(dev, "create thread [%d] fail\n", i);
+>                          thread_ctx->thread = NULL;
+> --
+> 2.39.5
+>
 
