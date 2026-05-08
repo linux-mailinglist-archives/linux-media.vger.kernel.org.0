@@ -1,334 +1,264 @@
-Return-Path: <linux-media+bounces-60887-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60888-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oIbbL8FS/WmKagAAu9opvQ
-	(envelope-from <linux-media+bounces-60887-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 05:04:33 +0200
+	id qPcEEMFs/Wm+dwAAu9opvQ
+	(envelope-from <linux-media+bounces-60888-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 06:55:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280FC4F0FA8
-	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 05:04:32 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB244F1C7B
+	for <lists+linux-media@lfdr.de>; Fri, 08 May 2026 06:55:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B39273034A84
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2026 03:03:35 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9040B30598C4
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2026 04:53:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55E902C11CF;
-	Fri,  8 May 2026 03:03:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C66C333064A;
+	Fri,  8 May 2026 04:53:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="opXUbY/v"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MmTxVs2y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013022.outbound.protection.outlook.com [52.101.72.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327D42C21C5;
-	Fri,  8 May 2026 03:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778209414; cv=fail; b=WwDYgXDfkzcCYBko93EdWY6kYz7gaxEPuwzpDurWGxNdtiglkHXIbdA0BlNrTtrPY3D8lWm5ESF870LxEBeLTrhRjExqAHEUGav0VFYWBkijSWti8L+1k5DpDyA4rxVR/IHSkQiCkWAHO+IE4Cslfr4r2JlmsGhaZOJuHjKLOyY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778209414; c=relaxed/simple;
-	bh=IEb/FTGmm5kgXuu4PCb8VrGPbCx8qPaOEnMalBeKlrg=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=npXmb+dXq5e1r+22Wdp0Tz54KBDb6zIDpa7b3/Qm0sQJMdGiWukztHNFFCUsuYCJKKLuFddG7KHqjAB93+dlOR4FcSa6gIkhs6N9x3kKOArBmTn34H07oPpXCTzRlRwkZwVHioYplWL9xgSqqKmXwcZYsRFBc/Idyx9AVsHVag4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=opXUbY/v; arc=fail smtp.client-ip=52.101.72.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LUZf9CpMFv93G7ZPprtHA220Nd41Z42nqdm0NIs2ih8wKCj+HIUkfe2sgKhfn1RiSBqd6GCUZ0xr7nycI+zcSx32Td7NB5rVG591Sjb9hU1PKs7VaN0PnslgrumLWNlHHD8AVqwQqSp+jF1gtbGe6B8VSD7gifF1AaiJKRjdt2Q/Wqyk4fkpEEy9EhXyAu3ZtRFPJ2pGzpiOzUNjXCOHUE8m4b9Wqq1rnElkLXkhtuc/vcolOU/cYP+fjsKx0RaoWAWeEhkcoYOo1+KIzdPnqb0hnYOFPgVxJZRdnBN9i/P6I0ybV0FT3yzC6k0LUWtqrLKekOKDGfAcBJ0oZ4Trpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K35khRLceDr+6zShZI3xTfvOyYzLrLjP6dW5aGDQNS0=;
- b=yMWZeOV4M1opakcBkmxxQs1AWZo7lkzboltza+gekHtbQplGjUojKO0BaFFDnHvDUFNperQQZamNQED7ugzQlrvDStBnoAUlu1A/GRIlTTW5OV77rNTnN9Tb4X0OW03LYCPMeJ+cnN3d0d4SQv+LsBHlvH7Vl1uHXAKKjpncF4oAzp1aPDFYyIY6yUJAqOUZ6HUHkJlfxUydH91uLgzgPSQ3vp8tqorsJdvpTg3SdSHFlru12de2WqU7PC4+8EIUA6W6VpOWhfeQu6tbizW12dTUfGG0z9MMZL2/hHmsGHCMKmXHUD9wlQRd6/xajd+MaXOkCnszS1dd/beefjf1tg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K35khRLceDr+6zShZI3xTfvOyYzLrLjP6dW5aGDQNS0=;
- b=opXUbY/vVSrQzkV0xDFSgt4c6D/9K/hQXcJLtlQG1XdQCK9pvZ1DeIJjOsfaxc3+HBBaOe5sztFRT/94vHU8PXlZyvaN1KgjIafNO3d5dj0g+QDE/frWAYrIQJeJx1sJPDhErT430ajlBH59WNMKeK1I2F0qUQRpV/wO0oiQ7c6CEuVH3CyFYqFikVck14zmKzuAzy1pi0/nlwlX/Iq4PsSswS27B4QKUEACzhtMpY9K3Be5XHSEgzXMp+Lthu7wHkwsKYzDiHZbdSrHuLkskTCUhoBf/iB/2ktOi2WaYptWOdCfpIzSBnyrDmPUzryPLxR011VClnv2mWnSWXgnNA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AS8PR04MB9080.eurprd04.prod.outlook.com (2603:10a6:20b:447::16)
- by AS8PR04MB8006.eurprd04.prod.outlook.com (2603:10a6:20b:288::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.19; Fri, 8 May
- 2026 03:03:27 +0000
-Received: from AS8PR04MB9080.eurprd04.prod.outlook.com
- ([fe80::92c2:2e03:bf99:68eb]) by AS8PR04MB9080.eurprd04.prod.outlook.com
- ([fe80::92c2:2e03:bf99:68eb%6]) with mapi id 15.20.9891.019; Fri, 8 May 2026
- 03:03:27 +0000
-From: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
-Date: Fri, 08 May 2026 11:05:41 +0800
-Subject: [PATCH v4 2/2] media: nxp: imx8-isi: Implement get_frame_desc for
- crossbar subdev
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260508-isi_vc-v4-2-feee39c63939@oss.nxp.com>
-References: <20260508-isi_vc-v4-0-feee39c63939@oss.nxp.com>
-In-Reply-To: <20260508-isi_vc-v4-0-feee39c63939@oss.nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>
-Cc: Aisheng Dong <aisheng.dong@nxp.com>, linux-media@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Guoniu Zhou <guoniu.zhou@nxp.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778209560; l=4693;
- i=guoniu.zhou@oss.nxp.com; s=20250815; h=from:subject:message-id;
- bh=Q/MsgM4hDAsxIxSkzC1KPUa783btZ/YZkbXM6+6/5Zs=;
- b=+LtT5k+xllJOooEbnS6LMkd8zXL30dvb4B3+eexNONx9L+WK12gljoUOQz1VTJOwB+TDVJiGb
- 5lpFLrdlZRnBPt4KdglkIAMQIypm/Cuk0As5ud30D7jCcXtez7HcA0b
-X-Developer-Key: i=guoniu.zhou@oss.nxp.com; a=ed25519;
- pk=MM+/XICg5S78/gs+f9wtGP6yIvkyjTdZwfaxXeu5rlo=
-X-ClientProxiedBy: SI2PR02CA0007.apcprd02.prod.outlook.com
- (2603:1096:4:194::23) To DU2PR04MB9081.eurprd04.prod.outlook.com
- (2603:10a6:10:2f0::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E50931352A
+	for <linux-media@vger.kernel.org>; Fri,  8 May 2026 04:53:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778216019; cv=none; b=uSWOpyZS2MkFZNerJ+oq/wZ1J7DtQ8Zohd/C+xFEVsYVtXYit29jNabv8fpGtRU0zsoysI0dKDUheVgbRpF2lbzYHHI6UkZrJxyz++VV1JXavPQHQWrOfb6ZpwanwEuWG6xUSSFffM0r5dWx6PS24W9ewPsKYi1rqALlKwPb6Ms=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778216019; c=relaxed/simple;
+	bh=iwMVIutDdnDY2VlIdGAfHBAMEdmf3NNOAqSKgNJVqmA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s2evaT9rLMoNkVD+x2d0LbA00Ho5lmMWdzZmnMNioSlzGZz02ZjB5hErdvAti5A6hkB1aEyYydrqW0WmaD9hKRddOJNV7Fb4XzaKrb7zj8n7AfbJ1LN9Hgjme3vcyyNpg4OmqJECQ/d0aIEUacGJUDqKbcrApvvaDKCGIfVfi98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MmTxVs2y; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-65c4152313fso2222440a12.1
+        for <linux-media@vger.kernel.org>; Thu, 07 May 2026 21:53:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778216016; x=1778820816; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qPdNBnuNDaZZUCAN8oqndatEOhhJRZbEt+zuRV2X6ME=;
+        b=MmTxVs2ygz544e2D6xj34DLwdi6vEvMEnYXhP+JFclJhE+4RA+chel299KRK2mIcsU
+         /J6WTd4/1FFLvrgIHv2jCGLCH2wLt7sMQrPa/1IU+bxn0FpDmprmgoPv/4JoVvRzQOZH
+         NH7kEs3+KYmVJmQOMqbR2jZ1oBEc5u1wQ1rA042L8qqMKmQ3FzL407AUF+3qLWD8e+Ej
+         EPxqmm2L29hXXROPJkPrhSwdRuZeHI9lzaKXx3+RgDqkFACBadJD88ClMurrxc9Eedvw
+         QFmuI84fN18DBztGvwWMjk01C4+pVOoYrKRo1yHUdaCxUxfbgyHx/QP/4QIclnHhQL3D
+         HHYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778216016; x=1778820816;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qPdNBnuNDaZZUCAN8oqndatEOhhJRZbEt+zuRV2X6ME=;
+        b=jRKJxI30/Ik5axP5etReKE6APMYuVJUdMRdyIORFIYgjj0oRRBZJBvgwYfCAh3pk3w
+         CyuADwOwB5NPXTCjnzDteLal7dn7EH/OIpzBdRtyU0PMFYIb2MbBCc1vxxvgeKHy37RN
+         nGqYmaDYKFA/Tp7m2B1WooIAU7xJ7IY0W/6xgSaPnxX5dIsh2UQgJHd/izAo3i6V+qEQ
+         7RETX8tSiiGZRDbDYAkczFzHM+8aHG+tBHIwVDDf8pMeQAsJrbgMPvneG3ed+zkW/PUK
+         SCOm1UY61wJPMHTOAl7u3HQC9AEMnEwisUA/w4Jqt4eYEj4YE9Da1Du2w8XI8z36vo3w
+         u4hw==
+X-Forwarded-Encrypted: i=1; AFNElJ+6GK4JeksIATCrSFpdm5ZyT/e2h9T3Wcf0AEPqYoiMD9prDrvDmaevXY5AXWzJXychc6klxHHwX1D8KQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzk6TI3aDD7AjiPE71Cina/yH+/8u3a0dTbPxKUmjapQMdhZphH
+	10M0x68L9VeiABWTeh9ujWSxzUWudVGzLdDeTblBWSkk0ohRRPPBQ4uk
+X-Gm-Gg: Acq92OFL6QhPa1/sxZlWupEI1+OxZ7glPGMjCvT7waZ5iz6Pv0hdFej4uTGqakip7Xf
+	SFD19V4oSzL0pF2stSNI/0yQxYKqClAYJyFZP0SQtz0kPqufurOZT512KBuFvtnLbvT1Xq4gz+c
+	CJMTY4SfKNEoJjmwQO22+vhlv2VFRWGWtoRj3GOoijOE8Hb6dM4imRLmDbe1rnOXfAySWcCGTEd
+	yS0iNDIxUyEPmXVquF4jcp4mwrqNVwd+1pO9FBjuj61FjB9x/Z7swq/d0+0pKkiCMi2+RWWS7xX
+	MgvCUy/4HpGRCqF+WUHf6TMjsAq5sMxOzbMDV6ehYX8ExPOwO+FkekwopwPDiBAwdKnrg0ypmNb
+	gKK8kf5SxglGexcsRrgSh393ag28T1FG25VyNl4fmXAMcQ8cG5a63M0LndmWFjY02qrszt+yWuj
+	R+EPVhI0sQ7r6XwyjfGuU4ybE=
+X-Received: by 2002:a05:6402:5414:b0:672:7109:61a0 with SMTP id 4fb4d7f45d1cf-67ef0687822mr450598a12.9.1778216015715;
+        Thu, 07 May 2026 21:53:35 -0700 (PDT)
+Received: from avt74j0.. ([2a02:8109:8617:d700:d9bb:cdec:69e5:2f8e])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-67ef0e1a221sm163332a12.24.2026.05.07.21.53.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2026 21:53:35 -0700 (PDT)
+From: Martin Hecht <mhecht73@gmail.com>
+To: 
+Cc: sakari.ailus@linux.intel.com,
+	martin.hecht@avnet.eu,
+	michael.roeder@avnet.eu,
+	stable@vger.kernel.org,
+	Martin Hecht <mhecht73@gmail.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: i2c: alvium: fix critical pointer access in alvium_ctrl_init
+Date: Fri,  8 May 2026 06:53:28 +0200
+Message-ID: <20260508045332.360004-1-mhecht73@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB9080:EE_|AS8PR04MB8006:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c9ff403-97a9-4bf9-7e11-08deacae5da5
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|19092799006|52116014|376014|1800799024|366016|18002099003|38350700014|56012099003|22082099003|3023799003;
-X-Microsoft-Antispam-Message-Info:
- c9l+1LiKRsO4Mqgn49+wMPNtp3WWKTMno+dIXVTdsdm4NfDCqLWDa7l/Us5K1KPj5Fx+2uiqt9HebTFWfXaZ1TinE3eTWcvjrfRbCIzLGv5tT6rZbhqDlfYYSaCpgBLJ7p9/2UVnOcTGotTIcBkp0WvsUKb2SwC56OoMYNnzjqv/FyzTGvwOxoMMDaXQbUiM45ZfV3psWtAiXV+3ZAKACgIIOhbg3tRj7kkWfdFoJWOubTCqmjuhYmOLj82O2MLub3A997qLvKVcQf83fubx7bUMlhuupBcyS7ExedDrgwCXG/+WSTnkgZdKn0T/klqrAwMvYT7hgB3zTob2wZLvq8Zdx8OqgUrAJvBP9MxyOXPuaxhiFd3Z/zSLJXfKI1BxY7Vg9Kg/hAbIgnRJxEOnDwecMNzQgV0fT0bkjZfjMhKbQ7Ko4W4uMHnZWWNJnBCB1T/8WWEg1H8+vwC/C1iY1aljc7dxSeXDz4wPHLeNmnFACGAouDOOiMClfQdPSDRZ7Apyt/w8N736DTR7Wz+7gR9RyZo1Mb+Kpirx3y2aSgAKib/O/btR5lcgjRZTajF5MBp4Sq2PPYQUubD0CAyMA9DFrAZjQWMfBUdmopRlwtkyiCakNq5UJLYJMgeWu8PHnpoF+Qa9HaM+wpXwJL5D9E9MadFuSgWMuv23kkAX7yASuKx9OLgdI4Vh5XEc3Qa31E1j7NLtxSDULCilVwYzC7hz1kc3Oxo2TNNTxXJgt1I3mLWcFC/M+un6bJRBlLCg
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB9080.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(52116014)(376014)(1800799024)(366016)(18002099003)(38350700014)(56012099003)(22082099003)(3023799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?Qk9ERGxCVXFhdlZtUVR5NEV1aDIxQTVib1YvSlF6aXgybXVMckk3UHJEWHhw?=
- =?utf-8?B?MTJVQlYxb2pDTFNKeEZTbUlNS3VvL2R6cjR5QUZUS2xzdlhNNGtRcGVSQUg2?=
- =?utf-8?B?UEQvSE1MU1ZtOUlZZEZ1WjNVYkw4VU1YMkN5WWFNTUJLc0VtMm9ZMnZsQXlz?=
- =?utf-8?B?VzJMUkxkTjhlSFFRM0ZJSVhjZjhwa2hxeWdkV20rTFdFTDFnNFRhdHhMQ2ZE?=
- =?utf-8?B?SjFvcHFPejFrL3Q2RWRsQWkvbmVBQkVKMWwxRUx5ZTg3cmFFTjNlL08raGsz?=
- =?utf-8?B?Y3k0dUpUc0xhSDdZOTdYUEh2UVpud1prV2dYY0JPZ2JYSElYKzVpNzZnOFdP?=
- =?utf-8?B?MXVWaFF5ejg2ZmEvVGVSUkM5RUlHZ3ZIUzh1K1oyYVJKb0R2bEhhL3pYamxV?=
- =?utf-8?B?b1Rhb0dmbFhpb3dBTmVnclhvSmNSVDVLcGtCYlJ2dE52dGdOdUljTzhVNktO?=
- =?utf-8?B?a0FFQXlzMmFuekMrRUVUdm1uZWsxUzRTNDJVQ0FtOHhXU09GaUtNbXlFR2pk?=
- =?utf-8?B?ZWZOdnZTdDduemtHOEZXOWJsVUxvRGRMd3JoSTAxdXlxZzBKYXNVb3BrZ0tO?=
- =?utf-8?B?ekgxQXJXb3NOSGNpaFJmWlJmK21SMG5MUE51M0g0K09XSlBJZjJGT1hqUExl?=
- =?utf-8?B?Mk9Pc1FnY2k3RUgxYituV1NGc2MvZ0wxSXVPQzdrVzZCSDVIM3g1b05sRUlo?=
- =?utf-8?B?em42K0JMQ2NLa2R4T2NjQWE4S3V3NVVQTmtadCttT3cyYzd0WW01SmRzN1N1?=
- =?utf-8?B?M1kyVFdjejQ5azJYNTRxYVg2QWEyd3pSNXE5cmFPMXZ0R0VuZXhTTEUzRzRt?=
- =?utf-8?B?Y3cvRVl6NWlZSGVLMnVZV3NoZnVqQXVDeUJDcnBRRk1BMDJZNHBuOW42OW1Z?=
- =?utf-8?B?TWNCOTRIZUFPNHZhZDB6TUU3UEcwWCtBbjVLYzRxTUc2dG5zRjdsSnNKejN1?=
- =?utf-8?B?WnEvcCtIbEFWTlg2ZmlEVDJoeGhTeFl3WFhEUjRENGJlQTBpekxOaE8va2Fj?=
- =?utf-8?B?Y2pTUGR0MGhreEpZRkNSdUZGbmV5TGQ3YWxqR0pJNk9rNVRvNm1CNVdnZWJN?=
- =?utf-8?B?am8wOUliSktWbU5FbFBUdlVLaDdSb3c0TnlwS3NFbFZOakdYcWtUdm84U3g0?=
- =?utf-8?B?NmpoajhGc2pJWWRRNEtmRWN3Wm9Qbko5MGdaN0xESFMrWENCU3dkTjRuTWRr?=
- =?utf-8?B?cmlDR3BwUUh4K0ZTUFQ3elU2UnFBZzdvVkl3VFIvYlZQMmE4czh6Yml0NGFS?=
- =?utf-8?B?ZWpoaUdIRTd3cVlyU1Y5QTA0UE41NHM0a1VOMDVSaVVCSVhrRjFSOVdoV3V5?=
- =?utf-8?B?STVvZHhhMUhrcks5NVJDdkFuU2pEZ0phUjBKVlk1dzB4QlR2R2FuYXNDVXZk?=
- =?utf-8?B?TG80WkdGV09DSDF2QlEwelo1bnIvUU1oWFliWFg5d3NDbldobzZEc0EybHNS?=
- =?utf-8?B?cHlRR0JmZUZibEJOUTRUSkticGpLc0tLeVhQV1dCak5YaU9sM1VoNlZXTis3?=
- =?utf-8?B?S29FWWFaMVRwbW1NVkgzeE9LYlNzTVowa3RhNFF4dXp1VkJuR0JuYjlKaU9G?=
- =?utf-8?B?V01sUUNjMWp5eXgzN21yUFoyWkdiQjBaRlJ6NUdpbEUwQmlmK0EvT3o3Q0Ir?=
- =?utf-8?B?VEVzUDBHTHdNa3c0Z2tlQXBQOC83YTZBdk40Wlo4VDR1RXF5ek10cWdUYU5E?=
- =?utf-8?B?cmF1SjlMN3Y4bVJ6U3c3YlBKL2hwV1RoY0c2Y0lrcEoyWGczQkpKTy9kaFhC?=
- =?utf-8?B?SFBPNFc4Mm5SNHNBVW5MUENQUzIwcU8vYVNIUzJRWTBWUTJOTXQxSGJtUkFw?=
- =?utf-8?B?ZTNBVkRhdVZndE9MQmNMTW0vbFo0Uzk2ekxTUmk1Q2I5RDczVTJObEhodUxK?=
- =?utf-8?B?ZHNzRFZIc0pPTVpUSTYyTStSN3llcHRxY3Q4YmRWS1lCTXFiN0xaWFJnQVIx?=
- =?utf-8?B?QVRXWmYzWmUyM0lKMDJUb2lBbnY0R1M1ZFV3SVljTlV4Vm92UFZFTTZlUWcv?=
- =?utf-8?B?VzdMY0JlSGhZK3NDdkJNU2E4cEtMbGRLU1hGbHpLWFFicytVODBuMDR4UUhk?=
- =?utf-8?B?Z21XUjNkeE4relU0ZFlaNVBLdTgwQitYVnlOOHpzV2EvOUFRM1dXVXNKRno5?=
- =?utf-8?B?b1loeENVUzBrYk1nWkhaZXkwanF0c3ZIajRtMVBqMWYzZEZOdk93Sm1BWWdW?=
- =?utf-8?B?V0tZN010QXZDNnBDaFZydEVXQlVjY3YrOVNZMk9EdFFLdU9PRUJHN0xRbzlY?=
- =?utf-8?B?TmtPd3hKbWR0OTNaMTV0WXZWVGpKVUhsaW44MHZ2ZC9uaCtpUTNIclQvOS9R?=
- =?utf-8?B?UnZaenFCMEp3VzJkN3Axcy9OTEJheHZML0hXT0pkU01uamIrMG8wUT09?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c9ff403-97a9-4bf9-7e11-08deacae5da5
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB9081.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 03:03:23.1219
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w7mgs+nzLIudpZixWTgRH4RT97HJZqxMRQV5fl/YUUejxH8F5o7P/Zpx2QuORkoyaN1MalvjYkpWfQ6ZXVQXgQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8006
-X-Rspamd-Queue-Id: 280FC4F0FA8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: ACB244F1C7B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.44 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60887-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[ideasonboard.com,kernel.org,nxp.com,pengutronix.de,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[guoniu.zhou@oss.nxp.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,avnet.eu,vger.kernel.org,gmail.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-60888-lists,linux-media=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mhecht73@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[]
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
+The current implementation of alvium_ctrl_init creates several controls
+in function alvium_ctrl_init and uses the returned pointer without
+check. That can cause write access over NULL-pointer for several
+controls.
+The reworked code checks the pointers before adding flags and also it
+creates controls for V4L2_CID_BLUE_BALANCE and V4L2_CID_RED_BALANCE only
+if supported by the particular camera model.
 
-Implement the get_frame_desc pad operation for the crossbar subdevice
-to propagate frame descriptor information from the source subdevice to
-downstream ISI channels.
-
-This allows the ISI driver to retrieve virtual channel information and
-other stream parameters from the connected upstream, which is required
-for proper virtual channel routing on platforms supporting multiple VCs.
-
-Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
+Fixes: 0a7af872915e ("media: i2c: Add support for alvium camera")
+Cc: stable@vger.kernel.org
+Signed-off-by: Martin Hecht <mhecht73@gmail.com>
 ---
-Changes in v4:
-- Use %d instead of %u for ret variable in error messages
-- Fix potential -ENOIOCTLCMD leak by resetting ret to 0 on continue
+ drivers/media/i2c/alvium-csi2.c | 72 +++++++++++++++++++--------------
+ 1 file changed, 42 insertions(+), 30 deletions(-)
 
-Changes in v3:
-- New patch added based on feedback from Laurent Pinchart
----
- .../platform/nxp/imx8-isi/imx8-isi-crossbar.c      | 98 ++++++++++++++++++++++
- 1 file changed, 98 insertions(+)
-
-diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-index 605a45124103..b5eff191b2d5 100644
---- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-+++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-@@ -306,6 +306,103 @@ static int mxc_isi_crossbar_set_fmt(struct v4l2_subdev *sd,
- 	return 0;
- }
+diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+index b62b45a4f2fc..43535ba7a264 100644
+--- a/drivers/media/i2c/alvium-csi2.c
++++ b/drivers/media/i2c/alvium-csi2.c
+@@ -2100,34 +2100,41 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
+ 					      V4L2_CID_PIXEL_RATE, 0,
+ 					      ALVIUM_DEFAULT_PIXEL_RATE_MHZ, 1,
+ 					      ALVIUM_DEFAULT_PIXEL_RATE_MHZ);
+-	ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++	if (ctrls->pixel_rate)
++		ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
  
-+static int mxc_isi_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-+				  struct v4l2_mbus_frame_desc *fd)
-+{
-+	struct mxc_isi_crossbar *xbar = to_isi_crossbar(sd);
-+	struct device *dev = xbar->isi->dev;
-+	struct v4l2_subdev_route *route;
-+	struct v4l2_subdev_state *state;
-+	int ret = 0;
+ 	/* Link freq is fixed */
+ 	ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops,
+ 						  V4L2_CID_LINK_FREQ,
+ 						  0, 0, &alvium->link_freq);
+-	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+-
+-	/* Auto/manual white balance */
++	if (ctrls->link_freq)
++		ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
 +
-+	if (pad < xbar->num_sinks)
-+		return -EINVAL;
++	/* manual white balance */
++	if (alvium->avail_ft.whiteb) {
++		ctrls->blue_balance = v4l2_ctrl_new_std(hdl, ops,
++							V4L2_CID_BLUE_BALANCE,
++							alvium->min_bbalance,
++							alvium->max_bbalance,
++							alvium->inc_bbalance,
++							alvium->dft_bbalance);
 +
-+	memset(fd, 0, sizeof(*fd));
-+
-+	state = v4l2_subdev_lock_and_get_active_state(sd);
-+
-+	/*
-+	 * Iterate over all active routes. For each route going through the
-+	 * requested source pad, get the frame descriptor from the connected
-+	 * source subdev, find the corresponding stream entry, and add it to
-+	 * the output frame descriptor with the routed stream ID.
-+	 */
-+	for_each_active_route(&state->routing, route) {
-+		struct v4l2_mbus_frame_desc source_fd;
-+		struct v4l2_subdev *remote_sd;
-+		struct media_pad *remote_pad;
-+		unsigned int i;
-+
-+		if (route->source_pad != pad)
-+			continue;
-+
-+		/* Find the remote subdev connected to this sink pad */
-+		remote_pad = media_pad_remote_pad_first(&xbar->pads[route->sink_pad]);
-+		if (!remote_pad) {
-+			dev_dbg(dev, "no remote pad connected to crossbar input %u\n",
-+				route->sink_pad);
-+			continue;
-+		}
-+
-+		remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-+		if (!remote_sd) {
-+			dev_err(dev, "no subdev connected to crossbar input %u\n",
-+				route->sink_pad);
-+			ret = -EPIPE;
-+			goto out_unlock;
-+		}
-+
-+		/* Get frame descriptor from the remote subdev */
-+		ret = v4l2_subdev_call(remote_sd, pad, get_frame_desc,
-+				       remote_pad->index, &source_fd);
-+		if (ret == -ENOIOCTLCMD) {
-+			dev_dbg(dev, "%s:%u does not support frame descriptors\n",
-+				remote_sd->entity.name, remote_pad->index);
-+			ret = 0;
-+			continue;
-+		}
-+		if (ret < 0) {
-+			dev_err(dev, "failed to get frame desc from %s:%u: %d\n",
-+				remote_sd->entity.name, remote_pad->index, ret);
-+			goto out_unlock;
-+		}
-+
-+		if (fd->num_entries == 0)
-+			fd->type = source_fd.type;
-+
-+		/* Find the source frame descriptor entry matching the sink stream */
-+		for (i = 0; i < source_fd.num_entries; i++) {
-+			if (source_fd.entry[i].stream == route->sink_stream)
-+				break;
-+		}
-+
-+		if (i == source_fd.num_entries) {
-+			dev_err(dev, "stream %u not found in frame desc from %s:%u\n",
-+				route->sink_stream, remote_sd->entity.name,
-+				remote_pad->index);
-+			ret = -EPIPE;
-+			goto out_unlock;
-+		}
-+
-+		if (fd->num_entries >= ARRAY_SIZE(fd->entry)) {
-+			dev_err(dev, "frame descriptor is full\n");
-+			ret = -ENOSPC;
-+			goto out_unlock;
-+		}
-+
-+		/* Copy the entry and update the stream ID */
-+		fd->entry[fd->num_entries] = source_fd.entry[i];
-+		fd->entry[fd->num_entries].stream = route->source_stream;
-+		fd->num_entries++;
++		ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops,
++						       V4L2_CID_RED_BALANCE,
++						       alvium->min_rbalance,
++						       alvium->max_rbalance,
++						       alvium->inc_rbalance,
++						       alvium->dft_rbalance);
 +	}
 +
-+out_unlock:
-+	v4l2_subdev_unlock_state(state);
++	/* Auto white balance */
+ 	if (alvium->avail_ft.auto_whiteb) {
+ 		ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
+ 						   V4L2_CID_AUTO_WHITE_BALANCE,
+ 						   0, 1, 1, 1);
+-		v4l2_ctrl_auto_cluster(3, &ctrls->auto_wb, 0, false);
+-	}
+-
+-	ctrls->blue_balance = v4l2_ctrl_new_std(hdl, ops,
+-						V4L2_CID_BLUE_BALANCE,
+-						alvium->min_bbalance,
+-						alvium->max_bbalance,
+-						alvium->inc_bbalance,
+-						alvium->dft_bbalance);
+-	ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops,
+-					       V4L2_CID_RED_BALANCE,
+-					       alvium->min_rbalance,
+-					       alvium->max_rbalance,
+-					       alvium->inc_rbalance,
+-					       alvium->dft_rbalance);
++		if (ctrls->auto_wb)
++			v4l2_ctrl_auto_cluster(3, &ctrls->auto_wb, 0, false);
++	}
+ 
+ 	/* Auto/manual exposure */
+ 	if (alvium->avail_ft.auto_exp) {
+@@ -2136,7 +2143,9 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
+ 					       V4L2_CID_EXPOSURE_AUTO,
+ 					       V4L2_EXPOSURE_MANUAL, 0,
+ 					       V4L2_EXPOSURE_AUTO);
+-		v4l2_ctrl_auto_cluster(2, &ctrls->auto_exp, 1, true);
++		if (ctrls->auto_exp)
++			v4l2_ctrl_auto_cluster(2, &ctrls->auto_exp,
++					       V4L2_EXPOSURE_MANUAL, true);
+ 	}
+ 
+ 	ctrls->exposure = v4l2_ctrl_new_std(hdl, ops,
+@@ -2145,15 +2154,8 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
+ 					    alvium->max_exp,
+ 					    alvium->inc_exp,
+ 					    alvium->dft_exp);
+-	ctrls->exposure->flags |= V4L2_CTRL_FLAG_VOLATILE;
+-
+-	/* Auto/manual gain */
+-	if (alvium->avail_ft.auto_gain) {
+-		ctrls->auto_gain = v4l2_ctrl_new_std(hdl, ops,
+-						     V4L2_CID_AUTOGAIN,
+-						     0, 1, 1, 1);
+-		v4l2_ctrl_auto_cluster(2, &ctrls->auto_gain, 0, true);
+-	}
++	if (ctrls->exposure)
++		ctrls->exposure->flags |= V4L2_CTRL_FLAG_VOLATILE;
+ 
+ 	if (alvium->avail_ft.gain) {
+ 		ctrls->gain = v4l2_ctrl_new_std(hdl, ops,
+@@ -2162,7 +2164,17 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
+ 						alvium->max_gain,
+ 						alvium->inc_gain,
+ 						alvium->dft_gain);
+-		ctrls->gain->flags |= V4L2_CTRL_FLAG_VOLATILE;
++		if (ctrls->gain)
++			ctrls->gain->flags |= V4L2_CTRL_FLAG_VOLATILE;
++	}
 +
-+	return ret;
-+}
-+
- static int mxc_isi_crossbar_set_routing(struct v4l2_subdev *sd,
- 					struct v4l2_subdev_state *state,
- 					enum v4l2_subdev_format_whence which,
-@@ -404,6 +501,7 @@ static const struct v4l2_subdev_pad_ops mxc_isi_crossbar_subdev_pad_ops = {
- 	.enum_mbus_code = mxc_isi_crossbar_enum_mbus_code,
- 	.get_fmt = v4l2_subdev_get_fmt,
- 	.set_fmt = mxc_isi_crossbar_set_fmt,
-+	.get_frame_desc = mxc_isi_get_frame_desc,
- 	.set_routing = mxc_isi_crossbar_set_routing,
- 	.enable_streams = mxc_isi_crossbar_enable_streams,
- 	.disable_streams = mxc_isi_crossbar_disable_streams,
-
++	/* Auto/manual gain */
++	if (alvium->avail_ft.auto_gain) {
++		ctrls->auto_gain = v4l2_ctrl_new_std(hdl, ops,
++						     V4L2_CID_AUTOGAIN,
++						     0, 1, 1, 1);
++		if (ctrls->auto_gain)
++			v4l2_ctrl_auto_cluster(2, &ctrls->auto_gain, 0, true);
+ 	}
+ 
+ 	if (alvium->avail_ft.sat)
 -- 
-2.34.1
+2.43.0
 
 
