@@ -1,227 +1,149 @@
-Return-Path: <linux-media+bounces-60989-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60990-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2AmzFZLB/mn/vwAAu9opvQ
-	(envelope-from <linux-media+bounces-60989-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 07:09:38 +0200
+	id kGKLHTzM/mkqwgAAu9opvQ
+	(envelope-from <linux-media+bounces-60990-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 07:55:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B8B4FE18E
-	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 07:09:37 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A334FE2AF
+	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 07:55:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 632843014281
-	for <lists+linux-media@lfdr.de>; Sat,  9 May 2026 05:09:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 25CD9301B4FA
+	for <lists+linux-media@lfdr.de>; Sat,  9 May 2026 05:55:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11DD737AA98;
-	Sat,  9 May 2026 05:09:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1693381AFF;
+	Sat,  9 May 2026 05:55:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c7S5vW2h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JN0Q4Wf3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEDA1DB13A
-	for <linux-media@vger.kernel.org>; Sat,  9 May 2026 05:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D89330666
+	for <linux-media@vger.kernel.org>; Sat,  9 May 2026 05:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778303362; cv=none; b=E1GgXKIAUI3zfjR3px4DXfUlD9aEDdHvod9eDo1HKoN+DnElYXpeX1VJ2ZNu0GQ1qeLlszJPlV2PtdVLVOHjDhUuUoDzzA5Ehu9rn4W/FTtFeJxCFgEWYMGD//f8MNhMxEl4h/ozWXmnh3wJnxdwwvrfYBrDrBbTz3San/Wj2kU=
+	t=1778306104; cv=none; b=VpTUCMzPZb07OUTLseyJ38N+Y4zFI7FM5RQc7Hd+E011FWsIiqvveY/zwUwMETF2mLgBeXmtUpVf7W6hnGxfosL7cpNeANLD9CL7uIEbJ5wrurbmivDl2gaYKBoZIVhHZ4vnNZXL8G91SGLc/gH/cQRvhhr1pIscilu4D+V2KJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778303362; c=relaxed/simple;
-	bh=l2h49IBJQQJeRXIpnECLHnQqhjjLmf/4MI621awvlys=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GhgHQz44SUFTDQjq3LveKCsBWhdto2lDVokGEtEWZunt5bZ9EBQXtcJecmBjCRedl+TQuVaJh/h/MjxnSjB3GfiwYlvIa4LuoWH10PI83sLQdRq3ub23BaCnVMLuPiiTmBuPKdNsbiMFqcM1Q6vZDnJaYlixH0vzxPLAOxHR8qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c7S5vW2h; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4890d945eb4so22875505e9.0
-        for <linux-media@vger.kernel.org>; Fri, 08 May 2026 22:09:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778303360; x=1778908160; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g5bmiBt/UaAj8FYk6z1JEgvnehBBxvzIZjMWnqTHpn8=;
-        b=c7S5vW2hLNfVvUNsCunjdcjCoiyjZcAUAeP1Z4Cu8JLZ6L48px9hGSv1rbH1hbG/iN
-         h51/v9V3sbEfV+QGWr7Aq5Oj/Oo15f556O24ffCgc5IOQKbloRXhyDHqrIvoYYcsS/wA
-         b3Gqk9FrCRM6ydIcvyPaaexekOtKsb2AAFgelO/ZaQfAIoRlTCHwJt26M5jJd6wDStw9
-         IfyXGbyg5KrgmgDbL1aefYiPc4eSq0F/RPI3pHfwvf1CWlbio77LiwJ8omxxZBBUSGDr
-         +EULyxS7R/c6VLw01ZU4qjypSxtU/9vIXiX3aF+e2QH0HxNElrVldMwjIxn8n15nXV8O
-         0Qsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778303360; x=1778908160;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=g5bmiBt/UaAj8FYk6z1JEgvnehBBxvzIZjMWnqTHpn8=;
-        b=ZZJipKSY3DHquVtHPAU82dIHti1sSEkCe2BFOgPVjjeZRMubT+nPwxggLHmC8NN9Lt
-         GF3CGabgXtdxOavHtst9krWp3wB7MvDwDuzjiJHtkRKt+uIfuyoBqewNS0ljwklypObK
-         SGZp4Z6+TegZikMoHhnHwLw4nNBi5kcsdR5ZqGfYvdWs9dHGX/reLBgx4CdXeeKvLc7x
-         sX4EsxNBp6YYEkSFGtDIfudTufeMVcYmjs8sGYZvP/CVnfc83WDvNvUhKPDY013vQG1F
-         X5vhAF9muJojFmdgHv84vGb99q4AgJ5bCL2E8VedY/VYnW59cUCQyxICXTqLPL1ak7cl
-         pIbg==
-X-Gm-Message-State: AOJu0YzzF88pLB6w5WTSFz6N+70wF675gqU43Q576Vm04Tv60aX06ioA
-	Qw9LWbh/zqkol3LuGVQjg7yRoxXdVLiT61XfdZl1TeAQqRI+ILgf53LC
-X-Gm-Gg: AeBDieven48oULE9zxyQQGyNEmKClZD0h6Eto2fpV5+PwBtdXdXeOmb3fqH/w6iYRZL
-	VDL/gwjWEmJVpAeqksMsTn0EuqKvwzLVDpcgVWIKNiFLNTnxeY1NWFQHXlFDljWxHnvcfKAVYd2
-	sWCl09ZasnoUubGLiq3blZM9wayCG1JMdNeyc5QttFBF+SqLwS1me1Gy5ZWgp5qLmEEevaFVX75
-	/6nYGN/svqqGk6K9Yp+2znuGxjGmNZ8VxgXhjdmDBGo4q9oLwLq4159ufgqFTMG6mXHTDTjP+Y2
-	swyQCZ+6KTd7tbHQQk1mbbjxTSdQjiv6X0aVCqReL3SDUiEPuHvaLUsolhcW/ulK7UkAaUMCHps
-	vIPHDuYPRCXsoxB7OeepsLpgUaL7jbuNM1sI0sTaKsC0W6mxoc670++LXMURej/EuiYHddo1Cdr
-	xonP+6vcRcXMG5vYKazp0zCug6xJOEvxTPYq4mXqE2X1s6Dq/ip2PJh7RPVKFskjf0oAlUZzDoe
-	XNcE8gLGw+8ddDKSNO5
-X-Received: by 2002:a05:600c:c4a5:b0:489:1abb:5559 with SMTP id 5b1f17b1804b1-48e6cbd6c10mr61082785e9.5.1778303359626;
-        Fri, 08 May 2026 22:09:19 -0700 (PDT)
-Received: from thinkpad ([46.164.106.90])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e702f407asm23776455e9.13.2026.05.08.22.09.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 22:09:19 -0700 (PDT)
-From: Arash Golgol <arash.golgol@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: yong.deng@magewell.com,
-	paulk@sys-base.io,
-	mchehab@kernel.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	laurent.pinchart@ideasonboard.com,
-	sakari.ailus@linux.intel.com,
-	Arash Golgol <arash.golgol@gmail.com>
-Subject: [PATCH v3 3/3] media: sun6i-csi: capture: Support MC-centric format enumeration
-Date: Sat,  9 May 2026 08:39:21 +0330
-Message-Id: <20260509050921.22158-4-arash.golgol@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260509050921.22158-1-arash.golgol@gmail.com>
-References: <20260509050921.22158-1-arash.golgol@gmail.com>
+	s=arc-20240116; t=1778306104; c=relaxed/simple;
+	bh=5hRHi2UuH9Kopvp+C43fqR0+YbJ1bkI0syw3vymYipA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RC0K5bgZBq0XA3qz7nKV4uEjFwP32WyQYmI0fYzpLXOaQO4MfbxlhyGmvHaMCvGisie22Ag1/YhvPw05yAJ2PC3te3w6HMGvJMcmKTh9NtQ1hOfJ+Mx8kb99cCwRFPilHgWwytw/CC+VFbTTQRFYNc+mS2M2DijYAdyLC13R4xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JN0Q4Wf3; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778306102; x=1809842102;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5hRHi2UuH9Kopvp+C43fqR0+YbJ1bkI0syw3vymYipA=;
+  b=JN0Q4Wf3n39mlyxXMNy6BdWr7bo8ATZfyAtn9I2ZD8ckhZl+HztDQzsq
+   Bcp7okK7+xNBhM4Iai3VfsSUlvGJJdSMwVcUQ3F5rIGleu2VzlXhh5yUI
+   rtxM7AHSWjPv2XKEV/T4FHBRBeZuY9O6qmiCi3+W247MsPfIVEuDypKdz
+   oEAQn0PzfrGcCqIELNZIkILmbbzkuq5DxAAdSTEOLL6x24NIqOOht9X0a
+   chKytzuAoy9980Z1SW8QXGSrcmziqdh/lR7eeyLQCZhndcKDhTAIofd4m
+   BlcDIV19zkoHWR0NIhXGbWH4EzrgI2uXcYpb86vKWDMiBCeyImM6iEMHW
+   Q==;
+X-CSE-ConnectionGUID: /fTDw5YRT2WBGIcixXRsKA==
+X-CSE-MsgGUID: qSd77+3NT027e7qSDE+SCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11780"; a="104736193"
+X-IronPort-AV: E=Sophos;i="6.23,224,1770624000"; 
+   d="scan'208";a="104736193"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 22:55:01 -0700
+X-CSE-ConnectionGUID: AldiaZa1SEm+ZwknPId4VA==
+X-CSE-MsgGUID: UOkFPcjBRhq7NgYOC6BJPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,224,1770624000"; 
+   d="scan'208";a="260411284"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by fmviesa002.fm.intel.com with ESMTP; 08 May 2026 22:54:58 -0700
+Date: Sat, 9 May 2026 13:31:56 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Dongwon Kim <dongwon.kim@intel.com>,
+	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	iommu@lists.linux.dev, Kevin Tian <kevin.tian@intel.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linaro-mm-sig@lists.linaro.org,
+	linux-media@vger.kernel.org,
+	Matthew Brost <matthew.brost@intel.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH RFC 21/26] dma-buf: Add the Physical Address List DMA
+ mapping type
+Message-ID: <af7GzASJiASopYiN@yilunxu-OptiPlex-7050>
+References: <21-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com>
+ <c413710b-4c28-4ed8-88ec-aeb8c4482011@amd.com>
+ <20260413121628.GE2588311@nvidia.com>
+ <f6d38a08-009c-4efe-9dc3-6bcf00ac35f7@amd.com>
+ <20260422115306.GI3199414@nvidia.com>
+ <fd8065ce-fd0e-4df5-9c80-8e9603657cfe@amd.com>
+ <20260422131337.GJ3199414@nvidia.com>
+ <e67426b9-4ded-4f6c-8309-7f847adb4540@amd.com>
+ <20260422150000.GK3199414@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: D6B8B4FE18E
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260422150000.GK3199414@nvidia.com>
+X-Rspamd-Queue-Id: 14A334FE2AF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_CC(0.00)[magewell.com,sys-base.io,kernel.org,gmail.com,sholland.org,lists.infradead.org,lists.linux.dev,ideasonboard.com,linux.intel.com];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60989-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60990-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arashgolgol@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[yilun.xu@linux.intel.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.992];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email]
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Extend vidioc_enum_fmt to support MC-centric enumeration by filtering
-pixel formats based on the provided mbus code. Advertise MC I/O support
-on the video device to reflect its intended usage within a media graph.
+> Would you be open to an in-between? The exporter and importer both
+> have information that should not leak into each other's drivers. 
+> 
+> What if the dmabuf mapping type core code was the only thing that had
+> access to *BOTH*? The exporter provides the address data, the importer
+> provides the iommu_domain. The core code, and only the core code, has
+> both and does the required operation?
 
-Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-Changes in v3:
- - No change
- - Link to v2: https://patchwork.kernel.org/project/linux-media/patch/20260508161721.94285-4-arash.golgol@gmail.com/
+I think that may not work for KVM. On IOMMU side, IOMMUFD acts as the
+address space (iova) manager and dma_api/IOMMU driver acts as the
+actual page table mapper. But for KVM, it is both. KVM doesn't allow
+another component to provide an unknown address space (GPA space) and
+say "map it", so doesn't expose to other components about "KVM domain".
 
-Changes in v2:
- - Return pixelformat directly instead of a pointer
- - Link to v1: https://patchwork.kernel.org/project/linux-media/patch/20260217064050.18388-4-arash.golgol@gmail.com/
+Even if we expose "KVM domain", KVM still acts as the importer and the
+mapper, is it wierd to say we trust KVM-the-mapper, but don't trust
+KVM-the-as-manager?
 
- .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 39 +++++++++++++++++--
- 1 file changed, 36 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-index f788b4234673..5737ebaa7297 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-@@ -327,6 +327,22 @@ static bool sun6i_csi_capture_format_match(u32 pixelformat, u32 mbus_code)
- 	return false;
- }
- 
-+static u32 sun6i_csi_capture_pixelformat_find(u32 mbus_code)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(sun6i_csi_capture_format_matches); i++) {
-+		const struct sun6i_csi_capture_format_match *match =
-+			&sun6i_csi_capture_format_matches[i];
-+
-+		if (match->mbus_code == mbus_code)
-+			return match->pixelformat;
-+	}
-+
-+	/* Valid fourcc is non-zero. */
-+	return 0;
-+}
-+
- /* Capture */
- 
- static void
-@@ -729,11 +745,27 @@ static int sun6i_csi_capture_enum_fmt(struct file *file, void *priv,
- 				      struct v4l2_fmtdesc *fmtdesc)
- {
- 	u32 index = fmtdesc->index;
-+	u32 mbus_code = fmtdesc->mbus_code;
-+	u32 pixelformat;
-+
-+	/* MC-centric or Video-node-centric */
-+	if (mbus_code) {
-+		/* There is only one pixelformat for a mbus_code. */
-+		if (index)
-+			return -EINVAL;
-+
-+		pixelformat = sun6i_csi_capture_pixelformat_find(mbus_code);
-+	} else {
-+		if (index >= ARRAY_SIZE(sun6i_csi_capture_formats))
-+			return -EINVAL;
-+
-+		pixelformat = sun6i_csi_capture_formats[index].pixelformat;
-+	}
- 
--	if (index >= ARRAY_SIZE(sun6i_csi_capture_formats))
-+	if (!pixelformat)
- 		return -EINVAL;
- 
--	fmtdesc->pixelformat = sun6i_csi_capture_formats[index].pixelformat;
-+	fmtdesc->pixelformat = pixelformat;
- 
- 	return 0;
- }
-@@ -1065,7 +1097,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
- 
- 	strscpy(video_dev->name, SUN6I_CSI_CAPTURE_NAME,
- 		sizeof(video_dev->name));
--	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-+	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
-+				 V4L2_CAP_IO_MC;
- 	video_dev->vfl_dir = VFL_DIR_RX;
- 	video_dev->release = video_device_release_empty;
- 	video_dev->fops = &sun6i_csi_capture_fops;
--- 
-2.34.1
-
+Is it also wierd that we trust IOMMU-the-mapper, but don't trust
+IOMMUFD-the-as-manager? There are more IOMMU drivers than IOMMUFD...
 
