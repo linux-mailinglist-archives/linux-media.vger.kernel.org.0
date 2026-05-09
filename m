@@ -1,51 +1,83 @@
-Return-Path: <linux-media+bounces-60997-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60998-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yFb5FBZG/2mo4AAAu9opvQ
-	(envelope-from <linux-media+bounces-60997-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 16:35:02 +0200
+	id qA1hBz1I/2kZ4QAAu9opvQ
+	(envelope-from <linux-media+bounces-60998-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 16:44:13 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB3B6500141
-	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 16:35:01 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E2F5001F8
+	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 16:44:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 80E7D302260B
-	for <lists+linux-media@lfdr.de>; Sat,  9 May 2026 14:32:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D9012301ABBF
+	for <lists+linux-media@lfdr.de>; Sat,  9 May 2026 14:43:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2390B398911;
-	Sat,  9 May 2026 14:32:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 881B0396587;
+	Sat,  9 May 2026 14:43:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qz2jVpNt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cc+NYHr8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826C3233721;
-	Sat,  9 May 2026 14:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8104936606E
+	for <linux-media@vger.kernel.org>; Sat,  9 May 2026 14:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778337120; cv=none; b=N8RPuZ8vjNCwp2Jg4nNNq07lxaLngpiEz8qvzZ8Oz3jeRZZop22DISMyGNiOvlQALcq9KFxg2jeJ6Gq2+R93o7dgMCSwk0klzm0U36rRW5mBfBNQxiEGlX9m9UN82U7UXaFIz0WIoMZm8pn1pxTINZxc6Y0SLFppJx5JHguBglI=
+	t=1778337831; cv=none; b=LyYOmUBhLSNZGtXBM4XUVHG+raIVch2ITyEPNhMb9nPt4UcctOAkvPlcGiaUmxwn5oWGeWeHATMMUX6dPzQj5ko7HnmKfRp+8DmYhCxlPgnJhiq30YPFr7Ourizj8EsNNGKTYrOBsdvgY6SBrDyB5ShWwYCkchFSRiycL6S7MQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778337120; c=relaxed/simple;
-	bh=VX5H/b8D/jcGoHUTWnfBoI2QF3R6vdJoRsd3NHVE4yk=;
+	s=arc-20240116; t=1778337831; c=relaxed/simple;
+	bh=dO/mpADzMV7Bgz+dNLvnHa5uezPUyzJiV1A8vcfRjcA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QdvEub3MSqseqUlp8eOzR25FqmYOZJSs5C/Enfq4R9PfMKf0tuiLvjm32xK1auMT7OCTx2mJ7Mo7DOqrWITeuhSJ58slXZzYAsoEgz/U2fkte8l8gIsNjRyP9KMioCeL9SfejnD/HWnfgkHHJ5H91OfxM+tCR3PZsMEWaA8I6nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qz2jVpNt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 558B5C2BCB2;
-	Sat,  9 May 2026 14:31:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778337120;
-	bh=VX5H/b8D/jcGoHUTWnfBoI2QF3R6vdJoRsd3NHVE4yk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qz2jVpNt/pxXIqK88rCxab104cugpzmu2u5wAayQiQCqKGtGSKoFF2xhLPIpmU4ZM
-	 E1pvOIUYxCDKyjT9BriKtElrgc411THImGX3vvFjC0Q7XpVEaBqKUP3asBg8KJK4Cl
-	 NJb48a7eU6Cmjs7jo/a5SFBv6H5g1iiSdFz5JW1/g0SKjENOKMkIcYgjYMEnmoErhY
-	 MZR+T0YZVaPSUNlW0n6um1Rf3CyzDA4R3QHPIllSnkOWNFiw9Sk7UAzwCh6ZZzIEya
-	 o0vvE+OBfsqp9P+ugqWWaUV3ACDzI1dbPul7+htzT7Ymf3k0zuXK9Uhbkr2tPkaM1Z
-	 mBMrn93nhKBBw==
-Message-ID: <9bf43e04-f834-45b6-8942-bcae2e480371@kernel.org>
-Date: Sat, 9 May 2026 15:31:51 +0100
+	 In-Reply-To:Content-Type; b=CQqjBkybe3fB5EgSdPnoRq/QeMbJRJM5mwrScL6uJzU86UwPvZGoNSo9+AGIUMl4dOFOA96qjkEB598CeO73fQFLA8cEoTG69A55P0TMewEJOOmmqdBp4SoQNXZjImewOHWFCrFx9kuQXFBzDnp46sIkphgSw579mmgCuQHA22A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cc+NYHr8; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-67f7caa33easo478456a12.1
+        for <linux-media@vger.kernel.org>; Sat, 09 May 2026 07:43:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778337828; x=1778942628; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rTagnauLE+hhKKiT1zAZaD+hPibc/QQjA6EWs3KI5oU=;
+        b=Cc+NYHr8FMBLyFMItErNkK+Jr7HYawtfq+4HjEjytz9cyTd6sMGoZeUA8uJcDgdXka
+         8rR2ERGQ+ne3e9jFvzGg+Hz0Dnk/VIlbKewFnGRQdgd+vYfq7DWhbpo42T0kZoXOgto3
+         iGOWyIq1G1TbndkFjIeJJk11jlp5CS+oxW0mCJcVVzEXOtV/B479qDvpTXsTLCR03DkP
+         XXxPKcwpWzQEDqVV1SNR+GLSZEDl8lRyUGRo4paFZis32Z/mPJzTByEgt1RGkYU6+tVG
+         eIzVZjBY8UQk1VnfV9DGkKMw35DKTfJ6HC+Mbqil/6a8+QIPmVmcWk06b5ZVhFACl2Az
+         089A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778337828; x=1778942628;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rTagnauLE+hhKKiT1zAZaD+hPibc/QQjA6EWs3KI5oU=;
+        b=bQjVmMdMKWHK/5lh2KiT/RCqgExl0IdWMY1DOXW8Z+7lOPo0GvkJpL1PiKGQtrfg+o
+         zihqrORaN84UpOMzp740+TAz69xkZYx7B/CgJ2osU9qp9XFBxlHJgKEzra8voyoDnbMM
+         c1YDbj9/+IjdXJbts2lWhaq3nMHBtUcQJnH/Sw/p8h6BuK9LwrEZXsKZdZ0Own+lSzMp
+         QKpGrIE+mjD4odfKMxxWmJXBGOx1e8KUQ/8yod99N5SVni6k6wh+BeQdirWbbZFvUNHl
+         A+uJn/b8b6hfHllFv5FQU0/9E+Wh5h0BM7QUfq3AwxpccfEHNxONRFwi8pPNshN69s+/
+         LJ/A==
+X-Gm-Message-State: AOJu0YzNCoIABbY/qZvrxn8/cdGM2itVt0r7cYTfHI3uz53QabJphTMS
+	4Q3NR2Bpg/wJAAOAT3opfsDrJVnz0syJvYRX3vC5fe4gXCmwkaioTdV/
+X-Gm-Gg: Acq92OFIu22D8GRjbFLt8l0DWi/Z7WbOV1fNAZA48+Of0xD8qa4w9/E9DzOg+4QNqNu
+	Ew1LazHU71ZrcDzan9rRkZXT2bngu6hemzmg0N6L23ATFIW5a1+5MUtV3ki2qstp+aAKk2HEgP3
+	Y4KInpqD2ycZd/tuTzRLKTPpOpwOcip4DV6bGRJt+wSw/ZVy+FZElBRYD5ZQgLqyQqzEdJlNXEf
+	t+SnRljmBm6nw52kvWULNioUvFZXT6BeqCEhVVO4LQArzQNyD73gGCm8J4tY07NS2BbvBgVtuJR
+	u9k4QBQ+/fCpBo0rkbH5LIw4QYoNrIYHVx8+HkfLq7shZ+Xmrep+nVkyDA8pO8WbMN9lXrC5M5X
+	na3BbXFfXfNC/dYRoYR83DWJjkyGHut5fgxGlTHVpkBLeohaQfn6Z6Vx1BUb+fR0IFtxxyb9sMQ
+	+piuGNhKmG4BR1B5FbTgByusqbQDjuoCwE7W9TvofJafS50dR6LApcA0nGn7bRkMrJkRv+
+X-Received: by 2002:a05:6402:5407:b0:673:9b15:39d3 with SMTP id 4fb4d7f45d1cf-67d642b04ddmr8185100a12.16.1778337827665;
+        Sat, 09 May 2026 07:43:47 -0700 (PDT)
+Received: from ?IPV6:2a00:f502:160:4e2:a099:cad9:2ecd:93de? ([2a00:f502:160:4e2:a099:cad9:2ecd:93de])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-67ef0b6a11asm1820101a12.8.2026.05.09.07.43.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 May 2026 07:43:47 -0700 (PDT)
+Message-ID: <1ee77cbb-9894-4b16-ae2b-8e9035fd6cd5@gmail.com>
+Date: Sat, 9 May 2026 17:43:42 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +87,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 5/8] clk: qcom: gcc-msm8939: mark Venus core GDSCs as
  hardware controlled
-To: Erikas Bitovtas <xerikasxx@gmail.com>,
+To: Bryan O'Donoghue <bod@kernel.org>,
  Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
  Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -70,7 +102,6 @@ Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
  phone-devel@vger.kernel.org
 References: <20260507-msm8939-venus-rfc-v5-0-d7b5ea2ce591@gmail.com>
- <20260507-msm8939-venus-rfc-v5-5-d7b5ea2ce591@gmail.com>
  <17c4626e-8926-4cad-842d-a1b171d1e962@kernel.org>
  <CYaHtccGOWlaUtl3QIKva44ybJiRHsPOZmHEkl2KKGmnDxJ8vTH-SVNMGbL7bjkYjI692nplORzOhpfjs3XJfg==@protonmail.internalid>
  <4f1ab5b8-3bfe-43a6-8b91-317456188544@gmail.com>
@@ -83,122 +114,54 @@ References: <20260507-msm8939-venus-rfc-v5-0-d7b5ea2ce591@gmail.com>
  <dd435489-0cf7-4274-99bf-a591a15e91e4@kernel.org>
  <-hM6afm_Cu_8Cha9U-hrlrg6CGDEb5D3PFpPPCfIh-QgkdFJp_r0Ah9k1dvAF4zkju2dPc3FZJxvOA4V4hupAA==@protonmail.internalid>
  <69f9a6b7-7431-442a-82a2-6305635a508a@gmail.com>
-From: Bryan O'Donoghue <bod@kernel.org>
+ <9bf43e04-f834-45b6-8942-bcae2e480371@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <69f9a6b7-7431-442a-82a2-6305635a508a@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Erikas Bitovtas <xerikasxx@gmail.com>
+In-Reply-To: <9bf43e04-f834-45b6-8942-bcae2e480371@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: BB3B6500141
+X-Rspamd-Queue-Id: D1E2F5001F8
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60997-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,apitzsch.eu,baylibre.com,redhat.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-60998-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[xerikasxx@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On 09/05/2026 13:00, Erikas Bitovtas wrote:
-> across reboots, so when I reverted the patch, I was actually testing
-> against decoder, not encoder.
+> OTOH if Core1 can't be coaxed into working in either mode, we are better
+> off either holding off on this series until the breakages is root caused
+> or leaving out Core1 entirely for now.
 > 
-> So, the result is the same when the patch is applied, when it is
-> reverted, and when testing against v1 where the cores are enabled only
-> for decoding.
-
-OK but this is testing encoding
-
-v4l2-ctl --verbose
---set-fmt-video-out=width=1280,height=720,pixelformat=NV12
---set-selection-output target=crop,top=0,left=0,width=1280,height=720
---set-fmt-video=pixelformat=H26
-4 --stream-mmap --stream-out-mmap
---stream-from=cyclists_1280x720_92frames.yuv
---stream-to=/tmp/cyclists_1280x720_92frames.h264 -d /dev/video1
-
-I think the GDSC patch specifically isn't too much of a concern.
-
-1. Core0 works as decoder
-2. Core1 doesn't work right now.
-    So what I'm trying to ask is if we could test it both
-    as an encoder or as a decoder.
-
-If decoder works when both cores are declared decoder, we know there's a 
-problem with encoder and could potentially proceed with upstream decoder 
-x 2.
-
-OTOH if Core1 can't be coaxed into working in either mode, we are better 
-off either holding off on this series until the breakages is root caused 
-or leaving out Core1 entirely for now.
-
-i.e. there is no utility in declaring an encoder or decoder to userspace 
-that is known to be broken.
-
----
-bod
+> i.e. there is no utility in declaring an encoder or decoder to userspace
+> that is known to be broken.
+> Last time I tried to enable only 1 of the cores, the following would happen:
+- If core0 is enabled, HEVC decoding would work, but not the other codecs.
+- If core1 is enabled, the rest of codecs would work, but not HEVC.
+Given we don't really have a way to power up a core based on which codec
+we are dealing with, I suggest we leave both cores in the binding and
+enable them indiscriminately.
 
