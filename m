@@ -1,47 +1,83 @@
-Return-Path: <linux-media+bounces-60992-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60993-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GEmtI/oJ/2mv1QAAu9opvQ
-	(envelope-from <linux-media+bounces-60992-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 12:18:34 +0200
+	id 4LuMBP4h/2mu2gAAu9opvQ
+	(envelope-from <linux-media+bounces-60993-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 14:01:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091C34FF304
-	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 12:18:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CB04FF871
+	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 14:01:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3D5B330086DF
-	for <lists+linux-media@lfdr.de>; Sat,  9 May 2026 10:17:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 48BB3301F30E
+	for <lists+linux-media@lfdr.de>; Sat,  9 May 2026 12:00:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 337C73A1E7B;
-	Sat,  9 May 2026 10:17:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1EFE38A718;
+	Sat,  9 May 2026 12:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7TN+NgJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C702F8E97;
-	Sat,  9 May 2026 10:17:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5381A3165
+	for <linux-media@vger.kernel.org>; Sat,  9 May 2026 12:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778321838; cv=none; b=gaPtccJgO3AoJzD/UVgtZwlIQzKkH+TRFMeraLe6UmwjnHMS+xmfi+l25L6bYlioMDyZm15F2ew17QmBagVWvIDqXUXIAZvR9AaN3C54iKbBHWcyJtTfw4eg6un1DNVMjb+uk7cJ0oCSGAsUXyRIs4/QIrhMHyKT2jcNnAOr9l8=
+	t=1778328041; cv=none; b=Uv6XmE0yZMGBc9mbbgsBuoCYEKEikyfto1EIjVtjHJaQPqJhMau5NdSQUsqW+aXKQXAqQEdiikmXDdEBAQhZiyv8vVl0TIBXXZn7K2VV4K4DrjUxnknqnr1cRgq3AzdjGcIf7hL1nVfEg06ggCPifQQjrXoyUhj+oCOjwhPRm0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778321838; c=relaxed/simple;
-	bh=OMyY6EIN0uYFyyXk3dI0sS4NBaaUT7qzp1bucwRMzOU=;
+	s=arc-20240116; t=1778328041; c=relaxed/simple;
+	bh=iemCui2l8qqvzux3lam3RV5hSucVjjAACXX7LzCZHcA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l2WanAYZAsdCHh1ktFvXD4wQGvSEy39fpHxn1hG7hG4Ws2k5vVQY9bta3nMD29ra/rNCCZvY6KqG5Zb0lftgxt87AwdTaDpwVAY1iJ4eyI2UV2GHvZWbWrhQdfVGyRDluyYPOZJtSWM0pHZXzbdni5FCaiNqdr/l0cIHssbCGGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com; spf=pass smtp.mailfrom=radxa.com; arc=none smtp.client-ip=54.207.19.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=radxa.com
-X-QQ-mid: esmtpsz18t1778321792t460a2d05
-X-QQ-Originating-IP: zjkOROJYI4ZbQ+7Ufdl7ieLzq4bCCEXbPMMJo2dR4Dw=
-Received: from [127.0.0.1] ( [116.234.74.217])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 09 May 2026 18:16:29 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7643366966760275687
-Message-ID: <FE38EFC340D52748+8a9351df-df99-48d1-8d59-8c72b7153ef0@radxa.com>
-Date: Sat, 9 May 2026 18:16:27 +0800
+	 In-Reply-To:Content-Type; b=K7lbEElEqM/2zOL7c+RjE5AEqxV0y5UBDdrkJCpSWU8Ged5L6FH9stnIlIZ5thBKfqAWp53dHNgoX1gXR+kSOs9bpqef055K5I0hzpZV+vA/gqRQ/o1lJ+xklfFvZtuTTPx5qUzSNIs+GwTlRpDW0ISG74uVRueEdm7dMfjUpFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A7TN+NgJ; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-bcc2b199c17so44669566b.3
+        for <linux-media@vger.kernel.org>; Sat, 09 May 2026 05:00:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778328038; x=1778932838; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zmUf6SNpF4clO18ErlUoo6BNS+Vk6nKV8PcksNLHfkQ=;
+        b=A7TN+NgJDOiROdSbAmP7uh/zrwBSV+nGEFjf6F2Gp9Wbx1FCzxQxNvTT9cfw7JLzmd
+         gq+isEPxiAl7kKjsjKvZEYOxPBv/446cLEKUun52UKzI4zCbw/0tw8UmDSWANXcgP4y3
+         Cf8UcV3gdKmhKzUp9TTd4ZbngpmyZo8eDl7s3tQ+xGlbyf6qxMCBsSxkGH23W3oIHAcX
+         nP/fcModN7+s0dVCP4b9YtD4khIqFG5uoZDQa9ofKOTpmFHNyJ/ijVodp1PeU9K+6y9e
+         C4ZQECaBbPzW/XubM7Ijk4gG0JG5cfyg85ToHzxwqdi4i3UM01T4gaStKNbEzQYNc5Uw
+         yGlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778328038; x=1778932838;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zmUf6SNpF4clO18ErlUoo6BNS+Vk6nKV8PcksNLHfkQ=;
+        b=cPIjyx8AXag4mGOSCePsm8D3MJGo9ZFO/X04LdLLsnOHjjIDkPzI5C2ePVq2qZl97t
+         GHcmHHMJaLnP6LvxubPw7GmiP6Weu3dbkAdm9QdOZPOCcW4WtQmp/jCHRIxkEtAabrrH
+         tAiTLQptNDWjct74O7oDxtVPT3zR7821xt+b+hsColQopNvjhxdCd66RS1/nfFHjhexs
+         YzrmaARLN3Y+z4RqU5yXTQkTtQ1UZJPlXUmydmSeTCSGwNe28QinpqJMzRCODwmtkm4y
+         Y1r151jOhTuzoMTsEPPoSYx2j2jNxNbUJkdj2MNkRgb/tA5pu0Kgu6VjlKpfR8wHuw2G
+         wnKw==
+X-Gm-Message-State: AOJu0YzYVj5eKujDXGJOb9E4RmgY1Z5plqSF63X4GqFt3LPqW6/We7Ds
+	iAvFWvaBs06PnPjv2dpNibEfdTC/VWzuNLs0bxkpyeZ1EAVJm+rcxDiZ
+X-Gm-Gg: Acq92OEnlxyJRmy5OeZt/ORmgOc9A/R2PjQ/ei37GQ4mPdDiRxeV/kWXyms4wDjo0Hg
+	62BpqNu4C9nt9L1FuSX30SloiHSzDRpQvbTw6HSjkhUjsxblXY5gj2nmMZKO6ZAj+2r8QIVOf4A
+	uyKd4tAoVBQPZIVHvIJzIq6ZLbQEW/NOL7DDV+TyIgjDCH/w3tQQ28jr/cYdE6ol8MuH9NQImDf
+	Fx31+1rr9NgOgJPNCeMuAzjSbZBxeKga87jLd3S63YakFMp36UL7MzOFVf5TceJDgYgOfMMqKnk
+	iOJhZYlbin0msCRU0BM1HR3Cj7HuQKSxsXn2pMLot4eZ4NcCWxD2G9GXhRl87VhDYQ9+mba0LDo
+	UGCTDGLzL0bpKJAK42SL9xOayq+YEY+siyVvF24qaBbuENtaqz+IydYRAEXVSkiMiP9nqQB9c2/
+	Jf/IcS2/R23pIU1s2K5QluXtTptEZR5+jPzRIndh60B/bW+Mco/lHY50kcAUHt3JuVrQwB
+X-Received: by 2002:a17:907:c817:b0:bae:456f:fbb2 with SMTP id a640c23a62f3a-bc56cd3b1ccmr1054228966b.23.1778328037744;
+        Sat, 09 May 2026 05:00:37 -0700 (PDT)
+Received: from ?IPV6:2a00:f502:160:4e2:a099:cad9:2ecd:93de? ([2a00:f502:160:4e2:a099:cad9:2ecd:93de])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcac4359ea4sm219872166b.50.2026.05.09.05.00.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 May 2026 05:00:37 -0700 (PDT)
+Message-ID: <69f9a6b7-7431-442a-82a2-6305635a508a@gmail.com>
+Date: Sat, 9 May 2026 15:00:34 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -49,229 +85,154 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/7] media: iris: introduce SM8350 and SC8280XP support
-To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Bryan O'Donoghue <bod@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH v5 5/8] clk: qcom: gcc-msm8939: mark Venus core GDSCs as
+ hardware controlled
+To: Bryan O'Donoghue <bod@kernel.org>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bjorn Andersson <andersson@kernel.org>, David Heidelberg <david@ixit.cz>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Johan Hovold <johan+linaro@kernel.org>
-References: <20260125-iris-sc8280xp-v3-0-d21861a9ea33@oss.qualcomm.com>
- <20260125-iris-sc8280xp-v3-2-d21861a9ea33@oss.qualcomm.com>
- <8c5cd9ff-e549-00ab-60c6-814b52f50949@oss.qualcomm.com>
- <rhsmmvbxjzb4ylxryo3n6j6wf52tjpxxon6fww6tsfhxttc2g7@xfsnyfkqh3ke>
- <ec4348fc-b27c-9b56-2967-222e4e280c8a@oss.qualcomm.com>
- <d67faniik7jrlnq2a2wsyku3agpezh5qj4g4rip3j6pbeagmkj@xax6nuginypu>
- <a71e3bc2-23dc-fa02-0dbf-0a9d779dca76@oss.qualcomm.com>
+ linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
+References: <20260507-msm8939-venus-rfc-v5-0-d7b5ea2ce591@gmail.com>
+ <f5TsKnC12rLsH63vAi01aN4oXUFLrfgIhn14IQFDb9gcac6anLzzhJdkGNdQ2dRs4vYbFKUptfEgWuKdgIgGsQ==@protonmail.internalid>
+ <20260507-msm8939-venus-rfc-v5-5-d7b5ea2ce591@gmail.com>
+ <17c4626e-8926-4cad-842d-a1b171d1e962@kernel.org>
+ <CYaHtccGOWlaUtl3QIKva44ybJiRHsPOZmHEkl2KKGmnDxJ8vTH-SVNMGbL7bjkYjI692nplORzOhpfjs3XJfg==@protonmail.internalid>
+ <4f1ab5b8-3bfe-43a6-8b91-317456188544@gmail.com>
+ <7df3bff7-b872-4b20-8e7c-698157a41f33@kernel.org>
+ <tawGGT4rtpw22Ng-MgM--GhoEihBU7tY_TrFUHf8raMKApyqTcSkKHyfSuRIL_bqNp_5zWD4SBG_C4c8CB7_6Q==@protonmail.internalid>
+ <18998766-62fe-4a5e-95d8-1bfae712d8fb@gmail.com>
+ <614a087d-d219-49cb-85ee-772044558649@kernel.org>
+ <Jxt4BbN1dL8VKh_Zjah1xecAjz3c9VfbhKSm4a0K2D1MNKfJKIFnCPLj2VvdW1q4LnMIQy8bCzV3YoVnLFYUlA==@protonmail.internalid>
+ <0cee27b6-f566-4958-8634-2c43e099281e@gmail.com>
+ <dd435489-0cf7-4274-99bf-a591a15e91e4@kernel.org>
 Content-Language: en-US
-From: Xilin Wu <sophon@radxa.com>
-In-Reply-To: <a71e3bc2-23dc-fa02-0dbf-0a9d779dca76@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Erikas Bitovtas <xerikasxx@gmail.com>
+In-Reply-To: <dd435489-0cf7-4274-99bf-a591a15e91e4@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:radxa.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: OFWsfmE1GYcuJSFOBi1vsp9uZeMEGHAkiR9Qgvpl8Ig6hTMFeGKrL+AD
-	3XXYnlsNU+BD8/oGmThmewZnAA/kd7qWIEfykFBjFZAitY7gzeHTfD45aRRDSpldESlLn/O
-	uv5O/Q60ajvgs3z4DRGJ6WHBad4bKXC3qwZvKMSWa7BzrT6/z5j4tQ+eBO5i++Qh4WpiyT5
-	jF777zSXkj/dcLW+wKJZrtdgp0GB3kBbuheL3b25zqV8uaEnt4jyRD0ukctHo/FjjW+lXLA
-	tpXAVRIFVBH1iqWrzeJEO2tmNBWyZmjbuwH9GkWY+1RicTFE+I7JVF+c0pGo1s9XZzO2dMw
-	iBFbtmK2W94acGJL2SlLv0x/YgI1J33dFnJf5Pnt+m1rtG1UknDR41al9vQ1ADThM9FsUrt
-	9/r94k9RnYn1wcSd7+0UVly0xxhZ5GS1desFjjHwGODHA/75gC0icFPtwCGKufsfe89y1T5
-	+pCH2ZeWMv4pNmp8a2gaO39rAE0zyLkdE5EAKk6zpWIgrFTTbeJZEBRzfp2iAPyyF3bq5SE
-	DmjcXL3Fi/yt+Ix7rHCE9euIDinJJRuGFwzY5zKgS0lbR3esBdjldfDJtymlXalS1iMHFWm
-	Kt9xo0psSb/EID3OVIQOUWJbCY/DYJcDz19n+RjE5NnWX5dE+eYecDOVKBPCj/l8p1YW4Qi
-	0ismzV/liPSkFx8mi1oYlXlznq6vawU50Vovy6KqTiNVC751JO2U3LneOUIjyc91cHNXeCN
-	Y+uuAOiRFtnOG8B/2G5f1VgvGdSQHabnhWGu/xIiAClNX1F74mzp6Kfpky6+bE4POAqEp9B
-	XwpcX/0SF6uEUDIZHqBvkk/2sI+ocqPSKe/thwSx9smU+oHPozQjF7zPb1lTvrFJFR71V0B
-	OavWxPb9LqFnmVXj/xB1hfV4cjMdlbsy07XnARCiVc1kHaREcRgHHQuoiJS9TtS+mDXgefa
-	gzTxV83dQ56jO0xmIEK47K4fMb2Q7hsJKSLAsKrqpr6FBshU4vxnS07IQwvEyvPDyHArW80
-	pTZkzluKb6omcmvZUi
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-X-QQ-RECHKSPAM: 0
-X-Rspamd-Queue-Id: 091C34FF304
+X-Rspamd-Queue-Id: 22CB04FF871
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.14 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[radxa.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-60992-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-60993-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_MUA_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sophon@radxa.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[xerikasxx@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.996];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,linaro];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[radxa.com:email,radxa.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On 2/10/2026 1:35 PM, Dikshita Agarwal wrote:
-> 
-> 
-> On 2/5/2026 4:24 PM, Dmitry Baryshkov wrote:
->> On Thu, Feb 05, 2026 at 02:40:39PM +0530, Dikshita Agarwal wrote:
->>>
->>>
->>> On 1/31/2026 12:58 PM, Dmitry Baryshkov wrote:
->>>> On Fri, Jan 30, 2026 at 06:46:04PM +0530, Dikshita Agarwal wrote:
->>>>>
->>>>>
->>>>> On 1/25/2026 9:02 PM, Dmitry Baryshkov wrote:
->>>>>> SM8350 and SC8280XP have an updated version of the Iris2 core also
->>>>>> present on the SM8250 and SC7280 platforms. Add necessary platform data
->>>>>> to utilize the core on those two platforms.
->>>>>>
->>>>>> The iris_platform_gen1.c is now compiled unconditionally, even if Venus
->>>>>> driver is enabled, but SM8250 and SC7280 are still disabled in
->>>>>> iris_dt_match.
->>>>>>
->>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>>>>> ---
->>>>>>   drivers/media/platform/qcom/iris/Makefile          |   5 +-
->>>>>>   .../platform/qcom/iris/iris_platform_common.h      |   2 +
->>>>>>   .../media/platform/qcom/iris/iris_platform_gen1.c  | 111 +++++++++++++++++++++
->>>>>>   .../platform/qcom/iris/iris_platform_sm8350.h      |  20 ++++
->>>>>>   drivers/media/platform/qcom/iris/iris_probe.c      |  10 ++
->>>>>>   5 files changed, 144 insertions(+), 4 deletions(-)
->>>>>>
->>>>>> @@ -392,6 +393,61 @@ const struct iris_platform_data sm8250_data = {
->>>>>>   	.enc_ip_int_buf_tbl_size = ARRAY_SIZE(sm8250_enc_ip_int_buf_tbl),
->>>>>>   };
->>>>>>   
->>>>>> +const struct iris_platform_data sm8350_data = {
->>>>>> +	.get_instance = iris_hfi_gen1_get_instance,
->>>>>> +	.init_hfi_command_ops = &iris_hfi_gen1_command_ops_init,
->>>>>> +	.init_hfi_response_ops = iris_hfi_gen1_response_ops_init,
->>>>>> +	.get_vpu_buffer_size = iris_vpu_buf_size,
->>>>>> +	.vpu_ops = &iris_vpu2_ops,
->>>>>> +	.set_preset_registers = iris_set_sm8350_preset_registers,
->>>>>> +	.icc_tbl = sm8250_icc_table,
->>>>>> +	.icc_tbl_size = ARRAY_SIZE(sm8250_icc_table),
->>>>>> +	.clk_rst_tbl = sm8350_clk_reset_table,
->>>>>> +	.clk_rst_tbl_size = ARRAY_SIZE(sm8350_clk_reset_table),
->>>>>> +	.bw_tbl_dec = sm8250_bw_table_dec,
->>>>>> +	.bw_tbl_dec_size = ARRAY_SIZE(sm8250_bw_table_dec),
->>>>>> +	.pmdomain_tbl = sm8250_pmdomain_table,
->>>>>> +	.pmdomain_tbl_size = ARRAY_SIZE(sm8250_pmdomain_table),
->>>>>> +	.opp_pd_tbl = sm8250_opp_pd_table,
->>>>>> +	.opp_pd_tbl_size = ARRAY_SIZE(sm8250_opp_pd_table),
->>>>>> +	.clk_tbl = sm8250_clk_table,
->>>>>> +	.clk_tbl_size = ARRAY_SIZE(sm8250_clk_table),
->>>>>> +	.opp_clk_tbl = sm8250_opp_clk_table,
->>>>>> +	/* Upper bound of DMA address range */
->>>>>> +	.dma_mask = 0xe0000000 - 1,
->>>>>> +	.fwname = "qcom/vpu/vpu20_p4.mbn",
->>>>>
->>>>> This firmware is not compatible with SM8350.
->>>>> SM8350 firmware is not released to linux-firmware yet.
->>>>
->>>> What would be the name for the firmware? The downstream uses vpu20_4v
->>>> here, so, I guess, in upstream we should be using vpu20_p4, but a newer
->>>> version?
->>>>
->>>
->>> Using a newer version won't work as the firmware for SM8250 and SM8350 are
->>> different binaries generated from different firmware source branch.
->>> You can give it a try, but AFAIK it won't work.
+On 5/8/26 6:55 PM, Bryan O'Donoghue wrote:
+> On 07/05/2026 16:51, Erikas Bitovtas wrote:
 >>
->> Ugh...
 >>
->>>>>> +	.fwname = "qcom/vpu/vpu20_p2.mbn",
->>>>>
->>>>> this firmware doesn't exist on linux-firmware.
->>>>
->>>> It was based on the assumption of having 2 pipes. If Iris here has 2
->>>> pipes, then probably we should still point to vpu20_p4.mbn?
->>>>
->>>
->>> SC8280XP also uses the Iris2 4‑pipe configuration, though its firmware
->>> comes from a different source branch compared to SM8250 and SM8350. This
->>> means we have multiple firmwares with identical VPU and pipe configurations
->>> but different origins. Could you propose a suitable naming scheme that can
->>> differentiate such firmware?
+>> On 5/7/26 4:37 PM, Bryan O'Donoghue wrote:
+>>> v4l2-ctl --verbose --set-fmt-video-
+>>> out=width=1280,height=720,pixelformat=NV12 --set-selection-output
+>>> target=crop,top=0,left=0,width=1280,height=720 --set-fmt-
+>>> video=pixelformat=H264 --stream-mmap --stream-out-mmap --stream-
+>>> from=cyclists_1280x720_92frames.yuv --stream-to=/tmp/
+>>> cyclists_1280x720_92frames.h264 -d /dev/video1
 >>
->> Can we have a single binary that works on all Iris2 4-pipe cores?
+>> With the patch kept:
+>> v4l2-ctl --verbose
+>> --set-fmt-video-out=width=1280,height=720,pixelformat=NV12
+>> --set-selection-output target=crop,top=0,left=0,width=1280,height=720
+>> --set-fmt-video=pixelformat=H26
+>> 4 --stream-mmap --stream-out-mmap
+>> --stream-from=cyclists_1280x720_92frames.yuv
+>> --stream-to=/tmp/cyclists_1280x720_92frames.h264 -d /dev/video1
+>> VIDIOC_QUERYCAP: ok
+>> VIDIOC_G_FMT: ok
+>> VIDIOC_S_FMT: ok
+>> Format Video Capture Multiplanar:
+>>     Width/Height      : 1280/736
+>>     Pixel Format      : 'H264' (H.264)
+>>     Field             : None
+>>     Number of planes  : 1
+>>     Flags             :
+>>     Colorspace        : Default
+>>     Transfer Function : Default
+>>     YCbCr/HSV Encoding: Default
+>>     Quantization      : Default
+>>     Plane 0           :
+>>        Bytes per Line : 0
+>>        Size Image     : 708608
+>> VIDIOC_G_FMT: ok
+>> VIDIOC_S_FMT: ok
+>> Format Video Output Multiplanar:
+>>     Width/Height      : 1280/736
+>>     Pixel Format      : 'NV12' (Y/UV 4:2:0)
+>>     Field             : None
+>>     Number of planes  : 1
+>>     Flags             :
+>>     Colorspace        : Default
+>>     Transfer Function : Default
+>>     YCbCr/HSV Encoding: Default
+>>     Quantization      : Default
+>>     Plane 0           :
+>>        Bytes per Line : 1280
+>>        Size Image     : 1425408
+>> VIDIOC_G_SELECTION: ok
+>> VIDIOC_S_SELECTION: ok
+>>         VIDIOC_G_FMT returned 0 (No error information)
+>>         VIDIOC_G_FMT returned 0 (No error information)
+>>         VIDIOC_G_FMT returned 0 (No error information)
+>>         VIDIOC_REQBUFS returned -1 (Invalid argument)
+>>
+>> With the patch reverted:
+>> v4l2-ctl --verbose
+>> --set-fmt-video-out=width=1280,height=720,pixelformat=NV12
+>> --set-selection-output target=crop,top=0,left=0,width=1280,height=720
+>> --set-fmt-video=pixelformat=H26
+>> 4 --stream-mmap --stream-out-mmap
+>> --stream-from=cyclists_1280x720_92frames.yuv
+>> --stream-to=/tmp/cyclists_1280x720_92frames.h264 -d /dev/video1
+>> VIDIOC_QUERYCAP: ok
+>> VIDIOC_G_FMT: ok
+>> The pixelformat 'H264' is invalid
+>> VIDIOC_G_FMT: ok
+>> The pixelformat 'NV12' is invalid
+>>
+>> Decoding breaks if I revert the patch as well, it fails with a power
+>> collapse fail.
 > 
-> That is not possible as it is older VPU.
-> For newer ones, the plan is have single source branch for same VPU to avoid
-> such issues in future.
-> 
->> Or are there any differences between Iris2 on SM8250 / SM8350 /
->> SC8280XP? Are they stil vpu20_something or should we use different VPU
->> versions in the firmware name?
-> 
-> I think we can keep vpu20_4p_* with some way to different among SM8250,
-> SM8350, SC8280XP.
-> 
+> If you declare both as decoders can you successfully decode @ video0 and
+> video1 ?
+> Apparently device nodes for encoder and decoder are not persistent
+across reboots, so when I reverted the patch, I was actually testing
+against decoder, not encoder.
 
-Hi Dikshita,
-
-We have some upcoming products based on SC8280XP that mainly run Linux. 
-I was wondering whether Qualcomm still plans to submit the latest 
-SC8280XP Iris firmware to linux-firmware.
-
-If not, would it be acceptable for us OEM to submit it under the name 
-vpu20_4p_sc8280xp.mbn?
-
->>
->>>>>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8350.h b/drivers/media/platform/qcom/iris/iris_platform_sm8350.h
->>>>>> new file mode 100644
->>>>>> index 000000000000..74cf5ea2359a
->>>>>> --- /dev/null
->>>>>> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8350.h
->>>>>> @@ -0,0 +1,20 @@
->>>>>> +/* SPDX-License-Identifier: GPL-2.0-only */
->>>>>> +/*
->>>>>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
->>>>>> + */
->>>>>> +
->>>>>> +#ifndef __IRIS_PLATFORM_SM8350_H__
->>>>>> +#define __IRIS_PLATFORM_SM8350_H__
->>>>>> +
->>>>>> +static void iris_set_sm8350_preset_registers(struct iris_core *core)
->>>>>> +{
->>>>>> +	u32 val;
->>>>>> +
->>>>>> +	val = readl(core->reg_base + 0xb0088);
->>>>>> +	val &= ~0x11;
->>>>>> +	writel(val, core->reg_base + 0xb0088);
->>>>>> +}
->>>>>
->>>>> you can reuse this from SM8250. That would work.
->>>>
->>>> Hmm, downstream driver was explicit about clearing only these two bits.
->>>> Is it really fine to clear all the bits?
->>>>
->>>
->>> Yes it is. We are doing the same for other SOCs as well.
->>
->> Wouldn't this also ungate / start the second core?
->>
-
-
--- 
-Best regards,
-Xilin Wu <sophon@radxa.com>
-
+So, the result is the same when the patch is applied, when it is
+reverted, and when testing against v1 where the cores are enabled only
+for decoding.
 
