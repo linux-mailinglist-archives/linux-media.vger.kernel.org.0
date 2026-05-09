@@ -1,267 +1,277 @@
-Return-Path: <linux-media+bounces-60991-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-60992-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SKa2NzLP/mm1wgAAu9opvQ
-	(envelope-from <linux-media+bounces-60991-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 08:07:46 +0200
+	id GEmtI/oJ/2mv1QAAu9opvQ
+	(envelope-from <linux-media+bounces-60992-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 12:18:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B32E4FE30A
-	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 08:07:45 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 091C34FF304
+	for <lists+linux-media@lfdr.de>; Sat, 09 May 2026 12:18:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B1835301952D
-	for <lists+linux-media@lfdr.de>; Sat,  9 May 2026 06:07:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3D5B330086DF
+	for <lists+linux-media@lfdr.de>; Sat,  9 May 2026 10:17:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D92822C027B;
-	Sat,  9 May 2026 06:07:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 337C73A1E7B;
+	Sat,  9 May 2026 10:17:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA121F936
-	for <linux-media@vger.kernel.org>; Sat,  9 May 2026 06:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C702F8E97;
+	Sat,  9 May 2026 10:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778306847; cv=none; b=Q50mddoou9JyiH7M6/+ykCNvRxs8xhrLrP2iBWJZg2lXRP2N98o1e9YXHTpt+CuPz4b5FQDFHd9tqQZ3xvtv6Iew4XG5Xiwk8kqsx35LtG3/17iJLlxTDd7fdQiCcQ8JpwxuiEd/XwrhA0v0I/prVOHH+8SkBLkLjWSHCW0Rit8=
+	t=1778321838; cv=none; b=gaPtccJgO3AoJzD/UVgtZwlIQzKkH+TRFMeraLe6UmwjnHMS+xmfi+l25L6bYlioMDyZm15F2ew17QmBagVWvIDqXUXIAZvR9AaN3C54iKbBHWcyJtTfw4eg6un1DNVMjb+uk7cJ0oCSGAsUXyRIs4/QIrhMHyKT2jcNnAOr9l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778306847; c=relaxed/simple;
-	bh=Gn9UmhGa7aN97CmrQIY7PcjPmO1oIdNoOwu5cD3CDL8=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=u2jz2w1rGfBJr5AZI+cxgx7jA9SQcwWhPlTDApykHM0ocxPvCSj+/0eDSJi6xTmQzlDlyEHyX/bqGZMOXH0IBfAzJPjYiL5LVZ3+z/eaS+aUXHDy0B2aH0ZzGuXqBRPW6UD5EOsQc5ZX3Nek27PuB0IMW7Yn4GiSokaK7kpTXQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ruehm.land; spf=pass smtp.mailfrom=googlemail.com; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ruehm.land
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-56a9c5cb48bso1008404e0c.0
-        for <linux-media@vger.kernel.org>; Fri, 08 May 2026 23:07:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778306845; x=1778911645;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1q0VsQPEiad3FRd5KJS6OwLZ/uB/VHgsTTWAUmLJ0Q0=;
-        b=k32F5JtFKrtF0XpChHGFP14kXxggOzxWekbgA5JQaDrRFxUgKB9jiQ+zLPa6ht0Tyi
-         bzHZjnTwAXBoBVaSy4ZuJc8+LqVD5mUa9kLBfOAOnBgNNdrASgzdB8Ig80p7qCB9VqDS
-         yHG3nt83yJLSNmbz9DxbvXh+M17O1g5v7w7z1gNigStX3R8ymTYzkE58NrF/+teAbmVo
-         zT9RUMdKfqa5LcjEO1rSsltkvxXYXL5K1qGhQr4zwuW3MiuRGj16vTpGDOMoJwu8TNiS
-         y2TtsvVO5szqxPvyPFfCHXuHyRZ8QXl74O13uwg0JTCMs4foDMHZalfnCwPlOXXNSVJJ
-         A14Q==
-X-Gm-Message-State: AOJu0YzBY5Qejy4FFxBJrvlCPsx564ld4sE2dC3titjJEtgfw1Oxcbml
-	cLxkeLwirFigppJZVYmvlb3eJi22mZnaVZgoUqPkx9CZqNMML5WOf7MIo5b9N0kS
-X-Gm-Gg: Acq92OHdKGWxkfvOEtPqZfT/ugktLZeI+A1jjLu/jTCqMuav29yTUhO6yYx8WBIsKiW
-	sWhSB4Wqm7mZgt16yvwLBWaSsZ8eO8h71MIxzxzskhsv1QIZYI4ab25VZYbi2eifrKUHNulOJmp
-	4y75pAfgKNGBhJQLUhBk7ZSZpYD3LwVirSajR1/rgr/wGQMEfntMjGk+0gcgaV8CNHeywT1jYNd
-	HLbShyzM2Ilkca2zAX893Pr7pZAMDeC5dYti1LBi74xafUnhBLhQRwj0V5ob+uiRr7PU14nIoC0
-	SrIJoyI1XmITXHVfrBZ3mQL/rwNa5IJlI+W7ki0WB2QR3Cygk7+nTMFtSHiCCikg9h+cZlfovc3
-	YYvttoQiWuctwte4PK3mzep4GGCeGaCe4X7NT2vzjDhja34eIUqqKKMmvBonsFL+KwUItaDBHqd
-	iENjTKd42fN01qnAD0W5KWBlm+9CfunVAdEUrjaqNXR9JuADkk3iIV/PS/ygl80uDV
-X-Received: by 2002:a05:6102:1620:b0:631:2472:e832 with SMTP id ada2fe7eead31-631da131c39mr394845137.8.1778306844960;
-        Fri, 08 May 2026 23:07:24 -0700 (PDT)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-6313ffe8ac0sm2319573137.1.2026.05.08.23.07.24
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2026 23:07:24 -0700 (PDT)
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-6314cff521aso378183137.2
-        for <linux-media@vger.kernel.org>; Fri, 08 May 2026 23:07:24 -0700 (PDT)
-X-Received: by 2002:a05:6102:6c9:b0:631:28c1:155c with SMTP id
- ada2fe7eead31-631da12d5c3mr379350137.7.1778306844495; Fri, 08 May 2026
- 23:07:24 -0700 (PDT)
+	s=arc-20240116; t=1778321838; c=relaxed/simple;
+	bh=OMyY6EIN0uYFyyXk3dI0sS4NBaaUT7qzp1bucwRMzOU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l2WanAYZAsdCHh1ktFvXD4wQGvSEy39fpHxn1hG7hG4Ws2k5vVQY9bta3nMD29ra/rNCCZvY6KqG5Zb0lftgxt87AwdTaDpwVAY1iJ4eyI2UV2GHvZWbWrhQdfVGyRDluyYPOZJtSWM0pHZXzbdni5FCaiNqdr/l0cIHssbCGGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com; spf=pass smtp.mailfrom=radxa.com; arc=none smtp.client-ip=54.207.19.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=radxa.com
+X-QQ-mid: esmtpsz18t1778321792t460a2d05
+X-QQ-Originating-IP: zjkOROJYI4ZbQ+7Ufdl7ieLzq4bCCEXbPMMJo2dR4Dw=
+Received: from [127.0.0.1] ( [116.234.74.217])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sat, 09 May 2026 18:16:29 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 7643366966760275687
+Message-ID: <FE38EFC340D52748+8a9351df-df99-48d1-8d59-8c72b7153ef0@radxa.com>
+Date: Sat, 9 May 2026 18:16:27 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: =?UTF-8?Q?Emil_R=C3=BChmland?= <emil@ruehm.land>
-Date: Sat, 9 May 2026 08:07:13 +0200
-X-Gmail-Original-Message-ID: <CABsLJ3r=68DWkgHrQhnoUY6hQdOYbSB8=N7OxJMrdDKYrCGmcw@mail.gmail.com>
-X-Gm-Features: AVHnY4JN5SxgW1rg-PdM0UsByOpvicu1vSC338U17O5qjwJKzxKYcV4PNjjoEwg
-Message-ID: <CABsLJ3r=68DWkgHrQhnoUY6hQdOYbSB8=N7OxJMrdDKYrCGmcw@mail.gmail.com>
-Subject: [BUG] videodev: kernel panic in subdev_close during shutdown with
- IPU6 camera (Alder Lake)
-To: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 3B32E4FE30A
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/7] media: iris: introduce SM8350 and SC8280XP support
+To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Bryan O'Donoghue <bod@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bjorn Andersson <andersson@kernel.org>, David Heidelberg <david@ixit.cz>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Johan Hovold <johan+linaro@kernel.org>
+References: <20260125-iris-sc8280xp-v3-0-d21861a9ea33@oss.qualcomm.com>
+ <20260125-iris-sc8280xp-v3-2-d21861a9ea33@oss.qualcomm.com>
+ <8c5cd9ff-e549-00ab-60c6-814b52f50949@oss.qualcomm.com>
+ <rhsmmvbxjzb4ylxryo3n6j6wf52tjpxxon6fww6tsfhxttc2g7@xfsnyfkqh3ke>
+ <ec4348fc-b27c-9b56-2967-222e4e280c8a@oss.qualcomm.com>
+ <d67faniik7jrlnq2a2wsyku3agpezh5qj4g4rip3j6pbeagmkj@xax6nuginypu>
+ <a71e3bc2-23dc-fa02-0dbf-0a9d779dca76@oss.qualcomm.com>
+Content-Language: en-US
+From: Xilin Wu <sophon@radxa.com>
+In-Reply-To: <a71e3bc2-23dc-fa02-0dbf-0a9d779dca76@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:radxa.com:qybglogicsvrsz:qybglogicsvrsz3b-0
+X-QQ-XMAILINFO: OFWsfmE1GYcuJSFOBi1vsp9uZeMEGHAkiR9Qgvpl8Ig6hTMFeGKrL+AD
+	3XXYnlsNU+BD8/oGmThmewZnAA/kd7qWIEfykFBjFZAitY7gzeHTfD45aRRDSpldESlLn/O
+	uv5O/Q60ajvgs3z4DRGJ6WHBad4bKXC3qwZvKMSWa7BzrT6/z5j4tQ+eBO5i++Qh4WpiyT5
+	jF777zSXkj/dcLW+wKJZrtdgp0GB3kBbuheL3b25zqV8uaEnt4jyRD0ukctHo/FjjW+lXLA
+	tpXAVRIFVBH1iqWrzeJEO2tmNBWyZmjbuwH9GkWY+1RicTFE+I7JVF+c0pGo1s9XZzO2dMw
+	iBFbtmK2W94acGJL2SlLv0x/YgI1J33dFnJf5Pnt+m1rtG1UknDR41al9vQ1ADThM9FsUrt
+	9/r94k9RnYn1wcSd7+0UVly0xxhZ5GS1desFjjHwGODHA/75gC0icFPtwCGKufsfe89y1T5
+	+pCH2ZeWMv4pNmp8a2gaO39rAE0zyLkdE5EAKk6zpWIgrFTTbeJZEBRzfp2iAPyyF3bq5SE
+	DmjcXL3Fi/yt+Ix7rHCE9euIDinJJRuGFwzY5zKgS0lbR3esBdjldfDJtymlXalS1iMHFWm
+	Kt9xo0psSb/EID3OVIQOUWJbCY/DYJcDz19n+RjE5NnWX5dE+eYecDOVKBPCj/l8p1YW4Qi
+	0ismzV/liPSkFx8mi1oYlXlznq6vawU50Vovy6KqTiNVC751JO2U3LneOUIjyc91cHNXeCN
+	Y+uuAOiRFtnOG8B/2G5f1VgvGdSQHabnhWGu/xIiAClNX1F74mzp6Kfpky6+bE4POAqEp9B
+	XwpcX/0SF6uEUDIZHqBvkk/2sI+ocqPSKe/thwSx9smU+oHPozQjF7zPb1lTvrFJFR71V0B
+	OavWxPb9LqFnmVXj/xB1hfV4cjMdlbsy07XnARCiVc1kHaREcRgHHQuoiJS9TtS+mDXgefa
+	gzTxV83dQ56jO0xmIEK47K4fMb2Q7hsJKSLAsKrqpr6FBshU4vxnS07IQwvEyvPDyHArW80
+	pTZkzluKb6omcmvZUi
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+X-QQ-RECHKSPAM: 0
+X-Rspamd-Queue-Id: 091C34FF304
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.46 / 15.00];
+X-Spamd-Result: default: False [0.14 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[radxa.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DMARC_NA(0.00)[ruehm.land];
-	TAGGED_FROM(0.00)[bounces-60991-lists,linux-media=lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-60992-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_MUA_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[emil@ruehm.land,linux-media@vger.kernel.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_NONE(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sophon@radxa.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.996];
+	MID_RHS_MATCH_FROM(0.00)[];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.991];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+	TAGGED_RCPT(0.00)[linux-media,dt,linaro];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[radxa.com:email,radxa.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Reported-by: Emil R=C3=BChmland <emil@ruehm.land>
+On 2/10/2026 1:35 PM, Dikshita Agarwal wrote:
+> 
+> 
+> On 2/5/2026 4:24 PM, Dmitry Baryshkov wrote:
+>> On Thu, Feb 05, 2026 at 02:40:39PM +0530, Dikshita Agarwal wrote:
+>>>
+>>>
+>>> On 1/31/2026 12:58 PM, Dmitry Baryshkov wrote:
+>>>> On Fri, Jan 30, 2026 at 06:46:04PM +0530, Dikshita Agarwal wrote:
+>>>>>
+>>>>>
+>>>>> On 1/25/2026 9:02 PM, Dmitry Baryshkov wrote:
+>>>>>> SM8350 and SC8280XP have an updated version of the Iris2 core also
+>>>>>> present on the SM8250 and SC7280 platforms. Add necessary platform data
+>>>>>> to utilize the core on those two platforms.
+>>>>>>
+>>>>>> The iris_platform_gen1.c is now compiled unconditionally, even if Venus
+>>>>>> driver is enabled, but SM8250 and SC7280 are still disabled in
+>>>>>> iris_dt_match.
+>>>>>>
+>>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>>>>>> ---
+>>>>>>   drivers/media/platform/qcom/iris/Makefile          |   5 +-
+>>>>>>   .../platform/qcom/iris/iris_platform_common.h      |   2 +
+>>>>>>   .../media/platform/qcom/iris/iris_platform_gen1.c  | 111 +++++++++++++++++++++
+>>>>>>   .../platform/qcom/iris/iris_platform_sm8350.h      |  20 ++++
+>>>>>>   drivers/media/platform/qcom/iris/iris_probe.c      |  10 ++
+>>>>>>   5 files changed, 144 insertions(+), 4 deletions(-)
+>>>>>>
+>>>>>> @@ -392,6 +393,61 @@ const struct iris_platform_data sm8250_data = {
+>>>>>>   	.enc_ip_int_buf_tbl_size = ARRAY_SIZE(sm8250_enc_ip_int_buf_tbl),
+>>>>>>   };
+>>>>>>   
+>>>>>> +const struct iris_platform_data sm8350_data = {
+>>>>>> +	.get_instance = iris_hfi_gen1_get_instance,
+>>>>>> +	.init_hfi_command_ops = &iris_hfi_gen1_command_ops_init,
+>>>>>> +	.init_hfi_response_ops = iris_hfi_gen1_response_ops_init,
+>>>>>> +	.get_vpu_buffer_size = iris_vpu_buf_size,
+>>>>>> +	.vpu_ops = &iris_vpu2_ops,
+>>>>>> +	.set_preset_registers = iris_set_sm8350_preset_registers,
+>>>>>> +	.icc_tbl = sm8250_icc_table,
+>>>>>> +	.icc_tbl_size = ARRAY_SIZE(sm8250_icc_table),
+>>>>>> +	.clk_rst_tbl = sm8350_clk_reset_table,
+>>>>>> +	.clk_rst_tbl_size = ARRAY_SIZE(sm8350_clk_reset_table),
+>>>>>> +	.bw_tbl_dec = sm8250_bw_table_dec,
+>>>>>> +	.bw_tbl_dec_size = ARRAY_SIZE(sm8250_bw_table_dec),
+>>>>>> +	.pmdomain_tbl = sm8250_pmdomain_table,
+>>>>>> +	.pmdomain_tbl_size = ARRAY_SIZE(sm8250_pmdomain_table),
+>>>>>> +	.opp_pd_tbl = sm8250_opp_pd_table,
+>>>>>> +	.opp_pd_tbl_size = ARRAY_SIZE(sm8250_opp_pd_table),
+>>>>>> +	.clk_tbl = sm8250_clk_table,
+>>>>>> +	.clk_tbl_size = ARRAY_SIZE(sm8250_clk_table),
+>>>>>> +	.opp_clk_tbl = sm8250_opp_clk_table,
+>>>>>> +	/* Upper bound of DMA address range */
+>>>>>> +	.dma_mask = 0xe0000000 - 1,
+>>>>>> +	.fwname = "qcom/vpu/vpu20_p4.mbn",
+>>>>>
+>>>>> This firmware is not compatible with SM8350.
+>>>>> SM8350 firmware is not released to linux-firmware yet.
+>>>>
+>>>> What would be the name for the firmware? The downstream uses vpu20_4v
+>>>> here, so, I guess, in upstream we should be using vpu20_p4, but a newer
+>>>> version?
+>>>>
+>>>
+>>> Using a newer version won't work as the firmware for SM8250 and SM8350 are
+>>> different binaries generated from different firmware source branch.
+>>> You can give it a try, but AFAIK it won't work.
+>>
+>> Ugh...
+>>
+>>>>>> +	.fwname = "qcom/vpu/vpu20_p2.mbn",
+>>>>>
+>>>>> this firmware doesn't exist on linux-firmware.
+>>>>
+>>>> It was based on the assumption of having 2 pipes. If Iris here has 2
+>>>> pipes, then probably we should still point to vpu20_p4.mbn?
+>>>>
+>>>
+>>> SC8280XP also uses the Iris2 4‑pipe configuration, though its firmware
+>>> comes from a different source branch compared to SM8250 and SM8350. This
+>>> means we have multiple firmwares with identical VPU and pipe configurations
+>>> but different origins. Could you propose a suitable naming scheme that can
+>>> differentiate such firmware?
+>>
+>> Can we have a single binary that works on all Iris2 4-pipe cores?
+> 
+> That is not possible as it is older VPU.
+> For newer ones, the plan is have single source branch for same VPU to avoid
+> such issues in future.
+> 
+>> Or are there any differences between Iris2 on SM8250 / SM8350 /
+>> SC8280XP? Are they stil vpu20_something or should we use different VPU
+>> versions in the firmware name?
+> 
+> I think we can keep vpu20_4p_* with some way to different among SM8250,
+> SM8350, SC8280XP.
+> 
 
-System shuts down with kernel panic in subdev_close() when WirePlumber
-(PipeWire session manager) exits while holding V4L2 subdevice file
-descriptors for an Intel IPU6 camera. The initial oops cascades into
-NULL pointer dereferences and recursive faults, hanging the machine
-and requiring a power button hold. Reproducible on every shutdown when
-the camera was used during the session. Confirmed on both 6.10.26 LTS
-and 7.0.3 mainline.
+Hi Dikshita,
 
-Hardware
---------
-Lenovo ThinkPad X1 Carbon Gen 10 (21CB009TGE)
-BIOS: N3AET82W (1.47) 06/25/2024
-IPU6 ISP: Intel Alder Lake Imaging Signal Processor [8086:465d] (rev 04)
-Sensor: OV2740 (MIPI CSI-2, via ipu_bridge)
+We have some upcoming products based on SC8280XP that mainly run Linux. 
+I was wondering whether Qualcomm still plans to submit the latest 
+SC8280XP Iris firmware to linux-firmware.
 
-System
-------
-Arch Linux x86_64
-Linux 7.0.3-arch1-2 (gcc 16.1.1, GNU ld 2.46.0) #1 SMP PREEMPT(full)
-Also reproduced on: Linux 6.10.26-2-lts
+If not, would it be acceptable for us OEM to submit it under the name 
+vpu20_4p_sc8280xp.mbn?
 
-PipeWire 1.6.4, WirePlumber 0.5.14, libcamera 0.7.0
-Camera accessed via native PipeWire/WirePlumber libcamera SPA path.
+>>
+>>>>>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8350.h b/drivers/media/platform/qcom/iris/iris_platform_sm8350.h
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..74cf5ea2359a
+>>>>>> --- /dev/null
+>>>>>> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8350.h
+>>>>>> @@ -0,0 +1,20 @@
+>>>>>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>>>>>> +/*
+>>>>>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+>>>>>> + */
+>>>>>> +
+>>>>>> +#ifndef __IRIS_PLATFORM_SM8350_H__
+>>>>>> +#define __IRIS_PLATFORM_SM8350_H__
+>>>>>> +
+>>>>>> +static void iris_set_sm8350_preset_registers(struct iris_core *core)
+>>>>>> +{
+>>>>>> +	u32 val;
+>>>>>> +
+>>>>>> +	val = readl(core->reg_base + 0xb0088);
+>>>>>> +	val &= ~0x11;
+>>>>>> +	writel(val, core->reg_base + 0xb0088);
+>>>>>> +}
+>>>>>
+>>>>> you can reuse this from SM8250. That would work.
+>>>>
+>>>> Hmm, downstream driver was explicit about clearing only these two bits.
+>>>> Is it really fine to clear all the bits?
+>>>>
+>>>
+>>> Yes it is. We are doing the same for other SOCs as well.
+>>
+>> Wouldn't this also ungate / start the second core?
+>>
 
-Reproduction
-------------
-1. Boot system
-2. Use IPU6 camera via browser (WebRTC) or any PipeWire camera consumer
-3. Close camera application
-4. Shut down or reboot
 
-WirePlumber holds /dev/video8 (IPU6 internal V4L2 node) throughout the
-session. On shutdown, WirePlumber receives SIGTERM and begins exiting.
-The kernel runs subdev_close() in the fd cleanup path, which crashes.
+-- 
+Best regards,
+Xilin Wu <sophon@radxa.com>
 
-Oops #1 (CameraManager thread, initial crash)
-----------------------------------------------
-[38330.255927] Oops: Oops: 0011 [#1] SMP NOPTI
-[38330.256037] CPU: 7 UID: 1000 PID: 1489 Comm: CameraManager Tainted:
-G S                  7.0.3-arch1-2 #1 PREEMPT(full)
-[38330.256234] Hardware name: LENOVO 21CB009TGE/21CB009TGE, BIOS
-N3AET82W (1.47 ) 06/25/2024
-[38330.256353] RIP: 0010:ext4_fast_symlink_inode_operations+0x0/0x100
-[38330.256425] Code: 6e 63 72 79 70 74 65 64 5f 67 65 74 5f 6c 69 6e
-6b 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 <00> 00 00 00 00 00 00 00 40 d5 5e 8c ff ff ff ff 00 00 00 00
-00 00
-[38330.256492] RSP: 0018:ffffd4fec6613c88 EFLAGS: 00010282
-[38330.256573] RAX: ffffffff8d4bd180 RBX: ffff8f51dfb3f6c0 RCX: 00000000000=
-00000
-[38330.256648] RDX: 000000000000000d RSI: ffff8f51dfb3f6c0 RDI: ffff8f51e0f=
-4c430
-[38330.256677] RBP: ffff8f51e718e840 R08: ffff8f51c8e07840 R09: ffff8f51db6=
-b1ee8
-[38330.256701] R10: ffffd4fec6613cc0 R11: 0000000000000002 R12: ffff8f51db6=
-b1ee8
-[38330.256720] R13: ffff8f51c315a620 R14: ffff8f51c8e07840 R15: 00000000000=
-00000
-[38330.256740] FS:  00007f02aab9f6c0(0000) GS:ffff8f5580327000(0000)
-knlGS:0000000000000000
-[38330.256765] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[38330.256790] CR2: ffffffff8d4bd180 CR3: 000000010556f006 CR4: 0000000000f=
-72ef0
-[38330.256816] PKRU: 55555554
-[38330.256835] Call Trace:
-[38330.256872]  <TASK>
-[38330.256894]  ? subdev_close+0x3b/0xb0 [videodev]
-[38330.256927]  ? v4l2_release+0x92/0xc0 [videodev]
-[38330.256953]  ? __fput+0xf6/0x2d0
-[38330.256980]  ? __x64_sys_close+0x47/0xa0
-[38330.257014]  ? do_syscall_64+0x12b/0x1640
-[38330.257042]  ? refill_obj_stock+0x14b/0x280
-[38330.257066]  ? __memcg_slab_free_hook+0xf7/0x150
-[38330.257085]  ? kmem_cache_free+0x26a/0x420
-[38330.257107]  ? task_work_run+0x66/0xa0
-[38330.257126]  ? __fput+0x190/0x2d0
-[38330.257145]  ? exit_to_user_mode_loop+0xc9/0x640
-[38330.257173]  ? do_syscall_64+0x2ae/0x1640
-[38330.257203]  ? filp_flush+0x5e/0xa0
-[38330.257219]  ? __x64_sys_close+0x47/0xa0
-[38330.257238]  ? do_syscall_64+0x12b/0x1640
-[38330.257258]  ? irqentry_exit+0x349/0x740
-[38330.257278]  ? __irq_exit_rcu+0x4c/0xf0
-[38330.257300]  ? entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[38330.257321]  </TASK>
-[38330.257818] note: CameraManager[1489] exited with irqs disabled
-
-Oops #2 (gmain thread, cascading crash ~90s later)
----------------------------------------------------
-[38420.519652] kernel tried to execute NX-protected page - exploit
-attempt? (uid: 1000)
-[38420.519858] BUG: unable to handle page fault for address: ffffffff8d4b9d=
-c0
-[38420.522446] #PF: supervisor instruction fetch in kernel mode
-[38420.535029] #PF: error_code(0x0011) - permissions violation
-[38420.535277] Oops: Oops: 0011 [#2] SMP NOPTI
-[38420.535323] CPU: 3 UID: 1000 PID: 1427 Comm: gmain Tainted: G S
-D             7.0.3-arch1-2 #1 PREEMPT(full)
-[38420.535411] RIP: 0010:ext4_dir_inode_operations+0x0/0x100
-[38420.535751] Call Trace:
-[38420.535778]  <TASK>
-[38420.535802]  ? subdev_close+0x3b/0xb0 [videodev]
-[38420.535831]  ? v4l2_release+0x92/0xc0 [videodev]
-[38420.535862]  ? __fput+0xf6/0x2d0
-[38420.535884]  ? task_work_run+0x66/0xa0
-[38420.535920]  ? do_exit+0x2d1/0xba0
-[38420.535946]  ? do_group_exit+0x2d/0xc0
-[38420.535969]  ? get_signal+0x810/0x8a0
-[38420.535993]  ? arch_do_signal_or_restart+0x77/0x2b0
-[38420.536028]  ? exit_to_user_mode_loop+0x89/0x640
-[38420.536056]  ? do_syscall_64+0x2ae/0x1640
-[38420.536466]  </TASK>
-[38420.537030] note: gmain[1427] exited with irqs disabled
-[38420.537059] Fixing recursive fault but reboot is needed!
-[38420.537139] BUG: scheduling while atomic: gmain/1427/0x00000000
-[38420.551107] BUG: kernel NULL pointer dereference, address: 0000000000000=
-000
-
-Modules linked in (camera-relevant)
-------------------------------------
-intel_ipu6_isys, intel_ipu6, ipu_bridge, ov2740, videodev,
-videobuf2_v4l2, videobuf2_dma_sg, videobuf2_memops, videobuf2_common,
-v4l2_fwnode, v4l2_async, mc
-
-Analysis
---------
-The RIP in both oops points to ext4 inode_operations, which is clearly
-a corrupted function pointer, not an actual ext4 bug. The call trace
-shows subdev_close() calling into a corrupted vfunc. The
-internal_ops->close callback pointer in the V4L2 subdev appears to
-reference freed or corrupted memory during the shutdown teardown.
-
-The first crash (CameraManager, PID 1489) happens during a sys_close
-syscall. The second crash (gmain, PID 1427) happens ~90 seconds later
-during forced process exit (get_signal -> do_group_exit -> do_exit),
-hitting the same corrupted subdev_close path. Both threads exit with
-IRQs disabled, leading to "scheduling while atomic" and cascading NULL
-pointer dereferences.
-
-Workaround
-----------
-A systemd user service that runs "modprobe -r intel_ipu6_isys" before
-WirePlumber stops during shutdown. This unloads the IPU6 module stack
-before the buggy subdev_close teardown path is reached. Confirmed to
-produce clean shutdowns with no oops.
-
-Previous kernel (6.10.26 LTS) showed the same crash pattern but with
-RIP at subdev_close+0x2a/0xb0 directly (rather than through a
-corrupted function pointer), suggesting the corruption may be
-kernel-version-dependent but the underlying subdev_close bug is the
-same.
 
