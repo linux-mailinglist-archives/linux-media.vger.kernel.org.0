@@ -1,132 +1,132 @@
-Return-Path: <linux-media+bounces-61012-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61013-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id h+uPDAUfAGpBDQEAu9opvQ
-	(envelope-from <linux-media+bounces-61012-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 10 May 2026 08:00:37 +0200
+	id qEbAABofAGpBDQEAu9opvQ
+	(envelope-from <linux-media+bounces-61013-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 10 May 2026 08:00:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75EF6502C05
-	for <lists+linux-media@lfdr.de>; Sun, 10 May 2026 08:00:36 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F81502C15
+	for <lists+linux-media@lfdr.de>; Sun, 10 May 2026 08:00:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3ACF0300B12B
-	for <lists+linux-media@lfdr.de>; Sun, 10 May 2026 06:00:32 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 748D63003723
+	for <lists+linux-media@lfdr.de>; Sun, 10 May 2026 06:00:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 682C823BD05;
-	Sun, 10 May 2026 06:00:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA995358389;
+	Sun, 10 May 2026 06:00:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q1wWEojQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N5OyH9QP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7118A2836F
-	for <linux-media@vger.kernel.org>; Sun, 10 May 2026 06:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B132836F
+	for <linux-media@vger.kernel.org>; Sun, 10 May 2026 06:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778392830; cv=pass; b=mVF0n0timpHPU7sYaAaWeYX3D8KL/IzUu6ExEDnT62MyHTdkAPXv7/7YzcdP5jQPdu4Sx5dDfWsa03B3iROlaVvamNDS3Q0q+23mVG5ttfu9akSpKXQ4EPDfsVqHY3oWiznc1ESBrvXUCfbwGSvBRHwMdu1UGz8W8XV09luUe4E=
+	t=1778392849; cv=pass; b=g/xWC2xEgpS2c6v9gMIrY1FH4k00h1XLQJofOikHEyjQeti6RKBzjye/0uc8JdbAvIgHGaOYikO/Tyfz0YlYJL3LOtlveKVBdZLdL55r3F5Rk7FZ3L0aJBmjmero+qztxIt7BOJwytMJ92tveQBfPc631Ne2EKHhY8g5/Ro/z0g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778392830; c=relaxed/simple;
-	bh=Jj6h94EcS+B9LhhwkwPq7jEjI/eSGYZYofyEFrW3ph0=;
+	s=arc-20240116; t=1778392849; c=relaxed/simple;
+	bh=bC441wpljWti9JK2xu+ee1Bs81/icysHkiBSqL7B9vs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=ggW/Co7oB7VjmyYgif2t5kTPipZS2ynO99aM4l8GvpXZKpgwSIIzsNuLubQ8hGGD/CxWXb45HV7amr625w/1U8NxGtcLLZI5mGOpOEPyw3iaJ00pp03xAhRrh+DhfhnXw78alVVNgCR39xCQgBhhKFChTZNNr9eWrK6xynPAarA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q1wWEojQ; arc=pass smtp.client-ip=209.85.208.52
+	 To:Content-Type; b=gl/Ih7obfLQfDYggvlL0xALAT/5fGvoNd//ij6DcVoGeSPy0pRahAf5569dCTQu+CP3xWontqng1WC5O0GuKwXrYP1MHGd7M+twLAQ/Q4u6881i5IwYAIyAY/xRgZHOulNQeKnKEsZwYXBLOxuS4W1tAg5vgwkcVLrMsI9CTkMA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N5OyH9QP; arc=pass smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-67e9e343b22so3371318a12.0
-        for <linux-media@vger.kernel.org>; Sat, 09 May 2026 23:00:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778392827; cv=none;
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-676a89de629so5308113a12.1
+        for <linux-media@vger.kernel.org>; Sat, 09 May 2026 23:00:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778392846; cv=none;
         d=google.com; s=arc-20240605;
-        b=DK4baNh3SRdRP00S7swJQkcGKiGdcHbPglnbdYkJN4yaWtysJi9UyAg8kGFhOBB+Pp
-         JHyaptPik29nisnKUedM3HoChFaamd6gqpc6xJb8TRM6PE+6lrqzOgQwwBKTI50GUrzw
-         tHPeJEKueFbIQeuSg0qWic1tZsJguLvxQ9ShN4a+z2oFRKBgspp5ujo7NaTqufBE5XPx
-         Gjah8+9RI9I4OX+aCDihejyfh8NnV5f+1Kgi5Jbvvz2iYUmURDqZpbuBeAOEJdPnxQPf
-         eKnDxuYfWFfV/CXuWIRFK/iooBwUOcLLvnbqZZAWOEatw2lFV1XAlVDNf7igsEGQLWPm
-         VCvQ==
+        b=UHLQlLCu+HMUD8jivjcZ8tMLQos2q9581xGdNOloYbQJVFL1qzP6SBhWkTAlDuWGfx
+         lcvGat/ZZxynr9DkjnBpYwKioaw50ufzseT+Q57uS+dPDCDkgO0fMZC0Tgs9EQNhesHG
+         53enm0YGaVBOgmQKyOaOtK2uNEGq0LdT1QkwQzCm8g01h9kqUUszJ66IK5CBfNSKCH01
+         zluFNQwUyRFn7rq0d3L7LApJmtlUaTAxXMaOLo1FzB+kAR06nngXyLBcnoY4yo7J/EXD
+         2KFgmDIx/jWSsGDyDZovP1LjAmxS/jSWz4mVIrROGN+jApA9jWqKQrn7XsTYJwXMxYPv
+         irrA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Jj6h94EcS+B9LhhwkwPq7jEjI/eSGYZYofyEFrW3ph0=;
+        bh=bC441wpljWti9JK2xu+ee1Bs81/icysHkiBSqL7B9vs=;
         fh=RpYxnnRW5A5FvuL86z7f7YWfE0tvaTrs4Vecbev4fLA=;
-        b=INbOMC91SGnGW/K4TEl13uRnNSyAiloFvFAmLOwjmlnINt8KNbiXsFbUnipSCNxp/I
-         mK57TDRg97IUVF0oXz5CVDx9dtNDdIKa9vg9Y4tambt2AZEgJ9o6l1TYUQIQkWEmHSUN
-         wa8ofKHaRUPObBBwySXXq7gAKbGDny6CG22zR+oaDQ1NrTr0Yt5ZYvEBttx8KBoRaod+
-         eBLsPnOYUNZO62V3bt3929wTOkV0cR+fiwzSDGu+yG9WjQpU5Bf2vZaTDOi6xYBoBPGg
-         t1rySvxtNfuwvb9DNCyzkXH/sy66yw+xE2JAGah8cX0movccKxFScOYgk6FN2JIUMWzk
-         ZKaw==;
+        b=lgdLYBZviLnuiprvML7AMPsK0JiAGOo+GaoPoNJKqVb2FtXk9F6oY5DbFta6D62xai
+         ClMn1jLXGSpi2mux/9OHnWeKNjzC6v6+gT8XqsN20PJHdAErq0Lo7crRBDwFlZmjRtJ5
+         855BO7TC7ORs3YnN6ycj+TZQvUMaKnyz9svoXznD5ioGz5P1zX/oegeB+efxyFxbKiwg
+         IKhh7566hO1NzG44PEMb1T6Tm4JvxadChTI6fhxWlp/bh3wGVCuMmFkxLuAmaQlxWVbM
+         tTho7U5/RXe4SSxyPG/J1fSk11NbIFjgxRaQvv6zoIjaKrZMmY7aaqfixCHJElTUDSaW
+         rLWA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778392827; x=1778997627; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778392846; x=1778997646; darn=vger.kernel.org;
         h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Jj6h94EcS+B9LhhwkwPq7jEjI/eSGYZYofyEFrW3ph0=;
-        b=q1wWEojQA+zPws+KUOSMYDhcMpFa8U4ahG2Pa4HZmcTIcppww5awDmiD4MqryuJFGx
-         0asx5Xk5igIpMRcj0uBrec/eKW8XfjhiUbKHku4vszEoohqeHgyqaT4J1ZzDS1YDu90g
-         4Dn7ebmQPtkXrx14n5X3RKcaCTZDLYbNymS5hSrQ+PnCM6cpgK2Y2Zv+BRjXKc7PIBam
-         QcMvc8Tv937NmsWASRa1fHLdyX6yBqsC5sOQkBwJSOdvUMqWA5bBss1ytLWlBXvey0zi
-         iftv6HUnCYFnT1znlEJpLc1dTuq+1V6yO+U2HX+a9fyXUIdRmHepPDyAU51c3afUffr/
-         gpQg==
+        bh=bC441wpljWti9JK2xu+ee1Bs81/icysHkiBSqL7B9vs=;
+        b=N5OyH9QPLq6doGteYQ/0iDS85UkENCQdjW0dVxnEG4sODGGzuda+ZVb5srCEu6jS+7
+         1wvomz1RW2r4HSTcbuTDz8tAuIAcsWPGVPedVU2WEaqFn/7iShrkfYq4VnaTy9rMIWbV
+         ISOsSYdMoSVP33lHZZNt1LDI6ARVv9KC/BiidzwTunvb7XB+xTUIXNXH3wAyN+9gi91x
+         Lzgqw0ESaILpF2JHYfQduSJDzshBQBpByeVRJ0EwqpoeYrd9Eg1TaQF8pqqBkuHwjb53
+         QpIvg2KxHTattlEjkabswS8R7UBz2AhHZ3nnqi0tcg4FRu91xy00a9URCKaxkz06CKBC
+         ycWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778392827; x=1778997627;
+        d=1e100.net; s=20251104; t=1778392846; x=1778997646;
         h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Jj6h94EcS+B9LhhwkwPq7jEjI/eSGYZYofyEFrW3ph0=;
-        b=l7MlGHffoinCpNlfO9NH/Xn6rcG8SnSURR+HIeXt8OVTTKKdTuvjo4/5uBdI/IrLcF
-         wcdAv5kjD1icjzyH5WnTIBdPzKUQcILHp47KOVouB0uTnbBjdL2QBxvCRqqi5FtRmME6
-         Izv37O60B4iAQMdXhrqdovv4JCfbotPftpJdHtAUOlMtI7BD9oqvv89GIrxCVu5pJinb
-         okMUknyY3uvA7OCK9i474OBJm5kWQW5LPa07HDNRnmA34RycV/+nZ/82d4WiNRWTjyer
-         SH2PLcqfATkVUEXTQ/TOLgBo67QZzD0C0VQmM7DF/am9W4zp7x7k7DlX9DUaQz3ioc38
-         8mLw==
-X-Gm-Message-State: AOJu0YwYt8PfIuLvTH+pB8rlEJ+je6+UPh6QD4xGYnNW7NJXGIMM48lB
-	IMwkKorR+Q0G1bJDPj7OJxrRU+EUTLcMrqfgGYcsy6ZFQF6BwW+CvTBvsBAHdm+T4eo83EUiCQ7
-	JiZuHfWmoZV+6vUwqs9ELFWNnwmqYwYWN0pC/wg==
-X-Gm-Gg: Acq92OEuPJXRTeyyO2jcqz6cxj3ZsvyonIUacw/VjW+1bV2ZNMXDjCTNTBZbvu3XRgf
-	Dk9V5w7gzdcHRkC8mvsHJRf2baf7NtpkACBEBET3dPMYEnD9PoI2rtIWgq3Q1tPI7FGyulnrYy7
-	RUbCc7MVy29R8FdUPcQb4wGJP6uSxGrmmV3xrEVaHeFi+com4QvmwpXc/mxOyrmnBCaTYdNXB1G
-	eBONcHrt91grAWdCWHzXD6muCXvFXnS9X7tILdvhJ21UuDTOCSkDYHDhCoxKQfR/0kuDceKe7/Y
-	cvBHI3TyvKmm6owPHqhxHry7TVXW8PaNeiF9
-X-Received: by 2002:a05:6402:534a:b0:676:dccd:ce37 with SMTP id
- 4fb4d7f45d1cf-67d638a6f3fmr7182068a12.4.1778392827245; Sat, 09 May 2026
- 23:00:27 -0700 (PDT)
+        bh=bC441wpljWti9JK2xu+ee1Bs81/icysHkiBSqL7B9vs=;
+        b=pKCjyusqwNeSYDGqZKSqobehJ8KutuRpiYqMltCfwBs3szjuddljsR8PFMIWYnoNHq
+         Ou7q9RL0HnS2Ek+MhbgANdPvA5Ny7TY9BlQ97m5La7feUBlKzr8ZBh8RzMOQ12wbvtHs
+         5LseHklktHCJct8i3Bwa7f6LAKOERIwYWymewgFJu3MS5trnpRqIqaQytAy9KS6tsl+e
+         sYnEaavZNmc5k3yjbrNqkO3JWEmcs11wf2ZB2XfbRzv3Q8mCDr+4uSED1mGNIJ6hJ70N
+         uJWDNqvppGmA53xUOCo93AbVRwGuhjGCNcwN1QIwxu5GNh7UE6761L7fHlv1/kNMaUDT
+         RYAA==
+X-Gm-Message-State: AOJu0YwoMe2g1NsL7dt8ZOXsuZkNW4MHGH2Bot5rHT2hu0rWNu8MQHQI
+	/3n/atjLzYt3T1Qj6HGa5E6SWbQrpLxGt3X4xpNOSzwg7ODuI08IuL9eSm1bwAbjuS4rqle4Qxj
+	4qvFnZ3FwGx2th5gB8702+bdGxcCVt87X3qAG4Q==
+X-Gm-Gg: Acq92OFcG7J1VHnagFl/15UdeOz2nKOoK4HKKKkKuvIMjOaLG0CdkKopJim68/7Arf7
+	qIrqCsV7tCTlcUtU6Uy3FPZTda5ByjQ6v45rr21tGUlKUt1NdAPNXjy51+ZwgAPH5Zy1PPUs7Jp
+	bOQjiqlCW2OpVwHDfLkAztbn77+CyAvj5giL6R0Mz5xzhe6hoYdVN31c8mvHmFI20fmXpIrTszp
+	HYkdyirGNu4mmRMdv0muJQy7PARtmT0+Ij2hQYZySleHQS2OqsGYeTp6vX5CFYttMldMQPFwjWD
+	fuBdIW9m2MTjo+epyrvaWd47oqXCIWjfD3X3
+X-Received: by 2002:a17:907:d716:b0:bc3:7893:3bb1 with SMTP id
+ a640c23a62f3a-bc56e40f255mr1079939766b.41.1778392845660; Sat, 09 May 2026
+ 23:00:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260506124124.27802-1-mhun512@gmail.com> <69fb6a49.4a0a0220.3bed37.be01@mx.google.com>
-In-Reply-To: <69fb6a49.4a0a0220.3bed37.be01@mx.google.com>
+References: <20260502061231.50473-1-mhun512@gmail.com> <69fba711.050a0220.27452c.6683@mx.google.com>
+In-Reply-To: <69fba711.050a0220.27452c.6683@mx.google.com>
 From: Myeonghun Pak <mhun512@gmail.com>
-Date: Sun, 10 May 2026 15:00:15 +0900
-X-Gm-Features: AVHnY4IPSGVjlaAbdT8RWX1dqnyPUxnclKKZCtzpaJ-woGNDMI9D6HuASxHWdVA
-Message-ID: <CAGEsz8H-drrG=Mwta0BKse6KfX7sQSrbuQWLb1zMSXQ7Z8wMSA@mail.gmail.com>
-Subject: Re: [v3] media: cedrus: clean up media device on probe failure
+Date: Sun, 10 May 2026 15:00:33 +0900
+X-Gm-Features: AVHnY4KxDrwunLaV0njvMgsDciOkoh9vzaYY1pzzEmKLpAzDt9ky369Z9ixP5v0
+Message-ID: <CAGEsz8H_p4k+ZsH7D4s_61Ugf1nvfVoZsx+k+vJSEFgF47oneA@mail.gmail.com>
+Subject: Re: [v2] media: sun4i-csi: clean up media device on probe errors
 To: linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 75EF6502C05
+X-Rspamd-Queue-Id: 03F81502C15
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61012-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61013-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_ONE(0.00)[1];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
 	TO_DN_NONE(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -136,7 +136,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,pages.freedesktop.org:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pages.freedesktop.org:url,mail.gmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
 Hi,
@@ -150,7 +150,7 @@ whether this report can be ignored?
 Thanks,
 Myeonghun
 
-2026=EB=85=84 5=EC=9B=94 7=EC=9D=BC (=EB=AA=A9) =EC=98=A4=EC=A0=84 1:20, Pa=
+2026=EB=85=84 5=EC=9B=94 7=EC=9D=BC (=EB=AA=A9) =EC=98=A4=EC=A0=84 5:39, Pa=
 tchwork Integration <patchwork@media-ci.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
 =84=B1:
 >
@@ -159,10 +159,10 @@ tchwork Integration <patchwork@media-ci.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
 > Thanks for your patches! Unfortunately the Media CI robot detected some
 > issues:
 >
-> # Test media-patchstyle:./0001-media-cedrus-clean-up-media-device-on-prob=
-e-failure.patch media style
-> ERROR: ./0001-media-cedrus-clean-up-media-device-on-probe-failure.patch: =
-Missing committer Ricardo Ribalda <ribalda@chromium.org> Signed-off-by
+> # Test media-patchstyle:./0001-media-sun4i-csi-clean-up-media-device-on-p=
+robe-error.patch media style
+> ERROR: ./0001-media-sun4i-csi-clean-up-media-device-on-probe-error.patch:=
+ Missing committer Ricardo Ribalda <ribalda@chromium.org> Signed-off-by
 >
 >
 >
@@ -170,8 +170,8 @@ Missing committer Ricardo Ribalda <ribalda@chromium.org> Signed-off-by
 > account, do not forget to mark the current series as Superseded.
 >
 > For more details, check the full report at:
-> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/991642=
-68/artifacts/report.htm .
+> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/991662=
+11/artifacts/report.htm .
 >
 >
 >
