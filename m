@@ -1,176 +1,328 @@
-Return-Path: <linux-media+bounces-61026-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61027-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0GJ7JIRaAGquGwEAu9opvQ
-	(envelope-from <linux-media+bounces-61026-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 10 May 2026 12:14:28 +0200
+	id 4GE7FOinAGp/LQEAu9opvQ
+	(envelope-from <linux-media+bounces-61027-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 10 May 2026 17:44:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D8B503929
-	for <lists+linux-media@lfdr.de>; Sun, 10 May 2026 12:14:27 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9564F504E44
+	for <lists+linux-media@lfdr.de>; Sun, 10 May 2026 17:44:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D14743010ED3
-	for <lists+linux-media@lfdr.de>; Sun, 10 May 2026 10:14:12 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E6C4330041C7
+	for <lists+linux-media@lfdr.de>; Sun, 10 May 2026 15:44:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85B7837187B;
-	Sun, 10 May 2026 10:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00A6639E164;
+	Sun, 10 May 2026 15:44:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U1PiXPwg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PvSQJQAL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E50436BCC4
-	for <linux-media@vger.kernel.org>; Sun, 10 May 2026 10:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389FE34F462;
+	Sun, 10 May 2026 15:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778408049; cv=none; b=Y/ZS7Ify57lDIsLaO60oboWtRuPP9YTSQdPCQRuO4c/nE7LZNOOJWjkfe5EKlDhXbdM4Jyt+/PsEmcYXR3b+s/fBCEKSrLMtSHUsQhuP+tbJ9xVYxFHMW/lviHcP7x0GzosIoxoFpxWYcx5ZM6tAwLkCvW9HoGKFrzbmivvpSOs=
+	t=1778427874; cv=none; b=VhzmIvLqnv+A1Yew9ldrZB3Jsb48DJL1T3mUjo3RxU/kX9YmMQHvxamDk0kJdDaD5D23CQZFqWk6ibDMgD8GJbgwy3XtMaOShKdO2FKfpxhYo1JdeEGYC+JF95RRixe1QCrtEgG3w9lax8BRb1P6N5TZ4gFYYoTLKrggHQ5YIMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778408049; c=relaxed/simple;
-	bh=P6QKg2y/QOJpy/oFBXcEeXhsALMznnNszgPwLQj5mto=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QTpIQ0toATFZz+zj1AwEdvAKyQITSIO4C1qPFtVA9cUmVMWHjtBYg/hAgaD163GDPeQMx9yAL9V4Mq/eRhm7ZJVNa3iQc29tHnWuxExKRKX7AMiaCzHIk1ihzkirQ4ATjg6ELpDbuoVXlRqbb+fXM+G06Oh3CMklRRpmrrQ1tMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U1PiXPwg; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4526a8170ceso1797606f8f.2
-        for <linux-media@vger.kernel.org>; Sun, 10 May 2026 03:14:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778408046; x=1779012846; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pX3w1V69PmEOX0juzgumTVFHN3YkvYvOdGGZ2KCGQQQ=;
-        b=U1PiXPwgAC6BByv/zWHNfIWf3Wa37DVU+wpX8psRuvfImlGuaT8GPpa5JVh6XTa1Ly
-         RVsocPW3vSH/Dgg7G11NsfSiiv00s35KUJIhzbedgRuITLIqXqEb8pJmkzPOlkfNKgG7
-         Cg/seFsFDibvX3A29LAc6Y74hNKOZVf8cb91XTly9jKZzXDsAhPfnf7fX5o9AHBOvEWB
-         OraZfSbyh3SER/zM2qIRCQLKywgPRO1xwRLqup/lxX4NPyRWK0SlGs5Ox3mxASXKmm5A
-         lnmbgqq97y+ECElkk9qypiuhj6k2XI09QHBmDxXMskyCe+GlknntTRjoKGQxLVCl176Y
-         pAHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778408046; x=1779012846;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pX3w1V69PmEOX0juzgumTVFHN3YkvYvOdGGZ2KCGQQQ=;
-        b=heAJTZEBwBrdCY0FIHl8P5dqpOyMr2KdiECAVjma+W84S97MV/R3PDPcJb38N17y7j
-         Nz+sCqKYXzT3JgUrumiGC8fiVIWOG+sC0b+DCl2pwnIiOyt9PiDKxt/xaEEsE2yIctGr
-         HraDU4alo4+Laa87/GSyei7gCwGuc3z3KYVOpGOM+AE6iUczLbq8n4pylD7gEF9ql5f6
-         Kstsf0wLjAhhvmSTY463gHbtVG+duYcZnofIUAxYd26q+NFk7GU9JYcXbDCsfHn9dnEE
-         Wgl05RvosREE5A8wQwZxD7YeoHUSomHz0gHQyI2fdy/VwIEkW+7w2I4mawMJefUlaFvB
-         JLZg==
-X-Gm-Message-State: AOJu0YzoDBqkzt5SLsjIwP701RF6y+CmJzSQRhQEanfpefSBsHh7RlFg
-	kGddXKrcBEsR9DeLOIVFo7zKNi9dbdiRBfvEwTcQNd79FjpORv87CPZe
-X-Gm-Gg: Acq92OGKAeULhYTfInHhLiQYduMjQ2IIscj5eD5UfOqPWtKpbqWFdVpGJVELnJiQqWv
-	/hUHR8o6C1V+Gm4KUoJT6ZDCzVF61/MAin0eEmFWgY4s6tMyjrYvWYOAoMPMc7SyucV4AlDvM/K
-	h5bpS0Zp3NAimSyohkHA1zlDa02hfGEyZgqlsQVlB3yNLZUZZaAfOR2y5kxUqjJw1N7IzP90QzA
-	IayiMzZRATytsy9K3ZXBZVd1BDyUOxE9VVF6/F98eehG+61FMwAjY4tKo3xWtHdPJHDngdZDo7j
-	nqVF6FpMZpw/GpUbH5RWCeZt8F3mV0Be6dLQGZund47zTdvk20Y+gp+J2rVu8wE0CXDrL/WcPd0
-	MOaoPQHwFUa/FqDZRBbcoxzMyht/qdxkOFb2GF1mKoJTUwt/5SsW8Mjv3sSTVcuzhL0XQ7MzXna
-	AAPSZTk2kLw9tFbjTP7OizY6k29l2ZLCWHXoizG2n5Dw72NbO/RaYjyfukN8UBPkA4NzZK
-X-Received: by 2002:a05:6000:188e:b0:451:26e1:3cd1 with SMTP id ffacd0b85a97d-4568cc42f7fmr8098198f8f.35.1778408045575;
-        Sun, 10 May 2026 03:14:05 -0700 (PDT)
-Received: from ?IPV6:2a00:f502:160:4e2:a099:cad9:2ecd:93de? ([2a00:f502:160:4e2:a099:cad9:2ecd:93de])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491ca2fd6sm18233894f8f.30.2026.05.10.03.14.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 May 2026 03:14:05 -0700 (PDT)
-Message-ID: <1c2cdaf2-fe30-4443-b164-c37c26f3dd05@gmail.com>
-Date: Sun, 10 May 2026 13:14:02 +0300
+	s=arc-20240116; t=1778427874; c=relaxed/simple;
+	bh=5Sq2rGZxkRSNRFCeK+kzY0R3/TMVeetSjZ5AwN8eSZI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dwrk535cpoAndeJCVsE+UGqBfGYq0oQkKWzNJIdi2FsaafYqERpWsG7VUEy7CWm6mLBhT41KCymVVBP37063+PMr6FY1AWiPT+Nd2rsWrwQJT/nwAiiSAw4xZhBSLPGRNwB+OzLbxHUjFLReCOIPkF36U+P89r4j/Sz4FL+pT6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PvSQJQAL; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778427872; x=1809963872;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5Sq2rGZxkRSNRFCeK+kzY0R3/TMVeetSjZ5AwN8eSZI=;
+  b=PvSQJQALnk27KrS6pfq25Ig7PMQQgy3tZB0BcGGfrdA2K4bcRSs9BZ3J
+   xqNyEVscqN9VYB0KeYSEZ/Zho0POn7Y5IzjB+lBNdUbvMpvnsggxwYPIg
+   P3cf02j+HzMqRE70cEqial5J+1rscMuMiT03feYUBW/N/hSp6y6M/LzFO
+   BBlZdMUNnX+appr+vqKQiDpiHMJso/M4fwkd/MQr7Q2ukT5d1oA8KaUzv
+   qqs0xMLen97IgNZ7EGtP9BPFwtcJIxLVoGdjUfP2j3nV1ttpwDmGNofn3
+   TcS/sEhzMq5P4kRM4smDum8Y6gulxbciFWXWuxwfJOL4Q+fPoJqponcLj
+   A==;
+X-CSE-ConnectionGUID: Dgaf7jchQm6tmRX+ww0edA==
+X-CSE-MsgGUID: 2xAqL5JPSNKe8QZQLIeZxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="90434076"
+X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
+   d="scan'208";a="90434076"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 08:44:32 -0700
+X-CSE-ConnectionGUID: zZ+uNMeBRh2I7y2zKsLEDg==
+X-CSE-MsgGUID: Fjn8H+G0QYGCPVSogSmOhg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
+   d="scan'208";a="241213745"
+Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 10 May 2026 08:44:29 -0700
+Received: from kbuild by 82327192134e with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wM6KP-000000002M9-3S2g;
+	Sun, 10 May 2026 15:44:25 +0000
+Date: Sun, 10 May 2026 23:43:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Everton Colombo <e.rcolombo2@gmail.com>, andy@kernel.org,
+	hansg@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+	koike@igalia.com, ~lkcamp/patches@lists.sr.ht,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Everton Colombo <e.rcolombo2@gmail.com>
+Subject: Re: [PATCH v2] media: atomisp: remove returns from void functions
+Message-ID: <202605102303.EGwA2HDq-lkp@intel.com>
+References: <20260506173028.24417-1-e.rcolombo2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/8] clk: qcom: gcc-msm8939: mark Venus core GDSCs as
- hardware controlled
-To: Bryan O'Donoghue <bod@kernel.org>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org
-References: <20260507-msm8939-venus-rfc-v5-0-d7b5ea2ce591@gmail.com>
- <7df3bff7-b872-4b20-8e7c-698157a41f33@kernel.org>
- <tawGGT4rtpw22Ng-MgM--GhoEihBU7tY_TrFUHf8raMKApyqTcSkKHyfSuRIL_bqNp_5zWD4SBG_C4c8CB7_6Q==@protonmail.internalid>
- <18998766-62fe-4a5e-95d8-1bfae712d8fb@gmail.com>
- <614a087d-d219-49cb-85ee-772044558649@kernel.org>
- <Jxt4BbN1dL8VKh_Zjah1xecAjz3c9VfbhKSm4a0K2D1MNKfJKIFnCPLj2VvdW1q4LnMIQy8bCzV3YoVnLFYUlA==@protonmail.internalid>
- <0cee27b6-f566-4958-8634-2c43e099281e@gmail.com>
- <dd435489-0cf7-4274-99bf-a591a15e91e4@kernel.org>
- <-hM6afm_Cu_8Cha9U-hrlrg6CGDEb5D3PFpPPCfIh-QgkdFJp_r0Ah9k1dvAF4zkju2dPc3FZJxvOA4V4hupAA==@protonmail.internalid>
- <69f9a6b7-7431-442a-82a2-6305635a508a@gmail.com>
- <9bf43e04-f834-45b6-8942-bcae2e480371@kernel.org>
- <eiZczGoYszhu5QDfm96oeViUfzDjhlJ8JLLIm2YmOU6S2gfCQoBeo9K2T65EzVLvv9B4lSo0k1KCVWMGLnzL6Q==@protonmail.internalid>
- <1ee77cbb-9894-4b16-ae2b-8e9035fd6cd5@gmail.com>
- <6cbb9b37-9560-482a-9fa6-15d5370d258f@kernel.org>
-Content-Language: en-US
-From: Erikas Bitovtas <xerikasxx@gmail.com>
-In-Reply-To: <6cbb9b37-9560-482a-9fa6-15d5370d258f@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: E6D8B503929
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260506173028.24417-1-e.rcolombo2@gmail.com>
+X-Rspamd-Queue-Id: 9564F504E44
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61026-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FREEMAIL_CC(0.00)[lists.linux.dev,kernel.org,linux.intel.com,linuxfoundation.org,igalia.com,lists.sr.ht,vger.kernel.org,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-61027-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[xerikasxx@gmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email,intel.com:mid,intel.com:dkim]
 X-Rspamd-Action: no action
 
+Hi Everton,
 
->>> Last time I tried to enable only 1 of the cores, the following would
->>> happen:
->> - If core0 is enabled, HEVC decoding would work, but not the other
->> codecs.
->> - If core1 is enabled, the rest of codecs would work, but not HEVC.
-> 
-> Can you be a little clearer here do you mean - doesn't work on that core
-> or doesn't work on all cores ?
-> 
+kernel test robot noticed the following build warnings:
 
-By that I mean that when I tried to play an HEVC video with mpv with
-only core0 enabled, it would play fine, but trying to play videos in
-another codec would result in power collapse fails. Likewise with core1,
-but in other codecs.
+[auto build test WARNING on staging/staging-testing]
+[also build test WARNING on staging/staging-next staging/staging-linus linus/master v7.1-rc2 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I assume this is how cores are split - core0 does HEVC decoding and
-core1 does the rest of codecs. This is confirmed by downstream code as
-well (although the cores are flipped - core0 is the rest of codecs
-("legacy") and core1 is HEVC):
-https://github.com/msm8916-mainline/linux-downstream/blob/b20608408caff817ec874f325127b07609fbaeb8/arch/arm/boot/dts/qcom/msm8939-common.dtsi#L1589
-https://github.com/msm8916-mainline/linux-downstream/blob/b20608408caff817ec874f325127b07609fbaeb8/Documentation/devicetree/bindings/media/video/msm-vidc.txt#L35
+url:    https://github.com/intel-lab-lkp/linux/commits/Everton-Colombo/media-atomisp-remove-returns-from-void-functions/20260510-154432
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260506173028.24417-1-e.rcolombo2%40gmail.com
+patch subject: [PATCH v2] media: atomisp: remove returns from void functions
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20260510/202605102303.EGwA2HDq-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605102303.EGwA2HDq-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605102303.EGwA2HDq-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c: In function 'ia_css_debug_binary_print':
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:853:1: error: invalid storage class for function 'findf_dmem_params'
+     853 | findf_dmem_params(struct ia_css_stream *stream, short idx)
+         | ^~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1049:28: error: invalid storage class for function 'dtrace_dot'
+    1049 | static void __printf(1, 2) dtrace_dot(const char *fmt, ...)
+         |                            ^~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1063:1: error: invalid storage class for function 'ia_css_debug_pipe_graph_dump_frame'
+    1063 | ia_css_debug_pipe_graph_dump_frame(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1875:1: error: expected declaration or statement at end of input
+    1875 | }
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c: At top level:
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1862:6: warning: 'ia_css_debug_pc_dump' defined but not used [-Wunused-function]
+    1862 | void ia_css_debug_pc_dump(sp_ID_t id, unsigned int num_of_dumps)
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1848:6: warning: 'ia_css_debug_dump_trace' defined but not used [-Wunused-function]
+    1848 | void ia_css_debug_dump_trace(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1575:1: warning: 'ia_css_debug_dump_stream_config' defined but not used [-Wunused-function]
+    1575 | ia_css_debug_dump_stream_config(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1475:1: warning: 'ia_css_debug_dump_pipe_config' defined but not used [-Wunused-function]
+    1475 | ia_css_debug_dump_pipe_config(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1447:1: warning: 'ia_css_debug_dump_pipe_extra_config' defined but not used [-Wunused-function]
+    1447 | ia_css_debug_dump_pipe_extra_config(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1399:1: warning: 'ia_css_debug_pipe_graph_dump_stream_config' defined but not used [-Wunused-function]
+    1399 | ia_css_debug_pipe_graph_dump_stream_config(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1368:1: warning: 'ia_css_debug_pipe_graph_dump_sp_raw_copy' defined but not used [-Wunused-function]
+    1368 | ia_css_debug_pipe_graph_dump_sp_raw_copy(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1157:1: warning: 'ia_css_debug_pipe_graph_dump_stage' defined but not used [-Wunused-function]
+    1157 | ia_css_debug_pipe_graph_dump_stage(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1114:6: warning: 'ia_css_debug_pipe_graph_dump_epilogue' defined but not used [-Wunused-function]
+    1114 | void ia_css_debug_pipe_graph_dump_epilogue(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1039:1: warning: 'ia_css_debug_mode_enable_dma_channel' defined but not used [-Wunused-function]
+    1039 | ia_css_debug_mode_enable_dma_channel(int dma_id,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1024:1: warning: 'ia_css_debug_mode_disable_dma_channel' defined but not used [-Wunused-function]
+    1024 | ia_css_debug_mode_disable_dma_channel(int dma_id,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1011:6: warning: 'ia_css_debug_mode_init' defined but not used [-Wunused-function]
+    1011 | bool ia_css_debug_mode_init(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:976:6: warning: 'ia_css_debug_dump_isp_binary' defined but not used [-Wunused-function]
+     976 | void ia_css_debug_dump_isp_binary(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:946:6: warning: 'sh_css_dump_sp_raw_copy_linecount' defined but not used [-Wunused-function]
+     946 | void sh_css_dump_sp_raw_copy_linecount(bool reduced)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:877:6: warning: 'ia_css_debug_dump_isp_params' defined but not used [-Wunused-function]
+     877 | void ia_css_debug_dump_isp_params(struct ia_css_stream *stream,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:839:6: warning: 'ia_css_debug_wake_up_sp' defined but not used [-Wunused-function]
+     839 | void ia_css_debug_wake_up_sp(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:824:6: warning: 'ia_css_debug_enable_sp_sleep_mode' defined but not used [-Wunused-function]
+     824 | void ia_css_debug_enable_sp_sleep_mode(enum ia_css_sp_sleep_mode mode)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:807:6: warning: 'ia_css_debug_dump_sp_sw_debug_info' defined but not used [-Wunused-function]
+     807 | void ia_css_debug_dump_sp_sw_debug_info(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:441:6: warning: 'ia_css_debug_frame_print' defined but not used [-Wunused-function]
+     441 | void ia_css_debug_frame_print(const struct ia_css_frame *frame,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c: In function 'inputfifo_send_data_b':
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:110:13: error: invalid storage class for function 'inputfifo_send_data'
+     110 | static void inputfifo_send_data(
+         |             ^~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:122:13: error: invalid storage class for function 'inputfifo_send_sol'
+     122 | static void inputfifo_send_sol(void)
+         |             ^~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:131:13: error: invalid storage class for function 'inputfifo_send_eol'
+     131 | static void inputfifo_send_eol(void)
+         |             ^~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:139:13: error: invalid storage class for function 'inputfifo_send_sof'
+     139 | static void inputfifo_send_sof(void)
+         |             ^~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:148:13: error: invalid storage class for function 'inputfifo_send_eof'
+     148 | static void inputfifo_send_eof(void)
+         |             ^~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:156:13: error: invalid storage class for function 'inputfifo_send_ch_id_and_fmt_type'
+     156 | static void inputfifo_send_ch_id_and_fmt_type(
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:173:13: error: invalid storage class for function 'inputfifo_send_empty_token'
+     173 | static void inputfifo_send_empty_token(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:181:13: error: invalid storage class for function 'inputfifo_start_frame'
+     181 | static void inputfifo_start_frame(
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:190:13: error: invalid storage class for function 'inputfifo_end_frame'
+     190 | static void inputfifo_end_frame(
+         |             ^~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:200:13: error: invalid storage class for function 'inputfifo_send_line2'
+     200 | static void inputfifo_send_line2(
+         |             ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:290:1: error: invalid storage class for function 'inputfifo_send_line'
+     290 | inputfifo_send_line(const unsigned short *data,
+         | ^~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:333:13: error: invalid storage class for function 'inputfifo_send_frame'
+     333 | static void inputfifo_send_frame(
+         |             ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:368:38: error: invalid storage class for function 'inputfifo_determine_type'
+     368 | static enum inputfifo_mipi_data_type inputfifo_determine_type(
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:390:35: error: invalid storage class for function 'inputfifo_get_inst'
+     390 | static struct inputfifo_instance *inputfifo_get_inst(
+         |                                   ^~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:503:1: error: expected declaration or statement at end of input
+     503 | }
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c: At top level:
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:488:6: warning: 'ia_css_inputfifo_end_frame' defined but not used [-Wunused-function]
+     488 | void ia_css_inputfifo_end_frame(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:467:6: warning: 'ia_css_inputfifo_send_embedded_line' defined but not used [-Wunused-function]
+     467 | void ia_css_inputfifo_send_embedded_line(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:443:6: warning: 'ia_css_inputfifo_send_line' defined but not used [-Wunused-function]
+     443 | void ia_css_inputfifo_send_line(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:421:6: warning: 'ia_css_inputfifo_start_frame' defined but not used [-Wunused-function]
+     421 | void ia_css_inputfifo_start_frame(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:396:6: warning: 'ia_css_inputfifo_send_input_frame' defined but not used [-Wunused-function]
+     396 | void ia_css_inputfifo_send_input_frame(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c: In function 'ia_css_isys_rx_configure':
+   drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c:646:1: error: expected declaration or statement at end of input
+     646 | }
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c: At top level:
+>> drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c:637:6: warning: 'ia_css_isys_rx_disable' defined but not used [-Wunused-function]
+     637 | void ia_css_isys_rx_disable(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/ia_css_debug_pc_dump +1862 drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
+
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1847  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19 @1848  void ia_css_debug_dump_trace(void)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1849  {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1850  #if TRACE_ENABLE_SP0
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1851  	debug_dump_one_trace(TRACE_SP0_ID);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1852  #endif
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1853  #if TRACE_ENABLE_SP1
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1854  	debug_dump_one_trace(TRACE_SP1_ID);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1855  #endif
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1856  #if TRACE_ENABLE_ISP
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1857  	debug_dump_one_trace(TRACE_ISP_ID);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1858  #endif
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1859  }
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1860  
+3c0538fbad9f1d0 drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c                  Mauro Carvalho Chehab 2020-04-30  1861  /* ISP2401 */
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19 @1862  void ia_css_debug_pc_dump(sp_ID_t id, unsigned int num_of_dumps)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1863  {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1864  	unsigned int pc;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1865  	unsigned int i;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1866  	hrt_data sc = sp_ctrl_load(id, SP_SC_REG);
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1867  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1868  	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "SP%-1d Status reg: 0x%X\n", id, sc);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1869  	sc = sp_ctrl_load(id, SP_CTRL_SINK_REG);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1870  	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "SP%-1d Stall reg: 0x%X\n", id, sc);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1871  	for (i = 0; i < num_of_dumps; i++) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1872  		pc = sp_ctrl_load(id, SP_PC_REG);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1873  		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "SP%-1d PC: 0x%X\n", id, pc);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1874  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19 @1875  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
