@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-61163-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61164-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IPQvOYwOAmoSngEAu9opvQ
-	(envelope-from <linux-media+bounces-61163-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 19:14:52 +0200
+	id QLfrIaQOAmplngEAu9opvQ
+	(envelope-from <linux-media+bounces-61164-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 19:15:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9146F513307
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 19:14:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6842751331D
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 19:15:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B40A8302E95B
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 17:13:28 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 1C4873032D36
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 17:13:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A289F46AF32;
-	Mon, 11 May 2026 17:12:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B46B44CADF;
+	Mon, 11 May 2026 17:12:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PjhzhaPR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S1B3cRTm"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8088646AEFA
-	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 17:12:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7501441037
+	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 17:12:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778519548; cv=none; b=jchndPAKVeh8AFt7OfIUfhbA/9AqLFULNs0zzt1FhaeHSbVY9pii/WgZKxJW7d2g68mW6L/TVwleK1/rxw26XdUleCe3X4tP4DZ+h7hXrexUqkE2+490D85UBQLEgdN8m9FmzihsYV3yPwTzNBVhvHU1VzfHt8icf20W7Gzi9rE=
+	t=1778519550; cv=none; b=nEZ5PUpkiUJCWrmF7uhuMurRylGi6gHq2Vzn2k1QxhYpiNFDfqNtUGByakJDQqs6dfNO683n98HsKRY1RSty/m2uNm8qSsMC7xehtB3lA8VmUC9BP7ge4TRuQyk0SSktIcV+fyUX0Ln2oAKSjh99cHx4/ps9qbqq0lHWD/eqirI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778519548; c=relaxed/simple;
-	bh=EB/e87XuFCPUJ72NiJ6scGbM1z6scuWykz1rqgsY/mQ=;
+	s=arc-20240116; t=1778519550; c=relaxed/simple;
+	bh=Gt3yIVFcMfYZ48mYTPU++4MAqYZaXfW/cae5IEUlc88=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fJjiWljXFUGehnEGXlqjWgH13CUCo/FLgBlTEfbfAJ0i+ijntEi1tuyDYbqJ1AdFFFJic0otQzVUERvb2mqS+n47yDrQZVUaQZIhW2WxMAouEkVfd4qpDkWVbVHso7i6C+ixVCKIF7+o673tjWinM+C6ybTm8SDJ6d9JfGesDdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PjhzhaPR; arc=none smtp.client-ip=209.85.167.43
+	 MIME-Version; b=ecPCjeTk4To48sk+3wq/ucuRIIis7skIAbVbvsC8m7uXxQd90mBjzBkR7XKIfacyTAzVscqQ+TCWi1VHErpOzsetn2bIMONk1V7yLT5MDC3bC0W8ibstaj7xyMFVaaOCKn3qdqF6NDcZfv9cxoLSMfiE05t43UahMEjGcOW00nI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S1B3cRTm; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a8c6fc5fd3so1465023e87.0
-        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 10:12:26 -0700 (PDT)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a86c1fe573so4971146e87.3
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 10:12:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778519544; x=1779124344; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778519547; x=1779124347; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fxqdxYVfNyLoxNKHswDJZT0z/g1AEcUqUWKcspgGBc8=;
-        b=PjhzhaPReJcaowg8zFxZPNbzVtMQAnjvdXilDrhccdbcSwsqziux/y5gSUAPeW7sGH
-         1RbUt5Nc/oUawa9unvDwS/dmL1T/uYchbX8Cvkq6a22Pl5/UB9vooV6rNiHgHjTO9/6Q
-         UvQ1tE2XDKNahZ9+tXOtZiAOwzgdzziRevnpBE8/vTRuVJNuQ91qN0Vg1fojsEkjMUT7
-         V6TNx43ZaQnhpY9XSaL2mHV/iCDH1DDErlco4EpzNvbiAcqHfQytiFpdaa0AWWWhR1ax
-         Mi9uTKwi7AzBmgRwO1O/X3MU2zsosOfPxJzScnqv7u5sfDZ7AT73ddm98wxK0ASS02qK
-         Q5Gw==
+        bh=7HLgvNKbFd9dvErpzRIPe7Oy/Q20OX1O2SmZxWVb8gM=;
+        b=S1B3cRTmdSG7WhR78gz+ZcCvPVN3Qqd1GOUiUd1N7KWGflFn2rOwh9TzFmt0FrfwY/
+         z0rHWIeH0CALbtGzZHAoX9BnoEnrUzhh5X/9QCTz2+0a5PBPnTVtXY3ia6gpdkUSiMsy
+         9HY/mbKKLOYOQnVuLinJ8mhZZulo54IWIpsic1j0rLvDe4dSo5/M432pvzDo5YMCPBEk
+         mER9FQ5Zvn+gr8reKT6HsYS0Mo5VZZLw0oS6FVz57kvzFg8NaKL+a5G3z3jKc1wPET6K
+         phcXLI4idnuWe+4lD9yqf1/UUaOZ77BG+SP53JrC38qsAxTDgd5uS/wRboaCrNNf0kZZ
+         lSFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778519544; x=1779124344;
+        d=1e100.net; s=20251104; t=1778519547; x=1779124347;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=fxqdxYVfNyLoxNKHswDJZT0z/g1AEcUqUWKcspgGBc8=;
-        b=fSFOmGgFlaSqOOlaSFKLv+kaIdqcwVc7jPoDbjLqUBOGl/QtKuzxjlZVb4ZA6/4VHc
-         WBEK5OOSQMzHK2jg9Llk0Md3U53s4J3Iq6UQZefAiftMJmEOCRkNIiaRi3JwSi1OOvuj
-         eKPPdv3AObKl+VI1/egCtQUBD9G21Wsjva6RHWJCP3MyZVegCz1s4Aq4nA2Np/tH+z9W
-         p3stMwuP/enwFEHu2BlgreakluRfYPINxqx04P7HaK3UnFYWFWOe0Tsdq3TVbVYo8F2/
-         xDXfMo/LtTUPfYbRhvjA7PbahtlR4zp2o5knnDvAnAo5fcEfRHrRpf/prXlo3v7V5yp1
-         YJ8Q==
-X-Gm-Message-State: AOJu0Yyne9iCjLZYpvxD9TlOA6wtWUz+fS0F27kdSo5QEpf1XrQHRrVs
-	HBc7tZalC/eoyWSntR86I0E3DnruQBZTjN3OvjfWdEFO1GmpWs354sgBPpazkJ0nd0ywdk2OPHA
+        bh=7HLgvNKbFd9dvErpzRIPe7Oy/Q20OX1O2SmZxWVb8gM=;
+        b=HoJl7bdqV0p+EgqbzqRfX1LrJunDZwR2ncyJ8EKOtGOgxP9Wg9wsYoMpHuln86jbra
+         HbQr8ytDpEUILZoy8pV2WmrhGjzD7wGZxnaXqKNcSLpRbhyklg/tacY0McUk1Z37j5BI
+         Ui1RCI0Y+T6ebjEMuDtw5XHWU85JaqTHc/gaaNb4REYfYWRfxGwq/g933eCPBpHKDu6S
+         ZR6x4256GaEu+89+9nhYDfltbnfYisn+84EAXJfv2LdGQi/awL8V8PPM1isRkXvNVGRk
+         1rZU/mtodd5l7x1Tc3pVdOpwKDQ87SAsX6V3EjCYBZZbsN2TCnlcSlBn715pzQaA6lVW
+         8IuQ==
+X-Gm-Message-State: AOJu0YydcMU/LpoDEZP7LE9PScoPKhJ1W7/J79YlESW/8Q0dA1VTyFD9
+	hBRgOK8tT/bMVPcwVPJ/jAgP22xiOiL8/o5mVdLPx7whAyvShekxJwaWa66at8G06luR1eaIw0g
 	=
-X-Gm-Gg: Acq92OHHJUSRHDGqzuP+JfUuCZcx1NK+cAJ+/F6rJPQ7z2LsumUX9h/acmffesLBEUB
-	pvX11LE6LA/2aiUvks/y5tn9/YqTmaCkVBaCMEMTjkGbema8YncIOG0Hzm+pQ3nYKKdcNIupYWW
-	wi8euQiG6FHEVfkgrSBJQuCFMI4v3y6JveW0gS0mbRfd6Edpz0YFsp7JBFVJY0ohAlUaMua2Ahs
-	dEDOGsYjZQF5nsg5nuP+31Uo6KnSP6SXMjpfPa8YIMrSwHEo5PV86cqxSmCRBCkNvZqpUy3dHCH
-	8ya8Co/GcrouICUaBZpDyXQ+Y0US6ccEsxC6zo0S1be7nNkTlGv/YFmehqwKbHq4YgrYj0ZPz8c
-	tIM3VfEYW4WB0CyKWU0OhyYheN4wbTzPVhyG0FB22Tff+q5j28EtBsLIGIzEzUdq4zFP+gtrbRd
-	TlL9TNU7JUgcsQYWUFnb16vyfrCfN1aDgRzRWOyKXCBQNi5xx3H67vsGNA/Ffy
-X-Received: by 2002:a05:6512:2309:b0:5a2:b86b:56c2 with SMTP id 2adb3069b0e04-5a8e0f35137mr91615e87.21.1778519544242;
-        Mon, 11 May 2026 10:12:24 -0700 (PDT)
+X-Gm-Gg: Acq92OEgGGr/Vsox4bcu+TUrcduwZHLDhQeQClHkhVgA1BBc1AZqdS+U2aH2tbLgLJm
+	Mx3YarR/Ld4kWrlT+sYSAUL4K7LMI+AuQqBARlPTBe3N0RZk8crx6Wg/1Zs/VD+QXrVPDRUM3FK
+	ttsExOFDN3AoxvJ/yestVF6P5L5Ut89oFHwdqq9K5W5a81pgN1nUXlhtczD7eLuY1N9B/5zrrbK
+	5X8FGZ3CsgjABAoDhk7092b57P64XyE3fYd2uFArlVr3HzKtxR5KJU7NhhqqW7tPrx/bLtjOD+M
+	Z/qNqPTTQjg9IqWtGdwMyRNbamenALocjga7z6Z23+x9x96FQdd7zoC3EPP5dpf97UzW1wxmHV3
+	M/WGMsmSgykmfuZXAMWl75yhxoe/8pflkRJAmf2WCo88wlIKj4Kx3jPbEXyetoRNZ8o7qcN0kRm
+	rJvouJC9XL8WZ3s/nA/I4tL4nEf3JRJfzuYik0iL5Kltmxz9KeyW2na7zrvm9H
+X-Received: by 2002:a05:6512:3d8a:b0:5a8:a558:63b3 with SMTP id 2adb3069b0e04-5a8b709b088mr3026360e87.30.1778519546521;
+        Mon, 11 May 2026 10:12:26 -0700 (PDT)
 Received: from va-HP-Pavilion-Desktop-595-p0xxx.mshome.net ([193.0.150.248])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a95660b6sm2765488e87.62.2026.05.11.10.12.21
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a95660b6sm2765488e87.62.2026.05.11.10.12.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 10:12:23 -0700 (PDT)
+        Mon, 11 May 2026 10:12:26 -0700 (PDT)
 From: Valery Borovsky <vebohr@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: mchehab@kernel.org,
@@ -96,9 +96,9 @@ Cc: mchehab@kernel.org,
 	linux-kernel@vger.kernel.org,
 	Valery Borovsky <vebohr@gmail.com>,
 	stable@vger.kernel.org
-Subject: [PATCH 5/6] media: stm32-dcmipp: Return queued buffers on start_streaming() failure
-Date: Mon, 11 May 2026 20:12:10 +0300
-Message-ID: <3b7c3d1be61bcf092484016e25e7b8add98bbe0d.1778518085.git.vebohr@gmail.com>
+Subject: [PATCH 6/6] media: sun4i-csi: Return queued buffers on start_streaming() failure
+Date: Mon, 11 May 2026 20:12:11 +0300
+Message-ID: <b914d204dbcc642e56a8d54dff33c94f1a9802fa.1778518085.git.vebohr@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1778518085.git.vebohr@gmail.com>
 References: <cover.1778518085.git.vebohr@gmail.com>
@@ -109,7 +109,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 9146F513307
+X-Rspamd-Queue-Id: 6842751331D
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -128,7 +128,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_TWELVE(0.00)[19];
-	TAGGED_FROM(0.00)[bounces-61163-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61164-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -149,42 +149,42 @@ without first returning those buffers via vb2_buffer_done(),
 vb2_start_streaming() fires WARN_ON(owned_by_drv_count) and the queued
 buffers leak.
 
-dcmipp_bytecap_start_streaming() returned -EINVAL when the source
-subdevice could not be resolved from the media graph, before
-pm_runtime_resume_and_get() and media_pipeline_start() had been called.
-The remaining error paths already converge on the err_buffer_done
-label, which calls dcmipp_bytecap_all_buffers_done(...,
-VB2_BUF_STATE_QUEUED).  Jump to that label directly: the intermediate
-err_pm_put / err_media_pipeline_stop labels are skipped, which is
-correct because nothing they would undo has happened yet.
+sun4i_csi_start_streaming() returned -EINVAL when no matching CSI
+format could be found, before any setup (scratch buffer allocation,
+pipeline start) had been performed.  The remaining error paths already
+converge on the err_clear_dma_queue label, which calls
+return_all_buffers(..., VB2_BUF_STATE_QUEUED) under csi->qlock.  Jump
+to that label directly: the intermediate err_disable_device /
+err_disable_pipeline / err_free_scratch_buffer labels are skipped,
+which is correct because nothing they would undo has happened yet.
 
 This mirrors the uvcvideo fix in commit 4cf3b6fd54eb ("media: uvcvideo:
 Return queued buffers on start_streaming() failure").
 
-Fixes: 28e0f3772296 ("media: stm32-dcmipp: STM32 DCMIPP camera interface driver")
+Fixes: 577bbf23b758 ("media: sunxi: Add A10 CSI driver")
 Cc: stable@vger.kernel.org
 Signed-off-by: Valery Borovsky <vebohr@gmail.com>
 ---
- .../media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c   | 6 ++++--
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
-index a42f43d19f9e..f0e809458489 100644
---- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
-+++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
-@@ -401,8 +401,10 @@ static int dcmipp_bytecap_start_streaming(struct vb2_queue *vq,
- 	 */
- 	if (!vcap->s_subdev) {
- 		pad = media_pad_remote_pad_first(&vcap->vdev.entity.pads[0]);
--		if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
--			return -EINVAL;
-+		if (!pad || !is_media_entity_v4l2_subdev(pad->entity)) {
-+			ret = -EINVAL;
-+			goto err_buffer_done;
-+		}
- 		vcap->s_subdev = media_entity_to_v4l2_subdev(pad->entity);
- 		vcap->s_subdev_pad_nb = pad->index;
- 	}
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+index e911c7f7acc5..4781db21c205 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+@@ -234,8 +234,10 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	int ret;
+ 
+ 	csi_fmt = sun4i_csi_find_format(&csi->fmt.pixelformat, NULL);
+-	if (!csi_fmt)
+-		return -EINVAL;
++	if (!csi_fmt) {
++		ret = -EINVAL;
++		goto err_clear_dma_queue;
++	}
+ 
+ 	dev_dbg(csi->dev, "Starting capture\n");
+ 
 -- 
 2.51.0
 
