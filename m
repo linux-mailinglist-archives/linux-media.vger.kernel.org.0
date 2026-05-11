@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-61060-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61061-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gDcxOu6fAWpKgwEAu9opvQ
-	(envelope-from <linux-media+bounces-61060-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:22:54 +0200
+	id AHGUO8qjAWpKhAEAu9opvQ
+	(envelope-from <linux-media+bounces-61061-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:39:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270B150ACE7
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:22:54 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7691E50B11D
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:39:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 8AE8D3017388
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 09:11:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CB8B031D5FFC
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 09:12:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E51813BE631;
-	Mon, 11 May 2026 09:11:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F6D73BF678;
+	Mon, 11 May 2026 09:11:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fOXjKgBI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lUeS/kBO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B843BD642
-	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 09:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741613BED7A
+	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 09:11:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778490695; cv=none; b=jcX4XQn7f4eWTxvqiBSQyv1jUmVETGONvpBuayMMyqx8ZOhaa90d3iKaPckWSEDMI6GpiziPkcoCjXfdXYbDi+Bi2YYq4gfMRrK/Ry6O3Ns70XY9egFei2Tf93gE0ICanrhbOByzq8qTHdXkfJxekoTghW5JRabEkrFPA/zjfSs=
+	t=1778490700; cv=none; b=U1/Ff1nW8JdbXOurSIHawh47AJ/j2jiaYU2JFVnhKhkjEBp8FHuTsVx1p5ysa0ObSb4b99iSTXJ68pKTjg6bwRM/+7/RZHO7e0KBOyI1foRfDYL1oVDEuI5WXzZ4S5e0fm9flglchJKxixLro9e1OCq116P2uJueVQQEoNTy9y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778490695; c=relaxed/simple;
-	bh=2Fbe+51I+NHaqoJEm/Ia1P/RkOrsQ8sOHQ84+D4jX5M=;
+	s=arc-20240116; t=1778490700; c=relaxed/simple;
+	bh=BUFAulTNzVqetHKEgSJqSyl4CEAgDPbvCblJAnM2qJ0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NRhXaTq+Lq+CX2GmOdaAY47j84k8FZqEMxhOpnJM0nQo1sJr6PlYjPhaCcq9AIYjhIS6Q774jYinR4Jb5ASSPUZ1nwPsQEoEVdTn/8UOrhA+prkiZDq5CTyoy4ZpZZhIal+JAq+xO4oWZE5fPzNCYduBUj1m2wRu9rZ9MVFqnUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fOXjKgBI; arc=none smtp.client-ip=209.85.215.170
+	 MIME-Version; b=l7MzNbdSc20ZBveYtQyVuy8gzUJL8BYamjI/f6HvmKqqS6IQwISOjxGTNcnBwEgQ2cLE1VCnsqol6A+3+F5ZPjnnBS64VrPonI4U7M8KLeORKHNhC1xDvTZp6JThuRQbjLYB8YAhcV9Og/Y0trjMpExjoepj39jLMrWd6JVuEQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lUeS/kBO; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c7ffe8eeaf2so1595741a12.0
-        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 02:11:33 -0700 (PDT)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-82f9fdfc965so1690867b3a.1
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 02:11:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778490693; x=1779095493; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778490698; x=1779095498; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mrmu7Ax8Tjv7DXY7cz3wQn6QU0gYid8cSWvbdHALi/M=;
-        b=fOXjKgBIrUxxlZjeFfSpBfmeSr06lnAC4d5lOm/VuJBSZ+DfFbQ28rGcumpRJya7Aq
-         Ep+DOmMcJgQ201ciw8u4WJHAknq3991Ef2eH4bUeeYHI5bQ4CeyFxgoq61PzvpKeY11U
-         OrZxA2SefhJw8MynFVzCKWYpCV/cDmjEsfdCvf9SWYXJ+UIfu0+wde4VMaw298nk/vj9
-         Zctmjl6kDX68Gt4RKKS/ybYK96T7sv5ElZ3wazkUfYCrwr5vFACA79BzlQnC//9pAUVs
-         RuTNy/QyZ5dOPdB+yqJLMBNBYfYUEnnWtKiS+qZ6zvLNPRF3mKugYMLbqOlMQAVUGx+P
-         3a6Q==
+        bh=8Rqdip9xlvYYx7a6Z4ny2q52ApONvt288APGOybH+GI=;
+        b=lUeS/kBOUdQFeZpy4T1cZaH1kL/nZ/caOFwps9rpkcCHr7sZrisAW66/MWxdoWfJJo
+         GMKhkoe7WheQPhheo+ZieChXCbI3FMyBzkRpbm3g5vO5BR4F5e+nQ3sF6qCgmpWVWLu5
+         jzv0w+ZUJx40YtmO3X9Ae83vgaWb4Yia5GYmyRrvLIFc7UzAcRkRM8UuCYqPx9mopieE
+         5L/OdC71PlJSbQl/OUO8wa8sPH1rsW1JlwRrwNNkX0v8U20R1uIxc/8R6mURL/UK9GzK
+         u3niB7NhaebQXIMW3fLyxnlAwJ6oHEG5PR4HmtsSHIChv7GFoS3t36W8XN4gTsxxjg1/
+         5+Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778490693; x=1779095493;
+        d=1e100.net; s=20251104; t=1778490698; x=1779095498;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=mrmu7Ax8Tjv7DXY7cz3wQn6QU0gYid8cSWvbdHALi/M=;
-        b=lxBNnw4v/Z/qSi9wJEApOxKjfSVoqwk9iu9PiR5etD788GzIHjTofGdgAISJ77FNDj
-         2RE2cu3Qwloxa6DqeXr9qZoodmo68xuDBWtprhViao4RF4BrtbMJ2KpqSh4VyDf2Shn7
-         aDVFC3eWRfdHEaJ0D+mUvg4HHxMJZ4W0EX4nmNLCjDzeL3k0zAqLtD/XKEGUvLZzVfN6
-         OauY++mcWSm3kOalFSrMLWxrNzIeHlgfVx4s/11Xhcndfn9OrPjzaR8rRqCSv3nIq9Yd
-         SPahN1BN8MZsYIuf1lgU7n8BYRQltaBk5BHNSCLm9ptE2iZ2mF9BwAXHIgKsiNWD9btH
-         Tkug==
-X-Forwarded-Encrypted: i=1; AFNElJ8CuY1IOIytltXfY1YBLXGCWhaJnoBFOrTVdysfV6ofx6jW7pGg8TCzCuBAsTdY4Kj3XrYqFiOsOcJPAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJeB0AJeDeZDqDpOnjRcjH+E3Q+ucVYeejAJzVThxq+snGDPtv
-	dYyev4ZbDdBFo16Uuzcp9EmOa4uCBAgcCyq0zutQwoI9HxMLCcCrzKg1
-X-Gm-Gg: Acq92OFZfUtIJolLe69Cvh2+lig1/u56l1e6yxcb5/65pc4qTjpHBjb6kCO8x+ZtDGv
-	rOwvPLLez3XGTXkR3nsf+KIoNmvZA0yWC893V2LLWB49MC6H5vwABjTuhNOZnbyC+ExpVVXGSOr
-	nnduEq3wad47sKSOPpJmQSX/ki+JhGpMaYoULsqonb8ElOJBmtc/BN/Z1Qn+d1KNT3Qiibs4dfS
-	fFcDJB7YlORLfIySZyRaewGyifUrXvoJUeH1DCxwqfCUKp1H9X2Q7DpJIygG7A2du3kvt4ljTF0
-	z34WkltJEa/8YkcyBUJSQmkKxxjaWM++aoiqrgLPbBpuFEDLQjjZNFfp96Np6Rb5+HVNyP6Fk97
-	ruWWvvwkV7OWVhlNYwy96D2+JH+kobxJseMRockutlXsPg29P9rO1Vxl1uli0vgV9oCpeMtZ/sA
-	Wk8zFMnkouKc2IyXTcT76kI6c=
-X-Received: by 2002:a05:6a20:3ca5:b0:3a1:d516:36ec with SMTP id adf61e73a8af0-3aa5ad31592mr26172526637.56.1778490692746;
-        Mon, 11 May 2026 02:11:32 -0700 (PDT)
+        bh=8Rqdip9xlvYYx7a6Z4ny2q52ApONvt288APGOybH+GI=;
+        b=UzXUDEecosF0qi7kIAwngj/QmiPMDASaF1GpEfeW0uAgrO6QYjwBkmJg7VZ37TDOID
+         rhggv0A8sm70MWxI3rPpZlfeGl/e9EZUjCjFCiVOxaGav+Jy6CpSSe1MhaBxd4+HS8/h
+         q6p2jlq8xSf9kx3u6GDmL5sXdvJlqg8j08SK3g6vpUudiDdn/lo2cKs7JbAID1HcMOzi
+         gvgS+9n4XSsP/O5mMqdczJgxOvwD38o1pcRnVDmDEfggRO8P2zYrsanam5BkXXNKOR7i
+         uTZ3K5v/Qyo9qCeFxLlV6pqYkNGkJ6CSYDGfn4TFRL4iJb3K1Ri+LcPoG5HDyoE4nwes
+         AfHQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9mQduSLhDLSHS2a/UgRmoLBMmAyjf1zwoACDyZJs+UjZ5E+U67SHODmT41sKfKQt+lwobNyGS9S+brPw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyw8qKMYJdw8h6WrY/usf4+8lEE6NzMj6VJ9ZPp/Skv1p0JeVkA
+	NKZ6iiUokxX7HHaD8dx/seU2yGykmTbpnm3+/xDhpR87JRPckDXsZXXa
+X-Gm-Gg: Acq92OFuhl63dDhykDQyVQb0Bzi1eVyW3ZiF1yDS6megxElGttqFrOwQygklCUeFWrg
+	tXfvioB+UQvN/XBh731ocZp2bSVQhIB7qQYXYEsH4a7RBlfMHsR2NtoPrR10UhRhNbIgbTPXQd/
+	yhbqurkSmaEgtVyu8mmUkPChcMBPLK7vU51X6+5SXqLZ3O7MlW3nLyZIOgc0xrjWKwcr/3vDuOR
+	2aivbdxpWwi5eK0+Sd3SLYz+ByvvFHrkFp7TbI0wB7cpmG3+PSOEgJ9arTcoFn7sEXLvXMsVDYh
+	Oz1HdxbSeWl/tV7saQdDacXV72S5QQpSJf/p5AXoNqNvWTnMeCF7KnsckwUG3Q4X0is+KIVp4RX
+	Teai49cID3yEAz09CBgYQHejMM4/lKCyfRy64QfkuPg5t9P4X91Wgf3V4WYWpZ4SzlMtat+1lM/
+	t6hcnURr2I5g793oY9kDZqYJ0iMhtD7Sq6hg==
+X-Received: by 2002:a05:6a00:1acb:b0:82f:37e3:ae6e with SMTP id d2e1a72fcca58-83cf6a3a8a2mr13196594b3a.31.1778490697664;
+        Mon, 11 May 2026 02:11:37 -0700 (PDT)
 Received: from nuvole ([2409:8a34:5f37:1974:abc5:99cd:a924:4e86])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8396563f11csm24775517b3a.3.2026.05.11.02.11.28
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8396563f11csm24775517b3a.3.2026.05.11.02.11.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 02:11:32 -0700 (PDT)
+        Mon, 11 May 2026 02:11:37 -0700 (PDT)
 From: Pengyu Luo <mitltlatltl@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -95,9 +95,9 @@ Cc: devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	Pengyu Luo <mitltlatltl@gmail.com>
-Subject: [PATCH v3 1/5] media: hi846: fix hi846_write_reg_16 handling
-Date: Mon, 11 May 2026 17:09:20 +0800
-Message-ID: <20260511090924.269106-2-mitltlatltl@gmail.com>
+Subject: [PATCH v3 2/5] media: hi846: fix link frequency handling
+Date: Mon, 11 May 2026 17:09:21 +0800
+Message-ID: <20260511090924.269106-3-mitltlatltl@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260511090924.269106-1-mitltlatltl@gmail.com>
 References: <20260511090924.269106-1-mitltlatltl@gmail.com>
@@ -108,7 +108,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 270B150ACE7
+X-Rspamd-Queue-Id: 7691E50B11D
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -117,13 +117,13 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,lists.infradead.org,gmail.com];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-61060-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61061-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[18];
@@ -137,40 +137,217 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	NEURAL_HAM(-0.00)[-0.983];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.984];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-hi846_write_reg_16() does not clear a positive *err value on success.
-pm_runtime_get_if_in_use() returns a positive value when the device
-is already in use. When hi846_set_ctrl() passes &ret holding this
-positive value) to hi846_write_reg_16(), the function returns with ret
-as is, the positive value propagates back as a return code, which
-callers interpret as an error.
+link frequency is tied to PLL configuration, lane count, and external
+clock rate, so use runtime here instead of hardcoding for specific
+configuration. To implement this, this commit did
 
-Fix this by resetting *err to 0 only when it is positive.
+1. dropped exposed link freqs as a v4l2_ctrl, since we are runtime
+now, it is inconvenient and unnecessary to expose it, and
+hi846_set_ctrl has nothing to do with it.
 
-Fixes: 04fc06f6dc15 ("media: hi846: fix usage of pm_runtime_get_if_in_use()")
+2. attached pll_cfg_2lane to current mode, and use it with clock, lane
+count to calculate link frequency, we use 2-lane config as default,
+but we can halve it easily for 4-lane case.
+
+3. dropped mclk clock rate check.
+
+Fixes: e8c0882685f9 ("media: i2c: add driver for the SK Hynix Hi-846 8M pixel camera")
 Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
 ---
- drivers/media/i2c/hi846.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/i2c/hi846.c | 75 ++++++++++++++++++++-------------------
+ 1 file changed, 38 insertions(+), 37 deletions(-)
 
 diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
-index a3f77b8434ca..7f069aca0fce 100644
+index 7f069aca0fce..befd54553df2 100644
 --- a/drivers/media/i2c/hi846.c
 +++ b/drivers/media/i2c/hi846.c
-@@ -1271,6 +1271,8 @@ static void hi846_write_reg_16(struct hi846 *hi846, u16 reg, u16 val, int *err)
- 	if (*err < 0)
- 		return;
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ // Copyright (c) 2021 Purism SPC
  
-+	*err = 0;
+-#include <linux/unaligned.h>
++#include <linux/bitops.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+@@ -11,6 +11,7 @@
+ #include <linux/pm.h>
+ #include <linux/property.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/unaligned.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-fwnode.h>
+@@ -219,8 +220,8 @@ struct hi846_mode {
+ 	/* Horizontal timing size */
+ 	u32 llp;
+ 
+-	/* Link frequency needed for this resolution */
+-	u8 link_freq_index;
++	/* PLL configuration for 4-lane link at this resolution */
++	u16 pll_cfg_4lane;
+ 
+ 	u16 fps;
+ 
+@@ -1040,13 +1041,6 @@ static const char * const hi846_test_pattern_menu[] = {
+ 	"Resolution Pattern",
+ };
+ 
+-#define FREQ_INDEX_640	0
+-#define FREQ_INDEX_1280	1
+-static const s64 hi846_link_freqs[] = {
+-	[FREQ_INDEX_640] = 80000000,
+-	[FREQ_INDEX_1280] = 200000000,
+-};
+-
+ static const struct hi846_reg_list hi846_init_regs_list_2lane = {
+ 	.num_of_regs = ARRAY_SIZE(hi846_init_2lane),
+ 	.regs = hi846_init_2lane,
+@@ -1061,7 +1055,7 @@ static const struct hi846_mode supported_modes[] = {
+ 	{
+ 		.width = 640,
+ 		.height = 480,
+-		.link_freq_index = FREQ_INDEX_640,
++		.pll_cfg_4lane = 0x4924, /* HI846_REG_PLL_CFG_MIPI2_H */
+ 		.fps = 120,
+ 		.frame_len = 631,
+ 		.llp = HI846_LINE_LENGTH,
+@@ -1086,7 +1080,7 @@ static const struct hi846_mode supported_modes[] = {
+ 	{
+ 		.width = 1280,
+ 		.height = 720,
+-		.link_freq_index = FREQ_INDEX_1280,
++		.pll_cfg_4lane = 0x4924, /* HI846_REG_PLL_CFG_MIPI2_H */
+ 		.fps = 90,
+ 		.frame_len = 842,
+ 		.llp = HI846_LINE_LENGTH,
+@@ -1112,7 +1106,7 @@ static const struct hi846_mode supported_modes[] = {
+ 	{
+ 		.width = 1632,
+ 		.height = 1224,
+-		.link_freq_index = FREQ_INDEX_1280,
++		.pll_cfg_4lane = 0x4924, /* HI846_REG_PLL_CFG_MIPI2_H */
+ 		.fps = 30,
+ 		.frame_len = 2526,
+ 		.llp = HI846_LINE_LENGTH,
+@@ -1161,7 +1155,6 @@ struct hi846 {
+ 	struct v4l2_ctrl_handler ctrl_handler;
+ 	u8 nr_lanes;
+ 
+-	struct v4l2_ctrl *link_freq;
+ 	struct v4l2_ctrl *pixel_rate;
+ 	struct v4l2_ctrl *vblank;
+ 	struct v4l2_ctrl *hblank;
+@@ -1192,21 +1185,37 @@ static const struct hi846_datafmt *hi846_find_datafmt(u32 code)
+ 	return NULL;
+ }
+ 
+-static inline u8 hi846_get_link_freq_index(struct hi846 *hi846)
++static u64
++hi846_get_link_freq(struct hi846 *hi846, const struct hi846_mode *cur_mode)
+ {
+-	return hi846->cur_mode->link_freq_index;
+-}
++	u16 cfg = cur_mode->pll_cfg_4lane;
++	u64 mclk = clk_get_rate(hi846->clock);
+ 
+-static u64 hi846_get_link_freq(struct hi846 *hi846)
+-{
+-	u8 index = hi846_get_link_freq_index(hi846);
++	/* NOTE: 6, 7 actually map to 8, 10, but this won't be that big */
++	u8 post_div1 = 1 + FIELD_GET(GENMASK(10, 8), cfg);
++	u8 post_div2 = 1 << FIELD_GET(GENMASK(12, 11), cfg);
+ 
+-	return hi846_link_freqs[index];
++	/*
++	 * HI846_REG_PLL_CFG_MIPI1_H = 0x025a, it is fixed in listed modes
++	 * [11:8]: 0x02 => pre_div = 3
++	 * [7:0]: 0x5a => multiplier = 90
++	 */
++	u64 link_freq = mclk / 3 * 90 / post_div1 / post_div2;
++	/*
++	 * for shared modes, since lane count is halved for 2-lane, then getting
++	 * link_freq doubled to match the same data rate. Since 720x480 is
++	 * 2-lane only(reg_list_4lane.num_of_regs == 0), no pll cfg for 4-lane,
++	 * the pll cfg is for 2-lane, so use the cfg as is.
++	 */
++	if (2 == hi846->nr_lanes && cur_mode->reg_list_4lane.num_of_regs)
++		link_freq *= 2;
 +
- 	put_unaligned_be16(reg, buf);
- 	put_unaligned_be16(val, buf + 2);
- 	ret = i2c_master_send(client, buf, sizeof(buf));
++	return link_freq;
+ }
+ 
+ static u64 hi846_calc_pixel_rate(struct hi846 *hi846)
+ {
+-	u64 link_freq = hi846_get_link_freq(hi846);
++	u64 link_freq = hi846_get_link_freq(hi846, hi846->cur_mode);
+ 	u64 pixel_rate = link_freq * 2 * hi846->nr_lanes;
+ 
+ 	do_div(pixel_rate, HI846_RGB_DEPTH);
+@@ -1426,14 +1435,6 @@ static int hi846_init_controls(struct hi846 *hi846)
+ 
+ 	ctrl_hdlr->lock = &hi846->mutex;
+ 
+-	hi846->link_freq =
+-		v4l2_ctrl_new_int_menu(ctrl_hdlr, &hi846_ctrl_ops,
+-				       V4L2_CID_LINK_FREQ,
+-				       ARRAY_SIZE(hi846_link_freqs) - 1,
+-				       0, hi846_link_freqs);
+-	if (hi846->link_freq)
+-		hi846->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+-
+ 	hi846->pixel_rate =
+ 		v4l2_ctrl_new_std(ctrl_hdlr, &hi846_ctrl_ops,
+ 				  V4L2_CID_PIXEL_RATE, 0,
+@@ -1503,10 +1504,10 @@ static int hi846_set_video_mode(struct hi846 *hi846, int fps)
+ 	u64 frame_length;
+ 	int ret = 0;
+ 	int dummy_lines;
+-	u64 link_freq = hi846_get_link_freq(hi846);
++	u64 link_freq = hi846_get_link_freq(hi846, hi846->cur_mode);
+ 
+ 	dev_dbg(&client->dev, "%s: link freq: %llu\n", __func__,
+-		hi846_get_link_freq(hi846));
++		link_freq);
+ 
+ 	do_div(link_freq, fps);
+ 	frame_length = link_freq;
+@@ -1749,7 +1750,6 @@ static int hi846_set_format(struct v4l2_subdev *sd,
+ 	mf->code = HI846_MEDIA_BUS_FORMAT;
+ 	mf->field = V4L2_FIELD_NONE;
+ 
+-	__v4l2_ctrl_s_ctrl(hi846->link_freq, hi846_get_link_freq_index(hi846));
+ 	__v4l2_ctrl_s_ctrl_int64(hi846->pixel_rate,
+ 				 hi846_calc_pixel_rate(hi846));
+ 
+@@ -1950,16 +1950,17 @@ static int hi846_identify_module(struct hi846 *hi846)
+ static s64 hi846_check_link_freqs(struct hi846 *hi846,
+ 				  struct v4l2_fwnode_endpoint *ep)
+ {
+-	const s64 *freqs = hi846_link_freqs;
+-	int freqs_count = ARRAY_SIZE(hi846_link_freqs);
++	int freqs_count = ARRAY_SIZE(supported_modes);
++	u64 link_freq;
+ 	int i, j;
+ 
+ 	for (i = 0; i < freqs_count; i++) {
++		link_freq = hi846_get_link_freq(hi846, &supported_modes[i]);
+ 		for (j = 0; j < ep->nr_of_link_frequencies; j++)
+-			if (freqs[i] == ep->link_frequencies[j])
++			if (link_freq == ep->link_frequencies[j])
+ 				break;
+ 		if (j == ep->nr_of_link_frequencies)
+-			return freqs[i];
++			return link_freq;
+ 	}
+ 
+ 	return 0;
 -- 
 2.54.0
 
