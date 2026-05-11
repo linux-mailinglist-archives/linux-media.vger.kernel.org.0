@@ -1,85 +1,85 @@
-Return-Path: <linux-media+bounces-61147-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61148-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qD9YFQX+AWppnAEAu9opvQ
-	(envelope-from <linux-media+bounces-61147-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 18:04:21 +0200
+	id 8ObvJEsCAmrknAEAu9opvQ
+	(envelope-from <linux-media+bounces-61148-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 18:22:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B88511C26
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 18:04:20 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85039512067
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 18:22:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E62E230A41FE
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 15:56:43 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 5088A30D0B34
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 15:59:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D487641B37B;
-	Mon, 11 May 2026 15:56:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB0A24219FD;
+	Mon, 11 May 2026 15:58:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BBpto/5I"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="a26rWmr/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9A7402B89
-	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 15:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60121423A6D
+	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 15:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778514994; cv=none; b=lGqNx43oK4MfiRWbnkfKBJrUFjTF5ATosH4/DeQXI7S90meN2sPjrhzvkdCCbQa3xGd1tQrfX+SLi392pvhH3E/14BGfWtOwU/2Fxnfp85TmMD0gv85gDUu0+NO/UiXOLLj//+e2Fn61+EV8PxAcFF8jP5qx6Vxpy2qnMsGiX1Q=
+	t=1778515130; cv=none; b=RSVFT4F4oG4Z497yx5Ok1iMPc4i4BvlvVwRj9Gn0SR/LITtsSWdBfEQrZ/PWOeMOjQ/wG81ss5e5AVjhkERXU0XNCwFEQzHh2wvriNQTmaH/jnE4+XHvOMCmXvy/xgWMCBYzMEkpuLwMZrCfPx1CFmzWKsTZGQYqM3nMl63v3so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778514994; c=relaxed/simple;
-	bh=26Z5zACiBEmeh57u1zpWGmh+HK9C+rNPbX7cWfwXieY=;
+	s=arc-20240116; t=1778515130; c=relaxed/simple;
+	bh=tPjz8MvZYUwd2HrVmfdhiEjC4piGNjBbAcum3J0fxsA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XbR5l+vqwsuww0Hq3PaKiRjXIadhEXzDD6GsAjBWeq+zdULvU+dRxp5uOl9U1Q6aZEW7wbxYiyuVd0ymvetMfXEi9Whysj++wT2vEio6uEOE9RuezjMVHdLT8iCZoXDXHPbh7aA4aOE8JBqJ83K6LTar/40Po14yzO2orKtz654=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BBpto/5I; arc=none smtp.client-ip=209.85.218.41
+	 To:Cc:Content-Type; b=iX7pDZQrEY7ITqBeULtLvgDN0/Rua1B0wH82secaFRY5TS8YytJsncWO6kimtF9vC6ZjCoxQRXV5frV81jOQ5C1efr2ytPmHZ+wESaKXs6g0jM9JXr2DegNHgjMASfl5k9iyRqBbuRNGvOGQlmrtmtZW9tp15pApsJWkLyzG+no=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=a26rWmr/; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b8f97c626aaso750746066b.2
-        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 08:56:32 -0700 (PDT)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-bc356898256so760595566b.3
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 08:58:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1778514991; x=1779119791; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1778515126; x=1779119926; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=V8N1U/Qyj3QR7QkqyWRXyEthKrpdzgJBz+nYOsIhbBo=;
-        b=BBpto/5I+TwFggsKxnpB1NE8QJSu+Y7VnKUZQkPv1htHf5lnfXx8G4K4Z5nMedvGwu
-         kSj1YP8Jw8Aw1F/6bqtAn3Tc1KE7lNzru3KZRjn5VbczorZRh9dDwh7QoU0fEj+GlswF
-         PtHLHTKT+qhdDu04c/VFY+YXl5eF4IJJmCYmA=
+        bh=gGm3/h7WrYTDgc2Zza1Wt6uQJTTMxObDFpBEiSspy7s=;
+        b=a26rWmr/2wOeK5THa3Vt8qROcGtedTUCHaw3vcpGIit4+dArqT0RyNy35+MpIj48bH
+         UWXU0aDDjivZFrr8kk7J9tyPOhSA7bDcg4DmUHPDrTC5RaKrvEjpq9fVFCvvJ3SxWxuq
+         pqImnjjJqI/QAuPHq0+ET91pEApLfVTr84RXg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778514991; x=1779119791;
+        d=1e100.net; s=20251104; t=1778515126; x=1779119926;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V8N1U/Qyj3QR7QkqyWRXyEthKrpdzgJBz+nYOsIhbBo=;
-        b=R+u9yz/D+OWVLJZzFO8hbtDDLiXg1mg1m2C5FWnv2+fVMRwy3/UYPUO2o83Tb920nD
-         gp8HS8iuYT00ztatvMF9xHS76cs89MmgB3DSvUbxiwMXDqgAQGAhx9+MAfp/R3cjCWhC
-         G8xXwHBz48F3FEqR9ihTNOWz8rqORGCCEC6zznL+VwzL4WncNdR62S0UftPP4Lnml9f3
-         x853TZsB0FVRNeUjNkRmbIusHi2BjywcGvyUIK8pqXk3CoRgp4JFgTAzaIml3PSjErK+
-         5gEuuuOm1Wvgl/s6BUye6obpOMbpo3VtFJKXdplS/vcLi1A7buivVHN3dMLJO5ywBysG
-         mh3A==
-X-Forwarded-Encrypted: i=1; AFNElJ+Zjh8olQrsxlDyYc1EqqjC6FTCnK3xaoNeQa8J3mEwamo0oOoEWgwAfE5KjlPn8Loe957bulogTeKLlA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuEfdgZtA9TBMYOzO8pa/MM2b7o2HaQpSiQXPjLLlxcDrxgljM
-	p2nGfnTWExm5/lAq8CPq+VBpE9VSgB1ILrDuMjiFfPm7vTnD08HO5CjqTdyWYDNmmmsIpWfQ2EO
-	xBc0=
-X-Gm-Gg: Acq92OH13B+DfOYKqbOtltAhKDGDxYKxjHLm1Kg9hW0/7RjXn8f4Vz4AyfmfheK+ZfE
-	mpmJK8JDWeMNr3bETB0p3G7tZIn9m/o4SC2qrH60dEb00shzPm2nXco5Uas+b9ywbc2hGk8nJne
-	I61TnmZwyszEblGsF9VELm34QRp3nkSljaHt30gvG9deyC28RzHS87isAelO0yjBQbBTe8amN0/
-	FLNt08GNF/swy5Xz5cHH+795iBC7SJe6O64YX1sjkaT3fNMpXR9qS5JVxas4kbzR7Xe1iAoxga4
-	SBfAWVLHCD40gkppj44uO6rTlDnZb0APS+Q+zaFBBxl6Tsnid5TXajL8+UsDoR8IQLrzD3iPhmo
-	ymGwrVGHQJPaeBZur1NaeNA4IFLZrIpyj+9VRwh6maGCptsvLiwNaFQq73L6rCgTKsKVU77mtRK
-	EC99iOCtvoefQG1U8W+I/5PmL5TWz3KcxF6qUDFRK+oZB791Y8nDB/s0bDZhDQ
-X-Received: by 2002:a17:907:1ca7:b0:bce:2050:a0c2 with SMTP id a640c23a62f3a-bce2050bba9mr384406266b.0.1778514990668;
-        Mon, 11 May 2026 08:56:30 -0700 (PDT)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com. [209.85.218.54])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd09513b8cesm134547766b.38.2026.05.11.08.56.29
+        bh=gGm3/h7WrYTDgc2Zza1Wt6uQJTTMxObDFpBEiSspy7s=;
+        b=OicudpwWkXdZAejUSqzMS5RzYyFPHxWe0NnI65zDUWzDJ6TxOwZLizF2GTTDRNn7Ze
+         WUebhFijnnqE63osszzSpCfmnqstpxXJjVQQ7yMTudx6aZk9kHDHMF+hsXmMhkRMegGi
+         JqLIGk5FFMDaLgJBz13nCltGWt6wE0f/v21sFb/+Dx+4DLHVqu9eiJPsIE7C58FMPgnT
+         MilAk9y/edyLQoQu0qMDl3BQYibxEazZU2lYag6YFyxpS7QWAy5FfJWlJCQxVoisQOVh
+         cPVBQzdVJq2m58ERpK30vF0S2xON+1psLfaFOEQE3RFaqavT88IBQbk1KsfSOkjhgS8l
+         QxNw==
+X-Forwarded-Encrypted: i=1; AFNElJ933BnEBPW9L0TAusRCpGYMzG3rQpYtY0k5+nSi+bG4BCY0ABoA8UjGlxfMWX6biRqTw11+hoj1uLhe9w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4rCDtG6aA9wivTMlzljhRImWPPFypLuSkQoGlMMBFXzgtMUbz
+	4dDyG/GXWhQFeoo2hM5JYl1xmMimigxVp7Ok2XRoz9TLBm9lM8GV8awrNZv4p7zb9EERYWbhmMf
+	vAkw=
+X-Gm-Gg: Acq92OH1YCNGu52LmQufxuf7VwnIKmUZfjv0kMQK7FghHc65gfus9uLx7RRBXMQnbDh
+	ayWtGg8vtrobn3OZljAzOOknFx4M/beBIWMxhhb9ukhoQwHj9zjmbZkQi1biV83ho/8vW0lx3b0
+	VeSXKM3oNRpw8fQOgrRImlfrcVTp9LfdvdRMO/4LWZj+2KINQf9iohfb324xYg9AEdVPKbEEokG
+	IHhX/VYOfkjCey9BVL2/2YBNOgYNAJ8MDx1KBlwQI8CVFMWjyKbKEPB9cgA5nnyFqzeXUNhq+we
+	63OQLD9FkNvPmbaScH0J3Ep4/8SQQodbxvi97lAJjM+3EFiZzQDjcGj5KVsn2OI5EpFTPDvLcBW
+	b5+i3xL6yGnlQ581ZU9A25Lpg/7l6KjN3w0RvX5yrCBPDfrXeigqTkhaAhU/An1Ubv+POfStHHr
+	ik8+rqBkOcpvYtWRwD7ChMoLpxDmWd0AMd2ITtHo+C+I4lGzA73zvkD7d26/GME+uRIbpZQaI=
+X-Received: by 2002:a17:907:7f8e:b0:bca:190f:9827 with SMTP id a640c23a62f3a-bcc14daf6ecmr494822266b.45.1778515126230;
+        Mon, 11 May 2026 08:58:46 -0700 (PDT)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com. [209.85.218.52])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bce4c41b1e8sm258966566b.8.2026.05.11.08.58.45
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 May 2026 08:56:29 -0700 (PDT)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-bc66ad3742fso735163566b.1
-        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 08:56:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+NBKVUETLIRpDACAHQ8QwgMjK+Ep6NqC0P9kzjN/sv92fLK0uucrYXaHuZLdnkuk6VLhgwOc4M1Ed2Yg==@vger.kernel.org
-X-Received: by 2002:a17:906:7946:b0:bc6:14b3:e835 with SMTP id
- a640c23a62f3a-bcaac454f5amr778837666b.32.1778514988144; Mon, 11 May 2026
- 08:56:28 -0700 (PDT)
+        Mon, 11 May 2026 08:58:45 -0700 (PDT)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-bccb9dca1beso329939166b.1
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 08:58:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+9GbjY/Pp+zDJvRwNNisr/ebucbQ3XPFgiRHZSI8l9zvIPWCOKYINJt6Zc8qw/KKmTdiBsIng1tz0qSA==@vger.kernel.org
+X-Received: by 2002:a17:906:c14d:b0:bd0:6dbe:22b3 with SMTP id
+ a640c23a62f3a-bd06dbe3240mr238397466b.18.1778515124475; Mon, 11 May 2026
+ 08:58:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,26 +87,27 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260323-uvc-hwtimestamp-v1-0-aa42e3865204@chromium.org>
- <20260323-uvc-hwtimestamp-v1-1-aa42e3865204@chromium.org> <20260511154629.GB3043805@killaraus.ideasonboard.com>
-In-Reply-To: <20260511154629.GB3043805@killaraus.ideasonboard.com>
+ <20260323-uvc-hwtimestamp-v1-3-aa42e3865204@chromium.org> <20260511155125.GD3043805@killaraus.ideasonboard.com>
+In-Reply-To: <20260511155125.GD3043805@killaraus.ideasonboard.com>
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 11 May 2026 17:56:14 +0200
-X-Gmail-Original-Message-ID: <CANiDSCuhk-xdFcXBfsXMtjDERmj_A4TGDLMBKiQZyVuaQCtbgg@mail.gmail.com>
-X-Gm-Features: AVHnY4J56rIMhLc06nCkSPl4V0Q1aa58PkNztLW1yCu0dHF_rEy9aAbm3MLbfKk
-Message-ID: <CANiDSCuhk-xdFcXBfsXMtjDERmj_A4TGDLMBKiQZyVuaQCtbgg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] media: uvcvideo: Fix dev_sof filtering in hw timestamp
+Date: Mon, 11 May 2026 17:58:30 +0200
+X-Gmail-Original-Message-ID: <CANiDSCs5jeEN7OL1PDc0XXtCP5Op2jpnWJyw7WR4Vn_Z7ECYOQ@mail.gmail.com>
+X-Gm-Features: AVHnY4LotYKZD0QXvksPifwDyP78oM1-PCByG8vfrZnviLIV2oBHBptW9nPbzG8
+Message-ID: <CANiDSCs5jeEN7OL1PDc0XXtCP5Op2jpnWJyw7WR4Vn_Z7ECYOQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] media: uvcvideo: Relax the constrains for
+ interpolating the hw clock
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
 	Tomasz Figa <tfiga@chromium.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
 	Yunke Cao <yunkec@google.com>, linux-media@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: E6B88511C26
+X-Rspamd-Queue-Id: 85039512067
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -115,7 +116,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	DKIM_TRACE(0.00)[chromium.org:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61147-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61148-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -123,89 +124,81 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,chromium.org:dkim,ideasonboard.com:email,mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,ideasonboard.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,chromium.org:email,chromium.org:dkim]
 X-Rspamd-Action: no action
 
-On Mon, 11 May 2026 at 17:46, Laurent Pinchart
+Hi Laurent
+
+On Mon, 11 May 2026 at 17:51, Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hi Ricardo,
+> On Mon, Mar 23, 2026 at 01:10:30PM +0000, Ricardo Ribalda wrote:
+> > In the initial version we set the min value to 250msec. Looks like
+> > 100msec can also provide a good value.
 >
-> Thank you for the patch.
+> I'd like to know where the value comes from and how it has been tested.
+
+I used the Android CTS framework for testing. It checks in multiple
+places that the timestamps are stable.
+
 >
-> On Mon, Mar 23, 2026 at 01:10:28PM +0000, Ricardo Ribalda wrote:
-> > To avoid filling the clock circular buffer with duplicated data we only
-> > add it if the new value sof is different than the last added sof.
-> >
-> > The issue is that we compare the unprocess sof with the processed sof.
-> > If there is a sof_offset, or UVC_QUIRK_INVALID_DEVICE_SOF is enabled,
-> > the comparison will not work as expected.
-> >
-> > This patch moves the comparison to the right place.
-> >
-> > Fixes: 141270bd95d4 ("media: uvcvideo: Refactor clock circular buffer")
+> > Now that we are at it, refactor a bit the code to make it cleaner.
+>
+> Do you mean using a macro ? You can mention that explicitly here.
+>
+> > Fixes: 6243c83be6ee8 ("media: uvcvideo: Allow hw clock updates with buffers not full")
 > > Cc: stable@vger.kernel.org
 > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > > ---
-> >  drivers/media/usb/uvc/uvc_video.c | 19 ++++++++++---------
-> >  1 file changed, 10 insertions(+), 9 deletions(-)
+> >  drivers/media/usb/uvc/uvc_video.c | 18 +++++++++++-------
+> >  1 file changed, 11 insertions(+), 7 deletions(-)
 > >
 > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > index 40c76c051da2..6786ca38fe5e 100644
+> > index c7ebedb3450f..dcbc0941ffe6 100644
 > > --- a/drivers/media/usb/uvc/uvc_video.c
 > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > @@ -583,16 +583,7 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
-> >       if (!has_scr)
-> >               return;
+> > @@ -494,6 +494,13 @@ static int uvc_commit_video(struct uvc_streaming *stream,
+> >   * Clocks and timestamps
+> >   */
 > >
-> > -     /*
-> > -      * To limit the amount of data, drop SCRs with an SOF identical to the
-> > -      * previous one. This filtering is also needed to support UVC 1.5, where
-> > -      * all the data packets of the same frame contains the same SOF. In that
-> > -      * case only the first one will match the host_sof.
-> > -      */
-> >       sample.dev_sof = get_unaligned_le16(&data[header_size - 2]);
-> > -     if (sample.dev_sof == stream->clock.last_sof)
-> > -             return;
-> > -
-> >       sample.dev_stc = get_unaligned_le32(&data[header_size - 6]);
+> > +/*
+> > + * The accuracy of the hardware timestamping depends on having enough data to
+> > + * interpolate between the different clock domains. This value is sof cycles,
+> > + * this is, milliseconds.
+> > + */
+> > +#define MIN_HW_TIMESTAMP_DIFF 100
+>
+> UVC prefix.
+>
+> > +
+> >  static inline ktime_t uvc_video_get_time(void)
+> >  {
+> >       if (uvc_clock_param == CLOCK_MONOTONIC)
+> > @@ -834,15 +841,12 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
+> >               y2 += 2048 << 16;
 > >
 > >       /*
-> > @@ -664,6 +655,16 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
-> >       }
+> > -      * Have at least 1/4 of a second of timestamps before we
+> > -      * try to do any calculation. Otherwise we do not have enough
+> > -      * precision. This value was determined by running Android CTS
+> > -      * on different devices.
+> > +      * Check that we have enough data to do the interpolation.
+> >        *
+> > -      * dev_sof runs at 1KHz, and we have a fixed point precision of
+> > -      * 16 bits.
+> > +      * y1 and y2 are dev_sof with a fixed point precision of 16 bits.
+> >        */
+> > -     if (clock->size != clock->count && (y2 - y1) < ((1000 / 4) << 16))
+> > +     if (clock->size != clock->count &&
+> > +         (y2 - y1) < (MIN_HW_TIMESTAMP_DIFF << 16))
+> >               goto done;
 > >
-> >       sample.dev_sof = (sample.dev_sof + stream->clock.sof_offset) & 2047;
-> > +
-> > +     /*
-> > +      * To limit the amount of data, drop SCRs with an SOF identical to the
-> > +      * previous one. This filtering is also needed to support UVC 1.5, where
-> > +      * all the data packets of the same frame contains the same SOF. In that
-> > +      * case only the first one will match the host_sof.
-> > +      */
-> > +     if (sample.dev_sof == stream->clock.last_sof)
-> > +             return;
-> > +
->
-> We will now uncondtionally call some potentially more expensive
-> operations, in particular usb_get_current_frame_number(). Wouldn't it be
-> better to store the unprocessed SOF in the sample in addition to the
-> processed SOF, to allow early comparison ?
-
-Works for me. But I'd rather do it as an optimization 5/5
-
-I would like to have an early equality comparison against the
-unprocessed_sof. And then a similarity check as in 4/5 with the
-processed_sof
->
-> >       uvc_video_clock_add_sample(&stream->clock, &sample);
-> >       stream->clock.last_sof = sample.dev_sof;
-> >  }
-> >
+> >       y = (u64)(y2 - y1) * (1ULL << 31) + (u64)y1 * (u64)x2
 >
 > --
 > Regards,
