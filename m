@@ -1,84 +1,78 @@
-Return-Path: <linux-media+bounces-61071-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61072-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qENYB7KiAWpKhAEAu9opvQ
-	(envelope-from <linux-media+bounces-61071-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:34:42 +0200
+	id MKqwOCWkAWpKhAEAu9opvQ
+	(envelope-from <linux-media+bounces-61072-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:40:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A42250AFC7
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:34:40 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A3450B1AA
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:40:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 0FD43308CBE0
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 09:21:27 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EF370321C1E5
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 09:23:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E14783C3BE8;
-	Mon, 11 May 2026 09:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 655813BED18;
+	Mon, 11 May 2026 09:23:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="adzzzydg"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="b+sb6Rz8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609273BE147
-	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 09:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383493A8740;
+	Mon, 11 May 2026 09:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778491240; cv=none; b=jo+KNL/1FZ47OR7s6u+uxd1LHkGrdu7+Eu8JsRanJEPvXkkhlzoQJ8fKxe9bsUWhW5vnLT10VIvyFHr6kt96ABHvDD/hib5CkFjO3dMpfbb1PSZSyoiQd5Z0/ooIX0jSahU9iiQWxIy41Bj4QasKdw1ENPw6cEZjjU47NxbtO6A=
+	t=1778491393; cv=none; b=DDe2m6w0lrGgVLm4PM+2VcW0XdGNrOXukghFEaDfxM58k1zHyie6jg7EycjHy00sI8cm6uLVONwnY7BRvIc0+ogCbjUZ1JFKXTAjjFIDnOlE0JOC5pq5zCZhXm5/dFgCK4lichpMPjR/Uzvmq4YjZYDhyKhlgsQ7VOKX4farUk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778491240; c=relaxed/simple;
-	bh=0XXM8SATZX5xddyNGVmVrzd/1VHNcnt9h/bLvxKqu7w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JhJamb1N34BJQElyxXHlyl0ydI40ypCVsfVM/Af2chwd1og/2sCG094tT1rH69Mh9rJcrTKGz7zZBgG3OQTHop69izka6nAEtT9ByOjchow9lqmrWMJrG1gC0G8QBt5wLYwheQNk6H3sSLd7vww4XpOAl9jPk3Bg1ojAtb4F9gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=adzzzydg; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-44b330c5cc6so2955251f8f.1
-        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 02:20:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1778491235; x=1779096035; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P3AzCwGuPnUfKtYTICegT0okxDHwk/H/9i6HDV/B1Ww=;
-        b=adzzzydgm+FBvGd37deGXznKfTbxPVIk1U8u2hvdwT7qcDcsd/P3Rur4xl5CeyBDzj
-         jeQUeNKwTbke+S7k/3DhXotn8gnQGJZVfnHciWSEwarm9ABRJz5VEFE1hgzwW8HBS0g4
-         /HULEctAxqrkksy6O7d5QGhYPutxaQC4AnWxYpjDmKxmVuknlFNgmf19HqD1nE7+k0L8
-         oakR/rEjNaTjZfKEUsPC6digGYR9ijEOsxFtuabMLbkgQ/D/wfPgFVokVxtKtePc4GmZ
-         30lE3d3sgCXRYeOdZp2lamkjWfhzJ2xElLFQ9fmNVK7AIV1XHh8bYACj6FZhAPIEy6YB
-         c5pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778491235; x=1779096035;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=P3AzCwGuPnUfKtYTICegT0okxDHwk/H/9i6HDV/B1Ww=;
-        b=CKCwIUfs1jmhQGEPw/xi9LrW8kwG4P3u/g20SIL3kLvf9H5dPmUzRt57T/Uf7ZqJZQ
-         UdI0aUs7WGKqTVZI655ZVU/TtOAP5CMasODUqLDzzlV4cZZKoYQaOoc+1oI3aX3VgxaO
-         8NQX3pyd5cERfV//ymMWQYsmU9JcXYcODbkaYIPf13VWuqhsE/DhXC3fzIIyEqEVFKJn
-         w8bF6RAAW6ogQj+IOli8OHBPB5mpumWLylc5wZdTrhskVSniRVLhpVwGBGZQl6oRA9DX
-         PajKYmcV0sPnAykP6b3uxHHext0C1ayxb9gXeetao2XlFY5c5xHozFjpGqaKEJ6HROgN
-         ypmQ==
-X-Gm-Message-State: AOJu0YxmGRzx+DwoWV7xRDCr2gi1jQ+2JNWSgvK8WwIE9STQP6GC1okR
-	cBrwKnz3h/0viBrZLiSt/40FoL5sTCMV6mmwVuuaXiQ5kygJJn63sAPORvg4eecSNJg=
-X-Gm-Gg: Acq92OEFn3SvykV/0Wb/qDK8VwZ+TBdIC2CovWGv9GB8XMxx2nWzWXKvovCAQ7QZH9M
-	l+6UQPGnwMlWox/YQo9gKRMqALIb/eH9cjv+V4RMSy6YD7vxX4VI0wYjr/3UmN9tTnNUOPNUaT/
-	H74fry/nzAYH3og9hIWJ+/1DERnxTTqk4XlWVZ5ha987tXOU2pRW25Do9dsNKyA7oj/WxZCCxDv
-	AYxqsO0+EF4Je5YGC5pBLpNknZgeVa3yakgPBLCfACXyXQseF2RjyBDDeAh2qaCw0xODORwPx3T
-	Zp31Z6M71sg4thn7ps/ejCiHe70yfxsooVU3Qa55XsKc2by0Le3q9jhB7ZivxO0Ts3ZFA4qV5qS
-	cFSu7x27OuvRnoNU3g2aLIXw95jRpud3AcdZCneQXP85y6ae/VMHuF7sW1dNWSIkY3b3bM7dkSa
-	oDR1XdCrwU+SmwgtKrbV+AnGYfO52x4lVyNMqw6fnDMtvK
-X-Received: by 2002:a5d:5f42:0:b0:455:460a:33a5 with SMTP id ffacd0b85a97d-455460a3511mr16709478f8f.34.1778491235232;
-        Mon, 11 May 2026 02:20:35 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4549120ec0asm23743240f8f.17.2026.05.11.02.20.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 02:20:34 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Mon, 11 May 2026 11:20:31 +0200
-Subject: [PATCH v3 6/6] media: qcom: iris: vdec: allow GEN2 decoding into
- 10bit format
+	s=arc-20240116; t=1778491393; c=relaxed/simple;
+	bh=z53vm2qhXxvQAfXzZc2lskc12FPIJfghOzT0pM/FsXg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=qwGTulWkhOXq1iCqgyXAL1eZjVjOxaZkr9s3ylwTcHfpARGAhP8uKMR4cvm0qwUVSDe5jbvAFoBSQXx8G1kUA1CGi8NZK/UAtFO4elwYSI8C03Um4zjW2ndzyFTh83XeBNr8X/+iF99IEMGGXFmg6TJTC0tg+BPWix6tc4AibIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=b+sb6Rz8; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1778491384;
+	bh=z53vm2qhXxvQAfXzZc2lskc12FPIJfghOzT0pM/FsXg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=b+sb6Rz8q5ernh10wlrWjcVxrJLoTmJjff0Me+riFzRlRcKE4mOqNAopZmXdd+IdQ
+	 UkDdDVFNlCC022mlFV95pur9+/eJKEnspSTdWscj+6kn7oOqB6V7qnQ/Vh6+8IZaT0
+	 SeQyJlHVHvf97wMw1LBLrHpR/+wf3+y0TjFAOIxlPkEIbUGFQ1WUEU9ObbxF+I1mSh
+	 38taxprdieWSRekc4M2nI8nbfV422Re9vW+ycsmMj18/GYRkpG1yK9ubnihX1FjgK6
+	 Zb0tgNpgFKCywxTNyDk8086qo+btK187Gmo06A+Gu7Vzy+7gCHE6OA9kS/o76g69dh
+	 Irq0JLRmRlRfg==
+Received: from IcarusMOD.eternityproject.eu (unknown [100.64.1.21])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0C58517E05FC;
+	Mon, 11 May 2026 11:23:04 +0200 (CEST)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Jassi Brar <jassisinghbrar@gmail.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Nicolas Dufresne <nicolas@ndufresne.ca>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Jason-JH Lin <jason-jh.lin@mediatek.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>, 
+ Nancy Lin <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, 
+ Paul-PL Chen <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>, 
+ Xiandong Wang <xiandong.wang@mediatek.com>, 
+ Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>, 
+ Chen-yu Tsai <wenst@chromium.org>, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-media@vger.kernel.org
+In-Reply-To: <20260325035836.2110757-1-jason-jh.lin@mediatek.com>
+References: <20260325035836.2110757-1-jason-jh.lin@mediatek.com>
+Subject: Re: (subset) [PATCH v2 0/5] Migrate soc, drm-mediatek, mdp3 to new
+ CMDQ APIs (series 2/4)
+Message-Id: <177849138397.112419.16661288513842004996.b4-ty@collabora.com>
+Date: Mon, 11 May 2026 11:23:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,175 +81,60 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260511-topic-sm8x50-iris-10bit-decoding-v3-6-7fc049b93042@linaro.org>
-References: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
-In-Reply-To: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4832;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=0XXM8SATZX5xddyNGVmVrzd/1VHNcnt9h/bLvxKqu7w=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBqAZ9dmMvT6hxbqJ8xf2FZ3uINwpHDW5NYpaS6MkGv
- sFkDMASJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCagGfXQAKCRB33NvayMhJ0YfND/
- 0eZA0rBVDpF0xsJITUqLEN4s4R1NjLiUYG703AB9PtoNS/8zULIbatBdTuQ4q5kwB7jDeZsYOfgOTE
- xqJO2B6z3mvAnrWrE/juPT72gx4TnUYDxfg/JFMlo25n9Q0RPaErIFBW7aIdyytsqvMRHAdDX4hJ0S
- WRS0c7xPMSC/hAoCZf0RrPBV5DCuZFei7wqzGnFpqHy7FousNfmSXCvk0OZQnQZf53SZfXj6pzXV7N
- UIwH7y3jFNfspWFjsUYkpheX2iasvybuaobxsadqJTWXTjph643M1xOLhCv8znQDlVtBU1XH6zptjp
- QXOTTDinNK9mkrkh5iDYPOSNQBqnKNZB5YxmerCHKQfYudeG1YRop66Z8v0pgyXjihXxEufEDrOk/1
- JBTRRZPi0WlzEIvZbrsDIVxtG4lg9YxVH6RU/mgHoXx5iGZEUpcVNxNrw9UJkFsHUsNB1Cr2Pzoqyx
- +mHgwqiyBuKkDK63Png/ZqKjiYJEZEPbF9hU02CZ+BgA9Nhd0o1Bx1Av9VYLCkAZxsAKiRsnSU5bhs
- dAKu3/6mYi3gWwvcDW8Jkdjg5MrIZz9jRK8nhTqIeZVk/DJTa2MGVgKwkC1Egk+YAYPpdhKTJ8JXnZ
- X7rOqW68j0p5mcv1Th4uM11VFNFDAoTCxtcqIVSFFhyV/2+RikDilsmTh06A==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
-X-Rspamd-Queue-Id: 1A42250AFC7
+X-Mailer: b4 0.14.3
+X-Rspamd-Queue-Id: 83A3450B1AA
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61072-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61071-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,ndufresne.ca,mediatek.com];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FREEMAIL_CC(0.00)[gmail.com,mediatek.com,chromium.org,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[angelogioacchino.delregno@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,linaro.org:mid,linaro.org:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:mid,collabora.com:dkim]
 X-Rspamd-Action: no action
 
-Add the necessary bits into the gen2 platforms tables and handlers
-to allow decoding streams into 10bit pixel formats.
+On Wed, 25 Mar 2026 11:57:37 +0800, Jason-JH Lin wrote:
+> This series migrates the MediaTek SoC, DRM, and MDP3 drivers to the new
+> CMDQ APIs introduced for MT8196.
+> 
+> Series application order:
+>   1. [Series V2 2/4] Migrate subsystems to new CMDQ APIs (this series)
+>   2. [Series V2 3/4] Remove shift_pa from CMDQ jump functions
+>   3. [Series V2 4/4] Remove deprecated CMDQ APIs
+> 
+> [...]
 
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- .../media/platform/qcom/iris/iris_hfi_gen2_response.c    | 16 +++++++++++++++-
- drivers/media/platform/qcom/iris/iris_instance.h         |  2 ++
- drivers/media/platform/qcom/iris/iris_platform_gen2.c    |  8 +++++---
- drivers/media/platform/qcom/iris/iris_vdec.c             |  8 ++++++++
- 4 files changed, 30 insertions(+), 4 deletions(-)
+Applied to v7.1-next/soc, thanks!
 
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-index 0541e02d7507..b6d815c01f1d 100644
---- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-@@ -542,6 +542,15 @@ static void iris_hfi_gen2_read_input_subcr_params(struct iris_inst *inst)
- 	pixmp_ip->width = width;
- 	pixmp_ip->height = height;
- 
-+	if (subsc_params.bit_depth == BIT_DEPTH_8 &&
-+	    pixmp_op->pixelformat != V4L2_PIX_FMT_NV12 &&
-+	    pixmp_op->pixelformat != V4L2_PIX_FMT_QC08C)
-+		pixmp_op->pixelformat = V4L2_PIX_FMT_NV12;
-+	else if (subsc_params.bit_depth == BIT_DEPTH_10 &&
-+		 pixmp_op->pixelformat != V4L2_PIX_FMT_P010 &&
-+		 pixmp_op->pixelformat != V4L2_PIX_FMT_QC10C)
-+		pixmp_op->pixelformat = V4L2_PIX_FMT_P010;
-+
- 	switch (pixmp_op->pixelformat) {
- 	case V4L2_PIX_FMT_P010:
- 		pixmp_op->width = ALIGN(width, 128);
-@@ -625,7 +634,12 @@ static void iris_hfi_gen2_read_input_subcr_params(struct iris_inst *inst)
- 	inst->fw_caps[POC].value = subsc_params.pic_order_cnt;
- 	inst->fw_caps[TIER].value = subsc_params.tier;
- 
--	if (subsc_params.bit_depth != BIT_DEPTH_8 ||
-+	if (subsc_params.bit_depth == BIT_DEPTH_8)
-+		inst->fw_caps[BIT_DEPTH].value = BIT_DEPTH_8;
-+	else
-+		inst->fw_caps[BIT_DEPTH].value = BIT_DEPTH_10;
-+
-+	if ((subsc_params.bit_depth != BIT_DEPTH_8 && subsc_params.bit_depth != BIT_DEPTH_10) ||
- 	    !(subsc_params.coded_frames & HFI_BITMASK_FRAME_MBS_ONLY_FLAG)) {
- 		dev_err(core->dev, "unsupported content, bit depth: %x, pic_struct = %x\n",
- 			subsc_params.bit_depth, subsc_params.coded_frames);
-diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
-index 16965150f427..16424d1e94a6 100644
---- a/drivers/media/platform/qcom/iris/iris_instance.h
-+++ b/drivers/media/platform/qcom/iris/iris_instance.h
-@@ -25,6 +25,8 @@ enum iris_fmt_type_out {
- enum iris_fmt_type_cap {
- 	IRIS_FMT_NV12,
- 	IRIS_FMT_QC08C,
-+	IRIS_FMT_TP10,
-+	IRIS_FMT_QC10C,
- };
- 
- struct iris_fmt {
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-index 5da90d47f9c6..ceed4b5d96ca 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-+++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-@@ -56,9 +56,10 @@ static const struct platform_inst_fw_cap inst_fw_cap_sm8550_dec[] = {
- 	{
- 		.cap_id = PROFILE_HEVC,
- 		.min = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
--		.max = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE,
-+		.max = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10,
- 		.step_or_mask = BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN) |
--				BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE),
-+				BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE) |
-+				BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10),
- 		.value = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
- 		.hfi_id = HFI_PROP_PROFILE,
- 		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-@@ -287,7 +288,7 @@ static const struct platform_inst_fw_cap inst_fw_cap_sm8550_dec[] = {
- 	{
- 		.cap_id = BIT_DEPTH,
- 		.min = BIT_DEPTH_8,
--		.max = BIT_DEPTH_8,
-+		.max = BIT_DEPTH_10,
- 		.step_or_mask = 1,
- 		.value = BIT_DEPTH_8,
- 		.hfi_id = HFI_PROP_LUMA_CHROMA_BIT_DEPTH,
-@@ -866,6 +867,7 @@ static const u32 sm8550_vdec_output_config_params[] = {
- 	HFI_PROP_OPB_ENABLE,
- 	HFI_PROP_COLOR_FORMAT,
- 	HFI_PROP_LINEAR_STRIDE_SCANLINE,
-+	HFI_PROP_UBWC_STRIDE_SCANLINE,
- };
- 
- static const u32 sm8550_venc_output_config_params[] = {
-diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
-index f4d9951ed04c..65cf509e4aef 100644
---- a/drivers/media/platform/qcom/iris/iris_vdec.c
-+++ b/drivers/media/platform/qcom/iris/iris_vdec.c
-@@ -70,6 +70,14 @@ static const struct iris_fmt iris_vdec_formats_cap[] = {
- 		.pixfmt = V4L2_PIX_FMT_QC08C,
- 		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
- 	},
-+	[IRIS_FMT_TP10] = {
-+		.pixfmt = V4L2_PIX_FMT_P010,
-+		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-+	},
-+	[IRIS_FMT_QC10C] = {
-+		.pixfmt = V4L2_PIX_FMT_QC10C,
-+		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-+	},
- };
- 
- static const struct iris_fmt *
+[1/5] soc: mediatek: Use pkt_write function pointer for subsys ID compatibility
+      commit: 004361f01625fda9f6d4009d0dc5a59e32b7be7d
+[2/5] soc: mediatek: mtk-cmdq: Add cmdq_pkt_jump_rel_temp() for removing shift_pa
+      commit: a4656aef98dd6f163c55063c36297d45912737f4
 
--- 
-2.34.1
+Cheers,
+Angelo
+
 
 
