@@ -1,132 +1,102 @@
-Return-Path: <linux-media+bounces-61157-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61158-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2NbnGAwXAmoVnwEAu9opvQ
-	(envelope-from <linux-media+bounces-61157-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 19:51:08 +0200
+	id CEmBCu4UAmrangEAu9opvQ
+	(envelope-from <linux-media+bounces-61158-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 19:42:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC28513CFE
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 19:51:07 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D89513A6B
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 19:42:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 20A7B31316CE
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 16:59:56 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id BA0B630D4C85
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 17:12:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C8C943E49F;
-	Mon, 11 May 2026 16:59:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7804144B692;
+	Mon, 11 May 2026 17:12:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BzJ5aeOT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hknY5BJ6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC406421A0A;
-	Mon, 11 May 2026 16:59:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448B4449EA4
+	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 17:12:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778518788; cv=none; b=dbIrPacLl6gpIkQdI7u0agW4LJpoVNe4grZld9lG+/Tty8SWOmSoVEeGdzYI1ZJltn5Or8DOieBz31DBoT6PtPJP23GaS+l4B+/j2g30thYJTXCZyrOxr7GK4Mk8b9g+ffUm32WHTwMyZvF9r9Sj5sWgPEgxpHtjxjeo/xu8wLk=
+	t=1778519537; cv=none; b=CvOs5taUEG3THYIElXaHjSoCVRLQQs+WYDtTASr755eD0a4c6sdiDEVPOqDrqmfXgyDv1oKI4O/nmAfJDJknsq0uSxlnSWvPFpPeaiudyDpH3Yi3FeOaJxWRiJg6tLy8QLJKolaFyR1cM6TSvTyJsx+2RxVBuvrQ8b5AdekKiok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778518788; c=relaxed/simple;
-	bh=XCVn6RziZXVihYEFqIeP8m66Oyw0QaFmhoU3koOf/AY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fY9knCca6S8Xn0qkkbr77iKSazo0R/Zd0Qz1GqcxyM5aBoMswZr4hVwhVXUTOLTtFegb0++wn+p+UGnEd0AqAs3Rs8lr2o2SOQvoHJKozu8aCMXa1U+ivL+6LxOTEDs6NzQcwEGS+dZ5IlAG0Ku7kWeRcG4LUzMOgciUrGxY+Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BzJ5aeOT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3812DC2BCB0;
-	Mon, 11 May 2026 16:59:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778518788;
-	bh=XCVn6RziZXVihYEFqIeP8m66Oyw0QaFmhoU3koOf/AY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BzJ5aeOTpZV3u26f0FQl4pnm+DEAWEsff44MB9jh9lafaKbeGz+2Fa1QLMVbMHLS7
-	 a/KPT6ALSR0N0ukFPN+MTMleVzwVYchvkFpUcFZOS5bw38dHbhSFd1AJkxo0nyzskv
-	 SHtO2cTULh0UeGS7lqGm+nmexEhkXWpzfXXl6GHzdWc45J9/2YZPbgu46R7yTnzWge
-	 1rdI6daDcQ4jWaZpeC/yPKfFW0P3pALOmE/ozzH9ayhEBtUMWSaztYvAzuCFap+15F
-	 FBGQf9g9EKSE2m6ke4dW3tdurkZ/xMEpyf6eKt2fcjrN/4JUWnOLBxmDg98lrVexIi
-	 eJsfpsuD+Q/4w==
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Akhil P Oommen <akhilpo@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	MD Danish Anwar <danishanwar@ti.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Parvathi Pudi <parvathi@couthit.com>,
-	Mohan Reddy Putluru <pmohan@couthit.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Mark Brown <broonie@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Felix Fietkau <nbd@nbd.name>,
-	"Andrew F. Davis" <afd@ti.com>,
-	Hussain Khaja <basharath@couthit.com>,
-	Suman Anna <s-anna@ti.com>,
-	Ben Levinsky <ben.levinsky@amd.com>,
-	Tanmay Shah <tanmay.shah@amd.com>,
-	Erwan Leray <erwan.leray@foss.st.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Cc: Roger Quadros <rogerq@ti.com>,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	dmaengine@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
+	s=arc-20240116; t=1778519537; c=relaxed/simple;
+	bh=3LLaazElOMKyi+EA4lRpSGDokD+YpjiONdAqGB1Oq10=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dwlLcGfzNsBS+yKxkUywW6jfHTQ5t310rj28kkdt9ucsQMM7QtF2qyKAwl6YnsHTG/IizvPUYhkFAVD1bQWuriK9uN1cbrXu1iAh0ZxN/jKWFrhlUkttOdyPV7HVkczZLUVs3OpfpZBIq+jYbNcxFgr5d+dGiPcmds8fyhOCaaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hknY5BJ6; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a858881ad2so4867564e87.3
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 10:12:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778519534; x=1779124334; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Ffx9yq19kp+YfhQJua5Fc4ABV19E4122HD3QSi0Mg4=;
+        b=hknY5BJ69gnOQP+dVrFcKWlluF5XxgPXR3dOHEkrH2kvxuVE/mgaigBPJkxF9oOBpI
+         yewrRnP4S0RFs4EuUnK8aldzI2ZfKlnVgqGg0/VXgfLADDTWaM0TpYSwMrTO7/vfOxJW
+         59cLGwqqSfW2AdQo9o2MRH0GmeYs9UNlTuF4QiYfIAZaAkc8zf3ceyXBxBLIGgXgZPLo
+         X4C0zd/Ame3xlYpmSARk9d6+jVSfJkn0/+8xKTRwkoCBjPsYhyzadHNVr+rOIAbbhlNm
+         xf8y4HKqyYuHCCe2uSzdvZr5V5KQyDLjO1eewJrT/vWvCbDUw91iNzyWSQZB4A4oJnbY
+         A+zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778519534; x=1779124334;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1Ffx9yq19kp+YfhQJua5Fc4ABV19E4122HD3QSi0Mg4=;
+        b=X8e72JoiQ3XA6rC8hpelTiFuPq3xaWR8hhm5g6nvnKdVNwfqba3lG4bE02DvUsFTQD
+         rRUNbHnPCM5IZMllgrZPql9FNMPL9pmCp7eUeNl3M7eSlprK4O+G/6g8NX6YooQxwpZF
+         rVslwoyWJh4QuWlaODgPTfvzSLesUlkgIYRqe0YbTP6I27qrdwbZ8OqXSrFbd+heMxP7
+         cQtHeQDiXcVgvMvQ43qeZQeTAKMNPqdIeqp1xS0hBzDnT5379n6DG2Ji66ghBejqgAqr
+         wROPqmuryTOFY7t5Gwi6LvJqt8M8fg8KIYdI1Sk5vzQR4ITFHVhLjLr4mTh1KjjfjWzt
+         G90Q==
+X-Gm-Message-State: AOJu0YzOOrNSlExvRVva13vNepamIBmfURasx79ekbOn6mHMwhb8/F/3
+	Ka4DuRV3dcBLsmTFX6DotyLVvihUzyOPJmSwgAwDWwFcvkdtXo0WhEB5GjK5wtg6WBofowqaK1A
+	=
+X-Gm-Gg: Acq92OHh9/kXkcZh0QiGWgEfV+d6DDsJZwMDXIRPSu9Ql0ef+D6AHIk51hHWH0uIX7C
+	bchfx3vrUhkhg3nccqG5mwR3rvR3HsxNB1SfzWThJnNXXozoVm95+bbJo5i9ePQsQ8ftj+SFuJN
+	ivYWx+Ly+mwKqu/4q2Gnh2KZ0W5cknBfGbmlxmoCuug0ne8zWlACj2M45phUQPk8/0i0Zv2lDn4
+	ehV3fKMOQfBYc2od0z3HCi4iT2wqaGqBENoFWHf5iBlnEH+AO+YwY3H8y0MYQYFKE32jpUaAjHy
+	O5j6irSj+m1KIQSS4yj6yAMM6gmsLw0HreAQUODMvXmXtei/1jSGcjcFP7zJX7eHAyfwQ26frK2
+	XKoOZ0xNSpSdSWe/55iu893MXDqtPfnuAtdQftOT62bG+YuzWUktZWVopylA3tYTVs8SLsjLvXF
+	8oRMF0DCbPF0pMKIbmkW+kzcNyEjWghaIMSo1jqLsyzekAza28rsRGCYkCNTS5
+X-Received: by 2002:a05:6512:3d9f:b0:5a8:6931:ddea with SMTP id 2adb3069b0e04-5a887add27dmr10425983e87.3.1778519533815;
+        Mon, 11 May 2026 10:12:13 -0700 (PDT)
+Received: from va-HP-Pavilion-Desktop-595-p0xxx.mshome.net ([193.0.150.248])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a95660b6sm2765488e87.62.2026.05.11.10.12.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 10:12:13 -0700 (PDT)
+From: Valery Borovsky <vebohr@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: mchehab@kernel.org,
+	hverkuil@kernel.org,
+	hansg@kernel.org,
+	hugues.fruchet@foss.st.com,
+	alain.volmat@foss.st.com,
+	mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com,
+	sakari.ailus@linux.intel.com,
+	mripard@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
 	linux-stm32@st-md-mailman.stormreply.com,
-	netdev@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-spi@vger.kernel.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH] dt-bindings: Consolidate "sram" property definition
-Date: Mon, 11 May 2026 11:59:36 -0500
-Message-ID: <20260511165942.2774868-1-robh@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Valery Borovsky <vebohr@gmail.com>
+Subject: [PATCH 0/6] media: vb2: Return queued buffers from start_streaming() on error
+Date: Mon, 11 May 2026 20:12:05 +0300
+Message-ID: <cover.1778518085.git.vebohr@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -134,360 +104,103 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: BBC28513CFE
+X-Rspamd-Queue-Id: 13D89513A6B
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61157-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,foss.st.com,gmail.com,linux.intel.com,sholland.org,st-md-mailman.stormreply.com,lists.infradead.org,lists.linux.dev,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[nxp.com,pengutronix.de,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,oss.qualcomm.com,poorly.run,linux.dev,somainline.org,chipsnmedia.com,collabora.com,vanguardiasur.com.ar,sntech.de,foss.st.com,lunn.ch,davemloft.net,google.com,redhat.com,ti.com,couthit.com,linaro.org,baylibre.com,googlemail.com,amd.com,nbd.name];
-	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	TAGGED_FROM(0.00)[bounces-61158-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_GT_50(0.00)[79];
-	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
-	NEURAL_HAM(-0.00)[-0.976];
 	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vebohr@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-0.995];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,devicetree.org:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-The "sram" property has become a de facto standard property, so create a
-common schema for it and drop all the duplicated definitions.
+The vb2 framework hands buffer ownership to the driver via buf_queue()
+before calling start_streaming().  If start_streaming() returns an
+error without first returning those buffers via vb2_buffer_done(),
+vb2_start_streaming() fires WARN_ON(owned_by_drv_count != 0) and the
+queued buffers leak.
 
-Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
----
- .../imx/fsl,imx8qxp-dc-command-sequencer.yaml |  2 +-
- .../devicetree/bindings/display/msm/gpu.yaml  |  6 +----
- .../bindings/dma/stericsson,dma40.yaml        |  8 ++----
- .../bindings/media/cnm,wave521c.yaml          |  2 +-
- .../bindings/media/nxp,imx8-jpeg.yaml         |  6 ++---
- .../bindings/media/rockchip,vdec.yaml         |  5 ++--
- .../bindings/media/st,stm32-dcmi.yaml         |  6 ++---
- .../devicetree/bindings/net/mediatek,net.yaml |  3 +--
- .../bindings/net/ti,icssg-prueth.yaml         |  2 +-
- .../bindings/net/ti,icssm-prueth.yaml         |  2 +-
- .../remoteproc/amlogic,meson-mx-ao-arc.yaml   |  7 +----
- .../bindings/remoteproc/ti,k3-dsp-rproc.yaml  |  8 ------
- .../bindings/remoteproc/ti,k3-r5f-rproc.yaml  |  8 ------
- .../remoteproc/xlnx,zynqmp-r5fss.yaml         |  9 +------
- .../devicetree/bindings/spi/st,stm32-spi.yaml | 10 +++----
- .../bindings/sram/sram-consumer.yaml          | 26 +++++++++++++++++++
- 16 files changed, 48 insertions(+), 62 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sram/sram-consumer.yaml
+This was previously fixed for uvcvideo in commit 4cf3b6fd54eb ("media:
+uvcvideo: Return queued buffers on start_streaming() failure").  The
+same pattern exists in six sibling drivers that still return an errno
+early (USB disconnect, signal-interrupted mutex, or media-graph /
+format lookup failure) without draining their internal queued-buffer
+list.  Each patch reuses or extends the helper / cleanup label that
+the driver's other error paths already use.
 
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml
-index 27118f4c0d28..fd095e5742c5 100644
---- a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml
-@@ -41,7 +41,7 @@ properties:
-       - const: sw3
- 
-   sram:
--    $ref: /schemas/types.yaml#/definitions/phandle
-+    maxItems: 1
-     description: phandle pointing to the mmio-sram device node
- 
- required:
-diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-index 04b2328903ca..358759fad8dc 100644
---- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-@@ -84,13 +84,9 @@ properties:
-     maxItems: 64
- 
-   sram:
--    $ref: /schemas/types.yaml#/definitions/phandle-array
-     minItems: 1
-     maxItems: 4
--    items:
--      maxItems: 1
--    description: |
--      phandles to one or more reserved on-chip SRAM regions.
-+    description:
-       phandle to the On Chip Memory (OCMEM) that's present on some a3xx and
-       a4xx Snapdragon SoCs. See
-       Documentation/devicetree/bindings/sram/qcom,ocmem.yaml
-diff --git a/Documentation/devicetree/bindings/dma/stericsson,dma40.yaml b/Documentation/devicetree/bindings/dma/stericsson,dma40.yaml
-index 607da11e7baa..d8f92838f4c9 100644
---- a/Documentation/devicetree/bindings/dma/stericsson,dma40.yaml
-+++ b/Documentation/devicetree/bindings/dma/stericsson,dma40.yaml
-@@ -136,13 +136,9 @@ properties:
-     maxItems: 1
- 
-   sram:
--    $ref: /schemas/types.yaml#/definitions/phandle-array
--    description: A phandle array with inner size 1 (no arg cells).
--      First phandle is the LCPA (Logical Channel Parameter Address) memory.
--      Second phandle is the  LCLA (Logical Channel Link base Address) memory.
--    maxItems: 2
-     items:
--      maxItems: 1
-+      - description: LCPA (Logical Channel Parameter Address) memory.
-+      - description: LCLA (Logical Channel Link base Address) memory.
- 
-   memcpy-channels:
-     $ref: /schemas/types.yaml#/definitions/uint32-array
-diff --git a/Documentation/devicetree/bindings/media/cnm,wave521c.yaml b/Documentation/devicetree/bindings/media/cnm,wave521c.yaml
-index 6a11c1d11fb5..6cd33dfd095d 100644
---- a/Documentation/devicetree/bindings/media/cnm,wave521c.yaml
-+++ b/Documentation/devicetree/bindings/media/cnm,wave521c.yaml
-@@ -37,7 +37,7 @@ properties:
-     maxItems: 1
- 
-   sram:
--    $ref: /schemas/types.yaml#/definitions/phandle
-+    maxItems: 1
-     description:
-       The VPU uses the SRAM to store some of the reference data instead of
-       storing it on DMA memory. It is mainly used for the purpose of reducing
-diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-index 18cc6315a821..6ba668aa633d 100644
---- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-+++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-@@ -56,10 +56,10 @@ properties:
-     maxItems: 5               # Wrapper and 4 slots
- 
-   sram:
--    $ref: /schemas/types.yaml#/definitions/phandle
-+    maxItems: 1
-     description:
--      Optional phandle to a reserved on-chip SRAM regions. The SRAM can
--      be used for descriptor storage, which may improve bus utilization.
-+      The SRAM can be used for descriptor storage, which may improve bus
-+      utilization.
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-index 42022401d0ff..4f38a0ef29d8 100644
---- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-+++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-@@ -91,9 +91,8 @@ properties:
-     maxItems: 1
- 
-   sram:
--    $ref: /schemas/types.yaml#/definitions/phandle
--    description: |
--      phandle to a reserved on-chip SRAM regions.
-+    maxItems: 1
-+    description:
-       Some SoCs, like rk3588 provide on-chip SRAM to store temporary
-       buffers during decoding.
- 
-diff --git a/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml b/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
-index d9fbb90b0977..7c2ddd27780f 100644
---- a/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
-+++ b/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
-@@ -47,10 +47,10 @@ properties:
-     maxItems: 1
- 
-   sram:
--    $ref: /schemas/types.yaml#/definitions/phandle
-+    maxItems: 1
-     description:
--      phandle to a reserved SRAM region which is used as temporary
--      storage memory between DMA and MDMA engines.
-+      SRAM region which is used as temporary storage memory between DMA and
-+      MDMA engines.
- 
-   port:
-     $ref: /schemas/graph.yaml#/$defs/port-base
-diff --git a/Documentation/devicetree/bindings/net/mediatek,net.yaml b/Documentation/devicetree/bindings/net/mediatek,net.yaml
-index cc346946291a..6bbd83c6aaf7 100644
---- a/Documentation/devicetree/bindings/net/mediatek,net.yaml
-+++ b/Documentation/devicetree/bindings/net/mediatek,net.yaml
-@@ -67,8 +67,7 @@ properties:
-       - const: ppe
- 
-   sram:
--    $ref: /schemas/types.yaml#/definitions/phandle
--    description: phandle to mmio SRAM
-+    maxItems: 1
- 
-   mediatek,ethsys:
-     $ref: /schemas/types.yaml#/definitions/phandle
-diff --git a/Documentation/devicetree/bindings/net/ti,icssg-prueth.yaml b/Documentation/devicetree/bindings/net/ti,icssg-prueth.yaml
-index c296e5711848..883033b19b8f 100644
---- a/Documentation/devicetree/bindings/net/ti,icssg-prueth.yaml
-+++ b/Documentation/devicetree/bindings/net/ti,icssg-prueth.yaml
-@@ -21,7 +21,7 @@ properties:
-       - ti,am654-sr1-icssg-prueth  # for AM65x SoC family, SR1.0
- 
-   sram:
--    $ref: /schemas/types.yaml#/definitions/phandle
-+    maxItems: 1
-     description:
-       phandle to MSMC SRAM node
- 
-diff --git a/Documentation/devicetree/bindings/net/ti,icssm-prueth.yaml b/Documentation/devicetree/bindings/net/ti,icssm-prueth.yaml
-index a98ad45ca66f..9370c43bc66a 100644
---- a/Documentation/devicetree/bindings/net/ti,icssm-prueth.yaml
-+++ b/Documentation/devicetree/bindings/net/ti,icssm-prueth.yaml
-@@ -24,7 +24,7 @@ properties:
-       - ti,am3359-prueth   # for AM33x SoC family
- 
-   sram:
--    $ref: /schemas/types.yaml#/definitions/phandle
-+    maxItems: 1
-     description:
-       phandle to OCMC SRAM node
- 
-diff --git a/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml b/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
-index 76e8ca44906a..3f710433e937 100644
---- a/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
-+++ b/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
-@@ -48,12 +48,7 @@ properties:
-     minItems: 1
- 
-   sram:
--    $ref: /schemas/types.yaml#/definitions/phandle
--    description:
--      phandles to a reserved SRAM region which is used as the memory of
--      the ARC core. The region should be defined as child nodes of the
--      AHB SRAM node as per the generic bindings in
--      Documentation/devicetree/bindings/sram/sram.yaml
-+    maxItems: 1
- 
-   amlogic,secbus2:
-     $ref: /schemas/types.yaml#/definitions/phandle
-diff --git a/Documentation/devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml
-index b51bb863d759..8b1ed384ef22 100644
---- a/Documentation/devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml
-+++ b/Documentation/devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml
-@@ -75,16 +75,8 @@ properties:
- # --------------------
- 
-   sram:
--    $ref: /schemas/types.yaml#/definitions/phandle-array
-     minItems: 1
-     maxItems: 4
--    items:
--      maxItems: 1
--    description: |
--      phandles to one or more reserved on-chip SRAM regions. The regions
--      should be defined as child nodes of the respective SRAM node, and
--      should be defined as per the generic bindings in,
--      Documentation/devicetree/bindings/sram/sram.yaml
- 
- allOf:
-   - if:
-diff --git a/Documentation/devicetree/bindings/remoteproc/ti,k3-r5f-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/ti,k3-r5f-rproc.yaml
-index 775e9b3a1938..14e6b2f817b3 100644
---- a/Documentation/devicetree/bindings/remoteproc/ti,k3-r5f-rproc.yaml
-+++ b/Documentation/devicetree/bindings/remoteproc/ti,k3-r5f-rproc.yaml
-@@ -224,16 +224,8 @@ patternProperties:
-           at 0x0) or 0 (BTCM at 0x0), default value is 1 if omitted.
- 
-       sram:
--        $ref: /schemas/types.yaml#/definitions/phandle-array
-         minItems: 1
-         maxItems: 4
--        items:
--          maxItems: 1
--        description: |
--          phandles to one or more reserved on-chip SRAM regions. The regions
--          should be defined as child nodes of the respective SRAM node, and
--          should be defined as per the generic bindings in,
--          Documentation/devicetree/bindings/sram/sram.yaml
- 
-     required:
-       - compatible
-diff --git a/Documentation/devicetree/bindings/remoteproc/xlnx,zynqmp-r5fss.yaml b/Documentation/devicetree/bindings/remoteproc/xlnx,zynqmp-r5fss.yaml
-index ee63c03949c9..c7d5e58330d6 100644
---- a/Documentation/devicetree/bindings/remoteproc/xlnx,zynqmp-r5fss.yaml
-+++ b/Documentation/devicetree/bindings/remoteproc/xlnx,zynqmp-r5fss.yaml
-@@ -106,20 +106,13 @@ patternProperties:
-           - const: rx
- 
-       sram:
--        $ref: /schemas/types.yaml#/definitions/phandle-array
-         minItems: 1
-         maxItems: 8
--        items:
--          maxItems: 1
--        description: |
-+        description:
-           phandles to one or more reserved on-chip SRAM regions. Other than TCM,
-           the RPU can execute instructions and access data from the OCM memory,
-           the main DDR memory, and other system memories.
- 
--          The regions should be defined as child nodes of the respective SRAM
--          node, and should be defined as per the generic bindings in
--          Documentation/devicetree/bindings/sram/sram.yaml
--
-       memory-region:
-         description: |
-           List of phandles to the reserved memory regions associated with the
-diff --git a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-index 472e92974714..6d7d595e4ab3 100644
---- a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-+++ b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-@@ -89,12 +89,10 @@ properties:
-       - const: rxm2m
- 
-   sram:
--    $ref: /schemas/types.yaml#/definitions/phandle
--    description: |
--      Phandles to a reserved SRAM region which is used as temporary
--      storage memory between DMA and MDMA engines.
--      The region should be defined as child node of the AHB SRAM node
--      as per the generic bindings in Documentation/devicetree/bindings/sram/sram.yaml
-+    maxItems: 1
-+    description:
-+      SRAM region which is used as temporary storage memory between DMA and
-+      MDMA engines.
- 
-   power-domains:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/sram/sram-consumer.yaml b/Documentation/devicetree/bindings/sram/sram-consumer.yaml
-new file mode 100644
-index 000000000000..f00087bd2879
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sram/sram-consumer.yaml
-@@ -0,0 +1,26 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sram/sram-consumer.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: SRAM Consumers
-+
-+maintainers:
-+  - Rob Herring <robh@kernel.org>
-+
-+select: true
-+
-+properties:
-+  sram:
-+    description:
-+      Phandles to one or more reserved on-chip SRAM regions. The regions
-+      should be defined as child nodes of the respective SRAM node, and
-+      should be defined as per the generic bindings in,
-+      Documentation/devicetree/bindings/sram/sram.yaml
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    items:
-+      maxItems: 1
-+
-+additionalProperties: true
-+...
+  airspy.c          - moves mutex_lock above the !s->udev check and
+                      jumps to the existing err_clear_bit label, which
+                      already drains s->queued_bufs.
+  msi2500.c         - rebuilds start_streaming into a goto chain that
+                      drains the queue on every failure (including
+                      previously-masked set_usb_adc / ctrl_msg paths);
+                      parameterizes msi2500_cleanup_queued_bufs() with
+                      vb2_buffer_state so the start_streaming path
+                      passes _QUEUED.  Rolls back isoc_init via
+                      msi2500_isoc_cleanup() on ctrl_msg failure.
+  pwc-if.c          - calls pwc_cleanup_queued_bufs(.., _QUEUED) before
+                      each early return; state matches the existing
+                      pwc_isoc_init() error-path in the same function.
+  rtl2832_sdr.c     - calls rtl2832_sdr_cleanup_queued_bufs() before
+                      each early return and at the err label.  Adds an
+                      explicit success return so the cleanup at err no
+                      longer runs on the success path.  Parameterizes
+                      the helper with vb2_buffer_state.
+  dcmipp-bytecap.c  - replaces the bare -EINVAL return for failed
+                      subdev lookup with a goto err_buffer_done.
+  sun4i_dma.c       - replaces the bare -EINVAL return for failed
+                      csi-format lookup with a goto err_clear_dma_queue.
+
+These sites were located by a Coccinelle pattern that matches
+`return -ERRNO` inside a start_streaming(struct vb2_queue *, unsigned
+int) callback without a preceding vb2_buffer_done() on the same path.
+
+Build-tested with drivers/media/ allmodconfig.  Not runtime-tested on
+any of the six devices.  Maintainers with hardware are kindly asked to
+verify nothing regresses on their device.
+
+Valery Borovsky (6):
+  media: airspy: Return queued buffers on start_streaming() failure
+  media: msi2500: Return queued buffers on start_streaming() failure
+  media: pwc: Return queued buffers on start_streaming() failure
+  media: rtl2832_sdr: Return queued buffers on start_streaming() failure
+  media: stm32-dcmipp: Return queued buffers on start_streaming()
+    failure
+  media: sun4i-csi: Return queued buffers on start_streaming() failure
+
+ drivers/media/dvb-frontends/rtl2832_sdr.c     | 19 ++++++++---
+ .../st/stm32/stm32-dcmipp/dcmipp-bytecap.c    |  6 ++--
+ .../platform/sunxi/sun4i-csi/sun4i_dma.c      |  6 ++--
+ drivers/media/usb/airspy/airspy.c             |  8 +++--
+ drivers/media/usb/msi2500/msi2500.c           | 32 ++++++++++++++-----
+ drivers/media/usb/pwc/pwc-if.c                |  8 +++--
+ 6 files changed, 57 insertions(+), 22 deletions(-)
+
 -- 
-2.53.0
+2.51.0
 
 
