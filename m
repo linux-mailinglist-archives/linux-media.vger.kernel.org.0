@@ -1,84 +1,84 @@
-Return-Path: <linux-media+bounces-61068-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61069-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QAAMLJmiAWpKhAEAu9opvQ
-	(envelope-from <linux-media+bounces-61068-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:34:17 +0200
+	id aJSFLdiiAWpKhAEAu9opvQ
+	(envelope-from <linux-media+bounces-61069-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:35:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81B950AFB8
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:34:16 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3231D50AFFA
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:35:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1DD773028D0B
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 09:21:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B2A7630E72CB
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 09:21:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA7F73C0610;
-	Mon, 11 May 2026 09:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39CA73C1973;
+	Mon, 11 May 2026 09:20:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xuEgCN80"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dQntA0MB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A532C3BD642
-	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 09:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9474B3BE65C
+	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 09:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778491237; cv=none; b=thCPbMngxezyBw4W1fysbjtqaVUmT/k3ilR2mBZ6/mioKkN+sYNkXcGkimVW2DIVzBIBd5KZkWm6YgQMh0M4YlU8Zzy3FtrJQ8763eVDCutJX2qk3HjRi795E7jzBGlaI/xcahAegte5U7llyfDdXUN3hG7xyTRLB3J1sojXPpE=
+	t=1778491238; cv=none; b=GGuxcwx0F/xKSiBDL1OQxCD87oQR1L5H/cto3/zHF05cxRW32WZluD7gNqSS7qJjnFuj3AlFYsaAIwyYeGk1xuCkIF1HqmTRnRpSe6mH1r2i7LlV5UImQE/EY3YHdPkJKQzN9uMMSXazlt71reWQ4fT/kSxpksgw0vRiXiwff4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778491237; c=relaxed/simple;
-	bh=1rSEiYXVcRcV2xZexhpwg0dlj0Dy1rXlTjlNxZeesUM=;
+	s=arc-20240116; t=1778491238; c=relaxed/simple;
+	bh=aII67ihvk6yUlrAWkvBSxcTsViGo+wxhGgK9MlHyzZ4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=X5jWFFJzptyjLXVfZpTKF9uOY5lH3ghx2VRPQJF8qmehxDrIC1mIFIibRg2S/5rw+KOkvNEn1zcPTyhLoHBCTWL5O/DAjcDTgPQKXkJ04oT9sN/+8I3JvCUJU8H7LABsr6/oI6xSrhfkEk0B4VSU2xEVJTiM+zNo7oLumOkMBzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xuEgCN80; arc=none smtp.client-ip=209.85.221.42
+	 In-Reply-To:To:Cc; b=eUjN83P2K4KjuKm/dqPK3HKzbqR0MOp+yEYDzwxkctYRu4luN9Xktoe1RpJn6f8Bxo43zexvK8kFAzu7yalbOfqntf/JJMG3YI+HY74n678wMqzWD2HFCC8ghPnjuR36xwT6baMPHzly4t2PGmn+W/Xw7P1rhj8N+YILHgSWAi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dQntA0MB; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43fe62837baso2035844f8f.3
-        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 02:20:34 -0700 (PDT)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-44c4cc7c1cfso3228256f8f.0
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 02:20:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1778491233; x=1779096033; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1778491234; x=1779096034; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YyBxidac3NtDJGTYfXnUsepNfGEUBvJmRFwXoFqDASU=;
-        b=xuEgCN80tBHUyHyarb0IRp4Hv2wu2tDUMwTSAuZsZCkldblYxGnfPoLru9gatcM2HK
-         mGr0L3DJ+/h4NYvvd1KIVVstkSd8jNOQfPrgPlPvBpF7HpO/cyYeGRBZ89v0S96sBuME
-         KY1MsrKmuDvKJskNk0kFY9QKXeGRcZ2Soe/qUxzzdSUZgiE77Iyb4qUKtehVhF/a47Ov
-         Dzh41Wbe2DzpPcmAjaxekbXYyjNbwBWHx9BVXPwQLMCi8kvt/WYfhbyZlfXiK1pE0xZp
-         BCbwMZbSqbYfiR2xVgGqtoAjBouoC+iLC4ZHQEx3Gkfhyf6J5TuRcFmk8CLDeHUB9fpY
-         6BYg==
+        bh=v88vZiME58PShFsdqu58388c3o6S1JEPT0wDwwHJzQo=;
+        b=dQntA0MBTKiuKz2WtImtD5t60IMOM0HFsB+ad4WTop9JLbOTEieCWUzm+BXTSZE3xE
+         Dksr83/oSTXZXKMwGnN5EEsdnezHq24pJn1AMEci/Yo1YRiCHZrfpjHQrT9rBt9eIzGK
+         XZaXvn6EMf0UARBE4h+gubQwSbOE5zWgIGMdpHu+oAVi3t2KlrgezWBO8dBDPH8Vhf1G
+         k2Dsdu2CAuQvTtgDuZrvhj8M4EHzaDjYZAzkxCE0p6yf26JQ31fM0Mxr67l62AEs8Mqp
+         cqvJCMwnJlZPsno+hD5SmEMAnPxuP1D2CJk6cpUmEui8RE3eexrsUC4ecweibB1K9Na8
+         HQww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778491233; x=1779096033;
+        d=1e100.net; s=20251104; t=1778491234; x=1779096034;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=YyBxidac3NtDJGTYfXnUsepNfGEUBvJmRFwXoFqDASU=;
-        b=e7cl9C+hvtdQIw4+Fpywp9vBDCXnyNb5SbSLfYRHo4Fip2ohPamvF8pBcA2tAMhSaB
-         KRMrs2ZEH4pqkZt0aeMGOnBOmevrlxQKIoye9gHdhVFG4kiiFM0hD43e2ufA5ceeacER
-         ay9rIPEbxepSHgt+3tazpZ53Q/3YGOPNrqaBaeX030G9T0+ssNn5cU86K0GnkJ32WCqC
-         u5/bs93Zgizbot6pAOdUkPak7aaQXYBfKP8kARMsBoChZPnasZ0zHALU4ZSkFrQWdiyo
-         FFY1Y2sFavbGIiZC94UaNm4+HKzl1NipF4XDp7me/vRS+5rbo3VfbNfXFVaP/wSdcsTw
-         Pa6A==
-X-Gm-Message-State: AOJu0Yy0n2oNG8km6hnk+ZFq2IMFrj6W2bfHfw+K8XUZVS8CCAG1/sED
-	5mlPu7MQAvlGcqYlVWl8iwXe/K7B8fGI/SKvNBNg7ULFV9Mg1h1voe0YnOLVk7XONJM=
-X-Gm-Gg: Acq92OEA4Yatnipx6RFzwedorpUanzstacjdvd2vjlQm0gHoCSU3KEJ/q5udo7g+iPZ
-	oTounTw+WFEHqmOCWjdhIsMpKtkmwtEPg9S5g63yaBFbcJHVtxHpoZJDBfhHojdnmFhIZgfPTnr
-	Ur5EPsSlb3gvGtjsoktZ8niTGfC+ERwBh3opphwGqypNWVlDfxsBlJQKRVKQkkhVkppSaznyjry
-	AiztBuLyU2OmUrm6n0aNCsgLx7WL1YkoGpgJlKfd9lj/87MyGHzy9dvvrbYMryDWlk9PAcSuBmP
-	9XxPl2KHPjdqyrVyePRCA99zq4cqYCNbwm6moZuNL9fdiBH7K8LOTk7eTFylxIFzaG3ajJgCPBy
-	Z2AjTsJ4ZquR4I+OMvyqb7dSX93i45AU/C0TdZkan8G5XLs2OWs/ZqWDaKRePro6Ssk+NE3zaOZ
-	mKFXujIzOC6uQNWptz/DL70K94bVhHXI+xjhJKqVK6VNzGWOkn8Vz7U2M=
-X-Received: by 2002:a05:6000:1acb:b0:44a:8c10:40d9 with SMTP id ffacd0b85a97d-4515cf126camr36818311f8f.23.1778491232973;
-        Mon, 11 May 2026 02:20:32 -0700 (PDT)
+        bh=v88vZiME58PShFsdqu58388c3o6S1JEPT0wDwwHJzQo=;
+        b=UpZC+Ac+tqoqeuYbzVVKEAiLBplcIHQhUOhkYoiBiayRll4pY8V1fXAgBFr8YZn/Ep
+         jeC44D0bW2LVNcH8MmVhrrO8308EsCaqNaRRiHrjaBN77YEbotSzx5J50A4a/m9Y5rrT
+         RXnIgXJhOwbXWnsJgcbifPRdBlPzEYD2e0OREdmNPQboSlXcmSx24u/vCWsy+lMRFuC2
+         aW4r3G7HdflUEHE6SO4RF+2nrNF6NxToyFXFw3VqlsMG+9iT0wgAFDw1XBo9+SjX1uYM
+         MKgic7R3jw+CrDBh+lBhXIP2J8u1/2FU0Ys4dd8nVlwEVYvt6/RqfzH5ejfK807vZ1Jn
+         m7mA==
+X-Gm-Message-State: AOJu0YysPq5nAmjjiVxT5W5WSUjmBs+unvMfsbCiOHEny4XHSh/4SxRV
+	ReepvDJ8V6lBhkAgnxfqhzN0RTEQv0MJyeqlAa5d7OMq7rDbRQPPv3TOUHS/boiBf1k=
+X-Gm-Gg: Acq92OEGMxXbu2fKLU4/4XEaZVJbo3DqXz+zB2/++8MNNTOivbXP6d59ZKFFBIjRfwb
+	Uf1+Pza0S3pKJtI5123h0KbTdUTgbzo8RDo0N4dZeZmY0AlCLp5YKGue7EWisbpQoszmHi3AM/y
+	Em9d9z4SQOhf/ZT1Y9hXbjrG36D/DZioMOPN5UrXAnIxSFoL+8ma+YHK8INr/FW3Psevd2LsiV5
+	cvTgedanpOop1iEPmto8O80N+jqEg/bzi3DsMY93xOPr37kGMPRe91rw9spgIGO1l/7FzMoQheU
+	yzfc7DO+xLq5ykIaWwNr2ZXeD5GaRPHCX6Scv5T4k4hnSMuOnFX0lIMn+RyHNSeQtQ2Y6OEZ6W0
+	iziTIW7PMh4LWeLi3GP0zV2X5r1YoOICvCopLU98LRQgZpnwL9ggm1P0wTKkna7urqcVkMQF2A+
+	mFnAfxqhesX08u5El4TbHJGh2N/XWmENeOQ6KJoEPA+86A
+X-Received: by 2002:a05:6000:2910:b0:44d:821:1a0b with SMTP id ffacd0b85a97d-4515d3dc326mr36238691f8f.29.1778491233792;
+        Mon, 11 May 2026 02:20:33 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4549120ec0asm23743240f8f.17.2026.05.11.02.20.32
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4549120ec0asm23743240f8f.17.2026.05.11.02.20.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 02:20:32 -0700 (PDT)
+        Mon, 11 May 2026 02:20:33 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Mon, 11 May 2026 11:20:28 +0200
-Subject: [PATCH v3 3/6] media: qcom: iris: gen2: add support for 10bit
- decoding
+Date: Mon, 11 May 2026 11:20:29 +0200
+Subject: [PATCH v3 4/6] media: qcom: iris: vdec: update size and stride
+ calculations for 10bit formats
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,7 +87,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260511-topic-sm8x50-iris-10bit-decoding-v3-3-7fc049b93042@linaro.org>
+Message-Id: <20260511-topic-sm8x50-iris-10bit-decoding-v3-4-7fc049b93042@linaro.org>
 References: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
 In-Reply-To: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
 To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
@@ -97,29 +97,29 @@ To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6336;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3607;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=1rSEiYXVcRcV2xZexhpwg0dlj0Dy1rXlTjlNxZeesUM=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBqAZ9cTMpGz9hHL3CBmXtJTHK88dJ0Grgk0mZxXc5l
- WsCctDiJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCagGfXAAKCRB33NvayMhJ0e2IEA
- DMCbqHjs29ducCTXdmU6qwuUQ+NxaJrWR9dnYcrQa7v/jJVBoP3yeOvnNFdV5JIyXBVOwWCJS0CogI
- PP4oySZL+a//8nrDW4YTw9ppdv20e67m0XWxYlEun4tk4rabT29tuUmBphOtePQv/25XRY1U0mmKIt
- lNZbvD4S+Pr+cRJ3nnFeyBS6V/Q0qVtvh5n5n+gENjtMJ29FfRiddXYqoEmHT4euJ+DQ7cCq9h/ADj
- au+7EsoC79FLMX1PsXaSjcsBSpcLOTD0v5mwGIUpnDtQWfZE+a9f8mN3cf8EU5FzZ8CRn+Ikltmwku
- a1NFzLYffEwUjG2M6Je5Shve1h8gBfxatJxymmTiyUX0KS1s6W2RDE+f71uSzR3/+A46GIRB3OlYhN
- Xe/UJp7tdlJQUn8U5vycMsRQWISUhP7O/jYXUXdLvYw0tK+vyl2O0cSa8NZ3wXSLMHqZ+HvzQi3r0K
- G4XmV0jXyW114MhiqcKxJkRPtrEr+QMuQ3BNKhPtS56Wj0dO5qdxjDO+kLsHR6nUBHLcPyt0WrVwuR
- Lysua+VsYwPJ9VXSIvMkz31sLRGHIqP4mTlHefqHbOk+AuFE98HQAp8RC6l5g4f1y6HQThdK6i7nad
- oeGivgJxRghJ2QuXURzqsXw3SguMvDta96uVY23x3VRxynmzMOCvE6rg5iBQ==
+ bh=aII67ihvk6yUlrAWkvBSxcTsViGo+wxhGgK9MlHyzZ4=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBqAZ9clzKk7rE0y/SqTAcN/l4Kfj0bsYZzPqYYJxhE
+ JzEUUUeJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCagGfXAAKCRB33NvayMhJ0TNXEA
+ DGea+pvS41Wjtw8W9lVq/xhhnkwqXLyA4XKTPVknG/xOEydBo8suxd1pskqmfG560BKgxcNtObaGTQ
+ azkt1DdgFo+ZasPRfcn7Zmsr0wrKntAmDddobpiyuhelZP2+kvvqeUIilFSXqR2195XIRY+xHVzLzQ
+ pEHkC7FpS1ijPyZ+8jR3jBpo1fdtdSom41qxIgqiOiGiJamdAvL9sKPAd7fqXkcaoVgFlZ062QCN3F
+ m/wVmJpL1wJ6b1nReR2TzL41HmvjIzpvO6MIebCunxpUWKPlyBGoeKJg+1yUcjEhMNGYHbevuBWT4a
+ iJqiySma4XCu6cevlMxM25pw7jqvh4oaiSmcxQT1aCQrmf+4tx/Wch9f4jWo3ynBKkAk5+WJ09O8ZD
+ Cj1Tv28Mfb5D80C7tEHgkpOygeT04UjLWDPkV9aLXMpbH533oL27JH++BOqAxyth36OPqcKE2Jv0NF
+ EAKNvu/u8E03g8dqWGnjl7mRGH9+cygO9guTfA+0l4pbeAhAelDRPxEZdCQ11GtHD2Ah+ZGwBdJpGE
+ +fQhX+n7brKc/ZK2JoyauMjzOUya9XoO7u4nBFQHV3pwyTg6Or9m91lE3emZQDw7FmZn3o9qVKuH2g
+ tHEjR9FJr0900SUGb6MS7nRR6GC7zDF1AfiuJReCSldQncByt+mKKQxRiVBg==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
-X-Rspamd-Queue-Id: B81B950AFB8
+X-Rspamd-Queue-Id: 3231D50AFFA
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -128,9 +128,9 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61068-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61069-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	PRECEDENCE_BULK(0.00)[];
@@ -140,153 +140,86 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linaro.org:email,linaro.org:mid,linaro.org:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:email,linaro.org:mid,linaro.org:dkim]
 X-Rspamd-Action: no action
 
-Add the necessary plumbing into the HFi Gen2 to signal the decoder
-the right 10bit pixel format and stride when in compressed mode.
+Update the gen2 response and vdec s_fmt code to take in account
+the P010 and QC010 when calculating the width, height and stride.
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- .../platform/qcom/iris/iris_hfi_gen2_command.c     | 75 +++++++++++++++++++++-
- .../platform/qcom/iris/iris_hfi_gen2_defines.h     |  1 +
- drivers/media/platform/qcom/iris/iris_utils.c      |  4 +-
- 3 files changed, 76 insertions(+), 4 deletions(-)
+ .../platform/qcom/iris/iris_hfi_gen2_response.c    | 21 ++++++++++++++++---
+ drivers/media/platform/qcom/iris/iris_vdec.c       | 24 +++++++++++++++++++---
+ 2 files changed, 39 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-index 30bfd90d423b..89de8c366836 100644
---- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-@@ -481,8 +481,20 @@ static int iris_hfi_gen2_set_colorformat(struct iris_inst *inst, u32 plane)
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+index 8e19f61bbbf9..0541e02d7507 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+@@ -542,9 +542,24 @@ static void iris_hfi_gen2_read_input_subcr_params(struct iris_inst *inst)
+ 	pixmp_ip->width = width;
+ 	pixmp_ip->height = height;
  
- 	if (inst->domain == DECODER) {
- 		pixelformat = inst->fmt_dst->fmt.pix_mp.pixelformat;
--		hfi_colorformat = pixelformat == V4L2_PIX_FMT_NV12 ?
--			HFI_COLOR_FMT_NV12 : HFI_COLOR_FMT_NV12_UBWC;
-+		switch (pixelformat) {
-+		case V4L2_PIX_FMT_NV12:
-+			hfi_colorformat = HFI_COLOR_FMT_NV12;
-+			break;
-+		case V4L2_PIX_FMT_QC08C:
-+			hfi_colorformat = HFI_COLOR_FMT_NV12_UBWC;
-+			break;
-+		case V4L2_PIX_FMT_P010:
-+			hfi_colorformat = HFI_COLOR_FMT_P010;
-+			break;
-+		case V4L2_PIX_FMT_QC10C:
-+			hfi_colorformat = HFI_COLOR_FMT_TP10_UBWC;
-+			break;
-+		};
- 	} else {
- 		pixelformat = inst->fmt_src->fmt.pix_mp.pixelformat;
- 		hfi_colorformat = pixelformat == V4L2_PIX_FMT_NV12 ?
-@@ -517,7 +529,8 @@ static int iris_hfi_gen2_set_linear_stride_scanline(struct iris_inst *inst, u32
- 	stride_uv = stride_y;
- 	scanline_uv = scanline_y / 2;
- 
--	if (pixelformat != V4L2_PIX_FMT_NV12)
-+	if (pixelformat != V4L2_PIX_FMT_NV12 &&
-+	    pixelformat != V4L2_PIX_FMT_P010)
- 		return 0;
- 
- 	payload[0] = stride_y << 16 | scanline_y;
-@@ -532,6 +545,61 @@ static int iris_hfi_gen2_set_linear_stride_scanline(struct iris_inst *inst, u32
- 						  sizeof(u64));
- }
- 
-+static int iris_hfi_gen2_set_ubwc_stride_scanline(struct iris_inst *inst, u32 plane)
-+{
-+	u32 meta_stride_y, meta_scanline_y, meta_stride_uv, meta_scanline_uv;
-+	u32 stride_y, scanline_y, stride_uv, scanline_uv;
-+	u32 port = iris_hfi_gen2_get_port(inst, plane);
-+	u32 pixelformat, width, height;
-+	u32 payload[4];
-+
-+	if (inst->domain != DECODER ||
-+	    inst->fmt_src->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_AV1)
-+		return 0;
-+
-+	pixelformat = inst->fmt_dst->fmt.pix_mp.pixelformat;
-+	width = inst->fmt_dst->fmt.pix_mp.width;
-+	height = inst->fmt_dst->fmt.pix_mp.height;
-+
-+	switch (pixelformat) {
-+	case V4L2_PIX_FMT_QC08C:
-+		stride_y = ALIGN(width, 128);
-+		scanline_y = ALIGN(height, 32);
-+		stride_uv = ALIGN(width, 128);
-+		scanline_uv = ALIGN((height + 1) >> 1, 32);
-+		meta_stride_y = ALIGN(DIV_ROUND_UP(width, 32), 64);
-+		meta_scanline_y = ALIGN(DIV_ROUND_UP(height, 8), 16);
-+		meta_stride_uv = ALIGN(DIV_ROUND_UP((width + 1) >> 1, 16), 64);
-+		meta_scanline_uv = ALIGN(DIV_ROUND_UP((height + 1) >> 1, 8), 16);
+-	pixmp_op->width = ALIGN(width, 128);
+-	pixmp_op->height = ALIGN(height, 32);
+-	pixmp_op->plane_fmt[0].bytesperline = ALIGN(width, 128);
++	switch (pixmp_op->pixelformat) {
++	case V4L2_PIX_FMT_P010:
++		pixmp_op->width = ALIGN(width, 128);
++		pixmp_op->height = ALIGN(height, 32);
++		pixmp_op->plane_fmt[0].bytesperline = ALIGN(width * 2, 256);
 +		break;
 +	case V4L2_PIX_FMT_QC10C:
-+		stride_y = ALIGN(width * 4 / 3, 256);
-+		scanline_y = ALIGN(height, 16);
-+		stride_uv = ALIGN(width * 4 / 3, 256);
-+		scanline_uv = ALIGN((height + 1) >> 1, 16);
-+		meta_stride_y = ALIGN(DIV_ROUND_UP(width, 48), 64);
-+		meta_scanline_y = ALIGN(DIV_ROUND_UP(height, 4), 16);
-+		meta_stride_uv = ALIGN(DIV_ROUND_UP((width + 1) >> 1, 24), 64);
-+		meta_scanline_uv = ALIGN(DIV_ROUND_UP((height + 1) >> 1, 4), 16);
++		pixmp_op->width = roundup(width, 192);
++		pixmp_op->height = ALIGN(height, 16);
++		pixmp_op->plane_fmt[0].bytesperline = ALIGN(pixmp_op->width * 4 / 3, 256);
 +		break;
-+	default:
-+		return 0;
++	case V4L2_PIX_FMT_NV12:
++	case V4L2_PIX_FMT_QC08C:
++		pixmp_op->width = ALIGN(width, 128);
++		pixmp_op->height = ALIGN(height, 32);
++		pixmp_op->plane_fmt[0].bytesperline = pixmp_op->width;
++		break;
 +	}
-+
-+	payload[0] = stride_y << 16 | scanline_y;
-+	payload[1] = stride_uv << 16 | scanline_uv;
-+	payload[2] = meta_stride_y << 16 | meta_scanline_y;
-+	payload[3] = meta_stride_uv << 16 | meta_scanline_uv;
-+
-+	return iris_hfi_gen2_session_set_property(inst,
-+						  HFI_PROP_UBWC_STRIDE_SCANLINE,
-+						  HFI_HOST_FLAGS_NONE,
-+						  port,
-+						  HFI_PAYLOAD_U32_ARRAY,
-+						  &payload[0],
-+						  sizeof(u32) * 4);
-+}
-+
- static int iris_hfi_gen2_set_tier(struct iris_inst *inst, u32 plane)
- {
- 	u32 port = iris_hfi_gen2_get_port(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-@@ -620,6 +688,7 @@ static int iris_hfi_gen2_session_set_config_params(struct iris_inst *inst, u32 p
- 		{HFI_PROP_OPB_ENABLE,                 iris_hfi_gen2_set_opb_enable             },
- 		{HFI_PROP_COLOR_FORMAT,               iris_hfi_gen2_set_colorformat            },
- 		{HFI_PROP_LINEAR_STRIDE_SCANLINE,     iris_hfi_gen2_set_linear_stride_scanline },
-+		{HFI_PROP_UBWC_STRIDE_SCANLINE,       iris_hfi_gen2_set_ubwc_stride_scanline },
- 		{HFI_PROP_TIER,                       iris_hfi_gen2_set_tier                   },
- 		{HFI_PROP_FRAME_RATE,                 iris_hfi_gen2_set_frame_rate             },
- 		{HFI_PROP_AV1_FILM_GRAIN_PRESENT,     iris_hfi_gen2_set_film_grain             },
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-index cecf771c55dd..68f849232906 100644
---- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-@@ -118,6 +118,7 @@ enum hfi_flip {
- #define HFI_PROP_OPB_ENABLE			0x03000184
- #define HFI_PROP_AV1_TILE_ROWS_COLUMNS		0x03000187
- #define HFI_PROP_AV1_DRAP_CONFIG		0x03000189
-+#define HFI_PROP_UBWC_STRIDE_SCANLINE		0x03000190
- #define HFI_PROP_COMV_BUFFER_COUNT		0x03000193
- #define HFI_PROP_AV1_UNIFORM_TILE_SPACING	0x03000197
- #define HFI_PROP_END				0x03FFFFFF
-diff --git a/drivers/media/platform/qcom/iris/iris_utils.c b/drivers/media/platform/qcom/iris/iris_utils.c
-index bdedd6bfa87a..c75dcb8e671e 100644
---- a/drivers/media/platform/qcom/iris/iris_utils.c
-+++ b/drivers/media/platform/qcom/iris/iris_utils.c
-@@ -35,7 +35,9 @@ int iris_get_mbpf(struct iris_inst *inst)
- bool iris_split_mode_enabled(struct iris_inst *inst)
- {
- 	return inst->fmt_dst->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_NV12 ||
--		inst->fmt_dst->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC08C;
-+		inst->fmt_dst->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC08C ||
-+		inst->fmt_dst->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_P010 ||
-+		inst->fmt_dst->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC10C;
- }
+ 	pixmp_op->plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_OUTPUT);
  
- bool iris_fmt_is_8bit(__u32 pixelformat)
+ 	matrix_coeff = subsc_params.color_info & 0xFF;
+diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
+index 99d544e2af4f..eea69f937147 100644
+--- a/drivers/media/platform/qcom/iris/iris_vdec.c
++++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+@@ -266,10 +266,28 @@ int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 		fmt = inst->fmt_dst;
+ 		fmt->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+ 		fmt->fmt.pix_mp.pixelformat = f->fmt.pix_mp.pixelformat;
+-		fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, 128);
+-		fmt->fmt.pix_mp.height = ALIGN(f->fmt.pix_mp.height, 32);
+ 		fmt->fmt.pix_mp.num_planes = 1;
+-		fmt->fmt.pix_mp.plane_fmt[0].bytesperline = ALIGN(f->fmt.pix_mp.width, 128);
++		switch (f->fmt.pix_mp.pixelformat) {
++		case V4L2_PIX_FMT_P010:
++			fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, 128);
++			fmt->fmt.pix_mp.height = ALIGN(f->fmt.pix_mp.height, 32);
++			fmt->fmt.pix_mp.plane_fmt[0].bytesperline =
++				ALIGN(f->fmt.pix_mp.width * 2, 256);
++			break;
++		case V4L2_PIX_FMT_QC10C:
++			fmt->fmt.pix_mp.width = roundup(f->fmt.pix_mp.width, 192);
++			fmt->fmt.pix_mp.height = ALIGN(f->fmt.pix_mp.height, 16);
++			fmt->fmt.pix_mp.plane_fmt[0].bytesperline =
++				ALIGN(f->fmt.pix_mp.width * 4 / 3, 256);
++			break;
++		case V4L2_PIX_FMT_NV12:
++		case V4L2_PIX_FMT_QC08C:
++			fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, 128);
++			fmt->fmt.pix_mp.height = ALIGN(f->fmt.pix_mp.height, 32);
++			fmt->fmt.pix_mp.plane_fmt[0].bytesperline =
++				ALIGN(f->fmt.pix_mp.width, 128);
++			break;
++		}
+ 		fmt->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_OUTPUT);
+ 		inst->buffers[BUF_OUTPUT].min_count = iris_vpu_buf_count(inst, BUF_OUTPUT);
+ 		inst->buffers[BUF_OUTPUT].size = fmt->fmt.pix_mp.plane_fmt[0].sizeimage;
 
 -- 
 2.34.1
