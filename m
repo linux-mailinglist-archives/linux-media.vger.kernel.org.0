@@ -1,296 +1,463 @@
-Return-Path: <linux-media+bounces-61135-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61136-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aJ9WOPPsAWrTmQEAu9opvQ
-	(envelope-from <linux-media+bounces-61135-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 16:51:31 +0200
+	id +GOYLgP0AWoFmwEAu9opvQ
+	(envelope-from <linux-media+bounces-61136-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 17:21:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42DF2510953
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 16:51:30 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B255110CD
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 17:21:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 509EB3038AD4
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 14:43:41 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id DCBD2300CBC7
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 15:06:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC25F3FF891;
-	Mon, 11 May 2026 14:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 726F42DB7BF;
+	Mon, 11 May 2026 15:05:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="R7bbSFzT"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="dQ4/1/vr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011041.outbound.protection.outlook.com [40.107.130.41])
+Received: from mail-08.mail-europe.com (mail-08.mail-europe.com [57.129.93.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E121375ADD;
-	Mon, 11 May 2026 14:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778510612; cv=fail; b=dMbmGMAQIHX8pAJERnYWxNpt+qXFA67GZE14N3rIMphIIZlqEQ0KF+8zWLxJFxkW+pOv1/n0e0RYIhtNZnHnznVaz87LiTmkjVxk75C8oH+1UPZGB2ar720cQ3JAHRjr4ogLDc6WwEGn7tCzZnYTjI+xHbvBwhcWX5a9kB15Hrc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778510612; c=relaxed/simple;
-	bh=vE8zyXEG+lre6pf5Aam+OfzLj4ECz65xLdpSlDsrGtg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=XXNLyFtRE6Y7BAjS5oL1YEqqHCvENH3bzWgJ1WmCAmKymFsRwfH/IainexQXocUTv45OQOFZslGqEnxDS/jg+A6wlOhBkppTZPwO4NLUgD0WrSpU165GbQkvpbL+JArtYhvcOkeJphiNoijE9sUmf2guMwGcMkkiiwB5BI29gY0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=R7bbSFzT; arc=fail smtp.client-ip=40.107.130.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MhcWsGcsxC4H+6yf2shentAw0PLADfFhTJMXzyN0NYvgz0eTRnpodCLMb33GGvbXsZX34K6NQnlYVCB/1/LgDnM5cnc7NDq5qYzhpCSQh4+rvCZ9kzcmalPNR6GDjvEKZiVo53CQhl3RIGRy/p6eBC7RfrfbfBAQ/UPR773gb8XEL8WVwMwdGnpCeP8esVrPJGUl+mxLzIC7iPbairQ6fhSBEYwCPcpM9pWQCxoNXI9uAzUzph06FjiKA3Yn5FTz1NWOAMLjgyQkksKJwX79He0N4/mLZTnRdVUikapKAqZJ0KhCbGfPM9GVpnOteMLZHFMjuAIupTxB/5fQKA6XXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bNFz6jC2PvY+woyTAk1mvISDZziHMet96hS6mpDilbA=;
- b=gnY1tYNZdDVYYEUkg+/dr26Sjdjx62uVrwBSqfdzC+KCRvYDZrpuF+OFEv7E/j1TYkqjdhwpkqM/2nM9AtF60LDtxFjsYbvjn6JILH1ye51CsN+a0eZtABm5cFoD+XjoX9CDT0s+DJEjPv7ywQEzqx9n1kcwzsDIXZc2QP7ltTdNwBHcuTMcuT/kGbTS6ziHQoP1tATqzMlBKFdzd8Uoxl0kNuDilRC7/LaCLhbMGezlp7F0psbzhX4e0Deo9nCKfFCLO8WZBzBUet1wdpgMFOaAM3MJHFLAHgryDyp+LUsSSbYBk5e6EDGT6AE/8t7wAc1Q1uQvkTDsn0C1G7n48g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bNFz6jC2PvY+woyTAk1mvISDZziHMet96hS6mpDilbA=;
- b=R7bbSFzTSnvFKZqVgVgUBkNnLDdWijvO4Tv2eAODQxBd241JJ9PhysOaSAyrR4rJRJtq8bwXZ8G/3JLYQcvcCeCn++tvxf/90QzA/nrxt+gL2ZM1SG+oSAG3yINvZ/Dm0kRM59frYeU8prPjQFLHFf6meVeqBU7GdNnKutV4rSMfaH5l+4Iv/fgrTnGgaBEaiWRf5LNOMI2Gd9r1gAMFUS5mEgVfI9Qrnjk4Z4wYRLQkXxl09HK6eb/oR3glujEQwzlubGIJO93enVmiApLS/ZdxmclYoCMTMs4e9pOPM2nkHBJ5P1p/iWmdvBuGUq/UPDWewN4PpwGpKDBBp2rl2Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
- (2603:10a6:102:516::16) by PR3PR04MB7371.eurprd04.prod.outlook.com
- (2603:10a6:102:87::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Mon, 11 May
- 2026 14:43:26 +0000
-Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
- ([fe80::d3f0:3c24:f717:4989]) by PA6PR04MB11910.eurprd04.prod.outlook.com
- ([fe80::d3f0:3c24:f717:4989%4]) with mapi id 15.20.9891.021; Mon, 11 May 2026
- 14:43:26 +0000
-Message-ID: <00b5463f-5c74-4e40-a1fa-dd43dfe3384b@nxp.com>
-Date: Mon, 11 May 2026 16:43:24 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/8] media: platform: Add NXP Neoisp Image Signal
- Processor
-To: julien.vuillaumier@nxp.com, alexi.birlinger@nxp.com,
- daniel.baluta@nxp.com, peng.fan@nxp.com, frank.li@nxp.com,
- jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
- mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, michael.riesch@collabora.com, anthony.mcgivern@arm.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev, ai.luthra@ideasonboard.com,
- paul.elder@ideasonboard.com, geert@linux-m68k.org
-References: <20260511132629.1300868-1-antoine.bouyer@nxp.com>
- <20260511132629.1300868-7-antoine.bouyer@nxp.com>
-Content-Language: en-US
-From: Antoine Bouyer <antoine.bouyer@nxp.com>
-In-Reply-To: <20260511132629.1300868-7-antoine.bouyer@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0183.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ca::6) To PA6PR04MB11910.eurprd04.prod.outlook.com
- (2603:10a6:102:516::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044712D6E66;
+	Mon, 11 May 2026 15:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.129.93.249
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778511925; cv=none; b=RUq2LKO6xPS/cdMwHHkyaUGC5+cAihm/tK6uUh2/XVJxD8gkOFuEMt1rjYtb8X0wCwtwIkq6nhE3O0e/uSjJhWIyXE+o1EocT6K5H97gMZPNBhNrFzAecnn8v+XIKygybON++0rLAEYOMzcxaxNnV6Bmh6IuZfG6pCLqTaMvSCI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778511925; c=relaxed/simple;
+	bh=futsZn3euYWJ0N0dPYWwlprPmzkF9ToJg8ZJxNkUv40=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=WrhahOzqeIWM4Zi9aRA+tpG0h3KSTdak3MzFPLJwAyHCR1jNB82NTf/f8Ob56ODiV4cJB7RSluw9enFUxveV+PCFjnUVulAVQ4wdMTIzVtQUBnB53anb7Eyu5OS+BGPTRC8KWHcfIfMZQ+UFy432ZM4IQyexCUMnMK+60zKFNGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=dQ4/1/vr; arc=none smtp.client-ip=57.129.93.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1778511902; x=1778771102;
+	bh=3DfboyVxuZK2gODaAqfQXyjlDoIw13bkPKqoPWksTcY=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=dQ4/1/vr0i86wPxSroJfUMv5UU7o254xRqQnOKT3WTDQJ9hDPDXYkeYrl3xBhvoE3
+	 UzFsHM3XKddv42bfxjLRNqfG+5y/pYPLjCt8HJv2OhRiBoJlnU5fSLCoEMU0sTmGAw
+	 lfZ01DdOO1sIXBgCKeAnDsFNVWNjy90PdeRlOk0IEGj259/DQLGn+ug79vghr509qQ
+	 aYg1v3jw5WUQVvNnUlDKVbQ7PpKYAiArvHcu51R7nQus6RId2yk8tnJBopLROqPyEq
+	 2q4MVyQdOynoCvbDTgPJFzE3tnQgoTxvLpkC/uuQVT7gzg80MbsV/Z9lRlxCkhda/A
+	 IvZsjE+GhVnpQ==
+Date: Mon, 11 May 2026 15:04:52 +0000
+To: Dafna Hirschfeld <dafna@fastmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>
+From: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <barnabas.pocze@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: [PATCH v2] media: rkisp1: Add support for CAC
+Message-ID: <20260511150439.577758-1-pobrn@protonmail.com>
+Feedback-ID: 20568564:user:proton
+X-Pm-Message-ID: c266f4c420a2207e0cec3190776fae3260365978
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA6PR04MB11910:EE_|PR3PR04MB7371:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6f7847d-cdbd-4f4d-5293-08deaf6ba8cc
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|19092799006|376014|921020|11063799003|56012099003|22082099003|18002099003|3023799003;
-X-Microsoft-Antispam-Message-Info:
- jSk3foutDkQ3GWZjTl1Z4qiSPjmXz0rgVu/XT3Bq1zw34D11BM134sXeokqaIzSTNRLvkqBSM9zHU0tfevqtJc4ipLIxzfREiFfQ+0LNfP7ItxBaFk+W5HY4tqAB5ZrLhW86t+lPKe9iZG+Mbhgr+CvM8XtambhkuXpd1HvZUhDs09gfQkdkm0OzS0DkEIVAcGR9O6ypRSogHHvD8/2x/vK9Fd3hx0coj/CGK+yrWMjnJ10jlziy3pyYfbzuBZ6CMr5P2FgDF6BRe0NLrOi7P1FgUJlyP5+XRUFMmeNwzZUrUSBMiiWZ/2SNRr0aO4RYfoQNoDRiVNnzW7NdOCz5pvKCIN/ogLqXBr5rIXxKqIiwCADhSD8y5GtC+w2Lw12kNifMYrQog6CYTpg5+iH0eRvegel6T349C/vgJQT0wJb/GB4WL/qS1OoekwzJk1x9Qw6w580i4TL6C6xbjpMXPZl6/eYI6cYHWOb7w07nHCMEedlwzovRVc8i52zBw1SvpK4zUwU2KSFgKHEyI6bF0D/OiHEoLlUrbqQHtd6SPZL5qJfpBGuh1FVt75UcjPsGMBx2xcBn8R0O2MYXIc3b4plGZ6Gmrgr1KKYhyLd3pl+RG/6wovlAsBYlkkGokLmZgTDQjiKqSOgeySRyfPozwjS/v6hrAepfOO1Ak3cSuyoh+JiJEqA5hfvePjvWB/BjQMfowBLYGGKAsiGJ8bERk5Qt5j1XCg8GYcaWjGqaLUo=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR04MB11910.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(19092799006)(376014)(921020)(11063799003)(56012099003)(22082099003)(18002099003)(3023799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?OWFpRWpROVNoTlZsLysvZk53djgvRUl4OUJHdFQwU3JwU3RVL04yVVc5UnFM?=
- =?utf-8?B?cUV6RE9mSGlHUGdkY2hyRWM0N0NDZ2FySnI2aTRPNXloTmdPUGpLUEp0aWZ5?=
- =?utf-8?B?YVRTWnlIUEtndGN4L1YwYVAvMnBzRjFFNjltVEVhYm5FWTYzbHphYThjL055?=
- =?utf-8?B?eE1tbEJFcWRQcjZGdUFPbnl1Njd3ZFFKYStJbWcrWDR2dkM0MU5yN3pDMGI0?=
- =?utf-8?B?SWljY2FmWVltYVU3Z3pvdUxGU1YybWhIVFVEaitROHllZlBiZWVRZGc3eVpK?=
- =?utf-8?B?N1VnU1VUWURHTldQRXhBdkVvUHBmM1dGS0hsZmFVQTdpaTZLdWExV3M4VHVS?=
- =?utf-8?B?UXYxTVREZlRFa3p0TE83OEp2NktFKyt3TmdIL3lWR3duYnlCaXFKWlFIUzM3?=
- =?utf-8?B?Rk0yWXNxeEx1TS90aVFLVmd5Wlc4bVQ3dThkNjZkNHlhU3VuMnlGbUlkMDJq?=
- =?utf-8?B?UjN4V1kxVnN0WFdkbGI5dEQ0U3JMOEFwL2pqdk1VbnROSEFWVnZtczF2akVw?=
- =?utf-8?B?amliNnYvUTU0ODdwZlJBQkZpdnJ6OW15aDM0em9MemxhM3B4NG8xUnZhOUZL?=
- =?utf-8?B?a1psUDExTWdWTmpUZ09sb0tsMFgrRmlvaXVSaUN6S0JENndQOHdTTGdIVzBV?=
- =?utf-8?B?cExvOWxzbmpIZ1hrK1hXWnV6MGxBdjJ3dkNwZktxdzBkalVsVkQzbXJNRGM1?=
- =?utf-8?B?R3p0Z1YzZEVHMzM0K2c4cDAvdGk3QnB0cU5wNjFaeURFMUcydlRnZmU3UDNq?=
- =?utf-8?B?UU51VGNobU9obVhjZVZEZk1memtzR3UrUENXa2RuR21MbzFsNFQ1dE5YSFkv?=
- =?utf-8?B?SjJXTTBMZ1hQaXc2VHBaWFB1VnllUGNtaU02UDRuanhrTVpVMVhGb2dkSXFK?=
- =?utf-8?B?SHNLQTZrdlFLemN4ODJPL1UvcGRiSU5TOTVKQU5vZmpCSE1aN1FDUk5pRWM4?=
- =?utf-8?B?a0FocjUvOWVOQkM2WDhQbXpoSVdaK3cvVDJMZXpUakhWTUtMSHQwVTFlUWwy?=
- =?utf-8?B?MW9PTnRBOElpNEo0bE1pMEsxYlZqbXhOd21nbGFUdmE1VW1zZFp6SGpYQzcx?=
- =?utf-8?B?emQ4bXZFdkdiNDdNc1EwY2FnVFI0NTgyaURQazBJL3BXYzkrTWo1SERyV2Va?=
- =?utf-8?B?MzZ1ZGlrRGlVK1ZJZFd2UkQwandtRUNWUHZDWjRDamxQc0ExWVBKSEFsOHBl?=
- =?utf-8?B?Skc3T1RyYVZ6bnNVS010dCtacG5YRXU5bzNrbFBwbGNQL2oveUs1ZWw4R2Zz?=
- =?utf-8?B?Z281L04yT0ZZWktHVXA2NTFhdy8zWkNFQ2Y5M2NKNGxyVUZpaWlBVUlGWWpC?=
- =?utf-8?B?eTZDMUdJd2FkT2ZiRG8zOXREaEI0ZFJ1aDN5ZWNYK0JHU05COFQ4M0N3SW5V?=
- =?utf-8?B?NjZURjdVUVRqWWF1SUdob3IwMTVxVFc2cEdBR0FDRmQrWEcySE5BeUE1TDNJ?=
- =?utf-8?B?VmRmUlJsVmJmUjBydk94aU15aVZFOXJLS0c2ZnA5RFk3SmQxWnhWbEltUkVy?=
- =?utf-8?B?YVdlbnlzV1BjMFlMZ0UvelFRbi82aEJLeGQ1YzZFY1lCVUx4OGFYaFZTeU91?=
- =?utf-8?B?QXJsbEVPUzFkZFJjTGxRSFYvSXJCblFHYXNRcXpvZjgwTnVINzdVWjdwVWEy?=
- =?utf-8?B?TlArYy95ak5yVmlqbU9DMlFwQVk3WkVYbkVGMnh3aVVFQzJpd2JsbERUcmdZ?=
- =?utf-8?B?TmtaTDY3U3dJeHRKdEhTTk1UOHFkd2dHYTAyNUtNR1pVbHJjRW5DaGhQQXV4?=
- =?utf-8?B?cUlndlhsL1ZPY2lVMlB4dTBKY1I3OVZBNzZMTzBleGVXSURkbGFWQlJsMm0v?=
- =?utf-8?B?ZFd2SEdWWkRobVUyelp4OTYwSTYydkp1UGU4UEMwRGVVOCtEL2ZaZUoxRXIy?=
- =?utf-8?B?WWNIelltdytkdjA2TnNqZGtOSzBKdW52VUVGQlZmWUtSUWtmeUVIcnhiQlll?=
- =?utf-8?B?U0hEc0oyRENDYUtOZ2pOVXFLSm5FWnZxcUE0Y0Y1OWdEbUJielFLY1RzbDND?=
- =?utf-8?B?cEgvNTBOaHZUZTdzMjVlbjRmdlFkeDliUVdUNU1VM3VZY0pBL2IwaTFjenVK?=
- =?utf-8?B?M2Z4UllUdjA5UjlMaFFqbzdJU1FaREZxT0psOUR0bHlNS2lkM3l6emhvMG1R?=
- =?utf-8?B?eENWdG1aaVZHajVMOHRkSkFPdXJjUkt4VTNNYzM4emUva2dRcy8rQU5aUUY1?=
- =?utf-8?B?VG43RllJRTQxR3dXT0hkMytnZW1ZTkxBS0lPOFZQUGdrS1lUTG05OWlaYjlP?=
- =?utf-8?B?QVJlM1ZSdmNraU40RlNDQkovRHBvODdYRnFhc3pNdi9ORG94WVBXUFJMTCt0?=
- =?utf-8?B?aXEyeHRXY3BPRGdvc3ZLanFLQjh1QnVyN0FxVnJGSC9BcTc2cmw2dz09?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6f7847d-cdbd-4f4d-5293-08deaf6ba8cc
-X-MS-Exchange-CrossTenant-AuthSource: PA6PR04MB11910.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 14:43:26.3727
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: At6OKFu3BC+KucPNp6hoe/KGKFs1S6bgeeqcsI/UXJos4Eop0MgUqC0cYc0dw0wagku60TgMe9bHFZnxMBBLUw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7371
-X-Rspamd-Queue-Id: 42DF2510953
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: A6B255110CD
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [-0.25 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MIXED_CHARSET(0.91)[subject];
+	DMARC_POLICY_ALLOW(-0.50)[protonmail.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[protonmail.com:s=protonmail3];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61135-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61136-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[fastmail.com,ideasonboard.com,kernel.org,sntech.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[antoine.bouyer@nxp.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,nxp.com:mid,nxp.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[pobrn@protonmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[protonmail.com:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[protonmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ideasonboard.com:email,protonmail.com:mid,protonmail.com:dkim]
 X-Rspamd-Action: no action
 
-On 5/11/26 3:26 PM, Antoine Bouyer wrote:
-> First NXP neoisp driver version with the following contents:
-> 
-> This driver was initially inspired from raspberrypi pisp_be driver. It
-> reuses same approach for ISP job scheduling.
-> 
-> The Neoisp driver supports:
-> * 8, 10, 12, 14 and 16-bits RAW Bayer images input.
-> * Monochrome sensors input.
-> * RGB/YUV, IR and Greyscale output formats.
-> 
-> The neoisp features are:
-> * Provides single context to limit amount of v4l2 devices.
-> * Supports M2M operations.
-> * Support SDR and HDR modes.
-> * Supports generic v4l2-isp framework for extensible Parameters and
-> Statistics buffers.
-> * Provides a `core_media_register` API to register neoisp's media entities
-> into another media graph.
-> * A module parameter to run in standalone mode with its own media device.
-> 
-> Co-developed-by: Alexi Birlinger <alexi.birlinger@nxp.com>
-> Signed-off-by: Alexi Birlinger <alexi.birlinger@nxp.com>
-> Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
-> ---
->   MAINTAINERS                                   |    9 +
->   drivers/media/platform/nxp/Kconfig            |    1 +
->   drivers/media/platform/nxp/Makefile           |    1 +
->   drivers/media/platform/nxp/neoisp/Kconfig     |   16 +
->   drivers/media/platform/nxp/neoisp/Makefile    |    6 +
->   drivers/media/platform/nxp/neoisp/neoisp.h    |  247 ++
->   .../media/platform/nxp/neoisp/neoisp_core.h   |   30 +
->   .../media/platform/nxp/neoisp/neoisp_ctx.c    | 2657 +++++++++++++++++
->   .../media/platform/nxp/neoisp/neoisp_ctx.h    |   78 +
->   .../media/platform/nxp/neoisp/neoisp_fmt.h    |  495 +++
->   drivers/media/platform/nxp/neoisp/neoisp_hw.h |  557 ++++
->   .../media/platform/nxp/neoisp/neoisp_main.c   | 1899 ++++++++++++
->   .../media/platform/nxp/neoisp/neoisp_nodes.h  |   54 +
->   .../media/platform/nxp/neoisp/neoisp_regs.h   | 2498 ++++++++++++++++
->   include/uapi/linux/media/nxp/nxp_neoisp.h     |   67 -
->   15 files changed, 8548 insertions(+), 67 deletions(-)
->   create mode 100644 drivers/media/platform/nxp/neoisp/Kconfig
->   create mode 100644 drivers/media/platform/nxp/neoisp/Makefile
->   create mode 100644 drivers/media/platform/nxp/neoisp/neoisp.h
->   create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_core.h
->   create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_ctx.c
->   create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_ctx.h
->   create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_fmt.h
->   create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_hw.h
->   create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_main.c
->   create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_nodes.h
->   create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_regs.h
-> 
+From: Barnab=C3=A1s P=C5=91cze <barnabas.pocze@ideasonboard.com>
 
-[snip]
+The CAC block implements chromatic aberration correction. Expose it to
+userspace using the extensible parameters format. This was tested on the
+i.MX8MP platform, but based on available documentation it is also present
+in the RK3399 variant (V10). Thus presumably also in later versions,
+so no feature flag is introduced.
 
-> diff --git a/drivers/media/platform/nxp/neoisp/neoisp_ctx.c b/drivers/media/platform/nxp/neoisp/neoisp_ctx.c
-> new file mode 100644
-> index 000000000000..cbb50257be57
-> --- /dev/null
-> +++ b/drivers/media/platform/nxp/neoisp/neoisp_ctx.c
-> @@ -0,0 +1,2657 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * NEOISP context registers/memory setting helpers
-> + *
-> + * Copyright 2023-2026 NXP
-> + */
-[snip]
+Signed-off-by: Barnab=C3=A1s P=C5=91cze <barnabas.pocze@ideasonboard.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+changes in v2:
+  * address review comments
 
-> +void neoisp_ctx_get_stats(struct neoisp_dev_s *neoispd, struct neoisp_buffer_s *buf)
-> +{
-> +	struct neoisp_node_s *node = &neoispd->node[NEOISP_STATS_NODE];
-> +	u8 *src = (u8 *)(uintptr_t)neoispd->mmio_tcm;
-> +	struct v4l2_isp_buffer *stats;
-> +	u32 *blk_list, count;
-> +
-> +	/* Check if stats node link is enabled */
-> +	if (!neoisp_node_link_is_enabled(node))
-> +		return;
-> +
-> +	if (IS_ERR_OR_NULL(buf) || IS_ERR_OR_NULL(src)) {
-> +		dev_err(neoispd->dev, "Error: stats pointer\n");
-> +		return;
-> +	}
-> +
-> +	stats = (struct v4l2_isp_buffer *)get_vaddr(buf);
-> +	v4l2_isp_stats_init_buffer(stats, V4L2_ISP_VERSION_V1);
-> +
-> +	blk_list = (u32 *)neoisp_stats_blocks;
-> +	count = ARRAY_SIZE(neoisp_stats_blocks);
-> +	for (int i = 0; i < count; i++) {
-> +		struct v4l2_isp_block_header *header =
-> +			v4l2_isp_stats_init_block(neoispd->dev, stats,
-> +						  neoisp_stats_block_types_info,
-> +						  ARRAY_SIZE(neoisp_stats_block_types_info),
-> +						  blk_list[i], NEOISP_EXT_STATS_MAX_SIZE);
-> +		if (!header) {
+v1: https://lore.kernel.org/linux-media/20260323140216.1486161-1-barnabas.p=
+ocze@ideasonboard.com/
+---
+ .../platform/rockchip/rkisp1/rkisp1-params.c  |  68 +++++++++++
+ .../platform/rockchip/rkisp1/rkisp1-regs.h    |  15 ++-
+ include/uapi/linux/rkisp1-config.h            | 107 +++++++++++++++++-
+ 3 files changed, 187 insertions(+), 3 deletions(-)
 
-oops. I missed to apply the fix on my driver :(
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drive=
+rs/media/platform/rockchip/rkisp1/rkisp1-params.c
+index 6442436a5e42..042b759eba62 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+@@ -64,6 +64,7 @@ union rkisp1_ext_params_config {
+ =09struct rkisp1_ext_params_compand_bls_config compand_bls;
+ =09struct rkisp1_ext_params_compand_curve_config compand_curve;
+ =09struct rkisp1_ext_params_wdr_config wdr;
++=09struct rkisp1_ext_params_cac_config cac;
+ };
+=20
+ enum rkisp1_params_formats {
+@@ -1413,6 +1414,47 @@ static void rkisp1_wdr_config(struct rkisp1_params *=
+params,
+ =09=09=09=09     RKISP1_CIF_ISP_WDR_TONE_CURVE_YM_MASK);
+ }
+=20
++static void rkisp1_cac_config(struct rkisp1_params *params,
++=09=09=09      const struct rkisp1_cif_isp_cac_config *arg)
++{
++=09u32 val;
++
++=09/*
++=09 * The enable bit is in the same register (RKISP1_CIF_ISP_CAC_CTRL),
++=09 * so only set the clipping mode, and do not modify the other bits.
++=09 */
++=09val =3D rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_CAC_CTRL);
++=09val &=3D ~(RKISP1_CIF_ISP_CAC_CTRL_H_CLIP_MODE |
++=09=09 RKISP1_CIF_ISP_CAC_CTRL_V_CLIP_MODE);
++=09val |=3D FIELD_PREP(RKISP1_CIF_ISP_CAC_CTRL_H_CLIP_MODE, arg->h_clip_mo=
+de) |
++=09       FIELD_PREP(RKISP1_CIF_ISP_CAC_CTRL_V_CLIP_MODE, arg->v_clip_mode=
+);
++=09rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_CTRL, val);
++
++=09val =3D FIELD_PREP(RKISP1_CIF_ISP_CAC_COUNT_START_H_MASK, arg->h_count_=
+start) |
++=09      FIELD_PREP(RKISP1_CIF_ISP_CAC_COUNT_START_V_MASK, arg->v_count_st=
+art);
++=09rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_COUNT_START, val);
++
++=09val =3D FIELD_PREP(RKISP1_CIF_ISP_CAC_RED_MASK, arg->red[0]) |
++=09      FIELD_PREP(RKISP1_CIF_ISP_CAC_BLUE_MASK, arg->blue[0]);
++=09rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_A, val);
++
++=09val =3D FIELD_PREP(RKISP1_CIF_ISP_CAC_RED_MASK, arg->red[1]) |
++=09      FIELD_PREP(RKISP1_CIF_ISP_CAC_BLUE_MASK, arg->blue[1]);
++=09rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_B, val);
++
++=09val =3D FIELD_PREP(RKISP1_CIF_ISP_CAC_RED_MASK, arg->red[2]) |
++=09      FIELD_PREP(RKISP1_CIF_ISP_CAC_BLUE_MASK, arg->blue[2]);
++=09rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_C, val);
++
++=09val =3D FIELD_PREP(RKISP1_CIF_ISP_CAC_NF_MASK, arg->x_nf) |
++=09      FIELD_PREP(RKISP1_CIF_ISP_CAC_NS_MASK, arg->x_ns);
++=09rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_X_NORM, val);
++
++=09val =3D FIELD_PREP(RKISP1_CIF_ISP_CAC_NF_MASK, arg->y_nf) |
++=09      FIELD_PREP(RKISP1_CIF_ISP_CAC_NS_MASK, arg->y_ns);
++=09rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CAC_Y_NORM, val);
++}
++
+ static void
+ rkisp1_isp_isr_other_config(struct rkisp1_params *params,
+ =09=09=09    const struct rkisp1_params_cfg *new_params)
+@@ -2089,6 +2131,25 @@ static void rkisp1_ext_params_wdr(struct rkisp1_para=
+ms *params,
+ =09=09=09=09      RKISP1_CIF_ISP_WDR_CTRL_ENABLE);
+ }
+=20
++static void rkisp1_ext_params_cac(struct rkisp1_params *params,
++=09=09=09=09  const union rkisp1_ext_params_config *block)
++{
++=09const struct rkisp1_ext_params_cac_config *cac =3D &block->cac;
++
++=09if (cac->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
++=09=09rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CAC_CTRL,
++=09=09=09=09=09RKISP1_CIF_ISP_CAC_CTRL_ENABLE);
++=09=09return;
++=09}
++
++=09rkisp1_cac_config(params, &cac->config);
++
++=09if ((cac->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE) &&
++=09    !(params->enabled_blocks & BIT(cac->header.type)))
++=09=09rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CAC_CTRL,
++=09=09=09=09      RKISP1_CIF_ISP_CAC_CTRL_ENABLE);
++}
++
+ typedef void (*rkisp1_block_handler)(struct rkisp1_params *params,
+ =09=09=09     const union rkisp1_ext_params_config *config);
+=20
+@@ -2185,6 +2246,10 @@ static const struct rkisp1_ext_params_handler {
+ =09=09.handler=09=3D rkisp1_ext_params_wdr,
+ =09=09.group=09=09=3D RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
+ =09},
++=09[RKISP1_EXT_PARAMS_BLOCK_TYPE_CAC] =3D {
++=09=09.handler=09=3D rkisp1_ext_params_cac,
++=09=09.group=09=09=3D RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
++=09},
+ };
+=20
+ #define RKISP1_PARAMS_BLOCK_INFO(block, data) \
+@@ -2215,6 +2280,7 @@ rkisp1_ext_params_block_types_info[] =3D {
+ =09RKISP1_PARAMS_BLOCK_INFO(COMPAND_EXPAND, compand_curve),
+ =09RKISP1_PARAMS_BLOCK_INFO(COMPAND_COMPRESS, compand_curve),
+ =09RKISP1_PARAMS_BLOCK_INFO(WDR, wdr),
++=09RKISP1_PARAMS_BLOCK_INFO(CAC, cac),
+ };
+=20
+ static_assert(ARRAY_SIZE(rkisp1_ext_params_handlers) =3D=3D
+@@ -2474,6 +2540,8 @@ void rkisp1_params_disable(struct rkisp1_params *para=
+ms)
+ =09rkisp1_ie_enable(params, false);
+ =09rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_DPF_MODE,
+ =09=09=09=09RKISP1_CIF_ISP_DPF_MODE_EN);
++=09rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CAC_CTRL,
++=09=09=09=09RKISP1_CIF_ISP_CAC_CTRL_ENABLE);
+ }
+=20
+ static const struct rkisp1_params_ops rkisp1_v10_params_ops =3D {
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers=
+/media/platform/rockchip/rkisp1/rkisp1-regs.h
+index fbeb186cde0d..2b842194de8f 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+@@ -724,6 +724,17 @@
+ #define RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MASK=09=09GENMASK(20, 16)
+ #define RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MAX=09=0916U
+=20
++/* CAC */
++#define RKISP1_CIF_ISP_CAC_CTRL_ENABLE=09=09BIT(0)
++#define RKISP1_CIF_ISP_CAC_CTRL_V_CLIP_MODE=09GENMASK(2, 1)
++#define RKISP1_CIF_ISP_CAC_CTRL_H_CLIP_MODE=09BIT(3)
++#define RKISP1_CIF_ISP_CAC_COUNT_START_H_MASK=09GENMASK(12, 0)
++#define RKISP1_CIF_ISP_CAC_COUNT_START_V_MASK=09GENMASK(28, 16)
++#define RKISP1_CIF_ISP_CAC_RED_MASK=09=09GENMASK(8, 0)
++#define RKISP1_CIF_ISP_CAC_BLUE_MASK=09=09GENMASK(24, 16)
++#define RKISP1_CIF_ISP_CAC_NF_MASK=09=09GENMASK(4, 0)
++#define RKISP1_CIF_ISP_CAC_NS_MASK=09=09GENMASK(19, 16)
++
+ /* =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D */
+ /*                            CIF Registers                            */
+ /* =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D */
+@@ -1196,8 +1207,8 @@
+ #define RKISP1_CIF_ISP_CAC_A=09=09=09(RKISP1_CIF_ISP_CAC_BASE + 0x00000008=
+)
+ #define RKISP1_CIF_ISP_CAC_B=09=09=09(RKISP1_CIF_ISP_CAC_BASE + 0x0000000c=
+)
+ #define RKISP1_CIF_ISP_CAC_C=09=09=09(RKISP1_CIF_ISP_CAC_BASE + 0x00000010=
+)
+-#define RKISP1_CIF_ISP_X_NORM=09=09=09(RKISP1_CIF_ISP_CAC_BASE + 0x0000001=
+4)
+-#define RKISP1_CIF_ISP_Y_NORM=09=09=09(RKISP1_CIF_ISP_CAC_BASE + 0x0000001=
+8)
++#define RKISP1_CIF_ISP_CAC_X_NORM=09=09(RKISP1_CIF_ISP_CAC_BASE + 0x000000=
+14)
++#define RKISP1_CIF_ISP_CAC_Y_NORM=09=09(RKISP1_CIF_ISP_CAC_BASE + 0x000000=
+18)
+=20
+ #define RKISP1_CIF_ISP_EXP_BASE=09=09=090x00002600
+ #define RKISP1_CIF_ISP_EXP_CTRL=09=09=09(RKISP1_CIF_ISP_EXP_BASE + 0x00000=
+000)
+diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1=
+-config.h
+index b2d2a71f7baf..c6ba49621726 100644
+--- a/include/uapi/linux/rkisp1-config.h
++++ b/include/uapi/linux/rkisp1-config.h
+@@ -967,6 +967,92 @@ struct rkisp1_cif_isp_wdr_config {
+ =09__u8 use_iref;
+ };
+=20
++/*
++ * enum rkisp1_cif_isp_cac_h_clip_mode - horizontal clipping mode
++ *
++ * @RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4PX: +/- 4 pixels
++ * @RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4_5PX: +/- 4/5 pixels depending on baye=
+r position
++ */
++enum rkisp1_cif_isp_cac_h_clip_mode {
++=09RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4PX =3D 0,
++=09RKISP1_CIF_ISP_CAC_H_CLIP_MODE_4_5PX =3D 1,
++};
++
++/**
++ * enum rkisp1_cif_isp_cac_v_clip_mode - vertical clipping mode
++ *
++ * @RKISP1_CIF_ISP_CAC_V_CLIP_MODE_2PX: +/- 2 pixels
++ * @RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3PX: +/- 3 pixels
++ * @RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3_4PX: +/- 3/4 pixels depending on baye=
+r position
++ */
++enum rkisp1_cif_isp_cac_v_clip_mode {
++=09RKISP1_CIF_ISP_CAC_V_CLIP_MODE_2PX =3D 0,
++=09RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3PX =3D 1,
++=09RKISP1_CIF_ISP_CAC_V_CLIP_MODE_3_4PX =3D 2,
++};
++
++/**
++ * struct rkisp1_cif_isp_cac_config - chromatic aberration correction conf=
+iguration
++ *
++ * The correction is carried out by shifting the red and blue pixels relat=
+ive
++ * to the green ones, depending on the distance from the optical center:
++ *
++ * @h_count_start: horizontal coordinate of the optical center (13-bit uns=
+igned integer; [1,8191])
++ * @v_count_start: vertical coordinate of the optical center (13-bit unsig=
+ned integer; [1,8191])
++ *
++ * For each pixel, the x/y distances from the optical center are calculate=
+d and
++ * then transformed into the [0,255] range based on the following formula:
++ *
++ *   (((d << 4) >> ns) * nf) >> 5
++ *
++ * where `d` is the distance, `ns` and `nf` are the normalization paramete=
+rs:
++ *
++ * @x_nf: horizontal normalization scale parameter (5-bit unsigned integer=
+; [0,31])
++ * @x_ns: horizontal normalization shift parameter (4-bit unsigned integer=
+; [0,15])
++ *
++ * @y_nf: vertical normalization scale parameter (5-bit unsigned integer; =
+[0,31])
++ * @y_ns: vertical normalization shift parameter (4-bit unsigned integer; =
+[0,15])
++ *
++ * These parameters should be chosen based on the image resolution, the po=
+sition
++ * of the optical center, and the shape of pixels, so that no normalized d=
+istance
++ * is larger than 255. If the pixels have square shape, the two sets of pa=
+rameters
++ * should be equal.
++ *
++ * The actual amount of correction is calculated with a third degree polyn=
+omial:
++ *
++ *   c[0] * r + c[1] * r^2 + c[2] * r^3
++ *
++ * where `c` is the set of coefficients for the given color, and `r` is di=
+stance:
++ *
++ * @red: red coefficients (5.4 two's complement; [-16,15.9375])
++ * @blue: blue coefficients (5.4 two's complement; [-16,15.9375])
++ *
++ * Finally, the amount is clipped as requested:
++ *
++ * @h_clip_mode: maximum horizontal shift (from enum rkisp1_cif_isp_cac_h_=
+clip_mode)
++ * @v_clip_mode: maximum vertical shift (from enum rkisp1_cif_isp_cac_v_cl=
+ip_mode)
++ *
++ * A positive result will shift away from the optical center, while a nega=
+tive
++ * one will shift towards the optical center. In the latter case, the pixe=
+l
++ * values at the edges are duplicated.
++ */
++struct rkisp1_cif_isp_cac_config {
++=09__u8 h_clip_mode;
++=09__u8 v_clip_mode;
++
++=09__u16 h_count_start;
++=09__u16 v_count_start;
++
++=09__u16 red[3];
++=09__u16 blue[3];
++
++=09__u8 x_nf;
++=09__u8 x_ns;
++
++=09__u8 y_nf;
++=09__u8 y_ns;
++};
++
+ /*---------- PART2: Measurement Statistics ------------*/
+=20
+ /**
+@@ -1138,6 +1224,7 @@ struct rkisp1_stat_buffer {
+  * @RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND: Companding expand curve
+  * @RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS: Companding compress cur=
+ve
+  * @RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR: Wide dynamic range
++ * @RKISP1_EXT_PARAMS_BLOCK_TYPE_CAC: Chromatic aberration correction
+  */
+ enum rkisp1_ext_params_block_type {
+ =09RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS,
+@@ -1161,6 +1248,7 @@ enum rkisp1_ext_params_block_type {
+ =09RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND,
+ =09RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS,
+ =09RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR,
++=09RKISP1_EXT_PARAMS_BLOCK_TYPE_CAC,
+ };
+=20
+ /* For backward compatibility */
+@@ -1507,6 +1595,22 @@ struct rkisp1_ext_params_wdr_config {
+ =09struct rkisp1_cif_isp_wdr_config config;
+ } __attribute__((aligned(8)));
+=20
++/**
++ * struct rkisp1_ext_params_cac_config - RkISP1 extensible params CAC conf=
+ig
++ *
++ * RkISP1 extensible parameters CAC block.
++ * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_CAC`.
++ *
++ * @header: The RkISP1 extensible parameters header, see
++ *=09    :c:type:`rkisp1_ext_params_block_header`
++ * @config: CAC configuration, see
++ *=09    :c:type:`rkisp1_cif_isp_cac_config`
++ */
++struct rkisp1_ext_params_cac_config {
++=09struct rkisp1_ext_params_block_header header;
++=09struct rkisp1_cif_isp_cac_config config;
++} __attribute__((aligned(8)));
++
+ /*
+  * The rkisp1_ext_params_compand_curve_config structure is counted twice a=
+s it
+  * is used for both the COMPAND_EXPAND and COMPAND_COMPRESS block types.
+@@ -1532,7 +1636,8 @@ struct rkisp1_ext_params_wdr_config {
+ =09sizeof(struct rkisp1_ext_params_compand_bls_config)=09=09+\
+ =09sizeof(struct rkisp1_ext_params_compand_curve_config)=09=09+\
+ =09sizeof(struct rkisp1_ext_params_compand_curve_config)=09=09+\
+-=09sizeof(struct rkisp1_ext_params_wdr_config))
++=09sizeof(struct rkisp1_ext_params_wdr_config)=09=09=09+\
++=09sizeof(struct rkisp1_ext_params_cac_config))
+=20
+ /**
+  * enum rksip1_ext_param_buffer_version - RkISP1 extensible parameters ver=
+sion
+--=20
+2.54.0
 
-IS_ERR(header) must be used instead of null pointer check.
 
-> +			dev_err(neoispd->dev, "Error: initializing stats block %d\n", i);
-> +			continue;
-> +		}
-> +
-> +		neoisp_ctx_get_stats_blk(neoispd, blk_list[i], src,
-> +					 (union neoisp_stats_block_u *)header);
-> +	}
-> +}
 
