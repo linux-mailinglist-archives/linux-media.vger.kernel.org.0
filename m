@@ -1,48 +1,49 @@
-Return-Path: <linux-media+bounces-61183-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61184-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uAHiJwJtAmqosgEAu9opvQ
-	(envelope-from <linux-media+bounces-61183-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 01:57:54 +0200
+	id CCcEBAptAmqosgEAu9opvQ
+	(envelope-from <linux-media+bounces-61184-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 01:58:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8AC517A53
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 01:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8A66517A5C
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 01:58:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 28FE0302735B
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 23:56:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8390E30358B1
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 23:56:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9F4F36A36D;
-	Mon, 11 May 2026 23:56:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C83DA36A37A;
+	Mon, 11 May 2026 23:56:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="onstIQac"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ns9NbCWk"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0384436A34E;
-	Mon, 11 May 2026 23:56:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA5C36A364;
+	Mon, 11 May 2026 23:56:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778543802; cv=none; b=O71qeosWHlX6rxDvrQxQPodjPsMOhzKOIOAlHD1OgBdl6OwZdGigCZTnsHiU5XS21hzPXp6v8NOEavfIzuVeoTtlHLCe1b43rLcQjSmkjPU4zoTRoJp+RUjiKSGQthowdq9xnbx2JMsu+LMNPzcif1sufgeMfHWWsf/cDYQmCHQ=
+	t=1778543803; cv=none; b=eN4RMdTuouIlv5X29dtlMkhGriq5OmR5ihPbYcFVjQxohBMd4kGUfLBcHmO2GOnIBBTuLqgNHp8XLgaT98X/eq9sQyQZVmfGzz/SPQcggWEGYp4ptxaBudd/6Muq+uuRDW7V7DWh150UurIdC2+hLTlqOGTXomU/y50+tQTJrxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778543802; c=relaxed/simple;
-	bh=LrnvNjxC5AlgiNohRlXZHVTzNqBGOFVxb4cytKEZ9HA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CQADz/odVoTyCJ9oPOp3LBrdpOorZUcMzOjZ5Ii3Qh+ksGZuW9wZvXqWGPhaFnaXNsS4OyGW72GbO+yF9ql4pjiJTOwRE5LOxqE9OxVP5D6lMd6DHBUY50LDMbQOpByNgInJW0gDPopjl9uzmsV9GpM+zVOUIsjlRQTuxIMChBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=onstIQac; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1778543803; c=relaxed/simple;
+	bh=MXqD0tcQNcnHW2tzHff801ywnDMdRZcA6m0SJoIXlzY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nx+a46uv4w5LViO9znIuLE7zXnEsmL8GzuN0jTmLVI47m6187UCbf5y2cJwwASQkYQY0RG0FE17fBtb+PxhF/moSyZF4HtpMX1it5Ekn1HqFBzwqppVjHcidi5hcrr1LdUEyUlH0tc1QJAoBX5xibwtFP8OwXtLKmn4/yO7j0Rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ns9NbCWk; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77507517;
-	Tue, 12 May 2026 01:56:31 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D9EC5C59;
+	Tue, 12 May 2026 01:56:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1778543791;
-	bh=LrnvNjxC5AlgiNohRlXZHVTzNqBGOFVxb4cytKEZ9HA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=onstIQacQ6+esRRKSKovyW9vywbC1VMS349+nmfoASY8BDnjPTO9dMhoq33jH/K4a
-	 IhuCrfZeknu5d4zRwS7agA89dY/cMZu8OMKVdBwolW4itMj6+cMftP8Fq4xvoKIo3t
-	 W/4SF1J71JZAKjpDSuqtGGKC5xyZhMiCuslcbFKI=
+	s=mail; t=1778543793;
+	bh=MXqD0tcQNcnHW2tzHff801ywnDMdRZcA6m0SJoIXlzY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ns9NbCWkgxBfo5kzvZbBX8cohVnX5osvAWr0rsi/dF9g+tC8e0YnD9LGK7xoj3rke
+	 ATXTuT4UuaWqy7MiddnpzG8OuanVPc6u0NRB+88qxx3Zk0XskVb9UufxZZnqQ7oRlY
+	 sF5ZiSt0R7jHLo6jEGcpN/K9zwPFj5RLYELNxrOI=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
@@ -52,10 +53,12 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	David Airlie <airlied@gmail.com>,
 	Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH 00/11] media: renesas: vsp1: Modernize the driver
-Date: Tue, 12 May 2026 02:56:24 +0300
-Message-ID: <20260511235637.3468558-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 01/11] media: renesas: vsp1: Avoid forward function declaration
+Date: Tue, 12 May 2026 02:56:25 +0300
+Message-ID: <20260511235637.3468558-2-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260511235637.3468558-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20260511235637.3468558-1-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,7 +66,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4A8AC517A53
+X-Rspamd-Queue-Id: B8A66517A5C
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -75,7 +78,7 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61183-lists,linux-media=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-61184-lists,linux-media=lfdr.de,renesas];
 	PRECEDENCE_BULK(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	FREEMAIL_CC(0.00)[vger.kernel.org,ideasonboard.com,bp.renesas.com,gmail.com,ffwll.ch];
@@ -87,7 +90,7 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	RCPT_COUNT_SEVEN(0.00)[8];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
@@ -96,79 +99,129 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Hello,
+Reorder functions to avoid the forward declaration of the
+vsp1_du_pipeline_configure(). No functional change intended.
 
-This patch series modernizes the VSP1 driver by using scoped guards and
-moving loop index variable declarations to the loop statements.
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ .../media/platform/renesas/vsp1/vsp1_drm.c    | 90 +++++++++----------
+ 1 file changed, 44 insertions(+), 46 deletions(-)
 
-Patches 01/11 and 02/11 prepare for the introduction of scoped guards by
-splitting a large function to lower the indentation level. As the
-function is called by DRM clients (R-Car DU and RZ DU drivers), an
-inline compatibility wrapper is introduced. The clients are then updated
-in patches 03/11 and 04/11, and the compatibility wrapper removed in
-11/11.
-
-Patches 05/11 to 08/11 then introduce guards and scoped guards for
-mutexes and spin locks. There isn't much to say about this, the changes
-are pretty boring, but generate a nice reduction of 148 lines. I advise
-reviewers to apply the changes and use 'git show -b', as a large part of
-the modified lines in 06/11 and 08/11 are just indentation changes due
-to scoped guards.
-
-Patch 09/11 continues with the introduction of a helper macro to
-simplifying iteration over format arrays, which occurs 6 times in the
-driver. Patch 10/11 ends the modernization effort with declaring index
-variables in for loop statements to avoid using index variables outside
-of the loop unintentionally.
-
-Patch 03/11 and 04/11 touch the DRM subsystem and depend on 02/11. They
-could be delayed by one kernel release (in which case 11/11 would need
-to be delayed by two releases), but I would prefer merging them through
-the media tree if possible if there's no objection from the DRM
-maintainers. I don't expect conflicting changes in the R-Car DU driver
-for v7.2. Dave, Sima, could you give your ack for this ?
-
-Laurent Pinchart (11):
-  media: renesas: vsp1: Avoid forward function declaration
-  media: renesas: vsp1: Split vsp1_du_setup_lif()
-  drm: renesas: rcar-du: Switch to new VSP API
-  drm: renesas: rz-du: Switch to new VSP API
-  media: renesas: vsp1: Use mutex guards
-  media: renesas: vsp1: Use mutex scoped guards
-  media: renesas: vsp1: Use spinlock guards
-  media: renesas: vsp1: Use spinlock scoped guards
-  media: renesas: vsp1: Simplify iteration over format arrays
-  media: renesas: vsp1: Declare index variables in for loop statement
-  media: renesas: vsp1: Drop deprecated vsp1_du_setup_lif() function
-
- drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c |   4 +-
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c  |   4 +-
- .../media/platform/renesas/vsp1/vsp1_brx.c    |  40 +--
- .../media/platform/renesas/vsp1/vsp1_clu.c    |  18 +-
- drivers/media/platform/renesas/vsp1/vsp1_dl.c |  75 ++---
- .../media/platform/renesas/vsp1/vsp1_drm.c    | 269 +++++++++---------
- .../media/platform/renesas/vsp1/vsp1_drv.c    |  42 ++-
- .../media/platform/renesas/vsp1/vsp1_entity.c |  31 +-
- .../media/platform/renesas/vsp1/vsp1_hgo.c    |  17 +-
- .../media/platform/renesas/vsp1/vsp1_hgt.c    |  27 +-
- .../media/platform/renesas/vsp1/vsp1_histo.c  |  55 ++--
- .../media/platform/renesas/vsp1/vsp1_hsit.c   |  15 +-
- .../media/platform/renesas/vsp1/vsp1_lut.c    |  18 +-
- .../media/platform/renesas/vsp1/vsp1_pipe.c   |  65 ++---
- .../media/platform/renesas/vsp1/vsp1_rwpf.c   |  44 +--
- .../media/platform/renesas/vsp1/vsp1_sru.c    |  13 +-
- .../media/platform/renesas/vsp1/vsp1_uds.c    |  13 +-
- .../media/platform/renesas/vsp1/vsp1_uif.c    |  29 +-
- .../media/platform/renesas/vsp1/vsp1_video.c  | 191 +++++--------
- .../media/platform/renesas/vsp1/vsp1_wpf.c    |  38 +--
- include/media/vsp1.h                          |   5 +-
- 21 files changed, 413 insertions(+), 600 deletions(-)
-
-
-base-commit: bc1ba628e37c93cf2abeb2c79716f49087f8a024
-prerequisite-patch-id: 5aca4e543fab1580689807ae68bea97cf436124b
-prerequisite-patch-id: 1f31895481c2e7c8ba2adac3b2067236c8fec8b6
-prerequisite-patch-id: c83c8d5e318389b8cab7761c5012ce9fad95337c
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+index 15d266439564..79b85968b061 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+@@ -57,6 +57,50 @@ static void vsp1_du_pipeline_frame_end(struct vsp1_pipeline *pipe,
+  * Pipeline Configuration
+  */
+ 
++/* Configure all entities in the pipeline. */
++static void vsp1_du_pipeline_configure(struct vsp1_pipeline *pipe)
++{
++	struct vsp1_drm_pipeline *drm_pipe = to_vsp1_drm_pipeline(pipe);
++	struct vsp1_entity *entity;
++	struct vsp1_entity *next;
++	struct vsp1_dl_list *dl;
++	struct vsp1_dl_body *dlb;
++	unsigned int dl_flags = 0;
++
++	vsp1_pipeline_calculate_partition(pipe, &pipe->part_table[0],
++					  drm_pipe->width, 0);
++
++	if (drm_pipe->force_brx_release)
++		dl_flags |= VSP1_DL_FRAME_END_INTERNAL;
++	if (pipe->output->writeback)
++		dl_flags |= VSP1_DL_FRAME_END_WRITEBACK;
++
++	dl = vsp1_dl_list_get(pipe->output->dlm);
++	dlb = vsp1_dl_list_get_body0(dl);
++
++	list_for_each_entry_safe(entity, next, &pipe->entities, list_pipe) {
++		/* Disconnect unused entities from the pipeline. */
++		if (!entity->pipe) {
++			vsp1_dl_body_write(dlb, entity->route->reg,
++					   VI6_DPR_NODE_UNUSED);
++
++			entity->sink = NULL;
++			list_del(&entity->list_pipe);
++
++			continue;
++		}
++
++		vsp1_entity_route_setup(entity, pipe, dlb);
++		vsp1_entity_configure_stream(entity, entity->state, pipe,
++					     dl, dlb);
++		vsp1_entity_configure_frame(entity, pipe, dl, dlb);
++		vsp1_entity_configure_partition(entity, pipe,
++						&pipe->part_table[0], dl, dlb);
++	}
++
++	vsp1_dl_list_commit(dl, dl_flags);
++}
++
+ /*
+  * Insert the UIF in the pipeline between the prev and next entities. If no UIF
+  * is available connect the two entities directly.
+@@ -224,8 +268,6 @@ static int vsp1_du_pipeline_setup_rpf(struct vsp1_device *vsp1,
+ /* Setup the BRx source pad. */
+ static int vsp1_du_pipeline_setup_inputs(struct vsp1_device *vsp1,
+ 					 struct vsp1_pipeline *pipe);
+-static void vsp1_du_pipeline_configure(struct vsp1_pipeline *pipe);
+-
+ static int vsp1_du_pipeline_setup_brx(struct vsp1_device *vsp1,
+ 				      struct vsp1_pipeline *pipe)
+ {
+@@ -541,50 +583,6 @@ static int vsp1_du_pipeline_setup_output(struct vsp1_device *vsp1,
+ 	return 0;
+ }
+ 
+-/* Configure all entities in the pipeline. */
+-static void vsp1_du_pipeline_configure(struct vsp1_pipeline *pipe)
+-{
+-	struct vsp1_drm_pipeline *drm_pipe = to_vsp1_drm_pipeline(pipe);
+-	struct vsp1_entity *entity;
+-	struct vsp1_entity *next;
+-	struct vsp1_dl_list *dl;
+-	struct vsp1_dl_body *dlb;
+-	unsigned int dl_flags = 0;
+-
+-	vsp1_pipeline_calculate_partition(pipe, &pipe->part_table[0],
+-					  drm_pipe->width, 0);
+-
+-	if (drm_pipe->force_brx_release)
+-		dl_flags |= VSP1_DL_FRAME_END_INTERNAL;
+-	if (pipe->output->writeback)
+-		dl_flags |= VSP1_DL_FRAME_END_WRITEBACK;
+-
+-	dl = vsp1_dl_list_get(pipe->output->dlm);
+-	dlb = vsp1_dl_list_get_body0(dl);
+-
+-	list_for_each_entry_safe(entity, next, &pipe->entities, list_pipe) {
+-		/* Disconnect unused entities from the pipeline. */
+-		if (!entity->pipe) {
+-			vsp1_dl_body_write(dlb, entity->route->reg,
+-					   VI6_DPR_NODE_UNUSED);
+-
+-			entity->sink = NULL;
+-			list_del(&entity->list_pipe);
+-
+-			continue;
+-		}
+-
+-		vsp1_entity_route_setup(entity, pipe, dlb);
+-		vsp1_entity_configure_stream(entity, entity->state, pipe,
+-					     dl, dlb);
+-		vsp1_entity_configure_frame(entity, pipe, dl, dlb);
+-		vsp1_entity_configure_partition(entity, pipe,
+-						&pipe->part_table[0], dl, dlb);
+-	}
+-
+-	vsp1_dl_list_commit(dl, dl_flags);
+-}
+-
+ static int vsp1_du_pipeline_set_rwpf_format(struct vsp1_device *vsp1,
+ 					    struct vsp1_rwpf *rwpf,
+ 					    u32 pixelformat, unsigned int pitch)
 -- 
 Regards,
 
