@@ -1,79 +1,81 @@
-Return-Path: <linux-media+bounces-61081-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61082-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mCrAGES0AWr2igEAu9opvQ
-	(envelope-from <linux-media+bounces-61081-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 12:49:40 +0200
+	id iMzdGF6zAWppigEAu9opvQ
+	(envelope-from <linux-media+bounces-61082-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 12:45:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD7E50C325
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 12:49:39 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B3550C20B
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 12:45:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 221DE3031CD8
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 10:43:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7C20C306D17D
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 10:43:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14F003D8915;
-	Mon, 11 May 2026 10:42:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89B813DA7F1;
+	Mon, 11 May 2026 10:42:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QeaCyZLv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XvGLaGKS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8481DDC1D
-	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 10:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B343DA5BA
+	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 10:42:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778496164; cv=none; b=fy4qjQsD8G/kZzU+vnADrsBlp2P6PxrXoIFG84Wnuhvgi6x4MPK+F37WsV5eQhu7tlrDJkyuP0kZ6TBccAwBKx7aZbHoIaPiQRqKhl9OQgg1sSo5+dBQSmX49YqX7lob9iV5mDgs9Xka1Qoy3B1wfLI4Rv4PGCQjS7OYavSXogc=
+	t=1778496176; cv=none; b=lsKwMCHZoY4gLLr8+PsrRL/ToClp+AGQLCQNrxXnvMmPh/numIkOcy1svAEoJLTNU0C4Eoj+4ZWdxgpMrT/IXPRYfCV8E5zcKhmVw2quCVcWVyjc6OjKQ53zRbr4nU3J71Agjf2blTX8PIOiy4E4HDv/ge5whU/gP6VB+x++pAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778496164; c=relaxed/simple;
-	bh=b8V2d8vMGlSXXImGlEiiDODYal1zQ7OVkhB6nLGI39U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KRUVJ5eC3AwIoT2l38bAi01NDXObFd174fdIF3+B/JPxPRHL2vRaekH5atb2lsiCUM+4BUlfd1/mbxuxqvrC49OQqyFmwdXZ5KDAPLIHOpe0Tn6giBsq3LO3WJkuHsnubrF0QlScfKujIesmlzUETgo2Rr+pQzP6IfjiSUzyUes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QeaCyZLv; arc=none smtp.client-ip=209.85.216.44
+	s=arc-20240116; t=1778496176; c=relaxed/simple;
+	bh=2Fbe+51I+NHaqoJEm/Ia1P/RkOrsQ8sOHQ84+D4jX5M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NeIEylks0EoEx+xIuo+ecnwWr0f7/NlZdOPHJCkdWqsf+7UP9bcU8jv4PKCD5lyNHptz2PplhU+RitvtuJCCvyUcAvNRR+SUxcYdfUYRx/ToN3zajM/XRwVYbulumroKE8DRhqbzEMIVmq0QjVD5upwBh15I7vpjiX8rwN+gTyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XvGLaGKS; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-366375c4076so1752485a91.3
-        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 03:42:43 -0700 (PDT)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-367cbac9c37so1179431a91.2
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 03:42:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778496163; x=1779100963; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8pJwksc69T29ge6PeayWoiQnaXWns9TCiOF+acY213w=;
-        b=QeaCyZLvMpPpxqrGR6/2KPk8wLgdcxsO0flwHjXxUeaqpT6fnrvD3tIXm9JEnuEIh3
-         1gk6vkuXV36jqED/0tnY7ik4BCui6U7eZLCtrO7ZufmFIkPCp31YGzK99I9agQsi2lke
-         cJ8hjXd7p8mGcd3Es/vLHh12tSBRbh7fRyA+uF1/CQzmOPWf/soJroGRHVvbaLus9hbZ
-         DJv9xghmufMnT3Fnym6rIZEBinWXiUf4V43VViTkuOg8D4Lzuan2PgpBZsuKzaCzipDk
-         IpFAIJSlpNqGrP8ZAh6XNZqERU0Sr71Q3+bb5KzjTr5sWp6X5AeicxQlD21PjSV+9TPx
-         wfwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778496163; x=1779100963;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778496174; x=1779100974; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8pJwksc69T29ge6PeayWoiQnaXWns9TCiOF+acY213w=;
-        b=seYfxPWrwUtMkjglA0MJGkDW42QDCWq7Kx/wKpaKpKGMCvJXnN4k46x1YLTxmnlK4f
-         SmSnoZ7mHBPufQZUvCnFBWaZ+i8eZFPneyOixJKt8USe0TMRkSUKZNuJdNWn3WPCWndT
-         2V42ZlOvI7oxjwgS4f7tO31inVtEKLNka0Py3j79T6tFDFxEmmpeVeOFUBbuWtNt1pF6
-         u8FYEOMpq/MduSTWczLqHl2Y7pXfpG3kIId2zuWNii8iGUaAkzU+DxyRowfNslZe3lzp
-         BBGybh+6DbxXS98B2GDhYkkwO6r6XODZ94wk98GzHf6+xP5dmftlrYnPVNyGTadl9jYO
-         xTTw==
-X-Forwarded-Encrypted: i=1; AFNElJ+Q9neIyYMetJxgsHd1hB8qJFMcd5bzClaew3kDsD/IpMRq2AOAaGAdfkk47AsBtoYHp24X2p9/QOeqoA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrviD3AaloJLSv7Crgx3rSs/0PwrRDSmTMQe0qUggMj2sFuVqZ
-	amg9sU9MEreSC832qVIL4Vpz+S60rS2Ui88e1FL8De8E7B//aph9hn7e
-X-Gm-Gg: Acq92OFI2zt6qxYKUE3B5QhM0XHNxbAOoSrqDE8FQK7dhNk+8gvypoJ99S+nb1qq3hR
-	I7OmKWE18dVYmeRyUjAD0o3l3rJvM2RZDyXDMnA/Ib/257taROwVJD3RYVXBiW97p6Xt6Cj1OXI
-	+Dt+oCeMSNDUeiF+wmDPKdboEewWhIPcNuUBgFdamM2w0TAnXF1tDD2j7Z6BFvgQZRY8K0DZ4mQ
-	Wr0RsnTJR2JlYSi/D5U+Vo1C7ruQS85bx97V4gCwDI7QxdDHJsIN7BGXUrSVzp3mMmaSLXOJD4p
-	JWTaOz41vAadkCWm9byUPFFDNS1A2JhsaXDVd0hxtPsaHhb6kW72kQPxLJkRhmRZVnjm/EQavuu
-	9nCnlsbPrk6TSr5ZylmzsDx1VCJ0McE5dJJngXRH9mfVUc8N/vB7a+PoQwtKbM9W5LjvKA+dMUM
-	g/pmnPIcm9vB2oFpuVJQ==
-X-Received: by 2002:a17:90b:1b12:b0:366:3517:1aa2 with SMTP id 98e67ed59e1d1-367d3c75385mr8912429a91.0.1778496162532;
-        Mon, 11 May 2026 03:42:42 -0700 (PDT)
+        bh=mrmu7Ax8Tjv7DXY7cz3wQn6QU0gYid8cSWvbdHALi/M=;
+        b=XvGLaGKSFPmqZENA5e666mYVr2m216rLf9TaaxaRCCh/Q1cOxaEueKSvJ3FvUyXjN3
+         XAEzIC9lG/TdvzLkQrzRpHV6kGlJdUttejwUVK4g5ECGnYkz+PHay07PtqIb+ldNe7nb
+         pe+SxFAUHV+1ffTkLKUiD4p1i7LjjTE0ld2fCLt2k5xTq6LHywZzQSTdm7mvhUmGpDIJ
+         jPnqavGyg0vBiI7DIcIX6LIlWDjMviopYO32UEqYhjOfXfQF13H6XxDO18NQmGRUSbtQ
+         r5hdYf56mghiGYldRiQLfUnPwioEOHalit+jOLRlWdIOVRy58BXCvVNhktZFicm5esh8
+         Il0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778496174; x=1779100974;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mrmu7Ax8Tjv7DXY7cz3wQn6QU0gYid8cSWvbdHALi/M=;
+        b=UH094rhWpyiYUQL2MTTKraB3vrg3tCsKgmsdqEo4WQLmwrUQcO3H61VXDMCqM0SUu2
+         An1SS8mT/JyRDLVDVvmKnFaUB/sjOVFNlYzUIcw1w/vIc5WZeMYordg3s5CVn2k2pind
+         ae0ZppOBVXB0KNYA2V3op5wycEiD7Dn8f5Th/RWuUOHpYqkwTeFyyrqq2/Eph1HLj8XB
+         Ous65ssyf9Vs+XAmS8QeN3yBoUjOTSyuWRFMU+TcgW31xWeaMWg/PzCysE9d6KdUh5nY
+         WMWYqJ469o1wyFF6NusoevI3e4gUo8Dlac3Vb1QD85DUjcpzOAg6A7Ef0RS6jathMb5x
+         jFfQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/R6ChsZi5RVx8tMZMMhcbNJx+4OSTafW26Vq1Fvi2fJPQm4lx4XdkT2UbdDoKPA5eSwQLQpQYSsLx6bA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxISayVtOqZoo2+k/jgZMgrlnKfSTQMYVycFpP5YxeznbLT8fLK
+	v/b9l7ERLfwgcqGecqKCdowMLi/D54bAVJxtAduwaM5WDzA4UEnarVJm
+X-Gm-Gg: Acq92OGmpgLZcJAlZjgeGSkdyfXVVudqeLxhqKc2bmSJtb1yrlE4KSSSSGU/UtBhqlD
+	P8Je+rQJ7J9j/u84BnNe4wf32ySfjdJUtKaNEABMS2rnY73xLOVWGRc80/PMIdHyJuH2uhDbrAd
+	HdofFSjOmGMWVe14r0RW7GjL4QoITv4g9P8GNDX63XcBJiU6S1BP79rZaF6GNwwL2dLkQu4/eyy
+	6J2y7qQMY6V6T8SVFH2RUdMSZbUkrXiNjfepb6zCy1YiEu0fORHhjaa+U7pmaaNQ0rrxS5anqPL
+	LWfEo357XurrWRVRiMZyBW7iL/pGOmQhgLhYr2uSgvhGOPLn1JBKXVBv++K/IGgKzJ2iznQHCEZ
+	x+UDM75TJS2uIwbGc5fW5PnRqpZn8XEw8VW6X24bvhGBz5fogbfP9WCvJxkCyGZbWEKsF2HxQSp
+	eiltSafld4MFwSjynaQ2KpyYYsidBs
+X-Received: by 2002:a17:90a:110f:b0:366:1c9e:99b7 with SMTP id 98e67ed59e1d1-3661c9e9b87mr11161538a91.25.1778496174159;
+        Mon, 11 May 2026 03:42:54 -0700 (PDT)
 Received: from nuvole ([144.202.86.13])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-367d684009esm7533423a91.11.2026.05.11.03.42.30
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-367d684009esm7533423a91.11.2026.05.11.03.42.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 03:42:42 -0700 (PDT)
+        Mon, 11 May 2026 03:42:53 -0700 (PDT)
 From: Pengyu Luo <mitltlatltl@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -93,10 +95,12 @@ Cc: devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	Pengyu Luo <mitltlatltl@gmail.com>
-Subject: [PATCH v4 0/5] fix and improve for Hi846
-Date: Mon, 11 May 2026 18:39:22 +0800
-Message-ID: <20260511103927.279550-1-mitltlatltl@gmail.com>
+Subject: [PATCH v4 1/5] media: hi846: fix hi846_write_reg_16 handling
+Date: Mon, 11 May 2026 18:39:23 +0800
+Message-ID: <20260511103927.279550-2-mitltlatltl@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260511103927.279550-1-mitltlatltl@gmail.com>
+References: <20260511103927.279550-1-mitltlatltl@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -104,7 +108,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: BDD7E50C325
+X-Rspamd-Queue-Id: 27B3550C20B
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -113,13 +117,13 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,lists.infradead.org,gmail.com];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-61081-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61082-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[18];
@@ -133,46 +137,40 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	NEURAL_HAM(-0.00)[-0.971];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.983];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-This series fixes errors blocking Hi846 driver function, fixes
-link frequency and supports 6MP and 8MP modes on Hi846.
+hi846_write_reg_16() does not clear a positive *err value on success.
+pm_runtime_get_if_in_use() returns a positive value when the device
+is already in use. When hi846_set_ctrl() passes &ret holding this
+positive value) to hi846_write_reg_16(), the function returns with ret
+as is, the positive value propagates back as a return code, which
+callers interpret as an error.
 
+Fix this by resetting *err to 0 only when it is positive.
+
+Fixes: 04fc06f6dc15 ("media: hi846: fix usage of pm_runtime_get_if_in_use()")
 Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
 ---
-Changes in v4:
-- correct default lane cfg in commit for 'fix link frequency handling'
-- fix messed header (the Media CI robot)
-- move constant to the right side when comparsion (the Media CI robot)
-- Link to v3: https://lore.kernel.org/linux-media/20260511090924.269106-1-mitltlatltl@gmail.com
+ drivers/media/i2c/hi846.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changes in v3:
-- fix modes handling for different lane cases (Sebastian)
-- fix header missing (the Media CI robot)
-- Link to v2: https://lore.kernel.org/linux-media/20260501095433.1609309-1-mitltlatltl@gmail.com
-
-Changes in v2:
-- remove uncessary `else` (Sakari)
-- fix link frequency (Sakari)
-- correct link frequency for DT
-- Link to v1: https://lore.kernel.org/linux-media/20260429070351.1307204-1-mitltlatltl@gmail.com
-
-
-Pengyu Luo (5):
-  media: hi846: fix hi846_write_reg_16 handling
-  media: hi846: fix link frequency handling
-  media: hi846: fix modes handling for different lane cases
-  media: hi846: Add 6MP and 8MP modes support
-  arm64: dts: imx8mq-librem5: Correct link frequency list
-
- .../boot/dts/freescale/imx8mq-librem5.dtsi    |   2 +-
- drivers/media/i2c/hi846.c                     | 251 +++++++++++++++---
- 2 files changed, 210 insertions(+), 43 deletions(-)
-
+diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
+index a3f77b8434ca..7f069aca0fce 100644
+--- a/drivers/media/i2c/hi846.c
++++ b/drivers/media/i2c/hi846.c
+@@ -1271,6 +1271,8 @@ static void hi846_write_reg_16(struct hi846 *hi846, u16 reg, u16 val, int *err)
+ 	if (*err < 0)
+ 		return;
+ 
++	*err = 0;
++
+ 	put_unaligned_be16(reg, buf);
+ 	put_unaligned_be16(val, buf + 2);
+ 	ret = i2c_master_send(client, buf, sizeof(buf));
 -- 
 2.54.0
 
