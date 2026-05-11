@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-61121-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61122-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +uvqKQbbAWptlgEAu9opvQ
-	(envelope-from <linux-media+bounces-61121-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 15:35:02 +0200
+	id yK+eORLbAWoDlgEAu9opvQ
+	(envelope-from <linux-media+bounces-61122-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 15:35:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423CB50F066
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 15:35:00 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id D819050F076
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 15:35:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E6941305CFBC
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 13:27:32 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2DB15305F2DD
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 13:27:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BEE73E9585;
-	Mon, 11 May 2026 13:27:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C02423ECBF3;
+	Mon, 11 May 2026 13:27:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="mWUA2AKn"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="nMYpKEqG"
 X-Original-To: linux-media@vger.kernel.org
 Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010002.outbound.protection.outlook.com [52.101.84.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D833F1670;
-	Mon, 11 May 2026 13:27:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3436F3F54BD;
+	Mon, 11 May 2026 13:27:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.2
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778506026; cv=fail; b=WroFWM3tCmWuCKAbnQX1PANUARRyBrjoY6Hvb6BgKUZSIISDwIDYvhjGudOrc5+n8R8whruQCnMhGdICv37BiNqYvN+5t3rKJrqTVoOZd6QFLdaTPhKzu/gfAuXN9W3IoG7gNEpL4CE4jlLNpWvHIsOLh6aCw07n8mX4HNosfsA=
+	t=1778506029; cv=fail; b=AE6RCsDVDuWCgaH/uURwfk9+1T5CBgax69lgfZ2+txecq30emeF9slcr15fq6AUlfC7RsyK0lwqzZQLNVIXkousGhynSTCM8cFrm/XqYFzidVyt9FbAFGm6kE7G+wLzNRe3PwGnhxBWxTnFAAD59i8+fNGf6ukRHXG9GpkJvaEQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778506026; c=relaxed/simple;
-	bh=i9XR1+JUhA7eUctQ3T+QMlN8aNzi1gurWrJ8NjQmyHY=;
+	s=arc-20240116; t=1778506029; c=relaxed/simple;
+	bh=ywAxMuC309Fpr4vIyYohLw/1OE0PlDYnflUBaQ8gGro=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=aYdONWHa3KI/Ie2fnxXEwXX68UIniQfRsK/Rn1YTUHT8em3q6i/ZHCRVaHCQu8HDobgktOOJjWHL/z1mGApEwM3j/vorltF7K20Cmbl+2uFWBRtXHe70ArdukGISIav0idBQAWyXMGgb0NYgwkmTu6T9O0pKJLc2nEGIBaeFcUs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=mWUA2AKn; arc=fail smtp.client-ip=52.101.84.2
+	 Content-Type:MIME-Version; b=QflMI+vHJX+KNxzgJ5h6MskjfudFJklJeK9iZjJUL8okJjPcoB93nV56E6Vf+BY5WNcDtRkgJg2FEe3Ym9I2clpUvHFw8ltjIbfWfumUxLexjK2HSsuL6i4C5cvzTtoZGbnVF4pyfx5lKy0hx6sSklDFYkj8BXfv5Q//6a1zokc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=nMYpKEqG; arc=fail smtp.client-ip=52.101.84.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hCC9AYZjVJMZzrFcW5IGgGJNy/fj96N9W9RwVSmCSoy5Zcz+T+tlu+bkm9OvjBIec5bAzL3+YMZWtvKyCTrGr2xLwJnEomW5DK8YE9PqzMEbrLkC9uZL7yrNTtmIeqDm5ndXlENaWydYbbCJyOGaZRXg9ob5tHL/jncZAw/23p9B+EV04JPAY4ORfbj8e1wlyW6KjfcTSObltdCu7dLJxUHWtuQ9oRCJxn5dDN6MG1DIZaaFvwVMtlygt5uiDsUmuLDz1KQD3or69oH2zhMWocSG0sBPuoMKsZX/nMiBX+t6sijO1M3XhUw/BhQ3HwvmAdAoEE6ykKSMxhixd+skHQ==
+ b=cHszMrLkvbFqsx2SSJWeBjkFgIh5WsSqzJ5semvtA6vFJTGveOjsJ4FoUUT1hm9cj5cvViRBaPOKeAzTMewW/2tngQsVf0slmDoZFH334l9N0xCQol2oSBc8wcX2RHt9DTADW85SVpLcIE0FfE0tSlsDI+DOq21OvfIVMilwNVAJ2BLSqovu0G774zsDDj6oErj9QIr1nIjrsHrIfQhEScvIpwW6z9pQwBD16ClYwaOTphMTDj8OaPbP2PRwfD4waxVfEEZm7haZ+5MfRtOTtO6mdDx9DYeDOCfXR3FiULKIeexF4lCS7qDlb+UO9Xi0qPVfJougMiDW7VcFg/jCeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/H2kIO6dIvS6bL8VyLls10ch3Px2Uj1UTRKrspKsm+o=;
- b=BLPMiUgjK//N98Jodbi7yIIikucLlQjwjsHCqlvSAw+743/445FkuPOxs8O/8YbRMoSu4hcTJD0/VHutrZzaoh+60MxADmzeSBJTJ+K+EvExIV+wnElRX5GVibfMn+KDGPqb+tImF5bT4862x4FAxJgr7pPSh2i3scFesi35nQ8Rj6o341oNTMeYsPcHnGOA4tpsGICiQJW+wqHbG/mpOpTIXTvymHxIu28gV61QKn7WspbxHbels5dFkCYuvQAxhapfBZrx4Xdipvt3Viz9Ko4jTbZGIk1ohyOU3S34hruu/ZKCM+kO1n1uOgyxuyFn7ewdXz9RZYyZEZHIkkvnMg==
+ bh=5071r4wYGD74zaid4TTbjp5JjaHHPBhEr1eQDmYHP9M=;
+ b=lQNkC1Q4uA5WXcgeKg9FVndOgs5WKZlApvG2leTG60qnr0XOpdrv4B74fEcuaiiMLKI04ioMUZu0fXaRkkPrHsSNkIwELt8ylm64bWb2gWNBrNe93DmvoXXpsSROcIJzYOtGEyBanDDv9u3UEJUOBbNzFD3AaZg2dyScd87sE91KtXX280Da4vGbu/mMOVPDytTIG+0OJU9KzF6XPS/F79UGFD1SZJbXV2EQEDrb11cBfAOpDE8Ap8RDmNgKaMFNKGjlToVvxeGd6wN4AoUx3ISzpFkAPpO1pvwkseS3B9+jRq/DI/ipL/tAXIjEMINEBBx9xsBYXBR6jcXEbNClJw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/H2kIO6dIvS6bL8VyLls10ch3Px2Uj1UTRKrspKsm+o=;
- b=mWUA2AKn1BN+R7RG58U17Kg0jh/M6B1W0hIVdPBoBznZnJA6l4uAiF61bgFCo0ewioDbI9+Bl8NDEvAbVXXOGUWj8RcKkK98eEVE/eJB0av4QnE5kSAPr861ERBxr3Pc72TvNM9wU551yZtQcSFMgVZsIcY6oMDjOEhwGE181pgt/wrYYtEP60+/B/4g/lycTUrIuwxw3g93tTtBkqj0hETi2ns+SauNJiYcdhwnHkr43B+VuUb+yScraObKp81Rt/B2AfSiFMF8vuWU32PXK9v0yCuC87THN5md0NzrXuTtELuiu4OpY9oCHA+o6q4D57Yhji4xpBlNmsE/nXew1A==
+ bh=5071r4wYGD74zaid4TTbjp5JjaHHPBhEr1eQDmYHP9M=;
+ b=nMYpKEqGghnKHlUJaXa0PADC6fItu35iVx6wv3f5TPIVUCBm7dMU1EMg8/vYxSjFYWXCMLOU5otaJ4TSFw3DlGpn1gEUlHq40VUoSyhB6qqKyvMUi3qDcU1X9PnZiO+58kPoGX5UUHu7S0wFrRANHkIPE/8rGWg8cxO1JjP69K0hNevY1l3qK8E0afEA2uya70LKl8714GOnb5vYcOf0iQbTmKR2W7icApMarYe5VHlona3WbdaYN9Eh5PdlDaOUy9pzTFbXzXP/ixI/2GOHZvi5t+6cpYw8CSq7u2ytLKPYfubImv7VjA01EL69DKvMmDbrjI86H5VfvaE57VSPNw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
  (2603:10a6:102:516::16) by AM9PR04MB8131.eurprd04.prod.outlook.com
  (2603:10a6:20b:3ed::21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Mon, 11 May
- 2026 13:26:57 +0000
+ 2026 13:26:59 +0000
 Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
  ([fe80::d3f0:3c24:f717:4989]) by PA6PR04MB11910.eurprd04.prod.outlook.com
  ([fe80::d3f0:3c24:f717:4989%4]) with mapi id 15.20.9891.021; Mon, 11 May 2026
- 13:26:57 +0000
+ 13:26:59 +0000
 From: Antoine Bouyer <antoine.bouyer@nxp.com>
 To: julien.vuillaumier@nxp.com,
 	alexi.birlinger@nxp.com,
@@ -81,9 +81,9 @@ Cc: linux-media@vger.kernel.org,
 	paul.elder@ideasonboard.com,
 	geert@linux-m68k.org,
 	Antoine Bouyer <antoine.bouyer@nxp.com>
-Subject: [PATCH v2 4/8] media: uapi: Add NXP NEOISP user interface header file
-Date: Mon, 11 May 2026 15:26:24 +0200
-Message-ID: <20260511132629.1300868-5-antoine.bouyer@nxp.com>
+Subject: [PATCH v2 5/8] media: Documentation: Add NXP neoisp driver documentation
+Date: Mon, 11 May 2026 15:26:25 +0200
+Message-ID: <20260511132629.1300868-6-antoine.bouyer@nxp.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260511132629.1300868-1-antoine.bouyer@nxp.com>
 References: <20260511132629.1300868-1-antoine.bouyer@nxp.com>
@@ -100,60 +100,60 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PA6PR04MB11910:EE_|AM9PR04MB8131:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed48def4-4d5d-4361-23f7-08deaf60f9a9
+X-MS-Office365-Filtering-Correlation-Id: 9fcdc740-34be-4f7b-d678-08deaf60faa2
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|376014|52116014|7416014|366016|1800799024|19092799006|22082099003|56012099003|18002099003|11063799003|921020|38350700014|3023799003;
+ BCL:0;ARA:13230040|376014|52116014|7416014|366016|1800799024|19092799006|22082099003|56012099003|18002099003|11063799003|8126099003|921020|38350700014|3023799003;
 X-Microsoft-Antispam-Message-Info:
- erAy0PhwhBx7Pldlb3SZqqNfVwMz1+B2jwtdu0deKucNLCKDaElf5prN3QGynqq0bUw+LEl5eQAoysKDZuEGGQUZ734t8SkhzX1fUSSl2W44rhrrH7oXfYNQNmcXEf8LZC9GowjwqdobsMOzZoK5Z2jv11e1/8a3WjO4h3NMN2xgnw2VIGYmgwbgW0/FXtU5XVLtK8bsC+3MhjpYZJ+YnOTVRvi2QLgvAOhg9+rgS/LninIVXP2/tRLwby3IN9nKVWC4IMFWRgHYEc+OWfvdow1DBzEg1//tBHzlJlhc7w+TlMIefgPlpJDEXu2tNrFzXo95bc2CL+IRbjGzhKsV5ypk2EYTRl+tUBB+3jzCOvZZN4ZJiFnvhrUaJ8AbHK6n0gIHPAEEpmAnySeRduJb9Tc9H5CVjUj5JgqR81VTcl2c4tvrDira7OVH21wJXLpc3/crXg7Ec4xZcnuvcYf7WpR1VkWZtjmEr3xtPpHOz99aJFMo1Z1mO0UufRWZzOZsHI9qh0XNt8WrzmXU7Z71ktCS2RJt+OrNwOcyAT1mQ4ZYueMaE6T5khKwqkyR50P2prv5D6DZIE2qATlcIY5dPVhY1sEP9dh1WMfLstas7ig4nllUcEphOtlSch19hP86+2TGRKX6X807zmtT0bdel7NEO96Q+oMpC5nchfnWa0v8oYm+yUwq7YisvviaZaHCainaAJyWVohCuB4+EcQPogUut2i+tEAgFXcExmOS9qzf6JV2CrcuS5XtTR1Yo6YFt5gowtBvDvFb0BqicTJimQ==
+ dLWUazDn2X01NZgL9ZSu6yDrnw0/QfJ/Hu3iyn0w2fecFTNnD3T4Qjznf0Qlqje4X0NLz71NveoNEP6McsPrNqwCV110GyU0HJ+pPNBIQVxYzbdlIgKPzUzCFWiKrJJtFQwL0corF//vQ2h7eCKbdeR15ERQFM6B4DyPgPKPvzLo2XLuNWQwiVDQ4dL53cUfxIphGmK2kNKCxw3kc0BuEpZYgSRZ4cRdjzOfwo8btMhrcwGPyXNFWBFvPCEWXdpYdInGMZsj94KhbEIFB9KbbMaVg16eQXyuF6Lk9mFbmnyH4HCWhBID4o549OBUnUUUsseR/tHibBHRdhMEOX8Q10gjciGxaFEWM3jOmcJb16mxJBiioJo48fl/1Z+k1QJCmGMMou6UBoQBzntnr2aSJAyMtmJBlbuNTv3cfoT45xQFyqTfWzlxc1CzA91L5DniJjHgZO9+Ur7wNOf2sROBgUIQBEc94MQtq5uxgPLleCof+fXykV/vvjUtD0ficEplRM8Ioebi+rES1zn3t8AudoOHKvPlfM13ireIHa4lDMxAbfkToOwc1hhtiR1b4CVTunla0YmJICS3RZTbSRJmTSjEqdQn02o90cCjxtNtMDcPVEj1kU/soCyMi7rUU/b1f5lHMsraU16cOA7tsywojpghbq4sVxip5iBbATXvcf+6g6N/zFHFZ5UAWSovfvbFpvgej8qynvIc4svkudh9cby3ByQpM6utT4PP/1vd/WcGzMdLn79XwUEYJla9zxfNR4GIWBNFr3kAxgHHEE35zQ==
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR04MB11910.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(7416014)(366016)(1800799024)(19092799006)(22082099003)(56012099003)(18002099003)(11063799003)(921020)(38350700014)(3023799003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR04MB11910.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(7416014)(366016)(1800799024)(19092799006)(22082099003)(56012099003)(18002099003)(11063799003)(8126099003)(921020)(38350700014)(3023799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?fEpMimF5IWJyoV17qzn77EHHARJ90IrbHbsgTnXqtsr7WFHbW8aqxA+tAJwL?=
- =?us-ascii?Q?Lj8tF4WiBQ42+AKkz2mciAnkMmHVGHG4n2+ALaClHnxP4rKUYBLh+QWlVagY?=
- =?us-ascii?Q?kCNUHUF/ln8xo5+69f8EgzQABpNleLM630a/5dWK3L2t1uSK3Z3BITPvSRpo?=
- =?us-ascii?Q?n19+R9ivRP0DPZHbfGXmMqIsBulkSUG3nunGfU17/zIdhTk8Jl4U6NCggtSF?=
- =?us-ascii?Q?/JNCaaUGBQRnkRZmdNG7cylzkuY6P+1Z5BH6f0ymasZK5YoLn3Z+V1r+Fspq?=
- =?us-ascii?Q?fHbp2DhVJ1BViikBA8nscQU69ypYgET2VU8W0vmNATgjS62jCopAjmVznGrE?=
- =?us-ascii?Q?AGStxl6OA0/GjULRbk8l/K8c7uVsheA33+Q7TBc5cJ2eZ3trubaq/UEGsHnY?=
- =?us-ascii?Q?V8C4boJ8Tr/OBDozuJyIslAQTNn8RROL08pc71/XgnBZUtvAPM053M5/bm3F?=
- =?us-ascii?Q?3/4K4OGek82BJn2pOQRc73BsZTyGxHiRHUOjpOuALMv1CnMt+Dn93ARrxvdf?=
- =?us-ascii?Q?JZnqExMVnaRQV5l+bIu05EtNe5VY50gD9/Ewl4dh5CZsN0Ysy35rvPuTmvcR?=
- =?us-ascii?Q?IeVsYhyKFn2wPg+AANVFbH50cvfL4uGvLqmiSBgcWTnB/hGM5kU+IxTxvsbX?=
- =?us-ascii?Q?CpzOSBjkS6e5DphpVKZ1WmS2ahIbx2p2bvQV8bBn7bWfeBHHDZr2zUOn+S8X?=
- =?us-ascii?Q?/WUCYejz+aprul5rq4uEQr+/x7AFRFvprz4GKqUauDVD2PiTzrX3iWCzpTIS?=
- =?us-ascii?Q?QH/4VwPpZA38+mjEHro79oOIvJWBOaKsaD2vMpxrLPqPM0pCAQtZSSPync79?=
- =?us-ascii?Q?LzrQwwtwy9Ua3wTeFIPsVzDaAkPqQBjVpQd0ilSzVGGtodT6zdQm5Y4lJtx8?=
- =?us-ascii?Q?IwgOo+4ZT32QRG93bl1gMGXnJZdI1jF/OOFMZK3tjgX/reff8xc50sWhfkKf?=
- =?us-ascii?Q?9gq6dCuS2CI7AorzIKGjvnTeXehzwvm9+XyRBQdIM2aX+umXOUA0JgY1sx7C?=
- =?us-ascii?Q?PLMGhFe1aQ4TzWTosGO9uouDmfTVP/tUNlFYHMDM/Hg7DGm+KlrjCWu2SQ8S?=
- =?us-ascii?Q?K4DBZBSV+UVsXcjAyU5LJbU3ApWo3qbvqBhUKP/S/QW1gb5LOhIfW6cFG692?=
- =?us-ascii?Q?VVkL7QV/ZZVU3s1//p758LB0PJNYlFrwmDTtze8kN9SUAEKdR/E0ProEEfpL?=
- =?us-ascii?Q?N7aMGbWB8YMNyes1hJI5qhIkHVLZe94pntBv1nCKGz0vawYHN4x4sXjjfwtO?=
- =?us-ascii?Q?LRaTr62p35HHynMJe4tgVEAGF0U6XZuQYedCigOrP8vT9G9Ws1a4zeTjSzk8?=
- =?us-ascii?Q?mXq79o31aHwd6AktAz2tS+une+EcqdQaaNtUKH5VcR/a+rruss9xC8zIB+VX?=
- =?us-ascii?Q?Fh0zMNM0bTaI1w6TrwuAgxpZzaOqJ9L/hlb53YKQff+jzC3wPy34/KMJLcEl?=
- =?us-ascii?Q?7moglp4Iz1lAg4gYZaGsKYDR2SyKUiRIYqNbus/Mb7rzaV791r2i2onUeXLg?=
- =?us-ascii?Q?16ye/Ny1LJo8uRmOGinEFu1YJm2SB8rW0q/BZnWPky4/dyfgrHiaE4RQhCpa?=
- =?us-ascii?Q?VyZb6dqQP3FnRKqscj6Pf7l+tj6kEJDrOhrppJE6BnmX3a6AwtwZVr3m3Q3e?=
- =?us-ascii?Q?7EI5hHjfM+BmvZ9BIncbb49SrIkjnWndTLp3mcti3y6Q2fM8yoWwJjl4zCpq?=
- =?us-ascii?Q?8sUGHKMjVgKAJoNRJTwKnviMwCchwnlfDk+ojMBRsSLC48OjxWWz69rxWO/H?=
- =?us-ascii?Q?8I/lyQLCMg=3D=3D?=
+ =?us-ascii?Q?HPikS5arQIalWQsxdIRyqPSRpWTrbqtF/BPWt8y3gY8sdqGipQOPOcH7Ataj?=
+ =?us-ascii?Q?sy8EXxIHM/rnbrmqFILXFYwhC7xESazgEs8MU3S3eqocWEk6zAuFpH4aLLwy?=
+ =?us-ascii?Q?kCDVnEn1pyPs3uDkQK0nYymWE3Yb9n2KbYOCjwcgnRLCuyoP7+Irr5YRh8I+?=
+ =?us-ascii?Q?DP5YyrlAlzMpGakcRkugtP7gIkPyej6KLTMu2eJ3r5LSvl5Tkd5xywZod+8R?=
+ =?us-ascii?Q?L/koJvFqbKLHGbHyyqzFLg717JI3TFrY1gLUnA+vh+3UJGCCpk7gyV81pQkq?=
+ =?us-ascii?Q?D4gTSjXB6ARv0ZtGWivDyKuii8rQoU6OkATeWZyAophUQc9n6FQfK2wGJaH9?=
+ =?us-ascii?Q?mkiWGaR/H+mltZ4FsciSxpn/ava6XVb9y/876c6XT3HIniV6dr3TUsDRM6bJ?=
+ =?us-ascii?Q?rbRb8uMtPTWL9DSDf1Zu9WEmeV/AAjoaJzfb4Zi+miXQ53of9LvPwLjSVLfE?=
+ =?us-ascii?Q?nsRbPLxfbNGZCVOShHHka1w7BoQqnF/mxvyA2vBjUTWmhlNj54/iKqyPkJiA?=
+ =?us-ascii?Q?YuMGaW/kaK29MiARdd70SYXng5LJbGVc86jlpvEDU3UGyqglA3beHXJsuvni?=
+ =?us-ascii?Q?jzIJY+n+PClEgrbbc3RmCPQI0W3K/aPqno4e4RsqKXGCigiUqIYT5U0bogsv?=
+ =?us-ascii?Q?0jWuZAf3K4TlkEdTYS2htVTDd3pmRAKMxDfNZYvQDmnIh/LrcLd4kzIbiq2t?=
+ =?us-ascii?Q?F2IFyFtIGee/Np9y3f5N52Am0ZLwQq2gdTs958ing+llzF8f/2IQyQG1rNmd?=
+ =?us-ascii?Q?1osikWatVQvNEyC2UCPIf9t3cZMI34X43ZAAJnA20iD2tMUKxJBpq85haqzW?=
+ =?us-ascii?Q?U3K1IkwZKYR8GVOcDvsEjTxXzrNFgLR+OiteF2WxsTdz6urxquMR6yG7QWtE?=
+ =?us-ascii?Q?d38OM4R3MT39Z69VRXlf6hLeidoyREmPbw1dDPyywlYNlwld4QbegNT8emOL?=
+ =?us-ascii?Q?HPue84LtPi0cXpsyEKNBfmkHzob8llaIPPPLkQIcBpgmsp7wP3o4LnSsQZYF?=
+ =?us-ascii?Q?+TqWf39FLYEqt9QNzlxO68EnitGSxlzd/A1aONRzfbg21FxByARpsMks81KY?=
+ =?us-ascii?Q?JdOfX0U24RNQEApoWjyisEDy7+2XhIIbTK65cjRke7KwMU7lwlIqOabkwfYx?=
+ =?us-ascii?Q?BhiDSURnPUSy4mAOnjEuUemDWQmfXgBlXcR6ZM+M2yX6ly7h+frx0fIn0xs3?=
+ =?us-ascii?Q?fLZCsLZXI7xVkYJNIwozdQpQ6XmkoQpyryYA5MdLXKwLZB7YVHZ9uPVtYR8c?=
+ =?us-ascii?Q?NPDVE1WIUL7tbqqbBcYeKWyOF7t53KvcPmBbFEouICj4DO8/poGWFTgcfi1f?=
+ =?us-ascii?Q?5T3fOtFPyHUCNQbonT/aRpNw1knPB246RVqUHlPv2Z0ywSDfcq8In+7Vu6Ui?=
+ =?us-ascii?Q?qehO91uL0Yfo8+z6t8PyJLngpFei4ktl7ImmNZd5K1ju2BMoI8ulRjqlhdS/?=
+ =?us-ascii?Q?pCTwSs88sAv+b8tK7BeCHu3vjF4ZXSsHV4zuJSagfK+LJ/rA15K+Fg9d5Vot?=
+ =?us-ascii?Q?aQaJMEEkb6aGT8XXXaeHSI3YFN1kgzhlM3FfC+/orp4aMpfyAJQLWmSZSC6S?=
+ =?us-ascii?Q?LibvDJ/R9uMwz+4LaXL+3LPwevnkkQybiARPKrNwwgdoPZnwqKdD2n6yH3ib?=
+ =?us-ascii?Q?1pO9bHFU0JZIQVBZ9mSIwBezGys8p/CD+OMN2Yb2GoKM+fv+oy3qi91ivhfZ?=
+ =?us-ascii?Q?ZFLTNvo9M33IqQC2UJrCrdzii/AoDLYKJLq5+97YXjYv2AKmqFhGTJW+ssLi?=
+ =?us-ascii?Q?uOl8ayWS9A=3D=3D?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed48def4-4d5d-4361-23f7-08deaf60f9a9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9fcdc740-34be-4f7b-d678-08deaf60faa2
 X-MS-Exchange-CrossTenant-AuthSource: PA6PR04MB11910.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 13:26:57.6432
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 13:26:59.6220
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OPHASN/hUK+3u489IwpPWJf+4P5oRWuqWuY58vE06qpaEKxaB35R75/k/u6bH5ya+PAoSzpjd0mmguEue2qeig==
+X-MS-Exchange-CrossTenant-UserPrincipalName: vqdXQrZnv46Pn0hXScnMpc5x40b+YOg0+7K2hS7onUpjv51GbMyF4SQDXWev4tVkV6hwrI5p3iQ9Rm99M/d8BQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8131
-X-Rspamd-Queue-Id: 423CB50F066
+X-Rspamd-Queue-Id: D819050F076
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [2.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -162,7 +162,7 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
 	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -170,7 +170,7 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[21];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-61121-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61122-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -179,1793 +179,367 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	DKIM_TRACE(0.00)[nxp.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	NEURAL_HAM(-0.00)[-0.998];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	NEURAL_HAM(-0.00)[-0.996];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp-neoisp.dot:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,nxp-neoisp-diagram.dot:url]
 X-Rspamd-Action: no action
 
-Add user space api header file for meta data structures definitions.
-
-This header describes `parameters` buffer for the ISP blocks control by
-userspace, and `statistics` buffer for userspace and IPA handling.
-
-Both buffers use the newly introduced generic `v4l2_isp_buffer`
-definition, which behaves the same as the generic `v4l2_isp_params_buffer`
-already used by other ISP devices (rkisp1, mali-c55).
+Document the NXP neoisp driver both in the admin-guide for neoisp IP
+description, and in the userspace-api for neoisp interface description.
 
 Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
 ---
- include/uapi/linux/media/nxp/nxp_neoisp.h | 1761 +++++++++++++++++++++
- 1 file changed, 1761 insertions(+)
- create mode 100644 include/uapi/linux/media/nxp/nxp_neoisp.h
+ .../admin-guide/media/nxp-neoisp-diagram.dot  |  24 +++
+ .../admin-guide/media/nxp-neoisp.dot          |  18 ++
+ .../admin-guide/media/nxp-neoisp.rst          | 179 ++++++++++++++++++
+ .../admin-guide/media/v4l-drivers.rst         |   1 +
+ .../userspace-api/media/v4l/meta-formats.rst  |   1 +
+ .../media/v4l/metafmt-nxp-neoisp.rst          |  70 +++++++
+ 6 files changed, 293 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/nxp-neoisp-diagram.dot
+ create mode 100644 Documentation/admin-guide/media/nxp-neoisp.dot
+ create mode 100644 Documentation/admin-guide/media/nxp-neoisp.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-nxp-neoisp.rst
 
-diff --git a/include/uapi/linux/media/nxp/nxp_neoisp.h b/include/uapi/linux/media/nxp/nxp_neoisp.h
+diff --git a/Documentation/admin-guide/media/nxp-neoisp-diagram.dot b/Documentation/admin-guide/media/nxp-neoisp-diagram.dot
 new file mode 100644
-index 000000000000..d9ccf3b28593
+index 000000000000..362723d66bc9
 --- /dev/null
-+++ b/include/uapi/linux/media/nxp/nxp_neoisp.h
-@@ -0,0 +1,1761 @@
-+/* SPDX-License-Identifier: ((GPL-2.0+ WITH Linux-syscall-note) OR MIT) */
-+/*
-+ * NXP NEOISP userspace API
-+ *
-+ * Copyright 2023-2026 NXP
-+ */
-+
-+#ifndef __UAPI_NXP_NEOISP_H
-+#define __UAPI_NXP_NEOISP_H
-+
-+#include <linux/media/v4l2-isp.h>
-+#include <linux/types.h>
-+#include <linux/v4l2-controls.h>
-+
-+/*
-+ * Check Documentation/admin-guide/media/nxp-neoisp.rst for control details.
-+ */
-+#define V4L2_CID_NEOISP_SUPPORTED_PARAMS_BLOCKS (V4L2_CID_USER_NEOISP_BASE + 0)
-+
-+/* Local memories sizes (words size) */
-+
-+/* CTemp statistics - 256 bytes - 64 x 32bits words */
-+#define NEO_CTEMP_R_SUM_CNT 64
-+#define NEO_CTEMP_G_SUM_CNT 64
-+#define NEO_CTEMP_B_SUM_CNT 64
-+/* CTemp statistics pixel count - 128 bytes - 64 x 16bits words */
-+#define NEO_CTEMP_PIX_CNT_CNT 64
-+/* RGBIR histogram - 1024 bytes - 256 x 32bits words */
-+#define NEO_RGBIR_HIST_CNT 256
-+/* Histograms/Statistics - 2048 bytes - 512 x 32bits words */
-+#define NEO_HIST_STAT_CNT 512
-+/* DRC Global histograms - 1664 bytes - 416 x 32bits words */
-+#define NEO_DRC_GLOBAL_HIST_ROI_CNT 416
-+/* DRC local sum - 4096 - 1024 x 32bits words */
-+#define NEO_DRC_LOCAL_SUM_CNT 1024
-+/* Vignetting look up table - 6144 bytes - 3072 x 16bits words */
-+#define NEO_VIGNETTING_TABLE_SIZE 3072
-+/* DRC Global Tonemap - 832 bytes - 416 x 16bits words */
-+#define NEO_DRC_GLOBAL_TONEMAP_SIZE 416
-+/* DRC Local Tonemap - 1024 bytes - 1024 x 8bits words */
-+#define NEO_DRC_LOCAL_TONEMAP_SIZE 1024
-+
-+/**
-+ * struct neoisp_feat_ctrl_s - ISP features control flags
-+ *
-+ * This register allows applying or bypassing each block parameters. There is
-+ * one bit per feature block:
-+ *
-+ * * 1: Update - settings in associated configuration block are applied
-+ * * 0: Don't update - settings in associated configuration block are ignored
-+ *
-+ * @pipe_conf_cfg:	Set 1 to update the Pipeline Configuration unit
-+ * @head_color_cfg:	Set 1 to update the Head Color unit
-+ * @hdr_decompress_input0_cfg:	Set 1 to update the HDR Decomp0 unit
-+ * @hdr_decompress_input1_cfg:	Set 1 to update the HDR Decomp1 unit
-+ * @obwb0_cfg:		Set 1 to update the OBWB0 unit
-+ * @obwb1_cfg:		Set 1 to update the OBWB1 unit
-+ * @obwb2_cfg:		Set 1 to update the OBWB2 unit
-+ * @hdr_merge_cfg:	Set 1 to update the HDR Merge unit
-+ * @rgbir_cfg:		Set 1 to update the RGBIR unit
-+ * @stat_cfg:		Set 1 to update the Statistics unit
-+ * @ir_compress_cfg:	Set 1 to update the IR Compression unit
-+ * @bnr_cfg:		Set 1 to update the BNR unit
-+ * @vignetting_ctrl_cfg:	Set 1 to update the Vignetting unit
-+ * @ctemp_cfg:		Set 1 to update the Color Temperature unit
-+ * @demosaic_cfg:	Set 1 to update the Demosaic unit
-+ * @rgb2yuv_cfg:	Set 1 to update the RGB2IR unit
-+ * @dr_comp_cfg:	Set 1 to update the DRC unit
-+ * @nr_cfg:		Set 1 to update the NR unit
-+ * @af_cfg:		Set 1 to update the AF unit
-+ * @ee_cfg:		Set 1 to update the EE unit
-+ * @df_cfg:		Set 1 to update the DF unit
-+ * @convmed_cfg:	Set 1 to update the CCONV unit
-+ * @cas_cfg:		Set 1 to update the CAS unit
-+ * @gcm_cfg:		Set 1 to update the Gamma unit
-+ * @vignetting_table_cfg:	Set 1 to update the Vignetting LUT unit
-+ * @drc_global_tonemap_cfg:	Set 1 to update the DRC global tonemap LUT
-+ * @drc_local_tonemap_cfg:	Set 1 to update the DRC local tonemap LUT
-+ */
-+struct neoisp_feat_ctrl_s {
-+	__u32 pipe_conf_cfg : 1;
-+	__u32 head_color_cfg : 1;
-+	__u32 hdr_decompress_input0_cfg : 1;
-+	__u32 hdr_decompress_input1_cfg : 1;
-+	__u32 obwb0_cfg : 1;
-+	__u32 obwb1_cfg : 1;
-+	__u32 obwb2_cfg : 1;
-+	__u32 hdr_merge_cfg : 1;
-+	__u32 rgbir_cfg : 1;
-+	__u32 stat_cfg : 1;
-+	__u32 ir_compress_cfg : 1;
-+	__u32 bnr_cfg : 1;
-+	__u32 vignetting_ctrl_cfg : 1;
-+	__u32 ctemp_cfg : 1;
-+	__u32 demosaic_cfg : 1;
-+	__u32 rgb2yuv_cfg : 1;
-+	__u32 dr_comp_cfg : 1;
-+	__u32 nr_cfg : 1;
-+	__u32 af_cfg : 1;
-+	__u32 ee_cfg : 1;
-+	__u32 df_cfg : 1;
-+	__u32 convmed_cfg : 1;
-+	__u32 cas_cfg : 1;
-+	__u32 gcm_cfg : 1;
-+	__u32 vignetting_table_cfg : 1;
-+	__u32 drc_global_tonemap_cfg : 1;
-+	__u32 drc_local_tonemap_cfg : 1;
-+};
-+
-+/**
-+ * struct neoisp_pipe_conf_cfg_s - Pipeline Configuration
-+ * @img_conf_inalign0:	Input image 0 pixel alignment (0: LSB; 1: MSB)
-+ * @img_conf_lpalign0:	Linepath 0 pixel alignment (0: LSB; 1: MSB)
-+ * @img_conf_inalign1:	Input image 1 pixel alignment (0: LSB; 1: MSB)
-+ * @img_conf_lpalign1:	Linepath 1 pixel alignment (0: LSB; 1: MSB)
-+ *
-+ * These fields configure how the images are fetched into the NEO pipeline.
-+ *
-+ * INALIGN0/1 configures if the image is fetched MSB or LSB-aligned from the
-+ * 16-bit aligned words in the DDR buffer.
-+ *
-+ * LPALIGN0/1 configures how the N-bit pixel data is fetched from the DDR
-+ * buffer will be stored into the ISP internal pipeline.
-+ */
-+struct neoisp_pipe_conf_cfg_s {
-+	__u8 img_conf_inalign0;
-+	__u8 img_conf_lpalign0;
-+	__u8 img_conf_inalign1;
-+	__u8 img_conf_lpalign1;
-+};
-+
-+/**
-+ * struct neoisp_head_color_cfg_s - Head color configuration
-+ * @ctrl_hoffset:	Horizontal Head Pixel offset
-+ * @ctrl_voffset:	Vertical Head Pixel offset
-+ */
-+struct neoisp_head_color_cfg_s {
-+	__u8 ctrl_hoffset;
-+	__u8 ctrl_voffset;
-+};
-+
-+/**
-+ * struct neoisp_hdr_decompress0_cfg_s - HDR Decompression for line path 0 configuration
-+ * @knee_point1:	Knee point 1 value for interpolation step of the decompression
-+ * @knee_point2:	Knee point 2 value for interpolation step of the decompression
-+ * @knee_point3:	Knee point 3 value for interpolation step of the decompression
-+ * @knee_point4:	Knee point 4 value for interpolation step of the decompression
-+ * @knee_offset0:	Knee point offset 0 value for interpolation step of the decompression
-+ * @knee_offset1:	Knee point offset 1 value for interpolation step of the decompression
-+ * @knee_offset2:	Knee point offset 2 value for interpolation step of the decompression
-+ * @knee_offset3:	Knee point offset 3 value for interpolation step of the decompression
-+ * @knee_offset4:	Knee point offset 4 value for interpolation step of the decompression
-+ * @knee_ratio0:	Knee point ratio 0 value for interpolation step of the decompression
-+ * @knee_ratio1:	Knee point ratio 1 value for interpolation step of the decompression
-+ * @knee_ratio2:	Knee point ratio 2 value for interpolation step of the decompression
-+ * @knee_ratio3:	Knee point ratio 3 value for interpolation step of the decompression
-+ * @knee_ratio4:	Knee point ratio 4 value for interpolation step of the decompression
-+ * @knee_npoint0:	New knee point 0 value for the output
-+ * @knee_npoint1:	New knee point 1 value for the output
-+ * @knee_npoint2:	New knee point 2 value for the output
-+ * @knee_npoint3:	New knee point 3 value for the output
-+ * @knee_npoint4:	New knee point 4 value for the output
-+ */
-+struct neoisp_hdr_decompress0_cfg_s {
-+	__u16 knee_point1;
-+	__u16 knee_point2;
-+	__u16 knee_point3;
-+	__u16 knee_point4;
-+	__u16 knee_offset0;
-+	__u16 knee_offset1;
-+	__u16 knee_offset2;
-+	__u16 knee_offset3;
-+	__u16 knee_offset4;
-+	__u16 knee_ratio0;
-+	__u16 knee_ratio1;
-+	__u16 knee_ratio2;
-+	__u16 knee_ratio3;
-+	__u16 knee_ratio4;
-+	__u32 knee_npoint0;
-+	__u32 knee_npoint1;
-+	__u32 knee_npoint2;
-+	__u32 knee_npoint3;
-+	__u32 knee_npoint4;
-+};
-+
-+/**
-+ * struct neoisp_hdr_decompress1_cfg_s - HDR Decompression for line path 1 configuration
-+ * @knee_point1:	Knee point 1 value for interpolation step of the decompression
-+ * @knee_point2:	Knee point 2 value for interpolation step of the decompression
-+ * @knee_point3:	Knee point 3 value for interpolation step of the decompression
-+ * @knee_point4:	Knee point 4 value for interpolation step of the decompression
-+ * @knee_offset0:	Knee point offset 0 value for interpolation step of the decompression
-+ * @knee_offset1:	Knee point offset 1 value for interpolation step of the decompression
-+ * @knee_offset2:	Knee point offset 2 value for interpolation step of the decompression
-+ * @knee_offset3:	Knee point offset 3 value for interpolation step of the decompression
-+ * @knee_offset4:	Knee point offset 4 value for interpolation step of the decompression
-+ * @knee_ratio0:	Knee point ratio 0 value for interpolation step of the decompression
-+ * @knee_ratio1:	Knee point ratio 1 value for interpolation step of the decompression
-+ * @knee_ratio2:	Knee point ratio 2 value for interpolation step of the decompression
-+ * @knee_ratio3:	Knee point ratio 3 value for interpolation step of the decompression
-+ * @knee_ratio4:	Knee point ratio 4 value for interpolation step of the decompression
-+ * @knee_npoint0:	New knee point 0 value for the output
-+ * @knee_npoint1:	New knee point 1 value for the output
-+ * @knee_npoint2:	New knee point 2 value for the output
-+ * @knee_npoint3:	New knee point 3 value for the output
-+ * @knee_npoint4:	New knee point 4 value for the output
-+ */
-+struct neoisp_hdr_decompress1_cfg_s {
-+	__u16 knee_point1;
-+	__u16 knee_point2;
-+	__u16 knee_point3;
-+	__u16 knee_point4;
-+	__u16 knee_offset0;
-+	__u16 knee_offset1;
-+	__u16 knee_offset2;
-+	__u16 knee_offset3;
-+	__u16 knee_offset4;
-+	__u16 knee_ratio0;
-+	__u16 knee_ratio1;
-+	__u16 knee_ratio2;
-+	__u16 knee_ratio3;
-+	__u16 knee_ratio4;
-+	__u16 knee_npoint0;
-+	__u16 knee_npoint1;
-+	__u16 knee_npoint2;
-+	__u16 knee_npoint3;
-+	__u16 knee_npoint4;
-+};
-+
-+#define NEO_OBWB_CNT (3)
-+
-+/**
-+ * struct neoisp_obwb_cfg_s - Optical Black correction and White Balance configuration
-+ * @ctrl_obpp:		Indicates the size of pixel components output
-+ *			(0: 12bpp; 1: 14bpp; 2: 16bpp; 3: 20bpp)
-+ * @r_ctrl_gain:	Provides gain for red channel
-+ * @r_ctrl_offset:	Provides offset for red channel
-+ * @gr_ctrl_gain:	Provides gain for green red channel
-+ * @gr_ctrl_offset:	Provides offset for green red channel
-+ * @gb_ctrl_gain:	Provides gain for green blue channel
-+ * @gb_ctrl_offset:	Provides offset for green blue channel
-+ * @b_ctrl_gain:	Provides gain for blue channel
-+ * @b_ctrl_offset:	Provides offset for blue channel
-+ */
-+struct neoisp_obwb_cfg_s {
-+	__u8 ctrl_obpp;
-+	__u16 r_ctrl_gain;
-+	__u16 r_ctrl_offset;
-+	__u16 gr_ctrl_gain;
-+	__u16 gr_ctrl_offset;
-+	__u16 gb_ctrl_gain;
-+	__u16 gb_ctrl_offset;
-+	__u16 b_ctrl_gain;
-+	__u16 b_ctrl_offset;
-+};
-+
-+/**
-+ * struct neoisp_hdr_merge_cfg_s - HDR merge of 2 incoming images in a line-by-line manner
-+ * @ctrl_motion_fix_en:		Set 1 to enable fixing of HDR artifacts due to motion
-+ * @ctrl_blend_3x3:		Selects the HDR blending mode (0: 1x1; 1:3x3)
-+ * @ctrl_gain1bpp:		Size of pixel components after gain on line path 1
-+ * @ctrl_gain0bpp:		Size of pixel components after gain on line path 0
-+ * @ctrl_obpp:			Size of pixel components for the HDR Merge output
-+ * @gain_offset_offset1:	Offset parameter for input image 1
-+ * @gain_offset_offset0:	Offset parameter for input image 0
-+ * @gain_scale_scale1:		Scale factor of input pixel components of image 1
-+ * @gain_scale_scale0:		Scale factor of input pixel components of image 0
-+ * @gain_shift_shift1:		Shift factor (right shift) for gained image 1
-+ * @gain_shift_shift0:		Shift factor (right shift) for gained image 0
-+ * @luma_th_th0:		Provides luminance threshold 0
-+ * @luma_scale_scale:		Scaling value which multiplies the threshold-conditioned luminance
-+ * @luma_scale_shift:		Right shift value the scaling factor
-+ * @luma_scale_thshift:		Right shift value for binomial output before threshold function
-+ * @downscale_imgscale1:	Down scaling (right shift) value corresponding to image 1
-+ * @downscale_imgscale0:	Down scaling (right shift) value corresponding to image 0
-+ * @upscale_imgscale1:		Up scaling (left shift) value corresponding to image 1
-+ * @upscale_imgscale0:		Up scaling (left shift) value corresponding to image 0
-+ * @post_scale_scale:		Down scaling (right shift) of the final blended output
-+ */
-+struct neoisp_hdr_merge_cfg_s {
-+	__u8 ctrl_motion_fix_en;
-+	__u8 ctrl_blend_3x3;
-+	__u8 ctrl_gain1bpp;
-+	__u8 ctrl_gain0bpp;
-+	__u8 ctrl_obpp;
-+	__u16 gain_offset_offset1;
-+	__u16 gain_offset_offset0;
-+	__u16 gain_scale_scale1;
-+	__u16 gain_scale_scale0;
-+	__u8 gain_shift_shift1;
-+	__u8 gain_shift_shift0;
-+	__u16 luma_th_th0;
-+	__u16 luma_scale_scale;
-+	__u8 luma_scale_shift;
-+	__u8 luma_scale_thshift;
-+	__u8 downscale_imgscale1;
-+	__u8 downscale_imgscale0;
-+	__u8 upscale_imgscale1;
-+	__u8 upscale_imgscale0;
-+	__u8 post_scale_scale;
-+};
-+
-+/**
-+ * struct neoisp_roi_cfg_s - common ROI structure
-+ * @xpos:	Provides the horizontal start position (pixel number) of the ROI
-+ * @ypos:	Provides the vertical start position (line number) of the ROI
-+ * @width:	Provides the horizontal width of the ROI
-+ * @height:	Provides the vertical height of the ROI
-+ */
-+struct neoisp_roi_cfg_s {
-+	__u16 xpos;
-+	__u16 ypos;
-+	__u16 width;
-+	__u16 height;
-+};
-+
-+/**
-+ * struct neoisp_stat_hist_cfg_s - common stat histograms structure
-+ * @hist_ctrl_offset:		Black level correction offset for each pixel
-+ * @hist_ctrl_channel:		Binary value of channel for binning on respective histogram
-+ * @hist_ctrl_pattern:		Defines neighbouring pixel 1x1 (0) vs 2x2 (1)
-+ * @hist_ctrl_dir_input1_dif:	Defines Direct (0) vs Difference (1)
-+ * @hist_ctrl_lin_input1_log:	Defines Linear (0) vs Logarithmic (1)
-+ * @hist_scale_scale:		Scaling factor on the input pixel for bin determination
-+ */
-+struct neoisp_stat_hist_cfg_s {
-+	__u16 hist_ctrl_offset;
-+	__u8 hist_ctrl_channel;
-+	__u8 hist_ctrl_pattern;
-+	__u8 hist_ctrl_dir_input1_dif;
-+	__u8 hist_ctrl_lin_input1_log;
-+	__u32 hist_scale_scale;
-+};
-+
-+#define NEO_RGBIR_ROI_CNT       (2)
-+#define NEO_RGBIR_STAT_HIST_CNT (2)
-+
-+/**
-+ * struct neoisp_rgbir_cfg_s - RGBIR to RGGB and IR unit configuration
-+ * @ccm0_ccm:		Color correction parameter for component 0 (crosstalk 0) red if RGGB
-+ * @ccm1_ccm:		Color correction parameter for component 1 (crosstalk 1) both green if RGGB
-+ * @ccm2_ccm:		Color correction parameter for component 2 (crosstalk 2) blue if RGGB
-+ * @ccm0_th_threshold:	Crosstalk removal threshold from channel 3 (IR) to channel 0 (red)
-+ * @ccm1_th_threshold:	Crosstalk removal threshold from channel 3 (IR) to channel 1 (green)
-+ * @ccm2_th_threshold:	Crosstalk removal threshold from channel 3 (IR) to channel 2 (blue)
-+ * @roi:		Array of region of interests
-+ * @hists:		Array of histograms parameters
-+ */
-+struct neoisp_rgbir_cfg_s {
-+	__u16 ccm0_ccm;
-+	__u16 ccm1_ccm;
-+	__u16 ccm2_ccm;
-+	__u32 ccm0_th_threshold;
-+	__u32 ccm1_th_threshold;
-+	__u32 ccm2_th_threshold;
-+	struct neoisp_roi_cfg_s roi[NEO_RGBIR_ROI_CNT];
-+	struct neoisp_stat_hist_cfg_s hists[NEO_RGBIR_STAT_HIST_CNT];
-+};
-+
-+#define NEO_STAT_HIST_CNT (4)
-+
-+/**
-+ * struct neoisp_stat_cfg_s - Statistics and Histogram unit configuration
-+ * @roi0:	Region of interest 0
-+ * @roi1:	Region of interest 1
-+ * @hists:	Control parameters for building the histogram
-+ */
-+struct neoisp_stat_cfg_s {
-+	struct neoisp_roi_cfg_s roi0;
-+	struct neoisp_roi_cfg_s roi1;
-+	struct neoisp_stat_hist_cfg_s hists[NEO_STAT_HIST_CNT];
-+};
-+
-+/**
-+ * struct neoisp_ir_compress_cfg_s - Infra-red Compression unit configuration
-+ * @ctrl_obpp:			bpp of compressed output IR (0: 8bpp; 1: 16bpp)
-+ * @knee_point1_kneepoint:	Knee point 1 value for interpolation step of ir compression
-+ * @knee_point2_kneepoint:	Knee point 2 value for interpolation step of ir compression
-+ * @knee_point3_kneepoint:	Knee point 3 value for interpolation step of ir compression
-+ * @knee_point4_kneepoint:	Knee point 4 value for interpolation step of ir compression
-+ * @knee_offset0_offset:	Offset 0 value for interpolation step of ir compression
-+ * @knee_offset1_offset:	Offset 1 value for interpolation step of ir compression
-+ * @knee_offset2_offset:	Offset 2 value for interpolation step of ir compression
-+ * @knee_offset3_offset:	Offset 3 value for interpolation step of ir compression
-+ * @knee_offset4_offset:	Offset 4 value for interpolation step of ir compression
-+ * @knee_ratio01_ratio0:	Ratio 0 value for interpolation step of ir compression (u1.15)
-+ * @knee_ratio01_ratio1:	Ratio 1 value for interpolation step of ir compression (u1.15)
-+ * @knee_ratio23_ratio2:	Ratio 2 value for interpolation step of ir compression (u1.15)
-+ * @knee_ratio23_ratio3:	Ratio 3 value for interpolation step of ir compression (u1.15)
-+ * @knee_ratio4_ratio4:		Ratio 4 value for interpolation step of ir compression (u1.15)
-+ * @knee_npoint0_kneepoint:	New 0 knee point value for the output
-+ * @knee_npoint1_kneepoint:	New 1 knee point value for the output
-+ * @knee_npoint2_kneepoint:	New 2 knee point value for the output
-+ * @knee_npoint3_kneepoint:	New 3 knee point value for the output
-+ * @knee_npoint4_kneepoint:	New 4 knee point value for the output
-+ */
-+struct neoisp_ir_compress_cfg_s {
-+	__u8 ctrl_obpp;
-+	__u32 knee_point1_kneepoint;
-+	__u32 knee_point2_kneepoint;
-+	__u32 knee_point3_kneepoint;
-+	__u32 knee_point4_kneepoint;
-+	__u32 knee_offset0_offset;
-+	__u32 knee_offset1_offset;
-+	__u32 knee_offset2_offset;
-+	__u32 knee_offset3_offset;
-+	__u32 knee_offset4_offset;
-+	__u16 knee_ratio01_ratio0;
-+	__u16 knee_ratio01_ratio1;
-+	__u16 knee_ratio23_ratio2;
-+	__u16 knee_ratio23_ratio3;
-+	__u16 knee_ratio4_ratio4;
-+	__u16 knee_npoint0_kneepoint;
-+	__u16 knee_npoint1_kneepoint;
-+	__u16 knee_npoint2_kneepoint;
-+	__u16 knee_npoint3_kneepoint;
-+	__u16 knee_npoint4_kneepoint;
-+};
-+
-+/**
-+ * struct neoisp_bnr_cfg_s - Bayer Noise Reduction unit configuration
-+ * @ctrl_debug:		Debug view for on-target tuning (0:off)
-+ * @ctrl_obpp:		Output bpp (0: 12bpp; 1: 14bpp; 2: 16bpp; 3: 20bpp)
-+ * @ctrl_nhood:		Neighbourhood Pattern (0: 2x2; 1: 1x1)
-+ * @ypeak_peak_outsel:	Output scaling (0: no scaling; 1: enable scaling)
-+ * @ypeak_peak_sel:	Selecting the boundary pixel among the sorted list (0..3: 1..4 positions)
-+ * @ypeak_peak_low:	Lower scale value of the clipping function (u4.8)
-+ * @ypeak_peak_high:	Higher scale value of the clipping function (u4.8)
-+ * @yedge_th0_edge_th0:	Lower edge threshold for long alpha blending coefficient calculation
-+ * @yedge_scale_scale:	Scaling factor for long alpha blending factor determination
-+ * @yedge_scale_shift:	Right shift factor for blending factor determination
-+ *			For example, a shift value of 10, implements u6.10 scaling factor
-+ * @yedges_th0_edge_th0: Lower threshold for short alpha blending function in the BNR
-+ * @yedges_scale_scale:	Scale factor for determining the short alpha blending threshold value
-+ * @yedges_scale_shift:	Right shift factor for blending factor determination
-+ *			For example, a shift value of 10, implements u6.10 scaling factor
-+ * @yedgea_th0_edge_th0: Lower threshold for final alpha blending function in the BNR
-+ * @yedgea_scale_scale:	Scale factor for determining the final alpha blending threshold value
-+ * @yedgea_scale_shift:	Right shift factor for blending factor determination
-+ *			For example, a shift value of 10, implements u6.10 scaling factor
-+ * @yluma_x_th0_th:	X threshold 0 for blending coefficient calculation
-+ * @yluma_y_th_luma_y_th0: 10-bit value for Y threshold 0
-+ * @yluma_y_th_luma_y_th1: 10-bit value for Y threshold 1
-+ * @yluma_scale_scale:	Scale for the threshold-conditioned luma factor determination
-+ * @yluma_scale_shift:	Right shift factor for blending factor determination
-+ *			For example, a shift value of 10, implements u6.10 scaling factor
-+ * @yalpha_gain_gain:	Gain value (multiplication factor) for the alpha coefficient
-+ * @yalpha_gain_offset:	Offset value (addition factor) for the gain'd alpha coefficient
-+ * @cpeak_peak_outsel:	Set 1 to enable scaling of the output, 0 no scaling
-+ * @cpeak_peak_sel:	Provides selection for selecting the boundary pixel among the sorted list
-+ * @cpeak_peak_low:	ower scale value of the clipping function (u4.8)
-+ * @cpeak_peak_high:	Higher scale value of the clipping function (u4.8)
-+ * @cedge_th0_edge_th0:	Lower threshold for blending function in the BNR unit
-+ * @cedge_scale_scale:	Scale for the threshold-conditioned blending factor determination
-+ * @cedge_scale_shift:	Right shift factor for blending factor determination
-+ *			For example, a shift value of 10, implements u6.10 scaling factor
-+ * @cedges_th0_edge_th0: Lower threshold for short alpha blending function in the BNR unit
-+ * @cedges_scale_scale:	Scale for the threshold-conditioned short alpha blending factor
-+ * @cedges_scale_shift:	Right shift factor for blending factor determination
-+ *			For example, a shift value of 10, implements u6.10 scaling factor
-+ * @cedgea_th0_edge_th0: Lower threshold for final alpha blending function
-+ * @cedgea_scale_scale:	Scale for the threshold-conditioned final alpha blending factor
-+ * @cedgea_scale_shift:	Right shift factor for blending factor determination
-+ *			For example, a shift value of 10, implements u6.10 scaling factor
-+ * @cluma_x_th0_th:	Provides the X threshold 0 for blending coefficient calculation
-+ * @cluma_y_th_luma_y_th0: 10-bit value for Y threshold 0
-+ * @cluma_y_th_luma_y_th1: 10-bit value for Y threshold 1
-+ * @cluma_scale_scale:	Scale for the threshold-conditioned luma factor determination
-+ * @cluma_scale_shift:	Right shift factor for blending factor determination
-+ *			For example, a shift value of 10, implements u6.10 scaling factor
-+ * @calpha_gain_gain:	Provides the gain value (multiplication factor) for the alpha coefficient
-+ * @calpha_gain_offset:	Provides the offset value (addition factor) for the gain'd alpha coefficient
-+ * @stretch_gain:	Provides the gain factor for all the pixels at the output of BNR (u8.8)
-+ *			This gain is applied even when BNR is disabled
-+ */
-+struct neoisp_bnr_cfg_s {
-+	__u8 ctrl_debug;
-+	__u8 ctrl_obpp;
-+	__u8 ctrl_nhood;
-+	__u8 ypeak_peak_outsel;
-+	__u8 ypeak_peak_sel;
-+	__u16 ypeak_peak_low;
-+	__u16 ypeak_peak_high;
-+	__u32 yedge_th0_edge_th0;
-+	__u16 yedge_scale_scale;
-+	__u8 yedge_scale_shift;
-+	__u32 yedges_th0_edge_th0;
-+	__u16 yedges_scale_scale;
-+	__u8 yedges_scale_shift;
-+	__u32 yedgea_th0_edge_th0;
-+	__u16 yedgea_scale_scale;
-+	__u8 yedgea_scale_shift;
-+	__u32 yluma_x_th0_th;
-+	__u16 yluma_y_th_luma_y_th0;
-+	__u16 yluma_y_th_luma_y_th1;
-+	__u16 yluma_scale_scale;
-+	__u8 yluma_scale_shift;
-+	__u16 yalpha_gain_gain;
-+	__u16 yalpha_gain_offset;
-+	__u8 cpeak_peak_outsel;
-+	__u8 cpeak_peak_sel;
-+	__u16 cpeak_peak_low;
-+	__u16 cpeak_peak_high;
-+	__u32 cedge_th0_edge_th0;
-+	__u16 cedge_scale_scale;
-+	__u8 cedge_scale_shift;
-+	__u32 cedges_th0_edge_th0;
-+	__u16 cedges_scale_scale;
-+	__u8 cedges_scale_shift;
-+	__u32 cedgea_th0_edge_th0;
-+	__u16 cedgea_scale_scale;
-+	__u8 cedgea_scale_shift;
-+	__u32 cluma_x_th0_th;
-+	__u16 cluma_y_th_luma_y_th0;
-+	__u16 cluma_y_th_luma_y_th1;
-+	__u16 cluma_scale_scale;
-+	__u8 cluma_scale_shift;
-+	__u16 calpha_gain_gain;
-+	__u16 calpha_gain_offset;
-+	__u16 stretch_gain;
-+};
-+
-+/**
-+ * struct neoisp_vignetting_ctrl_cfg_s - Vignetting controlling configuration
-+ * @blk_conf_rows:	Provides number of rows into which the input image is partitioned
-+ * @blk_conf_cols:	Provides number of columns into which the input image is partitioned
-+ * @blk_size_ysize:	Number of rows per block
-+ * @blk_size_xsize:	Number of pixels per block
-+ * @blk_stepy_step:	Vertical scaling factor (u0.16)
-+ * @blk_stepx_step:	Horizontal scaling factor (u0.16)
-+ */
-+struct neoisp_vignetting_ctrl_cfg_s {
-+	__u8 blk_conf_rows;
-+	__u8 blk_conf_cols;
-+	__u16 blk_size_ysize;
-+	__u16 blk_size_xsize;
-+	__u16 blk_stepy_step;
-+	__u16 blk_stepx_step;
-+};
-+
-+#define NEO_CTEMP_COLOR_ROIS_CNT (10)
-+#define NEO_CTEMP_CSC_MATRIX_SIZE (3)
-+#define NEO_CTEMP_CSC_OFFSET_VECTOR_SIZE (4)
-+
-+/**
-+ * struct neoisp_ctemp_roi_desc_s - common color ROI Position Register
-+ * @pos_roverg_low:	Low value of red over green (u1.7)
-+ * @pos_roverg_high:	High value of red over green (u1.7)
-+ * @pos_boverg_low:	Low value of blue over green (u1.7)
-+ * @pos_boverg_high:	High value of blue over green (u1.7)
-+ */
-+struct neoisp_ctemp_roi_desc_s {
-+	__u8 pos_roverg_low;
-+	__u8 pos_roverg_high;
-+	__u8 pos_boverg_low;
-+	__u8 pos_boverg_high;
-+};
-+
-+/**
-+ * struct neoisp_ctemp_cfg_s - Color temperature unit configuration
-+ * @ctrl_cscon:		Color Space Correction ON (1), (0) disabled
-+ * @ctrl_ibpp:		Size of pixel components on input (0: 12bpp; 1: 14bpp; 2: 16bpp; 3: 20bpp)
-+ * @luma_th_thl:	Provides the low threshold for luminance range check
-+ * @luma_th_thh:	Provides the high threshold for luminance range check
-+ * @roi:		Array of regions of interest
-+ * @redgain_min:	Minimum gain for the red channel (u1.7)
-+ * @redgain_max:	Maximum gain for the red channel (u1.7)
-+ * @bluegain_min:	Minimum gain for the blue channel (u1.7)
-+ * @bluegain_max:	Maximum gain for the blue channel (u1.7)
-+ * @point1_blue:	Point 1 value for blue over green curve (u1.7)
-+ * @point1_red:		Point 1 value for red over green curve (u1.7)
-+ * @point2_blue:	Point 2 value for blue over green curve (u1.7)
-+ * @point2_red:		Point 2 value for red over green curve (u1.7)
-+ * @hoffset_right:	Offset in increasing horizontal indices (u1.7)
-+ * @hoffset_left:	Offset in decreasing horizontal indices (u1.7)
-+ * @voffset_up:		Offset in increasing vertical indices (u1.7)
-+ * @voffset_down:	Offset in decreasing vertical indices (u1.7)
-+ * @point1_slope_slope_l: Left slope for point 1 (s8.8)
-+ * @point1_slope_slope_r: Right slope for point 1 (s8.8)
-+ * @point2_slope_slope_l: Left slope for point 2 (s8.8)
-+ * @point2_slope_slope_r: Right slope for point 2 (s8.8)
-+ * @csc_matrix:		A 3x3 color space correction matrix for respective camera context (s8.8)
-+ * @offsets:		Correction offsets values of input filter array pixel
-+ * @stat_blk_size0_xsize: Number of pixels per block. Should always be multiple of 2
-+ * @stat_blk_size0_ysize: Number of image lines per block. Should always be multiple of 2
-+ * @color_rois:		Array of color regions of interest
-+ * @gr_avg_in_gr_agv:	Subtracted from the GR values before accumulation into the GR vs GB sums
-+ * @gb_avg_in_gb_agv:	Subtracted from the GB values before accumulation into the GR vs GB sums
-+ */
-+struct neoisp_ctemp_cfg_s {
-+	__u8 ctrl_cscon;
-+	__u8 ctrl_ibpp;
-+	__u16 luma_th_thl;
-+	__u16 luma_th_thh;
-+	struct neoisp_roi_cfg_s roi;
-+	__u8 redgain_min;
-+	__u8 redgain_max;
-+	__u8 bluegain_min;
-+	__u8 bluegain_max;
-+	__u8 point1_blue;
-+	__u8 point1_red;
-+	__u8 point2_blue;
-+	__u8 point2_red;
-+	__u8 hoffset_right;
-+	__u8 hoffset_left;
-+	__u8 voffset_up;
-+	__u8 voffset_down;
-+	__s16 point1_slope_slope_l;
-+	__s16 point1_slope_slope_r;
-+	__s16 point2_slope_slope_l;
-+	__s16 point2_slope_slope_r;
-+	__s16 csc_matrix[NEO_CTEMP_CSC_MATRIX_SIZE][NEO_CTEMP_CSC_MATRIX_SIZE];
-+	__s16 offsets[NEO_CTEMP_CSC_OFFSET_VECTOR_SIZE];
-+	__u16 stat_blk_size0_xsize;
-+	__u16 stat_blk_size0_ysize;
-+	struct neoisp_ctemp_roi_desc_s color_rois[NEO_CTEMP_COLOR_ROIS_CNT];
-+	__u32 gr_avg_in_gr_agv;
-+	__u32 gb_avg_in_gb_agv;
-+};
-+
-+/**
-+ * struct neoisp_demosaic_cfg_s - Demosaic function on the input bayer image configuration
-+ * @ctrl_fmt:			Format of the input image (0: rggb; 1: rccc; 2: monochrome)
-+ * @activity_ctl_alpha:		Alpha Blending Factor (u1.8)
-+ * @activity_ctl_act_ratio:	Activity Ratio (u8.8)
-+ * @dynamics_ctl0_strengthg:	Feedback strength for green pixel interpolation (u8.8)
-+ * @dynamics_ctl0_strengthc:	Feedback strength for color (red or blue) pixel interpolation (u8.8)
-+ * @dynamics_ctl2_max_impact:	Maximum impact of the dynamics on the interpolated values (u8.8)
-+ */
-+struct neoisp_demosaic_cfg_s {
-+	__u8 ctrl_fmt;
-+	__u16 activity_ctl_alpha;
-+	__u16 activity_ctl_act_ratio;
-+	__u16 dynamics_ctl0_strengthg;
-+	__u16 dynamics_ctl0_strengthc;
-+	__u16 dynamics_ctl2_max_impact;
-+};
-+
-+#define NEO_RGB2YUV_MATRIX_SIZE (3)
-+
-+/**
-+ * struct neoisp_rgb2yuv_cfg_s - Color space conversion RGB to YUV data configuration
-+ * @gain_ctrl_rgain:	Provides the gain factor corresponding to red component
-+ * @gain_ctrl_bgain:	Provides the gain factor corresponding to blue component
-+ * @mat_rxcy:		Provides the values of elements of the 3x3 color space conversion matrix
-+ * @csc_offsets:	Provides the offsets of the color space conversion matrix (s21)
-+ */
-+struct neoisp_rgb2yuv_cfg_s {
-+	__u16 gain_ctrl_rgain;
-+	__u16 gain_ctrl_bgain;
-+	__s16 mat_rxcy[NEO_RGB2YUV_MATRIX_SIZE][NEO_RGB2YUV_MATRIX_SIZE];
-+	__s32 csc_offsets[NEO_RGB2YUV_MATRIX_SIZE];
-+};
-+
-+/**
-+ * struct neoisp_dr_comp_cfg_s - Dynamic Range Compression unit configuration
-+ * @roi0:			Region of interest 0
-+ * @roi1:			Region of interest 1
-+ * @groi_sum_shift_shift0:	Global ROI 0 sum shift value (u5)
-+ * @groi_sum_shift_shift1:	Global ROI 1 sum shift value (u5)
-+ * @gbl_gain_gain:		Provides a gain for the global DRC (u8.8)
-+ * @lcl_blk_size_xsize:		Provides number of pixels per block
-+ * @lcl_blk_size_ysize:		Provides number of rows per block
-+ * @lcl_stretch_offset:		Black level value before applying gamma
-+ * @lcl_stretch_stretch:	Provides local DRC stretch value of the input (u8.8)
-+ * @lcl_blk_stepx_step:		Horizontal scaling factor (u0.16)
-+ * @lcl_blk_stepy_step:		Vertical scaling factor (u0.16)
-+ * @lcl_sum_shift_shift:	Provides shift value for building the local DRC (u5)
-+ * @alpha_alpha:		Alpha value for blending step between global and local DRC (u9)
-+ */
-+struct neoisp_dr_comp_cfg_s {
-+	struct neoisp_roi_cfg_s roi0;
-+	struct neoisp_roi_cfg_s roi1;
-+	__u8 groi_sum_shift_shift0;
-+	__u8 groi_sum_shift_shift1;
-+	__u16 gbl_gain_gain;
-+	__u16 lcl_blk_size_xsize;
-+	__u16 lcl_blk_size_ysize;
-+	__u16 lcl_stretch_offset;
-+	__u16 lcl_stretch_stretch;
-+	__u16 lcl_blk_stepx_step;
-+	__u16 lcl_blk_stepy_step;
-+	__u8 lcl_sum_shift_shift;
-+	__u16 alpha_alpha;
-+};
-+
-+/**
-+ * struct neoisp_nr_cfg_s - Noise Reduction unit configuration
-+ * @ctrl_debug:		This field controls if tuning/debug information
-+ * @blend_scale_gain:	Gain value for the blending factor determination (u4.4)
-+ * @blend_scale_shift:	Shift value for the blending factor determination
-+ * @blend_scale_scale:	Scale factor for the blending factor determination
-+ * @blend_th0_th:	Provides threshold 0 value for determining the blending factor (u20)
-+ */
-+struct neoisp_nr_cfg_s {
-+	__u8 ctrl_debug;
-+	__u8 blend_scale_gain;
-+	__u8 blend_scale_shift;
-+	__u16 blend_scale_scale;
-+	__u32 blend_th0_th;
-+};
-+
-+#define NEO_AF_ROIS_CNT (9)
-+#define NEO_AF_FILTERS_CNT (9)
-+
-+/**
-+ * struct neoisp_af_cfg_s - AutoFocus unit configuration
-+ * @af_roi:		Array of regions of interest
-+ * @fil0_coeffs:	Array of Autofocus Filter 0 Coefficients
-+ * @fil0_shift_shift:	Provides the shift (scale down) factor at the output of filter 0 (u5)
-+ * @fil1_coeffs:	Array of Autofocus Filter 1 Coefficients
-+ * @fil1_shift_shift:	Provides the shift (scale down) factor at the output of filter 1 (u5)
-+ */
-+struct neoisp_af_cfg_s {
-+	struct neoisp_roi_cfg_s af_roi[NEO_AF_ROIS_CNT];
-+	__s8 fil0_coeffs[NEO_AF_FILTERS_CNT];
-+	__u8 fil0_shift_shift;
-+	__s8 fil1_coeffs[NEO_AF_FILTERS_CNT];
-+	__u8 fil1_shift_shift;
-+};
-+
-+/**
-+ * struct neoisp_ee_cfg_s - Edge Enhancement unit configuration
-+ * @ctrl_debug:		This field controls if tuning/debug information is shown in the
-+ *			output image (0: Off; 1: edge pixels shown as white; 2: edge
-+ *			pixels shown as white and all others)
-+ * @maskgain_gain:	Gain value for the HPF factor determination (u4.4)
-+ * @coring_coring:	Coring value for the mask factor determination (u20)
-+ * @clip_clip:		Clip value for the mask factor determination (u20)
-+ */
-+struct neoisp_ee_cfg_s {
-+	__u8 ctrl_debug;
-+	__u8 maskgain_gain;
-+	__u32 coring_coring;
-+	__u32 clip_clip;
-+};
-+
-+/**
-+ * struct neoisp_df_cfg_s - Direction Filter unit configuration
-+ * @ctrl_debug:		This field controls if tuning/debug information
-+ * @blend_shift_shift:	Shift factor for the blending factor determination (u6)
-+ * @th_scale_scale:	Scale factor for the blending factor determination (u20)
-+ * @blend_th0_th:	Provides threshold 0 value for determining the blending factor (u20)
-+ */
-+struct neoisp_df_cfg_s {
-+	__u8 ctrl_debug;
-+	__u8 blend_shift_shift;
-+	__u32 th_scale_scale;
-+	__u32 blend_th0_th;
-+};
-+
-+/**
-+ * struct neoisp_convmed_cfg_s - Color Convolution and Median Filter unit configuration
-+ * @ctrl_flt:	This field controls the type of filtering to be executed:
-+ *		(0: bypassed; 1: convolution (5x5 binomial); 2: median (5x5))
-+ */
-+struct neoisp_convmed_cfg_s {
-+	__u8 ctrl_flt;
-+};
-+
-+/**
-+ * struct neoisp_cas_cfg_s - Color Adaptive Saturation unit configuration
-+ * @gain_shift:		Shift value for the suppression factor determination
-+ * @gain_scale:		Scale factor for the suppression factor
-+ * @corr_corr:		Minimum correction factor for dark pixels (u8.8)
-+ * @offset_offset:	Offset value for the suppression factor determination
-+ */
-+struct neoisp_cas_cfg_s {
-+	__u8 gain_shift;
-+	__u16 gain_scale;
-+	__u16 corr_corr;
-+	__u16 offset_offset;
-+};
-+
-+#define NEO_GAMMA_MATRIX_SIZE (3)
-+#define NEO_GAMMA_OFFSETS_SIZE (3)
-+
-+/**
-+ * struct neoisp_gcm_cfg_s - Gamma Correction Matrix unit configuration
-+ * @imat_rxcy:			3x3 input gamma correction matrix (s8.8)
-+ * @ioffsets:			Offset values for input channels
-+ * @omat_rxcy:			3x3 output gamma correction matrix
-+ * @ooffsets:			Offset values of 3x3 output matrix (s12)
-+ * @gamma0_gamma0:		Provides the gamma value of channel 0 (u1.8)
-+ * @gamma0_offset0:		Provides the offset value of channel 0 (u12)
-+ * @gamma1_gamma1:		Provides the gamma value of channel 1 (u1.8)
-+ * @gamma1_offset1:		Provides the offset value of channel 1 (u12)
-+ * @gamma2_gamma2:		Provides the gamma value of channel 2 (u1.8)
-+ * @gamma2_offset2:		Provides the offset value of channel 2 (u12)
-+ * @blklvl0_ctrl_gain0:		Gain value for the linear part of the channel 0 gamma curve (u8.8)
-+ * @blklvl0_ctrl_offset0:	Blacklevel value to be subtracted on channel 0
-+ * @blklvl1_ctrl_gain1:		Gain value for the linear part of the channel 1 gamma curve (u8.8)
-+ * @blklvl1_ctrl_offset1:	Blacklevel value to be subtracted on channel 1
-+ * @blklvl2_ctrl_gain2:		Gain value for the linear part of the channel 2 gamma curve (u8.8)
-+ * @blklvl2_ctrl_offset2:	Blacklevel value to be subtracted on channel 2
-+ * @lowth_ctrl01_threshold0:	Threshold for low area of the dynamic range of channel 0 (u12.4)
-+ * @lowth_ctrl01_threshold1:	Threshold for low area of the dynamic range of channel 1 (u12.4)
-+ * @lowth_ctrl2_threshold2:	Threshold for low area of the dynamic range of channel 2 (u12.4)
-+ * @mat_confg_sign_confg:	Set 0 for signe gcm, 1 Unsigned
-+ */
-+struct neoisp_gcm_cfg_s {
-+	__s16 imat_rxcy[NEO_GAMMA_MATRIX_SIZE][NEO_GAMMA_MATRIX_SIZE];
-+	__s16 ioffsets[NEO_GAMMA_OFFSETS_SIZE];
-+	__s16 omat_rxcy[NEO_GAMMA_MATRIX_SIZE][NEO_GAMMA_MATRIX_SIZE];
-+	__s16 ooffsets[NEO_GAMMA_OFFSETS_SIZE];
-+	__u16 gamma0_gamma0;
-+	__u16 gamma0_offset0;
-+	__u16 gamma1_gamma1;
-+	__u16 gamma1_offset1;
-+	__u16 gamma2_gamma2;
-+	__u16 gamma2_offset2;
-+	__u16 blklvl0_ctrl_gain0;
-+	__s16 blklvl0_ctrl_offset0;
-+	__u16 blklvl1_ctrl_gain1;
-+	__s16 blklvl1_ctrl_offset1;
-+	__u16 blklvl2_ctrl_gain2;
-+	__s16 blklvl2_ctrl_offset2;
-+	__u16 lowth_ctrl01_threshold0;
-+	__u16 lowth_ctrl01_threshold1;
-+	__u16 lowth_ctrl2_threshold2;
-+	__u8 mat_confg_sign_confg;
-+};
-+
-+/**
-+ * struct neoisp_vignetting_table_mem_params_s - Vignetting table values
-+ * @vignetting_table:	Array of vignetting lookup table
-+ */
-+struct neoisp_vignetting_table_mem_params_s {
-+	__u16 vignetting_table[NEO_VIGNETTING_TABLE_SIZE];
-+};
-+
-+/**
-+ * struct neoisp_drc_global_tonemap_mem_params_s - DRC Global Tonemap
-+ * @drc_global_tonemap:	Global DRC tonemap lookup table
-+ */
-+struct neoisp_drc_global_tonemap_mem_params_s {
-+	__u16 drc_global_tonemap[NEO_DRC_GLOBAL_TONEMAP_SIZE];
-+};
-+
-+/**
-+ * struct neoisp_drc_local_tonemap_mem_params_s - DRC Local Tonemap
-+ * @drc_local_tonemap:	Local DRC tonemap lookup table
-+ */
-+struct neoisp_drc_local_tonemap_mem_params_s {
-+	__u8 drc_local_tonemap[NEO_DRC_LOCAL_TONEMAP_SIZE];
-+};
-+
-+/**
-+ * enum neoisp_param_block_type_e - Enumeration of Neoisp parameter blocks
-+ *
-+ * This enumeration defines the types of Neoisp parameters block. Each entry
-+ * configures a specific processing block of the Neoisp. The block type
-+ * allows the driver to correctly interpret the parameters block data.
-+ *
-+ * It is the responsibility of userspace to correctly set the type of each
-+ * parameters block.
-+ *
-+ * @NEOISP_PARAM_BLK_PIPE_CONF: Pipe configuration block
-+ * @NEOISP_PARAM_BLK_HEAD_COLOR: Head Color block
-+ * @NEOISP_PARAM_BLK_HDR_DECOMPRESS0: HDR decompression of line path 0
-+ * @NEOISP_PARAM_BLK_HDR_DECOMPRESS1: HDR decompression of line path 1
-+ * @NEOISP_PARAM_BLK_OBWB0: Optical Black Correction and White Balance of line path 0
-+ * @NEOISP_PARAM_BLK_OBWB1: Optical Black Correction and White Balance of line path 1
-+ * @NEOISP_PARAM_BLK_OBWB2: Optical Black Correction and White Balance of merged path
-+ * @NEOISP_PARAM_BLK_HDR_MERGE: HDR merge block
-+ * @NEOISP_PARAM_BLK_RGBIR: RGB-IR block
-+ * @NEOISP_PARAM_BLK_STAT: Statistics block
-+ * @NEOISP_PARAM_BLK_IR_COMPRESS: Infrared compression block
-+ * @NEOISP_PARAM_BLK_BNR: Bayer noise reduction block
-+ * @NEOISP_PARAM_BLK_VIGNETTING_CTRL: Vignetting control block
-+ * @NEOISP_PARAM_BLK_CTEMP: Color temperature block
-+ * @NEOISP_PARAM_BLK_DEMOSAIC: Demosaicing block
-+ * @NEOISP_PARAM_BLK_RGB2YUV: RGB to YUV block
-+ * @NEOISP_PARAM_BLK_DR_COMP: Dynamic range compression
-+ * @NEOISP_PARAM_BLK_NR: Noise reduction block
-+ * @NEOISP_PARAM_BLK_AF: Auto focus block
-+ * @NEOISP_PARAM_BLK_EE: Edge enhancement block
-+ * @NEOISP_PARAM_BLK_DF: Direction filter block
-+ * @NEOISP_PARAM_BLK_CONVMED: Convolution and median filter block
-+ * @NEOISP_PARAM_BLK_CAS: Color adaptive saturation block
-+ * @NEOISP_PARAM_BLK_GCM: Gamma correction matrix block
-+ * @NEOISP_PARAM_BLK_VIGNETTING_TABLE: Vignetting lookup table
-+ * @NEOISP_PARAM_BLK_DRC_GLOBAL_TONEMAP: Global tonemap table
-+ * @NEOISP_PARAM_BLK_DRC_LOCAL_TONEMAP: Local tonemap table
-+ */
-+enum neoisp_param_block_type_e {
-+	NEOISP_PARAM_BLK_PIPE_CONF,
-+	NEOISP_PARAM_BLK_HEAD_COLOR,
-+	NEOISP_PARAM_BLK_HDR_DECOMPRESS0,
-+	NEOISP_PARAM_BLK_HDR_DECOMPRESS1,
-+	NEOISP_PARAM_BLK_OBWB0,
-+	NEOISP_PARAM_BLK_OBWB1,
-+	NEOISP_PARAM_BLK_OBWB2,
-+	NEOISP_PARAM_BLK_HDR_MERGE,
-+	NEOISP_PARAM_BLK_RGBIR,
-+	NEOISP_PARAM_BLK_STAT,
-+	NEOISP_PARAM_BLK_CTEMP,
-+	NEOISP_PARAM_BLK_IR_COMPRESS,
-+	NEOISP_PARAM_BLK_BNR,
-+	NEOISP_PARAM_BLK_VIGNETTING_CTRL,
-+	NEOISP_PARAM_BLK_DEMOSAIC,
-+	NEOISP_PARAM_BLK_RGB2YUV,
-+	NEOISP_PARAM_BLK_DR_COMP,
-+	NEOISP_PARAM_BLK_NR,
-+	NEOISP_PARAM_BLK_AF,
-+	NEOISP_PARAM_BLK_EE,
-+	NEOISP_PARAM_BLK_DF,
-+	NEOISP_PARAM_BLK_CONVMED,
-+	NEOISP_PARAM_BLK_CAS,
-+	NEOISP_PARAM_BLK_GCM,
-+	NEOISP_PARAM_BLK_VIGNETTING_TABLE,
-+	NEOISP_PARAM_BLK_DRC_GLOBAL_TONEMAP,
-+	NEOISP_PARAM_BLK_DRC_LOCAL_TONEMAP,
-+};
-+
-+/**
-+ * struct neoisp_pipe_conf_cfg_es - Neoisp extensible params pipeline configuration
-+ *
-+ * Neoisp extensible params block for pipelines alignment configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_PIPE_CONF`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Pipeline configuration, see
-+ *		:c:type:`neoisp_pipe_conf_cfg_s`
-+ */
-+struct neoisp_pipe_conf_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_pipe_conf_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_head_color_cfg_es - Neoisp extensible Head color configuration
-+ *
-+ * Neoisp extensible params block for head color configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_HEAD_COLOR`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Head color configuration, see
-+ *		:c:type:`neoisp_head_color_cfg_s`
-+ */
-+struct neoisp_head_color_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_head_color_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_hdr_decompress0_cfg_es - Neoisp extensible HDR Decompress0 configuration
-+ *
-+ * Neoisp extensible params block for HDR Decompression configuration of line path 0.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_HDR_DECOMPRESS0`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	HDR Decompression configuration for line path 0, see
-+ *		:c:type:`neoisp_hdr_decompress0_cfg_s`
-+ */
-+struct neoisp_hdr_decompress0_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_hdr_decompress0_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_hdr_decompress1_cfg_es - Neoisp extensible HDR Decompress1 configuration
-+ *
-+ * Neoisp extensible params block for HDR Decompression configuration of line path 1.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_HDR_DECOMPRESS1`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	HDR Decompression configuration for line path 1, see
-+ *		:c:type:`neoisp_hdr_decompress1_cfg_s`
-+ */
-+struct neoisp_hdr_decompress1_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_hdr_decompress1_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_obwb_cfg_es - Neoisp extensible OBWB configuration
-+ *
-+ * Neoisp extensible params block for Optical Black correction and White Balance
-+ * configuration of the different OBWB instances.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_OBWB0`, :c:type:`NEOISP_PARAM_BLK_OBWB1`
-+ * or :c:type:`NEOISP_PARAM_BLK_OBWB2`
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Optical Black correction and White Balance configuration, see
-+ *		:c:type:`neoisp_obwb_cfg_s`
-+ */
-+struct neoisp_obwb_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_obwb_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_hdr_merge_cfg_es - Neoisp extensible HDR merge configuration
-+ *
-+ * Neoisp extensible params block for the HDR merge unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_HDR_MERGE`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	HDR merge configuration, see
-+ *		:c:type:`neoisp_hdr_merge_cfg_s`
-+ */
-+struct neoisp_hdr_merge_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_hdr_merge_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_rgbir_cfg_es - Neoisp extensible RGBIR to RGGB and IR configuration
-+ *
-+ * Neoisp extensible params block for the RGBIR to RGGB and IR conversion unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_RGBIR`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	RGBIR to RGGB and IR unit configuration, see
-+ *		:c:type:`neoisp_rgbir_cfg_s`
-+ */
-+struct neoisp_rgbir_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_rgbir_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_stat_cfg_es - Neoisp extensible Statistics and Histogram configuration
-+ *
-+ * Neoisp extensible params block for the Statistics and Histogram unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_STAT`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Statistics and Histogram unit configuration, see
-+ *		:c:type:`neoisp_stat_cfg_s`
-+ */
-+struct neoisp_stat_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_stat_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_ir_compress_cfg_es - Neoisp extensible IR Compression configuration
-+ *
-+ * Neoisp extensible params block for the Infra-red Compression unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_IR_COMP`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Infra-red Compression configuration, see
-+ *		:c:type:`neoisp_ir_compress_cfg_s`
-+ */
-+struct neoisp_ir_compress_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_ir_compress_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_bnr_cfg_es - Neoisp extensible BNR configuration
-+ *
-+ * Neoisp extensible params block for the Bayer Noise Reduction unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_BNR`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Bayer Noise Reduction configuration, see
-+ *		:c:type:`neoisp_bnr_cfg_s`
-+ */
-+struct neoisp_bnr_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_bnr_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_vignetting_ctrl_cfg_es - Neoisp extensible Vignetting configuration
-+ *
-+ * Neoisp extensible params block for the Vignetting unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_VIGNETTING_CTRL`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Vignetting unit configuration, see
-+ *		:c:type:`neoisp_vignetting_ctrl_cfg_s`
-+ */
-+struct neoisp_vignetting_ctrl_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_vignetting_ctrl_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_ctemp_cfg_es - Neoisp extensible Color Temperature configuration
-+ *
-+ * Neoisp extensible params block for the Color Temperature unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_CTEMP`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Color Temperature unit configuration, see
-+ *		:c:type:`neoisp_ctemp_cfg_s`
-+ */
-+struct neoisp_ctemp_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_ctemp_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_demosaic_cfg_es - Neoisp extensible Demosaic configuration
-+ *
-+ * Neoisp extensible params block for the Demosaic unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_DEMOSAIC`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Demosaic unit configuration, see
-+ *		:c:type:`neoisp_demosaic_cfg_s`
-+ */
-+struct neoisp_demosaic_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_demosaic_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_rgb2yuv_cfg_es - Neoisp extensible RGB to YUV configuration
-+ *
-+ * Neoisp extensible params block for the RGB to YUV color space conversion
-+ * unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_RGB2YUV`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Color space conversion unit configuration, see
-+ *		:c:type:`neoisp_rgb2yuv_cfg_s`
-+ */
-+struct neoisp_rgb2yuv_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_rgb2yuv_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_dr_comp_cfg_es - Neoisp extensible DRC unit configuration
-+ *
-+ * Neoisp extensible params block for the Dynamic Range Compression unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_DR_COMP`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Dynamic Range Compression unit configuration, see
-+ *		:c:type:`neoisp_dr_comp_cfg_s`
-+ */
-+struct neoisp_dr_comp_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_dr_comp_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_nr_cfg_es - Neoisp extensible NR unit configuration
-+ *
-+ * Neoisp extensible params block for the Noise Reduction unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_NR`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Noise Reduction unit configuration, see
-+ *		:c:type:`neoisp_nr_cfg_s`
-+ */
-+struct neoisp_nr_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_nr_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_af_cfg_es - Neoisp extensible AutoFocus unit configuration
-+ *
-+ * Neoisp extensible params block for the AutoFocus unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_AF`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	AutoFocus unit configuration, see
-+ *		:c:type:`neoisp_af_cfg_s`
-+ */
-+struct neoisp_af_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_af_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_ee_cfg_es - Neoisp extensible Edge Enhancement unit configuration
-+ *
-+ * Neoisp extensible params block for the Edge Enhancement unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_EE`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Edge Enhancement unit configuration, see
-+ *		:c:type:`neoisp_ee_cfg_s`
-+ */
-+struct neoisp_ee_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_ee_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_df_cfg_es - Neoisp extensible Direction Filter configuration
-+ *
-+ * Neoisp extensible params block for the Direction Filter unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_DF`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Direction Filter configuration, see
-+ *		:c:type:`neoisp_df_cfg_s`
-+ */
-+struct neoisp_df_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_df_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_convmed_cfg_es - Neoisp extensible Convmed configuration
-+ *
-+ * Neoisp extensible params block for the Color Convolution and Median Filter
-+ * unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_CONVMED`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Color Convolution and Median Filter unit configuration, see
-+ *		:c:type:`neoisp_convmed_cfg_s`
-+ */
-+struct neoisp_convmed_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_convmed_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_cas_cfg_es - Neoisp extensible CAS configuration
-+ *
-+ * Neoisp extensible params block for the Color Adaptive Saturation unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_CAS`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Color Adaptive Saturation unit configuration, see
-+ *		:c:type:`neoisp_cas_cfg_s`
-+ */
-+struct neoisp_cas_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_cas_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_gcm_cfg_es - Neoisp extensible GCM configuration
-+ *
-+ * Neoisp extensible params block for the Gamma Correction matrix unit configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_GCM`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Gamma Correction Matrix configuration, see
-+ *		:c:type:`neoisp_gcm_cfg_s`
-+ */
-+struct neoisp_gcm_cfg_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_gcm_cfg_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_vignetting_table_mem_params_es - Neoisp extensible Vignetting LUT configuration
-+ *
-+ * Neoisp extensible params block for the Vignetting look up table configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_VIGNETTING_TABLE`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	Vignetting LUT configuration, see
-+ *		:c:type:`neoisp_vignetting_table_mem_params_s`
-+ */
-+struct neoisp_vignetting_table_mem_params_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_vignetting_table_mem_params_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_drc_global_tonemap_mem_params_es - Neoisp extensible DRC Global Tonemap LUT
-+ * configuration
-+ *
-+ * Neoisp extensible params block for the DRC Global Tonemap look up table configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_DRC_GLOBAL_TONEMAP`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	DRC Global Tonemap LUT configuration, see
-+ *		:c:type:`neoisp_drc_global_tonemap_mem_params_s`
-+ */
-+struct neoisp_drc_global_tonemap_mem_params_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_drc_global_tonemap_mem_params_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_drc_local_tonemap_mem_params_es - Neoisp extensible DRC Local Tonemap LUT
-+ * configuration
-+ *
-+ * Neoisp extensible params block for the DRC Local Tonemap look up table configuration.
-+ * Identified by :c:type:`NEOISP_PARAM_BLK_DRC_LOCAL_TONEMAP`.
-+ *
-+ * @header:	The Neoisp extensible parameters header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @cfg:	DRC Local tonemap LUT configuration, see
-+ *		:c:type:`neoisp_drc_local_tonemap_mem_params_s`
-+ */
-+struct neoisp_drc_local_tonemap_mem_params_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_drc_local_tonemap_mem_params_s cfg;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * define NEOISP_EXT_PARAMS_MAX_SIZE - Maximum size of all Neoisp Parameters
-+ *
-+ * Though the parameters for the Neoisp are passed as optional blocks, the
-+ * driver still needs to know the absolute maximum size so that it can allocate
-+ * a buffer sized appropriately to accommodate userspace attempting to set all
-+ * possible parameters in a single frame.
-+ *
-+ * Some structs are in this list multiple times. Where that's the case, it just
-+ * reflects the fact that the same struct can be used with multiple different
-+ * header types from :c:type:`neoisp_param_block_type_e`.
-+ */
-+#define NEOISP_EXT_PARAMS_MAX_SIZE                                \
-+	(sizeof(struct neoisp_pipe_conf_cfg_es) +                 \
-+	 sizeof(struct neoisp_head_color_cfg_es) +                \
-+	 sizeof(struct neoisp_hdr_decompress0_cfg_es) +           \
-+	 sizeof(struct neoisp_hdr_decompress1_cfg_es) +           \
-+	 (sizeof(struct neoisp_obwb_cfg_es) * NEO_OBWB_CNT) +     \
-+	 sizeof(struct neoisp_hdr_merge_cfg_es) +                 \
-+	 sizeof(struct neoisp_rgbir_cfg_es) +                     \
-+	 sizeof(struct neoisp_ctemp_cfg_es) +                     \
-+	 sizeof(struct neoisp_stat_cfg_es) +                      \
-+	 sizeof(struct neoisp_ir_compress_cfg_es) +               \
-+	 sizeof(struct neoisp_bnr_cfg_es) +                       \
-+	 sizeof(struct neoisp_vignetting_ctrl_cfg_es) +           \
-+	 sizeof(struct neoisp_demosaic_cfg_es) +                  \
-+	 sizeof(struct neoisp_rgb2yuv_cfg_es) +                   \
-+	 sizeof(struct neoisp_dr_comp_cfg_es) +                   \
-+	 sizeof(struct neoisp_nr_cfg_es) +                        \
-+	 sizeof(struct neoisp_af_cfg_es) +                        \
-+	 sizeof(struct neoisp_ee_cfg_es) +                        \
-+	 sizeof(struct neoisp_df_cfg_es) +                        \
-+	 sizeof(struct neoisp_convmed_cfg_es) +                   \
-+	 sizeof(struct neoisp_cas_cfg_es) +                       \
-+	 sizeof(struct neoisp_gcm_cfg_es) +                       \
-+	 sizeof(struct neoisp_vignetting_table_mem_params_es) +   \
-+	 sizeof(struct neoisp_drc_global_tonemap_mem_params_es) + \
-+	 sizeof(struct neoisp_drc_local_tonemap_mem_params_es))
-+
-+/*
-+ * Statistics
-+ */
-+#define NEO_CTEMP_REG_STATS_CROIS_CNT (10)
-+#define NEO_AF_REG_STATS_ROIS_CNT (9)
-+
-+/**
-+ * struct neoisp_reg_stats_crois_s - Color region of interest
-+ * @pixcnt_pixcnt:	Pixel count saturates once it reaches all 1s
-+ * @sumred_sum:		Accumulated red value of total number
-+ * @sumgreen_sum:	Accumulated green value of total number
-+ * @sumblue_sum:	Accumulated blue value of total number
-+ */
-+struct neoisp_reg_stats_crois_s {
-+	__u32 pixcnt_pixcnt;
-+	__u32 sumred_sum;
-+	__u32 sumgreen_sum;
-+	__u32 sumblue_sum;
-+};
-+
-+/**
-+ * struct neoisp_ctemp_reg_stats_s - Color Temperature statistics located in registers
-+ * @cnt_white_white:	Number of white pixels
-+ * @sumr_sum_l:		Lower 32-bits of accumulated value of the red channel
-+ * @sumr_sum_h:		Higher 32-bits of accumulated value of the red channel
-+ * @sumg_sum_l:		Lower 32-bits of accumulated value of the green channel
-+ * @sumg_sum_h:		Higher 32-bits of accumulated value of the green channel
-+ * @sumb_sum_l:		Lower 32-bits of accumulated value of the blue channel
-+ * @sumb_sum_h:		Higher 32-bits of accumulated value of the blue channel
-+ * @sumrg_sum_l:	Lower 32-bits of accumulated red over green gain
-+ * @sumrg_sum_h:	Higher 32-bits of accumulated red over green gain
-+ * @sumbg_sum_l:	Lower 32-bits of accumulated blue over green gain
-+ * @sumbg_sum_h:	Higher 32-bits of accumulated blue over green gain
-+ * @crois:		Color regions of interest
-+ * @gr_gb_cnt_cnt:	Number of counted pixels in the gr vs gb sums
-+ * @gr_sum_sum:		Sum of counted GR values (msb: 27 bits mantissa, lsb: 5 bits exponent)
-+ * @gb_sum_sum:		Sum of counted GB values (msb: 27 bits mantissa, lsb: 5 bits exponent)
-+ * @gr2_sum_sum:	Sum of squared GR values (msb: 27 bits mantissa, lsb: 5 bits exponent)
-+ * @gb2_sum_sum:	Sum of squared GB values (msb: 27 bits mantissa, lsb: 5 bits exponent)
-+ * @pad:		Pad two word for alignment
-+ * @grgb_sum_sum:	Sum of GR*GB values (msb: 27 bits mantissa, lsb: 5 bits exponent)
-+ */
-+struct neoisp_ctemp_reg_stats_s {
-+	__u32 cnt_white_white;
-+	__u32 sumr_sum_l; /* split low and high to avoid padding and keep aligned with hw */
-+	__u32 sumr_sum_h;
-+	__u32 sumg_sum_l;
-+	__u32 sumg_sum_h;
-+	__u32 sumb_sum_l;
-+	__u32 sumb_sum_h;
-+	__u32 sumrg_sum_l;
-+	__u32 sumrg_sum_h;
-+	__u32 sumbg_sum_l;
-+	__u32 sumbg_sum_h;
-+	struct neoisp_reg_stats_crois_s crois[NEO_CTEMP_REG_STATS_CROIS_CNT];
-+	__u32 gr_gb_cnt_cnt;
-+	__u32 gr_sum_sum;
-+	__u32 gb_sum_sum;
-+	__u32 gr2_sum_sum;
-+	__u32 gb2_sum_sum;
-+	__u32 pad[2];
-+	__u32 grgb_sum_sum;
-+};
-+
-+/**
-+ * struct neoisp_drc_reg_stats_s - Dynamic Range Compression statistics
-+ * @groi0_sum_val:	Sum of pixels within the global region of interest 0
-+ * @groi1_sum_val:	Sum of pixels within the global region of interest 1
-+ */
-+struct neoisp_drc_reg_stats_s {
-+	__u32  groi0_sum_val;
-+	__u32  groi1_sum_val;
-+};
-+
-+/**
-+ * struct neoisp_af_reg_stats_sums_s - common Auto Focus sum registers pair
-+ * @sum0:	Provides the 32-bit accumulated value for filter 0 for a ROI
-+ * @sum1:	Provides the 32-bit accumulated value for filter 1 for a ROI
-+ */
-+struct neoisp_af_reg_stats_sums_s {
-+	__u32 sum0;
-+	__u32 sum1;
-+};
-+
-+/**
-+ * struct neoisp_af_reg_stats_s - Auto Focus statistics
-+ * @rois:	Array of filters 0 and 1 sums for each ROI
-+ */
-+struct neoisp_af_reg_stats_s {
-+	struct neoisp_af_reg_stats_sums_s rois[NEO_AF_REG_STATS_ROIS_CNT];
-+};
-+
-+/**
-+ * struct neoisp_bnr_reg_stats_s - Bayer Noise Reduction statistics
-+ * @edge_stat_edge_pixels:	Number of edge pixels that are above the L threshold (u24)
-+ * @edges_stat_edge_pixels:	Number of edge pixels that are above the S threshold (u24)
-+ */
-+struct neoisp_bnr_reg_stats_s {
-+	__u32 edge_stat_edge_pixels;
-+	__u32 edges_stat_edge_pixels;
-+};
-+
-+/**
-+ * struct neoisp_nr_reg_stats_s - Noise Reduction statistics
-+ * @edgecnt_val:	Number of filtered pixels for respective camera context (u24)
-+ */
-+struct neoisp_nr_reg_stats_s {
-+	__u32 edgecnt_val;
-+};
-+
-+/**
-+ * struct neoisp_ee_reg_stats_s - Edge enhancement statistics
-+ * @edgecnt_val:	Number of filtered pixels for respective camera context (u24)
-+ */
-+struct neoisp_ee_reg_stats_s {
-+	__u32 edgecnt_val;
-+};
-+
-+/**
-+ * struct neoisp_df_reg_stats_s - Direction Filter statistics
-+ * @edgecnt_val:	Number of filtered pixels for respective camera context (u24)
-+ */
-+struct neoisp_df_reg_stats_s {
-+	__u32 edgecnt_val;
-+};
-+
-+/**
-+ * struct neoisp_ctemp_mem_stats_s - Color Temperature statistics located in memory
-+ * @ctemp_r_sum:	Array of red sums
-+ * @ctemp_g_sum:	Array of green sums
-+ * @ctemp_b_sum:	Array of blue sums
-+ * @ctemp_pix_cnt:	Array of pixel counts
-+ */
-+struct neoisp_ctemp_mem_stats_s {
-+	__u32 ctemp_r_sum[NEO_CTEMP_R_SUM_CNT];
-+	__u32 ctemp_g_sum[NEO_CTEMP_G_SUM_CNT];
-+	__u32 ctemp_b_sum[NEO_CTEMP_B_SUM_CNT];
-+	__u16 ctemp_pix_cnt[NEO_CTEMP_PIX_CNT_CNT];
-+};
-+
-+/**
-+ * struct neoisp_rgbir_mem_stats_s - RGBIR statistics located in memory
-+ * @rgbir_hist:		Rgbir histograms
-+ */
-+struct neoisp_rgbir_mem_stats_s {
-+	__u32 rgbir_hist[NEO_RGBIR_HIST_CNT];
-+};
-+
-+/**
-+ * struct neoisp_hist_mem_stats_s - Histograms located in memory
-+ * @hist_stat:		Array of histograms and statistics
-+ */
-+struct neoisp_hist_mem_stats_s {
-+	__u32 hist_stat[NEO_HIST_STAT_CNT];
-+};
-+
-+/**
-+ * struct neoisp_drc_mem_stats_s - DRC statistics located in memory
-+ * @drc_local_sum:		DRC local sums array
-+ * @drc_global_hist_roi0:	DRC global histogram fir region of interest 0
-+ * @drc_global_hist_roi1:	DRC global histogram fir region of interest 1
-+ */
-+struct neoisp_drc_mem_stats_s {
-+	__u32 drc_local_sum[NEO_DRC_LOCAL_SUM_CNT];
-+	__u32 drc_global_hist_roi0[NEO_DRC_GLOBAL_HIST_ROI_CNT];
-+	__u32 drc_global_hist_roi1[NEO_DRC_GLOBAL_HIST_ROI_CNT];
-+};
-+
-+/**
-+ * enum neoisp_stats_block_type_e - Enumeration of Neoisp statistics blocks
-+ *
-+ * This enumeration defines the types of Neoisp statistics block. Each entry
-+ * contains statistics specific to a processing block of the Neoisp. The block
-+ * type allows the driver to correctly interpret the statistics block data.
-+ *
-+ * It is driver responsability to correctly set the type of each statistics block.
-+ *
-+ * @NEOISP_STATS_BLK_RCTEMP: Color Temperature statistics registers
-+ * @NEOISP_STATS_BLK_RDRC: Dynamic Range Compression statistics registers
-+ * @NEOISP_STATS_BLK_RAF: Auto Focus statistics registers
-+ * @NEOISP_STATS_BLK_RBNR: Bayer Noise Reduction statistics registers
-+ * @NEOISP_STATS_BLK_RNR: Noise Reduction statistics registers
-+ * @NEOISP_STATS_BLK_REE: Edge enhancement statistics
-+ * @NEOISP_STATS_BLK_RDF: Direction Filter statistics registers
-+ * @NEOISP_STATS_BLK_MCTEMP: Color Temperature statistics memories
-+ * @NEOISP_STATS_BLK_MRGBIR: RGBIR statistics memories
-+ * @NEOISP_STATS_BLK_MHIST: Histograms statistics memories
-+ * @NEOISP_STATS_BLK_MDRC: DRC statistics memories
-+ */
-+enum neoisp_stats_block_type_e {
-+	NEOISP_STATS_BLK_RCTEMP,
-+	NEOISP_STATS_BLK_RDRC,
-+	NEOISP_STATS_BLK_RAF,
-+	NEOISP_STATS_BLK_RBNR,
-+	NEOISP_STATS_BLK_RNR,
-+	NEOISP_STATS_BLK_REE,
-+	NEOISP_STATS_BLK_RDF,
-+	NEOISP_STATS_BLK_MCTEMP,
-+	NEOISP_STATS_BLK_MRGBIR,
-+	NEOISP_STATS_BLK_MHIST,
-+	NEOISP_STATS_BLK_MDRC,
-+};
-+
-+/**
-+ * struct neoisp_ctemp_reg_stats_es - Neoisp extensible pipeline configuration
-+ *
-+ * Neoisp extensible pipelines alignment configuration block.
-+ * Identified by :c:type:`NEOISP_STATS_BLK_RCTEMP`.
-+ *
-+ * @header:	The Neoisp extensible statistics header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @stat:	Pipeline configuration, see
-+ *		:c:type:`neoisp_ctemp_reg_stats_s`
-+ */
-+struct neoisp_ctemp_reg_stats_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_ctemp_reg_stats_s stat;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_drc_reg_stats_es - Neoisp extensible pipeline configuration
-+ *
-+ * Neoisp extensible pipelines alignment configuration block.
-+ * Identified by :c:type:`NEOISP_STATS_BLK_RDRC`.
-+ *
-+ * @header:	The Neoisp extensible statistics header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @stat:	Pipeline configuration, see
-+ *		:c:type:`neoisp_drc_reg_stats_s`
-+ */
-+struct neoisp_drc_reg_stats_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_drc_reg_stats_s stat;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_af_reg_stats_es - Neoisp extensible pipeline configuration
-+ *
-+ * Neoisp extensible pipelines alignment configuration block.
-+ * Identified by :c:type:`NEOISP_STATS_BLK_RAF`.
-+ *
-+ * @header:	The Neoisp extensible statistics header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @stat:	Pipeline configuration, see
-+ *		:c:type:`neoisp_af_reg_stats_s`
-+ */
-+struct neoisp_af_reg_stats_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_af_reg_stats_s stat;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_bnr_reg_stats_es - Neoisp extensible pipeline configuration
-+ *
-+ * Neoisp extensible pipelines alignment configuration block.
-+ * Identified by :c:type:`NEOISP_STATS_BLK_RBNR`.
-+ *
-+ * @header:	The Neoisp extensible statistics header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @stat:	Pipeline configuration, see
-+ *		:c:type:`neoisp_bnr_reg_stats_s`
-+ */
-+struct neoisp_bnr_reg_stats_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_bnr_reg_stats_s stat;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_nr_reg_stats_es - Neoisp extensible pipeline configuration
-+ *
-+ * Neoisp extensible pipelines alignment configuration block.
-+ * Identified by :c:type:`NEOISP_STATS_BLK_RNR`.
-+ *
-+ * @header:	The Neoisp extensible statistics header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @stat:	Pipeline configuration, see
-+ *		:c:type:`neoisp_nr_reg_stats_s`
-+ */
-+struct neoisp_nr_reg_stats_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_nr_reg_stats_s stat;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_ee_reg_stats_es - Neoisp extensible pipeline configuration
-+ *
-+ * Neoisp extensible pipelines alignment configuration block.
-+ * Identified by :c:type:`NEOISP_STATS_BLK_REE`.
-+ *
-+ * @header:	The Neoisp extensible statistics header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @stat:	Pipeline configuration, see
-+ *		:c:type:`neoisp_ee_reg_stats_s`
-+ */
-+struct neoisp_ee_reg_stats_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_ee_reg_stats_s stat;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_df_reg_stats_es - Neoisp extensible pipeline configuration
-+ *
-+ * Neoisp extensible pipelines alignment configuration block.
-+ * Identified by :c:type:`NEOISP_STATS_BLK_RDF`.
-+ *
-+ * @header:	The Neoisp extensible statistics header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @stat:	Pipeline configuration, see
-+ *		:c:type:`neoisp_df_reg_stats_s`
-+ */
-+struct neoisp_df_reg_stats_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_df_reg_stats_s stat;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_ctemp_mem_stats_es - Neoisp extensible pipeline configuration
-+ *
-+ * Neoisp extensible pipelines alignment configuration block.
-+ * Identified by :c:type:`NEOISP_STATS_BLK_MCTEMP`.
-+ *
-+ * @header:	The Neoisp extensible statistics header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @stat:	Pipeline configuration, see
-+ *		:c:type:`neoisp_ctemp_mem_stats_s`
-+ */
-+struct neoisp_ctemp_mem_stats_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_ctemp_mem_stats_s stat;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_rgbir_mem_stats_es - Neoisp extensible pipeline configuration
-+ *
-+ * Neoisp extensible pipelines alignment configuration block.
-+ * Identified by :c:type:`NEOISP_STATS_BLK_MRGBIR`.
-+ *
-+ * @header:	The Neoisp extensible statistics header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @stat:	Pipeline configuration, see
-+ *		:c:type:`neoisp_rgbir_mem_stats_s`
-+ */
-+struct neoisp_rgbir_mem_stats_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_rgbir_mem_stats_s stat;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_hist_mem_stats_es - Neoisp extensible pipeline configuration
-+ *
-+ * Neoisp extensible pipelines alignment configuration block.
-+ * Identified by :c:type:`NEOISP_STATS_BLK_MHIST`.
-+ *
-+ * @header:	The Neoisp extensible statistics header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @stat:	Pipeline configuration, see
-+ *		:c:type:`neoisp_hist_mem_stats_s`
-+ */
-+struct neoisp_hist_mem_stats_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_hist_mem_stats_s stat;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * struct neoisp_drc_mem_stats_es - Neoisp extensible pipeline configuration
-+ *
-+ * Neoisp extensible pipelines alignment configuration block.
-+ * Identified by :c:type:`NEOISP_STATS_BLK_MDRC`.
-+ *
-+ * @header:	The Neoisp extensible statistics header, see
-+ *		:c:type:`v4l2_isp_block_header`
-+ * @stat:	Pipeline configuration, see
-+ *		:c:type:`neoisp_drc_mem_stats_s`
-+ */
-+struct neoisp_drc_mem_stats_es {
-+	struct v4l2_isp_block_header header;
-+	struct neoisp_drc_mem_stats_s stat;
-+} __attribute__((aligned(8)));
-+
-+/**
-+ * define NEOISP_EXT_STATS_MAX_SIZE - Maximum size of all Neoisp Statistics
-+ *
-+ * Though the statistics of the Neoisp are passed as optional blocks, the
-+ * userspace still needs to know the absolute maximum size so that it can
-+ * allocate a buffer sized appropriately to accommodate driver attempting to
-+ * set all possible statistics in a single frame.
-+ */
-+#define NEOISP_EXT_STATS_MAX_SIZE                   \
-+	(sizeof(struct neoisp_ctemp_reg_stats_es) + \
-+	 sizeof(struct neoisp_drc_reg_stats_es) +   \
-+	 sizeof(struct neoisp_af_reg_stats_es) +    \
-+	 sizeof(struct neoisp_bnr_reg_stats_es) +   \
-+	 sizeof(struct neoisp_nr_reg_stats_es) +    \
-+	 sizeof(struct neoisp_ee_reg_stats_es) +    \
-+	 sizeof(struct neoisp_df_reg_stats_es) +    \
-+	 sizeof(struct neoisp_ctemp_mem_stats_es) + \
-+	 sizeof(struct neoisp_rgbir_mem_stats_es) + \
-+	 sizeof(struct neoisp_hist_mem_stats_es) +  \
-+	 sizeof(struct neoisp_drc_mem_stats_es))
-+
-+#endif /* __UAPI_NXP_NEOISP_H */
++++ b/Documentation/admin-guide/media/nxp-neoisp-diagram.dot
+@@ -0,0 +1,24 @@
++# SPDX-License-Identifier: GPL-2.0
++
++digraph G {
++  rankdir = "LR";
++  node [shape=rect];
++  splines = ortho;
++  label = "Neoisp pipeline diagram";
++  {In0, In1 } -> HC -> {HDR_decomp0, HDR_decomp1};
++  HDR_decomp0 -> OBWB0 -> HDR_merge;
++  HDR_decomp1 -> OBWB1 -> HDR_merge;
++  HDR_merge -> RGBIR -> IR_compression;
++  RGBIR -> Statistics;
++  RGBIR -> OBWB2 ->BNR -> Vignetting -> ColorTemp;
++  Vignetting -> Demosaic -> RGB2YUV -> DRC -> AF;
++  DRC-> NR -> EE -> DF -> Gamma -> Packetizer;
++  DRC -> DMAP -> DF[weight=2];
++  DRC -> CCONV -> CAS -> Gamma;
++  {rank = "same"; RGBIR, DRC}
++  {rank = "same"; AF, NR, DMAP}
++  {rank = "same"; IR_compression, Vignetting}
++  IR_compression -> AXIOutDMA;
++  Packetizer -> AXIOutDMA [weight=3];
++  AXIOutDMA -> {"Out0", "Out1"}
++}
+diff --git a/Documentation/admin-guide/media/nxp-neoisp.dot b/Documentation/admin-guide/media/nxp-neoisp.dot
+new file mode 100644
+index 000000000000..79d9090dc1f9
+--- /dev/null
++++ b/Documentation/admin-guide/media/nxp-neoisp.dot
+@@ -0,0 +1,18 @@
++# SPDX-License-Identifier: GPL-2.0
++
++digraph board {
++	rankdir=TB
++	n00000001 [label="{{<port0> 0 | <port1> 1 | <port2> 2} | neoisp\n | {<port3> 3 | <port4> 4 | <port5> 5}}", shape=Mrecord, style=filled, fillcolor=green]
++	n00000001:port3 -> n00000020 [style=dashed]
++	n00000001:port4 -> n00000022 [style=dashed]
++	n00000001:port5 -> n00000024 [style=dashed]
++	n0000000a [label="neoisp-input0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
++	n0000000a -> n00000001:port0 [style=bold]
++	n00000010 [label="neoisp-input1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
++	n00000010 -> n00000001:port1 [style=dashed]
++	n00000016 [label="neoisp-params\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
++	n00000016 -> n00000001:port2 [style=dashed]
++	n00000020 [label="neoisp-frame\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
++	n00000022 [label="neoisp-ir\n/dev/video4", shape=box, style=filled, fillcolor=yellow]
++	n00000024 [label="neoisp-stats\n/dev/video5", shape=box, style=filled, fillcolor=yellow]
++}
+diff --git a/Documentation/admin-guide/media/nxp-neoisp.rst b/Documentation/admin-guide/media/nxp-neoisp.rst
+new file mode 100644
+index 000000000000..16117112b701
+--- /dev/null
++++ b/Documentation/admin-guide/media/nxp-neoisp.rst
+@@ -0,0 +1,179 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=======================================
++NXP Neo Image Signal Processor (neoisp)
++=======================================
++
++Introduction
++============
++
++Neoisp performs a set of image processing tasks on the RAW camera stream, where
++the input camera stream and Neoisp processed output image are stored in DDR or
++any system memory fast enough to keep up with Neoisp processing.
++The overall Neoisp operation is frame based, that is 1 complete image frame is
++read and output pixel by pixel, line by line wise.
++
++Revisions
++=========
++
++NXP Neoisp driver supports the Neoisp V2 hw revision, used in i.MX95 Soc family.
++
++Neoisp hardware
++===============
++
++The Neoisp registers and pipeline processing are documented in the NXP Image
++Signal Processor Specification document (under NDA).
++
++The NEO pipeline block diagram is shown below:
++
++.. kernel-figure:: nxp-neoisp-diagram.dot
++    :alt:   Diagram of neoisp pipeline
++    :align: center
++
++It is composed of the following HW blocks:
++
++- a Head Color (HC) selection block,
++- two HDR decompression blocks, one for each input,
++- three Optical Black correction and White Balance (OBWB) blocks at different
++  stages in the pipeline,
++- a HDR merge block for HDR image capture from the 2 input lines,
++- a RGB-IR to RGGB converter,
++- a Bayer Noise Reduction (BNR) block,
++- a Vignetting block, aka Lens Shading Correction (LSC),
++- a Demosaic block for RAW image conversion to RGB,
++- a RGB Color Correction Matrix (CCM) and Color Space Converter aka CSC or
++  RGB2YUV,
++- a Dynamic Range Compression (DRC) block,
++- the Denoising pipeline (composed by multiple blocks for Noise Reduction, Edge
++  Enhancement, Gamma Compensation, etc),
++- a Packetizer used for UV sub-sampling or RGB packing.
++
++All these blocks are controlled by SW through registers. Some of these
++registers are accessible by the uAPI, so that userspace application and Image
++Processing Algorithms (IPA) can configure them through the parameters buffers.
++
++Neoisp driver
++=============
++
++Neoisp driver is located under drivers/media/platform/nxp/neoisp.
++It uses the `V4L2 API` and the `V4L2 subdev API` to register capture and output
++video devices in addition to a subdevice for neoisp that connects the video
++devices into a media graph realized using the `Media Controller (MC) API`.
++
++Driver provides a core registration API that allows registering the neoisp core
++media devices into an external media graph. In this case, the neoisp is fully
++integrated into a main media graph which could include other subdevices such as
++camera sensors, crossbar routing, etc. It also provides a module parameter to
++allow running in standalone mode. In such case, the neoisp registers its media
++devices into its own media graph.
++
++The media topology registered by Neoisp driver is represented below:
++
++.. kernel-figure:: nxp-neoisp.dot
++    :alt:   Diagram of neoisp media device topology
++    :align: center
++
++
++The neoisp registers the following video device nodes:
++
++- neoisp-input0: output device for RAW frames to be submitted to the ISP for processing.
++- neoisp-input1: output device for RAW frames short capture in HDR merge mode.
++- neoisp-params: output meta device for parameters provided by user space 3A algorithms.
++- neoisp-frame: capture device for RGB/YUV pixels of the processed images.
++- neoisp-ir: capture device for the infra-red pixels of the processed images.
++- neoisp-stats: capture meta device for generated image statistics for user space 3A algorithms.
++
++neoisp-input0, neoisp-input1
++----------------------------
++
++Images to be processed by Neoisp are queued to the neoisp-input0 (and
++neoisp-input1 when in HDR mode) output device nodes. Supported image formats
++as input to the ISP are:
++
++- Raw bayer formats:
++
++  - 8 bits raw (V4L2_PIX_FMT_SRGGB8, V4L2_PIX_FMT_SBGGR8, V4L2_PIX_FMT_SGBRG8,
++    V4L2_PIX_FMT_SGRBG8)
++  - 10 bits raw (V4L2_PIX_FMT_SRGGB10, V4L2_PIX_FMT_SBGGR10,
++    V4L2_PIX_FMT_SGBRG10, V4L2_PIX_FMT_SGRBG10)
++  - 12 bits raw (V4L2_PIX_FMT_SRGGB12, V4L2_PIX_FMT_SBGGR12,
++    V4L2_PIX_FMT_SGBRG12, V4L2_PIX_FMT_SGRBG12)
++  - 14 bits raw (V4L2_PIX_FMT_SRGGB14, V4L2_PIX_FMT_SBGGR14,
++    V4L2_PIX_FMT_SGBRG14, V4L2_PIX_FMT_SGRBG14)
++  - 16 bits raw (V4L2_PIX_FMT_SRGGB16, V4L2_PIX_FMT_SBGGR16,
++    V4L2_PIX_FMT_SGBRG16, V4L2_PIX_FMT_SGRBG16)
++
++- Monochrome formats:
++
++  - 8 bits Monochrome (V4L2_PIX_FMT_GREY)
++  - 10 bits Monochrome (V4L2_PIX_FMT_Y10)
++  - 12 bits Monochrome (V4L2_PIX_FMT_Y12)
++  - 14 bits Monochrome (V4L2_PIX_FMT_Y14)
++  - 16 bits Monochrome (V4L2_PIX_FMT_Y16)
++
++.. note::
++   RGBIr camera sensors are supported as well, and can be used through user
++   space activation of the IR block.
++
++.. note::
++   neoisp-input1 link is mutable and should be enabled in case a short capture
++   image buffer is provided to the ISP for HDR merge.
++
++.. _neoisp_params:
++
++neoisp-params
++-------------
++
++The neoisp-params output meta device receives configuration data to be written
++to Neoisp registers and internal memory for desired input image processing.
++This v4l2 device accepts the generic `extensible parameters` format.
++
++In this format, the parameters buffer is defined by the generic
++:c:type:`v4l2_isp_buffer`, and userspace should set
++:ref:`V4L2_META_FMT_NEO_ISP_EXT_PARAMS <v4l2-meta-fmt-neo-isp-ext-params>`
++as dataformat.
++
++When the related media link is disabled, the image decoding will be done based
++on the default parameters of the ISP.
++
++neoisp-frame
++------------
++
++The capture device writes to memory the RGB or YUV pixels of the image processed
++by Neoisp when the media link is enabled. If the related media link is disabled,
++the processed image will be written to dummy buffer and not delivered to the
++neoisp-frame video device node.
++
++neoisp-ir
++---------
++
++The capture device writes to memory the RGBIr pixels of the image processed by
++Neoisp when the media link is enabled. If the related media link is disabled,
++the processed image will not be delivered to the neoisp-ir video device node.
++
++.. _neoisp_stats:
++
++neoisp-stats
++------------
++
++The neoisp-stats capture meta device provides statistics data generated by
++Neoisp hardware while processing the input image. This v4l2 device accepts the
++`extensible statistics` format.
++
++In this format, the statistics buffer is defined by the generic
++:c:type:`v4l2_isp_buffer`, and userspace should set
++:ref:`V4L2_META_FMT_NEO_ISP_EXT_STATS <v4l2-meta-fmt-neo-isp-ext-stats>` as
++dataformat.
++
++When the related media link is disabled, the decoding statistics will not be
++delivered to the neoisp-stats meta device node.
++
++Control
++=======
++
++To support additional neoisp hardware revisions, the read-only bitmask control
++`V4L2_CID_NEOISP_SUPPORTED_PARAMS_BLOCKS` can be used to query the list of
++supported blocks. Each bit represents the availability of the corresponding
++entry from the :c:type:`neoisp_param_block_type_e` enum. In current driver
++version, default and max values represent the blocks supported by the i.MX95
++SoC.
+diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
+index d31da8e0a54f..445269f87b17 100644
+--- a/Documentation/admin-guide/media/v4l-drivers.rst
++++ b/Documentation/admin-guide/media/v4l-drivers.rst
+@@ -21,6 +21,7 @@ Video4Linux (V4L) driver-specific documentation
+ 	ivtv
+ 	mali-c55
+ 	mgb4
++	nxp-neoisp
+ 	omap3isp
+ 	philips
+ 	qcom_camss
+diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+index 3e0cab153f0a..46268d955d3a 100644
+--- a/Documentation/userspace-api/media/v4l/meta-formats.rst
++++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+@@ -18,6 +18,7 @@ These formats are used for the :ref:`metadata` interface only.
+     metafmt-d4xx
+     metafmt-generic
+     metafmt-intel-ipu3
++    metafmt-nxp-neoisp
+     metafmt-pisp-be
+     metafmt-pisp-fe
+     metafmt-rkisp1
+diff --git a/Documentation/userspace-api/media/v4l/metafmt-nxp-neoisp.rst b/Documentation/userspace-api/media/v4l/metafmt-nxp-neoisp.rst
+new file mode 100644
+index 000000000000..5a1b0c555a03
+--- /dev/null
++++ b/Documentation/userspace-api/media/v4l/metafmt-nxp-neoisp.rst
+@@ -0,0 +1,70 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++*****************************************
++V4L2_META_FMT_NEO_ISP_EXT_PARAMS ('nnep')
++*****************************************
++
++The Neoisp image signal processor is configured by userspace through a buffer
++of parameters to :ref:`neoisp-params <neoisp_params>` output device node using
++the :c:type:`v4l2_meta_format` interface.
++
++The parameters buffer uses the generic `extensible parameters` configuration
++format.
++
++.. _v4l2-meta-fmt-neo-isp-ext-params:
++
++Extensible parameters configuration format
++==========================================
++
++When using the `extensible parameters` configuration format, parameters are
++passed to the :ref:`neoisp-params <neoisp_params>` metadata output video node
++using the `V4L2_META_FMT_NEO_ISP_EXT_PARAMS` meta format.
++
++The buffer contains a single instance of the C structure
++:c:type:`v4l2_isp_buffer` defined in ``v4l2-isp.h``. The
++:c:type:`v4l2_isp_buffer` structure is designed to allow userspace to
++populate the data buffer with only the configuration data for the Neoisp blocks
++it intends to configure. The extensible parameters format design allows
++developers to define new block types to support new configuration parameters,
++and defines a versioning scheme so that it can be extended and versioned
++without breaking compatibility with existing applications.
++
++****************************************
++V4L2_META_FMT_NEO_ISP_EXT_STATS ('nnes')
++****************************************
++
++The Neoisp image signal processor generates statistics data while processing an
++input image. These statistics are captured in a buffer and provided to
++userspace through the :ref:`neoisp-stats <neoisp_stats>` capture video node
++using the :c:type:`v4l2_meta_format` interface. The statistics data are
++processed by userspace application to produce the next Neoisp parameters.
++
++The statistics buffer uses the generic `extensible statistics` format.
++
++.. _v4l2-meta-fmt-neo-isp-ext-stats:
++
++Extensible statistics format
++============================
++
++When using the `extensible statistics` format, the statistics buffer is passed
++from the :ref:`neoisp-stats <neoisp_stats>` metadata capture video node using
++the `V4L2_META_FMT_NEO_ISP_EXT_STATS` meta format.
++
++The buffer contains a single instance of the C structure
++:c:type:`v4l2_isp_buffer` defined in ``v4l2-isp.h``. The
++:c:type:`v4l2_isp_buffer` structure is designed to allow future Neoisp
++driver versions to populate the statistics buffer with future blocks
++statistics, and defines a versioning scheme so that it can be extended and
++versioned without breaking compatibility with existing applications.
++
++**********************
++Neoisp uAPI data types
++**********************
++
++This chapter describes the data types exposed to userspace by Neoisp driver.
++
++Some structure members are in a fixed-point format, in this case the related
++description will be ended by a fixed-point definition between parenthesis.
++
++.. kernel-doc:: include/uapi/linux/media/nxp/nxp_neoisp.h
++
 -- 
 2.51.0
 
