@@ -1,219 +1,227 @@
-Return-Path: <linux-media+bounces-61154-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61155-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KMrxKjwDAmrknAEAu9opvQ
-	(envelope-from <linux-media+bounces-61154-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 18:26:36 +0200
+	id oHWIJQgPAmplngEAu9opvQ
+	(envelope-from <linux-media+bounces-61155-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 19:16:56 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D0851217F
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 18:26:36 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0F45133AE
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 19:16:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CA34A300F74F
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 16:26:26 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 63A2830763CB
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 16:50:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A46F7427A15;
-	Mon, 11 May 2026 16:26:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3114043C045;
+	Mon, 11 May 2026 16:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NxaFLQ59"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cwTmoJA3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0938F42B72B;
-	Mon, 11 May 2026 16:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0B742EEC7
+	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 16:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778516776; cv=none; b=RkKjOkVR5+5iwRHGTeOKuYyZiUHRF32WFC8p7KdlhT7aFzyN0Bx0qIrwaULvuVDHMUGToYQdCRQIOz4szURtrxPGds14A53GT0/sA0gKOZ0m4n92oVacQajNjSdhYVAr1iQyiziUuJr4eRuC5o25DiycL9J/uLFJwfTQv3TQc/U=
+	t=1778518222; cv=none; b=t6vcMaJoVrQ9txYCkdgkeMevz3ABBv2xlBFA4q3x7i2eq/+bV1zoRjxBWQlbkEcEw3xyH7bCqHhEJS2BFWwTCO0X15GKRWRsneylcYeYv8IqouBqs1Wu+MiS1PyMo8tt+a4ogKQbf2xTpMkG7BBpWxLsa6TFxoGjDgvegqENboI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778516776; c=relaxed/simple;
-	bh=nicCqXdfsNewuBYQmPZ5MAe+oudQ/+7joKgKY4kU0H8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T4920VQWGye5Fq7KbjE4XIkmS4/bXfTSBP9UiMO33k5P28lsvZoCqYutz7D/Ga0mCHq8a81xuUSp9KBZyEnjxr+EonEZiHBw+DaD7LKDOEYFaDg7+ewHdsgsZ7yfMDWloretcdiheVeyCQQW+SPlIsQvLt3Q/HiGOkqJ6JGsgzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NxaFLQ59; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00020C2BCB0;
-	Mon, 11 May 2026 16:26:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778516775;
-	bh=nicCqXdfsNewuBYQmPZ5MAe+oudQ/+7joKgKY4kU0H8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NxaFLQ593ZbG8Atpcjl6CQt1yxY5DtowC7BDXgOlZRZMuJa60mG+ewXwIRTz6OGSB
-	 +fVEJtix9tqJ4+KyAhJa6yF2/ei6B2gzqfkrqr+oKrg2MZKEUrv0RzY0CpIEm2be1+
-	 PN7hvt31xQqm0WYUFcRsoLYs/5RgZcuokPDW0kwqdf1hf2bQ7NWPBzv4+CqmQ12dlr
-	 NPFLcsQbVouN9TLXUhSigy9ZaJujFKOdfMGVmHn2TVHTSKx2C75IjPUHo5MDG8ulsr
-	 VZbwc6BmdCS9TUvznWQ6Av6K7QSePhkhbX8WUZd2E2kZUFbVfb6GYXPIfGXW56KvU9
-	 0ATRVo5q0VKOQ==
-Date: Mon, 11 May 2026 17:26:09 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Antoine Bouyer <antoine.bouyer@nxp.com>
-Cc: julien.vuillaumier@nxp.com, alexi.birlinger@nxp.com,
-	daniel.baluta@nxp.com, peng.fan@nxp.com, frank.li@nxp.com,
-	jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, michael.riesch@collabora.com,
-	anthony.mcgivern@arm.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, ai.luthra@ideasonboard.com,
-	paul.elder@ideasonboard.com, geert@linux-m68k.org
-Subject: Re: [PATCH v2 1/8] dt-bindings: media: Add nxp neoisp support
-Message-ID: <20260511-aneurism-ultimate-9bc90e654274@spud>
-References: <20260511132629.1300868-1-antoine.bouyer@nxp.com>
- <20260511132629.1300868-2-antoine.bouyer@nxp.com>
+	s=arc-20240116; t=1778518222; c=relaxed/simple;
+	bh=3ddHCI/u6AMzCPiKrNEM/VNWHhoOwc6c1h5VWFgOqig=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d7oQuTfkaDbEGO7s4Z3xeaKI0nh3hNcIwdvbwXrqPeQVgoIDzwpPYIw+7cZn3SekHODso544u1E1BevsErinVsR0Ix6/my9KTBIspniFh4by8H4rEtdRNo7+M1HFDUs9Y3FT25hRpWgHCnN+CpKkYWer+KdJMmRYIqgeJEN5A9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cwTmoJA3; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-67e24b8ef55so6253037a12.1
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 09:50:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1778518219; x=1779123019; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pyc2irlV4hpTozzdn4QAIYkKHdvExB4pAKBzqwiHQiY=;
+        b=cwTmoJA3d/+psOsBsCkW7T/Xbets/AL5b/UABqEcs0e2QXQBiqeGNDs1PdAEEmxJkC
+         YpJNGapd2iAB7yfDm/4FB9OaqQZQ//aryHxbejLYZIiBOBKobp/Xi6SSnN+lA0cKJraL
+         eF6uZj9bET+/x6tdUhkySUSoZBCuMO6ID+Gzo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778518219; x=1779123019;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pyc2irlV4hpTozzdn4QAIYkKHdvExB4pAKBzqwiHQiY=;
+        b=RJo6sVsfdoD7yTySV7qwJXbWVPgKkBcZ8d3b1qWJ3aMT3Px70yesYOu6ZPbqeylZKs
+         LWDTmzYkSmkri6jJHcN/aT/SnqGwXvzefH5lz9dzlzC3B0igkDpeSXpEN77zIPcDakI2
+         S6fz9welZm2a9aUJ6eSbPAU37xus2KwGTRx0skHkLILlIrZOKpwF+jxQDEYZyPaWKUhD
+         C8TQi/TEZRTCYqL7xaa5rpGQPGRrftlkP/eVjr/R9aSY71TIRwlmbHiUaQ+MjHCH/dpg
+         4ZwpxUiuxPDGKWBa8TEDzyBU0hg7C/ZAS0qWV/jww+n7nxJ7RxFwGyRbmWVyWah4bdyF
+         Q6XA==
+X-Forwarded-Encrypted: i=1; AFNElJ9M52bryQIWoAHNh5i8PN42JXQJRa/HH7MejA2U9JSv3FOgIc55Sq0t+j0VzNYbm43IYPPX6vp+klmRvw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrF8rs73rkc3Y85AJufAsU54KdE+n2AKHDpPBxru2NwreRRL1p
+	b4yWK+IIKFVSCa+OoNAQTVhgafYqTKBEdP5SuANxw/abLGrazHtLYmZBKF1XDLTxRIlBBSXwtZg
+	zBsk=
+X-Gm-Gg: Acq92OHcnddy375a3B6g/WcD8XuITroDtn81HWti5+2VOom1Z/AwvjmrWzI7OGjqlwc
+	O82tr7f0QBC7FsbNDwTEZO2hPciqZNHsCBgT50148pqKKUlzdFh2HSIhl1cFjKBbMQ0bZL1rqco
+	nCBaiQCk7X1QXQf0N5xZlz2WvkedTPL/MTW7hNlOe/ygDrCtGr/C+G84t127zsqwetKSumkMplL
+	/OkSilxuApeZ2QU94QcxEn5w5e259zCa/TKPUW1qF8PG7dM9NairxxvNsnUHmSCzdhlo4maYxaO
+	WiY1T6Bo5MTq7REfcxwDU1mU9iCppcRZALbyV7DnbRNk/5umsYGk7CL2WMjRtvsyuICGeqchaLl
+	WsRAz6STQ5vBPOh3lzhYpmnkd0QG/oMC87UhSdIKs82bEvjYIQ717NhNiGIsC74qR0iS363DnYZ
+	DQE8i4hAzI4UjvlbFpCz0fJktfIPAyLa5iLCtPcOJdTQbSfkzjI7cZG6/hsJmIcNzQi8+Ynyk=
+X-Received: by 2002:a05:6402:5017:b0:67d:6c95:9c8e with SMTP id 4fb4d7f45d1cf-67d6c95a081mr12315957a12.14.1778518219352;
+        Mon, 11 May 2026 09:50:19 -0700 (PDT)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com. [209.85.218.42])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-67ef0e1af63sm3927481a12.25.2026.05.11.09.50.17
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 09:50:19 -0700 (PDT)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-bcb5370bb0dso568271866b.1
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 09:50:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9jmrqQP5nE8Eii4zK5lg5xb3TsQgcI3HJ+SSwFkq+oucd/Y/2ATOKhRM7Cv7C2U4No1IkiJ4y8xHki+g==@vger.kernel.org
+X-Received: by 2002:a17:907:748:b0:ba8:9137:da5f with SMTP id
+ a640c23a62f3a-bc56e6fb36emr1500682166b.32.1778518216661; Mon, 11 May 2026
+ 09:50:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CjzSqaKKj3fzWanh"
-Content-Disposition: inline
-In-Reply-To: <20260511132629.1300868-2-antoine.bouyer@nxp.com>
-X-Rspamd-Queue-Id: 86D0851217F
+References: <20260323-uvc-hwtimestamp-v1-0-aa42e3865204@chromium.org>
+ <20260323-uvc-hwtimestamp-v1-4-aa42e3865204@chromium.org> <10a08462-30ce-4a79-bb5d-001ab7f3d0d8@kernel.org>
+In-Reply-To: <10a08462-30ce-4a79-bb5d-001ab7f3d0d8@kernel.org>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 11 May 2026 18:50:03 +0200
+X-Gmail-Original-Message-ID: <CANiDSCs9gby6bNBCRmxT15D8c-nksdUmwH8iUDAsiV1tmQTM3Q@mail.gmail.com>
+X-Gm-Features: AVHnY4JL0Aa54-Afx6BfrRiZHEfsHTgnEN1oSkHuKXH696j2MXYzf_2uO0CcVZg
+Message-ID: <CANiDSCs9gby6bNBCRmxT15D8c-nksdUmwH8iUDAsiV1tmQTM3Q@mail.gmail.com>
+Subject: Re: [PATCH 4/4] media: uvcvideo: Do not add clock samples with small
+ sof delta
+To: Hans de Goede <hansg@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa <tfiga@chromium.org>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Yunke Cao <yunkec@google.com>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 0F0F45133AE
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61154-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[chromium.org:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61155-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[4ae00000:email,devicetree.org:url,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,chromium.org:email,chromium.org:dkim]
 X-Rspamd-Action: no action
 
+Hi Hans
 
---CjzSqaKKj3fzWanh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 11 May 2026 at 18:07, Hans de Goede <hansg@kernel.org> wrote:
+>
+> Hi,
+>
+> On 23-Mar-26 14:10, Ricardo Ribalda wrote:
+> > Some UVC 1.1 cameras running in fast isochronous mode tend to spam the
+> > USB host with a lot of empty packets. These packets contain clock
+> > information and are added to the clock buffer but do not add any
+> > accuracy to the calculation. In fact, it is quite the opposite, in our
+> > calculations, only the first and the last timestamp is used, and we only
+> > have 32 slots.
+> >
+> > Ignore the samples that will produce less than MIN_HW_TIMESTAMP_DIFF
+> > data.
+> >
+> > Fixes: 141270bd95d4 ("media: uvcvideo: Refactor clock circular buffer")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/usb/uvc/uvc_video.c | 18 ++++++++++++++++--
+> >  1 file changed, 16 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > index dcbc0941ffe6..e1a4e84d6841 100644
+> > --- a/drivers/media/usb/uvc/uvc_video.c
+> > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > @@ -544,6 +544,19 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
+> >       spin_unlock_irqrestore(&clock->lock, flags);
+> >  }
+> >
+> > +static inline u16 sof_diff(u16 a, u16 b)
+> > +{
+> > +     u32 aux;
+> > +
+> > +     a &= 2047;
+> > +     b &= 2047;
+> > +     if (a >= b)
+> > +             return a - b;
+> > +
+> > +     aux = a + 2048;
+> > +     return (u16)(aux - b);
+> > +}
+> > +
+> >  static void
+> >  uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+> >                      const u8 *data, int len)
+> > @@ -664,12 +677,13 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+> >       sample.dev_sof = (sample.dev_sof + stream->clock.sof_offset) & 2047;
+> >
+> >       /*
+> > -      * To limit the amount of data, drop SCRs with an SOF identical to the
+> > +      * To limit the amount of data, drop SCRs with an SOF similar to the
+> >        * previous one. This filtering is also needed to support UVC 1.5, where
+> >        * all the data packets of the same frame contains the same SOF. In that
+> >        * case only the first one will match the host_sof.
+> >        */
+> > -     if (sample.dev_sof == stream->clock.last_sof)
+> > +     if (sof_diff(sample.dev_sof, stream->clock.last_sof) <=
+> > +         (MIN_HW_TIMESTAMP_DIFF / stream->clock.size))
+> >               return;
+>
+> If I understand things correctly then uvc_video_clock_update() uses
+> first->host_time + some correction time. But you might end up not
+> storing a sample for the very first isochronous USB packet of a frame
+> because of this new check.  Which means that the first->host_time used
+> as a starting point for the timestamp just has become inaccurate ?
 
-On Mon, May 11, 2026 at 03:26:21PM +0200, Antoine Bouyer wrote:
-> Add the yaml binding for NXP's Neo Image Signal Processor (ISP).
->=20
-> Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
-> ---
->  .../bindings/media/nxp,imx95-neoisp.yaml      | 62 +++++++++++++++++++
->  1 file changed, 62 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx95-neo=
-isp.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx95-neoisp.yam=
-l b/Documentation/devicetree/bindings/media/nxp,imx95-neoisp.yaml
-> new file mode 100644
-> index 000000000000..458c4e4d640d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx95-neoisp.yaml
-> @@ -0,0 +1,62 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/nxp,imx95-neoisp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP NEOISP Image Signal Processing Pipeline
-> +
-> +maintainers:
-> +  - Antoine Bouyer <antoine.bouyer@nxp.com>
-> +
-> +description:
-> +  The NXP NEOISP performs a set of image processing tasks on the RAW cam=
-era
-> +  stream and provides RGB or YUV enhanced image.
+In UVC 1.5 All the ISOC packets have the same dev_sof and dev_stc.
+So this check will avoid adding a whole frame into the timestamp
+circular buffer when running at more than 320 Hz (1/(0.1/32))
 
-Can someone explain to me please why there are no ports properties to
-represent the attached camera/other elements of the pipeline?
+In UVC 1.1 all ISOC packets have the same dev_stc but different dev_sof.
+This check will avoid adding some of those packets into the circular
+buffer, but the accuracy will not be lost. We will use the data from
+the neighbour packets (even from previous frames) to recover the sof.
 
-This is not a review comment per se, this is me not understanding what
-the delimitation is.
+The biggest winner for this patch is UVC 1.1, which will have much
+more accurate timestamps, because the distance between the first and
+last will be bigger (as in uvc1.5)
+>
+> Regards,
+>
+> Hans
+>
+>
 
 
-Cheers,
-Conor.
-
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - nxp,imx95-neoisp
-> +
-> +  reg:
-> +    items:
-> +      - description: The configuration registers
-> +      - description: ISP local memories
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    items:
-> +      - const: camcm0
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    isp@4ae00000 {
-> +        compatible =3D "nxp,imx95-neoisp";
-> +        reg =3D <0x4ae00000 0x8000>,
-> +              <0x4afe0000 0x10000>;
-> +        interrupts =3D <GIC_SPI 222 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-parent =3D <&gic>;
-> +        clocks =3D <&scmi_clk 64>; /* IMX95_CLK_CAMCM0 */
-> +        clock-names =3D "camcm0";
-> +        power-domains =3D <&scmi_devpd 3>; /* IMX95_PD_CAMERA */
-> +    };
-> --=20
-> 2.51.0
->=20
-
---CjzSqaKKj3fzWanh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCagIDIQAKCRB4tDGHoIJi
-0hf3AP0YoUoaFHDcqufm3AXvDg0DBlXqv6T1NQk3jZblplkO3wEA+E9lybZt4PQ1
-C2KUfKx64Sh7jfAMxtsypGfb40v0TgA=
-=p7we
------END PGP SIGNATURE-----
-
---CjzSqaKKj3fzWanh--
+-- 
+Ricardo Ribalda
 
