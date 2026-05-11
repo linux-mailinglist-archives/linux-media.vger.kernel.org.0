@@ -1,259 +1,172 @@
-Return-Path: <linux-media+bounces-61058-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61059-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AGL1DG+fAWpKgwEAu9opvQ
-	(envelope-from <linux-media+bounces-61058-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:20:47 +0200
+	id CI9QLBqhAWpKgwEAu9opvQ
+	(envelope-from <linux-media+bounces-61059-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:27:54 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9CA50AC61
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:20:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46AF550ADBA
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 11:27:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 206AA311193D
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 09:07:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1CFE63243AE3
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2026 09:11:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2D6B3D47DE;
-	Mon, 11 May 2026 09:04:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D3593BA237;
+	Mon, 11 May 2026 09:11:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cIddYbla"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bOjfRu1B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC7F3C5528;
-	Mon, 11 May 2026 09:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0CC377019
+	for <linux-media@vger.kernel.org>; Mon, 11 May 2026 09:11:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778490269; cv=none; b=hC+YCj9LOeqJoGqClcyhmqzJ7xsKZXRyAZiXhkAftuAACAzd1QiFjMijV+f/yu9LcYzPORp2DuIARZRWDEjRcl2XhT+ARCEdlt3cY1+KuTNlqk07QaW/Dq19m8an64IHxJwrw3vvux/C1gTItw7pLrzhoSBrD/rwPPCymcJKdS0=
+	t=1778490689; cv=none; b=Nu/3r4KsyAprmBBFS2dFxa5+GrM34qRoRgT3b9DtS0Ben5RtxT/WZXDJqbWIlWeXqeR7/Ek2xCrf6Saa+NFfvlgWAj4fg2b96u+/rwAT5KibqLbGDA1CaOUCQMEJ7P5UriBTAJfdSelADRdwn1PTgN1Du7SQU98axOIIXp3RbOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778490269; c=relaxed/simple;
-	bh=1hHtE+qiixejcQON712uNfesppDbsdiUfLRUqiVc6aI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JdOaIpz5nzhyzTLkMTr6eDBcniFD3+907NWNyDNbtUzn/sq6yys6Gg13x+Icmag9phM2E4lJJGiieeFNfJUQJB8OJLNr4L41Icr5jnw1lqOE3/37/0hb0CXb1SQJpI5yyiV9Upl1LRzCXHV0nVE3v2/MEfVO4A9mPxuqBiw5CQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cIddYbla; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778490267; x=1810026267;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=1hHtE+qiixejcQON712uNfesppDbsdiUfLRUqiVc6aI=;
-  b=cIddYblai24ZluF3xegs+BGdk745bu4ZdRTfihFJMC8MTKNci9kYKUp0
-   2nC/uEacFtGmxHdILwS+usCJ4WbHLOhOZrn5LU2kkMfYHl98E/1tiR1hJ
-   cf419/RZdxNOep1JMGKe35K3r9L2rcdP+lm0Jo0qdI9RQuOLXqzdVyq2Z
-   1b4wZVHPhfc3qe+r9XGK8V/IXUEx4j8kUedtnkdsnOcZ9/K4920mZvIMB
-   pjmUSeTholJ2KVYmGfpc2PiJ9B04Kg6ZKPkOF0CQsdu/2Rcw+Cci5ajcF
-   gr8tF6gjSw3pAYS7X1Z/yZ4vMLfWTHVAHCjbT/OGcvZr5WLQ8xri/hZ7I
-   A==;
-X-CSE-ConnectionGUID: JqBXV4ToTWG5O0d8jJ1Nrw==
-X-CSE-MsgGUID: AWUWcz4UTLK/PUEyLz5TZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="89676596"
-X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="89676596"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 02:04:27 -0700
-X-CSE-ConnectionGUID: 1jP2xWNfQPCQ5XZKIGqUtg==
-X-CSE-MsgGUID: U9GJ5rlqTfOIW8tFirLliw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="241372324"
-Received: from unknown (HELO [10.102.88.33]) ([10.102.88.33])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 02:04:23 -0700
-Message-ID: <0097f608-dbac-482d-9851-ce306b0c7b78@linux.intel.com>
-Date: Mon, 11 May 2026 11:04:21 +0200
+	s=arc-20240116; t=1778490689; c=relaxed/simple;
+	bh=SZ8f9PPqWZU+1cRpq6Zl5ZieD1mgOP9e8yXexQ+jYTs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g2ov32UxuXjif5rpl+ufbiz8xo5aYpDd8IELHNLNiaO+mQ15WhwvQ4nEuT8r6ZngMfsvKKGjY2ELVsAMkYA4IMbQ6s0o97k0eBsFLpL/5IQPUIIaXQcl/i4nNhkvKUEzrR8SzicWvwdJnpMZuH3CQmCHxyS3yGV7lYt7aBrE+L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bOjfRu1B; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-834da62e52dso1687049b3a.3
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 02:11:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778490688; x=1779095488; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XdyyhEj4/v2ra5ngAxTRu5GNOcioukMe9KhLVuT3bms=;
+        b=bOjfRu1Bvoe7Wpp3hwGZimC6PCp42e3xybWLG4AqTD9bxCi6UZbQ3Bh/8RuoAxhuBi
+         Dxr8w+nArST6TcjRlLY/CWG2sVLbQYHSPcPhWXq1juGXRkLwPILNS6QwdkiLeqrCtkFO
+         6l5XdQEURkX3xywRMxt49zaacUlg1qdpivScUdMpGE+BDa8kCodONSkO01QEn+Ew1O0u
+         mZJvnMUujtfpZvQfQac5SruDN3opssBguusEf5eh6tHoc1pMnweXs/sIMWb5ZtoFk9o2
+         +BFSYDD2dIfr/o58LHdxRqCcgxMUsXCWo21nnANyumOof11tfoiqhASZEORm29cZc38i
+         KhDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778490688; x=1779095488;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XdyyhEj4/v2ra5ngAxTRu5GNOcioukMe9KhLVuT3bms=;
+        b=dxtmHfzo3bGuxEX2hmHlGeA3YBjlF5L1rIS3vXyk8OOMB21q7kZCRcanDLKAFbcvUZ
+         FzT5DlRNjNoijRLNqT1DvmEIi0nMZdtlCngDKfKJlZmPZbscJhGNJhovq1cMaQdGwuA2
+         u87bTMMzHU8SUL9ur+tpaJUcXUi5fXI937Jz1PSk7/1wjoUWECAESxsyF5Mi7Pp9uiKW
+         mJjksoWwtgyrK2K2sWQLxZPgFuk8zppkDd8dLkiO3THMsAUL9Q8UFgoFw9yzCMxr5DAH
+         uONoLD43Z7P3HF3H263qfenbrTNIoyJdg5BRboDCGsz4nvVtGRxc0QnBwf01fSRbChjz
+         vfoQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/xkABxsqm8HAKFM4hOfRgvhHn8h9Dijozba/UCGRpP1iXMFguCXl3RCE2HNgRYZ1z2+tAueAVs+YkSNw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLKVa+1jiOPx4DZ5xzfW210mlyALAo6osP+XJBvYonUh8YBb9F
+	uSzOj1e5B/sMqiqVfr8YtSAgwXNansGfiXQMWt7y28rMaA007M/sCFcg
+X-Gm-Gg: Acq92OFBc4+cNv0VyB9zC4MypPnTxKkJZ5yCOas7YIin6l5wwzK+nVCRliaIM79U+AH
+	mpC95IQzyrYl158UG4Dr8vzG99q22WKYZuhCbqhl4OpUjrH+qE41c82mrroT0KxGNXgJH0HCxOV
+	3R7DA00V+f9i3cnwKCJOFLtSKq2kEGqvHcSCbULneapb09CaO9D7DDiApSmLQN55WqDulmfjfK1
+	vvZNVFLACmgC+g6DhB7pbHi4rnoMfQyvAab60V2CjSwncMQUbhO8wJZkk0d3KI+9MEvrYC20Z2a
+	xJSFUxim2YgFbWYD6cv15Rg+gzZwM6INOZmSMFIX/eqKfPLLhhiaQ3LoPMnGNls+t6G9Ikv2Re7
+	OZ+llZrerjDKEwxtHwY3ZdTZUmlHCe+YnnFcJMwS4cqLtoUKj5OCxXZjkZAtSzqIlzJVQ+EtKjq
+	K6qIrlo44a8tKAaFu4LHFZE4k=
+X-Received: by 2002:a05:6a00:2d96:b0:837:acd7:a78 with SMTP id d2e1a72fcca58-83a5b9d8131mr21057954b3a.16.1778490687914;
+        Mon, 11 May 2026 02:11:27 -0700 (PDT)
+Received: from nuvole ([2409:8a34:5f37:1974:abc5:99cd:a924:4e86])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8396563f11csm24775517b3a.3.2026.05.11.02.11.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 02:11:27 -0700 (PDT)
+From: Pengyu Luo <mitltlatltl@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Martin Kepplinger-Novakovic <martink@posteo.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
+Cc: devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Pengyu Luo <mitltlatltl@gmail.com>
+Subject: [PATCH v3 0/5] fix and improve for Hi846
+Date: Mon, 11 May 2026 17:09:19 +0800
+Message-ID: <20260511090924.269106-1-mitltlatltl@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Reject PRIME export of userptr BOs
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Ziyi Guo <guoziyi114@gmail.com>, maciej.falkowski@linux.intel.com,
- jacek.lawrynowicz@linux.intel.com
-Cc: ogabbay@kernel.org, sumit.semwal@linaro.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Ziyi Guo <n7l8m4@u.northwestern.edu>
-References: <20260508162856.1131843-1-n7l8m4@u.northwestern.edu>
- <14b62cee-c46e-4fb9-91ab-aa09c0962834@amd.com>
-Content-Language: en-US
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <14b62cee-c46e-4fb9-91ab-aa09c0962834@amd.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 9B9CA50AC61
+X-Rspamd-Queue-Id: 46AF550ADBA
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.34 / 15.00];
-	SEM_URIBL(3.50)[northwestern.edu:email];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
-	BAD_REP_POLICIES(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[intel.com,none];
-	TAGGED_FROM(0.00)[bounces-61058-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,lists.infradead.org,gmail.com];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-61059-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[amd.com,gmail.com,linux.intel.com];
-	HAS_ORG_HEADER(0.00)[];
-	R_DKIM_ALLOW(0.00)[intel.com:s=Intel];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[karol.wachowski@linux.intel.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.933];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_SPF_ALLOW(0.00)[+ip4:172.105.105.114:c];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,linux.intel.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,nxp.com,pengutronix.de,gmail.com,linux.intel.com,posteo.de,puri.sm];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mitltlatltl@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-0.958];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On 5/11/2026 9:39 AM, Christian König wrote:
-> Hi Zivi,
-> 
-> On 5/8/26 18:28, Ziyi Guo wrote:
->>   Userptr BOs wrap pinned user pages in a private dma-buf solely for
->>   internal use by the NPU driver. Allowing userspace to re-export such a
->>   BO via DRM_IOCTL_PRIME_HANDLE_TO_FD would expose those pages to other
->>   drivers through an interface that was never intended to be shared.
->>
->>   Override the driver's prime_handle_to_fd callback to detect dma-bufs
->>   backed by ivpu_gem_userptr_dmabuf_ops and reject the export with
->>   -EINVAL.
->>
->> Signed-off-by: Ziyi Guo <n7l8m4@u.northwestern.edu>
-> 
+This series fixes errors blocking Hi846 driver function, fixes
+link frequency and supports 6MP and 8MP modes on Hi846.
 
-Hi Christian
+Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+---
+Changes in v3:
+- fix modes handling for different lane cases (Sebastian)
+- fix header missing (the Media CI robot)
+- Link to v2: https://lore.kernel.org/linux-media/20260501095433.1609309-1-mitltlatltl@gmail.com
 
-> first of all thanks a lot for pointing that out! The patch which orginally added that somehow slipped through the cracks.
-> 
-> Then @Karol and @Jacek, using DMA-buf like that is a pretty big NO-GO from the DMA-buf side!
-> 
-> Using page which you don't own (especially file system backend ones) in a DMA-buf is absolutely *NOT* something you can do.
-> 
-> I hope that it is not the case here, but if you also allow to mmap() them then you have create a massive security problem which can lead to random file system corruptions.
+Changes in v2:
+- remove uncessary `else` (Sakari)
+- fix link frequency (Sakari)
+- correct link frequency for DT
+- Link to v1: https://lore.kernel.org/linux-media/20260429070351.1307204-1-mitltlatltl@gmail.com
 
-This is not allowed, ivpu userpointer dma_buf_ops have no .mmap handler,
-this results in -EINVAL when invoked.
+Pengyu Luo (5):
+  media: hi846: fix hi846_write_reg_16 handling
+  media: hi846: fix link frequency handling
+  media: hi846: fix modes handling for different lane cases
+  media: hi846: Add 6MP and 8MP modes support
+  arm64: dts: imx8mq-librem5: Correct link frequency list
 
-Regards,
-Karol
+ .../boot/dts/freescale/imx8mq-librem5.dtsi    |   2 +-
+ drivers/media/i2c/hi846.c                     | 251 +++++++++++++++---
+ 2 files changed, 210 insertions(+), 43 deletions(-)
 
-> 
-> Regards,
-> Christian.
-> 
->> ---
->>  drivers/accel/ivpu/ivpu_drv.c         |  1 +
->>  drivers/accel/ivpu/ivpu_gem.c         | 28 +++++++++++++++++++++++++++
->>  drivers/accel/ivpu/ivpu_gem.h         |  3 +++
->>  drivers/accel/ivpu/ivpu_gem_userptr.c |  5 +++++
->>  4 files changed, 37 insertions(+)
->>
->> diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
->> index 2801378e3e19..086d4c769b33 100644
->> --- a/drivers/accel/ivpu/ivpu_drv.c
->> +++ b/drivers/accel/ivpu/ivpu_drv.c
->> @@ -545,6 +545,7 @@ static const struct drm_driver driver = {
->>
->>         .gem_create_object = ivpu_gem_create_object,
->>         .gem_prime_import = ivpu_gem_prime_import,
->> +       .prime_handle_to_fd = ivpu_gem_prime_handle_to_fd,
->>
->>         .ioctls = ivpu_drm_ioctls,
->>         .num_ioctls = ARRAY_SIZE(ivpu_drm_ioctls),
->> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
->> index 4f2005a8d496..82079f372b39 100644
->> --- a/drivers/accel/ivpu/ivpu_gem.c
->> +++ b/drivers/accel/ivpu/ivpu_gem.c
->> @@ -12,6 +12,7 @@
->>  #include <drm/drm_cache.h>
->>  #include <drm/drm_debugfs.h>
->>  #include <drm/drm_file.h>
->> +#include <drm/drm_prime.h>
->>  #include <drm/drm_utils.h>
->>
->>  #include "ivpu_drv.h"
->> @@ -249,6 +250,33 @@ struct drm_gem_object *ivpu_gem_prime_import(struct drm_device *dev,
->>         return ERR_PTR(ret);
->>  }
->>
->> +int ivpu_gem_prime_handle_to_fd(struct drm_device *dev, struct drm_file *file_priv,
->> +                               u32 handle, u32 flags, int *prime_fd)
->> +{
->> +       struct ivpu_device *vdev = to_ivpu_device(dev);
->> +       struct dma_buf *dmabuf;
->> +       int fd;
->> +
->> +       dmabuf = drm_gem_prime_handle_to_dmabuf(dev, file_priv, handle, flags);
->> +       if (IS_ERR(dmabuf))
->> +               return PTR_ERR(dmabuf);
->> +
->> +       if (ivpu_gem_is_userptr_dma_buf(dmabuf)) {
->> +               ivpu_dbg(vdev, IOCTL, "Exporting userptr BO is not allowed\n");
->> +               dma_buf_put(dmabuf);
->> +               return -EINVAL;
->> +       }
->> +
->> +       fd = dma_buf_fd(dmabuf, flags);
->> +       if (fd < 0) {
->> +               dma_buf_put(dmabuf);
->> +               return fd;
->> +       }
->> +
->> +       *prime_fd = fd;
->> +       return 0;
->> +}
->> +
->>  static struct ivpu_bo *ivpu_bo_alloc(struct ivpu_device *vdev, u64 size, u32 flags)
->>  {
->>         struct drm_gem_shmem_object *shmem;
->> diff --git a/drivers/accel/ivpu/ivpu_gem.h b/drivers/accel/ivpu/ivpu_gem.h
->> index 0c3350f22b55..bfd15ce02354 100644
->> --- a/drivers/accel/ivpu/ivpu_gem.h
->> +++ b/drivers/accel/ivpu/ivpu_gem.h
->> @@ -29,6 +29,9 @@ void ivpu_bo_unbind_all_bos_from_context(struct ivpu_device *vdev, struct ivpu_m
->>
->>  struct drm_gem_object *ivpu_gem_create_object(struct drm_device *dev, size_t size);
->>  struct drm_gem_object *ivpu_gem_prime_import(struct drm_device *dev, struct dma_buf *dma_buf);
->> +int ivpu_gem_prime_handle_to_fd(struct drm_device *dev, struct drm_file *file_priv,
->> +                               u32 handle, u32 flags, int *prime_fd);
->> +bool ivpu_gem_is_userptr_dma_buf(struct dma_buf *dma_buf);
->>  struct ivpu_bo *ivpu_bo_create(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
->>                                struct ivpu_addr_range *range, u64 size, u32 flags);
->>  struct ivpu_bo *ivpu_bo_create_runtime(struct ivpu_device *vdev, u64 addr, u64 size, u32 flags);
->> diff --git a/drivers/accel/ivpu/ivpu_gem_userptr.c b/drivers/accel/ivpu/ivpu_gem_userptr.c
->> index 7cbf3a4cdc73..45eabea5961e 100644
->> --- a/drivers/accel/ivpu/ivpu_gem_userptr.c
->> +++ b/drivers/accel/ivpu/ivpu_gem_userptr.c
->> @@ -61,6 +61,11 @@ static const struct dma_buf_ops ivpu_gem_userptr_dmabuf_ops = {
->>         .release = ivpu_gem_userptr_dmabuf_release,
->>  };
->>
->> +bool ivpu_gem_is_userptr_dma_buf(struct dma_buf *dma_buf)
->> +{
->> +       return dma_buf->ops == &ivpu_gem_userptr_dmabuf_ops;
->> +}
->> +
->>  static struct dma_buf *
->>  ivpu_create_userptr_dmabuf(struct ivpu_device *vdev, void __user *user_ptr,
->>                            size_t size, uint32_t flags)
->> --
->> 2.34.1
->>
-> 
+-- 
+2.54.0
 
 
