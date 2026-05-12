@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-61226-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61227-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iDXPIuDtAmryygEAu9opvQ
-	(envelope-from <linux-media+bounces-61226-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 11:07:44 +0200
+	id kKp4M5/uAmqUywEAu9opvQ
+	(envelope-from <linux-media+bounces-61227-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 11:10:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D206F51D49D
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 11:07:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F0E51D51E
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 11:10:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8BC303137EE0
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 09:00:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B822230DEF64
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 09:02:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFF503A6F01;
-	Tue, 12 May 2026 08:57:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 564B83A9625;
+	Tue, 12 May 2026 09:00:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cFffOHHH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nP8SWvbK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559DE397E6D;
-	Tue, 12 May 2026 08:57:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9DD39E17D;
+	Tue, 12 May 2026 09:00:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778576251; cv=none; b=tQoMcztZIH3fKfHsILnMP/jy4Qs6eyosTOcs7wXnj5hlfOgcv/r0ArwaffaGMnv5JRHFlARtpJWPSOeIVUGZeeXSwtVoKBaF553B9ytz5lpWX6wl1q2cfY4E5ABWdYbph5VJ6RVGWO97SCeFcR//85yNGewtNqaqCG1ABEw6JWA=
+	t=1778576421; cv=none; b=BSgSIkD9rvS1KIYEx7clYVuEAFQPIFoaWI7rS3Lz30Gtxy2+xClVAHoSwp6hScOQ1Dc+h8I4P1gdORNa7xckxlznk6FLifxpjYTlH2kzrWxJhkhKI6YxlXyeJasXkyML2M8k3tt6sOTtJiqzE1eX/+FiwV74Yw8OadqOrwg806k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778576251; c=relaxed/simple;
-	bh=9RcgFbtI2EtyIuP/xuStrFIZ3slvf4MbBnKxWbKgI+k=;
+	s=arc-20240116; t=1778576421; c=relaxed/simple;
+	bh=5bqGgGSebfEX6Sb7r2I/sm4aqEGiHt6EX5Vf7eIA2gc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bRZqdrS+m8GuOD9rhCvzoJ0wJJTMBJ9A5/biobSYnU1bdVDDJEmznvanpVGtFxKVz9yg4rKBaiKki/A9tgpUz9KEjz6Hyz3yOqweupNbIS25N6vY8k8OYyvn0jMn8uWNynvCB5kre2D0lsm+6qgoSa3heTM+3UCfHbnlEOFXyqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cFffOHHH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7470CC2BCB0;
-	Tue, 12 May 2026 08:57:25 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=bnTD7x7TEQ1DgRxmiNOwQYYAsOzVPprD3SdXQW7qaSNpZ2sClwJYLGHxLb8hf+l3wQfCA1wQwBRvbxuu/79Qke9KQCUsUGxrxaaQBBZQGaDM0PlnbsisWaKkqisfq574djzD+lde/FCK+2GJ8LUD6z/89FuuPlq2gKPPTCT4Cuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nP8SWvbK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21B17C2BCB0;
+	Tue, 12 May 2026 09:00:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778576249;
-	bh=9RcgFbtI2EtyIuP/xuStrFIZ3slvf4MbBnKxWbKgI+k=;
+	s=k20201202; t=1778576421;
+	bh=5bqGgGSebfEX6Sb7r2I/sm4aqEGiHt6EX5Vf7eIA2gc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cFffOHHHZs+xIhMeXFbyJW0RDBAQ5J/wh6vjtj71feqejDcYAQJNWj4CbF8sSM+uu
-	 Q+2CGVSTg2/0u+un6LwGMaMmTyoQp+TzChSGkpU0KDgnGC0NYVe45Lgux7EJN2bpSs
-	 C6A8zuY8K6XX/xApR6HVMdTRL8THqT/xDLjop1CwIkqcfljy/uf2bGSWE1XVzcZCG1
-	 PP+BZjTjND1JjfgqhJjMi3rfanpv9JpncnaVELqpqbhxjsuljf81q4lkEePC4Xevun
-	 SkHQnMCLnrZNyEgWHm91LR5vhBB/KnWA5ucUhTNnOmNIeGIqJuZ7q0y6ABj7fhU4MI
-	 2ga1p/Y2CH41Q==
-Message-ID: <7180ef28-e7fd-4ed3-978b-34bfa8e25eb1@kernel.org>
-Date: Tue, 12 May 2026 09:57:23 +0100
+	b=nP8SWvbKY5zZP0krkbSvGkUqVYSsen9JoEvqZ2JMCy40rMRxs0cRlGH3vvA9DenOa
+	 ssQEZRZe+VecpzxAImwvVVqMuppc5L5860JnC+gUpt9g/xWz1izMn7WXYjAoBynWGR
+	 RIbDOyZuI9RbmbFzHyW7St9c7vJKcbxiqJoFuNsuHm0bCoortuSYDXYn6ileQBG4HU
+	 iwkfC6xDgGHix3ZhvRCm6mlvN/BmRV3y2Qu2RuU1nhGBO7qAh2uZAY6Vh21BgTdbC8
+	 otzJEGK2X3PGjwwfzJpk4pq9DqhREUpdwHTYlvb39NqSmlXvZJiuHJQ0jOQph2O+3v
+	 sVYe/ARQ5ObYw==
+Message-ID: <8a75ce66-8fa3-4c39-92d7-1b23919922e5@kernel.org>
+Date: Tue, 12 May 2026 10:00:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,28 +53,17 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/9] media: qcom: venus: Add msm8939 resource struct
-To: Erikas Bitovtas <xerikasxx@gmail.com>,
+Subject: Re: [PATCH v7 0/6] media: qcom: iris: encoder feature enhancements
+ batch2
+To: Wangao Wang <wangao.wang@oss.qualcomm.com>,
  Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
  Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20260506-msm8939-venus-rfc-v4-0-994f5eb22acb@gmail.com>
- <0TaxINYCitQd2DsGsbhRviwmrQkaaVMaE9vABS3gSsSPNfrgS3JPTIo_kvTzyEhGOAZuMVq-k-5T8mqDM7dnIw==@protonmail.internalid>
- <20260506-msm8939-venus-rfc-v4-3-994f5eb22acb@gmail.com>
- <108401cb-040a-441c-b463-b69df195378e@kernel.org>
- <mouIchcg0mA9oAJqE0K9Cs3CGxN-Ug7Qnk5TUtdnFkIZzApBj0WsRqPNi3xYEPKiwyPm73Hr0eDaCWbSFCNhMw==@protonmail.internalid>
- <c99d1b63-b304-4440-9bd5-b119dd0042e5@gmail.com>
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+References: <AeTY6px6rgEkRtdav105VvaVqOXn4ANY-7FkwVUXdoipWmEG0iNRHi3qX4YK3yYKjWgEOIBc4iCohfNbuDxa5w==@protonmail.internalid>
+ <20260512-batch2_features-v7-0-4954e3b4df84@oss.qualcomm.com>
 From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=bod@kernel.org; keydata=
@@ -120,72 +109,56 @@ Autocrypt: addr=bod@kernel.org; keydata=
  LKSGEglMpiX07M1AotgvylN5C8fjbouoK+/RAMsXkk8jba6rPfuuXPaDjCyyKn6zSVHETnHW
  3AJbgVY50T8STpnxayBQvWbCvu+6NOEjXCbyaOJig+5l0zlGN9XHjdANXC5HnwmyaGRL9YDq
  Jh2nVXVJDincOdQRdKcJjYLqaOAoWrYWSDi1iZGspHBTDrnOvfMQzzHY
-In-Reply-To: <c99d1b63-b304-4440-9bd5-b119dd0042e5@gmail.com>
+In-Reply-To: <20260512-batch2_features-v7-0-4954e3b4df84@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: D206F51D49D
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 56F0E51D51E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-61227-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61226-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,apitzsch.eu,baylibre.com,redhat.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On 12/05/2026 08:05, Erikas Bitovtas wrote:
+On 12/05/2026 09:55, Wangao Wang wrote:
+> Changes in v7:
+> - Rebase.
+> - Link to v6:https://lore.kernel.org/r/20260401-batch2_iris_encoder_enhancements- 
+> v6-0-7022af3401ff@oss.qualcomm.com
 > 
-> 
-> On 5/6/26 2:33 AM, Bryan O'Donoghue wrote:
->> On 05/05/2026 22:44, Erikas Bitovtas wrote:
->>> +    .vcodec_clks = { "core0", "core1" },
->>> +    .vcodec_clks_num = 2,
->>
->> This smells a bit dodgy to me.
->>
->> You already have
->>
->> struct clk *vcodec0_clks[VIDC_VCODEC_CLKS_NUM_MAX];
->> struct clk *vcodec1_clks[VIDC_VCODEC_CLKS_NUM_MAX];
->>
->> so why add vcodec_clks and put core0 and core1 into a new array.
->> vcodec0_clks and vcodec1_clks seem like a very natural place for core0
->> and core1 clocks to live ?
->>
-> Sashiko found some power management issues in my code, so I'm coming
-> back to this.
-> The idea is to call vcodec_clks_get only once for inline cores, thus
-> avoiding duplicate clock assignment. Attaching to vcodec{0,1}_clks
-> instead would mean we're adding the same clocks twice. I dropped it in
-> later revisions, but now I want to re-introduce this, then add them in
-> core_get_v1 instead of {vdec,venc}_get_v1.> ---
->> bod
-> 
+> Changes in v6:
+> - Rebase.
+> - Link to v5:https://lore.kernel.org/r/20260206-batch2_iris_encoder_enhancements- 
+> v5-0-fb75ed8fa375@oss.qualcomm.com
 
-That's fine just please give as much detail as possible in the commit 
-log to justify.
+Unless you need to update your code as a result of a rebase, there's no 
+need to publish a rebase.
+
+i.e. a rebase for the sake of it, is unnecessary. If a rebase is 
+necessary then please state "rebase because commit-x affect my code in 
+way y"
 
 ---
 bod
