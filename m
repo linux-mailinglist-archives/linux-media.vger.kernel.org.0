@@ -1,184 +1,177 @@
-Return-Path: <linux-media+bounces-61284-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61285-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sEQzBaNKA2pq3AEAu9opvQ
-	(envelope-from <linux-media+bounces-61284-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 17:43:31 +0200
+	id sALjKNhRA2qR4QEAu9opvQ
+	(envelope-from <linux-media+bounces-61285-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 18:14:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1363523E60
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 17:43:30 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B6E52472B
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 18:14:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4F85930523E4
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 15:39:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AC22E30ECA5F
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 15:43:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F87D3C4143;
-	Tue, 12 May 2026 15:38:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FD293911D5;
+	Tue, 12 May 2026 15:43:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="MCJFSS5w"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="idi1fZUd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FB671A6812
-	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 15:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445183E173D;
+	Tue, 12 May 2026 15:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778600337; cv=none; b=LuLqvx8LH34TAzFh6jE2E8HVBmtaERsO4kycuUWRkOlk8UYzfEFAWSq6+Vn1eHNNiHctVQw7HLQdmo4k4eWUJFqj7cbDA+14Zf2LrJ6/oQ5mtrcu+XEo210CAVEZIlowZynWmR3Vx9K1gpE3VVbN4xhB80LdNXSFtCrJ1wOyIP4=
+	t=1778600625; cv=none; b=k9GCpBvDYgVb1DZAKTEQXOYLu/Pgqgh3no0cGFweNa7qQP3Ybeh7mitTOikqATkQSkzQyu2sGo4CDvAeq7Lkn5K9ezAgg00tWTzT79wMrDwx8XxiaJeM/tFvWfnt4bBwbkt4LRsww8bct5E/KHTDTHifNUw2OSM9LetGhFmEBW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778600337; c=relaxed/simple;
-	bh=bTW8PIkNq6aZUF6NF1FmasGVCIC4HDNHJXMvlerQOQM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F/bX4bEjqJ3yzRrkWXs8Fo4DPCyN/iv8M2V8Yqq1W1kD++sFIYuY35Z6zyLZi3dn00p8wTpFk6k4GXRxPdTS/Ca9SwEWUHTOF0eWGTRi/v3A52v9WPOB+6ueR5Diqbs0e8FG2D0qAL03J5iyAAN3aQutDCpNKIKDosqvc/lT4+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=MCJFSS5w; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DBD352309
-	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 08:38:43 -0700 (PDT)
-Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E23393F85F
-	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 08:38:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778600329; bh=bTW8PIkNq6aZUF6NF1FmasGVCIC4HDNHJXMvlerQOQM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MCJFSS5wd8wrzLtzQkgLvApRum4e613SxIeu59pqceJmihVVEn7KCvSevJsQ9EgMO
-	 7/VYMcOPp3fTFfxdERUerf0KVs/133WmCyNG8Fghwk11nmyPNCLtpKq0TKwFJ1Rg8g
-	 wW85lc4qjiyRefKS7/RJpS1A0LcamTUSuTY9yBCs=
-Date: Tue, 12 May 2026 16:38:18 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Marcin =?utf-8?Q?=C5=9Alusarz?= <marcin.slusarz@arm.com>,
-	Ketil Johnsen <ketil.johnsen@arm.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Steven Price <steven.price@arm.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Florent Tomasin <florent.tomasin@arm.com>, nd@arm.com
-Subject: Re: [PATCH 4/8] drm/panthor: Add support for protected memory
- allocation in panthor
-Message-ID: <agNJasayW8VCHTiU@e142607>
-References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
- <20260505140516.1372388-5-ketil.johnsen@arm.com>
- <20260505181523.49a3d85c@fedora>
- <afxVIuVVPisBQ9p_@e129842.arm.com>
- <20260507135356.5428d50d@fedora>
- <agMvb_jeRsO7tSS-@e142607>
- <20260512161111.0cb7000e@fedora>
+	s=arc-20240116; t=1778600625; c=relaxed/simple;
+	bh=k0edP+pIESqfsKFc0EzBCZ+0k6fV3XnnxyDryWzyE0E=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=se3MQ/H77wU2Ony9zb476EVnAjhU5u9pdvDKDOY7ZKp8EFgKCnYupE7zwQQGVQ/W8ZBVlQT0DA0TBYYKvYKtEsNlWB3ELpUXmrIgZ+g0I/DHmaxberBXIh2oI7l4ZBeLzoyfDfqW/T6+aoZ42831ggvlOepbu/ZjivaCOpc6wWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=idi1fZUd; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1778600624; x=1810136624;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=k0edP+pIESqfsKFc0EzBCZ+0k6fV3XnnxyDryWzyE0E=;
+  b=idi1fZUdqQULEpdRwQ20lkj2GH5gZB7u/MWJmEq85PrIAWtcRYjKlF5b
+   UZ61D7ig2eUbUEpYzv52cgJyXebhiATlfkUzCH1GESFpC+Q6zAMmUr+Qv
+   iDSEejsCaQVXvbDRZs2N4tPccoMENriM1kFLzNWVxcn1THsUbp7i3j9TI
+   XnbGWQ43QsN0yrW4h/TFZKkLueZqBUbR9rvrT03M2c+cNZ8i7I9on6ShJ
+   mNLpo35xn+V9wb4HPu04Q6BMCZM/vQZx8+i7cutHs4C7/ttjBsgsX95gA
+   gdnms6oOLrTyN89r/x5YJI8T8kwUitVL/BoeUInaklr4dmtI2gwGp8txW
+   Q==;
+X-CSE-ConnectionGUID: 0sXDrkccQUOb0eEDhMwHUQ==
+X-CSE-MsgGUID: bsk4vfDERSqfuYpFlUncRQ==
+X-IronPort-AV: E=Sophos;i="6.23,231,1770620400"; 
+   d="scan'208";a="65713083"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 12 May 2026 08:43:43 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.58; Tue, 12 May 2026 08:43:42 -0700
+Received: from che-ll-i71840.microchip.com (10.10.85.11) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.2507.58 via Frontend Transport; Tue, 12 May 2026 08:43:40 -0700
+From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
+To: <linux-media@vger.kernel.org>
+CC: <eugen.hristev@linaro.org>, <mchehab@kernel.org>, <hverkuil@kernel.org>,
+	<nicolas.ferre@microchip.com>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 00/15] media: microchip-isc: fixes and enhancements
+Date: Tue, 12 May 2026 21:13:24 +0530
+Message-ID: <20260512154339.210444-1-balakrishnan.s@microchip.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251009155251.102472-1-balamanikandan.gunasundar@microchip.com>
+References: <20251009155251.102472-1-balamanikandan.gunasundar@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260512161111.0cb7000e@fedora>
-X-Rspamd-Queue-Id: A1363523E60
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Rspamd-Queue-Id: 10B6E52472B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[microchip.com,reject];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[microchip.com:s=mchp];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61284-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[arm.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,lwn.net,linuxfoundation.org,linaro.org,collabora.com,google.com,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linaro.org,lists.infradead.org];
+	TAGGED_FROM(0.00)[bounces-61285-lists,linux-media=lfdr.de];
+	TO_DN_NONE(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[balakrishnan.s@microchip.com,linux-media@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[liviu.dudau@arm.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[arm.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-0.997];
+	DKIM_TRACE(0.00)[microchip.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,arm.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Action: no action
 
-On Tue, May 12, 2026 at 04:11:11PM +0200, Boris Brezillon wrote:
-> On Tue, 12 May 2026 14:47:27 +0100
-> Liviu Dudau <liviu.dudau@arm.com> wrote:
-> 
-> > On Thu, May 07, 2026 at 01:53:56PM +0200, Boris Brezillon wrote:
-> > > On Thu, 7 May 2026 11:02:26 +0200
-> > > Marcin Ślusarz <marcin.slusarz@arm.com> wrote:
-> > >   
-> > > > On Tue, May 05, 2026 at 06:15:23PM +0200, Boris Brezillon wrote:  
-> > > > > > @@ -277,9 +286,21 @@ int panthor_device_init(struct panthor_device *ptdev)
-> > > > > >  			return ret;
-> > > > > >  	}
-> > > > > >  
-> > > > > > +	/* If a protected heap name is specified but not found, defer the probe until created */
-> > > > > > +	if (protected_heap_name && strlen(protected_heap_name)) {    
-> > > > > 
-> > > > > Do we really need this strlen() > 0? Won't dma_heap_find() fail is the
-> > > > > name is "" already?    
-> > > > 
-> > > > If dma_heap_find() will fail, then the whole probe with fail too.
-> > > > This check prevents that.  
-> > > 
-> > > Yeah, that's also a questionable design choice. I mean, we can
-> > > currently probe and boot the FW even though we never setup the
-> > > protected FW sections, so why should we defer the probe here? Can't we
-> > > just retry the next time a group with the protected bit is created and
-> > > fail if we can find a protected heap?  
-> > 
-> > The problem we have with the current firmware is that it does a number of setup steps at "boot"
-> > time only. One of the steps is preparing its internal structures for when it enters protected
-> > mode and it stores them in the buffer passed in at firmware loading. We cannot later run the
-> > process when we have a group with protected mode set.
-> 
-> No, but we can force a full/slow reset and have that thing
-> re-initialized, can't we? I mean, that's basically what we do when a
-> fast reset fails: we re-initialize all the sections and reset again, at
-> which point the FW should start from a fresh state, and be able to
-> properly initialize the protected-related stuff if protected sections
-> are populated. Am I missing something?
+Bug fixes and feature additions for the Microchip ISC/XISC driver.
 
-Right, we can do that. For some reason I keep associating the reset with the
-error handling and not with "normal" operations.
+Fixes:
+ - SBGGR10 Bayer pattern was mapped incorrectly (red/blue swap)
+ - WB register fields corrupted by sign extension
+ - Race between histogram IRQ and stream stop
+ - PM runtime reference leak in AWB work handler
 
-Best regards,
-Liviu
+Features:
+ - Driver documentation
+ - Gamma 1.8/2.4 curves, per-channel gamma LUT
+ - Hue/saturation controls for SAMA7G5
+ - Color correction matrix controls
+ - Grey World AWB with EMA smoothing
 
+Split from v1 per review. Histogram stats follow as Series 2.
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Tested on SAMA7G5-EK with IMX219 (RAW10 Bayer capture, AWB, color
+controls verified). Build tested with COMPILE_TEST and W=3D1. All
+patches pass checkpatch --strict.
+
+Based on v6.19-rc8 (18f7fcd5e69a).
+
+v1: https://lore.kernel.org/linux-media/20251009155251.102472-1-balamanikan=
+dan.gunasundar@microchip.com/
+
+v2:
+ - Split series (histogram stats moved to Series 2)
+ - Bug fixes first, then features
+ - New fixes and features as listed above
+ - Commit message cleanups
+ - Rebased on v6.19-rc8
+
+Balakrishnan Sambath (15):
+  media: microchip-isc: fix SBGGR10 Bayer pattern
+  media: microchip-isc: mask WB offset and gain register fields
+  media: microchip-isc: fix race condition on stream stop
+  media: microchip-isc: fix PM runtime leak in AWB work handler
+  media: microchip-isc: add driver documentation
+  media: microchip-isc: set SAM9X7 maximum resolution to 2560x1920
+  media: microchip-isc: configure DPC and pipeline for SAMA7G5
+  media: microchip-isc: add gamma 1.8 and 2.4 correction curves
+  media: microchip-isc: add SAMA7G5 hue and saturation controls
+  media: microchip-isc: expose color correction matrix as V4L2 controls
+  media: microchip-isc: add per-channel gamma LUT controls
+  media: microchip-isc: reset pipeline state on kernel AWB enable
+  media: microchip-isc: use weighted averages for Grey World AWB
+  media: microchip-isc: smooth AWB gains with EMA filter
+  media: microchip-isc: scale DPC black level to sensor bit depth
+
+ .../userspace-api/media/drivers/index.rst     |   1 +
+ .../media/drivers/microchip-isc.rst           |  71 ++
+ MAINTAINERS                                   |   1 +
+ .../platform/microchip/microchip-isc-base.c   | 730 ++++++++++++++++--
+ .../platform/microchip/microchip-isc-regs.h   |  11 +-
+ .../media/platform/microchip/microchip-isc.h  |  56 +-
+ .../microchip/microchip-sama5d2-isc.c         |   2 +-
+ .../microchip/microchip-sama7g5-isc.c         | 101 ++-
+ include/linux/atmel-isc-media.h               |  31 +
+ 9 files changed, 896 insertions(+), 108 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/drivers/microchip-isc=
+.rst
+
+--=20
+2.34.1
+
 
