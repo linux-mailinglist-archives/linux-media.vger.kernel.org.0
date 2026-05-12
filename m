@@ -1,381 +1,601 @@
-Return-Path: <linux-media+bounces-61218-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61220-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0JxrLPvoAmpKygEAu9opvQ
-	(envelope-from <linux-media+bounces-61218-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 10:46:51 +0200
+	id SKyxDtXrAmpKygEAu9opvQ
+	(envelope-from <linux-media+bounces-61220-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 10:59:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F6A51CF37
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 10:46:51 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 370E251D267
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 10:59:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3395430230C2
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 08:46:35 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 85A93303572B
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 08:56:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0229384244;
-	Tue, 12 May 2026 08:46:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F14E33A4F5B;
+	Tue, 12 May 2026 08:55:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SiyYir1Q"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PpSIET12";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dmQeB1vw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA4A28CF6F;
-	Tue, 12 May 2026 08:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4134D39D6CC
+	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 08:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778575586; cv=none; b=JhqUVGoH+y9Kgt7FZQ9nVmsJAOa0RGTTkNoT7UiKRiJveWD5aV86dw2Vyoool2Gf6FFJO50DRQuUFBWmt690XEKZ4lKPMhOVZVMG4b770b+s94CpUgoJfxAwGzu8343gG5owVhHugy+UwKiaWvJSkdxtcBSnx+Vrw+wvzELSG14=
+	t=1778576131; cv=none; b=JOqWNQAo7k6RaFia7e+m4aqN+nzrpO3SrZkGgCd4YzxW/GrtOKbQjM2JndMyCDeC8bznhPAfD0NXAa6dIq514DRRzoqi1gp1afybcERbwfm9MSvFk4+j1bgb9dOivSOqxQYYw/ha//m1rSctrRDv9ESTIagrlpurVkepDrJuFqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778575586; c=relaxed/simple;
-	bh=+AztvlV5otRnrD7k2fK3sAcBwzfVK9UyUY67IRAQaK8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fzo81YM8ED2PUwN6j5sn2vncf51m7dD4MY3u8X7GVKaBxdCh3+hVw3+5CVW8MOcgIkTmoXkjSl10F+MkDJda+Dle37CqTyWXuDKFN6D7RPcbFgwBlJIAhj4wt+5bJeYF3ranDY3LfTAnHUFc11MgyMRq0AqyxM6fBbZgdcKayLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SiyYir1Q; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95B49C2BCB0;
-	Tue, 12 May 2026 08:46:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778575583;
-	bh=+AztvlV5otRnrD7k2fK3sAcBwzfVK9UyUY67IRAQaK8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SiyYir1Qe08SqLB94XLFAP/aA+Y8lDHRNIEqp7dckUomGciPI27bKXqPZ+CR75zwi
-	 +FlGYoG/VLcLOKOQWv5o0rA9ZSNc3xeDrZXuXw04pdJiyXpTE77OwpYTE1x55puOQQ
-	 tV/L0wR2HExT0LSFF9GCx696X2DF4jA1OMiFeNQDnsbatytt5d8Qp2K9SYB1RueVqq
-	 K4SJO3tg7xnQ1wHouMtM9dUT7+LSu5epZwDDExRdqL2nF/cq87ofZi/l9bCucs1B3q
-	 IUJ5eb6NFpNaq0bLapbaTWABgtBnHTI6RN3LpFePJFpRzENY0zJlvKYXIwtsOSEu1t
-	 P3BDt/n35JnUQ==
-Message-ID: <7e2609ff-b751-49d3-8921-9562910b5328@kernel.org>
-Date: Tue, 12 May 2026 10:46:19 +0200
+	s=arc-20240116; t=1778576131; c=relaxed/simple;
+	bh=gwtNvlfUubWDaiqh/mFhnWgfbZIOj0eIrfEYWmfkJpM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YUEneXSEge5z8Sc4MCvghrdVxIYEHckmGylTkJNjUYh+vYktHQyTBu34de38P/tmRMMqITIv0oqqT7WHxECgcr77U+4AtU64ntahsvOnZLjmio/5ARPKeFdQttYFVd0qCPHdNBHXE43mMlZ7FDiNx0ZcLmkgG0tgpSNT/cGVoeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PpSIET12; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=dmQeB1vw; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64C5IrgC2186527
+	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 08:55:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=9mJA7itZBXELD2JlCu9s+u
+	KTEHrl+15jJgnmgnLk8A0=; b=PpSIET122qZNfTDJEDLzy/CordvUThLK3VpvHd
+	tjPchpqVD7oiDHkVKBOJVB+iauAZBZPEVNpj4btg2MOHWVCk38+mUnr983URinKX
+	RhMQMDo6P12VV/uLY3PG+FBykSVj7I6ql7AftGpDsNr3AW6UYG7zMLpaBOUXF6/o
+	8tbCEhxDgLjQJ8no/UR4iO9Jpitb3GD60m9kY+tDfAtVJDyoD/jnCJFU+WjRqVql
+	wKoOkIpqCNjzODxJ4p/emMw0NjFkCKZOzAwwR8l0da1nMX7ER/1fQ4CWqLSGYl9f
+	SiJz68FJorzN01vuiD+Xa52Hc7tsGPdryD6mb2681n4n5n0Q==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e3nv0t90p-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 08:55:20 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2ba224c3ffdso72240955ad.0
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2026 01:55:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778576120; x=1779180920; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9mJA7itZBXELD2JlCu9s+uKTEHrl+15jJgnmgnLk8A0=;
+        b=dmQeB1vwmZcJoj2jF2nX8o3OktIADH45qffKusIZaPX+KPTTkl87pY9lZkNHnmIgnb
+         mSBdr413VXdwODC1mJEsDK0rJ5cgJGZLDoPTF5XgVwoQNs3dae+HSdYt9rEn5c3hKJQu
+         NBPMy9mN207ZjRBUpK5WRSfRJSs95Ien61LW95ztWjt7db5qJDSCdYcItGTlOwLcC4mG
+         12U4oX4Qt9QpU34VosIT4s7+YcLTqLHhUnj6LvWw3zi7XAHgTZjZyiHNnIYVobORHbzD
+         FzDSqLoaQ7yt657u9b2pvcuVKyplb0syVgQLz4uE7KAREEP+MvdJjNl+UJ+N55bKYKes
+         JnzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778576120; x=1779180920;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9mJA7itZBXELD2JlCu9s+uKTEHrl+15jJgnmgnLk8A0=;
+        b=BvhZHGFAw7lx2VWGb/08vbpM7xaWFxP5N//WIeI3B3FAN5W1EgCIDGiqS0QmNZ789+
+         Q5QjHvb1IfTqyu4bRzF6YmD0ZH15kaBJnO7QFTejEnD9MLOkFYBvY9uyKA7DM2PglSPA
+         0QwfkidHkpVCJJOMSSt2cNc4qfBKfwm5KjRat1a6Xj9dLIRGGYxA65DKLJ+QVdGgJNyk
+         CBcAYeUrqZd+NwngZ3cqe+j7vGPWHYaPBjaZ5v6+5pxnVqtJKyKCNtak37rZ36DvQ/+b
+         hZFpjlMtVKu9Un1TmQVPMXAEZxFIygQF1P18tAzvIX1gLuNwRoohAVSJHzL0TIXb+58M
+         5wcw==
+X-Gm-Message-State: AOJu0YwVYmN/Mv46ghPU+CQBGwZcg7UkVF9UDwoLlZaxl+Laz+9FW92e
+	n1N0F4jKCRa1GuPlsTB8cCw8eleavpoAB1LyIhkFef5eGx6UsFWL7wkSH0M0iQN2i8HawIfbTf3
+	A9wk11/vi6jmkyCK/C0Zkvm76D95ANOCkJ7j3uVXiMvOQ9Epwagj3QO4IqsMEjljk2Q==
+X-Gm-Gg: Acq92OGY7BLQpCCo2sDy1huQ4ZW1bztEwScZgTaaRpA1KFxNCZE/uc1NmhmPuZ0NF+v
+	RQmGhPAI1N/yMdQE5gXL6P9qmasOyVQaZX0NhoUJcBfgk0OePKfoJyxyE6dZHLVDayGiv3dJ9fu
+	p5n7KcCPNFCBt+2rgzyQIEaTBTsQFkHyq58h/U01t9vOtWY1H5xfDFkbY4vKEXDEoiwfGfSLft7
+	OvuLgXGACbmIfJ9xg73vcwKMIM+Nh7XD6ABvi6GnJrQknl5RXodgvHQYuuDrLcGQWM14BUQjigm
+	BvCqO6/2SJ6Nr6LN+gOaZDrHBx7yk53pzV7b8uA7JtegnRzSbXXPRw86g/jkKBC6ZdK+o8Uos4F
+	ZOspuXaREZby7Cz+RaZJ3y15KoImzAvsKf5kgloO9pT8Z6ObtDs395DUAkoZnMLd6ezGVFg6jYD
+	+82XQdoQ/vGDPHBhiZ6aJy
+X-Received: by 2002:a17:902:f710:b0:2bd:412:21fb with SMTP id d9443c01a7336-2bd04123306mr17817345ad.8.1778576119480;
+        Tue, 12 May 2026 01:55:19 -0700 (PDT)
+X-Received: by 2002:a17:902:f710:b0:2bd:412:21fb with SMTP id d9443c01a7336-2bd04123306mr17816935ad.8.1778576118832;
+        Tue, 12 May 2026 01:55:18 -0700 (PDT)
+Received: from WANGAOW-LAB01.ap.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e90854sm127641405ad.66.2026.05.12.01.55.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 01:55:18 -0700 (PDT)
+From: Wangao Wang <wangao.wang@oss.qualcomm.com>
+Subject: [PATCH v7 0/6] media: qcom: iris: encoder feature enhancements
+ batch2
+Date: Tue, 12 May 2026 16:55:09 +0800
+Message-Id: <20260512-batch2_features-v7-0-4954e3b4df84@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] media: uvcvideo: Do not add clock samples with small
- sof delta
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa
- <tfiga@chromium.org>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Yunke Cao <yunkec@google.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260323-uvc-hwtimestamp-v1-0-aa42e3865204@chromium.org>
- <20260323-uvc-hwtimestamp-v1-4-aa42e3865204@chromium.org>
- <10a08462-30ce-4a79-bb5d-001ab7f3d0d8@kernel.org>
- <CANiDSCs9gby6bNBCRmxT15D8c-nksdUmwH8iUDAsiV1tmQTM3Q@mail.gmail.com>
- <2edd1e71-d345-4c91-92f0-15d39299f0b9@kernel.org>
- <CANiDSCsoRP9vzKHPN3arKX1OZ-dyyTxgsfMC9Xxp8kE6+UStAQ@mail.gmail.com>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <CANiDSCsoRP9vzKHPN3arKX1OZ-dyyTxgsfMC9Xxp8kE6+UStAQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 89F6A51CF37
+X-B4-Tracking: v=1; b=H4sIAO7qAmoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyzHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDU0Mj3aTEkuQMo/i01MSS0qLUYt1kwxRzS0tjEwvLJAMloK6CotS0zAq
+ widGxtbUAWDpZS2EAAAA=
+X-Change-ID: 20260512-batch2_features-c1d7993489b0
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Wangao Wang <wangao.wang@oss.qualcomm.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778576115; l=17457;
+ i=wangao.wang@oss.qualcomm.com; s=20251021; h=from:subject:message-id;
+ bh=gwtNvlfUubWDaiqh/mFhnWgfbZIOj0eIrfEYWmfkJpM=;
+ b=AN53hARwTpUmjABPo/g7MR5vDBTMRN9XrBa3J5J7NsiUsazlJOYmbxKuuTdURdxfh2aX1O4bG
+ jwO2/zMJMK/DPlCmu2pWiyxR3HGn8sJcRkmHqArAGQrvMYLwySmN11x
+X-Developer-Key: i=wangao.wang@oss.qualcomm.com; a=ed25519;
+ pk=bUPgYblBUAsoPyGfssbNR7ZXUSGF8v1VF4FJzSO6/aA=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEyMDA4OSBTYWx0ZWRfX9F+Pl5C98BAh
+ WO5JGPYnC2wmaONPqg9QroXXWT2Ev+bA3IO5zfQJv6DU4lFOKTb+GXElDmLXZBHUYVPLkMa0BSe
+ DZIOICCWv/JIpjSxtCLhN4Wnp4xa6ZMVW4Be6eQ1C59yzbfHewd4IseotUO63XN6g3+guTZKBFS
+ lS9GWXHus+fp3xCiCzHsPN84nFWi4FABYafap/+GYbRBOc48UFLkTd38UecYHE8LXweNcn1K06f
+ rqXUIZjH7oS0/rcjJFDuSzCD088dI6KgBPaCzNW1wophbDTXniAPV4kNakWS4hWY3mc6WkY9tYP
+ cskpujlzFL0QSpZZCO6NaLwXWul82LHQHD37yeIfuteL7GPMkLbWjU18CFDmW/LMFl7FVFdY62Q
+ 5FYxdJH0s7rbJUfwelVWK29EkX7TbWGAK6cpIN5B8FYDfGWrGpcwdowGVfCQfzf3ipHbaQKfDaG
+ Wp0O8joIe41WCDO/DOg==
+X-Authority-Analysis: v=2.4 cv=bpB8wkai c=1 sm=1 tr=0 ts=6a02eaf8 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=kI2NT6hAmfhZTMc1HBoA:9 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-GUID: mbFsWWFwDVGnkjssldx1rFx-OJKKwR7v
+X-Proofpoint-ORIG-GUID: mbFsWWFwDVGnkjssldx1rFx-OJKKwR7v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ priorityscore=1501 adultscore=0 impostorscore=0 clxscore=1015 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605050000 definitions=main-2605120089
+X-Rspamd-Queue-Id: 370E251D267
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61218-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61220-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[wangao.wang@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,qualcomm.com:email]
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-HI,
+Hi All,
 
-On 11-May-26 23:36, Ricardo Ribalda wrote:
-> Hi Hans
-> 
-> (Hi Laurent :P)
-> 
-> 
-> 
-> On Mon, 11 May 2026 at 20:33, Hans de Goede <hansg@kernel.org> wrote:
->>
->> Hi,
->>
->> On 11-May-26 18:50, Ricardo Ribalda wrote:
->>> Hi Hans
->>>
->>> On Mon, 11 May 2026 at 18:07, Hans de Goede <hansg@kernel.org> wrote:
->>>>
->>>> Hi,
->>>>
->>>> On 23-Mar-26 14:10, Ricardo Ribalda wrote:
->>>>> Some UVC 1.1 cameras running in fast isochronous mode tend to spam the
->>>>> USB host with a lot of empty packets. These packets contain clock
->>>>> information and are added to the clock buffer but do not add any
->>>>> accuracy to the calculation. In fact, it is quite the opposite, in our
->>>>> calculations, only the first and the last timestamp is used, and we only
->>>>> have 32 slots.
->>>>>
->>>>> Ignore the samples that will produce less than MIN_HW_TIMESTAMP_DIFF
->>>>> data.
->>>>>
->>>>> Fixes: 141270bd95d4 ("media: uvcvideo: Refactor clock circular buffer")
->>>>> Cc: stable@vger.kernel.org
->>>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->>>>> ---
->>>>>  drivers/media/usb/uvc/uvc_video.c | 18 ++++++++++++++++--
->>>>>  1 file changed, 16 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
->>>>> index dcbc0941ffe6..e1a4e84d6841 100644
->>>>> --- a/drivers/media/usb/uvc/uvc_video.c
->>>>> +++ b/drivers/media/usb/uvc/uvc_video.c
->>>>> @@ -544,6 +544,19 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
->>>>>       spin_unlock_irqrestore(&clock->lock, flags);
->>>>>  }
->>>>>
->>>>> +static inline u16 sof_diff(u16 a, u16 b)
->>>>> +{
->>>>> +     u32 aux;
->>>>> +
->>>>> +     a &= 2047;
->>>>> +     b &= 2047;
->>>>> +     if (a >= b)
->>>>> +             return a - b;
->>>>> +
->>>>> +     aux = a + 2048;
->>>>> +     return (u16)(aux - b);
->>>>> +}
->>>>> +
->>>>>  static void
->>>>>  uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
->>>>>                      const u8 *data, int len)
->>>>> @@ -664,12 +677,13 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
->>>>>       sample.dev_sof = (sample.dev_sof + stream->clock.sof_offset) & 2047;
->>>>>
->>>>>       /*
->>>>> -      * To limit the amount of data, drop SCRs with an SOF identical to the
->>>>> +      * To limit the amount of data, drop SCRs with an SOF similar to the
->>>>>        * previous one. This filtering is also needed to support UVC 1.5, where
->>>>>        * all the data packets of the same frame contains the same SOF. In that
->>>>>        * case only the first one will match the host_sof.
->>>>>        */
->>>>> -     if (sample.dev_sof == stream->clock.last_sof)
->>>>> +     if (sof_diff(sample.dev_sof, stream->clock.last_sof) <=
->>>>> +         (MIN_HW_TIMESTAMP_DIFF / stream->clock.size))
->>>>>               return;
->>>>
->>>> If I understand things correctly then uvc_video_clock_update() uses
->>>> first->host_time + some correction time. But you might end up not
->>>> storing a sample for the very first isochronous USB packet of a frame
->>>> because of this new check.  Which means that the first->host_time used
->>>> as a starting point for the timestamp just has become inaccurate ?
->>>
->>> In UVC 1.5 All the ISOC packets have the same dev_sof and dev_stc.
->>> So this check will avoid adding a whole frame into the timestamp
->>> circular buffer when running at more than 320 Hz (1/(0.1/32))
->>>
->>> In UVC 1.1 all ISOC packets have the same dev_stc but different dev_sof.
->>> This check will avoid adding some of those packets into the circular
->>> buffer, but the accuracy will not be lost. We will use the data from
->>> the neighbour packets (even from previous frames) to recover the sof.
->>>
->>> The biggest winner for this patch is UVC 1.1, which will have much
->>> more accurate timestamps, because the distance between the first and
->>> last will be bigger (as in uvc1.5)
->>
->> I'm still trying to wrap my head about the whole concept of the hw
->> timestamps TBH.
->>
->> Upon reading it a couple of times I now see that when exactly we
->> take samples is not important because the actual frame time in
->> STC units is stored in buf->pts and that is supposed to be our
->> starting point. And the rest is just used to calculate
->> a factor + offset.
->>
->> At least that is what the big comment says but I'm confused by
->> the code which is supposed to implement:
->>
->>  * SOF = (SOF2 - SOF1) / (STC2 - STC1) * PTS
->>  *     + (SOF1 * STC2 - SOF2 * STC1) / (STC2 - STC1)
->>  *
->>  * or
->>  *
->>  * SOF = ((SOF2 - SOF1) * PTS + SOF1 * STC2 - SOF2 * STC1) / (STC2 - STC1)   (1)
->>
->> I think that the code tries to implement the second formula:
->>
->> We've (with some checks removed):
->>
->>         /* First step, PTS to SOF conversion. */
->>         delta_stc = buf->pts - (1UL << 31);
->>         x1 = first->dev_stc - delta_stc;
->>         x2 = last->dev_stc - delta_stc;
->>
->>         y1 = (first->dev_sof + 2048) << 16;
->>         y2 = (last->dev_sof + 2048) << 16;
->>         if (y2 < y1)
->>                 y2 += 2048 << 16;
->>
->>         y = (u64)(y2 - y1) * (1ULL << 31) + (u64)y1 * (u64)x2
->>           - (u64)y2 * (u64)x1;
->>         y = div_u64(y, x2 - x1);
->>
->>         sof = y;
->>
->> Simplifying this by removing all the range-shifting
->> and using sof1/sof2 instead of y1/y2 like in the comment
->> we end up with:
->>
->>         x1 = first->dev_stc - buf->pts;
->>         x2 = last->dev_stc - buf->pts;
->>
->>         sof1 = first->dev_sof;
->>         sof2 = last->dev_sof
->>
->>         sof = ((sof2 - sof1) + sof1 * x2 - sof2 * x1) / (x2 - x1)
->>
->> Now substitute stc1/stc2 for first->dev_stc / last->dev_stc
->> and just pts for buf->pts and expand x1 + x2 we get:
->>
->>         sof = ((sof2 - sof1) + sof1 * (stc2 - pts) - sof2 * (stc1 - pts)) /
->>               ((stc2 - pts) - (stc1 - pts))
-> 
-> 
-> 
-> I think this is where your explanation goes slightly off:
-> 
-> x2 is actually stc2 - pts + (1UL << 31), and x1 is stc1 - pts + (1UL << 31).
-> 
-> Before you scream at me, look at the end of the mail! :P
-> 
-> 
->>
->> We can simplify the divisor here by getting rid of the pts bit
->> since the 2 "- pts" parts negate each other:
->>
->>         sof = ((sof2 - sof1) + sof1 * (stc2 - pts) - sof2 * (stc1 - pts)) /
->>               (stc2 - stc1)
->>
->> Now lets get rid of the () from expanding x1 / x2:
->>
->>         sof = ((sof2 - sof1) + sof1 * stc2 - sof1 * pts - sof2 * stc1 + sof2 * pts)) /
->>               (stc2 - stc1)
->>
->> Shuffle bringing " * pts" parts to the front:
->>
->>         sof = (sof2 * pts - sof1 * pts + (sof2 - sof1) + sof1 * stc2 - sof2 * stc1)) /
->>               (stc2 - stc1)
->>
->> Simplify:
->>
->>         sof = ((sof2 - sof1) * pts + (sof2 - sof1) + sof1 * stc2 - sof2 * stc1) /
->>               (stc2 - stc1)
->>
->> Looks a lot like the comment except there is a + (sof2 - sof1) too much
->> in there ?
->>
->> And some of the range shifting also feels wrong. As long as we're only
->> subtracting the range shifting is fine. But as soon as we start multiplying
->> variables in different shifted ranges the end result actually changes.
->>
->> Especially weird here is that we range-shift by (1UL << 31) for calculating
->> delta_stc and then *multiply* (y2 - y1) by (1ULL << 31) I guess this is
->> to compensate for the (1ULL << 31) component of x1/x2 but the first->dev_stc
->> and pts parts of x1 where never multiplied by (1ULL << 31) so these
->> are still in their original *scale*. Either we should multiply all
->> parts to go to some other fixed scale and the sof value are both range-shifted
->> by 2048 as well as multiplied by 65536, which also seems wrong to me as
->> soon as we do sof1 * stc2 or sof2 * stc1
->>
->> All in all this all feels like there are some issues lurking here and it
->> does not seem to match the comment at the top.
->>
->> Regards,
->>
->> Hans
->>
->>
->>
-> 
-> Lets go back to the beggining:
-> 
-> SOF = ((SOF2 - SOF1) * PTS + SOF1 * STC2 - SOF2 * STC1) / (STC2 - STC1)
-> 
-> This is the formula for a straight line when you know two points. The
-> names are super ugly, lets use something we are more used to:
-> 
-> y = ((y2 - y1) * x + y1 * x2 - y2 * x1) / (x2 - x1) ;
-> 
-> Ok. how would this look if we want x to be exactly at (1 << 31) to
-> prevent unsigned underflow? ?
-> 
-> we just have to move things around:
-> 
-> delta = x - (1<<31);
-> 
-> new_x1 = x1 - delta = x1 - x + (1<<31)
-> new_x2 = x2 - delta = x2 - x + (1<<31)
-> 
-> We plug this in the formula and:
-> 
-> y = ((y2-y1) * (1 <<31) + y1 * new_x2 - y2*new_x1) /(new_x2-new_x1);
-> Which is exactly what we have.
-> 
-> 
-> Now lets look at the scaling:
-> 
->          delta_stc = buf->pts - (1UL << 31);
->          x1 = first->dev_stc - delta_stc;
->          x2 = last->dev_stc - delta_stc;
-> 
-> X1 and X2 are NOT scaled
-> 
->          y1 = (first->dev_sof + 2048) << 16;
->          y2 = (last->dev_sof + 2048) << 16;
->          if (y2 < y1)
->                  y2 += 2048 << 16;
-> 
-> Y1 and Y2 is scaled 16 (ignore the +2048, the variable is mod(2048))
-> 
->          y = (u64)(y2 - y1) * (1ULL << 31) + (u64)y1 * (u64)x2
->            - (u64)y2 * (u64)x1;
->          y = div_u64(y, x2 - x1);
-> 
-> y = (SCALE16 - SCALE16)*K + SCALE16*SCALE1 - SCALE16*SCALE1; => Result
-> is SCALE16
-> y = div64(SCALE16, SCALE1) => Result is SCALE16
-> 
-> So it looks good to me. It is a painful code, but I think it is correct.
+This patch series introduces several enhancements to the Qualcomm Iris
+encoder driver, improving support for V4L2 controls and enabling more
+ video encoding features.
 
-Ok, thank you for explaining this.
+All patches have been tested with v4l2-compliance and v4l2-ctl on
+gen1:SM8250, QCS6490, gen2:QCS8300, QCS8550, QCS9100, X1E-80100.
 
-Regardless of the math which true me off, the actual sampling logic
-is not that complicated.
+Commands used for V4l2-ctl validation:
 
-Now that I realize that the exact sample moments do not matter because
-buf->pts is our time-reference for the frame and not start->host_time
-as my naive first reading of the code suggested this patch seems fine:
+Intra Refresh:
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=H264 --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/ir_random.h264 \
+--set-ctrl intra_refresh_period_type=0,intra_refresh_period=30
 
-Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=H264 --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/ir_cyclic.h264 \
+--set-ctrl intra_refresh_period_type=1,intra_refresh_period=30
 
-Regards,
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=HEVC --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/ir_random.h265 \
+--set-ctrl intra_refresh_period_type=0,intra_refresh_period=30
 
-Hans
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=HEVC --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/ir_cyclic.h265 \
+--set-ctrl intra_refresh_period_type=1,intra_refresh_period=30
 
+B frames:
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=H264 --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/b_frames.h264 \
+--set-ctrl video_b_frames=1
+
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=HEVC --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/b_frames.h265 \
+--set-ctrl video_b_frames=1
+
+LTR:
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=H264 --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/ltr.h264 \
+--set-ctrl ltr_count=2,frame_ltr_index=1
+
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=HEVC --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/ltr.h265 \
+--set-ctrl ltr_count=2,frame_ltr_index=1
+
+Hierarchical Coding:
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=H264 --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/hier_coding_p_layer1_3M.h264 \
+--set-ctrl video_bitrate_mode=1,enable_h264_hierarchical_coding=1,h264_hierarchical_coding_type=1,h264_number_of_hc_layers=3,h264_hierarchical_lay_1_bitrate=3000000
+
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=H264 --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/hier_coding_p_layer1_6M.h264 \
+--set-ctrl video_bitrate_mode=1,enable_h264_hierarchical_coding=1,h264_hierarchical_coding_type=1,h264_number_of_hc_layers=3,h264_hierarchical_lay_1_bitrate=6000000
+
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=H264 --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/hier_coding_b_layer1_3M.h264 \
+--set-ctrl video_bitrate_mode=1,enable_h264_hierarchical_coding=0,h264_hierarchical_coding_type=1,h264_number_of_hc_layers=3,h264_hierarchical_lay_1_bitrate=3000000
+
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=H264 --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/hier_coding_b_layer1_6M.h264 \
+--set-ctrl video_bitrate_mode=1,enable_h264_hierarchical_coding=0,h264_hierarchical_coding_type=1,h264_number_of_hc_layers=3,h264_hierarchical_lay_1_bitrate=6000000
+
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=HEVC --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/hier_coding_p.h265 \
+--set-ctrl hevc_hierarchical_coding_type=1,hevc_hierarchical_coding_layer=5,hevc_hierarchical_lay_1_bitrate=6000000
+
+./v4l2-ctl --verbose -d /dev/video1 \
+--set-fmt-video-out=width=1920,height=1080,pixelformat=NV12 \
+--set-selection-output target=crop,width=1920,height=1080 \
+--set-fmt-video=pixelformat=HEVC --stream-mmap --stream-out-mmap \
+--stream-from=input_nv12_1080p.yuv \
+--stream-to=output/hier_coding_b.h265 \
+--set-ctrl hevc_hierarchical_coding_type=0,hevc_hierarchical_coding_layer=5,hevc_hierarchical_lay_1_bitrate=3000000
+
+The result of v4l2-compliance on QCS8300:
+v4l2-compliance 1.31.0-5379, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 14c988631ad4 2025-11-11 11:19:35
+
+Compliance test for iris_driver device /dev/video1:
+
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : Iris Encoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 6.18.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Encoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video1 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 52 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, CREATE_BUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video1: 54, Succeeded: 54, Failed: 0, Warnings: 0
+
+The result of v4l2-compliance on QCS6490:
+v4l2-compliance 1.31.0-5379, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 14c988631ad4 2025-11-11 11:19:35
+
+Compliance test for iris_driver device /dev/video1:
+
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : Iris Encoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 6.18.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Encoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video1 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 33 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, CREATE_BUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video1: 54, Succeeded: 54, Failed: 0, Warnings: 0
+
+Signed-off-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
+---
+Changes in v7:
+- Rebase.
+- Link to v6: https://lore.kernel.org/r/20260401-batch2_iris_encoder_enhancements-v6-0-7022af3401ff@oss.qualcomm.com
+
+Changes in v6:
+- Rebase.
+- Link to v5: https://lore.kernel.org/r/20260206-batch2_iris_encoder_enhancements-v5-0-fb75ed8fa375@oss.qualcomm.com
+
+Changes in v5:
+- Fix incorrect logic in max_bitrate assignment.(Vikash)
+- Fix incorrect hfi_id for LAYER5_BITRATE_HEVC.(Vikash)
+- Add setter for H.264 layer type and layer count.(Vikash)
+- Link to v4: https://lore.kernel.org/r/20260129-batch2_iris_encoder_enhancements-v4-0-efaac131a5f7@oss.qualcomm.com
+
+Changes in v4:
+- Fix the bug in the H.264 layer type check.(Dikshita)
+- Add streaming check for layer bitrate setting.(Dikshita)
+- Tested different hierarchical coding type values.(Dikshita)
+- Link to v3: https://lore.kernel.org/r/20260109-batch2_iris_encoder_enhancements-v3-0-196855ef32ba@oss.qualcomm.com
+
+Changes in v3:
+- Correct the maximum value of IR_PERIOD.(Dikshita)
+- Use 'codec' instead of 'standard' in the calculation of COMV size.
+(Dikshita)
+- Verified these patches on SM8250.(Dikshita)
+- Link to v2: https://lore.kernel.org/r/20251219-batch2_iris_encoder_enhancements-v2-0-371f7fe24801@oss.qualcomm.com
+
+Changes in v2:
+- Add comment for ir_period calculation.(bod,Dikshita)
+- Correct the maximum value of IR_PERIOD.(Dikshita)
+- Add a patch to optimize the calculation of hdr size.(bod)
+- Correct the num_recon calculation.(Dikshita)
+- Add a patch to simplify the calculation of COMV size.(Dikshita)
+- Catch the result code of session_set_property.(bod)
+- Add comment for shift operation in hfi_buffer_get_recon_count.(bod)
+- Add support for layer bitrate setting.(Dikshita)
+- Link to v1: https://lore.kernel.org/r/20251127-batch2_iris_encoder_enhancements-v1-0-5ea78e2de2ae@oss.qualcomm.com
+
+Signed-off-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
+
+---
+Wangao Wang (6):
+      media: qcom: iris: Add intra refresh support for gen1 encoder
+      media: qcom: iris: Add Long-Term Reference support for encoder
+      media: qcom: iris: Add B frames support for encoder
+      media: qcom: iris: Add hierarchical coding support for encoder
+      media: qcom: iris: Optimize iris_hfi_gen1_packet_session_set_property
+      media: qcom: iris: Simplify COMV size calculation
+
+ drivers/media/platform/qcom/iris/iris_ctrls.c      | 485 ++++++++++++++++++++-
+ drivers/media/platform/qcom/iris/iris_ctrls.h      |  16 +-
+ drivers/media/platform/qcom/iris/iris_hfi_gen1.c   | 161 ++++++-
+ .../platform/qcom/iris/iris_hfi_gen1_command.c     |  98 ++++-
+ .../platform/qcom/iris/iris_hfi_gen1_defines.h     |  49 +++
+ drivers/media/platform/qcom/iris/iris_hfi_gen2.c   | 226 +++++++++-
+ .../platform/qcom/iris/iris_hfi_gen2_defines.h     |  18 +
+ drivers/media/platform/qcom/iris/iris_instance.h   |   4 +
+ .../platform/qcom/iris/iris_platform_common.h      |  31 ++
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.c |  65 ++-
+ 10 files changed, 1112 insertions(+), 41 deletions(-)
+---
+base-commit: ca546c9ed44a2c2fe9c6fb719935965c754b20fb
+change-id: 20260512-batch2_features-c1d7993489b0
+
+Best regards,
+-- 
+Wangao Wang <wangao.wang@oss.qualcomm.com>
 
 
