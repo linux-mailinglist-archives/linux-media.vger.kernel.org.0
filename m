@@ -1,307 +1,210 @@
-Return-Path: <linux-media+bounces-61309-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61310-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EHwXIIpnA2qa5gEAu9opvQ
-	(envelope-from <linux-media+bounces-61309-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 19:46:50 +0200
+	id uCNIHSBqA2rf5gEAu9opvQ
+	(envelope-from <linux-media+bounces-61310-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 19:57:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE0ED52617D
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 19:46:49 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id B641B526597
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 19:57:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C94FE3083A93
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 17:46:39 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 94640307B058
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 17:49:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E0033E075D;
-	Tue, 12 May 2026 17:46:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B0233955F7;
+	Tue, 12 May 2026 17:48:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="mEv+zTkN"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hZ8nfoMw";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cJLVYlvt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1E53D5C06
-	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 17:46:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79BDD3955D6
+	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 17:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778607997; cv=none; b=cHPkfZkq6xCoh8jSUF0XbNNRVvMLs02jAkSi+2qyYD5ByuwE8b5bwxl+cO4THs8wh/R3GtexLZUNUtrLI//B4+xuyKLj6Exy/gGa1Zd7Sp/uP66rSZ6yGPVxxVrVv+BXv8GI7KzLZelLd7h0gKhoYWa3e+5pg9OFwjq3i38uSBA=
+	t=1778608079; cv=none; b=F2AixSYO2mdIknocr5luNwYB96+JCedabbwN2SI+ZOABm4JHbvvqnXEgEU2/E1Iot63hPPhdfz9q8T13DF2aiLXsbevdzis0efBrbz24C9Rt0GbawnGoHQsO5FBDdlHISjeZcEXr3g6Z0gM1Wt9IXCbPx69QvEuXLLOtmwmo2Mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778607997; c=relaxed/simple;
-	bh=Y3LXvkfeP40YhnuQMi3EnRdvaOPX/0EUrPKaHasgNRs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rqBlsttaIBNbCMQBk45o7vUBIDlcqCIB6eIguzGIhXgwafS7JHCv3v6wH2enX5Ww5YIQfgpCyY+ISjUV5mXIBc6TOfMNaC1mSJqCH3nAGSSvgU3ap+CdQvXGUKus0L4w4TtXKt8X37PvnEkYw22S2T9vfQ3bVVp6ijh+cZZhwCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=mEv+zTkN; arc=none smtp.client-ip=209.85.222.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f194.google.com with SMTP id af79cd13be357-90ea08cc5ceso63363885a.2
-        for <linux-media@vger.kernel.org>; Tue, 12 May 2026 10:46:35 -0700 (PDT)
+	s=arc-20240116; t=1778608079; c=relaxed/simple;
+	bh=DwYJm/KUPqaUbwMpqMU5t+6EJiU7ZnLM6qTLt4ipgY0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=idMJSc7DDSU7mrp2gP63k+5sATqd3L5tIUGUtUaFpSbyk33o1RdTF8PNcRHQ88xbGZc3ZC88bp2QjWtv69gxdDAyMR4TZBU4T/M3pKObPFj1moozlHhGaA7e1TFLCGLw/SKD606PDah5q6cpkGmP0OpCSXli01PGDl0eNK3EPRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hZ8nfoMw; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cJLVYlvt; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64CEJLYL424410
+	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 17:47:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=ijRH5lTd6epdmiIDuFY/1XST
+	bAXhnghIOg5/FAB1KmU=; b=hZ8nfoMwoHkq55QEhooR2itkAHcgHdxJ8rpgxDdF
+	CMRnDh6Ep0D60GsO8K6PjgW9UyGodLC3AE9yBCvxBNZJ14W6DqMcu154BSuPuRam
+	P0C7NvxloVcEbuw5W2BDwFva8wGnvlUcZ9f2BeOaUwEcDcWXPdHv2u7bEVzEwf9J
+	glYGEVbj8gZpGhKINKOMCT2oudb4R1oHSH1hd29ZYtQVNhUzZiFDAE3dH3Xl5X6h
+	jXr+cvZAfgn4AThIvy5+l/nOPODyVlJlzn5wvYGk7z9WGW9g/j0oVVFlI8lGB2lx
+	tRKcgKwuU27JJZEBYJNFsiolzDiRtb095qQLFWSKDefiXw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e45v58ue6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 17:47:56 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-514a182b90dso40779981cf.1
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2026 10:47:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1778607994; x=1779212794; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=jP9tWH7lEqQ6vi1mfPA7yERZk2UiFb9oifwgNqskWVM=;
-        b=mEv+zTkNLkU6P4fPBt7+tEQuJPbvwGQkxZHdi4OQOJhwgeRE+fFNqgY0KvYpZJV6iF
-         XRogm2avMGZyZZwZdbsfMg8BZrP/ssIIl61HggfjfjuluIcP3GSgc0H8fBoKdBBn4qFI
-         C4xBSJDg6L+LGgF2fwzXvd54OnFsPAQAUoalEJVOvzgFlXeo02OMv8f782S25Kxto2se
-         MLP7+Ii9u4GxHo05ZsTUI8zA2TXzlV+djmuzTWWfAct7mr3RtTXKw0GAzidgMKcubKow
-         96b8dGEXnsil7bE/RL0NbrG4LMJFibXcz1tHHxT017XKx/yTmlYqoqrz5L2pTnpcFeJD
-         FTOQ==
+        d=oss.qualcomm.com; s=google; t=1778608076; x=1779212876; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ijRH5lTd6epdmiIDuFY/1XSTbAXhnghIOg5/FAB1KmU=;
+        b=cJLVYlvtfargtK0W9hdXTWzbzM7SOC0rVa0kTwrd7ZIQ3iJkCDoncwzh57c6JWqi3J
+         AE0RX2J8Wv6sdh3zpXoNDN+FLEtbhcqGJpl9XZ26aeltHXo01iyGbWxAKoL/Atviw+I+
+         VvXyomMlSCRvZbvme1WvWNZP6Oi0x9YySDIJCKVHKI8tH0sjmPsfkK7XMm/VJPvLQ4Oy
+         hxDAT5l+778XcGahVP0oHtgk8rbhTVe4gfHGMh/+qhJeo6XU0Ghe5rXuxkqJ3d6Rxi/K
+         9dlkNXLAJ+D6Vt5HSJ59RCg5VeKYLbwfj+lboUk/gYZAzqUAsGJ5fraDEe1R8a4BjEMP
+         uYtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778607994; x=1779212794;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20251104; t=1778608076; x=1779212876;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jP9tWH7lEqQ6vi1mfPA7yERZk2UiFb9oifwgNqskWVM=;
-        b=oYFZ28V6L951glN3xmsf/b003T7lcZPSaJDVQU/6J79/2oD9YmNtZtSILPdn8crkxY
-         VM3NL6Y0BCiBDhwZ0DIQLFoQGeTljQ8mrEAU/2yVmVfoRKwMMKeStNpcW4lfGw3iQVIi
-         fizVWc2reVsICLQnjsLoyuH72MldV2FeT5sKEp1GU3ILIoVgFNuiGK34t8LIQTgavQHp
-         +OduzoP+Z5rJNZpxwbVLdahpdYRiJa3NvBqSjkCweVvFGyIHG2qhCJ0L1yFEbhkCHqFU
-         8yvx39/QzgRz1stqRB3cmIDehqoLgJii2mdHSk1FTKF4BQOlBZLu7t/d8nLqiTJSY8qD
-         szaQ==
-X-Gm-Message-State: AOJu0YwM2sa24RFF6kPE8YUe9O9nvNWCnWvwhgFROJw6Qt1iEGG7g4VK
-	7e/7QnUQGD0p7x/2kAlIldwU9O4k7DkrtRWYAZgrqydrvwisZ/GxhPBT3rUrs92rFCQ=
-X-Gm-Gg: Acq92OGzOa7UNAbDDCzyuHVgiTJXTgzq4HQbg+uRmf/QIDepUA7VRTEmkFTBLrGUzKB
-	StzHvWePzweB0e6mF/JuGaPD/IS3oq4vXMvl6GoZPRZ27h3Smhu1UkLXxqsE7HB/c4g4nrzx2BS
-	v1DVtpzBYStLdMo6BrzWaUAqvcB+L8ggUUYan7R4BAIvA0UQXKqsF8Syn0sCX/f7WXmjhvBiuCJ
-	qj0iD9I8hS98XF/mclIRCSU6dGi8XRnnepQ5Fl23apBR8LTXQnwNX1eonaIrb+kr7qU+VY/aTjB
-	jxN40OD5Kp5ZugNL5uo5qO5FVfvX10IRoJwN6dNq42WRECByckAg3mjkRdoZq2fYf+Ex6eMc9l2
-	HwquWrSPQD26n3aDQC0NEIhTsKNscjC/Qed9Y+EX9nxZA0oOZon0/In0KWpeKcnLDmXJOTkiXXK
-	VYlRLswyeWG36XOUZynmN34yWetx5s2TJwp+XWbvI=
-X-Received: by 2002:a05:620a:4608:b0:8f8:8860:fbad with SMTP id af79cd13be357-90cfe7d673fmr552242385a.57.1778607994443;
-        Tue, 12 May 2026 10:46:34 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:e06b::c41? ([2606:6d00:15:e06b::c41])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-907b87bd588sm1543591985a.29.2026.05.12.10.46.33
+        bh=ijRH5lTd6epdmiIDuFY/1XSTbAXhnghIOg5/FAB1KmU=;
+        b=XIMz/WWOZqShcONiyev/2q6QzWf+A0/WRyCkuHCKll1dHnSzncrEbz2tNWeY/nKbC7
+         az34+v/iRJPw74XQ3Je3VYjCVI2/rKmzvGWxqIIuRgJBzzGWCacBoTjazusONYt3aygJ
+         kX5+1/I+7aq/5ig18PELsR2rtfVXl6nLcTTgrflR08AooiaEzFbrtCqEIJdOBr7aL74h
+         MSYS4qXcnvKxXxobDZ+XJzhhbjrqCYFtVFIyEMz2F4pQgliw5IJ8OUI3NqCCb1oD2J8Y
+         oYVxwc1ZF41tEjXl+cIGIe2xzXzdUFQ70Md65jyIXavSThgOjAT9iMhp50gb4hJR+dRS
+         52pw==
+X-Forwarded-Encrypted: i=1; AFNElJ9Czx8m8e0e8EAhr0YH1TlWfWflx/jGqynOUjKDYKmWSTWCnYPJE1o/uEiAXlghx71jDLbGJoFaY0GwpA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+gJlvJyRcAQK2sLVP+cjxc7Tczb2IrGaIpCeerfK74EvChJ74
+	mu+5O0aLJurWiyPT8/XFQuAfFIco4aRWJvdVi1lcqNbklYfCzD7ATIaeW/ppToFOvIVZMCX+5M0
+	xMuH7LnPg9Ap7Pw7UOyuN51H5ZsMx4KtHyY1tbcGaE0rYgAm/JzR/077zPPVb42b0xQ==
+X-Gm-Gg: Acq92OG0FcHbLPaJQ2rgL80wExXE1qDo1XplSg64PkC3/v/WeKqMSjKjL9qJ6j+1LCq
+	kloiE0rq5kGP5TkVQPCJTdlJe77pFJHlYmWf5p615S7wNSyOyVfxua5yQSvC7esN2umavfwQM4A
+	uADjq1E08HErVQsmAu8XMUC0f0czOcyboddlBbW3Nz03ps/CokDQN2P2HT6EvsWecXNqLlMY4om
+	ZLPLfAk9ZhRboi1W/egw2kcv8utQqAWSHHCZuCqCjlMEgH4MA1vc//S39tywJlonV/70xdBWqWl
+	SByla7Jaf/ttj3j2ZLdYQIyVSUOAOkMAXWNHv13zzSoa3uYBFr3ahsGn/8RD5gP1f4my5pJQ1Vq
+	B54gDLaG/8Z3UILORcaL5NNCnQ9enwundS5JEF+YJ1iYARrVSNK9LpuVIEcYq84kILSJMVWTgrs
+	sbg2CXZAv/AUL3ylG6xoqFPLUWZWiSL1Ur1D8=
+X-Received: by 2002:a05:622a:558a:b0:50f:c54f:cc42 with SMTP id d75a77b69052e-51461c10c5fmr417520121cf.14.1778608075681;
+        Tue, 12 May 2026 10:47:55 -0700 (PDT)
+X-Received: by 2002:a05:622a:558a:b0:50f:c54f:cc42 with SMTP id d75a77b69052e-51461c10c5fmr417519631cf.14.1778608075022;
+        Tue, 12 May 2026 10:47:55 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393f60db4f1sm35364911fa.27.2026.05.12.10.47.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 10:46:33 -0700 (PDT)
-Message-ID: <ba485144c4d469c834b0f65ed3ce753a331e207a.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: rzv2h-ivc: Wait for frame end in stop_streaming
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Daniel Scally	
- <dan.scally@ideasonboard.com>, =?UTF-8?Q?Barnab=C3=A1s_P=C5=91cze?=	
- <barnabas.pocze@ideasonboard.com>, Laurent Pinchart	
- <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Jacopo Mondi
-	 <jacopo.mondi+renesas@ideasonboard.com>, stable@vger.kernel.org
-Date: Tue, 12 May 2026 13:46:31 -0400
-In-Reply-To: <20260401-ivc-stop-streaming-v1-1-b7599982c280@ideasonboard.com>
-References: <20260401-ivc-stop-streaming-v1-1-b7599982c280@ideasonboard.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-8KgwzaVvsr4d37d+Iy32"
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+        Tue, 12 May 2026 10:47:53 -0700 (PDT)
+Date: Tue, 12 May 2026 20:47:52 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Wangao Wang <wangao.wang@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Neil Armstrong <neil.armstrong@linaro.org>, quic_qiweil@quicinc.com,
+        quic_renjiang@quicinc.com
+Subject: Re: [PATCH v6 4/6] media: qcom: iris: Add rotation support for
+ encoder
+Message-ID: <rcywvs7cf4u5dpgjygov3mov22dak5zkrv2iao7k4p5hi3u632@jap7la5ioqnd>
+References: <20251114-iris_encoder_enhancements-v6-0-d6d35a92635d@oss.qualcomm.com>
+ <20251114-iris_encoder_enhancements-v6-4-d6d35a92635d@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: DE0ED52617D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251114-iris_encoder_enhancements-v6-4-d6d35a92635d@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEyMDE4NSBTYWx0ZWRfX43nzWQf4QP1d
+ ANPpBHXemP0OzUYeXr0ceKLSZroFeGsrqTiCB19VHn5Gqh/H6UCAOSvDGc2MFSnbQZd7div4+d/
+ AXKvT7O6fPyOFQQb79fbcO2jtYsn8UYdHMsVy+K4PmmGRbGY6aMQzIaE+Niccdx2cbRngqSVvPV
+ YslcL5M2WH7PevO0MpIgTpZ1Z8BD2PjlJOPKW3EbN/fJ1Y6E6n6RVPibxNwPZXhI4NheF/eqBvs
+ P+eLUCRWLo49Lbao7zjFZilBUlW+kMhstXZbmvNXHrLiWtY6nUut/b/86GVr8hK1BlQ3e1b2uWe
+ zHZek3NCFxpPl5RJOlMk3spPGVFsgZ9WPW1PDU861jaR0/Lk/JsUsute43U9oVXNxBUkvktX66c
+ MBwM1wYQ6L/U19GIWclFE5kl4PFLuVEji6tXCGcmh6HourxOayJB6KTmxQ1ig7qiTnZDI/g94QO
+ ebMXCZvxTzrAR+wFC/Q==
+X-Authority-Analysis: v=2.4 cv=GZ8nWwXL c=1 sm=1 tr=0 ts=6a0367cc cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
+ a=KKAkSRfTAAAA:8 a=jUYNYx_xJCf85QsOHrsA:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: UHs-5z2bZHPCVK_RltGtekkfEiC-v33e
+X-Proofpoint-ORIG-GUID: UHs-5z2bZHPCVK_RltGtekkfEiC-v33e
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 spamscore=0 malwarescore=0 phishscore=0
+ impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605050000 definitions=main-2605120185
+X-Rspamd-Queue-Id: B641B526597
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
-	TAGGED_FROM(0.00)[bounces-61309-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_FROM(0.00)[bounces-61310-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:email,10bit:email,ndufresne-ca.20251104.gappssmtp.com:dkim]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
+On Fri, Nov 14, 2025 at 11:09:01AM +0800, Wangao Wang wrote:
+> Add rotation control for encoder, enabling V4L2_CID_ROTATE and handling
+>  90/180/270 degree rotation.
 
---=-8KgwzaVvsr4d37d+Iy32
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Drop space in the beginning of the line.
 
-Le mercredi 01 avril 2026 =C3=A0 17:35 +0200, Jacopo Mondi a =C3=A9crit=C2=
-=A0:
-> From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
->=20
-> The rzv2h-ivc driver fails to handle back-2-back streaming sessions that
-> do not go through a peripheral reset. As the driver uses an autosuspend
-> delay of 2 seconds, it is quite possible that two consecutive streaming
-> sessions won't go through a suspend/resume sequence.
->=20
-> If the peripheral is not reset the second streaming session hangs and no
-> frames are delivered to the ISP.
->=20
-> This is because the stop_streaming() procedure implemented in the driver
-> doesn't match what's prescribed by the chip datasheet:
->=20
-> 1) The chip manual suggests to poll the RZV2H_IVC_FM_INT_STAT_STPEND bit
-> =C2=A0=C2=A0 of RZV2H_IVC_REG_FM_INT_STA instead of polling on RZV2H_IVC_=
-REG_FM_STOP
-> =C2=A0=C2=A0 and prescribes to clear the bit after polling has completed
->=20
-> 2) More importantly: the RZV2H_IVC_REG_FM_STOP_FSTOP bit has to be set
-> =C2=A0=C2=A0 on RZV2H_IVC_REG_FM_STOP -only- if a frame transfer to the I=
-SP is in
-> =C2=A0=C2=A0 progress. Setting the RZV2H_IVC_REG_FM_STOP_FSTOP bit when n=
-o frame is
-> =C2=A0=C2=A0 being transferred causes the polling routine to timeout and =
-the next
-> =C2=A0=C2=A0 streaming session fails to start
->=20
-> As a frame transfer of an image in 1920x1080@10bi takes 5 milliseconds
-> at most, it is quite possible that the frame transfer completion interrup=
-t
-> races with the stop procedure.
->=20
-> Instead of forcing a frame transfer abort, simply wait for the
-> in-progress transfer to complete by polling the ivc->vvalid_ifp status
-> variable in an hand-rolled loop that allows to inspect the variable
-> while holding the spinlock, to allow the irq handler to complete the
-> current buffer.
->=20
-> With this change, streaming back-2-back without suspending the
-> peripheral works successfully.
->=20
-> Cc: stable@vger.kernel.org
-> Fixes: f0b3984d821b ("media: platform: Add Renesas Input Video Control bl=
-ock
-> driver")
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+The commit message fails to capture, why do we need to handle the
+resolution in addition to just handling the rotation property.
+
+> 
+> Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+> Co-developed-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
+> Signed-off-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
 > ---
-> As detailed in the commit message, re-starting a streaming session
-> without going through a peripheral reset doesn't currently work.
->=20
-> I initially thought this is because the stop_streaming() procedure
-> implemented in the rzv2h-ivc driver does not comply with what is
-> prescribed by the chip manual.
->=20
-> So I went and modified it according to the manual.
->=20
-> Unfortunately, even by following the suggested procedure, once
-> RZV2H_IVC_REG_FM_STOP is set and a forceful frame transfer abort is
-> started, the RZV2H_IVC_FM_INT_STAT_STPEND bit takes a long time to
-> clear, during which is most often times the case the current in-progress
-> transfer completes by itself. If this happen, then a peripheral
-> reset is required to restart streaming regardless if I forcefully clear
-> the RZV2H_IVC_REG_FM_STOP_FSTOP and RZV2H_IVC_FM_INT_STAT_STPEND bits.
->=20
-> I have tried several strategies to properly forcefully stop an
-> in-progress transfer and handle the potential race betwee the
-> transfer-complete irq and the polling the RZV2H_IVC_REG_FM_INT_STA
-> register (which could potentially sleep), but it's still quite easy to
-> get races between frame completion and the forced stop procedure unless
-> I hold on to the ivc->spinlock preventing the irq handler to run.
->=20
-> Once I timed the transfer time for a 1920x1080@10bit frame to 5 milli-sec=
-onds
-> at most I decided to simply wait for the current in-progress transfer to
-> complete, as this seems the most reliable way to be able to re-start
-> streaming without resetting the peripheral.
-> ---
-> =C2=A0.../platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c=C2=A0=C2=A0 | 31 +=
-+++++++++++++++++---
-> -
-> =C2=A01 file changed, 26 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
-> b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
-> index b167f1bab7ef..932fed38cf3f 100644
-> --- a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
-> +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
-> @@ -297,12 +297,33 @@ static int rzv2h_ivc_start_streaming(struct vb2_que=
-ue
-> *q, unsigned int count)
-> =C2=A0static void rzv2h_ivc_stop_streaming(struct vb2_queue *q)
-> =C2=A0{
-> =C2=A0	struct rzv2h_ivc *ivc =3D vb2_get_drv_priv(q);
-> -	u32 val =3D 0;
-> +	unsigned int loop =3D 5;
-> =C2=A0
-> -	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_STOP,
-> RZV2H_IVC_REG_FM_STOP_FSTOP);
-> -	readl_poll_timeout(ivc->base + RZV2H_IVC_REG_FM_STOP,
-> -			=C2=A0=C2=A0 val, !(val & RZV2H_IVC_REG_FM_STOP_FSTOP),
-> -			=C2=A0=C2=A0 10 * USEC_PER_MSEC, 250 * USEC_PER_MSEC);
-> +	/*
-> +	 * If no frame transfer is in progress, we're done, otherwise, wait
-> for
-> +	 * the transfer to complete.
-> +	 *
-> +	 * Transferring a 1920x1080@10bit frame to the ISP takes less than 5
-> +	 * msec so sleep for 2.5 msec (+- 25%) and give up after 5 attempts.
-> +	 */
-> +	for (; loop > 0; loop--) {
-> +		unsigned int vvalid_ifp;
-> +
-> +		/*
-> +		 * Inspect the ivc->vvalid_ifp variable holding the spinlock
-> not
-> +		 * to the race with the rzv2h_ivc_buffer_done() call in the
-> irq
-> +		 * handler.
-> +		 */
-> +		scoped_guard(spinlock_irq, &ivc->spinlock) {
-> +			vvalid_ifp =3D ivc->vvalid_ifp;
-> +		}
-> +		if (vvalid_ifp < 2)
-> +			break;
-> +
-> +		fsleep(2500);
-> +	}
-> +	if (!loop)
-> +		dev_err(ivc->dev, "Failed to stop streaming\n");
+>  drivers/media/platform/qcom/iris/iris_ctrls.c      | 34 +++++++++++++++
+>  drivers/media/platform/qcom/iris/iris_ctrls.h      |  1 +
+>  .../platform/qcom/iris/iris_hfi_gen2_command.c     | 41 ++++++++++++-----
+>  .../platform/qcom/iris/iris_hfi_gen2_defines.h     |  9 ++++
+>  .../platform/qcom/iris/iris_platform_common.h      |  1 +
+>  .../media/platform/qcom/iris/iris_platform_gen2.c  | 10 +++++
+>  drivers/media/platform/qcom/iris/iris_utils.c      |  6 +++
+>  drivers/media/platform/qcom/iris/iris_utils.h      |  1 +
+>  drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 51 +++++++++++++---------
+>  9 files changed, 123 insertions(+), 31 deletions(-)
+> 
 
-Would simply using vb2_wait_for_all_buffers() worked for your use case ? Or=
- does
-RZV2H_IVC_REG_FM_STOP mask off IRQ causing buffers to never be signalled ?
-
-> =C2=A0
-> =C2=A0	rzv2h_ivc_return_buffers(ivc, VB2_BUF_STATE_ERROR);
-> =C2=A0	video_device_pipeline_stop(&ivc->vdev.dev);
->=20
-> ---
-> base-commit: 4fbeef21f5387234111b5d52924e77757626faa5
-> change-id: 20260331-ivc-stop-streaming-2c992277b050
->=20
-> Best regards,
-
---=-8KgwzaVvsr4d37d+Iy32
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCagNndwAKCRDZQZRRKWBy
-9Fl5AQDbDPP5l66uW59iOzFARn4kwcdklC3/keZpGJzbWJ2ZkwD+PDGlwkBonyGD
-mFsO08OF7Quw08qvOTFUjlPf8pSOIgw=
-=yuTG
------END PGP SIGNATURE-----
-
---=-8KgwzaVvsr4d37d+Iy32--
+-- 
+With best wishes
+Dmitry
 
