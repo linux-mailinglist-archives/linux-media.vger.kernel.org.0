@@ -1,203 +1,205 @@
-Return-Path: <linux-media+bounces-61276-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61277-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oKTWL/RAA2ro2AEAu9opvQ
-	(envelope-from <linux-media+bounces-61276-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 17:02:12 +0200
+	id AKIwMh9CA2pV2QEAu9opvQ
+	(envelope-from <linux-media+bounces-61277-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 17:07:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD285232CA
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 17:02:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E84E523493
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 17:07:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 99B9F3095D22
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 14:57:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 959D030CAAD4
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 15:02:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CCC736A372;
-	Tue, 12 May 2026 14:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 100E6397338;
+	Tue, 12 May 2026 15:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="c3Oa7xST"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D7723F40D
-	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 14:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F0C38D40C;
+	Tue, 12 May 2026 15:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.3.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778597832; cv=none; b=H1QJDmvgIZrnWTr8ytiSngfgmlu6zDAMQi+sqMakhYK/C4K5LkMvipGUg0C0q9Uc1QN8g+Try+ueqQyuEWisO9qJlLxf/EUhjdhwYMEi1bNusVajU4u66lH3sWK39KzcQkZwNMmgEKnGlnZXj0F5wTeVFUyih64uVmR1OpG2rOQ=
+	t=1778598176; cv=none; b=uWkY/FbE8UipGDHssxdZq8SCUTjLZv4/lUPRaCl3HRdI5M0z5Sg54Rz61nTv3mdMug0BD+ZOse5Vm8vtbZTao1BjmQA4FAZFmDYvgrunQ4NZTbiktn4n0meyEyNZ0HTB55MAFXgxeMwCRZUleBuLU1VlmQxHeC3DFv7ZLgA58T0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778597832; c=relaxed/simple;
-	bh=rel5XJ2Mx5CknVpnsr9cWDTzti7f512B94lQWKFxJPI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nIXyEvj7Py2PggptoV25Mr5dB0X+0AXIN1ZEV3mNebzrZUR+Sn3XO0tT3/Ugy2g2ecgqyhc1WWw98N51eVOT6cKfT8NCwWasqF1RxJZLUsp3BpjkbPIrLlQMSLekwXbkoC5+66pYM25RQg4gGwvfdx1LTOkC3c0Pb8nk6xMe8iE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=fail smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <s.pueschel@pengutronix.de>)
-	id 1wMoXZ-0006ha-1B; Tue, 12 May 2026 16:56:57 +0200
-Message-ID: <e6d562e7-a9d2-4a1a-a139-c6e05eb4aaef@pengutronix.de>
-Date: Tue, 12 May 2026 16:56:53 +0200
+	s=arc-20240116; t=1778598176; c=relaxed/simple;
+	bh=JNM723QFrH+SyHff3gQSXzHFwJQEEcwLK+Vt7bc6kEY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bh2yfkEqPoh3eESQE52Ta6MalUx4NX2cLHqAWt2wiN+8AshaAO+qNQYDiFOz9kjldXA42g5c7ENmrsyQEpKqc0MbsD0YZF3fRxrB1T4ntRVhCRJXHdsgblTAAAXEyj/X0Ih4TYoy7UPOg++UGIPiqdK8x/4HapfRJJ9c3XbXmyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=c3Oa7xST; arc=none smtp.client-ip=188.40.3.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=ew.tq-group.com; s=default2602; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=8p2kpdkft2Ua1doPk30sxoaxUJf132dfboWLlXI3eXE=; b=c3Oa7xSTaKbW8yfu2Yp976W2ju
+	xsglxIIyqsElVUGscyMaw/USnpJ8XbS8gIb8NaJSfJPjIlW7ncFLPYpMXkIOEMUiVV1noObcnuchK
+	FtrGIV58i+QrjXdbnhs8vduyPznPwkE5aRa+nuGsL7/MYAdDWFqmbkvUL3gqgZn+zBV9Qo/AHrHHv
+	7cIB6WdullGWwrfaoPJsnpFZvmYqNToSQhISSyk9W4GPl/Og0NX3+V4vy/XhtRDICnnwS+AeoKni0
+	Hvtr0klEluHYdr+jPjuX2tacnh47+5z+1yquJQ66/iX0YuaRZOySYS7MJ0ADtBn5fLbHoWAM67FwZ
+	3kGUJIpA==;
+Received: from sslproxy05.your-server.de ([78.46.172.2])
+	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1wModA-000N4T-29;
+	Tue, 12 May 2026 17:02:44 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy05.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1wModA-000E7A-2F;
+	Tue, 12 May 2026 17:02:44 +0200
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Michael Riesch <michael.riesch@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Frank Li <Frank.Li@nxp.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, Guoniu Zhou <guoniu.zhou@oss.nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, imx@lists.linux.dev,
+ Frank Li <Frank.Li@nxp.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v3 0/6] media: synopsys: Add imx93 support
+Date: Tue, 12 May 2026 17:02:42 +0200
+Message-ID: <5993213.DvuYhMxLoT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20260216-imx93-dw-csi2-v3-0-aabafee10923@nxp.com>
+References: <20260216-imx93-dw-csi2-v3-0-aabafee10923@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 12/29] media: rockchip: rga: avoid odd frame sizes for
- YUV formats
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
- Jacob Chen <jacob-chen@iotwrt.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, kernel@pengutronix.de,
- sebastian.reichel@collabora.com
-References: <20260428-spu-rga3-v5-0-eb7f5d019d86@pengutronix.de>
- <20260428-spu-rga3-v5-12-eb7f5d019d86@pengutronix.de>
- <4f5e481c8883b358ee4cef64f26f3f00f0ac7304.camel@ndufresne.ca>
-Content-Language: en-US
-From: =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
-In-Reply-To: <4f5e481c8883b358ee4cef64f26f3f00f0ac7304.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Rspamd-Queue-Id: 5BD285232CA
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Virus-Scanned: Clear (ClamAV 1.4.3/27998/Tue May 12 08:24:57 2026)
+X-Rspamd-Queue-Id: 3E84E523493
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ew.tq-group.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[ew.tq-group.com:s=default2602];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[pengutronix.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RSPAMD_URIBL_FAIL(0.00)[pengutronix.de:query timed out,collabora.com:query timed out];
+	TAGGED_FROM(0.00)[bounces-61277-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61276-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	HAS_ORG_HEADER(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RSPAMD_EMAILBL_FAIL(0.00)[nicolas.dufresne.collabora.com:query timed out,s.pueschel.pengutronix.de:query timed out];
-	NEURAL_HAM(-0.00)[-0.972];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[s.pueschel@pengutronix.de,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[ew.tq-group.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:email]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexander.stein@ew.tq-group.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,tq-group.com:url]
 X-Rspamd-Action: no action
 
-Hi Nicolas,
+Hi Frank,
 
-On 5/8/26 11:18 PM, Nicolas Dufresne wrote:
-> Le mardi 28 avril 2026 à 11:00 +0200, Sven Püschel a écrit :
->> Avoid odd frame sizes for YUV formats, as they may cause undefined
->> behavior. This is done in preparation for the RGA3, which hangs when the
->> output format is set to 129x129 pixel YUV420 SP (NV12).
->>
->> This requirement is documented explicitly for the RGA3 in  section 5.6.3
->> of the RK3588 TRM Part 2. For the RGA2 the RK3588 TRM Part 2
->> (section 6.1.2) and RK3568 TRM Part 2 (section 14.2) only mentions the
->> x/y offsets and stride aligning requirements. But the vendor driver for
->> the RGA2 also contains checks for the width and height to be aligned to
->> 2 bytes.
->>
->> Signed-off-by: Sven Püschel <s.pueschel@pengutronix.de>
->> ---
->>   drivers/media/platform/rockchip/rga/rga.c | 19 ++++++++++++++-----
->>   1 file changed, 14 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
->> index f599c992829dd..77b8c7ab74274 100644
->> --- a/drivers/media/platform/rockchip/rga/rga.c
->> +++ b/drivers/media/platform/rockchip/rga/rga.c
->> @@ -337,6 +337,19 @@ static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f)
->>   	struct rga_ctx *ctx = file_to_rga_ctx(file);
->>   	const struct rga_hw *hw = ctx->rga->hw;
->>   	struct rga_fmt *fmt;
->> +	struct v4l2_frmsize_stepwise frmsize = {
->> +		.min_width = hw->min_width,
->> +		.max_width = hw->max_width,
->> +		.min_height = hw->min_height,
->> +		.max_height = hw->max_height,
->> +		.step_width = 1,
->> +		.step_height = 1,
->> +	};
->> +
->> +	if (v4l2_is_format_yuv(v4l2_format_info(pix_fmt->pixelformat))) {
->> +		frmsize.step_width = 2;
->> +		frmsize.step_height = 2;
-> I think its fine like this, so let's start with:
->
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->
-> But it does not feel like a hardware alignment to me. When we process in
-> software these things, the minimum alignment is bound to the subsampling, since
-> there is no way to store half or quarter pixels, the padded width/height
-> requires a step that follow the subsampling, something like:
->
-> 		frmsize.step_width = finfo->hdiv;
-> 		frmsize.step_height = finfo->vdiv;
+Am Montag, 16. Februar 2026, 20:18:38 CEST schrieb Frank Li:
+> This 3rd time try to support DW CSI2RX support for imx93.
+>=20
+> 1st: Create new dw csi2 driver
+> https://lore.kernel.org/all/20250701-95_cam-v1-5-c5172bab387b@nxp.com/
+>=20
+> 2nd: Based on legacy imx6's DW CSI2 constroller.
+> https://lore.kernel.org/imx/20250821-95_cam-v3-0-c9286fbb34b9@nxp.com/
+>=20
+> Now rockchip create a common DW CSI2RX driver at
+> drivers/media/platform/synopsys/dw-mipi-csi2rx.c
+>=20
+> This time base on rockchip's implement.
+>=20
+> i.MX93's version is newer than rockchip one. i.MX6's is more similar with
+> rockchips.
+>=20
+> But i.MX6 is too old. So start at i.MX93 firstly even it has bigger
+> difference.
+>=20
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 
-I agree that this looks better. My main intention is to be more 
-conservative, as the Rockchip related code/docs seem to always ensure a 
-2 pixel alignment in both directions even for formats like YUV422, where 
-we shouldn't have an alignment requirement in the height. Besides the 
-vendor driver and TRM mentioned in the datasheet, the librga and it's 
-docs also mention an alignment of 2 (pixels?!) for all YUV formats (see 
-format alignment list in [1] and Q2.5 in [2]).
+I'm trying to give this a try. Did you actually manage to run a CSI pipelin=
+e?
+What did you do for the D-PHY driver? (please refer to csi2->phy =3D devm_p=
+hy_get(dev, NULL);)
 
-Given that the driver currently doesn't have any way to get the cores 
-unstuck/reset in case of a hang, I'd like to play it more safely by 
-adhering to what the vendor does instead of trying to do more and 
-therefore allowing some potential breaking format. E.g. I've also 
-experimented with sizes of 68x2, which the librga allows as input/output 
-of the RGA3 (whereas the TRM specifies a min size of 128x128), but 
-quickly dropped it as it produced some interesting broken outputs.
+Best regards,
+Alexander
 
-Sincerely
-     Sven
+> ---
+> Changes in v3:
+> - use dw_mipi_csi2rx_has_reg().
+> - detail change see each patches's change log
+> - Link to v2: https://lore.kernel.org/r/20260213-imx93-dw-csi2-v2-0-8be60=
+39f44c6@nxp.com
+>=20
+> Changes in v2:
+> - use enum and array map to real register offset.
+> - Please keep the order:
+>  - #includes
+>  - #defines
+>  - enum and struct definitions
+>  - the rest
+> - detail change see each patches's change log
+> - Link to v1: https://lore.kernel.org/r/20260210-imx93-dw-csi2-v1-0-69667=
+bb86bfa@nxp.com
+>=20
+> ---
+> Frank Li (6):
+>       media: synopsys: csi2rx: use devm_reset_control_get_optional_exclus=
+ive()
+>       media: synopsys: csi2rx: only check errors from devm_clk_bulk_get_a=
+ll()
+>       media: synopsys: csi2rx: implement .get_frame_desc() callback
+>       media: synopsys: csi2rx: Use enum and u32 array for register offsets
+>       media: dt-bindings: add NXP i.MX93 compatible string
+>       media: synopsys: csi2rx: add i.MX93 support
+>=20
+>  .../bindings/media/rockchip,rk3568-mipi-csi2.yaml  |  47 +++-
+>  drivers/media/platform/synopsys/dw-mipi-csi2rx.c   | 278 +++++++++++++++=
+++++--
+>  2 files changed, 303 insertions(+), 22 deletions(-)
+> ---
+> base-commit: ada3fa02f7a95623b724dfe300fce6f49cc2d75a
+> change-id: 20260128-imx93-dw-csi2-b472ddcb176a
+>=20
+> Best regards,
+> --
+> Frank Li <Frank.Li@nxp.com>
+>=20
+>=20
+>=20
 
 
-[1] 
-https://codeberg.org/airockchip/librga/src/branch/main/docs/Rockchip_Developer_Guide_RGA_EN.md#image-format-alignment-instructions
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-[2] 
-https://codeberg.org/airockchip/librga/src/branch/main/docs/Rockchip_FAQ_RGA_EN.md
 
->
-> Nicolas
->
->
->> +	}
->>   
->>   	if (V4L2_TYPE_IS_CAPTURE(f->type)) {
->>   		const struct rga_frame *frm;
->> @@ -358,11 +371,7 @@ static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f)
->>   	if (!fmt)
->>   		fmt = &hw->formats[0];
->>   
->> -	pix_fmt->width = clamp(pix_fmt->width,
->> -			       hw->min_width, hw->max_width);
->> -	pix_fmt->height = clamp(pix_fmt->height,
->> -				hw->min_height, hw->max_height);
->> -
->> +	v4l2_apply_frmsize_constraints(&pix_fmt->width, &pix_fmt->height, &frmsize);
->>   	v4l2_fill_pixfmt_mp(pix_fmt, fmt->fourcc, pix_fmt->width, pix_fmt->height);
->>   	pix_fmt->field = V4L2_FIELD_NONE;
->>   
 
