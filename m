@@ -1,190 +1,300 @@
-Return-Path: <linux-media+bounces-61195-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61196-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sDt/A6d4AmpotQEAu9opvQ
-	(envelope-from <linux-media+bounces-61195-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 02:47:35 +0200
+	id ACz8NtKGAmo6uAEAu9opvQ
+	(envelope-from <linux-media+bounces-61196-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 03:48:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85163517FAD
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 02:47:34 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 925C95186D1
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 03:48:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 869E7302F426
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 00:47:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A18F9307955B
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 01:45:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BFD7246783;
-	Tue, 12 May 2026 00:47:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD3912DA76F;
+	Tue, 12 May 2026 01:45:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tt9OVl51"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KCqX6Ogj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45DA1A9B24;
-	Tue, 12 May 2026 00:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9181287263
+	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 01:45:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778546820; cv=none; b=XQcDod4XDqe39k4L8dukYxYQYLsxRtVP90A3U7IY2ziEv8NlYV80Sc2bSMOnc4w3a0f3a1NzPaDXtJQlKdlTd7HJ9Cb1f25OJPQDCuUPlAhoNEZ94NuTiYFmshLSuU9kRnVK12r2CEncdNDjbGI87TNNCI2PGizoXQePWLa/fZA=
+	t=1778550319; cv=none; b=gMZnT+fvWk251uZQQdDe116fmzWnIqXjyjZr2LlFBGwzh/HV51BcteFoAXR08cm37mJTaT8zD0GaVwwo8mJD/T3CqXIjnugtVai+dgDbbhUP/6xolMZSBMA/onBQgdG+DEv3wbLLfDeHKZWyf7qrGWlXi81s++agiwNHoTRuR5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778546820; c=relaxed/simple;
-	bh=nAStgxDrILHcHBeKraq8IhW1NnoPOLY/Yn9N0sOuGOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g2SnKnj1C0DN/pRE7Hei0A+v9bHzzpGmOY3/qk2IFciZtE9DNtXvsY3cOUXN7s/5fAE2U1lKvi2PrwK4Ba5QqQ4Nb3sL+esmF8spknOrm+yhVbHJk0O1s+bJkd9hCLDcCnHEBMFhoUmiMvBH3AEhC5DpAtYtvjCARjmToY6VJt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tt9OVl51; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79FC7C2BCB0;
-	Tue, 12 May 2026 00:47:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778546820;
-	bh=nAStgxDrILHcHBeKraq8IhW1NnoPOLY/Yn9N0sOuGOg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tt9OVl510AUmHO0p1IfBYvhOgGKzbIKfpqfHYBsKz13+FMYMBmLpLpVBOmYAcwyQI
-	 Vy+EKK4zr/+vGU07Js65Hyo4aDbG+6QaHrEFOUB1TXFH+naRL1H1Uhw1KD6+aHWT23
-	 /LdGTZO90nGqF6+J9xhNmNUVGqv7ns5XsLMZq8M5Ax399+7RKgCmTtMHJ7AWL8Gt6I
-	 2mqWct4eRPEY0bxDP6ePKqAHat1g6xoJl7HHI8It4lQOgChMCaIzm7+PnR5enBxcj0
-	 ms6krrI/cN7bLEWOKOrdAlrlFSYkd5I84c3JRoZZ4fJYR7TDmR8mYyHrQN2TfkYcXs
-	 rO51hs5zz4rjQ==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 75C0B1AC58C2; Tue, 12 May 2026 01:46:57 +0100 (BST)
-Date: Tue, 12 May 2026 09:46:57 +0900
-From: Mark Brown <broonie@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Liu Ying <victor.liu@nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
-	Akhil P Oommen <akhilpo@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	MD Danish Anwar <danishanwar@ti.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Parvathi Pudi <parvathi@couthit.com>,
-	Mohan Reddy Putluru <pmohan@couthit.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>, Felix Fietkau <nbd@nbd.name>,
-	"Andrew F. Davis" <afd@ti.com>,
-	Hussain Khaja <basharath@couthit.com>, Suman Anna <s-anna@ti.com>,
-	Ben Levinsky <ben.levinsky@amd.com>,
-	Tanmay Shah <tanmay.shah@amd.com>,
-	Erwan Leray <erwan.leray@foss.st.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Roger Quadros <rogerq@ti.com>, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-	dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com, netdev@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	linux-spi@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] dt-bindings: Consolidate "sram" property definition
-Message-ID: <agJ4gfH0HgmbOr5X@sirena.co.uk>
-References: <20260511165942.2774868-1-robh@kernel.org>
+	s=arc-20240116; t=1778550319; c=relaxed/simple;
+	bh=YxgDZVqMtyl56UCDKSwzuZdYVkyDLcSvULyv0SuvHI8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jnh3DAHnkzWXl6axyez6gQt9CRrrwe3lZp2XWr9qEtrw7lDRXUpFHpIbgnJja3u5z65JdoqxaJtxtW3wMdZMp3BecXShHDvql3QZnm5M/k0BCW0hdmdl8YYJYj5lQ3Q/R+cg3sSK/Z5ECqMcLqp8QB7jN5Ej1VbP5xe9Qr3n2vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KCqX6Ogj; arc=none smtp.client-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2ecf9e398f4so13521853eec.1
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2026 18:45:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778550317; x=1779155117; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OXCU/htQ+8Rp3JW/PnjUI+XPGJxr+8fcjyipcOXBdks=;
+        b=KCqX6OgjHUrkeOUmqmV8y2pQ18x0WxQRCugpVPri5MjsKrkqhUbMnzdgbYxXjqT+MT
+         2ecqjQSAfMBJ7rO7qv1g253RjcV2yDvA71SXtJjOc+riSQ5BME/oY4aMjGqB7Hu3aSd5
+         X82y5YgjMIct0DNmzQfrWe9LVzw8+TgRDBImg2+xrWGkQQzuVreabvATDPefW90Dx2VU
+         YbZGLgr5xzYRcSebmekC6tbtNpkWDDFANl7Pi62gwtgdaXPM3ZoqarDlHljfjohYGuSE
+         PFFh6GtxrRP43MiWnVzv6NddjZO/UxZVYfhoxWHhU1AYb/friWoc+n8VLofZ0EjrVLK6
+         5Y+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778550317; x=1779155117;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OXCU/htQ+8Rp3JW/PnjUI+XPGJxr+8fcjyipcOXBdks=;
+        b=h1WltKOQO8hXkokdkbLycDyjo8Xw5Wj7mpKqIc09m1d67ZzMlOYsGEBnVbW4sYTZc5
+         CXSHCM2PVHgpO8niG2uHzryYMb066odx+KoxLexJDnExD42PvYGYb790zYI/Xaha8/zc
+         ItlLWKx97lCf1Ic6pYc/n0ZS5KdXpQ5+zOUf/mFdFZhNSWjHYXPlRk4+lbI0waCbOGtg
+         +6YNxGjBFVzGAJSN7bUAtQ9JfEA2lnV/H556emx9puN97IMHNNTjzy76qlcP918wmC/7
+         PE00D1geyMAvtF/CASlKdrGCQuRVfzeY1SAqeUQ5Gag55v7zha1xwXSVmU9LQwlWsaYU
+         P//w==
+X-Forwarded-Encrypted: i=1; AFNElJ8J9U1kNNBgOgKYBQPubKh2ynx7GnhynVOyUsekAt1+84GblFdo4ORNvZFydnDsY7LeqfsEpUuXBUW1Cw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy90PH4L03Sa5OoNEFo38b91WoawtazICt54b8DuTLio724rzK5
+	JBtbatDFJ6171z1YkrmVL2Wnr88RCPEbEdJECNKWV9qS3tcoF4DTb4pK
+X-Gm-Gg: Acq92OGwtaUTkJvnDiOe0+qRLHyzu2od2O0KLL/K1JRqf7IkWjsiOkJF0yud1G/ynwr
+	UKukcqkVDvdtLec78shzcDGKyuhNLJMTW1kpskYc2BfKzLmRV9l+YF4eeFmyeBK5DloTvnWaS9a
+	75tl69V+3snvOoAX0lumiuhIaJMYKFwQ+LwTVvFyi4TY+HT4JYuxYlWIIpxcBtXxxveq0KSnvZf
+	ePHlD6PngWHDj03w0PpGbuSp9QG9eJ4Su1twOlzPRE5iDBKMaL2ABRnux7DTdoK9rYlW4RMreyN
+	RiY6TNF0p25nQDwiDJxIG4oD1p5/7QtNMXnA5NyV/0zTCLo361q+wZbHy1Fc4TflCWVbbKmonVT
+	ENHzqsvebhLH1RKbPNj5AEd7BTWDcUtKiFnVZ5e6yMIpmqaviumJHBke/7Gz+zLAgOP2RGuAf3r
+	+O9U6hYQWDD0OucqlV4PDKEt2jZg0tTxy+pV1XU1Z/9VFEQJ4SEvLnao40TMvetbzw69otPR2OB
+	PVgKZo=
+X-Received: by 2002:a05:7300:6da5:b0:2ed:e12:376e with SMTP id 5a478bee46e88-2f54d67a686mr13643905eec.30.1778550316712;
+        Mon, 11 May 2026 18:45:16 -0700 (PDT)
+Received: from localhost.localdomain ([50.231.3.67])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f8859eafcdsm20104427eec.6.2026.05.11.18.45.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 18:45:15 -0700 (PDT)
+From: Shayaun Nejad <snejad123@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hansg@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Shayaun Nejad <snejad123@gmail.com>
+Subject: [PATCH] staging: media: atomisp: bound DVS 6-axis config copy size against allocated grid
+Date: Mon, 11 May 2026 18:45:14 -0700
+Message-ID: <20260512014514.22856-1-snejad123@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3xlBjuC8zHYeQx3+"
-Content-Disposition: inline
-In-Reply-To: <20260511165942.2774868-1-robh@kernel.org>
-X-Cookie: Truckers welcome.
-X-Rspamd-Queue-Id: 85163517FAD
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 925C95186D1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[nxp.com,pengutronix.de,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,oss.qualcomm.com,poorly.run,linux.dev,somainline.org,chipsnmedia.com,collabora.com,vanguardiasur.com.ar,sntech.de,foss.st.com,lunn.ch,davemloft.net,google.com,redhat.com,ti.com,couthit.com,linaro.org,baylibre.com,googlemail.com,amd.com,nbd.name,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.infradead.org,st-md-mailman.stormreply.com];
-	TAGGED_FROM(0.00)[bounces-61195-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,linuxfoundation.org,vger.kernel.org,lists.linux.dev,gmail.com];
+	TAGGED_FROM(0.00)[bounces-61196-lists,linux-media=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[79];
-	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[snejad123@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-0.999];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sirena.co.uk:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
+atomisp_cp_dvs_6axis_config() copies user-provided coordinate arrays into
+a 6-axis grid allocated from ISP dimensions.
 
---3xlBjuC8zHYeQx3+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The copy sizes are computed from the user width and height fields, so
+mismatched or overflowing dimensions can copy past the allocated buffers.
 
-On Mon, May 11, 2026 at 11:59:36AM -0500, Rob Herring (Arm) wrote:
-> The "sram" property has become a de facto standard property, so create a
-> common schema for it and drop all the duplicated definitions.
+Reject dimensions that do not match the allocated config and compute the
+copy sizes with array3_size() before copying.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Shayaun Nejad <snejad123@gmail.com>
+---
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 84 ++++++++++++-------
+ 1 file changed, 52 insertions(+), 32 deletions(-)
 
---3xlBjuC8zHYeQx3+
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index fec369575d..677037f1da 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -14,6 +14,7 @@
+ #include <linux/kernel.h>
+ #include <linux/kfifo.h>
+ #include <linux/pm_runtime.h>
++#include <linux/overflow.h>
+ #include <linux/timer.h>
+ 
+ #include <asm/iosf_mbi.h>
+@@ -2570,6 +2571,29 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
+ 	return 0;
+ }
+ 
++static int atomisp_dvs_6axis_size(struct ia_css_dvs_6axis_config *config,
++				  u32 width_y, u32 height_y,
++				  u32 width_uv, u32 height_uv,
++				  size_t *y_size, size_t *uv_size)
++{
++	if (config->width_y != width_y ||
++	    config->height_y != height_y ||
++	    config->width_uv != width_uv ||
++	    config->height_uv != height_uv)
++		return -EINVAL;
++
++	*y_size = array3_size(width_y, height_y, sizeof(*config->xcoords_y));
++	if (*y_size == SIZE_MAX)
++		return -EINVAL;
++
++	*uv_size = array3_size(width_uv, height_uv,
++			       sizeof(*config->xcoords_uv));
++	if (*uv_size == SIZE_MAX)
++		return -EINVAL;
++
++	return 0;
++}
++
+ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
+ 				struct atomisp_dvs_6axis_config *source_6axis_config,
+ 				struct atomisp_css_params *css_param,
+@@ -2582,6 +2606,8 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
+ 	struct ia_css_dvs_grid_info *dvs_grid_info =
+ 	    atomisp_css_get_dvs_grid_info(&asd->params.curr_grid_info);
+ 	int ret = -EFAULT;
++	size_t y_size;
++	size_t uv_size;
+ 
+ 	if (!stream) {
+ 		dev_err(asd->isp->dev, "%s: internal error!", __func__);
+@@ -2628,35 +2654,32 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
+ 				return -ENOMEM;
+ 		}
+ 
++		ret = atomisp_dvs_6axis_size(dvs_6axis_config,
++					     t_6axis_config.width_y,
++					     t_6axis_config.height_y,
++					     t_6axis_config.width_uv,
++					     t_6axis_config.height_uv,
++					     &y_size, &uv_size);
++		if (ret)
++			goto error;
++
+ 		dvs_6axis_config->exp_id = t_6axis_config.exp_id;
+ 
+ 		if (copy_from_compatible(dvs_6axis_config->xcoords_y,
+ 					t_6axis_config.xcoords_y,
+-					t_6axis_config.width_y *
+-					t_6axis_config.height_y *
+-					sizeof(*dvs_6axis_config->xcoords_y),
+-					from_user))
++					y_size, from_user))
+ 			goto error;
+ 		if (copy_from_compatible(dvs_6axis_config->ycoords_y,
+ 					t_6axis_config.ycoords_y,
+-					t_6axis_config.width_y *
+-					t_6axis_config.height_y *
+-					sizeof(*dvs_6axis_config->ycoords_y),
+-					from_user))
++					y_size, from_user))
+ 			goto error;
+ 		if (copy_from_compatible(dvs_6axis_config->xcoords_uv,
+ 					t_6axis_config.xcoords_uv,
+-					t_6axis_config.width_uv *
+-					t_6axis_config.height_uv *
+-					sizeof(*dvs_6axis_config->xcoords_uv),
+-					from_user))
++					uv_size, from_user))
+ 			goto error;
+ 		if (copy_from_compatible(dvs_6axis_config->ycoords_uv,
+ 					t_6axis_config.ycoords_uv,
+-					t_6axis_config.width_uv *
+-					t_6axis_config.height_uv *
+-					sizeof(*dvs_6axis_config->ycoords_uv),
+-					from_user))
++					uv_size, from_user))
+ 			goto error;
+ 	} else {
+ 		if (old_6axis_config &&
+@@ -2680,35 +2703,32 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
+ 			}
+ 		}
+ 
++		ret = atomisp_dvs_6axis_size(dvs_6axis_config,
++					     source_6axis_config->width_y,
++					     source_6axis_config->height_y,
++					     source_6axis_config->width_uv,
++					     source_6axis_config->height_uv,
++					     &y_size, &uv_size);
++		if (ret)
++			goto error;
++
+ 		dvs_6axis_config->exp_id = source_6axis_config->exp_id;
+ 
+ 		if (copy_from_compatible(dvs_6axis_config->xcoords_y,
+ 					source_6axis_config->xcoords_y,
+-					source_6axis_config->width_y *
+-					source_6axis_config->height_y *
+-					sizeof(*source_6axis_config->xcoords_y),
+-					from_user))
++					y_size, from_user))
+ 			goto error;
+ 		if (copy_from_compatible(dvs_6axis_config->ycoords_y,
+ 					source_6axis_config->ycoords_y,
+-					source_6axis_config->width_y *
+-					source_6axis_config->height_y *
+-					sizeof(*source_6axis_config->ycoords_y),
+-					from_user))
++					y_size, from_user))
+ 			goto error;
+ 		if (copy_from_compatible(dvs_6axis_config->xcoords_uv,
+ 					source_6axis_config->xcoords_uv,
+-					source_6axis_config->width_uv *
+-					source_6axis_config->height_uv *
+-					sizeof(*source_6axis_config->xcoords_uv),
+-					from_user))
++					uv_size, from_user))
+ 			goto error;
+ 		if (copy_from_compatible(dvs_6axis_config->ycoords_uv,
+ 					source_6axis_config->ycoords_uv,
+-					source_6axis_config->width_uv *
+-					source_6axis_config->height_uv *
+-					sizeof(*source_6axis_config->ycoords_uv),
+-					from_user))
++					uv_size, from_user))
+ 			goto error;
+ 	}
+ 	css_param->dvs_6axis = dvs_6axis_config;
+-- 
+2.43.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoCeIAACgkQJNaLcl1U
-h9CAeQf/d29Uvfn8GPawCZ+l4UnMHO/18slnjGlircCx5bFlOKWLyqPq14JkP32t
-feVK/h8PnpOWbJCebOgL+As1iNYcMRPjw2C4eq+HfdBppx/1NZ7FK7CmBQjRgccv
-yKyirduSqH7pUKJ3lNom3Q0qkCjzezWH9fFxqic/P9T3aEsx6rjZ+y9zAl3pskdi
-LaMYflOJv7ca2tEWSY+RNNjsmfq2JIsZAwkMRlWtFK4maNWi0dw84s6d5egY76oJ
-6ZI//3nGXP8Xy3i48UmCoJDpNhMA3+1PW9i1ylSGK9F0KOttz/cmIG3cUleEVd9f
-WXPmJksEzyt97BKPha3/6IKICQtmdw==
-=XKlR
------END PGP SIGNATURE-----
-
---3xlBjuC8zHYeQx3+--
 
