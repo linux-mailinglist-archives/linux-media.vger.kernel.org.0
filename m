@@ -1,166 +1,204 @@
-Return-Path: <linux-media+bounces-61300-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61301-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GDJmLNlMA2pq3AEAu9opvQ
-	(envelope-from <linux-media+bounces-61300-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 17:52:57 +0200
+	id SMTdBtZNA2pq3AEAu9opvQ
+	(envelope-from <linux-media+bounces-61301-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 17:57:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 753E5524112
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 17:52:56 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C915242ED
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 17:57:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id ABBD03118656
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 15:45:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B853333394E3
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 15:46:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E87513CC7DB;
-	Tue, 12 May 2026 15:44:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9B903C3798;
+	Tue, 12 May 2026 15:45:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="2V65yl0K"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QDDXRJpI";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FjFVxVvm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C3D3CC32E;
-	Tue, 12 May 2026 15:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F153C76B9
+	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 15:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778600673; cv=none; b=JwY/ADmPJIMIgqYLHsZZKI+6lBMYJpqZI9hNwQhj6qImaTQsFeHyAObgFnRua6toI/SlIJwjbmHx6C/l/iuvaOj88nRLjm3+G4fRHcZwBj8koE3t0Z2bdeyZs03TcukJKbvdLKGWXQNmMJddjDOUu/7guQtAb3JgowMuIo8veII=
+	t=1778600734; cv=none; b=i7XYn4og17QoBi9uSI6TseLXYRfpBczlnDoZJiyqe4paDXeCnK1Lii6EjrvDXp/+g3ncbgeXu9rtYc8CYLoLco4GBcZjMuzyrrGALo8mDig5psXLEg1P2IF3e5PCC8k0qXCylvdifYwy53PVuGxG5WdgM5Nik/8ZUHvJdxttIGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778600673; c=relaxed/simple;
-	bh=pYFtLLi3SuyNLJBpvcInLmiZVX11uNDvUzoUsZ/OyFk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Cq47sZnH+Db7sQUypsLEHaFzhug67E2puVrDXYL1b9GHK8CcwWLnlBf9pK2UvS0EpyCi3+h7qOL23Q6p7e2KIbEZgID6fE0pJ6+dFFZi2YIaovmZiR9FxYsOscbvpOua+apYSGdCBTv1VG3HFrpMYf6DBKaLdRngBmxxUyqWUEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=2V65yl0K; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1778600671; x=1810136671;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=pYFtLLi3SuyNLJBpvcInLmiZVX11uNDvUzoUsZ/OyFk=;
-  b=2V65yl0KiGeu4whg8abvnulNFKVsk+E5jNLjB0dLaitG6FwjvpIe56Af
-   FvG7e2Pw01DGi24u1dibiHRBjRqtgJAofiFJe0zOJfhFUbNVQIiAPQDKL
-   Vk3n1WUJDDsDnUIurUg6k8xF17lDZH+mtINr3KFFap9ifb7syUu29qnlt
-   E1H6NN3b+ihJ7PNpkBntWroa6kYdyIvEByptdTEIu3LNyqtDztcgi1GMT
-   BlkLhIYTvBJNFO62H2bdKT5BXGtPITC3CCGwgXA6vcvwHL7ks3kfnt2Ye
-   pDrkW5VT7DEyMHT0jlK+/5XoUwDkij08HkN68/w33LJkSpw7Y+yb06Ws3
-   g==;
-X-CSE-ConnectionGUID: 7VKwAiZmTNKMDu6LJmODwA==
-X-CSE-MsgGUID: 690o/XQFRj6HCTZVC6gTBQ==
-X-IronPort-AV: E=Sophos;i="6.23,231,1770620400"; 
-   d="scan'208";a="65713144"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 12 May 2026 08:44:31 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Tue, 12 May 2026 08:44:31 -0700
-Received: from che-ll-i71840.microchip.com (10.10.85.11) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Tue, 12 May 2026 08:44:28 -0700
-From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
-To: <linux-media@vger.kernel.org>
-CC: <eugen.hristev@linaro.org>, <mchehab@kernel.org>, <hverkuil@kernel.org>,
-	<nicolas.ferre@microchip.com>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 15/15] media: microchip-isc: scale DPC black level to sensor bit depth
-Date: Tue, 12 May 2026 21:13:39 +0530
-Message-ID: <20260512154339.210444-16-balakrishnan.s@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260512154339.210444-1-balakrishnan.s@microchip.com>
-References: <20251009155251.102472-1-balamanikandan.gunasundar@microchip.com>
- <20260512154339.210444-1-balakrishnan.s@microchip.com>
+	s=arc-20240116; t=1778600734; c=relaxed/simple;
+	bh=QNQtSLxUMQ2/nPuJkqhlF9yN9JpF2hCD6F8nM859yyw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f7++riP1Gvl/KN6LA5PLYgVVgMFjJ3Oz9XqCK7e7JX2EYM/CZMIg+AmCcUdfWUIbnBYfJ3k8k5xsnUstkeu0ugTj6xbXjA1IseEhLmp+VpBP0rj9f7Iv8XHwp2G1EsB4wn0PouOrXu+l703N0Z3A0C5ltc6eGBxbmd4Po00trpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QDDXRJpI; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FjFVxVvm; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64CFLD3x3421717
+	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 15:45:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=BHXK6eodNkDhZFdtXMYa5MNj
+	vlW/UFubxvcOQArCorI=; b=QDDXRJpI1DSSKSbAw/J9IZCxS+1pCW9BF9Ac5XnS
+	KbYYSzPW8pOBWjsYrMH57lDTektInZdExAmohF/8TOe8bwGAzN6c+IA+POQ1aule
+	uAqhHJXuCNHZy6+jLEYNweRV7+yDYcHvLeSYYLP5UAXX2Ypt4eukPieuIWfQ9K+F
+	xLOmT1wPQTYvoWrUBJxtf6VyHPltMMpgoLtFFwr3Cm0t9j9at886Z4zYQ/yApYTT
+	z0xnN79m5d74lIWInVPEX8sNNmtjmoffcVniJgjncTtCOs2i89GLeI9Qtke1kQCG
+	twL7HUIGfbZZwlOiH7HdyNnadQDqx0E977aq0TC9FRg5fQ==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e46s9r2q3-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 12 May 2026 15:45:31 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-51009190feeso109964291cf.2
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2026 08:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778600731; x=1779205531; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BHXK6eodNkDhZFdtXMYa5MNjvlW/UFubxvcOQArCorI=;
+        b=FjFVxVvmWOOWGCjxAf5tNA/D3JMxREV6WjBidC82XL3RQGIoRMYPD7GFn5MI/n702J
+         BgBAgQnHFLuOScWDMNayliWs4NotFByQLKtTVAE3gLYOaLB/qRJTW23aM4y74ZsWH4sb
+         soKKJrX9dUoAb1yzn+Wy7JmSx1mhHYe7lFwj4cXj1PSaMZaU+OXH9y8h40O2KR7yCiSP
+         nmSiHH6Bt3EHg8Yzdo9wFIUBoiPXrAOMbX5JoaIPKhxrYhtVGLQFve7yBT7cMspmxhe3
+         G2WZJEUbILkbOwmfz7IqLdCWkyEZN881cSZwT7vfHNYZNMJpxJZJ56K+C9V45Y/w+RaM
+         aeDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778600731; x=1779205531;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BHXK6eodNkDhZFdtXMYa5MNjvlW/UFubxvcOQArCorI=;
+        b=dSn9i2C6GDfouMgM4wMYX/ikeQrwQubT9TMGBIpRPvmKduBBcRzlIKagkH7/5aU4JQ
+         oM6EutbzvN/aTWxEwXFrC0bkeVLvi+G6W7RrTzOltJh4wQpT66XWcu4p9hJR9g/9sISt
+         /RB8Vf6OpZY6A8zhbw1uSVmJyLakd8v49h7wJi5jgUKvw+J09STM6OIhsRi+doPR35IP
+         G4a/zcJIUUkDcymPma/SOZjXdbapgIfajaXoIi+/9I9HILJ8VFs/XXsVFFqf6l4frTZY
+         mrV+f/MqeD2cgs7wK/ByarTbPq97gOk/R9VzsigefOGuFrnNsh+KP9gg8tld5fumjzup
+         FAAw==
+X-Forwarded-Encrypted: i=1; AFNElJ9pnqfXvWJ5mJrNC/dy2fdOTlIed2d/eNabQGzhsp6U8iCw3WlCGVgcCiohLrGu7VYqDBeVXaWYVaQdHQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPRwvn7tuu3XCujSHN1zEwfS70axPherWQAdFF71RMtUdm7atn
+	Ju/1LURWR+QVxc1FbAB0YGpKUyDxl0UApi5rPmi/vUZqb8shUFxFiDQmzSur74O0956lJWRdpQU
+	GBMS12EcEfBVO28VP4Buvscle4sYMkgfcSF+WDBBC6PVijksMZVnl5udFyNN76PnaCw==
+X-Gm-Gg: Acq92OHVsja2bpAQ4dHMH36vG5nox1ojUlohNTdw7bEIzwXvkX3QWXGizi8M1Mr5Evs
+	PJYsFK5WI/ZtNTJrBoQDXXIL6NFJ7iuTi2SsRIO9pLDPl9ws063/chwVB5YhdHE1V0fJt8roHIx
+	rrtiNPxpHeAWIjS++XCdiRBYT6KEVLFdQdydMicNQEUjZKOc0bPiQPe69SRm3KJmviGsDKPKZer
+	GpGL6uvp5DlnNTwuH780WoO8V9um3KkJZ/0Er3+vGYUsUYEhNXJ2dCaHtAdGYjNzCgqX3R6UTj/
+	g2Vq2BUVYuqy13/UZR8ZaiNxIKeAiGbdeDh7Bxy9X7WUCOg5rHgNIBcebP2F1VlO0Z887JtB1Z9
+	krhb5jdpTCGU+xKcfZJ6mN8S08VzbOiFYWj0nHswZZVtWKthIhfWJeMJ2qWm0leBb2bygxjKxMu
+	tXKj89VHGNOm5a7z0vxgGEDgnU6q+tRNL4TtY=
+X-Received: by 2002:a05:622a:a9c4:10b0:515:189c:e0f8 with SMTP id d75a77b69052e-515189ce240mr18558291cf.17.1778600731032;
+        Tue, 12 May 2026 08:45:31 -0700 (PDT)
+X-Received: by 2002:a05:622a:a9c4:10b0:515:189c:e0f8 with SMTP id d75a77b69052e-515189ce240mr18555511cf.17.1778600728762;
+        Tue, 12 May 2026 08:45:28 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393f6292993sm33520441fa.41.2026.05.12.08.45.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 08:45:27 -0700 (PDT)
+Date: Tue, 12 May 2026 18:45:26 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Wangao Wang <wangao.wang@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Neil Armstrong <neil.armstrong@linaro.org>, quic_qiweil@quicinc.com,
+        quic_renjiang@quicinc.com,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: Re: [PATCH v6 1/6] media: qcom: iris: Improve format alignment for
+ encoder
+Message-ID: <7coyxg22dil6p45bjgi7xescawfdwliprhobp5qiytlplu3swo@kqs6lswo66pp>
+References: <20251114-iris_encoder_enhancements-v6-0-d6d35a92635d@oss.qualcomm.com>
+ <20251114-iris_encoder_enhancements-v6-1-d6d35a92635d@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 753E5524112
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251114-iris_encoder_enhancements-v6-1-d6d35a92635d@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEyMDE2NCBTYWx0ZWRfXzc8fUrumwk7K
+ M1RKCRb/9IQHoE7Kr71XB4kHzIqyKvMvrzPbG4qMdWaOqO72ipnaC6MVcrBOsOJ2lRTft+BROIx
+ NuAt5Ttw+tT1A9WZMPKdILFVI2ZLsqbja4Bo5/jHlxaDIzr5PLPvx2I/v8jUvqrafbVx/vqSYAm
+ VvHBSe9206r9ybB4hq+1W5lXIpqOEPmcruruoR2XrGHLYa8pclT6tS/jOmfTrn9MtvUuCXsXxY3
+ XO0mGH0phD8oQFl8IpU8blpoeIP7i7J+26i+YbvDhFmOAKvQReNJW9IZAu+AHbwp7p622NGO3El
+ c9NNV0Xdsw+JjiMIWm8NMP12cHgKiAmMldEpbXRV531Ljy6TdBIlJt1fWrXMUggpI4SFYprZGGV
+ MhU9mfe/jFahy9BksY5Gm3ik11UuPe33IP+TxXpOhrdLiU0TG7VUud/POzJDVHL5Hg9d5dM/FEr
+ c4aWRZjgqfluOfCo7eA==
+X-Proofpoint-GUID: yEcDvx_q5mNhLxtJbX_UT6jK2ExRYAdV
+X-Authority-Analysis: v=2.4 cv=L68theT8 c=1 sm=1 tr=0 ts=6a034b1b cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=KKAkSRfTAAAA:8
+ a=EUspDBNiAAAA:8 a=VWJduI6YQviP9SRQ2ZgA:9 a=CjuIK1q_8ugA:10
+ a=dawVfQjAaf238kedN5IG:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: yEcDvx_q5mNhLxtJbX_UT6jK2ExRYAdV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0 impostorscore=0 adultscore=0 priorityscore=1501
+ suspectscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605050000 definitions=main-2605120164
+X-Rspamd-Queue-Id: 63C915242ED
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[microchip.com,reject];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[microchip.com:s=mchp];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61300-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61301-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,linaro.org:email,qualcomm.com:email,qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[balakrishnan.s@microchip.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TO_DN_NONE(0.00)[];
-	DKIM_TRACE(0.00)[microchip.com:+];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,microchip.com:mid,microchip.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-Scale the nominal 10-bit black level (64 counts) to match 8/10/12-bit
-sensor bus width.
+On Fri, Nov 14, 2025 at 11:08:58AM +0800, Wangao Wang wrote:
+> Add members enc_raw_width, enc_raw_height to the struct iris_inst to
+> support codec alignment requirements.
+> 
+> HFI_PROP_RAW_RESOLUTION needs to be set to the actual YUV resolution.
 
-Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
----
- .../microchip/microchip-sama7g5-isc.c         | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+Why? What is wrong with using the existing fields? If you want to set
+defaults, can you set the existing field intead of adding extra fields?
 
-diff --git a/drivers/media/platform/microchip/microchip-sama7g5-isc.c b/dri=
-vers/media/platform/microchip/microchip-sama7g5-isc.c
-index 9110690a49e4..46a721d76453 100644
---- a/drivers/media/platform/microchip/microchip-sama7g5-isc.c
-+++ b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
-@@ -26,6 +26,7 @@
-  * HIS: Histogram module performs statistic counters on the frames
-  */
-=20
-+#include <linux/bitfield.h>
- #include <linux/clk.h>
- #include <linux/clkdev.h>
- #include <linux/clk-provider.h>
-@@ -289,9 +290,25 @@ static void isc_sama7g5_config_dpc(struct isc_device *=
-isc)
- {
- 	u32 bay_cfg =3D isc->config.sd_format->cfa_baycfg;
- 	struct regmap *regmap =3D isc->regmap;
-+	u32 bps, bloff;
-+
-+	/*
-+	 * Scale the nominal 10-bit black level offset (64 counts) to the
-+	 * actual sensor bus width.
-+	 * ISC_PFE_CFG0_BPS encodes (12 - bit_depth) / 2 in bits[30:28]:
-+	 *   BPS_EIGHT  =3D 4  ->  8-bit  -> bloff =3D 64 >> 2 =3D 16
-+	 *   BPS_TEN    =3D 2  -> 10-bit  -> bloff =3D 64
-+	 *   BPS_TWELVE =3D 0  -> 12-bit  -> bloff =3D min(64 << 2, 255) =3D 255
-+	 * The BLOFF hardware field is 8-bit so values are clamped to 255.
-+	 */
-+	bps =3D FIELD_GET(ISC_PFE_CFG0_BPS_MASK, isc->config.sd_format->pfe_cfg0_=
-bps);
-+	if (bps >=3D 2)
-+		bloff =3D 64u >> (bps - 2);
-+	else
-+		bloff =3D min(64u << (2 - bps), 255u);
-=20
- 	regmap_update_bits(regmap, ISC_DPC_CFG, ISC_DPC_CFG_BLOFF_MASK,
--			   (64 << ISC_DPC_CFG_BLOFF_SHIFT));
-+			   (bloff << ISC_DPC_CFG_BLOFF_SHIFT));
- 	regmap_update_bits(regmap, ISC_DPC_CFG, ISC_DPC_CFG_BAYCFG_MASK,
- 			   (bay_cfg << ISC_DPC_CFG_BAYCFG_SHIFT));
- }
---=20
-2.34.1
+> 
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
+> Signed-off-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
+> ---
+>  drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c | 3 +--
+>  drivers/media/platform/qcom/iris/iris_instance.h         | 4 ++++
+>  drivers/media/platform/qcom/iris/iris_venc.c             | 6 ++++++
+>  3 files changed, 11 insertions(+), 2 deletions(-)
+> 
 
+-- 
+With best wishes
+Dmitry
 
