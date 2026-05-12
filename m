@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-61317-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61318-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wI1bLrZ7A2pV6QEAu9opvQ
-	(envelope-from <linux-media+bounces-61317-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 21:12:54 +0200
+	id 4Cn8JtV+A2rS6QEAu9opvQ
+	(envelope-from <linux-media+bounces-61318-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 21:26:13 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B72D528701
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 21:12:54 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0B1528A44
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 21:26:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4DF11304FB9C
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 19:12:43 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 8BABD301A4E7
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2026 19:26:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5C53383C94;
-	Tue, 12 May 2026 19:12:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40EF4387361;
+	Tue, 12 May 2026 19:25:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LH7EGeHO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XW1h9zBa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F05384CF3;
-	Tue, 12 May 2026 19:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4C338758A;
+	Tue, 12 May 2026 19:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778613161; cv=none; b=VpkczhhejawF6tmcGtLmvB0BdZpklg+vhy2HFcelhhQwNEkv+nj33YdwKNDi6Xxv0ZqERp6/6IvB2+tP+F2nevFLtGUBmFd3ibbJLanuiHeHWGU54xQFsgEUwAT0pWeDsm3+oPjXE/nOpx0jHhnqFIqBmlKYYCb/ZSGw+RrE6sQ=
+	t=1778613955; cv=none; b=g5fZrtnIlMCKpVsZ8QtgEyHIYXPXq15EiVUzTlQ5s0myjZWVv9xwtewCwbfGrqifJ5YSZo5LfBt0FszEsG1u9IUV5P8rI/5d+OvXhN/l46CDDRM2gZAyQgrO4fCqezitqMySwOYb8SDRwPiujk3Hjhe8MgFzSpLpNOovRbYvQkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778613161; c=relaxed/simple;
-	bh=8BjGPrnQM70b57w1jGZJVBmSrPOyLceL5ySQyt4/yEQ=;
+	s=arc-20240116; t=1778613955; c=relaxed/simple;
+	bh=2M0rNh8lEVUZOT6LcT/HK0VvW9rDoSXE7U4w2m1Qguo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aq/XD0gc0ibf6fHLVqBPdTKxrsBp6b6/uHcc/hOr6g+8bYRe7i9+z01kijsiPWvcRIJywkY5Hq/ZqRdVVDqACGJf/I4+VgIXZy7E0dM2riALUX/3egB6lOJ6deP9r8EkDc39rKTKafUredTPrgWz7NxbGP8ddqiAgDsZ0jqK4vU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LH7EGeHO; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=jyFk83N+8Dsk4sj2BBmPoHLwsw/d8tlpQ5ro0Qs7UqsZ8oI1Bn3Az25Uob4fFktS4hEojsKhfB7JyMEPA9Vyp2VvEqG8gCoEWzorOfwCFwWrF1Abr5cOmZSxYOEAhBFKm2huEImESfHdMimQLDxMo/WUmBQA3fEnrtGuNDpQeo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XW1h9zBa; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778613158; x=1810149158;
+  t=1778613954; x=1810149954;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8BjGPrnQM70b57w1jGZJVBmSrPOyLceL5ySQyt4/yEQ=;
-  b=LH7EGeHOEqEow68U6YVdoxW3Z2/Rq+Jch9htjiHb8HNcf8fJ4uDUYpgp
-   s5yuallXn08ofFL6EhF7BdsEvucTmpL0IYOK8i2j0AXbJgJmkLTzk0CBw
-   SsORV7+FJRGBdeIC/8YuYOOavyRsmRMs5eoa7+rXCceaadLp/kONsuDRA
-   vV3T9strA3l009yVkBKPwPEiMvIpF1Oafp7k36Y+h44H0f1yE2VHkzF5I
-   8/fnIGL3TwsU2u05YXCKFpi/uANbooZqfcn3H8Hlhd/x9YFG3H3E229/f
-   bMU0yC/5WArPAIYZY/P63Cn2BiMscH2Mo8DR/T9kTtVNKA3CS9Q5BFDOf
-   w==;
-X-CSE-ConnectionGUID: HEjP3yBeRBOcKg1xL+JtJg==
-X-CSE-MsgGUID: SLUzmQxaTvSHIlF7AWDeYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="89835024"
+  bh=2M0rNh8lEVUZOT6LcT/HK0VvW9rDoSXE7U4w2m1Qguo=;
+  b=XW1h9zBa6yWsury9LTLzrH86K66LVAGjfhf/jwKSC7aZHprcr8bybkCM
+   Ak2PcSPYX5Kc0NSntrF4X9d574Ln4N/szkmVNtcz0aQdXzYJ2RZJj07eP
+   Qp2Tc4IyUE3ByKzW8RVe2r+VSmzEBAYxLNlAzD24D62Bdrh7qADbuwUke
+   TUhU28K84vddTIYSYRZwcCU6ewfiApwopF0kjG75kuKRGEi+Uwn3KmcgP
+   nNOMWaEafHt1Yn701Wo0JLAAc9+QCuc7DCuhj1C7zJdVdB+75Rlihr73J
+   BF4pFi6TElYZzdoC8OKtAGg9Jb9sHslNL+cKqwflOLFH+f8mVe/gS0iz9
+   A==;
+X-CSE-ConnectionGUID: fTCVKRFSQEGQM+EedPUUOg==
+X-CSE-MsgGUID: ZpbdvWNFQ7KDY5eYfjy+Gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="79714037"
 X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
-   d="scan'208";a="89835024"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 12:12:37 -0700
-X-CSE-ConnectionGUID: tP23t8gURMyztcvxawApOw==
-X-CSE-MsgGUID: i6EKHiaiRhuQzevfyJPAQQ==
+   d="scan'208";a="79714037"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 12:25:54 -0700
+X-CSE-ConnectionGUID: GAr/dsSwTMChEN1AVQzTLg==
+X-CSE-MsgGUID: OZorbDGtQA2c4kaOTccF2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
-   d="scan'208";a="241869370"
+   d="scan'208";a="235196022"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.244])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 12:12:35 -0700
-Date: Tue, 12 May 2026 22:12:33 +0300
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 12:25:51 -0700
+Date: Tue, 12 May 2026 22:25:49 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Melih Emik <melihemik@noirlang.tr>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
+To: Tomasz Unger <tomasz.unger@yahoo.pl>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] atomisp: replace dbg_func parameter with dynamic debug
-Message-ID: <agN7odzJiulkNckJ@ashevche-desk.local>
-References: <CAHp75VebM9wwKpjnZKEGVvwA=TfmF4MDDuYssNAFWDnXsXyRTw@mail.gmail.com>
- <20260512180958.18098-1-melihemik@noirlang.tr>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v3] staging: media: atomisp: remove stale "Generated
+ code" comments
+Message-ID: <agN-vQrNGty8pIEE@ashevche-desk.local>
+References: <20260512-atomisp-remove-generated-comment-v3-1-97930e4e1ca8.ref@yahoo.pl>
+ <20260512-atomisp-remove-generated-comment-v3-1-97930e4e1ca8@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,23 +83,23 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260512180958.18098-1-melihemik@noirlang.tr>
+In-Reply-To: <20260512-atomisp-remove-generated-comment-v3-1-97930e4e1ca8@yahoo.pl>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Rspamd-Queue-Id: 3B72D528701
+X-Rspamd-Queue-Id: 9C0B1528A44
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linuxfoundation.org,linux.intel.com,vger.kernel.org,lists.linux.dev];
-	TAGGED_FROM(0.00)[bounces-61317-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,linuxfoundation.org,vger.kernel.org,lists.linux.dev,gmail.com];
+	TAGGED_FROM(0.00)[bounces-61318-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[yahoo.pl];
 	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -114,26 +114,23 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ashevche-desk.local:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ashevche-desk.local:mid,intel.com:email,intel.com:dkim]
 X-Rspamd-Action: no action
 
-On Tue, May 12, 2026 at 09:09:58PM +0300, Melih Emik wrote:
-> The dbg_func module parameter in atomisp_v4l2.c toggles the CSS
-> debug_print callback through a writable module parameter. Removing only
-> the parameter drops the runtime switch that users had through sysfs.
-> 
-> Keep the debug path available at runtime by routing CSS debug output
-> through dynamic debug instead. The callback remains installed, but its
-> output is controlled by the dynamic debug callsite. CSS error output
-> continues to use vprintk().
-> 
-> Remove the obsolete parameter, its global state and the unused get/set
-> helpers.
+On Tue, May 12, 2026 at 08:10:52PM +0200, Tomasz Unger wrote:
+> Remove the "Generated code: do not edit or commmit." comments and
+> the resulting double blank lines from five files. This code is coupled
+> with legacy firmware and will never be re-generated, so the comment
+> is misleading and should be dropped entirely rather than having its
+> typo fixed.
 
-Okay, this is the move to the right direction (however we leave dbg_level for
-whatever it means).
+> Suggested-by: Dan Carpenter <error27@gmail.com>
 
+Seems like a flashing tag. I dunno what Dan suggested here, but please, double
+check that tags reflect the reality.
+
+Code wise LGTM,
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
 -- 
