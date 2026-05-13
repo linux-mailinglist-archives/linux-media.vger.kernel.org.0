@@ -1,236 +1,221 @@
-Return-Path: <linux-media+bounces-61493-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61494-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yFF5JqjDBGoxNwIAu9opvQ
-	(envelope-from <linux-media+bounces-61493-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 20:32:08 +0200
+	id 6NobEovEBGrdNwIAu9opvQ
+	(envelope-from <linux-media+bounces-61494-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 20:35:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B32D538FB9
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 20:32:07 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BD4539098
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 20:35:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1CC5A3082B34
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 18:26:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6254B30DF797
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 18:28:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEC0A3A75B7;
-	Wed, 13 May 2026 18:26:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86B473AB278;
+	Wed, 13 May 2026 18:27:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HW+HhnP+";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LdT7ZP0d"
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="ugb+w/Mo";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="n2G7CcIS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4F93921D0
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 18:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5A03AB271;
+	Wed, 13 May 2026 18:27:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778696761; cv=none; b=GJJk17nTu6q39RGv48f0xbLIVNz/29lhxWMN91RHJG2tHuLnRYiatCHC/w9VVbj5Zt6ZbSYHyIk6U11dflwupHUpVkA8JuptV5Z0GPrlM0nJ1+PngmIeXluwUlWBiNYdHDGNEMUAvYYyrq6YwoWaCWrPBPBpYNLdXDwYfCaCFKo=
+	t=1778696864; cv=none; b=pFfSlBc1Q6/oD0XVmjrSHlrfgn0mPvy/lv2D6qUcOW0xZJdx10jHXKYpyHh2sJeHj7+sZlrSXOYopGy785yGmYQjuaG+I4BsQl2l0dCUqtPktXHWKEQHrZQDyB7DAf6ynREmTiIo70riTUMWYiphkHcYVq7iVIZhdOq/G+Jwsy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778696761; c=relaxed/simple;
-	bh=7rnvyRlJhuUqIb2oFq7ELJ1mpCOYsn/9XpIh0Ol9Ujc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kA4iFYGYVZbA/rmN9kdZDVsOGI3AN6rtx3xbaPl5ku+ZeeXie683uHXTk2NfDwqlldywKehiQydDpW66jxNdXssG6QXSUQ1XYxFjAToBHehcS3lJXYhjOTptoeSCV9oSV/sLQ6bCm+NHpXQaJiOK0OTWG1Mt1guCCBJZO7DfgxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HW+HhnP+; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=LdT7ZP0d; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64DBmUfh2965306
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 18:25:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	tzZbszvrmLucZ4gFsiU1bkMESXXLy06AymspFyubZyA=; b=HW+HhnP+KdOA4P9A
-	cabJOyD2Jle8/bcceY1r8HZ9My1jMTRsWiOyCn9QUzkUs9Z4ZD0IVyy/VtLT1Bwg
-	20HshiV5Qtc0Kl38U3KRxmVNwU5PaiyXmzhqFn6KJ/oSwyYXLbV7XXWNulWQG0aL
-	k2iYWzNYDnwwVeskrKZdT7OV7A9e5ssWhZ6/Dpcln6T1Cycnjm/UO1nMPIIUwEK8
-	ZtBtg9CS2x7QVTM/v2q8PjBcE7IVA6HJnUQBwauHNfrLby+5MFw4tjrTA9pSf57e
-	kyNfhy24FVUkXRZBi0TZWGZR/ZSBh75+Bt0tYINTSv2aswqWwr+rp+ZHKbqjxBOK
-	qBK14g==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e4ma5asad-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 18:25:59 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2b9a6d84522so134029845ad.2
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 11:25:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1778696758; x=1779301558; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tzZbszvrmLucZ4gFsiU1bkMESXXLy06AymspFyubZyA=;
-        b=LdT7ZP0dF0fQZdxILWKE8zverskU78fbZ4exmoU4QT+OboPErrr97U6oxEbNHp+uVG
-         Nk1rYvshPOANDd3oN26u5lb9hfNZTo6dctZp+GDgQsmHNUsiXD1CSZjzoeSux83x6m1K
-         goVI1sJ1OTXhlLysNtN/Ye9Iaw4SYduwzWxJOfOjmOqgxjx7oxg9J0qLnHLQnVjI6BNZ
-         Yk0pCkKH2+F/0gtcqSipM2HAdB+nTWtwXDFHr3TogoZaZDGjoEGCk8VmJxMRnDWTIfda
-         iseJ5Th1evEFV5Y5rr0bRFE67CDZEQeTl9ii6vMwvYRVH/vjnl/OCoBal+IZtn6rC2M7
-         N8yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778696758; x=1779301558;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tzZbszvrmLucZ4gFsiU1bkMESXXLy06AymspFyubZyA=;
-        b=BdXEPeD4tdDtXGmlPLsftEmVIVXSapYPOUMXtXc/JqNsfNDtzCbHHHqu8j9Jz3sQql
-         m07oTfhF/EbWbLTRKMUrSOeNpLWl+M66OytmRuL5rAJBA0ustd2ZtyV/IsQi4hyNXyO3
-         2fF3mgLW5W6U6B5xEn5hcIrlOl3zgoz2Mmy90fyaUCWDvBnPsVqlCdakO42cXGVa1N9C
-         mpej8p8SzmBGFs2ATnvklDOk+Y6KSQahy8ZPESzXSCRXy8p0HRkTleMboQYFzhG/jMWv
-         LlHbd5IxsNye26yIdIBwkf3tKFu7ODHzv0k3bqowsRnYw3aQofr8YSFI2yFRcUI+BfbD
-         aD2w==
-X-Gm-Message-State: AOJu0YzVM75o1aAbJRywGqgbL3w5hpYfJT7una/GZ4uhctyAFHCi/WJi
-	GFncF5uZ5CtvD/uhwBozgWctS3gcCEYTp5xxkt/8TU1UPvHEPQd4R5tsafX2BmJZTrSPf7rLLCb
-	weifvlFPWfczQTaRratkBYxZdwwAb9D2VP885STViLBx/XWVSYwUMppx5x5AiPdnznQ==
-X-Gm-Gg: Acq92OHspRLLUrPs3GtCM28uNfn/nGsuRnEFKqMbW3iq18zZW8UKViFgY449mhOxVp6
-	vLlpR4t41hIb+m04unuaDqjLUvSUZJ+uBpEJ9UWAmFjuHv21KQAEEMiF1a4G/q6ryNr+qVnGCY+
-	hzUNxvwd4yYMz/QPUDlXDgKP68ywYgoMwsdgMt8mkMhl+g4SUGUw6YK+T78ePHW52dA91jLE0UO
-	l5MImXc/g74SLffmsOcO2qJBKql0UYBXShYH9ZHZ6M6XCBim4zkXXAcYjJkfzpxP7wieqvYBayD
-	5bgeHf/sfbX0pJMVGfs3OKzK5tEfoNbG6BR7q1ldQnm1HEa7xyKn44+RXif5K7UzaoT2DCjw2bA
-	fr3wnCGn1bBAh8puIbmVU6KGuAMGnzAyXFQm9toDby0vfMK+3yInB2Oou
-X-Received: by 2002:a17:902:ef11:b0:2bd:2051:13ed with SMTP id d9443c01a7336-2bd276f2e1dmr51757815ad.23.1778696758410;
-        Wed, 13 May 2026 11:25:58 -0700 (PDT)
-X-Received: by 2002:a17:902:ef11:b0:2bd:2051:13ed with SMTP id d9443c01a7336-2bd276f2e1dmr51757375ad.23.1778696757877;
-        Wed, 13 May 2026 11:25:57 -0700 (PDT)
-Received: from [192.168.0.172] ([49.205.255.126])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1d27083sm186116005ad.13.2026.05.13.11.25.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 May 2026 11:25:57 -0700 (PDT)
-Message-ID: <487a1bd7-3ce2-4a78-be18-f3d3469e1b93@oss.qualcomm.com>
-Date: Wed, 13 May 2026 23:55:51 +0530
+	s=arc-20240116; t=1778696864; c=relaxed/simple;
+	bh=l2KemC4Mqip6WS1Q842qGYE2kNmwg7yfBs0DwLThI8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Cg3HSs/cDl2N24+XMWOw0GWMtm3dbjdMAxnnOPnnviDAlCuqBw/gUzReF9hyNGq3JkrZ447QfQT7Zinh/zvRurc1yodhd9UrmbtZtmsxt0bcvzgKI+Y24N0ynQrzK5q7/rNzN1D2qoyCWHvJ4XcYe9vyRTSWM4ql1/2AmA6QqQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=ugb+w/Mo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=n2G7CcIS; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 6D3E81D000F8;
+	Wed, 13 May 2026 14:27:39 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Wed, 13 May 2026 14:27:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1778696859;
+	 x=1778783259; bh=GbnJfjRBStiaKRZLT02VZB1354Hvx0h1gpT2X0Kvpt8=; b=
+	ugb+w/MoCK+Cq76KPvoo+wISMQpprZXQdAk3i/dgnuTYPy3OkQxSs2xFN6MRw/2M
+	fDw9YGXrGE8B01bJVgCgLHzhFpTS9QOlHoYqM1QXCwm5Ze24EjpAfIyORs0VLEP4
+	mAHdBht7lRSDkgaBknw9fbXkWGZtyTihrXg3zxxJ6wcAkA9WtgD8rL4RHsztZCem
+	Rsxp0gY2tcehmxqWfqGaEuHH8QEHjlwpdWYUb28t+YnVjVjYCnoQuau211sb/ygZ
+	I95d/csNuJeEVJXsyrlmmxuRwmuye0dKesPtXphaf5+z0313rMwrNSpg8geNRX14
+	IdFuFN4voLZy26kzty7deA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778696859; x=
+	1778783259; bh=GbnJfjRBStiaKRZLT02VZB1354Hvx0h1gpT2X0Kvpt8=; b=n
+	2G7CcIS5liB/toFj6ghq8YrTIMXPZsGeuHApr+SOQDFQ+h80ntmkyU1vu11TQNLn
+	6wo9Q8HJEQ7Xzj7yJhmuAlljUcYGbn1ZezzqASVdULb7eLOe6oeVILfbZ9MADbUo
+	EnidDJ5bsv5WM7nS3HZhDa718Y3QOKKrbnwxZ8vxkEXdP7EUYNtpJz+eZ1JGeviv
+	XrO56AcRztohEmu280ftsqZfsYn3MafnOxfO9OJ0xrtZmznCXEXL2LV75UZmcvhr
+	WOm87c/YFr2Pz+hejCT1jQ5DAP1BiDOyaEsM9kbjr7ehmOjDogiVLb/CMZGADjxj
+	vfKEqakOKsuLjRz9Whymw==
+X-ME-Sender: <xms:msIEal5CeibmOq0PCnIL7PBxOf49fDLoRWOFLCziKHN4tUjlg4e91g>
+    <xme:msIEahSgyT-T0RaMchXzdGGmG9Nnviw6xPgZRT_fMv-Z-_FvnqINtRkrOnrtwe2r8
+    Gg_stuv7xKsBNCtzPXLcvmlz-zgn1uIgMhjfiXvzmIhvDUAhkT-sA>
+X-ME-Received: <xmr:msIEaofZhrS0KQe9p0LVgEjp526ztDG3_O4dGSYXPnrqfZYiGdNhbLpPN64>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdehfeejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpeetlhgvgicu
+    hghilhhlihgrmhhsohhnuceorghlvgigsehshhgriigsohhtrdhorhhgqeenucggtffrrg
+    htthgvrhhnpedvkeefjeekvdduhfduhfetkedugfduieettedvueekvdehtedvkefgudeg
+    veeuueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grlhgvgiesshhhrgiisghothdrohhrghdpnhgspghrtghpthhtohepvddtpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopehmrghtthgvvhesmhgvthgrrdgtohhmpdhrtghpth
+    htoheplhgvohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjghhgsehnvhhiughi
+    rgdrtghomhdprhgtphhtthhopegrmhgrshhtrhhosehfsgdrtghomhdprhgtphhtthhope
+    gthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopehmnhhg
+    higruggrmhesrghmrgiiohhnrdguvgdprhgtphhtthhopegumhgrthhlrggtkhesghhooh
+    hglhgvrdgtohhmpdhrtghpthhtohepsghjohhrnheskhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtohepshhumhhithdrshgvmhifrghlsehlihhnrghrohdrohhrgh
+X-ME-Proxy: <xmx:msIEahR_qV9UuC2kZahvYM7vpuJVR17VDHGmXFC5xtuw5qvCJ9mP1w>
+    <xmx:msIEahM1kYu8s--pXaSCxNbdlLG627KP8nKF3hwZrIMOKTzPH27PNg>
+    <xmx:msIEakVfFRSlf7afEpvKFjWU9Ww9TuD8S5Dnnyz94-O7VniPJ7ybwg>
+    <xmx:msIEahacB-lTAHRQfaLsechQRlclOtlcemlNYlBo-ddzPeUvY2P0vA>
+    <xmx:m8IEagDolmbmx2QFR4KKx1ySonJwF1ARYPlv-gqKIIpCvhBQ7hOrbT3j>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 13 May 2026 14:27:37 -0400 (EDT)
+Date: Wed, 13 May 2026 12:27:34 -0600
+From: Alex Williamson <alex@shazbot.org>
+To: Matt Evans <mattev@meta.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Alex Mastro <amastro@fb.com>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Mahmoud Adam <mngyadam@amazon.de>, David
+ Matlack <dmatlack@google.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+ <bjorn@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Kevin Tian
+ <kevin.tian@intel.com>, Ankit Agrawal <ankita@nvidia.com>, Pranjal
+ Shrivastava <praan@google.com>, Alistair Popple <apopple@nvidia.com>, Vivek
+ Kasireddy <vivek.kasireddy@intel.com>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org, alex@shazbot.org
+Subject: Re: [PATCH 9/9] vfio/pci: Add mmap() attributes to DMABUF feature
+Message-ID: <20260513122734.44ce8a68@shazbot.org>
+In-Reply-To: <4af0c788-22cc-4fb1-9276-ab35439fb7c8@meta.com>
+References: <20260416131815.2729131-1-mattev@meta.com>
+	<20260416131815.2729131-10-mattev@meta.com>
+	<20260424183153.GJ3444440@nvidia.com>
+	<20260426105215.GA440345@unreal>
+	<20260427083644.4ee174cd@shazbot.org>
+	<25a4fc45-1b4d-426b-954a-60bf21e9040f@meta.com>
+	<20260511140957.25eb5d9d@shazbot.org>
+	<4af0c788-22cc-4fb1-9276-ab35439fb7c8@meta.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/6] media: qcom: iris: add helpers for 8bit and 10bit
- formats
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
- <20260511-topic-sm8x50-iris-10bit-decoding-v3-1-7fc049b93042@linaro.org>
-Content-Language: en-US
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <20260511-topic-sm8x50-iris-10bit-decoding-v3-1-7fc049b93042@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDE4MyBTYWx0ZWRfX/2SGho4+g0w9
- hFo+sJZzMtzbJSSjoxoejNQtpG1H22xIiLZWVXKdEuiGDf5m5YPbuUAfIn5M7iLKACsMNPyS044
- WFcP6Zzk8e2pPq3Dt/HihFzBACmxGx77nFG5fnuYKZj//I6dsg1qVdOWII6LaMC+dfOgSb01KVU
- qYYt/tFHYjNLjNO/LVT7w6m7CpnxmpkjLS3YFKXd0aebo1nHOm4r0pRlClLLLs+HiVw7ScUdLMV
- Jrc9xL71dyCGak7v8pmwCQgE+/zcjI8p6Adp2SnbJ7MPgSf7Ydx69o0nDvprQg7UPIP/a2ThclN
- WejdZrojKDvYVl9qw3bD3++FBRgO0NFz35JFl1NQCNmh/unAAptZDmtCyM447bjYpu49WlYHhWW
- 9fWKZvnDIGZPUVs3W9BuJzl4ZAoNvett2hdwHOyq+Twb7oKrdLXKq+/nWJ8GG4KBFEuia6OLS+U
- ox+Wyxni2EebYO3k3UQ==
-X-Proofpoint-ORIG-GUID: IjjfJNa2MA4QhneTKRYeAqPASAnDNxwn
-X-Authority-Analysis: v=2.4 cv=TJZ1jVla c=1 sm=1 tr=0 ts=6a04c237 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=6GFGFuPpdQFN+sW0UwB+2Q==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=1v4LsqrUVehaW6lpU9YA:9 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: IjjfJNa2MA4QhneTKRYeAqPASAnDNxwn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-13_02,2026-05-13_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0
- impostorscore=0 spamscore=0 phishscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605050000 definitions=main-2605130183
-X-Rspamd-Queue-Id: 0B32D538FB9
+X-Rspamd-Queue-Id: A6BD4539098
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[shazbot.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[shazbot.org:s=fm2,messagingengine.com:s=fm3];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:email,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61493-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	TAGGED_FROM(0.00)[bounces-61494-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[shazbot.org:+,messagingengine.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alex@shazbot.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[meta.com:email,shazbot.org:mid,shazbot.org:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-
-On 5/11/2026 2:50 PM, Neil Armstrong wrote:
-> To simplify code checking for pixel formats, add helpers to
-> check for 8bit and 10bit formats.
+On Tue, 12 May 2026 18:51:40 +0100
+Matt Evans <mattev@meta.com> wrote:
+> On 11/05/2026 21:09, Alex Williamson wrote:
+> > I think the question of how we actually expand an arbitrary grab bag of
+> > "ATTRS" is the central question in whether we should implement the
+> > interface.   
 > 
-> Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->   drivers/media/platform/qcom/iris/iris_utils.c | 12 ++++++++++++
->   drivers/media/platform/qcom/iris/iris_utils.h |  2 ++
->   2 files changed, 14 insertions(+)
+> > If we follow the direction I suggested for TPH, maybe this
+> > is just a VFIO_DEVICE_FEATURE_DMA_BUF_WC, where it supports only PROBE
+> > and SET, with SET taking only the dma-buf fd to implement the one-way
+> > promotion from UC -> WC.
+> > 
+> > If we support a generic SET ATTRS feature, we really need to map out how
+> > flag bits are indicated as supported and how a user untangles failures
+> > from trying to set various attributes.  If we end up with a feature
+> > indicating each ATTR is available, we might as well have just
+> > implemented a feature for each attribute.  Thanks,  
 > 
-> diff --git a/drivers/media/platform/qcom/iris/iris_utils.c b/drivers/media/platform/qcom/iris/iris_utils.c
-> index cfc5b576ec56..bdedd6bfa87a 100644
-> --- a/drivers/media/platform/qcom/iris/iris_utils.c
-> +++ b/drivers/media/platform/qcom/iris/iris_utils.c
-> @@ -38,6 +38,18 @@ bool iris_split_mode_enabled(struct iris_inst *inst)
->   		inst->fmt_dst->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC08C;
->   }
->   
-> +bool iris_fmt_is_8bit(__u32 pixelformat)
-
-u32 please, to maintain consistency with other
-
-> +{
-> +	return pixelformat == V4L2_PIX_FMT_NV12 ||
-> +		pixelformat == V4L2_PIX_FMT_QC08C;
-> +}
-> +
-> +bool iris_fmt_is_10bit(__u32 pixelformat)
-
-same
-
-> +{
-> +	return pixelformat == V4L2_PIX_FMT_P010 ||
-> +		pixelformat == V4L2_PIX_FMT_QC10C;
-> +}
-> +
->   void iris_helper_buffers_done(struct iris_inst *inst, unsigned int type,
->   			      enum vb2_buffer_state state)
->   {
-> diff --git a/drivers/media/platform/qcom/iris/iris_utils.h b/drivers/media/platform/qcom/iris/iris_utils.h
-> index b5705d156431..35337c5da005 100644
-> --- a/drivers/media/platform/qcom/iris/iris_utils.h
-> +++ b/drivers/media/platform/qcom/iris/iris_utils.h
-> @@ -45,6 +45,8 @@ bool iris_res_is_less_than(u32 width, u32 height,
->   			   u32 ref_width, u32 ref_height);
->   int iris_get_mbpf(struct iris_inst *inst);
->   bool iris_split_mode_enabled(struct iris_inst *inst);
-> +bool iris_fmt_is_8bit(__u32 pixelformat);
-> +bool iris_fmt_is_10bit(__u32 pixelformat);
->   struct iris_inst *iris_get_instance(struct iris_core *core, u32 session_id);
->   void iris_helper_buffers_done(struct iris_inst *inst, unsigned int type,
->   			      enum vb2_buffer_state state);
+> Agreed, that's key.  Alhough, the aim of this patch is for attrs to be a 
+> memory type enum rather than a bag of possibly-concurrent and 
+> possibly-conflicting boolean flags.  Maybe 'memory attributes' would be 
+> a better feature name.
 > 
+> I'm not sure about the feature-per-attribute.  Say we do a 
+> VFIO_DEVICE_FEATURE_DMA_BUF_WC and then later support a second, 
+> VFIO_DEVICE_FEATURE_DMA_BUF_UC_WEAK (like, say, Arm Device-nGRE).  Then 
+> we have to specify that these two VFIO feature types actually 
+> interact/override somehow.  I doubt we'll end up with a dozen but it's a 
+> bit tiresome having a few features that interact.
+> 
+> At least if it's a single DMA_BUF_MEMATTR feature taking an enum, we 
+> just encode the N different (mutually-exclusive!) valid states and done. 
+>   I don't feel having a new feature for each keeps things simpler.
+> 
+> Discovery of support for a specific future attribute is OK with a single 
+> ATTR too; we can take an enum attribute argument to a GET and -ENOTSUPP 
+> for any we don't like.
+> 
+> (We could also add orthogonal DMABUF flags (can't think of a good 
+> example...) but I'd suggest _those_ as semantically-grouped different 
+> features, with the same issues of specifying conflicting cases versus 
+> existing features.)
 
-Regards,
-Vikash
+I think the GET behavior you're proposing is a bit counter-intuitive, if
+not abusive of the interface, but I do agree that if the feature is
+SET'ing a single value and not a group of independent flags, that we
+can probably rely more on a try-and-fail model rather than advertising
+each supported value as a separate feature.
+
+For example, the user has some list of compatible attributes ordered
+from most to least desirable, they try each in order until one works,
+or none work and they decide whether that's ok.
+
+For GET, if we implement it, I think it should report the current
+attribute, mirroring SET.  We could almost get away without implementing
+it, but I do worry about the case of nvgrace-gpu, where it might be
+interesting for the user to see that the default attribute could be WB
+rather than UC.
+
+Where does the user derive the enum value?  Are we defining our own or
+is it a system header defined enum?  I'm curious if/how we're going to
+handle architecture specific attributes.  Thanks,
+
+Alex
 
