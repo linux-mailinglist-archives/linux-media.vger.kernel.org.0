@@ -1,193 +1,185 @@
-Return-Path: <linux-media+bounces-61374-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61377-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OHO0DhZVBGqMHAIAu9opvQ
-	(envelope-from <linux-media+bounces-61374-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:40:22 +0200
+	id aFjpHgtWBGqMHAIAu9opvQ
+	(envelope-from <linux-media+bounces-61377-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:44:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E46531741
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:40:21 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECBB531845
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:44:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C3AFE305978E
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 10:40:02 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4A5B33054BE6
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 10:44:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E75A33E7157;
-	Wed, 13 May 2026 10:40:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46E3B3EE1C1;
+	Wed, 13 May 2026 10:44:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="J9ldTnEu";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eiqP9Ahd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HgBQnzHI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411C639656D
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609DE3EF64E
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778668801; cv=none; b=L5ZcMn09ND+jSk83DdDPZzIwGaXgg8BNzqXCFz2MpZDL8ivO6n38gkX6fEc0BULyoLuf46ldNBT/8gvtvxaW3pxfb3yOtWoupDOfXM3Bv8oIgSSoeWsSt1CsiQVc0YUi994eBIOknl1FUZcW/YqSdtq028MJM4apOtEmez1aA8s=
+	t=1778669046; cv=none; b=SccvBWTHsF6Bh1udCpe6RzUTUuf8g1fcLVijWxxeCStL6DOlo6abjlJFtr5hF4CxLVKRLA2n3FJ0sGJGI6CV0+VWrg9OMj0/dB/upwn+dP1N/EopfZWjunPIRcRtJozdUO3ROwF9mDuJDk9xQ2RX1js6DsJvTCULHB2k+vS2/lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778668801; c=relaxed/simple;
-	bh=LmMlAWfOHponJ5NadPPNi179OuVV0BnqGf+wAfktPgs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q2uLagV56V6VfG+VCg1gIbXd3M56+RXpkis5hOSI89+fiR5gvQT8IbAJoF3hiFWWZstB0oqZtHIaPFBMrLEKrjoSAvnKZirGqOuQKV4GrpvIZz1A7UsWKWescVp4BmD6NP0il95U+C62shl2S5dkmd19rskNTDdkprM/OaG6vFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=J9ldTnEu; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eiqP9Ahd; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64D5JRZM1393072
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:39:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=NhziQD3I23uQmmb/464nQidA
-	k5Ck271CFtU+xfIGgWw=; b=J9ldTnEuCPlz/ebQLONqlqw39oSWBFgP3x1pUC9S
-	SDUBN1REBm+wA1/82WlZr3egw/d4QJyOMgJ18K2vvKaLbDEY7uuQI4WPS5jZvEA8
-	0FwiJa5K29vJpb0tt1y/i2e6uBbxG+otvk/E9jeYD+ChAp30tvvOVUOuxKyf7ewR
-	vNpzOzOoEzKc40PhIUbimfT/tPN3V4vBTDuEak/yo6prl3gXBKVt+ZMdtB9xhbnj
-	NmCZyXsOBAXHMY3/TfDvQXZg1+62t3y0RiT6IawbduQXZJyuxxhkwQN9iOgsHpVC
-	M6E2DKxKElUgkfIItmwTAEfx9H8xwy4LGocl07H+7xRcbQ==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e4k26181a-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:39:59 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-5162ee45a77so13997921cf.1
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 03:39:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1778668799; x=1779273599; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NhziQD3I23uQmmb/464nQidAk5Ck271CFtU+xfIGgWw=;
-        b=eiqP9AhdNgOtILfvqg3RxZT5BovFMilM7Ug5Jr3Lw8fGQNKxOxKfrYOo0sp6xnwE+a
-         2Ik5rUOsq2ST+442HRcWFFe/buA2yPhMlPoeYE/GdfLlCI7sbmL/jox6AdZ0XkyIW97e
-         G2+rrnPJYT84+WiHscRQx25XGVon1iBETUFoSkiCegXlavWbdEX36s5ZngMs1Nm+ZviP
-         fiTnMRlgnvoZ05oeP5UNC8l8+Cva68kz/4T9/41+IJCwN8EiFc9vRGSYLEC8XKG/+yY8
-         nHab7ByaNTw6EAYPnuRO5kUcm+250eC0a2WN5kSrsBdgOTXp9Uih1fp6JVaOMH1d0hdS
-         skFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778668799; x=1779273599;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NhziQD3I23uQmmb/464nQidAk5Ck271CFtU+xfIGgWw=;
-        b=EbcQtqOYxivOo+9Sx4zNvHAnaCle6bn71lHu2a1tuN3BG+rIcdgsGROMWGVwE71zCE
-         PF9UNLOtsa2itsBIRD7LuzdZlHy3ATOAmzvslrZj+1GJt37QB/dzvtnqEYd5rQm8nR53
-         lDJkZQd+ID1QGdWTHnj60iAasG1P2JmS4l2eM/wQd999fiQOs7GttnR1MTJtmMyYwlDm
-         43E4laCpN5R1FaYAHRFB1P2dlmXUMYwPZFEfWuZsAqXIIr3HEWM2nciKe2hKL+1OFeFK
-         vVneFUDZ/jZCvZR2n8BLhGiEpjqIsebBj+CXQxeW1SRn0klDVeme7AWwZegIoMAtOWfk
-         eFCQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/WKRSZTLieNj+sui5Fo+YQf0sgvyQMlB2UaAtnyMMSNXzOHmip+AUs3Qn2oKZvZ+DbZe9vKuAPipQ93Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxao8wL5eiK1nELTekGNF9SgSDi4OK8CXktdZqzwUwF6ZjMfI3D
-	uiMfglMu2VyzB94Oz+MS3/CZE2wlq2aWGwfa+t5olTtdC3LxxLR36cvPWjv5eUjdZdipHIadUUF
-	WB17Jwy6y9GWUJdfmjT+C5obQdO2J4UKuhCWuIV6IWNopPTOo6q01oLvQ8FVQN/0SPg==
-X-Gm-Gg: Acq92OEbWRfVExJHfqRSCV8ZpjWyyRqlqgtD8L/IL9Te3VLbdYvL9TWhtigg7FX4BMc
-	eG3AlbO36PaiYkmQp4cMsItvg12JrQv8qJPowsBZR9kmDPJBp+p1vYJ6XqAwh0cQYWEBIgdy/8M
-	IyexXWx7K8FW/OB07bAlT/0sCM0zOGLLUlCaF8LMb5fB5IAApEZcD32KbrqWUh1n5u0rVdB3uSC
-	tnj8yTwF66caThJGWhevhSDLDQj5FchAWT9kzxOI6mMtltPF2tT8BRZacshSQONnoFQvPSU8gKq
-	jybgyEthQqfYrfFxJwzebTkgZOxkJvJF9MKHRfoYBkyIz4WGqR9sWUwQqmLRxzBHYzTa8lZSwfD
-	AbiHOwMi0K7InFlKAKi+C6t/MFsgYNRpqc25vYRPC+wc0TmRcQLyA/b35m/ktRnGEZK9baR49DV
-	9RQXbzkj9KbqL7v+b1vRCVzr1qjnVjvSXxgDU=
-X-Received: by 2002:a05:622a:1906:b0:50e:5acc:e792 with SMTP id d75a77b69052e-5162f4c06d6mr34020791cf.14.1778668798661;
-        Wed, 13 May 2026 03:39:58 -0700 (PDT)
-X-Received: by 2002:a05:622a:1906:b0:50e:5acc:e792 with SMTP id d75a77b69052e-5162f4c06d6mr34020501cf.14.1778668798233;
-        Wed, 13 May 2026 03:39:58 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393f60db4fcsm40450251fa.19.2026.05.13.03.39.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 03:39:57 -0700 (PDT)
-Date: Wed, 13 May 2026 13:39:55 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/6] media: qcom: iris: vdec: update size and stride
- calculations for 10bit formats
-Message-ID: <hzmcaxuajqvfo5pidetcplhe52e5cmppecy5tm5dx232cgv2ik@36shiw2kqfvz>
-References: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
- <20260511-topic-sm8x50-iris-10bit-decoding-v3-4-7fc049b93042@linaro.org>
+	s=arc-20240116; t=1778669046; c=relaxed/simple;
+	bh=W4YuarePKu51g6tF30wLW5/SuKEHm8DhPc17lllLX0k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HbRHYDNAf7gqxVJZ6GAivgdh9DxjWOdqRSaH3oh0m4D0xAXKb3L6NuqlzRcq7LmSFFY9sV+r22kZnnTmubdZ/7vbK+Z7dDTFbSK9AakpUMfKjSFu0PAbe2zZCvfa7TRXE4fMJ1EGlvUrKZWLSRY+jFdeuhm6eXIW5AeHWd68wzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HgBQnzHI; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778669046; x=1810205046;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=W4YuarePKu51g6tF30wLW5/SuKEHm8DhPc17lllLX0k=;
+  b=HgBQnzHI51Yt3XKYrTvvae4gols0lwbkvb8ZfLz3D9kt1OcP26/TTgVZ
+   ht+he7laclfMA7JHem61v3n5Qy/8fIKSfD6lbOOHMbxxU3Mk9cSasCWfc
+   LcTBafI/AkK24iVEjuYtAyF/km0XtVGNl1Psb9v5nga/Ui8+hhFBIpBkn
+   y1InluuFQsbjr9aRPLjbjVMc8o564ftKcKz01Dj72YWAgUb3/ldv4mO7T
+   FVKSpsjyrlyJ0M2UWiWQ3LgirQVONnUknBRI+Tunfj444ElK0j7UMpsFj
+   3OZsREL8hm64pE66OoJ58vCy401VTmCxodXm4X5dLoF3WU6V1wcvKGifL
+   g==;
+X-CSE-ConnectionGUID: PnQbHTCERRG364xgnuw/Qw==
+X-CSE-MsgGUID: 8bk1GOaoT9KUJAU/G58OPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="83464445"
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="83464445"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 03:44:04 -0700
+X-CSE-ConnectionGUID: O6Oa6x11R7yMmYubDW2CDQ==
+X-CSE-MsgGUID: 1l8AxzAxTzGtAg9ZvxcICw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="233599243"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.111])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 03:44:01 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id BEFE011F80B;
+	Wed, 13 May 2026 13:43:59 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1wN74I-00000009S15-2nEa;
+	Wed, 13 May 2026 13:43:58 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>
+Subject: [PATCH 00/17] Rework frame descriptors
+Date: Wed, 13 May 2026 13:43:41 +0300
+Message-ID: <20260513104358.2252605-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260511-topic-sm8x50-iris-10bit-decoding-v3-4-7fc049b93042@linaro.org>
-X-Authority-Analysis: v=2.4 cv=M/l97Sws c=1 sm=1 tr=0 ts=6a0454ff cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=70vGjhv6m2chQG9CenAA:9 a=CjuIK1q_8ugA:10 a=zgiPjhLxNE0A:10
- a=a_PwQJl-kcHnX1M80qC6:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDExMSBTYWx0ZWRfX7j81avmFyFNe
- y/4rHVvwU5vE6e4EzbPhaW434i9AEPHlIJ4o0wrgcaNXVL3A8/nktZ1dcPdTPegpdpmxbkhTTeg
- 7bcIuPsiAEX/6UHDaRdjho5m8b0R15cA0xK2GFceIiIOsbM4GG03xTE5QtzKGigcmRa43k9/k4L
- pPSaPk51sSm4MYY+SrKQcCQweSBvQPwCJrrvIf7ea1/fFB3xhpLlRG0NSxDEq1mTjled4KvlBw/
- /OszmliCNlnnhKrhCv7LvIKng7jpHfUZK5MUvIhJ4KlyJxj5ru9hw4TgZA58EQGjzkgNMLjT7U2
- rxSm+ukIs3Vj2HY38hIX1k66iw9sQXb4Dv7YggZGt0CsbDYGwPRxG3Hq//ndCeOmisiJEmzh4es
- Tx06FOTGA/laNmj5b8QfYAA87CA4sF1yHsfp1Qr/TEyDBni+kHtb/g3bBZwymOkWIpYR0d7ucqs
- ZlZqQyHiIpk2yvNRZHg==
-X-Proofpoint-ORIG-GUID: PcxNnibzzbs7bqOQlX_fFM5_TXfo-avC
-X-Proofpoint-GUID: PcxNnibzzbs7bqOQlX_fFM5_TXfo-avC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 impostorscore=0 malwarescore=0 suspectscore=0
- spamscore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605050000 definitions=main-2605130111
-X-Rspamd-Queue-Id: A7E46531741
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 3ECBB531845
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61374-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,linaro.org:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email,qualcomm.com:dkim];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-61377-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:dkim];
+	HAS_ORG_HEADER(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[intel.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-On Mon, May 11, 2026 at 11:20:29AM +0200, Neil Armstrong wrote:
-> Update the gen2 response and vdec s_fmt code to take in account
-> the P010 and QC010 when calculating the width, height and stride.
-> 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  .../platform/qcom/iris/iris_hfi_gen2_response.c    | 21 ++++++++++++++++---
->  drivers/media/platform/qcom/iris/iris_vdec.c       | 24 +++++++++++++++++++---
->  2 files changed, 39 insertions(+), 6 deletions(-)
+Hi folks,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+This smallish set makes frame descriptors dynamically allocated and
+implements a single-entry frame descriptor based on the device's format,
+using a new helper called v4l2_subdev_get_frame_desc(). All drivers that
+do not obtain their frame descriptor from upstream are converted. The
+helper also obtains a frame descriptor for the desired type (parallel or
+CSI-2) and checks there's at least one entry there. These checks are
+removed from drivers that currently perform them. (Some drivers also check
+there's exactly a single frame descriptor entry but I think in most cases
+this check could be loosened. That could be done after this set.)
 
+On callee side these patches introduce no changes as the number of
+pre-allocated memory for 8 frame descriptors remains as-is. The
+get_frame_desc() pad op can return more than 8 frame descriptors by
+setting the num_entries to the desired number and returning -ENOSPC.
+
+If people prefer using cleanup.h / __free() to release the dynamically
+allocated array (I think I'd almost require that), I'll merge the
+now-separate __v4l2_subdev_get_frame_desc() into
+v4l2_subdev_get_frame_desc().
+
+More formats can be added to df-to-mbus conversion as needed. These are
+meant to be initial formats that are enough for typical raw sensors (and
+one RGB format, too).
+
+Sakari Ailus (17):
+  media: v4l2-common: Add mipi_csi2_dt_for_mbus()
+  media: v4l2-subdev: Align frame descriptor error codes with routing
+  media: v4l2-subdev: Prepare for changes in getting frame descriptors
+  media: v4l2-subdev: Allocate frame descriptors based on the need
+  media: v4l2-subdev: Provide a cleanup-friendly get_frame_desc
+  media: v4l2-subdev: Change the maximum number of routes
+  media: v4l2-subdev: Return dynamically allocated pass-through routes
+  media: v4l2-subdev: Always return at least one frame descriptor
+  media: bcm2835-unicam: Use v4l2_subdev_get_frame_desc()
+  media: nxp: imx8-isi: Use v4l2_subdev_get_frame_desc()
+  media: raspberrypi: cfe: Use v4l2_subdev_get_frame_desc()
+  media: rzg2l-cru: Use v4l2_subdev_get_frame_desc()
+  media: rkisp1: Use v4l2_subdev_get_frame_desc()
+  media: exynos4-is: Use v4l2_subdev_get_frame_desc()
+  media: ti: cal: Use v4l2_subdev_get_frame_desc()
+  media: ipu6: Use v4l2_subdev_get_frame_desc()
+  staging: media: ipu7: Use v4l2_subdev_get_frame_desc()
+
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c |  23 ++-
+ .../media/platform/broadcom/bcm2835-unicam.c  |  20 +--
+ .../platform/nxp/imx8-isi/imx8-isi-crossbar.c |  15 +-
+ .../media/platform/raspberrypi/rp1-cfe/cfe.c  |  29 ++--
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  |  21 +--
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     |  12 +-
+ .../samsung/exynos4-is/fimc-capture.c         |  16 +-
+ drivers/media/platform/ti/cal/cal-camerarx.c  |  25 ++-
+ drivers/media/v4l2-core/v4l2-common.c         |  47 ++++++
+ drivers/media/v4l2-core/v4l2-subdev.c         | 156 +++++++++++++++---
+ .../staging/media/ipu7/ipu7-isys-csi-phy.c    |  16 +-
+ drivers/staging/media/ipu7/ipu7-isys-csi2.c   |  22 ++-
+ include/media/mipi-csi2.h                     |   2 +
+ include/media/v4l2-subdev.h                   |  76 ++++++++-
+ 14 files changed, 344 insertions(+), 136 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.47.3
+
 
