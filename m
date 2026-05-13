@@ -1,206 +1,173 @@
-Return-Path: <linux-media+bounces-61477-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61478-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wLSNLya0BGowNQIAu9opvQ
-	(envelope-from <linux-media+bounces-61477-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 19:25:58 +0200
+	id qP5NFRCwBGp6NAIAu9opvQ
+	(envelope-from <linux-media+bounces-61478-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 19:08:32 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 233E253800B
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 19:25:58 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54765537B48
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 19:08:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 69DE93133CE8
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 16:54:29 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 782323064354
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 16:59:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F23AD4D90C7;
-	Wed, 13 May 2026 16:54:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE3E84DA55A;
+	Wed, 13 May 2026 16:59:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="hNEXT+9v"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qhZcUgMn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2435944B696
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 16:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 669984D9904;
+	Wed, 13 May 2026 16:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778691265; cv=none; b=Wrrby/L5vpuh2MBLDZkXuhnYHsuPX07/hNNcnRII0vQgQdG7KqFUr+7LHBOuw8K7ck4+3lvC9Dy2TkUJThuuyu4yIf4g9UhPSANPiSjiaIpbQoKDy2auDgGa0uIGvrHdDqnD7dnM9n6oY+RR45DqJhkocJSjgH9jVgRiyivzJuU=
+	t=1778691545; cv=none; b=admL3FxjoQoCb2Zmi27Bqpi589UIBwVDGXrzo3XyBbQMgbSL6vn69X6pMmIjt72IfNuChwxlU8+8L76/sN6TMhpqfkXfD3sguqwD7eJsLsRKeOa5xiNDYYgF3oZEcQ3LDb48GKrs43YvHGiliWkwadHkWkSxMVyxaSnjh0A1PKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778691265; c=relaxed/simple;
-	bh=zjrVcTrTTWQCfhxILgChHYoh0VZq+sDnXGjkQwsAF1Q=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AZK9WVgI1y5afbXR+3F7XyQ5eBILLBuL6N2M1oJqz47etYsgDSLVjX3GNkw0rWfMgzV8TXdBa1s52/fhrzS2r9ft/sgqYJtzRHp+AT+/SyGSJOyexaagRwbukxq0L/NAY1MClXh1FoVzMAv8bolQd+IRaIpBVytLiWf1rchSuCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=hNEXT+9v; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-50fb8e9a4edso75888881cf.1
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 09:54:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1778691263; x=1779296063; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=zjrVcTrTTWQCfhxILgChHYoh0VZq+sDnXGjkQwsAF1Q=;
-        b=hNEXT+9vwGsUaDbhP5YPLKWukz0ZWaParOXmXeRWkeZPwGMsReUfu8ITWl7I5qRX0v
-         R2AJRz1MhEvHdLWJjuZhfzyrYzSkPxRGVpnBygUfGMT2aLWUj6wapT8Tmy/h1cEuBefr
-         NVfkZL2jK06pEcewMJaI9EEBAnGJHuBy2jPpmJo613DjfYfE+Rb4N8sRfJId79zywUkM
-         kwsHRhYz/DW6CGhbmDL8n6137nRkbpWB6k5M88Q7shu/CMkxMXgZmTKeB+U6B/us1MOV
-         P7e/QzN0UWQ4vUkP7bVvpiq1Yxfjach2nNtU4P+nnOQC0c4t8/8SMX9p438noQQcNzbD
-         ic3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778691263; x=1779296063;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zjrVcTrTTWQCfhxILgChHYoh0VZq+sDnXGjkQwsAF1Q=;
-        b=Yj/QfQSlrE2cquxiIt2l8FTfGX491Lqh2I+6dDBAIw7pvKUrGzmpRfMND0rtTTOhy2
-         0fWNMD6dE2eAXOQmT+l8uwOINXgL2j7xKo0Qek5XFVXMKGfB0y+RoBSku9vjNBH9QjuK
-         rpGqS3E/Czp9Dvaqd5FOzlwN4SWYxUcyP5uSWhEwEvAW9Fi2mvJNmc4Bzdee3IhcjMfv
-         w1ynBxCV3d7ZCmN7nVM1Xp2Rv9DCt0EYybI/Wg51Kw6y9Yrsv3d0pSpYuKE2UAZPS20e
-         p9huh4+UlLNiXT6FXL32eIMxDvpAlojfIjivi0n5YBndPYuyFClUz8KF/NcbxrVHeod/
-         dKrQ==
-X-Gm-Message-State: AOJu0YwKzHG8fyur1fyEbXj9+BariTWtOu9bIELDhgLAHeJ+q96ejGPj
-	Ba5Fst4XSuHU+sejFe5GFysMqaQApZXtxv6XNApg5wxD8fMevAKQy44JOyg90mr6MSs=
-X-Gm-Gg: Acq92OHQhVfPJ8jIVMOITB5LFyKeUM7SOptWXZLDZ4UUl3+z5Uq5US2BJ/d0q8q0CUB
-	L6Kj+kwsvhiGODGlVFkef++kbANSD9aGwT/JizkzEcC1pCWUOVYvv8SJvpjVIrcrNu6GwxyULAf
-	DQXgp/IESG8j/Y+WrewFK+kYtdvook/zbWLPdO4KTMY1claXFrUrTphXdKfpsjIetyAvuro0NMR
-	vK2aQv4qN3rKq0iT6wp70XNb7lzwztnfpdHoIweAY/C9WGloNlqlmbbxvLdm/BeJ4ZcWCBBmtwY
-	sy83jWAa1cqxlQGr7tJeXX4M6dU5wJk6GdHqfRIdwR55tNqr4YZwJQpysqRSz0KJecSRl2KjHD3
-	K2wFcG+mV/pPQWkJmYzPwKXVclLD0heXZgyNv0pGNVIocHwGZDZ91Ly8iBcyHuUpwiu8Ypu6HVt
-	pKi3a3/w4iZfVoYrO6eMWXltRIUgPE+8G7qpKb53DEsu3McZ3IL6U8m1cQw55I8HoZkOl4
-X-Received: by 2002:ac8:57ce:0:b0:509:3c8c:23f7 with SMTP id d75a77b69052e-5162ff0791cmr48491321cf.30.1778691263060;
-        Wed, 13 May 2026 09:54:23 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:e06b:3a7c:76ff:fea1:2ac0? ([2606:6d00:15:e06b:3a7c:76ff:fea1:2ac0])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8c90874e5e4sm813106d6.6.2026.05.13.09.54.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 09:54:22 -0700 (PDT)
-Message-ID: <4efb85a777683e8eba1e19501c4bf6de3494d2f9.camel@ndufresne.ca>
-Subject: Re: [PATCH v5 16/29] media: rockchip: rga: split flip and rotate
- into separate function
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
-	 <jacob-chen@iotwrt.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Mauro Carvalho Chehab
-	 <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Rob Herring
-	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	 <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, Philipp Zabel
-	 <pza@pengutronix.de>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, kernel@pengutronix.de, 
-	sebastian.reichel@collabora.com
-Date: Wed, 13 May 2026 12:54:20 -0400
-In-Reply-To: <aeff9412-1c69-469d-bee3-7b9efa9b3947@pengutronix.de>
-References: <20260428-spu-rga3-v5-0-eb7f5d019d86@pengutronix.de>
-	 <20260428-spu-rga3-v5-16-eb7f5d019d86@pengutronix.de>
-	 <ebe5cd6689923eb1e2124e177f694895383fba54.camel@ndufresne.ca>
-	 <1f447423-8c63-4545-a4f7-d8d5ef821255@pengutronix.de>
-	 <30f56a0ac9f724b5ec1b936eec7b5b7c5e751c75.camel@ndufresne.ca>
-	 <aeff9412-1c69-469d-bee3-7b9efa9b3947@pengutronix.de>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-aSiFsAE5dKCPdAUlYUtL"
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+	s=arc-20240116; t=1778691545; c=relaxed/simple;
+	bh=HWBywhZNm5S90F03ab2bPfMBTJVpbp/CPUzhcaQ2NiE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=aFL3BsaMNTC0MUW7JJeTiJOFTi7/ozExlw1msebWtZoWt1qPpbnqicC5q3HP6g+vAJValtcqxKtsch0XUzc+pxEDE1LWO4BC1aTohn3tZx73t83mzOcQLVeOZAVCclf6TaETsHT2kLfu5wJ2R6QIlZ3D6mtIL8v7pki039kGlwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qhZcUgMn; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1778691540;
+	bh=HWBywhZNm5S90F03ab2bPfMBTJVpbp/CPUzhcaQ2NiE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=qhZcUgMnuTpab5X/QI8oJFjDDZ//d+AsQBo85S4Kz2Vdbf86wpGzix4b+ug0+BkUu
+	 rdK4uKr1zrIOn6JerEhay7bJHmPnh5MZ+UzFzE4d0MU4hJJM0mAesVUumLUdNQm3T5
+	 3IWc+vCEI4eHBSYYbbBppgSVwggimHvn9BlaWHpTm1Y4/mrNRbtm79TAuWKXw/mdfx
+	 fnq0PKibcr1TxKFcE8Q4YZmjjgcneMMUiHUnDZfiBk2QzvOZJ8mDOk41x0EsgZwAqh
+	 nLjhL3omldzn/yLvkz1q8yqRSBp80KwpHCis7wuCEBGtp/ikbz1R2tlKj1EzcA5XQ8
+	 50LatGA/7zGTg==
+Received: from [192.168.1.38] (unknown [100.64.0.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 745A717E12AA;
+	Wed, 13 May 2026 18:58:59 +0200 (CEST)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: [PATCH 0/6] drm/panthor: Use guards
+Date: Wed, 13 May 2026 18:58:48 +0200
+Message-Id: <20260513-panthor-guard-refactor-v1-0-f2d8c15a97ce@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 233E253800B
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2WNQQ6DMAwEv4JyrqskFCo49R8VB2MCRAICTkCVE
+ H9vCsfePLva8S68YWu8KJNdsNmst26KoG6JoB6nzoBtIgstdS4zpWHGKfSOoVuRG2DTIoWIraK
+ 8plRSqpWI4zk29nOK39XFbJY1+sMVitF4j6e/TP7s3nYTDtCyG8HyApsGCUVGuXrgMy2ofpEbB
+ qwd453c+PtYozcQ79GGMkHKkCRSq1QjquP4AsQeo9HoAAAA
+X-Change-ID: 20260512-panthor-guard-refactor-f1c6bc30c321
+To: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ Boris Brezillon <boris.brezillon@collabora.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778691539; l=2677;
+ i=boris.brezillon@collabora.com; s=20260429; h=from:subject:message-id;
+ bh=HWBywhZNm5S90F03ab2bPfMBTJVpbp/CPUzhcaQ2NiE=;
+ b=IJrd8gWatJLHwjDsLmVDqjUBpvk/52KPT51orTT1YyLDcPwzWk5ZKsrBp/9W2uxlLyqRIIVD4
+ /LnQ5ANH7WoBluy5DoOb15UCFn8ZmgSw4mfdRTsNYPmpGmZCvdPzuOE
+X-Developer-Key: i=boris.brezillon@collabora.com; a=ed25519;
+ pk=eN+ORdOgQY7d5U+0kA8h5bf67XdD8bhKbjD/TCHexSY=
+X-Rspamd-Queue-Id: 54765537B48
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61477-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61478-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linaro.org,amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,collabora.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ndufresne-ca.20251104.gappssmtp.com:dkim,ndufresne.ca:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:mid,collabora.com:dkim]
 X-Rspamd-Action: no action
 
+Turn the mixed bag of manual locks and guards into something
+more consistent.
 
---=-aSiFsAE5dKCPdAUlYUtL
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This patchset takes care of locks that already have guards
+available, but also adds new guards for resv, drm_dev_enter/exit
+and the custom panthor_device_resume_and_get() helper we have
+around runtime PM.
 
-Le mercredi 13 mai 2026 =C3=A0 16:29 +0200, Sven P=C3=BCschel a =C3=A9crit=
-=C2=A0:
-> Philipp Zabel just mentioned that a 90 degree rotation would just cause=
-=20
-> the RGA to scale it to the output format (deforming if it isn't=20
-> quadratic). The existing code already considers the rotation to set the=
-=20
-> scaling factor accordingly (which I've also missed in this commit. But=
-=20
-> the commit is dropped anyways in v6 due to the various footguns).
->=20
-> While I see that the V4L2_CID_ROTATE docs mention the need to set the=20
-> format according to the chosen rotation, it feels like it's intended for=
-=20
-> non-scaling converters. So I don't see a problem to just allow the=20
-> current state, as the user has to adjust the format anyways if he isn't=
-=20
-> interested in a deformed image (instead of blocking this potential rare=
-=20
-> use-case).
->=20
-> But I'd add a check in my scaling commit to also check in the streaming=
-=20
-> state that we don't set a 90 degree rotation causing the scaling factor=
-=20
-> to be exceeded (e.g. 1x2 -> 1x32 scales by 16, whereas 90 degree=20
-> rotation causes a scaling factor of 32).
+I've intentionally placed the patch transition all locks with
+readily available guards first so we can merge it even if the
+new guards face some controversy.
 
-Ok, didn't think it would just break aspect ratio to make it fit, but it me=
-ans
-its valid for this HW.
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+Boris Brezillon (6):
+      drm/panthor: Driver-wide xxx_[un]lock -> [scoped_]guard replacement
+      dma-resv: Define guards for context-less dma_resv locks
+      drm: Define a conditional guard for drm_dev_{enter,exit}()
+      drm/panthor: Use guards for resv locking
+      drm/panthor: Use the drm_dev_access guard
+      drm/panthor: Add a new guard for our custom resume_and_get() PM helper
 
-Nicolas
+ drivers/gpu/drm/panthor/panthor_devfreq.c |  29 +-
+ drivers/gpu/drm/panthor/panthor_device.c  | 163 +++++-----
+ drivers/gpu/drm/panthor/panthor_device.h  |  10 +-
+ drivers/gpu/drm/panthor/panthor_drv.c     |  62 ++--
+ drivers/gpu/drm/panthor/panthor_gem.c     | 102 +++----
+ drivers/gpu/drm/panthor/panthor_gpu.c     |  40 +--
+ drivers/gpu/drm/panthor/panthor_heap.c    | 139 ++++-----
+ drivers/gpu/drm/panthor/panthor_mmu.c     | 480 ++++++++++++++----------------
+ drivers/gpu/drm/panthor/panthor_pwr.c     |   8 +-
+ drivers/gpu/drm/panthor/panthor_sched.c   | 254 ++++++++--------
+ include/drm/drm_drv.h                     |   9 +
+ include/linux/dma-resv.h                  |   5 +
+ 12 files changed, 589 insertions(+), 712 deletions(-)
+---
+base-commit: ac5ac0acf11df04295eb1811066097b7022d6c7f
+change-id: 20260512-panthor-guard-refactor-f1c6bc30c321
+prerequisite-message-id: 20260512-panthor-signal-from-irq-v2-0-95c614a739cb@collabora.com
+prerequisite-patch-id: e3cfd6399b2dc5439687932c6e961d845369562a
+prerequisite-patch-id: 79820e6740c0c456efc1dfa273de04e495515a1c
+prerequisite-patch-id: a3611a7c9551c606aaf87125782e6d18b6a6549e
+prerequisite-patch-id: 6e9dc83a60e53e7b0d84030727ad9b1921e4b2ca
+prerequisite-patch-id: eabd36064a01418a6ada3176b996a4038a314c21
+prerequisite-patch-id: ca3a30182b71bf66c51ed2b6411d7ed8dc761c8e
+prerequisite-patch-id: 6e549dd0ee9e3e0c8866da72dcabc82209d88360
+prerequisite-patch-id: 5217700df7026ef533a2f273ea2535f9fc1274ac
+prerequisite-patch-id: 8d57abec9f92bcbb21108d3005805b7c155a48f6
+prerequisite-patch-id: 0bf98de955fce577ff8d4fb82c02dc04684beca6
+prerequisite-patch-id: a9e0d90a64dfd5950a69b857af3867404be1ab45
 
---=-aSiFsAE5dKCPdAUlYUtL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+Best regards,
+-- 
+Boris Brezillon <boris.brezillon@collabora.com>
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCagSsvAAKCRDZQZRRKWBy
-9DGsAQDFF4AUa8rwW+g79CDHXNSmFRT9T7gidDUKZhGYQYsr2wEA65cExpikwkg2
-lV7COvcRf9/k95Nx5NJ2kLXO9C4PsAs=
-=fHbK
------END PGP SIGNATURE-----
-
---=-aSiFsAE5dKCPdAUlYUtL--
 
