@@ -1,85 +1,84 @@
-Return-Path: <linux-media+bounces-61534-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61535-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SO+pCs3mBGpCQQIAu9opvQ
-	(envelope-from <linux-media+bounces-61534-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 23:02:05 +0200
+	id uKPaDxbnBGpCQQIAu9opvQ
+	(envelope-from <linux-media+bounces-61535-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 23:03:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B91753AC72
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 23:02:04 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF9053ACAD
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 23:03:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D7B5E305433B
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:00:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CB3E63019C80
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:03:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94A3338AC96;
-	Wed, 13 May 2026 21:00:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F6093914F8;
+	Wed, 13 May 2026 21:03:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="fBe+QCmX"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="K0UqKAPr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013039.outbound.protection.outlook.com [52.101.72.39])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013036.outbound.protection.outlook.com [40.107.159.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA563955C4;
-	Wed, 13 May 2026 21:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF03331A6E
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 21:03:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.36
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778706016; cv=fail; b=DQ/XwakK7EZBR3eSEqxfUSoqx3XpdzNA/oeO78aP4SEPmpV3fhG7lewswDZnYI4zSL+b3zd4vHTCwUi1a7EWeXJSxDamUbnzrq5pccv1H99xHH5Dta77gxZ8mk/WGXcQ3jntctr9od44lsoMKD0bopTGD6SaUl6rgqDIvXCK9u0=
+	t=1778706194; cv=fail; b=O2yJTkeQp9jDNWYdU5lNDZUNgS3ii9u4x07WeRykumZfPdYWKeL4/ju8pUFlUy2+3dB0kcras8dKxYvmLtr3fWpAx8e85i7pEj8tRmo2RMW8VEcjVNfIUc+cGuxVtYLI/J5wFHoVbSIUTBfA+pw2S1SPeJaNrPBZhKSjp49NaHM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778706016; c=relaxed/simple;
-	bh=Weoac+lSVkE4PAOUBQKRO67TvukhkkcXWbuN1iaMYn4=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=aXmXsVMu9zMV/7BQNkly/JJo4R/SvNV+PClPWhyoAn8WVDfN1MBG27HTvw6TAP2eCQUPh65V1xwPJlpnG/aJharYRiYBWz+5Uk3r3oT8JBPqJqgGz6j+Tc5Nb5Pz8zugbI9fupuxg5CEQHqWVMET4m1vtjCSD6u98ZV3Avc+xLs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=fBe+QCmX; arc=fail smtp.client-ip=52.101.72.39
+	s=arc-20240116; t=1778706194; c=relaxed/simple;
+	bh=D3M/zejgv7UyyOr/uFZqnD/u0LcTLIfUxv+Hl9peuno=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Gio7Xq18x/PxE2YR3O7mQaD+thqH1UJv4NTmZNabwJ3az0ETcEUclQHANqWuREKCGJmSbXqS0BmwOOygdOhjLfcIFZElPiFhwHeAMzsGMVwAtFR9GWCNCygVSvlcjmIdxXF8tIWgsox8MdDjBjBtaj1bS1o0SyUI7U3glNEhcKI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=K0UqKAPr; arc=fail smtp.client-ip=40.107.159.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q8Z4KF/u1EseoP3hoEciVjp8u3DV9pZoNGo+TaqLDgxv5SNWJJvCmjaZbAGzERnjRQ3eBGGxvrXTyjlHm+ES8TOEvrtQyhU1haKXOBATQOps/ZXU0/B4FWtvYkFBe/gjwToBQzA14kPHBASIZ5TuFwcuZOwNECPWt0tySH7gsTCjuR/NCu8krzvJq4BIsMkXQBtgv1DUIGcY2qb1iP2PJPPNI0xZikfUkx+/DWQF+szuIfuNAJ+X4M6QqWB7y/Xcl7mtet+nQqpmLX7ZkvSnwF9KvDxHyhOL+18d5jT3bN9L3YyTsjDH6CFEGhxMqOskxSDmamlpevBSMDmuhrRPAQ==
+ b=n8n+0L9fww7yMIAOzOGqGrMAvlyQDzS2DNqEhF/+4DeiRB6CVQiFctJb+pBm1pM6uAQQtQS2D5j9OxTGoVOyIZJRc/vGQrtY1WDh+ljOsG1Uq5aN15r3so+mQ4xHMxa5VSpU2hqGBJghEC29JLaviu/XtnKki8PVnkSU4sVqDKx61U5osZJqDSJH+9hfV8mfbtoPmLI1kyfcUa6wFuWtfdZre1nDorTilbhZY19p7WRKkGST4kGwELOuMowjJp2CVi8qTLIIWYLyBokSptbelzOczsYXZKY6gZHK1Nf7tM7bioG3drg4daZvin1SghZpVN5/BiMFIs5MCrn5heafrA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HXoaVmM0/uy/gaPZlz83XjPeonO4tygxBHg98kcwPBg=;
- b=rVyJKP5n2JtSAdb3m11X96I0TitZgo1vAyfBLOubyutrqhdg7mJgmdtKs5ZtAtEUmCOss/9fzqiZmjaZRFgXLQer8LPcduKqCUnPQrTN5iHILll6DbOH7kGcjOnjS0WJjgBN4FVMouN1mJD+tOGWdWFdjsqFe2el3ROIKqaESv8+Dkgy+dhRB7E5rtBz/yUQC2n12w0puJABpVphDeY43W9xtWbJkFnf49FzIEZ4Zzw/9BNjNOWtZMSIemHmXbvj75Fh/vXtuJvvZJw8QWXtYW7Q3zHM6LRlLt2/R7Hxgp4UySpT673tTGuipCMlQ0RAmTOIMYNd/FnYnGsu/+nOjw==
+ bh=D3M/zejgv7UyyOr/uFZqnD/u0LcTLIfUxv+Hl9peuno=;
+ b=fP+D/KvvfKEb/aHKM3OmLdvh/C94Majt3FDfjsUarQnny6BY0fEKHvkCmtKXtLnXTqXu31KNBjglfre+V1kVh60alK3m0uAGh8Vu3N0TSOUogovrBmikfn1+SP4gHKyoMloRsrV0pQBCQy8AQCipoAvDlmu2FMgL0ibwHehzakKeTI+SBBYU/RRDQWYXXzj6r5wB4Zf0jprSMOKnh5A7pumZbS7CVEqOVR61AL/GQi/clXnAkDLtbs+HiTmkzu7N0mBB1IZVrN62m3VgUeh9Eekp3p/Amimy1RwACPheVDFZ2Yv5D59NBMhhwAqrSE2t5vNbRUcvSY8RnFad9Kaxqg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HXoaVmM0/uy/gaPZlz83XjPeonO4tygxBHg98kcwPBg=;
- b=fBe+QCmXJ+pZD3a4Pbkb/qoq6TYKEArNcDp/hVzynK1D8OeCqm0BbJ5htsVo7rPQWG15xAzwuTK0pwV+Z1GCZOCgBfvZlv98T1VlYWrFi/maX6xNNw6A3Bzc89p5GF8tVPcGnfh6NSseO/T8VznTz2vQCvl1XqGjDJS/MQ3cKs49XiwCiT03sATMRRrMbfDOSvc+qUQAHEtoohX/tjaRBzOomLxwPZH/Zudlsj7hxv2ZAU9HOYnlTKVicvUqcOfphC1YHc+qGKyJS+NqTVHPNLQEw0A6ThvmiypDyFH6F27uc8uzzV0na0kYVtpdzjpO3HHKdj+Z+SoPaFXbHzduhQ==
+ bh=D3M/zejgv7UyyOr/uFZqnD/u0LcTLIfUxv+Hl9peuno=;
+ b=K0UqKAPrHnp6eiHdjXJWT+nmyMZAMFoI8WXEovGaPuxcP3aIhNQF4zX7OepcMThY142B0tsMN+xAmJfAaZQ4YryTjbtdb9VhF3y/NRPPPUi4Ivtz1/olGyFBJo0zyKUBspqWol1sYozmbvznuxE4wLmThujmdKMJ/ZssMkYDlJ4J3vdBjDsCzS6gFWd7MTqorU+15R6jhVGMQhWRumcgaz2UxwHuoYraaA11lc3W6vUFi4OooHMr17MLDCZ2ONBLHGn+LvzGGl+9N9ucfU0zP7J3IKJw9LtJL8JHzOCvpn6oyIOtaBkSf6hxm13VO0IoP/pyXgD6p+LDQuPpaohaBg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
  by AM8PR04MB8034.eurprd04.prod.outlook.com (2603:10a6:20b:249::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.12; Wed, 13 May
- 2026 21:00:06 +0000
+ 2026 21:03:10 +0000
 Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
  ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
  ([fe80::75e4:8143:ddbc:6588%3]) with mapi id 15.20.9913.009; Wed, 13 May 2026
- 21:00:06 +0000
-From: Frank Li <Frank.Li@nxp.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	Isaac Scott <isaac.scott@ideasonboard.com>,
-	linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)),
-	linux-kernel@vger.kernel.org (open list)
-Cc: imx@lists.linux.dev
-Subject: [PATCH v4 1/1] media: v4l2-common: Add helper function media_bus_fmt_to_csi2_(bpp|dt)()
-Date: Wed, 13 May 2026 16:59:47 -0400
-Message-ID: <20260513205949.105444-1-Frank.Li@nxp.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SA1P222CA0093.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:35e::18) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ 21:03:10 +0000
+Date: Wed, 13 May 2026 17:03:04 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>
+Subject: Re: [PATCH 01/17] media: v4l2-common: Add mipi_csi2_dt_for_mbus()
+Message-ID: <agTnCLxmqpCR5VtV@lizhi-Precision-Tower-5810>
+References: <20260513104358.2252605-1-sakari.ailus@linux.intel.com>
+ <20260513104358.2252605-2-sakari.ailus@linux.intel.com>
+ <agTjDhLt3in_apjf@lizhi-Precision-Tower-5810>
+ <agTk8YL_OC7lwHLq@kekkonen.localdomain>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <agTk8YL_OC7lwHLq@kekkonen.localdomain>
+X-ClientProxiedBy: SN7PR04CA0064.namprd04.prod.outlook.com
+ (2603:10b6:806:121::9) To PA4PR04MB9366.eurprd04.prod.outlook.com
  (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -89,372 +88,117 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|AM8PR04MB8034:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce68de98-06bd-444a-0cd0-08deb1329c34
+X-MS-Office365-Filtering-Correlation-Id: b02d0dde-1c01-4604-0944-08deb13309f6
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|19092799006|366016|52116014|7416014|376014|1800799024|921020|38350700014|18002099003|11063799003|56012099003;
+ BCL:0;ARA:13230040|19092799006|366016|52116014|376014|1800799024|38350700014|22082099003|18002099003|11063799003|4143699003|56012099003;
 X-Microsoft-Antispam-Message-Info:
- TxO0+qvc7EUeAfaaOe5yyiytFJYVNvfnDEiBPJOoQK7sDzrAo7L7agXYIs6KcdS42Tu9PxBVKMMeOLVLFWVnaDdiH3EpeelRvuBbJS3vTlkZgJB2HIv1hDVrFn2o2Uefxq1EzdJ3FIMo/PkUJoJSUEKHiJuMjLVIeufAHI6oIzdhnVSsne8Pe2Yygf/uPL+AAG4eTGSX0CBSI7xTbgNFORn+GBiHv3HNs6t6gSgACXVqklBQRKs2f3hwdQMhEx4hqUzQJ4PiMhSrsh5ZFRoUl+fJaGvU3HxD2Qa1AQ3g42xszxLUi4YxDqmzLJJ9HDvhDGIJ1f0XJwt7cBT2+cdxRYDy4D/tNtixAjyxI7S0A7WQpLndXX1EuxA6NVWiXI9qv2EAkDD29Dsm2xpYMgVKrNM/PPIRfYvzNs/vTcfkWwdpfJY+7V9/+wmJevPAOCwom/PNzAr3oPbq5qCgRoTQatSL0FONQzGb03vjRMpHnTi3cIOBGycEFlBz2cEgrt2HSBjid403feUa+ITCUis4u6h661akiNZ63qp0vjuJCDSs/RT8CPnLRm07tyH6XoXMKYTo6iOnXLAL1jmi6sy39FOnEvuy95rdVhNPwcqQYTh57GE4dSCd8dVZ4iO9cLtlN4NjvoxCO437TZNWVMVJ8Pnft+oTNbNPX64N1wWt50EG423i91zzUya6qQJXMnZJHefmoZO6BclNTA9OFX4LkM+nTbQxqNDsv/c9rzLiOjnO7wppsIbNQGkw7o4eZ0OmXOzvt3ap4/FyRsmJlGHCOQ==
+ FhUYHri97pwwPk050UsBXUeW+b+8eSwvphTAHLE0lAKcpq9B+mUq/qHG+3r6bXcDjRz1jvTmplbu0f+GuyGYLZPX/REueYAg2eF/O1ciFNNcXHMa5GUZ9dYo4AB9pZxKhG7RFUGXWUqFO+DoaJ3l9czOlQE9/INV2RX9TRNkcYQ9KGNafPZlMD9tbqw4c7TYljH/ZQhF9B2N/lSmmfXFc4BIEtTxRSeewqZjfOFZI528AUb4bx09md/NegB9dt0UBdZXUOqa0rg1KzB++iZwcxZ3Bhg2sRNmD5eZNmbt0e1DmtNXBkf2wgt/eGZw1X7V2ukPXsIonO+hUSNkjipH3nS71muX6ReXNUiN3GeENbbiluGVsncecQEXBDFBPW3lVDDjZT3W8jVWW+kNGBvZEWrwFELLNoUAw0DpmLdQY5Z9qBIM5PJOH3OtwWAxxVI9Z1db9BANBkf1dFO/x3F/KyNudYoy7MThv5FPwLUEPtFqzsH70vKgfZOj2wrGRdcTaglUj558biwBLTej/kUaL7HykUsfqb5UBG6sqgYPM8zeEhfbpf2Oj4kVvrQ+yTYWI2GOQzRjwTe/m0/vKgAinEHGGGuGAaGyl1eEPROVF8gwHj16q4N9WkQsBpCNh6lueGgsD0xii6KdMRNqQlxukiFQv7rCwEzp0kunJ8scEUkmD7vGZkO4yqb9bmQkiw8n2zUJYMa4REiTCzdjb8QXwf8Q0q5PXUK95ELlxk9XSTozDWz7AZGocuTDxa+TOsyE
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(52116014)(7416014)(376014)(1800799024)(921020)(38350700014)(18002099003)(11063799003)(56012099003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(52116014)(376014)(1800799024)(38350700014)(22082099003)(18002099003)(11063799003)(4143699003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?PS3O6tqG6od2+dJLcEUXZwADGvF0FWm3JptAE5UcSdCj4POjagP636pMhbjh?=
- =?us-ascii?Q?E2gwUsDo1C+D6UQW2qqA1kg5uoAPfPpf2SCnMs6s4McJESikv+oWW0Nw/ULH?=
- =?us-ascii?Q?j3uX3uWqa9yEZ9XvsYkeX0xNYVTXszjCArGik1bSRDRdVGw0ZcMuGROXLtkh?=
- =?us-ascii?Q?L/CNNKULDn/V9JG3BboZ1dBk3SoF6vqwBep4kPy3qsla0brxA4jed1uUE9ML?=
- =?us-ascii?Q?a8MNVptiaH2hWrd2r0FcnEgBPONjtIepJ0US6hmL446DOPZhmajroKg2YQmc?=
- =?us-ascii?Q?B2OYcCriF14FafmVUhNQ+VIi8HtaAiiJngqCobgdpzKLoVu4G/GCZ0PoIIO0?=
- =?us-ascii?Q?PXdSe5s+BARfswEjwu2DFW9R1X4ZErnoMR/FhAj6ihOHOcC9hQBO8YL6QAoW?=
- =?us-ascii?Q?yuQBb45tFOLI0GJ57TyTysvLLgLhYaXGS9XvZ97Y7N5FhNkDLqLvXvIQq9qa?=
- =?us-ascii?Q?MFBMWMywK0wKAPS5ryAPiZkC1IzRPRRhksB5X7Th8JP0kF2FbeM15wvBj0tF?=
- =?us-ascii?Q?5hJai8DgUfEm8797n6RL4Ntr+v+/KIjgEm52YiOnBHzRlqqXwmrWd1H4/c2O?=
- =?us-ascii?Q?+b8oQgTq++t6EJE4Ea97Vltf6IRhNp/tvpHYncUE/BuXba1gNelKKfp19n7U?=
- =?us-ascii?Q?O2pqJ2JHdcEzhPju2MO/svHLu4DSWmYaE++npFAyZGbFMLGGJDtoK4J8kBwZ?=
- =?us-ascii?Q?lORKDZ9xYxtIDhJUEwkaElsoOOjYOXN2RPH/yiTCVvBxRRqlvF9ecO9XIpAh?=
- =?us-ascii?Q?vtH0U0E+mw4f0iMcksYe1UFMAaO45XShKpoZF3Y7tEIO/sB3S6lIPYFq7kDn?=
- =?us-ascii?Q?KDFH5QxR5EI3EnV2Cx33vyWevqfIY1tjCprVv4jPQzr4cconWG3it8h71oz2?=
- =?us-ascii?Q?7AZ3pkm+oFEy/eLN38KVBppAGD90glwtUSB0tyuLyjPSFWf5eSn4Q3yzTJjx?=
- =?us-ascii?Q?jaJmE168fCh9xomoc/7gFCzj7IujSCv4xcDZKOboUer4oVme1OhLaReQynMH?=
- =?us-ascii?Q?lFbLkY2CKhzsxMmBmYFiLCxpha8aCZNXnsl8t1HkhILsCLZhAbzQzgpJt1E9?=
- =?us-ascii?Q?wnXPfyjZMqCscLjehQLIPC6yZ+eXEwjYl0yoR+a5H4nWOTTlD2jBaORRCfal?=
- =?us-ascii?Q?Q4UU6GizceYnNmcszoycn3/cISDc2FXD5hPntrN+ySLS62mo+l8r5QW9QQrj?=
- =?us-ascii?Q?TbYPBtf0Hsa819h++ZlxCMyrm7vybE9Oa/xwtEpFJuIJGC9sBFbicpD22G40?=
- =?us-ascii?Q?lSEcNQaywZuba23nFlZ/YLX+dWsIB9cErqHv2s/ZBWevB/nw9pHaztVfvab3?=
- =?us-ascii?Q?zlFlgHjvHhjDIqiRsOwJycy4+dsoYRvm/T622AMWasrW8HsdvNJcJL5ysuOI?=
- =?us-ascii?Q?Z7J5GVyWLq/W9iwBmN5HoJ41Mf5nGt4iJuR2NjfPubMX0XxQmP/b64D4/RGd?=
- =?us-ascii?Q?V5+qqt5jq6z0uCKX+dOJkq+Qao7FqCyT67imv7zx4wOZJ/WFTwVrmEZPlEv6?=
- =?us-ascii?Q?CJ5PBp8QVGuE+yYVKAHl3qxLwjwZIMOWVgjG9S4Qbs+0qjpbD4y1ZIK4YJYI?=
- =?us-ascii?Q?ei3tfmirFCRRcIg4ID4XR6rjer1ZfusMdQF4O3cz/q3pY9JhHTwucbHWHM3X?=
- =?us-ascii?Q?bI2moM/13qoktJuCmJAS6FJSRMpUzhO14BViAPsp/L0/rcnJApfT8mtRp7kz?=
- =?us-ascii?Q?K+A9XcNxXXNiOjm8OzyZqU/+vgzSf7SwGvamBpyHvGKsZwSKBBd0iNpLZL7C?=
- =?us-ascii?Q?WPY3wix7pQ=3D=3D?=
+ =?us-ascii?Q?eNBPAb1dt/C3vRvJKywiF7ymGoY99Rr1Wa8WmJpRaFeSJD8Lb5b57mhlX80m?=
+ =?us-ascii?Q?w8vU2DUvB2p1tTweUJZrV3tnD9CphX/BD0QqWY9Nc0bxrasnM9Ycvb2+N2DD?=
+ =?us-ascii?Q?9dq+5xUFYkuAgwRrV9OR3HFpL30WKBGN9+QxNyHuHReHrn8yAr4VkPJphRAl?=
+ =?us-ascii?Q?BgU+JdNjBzphEPecfc7u+0UJxA+1K0hIu07BAfERaO21EgrJIx6Dsd18tpRm?=
+ =?us-ascii?Q?zAGMkPwr7teXb2g6N5TEClfy9vQ72DKtx8QATnYna94TLXfh9Hpo7u3hN5BD?=
+ =?us-ascii?Q?lFiTdngyuCTefDUiX5W+eeO4ptffi0ochlMbUH5wpNvWkRfVkLCJ7coWQzuR?=
+ =?us-ascii?Q?r5zQlQWewkUzqq8X9F3IV1Z/VbS6YKCM1siUnub/7sIE8rlY+lilj2evMSfU?=
+ =?us-ascii?Q?aSCVQnBdxXJkvg36NLA6fV/Vb6LlPKbAZRlpfa5CQS4BZRX+g9d45owY1n1Z?=
+ =?us-ascii?Q?TxpPCQFEqiLZknuE0XzU4kcW7lw3DUtvXOPEW4buGZtb5N3MCWzJqFs+G/M3?=
+ =?us-ascii?Q?srp8ojN6ZGk05IM4l/Z4Oa2a7q82F5jQgfIYYDzoOHDkMgWkzqBq+HrRAIte?=
+ =?us-ascii?Q?1NzN5WXo2IGWbVubc9VFWlfGarKah5ihvIskPKt+dO82L1ybrtMemK/608wh?=
+ =?us-ascii?Q?k49bgn2WOq7prCtfxO2vX2GcD4i00wzB4A0X21Qcb5Ltix/Mu35XvtwUaKH6?=
+ =?us-ascii?Q?5GGSyO2fBSJr0cxeK4KD0xTSkUsqdwA/k6HpsLbUU60zqEsgnBAltlEWh+ro?=
+ =?us-ascii?Q?N42XIqFia1hTiQ6NKxTUYdc6NAVcYkzKO1IV95qz/wHG11dfdijY8DnvXCjA?=
+ =?us-ascii?Q?c6pmO3RHz/0gayRDS+6pctm72IYKiQ6HpTSe58NeJ8L0Zp3zkcjqYTDNawno?=
+ =?us-ascii?Q?Uwaipd+9cky1CNk98t4GmHFQdT03h9Jypk8Ec+K8Kevkk3bo2sBNcL8ZI387?=
+ =?us-ascii?Q?khfZANH1nmlnOG37FjpWLRsUoMLkVJIVJtFOX8hrtHPWIQxgKhbyrV1RkgQu?=
+ =?us-ascii?Q?0fKRc3iwZuei15GTiGoHIA7WZ5+Q9SgI2mMmHU2qF0s3aVF+Hsuavs2sLps+?=
+ =?us-ascii?Q?5oXPFqU3IZS5dYG9CLvPZMZ76UozkeGdXgHtcOs45P8c8yChJTsQydx6h7x3?=
+ =?us-ascii?Q?Cnu5j1Yhg0QblI571jVGXxzMwpvPrqv3R+xGSaww1LTzrMTUqSaBsEWxeRWS?=
+ =?us-ascii?Q?RmZLEPoGas9WNKLSinqheL34q8PTFalBpl+17TDzAw9y95bg8c079S/dOX7j?=
+ =?us-ascii?Q?9PRwOiKWsBAJoasyJzW+woj1vmUiXmFodWHb97Ro7Vlqc+mKF9UURDHGBwnI?=
+ =?us-ascii?Q?MOE7KjIGEUC1Chi2m4ggJoP8Y6+0nFI2SftRDAoZxJgOmbF+Koi/S7df6QYC?=
+ =?us-ascii?Q?pZRNyh0Hi35UD/oLK8eEhXOYRzDVSN5vQG9cs5Fst7VCtniJzamS9RUoPcl3?=
+ =?us-ascii?Q?QigbLfaxatzLQPIN6QYVqjG8ENuUPhqQpxKlgqkaqCVBjPADx0ui1m6v+OWI?=
+ =?us-ascii?Q?moevJzwM51ZrlmqlfO/+V3VBvoL471P0AfPu9TZ40kYyn6Q+sgwkuwtxdamr?=
+ =?us-ascii?Q?6C/NsDk4gCHJkuoQiaBzoX+GV+793a9xiglOghp5/AKp/GE9fL1WwRoEffVl?=
+ =?us-ascii?Q?O96AW+V2K83aVjqATKUrAlwnlavP9ehvyZqoRzFkCHVzg2vjxoSFKxiilbuj?=
+ =?us-ascii?Q?YGDRYPZqI69LWsgwOfOvv2IFsCmVm0agasW8xdFmWqAjao2U?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce68de98-06bd-444a-0cd0-08deb1329c34
+X-MS-Exchange-CrossTenant-Network-Message-Id: b02d0dde-1c01-4604-0944-08deb13309f6
 X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2026 21:00:06.3113
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2026 21:03:10.3240
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FMDCk6QzsaxzJB942veA4qQVhIYsp+9SKGqisVGuLBjGSOryxhuhxlFuAwa34U3Xcldo8VdX0dXgDRDx1nFetw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: sBiM2IDGdRCOVh5wsA2JrZ/eLUhsrqLToQ6QmpVTqr0UvNCIj6/9c3xilQdmP7GxcmYcQW2kV5oMCFnpIRNxnQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB8034
-X-Rspamd-Queue-Id: 7B91753AC72
+X-Rspamd-Queue-Id: ABF9053ACAD
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-61535-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-61534-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.Li@nxp.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[nxp.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nxp.com:email,nxp.com:mid,nxp.com:dkim]
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Add helper function media_bus_fmt_to_csi2_bpp() to get media bus fmt's bpp
-to reduce codes such as
+On Wed, May 13, 2026 at 11:54:09PM +0300, Sakari Ailus wrote:
+> Hi Frank,
+>
+> On Wed, May 13, 2026 at 04:46:06PM -0400, Frank Li wrote:
+> > On Wed, May 13, 2026 at 01:43:42PM +0300, Sakari Ailus wrote:
+> > > Add mipi_csi2_dt_for_mbus() for obtaining the MIPI CSI-2 data type (DT)
+> > > for a given Media bus pixel code.
+> >
+> > Thanks, I worked similar version before.
+> > https://lore.kernel.org/linux-media/aP+isGnWmJ4tLXcs@lizhi-Precision-Tower-5810/
+> >
+> > strange, I have not find updated one, I remember I posted.
+> > we may need more information, such as bpp.
+>
+> Ah, I remember this, too! I'd prefer your patch in fact, but it needs some
+> cleanup first. I'd be interested in seeing the lost updated version of it.
+> :-)
 
-	static const struct imx7_csi_pixfmt pixel_formats[] = {
-        {
-                .fourcc = V4L2_PIX_FMT_UYVY,
-                .codes  = IMX_BUS_FMTS(
-                        MEDIA_BUS_FMT_UYVY8_2X8,
-                        MEDIA_BUS_FMT_UYVY8_1X16
-                ),
-                .yuv    = true,
-                .bpp    = 16,
-        },
-	....
+I just post single patch for your reference
+https://lore.kernel.org/linux-media/20260513205949.105444-1-Frank.Li@nxp.com/T/#u
 
-.bpp can be removed from pixel_formats with this helper function.
+you can combine it into this thread, I need more time to work original imx6
+stage threads, which is big changes.
 
-CSI2 data type is defined by MIPI Camera Serial Interface 2 Spec Ver4.1.
-See section 9.4.
-
-Add helper function media_bus_fmt_to_csi2_dt() to convert media bus fmt to
-MIPI defined data type and avoid below duplicated static array in each CSI2
-drivers.
-
-	{
-		.code = MEDIA_BUS_FMT_UYVY8_1X16,
-		.data_type = MIPI_CSI2_DT_YUV422_8B,
-	}
-
-Only add known map for dt type. Need update media_bus_fmt_info when new
-mapping used.
-
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
-Change in v4
-- add space after }
-- fix bpps value when m_nXk (m.n*k)
-- add comments about bpp defination. only convert from suffix of
-MEDIA_BUS_FMT_*
-- move struct media_bus_fmt_info to c file
-- change field name fmt to code
-There are some open at
-https://lore.kernel.org/linux-media/20251013-csi-bgr-rgb-v4-0-55eab2caa69f@kernel.org/.
-this version just fix known review comments.
-
-Change in v3:
-- squash two help function patch to one.
-- use media_bus_fmt_info to do map.
----
- drivers/media/v4l2-core/v4l2-common.c | 178 ++++++++++++++++++++++++++
- include/media/mipi-csi2.h             |  26 ++++
- 2 files changed, 204 insertions(+)
-
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index 554c591e11133..6dba7267f0ff5 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -46,6 +46,7 @@
- #include <linux/uaccess.h>
- #include <asm/io.h>
- #include <asm/div64.h>
-+#include <media/mipi-csi2.h>
- #include <media/v4l2-common.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-ctrls.h>
-@@ -806,3 +807,180 @@ struct clk *__devm_v4l2_sensor_clk_get(struct device *dev, const char *id,
- 	return clk_hw->clk;
- }
- EXPORT_SYMBOL_GPL(__devm_v4l2_sensor_clk_get);
-+
-+/**
-+ * struct media_bus_fmt_info - information about a media bus format
-+ * @code: media bus format identifier (MEDIA_BUS_FMT_*)
-+ * @dt: data type define in MIPI spec (MIPI_CSI2_DT *)
-+ * @bpp: bit width per pixel, which is suffix from MEDIA_BUS_FMT_*, no pad. no
-+ *	 compressed data.
-+ */
-+struct media_bus_fmt_info {
-+	u32 code;
-+	u8 dt;
-+	u8 bpp;
-+};
-+
-+static const struct media_bus_fmt_info media_bus_fmt_info[] = {
-+	{ .code = MEDIA_BUS_FMT_RGB444_1X12, .bpp = 12 },
-+	{ .code = MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_RGB565_1X16, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_BGR565_2X8_BE, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_BGR565_2X8_LE, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_RGB565_2X8_BE, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_RGB565_2X8_LE, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_RGB666_1X18, .bpp = 18 },
-+	{ .code = MEDIA_BUS_FMT_RGB666_2X9_BE, .bpp = 18 },
-+	{ .code = MEDIA_BUS_FMT_BGR666_1X18, .bpp = 18 },
-+	{ .code = MEDIA_BUS_FMT_RBG888_1X24, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_RGB666_1X24_CPADHI, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_BGR666_1X24_CPADHI, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_RGB565_1X24_CPADHI, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG, .bpp = 21 },
-+	{ .code = MEDIA_BUS_FMT_BGR888_1X24, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_BGR888_3X8, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_GBR888_1X24, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_RGB888_1X24, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_RGB888_2X12_BE, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_RGB888_2X12_LE, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_RGB888_3X8, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_RGB888_3X8_DELTA, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG, .bpp = 28 },
-+	{ .code = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA, .bpp = 28 },
-+	{ .code = MEDIA_BUS_FMT_RGB666_1X30_CPADLO, .bpp = 30 },
-+	{ .code = MEDIA_BUS_FMT_RGB888_1X30_CPADLO, .bpp = 30 },
-+	{ .code = MEDIA_BUS_FMT_ARGB8888_1X32, .bpp = 32 },
-+	{ .code = MEDIA_BUS_FMT_RGB888_1X32_PADHI, .bpp = 32 },
-+	{ .code = MEDIA_BUS_FMT_RGB101010_1X30, .bpp = 30 },
-+	{ .code = MEDIA_BUS_FMT_RGB101010_1X7X5_SPWG, .bpp = 35 },
-+	{ .code = MEDIA_BUS_FMT_RGB101010_1X7X5_JEIDA, .bpp = 35 },
-+	{ .code = MEDIA_BUS_FMT_RGB666_1X36_CPADLO, .bpp = 36 },
-+	{ .code = MEDIA_BUS_FMT_RGB888_1X36_CPADLO, .bpp = 36 },
-+	{ .code = MEDIA_BUS_FMT_RGB121212_1X36, .bpp = 36 },
-+	{ .code = MEDIA_BUS_FMT_RGB161616_1X48, .bpp = 48 },
-+
-+	{ .code = MEDIA_BUS_FMT_Y8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_UV8_1X8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_UYVY8_1_5X8, .bpp = 12 },
-+	{ .code = MEDIA_BUS_FMT_VYUY8_1_5X8, .bpp = 12 },
-+	{ .code = MEDIA_BUS_FMT_YUYV8_1_5X8, .bpp = 12 },
-+	{ .code = MEDIA_BUS_FMT_YVYU8_1_5X8, .bpp = 12 },
-+	{ .code = MEDIA_BUS_FMT_UYVY8_2X8, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_VYUY8_2X8, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_YUYV8_2X8, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_YVYU8_2X8, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_Y10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10 },
-+	{ .code = MEDIA_BUS_FMT_Y10_2X8_PADHI_LE, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_UYVY10_2X10, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20 },
-+	{ .code = MEDIA_BUS_FMT_VYUY10_2X10, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20 },
-+	{ .code = MEDIA_BUS_FMT_YUYV10_2X10, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20 },
-+	{ .code = MEDIA_BUS_FMT_YVYU10_2X10, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20 },
-+	{ .code = MEDIA_BUS_FMT_Y12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12 },
-+	{ .code = MEDIA_BUS_FMT_UYVY12_2X12, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_VYUY12_2X12, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_YUYV12_2X12, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_YVYU12_2X12, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_Y14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14 },
-+	{ .code = MEDIA_BUS_FMT_Y16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_UYVY8_1X16, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_VYUY8_1X16, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_YUYV8_1X16, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_YVYU8_1X16, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_YDYUYDYV8_1X16, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_UYVY10_1X20, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20 },
-+	{ .code = MEDIA_BUS_FMT_VYUY10_1X20, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20 },
-+	{ .code = MEDIA_BUS_FMT_YUYV10_1X20, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20 },
-+	{ .code = MEDIA_BUS_FMT_YVYU10_1X20, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20 },
-+	{ .code = MEDIA_BUS_FMT_VUY8_1X24, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_YUV8_1X24, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_UYYVYY8_0_5X24, .dt = MIPI_CSI2_DT_YUV420_8B, .bpp = 12 },
-+	{ .code = MEDIA_BUS_FMT_UYVY12_1X24, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_VYUY12_1X24, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_YUYV12_1X24, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_YVYU12_1X24, .bpp = 24 },
-+	{ .code = MEDIA_BUS_FMT_YUV10_1X30, .bpp = 30 },
-+	{ .code = MEDIA_BUS_FMT_UYYVYY10_0_5X30, .bpp = 15 },
-+	{ .code = MEDIA_BUS_FMT_AYUV8_1X32, .bpp = 32 },
-+	{ .code = MEDIA_BUS_FMT_UYYVYY12_0_5X36, .bpp = 18 },
-+	{ .code = MEDIA_BUS_FMT_YUV12_1X36, .bpp = 36 },
-+	{ .code = MEDIA_BUS_FMT_YUV16_1X48, .bpp = 48 },
-+	{ .code = MEDIA_BUS_FMT_UYYVYY16_0_5X48, .bpp = 24 },
-+
-+	{ .code = MEDIA_BUS_FMT_SBGGR8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_SGBRG8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_SGRBG8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_SRGGB8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_SBGGR10_ALAW8_1X8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_SGBRG10_ALAW8_1X8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_SGRBG10_ALAW8_1X8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_SRGGB10_ALAW8_1X8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_BE, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_LE, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_BE, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_LE, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_SBGGR10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10 },
-+	{ .code = MEDIA_BUS_FMT_SGBRG10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10 },
-+	{ .code = MEDIA_BUS_FMT_SGRBG10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10 },
-+	{ .code = MEDIA_BUS_FMT_SRGGB10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10 },
-+	{ .code = MEDIA_BUS_FMT_SBGGR12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12 },
-+	{ .code = MEDIA_BUS_FMT_SGBRG12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12 },
-+	{ .code = MEDIA_BUS_FMT_SGRBG12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12 },
-+	{ .code = MEDIA_BUS_FMT_SRGGB12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12 },
-+	{ .code = MEDIA_BUS_FMT_SBGGR14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14 },
-+	{ .code = MEDIA_BUS_FMT_SGBRG14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14 },
-+	{ .code = MEDIA_BUS_FMT_SGRBG14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14 },
-+	{ .code = MEDIA_BUS_FMT_SRGGB14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14 },
-+	{ .code = MEDIA_BUS_FMT_SBGGR16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_SGBRG16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_SGRBG16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_SRGGB16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16 },
-+
-+	{ .code = MEDIA_BUS_FMT_JPEG_1X8, .bpp = 8 },
-+
-+	{ .code = MEDIA_BUS_FMT_S5C_UYVY_JPEG_1X8, .bpp = 8 },
-+
-+	{ .code = MEDIA_BUS_FMT_AHSV8888_1X32, .bpp = 8 },
-+
-+	{ .code = MEDIA_BUS_FMT_META_8, .bpp = 8 },
-+	{ .code = MEDIA_BUS_FMT_META_10, .bpp = 10 },
-+	{ .code = MEDIA_BUS_FMT_META_12, .bpp = 12 },
-+	{ .code = MEDIA_BUS_FMT_META_14, .bpp = 14 },
-+	{ .code = MEDIA_BUS_FMT_META_16, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_META_20, .bpp = 20 },
-+	{ .code = MEDIA_BUS_FMT_META_24, .bpp = 24 },
-+};
-+
-+static const struct media_bus_fmt_info *media_bus_fmt_info_get(u32 bus_fmt)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(media_bus_fmt_info); i++) {
-+		if (media_bus_fmt_info[i].code == bus_fmt)
-+			return &media_bus_fmt_info[i];
-+	}
-+
-+	return NULL;
-+}
-+
-+u32 media_bus_fmt_to_csi2_dt(int bus_fmt)
-+{
-+	const struct media_bus_fmt_info *info = media_bus_fmt_info_get(bus_fmt);
-+
-+	return info ? info->dt : MIPI_CSI2_DT_INVALIDATE;
-+}
-+EXPORT_SYMBOL_GPL(media_bus_fmt_to_csi2_dt);
-+
-+u32 media_bus_fmt_to_csi2_bpp(int bus_fmt)
-+{
-+	const struct media_bus_fmt_info *info = media_bus_fmt_info_get(bus_fmt);
-+
-+	return info ? info->bpp : 0;
-+}
-+EXPORT_SYMBOL_GPL(media_bus_fmt_to_csi2_bpp);
-diff --git a/include/media/mipi-csi2.h b/include/media/mipi-csi2.h
-index 40fc0264250d7..bd22d2ae57e81 100644
---- a/include/media/mipi-csi2.h
-+++ b/include/media/mipi-csi2.h
-@@ -44,4 +44,30 @@
- #define MIPI_CSI2_DT_RAW20		0x2f
- #define MIPI_CSI2_DT_USER_DEFINED(n)	(0x30 + (n))	/* 0..7 */
- 
-+/* Use one undefined value in spec */
-+#define MIPI_CSI2_DT_INVALIDATE		0xff
-+
-+/**
-+ * media_bus_fmt_to_csi2_dt - Get MIPI CSI2 data type from media bus format
-+ *
-+ * @bus_fmt: media bus format identifier (MEDIA_BUS_FMT_*)
-+ *
-+ * return MIPI CSI2 data type MIPI_CSI2_DT_*, MIPI_CSI2_DT_INVALIDATE means
-+ * can't get data type from bus_fmt.
-+ */
-+u32 media_bus_fmt_to_csi2_dt(int bus_fmt);
-+
-+/**
-+ * media_bus_fmt_to_csi2_bpp - Get media bus format's bit width per pixel
-+ *
-+ * @bus_fmt: media bus format identifier (MEDIA_BUS_FMT_*)
-+ *
-+ * returns bit width per pixel, 0 is invalidate width, which can't get from
-+ * bus_fmt.
-+ *
-+ * Notes: this bpp is suffix from MEDIA_BUS_FMT_*, no pad, not for compressed
-+ * data.
-+ */
-+u32 media_bus_fmt_to_csi2_bpp(int bus_fmt);
-+
- #endif /* _MEDIA_MIPI_CSI2_H */
--- 
-2.43.0
-
+Best regards
+Frank
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
 
