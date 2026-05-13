@@ -1,134 +1,117 @@
-Return-Path: <linux-media+bounces-61508-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61509-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8EBXO7XMBGrMPAIAu9opvQ
-	(envelope-from <linux-media+bounces-61508-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:10:45 +0200
+	id wPWSG9PMBGrMPAIAu9opvQ
+	(envelope-from <linux-media+bounces-61509-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:11:15 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE80539A3D
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:10:45 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C16539A87
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:11:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D655B302772E
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 19:08:01 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B2B8D305D9CB
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 19:08:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E4283B103B;
-	Wed, 13 May 2026 19:07:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B0C43B0ADD;
+	Wed, 13 May 2026 19:08:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dPl6PecK";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Zoxd/40L"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ol0wKIf/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EHKq4Vqp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CAA3AEF3E
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 19:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2C218E025;
+	Wed, 13 May 2026 19:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778699278; cv=none; b=b9pR+Nyg31J3eD3HgQe3AgBRF8qkN2h0X3intHH6QZqZx05JNCnEe/fNRKEomd4CJg5aexMhvpXLKamIqVRjVLYsNf+7riy/6FbFkj+F8/2YlQVJDtOyAu1eLLBvvxpgp0+G0lRGW8olKEIQPNbBdGNVNiVKjXgnDk3kZ0qkGaA=
+	t=1778699279; cv=none; b=kgdsL+0eRoF8x0uT9Qj9SY3lm29Q0tQCOGEi4DLoWd8Nv1IKmI6Umwy+E3FpXJJLt5rf5X+DnZHNwi44sPmYorj6SBvbjRoY36alkGtyv2cuhynW3gh1wmv6tJZuo1aN/2kpsp1RTFqAI0MMhVnqgGla7glVHmUpIO8jCm6BPi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778699278; c=relaxed/simple;
-	bh=rP5DMFJrroN5qwFkuBbgahMxhxpOb/p8Gem6JT5QYAo=;
+	s=arc-20240116; t=1778699279; c=relaxed/simple;
+	bh=9dyW0i1uEyQbY20h8QmZQNdlAA8PYklMtMjKAtEbdO8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EVtrAa1TsxzqmeVkztdt2X3qGsSQ2pCGDmZzuWYgtlUH41XpVbSLDX3bYEJN//t3UEUUeE+a2hS/abBBM8w/zSYqMnieg4s0lwva5f3IgND02dHPPxhgVm4NyZ+MfEGO0ScqPj6qc+S3Vd+A4bcWMi8I66mLSERNLsBCG67DcB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dPl6PecK; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Zoxd/40L; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64DFdwwu1243051
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 19:07:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	/9qkEUAUseFc28c2cInwM3q7BXTfGwgQErHvPZw8/HM=; b=dPl6PecKBMqiBLpG
-	MP6QcHNgD04r4Ws0rbnogeVB5TDymGe1ND+pLxzdwT3UZm35xL+mo/sCWpMyGTqb
-	BY0zsY7epr7dmw98LCF5I0W/6Ij7jEFN/3LepYISW/TbIt/IbMUUfm0NmIIUXSEl
-	z9EEqr6aV7jXNn18QYlxnt+kos6OSIHNGYCW635E4KcfJwbbGfyYMrFsmwmoyGrx
-	87UzHzEwQgZB4zeb6+GLEdfGs+3TYsrsuwyhjALSh09so0SJplQfZrZY78p9LL8M
-	qUKwCKpNW4zVJHAWk1tjqoL7E/tsQyIqh0fyMYZNhzEJi0SZCt0eu6hWkXLlVehB
-	AunEDQ==
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com [209.85.222.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e4v4trvh5-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 19:07:56 +0000 (GMT)
-Received: by mail-ua1-f69.google.com with SMTP id a1e0cc1a2514c-95d393057f4so10208428241.2
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 12:07:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1778699276; x=1779304076; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/9qkEUAUseFc28c2cInwM3q7BXTfGwgQErHvPZw8/HM=;
-        b=Zoxd/40Le0+XII0kOFmRPlZxSg3rQg4+nWe8qq/2wj6ulkX5LG7yRf9rqjp9bpO6BM
-         3jFKM1pBKvBeL7djUIDWdXN7s4Qx6e0PEtS5q5zkuj2R3I3o99uHTtLOAci2hZpQ5OzT
-         Ibpdm2u3Vd30KETOoWHsb75l7D2XXULuMSKxB2RdJjp4bmafvkZZvxPPERyaxKD43LOc
-         tSy6F0vPx7HdNsA7yGQd9u0yZkJmutM5Y1v4dFQYeqyJaB0VEIWbhT29trkRNsws/cWy
-         nVEbdtcZBfh5Wv8MpUygJ2sx3xyUHLp6c23Y9qbI65BGAGAz6Ue7qt18d/BM2t7VjV+3
-         aCiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778699276; x=1779304076;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/9qkEUAUseFc28c2cInwM3q7BXTfGwgQErHvPZw8/HM=;
-        b=JHMZ5JqWwzxWPfVyQxIPDxOeKg57ZeDYOsB9uAuEzkAzuAAdtyfS+/+kCfqeKeS9xz
-         C/zq5PL95Ha1A7QWHUGUlT0lYLzkJ4HgGIdnp/MXEJcJLzLpNE0p+VCUHa59YTB8Fsrj
-         Kl+jV9VTjdu6YcUNT0gzIDkLOXwTs9KxmsDQKa70qSlrhPKevUZmay2w1LyecEReASJo
-         x+eB/MicI2lmeBOme0spqHyryemn3Qz4lzNYjx7+M/+Kigr49rUIk1QevV/cpj4YyzPz
-         A3FLQRL3fIWK4oY5s9P54Fmc3pmE1JxEfBOQP8JLuBIIK2Dav/cw6mpMm3BE1OLTlVM0
-         ZBJQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/wLK9zmX3j7uJgHBjrOYhk1arO3yPsspV+0gRAMFedume2A5Ijic7irZklohIO39NsE/KdnAQhwlzIaw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOMLhdRXba+av6MOdPGAoOAKy+UxdxCTsQZPLUHMeHxGrEubB0
-	xM8qvCGQVDpc7X2Km0FUe4UsOCot4IiaUYc45SWfhaflYq3kL1dssHBt1swfToZwKktFa/i3nbU
-	0EUSviYpSGmNQSTNZZ3Z1roWOZhDDoeITPcQFgsTwZpp1dM3egzUcwuJzJTMSt7obbg==
-X-Gm-Gg: Acq92OGRzSFs/dncm9eDLDt2wgdbxjN+LlTQs7sF6wG2BoVpXXs0p8qoNH5XXDeogGL
-	Sp7JJt7ygnbnArsVAnA859WMCvWASS+bzl9KT+o2fw2GI4RIw0Qq4gtFFmzIYezl0M0ShTHbppZ
-	AcT0iSuHSCzHwK8+uER4O3uYFy9BZWVjAUff0v2MZvnSOw0zifdCSVq4LPNo6isMN96iWZUmiIn
-	2la1xyzsNk3UliA6cV378/4J5+ntkk6XSRIbv2nI4KVnjo98tJKVnqSocNrPvrLSS8tiz5FRSSm
-	/jN39ibcXMDbyW18L/HTkDLWRyT/EuAJ8YqyEucJ/MzcKrLyrd0LfQSX++qEprZLcCrZIm94kR4
-	ZphNTzXj6yDqhNB6n2Nh4wgBWhlr+5x4gQlRDHQI3WqUfdKRl6dYhHHlAm++XOz4WKlIbkBvwYZ
-	cumvkm/d+L4sll2z2bLuigCI/PFDs/0nRlkfs=
-X-Received: by 2002:a05:6102:549f:b0:635:420c:9b00 with SMTP id ada2fe7eead31-63773f151bamr2884978137.10.1778699275525;
-        Wed, 13 May 2026 12:07:55 -0700 (PDT)
-X-Received: by 2002:a05:6102:549f:b0:635:420c:9b00 with SMTP id ada2fe7eead31-63773f151bamr2884937137.10.1778699275067;
-        Wed, 13 May 2026 12:07:55 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8b6b2e8d9sm3394683e87.51.2026.05.13.12.07.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 12:07:53 -0700 (PDT)
-Date: Wed, 13 May 2026 22:07:52 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
-        Del Regno <angelogioacchino.delregno@collabora.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        iommu@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 04/14] dt-bindings: media: qcom,venus: Remove clock,
- power-domain, and iommus from common schema
-Message-ID: <6xq6fchqaiaexdqygrbnjyyayavj5qbllufevkaodgayfq4qdt@tuc6qgci2et5>
-References: <20260509-glymur-v5-0-7fbb340c5dbd@oss.qualcomm.com>
- <20260509-glymur-v5-4-7fbb340c5dbd@oss.qualcomm.com>
- <35zfskmyogpazxy7wsw2jg36fvpnnc7hng23j4heq2jy5ookai@q7d2vl7nn7ck>
- <fc188af5-ec7e-bebb-2654-62312d79e60f@oss.qualcomm.com>
- <kdbo5d2wibjfnchfw7xn3wcgcp5r6ff7pw3ibkpbqzjgfhkovp@v4er4hdiytks>
- <f1fe6e8c-9a16-3103-fbe8-de772bc4728a@oss.qualcomm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=vAf61v5jCqz8rSMTY9RjjZ6QIJxyE667VTZ+f8ZzhOR+SsbKH1h9Ku18cVvf2eJr6PjPxu75wcl9yHS8jTNc+EPtQD9vI75p5yKvt5jIXHsHyGGMrtA/VKr3Wh17dkf+UGBC8La8mEv+avi3cmKMZciQGnkNtXl9MXThxdUCz8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ol0wKIf/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EHKq4Vqp; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id B21E6EC0237;
+	Wed, 13 May 2026 15:07:56 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Wed, 13 May 2026 15:07:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1778699276;
+	 x=1778785676; bh=Pdi+Fsgqu8rY3Pf5OyrhZJWHhF8X8iBfSSYCAuxhxlg=; b=
+	ol0wKIf/gpMAtWYrv44KmJAKVKUzOIlDDb86vUCuYBUz9XctmJOaZz03kXdf2hhI
+	KwSreF7bKTWCEjnFLoCr9JErM3rsiY+R0MxfG1Z6oXWXkKoJXgsBKgoSmBr5YxqF
+	iaxZOdHc73YshYrQtL7MHdZJ2zFs6zXQVBczH+pOFDS6s76MzAngvibxlb0KQdST
+	5Bl/Sz3i7JeGKIyK++ahs0+N8wGi2Ssl3HILAwA9GCgKqvRicYTMIdLe4eKXyVab
+	wdfg/StyOqZW0uHMfb4Z82+Dli7ZYoNoPlkTKL1UAcT492fZ2ow5wzvKFwE6ee2a
+	YI9TKVxPafbdq3AouV9Iyg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778699276; x=
+	1778785676; bh=Pdi+Fsgqu8rY3Pf5OyrhZJWHhF8X8iBfSSYCAuxhxlg=; b=E
+	HKq4VqpPyeIumW7itoOq9YLD5zxZ/r/c1P4V7+c3salqwsICZ4ph7aCUCggpk+wC
+	bm3GImR/HdWYqqxFP0Ov65JhAJb5qpNOH/SwYOwLP/wyNvQzcqm3EhgbfOk005Nj
+	nbAGDrtLfxQu/ZdoNnSvAWnhuibkTiue7ZVffnveBJpeOE+uXeqxKjnf2VFXOx+Q
+	+tvQXVjZcISHS9N/d2t8oCcdc5pDZlxdcYd+T6+kdb006hx0Udh6cIR23mKSIiyg
+	r97efbS6SOtVPYA7dLgTtGI6AgihK3JT4H0Ci8OfJyTPyrh+eQAusX2/S/iB+Fq9
+	ZnK/IblXI6Tp2FGvcNBBQ==
+X-ME-Sender: <xms:C8wEaujnYTHeuiHQEQFeS-vTr3QlFaSOlql8-X2mtvLYH6dGfxlKCA>
+    <xme:C8wEakmNnarw3p7kFILhaCQEakXPzZfdFF0WggZXtqHWlVRXnXOfspx78GenOJIBR
+    OESoBy2qOoFshd7__5TcOMM1Z8GgW_uaNTdvIpJ0Z3RgXHAT2FWboY>
+X-ME-Received: <xmr:C8wEavpFotMsX-M3tAdfCZjyh-ftFkAgflVetkaR55Di61zWZgoR_XESHIiRnT7QAoUO610LMSOb3AdtPzC_wmyNvCioxj5IFhUX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdehgeehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
+    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
+    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
+    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpd
+    hrtghpthhtohepphhrrggshhgrkhgrrhdrtghsvghnghhgsehgmhgrihhlrdgtohhmpdhr
+    tghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtodhrvghnvghsrghssehiuggvrg
+    hsohhnsghorghrugdrtghomhdprhgtphhtthhopehjrggtohhpohdrmhhonhguihesihgu
+    vggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvg
+    hnodhrvghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehm
+    tghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvg
+    hsrghssehglhhiuggvrhdrsggvpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhesghhm
+    rghilhdrtghomhdprhgtphhtthhopehhvhgvrhhkuhhilheskhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:C8wEaoKl9BQLrMmL5ZghS-xDrgWeWDowyfHlIb_lAOrUFh_6_7AE7A>
+    <xmx:C8wEajBgsX4iiPR2LVd3zZrdoFldgF7CAAsODVjSwDJB1PEyU6vGPw>
+    <xmx:C8wEai5gl2sAZnhhJXQ45kKy8R7sCJXuki8g3rUwQIpbhFYYoGsTTQ>
+    <xmx:C8wEanGFRC6LLGjA23CAZKcTCEYPYMdrhIBYubNrE7moOuiURqjXdQ>
+    <xmx:DMwEamEYXBrxGJGl7pC6hWx1rJl4ywUbIDK9qIrZvtmwkzph3ObMZC-z>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 13 May 2026 15:07:55 -0400 (EDT)
+Date: Wed, 13 May 2026 21:07:52 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-vin: Enable NV12 support for RZ/G2H
+Message-ID: <20260513190752.GC332351@ragnatech.se>
+References: <20260512202931.1051379-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -138,139 +121,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f1fe6e8c-9a16-3103-fbe8-de772bc4728a@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=XIIAjwhE c=1 sm=1 tr=0 ts=6a04cc0c cx=c_pps
- a=UbhLPJ621ZpgOD2l3yZY1w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=YeIv4oy5NbOGZ5o2UJYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=TOPH6uDL9cOC6tEoww4z:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDE4OSBTYWx0ZWRfX+YM/nVKGqGxq
- 0O10EWQk4jHy8H3EUdJGW5D/WcAtTMFoGkyph/ngTTc+ENrSwv36UzdjtgTNC+NjvYK7egEseOB
- woBMnPY6YuimReId3Y9tyzR73HeKZE+imo3GFFbUIe4ojJg/B3ra77BtiG2ildIdXleeNAlswSt
- dmHyG7wS4sLwtAAeHWUWsBT+i6faJfFzj3hYQhWfG3WD5vJzECX8d39yd1qk5JNAlIq0lmByBLG
- kHK1o/iUAxkSH/pVpxczHNagGXzWyuyQi32rA4QKkAUOU12FCw3KB/lYqTSGNxv07S8KVErG54T
- 8MMuijvXYxO5DCp74FhgATw+H1+NJraI4aLLODCXdv99bCQne6xYu3q1dDfRCkpxEVYJs0Or56S
- kR0C8CQZw3vKUHbsZYJDHZ8nLjfUidNKa2LlJQ8nI8nmNC3OnqDy/SVBSWcRsSmb6CYCJ+a3rge
- Ad/yFLXzxKQLFxJG7aA==
-X-Proofpoint-ORIG-GUID: Op7HE3wdwaRL9rVrcIbfHRjgzafw3h8E
-X-Proofpoint-GUID: Op7HE3wdwaRL9rVrcIbfHRjgzafw3h8E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-13_02,2026-05-13_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
- bulkscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605050000 definitions=main-2605130189
-X-Rspamd-Queue-Id: 6EE80539A3D
+In-Reply-To: <20260512202931.1051379-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Rspamd-Queue-Id: F3C16539A87
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
+	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61508-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email,qualcomm.com:dkim];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,glider.be,gmail.com,vger.kernel.org,bp.renesas.com,renesas.com];
+	TAGGED_FROM(0.00)[bounces-61509-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ragnatech.se:email,ragnatech.se:mid,ragnatech.se:dkim,renesas.com:email,messagingengine.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Thu, May 14, 2026 at 12:24:16AM +0530, Vishnu Reddy wrote:
-> 
-> On 5/13/2026 6:59 PM, Dmitry Baryshkov wrote:
-> > On Sat, May 09, 2026 at 10:34:15PM +0530, Vishnu Reddy wrote:
-> >> On 5/9/2026 12:52 AM, Dmitry Baryshkov wrote:
-> >>> On Sat, May 09, 2026 at 12:29:53AM +0530, Vishnu Reddy wrote:
-> >>>> The common schema defines minItems and maxItems for clocks, power-domains,
-> >>>> and iommus. This suggests that the number of these resources can vary,
-> >>>> while in reality they are fixed constraints per platform.
-> >>> It really doesn't. It provides common definitions, while individual
-> >>> platform schemas tighten those.
-> >> If a new platform requires more resources than the current maxItems listed in
-> >> the common-schema (e.g.,Glymur due to its dual vcodec core design), we need
-> >> to keep bumping maxItems in the common schema every time a new platform exceeds
-> >> the previous limit. That makes the common schema a moving target driven by
-> >> platform specific.
-> >>
-> >> I am fine with increasing maxItems in the common schema instead of removing.
-> >> I can set it to a reasonable value (for example, up to 20) so that it
-> >> accommodates future platforms without frequent changes. Anyway, each platform
-> >> schema must define fixed constraints, since clocks and power-domains are
-> >> mandatory per platform.
-> >>
-> >> Could you please let me know which one you would prefer going forward?
-> > Just touch venus-common when new platform requires bigger lists.
-> 
-> In the v3 series, I followed same approach — bumping maxItems in venus-common
-> schema to accommodate the Glymur platform while keeping fixed constraints in
-> the Glymur-specific schema:
-> https://lore.kernel.org/all/20260428-glymur-v3-2-8f28930f47d3@oss.qualcomm.com/
-> 
-> I'm fine with bumping it only when a new platform requires it.
-> However, I'd like to understand your preference a bit more:
-> 
-> Would you prefer setting it to a slightly larger value (e.g., ~20) upfront, so
-> that it accommodates a few future platforms without needing frequent changes to
-> the common schema?
-> Or
-> would you rather we bump it conservatively each time a new platform exceeds the
-> current limit?
-> 
-> I'm fine with either way — just wanted to align on the preferred approach before
-> the next revision.
+Hello Prabhakar,
 
-The latter one is the most typical approach.
+Thanks for your work.
 
+On 2026-05-12 21:29:31 +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> >>>> Remove these constraints from the common schema. Each platform specific
-> >>>> schema already defines its own exact fixed constraints for these
-> >>>> properties. Additionally, remove these from the required list and update
-> >>>> all schemas that reference this common schema.
-> >>>>
-> >>>> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-> >>>> @@ -64,10 +44,7 @@ properties:
-> >>>>  
-> >>>>  required:
-> >>>>    - reg
-> >>>> -  - clocks
-> >>>> -  - clock-names
-> >>>>    - interrupts
-> >>>>    - memory-region
-> >>>> -  - power-domains
-> >>> Do we expect the platforms with Venus / Iris not having either clocks or
-> >>> power domains.
-> >> All Venus / Iris platforms have clocks and power-domains. These removed from here
-> >> and added in each platform schema.
-> > This is a sign that this is wrong.
-> >
-> >>>>  
-> >>>>  additionalProperties: true
-> >>>>
-> >>>> -- 
-> >>>> 2.34.1
-> >>>>
+> The Renesas RZ/G2H (R8A774E1) SoC supports outputting NV12 format, but
+> this capability is currently not advertised by the driver.
+> 
+> Set the .nv12 flag to true in the rcar_info_r8a774e1 structure to enable
+> support for this format.
+> 
+> Fixes: fe98df32bd9e4 ("media: rcar-vin: Enable support for R8A774E1")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+>  drivers/media/platform/renesas/rcar-vin/rcar-core.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> index c8d564aa1eba..e16b33096fd2 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> @@ -925,6 +925,7 @@ static const struct rvin_group_route rcar_info_r8a774e1_routes[] = {
+>  
+>  static const struct rvin_info rcar_info_r8a774e1 = {
+>  	.model = RCAR_GEN3,
+> +	.nv12 = true,
+>  	.max_width = 4096,
+>  	.max_height = 4096,
+>  	.routes = rcar_info_r8a774e1_routes,
+> -- 
+> 2.54.0
+> 
 
 -- 
-With best wishes
-Dmitry
+Kind Regards,
+Niklas Söderlund
 
