@@ -1,497 +1,299 @@
-Return-Path: <linux-media+bounces-61522-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61523-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mFVXEOXTBGr0PQIAu9opvQ
-	(envelope-from <linux-media+bounces-61522-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:41:25 +0200
+	id 4CzJJNrUBGqMPgIAu9opvQ
+	(envelope-from <linux-media+bounces-61523-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:45:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4068253A220
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:41:24 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0248E53A2B7
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:45:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D246C30069BB
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 19:38:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AFED83016CBA
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 19:39:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D20233B7B76;
-	Wed, 13 May 2026 19:38:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DF2D3B7773;
+	Wed, 13 May 2026 19:39:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="i9tmdnos";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XEfQACeg"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bGuU2Lcu";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KRPSnLYk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD1F3B7B8E;
-	Wed, 13 May 2026 19:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A17F5A79B
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 19:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778701083; cv=none; b=XT6moJ8oqO8U9PO+S2e/EvzOhkYuTP1KL2J/uvfvRrQhWwnDSzsJRBjiDQHh8gh3PztXHf2en/oxXFSwwHPypkk+tOZKveH/6q4bha1Uw/Bbs/3O80zkIC+oxlXSm0YF5JKVXXKUjdWg4uKe7jxUJt7Ncg2EhkKSdCbtsFfxkzs=
+	t=1778701155; cv=none; b=j08Gun4jTjYMFLCWB0wogVCj1A7hnzOpcBEynN8hlKlQMLCMBPWioc4GFbJZTU9M9FMcdGKRkYwdKTvMedaAMe0aULWRgmqBEh80WJmbpwaIkk8BqtzNSHMN/sWSeq4GNkk+BljG1wYxW45fd0q4oSZ4fGwYURaNw/xKMJ1w3+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778701083; c=relaxed/simple;
-	bh=5Yci9E5HMxhSgay4e4NTpnBnuS/dzPjLS02cNWIEJQs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g49+XspMn5peY30ThsTRvgLmmrvSEzXonGyaVb6abR5vqMbaUzYeYypo8bMWioxsRKYOQDGSraVO8TrJS3GfSw533w0sE3+cuA/zfVhodsJqegFM5EIZVEMlGr8L0RfPIiOMX8TyPwkc28S7H4lT9BVRH+/7rAAORpSTBOnGnNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=i9tmdnos; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XEfQACeg; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 4AC9E14001FC;
-	Wed, 13 May 2026 15:37:55 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Wed, 13 May 2026 15:37:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778701075;
-	 x=1778787475; bh=wGLrKTZFbFtz28g83Fbb6opSBhXQm+Ur885sMoUpP6c=; b=
-	i9tmdnosIswSUIw06Tt47s4/APoxq/qR9/VMnpu9MCbi44yohLBsopxYUGpuTZzD
-	aRdtrqUfCeDtufybOp9tVHn5aApSmTEUus86bRfXt/mvET0dy63am7eKZ1gt17qF
-	0qYElh9SY906/j05uK21MCohSiBFN7wrpHg7Fyr8/Go4Zyi+KyrgO9xOHtLvk6w5
-	LTSFD26VmRozp9wWzIngO2NaP++g0y7mxRldopUjWGEsqcYlrFYRuIXOQFoZ13TG
-	A6pYOI1TDzoHeT562UzNEjAtvuv6Wefs3Lt6izsfeGqdCl1uuqHSIdETjTkfBVZs
-	jwkJsSmgdq+s/Ql4/FzllA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778701075; x=
-	1778787475; bh=wGLrKTZFbFtz28g83Fbb6opSBhXQm+Ur885sMoUpP6c=; b=X
-	EfQACegSCdZWpwMuMvijnjyP/HmoGyVaaW6nst7+RxP7O4hER8N2LASqCwuNDA7o
-	iVm2LAntfQr74g2KJaBU5jccHZpi1IZ9Mdo8M3EWpDx72Ms9lBiE/ONc0ECt4NRk
-	CqqhHmDMsRayyhtTQ2EPq9ljc5pup/yzj8mc8bbfBAXJIQ6Expw7viGBNr6F2Ftt
-	6JFswvrOcuRF+YAAI6BfG/xOZVDoijbx+2rdQ/jtWnYXfXV3zdPLoAhPFHN5RtMj
-	VxzOCk6R2+B6lFL7wQls23463WsHa9Y9xzqZZHAElclsq7fRJCTR4xJd2lQjAZDO
-	gh23SCyjA7om1H0qxptXA==
-X-ME-Sender: <xms:EtMEarX__VGm5kFHLBmROeuZcmtX0Y3t1t_mrn_7orphy5znPkI8cw>
-    <xme:EtMEagJlikXzaZfyuhJ8IOU1OTlyqz8_EopTDcgGXeISXZROG76sHOSu7I-bkPLDM
-    FtM6uIh1AVJ1mf6diLpeYfRU7ztTgIIL4xmYBWboT0yM32dO88UMaw>
-X-ME-Received: <xmr:EtMEar0GK0BdE0nIzN6WIs1qOePJM4vQsRuRONgYyl0EE99qZVtRhdSZOjeCGVDHbVjTI9YyLewTS6ML6ZVB72an-m7awrNbgCSp>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdehheduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
-    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
-    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
-    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprh
-    gtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthdorhgvnhgvshgrshesihguvggr
-    shhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhs
-    rdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvsh
-    grshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdr
-    vhgrlhhkvghinhgvnhesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepkh
-    hivghrrghnrdgsihhnghhhrghmsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphht
-    thhopegsihhjuhdruggrshdrjhiisegsphdrrhgvnhgvshgrshdrtghomhdprhgtphhtth
-    hopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehf
-    fhiflhhlrdgthh
-X-ME-Proxy: <xmx:EtMEatKtEEfYFrL-CGXnJmQj462Wmp3EGFSJujpmgcTCEz8npKGC-g>
-    <xmx:EtMEamiG-vOH81bt1ua3SdxTgfPx041Btl0RdsVBkoFlGRD1wIvZhQ>
-    <xmx:EtMEatAhT-fOFdEAAdT4vPUoQwTxQ1BA8VxPM6nEmFDlsZTvLZ-Xuw>
-    <xmx:EtMEao6ukrSClsEABnKSFmwnuRz-0hK7kvYSDhV1kdcTlFyrXqgMkA>
-    <xmx:E9MEaouOj7DTnl6kJVYUNGfVn3L1O8vQ9woIMfPmUGzWfLlUm4xkca7f>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 May 2026 15:37:54 -0400 (EDT)
-Date: Wed, 13 May 2026 21:37:53 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH 08/11] media: renesas: vsp1: Use spinlock scoped guards
-Message-ID: <20260513193753.GK332351@ragnatech.se>
-References: <20260511235637.3468558-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260511235637.3468558-9-laurent.pinchart+renesas@ideasonboard.com>
+	s=arc-20240116; t=1778701155; c=relaxed/simple;
+	bh=li5ZoxFSxOcfVSbefU6LKLYa+hd/AJ0ctoeEVHgh7y8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Nxcyu9jlVZhZDrfaNbErOT220TbWcFdOtNswSu8vlNLrPoA89oQnfPNiJG5HJeqYgdPvK8H8pfd3eHDMPOQ0x5QGI6c7hTGuDc/ySUWR6Ypff1ct2cINMxvNAdmMDoXAnE6+xz7VSTZvB9+bV61M5Bnb+6cVoXU3G9g9/80d7DY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bGuU2Lcu; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=KRPSnLYk; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64DJ1sZB3324708
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 19:39:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Jgjv+Fgtfz6BzxxEdOYmhd2HoilXkZ21ctD6Nn7ajo0=; b=bGuU2Lcui5eGkW+T
+	n4HtoY2+Mj1Ocl039fDfV+HFiR43b7pXVt/GmROypELtpeR9rReWta/2dusbAZMZ
+	+0o7UVy7uLlyG4zZ1NQ8CiX5IKDC71U10UUkvFFPEnro3hL34h4Er5gqScJCovST
+	ABvBT+cpU8UYHQU6qSq7Zv8rqmUJFp7gRXUiBSup2uoW0MzscALgIYNwEbZouzjw
+	NA/n3eBl4rsI9zsXPuMbbcD/CiOHS0Rq5eCSZm1EkNJFmdfBCFMCFZnhG474pvGR
+	vvkocrwDb/SclhqSRUx+iGvweDktiS/JWxPitWfyj32QOgHiCy92tbB5jVUM+RtE
+	Pnux2Q==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e4kvdb7wg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 19:39:13 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-c827b1f222bso2807120a12.3
+        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 12:39:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778701152; x=1779305952; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Jgjv+Fgtfz6BzxxEdOYmhd2HoilXkZ21ctD6Nn7ajo0=;
+        b=KRPSnLYkJKrw8YMsUGYmSpP9pT9LM1+bP0JEJOk0QbsWrztNAtbnJ6Nihot0m4vjw7
+         7HpnXHpeIPRf2GmC2iVZN7WitlsXmnCrC2LSURE8ZztJGQfR8rK/nXeMc06MMcALjxiR
+         ofPrWMgKgvrH7Ex6sifvsSVtuDmGCboGA3pCTGhmjrJXBT7AZwx8EamNR7tXU7uZ3ZhU
+         9Nq0+fS8A1PaX6MGXFTzte9RaNrhfkO0xogAgrtGR5dTZ4kzPDTeR9a32eXDFy5HFSil
+         yzx+SrLpi+Ss0q9g2VTLzHS+SA4KZyeioadH7WyXqehVBI2uZ1qTsHO1XcmcSHo34n4f
+         7szA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778701152; x=1779305952;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Jgjv+Fgtfz6BzxxEdOYmhd2HoilXkZ21ctD6Nn7ajo0=;
+        b=O88GGImK39TGD3G6Fpyb//6ImlpzY48zBe1P2VllR0hV+3zewa1IJtyfWOY2oQjVoh
+         cn3/bZWeL4iM8O6NfglYhf75CQ6HBnLU/9AhXxdWDRSuIYke61BkDThZpdv2OszbrsYZ
+         w7PI3PswhzgzcNrMiiSv7eFG7Z7YajKZpwzehggRT6KS02dXjrnFlL5kHXfzvFU5A8KE
+         TtORMffiwMOTTQwapjEyExQkU0ejc/wbeHjO9gEfZw/8FqhHh7hhzP7QYBJUmUsgsvli
+         e80727KhWCT8mm4G3H5r8b/Eh/x00cEu83qW9NPSLwWhBU34ECqoJfc9EEvTECQuY/68
+         qDEA==
+X-Gm-Message-State: AOJu0Yw2fO5xTVs25z5jJZom2TQgiGxxhzhW7eojXHihEJZ6Tw8VecWO
+	+cHBH6wyyz+LujIJFzRQWHar3geAkYotFbQKTMvdWRLYOC9cT+7GipYcuKUhnCpo35D62pn8AG4
+	5lVeG8YcCdyRhn4H/GdEPxqwMWIQmCJQafSa+oEX2H+EAJt5DdOnLtx0UYELP4GN5lQ==
+X-Gm-Gg: Acq92OFMtPte8bNOTzny1EVddczow3sraRAj9lM2D5RGR4vxqGzkymOaGiNNuJiEfn9
+	NU50RItCvNIjdYssml4no+o5H15vTVoyQPsWLKEqCjg8XLybl/lGflwrO9Zt0SI6iOvZydJX2bi
+	NyJI/4IxIkjOQeWWYkK3XZ0jB8obOi0d8i9sj24S2IEVBCPuojTOuzfaJjq48mJCz8iSZkDd3FP
+	r5A/+j6tOCCwOq2GR+Jp/3nXCsG4nz9le0H4+BgfpyDa19fy35rE0fMl+8h0xy1yq0JuSW3fPNC
+	C8QBfSUpSNrLMySGuRjWXtcHCL5Ju8wIE1NrrNlml40FTFBKvk1htIwVD2npB7SBP3sla2toMOB
+	nJzMTG1SydXTxGKcv51eguOED6+ZWsGjSrrwOXUvh7CDFNnfRftW14EEy
+X-Received: by 2002:a05:6a00:2e83:b0:837:80a:5abe with SMTP id d2e1a72fcca58-83f058eb5aemr4513472b3a.37.1778701152308;
+        Wed, 13 May 2026 12:39:12 -0700 (PDT)
+X-Received: by 2002:a05:6a00:2e83:b0:837:80a:5abe with SMTP id d2e1a72fcca58-83f058eb5aemr4513443b3a.37.1778701151811;
+        Wed, 13 May 2026 12:39:11 -0700 (PDT)
+Received: from [192.168.0.172] ([49.205.255.126])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19c5b4bfsm304825b3a.28.2026.05.13.12.39.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 May 2026 12:39:11 -0700 (PDT)
+Message-ID: <c6789e1e-db42-4546-8a98-d75a2443747a@oss.qualcomm.com>
+Date: Thu, 14 May 2026 01:09:06 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260511235637.3468558-9-laurent.pinchart+renesas@ideasonboard.com>
-X-Rspamd-Queue-Id: 4068253A220
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 6/6] media: qcom: iris: vdec: allow GEN2 decoding into
+ 10bit format
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
+ <20260511-topic-sm8x50-iris-10bit-decoding-v3-6-7fc049b93042@linaro.org>
+Content-Language: en-US
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <20260511-topic-sm8x50-iris-10bit-decoding-v3-6-7fc049b93042@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: fGViqN345gX9Rvyn9UXxUShMBFjQ1R8Z
+X-Proofpoint-ORIG-GUID: fGViqN345gX9Rvyn9UXxUShMBFjQ1R8Z
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDE5MyBTYWx0ZWRfX+rcB2TM6ircJ
+ P5YL542Y5KUX6o+B0+1zC53YfercUD2zqj65sGvryQ/RdPEAYbP/PSOYaDA0BhGuG05AUwSbiTT
+ bhAO3i/6YbRRUpYLAm/XezhSSyFdUwBg0IWMPM4r8N/4i/cltGUI7fOXCM4CJXMKD5VbB5K/4xB
+ gtLBdOYHl9ZYLutp657Cf/bgzgxNcBhZ2g5RXdnot6OID3gslLi1NnQpZG7O4lXcXF3ZEiGRSWQ
+ Gl3cmrpYpSRyIyg5xN6u+LjhHilM+ynE1LDah6YkGQAzjIRTtkmBf61uB7wKB1ccTWZobACXRwi
+ dMnqhaqhKNUseL9b3G/uKw39a+ibti6uATGLtlQky8ePL4IvbrSPzME6m5Q/aTDso5voc7+oENP
+ JyVdpNBaoyiczr4FPeVM+wvIG81WolZB+sjGjo3QX/aEgD1HijhrSRpxoqu3nZ/2hZYDpAVUOhf
+ 3KuZBeYjt3SMmBjjcdg==
+X-Authority-Analysis: v=2.4 cv=Iu0utr/g c=1 sm=1 tr=0 ts=6a04d361 cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=6GFGFuPpdQFN+sW0UwB+2Q==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=KKAkSRfTAAAA:8 a=Z2vZjvcEZgQmuG7N6MQA:9 a=QEXdDO2ut3YA:10
+ a=_Vgx9l1VpLgwpw_dHYaR:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-13_02,2026-05-13_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 spamscore=0 adultscore=0 impostorscore=0
+ bulkscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605050000 definitions=main-2605130193
+X-Rspamd-Queue-Id: 0248E53A2B7
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,ideasonboard.com,bp.renesas.com,gmail.com,ffwll.ch];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61522-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:dkim];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61523-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ideasonboard.com:email,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:dkim]
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-Hi Laurent,
 
-Thanks for your patch.
-
-On 2026-05-12 02:56:32 +0300, Laurent Pinchart wrote:
-> Replace remaining manual spinlock locking and unlocking with scoped
-> guards. This simplifies error paths and reduces the amount of code.
+On 5/11/2026 2:50 PM, Neil Armstrong wrote:
+> Add the necessary bits into the gen2 platforms tables and handlers
+> to allow decoding streams into 10bit pixel formats.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
->  .../media/platform/renesas/vsp1/vsp1_clu.c    | 15 +++--
->  drivers/media/platform/renesas/vsp1/vsp1_dl.c | 14 ++---
->  .../media/platform/renesas/vsp1/vsp1_drm.c    |  7 +--
->  .../media/platform/renesas/vsp1/vsp1_lut.c    | 15 +++--
->  .../media/platform/renesas/vsp1/vsp1_pipe.c   | 15 +++--
->  .../media/platform/renesas/vsp1/vsp1_video.c  | 59 ++++++++-----------
->  .../media/platform/renesas/vsp1/vsp1_wpf.c    |  9 ++-
->  7 files changed, 59 insertions(+), 75 deletions(-)
+>   .../media/platform/qcom/iris/iris_hfi_gen2_response.c    | 16 +++++++++++++++-
+>   drivers/media/platform/qcom/iris/iris_instance.h         |  2 ++
+>   drivers/media/platform/qcom/iris/iris_platform_gen2.c    |  8 +++++---
+>   drivers/media/platform/qcom/iris/iris_vdec.c             |  8 ++++++++
+>   4 files changed, 30 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_clu.c b/drivers/media/platform/renesas/vsp1/vsp1_clu.c
-> index 04c466c4da81..a6e4bcab5101 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_clu.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_clu.c
-> @@ -53,9 +53,9 @@ static int clu_set_table(struct vsp1_clu *clu, struct v4l2_ctrl *ctrl)
->  	for (i = 0; i < CLU_SIZE; ++i)
->  		vsp1_dl_body_write(dlb, VI6_CLU_DATA, ctrl->p_new.p_u32[i]);
->  
-> -	spin_lock_irq(&clu->lock);
-> -	swap(clu->clu, dlb);
-> -	spin_unlock_irq(&clu->lock);
-> +	scoped_guard(spinlock_irq, &clu->lock) {
-> +		swap(clu->clu, dlb);
-> +	}
->  
->  	vsp1_dl_body_put(dlb);
->  	return 0;
-> @@ -162,7 +162,6 @@ static void clu_configure_frame(struct vsp1_entity *entity,
->  {
->  	struct vsp1_clu *clu = to_clu(&entity->subdev);
->  	struct vsp1_dl_body *clu_dlb;
-> -	unsigned long flags;
->  	u32 ctrl = VI6_CLU_CTRL_AAI | VI6_CLU_CTRL_MVS | VI6_CLU_CTRL_EN;
->  
->  	/* 2D mode can only be used with the YCbCr pixel encoding. */
-> @@ -173,10 +172,10 @@ static void clu_configure_frame(struct vsp1_entity *entity,
->  
->  	vsp1_clu_write(clu, dlb, VI6_CLU_CTRL, ctrl);
->  
-> -	spin_lock_irqsave(&clu->lock, flags);
-> -	clu_dlb = clu->clu;
-> -	clu->clu = NULL;
-> -	spin_unlock_irqrestore(&clu->lock, flags);
-> +	scoped_guard(spinlock_irqsave, &clu->lock) {
-> +		clu_dlb = clu->clu;
-> +		clu->clu = NULL;
-> +	}
->  
->  	if (clu_dlb) {
->  		vsp1_dl_list_add_body(dl, clu_dlb);
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> index 4a19ff1437b0..3dc74fed91dc 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> @@ -1064,17 +1064,15 @@ void vsp1_dlm_setup(struct vsp1_device *vsp1)
->  
->  void vsp1_dlm_reset(struct vsp1_dl_manager *dlm)
->  {
-> -	unsigned long flags;
->  	size_t list_count;
->  
-> -	spin_lock_irqsave(&dlm->lock, flags);
-> +	scoped_guard(spinlock_irqsave, &dlm->lock) {
-> +		__vsp1_dl_list_put(dlm->active);
-> +		__vsp1_dl_list_put(dlm->queued);
-> +		__vsp1_dl_list_put(dlm->pending);
->  
-> -	__vsp1_dl_list_put(dlm->active);
-> -	__vsp1_dl_list_put(dlm->queued);
-> -	__vsp1_dl_list_put(dlm->pending);
-> -
-> -	list_count = list_count_nodes(&dlm->free);
-> -	spin_unlock_irqrestore(&dlm->lock, flags);
-> +		list_count = list_count_nodes(&dlm->free);
-> +	}
->  
->  	WARN_ON_ONCE(list_count != dlm->list_count);
->  
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> index 2b64d9b5a81c..f6fbd3475329 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> @@ -655,7 +655,6 @@ int vsp1_du_enable(struct device *dev, unsigned int pipe_index,
->  	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
->  	struct vsp1_drm_pipeline *drm_pipe;
->  	struct vsp1_pipeline *pipe;
-> -	unsigned long flags;
->  	int ret;
->  
->  	if (pipe_index >= vsp1->info->lif_count)
-> @@ -708,9 +707,9 @@ int vsp1_du_enable(struct device *dev, unsigned int pipe_index,
->  	}
->  
->  	/* Start the pipeline. */
-> -	spin_lock_irqsave(&pipe->irqlock, flags);
-> -	vsp1_pipeline_run(pipe);
-> -	spin_unlock_irqrestore(&pipe->irqlock, flags);
-> +	scoped_guard(spinlock_irqsave, &pipe->irqlock) {
-> +		vsp1_pipeline_run(pipe);
-> +	}
->  
->  	dev_dbg(vsp1->dev, "%s: pipeline enabled\n", __func__);
->  
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lut.c b/drivers/media/platform/renesas/vsp1/vsp1_lut.c
-> index 94bdedcc5c92..a22c31e17cb7 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_lut.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_lut.c
-> @@ -50,9 +50,9 @@ static int lut_set_table(struct vsp1_lut *lut, struct v4l2_ctrl *ctrl)
->  		vsp1_dl_body_write(dlb, VI6_LUT_TABLE + 4 * i,
->  				       ctrl->p_new.p_u32[i]);
->  
-> -	spin_lock_irq(&lut->lock);
-> -	swap(lut->lut, dlb);
-> -	spin_unlock_irq(&lut->lock);
-> +	scoped_guard(spinlock_irq, &lut->lock) {
-> +		swap(lut->lut, dlb);
-> +	}
->  
->  	vsp1_dl_body_put(dlb);
->  	return 0;
-> @@ -132,12 +132,11 @@ static void lut_configure_frame(struct vsp1_entity *entity,
->  {
->  	struct vsp1_lut *lut = to_lut(&entity->subdev);
->  	struct vsp1_dl_body *lut_dlb;
-> -	unsigned long flags;
->  
-> -	spin_lock_irqsave(&lut->lock, flags);
-> -	lut_dlb = lut->lut;
-> -	lut->lut = NULL;
-> -	spin_unlock_irqrestore(&lut->lock, flags);
-> +	scoped_guard(spinlock_irqsave, &lut->lock) {
-> +		lut_dlb = lut->lut;
-> +		lut->lut = NULL;
-> +	}
->  
->  	if (lut_dlb) {
->  		vsp1_dl_list_add_body(dl, lut_dlb);
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> index 924e87f91903..f9c7c75a7ad0 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> @@ -496,7 +496,6 @@ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
->  {
->  	struct vsp1_device *vsp1 = pipe->output->entity.vsp1;
->  	struct vsp1_entity *entity;
-> -	unsigned long flags;
->  	int ret;
->  
->  	if (pipe->lif) {
-> @@ -510,16 +509,16 @@ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
->  
->  		ret = vsp1_reset_wpf(vsp1, pipe->output->entity.index);
->  		if (ret == 0) {
-> -			spin_lock_irqsave(&pipe->irqlock, flags);
-> -			pipe->state = VSP1_PIPELINE_STOPPED;
-> -			spin_unlock_irqrestore(&pipe->irqlock, flags);
-> +			scoped_guard(spinlock_irqsave, &pipe->irqlock) {
-> +				pipe->state = VSP1_PIPELINE_STOPPED;
-> +			}
->  		}
->  	} else {
->  		/* Otherwise just request a stop and wait. */
-> -		spin_lock_irqsave(&pipe->irqlock, flags);
-> -		if (pipe->state == VSP1_PIPELINE_RUNNING)
-> -			pipe->state = VSP1_PIPELINE_STOPPING;
-> -		spin_unlock_irqrestore(&pipe->irqlock, flags);
-> +		scoped_guard(spinlock_irqsave, &pipe->irqlock) {
-> +			if (pipe->state == VSP1_PIPELINE_RUNNING)
-> +				pipe->state = VSP1_PIPELINE_STOPPING;
-> +		}
->  
->  		ret = wait_event_timeout(pipe->wq, vsp1_pipeline_stopped(pipe),
->  					 msecs_to_jiffies(500));
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> index 1e5d9e42cea0..b0eae54273a0 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> @@ -209,26 +209,21 @@ vsp1_video_complete_buffer(struct vsp1_video *video)
->  	struct vsp1_pipeline *pipe = video->rwpf->entity.pipe;
->  	struct vsp1_vb2_buffer *next = NULL;
->  	struct vsp1_vb2_buffer *done;
-> -	unsigned long flags;
->  	unsigned int i;
->  
-> -	spin_lock_irqsave(&video->irqlock, flags);
-> +	scoped_guard(spinlock_irqsave, &video->irqlock) {
-> +		if (list_empty(&video->irqqueue))
-> +			return NULL;
->  
-> -	if (list_empty(&video->irqqueue)) {
-> -		spin_unlock_irqrestore(&video->irqlock, flags);
-> -		return NULL;
-> -	}
-> -
-> -	done = list_first_entry(&video->irqqueue,
-> -				struct vsp1_vb2_buffer, queue);
-> -
-> -	list_del(&done->queue);
-> -
-> -	if (!list_empty(&video->irqqueue))
-> -		next = list_first_entry(&video->irqqueue,
-> +		done = list_first_entry(&video->irqqueue,
->  					struct vsp1_vb2_buffer, queue);
->  
-> -	spin_unlock_irqrestore(&video->irqlock, flags);
-> +		list_del(&done->queue);
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+> index 0541e02d7507..b6d815c01f1d 100644
+> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+> @@ -542,6 +542,15 @@ static void iris_hfi_gen2_read_input_subcr_params(struct iris_inst *inst)
+>   	pixmp_ip->width = width;
+>   	pixmp_ip->height = height;
+>   
+> +	if (subsc_params.bit_depth == BIT_DEPTH_8 &&
+> +	    pixmp_op->pixelformat != V4L2_PIX_FMT_NV12 &&
+> +	    pixmp_op->pixelformat != V4L2_PIX_FMT_QC08C)
+> +		pixmp_op->pixelformat = V4L2_PIX_FMT_NV12;
+> +	else if (subsc_params.bit_depth == BIT_DEPTH_10 &&
+> +		 pixmp_op->pixelformat != V4L2_PIX_FMT_P010 &&
+> +		 pixmp_op->pixelformat != V4L2_PIX_FMT_QC10C)
+> +		pixmp_op->pixelformat = V4L2_PIX_FMT_P010;
 > +
-> +		if (!list_empty(&video->irqqueue))
-> +			next = list_first_entry(&video->irqqueue,
-> +						struct vsp1_vb2_buffer, queue);
-> +	}
->  
->  	done->buf.sequence = pipe->sequence;
->  	done->buf.vb2_buf.timestamp = ktime_get_ns();
-> @@ -656,13 +651,12 @@ static void vsp1_video_buffer_queue(struct vb2_buffer *vb)
->  	struct vsp1_video *video = vb2_get_drv_priv(vb->vb2_queue);
->  	struct vsp1_pipeline *pipe = video->rwpf->entity.pipe;
->  	struct vsp1_vb2_buffer *buf = to_vsp1_vb2_buffer(vbuf);
-> -	unsigned long flags;
->  	bool empty;
->  
-> -	spin_lock_irqsave(&video->irqlock, flags);
-> -	empty = list_empty(&video->irqqueue);
-> -	list_add_tail(&buf->queue, &video->irqqueue);
-> -	spin_unlock_irqrestore(&video->irqlock, flags);
-> +	scoped_guard(spinlock_irqsave, &video->irqlock) {
-> +		empty = list_empty(&video->irqqueue);
-> +		list_add_tail(&buf->queue, &video->irqqueue);
-> +	}
->  
->  	if (!empty)
->  		return;
-> @@ -843,16 +837,15 @@ static void vsp1_video_stop_streaming(struct vb2_queue *vq)
->  {
->  	struct vsp1_video *video = vb2_get_drv_priv(vq);
->  	struct vsp1_pipeline *pipe = video->rwpf->entity.pipe;
-> -	unsigned long flags;
->  	int ret;
->  
->  	/*
->  	 * Clear the buffers ready flag to make sure the device won't be started
->  	 * by a QBUF on the video node on the other side of the pipeline.
->  	 */
-> -	spin_lock_irqsave(&video->irqlock, flags);
-> -	pipe->buffers_ready &= ~(1 << video->pipe_index);
-> -	spin_unlock_irqrestore(&video->irqlock, flags);
-> +	scoped_guard(spinlock_irqsave, &video->irqlock) {
-> +		pipe->buffers_ready &= ~(1 << video->pipe_index);
-> +	}
->  
->  	scoped_guard(mutex, &pipe->lock) {
->  		if (--pipe->stream_count == pipe->num_inputs) {
-> @@ -1118,7 +1111,6 @@ static const struct media_entity_operations vsp1_video_media_ops = {
->  
->  void vsp1_video_suspend(struct vsp1_device *vsp1)
->  {
-> -	unsigned long flags;
->  	unsigned int i;
->  	int ret;
->  
-> @@ -1138,10 +1130,10 @@ void vsp1_video_suspend(struct vsp1_device *vsp1)
->  		if (pipe == NULL)
->  			continue;
->  
-> -		spin_lock_irqsave(&pipe->irqlock, flags);
-> -		if (pipe->state == VSP1_PIPELINE_RUNNING)
-> -			pipe->state = VSP1_PIPELINE_STOPPING;
-> -		spin_unlock_irqrestore(&pipe->irqlock, flags);
-> +		scoped_guard(spinlock_irqsave, &pipe->irqlock) {
-> +			if (pipe->state == VSP1_PIPELINE_RUNNING)
-> +				pipe->state = VSP1_PIPELINE_STOPPING;
-> +		}
->  	}
->  
->  	for (i = 0; i < vsp1->info->wpf_count; ++i) {
-> @@ -1165,7 +1157,6 @@ void vsp1_video_suspend(struct vsp1_device *vsp1)
->  
->  void vsp1_video_resume(struct vsp1_device *vsp1)
->  {
-> -	unsigned long flags;
->  	unsigned int i;
->  
->  	/* Resume all running pipelines. */
-> @@ -1186,10 +1177,10 @@ void vsp1_video_resume(struct vsp1_device *vsp1)
->  		 */
->  		pipe->configured = false;
->  
-> -		spin_lock_irqsave(&pipe->irqlock, flags);
-> -		if (vsp1_pipeline_ready(pipe))
-> -			vsp1_video_pipeline_run(pipe);
-> -		spin_unlock_irqrestore(&pipe->irqlock, flags);
-> +		scoped_guard(spinlock_irqsave, &pipe->irqlock) {
-> +			if (vsp1_pipeline_ready(pipe))
-> +				vsp1_video_pipeline_run(pipe);
-> +		}
->  	}
->  }
->  
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> index 327c7457126f..0ec707d2913f 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> @@ -366,13 +366,12 @@ static void wpf_configure_frame(struct vsp1_entity *entity,
->  	const unsigned int mask = BIT(WPF_CTRL_VFLIP)
->  				| BIT(WPF_CTRL_HFLIP);
->  	struct vsp1_rwpf *wpf = to_rwpf(&entity->subdev);
-> -	unsigned long flags;
->  	u32 outfmt;
->  
-> -	spin_lock_irqsave(&wpf->flip.lock, flags);
-> -	wpf->flip.active = (wpf->flip.active & ~mask)
-> -			 | (wpf->flip.pending & mask);
-> -	spin_unlock_irqrestore(&wpf->flip.lock, flags);
-> +	scoped_guard(spinlock_irqsave, &wpf->flip.lock) {
-> +		wpf->flip.active = (wpf->flip.active & ~mask)
-> +				 | (wpf->flip.pending & mask);
-> +	}
->  
->  	outfmt = (wpf->alpha << VI6_WPF_OUTFMT_PDV_SHIFT) | wpf->outfmt;
->  
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+>   	switch (pixmp_op->pixelformat) {
+>   	case V4L2_PIX_FMT_P010:
+>   		pixmp_op->width = ALIGN(width, 128);
+> @@ -625,7 +634,12 @@ static void iris_hfi_gen2_read_input_subcr_params(struct iris_inst *inst)
+>   	inst->fw_caps[POC].value = subsc_params.pic_order_cnt;
+>   	inst->fw_caps[TIER].value = subsc_params.tier;
+>   
+> -	if (subsc_params.bit_depth != BIT_DEPTH_8 ||
+> +	if (subsc_params.bit_depth == BIT_DEPTH_8)
+> +		inst->fw_caps[BIT_DEPTH].value = BIT_DEPTH_8;
+> +	else
+> +		inst->fw_caps[BIT_DEPTH].value = BIT_DEPTH_10;
+> +
+> +	if ((subsc_params.bit_depth != BIT_DEPTH_8 && subsc_params.bit_depth != BIT_DEPTH_10) ||
+>   	    !(subsc_params.coded_frames & HFI_BITMASK_FRAME_MBS_ONLY_FLAG)) {
+>   		dev_err(core->dev, "unsupported content, bit depth: %x, pic_struct = %x\n",
+>   			subsc_params.bit_depth, subsc_params.coded_frames);
+> diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
+> index 16965150f427..16424d1e94a6 100644
+> --- a/drivers/media/platform/qcom/iris/iris_instance.h
+> +++ b/drivers/media/platform/qcom/iris/iris_instance.h
+> @@ -25,6 +25,8 @@ enum iris_fmt_type_out {
+>   enum iris_fmt_type_cap {
+>   	IRIS_FMT_NV12,
+>   	IRIS_FMT_QC08C,
+> +	IRIS_FMT_TP10,
+> +	IRIS_FMT_QC10C,
+>   };
+>   
+>   struct iris_fmt {
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+> index 5da90d47f9c6..ceed4b5d96ca 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+> @@ -56,9 +56,10 @@ static const struct platform_inst_fw_cap inst_fw_cap_sm8550_dec[] = {
+>   	{
+>   		.cap_id = PROFILE_HEVC,
+>   		.min = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
+> -		.max = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE,
+> +		.max = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10,
+
+what about gen1 platforms ?
+
+>   		.step_or_mask = BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN) |
+> -				BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE),
+> +				BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE) |
+> +				BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10),
+>   		.value = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
+>   		.hfi_id = HFI_PROP_PROFILE,
+>   		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
+> @@ -287,7 +288,7 @@ static const struct platform_inst_fw_cap inst_fw_cap_sm8550_dec[] = {
+>   	{
+>   		.cap_id = BIT_DEPTH,
+>   		.min = BIT_DEPTH_8,
+> -		.max = BIT_DEPTH_8,
+> +		.max = BIT_DEPTH_10,
+>   		.step_or_mask = 1,
+>   		.value = BIT_DEPTH_8,
+>   		.hfi_id = HFI_PROP_LUMA_CHROMA_BIT_DEPTH,
+> @@ -866,6 +867,7 @@ static const u32 sm8550_vdec_output_config_params[] = {
+>   	HFI_PROP_OPB_ENABLE,
+>   	HFI_PROP_COLOR_FORMAT,
+>   	HFI_PROP_LINEAR_STRIDE_SCANLINE,
+> +	HFI_PROP_UBWC_STRIDE_SCANLINE,
+>   };
+>   
+>   static const u32 sm8550_venc_output_config_params[] = {
+> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
+> index f4d9951ed04c..65cf509e4aef 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+> @@ -70,6 +70,14 @@ static const struct iris_fmt iris_vdec_formats_cap[] = {
+>   		.pixfmt = V4L2_PIX_FMT_QC08C,
+>   		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>   	},
+> +	[IRIS_FMT_TP10] = {
+> +		.pixfmt = V4L2_PIX_FMT_P010,
+> +		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+> +	},
+> +	[IRIS_FMT_QC10C] = {
+> +		.pixfmt = V4L2_PIX_FMT_QC10C,
+> +		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+> +	},
+>   };
+>   
+>   static const struct iris_fmt *
 > 
 
--- 
-Kind Regards,
-Niklas Söderlund
+Regards,
+Vikash
+
 
