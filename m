@@ -1,521 +1,241 @@
-Return-Path: <linux-media+bounces-61518-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61519-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6C3tAXvSBGr0PQIAu9opvQ
-	(envelope-from <linux-media+bounces-61518-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:35:23 +0200
+	id GCNUJc3SBGr0PQIAu9opvQ
+	(envelope-from <linux-media+bounces-61519-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:36:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0999353A0A3
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:35:21 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id A67E353A10B
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 21:36:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A57BF3009839
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 19:24:54 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0817A30072A9
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 19:27:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CB723B1034;
-	Wed, 13 May 2026 19:24:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4148C3B6BEB;
+	Wed, 13 May 2026 19:27:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="tSF/mCi0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Rj7pRxqP"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lgdRRt6s";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VKqCmsQZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6223B27C1;
-	Wed, 13 May 2026 19:24:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF873B19A8
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 19:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778700291; cv=none; b=kLAgqxc54VGx8tSX8Js7Z6f481icvsgainKmdgKQ3jpt6KaRMgs5Lt7zrc7ESB5RYpnzOuM3AhC9TwcbWQSXhQNUNENezBBPV21eDjz+n0QYZfCFN8XxL7h+d0nyVblu5jlTzIu8wKduaSeEmEWrkFvWNP2ZIG8Z5BnKjcqZ/2o=
+	t=1778700436; cv=none; b=Jdn4NmXrtMIrkSRa1QCcmfOlEwbt9WjbAtdUBDLhf8p2X6/8m6njoa+WxE2sr9ixf/zW5PsJ0bAy49whABDeyrrT+qLR593ns9ItrRSUX1nbpmzv2PNjFg2VGdWKXdm8IXdxcUhrHYrxsYVbS5CxVWpVvB2iGsQA7l/vxW36fJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778700291; c=relaxed/simple;
-	bh=+2QxdCE3XYf+k+gI6IkuBtxYakMbYuRFMqZ+MfwjblA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mpzKIKSa1QwChk/hFyZPQdGEUKHG4jTIbRsB4S7BbzWYlgi6/M4Zi0TckwCQ1th5QB2+la93CqDm3zEHyKxEVOXqD0ZgNcaYmUguiTnXP+sf3cCHi9Uc61h8s5TDGsdljOdMXwGw8QmhdR4YEUnuyfZmNxJJwGmKCnPicLQqgYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=tSF/mCi0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Rj7pRxqP; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id 0AFBFEC012D;
-	Wed, 13 May 2026 15:24:48 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Wed, 13 May 2026 15:24:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778700288;
-	 x=1778786688; bh=EyyxCJdYkagema2fQ27LfIFrsHe01PeuwInIxPvtBRQ=; b=
-	tSF/mCi0XMOOm0WRf2iPDb4GHqnNs54p+rTO4bmnVsB8FMh2HurseJM1KKO+AkQ0
-	2yovAUh2MNomF2tDUM3cdp5QJL2al7Ua6U+Uau1Hxbo8pUYd3hq3a+BM5am+eEt0
-	2hZpn9lbDriX3wNz2J2cLTp4mcD++UHTWyxjc9died9gReJ+Uqx+ox13RfPEde5a
-	7FmGu02l4RUIgs/nsFzGLzq6VloRouSEGV7BreZU6V+8zLqkkpYUbU3wNigFAXOy
-	o9+Q4nUWHoNokWpDkvF4p/TzPG2UVNLVYBzVvqO5lcC6sfc7Fr0ys8mz0NhtB+QT
-	m/7FK16gfYyZ9y2JtrVzzQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778700288; x=
-	1778786688; bh=EyyxCJdYkagema2fQ27LfIFrsHe01PeuwInIxPvtBRQ=; b=R
-	j7pRxqPZtblpB+K15R3FWmxjAFSgRZ5kNb+XvDWi6k9DSu4SecTSmAzNgygYu8HI
-	yC56Ju1+lK9yE81JbUK21qOwg/VFQI0xTDAD4EUKDFLAaIafR7SaALdem8NamnOU
-	1XpxddQMfC+KkVQ2DAr40BJq3U8fZpZ680858Ubi5f+t3XwN/3O0MOUIlaGi5OjS
-	0eTVL0hhuKm/Np9RpJsWticcmNragzMfuUjCG3m0k1n3gETynrBXAlBQZmo90ypJ
-	/VQBz06RfgqWuZ9NbCe73iYtKteySBuFaXtJRFavWIA/C3cNng8Mfj031TWnYaSt
-	RwcgfRBB9GVcGwCT8ijVQ==
-X-ME-Sender: <xms:_88EanCgCLPmLqhhaMwdrQJ1C0WyCMiefyOrafKObZ8pkky9SpioNw>
-    <xme:_88EaqHW3HlKmYcfLVRnXFnc5bbvG9f0tx3AZhJcA2FXNK5q5QKkIExxga_e4OBMq
-    n_SQvI1BlbCez1uYfsfZYD-YpaGfTZKypn-b6gKhWmuPz4RjVdzAhc>
-X-ME-Received: <xmr:_88EanBB7jm8wdLOlSUg6KntOoq6RgJOtlVe9rPw2CstCsk01In1vS4PmN63ExI7qocbkDuW7xMPmVQlmiPujurQs-7icYO8Ga3d>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdehgeekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
-    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
-    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
-    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprh
-    gtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthdorhgvnhgvshgrshesihguvggr
-    shhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhs
-    rdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvsh
-    grshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdr
-    vhgrlhhkvghinhgvnhesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepkh
-    hivghrrghnrdgsihhnghhhrghmsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphht
-    thhopegsihhjuhdruggrshdrjhiisegsphdrrhgvnhgvshgrshdrtghomhdprhgtphhtth
-    hopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehf
-    fhiflhhlrdgthh
-X-ME-Proxy: <xmx:_88Eagl-8Vw6R0fBRGp9qMrVvl1ZqiTpEefxUXNSe8vLRbbDbq_mXg>
-    <xmx:_88EatOXeOQMUo6S-Ny4zhot-B_N4qwoXCzViARgLmZU_Lfrg4Fzag>
-    <xmx:_88Eal-uRmkyyoBRfcmQy00MJwPn7stetYRANDtggN11_0yF7z942A>
-    <xmx:_88EanEBFgk-rY8iWeynjarNRz6ntPcnoe9X34PrWc-kSLuSaoo_FA>
-    <xmx:ANAEagojRKO67q9O1gxHA0tusU_Zoo8bkHJRlMX_Np9sPaShtQiTNtN1>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 May 2026 15:24:47 -0400 (EDT)
-Date: Wed, 13 May 2026 21:24:46 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH 06/11] media: renesas: vsp1: Use mutex scoped guards
-Message-ID: <20260513192446.GI332351@ragnatech.se>
-References: <20260511235637.3468558-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260511235637.3468558-7-laurent.pinchart+renesas@ideasonboard.com>
+	s=arc-20240116; t=1778700436; c=relaxed/simple;
+	bh=tV3pv7xKKDP1+S0W7Yp+8gNmAXnCpGwI5fcu2TVBbGI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NivT4fmw6HGc2P7tgiiiL4fndoaRTFZXO+29SUlzdRLknSpTtYbcfy6c5l5vIIsQm2EX4xGz77vcIgpoARou/ThJpqKMtz3KvSbI3ZFWSxqiY1wn9E/vX5Vh7MBOYj9DBvptaukEI5DMu9mr69uc2sG449x737Qx9w1oeeE1HP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lgdRRt6s; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VKqCmsQZ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64DGAq7u2524310
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 19:27:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	XC1PMvPouH5s16VJkuyjTVmFB3EWh4Dc0i1OjLJSlro=; b=lgdRRt6sFBFm3XaY
+	ys/pt33Wa5hjJqn7+akykyNrZozHF1viVZ26oPlIAcSrmALiqVta6EEs7qQfPzRr
+	RHWwYDmE1HEtCkbJVsHiCJz5RN/Etf42i8G61UVkoOw1snUJk12ZfA5vvDkbSPqW
+	GIHA44UgJ8BNtoa1Wpec7YmWvsTHkN0RKyTHkTdjGC/joYfMbT9isGiA74mmX6Qz
+	w+OFopm6bYvmOoim17XhLtD+Eyp3pOOVDoJFy15/lTTVGWCv/NV6S0weQS4eA2iT
+	uBiTpBpvFFVYZ1VrPb7rT4N2rP2SQgFCs9VawAtjRESEeEQkwPKJry9cv+GHAkWJ
+	Szw+cw==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e4vkjgtxy-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 19:27:14 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-82f6b984b3aso3723572b3a.3
+        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 12:27:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778700433; x=1779305233; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XC1PMvPouH5s16VJkuyjTVmFB3EWh4Dc0i1OjLJSlro=;
+        b=VKqCmsQZ6XpkHyJ7l8cEKPyBlapebStaIiZq/jLH99Tp5BaW41xCzgaVdUbi5KSim8
+         9Dlv/OY+tHn5sWDJXKEvnfr99MAnZHkn35PrOHS2NHuNne6djJVIExl0F9Qb9DYeYAxL
+         QxXuo92yj6FrFywMjMr7LOmgA7O8pYvkqtqo19omPpmUjLX9JMkrpqpsyrxOg1TQdYR3
+         qri4XpN4Ngln7PN+Bm7bO6T1Eh8ZtoDeN1SALPU6WnwCuKW83xJW8V5VDFH1UTYsaQTp
+         pOxWOB2XALM6TAAmsjE8G29VRg0MvS4fnzNOEqsv6AFPFYcuIKGG7s8YYCeAblgHmVRI
+         QFrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778700433; x=1779305233;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XC1PMvPouH5s16VJkuyjTVmFB3EWh4Dc0i1OjLJSlro=;
+        b=tB8dXbapiNVcWwhiUvXk07QbbVVI9JYNLaGYGNI/gUsn6YiMOfxYgy9oMUABPTYjY1
+         wFc8nmgtbrlSCe91mHq2LQgvjl7W7M1RL7FEY03OQIhZnLItvPiPe9EUxhzVFyYo5t9B
+         TuDbREJ2nEHZsXz/Mbl6QrGYyGmzQoQH8nrFnjyeIWsFRn0kn1g44shQCeD6m5M20/9Q
+         4FY74DigHiDxsF4N0Vvnh0wHUPouHhHrdtf9sRyEZqALYWFZyNi764gkyx4wRFZDxkZE
+         nZ6v+S3VpTDHHK87g+Qa1CP9CYsi3FkUIXtM0Up51ea6uJih3fFtf4IhNLMU7TuYgItF
+         7phw==
+X-Gm-Message-State: AOJu0YyHUDqdQPvRvMXE1mSUeoc8rbWxIg+/PNqiuPQO4RM4TW6kRMT2
+	ibu4dl5rXNgKMrWS86Fip/anI/NL/YGGRJgO780MGoeRPiGc+m2WlbVGPaHceeai+zTxHf+FKu4
+	83uS6gPiFrixx5dOjohH9APbCDfCVaAseqe0B3RW/bwtPeVzb6UZLFdghv1KOndlPww==
+X-Gm-Gg: Acq92OEzfUBDJO36LSTjNbHns971cR7pwCbsp+gNVZR7OoB0SskieW0adIeF+Q//RD2
+	GrTOb4mfn2k7tsSQ0Mrl6KvFC1WrEyY3JtIcSOpdLLMOzhjul+fYvD4sCk7S904b3nQFWesO+Iq
+	31NtM/ElEXNfqWhqEasX71F4E9GYhm+HD/XfTUxxK6J+yGHb8v3k6zb0v1x9v19JzDTnNEQol1s
+	AOXzI8Si/IP+VKT1+wfri1I5agIQnXpWDter9ToDGIteWyLt9RA7B2Fq37n48Hlm7LC7pGN8h+w
+	dF/OyxV+T2xd5MhT8NAAjUXQy9CJaDI4+DhWwRftzF485+AZVWlGlv/XxsiNlFPbG/HUugqlI3p
+	FA7Xlr9m5eGRY+rgJurGzN/yfl4zCOzHMszHDCGNEfHDP+qxRyTazucXN
+X-Received: by 2002:a05:6a00:14c3:b0:838:af72:fb35 with SMTP id d2e1a72fcca58-83f03e949f1mr5153308b3a.10.1778700433441;
+        Wed, 13 May 2026 12:27:13 -0700 (PDT)
+X-Received: by 2002:a05:6a00:14c3:b0:838:af72:fb35 with SMTP id d2e1a72fcca58-83f03e949f1mr5153290b3a.10.1778700432966;
+        Wed, 13 May 2026 12:27:12 -0700 (PDT)
+Received: from [192.168.0.172] ([49.205.255.126])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19664220sm289587b3a.4.2026.05.13.12.27.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 May 2026 12:27:12 -0700 (PDT)
+Message-ID: <5fc62574-fae1-4bf0-b6b9-fb6fb33041f8@oss.qualcomm.com>
+Date: Thu, 14 May 2026 00:57:06 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260511235637.3468558-7-laurent.pinchart+renesas@ideasonboard.com>
-X-Rspamd-Queue-Id: 0999353A0A3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/6] media: qcom: iris: vdec: update find_format to
+ handle 8bit and 10bit formats
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
+ <20260511-topic-sm8x50-iris-10bit-decoding-v3-5-7fc049b93042@linaro.org>
+Content-Language: en-US
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <20260511-topic-sm8x50-iris-10bit-decoding-v3-5-7fc049b93042@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: LrYuEh0FBKOZfrZ5BCZAHWIamHLqL7kG
+X-Proofpoint-ORIG-GUID: LrYuEh0FBKOZfrZ5BCZAHWIamHLqL7kG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDE5MiBTYWx0ZWRfXz+xqbC0hSmO7
+ R/YjOKVYi/q6dMZLK2/SXc/OugxgbD1C7Y10dBKOcuNc0aBBamSMDyaSEwVJyvm0KsCWcEBNLXy
+ demkMuOZFm5wzUgxuGJYFtrSY5DtY/dhAURsTDWD8iVVE9tLX2w1nRqQ8v+f9EH/LRmrJiTNs73
+ 7OT/8dyXjjP7J5zvpk/qDcjgN5hznP8pdnQviuyJwyawVcmqcN+s5M2O36gVr5x/YLwmn1lm0cl
+ CWeo8sNbpuh98l/TKLy7UpX1zth1AqPPzIbLWOIW8yWB6aQiSPDqF3THJb2ug8fpu3mEG+wC1up
+ q+nBQ9wV/2loWUOf/1D65JC4uWd6sxfDIjYr4ptZ1tRkJG/GKbI8r69L05542pZ9wAEgWwqOXdx
+ 9NpUXlQ4TT3Leo6UokXxl2Cb2WSiyOCnc1exzwNTSfGYxH8j8v5qUa/jGrsQ9ioS/OXrlD8zT/M
+ I3Iv9Exss4a0p8oWwRg==
+X-Authority-Analysis: v=2.4 cv=PbDPQChd c=1 sm=1 tr=0 ts=6a04d092 cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=6GFGFuPpdQFN+sW0UwB+2Q==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=KKAkSRfTAAAA:8 a=vZN6g2wfPXE3sIqakpMA:9 a=QEXdDO2ut3YA:10
+ a=zc0IvFSfCIW2DFIPzwfm:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-13_02,2026-05-13_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 malwarescore=0 spamscore=0
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
+ definitions=main-2605130192
+X-Rspamd-Queue-Id: A67E353A10B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,ideasonboard.com,bp.renesas.com,gmail.com,ffwll.ch];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61518-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,qualcomm.com:dkim,linaro.org:email];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61519-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ideasonboard.com:email,messagingengine.com:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:dkim]
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-Hi Laurent,
 
-Thanks for your work.
 
-On 2026-05-12 02:56:30 +0300, Laurent Pinchart wrote:
-> Replace remaining manual mutex locking and unlocking with scoped
-> guards. This simplifies error paths and reduces the amount of code.
+On 5/11/2026 2:50 PM, Neil Armstrong wrote:
+> The 10bit pixel format can be only used when the decoder identifies the
+> stream as decoding into 10bit pixel format buffers, so update the
+> find_format helper to filter the formats and only allow the proper
+> formats when setting or trying a capture format.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
->  .../media/platform/renesas/vsp1/vsp1_brx.c    |   7 +-
->  .../media/platform/renesas/vsp1/vsp1_drm.c    | 117 ++++++++----------
->  .../media/platform/renesas/vsp1/vsp1_entity.c |   8 +-
->  .../media/platform/renesas/vsp1/vsp1_hgo.c    |  10 +-
->  .../media/platform/renesas/vsp1/vsp1_hgt.c    |  16 +--
->  .../media/platform/renesas/vsp1/vsp1_video.c  |  60 ++++-----
->  6 files changed, 102 insertions(+), 116 deletions(-)
+>   drivers/media/platform/qcom/iris/iris_platform_common.h |  1 +
+>   drivers/media/platform/qcom/iris/iris_vdec.c            | 10 ++++++++++
+>   2 files changed, 11 insertions(+)
 > 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> index bd2672341386..325be30836d7 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> @@ -190,9 +190,10 @@ static int brx_get_selection(struct v4l2_subdev *subdev,
->  		if (!state)
->  			return -EINVAL;
->  
-> -		mutex_lock(&brx->entity.lock);
-> -		sel->r = *v4l2_subdev_state_get_compose(state, sel->pad);
-> -		mutex_unlock(&brx->entity.lock);
-> +		scoped_guard(mutex, &brx->entity.lock) {
-> +			sel->r = *v4l2_subdev_state_get_compose(state, sel->pad);
-> +		}
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> index 5a489917580e..cd3509da4b75 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> @@ -18,6 +18,7 @@ struct iris_inst;
+>   
+>   #define REGISTER_BIT_DEPTH(luma, chroma)	((luma) << 16 | (chroma))
+>   #define BIT_DEPTH_8				REGISTER_BIT_DEPTH(8, 8)
+> +#define BIT_DEPTH_10				REGISTER_BIT_DEPTH(10, 10)
+>   #define CODED_FRAMES_PROGRESSIVE		0x0
+>   #define DEFAULT_MAX_HOST_BUF_COUNT		64
+>   #define DEFAULT_MAX_HOST_BURST_BUF_COUNT	256
+> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
+> index eea69f937147..f4d9951ed04c 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+> @@ -99,6 +99,16 @@ find_format(struct iris_inst *inst, u32 pixfmt, u32 type)
+>   	if (i == size || fmt[i].type != type)
+>   		return NULL;
+>   
+> +	if (type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+> +		if (iris_fmt_is_8bit(fmt[i].pixfmt) &&
+> +		    inst->fw_caps[BIT_DEPTH].value == BIT_DEPTH_10)
+> +			return NULL;
 > +
->  		return 0;
->  
->  	default:
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> index 1439cf7bfb59..2b64d9b5a81c 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> @@ -675,43 +675,37 @@ int vsp1_du_enable(struct device *dev, unsigned int pipe_index,
->  		__func__, pipe_index, cfg->width, cfg->height,
->  		pipe->interlaced ? "i" : "");
->  
-> -	mutex_lock(&vsp1->drm->lock);
-> +	scoped_guard(mutex, &vsp1->drm->lock) {
-> +		/* Setup formats through the pipeline. */
-> +		ret = vsp1_du_pipeline_setup_inputs(vsp1, pipe);
-> +		if (ret < 0)
-> +			return ret;
->  
-> -	/* Setup formats through the pipeline. */
-> -	ret = vsp1_du_pipeline_setup_inputs(vsp1, pipe);
-> -	if (ret < 0)
-> -		goto unlock;
-> +		ret = vsp1_du_pipeline_setup_output(vsp1, pipe);
-> +		if (ret < 0)
-> +			return ret;
->  
-> -	ret = vsp1_du_pipeline_setup_output(vsp1, pipe);
-> -	if (ret < 0)
-> -		goto unlock;
-> +		vsp1_pipeline_dump(pipe, "DU enable");
->  
-> -	vsp1_pipeline_dump(pipe, "DU enable");
-> +		/* Enable the VSP1. */
-> +		ret = vsp1_device_get(vsp1);
-> +		if (ret < 0)
-> +			return ret;
->  
-> -	/* Enable the VSP1. */
-> -	ret = vsp1_device_get(vsp1);
-> -	if (ret < 0)
-> -		goto unlock;
-> +		/*
-> +		 * Register a callback to allow us to notify the DRM driver of frame
-> +		 * completion events.
-> +		 */
-> +		drm_pipe->du_complete = cfg->callback;
-> +		drm_pipe->du_private = cfg->callback_data;
->  
-> -	/*
-> -	 * Register a callback to allow us to notify the DRM driver of frame
-> -	 * completion events.
-> -	 */
-> -	drm_pipe->du_complete = cfg->callback;
-> -	drm_pipe->du_private = cfg->callback_data;
-> +		/* Disable the display interrupts. */
-> +		vsp1_write(vsp1, VI6_DISP_IRQ_STA(pipe_index), 0);
-> +		vsp1_write(vsp1, VI6_DISP_IRQ_ENB(pipe_index), 0);
->  
-> -	/* Disable the display interrupts. */
-> -	vsp1_write(vsp1, VI6_DISP_IRQ_STA(pipe_index), 0);
-> -	vsp1_write(vsp1, VI6_DISP_IRQ_ENB(pipe_index), 0);
-> -
-> -	/* Configure all entities in the pipeline. */
-> -	vsp1_du_pipeline_configure(pipe);
-> -
-> -unlock:
-> -	mutex_unlock(&vsp1->drm->lock);
-> -
-> -	if (ret < 0)
-> -		return ret;
-> +		/* Configure all entities in the pipeline. */
-> +		vsp1_du_pipeline_configure(pipe);
+> +		if (iris_fmt_is_10bit(fmt[i].pixfmt) &&
+> +		    inst->fw_caps[BIT_DEPTH].value != BIT_DEPTH_10)
+> +			return NULL;
 > +	}
->  
->  	/* Start the pipeline. */
->  	spin_lock_irqsave(&pipe->irqlock, flags);
-> @@ -739,7 +733,6 @@ int vsp1_du_disable(struct device *dev, unsigned int pipe_index)
->  	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
->  	struct vsp1_drm_pipeline *drm_pipe;
->  	struct vsp1_pipeline *pipe;
-> -	struct vsp1_brx *brx;
->  	unsigned int i;
->  	int ret;
->  
-> @@ -749,45 +742,43 @@ int vsp1_du_disable(struct device *dev, unsigned int pipe_index)
->  	drm_pipe = &vsp1->drm->pipe[pipe_index];
->  	pipe = &drm_pipe->pipe;
->  
-> -	mutex_lock(&vsp1->drm->lock);
-> +	scoped_guard(mutex, &vsp1->drm->lock) {
-> +		struct vsp1_brx *brx = to_brx(&pipe->brx->subdev);
->  
-> -	brx = to_brx(&pipe->brx->subdev);
-> +		ret = vsp1_pipeline_stop(pipe);
-> +		if (ret == -ETIMEDOUT)
-> +			dev_err(vsp1->dev, "DRM pipeline stop timeout\n");
->  
-> -	ret = vsp1_pipeline_stop(pipe);
-> -	if (ret == -ETIMEDOUT)
-> -		dev_err(vsp1->dev, "DRM pipeline stop timeout\n");
-> +		for (i = 0; i < ARRAY_SIZE(pipe->inputs); ++i) {
-> +			struct vsp1_rwpf *rpf = pipe->inputs[i];
->  
-> -	for (i = 0; i < ARRAY_SIZE(pipe->inputs); ++i) {
-> -		struct vsp1_rwpf *rpf = pipe->inputs[i];
-> +			if (!rpf)
-> +				continue;
->  
-> -		if (!rpf)
-> -			continue;
-> +			/*
-> +			 * Remove the RPF from the pipe and the list of BRx
-> +			 * inputs.
-> +			 */
-> +			WARN_ON(!rpf->entity.pipe);
-> +			rpf->entity.pipe = NULL;
-> +			list_del(&rpf->entity.list_pipe);
-> +			pipe->inputs[i] = NULL;
->  
-> -		/*
-> -		 * Remove the RPF from the pipe and the list of BRx
-> -		 * inputs.
-> -		 */
-> -		WARN_ON(!rpf->entity.pipe);
-> -		rpf->entity.pipe = NULL;
-> -		list_del(&rpf->entity.list_pipe);
-> -		pipe->inputs[i] = NULL;
-> +			brx->inputs[rpf->brx_input].rpf = NULL;
-> +		}
->  
-> -		brx->inputs[rpf->brx_input].rpf = NULL;
-> +		drm_pipe->du_complete = NULL;
-> +		pipe->num_inputs = 0;
+
+similar logic would be now needed while enumerating fmt.
+
+VIDIOC_ENUM_FMT will now enumerate all capture formats (NV12, QC08C, 
+QC10C..) regardless of the stream's bit depth, while VIDIOC_S_FMT will 
+reject the wrong-depth formats.
+
+userspace will see formats via ENUM_FMT that it cannot successfully set 
+with S_FMT.
+
 > +
-> +		dev_dbg(vsp1->dev, "%s: pipe %u: releasing %s\n",
-> +			__func__, pipe->lif->index,
-> +			BRX_NAME(pipe->brx));
-> +
-> +		list_del(&pipe->brx->list_pipe);
-> +		pipe->brx->pipe = NULL;
-> +		pipe->brx = NULL;
->  	}
->  
-> -	drm_pipe->du_complete = NULL;
-> -	pipe->num_inputs = 0;
-> -
-> -	dev_dbg(vsp1->dev, "%s: pipe %u: releasing %s\n",
-> -		__func__, pipe->lif->index,
-> -		BRX_NAME(pipe->brx));
-> -
-> -	list_del(&pipe->brx->list_pipe);
-> -	pipe->brx->pipe = NULL;
-> -	pipe->brx = NULL;
-> -
-> -	mutex_unlock(&vsp1->drm->lock);
-> -
->  	vsp1_dlm_reset(pipe->output->dlm);
->  	vsp1_device_put(vsp1);
->  
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-> index 3820ba53b45f..2ae2a573f0de 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-> @@ -216,10 +216,10 @@ int vsp1_subdev_enum_mbus_code(struct v4l2_subdev *subdev,
->  		if (!state)
->  			return -EINVAL;
->  
-> -		mutex_lock(&entity->lock);
-> -		format = v4l2_subdev_state_get_format(state, 0);
-> -		code->code = format->code;
-> -		mutex_unlock(&entity->lock);
-> +		scoped_guard(mutex, &entity->lock) {
-> +			format = v4l2_subdev_state_get_format(state, 0);
-> +			code->code = format->code;
-> +		}
->  	}
->  
->  	return 0;
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-> index 2c8ce7175a4e..0ef512e3a94b 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-> @@ -153,11 +153,11 @@ static void hgo_configure_stream(struct vsp1_entity *entity,
->  		       (crop->width << VI6_HGO_SIZE_HSIZE_SHIFT) |
->  		       (crop->height << VI6_HGO_SIZE_VSIZE_SHIFT));
->  
-> -	mutex_lock(hgo->ctrls.handler.lock);
-> -	hgo->max_rgb = hgo->ctrls.max_rgb->cur.val;
-> -	if (hgo->ctrls.num_bins)
-> -		hgo->num_bins = hgo_num_bins[hgo->ctrls.num_bins->cur.val];
-> -	mutex_unlock(hgo->ctrls.handler.lock);
-> +	scoped_guard(mutex, hgo->ctrls.handler.lock) {
-> +		hgo->max_rgb = hgo->ctrls.max_rgb->cur.val;
-> +		if (hgo->ctrls.num_bins)
-> +			hgo->num_bins = hgo_num_bins[hgo->ctrls.num_bins->cur.val];
-> +	}
->  
->  	hratio = crop->width * 2 / compose->width / 3;
->  	vratio = crop->height * 2 / compose->height / 3;
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hgt.c b/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
-> index 858f330d44fa..78b5a9201c70 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
-> @@ -152,15 +152,15 @@ static void hgt_configure_stream(struct vsp1_entity *entity,
->  		       (crop->width << VI6_HGT_SIZE_HSIZE_SHIFT) |
->  		       (crop->height << VI6_HGT_SIZE_VSIZE_SHIFT));
->  
-> -	mutex_lock(hgt->ctrls.lock);
-> -	for (i = 0; i < HGT_NUM_HUE_AREAS; ++i) {
-> -		lower = hgt->hue_areas[i*2 + 0];
-> -		upper = hgt->hue_areas[i*2 + 1];
-> -		vsp1_hgt_write(hgt, dlb, VI6_HGT_HUE_AREA(i),
-> -			       (lower << VI6_HGT_HUE_AREA_LOWER_SHIFT) |
-> -			       (upper << VI6_HGT_HUE_AREA_UPPER_SHIFT));
-> +	scoped_guard(mutex, hgt->ctrls.lock) {
-> +		for (i = 0; i < HGT_NUM_HUE_AREAS; ++i) {
-> +			lower = hgt->hue_areas[i*2 + 0];
-> +			upper = hgt->hue_areas[i*2 + 1];
-> +			vsp1_hgt_write(hgt, dlb, VI6_HGT_HUE_AREA(i),
-> +				       (lower << VI6_HGT_HUE_AREA_LOWER_SHIFT) |
-> +				       (upper << VI6_HGT_HUE_AREA_UPPER_SHIFT));
-> +		}
->  	}
-> -	mutex_unlock(hgt->ctrls.lock);
->  
->  	hratio = crop->width * 2 / compose->width / 3;
->  	vratio = crop->height * 2 / compose->height / 3;
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> index 4cf2cc370416..138d4e08eee9 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> @@ -810,22 +810,21 @@ static int vsp1_video_start_streaming(struct vb2_queue *vq, unsigned int count)
->  	unsigned long flags;
->  	int ret;
->  
-> -	mutex_lock(&pipe->lock);
-> -	if (pipe->stream_count == pipe->num_inputs) {
-> -		ret = vsp1_video_setup_pipeline(pipe);
-> -		if (ret < 0) {
-> -			vsp1_video_release_buffers(video);
-> -			vsp1_video_cleanup_pipeline(pipe);
-> -			mutex_unlock(&pipe->lock);
-> -			return ret;
-> +	scoped_guard(mutex, &pipe->lock) {
-> +		if (pipe->stream_count == pipe->num_inputs) {
-> +			ret = vsp1_video_setup_pipeline(pipe);
-> +			if (ret < 0) {
-> +				vsp1_video_release_buffers(video);
-> +				vsp1_video_cleanup_pipeline(pipe);
-> +				return ret;
-> +			}
-> +
-> +			start_pipeline = true;
->  		}
->  
-> -		start_pipeline = true;
-> +		pipe->stream_count++;
->  	}
->  
-> -	pipe->stream_count++;
-> -	mutex_unlock(&pipe->lock);
-> -
->  	/*
->  	 * vsp1_pipeline_ready() is not sufficient to establish that all streams
->  	 * are prepared and the pipeline is configured, as multiple streams
-> @@ -859,16 +858,17 @@ static void vsp1_video_stop_streaming(struct vb2_queue *vq)
->  	pipe->buffers_ready &= ~(1 << video->pipe_index);
->  	spin_unlock_irqrestore(&video->irqlock, flags);
->  
-> -	mutex_lock(&pipe->lock);
-> -	if (--pipe->stream_count == pipe->num_inputs) {
-> -		/* Stop the pipeline. */
-> -		ret = vsp1_pipeline_stop(pipe);
-> -		if (ret == -ETIMEDOUT)
-> -			dev_err(video->vsp1->dev, "pipeline stop timeout\n");
-> +	scoped_guard(mutex, &pipe->lock) {
-> +		if (--pipe->stream_count == pipe->num_inputs) {
-> +			/* Stop the pipeline. */
-> +			ret = vsp1_pipeline_stop(pipe);
-> +			if (ret == -ETIMEDOUT)
-> +				dev_err(video->vsp1->dev,
-> +					"pipeline stop timeout\n");
->  
-> -		vsp1_video_cleanup_pipeline(pipe);
-> +			vsp1_video_cleanup_pipeline(pipe);
-> +		}
->  	}
-> -	mutex_unlock(&pipe->lock);
->  
->  	video_device_pipeline_stop(&video->video);
->  	vsp1_video_release_buffers(video);
-> @@ -995,22 +995,16 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
->  	 * touching an entity in the pipeline can be activated or deactivated
->  	 * once streaming is started.
->  	 */
-> -	mutex_lock(&mdev->graph_mutex);
-> +	scoped_guard(mutex, &mdev->graph_mutex) {
-> +		pipe = vsp1_video_pipeline_get(video);
-> +		if (IS_ERR(pipe))
-> +			return PTR_ERR(pipe);
->  
-> -	pipe = vsp1_video_pipeline_get(video);
-> -	if (IS_ERR(pipe)) {
-> -		mutex_unlock(&mdev->graph_mutex);
-> -		return PTR_ERR(pipe);
-> +		ret = __video_device_pipeline_start(&video->video, &pipe->pipe);
-> +		if (ret < 0)
-> +			goto err_pipe;
->  	}
->  
-> -	ret = __video_device_pipeline_start(&video->video, &pipe->pipe);
-> -	if (ret < 0) {
-> -		mutex_unlock(&mdev->graph_mutex);
-> -		goto err_pipe;
-> -	}
-> -
-> -	mutex_unlock(&mdev->graph_mutex);
-> -
->  	/*
->  	 * Verify that the configured format matches the output of the connected
->  	 * subdev.
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+>   	return &fmt[i];
+>   }
+>   
 > 
 
--- 
-Kind Regards,
-Niklas Söderlund
+Regards,
+Vikash
+
 
