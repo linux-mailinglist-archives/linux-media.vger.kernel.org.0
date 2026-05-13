@@ -1,542 +1,441 @@
-Return-Path: <linux-media+bounces-61497-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61498-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MM+nNRjHBGrdNwIAu9opvQ
-	(envelope-from <linux-media+bounces-61497-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 20:46:48 +0200
+	id +GpSNmTGBGrdNwIAu9opvQ
+	(envelope-from <linux-media+bounces-61498-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 20:43:48 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A4953938B
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 20:46:48 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6665392BA
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 20:43:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C98CF3178676
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 18:40:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 35D4A301413B
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 18:43:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0CEB3AD51A;
-	Wed, 13 May 2026 18:39:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 758F43AA4FA;
+	Wed, 13 May 2026 18:43:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZvRf2KOb";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="OymkWzWO"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="L23p5lZF";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="H+BXVhM5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6A33AA4F8
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 18:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778697576; cv=pass; b=IkaRrgpeTCkkpCOiPuukhUUKDTY7OI9U6Pk/WVD2S6jX1vNMdfoD9YurxrxDtT2/QrJcG186rHdxZah74XteNJ1SxdyiPe3IstXnPlwfErgFzCM8U+KwzOLiwE7ytKCOL7uvV7IXHgZj/XFdYst6dWzJ5E1Y4FLaVQPnjVsavuY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778697576; c=relaxed/simple;
-	bh=QEESRfoyXDdi4AN3KpeDBP8YePxV7Zv0W2A2BR+aluM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cEaXHn0owNBk8q/iICR0+1cnZynmbC6W7Cn2kVv55m3OdJOUuSo7NSj3ICS01crxZNXzD23ULQLBTCwgmTMFueG0lQyjH2ZLJFdE9uJxsCYVptrMFhEcWk5+o3aU/aNKVP4vUdm8JjaDXyNI3HRPE2AJCAbU1E6rRAf242ePcWw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZvRf2KOb; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=OymkWzWO; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778697573;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ROcBtD9Wr7UD9hLCfUAUnfLLz4HmQcTljHWV4B5LJ+A=;
-	b=ZvRf2KObattCOfvji4rOAADvindmd7iaYPt7ZHOVckAyq5mH/ZDjJ2VOfWKUB/6X4jIi7U
-	QFKx5lM0rxrlc7/oD7HxTfmWIaUs2tDmBB4I1mirmUI9rx9PqFfDs5XUy3ewmctf2A1akd
-	4/TA3MsVvYdwcKWUb+LtOAqe9MzdoLE=
-Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
- [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-88-S5qErs3HPrODwPqsRbaN-Q-1; Wed, 13 May 2026 14:39:32 -0400
-X-MC-Unique: S5qErs3HPrODwPqsRbaN-Q-1
-X-Mimecast-MFC-AGG-ID: S5qErs3HPrODwPqsRbaN-Q_1778697571
-Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-6596b8ee4b4so12051466d50.0
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 11:39:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778697571; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VcZ15RIEL6xOwil5qXqbmrQhb6K2XVbhYklNoZl03t/ZWfzuSEk9Ms2q1aNt5zTUYL
-         vnGo4Kz3heHqofKAylwTTPfQZ6DbVl7UkqA9ynArje86Nfz9yYo7gvvIXwc0YvwTrjy0
-         VvNyB+Z3gAJaHI2CK03ATD0gW2MpaO8BCEa1NEBZ/pTMzLav8v3fvANywfK9QzW8ycFh
-         TDEWd/UtPuYfE6dOGosLJICinvd7yqDEjNlBdqYmVETqpXcKC1kxYGCqKExurAEUZjNA
-         WKBc+GZxLfeci2rdAGM1ivV3noYSxaSaIvBBqTf21pPbATVd05bfQr2RVcbNVDxEKPxn
-         SwYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ROcBtD9Wr7UD9hLCfUAUnfLLz4HmQcTljHWV4B5LJ+A=;
-        fh=6/kudmOxHHqqLCpeiWaF/RfFaqdFZ4Z7f9PJnu7boqM=;
-        b=RNgBWAfTn4Id5OKEIOC/8ywV+s09aKUl2rG8D1Iez8G/55ooH+jdLcNZDKOJ2SDEH2
-         ycJFSeZfGZDVHDngOjR5U4yd9XaF43iL84X2Whoc/p8GZfxaeTTnNzpk5H6ugdZCrx/L
-         FNFgrzg/J/ZXO+voHzujI0OkLSb51///+lI9UN3mkFXdDdxrJ/2CZEPnfb2BCjouf7b/
-         CsOVebKC3F3FW//AzaZ/j78jNOj06vCgND0zx4rRu3gxTf28lT09JFxkw6zAkySX1brT
-         RC8P2yd5IPqh/M1wAc9lZYEZtRn1YumCxSnssS0NIullzI4g8h05YzQulQJOOlrQ/V4Q
-         EF3Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61879393DE2
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 18:43:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778697823; cv=none; b=MYTyfYEwH1Z88AZwj4s8ug0lS5A6MrWzGti+77dAPbdxvnxRPsRxR0NfvzURMDdlH4iyf5LI5S39+YQduD5p5WaG9DrI0pVWbq+8D4//tbR7RVtcyKy6M0HGoTb8k1cqqahIniNn4+AhA/5ON849W0K4jc48QMkmYVON2H8pDwc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778697823; c=relaxed/simple;
+	bh=z5egP5dJzb2DadZbBwkkR2UBt/ZnjdpoQCVRW2c+c9I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HoPZtOXIGzxxwyspiYPgGtXYec2qTbMO7If4fjsmuBHgf3KZSCmj8zn/AJBnsgwaDvwKUc2ia9wUmtIo2cG+w0XBsdS7Bn7BJIRv5SEduEsvvgz8+vONSz/Qr5MjbIhBdo4D5ECxruWHIQvVHvBhjm/rmghFBAC4NfvckoQDwpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=L23p5lZF; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=H+BXVhM5; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64DGvraG2321368
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 18:43:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	7XvyrrmfA62QhG8XDtmyOCgKRBC/pFkF5XyaxOLT9qk=; b=L23p5lZFbXsUlS32
+	Igu39ZoBi/AT0apvFW2MQ4JZd8I4g54guqynUrExNy+uZGKxJSZyN1y1eLAewrHR
+	5ibLf+jAr/CYkWLTFkeXv3wdbPWL1Q6DKlVsOoPLZVVFW7McvIm6CNWPpGNBjKQK
+	ldrN+ykuZM+l8rUA0Hgmre8q9TatWiWFcLlAlEVudP+SLOYelHU7PzpJpKRA1Yny
+	qIdbq8FZZJ2flBCPLuZj5aKdH+Jps0vvRovtHLlIttNTjEIe3XzUksNOAShDlzhq
+	Mumn22yfZ1eHNVHyeBiIugWOAENjveSe4O90AUxgJdgb5CeON7IWT6Ahdme32pcJ
+	Svbkiw==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e4hgubhmw-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 18:43:41 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2ba115ab6bbso69415155ad.3
+        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 11:43:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1778697571; x=1779302371; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ROcBtD9Wr7UD9hLCfUAUnfLLz4HmQcTljHWV4B5LJ+A=;
-        b=OymkWzWOHSj1Vom/xbRQHL163Bvyqesl/S+fEUGGww/PrPR2RHFhxf+ru3eHmmTwpr
-         G4T2AF/Gt1iKYT+y+LQV7J8C7gf4EaZon3I0Wzs9o5kbZGdyJ0FxCmybL80+qeLlM82x
-         MtDq1iGERE4mu1S7HPZ3CRzBQRzKaVTVwO//jYUaSmouauP6bBv8wQxbWrpPrcrPEbnE
-         kzS9y2N/nOHHnkYHKz1EMiUl7RBq/60Gu1fZTE8LR2EtsI8rYXXZyL17GHle3yv3QQGy
-         RAyIDzFqY95mOA8yvnsE8EgC8wuxxUBinQYoKkcpb7K/edA7IxEtvPsn0dveWOlms1pj
-         I4Vg==
+        d=oss.qualcomm.com; s=google; t=1778697821; x=1779302621; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7XvyrrmfA62QhG8XDtmyOCgKRBC/pFkF5XyaxOLT9qk=;
+        b=H+BXVhM53s1HFnAL92mcMAfIZjRYXAc7g+kIqcDtxlSbRgMxglT1lgdm91N0EDBAIZ
+         Exd5vStJZIVhIpWRVlcE8qpAcHt2VJQZ9yozom2+zIjIs0aN/GAcLr4/PAz+PskqpHjd
+         gKkQizw2lQeuqQTlrKX/aM3pYeBcl3o7Fl9/bi1nGniYMuewqQI40ArXo4R/xP6pohPf
+         5NQH4Y83YkN2dPxK5LPles7iGZF4ArKXCIFw5sVwkTTCyNznq4kM+MaYuftFY8YTaNCr
+         MONqZNgD+1ArJKyxKVgKhLDczoIHzmNKygp+iepWg9AVbmJiRVnEK1NtSZ69Ul4A7tdy
+         yhJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778697571; x=1779302371;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ROcBtD9Wr7UD9hLCfUAUnfLLz4HmQcTljHWV4B5LJ+A=;
-        b=XdX9o7JY8pW2IMS6AtoYfZ9rXz+7wolsRxWjyuQsVjtJaWQBDD3SSo4SYV089cGG6t
-         2JBAxpUahMBj7aZhdSNKsPSYg5atFaOlHnNt5VQkhAJ/EfGN7Wf2c6kS8XT41TQc2+wW
-         JLrzron1gS8wHLNohpbEsCKNWGZjKxO7+b5wQnKRsA8qXOt0iK5dIkb8bRN9riHb8Wv5
-         AQ7l6Vwj/7p/QRs2OLjp3s+SCawoWgMLiu/gy05vG0kBaX4X0W2B28K65Y77l+5zcq1i
-         /aiBGY5pj5ljxQ6D+XH9Cnp0hsvc4/f440/cvcIXz6cVP8mG/qCvwDlOYJG4YrvJjPeL
-         zG8A==
-X-Forwarded-Encrypted: i=1; AFNElJ+bX3jixcQ/xOnanQrvoo6REMzXCW/mMVesaK1shN0O76MuMInZ/kFqJg9MV6a6FTrhkYYdSn/XpaSVAg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxoq3UD46cl+Bq1vNaKZmbGjSCjgEGVhagDngn3k/C6cU3wjJbg
-	/t8l6RoNdmHqpM3WjpwwYPf4RB5UfRZyoFfVOfGP/2QX/CdAZThqrnduQiR5LgPkmn84/fONgy7
-	ltpQSbfN5TFUXKLU1sOwukW5jf6LaqHHY2pG71zU+J5NzWKVQ2mhB9mNc8CkcP/3CTUVoGrfRFH
-	vOAf4mxnkr4T4mTi+9tu4ucpEB8sfJdUmbXTyM6xo=
-X-Gm-Gg: Acq92OFkmWQcP4bg6rYYlT0E3ZBIes16J60rRABFrkesXGI+RPgeUsRAU0VrrhGw9yl
-	S5kF+Ci1LVg9fsqKruciQCb8VYEjLSmQs/YKOS4/88BQwGFzajt4YLYRSDLsAM0C9IyN+gidpn6
-	K2ZiziXbYs53BlwYLsH/DBbZcidImW6W44Oz+TY0k8gJCxLHIpoJG/3+td/trZnsDBkOze0rLEX
-	A1VkQ==
-X-Received: by 2002:a05:690c:c50c:b0:7bd:b048:868 with SMTP id 00721157ae682-7c6a96520e4mr46024337b3.8.1778697566258;
-        Wed, 13 May 2026 11:39:26 -0700 (PDT)
-X-Received: by 2002:a05:690c:c50c:b0:7bd:b048:868 with SMTP id
- 00721157ae682-7c6a96520e4mr46023727b3.8.1778697565577; Wed, 13 May 2026
- 11:39:25 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778697821; x=1779302621;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7XvyrrmfA62QhG8XDtmyOCgKRBC/pFkF5XyaxOLT9qk=;
+        b=Ff0OW+uYmplxXjOx9G1qqFW7IAa9Mb6niLb6pQpOAzwv8zz0SWph6y+3mH5TYFDFcL
+         UGdw8AfLdpxI6pRjdFnE2jzHo5YaoJ3MMgQykNw8m0M5fhsV4KvvAJBVH7YbT4usHXFs
+         d2k1cbdYLwtX9a4I17vdiWdzN1rgqdJ2JZi4aADxlcW/rOyVi92L25/nOpfyVfo5y69u
+         eBxA9zRv6ka7gD8HtLnRNe6EASxcctQ0m7j0Wd/fAvP4ShBOkjuzkaNbZcoi6s+ZUb05
+         QLCh6S7CbABtwvfKRS99A3JoACoRupgKHEuo6f8WM98B30634oZG/6Wt9mqgtm1vIHgD
+         Xnog==
+X-Gm-Message-State: AOJu0YyAwhurMkgZ1JndQdAw/tN+iB+LDD9v/Z+ALRmL2LdfyZUCKTcw
+	wZjxjskeYZC5A821AGSMovPtlEtAwL1PrWUXadSA8tQ2QCwPDz/9QZqCrvKT4/jKw1/GLtOIa+P
+	8WnZNuMWcIMhSqPY+A+Ob7++NeoDAVLCkcnsEtGRBdj3ocB8naNeh+lUtABcUuvEwAA==
+X-Gm-Gg: Acq92OGysYfHRkWgaNOZFI0rtJfKFzSIQuHkTFDCUwTFjL2k3eoWuA2rYzDJKg165vm
+	eiwjoX6ByqEy71Jlve1KcUpfCe83R56/BCr2fwaRNemV8gI/iMqH6f3l8R1VxsYH16wm62lD3Cl
+	Y2mNbjZzK5LorQ2JQONVHlLrktnJCVUpBWaZhx5LcKajXgg6SncoBY4bC2IIewMvzT7ulyZNcdx
+	vqDO6GbBHZ3t8Plu+JeKVmk6gHi1S0cRqW3Mf/FrT4+rK6qqIpnffoRlCCFlN9rG+Vr3Xyz3VrK
+	wGup4QX8MZHZ95QN/5xqNF1fFV52Ft7kJQEplmIc3IuvS7ocG+J5jWSJdccYsjZkyzs421ThDLR
+	GGYKz2jYZI91nYLpv+9VAD0o2ueC96DUUhWr1FAP7cz8PKPEOZQxeIXsu0PnHSbh+z5w=
+X-Received: by 2002:a17:902:c212:b0:2ba:359a:9b8e with SMTP id d9443c01a7336-2bd27158ce7mr38833365ad.10.1778697820820;
+        Wed, 13 May 2026 11:43:40 -0700 (PDT)
+X-Received: by 2002:a17:902:c212:b0:2ba:359a:9b8e with SMTP id d9443c01a7336-2bd27158ce7mr38833175ad.10.1778697820112;
+        Wed, 13 May 2026 11:43:40 -0700 (PDT)
+Received: from [192.168.0.172] ([49.205.255.126])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1d269fcsm179422045ad.15.2026.05.13.11.43.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 May 2026 11:43:39 -0700 (PDT)
+Message-ID: <a5e7a134-8b23-4cd1-a4c5-6f6c1954a983@oss.qualcomm.com>
+Date: Thu, 14 May 2026 00:13:34 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
- <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
- <8ef38815-6ae9-4359-86d4-042554357639@amd.com> <CADSE00KZMJFYJ92XZa=r9EeJJRGT=SNChwOW-_jTznc7F79xGw@mail.gmail.com>
- <CABdmKX3R5faNgFva-HHVhtTcxJ0_BK9Rei3iTQcA+SRwdKv1Aw@mail.gmail.com>
-In-Reply-To: <CABdmKX3R5faNgFva-HHVhtTcxJ0_BK9Rei3iTQcA+SRwdKv1Aw@mail.gmail.com>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Wed, 13 May 2026 20:39:13 +0200
-X-Gm-Features: AVHnY4J21kmZlUCM-w5PvXODvvzSq2oNDCUeY291YyLwyrvx79YmoPZ2KHgaokM
-Message-ID: <CADSE00KO3gKEOEQ6dEwjgjbYGNotZJ-SRNYjhvqp74dJfu-msg@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/5] dma-heap: charge dma-buf memory via explicit memcg
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Christian Brauner <brauner@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, mripard@kernel.org, echanude@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 81A4953938B
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/6] media: qcom: iris: add QC10C & P010 buffer size
+ calculations
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
+ <20260511-topic-sm8x50-iris-10bit-decoding-v3-2-7fc049b93042@linaro.org>
+Content-Language: en-US
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <20260511-topic-sm8x50-iris-10bit-decoding-v3-2-7fc049b93042@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=X4di7mTe c=1 sm=1 tr=0 ts=6a04c65d cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=6GFGFuPpdQFN+sW0UwB+2Q==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=KKAkSRfTAAAA:8 a=nxzhqeCB-ifmqVh3ynMA:9 a=QEXdDO2ut3YA:10
+ a=GvdueXVYPmCkWapjIL-Q:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: dcshX7he1MfPwGTtwrmdSI0WAaZDfbvU
+X-Proofpoint-ORIG-GUID: dcshX7he1MfPwGTtwrmdSI0WAaZDfbvU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDE4NSBTYWx0ZWRfX/xY4jXvO6Y6G
+ NHd/D+0Y9QgPUUiPrGuuiY954sM/jiRRCM5jfkVn34nwk0hVxC+Z6Wqww4FPQWx6Ae1LVU9ySOX
+ bq0CHpQkdV0DsWCAqzKC8Lq4tCJU5uidinUL2nfdcp0f5/fqPPqpUJEhXLtrRjIpFwDvSiXKWBG
+ y21IA1JEXu4QkGc/o/q3fsvA525DqFFvmZXXJ9EjewxDb9Py/YM1bcxGzB+IYGVR1VAlWvIQnCn
+ cxKouS7sI7xK2b1cgDlfO2IXjNQsTZUqQz7F5/gk4UkqDnKFLlLlF1kt+sMVBi54OTA8SKY5s/+
+ qexwOA+3CejnaXzX5y3TOzBIiGDuHLmsgx9TkcBC0YG5HXpXnqiADE4hN+6Ab8SHml1rKvTCxhX
+ W1CrEdOBsOJfXPyFFvOFYhZLPadAYU6/Uo5iDH6arF5SWln+4cLceP41bVZOeRo9yNSsHqIzNVz
+ G/3HmRHAkVRO0kApEqA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-13_02,2026-05-13_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ phishscore=0 malwarescore=0 suspectscore=0 spamscore=0 clxscore=1015
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
+ definitions=main-2605130185
+X-Rspamd-Queue-Id: 4D6665392BA
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61497-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[35];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,kernel.org,cmpxchg.org,suse.com,lwn.net,linuxfoundation.org,linaro.org,linux.dev,linux-foundation.org,collabora.com,arm.com,google.com,paul-moore.com,namei.org,hallyn.com,gmail.com,redhat.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,kvack.org];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:email,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:dkim];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61498-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+	PRECEDENCE_BULK(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-On Wed, May 13, 2026 at 6:39=E2=80=AFPM T.J. Mercier <tjmercier@google.com>=
- wrote:
->
-> On Wed, May 13, 2026 at 5:41=E2=80=AFAM Albert Esteve <aesteve@redhat.com=
-> wrote:
-> >
-> > On Tue, May 12, 2026 at 12:14=E2=80=AFPM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> > >
-> > > On 5/12/26 11:10, Albert Esteve wrote:
-> > > > On embedded platforms a central process often allocates dma-buf
-> > > > memory on behalf of client applications. Without a way to
-> > > > attribute the charge to the requesting client's cgroup, the
-> > > > cost lands on the allocator, making per-cgroup memory limits
-> > > > ineffective for the actual consumers.
-> > > >
-> > > > Add charge_pid_fd to struct dma_heap_allocation_data. When set to
-> > > > a valid pidfd, DMA_HEAP_IOCTL_ALLOC resolves the target task's
-> > > > memcg and charges the buffer there via mem_cgroup_charge_dmabuf()
-> > > > inside dma_heap_buffer_alloc(). Without charge_pid_fd, and with
-> > > > the mem_accounting module parameter enabled, the buffer is charged
-> > > > to the allocator's own cgroup.
-> > > >
-> > > > Additionally, commit 3c227be90659 ("dma-buf: system_heap: account f=
-or
-> > > > system heap allocation in memcg") adds __GFP_ACCOUNT to system-heap
-> > > > page allocations. Keeping __GFP_ACCOUNT would charge the same pages
-> > > > twice (once to kmem, once to MEMCG_DMABUF), thus remove it and rout=
-e
-> > > > all accounting through a single MEMCG_DMABUF path.
-> > > >
-> > > > Usage examples:
-> > > >
-> > > >   1. Central allocator charging to a client at allocation time.
-> > > >      The allocator knows the client's PID (e.g., from binder's
-> > > >      sender_pid) and uses pidfd to attribute the charge:
-> > > >
-> > > >        pid_t client_pid =3D txn->sender_pid;
-> > > >        int pidfd =3D pidfd_open(client_pid, 0);
-> > > >
-> > > >        struct dma_heap_allocation_data alloc =3D {
-> > > >            .len             =3D buffer_size,
-> > > >            .fd_flags        =3D O_RDWR | O_CLOEXEC,
-> > > >            .charge_pid_fd   =3D pidfd,
-> > > >        };
-> > > >        ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &alloc);
-> > > >        close(pidfd);
-> > > >        /* alloc.fd is now charged to client's cgroup */
-> > > >
-> > > >   2. Default allocation (no pidfd, mem_accounting=3D1).
-> > > >      When charge_pid_fd is not set and the mem_accounting module
-> > > >      parameter is enabled, the buffer is charged to the allocator's
-> > > >      own cgroup:
-> > > >
-> > > >        struct dma_heap_allocation_data alloc =3D {
-> > > >            .len      =3D buffer_size,
-> > > >            .fd_flags =3D O_RDWR | O_CLOEXEC,
-> > > >        };
-> > > >        ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &alloc);
-> > > >        /* charged to current process's cgroup */
-> > > >
-> > > > Current limitations:
-> > > >
-> > > >  - Single-owner model: a dma-buf carries one memcg charge regardles=
-s of
-> > > >    how many processes share it. Means only the first owner (and exp=
-orter)
-> > > >    of the shared buffer bears the charge.
-> > > >  - Only memcg accounting supported. While this makes sense for syst=
-em
-> > > >    heap buffers, other heaps (e.g., CMA heaps) will require selecti=
-vely
-> > > >    charging also for the dmem controller.
-> > >
-> > > Well that doesn't looks soo bad, it at least seems to tackle the prob=
-lem at hand for Android and some of other embedded use cases.
-> > >
-> > > I'm just not sure if this is future prove and will work for all use c=
-ases, e.g. cloud gaming, native context for automotive etc...
-> > >
-> > > Essentially the problem boils down to two limitations:
-> > > 1) a piece of memory can only be charged to one cgroup, the framework=
- doesn't has a concept of charging shared memory to multiple groups
-> > > 2) when memory references in the form of file descriptors are passed =
-between applications we have no way of changing the accounting to a differe=
-nt cgroup
-> > >
-> > > The passing of the memory reference already has a well defined uAPI a=
-nd if we could solve those two limitations we not only solve the problem wi=
-thout introducing new uAPI (with potential new security risks) but also sol=
-ve it for all other use cases which uses file descriptors as well as. E.g. =
-memfd, accel and GPU drivers etc...
-> >
-> > Honestly, adding a hook to fd-passing uAPI to manage charge transfers
-> > sounds like a promising solution requiring no uAPI changes. However,
-> > it still does not cover all paths, e.g., dup() or fork(). And shared
-> > memory sounds like a hard one to tackle, where deciding the best
-> > policy is more a per-usecase thing and would probably require
-> > userspace configuration.
->
-> I'm curious if anyone knows of a use case where FDs aren't involved at
-> all? It's possible to fork() or clone() with only a dmabuf mapping and
-> no FD. That sounds strange, and I'm not sure there's a real usecase
-> for transferring ownership with that approach, but figured I'd at
-> least pose the question.
 
-Yeah, that's a good point. I do not really have a usecase myself for
-fork(), just thought of it as a posible gap/uncovered path.
+On 5/11/2026 2:50 PM, Neil Armstrong wrote:
+> The P010 (YUV format with 16-bits per pixel with interleaved UV)
+> and QC10C (P010 compressed mode similar to QC08C) requires specific
+> buffer calculations to allocate the right buffer size for DPB frames
 
->
-> > All in all, charge_pid_fd covers a
-> > well-defined and immediately practical subset. The UAPI cost is small
-> > and the mechanism is explicit about what it does and doesn't solve. A
-> > general solution, if it ever converges, would likely supersede
-> > charge_pid_fd for most cases, which is a fine outcome if it solves the
-> > problem more completely.
-> >
-> > Either way, if you have a specific approach in mind for solving any of
-> > the above limitations, I'd be happy to look into it further.
-> >
-> > BR,
-> > Albert.
-> >
-> > >
-> > > On the other hand it is really nice to finally see this tackled for a=
-t least DMA-buf heaps. On the GPU side I have seen just another try of a dr=
-iver doing some kind of special driver specific accounting to solve this ju=
-st a few weeks ago. And to be honest such single driver island approach hav=
-e the tendency to break more often that they are working correctly.
-> > >
-> > > Regards,
-> > > Christian.
-> > >
-> > > >
-> > > > Signed-off-by: Albert Esteve <aesteve@redhat.com>
-> > > > ---
-> > > >  Documentation/admin-guide/cgroup-v2.rst |  5 ++--
-> > > >  drivers/dma-buf/dma-buf.c               | 16 ++++---------
-> > > >  drivers/dma-buf/dma-heap.c              | 42 +++++++++++++++++++++=
-+++++++++---
-> > > >  drivers/dma-buf/heaps/system_heap.c     |  2 --
-> > > >  include/uapi/linux/dma-heap.h           |  6 +++++
-> > > >  5 files changed, 53 insertions(+), 18 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentatio=
-n/admin-guide/cgroup-v2.rst
-> > > > index 8bdbc2e866430..824d269531eb1 100644
-> > > > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > > > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > > > @@ -1636,8 +1636,9 @@ The following nested keys are defined.
-> > > >               structures.
-> > > >
-> > > >         dmabuf (npn)
-> > > > -             Amount of memory used for exported DMA buffers alloca=
-ted by the cgroup.
-> > > > -             Stays with the allocating cgroup regardless of how th=
-e buffer is shared.
-> > > > +             Amount of memory used for exported DMA buffers alloca=
-ted by or on
-> > > > +             behalf of the cgroup. Stays with the allocating cgrou=
-p regardless
-> > > > +             of how the buffer is shared.
-> > > >
-> > > >         workingset_refault_anon
-> > > >               Number of refaults of previously evicted anonymous pa=
-ges.
-> > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > > > index ce02377f48908..23fb758b78297 100644
-> > > > --- a/drivers/dma-buf/dma-buf.c
-> > > > +++ b/drivers/dma-buf/dma-buf.c
-> > > > @@ -181,8 +181,11 @@ static void dma_buf_release(struct dentry *den=
-try)
-> > > >        */
-> > > >       BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
-> > > >
-> > > > -     mem_cgroup_uncharge_dmabuf(dmabuf->memcg, PAGE_ALIGN(dmabuf->=
-size) / PAGE_SIZE);
-> > > > -     mem_cgroup_put(dmabuf->memcg);
-> > > > +     if (dmabuf->memcg) {
-> > > > +             mem_cgroup_uncharge_dmabuf(dmabuf->memcg,
-> > > > +                                       PAGE_ALIGN(dmabuf->size) / =
-PAGE_SIZE);
-> > > > +             mem_cgroup_put(dmabuf->memcg);
-> > > > +     }
-> > > >
-> > > >       dmabuf->ops->release(dmabuf);
-> > > >
-> > > > @@ -764,13 +767,6 @@ struct dma_buf *dma_buf_export(const struct dm=
-a_buf_export_info *exp_info)
-> > > >               dmabuf->resv =3D resv;
-> > > >       }
-> > > >
-> > > > -     dmabuf->memcg =3D get_mem_cgroup_from_mm(current->mm);
-> > > > -     if (!mem_cgroup_charge_dmabuf(dmabuf->memcg, PAGE_ALIGN(dmabu=
-f->size) / PAGE_SIZE,
-> > > > -                                   GFP_KERNEL)) {
-> > > > -             ret =3D -ENOMEM;
-> > > > -             goto err_memcg;
-> > > > -     }
-> > > > -
-> > > >       file->private_data =3D dmabuf;
-> > > >       file->f_path.dentry->d_fsdata =3D dmabuf;
-> > > >       dmabuf->file =3D file;
-> > > > @@ -781,8 +777,6 @@ struct dma_buf *dma_buf_export(const struct dma=
-_buf_export_info *exp_info)
-> > > >
-> > > >       return dmabuf;
-> > > >
-> > > > -err_memcg:
-> > > > -     mem_cgroup_put(dmabuf->memcg);
-> > > >  err_file:
-> > > >       fput(file);
-> > > >  err_module:
-> > > > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.=
-c
-> > > > index ac5f8685a6494..ff6e259afcdc0 100644
-> > > > --- a/drivers/dma-buf/dma-heap.c
-> > > > +++ b/drivers/dma-buf/dma-heap.c
-> > > > @@ -7,13 +7,17 @@
-> > > >   */
-> > > >
-> > > >  #include <linux/cdev.h>
-> > > > +#include <linux/cgroup.h>
-> > > >  #include <linux/device.h>
-> > > >  #include <linux/dma-buf.h>
-> > > >  #include <linux/dma-heap.h>
-> > > > +#include <linux/memcontrol.h>
-> > > > +#include <linux/sched/mm.h>
-> > > >  #include <linux/err.h>
-> > > >  #include <linux/export.h>
-> > > >  #include <linux/list.h>
-> > > >  #include <linux/nospec.h>
-> > > > +#include <linux/pidfd.h>
-> > > >  #include <linux/syscalls.h>
-> > > >  #include <linux/uaccess.h>
-> > > >  #include <linux/xarray.h>
-> > > > @@ -55,10 +59,12 @@ MODULE_PARM_DESC(mem_accounting,
-> > > >                "Enable cgroup-based memory accounting for dma-buf h=
-eap allocations (default=3Dfalse).");
-> > > >
-> > > >  static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len=
-,
-> > > > -                              u32 fd_flags,
-> > > > -                              u64 heap_flags)
-> > > > +                              u32 fd_flags, u64 heap_flags,
-> > > > +                              struct mem_cgroup *charge_to)
-> > > >  {
-> > > >       struct dma_buf *dmabuf;
-> > > > +     unsigned int nr_pages;
-> > > > +     struct mem_cgroup *memcg =3D charge_to;
-> > > >       int fd;
-> > > >
-> > > >       /*
-> > > > @@ -73,6 +79,22 @@ static int dma_heap_buffer_alloc(struct dma_heap=
- *heap, size_t len,
-> > > >       if (IS_ERR(dmabuf))
-> > > >               return PTR_ERR(dmabuf);
-> > > >
-> > > > +     nr_pages =3D len / PAGE_SIZE;
-> > > > +
-> > > > +     if (memcg)
-> > > > +             css_get(&memcg->css);
-> > > > +     else if (mem_accounting)
-> > > > +             memcg =3D get_mem_cgroup_from_mm(current->mm);
-> > > > +
-> > > > +     if (memcg) {
-> > > > +             if (!mem_cgroup_charge_dmabuf(memcg, nr_pages, GFP_KE=
-RNEL)) {
-> > > > +                     mem_cgroup_put(memcg);
-> > > > +                     dma_buf_put(dmabuf);
-> > > > +                     return -ENOMEM;
-> > > > +             }
-> > > > +             dmabuf->memcg =3D memcg;
-> > > > +     }
-> > > > +
-> > > >       fd =3D dma_buf_fd(dmabuf, fd_flags);
-> > > >       if (fd < 0) {
-> > > >               dma_buf_put(dmabuf);
-> > > > @@ -102,6 +124,9 @@ static long dma_heap_ioctl_allocate(struct file=
- *file, void *data)
-> > > >  {
-> > > >       struct dma_heap_allocation_data *heap_allocation =3D data;
-> > > >       struct dma_heap *heap =3D file->private_data;
-> > > > +     struct mem_cgroup *memcg =3D NULL;
-> > > > +     struct task_struct *task;
-> > > > +     unsigned int pidfd_flags;
-> > > >       int fd;
-> > > >
-> > > >       if (heap_allocation->fd)
-> > > > @@ -113,9 +138,20 @@ static long dma_heap_ioctl_allocate(struct fil=
-e *file, void *data)
-> > > >       if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
-> > > >               return -EINVAL;
-> > > >
-> > > > +     if (heap_allocation->charge_pid_fd) {
-> > > > +             task =3D pidfd_get_task(heap_allocation->charge_pid_f=
-d, &pidfd_flags);
-> > > > +             if (IS_ERR(task))
-> > > > +                     return PTR_ERR(task);
-> > > > +
-> > > > +             memcg =3D get_mem_cgroup_from_mm(task->mm);
-> > > > +             put_task_struct(task);
-> > > > +     }
-> > > > +
-> > > >       fd =3D dma_heap_buffer_alloc(heap, heap_allocation->len,
-> > > >                                  heap_allocation->fd_flags,
-> > > > -                                heap_allocation->heap_flags);
-> > > > +                                heap_allocation->heap_flags,
-> > > > +                                memcg);
-> > > > +     mem_cgroup_put(memcg);
-> > > >       if (fd < 0)
-> > > >               return fd;
-> > > >
-> > > > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/=
-heaps/system_heap.c
-> > > > index 03c2b87cb1112..95d7688167b93 100644
-> > > > --- a/drivers/dma-buf/heaps/system_heap.c
-> > > > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > > > @@ -385,8 +385,6 @@ static struct page *alloc_largest_available(uns=
-igned long size,
-> > > >               if (max_order < orders[i])
-> > > >                       continue;
-> > > >               flags =3D order_flags[i];
-> > > > -             if (mem_accounting)
-> > > > -                     flags |=3D __GFP_ACCOUNT;
-> > > >               page =3D alloc_pages(flags, orders[i]);
-> > > >               if (!page)
-> > > >                       continue;
-> > > > diff --git a/include/uapi/linux/dma-heap.h b/include/uapi/linux/dma=
--heap.h
-> > > > index a4cf716a49fa6..e02b0f8cbc6a1 100644
-> > > > --- a/include/uapi/linux/dma-heap.h
-> > > > +++ b/include/uapi/linux/dma-heap.h
-> > > > @@ -29,6 +29,10 @@
-> > > >   *                   handle to the allocated dma-buf
-> > > >   * @fd_flags:                file descriptor flags used when alloc=
-ating
-> > > >   * @heap_flags:              flags passed to heap
-> > > > + * @charge_pid_fd:   optional pidfd of the process whose cgroup sh=
-ould be
-> > > > + *                   charged for this allocation; 0 means charge t=
-he calling
-> > > > + *                   process's cgroup
-> > > > + * @__padding:               reserved, must be zero
-> > > >   *
-> > > >   * Provided by userspace as an argument to the ioctl
-> > > >   */
-> > > > @@ -37,6 +41,8 @@ struct dma_heap_allocation_data {
-> > > >       __u32 fd;
-> > > >       __u32 fd_flags;
-> > > >       __u64 heap_flags;
-> > > > +     __u32 charge_pid_fd;
-> > > > +     __u32 __padding;
-> > > >  };
-> > > >
-> > > >  #define DMA_HEAP_IOC_MAGIC           'H'
-> > > >
-> > >
-> >
->
+expand DPB
+
+> and frames consumed by userspace.
+> 
+> Similar to 8bit, the 10bit DPB frames uses QC10C format.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>   drivers/media/platform/qcom/iris/iris_buffer.c | 195 ++++++++++++++++++++++++-
+>   1 file changed, 194 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_buffer.c b/drivers/media/platform/qcom/iris/iris_buffer.c
+> index 1d53c7414b75..713a63d0ca0c 100644
+> --- a/drivers/media/platform/qcom/iris/iris_buffer.c
+> +++ b/drivers/media/platform/qcom/iris/iris_buffer.c
+> @@ -15,8 +15,11 @@
+>   #define MAX_WIDTH 4096
+>   #define MAX_HEIGHT 2304
+>   #define Y_STRIDE_ALIGN 128
+> +#define Y_STRIDE_ALIGN_P010 256
+>   #define UV_STRIDE_ALIGN 128
+> +#define UV_STRIDE_ALIGN_P010 256
+>   #define Y_SCANLINE_ALIGN 32
+> +#define Y_SCANLINE_ALIGN_QC10C 16
+>   #define UV_SCANLINE_ALIGN 16
+>   #define UV_SCANLINE_ALIGN_QC08C 32
+>   #define META_STRIDE_ALIGNED 64
+> @@ -80,6 +83,63 @@ static u32 iris_yuv_buffer_size_nv12(struct iris_inst *inst)
+>   	return ALIGN(y_plane + uv_plane, PIXELS_4K);
+>   }
+>   
+> +/*
+> + * P010:
+> + * YUV 4:2:0 image with a plane of 10 bit Y samples followed
+> + * by an interleaved U/V plane containing 10 bit 2x2 subsampled
+> + * colour difference samples.
+> + *
+> + * <-Y/UV_Stride (aligned to 256)->
+> + * <----- Width*2 ------->
+> + * Y Y Y Y Y Y Y Y Y Y Y Y . . . .  ^           ^
+> + * Y Y Y Y Y Y Y Y Y Y Y Y . . . .  |           |
+> + * Y Y Y Y Y Y Y Y Y Y Y Y . . . .  Height      |
+> + * Y Y Y Y Y Y Y Y Y Y Y Y . . . .  |          y_scanlines (aligned to 32)
+> + * Y Y Y Y Y Y Y Y Y Y Y Y . . . .  |           |
+> + * Y Y Y Y Y Y Y Y Y Y Y Y . . . .  |           |
+> + * Y Y Y Y Y Y Y Y Y Y Y Y . . . .  |           |
+> + * Y Y Y Y Y Y Y Y Y Y Y Y . . . .  V           |
+> + * . . . . . . . . . . . . . . . .              |
+> + * . . . . . . . . . . . . . . . .              |
+> + * . . . . . . . . . . . . . . . .              |
+> + * . . . . . . . . . . . . . . . .              V
+> + * U V U V U V U V U V U V . . . .  ^
+> + * U V U V U V U V U V U V . . . .  |
+> + * U V U V U V U V U V U V . . . .  |
+> + * U V U V U V U V U V U V . . . .  uv_scanlines (aligned to 16)
+> + * . . . . . . . . . . . . . . . .  |
+> + * . . . . . . . . . . . . . . . .  V
+> + * . . . . . . . . . . . . . . . .  --> Buffer size aligned to 4K
+> + *
+> + * y_stride : Width*2 aligned to 256
+> + * uv_stride : Width*2 aligned to 256
+> + * y_scanlines: Height aligned to 32
+> + * uv_scanlines: Height/2 aligned to 16
+> + * Total size = align((y_stride * y_scanlines
+> + *          + uv_stride * uv_scanlines , 4096)
+> + *
+> + * Note: All the alignments are hardware requirements.
+> + */
+> +static u32 iris_yuv_buffer_size_p010(struct iris_inst *inst)
+> +{
+> +	u32 y_plane, uv_plane, y_stride, uv_stride, y_scanlines, uv_scanlines;
+> +	struct v4l2_format *f;
+> +
+> +	if (inst->domain == DECODER)
+> +		f = inst->fmt_dst;
+> +	else
+> +		f = inst->fmt_src;
+> +
+> +	y_stride = ALIGN(f->fmt.pix_mp.width * 2, Y_STRIDE_ALIGN_P010);
+> +	uv_stride = ALIGN(f->fmt.pix_mp.width * 2, UV_STRIDE_ALIGN_P010);
+> +	y_scanlines = ALIGN(f->fmt.pix_mp.height, Y_SCANLINE_ALIGN);
+> +	uv_scanlines = ALIGN((f->fmt.pix_mp.height + 1) >> 1, UV_SCANLINE_ALIGN);
+> +	y_plane = y_stride * y_scanlines;
+> +	uv_plane = uv_stride * uv_scanlines;
+> +
+> +	return ALIGN(y_plane + uv_plane, PIXELS_4K);
+> +}
+> +
+>   /*
+>    * QC08C:
+>    * Compressed Macro-tile format for NV12.
+> @@ -204,6 +264,132 @@ static u32 iris_yuv_buffer_size_qc08c(struct iris_inst *inst)
+>   	return ALIGN(y_meta_plane + y_plane + uv_meta_plane + uv_plane, PIXELS_4K);
+>   }
+>   
+> +/*
+> + * QC10C:
+> + * UBWC-compressed format for P010.
+> + * Contains 4 planes in the following order -
+> + * (A) Y_Meta_Plane
+> + * (B) Y_UBWC_Plane
+> + * (C) UV_Meta_Plane
+> + * (D) UV_UBWC_Plane
+> + *
+> + * Y_Meta_Plane consists of meta information to decode compressed
+> + * tile data in Y_UBWC_Plane.
+> + * Y_UBWC_Plane consists of Y data in compressed macro-tile format.
+> + * UBWC decoder block will use the Y_Meta_Plane data together with
+> + * Y_UBWC_Plane data to produce loss-less uncompressed 10 bit Y samples.
+> + *
+> + * UV_Meta_Plane consists of meta information to decode compressed
+> + * tile data in UV_UBWC_Plane.
+> + * UV_UBWC_Plane consists of UV data in compressed macro-tile format.
+> + * UBWC decoder block will use UV_Meta_Plane data together with
+> + * UV_UBWC_Plane data to produce loss-less uncompressed 10 bit 2x2
+> + * subsampled color difference samples.
+> + *
+> + * Each tile in Y_UBWC_Plane/UV_UBWC_Plane is independently decodable
+> + * and randomly accessible. There is no dependency between tiles.
+> + *
+> + * <----- Y Meta stride -----> (aligned to 64)
+> + * <-------- Width ----------> (aligned to 48)
+> + * M M M M M M M M M M M M . .      ^           ^
+> + * M M M M M M M M M M M M . .      |           |
+> + * M M M M M M M M M M M M . .      Height      |
+> + * M M M M M M M M M M M M . .      |         Meta_Y_Scanlines (aligned to 16)
+> + * M M M M M M M M M M M M . .      |           |
+> + * M M M M M M M M M M M M . .      |           |
+> + * M M M M M M M M M M M M . .      |           |
+> + * M M M M M M M M M M M M . .      V           |
+> + * . . . . . . . . . . . . . .                  |
+> + * . . . . . . . . . . . . . .                  |
+> + * . . . . . . . . . . . . . .      -------> Buffer size aligned to 4k
+> + * . . . . . . . . . . . . . .                  V
+> + * <--Compressed tile Y stride --> (aligned to 256)
+> + * <------- Width * 4/3 ---------> (aligned to 48)
+> + * Y* Y* Y* Y* Y* Y* Y* Y* . . . .  ^           ^
+> + * Y* Y* Y* Y* Y* Y* Y* Y* . . . .  |           |
+> + * Y* Y* Y* Y* Y* Y* Y* Y* . . . .  Height      |
+> + * Y* Y* Y* Y* Y* Y* Y* Y* . . . .  |        Macro_tile_Y_Scanlines (aligned to 16)
+> + * Y* Y* Y* Y* Y* Y* Y* Y* . . . .  |           |
+> + * Y* Y* Y* Y* Y* Y* Y* Y* . . . .  |           |
+> + * Y* Y* Y* Y* Y* Y* Y* Y* . . . .  |           |
+> + * Y* Y* Y* Y* Y* Y* Y* Y* . . . .  V           |
+> + * . . . . . . . . . . . . . . . .              |
+> + * . . . . . . . . . . . . . . . .              |
+> + * . . . . . . . . . . . . . . . .  -------> Buffer size aligned to 4k
+> + * . . . . . . . . . . . . . . . .              V
+> + * <---- UV Meta stride ----> (aligned to 64)
+> + * <----- Width / 2 --------> (aligned to 24)
+> + * M M M M M M M M M M M M . .    ^           ^
+> + * M M M M M M M M M M M M . .    |           |
+> + * M M M M M M M M M M M M . .    Height/2    |
+> + * M M M M M M M M M M M M . .    V           M_UV_Scanlines (aligned to 16)
+> + * . . . . . . . . . . . . . .                |
+> + * . . . . . . . . . . . . . .                V
+> + * . . . . . . . . . . . . . .      -------> Buffer size aligned to 4k
+> + * <--Compressed tile UV stride--> (aligned to 256)
+> + * <------- Width * 4/3 ---------> (aligned to 48)
+> + * U* V* U* V* U* V* U* V* . . . .  ^
+> + * U* V* U* V* U* V* U* V* . . . .  |
+> + * U* V* U* V* U* V* U* V* . . . .  |
+> + * U* V* U* V* U* V* U* V* . . . .  UV_Scanlines (aligned to 16)
+> + * . . . . . . . . . . . . . . . .  |
+> + * . . . . . . . . . . . . . . . .  V
+> + * . . . . . . . . . . . . . . . .  -------> Buffer size aligned to 4k
+> + *
+> + * y_stride: width aligned to 256
+> + * uv_stride: width aligned to 256
+
+This does not match with above layout
+
+> + * y_scanlines: height aligned to 16
+> + * uv_scanlines: height aligned to 16
+> + * y_plane: buffer size aligned to 4096
+> + * uv_plane: buffer size aligned to 4096
+> + * y_meta_stride: width aligned to 64
+> + * y_meta_scanlines: height aligned to 16
+> + * y_meta_plane: buffer size aligned to 4096
+> + * uv_meta_stride: width aligned to 64
+> + * uv_meta_scanlines: height aligned to 16
+> + * uv_meta_plane: buffer size aligned to 4096
+> + *
+> + * Total size = align( y_plane + uv_plane +
+> + *           y_meta_plane + uv_meta_plane, 4096)
+> + *
+> + * Note: All the alignments are hardware requirements.
+> + */
+> +static u32 iris_yuv_buffer_size_qc10c(struct iris_inst *inst)
+> +{
+> +	u32 y_plane, uv_plane, y_stride, uv_stride;
+> +	u32 uv_meta_stride, uv_meta_plane;
+> +	u32 y_meta_stride, y_meta_plane;
+> +	struct v4l2_format *f = NULL;
+
+drop NULL
+
+> +
+> +	if (inst->domain == DECODER)
+> +		f = inst->fmt_dst;
+> +	else
+> +		f = inst->fmt_src;
+> +
+> +	y_meta_stride = ALIGN(DIV_ROUND_UP(f->fmt.pix_mp.width, 48),
+> +			      META_STRIDE_ALIGNED);
+> +	y_meta_plane = y_meta_stride * ALIGN(DIV_ROUND_UP(f->fmt.pix_mp.height, 4),
+> +					     META_SCANLINE_ALIGNED);
+> +	y_meta_plane = ALIGN(y_meta_plane, PIXELS_4K);
+> +
+> +	y_stride = ALIGN(f->fmt.pix_mp.width * 4 / 3, Y_STRIDE_ALIGN_P010);
+> +	y_plane = ALIGN(y_stride * ALIGN(f->fmt.pix_mp.height, Y_SCANLINE_ALIGN_QC10C),
+> +			PIXELS_4K);
+> +
+> +	uv_meta_stride = ALIGN(DIV_ROUND_UP((f->fmt.pix_mp.width + 1) / 2, 24),
+> +			       META_STRIDE_ALIGNED);
+> +	uv_meta_plane = uv_meta_stride *
+> +			ALIGN(DIV_ROUND_UP((f->fmt.pix_mp.height + 1) / 2, 4),
+> +			      META_SCANLINE_ALIGNED);
+
+Please use >> 1 throughout for consistency. I see 
+iris_yuv_buffer_size_p010() uses them, while 
+iris_yuv_buffer_size_qc10c() dont.
+
+> +	uv_meta_plane = ALIGN(uv_meta_plane, PIXELS_4K);
+> +
+> +	uv_stride = ALIGN(f->fmt.pix_mp.width * 4 / 3, UV_STRIDE_ALIGN_P010);
+> +	uv_plane = ALIGN(uv_stride * ALIGN((f->fmt.pix_mp.height + 1) / 2, UV_SCANLINE_ALIGN),
+> +			 PIXELS_4K);
+> +
+> +	return ALIGN(y_meta_plane + y_plane + uv_meta_plane + uv_plane, PIXELS_4K);
+> +}
+> +
+>   static u32 iris_dec_bitstream_buffer_size(struct iris_inst *inst)
+>   {
+>   	struct platform_inst_caps *caps = inst->core->iris_platform_data->inst_caps;
+> @@ -268,10 +454,17 @@ int iris_get_buffer_size(struct iris_inst *inst,
+>   		case BUF_OUTPUT:
+>   			if (inst->fmt_dst->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC08C)
+>   				return iris_yuv_buffer_size_qc08c(inst);
+> +			else if (inst->fmt_dst->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC10C)
+> +				return iris_yuv_buffer_size_qc10c(inst);
+> +			else if (inst->fmt_dst->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_P010)
+> +				return iris_yuv_buffer_size_p010(inst);
+>   			else
+>   				return iris_yuv_buffer_size_nv12(inst);
+>   		case BUF_DPB:
+> -			return iris_yuv_buffer_size_qc08c(inst);
+> +			if (iris_fmt_is_10bit(inst->fmt_dst->fmt.pix_mp.pixelformat))
+> +				return iris_yuv_buffer_size_qc10c(inst);
+> +			else
+> +				return iris_yuv_buffer_size_qc08c(inst);
+>   		default:
+>   			return 0;
+>   		}
+> 
 
 
