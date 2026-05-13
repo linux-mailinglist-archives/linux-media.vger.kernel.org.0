@@ -1,366 +1,301 @@
-Return-Path: <linux-media+bounces-61369-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61370-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gAjNCVxGBGowGgIAu9opvQ
-	(envelope-from <linux-media+bounces-61369-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 11:37:32 +0200
+	id kF9kLiFNBGrNGgIAu9opvQ
+	(envelope-from <linux-media+bounces-61370-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:06:25 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBAE530C24
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 11:37:30 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 706525311CC
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:06:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E40D830C54F3
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 09:14:19 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 16D0E307751B
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 10:06:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 636563E5A01;
-	Wed, 13 May 2026 09:14:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BFC639021A;
+	Wed, 13 May 2026 10:06:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Bwa/lhqT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nYiQ/0MW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDED43C4546;
-	Wed, 13 May 2026 09:14:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAA738C40B
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778663652; cv=none; b=pLzgroWEw1GiDFgpqUeYVt2gXtNcmKX2iSYI0ARkYyTFAwcv5FyPUaMtfaAbsLS1G5SBEV8nK/2BSGw2k/x1HdYHh6ioLhhYy/wMU5krT0HjSUwl7/n92Ic+LevcZzmi3ipac8l4M4xYG6XJWfr7tfFyYa3z3NKiLxS/dyggQIc=
+	t=1778666764; cv=none; b=uMDSEgSwQpYr/1FeHFW0m9jmmwGGGsq+i7iZpe5RP8GrMDPneJB7wv3Nm4vSuHyFy2EsiGZvurvBTxoig1g6/ChW9FdPkSG1GD8Q9gvtNgJYveBN70qK4Gp+HMwfg+3gNN7MziUqBLa6dpPbHUlYRgc33fTzy9p1p4iaYb1fZNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778663652; c=relaxed/simple;
-	bh=e0xybfZFePYLi3G7Bg6XNSKIcW4UQ+bYbF94Mniq4b0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rpjGc3THHi1qpBzYpqRecA/HwsVFI71+7Hgs4QGsEh2gj7BtaTP3FRYawUdhGCLeRT1ZwPa1BWRp8V9fw3Y4RPHasvfDvAJVrDtQR/5DsvUNTGt71+aKb5qSyGN8KmjO2GhDrCX3m6X23FnNKXZDRNCkv13jyE+VCg7ZONbX1cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Bwa/lhqT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 354C5A06;
-	Wed, 13 May 2026 11:14:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1778663640;
-	bh=e0xybfZFePYLi3G7Bg6XNSKIcW4UQ+bYbF94Mniq4b0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Bwa/lhqTNA9bwYFBvyhPqo4cUJXgnWulNr2EswsrP7b3IK/iFoN/sEaOU0BaR5GjQ
-	 ppEOmQGKlyLiv6jcP/a/zpEWV95+ftBHJzWAW0+knVN8dkNqPnXMEomR1mePeG72Aq
-	 obVJhzw0/rNBnQIFrqMnQQomngtEbfHDbTch3LsA=
-Date: Wed, 13 May 2026 11:14:05 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, 
-	Daniel Scally <dan.scally@ideasonboard.com>, 
-	=?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <barnabas.pocze@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] media: rzv2h-ivc: Wait for frame end in stop_streaming
-Message-ID: <agRAFH92GlElVP47@zed>
-References: <20260401-ivc-stop-streaming-v1-1-b7599982c280@ideasonboard.com>
- <ba485144c4d469c834b0f65ed3ce753a331e207a.camel@ndufresne.ca>
- <agQmhGJGSVpuoTDS@zed>
+	s=arc-20240116; t=1778666764; c=relaxed/simple;
+	bh=CfUsDrF5ylNvxQAC5m07A4hEbvmSGmwJUzmCib0VNCs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ppBIOUavsNuIppXSHZ+Md0TK/ak1KUh2lB1m+yf/FWue90SXI3bybUyM7sYLOadrzIMF0pKWrFcLIcjNAxymX2JZtCfrOb4I+HsvEprwDtdCDbgTvsDvA8UtNnq9Cz3M2z/nbWH0hXt32O19rEWaA8TTSExyFMTz9rTNgsCsBEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nYiQ/0MW; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-bcda7765d64so611328466b.1
+        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 03:06:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778666761; x=1779271561; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y8agHE2UtR+0v8hUNRpGN3/NHmgQczj9TZKmKbKc+JU=;
+        b=nYiQ/0MWx9zqnzz8qzzGMzyLjhAbZWS6PTm/379VNMshJcLtpIu5kxF6cnraFj1DbO
+         BlzU1fL4lAJVK+xJyT+t0C2pgU0zXoRNRBJDuoDV7aRAV8/BXPrXurjZhhbFPRP66G4B
+         IJsfO+VD/5yKfUDzBtYj/qCOyb/VG1WmTK1QWVOgt5y86ToAS0jGu5rCD0iTU4ZwdKbt
+         PGSxd6voPOYFRhsskQZ2JVQRddLAKGHuQPOZVZK0jJea0/IaUCVN2Tich+MDh3mSnq/3
+         vJA4Hf9G9AHe9O8fkuLzpoR2r1IZWqWqTZZsA1X2Vx2+bgVyylnlQ272ERqYKRVGESq0
+         DC0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778666761; x=1779271561;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Y8agHE2UtR+0v8hUNRpGN3/NHmgQczj9TZKmKbKc+JU=;
+        b=gQuv4z/L/nKro1s3YTM5bA2QejXvMYZ2/+Q0yhiFASy56FIeXZ4ddVmIHO0wJ7AxbK
+         gBAI++30xRFvOjnqo+1kiKRuEMJOn9RO9kPqV+lsLXlvdAoeZgUYYD6m+5R2YHV0psNt
+         SwNgkB4qbPtZJoXVMp3sP8wBuqVeuOPalcIJnpfMYkCoyxlv1LxOZe9q4GOoM+efgP2d
+         7AdIoMBe8jxYOQI09CMusoBMqPT1ZZkCSO1KqOoRQvJzQPFfcz0TVrHpfEa+radFz/qh
+         IUzkpDDdMPxyImwd6azmrc21ruSmUt1kFvP95oQpa5esgY/19Jle8E2MI8i1ve1MTCIp
+         6OSA==
+X-Forwarded-Encrypted: i=1; AFNElJ8MG7CoYKBsfOn7LEgKiMXzNAea6yFCJ0m1VLL3Pp4h/xdLwHr68NE+iFxo82vXx14noyEWYU/2qp22cw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOJRFeWWsCi8gK+e4TkYn0zcSdtgt5C49Hyq+T4FYxU6hKzqj6
+	DMNFkXA/hDpjdGLt4G3eqMr0pTFOZUo3Hhm6mcAw45fsPMuNBGcpyot5
+X-Gm-Gg: Acq92OHnY0C1xYKrUWo8sb+f7B58Qk2lJYdnWIlB1SRM2mDqlXtFwQD/DK5h1CM7Yvb
+	8t7qANT5K0wqGtXKSefjQp01Ia3EhEWgjoSzL+nGBFydZYx5OXJss0oUmWA56sXuX0KEV7m9+GL
+	Ts8PqbubmOCB1w7cd0yXlmeGLKCF0Kku8d+ET7Ccl2meMXddRwhVtHgtBWd+G841uuLYJ2zgN0M
+	8EzshHWuwTuKswE//SxCvu8iYImcS5+K1tbVRotF9M/v49p40+X6BATorGtkgsFCydCSYNvvFDe
+	97oKGX5BHPFq6Z2s9uvBklJ2mTAvg+JXJANu6RJNetns5f7vVTjiZ20tuOyXJU1eed/ban2oxLb
+	n25XsC7njuCtApicz4pRl4wBtju0wF2MTUqAkPLsWvCM9MAWaoO1mh85yGI5H5T+5++m3DYiT9y
+	7mvlCH08rSohVCjUoCSvllanL+UFKm4Z31z8ExfD+SkfNBjMnByq/GcPbeJjcp
+X-Received: by 2002:a17:907:9493:b0:bc5:2352:555c with SMTP id a640c23a62f3a-bd3add39c4bmr174356866b.14.1778666759127;
+        Wed, 13 May 2026 03:05:59 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd2dba8fd22sm216615666b.16.2026.05.13.03.05.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2026 03:05:58 -0700 (PDT)
+Date: Wed, 13 May 2026 11:05:57 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
+ Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Andrew
+ Morton <akpm@linux-foundation.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Nitesh
+ Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, Anuj
+ Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v3 02/10] iov_iter: add iterator type for dmabuf maps
+Message-ID: <20260513110557.705bdeed@pumpkin>
+In-Reply-To: <20a233d2f35274817aa643cc0fe113707eb47e72.1777475843.git.asml.silence@gmail.com>
+References: <cover.1777475843.git.asml.silence@gmail.com>
+	<20a233d2f35274817aa643cc0fe113707eb47e72.1777475843.git.asml.silence@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2dytkfad7zmhptho"
-Content-Disposition: inline
-In-Reply-To: <agQmhGJGSVpuoTDS@zed>
-X-Rspamd-Queue-Id: 1BBAE530C24
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 706525311CC
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61369-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61370-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TO_DN_SOME(0.00)[]
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
+On Wed, 29 Apr 2026 16:25:48 +0100
+Pavel Begunkov <asml.silence@gmail.com> wrote:
 
---2dytkfad7zmhptho
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] media: rzv2h-ivc: Wait for frame end in stop_streaming
-MIME-Version: 1.0
-
-Hello again Nicolas
-
-On Wed, May 13, 2026 at 09:54:44AM +0200, Jacopo Mondi wrote:
-> Hi Nicolas
->
->    thanks for looking into this
->
-> On Tue, May 12, 2026 at 01:46:31PM -0400, Nicolas Dufresne wrote:
-> > Le mercredi 01 avril 2026 =C3=A0 17:35 +0200, Jacopo Mondi a =C3=A9crit=
-=C2=A0:
-> > > From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > >
-> > > The rzv2h-ivc driver fails to handle back-2-back streaming sessions t=
-hat
-> > > do not go through a peripheral reset. As the driver uses an autosuspe=
-nd
-> > > delay of 2 seconds, it is quite possible that two consecutive streami=
-ng
-> > > sessions won't go through a suspend/resume sequence.
-> > >
-> > > If the peripheral is not reset the second streaming session hangs and=
- no
-> > > frames are delivered to the ISP.
-> > >
-> > > This is because the stop_streaming() procedure implemented in the dri=
-ver
-> > > doesn't match what's prescribed by the chip datasheet:
-> > >
-> > > 1) The chip manual suggests to poll the RZV2H_IVC_FM_INT_STAT_STPEND =
-bit
-> > > =C2=A0=C2=A0 of RZV2H_IVC_REG_FM_INT_STA instead of polling on RZV2H_=
-IVC_REG_FM_STOP
-> > > =C2=A0=C2=A0 and prescribes to clear the bit after polling has comple=
-ted
-> > >
-> > > 2) More importantly: the RZV2H_IVC_REG_FM_STOP_FSTOP bit has to be set
-> > > =C2=A0=C2=A0 on RZV2H_IVC_REG_FM_STOP -only- if a frame transfer to t=
-he ISP is in
-> > > =C2=A0=C2=A0 progress. Setting the RZV2H_IVC_REG_FM_STOP_FSTOP bit wh=
-en no frame is
-> > > =C2=A0=C2=A0 being transferred causes the polling routine to timeout =
-and the next
-> > > =C2=A0=C2=A0 streaming session fails to start
-> > >
-> > > As a frame transfer of an image in 1920x1080@10bi takes 5 milliseconds
-> > > at most, it is quite possible that the frame transfer completion inte=
-rrupt
-> > > races with the stop procedure.
-> > >
-> > > Instead of forcing a frame transfer abort, simply wait for the
-> > > in-progress transfer to complete by polling the ivc->vvalid_ifp status
-> > > variable in an hand-rolled loop that allows to inspect the variable
-> > > while holding the spinlock, to allow the irq handler to complete the
-> > > current buffer.
-> > >
-> > > With this change, streaming back-2-back without suspending the
-> > > peripheral works successfully.
-> > >
-> > > Cc: stable@vger.kernel.org
-> > > Fixes: f0b3984d821b ("media: platform: Add Renesas Input Video Contro=
-l block
-> > > driver")
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > > ---
-> > > As detailed in the commit message, re-starting a streaming session
-> > > without going through a peripheral reset doesn't currently work.
-> > >
-> > > I initially thought this is because the stop_streaming() procedure
-> > > implemented in the rzv2h-ivc driver does not comply with what is
-> > > prescribed by the chip manual.
-> > >
-> > > So I went and modified it according to the manual.
-> > >
-> > > Unfortunately, even by following the suggested procedure, once
-> > > RZV2H_IVC_REG_FM_STOP is set and a forceful frame transfer abort is
-> > > started, the RZV2H_IVC_FM_INT_STAT_STPEND bit takes a long time to
-> > > clear, during which is most often times the case the current in-progr=
-ess
-> > > transfer completes by itself. If this happen, then a peripheral
-> > > reset is required to restart streaming regardless if I forcefully cle=
-ar
-> > > the RZV2H_IVC_REG_FM_STOP_FSTOP and RZV2H_IVC_FM_INT_STAT_STPEND bits.
-> > >
-> > > I have tried several strategies to properly forcefully stop an
-> > > in-progress transfer and handle the potential race betwee the
-> > > transfer-complete irq and the polling the RZV2H_IVC_REG_FM_INT_STA
-> > > register (which could potentially sleep), but it's still quite easy to
-> > > get races between frame completion and the forced stop procedure unle=
-ss
-> > > I hold on to the ivc->spinlock preventing the irq handler to run.
-> > >
-> > > Once I timed the transfer time for a 1920x1080@10bit frame to 5 milli=
--seconds
-> > > at most I decided to simply wait for the current in-progress transfer=
- to
-> > > complete, as this seems the most reliable way to be able to re-start
-> > > streaming without resetting the peripheral.
-> > > ---
-> > > =C2=A0.../platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c=C2=A0=C2=A0 | =
-31 ++++++++++++++++++---
-> > > -
-> > > =C2=A01 file changed, 26 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video=
-=2Ec
-> > > b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
-> > > index b167f1bab7ef..932fed38cf3f 100644
-> > > --- a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
-> > > +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
-> > > @@ -297,12 +297,33 @@ static int rzv2h_ivc_start_streaming(struct vb2=
-_queue
-> > > *q, unsigned int count)
-> > > =C2=A0static void rzv2h_ivc_stop_streaming(struct vb2_queue *q)
-> > > =C2=A0{
-> > > =C2=A0	struct rzv2h_ivc *ivc =3D vb2_get_drv_priv(q);
-> > > -	u32 val =3D 0;
-> > > +	unsigned int loop =3D 5;
-> > > =C2=A0
-> > > -	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_STOP,
-> > > RZV2H_IVC_REG_FM_STOP_FSTOP);
-> > > -	readl_poll_timeout(ivc->base + RZV2H_IVC_REG_FM_STOP,
-> > > -			=C2=A0=C2=A0 val, !(val & RZV2H_IVC_REG_FM_STOP_FSTOP),
-> > > -			=C2=A0=C2=A0 10 * USEC_PER_MSEC, 250 * USEC_PER_MSEC);
-> > > +	/*
-> > > +	 * If no frame transfer is in progress, we're done, otherwise, wait
-> > > for
-> > > +	 * the transfer to complete.
-> > > +	 *
-> > > +	 * Transferring a 1920x1080@10bit frame to the ISP takes less than 5
-> > > +	 * msec so sleep for 2.5 msec (+- 25%) and give up after 5 attempts.
-> > > +	 */
-> > > +	for (; loop > 0; loop--) {
-> > > +		unsigned int vvalid_ifp;
-> > > +
-> > > +		/*
-> > > +		 * Inspect the ivc->vvalid_ifp variable holding the spinlock
-> > > not
-> > > +		 * to the race with the rzv2h_ivc_buffer_done() call in the
-> > > irq
-> > > +		 * handler.
-> > > +		 */
-> > > +		scoped_guard(spinlock_irq, &ivc->spinlock) {
-> > > +			vvalid_ifp =3D ivc->vvalid_ifp;
-> > > +		}
-> > > +		if (vvalid_ifp < 2)
-> > > +			break;
-> > > +
-> > > +		fsleep(2500);
-> > > +	}
-> > > +	if (!loop)
-> > > +		dev_err(ivc->dev, "Failed to stop streaming\n");
-> >
-> > Would simply using vb2_wait_for_all_buffers() worked for your use case =
-? Or does
->
-> Good suggestion. Let me explain why I think vb2_wait_for_all_buffers()
-> doesn't really apply here, but as I realized while writing this email
-> maybe I'm getting requirements wrong, so my below recollection might
-> not be accurate.
->
-> vb2_wait_for_all_buffers() waits until the driver doesn't call
-> vb2_buffer_done() all the buffers it has been given. Not unusually,
-> the IVC keeps a list of queued buffers and processes them one after
-> the other.
->
-> Now, assume stop_streaming() is called while a buffer transfer is in
-> progress. What we can do here is
->
-> 1) forcefully stop the transfer and return the current buffer in ERROR
-> state and then complete in ERROR state all the buffers queued to the
-> driver
-> 2) wait until the transfer competes, return the current buffer in DONE
-> state and then complete in ERROR state all the buffers queued to the
-> driver
->
-> For reasons explained above, below the commit message, I ditched
-> option 1).
->
-> So now, we have to wait for the current transfer in progress, return the
-> current buffer and then complete all the queued ones. Only at this
-> point we could call vb2_wait_for_all_buffers(), but that would be
-> useless as we have completed all buffers.
->
-> Now, all of this is under the assumption that we aim to complete
-> buffers in the same order as they have been queued. So the currently
-> in-progress buffer has to be competed first, then we can return all
-> the other ones. Surprisingly I didn't find this requirement mentioned
-> in the VIDIOC_STREAMOFF documentation, nor I clearly found this
-> requirement being enforced in the v4l2-compliance tests.
->
-> Iff we can complete buffers out of order then yes, I can complete all
-> queued buffers in error state first, then let the current in-progress
-> one complete and just calling vb2_wait_for_all_buffers() here.
->
-> I'll check with Hans about the ordering requirement.
->
-
-I asked Hans for clarification about the completion ordering
-requirements.
-
-My understanding is that if we could forcefully stop the current
-in-progress transfer we then should return the buffer in ERROR state,
-and buffers returned in ERROR state can be completed in any order.
-
-If instead the current in-progress transfer has to be completed (as
-this patch does) then the buffer has to be returned in DONE state, and
-we should return it first and then complete all other buffers in ERROR
-state.
-
-So I would keep the patch as it if that's fine with you.
+> Introduce a new iterator type for dmabuf maps. The map in an opaque
+> object with internals and format specific to the subsystem / driver, and
+> only it can use that subsystem / driver for issuing IO. The task of the
+> middle layers is to pass the map / iterator further down, maybe doing
+> basic splitting and length checking. The iterator can only be used by
+> operations of the file the associated map was created for.
+> 
+> Suggested-by: Keith Busch <kbusch@kernel.org>
+> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+> ---
+>  include/linux/uio.h | 11 +++++++++++
+>  lib/iov_iter.c      | 29 +++++++++++++++++++++++------
+>  2 files changed, 34 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/linux/uio.h b/include/linux/uio.h
+> index a9bc5b3067e3..75051aed70de 100644
+> --- a/include/linux/uio.h
+> +++ b/include/linux/uio.h
+> @@ -12,6 +12,7 @@
+>  
+>  struct page;
+>  struct folio_queue;
+> +struct io_dmabuf_map;
+>  
+>  typedef unsigned int __bitwise iov_iter_extraction_t;
+>  
+> @@ -29,6 +30,7 @@ enum iter_type {
+>  	ITER_FOLIOQ,
+>  	ITER_XARRAY,
+>  	ITER_DISCARD,
+> +	ITER_DMABUF_MAP,
+>  };
+>  
+>  #define ITER_SOURCE	1	// == WRITE
+> @@ -71,6 +73,7 @@ struct iov_iter {
+>  				const struct folio_queue *folioq;
+>  				struct xarray *xarray;
+>  				void __user *ubuf;
+> +				struct io_dmabuf_map *dmabuf_map;
+>  			};
+>  			size_t count;
+>  		};
+> @@ -155,6 +158,11 @@ static inline bool iov_iter_is_xarray(const struct iov_iter *i)
+>  	return iov_iter_type(i) == ITER_XARRAY;
+>  }
+>  
+> +static inline bool iov_iter_is_dmabuf_map(const struct iov_iter *i)
+> +{
+> +	return iov_iter_type(i) == ITER_DMABUF_MAP;
+> +}
+> +
+>  static inline unsigned char iov_iter_rw(const struct iov_iter *i)
+>  {
+>  	return i->data_source ? WRITE : READ;
+> @@ -300,6 +308,9 @@ void iov_iter_folio_queue(struct iov_iter *i, unsigned int direction,
+>  			  unsigned int first_slot, unsigned int offset, size_t count);
+>  void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
+>  		     loff_t start, size_t count);
+> +void iov_iter_dmabuf_map(struct iov_iter *i, unsigned int direction,
+> +			struct io_dmabuf_map *map,
+> +			loff_t off, size_t count);
+>  ssize_t iov_iter_get_pages2(struct iov_iter *i, struct page **pages,
+>  			size_t maxsize, unsigned maxpages, size_t *start);
+>  ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i, struct page ***pages,
+> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+> index 243662af1af7..e2253684b991 100644
+> --- a/lib/iov_iter.c
+> +++ b/lib/iov_iter.c
+> @@ -575,7 +575,8 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
+>  {
+>  	if (unlikely(i->count < size))
+>  		size = i->count;
+> -	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i))) {
+> +	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i)) ||
+> +	    unlikely(iov_iter_is_dmabuf_map(i))) {
 
 
-> > RZV2H_IVC_REG_FM_STOP mask off IRQ causing buffers to never be signalle=
-d ?
->
-> This patch removes usage of RZV2H_IVC_REG_FM_STOP.
->
-> Thanks
->   j
->
-> >
-> > > =C2=A0
-> > > =C2=A0	rzv2h_ivc_return_buffers(ivc, VB2_BUF_STATE_ERROR);
-> > > =C2=A0	video_device_pipeline_stop(&ivc->vdev.dev);
-> > >
-> > > ---
-> > > base-commit: 4fbeef21f5387234111b5d52924e77757626faa5
-> > > change-id: 20260331-ivc-stop-streaming-2c992277b050
-> > >
-> > > Best regards,
->
->
+Doesn't the extra check add more code to all the non-ubuf cases?
+This could be fixed by either making iter_type a bitmask (with one bit set)
+or writing an iter_is_one_of(i, ITER_xxx, ITER_yyy) define that uses
+'(1 << i->iter_type) & ((1 << ITER_xxx) | ...)'
+(look at the the nolibc printf code for an example).
 
+>  		i->iov_offset += size;
+>  		i->count -= size;
+>  	} else if (likely(iter_is_iovec(i) || iov_iter_is_kvec(i))) {
+> @@ -631,7 +632,8 @@ void iov_iter_revert(struct iov_iter *i, size_t unroll)
+>  		return;
+>  	}
+>  	unroll -= i->iov_offset;
+> -	if (iov_iter_is_xarray(i) || iter_is_ubuf(i)) {
+> +	if (iov_iter_is_xarray(i) || iter_is_ubuf(i) ||
 
+iter_is_ubuf() should have been first here.
 
---2dytkfad7zmhptho
-Content-Type: application/pgp-signature; name="signature.asc"
+-- David
 
------BEGIN PGP SIGNATURE-----
+> +	    iov_iter_is_dmabuf_map(i)) {
+>  		BUG(); /* We should never go beyond the start of the specified
+>  			* range since we might then be straying into pages that
+>  			* aren't pinned.
+> @@ -775,6 +777,20 @@ void iov_iter_xarray(struct iov_iter *i, unsigned int direction,
+>  }
+>  EXPORT_SYMBOL(iov_iter_xarray);
+>  
+> +void iov_iter_dmabuf_map(struct iov_iter *i, unsigned int direction,
+> +			 struct io_dmabuf_map *map,
+> +			 loff_t off, size_t count)
+> +{
+> +	WARN_ON(direction & ~(READ | WRITE));
+> +	*i = (struct iov_iter){
+> +		.iter_type = ITER_DMABUF_MAP,
+> +		.data_source = direction,
+> +		.dmabuf_map = map,
+> +		.count = count,
+> +		.iov_offset = off,
+> +	};
+> +}
+> +
+>  /**
+>   * iov_iter_discard - Initialise an I/O iterator that discards data
+>   * @i: The iterator to initialise.
+> @@ -841,7 +857,7 @@ static unsigned long iov_iter_alignment_bvec(const struct iov_iter *i)
+>  
+>  unsigned long iov_iter_alignment(const struct iov_iter *i)
+>  {
+> -	if (likely(iter_is_ubuf(i))) {
+> +	if (likely(iter_is_ubuf(i)) || iov_iter_is_dmabuf_map(i)) {
+>  		size_t size = i->count;
+>  		if (size)
+>  			return ((unsigned long)i->ubuf + i->iov_offset) | size;
+> @@ -872,7 +888,7 @@ unsigned long iov_iter_gap_alignment(const struct iov_iter *i)
+>  	size_t size = i->count;
+>  	unsigned k;
+>  
+> -	if (iter_is_ubuf(i))
+> +	if (iter_is_ubuf(i) || iov_iter_is_dmabuf_map(i))
+>  		return 0;
+>  
+>  	if (WARN_ON(!iter_is_iovec(i)))
+> @@ -1469,11 +1485,12 @@ EXPORT_SYMBOL_GPL(import_ubuf);
+>  void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state)
+>  {
+>  	if (WARN_ON_ONCE(!iov_iter_is_bvec(i) && !iter_is_iovec(i) &&
+> -			 !iter_is_ubuf(i)) && !iov_iter_is_kvec(i))
+> +			 !iter_is_ubuf(i) && !iov_iter_is_kvec(i) &&
+> +			 !iov_iter_is_dmabuf_map(i)))
+>  		return;
+>  	i->iov_offset = state->iov_offset;
+>  	i->count = state->count;
+> -	if (iter_is_ubuf(i))
+> +	if (iter_is_ubuf(i) || iov_iter_is_dmabuf_map(i))
+>  		return;
+>  	/*
+>  	 * For the *vec iters, nr_segs + iov is constant - if we increment
 
-iQIzBAABCgAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAmoEQN0ACgkQcjQGjxah
-VjwZcRAAt4ZnF6z/3GCGIKbJMZE6zpvAftZVRt2vNh5bzbVHbEXs0WkBdlbyrDDO
-b6pVmk0NVRJpJkTvJc49w7eBUHQXWLM2C4vAZ7a2h2Y9FcMzk94ETlJNJigETo/L
-VbSWMCUYPGDWMGGwdnxMBYeXj/S45TQ4+5NwnMsaUVCY2mkpgWL8VD0lHaDULGS9
-ddkB83PbX2Sp3tESOSjTsibFDerFGD+bqR3KwHrfrhOS0sXNZmlbyy/40V9T+jxU
-/lU/sLfaaxN6yn5rgja1aVM2+B+xDmVuM6nWhzSFetGck/f/y7q+8gm3GngePFCC
-dID9u20AgWartl9dznGKTaJeMZLmQd2e1uqRo7h7SCYtesyfe4De2TE6umWdIzOr
-7VhdZHHw8rwwV7qfzugVKv1/wjEIbo2/fRGS/Be7+cd2e70NGuDIEzmGLvKNLUIf
-GV1OB9iALk4xl6dj8hTbKqKUKMmI3fZwJ9l+kKm2oBs7BvIoURSY6jjBkTzLi1x+
-BLB98dpjU6DDiFg6IaS3Ow2pmqKMrFjF9hMZmoaKGMPjAWN58GwoECMjwUzNzljg
-o/pwtCp4LcLob0efB0TYxFzzFLI7hgt1TbgZ/y3vVUCfxw/deMjQbgB5Vj8+HQvV
-xR27qE/Q6ZhDbuvk5sf/TFud0AgWI0fUhkvzXMTQApNcxWAxVGI=
-=yNp6
------END PGP SIGNATURE-----
-
---2dytkfad7zmhptho--
 
